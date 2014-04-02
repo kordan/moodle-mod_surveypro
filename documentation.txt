@@ -1,0 +1,105 @@
+documentazione surveypro
+What surveypro does
+
+Survey is a moodle module to create custom surveypro.
+Among custom surveypro fews set of world accepted templates are included like ATTLS, COLLES, CI.
+The main news of surveypro are that you have:
+• question branching
+• required fields
+• field level validation
+• items limited to teachers only
+• surveypro has:
+• pluggable field elements
+• pluggable format elements
+• pluggable preset templates
+• pluggable reoprts
+
+How a surveypro module page appears
+to students
+
+to teachers
+
+A surveypro can be delivered in a lot of different ways for a lot of different purposes. So it is natural that some settings were added to personalize your own surveypro.
+They are divided into: general site settings level and instance settings level.
+You can get the first through Administration -> Plugins -> Activity modules -> Survey
+They are:
+• Max input delay: <<TODO: add the the description>>
+• Extra note in search form: <<TODO: add the the description>>
+• Instruction guides in search form: <<TODO: add the the description>>
+• Use advanced permissions: <<TODO: add the the description>>
+• Maximum age: <<TODO: add the the description>>
+• Maximum integer: <<TODO: add the the description>>
+• Use extra row for attls built in template: <<TODO: add the the description>>
+
+In addition to this first general settings level, affecting EACH surveypro on your moodle installation, surveypro provides a set of instance level settings.
+They are:
+• Available from: <<TODO: add the the description>>
+• Available to: <<TODO: add the the description>>
+• Advanced permissions: <<TODO: add the the description>>
+• Branching element increases page: <<TODO: add the the description>>
+• Allow Save/Resume: <<TODO: add the the description>>
+• Preserve history: <<TODO: add the the description>>
+• Anonymous: <<TODO: add the the description>>
+• Minimum allowed year: <<TODO: add the the description>>
+• Maximum allowed year: <<TODO: add the the description>>
+• Custom style sheet: <<TODO: add the the description>>
+• Maximum attempts: <<TODO: add the the description>>
+• Notify role: <<TODO: add the the description>>
+• More notifications: <<TODO: add the the description>>
+• Thanks web page: <<TODO: add the the description>>
+
+A list of "items" are available to create the surveypro.
+This list of "items" is divided into: "fields" and "format" elements.
+Fields and formats are pluggable so each developer can create a new kind of field, i.e. a new kind of question, to use it is his special surveypro.
+In the starting release of surveypro was crafted with:
+• 17 items of type "field"
+• 3 items of type "format"
+
+The 17 fields type are:
+• item type "integer" to ask for question like: "How old were you at you first access to narcotic"
+• item type "autofill" to autofill a field with infos from user, course, time, date or surveypro
+• item type "boolean" to ask for question like: "Is this true?"
+• item type "character" to ask for question like: "write down your email" or "enter your personal web site URL" or "enter the PIN code of your card"
+• item type "checkbox" to ask for question like: "what do you usually eat for breakfast? milk, sugar, jam, chocolate, other..."
+• item type "date" to ask for question like: "When were you born?"
+• item type "datetime" to ask for question like... well, this item type is really useless, AFAIK, but it was too simple to develop
+• item type "fileupload" to ask for question like: "Please, upload your CV in PDF format"
+• item type "integer" to ask for question like: "how many dogs do you feed dayly?"
+• item type "multiselect" to ask for question like: "what do you usually eat for breakfast? milk, sugar, jam, chocolate, other..."
+• item type "numeric" to ask for question like: "how many chilgdren do you have?"
+• item type "radiobutton" to ask for question like: "where do you usually spend your summer holidays? sea, mountain, lake, hills, desert..."
+• item type "rate" to ask for question like: "please order the following list of foreign languages according to your preferences: EN, ES, IT, FR..."
+• item type "select" to ask for question like: "where do you usually spend your summer holidays? sea, mountain, lake, hills, desert..."
+• item type "shortdate" to ask for question like: "when were you first arrested?"
+• item type "textarea" to ask for question like: "enter a small description of what you saw"
+• item type "time" to ask for question like: "At what time do you usually get breakfast?"
+
+The 3 format type are:
+• item type "fieldset" to group your question
+• item type "pagebreak"
+• item type "label" to display labels in the surveypro page
+
+Each item (== fields + formats) is hight configurable.
+Each field/format item, share a part of its settings with the other fields/formats.
+On the opposite, each field/format has a very special set of setting.
+
+The common field settings are usually divided into three fieldset:
+• General settings
+• Availability
+• Branching
+and they are:
+• General settings->Content: the content of the question
+• General settings->Extra row for question: use this to put your "question content" in a dedicated row just upper the elements to enter the answer. If you do not check this box the "question content" will be displayed on the left of the elements to enter the answer.
+• General settings->Question notes: use this option to add a comment to your item. It was added to provide help to fill the form.
+• General settings->Question number: this is
+• General settings->Indent: <<TODO: add the the description>>
+• General settings->Required: <<TODO: add the the description>>
+• General settings->Variable name: <<TODO: add the the description>>
+• Availability->Hide: <<TODO: add the the description>>
+• Availability->Basic entry form: <<TODO: add the the description>>
+• Availability->Advanced search formHelp with Advanced search form: <<TODO: add the the description>>
+• Branching->Parent: <<TODO: add the the description>>
+• Branching->Parent content: <<TODO: add the the description>>
+
+The very special set of setting of each item is always enclosed in a specific fieldset:
+• <<item_type>> specific settings

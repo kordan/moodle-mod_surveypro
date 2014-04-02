@@ -1,0 +1,82 @@
+-> does it make sense the research per long text?
+-> "Manage relation" page has lots of features, but the consequence is that the page is
+"cluttered" with too many settings. Obviously a Show/Hide advanced
+button is needed. (thanks to JR)
+-> The Autofill question message "Content will be added at submit time" should not be displayed to the Student when taking the Survey, as it does not mean anything to him. That is a message for Teacher, not Student. (thanks to JR)
+-> grades?
+-> surveypro_get_view_actions()?
+-> surveypro_get_post_actions()?
+-> surveypro_scale_used($surveyproid, $scaleid)?
+-> surveypro_scale_used_anywhere($scaleid)?
+-> unit test (they are a must)
+-> *** Crucial known issue that is not fixable in my opinion. I apply a master template. I make a surveypro with it. Tomorrow I update the master template with a newer version. This new version has one more item in the middle. Surveys build with the old release of the plugin will stop working fine as they will find in the right position string of a different template.
+-> possible better solution: use the first 32 chars of the question escaped
+-> is the autofill field saved to userdata even if it is not shown?
+-> allow upperbound date/datetime == to now
+-> the option "not answered" is missing in the search form even if a "Answer not provided" is part of an item
+-> the workaround suggested by Marina Glancy in MDL-42946 doesn't work if the label is crafted into the tag <p>.
+-> I need a regex to validate an url
+-> mform elements in MMM have different sizes probably because of /theme/yui_combo.php?3.13.0/cssreset/cssreset.css&3.13.0/cssfonts/cssfonts.css&3.13.0/cssgrids/cssgrids.css&3.13.0/cssbase/cssbase.css
+
+must:
+MDL-25067: Not able to disable the editor
+MDL-31796: $mform->disabledIf doesn't work for 'filemanager' mform elements.
+MDL-43689: Adv. check box not returning actual value but default one.
+MDL-43704: multiselect not disabled by checkbox
+
+may:
+MDL-28194: I am in trouble assigning syles to some mform element.
+MDL-34815: Disabled mform items need to be skipped during validation (and more).
+
+1) Still it seems to be something strange when handling fileareas. I just grepped by get_area_files and found a bunch of them new/strange for me. ELOY has to review this!
+> Please let me know better what do you mean. I can not understand it.
+
+2)
+> Also. I'd recommend taking rid of the filearea constants. They don't help
+> much. And it seems that there are more than the currently used ones. Using
+> literals is ok.
+> more yet, if there are groups... then everything (listing, reports, graphs)
+> must be by group.
+things like the "phantom tabs" (sorry for the expression, lol, just joking) or the way "attempts" are performed... are substandard (to name it in some way).
+
+2.a) A read me about what's missing (backup, migration from old, usability review and discussion)
+
+2.b) A commit (decided by you) where you want me to cut history. Can be current commit of anything else if you want to preserve your latest commits for any reason.
+
+2.c) A BIG WARNING saying that it must not be used in production sites with existing old surveypros because they will be erased completely (beacuse of 1).
+README.md (so it will display nicely in github) ?
+
+2.d) Delete any other todo and similar.
+
+2.e) start using the tracker for issues, lol.
+
+2.f) start using proper commit messages with tracker issues always
+(headbang)
+we can do that toady, np, here. what do you think?
+
+3) Add support for generators + acceptance & unit tests.
+
+4) surveyprofield_integer_maxnuminteger defaults to 105 (copy/pasted from age?)
+
+5) Anything else annotated in https://github.com/kordan/moodle-mod_surveypro/blob/master/state_of_art_*** files.
+
+6) Webservices?
+
+7) Verify guests submissions. Permissions, relations with anonymous….
+
+8) By going to Site_administration ▶ Plugins  ▶ Plugins_overview
+I can not see the icon of surveypro. Inspecting the html code it seems the icon was not found.
+Making a comparison between icon of surveypro reports (missing from the page) and icons of surveypro templates (displayed in the page), I see that the first are in svg format and the latter in gif. May this be the issue?
+With:
+cd /Applications/MAMP/htdocs/head/mod/surveypro/
+cp template/attls/pix/icon.gif report/colles/pix/icon.gif
+and refreshing the page, I see the svg icon of the colles template.
+with: rm report/colles/pix/icon.gif
+I do not see it once again. Weird!!!
+
+9) sql transaction to preserve db referential integrity: http://docs.moodle.org/dev/DB_layer_2.0_delegated_transactions
+$transaction = $DB->start_delegated_transaction();
+issnert A, update B, delete C...
+$transaction->allow_commit();
+
+10) how to prevent timeout during import and export? mod/quiz/report/overview/report.php

@@ -1,0 +1,318 @@
+.xdebug-error {
+    font-size:large;
+}
+
+/* begin of: to correct display problems of firefox for mac */
+#page-mod-surveypro-view .mform .fitem .felement {
+    min-height: 2em;
+}
+/* end of: to eliminate display problems of firefox for mac */
+
+/* begin of: colours alternation for #userentry, #usersearch forms and read-only table*/
+#page-mod-surveypro-view fieldset div.fitem:nth-of-type(even) {
+    background-color:#EDEDED;
+}
+/* end of: colours alternation for #userentry, #usersearch forms and read-only table*/
+
+/* begin of: hacky coluorunifier html element */
+#page-mod-surveypro-view .mform fieldset div.colorunifier {
+    line-height:0;
+    margin-bottom:0;
+    padding:0;
+}
+/* end of: hacky coluorunifier html element */
+
+/* begin of: connect fullwidth question and graphic user items */
+#page-mod-surveypro-view .mform fieldset.hidden,
+#page-mod-surveypro-view .mform fieldset.hidden div {
+    margin-bottom: 0;
+}
+/* end of: connect fullwidth question and graphic user items */
+
+/* begin of: connect note to question */
+#page-mod-surveypro-view .mform .fitem {
+    margin:0;
+}
+/* end of: connect note to question */
+
+/* begin of: no margin bottom to p inside question in SURVEYPRO_POSITIONTOP and SURVEYPRO_POSITIONFULLWIDTH */
+#page-mod-surveypro-view .mform .fitem .felement div p,
+#page-mod-surveypro-view .mform .fitem .fullwidth p {
+    margin:0;
+}
+/* end of: no margin bottom to p inside .fullwidth */
+
+/* begin of: drop out pictures longer than the available width in #userentry and #usersearch */
+#page-mod-surveypro-view .mform .itemlabel .fullwidth {
+    overflow: hidden;
+}
+/* end of: drop out pictures longer than the available width */
+
+/* begin of: move horizontal checkbox and radio label closer to corresponding checkboes */
+/* useful in case of radio button and checkboxes horizontally aligned */
+/* TAKE CARE: I have to add #userentry and #usersearch because I want to leave read-only layout untouched */
+#page-mod-surveypro-view #userentry .fitem .felement input[type="checkbox"],
+#page-mod-surveypro-view #userentry .fitem .felement input[type="radio"],
+#page-mod-surveypro-view #usersearch .fitem .felement input[type="checkbox"],
+#page-mod-surveypro-view #usersearch .fitem .felement input[type="radio"] {
+    margin-right:0px;
+}
+
+#page-mod-surveypro-view .mform .fitem .felement label {
+    margin-right: 1em;
+}
+/* end of: move horizontal checkbox and radio label closer to corresponding checkboes */
+
+/* begin of: #manageitems, #sortitems, #managetemplates and #validaterelations tables*/
+#page-mod-surveypro-items_manage table#manageitems,
+#page-mod-surveypro-items_manage table#sortitems,
+#page-mod-surveypro-utemplates_manage table#managetemplates,
+#page-mod-surveypro-items_validate table#validaterelations {
+    width:100%;
+}
+
+#page-mod-surveypro-items_manage table#manageitems .plugin,
+#page-mod-surveypro-items_manage table#sortitems .plugin,
+#page-mod-surveypro-items_validate table#validaterelations .plugin {
+    padding:0.5em;
+    text-align:center;
+}
+
+#page-mod-surveypro-items_manage table#sortitems .plugin {
+    width:90px;
+}
+
+#page-mod-surveypro-items_manage table#manageitems .sortindex,
+#page-mod-surveypro-items_manage table#sortitems .sortindex,
+#page-mod-surveypro-items_validate table#validaterelations .sortindex {
+    padding:0.5em;
+    text-align:right;
+    min-width:2.5em;
+}
+
+#page-mod-surveypro-items_manage table#manageitems .parentitem,
+#page-mod-surveypro-items_manage table#sortitems .parentitem,
+#page-mod-surveypro-items_validate table#validaterelations .parentitem {
+    padding:0.5em;
+    text-align:left;
+    white-space:nowrap;
+}
+
+#page-mod-surveypro-items_manage table#manageitems .availability,
+#page-mod-surveypro-items_manage table#sortitems .availability {
+    padding:0.5em;
+    text-align:center;
+    white-space:nowrap;
+}
+
+#page-mod-surveypro-items_manage table#manageitems .formpage,
+#page-mod-surveypro-items_manage table#sortitems .formpage {
+    padding:0.5em;
+    white-space:nowrap;
+    text-align:center;
+}
+
+#page-mod-surveypro-items_manage table#manageitems .parentitem .smallicon,
+#page-mod-surveypro-items_manage table#manageitems .availability .smallicon,
+#page-mod-surveypro-items_manage table#manageitems .parentitem .smallicon,
+#page-mod-surveypro-items_manage table#sortitems .availability .smallicon,
+#page-mod-surveypro-items_validate table#validaterelations .parentitem .smallicon {
+    vertical-align: text-bottom;
+    margin: 0 0.3em 0 0.3em;
+}
+
+
+#page-mod-surveypro-items_manage table#manageitems .content,
+#page-mod-surveypro-items_manage table#sortitems .content,
+#page-mod-surveypro-items_validate table#validaterelations .content {
+    padding:0.5em;
+}
+
+#page-mod-surveypro-items_manage table#manageitems .customnumber ,
+#page-mod-surveypro-items_manage table#sortitems .customnumber {
+    padding:0.5em;
+    white-space:nowrap;
+}
+
+#page-mod-surveypro-items_manage table#manageitems .actions,
+#page-mod-surveypro-items_manage table#sortitems .actions,
+#page-mod-surveypro-utemplates_manage table#managetemplates .actions,
+#page-mod-surveypro-items_validate table#validaterelations .actions {
+    padding:0.5em;
+    white-space:nowrap;
+}
+
+#page-mod-surveypro-items_manage table#manageitems .actions img.icon,
+#page-mod-surveypro-items_manage table#sortitems .actions img.icon {
+    height: 16px;
+    width: 16px;
+    margin-left: 0.45em;
+    vertical-align: text-bottom;
+    padding-right:0;
+}
+
+#page-mod-surveypro-items_manage table#manageitems img.movetarget,
+#page-mod-surveypro-items_manage table#sortitems img.movetarget {
+    height:16px;
+    width:80px;
+}
+
+#page-mod-surveypro-items_manage table#manageitems .header,
+#page-mod-surveypro-items_manage table#sortitems .header {
+    text-align:center;
+}
+
+#page-mod-surveypro-items_manage table#manageitems .dimmed,
+#page-mod-surveypro-items_manage table#sortitems .dimmed,
+#page-mod-surveypro-items_validate table#validaterelations .dimmed {
+    color:#CDCDCD;
+}
+
+#page-mod-surveypro-items_validate table#validaterelations .parentconstraints {
+    padding:0.5em;
+    text-align:left;
+    white-space:nowrap;
+}
+
+#page-mod-surveypro-items_validate table#validaterelations .status {
+    padding:0.5em;
+    white-space:nowrap;
+}
+
+#page-mod-surveypro-items_validate table#validaterelations .status .warningmessage {
+    color:yellow;
+}
+
+#page-mod-surveypro-items_validate table#validaterelations .status .errormessage {
+    color:red;
+}
+
+#page-mod-surveypro-items_validate table#validaterelations .header {
+    text-align:center;
+}
+/* End of: #manageitems, #sortitems, #managetemplates and #validaterelations tables*/
+
+/* begin of: submissions table */
+#page-mod-surveypro-view_manage table#submissions {
+    width:100%;
+}
+
+#page-mod-surveypro-view_manage table#submissions .cell {
+    vertical-align:middle;
+}
+
+#page-mod-surveypro-view_manage table#submissions .actions,
+#page-mod-surveypro-utemplates_manage table#managetemplates .actions {
+    padding:0.5em;
+    white-space:nowrap;
+}
+
+#page-mod-surveypro-view_manage table#submissions .picture {
+    padding:0.5em;
+    width:1.2em;
+}
+/* End of: submissions table */
+
+/* begin of: Page break and fieldset presentation in the items table and during deletion confirmation */
+/* first hypotesis: only a simple double horizontal line */
+/* #page-mod-surveypro-items_manage hr.pagebreakcontent {
+    border: none;
+    border-top: medium double;
+} */
+
+/* taken from: http://www.techrepublic.com/blog/web-designer/customize-horizontal-rules-to-add-some-flair/ */
+#page-mod-surveypro-items_manage hr.pagebreakcontent,
+#page-mod-surveypro-items_validate hr.pagebreakcontent {
+    height: 20px;
+    border-style: ridge;
+    border-width: 3px 0 0 0;
+    border-radius: 45px;
+    margin-bottom: -10px;
+}
+
+#page-mod-surveypro-items_manage .dimmed hr.pagebreakcontent,
+#page-mod-surveypro-items_validate .dimmed hr.pagebreakcontent {
+    color: white;
+    border-width: 2px 0 0 0;
+}
+
+#page-mod-surveypro-items_manage hr.pagebreakcontent:before,
+#page-mod-surveypro-items_validate hr.pagebreakcontent:before {
+    display: block;
+    content: "";
+    height: 20px;
+    margin-top: -25px;
+    border-style: ridge;
+    border-width: 0 0 2px 0;
+    border-radius: 45px;
+}
+
+#page-mod-surveypro-items_manage hr.fieldsetendcontent,
+#page-mod-surveypro-items_validate hr.fieldsetendcontent {
+    border: 2px dotted #000;
+    border-style: none none dotted;
+    width: 90%;
+}
+/* end of: Page break and fieldset presentation in the items table and during deletion confirmation */
+
+/* begin of: selectors for the static field explaining the format needed by each plugin in parentcontent field */
+#page-mod-surveypro-items_setup .pluginname {
+    left:0;
+    width:25%;
+    float:left;
+    /*border:1px green solid;*/
+}
+
+#page-mod-surveypro-items_setup .inputformat {
+    position:relative:
+    padding-left:26%;
+    margin-left:26%;
+    /*border:1px blue solid;*/
+}
+
+#page-mod-surveypro-items_setup .felement.fstatic ul {
+    line-height:1.2em;
+}
+/* end of: selectors for the static field explaining the format needed by each plugin in parentcontent field */
+
+#page-mod-surveypro-view .mform .fitem .indent-1 {
+    margin-left:5%;
+}
+
+#page-mod-surveypro-view .mform .fitem .indent-2 {
+    margin-left:10%;
+}
+
+#page-mod-surveypro-view .mform .fitem .indent-3 {
+    margin-left:15%;
+}
+
+#page-mod-surveypro-view .mform .fitem .indent-4 {
+    margin-left:20%;
+}
+
+#page-mod-surveypro-view .mform .fitem .indent-5 {
+    margin-left:25%;
+}
+
+#page-mod-surveypro-view .mform .fitem .indent-6 {
+    margin-left:30%;
+}
+
+#page-mod-surveypro-view .mform .fitem .indent-7 {
+    margin-left:35%;
+}
+
+#page-mod-surveypro-view .mform .fitem .indent-8 {
+    margin-left:40%;
+}
+
+#page-mod-surveypro-view .mform .fitem .indent-9 {
+    margin-left:45%;
+}
+
+/* begin of: for long edit fields in itemsetup form */
+#page-mod-surveypro-items_setup .mform .fitem .felement .longfield {
+    width:25em;
+}
+/* end of: for long edit fields in itemsetup form */

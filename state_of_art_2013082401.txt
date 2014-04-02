@@ -1,0 +1,51 @@
+The module is quite complete and is already in beta-testing and in use in two pilot projects.
+It is completely modular (uses db/subplugins.php) and uses oop.
+
+The module foreseen: 16 types of fields and 3 types of other items.
+Everywhere I used mform.
+
+what is in:
+18+4 item type.
+They are:
+-- fields --
+->  1) item type "age" to ask for question like: "How old were you at you first access to narcotic" A: 18y and 6 months
+->  2) item type "autofill" to autofill a field with infos from user, course, time, date or surveypro
+->  3) item type "boolean" to ask for question like: "Is this true?"
+->  4) item type "character" to ask for question like: "Write down your email" or "Enter your personal web site URL" or "Enter the PIN code of your card"
+->  5) item type "checkbox" to ask for question like: "What do you usually eat for breakfast? milk, sugar, jam, chocolate, other..."
+->  6) item type "date" to ask for question like: "When were you born?" A: October 12, 1492
+->  7) item type "datetime" to ask for question like: "In which day and at what time do you remember the event?" A: October 12, 1492 at 14:45
+->  8) item type "fileupload" to ask for question like: "Please, upload your CV in PDF format"
+->  9) item type "integer" to ask for question like: "How many days do you foreseen for your Easter holidays?"
+-> 10) item type "multiselect" to ask for question like: "What do you usually eat for breakfast? milk, sugar, jam, chocolate, other..."
+-> 11) item type "numeric" to ask for question like: "How the mean temperature of the room is supposed to be?"
+-> 12) item type "radiobutton" to ask for question like: "Where do you usually spend your summer holidays? sea, mountain, lake, hills, desert..."
+-> 13) item type "rate" to ask for question like: "Please order the following list of foreign languages according to your preferences: EN, ES, IT, FR..."
+-> 14) item type "recurrence" to ask for question like: "When do you usually celebrate your name-day?" A: July 7
+-> 15) item type "select" to ask for question like: "Where do you usually spend your summer holidays? sea, mountain, lake, hills, desert..."
+-> 16) item type "shortdate" to ask for question like: "When were you first arrested?" A: August 2002
+-> 17) item type "textarea" to ask for question like: "Enter a small description of yourself"
+-> 18) item type "time" to ask for question like: "At what time do you usually get breakfast?" A: 7:45
+
+-- formats --
+-> 1) item type "fieldset" to group your question
+-> 2) item type "pagebreak"
+-> 3) item type "pagebreakend"
+-> 4) item type "label" to display labels in the surveypro page
+
+User can choose, setup them and include them into search forms.
+They all have a long list of features to verify the content provided by the user.
+Survey foreseen conditional branching, sort of fields during export, item indentation, custom number, feature to hide, groups of users with with "extended" permissions, mandatory/optional items, fields limited to people with a specific permission
+
+Pending tracker issues:
+√ MDL-30940: multiselect mform doesn't work! Fixed by Frédéric Massart on April 19, 2013
+√ MDL-34760, MDL-38975: How disable fields upon checkboxes sets? Fixed by Eloy Lafuente on April 8, 2013
+√ MDL-39280: $mform->disabledIf doesn't work for 'multiselect' mform elements. Fixed by Frédéric Massart on May 10, 2013
+MDL-25067: TinyMCE instance can not be disabled.
+MDL-28194: I am in trouble assigning syles to some mform element. (not blocker)
+MDL-31796: $mform->disabledIf doesn't work for 'filemanager' mform elements.
+MDL-34815: Disabled mform items need to be skipped during validation (and more).
+MDL-43689: With set of advanced checkboxes, if the set is disabled each single chechbox returns its default value instead of its actual value
+MDL-43704: mform multiselect element is not disabled by the grouped checkbox (as many of other mform elements do)
+MDL-40418: A missing <label> tag in mform causes wrong display (not blocker)
+MDL-44138: The height (in pixel) of the same mform element changes with the content of the other mform elements
