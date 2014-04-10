@@ -1169,7 +1169,21 @@ class mod_surveypro_userformmanager {
         switch ($this->view) {
             case SURVEYPRO_SUBMITRESPONSE:
                 $timenow = time();
-                $next = 1 + $this->user_sent_submissions(SURVEYPRO_STATUSALL);
+                // take care! Let's suppose this scenario:
+                // $this->surveypro->maxentries = N
+                // $this->user_sent_submissions(SURVEYPRO_STATUSALL) = N - 1
+                // when I fill the FIRST page of a survey, I get $next = N
+                // but when I go to fill the SECOND page of a survey I have one more "in progress" survey
+                // that is the one that I created when I saved the FIRST page, so...
+                // $this->user_sent_submissions(SURVEYPRO_STATUSALL) = N
+                // $next = N + 1
+                // I am wrongly stopped here!
+                // because of this:
+                if ($this->submissionid) {
+                    $next = $this->user_sent_submissions(SURVEYPRO_STATUSALL);
+                } else {
+                    $next = 1 + $this->user_sent_submissions(SURVEYPRO_STATUSALL);
+                }
 
                 $allowed = $this->cansubmit;
                 if ($this->surveypro->timeopen) {
@@ -1429,7 +1443,7 @@ class mod_surveypro_userformmanager {
 
         if (count($messages)) {
             // echo $OUTPUT->box_start('box generalbox description', 'intro');
-            echo html_writer::start_tag('fieldset', array('class' => 'infofieldsset'));
+            echo html_writer::start_tag('fieldset', array('class' => 'generalbox'));
             echo html_writer::start_tag('legend', array('class' => 'infolegend'));
             echo $strlegend;
             echo html_writer::end_tag('legend');

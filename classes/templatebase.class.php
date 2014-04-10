@@ -651,7 +651,7 @@ class mod_surveypro_templatebase {
                         return false;
                     }
                     if (!$status) {
-                        print_error('wrondindexesinxml', 'surveypro', $returnurl);
+                        print_error('wrongsortindex', 'surveypro', $returnurl);
                         return false;
                     }
                 } else {
