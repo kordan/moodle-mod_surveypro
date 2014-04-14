@@ -439,25 +439,30 @@ class mod_surveypro_itembase {
     public function item_validate_variablename($record, $itemid) {
         global $DB;
 
-        // variable
-        if (!isset($record->variable) || empty($record->variable)) {
-            $stritemid = str_pad($itemid, 5, '0', STR_PAD_LEFT);
-            $record->variable = $this->plugin.'_'.$stritemid;
-        } else {
-            // verify the assigned name is unique. If not, change it.
-            $tablename = 'surveypro'.$this->type.'_'.$this->plugin;
-            $i = 0;
-            $newvariable = $record->variable;
-            $where = '((itemid <> :itemid) AND (surveyproid = :surveyproid) AND (variable = :variable))';
-            $whereparams = array('itemid' => $itemid, 'surveyproid' => $this->surveyproid, 'variable' => $newvariable);
+        $tablename = 'surveypro'.$this->type.'_'.$this->plugin;
+        $whereparams = array('itemid' => $itemid, 'surveyproid' => $this->surveyproid);
 
-            while ($DB->record_exists_select($tablename, $where, $whereparams, 'id', 'id')) {
-                $i++;
-                $newvariable = $record->variable.'_'.$i;
-                $whereparams['variable'] = $newvariable;
-            }
-            $record->variable = $newvariable;
+        // Verify variable was set. If not, set it.
+        if (!isset($record->variable) || empty($record->variable)) {
+            $where = '((itemid <> :itemid) AND (surveyproid = :surveyproid))';
+
+            $plugincount = 1 + $DB->count_records_select($tablename, $where, $whereparams);
+            $plugincount = str_pad($plugincount, 3, '0', STR_PAD_LEFT);
+            $record->variable = $this->plugin.'_'.$plugincount;
         }
+
+        // verify the assigned name is unique. If not, change it.
+        $i = 0;
+        $newvariable = $record->variable;
+        $where = '((itemid <> :itemid) AND (surveyproid = :surveyproid) AND (variable = :variable))';
+        $whereparams['variable'] = $newvariable;
+
+        while ($DB->record_exists_select($tablename, $where, $whereparams, 'id', 'id')) {
+            $i++;
+            $newvariable = $record->variable.'_'.$i;
+            $whereparams['variable'] = $newvariable;
+        }
+        $record->variable = $newvariable;
     }
 
     /*
@@ -903,6 +908,20 @@ class mod_surveypro_itembase {
         }
     }
 
+    /*
+     * item_get_generic_property
+     *
+     * @param $field
+     * @return the content of the field whether defined
+     */
+    public function item_get_generic_property($field) {
+        if (isset($this->{$field})) {
+            return $this->{$field};
+        } else {
+            return false;
+        }
+    }
+
     // MARK get
 
     /*
@@ -948,20 +967,6 @@ class mod_surveypro_itembase {
      */
     public function get_isinitemform($itemformelement) {
         return $this->isinitemform[$itemformelement];
-    }
-
-    /*
-     * item_get_generic_field
-     *
-     * @param $field
-     * @return the content of the field whether defined
-     */
-    public function item_get_generic_field($field) {
-        if (isset($this->{$field})) {
-            return $this->{$field};
-        } else {
-            return false;
-        }
     }
 
     /*

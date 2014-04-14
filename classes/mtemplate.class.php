@@ -279,7 +279,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
                     $index = 0;
                 }
                 $stringindex = sprintf('%02d', 1+$index);
-                $this->langtree[$frankenstinname][$frankenstinname.'_'.$stringindex] = str_replace("\r", '', $item->item_get_generic_field($fieldname));
+                $this->langtree[$frankenstinname][$frankenstinname.'_'.$stringindex] = str_replace("\r", '', $item->item_get_generic_property($fieldname));
             }
         }
     }

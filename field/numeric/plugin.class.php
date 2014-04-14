@@ -283,18 +283,18 @@ class surveyprofield_numeric extends mod_surveypro_itembase {
     }
 
     /*
-     * item_get_generic_field
+     * item_get_generic_property
      *
      * @param $field
      * @return the content of the field
      */
-    public function item_get_generic_field($field) {
+    public function item_get_generic_property($field) {
         $doublefields = array('lowerbound', 'upperbound', 'defaultvalue');
         if (in_array($field, $doublefields)) {
-            $value = parent::item_get_generic_field($field);
+            $value = parent::item_get_generic_property($field);
             return unformat_float($value, true);
         } else {
-            return parent::item_get_generic_field($field);
+            return parent::item_get_generic_property($field);
         }
     }
 

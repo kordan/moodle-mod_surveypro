@@ -263,12 +263,12 @@ class surveyprofield_character extends mod_surveypro_itembase {
     }
 
     /*
-     * item_get_generic_field
+     * item_get_generic_property
      *
      * @param $field
      * @return the content of the field
      */
-    public function item_get_generic_field($field) {
+    public function item_get_generic_property($field) {
         if ($field == 'pattern') {
             if ($this->pattern == SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN) {
                 return $this->pattern_text;
@@ -276,7 +276,7 @@ class surveyprofield_character extends mod_surveypro_itembase {
                 return $this->pattern;
             }
         } else {
-            return parent::item_get_generic_field($field);
+            return parent::item_get_generic_property($field);
         }
     }
 

@@ -148,7 +148,7 @@ class mod_surveypro_templatebase {
                 if ($this->templatetype == 'mastertemplate') {
                     $val = $this->xml_get_field_content($item, 'item', $field, $multilangfields);
                 } else {
-                    $val = $item->item_get_generic_field($field);
+                    $val = $item->item_get_generic_property($field);
                 }
 
                 if (strlen($val)) {
@@ -173,7 +173,7 @@ class mod_surveypro_templatebase {
                 if ($this->templatetype == 'mastertemplate') {
                     $val = $this->xml_get_field_content($item, $itemseed->plugin, $field, $multilangfields);
                 } else {
-                    $val = $item->item_get_generic_field($field);
+                    $val = $item->item_get_generic_property($field);
                 }
 
                 if (strlen($val)) {
@@ -243,7 +243,7 @@ class mod_surveypro_templatebase {
             }
         }
 
-        $content = $item->item_get_generic_field($field);
+        $content = $item->item_get_generic_property($field);
         if (strlen($content)) {
             $val = $content;
         } else {
