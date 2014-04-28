@@ -179,7 +179,7 @@ class surveyprofield_date extends mod_surveypro_itembase {
 
         $cm = $PAGE->cm;
 
-        if (isset($cm)) { // it is not set during upgrade whther this item is loaded
+        if (isset($cm)) { // it is not set during upgrade whether this item is loaded
             $this->context = context_module::instance($cm->id);
             $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
         }
@@ -194,7 +194,7 @@ class surveyprofield_date extends mod_surveypro_itembase {
         $this->flag->savepositiontodb = false;
 
         // override properties depending from $surveypro settings
-        if (isset($surveypro)) { // it is not set during upgrade whther this item is loaded
+        if (isset($surveypro)) { // it is not set during upgrade whether this item is loaded
             $this->lowerbound = $this->item_date_to_unix_time($surveypro->startyear, 1, 1);
             $this->upperbound = $this->item_date_to_unix_time($surveypro->stopyear, 12, 31);
             $this->defaultvalue = $this->lowerbound;

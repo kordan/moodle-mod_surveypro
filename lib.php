@@ -153,7 +153,7 @@ define('SURVEYPRO_DOWNLOADXLS', 3);
 define('SURVEYPRO_NOFIELDSSELECTED', 1);
 define('SURVEYPRO_NORECORDSFOUND'  , 2);
 
-define('SURVEYPRO_DBMULTICONTENTSEPARATOR', ';');
+define('SURVEYPRO_DBMULTICONTENTSEPARATOR',     ';');
 define('SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR', '; ');
 
 // CONFIRMATION
@@ -191,24 +191,28 @@ define('SURVEYPRO_DELETEHIDDENITEMS' , '5');
 define('SURVEYPRO_FIRENDLYFORMAT', -1);
 
 // position of the content
-define('SURVEYPRO_POSITIONLEFT', 0);
-define('SURVEYPRO_POSITIONTOP', 1);
+define('SURVEYPRO_POSITIONLEFT',      0);
+define('SURVEYPRO_POSITIONTOP',       1);
 define('SURVEYPRO_POSITIONFULLWIDTH', 2);
 
 // relation condition format
-define('SURVEYPRO_CONDITIONOK', 0);
+define('SURVEYPRO_CONDITIONOK',         0);
 define('SURVEYPRO_CONDITIONNEVERMATCH', 1);
-define('SURVEYPRO_CONDITIONMALFORMED', 2);
+define('SURVEYPRO_CONDITIONMALFORMED',  2);
 
 // formats
-define('SURVEYPRO_ITEMSRETURNSVALUES', 0);
-define('SURVEYPRO_ITEMRETURNSLABELS', 1);
+define('SURVEYPRO_ITEMSRETURNSVALUES',  0);
+define('SURVEYPRO_ITEMRETURNSLABELS',   1);
 define('SURVEYPRO_ITEMRETURNSPOSITION', 2);
 
 // output content
 define('SURVEYPRO_LABELS', 'labels');
 define('SURVEYPRO_VALUES', 'values');
 define('SURVEYPRO_POSITIONS', 'positions');
+
+// templates types
+define('SURVEYPRO_MASTERTEMPLATE', 'mastertemplate');
+define('SURVEYPRO_USERTEMPLATE',   'usertemplate');
 
 // event to use for logging 2
 if ($CFG->branch == '26') {

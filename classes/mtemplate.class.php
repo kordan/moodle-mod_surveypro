@@ -35,7 +35,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     /*
      * $templatetype
      */
-    public $templatetype = 'mastertemplate';
+    public $templatetype = SURVEYPRO_MASTERTEMPLATE;
 
     /*
      * $langtree

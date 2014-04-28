@@ -164,7 +164,7 @@ class surveyprofield_recurrence extends mod_surveypro_itembase {
 
         $cm = $PAGE->cm;
 
-        if (isset($cm)) { // it is not set during upgrade whther this item is loaded
+        if (isset($cm)) { // it is not set during upgrade whether this item is loaded
             $this->context = context_module::instance($cm->id);
             $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
         }

@@ -33,7 +33,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     /*
      * $templatetype
      */
-    public $templatetype = 'usertemplate';
+    public $templatetype = SURVEYPRO_USERTEMPLATE;
 
     /*
      * $cm

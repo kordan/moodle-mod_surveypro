@@ -129,7 +129,7 @@ class surveyprofield_select extends mod_surveypro_itembase {
 
         $cm = $PAGE->cm;
 
-        if (isset($cm)) { // it is not set during upgrade whther this item is loaded
+        if (isset($cm)) { // it is not set during upgrade whether this item is loaded
             $this->context = context_module::instance($cm->id);
         }
 

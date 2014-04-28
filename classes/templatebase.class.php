@@ -111,7 +111,7 @@ class mod_surveypro_templatebase {
             // surveypro_item
             $xmltable = $xmlitem->addChild('surveypro_item');
 
-            if ($this->templatetype == 'mastertemplate') {
+            if ($this->templatetype == SURVEYPRO_MASTERTEMPLATE) {
                 if ($multilangfields = $item->item_get_multilang_fields()) { // pagebreak and fieldset have not multilang_fields
                     $this->build_langtree('item', $multilangfields, $item);
                 }
@@ -145,7 +145,7 @@ class mod_surveypro_templatebase {
                     continue;
                 }
 
-                if ($this->templatetype == 'mastertemplate') {
+                if ($this->templatetype == SURVEYPRO_MASTERTEMPLATE) {
                     $val = $this->xml_get_field_content($item, 'item', $field, $multilangfields);
                 } else {
                     $val = $item->item_get_generic_property($field);
@@ -170,7 +170,7 @@ class mod_surveypro_templatebase {
                     continue;
                 }
 
-                if ($this->templatetype == 'mastertemplate') {
+                if ($this->templatetype == SURVEYPRO_MASTERTEMPLATE) {
                     $val = $this->xml_get_field_content($item, $itemseed->plugin, $field, $multilangfields);
                 } else {
                     $val = $item->item_get_generic_property($field);
@@ -264,7 +264,7 @@ class mod_surveypro_templatebase {
         global $DB;
         $dbman = $DB->get_manager();
 
-        if ($this->templatetype == 'usertemplate') {
+        if ($this->templatetype == SURVEYPRO_USERTEMPLATE) {
             if ($this->formdata) {
                 $action = $this->formdata->action;
                 $this->utemplateid = $this->formdata->usertemplate;
@@ -289,7 +289,7 @@ class mod_surveypro_templatebase {
             $action = SURVEYPRO_DELETEALLITEMS;
         }
 
-        if ($this->templatetype == 'usertemplate') {
+        if ($this->templatetype == SURVEYPRO_USERTEMPLATE) {
             $this->trigger_event('usertemplate_applied');
         } else {
             $this->trigger_event('mastertemplate_applied');
@@ -359,7 +359,7 @@ class mod_surveypro_templatebase {
                 debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->formdata->action = '.$this->formdata->action, DEBUG_DEVELOPER);
         }
 
-        if ($this->templatetype == 'usertemplate') {
+        if ($this->templatetype == SURVEYPRO_USERTEMPLATE) {
             if (!empty($this->utemplateid)) { // something was selected
                 $this->add_items_from_template();
             }
@@ -374,7 +374,7 @@ class mod_surveypro_templatebase {
             $this->add_items_from_template();
         }
 
-        if ($this->templatetype == 'usertemplate') {
+        if ($this->templatetype == SURVEYPRO_USERTEMPLATE) {
             $redirecturl = new moodle_url('items_manage.php', array('s' => $this->surveypro->id));
             redirect($redirecturl);
         } else {
@@ -411,7 +411,7 @@ class mod_surveypro_templatebase {
             die();
         }
 
-        if ($this->templatetype == 'usertemplate') {
+        if ($this->templatetype == SURVEYPRO_USERTEMPLATE) {
             if (!$this->formdata) {
                 if (($this->action == SURVEYPRO_DELETEALLITEMS) && ($this->utemplateid == 0)) {
                     // if you really are in the dangerous situation,
@@ -469,7 +469,7 @@ class mod_surveypro_templatebase {
         $context = context_module::instance($cm->id);
         $fs = get_file_storage();
 
-        if ($this->templatetype == 'mastertemplate') { // it is multilang
+        if ($this->templatetype == SURVEYPRO_MASTERTEMPLATE) { // it is multilang
             $templatepath = $CFG->dirroot.'/mod/surveypro/template/'.$this->templatename.'/template.xml';
             $templatecontent = file_get_contents($templatepath);
         } else {
@@ -478,7 +478,7 @@ class mod_surveypro_templatebase {
         }
 
         // create the class to apply mastertemplate settings
-        if ($this->templatetype == 'mastertemplate') {
+        if ($this->templatetype == SURVEYPRO_MASTERTEMPLATE) {
             $classfile = $CFG->dirroot.'/mod/surveypro/template/'.$this->templatename.'/template.class.php';
             include_once($classfile);
             $classname = 'surveyprotemplate_'.$this->templatename;
@@ -538,7 +538,7 @@ class mod_surveypro_templatebase {
                 $record['surveyproid'] = $this->surveypro->id;
 
                 // apply template settings
-                if ($this->templatetype == 'mastertemplate') {
+                if ($this->templatetype == SURVEYPRO_MASTERTEMPLATE) {
                     $mastertemplate->apply_template_settings($record);
                 }
 
@@ -598,7 +598,7 @@ class mod_surveypro_templatebase {
     public function validate_xml($xml) {
         global $CFG;
 
-        if ($this->templatetype == 'mastertemplate') {
+        if ($this->templatetype == SURVEYPRO_MASTERTEMPLATE) {
             $returnurl = new moodle_url('/mod/surveypro/mtemplates_apply.php', array('s' => $this->surveypro->id));
         } else {
             $returnurl = new moodle_url('/mod/surveypro/utemplates_import.php', array('s' => $this->surveypro->id));

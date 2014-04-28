@@ -38,11 +38,6 @@ class mod_surveypro_itembase {
     public $itemid = 0;
 
     /*
-     * $surveyproid = the id of the surveypro
-     */
-    public $surveyproid = 0;
-
-    /*
      * $context
      */
     public $context = '';
@@ -440,7 +435,7 @@ class mod_surveypro_itembase {
         global $DB;
 
         $tablename = 'surveypro'.$this->type.'_'.$this->plugin;
-        $whereparams = array('itemid' => $itemid, 'surveyproid' => $this->surveyproid);
+        $whereparams = array('itemid' => $itemid, 'surveyproid' => $record->surveyproid);
 
         // Verify variable was set. If not, set it.
         if (!isset($record->variable) || empty($record->variable)) {
@@ -448,6 +443,7 @@ class mod_surveypro_itembase {
 
             $plugincount = 1 + $DB->count_records_select($tablename, $where, $whereparams);
             $plugincount = str_pad($plugincount, 3, '0', STR_PAD_LEFT);
+
             $record->variable = $this->plugin.'_'.$plugincount;
         }
 
