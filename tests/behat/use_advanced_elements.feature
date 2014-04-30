@@ -95,4 +95,4 @@ Feature: verify the use of advanced elements
     And I set the following fields to these values:
       | Advanced element | 1 |
       | Exported file type | download to xls |
-    And I press "Continue"
+    # And I press "Continue"

@@ -19,9 +19,9 @@ Feature: verify each core item can be added to a survey
     And I follow "Course 1"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-      | Survey name | Add each core item |
+      | Survey name | Add boolean item |
       | Description | This is a surveypro to add each core item |
-    And I follow "Add each core item"
+    And I follow "Add boolean item"
 
     And I set the field "plugin" to "Boolean"
     And I press "Add"
@@ -32,5 +32,31 @@ Feature: verify each core item can be added to a survey
       | Required | 1 |
       | Indent | 0 |
       | Question position | left |
-      | Element number | 4 |
+      | Element number | 4a |
+    And I press "Add"
+
+    And I set the field "plugin" to "Boolean"
+    And I press "Add"
+
+    And I expand all fieldsets
+    And I set the following fields to these values:
+      | Content | Is this true? |
+      | Required | 1 |
+      | Indent | 0 |
+      | Question position | left |
+      | Element number | 4b |
+      | Boolean style | vertical radio buttons |
+    And I press "Add"
+
+    And I set the field "plugin" to "Boolean"
+    And I press "Add"
+
+    And I expand all fieldsets
+    And I set the following fields to these values:
+      | Content | Is this true? |
+      | Required | 1 |
+      | Indent | 0 |
+      | Question position | left |
+      | Element number | 4c |
+      | Boolean style | horizontal radio buttons |
     And I press "Add"

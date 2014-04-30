@@ -1,4 +1,4 @@
-@mod @mod_surveypro @mod_surveypro_addeachcoreitem
+@mod @mod_surveypro
 Feature: verify the use of advanced elements
   In order to verify advanced elements are only seen by teacher and not students
   As a teacher and student

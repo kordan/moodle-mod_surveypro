@@ -19,9 +19,9 @@ Feature: verify each core item can be added to a survey
     And I follow "Course 1"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-      | Survey name | Add each core item |
+      | Survey name | Add checkbox item |
       | Description | This is a surveypro to add each core item |
-    And I follow "Add each core item"
+    And I follow "Add checkbox item"
 
     And I set the field "plugin" to "Checkbox"
     And I press "Add"
@@ -31,6 +31,22 @@ Feature: verify each core item can be added to a survey
       | Content | What do you usually eat for breakfast? |
       | Indent | 0 |
       | Question position | left |
-      | Element number | 5 |
+      | Element number | 5a |
+      | Minimum required options | 1 |
+      | Adjustment | vertical |
+    And I fill the textarea "Options" with multiline content "milk\nsugar\njam\nchocolate"
+    And I press "Add"
+
+    And I set the field "plugin" to "Checkbox"
+    And I press "Add"
+
+    And I expand all fieldsets
+    And I set the following fields to these values:
+      | Content | What do you usually eat for breakfast? |
+      | Indent | 0 |
+      | Question position | left |
+      | Element number | 5b |
+      | Minimum required options | 1 |
+      | Adjustment | horizontal |
     And I fill the textarea "Options" with multiline content "milk\nsugar\njam\nchocolate"
     And I press "Add"

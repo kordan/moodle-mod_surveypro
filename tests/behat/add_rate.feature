@@ -19,9 +19,9 @@ Feature: verify each core item can be added to a survey
     And I follow "Course 1"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-      | Survey name | Add each core item |
+      | Survey name | Add rate item |
       | Description | This is a surveypro to add each core item |
-    And I follow "Add each core item"
+    And I follow "Add rate item"
 
     And I set the field "plugin" to "Rate"
     And I press "Add"
@@ -31,7 +31,22 @@ Feature: verify each core item can be added to a survey
       | Content | Please order these foreign languages according to your preferences |
       | Required | 1 |
       | Indent | 0 |
-      | Element number | 13 |
-    And I fill the textarea "Options" with multiline content "IT::Italian\nES::Spanish\nEN::English\nFR::French\nDE::German"
+      | Element number | 13a |
+      | Rate style | radio buttons |
+    And I fill the textarea "Options" with multiline content "Italian\nSpanish\nEnglish\nFrench\nGerman"
+    And I fill the textarea "Rates" with multiline content "Mother tongue\nQuite well\nNot sufficient\nCompletely unknown"
+    And I press "Add"
+
+    And I set the field "plugin" to "Rate"
+    And I press "Add"
+
+    And I expand all fieldsets
+    And I set the following fields to these values:
+      | Content | Please order these foreign languages according to your preferences |
+      | Required | 1 |
+      | Indent | 0 |
+      | Element number | 13b |
+      | Rate style | dropdown menu |
+    And I fill the textarea "Options" with multiline content "Italian\nSpanish\nEnglish\nFrench\nGerman"
     And I fill the textarea "Rates" with multiline content "Mother tongue\nQuite well\nNot sufficient\nCompletely unknown"
     And I press "Add"

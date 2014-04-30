@@ -19,9 +19,9 @@ Feature: verify each core item can be added to a survey
     And I follow "Course 1"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-      | Survey name | Add each core item |
+      | Survey name | Add pagebreak item |
       | Description | This is a surveypro to add each core item |
-    And I follow "Add each core item"
+    And I follow "Add pagebreak item"
 
     And I set the field "plugin" to "Page break"
     And I press "Add"
