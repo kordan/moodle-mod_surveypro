@@ -1,8 +1,8 @@
-@mod @mod_surveypro @mod_surveypro_additemage
-Feature: add some itemage items
+@mod @mod_surveypro @mod_surveypro_verifyadvancedelements
+Feature: verify the use of advanced elements
   In order to verify advanced elements are only seen by teacher and not students
   As a teacher and student
-  I add two items with different availability and go to fill the corresponding survey
+  I add two items with different availability and go to fill the corresponding survey and edit it
 
   @javascript
   Scenario: add some items
@@ -91,3 +91,8 @@ Feature: add some itemage items
       | id_surveypro_field_age_2_year | 24 |
       | id_surveypro_field_age_2_month | 6 |
     And I press "Submit"
+    And I follow "Export"
+    And I set the following fields to these values:
+      | Advanced element | 1 |
+      | Exported file type | download to xls |
+    And I press "Continue"

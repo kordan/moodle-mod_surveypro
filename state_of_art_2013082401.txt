@@ -14,17 +14,17 @@ They are:
 ->  4) item type "character" to ask for question like: "Write down your email" or "Enter your personal web site URL" or "Enter the PIN code of your card"
 ->  5) item type "checkbox" to ask for question like: "What do you usually eat for breakfast? milk, sugar, jam, chocolate, other..."
 ->  6) item type "date" to ask for question like: "When were you born?" A: October 12, 1492
-->  7) item type "datetime" to ask for question like: "In which day and at what time do you remember the event?" A: October 12, 1492 at 14:45
+->  7) item type "datetime" to ask for question like: "In which day and at what time do you remember it happened?" A: October 12, 1492 at 14:45
 ->  8) item type "fileupload" to ask for question like: "Please, upload your CV in PDF format"
-->  9) item type "integer" to ask for question like: "How many days do you foreseen for your Easter holidays?"
+->  9) item type "integer" to ask for question like: "How many siblings do you have?"
 -> 10) item type "multiselect" to ask for question like: "What do you usually eat for breakfast? milk, sugar, jam, chocolate, other..."
 -> 11) item type "numeric" to ask for question like: "How the mean temperature of the room is supposed to be?"
--> 12) item type "radiobutton" to ask for question like: "Where do you usually spend your summer holidays? sea, mountain, lake, hills, desert..."
+-> 12) item type "radiobutton" to ask for question like: "Where do you mainly spend your summer holidays? sea, mountain, lake, hills, desert..."
 -> 13) item type "rate" to ask for question like: "Please order the following list of foreign languages according to your preferences: EN, ES, IT, FR..."
 -> 14) item type "recurrence" to ask for question like: "When do you usually celebrate your name-day?" A: July 7
--> 15) item type "select" to ask for question like: "Where do you usually spend your summer holidays? sea, mountain, lake, hills, desert..."
+-> 15) item type "select" to ask for question like: "Where do you mainly spend your summer holidays? sea, mountain, lake, hills, desert..."
 -> 16) item type "shortdate" to ask for question like: "When were you first arrested?" A: August 2002
--> 17) item type "textarea" to ask for question like: "Enter a small description of yourself"
+-> 17) item type "textarea" to ask for question like: "Enter a short description of yourself"
 -> 18) item type "time" to ask for question like: "At what time do you usually get breakfast?" A: 7:45
 
 -- formats --

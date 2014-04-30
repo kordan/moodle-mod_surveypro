@@ -1,8 +1,8 @@
-@mod @mod_surveypro @mod_surveypro_applymastertemplate
+@mod @mod_surveypro
 Feature: install a mastertemplate
-  In order to get an ATTLS survey          // Why this feature is useful
-  As a teacher                             // It can be 'an admin', 'a teacher', 'a student', 'a guest', 'a user', 'a tests writer' and 'a developer'
-  I need to apply the ATTLS mastertemplate // The feature we want
+  In order to verify mastertemplates apply correctly // Why this feature is useful
+  As a teacher                                       // It can be 'an admin', 'a teacher', 'a student', 'a guest', 'a user', 'a tests writer' and 'a developer'
+  I need to apply a mastertemplate                   // The feature we want
 
   Background:
     Given the following "courses" exist:

@@ -336,7 +336,7 @@ class mod_surveypro_itemlist {
 
             $icons = $OUTPUT->action_icon(new moodle_url('items_manage.php', $paramurl),
                 new pix_icon('movehere', $moveheretitle, 'moodle', array('title' => $moveheretitle)),
-                null, array('title' => $moveheretitle));
+                null, array('id' => 'moveafter_0', 'title' => $moveheretitle));
 
             $tablerow = array();
             $tablerow[] = $icons;
@@ -444,7 +444,7 @@ class mod_surveypro_itemlist {
 
                         $icons = $OUTPUT->action_icon(new moodle_url('items_manage.php', $paramurl),
                             new pix_icon('all', $message, 'surveypro', array('title' => $message)),
-                            null, array('title' => $edittitle));
+                            null, array('id' => 'limitaccess_'.$item->itemid, 'title' => $message));
                     } else {
                         $icons = $OUTPUT->pix_icon('all', $message, 'surveypro', array('title' => $message, 'class' => 'smallicon'));
                     }
@@ -456,7 +456,7 @@ class mod_surveypro_itemlist {
 
                     $icons = $OUTPUT->action_icon(new moodle_url('items_manage.php', $paramurl),
                         new pix_icon('limited', $message, 'surveypro', array('title' => $message)),
-                        null, array('title' => $edittitle));
+                        null, array('id' => 'widenaccess_'.$item->itemid, 'title' => $message));
                 }
 
                 // second icon: insearchform vs not insearchform
@@ -468,7 +468,7 @@ class mod_surveypro_itemlist {
 
                     $icons .= $OUTPUT->action_icon(new moodle_url('items_manage.php', $paramurl),
                         new pix_icon('insearch', $message, 'surveypro', array('title' => $message)),
-                        null, array('title' => $edittitle));
+                        null, array('id' => 'removesearch_'.$item->itemid, 'title' => $message));
                 } else {
                     $message = get_string('notinsearchform', 'surveypro');
                     if ($item->get_isinitemform('insearchform')) {
@@ -478,7 +478,7 @@ class mod_surveypro_itemlist {
 
                         $icons .= $OUTPUT->action_icon(new moodle_url('items_manage.php', $paramurl),
                             new pix_icon('absent', $message, 'surveypro', array('title' => $message)),
-                            null, array('title' => $edittitle));
+                            null, array('id' => 'addsearch_'.$item->itemid, 'title' => $message));
                     } else {
                         $icons .= $OUTPUT->pix_icon('absent', $message, 'surveypro', array('title' => $message, 'class' => 'smallicon'));
                     }
@@ -493,15 +493,17 @@ class mod_surveypro_itemlist {
                     $icopath = 't/show';
                     $paramurl['act'] = SURVEYPRO_SHOWITEM;
                     $message = $showtitle;
+                    $linkidprefix = 'hide';
                 } else {
                     $icopath = 't/hide';
                     $paramurl['act'] = SURVEYPRO_HIDEITEM;
                     $message = $hidetitle;
+                    $linkidprefix = 'show';
                 }
 
                 $icons .= $OUTPUT->action_icon(new moodle_url('items_manage.php', $paramurl),
                     new pix_icon($icopath, $message, 'moodle', array('title' => $message)),
-                    null, array('title' => $message));
+                    null, array('id' => $linkidprefix.'_'.$item->itemid, 'title' => $message));
             }
             $tablerow[] = $icons;
 
@@ -515,7 +517,7 @@ class mod_surveypro_itemlist {
 
                 $icons .= $OUTPUT->action_icon(new moodle_url('items_setup.php', $paramurl),
                     new pix_icon('t/edit', $edittitle, 'moodle', array('title' => $edittitle)),
-                    null, array('title' => $edittitle));
+                    null, array('id' => 'edit_'.$item->itemid, 'title' => $edittitle));
 
                 // SURVEYPRO_CHANGEORDERASK
                 if (!empty($drawmovearrow)) {
@@ -530,7 +532,7 @@ class mod_surveypro_itemlist {
 
                     $icons .= $OUTPUT->action_icon(new moodle_url('items_manage.php', $paramurl),
                         new pix_icon('t/move', $edittitle, 'moodle', array('title' => $edittitle)),
-                        null, array('title' => $edittitle));
+                        null, array('id' => 'move_'.$item->itemid, 'title' => $edittitle));
                 }
 
                 // SURVEYPRO_DELETEITEM
@@ -541,7 +543,7 @@ class mod_surveypro_itemlist {
 
                     $icons .= $OUTPUT->action_icon(new moodle_url('items_manage.php', $paramurl),
                         new pix_icon('t/delete', $deletetitle, 'moodle', array('title' => $deletetitle)),
-                        null, array('title' => $deletetitle));
+                        null, array('id' => 'delete_'.$item->itemid, 'title' => $deletetitle));
                 }
 
                 // SURVEYPRO_REQUIRED ON/OFF
@@ -554,11 +556,13 @@ class mod_surveypro_itemlist {
                         $icopath = 'red';
                         $paramurl['act'] = SURVEYPRO_REQUIREDOFF;
                         $message = $optionaltitle;
+                        $linkidprefix = 'makeoptional';
                     } else {
                         if ($item->item_mandatory_is_allowed()) {
                             $icopath = 'green';
                             $paramurl['act'] = SURVEYPRO_REQUIREDON;
                             $message = $requiredtitle;
+                            $linkidprefix = 'makemandatory';
                         } else {
                             $icopath = 'greenlock';
                             $message = $onlyoptionaltitle;
@@ -570,7 +574,7 @@ class mod_surveypro_itemlist {
                     } else {
                         $icons .= $OUTPUT->action_icon(new moodle_url('items_manage.php', $paramurl),
                             new pix_icon($icopath, $message, 'surveypro', array('title' => $message)),
-                            null, array('title' => $message));
+                            null, array('id' => $linkidprefix.'_'.$item->itemid, 'title' => $message));
                     }
                 }
 
@@ -587,7 +591,7 @@ class mod_surveypro_itemlist {
 
                         $icons .= $OUTPUT->action_icon(new moodle_url('items_manage.php', $paramurl),
                             new pix_icon('t/left', $indenttitle, 'moodle', array('title' => $indenttitle)),
-                            null, array('title' => $indenttitle));
+                            null, array('id' => 'reduceindent_'.$item->itemid, 'title' => $indenttitle));
                     }
                     $icons .= '&nbsp;['.$item->get_indent().']';
                     if ($item->get_indent() < 9) {
@@ -596,7 +600,7 @@ class mod_surveypro_itemlist {
 
                         $icons .= $OUTPUT->action_icon(new moodle_url('items_manage.php', $paramurl),
                             new pix_icon('t/right', $indenttitle, 'moodle', array('title' => $indenttitle)),
-                            null, array('title' => $indenttitle));
+                            null, array('id' => 'increaseindent_'.$item->itemid, 'title' => $indenttitle));
                     }
                 }
             } else {
@@ -633,7 +637,7 @@ class mod_surveypro_itemlist {
 
                     $icons = $OUTPUT->action_icon(new moodle_url('items_manage.php', $paramurl),
                         new pix_icon('movehere', $moveheretitle, 'moodle', array('title' => $moveheretitle)),
-                        null, array('title' => $moveheretitle));
+                        null, array('id' => 'moveafter_'.$paramurl['lib'], 'title' => $moveheretitle));
 
                     $tablerow = array();
                     $tablerow[] = $icons;
@@ -1373,7 +1377,7 @@ class mod_surveypro_itemlist {
 
             $icons = $OUTPUT->action_icon(new moodle_url('items_setup.php', $paramurl),
                 new pix_icon('t/edit', $edittitle, 'moodle', array('title' => $edittitle)),
-                null, array('title' => $edittitle));
+                null, array('id' => 'edit_'.$item->itemid, 'title' => $edittitle));
 
             $tablerow[] = $icons;
 

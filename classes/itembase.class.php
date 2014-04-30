@@ -434,6 +434,11 @@ class mod_surveypro_itembase {
     public function item_validate_variablename($record, $itemid) {
         global $DB;
 
+        // if variable does not exist
+        if ($this->type == SURVEYPRO_TYPEFORMAT) {
+            return;
+        }
+
         $tablename = 'surveypro'.$this->type.'_'.$this->plugin;
         $whereparams = array('itemid' => $itemid, 'surveyproid' => $record->surveyproid);
 

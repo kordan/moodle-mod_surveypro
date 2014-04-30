@@ -489,7 +489,11 @@ EOS;
         }
 
         if ($this->adjustment == SURVEYPRO_VERTICAL) {
-            $separator = array_fill(0, count($labels)-1, '<br />');
+            if (count($labels) > 1) {
+                $separator = array_fill(0, count($labels)-1, '<br />');
+            } else {
+                $separator = array();
+            }
             if (!empty($this->labelother)) {
                 $separator[] = '<br />';
                 $separator[] = ' ';
