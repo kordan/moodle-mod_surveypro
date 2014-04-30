@@ -40,7 +40,7 @@ use Behat\Behat\Context\Step\Given as Given;
 class behat_mod_surveypro extends behat_base {
 
     /**
-     * @Given /^I fill the textarea "(?P<fieldname_string>([^"]*))" with multiline content "(?P<multiline_value>([^"]*))"$/
+     * @Given /^I fill the textarea "(?P<textarea_name>(?:[^"]|\\")*)" with multiline content "(?P<multiline_content>(?:[^"]|\\")*)"$/
      */
     public function i_fill_the_textarea_with_multiline_content($textareafield, $multilinevalue) {
         $textareafield = $this->escape($textareafield);
