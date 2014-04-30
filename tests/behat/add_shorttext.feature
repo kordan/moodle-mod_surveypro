@@ -32,7 +32,50 @@ Feature: verify each core item can be added to a survey
       | Required | 1 |
       | Indent | 0 |
       | Question position | left |
-      | Element number | 17 |
-      | Hide filling instruction | 1 |
+      | Element number | 17a |
+      | Hide filling instruction | 0 |
       | id_pattern | email address |
+    And I press "Add"
+
+    And I set the field "plugin" to "Text (short)"
+    And I press "Add"
+
+    And I expand all fieldsets
+    And I set the following fields to these values:
+      | Content | Type a web address |
+      | Required | 1 |
+      | Indent | 0 |
+      | Question position | left |
+      | Element number | 17b |
+      | Hide filling instruction | 0 |
+      | id_pattern | web page URL |
+    And I press "Add"
+
+    And I set the field "plugin" to "Text (short)"
+    And I press "Add"
+
+    And I expand all fieldsets
+    And I set the following fields to these values:
+      | Content | Enter a postal code |
+      | Required | 1 |
+      | Indent | 0 |
+      | Question position | left |
+      | Element number | 17c |
+      | Hide filling instruction | 0 |
+      | id_pattern | custom |
+      | id_pattern_text | 00000 |
+    And I press "Add"
+
+    And I set the field "plugin" to "Text (short)"
+    And I press "Add"
+
+    And I expand all fieldsets
+    And I set the following fields to these values:
+      | Content | This is a free text |
+      | Required | 1 |
+      | Indent | 0 |
+      | Question position | left |
+      | Element number | 17d |
+      | Hide filling instruction | 0 |
+      | id_pattern | free pattern |
     And I press "Add"

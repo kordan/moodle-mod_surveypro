@@ -32,6 +32,21 @@ Feature: verify each core item can be added to a survey
       | Required | 1 |
       | Indent | 0 |
       | Question position | left |
-      | Element number | 16 |
+      | Element number | 16a |
       | Hide filling instruction | 1 |
+      | Use html editor | 0 |
+    And I press "Add"
+
+    And I set the field "plugin" to "Text (long)"
+    And I press "Add"
+
+    And I expand all fieldsets
+    And I set the following fields to these values:
+      | Content | Enter a short description of yourself |
+      | Required | 1 |
+      | Indent | 0 |
+      | Question position | left |
+      | Element number | 16b |
+      | Hide filling instruction | 1 |
+      | Use html editor | 1 |
     And I press "Add"
