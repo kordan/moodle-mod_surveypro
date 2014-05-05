@@ -965,7 +965,7 @@ class mod_surveypro_userformmanager {
 
         if ($this->modulepage == SURVEYPRO_ITEMS_PREVIEW) {
             $previewmodestring = get_string('previewmode', 'surveypro');
-            echo $OUTPUT->heading($previewmodestring, 2);
+            echo $OUTPUT->heading($previewmodestring, 4);
         }
     }
 

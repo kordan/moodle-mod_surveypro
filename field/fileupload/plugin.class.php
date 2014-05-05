@@ -249,7 +249,8 @@ EOS;
 
         $labelsep = get_string('labelsep', 'langconfig'); // ': '
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
-        $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
+        // $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
+        $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.$this->get_content() : '&nbsp;';
 
         $filetypes = array_map('trim', explode(',', $this->filetypes));
 

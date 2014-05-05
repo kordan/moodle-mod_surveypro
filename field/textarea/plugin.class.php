@@ -337,7 +337,8 @@ EOS;
 
         $labelsep = get_string('labelsep', 'langconfig'); // ': '
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
-        $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
+        // $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
+        $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.$this->get_content() : '&nbsp;';
 
         if (!empty($this->useeditor)) {
             $fieldname = $this->itemname.'_editor';

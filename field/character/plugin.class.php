@@ -352,7 +352,8 @@ EOS;
     public function userform_mform_element($mform, $searchform, $readonly=false, $submissionid=0) {
         $labelsep = get_string('labelsep', 'langconfig'); // ': '
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
-        $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
+        // $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
+        $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.$this->get_content() : '&nbsp;';
 
         $thresholdsize = 48;
         $options = array('class' => 'indent-'.$this->indent);
