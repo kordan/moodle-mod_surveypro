@@ -1,98 +1,111 @@
-@mod @mod_surveypro
-Feature: verify the use of advanced elements
-  In order to verify advanced elements are only seen by teacher and not students
-  As a teacher and student
-  I add two items with different availability and go to fill the corresponding survey and edit it
+@mod @mod_surveypro  @current
+Feature: verify each student sees only personal submissions
+  In order to verify that students can only see their personal submissions
+  As student1 and student2
+  I fill a surveypro go to see responses
 
   @javascript
-  Scenario: add some items
+  Scenario: verify each student sees only personal submissions
     Given the following "courses" exist:
       | fullname | shortname | category | groupmode |
       | Course 1 | C1 | 0 | 0 |
     And the following "users" exist:
       | username | firstname | lastname | email |
-      | teacher1 | Teacher | 1 | teacher1@asd.com |
-      | student1 | Student | 1 | student1@asd.com |
+      | teacher1 | Teacher | teacher | teacher1@asd.com |
+      | student1 | Student1 | user1 | student1@asd.com |
+      | student2 | Student2 | user2 | student2@asd.com |
     And the following "course enrolments" exist:
       | user | course | role |
       | teacher1 | C1 | editingteacher |
       | student1 | C1 | student |
+      | student2 | C1 | student |
+
     And I log in as "teacher1"
     And I follow "Course 1"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-      | Survey name | Advanced element test |
-      | Description | This is a surveypro to test advanced element |
-    And I follow "Advanced element test"
+      | Survey name | Simple test |
+      | Description | This is a surveypro to test each user can only get his own submissions |
+    And I follow "Simple test"
 
-    # add the first age item generally available
-    And I set the field "plugin" to "Age [yy/mm]"
+    And I set the field "plugin" to "Text (short)"
     And I press "Add"
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content | First age item |
+      | Content | Write down your email |
       | Required | 1 |
       | Indent | 0 |
       | Question position | left |
       | Element number | 1 |
-      | Hide filling instruction | 1 |
-      | id_defaultoption_2 | Custom |
-      | id_defaultvalue_year | 14 |
-      | id_defaultvalue_month | 4 |
+      | Hide filling instruction | 0 |
+      | id_pattern | email address |
     And I press "Add"
 
-    # add the second age item (as advanced element)
-    And I set the field "plugin" to "Age [yy/mm]"
+    And I set the field "plugin" to "Boolean"
     And I press "Add"
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content | Second age item |
+      | Content | Is this true? |
       | Required | 1 |
       | Indent | 0 |
       | Question position | left |
       | Element number | 2 |
-      | Advanced element | 1 |
-      | Hide filling instruction | 1 |
-      | id_defaultoption_2 | Custom |
-      | id_defaultvalue_year | 14 |
-      | id_defaultvalue_month | 4 |
     And I press "Add"
 
     And I log out
 
-    # test the user sees only the first age item
+    # student1 get in
     When I log in as "student1"
     And I follow "Course 1"
-    And I follow "Advanced element test"
+    And I follow "Simple test"
     And I press "Add a response"
-    Then I should see "1: First age item"
-    Then I should not see "2: Second age item"
 
-    # user submit a surveypro
+    # student1 submit his first response
     And I set the following fields to these values:
-      | id_surveypro_field_age_1_year | 8 |
-      | id_surveypro_field_age_1_month | 2 |
+      | 1: Write down your email | st11email@st11server.net |
+      | 2: Is this true? | Yes |
+    And I press "Submit"
+
+    And I press "Let me add one more response, please"
+    And I press "Add a response"
+
+    # student1 submit one more response
+    And I set the following fields to these values:
+      | 1: Write down your email | st12email@st12server.net |
+      | 2: Is this true? | No |
     And I press "Submit"
 
     And I log out
 
-    # test the teacher sees the first and the second age items both
-    When I log in as "teacher1"
+    # student2 get in
+    When I log in as "student2"
     And I follow "Course 1"
-    And I follow "Advanced element test"
-    And I follow "Responses"
-    And I follow "edit_submission_1"
-    Then I should see "1: First age item"
-    Then I should see "2: Second age item"
+    And I follow "Simple test"
+    And I press "Add a response"
 
+    # student2 submit a response
     And I set the following fields to these values:
-      | id_surveypro_field_age_2_year | 24 |
-      | id_surveypro_field_age_2_month | 6 |
+      | 1: Write down your email | st21email@st21server.net |
+      | 2: Is this true? | Yes |
     And I press "Submit"
-    And I follow "Export"
-    And I set the following fields to these values:
-      | Advanced element | 1 |
-      | Exported file type | download to xls |
-    And I press "Continue"
+
+    And I press "Continue to responses list"
+    And I should see "Never" in the "Student2 user2" "table_row"
+    And I should not see "Student1" in the "submissions" "table"
+    Then I should see "1" rows in the submissions table
+
+    And I log out
+
+    # student1 goes to check for his personal submissions
+    When I log in as "student1"
+    And I follow "Course 1"
+    And I follow "Simple test"
+
+    And I follow "Responses"
+    Then I should see "Never" in the "Student1 user1" "table_row"
+    Then I should not see "Student2" in the "submissions" "table"
+    Then I should see "2" rows in the submissions table
+
+

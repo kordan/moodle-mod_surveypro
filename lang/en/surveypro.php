@@ -307,7 +307,9 @@ $string['plugin_help'] = 'This is the list of available elements. Survey element
 $string['plugin'] = 'Element';
 $string['pluginname_help'] = 'Write here the name of the survey plugin you are going to save';
 $string['plugintype'] = 'Plugin type';
-$string['position_help'] = 'Use this option to choose the position of the content of the element. It can be to the left of the user interface, in a dedicated row just upper the interface to enter the answer or in a dedicated row just upper the interface spanning all the row. This extra row is usually needed for questions containing images such as text longer than few words!';
+$string['position_help'] = 'Use this option to choose the position of the content of the element. It can be to the left of the user interface, in a dedicated row just upper the interface to enter the answer or in a dedicated row just upper the interface spanning all the row.
+Note: The left position forces the element contents to plain text without images.
+The two extra row positions are usually requested for questions containing images and text longer than few words!';
 $string['position'] = 'Question position';
 $string['previewmode'] = 'You are in preview mode: buttons for data saving are not supposed to display';
 $string['previousformpage'] = '<< Previous page';

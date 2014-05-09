@@ -481,6 +481,7 @@ class mod_surveypro_submissionmanager {
         $table->column_suppress('fullname');
 
         // general properties for the whole table
+        // $table->set_attribute('name', 'submissions');
         $table->set_attribute('cellpadding', 5);
         $table->set_attribute('id', 'submissions');
         $table->set_attribute('class', 'generaltable');

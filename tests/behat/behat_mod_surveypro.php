@@ -27,7 +27,8 @@
 
 require_once(__DIR__ . '/../../../../lib/behat/behat_base.php');
 
-use Behat\Behat\Context\Step\Given as Given;
+use Behat\Behat\Context\Step\Given as Given,
+    Behat\Mink\Exception\ExpectationException as ExpectationException;
 
 /**
  * Surveypro-related steps definitions.
@@ -40,6 +41,8 @@ use Behat\Behat\Context\Step\Given as Given;
 class behat_mod_surveypro extends behat_base {
 
     /**
+     * Fill a textarea with a multiline content.
+     *
      * @Given /^I fill the textarea "(?P<textarea_name>(?:[^"]|\\")*)" with multiline content "(?P<multiline_content>(?:[^"]|\\")*)"$/
      */
     public function i_fill_the_textarea_with_multiline_content($textareafield, $multilinevalue) {
@@ -49,5 +52,23 @@ class behat_mod_surveypro extends behat_base {
         return array(
             new Given("I set the field \"$textareafield\" to \"$multilinevalue\"")
         );
+    }
+
+    /**
+     * @Then /^I should see "(?P<given_number>\d+)" rows in the submissions table$/
+     *
+     * @param integer $givennumber The supposed count of $locator
+     */
+    public function i_should_see_submissions($givennumber) {
+        // Getting the container where the text should be found.
+        $container = $this->get_selected_node('table', 'submissions');
+
+        $nodes = $container->findAll('xpath', "//tr[contains(@id, 'submissionslist') and not(contains(@class, 'emptyrow'))]");
+        $tablerows = count($nodes);
+
+        if (intval($givennumber) !== $tablerows) {
+            $message = sprintf('%d rows found in the "submission" table, but should be %d.', $tablerows, $givennumber);
+            throw new ExpectationException($message, $this->getsession());
+        }
     }
 }
