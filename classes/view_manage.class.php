@@ -339,6 +339,7 @@ class mod_surveypro_submissionmanager {
         if ($groupmode = groups_get_activity_groupmode($this->cm, $COURSE)) {
             $mygroupmates = surveypro_groupmates();
         }
+
         $courseisgrouped = groups_get_all_groups($COURSE->id);
         $mygroups = groups_get_my_groups();
         $mygroups = array_keys($mygroups);

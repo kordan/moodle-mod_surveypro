@@ -1,4 +1,4 @@
-@mod @mod_surveypro  @current
+@mod @mod_surveypro
 Feature: verify each student sees only personal submissions
   In order to verify that students can only see their personal submissions
   As student1 and student2
@@ -62,7 +62,7 @@ Feature: verify each student sees only personal submissions
     And I follow "Simple test"
     And I press "Add a response"
 
-    # student1 submit his first response
+    # student1 submits his first response
     And I set the following fields to these values:
       | 1: Write down your email | st11email@st11server.net |
       | 2: Is this true? | Yes |
@@ -71,7 +71,7 @@ Feature: verify each student sees only personal submissions
     And I press "Let me add one more response, please"
     And I press "Add a response"
 
-    # student1 submit one more response
+    # student1 submits one more response
     And I set the following fields to these values:
       | 1: Write down your email | st12email@st12server.net |
       | 2: Is this true? | No |
@@ -85,7 +85,7 @@ Feature: verify each student sees only personal submissions
     And I follow "Simple test"
     And I press "Add a response"
 
-    # student2 submit a response
+    # student2 submits a response
     And I set the following fields to these values:
       | 1: Write down your email | st21email@st21server.net |
       | 2: Is this true? | Yes |
