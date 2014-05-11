@@ -10,9 +10,9 @@ Feature: editing a submission, autofill userID is not overwritten
       | fullname                 | shortname | category | groupmode |
       | Course divided in groups | C1        | 0        | 0         |
     And the following "groups" exist:
-      | name | course | idnumber |
-      | Group 1 | C1 | G1 |
-      | Group 2 | C1 | G2 |
+      | name    | course | idnumber |
+      | Group 1 | C1     | G1       |
+      | Group 2 | C1     | G2       |
     And the following "users" exist:
       | username | firstname | lastname | email            |
       | teacher1 | Teacher   | teacher  | teacher1@asd.com |
@@ -21,17 +21,17 @@ Feature: editing a submission, autofill userID is not overwritten
     And the following "course enrolments" exist:
       | user     | course | role           |
       | teacher1 | C1     | editingteacher |
-      | student1 | C1 | student |
-      | student2 | C1 | student |
+      | student1 | C1     | student        |
+      | student2 | C1     | student        |
     And the following "permission overrides" exist:
       | capability                          | permission | role    | contextlevel | reference |
       | mod/surveypro:editownsubmissions    | Allow      | student | Course       | C1        |
       | mod/surveypro:seeotherssubmissions  | Allow      | student | Course       | C1        |
       | mod/surveypro:editotherssubmissions | Allow      | student | Course       | C1        |
     And the following "group members" exist:
-      | user | group |
-      | student1 | G1 |
-      | student2 | G1 |
+      | user     | group |
+      | student1 | G1    |
+      | student2 | G1    |
 
     And I log in as "teacher1"
     And I follow "Course divided in groups"

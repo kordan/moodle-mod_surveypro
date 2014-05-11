@@ -105,12 +105,12 @@ Feature: verify each core item can be added to a survey
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content | When did you buy your current car? |
-      | Required                 | 1    |
-      | Indent                   | 0    |
-      | Question position        | left |
-      | Element number           | 6    |
-      | Hide filling instruction | 1    |
+      | Content                  | When did you buy your current car? |
+      | Required                 | 1                                  |
+      | Indent                   | 0                                  |
+      | Question position        | left                               |
+      | Element number           | 6                                  |
+      | Hide filling instruction | 1                                  |
     And I press "Add"
 
     # #############
@@ -120,12 +120,12 @@ Feature: verify each core item can be added to a survey
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content | When were you born?   |
-      | Required                 | 1    |
-      | Indent                   | 0    |
-      | Question position        | left |
-      | Element number           | 7    |
-      | Hide filling instruction | 1    |
+      | Content                  | When were you born? |
+      | Required                 | 1                   |
+      | Indent                   | 0                   |
+      | Question position        | left                |
+      | Element number           | 7                   |
+      | Hide filling instruction | 1                   |
     And I press "Add"
 
     # #############
@@ -242,12 +242,12 @@ Feature: verify each core item can be added to a survey
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content | When do you usually celebrate your name-day? |
-      | Required | 1 |
-      | Indent | 0 |
-      | Question position | left |
-      | Element number | 14 |
-      | Hide filling instruction | 1 |
+      | Content                  | When do you usually celebrate your name-day? |
+      | Required                 | 1                                            |
+      | Indent                   | 0                                            |
+      | Question position        | left                                         |
+      | Element number           | 14                                           |
+      | Hide filling instruction | 1                                            |
     And I press "Add"
 
     # #############

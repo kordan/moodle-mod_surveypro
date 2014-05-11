@@ -28,10 +28,10 @@ Feature: verify each core item can be added to a survey
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content | Please upload your Curriculum Vitae |
-      | Required                 | 1    |
-      | Indent                   | 0    |
-      | Question position        | left |
-      | Element number           | 2    |
-      | Hide filling instruction | 1    |
+      | Content                  | Please upload your Curriculum Vitae |
+      | Required                 | 1                                   |
+      | Indent                   | 0                                   |
+      | Question position        | left                                |
+      | Element number           | 2                                   |
+      | Hide filling instruction | 1                                   |
     And I press "Add"

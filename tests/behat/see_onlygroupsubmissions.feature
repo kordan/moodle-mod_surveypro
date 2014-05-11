@@ -48,13 +48,13 @@ Feature: test each student sees only personal submissions
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content | Write down your email |
-      | Required                 | 1             |
-      | Indent                   | 0             |
-      | Question position        | left          |
-      | Element number           | 1             |
-      | Hide filling instruction | 0             |
-      | id_pattern               | email address |
+      | Content                  | Write down your email |
+      | Required                 | 1                     |
+      | Indent                   | 0                     |
+      | Question position        | left                  |
+      | Element number           | 1                     |
+      | Hide filling instruction | 0                     |
+      | id_pattern               | email address         |
     And I press "Add"
 
     And I set the field "plugin" to "Boolean"

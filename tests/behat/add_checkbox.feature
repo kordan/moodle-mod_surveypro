@@ -28,12 +28,12 @@ Feature: verify each core item can be added to a survey
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content | What do you usually eat for breakfast? |
-      | Indent                   | 0        |
-      | Question position        | left     |
-      | Element number           | 5a       |
-      | Minimum required options | 1        |
-      | Adjustment               | vertical |
+      | Content                  | What do you usually eat for breakfast? |
+      | Indent                   | 0                                      |
+      | Question position        | left                                   |
+      | Element number           | 5a                                     |
+      | Minimum required options | 1                                      |
+      | Adjustment               | vertical                               |
     And I fill the textarea "Options" with multiline content "milk\nsugar\njam\nchocolate"
     And I press "Add"
 
@@ -42,11 +42,11 @@ Feature: verify each core item can be added to a survey
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content | What do you usually eat for breakfast? |
-      | Indent                   | 0          |
-      | Question position        | left       |
-      | Element number           | 5b         |
-      | Minimum required options | 1          |
-      | Adjustment               | horizontal |
+      | Content                  | What do you usually eat for breakfast? |
+      | Indent                   | 0                                      |
+      | Question position        | left                                   |
+      | Element number           | 5b                                     |
+      | Minimum required options | 1                                      |
+      | Adjustment               | horizontal                             |
     And I fill the textarea "Options" with multiline content "milk\nsugar\njam\nchocolate"
     And I press "Add"
