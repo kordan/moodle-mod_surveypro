@@ -313,7 +313,7 @@ The two extra row positions are usually requested for questions containing image
 $string['position'] = 'Question position';
 $string['previewmode'] = 'You are in preview mode: buttons for data saving are not supposed to display';
 $string['previousformpage'] = '<< Previous page';
-$string['readonlyaccess'] = 'View only allowed access';
+$string['readonlyaccess'] = 'Read only access';
 $string['relation_status'] = 'Status';
 $string['reportplugin'] = 'Report plugin';
 $string['reportplugins'] = 'Report plugin';

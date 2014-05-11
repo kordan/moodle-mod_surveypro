@@ -93,7 +93,7 @@ class mod_surveypro_exportmanager {
         global $USER, $COURSE;
 
         if ($groupmode = groups_get_activity_groupmode($this->cm, $COURSE)) {
-            $mygroups = groups_get_my_groups();
+            $mygroups = surveypro_get_my_groups_simple($userid);
         }
 
         $sql = 'SELECT s.id as submissionid, s.status, s.timecreated, s.timemodified, ';
@@ -212,8 +212,8 @@ class mod_surveypro_exportmanager {
             // echo '$placeholders:';
             // var_dump($placeholders);
 
-            // get user group (to filter surveypro to download)
-            $mygroups = groups_get_my_groups();
+            // get user group (to filter surveypro to download) ???? TODO: NEVER USED ????
+            // $mygroups = surveypro_get_my_groups_simple();
 
             $oldrichsubmissionid = 0;
             $strnever = get_string('never');

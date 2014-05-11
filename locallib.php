@@ -80,6 +80,7 @@ function surveypro_textarea_to_array($textareacontent) {
  * surveypro_need_group_filtering
  * this function answer the question: do I Need to filter group in my next task?
  * @param
+ *
  * @return
  */
 function surveypro_need_group_filtering($cm, $context) {
@@ -87,7 +88,7 @@ function surveypro_need_group_filtering($cm, $context) {
 
     // do I need to filter groups?
     $groupmode = groups_get_activity_groupmode($cm, $COURSE);
-    $mygroups = groups_get_my_groups();
+    $mygroups = surveypro_get_my_groups_simple();
 
     $filtergroups = true;
     $filtergroups = $filtergroups && ($groupmode == SEPARATEGROUPS);
@@ -100,6 +101,7 @@ function surveypro_need_group_filtering($cm, $context) {
 /*
  * surveypro_fixlength
  * @param
+ *
  * @return
  */
 function surveypro_fixlength($plainstring, $maxlength=60) {
@@ -114,9 +116,30 @@ function surveypro_fixlength($plainstring, $maxlength=60) {
 }
 
 /*
- * surveypro_fixlength
- * @param
- * @return
+ * surveypro_get_my_groups_simple
+ * this function is simpler and less resource asking than the core groups_get_my_groups();
+ * I really don't need all the infos returned by the core function
+ *
+ * @param $userid: the user you want to know his/her groups
+ *
+ * @return: an array with the list of the group the user belongs to
+ */
+function surveypro_get_my_groups_simple($userid=0) {
+    global $DB, $USER;
+
+    if (empty($userid)) {
+        $userid = $USER->id;
+    }
+
+    $mygroups = $DB->get_records('groups_members', array('userid' => $userid), 'groupid', 'groupid');
+    return array_keys($mygroups);
+}
+
+/*
+ * surveypro_groupmates
+ * @param $userid: the user you want to know his/her groupmates
+ *
+ * @return: an array with the list of groupmates of the user
  */
 function surveypro_groupmates($userid=0) {
     global $DB, $USER;
@@ -125,14 +148,17 @@ function surveypro_groupmates($userid=0) {
         $userid = $USER->id;
     }
 
-    $sql = 'SELECT DISTINCT gm.id
-	    FROM {groups_members} gm
-		    JOIN {groups} g
-        WHERE g.id IN (SELECT g.id
-			            FROM {groups} g
-				            JOIN {groups_members} gm
-			            WHERE gm.userid = ?)
-        ORDER BY gm.userid ASC';
+    if ($mygroups = surveypro_get_my_groups_simple($userid)) {
+        $sql = 'SELECT DISTINCT gm.userid
+            FROM {groups_members} gm
+                JOIN {groups} g ON gm.groupid = g.id
+            WHERE g.id IN ('.implode(',', $mygroups).')
+            ORDER BY gm.userid ASC';
 
-    return $DB->get_records_sql($sql, array($userid));
+        $groupmates = $DB->get_records_sql($sql);
+
+        return array_keys($groupmates);
+    } else  {
+        return array();
+    }
 }

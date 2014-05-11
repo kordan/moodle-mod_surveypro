@@ -338,11 +338,37 @@ class mod_surveypro_submissionmanager {
 
         if ($groupmode = groups_get_activity_groupmode($this->cm, $COURSE)) {
             $mygroupmates = surveypro_groupmates();
-        }
+            // if (!count($mygroupmates)) then the user is a teacher
+            if (!count($mygroupmates)) { // user is not in any group
+                if (has_capability('mod/surveypro:manageitems', $this->context)) {
+                    // This is a teacher
+                    // Has to see each submission
+                    $manageallsubmissions = true;
+                } else {
+                    // This is a student that has not been added to any group.
+                    // The sql needs to return an empty set
+                    $sql = 'SELECT DISTINCT s.*, s.id as submissionid, '.user_picture::fields('u').'
+                            FROM {surveypro_submission} s
+                                JOIN {user} u ON s.userid = u.id
+                            WHERE u.id = :userid';
+                    return array($sql, array('userid' => -1));
+                }
+            } else {
+                if (has_capability('mod/surveypro:manageitems', $this->context)) {
+                    // he is a teacher and has been added to a group!!! WEIRD!!!
+                    $manageallsubmissions = true;
+                } else {
+                    // he is a student of some group
+                    // this is the standard way to operate
+                    $manageallsubmissions = false;
+                }
+            }
 
-        $courseisgrouped = groups_get_all_groups($COURSE->id);
-        $mygroups = groups_get_my_groups();
-        $mygroups = array_keys($mygroups);
+            if (count($mygroupmates)) { // is a student in some group/s
+                $courseisgrouped = groups_get_all_groups($COURSE->id);
+                $mygroups = surveypro_get_my_groups_simple();
+            }
+        }
 
         // DISTINCT is needed when a user belongs to more than a single group
         $sql = 'SELECT DISTINCT s.*, s.id as submissionid, '.user_picture::fields('u').'
@@ -371,7 +397,7 @@ class mod_surveypro_submissionmanager {
             $sql .= ' JOIN ('.$transposeduserdata.') tud ON tud.submissionid = s.id '; // tud == transposed user data
         }
 
-        if ($groupmode == SEPARATEGROUPS) {
+        if (($groupmode == SEPARATEGROUPS) && (!$manageallsubmissions)) {
             $sql .= ' JOIN {groups_members} gm ON gm.userid = s.userid ';
         }
 
@@ -379,16 +405,16 @@ class mod_surveypro_submissionmanager {
         $sql .= ' WHERE s.surveyproid = :surveyproid';
         $whereparams['surveyproid'] = $this->surveypro->id;
 
-        if ($groupmode == SEPARATEGROUPS) {
-            if (empty($mygroups)) {
+        if (($groupmode == SEPARATEGROUPS) && (!$manageallsubmissions)) {
+            if (count($mygroups)) {
+                // restrict to your groups only
+                $sql .= ' AND gm.groupid IN ('.implode(',', $mygroups).')';
+            } else {
                 $sql .= ' AND s.userid = :userid';
                 $whereparams['userid'] = $USER->id;
                 debugging('Activity is divided into SEPARATE groups BUT you do not belong to anyone of them', DEBUG_DEVELOPER);
 
                 return array($sql, $whereparams);
-            } else {
-                // restrict to your groups only
-                $sql .= ' AND gm.groupid IN ('.implode(',', $mygroups).')';
             }
         }
         if (!$this->canseeotherssubmissions) {
@@ -429,6 +455,7 @@ class mod_surveypro_submissionmanager {
         require_once($CFG->libdir.'/tablelib.php');
 
         $table = new flexible_table('submissionslist');
+
         if ($this->canseeotherssubmissions) {
             $table->initialbars(true);
         }
@@ -535,7 +562,12 @@ class mod_surveypro_submissionmanager {
                         continue;
                     }
                     if ($groupmode == SEPARATEGROUPS) {
-                        $groupuser = in_array($submission->userid, $mygroupmates);
+                        // if I am a teacher, $mygroupmates is empty but I still have the right to see all my students
+                        if (!$mygroupmates) { // I have no $mygroupmates. I am a teacher. I am active part of each group.
+                            $groupuser = true;
+                        } else {
+                            $groupuser = in_array($submission->userid, $mygroupmates);
+                        }
                     }
                 }
 

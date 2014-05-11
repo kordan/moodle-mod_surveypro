@@ -1074,6 +1074,7 @@ function surveypro_fetch_items_seeds($surveyproid, $canaccessadvanceditems, $sea
 /**
  * surveypro_get_view_actions
  * @param
+ *
  * @return
  */
 function surveypro_get_view_actions() {
@@ -1083,6 +1084,7 @@ function surveypro_get_view_actions() {
 /**
  * surveypro_get_post_actions
  * @param
+ *
  * @return
  */
 function surveypro_get_post_actions() {

@@ -710,7 +710,7 @@ class mod_surveypro_userformmanager {
         // course context used locally to get groups
         $context = context_course::instance($COURSE->id);
 
-        $mygroups = groups_get_my_groups();
+        $mygroups = surveypro_get_my_groups_simple();
         if (count($mygroups)) {
             if ($this->surveypro->notifyrole) {
                 $roles = explode(',', $this->surveypro->notifyrole);
@@ -1156,12 +1156,16 @@ class mod_surveypro_userformmanager {
             if (!$submission = $DB->get_record('surveypro_submission', array('id' => $this->submissionid), '*', IGNORE_MISSING)) {
                 print_error('incorrectaccessdetected', 'surveypro');
             }
-
             if ($submission->userid != $USER->id) {
                 $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
                 if ($groupmode == SEPARATEGROUPS) {
                     $mygroupmates = surveypro_groupmates();
-                    $groupuser = in_array($submission->userid, $mygroupmates);
+                    // if I am a teacher, $mygroupmates is empty but I still have the right to see all my students
+                    if (!$mygroupmates) { // I have no $mygroupmates. I am a teacher. I am active part of each group.
+                        $groupuser = true;
+                    } else {
+                        $groupuser = in_array($submission->userid, $mygroupmates);
+                    }
                 }
             }
         }
