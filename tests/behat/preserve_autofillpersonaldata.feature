@@ -39,7 +39,7 @@ Feature: editing a submission, autofill userID is not overwritten
     And I add a "Surveypro" to section "1" and I fill the form with:
       | Survey name | Simple test                                                                               |
       | Description | This is a surveypro to test that editing a submission, autofill userID is not overwritten |
-      | Group mode | Separate groups                                                                            |
+      | Group mode  | Separate groups                                                                           |
     And I follow "Simple test"
 
     And I set the field "plugin" to "Autofill"

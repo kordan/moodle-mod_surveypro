@@ -28,13 +28,13 @@ Feature: verify each core item can be added to a survey
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content                  | How old were you at you first access to narcotic |
-      | Required                 | 1                                                |
-      | Indent                   | 0                                                |
-      | Question position        | left                                             |
-      | Element number           | 1                                                |
-      | Hide filling instruction | 1                                                |
-      | id_defaultoption_2       | Custom                                           |
-      | id_defaultvalue_year     | 14                                               |
-      | id_defaultvalue_month    | 4                                                |
+      | Content                  | How old were you at you first access to narcotics |
+      | Required                 | 1                                                 |
+      | Indent                   | 0                                                 |
+      | Question position        | left                                              |
+      | Element number           | 1                                                 |
+      | Hide filling instruction | 1                                                 |
+      | id_defaultoption_2       | Custom                                            |
+      | id_defaultvalue_year     | 14                                                |
+      | id_defaultvalue_month    | 4                                                 |
     And I press "Add"
