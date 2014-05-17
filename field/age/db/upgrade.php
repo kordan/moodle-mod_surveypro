@@ -34,10 +34,32 @@ function xmldb_surveyprofield_age_upgrade($oldversion) {
 
     $dbman = $DB->get_manager();
 
-    if ($oldversion < 2013103101) {
+    if ($oldversion < 2014021401) {
 
         // Survey savepoint reached.
-        // upgrade_plugin_savepoint(true, 2013103101, 'surveyprofield', 'age');
+        // upgrade_plugin_savepoint(true, 2014021401, 'surveyprofield', 'age');
+    }
+
+    if ($oldversion < 2014051701) {
+
+        // Define key surveyproid (foreign) to be dropped form surveyprofield_age.
+        $table = new xmldb_table('surveyprofield_age');
+        $key = new xmldb_key('surveyproid', XMLDB_KEY_FOREIGN, array('surveyproid'), 'surveypro', array('id'));
+
+        // Launch drop key surveyproid.
+        $dbman->drop_key($table, $key);
+
+        // Define field surveyproid to be dropped from surveyprofield_age.
+        $table = new xmldb_table('surveyprofield_age');
+        $field = new xmldb_field('surveyproid');
+
+        // Conditionally launch drop field surveyproid.
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        // Surveypro savepoint reached.
+        upgrade_plugin_savepoint(true, 2014051701, 'surveyprofield', 'age');
     }
 
     return true;

@@ -1,8 +1,8 @@
 @mod @mod_surveypro
-Feature: verify each core item can be added to a survey
-  In order to verify each core item can be added to a survey
+Feature: verify an autofill item can be added to a survey
+  In order to verify autofill items can be added to a survey
   As a teacher
-  I add each core item to a survey
+  I add an autofill item to a survey
 
   @javascript
   Scenario: add some items
@@ -19,14 +19,18 @@ Feature: verify each core item can be added to a survey
     And I follow "Course 1"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-      | Survey name | Add fieldset item                         |
+      | Survey name | Add autofill item                         |
       | Description | This is a surveypro to add each core item |
-    And I follow "Add fieldset item"
+    And I follow "Add autofill item"
 
-    And I set the field "plugin" to "Fieldset"
+    And I set the field "plugin" to "Autofill"
     And I press "Add"
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content | A bunch of items |
+      | Content             | Your user ID |
+      | Indent              | 0            |
+      | Question position   | left         |
+      | Element number      | 3            |
+      | id_element01_select | user ID      |
     And I press "Add"

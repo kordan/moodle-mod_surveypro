@@ -7,7 +7,6 @@
     <TABLE NAME="surveyprofield_rate" COMMENT="Rate type surveyprofield">
       <FIELDS>
         <FIELD NAME="id"               TYPE="int"  LENGTH="10"     NOTNULL="true"  UNSIGNED="true"             SEQUENCE="true"/>
-        <FIELD NAME="surveyproid"         TYPE="int"  LENGTH="10"     NOTNULL="true"  UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="itemid"           TYPE="int"  LENGTH="10"     NOTNULL="true"  UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
 
         <!-- begin of fields belonging to itembase_form.php -->
@@ -36,7 +35,6 @@
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-        <KEY NAME="surveyproid" TYPE="foreign" FIELDS="surveyproid" REFTABLE="surveypro" REFFIELDS="id"/>
         <KEY NAME="itemid" TYPE="foreign-unique" FIELDS="itemid" REFTABLE="surveypro_item" REFFIELDS="id"/>
       </KEYS>
     </TABLE>

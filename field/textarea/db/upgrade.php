@@ -40,5 +40,27 @@ function xmldb_surveyprofield_textarea_upgrade($oldversion) {
         // upgrade_plugin_savepoint(true, 2013100601, 'surveyprofield', 'textarea');
     }
 
+    if ($oldversion < 2014051701) {
+
+        // Define key surveyproid (foreign) to be dropped form surveyprofield_textarea.
+        $table = new xmldb_table('surveyprofield_textarea');
+        $key = new xmldb_key('surveyproid', XMLDB_KEY_FOREIGN, array('surveyproid'), 'surveypro', array('id'));
+
+        // Launch drop key surveyproid.
+        $dbman->drop_key($table, $key);
+
+        // Define field surveyproid to be dropped from surveyprofield_textarea.
+        $table = new xmldb_table('surveyprofield_textarea');
+        $field = new xmldb_field('surveyproid');
+
+        // Conditionally launch drop field surveyproid.
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        // Surveypro savepoint reached.
+        upgrade_plugin_savepoint(true, 2014051701, 'surveyprofield', 'textarea');
+    }
+
     return true;
 }

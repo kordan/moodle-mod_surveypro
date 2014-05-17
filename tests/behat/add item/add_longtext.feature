@@ -1,8 +1,8 @@
 @mod @mod_surveypro
-Feature: verify each core item can be added to a survey
-  In order to verify each core item can be added to a survey
+Feature: verify a longtext item can be added to a survey
+  In order to verify longtext items can be added to a survey
   As a teacher
-  I add each core item to a survey
+  I add a longtext item to a survey
 
   @javascript
   Scenario: add some items

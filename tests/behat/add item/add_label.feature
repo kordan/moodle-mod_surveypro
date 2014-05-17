@@ -1,8 +1,8 @@
 @mod @mod_surveypro
-Feature: verify each core item can be added to a survey
-  In order to verify each core item can be added to a survey
+Feature: verify a label item can be added to a survey
+  In order to verify label items can be added to a survey
   As a teacher
-  I add each core item to a survey
+  I add a label item to a survey
 
   @javascript
   Scenario: add some items
@@ -19,11 +19,14 @@ Feature: verify each core item can be added to a survey
     And I follow "Course 1"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-      | Survey name | Add fieldsetend item                      |
+      | Survey name | Add label item                            |
       | Description | This is a surveypro to add each core item |
-    And I follow "Add fieldsetend item"
+    And I follow "Add label item"
 
-    And I set the field "plugin" to "Fieldset closure"
+    And I set the field "plugin" to "Label"
     And I press "Add"
 
+    And I expand all fieldsets
+    And I set the following fields to these values:
+      | Content | This is just a comment |
     And I press "Add"

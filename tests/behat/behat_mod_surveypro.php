@@ -55,7 +55,9 @@ class behat_mod_surveypro extends behat_base {
     }
 
     /**
-     * @Then /^I should see "(?P<given_number>\d+)" rows in the submissions table$/
+     * Check the number of displayed submissions.
+     *
+     * @Then /^I should see "(?P<given_number>\d+)" submissions displayed$/
      *
      * @param integer $givennumber The supposed count of $locator
      */

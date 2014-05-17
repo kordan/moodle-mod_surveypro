@@ -40,5 +40,27 @@ function xmldb_surveyprofield_rate_upgrade($oldversion) {
         // upgrade_plugin_savepoint(true, 2013090701, 'surveyprofield', 'rate');
     }
 
+    if ($oldversion < 2014051701) {
+
+        // Define key surveyproid (foreign) to be dropped form surveyprofield_rate.
+        $table = new xmldb_table('surveyprofield_rate');
+        $key = new xmldb_key('surveyproid', XMLDB_KEY_FOREIGN, array('surveyproid'), 'surveypro', array('id'));
+
+        // Launch drop key surveyproid.
+        $dbman->drop_key($table, $key);
+
+        // Define field surveyproid to be dropped from surveyprofield_rate.
+        $table = new xmldb_table('surveyprofield_rate');
+        $field = new xmldb_field('surveyproid');
+
+        // Conditionally launch drop field surveyproid.
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        // Surveypro savepoint reached.
+        upgrade_plugin_savepoint(true, 2014051701, 'surveyprofield', 'rate');
+    }
+
     return true;
 }

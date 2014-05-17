@@ -354,17 +354,10 @@ class mod_surveypro_submissionmanager {
                     return array($sql, array('userid' => -1));
                 }
             } else {
-                if (has_capability('mod/surveypro:manageitems', $this->context)) {
-                    // he is a teacher and has been added to a group!!! WEIRD!!!
-                    $manageallsubmissions = true;
-                } else {
-                    // he is a student of some group
-                    // this is the standard way to operate
-                    $manageallsubmissions = false;
-                }
-            }
-
-            if (count($mygroupmates)) { // is a student in some group/s
+                // I don'care if the user is a teacher or a student.
+                // He/she was assigned to a group.
+                // I allow him/her only to submissions of his/her groupmates.
+                $manageallsubmissions = false;
                 $courseisgrouped = groups_get_all_groups($COURSE->id);
                 $mygroups = surveypro_get_my_groups_simple();
             }

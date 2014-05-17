@@ -1394,7 +1394,6 @@ class mod_surveypro_itemlist {
     /*
      * display_user_feedback
      *
-     * @param &$libcontent, $values, $tablename, $currentplugin
      * @return
      */
     public function display_user_feedback() {
@@ -1452,9 +1451,8 @@ class mod_surveypro_itemlist {
     }
 
     /*
-     * itemwelcome
+     * item_welcome
      *
-     * @param &$libcontent, $values, $tablename, $currentplugin
      * @return
      */
     public function item_welcome() {

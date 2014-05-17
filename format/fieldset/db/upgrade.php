@@ -40,6 +40,28 @@ function xmldb_surveyproformat_fieldset_upgrade($oldversion) {
         // upgrade_plugin_savepoint(true, 2013103101, 'surveyproformat', 'fieldset');
     }
 
+    if ($oldversion < 2014051701) {
+
+        // Define key surveyproid (foreign) to be dropped form surveyproformat_fieldset.
+        $table = new xmldb_table('surveyproformat_fieldset');
+        $key = new xmldb_key('surveyproid', XMLDB_KEY_FOREIGN, array('surveyproid'), 'surveypro', array('id'));
+
+        // Launch drop key surveyproid.
+        $dbman->drop_key($table, $key);
+
+        // Define field surveyproid to be dropped from surveyproformat_fieldset.
+        $table = new xmldb_table('surveyproformat_fieldset');
+        $field = new xmldb_field('surveyproid');
+
+        // Conditionally launch drop field surveyproid.
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        // Surveypro savepoint reached.
+        upgrade_plugin_savepoint(true, 2014051701, 'surveyproformat', 'fieldset');
+    }
+
     return true;
 }
 

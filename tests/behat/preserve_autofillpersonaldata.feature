@@ -1,4 +1,4 @@
-@mod @mod_surveypro @current
+@mod @mod_surveypro
 Feature: editing a submission, autofill userID is not overwritten
   In order to test that personal data is not overwritten editing a submission
   As student1 and student2
@@ -54,6 +54,30 @@ Feature: editing a submission, autofill userID is not overwritten
       | id_element01_select | user ID      |
     And I press "Add"
 
+    And I set the field "plugin" to "Autofill"
+    And I press "Add"
+
+    And I expand all fieldsets
+    And I set the following fields to these values:
+      | Content             | Your first name |
+      | Indent              | 0               |
+      | Question position   | left            |
+      | Element number      | 2               |
+      | id_element01_select | user first name |
+    And I press "Add"
+
+    And I set the field "plugin" to "Autofill"
+    And I press "Add"
+
+    And I expand all fieldsets
+    And I set the following fields to these values:
+      | Content             | Your last name |
+      | Indent              | 0              |
+      | Question position   | left           |
+      | Element number      | 3              |
+      | id_element01_select | user last name |
+    And I press "Add"
+
     And I set the field "plugin" to "Boolean"
     And I press "Add"
 
@@ -63,7 +87,7 @@ Feature: editing a submission, autofill userID is not overwritten
       | Required          | 1             |
       | Indent            | 0             |
       | Question position | left          |
-      | Element number    | 2             |
+      | Element number    | 4             |
     And I press "Add"
 
     And I log out
@@ -76,16 +100,14 @@ Feature: editing a submission, autofill userID is not overwritten
     And I press "Add a response"
 
     # student1 submits his first response
-    And I set the following fields to these values:
-      | 2: Is this true? | Yes |
+    And I set the field "4: Is this true?" to "Yes"
     And I press "Submit"
 
     And I press "Let me add one more response, please"
     And I press "Add a response"
 
     # student1 submits his second response
-    And I set the following fields to these values:
-      | 2: Is this true? | No |
+    And I set the field "4: Is this true?" to "No"
     And I press "Submit"
 
     And I log out
@@ -98,10 +120,11 @@ Feature: editing a submission, autofill userID is not overwritten
     And I follow "Responses"
     And I follow "edit_submission_1"
     Then I should see "4"
+    Then I should see "student1"
+    Then I should see "user1"
     Then I should see "Yes"
 
-    And I set the following fields to these values:
-      | 2: Is this true? | No |
+    And I set the field "4: Is this true?" to "No"
     And I press "Submit"
 
     And I log out
@@ -113,9 +136,9 @@ Feature: editing a submission, autofill userID is not overwritten
 
     And I follow "Responses"
     And I follow "edit_submission_1"
-    # Then I should see "4" in the "felement fstatic" "css"
-    # Then I should see "No" in the "id_surveypro_field_boolean_2" "css"
     Then I should see "4"
+    Then I should see "student1"
+    Then I should see "user1"
     Then I should see "No"
 
     And I log out
@@ -128,9 +151,10 @@ Feature: editing a submission, autofill userID is not overwritten
     And I follow "Responses"
     And I follow "edit_submission_1"
     Then I should see "4"
+    Then I should see "student1"
+    Then I should see "user1"
     Then I should see "No"
-    And I set the following fields to these values:
-      | 2: Is this true? | Yes |
+    And I set the field "4: Is this true?" to "Yes"
     And I press "Submit"
 
     And I log out
@@ -143,6 +167,8 @@ Feature: editing a submission, autofill userID is not overwritten
     And I follow "Responses"
     And I follow "edit_submission_1"
     Then I should see "4"
+    Then I should see "student1"
+    Then I should see "user1"
     Then I should see "Yes"
 
     And I log out

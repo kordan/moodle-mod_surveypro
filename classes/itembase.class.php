@@ -152,9 +152,9 @@ class mod_surveypro_itembase {
         $sql = 'SELECT *, si.id as itemid, plg.id as pluginid
                 FROM {surveypro_item} si
                     JOIN {surveypro'.$this->type.'_'.$this->plugin.'} plg ON si.id = plg.itemid
-                WHERE si.id = :surveyproitemid';
+                WHERE si.id = :itemid';
 
-        if ($record = $DB->get_record_sql($sql, array('surveyproitemid' => $itemid))) {
+        if ($record = $DB->get_record_sql($sql, array('itemid' => $itemid))) {
             foreach ($record as $option => $value) {
                 $this->{$option} = $value;
             }
@@ -212,8 +212,6 @@ class mod_surveypro_itembase {
         surveypro_reset_items_pages($cm->instance);
 
         $timenow = time();
-
-        $tablename = 'surveypro'.$this->type.'_'.$this->plugin;
 
         // surveyproid
         $record->surveyproid = $cm->instance;
@@ -426,8 +424,8 @@ class mod_surveypro_itembase {
     /*
      * item_validate_variablename
      *
-     * @param integer $itemid
      * @param stdobject $record
+     * @param integer $itemid
      *
      * @return
      */
@@ -439,31 +437,38 @@ class mod_surveypro_itembase {
             return;
         }
 
-        $tablename = 'surveypro'.$this->type.'_'.$this->plugin;
-        $whereparams = array('itemid' => $itemid, 'surveyproid' => $record->surveyproid);
+        $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$this->plugin;
+        $whereparams = array('itemid' => $itemid, 'surveyproid' => (int)$record->surveyproid);
+        $select = 'SELECT COUNT(p.id)
+                FROM {'.$tablename.'} p
+                    JOIN {surveypro_item} i ON i.id = p.itemid ';
+        $whereset = 'WHERE ((p.itemid <> :itemid) AND (i.surveyproid = :surveyproid))';
+        $whereverify = 'WHERE ((p.itemid <> :itemid) AND (i.surveyproid = :surveyproid) AND (p.variable = :variable))';
 
         // Verify variable was set. If not, set it.
         if (!isset($record->variable) || empty($record->variable)) {
-            $where = '((itemid <> :itemid) AND (surveyproid = :surveyproid))';
-
-            $plugincount = 1 + $DB->count_records_select($tablename, $where, $whereparams);
+            $sql = $select.$whereset;
+            $plugincount = 1 + $DB->count_records_sql($sql, $whereparams);
             $plugincount = str_pad($plugincount, 3, '0', STR_PAD_LEFT);
 
-            $record->variable = $this->plugin.'_'.$plugincount;
+            $candidatevariable = $this->plugin.'_'.$plugincount;
+        } else {
+            $candidatevariable = $record->variable;
         }
 
         // verify the assigned name is unique. If not, change it.
-        $i = 0;
-        $newvariable = $record->variable;
-        $where = '((itemid <> :itemid) AND (surveyproid = :surveyproid) AND (variable = :variable))';
-        $whereparams['variable'] = $newvariable;
+        $i = 0; // if name is duplicate, restart verification from 0
+        $whereparams['variable'] = $candidatevariable;
+        $sql = $select.$whereverify;
 
-        while ($DB->record_exists_select($tablename, $where, $whereparams, 'id', 'id')) {
+        // while ($DB->record_exists_sql($sql, $whereparams)) {
+        while ($DB->count_records_sql($sql, $whereparams)) {
             $i++;
-            $newvariable = $record->variable.'_'.$i;
-            $whereparams['variable'] = $newvariable;
+            $candidatevariable = $record->plugin.'_'.str_pad($i, 3, '0', STR_PAD_LEFT);
+            $whereparams['variable'] = $candidatevariable;
         }
-        $record->variable = $newvariable;
+
+        $record->variable = $candidatevariable;
     }
 
     /*

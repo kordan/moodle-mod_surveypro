@@ -34,10 +34,32 @@ function xmldb_surveyprofield_boolean_upgrade($oldversion) {
 
     $dbman = $DB->get_manager();
 
-    if ($oldversion < 2013103101) {
+    if ($oldversion < 2014021401) {
 
         // Survey savepoint reached.
-        // upgrade_plugin_savepoint(true, 2013103101, 'surveyprofield', 'boolean');
+        // upgrade_plugin_savepoint(true, 2014021401, 'surveyprofield', 'boolean');
+    }
+
+    if ($oldversion < 2014051701) {
+
+        // Define key surveyproid (foreign) to be dropped form surveyprofield_boolean.
+        $table = new xmldb_table('surveyprofield_boolean');
+        $key = new xmldb_key('surveyproid', XMLDB_KEY_FOREIGN, array('surveyproid'), 'surveypro', array('id'));
+
+        // Launch drop key surveyproid.
+        $dbman->drop_key($table, $key);
+
+        // Define field surveyproid to be dropped from surveyprofield_boolean.
+        $table = new xmldb_table('surveyprofield_boolean');
+        $field = new xmldb_field('surveyproid');
+
+        // Conditionally launch drop field surveyproid.
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        // Surveypro savepoint reached.
+        upgrade_plugin_savepoint(true, 2014051701, 'surveyprofield', 'boolean');
     }
 
     return true;

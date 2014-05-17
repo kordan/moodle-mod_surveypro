@@ -255,6 +255,34 @@ class mod_surveypro_templatebase {
     }
 
     /*
+     * items_deletion
+     *
+     * @param records $pluginseeds
+     *
+     * @return null
+     */
+    public function items_deletion($pluginseeds, $parambase) {
+        global $DB;
+
+        $dbman = $DB->get_manager();
+
+        $pluginparams = $parambase;
+        foreach ($pluginseeds as $pluginseed) {
+            $tablename = 'surveypro'.$pluginseed->type.'_'.$pluginseed->plugin;
+            if ($dbman->table_exists($tablename)) {
+                $pluginparams['plugin'] = $pluginseed->plugin;
+
+                $deletelist = $DB->get_records('surveypro_item', $pluginparams, 'id', 'id');
+                $deletelist = array_keys($deletelist);
+
+                $select = 'itemid IN ('.implode(',', $deletelist).')';
+                $DB->delete_records_select($tablename, $select);
+            }
+        }
+        $DB->delete_records('surveypro_item', $parambase);
+    }
+
+    /*
      * apply_template
      *
      * @param $templatetype
@@ -262,7 +290,6 @@ class mod_surveypro_templatebase {
      */
     public function apply_template() {
         global $DB;
-        $dbman = $DB->get_manager();
 
         if ($this->templatetype == SURVEYPRO_USERTEMPLATE) {
             if ($this->formdata) {
@@ -305,32 +332,25 @@ class mod_surveypro_templatebase {
                 break;
             case SURVEYPRO_DELETEALLITEMS:
                 // BEGIN: delete all other items
-                $whereparams = array('surveyproid' => $this->surveypro->id);
+                $parambase = array('surveyproid' => $this->surveypro->id);
                 $sql = 'SELECT si.plugin, si.type
                         FROM {surveypro_item} si
                         WHERE si.surveyproid = :surveyproid
                         GROUP BY si.plugin';
+                $pluginseeds = $DB->get_records_sql($sql, $parambase);
 
-                $pluginseeds = $DB->get_records_sql($sql, $whereparams);
-
-                foreach ($pluginseeds as $pluginseed) {
-                    $tablename = 'surveypro'.$pluginseed->type.'_'.$pluginseed->plugin;
-                    if ($dbman->table_exists($tablename)) {
-                        $DB->delete_records($tablename, $whereparams);
-                    }
-                }
-                $DB->delete_records('surveypro_item', $whereparams);
+                $this->items_deletion($pluginseeds, $parambase);
                 // END: delete all other items
                 break;
             case SURVEYPRO_DELETEVISIBLEITEMS:
             case SURVEYPRO_DELETEHIDDENITEMS:
                 // BEGIN: delete other items
-                $whereparams = array('surveyproid' => $this->surveypro->id);
+                $parambase = array('surveyproid' => $this->surveypro->id);
                 if ($this->formdata->action == SURVEYPRO_DELETEVISIBLEITEMS) {
-                    $whereparams['hidden'] = 0;
+                    $parambase['hidden'] = 0;
                 }
                 if ($this->formdata->action == SURVEYPRO_DELETEHIDDENITEMS) {
-                    $whereparams['hidden'] = 1;
+                    $parambase['hidden'] = 1;
                 }
 
                 $sql = 'SELECT si.plugin, si.type
@@ -338,21 +358,9 @@ class mod_surveypro_templatebase {
                         WHERE si.surveyproid = :surveyproid
                             AND si.hidden = :hidden
                         GROUP BY si.plugin';
-                $pluginseeds = $DB->get_records_sql($sql, $whereparams);
+                $pluginseeds = $DB->get_records_sql($sql, $parambase);
 
-                $pluginonly = $whereparams;
-                foreach ($pluginseeds as $pluginseed) {
-                    $tablename = 'surveypro'.$pluginseed->type.'_'.$pluginseed->plugin;
-                    if ($dbman->table_exists($tablename)) {
-                        $pluginonly['plugin'] = $pluginseed->plugin;
-                        $deletelist = $DB->get_recordset('surveypro_item', $pluginonly, 'id', 'id');
-                        foreach ($deletelist as $todelete) {
-                            $DB->delete_records($tablename, array('itemid' => $todelete->id));
-                        }
-                    }
-                    $deletelist->close();
-                }
-                $DB->delete_records('surveypro_item', $whereparams);
+                $this->items_deletion($pluginseeds, $parambase);
                 // END: delete other items
                 break;
             default:
@@ -543,8 +551,9 @@ class mod_surveypro_templatebase {
                 }
 
                 if (isset($record['type']) && ($record['type'] == SURVEYPRO_TYPEFIELD)) {
-                    $variable = isset($record['variable']) ? $record['variable'] : '';
-                    $record['variable'] = $this->validate_variablename($record['plugin'], $variable);
+                    // $variable = isset($record['variable']) ? $record['variable'] : null;
+                    // $record['variable'] = $this->validate_variablename($record['plugin'], $variable);
+                    $this->validate_variablename($record);
                 }
                 if ($tablename == 'surveypro_item') {
                     $record['sortindex'] += $sortindexoffset;
@@ -563,30 +572,54 @@ class mod_surveypro_templatebase {
     }
 
     /*
-     * item_validate_variablename
+     * validate_variablename
      *
-     * @param integer $itemid
      * @param stdobject $record
+     * @param stdobject $variable
      *
      * @return
      */
-    public function validate_variablename($plugin, $variable) {
+    public function validate_variablename($record) {
         global $DB;
 
-        // record has still not been added
-
-        // verify the assigned name is unique. If not, change it.
-        $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
-        $i = 0;
-        $newvariable = $variable;
-        $where = array('surveyproid' => $this->surveypro->id, 'variable' => $variable);
-        while ($DB->record_exists($tablename, $where)) {
-            $i++;
-            $newvariable = $variable.'_'.$i;
-            $where['variable'] = $newvariable;
+        // if variable does not exist
+        if ($record['type'] == SURVEYPRO_TYPEFORMAT) {
+            // should never occur
+            return;
         }
 
-        return $newvariable;
+        $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$record['plugin'];
+        $whereparams = array('surveyproid' => $this->surveypro->id);
+        $select = 'SELECT COUNT(p.id)
+                FROM {'.$tablename.'} p
+                    JOIN {surveypro_item} i ON i.id = p.itemid ';
+        $whereset = 'WHERE (i.surveyproid = :surveyproid)';
+        $whereverify = 'WHERE ((i.surveyproid = :surveyproid) AND (p.variable = :variable))';
+
+        // Verify variable was set. If not, set it.
+        if (!isset($candidatevariable) || empty($candidatevariable)) {
+            $sql = $select.$whereset;
+            $plugincount = 1 + $DB->count_records_sql($sql, $whereparams);
+            $plugincount = str_pad($plugincount, 3, '0', STR_PAD_LEFT);
+
+            $candidatevariable = $record['plugin'].'_'.$plugincount;
+        } else {
+            $candidatevariable = $record['variable'];
+        }
+
+        // verify the assigned name is unique. If not, change it.
+        $i = 0; // if name is duplicate, restart verification from 0
+        $whereparams['variable'] = $candidatevariable;
+        $sql = $select.$whereverify;
+
+        // while ($DB->record_exists_sql($sql, $whereparams)) {
+        while ($DB->count_records_sql($sql, $whereparams)) {
+            $i++;
+            $candidatevariable = $record['plugin'].'_'.str_pad($i, 3, '0', STR_PAD_LEFT);
+            $whereparams['variable'] = $candidatevariable;
+        }
+
+        $record['variable'] = $candidatevariable;
     }
 
     /*

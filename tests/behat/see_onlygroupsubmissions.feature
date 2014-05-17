@@ -98,7 +98,7 @@ Feature: test each student sees only personal submissions
     And I press "Submit"
 
     And I press "Continue to responses list"
-    Then I should see "2" rows in the submissions table
+    Then I should see "2" submissions displayed
 
     And I log out
 
@@ -109,7 +109,7 @@ Feature: test each student sees only personal submissions
 
     And I follow "Responses"
     And I should see "Never" in the "student1 user1" "table_row"
-    Then I should see "2" rows in the submissions table
+    Then I should see "2" submissions displayed
 
     And I follow "Summary"
     And I press "Add a response"
@@ -123,7 +123,7 @@ Feature: test each student sees only personal submissions
     And I press "Continue to responses list"
     And I should see "Never" in the "student1 user1" "table_row"
     And I should see "Never" in the "student2 user2" "table_row"
-    Then I should see "3" rows in the submissions table
+    Then I should see "3" submissions displayed
 
     And I log out
 
@@ -148,7 +148,7 @@ Feature: test each student sees only personal submissions
     And I should not see "student1" in the "submissions" "table"
     And I should not see "student2" in the "submissions" "table"
     And I should see "Never" in the "student3 user3" "table_row"
-    Then I should see "1" rows in the submissions table
+    Then I should see "1" submissions displayed
 
     And I log out
 
@@ -161,4 +161,4 @@ Feature: test each student sees only personal submissions
     Then I should see "Never" in the "student1 user1" "table_row"
     Then I should see "Never" in the "student2 user2" "table_row"
     Then I should not see "student3" in the "submissions" "table"
-    Then I should see "3" rows in the submissions table
+    Then I should see "3" submissions displayed
