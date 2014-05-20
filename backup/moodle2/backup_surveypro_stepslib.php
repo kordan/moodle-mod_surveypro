@@ -44,6 +44,12 @@ class backup_surveypro_activity_structure_step extends backup_activity_structure
                     'thankshtmlformat', 'riskyeditdeadline', 'template',
                     'timecreated', 'timemodified'));
 
+        $items = new backup_nested_element('items');
+
+        $item = new backup_nested_element('item', array('id', 'type', 'plugin'), array(
+                    'hidden', 'insearchform', 'advanced', 'sortindex', 'formpage',
+                    'parentid', 'parentvalue', 'timecreated', 'timemodified'));
+
         $submissions = new backup_nested_element('submissions');
 
         $submission = new backup_nested_element('submission', array(
@@ -55,6 +61,9 @@ class backup_surveypro_activity_structure_step extends backup_activity_structure
                     'content', 'contentformat'));
 
         // Build the tree
+        $surveypro->add_child($items);
+        $items->add_child($item);
+
         $surveypro->add_child($submissions);
         $submissions->add_child($submission);
         $submission->add_child($answers);
@@ -63,10 +72,11 @@ class backup_surveypro_activity_structure_step extends backup_activity_structure
         // Define sources
         $surveypro->set_source_table('surveypro', array('id' => backup::VAR_ACTIVITYID));
 
-        $submission->set_source_table('surveypro_submission', array('surveyproid' => backup::VAR_ACTIVITYID));
+        $item->set_source_table('surveypro_item', array('surveyproid' => backup::VAR_ACTIVITYID));
 
         // All the rest of elements only happen if we are including user info
         if ($userinfo) {
+            $submission->set_source_table('surveypro_submission', array('surveyproid' => backup::VAR_ACTIVITYID));
             $answer->set_source_table('surveypro_answer', array('submissionid' => '../../id'));
         }
 
