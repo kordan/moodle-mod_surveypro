@@ -282,7 +282,7 @@ class report_colles extends mod_surveypro_reportbase {
         foreach ($toevaluate as $k => $qidarea) {
             foreach ($qidarea as $areaidlist) {
                 $sql = 'SELECT count(ud.id) as countofanswers, SUM(ud.content) as sumofanswers
-                        FROM {surveypro_userdata} ud
+                        FROM {surveypro_answer} ud
                         WHERE ud.itemid IN ('.implode(',', $areaidlist).')';
                 $aggregate = $DB->get_record_sql($sql);
                 $m = $aggregate->sumofanswers/$aggregate->countofanswers;
@@ -294,7 +294,7 @@ class report_colles extends mod_surveypro_reportbase {
                 }
 
                 $sql = 'SELECT ud.content
-                        FROM {surveypro_userdata} ud
+                        FROM {surveypro_answer} ud
                         WHERE ud.itemid IN ('.implode(',', $areaidlist).')';
                 $answers = $DB->get_recordset_sql($sql);
                 $bigsum = 0;
@@ -320,7 +320,7 @@ class report_colles extends mod_surveypro_reportbase {
             foreach ($toevaluate as $k => $qidarea) {
                 foreach ($qidarea as $areaidlist) {
                     $sql = 'SELECT count(ud.id) as countofanswers, SUM(ud.content) as sumofanswers
-                            FROM {surveypro_userdata} ud
+                            FROM {surveypro_answer} ud
                                 JOIN {surveypro_submission} ss ON ss.id = ud.submissionid
                             WHERE ud.itemid IN ('.implode(',', $areaidlist).')
                             AND ss.userid = :userid';
@@ -414,7 +414,7 @@ class report_colles extends mod_surveypro_reportbase {
             foreach ($areaidlist as $itemid) {
                 $whereparams = array('itemid' => $itemid);
                 $sql = 'SELECT count(ud.id) as countofanswers, SUM(ud.content) as sumofanswers
-                        FROM {surveypro_userdata} ud
+                        FROM {surveypro_answer} ud
                         WHERE ud.itemid = :itemid';
                 $aggregate = $DB->get_record_sql($sql, $whereparams);
                 $m = $aggregate->sumofanswers/$aggregate->countofanswers;
@@ -426,7 +426,7 @@ class report_colles extends mod_surveypro_reportbase {
                 }
 
                 $sql = 'SELECT ud.content
-                        FROM {surveypro_userdata} ud
+                        FROM {surveypro_answer} ud
                         WHERE ud.itemid = :itemid';
                 $answers = $DB->get_recordset_sql($sql, $whereparams);
                 $bigsum = 0;
@@ -522,7 +522,7 @@ class report_colles extends mod_surveypro_reportbase {
         foreach ($toevaluate as $k => $areaidlist) {
             $whereparams = array('itemid' => $areaidlist[$qid]);
             $sql = 'SELECT content, count(id) as absolute
-                    FROM {surveypro_userdata}
+                    FROM {surveypro_answer}
                     WHERE itemid = :itemid
                     GROUP BY content';
             $aggregates = $DB->get_records_sql($sql, $whereparams);

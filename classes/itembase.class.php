@@ -684,15 +684,15 @@ class mod_surveypro_itembase {
 
         surveypro_reset_items_pages($cm->instance);
 
-        // delete records from surveypro_userdata
+        // delete records from surveypro_answer
         // if, at the end, the related surveypro_submission has no data, then, delete it too.
-        if (!$DB->delete_records('surveypro_userdata', array('itemid' => $itemid))) {
+        if (!$DB->delete_records('surveypro_answer', array('itemid' => $itemid))) {
             print_error('notdeleted_userdata', 'surveypro', null, $itemid);
         }
 
         $emptysubmissions = 'SELECT c.id
                              FROM {surveypro_submission} c
-                                 LEFT JOIN {surveypro_userdata} d ON c.id = d.submissionid
+                                 LEFT JOIN {surveypro_answer} d ON c.id = d.submissionid
                              WHERE (d.id IS null)';
         if ($surveyprotodelete = $DB->get_records_sql($emptysubmissions)) {
             $surveyprotodelete = array_keys($surveyprotodelete);
@@ -1363,7 +1363,7 @@ class mod_surveypro_itembase {
         }
 
         $where = array('submissionid' => $submissionid, 'itemid' => $this->itemid);
-        $givenanswer = $DB->get_field('surveypro_userdata', 'content', $where);
+        $givenanswer = $DB->get_field('surveypro_answer', 'content', $where);
 
         return ($givenanswer === $childitemrecord->parentvalue);
     }

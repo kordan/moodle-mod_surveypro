@@ -48,5 +48,17 @@ function xmldb_surveypro_upgrade($oldversion) {
         // upgrade_mod_savepoint(true, 2013090501, 'surveypro');
     }
 
+    if ($oldversion < 2014051901) {
+
+        // Define table surveypro_userdata to be renamed to surveypro_answer.
+        $table = new xmldb_table('surveypro_userdata');
+
+        // Launch rename table for surveypro_userdata.
+        $dbman->rename_table($table, 'surveypro_answer');
+
+        // Surveypro savepoint reached.
+        upgrade_mod_savepoint(true, 2014051901, 'surveypro');
+    }
+
     return true;
 }

@@ -1,4 +1,4 @@
-@mod @mod_surveypro @current
+@mod @mod_surveypro
 Feature: Load and apply usertemplates in order to test, among others, partial item deletion
   In order to test partial item deletion
   As teacher1

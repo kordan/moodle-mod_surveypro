@@ -177,8 +177,8 @@ define('SURVEYPRO_OPTIONALITEM', 0);
 // fileareas
 define('SURVEYPRO_STYLEFILEAREA'      , 'userstyle');
 define('SURVEYPRO_TEMPLATEFILEAREA'   , 'templatefilearea');
-define('SURVEYPRO_ITEMCONTENTFILEAREA', 'itemcontent');
 define('SURVEYPRO_THANKSHTMLFILEAREA' , 'thankshtml');
+define('SURVEYPRO_ITEMCONTENTFILEAREA', 'itemcontent');
 
 // otheritems
 define('SURVEYPRO_IGNOREITEMS'       , '1');
@@ -362,8 +362,8 @@ function surveypro_delete_instance($id) {
     // Delete any dependent records here
     $submissions = $DB->get_records('surveypro_submission', array('surveyproid' => $surveypro->id), '', 'id');
 
-    // delete all associated surveypro_userdata
-    $DB->delete_records_list('surveypro_userdata', 'submissionid', array_keys($submissions));
+    // delete all associated surveypro_answer
+    $DB->delete_records_list('surveypro_answer', 'submissionid', array_keys($submissions));
 
     // delete all associated surveypro_submission
     $DB->delete_records('surveypro_submission', array('surveyproid' => $surveypro->id));
@@ -517,7 +517,7 @@ function surveypro_print_recent_mod_activity($activity, $courseid, $detail, $mod
 function surveypro_cron() {
     global $CFG, $DB;
 
-    // delete too old submissions from surveypro_userdata and surveypro_submission
+    // delete too old submissions from surveypro_answer and surveypro_submission
 
     $permission = array(0, 1);
     // permission == 0:  saveresume is not allowed
@@ -537,7 +537,7 @@ function surveypro_cron() {
             $sofar = time() - $sofar;
             $whereparams = array('status' => SURVEYPRO_STATUSINPROGRESS, 'sofar' => $sofar);
             if ($submissionidlist = $DB->get_fieldset_select('surveypro_submission', 'id', $where, $whereparams)) {
-                $DB->delete_records_list('surveypro_userdata', 'submissionid', $submissionidlist);
+                $DB->delete_records_list('surveypro_answer', 'submissionid', $submissionidlist);
                 $DB->delete_records_list('surveypro_submission', 'id', $submissionidlist);
             }
         }

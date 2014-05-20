@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -14,18 +15,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
- * Version information
- *
- * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+/**
+ * @package moodlecore
+ * @subpackage backup-moodle2
+ * @copyright 2014 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-$module->component = 'mod_surveypro';  // Full name of the plugin (used for diagnostics)
-$module->maturity = MATURITY_ALPHA;    // MATURITY_RC
-$module->version = 2014051901;         // The current module version (Date: YYYYMMDDXX)
-$module->requires = 2013111802;        // Requires this Moodle version
-$module->cron = 3600;                  // Period for cron to check this module (secs)
+ // This activity has not particular settings but the inherited from the generic
+ // backup_activity_task so here there isn't any class definition, like the ones
+ // existing in /backup/moodle2/backup_settingslib.php (activities section)

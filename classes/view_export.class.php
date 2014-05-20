@@ -104,7 +104,7 @@ class mod_surveypro_exportmanager {
                                 si.sortindex, si.plugin
                             FROM {surveypro_submission} s
                                      JOIN {user} u ON u.id = s.userid
-                                LEFT JOIN {surveypro_userdata} ud ON ud.submissionid = s.id
+                                LEFT JOIN {surveypro_answer} ud ON ud.submissionid = s.id
                                 LEFT JOIN {surveypro_item} si ON si.id = ud.itemid';
 
         if ($groupmode == SEPARATEGROUPS) {

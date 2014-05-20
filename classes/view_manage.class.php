@@ -222,7 +222,7 @@ class mod_surveypro_submissionmanager {
                     try {
                         $transaction = $DB->start_delegated_transaction();
 
-                        $DB->delete_records('surveypro_userdata', array('submissionid' => $this->submissionid));
+                        $DB->delete_records('surveypro_answer', array('submissionid' => $this->submissionid));
                         $DB->delete_records('surveypro_submission', array('id' => $this->submissionid));
 
                         $transaction->allow_commit();
@@ -293,7 +293,7 @@ class mod_surveypro_submissionmanager {
                         $idlist = $DB->get_records_sql($sql, array('surveyproid' => $this->surveypro->id));
 
                         foreach ($idlist as $submissionid) {
-                            $DB->delete_records('surveypro_userdata', array('submissionid' => $submissionid->id));
+                            $DB->delete_records('surveypro_answer', array('submissionid' => $submissionid->id));
                         }
 
                         $DB->delete_records('surveypro_submission', array('surveyproid' => $this->surveypro->id));
@@ -384,7 +384,7 @@ class mod_surveypro_submissionmanager {
                 $sqlrow[] = 'MAX(IF(itemid = \''.$itemid.'\', content, NULL)) AS \'c_'.$itemid.'\'';
             }
             $transposeduserdata .= implode(', ', $sqlrow);
-            $transposeduserdata .= ' FROM {surveypro_userdata}';
+            $transposeduserdata .= ' FROM {surveypro_answer}';
             $transposeduserdata .= ' GROUP BY submissionid';
 
             $sql .= ' JOIN ('.$transposeduserdata.') tud ON tud.submissionid = s.id '; // tud == transposed user data
@@ -791,17 +791,17 @@ class mod_surveypro_submissionmanager {
 
         $submission = $DB->get_record('surveypro_submission', array('id' => $this->submissionid));
         $user = $DB->get_record('user', array('id' => $submission->userid));
-        $userdatarecord = $DB->get_records('surveypro_userdata', array('submissionid' => $this->submissionid), '', 'itemid, id, content');
+        $userdatarecord = $DB->get_records('surveypro_answer', array('submissionid' => $this->submissionid), '', 'itemid, id, content');
 
         $accessedadvancedform = has_capability('mod/surveypro:accessadvanceditems', $this->context, $user->id, true);
         // $canaccessadvanceditems, $searchform = false; $type = false; $formpage = false;
         list($sql, $whereparams) = surveypro_fetch_items_seeds($this->surveypro->id, $accessedadvancedform, false);
 
-        // I am not allowed to get ONLY answers from surveypro_userdata
+        // I am not allowed to get ONLY answers from surveypro_answer
         // because I also need to gather info about fieldset and label
         // $sql = 'SELECT *, s.id as submissionid, ud.id as userdataid, ud.itemid as id
         //         FROM {surveypro_submission} s
-        //             JOIN {surveypro_userdata} ud ON ud.submissionid = s.id
+        //             JOIN {surveypro_answer} ud ON ud.submissionid = s.id
         //         WHERE s.id = :submissionid';
         $itemseeds = $DB->get_recordset_sql($sql, $whereparams);
 

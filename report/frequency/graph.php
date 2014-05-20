@@ -46,7 +46,7 @@ $item = surveypro_get_item($itemid);
 
 $whereparams = array('itemid' => $itemid);
 $sql = 'SELECT content, count(id) as absolute
-        FROM {surveypro_userdata}
+        FROM {surveypro_answer}
         WHERE itemid = :itemid
         GROUP BY content
         ORDER BY content';

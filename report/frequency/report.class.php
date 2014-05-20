@@ -127,7 +127,7 @@ class report_frequency extends mod_surveypro_reportbase {
         list($where, $whereparams) = $this->outputtable->get_sql_where();
 
         $sql = 'SELECT *, count(ud.id) as absolute
-                FROM {surveypro_userdata} ud
+                FROM {surveypro_answer} ud
                 WHERE ud.itemid = :itemid
                 GROUP BY ud.content';
 

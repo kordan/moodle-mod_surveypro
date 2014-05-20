@@ -575,11 +575,11 @@ class mod_surveypro_importmanager {
                 $record->content = $content;
                 $record->contentformat = $itemhelperinfo[$col]->contentformat;
                 if ($debug) {
-                    echo 'I am going to save to surveypro_userdata:<br />';
+                    echo 'I am going to save to surveypro_answer:<br />';
                     echo '$record:';
                     var_dump($record);
                 }
-                $DB->insert_record('surveypro_userdata', $record);
+                $DB->insert_record('surveypro_answer', $record);
             }
 
             if ($status != $defaultstatus) {

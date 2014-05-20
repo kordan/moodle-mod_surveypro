@@ -475,7 +475,7 @@ class mod_surveypro_userformmanager {
     public function save_user_data() {
         global $DB;
 
-        // at each submission I need to save one 'surveypro_submission' and some 'surveypro_userdata'
+        // at each submission I need to save one 'surveypro_submission' and some 'surveypro_answer'
 
         // -----------------------------
         // let's start by saving one record in surveypro_submission
@@ -564,7 +564,7 @@ class mod_surveypro_userformmanager {
         //    asking to each item class to manage its informations
 
         foreach ($itemhelperinfo as $iteminfo) {
-            if (!$userdatarec = $DB->get_record('surveypro_userdata', array('submissionid' => $iteminfo->submissionid, 'itemid' => $iteminfo->itemid))) {
+            if (!$userdatarec = $DB->get_record('surveypro_answer', array('submissionid' => $iteminfo->submissionid, 'itemid' => $iteminfo->itemid))) {
                 // Quickly make one new!
                 $userdatarec = new stdClass();
                 $userdatarec->surveyproid = $iteminfo->surveyproid;
@@ -573,8 +573,8 @@ class mod_surveypro_userformmanager {
                 $userdatarec->content = '__my_dummy_content@@';
                 $userdatarec->contentformat = null;
 
-                $id = $DB->insert_record('surveypro_userdata', $userdatarec);
-                $userdatarec = $DB->get_record('surveypro_userdata', array('id' => $id));
+                $id = $DB->insert_record('surveypro_answer', $userdatarec);
+                $userdatarec = $DB->get_record('surveypro_answer', array('id' => $id));
             }
             $userdatarec->timecreated = time();
 
@@ -585,7 +585,7 @@ class mod_surveypro_userformmanager {
             $item->userform_save_preprocessing($iteminfo->contentperelement, $userdatarec, false);
 
             if ($userdatarec->content != '__my_dummy_content@@') {
-                $DB->update_record('surveypro_userdata', $userdatarec);
+                $DB->update_record('surveypro_answer', $userdatarec);
             } else {
                 $a = '__my_dummy_content@@';
                 print_error('wrong_userdatarec_found', 'surveypro', null, $a);
@@ -620,7 +620,7 @@ class mod_surveypro_userformmanager {
 
         $where = 'submissionid = :submissionid
             AND itemid IN ('.implode(',', $itemlistid).')';
-        $DB->delete_records_select('surveypro_userdata', $where, array('submissionid' => $this->formdata->submissionid));
+        $DB->delete_records_select('surveypro_answer', $where, array('submissionid' => $this->formdata->submissionid));
     }
 
     /*
@@ -1051,7 +1051,7 @@ class mod_surveypro_userformmanager {
                 foreach ($itemseeds as $itemseed) {
                     $item = surveypro_get_item($itemseed->id, $itemseed->type, $itemseed->plugin);
 
-                    $olduserdata = $DB->get_record('surveypro_userdata', array('submissionid' => $this->submissionid, 'itemid' => $item->get_itemid()));
+                    $olduserdata = $DB->get_record('surveypro_answer', array('submissionid' => $this->submissionid, 'itemid' => $item->get_itemid()));
                     $singleprefill = $item->userform_set_prefill($olduserdata);
                     $prefill = array_merge($prefill, $singleprefill);
                 }
@@ -1249,11 +1249,11 @@ class mod_surveypro_userformmanager {
         unset($submissions->timemodified);
         $submissionid = $DB->insert_record('surveypro_submission', $submissions);
 
-        $surveyprouserdata = $DB->get_recordset('surveypro_userdata', array('submissionid' => $this->submissionid));
+        $surveyprouserdata = $DB->get_recordset('surveypro_answer', array('submissionid' => $this->submissionid));
         foreach ($surveyprouserdata as $userdatum) {
             unset($userdatum->id);
             $userdatum->submissionid = $submissionid;
-            $DB->insert_record('surveypro_userdata', $userdatum);
+            $DB->insert_record('surveypro_answer', $userdatum);
         }
         $surveyprouserdata->close();
         $this->submissionid = $submissionid;

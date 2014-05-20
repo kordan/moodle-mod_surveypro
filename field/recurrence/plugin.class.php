@@ -502,7 +502,7 @@ EOS;
                         // look for the most recent submission I made
                         $sql = 'userid = :userid ORDER BY timecreated DESC LIMIT 1';
                         $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, array('userid' => $USER->id), IGNORE_MISSING);
-                        if ($time = $DB->get_field('surveypro_userdata', 'content', array('itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid), IGNORE_MISSING)) {
+                        if ($time = $DB->get_field('surveypro_answer', 'content', array('itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid), IGNORE_MISSING)) {
                             $recurrencearray = $this->item_split_unix_time($time, false);
                         } else { // as in standard default
                             $recurrencearray = $this->item_split_unix_time(time(), true);

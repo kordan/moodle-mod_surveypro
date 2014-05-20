@@ -78,7 +78,7 @@ function fetch_scalesdata($surveyproid) {
     $i = 0;
     foreach ($iarea->itemidlist as $areaidlist) {
         $sql = 'SELECT count(ud.id) as countofanswers, SUM(ud.content) as sumofanswers
-                FROM {surveypro_userdata} ud
+                FROM {surveypro_answer} ud
                 WHERE ud.itemid IN ('.implode(',', $areaidlist).')';
         $aggregate = $DB->get_record_sql($sql);
         $m = $aggregate->sumofanswers/$aggregate->countofanswers;
@@ -86,7 +86,7 @@ function fetch_scalesdata($surveyproid) {
         $i++;
 
         $sql = 'SELECT ud.content
-                FROM {surveypro_userdata} ud
+                FROM {surveypro_answer} ud
                 WHERE ud.itemid IN ('.implode(',', $areaidlist).')';
         $answers = $DB->get_recordset_sql($sql);
         $bigsum = 0;
@@ -151,7 +151,7 @@ function fetch_summarydata($surveyproid) {
     $i = 0;
     foreach ($iarea->itemidlist as $areaidlist) {
         $sql = 'SELECT count(ud.id) as countofanswers, SUM(ud.content) as sumofanswers
-                FROM {surveypro_userdata} ud
+                FROM {surveypro_answer} ud
                 WHERE ud.itemid IN ('.implode(',', $areaidlist).')';
         $aggregate = $DB->get_record_sql($sql);
         $m = $aggregate->sumofanswers/$aggregate->countofanswers;
@@ -159,7 +159,7 @@ function fetch_summarydata($surveyproid) {
         $i++;
 
         $sql = 'SELECT ud.content
-                FROM {surveypro_userdata} ud
+                FROM {surveypro_answer} ud
                 WHERE ud.itemid IN ('.implode(',', $areaidlist).')';
         $answers = $DB->get_recordset_sql($sql);
         $bigsum = 0;

@@ -440,7 +440,7 @@ $string['duplicateheader'] = 'The header "{$a}" was found twice';
 $string['columnscountchanges'] = 'number of columns is not constant';
 $string['notdeleted_item'] = 'Unable to delete record id = {$a} from surveypro_item';
 $string['notdeleted_plugin'] = 'Unable to delete record id = {$a->pluginid} from surveypro{$a->type}_{$a->plugin}';
-$string['notdeleted_userdata'] = 'Unable to delete record id = {$a} from surveypro_userdata';
+$string['notdeleted_userdata'] = 'Unable to delete record id = {$a} from surveypro_answer';
 $string['notdeleted_submission'] = 'Unable to delete record with id IN ({$a}) from surveypro_submission';
 $string['arrayexpected'] = 'Array is expected in {$a}';
 $string['wrong_sharinglevel_found'] = 'Unacceptable $sharinglevel = "{$a->sharinglevel}" provided to {$a->methodname}';
