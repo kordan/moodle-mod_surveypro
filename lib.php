@@ -359,14 +359,18 @@ function surveypro_delete_instance($id) {
         return false;
     }
 
+    $dbman = $DB->get_manager();
+    $sqlparam = array('surveyproid' => $surveypro->id);
+
     // Delete any dependent records here
-    $submissions = $DB->get_records('surveypro_submission', array('surveyproid' => $surveypro->id), '', 'id');
+    $submissions = $DB->get_records('surveypro_submission', $sqlparam, '', 'id');
+    $submissions = array_keys($submissions);
 
     // delete all associated surveypro_answer
-    $DB->delete_records_list('surveypro_answer', 'submissionid', array_keys($submissions));
+    $DB->delete_records_list('surveypro_answer', 'submissionid', $submissions);
 
     // delete all associated surveypro_submission
-    $DB->delete_records('surveypro_submission', array('surveyproid' => $surveypro->id));
+    $DB->delete_records('surveypro_submission', $sqlparam);
 
     // get all item_<<plugin>> and format_<<plugin>>
     $surveyprotypes = array(SURVEYPRO_TYPEFIELD, SURVEYPRO_TYPEFORMAT);
@@ -376,7 +380,15 @@ function surveypro_delete_instance($id) {
         // delete all associated item_<<plugin>>
         foreach ($pluginlist as $plugin) {
             $tablename = 'surveypro'.$surveyprotype.'_'.$plugin;
-            $DB->delete_records($tablename, array('surveyproid' => $surveypro->id));
+            if ($dbman->table_exists($tablename)) {
+                $sqlparam['plugin'] = $plugin;
+
+                if ($deletelist = $DB->get_records('surveypro_item', $sqlparam, 'id', 'id')) {
+                    $deletelist = array_keys($deletelist);
+                    $select = 'itemid IN ('.implode(',', $deletelist).')';
+                    $DB->delete_records_select($tablename, $select);
+                }
+            }
         }
     }
 

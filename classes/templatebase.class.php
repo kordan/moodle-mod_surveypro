@@ -272,11 +272,12 @@ class mod_surveypro_templatebase {
             if ($dbman->table_exists($tablename)) {
                 $pluginparams['plugin'] = $pluginseed->plugin;
 
-                $deletelist = $DB->get_records('surveypro_item', $pluginparams, 'id', 'id');
-                $deletelist = array_keys($deletelist);
+                if ($deletelist = $DB->get_records('surveypro_item', $pluginparams, 'id', 'id')) {
+                    $deletelist = array_keys($deletelist);
 
-                $select = 'itemid IN ('.implode(',', $deletelist).')';
-                $DB->delete_records_select($tablename, $select);
+                    $select = 'itemid IN ('.implode(',', $deletelist).')';
+                    $DB->delete_records_select($tablename, $select);
+                }
             }
         }
         $DB->delete_records('surveypro_item', $parambase);
