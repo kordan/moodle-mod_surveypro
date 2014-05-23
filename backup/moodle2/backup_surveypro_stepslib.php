@@ -36,6 +36,7 @@ class backup_surveypro_activity_structure_step extends backup_activity_structure
         $userinfo = $this->get_setting_value('userinfo');
 
         // Define each element separated
+        // root element describing surveypro instance
         $surveypro = new backup_nested_element('surveypro', array('id'), array(
                     'name', 'intro', 'introformat', 'newpageforchild',
                     'saveresume', 'captcha', 'history', 'anonymous',
@@ -52,8 +53,8 @@ class backup_surveypro_activity_structure_step extends backup_activity_structure
 
         $submissions = new backup_nested_element('submissions');
 
-        $submission = new backup_nested_element('submission', array(
-                    'id', 'userid', 'status', 'timecreated', 'timemodified'));
+        $submission = new backup_nested_element('submission', array('id', 'userid'),
+                    array('status', 'timecreated', 'timemodified'));
 
         $answers = new backup_nested_element('answers');
 
