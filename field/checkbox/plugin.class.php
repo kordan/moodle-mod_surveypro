@@ -754,6 +754,15 @@ EOS;
             // count of answers is == count of checkboxes
             $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $fromdb->content);
 
+            // if SURVEYPRO_NOANSWERVALUE is returned...
+            //  it will be alone and a special prefill needs to be returned
+            if ($answers == array(SURVEYPRO_NOANSWERVALUE)) {
+                $uniqueid = $this->itemname.'_noanswer';
+                $prefill[$uniqueid] = '1';
+
+                return $prefill;
+            }
+
             // here $answers is an array like: array(1,1,0,0,'dummytext')
             foreach ($answers as $k => $checkboxvalue) {
                 $uniqueid = $this->itemname.'_'.$k;

@@ -54,17 +54,13 @@ README.md (so it will display nicely in github) ?
 (headbang)
 we can do that toady, np, here. what do you think?
 
-3) Add support for generators + acceptance & unit tests.
+3) Anything else annotated in https://github.com/kordan/moodle-mod_surveypro/blob/master/state_of_art_*** files.
 
-4) surveyprofield_integer_maxnuminteger defaults to 105 (copy/pasted from age?)
+4) Webservices?
 
-5) Anything else annotated in https://github.com/kordan/moodle-mod_surveypro/blob/master/state_of_art_*** files.
+5) Verify guests submissions. Permissions, relations with anonymous….
 
-6) Webservices?
-
-7) Verify guests submissions. Permissions, relations with anonymous….
-
-8) By going to Site_administration ▶ Plugins  ▶ Plugins_overview
+6) By going to Site_administration ▶ Plugins  ▶ Plugins_overview
 I can not see the icon of surveypro. Inspecting the html code it seems the icon was not found.
 Making a comparison between icon of surveypro reports (missing from the page) and icons of surveypro templates (displayed in the page), I see that the first are in svg format and the latter in gif. May this be the issue?
 With:
@@ -73,10 +69,3 @@ cp template/attls/pix/icon.gif report/colles/pix/icon.gif
 and refreshing the page, I see the svg icon of the colles template.
 with: rm report/colles/pix/icon.gif
 I do not see it once again. Weird!!!
-
-9) sql transaction to preserve db referential integrity: http://docs.moodle.org/dev/DB_layer_2.0_delegated_transactions
-$transaction = $DB->start_delegated_transaction();
-issnert A, update B, delete C...
-$transaction->allow_commit();
-
-10) how to prevent timeout during import and export? mod/quiz/report/overview/report.php
