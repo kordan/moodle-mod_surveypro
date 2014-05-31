@@ -54,7 +54,7 @@ class surveypro_chooseitemform extends moodleform {
         $labelsep = get_string('labelsep', 'langconfig'); // ': '
         $options = array(get_string('choosedots'));
         foreach ($itemseeds as $itemseed) {
-            if ($itemseed->plugin == 'textarea') {
+            if (($itemseed->plugin == 'textarea') || ($itemseed->plugin == 'fileupload')) {
                 continue;
             }
             $thiscontent = $DB->get_field('surveypro'.$itemseed->type.'_'.$itemseed->plugin, 'content', array('itemid' => $itemseed->id));

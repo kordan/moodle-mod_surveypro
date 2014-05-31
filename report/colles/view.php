@@ -29,7 +29,7 @@
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
 require_once($CFG->libdir.'/tablelib.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/colles/lib.php');
-require_once($CFG->dirroot.'/mod/surveypro/report/colles/report.class.php');
+require_once($CFG->dirroot.'/mod/surveypro/report/colles/classes/report.class.php');
 
 $id = optional_param('id', 0, PARAM_INT);
 $s = optional_param('s', 0, PARAM_INT);

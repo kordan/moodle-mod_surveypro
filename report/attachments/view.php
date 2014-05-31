@@ -21,14 +21,14 @@
  * /admin/index.php
  *
  * @package    surveyproreport
- * @subpackage missing
+ * @subpackage attachments
  * @copyright  2013 kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
 require_once($CFG->libdir.'/tablelib.php');
-require_once($CFG->dirroot.'/mod/surveypro/report/missing/classes/report.class.php');
+require_once($CFG->dirroot.'/mod/surveypro/report/attachments/classes/report.class.php');
 
 $id = optional_param('id', 0, PARAM_INT);
 $s = optional_param('s', 0, PARAM_INT);
@@ -50,7 +50,7 @@ require_capability('mod/surveypro:accessreports', $context);
 // -----------------------------
 // output starts here
 // -----------------------------
-$url = new moodle_url('/mod/surveypro/report/missing/view.php', array('s' => $surveypro->id));
+$url = new moodle_url('/mod/surveypro/report/attachments/view.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
@@ -65,8 +65,9 @@ $modulepage = SURVEYPRO_SUBMISSION_REPORT; // needed by tabs.php
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
 $hassubmissions = surveypro_count_submissions($surveypro->id);
-$reportman = new report_missing($cm, $surveypro);
+$reportman = new report_attachments($cm, $surveypro);
 $reportman->setup($hassubmissions);
+$reportman->check_attachmentitems();
 $reportman->check_submissions();
 $reportman->fetch_data();
 $reportman->output_data();

@@ -17,7 +17,7 @@
 require_once('../../../../config.php');
 require_once($CFG->libdir.'/graphlib.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
-require_once($CFG->dirroot.'/mod/surveypro/report/colles/report.class.php');
+require_once($CFG->dirroot.'/mod/surveypro/report/colles/classes/report.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/colles/lib.php');
 
 $id = required_param('id', PARAM_INT); // Course Module ID

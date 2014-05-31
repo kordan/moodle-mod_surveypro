@@ -30,7 +30,17 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/surveypro/classes/reportbase.class.php');
 
-class report_count extends mod_surveypro_reportbase {
+class report_attachments extends mod_surveypro_reportbase {
+    /*
+     * surveyid
+     */
+    public $surveyid = 0;
+
+    /*
+     * coursecontext
+     */
+    public $coursecontext = null;
+
     /*
      * outputtable
      */
@@ -40,8 +50,12 @@ class report_count extends mod_surveypro_reportbase {
      * setup
      */
     function setup($hassubmissions) {
+        $this->itemid = $hassubmissions;
+        $this->userid = $hassubmissions;
+        $this->submissionid = $hassubmissions;
+
         $this->hassubmissions = $hassubmissions;
-        $this->outputtable = new flexible_table('userattempts');
+        $this->outputtable = new flexible_table('attachmentslist');
         $this->setup_outputtable();
     }
 
@@ -49,28 +63,29 @@ class report_count extends mod_surveypro_reportbase {
      * setup_outputtable
      */
     public function setup_outputtable() {
-        $paramurl = array('id' => $this->cm->id, 'rname' => 'count');
-        $this->outputtable->define_baseurl(new moodle_url('view_report.php', $paramurl));
+        $paramurl = array('id' => $this->cm->id);
+        $this->outputtable->define_baseurl(new moodle_url('view.php', $paramurl));
 
         $tablecolumns = array();
         $tablecolumns[] = 'picture';
         $tablecolumns[] = 'fullname';
-        $tablecolumns[] = 'attempts';
+        $tablecolumns[] = 'uploads';
         $this->outputtable->define_columns($tablecolumns);
 
         $tableheaders = array();
         $tableheaders[] = '';
         $tableheaders[] = get_string('fullname');
-        $tableheaders[] = get_string('submissions', 'surveypro');
+        $tableheaders[] = get_string('uploads', 'surveyproreport_attachments');
         $this->outputtable->define_headers($tableheaders);
 
         $this->outputtable->sortable(true, 'lastname', 'ASC'); // sorted by lastname by default
+        $this->outputtable->no_sorting('uploads');
 
         $this->outputtable->column_class('picture', 'picture');
         $this->outputtable->column_class('fullname', 'fullname');
-        $this->outputtable->column_class('attempts', 'attempts');
+        $this->outputtable->column_class('fullname', 'uploads');
 
-        // $this->outputtable->initialbars(true);
+        $this->outputtable->initialbars(true);
 
         // hide the same info whether in two consecutive rows
         $this->outputtable->column_suppress('picture');
@@ -78,7 +93,7 @@ class report_count extends mod_surveypro_reportbase {
 
         // general properties for the whole table
         $this->outputtable->summary = get_string('submissionslist', 'surveypro');
-        // $this->outputtable->set_attribute('cellpadding', '5');
+        $this->outputtable->set_attribute('cellpadding', '5');
         $this->outputtable->set_attribute('id', 'userattempts');
         $this->outputtable->set_attribute('class', 'generaltable');
         // $this->outputtable->set_attribute('width', '90%');
@@ -92,27 +107,37 @@ class report_count extends mod_surveypro_reportbase {
         global $CFG, $DB, $COURSE, $OUTPUT;
 
         $roles = get_roles_used_in_context($this->coursecontext);
-        // if (isset($surveypro->guestisallowed)) {
-        //     $guestrole = get_guest_role();
-        //     $roles[$guestrole->id] = $guestrole;
-        // }
-        $role = array_keys($roles);
-        $sql = 'SELECT DISTINCT '.user_picture::fields('u').', s.attempts
+        if (!$role = array_keys($roles)) {
+            // return nothing
+            return;
+        }
+
+        $displayuploads = get_string('display_uploads', 'surveyproreport_attachments');
+        $missinguploads = get_string('missing_uploads', 'surveyproreport_attachments');
+        $submissionidstring = get_string('submissionid', 'surveyproreport_attachments');
+
+        $sql = 'SELECT '.user_picture::fields('u').', s.id as submissionid
                 FROM {user} u
-                JOIN (SELECT *
+                JOIN (SELECT id, userid
                         FROM {role_assignments}
                         WHERE contextid = '.$this->coursecontext->id.'
                           AND roleid IN ('.implode(',', $role).')) ra ON u.id = ra.userid
-                LEFT JOIN (SELECT *, count(s.id) as attempts
-                             FROM {surveypro_submission} s
-                             WHERE s.surveyproid = :surveyproid
-                             GROUP BY s.userid) s ON s.userid = u.id';
-        if ($this->outputtable->get_sql_sort()) {
-            $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort();
-        } else {
-            $sql .= ' ORDER BY s.lastname';
-        }
+                LEFT JOIN (SELECT id, userid
+                         FROM {surveypro_submission}
+                         WHERE surveyproid = :surveyproid) s ON u.id = s.userid';
         $whereparams = array('surveyproid' => $this->surveypro->id);
+
+		list($where, $filterparams) = $this->outputtable->get_sql_where();
+		if ($where) {
+		    $sql .= ' WHERE '.$where;
+            $whereparams = array_merge($whereparams,  $filterparams);
+		}
+
+        if ($this->outputtable->get_sql_sort()) {
+            $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort().', submissionid ASC';
+        } else {
+            $sql .= ' ORDER BY u.lastname ASC, submissionid ASC';
+        }
         $usersubmissions = $DB->get_recordset_sql($sql, $whereparams);
 
         foreach ($usersubmissions as $usersubmission) {
@@ -122,10 +147,21 @@ class report_count extends mod_surveypro_reportbase {
             $tablerow[] = $OUTPUT->user_picture($usersubmission, array('courseid' => $COURSE->id));
 
             // user fullname
-            $tablerow[] = '<a href="'.$CFG->wwwroot.'/user/view.php?id='.$usersubmission->id.'&amp;course='.$COURSE->id.'">'.fullname($usersubmission).'</a>';
+            $paramurl = array('id' => $usersubmission->id);
+            $url = new moodle_url('/user/view.php', $paramurl);
+            $tablerow[] = '<a href="'.$url->out().'">'.fullname($usersubmission).'</a>';
 
-            // user attempts
-            $tablerow[] = isset($usersubmission->attempts) ? $usersubmission->attempts : '--';
+            // users with $usersubmission->submissionid == null have no submissions
+            if (!empty($usersubmission->submissionid)) {
+                $paramurl = array();
+                $paramurl['s'] = $this->surveypro->id;
+                $paramurl['userid'] = $usersubmission->id;
+                $paramurl['submissionid'] = $usersubmission->submissionid;
+                $url = new moodle_url('/mod/surveypro/report/attachments/uploads.php', $paramurl);
+                $tablerow[] = '('.$submissionidstring.': '.$usersubmission->submissionid.') <a href="'.$url->out().'">'.$displayuploads.'</a>';
+            } else {
+                $tablerow[] = $missinguploads;
+            }
 
             // add row to the table
             $this->outputtable->add_data($tablerow);
@@ -140,7 +176,29 @@ class report_count extends mod_surveypro_reportbase {
     public function output_data() {
         global $OUTPUT;
 
-        echo $OUTPUT->heading(get_string('pluginname', 'surveyproreport_count'));
+        echo $OUTPUT->heading(get_string('pluginname', 'surveyproreport_attachments'));
         $this->outputtable->print_html();
+    }
+
+    /*
+     * check_attachmentitems
+     */
+    public function check_attachmentitems() {
+        global $OUTPUT, $DB;
+
+        $params = array();
+        $params['surveyproid'] = $this->surveypro->id;
+        $params['plugin'] = 'fileupload';
+        $attachmentitems = $DB->count_records('surveypro_item', $params);
+
+        if (!$attachmentitems) {
+            $message = get_string('noattachmentitemsfound', 'surveyproreport_attachments');
+            echo $OUTPUT->box($message, 'notice centerpara');
+
+            // Finish the page
+            echo $OUTPUT->footer();
+
+            die();
+        }
     }
 }

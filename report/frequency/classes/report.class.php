@@ -50,7 +50,7 @@ class report_frequency extends mod_surveypro_reportbase {
      */
     public function setup_outputtable() {
         $paramurl = array('id' => $this->cm->id, 'rname' => 'frequency');
-        $this->outputtable->define_baseurl(new moodle_url('view_report.php', $paramurl));
+        $this->outputtable->define_baseurl(new moodle_url('view.php', $paramurl));
 
         $tablecolumns = array();
         $tablecolumns[] = 'answer';
@@ -64,8 +64,7 @@ class report_frequency extends mod_surveypro_reportbase {
         $tableheaders[] = get_string('percentage', 'surveyproreport_frequency');
         $this->outputtable->define_headers($tableheaders);
 
-        $this->outputtable->sortable(true, 'content', 'ASC'); // sorted by content by default
-        $this->outputtable->no_sorting('percentage');
+        $this->outputtable->sortable(false, 'content', 'ASC'); // sorted by content by default
 
         $this->outputtable->column_class('content', 'content');
         $this->outputtable->column_class('absolute', 'absolute');
@@ -132,7 +131,7 @@ class report_frequency extends mod_surveypro_reportbase {
                 GROUP BY ud.content';
 
         if ($this->outputtable->get_sql_sort()) {
-            $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort();
+            // $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort();
         } else {
             $sql .= ' ORDER BY ud.content';
         }

@@ -1364,7 +1364,7 @@ class mod_surveypro_userformmanager {
         $surveyproreportlist = get_plugin_list('surveyproreport');
         $paramurlbase = array('id' => $this->cm->id);
         foreach ($surveyproreportlist as $pluginname => $pluginpath) {
-            require_once($CFG->dirroot.'/mod/surveypro/report/'.$pluginname.'/report.class.php');
+            require_once($CFG->dirroot.'/mod/surveypro/report/'.$pluginname.'/classes/report.class.php');
             $classname = 'report_'.$pluginname;
             $restricttemplates = $classname::restrict_templates();
             if ((!$restricttemplates) || in_array($this->surveypro->template, $restricttemplates)) {
@@ -1435,7 +1435,6 @@ class mod_surveypro_userformmanager {
 
         echo $OUTPUT->footer();
     }
-
 
     /*
      * display_messages

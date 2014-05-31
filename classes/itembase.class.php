@@ -589,7 +589,6 @@ class mod_surveypro_itembase {
         }
     }
 
-
     /*
      * item_builtin_string_load_support
      * This function is used to populate empty strings according to the user language

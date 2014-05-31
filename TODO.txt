@@ -21,12 +21,13 @@ button is needed. (thanks to JR)
 must:
 MDL-25067: Not able to disable the editor
 MDL-31796: $mform->disabledIf doesn't work for 'filemanager' mform elements.
-MDL-43689: Adv. check box not returning actual value but default one.
 MDL-43704: multiselect not disabled by checkbox
+MDL-45723: uniformize the handling of svgs in resolve_image_location() calls.
 
 may:
 MDL-28194: I am in trouble assigning syles to some mform element.
 MDL-34815: Disabled mform items need to be skipped during validation (and more).
+MDL-43689: Adv. check box not returning actual value but default one.
 
 1) Still it seems to be something strange when handling fileareas. I just grepped by get_area_files and found a bunch of them new/strange for me. ELOY has to review this!
 > Please let me know better what do you mean. I can not understand it.
@@ -52,7 +53,6 @@ README.md (so it will display nicely in github) ?
 
 2.f) start using proper commit messages with tracker issues always
 (headbang)
-we can do that toady, np, here. what do you think?
 
 3) Anything else annotated in https://github.com/kordan/moodle-mod_surveypro/blob/master/state_of_art_*** files.
 
@@ -60,12 +60,8 @@ we can do that toady, np, here. what do you think?
 
 5) Verify guests submissions. Permissions, relations with anonymous….
 
-6) By going to Site_administration ▶ Plugins  ▶ Plugins_overview
-I can not see the icon of surveypro. Inspecting the html code it seems the icon was not found.
-Making a comparison between icon of surveypro reports (missing from the page) and icons of surveypro templates (displayed in the page), I see that the first are in svg format and the latter in gif. May this be the issue?
-With:
-cd /Applications/MAMP/htdocs/head/mod/surveypro/
-cp template/attls/pix/icon.gif report/colles/pix/icon.gif
-and refreshing the page, I see the svg icon of the colles template.
-with: rm report/colles/pix/icon.gif
-I do not see it once again. Weird!!!
+6) page reload has to be silent even if some field was erroneously touched. Needed for attachment report
+
+7) BUG: filemanager mform element DO NOT APPEAR AT ALL if the form is called in readonly mode.
+
+8) nel report attachments aggiungi una form in testa con utente e campo.

@@ -570,7 +570,9 @@ class mod_surveypro_submissionmanager {
                 $tablerow[] = $OUTPUT->user_picture($submission, array('courseid' => $COURSE->id));
 
                 // user fullname
-                $tablerow[] = '<a href="'.$CFG->wwwroot.'/user/view.php?id='.$submission->userid.'&amp;course='.$COURSE->id.'">'.fullname($submission).'</a>';
+                $paramurl = array('id' => $submission->userid, 'course' => $COURSE->id);
+                $url = new moodle_url('/user/view.php', $paramurl);
+                $tablerow[] = '<a href="'.$url->out().'">'.fullname($submission).'</a>';
 
                 // surveypro status
                 $tablerow[] = $status[$submission->status];

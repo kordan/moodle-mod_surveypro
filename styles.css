@@ -5,6 +5,7 @@
 /* begin of: to correct display problems of firefox for mac */
 #page-mod-surveypro-view .mform .fitem .felement {
     min-height: 2em;
+    padding-top:8px;
 }
 /* end of: to eliminate display problems of firefox for mac */
 

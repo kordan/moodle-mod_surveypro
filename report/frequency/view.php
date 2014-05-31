@@ -27,8 +27,8 @@
  */
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/report/frequency/report.class.php');
-require_once($CFG->dirroot.'/mod/surveypro/report/frequency/item_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/report/frequency/classes/report.class.php');
+require_once($CFG->dirroot.'/mod/surveypro/report/frequency/forms/item_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/frequency/lib.php');
 require_once($CFG->libdir.'/tablelib.php');
 

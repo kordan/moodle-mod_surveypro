@@ -891,7 +891,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
         $canaccessownreports = has_capability('mod/surveypro:accessownreports', $context, null, true);
         $icon = new pix_icon('i/report', '', 'moodle', array('class' => 'icon'));
         foreach ($surveyproreportlist as $pluginname => $pluginpath) {
-            require_once($CFG->dirroot.'/mod/surveypro/report/'.$pluginname.'/report.class.php');
+            require_once($CFG->dirroot.'/mod/surveypro/report/'.$pluginname.'/classes/report.class.php');
             $classname = 'report_'.$pluginname;
             $restricttemplates = $classname::restrict_templates();
 
