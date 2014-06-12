@@ -18,11 +18,22 @@ button is needed. (thanks to JR)
 -> I need a regex to validate an url
 -> mform elements in MMM have different sizes probably because of /theme/yui_combo.php?3.13.0/cssreset/cssreset.css&3.13.0/cssfonts/cssfonts.css&3.13.0/cssgrids/cssgrids.css&3.13.0/cssbase/cssbase.css
 
-must:
+************
+known issues
+************
+- long text (using html editor) as child is not disabled by the parent whether in the same parent page: see MDL-25067
+- fileupload (filemanager) as child is not disabled by the parent whether in the same parent page: see MDL-31796
+- non mandatory multiselect (so, equipped with the "no answer" checkbox) does not get disabled when "no answer" is selected: see MDL-45723
+- fileupload (filemanager) are not shown in read only mode forms: see MDL-45815
+
+************
+Blockers bugs:
+************
 MDL-25067: Not able to disable the editor
 MDL-31796: $mform->disabledIf doesn't work for 'filemanager' mform elements.
 MDL-43704: multiselect not disabled by checkbox
 MDL-45723: uniformize the handling of svgs in resolve_image_location() calls.
+MDL-45815: filemanager mform elements are completely discarded in readonly forms
 
 may:
 MDL-28194: I am in trouble assigning syles to some mform element.
@@ -58,10 +69,4 @@ README.md (so it will display nicely in github) ?
 
 4) Webservices?
 
-5) Verify guests submissions. Permissions, relations with anonymous….
-
-6) page reload has to be silent even if some field was erroneously touched. Needed for attachment report
-
-7) BUG: filemanager mform element DO NOT APPEAR AT ALL if the form is called in readonly mode.
-
-8) nel report attachments aggiungi una form in testa con utente e campo.
+5) Verify guests submissions. Permissions, relations with anonymous.

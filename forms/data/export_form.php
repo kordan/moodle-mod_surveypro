@@ -71,7 +71,9 @@ class surveypro_exportform extends moodleform {
         $fieldname = 'downloadtype';
         $pluginlist = array(SURVEYPRO_DOWNLOADCSV => get_string('downloadtocsv', 'surveypro'),
                             SURVEYPRO_DOWNLOADTSV => get_string('downloadtotsv', 'surveypro'),
-                            SURVEYPRO_DOWNLOADXLS => get_string('downloadtoxls', 'surveypro'));
+                            SURVEYPRO_DOWNLOADXLS => get_string('downloadtoxls', 'surveypro'),
+                            SURVEYPRO_FILESBYUSER => get_string('downloadtozipbyuser', 'surveypro'),
+                            SURVEYPRO_FILESBYITEM => get_string('downloadtozipbysubmission', 'surveypro'));
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveypro'), $pluginlist);
 
         $this->add_action_buttons(false, get_string('continue'));

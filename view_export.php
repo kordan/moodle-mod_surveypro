@@ -54,7 +54,7 @@ require_capability('mod/surveypro:exportdata', $context);
 $exportman = new mod_surveypro_exportmanager($cm, $surveypro);
 
 // -----------------------------
-// define $mform return url
+// define exportform return url
 $paramurl = array('id' => $cm->id);
 $formurl = new moodle_url('view_export.php', $paramurl);
 // end of: define $mform return url

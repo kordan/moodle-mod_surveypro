@@ -98,14 +98,14 @@ class mod_surveypro_exportmanager {
 
         $sql = 'SELECT s.id as submissionid, s.status, s.timecreated, s.timemodified, ';
         if (empty($this->surveypro->anonymous)) {
-            $sql .= 'u.id as userid, u.firstname,  u.lastname, ';
+            $sql .= 'u.id as userid, '.user_picture::fields('u').',';
         }
-        $sql .= 'ud.id as id, ud.itemid, ud.content,
+        $sql .= 'a.id as id, a.itemid, a.content,
                                 si.sortindex, si.plugin
                             FROM {surveypro_submission} s
                                      JOIN {user} u ON u.id = s.userid
-                                LEFT JOIN {surveypro_answer} ud ON ud.submissionid = s.id
-                                LEFT JOIN {surveypro_item} si ON si.id = ud.itemid';
+                                LEFT JOIN {surveypro_answer} a ON a.submissionid = s.id
+                                LEFT JOIN {surveypro_item} si ON si.id = a.itemid';
 
         if ($groupmode == SEPARATEGROUPS) {
             if (!$this->canseeotherssubmissions) {
@@ -132,6 +132,11 @@ class mod_surveypro_exportmanager {
             $sql .= ' AND s.status = :status';
             $whereparams['status'] = $this->formdata->status;
         }
+        if (($this->formdata->downloadtype == SURVEYPRO_FILESBYUSER)
+            || ($this->formdata->downloadtype == SURVEYPRO_FILESBYITEM)) {
+            $sql .= ' AND si.plugin = :plugin';
+            $whereparams['plugin'] = 'fileupload';
+        }
 
         if ($groupmode == SEPARATEGROUPS) {
             // restrict to your groups only
@@ -143,6 +148,12 @@ class mod_surveypro_exportmanager {
             $whereparams['userid'] = $USER->id;
         }
 
+        if ($this->formdata->downloadtype == SURVEYPRO_FILESBYUSER) {
+            $sql .= ' ORDER BY s.userid, submissionid, a.itemid';
+        }
+        if ($this->formdata->downloadtype == SURVEYPRO_FILESBYITEM) {
+            $sql .= ' ORDER BY a.itemid, s.userid, submissionid';
+        }
         // echo '$sql = '.$sql.'<br />';
         // echo '$whereparams:';
         // var_dump($whereparams);
@@ -173,6 +184,10 @@ class mod_surveypro_exportmanager {
         if (!isset($this->formdata->includehide)) {
             $where['hidden'] = 0;
         }
+        if (($this->formdata->downloadtype == SURVEYPRO_FILESBYUSER)
+            || ($this->formdata->downloadtype == SURVEYPRO_FILESBYITEM)) {
+            $where['plugin'] = 'fileupload';
+        }
 
         if (!$itemseeds = $DB->get_records('surveypro_item', $where, 'sortindex', 'id, plugin')) {
             return SURVEYPRO_NOFIELDSSELECTED;
@@ -181,9 +196,19 @@ class mod_surveypro_exportmanager {
         // end of: get the field list
         // -----------------------------
 
-        list($richsubmissionssql, $whereparams) = $this->get_export_sql();
+        if ($this->formdata->downloadtype == SURVEYPRO_FILESBYUSER) {
+            $this->attachments_downloadbyuser();
+            die;
+        }
 
+        if ($this->formdata->downloadtype == SURVEYPRO_FILESBYITEM) {
+            $this->attachments_downloadbyitem();
+            die;
+        }
+
+        list($richsubmissionssql, $whereparams) = $this->get_export_sql();
         $richsubmissions = $DB->get_recordset_sql($richsubmissionssql, $whereparams);
+
         if ($richsubmissions->valid()) {
             if ($this->formdata->downloadtype == SURVEYPRO_DOWNLOADXLS) {
                 require_once($CFG->libdir.'/excellib.class.php');
@@ -215,18 +240,18 @@ class mod_surveypro_exportmanager {
             // get user group (to filter surveypro to download) ???? TODO: NEVER USED ????
             // $mygroups = surveypro_get_my_groups_simple();
 
-            $oldrichsubmissionid = 0;
+            $oldsubmissionid = 0;
             $strnever = get_string('never');
 
             foreach ($richsubmissions as $richsubmission) {
-                if ($oldrichsubmissionid != $richsubmission->submissionid) {
-                    if (!empty($oldrichsubmissionid)) { // new richsubmissionid, stop managing old record
+                if ($oldsubmissionid != $richsubmission->submissionid) {
+                    if (!empty($oldsubmissionid)) { // new richsubmissionid, stop managing old record
                         // write old record
                         $this->export_close_record($recordtoexport, $worksheet);
                     }
 
                     // update the reference
-                    $oldrichsubmissionid = $richsubmission->submissionid;
+                    $oldsubmissionid = $richsubmission->submissionid;
 
                     // begin a new record
                     $recordtoexport = array();
@@ -339,5 +364,224 @@ class mod_surveypro_exportmanager {
         }
 
         return $return;
+    }
+
+    /*
+     * attachments_downloadbyuser
+     *
+     * @return
+     */
+    public function attachments_downloadbyuser() {
+        global $CFG, $DB;
+
+        require_once($CFG->dirroot.'/mod/surveypro/field/fileupload/lib.php');
+
+        $dirnames = array();
+        $filelist = array();
+
+        $fs = get_file_storage();
+        list($richsubmissionssql, $whereparams) = $this->get_export_sql();
+        // ORDER BY s.userid, submissionid, ud.itemid
+
+        $richsubmissions = $DB->get_recordset_sql($richsubmissionssql, $whereparams);
+
+        if ($richsubmissions->valid()) {
+            $packagename = clean_filename($this->surveypro->name).'_attachments_by_user';
+            $packagename = str_replace(' ', '_', $packagename);
+
+            $tempsubdir = '/mod_surveypro/attachmentsexport/'.$packagename;
+            $tempbasedir = $CFG->tempdir.$tempsubdir;
+
+            $oldsubmissionid = 0;
+            $olduserid = 0;
+            foreach ($richsubmissions as $richsubmission) {
+                // itemid always changes so, I look at submissionid
+                if ($oldsubmissionid != $richsubmission->submissionid) {
+                    // new submissionid
+                    if ($olduserid != $richsubmission->userid) {
+                        // new user
+                        // add a new folder named fullname($richsubmission).'_'.$richsubmission->userid;
+                        $tempuserdir = fullname($richsubmission).'_'.$richsubmission->userid;
+                        $tempuserdir = str_replace(' ', '_', $tempuserdir);
+                        $temppath = $tempsubdir.'/'.$tempuserdir;
+                        make_temp_directory($temppath);
+                        $dirnames[] = $temppath;
+
+                        $olduserid = $richsubmission->userid;
+                    }
+
+                    // add a new folder named $richsubmission->submissionid
+                    $tempsubmissiondir = 'response_'.$richsubmission->submissionid;
+                    $tempsubmissiondir = str_replace(' ', '_', $tempsubmissiondir);
+                    $temppath = $tempsubdir.'/'.$tempuserdir.'/'.$tempsubmissiondir;
+                    make_temp_directory($temppath);
+                    $dirnames[] = $temppath;
+
+                    $oldsubmissionid = $richsubmission->submissionid;
+                }
+
+                // add a new folder named $itemid
+                $tempitemdir = 'element_'.$richsubmission->itemid;
+                $tempitemdir = str_replace(' ', '_', $tempitemdir);
+                $currentfilepath = $tempuserdir.'/'.$tempsubmissiondir.'/'.$tempitemdir;
+                $temppath = $tempsubdir.'/'.$currentfilepath;
+                make_temp_directory($temppath);
+                $dirnames[] = $temppath;
+
+                $tempfullpath = $CFG->tempdir.'/'.$temppath;
+                // finally add the attachment
+                if ($files = $fs->get_area_files($this->context->id, 'surveyprofield_fileupload', SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $richsubmission->id, "timemodified", false)) {
+                    foreach ($files as $file) {
+                        $filename = $file->get_filename();
+                        if ($filename == '.') {
+                            continue;
+                        }
+
+                        $file->copy_content_to($tempfullpath.'/'.$filename);
+                        $filelist[$packagename.'/'.$currentfilepath.'/'.$filename] = $tempfullpath.'/'.$filename;
+                    }
+                }
+            }
+            $richsubmissions->close();
+        }
+
+        $exportfile = $tempbasedir.'.zip';
+        file_exists($exportfile) && unlink($exportfile);
+
+        $fp = get_file_packer('application/zip');
+        $fp->archive_to_pathname($filelist, $exportfile);
+
+        // if (false) {
+        foreach ($filelist as $file) {
+            unlink($file);
+        }
+        $dirnames = array_reverse($dirnames);
+        foreach ($dirnames as $dir) {
+            rmdir($CFG->tempdir.$dir);
+        }
+        rmdir($tempbasedir);
+        // }
+
+        $this->makezip_available($exportfile);
+    }
+
+    /*
+     * attachments_downloadbyitem
+     *
+     * @return
+     */
+    public function attachments_downloadbyitem() {
+        global $CFG, $DB;
+
+        require_once($CFG->dirroot.'/mod/surveypro/field/fileupload/lib.php');
+
+        $dirnames = array();
+        $filelist = array();
+
+        $fs = get_file_storage();
+        list($richsubmissionssql, $whereparams) = $this->get_export_sql();
+        // ORDER BY ud.itemid, s.userid, submissionid
+
+        $richsubmissions = $DB->get_recordset_sql($richsubmissionssql, $whereparams);
+
+        if ($richsubmissions->valid()) {
+            $packagename = clean_filename($this->surveypro->name).'_attachments_by_item';
+            $packagename = str_replace(' ', '_', $packagename);
+
+            $tempsubdir = '/mod_surveypro/attachmentsexport/'.$packagename;
+            $tempbasedir = $CFG->tempdir.$tempsubdir;
+
+            $olduserid = 0;
+            $olditemid = 0;
+            $forcenewuserfolder = false;
+            foreach ($richsubmissions as $richsubmission) {
+                if ($olditemid != $richsubmission->itemid) {
+                    // new item
+                    // add a new folder named 'element_'.$richsubmission->itemid
+                    $tempitemdir = 'element_'.$richsubmission->itemid;
+                    $tempitemdir = str_replace(' ', '_', $tempitemdir);
+                    $temppath = $tempsubdir.'/'.$tempitemdir;
+                    make_temp_directory($temppath);
+                    $dirnames[] = $temppath;
+
+                    $olditemid = $richsubmission->itemid;
+                    $forcenewuserfolder = true;
+                }
+
+                if (($olduserid != $richsubmission->userid) || ($forcenewuserfolder)) {
+                    $forcenewuserfolder = false;
+
+                    // new user or forced by new item
+                    // add a new folder named $richsubmission->userid
+                    $tempuserdir = fullname($richsubmission).'_'.$richsubmission->userid;
+                    $tempuserdir = str_replace(' ', '_', $tempuserdir);
+                    $temppath = $tempsubdir.'/'.$tempitemdir.'/'.$tempuserdir;
+                    make_temp_directory($temppath);
+                    $dirnames[] = $temppath;
+
+                    $olduserid = $richsubmission->userid;
+                }
+
+                // add a new folder named $richsubmission->submissionid
+                $tempsubmissiondir = 'response_'.$richsubmission->submissionid;
+                $tempsubmissiondir = str_replace(' ', '_', $tempsubmissiondir);
+                $currentfilepath = $tempitemdir.'/'.$tempuserdir.'/'.$tempsubmissiondir;
+                $temppath = $tempsubdir.'/'.$currentfilepath;
+                make_temp_directory($temppath);
+                $dirnames[] = $temppath;
+
+                $tempfullpath = $CFG->tempdir.'/'.$temppath;
+                // finally add the attachment
+                if ($files = $fs->get_area_files($this->context->id, 'surveyprofield_fileupload', SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $richsubmission->id, "timemodified", false)) {
+                    foreach ($files as $file) {
+                        $filename = $file->get_filename();
+                        if ($filename == '.') {
+                            continue;
+                        }
+
+                        $file->copy_content_to($tempfullpath.'/'.$filename);
+                        $filelist[$packagename.'/'.$currentfilepath.'/'.$filename] = $tempfullpath.'/'.$filename;
+                    }
+                }
+            }
+            $richsubmissions->close();
+        }
+
+        $exportfile = $tempbasedir.'.zip';
+        file_exists($exportfile) && unlink($exportfile);
+
+        $fp = get_file_packer('application/zip');
+        $fp->archive_to_pathname($filelist, $exportfile);
+
+        // if (false) {
+        foreach ($filelist as $file) {
+            unlink($file);
+        }
+        $dirnames = array_reverse($dirnames, true);
+        foreach ($dirnames as $dir) {
+            rmdir($CFG->tempdir.$dir);
+        }
+        rmdir($tempbasedir);
+        // }
+
+        $this->makezip_available($exportfile);
+    }
+
+    /*
+     * makezip_available
+     *
+     * @return
+     */
+    public function makezip_available($exportfile) {
+        $exportfilename = basename($exportfile);
+        header("Content-Type: application/download\n");
+        header("Content-Disposition: attachment; filename=\"$exportfilename\"");
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate,post-check=0,pre-check=0');
+        header('Pragma: public');
+        $exportfilehandler = fopen($exportfile, 'rb');
+        print fread($exportfilehandler, filesize($exportfile));
+        fclose($exportfilehandler);
+        unlink($exportfile);
     }
 }

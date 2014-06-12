@@ -42,7 +42,7 @@ class mod_surveyproreport_filterform extends moodleform {
         $submissionid = $this->_customdata->submissionid;
         $canaccessadvanceditems = $this->_customdata->canaccessadvanceditems;
 
-        $submissionidstring = get_string('submission', 'surveyproreport_attachments');
+        $submissionidstring = get_string('submission', 'surveyproreport_attachments_overview');
 
         list($sql, $whereparams) = surveypro_fetch_items_seeds($surveypro->id, $canaccessadvanceditems, false);
         $itemseeds = $DB->get_recordset_sql($sql, $whereparams);
@@ -57,7 +57,7 @@ class mod_surveyproreport_filterform extends moodleform {
         // $mform->addElement('header', 'headertools', 'Tools');
 
         // itemid
-        $options = array('0' => get_string('eachitem', 'surveyproreport_attachments'));
+        $options = array('0' => get_string('eachitem', 'surveyproreport_attachments_overview'));
         $tablename = 'surveyprofield_fileupload';
         foreach ($itemseeds as $itemseed) {
             if ($itemseed->plugin != 'fileupload') {
@@ -81,7 +81,7 @@ class mod_surveyproreport_filterform extends moodleform {
             // return nothing
             return;
         }
-        $sql = 'SELECT u.id as userid, '.get_all_user_name_fields(true, 'u').'
+        $sql = 'SELECT u.id as userid, '.user_picture::fields('u').'
                 FROM {user} u
                 JOIN (SELECT id, userid
                         FROM {role_assignments}

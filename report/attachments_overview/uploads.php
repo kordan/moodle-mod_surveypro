@@ -27,9 +27,8 @@
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
-require_once($CFG->dirroot.'/mod/surveypro/report/attachments/classes/uploadsform.class.php');
-require_once($CFG->dirroot.'/mod/surveypro/report/attachments/forms/filter_form.php');
-require_once($CFG->dirroot.'/mod/surveypro/report/attachments/forms/uploads_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/report/attachments_overview/classes/uploadsform.class.php');
+require_once($CFG->dirroot.'/mod/surveypro/report/attachments_overview/forms/filter_form.php');
 
 $id = optional_param('id', 0, PARAM_INT); // course_module ID, or
 $s = optional_param('s', 0, PARAM_INT);  // surveypro instance ID
@@ -70,7 +69,7 @@ $uploadsformman->prevent_direct_user_input();
 // -----------------------------
 // define $filterform return url
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('/mod/surveypro/report/attachments/uploads.php', $paramurl);
+$formurl = new moodle_url('/mod/surveypro/report/attachments_overview/uploads.php', $paramurl);
 // end of: define $user_form return url
 // -----------------------------
 
@@ -88,30 +87,11 @@ $formparams->canaccessadvanceditems = $uploadsformman->canaccessadvanceditems; /
 
 $filterform = new mod_surveyproreport_filterform($formurl, $formparams, 'post', '', array('id' => 'userentry'));
 
-// -----------------------------
-// define $uploadsform return url
-$formurl = new moodle_url('/mod/surveypro/report/attachments/uploads.php');
-// end of: define $user_form return url
-// -----------------------------
-
-// -----------------------------
-// prepare params for the form
-$formparams = new stdClass();
-$formparams->cmid = $cm->id;
-$formparams->surveypro = $surveypro;
-$formparams->itemid = $itemid;
-$formparams->userid = $userid;
-$formparams->submissionid = $submissionid;
-$formparams->canaccessadvanceditems = $uploadsformman->canaccessadvanceditems; // Help selecting the fields to show
-// end of: prepare params for the form
-// -----------------------------
-
-$uploadsform = new mod_surveyproreport_uploadsform($formurl, $formparams, 'post', '', array('id' => 'userentry'));
 
 // -----------------------------
 // output starts here
 // -----------------------------
-$url = new moodle_url('/mod/surveypro/report/attachments/view.php', array('s' => $surveypro->id));
+$url = new moodle_url('/mod/surveypro/report/attachments_overview/view.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
@@ -127,9 +107,7 @@ require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
 $filterform->display();
 
-$prefill = $uploadsformman->get_prefill_data();
-$uploadsform->set_data($prefill);
-$uploadsform->display();
+$uploadsformman->display_attachment($submissionid, $itemid);
 
 // Finish the page
 echo $OUTPUT->footer();

@@ -30,7 +30,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/surveypro/classes/reportbase.class.php');
 
-class report_attachments extends mod_surveypro_reportbase {
+class report_attachments_overview extends mod_surveypro_reportbase {
     /*
      * surveyid
      */
@@ -75,7 +75,7 @@ class report_attachments extends mod_surveypro_reportbase {
         $tableheaders = array();
         $tableheaders[] = '';
         $tableheaders[] = get_string('fullname');
-        $tableheaders[] = get_string('uploads', 'surveyproreport_attachments');
+        $tableheaders[] = get_string('uploads', 'surveyproreport_attachments_overview');
         $this->outputtable->define_headers($tableheaders);
 
         $this->outputtable->sortable(true, 'lastname', 'ASC'); // sorted by lastname by default
@@ -83,7 +83,7 @@ class report_attachments extends mod_surveypro_reportbase {
 
         $this->outputtable->column_class('picture', 'picture');
         $this->outputtable->column_class('fullname', 'fullname');
-        $this->outputtable->column_class('fullname', 'uploads');
+        $this->outputtable->column_class('uploads', 'uploads');
 
         $this->outputtable->initialbars(true);
 
@@ -112,9 +112,9 @@ class report_attachments extends mod_surveypro_reportbase {
             return;
         }
 
-        $displayuploads = get_string('display_uploads', 'surveyproreport_attachments');
-        $missinguploads = get_string('missing_uploads', 'surveyproreport_attachments');
-        $submissionidstring = get_string('submissionid', 'surveyproreport_attachments');
+        $displayuploads = get_string('display_uploads', 'surveyproreport_attachments_overview');
+        $missinguploads = get_string('missing_uploads', 'surveyproreport_attachments_overview');
+        $submissionidstring = get_string('submissionid', 'surveyproreport_attachments_overview');
 
         $sql = 'SELECT '.user_picture::fields('u').', s.id as submissionid
                 FROM {user} u
@@ -157,7 +157,7 @@ class report_attachments extends mod_surveypro_reportbase {
                 $paramurl['s'] = $this->surveypro->id;
                 $paramurl['userid'] = $usersubmission->id;
                 $paramurl['submissionid'] = $usersubmission->submissionid;
-                $url = new moodle_url('/mod/surveypro/report/attachments/uploads.php', $paramurl);
+                $url = new moodle_url('/mod/surveypro/report/attachments_overview/uploads.php', $paramurl);
                 $tablerow[] = '('.$submissionidstring.': '.$usersubmission->submissionid.') <a href="'.$url->out().'">'.$displayuploads.'</a>';
             } else {
                 $tablerow[] = $missinguploads;
@@ -176,7 +176,7 @@ class report_attachments extends mod_surveypro_reportbase {
     public function output_data() {
         global $OUTPUT;
 
-        echo $OUTPUT->heading(get_string('pluginname', 'surveyproreport_attachments'));
+        echo $OUTPUT->heading(get_string('pluginname', 'surveyproreport_attachments_overview'));
         $this->outputtable->print_html();
     }
 
@@ -192,7 +192,7 @@ class report_attachments extends mod_surveypro_reportbase {
         $attachmentitems = $DB->count_records('surveypro_item', $params);
 
         if (!$attachmentitems) {
-            $message = get_string('noattachmentitemsfound', 'surveyproreport_attachments');
+            $message = get_string('noattachmentitemsfound', 'surveyproreport_attachments_overview');
             echo $OUTPUT->box($message, 'notice centerpara');
 
             // Finish the page

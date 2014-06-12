@@ -23,16 +23,15 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Attachment overview';
-$string['noattachmentitemsfound'] = 'No attachment items were found in this surveypro.';
-$string['uploads'] = 'Uploads';
+$string['pluginname'] = 'Attachments overview';
 $string['display_uploads'] = 'Display attachments';
-$string['missing_uploads'] = 'No attachments found';
-$string['missing_submission'] = 'User still didn\'t submit any response';
-$string['submissioninfo'] = 'Response info';
-$string['submissionid'] = 'Response id';
-$string['submission'] = 'Response';
-$string['submissions'] = 'Responses';
 $string['eachitem'] = 'Each item';
-
-
+$string['missing_submission'] = 'User still didn\'t submit any response';
+$string['missing_uploads'] = 'No attachments found';
+$string['noattachmentitemsfound'] = 'No attachment items were found in this survey.';
+$string['nofilesfound'] = 'answer not provided';
+$string['submission'] = 'Response';
+$string['submissionid'] = 'Response id';
+$string['submissioninfo'] = 'Response info';
+$string['submissions'] = 'Responses';
+$string['uploads'] = 'Uploads';
