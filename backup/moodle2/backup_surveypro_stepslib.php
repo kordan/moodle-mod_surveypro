@@ -65,6 +65,9 @@ class backup_surveypro_activity_structure_step extends backup_activity_structure
         $surveypro->add_child($items);
         $items->add_child($item);
 
+        // Apply for 'surveypro' subplugins stuff
+        $this->add_subplugin_structure('surveyprofield', $item, false);
+
         $surveypro->add_child($submissions);
         $submissions->add_child($submission);
         $submission->add_child($answers);

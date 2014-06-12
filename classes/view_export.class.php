@@ -570,6 +570,7 @@ class mod_surveypro_exportmanager {
     /*
      * makezip_available
      *
+     * @param $exportfile: the file to make available
      * @return
      */
     public function makezip_available($exportfile) {
