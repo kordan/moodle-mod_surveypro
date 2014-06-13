@@ -28,7 +28,7 @@ require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 define('SURVEYPROFIELD_FILEUPLOAD_FILEAREA', 'fileuploadfiles');
 
 /**
- * Serves assignment submissions and other files.
+ * Serves fileupload submissions and other files.
  *
  * @param mixed $course course or id of the course
  * @param mixed $cm course module or id of the course module

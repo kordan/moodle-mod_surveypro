@@ -16,16 +16,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package surveyprofield_boolean
+ * @package surveyprofield_checkbox
  * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Provides the information to backup boolean field information
+ * Provides the information to backup checkbox field information
  */
-class backup_surveyprofield_boolean_subplugin extends backup_subplugin {
+class backup_surveyprofield_checkbox_subplugin extends backup_subplugin {
 
     /**
      * Returns the structure to be attached to the 'item' XML element
@@ -33,19 +33,19 @@ class backup_surveyprofield_boolean_subplugin extends backup_subplugin {
     protected function define_item_subplugin_structure() {
 
         // XML nodes declaration
-        $subplugin = $this->get_subplugin_element(null, '../../plugin', 'boolean'); // virtual optigroup element
-        $subpluginbooleans = new backup_nested_element($this->get_recommended_name());
-        $subpluginboolean = new backup_nested_element('surveyprofield_boolean', array('id'), array(
-            'content', 'contentformat', 'customnumber', 'position',
-            'extranote', 'required', 'variable', 'indent',
-            'defaultoption', 'defaultvalue', 'downloadformat', 'style'));
+        $subplugin = $this->get_subplugin_element(null, '../../plugin', 'checkbox'); // virtual optigroup element
+        $subplugincheckboxes = new backup_nested_element($this->get_recommended_name());
+        $subplugincheckbox = new backup_nested_element('surveyprofield_checkbox', array('id'), array(
+            'content', 'contentformat', 'customnumber', 'position', 'extranote',
+            'required', 'variable', 'indent','options', 'labelother',
+            'defaultvalue', 'downloadformat', 'minimumrequired', 'adjustment'));
 
         // connect XML elements into the tree
-        $subplugin->add_child($subpluginbooleans);
-        $subpluginbooleans->add_child($subpluginboolean);
+        $subplugin->add_child($subplugincheckboxes);
+        $subplugincheckboxes->add_child($subplugincheckbox);
 
         // Define sources
-        $subpluginboolean->set_source_table('surveyprofield_boolean', array('itemid' => backup::VAR_PARENTID));
+        $subplugincheckbox->set_source_table('surveyprofield_checkbox', array('itemid' => backup::VAR_PARENTID));
 
         return $subplugin;
     }

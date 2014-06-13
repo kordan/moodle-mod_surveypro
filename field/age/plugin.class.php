@@ -212,6 +212,7 @@ class surveyprofield_age extends mod_surveypro_itembase {
      * item_split_unix_time
      *
      * @param $time
+     * @param $applyusersettings
      * @return
      */
     public function item_split_unix_time($time, $applyusersettings=false) {

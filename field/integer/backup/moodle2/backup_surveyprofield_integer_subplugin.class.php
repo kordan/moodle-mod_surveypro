@@ -16,16 +16,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package surveyprofield_boolean
+ * @package surveyprofield_integer
  * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Provides the information to backup boolean field information
+ * Provides the information to backup integer field information
  */
-class backup_surveyprofield_boolean_subplugin extends backup_subplugin {
+class backup_surveyprofield_integer_subplugin extends backup_subplugin {
 
     /**
      * Returns the structure to be attached to the 'item' XML element
@@ -33,19 +33,19 @@ class backup_surveyprofield_boolean_subplugin extends backup_subplugin {
     protected function define_item_subplugin_structure() {
 
         // XML nodes declaration
-        $subplugin = $this->get_subplugin_element(null, '../../plugin', 'boolean'); // virtual optigroup element
-        $subpluginbooleans = new backup_nested_element($this->get_recommended_name());
-        $subpluginboolean = new backup_nested_element('surveyprofield_boolean', array('id'), array(
+        $subplugin = $this->get_subplugin_element(null, '../../plugin', 'integer'); // virtual optigroup element
+        $subpluginintegers = new backup_nested_element($this->get_recommended_name());
+        $subplugininteger = new backup_nested_element('surveyprofield_integer', array('id'), array(
             'content', 'contentformat', 'customnumber', 'position',
-            'extranote', 'required', 'variable', 'indent',
-            'defaultoption', 'defaultvalue', 'downloadformat', 'style'));
+            'extranote', 'required', 'hideinstructions', 'variable', 'indent',
+            'defaultoption', 'defaultvalue', 'lowerbound', 'upperbound'));
 
         // connect XML elements into the tree
-        $subplugin->add_child($subpluginbooleans);
-        $subpluginbooleans->add_child($subpluginboolean);
+        $subplugin->add_child($subpluginintegers);
+        $subpluginintegers->add_child($subplugininteger);
 
         // Define sources
-        $subpluginboolean->set_source_table('surveyprofield_boolean', array('itemid' => backup::VAR_PARENTID));
+        $subplugininteger->set_source_table('surveyprofield_integer', array('itemid' => backup::VAR_PARENTID));
 
         return $subplugin;
     }

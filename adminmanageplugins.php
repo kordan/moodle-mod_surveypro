@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /*
- * Allows the admin to manage assignment plugins
+ * Allows the admin to manage surveypro plugins
  *
  * @package    mod_assign
  * @copyright 2012 NetSpot {@link http://www.netspot.com.au}

@@ -100,7 +100,7 @@ class surveypro_plugin_manager {
     private $subtype = '';
 
     /*
-     * Constructor for this assignment plugin manager
+     * Constructor for this surveypro plugin manager
      * @param string $subtype - either assignsubmission or assignfeedback
      */
     public function __construct($subtype) {

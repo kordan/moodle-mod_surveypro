@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package surveypro_boolean
+ * @package surveypro_label
  * @subpackage backup-moodle2
  * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -24,21 +24,21 @@
 
 /**
  * restore subplugin class that provides the necessary information
- * needed to restore one surveypro->boolean subplugin.
+ * needed to restore one surveypro->label subplugin.
  */
-class restore_surveypro_boolean_subplugin extends restore_subplugin {
+class restore_surveypro_label_subplugin extends restore_subplugin {
 
     /**
-     * This method processes the config element inside one boolean surveypro (see boolean subplugin backup)
+     * This method processes the config element inside one label surveypro (see label subplugin backup)
      */
-    public function process_surveypro_boolean_config($data) {
+    public function process_surveypro_label_config($data) {
         $data = (object)$data;
         print_object($data); // Nothing to do, just print the data
 
         // Just to check that the whole API is available here
-        $this->set_mapping('surveypro_boolean_config', 1, 1, true);
-        $this->add_related_files('mod_surveypro', 'intro', 'surveypro_boolean_config');
-        print_object($this->get_mappingid('surveypro_boolean_config', 1));
+        $this->set_mapping('surveypro_label_config', 1, 1, true);
+        $this->add_related_files('mod_surveypro', 'intro', 'surveypro_label_config');
+        print_object($this->get_mappingid('surveypro_label_config', 1));
         print_object($this->get_old_parentid('surveypro'));
         print_object($this->get_new_parentid('surveypro'));
         print_object($this->get_mapping('surveypro', $this->get_old_parentid('surveypro')));
@@ -49,9 +49,9 @@ class restore_surveypro_boolean_subplugin extends restore_subplugin {
     }
 
     /**
-     * This method processes the submission_config element inside one boolean surveypro (see boolean subplugin backup)
+     * This method processes the submission_config element inside one label surveypro (see label subplugin backup)
      */
-    public function process_surveypro_boolean_submission_config($data) {
+    public function process_surveypro_label_submission_config($data) {
         $data = (object)$data;
         print_object($data); // Nothing to do, just print the data
     }
