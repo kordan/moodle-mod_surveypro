@@ -72,21 +72,29 @@ class mod_surveypro_reportbase {
     /*
      * restrict_templates
      */
-    public static function restrict_templates() {
+    public function restrict_templates() {
         return array();
     }
 
     /*
      * has_student_report
      */
-    public static function has_student_report() {
+    public function has_student_report() {
         return false;
     }
 
     /*
+     * does_report_apply
+     */
+    public function does_report_apply() {
+        return true;
+    }
+
+
+    /*
      * get_childreports
      */
-    public static function get_childreports($canaccessreports) {
+    public function get_childreports($canaccessreports) {
         return false;
     }
 

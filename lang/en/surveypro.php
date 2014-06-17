@@ -350,6 +350,7 @@ $string['statusclosed'] = 'closed';
 $string['statusinprogress'] = 'in progress';
 $string['stopyear_help'] = 'Define the upper year that each question will require';
 $string['stopyear'] = 'Maximum allowed year';
+$string['submission'] = 'Attempt';
 $string['submissions'] = 'Attempts';
 $string['submissionslist'] = 'Attempts list';
 $string['surveypro:accessadvanceditems'] = 'Access advanced items';

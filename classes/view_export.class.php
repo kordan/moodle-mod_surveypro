@@ -89,7 +89,7 @@ class mod_surveypro_exportmanager {
      *
      * @return
      */
-    public function get_export_sql() {
+    public function get_export_sql($forceuserid=false) {
         global $USER, $COURSE;
 
         if ($groupmode = groups_get_activity_groupmode($this->cm, $COURSE)) {
@@ -97,7 +97,7 @@ class mod_surveypro_exportmanager {
         }
 
         $sql = 'SELECT s.id as submissionid, s.status, s.timecreated, s.timemodified, ';
-        if (empty($this->surveypro->anonymous)) {
+        if (empty($this->surveypro->anonymous) || ($forceuserid)) {
             $sql .= 'u.id as userid, '.user_picture::fields('u').',';
         }
         $sql .= 'a.id as id, a.itemid, a.content,
@@ -376,11 +376,15 @@ class mod_surveypro_exportmanager {
 
         require_once($CFG->dirroot.'/mod/surveypro/field/fileupload/lib.php');
 
+        $anonymousstr = get_string('anonymous', 'surveypro');
+        $itemstr = get_string('item', 'surveypro');
+        $submissionstr = get_string('submission', 'surveypro');
+        $dummyuserid = 0;
         $dirnames = array();
         $filelist = array();
 
         $fs = get_file_storage();
-        list($richsubmissionssql, $whereparams) = $this->get_export_sql();
+        list($richsubmissionssql, $whereparams) = $this->get_export_sql(true);
         // ORDER BY s.userid, submissionid, ud.itemid
 
         $richsubmissions = $DB->get_recordset_sql($richsubmissionssql, $whereparams);
@@ -401,7 +405,12 @@ class mod_surveypro_exportmanager {
                     if ($olduserid != $richsubmission->userid) {
                         // new user
                         // add a new folder named fullname($richsubmission).'_'.$richsubmission->userid;
-                        $tempuserdir = fullname($richsubmission).'_'.$richsubmission->userid;
+                        if ($this->surveypro->anonymous) {
+                            $dummyuserid++;
+                            $tempuserdir = $anonymousstr.'_'.$dummyuserid;
+                        } else {
+                            $tempuserdir = fullname($richsubmission).'_'.$richsubmission->userid;
+                        }
                         $tempuserdir = str_replace(' ', '_', $tempuserdir);
                         $temppath = $tempsubdir.'/'.$tempuserdir;
                         make_temp_directory($temppath);
@@ -411,7 +420,7 @@ class mod_surveypro_exportmanager {
                     }
 
                     // add a new folder named $richsubmission->submissionid
-                    $tempsubmissiondir = 'response_'.$richsubmission->submissionid;
+                    $tempsubmissiondir = $submissionstr.'_'.$richsubmission->submissionid;
                     $tempsubmissiondir = str_replace(' ', '_', $tempsubmissiondir);
                     $temppath = $tempsubdir.'/'.$tempuserdir.'/'.$tempsubmissiondir;
                     make_temp_directory($temppath);
@@ -421,7 +430,7 @@ class mod_surveypro_exportmanager {
                 }
 
                 // add a new folder named $itemid
-                $tempitemdir = 'element_'.$richsubmission->itemid;
+                $tempitemdir = $itemstr.'_'.$richsubmission->itemid;
                 $tempitemdir = str_replace(' ', '_', $tempitemdir);
                 $currentfilepath = $tempuserdir.'/'.$tempsubmissiondir.'/'.$tempitemdir;
                 $temppath = $tempsubdir.'/'.$currentfilepath;
@@ -475,11 +484,15 @@ class mod_surveypro_exportmanager {
 
         require_once($CFG->dirroot.'/mod/surveypro/field/fileupload/lib.php');
 
+        $anonymousstr = get_string('anonymous', 'surveypro');
+        $itemstr = get_string('item', 'surveypro');
+        $submissionstr = get_string('submission', 'surveypro');
+        $dummyuserid = 0;
         $dirnames = array();
         $filelist = array();
 
         $fs = get_file_storage();
-        list($richsubmissionssql, $whereparams) = $this->get_export_sql();
+        list($richsubmissionssql, $whereparams) = $this->get_export_sql(true);
         // ORDER BY ud.itemid, s.userid, submissionid
 
         $richsubmissions = $DB->get_recordset_sql($richsubmissionssql, $whereparams);
@@ -498,7 +511,7 @@ class mod_surveypro_exportmanager {
                 if ($olditemid != $richsubmission->itemid) {
                     // new item
                     // add a new folder named 'element_'.$richsubmission->itemid
-                    $tempitemdir = 'element_'.$richsubmission->itemid;
+                    $tempitemdir = $itemstr.'_'.$richsubmission->itemid;
                     $tempitemdir = str_replace(' ', '_', $tempitemdir);
                     $temppath = $tempsubdir.'/'.$tempitemdir;
                     make_temp_directory($temppath);
@@ -513,7 +526,12 @@ class mod_surveypro_exportmanager {
 
                     // new user or forced by new item
                     // add a new folder named $richsubmission->userid
-                    $tempuserdir = fullname($richsubmission).'_'.$richsubmission->userid;
+                    if ($this->surveypro->anonymous) {
+                        $dummyuserid++;
+                        $tempuserdir = $anonymousstr.'_'.$dummyuserid;
+                    } else {
+                        $tempuserdir = fullname($richsubmission).'_'.$richsubmission->userid;
+                    }
                     $tempuserdir = str_replace(' ', '_', $tempuserdir);
                     $temppath = $tempsubdir.'/'.$tempitemdir.'/'.$tempuserdir;
                     make_temp_directory($temppath);
@@ -523,7 +541,7 @@ class mod_surveypro_exportmanager {
                 }
 
                 // add a new folder named $richsubmission->submissionid
-                $tempsubmissiondir = 'response_'.$richsubmission->submissionid;
+                $tempsubmissiondir = $submissionstr.'_'.$richsubmission->submissionid;
                 $tempsubmissiondir = str_replace(' ', '_', $tempsubmissiondir);
                 $currentfilepath = $tempitemdir.'/'.$tempuserdir.'/'.$tempsubmissiondir;
                 $temppath = $tempsubdir.'/'.$currentfilepath;

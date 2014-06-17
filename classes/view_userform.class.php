@@ -1366,24 +1366,29 @@ class mod_surveypro_userformmanager {
         foreach ($surveyproreportlist as $pluginname => $pluginpath) {
             require_once($CFG->dirroot.'/mod/surveypro/report/'.$pluginname.'/classes/report.class.php');
             $classname = 'report_'.$pluginname;
-            $restricttemplates = $classname::restrict_templates();
+            $reportman = new $classname($this->cm, $this->surveypro);
+
+            $restricttemplates = $reportman->restrict_templates();
+
             if ((!$restricttemplates) || in_array($this->surveypro->template, $restricttemplates)) {
-                if ($canaccessreports || ($classname::has_student_report() && $canaccessownreports)) {
-                    if ($childreports = $classname::get_childreports($canaccessreports)) {
-                        foreach ($childreports as $childname => $childparams) {
-                            $childparams['s'] = $PAGE->cm->instance;
-                            $url = new moodle_url('/mod/surveypro/report/'.$pluginname.'/view.php', $childparams);
+                if ($canaccessreports || ($reportman->has_student_report() && $canaccessownreports)) {
+                    if ($reportman->does_report_apply()) {
+                        if ($childreports = $reportman->get_childreports($canaccessreports)) {
+                            foreach ($childreports as $childname => $childparams) {
+                                $childparams['s'] = $PAGE->cm->instance;
+                                $url = new moodle_url('/mod/surveypro/report/'.$pluginname.'/view.php', $childparams);
+                                $a = new stdClass();
+                                $a->href = $url->out();
+                                $a->reportname = get_string('pluginname', 'surveyproreport_'.$pluginname).$labelsep.$childname;
+                                $messages[] = get_string('runreport', 'surveypro', $a);
+                            }
+                        } else {
+                            $url = new moodle_url('/mod/surveypro/report/'.$pluginname.'/view.php', $paramurlbase);
                             $a = new stdClass();
                             $a->href = $url->out();
-                            $a->reportname = get_string('pluginname', 'surveyproreport_'.$pluginname).$labelsep.$childname;
+                            $a->reportname = get_string('pluginname', 'surveyproreport_'.$pluginname);
                             $messages[] = get_string('runreport', 'surveypro', $a);
                         }
-                    } else {
-                        $url = new moodle_url('/mod/surveypro/report/'.$pluginname.'/view.php', $paramurlbase);
-                        $a = new stdClass();
-                        $a->href = $url->out();
-                        $a->reportname = get_string('pluginname', 'surveyproreport_'.$pluginname);
-                        $messages[] = get_string('runreport', 'surveypro', $a);
                     }
                 }
             }

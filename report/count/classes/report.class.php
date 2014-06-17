@@ -28,6 +28,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->libdir.'/tablelib.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/reportbase.class.php');
 
 class report_count extends mod_surveypro_reportbase {
@@ -41,7 +42,7 @@ class report_count extends mod_surveypro_reportbase {
      */
     function setup($hassubmissions) {
         $this->hassubmissions = $hassubmissions;
-        $this->outputtable = new flexible_table('userattempts');
+
         $this->setup_outputtable();
     }
 
@@ -49,6 +50,8 @@ class report_count extends mod_surveypro_reportbase {
      * setup_outputtable
      */
     public function setup_outputtable() {
+        $this->outputtable = new flexible_table('userattempts');
+
         $paramurl = array('id' => $this->cm->id, 'rname' => 'count');
         $this->outputtable->define_baseurl(new moodle_url('view.php', $paramurl));
 

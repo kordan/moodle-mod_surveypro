@@ -895,25 +895,29 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
         foreach ($surveyproreportlist as $pluginname => $pluginpath) {
             require_once($CFG->dirroot.'/mod/surveypro/report/'.$pluginname.'/classes/report.class.php');
             $classname = 'report_'.$pluginname;
-            $restricttemplates = $classname::restrict_templates();
+            $reportman = new $classname($cm, $surveypro);
+
+            $restricttemplates = $reportman->restrict_templates();
 
             if ((!$restricttemplates) || in_array($surveypro->template, $restricttemplates)) {
-                if ($canaccessreports || ($classname::has_student_report() && $canaccessownreports)) {
-                    if (!isset($reportnode)) {
-                        $reportnode = $surveypronode->add(get_string('report'), null, navigation_node::TYPE_CONTAINER);
-                    }
-                    if ($childreports = $classname::get_childreports($canaccessreports)) {
-                        $childnode = $reportnode->add(get_string('pluginname', 'surveyproreport_'.$pluginname),
-                                                      null, navigation_node::TYPE_CONTAINER);
-                        foreach ($childreports as $childname => $childparams) {
-                            $childparams['s'] = $PAGE->cm->instance;
-                            $url = new moodle_url('/mod/surveypro/report/'.$pluginname.'/view.php', $childparams);
-                            $childnode->add($childname, $url, navigation_node::TYPE_SETTING, null, null, $icon);
+                if ($canaccessreports || ($reportman->has_student_report() && $canaccessownreports)) {
+                    if ($reportman->does_report_apply()) {
+                        if (!isset($reportnode)) {
+                            $reportnode = $surveypronode->add(get_string('report'), null, navigation_node::TYPE_CONTAINER);
                         }
-                    } else {
-                        $url = new moodle_url('/mod/surveypro/report/'.$pluginname.'/view.php', $paramurlbase);
-                        $reportnode->add(get_string('pluginname', 'surveyproreport_'.$pluginname),
-                                         $url, navigation_node::TYPE_SETTING, null, null, $icon);
+                        if ($childreports = $reportman->get_childreports($canaccessreports)) {
+                            $childnode = $reportnode->add(get_string('pluginname', 'surveyproreport_'.$pluginname),
+                                                          null, navigation_node::TYPE_CONTAINER);
+                            foreach ($childreports as $childname => $childparams) {
+                                $childparams['s'] = $PAGE->cm->instance;
+                                $url = new moodle_url('/mod/surveypro/report/'.$pluginname.'/view.php', $childparams);
+                                $childnode->add($childname, $url, navigation_node::TYPE_SETTING, null, null, $icon);
+                            }
+                        } else {
+                            $url = new moodle_url('/mod/surveypro/report/'.$pluginname.'/view.php', $paramurlbase);
+                            $reportnode->add(get_string('pluginname', 'surveyproreport_'.$pluginname),
+                                             $url, navigation_node::TYPE_SETTING, null, null, $icon);
+                        }
                     }
                 }
             }

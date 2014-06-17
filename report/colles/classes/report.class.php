@@ -118,21 +118,21 @@ class report_colles extends mod_surveypro_reportbase {
     /*
      * restrict_templates
      */
-    public static function restrict_templates() {
+    public function restrict_templates() {
         return array('collesactual', 'collespreferred', 'collesactualpreferred');
     }
 
     /*
      * has_student_report
      */
-    public static function has_student_report() {
+    public function has_student_report() {
         return true;
     }
 
     /*
      * get_childreports
      */
-    public static function get_childreports($canaccessreports) {
+    public function get_childreports($canaccessreports) {
         if ($canaccessreports) {
             $childreports = array();
             $childreports['summary'] = array('type' => 'summary');

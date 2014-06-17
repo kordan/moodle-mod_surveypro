@@ -28,14 +28,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->libdir.'/tablelib.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/reportbase.class.php');
 
 class report_attachments_overview extends mod_surveypro_reportbase {
-    /*
-     * surveyid
-     */
-    public $surveyid = 0;
-
     /*
      * coursecontext
      */
@@ -47,22 +43,27 @@ class report_attachments_overview extends mod_surveypro_reportbase {
     public $outputtable = null;
 
     /*
-     * setup
+     * Class constructor
      */
-    function setup($hassubmissions) {
-        $this->itemid = $hassubmissions;
-        $this->userid = $hassubmissions;
-        $this->submissionid = $hassubmissions;
+    public function __construct($cm, $surveypro) {
+        parent::__construct($cm, $surveypro);
 
-        $this->hassubmissions = $hassubmissions;
-        $this->outputtable = new flexible_table('attachmentslist');
         $this->setup_outputtable();
+    }
+
+    /*
+     * does_report_apply
+     */
+    public function does_report_apply() {
+        return (!$this->surveypro->anonymous);
     }
 
     /*
      * setup_outputtable
      */
     public function setup_outputtable() {
+        $this->outputtable = new flexible_table('attachmentslist');
+
         $paramurl = array('id' => $this->cm->id);
         $this->outputtable->define_baseurl(new moodle_url('view.php', $paramurl));
 
@@ -199,6 +200,15 @@ class report_attachments_overview extends mod_surveypro_reportbase {
             echo $OUTPUT->footer();
 
             die();
+        }
+    }
+
+    /*
+     * check_attachmentitems
+     */
+    public function prevent_direct_user_input() {
+        if ($this->surveypro->anonymous) {
+            print_error('incorrectaccessdetected', 'surveypro');
         }
     }
 }
