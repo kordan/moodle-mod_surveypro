@@ -26,7 +26,7 @@
  * restore subplugin class that provides the necessary information
  * needed to restore one surveypro->age subplugin.
  */
-class restore_surveypro_age_subplugin extends restore_subplugin {
+class restore_surveyprofield_age_subplugin extends restore_subplugin {
 
     /**
      * This method processes the config element inside one age surveypro (see age subplugin backup)

@@ -26,7 +26,7 @@
  * restore subplugin class that provides the necessary information
  * needed to restore one surveypro->fileupload subplugin.
  */
-class restore_surveypro_fileupload_subplugin extends restore_subplugin {
+class restore_surveyprofield_fileupload_subplugin extends restore_subplugin {
 
     /**
      * This method processes the config element inside one fileupload surveypro (see fileupload subplugin backup)

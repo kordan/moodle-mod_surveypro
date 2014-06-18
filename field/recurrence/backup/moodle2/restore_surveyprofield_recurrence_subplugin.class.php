@@ -26,7 +26,7 @@
  * restore subplugin class that provides the necessary information
  * needed to restore one surveypro->recurrence subplugin.
  */
-class restore_surveypro_recurrence_subplugin extends restore_subplugin {
+class restore_surveyprofield_recurrence_subplugin extends restore_subplugin {
 
     /**
      * This method processes the config element inside one recurrence surveypro (see recurrence subplugin backup)

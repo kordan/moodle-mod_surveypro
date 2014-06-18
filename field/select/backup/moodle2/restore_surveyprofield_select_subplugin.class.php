@@ -26,7 +26,7 @@
  * restore subplugin class that provides the necessary information
  * needed to restore one surveypro->select subplugin.
  */
-class restore_surveypro_select_subplugin extends restore_subplugin {
+class restore_surveyprofield_select_subplugin extends restore_subplugin {
 
     /**
      * This method processes the config element inside one select surveypro (see select subplugin backup)

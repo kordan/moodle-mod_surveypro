@@ -26,7 +26,7 @@
  * restore subplugin class that provides the necessary information
  * needed to restore one surveypro->textarea subplugin.
  */
-class restore_surveypro_textarea_subplugin extends restore_subplugin {
+class restore_surveyprofield_textarea_subplugin extends restore_subplugin {
 
     /**
      * This method processes the config element inside one textarea surveypro (see textarea subplugin backup)

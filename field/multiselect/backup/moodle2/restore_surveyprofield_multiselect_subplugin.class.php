@@ -26,7 +26,7 @@
  * restore subplugin class that provides the necessary information
  * needed to restore one surveypro->multiselect subplugin.
  */
-class restore_surveypro_multiselect_subplugin extends restore_subplugin {
+class restore_surveyprofield_multiselect_subplugin extends restore_subplugin {
 
     /**
      * This method processes the config element inside one multiselect surveypro (see multiselect subplugin backup)

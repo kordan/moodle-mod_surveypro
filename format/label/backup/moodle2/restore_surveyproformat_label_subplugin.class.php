@@ -26,7 +26,7 @@
  * restore subplugin class that provides the necessary information
  * needed to restore one surveypro->label subplugin.
  */
-class restore_surveypro_label_subplugin extends restore_subplugin {
+class restore_surveyproformat_label_subplugin extends restore_subplugin {
 
     /**
      * This method processes the config element inside one label surveypro (see label subplugin backup)

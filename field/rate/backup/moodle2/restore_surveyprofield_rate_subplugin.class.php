@@ -26,7 +26,7 @@
  * restore subplugin class that provides the necessary information
  * needed to restore one surveypro->rate subplugin.
  */
-class restore_surveypro_rate_subplugin extends restore_subplugin {
+class restore_surveyprofield_rate_subplugin extends restore_subplugin {
 
     /**
      * This method processes the config element inside one rate surveypro (see rate subplugin backup)

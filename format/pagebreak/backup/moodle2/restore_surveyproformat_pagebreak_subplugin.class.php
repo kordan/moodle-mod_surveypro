@@ -26,7 +26,7 @@
  * restore subplugin class that provides the necessary information
  * needed to restore one surveypro->pagebreak subplugin.
  */
-class restore_surveypro_pagebreak_subplugin extends restore_subplugin {
+class restore_surveyproformat_pagebreak_subplugin extends restore_subplugin {
 
     /**
      * This method processes the config element inside one pagebreak surveypro (see pagebreak subplugin backup)

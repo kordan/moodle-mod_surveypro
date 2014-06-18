@@ -26,7 +26,24 @@
  * restore subplugin class that provides the necessary information
  * needed to restore one surveypro->boolean subplugin.
  */
-class restore_surveypro_boolean_subplugin extends restore_subplugin {
+class restore_surveyprofield_boolean_subplugin extends restore_subplugin {
+
+    protected function define_surveyproitem_subplugin_structure($data) {
+        $paths = array();
+
+        $elename = $this->get_namefor('surveypro_item');
+        $elepath = $this->get_pathfor('/activity/surveypro/items/item');
+        $paths[] = new restore_path_element($elename, $elepath);
+
+        return $paths; // And we return the interesting paths
+    }
+
+    /**
+     * This method processes the config element inside one boolean surveypro (see boolean subplugin backup)
+     */
+    protected function process_surveyproitem_PATHDEFINED($data) {
+
+    }
 
     /**
      * This method processes the config element inside one boolean surveypro (see boolean subplugin backup)

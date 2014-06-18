@@ -26,7 +26,7 @@
  * restore subplugin class that provides the necessary information
  * needed to restore one surveypro->character subplugin.
  */
-class restore_surveypro_character_subplugin extends restore_subplugin {
+class restore_surveyprofield_character_subplugin extends restore_subplugin {
 
     /**
      * This method processes the config element inside one character surveypro (see character subplugin backup)

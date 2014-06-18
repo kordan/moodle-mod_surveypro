@@ -26,7 +26,7 @@
  * restore subplugin class that provides the necessary information
  * needed to restore one surveypro->autofill subplugin.
  */
-class restore_surveypro_autofill_subplugin extends restore_subplugin {
+class restore_surveyprofield_autofill_subplugin extends restore_subplugin {
 
     /**
      * This method processes the config element inside one autofill surveypro (see autofill subplugin backup)

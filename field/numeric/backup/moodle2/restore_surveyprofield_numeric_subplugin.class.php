@@ -26,7 +26,7 @@
  * restore subplugin class that provides the necessary information
  * needed to restore one surveypro->numeric subplugin.
  */
-class restore_surveypro_numeric_subplugin extends restore_subplugin {
+class restore_surveyprofield_numeric_subplugin extends restore_subplugin {
 
     /**
      * This method processes the config element inside one numeric surveypro (see numeric subplugin backup)

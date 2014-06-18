@@ -26,7 +26,7 @@
  * restore subplugin class that provides the necessary information
  * needed to restore one surveypro->checkbox subplugin.
  */
-class restore_surveypro_checkbox_subplugin extends restore_subplugin {
+class restore_surveyprofield_checkbox_subplugin extends restore_subplugin {
 
     /**
      * This method processes the config element inside one checkbox surveypro (see checkbox subplugin backup)

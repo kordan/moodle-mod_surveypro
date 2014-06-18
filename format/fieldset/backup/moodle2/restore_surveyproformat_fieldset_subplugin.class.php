@@ -26,7 +26,7 @@
  * restore subplugin class that provides the necessary information
  * needed to restore one surveypro->fieldset subplugin.
  */
-class restore_surveypro_fieldset_subplugin extends restore_subplugin {
+class restore_surveyproformat_fieldset_subplugin extends restore_subplugin {
 
     /**
      * This method processes the config element inside one fieldset surveypro (see fieldset subplugin backup)

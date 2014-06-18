@@ -37,11 +37,16 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         $userinfo = $this->get_setting_value('userinfo');
 
         $paths[] = new restore_path_element('surveypro', '/activity/surveypro');
-        $paths[] = new restore_path_element('surveypro_item', '/activity/surveypro/items/item');
+        $surveypro_item = new restore_path_element('surveypro_item', '/activity/surveypro/items/item');
+        $paths[] = $surveypro_item;
         if ($userinfo) {
             $paths[] = new restore_path_element('surveypro_submission', '/activity/surveypro/submissions/submission');
             $paths[] = new restore_path_element('surveypro_answer', '/activity/surveypro/answers/answer');
         }
+
+        // Apply for 'surveyprofield' and 'surveyproformat' subplugins optional paths at surveypro_item level
+        $this->add_subplugin_structure('surveyprofield', $surveypro_item);
+        $this->add_subplugin_structure('surveyproformat', $surveypro_item);
 
         // Return the paths wrapped into standard activity structure
         return $this->prepare_activity_structure($paths);
