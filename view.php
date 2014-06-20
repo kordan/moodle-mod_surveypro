@@ -28,7 +28,7 @@
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/view_userform.class.php');
-require_once($CFG->dirroot.'/mod/surveypro/forms/remoteuser/usersurvey_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/forms/remoteuser/out_form.php');
 
 $id = optional_param('id', 0, PARAM_INT); // course_module ID, or
 $s = optional_param('s', 0, PARAM_INT);  // surveypro instance ID

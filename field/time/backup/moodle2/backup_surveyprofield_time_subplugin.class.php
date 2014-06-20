@@ -34,15 +34,15 @@ class backup_surveyprofield_time_subplugin extends backup_subplugin {
 
         // XML nodes declaration
         $subplugin = $this->get_subplugin_element(null, '../../plugin', 'time'); // virtual optigroup element
-        $subplugintimes = new backup_nested_element($this->get_recommended_name());
+        $wrapper = new backup_nested_element($this->get_recommended_name());
         $subplugintime = new backup_nested_element('surveyprofield_time', array('id'), array(
             'content', 'contentformat', 'customnumber', 'position',
             'extranote', 'required', 'hideinstructions', 'variable', 'indent',
             'defaultoption', 'defaultvalue', 'downloadformat', 'lowerbound', 'upperbound'));
 
         // connect XML elements into the tree
-        $subplugin->add_child($subplugintimes);
-        $subplugintimes->add_child($subplugintime);
+        $subplugin->add_child($wrapper);
+        $wrapper->add_child($subplugintime);
 
         // Define sources
         $subplugintime->set_source_table('surveyprofield_time', array('itemid' => backup::VAR_PARENTID));

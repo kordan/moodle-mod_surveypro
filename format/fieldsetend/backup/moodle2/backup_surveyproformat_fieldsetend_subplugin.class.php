@@ -34,13 +34,13 @@ class backup_surveyproformat_fieldsetend_subplugin extends backup_subplugin {
 
         // XML nodes declaration
         $subplugin = $this->get_subplugin_element(null, '../../plugin', 'fieldsetend'); // virtual optigroup element
-        $subpluginfieldsetends = new backup_nested_element($this->get_recommended_name());
+        $wrapper = new backup_nested_element($this->get_recommended_name());
         $subpluginfieldsetend = new backup_nested_element('surveyproformat_fieldsetend', array('id'), array(
             'content', 'contentformat', 'customnumber', 'indent', 'fullwidth', 'leftfieldsetend'));
 
         // connect XML elements into the tree
-        $subplugin->add_child($subpluginfieldsetends);
-        $subpluginfieldsetends->add_child($subpluginfieldsetend);
+        $subplugin->add_child($wrapper);
+        $wrapper->add_child($subpluginfieldsetend);
 
         // Define sources
         $subpluginfieldsetend->set_source_table('surveyproformat_fieldsetend', array('itemid' => backup::VAR_PARENTID));

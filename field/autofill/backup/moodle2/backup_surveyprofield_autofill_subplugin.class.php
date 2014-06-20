@@ -34,15 +34,15 @@ class backup_surveyprofield_autofill_subplugin extends backup_subplugin {
 
         // XML nodes declaration
         $subplugin = $this->get_subplugin_element(null, '../../plugin', 'autofill'); // virtual optigroup element
-        $subpluginautofills = new backup_nested_element($this->get_recommended_name());
+        $wrapper = new backup_nested_element($this->get_recommended_name());
         $subpluginautofill = new backup_nested_element('surveyprofield_autofill', array('id'), array(
             'content', 'contentformat', 'customnumber', 'position',
             'extranote', 'variable', 'indent', 'hiddenfield',
             'element01', 'element02', 'element03', 'element04', 'element05'));
 
         // connect XML elements into the tree
-        $subplugin->add_child($subpluginautofills);
-        $subpluginautofills->add_child($subpluginautofill);
+        $subplugin->add_child($wrapper);
+        $wrapper->add_child($subpluginautofill);
 
         // Define sources
         $subpluginautofill->set_source_table('surveyprofield_autofill', array('itemid' => backup::VAR_PARENTID));

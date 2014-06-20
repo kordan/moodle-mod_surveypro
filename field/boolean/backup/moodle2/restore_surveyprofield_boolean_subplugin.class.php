@@ -28,16 +28,15 @@
  */
 class restore_surveyprofield_boolean_subplugin extends restore_subplugin {
 
+    /**
+     * Define new path for item subplugin
+     */
     protected function define_item_subplugin_structure() {
         $paths = array();
 
         $elename = $this->get_namefor();
         $elepath = $this->get_pathfor($elename);
         $paths[] = new restore_path_element($elename, $elepath);
-
-echo 'I am at the line '.__LINE__.' of the file '.__FILE__."\n";
-var_dump($paths);
-// die;
 
         return $paths; // And we return the interesting paths
     }
@@ -49,18 +48,9 @@ var_dump($paths);
         global $DB;
 
         $data = (object)$data;
-echo 'I am at the line '.__LINE__.' of the file '.__FILE__."\n";
-var_dump($data);
+        $data->itemid = $this->get_new_parentid('item');
 
-        $oldid = $data->id;
-        $data->itemid = $this->get_mappingid('itemid', $data->itemid);
-
-        // insert the assignment record
-        $newitemid = $DB->insert_record('surveyprofield_boolean', $data);
-
-        // immediately after inserting "activity" record, call this
-        // $this->apply_activity_instance($newitemid);
-
-// die;
+        // insert the surveyprofield_boolean record
+        $newbooleanid = $DB->insert_record('surveyprofield_boolean', $data);
     }
 }

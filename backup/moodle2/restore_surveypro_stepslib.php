@@ -37,16 +37,16 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         $userinfo = $this->get_setting_value('userinfo');
 
         $paths[] = new restore_path_element('surveypro', '/activity/surveypro');
-        $surveypro_item = new restore_path_element('surveypro_item', '/activity/surveypro/items/item');
-        $paths[] = $surveypro_item;
+        $item = new restore_path_element('item', '/activity/surveypro/items/item');
+        $paths[] = $item;
         if ($userinfo) {
-            $paths[] = new restore_path_element('surveypro_submission', '/activity/surveypro/submissions/submission');
-            $paths[] = new restore_path_element('surveypro_answer', '/activity/surveypro/answers/answer');
+            $paths[] = new restore_path_element('submission', '/activity/surveypro/submissions/submission');
+            $paths[] = new restore_path_element('answer', '/activity/surveypro/answers/answer');
         }
 
         // Apply for 'surveyprofield' and 'surveyproformat' subplugins optional paths at surveypro_item level
-        $this->add_subplugin_structure('surveyprofield', $surveypro_item);
-        $this->add_subplugin_structure('surveyproformat', $surveypro_item);
+        $this->add_subplugin_structure('surveyprofield', $item);
+        $this->add_subplugin_structure('surveyproformat', $item);
 
         // Return the paths wrapped into standard activity structure
         return $this->prepare_activity_structure($paths);
@@ -70,7 +70,7 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         $this->apply_activity_instance($newitemid);
     }
 
-    protected function process_surveypro_item($data) {
+    protected function process_item($data) {
         global $DB;
 
         $data = (object)$data;
@@ -80,10 +80,10 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         $data->timemodified = $this->apply_date_offset($data->timemodified);
 
         $newitemid = $DB->insert_record('surveypro_item', $data);
-        $this->set_mapping('surveypro_item', $oldid, $newitemid);
+        $this->set_mapping('item', $oldid, $newitemid);
     }
 
-    protected function process_surveypro_submission($data) {
+    protected function process_submission($data) {
         global $DB;
 
         $data = (object)$data;
@@ -95,15 +95,15 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         $data->timemodified = $this->apply_date_offset($data->timemodified);
 
         $newitemid = $DB->insert_record('surveypro_submission', $data);
-        $this->set_mapping('surveypro_submission', $oldid, $newitemid);
+        $this->set_mapping('submission', $oldid, $newitemid);
     }
 
-    protected function process_surveypro_answer($data) {
+    protected function process_answer($data) {
         global $DB;
 
         $data = (object)$data;
 
-        $data->submissionid = $this->get_mappingid('surveypro_submission', $data->submissionid);
+        $data->submissionid = $this->get_mappingid('submission', $data->submissionid);
         $data->timemodified = $this->apply_date_offset($data->timemodified);
 
         $newitemid = $DB->insert_record('surveypro_answers', $data);
@@ -112,7 +112,23 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
     }
 
     protected function after_execute() {
+        global $DB;
+
         // Add surveypro related files, no need to match by itemname (just internally handled context)
         $this->add_related_files('mod_surveypro', 'intro', null);
+
+        // 1) get all the item->parentids belonging to the surveypro you are restoring.
+        // 2) iterate over them, and when a parentid is found, look in item mappings and perform the set_field.
+
+        $itemrecords = $DB->get_recordset('surveypro_item', array('surveyproid' => $this->get_new_parentid('surveypro')), '', 'id, parentid');
+        if ($itemrecords->valid()) {
+            foreach ($itemrecords as $itemrecord) {
+                if ($itemrecord->parentid) {
+                    $newparentid = $this->get_mappingid('item', $itemrecord->parentid);
+                    $DB->set_field('surveypro_item', 'parentid', $newparentid, array('id' => $itemrecord->id));
+                }
+            }
+        }
+        $itemrecords->close();
     }
 }

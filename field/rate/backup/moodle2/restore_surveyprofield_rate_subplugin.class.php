@@ -29,30 +29,29 @@
 class restore_surveyprofield_rate_subplugin extends restore_subplugin {
 
     /**
-     * This method processes the config element inside one rate surveypro (see rate subplugin backup)
+     * Define new path for item subplugin
      */
-    public function process_surveypro_rate_config($data) {
-        $data = (object)$data;
-        print_object($data); // Nothing to do, just print the data
+    protected function define_item_subplugin_structure() {
+        $paths = array();
 
-        // Just to check that the whole API is available here
-        $this->set_mapping('surveypro_rate_config', 1, 1, true);
-        $this->add_related_files('mod_surveypro', 'intro', 'surveypro_rate_config');
-        print_object($this->get_mappingid('surveypro_rate_config', 1));
-        print_object($this->get_old_parentid('surveypro'));
-        print_object($this->get_new_parentid('surveypro'));
-        print_object($this->get_mapping('surveypro', $this->get_old_parentid('surveypro')));
-        print_object($this->apply_date_offset(1));
-        print_object($this->task->get_courseid());
-        print_object($this->task->get_contextid());
-        print_object($this->get_restoreid());
+        $elename = $this->get_namefor();
+        $elepath = $this->get_pathfor($elename);
+        $paths[] = new restore_path_element($elename, $elepath);
+
+        return $paths; // And we return the interesting paths
     }
 
     /**
-     * This method processes the submission_config element inside one rate surveypro (see rate subplugin backup)
+     * Processes the surveyprofield_rate element
      */
-    public function process_surveypro_rate_submission_config($data) {
+    public function process_surveyprofield_rate($data) {
+        global $DB;
+
         $data = (object)$data;
-        print_object($data); // Nothing to do, just print the data
+        $data->itemid = $this->get_new_parentid('item');
+
+        // insert the surveyprofield_rate record
+        $newrateid = $DB->insert_record('surveyprofield_rate', $data);
     }
+
 }

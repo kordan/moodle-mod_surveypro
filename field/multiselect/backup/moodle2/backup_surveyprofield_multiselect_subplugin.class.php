@@ -34,15 +34,15 @@ class backup_surveyprofield_multiselect_subplugin extends backup_subplugin {
 
         // XML nodes declaration
         $subplugin = $this->get_subplugin_element(null, '../../plugin', 'multiselect'); // virtual optigroup element
-        $subpluginmultiselects = new backup_nested_element($this->get_recommended_name());
+        $wrapper = new backup_nested_element($this->get_recommended_name());
         $subpluginmultiselect = new backup_nested_element('surveyprofield_multiselect', array('id'), array(
             'content', 'contentformat', 'customnumber', 'position',
             'extranote', 'required', 'variable', 'indent',
             'options', 'defaultvalue', 'downloadformat', 'heightinrows'));
 
         // connect XML elements into the tree
-        $subplugin->add_child($subpluginmultiselects);
-        $subpluginmultiselects->add_child($subpluginmultiselect);
+        $subplugin->add_child($wrapper);
+        $wrapper->add_child($subpluginmultiselect);
 
         // Define sources
         $subpluginmultiselect->set_source_table('surveyprofield_multiselect', array('itemid' => backup::VAR_PARENTID));

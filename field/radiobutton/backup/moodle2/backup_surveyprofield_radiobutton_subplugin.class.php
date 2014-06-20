@@ -34,15 +34,15 @@ class backup_surveyprofield_radiobutton_subplugin extends backup_subplugin {
 
         // XML nodes declaration
         $subplugin = $this->get_subplugin_element(null, '../../plugin', 'radiobutton'); // virtual optigroup element
-        $subpluginradiobuttons = new backup_nested_element($this->get_recommended_name());
+        $wrapper = new backup_nested_element($this->get_recommended_name());
         $subpluginradiobutton = new backup_nested_element('surveyprofield_radiobutton', array('id'), array(
             'content', 'contentformat', 'customnumber', 'position',
             'extranote', 'required', 'variable', 'indent',
             'options', 'labelother', 'defaultoption', 'defaultvalue', 'downloadformat', 'adjustment'));
 
         // connect XML elements into the tree
-        $subplugin->add_child($subpluginradiobuttons);
-        $subpluginradiobuttons->add_child($subpluginradiobutton);
+        $subplugin->add_child($wrapper);
+        $wrapper->add_child($subpluginradiobutton);
 
         // Define sources
         $subpluginradiobutton->set_source_table('surveyprofield_radiobutton', array('itemid' => backup::VAR_PARENTID));

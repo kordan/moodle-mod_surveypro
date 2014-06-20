@@ -34,15 +34,15 @@ class backup_surveyprofield_shortdate_subplugin extends backup_subplugin {
 
         // XML nodes declaration
         $subplugin = $this->get_subplugin_element(null, '../../plugin', 'shortdate'); // virtual optigroup element
-        $subpluginshortdates = new backup_nested_element($this->get_recommended_name());
+        $wrapper = new backup_nested_element($this->get_recommended_name());
         $subpluginshortdate = new backup_nested_element('surveyprofield_shortdate', array('id'), array(
             'content', 'contentformat', 'customnumber', 'position',
             'extranote', 'required', 'hideinstructions', 'variable', 'indent',
             'defaultoption', 'defaultvalue', 'downloadformat', 'lowerbound', 'upperbound'));
 
         // connect XML elements into the tree
-        $subplugin->add_child($subpluginshortdates);
-        $subpluginshortdates->add_child($subpluginshortdate);
+        $subplugin->add_child($wrapper);
+        $wrapper->add_child($subpluginshortdate);
 
         // Define sources
         $subpluginshortdate->set_source_table('surveyprofield_shortdate', array('itemid' => backup::VAR_PARENTID));
