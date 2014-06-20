@@ -93,7 +93,7 @@ class backup_surveypro_activity_structure_step extends backup_activity_structure
         $surveypro->annotate_files('mod_surveypro', 'userstyle', null); // This file area does not have an itemid
         $surveypro->annotate_files('mod_surveypro', 'templatefilearea', null); // This file area does not have an itemid
         $surveypro->annotate_files('mod_surveypro', 'thankshtml', null); // This file area does not have an itemid
-        // $surveypro->annotate_files('mod_surveypro', 'itemcontent', 'id');
+        $item->annotate_files('mod_surveypro', 'itemcontent', 'itemid'); // By itemid
         // $fileupload->annotate_files
 
         // Return the root element (surveypro), wrapped into standard activity structure

@@ -70,3 +70,7 @@ README.md (so it will display nicely in github) ?
 4) Webservices?
 
 5) Verify guests submissions. Permissions, relations with anonymous.
+
+6) backup/restore of attachements in fileupload plugin
+
+7) backup/restore of files in item's content

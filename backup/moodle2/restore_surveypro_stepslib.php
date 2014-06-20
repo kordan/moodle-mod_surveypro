@@ -116,10 +116,15 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
 
         // Add surveypro related files, no need to match by itemname (just internally handled context)
         $this->add_related_files('mod_surveypro', 'intro', null);
+        $this->add_related_files('mod_surveypro', 'thankshtml', null);
+        $this->add_related_files('mod_surveypro', 'userstyle', null);
+
+        // Add item content files, matching by assignment_submission itemname
+        $this->add_related_files('mod_surveypro', 'itemcontent', 'content_editor');
+        // add_related_files($component, $filearea, $mappingitemname, $filesctxid = null, $olditemid = null)
 
         // 1) get all the item->parentids belonging to the surveypro you are restoring.
         // 2) iterate over them, and when a parentid is found, look in item mappings and perform the set_field.
-
         $itemrecords = $DB->get_recordset('surveypro_item', array('surveyproid' => $this->get_new_parentid('surveypro')), '', 'id, parentid');
         if ($itemrecords->valid()) {
             foreach ($itemrecords as $itemrecord) {
