@@ -65,9 +65,13 @@ class backup_surveypro_activity_structure_step extends backup_activity_structure
         $surveypro->add_child($items);
         $items->add_child($item);
 
-        // Apply for 'surveypro' subplugins stuff
+        // Apply for 'surveypro' subplugins stuff at item level
         $this->add_subplugin_structure('surveyprofield', $item, false);
         $this->add_subplugin_structure('surveyproformat', $item, false);
+
+        // Apply for 'surveypro' subplugins stuff at answer level
+        $this->add_subplugin_structure('surveyprofield', $answer, false);
+        $this->add_subplugin_structure('surveyproformat', $answer, false);
 
         $surveypro->add_child($submissions);
         $submissions->add_child($submission);
@@ -93,7 +97,7 @@ class backup_surveypro_activity_structure_step extends backup_activity_structure
         $surveypro->annotate_files('mod_surveypro', 'userstyle', null); // This file area does not have an itemid
         $surveypro->annotate_files('mod_surveypro', 'templatefilearea', null); // This file area does not have an itemid
         $surveypro->annotate_files('mod_surveypro', 'thankshtml', null); // This file area does not have an itemid
-        $item->annotate_files('mod_surveypro', 'itemcontent', 'itemid'); // By itemid
+        $item->annotate_files('mod_surveypro', 'itemcontent', 'id'); // By itemid
         // $fileupload->annotate_files
 
         // Return the root element (surveypro), wrapped into standard activity structure

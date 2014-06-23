@@ -80,7 +80,7 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         $data->timemodified = $this->apply_date_offset($data->timemodified);
 
         $newitemid = $DB->insert_record('surveypro_item', $data);
-        $this->set_mapping('item', $oldid, $newitemid);
+        $this->set_mapping('item', $oldid, $newitemid, true); // We need the mapping to be able to restore files from filearea 'itemcontent'
     }
 
     protected function process_submission($data) {
@@ -120,7 +120,7 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         $this->add_related_files('mod_surveypro', 'userstyle', null);
 
         // Add item content files, matching by assignment_submission itemname
-        $this->add_related_files('mod_surveypro', 'itemcontent', 'content_editor');
+        $this->add_related_files('mod_surveypro', 'itemcontent', 'item');
         // add_related_files($component, $filearea, $mappingitemname, $filesctxid = null, $olditemid = null)
 
         // 1) get all the item->parentids belonging to the surveypro you are restoring.
