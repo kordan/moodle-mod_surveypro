@@ -102,13 +102,14 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         global $DB;
 
         $data = (object)$data;
+        $oldid = $data->id;
 
         $data->submissionid = $this->get_mappingid('submission', $data->submissionid);
         $data->timemodified = $this->apply_date_offset($data->timemodified);
 
         $newitemid = $DB->insert_record('surveypro_answers', $data);
-        // No need to save this mapping as far as nothing depend on it
-        // (child paths, file areas nor links decoder)
+        $this->set_mapping('answer', $oldid, $newitemid);
+        // needed because attachment files are 'children' of answers
     }
 
     protected function after_execute() {

@@ -142,7 +142,7 @@ $modulepage = SURVEYPRO_ITEMS_SETUP; // needed by tabs.php
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
 if ($itemlistman->hassubmissions) {
-    echo $OUTPUT->notification(get_string('hassubmissions_alert', 'surveypro'));
+    echo $OUTPUT->notification(get_string('hassubmissions_alert', 'surveypro'), 'notifymessage');
 }
 $itemlistman->item_welcome();
 

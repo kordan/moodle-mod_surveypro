@@ -317,3 +317,10 @@
     width:25em;
 }
 /* end of: for long edit fields in itemsetup form */
+
+/* begin of: fix to owful alignment of fielset legends in the cover */
+.coverinfolegend {
+    margin-top:20px;
+    margin-bottom:0;
+}
+/* end of: fix to owful alignment of fielset legends in the cover */

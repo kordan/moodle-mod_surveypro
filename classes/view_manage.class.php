@@ -227,7 +227,7 @@ class mod_surveypro_submissionmanager {
 
                         $transaction->allow_commit();
 
-                        echo $OUTPUT->notification(get_string('responsedeleted', 'surveypro'), 'notifyproblem');
+                        echo $OUTPUT->notification(get_string('responsedeleted', 'surveypro'), 'notifysuccess');
                     } catch (Exception $e) {
                         //extra cleanup steps
                         $transaction->rollback($e); // rethrows exception
@@ -247,7 +247,7 @@ class mod_surveypro_submissionmanager {
                     break;
                 case SURVEYPRO_CONFIRMED_NO:
                     $message = get_string('usercanceled', 'surveypro');
-                    echo $OUTPUT->notification($message, 'notifyproblem');
+                    echo $OUTPUT->notification($message, 'notifymessage');
                     break;
                 default:
                     debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->confirm = '.$this->confirm, DEBUG_DEVELOPER);
@@ -297,7 +297,7 @@ class mod_surveypro_submissionmanager {
                         }
 
                         $DB->delete_records('surveypro_submission', array('surveyproid' => $this->surveypro->id));
-                        echo $OUTPUT->notification(get_string('allsubmissionsdeleted', 'surveypro'), 'notifyproblem');
+                        echo $OUTPUT->notification(get_string('allsubmissionsdeleted', 'surveypro'), 'notifymessage');
 
                         $transaction->allow_commit();
                     } catch (Exception $e) {
@@ -319,7 +319,7 @@ class mod_surveypro_submissionmanager {
                     break;
                 case SURVEYPRO_CONFIRMED_NO:
                     $message = get_string('usercanceled', 'surveypro');
-                    echo $OUTPUT->notification($message, 'notifyproblem');
+                    echo $OUTPUT->notification($message, 'notifymessage');
                     break;
                 default:
                     debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->confirm = '.$this->confirm, DEBUG_DEVELOPER);
@@ -540,8 +540,8 @@ class mod_surveypro_submissionmanager {
                 $paramurl = $paramurlbase;
                 $paramurl['act'] = SURVEYPRO_DELETEALLRESPONSES;
                 $paramurl['sesskey'] = sesskey();
-                $url = new moodle_url('/mod/surveypro/view_manage.php', $paramurl);
-                echo $OUTPUT->single_button($url, get_string('deleteallsubmissions', 'surveypro'), 'get');
+                $url = new moodle_url('view_manage.php', $paramurl);
+                echo $OUTPUT->box($OUTPUT->single_button($url, get_string('deleteallsubmissions', 'surveypro'), 'get'), 'clearfix mdl-align');
             }
 
             if ($groupmode = groups_get_activity_groupmode($this->cm, $COURSE)) {
@@ -668,6 +668,13 @@ class mod_surveypro_submissionmanager {
 
         $table->summary = get_string('submissionslist', 'surveypro');
         $table->print_html();
+
+        // if this is the output of a search and nothing has been found
+        // give to the user a way to show all submissions
+        if (!isset($tablerow) && ($this->searchfields_get)) {
+            $url = new moodle_url('view_manage.php', array('id' => $this->cm->id));
+            echo $OUTPUT->box($OUTPUT->single_button($url, get_string('showallsubmissions', 'surveypro'), 'get'), 'clearfix mdl-align');
+        }
     }
 
     /*

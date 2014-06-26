@@ -769,7 +769,7 @@ class mod_surveypro_itemlist {
                 case SURVEYPRO_CONFIRMED_NO:
                     $itemstoprocess = 0;
                     $message = get_string('usercanceled', 'surveypro');
-                    echo $OUTPUT->notification($message, 'notifyproblem');
+                    echo $OUTPUT->notification($message, 'notifymessage');
                     break;
                 default:
                     debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->confirm = '.$this->confirm, DEBUG_DEVELOPER);
@@ -833,7 +833,7 @@ class mod_surveypro_itemlist {
                 case SURVEYPRO_CONFIRMED_NO:
                     $itemstoprocess = 0;
                     $message = get_string('usercanceled', 'surveypro');
-                    echo $OUTPUT->notification($message, 'notifyproblem');
+                    echo $OUTPUT->notification($message, 'notifymessage');
                     break;
                 default:
                     debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->confirm = '.$this->confirm, DEBUG_DEVELOPER);
@@ -903,7 +903,7 @@ class mod_surveypro_itemlist {
                 case SURVEYPRO_CONFIRMED_NO:
                     $itemstoprocess = 0;
                     $message = get_string('usercanceled', 'surveypro');
-                    echo $OUTPUT->notification($message, 'notifyproblem');
+                    echo $OUTPUT->notification($message, 'notifymessage');
                     break;
                 default:
                     debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->confirm = '.$this->confirm, DEBUG_DEVELOPER);
@@ -967,7 +967,7 @@ class mod_surveypro_itemlist {
                 case SURVEYPRO_CONFIRMED_NO:
                     $itemstoprocess = 0;
                     $message = get_string('usercanceled', 'surveypro');
-                    echo $OUTPUT->notification($message, 'notifyproblem');
+                    echo $OUTPUT->notification($message, 'notifymessage');
                     break;
                 default:
                     debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->confirm = '.$this->confirm, DEBUG_DEVELOPER);
@@ -1066,7 +1066,7 @@ class mod_surveypro_itemlist {
                     break;
                 case SURVEYPRO_CONFIRMED_NO:
                     $message = get_string('usercanceled', 'surveypro');
-                    echo $OUTPUT->notification($message, 'notifyproblem');
+                    echo $OUTPUT->notification($message, 'notifymessage');
                     break;
                 default:
                     debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->confirm = '.$this->confirm, DEBUG_DEVELOPER);

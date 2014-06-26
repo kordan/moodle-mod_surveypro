@@ -49,4 +49,21 @@ class backup_surveyprofield_fileupload_subplugin extends backup_subplugin {
 
         return $subplugin;
     }
+
+    protected function define_answer_subplugin_structure() {
+
+        // XML nodes declaration
+        $subplugin = $this->get_subplugin_element(null, '../../plugin', 'fileupload'); // virtual optigroup element
+        $wrapper = new backup_nested_element($this->get_recommended_name());
+        $subpluginfileupload = new backup_nested_element('config', array('id'), array('name', 'value'));
+
+        // connect XML elements into the tree
+        $subplugin->add_child($wrapper);
+        $wrapper->add_child($subpluginfileupload);
+
+        // Define sources
+        $subpluginfileupload->set_source_table('config', array());
+
+        return $subplugin;
+    }
 }

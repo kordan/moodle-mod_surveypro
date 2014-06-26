@@ -309,7 +309,7 @@ class surveypro_plugin_manager {
         if ($confirm) {
             // Delete any configuration records.
             if (!unset_all_config_for_plugin($this->subtype.'_'.$plugin)) {
-                $this->error = $OUTPUT->notification(get_string('errordeletingconfig', 'admin', $this->subtype.'_'.$plugin));
+                $this->error = $OUTPUT->notification(get_string('errordeletingconfig', 'admin', $this->subtype.'_'.$plugin), 'notifyproblem');
             }
 
             // Should be covered by the previous function - but just in case.
@@ -354,7 +354,7 @@ class surveypro_plugin_manager {
         $shortsubtype = substr($this->subtype, strlen('surveypro'));
         $messageparams = array('name' => $pluginname,
                                'directory' => ('/mod/surveypro/'.$shortsubtype.'/'.$plugin));
-        echo $OUTPUT->notification(get_string('plugindeletefiles', 'moodle', $messageparams));
+        echo $OUTPUT->notification(get_string('plugindeletefiles', 'moodle', $messageparams), 'notifymessage');
         echo $OUTPUT->continue_button($this->pageurl);
         $this->view_footer();
     }

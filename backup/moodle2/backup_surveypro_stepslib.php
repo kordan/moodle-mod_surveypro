@@ -58,7 +58,7 @@ class backup_surveypro_activity_structure_step extends backup_activity_structure
 
         $answers = new backup_nested_element('answers');
 
-        $answer = new backup_nested_element('answer', array('id', 'itemid'), array(
+        $answer = new backup_nested_element('answer', array('id', 'itemid', 'plugin'), array(
                     'content', 'contentformat'));
 
         // Build the tree
@@ -71,7 +71,7 @@ class backup_surveypro_activity_structure_step extends backup_activity_structure
 
         // Apply for 'surveypro' subplugins stuff at answer level
         $this->add_subplugin_structure('surveyprofield', $answer, false);
-        $this->add_subplugin_structure('surveyproformat', $answer, false);
+        // $this->add_subplugin_structure('surveyproformat', $answer, false); // useless??
 
         $surveypro->add_child($submissions);
         $submissions->add_child($submission);
@@ -86,8 +86,10 @@ class backup_surveypro_activity_structure_step extends backup_activity_structure
         // All the rest of elements only happen if we are including user info
         if ($userinfo) {
             $submission->set_source_table('surveypro_submission', array('surveyproid' => backup::VAR_ACTIVITYID));
-            $answer->set_source_table('surveypro_answer', array('submissionid' => '../../id'));
-        }
+            $answer->set_source_sql('SELECT sa.*, si.plugin
+                                       FROM {surveypro_answer} sa
+                                       JOIN {surveypro_item} si ON si.id = sa.itemid
+                                      WHERE sa.submissionid = ?', array(backup::VAR_PARENTID));        }
 
         // Define id annotations
         $submission->annotate_ids('user', 'userid');
@@ -97,8 +99,8 @@ class backup_surveypro_activity_structure_step extends backup_activity_structure
         $surveypro->annotate_files('mod_surveypro', 'userstyle', null); // This file area does not have an itemid
         $surveypro->annotate_files('mod_surveypro', 'templatefilearea', null); // This file area does not have an itemid
         $surveypro->annotate_files('mod_surveypro', 'thankshtml', null); // This file area does not have an itemid
-        $item->annotate_files('mod_surveypro', 'itemcontent', 'id'); // By itemid
-        // $fileupload->annotate_files
+        $item->annotate_files('mod_surveypro', 'itemcontent', 'id'); // By id (being strict this should be under subplugins
+                                                                     // control, but as far as it's common to all types...).
 
         // Return the root element (surveypro), wrapped into standard activity structure
         return $this->prepare_activity_structure($surveypro);

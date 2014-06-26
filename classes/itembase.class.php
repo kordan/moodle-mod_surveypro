@@ -146,7 +146,8 @@ class mod_surveypro_itembase {
         global $DB;
 
         if (!$itemid) {
-            debugging('Something was wrong at line '.__LINE__.' of file '.__FILE__.'! Can not load an item without its ID', DEBUG_DEVELOPER);
+            $message = 'Something was wrong at line '.__LINE__.' of file '.__FILE__.'! Can not load an item without its ID';
+            debugging($message, DEBUG_DEVELOPER);
         }
 
         $sql = 'SELECT *, si.id as itemid, plg.id as pluginid

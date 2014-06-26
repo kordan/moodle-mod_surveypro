@@ -830,7 +830,7 @@ class mod_surveypro_userformmanager {
         global $COURSE, $OUTPUT;
 
         $message = get_string('noitemsfound', 'surveypro');
-        echo $OUTPUT->notification($message, 'generaltable generalbox boxaligncenter boxwidthnormal');
+        echo $OUTPUT->notification($message, 'notifyproblem');
 
         $continueurl = new moodle_url('/course/view.php', array('id' => $COURSE->id));
         echo $OUTPUT->continue_button($continueurl);
@@ -893,7 +893,7 @@ class mod_surveypro_userformmanager {
         global $OUTPUT;
 
         $message = get_string('nomoresubmissionsallowed', 'surveypro', $this->surveypro->maxentries);
-        echo $OUTPUT->notification($message, 'generaltable generalbox boxaligncenter boxwidthnormal');
+        echo $OUTPUT->notification($message, 'notifyproblem');
 
         $whereparams = array('id' => $this->cm->id);
         $continueurl = new moodle_url('view_manage.php', $whereparams);
@@ -1452,7 +1452,7 @@ class mod_surveypro_userformmanager {
         if (count($messages)) {
             // echo $OUTPUT->box_start('box generalbox description', 'intro');
             echo html_writer::start_tag('fieldset', array('class' => 'generalbox'));
-            echo html_writer::start_tag('legend', array('class' => 'infolegend'));
+            echo html_writer::start_tag('legend', array('class' => 'coverinfolegend'));
             echo $strlegend;
             echo html_writer::end_tag('legend');
             foreach ($messages as $message) {

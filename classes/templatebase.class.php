@@ -427,7 +427,7 @@ class mod_surveypro_templatebase {
                     if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
                         // but you got a disconfirmation: declare it and give up.
                         $message = get_string('usercanceled', 'surveypro');
-                        echo $OUTPUT->notification($message, 'notifyproblem');
+                        echo $OUTPUT->notification($message, 'notifymessage');
                     }
                 }
                 return;

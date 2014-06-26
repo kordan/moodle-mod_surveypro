@@ -141,7 +141,7 @@ $itemlistman->manage_actions();
 $itemlistman->display_user_feedback();
 
 if ($itemlistman->hassubmissions) {
-    echo $OUTPUT->notification(get_string('hassubmissions_alert', 'surveypro'));
+    echo $OUTPUT->notification(get_string('hassubmissions_alert', 'surveypro'), 'notifymessage');
 }
 
 // add Master templates selection form

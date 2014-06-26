@@ -155,6 +155,7 @@ class surveyproformat_fieldsetend extends mod_surveypro_itembase {
     </xs:element>
 </xs:schema>
 EOS;
+
         return $schema;
     }
 
@@ -170,8 +171,6 @@ EOS;
      * @return
      */
     public function userform_mform_element($mform, $searchform, $readonly=false, $submissionid=0) {
-        global $DB, $USER, $PAGE;
-
         // this plugin has $this->flag->issearchable = false; so it will never be part of a search form
 
         // workaround suggested by Marina Glancy in MDL-42946
