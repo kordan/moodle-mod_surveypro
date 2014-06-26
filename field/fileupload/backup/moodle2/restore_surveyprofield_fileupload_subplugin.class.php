@@ -48,9 +48,16 @@ class restore_surveyprofield_fileupload_subplugin extends restore_subplugin {
         global $DB;
 
         $data = (object)$data;
+        $oldid = $data->id;
+
         $data->itemid = $this->get_new_parentid('item');
 
         // insert the surveyprofield_fileupload record
         $newfileuploadid = $DB->insert_record('surveyprofield_fileupload', $data);
+        $this->set_mapping($this->get_namefor('fileupload'), $oldid, $newfileuploadid, true);
+
+        // Process files for this surveyprofield_fileupload->id only
+        $fileupload = $this->get_namefor('fileupload');
+        $this->add_related_files('surveyprofield_fileupload', 'fileuploadfiles', $fileupload, null, $oldid);
     }
 }

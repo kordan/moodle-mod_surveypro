@@ -41,12 +41,18 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         $paths[] = $item;
         if ($userinfo) {
             $paths[] = new restore_path_element('submission', '/activity/surveypro/submissions/submission');
-            $paths[] = new restore_path_element('answer', '/activity/surveypro/answers/answer');
+            $answer = new restore_path_element('answer', '/activity/surveypro/answers/answer');
+            $paths[] = $answer;
         }
 
-        // Apply for 'surveyprofield' and 'surveyproformat' subplugins optional paths at surveypro_item level
+        // Apply for 'surveyprofield' and 'surveyproformat' subplugins optional paths at item level
         $this->add_subplugin_structure('surveyprofield', $item);
         $this->add_subplugin_structure('surveyproformat', $item);
+        if ($userinfo) {
+            // Apply for 'surveyprofield' and 'surveyproformat' subplugins optional paths at answer level
+            $this->add_subplugin_structure('surveyprofield', $answer);
+            // $this->add_subplugin_structure('surveyproformat', $answer); // useless??
+        }
 
         // Return the paths wrapped into standard activity structure
         return $this->prepare_activity_structure($paths);
@@ -108,8 +114,8 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         $data->timemodified = $this->apply_date_offset($data->timemodified);
 
         $newitemid = $DB->insert_record('surveypro_answers', $data);
-        $this->set_mapping('answer', $oldid, $newitemid);
-        // needed because attachment files are 'children' of answers
+        // No need to save this mapping as far as nothing depend on it
+        // (child paths, file areas nor links decoder)
     }
 
     protected function after_execute() {
