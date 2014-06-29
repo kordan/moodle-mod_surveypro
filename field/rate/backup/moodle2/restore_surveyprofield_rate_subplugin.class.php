@@ -48,7 +48,7 @@ class restore_surveyprofield_rate_subplugin extends restore_subplugin {
         global $DB;
 
         $data = (object)$data;
-        $data->itemid = $this->get_new_parentid('item');
+        $data->itemid = $this->get_new_parentid('surveypro_item');
 
         // insert the surveyprofield_rate record
         $newrateid = $DB->insert_record('surveyprofield_rate', $data);
