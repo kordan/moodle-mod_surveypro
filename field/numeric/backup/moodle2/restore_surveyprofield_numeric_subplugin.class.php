@@ -48,7 +48,7 @@ class restore_surveyprofield_numeric_subplugin extends restore_subplugin {
         global $DB;
 
         $data = (object)$data;
-        $data->itemid = $this->get_new_parentid('item');
+        $data->itemid = $this->get_new_parentid('surveypro_item');
 
         // insert the surveyprofield_numeric record
         $newnumericid = $DB->insert_record('surveyprofield_numeric', $data);

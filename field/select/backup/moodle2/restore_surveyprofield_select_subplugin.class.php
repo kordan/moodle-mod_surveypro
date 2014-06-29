@@ -48,7 +48,7 @@ class restore_surveyprofield_select_subplugin extends restore_subplugin {
         global $DB;
 
         $data = (object)$data;
-        $data->itemid = $this->get_new_parentid('item');
+        $data->itemid = $this->get_new_parentid('surveypro_item');
 
         // insert the surveyprofield_select record
         $newselectid = $DB->insert_record('surveyprofield_select', $data);

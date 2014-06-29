@@ -48,7 +48,7 @@ class restore_surveyprofield_radiobutton_subplugin extends restore_subplugin {
         global $DB;
 
         $data = (object)$data;
-        $data->itemid = $this->get_new_parentid('item');
+        $data->itemid = $this->get_new_parentid('surveypro_item');
 
         // insert the surveyprofield_radiobutton record
         $newradiobuttonid = $DB->insert_record('surveyprofield_radiobutton', $data);

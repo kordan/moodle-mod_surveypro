@@ -48,7 +48,7 @@ class restore_surveyprofield_character_subplugin extends restore_subplugin {
         global $DB;
 
         $data = (object)$data;
-        $data->itemid = $this->get_new_parentid('item');
+        $data->itemid = $this->get_new_parentid('surveypro_item');
 
         // insert the surveyprofield_character record
         $newcharacterid = $DB->insert_record('surveyprofield_character', $data);
