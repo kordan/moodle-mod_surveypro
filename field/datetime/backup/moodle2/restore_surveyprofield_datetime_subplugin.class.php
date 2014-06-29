@@ -48,7 +48,7 @@ class restore_surveyprofield_datetime_subplugin extends restore_subplugin {
         global $DB;
 
         $data = (object)$data;
-        $data->itemid = $this->get_new_parentid('item');
+        $data->itemid = $this->get_new_parentid('surveypro_item');
 
         // insert the surveyprofield_datetime record
         $newdatetimeid = $DB->insert_record('surveyprofield_datetime', $data);

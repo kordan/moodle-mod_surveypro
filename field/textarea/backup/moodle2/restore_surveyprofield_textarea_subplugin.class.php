@@ -48,7 +48,7 @@ class restore_surveyprofield_textarea_subplugin extends restore_subplugin {
         global $DB;
 
         $data = (object)$data;
-        $data->itemid = $this->get_new_parentid('item');
+        $data->itemid = $this->get_new_parentid('surveypro_item');
 
         // insert the surveyprofield_textarea record
         $newtextareaid = $DB->insert_record('surveyprofield_textarea', $data);

@@ -48,7 +48,7 @@ class restore_surveyprofield_recurrence_subplugin extends restore_subplugin {
         global $DB;
 
         $data = (object)$data;
-        $data->itemid = $this->get_new_parentid('item');
+        $data->itemid = $this->get_new_parentid('surveypro_item');
 
         // insert the surveyprofield_recurrence record
         $newrecurrenceid = $DB->insert_record('surveyprofield_recurrence', $data);

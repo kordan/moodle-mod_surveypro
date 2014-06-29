@@ -48,7 +48,7 @@ class restore_surveyproformat_pagebreak_subplugin extends restore_subplugin {
         global $DB;
 
         $data = (object)$data;
-        $data->itemid = $this->get_new_parentid('item');
+        $data->itemid = $this->get_new_parentid('surveypro_item');
 
         // insert the surveyproformat_pagebreak record
         $newpagebreakid = $DB->insert_record('surveyproformat_pagebreak', $data);

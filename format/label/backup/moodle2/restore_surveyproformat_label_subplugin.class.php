@@ -48,7 +48,7 @@ class restore_surveyproformat_label_subplugin extends restore_subplugin {
         global $DB;
 
         $data = (object)$data;
-        $data->itemid = $this->get_new_parentid('item');
+        $data->itemid = $this->get_new_parentid('surveypro_item');
 
         // insert the surveyproformat_label record
         $newlabelid = $DB->insert_record('surveyproformat_label', $data);
