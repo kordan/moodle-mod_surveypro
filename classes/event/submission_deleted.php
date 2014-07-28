@@ -54,7 +54,7 @@ class submission_deleted extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "User {$this->userid} has deleted the submission with id {$this->objectid}.";
+        return "User with id '{$this->userid}' has deleted the submission with id '{$this->objectid}'.";
     }
 
     /*

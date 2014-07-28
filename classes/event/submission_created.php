@@ -54,7 +54,7 @@ class submission_created extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "User {$this->userid} has created the submission with id {$this->objectid}.";
+        return "User with id '{$this->userid}' has created the submission with id '{$this->objectid}'.";
     }
 
     /*

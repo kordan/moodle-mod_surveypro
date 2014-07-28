@@ -54,7 +54,7 @@ class all_submissions_viewed extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "User {$this->userid} has vewed all the submissions.";
+        return "User with id '{$this->userid}' has vewed all the submissions.";
     }
 
     /*

@@ -35,7 +35,7 @@ class restore_surveyprofield_fileupload_subplugin extends restore_subplugin {
 
         $elename = $this->get_namefor();
         $elepath = $this->get_pathfor($elename);
-        $paths[] = new restore_path_element($elename . '_item', $elepath);
+        $paths[] = new restore_path_element($elename.'_item', $elepath);
 
         return $paths; // And we return the interesting paths.
     }

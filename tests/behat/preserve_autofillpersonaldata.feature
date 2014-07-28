@@ -118,7 +118,7 @@ Feature: editing a submission, autofill userID is not overwritten
     And I follow "Simple test"
 
     And I follow "Responses"
-    And I follow "edit_submission_1"
+    And I follow "edit_submission_368000"
     Then I should see "4"
     Then I should see "student1"
     Then I should see "user1"
@@ -135,7 +135,7 @@ Feature: editing a submission, autofill userID is not overwritten
     And I follow "Simple test"
 
     And I follow "Responses"
-    And I follow "edit_submission_1"
+    And I follow "edit_submission_368000"
     Then I should see "4"
     Then I should see "student1"
     Then I should see "user1"
@@ -149,7 +149,7 @@ Feature: editing a submission, autofill userID is not overwritten
     And I follow "Simple test"
 
     And I follow "Responses"
-    And I follow "edit_submission_1"
+    And I follow "edit_submission_368000"
     Then I should see "4"
     Then I should see "student1"
     Then I should see "user1"
@@ -165,7 +165,7 @@ Feature: editing a submission, autofill userID is not overwritten
     And I follow "Simple test"
 
     And I follow "Responses"
-    And I follow "edit_submission_1"
+    And I follow "edit_submission_368000"
     Then I should see "4"
     Then I should see "student1"
     Then I should see "user1"

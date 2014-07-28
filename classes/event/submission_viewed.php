@@ -54,7 +54,7 @@ class submission_viewed extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "User {$this->userid} has viewed the submission with id {$this->objectid}.";
+        return "User with id '{$this->userid}' has viewed the submission with id '{$this->objectid}'.";
     }
 
     /*

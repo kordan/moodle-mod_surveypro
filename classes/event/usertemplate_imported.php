@@ -54,7 +54,7 @@ class usertemplate_imported extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "User {$this->userid} has imported the user template {$this->other['templatename']}.";
+        return "User with id '{$this->userid}' has imported the user template '{$this->other['templatename']}'.";
     }
 
     /*

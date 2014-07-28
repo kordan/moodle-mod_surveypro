@@ -54,7 +54,7 @@ class submissions_imported extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "User {$this->userid} has imported submissions.";
+        return "User with id '{$this->userid}' has imported submissions.";
     }
 
     /*
