@@ -73,7 +73,7 @@
       <extranote>This is a mandatory question. You MUST provide an answer.</extranote>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>age_00004</variable>
+      <variable>age_001</variable>
       <indent>0</indent>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
@@ -102,7 +102,7 @@
       <extranote>This is an optional question. You CAN provide an answer but you can also check the "No answer" box.</extranote>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>age_00005</variable>
+      <variable>age_002</variable>
       <indent>1</indent>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
@@ -131,7 +131,7 @@
       <extranote>Here the default has been set to 72 years and 7 months. You are not forced to read this question because it was already answered. You can fly.</extranote>
       <required>1</required>
       <hideinstructions>0</hideinstructions>
-      <variable>age_00006</variable>
+      <variable>age_003</variable>
       <indent>0</indent>
       <defaultoption>1</defaultoption>
       <defaultvalue>-2130235200</defaultvalue>
@@ -160,7 +160,7 @@
       <extranote>Here the default is "No answer" and the question can not be mandatory. Here you are not forced to read this question because it was already answered. You can fly too.</extranote>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>age_00007</variable>
+      <variable>age_004</variable>
       <indent>0</indent>
       <defaultoption>3</defaultoption>
       <lowerbound>-2148552000</lowerbound>
@@ -195,7 +195,7 @@
       <customnumber>III</customnumber>
       <position>0</position>
       <extranote>This type of field was added to allow relations between output of different surveys </extranote>
-      <variable>autofill_00009</variable>
+      <variable>autofill_005</variable>
       <indent>0</indent>
       <hiddenfield>0</hiddenfield>
       <element01>userid</element01>
@@ -230,7 +230,7 @@
       <position>0</position>
       <extranote>First instance of boolean question using drop down menu as user interface</extranote>
       <required>0</required>
-      <variable>boolean_00011</variable>
+      <variable>boolean_001</variable>
       <indent>0</indent>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
@@ -254,7 +254,7 @@
       <position>2</position>
       <extranote>The same boolean question using drop down menu as user interface and "yes" as default</extranote>
       <required>0</required>
-      <variable>boolean_00012</variable>
+      <variable>boolean_002</variable>
       <indent>0</indent>
       <defaultoption>1</defaultoption>
       <defaultvalue>1</defaultvalue>
@@ -278,7 +278,7 @@
       <position>0</position>
       <extranote>The same boolean question using drop down menu as user interface and "No answer" as default</extranote>
       <required>0</required>
-      <variable>boolean_00013</variable>
+      <variable>boolean_003</variable>
       <indent>0</indent>
       <defaultoption>3</defaultoption>
       <downloadformat>strfbool01</downloadformat>
@@ -301,7 +301,7 @@
       <position>0</position>
       <extranote>Still boolean question but using horizontal radio button menu as user interface</extranote>
       <required>0</required>
-      <variable>boolean_00014</variable>
+      <variable>boolean_004</variable>
       <indent>0</indent>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
@@ -325,7 +325,7 @@
       <position>0</position>
       <extranote>Still boolean question but using vertical radio button menu as user interface</extranote>
       <required>0</required>
-      <variable>boolean_00015</variable>
+      <variable>boolean_005</variable>
       <indent>0</indent>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
@@ -361,7 +361,7 @@
       <customnumber>5</customnumber>
       <position>0</position>
       <required>0</required>
-      <variable>checkbox_00017</variable>
+      <variable>checkbox_001</variable>
       <indent>0</indent>
       <options>milk
 coffee
@@ -389,7 +389,7 @@ milk</defaultvalue>
       <customnumber>5</customnumber>
       <position>0</position>
       <required>0</required>
-      <variable>checkbox_00018</variable>
+      <variable>checkbox_002</variable>
       <indent>0</indent>
       <options>1::milk
 2::coffee
@@ -432,7 +432,7 @@ Apple juice</defaultvalue>
       <position>0</position>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>shortdate_00020</variable>
+      <variable>shortdate_001</variable>
       <indent>0</indent>
       <defaultoption>2</defaultoption>
       <downloadformat>strftime01</downloadformat>
@@ -455,7 +455,7 @@ Apple juice</defaultvalue>
       <position>0</position>
       <required>0</required>
       <hideinstructions>1</hideinstructions>
-      <variable>shortdate_00021</variable>
+      <variable>shortdate_002</variable>
       <indent>0</indent>
       <defaultoption>3</defaultoption>
       <downloadformat>strftime01</downloadformat>
@@ -491,7 +491,7 @@ Apple juice</defaultvalue>
       <position>0</position>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>date_00023</variable>
+      <variable>date_001</variable>
       <indent>0</indent>
       <defaultoption>2</defaultoption>
       <downloadformat>strftime01</downloadformat>
@@ -514,7 +514,7 @@ Apple juice</defaultvalue>
       <position>0</position>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>date_00024</variable>
+      <variable>date_002</variable>
       <indent>0</indent>
       <defaultoption>3</defaultoption>
       <downloadformat>strftime01</downloadformat>
@@ -550,7 +550,7 @@ Apple juice</defaultvalue>
       <position>0</position>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>datetime_00026</variable>
+      <variable>datetime_001</variable>
       <indent>0</indent>
       <step>1</step>
       <defaultoption>2</defaultoption>
@@ -588,7 +588,7 @@ Apple juice</defaultvalue>
       <position>0</position>
       <extranote>only one file in a the format you prefer</extranote>
       <required>0</required>
-      <variable>fileupload_00028</variable>
+      <variable>fileupload_001</variable>
       <indent>0</indent>
       <maxfiles>1</maxfiles>
       <maxbytes>0</maxbytes>
@@ -611,7 +611,7 @@ Apple juice</defaultvalue>
       <position>0</position>
       <extranote>only one file in pdf or compressed in zip format</extranote>
       <required>0</required>
-      <variable>fileupload_00029</variable>
+      <variable>fileupload_002</variable>
       <indent>0</indent>
       <maxfiles>1</maxfiles>
       <maxbytes>0</maxbytes>
@@ -646,7 +646,7 @@ Apple juice</defaultvalue>
       <position>0</position>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>integer_00031</variable>
+      <variable>integer_001</variable>
       <indent>0</indent>
       <defaultoption>3</defaultoption>
       <lowerbound>0</lowerbound>
@@ -668,7 +668,7 @@ Apple juice</defaultvalue>
       <position>0</position>
       <required>1</required>
       <hideinstructions>0</hideinstructions>
-      <variable>integer_00032</variable>
+      <variable>integer_002</variable>
       <indent>0</indent>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
@@ -703,7 +703,7 @@ Apple juice</defaultvalue>
       <contentformat>1</contentformat>
       <position>0</position>
       <required>0</required>
-      <variable>multiselect_00034</variable>
+      <variable>multiselect_001</variable>
       <indent>0</indent>
       <options>milk
 sugar
@@ -743,7 +743,7 @@ chocolate</defaultvalue>
       <position>0</position>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>numeric_00036</variable>
+      <variable>numeric_001</variable>
       <indent>0</indent>
       <defaultvalue>25.6</defaultvalue>
       <signed>0</signed>
@@ -779,7 +779,7 @@ chocolate</defaultvalue>
       <contentformat>1</contentformat>
       <position>0</position>
       <required>0</required>
-      <variable>radiobutton_00038</variable>
+      <variable>radiobutton_001</variable>
       <indent>0</indent>
       <options>Sea
 Mountain
@@ -805,7 +805,7 @@ Lake</options>
       <contentformat>1</contentformat>
       <position>0</position>
       <required>0</required>
-      <variable>radiobutton_00039</variable>
+      <variable>radiobutton_002</variable>
       <indent>0</indent>
       <options>Sea
 Mountain
@@ -832,7 +832,7 @@ Lake</options>
       <contentformat>1</contentformat>
       <position>0</position>
       <required>1</required>
-      <variable>radiobutton_00040</variable>
+      <variable>radiobutton_003</variable>
       <indent>0</indent>
       <options>Sea
 Mountain
@@ -873,7 +873,7 @@ Lake</options>
       <position>1</position>
       <required>0</required>
       <hideinstructions>1</hideinstructions>
-      <variable>rate_00042</variable>
+      <variable>rate_001</variable>
       <indent>0</indent>
       <options>Italian
 English
@@ -907,7 +907,7 @@ Optimum</rates>
       <position>1</position>
       <required>1</required>
       <hideinstructions>1</hideinstructions>
-      <variable>rate_00043</variable>
+      <variable>rate_002</variable>
       <indent>0</indent>
       <options>Italian
 English
@@ -946,7 +946,7 @@ Good</defaultvalue>
       <position>1</position>
       <required>0</required>
       <hideinstructions>1</hideinstructions>
-      <variable>rate_00044</variable>
+      <variable>rate_003</variable>
       <indent>0</indent>
       <options>Italian
 English
@@ -993,7 +993,7 @@ Optimum</rates>
       <position>0</position>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>recurrence_00046</variable>
+      <variable>recurrence_001</variable>
       <indent>0</indent>
       <defaultoption>2</defaultoption>
       <downloadformat>strftime1</downloadformat>
@@ -1028,7 +1028,7 @@ Optimum</rates>
       <contentformat>1</contentformat>
       <position>0</position>
       <required>0</required>
-      <variable>select_00048</variable>
+      <variable>select_001</variable>
       <indent>0</indent>
       <options>sea
 mountain
@@ -1068,7 +1068,7 @@ hill</options>
       <extranote>no more than 1000 characters</extranote>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>textarea_00050</variable>
+      <variable>textarea_001</variable>
       <indent>0</indent>
       <useeditor>1</useeditor>
       <arearows>10</arearows>
@@ -1093,7 +1093,7 @@ hill</options>
       <extranote>no more than 1000 characters</extranote>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>textarea_00051</variable>
+      <variable>textarea_002</variable>
       <indent>0</indent>
       <useeditor>0</useeditor>
       <arearows>10</arearows>
@@ -1130,7 +1130,7 @@ hill</options>
       <position>0</position>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>time_00053</variable>
+      <variable>time_001</variable>
       <indent>0</indent>
       <step>1</step>
       <defaultoption>2</defaultoption>
@@ -1155,7 +1155,7 @@ hill</options>
       <position>0</position>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>time_00054</variable>
+      <variable>time_002</variable>
       <indent>0</indent>
       <step>1</step>
       <defaultoption>2</defaultoption>
@@ -1193,7 +1193,7 @@ hill</options>
       <position>0</position>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>character_00056</variable>
+      <variable>character_001</variable>
       <indent>0</indent>
       <pattern>0000000000000000</pattern>
       <minlength>16</minlength>
@@ -1215,7 +1215,7 @@ hill</options>
       <position>0</position>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>character_00057</variable>
+      <variable>character_002</variable>
       <indent>0</indent>
       <pattern>PATTERN_EMAIL</pattern>
       <minlength>0</minlength>
@@ -1236,7 +1236,7 @@ hill</options>
       <position>0</position>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>character_00058</variable>
+      <variable>character_003</variable>
       <indent>0</indent>
       <pattern>PATTERN_URL</pattern>
       <minlength>0</minlength>
@@ -1269,7 +1269,7 @@ hill</options>
       <contentformat>1</contentformat>
       <position>0</position>
       <required>1</required>
-      <variable>boolean_00060</variable>
+      <variable>boolean_006</variable>
       <indent>0</indent>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
@@ -1308,7 +1308,7 @@ hill</options>
       <contentformat>1</contentformat>
       <position>0</position>
       <required>0</required>
-      <variable>select_00062</variable>
+      <variable>select_002</variable>
       <indent>1</indent>
       <options>A::for motorcycles
 B::for cars
@@ -1348,7 +1348,7 @@ C::for tracks</options>
       <contentformat>1</contentformat>
       <position>0</position>
       <required>0</required>
-      <variable>select_00064</variable>
+      <variable>select_003</variable>
       <indent>1</indent>
       <options>soon
 with the time

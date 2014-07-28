@@ -48,7 +48,7 @@
       <customnumber>1</customnumber>
       <position>0</position>
       <required>0</required>
-      <variable>attls_boolean_00002</variable>
+      <variable>attls_boolean_001</variable>
       <indent>0</indent>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
@@ -89,7 +89,7 @@
       <extranote>This item is allowed if the answer to its parent is TRUE</extranote>
       <required>1</required>
       <hideinstructions>0</hideinstructions>
-      <variable>attls_character_00004</variable>
+      <variable>attls_character_001</variable>
       <indent>1</indent>
       <pattern>PATTERN_FREE</pattern>
       <minlength>0</minlength>
@@ -114,7 +114,7 @@
       <extranote>This item is allowed if the answer to its parent is FALSE</extranote>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>attls_integer_00005</variable>
+      <variable>attls_integer_001</variable>
       <indent>1</indent>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
@@ -153,7 +153,7 @@
       <customnumber>2</customnumber>
       <position>0</position>
       <required>0</required>
-      <variable>attls_checkbox_00007</variable>
+      <variable>attls_checkbox_001</variable>
       <indent>0</indent>
       <options>rubber
 pen
@@ -196,7 +196,7 @@ A4 paper</options>
       <extranote>child item displayed only if 'rubber &amp; pen &amp; pencil' is answered to the parent item</extranote>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>attls_character_00009</variable>
+      <variable>attls_character_002</variable>
       <indent>1</indent>
       <pattern>PATTERN_FREE</pattern>
       <minlength>0</minlength>
@@ -221,7 +221,7 @@ A4 paper</options>
       <extranote>This item should be enabled if the answer to the parent item is "pen" ONLY but this is a missing funtionality as described in MDL-25067</extranote>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>attls_textarea_00010</variable>
+      <variable>attls_textarea_001</variable>
       <indent>1</indent>
       <useeditor>1</useeditor>
       <arearows>10</arearows>
@@ -245,7 +245,7 @@ A4 paper</options>
       <position>0</position>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>attls_integer_00011</variable>
+      <variable>attls_integer_002</variable>
       <indent>0</indent>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
@@ -285,7 +285,7 @@ A4 paper</options>
       <extranote>This item is enabled if the answer to the parent item is 11</extranote>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>attls_character_00013</variable>
+      <variable>attls_character_003</variable>
       <indent>1</indent>
       <pattern>PATTERN_FREE</pattern>
       <minlength>0</minlength>
@@ -310,7 +310,7 @@ A4 paper</options>
       <extranote>This item is enabled if the answer to the parent item is 22</extranote>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>attls_integer_00014</variable>
+      <variable>attls_integer_003</variable>
       <indent>1</indent>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
@@ -333,7 +333,7 @@ A4 paper</options>
       <customnumber>4</customnumber>
       <position>0</position>
       <required>0</required>
-      <variable>attls_multiselect_00015</variable>
+      <variable>attls_multiselect_001</variable>
       <indent>0</indent>
       <options>b::bread
 m::milk
@@ -378,7 +378,7 @@ ham</defaultvalue>
       <extranote>This item is allowed when the answer to its parent is "ham bread"</extranote>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>attls_numeric_00017</variable>
+      <variable>attls_numeric_001</variable>
       <indent>1</indent>
       <defaultvalue>27.45</defaultvalue>
       <signed>0</signed>
@@ -404,7 +404,7 @@ ham</defaultvalue>
       <extranote>This item is allowed when the answer to its parent is "jam ham tomatoes"</extranote>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>attls_date_00018</variable>
+      <variable>attls_date_001</variable>
       <indent>1</indent>
       <defaultoption>2</defaultoption>
       <downloadformat>strftime01</downloadformat>
@@ -427,7 +427,7 @@ ham</defaultvalue>
       <customnumber>5</customnumber>
       <position>0</position>
       <required>0</required>
-      <variable>attls_radiobutton_00019</variable>
+      <variable>attls_radiobutton_001</variable>
       <indent>0</indent>
       <options>Mountain
 Hill
@@ -472,7 +472,7 @@ City</options>
       <extranote>This item is allowed when the answer to its parent is "Lake" </extranote>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>attls_shortdate_00021</variable>
+      <variable>attls_shortdate_001</variable>
       <indent>1</indent>
       <defaultoption>2</defaultoption>
       <downloadformat>strftime01</downloadformat>
@@ -499,7 +499,7 @@ City</options>
       <extranote>This item is allowed when the answer to its parent is "Mountain" </extranote>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>attls_rate_00022</variable>
+      <variable>attls_rate_001</variable>
       <indent>1</indent>
       <options>English
 Greek
@@ -536,7 +536,7 @@ bad</defaultvalue>
       <customnumber>6</customnumber>
       <position>0</position>
       <required>0</required>
-      <variable>attls_select_00023</variable>
+      <variable>attls_select_001</variable>
       <indent>0</indent>
       <options>top
 bottom
@@ -578,7 +578,7 @@ left</options>
       <extranote>This item is allowed If your answer to previous question was "bottom"</extranote>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>attls_age_00025</variable>
+      <variable>attls_age_001</variable>
       <indent>1</indent>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
@@ -604,7 +604,7 @@ left</options>
       <position>0</position>
       <extranote>This item is allowed only by answering "Top" to its parent. I asked for the option to disable it in MDL-28194. That issue is still open but, in spite of this, the item can be disabled.</extranote>
       <required>0</required>
-      <variable>attls_fileupload_00026</variable>
+      <variable>attls_fileupload_001</variable>
       <indent>1</indent>
       <maxfiles>1</maxfiles>
       <maxbytes>0</maxbytes>
