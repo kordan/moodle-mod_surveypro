@@ -56,12 +56,13 @@ $submissionid = optional_param('submissionid', 0, PARAM_INT);
 // -----------------------------
 $userformman = new mod_surveypro_userformmanager($cm, $context, $surveypro, $submissionid, $formpage, $view);
 if (!empty($cover)) { // cover stops the user
-    if ($CFG->branch == '27') { // course_module_viewed is not available in 2.6
+    if ($CFG->branch >= '27') { // course_module_viewed is not available in 2.6
         $eventdata = array('context' => $context, 'objectid' => $surveypro->id);
         $event = \mod_surveypro\event\course_module_viewed::create($eventdata);
         $event->add_record_snapshot('course', $COURSE);
         $event->trigger();
     }
+    // else?
 } else {
     $userformman->prevent_direct_user_input();
     $userformman->trigger_event($view);

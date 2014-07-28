@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package surveyprofield_fileupload
+ * @package   surveyprofield_fileupload
  * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -56,6 +56,11 @@ class backup_surveyprofield_fileupload_subplugin extends backup_subplugin {
         $subplugin = $this->get_subplugin_element(null, '../../plugin', 'fileupload'); // virtual optigroup element
         $wrapper = new backup_nested_element($this->get_recommended_name());
 
-        $wrapper->annotate_files('surveyprofield_fileupload', 'fileuploadfiles', null);
+        // connect XML elements into the tree
+        $subplugin->add_child($wrapper);
+
+        $wrapper->annotate_files('surveyprofield_fileupload', 'fileuploadfiles', backup::VAR_PARENTID);
+
+        return $subplugin;
     }
 }

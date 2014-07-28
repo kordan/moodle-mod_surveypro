@@ -26,6 +26,9 @@ namespace mod_surveypro\event;
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
+require_once($CFG->dirroot.'/mod/surveypro/lib.php');
+
 class item_deleted extends \core\event\base {
     /*
      * Set basic properties for the event.
@@ -51,7 +54,7 @@ class item_deleted extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "User {$this->userid} has deleted the {$this->other['plugin']} item with id {$this->objectid}.";
+        return "User with id '{$this->userid}' has deleted the '{$this->other['plugin']}' item with id '{$this->objectid}'.";
     }
 
     /*

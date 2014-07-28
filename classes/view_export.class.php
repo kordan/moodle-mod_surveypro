@@ -85,7 +85,7 @@ class mod_surveypro_exportmanager {
     }
 
     /*
-     * get_manage_sql
+     * get_export_sql
      *
      * @return
      */

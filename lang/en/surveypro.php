@@ -185,6 +185,7 @@ $string['event_all_items_viewed'] = 'All items have been viewed';
 $string['event_all_submissions_deleted'] = 'All submissions have been deleted';
 $string['event_all_submissions_exported'] = 'All submissions have been exported';
 $string['event_all_submissions_viewed'] = 'All submissions have been viewed';
+$string['event_all_usertemplates_viewed'] = 'All usertemplates have been viewed';
 $string['event_form_previewed'] = 'The empty form layout has been previewed';
 $string['event_item_created'] = 'An item has been created';
 $string['event_item_deleted'] = 'An item has been deleted';
@@ -348,7 +349,7 @@ $string['plugintype'] = 'Plugin type';
 $string['position'] = 'Question position';
 $string['position_help'] = 'Use this option to choose the position of the content of the element. It can be to the left of the user interface, in a dedicated row just upper the interface to enter the answer or in a dedicated row just upper the interface spanning all the row.
 Note: The left position forces the element contents to plain text without images.
-The two extra row positions are usually requested for questions containing images and text longer than few words!';
+The two \'top\' positions are usually needed for contents longer than few words and are required for questions containing images!';
 $string['previewmode'] = 'You are in preview mode: buttons for data saving are not supposed to display';
 $string['previousformpage'] = '<< Previous page';
 $string['readonlyaccess'] = 'Read only access';

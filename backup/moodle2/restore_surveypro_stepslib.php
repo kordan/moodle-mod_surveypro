@@ -18,8 +18,8 @@
 /**
  * @package    mod_surveypro
  * @subpackage backup-moodle2
- * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright  2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 /**
@@ -37,11 +37,11 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         $userinfo = $this->get_setting_value('userinfo');
 
         $paths[] = new restore_path_element('surveypro', '/activity/surveypro');
-        $item = new restore_path_element('item', '/activity/surveypro/items/item');
+        $item = new restore_path_element('surveypro_item', '/activity/surveypro/items/item');
         $paths[] = $item;
         if ($userinfo) {
-            $paths[] = new restore_path_element('submission', '/activity/surveypro/submissions/submission');
-            $answer = new restore_path_element('answer', '/activity/surveypro/answers/answer');
+            $paths[] = new restore_path_element('surveypro_submission', '/activity/surveypro/submissions/submission');
+            $answer = new restore_path_element('surveypro_answer', '/activity/surveypro/submissions/submission/answers/answer');
             $paths[] = $answer;
         }
 
@@ -51,7 +51,6 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         if ($userinfo) {
             // Apply for 'surveyprofield' and 'surveyproformat' subplugins optional paths at answer level
             $this->add_subplugin_structure('surveyprofield', $answer);
-            // $this->add_subplugin_structure('surveyproformat', $answer); // useless??
         }
 
         // Return the paths wrapped into standard activity structure
@@ -76,7 +75,7 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         $this->apply_activity_instance($newitemid);
     }
 
-    protected function process_item($data) {
+    protected function process_surveypro_item($data) {
         global $DB;
 
         $data = (object)$data;
@@ -86,10 +85,10 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         $data->timemodified = $this->apply_date_offset($data->timemodified);
 
         $newitemid = $DB->insert_record('surveypro_item', $data);
-        $this->set_mapping('item', $oldid, $newitemid, true); // We need the mapping to be able to restore files from filearea 'itemcontent'
+        $this->set_mapping('surveypro_item', $oldid, $newitemid, true); // We need the mapping to be able to restore files from filearea 'itemcontent'
     }
 
-    protected function process_submission($data) {
+    protected function process_surveypro_submission($data) {
         global $DB;
 
         $data = (object)$data;
@@ -101,21 +100,20 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         $data->timemodified = $this->apply_date_offset($data->timemodified);
 
         $newitemid = $DB->insert_record('surveypro_submission', $data);
-        $this->set_mapping('submission', $oldid, $newitemid);
+        $this->set_mapping('surveypro_submission', $oldid, $newitemid);
     }
 
-    protected function process_answer($data) {
+    protected function process_surveypro_answer($data) {
         global $DB;
 
         $data = (object)$data;
         $oldid = $data->id;
 
-        $data->submissionid = $this->get_mappingid('submission', $data->submissionid);
-        $data->timemodified = $this->apply_date_offset($data->timemodified);
+        $data->submissionid = $this->get_new_parentid('surveypro_submission');
+        $data->itemid = $this->get_mappingid('surveypro_item', $data->itemid);
 
-        $newitemid = $DB->insert_record('surveypro_answers', $data);
-        // No need to save this mapping as far as nothing depend on it
-        // (child paths, file areas nor links decoder)
+        $newitemid = $DB->insert_record('surveypro_answer', $data);
+        $this->set_mapping('surveypro_answer', $oldid, $newitemid, true);
     }
 
     protected function after_execute() {
@@ -126,9 +124,8 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         $this->add_related_files('mod_surveypro', 'thankshtml', null);
         $this->add_related_files('mod_surveypro', 'userstyle', null);
 
-        // Add item content files, matching by assignment_submission itemname
-        $this->add_related_files('mod_surveypro', 'itemcontent', 'item');
-        // add_related_files($component, $filearea, $mappingitemname, $filesctxid = null, $olditemid = null)
+        // Add item content files, matching by item itemname
+        $this->add_related_files('mod_surveypro', 'itemcontent', 'surveypro_item');
 
         // 1) get all the item->parentids belonging to the surveypro you are restoring.
         // 2) iterate over them, and when a parentid is found, look in item mappings and perform the set_field.
