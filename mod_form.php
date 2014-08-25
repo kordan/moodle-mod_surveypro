@@ -27,7 +27,8 @@ class mod_surveypro_mod_form extends moodleform_mod {
 
         // ----------------------------------------
         // Adding the "general" fieldset, where all the common settings are showed
-        $mform->addElement('header', 'general', get_string('general', 'form'));
+        $fieldname = 'general';
+        $mform->addElement('header', $fieldname, get_string($fieldname, 'form'));
 
         // Adding the standard "name" field
         $fieldname = 'name';
@@ -52,8 +53,8 @@ class mod_surveypro_mod_form extends moodleform_mod {
         $fieldname = 'timeclose';
         $mform->addElement('date_time_selector', $fieldname, get_string($fieldname, 'surveypro'), array('optional' => true));
 
-        // dataentry fieldset
-        $fieldname = 'dataentry';
+        // modulesettinghdr fieldset (header)
+        $fieldname = 'modulesettinghdr';
         $mform->addElement('header', $fieldname, get_string($fieldname, 'surveypro'));
 
         // newpageforchild
