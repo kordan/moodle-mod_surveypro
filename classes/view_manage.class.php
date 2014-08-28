@@ -59,7 +59,7 @@ class mod_surveypro_submissionmanager {
     /*
      * $view
      */
-    public $view = 0;
+    public $view = SURVEYPRO_NOVIEW;
 
     /*
      * $confirm

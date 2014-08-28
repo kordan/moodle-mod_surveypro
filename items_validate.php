@@ -44,28 +44,43 @@ if (!empty($id)) {
 
 require_course_login($course, true, $cm);
 
-// params never passed but needed by called class
-$type = null;
-$plugin = null;
-$itemid = 0;
-$itemtomove = 0;
-$userfeedback = SURVEYPRO_NOFEEDBACK;
-$action = SURVEYPRO_NOACTION;
-$view = SURVEYPRO_SUBMITRESPONSE;
-$lastitembefore = 0;
-$confirm = SURVEYPRO_UNCONFIRMED;
-$nextindent = 0;
-$parentid = 0;
-$saveasnew = null;
-
 $context = context_module::instance($cm->id);
 require_capability('mod/surveypro:additems', $context);
 
 // -----------------------------
 // calculations
 // -----------------------------
-$itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro, $type, $plugin, $itemid, $action, $view, $itemtomove,
-                                           $lastitembefore, $confirm, $nextindent, $parentid, $userfeedback, $saveasnew);
+$itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro, '', '');
+
+// itemid is useless (it is set to its default), do not set it
+// $itemlistman->set_itemid(0);
+
+// action is useless (it is set to its default), do not set it
+// $itemlistman->set_action(SURVEYPRO_NOACTION);
+
+// view is useless (it is set to its default), do not set it
+// $itemlistman->set_view(SURVEYPRO_SUBMITRESPONSE);
+
+// itemtomove is useless (it is set to its default), do not set it
+// $itemlistman->set_itemtomove(0);
+
+// lastitembefore is useless (it is set to its default), do not set it
+// $itemlistman->set_lastitembefore(0);
+
+// confirm is useless (it is set to its default), do not set it
+// $itemlistman->set_confirm(SURVEYPRO_UNCONFIRMED);
+
+// nextindent is useless (it is set to its default), do not set it
+// $itemlistman->set_nextindent(0);
+
+// parentid is useless (it is set to its default), do not set it
+// $itemlistman->set_parentid(0);
+
+// userfeedback is useless (it is set to its default), do not set it
+// $itemlistman->userfeedback(SURVEYPRO_NOFEEDBACK);
+
+// saveasnew is useless (it is set to its default), do not set it
+// $itemlistman->set_saveasnew(0);
 
 // -----------------------------
 // output starts here

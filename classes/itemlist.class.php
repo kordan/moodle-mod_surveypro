@@ -67,6 +67,11 @@ class mod_surveypro_itemlist {
     public $action = SURVEYPRO_NOACTION;
 
     /*
+     * $action
+     */
+    public $view = SURVEYPRO_SUBMITRESPONSE;
+
+    /*
      * $itemtomove
      */
     public $itemtomove = 0;
@@ -109,8 +114,7 @@ class mod_surveypro_itemlist {
     /*
      * Class constructor
      */
-    public function __construct($cm, $context, $surveypro, $type, $plugin, $itemid, $action, $view, $itemtomove,
-                                $lastitembefore, $confirm, $nextindent, $parentid, $userfeedback, $saveasnew) {
+    public function __construct($cm, $context, $surveypro, $type, $plugin) {
         $this->cm = $cm;
         $this->context = $context;
         $this->surveypro = $surveypro;
@@ -123,21 +127,11 @@ class mod_surveypro_itemlist {
             $this->type = $type;
             $this->plugin = $plugin;
         }
-        $this->itemid = $itemid;
-        $this->action = $action;
-        $this->view = $view;
-        $this->itemtomove = $itemtomove; // itm == Item To Move (sortindex of the item to move)
-        $this->lastitembefore = $lastitembefore; // lib == Last Item Before the place where the moving item has to go
-        $this->confirm = $confirm;
-        $this->nextindent = $nextindent;
-        $this->parentid = $parentid;
-        $this->userfeedback = $userfeedback;
-        $this->saveasnew = $saveasnew;
         $this->hassubmissions = surveypro_count_submissions($surveypro->id, SURVEYPRO_STATUSALL);
     }
 
     /*
-     * manage_actions
+     * drop_multilang
      *
      * @return void
      */
@@ -1477,5 +1471,107 @@ class mod_surveypro_itemlist {
         if ($this->surveypro->template) {
             print_error('incorrectaccessdetected', 'surveypro');
         }
+    }
+
+    // MARK set
+
+    /*
+     * set_itemid
+     *
+     * @param string $itemid
+     * @return nothing
+     */
+    public function set_itemid($itemid) {
+        $this->itemid = $itemid;
+    }
+
+    /*
+     * set_action
+     *
+     * @param string $action
+     * @return nothing
+     */
+    public function set_action($action) {
+        $this->action = $action;
+    }
+
+    /*
+     * set_view
+     *
+     * @param string $view
+     * @return nothing
+     */
+    public function set_view($view) {
+        $this->view = $view;
+    }
+
+    /*
+     * set_lastitembefore
+     *
+     * @param string $lastitembefore
+     * @return nothing
+     */
+    public function set_lastitembefore($lastitembefore) {
+        $this->lastitembefore = $lastitembefore;
+    }
+
+    /*
+     * set_confirm
+     *
+     * @param string $confirm
+     * @return nothing
+     */
+    public function set_confirm($confirm) {
+        $this->confirm = $confirm;
+    }
+
+    /*
+     * set_nextindent
+     *
+     * @param string $nextindent
+     * @return nothing
+     */
+    public function set_nextindent($nextindent) {
+        $this->nextindent = $nextindent;
+    }
+
+    /*
+     * set_parentid
+     *
+     * @param string $parentid
+     * @return nothing
+     */
+    public function set_parentid($parentid) {
+        $this->parentid = $parentid;
+    }
+
+    /*
+     * set_userfeedback
+     *
+     * @param string $userfeedback
+     * @return nothing
+     */
+    public function set_userfeedback($userfeedback) {
+        $this->userfeedback = $userfeedback;
+    }
+
+    /*
+     * set_itemtomove
+     *
+     * @param string $itemtomove
+     * @return nothing
+     */
+    public function set_itemtomove($itemtomove) {
+        $this->itemtomove = $itemtomove;
+    }
+
+    /*
+     * set_saveasnew
+     *
+     * @param string $saveasnew
+     * @return nothing
+     */
+    public function set_saveasnew($saveasnew) {
+        $this->saveasnew = $saveasnew;
     }
 }

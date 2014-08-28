@@ -72,8 +72,8 @@ Feature: test the use of advanced elements
 
     # user submit a surveypro
     And I set the following fields to these values:
-      | id_surveypro_field_age_367000_year  | 8 |
-      | id_surveypro_field_age_367000_month | 2 |
+      | id_surveypro_field_age_368000_year  | 8 |
+      | id_surveypro_field_age_368000_month | 2 |
     And I press "Submit"
 
     And I log out
@@ -83,13 +83,13 @@ Feature: test the use of advanced elements
     And I follow "Course 1"
     And I follow "Advanced element test"
     And I follow "Responses"
-    And I follow "edit_submission_368000"
+    And I follow "edit_submission_369000"
     Then I should see "1: First age item"
     Then I should see "2: Second age item"
 
     And I set the following fields to these values:
-      | id_surveypro_field_age_367001_year  | 24 |
-      | id_surveypro_field_age_367001_month | 6  |
+      | id_surveypro_field_age_368001_year  | 24 |
+      | id_surveypro_field_age_368001_month | 6  |
     And I press "Submit"
     And I follow "Export"
     And I set the following fields to these values:

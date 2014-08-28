@@ -28,7 +28,7 @@ Feature: verify a numeric item can be added to a survey
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content                  | Which is you preferred mean temperature in the room where you are asked to work? |
+      | Content                  | Which is your preferred mean temperature in the room where you are asked to work? |
       | Required                 | 1                                                                                |
       | Indent                   | 0                                                                                |
       | Question position        | left                                                                             |
