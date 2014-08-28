@@ -497,17 +497,12 @@ class mod_surveypro_itembase {
             if ($oldhidden != $newhidden) {
                 $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
                 $action = ($oldhidden) ? SURVEYPRO_SHOWITEM : SURVEYPRO_HIDEITEM;
-                $view = 0;
-                $itemtomove = 0;
-                $lastitembefore = 0;
-                $confirm = SURVEYPRO_CONFIRMED_YES;
-                $nextindent = 0;
-                $parentid = 0;
-                $userfeedback = 0;
-                $saveasnew  = 0;
-                $itemlistman = new mod_surveypro_itemlist($cm, $this->context, $surveypro, $this->type, $this->plugin,
-                                       $itemid, $action, $view, $itemtomove, $lastitembefore,
-                                       $confirm, $nextindent, $parentid, $userfeedback, $saveasnew);
+
+                $itemlistman = new mod_surveypro_itemlist($cm, $this->context, $surveypro, $this->type, $this->plugin);
+                $itemlistman->set_itemid($itemid);
+                $itemlistman->set_action($action);
+                $itemlistman->set_view(SURVEYPRO_NOVIEW);
+                $itemlistman->set_confirm(SURVEYPRO_CONFIRMED_YES);
             }
 
             // hide/unhide part 2
@@ -531,17 +526,12 @@ class mod_surveypro_itembase {
             if ($oldadvanced != $newadvanced) {
                 $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
                 $action = ($oldadvanced) ? SURVEYPRO_MAKEFORALL : SURVEYPRO_MAKELIMITED;
-                $view = 0;
-                $itemtomove = 0;
-                $lastitembefore = 0;
-                $confirm = SURVEYPRO_CONFIRMED_YES;
-                $nextindent = 0;
-                $parentid = 0;
-                $userfeedback = 0;
-                $saveasnew  = 0;
-                $itemlistman = new mod_surveypro_itemlist($cm, $this->context, $surveypro, $this->type, $this->plugin,
-                                       $itemid, $action, $view, $itemtomove, $lastitembefore,
-                                       $confirm, $nextindent, $parentid, $userfeedback, $saveasnew);
+
+                $itemlistman = new mod_surveypro_itemlist($cm, $this->context, $surveypro, $this->type, $this->plugin);
+                $itemlistman->set_itemid($itemid);
+                $itemlistman->set_action($action);
+                $itemlistman->set_view(SURVEYPRO_NOVIEW);
+                $itemlistman->set_confirm(SURVEYPRO_CONFIRMED_YES);
             }
 
             // limit/unlimit access part 2

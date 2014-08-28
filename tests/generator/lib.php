@@ -54,7 +54,7 @@ class mod_surveypro_generator extends testing_module_generator {
     public function create_instance($record = null, array $options = null) {
         global $CFG;
 
-        require_once($CFG->dirroot . '/mod/surveypro/lib.php');
+        require_once($CFG->dirroot.'/mod/surveypro/lib.php');
         $record = (object)(array)$record;
 
         // Apply defaults.

@@ -8,7 +8,7 @@ Feature: editing a submission, autofill userID is not overwritten
   Scenario: test that editing a submission, autofill userID is not overwritten
     Given the following "courses" exist:
       | fullname                 | shortname | category | groupmode |
-      | Course divided in groups | C1        | 0        | 0         |
+      | Course divided into groups | C1        | 0        | 0         |
     And the following "groups" exist:
       | name    | course | idnumber |
       | Group 1 | C1     | G1       |
@@ -34,7 +34,7 @@ Feature: editing a submission, autofill userID is not overwritten
       | student2 | G1    |
 
     And I log in as "teacher1"
-    And I follow "Course divided in groups"
+    And I follow "Course divided into groups"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
       | Survey name | Simple test                                                                               |
@@ -94,7 +94,7 @@ Feature: editing a submission, autofill userID is not overwritten
 
     # student1 logs in
     When I log in as "student1"
-    And I follow "Course divided in groups"
+    And I follow "Course divided into groups"
     And I follow "Simple test"
 
     And I press "Add a response"
@@ -114,11 +114,11 @@ Feature: editing a submission, autofill userID is not overwritten
 
     # student2 logs in
     When I log in as "student2"
-    And I follow "Course divided in groups"
+    And I follow "Course divided into groups"
     And I follow "Simple test"
 
     And I follow "Responses"
-    And I follow "edit_submission_368000"
+    And I follow "edit_submission_369000"
     Then I should see "4"
     Then I should see "student1"
     Then I should see "user1"
@@ -131,11 +131,11 @@ Feature: editing a submission, autofill userID is not overwritten
 
     # student1 logs in
     When I log in as "student1"
-    And I follow "Course divided in groups"
+    And I follow "Course divided into groups"
     And I follow "Simple test"
 
     And I follow "Responses"
-    And I follow "edit_submission_368000"
+    And I follow "edit_submission_369000"
     Then I should see "4"
     Then I should see "student1"
     Then I should see "user1"
@@ -145,11 +145,11 @@ Feature: editing a submission, autofill userID is not overwritten
 
     # teacher1 logs in
     When I log in as "teacher1"
-    And I follow "Course divided in groups"
+    And I follow "Course divided into groups"
     And I follow "Simple test"
 
     And I follow "Responses"
-    And I follow "edit_submission_368000"
+    And I follow "edit_submission_369000"
     Then I should see "4"
     Then I should see "student1"
     Then I should see "user1"
@@ -161,11 +161,11 @@ Feature: editing a submission, autofill userID is not overwritten
 
     # student1 logs in
     When I log in as "student1"
-    And I follow "Course divided in groups"
+    And I follow "Course divided into groups"
     And I follow "Simple test"
 
     And I follow "Responses"
-    And I follow "edit_submission_368000"
+    And I follow "edit_submission_369000"
     Then I should see "4"
     Then I should see "student1"
     Then I should see "user1"

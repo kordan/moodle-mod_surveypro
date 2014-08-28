@@ -114,8 +114,18 @@ if (!$itemcount) {
 
 // -----------------------------
 // the form showing the drop down menu with the list of items
-$itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro, $type, $plugin, $itemid, $action, $view, $itemtomove,
-                                            $lastitembefore, $confirm, $nextindent, $parentid, $userfeedback, $saveasnew);
+$itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro, $type, $plugin);
+$itemlistman->set_itemid($itemid);
+$itemlistman->set_action($action);
+$itemlistman->set_view($view);
+$itemlistman->set_itemtomove($itemtomove);
+$itemlistman->set_lastitembefore($lastitembefore);
+$itemlistman->set_confirm($confirm);
+$itemlistman->set_nextindent($nextindent);
+$itemlistman->set_parentid($parentid);
+$itemlistman->set_userfeedback($userfeedback);
+$itemlistman->set_saveasnew($saveasnew);
+
 // I need to execute this method before the page load because it modifies TAB elements
 $itemlistman->drop_multilang();
 

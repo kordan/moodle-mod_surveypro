@@ -84,7 +84,7 @@ Feature: test each student sees only personal submissions
 
     # student1 submits his first response
     And I set the following fields to these values:
-      | 1: Write down your email | st11email@st11server.net |
+      | 1: Write down your email | st1grp1ans1@nowhere.net |
       | 2: Is this true?         | Yes                      |
     And I press "Submit"
 
@@ -93,7 +93,7 @@ Feature: test each student sees only personal submissions
 
     # student1 submits his second response
     And I set the following fields to these values:
-      | 1: Write down your email | st12email@st12server.net |
+      | 1: Write down your email | st1grp1ans2@nowhere.net |
       | 2: Is this true?         | No                       |
     And I press "Submit"
 
@@ -116,7 +116,7 @@ Feature: test each student sees only personal submissions
 
     # student2 submits his first response
     And I set the following fields to these values:
-      | 1: Write down your email | st21email@st21server.net |
+      | 1: Write down your email | st2grp1ans1@nowhere.net |
       | 2: Is this true?         | Yes                      |
     And I press "Submit"
 
@@ -140,7 +140,7 @@ Feature: test each student sees only personal submissions
 
     # student3 submits his first response
     And I set the following fields to these values:
-      | 1: Write down your email | st31email@st31server.net |
+      | 1: Write down your email | st3grp2ans1@nowhere.net |
       | 2: Is this true?         | Yes                      |
     And I press "Submit"
 
