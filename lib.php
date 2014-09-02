@@ -222,9 +222,12 @@ if ($CFG->branch == '26') {
 } else {
     define ('SURVEYPRO_EVENTLEVEL', 'edulevel');
 }
+
 // -----------------------------
 // Moodle core API
 // -----------------------------
+
+require_once($CFG->dirroot . '/lib/formslib.php'); // <-- needed by unittest
 
 /*
  * Saves a new instance of the surveypro into the database
@@ -238,40 +241,30 @@ if ($CFG->branch == '26') {
  * @param mod_surveypro_mod_form $mform
  * @return int The id of the newly inserted surveypro record
  */
-function surveypro_add_instance($surveypro) {
-    global $CFG, $DB, $COURSE;
+function surveypro_add_instance($surveypro, $mform) {
+    global $DB;
 
+    $cmid = $surveypro->coursemodule;
+    $context = context_module::instance($cmid);
+
+    surveypro_process_pre_save($surveypro);
     $surveypro->timecreated = time();
-
-    // You may have to add extra stuff in here
-    $checkboxes = array('newpageforchild', 'history', 'saveresume', 'anonymous', 'notifyteachers');
-    foreach ($checkboxes as $checkbox) {
-        if (!isset($surveypro->{$checkbox})) {
-            $surveypro->{$checkbox} = 0;
-        }
-    }
+    $surveypro->timemodified = time();
 
     $surveypro->id = $DB->insert_record('surveypro', $surveypro);
 
     // manage userstyle filemanager
-    // we need to use context now, so we need to make sure all needed info is already in db
-    $cmid = $surveypro->coursemodule;
-    $DB->set_field('course_modules', 'instance', $surveypro->id, array('id' => $cmid));
-    $context = context_module::instance($cmid);
-    surveypro_save_user_style($surveypro, $context);
+    $draftitemid = $surveypro->userstyle_filemanager;
+    file_save_draft_area_files($draftitemid, $context->id, 'mod_surveypro', SURVEYPRO_STYLEFILEAREA, 0);
 
     // manage thankshtml editor
-    // if (!isset($surveypro->coursemodule)) {
-        // $cm = get_coursemodule_from_id('surveypro', $surveypro->id, 0, false, MUST_EXIST);
-        // $surveypro->coursemodule = $cm->id;
-    // }
     $editoroptions = surveypro_get_editor_options();
     if ($draftitemid = $surveypro->thankshtml_editor['itemid']) {
         $surveypro->thankshtml = file_save_draft_area_files($draftitemid, $context->id, 'mod_surveypro', SURVEYPRO_THANKSHTMLFILEAREA,
                 $surveypro->id, $editoroptions, $surveypro->thankshtml_editor['text']);
         $surveypro->thankshtmlformat = $surveypro->thankshtml_editor['format'];
+        $DB->update_record('surveypro', $surveypro);
     }
-    $DB->update_record('surveypro', $surveypro);
 
     return $surveypro->id;
 }
@@ -287,25 +280,26 @@ function surveypro_add_instance($surveypro) {
  * @param mod_surveypro_mod_form $mform
  * @return boolean Success/Fail
  */
-function surveypro_update_instance($surveypro) {
-    global $CFG, $DB, $COURSE;
+function surveypro_update_instance($surveypro, $mform) {
+    global $DB;
+
+    $cmid = $surveypro->coursemodule;
+    $draftitemid = $surveypro->userstyle_filemanager;
+    $context = context_module::instance($cmid);
 
     $surveypro->timemodified = time();
     $surveypro->id = $surveypro->instance;
 
-    $checkboxes = array('newpageforchild', 'history', 'saveresume', 'anonymous', 'notifyteachers');
-    foreach ($checkboxes as $checkbox) {
-        if (!isset($surveypro->{$checkbox})) {
-            $surveypro->{$checkbox} = 0;
-        }
-    }
+    surveypro_process_pre_save($surveypro);
 
     surveypro_reset_items_pages($surveypro->id);
 
-    $context = context_module::instance($surveypro->coursemodule);
+    $DB->update_record('surveypro', $surveypro);
 
     // manage userstyle filemanager
-    surveypro_save_user_style($surveypro, $context);
+    if ($draftitemid = file_get_submitted_draft_itemid('userstyle_filemanager')) {
+        file_save_draft_area_files($draftitemid, $context->id, 'mod_surveypro', SURVEYPRO_STYLEFILEAREA, 0);
+    }
 
     // manage thankshtml editor
     $editoroptions = surveypro_get_editor_options();
@@ -315,31 +309,24 @@ function surveypro_update_instance($surveypro) {
         $surveypro->thankshtmlformat = $surveypro->thankshtml_editor['format'];
     }
 
-    return $DB->update_record('surveypro', $surveypro);
+    return true;
 }
 
-/*
- * surveypro_save_user_style
+/**
+ * Runs any processes that must run before
+ * a lesson insert/update
  *
- * @param $surveypro, $context
- * @return null
- */
-function surveypro_save_user_style($surveypro, $context) {
-    global $CFG;
-
-    $filemanageroptions = surveypro_get_user_style_options();
-
-    $fieldname = 'userstyle';
-    if ($draftitemid = $surveypro->{$fieldname.'_filemanager'}) {
-        file_save_draft_area_files($draftitemid, $context->id, 'mod_surveypro', SURVEYPRO_STYLEFILEAREA, 0, $filemanageroptions);
-    }
-
-    $fs = get_file_storage();
-    if ($files = $fs->get_area_files($context->id, 'mod_surveypro', SURVEYPRO_STYLEFILEAREA, 0, 'sortorder', false)) {
-        if (count($files) == 1) {
-            // only one file attached, set it as main file automatically
-            $file = reset($files);
-            file_set_sortorder($context->id, 'mod_surveypro', SURVEYPRO_STYLEFILEAREA, 0, $file->get_filepath(), $file->get_filename(), 1);
+ * surveypro_process_pre_save
+ *
+ * @global object
+ * @param object $lesson Lesson form data
+ * @return void
+ **/
+function surveypro_process_pre_save($surveypro) {
+    $checkboxes = array('newpageforchild', 'history', 'saveresume', 'anonymous', 'notifyteachers');
+    foreach ($checkboxes as $checkbox) {
+        if (!isset($surveypro->{$checkbox})) {
+            $surveypro->{$checkbox} = 0;
         }
     }
 }
@@ -529,7 +516,7 @@ function surveypro_print_recent_mod_activity($activity, $courseid, $detail, $mod
  * @todo Finish documenting this function
  **/
 function surveypro_cron() {
-    global $CFG, $DB;
+    global $DB;
 
     // delete too old submissions from surveypro_answer and surveypro_submission
 
@@ -602,7 +589,7 @@ function surveypro_get_extra_capabilities() {
  * @return bool true if the scale is used by the given surveypro instance
  */
 function surveypro_scale_used($surveyproid, $scaleid) {
-    global $DB;
+    // global $DB;
 
     /* @example */
     // if ($scaleid and $DB->record_exists('surveypro', array('id' => $surveyproid, 'grade' => -$scaleid))) {
@@ -665,7 +652,8 @@ function surveypro_scale_used_anywhere($scaleid) {
  * @return void
  */
 function surveypro_update_grades(stdClass $surveypro, $userid = 0) {
-    global $CFG, $DB;
+    global $CFG;
+
     require_once($CFG->libdir.'/gradelib.php');
 
     /* @example */
@@ -705,7 +693,7 @@ function surveypro_get_file_areas($course, $cm, $context) {
  * @return void this should never return to the caller
  */
 function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload) {
-    global $CFG, $DB;
+    global $CFG;
 
     $debug = false;
     if ($debug) {
@@ -936,7 +924,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
  * @param cm_info $cm
  */
 function surveypro_extend_navigation(navigation_node $navref, stdClass $course, stdClass $surveypro, cm_info $cm) {
-    global $CFG, $OUTPUT, $USER, $DB, $COURSE;
+    // global $COURSE;
 
     // $context = context_system::instance();
     $context = context_module::instance($cm->id);

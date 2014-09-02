@@ -77,7 +77,13 @@ class mod_surveypro_generator extends testing_module_generator {
             'template' => null,
             'completionsubmit' => 0,
             'timecreated' => time(),
-            'timemodified' => time()
+            'timemodified' => time(),
+
+            'userstyle_filemanager' => file_get_unused_draft_itemid(),
+            'thankshtml_editor' => array(
+                'text' => 'Thank you very much for your time on this poll',
+                'format' => FORMAT_MOODLE,
+                'itemid' => file_get_unused_draft_itemid())
         );
         foreach ($defaults as $name => $value) {
             if (!isset($record->{$name})) {

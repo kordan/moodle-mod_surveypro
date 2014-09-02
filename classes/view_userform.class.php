@@ -317,10 +317,8 @@ class mod_surveypro_userformmanager {
     public function surveypro_add_custom_css() {
         global $PAGE;
 
-        $filearea = SURVEYPRO_STYLEFILEAREA;
-
         $fs = get_file_storage();
-        if ($files = $fs->get_area_files($this->context->id, 'mod_surveypro', $filearea, 0, 'sortorder', false)) {
+        if ($files = $fs->get_area_files($this->context->id, 'mod_surveypro', SURVEYPRO_STYLEFILEAREA, 0, 'sortorder', false)) {
             $PAGE->requires->css('/mod/surveypro/userstyle.php?id='.$this->surveypro->id.'&amp;cmid='.$this->cm->id); // not overridable via themes!
         }
     }
