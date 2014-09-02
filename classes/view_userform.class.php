@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
  * You can have a rather longer description of the file as well,
@@ -27,102 +27,102 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/*
+/**
  * The base class representing a field
  */
 class mod_surveypro_userformmanager {
-    /*
+    /**
      * $cm
      */
     public $cm = null;
 
-    /*
+    /**
      * $context
      */
     public $context = null;
 
-    /*
+    /**
      * $surveypro: the record of this surveypro
      */
     public $surveypro = null;
 
-    /*
+    /**
      * $submissionid: the ID of the saved surbey_submission
      */
     public $submissionid = 0;
 
-    /*
+    /**
      * $formpage: the form page as recalculated according to the first non empty page
      * do not confuse this properties with $this->formdata->formpage
      */
     public $formpage = null;
 
-    /*
+    /**
      * $maxassignedpage
      */
     public $maxassignedpage = 0;
 
-    /*
+    /**
      * $firstpageright
      */
     public $firstpageright = 0;
 
-    /*
+    /**
      * $firstpageleft
      */
     public $firstpageleft = 0;
 
-    /*
+    /**
      * $view
      */
     public $view = SURVEYPRO_SUBMITRESPONSE;
 
-    /*
+    /**
      * $moduletab: The tab of the module where the page will be shown
      */
     public $moduletab = '';
 
-    /*
+    /**
      * $modulepage: this is the page of the module. Nothing to share with $formpage
      */
     public $modulepage = '';
 
-    /*
+    /**
      * $canaccessadvanceditems
      */
     public $canaccessadvanceditems = false;
 
-    /*
+    /**
      * $canseeotherssubmissions
      */
     public $canseeotherssubmissions = false;
 
-    /*
+    /**
      * $caneditownsubmissions
      */
     public $caneditownsubmissions = false;
 
-    /*
+    /**
      * $caneditotherssubmissions
      */
     public $caneditotherssubmissions = false;
 
-    /*
+    /**
      * $cansubmit
      */
     public $cansubmit = false;
 
-    /*
+    /**
      * $canignoremaxentries
      */
     public $canignoremaxentries = false;
 
-    /*
+    /**
      * $formdata: the form content as submitted by the user
      */
     public $formdata = null;
 
-    /*
+    /**
      * Class constructor
      */
     public function __construct($cm, $context, $surveypro, $submissionid, $formpage, $view) {
@@ -164,7 +164,7 @@ class mod_surveypro_userformmanager {
         }
     }
 
-    /*
+    /**
      * next_not_empty_page
      *
      * @param $forward
@@ -234,7 +234,7 @@ class mod_surveypro_userformmanager {
         }
     }
 
-    /*
+    /**
      * page_has_items
      *
      * @param $formpage
@@ -277,9 +277,10 @@ class mod_surveypro_userformmanager {
         return false;
     }
 
-    /*
+    /**
      * set_page_from_view
      *
+     * @param none
      * @return
      */
     public function set_page_from_view() {
@@ -309,9 +310,10 @@ class mod_surveypro_userformmanager {
         }
     }
 
-    /*
+    /**
      * surveypro_add_custom_css
      *
+     * @param none
      * @return
      */
     public function surveypro_add_custom_css() {
@@ -323,9 +325,10 @@ class mod_surveypro_userformmanager {
         }
     }
 
-    /*
+    /**
      * assign_pages
      *
+     * @param none
      * @return
      */
     public function assign_pages() {
@@ -366,7 +369,7 @@ class mod_surveypro_userformmanager {
         }
     }
 
-    /*
+    /**
      * there are items spreading out their value over more than one single field
      * so you may have more than one $this->formdata element referring to the same item
      * Es.:
@@ -598,9 +601,10 @@ class mod_surveypro_userformmanager {
         }
     }
 
-    /*
+    /**
      * drop_jumped_saved_data
      *
+     * @param none
      * @return
      */
     public function drop_jumped_saved_data() {
@@ -621,7 +625,7 @@ class mod_surveypro_userformmanager {
         $DB->delete_records_select('surveypro_answer', $where, array('submissionid' => $this->formdata->submissionid));
     }
 
-    /*
+    /**
      * save_surveypro_submission
      *
      * @return surveypro_submission record
@@ -688,9 +692,10 @@ class mod_surveypro_userformmanager {
         $this->status = $submissions->status;
     }
 
-    /*
+    /**
      * notifyroles
      *
+     * @param none
      * @return
      */
     public function notifyroles() {
@@ -797,9 +802,10 @@ class mod_surveypro_userformmanager {
         }
     }
 
-    /*
+    /**
      * count_input_items
      *
+     * @param none
      * @return
      */
     public function count_input_items() {
@@ -819,9 +825,10 @@ class mod_surveypro_userformmanager {
         return $DB->count_records_select('surveypro_item', $whereclause, $whereparams);
     }
 
-    /*
+    /**
      * noitem_stopexecution
      *
+     * @param none
      * @return
      */
     public function noitem_stopexecution() {
@@ -836,9 +843,10 @@ class mod_surveypro_userformmanager {
         die();
     }
 
-    /*
+    /**
      * submissions_allowed
      *
+     * @param none
      * @return
      */
     public function submissions_allowed() {
@@ -860,7 +868,7 @@ class mod_surveypro_userformmanager {
         return ($this->user_sent_submissions(SURVEYPRO_STATUSALL) < $this->surveypro->maxentries);
     }
 
-    /*
+    /**
      * user_sent_submissions
      *
      * @param $status
@@ -882,9 +890,10 @@ class mod_surveypro_userformmanager {
         return $DB->count_records('surveypro_submission', $whereparams);
     }
 
-    /*
+    /**
      * submissions_exceeded_stopexecution
      *
+     * @param none
      * @return
      */
     public function submissions_exceeded_stopexecution() {
@@ -901,9 +910,10 @@ class mod_surveypro_userformmanager {
         die();
     }
 
-    /*
+    /**
      * manage_thanks_page
      *
+     * @param none
      * @return
      */
     public function manage_thanks_page() {
@@ -918,9 +928,10 @@ class mod_surveypro_userformmanager {
         }
     }
 
-    /*
+    /**
      * surveypro_show_thanks_page
      *
+     * @param none
      * @return
      */
     public function show_thanks_page() {
@@ -953,9 +964,10 @@ class mod_surveypro_userformmanager {
         }
     }
 
-    /*
+    /**
      * message_preview_mode
      *
+     * @param none
      * @return
      */
     public function message_preview_mode() {
@@ -967,9 +979,10 @@ class mod_surveypro_userformmanager {
         }
     }
 
-    /*
+    /**
      * display_page_x_of_y
      *
+     * @param none
      * @return
      */
     public function display_page_x_of_y() {
@@ -990,9 +1003,10 @@ class mod_surveypro_userformmanager {
         }
     }
 
-    /*
+    /**
      * add_browsing_buttons
      *
+     * @param none
      * @return
      */
     public function add_readonly_browsing_buttons() {
@@ -1032,9 +1046,10 @@ class mod_surveypro_userformmanager {
         }
     }
 
-    /*
+    /**
      * get_prefill_data
      *
+     * @param none
      * @return
      */
     public function get_prefill_data() {
@@ -1062,9 +1077,10 @@ class mod_surveypro_userformmanager {
         return $prefill;
     }
 
-    /*
+    /**
      * drop_unexpected_values
      *
+     * @param none
      * @return
      */
     public function drop_unexpected_values() {
@@ -1142,9 +1158,10 @@ class mod_surveypro_userformmanager {
         }
     }
 
-    /*
+    /**
      * prevent_direct_user_input
      *
+     * @param none
      * @return
      */
     public function prevent_direct_user_input() {
@@ -1232,7 +1249,7 @@ class mod_surveypro_userformmanager {
         }
     }
 
-    /*
+    /**
      * duplicate_submission
      *
      * @param $allpages
@@ -1257,9 +1274,10 @@ class mod_surveypro_userformmanager {
         $this->submissionid = $submissionid;
     }
 
-    /*
+    /**
      * display_cover
      *
+     * @param none
      * @return
      */
     public function display_cover() {
@@ -1439,9 +1457,11 @@ class mod_surveypro_userformmanager {
         echo $OUTPUT->footer();
     }
 
-    /*
+    /**
      * display_messages
      *
+     * @param $messages
+     * @param $strlegend
      * @return
      */
     public function display_messages($messages, $strlegend) {
@@ -1461,7 +1481,7 @@ class mod_surveypro_userformmanager {
         }
     }
 
-    /*
+    /**
      * trigger_event
      *
      * @return void

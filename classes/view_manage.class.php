@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
  * You can have a rather longer description of the file as well,
@@ -27,91 +27,91 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/*
+/**
  * The base class representing a field
  */
 class mod_surveypro_submissionmanager {
-    /*
+    /**
      * $surveypro: the record of this surveypro
      */
     public $surveypro = null;
 
-    /*
+    /**
      * $submissionid: the ID of the current submission
      */
     public $submissionid = 0;
 
-    /*
+    /**
      * $canaccessadvanceditems
      */
     public $canaccessadvanceditems = false;
 
-    /*
+    /**
      * $canmanageitems
      */
     public $canmanageitems = false;
 
-    /*
+    /**
      * $action
      */
     public $action = SURVEYPRO_NOACTION;
 
-    /*
+    /**
      * $view
      */
     public $view = SURVEYPRO_NOVIEW;
 
-    /*
+    /**
      * $confirm
      */
     public $confirm = false;
 
-    /*
+    /**
      * $canseeownsubmissions
      */
     // public $canseeownsubmissions = true;
 
-    /*
+    /**
      * $canseeotherssubmissions
      */
     public $canseeotherssubmissions = false;
 
-    /*
+    /**
      * $caneditownsubmissions
      */
     public $caneditownsubmissions = false;
 
-    /*
+    /**
      * $caneditotherssubmissions
      */
     public $caneditotherssubmissions = false;
 
-    /*
+    /**
      * $candeleteownsubmissions
      */
     public $candeleteownsubmissions = false;
 
-    /*
+    /**
      * $candeleteotherssubmissions
      */
     public $candeleteotherssubmissions = false;
 
-    /*
+    /**
      * $cansavesubmissiontopdf
      */
     public $cansavesubmissiontopdf = false;
 
-    /*
+    /**
      * $searchfieldsget
      */
     public $searchfieldsget = '';
 
-    /*
+    /**
      * $userfeedback
      */
     public $userfeedback = '';
 
-    /*
+    /**
      * Class constructor
      */
     public function __construct($cm, $surveypro, $submissionid, $action, $view, $confirm, $searchfieldsget) {
@@ -137,7 +137,7 @@ class mod_surveypro_submissionmanager {
         $this->cansavesubmissiontopdf = has_capability('mod/surveypro:savesubmissiontopdf', $this->context, null, true);
     }
 
-    /*
+    /**
      * trigger_event
      *
      * @return void
@@ -149,9 +149,10 @@ class mod_surveypro_submissionmanager {
         $event->trigger();
     }
 
-    /*
+    /**
      * manage_actions
      *
+     * @param none
      * @return
      */
     public function manage_actions() {
@@ -169,9 +170,10 @@ class mod_surveypro_submissionmanager {
         }
     }
 
-    /*
+    /**
      * manage_submission_deletion
      *
+     * @param none
      * @return
      */
     public function manage_submission_deletion() {
@@ -255,9 +257,10 @@ class mod_surveypro_submissionmanager {
         }
     }
 
-    /*
+    /**
      * manage_all_submission_deletion
      *
+     * @param none
      * @return
      */
     public function manage_all_submission_deletion() {
@@ -327,7 +330,7 @@ class mod_surveypro_submissionmanager {
         }
     }
 
-    /*
+    /**
      * get_manage_sql
      *
      * @param $table
@@ -437,9 +440,10 @@ class mod_surveypro_submissionmanager {
         return array($sql, $whereparams);
     }
 
-    /*
+    /**
      * manage_submissions
      *
+     * @param none
      * @return
      */
     public function manage_submissions() {
@@ -677,7 +681,7 @@ class mod_surveypro_submissionmanager {
         }
     }
 
-    /*
+    /**
      * prevent_direct_user_input
      *
      * @param $confirm
@@ -775,9 +779,10 @@ class mod_surveypro_submissionmanager {
         }
     }
 
-    /*
+    /**
      * submission_to_pdf
      *
+     * @param none
      * @return
      */
     public function submission_to_pdf() {

@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
  * You can have a rather longer description of the file as well,
@@ -32,152 +32,154 @@ require_once($CFG->dirroot.'/mod/surveypro/field/autofill/lib.php');
 
 class surveyprofield_autofill extends mod_surveypro_itembase {
 
-    /*
+    /**
      * $content = the text content of the item.
      */
     public $content = '';
 
-    /*
+    /**
      * $contenttrust
      */
     public $contenttrust = 1;
 
-    /*
+    /**
      * public $contentformat = '';
      */
     public $contentformat = '';
 
-    /*
+    /**
      * $customnumber = the custom number of the item.
      * It usually is 1. 1.1, a, 2.1.a...
      */
     public $customnumber = '';
 
-    /*
+    /**
      * $position = where does the question go?
      */
     public $position = SURVEYPRO_POSITIONLEFT;
 
-    /*
+    /**
      * $extranote = an optional text describing the item
      */
     public $extranote = '';
 
-    /*
+    /**
      * $hideinstructions = boolean. Exceptionally hide filling instructions
      */
     public $hideinstructions = 0;
 
-    /*
+    /**
      * $variable = the name of the field storing data in the db table
      */
     public $variable = '';
 
-    /*
+    /**
      * $indent = the indent of the item in the form page
      */
     public $indent = 0;
 
     // -----------------------------
 
-    /*
+    /**
      * $hiddenfield = is the static text visible in the mform?
      */
     public $hiddenfield = false;
 
-    /*
+    /**
      * $element01 = element for $content
      */
     public $element01 = '';
 
-    /*
+    /**
      * $element01_select
      */
     public $element01_select = '';
 
-    /*
+    /**
      * $element01_text
      */
     public $element01_text = '';
 
-    /*
+    /**
      * $element02 = element for $content
      */
     public $element02 = '';
 
-    /*
+    /**
      * $element02_select
      */
     public $element02_select = '';
 
-    /*
+    /**
      * $element02_text
      */
     public $element02_text = '';
 
-    /*
+    /**
      * $element03 = element for $content
      */
     public $element03 = '';
 
-    /*
+    /**
      * $element03_select
      */
     public $element03_select = '';
 
-    /*
+    /**
      * $element03_text
      */
     public $element03_text = '';
 
-    /*
+    /**
      * $element04 = element for $content
      */
     public $element04 = '';
 
-    /*
+    /**
      * $element04_select
      */
     public $element04_select = '';
 
-    /*
+    /**
      * $element04_text
      */
     public $element04_text = '';
 
-    /*
+    /**
      * $element05 = element for $content
      */
     public $element05 = '';
 
-    /*
+    /**
      * $element05_select
      */
     public $element05_select = '';
 
-    /*
+    /**
      * $element05_text
      */
     public $element05_text = '';
 
-    /*
+    /**
      * $flag = features describing the object
      */
     public $flag;
 
-    /*
+    /**
      * $canbeparent
      */
     public static $canbeparent = false;
 
     // -----------------------------
 
-    /*
+    /**
      * Class constructor
      *
      * If itemid is provided, load the object (item + base + plugin) from database
      *
      * @param int $itemid. Optional surveypro_item ID
+     * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
+     * @return
      */
     public function __construct($itemid=0, $evaluateparentcontent) {
         global $PAGE;
@@ -207,7 +209,7 @@ class surveyprofield_autofill extends mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * item_load
      *
      * @param $itemid
@@ -224,7 +226,7 @@ class surveyprofield_autofill extends mod_surveypro_itembase {
         $this->item_custom_fields_to_form();
     }
 
-    /*
+    /**
      * item_save
      *
      * @param $record
@@ -252,10 +254,11 @@ class surveyprofield_autofill extends mod_surveypro_itembase {
         return parent::item_save($record);
     }
 
-    /*
+    /**
      * item_custom_fields_to_form
      * translates the class properties to form fields value
      *
+     * @param none
      * @return
      */
     public function item_custom_fields_to_form() {
@@ -289,7 +292,7 @@ class surveyprofield_autofill extends mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * item_custom_fields_to_db
      *
      * @param $record
@@ -322,7 +325,7 @@ class surveyprofield_autofill extends mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * item_get_multilang_fields
      * make the list of multilang plugin fields
      *
@@ -334,7 +337,7 @@ class surveyprofield_autofill extends mod_surveypro_itembase {
         return $fieldlist;
     }
 
-    /*
+    /**
      * item_get_plugin_schema
      * Return the xml schema for surveypro_<<plugin>> table.
      *
@@ -381,7 +384,7 @@ EOS;
 
     // MARK userform
 
-    /*
+    /**
      * userform_mform_element
      *
      * @param $mform
@@ -421,7 +424,7 @@ EOS;
         }
     }
 
-    /*
+    /**
      * userform_mform_validation
      *
      * @param $data
@@ -434,7 +437,7 @@ EOS;
         // nothing to do here
     }
 
-    /*
+    /**
      * userform_save_preprocessing
      * starting from the info set by the user in the form
      * this method calculates what to save in the db
@@ -469,7 +472,7 @@ EOS;
         $olduserdata->content = $this->userform_get_content($olduserdata->submissionid);
     }
 
-    /*
+    /**
      * this method is called from surveypro_set_prefill (in locallib.php) to set $prefill at user form display time
      * (defaults are set in userform_mform_element)
      *
@@ -490,7 +493,7 @@ EOS;
         return $prefill;
     }
 
-    /*
+    /**
      * userform_get_content
      *
      * @param $item
@@ -602,10 +605,11 @@ EOS;
         return $label;
     }
 
-    /*
+    /**
      * userform_get_root_elements_name
      * returns an array with the names of the mform element added using $mform->addElement or $mform->addGroup
      *
+     * @param none
      * @return
      */
     public function userform_get_root_elements_name() {

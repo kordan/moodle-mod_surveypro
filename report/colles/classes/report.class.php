@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Defines the version of surveypro autofill subplugin
  *
  * This code fragment is called by moodle_needs_upgrading() and
@@ -31,77 +31,77 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/surveypro/classes/reportbase.class.php');
 
 class report_colles extends mod_surveypro_reportbase {
-    /*
+    /**
      * template
      */
     public $template;
 
-    /*
+    /**
      * group
      */
     public $group = 0;
 
-    /*
+    /**
      * sid
      */
     public $area = 0;
 
-    /*
+    /**
      * qid
      */
     public $qid = 0;
 
-    /*
+    /**
      * graphtitle
      */
     public $graphtitle = '';
 
-    /*
+    /**
      * xlabels
      */
     public $xlabels = array();
 
-    /*
+    /**
      * ylabels
      */
     public $ylabels = array();
 
-    /*
+    /**
      * trend1
      */
     public $trend1 = array();
 
-    /*
+    /**
      * trend1stdev
      */
     public $trend1stdev = array();
 
-    /*
+    /**
      * trend2
      */
     public $trend2 = array();
 
-    /*
+    /**
      * trend2stdev
      */
     public $trend2stdev = array();
 
-    /*
+    /**
      * studenttrend1
      */
     public $studenttrend1 = array();
 
-    /*
+    /**
      * studenttrend2
      */
     public $studenttrend2 = array();
 
-    /*
+    /**
      * iarea
      */
     public $iarea;
 
-    /*
+    /**
      * setup
      */
     function setup($hassubmissions, $group, $area, $qid) {
@@ -115,21 +115,21 @@ class report_colles extends mod_surveypro_reportbase {
         $this->iarea = new stdClass();
     }
 
-    /*
+    /**
      * restrict_templates
      */
     public function restrict_templates() {
         return array('collesactual', 'collespreferred', 'collesactualpreferred');
     }
 
-    /*
+    /**
      * has_student_report
      */
     public function has_student_report() {
         return true;
     }
 
-    /*
+    /**
      * get_childreports
      */
     public function get_childreports($canaccessreports) {
@@ -145,7 +145,7 @@ class report_colles extends mod_surveypro_reportbase {
         }
     }
 
-    /*
+    /**
      * output_html
      */
     public function output_html($nexturl, $graphurl, $altkey) {
@@ -173,7 +173,7 @@ class report_colles extends mod_surveypro_reportbase {
         echo $content;
     }
 
-    /*
+    /**
      * get_qid_per_area
      */
     public function get_qid_per_area() {
@@ -225,7 +225,7 @@ class report_colles extends mod_surveypro_reportbase {
         return array($qid1area, $qid2area);
     }
 
-    /*
+    /**
      * output_summarydata
      */
     public function output_summarydata() {
@@ -249,7 +249,7 @@ class report_colles extends mod_surveypro_reportbase {
         $this->output_html($nexturl, $graphurl, 'summaryreport');
     }
 
-    /*
+    /**
      * fetch_summarydata
      */
     public function fetch_summarydata() {
@@ -348,7 +348,7 @@ class report_colles extends mod_surveypro_reportbase {
         // end of: calculate the mean and the standard deviation of answers
     }
 
-    /*
+    /**
      * output_scalesdata
      */
     public function output_scalesdata() {
@@ -373,7 +373,7 @@ class report_colles extends mod_surveypro_reportbase {
         }
     }
 
-    /*
+    /**
      * fetch_scalesdata
      */
     public function fetch_scalesdata($area=false) {
@@ -447,7 +447,7 @@ class report_colles extends mod_surveypro_reportbase {
         // end of: calculate the mean and the standard deviation of answers
     }
 
-    /*
+    /**
      * output_questionsdata
      */
     public function output_questionsdata($area=false) {
@@ -480,7 +480,7 @@ class report_colles extends mod_surveypro_reportbase {
         }
     }
 
-    /*
+    /**
      * fetch_questionsdata
      */
     public function fetch_questionsdata($area=false, $qid=false) {

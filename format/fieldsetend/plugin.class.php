@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
  * You can have a rather longer description of the file as well,
@@ -32,31 +32,33 @@ require_once($CFG->dirroot.'/mod/surveypro/format/fieldsetend/lib.php');
 
 class surveyproformat_fieldsetend extends mod_surveypro_itembase {
 
-    /*
+    /**
      * $content = the text content of the item.
      */
     public $content = '';
 
     // -----------------------------
 
-    /*
+    /**
      * $flag = features describing the object
      */
     public $flag;
 
-    /*
+    /**
      * $canbeparent
      */
     public static $canbeparent = false;
 
     // -----------------------------
 
-    /*
+    /**
      * Class constructor
      *
      * If itemid is provided, load the object (item + base + plugin) from database
      *
      * @param int $itemid. Optional surveypro_item ID
+     * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
+     * @return
      */
     public function __construct($itemid=0, $evaluateparentcontent) {
         global $PAGE;
@@ -92,7 +94,7 @@ class surveyproformat_fieldsetend extends mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * item_load
      *
      * @param $itemid
@@ -103,7 +105,7 @@ class surveyproformat_fieldsetend extends mod_surveypro_itembase {
         parent::item_load($itemid, $evaluateparentcontent);
     }
 
-    /*
+    /**
      * item_save
      *
      * @param $record
@@ -124,7 +126,7 @@ class surveyproformat_fieldsetend extends mod_surveypro_itembase {
         return parent::item_save($record);
     }
 
-    /*
+    /**
      * item_get_multilang_fields
      * make the list of multilang plugin fields
      *
@@ -136,7 +138,7 @@ class surveyproformat_fieldsetend extends mod_surveypro_itembase {
         return $fieldlist;
     }
 
-    /*
+    /**
      * item_get_plugin_schema
      * Return the xml schema for surveypro_<<plugin>> table.
      *
@@ -161,7 +163,7 @@ EOS;
 
     // MARK userform
 
-    /*
+    /**
      * userform_mform_element
      *
      * @param $mform
@@ -180,7 +182,7 @@ EOS;
         $mform->closeHeaderBefore($this->itemname);
     }
 
-    /*
+    /**
      * userform_mform_validation
      *
      * @param $data
@@ -193,7 +195,7 @@ EOS;
         // nothing to do here
     }
 
-    /*
+    /**
      * this method is called from surveypro_set_prefill (in locallib.php) to set $prefill at user form display time
      * (defaults are set in userform_mform_element)
      *
@@ -208,7 +210,7 @@ EOS;
         return $prefill;
     }
 
-    /*
+    /**
      * userform_db_to_export
      * strating from the info stored in the database, this function returns the corresponding content for the export file
      *
@@ -220,10 +222,11 @@ EOS;
         return '';
     }
 
-    /*
+    /**
      * userform_get_root_elements_name
      * returns an array with the names of the mform element added using $mform->addElement or $mform->addGroup
      *
+     * @param none
      * @return
      */
     public function userform_get_root_elements_name() {

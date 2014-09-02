@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
  * You can have a rather longer description of the file as well,
@@ -32,182 +32,184 @@ require_once($CFG->dirroot.'/mod/surveypro/field/datetime/lib.php');
 
 class surveyprofield_datetime extends mod_surveypro_itembase {
 
-    /*
+    /**
      * $content = the text content of the item.
      */
     public $content = '';
 
-    /*
+    /**
      * $contenttrust
      */
     public $contenttrust = 1;
 
-    /*
+    /**
      * public $contentformat = '';
      */
     public $contentformat = '';
 
-    /*
+    /**
      * $customnumber = the custom number of the item.
      * It usually is 1. 1.1, a, 2.1.a...
      */
     public $customnumber = '';
 
-    /*
+    /**
      * $position = where does the question go?
      */
     public $position = SURVEYPRO_POSITIONLEFT;
 
-    /*
+    /**
      * $extranote = an optional text describing the item
      */
     public $extranote = '';
 
-    /*
+    /**
      * $required = boolean. O == optional item; 1 == mandatory item
      */
     public $required = 0;
 
-    /*
+    /**
      * $hideinstructions = boolean. Exceptionally hide filling instructions
      */
     public $hideinstructions = 0;
 
-    /*
+    /**
      * $variable = the name of the field storing data in the db table
      */
     public $variable = '';
 
-    /*
+    /**
      * $indent = the indent of the item in the form page
      */
     public $indent = 0;
 
     // -----------------------------
 
-    /*
+    /**
      * $step = the step for minutes drop down menu
      */
     public $step = 1;
 
-    /*
+    /**
      * $defaultoption = the value of the field when the form is initially displayed.
      */
     public $defaultoption = SURVEYPRO_INVITATIONDEFAULT;
 
-    /*
+    /**
      * $downloadformat = the format of the content once downloaded
      */
     public $downloadformat = null;
 
-    /*
+    /**
      * $defaultvalue = the value of the field when the form is initially displayed.
      */
     public $defaultvalue = 0;
 
-    /*
+    /**
      * $defaultvalue_year
      */
     public $defaultvalue_year = null;
 
-    /*
+    /**
      * $defaultvalue_month
      */
     public $defaultvalue_month = null;
 
-    /*
+    /**
      * $defaultvalue_day
      */
     public $defaultvalue_day = null;
 
-    /*
+    /**
      * $defaultvalue_hour
      */
     public $defaultvalue_hour = null;
 
-    /*
+    /**
      * $defaultvalue_minute
      */
     public $defaultvalue_minute = null;
 
-    /*
+    /**
      * $lowerbound = the minimum allowed date and time
      */
     public $lowerbound = 0;
 
-    /*
+    /**
      * $lowerbound_year
      */
     public $lowerbound_year = null;
 
-    /*
+    /**
      * $lowerbound_month
      */
     public $lowerbound_month = null;
 
-    /*
+    /**
      * $lowerbound_day
      */
     public $lowerbound_day = null;
 
-    /*
+    /**
      * $lowerbound_year
      */
     public $lowerbound_hour = null;
 
-    /*
+    /**
      * $lowerbound_month
      */
     public $lowerbound_minute = null;
 
-    /*
+    /**
      * $upperbound = the maximum allowed date and time
      */
     public $upperbound = 0;
 
-    /*
+    /**
      * $upperbound_year
      */
     public $upperbound_year = null;
 
-    /*
+    /**
      * $upperbound_month
      */
     public $upperbound_month = null;
 
-    /*
+    /**
      * $upperbound_day
      */
     public $upperbound_day = null;
 
-    /*
+    /**
      * $upperbound_year
      */
     public $upperbound_hour = null;
 
-    /*
+    /**
      * $upperbound_month
      */
     public $upperbound_minute = null;
 
-    /*
+    /**
      * $flag = features describing the object
      */
     public $flag;
 
-    /*
+    /**
      * $canbeparent
      */
     public static $canbeparent = false;
 
     // -----------------------------
 
-    /*
+    /**
      * Class constructor
      *
      * If itemid is provided, load the object (item + base + plugin) from database
      *
      * @param int $itemid. Optional surveypro_item ID
+     * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
+     * @return
      */
     public function __construct($itemid=0, $evaluateparentcontent) {
         global $PAGE, $DB;
@@ -243,7 +245,7 @@ class surveyprofield_datetime extends mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * item_load
      *
      * @param $itemid
@@ -260,7 +262,7 @@ class surveyprofield_datetime extends mod_surveypro_itembase {
         $this->item_custom_fields_to_form();
     }
 
-    /*
+    /**
      * item_save
      *
      * @param $record
@@ -282,7 +284,7 @@ class surveyprofield_datetime extends mod_surveypro_itembase {
         return parent::item_save($record);
     }
 
-    /*
+    /**
      * item_datetime_to_unix_time
      *
      * @param $year
@@ -296,10 +298,11 @@ class surveyprofield_datetime extends mod_surveypro_itembase {
         return (gmmktime($hour, $minute, 0, $month, $day, $year)); // This is GMT
     }
 
-    /*
+    /**
      * item_custom_fields_to_form
      * translates the datetime class property $fieldlist in $field.'_year' and $field.'_month' and so forth
      *
+     * @param none
      * @return
      */
     public function item_custom_fields_to_form() {
@@ -335,7 +338,7 @@ class surveyprofield_datetime extends mod_surveypro_itembase {
         // nothing to do: defaultvalue doesn't need any further care
     }
 
-    /*
+    /**
      * item_custom_fields_to_db
      * sets record field to store the correct value to db for the date custom item
      *
@@ -367,19 +370,21 @@ class surveyprofield_datetime extends mod_surveypro_itembase {
         // nothing to do: defaultvalue doesn't need any further care
     }
 
-    /*
+    /**
      * item_composite_fields
      * get the list of composite fields
      *
+     * @param none
      * @return
      */
     public function item_composite_fields() {
         return array('defaultvalue', 'lowerbound', 'upperbound');
     }
 
-    /*
+    /**
      * item_get_downloadformats
      *
+     * @param none
      * @return
      */
     public function item_get_downloadformats() {
@@ -391,7 +396,7 @@ class surveyprofield_datetime extends mod_surveypro_itembase {
             $option[$strname] = userdate($timenow, get_string($strname, 'surveyprofield_datetime')); // Monday 17 June, 05.15
         }
         $option['unixtime'] = get_string('unixtime', 'surveypro');
-        /*
+        /**
          * Friday, 21 June 2013, 08:14
          * Friday, 21 June 2013, 8:14 am
          * Fri, 21 Jun 2013, 8:14 am
@@ -409,7 +414,7 @@ class surveyprofield_datetime extends mod_surveypro_itembase {
         return $option;
     }
 
-    /*
+    /**
      * item_get_multilang_fields
      * make the list of multilang plugin fields
      *
@@ -421,16 +426,17 @@ class surveyprofield_datetime extends mod_surveypro_itembase {
         return $fieldlist;
     }
 
-    /*
+    /**
      * item_get_friendlyformat
      *
+     * @param none
      * @return
      */
     public function item_get_friendlyformat() {
         return 'strftime01';
     }
 
-    /*
+    /**
      * item_get_plugin_schema
      * Return the xml schema for surveypro_<<plugin>> table.
      *
@@ -484,7 +490,7 @@ EOS;
 
     // MARK userform
 
-    /*
+    /**
      * userform_mform_element
      *
      * @param $mform
@@ -614,7 +620,7 @@ EOS;
         // End of: default section
     }
 
-    /*
+    /**
      * userform_mform_validation
      *
      * @param $data
@@ -694,7 +700,7 @@ EOS;
         }
     }
 
-    /*
+    /**
      * userform_get_filling_instructions
      *
      * @return string $fillinginstruction
@@ -727,7 +733,7 @@ EOS;
         return $fillinginstruction;
     }
 
-    /*
+    /**
      * userform_save_preprocessing
      * starting from the info set by the user in the form
      * this method calculates what to save in the db
@@ -754,7 +760,7 @@ EOS;
         }
     }
 
-    /*
+    /**
      * this method is called from surveypro_set_prefill (in locallib.php) to set $prefill at user form display time
      * (defaults are set in userform_mform_element)
      *
@@ -786,7 +792,7 @@ EOS;
         return $prefill;
     }
 
-    /*
+    /**
      * userform_db_to_export
      * strating from the info stored in the database, this function returns the corresponding content for the export file
      *
@@ -820,10 +826,11 @@ EOS;
         }
     }
 
-    /*
+    /**
      * userform_get_root_elements_name
      * returns an array with the names of the mform element added using $mform->addElement or $mform->addGroup
      *
+     * @param none
      * @return
      */
     public function userform_get_root_elements_name() {

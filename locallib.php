@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Internal library of functions for module surveypro
  *
  * All the surveypro specific functions, needed to implement the module
@@ -29,10 +29,14 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/surveypro/lib.php');
 
-/*
+/**
  * surveypro_get_item
- * @param $itemid, $type, $plugin
- * @return
+ *
+ * @param $itemid
+ * @param $type
+ * @param $plugin
+ * @param optional $evaluateparentcontent
+ * @return $item
  */
 function surveypro_get_item($itemid, $type='', $plugin='', $evaluateparentcontent=true) {
     global $CFG, $DB;
@@ -50,19 +54,21 @@ function surveypro_get_item($itemid, $type='', $plugin='', $evaluateparentconten
     return $item;
 }
 
-/*
+/**
  * surveypro_non_empty_only
+ *
  * @param $arrayelement
- * @return
+ * @return int length of the array element
  */
 function surveypro_non_empty_only($arrayelement) {
     return strlen(trim($arrayelement)); // returns 0 if the array element is empty
 }
 
-/*
+/**
  * surveypro_textarea_to_array
+ *
  * @param $textareacontent
- * @return
+ * @return $arraytextarea
  */
 function surveypro_textarea_to_array($textareacontent) {
 
@@ -76,12 +82,13 @@ function surveypro_textarea_to_array($textareacontent) {
     return $arraytextarea;
 }
 
-/*
+/**
  * surveypro_need_group_filtering
  * this function answer the question: do I Need to filter group in my next task?
- * @param
  *
- * @return
+ * @param $cm
+ * @param $context
+ * @return $filtergroups
  */
 function surveypro_need_group_filtering($cm, $context) {
     global $COURSE;
@@ -98,9 +105,12 @@ function surveypro_need_group_filtering($cm, $context) {
     return $filtergroups;
 }
 
-/*
+/**
  * surveypro_fixlength
- * @param
+ *
+ * @param $plainstring
+ * @param optional $maxlength
+ * @param $plainstring
  *
  * @return
  */
@@ -115,13 +125,12 @@ function surveypro_fixlength($plainstring, $maxlength=60) {
     return $plainstring;
 }
 
-/*
+/**
  * surveypro_get_my_groups_simple
  * this function is simpler and less resource asking than the core groups_get_my_groups();
  * I really don't need all the infos returned by the core function
  *
- * @param $userid: the user you want to know his/her groups
- *
+ * @param optional $userid: the user you want to know his/her groups
  * @return: an array with the list of the group the user belongs to
  */
 function surveypro_get_my_groups_simple($userid=0) {
@@ -132,13 +141,14 @@ function surveypro_get_my_groups_simple($userid=0) {
     }
 
     $mygroups = $DB->get_records('groups_members', array('userid' => $userid), 'groupid', 'groupid');
+
     return array_keys($mygroups);
 }
 
-/*
+/**
  * surveypro_groupmates
- * @param $userid: the user you want to know his/her groupmates
  *
+ * @param optional $userid: the user you want to know his/her groupmates
  * @return: an array with the list of groupmates of the user
  */
 function surveypro_groupmates($userid=0) {

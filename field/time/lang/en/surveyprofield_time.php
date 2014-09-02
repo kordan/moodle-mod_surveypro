@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Strings for component 'field_time', language 'en', branch 'MOODLE_20_STABLE'
  *
  * @package    surveypro

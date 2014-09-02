@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * mod_surveypro submission deleted event.
  *
  * @package    mod_surveypro
@@ -30,7 +30,7 @@ require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php'
 require_once($CFG->dirroot.'/mod/surveypro/lib.php');
 
 class submission_deleted extends \core\event\base {
-    /*
+    /**
      * Set basic properties for the event.
      */
     protected function init() {
@@ -39,7 +39,7 @@ class submission_deleted extends \core\event\base {
         $this->data['objecttable'] = 'surveypro_submission';
     }
 
-    /*
+    /**
      * Return localised event name.
      *
      * @return string
@@ -48,7 +48,7 @@ class submission_deleted extends \core\event\base {
         return get_string('event_submission_deleted', 'mod_surveypro');
     }
 
-    /*
+    /**
      * Returns description of what happened.
      *
      * @return string
@@ -57,7 +57,7 @@ class submission_deleted extends \core\event\base {
         return "User with id '{$this->userid}' has deleted the submission with id '{$this->objectid}'.";
     }
 
-    /*
+    /**
      * Get URL related to the action.
      *
      * @return \moodle_url
@@ -66,7 +66,7 @@ class submission_deleted extends \core\event\base {
         return new \moodle_url('view_manage.php', array('id' => $this->contextinstanceid));
     }
 
-    /*
+    /**
      * Return legacy data for add_to_log().
      *
      * @return array
@@ -77,7 +77,7 @@ class submission_deleted extends \core\event\base {
             $this->get_url(), $this->objectid, $this->contextinstanceid);
     }
 
-    /*
+    /**
      * Return the legacy event name.
      *
      * @return string

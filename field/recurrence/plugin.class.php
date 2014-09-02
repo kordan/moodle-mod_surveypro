@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
  * You can have a rather longer description of the file as well,
@@ -32,132 +32,134 @@ require_once($CFG->dirroot.'/mod/surveypro/field/recurrence/lib.php');
 
 class surveyprofield_recurrence extends mod_surveypro_itembase {
 
-    /*
+    /**
      * $content = the text content of the item.
      */
     public $content = '';
 
-    /*
+    /**
      * $contenttrust
      */
     public $contenttrust = 1;
 
-    /*
+    /**
      * public $contentformat = '';
      */
     public $contentformat = '';
 
-    /*
+    /**
      * $customnumber = the custom number of the item.
      * It usually is 1. 1.1, a, 2.1.a...
      */
     public $customnumber = '';
 
-    /*
+    /**
      * $position = where does the question go?
      */
     public $position = SURVEYPRO_POSITIONLEFT;
 
-    /*
+    /**
      * $extranote = an optional text describing the item
      */
     public $extranote = '';
 
-    /*
+    /**
      * $required = boolean. O == optional item; 1 == mandatory item
      */
     public $required = 0;
 
-    /*
+    /**
      * $hideinstructions = boolean. Exceptionally hide filling instructions
      */
     public $hideinstructions = 0;
 
-    /*
+    /**
      * $variable = the name of the field storing data in the db table
      */
     public $variable = '';
 
-    /*
+    /**
      * $indent = the indent of the item in the form page
      */
     public $indent = 0;
 
     // -----------------------------
 
-    /*
+    /**
      * $defaultoption = the value of the field when the form is initially displayed.
      */
     public $defaultoption = SURVEYPRO_INVITATIONDEFAULT;
 
-    /*
+    /**
      * $downloadformat = the format of the content once downloaded
      */
     public $downloadformat = null;
 
-    /*
+    /**
      * $defaultvalue = the value of the field when the form is initially displayed.
      */
     public $defaultvalue = 0;
 
-    /*
+    /**
      * $defaultvalue_month
      */
     public $defaultvalue_month = null;
 
-    /*
+    /**
      * $defaultvalue_year
      */
     public $defaultvalue_day = null;
 
-    /*
+    /**
      * $lowerbound = the minimum allowed recurrence
      */
     public $lowerbound = 0;
 
-    /*
+    /**
      * $lowerbound_month
      */
     public $lowerbound_month = null;
 
-    /*
+    /**
      * $lowerbound_year
      */
     public $lowerbound_day = null;
 
-    /*
+    /**
      * $upperbound = the maximum allowed recurrence
      */
     public $upperbound = 0;
 
-    /*
+    /**
      * $upperbound_month
      */
     public $upperbound_month = null;
 
-    /*
+    /**
      * $upperbound_year
      */
     public $upperbound_day = null;
 
-    /*
+    /**
      * $flag = features describing the object
      */
     public $flag;
 
-    /*
+    /**
      * $canbeparent
      */
     public static $canbeparent = false;
 
     // -----------------------------
 
-    /*
+    /**
      * Class constructor
      *
      * If itemid is provided, load the object (item + base + plugin) from database
      *
      * @param int $itemid. Optional surveypro_item ID
+     * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
+     * @return
      */
     public function __construct($itemid=0, $evaluateparentcontent) {
         global $PAGE, $DB;
@@ -191,7 +193,7 @@ class surveyprofield_recurrence extends mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * item_load
      *
      * @param $itemid
@@ -208,7 +210,7 @@ class surveyprofield_recurrence extends mod_surveypro_itembase {
         $this->item_custom_fields_to_form();
     }
 
-    /*
+    /**
      * item_save
      *
      * @param $record
@@ -230,7 +232,7 @@ class surveyprofield_recurrence extends mod_surveypro_itembase {
         return parent::item_save($record);
     }
 
-    /*
+    /**
      * item_recurrence_to_unix_time
      *
      * @param $month
@@ -241,10 +243,11 @@ class surveyprofield_recurrence extends mod_surveypro_itembase {
         return (gmmktime(12, 0, 0, $month, $day, SURVEYPROFIELD_RECURRENCE_YEAROFFSET)); // This is GMT
     }
 
-    /*
+    /**
      * item_custom_fields_to_form
      * translates the recurrence class property $fieldlist in $field.'_month' and $field.'_day'
      *
+     * @param none
      * @return
      */
     public function item_custom_fields_to_form() {
@@ -277,7 +280,7 @@ class surveyprofield_recurrence extends mod_surveypro_itembase {
         // nothing to do: defaultvalue doesn't need any further care
     }
 
-    /*
+    /**
      * item_custom_fields_to_db
      * sets record field to store the correct value to db for the recurrence custom item
      *
@@ -304,19 +307,21 @@ class surveyprofield_recurrence extends mod_surveypro_itembase {
         // nothing to do: defaultvalue doesn't need any further care
     }
 
-    /*
+    /**
      * item_composite_fields
      * get the list of composite fields
      *
+     * @param none
      * @return
      */
     public function item_composite_fields() {
         return array('defaultvalue', 'lowerbound', 'upperbound');
     }
 
-    /*
+    /**
      * item_get_downloadformats
      *
+     * @param none
      * @return
      */
     public function item_get_downloadformats() {
@@ -331,7 +336,7 @@ class surveyprofield_recurrence extends mod_surveypro_itembase {
         return $option;
     }
 
-    /*
+    /**
      * item_check_monthday
      *
      * @param $day
@@ -351,16 +356,17 @@ class surveyprofield_recurrence extends mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * item_get_friendlyformat
      *
+     * @param none
      * @return
      */
     public function item_get_friendlyformat() {
         return 'strftime3';
     }
 
-    /*
+    /**
      * item_get_multilang_fields
      * make the list of multilang plugin fields
      *
@@ -372,7 +378,7 @@ class surveyprofield_recurrence extends mod_surveypro_itembase {
         return $fieldlist;
     }
 
-    /*
+    /**
      * item_get_plugin_schema
      * Return the xml schema for surveypro_<<plugin>> table.
      *
@@ -425,7 +431,7 @@ EOS;
 
     // MARK userform
 
-    /*
+    /**
      * userform_mform_element
      *
      * @param $mform
@@ -524,7 +530,7 @@ EOS;
         // End of: default section
     }
 
-    /*
+    /**
      * userform_mform_validation
      *
      * @param $data
@@ -599,7 +605,7 @@ EOS;
         }
     }
 
-    /*
+    /**
      * userform_get_filling_instructions
      *
      * @return string $fillinginstruction
@@ -633,7 +639,7 @@ EOS;
         return $fillinginstruction;
     }
 
-    /*
+    /**
      * userform_save_preprocessing
      * starting from the info set by the user in the form
      * this method calculates what to save in the db
@@ -660,7 +666,7 @@ EOS;
         }
     }
 
-    /*
+    /**
      * this method is called from surveypro_set_prefill (in locallib.php) to set $prefill at user form display time
      * (defaults are set in userform_mform_element)
      *
@@ -689,7 +695,7 @@ EOS;
         return $prefill;
     }
 
-    /*
+    /**
      * userform_db_to_export
      * strating from the info stored in the database, this function returns the corresponding content for the export file
      *
@@ -723,10 +729,11 @@ EOS;
         }
     }
 
-    /*
+    /**
      * userform_get_root_elements_name
      * returns an array with the names of the mform element added using $mform->addElement or $mform->addGroup
      *
+     * @param none
      * @return
      */
     public function userform_get_root_elements_name() {

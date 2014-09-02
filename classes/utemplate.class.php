@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
  * You can have a rather longer description of the file as well,
@@ -30,42 +30,42 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/surveypro/classes/templatebase.class.php');
 
 class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
-    /*
+    /**
      * $templatetype
      */
     public $templatetype = SURVEYPRO_USERTEMPLATE;
 
-    /*
+    /**
      * $cm
      */
     public $cm = null;
 
-    /*
+    /**
      * $context
      */
     public $context = null;
 
-    /*
+    /**
      * $utemplateid: the ID of the current working user template
      */
     public $utemplateid = 0;
 
-    /*
+    /**
      * $confirm: is the action confirmed by the user?
      */
     public $confirm = SURVEYPRO_UNCONFIRMED;
 
-    /*
+    /**
      * $candownloadutemplates
      */
     public $candownloadutemplates = false;
 
-    /*
+    /**
      * $candeleteutemplates
      */
     public $candeleteutemplates = false;
 
-    /*
+    /**
      * Class constructor
      */
     public function __construct($cm, $surveypro, $context, $utemplateid, $action, $view, $confirm) {
@@ -81,9 +81,10 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $this->candeleteutemplates = has_capability('mod/surveypro:deleteusertemplates', $context, null, true);
     }
 
-    /*
+    /**
      * export_utemplate
      *
+     * @param none
      * @return
      */
     public function export_utemplate() {
@@ -116,7 +117,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         unlink($exportdir.'/'.$this->templatename);
     }
 
-    /*
+    /**
      * get_filemanager_options
      *
      * @return $filemanageroptions
@@ -132,7 +133,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         return $templateoptions;
     }
 
-    /*
+    /**
      * get_contextid_from_sharinglevel
      *
      * @param sharinglevel
@@ -185,7 +186,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         return $context->id;
     }
 
-    /*
+    /**
      * get_contextstring_from_sharinglevel
      *
      * @param $contextlevel
@@ -217,7 +218,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         return $contextstring;
     }
 
-    /*
+    /**
      * upload_utemplate
      *
      * @return null
@@ -228,7 +229,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $contextid = $this->get_contextid_from_sharinglevel();
         $fs = get_file_storage();
 
-        /*
+        /**
          * look at what is already on board
          */
         $oldfiles = array();
@@ -238,7 +239,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
             }
         }
 
-        /*
+        /**
          * add current files
          */
         $fieldname = 'importfile';
@@ -302,9 +303,10 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $this->utemplateid = $file->get_id();
     }
 
-    /*
+    /**
      * save_utemplate
      *
+     * @param none
      * @return
      */
     public function save_utemplate() {
@@ -332,9 +334,10 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         return true;
     }
 
-    /*
+    /**
      * manage_utemplates
      *
+     * @param none
      * @return
      */
     public function manage_utemplates() {
@@ -457,7 +460,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $table->print_html();
     }
 
-    /*
+    /**
      * create_fictitious_table
      *
      * @param $templates
@@ -514,7 +517,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         return $originaltableperrows;
     }
 
-    /*
+    /**
      * delete_utemplate
      *
      * @return null
@@ -564,7 +567,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         }
     }
 
-    /*
+    /**
      * prevent_direct_user_input
      *
      * @return null
@@ -585,7 +588,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         }
     }
 
-    /*
+    /**
      * get_sharinglevel_options
      *
      * @return null
@@ -615,7 +618,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         return $options;
     }
 
-    /*
+    /**
      * get_utemplate_content
      *
      * @param $utemplateid
@@ -631,9 +634,10 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         return $xmlfile->get_content();
     }
 
-    /*
+    /**
      * get_utemplate_name
      *
+     * @param none
      * @return
      */
     public function get_utemplate_name() {
@@ -643,7 +647,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         return $xmlfile->get_filename();
     }
 
-    /*
+    /**
      * Gets an array of all of the templates that users have saved to the site.
      *
      * @param stdClass $context The context that we are looking from.
@@ -666,7 +670,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         return $templates;
     }
 
-    /*
+    /**
      * trigger_event
      *
      * @param string $event: event to trigger

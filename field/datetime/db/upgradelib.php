@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Functions used by some stages of datetime plugin upgrade
  *
  * @package    surveyprofield

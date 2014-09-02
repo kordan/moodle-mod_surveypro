@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
  * You can have a rather longer description of the file as well,
@@ -32,26 +32,27 @@ define('SURVEYPROTEMPLATE_NAMEPLACEHOLDER', '@@templateNamePlaceholder@@');
 require_once($CFG->dirroot.'/mod/surveypro/classes/templatebase.class.php');
 
 class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
-    /*
+    /**
      * $templatetype
      */
     public $templatetype = SURVEYPRO_MASTERTEMPLATE;
 
-    /*
+    /**
      * $langtree
      */
     public $langtree = array();
 
-    /*
+    /**
      * Class constructor
      */
     public function __construct($surveypro, $context) {
         parent::__construct($surveypro, $context);
     }
 
-    /*
+    /**
      * download_mtemplate
      *
+     * @param none
      * @return
      */
     public function download_mtemplate() {
@@ -68,9 +69,10 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         unlink($this->templatename);
     }
 
-    /*
+    /**
      * create_mtemplate
      *
+     * @param none
      * @return
      */
     public function create_mtemplate() {
@@ -240,9 +242,10 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         return $exportfile;
     }
 
-    /*
+    /**
      * get_used_plugin
      *
+     * @param none
      * @return
      */
     public function get_used_plugin() {
@@ -262,7 +265,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         return array_merge(array('item' => $base), $templateplugins);
     }
 
-    /*
+    /**
      * build_langtree
      *
      * @param $currentsid
@@ -284,9 +287,10 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         }
     }
 
-    /*
+    /**
      * extract_original_string
      *
+     * @param none
      * @return
      */
     public function extract_original_string() {
@@ -300,7 +304,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         return "\n".implode("\n", $stringsastext);
     }
 
-    /*
+    /**
      * get_translated_strings
      *
      * @param $userlang
@@ -319,7 +323,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         return "\n".implode("\n", $stringsastext);
     }
 
-    /*
+    /**
      * trigger_event
      *
      * @param string $event: event to trigger

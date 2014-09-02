@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
  * You can have a rather longer description of the file as well,
@@ -32,112 +32,114 @@ require_once($CFG->dirroot.'/mod/surveypro/field/rate/lib.php');
 
 class surveyprofield_rate extends mod_surveypro_itembase {
 
-    /*
+    /**
      * $content = the text content of the item.
      */
     public $content = '';
 
-    /*
+    /**
      * $contenttrust
      */
     public $contenttrust = 1;
 
-    /*
+    /**
      * public $contentformat = '';
      */
     public $contentformat = '';
 
-    /*
+    /**
      * $customnumber = the custom number of the item.
      * It usually is 1. 1.1, a, 2.1.a...
      */
     public $customnumber = '';
 
-    /*
+    /**
      * $position = where does the question go?
      */
     public $position = SURVEYPRO_POSITIONLEFT;
 
-    /*
+    /**
      * $extranote = an optional text describing the item
      */
     public $extranote = '';
 
-    /*
+    /**
      * $required = boolean. O == optional item; 1 == mandatory item
      */
     public $required = 0;
 
-    /*
+    /**
      * $hideinstructions = boolean. Exceptionally hide filling instructions
      */
     public $hideinstructions = 0;
 
-    /*
+    /**
      * $variable = the name of the field storing data in the db table
      */
     public $variable = '';
 
-    /*
+    /**
      * $indent = the indent of the item in the form page
      */
     public $indent = 0;
 
     // -----------------------------
 
-    /*
+    /**
      * $options = list of options in the form of "$value SURVEYPRO_VALUELABELSEPARATOR $label"
      */
     public $options = '';
 
-    /*
+    /**
      * $rates = list of allowed rates in the form: "$value SURVEYPRO_VALUELABELSEPARATOR $label"
      */
     public $rates = '';
 
-    /*
+    /**
      * $defaultoption
      */
     public $defaultoption = SURVEYPRO_INVITATIONDEFAULT;
 
-    /*
+    /**
      * $defaultvalue = the value of the field when the form is initially displayed.
      */
     public $defaultvalue = '';
 
-    /*
+    /**
      * $downloadformat = the format of the content once downloaded
      */
     public $downloadformat = null;
 
-    /*
+    /**
      * $style = how is this rate item displayed? with radiobutton or with dropdown menu?
      */
     public $style = 0;
 
-    /*
+    /**
      * $allowsamerate = is the user allowed to provide two equal rates for two different options?
      */
     public $differentrates = false;
 
-    /*
+    /**
      * $flag = features describing the object
      */
     public $flag;
 
-    /*
+    /**
      * $canbeparent
      */
     public static $canbeparent = false;
 
     // -----------------------------
 
-    /*
+    /**
      * Class constructor
      *
      * If itemid is provided, load the object (item + base + plugin) from database
      *
-     * @param int $itemid. Optional surveypro_item ID
+     * @param int optional $itemid
+     * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
+     * @return
      */
     public function __construct($itemid=0, $evaluateparentcontent) {
         global $PAGE;
@@ -167,7 +169,7 @@ class surveyprofield_rate extends mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * item_load
      *
      * @param $itemid
@@ -184,7 +186,7 @@ class surveyprofield_rate extends mod_surveypro_itembase {
         $this->item_custom_fields_to_form();
     }
 
-    /*
+    /**
      * item_save
      *
      * @param $record
@@ -216,9 +218,10 @@ class surveyprofield_rate extends mod_surveypro_itembase {
         return parent::item_save($record);
     }
 
-    /*
+    /**
      * item_custom_fields_to_form
      *
+     * @param none
      * @return
      */
     public function item_custom_fields_to_form() {
@@ -232,7 +235,7 @@ class surveyprofield_rate extends mod_surveypro_itembase {
         // nothing to do: defaultvalue doesn't need any further care
     }
 
-    /*
+    /**
      * item_custom_fields_to_db
      * sets record field to store the correct value to db for the date custom item
      *
@@ -252,7 +255,7 @@ class surveyprofield_rate extends mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * item_left_position_allowed
      *
      * @return: boolean
@@ -261,7 +264,7 @@ class surveyprofield_rate extends mod_surveypro_itembase {
         return false;
     }
 
-    /*
+    /**
      * item_generate_standard_default
      * sets record field to store the correct value to db for the date custom item
      *
@@ -312,16 +315,17 @@ class surveyprofield_rate extends mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * item_get_friendlyformat
      *
+     * @param none
      * @return
      */
     public function item_get_friendlyformat() {
         return SURVEYPRO_ITEMRETURNSLABELS;
     }
 
-    /*
+    /**
      * item_get_multilang_fields
      * make the list of multilang plugin fields
      *
@@ -334,7 +338,7 @@ class surveyprofield_rate extends mod_surveypro_itembase {
         return $fieldlist;
     }
 
-    /*
+    /**
      * item_get_plugin_schema
      * Return the xml schema for surveypro_<<plugin>> table.
      *
@@ -384,7 +388,7 @@ EOS;
 
     // MARK userform
 
-    /*
+    /**
      * userform_mform_element
      *
      * @param $mform
@@ -482,7 +486,7 @@ EOS;
         }
     }
 
-    /*
+    /**
      * userform_mform_validation
      *
      * @param $data
@@ -546,7 +550,7 @@ EOS;
         }
     }
 
-    /*
+    /**
      * userform_get_filling_instructions
      *
      * @return string $fillinginstruction
@@ -562,7 +566,7 @@ EOS;
         return $fillinginstruction;
     }
 
-    /*
+    /**
      * userform_save_preprocessing
      * starting from the info set by the user in the form
      * this method calculates what to save in the db
@@ -585,7 +589,7 @@ EOS;
         }
     }
 
-    /*
+    /**
      * this method is called from surveypro_set_prefill (in locallib.php) to set $prefill at user form display time
      * (defaults are set in userform_mform_element)
      *
@@ -622,7 +626,7 @@ EOS;
         return $prefill;
     }
 
-    /*
+    /**
      * userform_db_to_export
      * strating from the info stored in the database, this function returns the corresponding content for the export file
      *
@@ -678,10 +682,11 @@ EOS;
         return $return;
     }
 
-    /*
+    /**
      * userform_get_root_elements_name
      * returns an array with the names of the mform element added using $mform->addElement or $mform->addGroup
      *
+     * @param none
      * @return
      */
     public function userform_get_root_elements_name() {

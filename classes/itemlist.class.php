@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
  * You can have a rather longer description of the file as well,
@@ -27,91 +27,91 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/*
+/**
  * The base class representing a field
  */
 class mod_surveypro_itemlist {
-    /*
+    /**
      * $cm
      */
     public $cm = null;
 
-    /*
+    /**
      * $context
      */
     public $context = null;
 
-    /*
+    /**
      * $surveypro: the record of this surveypro
      */
     public $surveypro = null;
 
-    /*
+    /**
      * $type
      */
     public $type = '';
 
-    /*
+    /**
      * $plugin
      */
     public $plugin = '';
 
-    /*
+    /**
      * $itemid
      */
     public $itemid = 0;
 
-    /*
+    /**
      * $action
      */
     public $action = SURVEYPRO_NOACTION;
 
-    /*
+    /**
      * $action
      */
     public $view = SURVEYPRO_SUBMITRESPONSE;
 
-    /*
+    /**
      * $itemtomove
      */
     public $itemtomove = 0;
 
-    /*
+    /**
      * $lastitembefore
      */
     public $lastitembefore = 0;
 
-    /*
+    /**
      * $confirm
      */
     public $confirm = SURVEYPRO_UNCONFIRMED;
 
-    /*
+    /**
      * $nextindent
      */
     public $nextindent = 0;
 
-    /*
+    /**
      * $parentid
      */
     public $parentid = 0;
 
-    /*
+    /**
      * $userfeedback
      */
     public $userfeedback = SURVEYPRO_NOFEEDBACK;
 
-    /*
+    /**
      * $saveasnew
      */
     public $saveasnew = 0;
 
-    /*
+    /**
      * $hassubmissions
      */
     public $hassubmissions = null;
 
-    /*
+    /**
      * Class constructor
      */
     public function __construct($cm, $context, $surveypro, $type, $plugin) {
@@ -130,9 +130,10 @@ class mod_surveypro_itemlist {
         $this->hassubmissions = surveypro_count_submissions($surveypro->id, SURVEYPRO_STATUSALL);
     }
 
-    /*
+    /**
      * drop_multilang
      *
+     * @param none
      * @return void
      */
     public function drop_multilang() {
@@ -144,7 +145,7 @@ class mod_surveypro_itemlist {
         }
     }
 
-    /*
+    /**
      * trigger_event
      *
      * @return void
@@ -157,9 +158,10 @@ class mod_surveypro_itemlist {
         }
     }
 
-    /*
+    /**
      * manage_actions
      *
+     * @param none
      * @return
      */
     public function manage_actions() {
@@ -215,9 +217,10 @@ class mod_surveypro_itemlist {
         }
     }
 
-    /*
+    /**
      * manage_items
      *
+     * @param none
      * @return
      */
     public function manage_items() {
@@ -647,7 +650,7 @@ class mod_surveypro_itemlist {
         $table->print_html();
     }
 
-    /*
+    /**
      * add_child_node
      * @param &$nodelist
      * @param &$sortindexnodelist
@@ -674,7 +677,7 @@ class mod_surveypro_itemlist {
         }
     }
 
-    /*
+    /**
      * add_parent_node
      * @param $additionalcondition
      * @return
@@ -705,9 +708,10 @@ class mod_surveypro_itemlist {
         return array($nodelist, $sortindexnodelist);
     }
 
-    /*
+    /**
      * manage_item_hide
      *
+     * @param none
      * @return
      */
     public function manage_item_hide() {
@@ -772,9 +776,10 @@ class mod_surveypro_itemlist {
         return $itemstoprocess; // did you do something?
     }
 
-    /*
+    /**
      * manage_item_show
      *
+     * @param none
      * @return
      */
     public function manage_item_show() {
@@ -836,7 +841,7 @@ class mod_surveypro_itemlist {
         return $itemstoprocess; // did you do something?
     }
 
-    /*
+    /**
      * manage_item_makeadvanced
      *
      * the idea is: in a chain of parent-child items,
@@ -906,9 +911,10 @@ class mod_surveypro_itemlist {
         return $itemstoprocess; // did you do something?
     }
 
-    /*
+    /**
      * manage_item_makestandard
      *
+     * @param none
      * @return
      */
     public function manage_item_makestandard() {
@@ -970,9 +976,10 @@ class mod_surveypro_itemlist {
         return $itemstoprocess; // did you do something?
     }
 
-    /*
+    /**
      * manage_item_deletion
      *
+     * @param none
      * @return
      */
     public function manage_item_deletion() {
@@ -1068,9 +1075,10 @@ class mod_surveypro_itemlist {
         }
     }
 
-    /*
+    /**
      * manage_item_dropmultilang
      *
+     * @param none
      * @return
      */
     public function manage_item_dropmultilang() {
@@ -1151,9 +1159,10 @@ class mod_surveypro_itemlist {
         }
     }
 
-    /*
+    /**
      * reorder_items
      *
+     * @param none
      * @return
      */
     public function reorder_items() {
@@ -1194,9 +1203,10 @@ class mod_surveypro_itemlist {
         surveypro_reset_items_pages($this->surveypro->id);
     }
 
-    /*
+    /**
      * reorder_items
      *
+     * @param none
      * @return
      */
     public function validate_relations() {
@@ -1385,9 +1395,10 @@ class mod_surveypro_itemlist {
         $table->print_html();
     }
 
-    /*
+    /**
      * display_user_feedback
      *
+     * @param none
      * @return
      */
     public function display_user_feedback() {
@@ -1444,9 +1455,10 @@ class mod_surveypro_itemlist {
         echo $OUTPUT->box($message, 'notice centerpara');
     }
 
-    /*
+    /**
      * item_welcome
      *
+     * @param none
      * @return
      */
     public function item_welcome() {
@@ -1462,7 +1474,7 @@ class mod_surveypro_itemlist {
         echo $OUTPUT->box($message);
     }
 
-    /*
+    /**
      * prevent_direct_user_input
      *
      * @return null
@@ -1475,7 +1487,7 @@ class mod_surveypro_itemlist {
 
     // MARK set
 
-    /*
+    /**
      * set_itemid
      *
      * @param string $itemid
@@ -1485,7 +1497,7 @@ class mod_surveypro_itemlist {
         $this->itemid = $itemid;
     }
 
-    /*
+    /**
      * set_action
      *
      * @param string $action
@@ -1495,7 +1507,7 @@ class mod_surveypro_itemlist {
         $this->action = $action;
     }
 
-    /*
+    /**
      * set_view
      *
      * @param string $view
@@ -1505,7 +1517,7 @@ class mod_surveypro_itemlist {
         $this->view = $view;
     }
 
-    /*
+    /**
      * set_lastitembefore
      *
      * @param string $lastitembefore
@@ -1515,7 +1527,7 @@ class mod_surveypro_itemlist {
         $this->lastitembefore = $lastitembefore;
     }
 
-    /*
+    /**
      * set_confirm
      *
      * @param string $confirm
@@ -1525,7 +1537,7 @@ class mod_surveypro_itemlist {
         $this->confirm = $confirm;
     }
 
-    /*
+    /**
      * set_nextindent
      *
      * @param string $nextindent
@@ -1535,7 +1547,7 @@ class mod_surveypro_itemlist {
         $this->nextindent = $nextindent;
     }
 
-    /*
+    /**
      * set_parentid
      *
      * @param string $parentid
@@ -1545,7 +1557,7 @@ class mod_surveypro_itemlist {
         $this->parentid = $parentid;
     }
 
-    /*
+    /**
      * set_userfeedback
      *
      * @param string $userfeedback
@@ -1555,7 +1567,7 @@ class mod_surveypro_itemlist {
         $this->userfeedback = $userfeedback;
     }
 
-    /*
+    /**
      * set_itemtomove
      *
      * @param string $itemtomove
@@ -1565,7 +1577,7 @@ class mod_surveypro_itemlist {
         $this->itemtomove = $itemtomove;
     }
 
-    /*
+    /**
      * set_saveasnew
      *
      * @param string $saveasnew

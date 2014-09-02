@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Defines the version of surveypro autofill subplugin
  *
  * This code fragment is called by moodle_needs_upgrading() and
@@ -32,17 +32,17 @@ require_once($CFG->libdir.'/tablelib.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/reportbase.class.php');
 
 class report_attachments_overview extends mod_surveypro_reportbase {
-    /*
+    /**
      * coursecontext
      */
     public $coursecontext = null;
 
-    /*
+    /**
      * outputtable
      */
     public $outputtable = null;
 
-    /*
+    /**
      * Class constructor
      */
     public function __construct($cm, $surveypro) {
@@ -51,14 +51,14 @@ class report_attachments_overview extends mod_surveypro_reportbase {
         $this->setup_outputtable();
     }
 
-    /*
+    /**
      * does_report_apply
      */
     public function does_report_apply() {
         return (!$this->surveypro->anonymous);
     }
 
-    /*
+    /**
      * setup_outputtable
      */
     public function setup_outputtable() {
@@ -101,7 +101,7 @@ class report_attachments_overview extends mod_surveypro_reportbase {
         $this->outputtable->setup();
     }
 
-    /*
+    /**
      * fetch_data
      */
     public function fetch_data() {
@@ -171,7 +171,7 @@ class report_attachments_overview extends mod_surveypro_reportbase {
         $usersubmissions->close();
     }
 
-    /*
+    /**
      * output_data
      */
     public function output_data() {
@@ -181,7 +181,7 @@ class report_attachments_overview extends mod_surveypro_reportbase {
         $this->outputtable->print_html();
     }
 
-    /*
+    /**
      * check_attachmentitems
      */
     public function check_attachmentitems() {
@@ -203,7 +203,7 @@ class report_attachments_overview extends mod_surveypro_reportbase {
         }
     }
 
-    /*
+    /**
      * check_attachmentitems
      */
     public function prevent_direct_user_input() {

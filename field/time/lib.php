@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * @package    surveyprofield
  * @subpackage time
  * @copyright  2013 kordan <kordan@mclink.it>
@@ -31,9 +31,11 @@ define('SURVEYPROFIELD_TIME_DAYOFFSET', 1);
 define('SURVEYPROFIELD_TIME_MONTHOFFSET', 1);
 define('SURVEYPROFIELD_TIME_FORMAT', '[hh:mm]');
 
-/*
+/**
  * surveypro_time_check_time
- * @param $hour, $minute
+ *
+ * @param $hour
+ * @param $minute
  * @return
  */
 function surveypro_time_check_time($hour, $minute) {

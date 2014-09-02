@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
  * You can have a rather longer description of the file as well,
@@ -27,26 +27,26 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/*
+/**
  * The base class representing a field
  */
 class mod_surveypro_templatebase {
-    /*
+    /**
      * $templatename
      */
     public $templatename = '';
 
-    /*
+    /**
      * $surveypro: the record of this surveypro
      */
     public $surveypro = null;
 
-    /*
+    /**
      * $formdata: the form content as submitted by the user
      */
     public $formdata = null;
 
-    /*
+    /**
      * Class constructor
      */
     public function __construct($surveypro, $context) {
@@ -54,7 +54,7 @@ class mod_surveypro_templatebase {
         $this->context = $context;
     }
 
-    /*
+    /**
      * get_table_structure
      *
      * @param $tablename
@@ -84,7 +84,7 @@ class mod_surveypro_templatebase {
         }
     }
 
-    /*
+    /**
      * write_template_content
      *
      * @param strin $templatetype
@@ -220,7 +220,7 @@ class mod_surveypro_templatebase {
         }
     }
 
-    /*
+    /**
      * xml_get_field_content
      *
      * @param $item
@@ -254,7 +254,7 @@ class mod_surveypro_templatebase {
         return $val;
     }
 
-    /*
+    /**
      * items_deletion
      *
      * @param records $pluginseeds
@@ -283,7 +283,7 @@ class mod_surveypro_templatebase {
         $DB->delete_records('surveypro_item', $parambase);
     }
 
-    /*
+    /**
      * apply_template
      *
      * @param $templatetype
@@ -393,7 +393,7 @@ class mod_surveypro_templatebase {
         }
     }
 
-    /*
+    /**
      * friendly_stop
      *
      * @return null
@@ -465,7 +465,7 @@ class mod_surveypro_templatebase {
         }
     }
 
-    /*
+    /**
      * add_items_from_template
      *
      * @param $templateid
@@ -572,12 +572,10 @@ class mod_surveypro_templatebase {
         }
     }
 
-    /*
+    /**
      * validate_variablename
      *
      * @param stdobject $record
-     * @param stdobject $variable
-     *
      * @return
      */
     public function validate_variablename($record) {
@@ -623,7 +621,7 @@ class mod_surveypro_templatebase {
         $record['variable'] = $candidatevariable;
     }
 
-    /*
+    /**
      * validate_xml
      *
      * @param $templateid

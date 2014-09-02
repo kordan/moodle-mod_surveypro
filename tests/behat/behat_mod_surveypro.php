@@ -60,6 +60,7 @@ class behat_mod_surveypro extends behat_base {
      * @Then /^I should see "(?P<given_number>\d+)" submissions displayed$/
      *
      * @param integer $givennumber The supposed count of $locator
+     * @return
      */
     public function i_should_see_submissions($givennumber) {
         // Getting the container where the text should be found.

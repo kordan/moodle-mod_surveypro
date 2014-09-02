@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Defines the version of surveypro autofill subplugin
  *
  * This code fragment is called by moodle_needs_upgrading() and
@@ -32,12 +32,12 @@ require_once($CFG->libdir.'/tablelib.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/reportbase.class.php');
 
 class report_frequency extends mod_surveypro_reportbase {
-    /*
+    /**
      * outputtable
      */
     public $outputtable = null;
 
-    /*
+    /**
      * setup
      */
     function setup($hassubmissions) {
@@ -46,7 +46,7 @@ class report_frequency extends mod_surveypro_reportbase {
         $this->setup_outputtable();
     }
 
-    /*
+    /**
      * setup_outputtable
      */
     public function setup_outputtable() {
@@ -89,7 +89,7 @@ class report_frequency extends mod_surveypro_reportbase {
         $this->outputtable->setup();
     }
 
-    /*
+    /**
      * stop_if_textareas_only
      */
     public function stop_if_textareas_only() {
@@ -117,11 +117,12 @@ class report_frequency extends mod_surveypro_reportbase {
         }
     }
 
-    /*
+    /**
      * fetch_data
      *
      * @param int $itemid
      * @param int $submissionscount
+     * @return none
      */
     public function fetch_data($itemid, $submissionscount) {
         global $DB;
@@ -187,10 +188,11 @@ class report_frequency extends mod_surveypro_reportbase {
         $answers->close();
     }
 
-    /*
+    /**
      * output_data
      *
      * @param string $url
+     * @return none
      */
     public function output_data($url) {
         global $OUTPUT;
@@ -202,8 +204,9 @@ class report_frequency extends mod_surveypro_reportbase {
         }
     }
 
-    /*
+    /**
      * @param string $url
+     * @return none
      */
     public function print_graph($graphurl) {
         global $CFG;

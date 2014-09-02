@@ -28,7 +28,7 @@ use core\plugininfo\base, core_plugin_manager, moodle_url;
 defined('MOODLE_INTERNAL') || die();
 
 class surveyprotemplate extends base {
-    /*
+    /**
      * Finds all enabled plugins, the result may include missing plugins.
      * @return array|null of enabled plugins $pluginname=>$pluginname, null means unknown
      */
@@ -68,7 +68,7 @@ class surveyprotemplate extends base {
         return !$DB->record_exists('surveypro', array('template' => $this->name));
     }
 
-    /*
+    /**
      * Return URL used for management of plugins of this type.
      * @return moodle_url
      */
@@ -80,7 +80,7 @@ class surveyprotemplate extends base {
         return $this->type.'_'.$this->name;
     }
 
-    /*
+    /**
      * Loads plugin settings to the settings tree
      *
      * This function usually includes settings.php file in plugins folder.
@@ -89,6 +89,7 @@ class surveyprotemplate extends base {
      * @param \part_of_admin_tree $adminroot
      * @param string $parentnodename
      * @param bool $hassiteconfig whether the current user has moodle/site:config capability
+     * @return
      */
     public function load_settings(\part_of_admin_tree $adminroot, $parentnodename, $hassiteconfig) {
         global $CFG, $USER, $DB, $OUTPUT, $PAGE; // In case settings.php wants to refer to them.

@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * mod_surveypro course module viewed event.
  *
  * @package    mod_surveypro
@@ -27,7 +27,7 @@ namespace mod_surveypro\event;
 defined('MOODLE_INTERNAL') || die();
 
 class course_module_viewed extends \core\event\course_module_viewed {
-    /*
+    /**
      * Set basic properties for the event.
      */
     protected function init() {

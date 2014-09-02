@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
  * You can have a rather longer description of the file as well,
@@ -27,36 +27,36 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/*
+/**
  * The base class representing a field
  */
 class mod_surveypro_reportbase {
-    /*
+    /**
      * cm
      */
     public $cm = null;
 
-    /*
+    /**
      * $surveypro: the record of this surveypro
      */
     public $surveypro = null;
 
-    /*
+    /**
      * $coursecontext: the record of this surveypro
      */
     public $coursecontext = null;
 
-    /*
+    /**
      * $hassubmissions: the record of this surveypro
      */
     public $hassubmissions = false;
 
-    /*
+    /**
      * $canaccessownreports
      */
     public $canaccessownreports = false;
 
-    /*
+    /**
      * Class constructor
      */
     public function __construct($cm, $surveypro) {
@@ -69,21 +69,21 @@ class mod_surveypro_reportbase {
         $this->canaccessownreports = has_capability('mod/surveypro:accessownreports', $this->coursecontext, null, true);
     }
 
-    /*
+    /**
      * restrict_templates
      */
     public function restrict_templates() {
         return array();
     }
 
-    /*
+    /**
      * has_student_report
      */
     public function has_student_report() {
         return false;
     }
 
-    /*
+    /**
      * does_report_apply
      */
     public function does_report_apply() {
@@ -91,14 +91,14 @@ class mod_surveypro_reportbase {
     }
 
 
-    /*
+    /**
      * get_childreports
      */
     public function get_childreports($canaccessreports) {
         return false;
     }
 
-    /*
+    /**
      * check_submissions
      */
     public function check_submissions() {

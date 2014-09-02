@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
  * You can have a rather longer description of the file as well,
@@ -27,41 +27,41 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/*
+/**
  * The base class representing a field
  */
 class mod_surveypro_exportmanager {
-    /*
+    /**
      * $cm
      */
     public $cm = null;
 
-    /*
+    /**
      * $context
      */
     public $context = null;
 
-    /*
+    /**
      * $surveypro: the record of this surveypro
      */
     public $surveypro = null;
 
-    /*
+    /**
      * $canseeownsubmissions
      */
     // public $canseeownsubmissions = true;
 
-    /*
+    /**
      * $canseeotherssubmissions
      */
     public $canseeotherssubmissions = false;
 
-    /*
+    /**
      * $formdata: the form content as submitted by the user
      */
     public $formdata = null;
 
-    /*
+    /**
      * Class constructor
      */
     public function __construct($cm, $surveypro) {
@@ -73,7 +73,7 @@ class mod_surveypro_exportmanager {
         $this->canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
     }
 
-    /*
+    /**
      * trigger_event
      *
      * @return void
@@ -84,9 +84,10 @@ class mod_surveypro_exportmanager {
         $event->trigger();
     }
 
-    /*
+    /**
      * get_export_sql
      *
+     * @param optional $forceuserid
      * @return
      */
     public function get_export_sql($forceuserid=false) {
@@ -161,7 +162,7 @@ class mod_surveypro_exportmanager {
         return array($sql, $whereparams);
     }
 
-    /*
+    /**
      * surveypro_export
      *
      * @return exporterror
@@ -283,7 +284,7 @@ class mod_surveypro_exportmanager {
         }
     }
 
-    /*
+    /**
      * export_print_header
      *
      * I am forced to query, once more, the database to get the header of the fiel to export because:
@@ -322,7 +323,7 @@ class mod_surveypro_exportmanager {
         }
     }
 
-    /*
+    /**
      * export_close_record
      *
      * @param $recordtoexport
@@ -345,7 +346,7 @@ class mod_surveypro_exportmanager {
         }
     }
 
-    /*
+    /**
      * decode_content
      *
      * @param $richsubmission
@@ -366,9 +367,10 @@ class mod_surveypro_exportmanager {
         return $return;
     }
 
-    /*
+    /**
      * attachments_downloadbyuser
      *
+     * @param none
      * @return
      */
     public function attachments_downloadbyuser() {
@@ -474,9 +476,10 @@ class mod_surveypro_exportmanager {
         $this->makezip_available($exportfile);
     }
 
-    /*
+    /**
      * attachments_downloadbyitem
      *
+     * @param none
      * @return
      */
     public function attachments_downloadbyitem() {
@@ -585,7 +588,7 @@ class mod_surveypro_exportmanager {
         $this->makezip_available($exportfile);
     }
 
-    /*
+    /**
      * makezip_available
      *
      * @param $exportfile: the file to make available

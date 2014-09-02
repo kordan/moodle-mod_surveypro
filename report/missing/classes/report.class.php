@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Defines the version of surveypro autofill subplugin
  *
  * This code fragment is called by moodle_needs_upgrading() and
@@ -32,17 +32,17 @@ require_once($CFG->libdir.'/tablelib.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/reportbase.class.php');
 
 class report_missing extends mod_surveypro_reportbase {
-    /*
+    /**
      * coursecontext
      */
     public $coursecontext = 0;
 
-    /*
+    /**
      * outputtable
      */
     public $outputtable = null;
 
-    /*
+    /**
      * setup
      */
     function setup($hassubmissions) {
@@ -51,7 +51,7 @@ class report_missing extends mod_surveypro_reportbase {
         $this->setup_outputtable();
     }
 
-    /*
+    /**
      * setup_outputtable
      */
     public function setup_outputtable() {
@@ -90,7 +90,7 @@ class report_missing extends mod_surveypro_reportbase {
         $this->outputtable->setup();
     }
 
-    /*
+    /**
      * fetch_data
      */
     public function fetch_data() {
@@ -145,7 +145,7 @@ class report_missing extends mod_surveypro_reportbase {
         $usersubmissions->close();
     }
 
-    /*
+    /**
      * output_data
      */
     public function output_data() {

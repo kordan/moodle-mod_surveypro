@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Defines the version of surveypro label subplugin
  *
  * This code fragment is called by moodle_needs_upgrading() and

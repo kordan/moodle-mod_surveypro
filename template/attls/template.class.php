@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * @package    surveyprotemplate
  * @subpackage attls
  * @copyright  2013 kordan <kordan@mclink.it>
@@ -24,7 +24,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 class surveyprotemplate_attls {
-    /*
+    /**
      * apply_template_settings
      *
      * @param $record

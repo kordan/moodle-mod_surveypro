@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Capability definitions for the surveypro module
  *
  * The capabilities are loaded into the database table when the module is
@@ -46,7 +46,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/*
+/**
 Let's start with a summary:.
 It follows the list of TABS detailed with corresponding sub-tabs and php file name.
 For each sub-tab, I would define a capability at first but, I will find, sometimes it is useless.

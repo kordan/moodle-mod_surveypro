@@ -38,10 +38,11 @@ class surveypro_admin_page_manage_surveypro_plugins extends admin_externalpage {
     /** @var string the name of plugin subtype */
     private $subtype = '';
 
-    /*
+    /**
      * The constructor - calls parent constructor
      *
      * @param string $subtype
+     * @return
      */
     public function __construct($subtype) {
         $this->subtype = $subtype;
@@ -51,7 +52,7 @@ class surveypro_admin_page_manage_surveypro_plugins extends admin_externalpage {
                             $url);
     }
 
-    /*
+    /**
      * Search plugins for the specified string
      *
      * @param string $query The string to search for
@@ -98,18 +99,20 @@ class surveypro_plugin_manager {
     /** @var string either submission or feedback */
     private $subtype = '';
 
-    /*
+    /**
      * Constructor for this surveypro plugin manager
      * @param string $subtype - either assignsubmission or assignfeedback
+     * @return
      */
     public function __construct($subtype) {
         $this->pageurl = new moodle_url('/mod/surveypro/adminmanageplugins.php', array('subtype' => $subtype));
         $this->subtype = $subtype;
     }
 
-    /*
+    /**
      * Return a list of plugins sorted by the order defined in the admin interface
      *
+     * @param none
      * @return array The list of plugins
      */
     public function get_sorted_plugins_list() {
@@ -132,10 +135,11 @@ class surveypro_plugin_manager {
         return $result;
     }
 
-    /*
+    /**
      * Write the HTML for the submission plugins table.
      *
-     * @return None
+     * @param none
+     * @return none
      */
     private function view_plugins_table() {
         global $OUTPUT, $CFG, $DB;
@@ -256,10 +260,11 @@ class surveypro_plugin_manager {
         $this->view_footer();
     }
 
-    /*
+    /**
      * Write the page header
      *
-     * @return None
+     * @param none
+     * @return none
      */
     private function view_header() {
         global $OUTPUT;
@@ -271,10 +276,11 @@ class surveypro_plugin_manager {
         echo $OUTPUT->heading(get_string('manage'.$this->subtype.'plugins', 'surveypro'));
     }
 
-    /*
+    /**
      * Write the page footer
      *
-     * @return None
+     * @param none
+     * @return none
      */
     private function view_footer() {
         global $OUTPUT;
@@ -282,10 +288,11 @@ class surveypro_plugin_manager {
         echo $OUTPUT->footer();
     }
 
-    /*
+    /**
      * Check this user has permission to edit the list of installed plugins
      *
-     * @return None
+     * @param none
+     * @return none
      */
     private function check_permissions() {
         // Check permissions.
@@ -294,7 +301,7 @@ class surveypro_plugin_manager {
         require_capability('moodle/site:config', $systemcontext);
     }
 
-    /*
+    /**
      * Delete the database and files associated with this plugin.
      *
      * @param string $plugin - The type of the plugin to delete
@@ -337,11 +344,11 @@ class surveypro_plugin_manager {
 
     }
 
-    /*
+    /**
      * Show the page that gives the details of the plugin that was just deleted.
      *
      * @param string $plugin - The plugin that was just deleted
-     * @return None
+     * @return none
      */
     private function view_plugin_deleted($plugin) {
         global $OUTPUT;
@@ -358,11 +365,11 @@ class surveypro_plugin_manager {
         $this->view_footer();
     }
 
-    /*
+    /**
      * Show the page that asks the user to confirm they want to delete a plugin.
      *
      * @param string $plugin - The plugin that will be deleted
-     * @return None
+     * @return none
      */
     private function view_confirm_delete($plugin) {
         global $OUTPUT;
@@ -378,7 +385,7 @@ class surveypro_plugin_manager {
         $this->view_footer();
     }
 
-    /*
+    /**
      * Hide this plugin.
      *
      * @param string $plugin - The plugin to hide
@@ -389,7 +396,7 @@ class surveypro_plugin_manager {
         return 'view';
     }
 
-    /*
+    /**
      * Show this plugin.
      *
      * @param string $plugin - The plugin to show
@@ -400,12 +407,12 @@ class surveypro_plugin_manager {
         return 'view';
     }
 
-    /*
+    /**
      * This is the entry point for this controller class.
      *
      * @param string $action - The action to perform
      * @param string $plugin - Optional name of a plugin type to perform the action on
-     * @return None
+     * @return none
      */
     public function execute($action, $plugin) {
         if ($action == null) {
@@ -433,7 +440,7 @@ class surveypro_plugin_manager {
         }
     }
 
-    /*
+    /**
      * This function adds plugin pages to the navigation menu.
      *
      * @static
@@ -441,7 +448,7 @@ class surveypro_plugin_manager {
      * @param part_of_admin_tree $admin - The handle to the admin menu
      * @param admin_settingpage $settings - The handle to current node in the navigation tree
      * @param stdClass|plugininfo_mod $module - The handle to the current module
-     * @return None
+     * @return none
      */
     public static function add_admin_surveypro_plugin_settings($subtype,
                                                             part_of_admin_tree $admin,

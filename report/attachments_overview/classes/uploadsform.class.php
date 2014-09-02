@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
  * You can have a rather longer description of the file as well,
@@ -29,41 +29,41 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/surveypro/field/fileupload/lib.php');
 
-/*
+/**
  * The base class representing a field
  */
 class mod_surveyproreport_uploadformmanager {
-    /*
+    /**
      * $cm
      */
     public $cm = null;
 
-    /*
+    /**
      * $context
      */
     public $context = null;
 
-    /*
+    /**
      * $surveypro: the record of this surveypro
      */
     public $surveypro = null;
 
-    /*
+    /**
      * $submissionid: the ID of the saved surbey_submission
      */
     public $submissionid = 0;
 
-    /*
+    /**
      * $canaccessadvanceditems
      */
     public $canaccessadvanceditems = false;
 
-    /*
+    /**
      * $formdata: the form content as submitted by the user
      */
     public $formdata = null;
 
-    /*
+    /**
      * Class constructor
      */
     public function __construct($cm, $context, $surveypro, $userid, $itemid, $submissionid) {
@@ -80,9 +80,10 @@ class mod_surveyproreport_uploadformmanager {
         $this->canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $this->context, null, true);
     }
 
-    /*
+    /**
      * prevent_direct_user_input
      *
+     * @param none
      * @return
      */
     public function prevent_direct_user_input() {
@@ -93,9 +94,11 @@ class mod_surveyproreport_uploadformmanager {
         }
     }
 
-    /*
+    /**
      * display_attachment
      *
+     * @param $submissionid
+     * @param $itemid
      * @return
      */
     public function display_attachment($submissionid, $itemid) {

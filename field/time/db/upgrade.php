@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Keeps track of upgrades to the surveyproitem time
  *
  * @package    surveyprofield
@@ -23,7 +23,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/*
+/**
  * Performs upgrade of the database structure and data
  *
  * @param int $oldversion the version we are upgrading from

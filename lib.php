@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Library of interface functions and constants for module surveypro
  *
  * All the core Moodle functions, needed to allow the module to work
@@ -229,7 +229,7 @@ if ($CFG->branch == '26') {
 
 require_once($CFG->dirroot . '/lib/formslib.php'); // <-- needed by unittest
 
-/*
+/**
  * Saves a new instance of the surveypro into the database
  *
  * Given an object containing all the necessary data,
@@ -247,11 +247,12 @@ function surveypro_add_instance($surveypro, $mform) {
     $cmid = $surveypro->coursemodule;
     $context = context_module::instance($cmid);
 
-    surveypro_process_pre_save($surveypro);
+    surveypro_pre_process_checkboxes($surveypro);
     $surveypro->timecreated = time();
     $surveypro->timemodified = time();
 
     $surveypro->id = $DB->insert_record('surveypro', $surveypro);
+    // stop working with the surveypro table (unless $surveypro->thankshtml_editor['itemid'] != 0)
 
     // manage userstyle filemanager
     $draftitemid = $surveypro->userstyle_filemanager;
@@ -269,7 +270,7 @@ function surveypro_add_instance($surveypro, $mform) {
     return $surveypro->id;
 }
 
-/*
+/**
  * Updates an instance of the surveypro in the database
  *
  * Given an object containing all the necessary data,
@@ -290,11 +291,12 @@ function surveypro_update_instance($surveypro, $mform) {
     $surveypro->timemodified = time();
     $surveypro->id = $surveypro->instance;
 
-    surveypro_process_pre_save($surveypro);
+    surveypro_pre_process_checkboxes($surveypro);
 
     surveypro_reset_items_pages($surveypro->id);
 
     $DB->update_record('surveypro', $surveypro);
+    // stop working with the surveypro table (unless $surveypro->thankshtml_editor['itemid'] != 0)
 
     // manage userstyle filemanager
     if ($draftitemid = file_get_submitted_draft_itemid('userstyle_filemanager')) {
@@ -307,6 +309,7 @@ function surveypro_update_instance($surveypro, $mform) {
         $surveypro->thankshtml = file_save_draft_area_files($draftitemid, $context->id, 'mod_surveypro', SURVEYPRO_THANKSHTMLFILEAREA,
                 $surveypro->id, $editoroptions, $surveypro->thankshtml_editor['text']);
         $surveypro->thankshtmlformat = $surveypro->thankshtml_editor['format'];
+        $DB->update_record('surveypro', $surveypro);
     }
 
     return true;
@@ -316,13 +319,12 @@ function surveypro_update_instance($surveypro, $mform) {
  * Runs any processes that must run before
  * a lesson insert/update
  *
- * surveypro_process_pre_save
+ * surveypro_pre_process_checkboxes
  *
- * @global object
- * @param object $lesson Lesson form data
+ * @param object $surveypro Surveypro record
  * @return void
- **/
-function surveypro_process_pre_save($surveypro) {
+ */
+function surveypro_pre_process_checkboxes($surveypro) {
     $checkboxes = array('newpageforchild', 'history', 'saveresume', 'anonymous', 'notifyteachers');
     foreach ($checkboxes as $checkbox) {
         if (!isset($surveypro->{$checkbox})) {
@@ -331,7 +333,7 @@ function surveypro_process_pre_save($surveypro) {
     }
 }
 
-/*
+/**
  * Removes an instance of the surveypro from the database
  *
  * Given an ID of an instance of this module,
@@ -416,7 +418,7 @@ function surveypro_delete_instance($id) {
     return true;
 }
 
-/*
+/**
  * Returns the information on whether the module supports a feature
  *
  * @see plugin_supports() in lib/moodlelib.php
@@ -439,7 +441,7 @@ function surveypro_supports($feature) {
     }
 }
 
-/*
+/**
  * Returns a small object with summary information about what a
  * user has done with a given particular instance of this module
  * Used for user activity reports.
@@ -455,7 +457,7 @@ function surveypro_user_outline($course, $user, $mod, $surveypro) {
     return $return;
 }
 
-/*
+/**
  * Prints a detailed representation of what a user has done with
  * a given particular instance of this module, for user activity reports.
  *
@@ -469,7 +471,7 @@ function surveypro_user_complete($course, $user, $mod, $surveypro) {
     return true;
 }
 
-/*
+/**
  * Given a course and a time, this module should find recent activity
  * that has occurred in surveypro activities and print it out.
  * Return true if there was output, or false is there was none.
@@ -480,7 +482,7 @@ function surveypro_print_recent_activity($course, $viewfullnames, $timestart) {
     return false;  //  True if anything was printed, otherwise false
 }
 
-/*
+/**
  * Prepares the recent activity data
  *
  * This callback function is supposed to populate the passed array with
@@ -499,7 +501,7 @@ function surveypro_print_recent_activity($course, $viewfullnames, $timestart) {
 function surveypro_get_recent_mod_activity(&$activities, &$index, $timestart, $courseid, $cmid, $userid=0, $groupid=0) {
 }
 
-/*
+/**
  * Prints single activity item prepared by {@see surveypro_get_recent_mod_activity()}
  *
  * @return void
@@ -507,14 +509,14 @@ function surveypro_get_recent_mod_activity(&$activities, &$index, $timestart, $c
 function surveypro_print_recent_mod_activity($activity, $courseid, $detail, $modnames, $viewfullnames) {
 }
 
-/*
+/**
  * Function to be run periodically according to the moodle cron
  * This function searches for things that need to be done, such
  * as sending out mail, toggling flags etc ...
  *
  * @return boolean
  * @todo Finish documenting this function
- **/
+ */
 function surveypro_cron() {
     global $DB;
 
@@ -547,7 +549,7 @@ function surveypro_cron() {
     return true;
 }
 
-/*
+/**
  * Returns an array of users who are participanting in this surveypro
  *
  * Must return an array of users who are participants for a given instance
@@ -563,7 +565,7 @@ function surveypro_get_participants($surveyproid) {
     return false;
 }
 
-/*
+/**
  * Returns all other caps used in the module
  *
  * @example return array('moodle/site:accessallgroups');
@@ -577,7 +579,7 @@ function surveypro_get_extra_capabilities() {
 // Gradebook API
 // -----------------------------
 
-/*
+/**
  * Is a given scale used by the instance of surveypro?
  *
  * This function returns if a scale is being used by one surveypro
@@ -600,7 +602,7 @@ function surveypro_scale_used($surveyproid, $scaleid) {
     return false;
 }
 
-/*
+/**
  * Checks if scale is being used by any instance of surveypro.
  *
  * This is used to find out if scale used anywhere.
@@ -619,7 +621,7 @@ function surveypro_scale_used_anywhere($scaleid) {
     }
 }
 
-/*
+/**
  * Creates or updates grade item for the give surveypro instance
  *
  * Needed by grade_update_mod_grades() in lib/gradelib.php
@@ -642,7 +644,7 @@ function surveypro_scale_used_anywhere($scaleid) {
 //     grade_update('mod/surveypro', $surveypro->course, 'mod', 'surveypro', $surveypro->id, 0, null, $item);
 // }
 
-/*
+/**
  * Update surveypro grades in the gradebook
  *
  * Needed by grade_update_mod_grades() in lib/gradelib.php
@@ -666,7 +668,7 @@ function surveypro_update_grades(stdClass $surveypro, $userid = 0) {
 // File API
 // -----------------------------
 
-/*
+/**
  * Returns the lists of all browsable file areas within the given module context
  *
  * The file area 'intro' for the activity introduction field is added automatically
@@ -681,7 +683,7 @@ function surveypro_get_file_areas($course, $cm, $context) {
     return array();
 }
 
-/*
+/**
  * Serves the files from the surveypro file areas
  *
  * @param stdClass $course
@@ -765,7 +767,7 @@ function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
 // Navigation API
 // -----------------------------
 
-/*
+/**
  * Extends the settings navigation with the surveypro settings
  *
  * This function is called when the context for the page is a surveypro module. This is not called by AJAX
@@ -773,6 +775,7 @@ function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
  *
  * @param settings_navigation $settingsnav {@link settings_navigation}
  * @param navigation_node $surveypronode {@link navigation_node}
+ * @return
  */
 function surveypro_extend_settings_navigation(settings_navigation $settings, navigation_node $surveypronode) {
     global $CFG, $PAGE, $DB;
@@ -808,12 +811,12 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
     $whereparams = array('surveyproid' => $cm->instance);
     $countparents = $DB->count_records_select('surveypro_item', 'surveyproid = :surveyproid AND parentid <> 0', $whereparams);
 
-    /*
+    /**
      * SURVEYPRO_TABSUBMISSIONS
      */
     // nothing
 
-    /*
+    /**
      * SURVEYPRO_TABITEMS
      */
     // PARENT
@@ -835,7 +838,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
         }
     }
 
-    /*
+    /**
      * SURVEYPRO_TABUTEMPLATES
      */
     if ($canmanageusertemplates && (!$surveypro->template)) {
@@ -855,7 +858,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
         }
     }
 
-    /*
+    /**
      * SURVEYPRO_TABMTEMPLATES
      */
     // if ($canapplymastertemplates && (!$surveypro->template)) {
@@ -874,7 +877,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
         }
     }
 
-    /*
+    /**
      * SURVEYPRO REPORTS
      */
     if ($surveyproreportlist = get_plugin_list('surveyproreport')) {
@@ -913,15 +916,16 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
     }
 }
 
-/*
+/**
  * Extends the global navigation tree by adding surveypro nodes if there is a relevant content
  *
  * This can be called by an AJAX request so do not rely on $PAGE as it might not be set up properly.
  *
  * @param navigation_node $navref An object representing the navigation tree node of the surveypro module instance
  * @param stdClass $course
- * @param stdClass $module
+ * @param stdClass $surveypro
  * @param cm_info $cm
+ * @return
  */
 function surveypro_extend_navigation(navigation_node $navref, stdClass $course, stdClass $surveypro, cm_info $cm) {
     // global $COURSE;
@@ -936,7 +940,7 @@ function surveypro_extend_navigation(navigation_node $navref, stdClass $course, 
     // $currentgroup = groups_get_activity_group($cm);
     // $groupmode = groups_get_activity_groupmode($cm, $COURSE);
 
-    /*
+    /**
      * SURVEYPRO_TABSUBMISSIONS
      */
     // CHILDREN ONLY
@@ -957,7 +961,7 @@ function surveypro_extend_navigation(navigation_node $navref, stdClass $course, 
 // CUSTOM SURVEYPRO API
 // -----------------------------
 
-/*
+/**
  * Is re-captcha enabled at site level
  *
  * @return boolean true if true
@@ -1043,6 +1047,7 @@ function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=
 
 /**
  * surveypro_fetch_items_seeds
+ *
  * @param $canaccessadvanceditems
  * @param $searchform
  * @param $type
@@ -1079,8 +1084,8 @@ function surveypro_fetch_items_seeds($surveyproid, $canaccessadvanceditems, $sea
 
 /**
  * surveypro_get_view_actions
- * @param
  *
+ * @param
  * @return
  */
 function surveypro_get_view_actions() {
@@ -1089,15 +1094,15 @@ function surveypro_get_view_actions() {
 
 /**
  * surveypro_get_post_actions
- * @param
  *
+ * @param
  * @return
  */
 function surveypro_get_post_actions() {
     return array('add', 'update');
 }
 
-/*
+/**
  * This gets an array with default options for the editor
  *
  * @return array the options
@@ -1106,9 +1111,10 @@ function surveypro_get_editor_options() {
     return array('trusttext' => true, 'subdirs' => false, 'maxfiles' => EDITOR_UNLIMITED_FILES);
 }
 
-/*
+/**
  * surveypro_reset_items_pages
- * @param $targetuser, $surveyproid
+ *
+ * @param $surveyproid
  * @return
  */
 function surveypro_reset_items_pages($surveyproid) {
@@ -1118,9 +1124,11 @@ function surveypro_reset_items_pages($surveyproid) {
     $DB->set_field('surveypro_item', 'formpage', 0, $sqlparam);
 }
 
-/*
+/**
  * surveypro_count_submissions
- * @param $findparams
+ *
+ * @param $surveyproid
+ * @param $status
  * @return
  */
 function surveypro_count_submissions($surveyproid, $status=SURVEYPRO_STATUSALL) {
@@ -1134,8 +1142,9 @@ function surveypro_count_submissions($surveyproid, $status=SURVEYPRO_STATUSALL) 
     return $DB->count_records('surveypro_submission', $params);
 }
 
-/*
+/**
  * surveypro_get_user_style_options
+ *
  * @param none
  * @return $filemanageroptions
  */

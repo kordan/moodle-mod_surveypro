@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
  * You can have a rather longer description of the file as well,
@@ -27,94 +27,94 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/*
+/**
  * The base class defining an item
  */
 class mod_surveypro_itembase {
 
-    /*
+    /**
      * unique itemid of the surveyproitem in surveypro_item table
      */
     public $itemid = 0;
 
-    /*
+    /**
      * $context
      */
     public $context = '';
 
-    /*
+    /**
      * $type = the type of the item. It can only be: SURVEYPRO_TYPEFIELD or SURVEYPRO_TYPEFORMAT
      */
     public $type = '';
 
-    /*
+    /**
      * $plugin = the item plugin
      */
     public $plugin = '';
 
-    /*
+    /**
      * $itemname = the name of the field as it is in userpageform
      */
     public $itemname = '';
 
-    /*
+    /**
      * $hidden = is this field going to be shown in the form?
      */
     public $hidden = 0;
 
-    /*
+    /**
      * $insearchform = is this field going to be part of the search form?
      */
     public $insearchform = 0;
 
-    /*
+    /**
      * $advanced = is this field going to be available only to users with accessadvanceditems capability?
      */
     public $advanced = 0;
 
-    /*
+    /**
      * $sortindex = the order of this item in the surveypro form
      */
     public $sortindex = 0;
 
-    /*
+    /**
      * $formpage = the user surveypro page for this item
      */
     public $formpage = 0;
 
-    /*
+    /**
      * $parentid = the item this item depends from
      */
     public $parentid = 0;
 
-    /*
+    /**
      * $parentvalue = the answer the parent item has to have in order to show this item as child
      */
     public $parentvalue = '';
 
-    /*
+    /**
      * $timecreated = the creation time of this item
      */
     public $timecreated = 0;
 
-    /*
+    /**
      * $timemodified = the modification time of this item
      */
     public $timemodified = null;
 
-    /*
+    /**
      * $userfeedback
      */
     public $userfeedback = SURVEYPRO_NOFEEDBACK;
 
-    /*
+    /**
      * $flag = features describing the object
      * I can redeclare the public and protected method/property, but not private
      * so I choose to not declare this properties here
      * public $flag = null;
      */
 
-    /*
+    /**
      * $isinitemform = list of fields properties the surveypro creator will have in the item definition form
      * By default each field property is present in the form
      * so, in each child class, I only need to "deactivate" field property (mform element) I don't want to have
@@ -135,7 +135,7 @@ class mod_surveypro_itembase {
         'parentid' => true
     );
 
-    /*
+    /**
      * item_load
      *
      * @param integer $itemid
@@ -170,7 +170,7 @@ class mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * item_get_common_settings
      * common settings are the setting saved to surveypro_item
      * they are:
@@ -256,7 +256,7 @@ class mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * item_save
      * Executes surveyproitem_<<plugin>> global level actions
      * this is the save point of the global part of each plugin
@@ -422,7 +422,7 @@ class mod_surveypro_itembase {
         return $record->itemid;
     }
 
-    /*
+    /**
      * item_validate_variablename
      *
      * @param stdobject $record
@@ -472,7 +472,7 @@ class mod_surveypro_itembase {
         $record->variable = $candidatevariable;
     }
 
-    /*
+    /**
      * item_save
      * Executes surveyproitem_<<plugin>> global level actions
      * this is the save point of the global part of each plugin
@@ -551,9 +551,10 @@ class mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * item_update_childparentvalue
      *
+     * @param none
      * @return
      */
     public function item_update_childrenparentvalue() {
@@ -580,10 +581,11 @@ class mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * item_builtin_string_load_support
      * This function is used to populate empty strings according to the user language
      *
+     * @param none
      * @return
      */
     public function item_builtin_string_load_support() {
@@ -611,7 +613,7 @@ class mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * item_split_unix_time
      *
      * @param integer $time
@@ -643,7 +645,7 @@ class mod_surveypro_itembase {
         return $getdate;
     }
 
-    /*
+    /**
      * item_delete
      *
      * @param integer $itemid
@@ -693,7 +695,7 @@ class mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * item_uses_form_page
      *
      * @return: boolean
@@ -702,7 +704,7 @@ class mod_surveypro_itembase {
         return true;
     }
 
-    /*
+    /**
      * item_left_position_allowed
      *
      * @return: boolean
@@ -711,7 +713,7 @@ class mod_surveypro_itembase {
         return true;
     }
 
-    /*
+    /**
      * item_set_editor
      * defines presets for the editor field of surveyproitem in itembase_form.php
      * (copied from moodle20/cohort/edit.php)
@@ -736,7 +738,7 @@ class mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * item_get_content_array
      * get the first or the second part of each row of a textarea field
      * where each row is written with the format:
@@ -768,7 +770,7 @@ class mod_surveypro_itembase {
         return $values;
     }
 
-    /*
+    /**
      * $this->item_clean_textarea_fields
      * clean the content of the field $record->{$field}
      *
@@ -788,7 +790,7 @@ class mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * item_get_other
      * parse $this->labelother in $value and $label
      *
@@ -806,7 +808,7 @@ class mod_surveypro_itembase {
         return array($value, $label);
     }
 
-    /*
+    /**
      * item_mandatory_is_allowed
      * this method defines if an item can be switched to mandatory or not.
      *
@@ -823,7 +825,7 @@ class mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * item_get_multilang_fields
      * make the list of multilang plugin fields
      *
@@ -836,7 +838,7 @@ class mod_surveypro_itembase {
         return $fieldlist;
     }
 
-    /*
+    /**
      * item_get_plugin_schema
      * Return the xml schema for surveypro_<<plugin>> table.
      *
@@ -873,7 +875,7 @@ class mod_surveypro_itembase {
         return $schema;
     }
 
-    /*
+    /**
      * item_add_color_unifier
      * credits for this amazing solution to the great Eloy Lafuente! He is a genius.
      * add a dummy useless row (with height = 0) to the form in order to drop the color alternation
@@ -904,7 +906,7 @@ class mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * item_get_generic_property
      *
      * @param $field
@@ -920,7 +922,7 @@ class mod_surveypro_itembase {
 
     // MARK get
 
-    /*
+    /**
      * get_issearchable
      *
      * @return the content of the flag
@@ -929,7 +931,7 @@ class mod_surveypro_itembase {
         return $this->flag->issearchable;
     }
 
-    /*
+    /**
      * get_usescontenteditor
      *
      * @return the content of the flag
@@ -938,7 +940,7 @@ class mod_surveypro_itembase {
         return $this->flag->usescontenteditor;
     }
 
-    /*
+    /**
      * get_editorslist
      *
      * @return the content of the flag
@@ -947,7 +949,7 @@ class mod_surveypro_itembase {
         return $this->flag->editorslist;
     }
 
-    /*
+    /**
      * get_editorslist
      *
      * @return the content of the flag
@@ -956,7 +958,7 @@ class mod_surveypro_itembase {
         return $this->flag->savepositiontodb;
     }
 
-    /*
+    /**
      * get_isinitemform
      *
      * @return the content of the corresponding element of $this->isinitemform
@@ -965,7 +967,7 @@ class mod_surveypro_itembase {
         return $this->isinitemform[$itemformelement];
     }
 
-    /*
+    /**
      * get_itemid
      *
      * @return the content of the field
@@ -974,7 +976,7 @@ class mod_surveypro_itembase {
         return $this->itemid;
     }
 
-    /*
+    /**
      * get_type
      *
      * @return the content of the field
@@ -983,7 +985,7 @@ class mod_surveypro_itembase {
         return $this->type;
     }
 
-    /*
+    /**
      * get_plugin
      *
      * @return the content of the field
@@ -992,7 +994,7 @@ class mod_surveypro_itembase {
         return $this->plugin;
     }
 
-    /*
+    /**
      * get_content
      *
      * @return the content of the field
@@ -1001,7 +1003,7 @@ class mod_surveypro_itembase {
         return file_rewrite_pluginfile_urls($this->content, 'pluginfile.php', $this->context->id, 'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $this->itemid);
     }
 
-    /*
+    /**
      * get_contentformat
      *
      * @return the content of the field
@@ -1010,7 +1012,7 @@ class mod_surveypro_itembase {
         return $this->contentformat;
     }
 
-    /*
+    /**
      * get_surveyproid
      *
      * @return the content of the field
@@ -1019,7 +1021,7 @@ class mod_surveypro_itembase {
         return $this->surveyproid;
     }
 
-    /*
+    /**
      * get_pluginid
      *
      * @return the content of the field
@@ -1028,7 +1030,7 @@ class mod_surveypro_itembase {
         return $this->pluginid;
     }
 
-    /*
+    /**
      * get_itemname
      *
      * @return the content of the field
@@ -1037,7 +1039,7 @@ class mod_surveypro_itembase {
         return $this->itemname;
     }
 
-    /*
+    /**
      * get_hidden
      *
      * @return the content of the field
@@ -1046,7 +1048,7 @@ class mod_surveypro_itembase {
         return $this->hidden;
     }
 
-    /*
+    /**
      * get_insearchform
      *
      * @return the content of the field
@@ -1055,7 +1057,7 @@ class mod_surveypro_itembase {
         return $this->insearchform;
     }
 
-    /*
+    /**
      * get_advanced
      *
      * @return the content of the field
@@ -1064,7 +1066,7 @@ class mod_surveypro_itembase {
         return $this->advanced;
     }
 
-    /*
+    /**
      * get_sortindex
      *
      * @return the content of the field
@@ -1073,7 +1075,7 @@ class mod_surveypro_itembase {
         return $this->sortindex;
     }
 
-    /*
+    /**
      * get_formpage
      *
      * @return the content of the field
@@ -1082,7 +1084,7 @@ class mod_surveypro_itembase {
         return $this->formpage;
     }
 
-    /*
+    /**
      * get_parentid
      *
      * @return the content of the field
@@ -1091,7 +1093,7 @@ class mod_surveypro_itembase {
         return $this->parentid;
     }
 
-    /*
+    /**
      * get_parentcontent
      *
      * @param string $separator: the required separator
@@ -1107,7 +1109,7 @@ class mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * get_parentvalue
      *
      * @return the content of the field
@@ -1116,7 +1118,7 @@ class mod_surveypro_itembase {
         return $this->parentvalue;
     }
 
-    /*
+    /**
      * get_variable
      *
      * @return the content of the field whether defined
@@ -1125,7 +1127,7 @@ class mod_surveypro_itembase {
         return $this->variable;
     }
 
-    /*
+    /**
      * get_customnumber
      *
      * @return the content of the field whether defined
@@ -1138,7 +1140,7 @@ class mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * get_required
      *
      * @return the content of the field whether defined
@@ -1151,7 +1153,7 @@ class mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * get_indent
      *
      * @return the content of the field whether defined
@@ -1164,7 +1166,7 @@ class mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * get_hideinstructions
      *
      * @return the content of the field whether defined
@@ -1177,7 +1179,7 @@ class mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * get_position
      *
      * @return the content of the field whether defined
@@ -1190,7 +1192,7 @@ class mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * get_extranote
      *
      * @return the content of the field whether defined
@@ -1203,7 +1205,7 @@ class mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * get_downloadformat
      *
      * @return the content of the field whether defined
@@ -1218,7 +1220,7 @@ class mod_surveypro_itembase {
 
     // MARK set
 
-    /*
+    /**
      * set_contentformat
      *
      * @param string $contentformat
@@ -1228,7 +1230,7 @@ class mod_surveypro_itembase {
         $this->contentformat = $contentformat;
     }
 
-    /*
+    /**
      * set_contenttrust
      *
      * @param string $contenttrust
@@ -1238,7 +1240,7 @@ class mod_surveypro_itembase {
         $this->contenttrust = $contenttrust;
     }
 
-    /*
+    /**
      * set_required
      *
      * @param integer $value; the value to set
@@ -1256,14 +1258,14 @@ class mod_surveypro_itembase {
 
     // MARK parent
 
-    /*
+    /**
      * parent_validate_child_constraints
      *
      * @param $childvalue
      * @return status of child relation
      */
     public function parent_validate_child_constraints($childparentvalue) {
-        /*
+        /**
          * I can not make ANY assumption about $childparentvalue because of the following explanation:
          * At child save time, I encode its $parentcontent to $parentvalue.
          * The encoding is done through a parent method according to parent values.
@@ -1279,7 +1281,7 @@ class mod_surveypro_itembase {
 
     // MARK userform
 
-    /*
+    /**
      * userform_get_full_info == extranote + fillinginstruction
      *     full_info == extranote + fillinginstruction
      * provides extra info THAT IS NOT SAVED IN THE DATABASE but is shown in the "Add"/"Search" form
@@ -1319,7 +1321,7 @@ class mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * userform_get_filling_instructions
      * provides extra fillinginstruction THAT IS NOT SAVED IN THE DATABASE but is shown in the "Add"/"Search" form
      *
@@ -1332,7 +1334,7 @@ class mod_surveypro_itembase {
         return '';
     }
 
-    /*
+    /**
      * userform_child_item_allowed_static
      * this method is called if (and only if) parent item and child item DON'T live in the same form page
      * this method has two purposes:
@@ -1358,7 +1360,7 @@ class mod_surveypro_itembase {
         return ($givenanswer === $childitemrecord->parentvalue);
     }
 
-    /*
+    /**
      * userform_disable_element
      * this function is used ONLY if $surveypro->newpageforchild == false
      * it adds as much as needed $mform->disabledIf to disable items when parent condition does not match
@@ -1388,7 +1390,7 @@ class mod_surveypro_itembase {
         $currentitem->parentvalue = $this->get_parentvalue();
         $mypage = $this->get_formpage(); // once and forever
         do {
-            /*
+            /**
              * Take care.
              * Even if (!$surveypro->newpageforchild) I can have all my ancestors into previous pages by adding pagebreaks manually
              * Because of this, I need to chech page numbers
@@ -1448,7 +1450,7 @@ class mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * userform_db_to_export
      * strating from the info stored in the database, this function returns the corresponding content for the export file
      *

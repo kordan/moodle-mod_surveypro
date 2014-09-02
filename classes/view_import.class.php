@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
  * You can have a rather longer description of the file as well,
@@ -27,41 +27,41 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/*
+/**
  * The base class representing a field
  */
 class mod_surveypro_importmanager {
-    /*
+    /**
      * $cm
      */
     public $cm = null;
 
-    /*
+    /**
      * $context
      */
     public $context = null;
 
-    /*
+    /**
      * $surveypro: the record of this surveypro
      */
     public $surveypro = null;
 
-    /*
+    /**
      * $canseeownsubmissions
      */
     // public $canseeownsubmissions = true;
 
-    /*
+    /**
      * $canseeotherssubmissions
      */
     public $canseeotherssubmissions = false;
 
-    /*
+    /**
      * $formdata: the form content as submitted by the user
      */
     public $formdata = null;
 
-    /*
+    /**
      * Class constructor
      */
     public function __construct($cm, $surveypro) {
@@ -72,7 +72,7 @@ class mod_surveypro_importmanager {
         $this->canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
     }
 
-    /*
+    /**
      * trigger_event
      *
      * @return void
@@ -83,7 +83,7 @@ class mod_surveypro_importmanager {
         $event->trigger();
     }
 
-    /*
+    /**
      * get_csv_content
      *
      * @return csv content
@@ -94,7 +94,7 @@ class mod_surveypro_importmanager {
         return $importform->get_file_content('csvfile_filepicker');
     }
 
-    /*
+    /**
      * get_uniqueness_columns
      *
      * @return false or the duplicate header
@@ -112,7 +112,7 @@ class mod_surveypro_importmanager {
         return false;
     }
 
-    /*
+    /**
      * get_survey_infos
      *
      * @return $surveyheaders and $requireditems
@@ -145,7 +145,7 @@ class mod_surveypro_importmanager {
         return array($surveyheaders, $requireditems);
     }
 
-    /*
+    /**
      * verify_required
      *
      * $foundheaders
@@ -165,7 +165,7 @@ class mod_surveypro_importmanager {
         return false;
     }
 
-    /*
+    /**
      * verify_extra_headers
      *
      * $foundheaders
@@ -186,7 +186,7 @@ class mod_surveypro_importmanager {
         return false;
     }
 
-    /*
+    /**
      * get_columntoitemid
      *
      * $foundheaders
@@ -210,7 +210,7 @@ class mod_surveypro_importmanager {
         return array($columntoitemid, $useridcolumnkey);
     }
 
-    /*
+    /**
      * get_items_helperinfo
      *
      * $columntoitemid
@@ -263,9 +263,10 @@ class mod_surveypro_importmanager {
         return array($itemhelperinfo, $itemoptions);
     }
 
-    /*
+    /**
      * validate_csv
      *
+     * @param none
      * @return
      */
     public function import_csv() {

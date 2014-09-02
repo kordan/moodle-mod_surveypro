@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Internal library of functions for module surveypro
  *
  * All the surveypro specific functions, needed to implement the module

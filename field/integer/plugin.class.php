@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
  * You can have a rather longer description of the file as well,
@@ -32,97 +32,99 @@ require_once($CFG->dirroot.'/mod/surveypro/field/integer/lib.php');
 
 class surveyprofield_integer extends mod_surveypro_itembase {
 
-    /*
+    /**
      * $content = the text content of the item.
      */
     public $content = '';
 
-    /*
+    /**
      * $contenttrust
      */
     public $contenttrust = 1;
 
-    /*
+    /**
      * public $contentformat = '';
      */
     public $contentformat = '';
 
-    /*
+    /**
      * $customnumber = the custom number of the item.
      * It usually is 1. 1.1, a, 2.1.a...
      */
     public $customnumber = '';
 
-    /*
+    /**
      * $position = where does the question go?
      */
     public $position = SURVEYPRO_POSITIONLEFT;
 
-    /*
+    /**
      * $extranote = an optional text describing the item
      */
     public $extranote = '';
 
-    /*
+    /**
      * $required = boolean. O == optional item; 1 == mandatory item
      */
     public $required = 0;
 
-    /*
+    /**
      * $hideinstructions = boolean. Exceptionally hide filling instructions
      */
     public $hideinstructions = 0;
 
-    /*
+    /**
      * $variable = the name of the field storing data in the db table
      */
     public $variable = '';
 
-    /*
+    /**
      * $indent = the indent of the item in the form page
      */
     public $indent = 0;
 
     // -----------------------------
 
-    /*
+    /**
      * $defaultoption
      */
     public $defaultoption = SURVEYPRO_INVITATIONDEFAULT;
 
-    /*
+    /**
      * $defaultvalue = the value of the field when the form is initially displayed.
      */
     public $defaultvalue = 0;
 
-    /*
+    /**
      * $lowerbound = the minimum allowed integer
      */
     public $lowerbound = 0;
 
-    /*
+    /**
      * $upperbound = the maximum allowed integer
      */
     public $upperbound = 0;
 
-    /*
+    /**
      * $flag = features describing the object
      */
     public $flag;
 
-    /*
+    /**
      * $canbeparent
      */
     public static $canbeparent = true;
 
     // -----------------------------
 
-    /*
+    /**
      * Class constructor
      *
      * If itemid is provided, load the object (item + base + plugin) from database
      *
      * @param int $itemid. Optional surveypro_item ID
+     * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
+     * @return
      */
     public function __construct($itemid=0, $evaluateparentcontent) {
         global $PAGE;
@@ -153,7 +155,7 @@ class surveyprofield_integer extends mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * item_load
      *
      * @param $itemid
@@ -170,7 +172,7 @@ class surveyprofield_integer extends mod_surveypro_itembase {
         $this->item_custom_fields_to_form();
     }
 
-    /*
+    /**
      * item_save
      *
      * @param $record
@@ -192,9 +194,10 @@ class surveyprofield_integer extends mod_surveypro_itembase {
         return parent::item_save($record);
     }
 
-    /*
+    /**
      * item_custom_fields_to_form
      *
+     * @param none
      * @return
      */
     public function item_custom_fields_to_form() {
@@ -216,7 +219,7 @@ class surveyprofield_integer extends mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * item_custom_fields_to_db
      * sets record field to store the correct value to db for the integer custom item
      *
@@ -247,7 +250,7 @@ class surveyprofield_integer extends mod_surveypro_itembase {
         unset($record->defaultvalue_integer);
     }
 
-    /*
+    /**
      * item_list_constraints
      * this method prepare the list of constraints the child has to respect in order to create a valid relation
      *
@@ -263,7 +266,7 @@ class surveyprofield_integer extends mod_surveypro_itembase {
         return implode($constraints, '<br />');
     }
 
-    /*
+    /**
      * item_get_multilang_fields
      * make the list of multilang plugin fields
      *
@@ -275,7 +278,7 @@ class surveyprofield_integer extends mod_surveypro_itembase {
         return $fieldlist;
     }
 
-    /*
+    /**
      * item_get_plugin_schema
      * Return the xml schema for surveypro_<<plugin>> table.
      *
@@ -322,7 +325,7 @@ EOS;
 
     // MARK parent
 
-    /*
+    /**
      * parent_encode_child_parentcontent
      *
      * this method is called ONLY at item save time
@@ -354,7 +357,7 @@ EOS;
         return implode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue);
     }
 
-    /*
+    /**
      * parent_decode_child_parentvalue
      *
      * this method decodes parentindex to parentcontent
@@ -362,7 +365,7 @@ EOS;
      * return $childparentcontent
      */
     public function parent_decode_child_parentvalue($childparentvalue) {
-        /*
+        /**
          * I can not make ANY assumption about $childparentvalue because of the following explanation:
          * At child save time, I encode its $parentcontent to $parentvalue.
          * The encoding is done through a parent method according to parent values.
@@ -398,7 +401,7 @@ EOS;
         return implode("\n", $childparentcontent);
     }
 
-    /*
+    /**
      * parent_validate_child_constraints
      *
      * this method, starting from child parentvalue (index/es), declare if the child could be include in the surveypro
@@ -433,7 +436,7 @@ EOS;
 
     // MARK userform
 
-    /*
+    /**
      * userform_mform_element
      *
      * @param $mform
@@ -495,7 +498,7 @@ EOS;
         }
     }
 
-    /*
+    /**
      * userform_mform_validation
      *
      * @param $data
@@ -549,7 +552,7 @@ EOS;
         }
     }
 
-    /*
+    /**
      * userform_get_parent_disabilitation_info
      * from childparentvalue defines syntax for disabledIf
      *
@@ -595,7 +598,7 @@ EOS;
         return $disabilitationinfo;
     }
 
-    /*
+    /**
      * userform_child_item_allowed_dynamic
      * this method is called if (and only if) parent item and child item live in the same form page
      * this method has two purposes:
@@ -614,7 +617,7 @@ EOS;
         return ($data[$this->itemname] == $childparentvalue);
     }
 
-    /*
+    /**
      * userform_save_preprocessing
      * starting from the info set by the user in the form
      * this method calculates what to save in the db
@@ -633,7 +636,7 @@ EOS;
         }
     }
 
-    /*
+    /**
      * this method is called from surveypro_set_prefill (in locallib.php) to set $prefill at user form display time
      * (defaults are set in userform_mform_element)
      *
@@ -656,7 +659,7 @@ EOS;
         return $prefill;
     }
 
-    /*
+    /**
      * userform_db_to_export
      * strating from the info stored in the database, this function returns the corresponding content for the export file
      *
@@ -677,10 +680,11 @@ EOS;
         return $content;
     }
 
-    /*
+    /**
      * userform_get_root_elements_name
      * returns an array with the names of the mform element added using $mform->addElement or $mform->addGroup
      *
+     * @param none
      * @return
      */
     public function userform_get_root_elements_name() {
