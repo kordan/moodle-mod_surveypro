@@ -78,7 +78,7 @@ if ($canmanageitems) {
 // -----------------------------------------------------------------------------
 // TAB USER TEMPLATES
 // -----------------------------------------------------------------------------
-if (!$surveypro->template) {
+if (empty($surveypro->template)) {
     if ($moduletab == SURVEYPRO_TABUTEMPLATES) {
         if ($canmanageusertemplates) {
             $elementurl = new moodle_url('/mod/surveypro/utemplates_create.php', $paramurl);
@@ -90,7 +90,7 @@ if (!$surveypro->template) {
 // -----------------------------------------------------------------------------
 // TAB MASTER TEMPLATES
 // -----------------------------------------------------------------------------
-if (!$surveypro->template) {
+if (empty($surveypro->template)) {
     if ($moduletab == SURVEYPRO_TABMTEMPLATES) {
         if ($cansavemastertemplates || ((!$hassubmissions || $riskyediting) && $canapplymastertemplates)) {
             $elementurl = new moodle_url('/mod/surveypro/mtemplates_create.php', $paramurl);
@@ -217,7 +217,7 @@ switch ($moduletab) {
             $strlabel = get_string('tabitemspage2', 'surveypro');
             $row[] = new tabobject('idpage2', $elementurl->out(), $strlabel);
 
-            if (!$surveypro->template) {
+            if (empty($surveypro->template)) {
                 if ($modulepage == SURVEYPRO_ITEMS_SETUP) { // setup
                     $elementurl = new moodle_url('/mod/surveypro/items_setup.php', $paramurl);
                     $strlabel = get_string('tabitemspage3', 'surveypro');
@@ -241,7 +241,7 @@ switch ($moduletab) {
         $canimportusertemplates = has_capability('mod/surveypro:importusertemplates', $context, null, true);
         $canapplyusertemplates = has_capability('mod/surveypro:applyusertemplates', $context, null, true);
 
-        if ($surveypro->template) {
+        if (!empty($surveypro->template)) {
             break;
         }
 
@@ -278,7 +278,7 @@ switch ($moduletab) {
 
         break;
     case SURVEYPRO_TABMTEMPLATES:
-        if ($surveypro->template) {
+        if (!empty($surveypro->template)) {
             break;
         }
 

@@ -69,11 +69,6 @@ class surveyprofield_integer extends mod_surveypro_itembase {
     public $required = 0;
 
     /**
-     * $hideinstructions = boolean. Exceptionally hide filling instructions
-     */
-    public $hideinstructions = 0;
-
-    /**
      * $variable = the name of the field storing data in the db table
      */
     public $variable = '';
@@ -124,7 +119,6 @@ class surveyprofield_integer extends mod_surveypro_itembase {
      *
      * @param int $itemid. Optional surveypro_item ID
      * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
-     * @return
      */
     public function __construct($itemid=0, $evaluateparentcontent) {
         global $PAGE;
@@ -148,7 +142,7 @@ class surveyprofield_integer extends mod_surveypro_itembase {
         $this->flag->savepositiontodb = false;
 
         // list of fields I do not want to have in the item definition form
-        // EMPTY LIST
+        $this->isinitemform['hideinstructions'] = false;
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $evaluateparentcontent);
@@ -306,7 +300,6 @@ class surveyprofield_integer extends mod_surveypro_itembase {
                 <xs:element type="xs:int" name="position"/>
                 <xs:element type="xs:string" name="extranote" minOccurs="0"/>
                 <xs:element type="xs:int" name="required"/>
-                <xs:element type="xs:int" name="hideinstructions"/>
                 <xs:element type="xs:string" name="variable"/>
                 <xs:element type="xs:int" name="indent"/>
 

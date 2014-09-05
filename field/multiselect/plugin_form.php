@@ -73,6 +73,16 @@ class surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_INT);
 
         // ----------------------------------------
+        // item::minimumrequired
+        // ----------------------------------------
+        $fieldname = 'minimumrequired';
+        $options = array_combine(range(0, 9), range(0, 9));
+        $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_multiselect'), $options);
+        $mform->setDefault($fieldname, 0);
+        $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_multiselect');
+        $mform->setType($fieldname, PARAM_INT);
+
+        // ----------------------------------------
         // item::downloadformat
         // ----------------------------------------
         $fieldname = 'downloadformat';
@@ -149,6 +159,14 @@ class surveypro_pluginform extends mod_surveypro_itembaseform {
                 $errors['options'] = get_string('optionswithseparator_err', 'surveyprofield_multiselect', SURVEYPRO_DBMULTICONTENTSEPARATOR);
                 break;
             }
+        }
+
+        // -----------------------------
+        // fourth check
+        // minimumrequired has to be lower than count($cleanoptions)
+        // -----------------------------
+        if ($data['minimumrequired'] > count($cleanoptions)-1) {
+            $errors['minimumrequired'] = get_string('minimumrequired_err', 'surveyprofield_multiselect', count($cleanoptions));
         }
 
         return $errors;

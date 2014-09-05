@@ -139,7 +139,6 @@ class surveyprofield_rate extends mod_surveypro_itembase {
      *
      * @param int optional $itemid
      * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
-     * @return
      */
     public function __construct($itemid=0, $evaluateparentcontent) {
         global $PAGE;
@@ -161,7 +160,6 @@ class surveyprofield_rate extends mod_surveypro_itembase {
 
         // list of fields I do not want to have in the item definition form
         $this->isinitemform['insearchform'] = false;
-        $this->isinitemform['hideinstructions'] = false;
         $this->isinitemform['position'] = SURVEYPRO_POSITIONLEFT;
 
         if (!empty($itemid)) {

@@ -62,5 +62,39 @@ function xmldb_surveyprofield_multiselect_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2014051701, 'surveyprofield', 'multiselect');
     }
 
+    if ($oldversion < 2014090502) {
+
+        // Define field hideinstructions to be added to surveyprofield_multiselect.
+        $table = new xmldb_table('surveyprofield_multiselect');
+        $field = new xmldb_field('hideinstructions', XMLDB_TYPE_INTEGER, '4', null, null, null, null, 'required');
+
+        // Conditionally launch add field hideinstructions.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field minimumrequired to be added to surveyprofield_multiselect.
+        $table = new xmldb_table('surveyprofield_multiselect');
+        $field = new xmldb_field('minimumrequired', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0', 'downloadformat');
+
+        // Conditionally launch add field minimumrequired.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field surveyproid to be dropped from surveyprofield_checkbox.
+        $table = new xmldb_table('surveyprofield_checkbox');
+        $field = new xmldb_field('required');
+
+        // Conditionally launch drop field surveyproid.
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        // Surveypro savepoint reached.
+        upgrade_plugin_savepoint(true, 2014090502, 'surveyprofield', 'multiselect');
+    }
+
+
     return true;
 }

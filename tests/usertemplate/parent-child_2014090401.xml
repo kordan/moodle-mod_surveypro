@@ -113,7 +113,6 @@
       <position>0</position>
       <extranote>This item is allowed if the answer to its parent is FALSE</extranote>
       <required>0</required>
-      <hideinstructions>0</hideinstructions>
       <variable>attls_integer_001</variable>
       <indent>1</indent>
       <defaultoption>2</defaultoption>
@@ -152,7 +151,7 @@
       <contentformat>1</contentformat>
       <customnumber>2</customnumber>
       <position>0</position>
-      <required>0</required>
+      <hideinstructions>0</hideinstructions>
       <variable>attls_checkbox_001</variable>
       <indent>0</indent>
       <options>rubber
@@ -244,7 +243,6 @@ A4 paper</options>
       <customnumber>3</customnumber>
       <position>0</position>
       <required>0</required>
-      <hideinstructions>0</hideinstructions>
       <variable>attls_integer_002</variable>
       <indent>0</indent>
       <defaultoption>2</defaultoption>
@@ -309,7 +307,6 @@ A4 paper</options>
       <position>0</position>
       <extranote>This item is enabled if the answer to the parent item is 22</extranote>
       <required>0</required>
-      <hideinstructions>0</hideinstructions>
       <variable>attls_integer_003</variable>
       <indent>1</indent>
       <defaultoption>2</defaultoption>
@@ -332,7 +329,7 @@ A4 paper</options>
       <contentformat>1</contentformat>
       <customnumber>4</customnumber>
       <position>0</position>
-      <required>0</required>
+      <hideinstructions>0</hideinstructions>
       <variable>attls_multiselect_001</variable>
       <indent>0</indent>
       <options>b::bread
@@ -344,6 +341,7 @@ t::tomatoes</options>
 ham</defaultvalue>
       <downloadformat>0</downloadformat>
       <heightinrows>4</heightinrows>
+      <minimumrequired>0</minimumrequired>
     </surveyprofield_multiselect>
   </item>
   <item>

@@ -113,7 +113,7 @@ class surveyprofield_fileupload extends mod_surveypro_itembase {
      * If itemid is provided, load the object (item + base + plugin) from database
      *
      * @param int $itemid. Optional surveypro_item ID
-     * @return none
+     * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
      */
     public function __construct($itemid=0, $evaluateparentcontent) {
         global $PAGE;
@@ -170,7 +170,6 @@ class surveyprofield_fileupload extends mod_surveypro_itembase {
         // -----------------------------
 
         // begin of: plugin specific settings (eventally overriding general ones)
-        $record->hideinstructions = 1;
         // end of: plugin specific settings (eventally overriding general ones)
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record)))

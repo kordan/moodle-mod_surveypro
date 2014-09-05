@@ -64,11 +64,6 @@ class surveyprofield_checkbox extends mod_surveypro_itembase {
     public $extranote = '';
 
     /**
-     * $required = boolean. O == optional item; 1 == mandatory item
-     */
-    public $required = 0;
-
-    /**
      * $variable = the name of the field storing data in the db table
      */
     public $variable = '';
@@ -129,7 +124,6 @@ class surveyprofield_checkbox extends mod_surveypro_itembase {
      *
      * @param int $itemid. Optional surveypro_item ID
      * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
-     * @return
      */
     public function __construct($itemid=0, $evaluateparentcontent) {
         global $PAGE;
@@ -151,7 +145,6 @@ class surveyprofield_checkbox extends mod_surveypro_itembase {
 
         // list of fields I do not want to have in the item definition form
         $this->isinitemform['required'] = false;
-        $this->isinitemform['hideinstructions'] = false;
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $evaluateparentcontent);
@@ -192,12 +185,6 @@ class surveyprofield_checkbox extends mod_surveypro_itembase {
         $this->item_clean_textarea_fields($record, $fieldlist);
 
         // override few values
-        $record->hideinstructions = 1;
-        if ($record->minimumrequired > 0) {
-            $record->required = 1;
-        } else {
-            $record->required = 0;
-        }
         // end of: plugin specific settings (eventally overriding general ones)
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record)))
@@ -276,7 +263,7 @@ class surveyprofield_checkbox extends mod_surveypro_itembase {
                 <xs:element type="xs:string" name="customnumber" minOccurs="0"/>
                 <xs:element type="xs:int" name="position"/>
                 <xs:element type="xs:string" name="extranote" minOccurs="0"/>
-                <xs:element type="xs:int" name="required"/>
+                <xs:element type="xs:int" name="hideinstructions"/>
                 <xs:element type="xs:string" name="variable"/>
                 <xs:element type="xs:int" name="indent"/>
 
@@ -295,6 +282,21 @@ EOS;
         return $schema;
     }
 
+    // MARK get
+
+    /**
+     * get_required
+     *
+     * @return bool
+     */
+    public function get_required() {
+        if (empty($this->minimumrequired)) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
     // MARK set
 
     /**
@@ -306,7 +308,6 @@ EOS;
     public function set_required($value) {
         global $DB;
 
-        parent::set_required($value);
         $DB->set_field('surveypro'.$this->type.'_'.$this->plugin, 'minimumrequired', $value, array('itemid' => $this->itemid));
     }
 
@@ -483,7 +484,7 @@ EOS;
             $mform->disabledIf($this->itemname.'_text', $this->itemname.'_other', 'notchecked');
         }
 
-        if (!$this->required) {
+        if (!$this->minimumrequired) {
             $elementgroup[] = $mform->createElement('advcheckbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), $class, array('0', '1'));
         }
 
@@ -502,7 +503,7 @@ EOS;
                 $separator[] = '<br />';
                 $separator[] = ' ';
             }
-            if (!$this->required) {
+            if (!$this->minimumrequired) {
                 $separator[] = '<br />';
             }
         } else { // SURVEYPRO_HORIZONTAL
@@ -510,7 +511,7 @@ EOS;
         }
         $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, $separator, false);
 
-        if (!$this->required) {
+        if (!$this->minimumrequired) {
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
         }
 
@@ -520,7 +521,7 @@ EOS;
         }
 
         if (!$searchform) {
-            if ($this->required) {
+            if ($this->minimumrequired) {
                 // even if the item is required I CAN NOT ADD ANY RULE HERE because:
                 // -> I do not want JS form validation if the page is submitted through the "previous" button
                 // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815
@@ -554,7 +555,7 @@ EOS;
             }
         }
 
-        if ($this->required) {
+        if ($this->minimumrequired) {
             $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
 
             $answercount = 0;
@@ -732,7 +733,7 @@ EOS;
             unset($return['other']);
             unset($return['text']);
         }
-        if (!$this->required) {
+        if (!$this->minimumrequired) {
             unset($return['noanswer']);
         }
         $olduserdata->content = implode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $return);

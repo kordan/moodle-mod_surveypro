@@ -490,12 +490,12 @@ class mod_surveypro_itemlist {
                     $icopath = 't/show';
                     $paramurl['act'] = SURVEYPRO_SHOWITEM;
                     $message = $showtitle;
-                    $linkidprefix = 'hide';
+                    $linkidprefix = 'show';
                 } else {
                     $icopath = 't/hide';
                     $paramurl['act'] = SURVEYPRO_HIDEITEM;
                     $message = $hidetitle;
-                    $linkidprefix = 'show';
+                    $linkidprefix = 'hide';
                 }
 
                 $icons .= $OUTPUT->action_icon(new moodle_url('items_manage.php', $paramurl),
@@ -549,7 +549,7 @@ class mod_surveypro_itemlist {
                     $paramurl = $paramurlbase;
                     $paramurl['sesskey'] = sesskey();
 
-                    if ($item->get_required()) {
+                    if ($currentrequired) {
                         $icopath = 'red';
                         $paramurl['act'] = SURVEYPRO_REQUIREDOFF;
                         $message = $optionaltitle;
@@ -1026,7 +1026,7 @@ class mod_surveypro_itemlist {
         } else {
             switch ($this->confirm) {
                 case SURVEYPRO_CONFIRMED_YES:
-                    $maxsortindex = $DB->get_field('surveypro_item', 'MAX(sortindex)', array('surveyproid' => $this->cm->instance));
+                    // $maxsortindex = $DB->get_field('surveypro_item', 'MAX(sortindex)', array('surveyproid' => $this->cm->instance));
                     if ($childrenseeds = $DB->get_records('surveypro_item', array('parentid' => $this->itemid), 'id', 'id, type, plugin')) {
                         foreach ($childrenseeds as $childseed) {
                             $item = surveypro_get_item($childseed->id, $childseed->type, $childseed->plugin);
@@ -1048,7 +1048,7 @@ class mod_surveypro_itemlist {
                     $sql = 'SELECT id
                             FROM {surveypro_item}
                             WHERE surveyproid = :surveyproid
-                            AND sortindex > :killedsortindex
+                                AND sortindex > :killedsortindex
                             ORDER BY sortindex';
                     $itemlist = $DB->get_recordset_sql($sql, array('surveyproid' => $this->surveypro->id, 'killedsortindex' => $killedsortindex));
                     $currentsortindex = $killedsortindex;

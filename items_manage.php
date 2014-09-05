@@ -69,7 +69,7 @@ require_capability('mod/surveypro:manageitems', $context);
 // -----------------------------
 
 // -----------------------------
-// the form showing the drop down menu with the list of mater templates
+// the form showing the drop down menu with the list of master templates
 $itemcount = $DB->count_records('surveypro_item', array('surveyproid' => $surveypro->id));
 if (!$itemcount) {
     require_once($CFG->dirroot.'/mod/surveypro/classes/mtemplate.class.php');
@@ -109,7 +109,7 @@ if (!$itemcount) {
     // end of: manage form submission
     // -----------------------------
 }
-// end of: the form showing the drop down menu with the list of mater templates
+// end of: the form showing the drop down menu with the list of master templates
 // -----------------------------
 
 // -----------------------------
@@ -154,7 +154,7 @@ if ($itemlistman->hassubmissions) {
     echo $OUTPUT->notification(get_string('hassubmissions_alert', 'surveypro'), 'notifymessage');
 }
 
-// add Master templates selection form
+// add master templates selection form
 if (!$itemcount) {
     $message = get_string('beginfromscratch', 'surveypro');
     echo $OUTPUT->box($message, 'generaltable generalbox boxaligncenter boxwidthnormal');

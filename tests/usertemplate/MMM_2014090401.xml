@@ -360,7 +360,7 @@
       <contentformat>1</contentformat>
       <customnumber>5</customnumber>
       <position>0</position>
-      <required>0</required>
+      <hideinstructions>0</hideinstructions>
       <variable>checkbox_001</variable>
       <indent>0</indent>
       <options>milk
@@ -388,7 +388,7 @@ milk</defaultvalue>
       <contentformat>1</contentformat>
       <customnumber>5</customnumber>
       <position>0</position>
-      <required>0</required>
+      <hideinstructions>0</hideinstructions>
       <variable>checkbox_002</variable>
       <indent>0</indent>
       <options>1::milk
@@ -645,7 +645,6 @@ Apple juice</defaultvalue>
       <contentformat>1</contentformat>
       <position>0</position>
       <required>0</required>
-      <hideinstructions>0</hideinstructions>
       <variable>integer_001</variable>
       <indent>0</indent>
       <defaultoption>3</defaultoption>
@@ -667,7 +666,6 @@ Apple juice</defaultvalue>
       <contentformat>1</contentformat>
       <position>0</position>
       <required>1</required>
-      <hideinstructions>0</hideinstructions>
       <variable>integer_002</variable>
       <indent>0</indent>
       <defaultoption>2</defaultoption>
@@ -702,7 +700,7 @@ Apple juice</defaultvalue>
       <content>&lt;p&gt;What do you usually eat for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <position>0</position>
-      <required>0</required>
+      <hideinstructions>0</hideinstructions>
       <variable>multiselect_001</variable>
       <indent>0</indent>
       <options>milk
@@ -713,6 +711,7 @@ chocolate</options>
 chocolate</defaultvalue>
       <downloadformat>0</downloadformat>
       <heightinrows>4</heightinrows>
+      <minimumrequired>0</minimumrequired>
     </surveyprofield_multiselect>
   </item>
   <item>

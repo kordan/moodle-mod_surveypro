@@ -820,7 +820,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
      * SURVEYPRO_TABITEMS
      */
     // PARENT
-    if (($canpreview) || ($canmanageitems && (!$surveypro->template))) {
+    if (($canpreview) || ($canmanageitems && empty($surveypro->template))) {
         $navnode = $surveypronode->add(SURVEYPRO_TAB2NAME,  new moodle_url('/mod/surveypro/items_manage.php', $paramurlbase), navigation_node::TYPE_CONTAINER);
     }
 
@@ -831,7 +831,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
     }
     if ($canmanageitems) {
         $navnode->add(get_string('tabitemspage2', 'surveypro'), new moodle_url('/mod/surveypro/items_manage.php', $paramurlbase), navigation_node::TYPE_SETTING);
-        if (!$surveypro->template) {
+        if (empty($surveypro->template)) {
             if ($countparents) {
                 $navnode->add(get_string('tabitemspage4', 'surveypro'), new moodle_url('/mod/surveypro/items_validate.php', $paramurlbase), navigation_node::TYPE_SETTING);
             }
@@ -841,7 +841,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
     /**
      * SURVEYPRO_TABUTEMPLATES
      */
-    if ($canmanageusertemplates && (!$surveypro->template)) {
+    if ($canmanageusertemplates && empty($surveypro->template)) {
         // PARENT
         $navnode = $surveypronode->add(SURVEYPRO_TAB3NAME,  new moodle_url('/mod/surveypro/utemplates_create.php', $paramurlbase), navigation_node::TYPE_CONTAINER);
 
@@ -861,10 +861,10 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
     /**
      * SURVEYPRO_TABMTEMPLATES
      */
-    // if ($canapplymastertemplates && (!$surveypro->template)) {
+    // if ($canapplymastertemplates && empty($surveypro->template)) {
     $condition = $cansavemastertemplates;
     $condition = $condition || ((!$hassubmissions || $riskyediting) && $canapplymastertemplates);
-    if ($condition && !$surveypro->template) {
+    if ($condition && empty($surveypro->template)) {
         // PARENT
         $navnode = $surveypronode->add(SURVEYPRO_TAB4NAME, new moodle_url('/mod/surveypro/mtemplates_create.php', $paramurlbase), navigation_node::TYPE_CONTAINER);
 

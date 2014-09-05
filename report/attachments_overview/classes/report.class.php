@@ -44,6 +44,9 @@ class report_attachments_overview extends mod_surveypro_reportbase {
 
     /**
      * Class constructor
+     *
+     * @param $cm
+     * @param $surveypro
      */
     public function __construct($cm, $surveypro) {
         parent::__construct($cm, $surveypro);

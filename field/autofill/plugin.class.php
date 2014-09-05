@@ -179,7 +179,6 @@ class surveyprofield_autofill extends mod_surveypro_itembase {
      *
      * @param int $itemid. Optional surveypro_item ID
      * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
-     * @return
      */
     public function __construct($itemid=0, $evaluateparentcontent) {
         global $PAGE;

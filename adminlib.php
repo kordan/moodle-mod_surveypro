@@ -42,7 +42,6 @@ class surveypro_admin_page_manage_surveypro_plugins extends admin_externalpage {
      * The constructor - calls parent constructor
      *
      * @param string $subtype
-     * @return
      */
     public function __construct($subtype) {
         $this->subtype = $subtype;
@@ -102,7 +101,6 @@ class surveypro_plugin_manager {
     /**
      * Constructor for this surveypro plugin manager
      * @param string $subtype - either assignsubmission or assignfeedback
-     * @return
      */
     public function __construct($subtype) {
         $this->pageurl = new moodle_url('/mod/surveypro/adminmanageplugins.php', array('subtype' => $subtype));

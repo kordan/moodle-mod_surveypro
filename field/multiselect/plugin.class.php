@@ -64,11 +64,6 @@ class surveyprofield_multiselect extends mod_surveypro_itembase {
     public $extranote = '';
 
     /**
-     * $required = boolean. O == optional item; 1 == mandatory item
-     */
-    public $required = 0;
-
-    /**
      * $variable = the name of the field storing data in the db table
      */
     public $variable = '';
@@ -101,6 +96,11 @@ class surveyprofield_multiselect extends mod_surveypro_itembase {
     public $heightinrows = 4;
 
     /**
+     * $minimumrequired = The minimum number of checkboxes the user is forced to choose in his/her answer
+     */
+    public $minimumrequired = 0;
+
+    /**
      * $flag = features describing the object
      */
     public $flag;
@@ -119,7 +119,6 @@ class surveyprofield_multiselect extends mod_surveypro_itembase {
      *
      * @param int $itemid. Optional surveypro_item ID
      * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
-     * @return
      */
     public function __construct($itemid=0, $evaluateparentcontent) {
         global $PAGE;
@@ -140,7 +139,7 @@ class surveyprofield_multiselect extends mod_surveypro_itembase {
         $this->flag->savepositiontodb = true;
 
         // list of fields I do not want to have in the item definition form
-        $this->isinitemform['hideinstructions'] = false;
+        $this->isinitemform['required'] = false;
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $evaluateparentcontent);
@@ -180,7 +179,7 @@ class surveyprofield_multiselect extends mod_surveypro_itembase {
         $fieldlist = array('options', 'defaultvalue');
         $this->item_clean_textarea_fields($record, $fieldlist);
 
-        $record->hideinstructions = 1;
+        // override few values
         // end of: plugin specific settings (eventally overriding general ones)
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record)))
@@ -256,7 +255,7 @@ class surveyprofield_multiselect extends mod_surveypro_itembase {
                 <xs:element type="xs:string" name="customnumber" minOccurs="0"/>
                 <xs:element type="xs:int" name="position"/>
                 <xs:element type="xs:string" name="extranote" minOccurs="0"/>
-                <xs:element type="xs:int" name="required"/>
+                <xs:element type="xs:int" name="hideinstructions"/>
                 <xs:element type="xs:string" name="variable"/>
                 <xs:element type="xs:int" name="indent"/>
 
@@ -264,6 +263,7 @@ class surveyprofield_multiselect extends mod_surveypro_itembase {
                 <xs:element type="xs:string" name="defaultvalue" minOccurs="0"/>
                 <xs:element type="xs:string" name="downloadformat"/>
                 <xs:element type="xs:int" name="heightinrows"/>
+                <xs:element type="xs:int" name="minimumrequired"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -271,6 +271,35 @@ class surveyprofield_multiselect extends mod_surveypro_itembase {
 EOS;
 
         return $schema;
+    }
+
+    // MARK get
+
+    /**
+     * get_required
+     *
+     * @return bool
+     */
+    public function get_required() {
+        if (empty($this->minimumrequired)) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
+    // MARK set
+
+    /**
+     * set_required
+     *
+     * @param $value
+     * @return
+     */
+    public function set_required($value) {
+        global $DB;
+
+        $DB->set_field('surveypro'.$this->type.'_'.$this->plugin, 'minimumrequired', $value, array('itemid' => $this->itemid));
     }
 
     // MARK parent
@@ -418,7 +447,7 @@ EOS;
 
         $class = array('size' => $this->heightinrows, 'class' => 'indent-'.$this->indent);
         if (!$searchform) {
-            if ($this->required) {
+            if ($this->minimumrequired) {
                 $select = $mform->addElement('select', $this->itemname, $elementlabel, $labels, $class);
                 $select->setMultiple(true);
             } else {
@@ -435,12 +464,12 @@ EOS;
             $select = $mform->createElement('select', $this->itemname, '', $labels, $class);
             $select->setMultiple(true);
             $elementgroup[] = $select;
-            if (!$this->required) {
+            if (!$this->minimumrequired) {
                 $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), array('class' => 'indent-'.$this->indent));
             }
             $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'surveypro'), array('class' => 'indent-'.$this->indent));
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, '<br />', false);
-            if (!$this->required) {
+            if (!$this->minimumrequired) {
                 $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
             }
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_ignoreme', 'checked');
@@ -478,7 +507,7 @@ EOS;
         $mform->setType($placeholderitemname, PARAM_INT);
 
         if (!$searchform) {
-            if ($this->required) {
+            if ($this->minimumrequired) {
                 // even if the item is required I CAN NOT ADD ANY RULE HERE because:
                 // -> I do not want JS form validation if the page is submitted through the "previous" button
                 // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815
@@ -503,11 +532,16 @@ EOS;
             return;
         }
 
-        if ($this->required) {
+        if ($this->minimumrequired) {
             $errorkey = $this->itemname;
 
-            if (!isset($data[$this->itemname])) {
-                $errors[$errorkey] = get_string('required');
+            $answercount = count($data[$this->itemname]);
+            if ($answercount < $this->minimumrequired) {
+                if ($this->minimumrequired == 1) {
+                    $errors[$errorkey] = get_string('lowerthanminimum_one', 'surveyprofield_multiselect');
+                } else {
+                    $errors[$errorkey] = get_string('lowerthanminimum_more', 'surveyprofield_multiselect', $this->minimumrequired);
+                }
             }
         }
     }
@@ -587,6 +621,26 @@ EOS;
         }
 
         return $status;
+    }
+
+    /**
+     * userform_get_filling_instructions
+     *
+     * @return string $fillinginstruction
+     */
+    public function userform_get_filling_instructions() {
+
+        if ($this->minimumrequired) {
+            if ($this->minimumrequired == 1) {
+                $fillinginstruction = get_string('restrictions_minimumrequired_one', 'surveyprofield_multiselect');
+            } else {
+                $fillinginstruction = get_string('restrictions_minimumrequired_more', 'surveyprofield_multiselect', $this->minimumrequired);
+            }
+        } else {
+            $fillinginstruction = '';
+        }
+
+        return $fillinginstruction;
     }
 
     /**

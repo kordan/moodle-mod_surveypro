@@ -62,5 +62,20 @@ function xmldb_surveyprofield_integer_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2014051701, 'surveyprofield', 'integer');
     }
 
+    if ($oldversion < 2014090401) {
+
+        // Define field hideinstructions to be dropped from surveyprofield_integer.
+        $table = new xmldb_table('surveyprofield_integer');
+        $field = new xmldb_field('hideinstructions');
+
+        // Conditionally launch drop field hideinstructions.
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        // Surveypro savepoint reached.
+        upgrade_plugin_savepoint(true, 2014090401, 'surveyprofield', 'integer');
+    }
+
     return true;
 }

@@ -29,8 +29,8 @@ They are:
 
 -- formats --
 -> 1) item type "fieldset" to group your question
--> 2) item type "pagebreak"
--> 3) item type "pagebreakend"
+-> 2) item type "pagebreak" to add a new page
+-> 3) item type "fieldsetend" to close an opened fieldset
 -> 4) item type "label" to display labels in the surveypro page
 
 User can choose, setup them and include them into search forms.

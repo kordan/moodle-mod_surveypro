@@ -65,10 +65,15 @@ class mod_surveyproreport_uploadformmanager {
 
     /**
      * Class constructor
+     *
+     * @param $cm
+     * @param $context
+     * @param $surveypro
+     * @param $userid
+     * @param $itemid
+     * @param $submissionid
      */
     public function __construct($cm, $context, $surveypro, $userid, $itemid, $submissionid) {
-        global $DB;
-
         $this->cm = $cm;
         $this->context = $context;
         $this->surveypro = $surveypro;

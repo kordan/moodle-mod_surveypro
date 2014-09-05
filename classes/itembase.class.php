@@ -1143,13 +1143,18 @@ class mod_surveypro_itembase {
     /**
      * get_required
      *
-     * @return the content of the field whether defined
+     * @return bool
      */
     public function get_required() {
-        if (isset($this->required)) {
-            return $this->required;
-        } else {
+        // it may not be set as in page_break, autofill or some more
+        if (!isset($this->required)) {
             return false;
+        } else {
+            if (empty($this->required)) {
+                return 0;
+            } else {
+                return 1;
+            }
         }
     }
 
