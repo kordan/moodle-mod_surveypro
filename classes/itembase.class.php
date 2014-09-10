@@ -852,9 +852,6 @@ class mod_surveypro_itembase {
         $schema .= '            <xs:sequence>'."\n";
         // $schema .= '                <xs:element type="xs:int" name="surveyproid"/>'."\n";
 
-        $schema .= '                <xs:element type="xs:string" name="type"/>'."\n";
-        $schema .= '                <xs:element type="xs:string" name="plugin"/>'."\n";
-
         $schema .= '                <xs:element type="xs:int" name="hidden"/>'."\n";
         $schema .= '                <xs:element type="xs:int" name="insearchform"/>'."\n";
         $schema .= '                <xs:element type="xs:int" name="advanced"/>'."\n";

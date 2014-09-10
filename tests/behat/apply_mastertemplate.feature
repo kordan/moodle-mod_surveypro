@@ -1,22 +1,22 @@
 @mod @mod_surveypro
-Feature: install a mastertemplate
+Feature: apply a mastertemplate
   In order to verify mastertemplates apply correctly // Why this feature is useful
   As a teacher                                       // It can be 'an admin', 'a teacher', 'a student', 'a guest', 'a user', 'a tests writer' and 'a developer'
   I need to apply a mastertemplate                   // The feature we want
 
   Background:
     Given the following "courses" exist:
-      | fullname | shortname | category | groupmode |
-      | Course 1 | C1        | 0        | 0         |
+      | fullname                | shortname            | category | groupmode |
+      | To apply mastertemplate | Apply mastertemplate | 0        | 0         |
     And the following "users" exist:
       | username | firstname | lastname | email            |
       | teacher1 | Teacher   | 1        | teacher1@asd.com |
       | student1 | Student   | 1        | student1@asd.com |
     And the following "course enrolments" exist:
-      | user     | course | role           |
-      | teacher1 | C1     | editingteacher |
+      | user     | course               | role           |
+      | teacher1 | Apply mastertemplate | editingteacher |
     And I log in as "teacher1"
-    And I follow "Course 1"
+    And I follow "To apply mastertemplate"
     And I turn editing mode on
 
   @javascript

@@ -7,26 +7,26 @@ Feature: test each student sees only personal submissions
   @javascript
   Scenario: test each student sees only personal submissions
     Given the following "courses" exist:
-      | fullname | shortname | category | groupmode |
-      | Course 1 | C1        | 0        | 0         |
+      | fullname                      | shortname                 | category | groupmode |
+      | See only personal submissions | Only personal submissions | 0        | 0         |
     And the following "users" exist:
       | username | firstname | lastname | email            |
       | teacher1 | Teacher   | teacher  | teacher1@asd.com |
       | student1 | Student1  | user1    | student1@asd.com |
       | student2 | Student2  | user2    | student2@asd.com |
     And the following "course enrolments" exist:
-      | user     | course | role           |
-      | teacher1 | C1     | editingteacher |
-      | student1 | C1     | student        |
-      | student2 | C1     | student        |
+      | user     | course                    | role           |
+      | teacher1 | Only personal submissions | editingteacher |
+      | student1 | Only personal submissions | student        |
+      | student2 | Only personal submissions | student        |
 
     And I log in as "teacher1"
-    And I follow "Course 1"
+    And I follow "See only personal submissions"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-      | Survey name | Simple test                                                            |
+      | Survey name | Surveypro test                                                            |
       | Description | This is a surveypro to test each user can only get his own submissions |
-    And I follow "Simple test"
+    And I follow "Surveypro test"
 
     And I set the field "plugin" to "Text (short)"
     And I press "Add"
@@ -58,8 +58,8 @@ Feature: test each student sees only personal submissions
 
     # student1 logs in
     When I log in as "student1"
-    And I follow "Course 1"
-    And I follow "Simple test"
+    And I follow "See only personal submissions"
+    And I follow "Surveypro test"
     And I press "Add a response"
 
     # student1 submits his first response
@@ -81,8 +81,8 @@ Feature: test each student sees only personal submissions
 
     # student2 logs in
     When I log in as "student2"
-    And I follow "Course 1"
-    And I follow "Simple test"
+    And I follow "See only personal submissions"
+    And I follow "Surveypro test"
     And I press "Add a response"
 
     # student2 submits a response
@@ -100,8 +100,8 @@ Feature: test each student sees only personal submissions
 
     # student1 goes to check for his personal submissions
     When I log in as "student1"
-    And I follow "Course 1"
-    And I follow "Simple test"
+    And I follow "See only personal submissions"
+    And I follow "Surveypro test"
 
     And I follow "Responses"
     Then I should see "Never" in the "Student1 user1" "table_row"

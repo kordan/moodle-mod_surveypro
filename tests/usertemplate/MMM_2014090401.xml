@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <items>
-  <item>
+  <item type="format" plugin="label" version="2014051701">
     <surveypro_item>
-      <type>format</type>
-      <plugin>label</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>1</advanced>
@@ -20,10 +18,8 @@
       <fullwidth>1</fullwidth>
     </surveyproformat_label>
   </item>
-  <item>
+  <item type="format" plugin="label" version="2014051701">
     <surveypro_item>
-      <type>format</type>
-      <plugin>label</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -39,10 +35,8 @@
       <fullwidth>1</fullwidth>
     </surveyproformat_label>
   </item>
-  <item>
+  <item type="format" plugin="pagebreak" version="2014051701">
     <surveypro_item>
-      <type>format</type>
-      <plugin>pagebreak</plugin>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -52,10 +46,8 @@
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item>
+  <item type="field" plugin="age" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>age</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -81,10 +73,8 @@
       <upperbound>1004616000</upperbound>
     </surveyprofield_age>
   </item>
-  <item>
+  <item type="field" plugin="age" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>age</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -110,10 +100,8 @@
       <upperbound>-2119608000</upperbound>
     </surveyprofield_age>
   </item>
-  <item>
+  <item type="field" plugin="age" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>age</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -139,10 +127,8 @@
       <upperbound>-2119608000</upperbound>
     </surveyprofield_age>
   </item>
-  <item>
+  <item type="field" plugin="age" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>age</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -167,10 +153,8 @@
       <upperbound>-2119608000</upperbound>
     </surveyprofield_age>
   </item>
-  <item>
+  <item type="format" plugin="pagebreak" version="2014051701">
     <surveypro_item>
-      <type>format</type>
-      <plugin>pagebreak</plugin>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -180,10 +164,8 @@
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item>
+  <item type="field" plugin="autofill" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>autofill</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -201,10 +183,8 @@
       <element01>userid</element01>
     </surveyprofield_autofill>
   </item>
-  <item>
+  <item type="format" plugin="pagebreak" version="2014051701">
     <surveypro_item>
-      <type>format</type>
-      <plugin>pagebreak</plugin>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -214,10 +194,8 @@
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item>
+  <item type="field" plugin="boolean" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>boolean</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -238,10 +216,8 @@
       <style>1</style>
     </surveyprofield_boolean>
   </item>
-  <item>
+  <item type="field" plugin="boolean" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>boolean</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -262,10 +238,8 @@
       <style>0</style>
     </surveyprofield_boolean>
   </item>
-  <item>
+  <item type="field" plugin="boolean" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>boolean</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -285,10 +259,8 @@
       <style>0</style>
     </surveyprofield_boolean>
   </item>
-  <item>
+  <item type="field" plugin="boolean" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>boolean</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -309,10 +281,8 @@
       <style>2</style>
     </surveyprofield_boolean>
   </item>
-  <item>
+  <item type="field" plugin="boolean" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>boolean</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -333,10 +303,8 @@
       <style>1</style>
     </surveyprofield_boolean>
   </item>
-  <item>
+  <item type="format" plugin="pagebreak" version="2014051701">
     <surveypro_item>
-      <type>format</type>
-      <plugin>pagebreak</plugin>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -346,10 +314,8 @@
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item>
+  <item type="field" plugin="checkbox" version="2014090502">
     <surveypro_item>
-      <type>field</type>
-      <plugin>checkbox</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -374,10 +340,8 @@ milk</defaultvalue>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item>
+  <item type="field" plugin="checkbox" version="2014090502">
     <surveypro_item>
-      <type>field</type>
-      <plugin>checkbox</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -404,10 +368,8 @@ Apple juice</defaultvalue>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item>
+  <item type="format" plugin="pagebreak" version="2014051701">
     <surveypro_item>
-      <type>format</type>
-      <plugin>pagebreak</plugin>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -417,10 +379,8 @@ Apple juice</defaultvalue>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item>
+  <item type="field" plugin="shortdate" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>shortdate</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -440,10 +400,8 @@ Apple juice</defaultvalue>
       <upperbound>1378036800</upperbound>
     </surveyprofield_shortdate>
   </item>
-  <item>
+  <item type="field" plugin="shortdate" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>shortdate</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -463,10 +421,8 @@ Apple juice</defaultvalue>
       <upperbound>1380628800</upperbound>
     </surveyprofield_shortdate>
   </item>
-  <item>
+  <item type="format" plugin="pagebreak" version="2014051701">
     <surveypro_item>
-      <type>format</type>
-      <plugin>pagebreak</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -476,10 +432,8 @@ Apple juice</defaultvalue>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item>
+  <item type="field" plugin="date" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>date</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -499,10 +453,8 @@ Apple juice</defaultvalue>
       <upperbound>1262347200</upperbound>
     </surveyprofield_date>
   </item>
-  <item>
+  <item type="field" plugin="date" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>date</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -522,10 +474,8 @@ Apple juice</defaultvalue>
       <upperbound>1262347200</upperbound>
     </surveyprofield_date>
   </item>
-  <item>
+  <item type="format" plugin="pagebreak" version="2014051701">
     <surveypro_item>
-      <type>format</type>
-      <plugin>pagebreak</plugin>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -535,10 +485,8 @@ Apple juice</defaultvalue>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item>
+  <item type="field" plugin="datetime" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>datetime</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -559,10 +507,8 @@ Apple juice</defaultvalue>
       <upperbound>1609459140</upperbound>
     </surveyprofield_datetime>
   </item>
-  <item>
+  <item type="format" plugin="pagebreak" version="2014051701">
     <surveypro_item>
-      <type>format</type>
-      <plugin>pagebreak</plugin>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -572,10 +518,8 @@ Apple juice</defaultvalue>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item>
+  <item type="field" plugin="fileupload" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>fileupload</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -595,10 +539,8 @@ Apple juice</defaultvalue>
       <filetypes>*</filetypes>
     </surveyprofield_fileupload>
   </item>
-  <item>
+  <item type="field" plugin="fileupload" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>fileupload</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -618,10 +560,8 @@ Apple juice</defaultvalue>
       <filetypes>.pdf, .zip</filetypes>
     </surveyprofield_fileupload>
   </item>
-  <item>
+  <item type="format" plugin="pagebreak" version="2014051701">
     <surveypro_item>
-      <type>format</type>
-      <plugin>pagebreak</plugin>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -631,10 +571,8 @@ Apple juice</defaultvalue>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item>
+  <item type="field" plugin="integer" version="2014090401">
     <surveypro_item>
-      <type>field</type>
-      <plugin>integer</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -652,10 +590,8 @@ Apple juice</defaultvalue>
       <upperbound>13</upperbound>
     </surveyprofield_integer>
   </item>
-  <item>
+  <item type="field" plugin="integer" version="2014090401">
     <surveypro_item>
-      <type>field</type>
-      <plugin>integer</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -674,10 +610,8 @@ Apple juice</defaultvalue>
       <upperbound>13</upperbound>
     </surveyprofield_integer>
   </item>
-  <item>
+  <item type="format" plugin="pagebreak" version="2014051701">
     <surveypro_item>
-      <type>format</type>
-      <plugin>pagebreak</plugin>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -687,10 +621,8 @@ Apple juice</defaultvalue>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item>
+  <item type="field" plugin="multiselect" version="2014090502">
     <surveypro_item>
-      <type>field</type>
-      <plugin>multiselect</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -714,10 +646,8 @@ chocolate</defaultvalue>
       <minimumrequired>0</minimumrequired>
     </surveyprofield_multiselect>
   </item>
-  <item>
+  <item type="format" plugin="pagebreak" version="2014051701">
     <surveypro_item>
-      <type>format</type>
-      <plugin>pagebreak</plugin>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -727,10 +657,8 @@ chocolate</defaultvalue>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item>
+  <item type="field" plugin="numeric" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>numeric</plugin>
       <hidden>1</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -751,10 +679,8 @@ chocolate</defaultvalue>
       <decimals>1</decimals>
     </surveyprofield_numeric>
   </item>
-  <item>
+  <item type="format" plugin="pagebreak" version="2014051701">
     <surveypro_item>
-      <type>format</type>
-      <plugin>pagebreak</plugin>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -764,10 +690,8 @@ chocolate</defaultvalue>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item>
+  <item type="field" plugin="radiobutton" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>radiobutton</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -790,10 +714,8 @@ Lake</options>
       <adjustment>0</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item>
+  <item type="field" plugin="radiobutton" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>radiobutton</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -817,10 +739,8 @@ Lake</options>
       <adjustment>0</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item>
+  <item type="field" plugin="radiobutton" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>radiobutton</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -844,10 +764,8 @@ Lake</options>
       <adjustment>0</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item>
+  <item type="format" plugin="pagebreak" version="2014051701">
     <surveypro_item>
-      <type>format</type>
-      <plugin>pagebreak</plugin>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -857,10 +775,8 @@ Lake</options>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item>
+  <item type="field" plugin="rate" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>rate</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -891,10 +807,8 @@ Optimum</rates>
       <differentrates>0</differentrates>
     </surveyprofield_rate>
   </item>
-  <item>
+  <item type="field" plugin="rate" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>rate</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -930,10 +844,8 @@ Good</defaultvalue>
       <differentrates>0</differentrates>
     </surveyprofield_rate>
   </item>
-  <item>
+  <item type="field" plugin="rate" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>rate</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -964,10 +876,8 @@ Optimum</rates>
       <differentrates>0</differentrates>
     </surveyprofield_rate>
   </item>
-  <item>
+  <item type="format" plugin="pagebreak" version="2014051701">
     <surveypro_item>
-      <type>format</type>
-      <plugin>pagebreak</plugin>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -977,10 +887,8 @@ Optimum</rates>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item>
+  <item type="field" plugin="recurrence" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>recurrence</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -1000,10 +908,8 @@ Optimum</rates>
       <upperbound>31492800</upperbound>
     </surveyprofield_recurrence>
   </item>
-  <item>
+  <item type="format" plugin="pagebreak" version="2014051701">
     <surveypro_item>
-      <type>format</type>
-      <plugin>pagebreak</plugin>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -1013,10 +919,8 @@ Optimum</rates>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item>
+  <item type="field" plugin="select" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>select</plugin>
       <hidden>1</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -1038,10 +942,8 @@ hill</options>
       <downloadformat>0</downloadformat>
     </surveyprofield_select>
   </item>
-  <item>
+  <item type="format" plugin="pagebreak" version="2014051701">
     <surveypro_item>
-      <type>format</type>
-      <plugin>pagebreak</plugin>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -1051,10 +953,8 @@ hill</options>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item>
+  <item type="field" plugin="textarea" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>textarea</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -1076,10 +976,8 @@ hill</options>
       <maxlength>1000</maxlength>
     </surveyprofield_textarea>
   </item>
-  <item>
+  <item type="field" plugin="textarea" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>textarea</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -1101,10 +999,8 @@ hill</options>
       <maxlength>1000</maxlength>
     </surveyprofield_textarea>
   </item>
-  <item>
+  <item type="format" plugin="pagebreak" version="2014051701">
     <surveypro_item>
-      <type>format</type>
-      <plugin>pagebreak</plugin>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -1114,10 +1010,8 @@ hill</options>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item>
+  <item type="field" plugin="time" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>time</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -1139,10 +1033,8 @@ hill</options>
       <upperbound>35940</upperbound>
     </surveyprofield_time>
   </item>
-  <item>
+  <item type="field" plugin="time" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>time</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -1164,10 +1056,8 @@ hill</options>
       <upperbound>14340</upperbound>
     </surveyprofield_time>
   </item>
-  <item>
+  <item type="format" plugin="pagebreak" version="2014051701">
     <surveypro_item>
-      <type>format</type>
-      <plugin>pagebreak</plugin>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -1177,10 +1067,8 @@ hill</options>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item>
+  <item type="field" plugin="character" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>character</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -1199,10 +1087,8 @@ hill</options>
       <maxlength>16</maxlength>
     </surveyprofield_character>
   </item>
-  <item>
+  <item type="field" plugin="character" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>character</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -1220,10 +1106,8 @@ hill</options>
       <minlength>0</minlength>
     </surveyprofield_character>
   </item>
-  <item>
+  <item type="field" plugin="character" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>character</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -1241,10 +1125,8 @@ hill</options>
       <minlength>0</minlength>
     </surveyprofield_character>
   </item>
-  <item>
+  <item type="format" plugin="pagebreak" version="2014051701">
     <surveypro_item>
-      <type>format</type>
-      <plugin>pagebreak</plugin>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -1254,10 +1136,8 @@ hill</options>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item>
+  <item type="field" plugin="boolean" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>boolean</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -1276,10 +1156,8 @@ hill</options>
       <style>0</style>
     </surveyprofield_boolean>
   </item>
-  <item>
+  <item type="format" plugin="fieldset" version="2014051701">
     <surveypro_item>
-      <type>format</type>
-      <plugin>fieldset</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -1291,10 +1169,8 @@ hill</options>
       <content>With driving licence</content>
     </surveyproformat_fieldset>
   </item>
-  <item>
+  <item type="field" plugin="select" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>select</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -1316,10 +1192,8 @@ C::for tracks</options>
       <downloadformat>0</downloadformat>
     </surveyprofield_select>
   </item>
-  <item>
+  <item type="format" plugin="fieldset" version="2014051701">
     <surveypro_item>
-      <type>format</type>
-      <plugin>fieldset</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -1331,10 +1205,8 @@ C::for tracks</options>
       <content>Without driving licence</content>
     </surveyproformat_fieldset>
   </item>
-  <item>
+  <item type="field" plugin="select" version="2014051701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>select</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>

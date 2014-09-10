@@ -32,8 +32,11 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 class surveypro_importutemplateform extends moodleform {
 
     public function definition() {
+        // ----------------------------------------
         $mform = $this->_form;
 
+        // ----------------------------------------
+        // get _customdata
         $cmid = $this->_customdata->cmid;
         $surveypro = $this->_customdata->surveypro;
         $utemplateman = $this->_customdata->utemplateman;
@@ -100,13 +103,18 @@ class surveypro_importutemplateform extends moodleform {
             $xmlfileid = $file->get_id();
             $xml = $utemplateman->get_utemplate_content($xmlfileid);
             // $xml = @new SimpleXMLElement($templatecontent);
-            if (!$utemplateman->validate_xml($xml)) {
-                $errors['importfile_filemanager'] = get_string('invalidtemplate', 'surveypro', $xmlfilename);
+            $errormessage = $utemplateman->validate_xml($xml);
+            if ($errormessage !== false) {
+                if (isset($errormessage->a)) {
+                    $errors['importfile_filemanager'] = get_string($errormessage->key, 'surveypro', $errormessage->a);
+                } else {
+                    $errors['importfile_filemanager'] = get_string($errormessage->key, 'surveypro');
+                }
                 return $errors;
             }
         }
 
-        // $debug = true; if you want to always stop to see where the xml template is buggy
+        // set $debug = true; if you want to always stop to see where the xml template is buggy
         $debug = false;
         if ($debug) {
             $errors['importfile_filemanager'] = 'All is fine here!';

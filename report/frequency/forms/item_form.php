@@ -35,8 +35,11 @@ class surveypro_chooseitemform extends moodleform {
     public function definition() {
         global $DB;
 
+        // ----------------------------------------
         $mform = $this->_form;
 
+        // ----------------------------------------
+        // get _customdata
         $surveypro = $this->_customdata->surveypro;
 
         // only fields

@@ -275,14 +275,14 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     public function build_langtree($dummyplugin, $multilangfields, $item) {
         foreach ($multilangfields as $dummyplugin => $fieldnames) {
             foreach ($fieldnames as $fieldname) {
-                $frankenstinname = $dummyplugin.'_'.$fieldname;
-                if (isset($this->langtree[$frankenstinname])) {
-                    $index = count($this->langtree[$frankenstinname]);
+                $component = $dummyplugin.'_'.$fieldname;
+                if (isset($this->langtree[$component])) {
+                    $index = count($this->langtree[$component]);
                 } else {
                     $index = 0;
                 }
                 $stringindex = sprintf('%02d', 1+$index);
-                $this->langtree[$frankenstinname][$frankenstinname.'_'.$stringindex] = str_replace("\r", '', $item->item_get_generic_property($fieldname));
+                $this->langtree[$component][$component.'_'.$stringindex] = str_replace("\r", '', $item->item_get_generic_property($fieldname));
             }
         }
     }

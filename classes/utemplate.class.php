@@ -66,6 +66,11 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     public $candeleteutemplates = false;
 
     /**
+     * $nonmatchingplugin
+     */
+    public $nonmatchingplugin = array();
+
+    /**
      * Class constructor
      */
     public function __construct($cm, $surveypro, $context, $utemplateid, $action, $view, $confirm) {
@@ -216,6 +221,66 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         }
 
         return $contextstring;
+    }
+
+    /**
+     * check_items_versions
+     *
+     * rationale: usertemplates are validated at upload time using validate_xml.
+     * Mastertemplates are not validated "at the beginning" because they are never uploaded.
+     * At application time, I only need check_items_versions for user templates
+     * while I need the bigger validate_xml to validate mastertemplates for the first time.
+     * The issue is that validate_xml includes a lite item version validation too.
+     * So, to make effective code, I should call check_items_versions from within validate_xml
+     * but check_items_versions uses $this->nonmatchingplugin that, I think,
+     * is mostly useless in master templates
+     *
+     * @return none
+     */
+    public function check_items_versions() {
+        global $CFG;
+
+        $versiondisk = $this->get_plugin_versiondisk();
+        $this->utemplateid = $this->formdata->usertemplate;
+        $this->templatename = $this->get_utemplate_name();
+        $templatecontent = $this->get_utemplate_content();
+
+        $simplexml = new SimpleXMLElement($templatecontent);
+        foreach ($simplexml->children() as $xmlitem) {
+            foreach($xmlitem->attributes() as $attribute => $value) {
+                if ($attribute == 'plugin') {
+                    $currentplugin = $value;
+                }
+                if ($attribute == 'version') {
+                    $currentversion = $value;
+                }
+            }
+
+            if (!isset($currentplugin)) {
+                $this->nonmatchingplugin['missingplugin'] = 0;
+                continue;
+            }
+
+            if (!isset($currentversion)) {
+                $currentversion = -1;
+            }
+
+            // just to save few nanoseconds: continue if already pinned
+            if (isset($this->nonmatchingplugin["$currentplugin"])) {
+                // already pinned
+                continue;
+            }
+            if (isset($versiondisk["$currentplugin"])) { // to be sure user didn't write a bad plugin or missed it
+                if (($versiondisk["$currentplugin"] != $currentversion)) {
+                    $this->nonmatchingplugin["$currentplugin"] = $versiondisk["$currentplugin"];
+                }
+            } else {
+                // if the user wrote a bad plugin or missed it
+                $this->nonmatchingplugin["$currentplugin"] = 0;
+            }
+        }
+
+        return empty($this->nonmatchingplugin);
     }
 
     /**
@@ -626,7 +691,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      */
     public function get_utemplate_content($utemplateid=0) {
         $fs = get_file_storage();
-        if (!$utemplateid) {
+        if (empty($utemplateid)) {
             $utemplateid = $this->utemplateid;
         }
         $xmlfile = $fs->get_file_by_id($utemplateid);

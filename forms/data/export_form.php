@@ -23,10 +23,11 @@ class surveypro_exportform extends moodleform {
     public function definition() {
         global $CFG, $DB;
         // ----------------------------------------
-        $surveypro = $this->_customdata->surveypro;
+        $mform = $this->_form;
 
         // ----------------------------------------
-        $mform = $this->_form;
+        // get _customdata
+        $surveypro = $this->_customdata->surveypro;
 
         // ----------------------------------------
         // submissionexport::settingsheader

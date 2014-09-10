@@ -32,7 +32,7 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 class surveypro_itemtypeform extends moodleform {
 
     public function definition() {
-
+        // ----------------------------------------
         $mform = $this->_form;
 
         // ----------------------------------------

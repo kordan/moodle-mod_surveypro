@@ -39,11 +39,12 @@ class surveypro_pluginform extends mod_surveypro_itembaseform {
         parent::definition();
 
         // ----------------------------------------
-        // $item = $this->_customdata->item;
-        // $surveypro = $this->_customdata->surveypro;
+        $mform = $this->_form;
 
         // ----------------------------------------
-        $mform = $this->_form;
+        // get _customdata
+        // $item = $this->_customdata->item;
+        // $surveypro = $this->_customdata->surveypro;
 
         // ----------------------------------------
         $maximuminteger = get_config('surveyprofield_integer', 'maximuminteger');

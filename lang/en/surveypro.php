@@ -110,7 +110,7 @@ $string['beginfromscratch'] = 'To create a new survey you can apply a master tem
 $string['belongtosearchform'] = 'Element available in the search form';
 $string['branching_fs'] = 'Branching';
 $string['breakingmaxentries'] = 'Import will assign {$a->totalentries} responses to user ID {$a->userid}. This exceeds the maximum allowed number as it has been set to {$a->maxentries}';
-$string['builplugin'] = 'Create master template';
+$string['builplugin'] = 'Save master template';
 $string['canneversubmit'] = 'You are not allowed to submit a response';
 $string['cannotsubmittooearly'] = 'The survey is still not open. You have to wait until {$a}';
 $string['cannotsubmittoolate'] = 'The survey has been closed on {$a}';
@@ -217,6 +217,13 @@ $string['format'] = 'format element';
 $string['formatplugin'] = 'Format plugin';
 $string['formatplugins'] = 'Format plugin';
 $string['free'] = 'free';
+$string['frendlyversionmismatchuser'] = 'The choosen usertemplate has a version mismatch for the following plugins: <ul{$a->plugins}</ul>
+Applying it may lead to an unexpected behaviour. Please:<ul>
+<li>Go to {$a->tab}->{$a->page1};</li>
+<li>Download the usertemplate you are trying to apply;</li>
+<li>Delete it from the list in the page;</li>
+<li>Go to {$a->tab}->{$a->page3};</li>
+<li>Modify the downloaded usertemplate following the error meessages you get uploading it once again.</li>';
 $string['fullwidth'] = 'top left (full width)';
 $string['gotolist'] = 'Continue to responses list';
 $string['hassubmissions_alert'] = 'This survey has already been submitted at least once.<br />Please proceed with extreme caution and make only minimal changes to not compromise the validity of the whole survey.';
@@ -243,7 +250,7 @@ $string['insearchform'] = 'Search form';
 $string['invalid_status'] = 'Invalid $status passed to {$a}';
 $string['invalidcsvfile'] = 'File {$a} is an invalid csv file. Please verify it.';
 $string['invalidformat_err'] = 'Parent format is not valid. It has to follow: {$a}';
-$string['invalidtemplate'] = 'File {$a} is an invalid xml file. Please verify it.';
+$string['invalidtypeorplugin'] = 'Invalid type or plugin were provided as item properties in the template';
 $string['invitationdefault'] = 'Invitation';
 $string['item'] = 'Element';
 $string['itemaddfail'] = 'The new element has not been added';
@@ -261,7 +268,6 @@ $string['itemlist'] = 'Elements list';
 $string['left'] = 'left';
 $string['likelast'] = 'Like last attempt';
 $string['malformedchildparentvalue'] = 'Malformed condition: "{$a}".<br />It might never be verified.';
-$string['malformedxml'] = 'The XML file does not meet the module requirements';
 $string['managesurveyprofieldplugins'] = 'Manage survey field plugins';
 $string['managesurveyproformatplugins'] = 'Manage survey format plugins';
 $string['managesurveyproreportplugins'] = 'Manage survey report plugins';
@@ -270,6 +276,7 @@ $string['manageusertemplates'] = '<a href="{$a}">Manage user templates</a>';
 $string['mastertemplate_help'] = 'Choose the master template you want to apply to your survey.';
 $string['mastertemplate_noedit'] = 'Current survey supports multilanguage as imported from a master template.<br />This means that the survey displays questions and labels according to the user preferred language (if available).<br />By editing this kind of survey you will lose the multilanguage support returning to the standard indifferenciated labels all along the survey.<br />Be warned that once you drop the multilanguage support even by generating again a master template, you still no longer get missed languages and, last but not least, the drop of the multilanguage support is not undoable.<br />Are you sure you want to edit this multilanguage survey?';
 $string['mastertemplate'] = 'Master templates';
+$string['mastertemplateaddendum'] = '<br />You can not apply this mastertemplate until you uninstall it, fix all the issues and reinstall it.';
 $string['mastertemplatename_help'] = 'Choose the name of the master template name that is going to be downloaded in zip format';
 $string['mastertemplatename'] = 'Master template name';
 $string['mastertemplateplugins'] = 'Master template plugin';
@@ -280,10 +287,13 @@ $string['maxinputdelay_descr'] = 'The maximum allowed delay in hours for users t
 $string['maxinputdelay'] = 'Max input delay';
 $string['missinganswer'] = '-- missing answer --';
 $string['missingfile'] = 'It seems no file was selected';
-$string['missingmandatoryinfo'] = 'Type or plugin or sortindex were not provided';
+$string['missingitemplugin'] = 'One or more items of the template is missing the plugin';
+$string['missingitemtype'] = 'One or more items of the template is missing the type';
+$string['missingitemversion'] = 'One or more items of the template is missing the version';
 $string['missingparentcontent_err'] = 'You need to specify a parent content otherwise clear the "{$a}" field';
 $string['missingparentid_err'] = 'You need to select a element to branch the survey. Otherwise clear the "{$a}" field';
 $string['missingsemantic'] = 'A free of semantic value "{$a->csvvalue}" has been found in the column {$a->csvcol} ({$a->header}) of the row: "{$a->csvrow}". The semantic for this item is supposed to be: {$a->semantic}';
+$string['missingsortindex'] = 'Sortindex is missing in the template';
 $string['module'] = 'This instance of survey';
 $string['modulesettinghdr'] = 'Surveypro settings';
 $string['months'] = 'months';
@@ -344,10 +354,10 @@ $string['plugin_help'] = 'This is the list of available elements. Survey element
 $string['plugin'] = 'Element';
 $string['pluginname_help'] = 'Write here the name of the survey plugin you are going to save';
 $string['plugintype'] = 'Plugin type';
-$string['position'] = 'Question position';
 $string['position_help'] = 'Use this option to choose the position of the content of the element. It can be to the left of the user interface, in a dedicated row just upper the interface to enter the answer or in a dedicated row just upper the interface spanning all the row.
 Note: The left position forces the element contents to plain text without images.
 The two \'top\' positions are usually needed for contents longer than few words and are required for questions containing images!';
+$string['position'] = 'Question position';
 $string['previewmode'] = 'You are in preview mode: buttons for data saving are not supposed to display';
 $string['previousformpage'] = '<< Previous page';
 $string['readonlyaccess'] = 'Read only access';
@@ -371,6 +381,7 @@ $string['savemastertemplates'] = '<a href="{$a}">Save master templates</a>';
 $string['saveresume_help'] = 'Allow to save a survey in order to resume data entry and submit you survey next time';
 $string['saveresume'] = 'Allow Save/Resume';
 $string['saveusertemplates'] = '<a href="{$a}">Save user templates</a>';
+$string['schemavalidationfailed'] = 'The template uses an invalid xml file. Please verify it';
 $string['settings'] = 'Surveypro settings';
 $string['sharinglevel_help'] = 'Choose at which level your template will be shared with other courses. If you choose "course" this template will be available in this course ONLY, if you choose course category this template will be available ONLY to courses sharing the same course "category" with this course, if you choose "site" this template will be available to each other courses in this platform.';
 $string['sharinglevel'] = 'Sharing level';
@@ -462,6 +473,7 @@ $string['validation'] = 'Validation options';
 $string['validationinfo'] = 'This tool let you verify the reliability of the current survey. This tool checks the validity of each relation identifying the bad ones that will never allow child element to be included in the survey.';
 $string['variable_help'] = 'The name of the variable once downloaded';
 $string['variable'] = 'Variable';
+$string['versionmismatch'] = 'Version mismatch for {$a->plugin} {$a->type} plugin. Template uses version: {$a->currentversion} while your surveypro plugins version is {$a->versiondisk}';
 $string['visiblesonly_help'] = 'Include in this template only visibles elements';
 $string['visiblesonly'] = 'Visibles elements only';
 $string['willclose'] = 'Closure time';
@@ -471,10 +483,10 @@ $string['wrong_sharinglevel_found'] = 'Unacceptable $sharinglevel = "{$a->sharin
 $string['wrong_userdatarec_found'] = 'Unacceptable $userdatarec = \'{$a}\' has not been replaced';
 $string['wronginputdetected'] = 'wrong_input_detected';
 $string['wrongrelation'] = '"{$a}" will never match';
-$string['wrongsortindex'] = 'Items sortindex not correctly incremented';
+$string['wrongsortindex'] = 'The sortindex of the items in the template does not grow uniformly';
 $string['xmltemplate_help'] = 'Choose the template you want to download as zip file to share it with other moodle users';
 $string['xmltemplate'] = 'Preset to export';
-$string['xsdnotfound'] = '.xsd schema was not found';
+$string['xsdnotfound'] = 'xsd validation schema for your xml template was not found.<br />Your code must be fixed by a developer.';
 $string['you'] = 'You';
 $string['youarenotinagroup'] = 'You do not belong to any of the group in which this course is divided';
 $string['yournextattempt'] = 'You are going to fill your attempt number {$a}';

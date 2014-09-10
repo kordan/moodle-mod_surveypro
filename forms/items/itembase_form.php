@@ -33,14 +33,13 @@ class mod_surveypro_itembaseform extends moodleform {
 
     public function definition() {
         global $DB, $CFG;
-
-        // ----------------------------------------
-        // start getting $customdata
-        $item = $this->_customdata->item;
-        $surveypro = $this->_customdata->surveypro;
-
         // ----------------------------------------
         $mform = $this->_form;
+
+        // ----------------------------------------
+        // get _customdata
+        $item = $this->_customdata->item;
+        $surveypro = $this->_customdata->surveypro;
 
         // ----------------------------------------
         // itembase::itemid

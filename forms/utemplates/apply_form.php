@@ -32,8 +32,11 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 class surveypro_applyutemplateform extends moodleform {
 
     public function definition() {
+        // ----------------------------------------
         $mform = $this->_form;
 
+        // ----------------------------------------
+        // get _customdata
         $cmid = $this->_customdata->cmid;
         $surveypro = $this->_customdata->surveypro;
         $utemplateman = $this->_customdata->utemplateman;

@@ -23,6 +23,7 @@ class mod_surveypro_mod_form extends moodleform_mod {
     public function definition() {
         global $COURSE, $DB, $CFG, $cm;
 
+        // ----------------------------------------
         $mform = $this->_form;
 
         // ----------------------------------------

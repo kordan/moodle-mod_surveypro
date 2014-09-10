@@ -34,8 +34,11 @@ class mod_surveyproreport_filterform extends moodleform {
     public function definition() {
         global $DB, $CFG, $COURSE;
 
+        // ----------------------------------------
         $mform = $this->_form;
 
+        // ----------------------------------------
+        // get _customdata
         $cmid = $this->_customdata->cmid;
         $surveypro = $this->_customdata->surveypro;
         $userid = $this->_customdata->userid;

@@ -34,8 +34,11 @@ class surveypro_submissionform extends moodleform {
     public function definition() {
         global $DB, $CFG;
 
+        // ----------------------------------------
         $mform = $this->_form;
 
+        // ----------------------------------------
+        // get _customdata
         $cmid = $this->_customdata->cmid;
         $firstpageright = $this->_customdata->firstpageright;
         $maxassignedpage = $this->_customdata->maxassignedpage;

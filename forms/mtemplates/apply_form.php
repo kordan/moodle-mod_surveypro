@@ -32,8 +32,11 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 class surveypro_applymtemplateform extends moodleform {
 
     public function definition() {
-
+        // ----------------------------------------
         $mform = $this->_form;
+
+        // ----------------------------------------
+        // get _customdata
         $cmid = $this->_customdata->cmid;
         $surveypro = $this->_customdata->surveypro;
         $inline = $this->_customdata->inline;
@@ -73,7 +76,6 @@ class surveypro_applymtemplateform extends moodleform {
             $mform->addElement('static', 'nomtemplates', get_string('mastertemplate', 'surveypro'), get_string('nomtemplates_message', 'surveypro'));
             $mform->addHelpButton('nomtemplates', 'nomtemplates', 'surveypro');
         }
-
     }
 
     public function validation($data, $files) {
@@ -92,9 +94,14 @@ class surveypro_applymtemplateform extends moodleform {
         $templatepath = $CFG->dirroot.'/mod/surveypro/template/'.$templatename.'/template.xml';
         $xml = file_get_contents($templatepath);
         // $xml = @new SimpleXMLElement($templatecontent);
-        if (!$mtemplateman->validate_xml($xml)) {
-            $errors['mastertemplate'] = get_string('invalidtemplate', 'surveypro', $templatename);
-            return $errors;
+        $errormessage = $mtemplateman->validate_xml($xml);
+        if ($errormessage !== false) {
+            $addendum = get_string('mastertemplateaddendum', 'surveypro');
+            if (isset($errormessage->a)) {
+                $errors['mastertemplate'] = get_string($errormessage->key, 'surveypro', $errormessage->a).$addendum;
+            } else {
+                $errors['mastertemplate'] = get_string($errormessage->key, 'surveypro').$addendum;
+            }
         }
 
         return $errors;

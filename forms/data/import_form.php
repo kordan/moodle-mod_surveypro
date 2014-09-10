@@ -33,6 +33,7 @@ require_once($CFG->dirroot.'/lib/csvlib.class.php');
 class surveypro_importform extends moodleform {
 
     public function definition() {
+        // ----------------------------------------
         $mform = $this->_form;
 
         // ----------------------------------------

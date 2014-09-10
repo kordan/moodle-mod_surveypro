@@ -5,20 +5,20 @@ Feature: test the use of advanced elements
   I add two items with different availability and go to fill the corresponding survey and edit it
 
   @javascript
-  Scenario: add some items
+  Scenario: use advanced elements
     Given the following "courses" exist:
-      | fullname | shortname | category | groupmode |
-      | Course 1 | C1        | 0        | 0         |
+      | fullname          | shortname         | category | groupmode |
+      | Advanced elements | Advanced elements | 0        | 0         |
     And the following "users" exist:
       | username | firstname | lastname | email            |
       | teacher1 | Teacher   | 1        | teacher1@asd.com |
       | student1 | Student   | 1        | student1@asd.com |
     And the following "course enrolments" exist:
-      | user     | course | role           |
-      | teacher1 | C1     | editingteacher |
-      | student1 | C1     | student        |
+      | user     | course            | role           |
+      | teacher1 | Advanced elements | editingteacher |
+      | student1 | Advanced elements | student        |
     And I log in as "teacher1"
-    And I follow "Course 1"
+    And I follow "Advanced elements"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
       | Survey name | Advanced element test                        |
@@ -64,7 +64,7 @@ Feature: test the use of advanced elements
 
     # test the user sees only the first age item
     When I log in as "student1"
-    And I follow "Course 1"
+    And I follow "Advanced elements"
     And I follow "Advanced element test"
     And I press "Add a response"
     Then I should see "1: First age item"
@@ -80,7 +80,7 @@ Feature: test the use of advanced elements
 
     # test the teacher sees the first and the second age items both
     When I log in as "teacher1"
-    And I follow "Course 1"
+    And I follow "Advanced elements"
     And I follow "Advanced element test"
     And I follow "Responses"
     And I follow "edit_submission_369000"

@@ -34,8 +34,11 @@ class surveypro_searchform extends moodleform {
     public function definition() {
         global $CFG, $DB;
 
+        // ----------------------------------------
         $mform = $this->_form;
 
+        // ----------------------------------------
+        // get _customdata
         $cmid = $this->_customdata->cmid;
         $surveypro = $this->_customdata->surveypro;
         $canaccessadvanceditems = $this->_customdata->canaccessadvanceditems;

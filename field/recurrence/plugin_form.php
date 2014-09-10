@@ -39,13 +39,12 @@ class surveypro_pluginform extends mod_surveypro_itembaseform {
         parent::definition();
 
         // ----------------------------------------
-        $item = $this->_customdata->item;
-        // $surveypro = $this->_customdata->surveypro;
-
-        // ----------------------------------------
         $mform = $this->_form;
 
         // ----------------------------------------
+        // get _customdata
+        $item = $this->_customdata->item;
+        // $surveypro = $this->_customdata->surveypro;
         $startyear = $this->_customdata->surveypro->startyear;
         $stopyear = $this->_customdata->surveypro->stopyear;
 

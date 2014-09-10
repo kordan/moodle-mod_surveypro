@@ -7,12 +7,12 @@ Feature: test each student sees only personal submissions
   @javascript
   Scenario: test each student can only see submissions from people of his/her group
     Given the following "courses" exist:
-      | fullname                 | shortname | category | groupmode |
-      | Course divided in groups | C1        | 0        | 0         |
+      | fullname                   | shortname          | category | groupmode |
+      | Course divided into groups | Only from my group | 0        | 0         |
     And the following "groups" exist:
-      | name    | course | idnumber |
-      | Group 1 | C1     | G1       |
-      | Group 2 | C1     | G2       |
+      | name    | course             | idnumber |
+      | Group 1 | Only from my group | G1       |
+      | Group 2 | Only from my group | G2       |
     And the following "users" exist:
       | username | firstname | lastname | email            |
       | teacher1 | Teacher   | teacher  | teacher1@asd.com |
@@ -20,14 +20,14 @@ Feature: test each student sees only personal submissions
       | student2 | student2  | user2    | student2@asd.com |
       | student3 | student3  | user3    | student3@asd.com |
     And the following "course enrolments" exist:
-      | user     | course | role           |
-      | teacher1 | C1     | editingteacher |
-      | student1 | C1     | student        |
-      | student2 | C1     | student        |
-      | student3 | C1     | student        |
+      | user     | course             | role           |
+      | teacher1 | Only from my group | editingteacher |
+      | student1 | Only from my group | student        |
+      | student2 | Only from my group | student        |
+      | student3 | Only from my group | student        |
     And the following "permission overrides" exist:
-      | capability                         | permission | role    | contextlevel | reference |
-      | mod/surveypro:seeotherssubmissions | Allow      | student | Course       | C1        |
+      | capability                         | permission | role    | contextlevel | reference          |
+      | mod/surveypro:seeotherssubmissions | Allow      | student | Course       | Only from my group |
     And the following "group members" exist:
       | user     | group |
       | student1 | G1    |
@@ -35,13 +35,13 @@ Feature: test each student sees only personal submissions
       | student3 | G2    |
 
     And I log in as "teacher1"
-    And I follow "Course divided in groups"
+    And I follow "Course divided into groups"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-      | Survey name | Simple test                                                                                    |
+      | Survey name | Surveypro test                                                                                    |
       | Description | This is a surveypro to test each student can only see submissions from people of his/her group |
       | Group mode  | Separate groups                                                                                |
-    And I follow "Simple test"
+    And I follow "Surveypro test"
 
     And I set the field "plugin" to "Text (short)"
     And I press "Add"
@@ -73,8 +73,8 @@ Feature: test each student sees only personal submissions
 
     # student1 logs in
     When I log in as "student1"
-    And I follow "Course divided in groups"
-    And I follow "Simple test"
+    And I follow "Course divided into groups"
+    And I follow "Surveypro test"
 
     And I follow "Responses"
     Then I should see "Nothing to display"
@@ -104,8 +104,8 @@ Feature: test each student sees only personal submissions
 
     # student2 logs in
     When I log in as "student2"
-    And I follow "Course divided in groups"
-    And I follow "Simple test"
+    And I follow "Course divided into groups"
+    And I follow "Surveypro test"
 
     And I follow "Responses"
     And I should see "Never" in the "student1 user1" "table_row"
@@ -129,8 +129,8 @@ Feature: test each student sees only personal submissions
 
     # student3 logs in
     When I log in as "student3"
-    And I follow "Course divided in groups"
-    And I follow "Simple test"
+    And I follow "Course divided into groups"
+    And I follow "Surveypro test"
 
     And I follow "Responses"
     Then I should see "Nothing to display"
@@ -154,8 +154,8 @@ Feature: test each student sees only personal submissions
 
     # student1 goes to check for his personal submissions
     When I log in as "student1"
-    And I follow "Course divided in groups"
-    And I follow "Simple test"
+    And I follow "Course divided into groups"
+    And I follow "Surveypro test"
 
     And I follow "Responses"
     Then I should see "Never" in the "student1 user1" "table_row"

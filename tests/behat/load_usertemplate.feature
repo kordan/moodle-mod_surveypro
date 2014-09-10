@@ -7,14 +7,14 @@ Feature: Load and apply usertemplates in order to test, among others, partial it
   @javascript
   Scenario: load and apply a usertemplate
     Given the following "courses" exist:
-      | fullname              | shortname | category | groupmode |
-      | To apply usertemplate | C1        | 0        | 0         |
+      | fullname              | shortname          | category | groupmode |
+      | To apply usertemplate | Apply usertemplate | 0        | 0         |
     And the following "users" exist:
       | username | firstname | lastname | email            |
       | teacher1 | Teacher   | teacher  | teacher1@asd.com |
     And the following "course enrolments" exist:
-      | user     | course | role           |
-      | teacher1 | C1     | editingteacher |
+      | user     | course             | role           |
+      | teacher1 | Apply usertemplate | editingteacher |
 
     And I log in as "teacher1"
     And I follow "To apply usertemplate"
