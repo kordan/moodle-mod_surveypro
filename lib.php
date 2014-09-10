@@ -864,12 +864,12 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
     // if ($canapplymastertemplates && empty($surveypro->template)) {
     $condition = $cansavemastertemplates;
     $condition = $condition || ((!$hassubmissions || $riskyediting) && $canapplymastertemplates);
-    if ($condition && empty($surveypro->template)) {
+    if ($condition) {
         // PARENT
         $navnode = $surveypronode->add(SURVEYPRO_TAB4NAME, new moodle_url('/mod/surveypro/mtemplates_create.php', $paramurlbase), navigation_node::TYPE_CONTAINER);
 
         // CHILDREN
-        if ($cansavemastertemplates) {
+        if ($cansavemastertemplates && empty($surveypro->template)) {
             $navnode->add(get_string('tabmtemplatepage1', 'surveypro'), new moodle_url('/mod/surveypro/mtemplates_create.php', $paramurlbase), navigation_node::TYPE_SETTING);
         }
         if ( (!$hassubmissions || $riskyediting) && $canapplymastertemplates ) {

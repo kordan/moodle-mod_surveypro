@@ -81,7 +81,7 @@ $applyutemplate = new surveypro_applyutemplateform($formurl, $formparams);
 // -----------------------------
 // manage form submission
 $utemplateman->formdata = $applyutemplate->get_data();
-if ($utemplateman->formdata || ($action == SURVEYPRO_DELETEALLITEMS)) {
+if ($utemplateman->formdata || ($confirm == SURVEYPRO_CONFIRMED_YES)) {
     // Here I don't need to execute validate_xml because xml was validated at upload time
     // Here I only need to verfy that plugin versions still match
     $utemplateman->check_items_versions();
@@ -113,14 +113,7 @@ if (surveypro_count_submissions($surveypro->id, SURVEYPRO_STATUSALL)) {
     echo $OUTPUT->notification(get_string('hassubmissions_alert', 'surveypro'), 'notifymessage');
 }
 
-$a = new stdClass();
-$a->usertemplate = get_string('usertemplate', 'surveypro');
-$a->none = get_string('notanyset', 'surveypro');
-$a->action = get_string('action', 'surveypro');
-$a->deleteallitems = get_string('deleteallitems', 'surveypro');
-
-$message = get_string('applyutemplateinfo', 'surveypro', $a);
-echo $OUTPUT->box($message, 'generaltable generalbox boxaligncenter boxwidthnormal');
+$utemplateman->welcomemessage();
 
 $applyutemplate->display();
 

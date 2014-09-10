@@ -308,16 +308,15 @@ class mod_surveypro_templatebase {
                 return;
             }
 
-            if ($this->formdata) {
-                $action = $this->formdata->action;
-                $this->utemplateid = $this->formdata->usertemplate;
-            } else {
-                // if I am here this means that:
-                //     - $action == SURVEYPRO_DELETEALLITEMS
-                //     - sesskey was verified
-                //     - I have enough permissions
+            if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
+                // I arrived here after the confirmation of the COMPLETE deletion of each item in the surveypro due to
+                // User templates = None
+                // Preexisting elements = Delete all elements
                 $action = SURVEYPRO_DELETEALLITEMS;
                 $this->utemplateid = 0;
+            } else {
+                $action = $this->formdata->action;
+                $this->utemplateid = $this->formdata->usertemplate;
             }
 
             // --> --> VERY DANGEROUS ACTION: User is going to erase all the items of the survey <-- <--
@@ -443,18 +442,18 @@ class mod_surveypro_templatebase {
             die();
         }
 
-        if ($this->surveypro->template && (!$riskyediting)) { // this survey comes from a master template so it is multilang
-            echo $OUTPUT->box(get_string('applyusertemplatedenied02', 'surveypro'));
-            $url = new moodle_url('/mod/surveypro/view.php', array('s' => $this->surveypro->id));
-            echo $OUTPUT->continue_button($url);
-            echo $OUTPUT->footer();
-            die();
-        }
-
         if ($this->templatetype == SURVEYPRO_USERTEMPLATE) {
+            if ($this->surveypro->template && (!$riskyediting)) { // this survey comes from a master template so it is multilang
+                echo $OUTPUT->box(get_string('applyusertemplatedenied02', 'surveypro'));
+                $url = new moodle_url('/mod/surveypro/view.php', array('s' => $this->surveypro->id));
+                echo $OUTPUT->continue_button($url);
+                echo $OUTPUT->footer();
+                die();
+            }
+
             if (!$this->formdata) {
                 if (($this->action == SURVEYPRO_DELETEALLITEMS) && ($this->utemplateid == 0)) {
-                    // if you really are in the dangerous situation,
+                    // if you really were in the dangerous situation,
                     if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
                         // but you got a disconfirmation: declare it and give up.
                         $message = get_string('usercanceled', 'surveypro');
@@ -464,10 +463,11 @@ class mod_surveypro_templatebase {
                 return;
             }
 
-            // --> --> VERY DANGEROUS ACTION: User is going to erase all the items of the survey <-- <--
             if ((!empty($this->formdata->usertemplate)) || ($this->formdata->action != SURVEYPRO_DELETEALLITEMS)) {
                 return;
             }
+
+            // --> --> VERY DANGEROUS ACTION: User is going to erase all the items of the survey <-- <--
             // if you really are in the dangerous situation, ask!
             if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
                 // ask for confirmation

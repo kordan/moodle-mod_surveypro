@@ -78,7 +78,7 @@ $string['answerlabel'] = 'label';
 $string['answerposition'] = 'position';
 $string['answervalue'] = 'value';
 $string['applymastertemplates'] = '<a href="{$a}">Apply master templates</a>';
-$string['applymtemplateinfo'] = 'You can build your survey applying set of elements taken from a master template plugin<br />Take care: all other preexisting elements (if any) will be definitly deleted.';
+$string['applymtemplateinfo'] = 'You can build your survey applying set of elements taken from a master template plugin<br />Take care: all other preexisting elements (if any) will be definitely deleted WITH ALL THE DATA ALREADY GATHERED.';
 $string['applytemplate'] = 'Apply template';
 $string['applyusertemplatedenied01'] = 'You are not allowed to apply a user template because the current survey has already been responded';
 $string['applyusertemplatedenied02'] = 'You are not allowed to apply a user template over a master template';
@@ -222,8 +222,8 @@ Applying it may lead to an unexpected behaviour. Please:<ul>
 <li>Go to {$a->tab}->{$a->page1};</li>
 <li>Download the usertemplate you are trying to apply;</li>
 <li>Delete it from the list in the page;</li>
-<li>Go to {$a->tab}->{$a->page3};</li>
-<li>Modify the downloaded usertemplate following the error meessages you get uploading it once again.</li>';
+<li>Go to {$a->tab}->{$a->page3}; and try to import the downloaded usertemplate again</li>
+<li>Modify it according to the error meessages you get during upload.</li>';
 $string['fullwidth'] = 'top left (full width)';
 $string['gotolist'] = 'Continue to responses list';
 $string['hassubmissions_alert'] = 'This survey has already been submitted at least once.<br />Please proceed with extreme caution and make only minimal changes to not compromise the validity of the whole survey.';
@@ -292,6 +292,7 @@ $string['missingitemtype'] = 'One or more items of the template is missing the t
 $string['missingitemversion'] = 'One or more items of the template is missing the version';
 $string['missingparentcontent_err'] = 'You need to specify a parent content otherwise clear the "{$a}" field';
 $string['missingparentid_err'] = 'You need to select a element to branch the survey. Otherwise clear the "{$a}" field';
+$string['missingplugin'] = 'Plugin not defined in the template file';
 $string['missingsemantic'] = 'A free of semantic value "{$a->csvvalue}" has been found in the column {$a->csvcol} ({$a->header}) of the row: "{$a->csvrow}". The semantic for this item is supposed to be: {$a->semantic}';
 $string['missingsortindex'] = 'Sortindex is missing in the template';
 $string['module'] = 'This instance of survey';
@@ -473,7 +474,7 @@ $string['validation'] = 'Validation options';
 $string['validationinfo'] = 'This tool let you verify the reliability of the current survey. This tool checks the validity of each relation identifying the bad ones that will never allow child element to be included in the survey.';
 $string['variable_help'] = 'The name of the variable once downloaded';
 $string['variable'] = 'Variable';
-$string['versionmismatch'] = 'Version mismatch for {$a->plugin} {$a->type} plugin. Template uses version: {$a->currentversion} while your surveypro plugins version is {$a->versiondisk}';
+$string['versionmismatch'] = 'Version mismatch for {$a->plugin} {$a->type} plugin. Template uses version: {$a->currentversion} while your surveypro plugin uses version {$a->versiondisk}';
 $string['visiblesonly_help'] = 'Include in this template only visibles elements';
 $string['visiblesonly'] = 'Visibles elements only';
 $string['willclose'] = 'Closure time';

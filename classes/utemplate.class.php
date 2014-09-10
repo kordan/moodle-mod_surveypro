@@ -224,6 +224,24 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
+     * welcomemessage
+     *
+     * @return none
+     */
+    public function welcomemessage() {
+        global $OUTPUT;
+
+        $a = new stdClass();
+        $a->usertemplate = get_string('usertemplate', 'surveypro');
+        $a->none = get_string('notanyset', 'surveypro');
+        $a->action = get_string('action', 'surveypro');
+        $a->deleteallitems = get_string('deleteallitems', 'surveypro');
+
+        $message = get_string('applyutemplateinfo', 'surveypro', $a);
+        echo $OUTPUT->box($message, 'generaltable generalbox boxaligncenter boxwidthnormal');
+    }
+
+    /**
      * check_items_versions
      *
      * rationale: usertemplates are validated at upload time using validate_xml.
@@ -240,6 +258,10 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     public function check_items_versions() {
         global $CFG;
 
+        if (empty($this->formdata->usertemplate)) { // nothing was selected
+            return;
+        }
+
         $versiondisk = $this->get_plugin_versiondisk();
         $this->utemplateid = $this->formdata->usertemplate;
         $this->templatename = $this->get_utemplate_name();
@@ -247,6 +269,8 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
         $simplexml = new SimpleXMLElement($templatecontent);
         foreach ($simplexml->children() as $xmlitem) {
+            $currentplugin = '';
+            $currentversion = '';
             foreach($xmlitem->attributes() as $attribute => $value) {
                 if ($attribute == 'plugin') {
                     $currentplugin = $value;
@@ -256,13 +280,12 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                 }
             }
 
-            if (!isset($currentplugin)) {
-                $this->nonmatchingplugin['missingplugin'] = 0;
-                continue;
+            if (empty($currentplugin)) {
+                $currentplugin = get_string('missingplugin', 'surveypro');
             }
 
-            if (!isset($currentversion)) {
-                $currentversion = -1;
+            if (empty($currentversion)) {
+                $currentversion = '-1';
             }
 
             // just to save few nanoseconds: continue if already pinned

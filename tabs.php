@@ -90,12 +90,10 @@ if (empty($surveypro->template)) {
 // -----------------------------------------------------------------------------
 // TAB MASTER TEMPLATES
 // -----------------------------------------------------------------------------
-if (empty($surveypro->template)) {
-    if ($moduletab == SURVEYPRO_TABMTEMPLATES) {
-        if ($cansavemastertemplates || ((!$hassubmissions || $riskyediting) && $canapplymastertemplates)) {
-            $elementurl = new moodle_url('/mod/surveypro/mtemplates_create.php', $paramurl);
-            $row[] = new tabobject(SURVEYPRO_TAB4NAME, $elementurl->out(), SURVEYPRO_TAB4NAME);
-        }
+if ($moduletab == SURVEYPRO_TABMTEMPLATES) {
+    if ($cansavemastertemplates || ((!$hassubmissions || $riskyediting) && $canapplymastertemplates)) {
+        $elementurl = new moodle_url('/mod/surveypro/mtemplates_create.php', $paramurl);
+        $row[] = new tabobject(SURVEYPRO_TAB4NAME, $elementurl->out(), SURVEYPRO_TAB4NAME);
     }
 }
 
@@ -278,10 +276,6 @@ switch ($moduletab) {
 
         break;
     case SURVEYPRO_TABMTEMPLATES:
-        if (!empty($surveypro->template)) {
-            break;
-        }
-
         $tabname = get_string('tabmtemplatename', 'surveypro');
         $inactive = array($tabname);
         $activetwo = array($tabname);

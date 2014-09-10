@@ -63,6 +63,13 @@ class surveypro_applyutemplateform extends moodleform {
         asort($templatesfiles);
 
         // ----------------------------------------
+        // applyutemplate::cnf
+        // ----------------------------------------
+        $fieldname = 'cnf';
+        $mform->addElement('hidden', $fieldname, SURVEYPRO_UNCONFIRMED);
+        $mform->setType($fieldname, PARAM_INT);
+
+        // ----------------------------------------
         // applyutemplate::usertemplate
         // ----------------------------------------
         $fieldname = 'usertemplate';
