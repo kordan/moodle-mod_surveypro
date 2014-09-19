@@ -17,9 +17,6 @@
 /**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
  * @copyright  2013 kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -224,11 +221,11 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * welcomemessage
+     * welcome_message
      *
      * @return none
      */
-    public function welcomemessage() {
+    public function welcome_message() {
         global $OUTPUT;
 
         $a = new stdClass();
@@ -442,7 +439,9 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
         $table = new flexible_table('templatelist');
 
-        $table->define_baseurl(new moodle_url('utemplates_manage.php', array('id' => $this->cm->id)));
+        $paramurl = array('id' => $this->cm->id);
+        $baseurl = new moodle_url('/mod/surveypro/utemplates_manage.php', $paramurl);
+        $table->define_baseurl($baseurl);
 
         $tablecolumns = array();
         $tablecolumns[] = 'templatename';
@@ -522,7 +521,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                         $paramurl['act'] = SURVEYPRO_DELETEUTEMPLATE;
                         $paramurl['sesskey'] = sesskey();
 
-                        $icons .= $OUTPUT->action_icon(new moodle_url('utemplates_manage.php', $paramurl),
+                        $icons .= $OUTPUT->action_icon(new moodle_url('/mod/surveypro/utemplates_manage.php', $paramurl),
                             new pix_icon('t/delete', $deletetitle, 'moodle', array('title' => $deletetitle)),
                             null, array('title' => $deletetitle));
                     }
@@ -533,7 +532,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                     $paramurl = $paramurlbase;
                     $paramurl['view'] = SURVEYPRO_EXPORTUTEMPLATE;
 
-                    $icons .= $OUTPUT->action_icon(new moodle_url('utemplates_manage.php', $paramurl),
+                    $icons .= $OUTPUT->action_icon(new moodle_url('/mod/surveypro/utemplates_manage.php', $paramurl),
                         new pix_icon('i/export', $exporttitle, 'moodle', array('title' => $exporttitle)),
                         null, array('title' => $exporttitle));
                 }
@@ -625,12 +624,12 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
             $optionsyes = $optionsbase;
             $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
             $optionsyes['fid'] = $this->utemplateid;
-            $urlyes = new moodle_url('utemplates_manage.php', $optionsyes);
+            $urlyes = new moodle_url('/mod/surveypro/utemplates_manage.php', $optionsyes);
             $buttonyes = new single_button($urlyes, get_string('yes'));
 
             $optionsno = $optionsbase;
             $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-            $urlno = new moodle_url('utemplates_manage.php', $optionsno);
+            $urlno = new moodle_url('/mod/surveypro/utemplates_manage.php', $optionsno);
             $buttonno = new single_button($urlno, get_string('no'));
 
             echo $OUTPUT->confirm($message, $buttonyes, $buttonno);

@@ -17,9 +17,6 @@
 /**
  * Prints a particular instance of surveypro
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
  * @copyright  2013 kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -64,7 +61,7 @@ $utemplateman->prevent_direct_user_input();
 // -----------------------------
 // define $applyutemplate return url
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('utemplates_apply.php', $paramurl);
+$formurl = new moodle_url('/mod/surveypro/utemplates_apply.php', $paramurl);
 // end of: define $applyutemplate return url
 // -----------------------------
 
@@ -113,7 +110,7 @@ if (surveypro_count_submissions($surveypro->id, SURVEYPRO_STATUSALL)) {
     echo $OUTPUT->notification(get_string('hassubmissions_alert', 'surveypro'), 'notifymessage');
 }
 
-$utemplateman->welcomemessage();
+$utemplateman->welcome_message();
 
 $applyutemplate->display();
 

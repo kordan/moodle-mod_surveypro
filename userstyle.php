@@ -25,11 +25,11 @@ define('NO_MOODLE_COOKIES', true); // session not used here
 require_once('../../config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 
-$id = optional_param('id', 0, PARAM_INT);   // database id
-$cmid = optional_param('cmid', 0, PARAM_INT);   // database id
-$lifetime = 600;                                   // Seconds to cache this stylesheet
+$id = optional_param('id', 0, PARAM_INT);     // database id
+$cmid = optional_param('cmid', 0, PARAM_INT); // database id
+$lifetime = 600;                              // Seconds to cache this stylesheet
 
-$PAGE->set_url('/mod/surveypro/css.php', array('id'=>$id));
+$PAGE->set_url('/mod/surveypro/css.php', array('id' => $id));
 
 if ($surveypro = $DB->get_record('surveypro', array('id' => $id))) {
     $fs = get_file_storage();

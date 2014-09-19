@@ -52,7 +52,7 @@ require_course_login($course, true, $cm);
 
 $context = context_module::instance($cm->id);
 
-$paramurl = array('type' => $type, 's' => $surveypro->id);
+$paramurl = array('type' => $type, 's' => $surveypro->id, 'cover' => 0);
 if (!empty($group)) {
     $paramurl['group'] = $group;
 }
@@ -62,12 +62,6 @@ if ($area) {
 if (!empty($qid)) {
     $paramurl['qid'] = $qid;
 }
-$url = new moodle_url('/mod/surveypro/report/colles/view.php', $paramurl);
-$PAGE->set_url($url);
-
-// make bold the navigation menu/link that refers to me
-$url = new moodle_url('/mod/surveypro/report/colles/view.php', array('type' => $type, 's' => $surveypro->id));
-navigation_node::override_active_url($url);
 
 if ($type == 'summary') {
     require_capability('mod/surveypro:accessownreports', $context);
@@ -78,9 +72,13 @@ if ($type == 'summary') {
 // -----------------------------
 // output starts here
 // -----------------------------
-$PAGE->set_url('/mod/surveypro/view.php', array('id' => $cm->id));
+$url = new moodle_url('/mod/surveypro/report/colles/view.php', $paramurl);
+$PAGE->set_url($url);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
+
+// make bold the navigation menu/link that refers to me
+navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 

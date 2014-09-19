@@ -17,9 +17,6 @@
 /**
  * Prints a particular instance of surveypro
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
  * @copyright  2013 kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -48,7 +45,7 @@ $type = optional_param('type', null, PARAM_TEXT);
 $plugin = optional_param('plugin', null, PARAM_TEXT);
 $itemid = optional_param('itemid', 0, PARAM_INT);
 $action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
-$view = optional_param('view', SURVEYPRO_SUBMITRESPONSE, PARAM_INT);
+$view = optional_param('view', SURVEYPRO_NEWRESPONSE, PARAM_INT);
 
 if ($action != SURVEYPRO_NOACTION) {
     require_sesskey();
@@ -103,7 +100,7 @@ $item->item_set_editor();
 // -----------------------------
 // define $itemform return url
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('items_setup.php', $paramurl);
+$formurl = new moodle_url('/mod/surveypro/items_setup.php', $paramurl);
 // end of: define $itemform return url
 // -----------------------------
 
@@ -119,7 +116,7 @@ $itemform = new surveypro_pluginform($formurl, $formparams);
 // -----------------------------
 // manage form submission
 if ($itemform->is_cancelled()) {
-    $returnurl = new moodle_url('items_manage.php', $paramurl);
+    $returnurl = new moodle_url('/mod/surveypro/items_manage.php', $paramurl);
     redirect($returnurl);
 }
 
@@ -137,7 +134,7 @@ if ($fromform = $itemform->get_data()) {
     $item->item_update_childrenparentvalue();
 
     $paramurl = array('id' => $cm->id, 'ufd' => $feedback);
-    $returnurl = new moodle_url('items_manage.php', $paramurl);
+    $returnurl = new moodle_url('/mod/surveypro/items_manage.php', $paramurl);
     redirect($returnurl);
 }
 // end of: manage form submission

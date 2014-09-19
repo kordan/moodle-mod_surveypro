@@ -66,8 +66,9 @@ class submissioninpdf_downloaded extends \core\event\base {
         $paramurl = array();
         $paramurl['id'] = $this->contextinstanceid;
         $paramurl['submissionid'] = $this->objectid;
+        $paramurl['cover'] = $this->other['cover'];
         $paramurl['view'] = $this->other['view'];
-        return new \moodle_url('view_manage.php', $paramurl);
+        return new \moodle_url('/mod/surveypro/view.php', $paramurl);
     }
 
     /**
@@ -112,6 +113,9 @@ class submissioninpdf_downloaded extends \core\event\base {
      * @return void
      */
     protected function validate_data() {
+        if (!isset($this->other['cover'])) {
+            throw new \coding_exception('cover is a mandatory property.');
+        }
         if (!isset($this->other['view'])) {
             throw new \coding_exception('view is a mandatory property.');
         }

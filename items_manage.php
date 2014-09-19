@@ -17,9 +17,6 @@
 /**
  * Prints a particular instance of surveypro
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
  * @copyright  2013 kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -80,7 +77,7 @@ if (!$itemcount) {
     // -----------------------------
     // define $applymtemplate return url
     $paramurl = array('id' => $cm->id);
-    $formurl = new moodle_url('mtemplates_apply.php', $paramurl);
+    $formurl = new moodle_url('/mod/surveypro/mtemplates_apply.php', $paramurl);
     // end of: define $applymtemplate return url
     // -----------------------------
 
@@ -99,7 +96,7 @@ if (!$itemcount) {
     // -----------------------------
     // manage form submission
     if ($applymtemplate->is_cancelled()) {
-        $returnurl = new moodle_url('utemplates_add.php', $paramurl);
+        $returnurl = new moodle_url('/mod/surveypro/utemplates_add.php', $paramurl);
         redirect($returnurl);
     }
 
@@ -169,7 +166,7 @@ if (!$itemlistman->surveypro->template) {
     if (!$itemlistman->hassubmissions || $riskyediting) {
         if (has_capability('mod/surveypro:additems', $context)) {
             $paramurl = array('id' => $cm->id);
-            $formurl = new moodle_url('items_setup.php', $paramurl);
+            $formurl = new moodle_url('/mod/surveypro/items_setup.php', $paramurl);
 
             $itemtype = new surveypro_itemtypeform($formurl);
             $itemtype->display();

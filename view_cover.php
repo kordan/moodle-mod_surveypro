@@ -17,9 +17,6 @@
 /**
  * Prints a particular instance of surveypro
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
  * @copyright  2013 kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -27,7 +24,7 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
-require_once($CFG->dirroot.'/mod/surveypro/classes/view_manage.class.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/view_cover.class.php');
 
 $id = optional_param('id', 0, PARAM_INT); // course_module ID, or
 $s = optional_param('s', 0, PARAM_INT);  // surveypro instance ID
@@ -44,39 +41,30 @@ if (!empty($id)) {
 
 require_course_login($course, true, $cm);
 
-$submissionid = optional_param('submissionid', 0, PARAM_INT);
-$action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
-$view = optional_param('view', SURVEYPRO_NOVIEW, PARAM_INT);
-$confirm = optional_param('cnf', SURVEYPRO_UNCONFIRMED, PARAM_INT);
-$searchfieldsget = optional_param('searchquery', '', PARAM_RAW);
-
-if ($action != SURVEYPRO_NOACTION) {
-    require_sesskey();
-}
+$context = context_module::instance($cm->id);
 
 // -----------------------------
 // calculations
 // -----------------------------
-$submissionman = new mod_surveypro_submissionmanager($cm, $surveypro, $submissionid, $action, $view, $confirm, $searchfieldsget);
-$submissionman->prevent_direct_user_input($confirm);
-$submissionman->submission_to_pdf();
+$coverman = new mod_surveypro_covermanager($cm, $context, $surveypro);
 
 // -----------------------------
 // output starts here
 // -----------------------------
-$PAGE->set_url('/mod/surveypro/view_manage.php', array('id' => $cm->id));
+$url = new moodle_url('/mod/surveypro/view_cover.php', array('s' => $surveypro->id));
+$PAGE->set_url($url);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
+
+// make bold the navigation menu/link that refers to me
+navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
 $moduletab = SURVEYPRO_TABSUBMISSIONS; // needed by tabs.php
-$modulepage = SURVEYPRO_SUBMISSION_MANAGE; // needed by tabs.php
+$modulepage = SURVEYPRO_SUBMISSION_CPANEL; // needed by tabs.php
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
-$submissionman->manage_actions();
-$submissionman->manage_submissions();
-$submissionman->trigger_event(); // event: all_submissions_viewed
+$coverman->display_cover();
 
-// Finish the page
 echo $OUTPUT->footer();

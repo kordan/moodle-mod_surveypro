@@ -17,9 +17,6 @@
 /**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
  * @copyright  2013 kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -398,11 +395,12 @@ class mod_surveypro_templatebase {
         }
 
         if ($this->templatetype == SURVEYPRO_USERTEMPLATE) {
-            $redirecturl = new moodle_url('items_manage.php', array('s' => $this->surveypro->id));
+            $paramurl = array('s' => $this->surveypro->id);
+            $redirecturl = new moodle_url('/mod/surveypro/items_manage.php', $paramurl);
             redirect($redirecturl);
         } else {
-            $paramurl = array('s' => $this->surveypro->id, 'cvp' => 0, 'view' => SURVEYPRO_PREVIEWSURVEYFORM);
-            $redirecturl = new moodle_url('view.php', $paramurl);
+            $paramurl = array('s' => $this->surveypro->id, 'view' => SURVEYPRO_PREVIEWSURVEYFORM);
+            $redirecturl = new moodle_url('/mod/surveypro/view_userform.php', $paramurl);
             redirect($redirecturl);
         }
     }
@@ -436,7 +434,7 @@ class mod_surveypro_templatebase {
 
         if ($hassubmissions && (!$riskyediting)) {
             echo $OUTPUT->box(get_string('applyusertemplatedenied01', 'surveypro'));
-            $url = new moodle_url('/mod/surveypro/view.php', array('s' => $this->surveypro->id));
+            $url = new moodle_url('/mod/surveypro/view_userform.php', array('s' => $this->surveypro->id));
             echo $OUTPUT->continue_button($url);
             echo $OUTPUT->footer();
             die();
@@ -445,7 +443,7 @@ class mod_surveypro_templatebase {
         if ($this->templatetype == SURVEYPRO_USERTEMPLATE) {
             if ($this->surveypro->template && (!$riskyediting)) { // this survey comes from a master template so it is multilang
                 echo $OUTPUT->box(get_string('applyusertemplatedenied02', 'surveypro'));
-                $url = new moodle_url('/mod/surveypro/view.php', array('s' => $this->surveypro->id));
+                $url = new moodle_url('/mod/surveypro/view_userform.php', array('s' => $this->surveypro->id));
                 echo $OUTPUT->continue_button($url);
                 echo $OUTPUT->footer();
                 die();
@@ -481,12 +479,12 @@ class mod_surveypro_templatebase {
 
                 $optionsyes = $optionbase;
                 $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
-                $urlyes = new moodle_url('utemplates_apply.php', $optionsyes);
+                $urlyes = new moodle_url('/mod/surveypro/utemplates_apply.php', $optionsyes);
                 $buttonyes = new single_button($urlyes, get_string('confirmallitemserase', 'surveypro'));
 
                 $optionsno = $optionbase;
                 $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-                $urlno = new moodle_url('utemplates_apply.php', $optionsno);
+                $urlno = new moodle_url('/mod/surveypro/utemplates_apply.php', $optionsno);
                 $buttonno = new single_button($urlno, get_string('no'));
 
                 echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
@@ -647,7 +645,7 @@ class mod_surveypro_templatebase {
             $candidatevariable = $record['variable'];
         }
 
-        // verify the assigned name is unique. If not, change it.
+        // verify the given name is unique. If not, change it.
         $i = 0; // if name is duplicate, restart verification from 0
         $whereparams['variable'] = $candidatevariable;
         $sql = $select.$whereverify;

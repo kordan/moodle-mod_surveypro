@@ -69,7 +69,7 @@ class item_created extends \core\event\base {
         $paramurl['type'] = $this->other['type'];
         $paramurl['plugin'] = $this->other['plugin'];
         $paramurl['view'] = $this->other['view'];
-        return new \moodle_url('items_setup.php', $paramurl);
+        return new \moodle_url('/mod/surveypro/items_setup.php', $paramurl);
     }
 
     /**

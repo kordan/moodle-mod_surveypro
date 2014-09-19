@@ -17,9 +17,6 @@
 /**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
  * @copyright  2013 kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -84,6 +81,33 @@ class mod_surveypro_importmanager {
     }
 
     /**
+     * welcome_message
+     *
+     * @return null
+     */
+    public function welcome_message() {
+        global $OUTPUT, $CFG;
+
+        $semanticitem = array();
+        $plugins = surveypro_get_plugin_list(SURVEYPRO_TYPEFIELD);
+        foreach ($plugins as $k => $plugin) {
+            require_once($CFG->dirroot.'/mod/surveypro/field/'.$plugin.'/plugin.class.php');
+
+            $itemclass = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
+            $item = new $itemclass(null, false);
+            if ($item->get_savepositiontodb()) {
+                $semanticitem[] = $plugins[$k];
+            }
+        }
+
+        $a = new stdClass();
+        $a->customsemantic = get_string('itemdrivensemantic', 'surveypro', get_string('downloadformat', 'surveypro'));
+        $a->items = '<li>'.implode(';</li><li>', $semanticitem).'.</li>';
+        $message = get_string('welcomeimport', 'surveypro', $a);
+        echo $OUTPUT->notification($message, 'notice');
+    }
+
+    /**
      * get_csv_content
      *
      * @return csv content
@@ -118,25 +142,38 @@ class mod_surveypro_importmanager {
      * @return $surveyheaders and $requireditems
      */
     public function get_survey_infos() {
-        global $DB;
+        global $DB, $CFG;
 
-        $whereparams = array('surveyproid' => $this->surveypro->id, 'type' => SURVEYPRO_TYPEFIELD);
         $sql = 'SELECT id, plugin
             FROM {surveypro_item}
             WHERE surveyproid = :surveyproid
                 AND type = :type
             GROUP BY plugin';
+        $whereparams = array('surveyproid' => $this->surveypro->id, 'type' => SURVEYPRO_TYPEFIELD);
         $pluginlist = $DB->get_records_sql_menu($sql, $whereparams);
 
         $requireditems = array();
         $surveyheaders = array();
         $where = array('surveyproid' => $this->surveypro->id);
         foreach ($pluginlist as $plugin) {
-            $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
-            $itemvariables = $DB->get_records($tablename, $where, 'id', 'itemid, variable, required');
+            require_once($CFG->dirroot.'/mod/surveypro/field/'.$plugin.'/plugin.class.php');
+
+            // $tablename === $itemclass :)
+            // $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
+            $itemclass = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
+            $item = new $itemclass(null, false);
+            $requiredfieldname = $item::get_requiredfieldname();
+
+            $sql = 'SELECT p.itemid, p.variable, p.'.$requiredfieldname.'
+                FROM {surveypro_item} i
+                    JOIN {'.$itemclass.'} p ON i.id = p.itemid
+                WHERE i.surveyproid = :surveyproid
+                ORDER BY p.itemid';
+            $itemvariables = $DB->get_records_sql($sql, $where);
+
             foreach ($itemvariables as $itemvariable) {
                 $surveyheaders[$itemvariable->itemid] = $itemvariable->variable;
-                if ($itemvariable->variable) {
+                if ($itemvariable->{$requiredfieldname} > 0) {
                     $requireditems[] = $itemvariable->itemid;
                 }
             }
@@ -166,48 +203,74 @@ class mod_surveypro_importmanager {
     }
 
     /**
-     * verify_extra_headers
+     * verify_attachments_import
      *
-     * $foundheaders
-     * $surveyheaders
+     * @param $foundheaders
      *
-     * @return array columntoitemid
+     * @return [array extraheadres|bool false]
      */
-    public function verify_extra_headers($foundheaders, $surveyheaders) {
+    public function verify_attachments_import($foundheaders) {
+        global $DB;
+
+        // first step: make the list of each variablename of fileupload items of this surveypro
+        $where = array('surveyproid' => $this->surveypro->id);
+        $sql = 'SELECT p.itemid, p.variable
+            FROM {surveypro_item} i
+                JOIN {surveyprofield_fileupload} p ON i.id = p.itemid
+            WHERE i.surveyproid = :surveyproid
+            ORDER BY p.itemid';
+        $variablenames = $DB->get_records_sql_menu($sql, $where);
+        if (!count($variablenames)) {
+            return false;
+        }
+
+        $foundheaders = array();
         foreach ($foundheaders as $foundheader) {
-            $itemid = array_search($foundheader, $surveyheaders);
-            if ($itemid === false) {
-                if ($foundheader != 'userid') {
-                    return $foundheader;
-                }
+            $key = in_array($foundheader, $variablenames);
+            if ($key !== false) {
+                $foundheaders[] = $foundheader;
             }
         }
 
-        return false;
+        if (count($foundheaders)) {
+            return $foundheaders;
+        } else {
+            return false;
+        }
     }
 
     /**
      * get_columntoitemid
      *
+     * This method returns the correspondence between the column where the datum is found
+     * and the id of the surveypro item where the datum has to go
+     *
      * $foundheaders
      * $surveyheaders
      *
      * @return array $columntoitemid
+     * @return array $nonmatchingheaders
+     * @return int   $useridcolumnkey
      */
     public function get_columntoitemid($foundheaders, $surveyheaders) {
         $columntoitemid = array();
-        $useridcolumnkey = null;
 
+        $useridcolumnkey = -1;
+        $nonmatchingheaders = array();
         foreach ($foundheaders as $k => $foundheader) {
-            $itemid = array_search($foundheader, $surveyheaders);
-            if ($itemid !== false) {
-                $columntoitemid[$k] = $itemid;
+            $key = array_search($foundheader, $surveyheaders);
+            if ($key !== false) {
+                if ($key == 'userid') {
+                    $useridcolumnkey = $k;
+                } else {
+                    $columntoitemid[$k] = $key;
+                }
             } else {
-                $useridcolumnkey = $k;
+                $nonmatchingheaders[] = $foundheader;
             }
         }
 
-        return array($columntoitemid, $useridcolumnkey);
+        return array($columntoitemid, $nonmatchingheaders, $useridcolumnkey);
     }
 
     /**
@@ -288,7 +351,9 @@ class mod_surveypro_importmanager {
         // is the number of field of each row homogeneous with all the others?
         $csvfileerror = $cir->get_error();
         if (!is_null($csvfileerror)) { // error
-            print_error('columnscountchanges', 'surveypro', $returnurl, $csvfileerror);
+            $cir->close();
+            $cir->cleanup();
+            print_error('import_columnscountchanges', 'surveypro', $returnurl, $csvfileerror);
         }
 
         // is each column unique?
@@ -300,18 +365,27 @@ class mod_surveypro_importmanager {
         if ($duplicateheader = $this->verify_header_duplication($foundheaders)) { // error
             $cir->close();
             $cir->cleanup();
-            print_error('duplicateheader', 'surveypro', $returnurl, $duplicateheader);
+            print_error('import_duplicateheader', 'surveypro', $returnurl, $duplicateheader);
+        }
+        // is the user trying to import an attachment?
+        if ($attachments = $this->verify_attachments_import($foundheaders)) { // error
+            $cir->close();
+            $cir->cleanup();
+            $a = '<li>'.implode(';</li><li>', $attachments).'.</li>';
+            print_error('import_attachmentsnotallowed', 'surveypro', $returnurl, $a);
         }
 
         // make a list of the header of each item in the survey
         // and the list of the id of the required items
         list($surveyheaders, $requireditems) = $this->get_survey_infos();
+        $surveyheaders = array('userid' => 'userid') + $surveyheaders;
         if ($debug) {
             echo '$surveyheaders:';
             var_dump($surveyheaders);
             echo '$requireditems:';
             var_dump($requireditems);
         }
+
         // *******************************************************
         // Rationale: teacher is importing.
         // Each datum is gold. Because of this, I DECIDED that:
@@ -326,8 +400,7 @@ class mod_surveypro_importmanager {
 
         // make a relation between each column header and the corresponding itemid
         // was userid added? if userid was added ? $useridcolumnkey holds its column key : $useridcolumnkey = null
-        list($columntoitemid, $useridcolumnkey) = $this->get_columntoitemid($foundheaders, $surveyheaders);
-
+        list($columntoitemid, $nonmatchingheaders, $useridcolumnkey) = $this->get_columntoitemid($foundheaders, $surveyheaders);
         if ($debug) {
             echo '$columntoitemid:';
             var_dump($columntoitemid);
@@ -340,6 +413,16 @@ class mod_surveypro_importmanager {
             echo '$useridcolumnkey: ';
             var_dump($useridcolumnkey);
         }
+        // if ($useridcolumnkey == -1) {
+        //     // userid column in the csv is not mandatory
+        //     // if it is not present, imported surveys vill be given to admin
+        // }
+        if (count($nonmatchingheaders)) {
+            $cir->close();
+            $cir->cleanup();
+            $a = '<li>'.implode(';</li><li>', $nonmatchingheaders).'.</li>';
+            print_error('import_extraheaderfound', 'surveypro', $returnurl, $a);
+        }
 
         // is each required item included into the csv?
         if ($this->verify_required($requireditems, $columntoitemid, $surveyheaders)) {
@@ -348,16 +431,6 @@ class mod_surveypro_importmanager {
             // this status is still subject to further changes
             // during csv, line by line, scan
             $defaultstatus = SURVEYPRO_STATUSCLOSED;
-        }
-
-        // is not any extraneous item included into the csv?
-        if ($extraheaderfound = $this->verify_extra_headers($foundheaders, $surveyheaders)) { // error
-            $cir->close();
-            $cir->cleanup();
-            $a = new stdClass();
-            $a->surveyheaders = implode('", "', $surveyheaders);
-            $a->extraheaderfound = $extraheaderfound;
-            print_error('extraheaderfound', 'surveypro', $returnurl, $a);
         }
 
         // to save time during all validations to carry out, save to $itemhelperinfo some information
@@ -377,21 +450,27 @@ class mod_surveypro_importmanager {
         $csvusers = array();
         $cir->init();
         while ($csvrow = $cir->next()) {
-            if ($debug) {
-                echo '$itemhelperinfo:';
-                var_dump($itemhelperinfo);
-            }
-
             foreach ($foundheaders as $col => $unused) {
-                $value = $csvrow[$col]; // the value reported by the csv file
+                $value = $csvrow[$col]; // the value reported in the csv file
 
                 if ($col == $useridcolumnkey) {
                     // the column for userid
-                    if (!empty($value) && ($value != $USER->id)) {
-                        if (!isset($csvusers[$value])) {
-                            $csvusers[$value] = 1;
-                        } else {
-                            $csvusers[$value]++;
+                    if (empty($value)) {
+                        $cir->close();
+                        $cir->cleanup();
+                        print_error('import_missinguserid', 'surveypro', $returnurl);
+                    } else {
+                        if (!(int)$value) {
+                            $cir->close();
+                            $cir->cleanup();
+                            print_error('import_invaliduserid', 'surveypro', $returnurl, $value);
+                        }
+                        if ($value != $USER->id) {
+                            if (!isset($csvusers[$value])) {
+                                $csvusers[$value] = 1;
+                            } else {
+                                $csvusers[$value]++;
+                            }
                         }
                     }
                     continue;
@@ -403,7 +482,7 @@ class mod_surveypro_importmanager {
                     if (empty($value)) { // error
                         $cir->close();
                         $cir->cleanup();
-                        print_error('emptyrequiredvalue', 'surveypro', $returnurl, $requireditem);
+                        print_error('import_emptyrequiredvalue', 'surveypro', $returnurl, $requireditem);
                     }
                 }
 
@@ -440,7 +519,7 @@ class mod_surveypro_importmanager {
                         default:
                             debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->formdata->csvsemantic = '.$this->formdata->csvsemantic, DEBUG_DEVELOPER);
                         }
-                        print_error('missingsemantic', 'surveypro', $returnurl, $a);
+                        print_error('import_missingsemantic', 'surveypro', $returnurl, $a);
                     }
                 }
             }
@@ -466,7 +545,7 @@ class mod_surveypro_importmanager {
                         $a->userid = $csvuserid;
                         $a->maxentries = $this->surveypro->maxentries;
                         $a->totalentries = $totalsubmissions;
-                        print_error('breakingmaxentries', 'surveypro', $returnurl, $a);
+                        print_error('import_breakingmaxentries', 'surveypro', $returnurl, $a);
                     }
                 }
             }

@@ -17,9 +17,6 @@
 /**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
  * @copyright  2013 kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -457,7 +454,7 @@ class mod_surveypro_itembase {
             $candidatevariable = $record->variable;
         }
 
-        // verify the assigned name is unique. If not, change it.
+        // verify the given name is unique. If not, change it.
         $i = 0; // if name is duplicate, restart verification from 0
         $whereparams['variable'] = $candidatevariable;
         $sql = $select.$whereverify;
@@ -839,7 +836,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * item_get_plugin_schema
+     * item_get_item_schema
      * Return the xml schema for surveypro_<<plugin>> table.
      *
      * @return string $schema
@@ -1218,6 +1215,15 @@ class mod_surveypro_itembase {
         } else {
             return false;
         }
+    }
+
+    /**
+     * get_requiredfieldname
+     *
+     * @return string the name of the database table field specifying if the item is required
+     */
+    public static function get_requiredfieldname() {
+        return 'required';
     }
 
     // MARK set

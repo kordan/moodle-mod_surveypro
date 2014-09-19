@@ -29,9 +29,9 @@ require_once($CFG->libdir.'/adminlib.php');
 /**
  * Admin external page that displays a list of the installed submission plugins.
  *
- * @package   mod_surveypro
- * @copyright 2012 NetSpot {@link http://www.netspot.com.au}
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    mod_surveypro
+ * @copyright  2013 kordan <kordan@mclink.it>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class surveypro_admin_page_manage_surveypro_plugins extends admin_externalpage {
 
@@ -85,9 +85,9 @@ class surveypro_admin_page_manage_surveypro_plugins extends admin_externalpage {
 /**
  * Class that handles the display and configuration of the list of submission plugins.
  *
- * @package   mod_surveypro
- * @copyright 1999 onwards Martin Dougiamas  {@link http://moodle.com}
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    mod_surveypro
+ * @copyright  2013 kordan <kordan@mclink.it>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class surveypro_plugin_manager {
 
@@ -100,7 +100,8 @@ class surveypro_plugin_manager {
 
     /**
      * Constructor for this surveypro plugin manager
-     * @param string $subtype - either assignsubmission or assignfeedback
+     *
+     * @param string $subtype - either surveyprofield, surveyproformat, surveyprotemplate or surveyproreport
      */
     public function __construct($subtype) {
         $this->pageurl = new moodle_url('/mod/surveypro/adminmanageplugins.php', array('subtype' => $subtype));

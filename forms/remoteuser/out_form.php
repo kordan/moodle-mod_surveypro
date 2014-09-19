@@ -17,9 +17,6 @@
 /**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
  * @copyright  2013 kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -64,7 +61,7 @@ class surveypro_submissionform extends moodleform {
         // ----------------------------------------
         // userform::formpage
         // ----------------------------------------
-        $mform->addElement('hidden', 'formpage', 0); // <-- this value comes from default set just before $mform->display(); in view.php
+        $mform->addElement('hidden', 'formpage', 0); // <-- this value comes from default as set just before $mform->display(); in view_userform.php
         $mform->setType('formpage', PARAM_INT);
 
         if ($formpage == SURVEYPRO_LEFT_OVERFLOW) {
@@ -195,7 +192,9 @@ class surveypro_submissionform extends moodleform {
         }
         if ($modulepage != SURVEYPRO_ITEMS_PREVIEW) {
             if ($surveypro->saveresume) {
-                $buttonlist['pausebutton'] = get_string('pause', 'surveypro');
+                if ($maxassignedpage > 1) {
+                    $buttonlist['pausebutton'] = get_string('pause', 'surveypro');
+                }
             }
             if (($formpage == $maxassignedpage) || ($formpage == SURVEYPRO_RIGHT_OVERFLOW)) {
                 if ($surveypro->history) {

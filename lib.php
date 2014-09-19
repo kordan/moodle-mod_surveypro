@@ -36,34 +36,28 @@ define('SURVEYPRO_VALUELABELSEPARATOR', '::');
 define('SURVEYPRO_OTHERSEPARATOR'     , '->');
 
 // to change tabs order, just exchange numbers if the following lines
-define('SURVEYPRO_TABSUBMISSIONS', 1);
-define('SURVEYPRO_TABITEMS'      , 2);
+define('SURVEYPRO_TABITEMS'      , 1);
+define('SURVEYPRO_TABSUBMISSIONS', 2);
 define('SURVEYPRO_TABUTEMPLATES' , 3);
 define('SURVEYPRO_TABMTEMPLATES' , 4);
 
-// TAB NAMES
-define('SURVEYPRO_TAB'.SURVEYPRO_TABSUBMISSIONS.'NAME', get_string('tabsubmissionsname', 'surveypro'));
-define('SURVEYPRO_TAB'.SURVEYPRO_TABITEMS.'NAME', get_string('tabitemname', 'surveypro'));
-define('SURVEYPRO_TAB'.SURVEYPRO_TABUTEMPLATES.'NAME', get_string('tabutemplatename', 'surveypro'));
-define('SURVEYPRO_TAB'.SURVEYPRO_TABMTEMPLATES.'NAME', get_string('tabmtemplatename', 'surveypro'));
-
 // PAGES
+    // ITEMS PAGES
+    define('SURVEYPRO_ITEMS_PREVIEW' , 1);
+    define('SURVEYPRO_ITEMS_MANAGE'  , 2);
+    define('SURVEYPRO_ITEMS_SETUP'   , 3);
+    define('SURVEYPRO_ITEMS_VALIDATE', 4);
+
     // SUBMISSIONS PAGES
     define('SURVEYPRO_SUBMISSION_CPANEL'  , 1);
-    define('SURVEYPRO_SUBMISSION_INSERT'  , 2);
-    define('SURVEYPRO_SUBMISSION_MANAGE'  , 3);
+    define('SURVEYPRO_SUBMISSION_MANAGE'  , 2);
+    define('SURVEYPRO_SUBMISSION_INSERT'  , 3);
     define('SURVEYPRO_SUBMISSION_EDIT'    , 4);
     define('SURVEYPRO_SUBMISSION_READONLY', 5);
     define('SURVEYPRO_SUBMISSION_SEARCH'  , 6);
     define('SURVEYPRO_SUBMISSION_REPORT'  , 7);
     define('SURVEYPRO_SUBMISSION_IMPORT'  , 8);
     define('SURVEYPRO_SUBMISSION_EXPORT'  , 9);
-
-    // ITEMS PAGES
-    define('SURVEYPRO_ITEMS_PREVIEW' , 1);
-    define('SURVEYPRO_ITEMS_MANAGE'  , 2);
-    define('SURVEYPRO_ITEMS_SETUP'   , 3);
-    define('SURVEYPRO_ITEMS_VALIDATE', 4);
 
     // USER TEMPLATES PAGES
     define('SURVEYPRO_UTEMPLATES_MANAGE', 1);
@@ -106,7 +100,7 @@ define('SURVEYPRO_TYPEFORMAT', 'format');
 // VIEW
     // EMPTY FORM section (User page)
     define('SURVEYPRO_NOVIEW'           , '0');
-    define('SURVEYPRO_SUBMITRESPONSE'   , '1');
+    define('SURVEYPRO_NEWRESPONSE'      , '1');
     define('SURVEYPRO_PREVIEWSURVEYFORM', '2');
     define('SURVEYPRO_EDITRESPONSE'     , '3');
     define('SURVEYPRO_READONLYRESPONSE' , '4');
@@ -821,13 +815,13 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
      */
     // PARENT
     if (($canpreview) || ($canmanageitems && empty($surveypro->template))) {
-        $navnode = $surveypronode->add(SURVEYPRO_TAB2NAME,  new moodle_url('/mod/surveypro/items_manage.php', $paramurlbase), navigation_node::TYPE_CONTAINER);
+        $navnode = $surveypronode->add(get_string('tabitemsname', 'surveypro'),  new moodle_url('/mod/surveypro/items_manage.php', $paramurlbase), navigation_node::TYPE_CONTAINER);
     }
 
     // CHILDREN
     if ($canpreview) {
-        $localparamurl = array('s' => $cm->instance, 'view' => SURVEYPRO_PREVIEWSURVEYFORM, 'cvp' => 0);
-        $navnode->add(get_string('tabitemspage1', 'surveypro'), new moodle_url('/mod/surveypro/view.php', $localparamurl), navigation_node::TYPE_SETTING);
+        $localparamurl = array('s' => $cm->instance, 'view' => SURVEYPRO_PREVIEWSURVEYFORM);
+        $navnode->add(get_string('tabitemspage1', 'surveypro'), new moodle_url('/mod/surveypro/view_userform.php', $localparamurl), navigation_node::TYPE_SETTING);
     }
     if ($canmanageitems) {
         $navnode->add(get_string('tabitemspage2', 'surveypro'), new moodle_url('/mod/surveypro/items_manage.php', $paramurlbase), navigation_node::TYPE_SETTING);
@@ -843,7 +837,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
      */
     if ($canmanageusertemplates && empty($surveypro->template)) {
         // PARENT
-        $navnode = $surveypronode->add(SURVEYPRO_TAB3NAME,  new moodle_url('/mod/surveypro/utemplates_create.php', $paramurlbase), navigation_node::TYPE_CONTAINER);
+        $navnode = $surveypronode->add(get_string('tabutemplatename', 'surveypro'),  new moodle_url('/mod/surveypro/utemplates_create.php', $paramurlbase), navigation_node::TYPE_CONTAINER);
 
         // CHILDREN
         $navnode->add(get_string('tabutemplatepage1', 'surveypro'), new moodle_url('/mod/surveypro/utemplates_manage.php', $paramurlbase), navigation_node::TYPE_SETTING);
@@ -866,7 +860,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
     $condition = $condition || ((!$hassubmissions || $riskyediting) && $canapplymastertemplates);
     if ($condition) {
         // PARENT
-        $navnode = $surveypronode->add(SURVEYPRO_TAB4NAME, new moodle_url('/mod/surveypro/mtemplates_create.php', $paramurlbase), navigation_node::TYPE_CONTAINER);
+        $navnode = $surveypronode->add(get_string('tabmtemplatename', 'surveypro'), new moodle_url('/mod/surveypro/mtemplates_create.php', $paramurlbase), navigation_node::TYPE_CONTAINER);
 
         // CHILDREN
         if ($cansavemastertemplates && empty($surveypro->template)) {
@@ -945,7 +939,9 @@ function surveypro_extend_navigation(navigation_node $navref, stdClass $course, 
      */
     // CHILDREN ONLY
     $paramurl = array('s' => $cm->instance);
-    $navref->add(get_string('tabsubmissionspage3', 'surveypro'), new moodle_url('/mod/surveypro/view_manage.php', $paramurl), navigation_node::TYPE_SETTING);
+    $localparamurl = array('s' => $cm->instance, 'cover' => 0);
+    $navref->add(get_string('tabsubmissionspage1', 'surveypro'), new moodle_url('/mod/surveypro/view_cover.php', $paramurl), navigation_node::TYPE_SETTING);
+    $navref->add(get_string('tabsubmissionspage3', 'surveypro'), new moodle_url('/mod/surveypro/view.php', $localparamurl), navigation_node::TYPE_SETTING);
     if ($cansearch) {
         $navref->add(get_string('tabsubmissionspage6', 'surveypro'), new moodle_url('/mod/surveypro/view_search.php', $paramurl), navigation_node::TYPE_SETTING);
     }

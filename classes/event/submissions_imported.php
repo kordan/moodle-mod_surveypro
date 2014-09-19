@@ -63,7 +63,7 @@ class submissions_imported extends \core\event\base {
      * @return \moodle_url
      */
     public function get_url() {
-        return new \moodle_url('view_import.php', array('id' => $this->contextinstanceid));
+        return new \moodle_url('/mod/surveypro/view_import.php', array('id' => $this->contextinstanceid));
     }
 
     /**

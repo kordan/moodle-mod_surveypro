@@ -25,10 +25,11 @@ $group = optional_param('group', 0, PARAM_INT); // Group ID
 
 require_once($CFG->dirroot.'/mod/surveypro/report/frequency/lib.php');
 
-$url = new moodle_url('/mod/surveypro/report/frequency/graph.php', array('id' => $id, 'itemid' => $itemid));
+$paramurl = array('id' => $id, 'itemid' => $itemid);
 if ($group !== 0) {
-    $url->param('group', $group);
+    $paramurl['group'] = $group;
 }
+$url = new moodle_url('/mod/surveypro/report/frequency/graph.php', $paramurl);
 $PAGE->set_url($url);
 
 $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);

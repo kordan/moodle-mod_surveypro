@@ -17,9 +17,6 @@
 /**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
  * @copyright  2013 kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -143,7 +140,7 @@ class mod_surveypro_searchmanager {
 
         echo $OUTPUT->notification(get_string('emptysearchform', 'surveypro'), 'notifyproblem');
 
-        $continueurl = new moodle_url('/mod/surveypro/view_manage.php', array('s' => $this->surveypro->id));
+        $continueurl = new moodle_url('/mod/surveypro/view.php', array('s' => $this->surveypro->id, 'cover' => 0));
         echo $OUTPUT->continue_button($continueurl);
 
         echo $OUTPUT->footer();

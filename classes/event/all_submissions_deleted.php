@@ -63,7 +63,10 @@ class all_submissions_deleted extends \core\event\base {
      * @return \moodle_url
      */
     public function get_url() {
-        return new \moodle_url('view_manage.php', array('id' => $this->contextinstanceid));
+        $paramurl = array();
+        $paramurl['id'] = $this->contextinstanceid;
+        $paramurl['cover'] = $this->other['cover'];
+        return new \moodle_url('/mod/surveypro/view.php', $paramurl);
     }
 
     /**
@@ -99,5 +102,17 @@ class all_submissions_deleted extends \core\event\base {
         $data->id = $this->objectid;
         $data->userid = $this->relateduserid;
         return $data; */
+    }
+
+    /**
+     * Custom validation.
+     *
+     * @throws \coding_exception
+     * @return void
+     */
+    protected function validate_data() {
+        if (!isset($this->other['cover'])) {
+            throw new \coding_exception('cover is a mandatory property.');
+        }
     }
 }

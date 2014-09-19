@@ -17,9 +17,6 @@
 /**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
  * @copyright  2013 kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -171,6 +168,7 @@ class surveyprofield_rate extends mod_surveypro_itembase {
      * item_load
      *
      * @param $itemid
+     * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
      * @return
      */
     public function item_load($itemid, $evaluateparentcontent) {

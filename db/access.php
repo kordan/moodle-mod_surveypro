@@ -58,23 +58,37 @@ For each sub-tab, I would define a capability at first but, I will find, sometim
     mod/surveypro:view
 
 // -----------------------------------------------------------------------------
+// TAB ELEMENTS
+// -----------------------------------------------------------------------------
+    SUB-TAB == SURVEYPRO_ITEMS_MANAGE
+        $elementurl = new moodle_url('/mod/surveypro/items_manage.php', $localparamurl);
+        mod/surveypro:manageitems
+        mod/surveypro:additems
+
+    SUB-TAB == SURVEYPRO_ITEMS_SETUP
+        $elementurl = new moodle_url('/mod/surveypro/items_setup.php', $localparamurl);
+
+    SUB-TAB == SURVEYPRO_ITEMS_VALIDATE
+        $elementurl = new moodle_url('/mod/surveypro/items_validate.php', $localparamurl);
+
+// -----------------------------------------------------------------------------
 // TAB SURVEYPRO
 // -----------------------------------------------------------------------------
     SUB-TAB == SURVEYPRO_ITEMS_PREVIEW
-        $elementurl = new moodle_url('/mod/surveypro/view.php', $localparamurl);
+        $elementurl = new moodle_url('/mod/surveypro/view_userform.php', $localparamurl);
         mod/surveypro:preview
 
     SUB-TAB == SURVEYPRO_SUBMISSION_CPANEL
 
     SUB-TAB == SURVEYPRO_SUBMISSION_INSERT
-        $elementurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
+        $elementurl = new moodle_url('/mod/surveypro/view_userform.php', $paramurl);
         mod/surveypro:view
         mod/surveypro:accessadvanceditems
         mod/surveypro:submit
         mod/surveypro:ignoremaxentries
 
     SUB-TAB == SURVEYPRO_SUBMISSION_MANAGE
-        $elementurl = new moodle_url('/mod/surveypro/view_manage.php', $paramurl);
+        $elementurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
 
         mod/surveypro:seeownsubmissions <-- It does not actually exist. It is always allowed.
         mod/surveypro:seeotherssubmissions
@@ -88,7 +102,7 @@ For each sub-tab, I would define a capability at first but, I will find, sometim
         mod/surveypro:savesubmissiontopdf
     SUB-TAB == SURVEYPRO_SUBMISSION_EDIT
     SUB-TAB == SURVEYPRO_SUBMISSION_READONLY
-        $elementurl = new moodle_url('/mod/surveypro/view.php', $localparamurl);
+        $elementurl = new moodle_url('/mod/surveypro/view_userform.php', $localparamurl);
 
     SUB-TAB == SURVEYPRO_SUBMISSION_SEARCH
         $elementurl = new moodle_url('/mod/surveypro/view_search.php', $paramurl);
@@ -105,20 +119,6 @@ For each sub-tab, I would define a capability at first but, I will find, sometim
     SUB-TAB == SURVEYPRO_SUBMISSION_EXPORT
         $elementurl = new moodle_url('/mod/surveypro/view_export.php', $paramurl);
         mod/surveypro:exportdata
-
-// -----------------------------------------------------------------------------
-// TAB ELEMENTS
-// -----------------------------------------------------------------------------
-    SUB-TAB == SURVEYPRO_ITEMS_MANAGE
-        $elementurl = new moodle_url('/mod/surveypro/items_manage.php', $localparamurl);
-        mod/surveypro:manageitems
-        mod/surveypro:additems
-
-    SUB-TAB == SURVEYPRO_ITEMS_SETUP
-        $elementurl = new moodle_url('/mod/surveypro/items_setup.php', $localparamurl);
-
-    SUB-TAB == SURVEYPRO_ITEMS_VALIDATE
-        $elementurl = new moodle_url('/mod/surveypro/items_validate.php', $localparamurl);
 
 // -----------------------------------------------------------------------------
 // TAB USER TEMPLATES

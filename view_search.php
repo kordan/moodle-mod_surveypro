@@ -17,9 +17,6 @@
 /**
  * Prints a particular instance of surveypro
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
  * @copyright  2013 kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -58,7 +55,7 @@ $searchman = new mod_surveypro_searchmanager($cm, $surveypro, $context);
 // -----------------------------
 // define $searchform return url
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('view_search.php', $paramurl);
+$formurl = new moodle_url('/mod/surveypro/view_search.php', $paramurl);
 // end of: define $searchform return url
 // -----------------------------
 
@@ -76,19 +73,19 @@ $searchform = new surveypro_searchform($formurl, $formparams, 'post', '', array(
 // -----------------------------
 // manage form submission
 if ($searchform->is_cancelled()) {
-    $paramurl = array('id' => $cm->id);
-    $returnurl = new moodle_url('view_manage.php', $paramurl);
+    $paramurl = array('id' => $cm->id, 'cover' => 0);
+    $returnurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
     redirect($returnurl);
 }
 
 if ($searchman->formdata = $searchform->get_data()) {
     // in this routine I do not execute a real search
     // I only define the param searchquery for the url of SURVEYPRO_SUBMISSION_MANAGE
-    $paramurl = array('id' => $cm->id);
+    $paramurl = array('id' => $cm->id, 'cover' => 0);
     if ($searchquery = $searchman->get_searchparamurl()) {
         $paramurl['searchquery'] = $searchquery;
     }
-    $returnurl = new moodle_url('view_manage.php', $paramurl);
+    $returnurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
     redirect($returnurl);
 }
 // end of: manage form submission
@@ -97,7 +94,7 @@ if ($searchman->formdata = $searchform->get_data()) {
 // -----------------------------
 // output starts here
 // -----------------------------
-$PAGE->set_url('/mod/surveypro/view.php', array('id' => $cm->id));
+$PAGE->set_url('/mod/surveypro/view_search.php', array('s' => $surveypro->id));
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 

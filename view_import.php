@@ -17,9 +17,6 @@
 /**
  * Prints a particular instance of surveypro
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
  * @copyright  2013 kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -31,7 +28,7 @@ require_once($CFG->dirroot.'/mod/surveypro/classes/view_import.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/forms/data/import_form.php');
 
 $id = optional_param('id', 0, PARAM_INT); // course_module ID, or
-$s = optional_param('s', 0, PARAM_INT);  // surveypro instance ID
+$s = optional_param('s', 0, PARAM_INT);   // surveypro instance ID
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
@@ -56,7 +53,7 @@ $importman = new mod_surveypro_importmanager($cm, $surveypro);
 // -----------------------------
 // define $mform return url
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('view_import.php', $paramurl);
+$formurl = new moodle_url('/mod/surveypro/view_import.php', $paramurl);
 // end of: define $mform return url
 // -----------------------------
 
@@ -71,7 +68,7 @@ $importform = new surveypro_importform($formurl);
 if ($importman->formdata = $importform->get_data()) {
     $importman->import_csv();
 
-    $redirecturl = new moodle_url('view_manage.php', array('s' => $surveypro->id));
+    $redirecturl = new moodle_url('/mod/surveypro/view.php', array('s' => $surveypro->id, 'cover' => 0));
     redirect($redirecturl);
 }
 // end of: manage form submission
@@ -80,7 +77,7 @@ if ($importman->formdata = $importform->get_data()) {
 // -----------------------------
 // output starts here
 // -----------------------------
-$PAGE->set_url('/mod/surveypro/view.php', array('id' => $cm->id));
+$PAGE->set_url('/mod/surveypro/view_import.php', array('s' => $surveypro->id));
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
@@ -90,6 +87,7 @@ $moduletab = SURVEYPRO_TABSUBMISSIONS; // needed by tabs.php
 $modulepage = SURVEYPRO_SUBMISSION_IMPORT; // needed by tabs.php
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
+$importman->welcome_message();
 $importform->display();
 
 // Finish the page

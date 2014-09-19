@@ -17,9 +17,6 @@
 /**
  * Prints a particular instance of surveypro
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
  * @copyright  2013 kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -63,7 +60,7 @@ $utemplateman = new mod_surveypro_usertemplate($cm, $surveypro, $context, $utemp
 // -----------------------------
 // define $createutemplate return url
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('utemplates_create.php', $paramurl);
+$formurl = new moodle_url('/mod/surveypro/utemplates_create.php', $paramurl);
 // end of: define $createutemplate return url
 // -----------------------------
 
@@ -85,7 +82,7 @@ if ($utemplateman->formdata = $createutemplate->get_data()) {
 
     $paramurl = array();
     $paramurl['s'] = $surveypro->id;
-    $redirecturl = new moodle_url('utemplates_manage.php', $paramurl);
+    $redirecturl = new moodle_url('/mod/surveypro/utemplates_manage.php', $paramurl);
     redirect($redirecturl);
 }
 // end of: manage form submission

@@ -36,7 +36,7 @@ function xmldb_surveyprofield_select_upgrade($oldversion) {
 
     if ($oldversion < 2013100601) {
 
-        // Survey savepoint reached.
+        // Surveypro savepoint reached.
         // upgrade_plugin_savepoint(true, 2013100601, 'surveyprofield', 'select');
     }
 

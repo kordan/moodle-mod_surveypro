@@ -57,8 +57,9 @@ class report_missing extends mod_surveypro_reportbase {
     public function setup_outputtable() {
         $this->outputtable = new flexible_table('missingattempts');
 
-        $paramurl = array('id' => $this->cm->id, 'rname' => 'missing');
-        $this->outputtable->define_baseurl(new moodle_url('view.php', $paramurl));
+        $paramurl = array('id' => $this->cm->id, 'rname' => 'missing', 'cover' => 0);
+        $baseurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
+        $this->outputtable->define_baseurl($baseurl);
 
         $tablecolumns = array();
         $tablecolumns[] = 'picture';

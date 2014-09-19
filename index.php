@@ -17,9 +17,6 @@
 /**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
  * @copyright  2013 kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -30,7 +27,7 @@ require_once(dirname(__FILE__).'/lib.php');
 
 $id = required_param('id', PARAM_INT); // Course Module ID
 
-$course = $DB->get_record('course', array('id'=>$id), '*', MUST_EXIST);
+$course = $DB->get_record('course', array('id' => $id), '*', MUST_EXIST);
 
 unset($id);
 
@@ -38,8 +35,6 @@ require_course_login($course, true);
 $PAGE->set_pagelayout('incourse');
 
 // Get all required strings
-$strsurveypros = get_string('modulenameplural', 'surveypro');
-$strsurvey = get_string('modulename', 'surveypro');
 $strname = get_string('name');
 $strintro = get_string('moduleintro');
 $strlastmodified = get_string('lastmodified');
@@ -47,7 +42,7 @@ $strlastmodified = get_string('lastmodified');
 $PAGE->set_url('/mod/surveypro/index.php', array('id' => $course->id));
 $PAGE->set_title($course->fullname);
 $PAGE->set_heading($course->shortname);
-$PAGE->navbar->add($strsurvey);
+$PAGE->navbar->add(get_string('modulename', 'surveypro'););
 echo $OUTPUT->header();
 
 $eventdata = array('context' => context_course::instance($course->id));
@@ -59,7 +54,7 @@ $event->trigger();
 
 // / Get all the appropriate data
 if (!$surveypros = get_all_instances_in_course('surveypro', $course)) {
-    notice(get_string('thereareno', 'moodle', $strsurveypros), "$CFG->wwwroot/course/view.php?id=$course->id");
+    notice(get_string('thereareno', 'moodle', get_string('modulenameplural', 'surveypro')), "$CFG->wwwroot/course/view.php?id=$course->id");
     die();
 }
 

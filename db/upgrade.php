@@ -44,7 +44,7 @@ function xmldb_surveypro_upgrade($oldversion) {
 
     if ($oldversion < 2013090501) {
 
-        // Survey savepoint reached.
+        // Surveypro savepoint reached.
         // upgrade_mod_savepoint(true, 2013090501, 'surveypro');
     }
 

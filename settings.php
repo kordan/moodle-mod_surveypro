@@ -69,22 +69,22 @@ $ADMIN->add('modsurveyprofolder', new admin_category('surveyproreportplugins',
 $ADMIN->add('surveyproreportplugins', new surveypro_admin_page_manage_surveypro_plugins('surveyproreport'));
 
 foreach (core_plugin_manager::instance()->get_plugins_of_type('surveyprofield') as $plugin) {
-    /** @var \mod_assign\plugininfo\assignsubmission $plugin */
+    /** @var \mod_surveypro\plugininfo\surveyprofield $plugin */
     $plugin->load_settings($ADMIN, 'surveyprofieldplugins', $hassiteconfig);
 }
 
 foreach (core_plugin_manager::instance()->get_plugins_of_type('surveyproformat') as $plugin) {
-    /** @var \mod_assign\plugininfo\assignsubmission $plugin */
+    /** @var \mod_surveypro\plugininfo\surveyproformat $plugin */
     $plugin->load_settings($ADMIN, 'surveyproformatplugins', $hassiteconfig);
 }
 
 foreach (core_plugin_manager::instance()->get_plugins_of_type('surveyprotemplate') as $plugin) {
-    /** @var \mod_assign\plugininfo\assignsubmission $plugin */
+    /** @var \mod_surveypro\plugininfo\surveyprotemplate $plugin */
     $plugin->load_settings($ADMIN, 'surveyprotemplateplugins', $hassiteconfig);
 }
 
 foreach (core_plugin_manager::instance()->get_plugins_of_type('surveyproreport') as $plugin) {
-    /** @var \mod_assign\plugininfo\assignsubmission $plugin */
+    /** @var \mod_surveypro\plugininfo\surveyproreport $plugin */
     $plugin->load_settings($ADMIN, 'surveyproreportplugins', $hassiteconfig);
 }
 

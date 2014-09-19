@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Survey subplugin types declaration
+ * Surveypro subplugin types declaration
  *
  * @package    mod
  * @subpackage surveypro

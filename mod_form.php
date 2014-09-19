@@ -49,10 +49,12 @@ class mod_surveypro_mod_form extends moodleform_mod {
         // Open date
         $fieldname = 'timeopen';
         $mform->addElement('date_time_selector', $fieldname, get_string($fieldname, 'surveypro'), array('optional' => true));
+        $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // Close date
         $fieldname = 'timeclose';
         $mform->addElement('date_time_selector', $fieldname, get_string($fieldname, 'surveypro'), array('optional' => true));
+        $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // modulesettinghdr fieldset (header)
         $fieldname = 'modulesettinghdr';

@@ -36,7 +36,7 @@ function xmldb_surveyprofield_autofill_upgrade($oldversion) {
 
     if ($oldversion < 2014021701) {
 
-        // Survey savepoint reached.
+        // Surveypro savepoint reached.
         // upgrade_plugin_savepoint(true, 2014021701, 'surveyprofield', 'autofill');
     }
 

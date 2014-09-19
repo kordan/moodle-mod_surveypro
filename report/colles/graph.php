@@ -30,10 +30,11 @@ $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
 $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
 
-$url = new moodle_url('/mod/surveypro/report/frequency/graph.php', array('id' => $id));
+$paramurl = array('id' => $id);
 if ($group !== 0) {
-    $url->param('group', $group);
+    $paramurl['group'] = $group;
 }
+$url = new moodle_url('/mod/surveypro/report/frequency/graph.php', $paramurl);
 $PAGE->set_url($url);
 
 $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);

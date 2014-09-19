@@ -36,7 +36,7 @@ function xmldb_surveyproformat_label_upgrade($oldversion) {
 
     if ($oldversion < 2013103101) {
 
-        // Survey savepoint reached.
+        // Surveypro savepoint reached.
         // upgrade_plugin_savepoint(true, 2013103101, 'surveyproformat', 'label');
     }
 

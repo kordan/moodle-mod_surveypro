@@ -1,7 +1,7 @@
 documentazione surveypro
 What surveypro does
 
-Survey is a moodle module to create custom surveypro.
+Surveypro is a moodle module to create custom surveypro.
 Among custom surveypro fews set of world accepted templates are included like ATTLS, COLLES, CI.
 The main news of surveypro are that you have:
 • question branching

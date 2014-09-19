@@ -17,9 +17,6 @@
 /**
  * Prints a particular instance of surveypro
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
  * @copyright  2013 kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -56,7 +53,7 @@ $exportman = new mod_surveypro_exportmanager($cm, $surveypro);
 // -----------------------------
 // define exportform return url
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('view_export.php', $paramurl);
+$formurl = new moodle_url('/mod/surveypro/view_export.php', $paramurl);
 // end of: define $mform return url
 // -----------------------------
 
@@ -87,7 +84,7 @@ if ($exportman->formdata = $exportform->get_data()) {
 // -----------------------------
 // output starts here
 // -----------------------------
-$PAGE->set_url('/mod/surveypro/view.php', array('id' => $cm->id));
+$PAGE->set_url('/mod/surveypro/view_export.php', array('s' => $surveypro->id));
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 

@@ -17,9 +17,6 @@
 /**
  * Prints a particular instance of surveypro
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
  * @copyright  2013 kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -59,7 +56,7 @@ $itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro, '', '');
 // $itemlistman->set_action(SURVEYPRO_NOACTION);
 
 // view is useless (it is set to its default), do not set it
-// $itemlistman->set_view(SURVEYPRO_SUBMITRESPONSE);
+// $itemlistman->set_view(SURVEYPRO_NEWRESPONSE);
 
 // itemtomove is useless (it is set to its default), do not set it
 // $itemlistman->set_itemtomove(0);
@@ -85,9 +82,13 @@ $itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro, '', '');
 // -----------------------------
 // output starts here
 // -----------------------------
-$PAGE->set_url('/mod/surveypro/items_validate.php', array('id' => $cm->id));
+$url = new moodle_url('/mod/surveypro/items_validate.php', array('s' => $surveypro->id));
+$PAGE->set_url($url);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
+
+// make bold the navigation menu/link that refers to me
+navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 

@@ -233,9 +233,10 @@ class report_colles extends mod_surveypro_reportbase {
             $paramnexturl = array();
             $paramnexturl['s'] = $this->surveypro->id;
             $paramnexturl['type'] = 'scales';
+            $paramnexturl['cover'] = 0;
             // $paramnexturl['group'] = 0;
             // $paramnexturl['area'] = 0;
-            $nexturl = new moodle_url('view.php', $paramnexturl);
+            $nexturl = new moodle_url('/mod/surveypro/view.php', $paramnexturl);
         } else {
             $nexturl = null;
         }
@@ -362,12 +363,14 @@ class report_colles extends mod_surveypro_reportbase {
         $paramurl['id'] = $this->cm->id;
         $paramurl['group'] = 0;
         $paramurl['type'] = 'scales';
+        $paramurl['cover'] = 0;
 
         for ($area = 0; $area < 6; $area++) { // 0..5
             $paramnexturl['area'] = $area;
+            $nexturl = new moodle_url('/mod/surveypro/view.php', $paramnexturl);
+
             $paramurl['area'] = $area;
-            $nexturl = new moodle_url('view.php', $paramnexturl);
-            $graphurl = new moodle_url('graph.php', $paramurl);
+            $graphurl = new moodle_url('/mod/surveypro/graph.php', $paramurl);
 
             $this->output_html($nexturl, $graphurl, 'scalesreport');
         }
@@ -454,8 +457,9 @@ class report_colles extends mod_surveypro_reportbase {
         $paramnexturl = array();
         $paramnexturl['s'] = $this->surveypro->id;
         $paramnexturl['type'] = 'summary';
+        $paramnexturl['cover'] = 0;
         // $paramnexturl['group'] = 0;
-        $nexturl = new moodle_url('view.php', $paramnexturl);
+        $nexturl = new moodle_url('/mod/surveypro/view.php', $paramnexturl);
 
         $paramurl = array();
         $paramurl['id'] = $this->cm->id;
@@ -474,7 +478,7 @@ class report_colles extends mod_surveypro_reportbase {
             $paramurl['area'] = $area;
             for ($qid = 0; $qid < 4; $qid++) { // 0..3
                 $paramurl['qid'] = $qid;
-                $graphurl = new moodle_url('graph.php', $paramurl);
+                $graphurl = new moodle_url('/mod/surveypro/graph.php', $paramurl);
                 $this->output_html($nexturl, $graphurl, 'questionsreport');
             }
         }

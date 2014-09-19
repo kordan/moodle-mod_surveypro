@@ -64,8 +64,8 @@ $reportman->stop_if_textareas_only();
 
 // -----------------------------
 // define $mform return url
-$paramurl = array('id' => $cm->id, 'rname' => 'frequency');
-$formurl = new moodle_url('view.php', $paramurl);
+$paramurl = array('id' => $cm->id, 'rname' => 'frequency', 'cover' => 0);
+$formurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
 // end of: define $mform return url
 // -----------------------------
 

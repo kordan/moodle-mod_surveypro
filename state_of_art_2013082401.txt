@@ -35,7 +35,7 @@ They are:
 
 User can choose, setup them and include them into search forms.
 They all have a long list of features to verify the content provided by the user.
-Survey foreseen conditional branching, sort of fields during export, item indentation, custom number, feature to hide, groups of users with with "extended" permissions, mandatory/optional items, fields limited to people with a specific permission
+Surveypro foreseen conditional branching, sort of fields during export, item indentation, custom number, feature to hide, groups of users with with "extended" permissions, mandatory/optional items, fields limited to people with a specific permission
 
 Pending tracker issues:
 √ MDL-30940: multiselect mform doesn't work! Fixed by Frédéric Massart on April 19, 2013
