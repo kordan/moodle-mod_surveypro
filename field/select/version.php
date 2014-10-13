@@ -22,7 +22,7 @@
  *
  * @package    surveyprofield
  * @subpackage select
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,4 +30,5 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->version = 2014051701;
 $plugin->release = '1.0';
-$plugin->requires = 2010091600;  // Requires this Moodle version
+$plugin->requires = 2010091600; // Requires this Moodle version
+$plugin->component = 'surveyprofield_select'; // Full name of the plugin (used for diagnostics)

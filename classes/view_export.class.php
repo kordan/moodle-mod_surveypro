@@ -18,7 +18,7 @@
  * This is a one-line short description of the file
  *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -91,7 +91,8 @@ class mod_surveypro_exportmanager {
         global $USER, $COURSE;
 
         if ($groupmode = groups_get_activity_groupmode($this->cm, $COURSE)) {
-            $mygroups = surveypro_get_my_groups_simple($userid);
+            $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $this->cm->groupingid);
+            $mygroups = array_keys($mygroups);
         }
 
         $sql = 'SELECT s.id as submissionid, s.status, s.timecreated, s.timemodified, ';
@@ -235,8 +236,8 @@ class mod_surveypro_exportmanager {
             // echo '$placeholders:';
             // var_dump($placeholders);
 
-            // get user group (to filter surveypro to download) ???? TODO: NEVER USED ????
-            // $mygroups = surveypro_get_my_groups_simple();
+            // get user groups (to filter surveypro to download) ???? TODO: NEVER USED ????
+            // $mygroups = groups_get_all_groups($course->id, $USER->id, $this->cm->groupingid);
 
             $oldsubmissionid = 0;
             $strnever = get_string('never');

@@ -21,7 +21,7 @@
  * logic, should go here. Never include this file from your lib.php!
  *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -117,14 +117,17 @@ function fetch_summarydata($surveyproid) {
     // end of: names of areas of investigation
 
     // group question id per area of investigation
-    $sql = 'SELECT si.id, si.sortindex, si.plugin
-            FROM {surveypro_item} si
-            WHERE si.surveyproid = :surveyproid
-                AND si.plugin = :plugin
-            ORDER BY si.sortindex';
-
+    // Changed to a shorter version on September 25, 2014.
+    // Older version will be deleted as soon as the wew one will be checked.
+    // $sql = 'SELECT si.id, si.sortindex, si.plugin
+    //         FROM {surveypro_item} si
+    //         WHERE si.surveyproid = :surveyproid
+    //             AND si.plugin = :plugin
+    //         ORDER BY si.sortindex';
+    // $whereparams = array('surveyproid' => $surveyproid, 'plugin' => 'radiobutton');
+    // $itemseeds = $DB->get_recordset_sql($sql, $whereparams);
     $whereparams = array('surveyproid' => $surveyproid, 'plugin' => 'radiobutton');
-    $itemseeds = $DB->get_recordset_sql($sql, $whereparams);
+    $itemseeds = $DB->get_recordset('surveypro_item', $whereparams, 'sortindex', 'id, sortindex, plugin');
 
     $countradio = ($iarea->surveyproname == 'collesactualpreferred') ? 8 : 4;
     $idlist = array();

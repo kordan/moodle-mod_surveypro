@@ -18,15 +18,15 @@
  * Version information
  *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$module->component = 'mod_surveypro';  // Full name of the plugin (used for diagnostics)
-$module->maturity = MATURITY_ALPHA;    // MATURITY_RC
-$module->version = 2014051901;         // The current module version (Date: YYYYMMDDXX)
-$module->release = '1.0';              // The current release
-$module->requires = 2013111802;        // Requires this Moodle version
-$module->cron = 3600;                  // Period for cron to check this module (secs)
+$plugin->component = 'mod_surveypro'; // Full name of the plugin (used for diagnostics)
+$plugin->maturity = MATURITY_ALPHA; // MATURITY_RC
+$plugin->version = 2014051901; // The current module version (Date: YYYYMMDDXX)
+$plugin->release = '1.0'; // The current release
+$plugin->requires = 2013111802; // Requires this Moodle version
+$plugin->cron = 3600; // Period for cron to check this module (secs)

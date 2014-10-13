@@ -18,7 +18,7 @@
  * This is a one-line short description of the file
  *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -489,7 +489,7 @@ EOS;
         } else {
             $labels = array(SURVEYPRO_IGNOREME => '') + $labels;
         }
-        if ($this->labelother) {
+        if (!empty($this->labelother)) {
             list($othervalue, $otherlabel) = $this->item_get_other();
             $labels['other'] = $otherlabel;
         }
@@ -572,11 +572,7 @@ EOS;
         $errorkey = empty($this->labelother) ? $this->itemname : $this->itemname.'_group';
 
         if ($data[$this->itemname] == SURVEYPRO_INVITATIONVALUE) {
-            if (!$this->labelother) {
-                $errors[$errorkey] = get_string('uerr_optionnotset', 'surveyprofield_select');
-            } else {
-                $errors[$errorkey] = get_string('uerr_optionnotset', 'surveyprofield_select');
-            }
+            $errors[$errorkey] = get_string('uerr_optionnotset', 'surveyprofield_select');
         }
     }
 
@@ -616,7 +612,7 @@ EOS;
         if ($labelsubset) {
             foreach ($labelsubset as $k => $label) {
                 // only garbage after the first label, but user wrote it
-                if ($this->labelother) {
+                if (!empty($this->labelother)) {
                     $mformelementinfo = new stdClass();
                     $mformelementinfo->parentname = $this->itemname;
                     $mformelementinfo->operator = 'neq';
@@ -633,7 +629,7 @@ EOS;
         } else {
             // even if no labels were provided
             // I have to add one more $disabilitationinfo if $this->other is not empty
-            if ($this->labelother) {
+            if (!empty($this->labelother)) {
                 $mformelementinfo = new stdClass();
                 $mformelementinfo->parentname = $this->itemname.'_other';
                 $mformelementinfo->content = 'checked';

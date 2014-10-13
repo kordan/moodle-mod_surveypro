@@ -24,7 +24,7 @@
  * Moodle is performing actions across all modules.
  *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -345,17 +345,17 @@ function surveypro_delete_instance($id) {
     }
 
     $dbman = $DB->get_manager();
-    $sqlparam = array('surveyproid' => $surveypro->id);
+    $whereparams = array('surveyproid' => $surveypro->id);
 
     // Delete any dependent records here
-    $submissions = $DB->get_records('surveypro_submission', $sqlparam, '', 'id');
+    $submissions = $DB->get_records('surveypro_submission', $whereparams, '', 'id');
     $submissions = array_keys($submissions);
 
     // delete all associated surveypro_answer
     $DB->delete_records_list('surveypro_answer', 'submissionid', $submissions);
 
     // delete all associated surveypro_submission
-    $DB->delete_records('surveypro_submission', $sqlparam);
+    $DB->delete_records('surveypro_submission', $whereparams);
 
     // get all item_<<plugin>> and format_<<plugin>>
     $surveyprotypes = array(SURVEYPRO_TYPEFIELD, SURVEYPRO_TYPEFORMAT);
@@ -366,9 +366,9 @@ function surveypro_delete_instance($id) {
         foreach ($pluginlist as $plugin) {
             $tablename = 'surveypro'.$surveyprotype.'_'.$plugin;
             if ($dbman->table_exists($tablename)) {
-                $sqlparam['plugin'] = $plugin;
+                $whereparams['plugin'] = $plugin;
 
-                if ($deletelist = $DB->get_records('surveypro_item', $sqlparam, 'id', 'id')) {
+                if ($deletelist = $DB->get_records('surveypro_item', $whereparams, 'id', 'id')) {
                     $deletelist = array_keys($deletelist);
                     $select = 'itemid IN ('.implode(',', $deletelist).')';
                     $DB->delete_records_select($tablename, $select);
@@ -1116,8 +1116,22 @@ function surveypro_get_editor_options() {
 function surveypro_reset_items_pages($surveyproid) {
     global $DB;
 
-    $sqlparam = array('surveyproid' => $surveyproid);
-    $DB->set_field('surveypro_item', 'formpage', 0, $sqlparam);
+    $whereparams = array('surveyproid' => $surveyproid);
+    $DB->set_field('surveypro_item', 'formpage', 0, $whereparams);
+}
+
+/**
+ * surveypro_count_items
+ *
+ * @param $surveyproid
+ * @return
+ */
+function surveypro_count_items($surveyproid) {
+    global $DB;
+
+    $whereparams = array('surveyproid' => $surveyproid);
+
+    return $DB->count_records('surveypro_item', $whereparams);
 }
 
 /**

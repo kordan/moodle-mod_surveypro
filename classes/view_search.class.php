@@ -18,7 +18,7 @@
  * This is a one-line short description of the file
  *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -114,7 +114,7 @@ class mod_surveypro_searchmanager {
     }
 
     /**
-     * count_input_items
+     * count_search_items as opposed to "count_input_items"
      *
      * @param none
      * @return
@@ -136,7 +136,7 @@ class mod_surveypro_searchmanager {
      * @return
      */
     public function noitem_stopexecution() {
-        global $COURSE, $OUTPUT;
+        global $OUTPUT;
 
         echo $OUTPUT->notification(get_string('emptysearchform', 'surveypro'), 'notifyproblem');
 

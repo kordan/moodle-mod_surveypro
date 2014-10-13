@@ -18,7 +18,7 @@
  * English strings for surveypro
  *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -289,7 +289,7 @@ $string['newsubmissionbody'] = 'A new record has been submitted in {$a}';
 $string['newsubmissionsubject'] = 'New response';
 $string['nextformpage'] = 'Next page >>';
 $string['noanswer'] = 'No answer';
-$string['noitemsfound'] = 'The survey you are accessing is still a work in progress.<br />Please try access again later.';
+$string['noitemsfound'] = 'The survey you are accessing is still a work in progress.<br />Please try again later.';
 $string['nomoreitems'] = 'On the basis of the answers provided, no more elements remain to display.<br />Your survey is over. You only need to submit{$a}.';
 $string['nomoresubmissionsallowed'] = 'The maximun number of {$a} responses was already reached.<br />No more attempts are allowed.';
 $string['nomtemplates_help'] = 'Course creator probably denied the instantiation of each master tempalte. Contact your course creator for further details.';

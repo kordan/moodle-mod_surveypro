@@ -18,7 +18,7 @@
  * This is a one-line short description of the file
  *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -69,9 +69,20 @@ class mod_surveypro_submissionmanager {
     public $confirm = false;
 
     /**
-     * $canseeownsubmissions
+     * $itemsfound
      */
-    // public $canseeownsubmissions = true;
+    public $itemsfound = true;
+
+    /**
+     * $canmanageitems
+     */
+    public $canmanageitems = false;
+
+    /**
+     * $canseeownsubmissions
+     *
+     * public $canseeownsubmissions = true;
+     */
 
     /**
      * $canseeotherssubmissions
@@ -126,6 +137,7 @@ class mod_surveypro_submissionmanager {
         $this->view = $view;
         $this->searchquery = $searchquery;
         $this->cansubmit = has_capability('mod/surveypro:submit', $this->context, null, true);
+        $this->canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
         $this->canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context, null, true);
 
         $this->canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $this->context, null, true);
@@ -140,6 +152,8 @@ class mod_surveypro_submissionmanager {
         $this->candeleteotherssubmissions = has_capability('mod/surveypro:deleteotherssubmissions', $this->context, null, true);
 
         $this->cansavesubmissiontopdf = has_capability('mod/surveypro:savesubmissiontopdf', $this->context, null, true);
+
+        $this->count_input_items();
     }
 
     /**
@@ -301,10 +315,14 @@ class mod_surveypro_submissionmanager {
                 case SURVEYPRO_CONFIRMED_YES:
                     try {
                         $transaction = $DB->start_delegated_transaction();
-                        $sql = 'SELECT s.id
-                                    FROM {surveypro_submission} s
-                                    WHERE s.surveyproid = :surveyproid';
-                        $idlist = $DB->get_records_sql($sql, array('surveyproid' => $this->surveypro->id));
+                        // Changed to a shorter version on September 25, 2014.
+                        // Older version will be deleted as soon as the wew one will be checked.
+                        // $sql = 'SELECT s.id
+                        //             FROM {surveypro_submission} s
+                        //             WHERE s.surveyproid = :surveyproid';
+                        // $idlist = $DB->get_records_sql($sql, array('surveyproid' => $this->surveypro->id));
+                        $whereparams = array('surveyproid' => $this->surveypro->id);
+                        $idlist = $DB->get_records('surveypro_submission', $whereparams, '', 'id');
 
                         foreach ($idlist as $submissionid) {
                             $DB->delete_records('surveypro_answer', array('submissionid' => $submissionid->id));
@@ -352,29 +370,31 @@ class mod_surveypro_submissionmanager {
         global $COURSE, $USER;
 
         if ($groupmode = groups_get_activity_groupmode($this->cm, $COURSE)) {
-            $mygroupmates = surveypro_groupmates();
-            // if (!count($mygroupmates)) then the user is a teacher
-            if (!count($mygroupmates)) { // user is not in any group
-                if (has_capability('mod/surveypro:manageitems', $this->context)) {
-                    // This is a teacher
-                    // Has to see each submission
-                    $manageallsubmissions = true;
+            if ($groupmode == SEPARATEGROUPS) {
+                $mygroupmates = surveypro_groupmates($this->cm);
+                // if (!count($mygroupmates)) then the user is a teacher
+                if (!count($mygroupmates)) { // user is not in any group
+                    if (has_capability('mod/surveypro:manageitems', $this->context)) {
+                        // This is a teacher
+                        // Has to see each submission
+                        $manageallsubmissions = true;
+                    } else {
+                        // This is a student that has not been added to any group.
+                        // The sql needs to return an empty set
+                        $sql = 'SELECT DISTINCT s.*, s.id as submissionid, '.user_picture::fields('u').'
+                                FROM {surveypro_submission} s
+                                    JOIN {user} u ON s.userid = u.id
+                                WHERE u.id = :userid';
+                        return array($sql, array('userid' => -1));
+                    }
                 } else {
-                    // This is a student that has not been added to any group.
-                    // The sql needs to return an empty set
-                    $sql = 'SELECT DISTINCT s.*, s.id as submissionid, '.user_picture::fields('u').'
-                            FROM {surveypro_submission} s
-                                JOIN {user} u ON s.userid = u.id
-                            WHERE u.id = :userid';
-                    return array($sql, array('userid' => -1));
+                    // I don'care if the user is a teacher or a student.
+                    // He/she was assigned to a group.
+                    // I allow him/her only to submissions of his/her groupmates.
+                    $manageallsubmissions = false;
+                    $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $this->cm->groupingid);
+                    $mygroups = array_keys($mygroups);
                 }
-            } else {
-                // I don'care if the user is a teacher or a student.
-                // He/she was assigned to a group.
-                // I allow him/her only to submissions of his/her groupmates.
-                $manageallsubmissions = false;
-                $courseisgrouped = groups_get_all_groups($COURSE->id);
-                $mygroups = surveypro_get_my_groups_simple();
             }
         }
 
@@ -454,6 +474,48 @@ class mod_surveypro_submissionmanager {
         // var_dump($whereparams);
 
         return array($sql, $whereparams);
+    }
+
+    /**
+     * count_input_items as opposed to "count_search_items"
+     *
+     * @param none
+     * @return
+     */
+    public function count_input_items() {
+        global $DB;
+
+        if (empty($this->formpage)) {
+            $whereparams = array('surveyproid' => $this->surveypro->id);
+            $whereclause = 'surveyproid = :surveyproid AND hidden = 0';
+        } else {
+            $whereparams = array('surveyproid' => $this->surveypro->id, 'formpage' => $this->formpage);
+            $whereclause = 'surveyproid = :surveyproid AND hidden = 0 AND formpage = :formpage';
+        }
+        if (!$this->canaccessadvanceditems) {
+            $whereclause .= ' AND advanced = 0';
+        }
+
+        $this->itemsfound = ($DB->count_records_select('surveypro_item', $whereclause, $whereparams) > 0);
+    }
+
+    /**
+     * noitem_stopexecution
+     *
+     * @param none
+     * @return
+     */
+    public function noitem_stopexecution() {
+        global $COURSE, $OUTPUT;
+
+        $message = get_string('noitemsfound', 'surveypro');
+        echo $OUTPUT->notification($message, 'notifyproblem');
+
+        $continueurl = new moodle_url('/course/view.php', array('id' => $COURSE->id));
+        echo $OUTPUT->continue_button($continueurl);
+
+        echo $OUTPUT->footer();
+        die();
     }
 
     /**
@@ -584,7 +646,9 @@ class mod_surveypro_submissionmanager {
 
         if ($submissions->valid()) {
             if ($groupmode = groups_get_activity_groupmode($this->cm, $COURSE)) {
-                $mygroupmates = surveypro_groupmates();
+                if ($groupmode == SEPARATEGROUPS) {
+                    $mygroupmates = surveypro_groupmates($this->cm);
+                }
             }
 
             foreach ($submissions as $submission) {
@@ -813,7 +877,7 @@ class mod_surveypro_submissionmanager {
             if (!$ismine = ($ownerid == $USER->id)) {
                 $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
                 if ($groupmode == SEPARATEGROUPS) {
-                    $mygroupmates = surveypro_groupmates();
+                    $mygroupmates = surveypro_groupmates($this->cm);
                     $groupuser = in_array($submission->userid, $mygroupmates);
                 }
             }

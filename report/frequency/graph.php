@@ -51,7 +51,6 @@ $sql = 'SELECT content, count(id) as absolute
         WHERE itemid = :itemid
         GROUP BY content
         ORDER BY content';
-
 $answers = $DB->get_recordset_sql($sql, $whereparams);
 
 $counted = 0;

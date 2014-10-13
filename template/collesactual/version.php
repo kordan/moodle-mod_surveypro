@@ -15,14 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines the version of surveypro template subplugin
+ * Defines the version of surveypro collesactual template subplugin
  *
  * This code fragment is called by moodle_needs_upgrading() and
  * /admin/index.php
  *
  * @package    surveyprotemplate
  * @subpackage collesactual
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,4 +30,5 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->version = 2013103101;
 $plugin->release = '1.0';
-$plugin->requires = 2010091600;  // Requires this Moodle version
+$plugin->requires = 2010091600; // Requires this Moodle version
+$plugin->component = 'surveyprotemplate_collesactual'; // Full name of the plugin (used for diagnostics)

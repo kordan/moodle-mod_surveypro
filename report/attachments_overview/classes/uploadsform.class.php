@@ -18,7 +18,7 @@
  * This is a one-line short description of the file
  *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -149,7 +149,7 @@ EOS;
         $output .= str_replace('@@left@@', $left, $layout);
         $output = str_replace('@@right@@', $right, $output);
 
-        $sqlparams = array('submissionid' => $submissionid, 'plugin' => 'fileupload');
+        $whereparams = array('submissionid' => $submissionid, 'plugin' => 'fileupload');
         $sql = 'SELECT si.id, a.id as answerid, fu.content
             FROM {surveypro_item} si
                 JOIN {surveypro_answer} a ON a.itemid = si.id
@@ -158,11 +158,11 @@ EOS;
                 AND a.submissionid = :submissionid';
         if ($itemid) {
             $sql .= ' AND si.id = :itemid ';
-            $sqlparams['itemid'] = $itemid;
+            $whereparams['itemid'] = $itemid;
         }
         $sql .= ' ORDER BY si.sortindex';
 
-        $items = $DB->get_records_sql($sql, $sqlparams);
+        $items = $DB->get_records_sql($sql, $whereparams);
 
         $fs = get_file_storage();
         foreach ($items as $item) {

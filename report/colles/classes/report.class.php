@@ -22,7 +22,7 @@
  *
  * @package    surveyproreport
  * @subpackage colles
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -415,11 +415,15 @@ class report_colles extends mod_surveypro_reportbase {
         }
         foreach ($toevaluate as $k => $areaidlist) {
             foreach ($areaidlist as $itemid) {
+                // Changed to a shorter version on September 25, 2014.
+                // Older version will be deleted as soon as the wew one will be checked.
+                // $sql = 'SELECT COUNT(ud.id) as countofanswers, SUM(ud.content) as sumofanswers
+                //         FROM {surveypro_answer} ud
+                //         WHERE ud.itemid = :itemid';
+                // $whereparams = array('itemid' => $itemid);
+                // $aggregate = $DB->get_record_sql($sql, $whereparams);
                 $whereparams = array('itemid' => $itemid);
-                $sql = 'SELECT count(ud.id) as countofanswers, SUM(ud.content) as sumofanswers
-                        FROM {surveypro_answer} ud
-                        WHERE ud.itemid = :itemid';
-                $aggregate = $DB->get_record_sql($sql, $whereparams);
+                $aggregate = $DB->get_record('surveypro_answer', $whereparams, '', 'COUNT(id) as countofanswers, SUM(content) as sumofanswers');
                 $m = $aggregate->sumofanswers/$aggregate->countofanswers;
                 if ($k == 0) {
                     $this->trend1[] = $m;
@@ -428,10 +432,14 @@ class report_colles extends mod_surveypro_reportbase {
                     $this->trend2[] = $m;
                 }
 
-                $sql = 'SELECT ud.content
-                        FROM {surveypro_answer} ud
-                        WHERE ud.itemid = :itemid';
-                $answers = $DB->get_recordset_sql($sql, $whereparams);
+                // Changed to a shorter version on September 25, 2014.
+                // Older version will be deleted as soon as the wew one will be checked.
+                // $sql = 'SELECT ud.content
+                //         FROM {surveypro_answer} ud
+                //         WHERE ud.itemid = :itemid';
+                // $answers = $DB->get_recordset_sql($sql, $whereparams);
+                // $whereparams = array('itemid' => $itemid); // already defined
+                $answers = $DB->get_recordset('surveypro_answer', $whereparams, '', 'content');
                 $bigsum = 0;
                 foreach ($answers as $answer) {
                     $xi = (double)$answer->content;

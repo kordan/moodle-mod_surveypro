@@ -18,7 +18,7 @@
  * This is a one-line short description of the file
  *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -1048,7 +1048,8 @@ class mod_surveypro_itemlist {
                             WHERE surveyproid = :surveyproid
                                 AND sortindex > :killedsortindex
                             ORDER BY sortindex';
-                    $itemlist = $DB->get_recordset_sql($sql, array('surveyproid' => $this->surveypro->id, 'killedsortindex' => $killedsortindex));
+                    $whereparams = array('surveyproid' => $this->surveypro->id, 'killedsortindex' => $killedsortindex);
+                    $itemlist = $DB->get_recordset_sql($sql, $whereparams);
                     $currentsortindex = $killedsortindex;
                     foreach ($itemlist as $item) {
                         $DB->set_field('surveypro_item', 'sortindex', $currentsortindex, array('id' => $item->id));
@@ -1274,16 +1275,21 @@ class mod_surveypro_itemlist {
         $edittitle = get_string('edit');
         $okstring = get_string('ok');
 
-        $sql = 'SELECT si.*, si.id as itemid, si.plugin, si.type
-                FROM {surveypro_item} si
-                WHERE si.surveyproid = :surveyproid';
-        if ($table->get_sql_sort()) {
-            $sql .= ' ORDER BY '.$table->get_sql_sort();
-        } else {
-            $sql .= ' ORDER BY si.sortindex';
-        }
+        // Changed to a shorter version on September 25, 2014.
+        // Older version will be deleted as soon as the wew one will be checked.
+        // $sql = 'SELECT si.*, si.id as itemid, si.plugin, si.type
+        //         FROM {surveypro_item} si
+        //         WHERE si.surveyproid = :surveyproid';
+        // if ($table->get_sql_sort()) {
+        //     $sql .= ' ORDER BY '.$table->get_sql_sort();
+        // } else {
+        //     $sql .= ' ORDER BY si.sortindex';
+        // }
+        // $itemseeds = $DB->get_recordset_sql($sql, array('surveyproid' => $this->surveypro->id));
+        $whereparams = array('surveyproid' => $this->surveypro->id);
+        $sortfield = ($table->get_sql_sort()) ? $table->get_sql_sort() : 'sortindex';
+        $itemseeds = $DB->get_recordset('surveypro_item', $whereparams, $sortfield, 'id as itemid, plugin, type');
 
-        $itemseeds = $DB->get_recordset_sql($sql, array('surveyproid' => $this->surveypro->id));
         echo $OUTPUT->box(get_string('validationinfo', 'surveypro'));
 
         foreach ($itemseeds as $itemseed) {

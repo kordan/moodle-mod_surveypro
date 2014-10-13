@@ -18,7 +18,7 @@
  * Prints a particular instance of surveypro
  *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -48,14 +48,6 @@ $confirm = optional_param('cnf', SURVEYPRO_UNCONFIRMED, PARAM_INT);
 $searchquery = optional_param('searchquery', '', PARAM_RAW);
 $cover = optional_param('cover', null, PARAM_INT);
 
-if ($cover === null) {
-    $context = context_module::instance($cm->id);
-    if (!has_capability('mod/surveypro:manageitems', $context, null, true)) {
-        $paramurl = array('s' => $surveypro->id);
-        $redirecturl = new moodle_url('/mod/surveypro/view_cover.php', $paramurl);
-        redirect($redirecturl);
-    } // else: carry on
-}
 if ($cover == 1) {
     $paramurl = array('s' => $this->surveypro->id);
     $redirecturl = new moodle_url('/mod/surveypro/view_cover.php', $paramurl);
@@ -70,6 +62,23 @@ if ($action != SURVEYPRO_NOACTION) {
 // calculations
 // -----------------------------
 $submissionman = new mod_surveypro_submissionmanager($cm, $surveypro, $submissionid, $action, $view, $confirm, $searchquery);
+if ($cover === null) {
+    if ($submissionman->canmanageitems) {
+        if (!$submissionman->itemsfound) {
+            $paramurl = array('s' => $surveypro->id);
+            $redirecturl = new moodle_url('/mod/surveypro/items_manage.php', $paramurl);
+            redirect($redirecturl);
+        } // else: carry on
+    } else {
+        if ($submissionman->itemsfound) {
+            $paramurl = array('s' => $surveypro->id);
+            $redirecturl = new moodle_url('/mod/surveypro/view_cover.php', $paramurl);
+            redirect($redirecturl);
+            // } else {
+            // if (!$submissionman->itemsfound) { just below will stop execution
+        }
+    }
+}
 $submissionman->prevent_direct_user_input($confirm);
 $submissionman->submission_to_pdf();
 
@@ -82,6 +91,9 @@ $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
 
+if (!$submissionman->itemsfound) {
+    $submissionman->noitem_stopexecution();
+}
 $submissionman->manage_actions(); // action feedback before tabs
 
 $moduletab = SURVEYPRO_TABSUBMISSIONS; // needed by tabs.php

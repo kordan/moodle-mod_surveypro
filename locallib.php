@@ -21,7 +21,7 @@
  * logic, should go here. Never include this file from your lib.php!
  *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -91,11 +91,12 @@ function surveypro_textarea_to_array($textareacontent) {
  * @return $filtergroups
  */
 function surveypro_need_group_filtering($cm, $context) {
-    global $COURSE;
+    global $COURSE, $USER;
 
     // do I need to filter groups?
     $groupmode = groups_get_activity_groupmode($cm, $COURSE);
-    $mygroups = surveypro_get_my_groups_simple();
+    $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $cm->groupingid);
+    $mygroups = array_keys($mygroups);
 
     $filtergroups = true;
     $filtergroups = $filtergroups && ($groupmode == SEPARATEGROUPS);
@@ -126,49 +127,25 @@ function surveypro_fixlength($plainstring, $maxlength=60) {
 }
 
 /**
- * surveypro_get_my_groups_simple
- * this function is simpler and less resource asking than the core groups_get_my_groups();
- * I really don't need all the infos returned by the core function
- *
- * @param optional $userid: the user you want to know his/her groups
- * @return: an array with the list of the group the user belongs to
- */
-function surveypro_get_my_groups_simple($userid=0) {
-    global $DB, $USER;
-
-    if (empty($userid)) {
-        $userid = $USER->id;
-    }
-
-    $mygroups = $DB->get_records('groups_members', array('userid' => $userid), 'groupid', 'groupid');
-
-    return array_keys($mygroups);
-}
-
-/**
  * surveypro_groupmates
  *
+ * @param $cm: the course module
  * @param optional $userid: the user you want to know his/her groupmates
  * @return: an array with the list of groupmates of the user
  */
-function surveypro_groupmates($userid=0) {
-    global $DB, $USER;
+function surveypro_groupmates($cm, $userid=0) {
+    global $COURSE, $USER;
 
     if (empty($userid)) {
         $userid = $USER->id;
     }
 
-    if ($mygroups = surveypro_get_my_groups_simple($userid)) {
-        $sql = 'SELECT DISTINCT gm.userid
-            FROM {groups_members} gm
-                JOIN {groups} g ON gm.groupid = g.id
-            WHERE g.id IN ('.implode(',', $mygroups).')
-            ORDER BY gm.userid ASC';
-
-        $groupmates = $DB->get_records_sql($sql);
-
-        return array_keys($groupmates);
-    } else  {
-        return array();
+    $groupusers = array();
+    if ($currentgroups = groups_get_all_groups($COURSE->id, $USER->id, $cm->groupingid)) {
+        foreach ($currentgroups as $currentgroup) {
+            $groupusers += groups_get_members($currentgroup->id, 'u.id');
+        }
     }
+
+    return array_keys($groupmates);
 }

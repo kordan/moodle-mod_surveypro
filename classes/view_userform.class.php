@@ -18,7 +18,7 @@
  * This is a one-line short description of the file
  *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -698,7 +698,7 @@ class mod_surveypro_userformmanager {
      * @return
      */
     public function notifyroles() {
-        global $CFG, $DB, $COURSE;
+        global $CFG, $DB, $COURSE, $USER;
 
         require_once($CFG->dirroot.'/group/lib.php');
 
@@ -712,7 +712,8 @@ class mod_surveypro_userformmanager {
         // course context used locally to get groups
         $context = context_course::instance($COURSE->id);
 
-        $mygroups = surveypro_get_my_groups_simple();
+        $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $this->cm->groupingid);
+        $mygroups = array_keys($mygroups);
         if (count($mygroups)) {
             if ($this->surveypro->notifyrole) {
                 $roles = explode(',', $this->surveypro->notifyrole);
@@ -802,7 +803,7 @@ class mod_surveypro_userformmanager {
     }
 
     /**
-     * count_input_items
+     * count_input_items as opposed to "count_search_items"
      *
      * @param none
      * @return
@@ -810,7 +811,7 @@ class mod_surveypro_userformmanager {
     public function count_input_items() {
         global $DB;
 
-        if (empty($this->formpage)) { // for frozen mform
+        if (empty($this->formpage)) {
             $whereparams = array('surveyproid' => $this->surveypro->id);
             $whereclause = 'surveyproid = :surveyproid AND hidden = 0';
         } else {
@@ -1175,7 +1176,7 @@ class mod_surveypro_userformmanager {
             if ($submission->userid != $USER->id) {
                 $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
                 if ($groupmode == SEPARATEGROUPS) {
-                    $mygroupmates = surveypro_groupmates();
+                    $mygroupmates = surveypro_groupmates($this->cm);
                     // if I am a teacher, $mygroupmates is empty but I still have the right to see all my students
                     if (!$mygroupmates) { // I have no $mygroupmates. I am a teacher. I am active part of each group.
                         $groupuser = true;

@@ -18,7 +18,7 @@
  * This is a one-line short description of the file
  *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -54,6 +54,7 @@ class surveypro_itemtypeform extends moodleform {
 
         $elementgroup = array();
         $elementgroup[] = $mform->createElement('selectgroups', $fieldname, '', $pluginlist);
+        // $elementgroup[] = $mform->createElement('selectgroups', $fieldname, '', $pluginlist, array('id' => 'type_plugin', 'class' => 'autosubmit ignoredirty'));
         $elementgroup[] = $mform->createElement('submit', $fieldname.'_button', get_string('add'));
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveypro'), array(' '), false);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveypro');

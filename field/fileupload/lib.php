@@ -17,7 +17,7 @@
 /**
  * @package    surveyprofield
  * @subpackage fileupload
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -55,8 +55,8 @@ function surveyprofield_fileupload_pluginfile($course, $cm, $context, $filearea,
             FROM {surveypro_item} si
                 JOIN {surveypro_answer} a ON a.itemid = si.id
             WHERE a.id = :answerid';
-    $sqlparams = array('answerid' => $answerid);
-    $answer = $DB->get_record_sql($sql, $sqlparams, MUST_EXIST);
+    $whereparams = array('answerid' => $answerid);
+    $answer = $DB->get_record_sql($sql, $whereparams, MUST_EXIST);
 
     if ($cm->instance != $answer->surveyproid) {
         return false;

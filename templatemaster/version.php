@@ -21,8 +21,8 @@
  * /admin/index.php
  *
  * @package    surveyprotemplate
- * @subpackage surveyproTemplate_@@templateNamePlaceholder@@
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @subpackage @@templateNamePlaceholder@@
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,4 +30,5 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->version = 1965100401;
 $plugin->release = '1.0';
-$plugin->requires = 2010091600;  // Requires this Moodle version
+$plugin->requires = 2010091600; // Requires this Moodle version
+$plugin->component = 'surveyprotemplate_@@templateNamePlaceholder@@'; // Full name of the plugin (used for diagnostics)

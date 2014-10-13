@@ -18,7 +18,7 @@
  * Prints a particular instance of surveypro
  *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -146,6 +146,10 @@ if ($fromform = $itemform->get_data()) {
 $PAGE->set_url('/mod/surveypro/items_setup.php', array('id' => $cm->id));
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
+// $PAGE->requires->yui_module('moodle-core-formautosubmit',
+//     'M.core.init_formautosubmit',
+//     array(array('selectid' => 'type_plugin'), 'nothing' => true)
+// );
 
 echo $OUTPUT->header();
 

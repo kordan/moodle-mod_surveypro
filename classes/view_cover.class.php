@@ -18,7 +18,7 @@
  * This is a one-line short description of the file
  *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -112,8 +112,10 @@ class mod_surveypro_covermanager {
 
         echo $OUTPUT->heading(get_string('coverpage_welcome', 'surveypro', $this->surveypro->name));
         if ($this->surveypro->intro) {
-            $intro = file_rewrite_pluginfile_urls($this->surveypro->intro, 'pluginfile.php', $this->context->id, 'mod_surveypro', 'intro', null);
-            echo $OUTPUT->box($intro, 'generalbox description', 'intro');
+            echo $OUTPUT->box(format_module_intro('surveypro', $this->surveypro, $this->cm->id), 'generalbox description', 'intro');
+            // old code
+            // $intro = file_rewrite_pluginfile_urls($this->surveypro->intro, 'pluginfile.php', $this->context->id, 'mod_surveypro', 'intro', null);
+            // echo $OUTPUT->box($intro, 'generalbox description', 'intro');
         }
 
         // general info
