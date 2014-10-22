@@ -21,8 +21,8 @@ Feature: test the use of advanced elements
     And I follow "Advanced elements"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-      | Survey name | Advanced element test                        |
-      | Description | This is a surveypro to test advanced element |
+      | Surveypro name | Advanced element test                        |
+      | Description    | This is a surveypro to test advanced element |
     And I follow "Advanced element test"
 
     # add the first age item generally available

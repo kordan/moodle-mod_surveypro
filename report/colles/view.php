@@ -52,7 +52,7 @@ require_course_login($course, true, $cm);
 
 $context = context_module::instance($cm->id);
 
-$paramurl = array('type' => $type, 's' => $surveypro->id, 'cover' => 0);
+$paramurl = array('type' => $type, 's' => $surveypro->id);
 if (!empty($group)) {
     $paramurl['group'] = $group;
 }
@@ -74,6 +74,8 @@ if ($type == 'summary') {
 // -----------------------------
 $url = new moodle_url('/mod/surveypro/report/colles/view.php', $paramurl);
 $PAGE->set_url($url);
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
@@ -87,7 +89,7 @@ $modulepage = SURVEYPRO_SUBMISSION_REPORT; // needed by tabs.php
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
 $hassubmissions = surveypro_count_submissions($surveypro->id);
-$reportman = new report_colles($cm, $surveypro);
+$reportman = new mod_surveypro_report_colles($cm, $surveypro);
 $reportman->setup($hassubmissions, $group, $area, $qid);
 $reportman->check_submissions();
 switch ($type) {
@@ -101,9 +103,7 @@ switch ($type) {
         $reportman->output_questionsdata($area);
         break;
     case 'question':
-        break;
     case 'students':
-        break;
     case 'student':
         break;
 }

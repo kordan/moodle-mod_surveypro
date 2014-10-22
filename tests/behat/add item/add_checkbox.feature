@@ -19,8 +19,8 @@ Feature: verify a checkbox item can be added to a survey
     And I follow "Add checkbox item"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-      | Survey name | Surveypro test                             |
-      | Description | This is a surveypro to add a checkbox item |
+      | Surveypro name | Surveypro test                             |
+      | Description    | This is a surveypro to add a checkbox item |
     And I follow "Surveypro test"
 
     And I set the field "plugin" to "Checkbox"

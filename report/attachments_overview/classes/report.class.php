@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir.'/tablelib.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/reportbase.class.php');
 
-class report_attachments_overview extends mod_surveypro_reportbase {
+class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase {
     /**
      * coursecontext
      */

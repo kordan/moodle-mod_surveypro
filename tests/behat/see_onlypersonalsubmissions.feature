@@ -24,8 +24,8 @@ Feature: test each student sees only personal submissions
     And I follow "See only personal submissions"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-      | Survey name | Surveypro test                                                            |
-      | Description | This is a surveypro to test each user can only get his own submissions |
+      | Surveypro name | Surveypro test                                                         |
+      | Description    | This is a surveypro to test each user can only get his own submissions |
     And I follow "Surveypro test"
 
     And I set the field "plugin" to "Text (short)"

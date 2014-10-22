@@ -52,7 +52,12 @@ require_capability('mod/surveypro:manageusertemplates', $context);
 // -----------------------------
 // calculations
 // -----------------------------
-$utemplateman = new mod_surveypro_usertemplate($cm, $surveypro, $context, $utemplateid, $action, $view, $confirm);
+$utemplateman = new mod_surveypro_usertemplate($cm, $context, $surveypro);
+$utemplateman->set_utemplateid($utemplateid);
+$utemplateman->set_action($action);
+$utemplateman->set_view($view);
+$utemplateman->set_confirm($confirm);
+
 $utemplateman->prevent_direct_user_input();
 
 if ($view == SURVEYPRO_EXPORTUTEMPLATE) {
@@ -65,6 +70,8 @@ if ($view == SURVEYPRO_EXPORTUTEMPLATE) {
 // -----------------------------
 $url = new moodle_url('/mod/surveypro/utemplates_manage.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 

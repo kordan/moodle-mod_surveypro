@@ -41,8 +41,7 @@ if (!empty($id)) {
 
 require_course_login($course, true, $cm);
 
-$type = optional_param('type', null, PARAM_TEXT);
-$plugin = optional_param('plugin', null, PARAM_TEXT);
+$typeplugin = optional_param('typeplugin', null, PARAM_TEXT);
 $itemid = optional_param('itemid', 0, PARAM_INT);
 $action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
 $view = optional_param('view', SURVEYPRO_NEWRESPONSE, PARAM_INT);
@@ -57,7 +56,8 @@ require_capability('mod/surveypro:additems', $context);
 // -----------------------------
 // calculations
 // -----------------------------
-$itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro, $type, $plugin);
+$itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro);
+$itemlistman->set_typeplugin($typeplugin);
 $itemlistman->set_itemid($itemid);
 $itemlistman->set_action($action);
 $itemlistman->set_view($view);
@@ -109,7 +109,7 @@ $formurl = new moodle_url('/mod/surveypro/items_setup.php', $paramurl);
 $formparams = new stdClass();
 $formparams->surveypro = $surveypro; // needed to setup date boundaries in date fields
 $formparams->item = $item; // needed in many situations
-$itemform = new surveypro_pluginform($formurl, $formparams);
+$itemform = new mod_surveypro_pluginform($formurl, $formparams);
 // end of: prepare params for the form
 // -----------------------------
 
@@ -143,7 +143,10 @@ if ($fromform = $itemform->get_data()) {
 // -----------------------------
 // output starts here
 // -----------------------------
-$PAGE->set_url('/mod/surveypro/items_setup.php', array('id' => $cm->id));
+$url = new moodle_url('/mod/surveypro/items_setup.php', array('id' => $cm->id));
+$PAGE->set_url($url);
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 // $PAGE->requires->yui_module('moodle-core-formautosubmit',

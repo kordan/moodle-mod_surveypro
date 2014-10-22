@@ -20,8 +20,8 @@ Feature: Load and apply usertemplates in order to test, among others, partial it
     And I follow "To apply usertemplate"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-      | Survey name | My user template                                                                               |
-      | Description | This is a surveypro to test partial item deletion |
+      | Surveypro name | My user template                                  |
+      | Description    | This is a surveypro to test partial item deletion |
     And I follow "My user template"
 
     And I follow "User templates"

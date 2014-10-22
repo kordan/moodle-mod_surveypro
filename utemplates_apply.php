@@ -55,7 +55,12 @@ require_capability('mod/surveypro:applyusertemplates', $context);
 // -----------------------------
 // calculations
 // -----------------------------
-$utemplateman = new mod_surveypro_usertemplate($cm, $surveypro, $context, $utemplateid, $action, $view, $confirm);
+$utemplateman = new mod_surveypro_usertemplate($cm, $context, $surveypro);
+$utemplateman->set_utemplateid($utemplateid);
+$utemplateman->set_action($action);
+$utemplateman->set_view($view);
+$utemplateman->set_confirm($confirm);
+
 $utemplateman->prevent_direct_user_input();
 
 // -----------------------------
@@ -71,7 +76,7 @@ $formparams = new stdClass();
 $formparams->cmid = $cm->id;
 $formparams->surveypro = $surveypro;
 $formparams->utemplateman = $utemplateman;
-$applyutemplate = new surveypro_applyutemplateform($formurl, $formparams);
+$applyutemplate = new mod_surveypro_applyutemplateform($formurl, $formparams);
 // end of: prepare params for the form
 // -----------------------------
 
@@ -92,6 +97,8 @@ if ($utemplateman->formdata || ($confirm == SURVEYPRO_CONFIRMED_YES)) {
 // -----------------------------
 $url = new moodle_url('/mod/surveypro/utemplates_apply.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 

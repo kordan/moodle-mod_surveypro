@@ -52,6 +52,8 @@ require_capability('mod/surveypro:accessreports', $context);
 // -----------------------------
 $url = new moodle_url('/mod/surveypro/report/missing/view.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
@@ -65,7 +67,7 @@ $modulepage = SURVEYPRO_SUBMISSION_REPORT; // needed by tabs.php
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
 $hassubmissions = surveypro_count_submissions($surveypro->id);
-$reportman = new report_missing($cm, $surveypro);
+$reportman = new mod_surveypro_report_missing($cm, $surveypro);
 $reportman->setup($hassubmissions);
 $reportman->check_submissions();
 $reportman->fetch_data();

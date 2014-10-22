@@ -46,9 +46,10 @@ class mod_surveypro_templatebase {
     /**
      * Class constructor
      */
-    public function __construct($surveypro, $context) {
-        $this->surveypro = $surveypro;
+    public function __construct($cm, $context, $surveypro) {
+        $this->cm = $cm;
         $this->context = $context;
+        $this->surveypro = $surveypro;
     }
 
     /**
@@ -501,10 +502,9 @@ class mod_surveypro_templatebase {
      * @return
      */
     public function add_items_from_template() {
-        global $DB, $CFG, $PAGE;
+        global $DB, $CFG;
 
-        $cm = $PAGE->cm;
-        $context = context_module::instance($cm->id);
+        $context = context_module::instance($this->cm->id);
         $fs = get_file_storage();
 
         if ($this->templatetype == SURVEYPRO_MASTERTEMPLATE) { // it is multilang
@@ -519,7 +519,7 @@ class mod_surveypro_templatebase {
         if ($this->templatetype == SURVEYPRO_MASTERTEMPLATE) {
             $classfile = $CFG->dirroot.'/mod/surveypro/template/'.$this->templatename.'/template.class.php';
             include_once($classfile);
-            $classname = 'surveyprotemplate_'.$this->templatename;
+            $classname = 'mod_surveypro_template_'.$this->templatename;
             $mastertemplate = new $classname();
         }
 
@@ -776,7 +776,7 @@ class mod_surveypro_templatebase {
                     // I could use a random class here because they all share the same parent item_get_item_schema
                     // but, I need the right class name for the next table, so I start loading the correct class now
                     require_once($CFG->dirroot.'/mod/surveypro/'.$currenttype.'/'.$currentplugin.'/plugin.class.php');
-                    $classname = 'surveypro'.$currenttype.'_'.$currentplugin;
+                    $classname = 'mod_surveypro_'.$currenttype.'_'.$currentplugin;
                     $xsd = $classname::item_get_item_schema(); // <- itembase schema
                 } else {
                     // $classname is already onboard because of the previous loop over surveypro_item fields

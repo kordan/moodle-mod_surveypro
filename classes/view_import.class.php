@@ -61,9 +61,9 @@ class mod_surveypro_importmanager {
     /**
      * Class constructor
      */
-    public function __construct($cm, $surveypro) {
+    public function __construct($cm, $context, $surveypro) {
         $this->cm = $cm;
-        $this->context = context_module::instance($cm->id);
+        $this->context = $context;
         $this->surveypro = $surveypro;
 
         $this->canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
@@ -113,7 +113,7 @@ class mod_surveypro_importmanager {
      * @return csv content
      */
     public function get_csv_content() {
-        $importform = new surveypro_importform();
+        $importform = new mod_surveypro_importform();
 
         return $importform->get_file_content('csvfile_filepicker');
     }

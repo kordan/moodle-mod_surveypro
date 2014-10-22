@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/lib/formslib.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 
-class surveypro_chooseitemform extends moodleform {
+class mod_surveypro_chooseitemform extends moodleform {
 
     public function definition() {
         global $DB;

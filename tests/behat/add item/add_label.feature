@@ -19,8 +19,8 @@ Feature: verify a label item can be added to a survey
     And I follow "Add label item"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-      | Survey name | Surveypro test                          |
-      | Description | This is a surveypro to add a label item |
+      | Surveypro name | Surveypro test                          |
+      | Description    | This is a surveypro to add a label item |
     And I follow "Surveypro test"
 
     And I set the field "plugin" to "Label"

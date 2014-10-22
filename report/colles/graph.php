@@ -30,21 +30,12 @@ $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
 $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
 
-$paramurl = array('id' => $id);
-if ($group !== 0) {
-    $paramurl['group'] = $group;
-}
-$url = new moodle_url('/mod/surveypro/report/frequency/graph.php', $paramurl);
-$PAGE->set_url($url);
-
-$cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
-$course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-$surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
+$context = context_module::instance($cm->id);
 
 require_login($course, false, $cm);
+require_capability('mod/surveypro:accessreports', $context);
 
 $groupmode = groups_get_activity_groupmode($cm, $course);   // Groups are being used
-$context = context_module::instance($cm->id);
 
 if ($type == 'summary') {
     require_capability('mod/surveypro:accessownreports', $context);
@@ -52,7 +43,7 @@ if ($type == 'summary') {
     require_capability('mod/surveypro:accessreports', $context);
 }
 
-$reportman = new report_colles($cm, $surveypro);
+$reportman = new mod_surveypro_report_colles($cm, $surveypro);
 $reportman->setup(true, $group, $area, $qid);
 
 $graph = new graph(SURVEYPRO_GWIDTH, SURVEYPRO_GHEIGHT);

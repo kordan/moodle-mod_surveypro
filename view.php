@@ -61,7 +61,14 @@ if ($action != SURVEYPRO_NOACTION) {
 // -----------------------------
 // calculations
 // -----------------------------
-$submissionman = new mod_surveypro_submissionmanager($cm, $surveypro, $submissionid, $action, $view, $confirm, $searchquery);
+$context = context_module::instance($cm->id);
+$submissionman = new mod_surveypro_submissionmanager($cm, $context, $surveypro);
+$submissionman->set_submissionid($submissionid);
+$submissionman->set_action($action);
+$submissionman->set_view($view);
+$submissionman->set_confirm($confirm);
+$submissionman->set_searchquery($searchquery);
+
 if ($cover === null) {
     if ($submissionman->canmanageitems) {
         if (!$submissionman->itemsfound) {
@@ -86,6 +93,8 @@ $submissionman->submission_to_pdf();
 // output starts here
 // -----------------------------
 $PAGE->set_url('/mod/surveypro/view.php', array('s' => $surveypro->id, 'cover' => 0));
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 

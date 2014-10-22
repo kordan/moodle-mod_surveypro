@@ -23,7 +23,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-class surveyprotemplate_attls {
+class mod_surveypro_template_attls {
     /**
      * apply_template_settings
      *

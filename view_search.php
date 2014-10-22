@@ -50,7 +50,7 @@ require_capability('mod/surveypro:searchsubmissions', $context);
 // -----------------------------
 // calculations
 // -----------------------------
-$searchman = new mod_surveypro_searchmanager($cm, $surveypro, $context);
+$searchman = new mod_surveypro_searchmanager($cm, $context, $surveypro);
 
 // -----------------------------
 // define $searchform return url
@@ -66,7 +66,7 @@ $formparams->cmid = $cm->id;
 $formparams->surveypro = $surveypro;
 $formparams->canaccessadvanceditems = $searchman->canaccessadvanceditems; // Help selecting the fields to show
 $formparams->formpage = $formpage;
-$searchform = new surveypro_searchform($formurl, $formparams, 'post', '', array('id' => 'usersearch'));
+$searchform = new mod_surveypro_searchform($formurl, $formparams, 'post', '', array('id' => 'usersearch'));
 // end of: prepare params for the form
 // -----------------------------
 
@@ -95,6 +95,8 @@ if ($searchman->formdata = $searchform->get_data()) {
 // output starts here
 // -----------------------------
 $PAGE->set_url('/mod/surveypro/view_search.php', array('s' => $surveypro->id));
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 

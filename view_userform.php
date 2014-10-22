@@ -50,7 +50,11 @@ $submissionid = optional_param('submissionid', 0, PARAM_INT);
 // -----------------------------
 // calculations
 // -----------------------------
-$userformman = new mod_surveypro_userformmanager($cm, $context, $surveypro, $submissionid, $formpage, $view);
+$userformman = new mod_surveypro_userformmanager($cm, $context, $surveypro);
+$userformman->set_submissionid($submissionid);
+$userformman->set_view($view);
+$userformman->set_formpage($formpage);
+
 $userformman->prevent_direct_user_input();
 $userformman->trigger_event($view);
 
@@ -93,7 +97,7 @@ $formparams->readonly = ($userformman->modulepage == SURVEYPRO_SUBMISSION_READON
 // -----------------------------
 
 // if ($view == SURVEYPRO_READONLYRESPONSE) {$editable = false} else {$editable = true}
-$userform = new surveypro_submissionform($formurl, $formparams, 'post', '', array('id' => 'userentry'), ($view != SURVEYPRO_READONLYRESPONSE));
+$userform = new mod_surveypro_submissionform($formurl, $formparams, 'post', '', array('id' => 'userentry'), ($view != SURVEYPRO_READONLYRESPONSE));
 
 // -----------------------------
 // manage form submission
@@ -153,6 +157,8 @@ if ($userformman->formdata = $userform->get_data()) {
 $paramurl = array('s' => $surveypro->id, 'view' => $view);
 $url = new moodle_url('/mod/surveypro/view_userform.php', $paramurl);
 $PAGE->set_url($url);
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 

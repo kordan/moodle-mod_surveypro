@@ -48,7 +48,7 @@ require_capability('mod/surveypro:applymastertemplates', $context);
 // -----------------------------
 // calculations
 // -----------------------------
-$mtemplateman = new mod_surveypro_mastertemplate($surveypro, $context);
+$mtemplateman = new mod_surveypro_mastertemplate($cm, $context, $surveypro);
 
 // -----------------------------
 // define $applymtemplate return url
@@ -65,7 +65,7 @@ $formparams->surveypro = $surveypro;
 $formparams->mtemplateman = $mtemplateman;
 $formparams->inline = false;
 
-$applymtemplate = new surveypro_applymtemplateform($formurl, $formparams);
+$applymtemplate = new mod_surveypro_applymtemplateform($formurl, $formparams);
 // end of: prepare params for the form
 // -----------------------------
 
@@ -87,6 +87,8 @@ if ($mtemplateman->formdata = $applymtemplate->get_data()) {
 // -----------------------------
 $url = new moodle_url('/mod/surveypro/mtemplates_apply.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 

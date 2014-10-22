@@ -19,8 +19,8 @@ Feature: verify a date item can be added to a survey
     And I follow "Add date item"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-      | Survey name | Surveypro test                         |
-      | Description | This is a surveypro to add a date item |
+      | Surveypro name | Surveypro test                         |
+      | Description    | This is a surveypro to add a date item |
     And I follow "Surveypro test"
 
     And I set the field "plugin" to "Date [dd/mm/yyyy]"

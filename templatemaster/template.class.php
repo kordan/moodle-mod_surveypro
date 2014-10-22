@@ -23,7 +23,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-class surveyprotemplate_@@templateNamePlaceholder@@ {
+class mod_surveypro_template_@@templateNamePlaceholder@@ {
     /**
      * apply_template_settings
      *

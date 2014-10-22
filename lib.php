@@ -879,7 +879,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
         $icon = new pix_icon('i/report', '', 'moodle', array('class' => 'icon'));
         foreach ($surveyproreportlist as $pluginname => $pluginpath) {
             require_once($CFG->dirroot.'/mod/surveypro/report/'.$pluginname.'/classes/report.class.php');
-            $classname = 'report_'.$pluginname;
+            $classname = 'mod_surveypro_report_'.$pluginname;
             $reportman = new $classname($cm, $surveypro);
 
             $restricttemplates = $reportman->restrict_templates();

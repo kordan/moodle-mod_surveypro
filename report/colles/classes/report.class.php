@@ -30,7 +30,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/surveypro/classes/reportbase.class.php');
 
-class report_colles extends mod_surveypro_reportbase {
+class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     /**
      * template
      */
@@ -150,6 +150,7 @@ class report_colles extends mod_surveypro_reportbase {
      */
     public function output_html($nexturl, $graphurl, $altkey) {
         static $strseemoredetail;
+
         if (empty($strseemoredetail)) {     // Cache the string for the next future
             $strseemoredetail = get_string('seemoredetail', 'surveyproreport_colles');
         }
@@ -233,10 +234,9 @@ class report_colles extends mod_surveypro_reportbase {
             $paramnexturl = array();
             $paramnexturl['s'] = $this->surveypro->id;
             $paramnexturl['type'] = 'scales';
-            $paramnexturl['cover'] = 0;
             // $paramnexturl['group'] = 0;
             // $paramnexturl['area'] = 0;
-            $nexturl = new moodle_url('/mod/surveypro/view.php', $paramnexturl);
+            $nexturl = new moodle_url('/mod/surveypro/report/colles/view.php', $paramnexturl);
         } else {
             $nexturl = null;
         }
@@ -363,14 +363,13 @@ class report_colles extends mod_surveypro_reportbase {
         $paramurl['id'] = $this->cm->id;
         $paramurl['group'] = 0;
         $paramurl['type'] = 'scales';
-        $paramurl['cover'] = 0;
 
         for ($area = 0; $area < 6; $area++) { // 0..5
             $paramnexturl['area'] = $area;
-            $nexturl = new moodle_url('/mod/surveypro/view.php', $paramnexturl);
+            $nexturl = new moodle_url('/mod/surveypro/report/colles/view.php', $paramnexturl);
 
             $paramurl['area'] = $area;
-            $graphurl = new moodle_url('/mod/surveypro/graph.php', $paramurl);
+            $graphurl = new moodle_url('/mod/surveypro/report/colles/graph.php', $paramurl);
 
             $this->output_html($nexturl, $graphurl, 'scalesreport');
         }
@@ -422,8 +421,10 @@ class report_colles extends mod_surveypro_reportbase {
                 //         WHERE ud.itemid = :itemid';
                 // $whereparams = array('itemid' => $itemid);
                 // $aggregate = $DB->get_record_sql($sql, $whereparams);
+
+                // verified on October 17. It seems it arrived the time to delete the long version of the query.
                 $whereparams = array('itemid' => $itemid);
-                $aggregate = $DB->get_record('surveypro_answer', $whereparams, '', 'COUNT(id) as countofanswers, SUM(content) as sumofanswers');
+                $aggregate = $DB->get_record('surveypro_answer', $whereparams, 'COUNT(id) as countofanswers, SUM(content) as sumofanswers');
                 $m = $aggregate->sumofanswers/$aggregate->countofanswers;
                 if ($k == 0) {
                     $this->trend1[] = $m;
@@ -465,9 +466,8 @@ class report_colles extends mod_surveypro_reportbase {
         $paramnexturl = array();
         $paramnexturl['s'] = $this->surveypro->id;
         $paramnexturl['type'] = 'summary';
-        $paramnexturl['cover'] = 0;
         // $paramnexturl['group'] = 0;
-        $nexturl = new moodle_url('/mod/surveypro/view.php', $paramnexturl);
+        $nexturl = new moodle_url('/mod/surveypro/report/colles/view.php', $paramnexturl);
 
         $paramurl = array();
         $paramurl['id'] = $this->cm->id;
@@ -475,18 +475,16 @@ class report_colles extends mod_surveypro_reportbase {
         $paramurl['type'] = 'questions';
 
         if ($area === false) {
-            $areabegin = 0;
-            $areaend = 6;
+            $areas = array(0, 1, 2, 3, 4, 5);
         } else {
-            $areabegin = $area;
-            $areaend = $area + 1;
+            $areas = array($area);
         }
 
-        for ($area = $areabegin; $area < $areaend; $area++) { // 1..6 or just one $area
+        foreach($areas as $area) {
             $paramurl['area'] = $area;
             for ($qid = 0; $qid < 4; $qid++) { // 0..3
                 $paramurl['qid'] = $qid;
-                $graphurl = new moodle_url('/mod/surveypro/graph.php', $paramurl);
+                $graphurl = new moodle_url('/mod/surveypro/report/colles/graph.php', $paramurl);
                 $this->output_html($nexturl, $graphurl, 'questionsreport');
             }
         }

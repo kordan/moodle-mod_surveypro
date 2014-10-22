@@ -53,7 +53,7 @@ require_capability('mod/surveypro:accessreports', $context);
 // calculations
 // -----------------------------
 $hassubmissions = surveypro_count_submissions($surveypro->id);
-$reportman = new report_frequency($cm, $surveypro);
+$reportman = new mod_surveypro_report_frequency($cm, $surveypro);
 $reportman->setup($hassubmissions);
 
 // -----------------------------
@@ -64,8 +64,8 @@ $reportman->stop_if_textareas_only();
 
 // -----------------------------
 // define $mform return url
-$paramurl = array('id' => $cm->id, 'rname' => 'frequency', 'cover' => 0);
-$formurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
+$paramurl = array('id' => $cm->id, 'rname' => 'frequency');
+$formurl = new moodle_url('/mod/surveypro/report/frequency/view.php', $paramurl);
 // end of: define $mform return url
 // -----------------------------
 
@@ -74,6 +74,8 @@ $formurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
 // -----------------------------
 $url = new moodle_url('/mod/surveypro/report/frequency/view.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
@@ -93,7 +95,7 @@ $reportman->check_submissions();
 $formparams = new stdClass();
 $formparams->surveypro = $surveypro;
 $formparams->answercount = $hassubmissions;
-$mform = new surveypro_chooseitemform($formurl, $formparams);
+$mform = new mod_surveypro_chooseitemform($formurl, $formparams);
 // end of: prepare params for the form
 // -----------------------------
 

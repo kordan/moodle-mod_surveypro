@@ -127,15 +127,11 @@ class mod_surveypro_submissionmanager {
     /**
      * Class constructor
      */
-    public function __construct($cm, $surveypro, $submissionid, $action, $view, $confirm, $searchquery) {
+    public function __construct($cm, $context, $surveypro) {
         $this->cm = $cm;
-        $this->context = context_module::instance($cm->id);
+        $this->context = $context;
         $this->surveypro = $surveypro;
-        $this->submissionid = $submissionid;
-        $this->action = $action;
-        $this->confirm = $confirm;
-        $this->view = $view;
-        $this->searchquery = $searchquery;
+
         $this->cansubmit = has_capability('mod/surveypro:submit', $this->context, null, true);
         $this->canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
         $this->canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context, null, true);
@@ -154,6 +150,51 @@ class mod_surveypro_submissionmanager {
         $this->cansavesubmissiontopdf = has_capability('mod/surveypro:savesubmissiontopdf', $this->context, null, true);
 
         $this->count_input_items();
+    }
+
+    /**
+     * set_submissionid
+     *
+     * @return void
+     */
+    public function set_submissionid($submissionid) {
+        $this->submissionid = $submissionid;
+    }
+
+    /**
+     * set_action
+     *
+     * @return void
+     */
+    public function set_action($action) {
+        $this->action = $action;
+    }
+
+    /**
+     * set_view
+     *
+     * @return void
+     */
+    public function set_view($view) {
+        $this->view = $view;
+    }
+
+    /**
+     * set_confirm
+     *
+     * @return void
+     */
+    public function set_confirm($confirm) {
+        $this->confirm = $confirm;
+    }
+
+    /**
+     * set_searchquery
+     *
+     * @return void
+     */
+    public function set_searchquery($searchquery) {
+        $this->searchquery = $searchquery;
     }
 
     /**

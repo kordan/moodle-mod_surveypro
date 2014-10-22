@@ -333,3 +333,19 @@
     margin-bottom:0;
 }
 /* end of: fix to owful alignment of fielset legends in the cover */
+
+/* table with list of surveypro in index.php */
+#page-mod-surveypro-index table.mod_index .col1,
+#page-mod-surveypro-index table.mod_index .col2,
+#page-mod-surveypro-index table.mod_index .col3,
+#page-mod-surveypro-index table.mod_index .col4,
+#page-mod-surveypro-index table.mod_index .col5 {
+    text-align: left;
+}
+#page-mod-surveypro-index table.mod_index .col1 {
+    white-space: nowrap;
+}
+#page-mod-surveypro-index table.mod_index td span.dimmed {
+    color: #999;
+}
+/* end of: table with list of surveypro in index.php */

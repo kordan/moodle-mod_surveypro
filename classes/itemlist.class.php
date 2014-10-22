@@ -111,19 +111,11 @@ class mod_surveypro_itemlist {
     /**
      * Class constructor
      */
-    public function __construct($cm, $context, $surveypro, $type, $plugin) {
+    public function __construct($cm, $context, $surveypro) {
         $this->cm = $cm;
         $this->context = $context;
         $this->surveypro = $surveypro;
-        if (preg_match('~^('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_(\w+)$~', $plugin, $match)) {
-            // execution comes from /forms/items/selectitem_form.php
-            $this->type = $match[1]; // field or format
-            $this->plugin = $match[2]; // boolean or char ... or fieldset ...
-        } else {
-            // execution comes from /forms/items/items_manage.php
-            $this->type = $type;
-            $this->plugin = $plugin;
-        }
+
         $this->hassubmissions = surveypro_count_submissions($surveypro->id, SURVEYPRO_STATUSALL);
     }
 
@@ -1491,6 +1483,39 @@ class mod_surveypro_itemlist {
     }
 
     // MARK set
+
+    /**
+     * set_typeplugin
+     *
+     * @return void
+     */
+    public function set_typeplugin($typeplugin) {
+        if (preg_match('~^('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_(\w+)$~', $typeplugin, $match)) {
+            // execution comes from /forms/items/selectitem_form.php
+            $this->type = $match[1]; // field or format
+            $this->plugin = $match[2]; // boolean or char ... or fieldset ...
+        } else {
+            debugging('Malformed typeplugin parameter passed to set_typeplugin', DEBUG_DEVELOPER);
+        }
+    }
+
+    /**
+     * set_type
+     *
+     * @return void
+     */
+    public function set_type($type) {
+        $this->type = $type;
+    }
+
+    /**
+     * set_plugin
+     *
+     * @return void
+     */
+    public function set_plugin($plugin) {
+        $this->plugin = $plugin;
+    }
 
     /**
      * set_itemid

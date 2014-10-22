@@ -23,7 +23,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-class surveyprotemplate_collesactualpreferred {
+class mod_surveypro_template_collesactualpreferred {
     /**
      * apply_template_settings
      *

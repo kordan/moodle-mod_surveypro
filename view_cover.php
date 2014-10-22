@@ -53,6 +53,8 @@ $coverman = new mod_surveypro_covermanager($cm, $context, $surveypro);
 // -----------------------------
 $url = new moodle_url('/mod/surveypro/view_cover.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 

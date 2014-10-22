@@ -39,7 +39,9 @@ require_once($CFG->dirroot.'/mod/surveypro/lib.php');
  * @return $item
  */
 function surveypro_get_item($itemid, $type='', $plugin='', $evaluateparentcontent=true) {
-    global $CFG, $DB;
+    global $CFG, $DB, $PAGE;
+
+    $cm = $PAGE->cm;
 
     if (empty($type) || empty($plugin)) {
         $itemseed = $DB->get_record('surveypro_item', array('id' => $itemid), 'type, plugin', MUST_EXIST);
@@ -48,8 +50,8 @@ function surveypro_get_item($itemid, $type='', $plugin='', $evaluateparentconten
     }
 
     require_once($CFG->dirroot.'/mod/surveypro/'.$type.'/'.$plugin.'/plugin.class.php');
-    $classname = 'surveypro'.$type.'_'.$plugin;
-    $item = new $classname($itemid, $evaluateparentcontent);
+    $classname = 'mod_surveypro_'.$type.'_'.$plugin;
+    $item = new $classname($cm, $itemid, $evaluateparentcontent);
 
     return $item;
 }
@@ -147,5 +149,5 @@ function surveypro_groupmates($cm, $userid=0) {
         }
     }
 
-    return array_keys($groupmates);
+    return array_keys($groupusers);
 }

@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
 
-class surveypro_itemtypeform extends moodleform {
+class mod_surveypro_itemtypeform extends moodleform {
 
     public function definition() {
         // ----------------------------------------
@@ -35,7 +35,7 @@ class surveypro_itemtypeform extends moodleform {
         // ----------------------------------------
         // selectitem::plugin
         // ----------------------------------------
-        $fieldname = 'plugin';
+        $fieldname = 'typeplugin';
         // TAKE CARE! Here the plugin holds type and plugin both
         $fieldplugins = surveypro_get_plugin_list(SURVEYPRO_TYPEFIELD, true);
         foreach ($fieldplugins as $k => $v) {

@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/lib/formslib.php');
 require_once($CFG->dirroot.'/lib/csvlib.class.php');
 
-class surveypro_importform extends moodleform {
+class mod_surveypro_importform extends moodleform {
 
     public function definition() {
         // ----------------------------------------

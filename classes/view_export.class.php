@@ -61,9 +61,9 @@ class mod_surveypro_exportmanager {
     /**
      * Class constructor
      */
-    public function __construct($cm, $surveypro) {
+    public function __construct($cm, $context, $surveypro) {
         $this->cm = $cm;
-        $this->context = context_module::instance($cm->id);
+        $this->context = $context;
         $this->surveypro = $surveypro;
 
         // $this->canseeownsubmissions = true;

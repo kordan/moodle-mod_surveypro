@@ -72,7 +72,7 @@ class mod_surveypro_userformmanager {
     /**
      * $view
      */
-    public $view = SURVEYPRO_NEWRESPONSE;
+    public $view = '';
 
     /**
      * $moduletab: The tab of the module where the page will be shown
@@ -122,15 +122,12 @@ class mod_surveypro_userformmanager {
     /**
      * Class constructor
      */
-    public function __construct($cm, $context, $surveypro, $submissionid, $formpage, $view) {
+    public function __construct($cm, $context, $surveypro) {
         global $DB;
 
         $this->cm = $cm;
         $this->context = $context;
         $this->surveypro = $surveypro;
-        $this->submissionid = $submissionid;
-        $this->view = $view;
-        $this->set_page_from_view();
 
         // $this->canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
         $this->canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $this->context, null, true);
@@ -146,12 +143,44 @@ class mod_surveypro_userformmanager {
         if (!$this->maxassignedpage = $DB->get_field('surveypro_item', 'MAX(formpage)', array('surveyproid' => $surveypro->id))) {
             $this->assign_pages();
         }
+    }
+
+    // MARK set
+
+    /**
+     * set_submissionid
+     *
+     * @return void
+     */
+    public function set_submissionid($submissionid) {
+        $this->submissionid = $submissionid;
+    }
+
+    /**
+     * set_view
+     *
+     * @return void
+     */
+    public function set_view($view) {
+        $this->view = $view;
+        $this->set_page_from_view();
+    }
+
+    /**
+     * set_formpage
+     *
+     * @return void
+     */
+    public function set_formpage($formpage) {
+        if (empty($this->view)) {
+            debugging('Please call set_view method of the class mod_surveypro_userformmanager before calling set_formpage', DEBUG_DEVELOPER);
+        }
 
         // calculare $this->firstpageright
         if ($this->canaccessadvanceditems) {
             $this->firstpageright = 1;
         } else {
-            $this->next_not_empty_page(true, 0, $view); // this calculates $this->firstformpage
+            $this->next_not_empty_page(true, 0, $this->view); // this assign $this->firstformpage
         }
 
         if ($formpage == 0) { // you are viewing the surveypro for the first time

@@ -29,7 +29,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/fileupload/lib.php');
 /**
  * The base class representing a field
  */
-class mod_surveyproreport_uploadformmanager {
+class mod_surveypro_report_uploadformmanager {
     /**
      * $cm
      */

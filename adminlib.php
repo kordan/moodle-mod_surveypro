@@ -33,7 +33,7 @@ require_once($CFG->libdir.'/adminlib.php');
  * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveypro_admin_page_manage_surveypro_plugins extends admin_externalpage {
+class mod_surveypro_admin_page_manage_surveypro_plugins extends admin_externalpage {
 
     /** @var string the name of plugin subtype */
     private $subtype = '';
@@ -89,7 +89,7 @@ class surveypro_admin_page_manage_surveypro_plugins extends admin_externalpage {
  * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveypro_plugin_manager {
+class mod_surveypro_plugin_manager {
 
     /** @var object the url of the manage submission plugin page */
     private $pageurl;

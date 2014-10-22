@@ -48,13 +48,13 @@ require_capability('mod/surveypro:savemastertemplates', $context);
 // -----------------------------
 // calculations
 // -----------------------------
-$mtemplateman = new mod_surveypro_mastertemplate($surveypro, $context);
+$mtemplateman = new mod_surveypro_mastertemplate($cm, $context, $surveypro);
 
 // -----------------------------
 // define $createmtemplate return url
 $paramurl = array('id' => $cm->id);
 $formurl = new moodle_url('/mod/surveypro/mtemplates_create.php', $paramurl);
-$createmtemplate = new surveypro_mtemplatecreateform($formurl);
+$createmtemplate = new mod_surveypro_mtemplatecreateform($formurl);
 // define $createmtemplate return url
 // -----------------------------
 
@@ -73,6 +73,8 @@ if ($mtemplateman->formdata = $createmtemplate->get_data()) {
 // -----------------------------
 $url = new moodle_url('/mod/surveypro/mtemplates_create.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 

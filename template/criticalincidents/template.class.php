@@ -23,7 +23,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-class surveyprotemplate_criticalincidents {
+class mod_surveypro_template_criticalincidents {
     /**
      * apply_template_settings
      *

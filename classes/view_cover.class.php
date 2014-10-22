@@ -75,7 +75,7 @@ class mod_surveypro_covermanager {
      * @return
      */
     public function display_cover() {
-        global $OUTPUT, $CFG, $COURSE, $PAGE;
+        global $OUTPUT, $CFG, $COURSE;
 
         $labelsep = get_string('labelsep', 'langconfig'); // ': '
         $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context, null, true);;
@@ -177,7 +177,7 @@ class mod_surveypro_covermanager {
         $paramurlbase = array('id' => $this->cm->id);
         foreach ($surveyproreportlist as $pluginname => $pluginpath) {
             require_once($CFG->dirroot.'/mod/surveypro/report/'.$pluginname.'/classes/report.class.php');
-            $classname = 'report_'.$pluginname;
+            $classname = 'mod_surveypro_report_'.$pluginname;
             $reportman = new $classname($this->cm, $this->surveypro);
 
             $restricttemplates = $reportman->restrict_templates();
@@ -187,7 +187,7 @@ class mod_surveypro_covermanager {
                     if ($reportman->does_report_apply()) {
                         if ($childreports = $reportman->get_childreports($canaccessreports)) {
                             foreach ($childreports as $childname => $childparams) {
-                                $childparams['s'] = $PAGE->cm->instance;
+                                $childparams['s'] = $this->cm->instance;
                                 $url = new moodle_url('/mod/surveypro/report/'.$pluginname.'/view.php', $childparams);
                                 $a = new stdClass();
                                 $a->href = $url->out();

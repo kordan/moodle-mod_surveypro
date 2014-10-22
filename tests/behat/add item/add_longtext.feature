@@ -19,8 +19,8 @@ Feature: verify a longtext item can be added to a survey
     And I follow "Add longtext item"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-      | Survey name | Surveypro test                             |
-      | Description | This is a surveypro to add a longtext item |
+      | Surveypro name | Surveypro test                             |
+      | Description    | This is a surveypro to add a longtext item |
     And I follow "Surveypro test"
 
     And I set the field "plugin" to "Text (long)"

@@ -30,14 +30,19 @@ defined('MOODLE_INTERNAL') || die();
 class mod_surveypro_itembase {
 
     /**
-     * unique itemid of the surveyproitem in surveypro_item table
+     * $cm
      */
-    public $itemid = 0;
+    public $cm = null;
 
     /**
      * $context
      */
     public $context = '';
+
+    /**
+     * unique itemid of the surveyproitem in surveypro_item table
+     */
+    public $itemid = 0;
 
     /**
      * $type = the type of the item. It can only be: SURVEYPRO_TYPEFIELD or SURVEYPRO_TYPEFORMAT
@@ -110,6 +115,17 @@ class mod_surveypro_itembase {
      * so I choose to not declare this properties here
      * public $flag = null;
      */
+
+    /**
+     * Class constructor
+     */
+    public function __construct($cm, $itemid, $evaluateparentcontent) {
+        $this->cm = $cm;
+
+        // if (isset($cm)) { // it is not set during upgrade whether an item is loaded
+        $this->context = context_module::instance($cm->id);
+        // }
+    }
 
     /**
      * $isinitemform = list of fields properties the surveypro creator will have in the item definition form
@@ -201,18 +217,14 @@ class mod_surveypro_itembase {
      * @return
      */
     public function item_get_common_settings($record) {
-        global $PAGE;
-
-        $cm = $PAGE->cm;
-
         // you are going to change item content (maybe sortindex, maybe the parentitem)
         // so, do not forget to reset items per page
-        surveypro_reset_items_pages($cm->instance);
+        surveypro_reset_items_pages($this->cm->instance);
 
         $timenow = time();
 
         // surveyproid
-        $record->surveyproid = $cm->instance;
+        $record->surveyproid = $this->cm->instance;
 
         // plugin and type are already onboard
 
@@ -262,10 +274,6 @@ class mod_surveypro_itembase {
      * @return
      */
     public function item_save($record) {
-        global $DB, $PAGE;
-
-        $cm = $PAGE->cm;
-
         // $this->userfeedback
         //   +--- children inherited limited access
         //   |       +--- parents were made available for all
@@ -297,7 +305,7 @@ class mod_surveypro_itembase {
                     FROM {surveypro_item}
                     WHERE surveyproid = :surveyproid
                         AND sortindex > 0';
-            $whereparams = array('surveyproid' => $cm->instance);
+            $whereparams = array('surveyproid' => $this->cm->instance);
             $record->sortindex = 1 + $DB->count_records_sql($sql, $whereparams);
 
             // itemid
@@ -482,20 +490,18 @@ class mod_surveypro_itembase {
      * @return
      */
     public function item_manage_chains($itemid, $oldhidden, $newhidden, $oldadvanced, $newadvanced) {
-        global $DB, $PAGE;
-
-        $cm = $PAGE->cm;
-
         // now hide or unhide (whether needed) chain of ancestors or descendents
         if ($this->userfeedback & 1) { // bitwise logic, alias: if the item was successfully saved
             // -----------------------------
             // manage ($oldhidden != $newhidden)
             // -----------------------------
             if ($oldhidden != $newhidden) {
-                $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
+                $surveypro = $DB->get_record('surveypro', array('id' => $this->cm->instance), '*', MUST_EXIST);
                 $action = ($oldhidden) ? SURVEYPRO_SHOWITEM : SURVEYPRO_HIDEITEM;
 
-                $itemlistman = new mod_surveypro_itemlist($cm, $this->context, $surveypro, $this->type, $this->plugin);
+                $itemlistman = new mod_surveypro_itemlist($this->cm, $this->context, $surveypro);
+                $itemlistman->set_type($this->type);
+                $itemlistman->set_plugin($this->plugin);
                 $itemlistman->set_itemid($itemid);
                 $itemlistman->set_action($action);
                 $itemlistman->set_view(SURVEYPRO_NOVIEW);
@@ -521,10 +527,12 @@ class mod_surveypro_itembase {
             // manage ($oldadvanced != $newadvanced)
             // -----------------------------
             if ($oldadvanced != $newadvanced) {
-                $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
+                $surveypro = $DB->get_record('surveypro', array('id' => $this->cm->instance), '*', MUST_EXIST);
                 $action = ($oldadvanced) ? SURVEYPRO_MAKEFORALL : SURVEYPRO_MAKELIMITED;
 
-                $itemlistman = new mod_surveypro_itemlist($cm, $this->context, $surveypro, $this->type, $this->plugin);
+                $itemlistman = new mod_surveypro_itemlist($this->cm, $this->context, $surveypro);
+                $itemlistman->set_type($this->type);
+                $itemlistman->set_plugin($this->plugin);
                 $itemlistman->set_itemid($itemid);
                 $itemlistman->set_action($action);
                 $itemlistman->set_view(SURVEYPRO_NOVIEW);
@@ -649,10 +657,6 @@ class mod_surveypro_itembase {
      * @return
      */
     public function item_delete($itemid) {
-        global $DB, $PAGE, $USER, $COURSE, $OUTPUT;
-
-        $cm = $PAGE->cm;
-
         $recordtokill = $DB->get_record('surveypro_item', array('id' => $itemid));
         if (!$DB->delete_records('surveypro_item', array('id' => $itemid))) {
             print_error('notdeleted_item', 'surveypro', null, $itemid);
@@ -666,12 +670,12 @@ class mod_surveypro_itembase {
             print_error('notdeleted_plugin', 'surveypro', null, $a);
         }
 
-        $eventdata = array('context' => $this->context, 'objectid' => $cm->instance);
+        $eventdata = array('context' => $this->context, 'objectid' => $this->cm->instance);
         $eventdata['other'] = array('plugin' => $this->plugin);
         $event = \mod_surveypro\event\item_deleted::create($eventdata);
         $event->trigger();
 
-        surveypro_reset_items_pages($cm->instance);
+        surveypro_reset_items_pages($this->cm->instance);
 
         // delete records from surveypro_answer
         // if, at the end, the related surveypro_submission has no data, then, delete it too.

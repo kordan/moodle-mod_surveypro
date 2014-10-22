@@ -81,7 +81,7 @@ class mod_surveypro_generator extends testing_module_generator {
 
             'userstyle_filemanager' => file_get_unused_draft_itemid(),
             'thankshtml_editor' => array(
-                'text' => 'Thank you very much for your time on this poll',
+                'text' => 'Thank you very much for your commitment on this survey',
                 'format' => FORMAT_MOODLE,
                 'itemid' => file_get_unused_draft_itemid())
         );
@@ -100,9 +100,16 @@ class mod_surveypro_generator extends testing_module_generator {
     * @param $record array|stdClass $record containing course, surveypro and valid template.
     * @return stdClass[] of created items.
     */
-    public function apply_template($record = null) {
+    public function apply_mastertemplate($record = null, array $options = null) {
 
         $record = (object)(array)$record;
+        $options = (array) $options;
+
+        //echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
+
+        if (empty($record->mastertemplatename)) {
+            throw new coding_exception('Master template application requires $record->mastertemplatename');
+        }
 
         // Verify course is passed.
         // Verify surveypro is passed.

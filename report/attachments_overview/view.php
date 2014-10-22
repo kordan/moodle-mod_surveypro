@@ -52,6 +52,8 @@ require_capability('mod/surveypro:accessreports', $context);
 // -----------------------------
 $url = new moodle_url('/mod/surveypro/report/attachments_overview/view.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
@@ -64,7 +66,7 @@ $moduletab = SURVEYPRO_TABSUBMISSIONS; // needed by tabs.php
 $modulepage = SURVEYPRO_SUBMISSION_REPORT; // needed by tabs.php
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
-$reportman = new report_attachments_overview($cm, $surveypro);
+$reportman = new mod_surveypro_report_attachments_overview($cm, $surveypro);
 $reportman->prevent_direct_user_input();
 $reportman->check_attachmentitems();
 $reportman->check_submissions();

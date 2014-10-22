@@ -231,7 +231,7 @@ class mod_surveypro_itembaseform extends moodleform {
             $pluginlist = surveypro_get_plugin_list(SURVEYPRO_TYPEFIELD);
             foreach ($pluginlist as $plugin) {
                 require_once($CFG->dirroot.'/mod/surveypro/'.SURVEYPRO_TYPEFIELD.'/'.$plugin.'/plugin.class.php');
-                $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
+                $classname = 'mod_surveypro_'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
                 if (!$classname::$canbeparent) {
                     unset($pluginlist[$plugin]);
                 }

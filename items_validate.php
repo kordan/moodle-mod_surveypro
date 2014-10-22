@@ -47,7 +47,13 @@ require_capability('mod/surveypro:additems', $context);
 // -----------------------------
 // calculations
 // -----------------------------
-$itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro, '', '');
+$itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro);
+
+// type is useless, do not set it
+// $itemlistman->set_type('');
+
+// plugin is useless, do not set it
+// $itemlistman->set_plugin('');
 
 // itemid is useless (it is set to its default), do not set it
 // $itemlistman->set_itemid(0);
@@ -84,6 +90,8 @@ $itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro, '', '');
 // -----------------------------
 $url = new moodle_url('/mod/surveypro/items_validate.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 

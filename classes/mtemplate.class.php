@@ -42,8 +42,8 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     /**
      * Class constructor
      */
-    public function __construct($surveypro, $context) {
-        parent::__construct($surveypro, $context);
+    public function __construct($cm, $context, $surveypro) {
+        parent::__construct($cm, $context, $surveypro);
     }
 
     /**

@@ -48,7 +48,7 @@ require_capability('mod/surveypro:importdata', $context);
 // -----------------------------
 // calculations
 // -----------------------------
-$importman = new mod_surveypro_importmanager($cm, $surveypro);
+$importman = new mod_surveypro_importmanager($cm, $context, $surveypro);
 
 // -----------------------------
 // define $mform return url
@@ -59,7 +59,7 @@ $formurl = new moodle_url('/mod/surveypro/view_import.php', $paramurl);
 
 // -----------------------------
 // prepare params for the form
-$importform = new surveypro_importform($formurl);
+$importform = new mod_surveypro_importform($formurl);
 // end of: prepare params for the form
 // -----------------------------
 
@@ -78,6 +78,8 @@ if ($importman->formdata = $importform->get_data()) {
 // output starts here
 // -----------------------------
 $PAGE->set_url('/mod/surveypro/view_import.php', array('s' => $surveypro->id));
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 

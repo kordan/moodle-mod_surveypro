@@ -20,8 +20,8 @@ Feature: verify the deletion of old items works as expected during master templa
     And I follow "Overwrite mastertemplate"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-     | Survey name | To overwrite master template |
-     | Description | This is a surveypro to overwrite master templates |
+     | Surveypro name | To overwrite master template                      |
+     | Description    | This is a surveypro to overwrite master templates |
     And I follow "To overwrite master template"
 
     And I set the field "mastertemplate" to "ATTLS (20 item version)"

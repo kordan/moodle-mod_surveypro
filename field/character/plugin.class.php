@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/surveypro/classes/itembase.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/field/character/lib.php');
 
-class surveyprofield_character extends mod_surveypro_itembase {
+class mod_surveypro_field_character extends mod_surveypro_itembase {
 
     /**
      * $content = the text content of the item.
@@ -123,14 +123,8 @@ class surveyprofield_character extends mod_surveypro_itembase {
      * @param int $itemid. Optional surveypro_item ID
      * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
      */
-    public function __construct($itemid=0, $evaluateparentcontent) {
-        global $PAGE;
-
-        $cm = $PAGE->cm;
-
-        if (isset($cm)) { // it is not set during upgrade whether this item is loaded
-            $this->context = context_module::instance($cm->id);
-        }
+    public function __construct($cm, $itemid=0, $evaluateparentcontent) {
+        parent::__construct($cm, $itemid, $evaluateparentcontent);
 
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'character';
@@ -157,7 +151,7 @@ class surveyprofield_character extends mod_surveypro_itembase {
      * @return
      */
     public function item_load($itemid, $evaluateparentcontent) {
-        // Do parent item loading stuff here (mod_surveypro_itembase::item_load($itemid)))
+        // Do parent item loading stuff here (surveypro_itembase::item_load($itemid)))
         parent::item_load($itemid, $evaluateparentcontent);
 
         // multilang load support for builtin surveypro
@@ -193,7 +187,7 @@ class surveyprofield_character extends mod_surveypro_itembase {
         }
         // end of: plugin specific settings (eventally overriding general ones)
 
-        // Do parent item saving stuff here (mod_surveypro_itembase::save($record)))
+        // Do parent item saving stuff here (surveypro_itembase::save($record)))
         return parent::item_save($record);
     }
 

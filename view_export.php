@@ -48,7 +48,7 @@ require_capability('mod/surveypro:exportdata', $context);
 // -----------------------------
 // calculations
 // -----------------------------
-$exportman = new mod_surveypro_exportmanager($cm, $surveypro);
+$exportman = new mod_surveypro_exportmanager($cm, $context, $surveypro);
 
 // -----------------------------
 // define exportform return url
@@ -62,7 +62,7 @@ $formurl = new moodle_url('/mod/surveypro/view_export.php', $paramurl);
 $formparams = new stdClass();
 $formparams->surveypro = $surveypro;
 $formparams->canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $context, null, true);
-$exportform = new surveypro_exportform($formurl, $formparams);
+$exportform = new mod_surveypro_exportform($formurl, $formparams);
 // end of: prepare params for the form
 // -----------------------------
 
@@ -85,6 +85,8 @@ if ($exportman->formdata = $exportform->get_data()) {
 // output starts here
 // -----------------------------
 $PAGE->set_url('/mod/surveypro/view_export.php', array('s' => $surveypro->id));
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 

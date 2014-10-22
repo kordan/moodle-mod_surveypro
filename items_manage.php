@@ -72,7 +72,7 @@ if (!$itemcount) {
     require_once($CFG->dirroot.'/mod/surveypro/classes/mtemplate.class.php');
     require_once($CFG->dirroot.'/mod/surveypro/forms/mtemplates/apply_form.php');
 
-    $mtemplateman = new mod_surveypro_mastertemplate($surveypro, $context);
+    $mtemplateman = new mod_surveypro_mastertemplate($cm, $context, $surveypro);
 
     // -----------------------------
     // define $applymtemplate return url
@@ -89,7 +89,7 @@ if (!$itemcount) {
     $formparams->mtemplateman = $mtemplateman;
     $formparams->inline = true;
 
-    $applymtemplate = new surveypro_applymtemplateform($formurl, $formparams);
+    $applymtemplate = new mod_surveypro_applymtemplateform($formurl, $formparams);
     // end of: prepare params for the form
     // -----------------------------
 
@@ -111,7 +111,9 @@ if (!$itemcount) {
 
 // -----------------------------
 // the form showing the drop down menu with the list of items
-$itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro, $type, $plugin);
+$itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro);
+$itemlistman->set_type($type);
+$itemlistman->set_plugin($plugin);
 $itemlistman->set_itemid($itemid);
 $itemlistman->set_action($action);
 $itemlistman->set_view($view);
@@ -131,6 +133,8 @@ $itemlistman->drop_multilang();
 // -----------------------------
 $url = new moodle_url('/mod/surveypro/items_manage.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
@@ -168,7 +172,7 @@ if (!$itemlistman->surveypro->template) {
             $paramurl = array('id' => $cm->id);
             $formurl = new moodle_url('/mod/surveypro/items_setup.php', $paramurl);
 
-            $itemtype = new surveypro_itemtypeform($formurl);
+            $itemtype = new mod_surveypro_itemtypeform($formurl);
             $itemtype->display();
         }
     }

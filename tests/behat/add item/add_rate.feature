@@ -19,8 +19,8 @@ Feature: verify a rate item can be added to a survey
     And I follow "Add rate item"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-      | Survey name | Surveypro test                         |
-      | Description | This is a surveypro to add a rate item |
+      | Surveypro name | Surveypro test                         |
+      | Description    | This is a surveypro to add a rate item |
     And I follow "Surveypro test"
 
     And I set the field "plugin" to "Rate"

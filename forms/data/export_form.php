@@ -18,7 +18,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
 
-class surveypro_exportform extends moodleform {
+class mod_surveypro_exportform extends moodleform {
 
     public function definition() {
         global $CFG, $DB;
