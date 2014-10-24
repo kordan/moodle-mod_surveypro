@@ -10,8 +10,8 @@ Feature: verify the deletion of old items works as expected during master templa
       | fullname                 | shortname                | category | groupmode |
       | Overwrite mastertemplate | Overwrite mastertemplate | 0        | 0         |
     And the following "users" exist:
-      | username | firstname | lastname | email            |
-      | teacher1 | Teacher   | t        | teacher1@asd.com |
+      | username | firstname | lastname | email                |
+      | teacher1 | Teacher   | t        | teacher1@nowhere.net |
     And the following "course enrolments" exist:
       | user     | course                   | role           |
       | teacher1 | Overwrite mastertemplate | editingteacher |

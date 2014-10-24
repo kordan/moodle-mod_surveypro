@@ -44,7 +44,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // $surveypro = $this->_customdata->surveypro;
 
         // ----------------------------------------
-        // item::options
+        // item: options
         // ----------------------------------------
         $fieldname = 'options';
         $mform->addElement('textarea', $fieldname, get_string($fieldname, 'surveyprofield_select'), array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65'));
@@ -53,7 +53,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_RAW); // PARAM_RAW and not PARAM_TEXT otherwise '<' is not accepted
 
         // ----------------------------------------
-        // item::labelother
+        // item: labelother
         // ----------------------------------------
         $fieldname = 'labelother';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_select'), array('maxlength' => '64', 'size' => '50'));
@@ -61,7 +61,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_TEXT);
 
         // ----------------------------------------
-        // item::defaultoption
+        // item: defaultoption
         // ----------------------------------------
         $fieldname = 'defaultoption';
         $elementgroup = array();
@@ -73,7 +73,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_select');
 
         // ----------------------------------------
-        // item::defaultvalue
+        // item: defaultvalue
         // ----------------------------------------
         $fieldname = 'defaultvalue';
         $elementgroup = array();
@@ -82,7 +82,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->disabledIf($fieldname, 'defaultoption', 'neq', SURVEYPRO_CUSTOMDEFAULT);
 
         // ----------------------------------------
-        // item::downloadformat
+        // item: downloadformat
         // ----------------------------------------
         $fieldname = 'downloadformat';
         $options = array(SURVEYPRO_ITEMSRETURNSVALUES => get_string('returnvalues', 'surveyprofield_select'),

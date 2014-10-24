@@ -51,7 +51,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addElement('header', $fieldname, get_string($fieldname, 'surveypro', $typename));
 
         // ----------------------------------------
-        // item::fullwidth
+        // item: fullwidth
         // ----------------------------------------
         $fieldname = 'fullwidth';
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveyproformat_label'));
@@ -59,7 +59,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_INT);
 
         // ----------------------------------------
-        // item::leftlabel
+        // item: leftlabel
         // ----------------------------------------
         $fieldname = 'leftlabel';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyproformat_label'));

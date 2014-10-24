@@ -40,7 +40,7 @@ class mod_surveypro_importutemplateform extends moodleform {
         $filemanageroptions = $this->_customdata->filemanageroptions;
 
         // ----------------------------------------
-        // templateimport::importfile
+        // templateimport: importfile
         // ----------------------------------------
         // here I use filemanager because I can even upload more than one usertemplate at once
         $fieldname = 'importfile';
@@ -48,14 +48,14 @@ class mod_surveypro_importutemplateform extends moodleform {
         $mform->addRule($fieldname.'_filemanager', null, 'required');
 
         // ----------------------------------------
-        // templateimport::overwrite
+        // templateimport: overwrite
         // ----------------------------------------
         $fieldname = 'overwrite';
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveypro'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // ----------------------------------------
-        // templateimport::sharinglevel
+        // templateimport: sharinglevel
         // ----------------------------------------
         $fieldname = 'sharinglevel';
         $options = array();

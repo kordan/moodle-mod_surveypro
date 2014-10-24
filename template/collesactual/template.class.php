@@ -23,6 +23,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->dirroot.'/mod/surveypro/template/collesactual/lib.php');
+
 class mod_surveypro_template_collesactual {
     /**
      * apply_template_settings
@@ -30,7 +32,20 @@ class mod_surveypro_template_collesactual {
      * @param $record
      * @return record
      */
-    public function apply_template_settings($record) {
-        return $record;
+    public function apply_template_settings($tablename, $record) {
+        $config = get_config('surveyprotemplate_collesactual');
+
+        if ($config->itemstyle == SURVEYPROTEMPLATE_COLLESACTUALUSESELECT) {
+            if ($record['plugin'] == 'radiobutton') {
+                $record['plugin'] = 'select';
+            }
+
+            if ($tablename == 'surveyprofield_radiobutton') {
+                $tablename = 'surveyprofield_select';
+                unset($record['adjustment']);
+            }
+        }
+
+        return array($tablename, $record);
     }
 }

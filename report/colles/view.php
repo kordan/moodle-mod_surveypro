@@ -64,7 +64,9 @@ if (!empty($qid)) {
 }
 
 if ($type == 'summary') {
-    require_capability('mod/surveypro:accessownreports', $context);
+    if (!has_capability('mod/surveypro:accessreports', $context)) {
+        require_capability('mod/surveypro:accessownreports', $context);
+    }
 } else {
     require_capability('mod/surveypro:accessreports', $context);
 }

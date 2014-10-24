@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['modulename'] = 'Surveypro';
-$string['modulename_help'] = 'Surveypro allows the creation of custom surveypros as far as built in surveypros like ATTLS, COLLES and CRITICAL INCIDENTS. You can also save and reuse parts or whole of your own custom surveypro.';
+$string['modulename_help'] = 'Surveypro allows the creation of custom surveys as far as built in surveys like ATTLS, COLLES and CRITICAL INCIDENTS. You can also save and reuse parts or whole of your own custom surveypro.';
 $string['modulename_link'] = 'mod/surveypro/view';
 $string['modulenameplural'] = 'surveypro';
 $string['surveyproname'] = 'Surveypro name';

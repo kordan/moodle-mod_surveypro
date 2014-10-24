@@ -10,10 +10,10 @@ Feature: test each student sees only personal submissions
       | fullname                      | shortname                 | category | groupmode |
       | See only personal submissions | Only personal submissions | 0        | 0         |
     And the following "users" exist:
-      | username | firstname | lastname | email            |
-      | teacher1 | Teacher   | teacher  | teacher1@asd.com |
-      | student1 | Student1  | user1    | student1@asd.com |
-      | student2 | Student2  | user2    | student2@asd.com |
+      | username | firstname | lastname | email                |
+      | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
+      | student1 | Student1  | user1    | student1@nowhere.net |
+      | student2 | Student2  | user2    | student2@nowhere.net |
     And the following "course enrolments" exist:
       | user     | course                    | role           |
       | teacher1 | Only personal submissions | editingteacher |

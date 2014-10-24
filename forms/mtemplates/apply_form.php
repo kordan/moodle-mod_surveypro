@@ -50,7 +50,7 @@ class mod_surveypro_applymtemplateform extends moodleform {
         }
 
         // ----------------------------------------
-        // applymtemplate::mastertemplate
+        // applymtemplate: mastertemplate
         // ----------------------------------------
         $fieldname = 'mastertemplate';
         if (count($mtemplates)) {

@@ -30,11 +30,17 @@ class mod_surveypro_template_attls {
      * @param $record
      * @return record
      */
-    public function apply_template_settings(&$record) {
+    public function apply_template_settings($tablename, $record) {
         $config = get_config('surveyprotemplate_attls');
 
-        if ($config->position != SURVEYPRO_POSITIONLEFT) {
-            $record['position'] = "$config->position";
+        if ($tablename == 'surveypro_item') {
+            // nothing to do
+        } else {
+            if ($config->position != SURVEYPRO_POSITIONLEFT) {
+                $record['position'] = "$config->position";
+            }
         }
+
+        return array($tablename, $record);
     }
 }

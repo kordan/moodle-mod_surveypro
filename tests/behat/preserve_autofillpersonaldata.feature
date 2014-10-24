@@ -14,10 +14,10 @@ Feature: editing a submission, autofill userID is not overwritten
       | Group 1 | Frozen autofill | G1       |
       | Group 2 | Frozen autofill | G2       |
     And the following "users" exist:
-      | username | firstname | lastname | email            |
-      | teacher1 | Teacher   | teacher  | teacher1@asd.com |
-      | student1 | student1  | user1    | student1@asd.com |
-      | student2 | student2  | user2    | student2@asd.com |
+      | username | firstname | lastname | email                |
+      | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
+      | student1 | student1  | user1    | student1@nowhere.net |
+      | student2 | student2  | user2    | student2@nowhere.net |
     And the following "course enrolments" exist:
       | user     | course          | role           |
       | teacher1 | Frozen autofill | editingteacher |

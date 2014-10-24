@@ -10,8 +10,8 @@ Feature: Load and apply usertemplates in order to test, among others, partial it
       | fullname              | shortname          | category | groupmode |
       | To apply usertemplate | Apply usertemplate | 0        | 0         |
     And the following "users" exist:
-      | username | firstname | lastname | email            |
-      | teacher1 | Teacher   | teacher  | teacher1@asd.com |
+      | username | firstname | lastname | email                |
+      | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
     And the following "course enrolments" exist:
       | user     | course             | role           |
       | teacher1 | Apply usertemplate | editingteacher |

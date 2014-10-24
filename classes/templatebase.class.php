@@ -584,13 +584,14 @@ class mod_surveypro_templatebase {
                 unset($record['id']);
                 $record['surveyproid'] = $this->surveypro->id;
 
-                // apply template settings
-                if ($this->templatetype == SURVEYPRO_MASTERTEMPLATE) {
-                    $mastertemplate->apply_template_settings($record);
-                }
-
                 $record['type'] = $currenttype;
                 $record['plugin'] = $currentplugin;
+
+                // apply template settings
+                if ($this->templatetype == SURVEYPRO_MASTERTEMPLATE) {
+                    list($tablename, $record) = $mastertemplate->apply_template_settings($tablename, $record);
+                }
+
                 if ($tablename == 'surveypro_item') {
                     $record['sortindex'] += $sortindexoffset;
                     if (!empty($record['parentid'])) {

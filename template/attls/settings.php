@@ -29,6 +29,6 @@ $options = array(
     SURVEYPRO_POSITIONFULLWIDTH => get_string('fullwidth', 'surveypro'),
 );
 
-$settings->add(new admin_setting_configselect('surveyprotemplate_attls/position',
-    get_string('position', 'surveyprotemplate_attls'),
-    get_string('position_desc', 'surveyprotemplate_attls'), 2, $options));
+$name = get_string('position', 'surveyprotemplate_attls');
+$description = get_string('position_desc', 'surveyprotemplate_attls');
+$settings->add(new admin_setting_configselect('surveyprotemplate_attls/position', $name, $description, 2, $options));

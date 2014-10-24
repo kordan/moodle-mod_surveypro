@@ -33,14 +33,14 @@ class mod_surveypro_mtemplatecreateform extends moodleform {
         $mform = $this->_form;
 
         // ----------------------------------------
-        // mtemplatecreate::surveyproid
+        // mtemplatecreate: surveyproid
         // ----------------------------------------
         $fieldname = 'surveyproid';
         $mform->addElement('hidden', $fieldname, 0);
         $mform->setType($fieldname, PARAM_INT);
 
         // ----------------------------------------
-        // mtemplatecreate::mastertemplatename
+        // mtemplatecreate: mastertemplatename
         // ----------------------------------------
         $fieldname = 'mastertemplatename';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveypro'));

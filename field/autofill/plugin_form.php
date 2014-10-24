@@ -44,7 +44,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $surveypro = $this->_customdata->surveypro;
 
         // ----------------------------------------
-        // item::contentelement$i
+        // item: contentelement$i
         // ----------------------------------------
         $options = surveypro_autofill_get_elements($surveypro->id);
         for ($i = 1; $i < 6; $i++) {
@@ -65,7 +65,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addRule('element01_group', get_string('required'), 'required', null, 'client');
 
         // ----------------------------------------
-        // item::hiddenfield
+        // item: hiddenfield
         // ----------------------------------------
         $fieldname = 'hiddenfield';
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveyprofield_autofill'));

@@ -44,7 +44,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // $surveypro = $this->_customdata->surveypro;
 
         // ----------------------------------------
-        // item::maxfiles
+        // item: maxfiles
         // ----------------------------------------
         $fieldname = 'maxfiles';
         $options = array_combine(range(1, 5), range(1, 5));
@@ -55,7 +55,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_INT);
 
         // ----------------------------------------
-        // item::maxbytes
+        // item: maxbytes
         // ----------------------------------------
         $fieldname = 'maxbytes';
         $options = get_max_upload_sizes();
@@ -65,7 +65,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_INT);
 
         // ----------------------------------------
-        // item::filetypes
+        // item: filetypes
         // ----------------------------------------
         $fieldname = 'filetypes';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_fileupload'));

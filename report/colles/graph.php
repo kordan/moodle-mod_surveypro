@@ -21,10 +21,10 @@ require_once($CFG->dirroot.'/mod/surveypro/report/colles/classes/report.class.ph
 require_once($CFG->dirroot.'/mod/surveypro/report/colles/lib.php');
 
 $id = required_param('id', PARAM_INT); // Course Module ID
-$type = required_param('type', PARAM_ALPHA); // Group ID
+$type = required_param('type', PARAM_ALPHA); // Report type
 $group = optional_param('group', 0, PARAM_INT); // Group ID
-$area = optional_param('area', false, PARAM_INT);  // Student ID
-$qid = optional_param('qid', 0, PARAM_INT);  // Group ID
+$area = optional_param('area', false, PARAM_INT);  // Report area
+$qid = optional_param('qid', 0, PARAM_INT);  // Question ID
 
 $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
@@ -33,12 +33,13 @@ $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUS
 $context = context_module::instance($cm->id);
 
 require_login($course, false, $cm);
-require_capability('mod/surveypro:accessreports', $context);
 
 $groupmode = groups_get_activity_groupmode($cm, $course);   // Groups are being used
 
 if ($type == 'summary') {
-    require_capability('mod/surveypro:accessownreports', $context);
+    if (!has_capability('mod/surveypro:accessreports', $context)) {
+        require_capability('mod/surveypro:accessownreports', $context);
+    }
 } else {
     require_capability('mod/surveypro:accessreports', $context);
 }
@@ -142,13 +143,13 @@ if ($type == 'summary') {
         }
     } else {
         if ($allowsingle && ($reportman->studenttrend1)) { // if the user hasn't general right but only canaccessownreports && submitted at least one response
-            $graph->y_order = array('stdev1', 'answers1', 'answers3', 'answers4');
+            $graph->y_order = array('stdev1', 'answers1', 'answers3');
         } else {
             $graph->y_order = array('stdev1', 'answers1');
         }
     }
 
-    $graph->parameter['title'] = $reportman->graphtitle; // 'collespreferred', 'colleasctual'...
+    $graph->parameter['title'] = $reportman->graphtitle; // 'collespreferred', 'collesctual'...
     $graph->parameter['legend'] = 'outside-top';
     $graph->parameter['legend_border'] = 'black';
     $graph->parameter['legend_offset'] = 4;

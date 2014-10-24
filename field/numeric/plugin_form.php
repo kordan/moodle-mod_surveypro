@@ -44,7 +44,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // $surveypro = $this->_customdata->surveypro;
 
         // ----------------------------------------
-        // item::defaultvalue
+        // item: defaultvalue
         // ----------------------------------------
         $fieldname = 'defaultvalue';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_numeric'));
@@ -58,7 +58,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addElement('header', $fieldname, get_string($fieldname, 'surveypro'));
 
         // ----------------------------------------
-        // item::signed
+        // item: signed
         // ----------------------------------------
         $fieldname = 'signed';
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveyprofield_numeric'));
@@ -66,7 +66,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_INT);
 
         // ----------------------------------------
-        // item::decimals
+        // item: decimals
         // ----------------------------------------
         $fieldname = 'decimals';
         $options = array_combine(range(0, 8), range(0, 8));
@@ -74,7 +74,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_numeric');
 
         // ----------------------------------------
-        // item::lowerbound
+        // item: lowerbound
         // ----------------------------------------
         $fieldname = 'lowerbound';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_numeric'));
@@ -82,7 +82,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_RAW);
 
         // ----------------------------------------
-        // item::upperbound
+        // item: upperbound
         // ----------------------------------------
         $fieldname = 'upperbound';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_numeric'));

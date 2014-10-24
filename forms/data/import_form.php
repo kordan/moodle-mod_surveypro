@@ -34,12 +34,12 @@ class mod_surveypro_importform extends moodleform {
         $mform = $this->_form;
 
         // ----------------------------------------
-        // submissionimport::settingsheader
+        // submissionimport: settingsheader
         // ----------------------------------------
         $mform->addElement('header', 'settingsheader', get_string('upload'));
 
         // ----------------------------------------
-        // submissionimport::csvfile
+        // submissionimport: csvfile
         // ----------------------------------------
         // here I use filepicker because I want ONE, and only ONE, file to import
         $fieldname = 'csvfile';
@@ -47,7 +47,7 @@ class mod_surveypro_importform extends moodleform {
         $mform->addRule($fieldname.'_filepicker', null, 'required');
 
         // ----------------------------------------
-        // submissionimport::csvcontent
+        // submissionimport: csvcontent
         // ----------------------------------------
         $fieldname = 'csvsemantic';
         $a = get_string('downloadformat', 'surveypro');
@@ -60,7 +60,7 @@ class mod_surveypro_importform extends moodleform {
         $mform->setDefault($fieldname, 'label');
 
         // ----------------------------------------
-        // submissionimport::csvdelimiter
+        // submissionimport: csvdelimiter
         // ----------------------------------------
         $fieldname = 'csvdelimiter';
         $options = csv_import_reader::get_delimiter_list();
@@ -74,7 +74,7 @@ class mod_surveypro_importform extends moodleform {
         }
 
         // ----------------------------------------
-        // submissionimport::encoding
+        // submissionimport: encoding
         // ----------------------------------------
         $fieldname = 'encoding';
         $options = core_text::get_encodings();

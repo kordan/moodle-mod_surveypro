@@ -162,7 +162,7 @@ class mod_surveypro_importmanager {
             // $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
             $itemclass = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
             $item = new $itemclass(null, false);
-            $requiredfieldname = $item::get_requiredfieldname();
+            $requiredfieldname = $itemclass::get_requiredfieldname();
 
             $sql = 'SELECT p.itemid, p.variable, p.'.$requiredfieldname.'
                 FROM {surveypro_item} i

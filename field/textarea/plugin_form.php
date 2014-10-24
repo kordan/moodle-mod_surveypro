@@ -44,7 +44,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // $surveypro = $this->_customdata->surveypro;
 
         // ----------------------------------------
-        // item::useeditor
+        // item: useeditor
         // ----------------------------------------
         $fieldname = 'useeditor';
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveyprofield_textarea'));
@@ -52,7 +52,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_INT);
 
         // ----------------------------------------
-        // item::arearows
+        // item: arearows
         // ----------------------------------------
         $fieldname = 'arearows';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_textarea'));
@@ -62,7 +62,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_INT);
 
         // ----------------------------------------
-        // item::areacols
+        // item: areacols
         // ----------------------------------------
         $fieldname = 'areacols';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_textarea'));
@@ -78,7 +78,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addElement('header', $fieldname, get_string($fieldname, 'surveypro'));
 
         // ----------------------------------------
-        // item::minlength
+        // item: minlength
         // ----------------------------------------
         $fieldname = 'minlength';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_textarea'));
@@ -88,7 +88,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setDefault($fieldname, 0);
 
         // ----------------------------------------
-        // item::maxlength
+        // item: maxlength
         // ----------------------------------------
         $fieldname = 'maxlength';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_textarea'));

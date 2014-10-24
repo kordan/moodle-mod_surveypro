@@ -39,14 +39,14 @@ class mod_surveypro_utemplatecreateform extends moodleform {
         $utemplateman = $this->_customdata->utemplateman;
 
         // ----------------------------------------
-        // utemplatecreate::surveyproid
+        // utemplatecreate: surveyproid
         // ----------------------------------------
         $fieldname = 'surveyproid';
         $mform->addElement('hidden', $fieldname, 0);
         $mform->setType($fieldname, PARAM_INT);
 
         // ----------------------------------------
-        // utemplatecreate::templatename
+        // utemplatecreate: templatename
         // ----------------------------------------
         $fieldname = 'templatename';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveypro'));
@@ -55,21 +55,21 @@ class mod_surveypro_utemplatecreateform extends moodleform {
         $mform->setType($fieldname, PARAM_FILE); // templatename is going to be a file name
 
         // ----------------------------------------
-        // utemplatecreate::overwrite
+        // utemplatecreate: overwrite
         // ----------------------------------------
         $fieldname = 'overwrite';
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveypro'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // ----------------------------------------
-        // utemplatecreate::visiblesonly
+        // utemplatecreate: visiblesonly
         // ----------------------------------------
         $fieldname = 'visiblesonly';
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveypro'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // ----------------------------------------
-        // utemplatecreate::sharinglevel
+        // utemplatecreate: sharinglevel
         // ----------------------------------------
         $fieldname = 'sharinglevel';
         $options = array();

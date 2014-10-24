@@ -33,7 +33,7 @@ class mod_surveypro_itemtypeform extends moodleform {
         $mform = $this->_form;
 
         // ----------------------------------------
-        // selectitem::plugin
+        // selectitem: plugin
         // ----------------------------------------
         $fieldname = 'typeplugin';
         // TAKE CARE! Here the plugin holds type and plugin both

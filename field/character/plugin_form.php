@@ -44,7 +44,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // $surveypro = $this->_customdata->surveypro;
 
         // ----------------------------------------
-        // item::defaultvalue
+        // item: defaultvalue
         // ----------------------------------------
         $fieldname = 'defaultvalue';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_character'));
@@ -59,7 +59,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addElement('header', $fieldname, get_string($fieldname, 'surveypro'));
 
         // ----------------------------------------
-        // item::pattern
+        // item: pattern
         // ----------------------------------------
         $fieldname = 'pattern';
         $options = array();
@@ -77,7 +77,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname.'_text', PARAM_TEXT);
 
         // ----------------------------------------
-        // item::minlength
+        // item: minlength
         // ----------------------------------------
         $fieldname = 'minlength';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_character'));
@@ -87,7 +87,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_INT);
 
         // ----------------------------------------
-        // item::maxlength
+        // item: maxlength
         // ----------------------------------------
         $fieldname = 'maxlength';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_character'));

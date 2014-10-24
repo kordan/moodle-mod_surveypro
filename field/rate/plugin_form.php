@@ -44,7 +44,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // $surveypro = $this->_customdata->surveypro;
 
         // ----------------------------------------
-        // item::style
+        // item: style
         // ----------------------------------------
         $fieldname = 'style';
         $options = array(SURVEYPROFIELD_RATE_USERADIO => get_string('useradio', 'surveyprofield_rate'),
@@ -56,7 +56,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_INT);
 
         // ----------------------------------------
-        // item::options
+        // item: options
         // ----------------------------------------
         $fieldname = 'options';
         $mform->addElement('textarea', $fieldname, get_string($fieldname, 'surveyprofield_rate'), array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65'));
@@ -65,7 +65,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_RAW); // PARAM_RAW and not PARAM_TEXT otherwise '<' is not accepted
 
         // ----------------------------------------
-        // item::rates
+        // item: rates
         // ----------------------------------------
         $fieldname = 'rates';
         $mform->addElement('textarea', $fieldname, get_string($fieldname, 'surveyprofield_rate'), array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65'));
@@ -74,7 +74,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_TEXT);
 
         // ----------------------------------------
-        // item::defaultoption
+        // item: defaultoption
         // ----------------------------------------
         $fieldname = 'defaultoption';
         $elementgroup = array();
@@ -86,7 +86,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_rate');
 
         // ----------------------------------------
-        // item::defaultvalue
+        // item: defaultvalue
         // ----------------------------------------
         $fieldname = 'defaultvalue';
         $mform->addElement('textarea', $fieldname, '', array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65'));
@@ -94,7 +94,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->disabledIf($fieldname, 'defaultoption', 'neq', SURVEYPRO_CUSTOMDEFAULT);
 
         // ----------------------------------------
-        // item::downloadformat
+        // item: downloadformat
         // ----------------------------------------
         $fieldname = 'downloadformat';
         $options = array(SURVEYPRO_ITEMSRETURNSVALUES => get_string('returnvalues', 'surveyprofield_rate'),
@@ -112,7 +112,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addElement('header', $fieldname, get_string($fieldname, 'surveypro'));
 
         // ----------------------------------------
-        // item::differentrates
+        // item: differentrates
         // ----------------------------------------
         $fieldname = 'differentrates';
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveyprofield_rate'));

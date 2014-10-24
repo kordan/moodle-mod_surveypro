@@ -51,15 +51,15 @@ Let's start with a summary:.
 It follows the list of TABS detailed with corresponding sub-tabs and php file name.
 For each sub-tab, I would define a capability at first but, I will find, sometimes it is useless.
 
-// -----------------------------------------------------------------------------
-// TWO MODULE GENERAL CAPABILITIES
-// -----------------------------------------------------------------------------
+    -------------------------------------------
+    TWO MODULE GENERAL CAPABILITIES
+    -------------------------------------------
     mod/surveypro:addinstance
     mod/surveypro:view
 
-// -----------------------------------------------------------------------------
-// TAB ELEMENTS
-// -----------------------------------------------------------------------------
+    -------------------------------------------
+    TAB ELEMENTS
+    -------------------------------------------
     SUB-TAB == SURVEYPRO_ITEMS_MANAGE
         $elementurl = new moodle_url('/mod/surveypro/items_manage.php', $localparamurl);
         mod/surveypro:manageitems
@@ -71,9 +71,9 @@ For each sub-tab, I would define a capability at first but, I will find, sometim
     SUB-TAB == SURVEYPRO_ITEMS_VALIDATE
         $elementurl = new moodle_url('/mod/surveypro/items_validate.php', $localparamurl);
 
-// -----------------------------------------------------------------------------
-// TAB SURVEYPRO
-// -----------------------------------------------------------------------------
+    -------------------------------------------
+    TAB SURVEYPRO
+    -------------------------------------------
     SUB-TAB == SURVEYPRO_ITEMS_PREVIEW
         $elementurl = new moodle_url('/mod/surveypro/view_userform.php', $localparamurl);
         mod/surveypro:preview
@@ -120,9 +120,9 @@ For each sub-tab, I would define a capability at first but, I will find, sometim
         $elementurl = new moodle_url('/mod/surveypro/view_export.php', $paramurl);
         mod/surveypro:exportdata
 
-// -----------------------------------------------------------------------------
-// TAB USER TEMPLATES
-// -----------------------------------------------------------------------------
+    -------------------------------------------
+    TAB USER TEMPLATES
+    -------------------------------------------
     SUB-TAB == SURVEYPRO_UTEMPLATES_MANAGE
         $elementurl = new moodle_url('/mod/surveypro/utemplates_manage.php', $localparamurl);
         mod/surveypro:manageusertemplates
@@ -141,9 +141,9 @@ For each sub-tab, I would define a capability at first but, I will find, sometim
         $elementurl = new moodle_url('/mod/surveypro/utemplates_apply.php', $localparamurl);
         mod/surveypro:applyusertemplates
 
-// -----------------------------------------------------------------------------
-// TAB MASTER TEMPLATES
-// -----------------------------------------------------------------------------
+    -------------------------------------------
+    TAB MASTER TEMPLATES
+    -------------------------------------------
     SUB-TAB == SURVEYPRO_MTEMPLATES_BUILD
         $elementurl = new moodle_url('/mod/surveypro/mtemplates_create.php', $localparamurl);
         mod/surveypro:savemastertemplates

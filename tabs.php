@@ -54,26 +54,26 @@ $paramurl = array('id' => $cm->id);
 // ==> tab row definition
 $row = array();
 
-// -----------------------------------------------------------------------------
+// ----------------------------------------
 // TAB ITEMS
-// -----------------------------------------------------------------------------
+// ----------------------------------------
 $tabitemsname = get_string('tabitemsname', 'surveypro');
 if ($canmanageitems) {
     $elementurl = new moodle_url('/mod/surveypro/items_manage.php', $paramurl);
     $row[] = new tabobject($tabitemsname, $elementurl->out(), $tabitemsname);
 }
 
-// -----------------------------------------------------------------------------
+// ----------------------------------------
 // TAB SUBMISSIONS
-// -----------------------------------------------------------------------------
+// ----------------------------------------
 $tabsubmissionsname = get_string('tabsubmissionsname', 'surveypro');
 $localparamurl = array('id' => $cm->id, 'cover' => 0);
 $elementurl = new moodle_url('/mod/surveypro/view.php', $localparamurl);
 $row[] = new tabobject($tabsubmissionsname, $elementurl->out(), $tabsubmissionsname);
 
-// -----------------------------------------------------------------------------
+// ----------------------------------------
 // TAB USER TEMPLATES
-// -----------------------------------------------------------------------------
+// ----------------------------------------
 $tabutemplatename = get_string('tabutemplatename', 'surveypro');
 if (empty($surveypro->template)) {
     if ($moduletab == SURVEYPRO_TABUTEMPLATES) {
@@ -84,9 +84,9 @@ if (empty($surveypro->template)) {
     }
 }
 
-// -----------------------------------------------------------------------------
+// ----------------------------------------
 // TAB MASTER TEMPLATES
-// -----------------------------------------------------------------------------
+// ----------------------------------------
 $tabmtemplatename = get_string('tabmtemplatename', 'surveypro');
 if ($moduletab == SURVEYPRO_TABMTEMPLATES) {
     if ($cansavemastertemplates || ((!$hassubmissions || $riskyediting) && $canapplymastertemplates)) {
@@ -95,9 +95,9 @@ if ($moduletab == SURVEYPRO_TABMTEMPLATES) {
     }
 }
 
-// -----------------------------------------------------------------------------
+// ----------------------------------------
 // ==> tab row definition
-// -----------------------------------------------------------------------------
+// ----------------------------------------
 $tabs = array();
 $tabs[] = $row; // Array of tabs. Closes the tab row element definition
                 // next tabs element is going to define the pages row

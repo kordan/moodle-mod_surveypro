@@ -26,7 +26,7 @@
 $string['pluginname'] = 'ATTLS (20 item version)';
 
 $string['position'] = 'Use custom position for attls built in surveypro';
-$string['position_desc'] = 'This option let you choose the position of the question respect to the user interface to provide the answer.<br />Changes will take effect with new surveypros';
+$string['position_desc'] = 'This option let you choose the position of the question respect to the user interface to provide the answer.<br />Changes will take effect with new surveypro';
 
 $string['label_content_01'] = '<p>The purpose of this questionnaire is to help us evaluate your attitudes towards thinking and learning. There are no \'right\' or \'wrong\' answers; we are interested only in your opinion. Please be assured that your responses will be treated with a high degree of confidentiality, and will not affect your assessment.</p>';
 

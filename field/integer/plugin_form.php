@@ -48,7 +48,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $integers = array_combine(range(0, $maximuminteger), range(0, $maximuminteger));
 
         // ----------------------------------------
-        // item::defaultoption
+        // item: defaultoption
         // ----------------------------------------
         $fieldname = 'defaultoption';
         $elementgroup = array();
@@ -61,7 +61,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_integer');
 
         // ----------------------------------------
-        // item::defaultvalue
+        // item: defaultvalue
         // ----------------------------------------
         $fieldname = 'defaultvalue';
         $mform->addElement('select', $fieldname, null, $integers);
@@ -74,7 +74,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addElement('header', $fieldname, get_string($fieldname, 'surveypro'));
 
         // ----------------------------------------
-        // item::lowerbound
+        // item: lowerbound
         // ----------------------------------------
         $fieldname = 'lowerbound';
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_integer'), $integers);
@@ -82,7 +82,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_integer');
 
         // ----------------------------------------
-        // item::upperbound
+        // item: upperbound
         // ----------------------------------------
         $fieldname = 'upperbound';
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_integer'), $integers);

@@ -60,14 +60,14 @@ class mod_surveypro_applyutemplateform extends moodleform {
         asort($templatesfiles);
 
         // ----------------------------------------
-        // applyutemplate::cnf
+        // applyutemplate: cnf
         // ----------------------------------------
         $fieldname = 'cnf';
         $mform->addElement('hidden', $fieldname, SURVEYPRO_UNCONFIRMED);
         $mform->setType($fieldname, PARAM_INT);
 
         // ----------------------------------------
-        // applyutemplate::usertemplate
+        // applyutemplate: usertemplate
         // ----------------------------------------
         $fieldname = 'usertemplate';
         $templatesfiles = array(get_string('notanyset', 'surveypro')) + $templatesfiles;
@@ -76,7 +76,7 @@ class mod_surveypro_applyutemplateform extends moodleform {
         $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
 
         // ----------------------------------------
-        // applyutemplate::otheritems
+        // applyutemplate: otheritems
         // ----------------------------------------
         $fieldname = 'action';
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('ignoreitems', 'surveypro'), SURVEYPRO_IGNOREITEMS);

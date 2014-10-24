@@ -39,28 +39,28 @@ class mod_surveypro_itembaseform extends moodleform {
         $surveypro = $this->_customdata->surveypro;
 
         // ----------------------------------------
-        // itembase::itemid
+        // itembase: itemid
         // ----------------------------------------
         $fieldname = 'itemid';
         $mform->addElement('hidden', $fieldname, '');
         $mform->setType($fieldname, PARAM_INT);
 
         // ----------------------------------------
-        // itembase::pluginid
+        // itembase: pluginid
         // ----------------------------------------
         $fieldname = 'pluginid';
         $mform->addElement('hidden', $fieldname, '');
         $mform->setType($fieldname, PARAM_INT);
 
         // ----------------------------------------
-        // itembase::type
+        // itembase: type
         // ----------------------------------------
         $fieldname = 'type';
         $mform->addElement('hidden', $fieldname, 'dummytype');
         $mform->setType($fieldname, PARAM_RAW);
 
         // ----------------------------------------
-        // itembase::plugin
+        // itembase: plugin
         // ----------------------------------------
         $fieldname = 'plugin';
         $mform->addElement('hidden', $fieldname, 'dummyplugin');
@@ -75,7 +75,7 @@ class mod_surveypro_itembaseform extends moodleform {
         }
 
         // ----------------------------------------
-        // itembase::content & contentformat
+        // itembase: content & contentformat
         // ----------------------------------------
         if ($item->get_isinitemform('content')) {
             if ($item->flag->usescontenteditor) {
@@ -95,7 +95,7 @@ class mod_surveypro_itembaseform extends moodleform {
         }
 
         // ----------------------------------------
-        // itembase::required
+        // itembase: required
         // ----------------------------------------
         $fieldname = 'required';
         if ($item->get_isinitemform($fieldname)) {
@@ -105,7 +105,7 @@ class mod_surveypro_itembaseform extends moodleform {
         }
 
         // ----------------------------------------
-        // itembase::indent
+        // itembase: indent
         // ----------------------------------------
         $fieldname = 'indent';
         if ($item->get_isinitemform($fieldname)) {
@@ -116,7 +116,7 @@ class mod_surveypro_itembaseform extends moodleform {
         }
 
         // ----------------------------------------
-        // itembase::position
+        // itembase: position
         // ----------------------------------------
         $fieldname = 'position';
         if ($position = $item->get_isinitemform($fieldname)) {
@@ -132,7 +132,7 @@ class mod_surveypro_itembaseform extends moodleform {
         }
 
         // ----------------------------------------
-        // itembase::customnumber
+        // itembase: customnumber
         // ----------------------------------------
         $fieldname = 'customnumber';
         if ($item->get_isinitemform($fieldname)) {
@@ -142,7 +142,7 @@ class mod_surveypro_itembaseform extends moodleform {
         }
 
         // ----------------------------------------
-        // itembase::hideinstructions
+        // itembase: hideinstructions
         // ----------------------------------------
         $fieldname = 'hideinstructions';
         if ($item->get_isinitemform($fieldname)) {
@@ -152,7 +152,7 @@ class mod_surveypro_itembaseform extends moodleform {
         }
 
         // ----------------------------------------
-        // itembase::variable
+        // itembase: variable
         // ----------------------------------------
         // for SURVEYPRO_TYPEFIELD only
         $fieldname = 'variable';
@@ -165,7 +165,7 @@ class mod_surveypro_itembaseform extends moodleform {
         }
 
         // ----------------------------------------
-        // itembase::extranote
+        // itembase: extranote
         // ----------------------------------------
         $fieldname = 'extranote';
         if ($item->get_isinitemform($fieldname)) {
@@ -181,7 +181,7 @@ class mod_surveypro_itembaseform extends moodleform {
         $mform->addElement('header', $fieldname, get_string($fieldname, 'surveypro'));
 
         // ----------------------------------------
-        // itembase::hidden
+        // itembase: hidden
         // ----------------------------------------
         $fieldname = 'hidden';
         if ($item->get_isinitemform($fieldname)) {
@@ -191,7 +191,7 @@ class mod_surveypro_itembaseform extends moodleform {
         }
 
         // ----------------------------------------
-        // itembase::insearchform
+        // itembase: insearchform
         // ----------------------------------------
         $fieldname = 'insearchform';
         if ($item->get_isinitemform($fieldname)) {
@@ -201,7 +201,7 @@ class mod_surveypro_itembaseform extends moodleform {
         }
 
         // ----------------------------------------
-        // itembase::advanced
+        // itembase: advanced
         // ----------------------------------------
         $fieldname = 'advanced';
         if ($item->get_isinitemform($fieldname)) {

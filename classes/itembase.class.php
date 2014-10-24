@@ -565,7 +565,7 @@ class mod_surveypro_itembase {
     public function item_update_childrenparentvalue() {
         global $DB;
 
-        if ($this::$canbeparent) {
+        if (self::$canbeparent) {
             // take care: you can not use $this->item_get_content_array(SURVEYPRO_VALUES, 'options') to evaluate values
             // because $item was loaded before last save, so $this->item_get_content_array(SURVEYPRO_VALUES, 'options')
             // is still returning the previous values

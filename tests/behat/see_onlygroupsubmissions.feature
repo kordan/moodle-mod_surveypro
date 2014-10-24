@@ -14,11 +14,11 @@ Feature: test each student sees only personal submissions
       | Group 1 | Only from my group | G1       |
       | Group 2 | Only from my group | G2       |
     And the following "users" exist:
-      | username | firstname | lastname | email            |
-      | teacher1 | Teacher   | teacher  | teacher1@asd.com |
-      | student1 | student1  | user1    | student1@asd.com |
-      | student2 | student2  | user2    | student2@asd.com |
-      | student3 | student3  | user3    | student3@asd.com |
+      | username | firstname | lastname | email                |
+      | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
+      | student1 | student1  | user1    | student1@nowhere.net |
+      | student2 | student2  | user2    | student2@nowhere.net |
+      | student3 | student3  | user3    | student3@nowhere.net |
     And the following "course enrolments" exist:
       | user     | course             | role           |
       | teacher1 | Only from my group | editingteacher |
@@ -85,7 +85,7 @@ Feature: test each student sees only personal submissions
     # student1 submits his first response
     And I set the following fields to these values:
       | 1: Write down your email | st1grp1ans1@nowhere.net |
-      | 2: Is this true?         | Yes                      |
+      | 2: Is this true?         | Yes                     |
     And I press "Submit"
 
     And I press "Let me add one more response, please"
@@ -94,7 +94,7 @@ Feature: test each student sees only personal submissions
     # student1 submits his second response
     And I set the following fields to these values:
       | 1: Write down your email | st1grp1ans2@nowhere.net |
-      | 2: Is this true?         | No                       |
+      | 2: Is this true?         | No                      |
     And I press "Submit"
 
     And I press "Continue to responses list"
@@ -117,7 +117,7 @@ Feature: test each student sees only personal submissions
     # student2 submits his first response
     And I set the following fields to these values:
       | 1: Write down your email | st2grp1ans1@nowhere.net |
-      | 2: Is this true?         | Yes                      |
+      | 2: Is this true?         | Yes                     |
     And I press "Submit"
 
     And I press "Continue to responses list"
@@ -141,7 +141,7 @@ Feature: test each student sees only personal submissions
     # student3 submits his first response
     And I set the following fields to these values:
       | 1: Write down your email | st3grp2ans1@nowhere.net |
-      | 2: Is this true?         | Yes                      |
+      | 2: Is this true?         | Yes                     |
     And I press "Submit"
 
     And I press "Continue to responses list"

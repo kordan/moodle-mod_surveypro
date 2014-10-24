@@ -47,19 +47,19 @@ class mod_surveypro_submissionform extends moodleform {
         $readonly = $this->_customdata->readonly;
 
         // ----------------------------------------
-        // userform::s
+        // userform: s
         // ----------------------------------------
         $mform->addElement('hidden', 's', $surveypro->id);
         $mform->setType('s', PARAM_INT);
 
         // ----------------------------------------
-        // userform::submissionid
+        // userform: submissionid
         // ----------------------------------------
         $mform->addElement('hidden', 'submissionid', 0);
         $mform->setType('submissionid', PARAM_INT);
 
         // ----------------------------------------
-        // userform::formpage
+        // userform: formpage
         // ----------------------------------------
         $mform->addElement('hidden', 'formpage', 0); // <-- this value comes from default as set just before $mform->display(); in view_userform.php
         $mform->setType('formpage', PARAM_INT);

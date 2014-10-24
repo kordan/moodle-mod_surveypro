@@ -54,7 +54,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         }
 
         // ----------------------------------------
-        // item::step
+        // item: step
         // ----------------------------------------
         $fieldname = 'step';
         $options = array();
@@ -69,7 +69,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_INT);
 
         // ----------------------------------------
-        // item::defaultoption
+        // item: defaultoption
         // ----------------------------------------
         $fieldname = 'defaultoption';
         $elementgroup = array();
@@ -83,7 +83,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_time');
 
         // ----------------------------------------
-        // item::defaultvalue
+        // item: defaultvalue
         // ----------------------------------------
         $fieldname = 'defaultvalue';
         $elementgroup = array();
@@ -93,7 +93,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->disabledIf($fieldname.'_group', 'defaultoption', 'neq', SURVEYPRO_CUSTOMDEFAULT);
 
         // ----------------------------------------
-        // item::downloadformat
+        // item: downloadformat
         // ----------------------------------------
         $fieldname = 'downloadformat';
         $options = $item->item_get_downloadformats();
@@ -108,7 +108,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addElement('header', $fieldname, get_string($fieldname, 'surveypro'));
 
         // ----------------------------------------
-        // item::lowerbound
+        // item: lowerbound
         // ----------------------------------------
         $fieldname = 'lowerbound';
         $elementgroup = array();
@@ -120,7 +120,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setDefault($fieldname.'_minute', '0');
 
         // ----------------------------------------
-        // item::upperbound
+        // item: upperbound
         // ----------------------------------------
         $fieldname = 'upperbound';
         $elementgroup = array();

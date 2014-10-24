@@ -51,7 +51,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $months = array_combine(range(0, 11), range(0, 11));
 
         // ----------------------------------------
-        // item::defaultoption
+        // item: defaultoption
         // ----------------------------------------
         $fieldname = 'defaultoption';
         $elementgroup = array();
@@ -63,7 +63,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_age');
 
         // ----------------------------------------
-        // item::defaultvalue
+        // item: defaultvalue
         // ----------------------------------------
         $fieldname = 'defaultvalue';
         $elementgroup = array();
@@ -79,7 +79,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addElement('header', $fieldname, get_string($fieldname, 'surveypro'));
 
         // ----------------------------------------
-        // item::lowerbound
+        // item: lowerbound
         // ----------------------------------------
         $fieldname = 'lowerbound';
         $elementgroup = array();
@@ -92,7 +92,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // $mform->disabledIf($fieldname.'_group', $fieldname.'_select', 'neq', constant($constantname));
 
         // ----------------------------------------
-        // item::upperbound
+        // item: upperbound
         // ----------------------------------------
         $fieldname = 'upperbound';
         $elementgroup = array();

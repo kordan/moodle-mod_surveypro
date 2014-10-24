@@ -44,7 +44,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // $surveypro = $this->_customdata->surveypro;
 
         // ----------------------------------------
-        // item::options
+        // item: options
         // ----------------------------------------
         $fieldname = 'options';
         $mform->addElement('textarea', $fieldname, get_string($fieldname, 'surveyprofield_checkbox'), array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65'));
@@ -53,7 +53,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_RAW); // PARAM_RAW and not PARAM_TEXT otherwise '<' is not accepted
 
         // ----------------------------------------
-        // item::labelother
+        // item: labelother
         // ----------------------------------------
         $fieldname = 'labelother';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_checkbox'), array('maxlength' => '64', 'size' => '50'));
@@ -61,7 +61,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_TEXT);
 
         // ----------------------------------------
-        // item::defaultvalue
+        // item: defaultvalue
         // ----------------------------------------
         $fieldname = 'defaultvalue';
         $mform->addElement('textarea', $fieldname, get_string($fieldname, 'surveyprofield_checkbox'), array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65'));
@@ -69,7 +69,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_TEXT);
 
         // ----------------------------------------
-        // item::adjustment
+        // item: adjustment
         // ----------------------------------------
         $fieldname = 'adjustment';
         $options = array(SURVEYPRO_HORIZONTAL => get_string('horizontal', 'surveyprofield_checkbox'), SURVEYPRO_VERTICAL => get_string('vertical', 'surveyprofield_checkbox'));
@@ -79,7 +79,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_INT);
 
         // ----------------------------------------
-        // item::minimumrequired
+        // item: minimumrequired
         // ----------------------------------------
         $fieldname = 'minimumrequired';
         $options = array_combine(range(0, 9), range(0, 9));
@@ -89,7 +89,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_INT);
 
         // ----------------------------------------
-        // item::downloadformat
+        // item: downloadformat
         // ----------------------------------------
         $fieldname = 'downloadformat';
         $options = array(SURVEYPRO_ITEMSRETURNSVALUES => get_string('returnvalues', 'surveyprofield_checkbox'),
