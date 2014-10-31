@@ -803,6 +803,9 @@ EOS;
         // content
         $content = $answer->content;
         // SURVEYPRO_NOANSWERVALUE does not exist here
+        if ($content === SURVEYPRO_NOANSWERVALUE) { // answer was "no answer"
+            return get_string('answerisnoanswer', 'surveypro');
+        }
         if ($content === null) { // item was disabled
             return get_string('notanswereditem', 'surveypro');
         }
