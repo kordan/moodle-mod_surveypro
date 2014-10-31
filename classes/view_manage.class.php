@@ -294,7 +294,7 @@ class mod_surveypro_submissionmanager {
 
                         echo $OUTPUT->notification(get_string('responsedeleted', 'surveypro'), 'notifysuccess');
                     } catch (Exception $e) {
-                        //extra cleanup steps
+                        // extra cleanup steps
                         $transaction->rollback($e); // rethrows exception
                     }
 
@@ -374,7 +374,7 @@ class mod_surveypro_submissionmanager {
 
                         $transaction->allow_commit();
                     } catch (Exception $e) {
-                        //extra cleanup steps
+                        // extra cleanup steps
                         $transaction->rollback($e); // rethrows exception
                     }
 
@@ -679,9 +679,6 @@ class mod_surveypro_submissionmanager {
             $editiconpath = 't/edit';
         }
 
-        $paramurlbase = array('id' => $this->cm->id);
-        $basepath = new moodle_url('/mod/surveypro/view_userform.php', $paramurlbase);
-
         list($sql, $whereparams) = $this->get_manage_sql($table);
         $submissions = $DB->get_recordset_sql($sql, $whereparams);
 
@@ -692,6 +689,7 @@ class mod_surveypro_submissionmanager {
                 }
             }
 
+            $paramurlbase = array('id' => $this->cm->id);
             foreach ($submissions as $submission) {
                 // before starting, just set some information
                 if (!$ismine = ($submission->userid == $USER->id)) {
@@ -857,10 +855,10 @@ class mod_surveypro_submissionmanager {
         $deleteall = $deleteall && ($next > 2);
         // End of: is the button to delete all responses going to be the page?
 
-        $buttoncount =  0;
+        $buttoncount = 0;
         if ($adnew) {
             $addurl = new moodle_url('/mod/surveypro/view_userform.php', array('id' => $this->cm->id, 'view' => SURVEYPRO_NEWRESPONSE));
-            $buttoncount =  1;
+            $buttoncount = 1;
         }
         if ($deleteall) {
             $paramurl = array();
@@ -1078,9 +1076,9 @@ class mod_surveypro_submissionmanager {
         $firstcolwidth -= PDF_MARGIN_RIGHT;
         $unitsum = $col1nunit + $col2nunit + $col3nunit;
 
-        $firstcolwidth = number_format($col1nunit*100/$unitsum, 2);
-        $secondcolwidth = number_format($col2nunit*100/$unitsum, 2);
-        $thirdcolwidth = number_format($col3nunit*100/$unitsum, 2);
+        $firstcolwidth = number_format($col1nunit * 100 / $unitsum, 2);
+        $secondcolwidth = number_format($col2nunit * 100 / $unitsum, 2);
+        $thirdcolwidth = number_format($col3nunit * 100 / $unitsum, 2);
         $lasttwocolumns = $secondcolwidth + $thirdcolwidth;
 
         // 0: to the right (or left for RTL language)

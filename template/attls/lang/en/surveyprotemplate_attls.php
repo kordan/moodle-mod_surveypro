@@ -25,6 +25,10 @@
 
 $string['pluginname'] = 'ATTLS (20 item version)';
 
+$string['itemstyle'] = 'Style of the choice elements';
+$string['itemstyle_desc'] = 'This option let you choose the style of the elemets for the choices of the survey. "Radio buttons" is the standard, "Select" is better for not huge monitors.<br />Changes will take effect with new surveypro';
+$string['useradio'] = 'Use radio buttons';
+$string['useselect'] = 'Use drop down menus';
 $string['position'] = 'Use custom position for attls built in surveypro';
 $string['position_desc'] = 'This option let you choose the position of the question respect to the user interface to provide the answer.<br />Changes will take effect with new surveypro';
 

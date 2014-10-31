@@ -16,22 +16,13 @@
 
 /**
  * @package    surveyprotemplate
- * @subpackage surveyproTemplate_@@templateNamePlaceholder@@
+ * @subpackage attls
  * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-class mod_surveypro_template_@@templateNamePlaceholder@@ {
-    /**
-     * apply_template_settings
-     *
-     * @param $tablename
-     * @param $record
-     * @return record
-     */
-    public function apply_template_settings($tablename, $record, $config) {
-        return array($tablename, $record);
-    }
-}
+// position of the content
+define('SURVEYPROTEMPLATE_ATTLSUSERADIO', 1);
+define('SURVEYPROTEMPLATE_ATTLSUSESELECT', 2);

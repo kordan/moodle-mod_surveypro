@@ -40,7 +40,7 @@ class mod_surveypro_report_frequency extends mod_surveypro_reportbase {
     /**
      * setup
      */
-    function setup($hassubmissions) {
+    public function setup($hassubmissions) {
         $this->hassubmissions = $hassubmissions;
 
         $this->setup_outputtable();
@@ -136,7 +136,7 @@ class mod_surveypro_report_frequency extends mod_surveypro_reportbase {
                 GROUP BY ud.content';
 
         if ($this->outputtable->get_sql_sort()) {
-            // $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort();
+            $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort();
         } else {
             $sql .= ' ORDER BY ud.content';
         }
@@ -163,13 +163,13 @@ class mod_surveypro_report_frequency extends mod_surveypro_reportbase {
             $counted += $answer->absolute;
 
             // percentage
-            $tablerow[] = number_format(100*$answer->absolute/$submissionscount, 2, $decimalseparator, ' ').'%';
+            $tablerow[] = number_format(100 * $answer->absolute / $submissionscount, 2, $decimalseparator, ' ').'%';
 
             // add row to the table
             $this->outputtable->add_data($tablerow);
         }
 
-        //each item may be unanswered because it was not allowed by its ancestors
+        // each item may be unanswered because it was not allowed by its ancestors
         if ($counted < $submissionscount) {
             $tablerow = array();
 
@@ -180,7 +180,7 @@ class mod_surveypro_report_frequency extends mod_surveypro_reportbase {
             $tablerow[] = ($submissionscount - $counted);
 
             // percentage
-            $tablerow[] = number_format(100*($submissionscount - $counted)/$submissionscount, 2, $decimalseparator, ' ').'%';
+            $tablerow[] = number_format(100 * ($submissionscount - $counted) / $submissionscount, 2, $decimalseparator, ' ').'%';
 
             // add row to the table
             $this->outputtable->add_data($tablerow);

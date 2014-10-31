@@ -23,7 +23,7 @@ Feature: verify an autofill item can be added to a survey
       | Description    | This is a surveypro to add an autofill item |
     And I follow "Surveypro test"
 
-    And I set the field "plugin" to "Autofill"
+    And I set the field "typeplugin" to "Autofill"
     And I press "Add"
 
     And I expand all fieldsets

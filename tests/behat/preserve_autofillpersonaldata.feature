@@ -42,7 +42,7 @@ Feature: editing a submission, autofill userID is not overwritten
       | Group mode     | Separate groups                                                                           |
     And I follow "Surveypro test"
 
-    And I set the field "plugin" to "Autofill"
+    And I set the field "typeplugin" to "Autofill"
     And I press "Add"
 
     And I expand all fieldsets
@@ -54,7 +54,7 @@ Feature: editing a submission, autofill userID is not overwritten
       | id_element01_select | user ID      |
     And I press "Add"
 
-    And I set the field "plugin" to "Autofill"
+    And I set the field "typeplugin" to "Autofill"
     And I press "Add"
 
     And I expand all fieldsets
@@ -66,7 +66,7 @@ Feature: editing a submission, autofill userID is not overwritten
       | id_element01_select | user first name |
     And I press "Add"
 
-    And I set the field "plugin" to "Autofill"
+    And I set the field "typeplugin" to "Autofill"
     And I press "Add"
 
     And I expand all fieldsets
@@ -78,7 +78,7 @@ Feature: editing a submission, autofill userID is not overwritten
       | id_element01_select | user last name |
     And I press "Add"
 
-    And I set the field "plugin" to "Boolean"
+    And I set the field "typeplugin" to "Boolean"
     And I press "Add"
 
     And I expand all fieldsets
@@ -97,14 +97,13 @@ Feature: editing a submission, autofill userID is not overwritten
     And I follow "Course divided into groups"
     And I follow "Surveypro test"
 
-    And I press "Add a response"
+    And I press "New response"
 
     # student1 submits his first response
     And I set the field "4: Is this true?" to "Yes"
     And I press "Submit"
 
-    And I press "Let me add one more response, please"
-    And I press "Add a response"
+    And I press "New response"
 
     # student1 submits his second response
     And I set the field "4: Is this true?" to "No"
@@ -118,7 +117,7 @@ Feature: editing a submission, autofill userID is not overwritten
     And I follow "Surveypro test"
 
     And I follow "Responses"
-    And I follow "edit_submission_369000"
+    And I follow "edit_submission_399000"
     Then I should see "4"
     Then I should see "student1"
     Then I should see "user1"
@@ -135,7 +134,7 @@ Feature: editing a submission, autofill userID is not overwritten
     And I follow "Surveypro test"
 
     And I follow "Responses"
-    And I follow "edit_submission_369000"
+    And I follow "edit_submission_399000"
     Then I should see "4"
     Then I should see "student1"
     Then I should see "user1"
@@ -148,8 +147,7 @@ Feature: editing a submission, autofill userID is not overwritten
     And I follow "Course divided into groups"
     And I follow "Surveypro test"
 
-    And I follow "Responses"
-    And I follow "edit_submission_369000"
+    And I follow "edit_submission_399000"
     Then I should see "4"
     Then I should see "student1"
     Then I should see "user1"
@@ -165,7 +163,7 @@ Feature: editing a submission, autofill userID is not overwritten
     And I follow "Surveypro test"
 
     And I follow "Responses"
-    And I follow "edit_submission_369000"
+    And I follow "edit_submission_399000"
     Then I should see "4"
     Then I should see "student1"
     Then I should see "user1"

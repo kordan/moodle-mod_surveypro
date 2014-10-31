@@ -93,8 +93,8 @@ class mod_surveypro_importmanager {
         foreach ($plugins as $k => $plugin) {
             require_once($CFG->dirroot.'/mod/surveypro/field/'.$plugin.'/plugin.class.php');
 
-            $itemclass = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
-            $item = new $itemclass(null, false);
+            $itemclass = 'mod_surveypro_'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
+            $item = new $itemclass($this->cm, null, false);
             if ($item->get_savepositiontodb()) {
                 $semanticitem[] = $plugins[$k];
             }
@@ -160,8 +160,8 @@ class mod_surveypro_importmanager {
 
             // $tablename === $itemclass :)
             // $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
-            $itemclass = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
-            $item = new $itemclass(null, false);
+            $itemclass = 'mod_surveypro_'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
+            $item = new $itemclass($this->cm, null, false);
             $requiredfieldname = $itemclass::get_requiredfieldname();
 
             $sql = 'SELECT p.itemid, p.variable, p.'.$requiredfieldname.'
@@ -504,20 +504,20 @@ class mod_surveypro_importmanager {
                         $a->csvvalue = $value;
                         $a->header = $foundheaders[$col];
                         switch ($this->formdata->csvsemantic) {
-                        case SURVEYPRO_LABELS:
-                            $a->semantic = get_string('answerlabel', 'surveypro');
-                            break;
-                        case SURVEYPRO_VALUES:
-                            $a->semantic = get_string('answervalue', 'surveypro');
-                            break;
-                        case SURVEYPRO_POSITIONS:
-                            $a->semantic = get_string('answerposition', 'surveypro');
-                            break;
-                        case 'itemdriven':
-                            $a->semantic = $itemhelperinfo[$col]->contentformat;
-                            break;
-                        default:
-                            debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->formdata->csvsemantic = '.$this->formdata->csvsemantic, DEBUG_DEVELOPER);
+                            case SURVEYPRO_LABELS:
+                                $a->semantic = get_string('answerlabel', 'surveypro');
+                                break;
+                            case SURVEYPRO_VALUES:
+                                $a->semantic = get_string('answervalue', 'surveypro');
+                                break;
+                            case SURVEYPRO_POSITIONS:
+                                $a->semantic = get_string('answerposition', 'surveypro');
+                                break;
+                            case 'itemdriven':
+                                $a->semantic = $itemhelperinfo[$col]->contentformat;
+                                break;
+                            default:
+                                debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->formdata->csvsemantic = '.$this->formdata->csvsemantic, DEBUG_DEVELOPER);
                         }
                         print_error('import_missingsemantic', 'surveypro', $returnurl, $a);
                     }

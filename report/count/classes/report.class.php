@@ -40,7 +40,7 @@ class mod_surveypro_report_count extends mod_surveypro_reportbase {
     /**
      * setup
      */
-    function setup($hassubmissions) {
+    public function setup($hassubmissions) {
         $this->hassubmissions = $hassubmissions;
 
         $this->setup_outputtable();
@@ -112,11 +112,11 @@ class mod_surveypro_report_count extends mod_surveypro_reportbase {
                              GROUP BY userid) s ON s.userid = u.id';
         $whereparams = array('surveyproid' => $this->surveypro->id);
 
-		list($where, $filterparams) = $this->outputtable->get_sql_where();
-		if ($where) {
-		    $sql .= ' WHERE '.$where;
+        list($where, $filterparams) = $this->outputtable->get_sql_where();
+        if ($where) {
+            $sql .= ' WHERE '.$where;
             $whereparams = array_merge($whereparams,  $filterparams);
-		}
+        }
 
         if ($this->outputtable->get_sql_sort()) {
             $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort();

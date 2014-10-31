@@ -23,7 +23,7 @@ Feature: verify an attachment item can be added to a survey
       | Description    | This is a surveypro to add an attachment item |
     And I follow "Surveypro test"
 
-    And I set the field "plugin" to "Attachment"
+    And I set the field "typeplugin" to "Attachment"
     And I press "Add"
 
     And I expand all fieldsets

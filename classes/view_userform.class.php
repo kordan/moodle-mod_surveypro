@@ -72,7 +72,7 @@ class mod_surveypro_userformmanager {
     /**
      * $view
      */
-    public $view = '';
+    public $view = null;
 
     /**
      * $moduletab: The tab of the module where the page will be shown
@@ -172,7 +172,7 @@ class mod_surveypro_userformmanager {
      * @return void
      */
     public function set_formpage($formpage) {
-        if (empty($this->view)) {
+        if ($this->view === null) {
             debugging('Please call set_view method of the class mod_surveypro_userformmanager before calling set_formpage', DEBUG_DEVELOPER);
         }
 
@@ -290,8 +290,8 @@ class mod_surveypro_userformmanager {
             $parentplugin = $DB->get_field('surveypro_item', 'plugin', array('id' => $itemseed->parentid));
             require_once($CFG->dirroot.'/mod/surveypro/field/'.$parentplugin.'/plugin.class.php');
 
-            $itemclass = 'surveyprofield_'.$parentplugin;
-            $parentitem = new $itemclass($itemseed->parentid, false);
+            $itemclass = 'mod_surveypro_field_'.$parentplugin;
+            $parentitem = new $itemclass($this->cm, $itemseed->parentid, false);
 
             if ($parentitem->userform_child_item_allowed_static($this->submissionid, $itemseed)) {
                 // if (userform_child_item_allowed_static($this->submissionid, $itemseed)) {
@@ -505,10 +505,12 @@ class mod_surveypro_userformmanager {
         // at each submission I need to save one 'surveypro_submission' and some 'surveypro_answer'
 
         // -----------------------------
+
         // let's start by saving one record in surveypro_submission
         // in save_surveypro_submission method I also assign $this->submissionid and $this->status
         $this->save_surveypro_submission();
         // end of: let's start by saving one record in surveypro_submission
+
         // -----------------------------
 
         // save now all the answers provided by the user
@@ -636,11 +638,11 @@ class mod_surveypro_userformmanager {
     public function drop_jumped_saved_data() {
         global $DB;
 
-        if ($this->firstpageright == ($this->formpage+1)) {
+        if ($this->firstpageright == ($this->formpage + 1)) {
             return;
         }
 
-        $pages = range($this->formpage+1, $this->firstpageright-1);
+        $pages = range($this->formpage + 1, $this->firstpageright - 1);
         $where = 'surveyproid = :surveyproid
                 AND formpage IN ('.implode(',', $pages).')';
         $itemlistid = $DB->get_records_select('surveypro_item', $where, array('surveyproid' => $this->surveypro->id), 'id', 'id');
@@ -978,13 +980,17 @@ class mod_surveypro_userformmanager {
 
         $paramurl = array('id' => $this->cm->id, 'cover' => 0);
         // just to save a query
-        $alreadysubmitted = empty($this->surveypro->maxentries) ? -1 : $DB->count_records('surveypro_submission', array('surveyproid' => $this->surveypro->id, 'userid' => $USER->id));
+        if (empty($this->surveypro->maxentries)) {
+            $alreadysubmitted = -1;
+        } else {
+            $alreadysubmitted = $DB->count_records('surveypro_submission', array('surveyproid' => $this->surveypro->id, 'userid' => $USER->id));
+        }
         $condition = ($alreadysubmitted < $this->surveypro->maxentries);
         $condition = $condition || empty($this->surveypro->maxentries);
         $condition = $condition || $this->canignoremaxentries;
         if ($condition) { // if the user is allowed to submit one more surveypro
-            $buttonurl = new moodle_url('/mod/surveypro/view_userform.php', array('id' => $this->cm->id));
-            $onemore = new single_button($buttonurl, get_string('onemorerecord', 'surveypro'));
+            $buttonurl = new moodle_url('/mod/surveypro/view_userform.php', array('id' => $this->cm->id, 'view' => SURVEYPRO_NEWRESPONSE));
+            $onemore = new single_button($buttonurl, get_string('addnewsubmission', 'surveypro'));
 
             $buttonurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
             $gotolist = new single_button($buttonurl, get_string('gotolist', 'surveypro'));
@@ -1249,17 +1255,6 @@ class mod_surveypro_userformmanager {
             case SURVEYPRO_PREVIEWSURVEYFORM:
                 $allowed = has_capability('mod/surveypro:preview', $this->context);
                 break;
-            case SURVEYPRO_READONLYRESPONSE:
-                if ($USER->id == $submission->userid) {
-                    $allowed = true;
-                } else {
-                    if ($groupmode == SEPARATEGROUPS) {
-                        $allowed = $groupuser && $this->canseeotherssubmissions;
-                    } else { // NOGROUPS || VISIBLEGROUPS
-                        $allowed = $this->canseeotherssubmissions;
-                    }
-                }
-                break;
             case SURVEYPRO_EDITRESPONSE:
                 if ($USER->id == $submission->userid) {
                     // whether in progress, always allow
@@ -1269,6 +1264,17 @@ class mod_surveypro_userformmanager {
                         $allowed = $groupuser && $this->caneditotherssubmissions;
                     } else { // NOGROUPS || VISIBLEGROUPS
                         $allowed = $this->caneditotherssubmissions;
+                    }
+                }
+                break;
+            case SURVEYPRO_READONLYRESPONSE:
+                if ($USER->id == $submission->userid) {
+                    $allowed = true;
+                } else {
+                    if ($groupmode == SEPARATEGROUPS) {
+                        $allowed = $groupuser && $this->canseeotherssubmissions;
+                    } else { // NOGROUPS || VISIBLEGROUPS
+                        $allowed = $this->canseeotherssubmissions;
                     }
                 }
                 break;

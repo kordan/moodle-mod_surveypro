@@ -23,7 +23,7 @@ Feature: verify a multiselect item can be added to a survey
       | Description    | This is a surveypro to add a multiselect item |
     And I follow "Surveypro test"
 
-    And I set the field "plugin" to "Multiple selection"
+    And I set the field "typeplugin" to "Multiple selection"
     And I press "Add"
 
     And I expand all fieldsets

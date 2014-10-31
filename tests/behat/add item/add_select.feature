@@ -23,7 +23,7 @@ Feature: verify a select item can be added to a survey
       | Description    | This is a surveypro to add a select item |
     And I follow "Surveypro test"
 
-    And I set the field "plugin" to "Select"
+    And I set the field "typeplugin" to "Select"
     And I press "Add"
 
     And I expand all fieldsets

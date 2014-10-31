@@ -23,7 +23,7 @@ Feature: verify a pagebreak item can be added to a survey
       | Description    | This is a surveypro to add a pagebreak item |
     And I follow "Surveypro test"
 
-    And I set the field "plugin" to "Page break"
+    And I set the field "typeplugin" to "Page break"
     And I press "Add"
 
     And I press "Add"

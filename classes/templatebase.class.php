@@ -325,6 +325,12 @@ class mod_surveypro_templatebase {
                     return;
                 }
             }
+
+            // before continuing
+            if ($action != SURVEYPRO_DELETEALLITEMS) {
+                // dispose assignemnt of pages
+                $DB->set_field('surveypro_item', 'formpage', 0, array('surveyproid' => $this->surveypro->id));
+            }
         } else {
             $action = SURVEYPRO_DELETEALLITEMS;
         }
@@ -398,12 +404,11 @@ class mod_surveypro_templatebase {
         if ($this->templatetype == SURVEYPRO_USERTEMPLATE) {
             $paramurl = array('s' => $this->surveypro->id);
             $redirecturl = new moodle_url('/mod/surveypro/items_manage.php', $paramurl);
-            redirect($redirecturl);
         } else {
             $paramurl = array('s' => $this->surveypro->id, 'view' => SURVEYPRO_PREVIEWSURVEYFORM);
             $redirecturl = new moodle_url('/mod/surveypro/view_userform.php', $paramurl);
-            redirect($redirecturl);
         }
+        redirect($redirecturl);
     }
 
     /**
@@ -434,8 +439,8 @@ class mod_surveypro_templatebase {
         $hassubmissions = surveypro_count_submissions($this->surveypro->id);
 
         if ($hassubmissions && (!$riskyediting)) {
-            echo $OUTPUT->box(get_string('applyusertemplatedenied01', 'surveypro'));
-            $url = new moodle_url('/mod/surveypro/view_userform.php', array('s' => $this->surveypro->id));
+            echo $OUTPUT->notification(get_string('applyusertemplatedenied01', 'surveypro'), 'notifyproblem');
+            $url = new moodle_url('/mod/surveypro/view.php', array('s' => $this->surveypro->id, 'cover' => 0));
             echo $OUTPUT->continue_button($url);
             echo $OUTPUT->footer();
             die();
@@ -443,7 +448,7 @@ class mod_surveypro_templatebase {
 
         if ($this->templatetype == SURVEYPRO_USERTEMPLATE) {
             if ($this->surveypro->template && (!$riskyediting)) { // this survey comes from a master template so it is multilang
-                echo $OUTPUT->box(get_string('applyusertemplatedenied02', 'surveypro'));
+                echo $OUTPUT->notification(get_string('applyusertemplatedenied02', 'surveypro'), 'notifyproblem');
                 $url = new moodle_url('/mod/surveypro/view_userform.php', array('s' => $this->surveypro->id));
                 echo $OUTPUT->continue_button($url);
                 echo $OUTPUT->footer();
@@ -530,9 +535,13 @@ class mod_surveypro_templatebase {
             $sortindexoffset = 0;
         }
 
+        if ($this->templatetype == SURVEYPRO_MASTERTEMPLATE) {
+            // load it only once. You are going to use it later.
+            $config = get_config('surveyprotemplate_'.$this->templatename);
+        }
         foreach ($simplexml->children() as $xmlitem) {
             // echo '<h3>Count of tables for the current item: '.count($xmlitem->children()).'</h3>';
-            foreach($xmlitem->attributes() as $attribute => $value) {
+            foreach ($xmlitem->attributes() as $attribute => $value) {
                 // <item type="format" plugin="label" version="2014030201">
                 // echo 'Trovo: '.$attribute.' = '.$value.'<br />';
                 if ($attribute == 'type') {
@@ -589,7 +598,7 @@ class mod_surveypro_templatebase {
 
                 // apply template settings
                 if ($this->templatetype == SURVEYPRO_MASTERTEMPLATE) {
-                    list($tablename, $record) = $mastertemplate->apply_template_settings($tablename, $record);
+                    list($tablename, $record) = $mastertemplate->apply_template_settings($tablename, $record, $config);
                 }
 
                 if ($tablename == 'surveypro_item') {
@@ -699,7 +708,7 @@ class mod_surveypro_templatebase {
         $lastsortindex = 0;
         $simplexml = new SimpleXMLElement($xml);
         foreach ($simplexml->children() as $xmlitem) {
-            foreach($xmlitem->attributes() as $attribute => $value) {
+            foreach ($xmlitem->attributes() as $attribute => $value) {
                 // <item type="format" plugin="label" version="2014030201">
                 // echo 'Found: '.$attribute.' = '.$value.'<br />';
                 if ($attribute == 'type') {

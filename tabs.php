@@ -44,11 +44,9 @@ $countparents = $DB->count_records_select('surveypro_item', 'surveyproid = :surv
 $inactive = null;
 $activetwo = null;
 
-/**
- * **********************************************
- * TABS
- * **********************************************
- */
+// **********************************************
+// TABS
+// **********************************************
 $paramurl = array('id' => $cm->id);
 
 // ==> tab row definition
@@ -104,15 +102,13 @@ $tabs[] = $row; // Array of tabs. Closes the tab row element definition
 
 // echo '$modulepage = '.$modulepage.'<br />';
 $pageid = 'idpage'.$modulepage;
-// $pageid is here because I leave open the door to override it during next switch
+// $pageid is here because I leave the door open to override it during next switch
 
+// **********************************************
+// PAGES
+// **********************************************
 // echo '$moduletab = '.$moduletab.'<br />';
 // echo '$modulepage = '.$modulepage.'<br />';
-/**
- * **********************************************
- * PAGES
- * **********************************************
- */
 switch ($moduletab) {
     case SURVEYPRO_TABITEMS:
         // permissions
@@ -166,11 +162,11 @@ switch ($moduletab) {
         $row = array();
 
          // Cover page
-         if ($canview) {
+        if ($canview) {
             $elementurl = new moodle_url('/mod/surveypro/view_cover.php', $paramurl);
             $strlabel = get_string('tabsubmissionspage1', 'surveypro');
             $row[] = new tabobject('idpage1', $elementurl->out(), $strlabel);
-         }
+        }
 
         // Responses
         if (!is_guest($context)) {
@@ -180,13 +176,13 @@ switch ($moduletab) {
             $row[] = new tabobject('idpage2', $elementurl->out(), $strlabel);
         }
 
-         // Insert
-         if ($modulepage == SURVEYPRO_SUBMISSION_INSERT) {
+        // Insert
+        if ($modulepage == SURVEYPRO_SUBMISSION_INSERT) {
             $localparamurl = array('id' => $cm->id, 'view' => SURVEYPRO_NEWRESPONSE);
             $elementurl = new moodle_url('/mod/surveypro/view_userform.php', $localparamurl);
             $strlabel = get_string('tabsubmissionspage3', 'surveypro');
             $row[] = new tabobject('idpage3', $elementurl->out(), $strlabel);
-         }
+        }
 
         if ($modulepage == SURVEYPRO_SUBMISSION_EDIT) { // edit
             $localparamurl = array('id' => $cm->id, 'view' => SURVEYPRO_EDITRESPONSE);

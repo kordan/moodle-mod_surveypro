@@ -92,6 +92,8 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
      * [a regular expression?]
      */
     public $pattern = '';
+    public $pattern_text = '';
+
 
     /**
      * $minlength = the minimum allowed length
@@ -104,12 +106,7 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
     public $maxlength = null;
 
     /**
-     * $flag = features describing the object
-     */
-    public $flag;
-
-    /**
-     * $canbeparent
+     * static canbeparent
      */
     public static $canbeparent = false;
 
@@ -120,20 +117,24 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
      *
      * If itemid is provided, load the object (item + base + plugin) from database
      *
+     * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
      * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
 
+        // list of constant element attributes
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'character';
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
+        $this->savepositiontodb = false;
 
-        $this->flag = new stdClass();
-        $this->flag->issearchable = true;
-        $this->flag->usescontenteditor = true;
-        $this->flag->editorslist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA);
-        $this->flag->savepositiontodb = false;
+        // other element specific properties
+        // nothing
+
+        // override properties depending from $surveypro settings
+        // nothing
 
         // list of fields I do not want to have in the item definition form
         // EMPTY LIST
@@ -431,8 +432,8 @@ EOS;
                     case SURVEYPROFIELD_CHARACTER_URLPATTERN:
                         $regex = '~^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$~i';
                         $regex = '~^(http(s?)\:\/\/)?[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\‌​-‌​\.\?\,\'\/\\\+&amp;%\$#_]*)?$~i';
-                        if (!preg_match($regex, $data[$this->itemname])) {
                         // if (!surveypro_character_is_valid_url($data[$this->itemname])) {
+                        if (!preg_match($regex, $data[$this->itemname])) {
                             $errors[$errorkey] = get_string('uerr_invalidurl', 'surveyprofield_character');
                         }
                         break;
@@ -593,5 +594,14 @@ EOS;
         $elementnames = array($this->itemname);
 
         return $elementnames;
+    }
+
+    /**
+     * get_canbeparent
+     *
+     * @return the content of the static property "canbeparent"
+     */
+    public static function get_canbeparent() {
+        return self::$canbeparent;
     }
 }

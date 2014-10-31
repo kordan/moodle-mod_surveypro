@@ -23,7 +23,7 @@ Feature: verify an integer item can be added to a survey
       | Description    | This is a surveypro to add an integer item |
     And I follow "Surveypro test"
 
-    And I set the field "plugin" to "Integer (small)"
+    And I set the field "typeplugin" to "Integer (small)"
     And I press "Add"
 
     And I expand all fieldsets

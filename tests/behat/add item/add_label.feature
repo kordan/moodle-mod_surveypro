@@ -23,7 +23,7 @@ Feature: verify a label item can be added to a survey
       | Description    | This is a surveypro to add a label item |
     And I follow "Surveypro test"
 
-    And I set the field "plugin" to "Label"
+    And I set the field "typeplugin" to "Label"
     And I press "Add"
 
     And I expand all fieldsets

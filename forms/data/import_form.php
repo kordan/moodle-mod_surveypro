@@ -86,25 +86,25 @@ class mod_surveypro_importform extends moodleform {
         $this->add_action_buttons(false, get_string('dataimport', 'surveypro'));
     }
 
-//     public function validation($data, $files) {
-//         global $USER;
-//
-//         $mform = $this->_form;
-//
-//         // $surveypro = $this->_customdata->surveypro;
-//         // $importman = $this->_customdata->importman;
-//
-//         $errors = parent::validation($data, $files);
-//
-//         //$csvcontent = $this->get_file_content('importfile_filepicker');
-// echo '<textarea rows="10" cols="100">'.$csvcontent.'</textarea>';
-//         $csvfilename = $this->get_name('importfile_filepicker');
-// echo '$csvfilename = '.$csvfilename.'<br />';
-//         if (!$importman->validate_csv($csvcontent, $data->encoding, $data->delimiter_name)) {
-//             $errors['importfile_filepicker'] = get_string('invalidcsvfile', 'surveypro', $csvfilename);
-//             return $errors;
-//         }
-//
-//         return $errors;
-//     }
+    // public function validation($data, $files) {
+    //     global $USER;
+    //
+    //     $mform = $this->_form;
+    //
+    //     // $surveypro = $this->_customdata->surveypro;
+    //     // $importman = $this->_customdata->importman;
+    //
+    //     $errors = parent::validation($data, $files);
+    //
+    //     //$csvcontent = $this->get_file_content('importfile_filepicker');
+    //     // echo '<textarea rows="10" cols="100">'.$csvcontent.'</textarea>';
+    //     $csvfilename = $this->get_name('importfile_filepicker');
+    //     // echo '$csvfilename = '.$csvfilename.'<br />';
+    //     if (!$importman->validate_csv($csvcontent, $data->encoding, $data->delimiter_name)) {
+    //         $errors['importfile_filepicker'] = get_string('invalidcsvfile', 'surveypro', $csvfilename);
+    //         return $errors;
+    //     }
+    //
+    //     return $errors;
+    // }
 }

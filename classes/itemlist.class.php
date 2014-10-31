@@ -656,7 +656,7 @@ class mod_surveypro_itemlist {
         }
 
         $i = count($nodelist);
-        $itemid = $nodelist[$i-1];
+        $itemid = $nodelist[$i - 1];
         $where = array('parentid' => $itemid) + $additionalcondition;
         if ($childitems = $DB->get_records('surveypro_item', $where, 'sortindex', 'id, sortindex')) {
             foreach ($childitems as $childitem) {
@@ -1165,7 +1165,7 @@ class mod_surveypro_itemlist {
         // Am I moving it backward or forward?
         if ($this->itemtomove > $this->lastitembefore) {
             // moving the item backward
-            $searchitem = $this->itemtomove-1;
+            $searchitem = $this->itemtomove - 1;
             $replaceitem = $this->itemtomove;
 
             while ($searchitem > $this->lastitembefore) {
@@ -1177,7 +1177,7 @@ class mod_surveypro_itemlist {
             $DB->set_field('surveypro_item', 'sortindex', $replaceitem, array('surveyproid' => $this->surveypro->id, 'id' => $itemid));
         } else {
             // moving the item forward
-            $searchitem = $this->itemtomove+1;
+            $searchitem = $this->itemtomove + 1;
             $replaceitem = $this->itemtomove;
 
             while ($searchitem <= $this->lastitembefore) {
@@ -1262,7 +1262,6 @@ class mod_surveypro_itemlist {
         $table->set_attribute('class', 'generaltable');
         // $table->set_attribute('width', '90%');
         $table->setup();
-
 
         $edittitle = get_string('edit');
         $okstring = get_string('ok');
@@ -1411,15 +1410,19 @@ class mod_surveypro_itemlist {
             $bit = $this->userfeedback & 1; // bitwise logic
             if ($bit) {
                 $message = get_string('itemeditok', 'surveypro');
+                $class = 'notifysuccess';
             } else {
                 $message = get_string('itemeditfail', 'surveypro');
+                $class = 'notifyproblem';
             }
         } else {    // add
             $bit = $this->userfeedback & 1; // bitwise logic
             if ($bit) {
                 $message = get_string('itemaddok', 'surveypro');
+                $class = 'notifysuccess';
             } else {
                 $message = get_string('itemaddfail', 'surveypro');
+                $class = 'notifyproblem';
             }
         }
 
@@ -1448,8 +1451,7 @@ class mod_surveypro_itemlist {
                     break;
             }
         }
-
-        echo $OUTPUT->box($message, 'notice centerpara');
+        echo $OUTPUT->notification($message, $class);
     }
 
     /**

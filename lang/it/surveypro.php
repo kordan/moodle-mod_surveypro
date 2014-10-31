@@ -67,6 +67,5 @@ $string['emptyanswer'] = 'Risposta vuota';
 $string['nextformpage'] = 'Pagina successiva >>';
 $string['previousformpage'] = '<< Pagina precedente';
 $string['nomoresubmissionsallowed'] = 'Il massimo numero di {$a} invii è già stato raggiunto.<br />Non sono consentiti ulteriori invii.';
-$string['onemorerecord'] = 'Aggiungi ancora';
 $string['gotolist'] = 'Mostra la lista';
 

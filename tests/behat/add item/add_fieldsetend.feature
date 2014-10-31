@@ -23,7 +23,7 @@ Feature: verify a fieldsetend item can be added to a survey
       | Description    | This is a surveypro to add a fieldsetend item |
     And I follow "Surveypro test"
 
-    And I set the field "plugin" to "Fieldset closure"
+    And I set the field "typeplugin" to "Fieldset closure"
     And I press "Add"
 
     And I press "Add"

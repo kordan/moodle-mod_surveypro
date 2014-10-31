@@ -104,7 +104,6 @@ class form_previewed extends \core\event\base {
         return $data; */
     }
 
-
     /**
      * Custom validation.
      *

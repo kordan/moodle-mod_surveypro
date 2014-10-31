@@ -278,7 +278,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
                 } else {
                     $index = 0;
                 }
-                $stringindex = sprintf('%02d', 1+$index);
+                $stringindex = sprintf('%02d', 1 + $index);
                 $this->langtree[$component][$component.'_'.$stringindex] = str_replace("\r", '', $item->item_get_generic_property($fieldname));
             }
         }

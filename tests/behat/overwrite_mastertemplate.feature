@@ -31,8 +31,7 @@ Feature: verify the deletion of old items works as expected during master templa
     And I follow "Manage"
     And I press "Yes"
 
-    And I follow "Master templates"
-    And I follow "Apply"
+    And I navigate to "Apply" node in "Surveypro administration > Master templates"
     And I set the field "mastertemplate" to "COLLES (Actual Preferred)"
     And I press "Continue"
     Then I should see "I prefer that my learning focuses on issues that interest me."
@@ -41,18 +40,16 @@ Feature: verify the deletion of old items works as expected during master templa
     And I follow "Manage"
     And I press "Yes"
 
-    And I follow "Master templates"
-    And I follow "Apply"
+    And I navigate to "Apply" node in "Surveypro administration > Master templates"
     And I set the field "mastertemplate" to "COLLES (Actual)"
     And I press "Continue"
-    Then I should see "In this online unit I found that..."
+    Then I should see "In this online unit, I found that..."
     Then I should see "my learning focuses on issues that interest me"
 
     And I follow "Manage"
     And I press "Yes"
 
-    And I follow "Master templates"
-    And I follow "Apply"
+    And I navigate to "Apply" node in "Surveypro administration > Master templates"
     And I set the field "mastertemplate" to "COLLES (Preferred)"
     And I press "Continue"
     Then I should see "In this online unit, I prefer that..."
@@ -61,8 +58,7 @@ Feature: verify the deletion of old items works as expected during master templa
     And I follow "Manage"
     And I press "Yes"
 
-    And I follow "Master templates"
-    And I follow "Apply"
+    And I navigate to "Apply" node in "Surveypro administration > Master templates"
     And I set the field "mastertemplate" to "Critical Incidents"
     And I press "Continue"
     Then I should see "While thinking about recent events in this class, answer the questions below."

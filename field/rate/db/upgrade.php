@@ -34,12 +34,6 @@ function xmldb_surveyprofield_rate_upgrade($oldversion) {
 
     $dbman = $DB->get_manager();
 
-    if ($oldversion < 2013090701) {
-
-        // Surveypro savepoint reached.
-        // upgrade_plugin_savepoint(true, 2013090701, 'surveyprofield', 'rate');
-    }
-
     if ($oldversion < 2014051701) {
 
         // Define key surveyproid (foreign) to be dropped form surveyprofield_rate.

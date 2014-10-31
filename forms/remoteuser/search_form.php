@@ -109,7 +109,7 @@ class mod_surveypro_searchform extends moodleform {
         $mform->closeHeaderBefore('buttonar');
     }
 
-    function validation($data, $files) {
+    public function validation($data, $files) {
         // $cmid = $this->_customdata->cmid;
         $surveypro = $this->_customdata->surveypro;
         // $canaccessadvanceditems = $this->_customdata->canaccessadvanceditems;

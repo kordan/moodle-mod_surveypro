@@ -288,7 +288,7 @@ class mod_surveypro_exportmanager {
      * I am forced to query, once more, the database to get the header of the fiel to export because:
      * -> richsubmission is not reliable as it may omit some item
      * -> the load of the item object is more resource expensive than a single simple query
-
+     *
      * @param $itemseeds
      * @param $worksheet
      * @return

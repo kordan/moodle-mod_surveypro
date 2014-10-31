@@ -101,54 +101,25 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
      * $defaultvalue = the value of the field when the form is initially displayed.
      */
     public $defaultvalue = 0;
-
-    /**
-     * $defaultvalue_hour
-     */
     public $defaultvalue_hour = null;
-
-    /**
-     * $defaultvalue_minute
-     */
     public $defaultvalue_minute = null;
 
     /**
      * $lowerbound = the minimum allowed time
      */
     public $lowerbound = 0;
-
-    /**
-     * $lowerbound_hour
-     */
     public $lowerbound_hour = null;
-
-    /**
-     * $lowerbound_minute
-     */
     public $lowerbound_minute = null;
 
     /**
      * $upperbound = the maximum allowed time
      */
     public $upperbound = 86340;
-
-    /**
-     * $upperbound_hour
-     */
     public $upperbound_hour = null;
-
-    /**
-     * $upperbound_minute
-     */
     public $upperbound_minute = null;
 
     /**
-     * $flag = features describing the object
-     */
-    public $flag;
-
-    /**
-     * $canbeparent
+     * static canbeparent
      */
     public static $canbeparent = false;
 
@@ -159,20 +130,24 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
      *
      * If itemid is provided, load the object (item + base + plugin) from database
      *
+     * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
      * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
 
+        // list of constant element attributes
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'time';
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
+        $this->savepositiontodb = false;
 
-        $this->flag = new stdClass();
-        $this->flag->issearchable = true;
-        $this->flag->usescontenteditor = true;
-        $this->flag->editorslist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA);
-        $this->flag->savepositiontodb = false;
+        // other element specific properties
+        // nothing
+
+        // override properties depending from $surveypro settings
+        // nothing
 
         // list of fields I do not want to have in the item definition form
         // EMPTY LIST
@@ -222,9 +197,9 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
         $defaultvaluehour = $timearray['hours'];
         $defaultvalueminute = $timearray['minutes'];
 
-        $stepscount = intval($defaultvalueminute/$record->step);
+        $stepscount = intval($defaultvalueminute / $record->step);
         $exceed = $defaultvalueminute % $record->step;
-        if ($exceed < ($record->step/2)) {
+        if ($exceed < ($record->step / 2)) {
             $defaultvalueminute = $stepscount * $record->step;
         } else {
             $defaultvalueminute = (1 + $stepscount) * $record->step;
@@ -747,5 +722,14 @@ EOS;
         $elementnames = array($this->itemname.'_group');
 
         return $elementnames;
+    }
+
+    /**
+     * get_canbeparent
+     *
+     * @return the content of the static property "canbeparent"
+     */
+    public static function get_canbeparent() {
+        return self::$canbeparent;
     }
 }

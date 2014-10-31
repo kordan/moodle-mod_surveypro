@@ -23,7 +23,7 @@ Feature: verify a numeric item can be added to a survey
       | Description    | This is a surveypro to add a numeric item |
     And I follow "Surveypro test"
 
-    And I set the field "plugin" to "Numeric"
+    And I set the field "typeplugin" to "Numeric"
     And I press "Add"
 
     And I expand all fieldsets

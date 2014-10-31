@@ -104,7 +104,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     /**
      * setup
      */
-    function setup($hassubmissions, $group, $area, $qid) {
+    public function setup($hassubmissions, $group, $area, $qid) {
         global $DB;
 
         $this->template = $DB->get_field('surveypro', 'template', array('id' => $this->surveypro->id));
@@ -286,7 +286,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
                         FROM {surveypro_answer} ud
                         WHERE ud.itemid IN ('.implode(',', $areaidlist).')';
                 $aggregate = $DB->get_record_sql($sql);
-                $m = $aggregate->sumofanswers/$aggregate->countofanswers;
+                $m = $aggregate->sumofanswers / $aggregate->countofanswers;
                 if ($k == 0) {
                     $this->trend1[] = $m;
                 }
@@ -328,7 +328,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
                     $aggregate = $DB->get_record_sql($sql, $whereparams);
 
                     if ($aggregate->countofanswers) {
-                        $m = $aggregate->sumofanswers/$aggregate->countofanswers;
+                        $m = $aggregate->sumofanswers / $aggregate->countofanswers;
                         if ($k == 0) {
                             $this->studenttrend1[] = $m;
                         }
@@ -425,7 +425,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
                 // verified on October 17. It seems it arrived the time to delete the long version of the query.
                 $whereparams = array('itemid' => $itemid);
                 $aggregate = $DB->get_record('surveypro_answer', $whereparams, 'COUNT(id) as countofanswers, SUM(content) as sumofanswers');
-                $m = $aggregate->sumofanswers/$aggregate->countofanswers;
+                $m = $aggregate->sumofanswers / $aggregate->countofanswers;
                 if ($k == 0) {
                     $this->trend1[] = $m;
                 }
@@ -480,7 +480,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
             $areas = array($area);
         }
 
-        foreach($areas as $area) {
+        foreach ($areas as $area) {
             $paramurl['area'] = $area;
             for ($qid = 0; $qid < 4; $qid++) { // 0..3
                 $paramurl['qid'] = $qid;

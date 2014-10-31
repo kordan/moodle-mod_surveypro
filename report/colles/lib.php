@@ -81,7 +81,7 @@ function fetch_scalesdata($surveyproid) {
                 FROM {surveypro_answer} ud
                 WHERE ud.itemid IN ('.implode(',', $areaidlist).')';
         $aggregate = $DB->get_record_sql($sql);
-        $m = $aggregate->sumofanswers/$aggregate->countofanswers;
+        $m = $aggregate->sumofanswers / $aggregate->countofanswers;
         $iarea->mean[] = $m;
         $i++;
 
@@ -157,7 +157,7 @@ function fetch_summarydata($surveyproid) {
                 FROM {surveypro_answer} ud
                 WHERE ud.itemid IN ('.implode(',', $areaidlist).')';
         $aggregate = $DB->get_record_sql($sql);
-        $m = $aggregate->sumofanswers/$aggregate->countofanswers;
+        $m = $aggregate->sumofanswers / $aggregate->countofanswers;
         $iarea->mean[] = $m;
         $i++;
 

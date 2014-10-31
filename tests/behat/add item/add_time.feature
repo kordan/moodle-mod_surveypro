@@ -23,7 +23,7 @@ Feature: verify a time item can be added to a survey
       | Description    | This is a surveypro to add a time item |
     And I follow "Surveypro test"
 
-    And I set the field "plugin" to "Time"
+    And I set the field "typeplugin" to "Time"
     And I press "Add"
 
     And I expand all fieldsets

@@ -23,7 +23,7 @@ Feature: verify a datetime item can be added to a survey
       | Description    | This is a surveypro to add a datetime item |
     And I follow "Surveypro test"
 
-    And I set the field "plugin" to "Date and time [dd/mm/yyyy;hh:mm]"
+    And I set the field "typeplugin" to "Date and time [dd/mm/yyyy;hh:mm]"
     And I press "Add"
 
     And I expand all fieldsets

@@ -45,7 +45,7 @@ class mod_surveypro_report_missing extends mod_surveypro_reportbase {
     /**
      * setup
      */
-    function setup($hassubmissions) {
+    public function setup($hassubmissions) {
         $this->hassubmissions = $hassubmissions;
 
         $this->setup_outputtable();
@@ -112,14 +112,14 @@ class mod_surveypro_report_missing extends mod_surveypro_reportbase {
                              FROM {surveypro_submission}
                              WHERE surveyproid = :surveyproid
                              GROUP BY userid) s ON s.userid = u.id
-		        WHERE ISNULL(s.id)';
+                WHERE ISNULL(s.id)';
         $whereparams = array('surveyproid' => $this->surveypro->id);
 
-		list($where, $filterparams) = $this->outputtable->get_sql_where();
-		if ($where) {
-		    $sql .= ' AND '.$where;
+        list($where, $filterparams) = $this->outputtable->get_sql_where();
+        if ($where) {
+            $sql .= ' AND '.$where;
             $whereparams = array_merge($whereparams,  $filterparams);
-		}
+        }
 
         if ($this->outputtable->get_sql_sort()) {
             $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort();

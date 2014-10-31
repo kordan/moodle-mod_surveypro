@@ -44,115 +44,115 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
-Let's start with a summary:.
-It follows the list of TABS detailed with corresponding sub-tabs and php file name.
-For each sub-tab, I would define a capability at first but, I will find, sometimes it is useless.
+ *  Let's start with a summary:.
+ *  It follows the list of TABS detailed with corresponding sub-tabs and php file name.
+ *  For each sub-tab, I would define a capability at first but, I will find, sometimes it is useless.
+ *
+ *  -------------------------------------------
+ *  TWO MODULE GENERAL CAPABILITIES
+ *  -------------------------------------------
+ *  mod/surveypro:addinstance
+ *  mod/surveypro:view
+ *
+ *  -------------------------------------------
+ *  TAB ELEMENTS
+ *  -------------------------------------------
+ *  SUB-TAB == SURVEYPRO_ITEMS_MANAGE
+ *      $elementurl = new moodle_url('/mod/surveypro/items_manage.php', $localparamurl);
+ *      mod/surveypro:manageitems
+ *      mod/surveypro:additems
+ *
+ *  SUB-TAB == SURVEYPRO_ITEMS_SETUP
+ *      $elementurl = new moodle_url('/mod/surveypro/items_setup.php', $localparamurl);
+ *
+ *  SUB-TAB == SURVEYPRO_ITEMS_VALIDATE
+ *      $elementurl = new moodle_url('/mod/surveypro/items_validate.php', $localparamurl);
+ *
+ *  -------------------------------------------
+ *  TAB SURVEYPRO
+ *  -------------------------------------------
+ *  SUB-TAB == SURVEYPRO_ITEMS_PREVIEW
+ *      $elementurl = new moodle_url('/mod/surveypro/view_userform.php', $localparamurl);
+ *      mod/surveypro:preview
+ *
+ *  SUB-TAB == SURVEYPRO_SUBMISSION_CPANEL
+ *
+ *  SUB-TAB == SURVEYPRO_SUBMISSION_INSERT
+ *      $elementurl = new moodle_url('/mod/surveypro/view_userform.php', $paramurl);
+ *      mod/surveypro:view
+ *      mod/surveypro:accessadvanceditems
+ *      mod/surveypro:submit
+ *      mod/surveypro:ignoremaxentries
+ *
+ *  SUB-TAB == SURVEYPRO_SUBMISSION_MANAGE
+ *      $elementurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
+ *
+ *      mod/surveypro:seeownsubmissions <-- It does not actually exist. It is always allowed.
+ *      mod/surveypro:seeotherssubmissions
+ *
+ *      mod/surveypro:editownsubmissions
+ *      mod/surveypro:editotherssubmissions
+ *
+ *      mod/surveypro:deleteownsubmissions
+ *      mod/surveypro:deleteotherssubmissions
+ *
+ *      mod/surveypro:savesubmissiontopdf
+ *  SUB-TAB == SURVEYPRO_SUBMISSION_EDIT
+ *  SUB-TAB == SURVEYPRO_SUBMISSION_READONLY
+ *      $elementurl = new moodle_url('/mod/surveypro/view_userform.php', $localparamurl);
+ *
+ *  SUB-TAB == SURVEYPRO_SUBMISSION_SEARCH
+ *      $elementurl = new moodle_url('/mod/surveypro/view_search.php', $paramurl);
+ *      mod/surveypro:searchsubmissions
+ *
+ *  SUB-TAB == SURVEYPRO_SUBMISSION_REPORT
+ *      $elementurl = new moodle_url('/mod/surveypro/view_report.php', $paramurl);
+ *      mod/surveypro:accessreports
+ *
+ *  SUB-TAB == SURVEYPRO_SUBMISSION_IMPORT
+ *      $elementurl = new moodle_url('/mod/surveypro/view_import.php', $paramurl);
+ *      mod/surveypro:importdata
+ *
+ *  SUB-TAB == SURVEYPRO_SUBMISSION_EXPORT
+ *      $elementurl = new moodle_url('/mod/surveypro/view_export.php', $paramurl);
+ *      mod/surveypro:exportdata
+ *
+ *  -------------------------------------------
+ *  TAB USER TEMPLATES
+ *  -------------------------------------------
+ *  SUB-TAB == SURVEYPRO_UTEMPLATES_MANAGE
+ *      $elementurl = new moodle_url('/mod/surveypro/utemplates_manage.php', $localparamurl);
+ *      mod/surveypro:manageusertemplates
+ *      mod/surveypro:deleteusertemplates
+ *      mod/surveypro:downloadusertemplates
+ *
+ *  SUB-TAB == SURVEYPRO_UTEMPLATES_BUILD
+ *      $elementurl = new moodle_url('/mod/surveypro/utemplates_create.php', $localparamurl);
+ *      mod/surveypro:saveusertemplates @ CONTEXT_COURSE
+ *
+ *  SUB-TAB == SURVEYPRO_UTEMPLATES_IMPORT
+ *      $elementurl = new moodle_url('/mod/surveypro/utemplates_import.php', $localparamurl);
+ *      mod/surveypro:importusertemplates
+ *
+ *  SUB-TAB == SURVEYPRO_UTEMPLATES_APPLY
+ *      $elementurl = new moodle_url('/mod/surveypro/utemplates_apply.php', $localparamurl);
+ *      mod/surveypro:applyusertemplates
+ *
+ *  -------------------------------------------
+ *  TAB MASTER TEMPLATES
+ *  -------------------------------------------
+ *  SUB-TAB == SURVEYPRO_MTEMPLATES_BUILD
+ *      $elementurl = new moodle_url('/mod/surveypro/mtemplates_create.php', $localparamurl);
+ *      mod/surveypro:savemastertemplates
+ *
+ *  SUB-TAB == SURVEYPRO_MTEMPLATES_APPLY
+ *      $elementurl = new moodle_url('/mod/surveypro/mtemplates_apply.php', $localparamurl);
+ *      mod/surveypro:applymastertemplates
+ *
+ */
 
-    -------------------------------------------
-    TWO MODULE GENERAL CAPABILITIES
-    -------------------------------------------
-    mod/surveypro:addinstance
-    mod/surveypro:view
-
-    -------------------------------------------
-    TAB ELEMENTS
-    -------------------------------------------
-    SUB-TAB == SURVEYPRO_ITEMS_MANAGE
-        $elementurl = new moodle_url('/mod/surveypro/items_manage.php', $localparamurl);
-        mod/surveypro:manageitems
-        mod/surveypro:additems
-
-    SUB-TAB == SURVEYPRO_ITEMS_SETUP
-        $elementurl = new moodle_url('/mod/surveypro/items_setup.php', $localparamurl);
-
-    SUB-TAB == SURVEYPRO_ITEMS_VALIDATE
-        $elementurl = new moodle_url('/mod/surveypro/items_validate.php', $localparamurl);
-
-    -------------------------------------------
-    TAB SURVEYPRO
-    -------------------------------------------
-    SUB-TAB == SURVEYPRO_ITEMS_PREVIEW
-        $elementurl = new moodle_url('/mod/surveypro/view_userform.php', $localparamurl);
-        mod/surveypro:preview
-
-    SUB-TAB == SURVEYPRO_SUBMISSION_CPANEL
-
-    SUB-TAB == SURVEYPRO_SUBMISSION_INSERT
-        $elementurl = new moodle_url('/mod/surveypro/view_userform.php', $paramurl);
-        mod/surveypro:view
-        mod/surveypro:accessadvanceditems
-        mod/surveypro:submit
-        mod/surveypro:ignoremaxentries
-
-    SUB-TAB == SURVEYPRO_SUBMISSION_MANAGE
-        $elementurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
-
-        mod/surveypro:seeownsubmissions <-- It does not actually exist. It is always allowed.
-        mod/surveypro:seeotherssubmissions
-
-        mod/surveypro:editownsubmissions
-        mod/surveypro:editotherssubmissions
-
-        mod/surveypro:deleteownsubmissions
-        mod/surveypro:deleteotherssubmissions
-
-        mod/surveypro:savesubmissiontopdf
-    SUB-TAB == SURVEYPRO_SUBMISSION_EDIT
-    SUB-TAB == SURVEYPRO_SUBMISSION_READONLY
-        $elementurl = new moodle_url('/mod/surveypro/view_userform.php', $localparamurl);
-
-    SUB-TAB == SURVEYPRO_SUBMISSION_SEARCH
-        $elementurl = new moodle_url('/mod/surveypro/view_search.php', $paramurl);
-        mod/surveypro:searchsubmissions
-
-    SUB-TAB == SURVEYPRO_SUBMISSION_REPORT
-        $elementurl = new moodle_url('/mod/surveypro/view_report.php', $paramurl);
-        mod/surveypro:accessreports
-
-    SUB-TAB == SURVEYPRO_SUBMISSION_IMPORT
-        $elementurl = new moodle_url('/mod/surveypro/view_import.php', $paramurl);
-        mod/surveypro:importdata
-
-    SUB-TAB == SURVEYPRO_SUBMISSION_EXPORT
-        $elementurl = new moodle_url('/mod/surveypro/view_export.php', $paramurl);
-        mod/surveypro:exportdata
-
-    -------------------------------------------
-    TAB USER TEMPLATES
-    -------------------------------------------
-    SUB-TAB == SURVEYPRO_UTEMPLATES_MANAGE
-        $elementurl = new moodle_url('/mod/surveypro/utemplates_manage.php', $localparamurl);
-        mod/surveypro:manageusertemplates
-        mod/surveypro:deleteusertemplates
-        mod/surveypro:downloadusertemplates
-
-    SUB-TAB == SURVEYPRO_UTEMPLATES_BUILD
-        $elementurl = new moodle_url('/mod/surveypro/utemplates_create.php', $localparamurl);
-        mod/surveypro:saveusertemplates @ CONTEXT_COURSE
-
-    SUB-TAB == SURVEYPRO_UTEMPLATES_IMPORT
-        $elementurl = new moodle_url('/mod/surveypro/utemplates_import.php', $localparamurl);
-        mod/surveypro:importusertemplates
-
-    SUB-TAB == SURVEYPRO_UTEMPLATES_APPLY
-        $elementurl = new moodle_url('/mod/surveypro/utemplates_apply.php', $localparamurl);
-        mod/surveypro:applyusertemplates
-
-    -------------------------------------------
-    TAB MASTER TEMPLATES
-    -------------------------------------------
-    SUB-TAB == SURVEYPRO_MTEMPLATES_BUILD
-        $elementurl = new moodle_url('/mod/surveypro/mtemplates_create.php', $localparamurl);
-        mod/surveypro:savemastertemplates
-
-    SUB-TAB == SURVEYPRO_MTEMPLATES_APPLY
-        $elementurl = new moodle_url('/mod/surveypro/mtemplates_apply.php', $localparamurl);
-        mod/surveypro:applymastertemplates
-
-*/
+defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
     'mod/surveypro:addinstance' => array(

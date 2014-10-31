@@ -23,7 +23,7 @@ Feature: verify a fieldset item can be added to a survey
       | Description    | This is a surveypro to add a fieldset item |
     And I follow "Surveypro test"
 
-    And I set the field "plugin" to "Fieldset"
+    And I set the field "typeplugin" to "Fieldset"
     And I press "Add"
 
     And I expand all fieldsets

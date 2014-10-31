@@ -23,7 +23,7 @@ Feature: verify a checkbox item can be added to a survey
       | Description    | This is a surveypro to add a checkbox item |
     And I follow "Surveypro test"
 
-    And I set the field "plugin" to "Checkbox"
+    And I set the field "typeplugin" to "Checkbox"
     And I press "Add"
 
     And I expand all fieldsets
@@ -37,7 +37,7 @@ Feature: verify a checkbox item can be added to a survey
     And I fill the textarea "Options" with multiline content "milk\nsugar\njam\nchocolate"
     And I press "Add"
 
-    And I set the field "plugin" to "Checkbox"
+    And I set the field "typeplugin" to "Checkbox"
     And I press "Add"
 
     And I expand all fieldsets

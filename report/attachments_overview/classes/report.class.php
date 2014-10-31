@@ -132,11 +132,11 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
                          WHERE surveyproid = :surveyproid) s ON u.id = s.userid';
         $whereparams = array('surveyproid' => $this->surveypro->id);
 
-		list($where, $filterparams) = $this->outputtable->get_sql_where();
-		if ($where) {
-		    $sql .= ' WHERE '.$where;
+        list($where, $filterparams) = $this->outputtable->get_sql_where();
+        if ($where) {
+            $sql .= ' WHERE '.$where;
             $whereparams = array_merge($whereparams,  $filterparams);
-		}
+        }
 
         if ($this->outputtable->get_sql_sort()) {
             $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort().', submissionid ASC';

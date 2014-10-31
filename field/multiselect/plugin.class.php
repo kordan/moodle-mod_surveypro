@@ -98,12 +98,7 @@ class mod_surveypro_field_multiselect extends mod_surveypro_itembase {
     public $minimumrequired = 0;
 
     /**
-     * $flag = features describing the object
-     */
-    public $flag;
-
-    /**
-     * $canbeparent
+     * static canbeparent
      */
     public static $canbeparent = true;
 
@@ -114,20 +109,24 @@ class mod_surveypro_field_multiselect extends mod_surveypro_itembase {
      *
      * If itemid is provided, load the object (item + base + plugin) from database
      *
+     * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
      * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
 
+        // list of constant element attributes
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'multiselect';
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
+        $this->savepositiontodb = true;
 
-        $this->flag = new stdClass();
-        $this->flag->issearchable = true;
-        $this->flag->usescontenteditor = true;
-        $this->flag->editorslist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA);
-        $this->flag->savepositiontodb = true;
+        // other element specific properties
+        // nothing
+
+        // override properties depending from $surveypro settings
+        // nothing
 
         // list of fields I do not want to have in the item definition form
         $this->isinitemform['required'] = false;
@@ -339,23 +338,21 @@ EOS;
     /**
      * parent_decode_child_parentvalue
      *
+     * I can not make ANY assumption about $childparentvalue because of the following explanation:
+     * At child save time, I encode its $parentcontent to $parentvalue.
+     * The encoding is done through a parent method according to parent values.
+     * Once the child is saved, I can return to parent and I can change it as much as I want.
+     * For instance by changing the number and the content of its options.
+     * At parent save time, the child parentvalue is rewritten
+     * -> but it may result in a too short or too long list of keys
+     * -> or with a wrong number of unrecognized keys so I need to...
+     * ...implement all possible checks to avoid crashes/malfunctions during code execution.
+     *
      * this method decodes parentindex to parentcontent
      * @param $childparentvalue
      * return $childparentcontent
      */
     public function parent_decode_child_parentvalue($childparentvalue) {
-        /**
-         * I can not make ANY assumption about $childparentvalue because of the following explanation:
-         * At child save time, I encode its $parentcontent to $parentvalue.
-         * The encoding is done through a parent method according to parent values.
-         * Once the child is saved, I can return to parent and I can change it as much as I want.
-         * For instance by changing the number and the content of its options.
-         * At parent save time, the child parentvalue is rewritten
-         * -> but it may result in a too short or too long list of keys
-         * -> or with a wrong number of unrecognized keys so I need to...
-         * ...implement all possible checks to avoid crashes/malfunctions during code execution.
-         */
-
         $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue);
         $actualcount = count($parentvalues);
@@ -491,18 +488,16 @@ EOS;
         }
         // End of: defaults
 
-        /**
-         * this last item is needed because:
-         * the check for the not empty field is performed in the validation routine. (not by JS)
-         * (JS validation is never added because I do not want it when the "previous" button is pressed and when an item is disabled even if mandatory)
-         * The validation routine is executed ONLY ON ITEM that are actually submitted.
-         * For multiselect, nothing is submitted if no item is selected
-         * so, if the user neglects the mandatory multiselect AT ALL, it is not submitted and, as conseguence, not validated.
-         * TO ALWAYS SUBMIT A MULTISELECT I add a dummy hidden item.
-         *
-         * TAKE CARE: I choose a name for this item that IS UNIQUE BUT is missing the SURVEYPRO_ITEMPREFIX.'_'
-         *            In this way I am sure the item will never be saved in the database
-         */
+        // this last item is needed because:
+        // the check for the not empty field is performed in the validation routine. (not by JS)
+        // (JS validation is never added because I do not want it when the "previous" button is pressed and when an item is disabled even if mandatory)
+        // The validation routine is executed ONLY ON ITEM that are actually submitted.
+        // For multiselect, nothing is submitted if no item is selected
+        // so, if the user neglects the mandatory multiselect AT ALL, it is not submitted and, as conseguence, not validated.
+        // TO ALWAYS SUBMIT A MULTISELECT I add a dummy hidden item.
+        //
+        // TAKE CARE: I choose a name for this item that IS UNIQUE BUT is missing the SURVEYPRO_ITEMPREFIX.'_'
+        //            In this way I am sure the item will never be saved in the database
         $placeholderitemname = SURVEYPRO_PLACEHOLDERPREFIX.'_'.$this->type.'_'.$this->plugin.'_'.$this->itemid.'_placeholder';
         $mform->addElement('hidden', $placeholderitemname, SURVEYPROFIELD_MULTISELECT_PLACEHOLDER);
         $mform->setType($placeholderitemname, PARAM_INT);
@@ -564,7 +559,7 @@ EOS;
         $key = array_search('>', $parentvalues);
         if ($key !== false) {
             $indexsubset = array_slice($parentvalues, 0, $key);
-            $labelsubset = array_slice($parentvalues, $key+1);
+            $labelsubset = array_slice($parentvalues, $key + 1);
         } else {
             $indexsubset = $parentvalues;
         }
@@ -763,5 +758,14 @@ EOS;
         $elementnames[] = SURVEYPRO_PLACEHOLDERPREFIX.'_'.$this->type.'_'.$this->plugin.'_'.$this->itemid.'_placeholder';
 
         return $elementnames;
+    }
+
+    /**
+     * get_canbeparent
+     *
+     * @return the content of the static property "canbeparent"
+     */
+    public static function get_canbeparent() {
+        return self::$canbeparent;
     }
 }

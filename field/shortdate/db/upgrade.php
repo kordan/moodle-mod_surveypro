@@ -34,12 +34,6 @@ function xmldb_surveyprofield_shortdate_upgrade($oldversion) {
 
     $dbman = $DB->get_manager();
 
-    if ($oldversion < 2013100601) {
-
-        // Surveypro savepoint reached.
-        // upgrade_plugin_savepoint(true, 2013100601, 'surveyprofield', 'shortdate');
-    }
-
     if ($oldversion < 2014051701) {
 
         // Define key surveyproid (foreign) to be dropped form surveyprofield_shortdate.

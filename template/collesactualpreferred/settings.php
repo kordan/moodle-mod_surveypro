@@ -26,10 +26,20 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/surveypro/template/collesactualpreferred/lib.php');
 
 $options = array(
+    SURVEYPRO_POSITIONLEFT => get_string('left', 'surveypro'),
+    SURVEYPRO_POSITIONTOP => get_string('top', 'surveypro'),
+    SURVEYPRO_POSITIONFULLWIDTH => get_string('fullwidth', 'surveypro'),
+);
+
+$name = get_string('position', 'surveyprotemplate_collesactualpreferred');
+$description = get_string('position_desc', 'surveyprotemplate_collesactualpreferred');
+$settings->add(new admin_setting_configselect('surveyprotemplate_collesactualpreferred/position', $name, $description, SURVEYPRO_POSITIONFULLWIDTH, $options));
+
+$options = array(
     SURVEYPROTEMPLATE_COLLESACTUALPREFERREDUSERADIO => get_string('useradio', 'surveyprotemplate_collesactualpreferred'),
-    SURVEYPROTEMPLATE_COLLESACTUALPREFERREDUSESELECT => get_string('useselect', 'surveyprotemplate_collesactualpreferred'),
+    SURVEYPROTEMPLATE_COLLESACTUALPREFERREDUSESELECT => get_string('useselect', 'surveyprotemplate_collesactualpreferred')
 );
 
 $name = new lang_string('itemstyle', 'surveyprotemplate_collesactualpreferred');
 $description = new lang_string('itemstyle_desc', 'surveyprotemplate_collesactualpreferred');
-$settings->add(new admin_setting_configselect('surveyprotemplate_collesactualpreferred/itemstyle', $name, $description, 0, $options));
+$settings->add(new admin_setting_configselect('surveyprotemplate_collesactualpreferred/itemstyle', $name, $description, SURVEYPROTEMPLATE_COLLESACTUALPREFERREDUSERADIO, $options));

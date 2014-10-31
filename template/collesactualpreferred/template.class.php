@@ -29,11 +29,14 @@ class mod_surveypro_template_collesactualpreferred {
     /**
      * apply_template_settings
      *
+     * @param $tablename
      * @param $record
      * @return record
      */
-    public function apply_template_settings($tablename, $record) {
-        $config = get_config('surveyprotemplate_collesactualpreferred');
+    public function apply_template_settings($tablename, $record, $config) {
+        if ($tablename == 'surveyprofield_radiobutton') {
+            $record['position'] = "$config->position";
+        }
 
         if ($config->itemstyle == SURVEYPROTEMPLATE_COLLESACTUALPREFERREDUSESELECT) {
             if ($record['plugin'] == 'radiobutton') {

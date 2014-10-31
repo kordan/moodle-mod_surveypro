@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -34,7 +33,7 @@ require_course_login($course, true);
 
 // Get all required strings
 $strname = get_string('name');
-$strsurveypro = get_string('modulename','surveypro');
+$strsurveypro = get_string('modulename', 'surveypro');
 $strintro = get_string('moduleintro');
 $strdataplural  = get_string('modulenameplural', 'surveypro');
 $inprogress = get_string('inprogressresponses', 'surveypro');

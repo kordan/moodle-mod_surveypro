@@ -42,6 +42,8 @@ if (!empty($id)) {
 require_course_login($course, true, $cm);
 
 $typeplugin = optional_param('typeplugin', null, PARAM_TEXT);
+$type = optional_param('type', null, PARAM_TEXT);
+$plugin = optional_param('plugin', null, PARAM_TEXT);
 $itemid = optional_param('itemid', 0, PARAM_INT);
 $action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
 $view = optional_param('view', SURVEYPRO_NEWRESPONSE, PARAM_INT);
@@ -57,7 +59,12 @@ require_capability('mod/surveypro:additems', $context);
 // calculations
 // -----------------------------
 $itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro);
-$itemlistman->set_typeplugin($typeplugin);
+if (!empty($typeplugin)) {
+    $itemlistman->set_typeplugin($typeplugin);
+} else {
+    $itemlistman->set_type($type);
+    $itemlistman->set_plugin($plugin);
+}
 $itemlistman->set_itemid($itemid);
 $itemlistman->set_action($action);
 $itemlistman->set_view($view);
@@ -90,8 +97,8 @@ require_once($CFG->dirroot.'/mod/surveypro/'.$itemlistman->type.'/'.$itemlistman
 
 // -----------------------------
 // get item
-$itemclass = 'surveypro'.$itemlistman->type.'_'.$itemlistman->plugin;
-$item = new $itemclass($itemlistman->itemid, true);
+$itemclass = 'mod_surveypro_'.$itemlistman->type.'_'.$itemlistman->plugin;
+$item = new $itemclass($cm, $itemlistman->itemid, true);
 
 $item->item_set_editor();
 // end of: get item

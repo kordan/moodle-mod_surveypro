@@ -23,7 +23,7 @@ Feature: verify a recurrence item can be added to a survey
       | Description    | This is a surveypro to add a recurrence item |
     And I follow "Surveypro test"
 
-    And I set the field "plugin" to "Recurrence [dd/mm]"
+    And I set the field "typeplugin" to "Recurrence [dd/mm]"
     And I press "Add"
 
     And I expand all fieldsets

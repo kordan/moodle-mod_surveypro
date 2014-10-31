@@ -78,7 +78,8 @@ class mod_surveypro_itembaseform extends moodleform {
         // itembase: content & contentformat
         // ----------------------------------------
         if ($item->get_isinitemform('content')) {
-            if ($item->flag->usescontenteditor) {
+            $editors = $item->get_editorlist();
+            if (array_key_exists('content', $editors)) {
                 $fieldname = 'content_editor';
                 $editoroptions = array('trusttext' => true, 'subdirs' => true, 'maxfiles' => EDITOR_UNLIMITED_FILES);
                 $mform->addElement('editor', $fieldname, get_string($fieldname, 'surveypro'), null, $editoroptions);
@@ -223,8 +224,8 @@ class mod_surveypro_itembaseform extends moodleform {
             $fieldname = 'parentid';
             // create the list of each item with:
             //     sortindex lower than mine (whether already exists)
-            //     $itemtemplate->flag->canbeparent == true
-            //     advanced == my one <-- I jump this verification because the surveypro creator can, at every time, change the basicform of the current item
+            //     $classname::get_canbeparent() == true
+            //     advanced == my one <-- I omit this verification because the surveypro creator can, at every time, change the basicform of the current item
             //                            So I move the verification of the holding form at the form verification time.
 
             // build the list only for searchable plugins
@@ -232,10 +233,11 @@ class mod_surveypro_itembaseform extends moodleform {
             foreach ($pluginlist as $plugin) {
                 require_once($CFG->dirroot.'/mod/surveypro/'.SURVEYPRO_TYPEFIELD.'/'.$plugin.'/plugin.class.php');
                 $classname = 'mod_surveypro_'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
-                if (!$classname::$canbeparent) {
+                if (!$classname::get_canbeparent()) {
                     unset($pluginlist[$plugin]);
                 }
             }
+
             $where = '(\''.implode("','", $pluginlist).'\')';
             $sql = 'SELECT *
                     FROM {surveypro_item}
@@ -257,7 +259,9 @@ class mod_surveypro_itembaseform extends moodleform {
                 $star = ($parentitem->get_advanced()) ? '(*) ' : '';
 
                 // I do not need to take care of contents of items of master templates because if I am here, $parent is a standard item and not a multilang one
-                $content = $star.get_string('pluginname', 'surveyprofield_'.$parentitem->get_plugin()).' ['.$parentitem->get_sortindex().']: '.strip_tags($parentitem->get_content());
+                $content = $star;
+                $content .= get_string('pluginname', 'surveyprofield_'.$parentitem->get_plugin());
+                $content .= ' ['.$parentitem->get_sortindex().']: '.strip_tags($parentitem->get_content());
                 $content = surveypro_fixlength($content, 60);
 
                 $condition = ($parentitem->get_hidden() == 1);
@@ -284,14 +288,17 @@ class mod_surveypro_itembaseform extends moodleform {
             // itembase::parentformat
             // ----------------------------------------
             $fieldname = 'parentformat';
-            $a = '<ul>';
+            $a = html_writer::start_tag('ul');
             foreach ($pluginlist as $plugin) {
-                $a .= '<li><div>';
-                $a .= '<div class="pluginname">'.get_string('pluginname', 'surveyprofield_'.$plugin).': </div>';
-                $a .= '<div class="inputformat">'.get_string('parentformat', 'surveyprofield_'.$plugin).'</div>';
-                $a .= '</div></li>'."\n";
+                $a .= html_writer::start_tag('li');
+                $a .= html_writer::start_tag('div');
+                $a .= html_writer::tag('div', get_string('pluginname', 'surveyprofield_'.$plugin), array('class' => 'pluginname'));
+                $a .= html_writer::tag('div', get_string('parentformat', 'surveyprofield_'.$plugin), array('class' => 'inputformat'));
+                $a .= html_writer::end_tag('div');
+                $a .= html_writer::end_tag('li');
+                $a .= "\n";
             }
-            $a .= '</ul>';
+            $a .= html_writer::end_tag('ul');
             $mform->addElement('static', $fieldname, get_string('note', 'surveypro'), get_string($fieldname, 'surveypro', $a));
         }
 
@@ -347,7 +354,7 @@ class mod_surveypro_itembaseform extends moodleform {
         // if (default == noanswer) but item is required => error
         if ( isset($data['defaultvalue_check']) && isset($data['required']) ) {
             $a = get_string('noanswer', 'surveypro');
-            $errors['defaultvalue_group'] = get_string('notalloweddefault', 'surveypro', $a);
+            $errors['defaultvaluegroup'] = get_string('notalloweddefault', 'surveypro', $a);
         }
 
         if (empty($data['parentid']) && empty($data['parentcontent'])) {

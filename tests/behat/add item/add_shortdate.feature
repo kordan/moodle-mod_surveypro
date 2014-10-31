@@ -23,7 +23,7 @@ Feature: verify a shortdate item can be added to a survey
       | Description    | This is a surveypro to add a shortdate item |
     And I follow "Surveypro test"
 
-    And I set the field "plugin" to "Date (short) [mm/yyyy]"
+    And I set the field "typeplugin" to "Date (short) [mm/yyyy]"
     And I press "Add"
 
     And I expand all fieldsets

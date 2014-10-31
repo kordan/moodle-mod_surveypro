@@ -110,11 +110,14 @@ class mod_surveypro_itembase {
     public $userfeedback = SURVEYPRO_NOFEEDBACK;
 
     /**
-     * $flag = features describing the object
-     * I can redeclare the public and protected method/property, but not private
-     * so I choose to not declare this properties here
-     * public $flag = null;
+     * public editorlist
      */
+    public $editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA);
+
+    /**
+     * public savepositiontodb: can this plugin save, a user answer, the position of the user interface elements in the form?
+     */
+    public $savepositiontodb = null;
 
     /**
      * Class constructor
@@ -122,9 +125,7 @@ class mod_surveypro_itembase {
     public function __construct($cm, $itemid, $evaluateparentcontent) {
         $this->cm = $cm;
 
-        // if (isset($cm)) { // it is not set during upgrade whether an item is loaded
         $this->context = context_module::instance($cm->id);
-        // }
     }
 
     /**
@@ -274,6 +275,8 @@ class mod_surveypro_itembase {
      * @return
      */
     public function item_save($record) {
+        global $DB;
+
         // $this->userfeedback
         //   +--- children inherited limited access
         //   |       +--- parents were made available for all
@@ -325,9 +328,9 @@ class mod_surveypro_itembase {
                 }
 
                 // special care to "editors"
-                if ($this->flag->editorslist) {
+                if ($editors = $this->get_editorlist()) {
                     $editoroptions = array('trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $this->context);
-                    foreach ($this->flag->editorslist as $fieldname => $filearea) {
+                    foreach ($editors as $fieldname => $filearea) {
                         $record = file_postupdate_standard_editor($record, $fieldname, $editoroptions, $this->context, 'mod_surveypro', $filearea, $record->itemid);
                         $record->{$fieldname.'format'} = FORMAT_HTML;
                     }
@@ -338,7 +341,7 @@ class mod_surveypro_itembase {
 
                     if (!$DB->update_record($tablename, $record)) { // <-- $tablename update
                         $this->userfeedback -= ($this->userfeedback % 2); // whatever it was, now it is a fail
-                    // } else {
+                        // } else {
                         // leave the previous $this->userfeedback
                         // if it was a success, leave it as now you got one more success
                         // if it was a fail, leave it as you can not cover the previous fail
@@ -354,16 +357,16 @@ class mod_surveypro_itembase {
                 $event = \mod_surveypro\event\item_created::create($eventdata);
                 $event->trigger();
             } catch (Exception $e) {
-                //extra cleanup steps
+                // extra cleanup steps
                 $transaction->rollback($e); // rethrows exception
             }
         } else {
             // item is already known
 
             // special care to "editors"
-            if ($this->flag->editorslist) {
+            if ($editors = $this->get_editorlist()) {
                 $editoroptions = array('trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $this->context);
-                foreach ($this->flag->editorslist as $fieldname => $filearea) {
+                foreach ($editors as $fieldname => $filearea) {
                     $record = file_postupdate_standard_editor($record, $fieldname, $editoroptions, $this->context, 'mod_surveypro', $filearea, $record->itemid);
                     $record->{$fieldname.'format'} = FORMAT_HTML;
                 }
@@ -408,7 +411,7 @@ class mod_surveypro_itembase {
 
                 $transaction->allow_commit();
             } catch (Exception $e) {
-                //extra cleanup steps
+                // extra cleanup steps
                 $transaction->rollback($e); // rethrows exception
             }
 
@@ -565,7 +568,8 @@ class mod_surveypro_itembase {
     public function item_update_childrenparentvalue() {
         global $DB;
 
-        if (self::$canbeparent) {
+        $itemclassname = 'mod_surveypro_'.$this->type.'_'.$this->plugin;
+        if ($itemclassname::get_canbeparent()) {
             // take care: you can not use $this->item_get_content_array(SURVEYPRO_VALUES, 'options') to evaluate values
             // because $item was loaded before last save, so $this->item_get_content_array(SURVEYPRO_VALUES, 'options')
             // is still returning the previous values
@@ -723,16 +727,16 @@ class mod_surveypro_itembase {
      * @return
      */
     public function item_set_editor() {
-        if (!$this->flag->editorslist) {
+        if (!$editors = $this->get_editorlist()) {
             return;
         }
 
         // some examples
-        // each SURVEYPRO_ITEMFIELD has: $this->isinitemform['content'] == true  and $this->flag->editorslist == array('content')
-        // fieldset              has: $this->isinitemform['content'] == true  and $this->flag->editorslist == null
-        // pagebreak             has: $this->isinitemform['content'] == false and $this->flag->editorslist == null
+        // each SURVEYPRO_ITEMFIELD has: $this->isinitemform['content'] == true  and $editors == array('content')
+        // fieldset              has: $this->isinitemform['content'] == true  and $editors == null
+        // pagebreak             has: $this->isinitemform['content'] == false and $editors == null
         $editoroptions = array('trusttext' => true, 'subdirs' => true, 'maxfiles' => -1, 'context' => $this->context);
-        foreach ($this->flag->editorslist as $fieldname => $filearea) {
+        foreach ($editors as $fieldname => $filearea) {
             $this->{$fieldname.'format'} = FORMAT_HTML;
             $this->{$fieldname.'trust'} = 1;
             file_prepare_standard_editor($this, $fieldname, $editoroptions, $this->context, 'mod_surveypro', $filearea, $this->itemid);
@@ -921,39 +925,21 @@ class mod_surveypro_itembase {
     // MARK get
 
     /**
-     * get_issearchable
+     * get_editorlist
      *
-     * @return the content of the flag
+     * @return the content of the editorlist element attribute
      */
-    public function get_issearchable() {
-        return $this->flag->issearchable;
+    public function get_editorlist() {
+        return $this->editorlist;
     }
 
     /**
-     * get_usescontenteditor
+     * get_savepositiontodb
      *
-     * @return the content of the flag
-     */
-    public function get_usescontenteditor() {
-        return $this->flag->usescontenteditor;
-    }
-
-    /**
-     * get_editorslist
-     *
-     * @return the content of the flag
-     */
-    public function get_editorslist() {
-        return $this->flag->editorslist;
-    }
-
-    /**
-     * get_editorslist
-     *
-     * @return the content of the flag
+     * @return the content of the savepositiontodb element attribute
      */
     public function get_savepositiontodb() {
-        return $this->flag->savepositiontodb;
+        return $this->savepositiontodb;
     }
 
     /**
@@ -1273,23 +1259,23 @@ class mod_surveypro_itembase {
     /**
      * parent_validate_child_constraints
      *
+     * I can not make ANY assumption about $childparentvalue because of the following explanation:
+     * At child save time, I encode its $parentcontent to $parentvalue.
+     * The encoding is done through a parent method according to parent values.
+     * Once the child is saved, I can return to parent and I can change it as much as I want.
+     * For instance by changing the number and the content of its options.
+     * At parent save time, the child parentvalue is rewritten
+     * -> but it may result in a too short or too long list of keys
+     * -> or with a wrong number of unrecognized keys
+     * Because of this, I need to...
+     * ...implement all possible checks to avoid crashes/malfunctions during code execution.
+     *
      * @param $childvalue
      * @return status of child relation
      */
     public function parent_validate_child_constraints($childparentvalue) {
-        /**
-         * I can not make ANY assumption about $childparentvalue because of the following explanation:
-         * At child save time, I encode its $parentcontent to $parentvalue.
-         * The encoding is done through a parent method according to parent values.
-         * Once the child is saved, I can return to parent and I can change it as much as I want.
-         * For instance by changing the number and the content of its options.
-         * At parent save time, the child parentvalue is rewritten
-         * -> but it may result in a too short or too long list of keys
-         * -> or with a wrong number of unrecognized keys so I need to...
-         * ...implement all possible checks to avoid crashes/malfunctions during code execution.
-         */
+        // read introduction
     }
-
 
     // MARK userform
 
@@ -1402,11 +1388,11 @@ class mod_surveypro_itembase {
         $currentitem->parentvalue = $this->get_parentvalue();
         $mypage = $this->get_formpage(); // once and forever
         do {
-            /**
-             * Take care.
-             * Even if (!$surveypro->newpageforchild) I can have all my ancestors into previous pages by adding pagebreaks manually
-             * Because of this, I need to chech page numbers
-             */
+            //
+            // Take care.
+            // Even if (!$surveypro->newpageforchild) I can have all my ancestors into previous pages by adding pagebreaks manually
+            // Because of this, I need to chech page numbers
+            //
             $parentitem = $DB->get_record('surveypro_item', array('id' => $currentitem->parentid), 'parentid, parentvalue, formpage');
             $parentpage = $parentitem->formpage;
             if ($parentpage == $mypage) {

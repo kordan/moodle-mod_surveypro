@@ -41,7 +41,7 @@ define('SURVEYPROFIELD_CHARACTER_URLPATTERN'   , 'PATTERN_URL');
 function surveypro_character_text_match_pattern($text, $pattern) {
     // replace free characters
     $pos = -1;
-    while ($pos = strpos($pattern, '*', $pos+1)) {
+    while ($pos = strpos($pattern, '*', $pos + 1)) {
         $text = substr_replace($text, '*', $pos, 1);
     }
 

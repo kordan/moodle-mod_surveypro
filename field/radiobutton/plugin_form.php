@@ -97,7 +97,8 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // item: adjustment
         // ----------------------------------------
         $fieldname = 'adjustment';
-        $options = array(SURVEYPRO_HORIZONTAL => get_string('horizontal', 'surveyprofield_radiobutton'), SURVEYPRO_VERTICAL => get_string('vertical', 'surveyprofield_radiobutton'));
+        $options = array(SURVEYPRO_HORIZONTAL => get_string('horizontal', 'surveyprofield_radiobutton'),
+                         SURVEYPRO_VERTICAL => get_string('vertical', 'surveyprofield_radiobutton'));
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_radiobutton'), $options);
         $mform->setDefault($fieldname, SURVEYPRO_VERTICAL);
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_radiobutton');

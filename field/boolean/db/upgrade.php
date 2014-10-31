@@ -34,12 +34,6 @@ function xmldb_surveyprofield_boolean_upgrade($oldversion) {
 
     $dbman = $DB->get_manager();
 
-    if ($oldversion < 2014021401) {
-
-        // Surveypro savepoint reached.
-        // upgrade_plugin_savepoint(true, 2014021401, 'surveyprofield', 'boolean');
-    }
-
     if ($oldversion < 2014051701) {
 
         // Define key surveyproid (foreign) to be dropped form surveyprofield_boolean.

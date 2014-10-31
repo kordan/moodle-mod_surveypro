@@ -34,12 +34,6 @@ function xmldb_surveyprofield_autofill_upgrade($oldversion) {
 
     $dbman = $DB->get_manager();
 
-    if ($oldversion < 2014021701) {
-
-        // Surveypro savepoint reached.
-        // upgrade_plugin_savepoint(true, 2014021701, 'surveyprofield', 'autofill');
-    }
-
     if ($oldversion < 2014051701) {
 
         // Define key surveyproid (foreign) to be dropped form surveyprofield_autofill.

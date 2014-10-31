@@ -23,7 +23,7 @@ Feature: verify a rate item can be added to a survey
       | Description    | This is a surveypro to add a rate item |
     And I follow "Surveypro test"
 
-    And I set the field "plugin" to "Rate"
+    And I set the field "typeplugin" to "Rate"
     And I press "Add"
 
     And I expand all fieldsets
@@ -37,7 +37,7 @@ Feature: verify a rate item can be added to a survey
     And I fill the textarea "Rates" with multiline content "Mother tongue\nQuite well\nNot sufficient\nCompletely unknown"
     And I press "Add"
 
-    And I set the field "plugin" to "Rate"
+    And I set the field "typeplugin" to "Rate"
     And I press "Add"
 
     And I expand all fieldsets

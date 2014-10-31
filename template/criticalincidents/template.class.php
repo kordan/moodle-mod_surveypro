@@ -27,10 +27,11 @@ class mod_surveypro_template_criticalincidents {
     /**
      * apply_template_settings
      *
+     * @param $tablename
      * @param $record
      * @return record
      */
-    public function apply_template_settings($tablename, $record) {
+    public function apply_template_settings($tablename, $record, $config) {
         return array($tablename, $record);
     }
 }

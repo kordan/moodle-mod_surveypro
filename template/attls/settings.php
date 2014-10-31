@@ -23,6 +23,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->dirroot.'/mod/surveypro/template/attls/lib.php');
+
 $options = array(
     SURVEYPRO_POSITIONLEFT => get_string('left', 'surveypro'),
     SURVEYPRO_POSITIONTOP => get_string('top', 'surveypro'),
@@ -31,4 +33,13 @@ $options = array(
 
 $name = get_string('position', 'surveyprotemplate_attls');
 $description = get_string('position_desc', 'surveyprotemplate_attls');
-$settings->add(new admin_setting_configselect('surveyprotemplate_attls/position', $name, $description, 2, $options));
+$settings->add(new admin_setting_configselect('surveyprotemplate_attls/position', $name, $description, SURVEYPRO_POSITIONFULLWIDTH, $options));
+
+$options = array(
+    SURVEYPROTEMPLATE_ATTLSUSERADIO => get_string('useradio', 'surveyprotemplate_attls'),
+    SURVEYPROTEMPLATE_ATTLSUSESELECT => get_string('useselect', 'surveyprotemplate_attls')
+);
+
+$name = new lang_string('itemstyle', 'surveyprotemplate_attls');
+$description = new lang_string('itemstyle_desc', 'surveyprotemplate_attls');
+$settings->add(new admin_setting_configselect('surveyprotemplate_attls/itemstyle', $name, $description, SURVEYPROTEMPLATE_ATTLSUSERADIO, $options));

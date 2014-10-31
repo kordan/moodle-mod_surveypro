@@ -108,12 +108,7 @@ class mod_surveypro_field_textarea extends mod_surveypro_itembase {
     public $maxlength = null;
 
     /**
-     * $flag = features describing the object
-     */
-    public $flag;
-
-    /**
-     * $canbeparent
+     * static canbeparent
      */
     public static $canbeparent = false;
 
@@ -124,20 +119,24 @@ class mod_surveypro_field_textarea extends mod_surveypro_itembase {
      *
      * If itemid is provided, load the object (item + base + plugin) from database
      *
+     * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
      * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
 
+        // list of constant element attributes
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'textarea';
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
+        $this->savepositiontodb = false;
 
-        $this->flag = new stdClass();
-        $this->flag->issearchable = false;
-        $this->flag->usescontenteditor = true;
-        $this->flag->editorslist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA);
-        $this->flag->savepositiontodb = false;
+        // other element specific properties
+        // nothing
+
+        // override properties depending from $surveypro settings
+        // nothing
 
         // list of fields I do not want to have in the item definition form
         $this->isinitemform['insearchform'] = false;
@@ -326,8 +325,8 @@ EOS;
      * @return
      */
     public function userform_mform_element($mform, $searchform, $readonly=false, $submissionid=0) {
-        // this plugin has $this->flag->issearchable = false; so it will never be part of a search form
-        // TODO: make issearchable true
+        // this plugin has $this->isinitemform['insearchform'] = false; so it will never be part of a search form
+        // TODO: make $this->isinitemform['insearchform'] = true;
 
         $labelsep = get_string('labelsep', 'langconfig'); // ': '
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
@@ -340,8 +339,8 @@ EOS;
             $mform->setType($fieldname, PARAM_CLEANHTML);
         } else {
             $fieldname = $this->itemname;
-            $textareaoptions = array('maxfiles' => 0, 'maxbytes' => 0, 'trusttext' => false);
-            $mform->addElement('textarea', $fieldname, $elementlabel, array('wrap' => 'virtual', 'rows' => $this->arearows, 'cols' => $this->areacols, 'class' => 'indent-'.$this->indent));
+            $textareaoptions = array('wrap' => 'virtual', 'rows' => $this->arearows, 'cols' => $this->areacols, 'class' => 'indent-'.$this->indent);
+            $mform->addElement('textarea', $fieldname, $elementlabel, $textareaoptions);
             $mform->setType($fieldname, PARAM_TEXT);
         }
 
@@ -373,26 +372,18 @@ EOS;
 
         if (!empty($this->useeditor)) {
             $errorkey = $this->itemname.'_editor';
+            $fieldname = $this->itemname.'_editor';
+            $itemcontent = $data[$fieldname]['text'];
         } else {
             $errorkey = $this->itemname;
-        }
-
-        if (!empty($this->useeditor)) {
-            $fieldname = $this->itemname.'_editor';
-        } else {
             $fieldname = $this->itemname;
+            $itemcontent = $data[$fieldname];
         }
 
         if ($this->required) {
             if (empty($data[$fieldname])) {
                 $errors[$errorkey] = get_string('required');
             }
-        }
-
-        if ($this->useeditor) {
-            $itemcontent = $data[$fieldname]['text'];
-        } else {
-            $itemcontent = $data[$fieldname];
         }
 
         if ( $this->maxlength && (strlen($itemcontent) > $this->maxlength) ) {
@@ -504,5 +495,14 @@ EOS;
         }
 
         return $elementnames;
+    }
+
+    /**
+     * get_canbeparent
+     *
+     * @return the content of the static property "canbeparent"
+     */
+    public static function get_canbeparent() {
+        return self::$canbeparent;
     }
 }

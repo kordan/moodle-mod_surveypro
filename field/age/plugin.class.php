@@ -86,44 +86,25 @@ class mod_surveypro_field_age extends mod_surveypro_itembase {
      * $defaultvalue = the value of the field when the form is initially displayed.
      */
     public $defaultvalue = -2635200;
-
-    /**
-     * $defaultvalue_year
-     */
     public $defaultvalue_year = null;
-
-    /**
-     * $defaultvalue_month
-     */
     public $defaultvalue_month = null;
 
     /**
      * $lowerbound = the minimum allowed age
      */
     public $lowerbound = -2635200;
-
-    /**
-     * $lowerbound_year
-     */
     public $lowerbound_year = null;
-
-    /**
-     * $lowerbound_month
-     */
     public $lowerbound_month = null;
 
     /**
      * $upperbound = the maximum allowed age
      */
     public $upperbound = 0;
+    public $upperbound_year = null;
+    public $upperbound_month = null;
 
     /**
-     * $flag = features describing the object
-     */
-    public $flag;
-
-    /**
-     * $canbeparent
+     * static canbeparent
      */
     public static $canbeparent = false;
 
@@ -134,23 +115,25 @@ class mod_surveypro_field_age extends mod_surveypro_itembase {
      *
      * If itemid is provided, load the object (item + base + plugin) from database
      *
+     * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
      * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
 
+        // list of constant element attributes
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'age';
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
+        $this->savepositiontodb = false;
 
+        // other element specific properties
         $maximumage = get_config('surveyprofield_age', 'maximumage');
         $this->upperbound = $this->item_age_to_unix_time($maximumage, 11);
 
-        $this->flag = new stdClass();
-        $this->flag->issearchable = true;
-        $this->flag->usescontenteditor = true;
-        $this->flag->editorslist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA);
-        $this->flag->savepositiontodb = false;
+        // override properties depending from $surveypro settings
+        // nothing
 
         // list of fields I do not want to have in the item definition form
         // EMPTY LIST
@@ -686,5 +669,14 @@ EOS;
         $elementnames = array($this->itemname.'_group');
 
         return $elementnames;
+    }
+
+    /**
+     * get_canbeparent
+     *
+     * @return the content of the static property "canbeparent"
+     */
+    public static function get_canbeparent() {
+        return self::$canbeparent;
     }
 }

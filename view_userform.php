@@ -115,7 +115,7 @@ if ($userformman->formdata = $userform->get_data()) {
 
     if (!$prevbutton && !$pausebutton) {
         if ($userformman->modulepage != SURVEYPRO_ITEMS_PREVIEW) {
-            $userformman->save_user_data();
+            $userformman->save_user_data(); // <-- SAVE SAVE SAVE SAVE
             $userformman->notifyroles();
         }
     }
@@ -129,10 +129,12 @@ if ($userformman->formdata = $userform->get_data()) {
 
     $paramurl['submissionid'] = $userformman->submissionid;
 
+    // if "previous" button has been pressed, redirect
     if ($prevbutton) {
         $userformman->next_not_empty_page(false, $userformman->formpage, $userformman->modulepage);
         $paramurl['formpage'] = $userformman->firstpageleft;
-        redirect(new moodle_url('/mod/surveypro/view_userform.php', $paramurl)); // -> go to the first non empty previous page of the form
+        $redirecturl = new moodle_url('/mod/surveypro/view_userform.php', $paramurl);
+        redirect($redirecturl); // -> go to the first non empty previous page of the form
     }
 
     $nextbutton = (isset($userformman->formdata->nextbutton) && ($userformman->formdata->nextbutton));
@@ -145,7 +147,8 @@ if ($userformman->formdata = $userform->get_data()) {
         $userformman->drop_jumped_saved_data();
 
         $paramurl['formpage'] = $userformman->firstpageright;
-        redirect(new moodle_url('/mod/surveypro/view_userform.php', $paramurl)); // -> go to the first non empty next page of the form
+        $redirecturl = new moodle_url('/mod/surveypro/view_userform.php', $paramurl);
+        redirect($redirecturl); // -> go to the first non empty next page of the form
     }
 }
 // end of: manage form submission

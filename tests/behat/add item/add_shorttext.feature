@@ -23,7 +23,7 @@ Feature: verify a shorttext item can be added to a survey
       | Description    | This is a surveypro to add a shorttext item |
     And I follow "Surveypro test"
 
-    And I set the field "plugin" to "Text (short)"
+    And I set the field "typeplugin" to "Text (short)"
     And I press "Add"
 
     And I expand all fieldsets
@@ -37,7 +37,7 @@ Feature: verify a shorttext item can be added to a survey
       | id_pattern               | email address         |
     And I press "Add"
 
-    And I set the field "plugin" to "Text (short)"
+    And I set the field "typeplugin" to "Text (short)"
     And I press "Add"
 
     And I expand all fieldsets
@@ -51,7 +51,7 @@ Feature: verify a shorttext item can be added to a survey
       | id_pattern               | web page URL       |
     And I press "Add"
 
-    And I set the field "plugin" to "Text (short)"
+    And I set the field "typeplugin" to "Text (short)"
     And I press "Add"
 
     And I expand all fieldsets
@@ -66,7 +66,7 @@ Feature: verify a shorttext item can be added to a survey
       | id_pattern_text          | 00000               |
     And I press "Add"
 
-    And I set the field "plugin" to "Text (short)"
+    And I set the field "typeplugin" to "Text (short)"
     And I press "Add"
 
     And I expand all fieldsets

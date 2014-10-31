@@ -78,7 +78,7 @@ class mod_surveypro_covermanager {
         global $OUTPUT, $CFG, $COURSE;
 
         $labelsep = get_string('labelsep', 'langconfig'); // ': '
-        $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context, null, true);;
+        $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context, null, true);
         $canaccessownreports = has_capability('mod/surveypro:accessownreports', $this->context, null, true);
         $canmanageusertemplates = has_capability('mod/surveypro:manageusertemplates', $this->context, null, true);
         $cansaveusertemplate = has_capability('mod/surveypro:saveusertemplates', context_course::instance($COURSE->id), null, true);
@@ -133,7 +133,7 @@ class mod_surveypro_covermanager {
             if (!$this->canignoremaxentries) {
                 $maxentries = ($this->surveypro->maxentries) ? $this->surveypro->maxentries : get_string('unlimited', 'surveypro');
             } else {
-                $maxentries =  get_string('unlimited', 'surveypro');
+                $maxentries = get_string('unlimited', 'surveypro');
             }
             $messages[] = get_string('maxentries', 'surveypro').$labelsep.$maxentries;
 

@@ -87,7 +87,6 @@ class mod_surveypro_reportbase {
         return true;
     }
 
-
     /**
      * get_childreports
      */

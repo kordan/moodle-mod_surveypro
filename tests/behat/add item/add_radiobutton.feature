@@ -23,7 +23,7 @@ Feature: verify a radiobutton item can be added to a survey
       | Description    | This is a surveypro to add a radiobutton item |
     And I follow "Surveypro test"
 
-    And I set the field "plugin" to "Radio buttons"
+    And I set the field "typeplugin" to "Radio buttons"
     And I press "Add"
 
     And I expand all fieldsets
@@ -37,7 +37,7 @@ Feature: verify a radiobutton item can be added to a survey
     And I fill the textarea "Options" with multiline content "sea\nmountain\nlake\nhills\ndesert"
     And I press "Add"
 
-    And I set the field "plugin" to "Radio buttons"
+    And I set the field "typeplugin" to "Radio buttons"
     And I press "Add"
 
     And I expand all fieldsets

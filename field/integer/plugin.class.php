@@ -98,12 +98,7 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
     public $upperbound = 0;
 
     /**
-     * $flag = features describing the object
-     */
-    public $flag;
-
-    /**
-     * $canbeparent
+     * static canbeparent
      */
     public static $canbeparent = true;
 
@@ -114,23 +109,25 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
      *
      * If itemid is provided, load the object (item + base + plugin) from database
      *
+     * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
      * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
 
+        // list of constant element attributes
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'integer';
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
+        $this->savepositiontodb = false;
 
+        // other element specific properties
         $maximuminteger = get_config('surveyprofield_integer', 'maximuminteger');
         $this->upperbound = $maximuminteger;
 
-        $this->flag = new stdClass();
-        $this->flag->issearchable = true;
-        $this->flag->usescontenteditor = true;
-        $this->flag->editorslist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA);
-        $this->flag->savepositiontodb = false;
+        // override properties depending from $surveypro settings
+        // nothing
 
         // list of fields I do not want to have in the item definition form
         $this->isinitemform['hideinstructions'] = false;
@@ -345,23 +342,21 @@ EOS;
     /**
      * parent_decode_child_parentvalue
      *
+     * I can not make ANY assumption about $childparentvalue because of the following explanation:
+     * At child save time, I encode its $parentcontent to $parentvalue.
+     * The encoding is done through a parent method according to parent values.
+     * Once the child is saved, I can return to parent and I can change it as much as I want.
+     * For instance by changing the number and the content of its options.
+     * At parent save time, the child parentvalue is rewritten
+     * -> but it may result in a too short or too long list of keys
+     * -> or with a wrong number of unrecognized keys so I need to...
+     * ...implement all possible checks to avoid crashes/malfunctions during code execution.
+     *
      * this method decodes parentindex to parentcontent
      * @param $childparentvalue
      * return $childparentcontent
      */
     public function parent_decode_child_parentvalue($childparentvalue) {
-        /**
-         * I can not make ANY assumption about $childparentvalue because of the following explanation:
-         * At child save time, I encode its $parentcontent to $parentvalue.
-         * The encoding is done through a parent method according to parent values.
-         * Once the child is saved, I can return to parent and I can change it as much as I want.
-         * For instance by changing the number and the content of its options.
-         * At parent save time, the child parentvalue is rewritten
-         * -> but it may result in a too short or too long list of keys
-         * -> or with a wrong number of unrecognized keys so I need to...
-         * ...implement all possible checks to avoid crashes/malfunctions during code execution.
-         */
-
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue);
         $actualcount = count($parentvalues);
 
@@ -417,7 +412,6 @@ EOS;
 
         return ($return);
     }
-
 
     // MARK userform
 
@@ -554,7 +548,7 @@ EOS;
         $key = array_search('>', $parentvalues);
         if ($key !== false) {
             $indexsubset = array_slice($parentvalues, 0, $key);
-            $labelsubset = array_slice($parentvalues, $key+1);
+            $labelsubset = array_slice($parentvalues, $key + 1);
         } else {
             $indexsubset = $parentvalues;
         }
@@ -676,5 +670,14 @@ EOS;
         $elementnames = array($this->itemname);
 
         return $elementnames;
+    }
+
+    /**
+     * get_canbeparent
+     *
+     * @return the content of the static property "canbeparent"
+     */
+    public static function get_canbeparent() {
+        return self::$canbeparent;
     }
 }

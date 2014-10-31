@@ -23,7 +23,7 @@ Feature: verify a longtext item can be added to a survey
       | Description    | This is a surveypro to add a longtext item |
     And I follow "Surveypro test"
 
-    And I set the field "plugin" to "Text (long)"
+    And I set the field "typeplugin" to "Text (long)"
     And I press "Add"
 
     And I expand all fieldsets
@@ -37,7 +37,7 @@ Feature: verify a longtext item can be added to a survey
       | Use html editor          | 0                                     |
     And I press "Add"
 
-    And I set the field "plugin" to "Text (long)"
+    And I set the field "typeplugin" to "Text (long)"
     And I press "Add"
 
     And I expand all fieldsets

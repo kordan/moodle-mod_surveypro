@@ -28,7 +28,7 @@ Feature: test each student sees only personal submissions
       | Description    | This is a surveypro to test each user can only get his own submissions |
     And I follow "Surveypro test"
 
-    And I set the field "plugin" to "Text (short)"
+    And I set the field "typeplugin" to "Text (short)"
     And I press "Add"
 
     And I expand all fieldsets
@@ -42,7 +42,7 @@ Feature: test each student sees only personal submissions
       | id_pattern               | email address         |
     And I press "Add"
 
-    And I set the field "plugin" to "Boolean"
+    And I set the field "typeplugin" to "Boolean"
     And I press "Add"
 
     And I expand all fieldsets
@@ -60,7 +60,7 @@ Feature: test each student sees only personal submissions
     When I log in as "student1"
     And I follow "See only personal submissions"
     And I follow "Surveypro test"
-    And I press "Add a response"
+    And I press "New response"
 
     # student1 submits his first response
     And I set the following fields to these values:
@@ -68,8 +68,7 @@ Feature: test each student sees only personal submissions
       | 2: Is this true?         | Yes                      |
     And I press "Submit"
 
-    And I press "Let me add one more response, please"
-    And I press "Add a response"
+    And I press "New response"
 
     # student1 submits one more response
     And I set the following fields to these values:
@@ -83,7 +82,7 @@ Feature: test each student sees only personal submissions
     When I log in as "student2"
     And I follow "See only personal submissions"
     And I follow "Surveypro test"
-    And I press "Add a response"
+    And I press "New response"
 
     # student2 submits a response
     And I set the following fields to these values:

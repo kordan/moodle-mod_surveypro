@@ -96,54 +96,25 @@ class mod_surveypro_field_recurrence extends mod_surveypro_itembase {
      * $defaultvalue = the value of the field when the form is initially displayed.
      */
     public $defaultvalue = 0;
-
-    /**
-     * $defaultvalue_month
-     */
     public $defaultvalue_month = null;
-
-    /**
-     * $defaultvalue_year
-     */
     public $defaultvalue_day = null;
 
     /**
      * $lowerbound = the minimum allowed recurrence
      */
     public $lowerbound = 0;
-
-    /**
-     * $lowerbound_month
-     */
     public $lowerbound_month = null;
-
-    /**
-     * $lowerbound_year
-     */
     public $lowerbound_day = null;
 
     /**
      * $upperbound = the maximum allowed recurrence
      */
     public $upperbound = 0;
-
-    /**
-     * $upperbound_month
-     */
     public $upperbound_month = null;
-
-    /**
-     * $upperbound_year
-     */
     public $upperbound_day = null;
 
     /**
-     * $flag = features describing the object
-     */
-    public $flag;
-
-    /**
-     * $canbeparent
+     * static canbeparent
      */
     public static $canbeparent = false;
 
@@ -154,24 +125,26 @@ class mod_surveypro_field_recurrence extends mod_surveypro_itembase {
      *
      * If itemid is provided, load the object (item + base + plugin) from database
      *
+     * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
      * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
 
+        // list of constant element attributes
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'recurrence';
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
+        $this->savepositiontodb = false;
 
-        $this->flag = new stdClass();
-        $this->flag->issearchable = true;
-        $this->flag->usescontenteditor = true;
-        $this->flag->editorslist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA);
-        $this->flag->savepositiontodb = false;
-
+        // other element specific properties
         $this->lowerbound = $this->item_recurrence_to_unix_time(1, 1);
         $this->upperbound = $this->item_recurrence_to_unix_time(12, 31);
         $this->defaultvalue = $this->lowerbound;
+
+        // override properties depending from $surveypro settings
+        // nothing
 
         // list of fields I do not want to have in the item definition form
         // EMPTY LIST
@@ -449,7 +422,7 @@ EOS;
             $months[SURVEYPRO_IGNOREME] = '';
         }
         $days += array_combine(range(1, 31), range(1, 31));
-        for ($i=1; $i<=12; $i++) {
+        for ($i = 1; $i <= 12; $i++) {
             $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // january, february, march...
         }
         // End of: element values
@@ -649,7 +622,7 @@ EOS;
                 if ($answer['month'] == SURVEYPRO_IGNOREME) {
                     $olduserdata->content = null;
                 } else {
-                $olduserdata->content = $this->item_recurrence_to_unix_time($answer['month'], $answer['day']);
+                    $olduserdata->content = $this->item_recurrence_to_unix_time($answer['month'], $answer['day']);
                 }
             }
         }
@@ -729,5 +702,14 @@ EOS;
         $elementnames = array($this->itemname.'_group');
 
         return $elementnames;
+    }
+
+    /**
+     * get_canbeparent
+     *
+     * @return the content of the static property "canbeparent"
+     */
+    public static function get_canbeparent() {
+        return self::$canbeparent;
     }
 }

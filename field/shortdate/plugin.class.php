@@ -96,54 +96,25 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
      * $defaultvalue = the value of the field when the form is initially displayed.
      */
     public $defaultvalue = 0;
-
-    /**
-     * $defaultvalue_month
-     */
     public $defaultvalue_month = null;
-
-    /**
-     * $defaultvalue_year
-     */
     public $defaultvalue_year = null;
 
     /**
      * $lowerbound = the minimum allowed short date
      */
     public $lowerbound = 0;
-
-    /**
-     * $lowerbound_month
-     */
     public $lowerbound_month = null;
-
-    /**
-     * $lowerbound_year
-     */
     public $lowerbound_year = null;
 
     /**
      * $upperbound = the maximum allowed short date
      */
     public $upperbound = 0;
-
-    /**
-     * $upperbound_month
-     */
     public $upperbound_month = null;
-
-    /**
-     * $upperbound_year
-     */
     public $upperbound_year = null;
 
     /**
-     * $flag = features describing the object
-     */
-    public $flag;
-
-    /**
-     * $canbeparent
+     * static canbeparent
      */
     public static $canbeparent = false;
 
@@ -154,29 +125,30 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
      *
      * If itemid is provided, load the object (item + base + plugin) from database
      *
+     * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
      * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
+        global $DB;
+
         parent::__construct($cm, $itemid, $evaluateparentcontent);
 
-        $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
-
+        // list of constant element attributes
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'shortdate';
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
+        $this->savepositiontodb = false;
 
-        $this->flag = new stdClass();
-        $this->flag->issearchable = true;
-        $this->flag->usescontenteditor = true;
-        $this->flag->editorslist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA);
-        $this->flag->savepositiontodb = false;
+        // other element specific properties
+        // nothing
 
         // override properties depending from $surveypro settings
-        if (isset($surveypro)) { // it is not set during upgrade whether this item is loaded
-            $this->lowerbound = $this->item_shortdate_to_unix_time(1, $surveypro->startyear);
-            $this->upperbound = $this->item_shortdate_to_unix_time(12, $surveypro->stopyear);
-            $this->defaultvalue = $this->lowerbound;
-        }
+        // override properties depending from $surveypro settings
+        $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
+        $this->lowerbound = $this->item_shortdate_to_unix_time(1, $surveypro->startyear);
+        $this->upperbound = $this->item_shortdate_to_unix_time(12, $surveypro->stopyear);
+        $this->defaultvalue = $this->lowerbound;
 
         // list of fields I do not want to have in the item definition form
         // EMPTY LIST
@@ -327,15 +299,14 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
             $option[$strname] = userdate($timenow, get_string($strname, 'surveyprofield_shortdate'));
         }
         $option['unixtime'] = get_string('unixtime', 'surveypro');
-        /**
-         * Giugno 2013
-         * Giugno '13
-         * Giu 2013
-         * Giu '13
-         * 06/2013
-         * 06/13
-         * unix time
-         */
+        // June 2013
+        // June '13
+        // Jun 2013
+        // Jun '13
+        // 06/2013
+        // 06/13
+        // unix time
+
         return $option;
     }
 
@@ -442,7 +413,7 @@ EOS;
             $months[SURVEYPRO_IGNOREME] = '';
             $years[SURVEYPRO_IGNOREME] = '';
         }
-        for ($i=1; $i<=12; $i++) {
+        for ($i = 1; $i <= 12; $i++) {
             $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // january, february, march...
         }
         $years += array_combine(range($this->lowerbound_year, $this->upperbound_year), range($this->lowerbound_year, $this->upperbound_year));
@@ -718,5 +689,14 @@ EOS;
         $elementnames = array($this->itemname.'_group');
 
         return $elementnames;
+    }
+
+    /**
+     * get_canbeparent
+     *
+     * @return the content of the static property "canbeparent"
+     */
+    public static function get_canbeparent() {
+        return self::$canbeparent;
     }
 }

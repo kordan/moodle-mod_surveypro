@@ -384,7 +384,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         foreach ($simplexml->children() as $xmlitem) {
             $currentplugin = '';
             $currentversion = '';
-            foreach($xmlitem->attributes() as $attribute => $value) {
+            foreach ($xmlitem->attributes() as $attribute => $value) {
                 if ($attribute == 'plugin') {
                     $currentplugin = $value;
                 }
@@ -430,9 +430,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $contextid = $this->get_contextid_from_sharinglevel();
         $fs = get_file_storage();
 
-        /**
-         * look at what is already on board
-         */
+        // look at what is already on board
         $oldfiles = array();
         if ($files = $fs->get_area_files($contextid, 'mod_surveypro', SURVEYPRO_TEMPLATEFILEAREA, 0, 'sortorder', false)) {
             foreach ($files as $file) {
@@ -440,9 +438,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
             }
         }
 
-        /**
-         * add current files
-         */
+        // add current files
         $fieldname = 'importfile';
         if ($draftitemid = $this->formdata->{$fieldname.'_filemanager'}) {
             if (isset($templateoptions['return_types']) && !($templateoptions['return_types'] & FILE_REFERENCE)) {

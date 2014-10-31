@@ -23,21 +23,29 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->dirroot.'/mod/surveypro/template/attls/lib.php');
+
 class mod_surveypro_template_attls {
     /**
      * apply_template_settings
      *
+     * @param $tablename
      * @param $record
      * @return record
      */
-    public function apply_template_settings($tablename, $record) {
-        $config = get_config('surveyprotemplate_attls');
+    public function apply_template_settings($tablename, $record, $config) {
+        if ($tablename == 'surveyprofield_radiobutton') {
+            $record['position'] = "$config->position";
+        }
 
-        if ($tablename == 'surveypro_item') {
-            // nothing to do
-        } else {
-            if ($config->position != SURVEYPRO_POSITIONLEFT) {
-                $record['position'] = "$config->position";
+        if ($config->itemstyle == SURVEYPROTEMPLATE_ATTLSUSESELECT) {
+            if ($record['plugin'] == 'radiobutton') {
+                $record['plugin'] = 'select';
+            }
+
+            if ($tablename == 'surveyprofield_radiobutton') {
+                $tablename = 'surveyprofield_select';
+                unset($record['adjustment']);
             }
         }
 

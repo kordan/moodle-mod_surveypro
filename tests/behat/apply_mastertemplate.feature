@@ -48,7 +48,7 @@ Feature: apply a mastertemplate
     And I follow "To apply COLLES (Actual)"
     And I set the field "Master templates" to "COLLES (Actual)"
     And I press "Create"
-    Then I should see "In this online unit I found that..."
+    Then I should see "In this online unit, I found that..."
     Then I should see "my learning focuses on issues that interest me"
 
   @javascript

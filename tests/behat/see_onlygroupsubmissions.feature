@@ -43,7 +43,7 @@ Feature: test each student sees only personal submissions
       | Group mode     | Separate groups                                                                                |
     And I follow "Surveypro test"
 
-    And I set the field "plugin" to "Text (short)"
+    And I set the field "typeplugin" to "Text (short)"
     And I press "Add"
 
     And I expand all fieldsets
@@ -57,7 +57,7 @@ Feature: test each student sees only personal submissions
       | id_pattern               | email address         |
     And I press "Add"
 
-    And I set the field "plugin" to "Boolean"
+    And I set the field "typeplugin" to "Boolean"
     And I press "Add"
 
     And I expand all fieldsets
@@ -79,8 +79,8 @@ Feature: test each student sees only personal submissions
     And I follow "Responses"
     Then I should see "Nothing to display"
 
-    And I follow "Summary"
-    And I press "Add a response"
+    And I follow "Overview"
+    And I press "New response"
 
     # student1 submits his first response
     And I set the following fields to these values:
@@ -88,8 +88,7 @@ Feature: test each student sees only personal submissions
       | 2: Is this true?         | Yes                     |
     And I press "Submit"
 
-    And I press "Let me add one more response, please"
-    And I press "Add a response"
+    And I press "New response"
 
     # student1 submits his second response
     And I set the following fields to these values:
@@ -111,8 +110,8 @@ Feature: test each student sees only personal submissions
     And I should see "Never" in the "student1 user1" "table_row"
     Then I should see "2" submissions displayed
 
-    And I follow "Summary"
-    And I press "Add a response"
+    And I follow "Overview"
+    And I press "New response"
 
     # student2 submits his first response
     And I set the following fields to these values:
@@ -135,8 +134,8 @@ Feature: test each student sees only personal submissions
     And I follow "Responses"
     Then I should see "Nothing to display"
 
-    And I follow "Summary"
-    And I press "Add a response"
+    And I follow "Overview"
+    And I press "New response"
 
     # student3 submits his first response
     And I set the following fields to these values:

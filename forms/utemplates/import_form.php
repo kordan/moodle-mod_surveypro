@@ -68,7 +68,7 @@ class mod_surveypro_importutemplateform extends moodleform {
 
         // ----------------------------------------
         // buttons
-        $this->add_action_buttons(false, get_string('templateimport', 'surveypro'));
+        $this->add_action_buttons(false, get_string('import'));
     }
 
     public function validation($data, $files) {

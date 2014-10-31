@@ -34,12 +34,6 @@ function xmldb_surveyproformat_pagebreak_upgrade($oldversion) {
 
     $dbman = $DB->get_manager();
 
-    if ($oldversion < 2013103101) {
-
-        // Surveypro savepoint reached.
-        // upgrade_plugin_savepoint(true, 2013103101, 'surveyproformat', 'pagebreak');
-    }
-
     if ($oldversion < 2014051701) {
 
         // Define key surveyproid (foreign) to be dropped form surveyproformat_pagebreak.

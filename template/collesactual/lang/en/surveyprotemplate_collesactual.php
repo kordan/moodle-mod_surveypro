@@ -28,13 +28,15 @@ $string['pluginname'] = 'COLLES (Actual)';
 $string['itemstyle'] = 'Style of the choice elements';
 $string['itemstyle_desc'] = 'This option let you choose the style of the elemets for the choices of the survey. "Radio buttons" is the standard, "Select" is better for not huge monitors.<br />Changes will take effect with new surveypro';
 $string['useradio'] = 'Use radio buttons';
-$string['useselect'] = 'Use a select';
+$string['useselect'] = 'Use drop down menus';
+$string['position'] = 'Use custom position for attls built in surveypro';
+$string['position_desc'] = 'This option let you choose the position of the question respect to the user interface to provide the answer.<br />Changes will take effect with new surveypro';
 
 $string['label_content_01'] = '<p>The purpose of this survey is to help us understand how well the online delivery of this unit enabled you to learn.<br />Each one of the 24 statements below asks about your experience in this unit.<br />There are no \'right\' or \'wrong\' answers; we are interested only in your opinion. Please be assured that your responses will be treated with a high degree of confidentiality, and will not affect your assessment.<br /><br />Your carefully considered responses will help us improve the way this unit is presented online in the future.<br />Thanks very much.</p>';
 
 $string['fieldset_content_01'] = 'Relevance';
 
-$string['label_content_02'] = '<p>In this online unit I found that...</p>';
+$string['label_content_02'] = '<p>In this online unit, I found that...</p>';
 
 $string['radiobutton_content_03'] = '<p>my learning focuses on issues that interest me.</p>';
 $string['radiobutton_content_04'] = '<p>what I learn is important for my professional practice.</p>';

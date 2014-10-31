@@ -84,7 +84,6 @@ $formparams->canaccessadvanceditems = $uploadsformman->canaccessadvanceditems; /
 
 $filterform = new mod_surveypro_report_filterform($formurl, $formparams, 'post', '', array('id' => 'userentry'));
 
-
 // -----------------------------
 // output starts here
 // -----------------------------

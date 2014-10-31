@@ -139,7 +139,7 @@ EOS;
 
         $left = get_string('submissioninfo', 'surveyproreport_attachments_overview');
         $right = get_string('submissionid', 'surveyproreport_attachments_overview').': '.$submission->id.'<br />';
-        $right .= get_string('timecreated', 'surveypro').': '.userdate($submission-> timecreated).'<br />';
+        $right .= get_string('timecreated', 'surveypro').': '.userdate($submission->timecreated).'<br />';
         if ($submission->timemodified) {
             $right .= get_string('timemodified', 'surveypro').': '.userdate($submission->timemodified);
         } else {
@@ -172,11 +172,12 @@ EOS;
                     $mimetype = $file->get_mimetype();
                     $iconimage = $OUTPUT->pix_icon(file_file_icon($file, 80), get_mimetype_description($file));
 
-                    $path = file_encode_url($CFG->wwwroot.'/pluginfile.php', '/'.$this->context->id.'/surveyprofield_fileupload/'.SURVEYPROFIELD_FILEUPLOAD_FILEAREA.'/'.$item->answerid.'/'.$filename);
+                    $path = '/'.$this->context->id.'/surveyprofield_fileupload/'.SURVEYPROFIELD_FILEUPLOAD_FILEAREA.'/'.$item->answerid.'/'.$filename;
+                    $url = file_encode_url($CFG->wwwroot.'/pluginfile.php', $path);
 
                     $left = $item->content;
-                    $right = '<a href="'.$path.'">'.$iconimage.'</a>';
-                    $right .= '<a href="'.$path.'">'.s($filename).'</a>';
+                    $right = '<a href="'.$url.'">'.$iconimage.'</a>';
+                    $right .= '<a href="'.$url.'">'.s($filename).'</a>';
                     $output .= str_replace('@@left@@', $left, $layout);
                     $output = str_replace('@@right@@', $right, $output);
                 }

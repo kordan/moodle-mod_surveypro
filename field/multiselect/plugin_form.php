@@ -163,7 +163,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // fourth check
         // minimumrequired has to be lower than count($cleanoptions)
         // -----------------------------
-        if ($data['minimumrequired'] > count($cleanoptions)-1) {
+        if ($data['minimumrequired'] > count($cleanoptions) - 1) {
             $errors['minimumrequired'] = get_string('minimumrequired_err', 'surveyprofield_multiselect', count($cleanoptions));
         }
 

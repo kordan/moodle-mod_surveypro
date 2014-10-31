@@ -86,84 +86,39 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
      * $element01 = element for $content
      */
     public $element01 = '';
-
-    /**
-     * $element01_select
-     */
     public $element01_select = '';
-
-    /**
-     * $element01_text
-     */
     public $element01_text = '';
 
     /**
      * $element02 = element for $content
      */
     public $element02 = '';
-
-    /**
-     * $element02_select
-     */
     public $element02_select = '';
-
-    /**
-     * $element02_text
-     */
     public $element02_text = '';
 
     /**
      * $element03 = element for $content
      */
     public $element03 = '';
-
-    /**
-     * $element03_select
-     */
     public $element03_select = '';
-
-    /**
-     * $element03_text
-     */
     public $element03_text = '';
 
     /**
      * $element04 = element for $content
      */
     public $element04 = '';
-
-    /**
-     * $element04_select
-     */
     public $element04_select = '';
-
-    /**
-     * $element04_text
-     */
     public $element04_text = '';
 
     /**
      * $element05 = element for $content
      */
     public $element05 = '';
-
-    /**
-     * $element05_select
-     */
     public $element05_select = '';
-
-    /**
-     * $element05_text
-     */
     public $element05_text = '';
 
     /**
-     * $flag = features describing the object
-     */
-    public $flag;
-
-    /**
-     * $canbeparent
+     * static canbeparent
      */
     public static $canbeparent = false;
 
@@ -174,20 +129,24 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
      *
      * If itemid is provided, load the object (item + base + plugin) from database
      *
+     * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
      * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
 
+        // list of constant element attributes
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'autofill';
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
+        $this->savepositiontodb = false;
 
-        $this->flag = new stdClass();
-        $this->flag->issearchable = true;
-        $this->flag->usescontenteditor = true;
-        $this->flag->editorslist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA);
-        $this->flag->savepositiontodb = false;
+        // other element specific properties
+        // nothing
+
+        // override properties depending from $surveypro settings
+        // nothing
 
         // list of fields I do not want to have in the item definition form
         $this->isinitemform['required'] = false;
@@ -565,13 +524,13 @@ EOS;
                         $label .= fullname($user);
                         break;
                     case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT09: // usergroupid
-                        $user_groups = groups_get_user_groups($COURSE->id, $user->id);
-                        $label .= implode(', ', $user_groups[0]);
+                        $usergroups = groups_get_user_groups($COURSE->id, $user->id);
+                        $label .= implode(', ', $usergroups[0]);
                         break;
                     case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT10: // usergroupname
                         $names = array();
-                        $user_groups = groups_get_user_groups($COURSE->id, $user->id);
-                        foreach ($user_groups[0] as $groupid) {
+                        $usergroups = groups_get_user_groups($COURSE->id, $user->id);
+                        foreach ($usergroups[0] as $groupid) {
                              $names[] = groups_get_group_name($groupid);
                         }
                         $label .= implode(', ', $names);
@@ -611,5 +570,14 @@ EOS;
         }
 
         return $elementnames;
+    }
+
+    /**
+     * get_canbeparent
+     *
+     * @return the content of the static property "canbeparent"
+     */
+    public static function get_canbeparent() {
+        return self::$canbeparent;
     }
 }

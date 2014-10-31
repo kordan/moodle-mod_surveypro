@@ -23,7 +23,7 @@ Feature: verify a boolean item can be added to a survey
       | Description    | This is a surveypro to add a boolean item |
     And I follow "Surveypro test"
 
-    And I set the field "plugin" to "Boolean"
+    And I set the field "typeplugin" to "Boolean"
     And I press "Add"
 
     And I expand all fieldsets
@@ -35,7 +35,7 @@ Feature: verify a boolean item can be added to a survey
       | Element number    | 4a            |
     And I press "Add"
 
-    And I set the field "plugin" to "Boolean"
+    And I set the field "typeplugin" to "Boolean"
     And I press "Add"
 
     And I expand all fieldsets
@@ -48,7 +48,7 @@ Feature: verify a boolean item can be added to a survey
       | Boolean style     | vertical radio buttons |
     And I press "Add"
 
-    And I set the field "plugin" to "Boolean"
+    And I set the field "typeplugin" to "Boolean"
     And I press "Add"
 
     And I expand all fieldsets

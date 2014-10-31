@@ -42,12 +42,6 @@ function xmldb_surveypro_upgrade($oldversion) {
 
     $dbman = $DB->get_manager();
 
-    if ($oldversion < 2013090501) {
-
-        // Surveypro savepoint reached.
-        // upgrade_mod_savepoint(true, 2013090501, 'surveypro');
-    }
-
     if ($oldversion < 2014051901) {
 
         // Define table surveypro_userdata to be renamed to surveypro_answer.

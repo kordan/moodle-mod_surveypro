@@ -96,69 +96,28 @@ class mod_surveypro_field_date extends mod_surveypro_itembase {
      * $defaultvalue = the value of the field when the form is initially displayed.
      */
     public $defaultvalue = 0;
-
-    /**
-     * $defaultvalue_year
-     */
     public $defaultvalue_year = null;
-
-    /**
-     * $defaultvalue_month
-     */
     public $defaultvalue_month = null;
-
-    /**
-     * $defaultvalue_day
-     */
     public $defaultvalue_day = null;
 
     /**
      * $lowerbound = the minimum allowed date
      */
     public $lowerbound = 0;
-
-    /**
-     * $lowerbound_year
-     */
     public $lowerbound_year = null;
-
-    /**
-     * $lowerbound_month
-     */
     public $lowerbound_month = null;
-
-    /**
-     * $lowerbound_day
-     */
     public $lowerbound_day = null;
 
     /**
      * $upperbound = the maximum allowed date
      */
     public $upperbound = 0;
-
-    /**
-     * $upperbound_year
-     */
     public $upperbound_year = null;
-
-    /**
-     * $upperbound_month
-     */
     public $upperbound_month = null;
-
-    /**
-     * $upperbound_day
-     */
     public $upperbound_day = null;
 
     /**
-     * $flag = features describing the object
-     */
-    public $flag;
-
-    /**
-     * $canbeparent
+     * static canbeparent
      */
     public static $canbeparent = false;
 
@@ -169,29 +128,29 @@ class mod_surveypro_field_date extends mod_surveypro_itembase {
      *
      * If itemid is provided, load the object (item + base + plugin) from database
      *
+     * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
      * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
+        global $DB;
+
         parent::__construct($cm, $itemid, $evaluateparentcontent);
 
-        $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
-
+        // list of constant element attributes
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'date';
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
+        $this->savepositiontodb = false;
 
-        $this->flag = new stdClass();
-        $this->flag->issearchable = true;
-        $this->flag->usescontenteditor = true;
-        $this->flag->editorslist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA);
-        $this->flag->savepositiontodb = false;
+        // other element specific properties
+        // nothing
 
         // override properties depending from $surveypro settings
-        if (isset($surveypro)) { // it is not set during upgrade whether this item is loaded
-            $this->lowerbound = $this->item_date_to_unix_time($surveypro->startyear, 1, 1);
-            $this->upperbound = $this->item_date_to_unix_time($surveypro->stopyear, 12, 31);
-            $this->defaultvalue = $this->lowerbound;
-        }
+        $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
+        $this->lowerbound = $this->item_date_to_unix_time($surveypro->startyear, 1, 1);
+        $this->upperbound = $this->item_date_to_unix_time($surveypro->stopyear, 12, 31);
+        $this->defaultvalue = $this->lowerbound;
 
         // list of fields I do not want to have in the item definition form
         // EMPTY LIST
@@ -345,19 +304,17 @@ class mod_surveypro_field_date extends mod_surveypro_itembase {
             $option[$strname] = userdate($timenow, get_string($strname, 'surveyprofield_date')); // Monday 17 June, 05.15
         }
         $option['unixtime'] = get_string('unixtime', 'surveypro');
-        /**
-         * Friday, 21 June 2013
-         * Friday, 21 June '13
-         * Fri, 21 Jun 2013
-         * Fri, 21 Jun '13
-         * 21 Giugno 2013
-         * 21 Giugno '13
-         * 21 Giu 2013
-         * 21 Giu '13
-         * 21/06/2013
-         * 21/06/13
-         * unix time
-         */
+        // Friday, 21 June 2013
+        // Friday, 21 June '13
+        // Fri, 21 Jun 2013
+        // Fri, 21 Jun '13
+        // 21 Giugno 2013
+        // 21 Giugno '13
+        // 21 Giu 2013
+        // 21 Giu '13
+        // 21/06/2013
+        // 21/06/13
+        // unix time
 
         return $option;
     }
@@ -469,7 +426,7 @@ EOS;
             $years[SURVEYPRO_IGNOREME] = '';
         }
         $days += array_combine(range(1, 31), range(1, 31));
-        for ($i=1; $i<=12; $i++) {
+        for ($i = 1; $i <= 12; $i++) {
             $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // january, february, march...
         }
         $years += array_combine(range($this->lowerbound_year, $this->upperbound_year), range($this->lowerbound_year, $this->upperbound_year));
@@ -751,5 +708,14 @@ EOS;
         $elementnames = array($this->itemname.'_group');
 
         return $elementnames;
+    }
+
+    /**
+     * get_canbeparent
+     *
+     * @return the content of the static property "canbeparent"
+     */
+    public static function get_canbeparent() {
+        return self::$canbeparent;
     }
 }
