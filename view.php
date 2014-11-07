@@ -71,18 +71,18 @@ $submissionman->set_searchquery($searchquery);
 
 if ($cover === null) {
     if ($submissionman->canmanageitems) {
-        if (!$submissionman->itemsfound) {
+        if (!$submissionman->hasitems) {
             $paramurl = array('s' => $surveypro->id);
             $redirecturl = new moodle_url('/mod/surveypro/items_manage.php', $paramurl);
             redirect($redirecturl);
         } // else: carry on
     } else {
-        if ($submissionman->itemsfound) {
+        if ($submissionman->hasitems) {
             $paramurl = array('s' => $surveypro->id);
             $redirecturl = new moodle_url('/mod/surveypro/view_cover.php', $paramurl);
             redirect($redirecturl);
             // } else {
-            // if (!$submissionman->itemsfound) { just below will stop execution
+            // if (!$submissionman->hasitems) { just below will stop execution
         }
     }
 }
@@ -100,7 +100,7 @@ $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
 
-if (!$submissionman->itemsfound) {
+if (!$submissionman->hasitems) {
     $submissionman->noitem_stopexecution();
 }
 $submissionman->manage_actions(); // action feedback before tabs

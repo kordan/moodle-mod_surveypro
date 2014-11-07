@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'field_radiobutton', language 'en', branch 'MOODLE_20_STABLE'
+ * Strings for component 'field_radiobutton', language 'en', branch 'MOODLE_28_STABLE'
  *
  * @package    surveypro
  * @subpackage radiobutton
@@ -26,7 +26,6 @@
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/lib.php');
 
 $string['parentformat'] = '[label]';
-$string['parentcontent_err'] = '{$a} is not part of the options of the depend item. The constraint can never be verified.';
 $string['pluginname'] = 'Radio button';
 $string['userfriendlypluginname'] = 'Radio buttons';
 $string['adjustment_help'] = 'How this list of items will be shown? In horital or in vertical?';

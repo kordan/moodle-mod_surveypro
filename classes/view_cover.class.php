@@ -178,13 +178,13 @@ class mod_surveypro_covermanager {
         foreach ($surveyproreportlist as $pluginname => $pluginpath) {
             require_once($CFG->dirroot.'/mod/surveypro/report/'.$pluginname.'/classes/report.class.php');
             $classname = 'mod_surveypro_report_'.$pluginname;
-            $reportman = new $classname($this->cm, $this->surveypro);
+            $reportman = new $classname($this->cm, $this->context, $this->surveypro);
 
             $restricttemplates = $reportman->restrict_templates();
 
             if ((!$restricttemplates) || in_array($this->surveypro->template, $restricttemplates)) {
                 if ($canaccessreports || ($reportman->has_student_report() && $canaccessownreports)) {
-                    if ($reportman->does_report_apply()) {
+                    if ($reportman->report_apply()) {
                         if ($childreports = $reportman->get_childreports($canaccessreports)) {
                             foreach ($childreports as $childname => $childparams) {
                                 $childparams['s'] = $this->cm->instance;

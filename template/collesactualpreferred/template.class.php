@@ -31,6 +31,8 @@ class mod_surveypro_template_collesactualpreferred {
      *
      * @param $tablename
      * @param $record
+     * @param $config
+     * @return tablename
      * @return record
      */
     public function apply_template_settings($tablename, $record, $config) {
@@ -38,7 +40,7 @@ class mod_surveypro_template_collesactualpreferred {
             $record['position'] = "$config->position";
         }
 
-        if ($config->itemstyle == SURVEYPROTEMPLATE_COLLESACTUALPREFERREDUSESELECT) {
+        if ($config->useritem == SURVEYPROTEMPLATE_COLLESACTUALPREFERREDUSESELECT) {
             if ($record['plugin'] == 'radiobutton') {
                 $record['plugin'] = 'select';
             }

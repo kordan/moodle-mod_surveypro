@@ -17,7 +17,7 @@ echo $GENERIC_FRAME
 cd $(dirname $langfile_path)
 cd ../..
 
-#set -x
+# set -x
 excludefilename=`pwd`
 excludefilename=`basename "$excludefilename"`
 regex="string\[['|\"](.*)['|\"]\]"

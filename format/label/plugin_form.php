@@ -30,6 +30,12 @@ require_once($CFG->dirroot.'/mod/surveypro/format/label/lib.php');
 
 class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
 
+    /*
+     * definition
+     *
+     * @param none
+     * @return none
+     */
     public function definition() {
         // ----------------------------------------
         // I close with the common section of the form

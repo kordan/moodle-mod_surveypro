@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'field_checkbox', language 'en', branch 'MOODLE_20_STABLE'
+ * Strings for component 'field_checkbox', language 'en', branch 'MOODLE_28_STABLE'
  *
  * @package    surveypro
  * @subpackage checkbox
@@ -46,7 +46,6 @@ $string['options_help'] = 'The list of the options for this item. You are allowe
 $string['options'] = 'Options';
 $string['optionsduplicated_err'] = 'At least one option is duplicated';
 $string['optionswithseparator_err'] = 'Options can not contain "{$a}"';
-$string['parentcontent_err'] = '{$a} is not part of the options of the depend item. The constraint can never be verified.';
 $string['parentformat'] = '[label<br />one more label<br />last label]';
 $string['pluginname'] = 'Checkbox';
 $string['restrictions_minimumrequired_one'] = 'At least 1 checkbox has to be selected';

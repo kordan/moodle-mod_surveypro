@@ -29,6 +29,12 @@ require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 
 class mod_surveypro_chooseitemform extends moodleform {
 
+    /*
+     * definition
+     *
+     * @param none
+     * @return none
+     */
     public function definition() {
         global $DB;
 
@@ -76,6 +82,13 @@ class mod_surveypro_chooseitemform extends moodleform {
         $this->add_action_buttons(false, get_string('continue'));
     }
 
+    /*
+     * validation
+     *
+     * @param $data
+     * @param $files
+     * @return $errors
+     */
     public function validation($data, $files) {
         // "noanswer" default option is not allowed when the item is mandatory
         $errors = array();

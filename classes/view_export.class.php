@@ -73,7 +73,8 @@ class mod_surveypro_exportmanager {
     /**
      * trigger_event
      *
-     * @return void
+     * @param none
+     * @return none
      */
     public function trigger_event() {
         $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
@@ -163,6 +164,7 @@ class mod_surveypro_exportmanager {
     /**
      * surveypro_export
      *
+     * @param none
      * @return exporterror
      */
     public function surveypro_export() {

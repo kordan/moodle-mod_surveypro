@@ -324,7 +324,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
      * trigger_event
      *
      * @param string $event: event to trigger
-     * @return void
+     * @return none
      */
     public function trigger_event($event) {
         $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);

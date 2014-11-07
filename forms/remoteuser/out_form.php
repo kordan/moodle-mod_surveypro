@@ -28,6 +28,12 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 
 class mod_surveypro_submissionform extends moodleform {
 
+    /*
+     * definition
+     *
+     * @param none
+     * @return none
+     */
     public function definition() {
         global $DB, $CFG;
 
@@ -234,9 +240,17 @@ class mod_surveypro_submissionform extends moodleform {
         }
     }
 
+    /*
+     * validation
+     *
+     * @param $data
+     * @param $files
+     * @return $errors
+     */
     public function validation($data, $files) {
         $mform = $this->_form;
 
+        // ----------------------------------------
         // $cmid = $this->_customdata->cmid;
         $modulepage = $this->_customdata->modulepage;
 

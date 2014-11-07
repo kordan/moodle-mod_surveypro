@@ -145,7 +145,7 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
      * @return
      */
     public function item_load($itemid, $evaluateparentcontent) {
-        // Do parent item loading stuff here (surveypro_itembase::item_load($itemid)))
+        // Do parent item loading stuff here (mod_surveypro_itembase::item_load($itemid, $evaluateparentcontent)))
         parent::item_load($itemid, $evaluateparentcontent);
 
         // multilang load support for builtin surveypro
@@ -173,7 +173,7 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
         $this->item_custom_fields_to_db($record);
         // end of: plugin specific settings (eventally overriding general ones)
 
-        // Do parent item saving stuff here (surveypro_itembase::item_save($record)))
+        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record)))
         return parent::item_save($record);
     }
 
@@ -237,7 +237,8 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
      * item_list_constraints
      * this method prepare the list of constraints the child has to respect in order to create a valid relation
      *
-     * @return list of contraints of the plugin (as patent) in text format
+     * @param none
+     * @return list of contraints of the plugin (as parent) in text format
      */
     public function item_list_constraints() {
         $constraints = array();
@@ -253,6 +254,7 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
      * item_get_multilang_fields
      * make the list of multilang plugin fields
      *
+     * @param none
      * @return array of felds
      */
     public function item_get_multilang_fields() {
@@ -312,6 +314,7 @@ EOS;
      *
      * this method is called ONLY at item save time
      * it encodes the child parentcontent to parentindex
+     *
      * @param $childparentcontent
      * return childparentvalue
      */
@@ -353,6 +356,7 @@ EOS;
      * ...implement all possible checks to avoid crashes/malfunctions during code execution.
      *
      * this method decodes parentindex to parentcontent
+     *
      * @param $childparentvalue
      * return $childparentcontent
      */
@@ -385,6 +389,7 @@ EOS;
      * parent_validate_child_constraints
      *
      * this method, starting from child parentvalue (index/es), declare if the child could be include in the surveypro
+     *
      * @param $childparentvalue
      * @return status of child relation
      *     0 = it will never match
@@ -586,8 +591,8 @@ EOS;
      *
      * as parentitem declare whether my child item is allowed to return a value (is enabled) or is not (is disabled)
      *
-     * @param string $childparentvalue:
-     * @param array $data:
+     * @param string $childparentvalue
+     * @param array $data
      * @return boolean: true: if the item is welcome; false: if the item must be dropped out
      */
     public function userform_child_item_allowed_dynamic($childparentvalue, $data) {

@@ -69,9 +69,9 @@ class mod_surveypro_submissionmanager {
     public $confirm = false;
 
     /**
-     * $itemsfound
+     * $hasitems
      */
-    public $itemsfound = true;
+    public $hasitems = false;
 
     /**
      * $canmanageitems
@@ -149,13 +149,14 @@ class mod_surveypro_submissionmanager {
 
         $this->cansavesubmissiontopdf = has_capability('mod/surveypro:savesubmissiontopdf', $this->context, null, true);
 
-        $this->count_input_items();
+        $this->hasitems = $this->get_has_items();
     }
 
     /**
      * set_submissionid
      *
-     * @return void
+     * @param $submissionid
+     * @return none
      */
     public function set_submissionid($submissionid) {
         $this->submissionid = $submissionid;
@@ -164,7 +165,8 @@ class mod_surveypro_submissionmanager {
     /**
      * set_action
      *
-     * @return void
+     * @param $action
+     * @return none
      */
     public function set_action($action) {
         $this->action = $action;
@@ -173,7 +175,8 @@ class mod_surveypro_submissionmanager {
     /**
      * set_view
      *
-     * @return void
+     * @param $view
+     * @return none
      */
     public function set_view($view) {
         $this->view = $view;
@@ -182,7 +185,8 @@ class mod_surveypro_submissionmanager {
     /**
      * set_confirm
      *
-     * @return void
+     * @param $confirm
+     * @return none
      */
     public function set_confirm($confirm) {
         $this->confirm = $confirm;
@@ -191,7 +195,8 @@ class mod_surveypro_submissionmanager {
     /**
      * set_searchquery
      *
-     * @return void
+     * @param $searchquery
+     * @return none
      */
     public function set_searchquery($searchquery) {
         $this->searchquery = $searchquery;
@@ -200,7 +205,8 @@ class mod_surveypro_submissionmanager {
     /**
      * trigger_event
      *
-     * @return void
+     * @param none
+     * @return none
      */
     public function trigger_event() {
         // event: all_submissions_viewed
@@ -518,26 +524,23 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * count_input_items as opposed to "count_search_items"
+     * get_has_items
      *
      * @param none
      * @return
      */
-    public function count_input_items() {
+    public function get_has_items() {
         global $DB;
 
-        if (empty($this->formpage)) {
-            $whereparams = array('surveyproid' => $this->surveypro->id);
-            $whereclause = 'surveyproid = :surveyproid AND hidden = 0';
-        } else {
-            $whereparams = array('surveyproid' => $this->surveypro->id, 'formpage' => $this->formpage);
-            $whereclause = 'surveyproid = :surveyproid AND hidden = 0 AND formpage = :formpage';
+        $whereparams = array('surveyproid' => $this->surveypro->id, 'hidden' => 0);
+        if (!empty($this->formpage)) {
+            $whereparams['formpage'] = $this->formpage;
         }
         if (!$this->canaccessadvanceditems) {
-            $whereclause .= ' AND advanced = 0';
+            $whereclause['advanced'] = 0;
         }
 
-        $this->itemsfound = ($DB->count_records_select('surveypro_item', $whereclause, $whereparams) > 0);
+        return ($DB->count_records('surveypro_item', $whereparams) > 0);
     }
 
     /**

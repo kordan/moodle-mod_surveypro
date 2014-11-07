@@ -115,19 +115,18 @@ class mod_surveypro_searchmanager {
     }
 
     /**
-     * count_search_items as opposed to "count_input_items"
+     * has_search_items as opposed to "has_input_items"
      *
      * @param none
      * @return
      */
-    public function count_search_items() {
+    public function has_search_items() {
         global $DB;
 
         // if no items are available, stop the intervention here
-        $whereparams = array('surveyproid' => $this->surveypro->id);
-        $whereclause = 'surveyproid = :surveyproid AND hidden = 0 AND insearchform = 1';
+        $whereparams = array('surveyproid' => $this->surveypro->id, 'hidden' => 0, 'insearchform' => 1);
 
-        return $DB->count_records_select('surveypro_item', $whereclause, $whereparams);
+        return ($DB->count_records('surveypro_item', $whereparams) > 0);
     }
 
     /**

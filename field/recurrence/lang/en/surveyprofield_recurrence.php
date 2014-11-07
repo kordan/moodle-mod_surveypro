@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'field_recurrence', language 'en', branch 'MOODLE_20_STABLE'
+ * Strings for component 'field_recurrence', language 'en', branch 'MOODLE_28_STABLE'
  *
  * @package    surveypro
  * @subpackage recurrence
@@ -41,8 +41,6 @@ $string['notvaliddefault'] = 'Incorrect value entered';
 $string['notvalidlowerbound'] = 'Incorrect value entered';
 $string['notvalidupperbound'] = 'Incorrect value entered';
 $string['outofrangedefault'] = 'Default does not fall within the specified range';
-$string['parentcontentinvalidrecurrence_err'] = 'Provided recurrence is not a regular recurrence';
-$string['parentcontentrecurrenceoutofrange_err'] = 'Provided recurrence is out of the range requested to the choosen item';
 $string['pluginname'] = 'Recurrence';
 $string['restriction_lower'] = 'Answer is supposed to be greater-equal than {$a}';
 $string['restriction_lowerupper'] = 'Answer is supposed to fit between {$a->lowerbound} and {$a->upperbound}';

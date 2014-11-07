@@ -29,7 +29,7 @@ $string['modulename_help'] = 'Surveypro allows the creation of custom surveys as
 $string['modulename_link'] = 'mod/surveypro/view';
 $string['modulenameplural'] = 'surveys';
 $string['surveyproname'] = 'Surveypro name';
-$string['surveyproname_help'] = 'Choose the name of this survey.';
+$string['surveyproname_help'] = 'Choose the name of this surveypro.';
 $string['surveypro'] = 'survey';
 $string['pluginadministration'] = 'Surveypro administration';
 $string['pluginname'] = 'Surveypro';
@@ -142,7 +142,7 @@ $string['defaultcreationthanksmessage'] = 'Thank you. Your response has been suc
 $string['defaulteditingthanksmessage'] = 'Thank you. Your response has been successfully modified!';
 $string['deleteallitems'] = 'Delete all elements';
 $string['deleteallsubmissions'] = 'Delete all responses';
-$string['deletebreaklinks'] = 'The current element has child element(s) that are going to be deleted too. The child element(s) position is: {$a}';
+$string['deletionbreakslinks'] = 'The current element has child element(s) that are going to be deleted too. The child element(s) position is: {$a}';
 $string['deletehiddenitems'] = 'Delete hidden elements';
 $string['deletepluginmessage'] = 'You are about to completely delete the survey plugin "{$a}". This will completely delete everything in the database associated with this plugin. Are you SURE you want to continue?';
 $string['deletevisibleitems'] = 'Delete visible elements';
@@ -272,8 +272,8 @@ $string['maxentries'] = 'Maximum attempts';
 $string['maxinputdelay_descr'] = 'The maximum allowed delay in hours for users to submit a survey. Even if the user is allowed to pause the data entry and restart it later, after the time defined here partial responses will be deleted. Default of 168 hours is equivalent to a week. Set this to 0 (zero) if you really want to allow partial responses (not recommended).';
 $string['maxinputdelay'] = 'Max input delay';
 $string['missingfile'] = 'It seems no file was selected';
-$string['missingitemplugin'] = 'One or more items of the template is missing the plugin';
-$string['missingitemtype'] = 'One or more items of the template is missing the type';
+$string['missingitemplugin'] = 'One or more items of the template are missing the plugin';
+$string['missingitemtype'] = 'One or more items of the template are missing the type';
 $string['missingitemversion'] = 'One or more items of the template is missing the version';
 $string['missingparentcontent_err'] = 'You need to specify a parent content otherwise clear the "{$a}" field';
 $string['missingparentid_err'] = 'You need to select a element to branch the survey. Otherwise clear the "{$a}" field';
@@ -283,7 +283,6 @@ $string['module'] = 'This instance of survey';
 $string['modulesettinghdr'] = 'Surveypro settings';
 $string['months'] = 'months';
 $string['mtemplatessection'] = 'Master templates section';
-$string['multilang'] = 'Restore multilang content';
 $string['namenotset'] = 'not set';
 $string['needrole'] = 'Advanced element: only users with specific capability will see it';
 $string['newpageforchild_help'] = 'Use this option to force a new page after each branching element.';
@@ -448,7 +447,7 @@ $string['usertemplates'] = 'user templates';
 $string['utemplatessection'] = 'User templates section';
 $string['validate'] = 'Start validation';
 $string['validation'] = 'Validation options';
-$string['validationinfo'] = 'This tool let you verify the reliability of the current survey. This tool checks the validity of each relation identifying the bad ones that will never allow child element to be included in the survey.';
+$string['validationinfo'] = 'This report let you verify the reliability of the current survey. This tool checks the validity of each relation identifying the bad ones that will never allow child element to be included in the survey.';
 $string['variable_help'] = 'The name of the variable once downloaded';
 $string['variable'] = 'Variable';
 $string['versionmismatch'] = 'Version mismatch for {$a->plugin} {$a->type} plugin. Template uses version: {$a->currentversion} while your surveypro plugin uses version {$a->versiondisk}';
@@ -461,7 +460,7 @@ Unknown headers will break the import process.<br />
 "Userid" can be included among headers. It will assign the ownership of each imported response (even if the survey is anonymous).<br />
 If the "Userid" column is missing, the imported responses will be assigned to the user executing the import.<br />
 It is possible to import csv missing required elements but, whether included, they must contain valid, non empty values.<br />
-Imports with missing required elements are allowed and the imported responses will be labeled as "in progress".<br />
+Import files missing required elements are allowed and the imported responses will be labeled as "in progress".<br />
 Semantic defines the meaning of the content of the csv file for some specific elements. For instance, for a "select" plugin element, the csv file can provide the label of the answer such as its value or its position in the drop down user interface<br />
 Elements currently using semantic are: <ul>{$a->items}</ul>
 It is possible to choose a single semantic that will apply to EACH element to import or to choose `{$a->customsemantic}` option to provide a custom semantic for each element.<br />

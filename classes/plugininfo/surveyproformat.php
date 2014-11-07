@@ -30,6 +30,8 @@ defined('MOODLE_INTERNAL') || die();
 class surveyproformat extends base {
     /**
      * Finds all enabled plugins, the result may include missing plugins.
+     *
+     * @param none
      * @return array|null of enabled plugins $pluginname=>$pluginname, null means unknown
      */
     public static function get_enabled_plugins() {
@@ -62,6 +64,12 @@ class surveyproformat extends base {
         return $enabled;
     }
 
+    /*
+     * is_uninstall_allowed
+     *
+     * @param none
+     * @return bool: false if the corrsponding record exists
+     */
     public function is_uninstall_allowed() {
         global $DB;
 
@@ -70,12 +78,20 @@ class surveyproformat extends base {
 
     /**
      * Return URL used for management of plugins of this type.
+     *
+     * @paran none
      * @return moodle_url
      */
     public static function get_manage_url() {
         return new moodle_url('/mod/surveypro/adminmanageplugins.php', array('subtype' => 'surveyproformat'));
     }
 
+    /*
+     * get_settings_section_name
+     *
+     * @param none
+     * @return settings section name
+     */
     public function get_settings_section_name() {
         return $this->type.'_'.$this->name;
     }

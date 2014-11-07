@@ -435,7 +435,6 @@ class mod_surveypro_itembase {
      *
      * @param stdobject $record
      * @param integer $itemid
-     *
      * @return
      */
     public function item_validate_variablename($record, $itemid) {
@@ -481,7 +480,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * item_save
+     * item_manage_chains
      * Executes surveyproitem_<<plugin>> global level actions
      * this is the save point of the global part of each plugin
      *
@@ -703,6 +702,7 @@ class mod_surveypro_itembase {
     /**
      * item_uses_form_page
      *
+     * @param none
      * @return: boolean
      */
     public function item_uses_form_page() {
@@ -712,6 +712,7 @@ class mod_surveypro_itembase {
     /**
      * item_left_position_allowed
      *
+     * @param none
      * @return: boolean
      */
     public function item_left_position_allowed() {
@@ -723,7 +724,7 @@ class mod_surveypro_itembase {
      * defines presets for the editor field of surveyproitem in itembase_form.php
      * (copied from moodle20/cohort/edit.php)
      *
-     * @param &$saveditem
+     * @param none
      * @return
      */
     public function item_set_editor() {
@@ -781,7 +782,7 @@ class mod_surveypro_itembase {
      *
      * @param stadCalss $record: the item record
      * @param array $fieldlist: the list of fields to clean
-     * @return nothing
+     * @return none
      */
     public function item_clean_textarea_fields($record, $fieldlist) {
         foreach ($fieldlist as $field) {
@@ -799,7 +800,9 @@ class mod_surveypro_itembase {
      * item_get_other
      * parse $this->labelother in $value and $label
      *
-     * @return array($value, $label)
+     * @param none
+     * @return $value
+     * @return $label
      */
     public function item_get_other() {
         if (preg_match('/^(.*)'.SURVEYPRO_OTHERSEPARATOR.'(.*)$/', $this->labelother, $match)) { // do not warn: it can never be equal to zero
@@ -817,6 +820,7 @@ class mod_surveypro_itembase {
      * item_mandatory_is_allowed
      * this method defines if an item can be switched to mandatory or not.
      *
+     * @param none
      * @return boolean
      */
     public function item_mandatory_is_allowed() {
@@ -834,6 +838,7 @@ class mod_surveypro_itembase {
      * item_get_multilang_fields
      * make the list of multilang plugin fields
      *
+     * @param none
      * @return array of felds
      */
     public function item_get_multilang_fields() {
@@ -886,7 +891,7 @@ class mod_surveypro_itembase {
      * @param $mform: the form to which add the row
      * @param integer $currentposition: a counter to decide whether add the row
      * @param integer $allpositions: one more counter to decide whether add the row
-     * @return nothing
+     * @return none
      */
     public function item_add_color_unifier($mform, $currentposition=null, $allpositions=null) {
         if (is_null($currentposition) && is_null($allpositions)) {
@@ -927,6 +932,7 @@ class mod_surveypro_itembase {
     /**
      * get_editorlist
      *
+     * @param none
      * @return the content of the editorlist element attribute
      */
     public function get_editorlist() {
@@ -936,6 +942,7 @@ class mod_surveypro_itembase {
     /**
      * get_savepositiontodb
      *
+     * @param none
      * @return the content of the savepositiontodb element attribute
      */
     public function get_savepositiontodb() {
@@ -945,6 +952,7 @@ class mod_surveypro_itembase {
     /**
      * get_isinitemform
      *
+     * @param $itemformelement
      * @return the content of the corresponding element of $this->isinitemform
      */
     public function get_isinitemform($itemformelement) {
@@ -954,6 +962,7 @@ class mod_surveypro_itembase {
     /**
      * get_itemid
      *
+     * @param none
      * @return the content of the field
      */
     public function get_itemid() {
@@ -963,6 +972,7 @@ class mod_surveypro_itembase {
     /**
      * get_type
      *
+     * @param none
      * @return the content of the field
      */
     public function get_type() {
@@ -972,6 +982,7 @@ class mod_surveypro_itembase {
     /**
      * get_plugin
      *
+     * @param none
      * @return the content of the field
      */
     public function get_plugin() {
@@ -981,6 +992,7 @@ class mod_surveypro_itembase {
     /**
      * get_content
      *
+     * @param none
      * @return the content of the field
      */
     public function get_content() {
@@ -990,6 +1002,7 @@ class mod_surveypro_itembase {
     /**
      * get_contentformat
      *
+     * @param none
      * @return the content of the field
      */
     public function get_contentformat() {
@@ -999,6 +1012,7 @@ class mod_surveypro_itembase {
     /**
      * get_surveyproid
      *
+     * @param none
      * @return the content of the field
      */
     public function get_surveyproid() {
@@ -1008,6 +1022,7 @@ class mod_surveypro_itembase {
     /**
      * get_pluginid
      *
+     * @param none
      * @return the content of the field
      */
     public function get_pluginid() {
@@ -1017,6 +1032,7 @@ class mod_surveypro_itembase {
     /**
      * get_itemname
      *
+     * @param none
      * @return the content of the field
      */
     public function get_itemname() {
@@ -1026,6 +1042,7 @@ class mod_surveypro_itembase {
     /**
      * get_hidden
      *
+     * @param none
      * @return the content of the field
      */
     public function get_hidden() {
@@ -1035,6 +1052,7 @@ class mod_surveypro_itembase {
     /**
      * get_insearchform
      *
+     * @param none
      * @return the content of the field
      */
     public function get_insearchform() {
@@ -1044,6 +1062,7 @@ class mod_surveypro_itembase {
     /**
      * get_advanced
      *
+     * @param none
      * @return the content of the field
      */
     public function get_advanced() {
@@ -1053,6 +1072,7 @@ class mod_surveypro_itembase {
     /**
      * get_sortindex
      *
+     * @param none
      * @return the content of the field
      */
     public function get_sortindex() {
@@ -1062,6 +1082,7 @@ class mod_surveypro_itembase {
     /**
      * get_formpage
      *
+     * @param none
      * @return the content of the field
      */
     public function get_formpage() {
@@ -1071,6 +1092,7 @@ class mod_surveypro_itembase {
     /**
      * get_parentid
      *
+     * @param none
      * @return the content of the field
      */
     public function get_parentid() {
@@ -1096,6 +1118,7 @@ class mod_surveypro_itembase {
     /**
      * get_parentvalue
      *
+     * @param none
      * @return the content of the field
      */
     public function get_parentvalue() {
@@ -1105,6 +1128,7 @@ class mod_surveypro_itembase {
     /**
      * get_variable
      *
+     * @param none
      * @return the content of the field whether defined
      */
     public function get_variable() {
@@ -1114,6 +1138,7 @@ class mod_surveypro_itembase {
     /**
      * get_customnumber
      *
+     * @param none
      * @return the content of the field whether defined
      */
     public function get_customnumber() {
@@ -1127,6 +1152,7 @@ class mod_surveypro_itembase {
     /**
      * get_required
      *
+     * @param none
      * @return bool
      */
     public function get_required() {
@@ -1145,6 +1171,7 @@ class mod_surveypro_itembase {
     /**
      * get_indent
      *
+     * @param none
      * @return the content of the field whether defined
      */
     public function get_indent() {
@@ -1158,6 +1185,7 @@ class mod_surveypro_itembase {
     /**
      * get_hideinstructions
      *
+     * @param none
      * @return the content of the field whether defined
      */
     public function get_hideinstructions() {
@@ -1171,6 +1199,7 @@ class mod_surveypro_itembase {
     /**
      * get_position
      *
+     * @param none
      * @return the content of the field whether defined
      */
     public function get_position() {
@@ -1184,6 +1213,7 @@ class mod_surveypro_itembase {
     /**
      * get_extranote
      *
+     * @param none
      * @return the content of the field whether defined
      */
     public function get_extranote() {
@@ -1197,6 +1227,7 @@ class mod_surveypro_itembase {
     /**
      * get_downloadformat
      *
+     * @param none
      * @return the content of the field whether defined
      */
     public function get_downloadformat() {
@@ -1222,7 +1253,7 @@ class mod_surveypro_itembase {
      * set_contentformat
      *
      * @param string $contentformat
-     * @return nothing
+     * @return none
      */
     public function set_contentformat($contentformat) {
         $this->contentformat = $contentformat;
@@ -1232,7 +1263,7 @@ class mod_surveypro_itembase {
      * set_contenttrust
      *
      * @param string $contenttrust
-     * @return nothing
+     * @return none
      */
     public function set_contenttrust($contenttrust) {
         $this->contenttrust = $contenttrust;
@@ -1242,7 +1273,7 @@ class mod_surveypro_itembase {
      * set_required
      *
      * @param integer $value; the value to set
-     * @return nothing
+     * @return none
      */
     public function set_required($value) {
         global $DB;
@@ -1326,6 +1357,7 @@ class mod_surveypro_itembase {
      * if this method is not handled at plugin level,
      * it means it is supposed to return an empty fillinginstruction
      *
+     * @param none
      * @return empty string
      */
     public function userform_get_filling_instructions() {

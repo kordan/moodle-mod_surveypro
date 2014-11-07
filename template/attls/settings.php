@@ -40,6 +40,6 @@ $options = array(
     SURVEYPROTEMPLATE_ATTLSUSESELECT => get_string('useselect', 'surveyprotemplate_attls')
 );
 
-$name = new lang_string('itemstyle', 'surveyprotemplate_attls');
-$description = new lang_string('itemstyle_desc', 'surveyprotemplate_attls');
-$settings->add(new admin_setting_configselect('surveyprotemplate_attls/itemstyle', $name, $description, SURVEYPROTEMPLATE_ATTLSUSERADIO, $options));
+$name = new lang_string('useritem', 'surveyprotemplate_attls');
+$description = new lang_string('useritem_desc', 'surveyprotemplate_attls');
+$settings->add(new admin_setting_configselect('surveyprotemplate_attls/useritem', $name, $description, SURVEYPROTEMPLATE_ATTLSUSERADIO, $options));

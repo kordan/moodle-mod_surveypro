@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'field_age', language 'en', branch 'MOODLE_20_STABLE'
+ * Strings for component 'field_age', language 'en', branch 'MOODLE_28_STABLE'
  *
  * @package    surveypro
  * @subpackage age
@@ -37,8 +37,6 @@ $string['maximumage_desc'] = 'The maximun age this software will allow to ever e
 $string['maximumage'] = 'Maximum age';
 $string['months'] = 'months';
 $string['outofrangedefault'] = 'Default does not fall within the specified range';
-$string['parentcontent_greaterthanmaximum'] = '{$a} is greater than the maximum age so this condition can never be verified.';
-$string['parentcontent_lowerthanminimum'] = '{$a} is lower than the minimum age so this condition can never be verified.';
 $string['pluginname'] = 'Age';
 $string['restriction_lower'] = 'Answer is supposed to be greater than {$a}';
 $string['restriction_lowerupper'] = 'Answer is supposed to fit between {$a->lowerbound} and {$a->upperbound}';

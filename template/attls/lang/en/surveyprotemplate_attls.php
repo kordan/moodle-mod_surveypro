@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'surveyprotemplate_attls', language 'en', branch 'MOODLE_20_STABLE'
+ * Strings for component 'surveyprotemplate_attls', language 'en', branch 'MOODLE_28_STABLE'
  *
  * @package    surveyprotemplate
  * @subpackage attls
@@ -25,8 +25,8 @@
 
 $string['pluginname'] = 'ATTLS (20 item version)';
 
-$string['itemstyle'] = 'Style of the choice elements';
-$string['itemstyle_desc'] = 'This option let you choose the style of the elemets for the choices of the survey. "Radio buttons" is the standard, "Select" is better for not huge monitors.<br />Changes will take effect with new surveypro';
+$string['useritem'] = 'Style of the choice elements';
+$string['useritem_desc'] = 'This option let you choose the style of the elemets for the choices of the survey. "Radio buttons" is the standard, "Select" is better for not huge monitors.<br />Changes will take effect with new surveypro';
 $string['useradio'] = 'Use radio buttons';
 $string['useselect'] = 'Use drop down menus';
 $string['position'] = 'Use custom position for attls built in surveypro';

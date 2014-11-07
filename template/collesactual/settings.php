@@ -40,6 +40,6 @@ $options = array(
     SURVEYPROTEMPLATE_COLLESACTUALUSESELECT => get_string('useselect', 'surveyprotemplate_collesactual')
 );
 
-$name = new lang_string('itemstyle', 'surveyprotemplate_collesactual');
-$description = new lang_string('itemstyle_desc', 'surveyprotemplate_collesactual');
-$settings->add(new admin_setting_configselect('surveyprotemplate_collesactual/itemstyle', $name, $description, SURVEYPROTEMPLATE_COLLESACTUALUSERADIO, $options));
+$name = new lang_string('useritem', 'surveyprotemplate_collesactual');
+$description = new lang_string('useritem_desc', 'surveyprotemplate_collesactual');
+$settings->add(new admin_setting_configselect('surveyprotemplate_collesactual/useritem', $name, $description, SURVEYPROTEMPLATE_COLLESACTUALUSERADIO, $options));

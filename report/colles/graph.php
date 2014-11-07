@@ -44,8 +44,10 @@ if ($type == 'summary') {
     require_capability('mod/surveypro:accessreports', $context);
 }
 
-$reportman = new mod_surveypro_report_colles($cm, $surveypro);
-$reportman->setup(true, $group, $area, $qid);
+$reportman = new mod_surveypro_report_colles($cm, $context, $surveypro);
+$reportman->set_group($group);
+$reportman->set_area($area);
+$reportman->set_qid($qid);
 
 $graph = new graph(SURVEYPRO_GWIDTH, SURVEYPRO_GHEIGHT);
 if ($type == 'summary') {

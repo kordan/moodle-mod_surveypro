@@ -60,8 +60,11 @@ if (count($parts) == 2) {
 // calculations
 // -----------------------------
 $context = context_module::instance($cm->id);
-$uploadsformman = new mod_surveypro_report_uploadformmanager($cm, $context, $surveypro, $userid, $itemid, $submissionid);
+$uploadsformman = new mod_surveypro_report_uploadformmanager($cm, $context, $surveypro);
 $uploadsformman->prevent_direct_user_input();
+$uploadsformman->set_userid($userid);
+$uploadsformman->set_itemid($itemid);
+$uploadsformman->set_submissionid($submissionid);
 
 // -----------------------------
 // define $filterform return url

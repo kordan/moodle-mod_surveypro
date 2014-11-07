@@ -30,6 +30,12 @@ defined('MOODLE_INTERNAL') || die();
 define('SURVEYPRO_GHEIGHT', 500);
 define('SURVEYPRO_GWIDTH' , 800);
 
+/**
+ * fetch_scalesdata
+ *
+ * @param int $surveyproid
+ * @return none
+ */
 function fetch_scalesdata($surveyproid) {
     global $DB;
 
@@ -104,6 +110,12 @@ function fetch_scalesdata($surveyproid) {
     return $iarea;
 }
 
+/**
+ * fetch_summarydata
+ *
+ * @param int $surveyproid
+ * @return none
+ */
 function fetch_summarydata($surveyproid) {
     global $DB;
 

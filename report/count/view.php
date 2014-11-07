@@ -66,9 +66,8 @@ $moduletab = SURVEYPRO_TABSUBMISSIONS; // needed by tabs.php
 $modulepage = SURVEYPRO_SUBMISSION_REPORT; // needed by tabs.php
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
-$hassubmissions = surveypro_count_submissions($surveypro->id);
-$reportman = new mod_surveypro_report_count($cm, $surveypro);
-$reportman->setup($hassubmissions);
+$reportman = new mod_surveypro_report_count($cm, $context, $surveypro);
+$reportman->setup_outputtable();
 
 $reportman->check_submissions();
 $reportman->fetch_data();

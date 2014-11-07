@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'field_autofill', language 'en', branch 'MOODLE_20_STABLE'
+ * Strings for component 'field_autofill', language 'en', branch 'MOODLE_28_STABLE'
  *
  * @package    surveyproreport
  * @subpackage missing

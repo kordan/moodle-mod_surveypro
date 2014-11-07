@@ -15,14 +15,6 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Generator tests.
- *
- * @package    mod_surveypro
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
-/**
  * Generator tests class.
  *
  * @package    mod_surveypro
@@ -31,6 +23,12 @@
  */
 class mod_surveypro_generator_testcase extends advanced_testcase {
 
+    /*
+     * test_create_instance
+     *
+     * @param none
+     * @return none
+     */
     public function test_create_instance() {
         global $DB;
 
@@ -51,6 +49,12 @@ class mod_surveypro_generator_testcase extends advanced_testcase {
         $this->assertEquals('One more surveypro', $DB->get_field('surveypro', 'name', array('id' => $surveypro->id)));
     }
 
+    /*
+     * test_apply_mastertemplate
+     *
+     * @param none
+     * @return none
+     */
     public function test_apply_mastertemplate() {
         global $DB;
 

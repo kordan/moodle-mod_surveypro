@@ -43,15 +43,6 @@ class mod_surveypro_report_missing extends mod_surveypro_reportbase {
     public $outputtable = null;
 
     /**
-     * setup
-     */
-    public function setup($hassubmissions) {
-        $this->hassubmissions = $hassubmissions;
-
-        $this->setup_outputtable();
-    }
-
-    /**
      * setup_outputtable
      */
     public function setup_outputtable() {

@@ -108,7 +108,7 @@ class all_submissions_deleted extends \core\event\base {
      * Custom validation.
      *
      * @throws \coding_exception
-     * @return void
+     * @return none
      */
     protected function validate_data() {
         if (!isset($this->other['cover'])) {

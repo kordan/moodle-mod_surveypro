@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'field_shortdate', language 'en', branch 'MOODLE_20_STABLE'
+ * Strings for component 'field_shortdate', language 'en', branch 'MOODLE_28_STABLE'
  *
  * @package    surveypro
  * @subpackage shortdate
@@ -37,7 +37,6 @@ $string['lowerbound'] = 'Lower bound';
 $string['lowerequaltoupper'] = 'Lower and upper bounds need to be different';
 $string['lowergreaterthanupper'] = 'Lower bound must be lower than upper bound';
 $string['outofrangedefault'] = 'Default does not fall within the specified range';
-$string['parentcontentdateoutofrange_err'] = 'Provided short date is out of the range requested to the choosen item';
 $string['pluginname'] = 'Short date';
 $string['restriction_lower'] = 'Answer is supposed to be greater than {$a}';
 $string['restriction_lowerupper'] = 'Answer is supposed to fit between {$a->lowerbound} and {$a->upperbound}';

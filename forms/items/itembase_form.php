@@ -28,6 +28,12 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 
 class mod_surveypro_itembaseform extends moodleform {
 
+    /*
+     * definition
+     *
+     * @param none
+     * @return none
+     */
     public function definition() {
         global $DB, $CFG;
         // ----------------------------------------
@@ -312,6 +318,12 @@ class mod_surveypro_itembaseform extends moodleform {
         }
     }
 
+    /*
+     * add_item_buttons
+     *
+     * @param none
+     * @return none
+     */
     public function add_item_buttons() {
         global $CFG;
 
@@ -342,6 +354,13 @@ class mod_surveypro_itembaseform extends moodleform {
         }
     }
 
+    /*
+     * validation
+     *
+     * @param $data
+     * @param $files
+     * @return $errors
+     */
     public function validation($data, $files) {
         global $CFG, $DB;
 
@@ -354,7 +373,7 @@ class mod_surveypro_itembaseform extends moodleform {
         // if (default == noanswer) but item is required => error
         if ( isset($data['defaultvalue_check']) && isset($data['required']) ) {
             $a = get_string('noanswer', 'surveypro');
-            $errors['defaultvaluegroup'] = get_string('notalloweddefault', 'surveypro', $a);
+            $errors['defaultvalue_group'] = get_string('notalloweddefault', 'surveypro', $a);
         }
 
         if (empty($data['parentid']) && empty($data['parentcontent'])) {

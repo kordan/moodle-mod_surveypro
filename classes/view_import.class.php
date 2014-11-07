@@ -72,7 +72,8 @@ class mod_surveypro_importmanager {
     /**
      * trigger_event
      *
-     * @return void
+     * @param none
+     * @return none
      */
     public function trigger_event() {
         $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
@@ -83,6 +84,7 @@ class mod_surveypro_importmanager {
     /**
      * welcome_message
      *
+     * @param none
      * @return null
      */
     public function welcome_message() {
@@ -110,6 +112,7 @@ class mod_surveypro_importmanager {
     /**
      * get_csv_content
      *
+     * @param none
      * @return csv content
      */
     public function get_csv_content() {
@@ -121,6 +124,7 @@ class mod_surveypro_importmanager {
     /**
      * get_uniqueness_columns
      *
+     * @param $foundheaders
      * @return false or the duplicate header
      */
     public function verify_header_duplication($foundheaders) {
@@ -139,6 +143,7 @@ class mod_surveypro_importmanager {
     /**
      * get_survey_infos
      *
+     * @param none
      * @return $surveyheaders and $requireditems
      */
     public function get_survey_infos() {
@@ -185,10 +190,9 @@ class mod_surveypro_importmanager {
     /**
      * verify_required
      *
-     * $foundheaders
-     * $surveyheaders
-     * $requireditems
-     *
+     * @param $requireditems
+     * @param $columntoitemid
+     * @param $surveyheaders
      * @return false or the missing required header
      */
     public function verify_required($requireditems, $columntoitemid, $surveyheaders) {
@@ -206,7 +210,6 @@ class mod_surveypro_importmanager {
      * verify_attachments_import
      *
      * @param $foundheaders
-     *
      * @return [array extraheadres|bool false]
      */
     public function verify_attachments_import($foundheaders) {
@@ -248,6 +251,8 @@ class mod_surveypro_importmanager {
      * $foundheaders
      * $surveyheaders
      *
+     * @param $foundheaders
+     * @param $surveyheaders
      * @return array $columntoitemid
      * @return array $nonmatchingheaders
      * @return int   $useridcolumnkey
@@ -276,9 +281,8 @@ class mod_surveypro_importmanager {
     /**
      * get_items_helperinfo
      *
-     * $columntoitemid
-     * $useridcolumnkey
-     *
+     * @param $columntoitemid
+     * @param $useridcolumnkey
      * @return $itemhelperinfo (one $itemhelperinfo per each item)
      * @return $itemoptions (one $itemoptions only each items with $info->savepositiontodb = 1)
      */

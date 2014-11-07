@@ -28,6 +28,12 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 
 class mod_surveypro_utemplatecreateform extends moodleform {
 
+    /*
+     * definition
+     *
+     * @param none
+     * @return none
+     */
     public function definition() {
         // ----------------------------------------
         $mform = $this->_form;
@@ -85,6 +91,12 @@ class mod_surveypro_utemplatecreateform extends moodleform {
         $this->add_action_buttons(false, get_string('continue'));
     }
 
+    /*
+     * get_data
+     *
+     * @param none
+     * @return none
+     */
     public function get_data() {
         $data = parent::get_data();
         if (!$data) {
@@ -101,9 +113,17 @@ class mod_surveypro_utemplatecreateform extends moodleform {
         return $data;
     }
 
+    /*
+     * validation
+     *
+     * @param $data
+     * @param $files
+     * @return $errors
+     */
     public function validation($data, $files) {
         $mform = $this->_form;
 
+        // ----------------------------------------
         $cmid = $this->_customdata->cmid;
         $surveypro = $this->_customdata->surveypro;
         $utemplateman = $this->_customdata->utemplateman;

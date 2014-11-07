@@ -70,7 +70,3 @@ $string['ierr_patternisempty'] = 'pattern is missing';
 $string['ierr_defaultisnotemail'] = 'Default does not math email pattern';
 $string['ierr_defaultisnoturl'] = 'Default does not appear a valid URL';
 $string['ierr_defaultbadlength'] = 'Default is not {$a} character long as implicitly declared in the pattern';
-
-$string['parentcontent_isnotemail'] = 'Parentcontent does not math email pattern';
-$string['parentcontent_isnoturl'] = 'Parentcontent does not appear a valid URL';
-$string['parentcontent_nomatchingpattern'] = 'Parentcontent does not match the required pattern';

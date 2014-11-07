@@ -159,7 +159,7 @@ class mod_surveypro_field_numeric extends mod_surveypro_itembase {
      * @return
      */
     public function item_load($itemid, $evaluateparentcontent) {
-        // Do parent item loading stuff here (surveypro_itembase::item_load($itemid)))
+        // Do parent item loading stuff here (mod_surveypro_itembase::item_load($itemid, $evaluateparentcontent)))
         parent::item_load($itemid, $evaluateparentcontent);
 
         // float numbers need more attention because I can write them using , or .
@@ -217,7 +217,7 @@ class mod_surveypro_field_numeric extends mod_surveypro_itembase {
         }
         // end of: plugin specific settings (eventally overriding general ones)
 
-        // Do parent item saving stuff here (surveypro_itembase::item_save($record)))
+        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record)))
         return parent::item_save($record);
     }
 
@@ -294,6 +294,7 @@ class mod_surveypro_field_numeric extends mod_surveypro_itembase {
      * item_get_multilang_fields
      * make the list of multilang plugin fields
      *
+     * @param none
      * @return array of felds
      */
     public function item_get_multilang_fields() {
@@ -473,6 +474,7 @@ EOS;
     /**
      * userform_get_filling_instructions
      *
+     * @param none
      * @return string $fillinginstruction
      */
     public function userform_get_filling_instructions() {

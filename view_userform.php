@@ -62,7 +62,7 @@ $userformman->surveypro_add_custom_css();
 
 // redirect if no items were created and you are supposed to create them
 if ($userformman->canaccessadvanceditems) {
-    if (!$userformman->count_input_items()) {
+    if (!$userformman->hasinputitems) {
         if (($formpage == 0) || ($formpage == 1)) {
             $paramurl = array('id' => $cm->id);
             $returnurl = new moodle_url('/mod/surveypro/items_manage.php', $paramurl);
@@ -181,7 +181,7 @@ require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 // -----------------------------
 // if surveypro is without items, alert and stop
 if (!$userformman->canaccessadvanceditems) {
-    if (!$userformman->count_input_items()) {
+    if (!$userformman->hasinputitems) {
         $userformman->noitem_stopexecution();
     }
 }

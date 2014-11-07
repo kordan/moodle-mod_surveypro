@@ -29,6 +29,8 @@ class mod_surveypro_template_criticalincidents {
      *
      * @param $tablename
      * @param $record
+     * @param $config
+     * @return tablename
      * @return record
      */
     public function apply_template_settings($tablename, $record, $config) {

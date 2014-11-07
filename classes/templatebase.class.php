@@ -267,7 +267,7 @@ class mod_surveypro_templatebase {
      * items_deletion
      *
      * @param records $pluginseeds
-     *
+     * @param records $parambase
      * @return null
      */
     public function items_deletion($pluginseeds, $parambase) {
@@ -295,7 +295,7 @@ class mod_surveypro_templatebase {
     /**
      * apply_template
      *
-     * @param $templatetype
+     * @param none
      * @return null
      */
     public function apply_template() {
@@ -329,7 +329,8 @@ class mod_surveypro_templatebase {
             // before continuing
             if ($action != SURVEYPRO_DELETEALLITEMS) {
                 // dispose assignemnt of pages
-                $DB->set_field('surveypro_item', 'formpage', 0, array('surveyproid' => $this->surveypro->id));
+                // $DB->set_field('surveypro_item', 'formpage', 0, array('surveyproid' => $this->surveypro->id));
+                surveypro_reset_items_pages($this->surveypro->id);
             }
         } else {
             $action = SURVEYPRO_DELETEALLITEMS;
@@ -414,6 +415,7 @@ class mod_surveypro_templatebase {
     /**
      * friendly_stop
      *
+     * @param none
      * @return null
      */
     public function friendly_stop() {
@@ -673,7 +675,7 @@ class mod_surveypro_templatebase {
     /**
      * get_plugin_versiondisk
      *
-     * @param null
+     * @param none
      * @return versions of each field|format item plugin
      */
     public function get_plugin_versiondisk() {

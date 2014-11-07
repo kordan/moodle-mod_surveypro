@@ -70,7 +70,7 @@ class mod_surveypro_report_uploadformmanager {
      * @param $itemid
      * @param $submissionid
      */
-    public function __construct($cm, $context, $surveypro, $userid, $itemid, $submissionid) {
+    public function __construct($cm, $context, $surveypro) {
         $this->cm = $cm;
         $this->context = $context;
         $this->surveypro = $surveypro;
@@ -80,6 +80,38 @@ class mod_surveypro_report_uploadformmanager {
 
         // $this->canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
         $this->canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $this->context, null, true);
+    }
+
+    // MARK set
+
+    /**
+     * set_userid
+     *
+     * @param string $userid
+     * @return none
+     */
+    public function set_userid($userid) {
+        $this->userid = $userid;
+    }
+
+    /**
+     * set_itemid
+     *
+     * @param string $itemid
+     * @return none
+     */
+    public function set_itemid($itemid) {
+        $this->itemid = $itemid;
+    }
+
+    /**
+     * set_submissionid
+     *
+     * @param string $submissionid
+     * @return none
+     */
+    public function set_submissionid($submissionid) {
+        $this->submissionid = $submissionid;
     }
 
     /**

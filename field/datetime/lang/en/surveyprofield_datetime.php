@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'field_datetime', language 'en', branch 'MOODLE_20_STABLE'
+ * Strings for component 'field_datetime', language 'en', branch 'MOODLE_28_STABLE'
  *
  * @package    surveypro
  * @subpackage datetime
@@ -43,9 +43,6 @@ $string['lowerequaltoupper'] = 'Lower and upper bounds need to be different';
 $string['lowergreaterthanupper'] = 'Lower bound must be lower than upper bound';
 $string['oneminute'] = 'one minute';
 $string['outofrangedefault'] = 'Default does not fall within the specified range';
-$string['parentcontentdateoutofrange_err'] = 'Provided date anf time is out of the range requested to the choosen item';
-$string['parentcontentinvaliddate_err'] = 'Provided data is not a regular date';
-$string['parentcontentinvalidtime_err'] = 'Provided data is not a regular time';
 $string['pluginname'] = 'Date and time';
 $string['restriction_lower'] = 'Answer is supposed to be greater-equal than {$a}';
 $string['restriction_lowerupper'] = 'Answer is supposed to fit between {$a->lowerbound} and {$a->upperbound}';

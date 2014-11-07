@@ -106,7 +106,7 @@ $moduletab = SURVEYPRO_TABSUBMISSIONS; // needed by tabs.php
 $modulepage = SURVEYPRO_SUBMISSION_SEARCH; // needed by tabs.php
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
-if (!$searchman->count_search_items()) {
+if (!$searchman->has_search_items()) {
     $searchman->noitem_stopexecution();
 } else {
     $searchform->display();

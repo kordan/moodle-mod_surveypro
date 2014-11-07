@@ -82,7 +82,8 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     /**
      * set_utemplateid
      *
-     * @return void
+     * @param $utemplateid
+     * @return none
      */
     public function set_utemplateid($utemplateid) {
         $this->utemplateid = $utemplateid;
@@ -91,7 +92,8 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     /**
      * set_action
      *
-     * @return void
+     * @param $action
+     * @return none
      */
     public function set_action($action) {
         $this->action = $action;
@@ -100,7 +102,8 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     /**
      * set_view
      *
-     * @return void
+     * @param $view
+     * @return none
      */
     public function set_view($view) {
         $this->view = $view;
@@ -109,7 +112,8 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     /**
      * set_confirm
      *
-     * @return void
+     * @param $confirm
+     * @return none
      */
     public function set_confirm($confirm) {
         $this->confirm = $confirm;
@@ -120,6 +124,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     /**
      * get_filemanager_options
      *
+     * @param none
      * @return $filemanageroptions
      */
     public function get_filemanager_options() {
@@ -221,7 +226,8 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     /**
      * get_sharinglevel_options
      *
-     * @return null
+     * @param none
+     * @return $options
      */
     public function get_sharinglevel_options() {
         global $DB, $COURSE, $USER, $SITE;
@@ -280,8 +286,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     /**
      * Gets an array of all of the templates that users have saved to the site.
      *
-     * @param stdClass $context The context that we are looking from.
-     * @param array $templates
+     * @param stdClass $context The context that we are looking for.
      * @return array An array of templates
      */
     public function get_available_templates($contextid) {
@@ -339,6 +344,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     /**
      * welcome_message
      *
+     * @param none
      * @return none
      */
     public function welcome_message() {
@@ -366,6 +372,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      * but check_items_versions uses $this->nonmatchingplugin that, I think,
      * is mostly useless in master templates
      *
+     * @param none
      * @return none
      */
     public function check_items_versions() {
@@ -422,6 +429,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     /**
      * upload_utemplate
      *
+     * @param none
      * @return null
      */
     public function upload_utemplate() {
@@ -719,6 +727,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     /**
      * delete_utemplate
      *
+     * @param none
      * @return null
      */
     public function delete_utemplate() {
@@ -769,6 +778,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     /**
      * prevent_direct_user_input
      *
+     * @param none
      * @return null
      */
     public function prevent_direct_user_input() {
@@ -791,7 +801,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      * trigger_event
      *
      * @param string $event: event to trigger
-     * @return void
+     * @return none
      */
     public function trigger_event($event) {
         $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);

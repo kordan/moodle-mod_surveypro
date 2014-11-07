@@ -49,6 +49,11 @@ class mod_surveypro_userformmanager {
     public $submissionid = 0;
 
     /**
+     * $hasinputitems
+     */
+    public $hasinputitems = false;
+
+    /**
      * $formpage: the form page as recalculated according to the first non empty page
      * do not confuse this properties with $this->formdata->formpage
      */
@@ -128,6 +133,7 @@ class mod_surveypro_userformmanager {
         $this->cm = $cm;
         $this->context = $context;
         $this->surveypro = $surveypro;
+        $this->hasinputitems = $this->has_input_items();
 
         // $this->canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
         $this->canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $this->context, null, true);
@@ -150,7 +156,8 @@ class mod_surveypro_userformmanager {
     /**
      * set_submissionid
      *
-     * @return void
+     * @param $submissionid
+     * @return none
      */
     public function set_submissionid($submissionid) {
         $this->submissionid = $submissionid;
@@ -159,17 +166,19 @@ class mod_surveypro_userformmanager {
     /**
      * set_view
      *
-     * @return void
+     * @param $view
+     * @return none
      */
     public function set_view($view) {
         $this->view = $view;
-        $this->set_page_from_view();
+        $this->set_tabs_params();
     }
 
     /**
      * set_formpage
      *
-     * @return void
+     * @param $formpage
+     * @return none
      */
     public function set_formpage($formpage) {
         if ($this->view === null) {
@@ -304,12 +313,12 @@ class mod_surveypro_userformmanager {
     }
 
     /**
-     * set_page_from_view
+     * set_tabs_params
      *
      * @param none
      * @return
      */
-    public function set_page_from_view() {
+    public function set_tabs_params() {
         switch ($this->view) {
             case SURVEYPRO_NOVIEW:
                 $this->moduletab = SURVEYPRO_TABSUBMISSIONS; // needed by tabs.php
@@ -656,6 +665,7 @@ class mod_surveypro_userformmanager {
     /**
      * save_surveypro_submission
      *
+     * @param none
      * @return surveypro_submission record
      */
     public function save_surveypro_submission() {
@@ -834,26 +844,23 @@ class mod_surveypro_userformmanager {
     }
 
     /**
-     * count_input_items as opposed to "count_search_items"
+     * has_input_items as opposed to "has_search_items"
      *
      * @param none
      * @return
      */
-    public function count_input_items() {
+    public function has_input_items() {
         global $DB;
 
-        if (empty($this->formpage)) {
-            $whereparams = array('surveyproid' => $this->surveypro->id);
-            $whereclause = 'surveyproid = :surveyproid AND hidden = 0';
-        } else {
-            $whereparams = array('surveyproid' => $this->surveypro->id, 'formpage' => $this->formpage);
-            $whereclause = 'surveyproid = :surveyproid AND hidden = 0 AND formpage = :formpage';
+        $whereparams = array('surveyproid' => $this->surveypro->id, 'hidden' => 0);
+        if (!empty($this->formpage)) {
+            $whereparams['formpage'] = $this->formpage;
         }
         if (!$this->canaccessadvanceditems) {
-            $whereclause .= ' AND advanced = 0';
+            $whereclause['advanced'] = 0;
         }
 
-        return $DB->count_records_select('surveypro_item', $whereclause, $whereparams);
+        return ($DB->count_records('surveypro_item', $whereparams) > 0);
     }
 
     /**
@@ -1314,7 +1321,8 @@ class mod_surveypro_userformmanager {
     /**
      * trigger_event
      *
-     * @return void
+     * @param $view
+     * @return none
      */
     public function trigger_event($view) {
         switch ($view) {

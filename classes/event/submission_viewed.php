@@ -109,7 +109,7 @@ class submission_viewed extends \core\event\base {
      * Custom validation.
      *
      * @throws \coding_exception
-     * @return void
+     * @return none
      */
     protected function validate_data() {
         if (!isset($this->other['view'])) {

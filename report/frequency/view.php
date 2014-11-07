@@ -53,8 +53,8 @@ require_capability('mod/surveypro:accessreports', $context);
 // calculations
 // -----------------------------
 $hassubmissions = surveypro_count_submissions($surveypro->id);
-$reportman = new mod_surveypro_report_frequency($cm, $surveypro);
-$reportman->setup($hassubmissions);
+$reportman = new mod_surveypro_report_frequency($cm, $context, $surveypro);
+$reportman->setup_outputtable();
 
 // -----------------------------
 // stop here if only textareas are in the surveypro

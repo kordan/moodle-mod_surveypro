@@ -39,31 +39,17 @@ class mod_surveypro_reportbase {
     public $surveypro = null;
 
     /**
-     * $coursecontext: the record of this surveypro
-     */
-    public $coursecontext = null;
-
-    /**
      * $hassubmissions: the record of this surveypro
      */
     public $hassubmissions = false;
 
     /**
-     * $canaccessownreports
-     */
-    public $canaccessownreports = false;
-
-    /**
      * Class constructor
      */
-    public function __construct($cm, $surveypro) {
-        global $COURSE;
-
+    public function __construct($cm, $context, $surveypro) {
         $this->cm = $cm;
-        $this->coursecontext = context_course::instance($COURSE->id);
+        $this->context = $context;
         $this->surveypro = $surveypro;
-        $this->canaccessreports = has_capability('mod/surveypro:accessreports', $this->coursecontext, null, true);
-        $this->canaccessownreports = has_capability('mod/surveypro:accessownreports', $this->coursecontext, null, true);
     }
 
     /**
@@ -81,14 +67,17 @@ class mod_surveypro_reportbase {
     }
 
     /**
-     * does_report_apply
+     * report_apply
      */
-    public function does_report_apply() {
+    public function report_apply() {
         return true;
     }
 
     /**
      * get_childreports
+     *
+     * @param bool $canaccessreports
+     * @return none
      */
     public function get_childreports($canaccessreports) {
         return false;

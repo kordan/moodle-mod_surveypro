@@ -33,36 +33,25 @@ require_once($CFG->dirroot.'/mod/surveypro/classes/reportbase.class.php');
 
 class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase {
     /**
-     * coursecontext
-     */
-    public $coursecontext = null;
-
-    /**
      * outputtable
      */
     public $outputtable = null;
 
     /**
-     * Class constructor
+     * report_apply
      *
-     * @param $cm
-     * @param $surveypro
+     * @param none
+     * @return none
      */
-    public function __construct($cm, $surveypro) {
-        parent::__construct($cm, $surveypro);
-
-        $this->setup_outputtable();
-    }
-
-    /**
-     * does_report_apply
-     */
-    public function does_report_apply() {
+    public function report_apply() {
         return (!$this->surveypro->anonymous);
     }
 
     /**
      * setup_outputtable
+     *
+     * @param none
+     * @return none
      */
     public function setup_outputtable() {
         $this->outputtable = new flexible_table('attachmentslist');
@@ -107,11 +96,14 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
 
     /**
      * fetch_data
+     *
+     * @param none
+     * @return none
      */
     public function fetch_data() {
         global $CFG, $DB, $COURSE, $OUTPUT;
 
-        $roles = get_roles_used_in_context($this->coursecontext);
+        $roles = get_roles_used_in_context($this->context);
         if (!$role = array_keys($roles)) {
             // return nothing
             return;
@@ -125,7 +117,7 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
                 FROM {user} u
                 JOIN (SELECT id, userid
                         FROM {role_assignments}
-                        WHERE contextid = '.$this->coursecontext->id.'
+                        WHERE contextid = '.$this->context->id.'
                           AND roleid IN ('.implode(',', $role).')) ra ON u.id = ra.userid
                 LEFT JOIN (SELECT id, userid
                          FROM {surveypro_submission}
@@ -177,6 +169,9 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
 
     /**
      * output_data
+     *
+     * @param none
+     * @return none
      */
     public function output_data() {
         global $OUTPUT;
@@ -187,6 +182,9 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
 
     /**
      * check_attachmentitems
+     *
+     * @param none
+     * @return none
      */
     public function check_attachmentitems() {
         global $OUTPUT, $DB;
@@ -208,7 +206,10 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
     }
 
     /**
-     * check_attachmentitems
+     * prevent_direct_user_input
+     *
+     * @param none
+     * @return none
      */
     public function prevent_direct_user_input() {
         if ($this->surveypro->anonymous) {

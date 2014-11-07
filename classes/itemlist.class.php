@@ -123,7 +123,7 @@ class mod_surveypro_itemlist {
      * drop_multilang
      *
      * @param none
-     * @return void
+     * @return none
      */
     public function drop_multilang() {
         if ($this->surveypro->template) {
@@ -137,7 +137,8 @@ class mod_surveypro_itemlist {
     /**
      * trigger_event
      *
-     * @return void
+     * @param $itemcount
+     * @return none
      */
     public function trigger_event($itemcount) {
         if (!empty($itemcount)) {
@@ -292,7 +293,6 @@ class mod_surveypro_itemlist {
         $hidetitle = get_string('hidefield', 'surveypro');
         $showtitle = get_string('showfield', 'surveypro');
         $deletetitle = get_string('delete');
-        $multilangtitle = get_string('multilang', 'surveypro');
         $indenttitle = get_string('indent', 'surveypro');
         $moveheretitle = get_string('movehere');
         $namenotset = get_string('namenotset', 'surveypro');
@@ -602,7 +602,7 @@ class mod_surveypro_itemlist {
             // print_object($item);
             if ($this->view == SURVEYPRO_CHANGEORDERASK) {
                 // It was asked to move the item with:
-                // $this->itemid e $this->parentid
+                // $this->itemid and $this->parentid
                 if ($this->parentid) { // <-- this is the parentid of the item that I am going to move
                     // if a parentid is foreseen
                     // draw the moveherebox only if the current (already displayed) item has: $item->itemid == $this->parentid
@@ -642,6 +642,7 @@ class mod_surveypro_itemlist {
 
     /**
      * add_child_node
+     *
      * @param &$nodelist
      * @param &$sortindexnodelist
      * @param $additionalcondition
@@ -669,6 +670,7 @@ class mod_surveypro_itemlist {
 
     /**
      * add_parent_node
+     *
      * @param $additionalcondition
      * @return
      */
@@ -837,6 +839,8 @@ class mod_surveypro_itemlist {
      * the idea is: in a chain of parent-child items,
      *     -> items available to each user (standard items) can be parent of item available to each user such as item with limited access (advanced)
      *     -> item with limited access (advanced) can ONLY BE parent of items with limited access (advanced)
+     *
+     * @param none
      * @return
      */
     public function manage_item_makeadvanced() {
@@ -898,6 +902,7 @@ class mod_surveypro_itemlist {
                     debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->confirm = '.$this->confirm, DEBUG_DEVELOPER);
             }
         }
+
         return $itemstoprocess; // did you do something?
     }
 
@@ -989,7 +994,7 @@ class mod_surveypro_itemlist {
             if ($childitems = $DB->get_records('surveypro_item', array('parentid' => $this->itemid), 'sortindex', 'sortindex')) { // sortindex is suposed to be a valid key
                 $childitems = array_keys($childitems);
                 $nodes = implode(', ', $childitems);
-                $message .= get_string('deletebreaklinks', 'surveypro', $nodes);
+                $message .= get_string('deletionbreakslinks', 'surveypro', $nodes);
                 $labelyes = get_string('confirmitemsdeletion', 'surveypro');
             } else {
                 $labelyes = get_string('yes');
@@ -1054,7 +1059,7 @@ class mod_surveypro_itemlist {
                     } else {
                         $message = get_string('itemdeleted', 'surveypro', $a);
                     }
-                    echo $OUTPUT->box($message, 'notice centerpara');
+                    echo $OUTPUT->notification($message, 'notifysuccess');
                     break;
                 case SURVEYPRO_CONFIRMED_NO:
                     $message = get_string('usercanceled', 'surveypro');
@@ -1195,7 +1200,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * reorder_items
+     * validate_relations
      *
      * @param none
      * @return
@@ -1476,6 +1481,7 @@ class mod_surveypro_itemlist {
     /**
      * prevent_direct_user_input
      *
+     * @param none
      * @return null
      */
     public function prevent_direct_user_input() {
@@ -1489,7 +1495,8 @@ class mod_surveypro_itemlist {
     /**
      * set_typeplugin
      *
-     * @return void
+     * @param $typeplugin
+     * @return none
      */
     public function set_typeplugin($typeplugin) {
         if (preg_match('~^('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_(\w+)$~', $typeplugin, $match)) {
@@ -1504,7 +1511,8 @@ class mod_surveypro_itemlist {
     /**
      * set_type
      *
-     * @return void
+     * @param $type
+     * @return none
      */
     public function set_type($type) {
         $this->type = $type;
@@ -1513,7 +1521,8 @@ class mod_surveypro_itemlist {
     /**
      * set_plugin
      *
-     * @return void
+     * @param $plugin
+     * @return none
      */
     public function set_plugin($plugin) {
         $this->plugin = $plugin;
@@ -1523,7 +1532,7 @@ class mod_surveypro_itemlist {
      * set_itemid
      *
      * @param string $itemid
-     * @return nothing
+     * @return none
      */
     public function set_itemid($itemid) {
         $this->itemid = $itemid;
@@ -1533,7 +1542,7 @@ class mod_surveypro_itemlist {
      * set_action
      *
      * @param string $action
-     * @return nothing
+     * @return none
      */
     public function set_action($action) {
         $this->action = $action;
@@ -1543,7 +1552,7 @@ class mod_surveypro_itemlist {
      * set_view
      *
      * @param string $view
-     * @return nothing
+     * @return none
      */
     public function set_view($view) {
         $this->view = $view;
@@ -1553,7 +1562,7 @@ class mod_surveypro_itemlist {
      * set_lastitembefore
      *
      * @param string $lastitembefore
-     * @return nothing
+     * @return none
      */
     public function set_lastitembefore($lastitembefore) {
         $this->lastitembefore = $lastitembefore;
@@ -1563,7 +1572,7 @@ class mod_surveypro_itemlist {
      * set_confirm
      *
      * @param string $confirm
-     * @return nothing
+     * @return none
      */
     public function set_confirm($confirm) {
         $this->confirm = $confirm;
@@ -1573,7 +1582,7 @@ class mod_surveypro_itemlist {
      * set_nextindent
      *
      * @param string $nextindent
-     * @return nothing
+     * @return none
      */
     public function set_nextindent($nextindent) {
         $this->nextindent = $nextindent;
@@ -1583,7 +1592,7 @@ class mod_surveypro_itemlist {
      * set_parentid
      *
      * @param string $parentid
-     * @return nothing
+     * @return none
      */
     public function set_parentid($parentid) {
         $this->parentid = $parentid;
@@ -1593,7 +1602,7 @@ class mod_surveypro_itemlist {
      * set_userfeedback
      *
      * @param string $userfeedback
-     * @return nothing
+     * @return none
      */
     public function set_userfeedback($userfeedback) {
         $this->userfeedback = $userfeedback;
@@ -1603,7 +1612,7 @@ class mod_surveypro_itemlist {
      * set_itemtomove
      *
      * @param string $itemtomove
-     * @return nothing
+     * @return none
      */
     public function set_itemtomove($itemtomove) {
         $this->itemtomove = $itemtomove;
@@ -1613,7 +1622,7 @@ class mod_surveypro_itemlist {
      * set_saveasnew
      *
      * @param string $saveasnew
-     * @return nothing
+     * @return none
      */
     public function set_saveasnew($saveasnew) {
         $this->saveasnew = $saveasnew;

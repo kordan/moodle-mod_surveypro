@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'field_numeric', language 'en', branch 'MOODLE_20_STABLE'
+ * Strings for component 'field_numeric', language 'en', branch 'MOODLE_28_STABLE'
  *
  * @package    surveypro
  * @subpackage numeric
@@ -46,8 +46,6 @@ $string['lowerequaltoupper'] = 'Lower and upper bounds need to be different';
 $string['number'] = 'Number ';
 $string['outofexternalrangedefault'] = 'Default does not fall within the specified range (see "{$a}" help)';
 $string['outofrangedefault'] = 'Default does not fall within the specified range';
-$string['parentcontent_isnotanumber'] = 'Parent content is not a number';
-$string['parentformatdecimal'] = '[12345{$a}67]';
 $string['pluginname'] = 'Numeric';
 $string['restriction_hasdecimals'] = 'has {$a} decimal positions required';
 $string['restriction_hassign'] = 'can be negative';

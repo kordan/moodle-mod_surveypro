@@ -38,15 +38,6 @@ class mod_surveypro_report_frequency extends mod_surveypro_reportbase {
     public $outputtable = null;
 
     /**
-     * setup
-     */
-    public function setup($hassubmissions) {
-        $this->hassubmissions = $hassubmissions;
-
-        $this->setup_outputtable();
-    }
-
-    /**
      * setup_outputtable
      */
     public function setup_outputtable() {
@@ -206,7 +197,7 @@ class mod_surveypro_report_frequency extends mod_surveypro_reportbase {
     }
 
     /**
-     * @param string $url
+     * @param string $graphurl
      * @return none
      */
     public function print_graph($graphurl) {

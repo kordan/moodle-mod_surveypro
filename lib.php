@@ -316,7 +316,7 @@ function surveypro_update_instance($surveypro, $mform) {
  * surveypro_pre_process_checkboxes
  *
  * @param object $surveypro Surveypro record
- * @return void
+ * @return none
  */
 function surveypro_pre_process_checkboxes($surveypro) {
     $checkboxes = array('newpageforchild', 'history', 'saveresume', 'anonymous', 'notifyteachers');
@@ -362,17 +362,11 @@ function surveypro_delete_instance($id) {
     foreach ($surveyprotypes as $surveyprotype) {
         $pluginlist = surveypro_get_plugin_list($surveyprotype);
 
-        // delete all associated item_<<plugin>>
+        // delete all associated item<<$surveyprotype>>_<<plugin>>
         foreach ($pluginlist as $plugin) {
             $tablename = 'surveypro'.$surveyprotype.'_'.$plugin;
             if ($dbman->table_exists($tablename)) {
-                $whereparams['plugin'] = $plugin;
-
-                if ($deletelist = $DB->get_records('surveypro_item', $whereparams, 'id', 'id')) {
-                    $deletelist = array_keys($deletelist);
-                    $select = 'itemid IN ('.implode(',', $deletelist).')';
-                    $DB->delete_records_select($tablename, $select);
-                }
+                $deletelist = $DB->delete_records($tablename, $whereparams);
             }
         }
     }
@@ -468,7 +462,7 @@ function surveypro_user_outline($course, $user, $mod, $surveypro) {
  * @param stdClass $user the record of the user we are generating report for
  * @param cm_info $mod course module info
  * @param stdClass $surveypro the module instance record
- * @return void, is supposed to echp directly
+ * @return none, is supposed to echp directly
  */
 function surveypro_user_complete($course, $user, $mod, $surveypro) {
     return true;
@@ -499,7 +493,7 @@ function surveypro_print_recent_activity($course, $viewfullnames, $timestart) {
  * @param int $cmid course module id
  * @param int $userid check for a particular user's activity only, defaults to 0 (all users)
  * @param int $groupid check for a particular group's activity only, defaults to 0 (all groups)
- * @return void adds items into $activities and increases $index
+ * @return none adds items into $activities and increases $index
  */
 function surveypro_get_recent_mod_activity(&$activities, &$index, $timestart, $courseid, $cmid, $userid=0, $groupid=0) {
 }
@@ -507,7 +501,7 @@ function surveypro_get_recent_mod_activity(&$activities, &$index, $timestart, $c
 /**
  * Prints single activity item prepared by {@see surveypro_get_recent_mod_activity()}
  *
- * @return void
+ * @return none
  */
 function surveypro_print_recent_mod_activity($activity, $courseid, $detail, $modnames, $viewfullnames) {
 }
@@ -630,7 +624,7 @@ function surveypro_scale_used_anywhere($scaleid) {
  * Needed by grade_update_mod_grades() in lib/gradelib.php
  *
  * @param stdClass $surveypro instance object with extra cmidnumber and modname property
- * @return void
+ * @return none
  */
 // I will take comments out when I will understand why this method is called
 // function surveypro_grade_item_update(stdClass $surveypro) {
@@ -654,7 +648,7 @@ function surveypro_scale_used_anywhere($scaleid) {
  *
  * @param stdClass $surveypro instance object with extra cmidnumber and modname property
  * @param int $userid update grade of specific user only, 0 means all participants
- * @return void
+ * @return none
  */
 function surveypro_update_grades(stdClass $surveypro, $userid = 0) {
     global $CFG;
@@ -695,7 +689,7 @@ function surveypro_get_file_areas($course, $cm, $context) {
  * @param string $filearea
  * @param array $args
  * @param bool $forcedownload
- * @return void this should never return to the caller
+ * @return none this should never return to the caller
  */
 function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload) {
     global $CFG;
@@ -865,20 +859,19 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
     }
 
     // SURVEYPRO_TABMTEMPLATES
-    // if ($canapplymastertemplates && empty($surveypro->template)) {
-    $condition = $cansavemastertemplates;
-    $condition = $condition || ((!$hassubmissions || $riskyediting) && $canapplymastertemplates);
-    if ($condition) {
+    $condition1 = $cansavemastertemplates && empty($surveypro->template);
+    $condition2 = (!$hassubmissions || $riskyediting) && $canapplymastertemplates;
+    if ($condition1 || $condition2) {
         // -> parent
         $nodelabel = get_string('tabmtemplatename', 'surveypro');
         $navnode = $surveypronode->add($nodelabel, null, navigation_node::TYPE_CONTAINER);
 
         // -> children
-        if ($cansavemastertemplates && empty($surveypro->template)) {
+        if ($condition1) {
             $nodelabel = get_string('tabmtemplatepage1', 'surveypro');
             $navnode->add($nodelabel, new moodle_url('/mod/surveypro/mtemplates_create.php', $paramurlbase), navigation_node::TYPE_SETTING);
         }
-        if ( (!$hassubmissions || $riskyediting) && $canapplymastertemplates ) {
+        if ($condition2) {
             $nodelabel = get_string('tabmtemplatepage2', 'surveypro');
             $navnode->add($nodelabel, new moodle_url('/mod/surveypro/mtemplates_apply.php', $paramurlbase), navigation_node::TYPE_SETTING);
         }
@@ -891,13 +884,13 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
         foreach ($surveyproreportlist as $pluginname => $pluginpath) {
             require_once($CFG->dirroot.'/mod/surveypro/report/'.$pluginname.'/classes/report.class.php');
             $classname = 'mod_surveypro_report_'.$pluginname;
-            $reportman = new $classname($cm, $surveypro);
+            $reportman = new $classname($cm, $context, $surveypro);
 
             $restricttemplates = $reportman->restrict_templates();
 
             if ((!$restricttemplates) || in_array($surveypro->template, $restricttemplates)) {
                 if ($canaccessreports || ($reportman->has_student_report() && $canaccessownreports)) {
-                    if ($reportman->does_report_apply()) {
+                    if ($reportman->report_apply()) {
                         if (!isset($reportnode)) {
                             $nodelabel = get_string('report');
                             $reportnode = $surveypronode->add($nodelabel, null, navigation_node::TYPE_CONTAINER);
@@ -1059,6 +1052,7 @@ function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=
 /**
  * surveypro_fetch_items_seeds
  *
+ * @param $surveyproid
  * @param $canaccessadvanceditems
  * @param $searchform
  * @param $type

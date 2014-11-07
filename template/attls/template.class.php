@@ -31,6 +31,8 @@ class mod_surveypro_template_attls {
      *
      * @param $tablename
      * @param $record
+     * @param $config
+     * @return tablename
      * @return record
      */
     public function apply_template_settings($tablename, $record, $config) {
@@ -38,7 +40,7 @@ class mod_surveypro_template_attls {
             $record['position'] = "$config->position";
         }
 
-        if ($config->itemstyle == SURVEYPROTEMPLATE_ATTLSUSESELECT) {
+        if ($config->useritem == SURVEYPROTEMPLATE_ATTLSUSESELECT) {
             if ($record['plugin'] == 'radiobutton') {
                 $record['plugin'] = 'select';
             }

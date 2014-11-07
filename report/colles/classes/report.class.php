@@ -32,6 +32,16 @@ require_once($CFG->dirroot.'/mod/surveypro/classes/reportbase.class.php');
 
 class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     /**
+     * canaccessreports
+     */
+    public $canaccessreports;
+
+    /**
+     * canaccessownreports
+     */
+    public $canaccessownreports;
+
+    /**
      * template
      */
     public $template;
@@ -45,6 +55,11 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
      * sid
      */
     public $area = 0;
+
+    /**
+     * templateuseritem
+     */
+    public $templateuseritem = '';
 
     /**
      * qid
@@ -102,21 +117,64 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     public $iarea;
 
     /**
-     * setup
+     * Class constructor
      */
-    public function setup($hassubmissions, $group, $area, $qid) {
+    public function __construct($cm, $context, $surveypro) {
         global $DB;
 
+        parent::__construct($cm, $context, $surveypro);
+
         $this->template = $DB->get_field('surveypro', 'template', array('id' => $this->surveypro->id));
-        $this->hassubmissions = $hassubmissions;
-        $this->group = $group;
-        $this->area = $area;
-        $this->qid = $qid;
+        $this->canaccessreports = has_capability('mod/surveypro:accessreports', $context, null, true);
+        $this->canaccessownreports = has_capability('mod/surveypro:accessownreports', $context, null, true);
+
+        // Which plugin has been used to build this master template? Radiobutton or select?
+        $guessplugin = array('radiobutton', 'select');
+        $where = array('surveyproid' => $surveypro->id, 'plugin' => $guessplugin[0]);
+        if ($DB->get_records('surveypro_item', $where, 'id', 'id')) {
+            $this->templateuseritem = $guessplugin[0];
+        } else {
+            $this->templateuseritem = $guessplugin[1];
+        }
+
         $this->iarea = new stdClass();
     }
 
     /**
+     * set_group
+     *
+     * @param int $group
+     * @return none
+     */
+    public function set_group($group) {
+        $this->group = $group;
+    }
+
+    /**
+     * set_area
+     *
+     * @param int $area
+     * @return none
+     */
+    public function set_area($area) {
+        $this->area = $area;
+    }
+
+    /**
+     * set_qid
+     *
+     * @param int $qid
+     * @return none
+     */
+    public function set_qid($qid) {
+        $this->qid = $qid;
+    }
+
+    /**
      * restrict_templates
+     *
+     * @param none
+     * @return none
      */
     public function restrict_templates() {
         return array('collesactual', 'collespreferred', 'collesactualpreferred');
@@ -124,6 +182,9 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
 
     /**
      * has_student_report
+     *
+     * @param none
+     * @return none
      */
     public function has_student_report() {
         return true;
@@ -131,6 +192,9 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
 
     /**
      * get_childreports
+     *
+     * @param bool $canaccessreports
+     * @return none
      */
     public function get_childreports($canaccessreports) {
         if ($canaccessreports) {
@@ -147,6 +211,11 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
 
     /**
      * output_html
+     *
+     * @param string $nexturl
+     * @param string $graphurl
+     * @param string $altkey
+     * @return none
      */
     public function output_html($nexturl, $graphurl, $altkey) {
         static $strseemoredetail;
@@ -176,6 +245,9 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
 
     /**
      * get_qid_per_area
+     *
+     * @param none
+     * @return none
      */
     public function get_qid_per_area() {
         global $DB;
@@ -188,7 +260,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
                     AND si.plugin = :plugin
                 ORDER BY si.sortindex';
 
-        $whereparams = array('surveyproid' => $this->surveypro->id, 'plugin' => 'radiobutton');
+        $whereparams = array('surveyproid' => $this->surveypro->id, 'plugin' => $this->templateuseritem); // was static 'radiobutton'
         $itemseeds = $DB->get_recordset_sql($sql, $whereparams);
 
         if ($this->template == 'collesactualpreferred') {
@@ -228,6 +300,9 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
 
     /**
      * output_summarydata
+     *
+     * @param none
+     * @return none
      */
     public function output_summarydata() {
         if ($this->canaccessreports) {
@@ -252,6 +327,9 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
 
     /**
      * fetch_summarydata
+     *
+     * @param none
+     * @return none
      */
     public function fetch_summarydata() {
         global $DB, $USER;
@@ -270,7 +348,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
 
         // options (label of answers)
         $itemid = $qid1area[0][0]; // one of the itemid of the surveypro (the first)
-        $item = surveypro_get_item($itemid, SURVEYPRO_TYPEFIELD, 'radiobutton');
+        $item = surveypro_get_item($itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem); // was static 'radiobutton'
         $this->ylabels = $item->item_get_content_array(SURVEYPRO_LABELS, 'options');
         // end of: options (label of answers)
 
@@ -351,6 +429,9 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
 
     /**
      * output_scalesdata
+     *
+     * @param none
+     * @return none
      */
     public function output_scalesdata() {
         $paramnexturl = array();
@@ -377,6 +458,9 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
 
     /**
      * fetch_scalesdata
+     *
+     * @param int $area
+     * @return none
      */
     public function fetch_scalesdata($area=false) {
         global $DB;
@@ -402,7 +486,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
 
         // options (label of answers)
         $itemid = $qid1area[0][0]; // one of the itemid of the surveypro (the first)
-        $item = surveypro_get_item($itemid, SURVEYPRO_TYPEFIELD, 'radiobutton');
+        $item = surveypro_get_item($itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem); // was static 'radiobutton'
         $this->ylabels = $item->item_get_content_array(SURVEYPRO_LABELS, 'options');
         // end of: options (label of answers)
 
@@ -461,6 +545,9 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
 
     /**
      * output_questionsdata
+     *
+     * @param int $area
+     * @return none
      */
     public function output_questionsdata($area=false) {
         $paramnexturl = array();
@@ -492,6 +579,10 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
 
     /**
      * fetch_questionsdata
+     *
+     * @param int $area
+     * @param int $qid
+     * @return none
      */
     public function fetch_questionsdata($area=false, $qid=false) {
         global $DB;
@@ -509,7 +600,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
 
         // options (label of answers)
         $itemid = $qid1area[$area][$qid]; // one of the itemid of the surveypro (the first)
-        $item = surveypro_get_item($itemid, SURVEYPRO_TYPEFIELD, 'radiobutton');
+        $item = surveypro_get_item($itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem); // was static 'radiobutton'
         $this->xlabels = $item->item_get_content_array(SURVEYPRO_LABELS, 'options');
         // end of: options (label of answers)
 

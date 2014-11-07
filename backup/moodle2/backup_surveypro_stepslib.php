@@ -27,6 +27,12 @@
  */
 class backup_surveypro_activity_structure_step extends backup_activity_structure_step {
 
+    /*
+     * define_structure
+     *
+     * @param none
+     * @return none
+     */
     protected function define_structure() {
 
         // To know if we are including userinfo

@@ -28,6 +28,12 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 
 class mod_surveypro_importutemplateform extends moodleform {
 
+    /*
+     * definition
+     *
+     * @param none
+     * @return none
+     */
     public function definition() {
         // ----------------------------------------
         $mform = $this->_form;
@@ -71,11 +77,19 @@ class mod_surveypro_importutemplateform extends moodleform {
         $this->add_action_buttons(false, get_string('import'));
     }
 
+    /*
+     * validation
+     *
+     * @param $data
+     * @param $files
+     * @return $errors
+     */
     public function validation($data, $files) {
         global $USER;
 
         $mform = $this->_form;
 
+        // ----------------------------------------
         $cmid = $this->_customdata->cmid;
         $surveypro = $this->_customdata->surveypro;
         $utemplateman = $this->_customdata->utemplateman;

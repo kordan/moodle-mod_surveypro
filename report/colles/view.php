@@ -51,6 +51,13 @@ $qid = optional_param('qid', 0, PARAM_INT);  // 0..3 the question in the area
 require_course_login($course, true, $cm);
 
 $context = context_module::instance($cm->id);
+if ($type == 'summary') {
+    if (!has_capability('mod/surveypro:accessreports', $context)) {
+        require_capability('mod/surveypro:accessownreports', $context);
+    }
+} else {
+    require_capability('mod/surveypro:accessreports', $context);
+}
 
 $paramurl = array('type' => $type, 's' => $surveypro->id);
 if (!empty($group)) {
@@ -61,14 +68,6 @@ if ($area) {
 }
 if (!empty($qid)) {
     $paramurl['qid'] = $qid;
-}
-
-if ($type == 'summary') {
-    if (!has_capability('mod/surveypro:accessreports', $context)) {
-        require_capability('mod/surveypro:accessownreports', $context);
-    }
-} else {
-    require_capability('mod/surveypro:accessreports', $context);
 }
 
 // -----------------------------
@@ -90,9 +89,10 @@ $moduletab = SURVEYPRO_TABSUBMISSIONS; // needed by tabs.php
 $modulepage = SURVEYPRO_SUBMISSION_REPORT; // needed by tabs.php
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
-$hassubmissions = surveypro_count_submissions($surveypro->id);
-$reportman = new mod_surveypro_report_colles($cm, $surveypro);
-$reportman->setup($hassubmissions, $group, $area, $qid);
+$reportman = new mod_surveypro_report_colles($cm, $context, $surveypro);
+$reportman->set_group($group);
+$reportman->set_area($area);
+$reportman->set_qid($qid);
 $reportman->check_submissions();
 switch ($type) {
     case 'summary':

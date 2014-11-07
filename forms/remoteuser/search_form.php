@@ -28,6 +28,12 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 
 class mod_surveypro_searchform extends moodleform {
 
+    /*
+     * definition
+     *
+     * @param none
+     * @return none
+     */
     public function definition() {
         global $CFG, $DB;
 
@@ -109,7 +115,15 @@ class mod_surveypro_searchform extends moodleform {
         $mform->closeHeaderBefore('buttonar');
     }
 
+    /*
+     * validation
+     *
+     * @param $data
+     * @param $files
+     * @return $errors
+     */
     public function validation($data, $files) {
+        // ----------------------------------------
         // $cmid = $this->_customdata->cmid;
         $surveypro = $this->_customdata->surveypro;
         // $canaccessadvanceditems = $this->_customdata->canaccessadvanceditems;

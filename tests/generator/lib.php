@@ -42,6 +42,13 @@ class mod_surveypro_generator extends testing_module_generator {
         parent::reset();
     }
 
+    /*
+     * create_instance
+     *
+     * @param $record
+     * @param array $options
+     * @return none
+     */
     public function create_instance($record = null, array $options = null) {
         global $CFG;
 
@@ -74,7 +81,8 @@ class mod_surveypro_generator extends testing_module_generator {
             'thankshtml_editor' => array(
                 'text' => 'Thank you very much for your commitment on this survey',
                 'format' => FORMAT_MOODLE,
-                'itemid' => file_get_unused_draft_itemid())
+                'itemid' => file_get_unused_draft_itemid()
+            )
         );
         foreach ($defaults as $name => $value) {
             if (!isset($record->{$name})) {
@@ -89,6 +97,7 @@ class mod_surveypro_generator extends testing_module_generator {
      * Apply a template to the surveypro instance.
      *
      * @param $record array|stdClass $record containing course, surveypro and valid template.
+     * @param $options
      * @return stdClass[] of created items.
      */
     public function apply_mastertemplate($record = null, array $options = null) {
