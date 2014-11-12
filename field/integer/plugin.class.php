@@ -434,6 +434,8 @@ EOS;
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
+        $idprefix = 'id_surveypro_field_integer_'.$this->sortindex;
+
         // element values
         $integers = array();
         if (!$searchform) {
@@ -449,7 +451,7 @@ EOS;
         }
         // End of: element values
 
-        $mform->addElement('select', $this->itemname, $elementlabel, $integers, array('class' => 'indent-'.$this->indent));
+        $mform->addElement('select', $this->itemname, $elementlabel, $integers, array('class' => 'indent-'.$this->indent, 'id' => $idprefix));
 
         if (!$searchform) {
             if ($this->required) {

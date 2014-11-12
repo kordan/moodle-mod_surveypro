@@ -25,8 +25,8 @@ Feature: Load and apply usertemplates in order to test, among others, partial it
     And I follow "My user template"
 
     And I navigate to "Import" node in "Surveypro administration > User templates"
-    And I upload "mod/surveypro/tests/usertemplate/parent-child_2014090401.xml" file to "Choose files to import" filemanager
-    And I upload "mod/surveypro/tests/usertemplate/MMM_2014090401.xml" file to "Choose files to import" filemanager
+    And I upload "mod/surveypro/tests/usertemplate/parent-child_2014111000.xml" file to "Choose files to import" filemanager
+    And I upload "mod/surveypro/tests/usertemplate/MMM_2014111000.xml" file to "Choose files to import" filemanager
 
     And I set the field "Sharing level" to "Course: To apply usertemplate"
     And I press "Import"
@@ -36,54 +36,54 @@ Feature: Load and apply usertemplates in order to test, among others, partial it
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates       | (Course) MMM_2014090401.xml |
+      | User templates       | (Course) MMM_2014111000.xml |
       | id_action_1          | 1                           |
     And I press "Continue"
 
     # now I am in the Element > Manage page
-    And I follow "hide_398003"
-    And I follow "hide_398004"
-    And I follow "hide_398005"
-    And I follow "hide_398006"
-    And I follow "hide_398008"
-    And I follow "hide_398010"
-    And I follow "hide_398011"
-    And I follow "hide_398012"
-    And I follow "hide_398013"
-    And I follow "hide_398014"
-    And I follow "hide_398016"
-    And I follow "hide_398017"
-    And I follow "hide_398019"
-    And I follow "hide_398020"
-    And I follow "hide_398021"
-    And I follow "hide_398022"
-    And I follow "hide_398023"
-    And I follow "hide_398025"
-    And I follow "hide_398027"
-    And I follow "hide_398028"
-    And I follow "hide_398030"
-    And I follow "hide_398031"
-    And I follow "hide_398033"
-    And I follow "hide_398037"
-    And I follow "hide_398038"
-    And I follow "hide_398039"
-    And I follow "hide_398041"
-    And I follow "hide_398042"
-    And I follow "hide_398043"
-    And I follow "hide_398045"
-    And I follow "hide_398049"
-    And I follow "hide_398050"
-    And I follow "hide_398052"
-    And I follow "hide_398053"
-    And I follow "hide_398055"
-    And I follow "hide_398056"
-    And I follow "hide_398057"
-    And I follow "hide_398059"
+    And I follow "hide_item_4"
+    And I follow "hide_item_5"
+    And I follow "hide_item_6"
+    And I follow "hide_item_7"
+    And I follow "hide_item_9"
+    And I follow "hide_item_11"
+    And I follow "hide_item_12"
+    And I follow "hide_item_13"
+    And I follow "hide_item_14"
+    And I follow "hide_item_15"
+    And I follow "hide_item_17"
+    And I follow "hide_item_18"
+    And I follow "hide_item_20"
+    And I follow "hide_item_21"
+    And I follow "hide_item_22"
+    And I follow "hide_item_23"
+    And I follow "hide_item_24"
+    And I follow "hide_item_26"
+    And I follow "hide_item_28"
+    And I follow "hide_item_29"
+    And I follow "hide_item_31"
+    And I follow "hide_item_32"
+    And I follow "hide_item_34"
+    And I follow "hide_item_38"
+    And I follow "hide_item_39"
+    And I follow "hide_item_40"
+    And I follow "hide_item_42"
+    And I follow "hide_item_43"
+    And I follow "hide_item_44"
+    And I follow "hide_item_46"
+    And I follow "hide_item_50"
+    And I follow "hide_item_51"
+    And I follow "hide_item_53"
+    And I follow "hide_item_54"
+    And I follow "hide_item_56"
+    And I follow "hide_item_57"
+    And I follow "hide_item_58"
+    And I follow "hide_item_60"
     And I press "Yes, hide them all"
 
     And I navigate to "Apply" node in "Surveypro administration > User templates"
     And I set the following fields to these values:
-      | User templates       | parent-child_2014090401.xml |
+      | User templates       | parent-child_2014111000.xml |
       | id_action_5          | 1                           |
     And I press "Continue"
 

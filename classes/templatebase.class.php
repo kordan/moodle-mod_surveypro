@@ -426,6 +426,7 @@ class mod_surveypro_templatebase {
             if (!empty($this->nonmatchingplugin)) {
                 // for sure I am dealing witha usertemplate
                 $a = new stdClass();
+                $a->templatename = $this->get_utemplate_name();
                 $a->plugins = '<li>'.implode('</li>;<li>', array_keys($this->nonmatchingplugin)).'.</li>';
                 $a->tab = get_string('tabutemplatename', 'surveypro');
                 $a->page1 = get_string('tabutemplatepage1' , 'surveypro');

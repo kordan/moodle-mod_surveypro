@@ -117,7 +117,7 @@ Feature: editing a submission, autofill userID is not overwritten
     And I follow "Surveypro test"
 
     And I follow "Responses"
-    And I follow "edit_submission_399000"
+    And I follow "edit_submission_row_1"
     Then I should see "4"
     Then I should see "student1"
     Then I should see "user1"
@@ -134,7 +134,7 @@ Feature: editing a submission, autofill userID is not overwritten
     And I follow "Surveypro test"
 
     And I follow "Responses"
-    And I follow "edit_submission_399000"
+    And I follow "edit_submission_row_1"
     Then I should see "4"
     Then I should see "student1"
     Then I should see "user1"
@@ -147,7 +147,7 @@ Feature: editing a submission, autofill userID is not overwritten
     And I follow "Course divided into groups"
     And I follow "Surveypro test"
 
-    And I follow "edit_submission_399000"
+    And I follow "edit_submission_row_1"
     Then I should see "4"
     Then I should see "student1"
     Then I should see "user1"
@@ -163,7 +163,7 @@ Feature: editing a submission, autofill userID is not overwritten
     And I follow "Surveypro test"
 
     And I follow "Responses"
-    And I follow "edit_submission_399000"
+    And I follow "edit_submission_row_1"
     Then I should see "4"
     Then I should see "student1"
     Then I should see "user1"

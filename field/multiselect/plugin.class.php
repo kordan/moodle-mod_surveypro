@@ -255,8 +255,8 @@ class mod_surveypro_field_multiselect extends mod_surveypro_itembase {
                 <xs:element type="xs:string" name="options"/>
                 <xs:element type="xs:string" name="defaultvalue" minOccurs="0"/>
                 <xs:element type="xs:string" name="downloadformat"/>
-                <xs:element type="xs:int" name="heightinrows"/>
                 <xs:element type="xs:int" name="minimumrequired"/>
+                <xs:element type="xs:int" name="heightinrows"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -447,31 +447,43 @@ EOS;
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
+        $idprefix = 'id_surveypro_field_multiselect_'.$this->sortindex;
+
         $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
 
-        $class = array('size' => $this->heightinrows, 'class' => 'indent-'.$this->indent);
+        $paramelement = array('size' => $this->heightinrows, 'class' => 'indent-'.$this->indent, 'id' => $idprefix);
         if (!$searchform) {
             if ($this->minimumrequired) {
-                $select = $mform->addElement('select', $this->itemname, $elementlabel, $labels, $class);
+                $select = $mform->addElement('select', $this->itemname, $elementlabel, $labels, $paramelement);
                 $select->setMultiple(true);
             } else {
                 $elementgroup = array();
-                $select = $mform->createElement('select', $this->itemname, '', $labels, $class);
+                $select = $mform->createElement('select', $this->itemname, '', $labels, $paramelement);
                 $select->setMultiple(true);
                 $elementgroup[] = $select;
-                $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), array('class' => 'indent-'.$this->indent));
+
+                unset($paramelement['size']);
+                $paramelement['id'] = $idprefix.'_noanswer';
+                $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), $paramelement);
+
                 $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, '<br />', false);
                 $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
             }
         } else {
             $elementgroup = array();
-            $select = $mform->createElement('select', $this->itemname, '', $labels, $class);
+            $select = $mform->createElement('select', $this->itemname, '', $labels, $paramelement);
             $select->setMultiple(true);
             $elementgroup[] = $select;
+
             if (!$this->minimumrequired) {
-                $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), array('class' => 'indent-'.$this->indent));
+                unset($paramelement['size']);
+                $paramelement['id'] = $idprefix.'_noanswer';
+                $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), $paramelement);
             }
-            $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'surveypro'), array('class' => 'indent-'.$this->indent));
+
+            $paramelement['id'] = $idprefix.'_ignoreme';
+            $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'surveypro'), $paramelement);
+
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, '<br />', false);
             if (!$this->minimumrequired) {
                 $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
@@ -505,7 +517,7 @@ EOS;
         // TAKE CARE: I choose a name for this item that IS UNIQUE BUT is missing the SURVEYPRO_ITEMPREFIX.'_'
         //            In this way I am sure the item will never be saved in the database
         $placeholderitemname = SURVEYPRO_PLACEHOLDERPREFIX.'_'.$this->type.'_'.$this->plugin.'_'.$this->itemid.'_placeholder';
-        $mform->addElement('hidden', $placeholderitemname, SURVEYPROFIELD_MULTISELECT_PLACEHOLDER);
+        $mform->addElement('hidden', $placeholderitemname, 1);
         $mform->setType($placeholderitemname, PARAM_INT);
 
         if (!$searchform) {

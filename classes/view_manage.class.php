@@ -674,11 +674,11 @@ class mod_surveypro_submissionmanager {
         $historyedittitle = get_string('duplicate');
         if ($this->surveypro->history) {
             $edittitle = $historyedittitle;
-            $linkidprefix = 'duplicate';
+            $linkidprefix = 'duplicate_submission_';
             $editiconpath = 't/copy';
         } else {
             $edittitle = $nonhistoryedittitle;
-            $linkidprefix = 'edit';
+            $linkidprefix = 'edit_submission_';
             $editiconpath = 't/edit';
         }
 
@@ -693,7 +693,12 @@ class mod_surveypro_submissionmanager {
             }
 
             $paramurlbase = array('id' => $this->cm->id);
+            $tablerowcounter = 0;
             foreach ($submissions as $submission) {
+                // count submissions per each user
+                $tablerowcounter++;
+                $submissionsuffix = 'row_'.$tablerowcounter;
+
                 // before starting, just set some information
                 if (!$ismine = ($submission->userid == $USER->id)) {
                     if (!$this->canseeotherssubmissions) {
@@ -758,17 +763,17 @@ class mod_surveypro_submissionmanager {
                     if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
                         $icons = $OUTPUT->action_icon(new moodle_url('/mod/surveypro/view_userform.php', $paramurl),
                             new pix_icon('t/edit', $nonhistoryedittitle, 'moodle', array('title' => $nonhistoryedittitle)),
-                            null, array('id' => 'edit_submission_'.$submission->submissionid, 'title' => $nonhistoryedittitle));
+                            null, array('id' => 'edit_submission_'.$submissionsuffix, 'title' => $nonhistoryedittitle));
                     } else {
                         $icons = $OUTPUT->action_icon(new moodle_url('/mod/surveypro/view_userform.php', $paramurl),
                             new pix_icon($editiconpath, $edittitle, 'moodle', array('title' => $edittitle)),
-                            null, array('id' => $linkidprefix.'_submission_'.$submission->submissionid, 'title' => $edittitle));
+                            null, array('id' => $linkidprefix.$submissionsuffix, 'title' => $edittitle));
                     }
                 } else {
                     $paramurl['view'] = SURVEYPRO_READONLYRESPONSE;
                     $icons = $OUTPUT->action_icon(new moodle_url('/mod/surveypro/view_userform.php', $paramurl),
                         new pix_icon('readonly', $readonlyaccess, 'surveypro', array('title' => $readonlyaccess)),
-                        null, array('id' => 'view_submission_'.$submission->submissionid, 'title' => $readonlyaccess));
+                        null, array('id' => 'view_submission_'.$submissionsuffix, 'title' => $readonlyaccess));
                 }
 
                 // delete
@@ -789,7 +794,7 @@ class mod_surveypro_submissionmanager {
                     $paramurl['cover'] = 0;
                     $icons .= $OUTPUT->action_icon(new moodle_url('/mod/surveypro/view.php', $paramurl),
                         new pix_icon('t/delete', $deletetitle, 'moodle', array('title' => $deletetitle)),
-                        null, array('id' => 'delete_submission_'.$submission->submissionid, 'title' => $deletetitle));
+                        null, array('id' => 'delete_submission_'.$submissionsuffix, 'title' => $deletetitle));
                 }
 
                 // download to pdf
@@ -800,7 +805,7 @@ class mod_surveypro_submissionmanager {
                     $paramurl['cover'] = 0;
                     $icons .= $OUTPUT->action_icon(new moodle_url('/mod/surveypro/view.php', $paramurl),
                         new pix_icon('i/export', $downloadpdftitle, 'moodle', array('title' => $downloadpdftitle)),
-                        null, array('id' => 'pdf_submission_'.$submission->submissionid, 'title' => $downloadpdftitle));
+                        null, array('id' => 'pdf_submission_'.$submissionsuffix, 'title' => $downloadpdftitle));
                 }
 
                 $tablerow[] = $icons;

@@ -198,10 +198,10 @@ $string['free'] = 'free';
 $string['frendlyversionmismatchuser'] = 'The choosen usertemplate has a version mismatch for the following plugins: <ul{$a->plugins}</ul>
 Applying it may lead to an unexpected behaviour. Please:<ul>
 <li>Go to {$a->tab}->{$a->page1};</li>
-<li>Download the usertemplate you are trying to apply;</li>
+<li>Download {$a->templatename};</li>
 <li>Delete it from the list in the page;</li>
-<li>Go to {$a->tab}->{$a->page3}; and try to import the downloaded usertemplate again</li>
-<li>Modify it according to the error meessages you get during upload.</li>';
+<li>Go to {$a->tab}->{$a->page3}; and try to import it again</li>
+<li>Modify it according to error meessages you get during upload.</li>';
 $string['fullwidth'] = 'top left (full width)';
 $string['gotolist'] = 'Continue to responses list';
 $string['hassubmissions_alert'] = 'This survey has already been submitted at least once.<br />Please proceed with extreme caution and make only minimal changes to not compromise the validity of the whole survey.';

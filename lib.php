@@ -365,8 +365,12 @@ function surveypro_delete_instance($id) {
         // delete all associated item<<$surveyprotype>>_<<plugin>>
         foreach ($pluginlist as $plugin) {
             $tablename = 'surveypro'.$surveyprotype.'_'.$plugin;
-            if ($dbman->table_exists($tablename)) {
-                $deletelist = $DB->delete_records($tablename, $whereparams);
+            $whereparams['plugin'] = $plugin;
+
+            if ($deletelist = $DB->get_records('surveypro_item', $whereparams, 'id', 'id')) {
+                $deletelist = array_keys($deletelist);
+                $select = 'itemid IN ('.implode(',', $deletelist).')';
+                $DB->delete_records_select($tablename, $select);
             }
         }
     }
@@ -386,9 +390,9 @@ function surveypro_delete_instance($id) {
     //     SURVEYPRO_TEMPLATEFILEAREA
     //     SURVEYPRO_THANKSHTMLFILEAREA
 
-    //     SURVEYPRO_ITEMCONTENTFILEAREA <-- does this is supposed to go to its delete_instance plugin?
-    //     SURVEYPROFIELD_FILEUPLOAD_FILEAREA <-- does this is supposed to go to its delete_instance plugin?
-    //     SURVEYPROFIELD_TEXTAREAFILEAREA <-- does this is supposed to go to its delete_instance plugin?
+    //     SURVEYPRO_ITEMCONTENTFILEAREA <-- is this supposed to go to its delete_instance plugin?
+    //     SURVEYPROFIELD_FILEUPLOAD_FILEAREA <-- is this supposed to go to its delete_instance plugin?
+    //     SURVEYPROFIELD_TEXTAREAFILEAREA <-- is this supposed to go to its delete_instance plugin?
 
     // never delete mod_surveypro files in each AREA in $context = context_user::instance($userid);
 
@@ -945,7 +949,7 @@ function surveypro_extend_navigation(navigation_node $navref, stdClass $course, 
     $localparamurl = array('s' => $cm->instance, 'cover' => 0);
     $nodelabel = get_string('tabsubmissionspage1', 'surveypro');
     $navref->add($nodelabel, new moodle_url('/mod/surveypro/view_cover.php', $paramurl), navigation_node::TYPE_SETTING);
-    $nodelabel = get_string('tabsubmissionspage3', 'surveypro');
+    $nodelabel = get_string('tabsubmissionspage2', 'surveypro');
     $navref->add($nodelabel, new moodle_url('/mod/surveypro/view.php', $localparamurl), navigation_node::TYPE_SETTING);
     if ($cansearch) {
         $nodelabel = get_string('tabsubmissionspage6', 'surveypro');

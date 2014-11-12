@@ -28,9 +28,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2012062301;
+$plugin->version = 2014111000;
 $plugin->release = '1.0';
-$plugin->requires = 2010091600; // Requires this Moodle version
+$plugin->requires = 2013111800; // Requires this Moodle version
 $plugin->dependencies = array(
     'surveyprotemplate_collesactual' => 2013103101,
     'surveyprotemplate_collesactualpreferred' => 2013103101,

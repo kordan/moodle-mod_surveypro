@@ -395,6 +395,8 @@ EOS;
         $rates = $this->item_get_content_array(SURVEYPRO_LABELS, 'rates');
         $defaultvalues = surveypro_textarea_to_array($this->defaultvalue);
 
+        $idprefix = 'id_surveypro_field_rate_'.$this->sortindex;
+
         if (($this->defaultoption == SURVEYPRO_INVITATIONDEFAULT)) {
             if ($this->style == SURVEYPROFIELD_RATE_USERADIO) {
                 $rates += array(SURVEYPRO_INVITATIONVALUE => get_string('choosedots'));
@@ -405,28 +407,32 @@ EOS;
 
         if ($this->style == SURVEYPROFIELD_RATE_USERADIO) {
             foreach ($options as $k => $option) {
-                $class = array('class' => 'indent-'.$this->indent);
+                $paramelement = array('class' => 'indent-'.$this->indent);
                 $uniquename = $this->itemname.'_'.$k;
                 $elementgroup = array();
                 foreach ($rates as $j => $rate) {
-                    $elementgroup[] = $mform->createElement('radio', $uniquename, '', $rate, $j, $class);
-                    $class = '';
+                    $paramelement['id'] = $idprefix.'_'.$k.'_'.$j;
+                    $elementgroup[] = $mform->createElement('radio', $uniquename, '', $rate, $j, $paramelement);
+                    unset($paramelement['class']);
                 }
                 $mform->addGroup($elementgroup, $uniquename.'_group', $option, ' ', false);
                 $this->item_add_color_unifier($mform, $k, $optioncount);
             }
         }
 
+        $paramelement = array('class' => 'indent-'.$this->indent);
         if ($this->style == SURVEYPROFIELD_RATE_USESELECT) {
             foreach ($options as $k => $option) {
                 $uniquename = $this->itemname.'_'.$k;
-                $mform->addElement('select', $uniquename, $option, $rates, array('class' => 'indent-'.$this->indent));
+                $paramelement['id'] = $idprefix.'_'.$k;
+                $mform->addElement('select', $uniquename, $option, $rates, $paramelement);
                 $this->item_add_color_unifier($mform, $k, $optioncount);
             }
         }
 
-        if (!$this->required) { // This is the last if exists
-            $mform->addElement('checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), array('class' => 'indent-'.$this->indent));
+        if (!$this->required) { // This is the last if it exists
+            $paramelement['id'] = $idprefix.'_noanswer';
+            $mform->addElement('checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), $paramelement);
         }
 
         if ($this->required) {

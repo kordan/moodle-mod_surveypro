@@ -42,30 +42,30 @@ Feature: apply a COLLES mastertemplate to test graphs
     # student1 submits his first response
     And I expand all fieldsets
     And I set the following fields to these values:
-      | id_surveypro_field_radiobutton_398003_0        | 1          |
-      | id_surveypro_field_radiobutton_398004_1        | 1          |
-      | id_surveypro_field_radiobutton_398005_2        | 1          |
-      | id_surveypro_field_radiobutton_398006_3        | 1          |
-      | id_surveypro_field_radiobutton_398009_4        | 1          |
-      | id_surveypro_field_radiobutton_398010_0        | 1          |
-      | id_surveypro_field_radiobutton_398011_1        | 1          |
-      | id_surveypro_field_radiobutton_398012_2        | 1          |
-      | id_surveypro_field_radiobutton_398015_3        | 1          |
-      | id_surveypro_field_radiobutton_398016_4        | 1          |
-      | id_surveypro_field_radiobutton_398017_0        | 1          |
-      | id_surveypro_field_radiobutton_398018_1        | 1          |
-      | id_surveypro_field_radiobutton_398021_2        | 1          |
-      | id_surveypro_field_radiobutton_398022_3        | 1          |
-      | id_surveypro_field_radiobutton_398023_4        | 1          |
-      | id_surveypro_field_radiobutton_398024_0        | 1          |
-      | id_surveypro_field_radiobutton_398027_1        | 1          |
-      | id_surveypro_field_radiobutton_398028_2        | 1          |
-      | id_surveypro_field_radiobutton_398029_3        | 1          |
-      | id_surveypro_field_radiobutton_398030_4        | 1          |
-      | id_surveypro_field_radiobutton_398033_0        | 1          |
-      | id_surveypro_field_radiobutton_398034_1        | 1          |
-      | id_surveypro_field_radiobutton_398035_2        | 1          |
-      | id_surveypro_field_radiobutton_398036_3        | 1          |
+      | id_surveypro_field_radiobutton_4_0             | 1          |
+      | id_surveypro_field_radiobutton_5_1             | 1          |
+      | id_surveypro_field_radiobutton_6_2             | 1          |
+      | id_surveypro_field_radiobutton_7_3             | 1          |
+      | id_surveypro_field_radiobutton_10_4            | 1          |
+      | id_surveypro_field_radiobutton_11_0            | 1          |
+      | id_surveypro_field_radiobutton_12_1            | 1          |
+      | id_surveypro_field_radiobutton_13_2            | 1          |
+      | id_surveypro_field_radiobutton_16_3            | 1          |
+      | id_surveypro_field_radiobutton_17_4            | 1          |
+      | id_surveypro_field_radiobutton_18_0            | 1          |
+      | id_surveypro_field_radiobutton_19_1            | 1          |
+      | id_surveypro_field_radiobutton_22_2            | 1          |
+      | id_surveypro_field_radiobutton_23_3            | 1          |
+      | id_surveypro_field_radiobutton_24_4            | 1          |
+      | id_surveypro_field_radiobutton_25_0            | 1          |
+      | id_surveypro_field_radiobutton_28_1            | 1          |
+      | id_surveypro_field_radiobutton_29_2            | 1          |
+      | id_surveypro_field_radiobutton_30_3            | 1          |
+      | id_surveypro_field_radiobutton_31_4            | 1          |
+      | id_surveypro_field_radiobutton_34_0            | 1          |
+      | id_surveypro_field_radiobutton_35_1            | 1          |
+      | id_surveypro_field_radiobutton_36_2            | 1          |
+      | id_surveypro_field_radiobutton_37_3            | 1          |
       | How long did this survey take you to complete? | 2-3 min    |
       | Do you have any other comments?                | Am I sexy? |
     And I press "Submit"
@@ -110,30 +110,30 @@ Feature: apply a COLLES mastertemplate to test graphs
     # student1 submits his first response
     And I expand all fieldsets
     And I set the following fields to these values:
-      | id_surveypro_field_radiobutton_398003_0        | 1          |
-      | id_surveypro_field_radiobutton_398004_1        | 1          |
-      | id_surveypro_field_radiobutton_398005_2        | 1          |
-      | id_surveypro_field_radiobutton_398006_3        | 1          |
-      | id_surveypro_field_radiobutton_398009_4        | 1          |
-      | id_surveypro_field_radiobutton_398010_0        | 1          |
-      | id_surveypro_field_radiobutton_398011_1        | 1          |
-      | id_surveypro_field_radiobutton_398012_2        | 1          |
-      | id_surveypro_field_radiobutton_398015_3        | 1          |
-      | id_surveypro_field_radiobutton_398016_4        | 1          |
-      | id_surveypro_field_radiobutton_398017_0        | 1          |
-      | id_surveypro_field_radiobutton_398018_1        | 1          |
-      | id_surveypro_field_radiobutton_398021_2        | 1          |
-      | id_surveypro_field_radiobutton_398022_3        | 1          |
-      | id_surveypro_field_radiobutton_398023_4        | 1          |
-      | id_surveypro_field_radiobutton_398024_0        | 1          |
-      | id_surveypro_field_radiobutton_398027_1        | 1          |
-      | id_surveypro_field_radiobutton_398028_2        | 1          |
-      | id_surveypro_field_radiobutton_398029_3        | 1          |
-      | id_surveypro_field_radiobutton_398030_4        | 1          |
-      | id_surveypro_field_radiobutton_398033_0        | 1          |
-      | id_surveypro_field_radiobutton_398034_1        | 1          |
-      | id_surveypro_field_radiobutton_398035_2        | 1          |
-      | id_surveypro_field_radiobutton_398036_3        | 1          |
+      | id_surveypro_field_radiobutton_4_0             | 1          |
+      | id_surveypro_field_radiobutton_5_1             | 1          |
+      | id_surveypro_field_radiobutton_6_2             | 1          |
+      | id_surveypro_field_radiobutton_7_3             | 1          |
+      | id_surveypro_field_radiobutton_10_4            | 1          |
+      | id_surveypro_field_radiobutton_11_0            | 1          |
+      | id_surveypro_field_radiobutton_12_1            | 1          |
+      | id_surveypro_field_radiobutton_13_2            | 1          |
+      | id_surveypro_field_radiobutton_16_3            | 1          |
+      | id_surveypro_field_radiobutton_17_4            | 1          |
+      | id_surveypro_field_radiobutton_18_0            | 1          |
+      | id_surveypro_field_radiobutton_19_1            | 1          |
+      | id_surveypro_field_radiobutton_22_2            | 1          |
+      | id_surveypro_field_radiobutton_23_3            | 1          |
+      | id_surveypro_field_radiobutton_24_4            | 1          |
+      | id_surveypro_field_radiobutton_25_0            | 1          |
+      | id_surveypro_field_radiobutton_28_1            | 1          |
+      | id_surveypro_field_radiobutton_29_2            | 1          |
+      | id_surveypro_field_radiobutton_30_3            | 1          |
+      | id_surveypro_field_radiobutton_31_4            | 1          |
+      | id_surveypro_field_radiobutton_34_0            | 1          |
+      | id_surveypro_field_radiobutton_35_1            | 1          |
+      | id_surveypro_field_radiobutton_36_2            | 1          |
+      | id_surveypro_field_radiobutton_37_3            | 1          |
       | How long did this survey take you to complete? | 2-3 min    |
       | Do you have any other comments?                | Am I sexy? |
     And I press "Submit"
@@ -178,59 +178,60 @@ Feature: apply a COLLES mastertemplate to test graphs
     # student1 submits his first response
     And I expand all fieldsets
     And I set the following fields to these values:
-      | id_surveypro_field_radiobutton_398003_0        | 1          |
-      | id_surveypro_field_radiobutton_398004_1        | 1          |
-      | id_surveypro_field_radiobutton_398005_2        | 1          |
-      | id_surveypro_field_radiobutton_398006_3        | 1          |
-      | id_surveypro_field_radiobutton_398007_4        | 1          |
-      | id_surveypro_field_radiobutton_398008_0        | 1          |
-      | id_surveypro_field_radiobutton_398009_1        | 1          |
-      | id_surveypro_field_radiobutton_398010_2        | 1          |
+      | id_surveypro_field_radiobutton_4_0             | 1          |
+      | id_surveypro_field_radiobutton_5_1             | 1          |
+      | id_surveypro_field_radiobutton_6_2             | 1          |
+      | id_surveypro_field_radiobutton_7_3             | 1          |
+      | id_surveypro_field_radiobutton_8_4             | 1          |
+      | id_surveypro_field_radiobutton_9_0             | 1          |
+      | id_surveypro_field_radiobutton_10_1            | 1          |
+      | id_surveypro_field_radiobutton_11_2            | 1          |
 
-      | id_surveypro_field_radiobutton_398013_3        | 1          |
-      | id_surveypro_field_radiobutton_398014_4        | 1          |
-      | id_surveypro_field_radiobutton_398015_0        | 1          |
-      | id_surveypro_field_radiobutton_398016_1        | 1          |
-      | id_surveypro_field_radiobutton_398017_2        | 1          |
-      | id_surveypro_field_radiobutton_398018_3        | 1          |
-      | id_surveypro_field_radiobutton_398019_4        | 1          |
-      | id_surveypro_field_radiobutton_398020_0        | 1          |
+      | id_surveypro_field_radiobutton_14_3            | 1          |
+      | id_surveypro_field_radiobutton_15_4            | 1          |
+      | id_surveypro_field_radiobutton_16_0            | 1          |
+      | id_surveypro_field_radiobutton_17_1            | 1          |
+      | id_surveypro_field_radiobutton_18_2            | 1          |
+      | id_surveypro_field_radiobutton_19_3            | 1          |
+      | id_surveypro_field_radiobutton_20_4            | 1          |
+      | id_surveypro_field_radiobutton_21_0            | 1          |
 
-      | id_surveypro_field_radiobutton_398023_1        | 1          |
-      | id_surveypro_field_radiobutton_398024_2        | 1          |
-      | id_surveypro_field_radiobutton_398025_3        | 1          |
-      | id_surveypro_field_radiobutton_398026_4        | 1          |
-      | id_surveypro_field_radiobutton_398027_0        | 1          |
-      | id_surveypro_field_radiobutton_398028_1        | 1          |
-      | id_surveypro_field_radiobutton_398029_2        | 1          |
-      | id_surveypro_field_radiobutton_398030_3        | 1          |
+      | id_surveypro_field_radiobutton_24_1            | 1          |
+      | id_surveypro_field_radiobutton_25_2            | 1          |
+      | id_surveypro_field_radiobutton_26_3            | 1          |
+      | id_surveypro_field_radiobutton_27_4            | 1          |
+      | id_surveypro_field_radiobutton_28_0            | 1          |
+      | id_surveypro_field_radiobutton_29_1            | 1          |
+      | id_surveypro_field_radiobutton_30_2            | 1          |
+      | id_surveypro_field_radiobutton_31_3            | 1          |
 
-      | id_surveypro_field_radiobutton_398033_4        | 1          |
-      | id_surveypro_field_radiobutton_398034_0        | 1          |
-      | id_surveypro_field_radiobutton_398035_1        | 1          |
-      | id_surveypro_field_radiobutton_398036_2        | 1          |
-      | id_surveypro_field_radiobutton_398037_3        | 1          |
-      | id_surveypro_field_radiobutton_398038_4        | 1          |
-      | id_surveypro_field_radiobutton_398039_0        | 1          |
-      | id_surveypro_field_radiobutton_398040_1        | 1          |
+      | id_surveypro_field_radiobutton_34_4            | 1          |
+      | id_surveypro_field_radiobutton_35_0            | 1          |
+      | id_surveypro_field_radiobutton_36_1            | 1          |
+      | id_surveypro_field_radiobutton_37_2            | 1          |
+      | id_surveypro_field_radiobutton_38_3            | 1          |
+      | id_surveypro_field_radiobutton_39_4            | 1          |
+      | id_surveypro_field_radiobutton_40_0            | 1          |
+      | id_surveypro_field_radiobutton_41_1            | 1          |
 
-      | id_surveypro_field_radiobutton_398043_2        | 1          |
-      | id_surveypro_field_radiobutton_398044_3        | 1          |
-      | id_surveypro_field_radiobutton_398045_4        | 1          |
-      | id_surveypro_field_radiobutton_398046_0        | 1          |
-      | id_surveypro_field_radiobutton_398047_1        | 1          |
-      | id_surveypro_field_radiobutton_398048_2        | 1          |
-      | id_surveypro_field_radiobutton_398049_3        | 1          |
-      | id_surveypro_field_radiobutton_398050_4        | 1          |
+      | id_surveypro_field_radiobutton_44_2            | 1          |
+      | id_surveypro_field_radiobutton_45_3            | 1          |
+      | id_surveypro_field_radiobutton_46_4            | 1          |
+      | id_surveypro_field_radiobutton_47_0            | 1          |
+      | id_surveypro_field_radiobutton_48_1            | 1          |
+      | id_surveypro_field_radiobutton_49_2            | 1          |
+      | id_surveypro_field_radiobutton_50_3            | 1          |
+      | id_surveypro_field_radiobutton_51_4            | 1          |
 
-      | id_surveypro_field_radiobutton_398053_0        | 1          |
-      | id_surveypro_field_radiobutton_398054_1        | 1          |
-      | id_surveypro_field_radiobutton_398055_2        | 1          |
-      | id_surveypro_field_radiobutton_398056_3        | 1          |
-      | id_surveypro_field_radiobutton_398057_4        | 1          |
-      | id_surveypro_field_radiobutton_398058_0        | 1          |
-      | id_surveypro_field_radiobutton_398059_1        | 1          |
-      | id_surveypro_field_radiobutton_398060_2        | 1          |
+      | id_surveypro_field_radiobutton_54_0            | 1          |
+      | id_surveypro_field_radiobutton_55_1            | 1          |
+      | id_surveypro_field_radiobutton_56_2            | 1          |
+      | id_surveypro_field_radiobutton_57_3            | 1          |
+      | id_surveypro_field_radiobutton_58_4            | 1          |
+      | id_surveypro_field_radiobutton_59_0            | 1          |
+      | id_surveypro_field_radiobutton_60_1            | 1          |
+      | id_surveypro_field_radiobutton_61_2            | 1          |
+
       | How long did this survey take you to complete? | 2-3 min    |
       | Do you have any other comments?                | Am I sexy? |
     And I press "Submit"

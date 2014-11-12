@@ -483,43 +483,56 @@ EOS;
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
-        $firstclass = array('class' => 'indent-'.$this->indent);
-        $class = ($this->adjustment == SURVEYPRO_VERTICAL) ? $firstclass : '';
+        $idprefix = 'id_surveypro_field_radiobutton_'.$this->sortindex;
 
-        // element values
-        $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
-        $labelcount = count($labels);
+        $paramelement = array('class' => 'indent-'.$this->indent);
+        $elementgroup = array();
+
+        // mform elements
         if (!$searchform) {
             if ($this->defaultoption == SURVEYPRO_INVITATIONDEFAULT) {
-                $labels = array(SURVEYPRO_INVITATIONVALUE => get_string('choosedots')) + $labels;
+                $paramelement['id'] = $idprefix.'_invitation';
+                $elementgroup[] = $mform->createElement('radio', $this->itemname, '', get_string('choosedots'), SURVEYPRO_INVITATIONVALUE, $paramelement);
+                if ($this->adjustment == SURVEYPRO_HORIZONTAL) {
+                    unset($paramelement['class']);
+                }
             }
         } else {
-            $labels = array(SURVEYPRO_IGNOREME => get_string('star', 'surveypro')) + $labels;
+            $paramelement['id'] = $idprefix.'_ignoreme';
+            $elementgroup[] = $mform->createElement('radio', $this->itemname, '', get_string('star', 'surveypro'), SURVEYPRO_IGNOREME, $paramelement);
+            if ($this->adjustment == SURVEYPRO_HORIZONTAL) {
+                unset($paramelement['class']);
+            }
         }
-        // End of: element values
 
-        // mform element
-        $elementgroup = array();
+        $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
+        $labelcount = count($labels);
         foreach ($labels as $k => $label) {
-            $maybeclass = (count($elementgroup)) ? $class : $firstclass;
-            $elementgroup[] = $mform->createElement('radio', $this->itemname, '', $label, "$k", $maybeclass);
+            $paramelement['id'] = $idprefix.'_'."$k";
+            $elementgroup[] = $mform->createElement('radio', $this->itemname, '', $label, "$k", $paramelement);
+            if ($this->adjustment == SURVEYPRO_HORIZONTAL) {
+                unset($paramelement['class']);
+            }
         }
 
         if (!empty($this->labelother)) {
             list($othervalue, $otherlabel) = $this->item_get_other();
             $labels['other'] = $othervalue;
 
-            $elementgroup[] = $mform->createElement('radio', $this->itemname, '', $otherlabel, 'other', $class);
-            $elementgroup[] = $mform->createElement('text', $this->itemname.'_text', '');
-            $mform->setType($this->itemname.'_text', PARAM_RAW);
+            $paramelement['id'] = $idprefix.'_other';
+            $elementgroup[] = $mform->createElement('radio', $this->itemname, '', $otherlabel, 'other', $paramelement);
 
+            $paramelement['id'] = $idprefix.'_text';
+            $elementgroup[] = $mform->createElement('text', $this->itemname.'_text', '', $paramelement);
+            $mform->setType($this->itemname.'_text', PARAM_RAW);
             $mform->disabledIf($this->itemname.'_text', $this->itemname, 'neq', 'other');
         }
 
         if (!$this->required) {
-            $elementgroup[] = $mform->createElement('radio', $this->itemname, '', get_string('noanswer', 'surveypro'), SURVEYPRO_NOANSWERVALUE, $class);
+            $paramelement['id'] = $idprefix.'_noanswer';
+            $elementgroup[] = $mform->createElement('radio', $this->itemname, '', get_string('noanswer', 'surveypro'), SURVEYPRO_NOANSWERVALUE, $paramelement);
         }
-        // End of: mform element
+        // End of: mform elements
 
         // definition of separator
         if ($this->adjustment == SURVEYPRO_VERTICAL) {

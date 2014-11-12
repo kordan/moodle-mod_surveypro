@@ -350,20 +350,22 @@ EOS;
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
+        $idprefix = 'id_surveypro_field_character_'.$this->sortindex;
+
         $thresholdsize = 48;
-        $options = array('class' => 'indent-'.$this->indent);
+        $paramelement = array('class' => 'indent-'.$this->indent, 'id' => $idprefix);
         if (!empty($this->maxlength)) {
-            $options['maxlength'] = $this->maxlength;
+            $paramelement['maxlength'] = $this->maxlength;
             if ($this->maxlength < $thresholdsize) {
-                $options['size'] = $this->maxlength;
+                $paramelement['size'] = $this->maxlength;
             } else {
-                $options['size'] = $thresholdsize;
+                $paramelement['size'] = $thresholdsize;
             }
         } else {
-            $options['size'] = $thresholdsize;
+            $paramelement['size'] = $thresholdsize;
         }
         if (!$searchform) {
-            $mform->addElement('text', $this->itemname, $elementlabel, $options);
+            $mform->addElement('text', $this->itemname, $elementlabel, $paramelement);
             $mform->setType($this->itemname, PARAM_RAW);
             $mform->setDefault($this->itemname, $this->defaultvalue);
 
@@ -377,9 +379,14 @@ EOS;
             }
         } else {
             $elementgroup = array();
-            $elementgroup[] = $mform->createElement('text', $this->itemname, '', array('class' => 'indent-'.$this->indent));
-            $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'surveypro'));
+            $paramelement['id'] = $idprefix.'_text';
+            $elementgroup[] = $mform->createElement('text', $this->itemname, '', $paramelement);
+
+            unset($paramelement['class']);
+            $paramelement['id'] = $idprefix.'_ignoreme';
+            $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'surveypro'), $paramelement);
             $mform->setType($this->itemname, PARAM_RAW);
+
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_ignoreme', 'checked');
             $mform->setDefault($this->itemname.'_ignoreme', '1');

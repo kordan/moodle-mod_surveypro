@@ -475,6 +475,8 @@ EOS;
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
+        $idprefix = 'id_surveypro_field_boolean_'.$this->sortindex;
+
         $yeslabel = get_string('yes');
         $nolabel = get_string('no');
 
@@ -506,33 +508,47 @@ EOS;
                     $mform->_required[] = $starplace;
                 }
             }
-            $mform->addElement('select', $this->itemname, $elementlabel, $options, array('class' => 'indent-'.$this->indent));
+            $mform->addElement('select', $this->itemname, $elementlabel, $options, array('class' => 'indent-'.$this->indent, 'id' => $idprefix));
             // End of: mform element
         } else { // SURVEYPROFIELD_BOOLEAN_USERADIOV or SURVEYPROFIELD_BOOLEAN_USERADIOH
             $separator = ($this->style == SURVEYPROFIELD_BOOLEAN_USERADIOV) ? '<br />' : ' ';
             $elementgroup = array();
 
-            $firstclass = array('class' => 'indent-'.$this->indent);
-            $class = ($this->style == SURVEYPROFIELD_BOOLEAN_USERADIOV) ? $firstclass : '';
+            // mform elements
+            $paramelement = array('class' => 'indent-'.$this->indent);
 
-            // mform element
             if (!$searchform) {
                 if ($this->defaultoption == SURVEYPRO_INVITATIONDEFAULT) {
-                    $elementgroup[] = $mform->createElement('radio', $this->itemname, '', get_string('choosedots'), SURVEYPRO_INVITATIONVALUE, $firstclass);
+                    $paramelement['id'] = $idprefix.'_invitation';
+                    $elementgroup[] = $mform->createElement('radio', $this->itemname, '', get_string('choosedots'), SURVEYPRO_INVITATIONVALUE, $paramelement);
+                    if ($this->style == SURVEYPROFIELD_BOOLEAN_USERADIOH) {
+                        unset($paramelement['class']);
+                    }
                 }
             } else {
-                $elementgroup[] = $mform->createElement('radio', $this->itemname, '', get_string('star', 'surveypro'), SURVEYPRO_IGNOREME, $firstclass);
+                $paramelement['id'] = $idprefix.'_ignoreme';
+                $elementgroup[] = $mform->createElement('radio', $this->itemname, '', get_string('star', 'surveypro'), SURVEYPRO_IGNOREME, $paramelement);
+                if ($this->style == SURVEYPROFIELD_BOOLEAN_USERADIOH) {
+                    unset($paramelement['class']);
+                }
             }
 
-            $maybeclass = (count($elementgroup)) ? $class : $firstclass;
-            $elementgroup[] = $mform->createElement('radio', $this->itemname, '', $yeslabel, '1', $maybeclass);
-            $elementgroup[] = $mform->createElement('radio', $this->itemname, '', $nolabel, '0', $class);
+            $paramelement['id'] = $idprefix.'_1';
+            $elementgroup[] = $mform->createElement('radio', $this->itemname, '', $yeslabel, '1', $paramelement);
+
+            if ($this->style == SURVEYPROFIELD_BOOLEAN_USERADIOH) {
+                unset($paramelement['class']);
+            }
+
+            $paramelement['id'] = $idprefix.'_0';
+            $elementgroup[] = $mform->createElement('radio', $this->itemname, '', $nolabel, '0', $paramelement);
 
             if (!$this->required) {
-                $elementgroup[] = $mform->createElement('radio', $this->itemname, '', get_string('noanswer', 'surveypro'), SURVEYPRO_NOANSWERVALUE, $class);
+                $paramelement['id'] = $idprefix.'_noanswer';
+                $elementgroup[] = $mform->createElement('radio', $this->itemname, '', get_string('noanswer', 'surveypro'), SURVEYPRO_NOANSWERVALUE, $paramelement);
             }
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, $separator, false);
-            // End of: element values
+            // End of: mform elements
         }
 
         // default section

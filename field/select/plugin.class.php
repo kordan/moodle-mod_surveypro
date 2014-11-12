@@ -477,6 +477,8 @@ EOS;
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
+        $idprefix = 'id_surveypro_field_select_'.$this->sortindex;
+
         // element values
         $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
         if (!$searchform) {
@@ -496,11 +498,11 @@ EOS;
         // End of: element values
 
         if (!$this->labelother) {
-            $mform->addElement('select', $this->itemname, $elementlabel, $labels, array('class' => 'indent-'.$this->indent));
+            $mform->addElement('select', $this->itemname, $elementlabel, $labels, array('class' => 'indent-'.$this->indent, 'id' => $idprefix));
         } else {
             $elementgroup = array();
-            $elementgroup[] = $mform->createElement('select', $this->itemname, '', $labels, array('class' => 'indent-'.$this->indent));
-            $elementgroup[] = $mform->createElement('text', $this->itemname.'_text', '');
+            $elementgroup[] = $mform->createElement('select', $this->itemname, '', $labels, array('class' => 'indent-'.$this->indent, 'id' => $idprefix));
+            $elementgroup[] = $mform->createElement('text', $this->itemname.'_text', '', array('id' => $idprefix.'_text'));
             $mform->setType($this->itemname.'_text', PARAM_RAW);
             $mform->disabledIf($this->itemname.'_text', $this->itemname, 'neq', 'other');
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);

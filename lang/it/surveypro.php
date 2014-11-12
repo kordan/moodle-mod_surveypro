@@ -51,11 +51,11 @@ $string['tabsubmissionsname'] = 'Indagine';
     $string['tabsubmissionspage9'] = 'Esportazione';
 $string['tabutemplatename'] = 'Template utente';
     $string['tabutemplatepage1'] = 'Gestione';
-    $string['tabutemplatepage2'] = 'Salva';
+    $string['tabutemplatepage2'] = 'Genera';
     $string['tabutemplatepage3'] = 'Importa';
     $string['tabutemplatepage4'] = 'Applica';
 $string['tabmtemplatename'] = 'Template sistema';
-    $string['tabmtemplatepage1'] = 'Salva';
+    $string['tabmtemplatepage1'] = 'Genera';
     $string['tabmtemplatepage2'] = 'Applica';
 
 $string['noanswer'] = 'Nessuna risposta';

@@ -333,16 +333,24 @@ EOS;
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
-        if (!empty($this->useeditor)) {
+        $idprefix = 'id_surveypro_field_textarea_'.$this->sortindex;
+
+        $paramelement = array();
+        $paramelement['class'] = 'indent-'.$this->indent;
+        $paramelement['id'] = $idprefix;
+        if (empty($this->useeditor)) {
+            $fieldname = $this->itemname;
+            $paramelement['wrap'] = 'virtual';
+            $paramelement['rows'] = $this->arearows;
+            $paramelement['cols'] = $this->areacols;
+            $mform->addElement('textarea', $fieldname, $elementlabel, $paramelement);
+            $mform->setType($fieldname, PARAM_TEXT);
+        } else {
+            // $paramelement['class'] and $paramelement['id'] do not work: MDL_28194
             $fieldname = $this->itemname.'_editor';
             $editoroptions = array('trusttext' => true, 'subdirs' => true, 'maxfiles' => EDITOR_UNLIMITED_FILES);
-            $mform->addElement('editor', $fieldname, $elementlabel, array('class' => 'indent-'.$this->indent), $editoroptions);
+            $mform->addElement('editor', $fieldname, $elementlabel, $paramelement, $editoroptions);
             $mform->setType($fieldname, PARAM_CLEANHTML);
-        } else {
-            $fieldname = $this->itemname;
-            $textareaoptions = array('wrap' => 'virtual', 'rows' => $this->arearows, 'cols' => $this->areacols, 'class' => 'indent-'.$this->indent);
-            $mform->addElement('textarea', $fieldname, $elementlabel, $textareaoptions);
-            $mform->setType($fieldname, PARAM_TEXT);
         }
 
         if (!$searchform) {

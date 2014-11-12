@@ -452,18 +452,23 @@ EOS;
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
+        $idprefix = 'id_surveypro_field_checkbox_'.$this->sortindex;
+
         $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
         $defaults = surveypro_textarea_to_array($this->defaultvalue);
 
-        $firstclass = array('class' => 'indent-'.$this->indent, 'group' => 1);
-        $class = ($this->adjustment == SURVEYPRO_VERTICAL) ? $firstclass : array('group' => 1);
+        $paramelement = array('class' => 'indent-'.$this->indent, 'group' => 1);
 
         $elementgroup = array();
         $i = 0;
         foreach ($labels as $value => $label) {
             $uniqueid = $this->itemname.'_'.$i;
-            $maybeclass = (count($elementgroup)) ? $class : $firstclass;
-            $elementgroup[] = $mform->createElement('advcheckbox', $uniqueid, '', $label, $maybeclass, array('0', '1'));
+            $paramelement['id'] = $idprefix.'_'.$i;
+            $elementgroup[] = $mform->createElement('advcheckbox', $uniqueid, '', $label, $paramelement, array('0', '1'));
+
+            if ($this->adjustment == SURVEYPRO_HORIZONTAL) {
+                unset($paramelement['class']);
+            }
 
             if (!$searchform) {
                 if (in_array($label, $defaults)) {
@@ -475,8 +480,12 @@ EOS;
         if (!empty($this->labelother)) {
             list($othervalue, $otherlabel) = $this->item_get_other();
 
-            $elementgroup[] = $mform->createElement('advcheckbox', $this->itemname.'_other', '', $otherlabel, $class, array('0', '1'));
-            $elementgroup[] = $mform->createElement('text', $this->itemname.'_text', '');
+            $paramelement['id'] = $idprefix.'_other';
+            $elementgroup[] = $mform->createElement('advcheckbox', $this->itemname.'_other', '', $otherlabel, $paramelement, array('0', '1'));
+
+            unset($paramelement['group']);
+            $paramelement['id'] = $idprefix.'_text';
+            $elementgroup[] = $mform->createElement('text', $this->itemname.'_text', '', $paramelement);
             $mform->setType($this->itemname.'_text', PARAM_RAW);
 
             if (!$searchform) {
@@ -489,12 +498,15 @@ EOS;
         }
 
         if (!$this->minimumrequired) {
-            $elementgroup[] = $mform->createElement('advcheckbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), $class, array('0', '1'));
+            $paramelement['group'] = 1;
+            $paramelement['id'] = $idprefix.'_noanswer';
+            $elementgroup[] = $mform->createElement('advcheckbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), $paramelement, array('0', '1'));
         }
 
         if ($searchform) {
-            unset($class['group']);
-            $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'surveypro'), $class);
+            unset($paramelement['group']);
+            $paramelement['id'] = $idprefix.'_ignoreme';
+            $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'surveypro'), $paramelement);
         }
 
         if ($this->adjustment == SURVEYPRO_VERTICAL) {

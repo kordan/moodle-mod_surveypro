@@ -77,7 +77,7 @@ function xmldb_surveyprofield_multiselect_upgrade($oldversion) {
         }
 
         // Define field surveyproid to be dropped from surveyprofield_checkbox.
-        $table = new xmldb_table('surveyprofield_checkbox');
+        $table = new xmldb_table('surveyprofield_multiselect');
         $field = new xmldb_field('required');
 
         // Conditionally launch drop field surveyproid.
