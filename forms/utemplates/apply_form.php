@@ -46,7 +46,6 @@ class mod_surveypro_applyutemplateform extends moodleform {
 
         $options = $utemplateman->get_sharinglevel_options();
 
-        $templates = new stdClass();
         $templatesfiles = array();
         foreach ($options as $sharinglevel => $v) {
             $parts = explode('_', $sharinglevel);
@@ -54,7 +53,6 @@ class mod_surveypro_applyutemplateform extends moodleform {
             $contextid = $utemplateman->get_contextid_from_sharinglevel($sharinglevel);
             $contextstring = $utemplateman->get_contextstring_from_sharinglevel($contextlevel);
             $contextfiles = $utemplateman->get_available_templates($contextid);
-            $templates->{$contextlevel.'_'.$contextstring} = $contextfiles;
 
             $contextlabel = get_string($contextstring, 'surveypro');
             foreach ($contextfiles as $xmlfile) {
