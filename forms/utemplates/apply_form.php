@@ -53,14 +53,13 @@ class mod_surveypro_applyutemplateform extends moodleform {
             $contextlevel = $parts[0];
             $contextid = $utemplateman->get_contextid_from_sharinglevel($sharinglevel);
             $contextstring = $utemplateman->get_contextstring_from_sharinglevel($contextlevel);
-            $templates->{$contextstring} = $utemplateman->get_available_templates($contextid);
-        }
+            $contextfiles = $utemplateman->get_available_templates($contextid);
+            $templates->{$contextlevel.'_'.$contextstring} = $contextfiles;
 
-        foreach ($templates as $contextstring => $contextfiles) {
             $contextlabel = get_string($contextstring, 'surveypro');
             foreach ($contextfiles as $xmlfile) {
                 $itemsetname = $xmlfile->get_filename();
-                $templatesfiles[$xmlfile->get_id()] = '('.$contextlabel.') '.$itemsetname;
+                $templatesfiles[$contextlevel.'_'.$xmlfile->get_id()] = '('.$contextlabel.') '.$itemsetname;
             }
         }
         asort($templatesfiles);
@@ -75,7 +74,7 @@ class mod_surveypro_applyutemplateform extends moodleform {
         // ----------------------------------------
         // applyutemplate: usertemplate
         // ----------------------------------------
-        $fieldname = 'usertemplate';
+        $fieldname = 'usertemplateinfo';
         $templatesfiles = array(get_string('notanyset', 'surveypro')) + $templatesfiles;
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveypro'), $templatesfiles);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');

@@ -314,7 +314,8 @@ class mod_surveypro_templatebase {
                 $this->utemplateid = 0;
             } else {
                 $action = $this->formdata->action;
-                $this->utemplateid = $this->formdata->usertemplate;
+                $parts = explode('_', $this->formdata->usertemplateinfo);
+                $this->utemplateid = $parts[1];
             }
 
             // --> --> VERY DANGEROUS ACTION: User is going to erase all the items of the survey <-- <--
@@ -424,9 +425,14 @@ class mod_surveypro_templatebase {
         // master templates do not use $this->nonmatchingplugin
         if ($this->templatetype == SURVEYPRO_USERTEMPLATE) {
             if (!empty($this->nonmatchingplugin)) {
-                // for sure I am dealing witha usertemplate
+                $parts = explode('_', $this->formdata->usertemplateinfo);
+                $contextlevel = $parts[0];
+                $contextstring = $this->get_contextstring_from_sharinglevel($contextlevel);
+                $contextlabel = get_string($contextstring, 'surveypro');
+
+                // for sure I am dealing with a usertemplate
                 $a = new stdClass();
-                $a->templatename = $this->get_utemplate_name();
+                $a->templatename = '('.$contextlabel.') '.$this->get_utemplate_name();
                 $a->plugins = '<li>'.implode('</li>;<li>', array_keys($this->nonmatchingplugin)).'.</li>';
                 $a->tab = get_string('tabutemplatename', 'surveypro');
                 $a->page1 = get_string('tabutemplatepage1' , 'surveypro');
@@ -512,7 +518,6 @@ class mod_surveypro_templatebase {
     public function add_items_from_template() {
         global $DB, $CFG;
 
-        $context = context_module::instance($this->cm->id);
         $fs = get_file_storage();
 
         if ($this->templatetype == SURVEYPRO_MASTERTEMPLATE) { // it is multilang
@@ -580,8 +585,9 @@ class mod_surveypro_templatebase {
                         // echo 'I need to add: "'.$filename.'" to the filearea<br />';
 
                         // add the file described by $filename and $filecontent to filearea
+                        // alias, add pictures found in the utemplate to filearea
                         $filerecord = new stdClass();
-                        $filerecord->contextid = $context->id;
+                        $filerecord->contextid = $this->context->id;
                         $filerecord->component = 'mod_surveypro';
                         $filerecord->filearea = SURVEYPRO_ITEMCONTENTFILEAREA;
                         $filerecord->itemid = $itemid;

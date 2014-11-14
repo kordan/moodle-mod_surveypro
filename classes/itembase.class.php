@@ -447,15 +447,15 @@ class mod_surveypro_itembase {
 
         $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$this->plugin;
         $whereparams = array('itemid' => $itemid, 'surveyproid' => (int)$record->surveyproid);
-        $select = 'SELECT COUNT(p.id)
+        $sql = 'SELECT COUNT(p.id)
                 FROM {'.$tablename.'} p
-                    JOIN {surveypro_item} i ON i.id = p.itemid ';
-        $whereset = 'WHERE ((p.itemid <> :itemid) AND (i.surveyproid = :surveyproid))';
-        $whereverify = 'WHERE ((p.itemid <> :itemid) AND (i.surveyproid = :surveyproid) AND (p.variable = :variable))';
+                    JOIN {surveypro_item} i ON i.id = p.itemid
+                WHERE ((p.itemid <> :itemid)
+                    AND (i.surveyproid = :surveyproid)
+                    AND ('.$DB->sql_length('p.variable').' > 0))';
 
         // Verify variable was set. If not, set it.
         if (!isset($record->variable) || empty($record->variable)) {
-            $sql = $select.$whereset;
             $plugincount = 1 + $DB->count_records_sql($sql, $whereparams);
             $plugincount = str_pad($plugincount, 3, '0', STR_PAD_LEFT);
 
@@ -465,12 +465,16 @@ class mod_surveypro_itembase {
         }
 
         // verify the given name is unique. If not, change it.
-        $i = 0; // if name is duplicate, restart verification from 0
+        $sql = 'SELECT p.id, p.variable
+                FROM {'.$tablename.'} p
+                    JOIN {surveypro_item} i ON i.id = p.itemid
+                WHERE ((p.itemid <> :itemid)
+                    AND (i.surveyproid = :surveyproid))';
         $whereparams['variable'] = $candidatevariable;
-        $sql = $select.$whereverify;
 
-        // while ($DB->record_exists_sql($sql, $whereparams)) {
-        while ($DB->count_records_sql($sql, $whereparams)) {
+        $i = 0; // if name is duplicate, restart verification from 1
+        $usednames = $DB->get_records_sql_menu($sql, $whereparams);
+        while (in_array($candidatevariable, $usednames)) {
             $i++;
             $candidatevariable = $record->plugin.'_'.str_pad($i, 3, '0', STR_PAD_LEFT);
             $whereparams['variable'] = $candidatevariable;

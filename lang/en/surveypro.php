@@ -200,8 +200,8 @@ Applying it may lead to an unexpected behaviour. Please:<ul>
 <li>Go to {$a->tab}->{$a->page1};</li>
 <li>Download {$a->templatename};</li>
 <li>Delete it from the list in the page;</li>
-<li>Go to {$a->tab}->{$a->page3}; and try to import it again</li>
-<li>Modify it according to error meessages you get during upload.</li>';
+<li>Go to {$a->tab}->{$a->page3} and try to import it again. You will get warnings.</li>;
+<li>Modify your usertemplate according to the suggestions displayed during upload.</li>';
 $string['fullwidth'] = 'top left (full width)';
 $string['gotolist'] = 'Continue to responses list';
 $string['hassubmissions_alert'] = 'This survey has already been submitted at least once.<br />Please proceed with extreme caution and make only minimal changes to not compromise the validity of the whole survey.';
@@ -277,7 +277,7 @@ $string['missingitemtype'] = 'One or more items of the template are missing the 
 $string['missingitemversion'] = 'One or more items of the template is missing the version';
 $string['missingparentcontent_err'] = 'You need to specify a parent content otherwise clear the "{$a}" field';
 $string['missingparentid_err'] = 'You need to select a element to branch the survey. Otherwise clear the "{$a}" field';
-$string['missingplugin'] = 'Plugin not defined in the template file';
+$string['missingplugin'] = 'Each plugin has undefined version in the template file';
 $string['missingsortindex'] = 'Sortindex is missing in the template';
 $string['module'] = 'This instance of survey';
 $string['modulesettinghdr'] = 'Surveypro settings';
@@ -441,9 +441,9 @@ $string['user'] = 'User';
 $string['usercanceled'] = 'Action canceled by the user';
 $string['userstyle_help'] = 'Add here one or more cascade style sheet (css) you want to apply to this survey';
 $string['userstyle'] = 'Custom style sheet';
-$string['usertemplate_help'] = 'Choose the user template you want to add to your survey.';
-$string['usertemplate'] = 'User templates';
-$string['usertemplates'] = 'user templates';
+$string['usertemplateinfo_help'] = 'Choose the user template you want to add to your survey.';
+$string['usertemplateinfo'] = 'User templates';
+// $string['usertemplates'] = 'user templates';
 $string['utemplatessection'] = 'User templates section';
 $string['validate'] = 'Start validation';
 $string['validation'] = 'Validation options';

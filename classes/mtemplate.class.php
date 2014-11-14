@@ -53,7 +53,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
      * @return
      */
     public function download_mtemplate() {
-        $this->templatename = $this->create_mtemplate();
+        $this->templatename = $this->generate_mtemplate();
         $exportfilename = basename($this->templatename);
         header("Content-Type: application/download\n");
         header("Content-Disposition: attachment; filename=\"$exportfilename\"");
@@ -67,12 +67,12 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * create_mtemplate
+     * generate_mtemplate
      *
      * @param none
      * @return
      */
-    public function create_mtemplate() {
+    public function generate_mtemplate() {
         global $CFG, $DB;
 
         $pluginname = clean_filename($this->formdata->mastertemplatename);

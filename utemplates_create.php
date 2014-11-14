@@ -81,7 +81,7 @@ $createutemplate = new mod_surveypro_utemplatecreateform($formurl, $formparams);
 // -----------------------------
 // manage form submission
 if ($utemplateman->formdata = $createutemplate->get_data()) {
-    $utemplateman->save_utemplate();
+    $utemplateman->generate_utemplate();
     $utemplateman->trigger_event('usertemplate_saved');
 
     $paramurl = array();

@@ -233,13 +233,12 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         global $DB, $COURSE, $USER, $SITE;
 
         $labelsep = get_string('labelsep', 'langconfig'); // ': '
-        $modulecontext = context_module::instance($this->cm->id);
 
         $options = array();
         $options[CONTEXT_USER.'_'.$USER->id] = get_string('user').$labelsep.fullname($USER);
         // $options[CONTEXT_MODULE.'_'.$this->cm->id] = get_string('module', 'surveypro').$labelsep.$this->surveypro->name;
 
-        $parentcontexts = $modulecontext->get_parent_contexts();
+        $parentcontexts = $this->context->get_parent_contexts();
         foreach ($parentcontexts as $context) {
             if (has_capability('mod/surveypro:saveusertemplates', $context)) {
                 $options[$context->contextlevel.'_'.$context->instanceid] = $context->get_context_name();
@@ -351,7 +350,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         global $OUTPUT;
 
         $a = new stdClass();
-        $a->usertemplate = get_string('usertemplate', 'surveypro');
+        $a->usertemplate = get_string('usertemplateinfo', 'surveypro');
         $a->none = get_string('notanyset', 'surveypro');
         $a->action = get_string('action', 'surveypro');
         $a->deleteallitems = get_string('deleteallitems', 'surveypro');
@@ -378,12 +377,13 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     public function check_items_versions() {
         global $CFG;
 
-        if (empty($this->formdata->usertemplate)) { // nothing was selected
+        if (empty($this->formdata->usertemplateinfo)) { // nothing was selected
             return;
         }
 
         $versiondisk = $this->get_plugin_versiondisk();
-        $this->utemplateid = $this->formdata->usertemplate;
+        $parts = explode('_', $this->formdata->usertemplateinfo);
+        $this->utemplateid = $parts[1];
         $this->templatename = $this->get_utemplate_name();
         $templatecontent = $this->get_utemplate_content();
 
@@ -509,12 +509,12 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * save_utemplate
+     * generate_utemplate
      *
      * @param none
      * @return
      */
-    public function save_utemplate() {
+    public function generate_utemplate() {
         global $USER;
 
         $this->templatename = $this->formdata->templatename;
