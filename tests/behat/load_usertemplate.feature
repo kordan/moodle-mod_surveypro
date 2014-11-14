@@ -25,8 +25,8 @@ Feature: Load and apply usertemplates in order to test, among others, partial it
     And I follow "My user template"
 
     And I navigate to "Import" node in "Surveypro administration > User templates"
-    And I upload "mod/surveypro/tests/usertemplate/parent-child_2014111000.xml" file to "Choose files to import" filemanager
-    And I upload "mod/surveypro/tests/usertemplate/MMM_2014111000.xml" file to "Choose files to import" filemanager
+    And I upload "mod/surveypro/tests/fixtures/usertemplate/parent-child_2014111000.xml" file to "Choose files to import" filemanager
+    And I upload "mod/surveypro/tests/fixtures/usertemplate/MMM_2014111000.xml" file to "Choose files to import" filemanager
 
     And I set the field "Sharing level" to "Course: To apply usertemplate"
     And I press "Import"
