@@ -25,8 +25,8 @@ Feature: Load and apply usertemplates in order to test, among others, partial it
     And I follow "My user template"
 
     And I navigate to "Import" node in "Surveypro administration > User templates"
-    And I upload "mod/surveypro/tests/fixtures/usertemplate/parent-child_2014111000.xml" file to "Choose files to import" filemanager
-    And I upload "mod/surveypro/tests/fixtures/usertemplate/MMM_2014111000.xml" file to "Choose files to import" filemanager
+    And I upload "mod/surveypro/tests/fixtures/usertemplate/parent-child_2014111701.xml" file to "Choose files to import" filemanager
+    And I upload "mod/surveypro/tests/fixtures/usertemplate/MMM_2014111701.xml" file to "Choose files to import" filemanager
 
     And I set the field "Sharing level" to "Course: To apply usertemplate"
     And I press "Import"
@@ -36,7 +36,7 @@ Feature: Load and apply usertemplates in order to test, among others, partial it
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates       | (Course) MMM_2014111000.xml |
+      | User templates       | (Course) MMM_2014111701.xml |
       | id_action_1          | 1                           |
     And I press "Continue"
 
@@ -83,7 +83,7 @@ Feature: Load and apply usertemplates in order to test, among others, partial it
 
     And I navigate to "Apply" node in "Surveypro administration > User templates"
     And I set the following fields to these values:
-      | User templates       | parent-child_2014111000.xml |
+      | User templates       | parent-child_2014111701.xml |
       | id_action_5          | 1                           |
     And I press "Continue"
 

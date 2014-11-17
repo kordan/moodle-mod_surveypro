@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items>
+  <item type="format" plugin="label" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>1</sortindex>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;h5&gt;AGE&lt;/h5&gt;</content>
+      <contentformat>1</contentformat>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="format" plugin="label" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>2</sortindex>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;an age has been defined as default (so: "Choose..." is not expected)&lt;/li&gt;&lt;li&gt;user answer is limited only by module level age limit&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;Behaviour:&#13;
+ The item is mandatory so the user is theoretically forced to choose a &#13;
+value. In spite of this, the default is set to an acceptable value so &#13;
+the user will be allowed to "fly" over this item leaving the proposed &#13;
+default untouched (and the question not read)</content>
+      <contentformat>1</contentformat>
+      <customnumber>1 intro</customnumber>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="age" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>3</sortindex>
+    </surveypro_item>
+    <surveyprofield_age>
+      <content>&lt;p&gt;How old are you?&lt;br /&gt;&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>1</customnumber>
+      <position>0</position>
+      <required>1</required>
+      <hideinstructions>0</hideinstructions>
+      <variable>age_001</variable>
+      <indent>0</indent>
+      <defaultoption>1</defaultoption>
+      <defaultvalue>-1186056000</defaultvalue>
+      <lowerbound>-2148552000</lowerbound>
+      <upperbound>1193918400</upperbound>
+    </surveyprofield_age>
+  </item>
+  <item type="format" plugin="label" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>4</sortindex>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;"Choose..." is the default&lt;/li&gt;&lt;li&gt;user answer is limited only by module level age limit&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory so the user is forced to &#13;
+choose a value. The default is set to a not acceptable &#13;
+value so the user will be forced to select an age corresponding to his/her answer.</content>
+      <contentformat>1</contentformat>
+      <customnumber>2 intro</customnumber>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="age" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>5</sortindex>
+    </surveypro_item>
+    <surveyprofield_age>
+      <content>&lt;p&gt;How old are you?&lt;br /&gt;&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>2</customnumber>
+      <position>0</position>
+      <required>1</required>
+      <hideinstructions>0</hideinstructions>
+      <variable>age_002</variable>
+      <indent>0</indent>
+      <defaultoption>2</defaultoption>
+      <defaultvalue>-1</defaultvalue>
+      <lowerbound>-2148552000</lowerbound>
+      <upperbound>1193918400</upperbound>
+    </surveyprofield_age>
+  </item>
+  <item type="format" plugin="label" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>6</sortindex>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;"Yes" is the default&lt;/li&gt;&lt;li&gt;user answer is limited only by module level age limit&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to an acceptable &#13;
+value so the user can "fly" over this item leaving the&#13;
+ proposed default untouched (and the question not read)&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>3 intro</customnumber>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="age" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>7</sortindex>
+    </surveypro_item>
+    <surveyprofield_age>
+      <content>&lt;p&gt;How old are you?&lt;br /&gt;&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>3</customnumber>
+      <position>0</position>
+      <required>0</required>
+      <hideinstructions>0</hideinstructions>
+      <variable>age_003</variable>
+      <indent>0</indent>
+      <defaultoption>1</defaultoption>
+      <defaultvalue>-1033560000</defaultvalue>
+      <lowerbound>-2148552000</lowerbound>
+      <upperbound>1193918400</upperbound>
+    </surveyprofield_age>
+  </item>
+  <item type="format" plugin="label" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>8</sortindex>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;ul&gt;&lt;li&gt;&lt;span class="indent-0"&gt;not mandatory (so: "No answer" is expected)&lt;/span&gt;&lt;/li&gt;&lt;li&gt;"Choose..." is the default&lt;/li&gt;&lt;li&gt;user answer is limited only by module level age limit&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory but the default is set to a not acceptable &#13;
+value so the user &lt;span class="indent-0"&gt;will be forced to select an age corresponding to his/her answer. Being &lt;/span&gt;&lt;span xml:lang="en" lang="en"&gt;&lt;span class="hps"&gt;the item&lt;/span&gt; &lt;span class="hps"&gt;not&lt;/span&gt; &lt;span class="hps"&gt;required&lt;/span&gt;&lt;span&gt;, the user can&lt;/span&gt; &lt;span class="hps"&gt;choose as answer: "No answer"&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>4 intro</customnumber>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="age" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>9</sortindex>
+    </surveypro_item>
+    <surveyprofield_age>
+      <content>&lt;p&gt;How old are you?&lt;br /&gt;&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>4</customnumber>
+      <position>0</position>
+      <required>0</required>
+      <hideinstructions>0</hideinstructions>
+      <variable>age_004</variable>
+      <indent>0</indent>
+      <defaultoption>2</defaultoption>
+      <defaultvalue>-1</defaultvalue>
+      <lowerbound>-2148552000</lowerbound>
+      <upperbound>1193918400</upperbound>
+    </surveyprofield_age>
+  </item>
+  <item type="format" plugin="label" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>10</sortindex>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;ul&gt;&lt;li&gt;&lt;span class="indent-0"&gt;not mandatory (so: "No answer" is expected)&lt;/span&gt;&lt;/li&gt;&lt;li&gt;"No answer" is the default&lt;/li&gt;&lt;li&gt;user answer is limited only by module level age limit&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to an acceptable &#13;
+value so the user can "fly" over this item leaving the&#13;
+ proposed default untouched (and the question not read)&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>5 intro</customnumber>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="age" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>11</sortindex>
+    </surveypro_item>
+    <surveyprofield_age>
+      <content>&lt;p&gt;How old are you?&lt;br /&gt;&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>5</customnumber>
+      <position>0</position>
+      <required>0</required>
+      <hideinstructions>0</hideinstructions>
+      <variable>age_005</variable>
+      <indent>0</indent>
+      <defaultoption>3</defaultoption>
+      <lowerbound>-2148552000</lowerbound>
+      <upperbound>1193918400</upperbound>
+    </surveyprofield_age>
+  </item>
+  <item type="format" plugin="label" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>12</sortindex>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;an age has been defined as default (so: "Choose..." is not expected)&lt;/li&gt;&lt;li&gt;user answer is limited between 20 and 40&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;Behaviour:&#13;
+ The item is mandatory so the user is theoretically forced to choose a &#13;
+value. In spite of this, the default is set to an acceptable value so &#13;
+the user will be allowed to "fly" over this item leaving the proposed &#13;
+default untouched (and the question not read)</content>
+      <contentformat>1</contentformat>
+      <customnumber>6 intro</customnumber>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="age" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>13</sortindex>
+    </surveypro_item>
+    <surveyprofield_age>
+      <content>&lt;p&gt;How old are you?&lt;br /&gt;&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>6</customnumber>
+      <position>0</position>
+      <required>1</required>
+      <hideinstructions>0</hideinstructions>
+      <variable>age_006</variable>
+      <indent>0</indent>
+      <defaultoption>1</defaultoption>
+      <defaultvalue>-1186056000</defaultvalue>
+      <lowerbound>-1517400000</lowerbound>
+      <upperbound>-886248000</upperbound>
+    </surveyprofield_age>
+  </item>
+  <item type="format" plugin="label" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>14</sortindex>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;"Choose..." is the default&lt;/li&gt;&lt;li&gt;user answer is limited between 12 years and half and 18&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory so the user is forced to &#13;
+choose a value. The default is set to a not acceptable &#13;
+value so the user will be forced to select an age corresponding to his/her answer.</content>
+      <contentformat>1</contentformat>
+      <customnumber>7 intro</customnumber>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="age" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>15</sortindex>
+    </surveypro_item>
+    <surveyprofield_age>
+      <content>&lt;p&gt;How old are you?&lt;br /&gt;&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>7</customnumber>
+      <position>0</position>
+      <required>1</required>
+      <hideinstructions>0</hideinstructions>
+      <variable>age_007</variable>
+      <indent>0</indent>
+      <defaultoption>2</defaultoption>
+      <defaultvalue>-1</defaultvalue>
+      <lowerbound>-1754136000</lowerbound>
+      <upperbound>-1580558400</upperbound>
+    </surveyprofield_age>
+  </item>
+  <item type="format" plugin="label" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>16</sortindex>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;"Yes" is the default&lt;/li&gt;&lt;li&gt;user answer is limited over 18&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to an acceptable &#13;
+value so the user can "fly" over this item leaving the&#13;
+ proposed default untouched (and the question not read)&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>8 intro</customnumber>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="age" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>17</sortindex>
+    </surveypro_item>
+    <surveyprofield_age>
+      <content>&lt;p&gt;How old are you?&lt;br /&gt;&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>8</customnumber>
+      <position>0</position>
+      <required>0</required>
+      <hideinstructions>0</hideinstructions>
+      <variable>age_008</variable>
+      <indent>0</indent>
+      <defaultoption>1</defaultoption>
+      <defaultvalue>-1033560000</defaultvalue>
+      <lowerbound>-1580558400</lowerbound>
+      <upperbound>1193918400</upperbound>
+    </surveyprofield_age>
+  </item>
+  <item type="format" plugin="label" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>18</sortindex>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;ul&gt;&lt;li&gt;&lt;span class="indent-0"&gt;not mandatory (so: "No answer" is expected)&lt;/span&gt;&lt;/li&gt;&lt;li&gt;"Choose..." is the default&lt;/li&gt;&lt;li&gt;user answer is limited between 0 and 3 months&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory but the default is set to a not acceptable &#13;
+value so the user &lt;span class="indent-0"&gt;will be forced to select an age corresponding to his/her answer. Being &lt;/span&gt;&lt;span xml:lang="en" lang="en"&gt;&lt;span class="hps"&gt;the item&lt;/span&gt; &lt;span class="hps"&gt;not&lt;/span&gt; &lt;span class="hps"&gt;required&lt;/span&gt;&lt;span&gt;, the user can&lt;/span&gt; &lt;span class="hps"&gt;choose as answer: "No answer"&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>9 intro</customnumber>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="age" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>19</sortindex>
+    </surveypro_item>
+    <surveyprofield_age>
+      <content>&lt;p&gt;How old are you?&lt;br /&gt;&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>9</customnumber>
+      <position>0</position>
+      <required>0</required>
+      <hideinstructions>0</hideinstructions>
+      <variable>age_009</variable>
+      <indent>0</indent>
+      <defaultoption>2</defaultoption>
+      <defaultvalue>-1</defaultvalue>
+      <lowerbound>-2148552000</lowerbound>
+      <upperbound>-2140776000</upperbound>
+    </surveyprofield_age>
+  </item>
+  <item type="format" plugin="label" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>20</sortindex>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;ul&gt;&lt;li&gt;&lt;span class="indent-0"&gt;not mandatory (so: "No answer" is expected)&lt;/span&gt;&lt;/li&gt;&lt;li&gt;"No answer" is the default&lt;/li&gt;&lt;li&gt;user answer is limited between 18 and 65&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to an acceptable &#13;
+value so the user can "fly" over this item leaving the&#13;
+ proposed default untouched (and the question not read)&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>10 intro</customnumber>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="age" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>21</sortindex>
+    </surveypro_item>
+    <surveyprofield_age>
+      <content>&lt;p&gt;How old are you?&lt;br /&gt;&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>10</customnumber>
+      <position>0</position>
+      <required>0</required>
+      <hideinstructions>0</hideinstructions>
+      <variable>age_010</variable>
+      <indent>0</indent>
+      <defaultoption>3</defaultoption>
+      <lowerbound>-1580558400</lowerbound>
+      <upperbound>-97329600</upperbound>
+    </surveyprofield_age>
+  </item>
+</items>

@@ -86,5 +86,20 @@ function xmldb_surveyprofield_checkbox_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2014090502, 'surveyprofield', 'checkbox');
     }
 
+    if ($oldversion < 2014111701) {
+
+        // Define field noanswerdefault to be added to surveyprofield_checkbox.
+        $table = new xmldb_table('surveyprofield_checkbox');
+        $field = new xmldb_field('noanswerdefault', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '2', 'defaultvalue');
+
+        // Conditionally launch add field noanswerdefault.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Surveypro savepoint reached.
+        upgrade_mod_savepoint(true, 2014111701, 'surveypro');
+    }
+
     return true;
 }

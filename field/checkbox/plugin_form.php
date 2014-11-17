@@ -75,6 +75,14 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_TEXT);
 
         // ----------------------------------------
+        // item: noanswerdefault
+        // ----------------------------------------
+        $fieldname = 'noanswerdefault';
+        $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveyprofield_checkbox'));
+        $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_checkbox');
+        $mform->setType($fieldname, PARAM_INT);
+
+        // ----------------------------------------
         // item: adjustment
         // ----------------------------------------
         $fieldname = 'adjustment';
@@ -155,7 +163,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // -----------------------------
         // first check
         // each item of default has to be among options OR has to be == to otherlabel value
-        // this also verify (helped by the second check) that the number of default is not gretr than the number of options
+        // this also verify (helped by the third check) that the number of default is not greater than the number of options
         // -----------------------------
         if (!empty($data['defaultvalue'])) {
             foreach ($cleandefaultvalue as $default) {
@@ -168,6 +176,15 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
 
         // -----------------------------
         // second check
+        // no answer is not allowed if the item is mandatory
+        // -----------------------------
+        if ( isset($data['noanswerdefault']) && ($data['minimumrequired'] > 0) ) {
+            $a = get_string('noanswer', 'surveypro');
+            $errors['noanswerdefault'] = get_string('notalloweddefault', 'surveypro', $a);
+        }
+
+        // -----------------------------
+        // third check
         // each single option item has to be unique
         // each single default item has to be unique
         // -----------------------------
@@ -181,7 +198,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         }
 
         // -----------------------------
-        // third check
+        // fourth check
         // SURVEYPRO_DBMULTICONTENTSEPARATOR can not be contained into values
         // -----------------------------
         foreach ($values as $value) {

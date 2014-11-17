@@ -136,7 +136,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // -----------------------------
         // first check
         // each item of default has to be among options item OR has to be == to otherlabel value
-        // this also verify (helped by the second check) that the number of default is not gretr than the number of options
+        // this also verify (helped by the second check) that the number of default is not greater than the number of options
         // -----------------------------
         if (!empty($data['defaultvalue'])) {
             foreach ($cleandefaultvalue as $default) {

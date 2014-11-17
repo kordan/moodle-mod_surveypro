@@ -88,6 +88,11 @@ class mod_surveypro_field_checkbox extends mod_surveypro_itembase {
     public $defaultvalue = '';
 
     /**
+     * $noanswerdefault = include noanswer among defaults
+     */
+    public $noanswerdefault = '';
+
+    /**
      * $downloadformat = the format of the content once downloaded
      */
     public $downloadformat = null;
@@ -176,6 +181,7 @@ class mod_surveypro_field_checkbox extends mod_surveypro_itembase {
         $this->item_clean_textarea_fields($record, $fieldlist);
 
         // override few values
+        $record->noanswerdefault = isset($record->noanswerdefault) ? 1 : 0;
         // end of: plugin specific settings (eventally overriding general ones)
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record)))
@@ -263,6 +269,7 @@ class mod_surveypro_field_checkbox extends mod_surveypro_itembase {
                 <xs:element type="xs:string" name="options"/>
                 <xs:element type="xs:string" name="labelother" minOccurs="0"/>
                 <xs:element type="xs:string" name="defaultvalue" minOccurs="0"/>
+                <xs:element type="xs:int" name="noanswerdefault"/>
                 <xs:element type="xs:int" name="downloadformat"/>
                 <xs:element type="xs:int" name="minimumrequired"/>
                 <xs:element type="xs:int" name="adjustment"/>
@@ -501,12 +508,16 @@ EOS;
             $paramelement['group'] = 1;
             $paramelement['id'] = $idprefix.'_noanswer';
             $elementgroup[] = $mform->createElement('advcheckbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), $paramelement, array('0', '1'));
+            if (!empty($this->noanswerdefault)) {
+                $mform->setDefault($this->itemname.'_noanswer', '1');
+            }
         }
 
         if ($searchform) {
             unset($paramelement['group']);
             $paramelement['id'] = $idprefix.'_ignoreme';
             $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'surveypro'), $paramelement);
+            $mform->setDefault($this->itemname.'_ignoreme', '1');
         }
 
         if ($this->adjustment == SURVEYPRO_VERTICAL) {

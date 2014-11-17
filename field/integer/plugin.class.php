@@ -230,7 +230,7 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
             default:
                 debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $record->defaultoption = '.$record->defaultoption, DEBUG_DEVELOPER);
         }
-        unset($record->defaultvalue_integer);
+        unset($record->defaultvalue);
     }
 
     /**
