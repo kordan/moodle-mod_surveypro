@@ -664,6 +664,8 @@ class mod_surveypro_itembase {
      * @return
      */
     public function item_delete($itemid) {
+        global $DB;
+
         $recordtokill = $DB->get_record('surveypro_item', array('id' => $itemid));
         if (!$DB->delete_records('surveypro_item', array('id' => $itemid))) {
             print_error('notdeleted_item', 'surveypro', null, $itemid);
