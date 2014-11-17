@@ -314,8 +314,12 @@ class mod_surveypro_templatebase {
                 $this->utemplateid = 0;
             } else {
                 $action = $this->formdata->action;
-                $parts = explode('_', $this->formdata->usertemplateinfo);
-                $this->utemplateid = $parts[1];
+                if (empty($this->formdata->usertemplateinfo)) {
+                    $this->utemplateid = 0;
+                } else {
+                    $parts = explode('_', $this->formdata->usertemplateinfo);
+                    $this->utemplateid = $parts[1];
+                }
             }
 
             // --> --> VERY DANGEROUS ACTION: User is going to erase all the items of the survey <-- <--
@@ -476,7 +480,7 @@ class mod_surveypro_templatebase {
                 return;
             }
 
-            if ((!empty($this->formdata->usertemplate)) || ($this->formdata->action != SURVEYPRO_DELETEALLITEMS)) {
+            if ((!empty($this->formdata->usertemplateinfo)) || ($this->formdata->action != SURVEYPRO_DELETEALLITEMS)) {
                 return;
             }
 
@@ -488,7 +492,7 @@ class mod_surveypro_templatebase {
 
                 $optionbase = array();
                 $optionbase['s'] = $this->surveypro->id;
-                $optionbase['usertemplate'] = $this->formdata->usertemplate;
+                $optionbase['usertemplate'] = $this->formdata->usertemplateinfo;
                 $optionbase['act'] = SURVEYPRO_DELETEALLITEMS;
                 $optionbase['sesskey'] = sesskey();
 
