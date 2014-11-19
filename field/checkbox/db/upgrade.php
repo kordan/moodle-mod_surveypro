@@ -98,7 +98,7 @@ function xmldb_surveyprofield_checkbox_upgrade($oldversion) {
         }
 
         // Surveypro savepoint reached.
-        upgrade_mod_savepoint(true, 2014111701, 'surveypro');
+        upgrade_plugin_savepoint(true, 2014111701, 'surveyprofield', 'checkbox');
     }
 
     return true;
