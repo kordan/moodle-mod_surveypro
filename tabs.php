@@ -212,16 +212,20 @@ switch ($moduletab) {
             }
         }
 
-        if ($canimportdata) { // import
-            $elementurl = new moodle_url('/mod/surveypro/view_import.php', $paramurl);
-            $strlabel = get_string('tabsubmissionspage8', 'surveypro');
-            $row[] = new tabobject('idpage8', $elementurl->out(), $strlabel);
+        if ($modulepage == SURVEYPRO_SUBMISSION_IMPORT) { // import
+            if ($canimportdata) { // import
+                $elementurl = new moodle_url('/mod/surveypro/view_import.php', $paramurl);
+                $strlabel = get_string('tabsubmissionspage8', 'surveypro');
+                $row[] = new tabobject('idpage8', $elementurl->out(), $strlabel);
+            }
         }
 
-        if ($canexportdata) { // export
-            $elementurl = new moodle_url('/mod/surveypro/view_export.php', $paramurl);
-            $strlabel = get_string('tabsubmissionspage9', 'surveypro');
-            $row[] = new tabobject('idpage9', $elementurl->out(), $strlabel);
+        if ($modulepage == SURVEYPRO_SUBMISSION_EXPORT) { // export
+            if ($canexportdata) { // export
+                $elementurl = new moodle_url('/mod/surveypro/view_export.php', $paramurl);
+                $strlabel = get_string('tabsubmissionspage9', 'surveypro');
+                $row[] = new tabobject('idpage9', $elementurl->out(), $strlabel);
+            }
         }
 
         $tabs[] = $row;

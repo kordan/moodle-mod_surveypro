@@ -335,7 +335,7 @@ class mod_surveypro_itemlist {
         }
 
         foreach ($itemseeds as $itemseed) {
-            $item = surveypro_get_item($itemseed->itemid, $itemseed->type, $itemseed->plugin);
+            $item = surveypro_get_item($itemseed->itemid, $itemseed->type, $itemseed->plugin, true);
 
             // -----------------------------
             // $paramurlbase definition
@@ -1289,7 +1289,7 @@ class mod_surveypro_itemlist {
         echo $OUTPUT->box(get_string('validationinfo', 'surveypro'));
 
         foreach ($itemseeds as $itemseed) {
-            $item = surveypro_get_item($itemseed->itemid, $itemseed->type, $itemseed->plugin);
+            $item = surveypro_get_item($itemseed->itemid, $itemseed->type, $itemseed->plugin, true);
             $currenthide = $item->get_hidden();
 
             if ($item->get_parentid()) {

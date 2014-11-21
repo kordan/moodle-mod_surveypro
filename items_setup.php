@@ -97,8 +97,7 @@ require_once($CFG->dirroot.'/mod/surveypro/'.$itemlistman->type.'/'.$itemlistman
 
 // -----------------------------
 // get item
-$itemclass = 'mod_surveypro_'.$itemlistman->type.'_'.$itemlistman->plugin;
-$item = new $itemclass($cm, $itemlistman->itemid, true);
+$item = surveypro_get_item($itemlistman->itemid, $itemlistman->type, $itemlistman->plugin, true);
 
 $item->item_set_editor();
 // end of: get item

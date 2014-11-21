@@ -126,7 +126,7 @@ class mod_surveypro_field_numeric extends mod_surveypro_itembase {
      *
      * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
-     * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
+     * @param bool $evaluateparentcontent: add also 'parentcontent' among other item elements
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
@@ -155,7 +155,7 @@ class mod_surveypro_field_numeric extends mod_surveypro_itembase {
      * item_load
      *
      * @param $itemid
-     * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
+     * @param bool $evaluateparentcontent: add also 'parentcontent' among other item elements
      * @return
      */
     public function item_load($itemid, $evaluateparentcontent) {

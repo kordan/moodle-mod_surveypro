@@ -153,7 +153,7 @@ class mod_surveypro_itembase {
      * item_load
      *
      * @param integer $itemid
-     * @param boolean $evaluateparentcontent
+     * @param boolean $evaluateparentcontent: to spent time to include among item contents, also the 'parentcontent'
      * @return
      */
     public function item_load($itemid, $evaluateparentcontent) {
@@ -176,12 +176,24 @@ class mod_surveypro_itembase {
             unset($this->id); // I do not care it. I already heave: itemid and pluginid
             $this->itemname = SURVEYPRO_ITEMPREFIX.'_'.$this->type.'_'.$this->plugin.'_'.$this->itemid;
             if ($evaluateparentcontent && $this->parentid) {
-                $parentitem = surveypro_get_item($this->parentid, null, null, false);
+                $parentitem = surveypro_get_item($this->parentid);
                 $this->parentcontent = $parentitem->parent_decode_child_parentvalue($this->parentvalue);
             }
         } else {
             debugging('Something was wrong at line '.__LINE__.' of file '.__FILE__.'!<br />I can not find the surveypro item ID = '.$itemid.' using:<br />'.$sql, DEBUG_DEVELOPER);
         }
+    }
+
+    /**
+     * item_validate_record_coherence
+     * verify the validity of contents of the record
+     * for instance: age not greater than maximumage
+     *
+     * @param stdClass $record
+     * @return stdClass $record
+     */
+    public function item_validate_record_coherence($record) {
+        // nothing to do here
     }
 
     /**
@@ -571,6 +583,7 @@ class mod_surveypro_itembase {
     public function item_update_childrenparentvalue() {
         global $DB;
 
+        require_once($CFG->dirroot.'/mod/surveypro/'.$currenttype.'/'.$currentplugin.'/plugin.class.php');
         $itemclassname = 'mod_surveypro_'.$this->type.'_'.$this->plugin;
         if ($itemclassname::get_canbeparent()) {
             // take care: you can not use $this->item_get_content_array(SURVEYPRO_VALUES, 'options') to evaluate values

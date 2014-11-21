@@ -130,7 +130,7 @@ class mod_surveypro_field_date extends mod_surveypro_itembase {
      *
      * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
-     * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
+     * @param bool $evaluateparentcontent: add also 'parentcontent' among other item elements
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         global $DB;
@@ -164,7 +164,7 @@ class mod_surveypro_field_date extends mod_surveypro_itembase {
      * item_load
      *
      * @param $itemid
-     * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
+     * @param bool $evaluateparentcontent: add also 'parentcontent' among other item elements
      * @return
      */
     public function item_load($itemid, $evaluateparentcontent) {
@@ -210,6 +210,27 @@ class mod_surveypro_field_date extends mod_surveypro_itembase {
      */
     public function item_date_to_unix_time($year, $month, $day) {
         return (gmmktime(12, 0, 0, $month, $day, $year)); // This is GMT
+    }
+
+    /**
+     * item_validate_record_coherence
+     * verify the validity of contents of the record
+     * for instance: age not greater than maximumage
+     *
+     * @param stdClass $record
+     * @return stdClass $record
+     */
+    public function item_validate_record_coherence($record) {
+        if (isset($record->defaultvalue)) {
+            $mindate = $item->item_date_to_unix_time($this->surveypro->startyear, 1, 1);
+            if ($record->defaultvalue < $mindate) {
+                $record->defaultvalue = $mindate;
+            }
+            $maxdate = $item->item_date_to_unix_time($this->surveypro->startyear, 12, 31);
+            if ($record->defaultvalue > $maxdate) {
+                $record->defaultvalue = $maxdate;
+            }
+        }
     }
 
     /**

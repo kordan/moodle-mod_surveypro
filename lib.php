@@ -796,6 +796,9 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
     $canpreview = has_capability('mod/surveypro:preview', $context, null, true);
     $canmanageitems = has_capability('mod/surveypro:manageitems', $context, null, true);
 
+    $canimportdata = has_capability('mod/surveypro:importdata', $context, null, true);
+    $canexportdata = has_capability('mod/surveypro:exportdata', $context, null, true);
+
     $canmanageusertemplates = has_capability('mod/surveypro:manageusertemplates', $context, null, true);
     $cansaveusertemplates = has_capability('mod/surveypro:saveusertemplates', $context, null, true);
     $canimportusertemplates = has_capability('mod/surveypro:importusertemplates', $context, null, true);
@@ -811,9 +814,6 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
 
     $whereparams = array('surveyproid' => $cm->instance);
     $countparents = $DB->count_records_select('surveypro_item', 'surveyproid = :surveyproid AND parentid <> 0', $whereparams);
-
-    // SURVEYPRO_TABSUBMISSIONS
-    // -> nothing
 
     // SURVEYPRO_TABITEMS
     // -> parent
@@ -836,6 +836,23 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
                 $nodelabel = get_string('tabitemspage4', 'surveypro');
                 $navnode->add($nodelabel, new moodle_url('/mod/surveypro/items_validate.php', $paramurlbase), navigation_node::TYPE_SETTING);
             }
+        }
+    }
+
+    // SURVEYPRO_TABSUBMISSIONS
+    if ($canimportdata || $ccanexportdata) {
+        // -> parent
+        $nodelabel = get_string('tabsubmissionsname', 'surveypro');
+        $navnode = $surveypronode->add($nodelabel,  null, navigation_node::TYPE_CONTAINER);
+
+        // -> children
+        if ($canimportdata) { // import
+            $nodelabel = get_string('tabsubmissionspage8', 'surveypro');
+            $navnode->add($nodelabel, new moodle_url('/mod/surveypro/view_import.php', $paramurlbase), navigation_node::TYPE_SETTING);
+        }
+        if ($canexportdata) { // export
+            $nodelabel = get_string('tabsubmissionspage9', 'surveypro');
+            $navnode->add($nodelabel, new moodle_url('/mod/surveypro/view_export.php', $paramurlbase), navigation_node::TYPE_SETTING);
         }
     }
 
@@ -954,14 +971,6 @@ function surveypro_extend_navigation(navigation_node $navref, stdClass $course, 
     if ($cansearch) {
         $nodelabel = get_string('tabsubmissionspage6', 'surveypro');
         $navref->add($nodelabel, new moodle_url('/mod/surveypro/view_search.php', $paramurl), navigation_node::TYPE_SETTING);
-    }
-    if ($canimportdata) {
-        $nodelabel = get_string('tabsubmissionspage8', 'surveypro');
-        $navref->add($nodelabel, new moodle_url('/mod/surveypro/view_import.php', $paramurl), navigation_node::TYPE_SETTING);
-    }
-    if ($canexportdata) {
-        $nodelabel = get_string('tabsubmissionspage9', 'surveypro');
-        $navref->add($nodelabel, new moodle_url('/mod/surveypro/view_export.php', $paramurl), navigation_node::TYPE_SETTING);
     }
 }
 

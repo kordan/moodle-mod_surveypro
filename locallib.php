@@ -38,20 +38,23 @@ require_once($CFG->dirroot.'/mod/surveypro/lib.php');
  * @param optional $evaluateparentcontent
  * @return $item
  */
-function surveypro_get_item($itemid, $type='', $plugin='', $evaluateparentcontent=true) {
+function surveypro_get_item($itemid=0, $type='', $plugin='', $evaluateparentcontent=false) {
     global $CFG, $DB, $PAGE;
 
     $cm = $PAGE->cm;
 
     if (empty($type) || empty($plugin)) {
+        if (empty($itemid)) {
+            debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected empty($itemid)', DEBUG_DEVELOPER);
+        }
         $itemseed = $DB->get_record('surveypro_item', array('id' => $itemid), 'type, plugin', MUST_EXIST);
         $type = $itemseed->type;
         $plugin = $itemseed->plugin;
     }
 
     require_once($CFG->dirroot.'/mod/surveypro/'.$type.'/'.$plugin.'/plugin.class.php');
-    $classname = 'mod_surveypro_'.$type.'_'.$plugin;
-    $item = new $classname($cm, $itemid, $evaluateparentcontent);
+    $itemclassname = 'mod_surveypro_'.$type.'_'.$plugin;
+    $item = new $itemclassname($cm, $itemid, $evaluateparentcontent);
 
     return $item;
 }

@@ -37,17 +37,17 @@ class mod_surveypro_template_collesactualpreferred {
      */
     public function apply_template_settings($tablename, $record, $config) {
         if ($tablename == 'surveyprofield_radiobutton') {
-            $record['position'] = "$config->position";
+            $record->position = "$config->position";
         }
 
         if ($config->useritem == SURVEYPROTEMPLATE_COLLESACTUALPREFERREDUSESELECT) {
-            if ($record['plugin'] == 'radiobutton') {
-                $record['plugin'] = 'select';
+            if ($record->plugin == 'radiobutton') {
+                $record->plugin = 'select';
             }
 
             if ($tablename == 'surveyprofield_radiobutton') {
                 $tablename = 'surveyprofield_select';
-                unset($record['adjustment']);
+                unset($record->adjustment);
             }
         }
 

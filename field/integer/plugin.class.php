@@ -111,7 +111,7 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
      *
      * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
-     * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
+     * @param bool $evaluateparentcontent: add also 'parentcontent' among other item elements
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
@@ -141,7 +141,7 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
      * item_load
      *
      * @param $itemid
-     * @param bool $evaluateparentcontent. Is the parent item evaluation needed?
+     * @param bool $evaluateparentcontent: add also 'parentcontent' among other item elements
      * @return
      */
     public function item_load($itemid, $evaluateparentcontent) {
@@ -175,6 +175,23 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record)))
         return parent::item_save($record);
+    }
+
+    /**
+     * item_validate_record_coherence
+     * verify the validity of contents of the record
+     * for instance: age not greater than maximumage
+     *
+     * @param stdClass $record
+     * @return stdClass $record
+     */
+    public function item_validate_record_coherence($record) {
+        if (isset($record->defaultvalue)) {
+            $maximuminteger = get_config('surveyprofield_integer', 'maximuminteger');
+            if ($record->defaultvalue > $maximuminteger) {
+                $record->defaultvalue = $maximuminteger;
+            }
+        }
     }
 
     /**

@@ -294,7 +294,7 @@ class mod_surveypro_importmanager {
                 // the column for userid
                 continue;
             }
-            $item = surveypro_get_item($itemid, null, null, false);
+            $item = surveypro_get_item($itemid);
 
             // itemhelperinfo
             $info = new stdClass();

@@ -334,7 +334,6 @@ class mod_surveypro_templatebase {
             // before continuing
             if ($action != SURVEYPRO_DELETEALLITEMS) {
                 // dispose assignemnt of pages
-                // $DB->set_field('surveypro_item', 'formpage', 0, array('surveyproid' => $this->surveypro->id));
                 surveypro_reset_items_pages($this->surveypro->id);
             }
         } else {
@@ -534,10 +533,9 @@ class mod_surveypro_templatebase {
 
         // create the class to apply mastertemplate settings
         if ($this->templatetype == SURVEYPRO_MASTERTEMPLATE) {
-            $classfile = $CFG->dirroot.'/mod/surveypro/template/'.$this->templatename.'/template.class.php';
-            include_once($classfile);
-            $classname = 'mod_surveypro_template_'.$this->templatename;
-            $mastertemplate = new $classname();
+            require_once($CFG->dirroot.'/mod/surveypro/template/'.$this->templatename.'/template.class.php');
+            $itemclassname = 'mod_surveypro_template_'.$this->templatename;
+            $mastertemplate = new $itemclassname();
         }
 
         $simplexml = new SimpleXMLElement($templatecontent);
@@ -567,7 +565,7 @@ class mod_surveypro_templatebase {
             foreach ($xmlitem->children() as $xmltable) { // surveypro_item and surveypro_<<plugin>>
                 $tablename = $xmltable->getName();
                 // echo '<h4>Count of fields of the table '.$tablename.': '.count($xmltable->children()).'</h4>';
-                $record = array();
+                $record = new stdClass();
                 foreach ($xmltable->children() as $xmlfield) {
                     $fieldname = $xmlfield->getName();
 
@@ -599,15 +597,15 @@ class mod_surveypro_templatebase {
                         $filerecord->filename = $filename;
                         $fileinfo = $fs->create_file_from_string($filerecord, $filecontent);
                     } else {
-                        $record[$fieldname] = (string)$xmlfield;
+                        $record->{$fieldname} = (string)$xmlfield;
                     }
                 }
 
-                unset($record['id']);
-                $record['surveyproid'] = $this->surveypro->id;
+                unset($record->id);
+                $record->surveyproid = $this->surveypro->id;
 
-                $record['type'] = $currenttype;
-                $record['plugin'] = $currentplugin;
+                $record->type = $currenttype;
+                $record->plugin = $currentplugin;
 
                 // apply template settings
                 if ($this->templatetype == SURVEYPRO_MASTERTEMPLATE) {
@@ -615,72 +613,28 @@ class mod_surveypro_templatebase {
                 }
 
                 if ($tablename == 'surveypro_item') {
-                    $record['sortindex'] += $sortindexoffset;
-                    if (!empty($record['parentid'])) {
-                        $whereparams = array('surveyproid' => $this->surveypro->id, 'sortindex' => ($record['parentid'] + $sortindexoffset));
-                        $record['parentid'] = $DB->get_field('surveypro_item', 'id', $whereparams, MUST_EXIST);
+                    $record->sortindex += $sortindexoffset;
+                    if (!empty($record->parentid)) {
+                        $whereparams = array('surveyproid' => $this->surveypro->id, 'sortindex' => ($record->parentid + $sortindexoffset));
+                        $record->parentid = $DB->get_field('surveypro_item', 'id', $whereparams, MUST_EXIST);
                     }
 
                     $itemid = $DB->insert_record($tablename, $record);
                 } else {
+                    // before adding the item, ask to its class to check its coherence
+                    require_once($CFG->dirroot.'/mod/surveypro/'.$currenttype.'/'.$currentplugin.'/plugin.class.php');
+                    $item = surveypro_get_item(0, $currenttype, $currentplugin);
+                    $item->item_validate_record_coherence($record);
+
                     if ($currenttype == SURVEYPRO_TYPEFIELD) {
-                        $this->validate_variablename($record);
+                        $item->item_validate_variablename($record, $itemid);
                     }
 
-                    $record['itemid'] = $itemid;
+                    $record->itemid = $itemid;
                     $DB->insert_record($tablename, $record, false);
                 }
             }
         }
-    }
-
-    /**
-     * validate_variablename
-     *
-     * @param stdobject $record
-     * @return
-     */
-    public function validate_variablename($record) {
-        global $DB;
-
-        // if variable does not exist
-        if ($record['type'] == SURVEYPRO_TYPEFORMAT) {
-            // should never occur
-            return;
-        }
-
-        $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$record['plugin'];
-        $whereparams = array('surveyproid' => $this->surveypro->id);
-        $select = 'SELECT COUNT(p.id)
-                FROM {'.$tablename.'} p
-                    JOIN {surveypro_item} i ON i.id = p.itemid ';
-        $whereset = 'WHERE (i.surveyproid = :surveyproid)';
-        $whereverify = 'WHERE ((i.surveyproid = :surveyproid) AND (p.variable = :variable))';
-
-        // Verify variable was set. If not, set it.
-        if (!isset($candidatevariable) || empty($candidatevariable)) {
-            $sql = $select.$whereset;
-            $plugincount = 1 + $DB->count_records_sql($sql, $whereparams);
-            $plugincount = str_pad($plugincount, 3, '0', STR_PAD_LEFT);
-
-            $candidatevariable = $record['plugin'].'_'.$plugincount;
-        } else {
-            $candidatevariable = $record['variable'];
-        }
-
-        // verify the given name is unique. If not, change it.
-        $i = 0; // if name is duplicate, restart verification from 0
-        $whereparams['variable'] = $candidatevariable;
-        $sql = $select.$whereverify;
-
-        // while ($DB->record_exists_sql($sql, $whereparams)) {
-        while ($DB->count_records_sql($sql, $whereparams)) {
-            $i++;
-            $candidatevariable = $record['plugin'].'_'.str_pad($i, 3, '0', STR_PAD_LEFT);
-            $whereparams['variable'] = $candidatevariable;
-        }
-
-        $record['variable'] = $candidatevariable;
     }
 
     /**
@@ -799,11 +753,11 @@ class mod_surveypro_templatebase {
                     // I could use a random class here because they all share the same parent item_get_item_schema
                     // but, I need the right class name for the next table, so I start loading the correct class now
                     require_once($CFG->dirroot.'/mod/surveypro/'.$currenttype.'/'.$currentplugin.'/plugin.class.php');
-                    $classname = 'mod_surveypro_'.$currenttype.'_'.$currentplugin;
-                    $xsd = $classname::item_get_item_schema(); // <- itembase schema
+                    $itemclassname = 'mod_surveypro_'.$currenttype.'_'.$currentplugin;
+                    $xsd = $itemclassname::item_get_item_schema(); // <- itembase schema
                 } else {
                     // $classname is already onboard because of the previous loop over surveypro_item fields
-                    $xsd = $classname::item_get_plugin_schema(); // <- plugin schema
+                    $xsd = $itemclassname::item_get_plugin_schema(); // <- plugin schema
                 }
 
                 if (empty($xsd)) {
