@@ -513,13 +513,6 @@ EOS;
             }
         }
 
-        if ($searchform) {
-            unset($paramelement['group']);
-            $paramelement['id'] = $idprefix.'_ignoreme';
-            $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'surveypro'), $paramelement);
-            $mform->setDefault($this->itemname.'_ignoreme', '1');
-        }
-
         if ($this->adjustment == SURVEYPRO_VERTICAL) {
             if (count($labels) > 1) {
                 $separator = array_fill(0, count($labels) - 1, '<br />');
@@ -543,8 +536,12 @@ EOS;
         }
 
         if ($searchform) {
-            $mform->disabledIf($this->itemname.'_group', $this->itemname.'_ignoreme', 'checked');
+            $this->item_add_color_unifier($mform);
+            $paramelement['id'] = $idprefix.'_ignoreme';
+            $mform->addElement('checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'surveypro'), $paramelement);
             $mform->setDefault($this->itemname.'_ignoreme', '1');
+
+            $mform->disabledIf($this->itemname.'_group', $this->itemname.'_ignoreme', 'checked');
         }
 
         if (!$searchform) {
