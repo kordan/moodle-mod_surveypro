@@ -3,20 +3,23 @@
 }
 
 /* begin of: to correct display problems of firefox for mac */
-#page-mod-surveypro-view .mform .fitem .felement {
+#page-mod-surveypro-view_userform .mform .fitem .felement,
+#page-mod-surveypro-view_search .mform .fitem .felement {
     min-height: 2em;
     padding-top:8px;
 }
 /* end of: to eliminate display problems of firefox for mac */
 
 /* begin of: colours alternation for #userentry, #usersearch forms and read-only table*/
-#page-mod-surveypro-view fieldset div.fitem:nth-of-type(even) {
+#page-mod-surveypro-view_userform fieldset div.fitem:nth-of-type(even),
+#page-mod-surveypro-view_search fieldset div.fitem:nth-of-type(even) {
     background-color:#EDEDED;
 }
 /* end of: colours alternation for #userentry, #usersearch forms and read-only table*/
 
 /* begin of: hacky coluorunifier html element */
-#page-mod-surveypro-view .mform fieldset div.colorunifier {
+#page-mod-surveypro-view_userform .mform fieldset div.colorunifier,
+#page-mod-surveypro-view_search .mform fieldset div.colorunifier {
     line-height:0;
     margin-bottom:0;
     padding:0;
@@ -24,42 +27,48 @@
 /* end of: hacky coluorunifier html element */
 
 /* begin of: connect fullwidth question and graphic user items */
-#page-mod-surveypro-view .mform fieldset.hidden,
-#page-mod-surveypro-view .mform fieldset.hidden div {
+#page-mod-surveypro-view_userform .mform fieldset.hidden,
+#page-mod-surveypro-view_userform .mform fieldset.hidden div,
+#page-mod-surveypro-view_search .mform fieldset.hidden,
+#page-mod-surveypro-view_search .mform fieldset.hidden div {
     margin-bottom: 0;
 }
 /* end of: connect fullwidth question and graphic user items */
 
 /* begin of: connect note to question */
-#page-mod-surveypro-view .mform .fitem {
+#page-mod-surveypro-view_userform .mform .fitem,
+#page-mod-surveypro-view_search .mform .fitem {
     margin:0;
 }
 /* end of: connect note to question */
 
 /* begin of: no margin bottom to p inside question in SURVEYPRO_POSITIONTOP and SURVEYPRO_POSITIONFULLWIDTH */
-#page-mod-surveypro-view .mform .fitem .felement div p,
-#page-mod-surveypro-view .mform .fitem .fullwidth p {
+#page-mod-surveypro-view_userform .mform .fitem .felement div p,
+#page-mod-surveypro-view_userform .mform .fitem .fullwidth p,
+#page-mod-surveypro-view_search .mform .fitem .felement div p,
+#page-mod-surveypro-view_search .mform .fitem .fullwidth p {
     margin:0;
 }
 /* end of: no margin bottom to p inside .fullwidth */
 
 /* begin of: drop out pictures longer than the available width in #userentry and #usersearch */
-#page-mod-surveypro-view .mform .itemlabel .fullwidth {
+#page-mod-surveypro-view_userform .mform .itemlabel .fullwidth,
+#page-mod-surveypro-view_search .mform .itemlabel .fullwidth {
     overflow: hidden;
 }
 /* end of: drop out pictures longer than the available width */
 
 /* begin of: move horizontal checkbox and radio label closer to corresponding checkboes */
 /* useful in case of radio button and checkboxes horizontally aligned */
-/* TAKE CARE: I have to add #userentry and #usersearch because I want to leave read-only layout untouched */
-#page-mod-surveypro-view #userentry .fitem .felement input[type="checkbox"],
-#page-mod-surveypro-view #userentry .fitem .felement input[type="radio"],
-#page-mod-surveypro-view #usersearch .fitem .felement input[type="checkbox"],
-#page-mod-surveypro-view #usersearch .fitem .felement input[type="radio"] {
+/* NOTE: I have to add #userentry and #usersearch because I want to leave read-only layout untouched */
+#page-mod-surveypro-view_userform #userentry .fitem .felement input[type="checkbox"],
+#page-mod-surveypro-view_userform #userentry .fitem .felement input[type="radio"],
+#page-mod-surveypro-view_userform #usersearch .fitem .felement input[type="checkbox"],
+#page-mod-surveypro-view_userform #usersearch .fitem .felement input[type="radio"] {
     margin-right:0px;
 }
 
-#page-mod-surveypro-view .mform .fitem .felement label {
+#page-mod-surveypro-view_userform .mform .fitem .felement label {
     margin-right: 1em;
 }
 /* end of: move horizontal checkbox and radio label closer to corresponding checkboes */
@@ -121,7 +130,6 @@
     vertical-align: text-bottom;
     margin: 0 0.3em 0 0.3em;
 }
-
 
 #page-mod-surveypro-items_manage table#manageitems .content,
 #page-mod-surveypro-items_manage table#sortitems .content,
@@ -276,39 +284,39 @@
 }
 /* end of: selectors for the static field explaining the format needed by each plugin in parentcontent field */
 
-#page-mod-surveypro-view .mform .fitem .indent-1 {
+#page-mod-surveypro-view_userform .mform .fitem .indent-1 {
     margin-left:5%;
 }
 
-#page-mod-surveypro-view .mform .fitem .indent-2 {
+#page-mod-surveypro-view_userform .mform .fitem .indent-2 {
     margin-left:10%;
 }
 
-#page-mod-surveypro-view .mform .fitem .indent-3 {
+#page-mod-surveypro-view_userform .mform .fitem .indent-3 {
     margin-left:15%;
 }
 
-#page-mod-surveypro-view .mform .fitem .indent-4 {
+#page-mod-surveypro-view_userform .mform .fitem .indent-4 {
     margin-left:20%;
 }
 
-#page-mod-surveypro-view .mform .fitem .indent-5 {
+#page-mod-surveypro-view_userform .mform .fitem .indent-5 {
     margin-left:25%;
 }
 
-#page-mod-surveypro-view .mform .fitem .indent-6 {
+#page-mod-surveypro-view_userform .mform .fitem .indent-6 {
     margin-left:30%;
 }
 
-#page-mod-surveypro-view .mform .fitem .indent-7 {
+#page-mod-surveypro-view_userform .mform .fitem .indent-7 {
     margin-left:35%;
 }
 
-#page-mod-surveypro-view .mform .fitem .indent-8 {
+#page-mod-surveypro-view_userform .mform .fitem .indent-8 {
     margin-left:40%;
 }
 
-#page-mod-surveypro-view .mform .fitem .indent-9 {
+#page-mod-surveypro-view_userform .mform .fitem .indent-9 {
     margin-left:45%;
 }
 
@@ -324,3 +332,19 @@
     margin-bottom:0;
 }
 /* end of: fix to owful alignment of fielset legends in the cover */
+
+/* table with list of surveypro in index.php */
+#page-mod-surveypro-index table.mod_index .col1,
+#page-mod-surveypro-index table.mod_index .col2,
+#page-mod-surveypro-index table.mod_index .col3,
+#page-mod-surveypro-index table.mod_index .col4,
+#page-mod-surveypro-index table.mod_index .col5 {
+    text-align: left;
+}
+#page-mod-surveypro-index table.mod_index .col1 {
+    white-space: nowrap;
+}
+#page-mod-surveypro-index table.mod_index td span.dimmed {
+    color: #999;
+}
+/* end of: table with list of surveypro in index.php */

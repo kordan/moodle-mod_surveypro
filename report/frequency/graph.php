@@ -17,30 +17,23 @@
 require_once('../../../../config.php');
 require_once($CFG->libdir.'/graphlib.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
+require_once($CFG->dirroot.'/mod/surveypro/report/frequency/lib.php');
 
 $id = required_param('id', PARAM_INT); // Course Module ID
 $itemid = required_param('itemid', PARAM_INT); // Item ID
 $submissionscount = required_param('submissionscount', PARAM_INT); // Submissions count
 $group = optional_param('group', 0, PARAM_INT); // Group ID
 
-require_once($CFG->dirroot.'/mod/surveypro/report/frequency/lib.php');
-
-$url = new moodle_url('/mod/surveypro/report/frequency/graph.php', array('id' => $id, 'itemid' => $itemid));
-if ($group !== 0) {
-    $url->param('group', $group);
-}
-$PAGE->set_url($url);
-
 $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
 $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
 
-require_login($course, false, $cm);
-
-$groupmode = groups_get_activity_groupmode($cm, $course);   // Groups are being used
 $context = context_module::instance($cm->id);
 
+require_login($course, false, $cm);
 require_capability('mod/surveypro:accessreports', $context);
+
+$groupmode = groups_get_activity_groupmode($cm, $course);   // Groups are being used
 
 $item = surveypro_get_item($itemid);
 
@@ -50,7 +43,6 @@ $sql = 'SELECT content, count(id) as absolute
         WHERE itemid = :itemid
         GROUP BY content
         ORDER BY content';
-
 $answers = $DB->get_recordset_sql($sql, $whereparams);
 
 $counted = 0;

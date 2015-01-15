@@ -14,10 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * @package    surveyprofield
  * @subpackage datetime
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -27,9 +27,11 @@ require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 
 define('SURVEYPROFIELD_DATETIME_FORMAT', '[dd/mm/yyyy;hh:mm]');
 
-/*
+/**
  * surveypro_datetime_check_time
- * @param $hour, $minute
+ *
+ * @param $hour
+ * @param $minute
  * @return
  */
 function surveypro_datetime_check_time($hour, $minute) {

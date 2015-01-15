@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Prints a particular instance of surveypro
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -51,12 +48,12 @@ require_capability('mod/surveypro:applymastertemplates', $context);
 // -----------------------------
 // calculations
 // -----------------------------
-$mtemplateman = new mod_surveypro_mastertemplate($surveypro, $context);
+$mtemplateman = new mod_surveypro_mastertemplate($cm, $context, $surveypro);
 
 // -----------------------------
 // define $applymtemplate return url
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('mtemplates_apply.php', $paramurl);
+$formurl = new moodle_url('/mod/surveypro/mtemplates_apply.php', $paramurl);
 // end of: define $applymtemplate return url
 // -----------------------------
 
@@ -68,14 +65,14 @@ $formparams->surveypro = $surveypro;
 $formparams->mtemplateman = $mtemplateman;
 $formparams->inline = false;
 
-$applymtemplate = new surveypro_applymtemplateform($formurl, $formparams);
+$applymtemplate = new mod_surveypro_applymtemplateform($formurl, $formparams);
 // end of: prepare params for the form
 // -----------------------------
 
 // -----------------------------
 // manage form submission
 if ($applymtemplate->is_cancelled()) {
-    $returnurl = new moodle_url('utemplates_add.php', $paramurl);
+    $returnurl = new moodle_url('/mod/surveypro/utemplates_add.php', $paramurl);
     redirect($returnurl);
 }
 
@@ -90,6 +87,8 @@ if ($mtemplateman->formdata = $applymtemplate->get_data()) {
 // -----------------------------
 $url = new moodle_url('/mod/surveypro/mtemplates_apply.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 

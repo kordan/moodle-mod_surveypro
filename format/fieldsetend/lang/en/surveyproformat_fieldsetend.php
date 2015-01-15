@@ -14,12 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
- * Strings for component 'format_fieldsetend', language 'en', branch 'MOODLE_20_STABLE'
+/**
+ * Strings for component 'format_fieldsetend', language 'en', branch 'MOODLE_28_STABLE'
  *
  * @package    surveypro
  * @subpackage fieldsetend
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

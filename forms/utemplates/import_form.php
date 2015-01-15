@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -29,18 +26,27 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
 
-class surveypro_importutemplateform extends moodleform {
+class mod_surveypro_importutemplateform extends moodleform {
 
+    /*
+     * definition
+     *
+     * @param none
+     * @return none
+     */
     public function definition() {
+        // ----------------------------------------
         $mform = $this->_form;
 
+        // ----------------------------------------
+        // get _customdata
         $cmid = $this->_customdata->cmid;
         $surveypro = $this->_customdata->surveypro;
         $utemplateman = $this->_customdata->utemplateman;
         $filemanageroptions = $this->_customdata->filemanageroptions;
 
         // ----------------------------------------
-        // templateimport::importfile
+        // templateimport: importfile
         // ----------------------------------------
         // here I use filemanager because I can even upload more than one usertemplate at once
         $fieldname = 'importfile';
@@ -48,14 +54,14 @@ class surveypro_importutemplateform extends moodleform {
         $mform->addRule($fieldname.'_filemanager', null, 'required');
 
         // ----------------------------------------
-        // templateimport::overwrite
+        // templateimport: overwrite
         // ----------------------------------------
         $fieldname = 'overwrite';
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveypro'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // ----------------------------------------
-        // templateimport::sharinglevel
+        // templateimport: sharinglevel
         // ----------------------------------------
         $fieldname = 'sharinglevel';
         $options = array();
@@ -68,14 +74,22 @@ class surveypro_importutemplateform extends moodleform {
 
         // ----------------------------------------
         // buttons
-        $this->add_action_buttons(false, get_string('templateimport', 'surveypro'));
+        $this->add_action_buttons(false, get_string('import'));
     }
 
+    /*
+     * validation
+     *
+     * @param $data
+     * @param $files
+     * @return $errors
+     */
     public function validation($data, $files) {
         global $USER;
 
         $mform = $this->_form;
 
+        // ----------------------------------------
         $cmid = $this->_customdata->cmid;
         $surveypro = $this->_customdata->surveypro;
         $utemplateman = $this->_customdata->utemplateman;
@@ -100,13 +114,18 @@ class surveypro_importutemplateform extends moodleform {
             $xmlfileid = $file->get_id();
             $xml = $utemplateman->get_utemplate_content($xmlfileid);
             // $xml = @new SimpleXMLElement($templatecontent);
-            if (!$utemplateman->validate_xml($xml)) {
-                $errors['importfile_filemanager'] = get_string('invalidtemplate', 'surveypro', $xmlfilename);
+            $errormessage = $utemplateman->validate_xml($xml);
+            if ($errormessage !== false) {
+                if (isset($errormessage->a)) {
+                    $errors['importfile_filemanager'] = get_string($errormessage->key, 'surveypro', $errormessage->a);
+                } else {
+                    $errors['importfile_filemanager'] = get_string($errormessage->key, 'surveypro');
+                }
                 return $errors;
             }
         }
 
-        // $debug = true; if you want to always stop to see where the xml template is buggy
+        // set $debug = true; if you want to always stop to see where the xml template is buggy
         $debug = false;
         if ($debug) {
             $errors['importfile_filemanager'] = 'All is fine here!';

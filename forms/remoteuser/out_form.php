@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -29,13 +26,22 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
 
-class surveypro_submissionform extends moodleform {
+class mod_surveypro_submissionform extends moodleform {
 
+    /*
+     * definition
+     *
+     * @param none
+     * @return none
+     */
     public function definition() {
         global $DB, $CFG;
 
+        // ----------------------------------------
         $mform = $this->_form;
 
+        // ----------------------------------------
+        // get _customdata
         $cmid = $this->_customdata->cmid;
         $firstpageright = $this->_customdata->firstpageright;
         $maxassignedpage = $this->_customdata->maxassignedpage;
@@ -47,21 +53,21 @@ class surveypro_submissionform extends moodleform {
         $readonly = $this->_customdata->readonly;
 
         // ----------------------------------------
-        // userform::s
+        // userform: s
         // ----------------------------------------
         $mform->addElement('hidden', 's', $surveypro->id);
         $mform->setType('s', PARAM_INT);
 
         // ----------------------------------------
-        // userform::submissionid
+        // userform: submissionid
         // ----------------------------------------
         $mform->addElement('hidden', 'submissionid', 0);
         $mform->setType('submissionid', PARAM_INT);
 
         // ----------------------------------------
-        // userform::formpage
+        // userform: formpage
         // ----------------------------------------
-        $mform->addElement('hidden', 'formpage', 0); // <-- this value comes from default set just before $mform->display(); in view.php
+        $mform->addElement('hidden', 'formpage', 0); // <-- this value comes from default as set just before $mform->display(); in view_userform.php
         $mform->setType('formpage', PARAM_INT);
 
         if ($formpage == SURVEYPRO_LEFT_OVERFLOW) {
@@ -192,7 +198,9 @@ class surveypro_submissionform extends moodleform {
         }
         if ($modulepage != SURVEYPRO_ITEMS_PREVIEW) {
             if ($surveypro->saveresume) {
-                $buttonlist['pausebutton'] = get_string('pause', 'surveypro');
+                if ($maxassignedpage > 1) {
+                    $buttonlist['pausebutton'] = get_string('pause', 'surveypro');
+                }
             }
             if (($formpage == $maxassignedpage) || ($formpage == SURVEYPRO_RIGHT_OVERFLOW)) {
                 if ($surveypro->history) {
@@ -232,9 +240,17 @@ class surveypro_submissionform extends moodleform {
         }
     }
 
+    /*
+     * validation
+     *
+     * @param $data
+     * @param $files
+     * @return $errors
+     */
     public function validation($data, $files) {
         $mform = $this->_form;
 
+        // ----------------------------------------
         // $cmid = $this->_customdata->cmid;
         $modulepage = $this->_customdata->modulepage;
 

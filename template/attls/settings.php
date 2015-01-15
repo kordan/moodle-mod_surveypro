@@ -14,14 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * @package    surveyprotemplate
  * @subpackage attls
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
+
+require_once($CFG->dirroot.'/mod/surveypro/template/attls/lib.php');
 
 $options = array(
     SURVEYPRO_POSITIONLEFT => get_string('left', 'surveypro'),
@@ -29,6 +31,15 @@ $options = array(
     SURVEYPRO_POSITIONFULLWIDTH => get_string('fullwidth', 'surveypro'),
 );
 
-$settings->add(new admin_setting_configselect('surveyprotemplate_attls/position',
-    get_string('position', 'surveyprotemplate_attls'),
-    get_string('position_desc', 'surveyprotemplate_attls'), 2, $options));
+$name = get_string('position', 'surveyprotemplate_attls');
+$description = get_string('position_desc', 'surveyprotemplate_attls');
+$settings->add(new admin_setting_configselect('surveyprotemplate_attls/position', $name, $description, SURVEYPRO_POSITIONFULLWIDTH, $options));
+
+$options = array(
+    SURVEYPROTEMPLATE_ATTLSUSERADIO => get_string('useradio', 'surveyprotemplate_attls'),
+    SURVEYPROTEMPLATE_ATTLSUSESELECT => get_string('useselect', 'surveyprotemplate_attls')
+);
+
+$name = new lang_string('useritem', 'surveyprotemplate_attls');
+$description = new lang_string('useritem_desc', 'surveyprotemplate_attls');
+$settings->add(new admin_setting_configselect('surveyprotemplate_attls/useritem', $name, $description, SURVEYPROTEMPLATE_ATTLSUSERADIO, $options));

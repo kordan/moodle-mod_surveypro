@@ -14,91 +14,76 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-/*
+/**
  * The base class representing a field
  */
 class mod_surveypro_reportbase {
-    /*
+    /**
      * cm
      */
     public $cm = null;
 
-    /*
+    /**
      * $surveypro: the record of this surveypro
      */
     public $surveypro = null;
 
-    /*
-     * $coursecontext: the record of this surveypro
-     */
-    public $coursecontext = null;
-
-    /*
+    /**
      * $hassubmissions: the record of this surveypro
      */
     public $hassubmissions = false;
 
-    /*
-     * $canaccessownreports
-     */
-    public $canaccessownreports = false;
-
-    /*
+    /**
      * Class constructor
      */
-    public function __construct($cm, $surveypro) {
-        global $COURSE;
-
+    public function __construct($cm, $context, $surveypro) {
         $this->cm = $cm;
-        $this->coursecontext = context_course::instance($COURSE->id);
+        $this->context = $context;
         $this->surveypro = $surveypro;
-        $this->canaccessreports = has_capability('mod/surveypro:accessreports', $this->coursecontext, null, true);
-        $this->canaccessownreports = has_capability('mod/surveypro:accessownreports', $this->coursecontext, null, true);
     }
 
-    /*
+    /**
      * restrict_templates
      */
     public function restrict_templates() {
         return array();
     }
 
-    /*
+    /**
      * has_student_report
      */
     public function has_student_report() {
         return false;
     }
 
-    /*
-     * does_report_apply
+    /**
+     * report_apply
      */
-    public function does_report_apply() {
+    public function report_apply() {
         return true;
     }
 
-
-    /*
+    /**
      * get_childreports
+     *
+     * @param bool $canaccessreports
+     * @return none
      */
     public function get_childreports($canaccessreports) {
         return false;
     }
 
-    /*
+    /**
      * check_submissions
      */
     public function check_submissions() {

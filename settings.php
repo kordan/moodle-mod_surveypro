@@ -18,7 +18,7 @@
  * This file adds the settings pages to the navigation menu
  *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -51,40 +51,40 @@ $settings = null;
 // folder 'surveypro field'
 $ADMIN->add('modsurveyprofolder', new admin_category('surveyprofieldplugins',
                 new lang_string('fieldplugins', 'surveypro'), !$module->is_enabled()));
-$ADMIN->add('surveyprofieldplugins', new surveypro_admin_page_manage_surveypro_plugins('surveyprofield'));
+$ADMIN->add('surveyprofieldplugins', new mod_surveypro_admin_page_manage_surveypro_plugins('surveyprofield'));
 
 // folder 'surveypro format'
 $ADMIN->add('modsurveyprofolder', new admin_category('surveyproformatplugins',
                 new lang_string('formatplugins', 'surveypro'), !$module->is_enabled()));
-$ADMIN->add('surveyproformatplugins', new surveypro_admin_page_manage_surveypro_plugins('surveyproformat'));
+$ADMIN->add('surveyproformatplugins', new mod_surveypro_admin_page_manage_surveypro_plugins('surveyproformat'));
 
 // folder 'surveypro (master) templates'
 $ADMIN->add('modsurveyprofolder', new admin_category('surveyprotemplateplugins',
                 new lang_string('mastertemplateplugins', 'surveypro'), !$module->is_enabled()));
-$ADMIN->add('surveyprotemplateplugins', new surveypro_admin_page_manage_surveypro_plugins('surveyprotemplate'));
+$ADMIN->add('surveyprotemplateplugins', new mod_surveypro_admin_page_manage_surveypro_plugins('surveyprotemplate'));
 
 // folder 'surveypro reports'
 $ADMIN->add('modsurveyprofolder', new admin_category('surveyproreportplugins',
                 new lang_string('reportplugins', 'surveypro'), !$module->is_enabled()));
-$ADMIN->add('surveyproreportplugins', new surveypro_admin_page_manage_surveypro_plugins('surveyproreport'));
+$ADMIN->add('surveyproreportplugins', new mod_surveypro_admin_page_manage_surveypro_plugins('surveyproreport'));
 
 foreach (core_plugin_manager::instance()->get_plugins_of_type('surveyprofield') as $plugin) {
-    /** @var \mod_assign\plugininfo\assignsubmission $plugin */
+    // @var \mod_surveypro\plugininfo\surveyprofield $plugin
     $plugin->load_settings($ADMIN, 'surveyprofieldplugins', $hassiteconfig);
 }
 
 foreach (core_plugin_manager::instance()->get_plugins_of_type('surveyproformat') as $plugin) {
-    /** @var \mod_assign\plugininfo\assignsubmission $plugin */
+    // @var \mod_surveypro\plugininfo\surveyproformat $plugin
     $plugin->load_settings($ADMIN, 'surveyproformatplugins', $hassiteconfig);
 }
 
 foreach (core_plugin_manager::instance()->get_plugins_of_type('surveyprotemplate') as $plugin) {
-    /** @var \mod_assign\plugininfo\assignsubmission $plugin */
+    // @var \mod_surveypro\plugininfo\surveyprotemplate $plugin
     $plugin->load_settings($ADMIN, 'surveyprotemplateplugins', $hassiteconfig);
 }
 
 foreach (core_plugin_manager::instance()->get_plugins_of_type('surveyproreport') as $plugin) {
-    /** @var \mod_assign\plugininfo\assignsubmission $plugin */
+    // @var \mod_surveypro\plugininfo\surveyproreport $plugin
     $plugin->load_settings($ADMIN, 'surveyproreportplugins', $hassiteconfig);
 }
 

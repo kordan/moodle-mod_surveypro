@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -37,8 +36,8 @@ class backup_surveyprofield_checkbox_subplugin extends backup_subplugin {
         $wrapper = new backup_nested_element($this->get_recommended_name());
         $subplugincheckbox = new backup_nested_element('surveyprofield_checkbox', array('id'), array(
             'content', 'contentformat', 'customnumber', 'position', 'extranote',
-            'required', 'variable', 'indent','options', 'labelother',
-            'defaultvalue', 'downloadformat', 'minimumrequired', 'adjustment'));
+            'hideinstructions', 'variable', 'indent', 'options', 'labelother',
+            'defaultvalue', 'noanswerdefault', 'downloadformat', 'minimumrequired', 'adjustment'));
 
         // connect XML elements into the tree
         $subplugin->add_child($wrapper);

@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <items>
-  <item>
+  <item type="format" plugin="label" version="2014111000">
     <surveypro_item>
-      <type>format</type>
-      <plugin>label</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -18,10 +16,8 @@
       <leftlabel>label_leftlabel_01</leftlabel>
     </surveyproformat_label>
   </item>
-  <item>
+  <item type="format" plugin="fieldset" version="2014111000">
     <surveypro_item>
-      <type>format</type>
-      <plugin>fieldset</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -32,10 +28,8 @@
       <content>fieldset_content_01</content>
     </surveyproformat_fieldset>
   </item>
-  <item>
+  <item type="field" plugin="radiobutton" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>radiobutton</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -45,7 +39,7 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_02</content>
       <contentformat>1</contentformat>
-      <position>1</position>
+      <position>0</position>
       <required>1</required>
       <variable>attls_radiobutton_01</variable>
       <indent>0</indent>
@@ -57,10 +51,8 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item>
+  <item type="field" plugin="radiobutton" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>radiobutton</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -70,7 +62,7 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_03</content>
       <contentformat>1</contentformat>
-      <position>1</position>
+      <position>0</position>
       <required>1</required>
       <variable>attls_radiobutton_02</variable>
       <indent>0</indent>
@@ -82,10 +74,8 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item>
+  <item type="field" plugin="radiobutton" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>radiobutton</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -95,7 +85,7 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_04</content>
       <contentformat>1</contentformat>
-      <position>1</position>
+      <position>0</position>
       <required>1</required>
       <variable>attls_radiobutton_03</variable>
       <indent>0</indent>
@@ -107,10 +97,8 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item>
+  <item type="field" plugin="radiobutton" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>radiobutton</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -120,7 +108,7 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_05</content>
       <contentformat>1</contentformat>
-      <position>1</position>
+      <position>0</position>
       <required>1</required>
       <variable>attls_radiobutton_04</variable>
       <indent>0</indent>
@@ -132,10 +120,8 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item>
+  <item type="field" plugin="radiobutton" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>radiobutton</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -145,7 +131,7 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_06</content>
       <contentformat>1</contentformat>
-      <position>1</position>
+      <position>0</position>
       <required>1</required>
       <variable>attls_radiobutton_05</variable>
       <indent>0</indent>
@@ -157,10 +143,8 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item>
+  <item type="field" plugin="radiobutton" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>radiobutton</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -170,7 +154,7 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_07</content>
       <contentformat>1</contentformat>
-      <position>1</position>
+      <position>0</position>
       <required>1</required>
       <variable>attls_radiobutton_06</variable>
       <indent>0</indent>
@@ -182,10 +166,8 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item>
+  <item type="field" plugin="radiobutton" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>radiobutton</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -195,7 +177,7 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_08</content>
       <contentformat>1</contentformat>
-      <position>1</position>
+      <position>0</position>
       <required>1</required>
       <variable>attls_radiobutton_07</variable>
       <indent>0</indent>
@@ -207,10 +189,8 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item>
+  <item type="field" plugin="radiobutton" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>radiobutton</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -220,7 +200,7 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_09</content>
       <contentformat>1</contentformat>
-      <position>1</position>
+      <position>0</position>
       <required>1</required>
       <variable>attls_radiobutton_08</variable>
       <indent>0</indent>
@@ -232,10 +212,8 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item>
+  <item type="field" plugin="radiobutton" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>radiobutton</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -245,7 +223,7 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_10</content>
       <contentformat>1</contentformat>
-      <position>1</position>
+      <position>0</position>
       <required>1</required>
       <variable>attls_radiobutton_09</variable>
       <indent>0</indent>
@@ -257,10 +235,8 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item>
+  <item type="field" plugin="radiobutton" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>radiobutton</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -270,7 +246,7 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_11</content>
       <contentformat>1</contentformat>
-      <position>1</position>
+      <position>0</position>
       <required>1</required>
       <variable>attls_radiobutton_10</variable>
       <indent>0</indent>
@@ -282,10 +258,8 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item>
+  <item type="field" plugin="radiobutton" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>radiobutton</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -295,7 +269,7 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_12</content>
       <contentformat>1</contentformat>
-      <position>1</position>
+      <position>0</position>
       <required>1</required>
       <variable>attls_radiobutton_11</variable>
       <indent>0</indent>
@@ -307,10 +281,8 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item>
+  <item type="field" plugin="radiobutton" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>radiobutton</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -320,7 +292,7 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_13</content>
       <contentformat>1</contentformat>
-      <position>1</position>
+      <position>0</position>
       <required>1</required>
       <variable>attls_radiobutton_12</variable>
       <indent>0</indent>
@@ -332,10 +304,8 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item>
+  <item type="field" plugin="radiobutton" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>radiobutton</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -345,7 +315,7 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_14</content>
       <contentformat>1</contentformat>
-      <position>1</position>
+      <position>0</position>
       <required>1</required>
       <variable>attls_radiobutton_13</variable>
       <indent>0</indent>
@@ -357,10 +327,8 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item>
+  <item type="field" plugin="radiobutton" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>radiobutton</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -370,7 +338,7 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_15</content>
       <contentformat>1</contentformat>
-      <position>1</position>
+      <position>0</position>
       <required>1</required>
       <variable>attls_radiobutton_14</variable>
       <indent>0</indent>
@@ -382,10 +350,8 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item>
+  <item type="field" plugin="radiobutton" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>radiobutton</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -395,7 +361,7 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_16</content>
       <contentformat>1</contentformat>
-      <position>1</position>
+      <position>0</position>
       <required>1</required>
       <variable>attls_radiobutton_15</variable>
       <indent>0</indent>
@@ -407,10 +373,8 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item>
+  <item type="field" plugin="radiobutton" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>radiobutton</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -420,7 +384,7 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_17</content>
       <contentformat>1</contentformat>
-      <position>1</position>
+      <position>0</position>
       <required>1</required>
       <variable>attls_radiobutton_16</variable>
       <indent>0</indent>
@@ -432,10 +396,8 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item>
+  <item type="field" plugin="radiobutton" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>radiobutton</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -445,7 +407,7 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_18</content>
       <contentformat>1</contentformat>
-      <position>1</position>
+      <position>0</position>
       <required>1</required>
       <variable>attls_radiobutton_17</variable>
       <indent>0</indent>
@@ -457,10 +419,8 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item>
+  <item type="field" plugin="radiobutton" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>radiobutton</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -470,7 +430,7 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_19</content>
       <contentformat>1</contentformat>
-      <position>1</position>
+      <position>0</position>
       <required>1</required>
       <variable>attls_radiobutton_18</variable>
       <indent>0</indent>
@@ -482,10 +442,8 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item>
+  <item type="field" plugin="radiobutton" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>radiobutton</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -495,7 +453,7 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_20</content>
       <contentformat>1</contentformat>
-      <position>1</position>
+      <position>0</position>
       <required>1</required>
       <variable>attls_radiobutton_19</variable>
       <indent>0</indent>
@@ -507,10 +465,8 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item>
+  <item type="field" plugin="radiobutton" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>radiobutton</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -520,7 +476,7 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_21</content>
       <contentformat>1</contentformat>
-      <position>1</position>
+      <position>0</position>
       <required>1</required>
       <variable>attls_radiobutton_20</variable>
       <indent>0</indent>

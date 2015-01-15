@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,128 +27,121 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/surveypro/classes/itembase.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/field/numeric/lib.php');
 
-class surveyprofield_numeric extends mod_surveypro_itembase {
+class mod_surveypro_field_numeric extends mod_surveypro_itembase {
 
-    /*
+    /**
      * $content = the text content of the item.
      */
     public $content = '';
 
-    /*
+    /**
      * $contenttrust
      */
     public $contenttrust = 1;
 
-    /*
+    /**
      * public $contentformat = '';
      */
     public $contentformat = '';
 
-    /*
+    /**
      * $customnumber = the custom number of the item.
      * It usually is 1. 1.1, a, 2.1.a...
      */
     public $customnumber = '';
 
-    /*
+    /**
      * $position = where does the question go?
      */
     public $position = SURVEYPRO_POSITIONLEFT;
 
-    /*
+    /**
      * $extranote = an optional text describing the item
      */
     public $extranote = '';
 
-    /*
+    /**
      * $required = boolean. O == optional item; 1 == mandatory item
      */
     public $required = 0;
 
-    /*
+    /**
      * $hideinstructions = boolean. Exceptionally hide filling instructions
      */
     public $hideinstructions = 0;
 
-    /*
+    /**
      * $variable = the name of the field storing data in the db table
      */
     public $variable = '';
 
-    /*
+    /**
      * $indent = the indent of the item in the form page
      */
     public $indent = 0;
 
     // -----------------------------
 
-    /*
+    /**
      * $defaultvalue = the value of the field when the form is initially displayed.
      */
     public $defaultvalue = '';
 
-    /*
+    /**
      * $decimalseparator
      */
     public $decimalseparator = '.';
 
-    /*
+    /**
      * $signed = will be, the expected number, signed
      */
     public $signed = 0;
 
-    /*
+    /**
      * $lowerbound = the minimun allowed value
      */
     public $lowerbound = '';
 
-    /*
+    /**
      * $upperbound = the maximum allowed value
      */
     public $upperbound = '';
 
-    /*
+    /**
      * $decimals = number of decimals allowed for this number
      */
     public $decimals = 0;
 
-    /*
-     * $flag = features describing the object
-     */
-    public $flag;
-
-    /*
-     * $canbeparent
+    /**
+     * static canbeparent
      */
     public static $canbeparent = false;
 
     // -----------------------------
 
-    /*
+    /**
      * Class constructor
      *
      * If itemid is provided, load the object (item + base + plugin) from database
      *
+     * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
+     * @param bool $evaluateparentcontent: add also 'parentcontent' among other item elements
      */
-    public function __construct($itemid=0, $evaluateparentcontent) {
-        global $PAGE;
+    public function __construct($cm, $itemid=0, $evaluateparentcontent) {
+        parent::__construct($cm, $itemid, $evaluateparentcontent);
 
-        $cm = $PAGE->cm;
-
-        if (isset($cm)) { // it is not set during upgrade whether this item is loaded
-            $this->context = context_module::instance($cm->id);
-        }
-
+        // list of constant element attributes
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'numeric';
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
+        $this->savepositiontodb = false;
+
+        // other element specific properties
         $this->decimalseparator = get_string('decsep', 'langconfig');
 
-        $this->flag = new stdClass();
-        $this->flag->issearchable = true;
-        $this->flag->usescontenteditor = true;
-        $this->flag->editorslist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA);
-        $this->flag->savepositiontodb = false;
+        // override properties depending from $surveypro settings
+        // nothing
 
         // list of fields I do not want to have in the item definition form
         // EMPTY LIST
@@ -161,14 +151,15 @@ class surveyprofield_numeric extends mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * item_load
      *
      * @param $itemid
+     * @param bool $evaluateparentcontent: add also 'parentcontent' among other item elements
      * @return
      */
     public function item_load($itemid, $evaluateparentcontent) {
-        // Do parent item loading stuff here (mod_surveypro_itembase::item_load($itemid)))
+        // Do parent item loading stuff here (mod_surveypro_itembase::item_load($itemid, $evaluateparentcontent)))
         parent::item_load($itemid, $evaluateparentcontent);
 
         // float numbers need more attention because I can write them using , or .
@@ -189,7 +180,7 @@ class surveyprofield_numeric extends mod_surveypro_itembase {
         $this->item_custom_fields_to_form();
     }
 
-    /*
+    /**
      * item_save
      *
      * @param $record
@@ -230,10 +221,11 @@ class surveyprofield_numeric extends mod_surveypro_itembase {
         return parent::item_save($record);
     }
 
-    /*
+    /**
      * item_custom_fields_to_form
      * add checkboxes selection for empty fields
      *
+     * @param none
      * @return
      */
     public function item_custom_fields_to_form() {
@@ -247,7 +239,7 @@ class surveyprofield_numeric extends mod_surveypro_itembase {
         // nothing to do: defaultvalue doesn't need any further care
     }
 
-    /*
+    /**
      * item_custom_fields_to_db
      * sets record field to store the correct value to db for the age custom item
      *
@@ -268,7 +260,7 @@ class surveyprofield_numeric extends mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * item_atomize_number
      * starting from justanumber, this function returns it splitted into an array
      *
@@ -282,7 +274,7 @@ class surveyprofield_numeric extends mod_surveypro_itembase {
         return $matches;
     }
 
-    /*
+    /**
      * item_get_generic_property
      *
      * @param $field
@@ -298,10 +290,11 @@ class surveyprofield_numeric extends mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * item_get_multilang_fields
      * make the list of multilang plugin fields
      *
+     * @param none
      * @return array of felds
      */
     public function item_get_multilang_fields() {
@@ -310,7 +303,7 @@ class surveyprofield_numeric extends mod_surveypro_itembase {
         return $fieldlist;
     }
 
-    /*
+    /**
      * item_get_plugin_schema
      * Return the xml schema for surveypro_<<plugin>> table.
      *
@@ -358,7 +351,7 @@ EOS;
 
     // MARK userform
 
-    /*
+    /**
      * userform_mform_element
      *
      * @param $mform
@@ -372,8 +365,10 @@ EOS;
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
+        $idprefix = 'id_surveypro_field_numeric_'.$this->sortindex;
+
         if (!$searchform) {
-            $mform->addElement('text', $this->itemname, $elementlabel, array('class' => 'indent-'.$this->indent, 'itemid' => $this->itemid));
+            $mform->addElement('text', $this->itemname, $elementlabel, array('class' => 'indent-'.$this->indent, 'id' => $idprefix));
             $mform->setType($this->itemname, PARAM_RAW); // see: moodlelib.php lines 133+
             if (strlen($this->defaultvalue)) {
                 $mform->setDefault($this->itemname, "$this->defaultvalue");
@@ -389,8 +384,8 @@ EOS;
             }
         } else {
             $elementgroup = array();
-            $elementgroup[] = $mform->createElement('text', $this->itemname, '', array('class' => 'indent-'.$this->indent));
-            $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'surveypro'));
+            $elementgroup[] = $mform->createElement('text', $this->itemname, '', array('class' => 'indent-'.$this->indent, 'id' => $idprefix));
+            $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'surveypro'), array('id' => $idprefix.'_ignoreme'));
             $mform->setType($this->itemname, PARAM_RAW);
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_ignoreme', 'checked');
@@ -398,7 +393,7 @@ EOS;
         }
     }
 
-    /*
+    /**
      * userform_mform_validation
      *
      * @param $data
@@ -478,9 +473,10 @@ EOS;
 
     }
 
-    /*
+    /**
      * userform_get_filling_instructions
      *
+     * @param none
      * @return string $fillinginstruction
      */
     public function userform_get_filling_instructions() {
@@ -537,7 +533,7 @@ EOS;
         return $fillinginstruction;
     }
 
-    /*
+    /**
      * userform_save_preprocessing
      * starting from the info set by the user in the form
      * this method calculates what to save in the db
@@ -587,7 +583,7 @@ EOS;
         }
     }
 
-    /*
+    /**
      * this method is called from surveypro_set_prefill (in locallib.php) to set $prefill at user form display time
      * (defaults are set in userform_mform_element)
      *
@@ -612,7 +608,7 @@ EOS;
         return $prefill;
     }
 
-    /*
+    /**
      * userform_db_to_export
      * strating from the info stored in the database, this function returns the corresponding content for the export file
      *
@@ -633,15 +629,25 @@ EOS;
         return $content;
     }
 
-    /*
+    /**
      * userform_get_root_elements_name
      * returns an array with the names of the mform element added using $mform->addElement or $mform->addGroup
      *
+     * @param none
      * @return
      */
     public function userform_get_root_elements_name() {
         $elementnames = array($this->itemname);
 
         return $elementnames;
+    }
+
+    /**
+     * get_canbeparent
+     *
+     * @return the content of the static property "canbeparent"
+     */
+    public static function get_canbeparent() {
+        return self::$canbeparent;
     }
 }

@@ -14,12 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
- * Strings for component 'field_autofill', language 'en', branch 'MOODLE_20_STABLE'
+/**
+ * Strings for component 'field_autofill', language 'en', branch 'MOODLE_28_STABLE'
  *
  * @package    surveyproreport
  * @subpackage frequency
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -31,4 +31,4 @@ $string['absolute'] = 'absolute';
 $string['percentage'] = 'percentage';
 $string['pleasechooseavalue'] = 'Please choose an item for the distribution';
 $string['answernotpresent'] = 'missing';
-$string['textareasarenotallowed'] = 'This survey uses only {$a} fields that are not suitable for this report';
+$string['textareasarenotallowed'] = 'This survey has no fields or uses only fields, among visible and not advanced, that are not suitable for this report.';

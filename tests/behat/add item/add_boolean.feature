@@ -5,25 +5,25 @@ Feature: verify a boolean item can be added to a survey
   I add a boolean item to a survey
 
   @javascript
-  Scenario: add some items
+  Scenario: add boolean item
     Given the following "courses" exist:
-      | fullname | shortname | category | groupmode |
-      | Course 1 | C1        | 0        | 0         |
+      | fullname         | shortname   | category | groupmode |
+      | Add boolean item | Add boolean | 0        | 0         |
     And the following "users" exist:
-      | username | firstname | lastname | email            |
-      | teacher1 | Teacher   | 1        | teacher1@asd.com |
+      | username | firstname | lastname | email                |
+      | teacher1 | Teacher   | 1        | teacher1@nowhere.net |
     And the following "course enrolments" exist:
-      | user     | course | role           |
-      | teacher1 | C1     | editingteacher |
+      | user     | course      | role           |
+      | teacher1 | Add boolean | editingteacher |
     And I log in as "teacher1"
-    And I follow "Course 1"
+    And I follow "Add boolean item"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-      | Survey name | Add boolean item                          |
-      | Description | This is a surveypro to add each core item |
-    And I follow "Add boolean item"
+      | Surveypro name | Surveypro test                            |
+      | Description    | This is a surveypro to add a boolean item |
+    And I follow "Surveypro test"
 
-    And I set the field "plugin" to "Boolean"
+    And I set the field "typeplugin" to "Boolean"
     And I press "Add"
 
     And I expand all fieldsets
@@ -35,7 +35,7 @@ Feature: verify a boolean item can be added to a survey
       | Element number    | 4a            |
     And I press "Add"
 
-    And I set the field "plugin" to "Boolean"
+    And I set the field "typeplugin" to "Boolean"
     And I press "Add"
 
     And I expand all fieldsets
@@ -48,7 +48,7 @@ Feature: verify a boolean item can be added to a survey
       | Boolean style     | vertical radio buttons |
     And I press "Add"
 
-    And I set the field "plugin" to "Boolean"
+    And I set the field "typeplugin" to "Boolean"
     And I press "Add"
 
     And I expand all fieldsets

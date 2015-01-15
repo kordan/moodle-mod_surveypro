@@ -14,23 +14,26 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
- * Defines the version of surveypro autofill subplugin
+/**
+ * Defines the version of surveypro colles report subplugin
  *
  * This code fragment is called by moodle_needs_upgrading() and
  * /admin/index.php
  *
  * @package    surveyproreport
  * @subpackage colles
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2012062301;
+$plugin->version = 2014111000;
 $plugin->release = '1.0';
-$plugin->requires = 2010091600;  // Requires this Moodle version
-$plugin->dependencies = array('surveyprotemplate_collesactual' => 2013103101);
-$plugin->dependencies = array('surveyprotemplate_collesactualpreferred' => 2013103101);
-$plugin->dependencies = array('surveyprotemplate_collespreferred' => 2013103101);
+$plugin->requires = 2013111800; // Requires this Moodle version
+$plugin->dependencies = array(
+    'surveyprotemplate_collesactual' => 2013103101,
+    'surveyprotemplate_collesactualpreferred' => 2013103101,
+    'surveyprotemplate_collespreferred' => 2013103101,
+);
+$plugin->component = 'surveyproreport_colles'; // Full name of the plugin (used for diagnostics)

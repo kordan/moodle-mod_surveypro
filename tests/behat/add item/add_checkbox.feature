@@ -5,25 +5,25 @@ Feature: verify a checkbox item can be added to a survey
   I add a checkbox item to a survey
 
   @javascript
-  Scenario: add some items
+  Scenario: add checkbox item
     Given the following "courses" exist:
-      | fullname | shortname | category | groupmode |
-      | Course 1 | C1        | 0        | 0         |
+      | fullname          | shortname    | category | groupmode |
+      | Add checkbox item | Add checkbox | 0        | 0         |
     And the following "users" exist:
-      | username | firstname | lastname | email            |
-      | teacher1 | Teacher   | 1        | teacher1@asd.com |
+      | username | firstname | lastname | email                |
+      | teacher1 | Teacher   | 1        | teacher1@nowhere.net |
     And the following "course enrolments" exist:
-      | user     | course | role           |
-      | teacher1 | C1     | editingteacher |
+      | user     | course       | role           |
+      | teacher1 | Add checkbox | editingteacher |
     And I log in as "teacher1"
-    And I follow "Course 1"
+    And I follow "Add checkbox item"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-      | Survey name | Add checkbox item                         |
-      | Description | This is a surveypro to add each core item |
-    And I follow "Add checkbox item"
+      | Surveypro name | Surveypro test                             |
+      | Description    | This is a surveypro to add a checkbox item |
+    And I follow "Surveypro test"
 
-    And I set the field "plugin" to "Checkbox"
+    And I set the field "typeplugin" to "Checkbox"
     And I press "Add"
 
     And I expand all fieldsets
@@ -37,7 +37,7 @@ Feature: verify a checkbox item can be added to a survey
     And I fill the textarea "Options" with multiline content "milk\nsugar\njam\nchocolate"
     And I press "Add"
 
-    And I set the field "plugin" to "Checkbox"
+    And I set the field "typeplugin" to "Checkbox"
     And I press "Add"
 
     And I expand all fieldsets

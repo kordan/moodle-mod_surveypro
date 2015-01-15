@@ -14,11 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * mod_surveypro all usertemplates viewed event.
  *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,7 +30,7 @@ require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php'
 require_once($CFG->dirroot.'/mod/surveypro/lib.php');
 
 class all_usertemplates_viewed extends \core\event\base {
-    /*
+    /**
      * Set basic properties for the event.
      */
     protected function init() {
@@ -39,7 +39,7 @@ class all_usertemplates_viewed extends \core\event\base {
         $this->data['objecttable'] = 'surveypro';
     }
 
-    /*
+    /**
      * Return localised event name.
      *
      * @return string
@@ -48,7 +48,7 @@ class all_usertemplates_viewed extends \core\event\base {
         return get_string('event_all_usertemplates_viewed', 'mod_surveypro');
     }
 
-    /*
+    /**
      * Returns description of what happened.
      *
      * @return string
@@ -57,16 +57,16 @@ class all_usertemplates_viewed extends \core\event\base {
         return "User with id '{$this->userid}' has viewed all the user templates.";
     }
 
-    /*
+    /**
      * Get URL related to the action.
      *
      * @return \moodle_url
      */
     public function get_url() {
-        return new \moodle_url('utemplates_manage.php', array('id' => $this->contextinstanceid));
+        return new \moodle_url('/mod/surveypro/utemplates_manage.php', array('id' => $this->contextinstanceid));
     }
 
-    /*
+    /**
      * Return legacy data for add_to_log().
      *
      * @return array
@@ -77,7 +77,7 @@ class all_usertemplates_viewed extends \core\event\base {
             $this->get_url(), $this->objectid, $this->contextinstanceid);
     }
 
-    /*
+    /**
      * Return the legacy event name.
      *
      * @return string

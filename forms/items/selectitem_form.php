@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -29,16 +26,22 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
 
-class surveypro_itemtypeform extends moodleform {
+class mod_surveypro_itemtypeform extends moodleform {
 
+    /*
+     * definition
+     *
+     * @param none
+     * @return none
+     */
     public function definition() {
-
+        // ----------------------------------------
         $mform = $this->_form;
 
         // ----------------------------------------
-        // selectitem::plugin
+        // selectitem: plugin
         // ----------------------------------------
-        $fieldname = 'plugin';
+        $fieldname = 'typeplugin';
         // TAKE CARE! Here the plugin holds type and plugin both
         $fieldplugins = surveypro_get_plugin_list(SURVEYPRO_TYPEFIELD, true);
         foreach ($fieldplugins as $k => $v) {
@@ -57,6 +60,7 @@ class surveypro_itemtypeform extends moodleform {
 
         $elementgroup = array();
         $elementgroup[] = $mform->createElement('selectgroups', $fieldname, '', $pluginlist);
+        // $elementgroup[] = $mform->createElement('selectgroups', $fieldname, '', $pluginlist, array('id' => 'type_plugin', 'class' => 'autosubmit ignoredirty'));
         $elementgroup[] = $mform->createElement('submit', $fieldname.'_button', get_string('add'));
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveypro'), array(' '), false);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveypro');

@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,95 +27,104 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/surveypro/classes/templatebase.class.php');
 
 class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
-    /*
+    /**
      * $templatetype
      */
     public $templatetype = SURVEYPRO_USERTEMPLATE;
 
-    /*
+    /**
      * $cm
      */
     public $cm = null;
 
-    /*
+    /**
      * $context
      */
     public $context = null;
 
-    /*
+    /**
      * $utemplateid: the ID of the current working user template
      */
     public $utemplateid = 0;
 
-    /*
+    /**
      * $confirm: is the action confirmed by the user?
      */
     public $confirm = SURVEYPRO_UNCONFIRMED;
 
-    /*
+    /**
      * $candownloadutemplates
      */
     public $candownloadutemplates = false;
 
-    /*
+    /**
      * $candeleteutemplates
      */
     public $candeleteutemplates = false;
 
-    /*
+    /**
+     * $nonmatchingplugin
+     */
+    public $nonmatchingplugin = array();
+
+    /**
      * Class constructor
      */
-    public function __construct($cm, $surveypro, $context, $utemplateid, $action, $view, $confirm) {
-        parent::__construct($surveypro, $context);
+    public function __construct($cm, $context, $surveypro) {
+        parent::__construct($cm, $context, $surveypro);
 
-        $this->cm = $cm;
-        $this->context = $context;
-        $this->confirm = $confirm;
-        $this->utemplateid = $utemplateid;
-        $this->action = $action;
-        $this->view = $view;
         $this->candownloadutemplates = has_capability('mod/surveypro:downloadusertemplates', $context, null, true);
         $this->candeleteutemplates = has_capability('mod/surveypro:deleteusertemplates', $context, null, true);
     }
 
-    /*
-     * export_utemplate
+    // MARK set
+
+    /**
+     * set_utemplateid
      *
-     * @return
+     * @param $utemplateid
+     * @return none
      */
-    public function export_utemplate() {
-        global $CFG;
-
-        $fs = get_file_storage();
-        $xmlfile = $fs->get_file_by_id($this->utemplateid);
-        $filename = $xmlfile->get_filename();
-        $content = $xmlfile->get_content();
-
-        // echo '<textarea rows="10" cols="100">'.$content.'</textarea>';
-
-        $templatename = clean_filename('temptemplate-' . gmdate("Ymd_Hi"));
-        $exportsubdir = "mod_surveypro/templateexport";
-        make_temp_directory($exportsubdir);
-        $exportdir = "$CFG->tempdir/$exportsubdir";
-        $exportfile = $exportdir.'/'.$templatename.'.xml';
-        $this->templatename = basename($exportfile);
-
-        $this->trigger_event('usertemplate_exported');
-
-        header("Content-Type: application/download\n");
-        header("Content-Disposition: attachment; filename=\"$filename\"");
-        header('Expires: 0');
-        header('Cache-Control: must-revalidate,post-check=0,pre-check=0');
-        header('Pragma: public');
-        $xmlfile = fopen($exportdir.'/'.$this->templatename, 'w');
-        print $content;
-        fclose($xmlfile);
-        unlink($exportdir.'/'.$this->templatename);
+    public function set_utemplateid($utemplateid) {
+        $this->utemplateid = $utemplateid;
     }
 
-    /*
+    /**
+     * set_action
+     *
+     * @param $action
+     * @return none
+     */
+    public function set_action($action) {
+        $this->action = $action;
+    }
+
+    /**
+     * set_view
+     *
+     * @param $view
+     * @return none
+     */
+    public function set_view($view) {
+        $this->view = $view;
+    }
+
+    /**
+     * set_confirm
+     *
+     * @param $confirm
+     * @return none
+     */
+    public function set_confirm($confirm) {
+        $this->confirm = $confirm;
+    }
+
+    // MARK get
+
+    /**
      * get_filemanager_options
      *
+     * @param none
      * @return $filemanageroptions
      */
     public function get_filemanager_options() {
@@ -132,7 +138,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         return $templateoptions;
     }
 
-    /*
+    /**
      * get_contextid_from_sharinglevel
      *
      * @param sharinglevel
@@ -185,7 +191,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         return $context->id;
     }
 
-    /*
+    /**
      * get_contextstring_from_sharinglevel
      *
      * @param $contextlevel
@@ -217,9 +223,213 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         return $contextstring;
     }
 
-    /*
+    /**
+     * get_sharinglevel_options
+     *
+     * @param none
+     * @return $options
+     */
+    public function get_sharinglevel_options() {
+        global $DB, $COURSE, $USER, $SITE;
+
+        $labelsep = get_string('labelsep', 'langconfig'); // ': '
+
+        $options = array();
+        $options[CONTEXT_USER.'_'.$USER->id] = get_string('user').$labelsep.fullname($USER);
+        // $options[CONTEXT_MODULE.'_'.$this->cm->id] = get_string('module', 'surveypro').$labelsep.$this->surveypro->name;
+
+        $parentcontexts = $this->context->get_parent_contexts();
+        foreach ($parentcontexts as $context) {
+            if (has_capability('mod/surveypro:saveusertemplates', $context)) {
+                $options[$context->contextlevel.'_'.$context->instanceid] = $context->get_context_name();
+            }
+        }
+
+        $context = context_system::instance();
+        if (has_capability('mod/surveypro:saveusertemplates', $context)) {
+            $options[CONTEXT_SYSTEM.'_0'] = get_string('site');
+        }
+
+        return $options;
+    }
+
+    /**
+     * get_utemplate_content
+     *
+     * @param $utemplateid
+     * @return
+     */
+    public function get_utemplate_content($utemplateid=0) {
+        $fs = get_file_storage();
+        if (empty($utemplateid)) {
+            $utemplateid = $this->utemplateid;
+        }
+        $xmlfile = $fs->get_file_by_id($utemplateid);
+
+        return $xmlfile->get_content();
+    }
+
+    /**
+     * get_utemplate_name
+     *
+     * @param none
+     * @return
+     */
+    public function get_utemplate_name() {
+        $fs = get_file_storage();
+        $xmlfile = $fs->get_file_by_id($this->utemplateid);
+
+        return $xmlfile->get_filename();
+    }
+
+    /**
+     * Gets an array of all of the templates that users have saved to the site.
+     *
+     * @param stdClass $context The context that we are looking for.
+     * @return array An array of templates
+     */
+    public function get_available_templates($contextid) {
+
+        $fs = get_file_storage();
+        $files = $fs->get_area_files($contextid, 'mod_surveypro', SURVEYPRO_TEMPLATEFILEAREA, 0, 'sortorder', false);
+        if (empty($files)) {
+            return array();
+        }
+
+        $templates = array();
+        foreach ($files as $file) {
+            $templates[] = $file;
+        }
+
+        return $templates;
+    }
+
+    /**
+     * export_utemplate
+     *
+     * @param none
+     * @return
+     */
+    public function export_utemplate() {
+        global $CFG;
+
+        $fs = get_file_storage();
+        $xmlfile = $fs->get_file_by_id($this->utemplateid);
+        $filename = $xmlfile->get_filename();
+        $content = $xmlfile->get_content();
+
+        // echo '<textarea rows="10" cols="100">'.$content.'</textarea>';
+
+        $templatename = clean_filename('temptemplate-' . gmdate("Ymd_Hi"));
+        $exportsubdir = "mod_surveypro/templateexport";
+        make_temp_directory($exportsubdir);
+        $exportdir = "$CFG->tempdir/$exportsubdir";
+        $exportfile = $exportdir.'/'.$templatename.'.xml';
+        $this->templatename = basename($exportfile);
+
+        $this->trigger_event('usertemplate_exported');
+
+        header("Content-Type: application/download\n");
+        header("Content-Disposition: attachment; filename=\"$filename\"");
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate,post-check=0,pre-check=0');
+        header('Pragma: public');
+        $xmlfile = fopen($exportdir.'/'.$this->templatename, 'w');
+        print $content;
+        fclose($xmlfile);
+        unlink($exportdir.'/'.$this->templatename);
+    }
+
+    /**
+     * welcome_message
+     *
+     * @param none
+     * @return none
+     */
+    public function welcome_message() {
+        global $OUTPUT;
+
+        $a = new stdClass();
+        $a->usertemplate = get_string('usertemplateinfo', 'surveypro');
+        $a->none = get_string('notanyset', 'surveypro');
+        $a->action = get_string('action', 'surveypro');
+        $a->deleteallitems = get_string('deleteallitems', 'surveypro');
+
+        $message = get_string('applyutemplateinfo', 'surveypro', $a);
+        echo $OUTPUT->box($message, 'generaltable generalbox boxaligncenter boxwidthnormal');
+    }
+
+    /**
+     * check_items_versions
+     *
+     * rationale: usertemplates are validated at upload time using validate_xml.
+     * Mastertemplates are not validated "at the beginning" because they are never uploaded.
+     * At application time, I only need check_items_versions for user templates
+     * while I need the bigger validate_xml to validate mastertemplates for the first time.
+     * The issue is that validate_xml includes a lite item version validation too.
+     * So, to make effective code, I should call check_items_versions from within validate_xml
+     * but check_items_versions uses $this->nonmatchingplugin that, I think,
+     * is mostly useless in master templates
+     *
+     * @param none
+     * @return none
+     */
+    public function check_items_versions() {
+        global $CFG;
+
+        if (empty($this->formdata->usertemplateinfo)) { // nothing was selected
+            return;
+        }
+
+        $versiondisk = $this->get_plugin_versiondisk();
+        $parts = explode('_', $this->formdata->usertemplateinfo);
+        $this->utemplateid = $parts[1];
+        $this->templatename = $this->get_utemplate_name();
+        $templatecontent = $this->get_utemplate_content();
+
+        $simplexml = new SimpleXMLElement($templatecontent);
+        foreach ($simplexml->children() as $xmlitem) {
+            $currentplugin = '';
+            $currentversion = '';
+            foreach ($xmlitem->attributes() as $attribute => $value) {
+                if ($attribute == 'plugin') {
+                    $currentplugin = $value;
+                }
+                if ($attribute == 'version') {
+                    $currentversion = $value;
+                }
+            }
+
+            if (empty($currentplugin)) {
+                $currentplugin = get_string('missingplugin', 'surveypro');
+            }
+
+            if (empty($currentversion)) {
+                $currentversion = '-1';
+            }
+
+            // just to save few nanoseconds: continue if already pinned
+            if (isset($this->nonmatchingplugin["$currentplugin"])) {
+                // already pinned
+                continue;
+            }
+            if (isset($versiondisk["$currentplugin"])) { // to be sure user didn't write a bad plugin or missed it
+                if (($versiondisk["$currentplugin"] != $currentversion)) {
+                    $this->nonmatchingplugin["$currentplugin"] = $versiondisk["$currentplugin"];
+                }
+            } else {
+                // if the user wrote a bad plugin or missed it
+                $this->nonmatchingplugin["$currentplugin"] = 0;
+            }
+        }
+
+        return empty($this->nonmatchingplugin);
+    }
+
+    /**
      * upload_utemplate
      *
+     * @param none
      * @return null
      */
     public function upload_utemplate() {
@@ -228,9 +438,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $contextid = $this->get_contextid_from_sharinglevel();
         $fs = get_file_storage();
 
-        /*
-         * look at what is already on board
-         */
+        // look at what is already on board
         $oldfiles = array();
         if ($files = $fs->get_area_files($contextid, 'mod_surveypro', SURVEYPRO_TEMPLATEFILEAREA, 0, 'sortorder', false)) {
             foreach ($files as $file) {
@@ -238,9 +446,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
             }
         }
 
-        /*
-         * add current files
-         */
+        // add current files
         $fieldname = 'importfile';
         if ($draftitemid = $this->formdata->{$fieldname.'_filemanager'}) {
             if (isset($templateoptions['return_types']) && !($templateoptions['return_types'] & FILE_REFERENCE)) {
@@ -302,12 +508,13 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $this->utemplateid = $file->get_id();
     }
 
-    /*
-     * save_utemplate
+    /**
+     * generate_utemplate
      *
+     * @param none
      * @return
      */
-    public function save_utemplate() {
+    public function generate_utemplate() {
         global $USER;
 
         $this->templatename = $this->formdata->templatename;
@@ -332,9 +539,10 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         return true;
     }
 
-    /*
+    /**
      * manage_utemplates
      *
+     * @param none
      * @return
      */
     public function manage_utemplates() {
@@ -351,7 +559,9 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
         $table = new flexible_table('templatelist');
 
-        $table->define_baseurl(new moodle_url('utemplates_manage.php', array('id' => $this->cm->id)));
+        $paramurl = array('id' => $this->cm->id);
+        $baseurl = new moodle_url('/mod/surveypro/utemplates_manage.php', $paramurl);
+        $table->define_baseurl($baseurl);
 
         $tablecolumns = array();
         $tablecolumns[] = 'templatename';
@@ -431,7 +641,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                         $paramurl['act'] = SURVEYPRO_DELETEUTEMPLATE;
                         $paramurl['sesskey'] = sesskey();
 
-                        $icons .= $OUTPUT->action_icon(new moodle_url('utemplates_manage.php', $paramurl),
+                        $icons .= $OUTPUT->action_icon(new moodle_url('/mod/surveypro/utemplates_manage.php', $paramurl),
                             new pix_icon('t/delete', $deletetitle, 'moodle', array('title' => $deletetitle)),
                             null, array('title' => $deletetitle));
                     }
@@ -442,7 +652,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                     $paramurl = $paramurlbase;
                     $paramurl['view'] = SURVEYPRO_EXPORTUTEMPLATE;
 
-                    $icons .= $OUTPUT->action_icon(new moodle_url('utemplates_manage.php', $paramurl),
+                    $icons .= $OUTPUT->action_icon(new moodle_url('/mod/surveypro/utemplates_manage.php', $paramurl),
                         new pix_icon('i/export', $exporttitle, 'moodle', array('title' => $exporttitle)),
                         null, array('title' => $exporttitle));
                 }
@@ -457,7 +667,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $table->print_html();
     }
 
-    /*
+    /**
      * create_fictitious_table
      *
      * @param $templates
@@ -514,13 +724,14 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         return $originaltableperrows;
     }
 
-    /*
+    /**
      * delete_utemplate
      *
+     * @param none
      * @return null
      */
     public function delete_utemplate() {
-        global $OUTPUT, $PAGE;
+        global $OUTPUT;
 
         if ($this->action != SURVEYPRO_DELETEUTEMPLATE) {
             return;
@@ -534,12 +745,12 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
             $optionsyes = $optionsbase;
             $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
             $optionsyes['fid'] = $this->utemplateid;
-            $urlyes = new moodle_url('utemplates_manage.php', $optionsyes);
+            $urlyes = new moodle_url('/mod/surveypro/utemplates_manage.php', $optionsyes);
             $buttonyes = new single_button($urlyes, get_string('yes'));
 
             $optionsno = $optionsbase;
             $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-            $urlno = new moodle_url('utemplates_manage.php', $optionsno);
+            $urlno = new moodle_url('/mod/surveypro/utemplates_manage.php', $optionsno);
             $buttonno = new single_button($urlno, get_string('no'));
 
             echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
@@ -564,9 +775,10 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         }
     }
 
-    /*
+    /**
      * prevent_direct_user_input
      *
+     * @param none
      * @return null
      */
     public function prevent_direct_user_input() {
@@ -585,92 +797,11 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         }
     }
 
-    /*
-     * get_sharinglevel_options
-     *
-     * @return null
-     */
-    public function get_sharinglevel_options() {
-        global $DB, $COURSE, $USER, $SITE;
-
-        $labelsep = get_string('labelsep', 'langconfig'); // ': '
-        $modulecontext = context_module::instance($this->cm->id);
-
-        $options = array();
-        $options[CONTEXT_USER.'_'.$USER->id] = get_string('user').$labelsep.fullname($USER);
-        // $options[CONTEXT_MODULE.'_'.$this->cm->id] = get_string('module', 'surveypro').$labelsep.$this->surveypro->name;
-
-        $parentcontexts = $modulecontext->get_parent_contexts();
-        foreach ($parentcontexts as $context) {
-            if (has_capability('mod/surveypro:saveusertemplates', $context)) {
-                $options[$context->contextlevel.'_'.$context->instanceid] = $context->get_context_name();
-            }
-        }
-
-        $context = context_system::instance();
-        if (has_capability('mod/surveypro:saveusertemplates', $context)) {
-            $options[CONTEXT_SYSTEM.'_0'] = get_string('site');
-        }
-
-        return $options;
-    }
-
-    /*
-     * get_utemplate_content
-     *
-     * @param $utemplateid
-     * @return
-     */
-    public function get_utemplate_content($utemplateid=0) {
-        $fs = get_file_storage();
-        if (!$utemplateid) {
-            $utemplateid = $this->utemplateid;
-        }
-        $xmlfile = $fs->get_file_by_id($utemplateid);
-
-        return $xmlfile->get_content();
-    }
-
-    /*
-     * get_utemplate_name
-     *
-     * @return
-     */
-    public function get_utemplate_name() {
-        $fs = get_file_storage();
-        $xmlfile = $fs->get_file_by_id($this->utemplateid);
-
-        return $xmlfile->get_filename();
-    }
-
-    /*
-     * Gets an array of all of the templates that users have saved to the site.
-     *
-     * @param stdClass $context The context that we are looking from.
-     * @param array $templates
-     * @return array An array of templates
-     */
-    public function get_available_templates($contextid) {
-
-        $fs = get_file_storage();
-        $files = $fs->get_area_files($contextid, 'mod_surveypro', SURVEYPRO_TEMPLATEFILEAREA, 0, 'sortorder', false);
-        if (empty($files)) {
-            return array();
-        }
-
-        $templates = array();
-        foreach ($files as $file) {
-            $templates[] = $file;
-        }
-
-        return $templates;
-    }
-
-    /*
+    /**
      * trigger_event
      *
      * @param string $event: event to trigger
-     * @return void
+     * @return none
      */
     public function trigger_event($event) {
         $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);

@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Defines the version of surveypro autofill subplugin
  *
  * This code fragment is called by moodle_needs_upgrading() and
@@ -22,7 +22,7 @@
  *
  * @package    surveyproreport
  * @subpackage count
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -31,29 +31,21 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir.'/tablelib.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/reportbase.class.php');
 
-class report_count extends mod_surveypro_reportbase {
-    /*
+class mod_surveypro_report_count extends mod_surveypro_reportbase {
+    /**
      * outputtable
      */
     public $outputtable = null;
 
-    /*
-     * setup
-     */
-    function setup($hassubmissions) {
-        $this->hassubmissions = $hassubmissions;
-
-        $this->setup_outputtable();
-    }
-
-    /*
+    /**
      * setup_outputtable
      */
     public function setup_outputtable() {
         $this->outputtable = new flexible_table('userattempts');
 
-        $paramurl = array('id' => $this->cm->id, 'rname' => 'count');
-        $this->outputtable->define_baseurl(new moodle_url('view.php', $paramurl));
+        $paramurl = array('id' => $this->cm->id, 'rname' => 'count', 'cover' => 0);
+        $baseurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
+        $this->outputtable->define_baseurl($baseurl);
 
         $tablecolumns = array();
         $tablecolumns[] = 'picture';
@@ -88,13 +80,14 @@ class report_count extends mod_surveypro_reportbase {
         $this->outputtable->setup();
     }
 
-    /*
+    /**
      * fetch_data
      */
     public function fetch_data() {
         global $CFG, $DB, $COURSE, $OUTPUT;
 
-        $roles = get_roles_used_in_context($this->coursecontext);
+        $coursecontext = context_course::instance($COURSE->id);
+        $roles = get_roles_used_in_context($coursecontext);
         if (!$role = array_keys($roles)) {
             // return nothing
             return;
@@ -103,7 +96,7 @@ class report_count extends mod_surveypro_reportbase {
                 FROM {user} u
                 JOIN (SELECT id, userid
                         FROM {role_assignments}
-                        WHERE contextid = '.$this->coursecontext->id.'
+                        WHERE contextid = '.$coursecontext->id.'
                           AND roleid IN ('.implode(',', $role).')) ra ON u.id = ra.userid
                 LEFT JOIN (SELECT userid, count(id) as attempts
                              FROM {surveypro_submission}
@@ -111,11 +104,11 @@ class report_count extends mod_surveypro_reportbase {
                              GROUP BY userid) s ON s.userid = u.id';
         $whereparams = array('surveyproid' => $this->surveypro->id);
 
-		list($where, $filterparams) = $this->outputtable->get_sql_where();
-		if ($where) {
-		    $sql .= ' WHERE '.$where;
+        list($where, $filterparams) = $this->outputtable->get_sql_where();
+        if ($where) {
+            $sql .= ' WHERE '.$where;
             $whereparams = array_merge($whereparams,  $filterparams);
-		}
+        }
 
         if ($this->outputtable->get_sql_sort()) {
             $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort();
@@ -145,7 +138,7 @@ class report_count extends mod_surveypro_reportbase {
         $usersubmissions->close();
     }
 
-    /*
+    /**
      * output_data
      */
     public function output_data() {

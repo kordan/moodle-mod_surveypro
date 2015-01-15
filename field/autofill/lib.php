@@ -14,10 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * @package    surveyprofield
  * @subpackage autofill
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -42,10 +42,10 @@ define('SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT13', 'courseid');
 define('SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT14', 'coursename');
 define('SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT15', 'label');
 
-/*
+/**
  * surveypro_autofill_get_elements
- * @param
  *
+ * @param
  * @return
  */
 function surveypro_autofill_get_elements($surveyproid) {

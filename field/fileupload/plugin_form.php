@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -31,22 +28,29 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 require_once($CFG->dirroot.'/mod/surveypro/forms/items/itembase_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/field/fileupload/lib.php');
 
-class surveypro_pluginform extends mod_surveypro_itembaseform {
+class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
 
+    /*
+     * definition
+     *
+     * @param none
+     * @return none
+     */
     public function definition() {
         // ----------------------------------------
         // start with common section of the form
         parent::definition();
 
         // ----------------------------------------
+        $mform = $this->_form;
+
+        // ----------------------------------------
+        // get _customdata
         // $item = $this->_customdata->item;
         // $surveypro = $this->_customdata->surveypro;
 
         // ----------------------------------------
-        $mform = $this->_form;
-
-        // ----------------------------------------
-        // item::maxfiles
+        // item: maxfiles
         // ----------------------------------------
         $fieldname = 'maxfiles';
         $options = array_combine(range(1, 5), range(1, 5));
@@ -57,7 +61,7 @@ class surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_INT);
 
         // ----------------------------------------
-        // item::maxbytes
+        // item: maxbytes
         // ----------------------------------------
         $fieldname = 'maxbytes';
         $options = get_max_upload_sizes();
@@ -67,7 +71,7 @@ class surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_INT);
 
         // ----------------------------------------
-        // item::filetypes
+        // item: filetypes
         // ----------------------------------------
         $fieldname = 'filetypes';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_fileupload'));
@@ -78,6 +82,13 @@ class surveypro_pluginform extends mod_surveypro_itembaseform {
         $this->add_item_buttons();
     }
 
+    /*
+     * validation
+     *
+     * @param $data
+     * @param $files
+     * @return $errors
+     */
     public function validation($data, $files) {
         // ----------------------------------------
         // $item = $this->_customdata->item;

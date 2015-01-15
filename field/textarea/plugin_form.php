@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -31,22 +28,29 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 require_once($CFG->dirroot.'/mod/surveypro/forms/items/itembase_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/field/textarea/lib.php');
 
-class surveypro_pluginform extends mod_surveypro_itembaseform {
+class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
 
+    /*
+     * definition
+     *
+     * @param none
+     * @return none
+     */
     public function definition() {
         // ----------------------------------------
         // start with common section of the form
         parent::definition();
 
         // ----------------------------------------
+        $mform = $this->_form;
+
+        // ----------------------------------------
+        // get _customdata
         // $item = $this->_customdata->item;
         // $surveypro = $this->_customdata->surveypro;
 
         // ----------------------------------------
-        $mform = $this->_form;
-
-        // ----------------------------------------
-        // item::useeditor
+        // item: useeditor
         // ----------------------------------------
         $fieldname = 'useeditor';
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveyprofield_textarea'));
@@ -54,7 +58,7 @@ class surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_INT);
 
         // ----------------------------------------
-        // item::arearows
+        // item: arearows
         // ----------------------------------------
         $fieldname = 'arearows';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_textarea'));
@@ -64,7 +68,7 @@ class surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_INT);
 
         // ----------------------------------------
-        // item::areacols
+        // item: areacols
         // ----------------------------------------
         $fieldname = 'areacols';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_textarea'));
@@ -80,7 +84,7 @@ class surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addElement('header', $fieldname, get_string($fieldname, 'surveypro'));
 
         // ----------------------------------------
-        // item::minlength
+        // item: minlength
         // ----------------------------------------
         $fieldname = 'minlength';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_textarea'));
@@ -90,7 +94,7 @@ class surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setDefault($fieldname, 0);
 
         // ----------------------------------------
-        // item::maxlength
+        // item: maxlength
         // ----------------------------------------
         $fieldname = 'maxlength';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_textarea'));
@@ -100,6 +104,13 @@ class surveypro_pluginform extends mod_surveypro_itembaseform {
         $this->add_item_buttons();
     }
 
+    /*
+     * validation
+     *
+     * @param $data
+     * @param $files
+     * @return $errors
+     */
     public function validation($data, $files) {
         // ----------------------------------------
         // $item = $this->_customdata->item;

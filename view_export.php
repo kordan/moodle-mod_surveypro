@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Prints a particular instance of surveypro
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -51,12 +48,12 @@ require_capability('mod/surveypro:exportdata', $context);
 // -----------------------------
 // calculations
 // -----------------------------
-$exportman = new mod_surveypro_exportmanager($cm, $surveypro);
+$exportman = new mod_surveypro_exportmanager($cm, $context, $surveypro);
 
 // -----------------------------
 // define exportform return url
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('view_export.php', $paramurl);
+$formurl = new moodle_url('/mod/surveypro/view_export.php', $paramurl);
 // end of: define $mform return url
 // -----------------------------
 
@@ -65,7 +62,7 @@ $formurl = new moodle_url('view_export.php', $paramurl);
 $formparams = new stdClass();
 $formparams->surveypro = $surveypro;
 $formparams->canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $context, null, true);
-$exportform = new surveypro_exportform($formurl, $formparams);
+$exportform = new mod_surveypro_exportform($formurl, $formparams);
 // end of: prepare params for the form
 // -----------------------------
 
@@ -87,7 +84,9 @@ if ($exportman->formdata = $exportform->get_data()) {
 // -----------------------------
 // output starts here
 // -----------------------------
-$PAGE->set_url('/mod/surveypro/view.php', array('id' => $cm->id));
+$PAGE->set_url('/mod/surveypro/view_export.php', array('s' => $surveypro->id));
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 

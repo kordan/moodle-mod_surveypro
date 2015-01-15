@@ -20,9 +20,16 @@ require_once($CFG->dirroot.'/course/moodleform_mod.php');
 
 class mod_surveypro_mod_form extends moodleform_mod {
 
+    /*
+     * definition
+     *
+     * @param none
+     * @return none
+     */
     public function definition() {
         global $COURSE, $DB, $CFG, $cm;
 
+        // ----------------------------------------
         $mform = $this->_form;
 
         // ----------------------------------------
@@ -32,7 +39,7 @@ class mod_surveypro_mod_form extends moodleform_mod {
 
         // Adding the standard "name" field
         $fieldname = 'name';
-        $mform->addElement('text', $fieldname, get_string('surveypro'.$fieldname, 'surveypro'), array('size' => '64'));
+        $mform->addElement('text', $fieldname, get_string('surveyproname', 'surveypro'), array('size' => '64'));
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType($fieldname, PARAM_TEXT);
         } else {
@@ -48,10 +55,12 @@ class mod_surveypro_mod_form extends moodleform_mod {
         // Open date
         $fieldname = 'timeopen';
         $mform->addElement('date_time_selector', $fieldname, get_string($fieldname, 'surveypro'), array('optional' => true));
+        $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // Close date
         $fieldname = 'timeclose';
         $mform->addElement('date_time_selector', $fieldname, get_string($fieldname, 'surveypro'), array('optional' => true));
+        $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // modulesettinghdr fieldset (header)
         $fieldname = 'modulesettinghdr';
@@ -200,7 +209,7 @@ class mod_surveypro_mod_form extends moodleform_mod {
             // manage thankshtml editor
             $filename = 'thankshtml';
             $editoroptions = surveypro_get_editor_options();
-            // editing an existing feedback - let us prepare the added editor elements (intro done automatically)
+            // editing an existing surveypro - let us prepare the added editor elements (intro done automatically)
             $draftitemid = file_get_submitted_draft_itemid($filename);
             $defaults[$filename.'_editor']['text'] =
                                     file_prepare_draft_area($draftitemid, $this->context->id,
@@ -226,11 +235,24 @@ class mod_surveypro_mod_form extends moodleform_mod {
         }
     }
 
+    /*
+     * validation
+     *
+     * @param $data
+     * @param $files
+     * @return $errors
+     */
     public function validation($data, $files) {
         $errors = parent::validation($data, $files);
+
         return $errors;
     }
 
+    /*
+     * add_completion_rules
+     *
+     * @return none
+     */
     public function add_completion_rules() {
         $mform =& $this->_form;
 
@@ -249,6 +271,12 @@ class mod_surveypro_mod_form extends moodleform_mod {
         return array($fieldname.'_group');
     }
 
+    /*
+     * completion_rule_enabled
+     *
+     * @param $data
+     * @return none
+     */
     public function completion_rule_enabled($data) {
         return (!empty($data['completionsubmit_check']) && ($data['completionsubmit'] != 0));
     }

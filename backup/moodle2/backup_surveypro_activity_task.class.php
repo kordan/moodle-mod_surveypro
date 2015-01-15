@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Define all the backup steps that will be used by the backup_surveypro_activity_task
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -56,15 +53,15 @@ class backup_surveypro_activity_task extends backup_activity_task {
     static public function encode_content_links($content) {
         global $CFG;
 
-        $base = preg_quote($CFG->wwwroot,"/");
+        $base = preg_quote($CFG->wwwroot, "/");
 
         // Link to the list of surveypros
-        $search="/(".$base."\/mod\/surveypro\/index.php\?id\=)([0-9]+)/";
-        $content= preg_replace($search, '$@SURVEYPROINDEX*$2@$', $content);
+        $search = "/(".$base."\/mod\/surveypro\/index.php\?id\=)([0-9]+)/";
+        $content = preg_replace($search, '$@SURVEYPROINDEX*$2@$', $content);
 
         // Link to surveypro view by moduleid
-        $search="/(".$base."\/mod\/surveypro\/view.php\?id\=)([0-9]+)/";
-        $content= preg_replace($search, '$@SURVEYPROVIEWBYID*$2@$', $content);
+        $search = "/(".$base."\/mod\/surveypro\/view.php\?id\=)([0-9]+)/";
+        $content = preg_replace($search, '$@SURVEYPROVIEWBYID*$2@$', $content);
 
         return $content;
     }

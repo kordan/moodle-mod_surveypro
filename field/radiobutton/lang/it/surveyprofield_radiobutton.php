@@ -14,14 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
- * @package    surveypro
+/**
+ * Strings for component 'field_radiobutton', language 'en', branch 'MOODLE_28_STABLE'
  *
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @package    surveypro
+ * @subpackage radiobutton
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/lib.php');
 
-require_once($CFG->dirroot.'/mod/surveypro/lib.php');
-
+$string['uerr_optionnotset'] = 'Si selezioni 1 opzione';
+$string['missingothertext'] = 'Si riporti il testo corrispondente alla scelta selezionata';

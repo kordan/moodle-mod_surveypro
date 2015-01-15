@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Defines the version of surveypro autofill subplugin
  *
  * This code fragment is called by moodle_needs_upgrading() and
@@ -22,7 +22,7 @@
  *
  * @package    surveyproreport
  * @subpackage colles
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -51,6 +51,13 @@ $qid = optional_param('qid', 0, PARAM_INT);  // 0..3 the question in the area
 require_course_login($course, true, $cm);
 
 $context = context_module::instance($cm->id);
+if ($type == 'summary') {
+    if (!has_capability('mod/surveypro:accessreports', $context)) {
+        require_capability('mod/surveypro:accessownreports', $context);
+    }
+} else {
+    require_capability('mod/surveypro:accessreports', $context);
+}
 
 $paramurl = array('type' => $type, 's' => $surveypro->id);
 if (!empty($group)) {
@@ -62,25 +69,19 @@ if ($area) {
 if (!empty($qid)) {
     $paramurl['qid'] = $qid;
 }
-$url = new moodle_url('/mod/surveypro/report/colles/view.php', $paramurl);
-$PAGE->set_url($url);
-
-// make bold the navigation menu/link that refers to me
-$url = new moodle_url('/mod/surveypro/report/colles/view.php', array('type' => $type, 's' => $surveypro->id));
-navigation_node::override_active_url($url);
-
-if ($type == 'summary') {
-    require_capability('mod/surveypro:accessownreports', $context);
-} else {
-    require_capability('mod/surveypro:accessreports', $context);
-}
 
 // -----------------------------
 // output starts here
 // -----------------------------
-$PAGE->set_url('/mod/surveypro/view.php', array('id' => $cm->id));
+$url = new moodle_url('/mod/surveypro/report/colles/view.php', $paramurl);
+$PAGE->set_url($url);
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
+
+// make bold the navigation menu/link that refers to me
+navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
@@ -88,9 +89,10 @@ $moduletab = SURVEYPRO_TABSUBMISSIONS; // needed by tabs.php
 $modulepage = SURVEYPRO_SUBMISSION_REPORT; // needed by tabs.php
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
-$hassubmissions = surveypro_count_submissions($surveypro->id);
-$reportman = new report_colles($cm, $surveypro);
-$reportman->setup($hassubmissions, $group, $area, $qid);
+$reportman = new mod_surveypro_report_colles($cm, $context, $surveypro);
+$reportman->set_group($group);
+$reportman->set_area($area);
+$reportman->set_qid($qid);
 $reportman->check_submissions();
 switch ($type) {
     case 'summary':
@@ -103,9 +105,7 @@ switch ($type) {
         $reportman->output_questionsdata($area);
         break;
     case 'question':
-        break;
     case 'students':
-        break;
     case 'student':
         break;
 }

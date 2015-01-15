@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Defines the version of surveypro autofill subplugin
  *
  * This code fragment is called by moodle_needs_upgrading() and
@@ -22,7 +22,7 @@
  *
  * @package    surveyproreport
  * @subpackage frequency
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -53,19 +53,13 @@ require_capability('mod/surveypro:accessreports', $context);
 // calculations
 // -----------------------------
 $hassubmissions = surveypro_count_submissions($surveypro->id);
-$reportman = new report_frequency($cm, $surveypro);
-$reportman->setup($hassubmissions);
-
-// -----------------------------
-// stop here if only textareas are in the surveypro
-$reportman->stop_if_textareas_only();
-// end of: stop here if only textareas are in the surveypro
-// -----------------------------
+$reportman = new mod_surveypro_report_frequency($cm, $context, $surveypro);
+$reportman->setup_outputtable();
 
 // -----------------------------
 // define $mform return url
 $paramurl = array('id' => $cm->id, 'rname' => 'frequency');
-$formurl = new moodle_url('view.php', $paramurl);
+$formurl = new moodle_url('/mod/surveypro/report/frequency/view.php', $paramurl);
 // end of: define $mform return url
 // -----------------------------
 
@@ -74,6 +68,8 @@ $formurl = new moodle_url('view.php', $paramurl);
 // -----------------------------
 $url = new moodle_url('/mod/surveypro/report/frequency/view.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
@@ -86,6 +82,12 @@ $moduletab = SURVEYPRO_TABSUBMISSIONS; // needed by tabs.php
 $modulepage = SURVEYPRO_SUBMISSION_REPORT; // needed by tabs.php
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
+// -----------------------------
+// stop here if only textareas are in the surveypro
+$reportman->stop_if_textareas_only();
+// end of: stop here if only textareas are in the surveypro
+// -----------------------------
+
 $reportman->check_submissions();
 
 // -----------------------------
@@ -93,7 +95,7 @@ $reportman->check_submissions();
 $formparams = new stdClass();
 $formparams->surveypro = $surveypro;
 $formparams->answercount = $hassubmissions;
-$mform = new surveypro_chooseitemform($formurl, $formparams);
+$mform = new mod_surveypro_chooseitemform($formurl, $formparams);
 // end of: prepare params for the form
 // -----------------------------
 

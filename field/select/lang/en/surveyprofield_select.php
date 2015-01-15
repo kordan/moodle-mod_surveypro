@@ -14,12 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
- * Strings for component 'field_select', language 'en', branch 'MOODLE_20_STABLE'
+/**
+ * Strings for component 'field_select', language 'en', branch 'MOODLE_28_STABLE'
  *
  * @package    surveypro
  * @subpackage select
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -39,7 +39,6 @@ $string['option'] = 'Option';
 $string['options_err'] = 'Options need your attection';
 $string['options_help'] = 'The list of the options for this item. You are allowed to write them as: value'.SURVEYPRO_VALUELABELSEPARATOR.'label in order to define value and label both. The label will be displayed in the drop down menu, the value will be stored in the field. If you only specify one word per line (without separator), value and label will both be valued to that word.';
 $string['options'] = 'Options';
-$string['parentcontent_err'] = '{$a} is not part of the options of the depend item. The constraint can never be verified.';
 $string['parentformat'] = '[label]';
 $string['pluginname'] = 'Select';
 $string['returnlabels'] = 'label of selected items';

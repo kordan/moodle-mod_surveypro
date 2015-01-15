@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,175 +27,130 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/surveypro/classes/itembase.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/field/date/lib.php');
 
-class surveyprofield_date extends mod_surveypro_itembase {
+class mod_surveypro_field_date extends mod_surveypro_itembase {
 
-    /*
+    /**
      * $content = the text content of the item.
      */
     public $content = '';
 
-    /*
+    /**
      * $contenttrust
      */
     public $contenttrust = 1;
 
-    /*
+    /**
      * public $contentformat = '';
      */
     public $contentformat = '';
 
-    /*
+    /**
      * $customnumber = the custom number of the item.
      * It usually is 1. 1.1, a, 2.1.a...
      */
     public $customnumber = '';
 
-    /*
+    /**
      * $position = where does the question go?
      */
     public $position = SURVEYPRO_POSITIONLEFT;
 
-    /*
+    /**
      * $extranote = an optional text describing the item
      */
     public $extranote = '';
 
-    /*
+    /**
      * $required = boolean. O == optional item; 1 == mandatory item
      */
     public $required = 0;
 
-    /*
+    /**
      * $hideinstructions = boolean. Exceptionally hide filling instructions
      */
     public $hideinstructions = 0;
 
-    /*
+    /**
      * $variable = the name of the field storing data in the db table
      */
     public $variable = '';
 
-    /*
+    /**
      * $indent = the indent of the item in the form page
      */
     public $indent = 0;
 
     // -----------------------------
 
-    /*
+    /**
      * $defaultoption = the value of the field when the form is initially displayed.
      */
     public $defaultoption = SURVEYPRO_INVITATIONDEFAULT;
 
-    /*
+    /**
      * $downloadformat = the format of the content once downloaded
      */
     public $downloadformat = null;
 
-    /*
+    /**
      * $defaultvalue = the value of the field when the form is initially displayed.
      */
     public $defaultvalue = 0;
-
-    /*
-     * $defaultvalue_year
-     */
     public $defaultvalue_year = null;
-
-    /*
-     * $defaultvalue_month
-     */
     public $defaultvalue_month = null;
-
-    /*
-     * $defaultvalue_day
-     */
     public $defaultvalue_day = null;
 
-    /*
+    /**
      * $lowerbound = the minimum allowed date
      */
     public $lowerbound = 0;
-
-    /*
-     * $lowerbound_year
-     */
     public $lowerbound_year = null;
-
-    /*
-     * $lowerbound_month
-     */
     public $lowerbound_month = null;
-
-    /*
-     * $lowerbound_day
-     */
     public $lowerbound_day = null;
 
-    /*
+    /**
      * $upperbound = the maximum allowed date
      */
     public $upperbound = 0;
-
-    /*
-     * $upperbound_year
-     */
     public $upperbound_year = null;
-
-    /*
-     * $upperbound_month
-     */
     public $upperbound_month = null;
-
-    /*
-     * $upperbound_day
-     */
     public $upperbound_day = null;
 
-    /*
-     * $flag = features describing the object
-     */
-    public $flag;
-
-    /*
-     * $canbeparent
+    /**
+     * static canbeparent
      */
     public static $canbeparent = false;
 
     // -----------------------------
 
-    /*
+    /**
      * Class constructor
      *
      * If itemid is provided, load the object (item + base + plugin) from database
      *
+     * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
+     * @param bool $evaluateparentcontent: add also 'parentcontent' among other item elements
      */
-    public function __construct($itemid=0, $evaluateparentcontent) {
-        global $PAGE, $DB;
+    public function __construct($cm, $itemid=0, $evaluateparentcontent) {
+        global $DB;
 
-        $cm = $PAGE->cm;
+        parent::__construct($cm, $itemid, $evaluateparentcontent);
 
-        if (isset($cm)) { // it is not set during upgrade whether this item is loaded
-            $this->context = context_module::instance($cm->id);
-            $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
-        }
-
+        // list of constant element attributes
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'date';
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
+        $this->savepositiontodb = false;
 
-        $this->flag = new stdClass();
-        $this->flag->issearchable = true;
-        $this->flag->usescontenteditor = true;
-        $this->flag->editorslist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA);
-        $this->flag->savepositiontodb = false;
+        // other element specific properties
+        // nothing
 
         // override properties depending from $surveypro settings
-        if (isset($surveypro)) { // it is not set during upgrade whether this item is loaded
-            $this->lowerbound = $this->item_date_to_unix_time($surveypro->startyear, 1, 1);
-            $this->upperbound = $this->item_date_to_unix_time($surveypro->stopyear, 12, 31);
-            $this->defaultvalue = $this->lowerbound;
-        }
+        $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
+        $this->lowerbound = $this->item_date_to_unix_time($surveypro->startyear, 1, 1);
+        $this->upperbound = $this->item_date_to_unix_time($surveypro->stopyear, 12, 31);
+        $this->defaultvalue = $this->lowerbound;
 
         // list of fields I do not want to have in the item definition form
         // EMPTY LIST
@@ -208,14 +160,15 @@ class surveyprofield_date extends mod_surveypro_itembase {
         }
     }
 
-    /*
+    /**
      * item_load
      *
      * @param $itemid
+     * @param bool $evaluateparentcontent: add also 'parentcontent' among other item elements
      * @return
      */
     public function item_load($itemid, $evaluateparentcontent) {
-        // Do parent item loading stuff here (mod_surveypro_itembase::item_load($itemid)))
+        // Do parent item loading stuff here (mod_surveypro_itembase::item_load($itemid, $evaluateparentcontent)))
         parent::item_load($itemid, $evaluateparentcontent);
 
         // multilang load support for builtin surveypro
@@ -225,7 +178,7 @@ class surveyprofield_date extends mod_surveypro_itembase {
         $this->item_custom_fields_to_form();
     }
 
-    /*
+    /**
      * item_save
      *
      * @param $record
@@ -247,7 +200,7 @@ class surveyprofield_date extends mod_surveypro_itembase {
         return parent::item_save($record);
     }
 
-    /*
+    /**
      * item_date_to_unix_time
      *
      * @param $year
@@ -259,10 +212,32 @@ class surveyprofield_date extends mod_surveypro_itembase {
         return (gmmktime(12, 0, 0, $month, $day, $year)); // This is GMT
     }
 
-    /*
+    /**
+     * item_validate_record_coherence
+     * verify the validity of contents of the record
+     * for instance: age not greater than maximumage
+     *
+     * @param stdClass $record
+     * @return stdClass $record
+     */
+    public function item_validate_record_coherence($record) {
+        if (isset($record->defaultvalue)) {
+            $mindate = $item->item_date_to_unix_time($this->surveypro->startyear, 1, 1);
+            if ($record->defaultvalue < $mindate) {
+                $record->defaultvalue = $mindate;
+            }
+            $maxdate = $item->item_date_to_unix_time($this->surveypro->startyear, 12, 31);
+            if ($record->defaultvalue > $maxdate) {
+                $record->defaultvalue = $maxdate;
+            }
+        }
+    }
+
+    /**
      * item_custom_fields_to_form
      * translates the date class property $fieldlist in $field.'_year' $field.'_month' and $field.'_day
      *
+     * @param none
      * @return
      */
     public function item_custom_fields_to_form() {
@@ -296,7 +271,7 @@ class surveyprofield_date extends mod_surveypro_itembase {
         // nothing to do: defaultvalue doesn't need any further care
     }
 
-    /*
+    /**
      * item_custom_fields_to_db
      * sets record field to store the correct value to db for the date custom item
      *
@@ -324,19 +299,21 @@ class surveyprofield_date extends mod_surveypro_itembase {
         // nothing to do: defaultvalue doesn't need any further care
     }
 
-    /*
+    /**
      * item_composite_fields
      * get the list of composite fields
      *
+     * @param none
      * @return
      */
     public function item_composite_fields() {
         return array('defaultvalue', 'lowerbound', 'upperbound');
     }
 
-    /*
+    /**
      * item_get_downloadformats
      *
+     * @param none
      * @return
      */
     public function item_get_downloadformats() {
@@ -348,27 +325,26 @@ class surveyprofield_date extends mod_surveypro_itembase {
             $option[$strname] = userdate($timenow, get_string($strname, 'surveyprofield_date')); // Monday 17 June, 05.15
         }
         $option['unixtime'] = get_string('unixtime', 'surveypro');
-        /*
-         * Friday, 21 June 2013
-         * Friday, 21 June '13
-         * Fri, 21 Jun 2013
-         * Fri, 21 Jun '13
-         * 21 Giugno 2013
-         * 21 Giugno '13
-         * 21 Giu 2013
-         * 21 Giu '13
-         * 21/06/2013
-         * 21/06/13
-         * unix time
-         */
+        // Friday, 21 June 2013
+        // Friday, 21 June '13
+        // Fri, 21 Jun 2013
+        // Fri, 21 Jun '13
+        // 21 Giugno 2013
+        // 21 Giugno '13
+        // 21 Giu 2013
+        // 21 Giu '13
+        // 21/06/2013
+        // 21/06/13
+        // unix time
 
         return $option;
     }
 
-    /*
+    /**
      * item_get_multilang_fields
      * make the list of multilang plugin fields
      *
+     * @param none
      * @return array of felds
      */
     public function item_get_multilang_fields() {
@@ -377,16 +353,17 @@ class surveyprofield_date extends mod_surveypro_itembase {
         return $fieldlist;
     }
 
-    /*
+    /**
      * item_get_friendlyformat
      *
+     * @param none
      * @return
      */
     public function item_get_friendlyformat() {
         return 'strftime05';
     }
 
-    /*
+    /**
      * item_get_plugin_schema
      * Return the xml schema for surveypro_<<plugin>> table.
      *
@@ -439,7 +416,7 @@ EOS;
 
     // MARK userform
 
-    /*
+    /**
      * userform_mform_element
      *
      * @param $mform
@@ -454,6 +431,8 @@ EOS;
         $labelsep = get_string('labelsep', 'langconfig'); // ': '
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
+
+        $idprefix = 'id_surveypro_field_date_'.$this->sortindex;
 
         // element values
         $days = array();
@@ -471,7 +450,7 @@ EOS;
             $years[SURVEYPRO_IGNOREME] = '';
         }
         $days += array_combine(range(1, 31), range(1, 31));
-        for ($i=1; $i<=12; $i++) {
+        for ($i = 1; $i <= 12; $i++) {
             $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // january, february, march...
         }
         $years += array_combine(range($this->lowerbound_year, $this->upperbound_year), range($this->lowerbound_year, $this->upperbound_year));
@@ -479,9 +458,9 @@ EOS;
 
         // mform element
         $elementgroup = array();
-        $elementgroup[] = $mform->createElement('select', $this->itemname.'_day', '', $days, array('class' => 'indent-'.$this->indent));
-        $elementgroup[] = $mform->createElement('select', $this->itemname.'_month', '', $months);
-        $elementgroup[] = $mform->createElement('select', $this->itemname.'_year', '', $years);
+        $elementgroup[] = $mform->createElement('select', $this->itemname.'_day', '', $days, array('class' => 'indent-'.$this->indent, 'id' => $idprefix.'_day'));
+        $elementgroup[] = $mform->createElement('select', $this->itemname.'_month', '', $months, array('id' => $idprefix.'_month'));
+        $elementgroup[] = $mform->createElement('select', $this->itemname.'_year', '', $years, array('id' => $idprefix.'_year'));
 
         if ($this->required) {
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
@@ -495,7 +474,7 @@ EOS;
                 $mform->_required[] = $starplace;
             }
         } else {
-            $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'));
+            $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), array('id' => $idprefix.'_noanswer'));
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
         }
@@ -545,7 +524,7 @@ EOS;
         }
     }
 
-    /*
+    /**
      * userform_mform_validation
      *
      * @param $data
@@ -618,9 +597,10 @@ EOS;
         }
     }
 
-    /*
+    /**
      * userform_get_filling_instructions
      *
+     * @param none
      * @return string $fillinginstruction
      */
     public function userform_get_filling_instructions() {
@@ -651,7 +631,7 @@ EOS;
         return $fillinginstruction;
     }
 
-    /*
+    /**
      * userform_save_preprocessing
      * starting from the info set by the user in the form
      * this method calculates what to save in the db
@@ -678,7 +658,7 @@ EOS;
         }
     }
 
-    /*
+    /**
      * this method is called from surveypro_set_prefill (in locallib.php) to set $prefill at user form display time
      * (defaults are set in userform_mform_element)
      *
@@ -708,7 +688,7 @@ EOS;
         return $prefill;
     }
 
-    /*
+    /**
      * userform_db_to_export
      * strating from the info stored in the database, this function returns the corresponding content for the export file
      *
@@ -742,15 +722,25 @@ EOS;
         }
     }
 
-    /*
+    /**
      * userform_get_root_elements_name
      * returns an array with the names of the mform element added using $mform->addElement or $mform->addGroup
      *
+     * @param none
      * @return
      */
     public function userform_get_root_elements_name() {
         $elementnames = array($this->itemname.'_group');
 
         return $elementnames;
+    }
+
+    /**
+     * get_canbeparent
+     *
+     * @return the content of the static property "canbeparent"
+     */
+    public static function get_canbeparent() {
+        return self::$canbeparent;
     }
 }

@@ -14,12 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
- * Strings for component 'field_datetime', language 'en', branch 'MOODLE_20_STABLE'
+/**
+ * Strings for component 'field_datetime', language 'en', branch 'MOODLE_28_STABLE'
  *
  * @package    surveypro
  * @subpackage datetime
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -41,14 +41,12 @@ $string['lowerbound_help'] = 'The lowest date and time the user is allowed to en
 $string['lowerbound'] = 'Lower bound';
 $string['lowerequaltoupper'] = 'Lower and upper bounds need to be different';
 $string['lowergreaterthanupper'] = 'Lower bound must be lower than upper bound';
-$string['oneminute'] = 'One minute';
+$string['oneminute'] = 'one minute';
 $string['outofrangedefault'] = 'Default does not fall within the specified range';
-$string['parentcontentdateoutofrange_err'] = 'Provided date anf time is out of the range requested to the choosen item';
-$string['parentcontentinvaliddate_err'] = 'Provided data is not a regular date';
-$string['parentcontentinvalidtime_err'] = 'Provided data is not a regular time';
 $string['pluginname'] = 'Date and time';
 $string['restriction_lower'] = 'Answer is supposed to be greater-equal than {$a}';
 $string['restriction_lowerupper'] = 'Answer is supposed to fit between {$a->lowerbound} and {$a->upperbound}';
+$string['restriction_upper'] = 'Answer is supposed to be lower-equal than {$a}';
 $string['step_help'] = 'Step of the minute drop down menu as it appear in the attemp form';
 $string['step'] = 'Step';
 $string['strftime01'] = '%A, %d %B %Y, %H:%M';

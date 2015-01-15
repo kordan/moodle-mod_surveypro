@@ -14,47 +14,45 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-/*
+/**
  * The base class representing a field
  */
 class mod_surveypro_templatebase {
-    /*
+    /**
      * $templatename
      */
     public $templatename = '';
 
-    /*
+    /**
      * $surveypro: the record of this surveypro
      */
     public $surveypro = null;
 
-    /*
+    /**
      * $formdata: the form content as submitted by the user
      */
     public $formdata = null;
 
-    /*
+    /**
      * Class constructor
      */
-    public function __construct($surveypro, $context) {
-        $this->surveypro = $surveypro;
+    public function __construct($cm, $context, $surveypro) {
+        $this->cm = $cm;
         $this->context = $context;
+        $this->surveypro = $surveypro;
     }
 
-    /*
+    /**
      * get_table_structure
      *
      * @param $tablename
@@ -84,7 +82,7 @@ class mod_surveypro_templatebase {
         }
     }
 
-    /*
+    /**
      * write_template_content
      *
      * @param strin $templatetype
@@ -93,6 +91,8 @@ class mod_surveypro_templatebase {
      */
     public function write_template_content($visiblesonly=true) {
         global $DB;
+
+        $versiondisk = $this->get_plugin_versiondisk();
 
         $where = array('surveyproid' => $this->surveypro->id);
         if ($visiblesonly) {
@@ -107,6 +107,9 @@ class mod_surveypro_templatebase {
         foreach ($itemseeds as $itemseed) {
             $item = surveypro_get_item($itemseed->id, $itemseed->type, $itemseed->plugin);
             $xmlitem = $xmltemplate->addChild('item');
+            $xmlitem->addAttribute('type', $itemseed->type);
+            $xmlitem->addAttribute('plugin', $itemseed->plugin);
+            $xmlitem->addAttribute('version', $versiondisk["$itemseed->plugin"]);
 
             // surveypro_item
             $xmltable = $xmlitem->addChild('surveypro_item');
@@ -119,6 +122,12 @@ class mod_surveypro_templatebase {
 
             $structure = $this->get_table_structure('surveypro_item');
             foreach ($structure as $field) {
+                if ($field == 'type') {
+                    continue;
+                }
+                if ($field == 'plugin') {
+                    continue;
+                }
                 if ($field == 'surveyproid') {
                     continue;
                 }
@@ -220,7 +229,7 @@ class mod_surveypro_templatebase {
         }
     }
 
-    /*
+    /**
      * xml_get_field_content
      *
      * @param $item
@@ -233,11 +242,11 @@ class mod_surveypro_templatebase {
         // 1st: which fields are multilang for the current item?
         if (isset($multilangfields[$dummyplugin])) { // has the plugin $dummyplugin multilang fields?
             if (in_array($field, $multilangfields[$dummyplugin])) { // if the field that is going to be assigned belongs to your multilang fields
-                $frankenstinname = $dummyplugin.'_'.$field;
+                $component = $dummyplugin.'_'.$field;
 
-                if (isset($this->langtree[$frankenstinname])) {
-                    end($this->langtree[$frankenstinname]);
-                    $val = key($this->langtree[$frankenstinname]);
+                if (isset($this->langtree[$component])) {
+                    end($this->langtree[$component]);
+                    $val = key($this->langtree[$component]);
                     return $val;
                 }
             }
@@ -254,11 +263,11 @@ class mod_surveypro_templatebase {
         return $val;
     }
 
-    /*
+    /**
      * items_deletion
      *
      * @param records $pluginseeds
-     *
+     * @param records $parambase
      * @return null
      */
     public function items_deletion($pluginseeds, $parambase) {
@@ -283,26 +292,34 @@ class mod_surveypro_templatebase {
         $DB->delete_records('surveypro_item', $parambase);
     }
 
-    /*
+    /**
      * apply_template
      *
-     * @param $templatetype
+     * @param none
      * @return null
      */
     public function apply_template() {
         global $DB;
 
         if ($this->templatetype == SURVEYPRO_USERTEMPLATE) {
-            if ($this->formdata) {
-                $action = $this->formdata->action;
-                $this->utemplateid = $this->formdata->usertemplate;
-            } else {
-                // if I am here this means that:
-                //     - $action == SURVEYPRO_DELETEALLITEMS
-                //     - sesskey was verified
-                //     - I have enough permissions
+            if (!empty($this->nonmatchingplugin)) { // master templates do not use $this->nonmatchingplugin
+                return;
+            }
+
+            if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
+                // I arrived here after the confirmation of the COMPLETE deletion of each item in the surveypro due to
+                // User templates = None
+                // Preexisting elements = Delete all elements
                 $action = SURVEYPRO_DELETEALLITEMS;
                 $this->utemplateid = 0;
+            } else {
+                $action = $this->formdata->action;
+                if (empty($this->formdata->usertemplateinfo)) {
+                    $this->utemplateid = 0;
+                } else {
+                    $parts = explode('_', $this->formdata->usertemplateinfo);
+                    $this->utemplateid = $parts[1];
+                }
             }
 
             // --> --> VERY DANGEROUS ACTION: User is going to erase all the items of the survey <-- <--
@@ -312,6 +329,12 @@ class mod_surveypro_templatebase {
                     // Do not operate. Ask for confirmation before!
                     return;
                 }
+            }
+
+            // before continuing
+            if ($action != SURVEYPRO_DELETEALLITEMS) {
+                // dispose assignemnt of pages
+                surveypro_reset_items_pages($this->surveypro->id);
             }
         } else {
             $action = SURVEYPRO_DELETEALLITEMS;
@@ -332,7 +355,7 @@ class mod_surveypro_templatebase {
                 // END: hide all other items
                 break;
             case SURVEYPRO_DELETEALLITEMS:
-                // BEGIN: delete all other items
+                // BEGIN: delete all existing items
                 $parambase = array('surveyproid' => $this->surveypro->id);
                 $sql = 'SELECT si.plugin, si.type
                         FROM {surveypro_item} si
@@ -341,7 +364,7 @@ class mod_surveypro_templatebase {
                 $pluginseeds = $DB->get_records_sql($sql, $parambase);
 
                 $this->items_deletion($pluginseeds, $parambase);
-                // END: delete all other items
+                // END: delete all existing items
                 break;
             case SURVEYPRO_DELETEVISIBLEITEMS:
             case SURVEYPRO_DELETEHIDDENITEMS:
@@ -384,46 +407,69 @@ class mod_surveypro_templatebase {
         }
 
         if ($this->templatetype == SURVEYPRO_USERTEMPLATE) {
-            $redirecturl = new moodle_url('items_manage.php', array('s' => $this->surveypro->id));
-            redirect($redirecturl);
+            $paramurl = array('s' => $this->surveypro->id);
+            $redirecturl = new moodle_url('/mod/surveypro/items_manage.php', $paramurl);
         } else {
-            $paramurl = array('s' => $this->surveypro->id, 'cvp' => 0, 'view' => SURVEYPRO_PREVIEWSURVEYFORM);
-            $redirecturl = new moodle_url('view.php', $paramurl);
-            redirect($redirecturl);
+            $paramurl = array('s' => $this->surveypro->id, 'view' => SURVEYPRO_PREVIEWSURVEYFORM);
+            $redirecturl = new moodle_url('/mod/surveypro/view_userform.php', $paramurl);
         }
+        redirect($redirecturl);
     }
 
-    /*
+    /**
      * friendly_stop
      *
+     * @param none
      * @return null
      */
     public function friendly_stop() {
         global $OUTPUT;
 
+        // master templates do not use $this->nonmatchingplugin
+        if ($this->templatetype == SURVEYPRO_USERTEMPLATE) {
+            if (!empty($this->nonmatchingplugin)) {
+                $parts = explode('_', $this->formdata->usertemplateinfo);
+                $contextlevel = $parts[0];
+                $contextstring = $this->get_contextstring_from_sharinglevel($contextlevel);
+                $contextlabel = get_string($contextstring, 'surveypro');
+
+                // for sure I am dealing with a usertemplate
+                $a = new stdClass();
+                $a->templatename = '('.$contextlabel.') '.$this->get_utemplate_name();
+                $a->plugins = '<li>'.implode('</li>;<li>', array_keys($this->nonmatchingplugin)).'.</li>';
+                $a->tab = get_string('tabutemplatename', 'surveypro');
+                $a->page1 = get_string('tabutemplatepage1' , 'surveypro');
+                $a->page3 = get_string('tabutemplatepage3' , 'surveypro');
+
+                $message = get_string('frendlyversionmismatchuser', 'surveypro', $a);
+                echo $OUTPUT->notification($message, 'notifyproblem');
+                return;
+            }
+        }
+
         $riskyediting = ($this->surveypro->riskyeditdeadline > time());
         $hassubmissions = surveypro_count_submissions($this->surveypro->id);
 
         if ($hassubmissions && (!$riskyediting)) {
-            echo $OUTPUT->box(get_string('applyusertemplatedenied01', 'surveypro'));
-            $url = new moodle_url('/mod/surveypro/view.php', array('s' => $this->surveypro->id));
-            echo $OUTPUT->continue_button($url);
-            echo $OUTPUT->footer();
-            die();
-        }
-
-        if ($this->surveypro->template && (!$riskyediting)) { // this survey comes from a master template so it is multilang
-            echo $OUTPUT->box(get_string('applyusertemplatedenied02', 'surveypro'));
-            $url = new moodle_url('/mod/surveypro/view.php', array('s' => $this->surveypro->id));
+            echo $OUTPUT->notification(get_string('applyusertemplatedenied01', 'surveypro'), 'notifyproblem');
+            $url = new moodle_url('/mod/surveypro/view.php', array('s' => $this->surveypro->id, 'cover' => 0));
             echo $OUTPUT->continue_button($url);
             echo $OUTPUT->footer();
             die();
         }
 
         if ($this->templatetype == SURVEYPRO_USERTEMPLATE) {
+            if ($this->surveypro->template && (!$riskyediting)) { // this survey comes from a master template so it is multilang
+                echo $OUTPUT->notification(get_string('applyusertemplatedenied02', 'surveypro'), 'notifyproblem');
+                $url = new moodle_url('/mod/surveypro/view_userform.php', array('s' => $this->surveypro->id));
+                echo $OUTPUT->continue_button($url);
+                echo $OUTPUT->footer();
+                die();
+            }
+
             if (!$this->formdata) {
                 if (($this->action == SURVEYPRO_DELETEALLITEMS) && ($this->utemplateid == 0)) {
-                    // if you really are in the dangerous situation,
+                    // if you really were in the dangerous situation,
                     if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
                         // but you got a disconfirmation: declare it and give up.
                         $message = get_string('usercanceled', 'surveypro');
@@ -433,10 +479,11 @@ class mod_surveypro_templatebase {
                 return;
             }
 
-            // --> --> VERY DANGEROUS ACTION: User is going to erase all the items of the survey <-- <--
-            if ((!empty($this->formdata->usertemplate)) || ($this->formdata->action != SURVEYPRO_DELETEALLITEMS)) {
+            if ((!empty($this->formdata->usertemplateinfo)) || ($this->formdata->action != SURVEYPRO_DELETEALLITEMS)) {
                 return;
             }
+
+            // --> --> VERY DANGEROUS ACTION: User is going to erase all the items of the survey <-- <--
             // if you really are in the dangerous situation, ask!
             if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
                 // ask for confirmation
@@ -444,18 +491,18 @@ class mod_surveypro_templatebase {
 
                 $optionbase = array();
                 $optionbase['s'] = $this->surveypro->id;
-                $optionbase['usertemplate'] = $this->formdata->usertemplate;
+                $optionbase['usertemplate'] = $this->formdata->usertemplateinfo;
                 $optionbase['act'] = SURVEYPRO_DELETEALLITEMS;
                 $optionbase['sesskey'] = sesskey();
 
                 $optionsyes = $optionbase;
                 $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
-                $urlyes = new moodle_url('utemplates_apply.php', $optionsyes);
+                $urlyes = new moodle_url('/mod/surveypro/utemplates_apply.php', $optionsyes);
                 $buttonyes = new single_button($urlyes, get_string('confirmallitemserase', 'surveypro'));
 
                 $optionsno = $optionbase;
                 $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-                $urlno = new moodle_url('utemplates_apply.php', $optionsno);
+                $urlno = new moodle_url('/mod/surveypro/utemplates_apply.php', $optionsno);
                 $buttonno = new single_button($urlno, get_string('no'));
 
                 echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
@@ -465,17 +512,15 @@ class mod_surveypro_templatebase {
         }
     }
 
-    /*
+    /**
      * add_items_from_template
      *
      * @param $templateid
      * @return
      */
     public function add_items_from_template() {
-        global $DB, $CFG, $PAGE;
+        global $DB, $CFG;
 
-        $cm = $PAGE->cm;
-        $context = context_module::instance($cm->id);
         $fs = get_file_storage();
 
         if ($this->templatetype == SURVEYPRO_MASTERTEMPLATE) { // it is multilang
@@ -488,10 +533,9 @@ class mod_surveypro_templatebase {
 
         // create the class to apply mastertemplate settings
         if ($this->templatetype == SURVEYPRO_MASTERTEMPLATE) {
-            $classfile = $CFG->dirroot.'/mod/surveypro/template/'.$this->templatename.'/template.class.php';
-            include_once($classfile);
-            $classname = 'surveyprotemplate_'.$this->templatename;
-            $mastertemplate = new $classname();
+            require_once($CFG->dirroot.'/mod/surveypro/template/'.$this->templatename.'/template.class.php');
+            $itemclassname = 'mod_surveypro_template_'.$this->templatename;
+            $mastertemplate = new $itemclassname();
         }
 
         $simplexml = new SimpleXMLElement($templatecontent);
@@ -501,12 +545,27 @@ class mod_surveypro_templatebase {
             $sortindexoffset = 0;
         }
 
+        if ($this->templatetype == SURVEYPRO_MASTERTEMPLATE) {
+            // load it only once. You are going to use it later.
+            $config = get_config('surveyprotemplate_'.$this->templatename);
+        }
         foreach ($simplexml->children() as $xmlitem) {
             // echo '<h3>Count of tables for the current item: '.count($xmlitem->children()).'</h3>';
+            foreach ($xmlitem->attributes() as $attribute => $value) {
+                // <item type="format" plugin="label" version="2014030201">
+                // echo 'Trovo: '.$attribute.' = '.$value.'<br />';
+                if ($attribute == 'type') {
+                    $currenttype = (string)$value;
+                }
+                if ($attribute == 'plugin') {
+                    $currentplugin = (string)$value;
+                }
+            }
+
             foreach ($xmlitem->children() as $xmltable) { // surveypro_item and surveypro_<<plugin>>
                 $tablename = $xmltable->getName();
                 // echo '<h4>Count of fields of the table '.$tablename.': '.count($xmltable->children()).'</h4>';
-                $record = array();
+                $record = new stdClass();
                 foreach ($xmltable->children() as $xmlfield) {
                     $fieldname = $xmlfield->getName();
 
@@ -528,8 +587,9 @@ class mod_surveypro_templatebase {
                         // echo 'I need to add: "'.$filename.'" to the filearea<br />';
 
                         // add the file described by $filename and $filecontent to filearea
+                        // alias, add pictures found in the utemplate to filearea
                         $filerecord = new stdClass();
-                        $filerecord->contextid = $context->id;
+                        $filerecord->contextid = $this->context->id;
                         $filerecord->component = 'mod_surveypro';
                         $filerecord->filearea = SURVEYPRO_ITEMCONTENTFILEAREA;
                         $filerecord->itemid = $itemid;
@@ -537,169 +597,174 @@ class mod_surveypro_templatebase {
                         $filerecord->filename = $filename;
                         $fileinfo = $fs->create_file_from_string($filerecord, $filecontent);
                     } else {
-                        $fieldvalue = (string)$xmlfield;
-
-                        $record[$fieldname] = $fieldvalue;
+                        $record->{$fieldname} = (string)$xmlfield;
                     }
                 }
 
-                unset($record['id']);
-                $record['surveyproid'] = $this->surveypro->id;
+                unset($record->id);
+                $record->surveyproid = $this->surveypro->id;
+
+                $record->type = $currenttype;
+                $record->plugin = $currentplugin;
 
                 // apply template settings
                 if ($this->templatetype == SURVEYPRO_MASTERTEMPLATE) {
-                    $mastertemplate->apply_template_settings($record);
+                    list($tablename, $record) = $mastertemplate->apply_template_settings($tablename, $record, $config);
                 }
 
-                if (isset($record['type']) && ($record['type'] == SURVEYPRO_TYPEFIELD)) {
-                    // $variable = isset($record['variable']) ? $record['variable'] : null;
-                    // $record['variable'] = $this->validate_variablename($record['plugin'], $variable);
-                    $this->validate_variablename($record);
-                }
                 if ($tablename == 'surveypro_item') {
-                    $record['sortindex'] += $sortindexoffset;
-                    if (!empty($record['parentid'])) {
-                        $whereparams = array('surveyproid' => $this->surveypro->id, 'sortindex' => ($record['parentid'] + $sortindexoffset));
-                        $record['parentid'] = $DB->get_field('surveypro_item', 'id', $whereparams, MUST_EXIST);
+                    $record->sortindex += $sortindexoffset;
+                    if (!empty($record->parentid)) {
+                        $whereparams = array('surveyproid' => $this->surveypro->id, 'sortindex' => ($record->parentid + $sortindexoffset));
+                        $record->parentid = $DB->get_field('surveypro_item', 'id', $whereparams, MUST_EXIST);
                     }
 
                     $itemid = $DB->insert_record($tablename, $record);
                 } else {
-                    $record['itemid'] = $itemid;
+                    // before adding the item, ask to its class to check its coherence
+                    require_once($CFG->dirroot.'/mod/surveypro/'.$currenttype.'/'.$currentplugin.'/plugin.class.php');
+                    $item = surveypro_get_item(0, $currenttype, $currentplugin);
+                    $item->item_validate_record_coherence($record);
+
+                    if ($currenttype == SURVEYPRO_TYPEFIELD) {
+                        $item->item_validate_variablename($record, $itemid);
+                    }
+
+                    $record->itemid = $itemid;
                     $DB->insert_record($tablename, $record, false);
                 }
             }
         }
     }
 
-    /*
-     * validate_variablename
+    /**
+     * get_plugin_versiondisk
      *
-     * @param stdobject $record
-     * @param stdobject $variable
-     *
-     * @return
+     * @param none
+     * @return versions of each field|format item plugin
      */
-    public function validate_variablename($record) {
-        global $DB;
-
-        // if variable does not exist
-        if ($record['type'] == SURVEYPRO_TYPEFORMAT) {
-            // should never occur
-            return;
+    public function get_plugin_versiondisk() {
+        // Get plugins versiondisk
+        $pluginman = core_plugin_manager::instance();
+        $subplugins = $pluginman->get_subplugins_of_plugin('surveypro');
+        $versions = array();
+        foreach ($subplugins as $component => $plugin) {
+            if (($plugin->type != 'surveypro'.SURVEYPRO_TYPEFIELD) &&
+                ($plugin->type != 'surveypro'.SURVEYPRO_TYPEFORMAT)) {
+                continue;
+            }
+            $versions["$plugin->name"] = $plugin->versiondisk;
         }
 
-        $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$record['plugin'];
-        $whereparams = array('surveyproid' => $this->surveypro->id);
-        $select = 'SELECT COUNT(p.id)
-                FROM {'.$tablename.'} p
-                    JOIN {surveypro_item} i ON i.id = p.itemid ';
-        $whereset = 'WHERE (i.surveyproid = :surveyproid)';
-        $whereverify = 'WHERE ((i.surveyproid = :surveyproid) AND (p.variable = :variable))';
-
-        // Verify variable was set. If not, set it.
-        if (!isset($candidatevariable) || empty($candidatevariable)) {
-            $sql = $select.$whereset;
-            $plugincount = 1 + $DB->count_records_sql($sql, $whereparams);
-            $plugincount = str_pad($plugincount, 3, '0', STR_PAD_LEFT);
-
-            $candidatevariable = $record['plugin'].'_'.$plugincount;
-        } else {
-            $candidatevariable = $record['variable'];
-        }
-
-        // verify the assigned name is unique. If not, change it.
-        $i = 0; // if name is duplicate, restart verification from 0
-        $whereparams['variable'] = $candidatevariable;
-        $sql = $select.$whereverify;
-
-        // while ($DB->record_exists_sql($sql, $whereparams)) {
-        while ($DB->count_records_sql($sql, $whereparams)) {
-            $i++;
-            $candidatevariable = $record['plugin'].'_'.str_pad($i, 3, '0', STR_PAD_LEFT);
-            $whereparams['variable'] = $candidatevariable;
-        }
-
-        $record['variable'] = $candidatevariable;
+        return $versions;
     }
 
-    /*
+    /**
      * validate_xml
      *
-     * @param $templateid
-     * @return
+     * @param $xml
+     * @return object|boolean error describing the message to show, false if no error is found
      */
     public function validate_xml($xml) {
         global $CFG;
 
-        if ($this->templatetype == SURVEYPRO_MASTERTEMPLATE) {
-            $returnurl = new moodle_url('/mod/surveypro/mtemplates_apply.php', array('s' => $this->surveypro->id));
-        } else {
-            $returnurl = new moodle_url('/mod/surveypro/utemplates_import.php', array('s' => $this->surveypro->id));
-        }
-
         $debug = false;
         // $debug = true; //if you want to stop anyway to see where the xml template is buggy
 
+        $versiondisk = $this->get_plugin_versiondisk();
         $lastsortindex = 0;
-        $status = true;
         $simplexml = new SimpleXMLElement($xml);
         foreach ($simplexml->children() as $xmlitem) {
+            foreach ($xmlitem->attributes() as $attribute => $value) {
+                // <item type="format" plugin="label" version="2014030201">
+                // echo 'Found: '.$attribute.' = '.$value.'<br />';
+                if ($attribute == 'type') {
+                    $currenttype = (string)$value;
+                }
+                if ($attribute == 'plugin') {
+                    $currentplugin = (string)$value;
+                }
+                if ($attribute == 'version') {
+                    $currentversion = (string)$value;
+                }
+            }
+            if (!isset($currenttype)) {
+                $error = new stdClass();
+                $error->key = 'missingitemtype';
+
+                return $error;
+            }
+            if (!isset($currentplugin)) {
+                $error = new stdClass();
+                $error->key = 'missingitemplugin';
+
+                return $error;
+            }
+            if (!isset($currentversion)) {
+                $error = new stdClass();
+                $error->key = 'missingitemversion';
+
+                return $error;
+            }
+            // ok, $currenttype and $currentplugin are onboard
+            // do they define correctly a class?
+            if (!file_exists($CFG->dirroot.'/mod/surveypro/'.$currenttype.'/'.$currentplugin.'/version.php')) {
+                $error = new stdClass();
+                $error->key = 'invalidtypeorplugin';
+
+                return $error;
+            }
+
+            if (($versiondisk["$currentplugin"] != $currentversion)) {
+                $a = new stdClass();
+                $a->type = $currenttype;
+                $a->plugin = $currentplugin;
+                $a->currentversion = $currentversion;
+                $a->versiondisk = $versiondisk["$currentplugin"];
+
+                $error = new stdClass();
+                $error->a = $a;
+                $error->key = 'versionmismatch';
+
+                return $error;
+            }
+
             foreach ($xmlitem->children() as $xmltable) {
                 $tablename = $xmltable->getName();
 
                 // I am assuming that surveypro_item table is ALWAYS before the surveypro_<<plugin>> table
                 if ($tablename == 'surveypro_item') {
-                    $type = null;
-                    $plugin = null;
-                    $sortindex = null;
-                    foreach ($xmltable->children() as $xmlfield) {
-                        $fieldname = $xmlfield->getName();
-                        $fieldvalue = (string)$xmlfield;
+                    if (!isset($xmltable->children()->sortindex)) {
+                        $error = new stdClass();
+                        $error->key = 'missingsortindex';
 
-                        if ($fieldname == 'type') {
-                            $type = $fieldvalue;
+                        return $error;
+                    } else {
+                        $sortindex = (string)$xmltable->children()->sortindex;
+                        if ($sortindex != ($lastsortindex + 1)) {
+                            $error = new stdClass();
+                            $error->key = 'wrongsortindex';
+
+                            return $error;
                         }
-                        if ($fieldname == 'plugin') {
-                            $plugin = $fieldvalue;
-                        }
-                        if ($fieldname == 'sortindex') {
-                            $sortindex = $fieldvalue;
-                            if ($sortindex != ($lastsortindex + 1)) {
-                                $status = false;
-                                break;
-                            }
-                            $lastsortindex = $sortindex;
-                        }
-                        if (($type) && ($plugin) && ($sortindex)) {
-                            // I could use a random class here because they all share the same parent item_get_item_schema
-                            // but, I need the right class name for the next table, so I start loading the correct class now
-                            require_once($CFG->dirroot.'/mod/surveypro/'.$type.'/'.$plugin.'/plugin.class.php');
-                            $classname = 'surveypro'.$type.'_'.$plugin;
-                            $xsd = $classname::item_get_item_schema(); // <- itembase schema
-                            break;
-                        }
+                        $lastsortindex = $sortindex;
                     }
-                    if ((!$type) || (!$plugin) || (!$sortindex)) {
-                        print_error('missingmandatoryinfo', 'surveypro', $returnurl);
-                        return false;
-                    }
-                    if (!$status) {
-                        print_error('wrongsortindex', 'surveypro', $returnurl);
-                        return false;
-                    }
+
+                    // I could use a random class here because they all share the same parent item_get_item_schema
+                    // but, I need the right class name for the next table, so I start loading the correct class now
+                    require_once($CFG->dirroot.'/mod/surveypro/'.$currenttype.'/'.$currentplugin.'/plugin.class.php');
+                    $itemclassname = 'mod_surveypro_'.$currenttype.'_'.$currentplugin;
+                    $xsd = $itemclassname::item_get_item_schema(); // <- itembase schema
                 } else {
-                    if (!isset($classname)) {
-                        // whatever it happen (user uploaded something ranging between an old XML to a poem by Shakespeare)
-                        print_error('malformedxml', 'surveypro', $returnurl);
-                        return false;
-                    }
                     // $classname is already onboard because of the previous loop over surveypro_item fields
-                    $xsd = $classname::item_get_plugin_schema(); // <- plugin schema
+                    $xsd = $itemclassname::item_get_plugin_schema(); // <- plugin schema
                 }
 
                 if (empty($xsd)) {
-                    print_error('xsdnotfound', 'surveypro', $returnurl);
+                    $error = new stdClass();
+                    $error->key = 'xsdnotfound';
+
+                    return $error;
                 }
 
                 $mdom = new DOMDocument();
@@ -725,24 +790,31 @@ class mod_surveypro_templatebase {
                 libxml_use_internal_errors($olderrormode);
 
                 if (!empty($errors)) {
-                    foreach ($errors as $error) {
-                        $a = sprintf('%s as required by the xsd of the "%s" plugin', trim($error->message, "\n\r\t ."), $plugin);
-                        break; // the first only is enough
-                    }
-                    print_error('reportederror', 'surveypro', $returnurl, $a);
+                    $firsterror = reset($errors);
+                    $a = sprintf('%s as required by the xsd of the "%s" plugin', trim($firsterror->message, "\n\r\t ."), $currentplugin);
+
+                    $error = new stdClass();
+                    $error->a = $a;
+                    $error->key = 'reportederror';
+
+                    return $error;
                 }
 
                 if (!$status) {
-                    // Stop here. To continue is useless
+                    // Stop here. It is useless to continue
                     if ($debug) {
                         echo '<hr /><textarea rows="10" cols="100">'.$xmltable->asXML().'</textarea>';
                         echo '<textarea rows="10" cols="100">'.$xsd.'</textarea>';
                     }
-                    break 2; // it is the second time I use it! Coooool :-)
+
+                    $error = new stdClass();
+                    $error->key = 'schemavalidationfailed';
+
+                    return $error;
                 }
             }
         }
 
-        return $status;
+        return false;
     }
 }

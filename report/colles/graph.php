@@ -21,38 +21,33 @@ require_once($CFG->dirroot.'/mod/surveypro/report/colles/classes/report.class.ph
 require_once($CFG->dirroot.'/mod/surveypro/report/colles/lib.php');
 
 $id = required_param('id', PARAM_INT); // Course Module ID
-$type = required_param('type', PARAM_ALPHA); // Group ID
+$type = required_param('type', PARAM_ALPHA); // Report type
 $group = optional_param('group', 0, PARAM_INT); // Group ID
-$area = optional_param('area', false, PARAM_INT);  // Student ID
-$qid = optional_param('qid', 0, PARAM_INT);  // Group ID
+$area = optional_param('area', false, PARAM_INT);  // Report area
+$qid = optional_param('qid', 0, PARAM_INT);  // Question ID
 
 $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
 $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
 
-$url = new moodle_url('/mod/surveypro/report/frequency/graph.php', array('id' => $id));
-if ($group !== 0) {
-    $url->param('group', $group);
-}
-$PAGE->set_url($url);
-
-$cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
-$course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-$surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
+$context = context_module::instance($cm->id);
 
 require_login($course, false, $cm);
 
 $groupmode = groups_get_activity_groupmode($cm, $course);   // Groups are being used
-$context = context_module::instance($cm->id);
 
 if ($type == 'summary') {
-    require_capability('mod/surveypro:accessownreports', $context);
+    if (!has_capability('mod/surveypro:accessreports', $context)) {
+        require_capability('mod/surveypro:accessownreports', $context);
+    }
 } else {
     require_capability('mod/surveypro:accessreports', $context);
 }
 
-$reportman = new report_colles($cm, $surveypro);
-$reportman->setup(true, $group, $area, $qid);
+$reportman = new mod_surveypro_report_colles($cm, $context, $surveypro);
+$reportman->set_group($group);
+$reportman->set_area($area);
+$reportman->set_qid($qid);
 
 $graph = new graph(SURVEYPRO_GWIDTH, SURVEYPRO_GHEIGHT);
 if ($type == 'summary') {
@@ -70,48 +65,48 @@ if ($type == 'summary') {
     $graph->x_data = $reportman->xlabels;
     $graph->y_tick_labels = $reportman->ylabels;
 
-    // $graph1_params
-    $graph1_params = array();
-    $graph1_params['colour'] = 'ltblue';
-    $graph1_params['line'] = 'line';
-    $graph1_params['point'] = 'square';
-    $graph1_params['shadow_offset'] = 4;
-    $graph1_params['legend'] = $legendgraph1;
+    // $graph1params
+    $graph1params = array();
+    $graph1params['colour'] = 'ltblue';
+    $graph1params['line'] = 'line';
+    $graph1params['point'] = 'square';
+    $graph1params['shadow_offset'] = 4;
+    $graph1params['legend'] = $legendgraph1;
 
     // 1st graph
     $graph->y_data['answers1'] = $reportman->trend1;
-    $graph->y_format['answers1'] = $graph1_params;
+    $graph->y_format['answers1'] = $graph1params;
 
-    // $graph2_params
-    $graph2_params = array();
-    $graph2_params['colour'] = 'ltltblue';
-    $graph2_params['bar'] = 'fill';
-    $graph2_params['shadow_offset'] = 4;
-    $graph2_params['legend'] = 'none';
-    $graph2_params['bar_size'] = 0.3;
+    // $graph2params
+    $graph2params = array();
+    $graph2params['colour'] = 'ltltblue';
+    $graph2params['bar'] = 'fill';
+    $graph2params['shadow_offset'] = 4;
+    $graph2params['legend'] = 'none';
+    $graph2params['bar_size'] = 0.3;
 
     // 2nd graph
     $graph->y_data['stdev1'] = $reportman->trend1stdev;
-    $graph->y_format['stdev1'] = $graph2_params;
+    $graph->y_format['stdev1'] = $graph2params;
 
     $graph->offset_relation['stdev1'] = 'answers1';
 
     if ($reportman->template == 'collesactualpreferred') {
-        // $graph3_params (the same as $graph1_params except for...)
-        $graph1_params['colour'] = 'ltorange';
-        $graph1_params['legend'] = $legendgraph2;
+        // $graph3params (the same as $graph1params except for...)
+        $graph1params['colour'] = 'ltorange';
+        $graph1params['legend'] = $legendgraph2;
 
         // 3rd graph
         $graph->y_data['answers2']   = $reportman->trend2;
-        $graph->y_format['answers2'] = $graph1_params;
+        $graph->y_format['answers2'] = $graph1params;
 
-        // $graph4_params (the same as $graph4_params except for...)
-        $graph2_params['colour'] = 'ltltorange';
-        $graph2_params['bar_size'] = 0.2;
+        // $graph4params (the same as $graph2params except for...)
+        $graph2params['colour'] = 'ltltorange';
+        $graph2params['bar_size'] = 0.2;
 
         // 4th graph
         $graph->y_data['stdev2']   = $reportman->trend2stdev;
-        $graph->y_format['stdev2'] = $graph2_params;
+        $graph->y_format['stdev2'] = $graph2params;
 
         $graph->offset_relation['stdev2'] = 'answers2';
     }
@@ -121,22 +116,22 @@ if ($type == 'summary') {
         if ($reportman->studenttrend1) { // if the user submitted at least one response
             $labelsep = get_string('labelsep', 'langconfig'); // ': '
 
-            // $graph5_params (the same as $graph1_params except for...)
-            $graph1_params['colour'] = 'blue';
-            $graph1_params['legend'] = fullname($USER).$labelsep.$legendgraph1;
+            // $graph5params (the same as $graph1params except for...)
+            $graph1params['colour'] = 'blue';
+            $graph1params['legend'] = fullname($USER).$labelsep.$legendgraph1;
 
             // 5rd graph
             $graph->y_data['answers3'] = $reportman->studenttrend1;
-            $graph->y_format['answers3'] = $graph1_params;
+            $graph->y_format['answers3'] = $graph1params;
 
             if ($reportman->template == 'collesactualpreferred') {
-                // $graph6_params (the same as $graph4_params except for...)
-                $graph1_params['colour'] = 'orange';
-                $graph1_params['legend'] = fullname($USER).$labelsep.$legendgraph2;
+                // $graph6params (the same as $graph1params except for...)
+                $graph1params['colour'] = 'orange';
+                $graph1params['legend'] = fullname($USER).$labelsep.$legendgraph2;
 
                 // 6th graph
                 $graph->y_data['answers4'] = $reportman->studenttrend2;
-                $graph->y_format['answers4'] = $graph1_params;
+                $graph->y_format['answers4'] = $graph1params;
             }
         }
     }
@@ -150,13 +145,13 @@ if ($type == 'summary') {
         }
     } else {
         if ($allowsingle && ($reportman->studenttrend1)) { // if the user hasn't general right but only canaccessownreports && submitted at least one response
-            $graph->y_order = array('stdev1', 'answers1', 'answers3', 'answers4');
+            $graph->y_order = array('stdev1', 'answers1', 'answers3');
         } else {
             $graph->y_order = array('stdev1', 'answers1');
         }
     }
 
-    $graph->parameter['title'] = $reportman->graphtitle; // 'collespreferred', 'colleasctual'...
+    $graph->parameter['title'] = $reportman->graphtitle; // 'collespreferred', 'collesctual'...
     $graph->parameter['legend'] = 'outside-top';
     $graph->parameter['legend_border'] = 'black';
     $graph->parameter['legend_offset'] = 4;
@@ -189,48 +184,48 @@ if ($type == 'scales') {
     $graph->x_data = $reportman->xlabels; // array('focus on interesting issues', 'important to my practice'...
     $graph->y_tick_labels = $reportman->ylabels;
 
-    // $graph1_params
-    $graph1_params = array();
-    $graph1_params['colour'] = 'ltblue';
-    $graph1_params['line'] = 'line';
-    $graph1_params['point'] = 'square';
-    $graph1_params['shadow_offset'] = 4;
-    $graph1_params['legend'] = $legendgraph1;
+    // $graph1params
+    $graph1params = array();
+    $graph1params['colour'] = 'ltblue';
+    $graph1params['line'] = 'line';
+    $graph1params['point'] = 'square';
+    $graph1params['shadow_offset'] = 4;
+    $graph1params['legend'] = $legendgraph1;
 
     // 1st graph
     $graph->y_data['answers1'] = $reportman->trend1; // array(1.5, 2.5...
-    $graph->y_format['answers1'] = $graph1_params;
+    $graph->y_format['answers1'] = $graph1params;
 
-    // $graph2_params
-    $graph2_params = array();
-    $graph2_params['colour'] = 'ltltblue';
-    $graph2_params['bar'] = 'fill';
-    $graph2_params['shadow_offset'] = 4;
-    $graph2_params['legend'] = 'none';
-    $graph2_params['bar_size'] = 0.3;
+    // $graph2params
+    $graph2params = array();
+    $graph2params['colour'] = 'ltltblue';
+    $graph2params['bar'] = 'fill';
+    $graph2params['shadow_offset'] = 4;
+    $graph2params['legend'] = 'none';
+    $graph2params['bar_size'] = 0.3;
 
     // 2nd graph
     $graph->y_data['stdev1'] = $reportman->trend1stdev; // array(1.1180339887499, 1.1180339887499...
-    $graph->y_format['stdev1'] = $graph2_params;
+    $graph->y_format['stdev1'] = $graph2params;
 
     $graph->offset_relation['stdev1'] = 'answers1';
 
     if ($reportman->template == 'collesactualpreferred') {
-        // $graph3_params (the same as $graph1_params except for...)
-        $graph1_params['colour'] = 'ltorange';
-        $graph1_params['legend'] = $legendgraph2;
+        // $graph3params (the same as $graph1params except for...)
+        $graph1params['colour'] = 'ltorange';
+        $graph1params['legend'] = $legendgraph2;
 
         // 3rd graph
         $graph->y_data['answers2']   = $reportman->trend2;
-        $graph->y_format['answers2'] = $graph1_params;
+        $graph->y_format['answers2'] = $graph1params;
 
-        // $graph4_params (the same as $graph4_params except for...)
-        $graph2_params['colour'] = 'ltltorange';
-        $graph2_params['bar_size'] = 0.2;
+        // $graph4params (the same as $graph2params except for...)
+        $graph2params['colour'] = 'ltltorange';
+        $graph2params['bar_size'] = 0.2;
 
         // 4th graph
         $graph->y_data['stdev2']   = $reportman->trend2stdev;
-        $graph->y_format['stdev2'] = $graph2_params;
+        $graph->y_format['stdev2'] = $graph2params;
 
         $graph->offset_relation['stdev2'] = 'answers2';
 
@@ -251,7 +246,7 @@ if ($type == 'scales') {
     $graph->parameter['y_resolution_left'] = 1;
     $graph->parameter['y_decimal_left'] = 1;
     $graph->parameter['x_axis_angle'] = 20;
-    //$graph->parameter['x_inner_padding'] = 6;
+    // $graph->parameter['x_inner_padding'] = 6;
 
     $graph->draw();
 }
@@ -271,26 +266,26 @@ if ($type == 'questions') {
 
     $graph->x_data = $reportman->xlabels; // array('focus on interesting issues', 'important to my practice'...
 
-    // $graph1_params
-    $graph1_params = array();
-    $graph1_params['colour'] = 'ltblue';
-    $graph1_params['bar'] = 'fill';
-    $graph1_params['legend'] = $legendgraph1;
-    $graph1_params['bar_size'] = 0.4;
+    // $graph1params
+    $graph1params = array();
+    $graph1params['colour'] = 'ltblue';
+    $graph1params['bar'] = 'fill';
+    $graph1params['legend'] = $legendgraph1;
+    $graph1params['bar_size'] = 0.4;
 
     // 1st graph
     $graph->y_data['answers1'] = $reportman->trend1; // array(1.5, 2.5...
-    $graph->y_format['answers1'] = $graph1_params;
+    $graph->y_format['answers1'] = $graph1params;
 
     if ($reportman->template == 'collesactualpreferred') {
-        // $graph2_params (the same as $graph1_params except for...)
-        $graph1_params['colour'] = 'ltorange';
-        $graph1_params['legend'] = $legendgraph2;
-        $graph1_params['bar_size'] = 0.2;
+        // $graph2params (the same as $graph1params except for...)
+        $graph1params['colour'] = 'ltorange';
+        $graph1params['legend'] = $legendgraph2;
+        $graph1params['bar_size'] = 0.2;
 
         // 2nd graph
         $graph->y_data['answers2'] = $reportman->trend2; // array(1.5, 2.5...
-        $graph->y_format['answers2'] = $graph1_params;
+        $graph->y_format['answers2'] = $graph1params;
 
         $graph->y_order = array('answers1', 'answers2');
     } else {

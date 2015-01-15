@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Prints a particular instance of surveypro
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -53,12 +50,12 @@ require_capability('mod/surveypro:searchsubmissions', $context);
 // -----------------------------
 // calculations
 // -----------------------------
-$searchman = new mod_surveypro_searchmanager($cm, $surveypro, $context);
+$searchman = new mod_surveypro_searchmanager($cm, $context, $surveypro);
 
 // -----------------------------
 // define $searchform return url
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('view_search.php', $paramurl);
+$formurl = new moodle_url('/mod/surveypro/view_search.php', $paramurl);
 // end of: define $searchform return url
 // -----------------------------
 
@@ -69,26 +66,26 @@ $formparams->cmid = $cm->id;
 $formparams->surveypro = $surveypro;
 $formparams->canaccessadvanceditems = $searchman->canaccessadvanceditems; // Help selecting the fields to show
 $formparams->formpage = $formpage;
-$searchform = new surveypro_searchform($formurl, $formparams, 'post', '', array('id' => 'usersearch'));
+$searchform = new mod_surveypro_searchform($formurl, $formparams, 'post', '', array('id' => 'usersearch'));
 // end of: prepare params for the form
 // -----------------------------
 
 // -----------------------------
 // manage form submission
 if ($searchform->is_cancelled()) {
-    $paramurl = array('id' => $cm->id);
-    $returnurl = new moodle_url('view_manage.php', $paramurl);
+    $paramurl = array('id' => $cm->id, 'cover' => 0);
+    $returnurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
     redirect($returnurl);
 }
 
 if ($searchman->formdata = $searchform->get_data()) {
     // in this routine I do not execute a real search
     // I only define the param searchquery for the url of SURVEYPRO_SUBMISSION_MANAGE
-    $paramurl = array('id' => $cm->id);
+    $paramurl = array('id' => $cm->id, 'cover' => 0);
     if ($searchquery = $searchman->get_searchparamurl()) {
         $paramurl['searchquery'] = $searchquery;
     }
-    $returnurl = new moodle_url('view_manage.php', $paramurl);
+    $returnurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
     redirect($returnurl);
 }
 // end of: manage form submission
@@ -97,7 +94,9 @@ if ($searchman->formdata = $searchform->get_data()) {
 // -----------------------------
 // output starts here
 // -----------------------------
-$PAGE->set_url('/mod/surveypro/view.php', array('id' => $cm->id));
+$PAGE->set_url('/mod/surveypro/view_search.php', array('s' => $surveypro->id));
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
@@ -107,7 +106,7 @@ $moduletab = SURVEYPRO_TABSUBMISSIONS; // needed by tabs.php
 $modulepage = SURVEYPRO_SUBMISSION_SEARCH; // needed by tabs.php
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
-if (!$searchman->count_search_items()) {
+if (!$searchman->has_search_items()) {
     $searchman->noitem_stopexecution();
 } else {
     $searchform->display();

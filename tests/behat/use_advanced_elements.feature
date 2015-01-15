@@ -5,28 +5,28 @@ Feature: test the use of advanced elements
   I add two items with different availability and go to fill the corresponding survey and edit it
 
   @javascript
-  Scenario: add some items
+  Scenario: use advanced elements
     Given the following "courses" exist:
-      | fullname | shortname | category | groupmode |
-      | Course 1 | C1        | 0        | 0         |
+      | fullname          | shortname         | category | groupmode |
+      | Advanced elements | Advanced elements | 0        | 0         |
     And the following "users" exist:
-      | username | firstname | lastname | email            |
-      | teacher1 | Teacher   | 1        | teacher1@asd.com |
-      | student1 | Student   | 1        | student1@asd.com |
+      | username | firstname | lastname | email                |
+      | teacher1 | Teacher   | 1        | teacher1@nowhere.net |
+      | student1 | Student   | 1        | student1@nowhere.net |
     And the following "course enrolments" exist:
-      | user     | course | role           |
-      | teacher1 | C1     | editingteacher |
-      | student1 | C1     | student        |
+      | user     | course            | role           |
+      | teacher1 | Advanced elements | editingteacher |
+      | student1 | Advanced elements | student        |
     And I log in as "teacher1"
-    And I follow "Course 1"
+    And I follow "Advanced elements"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-      | Survey name | Advanced element test                        |
-      | Description | This is a surveypro to test advanced element |
+      | Surveypro name | Advanced element test                        |
+      | Description    | This is a surveypro to test advanced element |
     And I follow "Advanced element test"
 
     # add the first age item generally available
-    And I set the field "plugin" to "Age [yy/mm]"
+    And I set the field "typeplugin" to "Age [yy/mm]"
     And I press "Add"
 
     And I expand all fieldsets
@@ -43,7 +43,7 @@ Feature: test the use of advanced elements
     And I press "Add"
 
     # add the second age item (as advanced element)
-    And I set the field "plugin" to "Age [yy/mm]"
+    And I set the field "typeplugin" to "Age [yy/mm]"
     And I press "Add"
 
     And I expand all fieldsets
@@ -64,32 +64,31 @@ Feature: test the use of advanced elements
 
     # test the user sees only the first age item
     When I log in as "student1"
-    And I follow "Course 1"
+    And I follow "Advanced elements"
     And I follow "Advanced element test"
-    And I press "Add a response"
+    And I press "New response"
     Then I should see "1: First age item"
     Then I should not see "2: Second age item"
 
     # user submit a surveypro
     And I set the following fields to these values:
-      | id_surveypro_field_age_368000_year  | 8 |
-      | id_surveypro_field_age_368000_month | 2 |
+      | id_surveypro_field_age_1_year  | 8 |
+      | id_surveypro_field_age_1_month | 2 |
     And I press "Submit"
 
     And I log out
 
     # test the teacher sees the first and the second age items both
     When I log in as "teacher1"
-    And I follow "Course 1"
+    And I follow "Advanced elements"
     And I follow "Advanced element test"
-    And I follow "Responses"
-    And I follow "edit_submission_369000"
+    And I follow "edit_submission_row_1"
     Then I should see "1: First age item"
     Then I should see "2: Second age item"
 
     And I set the following fields to these values:
-      | id_surveypro_field_age_368001_year  | 24 |
-      | id_surveypro_field_age_368001_month | 6  |
+      | id_surveypro_field_age_2_year  | 24 |
+      | id_surveypro_field_age_2_month | 6  |
     And I press "Submit"
     And I follow "Export"
     And I set the following fields to these values:

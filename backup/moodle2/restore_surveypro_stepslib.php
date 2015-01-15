@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -31,6 +30,12 @@
  */
 class restore_surveypro_activity_structure_step extends restore_activity_structure_step {
 
+    /*
+     * define_structure
+     *
+     * @param none
+     * @return none
+     */
     protected function define_structure() {
 
         $paths = array();
@@ -116,6 +121,12 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         $this->set_mapping('surveypro_answer', $oldid, $newitemid, true);
     }
 
+    /*
+     * after_execute
+     *
+     * @param none
+     * @return none
+     */
     protected function after_execute() {
         global $DB;
 

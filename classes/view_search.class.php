@@ -14,56 +14,55 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-/*
+/**
  * The base class representing a field
  */
 class mod_surveypro_searchmanager {
-    /*
+    /**
      * $context
      */
     public $context = null;
 
-    /*
+    /**
      * $surveypro: the record of this surveypro
      */
     public $surveypro = null;
 
-    /*
+    /**
      * $canaccessadvanceditems
      */
     public $canaccessadvanceditems = false;
 
-    /*
+    /**
      * $formdata: the form content as submitted by the user
      */
     public $formdata = null;
 
-    /*
+    /**
      * Class constructor
      */
-    public function __construct($cm, $surveypro) {
+    public function __construct($cm, $context, $surveypro) {
         $this->cm = $cm;
-        $this->context = context_module::instance($cm->id);
+        $this->context = $context;
         $this->surveypro = $surveypro;
+
         $this->canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $this->context, null, true);
     }
 
-    /*
+    /**
      * get_searchparamurl
      *
+     * @param none
      * @return
      */
     public function get_searchparamurl() {
@@ -115,32 +114,33 @@ class mod_surveypro_searchmanager {
         }
     }
 
-    /*
-     * count_input_items
+    /**
+     * has_search_items as opposed to "has_input_items"
      *
+     * @param none
      * @return
      */
-    public function count_search_items() {
+    public function has_search_items() {
         global $DB;
 
         // if no items are available, stop the intervention here
-        $whereparams = array('surveyproid' => $this->surveypro->id);
-        $whereclause = 'surveyproid = :surveyproid AND hidden = 0 AND insearchform = 1';
+        $whereparams = array('surveyproid' => $this->surveypro->id, 'hidden' => 0, 'insearchform' => 1);
 
-        return $DB->count_records_select('surveypro_item', $whereclause, $whereparams);
+        return ($DB->count_records('surveypro_item', $whereparams) > 0);
     }
 
-    /*
+    /**
      * noitem_stopexecution
      *
+     * @param none
      * @return
      */
     public function noitem_stopexecution() {
-        global $COURSE, $OUTPUT;
+        global $OUTPUT;
 
         echo $OUTPUT->notification(get_string('emptysearchform', 'surveypro'), 'notifyproblem');
 
-        $continueurl = new moodle_url('/mod/surveypro/view_manage.php', array('s' => $this->surveypro->id));
+        $continueurl = new moodle_url('/mod/surveypro/view.php', array('s' => $this->surveypro->id, 'cover' => 0));
         echo $OUTPUT->continue_button($continueurl);
 
         echo $OUTPUT->footer();

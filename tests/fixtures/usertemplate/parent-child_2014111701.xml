@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <items>
-  <item>
+  <item type="format" plugin="label" version="2014111000">
     <surveypro_item>
-      <type>format</type>
-      <plugin>label</plugin>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -33,10 +31,8 @@
       <fullwidth>1</fullwidth>
     </surveyproformat_label>
   </item>
-  <item>
+  <item type="field" plugin="boolean" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>boolean</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -48,7 +44,7 @@
       <customnumber>1</customnumber>
       <position>0</position>
       <required>0</required>
-      <variable>attls_boolean_001</variable>
+      <variable>boolean_001</variable>
       <indent>0</indent>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
@@ -56,10 +52,8 @@
       <style>2</style>
     </surveyprofield_boolean>
   </item>
-  <item>
+  <item type="format" plugin="pagebreak" version="2014111000">
     <surveypro_item>
-      <type>format</type>
-      <plugin>pagebreak</plugin>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -69,10 +63,8 @@
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item>
+  <item type="field" plugin="character" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>character</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -89,16 +81,14 @@
       <extranote>This item is allowed if the answer to its parent is TRUE</extranote>
       <required>1</required>
       <hideinstructions>0</hideinstructions>
-      <variable>attls_character_001</variable>
+      <variable>character_001</variable>
       <indent>1</indent>
       <pattern>PATTERN_FREE</pattern>
       <minlength>0</minlength>
     </surveyprofield_character>
   </item>
-  <item>
+  <item type="field" plugin="integer" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>integer</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -113,8 +103,7 @@
       <position>0</position>
       <extranote>This item is allowed if the answer to its parent is FALSE</extranote>
       <required>0</required>
-      <hideinstructions>0</hideinstructions>
-      <variable>attls_integer_001</variable>
+      <variable>integer_001</variable>
       <indent>1</indent>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
@@ -122,10 +111,8 @@
       <upperbound>105</upperbound>
     </surveyprofield_integer>
   </item>
-  <item>
+  <item type="format" plugin="label" version="2014111000">
     <surveypro_item>
-      <type>format</type>
-      <plugin>label</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -138,10 +125,8 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item>
+  <item type="field" plugin="checkbox" version="2014111701">
     <surveypro_item>
-      <type>field</type>
-      <plugin>checkbox</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -152,22 +137,21 @@
       <contentformat>1</contentformat>
       <customnumber>2</customnumber>
       <position>0</position>
-      <required>0</required>
-      <variable>attls_checkbox_001</variable>
+      <hideinstructions>0</hideinstructions>
+      <variable>checkbox_001</variable>
       <indent>0</indent>
       <options>rubber
 pen
 pencil
 A4 paper</options>
+      <noanswerdefault>0</noanswerdefault>
       <downloadformat>0</downloadformat>
       <minimumrequired>0</minimumrequired>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item>
+  <item type="format" plugin="pagebreak" version="2014111000">
     <surveypro_item>
-      <type>format</type>
-      <plugin>pagebreak</plugin>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -177,10 +161,8 @@ A4 paper</options>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item>
+  <item type="field" plugin="character" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>character</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -196,16 +178,14 @@ A4 paper</options>
       <extranote>child item displayed only if 'rubber &amp; pen &amp; pencil' is answered to the parent item</extranote>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>attls_character_002</variable>
+      <variable>character_002</variable>
       <indent>1</indent>
       <pattern>PATTERN_FREE</pattern>
       <minlength>0</minlength>
     </surveyprofield_character>
   </item>
-  <item>
+  <item type="field" plugin="textarea" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>textarea</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -221,7 +201,7 @@ A4 paper</options>
       <extranote>This item should be enabled if the answer to the parent item is "pen" ONLY but this is a missing funtionality as described in MDL-25067</extranote>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>attls_textarea_001</variable>
+      <variable>textarea_001</variable>
       <indent>1</indent>
       <useeditor>1</useeditor>
       <arearows>10</arearows>
@@ -229,10 +209,8 @@ A4 paper</options>
       <minlength>0</minlength>
     </surveyprofield_textarea>
   </item>
-  <item>
+  <item type="field" plugin="integer" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>integer</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -244,8 +222,7 @@ A4 paper</options>
       <customnumber>3</customnumber>
       <position>0</position>
       <required>0</required>
-      <hideinstructions>0</hideinstructions>
-      <variable>attls_integer_002</variable>
+      <variable>integer_002</variable>
       <indent>0</indent>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
@@ -253,10 +230,8 @@ A4 paper</options>
       <upperbound>30</upperbound>
     </surveyprofield_integer>
   </item>
-  <item>
+  <item type="format" plugin="pagebreak" version="2014111000">
     <surveypro_item>
-      <type>format</type>
-      <plugin>pagebreak</plugin>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -266,10 +241,8 @@ A4 paper</options>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item>
+  <item type="field" plugin="character" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>character</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -285,16 +258,14 @@ A4 paper</options>
       <extranote>This item is enabled if the answer to the parent item is 11</extranote>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>attls_character_003</variable>
+      <variable>character_003</variable>
       <indent>1</indent>
       <pattern>PATTERN_FREE</pattern>
       <minlength>0</minlength>
     </surveyprofield_character>
   </item>
-  <item>
+  <item type="field" plugin="integer" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>integer</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -309,8 +280,7 @@ A4 paper</options>
       <position>0</position>
       <extranote>This item is enabled if the answer to the parent item is 22</extranote>
       <required>0</required>
-      <hideinstructions>0</hideinstructions>
-      <variable>attls_integer_003</variable>
+      <variable>integer_003</variable>
       <indent>1</indent>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
@@ -318,10 +288,8 @@ A4 paper</options>
       <upperbound>105</upperbound>
     </surveyprofield_integer>
   </item>
-  <item>
+  <item type="field" plugin="multiselect" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>multiselect</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -332,8 +300,8 @@ A4 paper</options>
       <contentformat>1</contentformat>
       <customnumber>4</customnumber>
       <position>0</position>
-      <required>0</required>
-      <variable>attls_multiselect_001</variable>
+      <hideinstructions>0</hideinstructions>
+      <variable>multiselect_001</variable>
       <indent>0</indent>
       <options>b::bread
 m::milk
@@ -343,13 +311,12 @@ t::tomatoes</options>
       <defaultvalue>milk
 ham</defaultvalue>
       <downloadformat>0</downloadformat>
+      <minimumrequired>0</minimumrequired>
       <heightinrows>4</heightinrows>
     </surveyprofield_multiselect>
   </item>
-  <item>
+  <item type="format" plugin="pagebreak" version="2014111000">
     <surveypro_item>
-      <type>format</type>
-      <plugin>pagebreak</plugin>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -359,10 +326,8 @@ ham</defaultvalue>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item>
+  <item type="field" plugin="numeric" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>numeric</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -378,17 +343,15 @@ ham</defaultvalue>
       <extranote>This item is allowed when the answer to its parent is "ham bread"</extranote>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>attls_numeric_001</variable>
+      <variable>numeric_001</variable>
       <indent>1</indent>
       <defaultvalue>27.45</defaultvalue>
       <signed>0</signed>
       <decimals>2</decimals>
     </surveyprofield_numeric>
   </item>
-  <item>
+  <item type="field" plugin="date" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>date</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -404,7 +367,7 @@ ham</defaultvalue>
       <extranote>This item is allowed when the answer to its parent is "jam ham tomatoes"</extranote>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>attls_date_001</variable>
+      <variable>date_001</variable>
       <indent>1</indent>
       <defaultoption>2</defaultoption>
       <downloadformat>strftime01</downloadformat>
@@ -412,10 +375,8 @@ ham</defaultvalue>
       <upperbound>1609416000</upperbound>
     </surveyprofield_date>
   </item>
-  <item>
+  <item type="field" plugin="radiobutton" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>radiobutton</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -427,7 +388,7 @@ ham</defaultvalue>
       <customnumber>5</customnumber>
       <position>0</position>
       <required>0</required>
-      <variable>attls_radiobutton_001</variable>
+      <variable>radiobutton_001</variable>
       <indent>0</indent>
       <options>Mountain
 Hill
@@ -440,10 +401,8 @@ City</options>
       <adjustment>0</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item>
+  <item type="format" plugin="pagebreak" version="2014111000">
     <surveypro_item>
-      <type>format</type>
-      <plugin>pagebreak</plugin>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -453,10 +412,8 @@ City</options>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item>
+  <item type="field" plugin="shortdate" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>shortdate</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -472,7 +429,7 @@ City</options>
       <extranote>This item is allowed when the answer to its parent is "Lake" </extranote>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>attls_shortdate_001</variable>
+      <variable>shortdate_001</variable>
       <indent>1</indent>
       <defaultoption>2</defaultoption>
       <downloadformat>strftime01</downloadformat>
@@ -480,10 +437,8 @@ City</options>
       <upperbound>1606824000</upperbound>
     </surveyprofield_shortdate>
   </item>
-  <item>
+  <item type="field" plugin="rate" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>rate</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -499,7 +454,7 @@ City</options>
       <extranote>This item is allowed when the answer to its parent is "Mountain" </extranote>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>attls_rate_001</variable>
+      <variable>rate_001</variable>
       <indent>1</indent>
       <options>English
 Greek
@@ -521,10 +476,8 @@ bad</defaultvalue>
       <differentrates>0</differentrates>
     </surveyprofield_rate>
   </item>
-  <item>
+  <item type="field" plugin="select" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>select</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -536,7 +489,7 @@ bad</defaultvalue>
       <customnumber>6</customnumber>
       <position>0</position>
       <required>0</required>
-      <variable>attls_select_001</variable>
+      <variable>select_001</variable>
       <indent>0</indent>
       <options>top
 bottom
@@ -546,10 +499,8 @@ left</options>
       <downloadformat>0</downloadformat>
     </surveyprofield_select>
   </item>
-  <item>
+  <item type="format" plugin="pagebreak" version="2014111000">
     <surveypro_item>
-      <type>format</type>
-      <plugin>pagebreak</plugin>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -559,10 +510,8 @@ left</options>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item>
+  <item type="field" plugin="age" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>age</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -578,7 +527,7 @@ left</options>
       <extranote>This item is allowed If your answer to previous question was "bottom"</extranote>
       <required>0</required>
       <hideinstructions>0</hideinstructions>
-      <variable>attls_age_001</variable>
+      <variable>age_001</variable>
       <indent>1</indent>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
@@ -586,10 +535,8 @@ left</options>
       <upperbound>3339835200</upperbound>
     </surveyprofield_age>
   </item>
-  <item>
+  <item type="field" plugin="fileupload" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>fileupload</plugin>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
@@ -604,7 +551,7 @@ left</options>
       <position>0</position>
       <extranote>This item is allowed only by answering "Top" to its parent. I asked for the option to disable it in MDL-28194. That issue is still open but, in spite of this, the item can be disabled.</extranote>
       <required>0</required>
-      <variable>attls_fileupload_001</variable>
+      <variable>fileupload_001</variable>
       <indent>1</indent>
       <maxfiles>1</maxfiles>
       <maxbytes>0</maxbytes>

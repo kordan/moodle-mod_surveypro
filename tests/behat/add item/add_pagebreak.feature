@@ -5,25 +5,25 @@ Feature: verify a pagebreak item can be added to a survey
   I add a pagebreak item to a survey
 
   @javascript
-  Scenario: add some items
+  Scenario: add pagebreak item
     Given the following "courses" exist:
-      | fullname | shortname | category | groupmode |
-      | Course 1 | C1        | 0        | 0         |
+      | fullname           | shortname     | category | groupmode |
+      | Add pagebreak item | Add pagebreak | 0        | 0         |
     And the following "users" exist:
-      | username | firstname | lastname | email            |
-      | teacher1 | Teacher   | 1        | teacher1@asd.com |
+      | username | firstname | lastname | email                |
+      | teacher1 | Teacher   | 1        | teacher1@nowhere.net |
     And the following "course enrolments" exist:
-      | user     | course | role           |
-      | teacher1 | C1     | editingteacher |
+      | user     | course        | role           |
+      | teacher1 | Add pagebreak | editingteacher |
     And I log in as "teacher1"
-    And I follow "Course 1"
+    And I follow "Add pagebreak item"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-      | Survey name | Add pagebreak item                        |
-      | Description | This is a surveypro to add each core item |
-    And I follow "Add pagebreak item"
+      | Surveypro name | Surveypro test                              |
+      | Description    | This is a surveypro to add a pagebreak item |
+    And I follow "Surveypro test"
 
-    And I set the field "plugin" to "Page break"
+    And I set the field "typeplugin" to "Page break"
     And I press "Add"
 
     And I press "Add"

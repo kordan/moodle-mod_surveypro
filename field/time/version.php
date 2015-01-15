@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Defines the version of surveypro time subplugin
  *
  * This code fragment is called by moodle_needs_upgrading() and
@@ -22,12 +22,13 @@
  *
  * @package    surveyprofield
  * @subpackage time
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2014051701;
+$plugin->version = 2014111000;
 $plugin->release = '1.0';
-$plugin->requires = 2010091600;  // Requires this Moodle version
+$plugin->requires = 2013111800; // Requires this Moodle version
+$plugin->component = 'surveyprofield_time'; // Full name of the plugin (used for diagnostics)

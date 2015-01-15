@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Prints a particular instance of surveypro
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -51,13 +48,13 @@ require_capability('mod/surveypro:savemastertemplates', $context);
 // -----------------------------
 // calculations
 // -----------------------------
-$mtemplateman = new mod_surveypro_mastertemplate($surveypro, $context);
+$mtemplateman = new mod_surveypro_mastertemplate($cm, $context, $surveypro);
 
 // -----------------------------
 // define $createmtemplate return url
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('mtemplates_create.php', $paramurl);
-$createmtemplate = new surveypro_mtemplatecreateform($formurl);
+$formurl = new moodle_url('/mod/surveypro/mtemplates_create.php', $paramurl);
+$createmtemplate = new mod_surveypro_mtemplatecreateform($formurl);
 // define $createmtemplate return url
 // -----------------------------
 
@@ -76,6 +73,8 @@ if ($mtemplateman->formdata = $createmtemplate->get_data()) {
 // -----------------------------
 $url = new moodle_url('/mod/surveypro/mtemplates_create.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 

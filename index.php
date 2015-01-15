@@ -14,94 +14,106 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
- * This is a one-line short description of the file
- *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
+/**
+ * This file is part of the Surveypro module for Moodle
  *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once(dirname(__FILE__).'/lib.php');
 
-$id = required_param('id', PARAM_INT); // Course Module ID
+$id = required_param('id', PARAM_INT); // Course ID
 
-$course = $DB->get_record('course', array('id'=>$id), '*', MUST_EXIST);
-
-unset($id);
+$course = $DB->get_record('course', array('id' => $id), '*', MUST_EXIST);
 
 require_course_login($course, true);
-$PAGE->set_pagelayout('incourse');
 
 // Get all required strings
-$strsurveypros = get_string('modulenameplural', 'surveypro');
-$strsurvey = get_string('modulename', 'surveypro');
 $strname = get_string('name');
+$strsurveypro = get_string('modulename', 'surveypro');
 $strintro = get_string('moduleintro');
-$strlastmodified = get_string('lastmodified');
+$strdataplural  = get_string('modulenameplural', 'surveypro');
+$inprogress = get_string('inprogressresponses', 'surveypro');
+$closed = get_string('closedresponses', 'surveypro');
 
-$PAGE->set_url('/mod/surveypro/index.php', array('id' => $course->id));
-$PAGE->set_title($course->fullname);
-$PAGE->set_heading($course->shortname);
-$PAGE->navbar->add($strsurvey);
+$PAGE->set_pagelayout('incourse');
+$PAGE->set_url('/mod/surveypro/index.php', array('id' => $id));
+$PAGE->navbar->add($strsurveypro, new moodle_url('/mod/data/index.php', array('id' => $id)));
+$PAGE->set_title($strsurveypro);
+$PAGE->set_heading($course->fullname);
+
 echo $OUTPUT->header();
+echo $OUTPUT->heading($strdataplural, 2);
 
-$eventdata = array('context' => context_course::instance($course->id));
-$event = \mod_surveypro\event\course_module_instance_list_viewed::create($eventdata);
-$event->add_record_snapshot('course', $course);
-$event->trigger();
-
-// / Print the header
+\mod_surveypro\event\course_module_instance_list_viewed::create_from_course($course)->trigger();
 
 // / Get all the appropriate data
 if (!$surveypros = get_all_instances_in_course('surveypro', $course)) {
-    notice(get_string('thereareno', 'moodle', $strsurveypros), "$CFG->wwwroot/course/view.php?id=$course->id");
+    $url = new moodle_url('/course/view.php', array('id' => $course->id));
+    notice(get_string('thereareno', 'moodle', $strdataplural), $url);
     die();
 }
-
-$usesections = course_format_uses_sections($course->format);
 
 $table = new html_table();
 $table->attributes['class'] = 'generaltable mod_index';
 
-if ($usesections) {
-    $strsectionname = get_string('sectionname', 'format_'.$course->format);
-    $table->head = array ($strsectionname, $strname, $strintro);
-    $table->align = array ('center', 'left', 'left');
+if ($course->format == 'weeks') {
+    $strweek = get_string('week');
+    $table->head = array ($strweek, $strname, $strintro, $inprogress, $closed);
+} else if ($course->format == 'topics') {
+    $strtopic = get_string('topic');
+    $table->head = array ($strtopic, $strname, $strintro, $inprogress, $closed);
 } else {
-    $table->head = array ($strlastmodified, $strname, $strintro);
-    $table->align = array ('left', 'left', 'left');
+    $strsectionname = get_string('sectionname', 'format_'.$course->format);
+    $table->head = array ($strsectionname, $strname, $strintro, $inprogress, $closed);
 }
+$table->colclasses = array('col1', 'col2', 'col3', 'col4', 'col5');
 
-$modinfo = get_fast_modinfo($course);
-$currentsection = '';
+$currentsection = -1;
+$sectionvisible = $DB->get_records_menu('course_sections', array('course' => $course->id), '', 'section, visible');
+
+$sql = 'SELECT surveyproid, COUNT(id) as responses
+        FROM {surveypro_submission}
+        WHERE status = :status
+        GROUP BY surveyproid';
+$whereparam = array('status' => SURVEYPRO_STATUSINPROGRESS);
+$inprogressresponses = $DB->get_records_sql_menu($sql, $whereparam);
+
+$whereparam = array('status' => SURVEYPRO_STATUSCLOSED);
+$closedresponses = $DB->get_records_sql_menu($sql, $whereparam);
+
 foreach ($surveypros as $surveypro) {
-    $cm = $modinfo->get_cm($surveypro->coursemodule);
-    if ($usesections) {
-        $printsection = '';
-        if ($surveypro->section !== $currentsection) {
-            if ($surveypro->section) {
-                $printsection = get_section_name($course, $surveypro->section);
-            }
-            if ($currentsection !== '') {
-                $table->data[] = 'hr';
-            }
-            $currentsection = $surveypro->section;
+    if ($surveypro->section != $currentsection) {
+        if ($surveypro->section) {
+            $printsection = get_section_name($course, $surveypro->section);
+            $sectionclass = $sectionvisible[$surveypro->section] ? null : array('class' => 'dimmed');
         }
+        $currentsection = $surveypro->section;
     } else {
-        $printsection = html_writer::tag('span', userdate($surveypro->timemodified), array('class' => 'smallinfo'));
+        $printsection = '';
     }
 
-    $class = $surveypro->visible ? null : array('class' => 'dimmed'); // hidden modules are dimmed
+    if (empty($sectionclass)) { // section is visible
+        $cellclass = $surveypro->visible ? null : array('class' => 'dimmed');
+    } else {
+        $cellclass = array('class' => 'dimmed');
+    }
 
-    $table->data[] = array (
-        $printsection,
-        html_writer::link(new moodle_url('view.php', array('id' => $cm->id)), format_string($surveypro->name), $class),
-        format_module_intro('surveypro', $surveypro, $cm->id));
+    $url = new moodle_url('/mod/surveypro/view.php', array('id' => $surveypro->coursemodule));
+    $inprogressresp = isset($inprogressresponses[$surveypro->id]) ? $inprogressresponses[$surveypro->id] : 0;
+    $closedresp = isset($closedresponses[$surveypro->id]) ? $closedresponses[$surveypro->id] : 0;
+
+    $content = array(html_writer::tag('span', $printsection, $sectionclass),
+        html_writer::link($url, format_string($surveypro->name), $cellclass),
+        html_writer::tag('span', format_module_intro('surveypro', $surveypro, $surveypro->coursemodule), $cellclass),
+        html_writer::tag('span', $inprogressresp, $cellclass),
+        html_writer::tag('span', $closedresp, $cellclass)
+    );
+
+    $table->data[] = $content;
 }
 
 echo html_writer::table($table);

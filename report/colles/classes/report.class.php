@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Defines the version of surveypro autofill subplugin
  *
  * This code fragment is called by moodle_needs_upgrading() and
@@ -22,7 +22,7 @@
  *
  * @package    surveyproreport
  * @subpackage colles
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,107 +30,171 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/surveypro/classes/reportbase.class.php');
 
-class report_colles extends mod_surveypro_reportbase {
-    /*
+class mod_surveypro_report_colles extends mod_surveypro_reportbase {
+    /**
+     * canaccessreports
+     */
+    public $canaccessreports;
+
+    /**
+     * canaccessownreports
+     */
+    public $canaccessownreports;
+
+    /**
      * template
      */
     public $template;
 
-    /*
+    /**
      * group
      */
     public $group = 0;
 
-    /*
+    /**
      * sid
      */
     public $area = 0;
 
-    /*
+    /**
+     * templateuseritem
+     */
+    public $templateuseritem = '';
+
+    /**
      * qid
      */
     public $qid = 0;
 
-    /*
+    /**
      * graphtitle
      */
     public $graphtitle = '';
 
-    /*
+    /**
      * xlabels
      */
     public $xlabels = array();
 
-    /*
+    /**
      * ylabels
      */
     public $ylabels = array();
 
-    /*
+    /**
      * trend1
      */
     public $trend1 = array();
 
-    /*
+    /**
      * trend1stdev
      */
     public $trend1stdev = array();
 
-    /*
+    /**
      * trend2
      */
     public $trend2 = array();
 
-    /*
+    /**
      * trend2stdev
      */
     public $trend2stdev = array();
 
-    /*
+    /**
      * studenttrend1
      */
     public $studenttrend1 = array();
 
-    /*
+    /**
      * studenttrend2
      */
     public $studenttrend2 = array();
 
-    /*
+    /**
      * iarea
      */
     public $iarea;
 
-    /*
-     * setup
+    /**
+     * Class constructor
      */
-    function setup($hassubmissions, $group, $area, $qid) {
+    public function __construct($cm, $context, $surveypro) {
         global $DB;
 
+        parent::__construct($cm, $context, $surveypro);
+
         $this->template = $DB->get_field('surveypro', 'template', array('id' => $this->surveypro->id));
-        $this->hassubmissions = $hassubmissions;
-        $this->group = $group;
-        $this->area = $area;
-        $this->qid = $qid;
+        $this->canaccessreports = has_capability('mod/surveypro:accessreports', $context, null, true);
+        $this->canaccessownreports = has_capability('mod/surveypro:accessownreports', $context, null, true);
+
+        // Which plugin has been used to build this master template? Radiobutton or select?
+        $guessplugin = array('radiobutton', 'select');
+        $where = array('surveyproid' => $surveypro->id, 'plugin' => $guessplugin[0]);
+        if ($DB->get_records('surveypro_item', $where, 'id', 'id')) {
+            $this->templateuseritem = $guessplugin[0];
+        } else {
+            $this->templateuseritem = $guessplugin[1];
+        }
+
         $this->iarea = new stdClass();
     }
 
-    /*
+    /**
+     * set_group
+     *
+     * @param int $group
+     * @return none
+     */
+    public function set_group($group) {
+        $this->group = $group;
+    }
+
+    /**
+     * set_area
+     *
+     * @param int $area
+     * @return none
+     */
+    public function set_area($area) {
+        $this->area = $area;
+    }
+
+    /**
+     * set_qid
+     *
+     * @param int $qid
+     * @return none
+     */
+    public function set_qid($qid) {
+        $this->qid = $qid;
+    }
+
+    /**
      * restrict_templates
+     *
+     * @param none
+     * @return none
      */
     public function restrict_templates() {
         return array('collesactual', 'collespreferred', 'collesactualpreferred');
     }
 
-    /*
+    /**
      * has_student_report
+     *
+     * @param none
+     * @return none
      */
     public function has_student_report() {
         return true;
     }
 
-    /*
+    /**
      * get_childreports
+     *
+     * @param bool $canaccessreports
+     * @return none
      */
     public function get_childreports($canaccessreports) {
         if ($canaccessreports) {
@@ -145,11 +209,17 @@ class report_colles extends mod_surveypro_reportbase {
         }
     }
 
-    /*
+    /**
      * output_html
+     *
+     * @param string $nexturl
+     * @param string $graphurl
+     * @param string $altkey
+     * @return none
      */
     public function output_html($nexturl, $graphurl, $altkey) {
         static $strseemoredetail;
+
         if (empty($strseemoredetail)) {     // Cache the string for the next future
             $strseemoredetail = get_string('seemoredetail', 'surveyproreport_colles');
         }
@@ -173,8 +243,11 @@ class report_colles extends mod_surveypro_reportbase {
         echo $content;
     }
 
-    /*
+    /**
      * get_qid_per_area
+     *
+     * @param none
+     * @return none
      */
     public function get_qid_per_area() {
         global $DB;
@@ -187,7 +260,7 @@ class report_colles extends mod_surveypro_reportbase {
                     AND si.plugin = :plugin
                 ORDER BY si.sortindex';
 
-        $whereparams = array('surveyproid' => $this->surveypro->id, 'plugin' => 'radiobutton');
+        $whereparams = array('surveyproid' => $this->surveypro->id, 'plugin' => $this->templateuseritem); // was static 'radiobutton'
         $itemseeds = $DB->get_recordset_sql($sql, $whereparams);
 
         if ($this->template == 'collesactualpreferred') {
@@ -225,8 +298,11 @@ class report_colles extends mod_surveypro_reportbase {
         return array($qid1area, $qid2area);
     }
 
-    /*
+    /**
      * output_summarydata
+     *
+     * @param none
+     * @return none
      */
     public function output_summarydata() {
         if ($this->canaccessreports) {
@@ -235,7 +311,7 @@ class report_colles extends mod_surveypro_reportbase {
             $paramnexturl['type'] = 'scales';
             // $paramnexturl['group'] = 0;
             // $paramnexturl['area'] = 0;
-            $nexturl = new moodle_url('view.php', $paramnexturl);
+            $nexturl = new moodle_url('/mod/surveypro/report/colles/view.php', $paramnexturl);
         } else {
             $nexturl = null;
         }
@@ -249,8 +325,11 @@ class report_colles extends mod_surveypro_reportbase {
         $this->output_html($nexturl, $graphurl, 'summaryreport');
     }
 
-    /*
+    /**
      * fetch_summarydata
+     *
+     * @param none
+     * @return none
      */
     public function fetch_summarydata() {
         global $DB, $USER;
@@ -269,7 +348,7 @@ class report_colles extends mod_surveypro_reportbase {
 
         // options (label of answers)
         $itemid = $qid1area[0][0]; // one of the itemid of the surveypro (the first)
-        $item = surveypro_get_item($itemid, SURVEYPRO_TYPEFIELD, 'radiobutton');
+        $item = surveypro_get_item($itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem); // was static 'radiobutton'
         $this->ylabels = $item->item_get_content_array(SURVEYPRO_LABELS, 'options');
         // end of: options (label of answers)
 
@@ -285,7 +364,7 @@ class report_colles extends mod_surveypro_reportbase {
                         FROM {surveypro_answer} ud
                         WHERE ud.itemid IN ('.implode(',', $areaidlist).')';
                 $aggregate = $DB->get_record_sql($sql);
-                $m = $aggregate->sumofanswers/$aggregate->countofanswers;
+                $m = $aggregate->sumofanswers / $aggregate->countofanswers;
                 if ($k == 0) {
                     $this->trend1[] = $m;
                 }
@@ -327,7 +406,7 @@ class report_colles extends mod_surveypro_reportbase {
                     $aggregate = $DB->get_record_sql($sql, $whereparams);
 
                     if ($aggregate->countofanswers) {
-                        $m = $aggregate->sumofanswers/$aggregate->countofanswers;
+                        $m = $aggregate->sumofanswers / $aggregate->countofanswers;
                         if ($k == 0) {
                             $this->studenttrend1[] = $m;
                         }
@@ -348,8 +427,11 @@ class report_colles extends mod_surveypro_reportbase {
         // end of: calculate the mean and the standard deviation of answers
     }
 
-    /*
+    /**
      * output_scalesdata
+     *
+     * @param none
+     * @return none
      */
     public function output_scalesdata() {
         $paramnexturl = array();
@@ -365,16 +447,20 @@ class report_colles extends mod_surveypro_reportbase {
 
         for ($area = 0; $area < 6; $area++) { // 0..5
             $paramnexturl['area'] = $area;
+            $nexturl = new moodle_url('/mod/surveypro/report/colles/view.php', $paramnexturl);
+
             $paramurl['area'] = $area;
-            $nexturl = new moodle_url('view.php', $paramnexturl);
-            $graphurl = new moodle_url('graph.php', $paramurl);
+            $graphurl = new moodle_url('/mod/surveypro/report/colles/graph.php', $paramurl);
 
             $this->output_html($nexturl, $graphurl, 'scalesreport');
         }
     }
 
-    /*
+    /**
      * fetch_scalesdata
+     *
+     * @param int $area
+     * @return none
      */
     public function fetch_scalesdata($area=false) {
         global $DB;
@@ -400,7 +486,7 @@ class report_colles extends mod_surveypro_reportbase {
 
         // options (label of answers)
         $itemid = $qid1area[0][0]; // one of the itemid of the surveypro (the first)
-        $item = surveypro_get_item($itemid, SURVEYPRO_TYPEFIELD, 'radiobutton');
+        $item = surveypro_get_item($itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem); // was static 'radiobutton'
         $this->ylabels = $item->item_get_content_array(SURVEYPRO_LABELS, 'options');
         // end of: options (label of answers)
 
@@ -412,12 +498,18 @@ class report_colles extends mod_surveypro_reportbase {
         }
         foreach ($toevaluate as $k => $areaidlist) {
             foreach ($areaidlist as $itemid) {
+                // Changed to a shorter version on September 25, 2014.
+                // Older version will be deleted as soon as the wew one will be checked.
+                // $sql = 'SELECT COUNT(ud.id) as countofanswers, SUM(ud.content) as sumofanswers
+                //         FROM {surveypro_answer} ud
+                //         WHERE ud.itemid = :itemid';
+                // $whereparams = array('itemid' => $itemid);
+                // $aggregate = $DB->get_record_sql($sql, $whereparams);
+
+                // verified on October 17. It seems it arrived the time to delete the long version of the query.
                 $whereparams = array('itemid' => $itemid);
-                $sql = 'SELECT count(ud.id) as countofanswers, SUM(ud.content) as sumofanswers
-                        FROM {surveypro_answer} ud
-                        WHERE ud.itemid = :itemid';
-                $aggregate = $DB->get_record_sql($sql, $whereparams);
-                $m = $aggregate->sumofanswers/$aggregate->countofanswers;
+                $aggregate = $DB->get_record('surveypro_answer', $whereparams, 'COUNT(id) as countofanswers, SUM(content) as sumofanswers');
+                $m = $aggregate->sumofanswers / $aggregate->countofanswers;
                 if ($k == 0) {
                     $this->trend1[] = $m;
                 }
@@ -425,10 +517,14 @@ class report_colles extends mod_surveypro_reportbase {
                     $this->trend2[] = $m;
                 }
 
-                $sql = 'SELECT ud.content
-                        FROM {surveypro_answer} ud
-                        WHERE ud.itemid = :itemid';
-                $answers = $DB->get_recordset_sql($sql, $whereparams);
+                // Changed to a shorter version on September 25, 2014.
+                // Older version will be deleted as soon as the wew one will be checked.
+                // $sql = 'SELECT ud.content
+                //         FROM {surveypro_answer} ud
+                //         WHERE ud.itemid = :itemid';
+                // $answers = $DB->get_recordset_sql($sql, $whereparams);
+                // $whereparams = array('itemid' => $itemid); // already defined
+                $answers = $DB->get_recordset('surveypro_answer', $whereparams, '', 'content');
                 $bigsum = 0;
                 foreach ($answers as $answer) {
                     $xi = (double)$answer->content;
@@ -447,15 +543,18 @@ class report_colles extends mod_surveypro_reportbase {
         // end of: calculate the mean and the standard deviation of answers
     }
 
-    /*
+    /**
      * output_questionsdata
+     *
+     * @param int $area
+     * @return none
      */
     public function output_questionsdata($area=false) {
         $paramnexturl = array();
         $paramnexturl['s'] = $this->surveypro->id;
         $paramnexturl['type'] = 'summary';
         // $paramnexturl['group'] = 0;
-        $nexturl = new moodle_url('view.php', $paramnexturl);
+        $nexturl = new moodle_url('/mod/surveypro/report/colles/view.php', $paramnexturl);
 
         $paramurl = array();
         $paramurl['id'] = $this->cm->id;
@@ -463,25 +562,27 @@ class report_colles extends mod_surveypro_reportbase {
         $paramurl['type'] = 'questions';
 
         if ($area === false) {
-            $areabegin = 0;
-            $areaend = 6;
+            $areas = array(0, 1, 2, 3, 4, 5);
         } else {
-            $areabegin = $area;
-            $areaend = $area + 1;
+            $areas = array($area);
         }
 
-        for ($area = $areabegin; $area < $areaend; $area++) { // 1..6 or just one $area
+        foreach ($areas as $area) {
             $paramurl['area'] = $area;
             for ($qid = 0; $qid < 4; $qid++) { // 0..3
                 $paramurl['qid'] = $qid;
-                $graphurl = new moodle_url('graph.php', $paramurl);
+                $graphurl = new moodle_url('/mod/surveypro/report/colles/graph.php', $paramurl);
                 $this->output_html($nexturl, $graphurl, 'questionsreport');
             }
         }
     }
 
-    /*
+    /**
      * fetch_questionsdata
+     *
+     * @param int $area
+     * @param int $qid
+     * @return none
      */
     public function fetch_questionsdata($area=false, $qid=false) {
         global $DB;
@@ -499,7 +600,7 @@ class report_colles extends mod_surveypro_reportbase {
 
         // options (label of answers)
         $itemid = $qid1area[$area][$qid]; // one of the itemid of the surveypro (the first)
-        $item = surveypro_get_item($itemid, SURVEYPRO_TYPEFIELD, 'radiobutton');
+        $item = surveypro_get_item($itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem); // was static 'radiobutton'
         $this->xlabels = $item->item_get_content_array(SURVEYPRO_LABELS, 'options');
         // end of: options (label of answers)
 

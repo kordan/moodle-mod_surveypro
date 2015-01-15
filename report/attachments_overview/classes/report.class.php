@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Defines the version of surveypro autofill subplugin
  *
  * This code fragment is called by moodle_needs_upgrading() and
@@ -22,7 +22,7 @@
  *
  * @package    surveyproreport
  * @subpackage count
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -31,41 +31,34 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir.'/tablelib.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/reportbase.class.php');
 
-class report_attachments_overview extends mod_surveypro_reportbase {
-    /*
-     * coursecontext
-     */
-    public $coursecontext = null;
-
-    /*
+class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase {
+    /**
      * outputtable
      */
     public $outputtable = null;
 
-    /*
-     * Class constructor
+    /**
+     * report_apply
+     *
+     * @param none
+     * @return none
      */
-    public function __construct($cm, $surveypro) {
-        parent::__construct($cm, $surveypro);
-
-        $this->setup_outputtable();
-    }
-
-    /*
-     * does_report_apply
-     */
-    public function does_report_apply() {
+    public function report_apply() {
         return (!$this->surveypro->anonymous);
     }
 
-    /*
+    /**
      * setup_outputtable
+     *
+     * @param none
+     * @return none
      */
     public function setup_outputtable() {
         $this->outputtable = new flexible_table('attachmentslist');
 
-        $paramurl = array('id' => $this->cm->id);
-        $this->outputtable->define_baseurl(new moodle_url('view.php', $paramurl));
+        $paramurl = array('id' => $this->cm->id, 'cover' => 0);
+        $baseurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
+        $this->outputtable->define_baseurl($baseurl);
 
         $tablecolumns = array();
         $tablecolumns[] = 'picture';
@@ -101,13 +94,16 @@ class report_attachments_overview extends mod_surveypro_reportbase {
         $this->outputtable->setup();
     }
 
-    /*
+    /**
      * fetch_data
+     *
+     * @param none
+     * @return none
      */
     public function fetch_data() {
         global $CFG, $DB, $COURSE, $OUTPUT;
 
-        $roles = get_roles_used_in_context($this->coursecontext);
+        $roles = get_roles_used_in_context($this->context);
         if (!$role = array_keys($roles)) {
             // return nothing
             return;
@@ -121,18 +117,18 @@ class report_attachments_overview extends mod_surveypro_reportbase {
                 FROM {user} u
                 JOIN (SELECT id, userid
                         FROM {role_assignments}
-                        WHERE contextid = '.$this->coursecontext->id.'
+                        WHERE contextid = '.$this->context->id.'
                           AND roleid IN ('.implode(',', $role).')) ra ON u.id = ra.userid
                 LEFT JOIN (SELECT id, userid
                          FROM {surveypro_submission}
                          WHERE surveyproid = :surveyproid) s ON u.id = s.userid';
         $whereparams = array('surveyproid' => $this->surveypro->id);
 
-		list($where, $filterparams) = $this->outputtable->get_sql_where();
-		if ($where) {
-		    $sql .= ' WHERE '.$where;
+        list($where, $filterparams) = $this->outputtable->get_sql_where();
+        if ($where) {
+            $sql .= ' WHERE '.$where;
             $whereparams = array_merge($whereparams,  $filterparams);
-		}
+        }
 
         if ($this->outputtable->get_sql_sort()) {
             $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort().', submissionid ASC';
@@ -148,7 +144,7 @@ class report_attachments_overview extends mod_surveypro_reportbase {
             $tablerow[] = $OUTPUT->user_picture($usersubmission, array('courseid' => $COURSE->id));
 
             // user fullname
-            $paramurl = array('id' => $usersubmission->id);
+            $paramurl = array('id' => $usersubmission->id, 'cover' => 0);
             $url = new moodle_url('/user/view.php', $paramurl);
             $tablerow[] = '<a href="'.$url->out().'">'.fullname($usersubmission).'</a>';
 
@@ -171,8 +167,11 @@ class report_attachments_overview extends mod_surveypro_reportbase {
         $usersubmissions->close();
     }
 
-    /*
+    /**
      * output_data
+     *
+     * @param none
+     * @return none
      */
     public function output_data() {
         global $OUTPUT;
@@ -181,8 +180,11 @@ class report_attachments_overview extends mod_surveypro_reportbase {
         $this->outputtable->print_html();
     }
 
-    /*
+    /**
      * check_attachmentitems
+     *
+     * @param none
+     * @return none
      */
     public function check_attachmentitems() {
         global $OUTPUT, $DB;
@@ -203,8 +205,11 @@ class report_attachments_overview extends mod_surveypro_reportbase {
         }
     }
 
-    /*
-     * check_attachmentitems
+    /**
+     * prevent_direct_user_input
+     *
+     * @param none
+     * @return none
      */
     public function prevent_direct_user_input() {
         if ($this->surveypro->anonymous) {

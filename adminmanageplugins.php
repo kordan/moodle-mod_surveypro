@@ -14,11 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Allows the admin to manage surveypro plugins
  *
- * @package    mod_assign
- * @copyright 2012 NetSpot {@link http://www.netspot.com.au}
+ * @package    mod_surveypro
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -26,7 +26,7 @@ require_once(dirname(__FILE__) . '/../../config.php');
 require_once($CFG->dirroot.'/mod/surveypro/adminlib.php');
 
 // Create the class for this controller.
-$pluginmanager = new surveypro_plugin_manager(required_param('subtype', PARAM_PLUGIN));
+$pluginmanager = new mod_surveypro_plugin_manager(required_param('subtype', PARAM_PLUGIN));
 
 $PAGE->set_context(context_system::instance());
 

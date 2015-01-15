@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -29,11 +26,20 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
 
-class surveypro_applymtemplateform extends moodleform {
+class mod_surveypro_applymtemplateform extends moodleform {
 
+    /*
+     * definition
+     *
+     * @param none
+     * @return none
+     */
     public function definition() {
-
+        // ----------------------------------------
         $mform = $this->_form;
+
+        // ----------------------------------------
+        // get _customdata
         $cmid = $this->_customdata->cmid;
         $surveypro = $this->_customdata->surveypro;
         $inline = $this->_customdata->inline;
@@ -50,7 +56,7 @@ class surveypro_applymtemplateform extends moodleform {
         }
 
         // ----------------------------------------
-        // applymtemplate::mastertemplate
+        // applymtemplate: mastertemplate
         // ----------------------------------------
         $fieldname = 'mastertemplate';
         if (count($mtemplates)) {
@@ -73,14 +79,21 @@ class surveypro_applymtemplateform extends moodleform {
             $mform->addElement('static', 'nomtemplates', get_string('mastertemplate', 'surveypro'), get_string('nomtemplates_message', 'surveypro'));
             $mform->addHelpButton('nomtemplates', 'nomtemplates', 'surveypro');
         }
-
     }
 
+    /*
+     * validation
+     *
+     * @param $data
+     * @param $files
+     * @return $errors
+     */
     public function validation($data, $files) {
         global $USER, $CFG;
 
         $mform = $this->_form;
 
+        // ----------------------------------------
         $cmid = $this->_customdata->cmid;
         $surveypro = $this->_customdata->surveypro;
         $mtemplateman = $this->_customdata->mtemplateman;
@@ -92,9 +105,14 @@ class surveypro_applymtemplateform extends moodleform {
         $templatepath = $CFG->dirroot.'/mod/surveypro/template/'.$templatename.'/template.xml';
         $xml = file_get_contents($templatepath);
         // $xml = @new SimpleXMLElement($templatecontent);
-        if (!$mtemplateman->validate_xml($xml)) {
-            $errors['mastertemplate'] = get_string('invalidtemplate', 'surveypro', $templatename);
-            return $errors;
+        $errormessage = $mtemplateman->validate_xml($xml);
+        if ($errormessage !== false) {
+            $addendum = get_string('mastertemplateaddendum', 'surveypro');
+            if (isset($errormessage->a)) {
+                $errors['mastertemplate'] = get_string($errormessage->key, 'surveypro', $errormessage->a).$addendum;
+            } else {
+                $errors['mastertemplate'] = get_string($errormessage->key, 'surveypro').$addendum;
+            }
         }
 
         return $errors;

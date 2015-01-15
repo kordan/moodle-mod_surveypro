@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Defines the version of surveypro autofill subplugin
  *
  * This code fragment is called by moodle_needs_upgrading() and
@@ -22,7 +22,7 @@
  *
  * @package    surveyproreport
  * @subpackage count
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -52,6 +52,8 @@ require_capability('mod/surveypro:accessreports', $context);
 // -----------------------------
 $url = new moodle_url('/mod/surveypro/report/count/view.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
@@ -64,9 +66,8 @@ $moduletab = SURVEYPRO_TABSUBMISSIONS; // needed by tabs.php
 $modulepage = SURVEYPRO_SUBMISSION_REPORT; // needed by tabs.php
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
-$hassubmissions = surveypro_count_submissions($surveypro->id);
-$reportman = new report_count($cm, $surveypro);
-$reportman->setup($hassubmissions);
+$reportman = new mod_surveypro_report_count($cm, $context, $surveypro);
+$reportman->setup_outputtable();
 
 $reportman->check_submissions();
 $reportman->fetch_data();

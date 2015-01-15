@@ -14,14 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Internal library of functions for module surveypro
  *
  * All the surveypro specific functions, needed to implement the module
  * logic, should go here. Never include this file from your lib.php!
  *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -29,40 +29,51 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/surveypro/lib.php');
 
-/*
+/**
  * surveypro_get_item
- * @param $itemid, $type, $plugin
- * @return
+ *
+ * @param $itemid
+ * @param $type
+ * @param $plugin
+ * @param optional $evaluateparentcontent
+ * @return $item
  */
-function surveypro_get_item($itemid, $type='', $plugin='', $evaluateparentcontent=true) {
-    global $CFG, $DB;
+function surveypro_get_item($itemid=0, $type='', $plugin='', $evaluateparentcontent=false) {
+    global $CFG, $DB, $PAGE;
+
+    $cm = $PAGE->cm;
 
     if (empty($type) || empty($plugin)) {
+        if (empty($itemid)) {
+            debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected empty($itemid)', DEBUG_DEVELOPER);
+        }
         $itemseed = $DB->get_record('surveypro_item', array('id' => $itemid), 'type, plugin', MUST_EXIST);
         $type = $itemseed->type;
         $plugin = $itemseed->plugin;
     }
 
     require_once($CFG->dirroot.'/mod/surveypro/'.$type.'/'.$plugin.'/plugin.class.php');
-    $classname = 'surveypro'.$type.'_'.$plugin;
-    $item = new $classname($itemid, $evaluateparentcontent);
+    $itemclassname = 'mod_surveypro_'.$type.'_'.$plugin;
+    $item = new $itemclassname($cm, $itemid, $evaluateparentcontent);
 
     return $item;
 }
 
-/*
+/**
  * surveypro_non_empty_only
+ *
  * @param $arrayelement
- * @return
+ * @return int length of the array element
  */
 function surveypro_non_empty_only($arrayelement) {
     return strlen(trim($arrayelement)); // returns 0 if the array element is empty
 }
 
-/*
+/**
  * surveypro_textarea_to_array
+ *
  * @param $textareacontent
- * @return
+ * @return $arraytextarea
  */
 function surveypro_textarea_to_array($textareacontent) {
 
@@ -76,19 +87,21 @@ function surveypro_textarea_to_array($textareacontent) {
     return $arraytextarea;
 }
 
-/*
+/**
  * surveypro_need_group_filtering
  * this function answer the question: do I Need to filter group in my next task?
- * @param
  *
- * @return
+ * @param $cm
+ * @param $context
+ * @return $filtergroups
  */
 function surveypro_need_group_filtering($cm, $context) {
-    global $COURSE;
+    global $COURSE, $USER;
 
     // do I need to filter groups?
     $groupmode = groups_get_activity_groupmode($cm, $COURSE);
-    $mygroups = surveypro_get_my_groups_simple();
+    $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $cm->groupingid);
+    $mygroups = array_keys($mygroups);
 
     $filtergroups = true;
     $filtergroups = $filtergroups && ($groupmode == SEPARATEGROUPS);
@@ -98,9 +111,12 @@ function surveypro_need_group_filtering($cm, $context) {
     return $filtergroups;
 }
 
-/*
+/**
  * surveypro_fixlength
- * @param
+ *
+ * @param $plainstring
+ * @param optional $maxlength
+ * @param $plainstring
  *
  * @return
  */
@@ -115,50 +131,26 @@ function surveypro_fixlength($plainstring, $maxlength=60) {
     return $plainstring;
 }
 
-/*
- * surveypro_get_my_groups_simple
- * this function is simpler and less resource asking than the core groups_get_my_groups();
- * I really don't need all the infos returned by the core function
- *
- * @param $userid: the user you want to know his/her groups
- *
- * @return: an array with the list of the group the user belongs to
- */
-function surveypro_get_my_groups_simple($userid=0) {
-    global $DB, $USER;
-
-    if (empty($userid)) {
-        $userid = $USER->id;
-    }
-
-    $mygroups = $DB->get_records('groups_members', array('userid' => $userid), 'groupid', 'groupid');
-    return array_keys($mygroups);
-}
-
-/*
+/**
  * surveypro_groupmates
- * @param $userid: the user you want to know his/her groupmates
  *
+ * @param $cm: the course module
+ * @param optional $userid: the user you want to know his/her groupmates
  * @return: an array with the list of groupmates of the user
  */
-function surveypro_groupmates($userid=0) {
-    global $DB, $USER;
+function surveypro_groupmates($cm, $userid=0) {
+    global $COURSE, $USER;
 
     if (empty($userid)) {
         $userid = $USER->id;
     }
 
-    if ($mygroups = surveypro_get_my_groups_simple($userid)) {
-        $sql = 'SELECT DISTINCT gm.userid
-            FROM {groups_members} gm
-                JOIN {groups} g ON gm.groupid = g.id
-            WHERE g.id IN ('.implode(',', $mygroups).')
-            ORDER BY gm.userid ASC';
-
-        $groupmates = $DB->get_records_sql($sql);
-
-        return array_keys($groupmates);
-    } else  {
-        return array();
+    $groupusers = array();
+    if ($currentgroups = groups_get_all_groups($COURSE->id, $USER->id, $cm->groupingid)) {
+        foreach ($currentgroups as $currentgroup) {
+            $groupusers += groups_get_members($currentgroup->id, 'u.id');
+        }
     }
+
+    return array_keys($groupusers);
 }

@@ -14,12 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
- * Strings for component 'field_numeric', language 'en', branch 'MOODLE_20_STABLE'
+/**
+ * Strings for component 'field_numeric', language 'en', branch 'MOODLE_28_STABLE'
  *
  * @package    surveypro
  * @subpackage numeric
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -46,15 +46,13 @@ $string['lowerequaltoupper'] = 'Lower and upper bounds need to be different';
 $string['number'] = 'Number ';
 $string['outofexternalrangedefault'] = 'Default does not fall within the specified range (see "{$a}" help)';
 $string['outofrangedefault'] = 'Default does not fall within the specified range';
-$string['parentcontent_isnotanumber'] = 'Parent content is not a number';
-$string['parentformatdecimal'] = '[12345{$a}67]';
 $string['pluginname'] = 'Numeric';
 $string['restriction_hasdecimals'] = 'has {$a} decimal positions required';
 $string['restriction_hassign'] = 'can be negative';
 $string['restriction_isinteger'] = 'is supposed to be an integer';
-$string['restriction_lower'] = 'has to be greater-equal than {$a}';
-$string['restriction_lowerupper'] = 'is supposed to fit between {$a->lowerbound} and {$a->upperbound}';
-$string['restriction_upper'] = 'has to be lower-equal than {$a}';
+$string['restriction_lower'] = 'Answer is supposed  be greater-equal than {$a}';
+$string['restriction_lowerupper'] = 'Answer is supposed to fit between {$a->lowerbound} and {$a->upperbound}';
+$string['restriction_upper'] = 'Answer is supposed be lower-equal than {$a}';
 $string['restriction_upperlower'] = 'is supposed to be lower-equal than {$a->lowerbound} or greater-equal than {$a->upperbound}';
 $string['signed_help'] = 'Is the expected number supposed to be signed?';
 $string['signed'] = 'Signed value';

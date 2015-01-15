@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -31,22 +28,29 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 require_once($CFG->dirroot.'/mod/surveypro/forms/items/itembase_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/field/autofill/lib.php');
 
-class surveypro_pluginform extends mod_surveypro_itembaseform {
+class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
 
+    /*
+     * definition
+     *
+     * @param none
+     * @return none
+     */
     public function definition() {
         // ----------------------------------------
         // I close with the common section of the form
         parent::definition();
 
         // ----------------------------------------
+        $mform = $this->_form;
+
+        // ----------------------------------------
+        // get _customdata
         // $item = $this->_customdata->item;
         $surveypro = $this->_customdata->surveypro;
 
         // ----------------------------------------
-        $mform = $this->_form;
-
-        // ----------------------------------------
-        // item::contentelement$i
+        // item: contentelement$i
         // ----------------------------------------
         $options = surveypro_autofill_get_elements($surveypro->id);
         for ($i = 1; $i < 6; $i++) {
@@ -67,7 +71,7 @@ class surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addRule('element01_group', get_string('required'), 'required', null, 'client');
 
         // ----------------------------------------
-        // item::hiddenfield
+        // item: hiddenfield
         // ----------------------------------------
         $fieldname = 'hiddenfield';
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveyprofield_autofill'));
@@ -77,6 +81,13 @@ class surveypro_pluginform extends mod_surveypro_itembaseform {
         $this->add_item_buttons();
     }
 
+    /*
+     * validation
+     *
+     * @param $data
+     * @param $files
+     * @return $errors
+     */
     public function validation($data, $files) {
         // ----------------------------------------
         // $item = $this->_customdata->item;

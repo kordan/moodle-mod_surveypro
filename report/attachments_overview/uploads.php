@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Prints a particular instance of surveypro
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -63,8 +60,11 @@ if (count($parts) == 2) {
 // calculations
 // -----------------------------
 $context = context_module::instance($cm->id);
-$uploadsformman = new mod_surveyproreport_uploadformmanager($cm, $context, $surveypro, $userid, $itemid, $submissionid);
+$uploadsformman = new mod_surveypro_report_uploadformmanager($cm, $context, $surveypro);
 $uploadsformman->prevent_direct_user_input();
+$uploadsformman->set_userid($userid);
+$uploadsformman->set_itemid($itemid);
+$uploadsformman->set_submissionid($submissionid);
 
 // -----------------------------
 // define $filterform return url
@@ -85,14 +85,15 @@ $formparams->canaccessadvanceditems = $uploadsformman->canaccessadvanceditems; /
 // end of: prepare params for the form
 // -----------------------------
 
-$filterform = new mod_surveyproreport_filterform($formurl, $formparams, 'post', '', array('id' => 'userentry'));
-
+$filterform = new mod_surveypro_report_filterform($formurl, $formparams, 'post', '', array('id' => 'userentry'));
 
 // -----------------------------
 // output starts here
 // -----------------------------
 $url = new moodle_url('/mod/surveypro/report/attachments_overview/view.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 

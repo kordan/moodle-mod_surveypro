@@ -14,69 +14,67 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-/*
+/**
  * The base class representing a field
  */
 class mod_surveypro_exportmanager {
-    /*
+    /**
      * $cm
      */
     public $cm = null;
 
-    /*
+    /**
      * $context
      */
     public $context = null;
 
-    /*
+    /**
      * $surveypro: the record of this surveypro
      */
     public $surveypro = null;
 
-    /*
+    /**
      * $canseeownsubmissions
      */
     // public $canseeownsubmissions = true;
 
-    /*
+    /**
      * $canseeotherssubmissions
      */
     public $canseeotherssubmissions = false;
 
-    /*
+    /**
      * $formdata: the form content as submitted by the user
      */
     public $formdata = null;
 
-    /*
+    /**
      * Class constructor
      */
-    public function __construct($cm, $surveypro) {
+    public function __construct($cm, $context, $surveypro) {
         $this->cm = $cm;
-        $this->context = context_module::instance($cm->id);
+        $this->context = $context;
         $this->surveypro = $surveypro;
 
         // $this->canseeownsubmissions = true;
         $this->canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
     }
 
-    /*
+    /**
      * trigger_event
      *
-     * @return void
+     * @param none
+     * @return none
      */
     public function trigger_event() {
         $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
@@ -84,16 +82,18 @@ class mod_surveypro_exportmanager {
         $event->trigger();
     }
 
-    /*
+    /**
      * get_export_sql
      *
+     * @param optional $forceuserid
      * @return
      */
     public function get_export_sql($forceuserid=false) {
         global $USER, $COURSE;
 
         if ($groupmode = groups_get_activity_groupmode($this->cm, $COURSE)) {
-            $mygroups = surveypro_get_my_groups_simple($userid);
+            $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $this->cm->groupingid);
+            $mygroups = array_keys($mygroups);
         }
 
         $sql = 'SELECT s.id as submissionid, s.status, s.timecreated, s.timemodified, ';
@@ -161,9 +161,10 @@ class mod_surveypro_exportmanager {
         return array($sql, $whereparams);
     }
 
-    /*
+    /**
      * surveypro_export
      *
+     * @param none
      * @return exporterror
      */
     public function surveypro_export() {
@@ -237,8 +238,8 @@ class mod_surveypro_exportmanager {
             // echo '$placeholders:';
             // var_dump($placeholders);
 
-            // get user group (to filter surveypro to download) ???? TODO: NEVER USED ????
-            // $mygroups = surveypro_get_my_groups_simple();
+            // get user groups (to filter surveypro to download) ???? TODO: NEVER USED ????
+            // $mygroups = groups_get_all_groups($course->id, $USER->id, $this->cm->groupingid);
 
             $oldsubmissionid = 0;
             $strnever = get_string('never');
@@ -283,13 +284,13 @@ class mod_surveypro_exportmanager {
         }
     }
 
-    /*
+    /**
      * export_print_header
      *
      * I am forced to query, once more, the database to get the header of the fiel to export because:
      * -> richsubmission is not reliable as it may omit some item
      * -> the load of the item object is more resource expensive than a single simple query
-
+     *
      * @param $itemseeds
      * @param $worksheet
      * @return
@@ -322,7 +323,7 @@ class mod_surveypro_exportmanager {
         }
     }
 
-    /*
+    /**
      * export_close_record
      *
      * @param $recordtoexport
@@ -345,7 +346,7 @@ class mod_surveypro_exportmanager {
         }
     }
 
-    /*
+    /**
      * decode_content
      *
      * @param $richsubmission
@@ -366,9 +367,10 @@ class mod_surveypro_exportmanager {
         return $return;
     }
 
-    /*
+    /**
      * attachments_downloadbyuser
      *
+     * @param none
      * @return
      */
     public function attachments_downloadbyuser() {
@@ -474,9 +476,10 @@ class mod_surveypro_exportmanager {
         $this->makezip_available($exportfile);
     }
 
-    /*
+    /**
      * attachments_downloadbyitem
      *
+     * @param none
      * @return
      */
     public function attachments_downloadbyitem() {
@@ -585,7 +588,7 @@ class mod_surveypro_exportmanager {
         $this->makezip_available($exportfile);
     }
 
-    /*
+    /**
      * makezip_available
      *
      * @param $exportfile: the file to make available

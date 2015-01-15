@@ -4,7 +4,7 @@
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
-    <TABLE NAME="surveypro" COMMENT="All surveypros activities">
+    <TABLE NAME="surveypro" COMMENT="All surveypro activities">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
@@ -36,7 +36,7 @@
         <KEY NAME="course" TYPE="foreign" FIELDS="course" REFTABLE="course" REFFIELDS="id"/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="surveypro_item" COMMENT="Survey items (items == fields + formats)">
+    <TABLE NAME="surveypro_item" COMMENT="Surveypro items (items == fields + formats)">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="surveyproid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>

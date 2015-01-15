@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Prints a particular instance of surveypro
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -58,12 +55,16 @@ require_capability('mod/surveypro:saveusertemplates', $context);
 // -----------------------------
 // calculations
 // -----------------------------
-$utemplateman = new mod_surveypro_usertemplate($cm, $surveypro, $context, $utemplateid, $action, $view, $confirm);
+$utemplateman = new mod_surveypro_usertemplate($cm, $context, $surveypro);
+$utemplateman->set_utemplateid($utemplateid);
+$utemplateman->set_action($action);
+$utemplateman->set_view($view);
+$utemplateman->set_confirm($confirm);
 
 // -----------------------------
 // define $createutemplate return url
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('utemplates_create.php', $paramurl);
+$formurl = new moodle_url('/mod/surveypro/utemplates_create.php', $paramurl);
 // end of: define $createutemplate return url
 // -----------------------------
 
@@ -73,19 +74,19 @@ $formparams = new stdClass();
 $formparams->cmid = $cm->id;
 $formparams->surveypro = $surveypro;
 $formparams->utemplateman = $utemplateman;
-$createutemplate = new surveypro_utemplatecreateform($formurl, $formparams);
+$createutemplate = new mod_surveypro_utemplatecreateform($formurl, $formparams);
 // end of: prepare params for the form
 // -----------------------------
 
 // -----------------------------
 // manage form submission
 if ($utemplateman->formdata = $createutemplate->get_data()) {
-    $utemplateman->save_utemplate();
+    $utemplateman->generate_utemplate();
     $utemplateman->trigger_event('usertemplate_saved');
 
     $paramurl = array();
     $paramurl['s'] = $surveypro->id;
-    $redirecturl = new moodle_url('utemplates_manage.php', $paramurl);
+    $redirecturl = new moodle_url('/mod/surveypro/utemplates_manage.php', $paramurl);
     redirect($redirecturl);
 }
 // end of: manage form submission
@@ -96,6 +97,8 @@ if ($utemplateman->formdata = $createutemplate->get_data()) {
 // -----------------------------
 $url = new moodle_url('/mod/surveypro/utemplates_create.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 

@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Prints a particular instance of surveypro
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -69,18 +66,18 @@ require_capability('mod/surveypro:manageitems', $context);
 // -----------------------------
 
 // -----------------------------
-// the form showing the drop down menu with the list of mater templates
+// the form showing the drop down menu with the list of master templates
 $itemcount = $DB->count_records('surveypro_item', array('surveyproid' => $surveypro->id));
 if (!$itemcount) {
     require_once($CFG->dirroot.'/mod/surveypro/classes/mtemplate.class.php');
     require_once($CFG->dirroot.'/mod/surveypro/forms/mtemplates/apply_form.php');
 
-    $mtemplateman = new mod_surveypro_mastertemplate($surveypro, $context);
+    $mtemplateman = new mod_surveypro_mastertemplate($cm, $context, $surveypro);
 
     // -----------------------------
     // define $applymtemplate return url
     $paramurl = array('id' => $cm->id);
-    $formurl = new moodle_url('mtemplates_apply.php', $paramurl);
+    $formurl = new moodle_url('/mod/surveypro/mtemplates_apply.php', $paramurl);
     // end of: define $applymtemplate return url
     // -----------------------------
 
@@ -92,14 +89,14 @@ if (!$itemcount) {
     $formparams->mtemplateman = $mtemplateman;
     $formparams->inline = true;
 
-    $applymtemplate = new surveypro_applymtemplateform($formurl, $formparams);
+    $applymtemplate = new mod_surveypro_applymtemplateform($formurl, $formparams);
     // end of: prepare params for the form
     // -----------------------------
 
     // -----------------------------
     // manage form submission
     if ($applymtemplate->is_cancelled()) {
-        $returnurl = new moodle_url('utemplates_add.php', $paramurl);
+        $returnurl = new moodle_url('/mod/surveypro/utemplates_add.php', $paramurl);
         redirect($returnurl);
     }
 
@@ -109,12 +106,14 @@ if (!$itemcount) {
     // end of: manage form submission
     // -----------------------------
 }
-// end of: the form showing the drop down menu with the list of mater templates
+// end of: the form showing the drop down menu with the list of master templates
 // -----------------------------
 
 // -----------------------------
 // the form showing the drop down menu with the list of items
-$itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro, $type, $plugin);
+$itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro);
+$itemlistman->set_type($type);
+$itemlistman->set_plugin($plugin);
 $itemlistman->set_itemid($itemid);
 $itemlistman->set_action($action);
 $itemlistman->set_view($view);
@@ -134,6 +133,8 @@ $itemlistman->drop_multilang();
 // -----------------------------
 $url = new moodle_url('/mod/surveypro/items_manage.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
@@ -154,7 +155,7 @@ if ($itemlistman->hassubmissions) {
     echo $OUTPUT->notification(get_string('hassubmissions_alert', 'surveypro'), 'notifymessage');
 }
 
-// add Master templates selection form
+// add master templates selection form
 if (!$itemcount) {
     $message = get_string('beginfromscratch', 'surveypro');
     echo $OUTPUT->box($message, 'generaltable generalbox boxaligncenter boxwidthnormal');
@@ -169,9 +170,9 @@ if (!$itemlistman->surveypro->template) {
     if (!$itemlistman->hassubmissions || $riskyediting) {
         if (has_capability('mod/surveypro:additems', $context)) {
             $paramurl = array('id' => $cm->id);
-            $formurl = new moodle_url('items_setup.php', $paramurl);
+            $formurl = new moodle_url('/mod/surveypro/items_setup.php', $paramurl);
 
-            $itemtype = new surveypro_itemtypeform($formurl);
+            $itemtype = new mod_surveypro_itemtypeform($formurl);
             $itemtype->display();
         }
     }

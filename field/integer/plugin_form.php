@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -31,26 +28,33 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 require_once($CFG->dirroot.'/mod/surveypro/forms/items/itembase_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/field/integer/lib.php');
 
-class surveypro_pluginform extends mod_surveypro_itembaseform {
+class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
 
+    /*
+     * definition
+     *
+     * @param none
+     * @return none
+     */
     public function definition() {
         // ----------------------------------------
         // start with common section of the form
         parent::definition();
 
         // ----------------------------------------
-        // $item = $this->_customdata->item;
-        // $surveypro = $this->_customdata->surveypro;
+        $mform = $this->_form;
 
         // ----------------------------------------
-        $mform = $this->_form;
+        // get _customdata
+        // $item = $this->_customdata->item;
+        // $surveypro = $this->_customdata->surveypro;
 
         // ----------------------------------------
         $maximuminteger = get_config('surveyprofield_integer', 'maximuminteger');
         $integers = array_combine(range(0, $maximuminteger), range(0, $maximuminteger));
 
         // ----------------------------------------
-        // item::defaultoption
+        // item: defaultoption
         // ----------------------------------------
         $fieldname = 'defaultoption';
         $elementgroup = array();
@@ -63,7 +67,7 @@ class surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_integer');
 
         // ----------------------------------------
-        // item::defaultvalue
+        // item: defaultvalue
         // ----------------------------------------
         $fieldname = 'defaultvalue';
         $mform->addElement('select', $fieldname, null, $integers);
@@ -76,7 +80,7 @@ class surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addElement('header', $fieldname, get_string($fieldname, 'surveypro'));
 
         // ----------------------------------------
-        // item::lowerbound
+        // item: lowerbound
         // ----------------------------------------
         $fieldname = 'lowerbound';
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_integer'), $integers);
@@ -84,7 +88,7 @@ class surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_integer');
 
         // ----------------------------------------
-        // item::upperbound
+        // item: upperbound
         // ----------------------------------------
         $fieldname = 'upperbound';
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_integer'), $integers);
@@ -94,6 +98,13 @@ class surveypro_pluginform extends mod_surveypro_itembaseform {
         $this->add_item_buttons();
     }
 
+    /*
+     * validation
+     *
+     * @param $data
+     * @param $files
+     * @return $errors
+     */
     public function validation($data, $files) {
         // ----------------------------------------
         // $item = $this->_customdata->item;

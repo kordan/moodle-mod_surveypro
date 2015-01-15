@@ -14,16 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Keeps track of upgrades to the surveyproitem character
  *
  * @package    surveyprofield
  * @subpackage character
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/*
+/**
  * Performs upgrade of the database structure and data
  *
  * @param int $oldversion the version we are upgrading from
@@ -33,12 +33,6 @@ function xmldb_surveyprofield_character_upgrade($oldversion) {
     global $DB;
 
     $dbman = $DB->get_manager();
-
-    if ($oldversion < 2014021401) {
-
-        // Survey savepoint reached.
-        // upgrade_plugin_savepoint(true, 2014021401, 'surveyprofield', 'character');
-    }
 
     if ($oldversion < 2014051701) {
 

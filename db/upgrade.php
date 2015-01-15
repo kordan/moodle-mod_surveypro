@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This file keeps track of upgrades to the surveypro module
  *
  * Sometimes, changes between versions involve alterations to database
@@ -25,13 +25,13 @@
  * here will all be database-neutral, using the functions defined in DLL libraries.
  *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-/*
+/**
  * xmldb_surveypro_upgrade
  *
  * @param int $oldversion
@@ -41,12 +41,6 @@ function xmldb_surveypro_upgrade($oldversion) {
     global $DB;
 
     $dbman = $DB->get_manager();
-
-    if ($oldversion < 2013090501) {
-
-        // Survey savepoint reached.
-        // upgrade_mod_savepoint(true, 2013090501, 'surveypro');
-    }
 
     if ($oldversion < 2014051901) {
 

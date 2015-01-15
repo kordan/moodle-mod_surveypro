@@ -19,7 +19,7 @@
  *
  * @package    mod_surveypro
  * @category   test
- * @copyright  2014 Daniele Cordella
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,14 +30,6 @@ require_once(__DIR__ . '/../../../../lib/behat/behat_base.php');
 use Behat\Behat\Context\Step\Given as Given,
     Behat\Mink\Exception\ExpectationException as ExpectationException;
 
-/**
- * Surveypro-related steps definitions.
- *
- * @package    mod_surveypro
- * @category   test
- * @copyright  2014 Daniele Cordella
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 class behat_mod_surveypro extends behat_base {
 
     /**
@@ -60,6 +52,7 @@ class behat_mod_surveypro extends behat_base {
      * @Then /^I should see "(?P<given_number>\d+)" submissions displayed$/
      *
      * @param integer $givennumber The supposed count of $locator
+     * @return
      */
     public function i_should_see_submissions($givennumber) {
         // Getting the container where the text should be found.

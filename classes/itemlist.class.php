@@ -14,126 +14,116 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-/*
+/**
  * The base class representing a field
  */
 class mod_surveypro_itemlist {
-    /*
+    /**
      * $cm
      */
     public $cm = null;
 
-    /*
+    /**
      * $context
      */
     public $context = null;
 
-    /*
+    /**
      * $surveypro: the record of this surveypro
      */
     public $surveypro = null;
 
-    /*
+    /**
      * $type
      */
     public $type = '';
 
-    /*
+    /**
      * $plugin
      */
     public $plugin = '';
 
-    /*
+    /**
      * $itemid
      */
     public $itemid = 0;
 
-    /*
+    /**
      * $action
      */
     public $action = SURVEYPRO_NOACTION;
 
-    /*
+    /**
      * $action
      */
-    public $view = SURVEYPRO_SUBMITRESPONSE;
+    public $view = SURVEYPRO_NEWRESPONSE;
 
-    /*
+    /**
      * $itemtomove
      */
     public $itemtomove = 0;
 
-    /*
+    /**
      * $lastitembefore
      */
     public $lastitembefore = 0;
 
-    /*
+    /**
      * $confirm
      */
     public $confirm = SURVEYPRO_UNCONFIRMED;
 
-    /*
+    /**
      * $nextindent
      */
     public $nextindent = 0;
 
-    /*
+    /**
      * $parentid
      */
     public $parentid = 0;
 
-    /*
+    /**
      * $userfeedback
      */
     public $userfeedback = SURVEYPRO_NOFEEDBACK;
 
-    /*
+    /**
      * $saveasnew
      */
     public $saveasnew = 0;
 
-    /*
+    /**
      * $hassubmissions
      */
     public $hassubmissions = null;
 
-    /*
+    /**
      * Class constructor
      */
-    public function __construct($cm, $context, $surveypro, $type, $plugin) {
+    public function __construct($cm, $context, $surveypro) {
         $this->cm = $cm;
         $this->context = $context;
         $this->surveypro = $surveypro;
-        if (preg_match('~^('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_(\w+)$~', $plugin, $match)) {
-            // execution comes from /forms/items/selectitem_form.php
-            $this->type = $match[1]; // field or format
-            $this->plugin = $match[2]; // boolean or char ... or fieldset ...
-        } else {
-            // execution comes from /forms/items/items_manage.php
-            $this->type = $type;
-            $this->plugin = $plugin;
-        }
+
         $this->hassubmissions = surveypro_count_submissions($surveypro->id, SURVEYPRO_STATUSALL);
     }
 
-    /*
+    /**
      * drop_multilang
      *
-     * @return void
+     * @param none
+     * @return none
      */
     public function drop_multilang() {
         if ($this->surveypro->template) {
@@ -144,10 +134,11 @@ class mod_surveypro_itemlist {
         }
     }
 
-    /*
+    /**
      * trigger_event
      *
-     * @return void
+     * @param $itemcount
+     * @return none
      */
     public function trigger_event($itemcount) {
         if (!empty($itemcount)) {
@@ -157,9 +148,10 @@ class mod_surveypro_itemlist {
         }
     }
 
-    /*
+    /**
      * manage_actions
      *
+     * @param none
      * @return
      */
     public function manage_actions() {
@@ -215,9 +207,10 @@ class mod_surveypro_itemlist {
         }
     }
 
-    /*
+    /**
      * manage_items
      *
+     * @param none
      * @return
      */
     public function manage_items() {
@@ -230,7 +223,8 @@ class mod_surveypro_itemlist {
         $table = new flexible_table('itemslist');
 
         $paramurl = array('id' => $this->cm->id);
-        $table->define_baseurl(new moodle_url('items_manage.php', $paramurl));
+        $baseurl = new moodle_url('/mod/surveypro/items_manage.php', $paramurl);
+        $table->define_baseurl($baseurl);
 
         $tablecolumns = array();
         $tablecolumns[] = 'plugin';
@@ -299,7 +293,6 @@ class mod_surveypro_itemlist {
         $hidetitle = get_string('hidefield', 'surveypro');
         $showtitle = get_string('showfield', 'surveypro');
         $deletetitle = get_string('delete');
-        $multilangtitle = get_string('multilang', 'surveypro');
         $indenttitle = get_string('indent', 'surveypro');
         $moveheretitle = get_string('movehere');
         $namenotset = get_string('namenotset', 'surveypro');
@@ -328,7 +321,7 @@ class mod_surveypro_itemlist {
             $paramurl['lib'] = 0; // move just after this sortindex (lib == last item before)
             $paramurl['sesskey'] = sesskey();
 
-            $icons = $OUTPUT->action_icon(new moodle_url('items_manage.php', $paramurl),
+            $icons = $OUTPUT->action_icon(new moodle_url('/mod/surveypro/items_manage.php', $paramurl),
                 new pix_icon('movehere', $moveheretitle, 'moodle', array('title' => $moveheretitle)),
                 null, array('id' => 'moveafter_0', 'title' => $moveheretitle));
 
@@ -342,7 +335,7 @@ class mod_surveypro_itemlist {
         }
 
         foreach ($itemseeds as $itemseed) {
-            $item = surveypro_get_item($itemseed->itemid, $itemseed->type, $itemseed->plugin);
+            $item = surveypro_get_item($itemseed->itemid, $itemseed->type, $itemseed->plugin, true);
 
             // -----------------------------
             // $paramurlbase definition
@@ -436,9 +429,9 @@ class mod_surveypro_itemlist {
                         $paramurl['act'] = SURVEYPRO_MAKELIMITED;
                         $paramurl['sesskey'] = sesskey();
 
-                        $icons = $OUTPUT->action_icon(new moodle_url('items_manage.php', $paramurl),
+                        $icons = $OUTPUT->action_icon(new moodle_url('/mod/surveypro/items_manage.php', $paramurl),
                             new pix_icon('all', $message, 'surveypro', array('title' => $message)),
-                            null, array('id' => 'limitaccess_'.$item->itemid, 'title' => $message));
+                            null, array('id' => 'limitaccess_item_'.$item->sortindex, 'title' => $message));
                     } else {
                         $icons = $OUTPUT->pix_icon('all', $message, 'surveypro', array('title' => $message, 'class' => 'smallicon'));
                     }
@@ -448,9 +441,9 @@ class mod_surveypro_itemlist {
                     $paramurl['act'] = SURVEYPRO_MAKEFORALL;
                     $paramurl['sesskey'] = sesskey();
 
-                    $icons = $OUTPUT->action_icon(new moodle_url('items_manage.php', $paramurl),
+                    $icons = $OUTPUT->action_icon(new moodle_url('/mod/surveypro/items_manage.php', $paramurl),
                         new pix_icon('limited', $message, 'surveypro', array('title' => $message)),
-                        null, array('id' => 'widenaccess_'.$item->itemid, 'title' => $message));
+                        null, array('id' => 'increaseaccess_item_'.$item->sortindex, 'title' => $message));
                 }
 
                 // second icon: insearchform vs not insearchform
@@ -460,9 +453,9 @@ class mod_surveypro_itemlist {
                     $paramurl['act'] = SURVEYPRO_OUTOFSEARCH;
                     $paramurl['sesskey'] = sesskey();
 
-                    $icons .= $OUTPUT->action_icon(new moodle_url('items_manage.php', $paramurl),
+                    $icons .= $OUTPUT->action_icon(new moodle_url('/mod/surveypro/items_manage.php', $paramurl),
                         new pix_icon('insearch', $message, 'surveypro', array('title' => $message)),
-                        null, array('id' => 'removesearch_'.$item->itemid, 'title' => $message));
+                        null, array('id' => 'removesearch_item_'.$item->sortindex, 'title' => $message));
                 } else {
                     $message = get_string('notinsearchform', 'surveypro');
                     if ($item->get_isinitemform('insearchform')) {
@@ -470,9 +463,9 @@ class mod_surveypro_itemlist {
                         $paramurl['act'] = SURVEYPRO_ADDTOSEARCH;
                         $paramurl['sesskey'] = sesskey();
 
-                        $icons .= $OUTPUT->action_icon(new moodle_url('items_manage.php', $paramurl),
+                        $icons .= $OUTPUT->action_icon(new moodle_url('/mod/surveypro/items_manage.php', $paramurl),
                             new pix_icon('absent', $message, 'surveypro', array('title' => $message)),
-                            null, array('id' => 'addsearch_'.$item->itemid, 'title' => $message));
+                            null, array('id' => 'addtosearch_item_'.$item->sortindex, 'title' => $message));
                     } else {
                         $icons .= $OUTPUT->pix_icon('absent', $message, 'surveypro', array('title' => $message, 'class' => 'smallicon'));
                     }
@@ -487,17 +480,17 @@ class mod_surveypro_itemlist {
                     $icopath = 't/show';
                     $paramurl['act'] = SURVEYPRO_SHOWITEM;
                     $message = $showtitle;
-                    $linkidprefix = 'hide';
+                    $linkidprefix = 'show_item_';
                 } else {
                     $icopath = 't/hide';
                     $paramurl['act'] = SURVEYPRO_HIDEITEM;
                     $message = $hidetitle;
-                    $linkidprefix = 'show';
+                    $linkidprefix = 'hide_item_';
                 }
 
-                $icons .= $OUTPUT->action_icon(new moodle_url('items_manage.php', $paramurl),
+                $icons .= $OUTPUT->action_icon(new moodle_url('/mod/surveypro/items_manage.php', $paramurl),
                     new pix_icon($icopath, $message, 'moodle', array('title' => $message)),
-                    null, array('id' => $linkidprefix.'_'.$item->itemid, 'title' => $message));
+                    null, array('id' => $linkidprefix.$item->sortindex, 'title' => $message));
             }
             $tablerow[] = $icons;
 
@@ -509,9 +502,9 @@ class mod_surveypro_itemlist {
                 $paramurl = $paramurlbase;
                 $paramurl['view'] = SURVEYPRO_EDITITEM;
 
-                $icons .= $OUTPUT->action_icon(new moodle_url('items_setup.php', $paramurl),
+                $icons .= $OUTPUT->action_icon(new moodle_url('/mod/surveypro/items_setup.php', $paramurl),
                     new pix_icon('t/edit', $edittitle, 'moodle', array('title' => $edittitle)),
-                    null, array('id' => 'edit_'.$item->itemid, 'title' => $edittitle));
+                    null, array('id' => 'edit_item_'.$item->sortindex, 'title' => $edittitle));
 
                 // SURVEYPRO_CHANGEORDERASK
                 if (!empty($drawmovearrow)) {
@@ -524,9 +517,9 @@ class mod_surveypro_itemlist {
                         $paramurl['pid'] = $currentparentid;
                     }
 
-                    $icons .= $OUTPUT->action_icon(new moodle_url('items_manage.php', $paramurl),
+                    $icons .= $OUTPUT->action_icon(new moodle_url('/mod/surveypro/items_manage.php', $paramurl),
                         new pix_icon('t/move', $edittitle, 'moodle', array('title' => $edittitle)),
-                        null, array('id' => 'move_'.$item->itemid, 'title' => $edittitle));
+                        null, array('id' => 'move_item_'.$item->sortindex, 'title' => $edittitle));
                 }
 
                 // SURVEYPRO_DELETEITEM
@@ -535,9 +528,9 @@ class mod_surveypro_itemlist {
                     $paramurl['act'] = SURVEYPRO_DELETEITEM;
                     $paramurl['sesskey'] = sesskey();
 
-                    $icons .= $OUTPUT->action_icon(new moodle_url('items_manage.php', $paramurl),
+                    $icons .= $OUTPUT->action_icon(new moodle_url('/mod/surveypro/items_manage.php', $paramurl),
                         new pix_icon('t/delete', $deletetitle, 'moodle', array('title' => $deletetitle)),
-                        null, array('id' => 'delete_'.$item->itemid, 'title' => $deletetitle));
+                        null, array('id' => 'delete_item_'.$item->sortindex, 'title' => $deletetitle));
                 }
 
                 // SURVEYPRO_REQUIRED ON/OFF
@@ -546,17 +539,17 @@ class mod_surveypro_itemlist {
                     $paramurl = $paramurlbase;
                     $paramurl['sesskey'] = sesskey();
 
-                    if ($item->get_required()) {
+                    if ($currentrequired) {
                         $icopath = 'red';
                         $paramurl['act'] = SURVEYPRO_REQUIREDOFF;
                         $message = $optionaltitle;
-                        $linkidprefix = 'makeoptional';
+                        $linkidprefix = 'makeoptional_item_';
                     } else {
                         if ($item->item_mandatory_is_allowed()) {
                             $icopath = 'green';
                             $paramurl['act'] = SURVEYPRO_REQUIREDON;
                             $message = $requiredtitle;
-                            $linkidprefix = 'makemandatory';
+                            $linkidprefix = 'makemandatory_item_';
                         } else {
                             $icopath = 'greenlock';
                             $message = $onlyoptionaltitle;
@@ -566,9 +559,9 @@ class mod_surveypro_itemlist {
                     if ($icopath == 'greenlock') {
                         $icons .= $OUTPUT->pix_icon($icopath, $message, 'surveypro', array('title' => $message, 'class' => 'icon'));
                     } else {
-                        $icons .= $OUTPUT->action_icon(new moodle_url('items_manage.php', $paramurl),
+                        $icons .= $OUTPUT->action_icon(new moodle_url('/mod/surveypro/items_manage.php', $paramurl),
                             new pix_icon($icopath, $message, 'surveypro', array('title' => $message)),
-                            null, array('id' => $linkidprefix.'_'.$item->itemid, 'title' => $message));
+                            null, array('id' => $linkidprefix.$item->sortindex, 'title' => $message));
                     }
                 }
 
@@ -583,18 +576,18 @@ class mod_surveypro_itemlist {
                         $indentvalue = $item->get_indent() - 1;
                         $paramurl['ind'] = $indentvalue;
 
-                        $icons .= $OUTPUT->action_icon(new moodle_url('items_manage.php', $paramurl),
+                        $icons .= $OUTPUT->action_icon(new moodle_url('/mod/surveypro/items_manage.php', $paramurl),
                             new pix_icon('t/left', $indenttitle, 'moodle', array('title' => $indenttitle)),
-                            null, array('id' => 'reduceindent_'.$item->itemid, 'title' => $indenttitle));
+                            null, array('id' => 'reduceindent_item_'.$item->sortindex, 'title' => $indenttitle));
                     }
                     $icons .= '&nbsp;['.$item->get_indent().']';
                     if ($item->get_indent() < 9) {
                         $indentvalue = $item->get_indent() + 1;
                         $paramurl['ind'] = $indentvalue;
 
-                        $icons .= $OUTPUT->action_icon(new moodle_url('items_manage.php', $paramurl),
+                        $icons .= $OUTPUT->action_icon(new moodle_url('/mod/surveypro/items_manage.php', $paramurl),
                             new pix_icon('t/right', $indenttitle, 'moodle', array('title' => $indenttitle)),
-                            null, array('id' => 'increaseindent_'.$item->itemid, 'title' => $indenttitle));
+                            null, array('id' => 'increaseindent_item_'.$item->sortindex, 'title' => $indenttitle));
                     }
                 }
             } else {
@@ -609,7 +602,7 @@ class mod_surveypro_itemlist {
             // print_object($item);
             if ($this->view == SURVEYPRO_CHANGEORDERASK) {
                 // It was asked to move the item with:
-                // $this->itemid e $this->parentid
+                // $this->itemid and $this->parentid
                 if ($this->parentid) { // <-- this is the parentid of the item that I am going to move
                     // if a parentid is foreseen
                     // draw the moveherebox only if the current (already displayed) item has: $item->itemid == $this->parentid
@@ -629,9 +622,9 @@ class mod_surveypro_itemlist {
                     $paramurl['lib'] = $item->get_sortindex();
                     $paramurl['sesskey'] = sesskey();
 
-                    $icons = $OUTPUT->action_icon(new moodle_url('items_manage.php', $paramurl),
+                    $icons = $OUTPUT->action_icon(new moodle_url('/mod/surveypro/items_manage.php', $paramurl),
                         new pix_icon('movehere', $moveheretitle, 'moodle', array('title' => $moveheretitle)),
-                        null, array('id' => 'moveafter_'.$paramurl['lib'], 'title' => $moveheretitle));
+                        null, array('id' => 'move_item_'.$item->sortindex, 'title' => $moveheretitle));
 
                     $tablerow = array();
                     $tablerow[] = $icons;
@@ -647,8 +640,9 @@ class mod_surveypro_itemlist {
         $table->print_html();
     }
 
-    /*
+    /**
      * add_child_node
+     *
      * @param &$nodelist
      * @param &$sortindexnodelist
      * @param $additionalcondition
@@ -663,7 +657,7 @@ class mod_surveypro_itemlist {
         }
 
         $i = count($nodelist);
-        $itemid = $nodelist[$i-1];
+        $itemid = $nodelist[$i - 1];
         $where = array('parentid' => $itemid) + $additionalcondition;
         if ($childitems = $DB->get_records('surveypro_item', $where, 'sortindex', 'id, sortindex')) {
             foreach ($childitems as $childitem) {
@@ -674,8 +668,9 @@ class mod_surveypro_itemlist {
         }
     }
 
-    /*
+    /**
      * add_parent_node
+     *
      * @param $additionalcondition
      * @return
      */
@@ -705,9 +700,10 @@ class mod_surveypro_itemlist {
         return array($nodelist, $sortindexnodelist);
     }
 
-    /*
+    /**
      * manage_item_hide
      *
+     * @param none
      * @return
      */
     public function manage_item_hide() {
@@ -736,12 +732,12 @@ class mod_surveypro_itemlist {
                 $optionsyes['itemid'] = $this->itemid;
                 $optionsyes['plugin'] = $this->plugin;
                 $optionsyes['type'] = $this->type;
-                $urlyes = new moodle_url('items_manage.php', $optionsyes);
+                $urlyes = new moodle_url('/mod/surveypro/items_manage.php', $optionsyes);
                 $buttonyes = new single_button($urlyes, get_string('confirmitemstohide', 'surveypro'));
 
                 $optionsno = $optionbase;
                 $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-                $urlno = new moodle_url('items_manage.php', $optionsno);
+                $urlno = new moodle_url('/mod/surveypro/items_manage.php', $optionsno);
                 $buttonno = new single_button($urlno, get_string('no'));
 
                 echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
@@ -772,9 +768,10 @@ class mod_surveypro_itemlist {
         return $itemstoprocess; // did you do something?
     }
 
-    /*
+    /**
      * manage_item_show
      *
+     * @param none
      * @return
      */
     public function manage_item_show() {
@@ -800,12 +797,12 @@ class mod_surveypro_itemlist {
                 $optionsyes['itemid'] = $this->itemid;
                 $optionsyes['plugin'] = $this->plugin;
                 $optionsyes['type'] = $this->type;
-                $urlyes = new moodle_url('items_manage.php', $optionsyes);
+                $urlyes = new moodle_url('/mod/surveypro/items_manage.php', $optionsyes);
                 $buttonyes = new single_button($urlyes, get_string('confirmitemstoshow', 'surveypro'));
 
                 $optionsno = $optionbase;
                 $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-                $urlno = new moodle_url('items_manage.php', $optionsno);
+                $urlno = new moodle_url('/mod/surveypro/items_manage.php', $optionsno);
                 $buttonno = new single_button($urlno, get_string('no'));
 
                 echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
@@ -836,12 +833,14 @@ class mod_surveypro_itemlist {
         return $itemstoprocess; // did you do something?
     }
 
-    /*
+    /**
      * manage_item_makeadvanced
      *
      * the idea is: in a chain of parent-child items,
      *     -> items available to each user (standard items) can be parent of item available to each user such as item with limited access (advanced)
      *     -> item with limited access (advanced) can ONLY BE parent of items with limited access (advanced)
+     *
+     * @param none
      * @return
      */
     public function manage_item_makeadvanced() {
@@ -870,12 +869,12 @@ class mod_surveypro_itemlist {
                 $optionsyes['itemid'] = $this->itemid;
                 $optionsyes['plugin'] = $this->plugin;
                 $optionsyes['type'] = $this->type;
-                $urlyes = new moodle_url('items_manage.php', $optionsyes);
+                $urlyes = new moodle_url('/mod/surveypro/items_manage.php', $optionsyes);
                 $buttonyes = new single_button($urlyes, get_string('confirmitemstoadvanced', 'surveypro'));
 
                 $optionsno = $optionbase;
                 $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-                $urlno = new moodle_url('items_manage.php', $optionsno);
+                $urlno = new moodle_url('/mod/surveypro/items_manage.php', $optionsno);
                 $buttonno = new single_button($urlno, get_string('no'));
 
                 echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
@@ -903,12 +902,14 @@ class mod_surveypro_itemlist {
                     debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->confirm = '.$this->confirm, DEBUG_DEVELOPER);
             }
         }
+
         return $itemstoprocess; // did you do something?
     }
 
-    /*
+    /**
      * manage_item_makestandard
      *
+     * @param none
      * @return
      */
     public function manage_item_makestandard() {
@@ -934,12 +935,12 @@ class mod_surveypro_itemlist {
                 $optionsyes['itemid'] = $this->itemid;
                 $optionsyes['plugin'] = $this->plugin;
                 $optionsyes['type'] = $this->type;
-                $urlyes = new moodle_url('items_manage.php', $optionsyes);
+                $urlyes = new moodle_url('/mod/surveypro/items_manage.php', $optionsyes);
                 $buttonyes = new single_button($urlyes, get_string('confirmitemstostandard', 'surveypro'));
 
                 $optionsno = $optionbase;
                 $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-                $urlno = new moodle_url('items_manage.php', $optionsno);
+                $urlno = new moodle_url('/mod/surveypro/items_manage.php', $optionsno);
                 $buttonno = new single_button($urlno, get_string('no'));
 
                 echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
@@ -970,9 +971,10 @@ class mod_surveypro_itemlist {
         return $itemstoprocess; // did you do something?
     }
 
-    /*
+    /**
      * manage_item_deletion
      *
+     * @param none
      * @return
      */
     public function manage_item_deletion() {
@@ -992,7 +994,7 @@ class mod_surveypro_itemlist {
             if ($childitems = $DB->get_records('surveypro_item', array('parentid' => $this->itemid), 'sortindex', 'sortindex')) { // sortindex is suposed to be a valid key
                 $childitems = array_keys($childitems);
                 $nodes = implode(', ', $childitems);
-                $message .= get_string('deletebreaklinks', 'surveypro', $nodes);
+                $message .= get_string('deletionbreakslinks', 'surveypro', $nodes);
                 $labelyes = get_string('confirmitemsdeletion', 'surveypro');
             } else {
                 $labelyes = get_string('yes');
@@ -1005,12 +1007,12 @@ class mod_surveypro_itemlist {
             $optionsyes['itemid'] = $this->itemid;
             $optionsyes['plugin'] = $this->plugin;
             $optionsyes['type'] = $this->type;
-            $urlyes = new moodle_url('items_manage.php', $optionsyes);
+            $urlyes = new moodle_url('/mod/surveypro/items_manage.php', $optionsyes);
             $buttonyes = new single_button($urlyes, $labelyes);
 
             $optionsno = $optionbase;
             $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-            $urlno = new moodle_url('items_manage.php', $optionsno);
+            $urlno = new moodle_url('/mod/surveypro/items_manage.php', $optionsno);
             $buttonno = new single_button($urlno, get_string('no'));
 
             echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
@@ -1019,7 +1021,7 @@ class mod_surveypro_itemlist {
         } else {
             switch ($this->confirm) {
                 case SURVEYPRO_CONFIRMED_YES:
-                    $maxsortindex = $DB->get_field('surveypro_item', 'MAX(sortindex)', array('surveyproid' => $this->cm->instance));
+                    // $maxsortindex = $DB->get_field('surveypro_item', 'MAX(sortindex)', array('surveyproid' => $this->cm->instance));
                     if ($childrenseeds = $DB->get_records('surveypro_item', array('parentid' => $this->itemid), 'id', 'id, type, plugin')) {
                         foreach ($childrenseeds as $childseed) {
                             $item = surveypro_get_item($childseed->id, $childseed->type, $childseed->plugin);
@@ -1041,9 +1043,10 @@ class mod_surveypro_itemlist {
                     $sql = 'SELECT id
                             FROM {surveypro_item}
                             WHERE surveyproid = :surveyproid
-                            AND sortindex > :killedsortindex
+                                AND sortindex > :killedsortindex
                             ORDER BY sortindex';
-                    $itemlist = $DB->get_recordset_sql($sql, array('surveyproid' => $this->surveypro->id, 'killedsortindex' => $killedsortindex));
+                    $whereparams = array('surveyproid' => $this->surveypro->id, 'killedsortindex' => $killedsortindex);
+                    $itemlist = $DB->get_recordset_sql($sql, $whereparams);
                     $currentsortindex = $killedsortindex;
                     foreach ($itemlist as $item) {
                         $DB->set_field('surveypro_item', 'sortindex', $currentsortindex, array('id' => $item->id));
@@ -1056,7 +1059,7 @@ class mod_surveypro_itemlist {
                     } else {
                         $message = get_string('itemdeleted', 'surveypro', $a);
                     }
-                    echo $OUTPUT->box($message, 'notice centerpara');
+                    echo $OUTPUT->notification($message, 'notifysuccess');
                     break;
                 case SURVEYPRO_CONFIRMED_NO:
                     $message = get_string('usercanceled', 'surveypro');
@@ -1068,9 +1071,10 @@ class mod_surveypro_itemlist {
         }
     }
 
-    /*
+    /**
      * manage_item_dropmultilang
      *
+     * @param none
      * @return
      */
     public function manage_item_dropmultilang() {
@@ -1084,12 +1088,12 @@ class mod_surveypro_itemlist {
 
             $optionsyes = $optionbase;
             $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
-            $urlyes = new moodle_url('items_manage.php', $optionsyes);
+            $urlyes = new moodle_url('/mod/surveypro/items_manage.php', $optionsyes);
             $buttonyes = new single_button($urlyes, get_string('yes'));
 
             $optionsno = $optionbase;
             $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-            $urlno = new moodle_url('items_manage.php', $optionsno);
+            $urlno = new moodle_url('/mod/surveypro/items_manage.php', $optionsno);
             $buttonno = new single_button($urlno, get_string('no'));
 
             echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
@@ -1137,12 +1141,12 @@ class mod_surveypro_itemlist {
                     $record->template = null;
                     $DB->update_record('surveypro', $record);
 
-                    $returnurl = new moodle_url('items_manage.php', array('id' => $this->cm->id));
+                    $returnurl = new moodle_url('/mod/surveypro/items_manage.php', array('id' => $this->cm->id));
                     redirect($returnurl);
                     break;
                 case SURVEYPRO_CONFIRMED_NO:
                     $paramurl = array('id' => $this->cm->id, 'view' => SURVEYPRO_PREVIEWSURVEYFORM);
-                    $returnurl = new moodle_url('view.php', $paramurl);
+                    $returnurl = new moodle_url('/mod/surveypro/view_userform.php', $paramurl);
                     redirect($returnurl);
                     break;
                 default:
@@ -1151,9 +1155,10 @@ class mod_surveypro_itemlist {
         }
     }
 
-    /*
+    /**
      * reorder_items
      *
+     * @param none
      * @return
      */
     public function reorder_items() {
@@ -1165,7 +1170,7 @@ class mod_surveypro_itemlist {
         // Am I moving it backward or forward?
         if ($this->itemtomove > $this->lastitembefore) {
             // moving the item backward
-            $searchitem = $this->itemtomove-1;
+            $searchitem = $this->itemtomove - 1;
             $replaceitem = $this->itemtomove;
 
             while ($searchitem > $this->lastitembefore) {
@@ -1177,7 +1182,7 @@ class mod_surveypro_itemlist {
             $DB->set_field('surveypro_item', 'sortindex', $replaceitem, array('surveyproid' => $this->surveypro->id, 'id' => $itemid));
         } else {
             // moving the item forward
-            $searchitem = $this->itemtomove+1;
+            $searchitem = $this->itemtomove + 1;
             $replaceitem = $this->itemtomove;
 
             while ($searchitem <= $this->lastitembefore) {
@@ -1194,9 +1199,10 @@ class mod_surveypro_itemlist {
         surveypro_reset_items_pages($this->surveypro->id);
     }
 
-    /*
-     * reorder_items
+    /**
+     * validate_relations
      *
+     * @param none
      * @return
      */
     public function validate_relations() {
@@ -1207,7 +1213,8 @@ class mod_surveypro_itemlist {
         $table = new flexible_table('itemslist');
 
         $paramurl = array('id' => $this->cm->id);
-        $table->define_baseurl(new moodle_url('items_validate.php', $paramurl));
+        $baseurl = new moodle_url('/mod/surveypro/items_validate.php', $paramurl);
+        $table->define_baseurl($baseurl);
 
         $tablecolumns = array();
         $tablecolumns[] = 'plugin';
@@ -1261,24 +1268,28 @@ class mod_surveypro_itemlist {
         // $table->set_attribute('width', '90%');
         $table->setup();
 
-
         $edittitle = get_string('edit');
         $okstring = get_string('ok');
 
-        $sql = 'SELECT si.*, si.id as itemid, si.plugin, si.type
-                FROM {surveypro_item} si
-                WHERE si.surveyproid = :surveyproid';
-        if ($table->get_sql_sort()) {
-            $sql .= ' ORDER BY '.$table->get_sql_sort();
-        } else {
-            $sql .= ' ORDER BY si.sortindex';
-        }
+        // Changed to a shorter version on September 25, 2014.
+        // Older version will be deleted as soon as the wew one will be checked.
+        // $sql = 'SELECT si.*, si.id as itemid, si.plugin, si.type
+        //         FROM {surveypro_item} si
+        //         WHERE si.surveyproid = :surveyproid';
+        // if ($table->get_sql_sort()) {
+        //     $sql .= ' ORDER BY '.$table->get_sql_sort();
+        // } else {
+        //     $sql .= ' ORDER BY si.sortindex';
+        // }
+        // $itemseeds = $DB->get_recordset_sql($sql, array('surveyproid' => $this->surveypro->id));
+        $whereparams = array('surveyproid' => $this->surveypro->id);
+        $sortfield = ($table->get_sql_sort()) ? $table->get_sql_sort() : 'sortindex';
+        $itemseeds = $DB->get_recordset('surveypro_item', $whereparams, $sortfield, 'id as itemid, plugin, type');
 
-        $itemseeds = $DB->get_recordset_sql($sql, array('surveyproid' => $this->surveypro->id));
         echo $OUTPUT->box(get_string('validationinfo', 'surveypro'));
 
         foreach ($itemseeds as $itemseed) {
-            $item = surveypro_get_item($itemseed->itemid, $itemseed->type, $itemseed->plugin);
+            $item = surveypro_get_item($itemseed->itemid, $itemseed->type, $itemseed->plugin, true);
             $currenthide = $item->get_hidden();
 
             if ($item->get_parentid()) {
@@ -1369,7 +1380,7 @@ class mod_surveypro_itemlist {
             $paramurl = $paramurlbase;
             $paramurl['view'] = SURVEYPRO_EDITITEM;
 
-            $icons = $OUTPUT->action_icon(new moodle_url('items_setup.php', $paramurl),
+            $icons = $OUTPUT->action_icon(new moodle_url('/mod/surveypro/items_setup.php', $paramurl),
                 new pix_icon('t/edit', $edittitle, 'moodle', array('title' => $edittitle)),
                 null, array('id' => 'edit_'.$item->itemid, 'title' => $edittitle));
 
@@ -1385,9 +1396,10 @@ class mod_surveypro_itemlist {
         $table->print_html();
     }
 
-    /*
+    /**
      * display_user_feedback
      *
+     * @param none
      * @return
      */
     public function display_user_feedback() {
@@ -1403,15 +1415,19 @@ class mod_surveypro_itemlist {
             $bit = $this->userfeedback & 1; // bitwise logic
             if ($bit) {
                 $message = get_string('itemeditok', 'surveypro');
+                $class = 'notifysuccess';
             } else {
                 $message = get_string('itemeditfail', 'surveypro');
+                $class = 'notifyproblem';
             }
         } else {    // add
             $bit = $this->userfeedback & 1; // bitwise logic
             if ($bit) {
                 $message = get_string('itemaddok', 'surveypro');
+                $class = 'notifysuccess';
             } else {
                 $message = get_string('itemaddfail', 'surveypro');
+                $class = 'notifyproblem';
             }
         }
 
@@ -1440,13 +1456,13 @@ class mod_surveypro_itemlist {
                     break;
             }
         }
-
-        echo $OUTPUT->box($message, 'notice centerpara');
+        echo $OUTPUT->notification($message, $class);
     }
 
-    /*
+    /**
      * item_welcome
      *
+     * @param none
      * @return
      */
     public function item_welcome() {
@@ -1462,9 +1478,10 @@ class mod_surveypro_itemlist {
         echo $OUTPUT->box($message);
     }
 
-    /*
+    /**
      * prevent_direct_user_input
      *
+     * @param none
      * @return null
      */
     public function prevent_direct_user_input() {
@@ -1475,101 +1492,137 @@ class mod_surveypro_itemlist {
 
     // MARK set
 
-    /*
+    /**
+     * set_typeplugin
+     *
+     * @param $typeplugin
+     * @return none
+     */
+    public function set_typeplugin($typeplugin) {
+        if (preg_match('~^('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_(\w+)$~', $typeplugin, $match)) {
+            // execution comes from /forms/items/selectitem_form.php
+            $this->type = $match[1]; // field or format
+            $this->plugin = $match[2]; // boolean or char ... or fieldset ...
+        } else {
+            debugging('Malformed typeplugin parameter passed to set_typeplugin', DEBUG_DEVELOPER);
+        }
+    }
+
+    /**
+     * set_type
+     *
+     * @param $type
+     * @return none
+     */
+    public function set_type($type) {
+        $this->type = $type;
+    }
+
+    /**
+     * set_plugin
+     *
+     * @param $plugin
+     * @return none
+     */
+    public function set_plugin($plugin) {
+        $this->plugin = $plugin;
+    }
+
+    /**
      * set_itemid
      *
      * @param string $itemid
-     * @return nothing
+     * @return none
      */
     public function set_itemid($itemid) {
         $this->itemid = $itemid;
     }
 
-    /*
+    /**
      * set_action
      *
      * @param string $action
-     * @return nothing
+     * @return none
      */
     public function set_action($action) {
         $this->action = $action;
     }
 
-    /*
+    /**
      * set_view
      *
      * @param string $view
-     * @return nothing
+     * @return none
      */
     public function set_view($view) {
         $this->view = $view;
     }
 
-    /*
+    /**
      * set_lastitembefore
      *
      * @param string $lastitembefore
-     * @return nothing
+     * @return none
      */
     public function set_lastitembefore($lastitembefore) {
         $this->lastitembefore = $lastitembefore;
     }
 
-    /*
+    /**
      * set_confirm
      *
      * @param string $confirm
-     * @return nothing
+     * @return none
      */
     public function set_confirm($confirm) {
         $this->confirm = $confirm;
     }
 
-    /*
+    /**
      * set_nextindent
      *
      * @param string $nextindent
-     * @return nothing
+     * @return none
      */
     public function set_nextindent($nextindent) {
         $this->nextindent = $nextindent;
     }
 
-    /*
+    /**
      * set_parentid
      *
      * @param string $parentid
-     * @return nothing
+     * @return none
      */
     public function set_parentid($parentid) {
         $this->parentid = $parentid;
     }
 
-    /*
+    /**
      * set_userfeedback
      *
      * @param string $userfeedback
-     * @return nothing
+     * @return none
      */
     public function set_userfeedback($userfeedback) {
         $this->userfeedback = $userfeedback;
     }
 
-    /*
+    /**
      * set_itemtomove
      *
      * @param string $itemtomove
-     * @return nothing
+     * @return none
      */
     public function set_itemtomove($itemtomove) {
         $this->itemtomove = $itemtomove;
     }
 
-    /*
+    /**
      * set_saveasnew
      *
      * @param string $saveasnew
-     * @return nothing
+     * @return none
      */
     public function set_saveasnew($saveasnew) {
         $this->saveasnew = $saveasnew;

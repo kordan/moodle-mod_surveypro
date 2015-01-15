@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -29,24 +26,33 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
 
-class surveypro_utemplatecreateform extends moodleform {
+class mod_surveypro_utemplatecreateform extends moodleform {
 
+    /*
+     * definition
+     *
+     * @param none
+     * @return none
+     */
     public function definition() {
+        // ----------------------------------------
         $mform = $this->_form;
 
+        // ----------------------------------------
+        // get _customdata
         $cmid = $this->_customdata->cmid;
         $surveypro = $this->_customdata->surveypro;
         $utemplateman = $this->_customdata->utemplateman;
 
         // ----------------------------------------
-        // utemplatecreate::surveyproid
+        // utemplatecreate: surveyproid
         // ----------------------------------------
         $fieldname = 'surveyproid';
         $mform->addElement('hidden', $fieldname, 0);
         $mform->setType($fieldname, PARAM_INT);
 
         // ----------------------------------------
-        // utemplatecreate::templatename
+        // utemplatecreate: templatename
         // ----------------------------------------
         $fieldname = 'templatename';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveypro'));
@@ -55,21 +61,21 @@ class surveypro_utemplatecreateform extends moodleform {
         $mform->setType($fieldname, PARAM_FILE); // templatename is going to be a file name
 
         // ----------------------------------------
-        // utemplatecreate::overwrite
+        // utemplatecreate: overwrite
         // ----------------------------------------
         $fieldname = 'overwrite';
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveypro'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // ----------------------------------------
-        // utemplatecreate::visiblesonly
+        // utemplatecreate: visiblesonly
         // ----------------------------------------
         $fieldname = 'visiblesonly';
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveypro'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // ----------------------------------------
-        // utemplatecreate::sharinglevel
+        // utemplatecreate: sharinglevel
         // ----------------------------------------
         $fieldname = 'sharinglevel';
         $options = array();
@@ -85,6 +91,12 @@ class surveypro_utemplatecreateform extends moodleform {
         $this->add_action_buttons(false, get_string('continue'));
     }
 
+    /*
+     * get_data
+     *
+     * @param none
+     * @return none
+     */
     public function get_data() {
         $data = parent::get_data();
         if (!$data) {
@@ -101,9 +113,17 @@ class surveypro_utemplatecreateform extends moodleform {
         return $data;
     }
 
+    /*
+     * validation
+     *
+     * @param $data
+     * @param $files
+     * @return $errors
+     */
     public function validation($data, $files) {
         $mform = $this->_form;
 
+        // ----------------------------------------
         $cmid = $this->_customdata->cmid;
         $surveypro = $this->_customdata->surveypro;
         $utemplateman = $this->_customdata->utemplateman;

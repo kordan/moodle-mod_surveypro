@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Prints a particular instance of surveypro
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -44,11 +41,12 @@ if (!empty($id)) {
 
 require_course_login($course, true, $cm);
 
+$typeplugin = optional_param('typeplugin', null, PARAM_TEXT);
 $type = optional_param('type', null, PARAM_TEXT);
 $plugin = optional_param('plugin', null, PARAM_TEXT);
 $itemid = optional_param('itemid', 0, PARAM_INT);
 $action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
-$view = optional_param('view', SURVEYPRO_SUBMITRESPONSE, PARAM_INT);
+$view = optional_param('view', SURVEYPRO_NEWRESPONSE, PARAM_INT);
 
 if ($action != SURVEYPRO_NOACTION) {
     require_sesskey();
@@ -60,7 +58,13 @@ require_capability('mod/surveypro:additems', $context);
 // -----------------------------
 // calculations
 // -----------------------------
-$itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro, $type, $plugin);
+$itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro);
+if (!empty($typeplugin)) {
+    $itemlistman->set_typeplugin($typeplugin);
+} else {
+    $itemlistman->set_type($type);
+    $itemlistman->set_plugin($plugin);
+}
 $itemlistman->set_itemid($itemid);
 $itemlistman->set_action($action);
 $itemlistman->set_view($view);
@@ -93,8 +97,7 @@ require_once($CFG->dirroot.'/mod/surveypro/'.$itemlistman->type.'/'.$itemlistman
 
 // -----------------------------
 // get item
-$itemclass = 'surveypro'.$itemlistman->type.'_'.$itemlistman->plugin;
-$item = new $itemclass($itemlistman->itemid, true);
+$item = surveypro_get_item($itemlistman->itemid, $itemlistman->type, $itemlistman->plugin, true);
 
 $item->item_set_editor();
 // end of: get item
@@ -103,7 +106,7 @@ $item->item_set_editor();
 // -----------------------------
 // define $itemform return url
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('items_setup.php', $paramurl);
+$formurl = new moodle_url('/mod/surveypro/items_setup.php', $paramurl);
 // end of: define $itemform return url
 // -----------------------------
 
@@ -112,14 +115,14 @@ $formurl = new moodle_url('items_setup.php', $paramurl);
 $formparams = new stdClass();
 $formparams->surveypro = $surveypro; // needed to setup date boundaries in date fields
 $formparams->item = $item; // needed in many situations
-$itemform = new surveypro_pluginform($formurl, $formparams);
+$itemform = new mod_surveypro_pluginform($formurl, $formparams);
 // end of: prepare params for the form
 // -----------------------------
 
 // -----------------------------
 // manage form submission
 if ($itemform->is_cancelled()) {
-    $returnurl = new moodle_url('items_manage.php', $paramurl);
+    $returnurl = new moodle_url('/mod/surveypro/items_manage.php', $paramurl);
     redirect($returnurl);
 }
 
@@ -137,7 +140,7 @@ if ($fromform = $itemform->get_data()) {
     $item->item_update_childrenparentvalue();
 
     $paramurl = array('id' => $cm->id, 'ufd' => $feedback);
-    $returnurl = new moodle_url('items_manage.php', $paramurl);
+    $returnurl = new moodle_url('/mod/surveypro/items_manage.php', $paramurl);
     redirect($returnurl);
 }
 // end of: manage form submission
@@ -146,9 +149,16 @@ if ($fromform = $itemform->get_data()) {
 // -----------------------------
 // output starts here
 // -----------------------------
-$PAGE->set_url('/mod/surveypro/items_setup.php', array('id' => $cm->id));
+$url = new moodle_url('/mod/surveypro/items_setup.php', array('id' => $cm->id));
+$PAGE->set_url($url);
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
+// $PAGE->requires->yui_module('moodle-core-formautosubmit',
+//     'M.core.init_formautosubmit',
+//     array(array('selectid' => 'type_plugin'), 'nothing' => true)
+// );
 
 echo $OUTPUT->header();
 

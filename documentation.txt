@@ -1,7 +1,7 @@
 documentazione surveypro
 What surveypro does
 
-Survey is a moodle module to create custom surveypro.
+Surveypro is a moodle module to create custom surveypro.
 Among custom surveypro fews set of world accepted templates are included like ATTLS, COLLES, CI.
 The main news of surveypro are that you have:
 • question branching
@@ -56,7 +56,7 @@ In the starting release of surveypro was crafted with:
 • 3 items of type "format"
 
 The 17 fields type are:
-• item type "integer" to ask for question like: "How old were you at you first access to narcotic"
+• item type "age" to ask for question like: "How old were you at you first access to narcotic"
 • item type "autofill" to autofill a field with infos from user, course, time, date or surveypro
 • item type "boolean" to ask for question like: "Is this true?"
 • item type "character" to ask for question like: "write down your email" or "enter your personal web site URL" or "enter the PIN code of your card"
@@ -74,8 +74,9 @@ The 17 fields type are:
 • item type "textarea" to ask for question like: "enter a small description of what you saw"
 • item type "time" to ask for question like: "At what time do you usually get breakfast?"
 
-The 3 format type are:
+The 4 format type are:
 • item type "fieldset" to group your question
+• item type "fieldsetend" to close an opened fieldset
 • item type "pagebreak"
 • item type "label" to display labels in the surveypro page
 

@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Defines the version of surveypro autofill subplugin
  *
  * This code fragment is called by moodle_needs_upgrading() and
@@ -22,7 +22,7 @@
  *
  * @package    surveyproreport
  * @subpackage count
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -31,29 +31,21 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir.'/tablelib.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/reportbase.class.php');
 
-class report_frequency extends mod_surveypro_reportbase {
-    /*
+class mod_surveypro_report_frequency extends mod_surveypro_reportbase {
+    /**
      * outputtable
      */
     public $outputtable = null;
 
-    /*
-     * setup
-     */
-    function setup($hassubmissions) {
-        $this->hassubmissions = $hassubmissions;
-
-        $this->setup_outputtable();
-    }
-
-    /*
+    /**
      * setup_outputtable
      */
     public function setup_outputtable() {
         $this->outputtable = new flexible_table('submissionslist');
 
-        $paramurl = array('id' => $this->cm->id, 'rname' => 'frequency');
-        $this->outputtable->define_baseurl(new moodle_url('view.php', $paramurl));
+        $paramurl = array('id' => $this->cm->id, 'rname' => 'frequency', 'cover' => 0);
+        $baseurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
+        $this->outputtable->define_baseurl($baseurl);
 
         $tablecolumns = array();
         $tablecolumns[] = 'answer';
@@ -89,7 +81,7 @@ class report_frequency extends mod_surveypro_reportbase {
         $this->outputtable->setup();
     }
 
-    /*
+    /**
      * stop_if_textareas_only
      */
     public function stop_if_textareas_only() {
@@ -105,11 +97,9 @@ class report_frequency extends mod_surveypro_reportbase {
         $params['plugin'] = 'textarea';
 
         $countfields = $DB->count_records_select('surveypro_item', $where, $params);
-
         if (!$countfields) {
-            $a = get_string('userfriendlypluginname', 'surveyprofield_textarea');
-            echo $OUTPUT->box(get_string('textareasarenotallowed', 'surveyproreport_frequency', $a));
-            $url = $CFG->wwwroot.'/mod/surveypro/view.php?s='.$this->surveypro->id;
+            echo $OUTPUT->box(get_string('textareasarenotallowed', 'surveyproreport_frequency'));
+            $url = new moodle_url('/mod/surveypro/view.php', array('s' => $this->surveypro->id, 'cover' => 0));
             echo $OUTPUT->continue_button($url);
             echo $OUTPUT->footer();
 
@@ -117,11 +107,12 @@ class report_frequency extends mod_surveypro_reportbase {
         }
     }
 
-    /*
+    /**
      * fetch_data
      *
      * @param int $itemid
      * @param int $submissionscount
+     * @return none
      */
     public function fetch_data($itemid, $submissionscount) {
         global $DB;
@@ -134,7 +125,7 @@ class report_frequency extends mod_surveypro_reportbase {
                 GROUP BY ud.content';
 
         if ($this->outputtable->get_sql_sort()) {
-            // $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort();
+            $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort();
         } else {
             $sql .= ' ORDER BY ud.content';
         }
@@ -161,13 +152,13 @@ class report_frequency extends mod_surveypro_reportbase {
             $counted += $answer->absolute;
 
             // percentage
-            $tablerow[] = number_format(100*$answer->absolute/$submissionscount, 2, $decimalseparator, ' ').'%';
+            $tablerow[] = number_format(100 * $answer->absolute / $submissionscount, 2, $decimalseparator, ' ').'%';
 
             // add row to the table
             $this->outputtable->add_data($tablerow);
         }
 
-        //each item may be unanswered because it was not allowed by its ancestors
+        // each item may be unanswered because it was not allowed by its ancestors
         if ($counted < $submissionscount) {
             $tablerow = array();
 
@@ -178,7 +169,7 @@ class report_frequency extends mod_surveypro_reportbase {
             $tablerow[] = ($submissionscount - $counted);
 
             // percentage
-            $tablerow[] = number_format(100*($submissionscount - $counted)/$submissionscount, 2, $decimalseparator, ' ').'%';
+            $tablerow[] = number_format(100 * ($submissionscount - $counted) / $submissionscount, 2, $decimalseparator, ' ').'%';
 
             // add row to the table
             $this->outputtable->add_data($tablerow);
@@ -187,10 +178,11 @@ class report_frequency extends mod_surveypro_reportbase {
         $answers->close();
     }
 
-    /*
+    /**
      * output_data
      *
      * @param string $url
+     * @return none
      */
     public function output_data($url) {
         global $OUTPUT;
@@ -202,8 +194,9 @@ class report_frequency extends mod_surveypro_reportbase {
         }
     }
 
-    /*
-     * @param string $url
+    /**
+     * @param string $graphurl
+     * @return none
      */
     public function print_graph($graphurl) {
         global $CFG;

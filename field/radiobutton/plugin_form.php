@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -31,22 +28,29 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 require_once($CFG->dirroot.'/mod/surveypro/forms/items/itembase_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/field/radiobutton/lib.php');
 
-class surveypro_pluginform extends mod_surveypro_itembaseform {
+class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
 
+    /*
+     * definition
+     *
+     * @param none
+     * @return none
+     */
     public function definition() {
         // ----------------------------------------
         // start with common section of the form
         parent::definition();
 
         // ----------------------------------------
+        $mform = $this->_form;
+
+        // ----------------------------------------
+        // get _customdata
         $item = $this->_customdata->item;
         // $surveypro = $this->_customdata->surveypro;
 
         // ----------------------------------------
-        $mform = $this->_form;
-
-        // ----------------------------------------
-        // item::options
+        // item: options
         // ----------------------------------------
         $fieldname = 'options';
         $mform->addElement('textarea', $fieldname, get_string($fieldname, 'surveyprofield_radiobutton'), array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65'));
@@ -55,7 +59,7 @@ class surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_RAW); // PARAM_RAW and not PARAM_TEXT otherwise '<' is not accepted
 
         // ----------------------------------------
-        // item::labelother
+        // item: labelother
         // ----------------------------------------
         $fieldname = 'labelother';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_radiobutton'), array('maxlength' => '64', 'size' => '50'));
@@ -63,7 +67,7 @@ class surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_TEXT);
 
         // ----------------------------------------
-        // item::defaultoption
+        // item: defaultoption
         // ----------------------------------------
         $fieldname = 'defaultoption';
         $elementgroup = array();
@@ -75,7 +79,7 @@ class surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_radiobutton');
 
         // ----------------------------------------
-        // item::defaultvalue
+        // item: defaultvalue
         // ----------------------------------------
         $fieldname = 'defaultvalue';
         $elementgroup = array();
@@ -84,7 +88,7 @@ class surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_RAW);
 
         // ----------------------------------------
-        // item::downloadformat
+        // item: downloadformat
         // ----------------------------------------
         $fieldname = 'downloadformat';
         $options = array(SURVEYPRO_ITEMSRETURNSVALUES => get_string('returnvalues', 'surveyprofield_radiobutton'),
@@ -96,10 +100,11 @@ class surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_INT);
 
         // ----------------------------------------
-        // item::adjustment
+        // item: adjustment
         // ----------------------------------------
         $fieldname = 'adjustment';
-        $options = array(SURVEYPRO_HORIZONTAL => get_string('horizontal', 'surveyprofield_radiobutton'), SURVEYPRO_VERTICAL => get_string('vertical', 'surveyprofield_radiobutton'));
+        $options = array(SURVEYPRO_HORIZONTAL => get_string('horizontal', 'surveyprofield_radiobutton'),
+                         SURVEYPRO_VERTICAL => get_string('vertical', 'surveyprofield_radiobutton'));
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_radiobutton'), $options);
         $mform->setDefault($fieldname, SURVEYPRO_VERTICAL);
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_radiobutton');
@@ -108,6 +113,13 @@ class surveypro_pluginform extends mod_surveypro_itembaseform {
         $this->add_item_buttons();
     }
 
+    /*
+     * validation
+     *
+     * @param $data
+     * @param $files
+     * @return $errors
+     */
     public function validation($data, $files) {
         // ----------------------------------------
         // $item = $this->_customdata->item;
@@ -148,7 +160,7 @@ class surveypro_pluginform extends mod_surveypro_itembaseform {
         // if (default == noanswer) but item is required => error
         if ( ($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required']) ) {
             $a = get_string('noanswer', 'surveypro');
-            $errors['defaultvalue_group'] = get_string('notalloweddefault', 'surveypro', $a);
+            $errors['defaultvalue'] = get_string('notalloweddefault', 'surveypro', $a);
         }
 
         if ($data['defaultoption'] == SURVEYPRO_CUSTOMDEFAULT) {

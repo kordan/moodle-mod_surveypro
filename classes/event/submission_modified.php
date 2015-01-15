@@ -14,11 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * mod_surveypro submission modified event.
  *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,7 +30,7 @@ require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php'
 require_once($CFG->dirroot.'/mod/surveypro/lib.php');
 
 class submission_modified extends \core\event\base {
-    /*
+    /**
      * Set basic properties for the event.
      */
     protected function init() {
@@ -39,7 +39,7 @@ class submission_modified extends \core\event\base {
         $this->data['objecttable'] = 'surveypro_submission';
     }
 
-    /*
+    /**
      * Return localised event name.
      *
      * @return string
@@ -48,7 +48,7 @@ class submission_modified extends \core\event\base {
         return get_string('event_submission_modified', 'mod_surveypro');
     }
 
-    /*
+    /**
      * Returns description of what happened.
      *
      * @return string
@@ -57,7 +57,7 @@ class submission_modified extends \core\event\base {
         return "User with id '{$this->userid}' has modified the submission with id '{$this->objectid}'.";
     }
 
-    /*
+    /**
      * Get URL related to the action.
      *
      * @return \moodle_url
@@ -67,11 +67,10 @@ class submission_modified extends \core\event\base {
         $paramurl['id'] = $this->contextinstanceid;
         $paramurl['submissionid'] = $this->objectid;
         $paramurl['view'] = $this->other['view'];
-        $paramurl['cvp'] = $this->other['cvp'];
-        return new \moodle_url('view.php', $paramurl);
+        return new \moodle_url('/mod/surveypro/view_userform.php', $paramurl);
     }
 
-    /*
+    /**
      * Return legacy data for add_to_log().
      *
      * @return array
@@ -82,7 +81,7 @@ class submission_modified extends \core\event\base {
             $this->get_url(), $this->objectid, $this->contextinstanceid);
     }
 
-    /*
+    /**
      * Return the legacy event name.
      *
      * @return string
@@ -104,5 +103,17 @@ class submission_modified extends \core\event\base {
         $data->id = $this->objectid;
         $data->userid = $this->relateduserid;
         return $data; */
+    }
+
+    /**
+     * Custom validation.
+     *
+     * @throws \coding_exception
+     * @return none
+     */
+    protected function validate_data() {
+        if (!isset($this->other['view'])) {
+            throw new \coding_exception('view is a mandatory property.');
+        }
     }
 }

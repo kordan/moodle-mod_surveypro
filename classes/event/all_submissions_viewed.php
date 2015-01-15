@@ -14,11 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * mod_surveypro all submissions viewed event.
  *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,7 +30,7 @@ require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php'
 require_once($CFG->dirroot.'/mod/surveypro/lib.php');
 
 class all_submissions_viewed extends \core\event\base {
-    /*
+    /**
      * Set basic properties for the event.
      */
     protected function init() {
@@ -39,7 +39,7 @@ class all_submissions_viewed extends \core\event\base {
         $this->data['objecttable'] = 'surveypro_submission';
     }
 
-    /*
+    /**
      * Return localised event name.
      *
      * @return string
@@ -48,25 +48,28 @@ class all_submissions_viewed extends \core\event\base {
         return get_string('event_all_submissions_viewed', 'mod_surveypro');
     }
 
-    /*
+    /**
      * Returns description of what happened.
      *
      * @return string
      */
     public function get_description() {
-        return "User with id '{$this->userid}' has vewed all the submissions.";
+        return "User with id '{$this->userid}' has viewed all the submissions.";
     }
 
-    /*
+    /**
      * Get URL related to the action.
      *
      * @return \moodle_url
      */
     public function get_url() {
-        return new \moodle_url('view_manage.php', array('id' => $this->contextinstanceid));
+        $paramurl = array();
+        $paramurl['id'] = $this->contextinstanceid;
+        $paramurl['cover'] = $this->other['cover'];
+        return new \moodle_url('/mod/surveypro/view.php', $paramurl);
     }
 
-    /*
+    /**
      * Return legacy data for add_to_log().
      *
      * @return array
@@ -77,7 +80,7 @@ class all_submissions_viewed extends \core\event\base {
             $this->get_url(), $this->objectid, $this->contextinstanceid);
     }
 
-    /*
+    /**
      * Return the legacy event name.
      *
      * @return string
@@ -99,5 +102,17 @@ class all_submissions_viewed extends \core\event\base {
         $data->id = $this->objectid;
         $data->userid = $this->relateduserid;
         return $data; */
+    }
+
+    /**
+     * Custom validation.
+     *
+     * @throws \coding_exception
+     * @return none
+     */
+    protected function validate_data() {
+        if (!isset($this->other['cover'])) {
+            throw new \coding_exception('cover is a mandatory property.');
+        }
     }
 }

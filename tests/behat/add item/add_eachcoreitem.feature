@@ -5,27 +5,27 @@ Feature: verify each core item can be added to a survey
   I add each core item to a survey
 
   @javascript
-  Scenario: add some items
+  Scenario: add each core item
     Given the following "courses" exist:
-      | fullname | shortname | category | groupmode |
-      | Course 1 | C1        | 0        | 0         |
+      | fullname           | shortname     | category | groupmode |
+      | Add each core item | Add each item | 0        | 0         |
     And the following "users" exist:
-      | username | firstname | lastname | email            |
-      | teacher1 | Teacher   | 1        | teacher1@asd.com |
+      | username | firstname | lastname | email                |
+      | teacher1 | Teacher   | 1        | teacher1@nowhere.net |
     And the following "course enrolments" exist:
-      | user     | course | role           |
-      | teacher1 | C1     | editingteacher |
+      | user     | course        | role           |
+      | teacher1 | Add each item | editingteacher |
     And I log in as "teacher1"
-    And I follow "Course 1"
+    And I follow "Add each core item"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-      | Survey name | Add each core item                        |
-      | Description | This is a surveypro to add each core item |
-    And I follow "Add each core item"
+      | Surveypro name | Surveypro test                            |
+      | Description    | This is a surveypro to add each core item |
+    And I follow "Surveypro test"
 
     # #############
     # add an item using the 1st plugin
-    And I set the field "plugin" to "Age [yy/mm]"
+    And I set the field "typeplugin" to "Age [yy/mm]"
     And I press "Add"
 
     And I expand all fieldsets
@@ -43,7 +43,7 @@ Feature: verify each core item can be added to a survey
 
     # #############
     # add an item using the 2nd plugin
-    And I set the field "plugin" to "Attachment"
+    And I set the field "typeplugin" to "Attachment"
     And I press "Add"
 
     And I expand all fieldsets
@@ -58,7 +58,7 @@ Feature: verify each core item can be added to a survey
 
     # #############
     # add an item using the 3rd plugin
-    And I set the field "plugin" to "Autofill"
+    And I set the field "typeplugin" to "Autofill"
     And I press "Add"
 
     And I expand all fieldsets
@@ -72,7 +72,7 @@ Feature: verify each core item can be added to a survey
 
     # #############
     # add an item using the 4th plugin
-    And I set the field "plugin" to "Boolean"
+    And I set the field "typeplugin" to "Boolean"
     And I press "Add"
 
     And I expand all fieldsets
@@ -86,7 +86,7 @@ Feature: verify each core item can be added to a survey
 
     # #############
     # add an item using the 5th plugin
-    And I set the field "plugin" to "Checkbox"
+    And I set the field "typeplugin" to "Checkbox"
     And I press "Add"
 
     And I expand all fieldsets
@@ -100,7 +100,7 @@ Feature: verify each core item can be added to a survey
 
     # #############
     # add an item using the 6th plugin
-    And I set the field "plugin" to "Date (short) [mm/yyyy]"
+    And I set the field "typeplugin" to "Date (short) [mm/yyyy]"
     And I press "Add"
 
     And I expand all fieldsets
@@ -115,7 +115,7 @@ Feature: verify each core item can be added to a survey
 
     # #############
     # add an item using the 7th plugin
-    And I set the field "plugin" to "Date [dd/mm/yyyy]"
+    And I set the field "typeplugin" to "Date [dd/mm/yyyy]"
     And I press "Add"
 
     And I expand all fieldsets
@@ -130,7 +130,7 @@ Feature: verify each core item can be added to a survey
 
     # #############
     # add an item using the 8th plugin
-    And I set the field "plugin" to "Date and time [dd/mm/yyyy;hh:mm]"
+    And I set the field "typeplugin" to "Date and time [dd/mm/yyyy;hh:mm]"
     And I press "Add"
 
     And I expand all fieldsets
@@ -145,14 +145,14 @@ Feature: verify each core item can be added to a survey
 
     # #############
     # add an item using the 22th plugin
-    And I set the field "plugin" to "Page break"
+    And I set the field "typeplugin" to "Page break"
     And I press "Add"
 
     And I press "Add"
 
     # #############
     # add an item using the 9th plugin
-    And I set the field "plugin" to "Integer (small)"
+    And I set the field "typeplugin" to "Integer (small)"
     And I press "Add"
 
     And I expand all fieldsets
@@ -162,27 +162,26 @@ Feature: verify each core item can be added to a survey
       | Indent                   | 0                              |
       | Question position        | left                           |
       | Element number           | 9                              |
-      | Hide filling instruction | 1                              |
     And I press "Add"
 
     # #############
     # add an item using the 10th plugin
-    And I set the field "plugin" to "Multiple selection"
+    And I set the field "typeplugin" to "Multiple selection"
     And I press "Add"
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content           | What do you usually eat for breakfast? |
-      | Required          | 1                                      |
-      | Indent            | 0                                      |
-      | Question position | left                                   |
-      | Element number    | 10                                     |
+      | Content                | What do you usually eat for breakfast? |
+      | Indent                 | 0                                      |
+      | Question position      | left                                   |
+      | Element number         | 10                                     |
+      | Minimum required items | 2                                      |
     And I fill the textarea "Options" with multiline content "milk\nsugar\njam\nchocolate"
     And I press "Add"
 
     # #############
     # add an item using the 11th plugin
-    And I set the field "plugin" to "Numeric"
+    And I set the field "typeplugin" to "Numeric"
     And I press "Add"
 
     And I expand all fieldsets
@@ -197,7 +196,7 @@ Feature: verify each core item can be added to a survey
 
     # #############
     # add an item using the 12th plugin
-    And I set the field "plugin" to "Radio buttons"
+    And I set the field "typeplugin" to "Radio buttons"
     And I press "Add"
 
     And I expand all fieldsets
@@ -212,7 +211,7 @@ Feature: verify each core item can be added to a survey
 
     # #############
     # add an item using the 19th plugin
-    And I set the field "plugin" to "Fieldset"
+    And I set the field "typeplugin" to "Fieldset"
     And I press "Add"
 
     And I expand all fieldsets
@@ -222,7 +221,7 @@ Feature: verify each core item can be added to a survey
 
     # #############
     # add an item using the 13th plugin
-    And I set the field "plugin" to "Rate"
+    And I set the field "typeplugin" to "Rate"
     And I press "Add"
 
     And I expand all fieldsets
@@ -237,7 +236,7 @@ Feature: verify each core item can be added to a survey
 
     # #############
     # add an item using the 14th plugin
-    And I set the field "plugin" to "Recurrence [dd/mm]"
+    And I set the field "typeplugin" to "Recurrence [dd/mm]"
     And I press "Add"
 
     And I expand all fieldsets
@@ -252,7 +251,7 @@ Feature: verify each core item can be added to a survey
 
     # #############
     # add an item using the 15th plugin
-    And I set the field "plugin" to "Select"
+    And I set the field "typeplugin" to "Select"
     And I press "Add"
 
     And I expand all fieldsets
@@ -267,7 +266,7 @@ Feature: verify each core item can be added to a survey
 
     # #############
     # add an item using the 16th plugin
-    And I set the field "plugin" to "Text (long)"
+    And I set the field "typeplugin" to "Text (long)"
     And I press "Add"
 
     And I expand all fieldsets
@@ -282,7 +281,7 @@ Feature: verify each core item can be added to a survey
 
     # #############
     # add an item using the 17th plugin
-    And I set the field "plugin" to "Text (short)"
+    And I set the field "typeplugin" to "Text (short)"
     And I press "Add"
 
     And I expand all fieldsets
@@ -298,7 +297,7 @@ Feature: verify each core item can be added to a survey
 
     # #############
     # add an item using the 18th plugin
-    And I set the field "plugin" to "Time"
+    And I set the field "typeplugin" to "Time"
     And I press "Add"
 
     And I expand all fieldsets
@@ -312,14 +311,14 @@ Feature: verify each core item can be added to a survey
 
     # #############
     # add an item using the 20th plugin
-    And I set the field "plugin" to "Fieldset closure"
+    And I set the field "typeplugin" to "Fieldset closure"
     And I press "Add"
 
     And I press "Add"
 
     # #############
     # add an item using the 21th plugin
-    And I set the field "plugin" to "Label"
+    And I set the field "typeplugin" to "Label"
     And I press "Add"
 
     And I expand all fieldsets

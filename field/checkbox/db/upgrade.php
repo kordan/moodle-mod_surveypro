@@ -14,16 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * Keeps track of upgrades to the surveyproitem checkbox
  *
  * @package    surveyprofield
  * @subpackage checkbox
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/*
+/**
  * Performs upgrade of the database structure and data
  *
  * @param int $oldversion the version we are upgrading from
@@ -33,12 +33,6 @@ function xmldb_surveyprofield_checkbox_upgrade($oldversion) {
     global $DB;
 
     $dbman = $DB->get_manager();
-
-    if ($oldversion < 2014021401) {
-
-        // Survey savepoint reached.
-        // upgrade_plugin_savepoint(true, 2014021401, 'surveyprofield', 'checkbox');
-    }
 
     if ($oldversion < 2014051701) {
 
@@ -60,6 +54,51 @@ function xmldb_surveyprofield_checkbox_upgrade($oldversion) {
 
         // Surveypro savepoint reached.
         upgrade_plugin_savepoint(true, 2014051701, 'surveyprofield', 'checkbox');
+    }
+
+    if ($oldversion < 2014090501) {
+
+        // Define field hideinstructions to be added to surveyprofield_checkbox.
+        $table = new xmldb_table('surveyprofield_checkbox');
+        $field = new xmldb_field('hideinstructions', XMLDB_TYPE_INTEGER, '4', null, null, null, null, 'required');
+
+        // Conditionally launch add field hideinstructions.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Surveypro savepoint reached.
+        upgrade_plugin_savepoint(true, 2014090501, 'surveyprofield', 'checkbox');
+    }
+
+    if ($oldversion < 2014090502) {
+
+        // Define field surveyproid to be dropped from surveyprofield_checkbox.
+        $table = new xmldb_table('surveyprofield_checkbox');
+        $field = new xmldb_field('required');
+
+        // Conditionally launch drop field surveyproid.
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        // Surveypro savepoint reached.
+        upgrade_plugin_savepoint(true, 2014090502, 'surveyprofield', 'checkbox');
+    }
+
+    if ($oldversion < 2014111701) {
+
+        // Define field noanswerdefault to be added to surveyprofield_checkbox.
+        $table = new xmldb_table('surveyprofield_checkbox');
+        $field = new xmldb_field('noanswerdefault', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '2', 'defaultvalue');
+
+        // Conditionally launch add field noanswerdefault.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Surveypro savepoint reached.
+        upgrade_plugin_savepoint(true, 2014111701, 'surveyprofield', 'checkbox');
     }
 
     return true;

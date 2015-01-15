@@ -18,23 +18,30 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
 
-class surveypro_exportform extends moodleform {
+class mod_surveypro_exportform extends moodleform {
 
+    /*
+     * definition
+     *
+     * @param none
+     * @return none
+     */
     public function definition() {
         global $CFG, $DB;
-        // ----------------------------------------
-        $surveypro = $this->_customdata->surveypro;
-
         // ----------------------------------------
         $mform = $this->_form;
 
         // ----------------------------------------
-        // submissionexport::settingsheader
+        // get _customdata
+        $surveypro = $this->_customdata->surveypro;
+
+        // ----------------------------------------
+        // submissionexport: settingsheader
         // ----------------------------------------
         $mform->addElement('header', 'settingsheader', get_string('download'));
 
         // ----------------------------------------
-        // submissionexport::status
+        // submissionexport: status
         // ----------------------------------------
         $fieldname = 'status';
         if ($DB->get_records('surveypro_submission', array('surveyproid' => $surveypro->id, 'status' => SURVEYPRO_STATUSINPROGRESS))) {
@@ -48,14 +55,14 @@ class surveypro_exportform extends moodleform {
         }
 
         // ----------------------------------------
-        // submissionexport::includehidden
+        // submissionexport: includehidden
         // ----------------------------------------
         $fieldname = 'includehidden';
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveypro'));
         $mform->setType($fieldname, PARAM_INT);
 
         // ----------------------------------------
-        // submissionexport::advanced
+        // submissionexport: advanced
         // ----------------------------------------
         $fieldname = 'advanced';
         if ($this->_customdata->canaccessadvanceditems) {
@@ -66,7 +73,7 @@ class surveypro_exportform extends moodleform {
         }
 
         // ----------------------------------------
-        // submissionexport::downloadtype
+        // submissionexport: downloadtype
         // ----------------------------------------
         $fieldname = 'downloadtype';
         $pluginlist = array(SURVEYPRO_DOWNLOADCSV => get_string('downloadtocsv', 'surveypro'),

@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <items>
-  <item>
+  <item type="format" plugin="label" version="2014111000">
     <surveypro_item>
-      <type>format</type>
-      <plugin>label</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -18,10 +16,8 @@
       <leftlabel>label_leftlabel_01</leftlabel>
     </surveyproformat_label>
   </item>
-  <item>
+  <item type="field" plugin="textarea" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>textarea</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -43,10 +39,8 @@
       <maxlength>0</maxlength>
     </surveyprofield_textarea>
   </item>
-  <item>
+  <item type="field" plugin="textarea" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>textarea</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -68,10 +62,8 @@
       <maxlength>0</maxlength>
     </surveyprofield_textarea>
   </item>
-  <item>
+  <item type="field" plugin="textarea" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>textarea</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -93,10 +85,8 @@
       <maxlength>0</maxlength>
     </surveyprofield_textarea>
   </item>
-  <item>
+  <item type="field" plugin="textarea" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>textarea</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
@@ -118,10 +108,8 @@
       <maxlength>0</maxlength>
     </surveyprofield_textarea>
   </item>
-  <item>
+  <item type="field" plugin="textarea" version="2014111000">
     <surveypro_item>
-      <type>field</type>
-      <plugin>textarea</plugin>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>

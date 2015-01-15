@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -29,13 +26,22 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
 
-class surveypro_searchform extends moodleform {
+class mod_surveypro_searchform extends moodleform {
 
+    /*
+     * definition
+     *
+     * @param none
+     * @return none
+     */
     public function definition() {
         global $CFG, $DB;
 
+        // ----------------------------------------
         $mform = $this->_form;
 
+        // ----------------------------------------
+        // get _customdata
         $cmid = $this->_customdata->cmid;
         $surveypro = $this->_customdata->surveypro;
         $canaccessadvanceditems = $this->_customdata->canaccessadvanceditems;
@@ -109,7 +115,15 @@ class surveypro_searchform extends moodleform {
         $mform->closeHeaderBefore('buttonar');
     }
 
-    function validation($data, $files) {
+    /*
+     * validation
+     *
+     * @param $data
+     * @param $files
+     * @return $errors
+     */
+    public function validation($data, $files) {
+        // ----------------------------------------
         // $cmid = $this->_customdata->cmid;
         $surveypro = $this->_customdata->surveypro;
         // $canaccessadvanceditems = $this->_customdata->canaccessadvanceditems;

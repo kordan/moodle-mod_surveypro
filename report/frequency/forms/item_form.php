@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,13 +27,22 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/lib/formslib.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 
-class surveypro_chooseitemform extends moodleform {
+class mod_surveypro_chooseitemform extends moodleform {
 
+    /*
+     * definition
+     *
+     * @param none
+     * @return none
+     */
     public function definition() {
         global $DB;
 
+        // ----------------------------------------
         $mform = $this->_form;
 
+        // ----------------------------------------
+        // get _customdata
         $surveypro = $this->_customdata->surveypro;
 
         // only fields
@@ -76,6 +82,13 @@ class surveypro_chooseitemform extends moodleform {
         $this->add_action_buttons(false, get_string('continue'));
     }
 
+    /*
+     * validation
+     *
+     * @param $data
+     * @param $files
+     * @return $errors
+     */
     public function validation($data, $files) {
         // "noanswer" default option is not allowed when the item is mandatory
         $errors = array();

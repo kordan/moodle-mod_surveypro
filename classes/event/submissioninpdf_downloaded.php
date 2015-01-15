@@ -14,11 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * mod_surveypro submission in pdf downloaded event.
  *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,7 +30,7 @@ require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php'
 require_once($CFG->dirroot.'/mod/surveypro/lib.php');
 
 class submissioninpdf_downloaded extends \core\event\base {
-    /*
+    /**
      * Set basic properties for the event.
      */
     protected function init() {
@@ -39,7 +39,7 @@ class submissioninpdf_downloaded extends \core\event\base {
         $this->data['objecttable'] = 'surveypro_submission';
     }
 
-    /*
+    /**
      * Return localised event name.
      *
      * @return string
@@ -48,7 +48,7 @@ class submissioninpdf_downloaded extends \core\event\base {
         return get_string('event_submissioninpdf_downloaded', 'mod_surveypro');
     }
 
-    /*
+    /**
      * Returns description of what happened.
      *
      * @return string
@@ -57,7 +57,7 @@ class submissioninpdf_downloaded extends \core\event\base {
         return "User with id '{$this->userid}' has downloaded the submission with id '{$this->objectid}' to pdf.";
     }
 
-    /*
+    /**
      * Get URL related to the action.
      *
      * @return \moodle_url
@@ -66,11 +66,12 @@ class submissioninpdf_downloaded extends \core\event\base {
         $paramurl = array();
         $paramurl['id'] = $this->contextinstanceid;
         $paramurl['submissionid'] = $this->objectid;
+        $paramurl['cover'] = $this->other['cover'];
         $paramurl['view'] = $this->other['view'];
-        return new \moodle_url('view_manage.php', $paramurl);
+        return new \moodle_url('/mod/surveypro/view.php', $paramurl);
     }
 
-    /*
+    /**
      * Return legacy data for add_to_log().
      *
      * @return array
@@ -81,7 +82,7 @@ class submissioninpdf_downloaded extends \core\event\base {
             $this->get_url(), $this->objectid, $this->contextinstanceid);
     }
 
-    /*
+    /**
      * Return the legacy event name.
      *
      * @return string
@@ -109,9 +110,12 @@ class submissioninpdf_downloaded extends \core\event\base {
      * Custom validation.
      *
      * @throws \coding_exception
-     * @return void
+     * @return none
      */
     protected function validate_data() {
+        if (!isset($this->other['cover'])) {
+            throw new \coding_exception('cover is a mandatory property.');
+        }
         if (!isset($this->other['view'])) {
             throw new \coding_exception('view is a mandatory property.');
         }

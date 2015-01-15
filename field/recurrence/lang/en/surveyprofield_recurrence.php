@@ -14,12 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
- * Strings for component 'field_recurrence', language 'en', branch 'MOODLE_20_STABLE'
+/**
+ * Strings for component 'field_recurrence', language 'en', branch 'MOODLE_28_STABLE'
  *
  * @package    surveypro
  * @subpackage recurrence
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -41,10 +41,10 @@ $string['notvaliddefault'] = 'Incorrect value entered';
 $string['notvalidlowerbound'] = 'Incorrect value entered';
 $string['notvalidupperbound'] = 'Incorrect value entered';
 $string['outofrangedefault'] = 'Default does not fall within the specified range';
-$string['parentcontentinvalidrecurrence_err'] = 'Provided recurrence is not a regular recurrence';
-$string['parentcontentrecurrenceoutofrange_err'] = 'Provided recurrence is out of the range requested to the choosen item';
 $string['pluginname'] = 'Recurrence';
+$string['restriction_lower'] = 'Answer is supposed to be greater-equal than {$a}';
 $string['restriction_lowerupper'] = 'Answer is supposed to fit between {$a->lowerbound} and {$a->upperbound}';
+$string['restriction_upper'] = 'Answer is supposed be lower-equal than {$a}';
 $string['strftime1'] = '%d %B';
 $string['strftime2'] = '%d %b';
 $string['strftime3'] = '%d/%m';

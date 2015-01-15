@@ -14,10 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * @package    surveyprofield
  * @subpackage character
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -31,15 +31,17 @@ define('SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN', 'PATTERN_CUSTOM');
 define('SURVEYPROFIELD_CHARACTER_EMAILPATTERN' , 'PATTERN_EMAIL');
 define('SURVEYPROFIELD_CHARACTER_URLPATTERN'   , 'PATTERN_URL');
 
-/*
+/**
  * surveypro_character_text_match_pattern
- * @param $text, $pattern
+ *
+ * @param $text
+ * @param $pattern
  * @return
  */
 function surveypro_character_text_match_pattern($text, $pattern) {
     // replace free characters
     $pos = -1;
-    while ($pos = strpos($pattern, '*', $pos+1)) {
+    while ($pos = strpos($pattern, '*', $pos + 1)) {
         $text = substr_replace($text, '*', $pos, 1);
     }
 
@@ -50,8 +52,9 @@ function surveypro_character_text_match_pattern($text, $pattern) {
     return ($text == $pattern);
 }
 
-/*
+/**
  * surveypro_character_is_valid_url
+ *
  * @param $url
  * @return
  */

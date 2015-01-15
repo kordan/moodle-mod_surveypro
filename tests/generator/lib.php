@@ -8,49 +8,47 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle. If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
-* mod_surveypro data generator.
-*
-* @package mod_surveypro
-* @category test
-* @copyright 2013 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
-* @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-*/
+ * mod_surveypro data generator.
+ *
+ * @package mod_surveypro
+ * @category test
+ * @copyright 2013 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
 defined('MOODLE_INTERNAL') || die();
 
-
-/**
-* mod_surveypro data generator class.
-*
-* @package mod_surveypro
-* @category test
-* @copyright 2013 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
-* @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-*/
 class mod_surveypro_generator extends testing_module_generator {
 
     /**
-    * @var int keep track of how many items have been created,
-    */
+     * @var int keep track of how many items have been created,
+     */
     protected $itemcount = 0;
 
     /**
-    * Reset generator counters.
-    *
-    * NOTE: To be called from data reset code only, do not use in tests!
-    */
+     * Reset generator counters.
+     *
+     * NOTE: To be called from data reset code only, do not use in tests!
+     */
     public function reset() {
         $this->itemcount = 0;
         parent::reset();
     }
 
+    /*
+     * create_instance
+     *
+     * @param $record
+     * @param array $options
+     * @return none
+     */
     public function create_instance($record = null, array $options = null) {
         global $CFG;
 
@@ -77,7 +75,14 @@ class mod_surveypro_generator extends testing_module_generator {
             'template' => null,
             'completionsubmit' => 0,
             'timecreated' => time(),
-            'timemodified' => time()
+            'timemodified' => time(),
+
+            'userstyle_filemanager' => file_get_unused_draft_itemid(),
+            'thankshtml_editor' => array(
+                'text' => 'Thank you very much for your commitment on this survey',
+                'format' => FORMAT_MOODLE,
+                'itemid' => file_get_unused_draft_itemid()
+            )
         );
         foreach ($defaults as $name => $value) {
             if (!isset($record->{$name})) {
@@ -89,14 +94,22 @@ class mod_surveypro_generator extends testing_module_generator {
     }
 
     /**
-    * Apply a template to the surveypro instance.
-    *
-    * @param $record array|stdClass $record containing course, surveypro and valid template.
-    * @return stdClass[] of created items.
-    */
-    public function apply_template($record = null) {
+     * Apply a template to the surveypro instance.
+     *
+     * @param $record array|stdClass $record containing course, surveypro and valid template.
+     * @param $options
+     * @return stdClass[] of created items.
+     */
+    public function apply_mastertemplate($record = null, array $options = null) {
 
         $record = (object)(array)$record;
+        $options = (array) $options;
+
+        // echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
+
+        if (empty($record->mastertemplatename)) {
+            throw new coding_exception('Master template application requires $record->mastertemplatename');
+        }
 
         // Verify course is passed.
         // Verify surveypro is passed.

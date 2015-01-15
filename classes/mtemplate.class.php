@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -32,30 +29,31 @@ define('SURVEYPROTEMPLATE_NAMEPLACEHOLDER', '@@templateNamePlaceholder@@');
 require_once($CFG->dirroot.'/mod/surveypro/classes/templatebase.class.php');
 
 class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
-    /*
+    /**
      * $templatetype
      */
     public $templatetype = SURVEYPRO_MASTERTEMPLATE;
 
-    /*
+    /**
      * $langtree
      */
     public $langtree = array();
 
-    /*
+    /**
      * Class constructor
      */
-    public function __construct($surveypro, $context) {
-        parent::__construct($surveypro, $context);
+    public function __construct($cm, $context, $surveypro) {
+        parent::__construct($cm, $context, $surveypro);
     }
 
-    /*
+    /**
      * download_mtemplate
      *
+     * @param none
      * @return
      */
     public function download_mtemplate() {
-        $this->templatename = $this->create_mtemplate();
+        $this->templatename = $this->generate_mtemplate();
         $exportfilename = basename($this->templatename);
         header("Content-Type: application/download\n");
         header("Content-Disposition: attachment; filename=\"$exportfilename\"");
@@ -68,12 +66,13 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         unlink($this->templatename);
     }
 
-    /*
-     * create_mtemplate
+    /**
+     * generate_mtemplate
      *
+     * @param none
      * @return
      */
-    public function create_mtemplate() {
+    public function generate_mtemplate() {
         global $CFG, $DB;
 
         $pluginname = clean_filename($this->formdata->mastertemplatename);
@@ -240,9 +239,10 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         return $exportfile;
     }
 
-    /*
+    /**
      * get_used_plugin
      *
+     * @param none
      * @return
      */
     public function get_used_plugin() {
@@ -262,7 +262,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         return array_merge(array('item' => $base), $templateplugins);
     }
 
-    /*
+    /**
      * build_langtree
      *
      * @param $currentsid
@@ -272,21 +272,22 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     public function build_langtree($dummyplugin, $multilangfields, $item) {
         foreach ($multilangfields as $dummyplugin => $fieldnames) {
             foreach ($fieldnames as $fieldname) {
-                $frankenstinname = $dummyplugin.'_'.$fieldname;
-                if (isset($this->langtree[$frankenstinname])) {
-                    $index = count($this->langtree[$frankenstinname]);
+                $component = $dummyplugin.'_'.$fieldname;
+                if (isset($this->langtree[$component])) {
+                    $index = count($this->langtree[$component]);
                 } else {
                     $index = 0;
                 }
-                $stringindex = sprintf('%02d', 1+$index);
-                $this->langtree[$frankenstinname][$frankenstinname.'_'.$stringindex] = str_replace("\r", '', $item->item_get_generic_property($fieldname));
+                $stringindex = sprintf('%02d', 1 + $index);
+                $this->langtree[$component][$component.'_'.$stringindex] = str_replace("\r", '', $item->item_get_generic_property($fieldname));
             }
         }
     }
 
-    /*
+    /**
      * extract_original_string
      *
+     * @param none
      * @return
      */
     public function extract_original_string() {
@@ -300,7 +301,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         return "\n".implode("\n", $stringsastext);
     }
 
-    /*
+    /**
      * get_translated_strings
      *
      * @param $userlang
@@ -319,11 +320,11 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         return "\n".implode("\n", $stringsastext);
     }
 
-    /*
+    /**
      * trigger_event
      *
      * @param string $event: event to trigger
-     * @return void
+     * @return none
      */
     public function trigger_event($event) {
         $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);

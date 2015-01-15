@@ -14,12 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
- * Strings for component 'field_checkbox', language 'en', branch 'MOODLE_20_STABLE'
+/**
+ * Strings for component 'field_checkbox', language 'en', branch 'MOODLE_28_STABLE'
  *
  * @package    surveypro
  * @subpackage checkbox
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -36,24 +36,25 @@ $string['downloadformat'] = 'Download format';
 $string['horizontal'] = 'horizontal';
 $string['labelother_help'] = 'If this question is equipped with the option "other" followed by a text field, enter here the label for that option. You can choose to write this option with the format: label'.SURVEYPRO_OTHERSEPARATOR.'value. The label will be displayed on the screen, the value will be used as default for the text field. If you only specify one word, the field default will be neglected.';
 $string['labelother'] = 'Option "other"';
-$string['lowerthanminimum_one'] = 'Please tick at least 1 option';
 $string['lowerthanminimum_more'] = 'Please tick at least {$a} options';
+$string['lowerthanminimum_one'] = 'Please tick at least 1 option';
 $string['minimumrequired_err'] = 'The minimum number of checkboxes to select must be lower than {$a}';
 $string['minimumrequired_help'] = 'The minimum number of checkboxes the user is forced to choose in his/her answer';
 $string['minimumrequired'] = 'Minimum required options';
+$string['missingothertext'] = 'Please add the text required by your selection';
+$string['noanswerdefault_help'] = 'Use this option to include "No answer" among defaults';
+$string['noanswerdefault'] = '"No answer" as defaults';
 $string['option'] = 'Option';
 $string['options_help'] = 'The list of the options for this item. You are allowed to write them as: value'.SURVEYPRO_VALUELABELSEPARATOR.'label in order to define value and label both. The label will be displayed close to the corresponding checkbox, the value will be stored in the survey field. If you only specify one word per line (without separator), value and label will both be valued to that word.';
 $string['options'] = 'Options';
 $string['optionsduplicated_err'] = 'At least one option is duplicated';
 $string['optionswithseparator_err'] = 'Options can not contain "{$a}"';
-$string['parentcontent_err'] = '{$a} is not part of the options of the depend item. The constraint can never be verified.';
 $string['parentformat'] = '[label<br />one more label<br />last label]';
 $string['pluginname'] = 'Checkbox';
-$string['restrictions_minimumrequired_one'] = 'At least 1 checkbox has to be selected';
 $string['restrictions_minimumrequired_more'] = 'At least {$a} checkboxes have to be selected';
+$string['restrictions_minimumrequired_one'] = 'At least 1 checkbox has to be selected';
 $string['returnlabels'] = 'label of selected items';
 $string['returnposition'] = 'positional answer';
 $string['returnvalues'] = 'value of selected items';
 $string['userfriendlypluginname'] = 'Checkbox';
 $string['vertical'] = 'vertical';
-$string['missingothertext'] = 'Please add the text required by your selection';

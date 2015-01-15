@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
+/**
  * This is a one-line short description of the file
  *
- * You can have a rather longer description of the file as well,
- * if you like, and it can span multiple lines.
- *
  * @package    mod_surveypro
- * @copyright  2013 kordan <kordan@mclink.it>
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,18 +27,25 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/lib/formslib.php');
 require_once($CFG->dirroot.'/lib/csvlib.class.php');
 
-class surveypro_importform extends moodleform {
+class mod_surveypro_importform extends moodleform {
 
+    /*
+     * definition
+     *
+     * @param none
+     * @return none
+     */
     public function definition() {
+        // ----------------------------------------
         $mform = $this->_form;
 
         // ----------------------------------------
-        // submissionimport::settingsheader
+        // submissionimport: settingsheader
         // ----------------------------------------
         $mform->addElement('header', 'settingsheader', get_string('upload'));
 
         // ----------------------------------------
-        // submissionimport::csvfile
+        // submissionimport: csvfile
         // ----------------------------------------
         // here I use filepicker because I want ONE, and only ONE, file to import
         $fieldname = 'csvfile';
@@ -49,7 +53,7 @@ class surveypro_importform extends moodleform {
         $mform->addRule($fieldname.'_filepicker', null, 'required');
 
         // ----------------------------------------
-        // submissionimport::csvcontent
+        // submissionimport: csvcontent
         // ----------------------------------------
         $fieldname = 'csvsemantic';
         $a = get_string('downloadformat', 'surveypro');
@@ -62,7 +66,7 @@ class surveypro_importform extends moodleform {
         $mform->setDefault($fieldname, 'label');
 
         // ----------------------------------------
-        // submissionimport::csvdelimiter
+        // submissionimport: csvdelimiter
         // ----------------------------------------
         $fieldname = 'csvdelimiter';
         $options = csv_import_reader::get_delimiter_list();
@@ -76,7 +80,7 @@ class surveypro_importform extends moodleform {
         }
 
         // ----------------------------------------
-        // submissionimport::encoding
+        // submissionimport: encoding
         // ----------------------------------------
         $fieldname = 'encoding';
         $options = core_text::get_encodings();
@@ -88,25 +92,32 @@ class surveypro_importform extends moodleform {
         $this->add_action_buttons(false, get_string('dataimport', 'surveypro'));
     }
 
-//     public function validation($data, $files) {
-//         global $USER;
-//
-//         $mform = $this->_form;
-//
-//         // $surveypro = $this->_customdata->surveypro;
-//         // $importman = $this->_customdata->importman;
-//
-//         $errors = parent::validation($data, $files);
-//
-//         //$csvcontent = $this->get_file_content('importfile_filepicker');
-// echo '<textarea rows="10" cols="100">'.$csvcontent.'</textarea>';
-//         $csvfilename = $this->get_name('importfile_filepicker');
-// echo '$csvfilename = '.$csvfilename.'<br />';
-//         if (!$importman->validate_csv($csvcontent, $data->encoding, $data->delimiter_name)) {
-//             $errors['importfile_filepicker'] = get_string('invalidcsvfile', 'surveypro', $csvfilename);
-//             return $errors;
-//         }
-//
-//         return $errors;
-//     }
+    /*
+     * validation
+     *
+     * @param $data
+     * @param $files
+     * @return $errors
+     */
+    // public function validation($data, $files) {
+    //     global $USER;
+    //
+    //     $mform = $this->_form;
+    //
+    //     // $surveypro = $this->_customdata->surveypro;
+    //     // $importman = $this->_customdata->importman;
+    //
+    //     $errors = parent::validation($data, $files);
+    //
+    //     //$csvcontent = $this->get_file_content('importfile_filepicker');
+    //     // echo '<textarea rows="10" cols="100">'.$csvcontent.'</textarea>';
+    //     $csvfilename = $this->get_name('importfile_filepicker');
+    //     // echo '$csvfilename = '.$csvfilename.'<br />';
+    //     if (!$importman->validate_csv($csvcontent, $data->encoding, $data->delimiter_name)) {
+    //         $errors['importfile_filepicker'] = get_string('invalidcsvfile', 'surveypro', $csvfilename);
+    //         return $errors;
+    //     }
+    //
+    //     return $errors;
+    // }
 }

@@ -15,11 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Survey feedback subplugin info class.
+ * Surveypro surveyprotemplate info class.
  *
- * @package   mod_surveypro
- * @copyright 2013 Petr Skoda {@link http://skodak.org}
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    mod_surveypro
+ * @copyright  2013 onwards kordan <kordan@mclink.it>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 namespace mod_surveypro\plugininfo;
 
@@ -28,8 +28,10 @@ use core\plugininfo\base, core_plugin_manager, moodle_url;
 defined('MOODLE_INTERNAL') || die();
 
 class surveyprotemplate extends base {
-    /*
+    /**
      * Finds all enabled plugins, the result may include missing plugins.
+     *
+     * @param none
      * @return array|null of enabled plugins $pluginname=>$pluginname, null means unknown
      */
     public static function get_enabled_plugins() {
@@ -62,25 +64,39 @@ class surveyprotemplate extends base {
         return $enabled;
     }
 
+    /*
+     * is_uninstall_allowed
+     *
+     * @param none
+     * @return bool: false if the corrsponding template has been instancied
+     */
     public function is_uninstall_allowed() {
         global $DB;
 
         return !$DB->record_exists('surveypro', array('template' => $this->name));
     }
 
-    /*
+    /**
      * Return URL used for management of plugins of this type.
+     *
+     * @paran none
      * @return moodle_url
      */
     public static function get_manage_url() {
         return new moodle_url('/mod/surveypro/adminmanageplugins.php', array('subtype' => 'surveyprotemplate'));
     }
 
+    /*
+     * get_settings_section_name
+     *
+     * @param none
+     * @return settings section name
+     */
     public function get_settings_section_name() {
         return $this->type.'_'.$this->name;
     }
 
-    /*
+    /**
      * Loads plugin settings to the settings tree
      *
      * This function usually includes settings.php file in plugins folder.
@@ -89,6 +105,7 @@ class surveyprotemplate extends base {
      * @param \part_of_admin_tree $adminroot
      * @param string $parentnodename
      * @param bool $hassiteconfig whether the current user has moodle/site:config capability
+     * @return
      */
     public function load_settings(\part_of_admin_tree $adminroot, $parentnodename, $hassiteconfig) {
         global $CFG, $USER, $DB, $OUTPUT, $PAGE; // In case settings.php wants to refer to them.
