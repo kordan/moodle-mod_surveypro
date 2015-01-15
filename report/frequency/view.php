@@ -57,12 +57,6 @@ $reportman = new mod_surveypro_report_frequency($cm, $context, $surveypro);
 $reportman->setup_outputtable();
 
 // -----------------------------
-// stop here if only textareas are in the surveypro
-$reportman->stop_if_textareas_only();
-// end of: stop here if only textareas are in the surveypro
-// -----------------------------
-
-// -----------------------------
 // define $mform return url
 $paramurl = array('id' => $cm->id, 'rname' => 'frequency');
 $formurl = new moodle_url('/mod/surveypro/report/frequency/view.php', $paramurl);
@@ -87,6 +81,12 @@ echo $OUTPUT->header();
 $moduletab = SURVEYPRO_TABSUBMISSIONS; // needed by tabs.php
 $modulepage = SURVEYPRO_SUBMISSION_REPORT; // needed by tabs.php
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
+
+// -----------------------------
+// stop here if only textareas are in the surveypro
+$reportman->stop_if_textareas_only();
+// end of: stop here if only textareas are in the surveypro
+// -----------------------------
 
 $reportman->check_submissions();
 

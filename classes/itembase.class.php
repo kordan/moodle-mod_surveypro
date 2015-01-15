@@ -508,6 +508,8 @@ class mod_surveypro_itembase {
      * @return
      */
     public function item_manage_chains($itemid, $oldhidden, $newhidden, $oldadvanced, $newadvanced) {
+        global $DB;
+
         // now hide or unhide (whether needed) chain of ancestors or descendents
         if ($this->userfeedback & 1) { // bitwise logic, alias: if the item was successfully saved
             // -----------------------------

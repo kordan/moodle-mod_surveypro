@@ -31,4 +31,4 @@ $string['absolute'] = 'absolute';
 $string['percentage'] = 'percentage';
 $string['pleasechooseavalue'] = 'Please choose an item for the distribution';
 $string['answernotpresent'] = 'missing';
-$string['textareasarenotallowed'] = 'This survey uses only {$a} fields that are not suitable for this report';
+$string['textareasarenotallowed'] = 'This survey has no fields or uses only fields, among visible and not advanced, that are not suitable for this report.';

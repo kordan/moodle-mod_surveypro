@@ -160,7 +160,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // if (default == noanswer) but item is required => error
         if ( ($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required']) ) {
             $a = get_string('noanswer', 'surveypro');
-            $errors['defaultvalue_group'] = get_string('notalloweddefault', 'surveypro', $a);
+            $errors['defaultvalue'] = get_string('notalloweddefault', 'surveypro', $a);
         }
 
         if ($data['defaultoption'] == SURVEYPRO_CUSTOMDEFAULT) {

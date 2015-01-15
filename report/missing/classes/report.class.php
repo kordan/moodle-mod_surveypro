@@ -33,11 +33,6 @@ require_once($CFG->dirroot.'/mod/surveypro/classes/reportbase.class.php');
 
 class mod_surveypro_report_missing extends mod_surveypro_reportbase {
     /**
-     * coursecontext
-     */
-    public $coursecontext = 0;
-
-    /**
      * outputtable
      */
     public $outputtable = null;
@@ -88,7 +83,8 @@ class mod_surveypro_report_missing extends mod_surveypro_reportbase {
     public function fetch_data() {
         global $CFG, $DB, $COURSE, $OUTPUT;
 
-        $roles = get_roles_used_in_context($this->coursecontext);
+        $coursecontext = context_course::instance($COURSE->id);
+        $roles = get_roles_used_in_context($coursecontext);
         if (!$role = array_keys($roles)) {
             // return nothing
             return;
@@ -97,7 +93,7 @@ class mod_surveypro_report_missing extends mod_surveypro_reportbase {
                 FROM {user} u
                 JOIN (SELECT id, userid
                         FROM {role_assignments}
-                        WHERE contextid = '.$this->coursecontext->id.'
+                        WHERE contextid = '.$coursecontext->id.'
                           AND roleid IN ('.implode(',', $role).')) ra ON u.id = ra.userid
                 LEFT JOIN (SELECT id, userid
                              FROM {surveypro_submission}
