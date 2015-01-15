@@ -1020,7 +1020,8 @@ class mod_surveypro_userformmanager {
         global $OUTPUT;
 
         if ($this->modulepage == SURVEYPRO_ITEMS_PREVIEW) {
-            $previewmodestring = get_string('previewmode', 'surveypro');
+            $a = get_string('tabitemspage1', 'surveypro');
+            $previewmodestring = get_string('previewmode', 'surveypro', $a);
             echo $OUTPUT->heading($previewmodestring, 4);
         }
     }

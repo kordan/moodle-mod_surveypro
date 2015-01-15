@@ -60,7 +60,7 @@ $string['tabmtemplatename'] = 'Template sistema';
 
 $string['noanswer'] = 'Nessuna risposta';
 $string['note'] = 'Nota:';
-$string['previewmode'] = 'Sei in \'Anteprima\'. I bottoni per il salvataggio dei dati non saranno visualizzati';
+$string['previewmode'] = 'Sei in \'{$a}\'. I bottoni per il salvataggio dei dati non saranno visualizzati';
 $string['addnewsubmission'] = 'Nuova risposta';
 $string['answerisnoanswer'] = 'Risposta non fornita';
 $string['emptyanswer'] = 'Risposta vuota';

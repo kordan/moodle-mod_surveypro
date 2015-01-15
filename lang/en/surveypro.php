@@ -338,7 +338,7 @@ $string['position_help'] = 'Use this option to choose the position of the conten
 Note: The left position forces the element contents to plain text without images.
 The two \'top\' positions are usually needed for contents longer than few words and are required for questions containing images!';
 $string['position'] = 'Question position';
-$string['previewmode'] = 'You are in preview mode: buttons to save data are not supposed to display';
+$string['previewmode'] = 'You are in \'{$a}\': buttons to save data are not supposed to display';
 $string['previousformpage'] = '<< Previous page';
 $string['readonlyaccess'] = 'Read only access';
 $string['relation_status'] = 'Status';

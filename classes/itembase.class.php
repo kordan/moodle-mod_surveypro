@@ -581,9 +581,9 @@ class mod_surveypro_itembase {
      * @return
      */
     public function item_update_childrenparentvalue() {
-        global $DB;
+        global $DB, $CFG;
 
-        require_once($CFG->dirroot.'/mod/surveypro/'.$currenttype.'/'.$currentplugin.'/plugin.class.php');
+        require_once($CFG->dirroot.'/mod/surveypro/'.$this->type.'/'.$this->plugin.'/plugin.class.php');
         $itemclassname = 'mod_surveypro_'.$this->type.'_'.$this->plugin;
         if ($itemclassname::get_canbeparent()) {
             // take care: you can not use $this->item_get_content_array(SURVEYPRO_VALUES, 'options') to evaluate values
