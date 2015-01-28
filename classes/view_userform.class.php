@@ -1341,6 +1341,7 @@ class mod_surveypro_userformmanager {
             case SURVEYPRO_READONLYRESPONSE:
                 // event: submission_viewed
                 $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
+                $eventdata['other'] = array('view' => SURVEYPRO_READONLYRESPONSE);
                 $event = \mod_surveypro\event\submission_viewed::create($eventdata);
                 $event->trigger();
                 break;
