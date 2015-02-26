@@ -362,7 +362,7 @@ $string['saveresume_help'] = 'Allow to save a survey in order to resume data ent
 $string['saveresume'] = 'Allow Save/Resume';
 $string['saveusertemplates'] = '<a href="{$a}">Save user templates</a>';
 $string['schemavalidationfailed'] = 'The template uses an invalid xml file. Please verify it';
-$string['settings'] = 'Surveypro settings';
+$string['settings'] = 'Surveypro';
 $string['sharinglevel_help'] = 'Choose at which level your template will be shared with other courses. If you choose "course" this template will be available in this course ONLY, if you choose course category this template will be available ONLY to courses sharing the same course "category" with this course, if you choose "site" this template will be available to each other courses in this platform.';
 $string['sharinglevel'] = 'Sharing level';
 $string['showallsubmissions'] = 'Show all responses';
