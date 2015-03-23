@@ -116,7 +116,7 @@ if ($userformman->formdata = $userform->get_data()) {
     if (!$prevbutton && !$pausebutton) {
         if ($userformman->modulepage != SURVEYPRO_ITEMS_PREVIEW) {
             $userformman->save_user_data(); // <-- SAVE SAVE SAVE SAVE
-            $userformman->notifyroles();
+            $userformman->notifypeople();
         }
     }
 

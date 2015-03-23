@@ -733,12 +733,12 @@ class mod_surveypro_userformmanager {
     }
 
     /**
-     * notifyroles
+     * notifypeople
      *
      * @param none
      * @return
      */
-    public function notifyroles() {
+    public function notifypeople() {
         global $CFG, $DB, $COURSE, $USER;
 
         require_once($CFG->dirroot.'/group/lib.php');
@@ -758,7 +758,7 @@ class mod_surveypro_userformmanager {
         if (count($mygroups)) {
             if ($this->surveypro->notifyrole) {
                 $roles = explode(',', $this->surveypro->notifyrole);
-                $receivers = array();
+                $recipients = array();
                 foreach ($mygroups as $mygroup) {
                     $groupmemberroles = groups_get_members_by_role($mygroup, $COURSE->id, 'u.firstname, u.lastname, u.email');
 
@@ -772,42 +772,51 @@ class mod_surveypro_userformmanager {
                                 $singleuser->firstname = $member->firstname;
                                 $singleuser->lastname = $member->lastname;
                                 $singleuser->email = $member->email;
-                                $receivers[] = $singleuser;
+                                $recipients[] = $singleuser;
                             }
                         }
                     }
                 }
             } else {
                 // notification was not requested
-                $receivers = array();
+                $recipients = array();
             }
         } else {
             if ($this->surveypro->notifyrole) {
                 // get_enrolled_users($courseid, $options = array()) <-- role is missing
                 // get_users_from_role_on_context($role, $context);  <-- this is ok but I need to call it once per $role, below I make the query once all together
                 $whereparams = array('contextid' => $context->id);
-                $sql = 'SELECT DISTINCT ra.userid, u.firstname, u.lastname, u.email
+                $sql = 'SELECT DISTINCT ra.userid,
+                        '.user_picture::fields('u').', u.maildisplay, u.mailformat
                         FROM (SELECT *
                               FROM {role_assignments}
                               WHERE contextid = :contextid
                                   AND roleid IN ('.$this->surveypro->notifyrole.')) ra
                         JOIN {user} u ON u.id = ra.userid';
-                $receivers = $DB->get_records_sql($sql, $whereparams);
+                $recipients = $DB->get_records_sql($sql, $whereparams);
             } else {
                 // notification was not requested
-                $receivers = array();
+                $recipients = array();
             }
         }
 
         if (!empty($this->surveypro->notifymore)) {
-            $morereceivers = surveypro_textarea_to_array($this->surveypro->notifymore);
-            foreach ($morereceivers as $extraemail) {
+            $morerecipients = surveypro_textarea_to_array($this->surveypro->notifymore);
+            foreach ($morerecipients as $extraemail) {
                 $singleuser = new stdClass();
-                $singleuser->id = null;
+                $singleuser->id = -1;
                 $singleuser->firstname = '';
                 $singleuser->lastname = '';
+                $singleuser->firstnamephonetic = '';
+                $singleuser->lastnamephonetic = '';
+                $singleuser->middlename = '';
+                $singleuser->alternatename = '';
+                $singleuser->maildisplay = '';
+                $singleuser->mailformat = '';
                 $singleuser->email = $extraemail;
-                $receivers[] = $singleuser;
+                $singleuser->maildisplay = 2;
+                $singleuser->mailformat = 1;
+                $recipients[] = $singleuser;
             }
         }
 
@@ -819,8 +828,11 @@ class mod_surveypro_userformmanager {
         $from->firstname = $COURSE->shortname;
         $from->lastname = $this->surveypro->name;
         $from->email = $CFG->noreplyaddress;
-        $from->maildisplay = 1;
-        $from->mailformat = 1;
+        $from->firstnamephonetic = '';
+        $from->lastnamephonetic = '';
+        $from->middlename = '';
+        $from->alternatename = '';
+        $from->maildisplay = 2;
 
         $htmlbody = $mailheader;
         $htmlbody .= get_string('newsubmissionbody', 'surveypro', $this->surveypro->name);
@@ -830,15 +842,7 @@ class mod_surveypro_userformmanager {
 
         $subject = get_string('newsubmissionsubject', 'surveypro');
 
-        $recipient = new object;
-        $recipient->maildisplay = 1;
-        $recipient->mailformat = 1;
-
-        foreach ($receivers as $receiver) {
-            $recipient->firstname = $receiver->firstname;
-            $recipient->lastname = $receiver->lastname;
-            $recipient->email = $receiver->email;
-
+        foreach ($recipients as $recipient) {
             email_to_user($recipient, $from, $subject, $body, $htmlbody);
         }
     }

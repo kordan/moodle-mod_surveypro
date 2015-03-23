@@ -29,17 +29,16 @@ class mod_surveypro_mod_form extends moodleform_mod {
     public function definition() {
         global $COURSE, $DB, $CFG, $cm;
 
-        // ----------------------------------------
         $mform = $this->_form;
+        $config = get_config('surveypro');
 
-        // ----------------------------------------
         // Adding the "general" fieldset, where all the common settings are showed
         $fieldname = 'general';
         $mform->addElement('header', $fieldname, get_string($fieldname, 'form'));
 
         // Adding the standard "name" field
         $fieldname = 'name';
-        $mform->addElement('text', $fieldname, get_string('surveyproname', 'surveypro'), array('size' => '64'));
+        $mform->addElement('text', $fieldname, get_string('name'), array('size' => '64'));
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType($fieldname, PARAM_TEXT);
         } else {
@@ -50,7 +49,7 @@ class mod_surveypro_mod_form extends moodleform_mod {
         $mform->addHelpButton($fieldname, 'surveyproname', 'surveypro');
 
         // Adding the standard "intro" and "introformat" fields
-        $this->add_intro_editor(false);
+        $this->add_intro_editor($config->requiremodintro, get_string('moduleintro'));
 
         // Open date
         $fieldname = 'timeopen';
