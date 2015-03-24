@@ -733,12 +733,12 @@ class mod_surveypro_userformmanager {
     }
 
     /**
-     * notifyroles
+     * notifypeople
      *
      * @param none
      * @return
      */
-    public function notifyroles() {
+    public function notifypeople() {
         global $CFG, $DB, $COURSE, $USER;
 
         require_once($CFG->dirroot.'/group/lib.php');
@@ -755,59 +755,56 @@ class mod_surveypro_userformmanager {
 
         $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $this->cm->groupingid);
         $mygroups = array_keys($mygroups);
-        if (count($mygroups)) {
-            if ($this->surveypro->notifyrole) {
+        if ($this->surveypro->notifyrole) {
+            if (count($mygroups)) {
                 $roles = explode(',', $this->surveypro->notifyrole);
-                $receivers = array();
+                $recipients = array();
                 foreach ($mygroups as $mygroup) {
-                    $groupmemberroles = groups_get_members_by_role($mygroup, $COURSE->id, 'u.firstname, u.lastname, u.email');
+                    $groupmemberroles = groups_get_members_by_role($mygroup, $COURSE->id, user_picture::fields('u').', u.maildisplay, u.mailformat');
 
                     foreach ($roles as $role) {
                         if (isset($groupmemberroles[$role])) {
                             $roledata = $groupmemberroles[$role];
 
-                            foreach ($roledata->users as $member) {
-                                $singleuser = new stdClass();
-                                $singleuser->id = $member->id;
-                                $singleuser->firstname = $member->firstname;
-                                $singleuser->lastname = $member->lastname;
-                                $singleuser->email = $member->email;
-                                $receivers[] = $singleuser;
+                            foreach ($roledata->users as $singleuser) {
+                                unset($singleuser->roles);
+                                $recipients[] = $singleuser;
                             }
                         }
                     }
                 }
             } else {
-                // notification was not requested
-                $receivers = array();
-            }
-        } else {
-            if ($this->surveypro->notifyrole) {
                 // get_enrolled_users($courseid, $options = array()) <-- role is missing
                 // get_users_from_role_on_context($role, $context);  <-- this is ok but I need to call it once per $role, below I make the query once all together
                 $whereparams = array('contextid' => $context->id);
-                $sql = 'SELECT DISTINCT ra.userid, u.firstname, u.lastname, u.email
-                        FROM (SELECT *
-                              FROM {role_assignments}
-                              WHERE contextid = :contextid
-                                  AND roleid IN ('.$this->surveypro->notifyrole.')) ra
-                        JOIN {user} u ON u.id = ra.userid';
-                $receivers = $DB->get_records_sql($sql, $whereparams);
-            } else {
-                // notification was not requested
-                $receivers = array();
+                $sql = 'SELECT DISTINCT '.user_picture::fields('u').', u.maildisplay, u.mailformat
+                        FROM {user} u
+                            JOIN {role_assignments} ra ON u.id = ra.userid
+                        WHERE contextid = :contextid
+                            AND roleid IN ('.$this->surveypro->notifyrole.')';
+                $recipients = $DB->get_records_sql($sql, $whereparams);
             }
+        } else {
+            // notification to roles was not requested
+            $recipients = array();
         }
 
         if (!empty($this->surveypro->notifymore)) {
-            $morereceivers = surveypro_textarea_to_array($this->surveypro->notifymore);
-            foreach ($morereceivers as $extraemail) {
-                $singleuser = new stdClass();
-                $singleuser->id = null;
-                $singleuser->firstname = '';
-                $singleuser->lastname = '';
-                $singleuser->email = $extraemail;
-                $receivers[] = $singleuser;
+            $singleuser = new stdClass();
+            $singleuser->id = -1;
+            $singleuser->firstname = '';
+            $singleuser->lastname = '';
+            $singleuser->firstnamephonetic = '';
+            $singleuser->lastnamephonetic = '';
+            $singleuser->middlename = '';
+            $singleuser->alternatename = '';
+            $singleuser->maildisplay = 2;
+            $singleuser->mailformat = 1;
+
+            $morerecipients = surveypro_textarea_to_array($this->surveypro->notifymore);
+            foreach ($morerecipients as $moreemail) {
+                $singleuser->email = $moreemail;
+                $recipients[] = $singleuser;
             }
         }
 
@@ -819,8 +816,11 @@ class mod_surveypro_userformmanager {
         $from->firstname = $COURSE->shortname;
         $from->lastname = $this->surveypro->name;
         $from->email = $CFG->noreplyaddress;
-        $from->maildisplay = 1;
-        $from->mailformat = 1;
+        $from->firstnamephonetic = '';
+        $from->lastnamephonetic = '';
+        $from->middlename = '';
+        $from->alternatename = '';
+        $from->maildisplay = 2;
 
         $htmlbody = $mailheader;
         $htmlbody .= get_string('newsubmissionbody', 'surveypro', $this->surveypro->name);
@@ -830,15 +830,7 @@ class mod_surveypro_userformmanager {
 
         $subject = get_string('newsubmissionsubject', 'surveypro');
 
-        $recipient = new object;
-        $recipient->maildisplay = 1;
-        $recipient->mailformat = 1;
-
-        foreach ($receivers as $receiver) {
-            $recipient->firstname = $receiver->firstname;
-            $recipient->lastname = $receiver->lastname;
-            $recipient->email = $receiver->email;
-
+        foreach ($recipients as $recipient) {
             email_to_user($recipient, $from, $subject, $body, $htmlbody);
         }
     }
