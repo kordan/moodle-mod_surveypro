@@ -755,67 +755,55 @@ class mod_surveypro_userformmanager {
 
         $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $this->cm->groupingid);
         $mygroups = array_keys($mygroups);
-        if (count($mygroups)) {
-            if ($this->surveypro->notifyrole) {
+        if ($this->surveypro->notifyrole) {
+            if (count($mygroups)) {
                 $roles = explode(',', $this->surveypro->notifyrole);
                 $recipients = array();
                 foreach ($mygroups as $mygroup) {
-                    $groupmemberroles = groups_get_members_by_role($mygroup, $COURSE->id, 'u.firstname, u.lastname, u.email');
+                    $groupmemberroles = groups_get_members_by_role($mygroup, $COURSE->id, user_picture::fields('u').', u.maildisplay, u.mailformat');
 
                     foreach ($roles as $role) {
                         if (isset($groupmemberroles[$role])) {
                             $roledata = $groupmemberroles[$role];
 
-                            foreach ($roledata->users as $member) {
-                                $singleuser = new stdClass();
-                                $singleuser->id = $member->id;
-                                $singleuser->firstname = $member->firstname;
-                                $singleuser->lastname = $member->lastname;
-                                $singleuser->email = $member->email;
+                            foreach ($roledata->users as $singleuser) {
+                                unset($singleuser->roles);
                                 $recipients[] = $singleuser;
                             }
                         }
                     }
                 }
             } else {
-                // notification was not requested
-                $recipients = array();
-            }
-        } else {
-            if ($this->surveypro->notifyrole) {
                 // get_enrolled_users($courseid, $options = array()) <-- role is missing
                 // get_users_from_role_on_context($role, $context);  <-- this is ok but I need to call it once per $role, below I make the query once all together
                 $whereparams = array('contextid' => $context->id);
-                $sql = 'SELECT DISTINCT ra.userid,
-                        '.user_picture::fields('u').', u.maildisplay, u.mailformat
-                        FROM (SELECT *
-                              FROM {role_assignments}
-                              WHERE contextid = :contextid
-                                  AND roleid IN ('.$this->surveypro->notifyrole.')) ra
-                        JOIN {user} u ON u.id = ra.userid';
+                $sql = 'SELECT DISTINCT '.user_picture::fields('u').', u.maildisplay, u.mailformat
+                        FROM {user} u
+                            JOIN {role_assignments} ra ON u.id = ra.userid
+                        WHERE contextid = :contextid
+                            AND roleid IN ('.$this->surveypro->notifyrole.')';
                 $recipients = $DB->get_records_sql($sql, $whereparams);
-            } else {
-                // notification was not requested
-                $recipients = array();
             }
+        } else {
+            // notification to roles was not requested
+            $recipients = array();
         }
 
         if (!empty($this->surveypro->notifymore)) {
+            $singleuser = new stdClass();
+            $singleuser->id = -1;
+            $singleuser->firstname = '';
+            $singleuser->lastname = '';
+            $singleuser->firstnamephonetic = '';
+            $singleuser->lastnamephonetic = '';
+            $singleuser->middlename = '';
+            $singleuser->alternatename = '';
+            $singleuser->maildisplay = 2;
+            $singleuser->mailformat = 1;
+
             $morerecipients = surveypro_textarea_to_array($this->surveypro->notifymore);
-            foreach ($morerecipients as $extraemail) {
-                $singleuser = new stdClass();
-                $singleuser->id = -1;
-                $singleuser->firstname = '';
-                $singleuser->lastname = '';
-                $singleuser->firstnamephonetic = '';
-                $singleuser->lastnamephonetic = '';
-                $singleuser->middlename = '';
-                $singleuser->alternatename = '';
-                $singleuser->maildisplay = '';
-                $singleuser->mailformat = '';
-                $singleuser->email = $extraemail;
-                $singleuser->maildisplay = 2;
-                $singleuser->mailformat = 1;
+            foreach ($morerecipients as $moreemail) {
+                $singleuser->email = $moreemail;
                 $recipients[] = $singleuser;
             }
         }
