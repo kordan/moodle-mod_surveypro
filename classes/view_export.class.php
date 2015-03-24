@@ -108,7 +108,8 @@ class mod_surveypro_exportmanager {
                                 LEFT JOIN {surveypro_item} si ON si.id = a.itemid';
 
         if ($groupmode == SEPARATEGROUPS) {
-            if (!$this->canseeotherssubmissions) {
+            // !$this->canseeotherssubmissions do not overload the query with useless conditions
+            if ($this->canseeotherssubmissions) {
                 $sql .= ' JOIN {groups_members} gm ON gm.userid = s.userid ';
             }
         }
@@ -139,8 +140,10 @@ class mod_surveypro_exportmanager {
         }
 
         if ($groupmode == SEPARATEGROUPS) {
-            // restrict to your groups only
-            $sql .= ' AND gm.groupid IN ('.implode(',', $mygroups).')';
+            // !$this->canseeotherssubmissions do not overload the query with useless conditions
+            if ($this->canseeotherssubmissions) {
+                $sql .= ' AND gm.groupid IN ('.implode(',', $mygroups).')';
+            }
         }
         if (!$this->canseeotherssubmissions) {
             // restrict to your submissions only
