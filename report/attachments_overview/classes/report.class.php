@@ -117,13 +117,15 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
                 FROM {user} u
                 JOIN (SELECT id, userid
                         FROM {role_assignments}
-                        WHERE contextid = '.$this->context->id.'
-                          AND roleid IN ('.implode(',', $role).')) ra ON u.id = ra.userid
+                        WHERE contextid = :contextid
+                          AND roleid IN (:roles)) ra ON u.id = ra.userid
                 LEFT JOIN (SELECT id, userid
                          FROM {surveypro_submission}
                          WHERE surveyproid = :surveyproid) s ON u.id = s.userid';
-        $whereparams = array('surveyproid' => $this->surveypro->id);
-
+        $whereparams = array();
+        $whereparams['surveyproid'] = $this->surveypro->id;
+        $whereparams['contextid'] = $this->context->id;
+        $whereparams['roles'] = implode(',', $role);
         list($where, $filterparams) = $this->outputtable->get_sql_where();
         if ($where) {
             $sql .= ' WHERE '.$where;

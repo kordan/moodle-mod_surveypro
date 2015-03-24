@@ -74,9 +74,6 @@ class mod_surveypro_report_uploadformmanager {
         $this->cm = $cm;
         $this->context = $context;
         $this->surveypro = $surveypro;
-        $this->userid = $userid;
-        $this->itemid = $itemid;
-        $this->submissionid = $submissionid;
 
         // $this->canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
         $this->canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $this->context, null, true);
