@@ -66,7 +66,7 @@ $moduletab = SURVEYPRO_TABSUBMISSIONS; // needed by tabs.php
 $modulepage = SURVEYPRO_SUBMISSION_REPORT; // needed by tabs.php
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
-$reportman = new mod_surveypro_report_attachments_overview($cm, context_course::instance($COURSE->id), $surveypro);
+$reportman = new mod_surveypro_report_attachments_overview($cm, $context, $surveypro);
 $reportman->setup_outputtable();
 // $reportman->prevent_direct_user_input(); // without meaning?
 $reportman->check_attachmentitems();

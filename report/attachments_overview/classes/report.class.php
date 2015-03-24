@@ -101,9 +101,10 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
      * @return none
      */
     public function fetch_data() {
-        global $CFG, $DB, $COURSE, $OUTPUT;
+        global $DB, $COURSE, $OUTPUT;
 
-        $roles = get_roles_used_in_context($this->context);
+        $coursecontext = context_course::instance($COURSE->id);
+        $roles = get_roles_used_in_context($coursecontext);
         if (!$role = array_keys($roles)) {
             // return nothing
             return;
@@ -124,7 +125,7 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
                          WHERE surveyproid = :surveyproid) s ON u.id = s.userid';
         $whereparams = array();
         $whereparams['surveyproid'] = $this->surveypro->id;
-        $whereparams['contextid'] = $this->context->id;
+        $whereparams['contextid'] = $coursecontext->id;
         $whereparams['roles'] = implode(',', $role);
         list($where, $filterparams) = $this->outputtable->get_sql_where();
         if ($where) {
