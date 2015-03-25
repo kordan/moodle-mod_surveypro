@@ -822,8 +822,14 @@ class mod_surveypro_userformmanager {
         $from->alternatename = '';
         $from->maildisplay = 2;
 
+        $a = new stdClass();
+        $a->username = fullname($USER);
+        $a->surveyproname = $this->surveypro->name;
+        $a->title = get_string('reviewsubmissions', 'surveypro');
+        $a->href = $CFG->wwwroot.'/mod/surveypro/view.php?s='.$this->surveypro->id;
+
         $htmlbody = $mailheader;
-        $htmlbody .= get_string('newsubmissionbody', 'surveypro', $this->surveypro->name);
+        $htmlbody .= get_string('newsubmissionbody', 'surveypro', $a);
         $htmlbody .= $mailfooter;
 
         $body = strip_tags($htmlbody);

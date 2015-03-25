@@ -49,3 +49,4 @@ MDL-43689: With set of advanced checkboxes, if the set is disabled each single c
 MDL-43704: mform multiselect element is not disabled by the grouped checkbox (as many of other mform elements do)
 MDL-40418: A missing <label> tag in mform causes wrong display (not blocker)
 MDL-44138: The height (in pixel) of the same mform element changes with the content of the other mform elements
+MDL-45815: filemanager mform elements are completely discarded in readonly forms
