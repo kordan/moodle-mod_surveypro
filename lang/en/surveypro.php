@@ -287,7 +287,8 @@ $string['namenotset'] = 'not set';
 $string['needrole'] = 'Advanced element: only users with specific capability will see it';
 $string['newpageforchild_help'] = 'Use this option to force a new page after each branching element.';
 $string['newpageforchild'] = 'Branches increase pages';
-$string['newsubmissionbody'] = 'A new record has been submitted in {$a}';
+$string['newsubmissionbody'] = '{$a->username} submitted a new record in {$a->surveyproname}
+You can review it <a title="{$a->title}" href="{$a->href}">here</a>';
 $string['newsubmissionsubject'] = 'New response';
 $string['nextformpage'] = 'Next page >>';
 $string['noanswer'] = 'No answer';
@@ -341,6 +342,7 @@ $string['position'] = 'Question position';
 $string['previewmode'] = 'You are in \'{$a}\': buttons to save data are not supposed to display';
 $string['previousformpage'] = '<< Previous page';
 $string['readonlyaccess'] = 'Read only access';
+$string['reviewsubmissions'] = 'review surveypro submissions';
 $string['relation_status'] = 'Status';
 $string['reportederror'] = '{$a}';
 $string['reportplugin'] = 'Report plugin';
