@@ -244,7 +244,6 @@ class mod_surveypro_itembaseform extends moodleform {
                 }
             }
 
-            $where = '(\''.implode("','", $pluginlist).'\')';
             $sql = 'SELECT *
                     FROM {surveypro_item}
                     WHERE surveyproid = :surveyproid';
@@ -253,7 +252,7 @@ class mod_surveypro_itembaseform extends moodleform {
                 $sql .= ' AND sortindex < :sortindex';
                 $whereparams['sortindex'] = $item->get_sortindex();
             }
-            $sql .= ' AND plugin IN '.$where.'
+            $sql .= ' AND plugin IN (\''.implode("','", $pluginlist).'\')
                         ORDER BY sortindex';
             $parentsseeds = $DB->get_recordset_sql($sql, $whereparams);
 
