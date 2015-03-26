@@ -842,7 +842,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
     // SURVEYPRO_TABSUBMISSIONS
     if ($canimportdata || $canexportdata) {
         // -> parent
-        $nodelabel = get_string('tabsubmissionsname', 'surveypro');
+        $nodelabel = get_string('tabsubmissionspage2', 'surveypro');
         $navnode = $surveypronode->add($nodelabel,  null, navigation_node::TYPE_CONTAINER);
 
         // -> children
