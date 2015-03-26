@@ -61,7 +61,8 @@ $formurl = new moodle_url('/mod/surveypro/view_export.php', $paramurl);
 // prepare params for the form
 $formparams = new stdClass();
 $formparams->surveypro = $surveypro;
-$formparams->canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $context, null, true);
+$formparams->activityisgrouped = groups_get_activity_groupmode($cm, $course);
+$formparams->context = $context;
 $exportform = new mod_surveypro_exportform($formurl, $formparams);
 // end of: prepare params for the form
 // -----------------------------
