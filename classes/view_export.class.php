@@ -91,10 +91,7 @@ class mod_surveypro_exportmanager {
     public function get_export_sql($forceuserid=false) {
         global $USER, $COURSE;
 
-        if ($groupmode = groups_get_activity_groupmode($this->cm, $COURSE)) {
-            $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $this->cm->groupingid);
-            $mygroups = array_keys($mygroups);
-        }
+        $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
 
         $sql = 'SELECT s.id as submissionid, s.status, s.timecreated, s.timemodified, ';
         if (empty($this->surveypro->anonymous) || ($forceuserid)) {
@@ -107,10 +104,12 @@ class mod_surveypro_exportmanager {
                                 LEFT JOIN {surveypro_answer} a ON a.submissionid = s.id
                                 LEFT JOIN {surveypro_item} si ON si.id = a.itemid';
 
-        if ($groupmode == SEPARATEGROUPS) {
-            // !$this->canseeotherssubmissions do not overload the query with useless conditions
-            if ($this->canseeotherssubmissions) {
-                $sql .= ' JOIN {groups_members} gm ON gm.userid = s.userid ';
+        // !$this->canseeotherssubmissions do not overload the query with useless conditions
+        if ($this->canseeotherssubmissions) {
+            if ($groupmode) { // activity is divided into groups
+                if (!empty($this->formdata->groupid)) {
+                    $sql .= ' JOIN {groups_members} gm ON gm.userid = s.userid ';
+                }
             }
         }
 
@@ -139,13 +138,15 @@ class mod_surveypro_exportmanager {
             $whereparams['plugin'] = 'fileupload';
         }
 
-        if ($groupmode == SEPARATEGROUPS) {
-            // !$this->canseeotherssubmissions do not overload the query with useless conditions
-            if ($this->canseeotherssubmissions) {
-                $sql .= ' AND gm.groupid IN ('.implode(',', $mygroups).')';
+        // !$this->canseeotherssubmissions do not overload the query with useless conditions
+        if ($this->canseeotherssubmissions) {
+            if ($groupmode) { // activity is divided into groups
+                if (!empty($this->formdata->groupid)) {
+                    $sql .= ' AND gm.groupid = :groupid';
+                    $whereparams['groupid'] = $this->formdata->groupid;
+                }
             }
-        }
-        if (!$this->canseeotherssubmissions) {
+        } else {
             // restrict to your submissions only
             $sql .= ' AND s.userid = :userid';
             $whereparams['userid'] = $USER->id;
@@ -188,8 +189,8 @@ class mod_surveypro_exportmanager {
         if (!isset($this->formdata->includehide)) {
             $where['hidden'] = 0;
         }
-        if (($this->formdata->downloadtype == SURVEYPRO_FILESBYUSER)
-            || ($this->formdata->downloadtype == SURVEYPRO_FILESBYITEM)) {
+        if (($this->formdata->downloadtype == SURVEYPRO_FILESBYUSER) ||
+            ($this->formdata->downloadtype == SURVEYPRO_FILESBYITEM)) {
             $where['plugin'] = 'fileupload';
         }
 

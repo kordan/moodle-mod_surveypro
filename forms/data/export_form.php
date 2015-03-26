@@ -27,18 +27,44 @@ class mod_surveypro_exportform extends moodleform {
      * @return none
      */
     public function definition() {
-        global $CFG, $DB;
+        global $CFG, $DB, $COURSE, $USER;
+
         // ----------------------------------------
         $mform = $this->_form;
 
         // ----------------------------------------
         // get _customdata
         $surveypro = $this->_customdata->surveypro;
+        $activityisgrouped = $this->_customdata->activityisgrouped;
+        $context = $this->_customdata->context;
 
         // ----------------------------------------
         // submissionexport: settingsheader
         // ----------------------------------------
         $mform->addElement('header', 'settingsheader', get_string('download'));
+
+        // ----------------------------------------
+        // submissionexport: groupid
+        // ----------------------------------------
+        if ($activityisgrouped) {
+            if ($allgroups = groups_get_all_groups($COURSE->id)) {
+                $fieldname = 'groupid';
+                $options = array();
+                if (has_capability('moodle/site:accessallgroups', $context)) {
+                    $options[] = get_string('allgroups');
+                    $mygroups = $allgroups;
+                } else {
+                    $mygroups = groups_get_all_groups($COURSE->id, $USER->id);
+                }
+
+                foreach ($mygroups as $group) {
+                    $options[$group->id] = $group->name;
+                }
+
+                $mform->addElement('select', $fieldname, get_string('groupname', 'group'), $options);
+            }
+        }
+
 
         // ----------------------------------------
         // submissionexport: status
@@ -65,7 +91,7 @@ class mod_surveypro_exportform extends moodleform {
         // submissionexport: advanced
         // ----------------------------------------
         $fieldname = 'advanced';
-        if ($this->_customdata->canaccessadvanceditems) {
+        if (has_capability('mod/surveypro:accessadvanceditems', $context)) {
             $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveypro'));
         } else {
             $mform->addElement('hidden', $fieldname, 0);
