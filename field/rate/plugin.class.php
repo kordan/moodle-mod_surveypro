@@ -652,15 +652,23 @@ EOS;
         // $answers is an array like: array(1,1,0,0)
         switch ($format) {
             case SURVEYPRO_ITEMSRETURNSVALUES:
+                $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $content);
+                $output = array();
+                $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
+
+                $rates = $this->item_get_content_array(SURVEYPRO_VALUES, 'rates');
+                foreach ($labels as $k => $label) {
+                    $index = $answers[$k];
+                    $output[] = $label.SURVEYPROFIELD_RATE_VALUERATESEPARATOR.$rates[$index];
+                }
+                $return = implode(SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR, $output);
+                break;
             case SURVEYPRO_ITEMRETURNSLABELS:
                 $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $content);
                 $output = array();
                 $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
-                if ($format == SURVEYPRO_ITEMSRETURNSVALUES) {
-                    $rates = $this->item_get_content_array(SURVEYPRO_VALUES, 'rates');
-                } else { // $format == SURVEYPRO_ITEMRETURNSLABELS
-                    $rates = $this->item_get_content_array(SURVEYPRO_LABELS, 'rates');
-                }
+
+                $rates = $this->item_get_content_array(SURVEYPRO_LABELS, 'rates');
                 foreach ($labels as $k => $label) {
                     $index = $answers[$k];
                     $output[] = $label.SURVEYPROFIELD_RATE_VALUERATESEPARATOR.$rates[$index];
