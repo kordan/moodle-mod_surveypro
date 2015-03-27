@@ -759,9 +759,15 @@ EOS;
 
         switch ($format) {
             case SURVEYPRO_ITEMSRETURNSVALUES:
+                $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
+                if (array_key_exists($content, $values)) {
+                    $return = $values[$content];
+                } else {
+                    $return = $content;
+                }
+                break;
             case SURVEYPRO_ITEMRETURNSLABELS:
-                $content = ($format == SURVEYPRO_ITEMSRETURNSVALUES) ? 'values' : 'labels';
-                $values = $this->item_get_content_array($content, 'options');
+                $values = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
                 if (array_key_exists($content, $values)) {
                     $return = $values[$content];
                 } else {

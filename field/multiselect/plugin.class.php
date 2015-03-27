@@ -735,14 +735,22 @@ EOS;
         // $answers is an array like: array(1,1,0,0)
         switch ($format) {
             case SURVEYPRO_ITEMSRETURNSVALUES:
+                $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $content);
+                $output = array();
+                $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
+
+                $standardanswerscount = count($values);
+                foreach ($values as $k => $value) {
+                    if (isset($answers[$k])) {
+                        $output[] = $value;
+                    }
+                }
+                $return = implode(SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR, $output);
+                break;
             case SURVEYPRO_ITEMRETURNSLABELS:
                 $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $content);
                 $output = array();
-                if ($format == SURVEYPRO_ITEMSRETURNSVALUES) {
-                    $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
-                } else { // $format == SURVEYPRO_ITEMRETURNSLABELS
-                    $values = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
-                }
+                $values = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
 
                 $standardanswerscount = count($values);
                 foreach ($values as $k => $value) {

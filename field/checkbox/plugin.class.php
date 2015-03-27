@@ -848,14 +848,34 @@ EOS;
         // $answers is an array like: array(1,1,0,0,'dummytext')
         switch ($format) {
             case SURVEYPRO_ITEMSRETURNSVALUES:
+                $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $content);
+                $output = array();
+                $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
+
+                $standardanswerscount = count($values);
+                foreach ($values as $k => $value) {
+                    if ($answers[$k] == 1) {
+                        $output[] = $value;
+                    }
+                }
+                if (!empty($this->labelother)) {
+                    $value = end($answers);
+                    if (!empty($value)) {
+                        $output[] = $value; // last element of the array $answers
+                    }
+                }
+
+                if (!empty($output)) {
+                    $return = implode(SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR, $output);
+                } else {
+                    $return = get_string('emptyanswer', 'surveypro');
+                }
+                break;
             case SURVEYPRO_ITEMRETURNSLABELS:
                 $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $content);
                 $output = array();
-                if ($format == SURVEYPRO_ITEMSRETURNSVALUES) {
-                    $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
-                } else { // $format == SURVEYPRO_ITEMRETURNSLABELS
-                    $values = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
-                }
+                $values = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
+
                 $standardanswerscount = count($values);
                 foreach ($values as $k => $value) {
                     if ($answers[$k] == 1) {
