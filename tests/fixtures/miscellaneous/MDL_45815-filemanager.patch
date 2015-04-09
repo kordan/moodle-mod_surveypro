@@ -1,0 +1,75 @@
+--- /Users/daniele/Desktop/GIT_repo/latest/lib/form/filemanager.php	2015-01-30 14:01:12.000000000 +0100
++++ /Applications/MAMP/htdocs/head/lib/form/filemanager.php	2015-03-27 13:46:19.000000000 +0100
+@@ -221,11 +221,7 @@
+      * @return string
+      */
+     function getElementTemplateType() {
+-        if ($this->_flagFrozen){
+-            return 'nodisplay';
+-        } else {
+-            return 'default';
+-        }
++        return 'default';
+     }
+ 
+     /**
+@@ -287,6 +283,59 @@
+ 
+         return $html;
+     }
++
++    /**
++     * What to display when element is frozen.
++     * Returns the value of field without HTML tags
++     *
++     * @return empty string
++     */
++    function getFrozenHtml() {
++        global $CFG, $PAGE;
++
++        require_once("$CFG->dirroot/repository/lib.php");
++
++        $id          = $this->_attributes['id'];
++        $elname      = $this->_attributes['name'];
++        $subdirs     = $this->_options['subdirs'];
++        $maxbytes    = $this->_options['maxbytes'];
++        $draftitemid = $this->getValue();
++        $accepted_types = $this->_options['accepted_types'];
++
++        if (empty($draftitemid)) {
++            // no existing area info provided - let's use fresh new draft area
++            require_once("$CFG->libdir/filelib.php");
++            $this->setValue(file_get_unused_draft_itemid());
++            $draftitemid = $this->getValue();
++        }
++
++        $client_id = uniqid();
++
++        // filemanager options
++        $options = new stdClass();
++        $options->mainfile  = $this->_options['mainfile'];
++        $options->maxbytes  = $this->_options['maxbytes'];
++        $options->maxfiles  = $this->getMaxfiles();
++        $options->client_id = $client_id;
++        $options->itemid    = $draftitemid;
++        $options->subdirs   = $this->_options['subdirs'];
++        $options->target    = $id;
++        $options->accepted_types = $accepted_types;
++        $options->return_types = $this->_options['return_types'];
++        $options->context = $PAGE->context;
++        $options->areamaxbytes = $this->_options['areamaxbytes'];
++
++        $fm = new form_filemanager($options);
++
++        $output = '';
++        foreach ($fm->options->list as $list) {
++            $output .= '<a href="'.$list->url.'"><img src="'.$list->thumbnail.'" /></a>';
++            $output .= '<a href="'.$list->url.'">'.s($list->filename).'</a><br />';
++        }
++        $output = substr($output, 0, -6); // cut down last <br />
++
++        return $output;
++    }
+ }
+ 
+ /**
