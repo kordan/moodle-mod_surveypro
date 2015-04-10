@@ -31,7 +31,11 @@ $settings = new admin_settingpage($section, get_string('settings', 'mod_surveypr
 
 if ($ADMIN->fulltree) {
     $name = new lang_string('requiremodintro', 'admin');
-    $description = new lang_string('configrequiremodintro', 'admin');
+    if ($CFG->branch == '29') {
+        $description = new lang_string('requiremodintro_desc', 'admin');
+    } else {
+        $description = new lang_string('configrequiremodintro', 'admin');
+    }
     $settings->add(new admin_setting_configcheckbox('surveypro/requiremodintro', $name, $description, 0));
 
     $name = new lang_string('maxinputdelay', 'mod_surveypro');

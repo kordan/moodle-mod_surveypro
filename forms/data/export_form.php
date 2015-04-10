@@ -52,12 +52,11 @@ class mod_surveypro_exportform extends moodleform {
                 $options = array();
                 if (has_capability('moodle/site:accessallgroups', $context)) {
                     $options[] = get_string('allgroups');
-                    $mygroups = $allgroups;
                 } else {
-                    $mygroups = groups_get_all_groups($COURSE->id, $USER->id);
+                    $allgroups = groups_get_all_groups($COURSE->id, $USER->id);
                 }
 
-                foreach ($mygroups as $group) {
+                foreach ($allgroups as $group) {
                     $options[$group->id] = $group->name;
                 }
 

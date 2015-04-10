@@ -43,6 +43,7 @@ Pending tracker issues:
 √ MDL-39280: $mform->disabledIf doesn't work for 'multiselect' mform elements. Fixed by Frédéric Massart on May 10, 2013
 MDL-25067: TinyMCE instance can not be disabled.
 MDL-28194: I am in trouble assigning syles to some mform element. (not blocker)
+MDL-29421: Form elements editor and filepicker do not support freezing
 MDL-31796: $mform->disabledIf doesn't work for 'filemanager' mform elements.
 MDL-34815: Disabled mform items need to be skipped during validation (and more).
 MDL-43689: With set of advanced checkboxes, if the set is disabled each single chechbox returns its default value instead of its actual value
