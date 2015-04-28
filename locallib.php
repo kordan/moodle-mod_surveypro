@@ -155,5 +155,5 @@ function surveypro_groupmates($cm, $userid=0) {
     return array_keys($groupusers);
 }
 
-MoodleQuickForm::registerElementType('mod_surveypro_editor', "$CFG->dirroot/mod/surveypro/field/textarea/classes/editor.php", 'MoodleQuickForm_editor');
-MoodleQuickForm::registerElementType('mod_surveypro_filemanager', "$CFG->dirroot/mod/surveypro/field/textarea/classes/filemanager.php", 'MoodleQuickForm_filemanager');
+MoodleQuickForm::registerElementType('mod_surveypro_editor', "$CFG->dirroot/mod/surveypro/field/textarea/classes/editor.php", 'mod_surveypro_mform_editor');
+MoodleQuickForm::registerElementType('mod_surveypro_filemanager', "$CFG->dirroot/mod/surveypro/field/fileupload/classes/filemanager.php", 'mod_surveypro_mform_filemanager');

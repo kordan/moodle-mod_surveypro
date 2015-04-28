@@ -28,6 +28,14 @@ require_once($CFG->libdir.'/form/filemanager.php');
 
 class mod_surveypro_mform_filemanager extends MoodleQuickForm_filemanager {
 
+
+    /**
+     * All types must have this constructor implemented.
+     */
+    public function mod_surveypro_mform_filemanager($elementName=null, $elementLabel=null, $attributes=null, $options=null) {
+       parent::MoodleQuickForm_filemanager($elementName, $elementLabel, $attributes, $options);
+    }
+
     /**
      * Returns type of editor element
      *

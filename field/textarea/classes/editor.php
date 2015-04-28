@@ -29,6 +29,13 @@ require_once($CFG->libdir.'/form/editor.php');
 class mod_surveypro_mform_editor extends MoodleQuickForm_editor {
 
     /**
+     * All types must have this constructor implemented.
+     */
+    public function mod_surveypro_mform_editor($elementName=null, $elementLabel=null, $attributes=null, $options=null) {
+        parent::MoodleQuickForm_editor($elementName, $elementLabel, $attributes, $options);
+    }
+
+    /**
      * Returns type of editor element
      *
      * @return string
