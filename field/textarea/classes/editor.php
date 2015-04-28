@@ -24,7 +24,6 @@ defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 
-// require_once(dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))))).'/config.php');
 require_once($CFG->libdir.'/form/editor.php');
 
 class mod_surveypro_mform_editor extends MoodleQuickForm_editor {
@@ -35,11 +34,7 @@ class mod_surveypro_mform_editor extends MoodleQuickForm_editor {
      * @return string
      */
     function getElementTemplateType() {
-        if ($this->_flagFrozen){
-            return 'nodisplay';
-        } else {
-            return 'default';
-        }
+        return 'default';
     }
 
     /**
