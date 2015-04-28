@@ -15,8 +15,6 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This is a one-line short description of the file
- *
  * @package    mod_surveypro
  * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,9 +23,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/surveypro/classes/itembase.class.php');
-require_once($CFG->dirroot.'/mod/surveypro/field/shortdate/lib.php');
+require_once($CFG->dirroot.'/mod/surveypro/field/date/lib.php');
 
-class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
+class mod_surveypro_field_date extends mod_surveypro_itembase {
 
     /**
      * $content = the text content of the item.
@@ -96,22 +94,25 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
      * $defaultvalue = the value of the field when the form is initially displayed.
      */
     public $defaultvalue = 0;
-    public $defaultvalue_month = null;
     public $defaultvalue_year = null;
+    public $defaultvalue_month = null;
+    public $defaultvalue_day = null;
 
     /**
-     * $lowerbound = the minimum allowed short date
+     * $lowerbound = the minimum allowed date
      */
     public $lowerbound = 0;
-    public $lowerbound_month = null;
     public $lowerbound_year = null;
+    public $lowerbound_month = null;
+    public $lowerbound_day = null;
 
     /**
-     * $upperbound = the maximum allowed short date
+     * $upperbound = the maximum allowed date
      */
     public $upperbound = 0;
-    public $upperbound_month = null;
     public $upperbound_year = null;
+    public $upperbound_month = null;
+    public $upperbound_day = null;
 
     /**
      * static canbeparent
@@ -136,7 +137,7 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
 
         // list of constant element attributes
         $this->type = SURVEYPRO_TYPEFIELD;
-        $this->plugin = 'shortdate';
+        $this->plugin = 'date';
         // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
         $this->savepositiontodb = false;
 
@@ -144,10 +145,9 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
         // nothing
 
         // override properties depending from $surveypro settings
-        // override properties depending from $surveypro settings
         $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
-        $this->lowerbound = $this->item_shortdate_to_unix_time(1, $surveypro->startyear);
-        $this->upperbound = $this->item_shortdate_to_unix_time(12, $surveypro->stopyear);
+        $this->lowerbound = $this->item_date_to_unix_time($surveypro->startyear, 1, 1);
+        $this->upperbound = $this->item_date_to_unix_time($surveypro->stopyear, 12, 31);
         $this->defaultvalue = $this->lowerbound;
 
         // list of fields I do not want to have in the item definition form
@@ -199,19 +199,41 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
     }
 
     /**
-     * item_shortdate_to_unix_time
+     * item_date_to_unix_time
      *
-     * @param $month
      * @param $year
+     * @param $month
+     * @param $day
      * @return
      */
-    public function item_shortdate_to_unix_time($month, $year) {
-        return (gmmktime(12, 0, 0, $month, 1, $year)); // This is GMT
+    public function item_date_to_unix_time($year, $month, $day) {
+        return (gmmktime(12, 0, 0, $month, $day, $year)); // This is GMT
+    }
+
+    /**
+     * item_validate_record_coherence
+     * verify the validity of contents of the record
+     * for instance: age not greater than maximumage
+     *
+     * @param stdClass $record
+     * @return stdClass $record
+     */
+    public function item_validate_record_coherence($record) {
+        if (isset($record->defaultvalue)) {
+            $mindate = $item->item_date_to_unix_time($this->surveypro->startyear, 1, 1);
+            if ($record->defaultvalue < $mindate) {
+                $record->defaultvalue = $mindate;
+            }
+            $maxdate = $item->item_date_to_unix_time($this->surveypro->startyear, 12, 31);
+            if ($record->defaultvalue > $maxdate) {
+                $record->defaultvalue = $maxdate;
+            }
+        }
     }
 
     /**
      * item_custom_fields_to_form
-     * translates the shortdate class property $fieldlist in $field.'_year' and $field.'_month'
+     * translates the date class property $fieldlist in $field.'_year' $field.'_month' and $field.'_day
      *
      * @param none
      * @return
@@ -230,16 +252,17 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
                     case 'defaultvalue':
                         continue 2; // it may be; continues switch and foreach too
                     case 'lowerbound':
-                        $this->{$field} = $this->item_shortdate_to_unix_time(1, $surveypro->startyear);
+                        $this->{$field} = $this->item_date_to_unix_time($surveypro->startyear, 1, 1);
                         break;
                     case 'upperbound':
-                        $this->{$field} = $this->item_shortdate_to_unix_time(1, $surveypro->stopyear);
+                        $this->{$field} = $this->item_date_to_unix_time($surveypro->stopyear, 1, 1);
                         break;
                 }
             }
-            $shortdatearray = $this->item_split_unix_time($this->{$field});
-            $this->{$field.'_month'} = $shortdatearray['mon'];
-            $this->{$field.'_year'} = $shortdatearray['year'];
+            $datearray = $this->item_split_unix_time($this->{$field});
+            $this->{$field.'_year'} = $datearray['year'];
+            $this->{$field.'_month'} = $datearray['mon'];
+            $this->{$field.'_day'} = $datearray['mday'];
         }
 
         // 3. special management for defaultvalue
@@ -248,7 +271,7 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
 
     /**
      * item_custom_fields_to_db
-     * sets record field to store the correct value to db for the shortdate custom item
+     * sets record field to store the correct value to db for the date custom item
      *
      * @param $record
      * @return
@@ -260,10 +283,11 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
         // 2. special management for composite fields
         $fieldlist = $this->item_composite_fields();
         foreach ($fieldlist as $field) {
-            if (isset($record->{$field.'_month'}) && isset($record->{$field.'_year'})) {
-                $record->{$field} = $this->item_shortdate_to_unix_time($record->{$field.'_month'}, $record->{$field.'_year'});
-                unset($record->{$field.'_month'});
+            if (isset($record->{$field.'_year'}) && isset($record->{$field.'_month'}) && isset($record->{$field.'_day'})) {
+                $record->{$field} = $this->item_date_to_unix_time($record->{$field.'_year'}, $record->{$field.'_month'}, $record->{$field.'_day'});
                 unset($record->{$field.'_year'});
+                unset($record->{$field.'_month'});
+                unset($record->{$field.'_day'});
             } else {
                 $record->{$field} = null;
             }
@@ -294,30 +318,24 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
         $option = array();
         $timenow = time();
 
-        for ($i = 1; $i < 7; $i++) {
+        for ($i = 1; $i < 11; $i++) {
             $strname = 'strftime'.str_pad($i, 2, '0', STR_PAD_LEFT);
-            $option[$strname] = userdate($timenow, get_string($strname, 'surveyprofield_shortdate'));
+            $option[$strname] = userdate($timenow, get_string($strname, 'surveyprofield_date')); // Monday 17 June, 05.15
         }
         $option['unixtime'] = get_string('unixtime', 'surveypro');
-        // June 2013
-        // June '13
-        // Jun 2013
-        // Jun '13
-        // 06/2013
-        // 06/13
+        // Friday, 21 June 2013
+        // Friday, 21 June '13
+        // Fri, 21 Jun 2013
+        // Fri, 21 Jun '13
+        // 21 Giugno 2013
+        // 21 Giugno '13
+        // 21 Giu 2013
+        // 21 Giu '13
+        // 21/06/2013
+        // 21/06/13
         // unix time
 
         return $option;
-    }
-
-    /**
-     * item_get_friendlyformat
-     *
-     * @param none
-     * @return
-     */
-    public function item_get_friendlyformat() {
-        return 'strftime01';
     }
 
     /**
@@ -334,6 +352,16 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
     }
 
     /**
+     * item_get_friendlyformat
+     *
+     * @param none
+     * @return
+     */
+    public function item_get_friendlyformat() {
+        return 'strftime05';
+    }
+
+    /**
      * item_get_plugin_schema
      * Return the xml schema for surveypro_<<plugin>> table.
      *
@@ -343,7 +371,7 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
         $schema = <<<EOS
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
-    <xs:element name="surveyprofield_shortdate">
+    <xs:element name="surveyprofield_date">
         <xs:complexType>
             <xs:sequence>
                 <xs:element type="xs:string" name="content"/>
@@ -402,18 +430,24 @@ EOS;
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
+        $idprefix = 'id_surveypro_field_date_'.$this->sortindex;
+
         // element values
+        $days = array();
         $months = array();
         $years = array();
         if (!$searchform) {
             if ($this->defaultoption == SURVEYPRO_INVITATIONDEFAULT) {
-                $months[SURVEYPRO_INVITATIONVALUE] = get_string('invitationmonth', 'surveyprofield_shortdate');
-                $years[SURVEYPRO_INVITATIONVALUE] = get_string('invitationyear', 'surveyprofield_shortdate');
+                $days[SURVEYPRO_INVITATIONVALUE] = get_string('invitationday', 'surveyprofield_date');
+                $months[SURVEYPRO_INVITATIONVALUE] = get_string('invitationmonth', 'surveyprofield_date');
+                $years[SURVEYPRO_INVITATIONVALUE] = get_string('invitationyear', 'surveyprofield_date');
             }
         } else {
+            $days[SURVEYPRO_IGNOREME] = '';
             $months[SURVEYPRO_IGNOREME] = '';
             $years[SURVEYPRO_IGNOREME] = '';
         }
+        $days += array_combine(range(1, 31), range(1, 31));
         for ($i = 1; $i <= 12; $i++) {
             $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // january, february, march...
         }
@@ -422,8 +456,9 @@ EOS;
 
         // mform element
         $elementgroup = array();
-        $elementgroup[] = $mform->createElement('select', $this->itemname.'_month', '', $months, array('class' => 'indent-'.$this->indent));
-        $elementgroup[] = $mform->createElement('select', $this->itemname.'_year', '', $years);
+        $elementgroup[] = $mform->createElement('select', $this->itemname.'_day', '', $days, array('class' => 'indent-'.$this->indent, 'id' => $idprefix.'_day'));
+        $elementgroup[] = $mform->createElement('select', $this->itemname.'_month', '', $months, array('id' => $idprefix.'_month'));
+        $elementgroup[] = $mform->createElement('select', $this->itemname.'_year', '', $years, array('id' => $idprefix.'_year'));
 
         if ($this->required) {
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
@@ -437,46 +472,48 @@ EOS;
                 $mform->_required[] = $starplace;
             }
         } else {
-            $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'));
+            $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), array('id' => $idprefix.'_noanswer'));
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
         }
-        // End of: mform element
 
         // default section
         if (!$searchform) {
             if ($this->defaultoption == SURVEYPRO_INVITATIONDEFAULT) {
+                $mform->setDefault($this->itemname.'_day', SURVEYPRO_INVITATIONVALUE);
                 $mform->setDefault($this->itemname.'_month', SURVEYPRO_INVITATIONVALUE);
                 $mform->setDefault($this->itemname.'_year', SURVEYPRO_INVITATIONVALUE);
             } else {
                 switch ($this->defaultoption) {
                     case SURVEYPRO_CUSTOMDEFAULT:
-                        $shortdatearray = $this->item_split_unix_time($this->defaultvalue, true);
+                        $datearray = $this->item_split_unix_time($this->defaultvalue, true);
                         break;
                     case SURVEYPRO_TIMENOWDEFAULT:
-                        $shortdatearray = $this->item_split_unix_time(time(), true);
+                        $datearray = $this->item_split_unix_time(time(), true);
                         break;
                     case SURVEYPRO_NOANSWERDEFAULT:
-                        $shortdatearray = $this->item_split_unix_time($this->lowerbound, true);
+                        $datearray = $this->item_split_unix_time($this->lowerbound, true);
                         $mform->setDefault($this->itemname.'_noanswer', '1');
                         break;
                     case SURVEYPRO_LIKELASTDEFAULT:
-                        // look for the last submission I made
+                        // look for the most recent submission I made
                         $sql = 'userid = :userid ORDER BY timecreated DESC LIMIT 1';
                         $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, array('userid' => $USER->id), IGNORE_MISSING);
                         if ($time = $DB->get_field('surveypro_answer', 'content', array('itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid), IGNORE_MISSING)) {
-                            $shortdatearray = $this->item_split_unix_time($time, false);
+                            $datearray = $this->item_split_unix_time($time, false);
                         } else { // as in standard default
-                            $shortdatearray = $this->item_split_unix_time(time(), true);
+                            $datearray = $this->item_split_unix_time(time(), true);
                         }
                         break;
                     default:
                         debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->defaultoption = '.$this->defaultoption, DEBUG_DEVELOPER);
                 }
-                $mform->setDefault($this->itemname.'_month', $shortdatearray['mon']);
-                $mform->setDefault($this->itemname.'_year', $shortdatearray['year']);
+                $mform->setDefault($this->itemname.'_day', $datearray['mday']);
+                $mform->setDefault($this->itemname.'_month', $datearray['mon']);
+                $mform->setDefault($this->itemname.'_year', $datearray['year']);
             }
         } else {
+            $mform->setDefault($this->itemname.'_day', SURVEYPRO_IGNOREME);
             $mform->setDefault($this->itemname.'_month', SURVEYPRO_IGNOREME);
             $mform->setDefault($this->itemname.'_year', SURVEYPRO_IGNOREME);
             if (!$this->required) {
@@ -507,24 +544,27 @@ EOS;
         // verify the content of each drop down menu
         if (!$searchform) {
             $testpassed = true;
+            $testpassed = $testpassed && ($data[$this->itemname.'_day'] != SURVEYPRO_INVITATIONVALUE);
             $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_INVITATIONVALUE);
             $testpassed = $testpassed && ($data[$this->itemname.'_year'] != SURVEYPRO_INVITATIONVALUE);
         } else {
-            // both drop down menues are allowed to be == SURVEYPRO_IGNOREME
-            // but not only 1
+            // all three drop down menues are allowed to be == SURVEYPRO_IGNOREME
+            // but not only 2 or 1
             $testpassed = true;
-            if ($data[$this->itemname.'_month'] == SURVEYPRO_IGNOREME) {
+            if ($data[$this->itemname.'_day'] == SURVEYPRO_IGNOREME) {
+                $testpassed = $testpassed && ($data[$this->itemname.'_month'] == SURVEYPRO_IGNOREME);
                 $testpassed = $testpassed && ($data[$this->itemname.'_year'] == SURVEYPRO_IGNOREME);
             } else {
+                $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_IGNOREME);
                 $testpassed = $testpassed && ($data[$this->itemname.'_year'] != SURVEYPRO_IGNOREME);
             }
         }
         if (!$testpassed) {
             if ($this->required) {
-                $errors[$errorkey] = get_string('uerr_shortdatenotsetrequired', 'surveyprofield_shortdate');
+                $errors[$errorkey] = get_string('uerr_datenotsetrequired', 'surveyprofield_date');
             } else {
                 $a = get_string('noanswer', 'surveypro');
-                $errors[$errorkey] = get_string('uerr_shortdatenotset', 'surveyprofield_shortdate', $a);
+                $errors[$errorkey] = get_string('uerr_datenotset', 'surveyprofield_date', $a);
             }
             return;
         }
@@ -535,22 +575,22 @@ EOS;
             return;
         }
 
-        $haslowerbound = ($this->lowerbound != $this->item_shortdate_to_unix_time(1, $surveypro->startyear));
-        $hasupperbound = ($this->upperbound != $this->item_shortdate_to_unix_time(12, $surveypro->stopyear));
+        $haslowerbound = ($this->lowerbound != $this->item_date_to_unix_time($surveypro->startyear, 1, 1));
+        $hasupperbound = ($this->upperbound != $this->item_date_to_unix_time($surveypro->stopyear, 12, 31));
 
-        $userinput = $this->item_shortdate_to_unix_time($data[$this->itemname.'_month'], $data[$this->itemname.'_year']);
+        $userinput = $this->item_date_to_unix_time($data[$this->itemname.'_year'], $data[$this->itemname.'_month'], $data[$this->itemname.'_day']);
 
         if ($haslowerbound && $hasupperbound) {
             // internal range
             if ( ($userinput < $this->lowerbound) || ($userinput > $this->upperbound) ) {
-                $errors[$errorkey] = get_string('uerr_outofinternalrange', 'surveyprofield_shortdate');
+                $errors[$errorkey] = get_string('uerr_outofinternalrange', 'surveyprofield_date');
             }
         } else {
             if ($haslowerbound && ($userinput < $this->lowerbound)) {
-                $errors[$errorkey] = get_string('uerr_lowerthanminimum', 'surveyprofield_shortdate');
+                $errors[$errorkey] = get_string('uerr_lowerthanminimum', 'surveyprofield_date');
             }
             if ($hasupperbound && ($userinput > $this->upperbound)) {
-                $errors[$errorkey] = get_string('uerr_greaterthanmaximum', 'surveyprofield_shortdate');
+                $errors[$errorkey] = get_string('uerr_greaterthanmaximum', 'surveyprofield_date');
             }
         }
     }
@@ -564,26 +604,25 @@ EOS;
     public function userform_get_filling_instructions() {
         global $surveypro;
 
-        $haslowerbound = ($this->lowerbound != $this->item_shortdate_to_unix_time(1, $surveypro->startyear));
-        $hasupperbound = ($this->upperbound != $this->item_shortdate_to_unix_time(12, $surveypro->stopyear));
+        $haslowerbound = ($this->lowerbound != $this->item_date_to_unix_time($surveypro->startyear, 1, 1));
+        $hasupperbound = ($this->upperbound != $this->item_date_to_unix_time($surveypro->stopyear, 12, 31));
 
-        $format = get_string('strftimemonthyear', 'langconfig');
+        $format = get_string('strftimedate', 'langconfig');
         if ($haslowerbound && $hasupperbound) {
             $a = new stdClass();
             $a->lowerbound = userdate($this->lowerbound, $format, 0);
             $a->upperbound = userdate($this->upperbound, $format, 0);
 
-            // internal range
-            $fillinginstruction = get_string('restriction_lowerupper', 'surveyprofield_shortdate', $a);
+            $fillinginstruction = get_string('restriction_lowerupper', 'surveyprofield_date', $a);
         } else {
             $fillinginstruction = '';
             if ($haslowerbound) {
                 $a = userdate($this->lowerbound, $format, 0);
-                $fillinginstruction = get_string('restriction_lower', 'surveyprofield_shortdate', $a);
+                $fillinginstruction = get_string('restriction_lower', 'surveyprofield_date', $a);
             }
             if ($hasupperbound) {
                 $a = userdate($this->upperbound, $format, 0);
-                $fillinginstruction = get_string('restriction_upper', 'surveyprofield_shortdate', $a);
+                $fillinginstruction = get_string('restriction_upper', 'surveyprofield_date', $a);
             }
         }
 
@@ -606,12 +645,12 @@ EOS;
             $olduserdata->content = SURVEYPRO_NOANSWERVALUE;
         } else {
             if (!$searchform) {
-                $olduserdata->content = $this->item_shortdate_to_unix_time($answer['month'], $answer['year']);
+                $olduserdata->content = $this->item_date_to_unix_time($answer['year'], $answer['month'], $answer['day']);
             } else {
-                if ($answer['month'] == SURVEYPRO_IGNOREME) {
+                if ($answer['year'] == SURVEYPRO_IGNOREME) {
                     $olduserdata->content = null;
                 } else {
-                    $olduserdata->content = $this->item_shortdate_to_unix_time($answer['month'], $answer['year']);
+                    $olduserdata->content = $this->item_date_to_unix_time($answer['year'], $answer['month'], $answer['day']);
                 }
             }
         }
@@ -637,9 +676,10 @@ EOS;
             if ($fromdb->content == SURVEYPRO_NOANSWERVALUE) {
                 $prefill[$this->itemname.'_noanswer'] = 1;
             } else {
-                $shortdatearray = $this->item_split_unix_time($fromdb->content);
-                $prefill[$this->itemname.'_month'] = $shortdatearray['mon'];
-                $prefill[$this->itemname.'_year'] = $shortdatearray['year'];
+                $datearray = $this->item_split_unix_time($fromdb->content);
+                $prefill[$this->itemname.'_day'] = $datearray['mday'];
+                $prefill[$this->itemname.'_month'] = $datearray['mon'];
+                $prefill[$this->itemname.'_year'] = $datearray['year'];
             }
         }
 
@@ -676,7 +716,7 @@ EOS;
         if ($format == 'unixtime') {
             return $content;
         } else {
-            return userdate($content, get_string($format, 'surveyprofield_shortdate'), 0);
+            return userdate($content, get_string($format, 'surveyprofield_date'), 0);
         }
     }
 

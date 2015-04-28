@@ -15,8 +15,6 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This is a one-line short description of the file
- *
  * @package    mod_surveypro
  * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -585,7 +583,7 @@ class mod_surveypro_itembase {
     public function item_update_childrenparentvalue() {
         global $DB, $CFG;
 
-        require_once($CFG->dirroot.'/mod/surveypro/'.$this->type.'/'.$this->plugin.'/plugin.class.php');
+        require_once($CFG->dirroot.'/mod/surveypro/'.$this->type.'/'.$this->plugin.'/classes/plugin.class.php');
         $itemclassname = 'mod_surveypro_'.$this->type.'_'.$this->plugin;
         if ($itemclassname::get_canbeparent()) {
             // take care: you can not use $this->item_get_content_array(SURVEYPRO_VALUES, 'options') to evaluate values

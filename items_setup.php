@@ -92,8 +92,7 @@ $itemlistman->set_view($view);
 
 $itemlistman->prevent_direct_user_input();
 
-require_once($CFG->dirroot.'/mod/surveypro/'.$itemlistman->type.'/'.$itemlistman->plugin.'/plugin.class.php');
-require_once($CFG->dirroot.'/mod/surveypro/'.$itemlistman->type.'/'.$itemlistman->plugin.'/plugin_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/'.$itemlistman->type.'/'.$itemlistman->plugin.'/classes/plugin.class.php');
 
 // -----------------------------
 // get item

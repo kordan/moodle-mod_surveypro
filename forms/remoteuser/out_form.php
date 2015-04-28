@@ -15,8 +15,6 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This is a one-line short description of the file
- *
  * @package    mod_surveypro
  * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -113,7 +111,7 @@ class mod_surveypro_submissionform extends moodleform {
                         // otherwise
                         // display the current item
                         if ($parentitem->get_formpage() < $formpage) {
-                            require_once($CFG->dirroot.'/mod/surveypro/'.$itemseed->type.'/'.$itemseed->plugin.'/plugin.class.php');
+                            require_once($CFG->dirroot.'/mod/surveypro/'.$itemseed->type.'/'.$itemseed->plugin.'/classes/plugin.class.php');
 
                             $itemaschildisallowed = $parentitem->userform_child_item_allowed_static($submissionid, $itemseed);
                         } else {

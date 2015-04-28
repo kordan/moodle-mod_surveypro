@@ -15,8 +15,6 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This is a one-line short description of the file
- *
  * @package    mod_surveypro
  * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,9 +23,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/surveypro/classes/itembase.class.php');
-require_once($CFG->dirroot.'/mod/surveypro/field/character/lib.php');
+require_once($CFG->dirroot.'/mod/surveypro/field/numeric/lib.php');
 
-class mod_surveypro_field_character extends mod_surveypro_itembase {
+class mod_surveypro_field_numeric extends mod_surveypro_itembase {
 
     /**
      * $content = the text content of the item.
@@ -88,22 +86,29 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
     public $defaultvalue = '';
 
     /**
-     * $pattern = a string defining which character is expected in each position of the incoming string
-     * [a regular expression?]
+     * $decimalseparator
      */
-    public $pattern = '';
-    public $pattern_text = '';
-
+    public $decimalseparator = '.';
 
     /**
-     * $minlength = the minimum allowed length
+     * $signed = will be, the expected number, signed
      */
-    public $minlength = '0';
+    public $signed = 0;
 
     /**
-     * $maxlength = the maximum allowed length
+     * $lowerbound = the minimun allowed value
      */
-    public $maxlength = null;
+    public $lowerbound = '';
+
+    /**
+     * $upperbound = the maximum allowed value
+     */
+    public $upperbound = '';
+
+    /**
+     * $decimals = number of decimals allowed for this number
+     */
+    public $decimals = 0;
 
     /**
      * static canbeparent
@@ -126,12 +131,12 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
 
         // list of constant element attributes
         $this->type = SURVEYPRO_TYPEFIELD;
-        $this->plugin = 'character';
+        $this->plugin = 'numeric';
         // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
         $this->savepositiontodb = false;
 
         // other element specific properties
-        // nothing
+        $this->decimalseparator = get_string('decsep', 'langconfig');
 
         // override properties depending from $surveypro settings
         // nothing
@@ -154,6 +159,17 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
     public function item_load($itemid, $evaluateparentcontent) {
         // Do parent item loading stuff here (mod_surveypro_itembase::item_load($itemid, $evaluateparentcontent)))
         parent::item_load($itemid, $evaluateparentcontent);
+
+        // float numbers need more attention because I can write them using , or .
+        if (strlen($this->defaultvalue)) {
+            $this->defaultvalue = format_float($this->defaultvalue, $this->decimals);
+        }
+        if (strlen($this->lowerbound)) {
+            $this->lowerbound = format_float($this->lowerbound, $this->decimals);
+        }
+        if (strlen($this->upperbound)) {
+            $this->upperbound = format_float($this->upperbound, $this->decimals);
+        }
 
         // multilang load support for builtin surveypro
         // whether executed, the 'content' field is ALWAYS handled
@@ -179,12 +195,23 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
         // set custom fields value as defined for this question plugin
         $this->item_custom_fields_to_db($record);
 
-        if (!isset($record->minlength)) {
-            $record->minlength = 0;
+        $record->signed = isset($record->signed) ? 1 : 0;
+
+        // float numbers need more attention because I can write them using , or .
+        if (strlen($record->defaultvalue)) {
+            $record->defaultvalue = unformat_float($record->defaultvalue, true);
+        } else {
+            unset($record->defaultvalue);
         }
-        // maxlength is a PARAM_INT. If the user leaves it empty in the form, maxlength becomes = 0
-        if (empty($record->maxlength)) {
-            $record->maxlength = null;
+        if (strlen($record->lowerbound)) {
+            $record->lowerbound = unformat_float($record->lowerbound, true);
+        } else {
+            unset($record->lowerbound);
+        }
+        if (strlen($record->upperbound)) {
+            $record->upperbound = unformat_float($record->upperbound, true);
+        } else {
+            unset($record->upperbound);
         }
         // end of: plugin specific settings (eventally overriding general ones)
 
@@ -194,6 +221,7 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
 
     /**
      * item_custom_fields_to_form
+     * add checkboxes selection for empty fields
      *
      * @param none
      * @return
@@ -203,15 +231,7 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
         // nothing to do: they don't exist in this plugin
 
         // 2. special management for composite fields
-        switch ($this->pattern) {
-            case SURVEYPROFIELD_CHARACTER_FREEPATTERN:
-            case SURVEYPROFIELD_CHARACTER_EMAILPATTERN:
-            case SURVEYPROFIELD_CHARACTER_URLPATTERN:
-                break;
-            default:
-                $this->pattern_text = $this->pattern;
-                $this->pattern = SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN;
-        }
+        // nothing to do: they don't exist in this plugin
 
         // 3. special management for defaultvalue
         // nothing to do: defaultvalue doesn't need any further care
@@ -219,7 +239,7 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
 
     /**
      * item_custom_fields_to_db
-     * sets record field to store the correct value to db for the date custom item
+     * sets record field to store the correct value to db for the age custom item
      *
      * @param $record
      * @return
@@ -229,32 +249,27 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
         // nothing to do: they don't exist in this plugin
 
         // 2. special management for composite fields
-        if ($record->pattern == SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN) {
-            $record->pattern = $record->pattern_text;
-
-            $record->minlength = strlen($record->pattern_text);
-            $record->maxlength = $record->minlength;
-        }
+        // nothing to do: they don't exist in this plugin
 
         // 3. special management for defaultvalue
         // nothing to do: defaultvalue doesn't need any further care
+        if ($record->defaultvalue === '') {
+            $record->defaultvalue = null;
+        }
     }
 
     /**
-     * item_fields_with_checkbox_todb
-     * this function is called to empty fields where $record->{$field.'_check'} == 1
+     * item_atomize_number
+     * starting from justanumber, this function returns it splitted into an array
      *
-     * @param $record
-     * @param $fieldlist
+     * @param $justanumber
      * @return
      */
-    public function item_fields_with_checkbox_todb($record, $fieldlist) {
-        foreach ($fieldlist as $fieldbase) {
-            if (isset($record->{$fieldbase.'_check'})) {
-                $record->{$fieldbase} = null;
-                $record->{$fieldbase.'_text'} = null;
-            }
-        }
+    public function item_atomize_number($justanumber) {
+        $pattern = '~^\s*(-?)([0-9]+)'.get_string('decsep', 'langconfig').'?([0-9]*)\s*$~';
+        preg_match($pattern, $justanumber, $matches);
+
+        return $matches;
     }
 
     /**
@@ -264,12 +279,10 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
      * @return the content of the field
      */
     public function item_get_generic_property($field) {
-        if ($field == 'pattern') {
-            if ($this->pattern == SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN) {
-                return $this->pattern_text;
-            } else {
-                return $this->pattern;
-            }
+        $doublefields = array('lowerbound', 'upperbound', 'defaultvalue');
+        if (in_array($field, $doublefields)) {
+            $value = parent::item_get_generic_property($field);
+            return unformat_float($value, true);
         } else {
             return parent::item_get_generic_property($field);
         }
@@ -284,7 +297,6 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
      */
     public function item_get_multilang_fields() {
         $fieldlist = parent::item_get_multilang_fields();
-        $fieldlist['character'] = array('defaultvalue');
 
         return $fieldlist;
     }
@@ -299,7 +311,7 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
         $schema = <<<EOS
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
-    <xs:element name="surveyprofield_character">
+    <xs:element name="surveyprofield_numeric">
         <xs:complexType>
             <xs:sequence>
                 <xs:element type="xs:string" name="content"/>
@@ -321,10 +333,11 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
                 <xs:element type="xs:string" name="variable"/>
                 <xs:element type="xs:int" name="indent"/>
 
-                <xs:element type="xs:string" name="defaultvalue" minOccurs="0"/>
-                <xs:element type="xs:string" name="pattern"/>
-                <xs:element type="xs:int" name="minlength" minOccurs="0"/>
-                <xs:element type="xs:int" name="maxlength" minOccurs="0"/>
+                <xs:element type="xs:decimal" name="defaultvalue" minOccurs="0"/>
+                <xs:element type="xs:int" name="signed"/>
+                <xs:element type="xs:decimal" name="lowerbound" minOccurs="0"/>
+                <xs:element type="xs:decimal" name="upperbound" minOccurs="0"/>
+                <xs:element type="xs:int" name="decimals"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -350,24 +363,14 @@ EOS;
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
-        $idprefix = 'id_surveypro_field_character_'.$this->sortindex;
+        $idprefix = 'id_surveypro_field_numeric_'.$this->sortindex;
 
-        $thresholdsize = 48;
-        $paramelement = array('class' => 'indent-'.$this->indent, 'id' => $idprefix);
-        if (!empty($this->maxlength)) {
-            $paramelement['maxlength'] = $this->maxlength;
-            if ($this->maxlength < $thresholdsize) {
-                $paramelement['size'] = $this->maxlength;
-            } else {
-                $paramelement['size'] = $thresholdsize;
-            }
-        } else {
-            $paramelement['size'] = $thresholdsize;
-        }
         if (!$searchform) {
-            $mform->addElement('text', $this->itemname, $elementlabel, $paramelement);
-            $mform->setType($this->itemname, PARAM_RAW);
-            $mform->setDefault($this->itemname, $this->defaultvalue);
+            $mform->addElement('text', $this->itemname, $elementlabel, array('class' => 'indent-'.$this->indent, 'id' => $idprefix));
+            $mform->setType($this->itemname, PARAM_RAW); // see: moodlelib.php lines 133+
+            if (strlen($this->defaultvalue)) {
+                $mform->setDefault($this->itemname, "$this->defaultvalue");
+            }
 
             if ($this->required) {
                 // even if the item is required I CAN NOT ADD ANY RULE HERE because:
@@ -379,14 +382,9 @@ EOS;
             }
         } else {
             $elementgroup = array();
-            $paramelement['id'] = $idprefix.'_text';
-            $elementgroup[] = $mform->createElement('text', $this->itemname, '', $paramelement);
-
-            unset($paramelement['class']);
-            $paramelement['id'] = $idprefix.'_ignoreme';
-            $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'surveypro'), $paramelement);
+            $elementgroup[] = $mform->createElement('text', $this->itemname, '', array('class' => 'indent-'.$this->indent, 'id' => $idprefix));
+            $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'surveypro'), array('id' => $idprefix.'_ignoreme'));
             $mform->setType($this->itemname, PARAM_RAW);
-
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_ignoreme', 'checked');
             $mform->setDefault($this->itemname.'_ignoreme', '1');
@@ -409,62 +407,68 @@ EOS;
 
         $errorkey = $this->itemname;
 
+        $draftuserinput = $data[$this->itemname];
         if ($this->required) {
-            if (empty($data[$this->itemname])) {
+            if (strlen($draftuserinput) == 0) {
                 $errors[$errorkey] = get_string('required');
                 return;
             }
         }
 
-        if ($this->pattern == SURVEYPROFIELD_CHARACTER_FREEPATTERN) {
+        if (empty($draftuserinput)) {
             return;
         }
 
-        if (!empty($data[$this->itemname])) {
-            $fieldlength = strlen($data[$this->itemname]);
-            if (!empty($this->maxlength)) {
-                if ($fieldlength > $this->maxlength) {
-                    $errors[$errorkey] = get_string('uerr_texttoolong', 'surveyprofield_character');
+        // if it is not a number, shouts
+        if (strlen($draftuserinput)) {
+            $matches = $this->item_atomize_number($draftuserinput);
+            if (empty($matches)) {
+                $errors[$errorkey] = get_string('uerr_notanumber', 'surveyprofield_numeric');
+                return;
+            } else {
+                $userinput = unformat_float($draftuserinput, true);
+                // if it is < 0 but has been defined as unsigned, shouts
+                if (!$this->signed && ($userinput < 0)) {
+                    $errors[$errorkey] = get_string('uerr_negative', 'surveyprofield_numeric');
                 }
-            }
-            if ($fieldlength < $this->minlength) {
-                $errors[$errorkey] = get_string('uerr_texttooshort', 'surveyprofield_character');
-            }
-            if (!empty($data[$this->itemname]) && !empty($this->pattern)) {
-                switch ($this->pattern) {
-                    case SURVEYPROFIELD_CHARACTER_EMAILPATTERN:
-                        if (!validate_email($data[$this->itemname])) {
-                            $errors[$errorkey] = get_string('uerr_invalidemail', 'surveyprofield_character');
-                        }
-                        break;
-                    case SURVEYPROFIELD_CHARACTER_URLPATTERN:
-                        $regex = '~^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$~i';
-                        $regex = '~^(http(s?)\:\/\/)?[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\‌​-‌​\.\?\,\'\/\\\+&amp;%\$#_]*)?$~i';
-                        // if (!surveypro_character_is_valid_url($data[$this->itemname])) {
-                        if (!preg_match($regex, $data[$this->itemname])) {
-                            $errors[$errorkey] = get_string('uerr_invalidurl', 'surveyprofield_character');
-                        }
-                        break;
-                    case SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN: // it is a custom pattern done with "A", "a", "*" and "0"
-                        // "A" UPPER CASE CHARACTERS
-                        // "a" lower case characters
-                        // "*" UPPER case, LOWER case or any special characters like '@', ',', '%', '5', ' ' or whatever
-                        // "0" numbers
-
-                        if ($fieldlength != strlen($this->pattern_text)) {
-                            $errors[$errorkey] = get_string('uerr_badlength', 'surveyprofield_character');
-                        }
-
-                        if (!surveypro_character_text_match_pattern($data[$this->itemname], $this->pattern_text)) {
-                            $errors[$errorkey] = get_string('uerr_nopatternmatch', 'surveyprofield_character');
-                        }
-                        break;
-                    default:
-                        debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->pattern = '.$this->pattern, DEBUG_DEVELOPER);
+                // if it has decimal but has been defined as integer, shouts
+                $isinteger = (bool)(strval(intval($userinput)) == strval($userinput));
+                if (($this->decimals == 0) && (!$isinteger)) {
+                    $errors[$errorkey] = get_string('uerr_notinteger', 'surveyprofield_numeric');
                 }
             }
         }
-        // return $errors; is not needed because $errors is passed by reference
+
+        $haslowerbound = (strlen($this->lowerbound));
+        $hasupperbound = (strlen($this->upperbound));
+
+        if ($haslowerbound && $hasupperbound) {
+            if ($this->lowerbound < $this->upperbound) {
+                // internal range
+                if ( ($userinput < $this->lowerbound) || ($userinput > $this->upperbound) ) {
+                    $errors[$errorkey] = get_string('uerr_outofinternalrange', 'surveyprofield_numeric');
+                }
+            }
+
+            if ($this->lowerbound > $this->upperbound) {
+                // external range
+                if (($userinput > $this->lowerbound) && ($userinput < $this->upperbound)) {
+                    $format = get_string($this->item_get_friendlyformat(), 'surveyprofield_numeric');
+                    $a = new stdClass();
+                    $a->lowerbound = $this->lowerbound;
+                    $a->upperbound = $this->upperbound;
+                    $errors[$errorkey] = get_string('uerr_outofexternalrange', 'surveyprofield_numeric', $a);
+                }
+            }
+        } else {
+            if ($haslowerbound && ($userinput < $this->lowerbound)) {
+                $errors[$errorkey] = get_string('uerr_lowerthanminimum', 'surveyprofield_numeric');
+            }
+            if ($hasupperbound && ($userinput > $this->upperbound)) {
+                $errors[$errorkey] = get_string('uerr_greaterthanmaximum', 'surveyprofield_numeric');
+            }
+        }
+
     }
 
     /**
@@ -475,36 +479,53 @@ EOS;
      */
     public function userform_get_filling_instructions() {
 
-        if ($this->pattern == SURVEYPROFIELD_CHARACTER_FREEPATTERN) {
-            if ($this->minlength) {
-                if ($this->maxlength) {
-                    $a = new stdClass();
-                    $a->minlength = $this->minlength;
-                    $a->maxlength = $this->maxlength;
-                    $fillinginstruction = get_string('restrictions_minmax', 'surveyprofield_character', $a);
-                } else {
-                    $a = $this->minlength;
-                    $fillinginstruction = get_string('restrictions_min', 'surveyprofield_character', $a);
-                }
-            } else {
-                if ($this->maxlength) {
-                    $a = $this->maxlength;
-                    $fillinginstruction = get_string('restrictions_max', 'surveyprofield_character', $a);
-                } else {
-                    $fillinginstruction = '';
-                }
+        $haslowerbound = (strlen($this->lowerbound));
+        $hasupperbound = (strlen($this->upperbound));
+        $fillinginstruction = array();
+
+        if (!empty($this->signed)) {
+            $fillinginstruction[] = get_string('restriction_hassign', 'surveyprofield_numeric');
+        }
+
+        if ($haslowerbound && $hasupperbound) {
+            $a = new stdClass();
+            $a->lowerbound = $this->lowerbound;
+            $a->upperbound = $this->upperbound;
+
+            if ($this->lowerbound < $this->upperbound) {
+                $fillinginstruction[] = get_string('restriction_lowerupper', 'surveyprofield_numeric', $a);
+            }
+
+            if ($this->lowerbound > $this->upperbound) {
+                $fillinginstruction[] = get_string('restriction_upperlower', 'surveyprofield_numeric', $a);
             }
         } else {
-            switch ($this->pattern) {
-                case SURVEYPROFIELD_CHARACTER_EMAILPATTERN:
-                    $fillinginstruction = get_string('restrictions_email', 'surveyprofield_character');
-                    break;
-                case SURVEYPROFIELD_CHARACTER_URLPATTERN:
-                    $fillinginstruction = get_string('restrictions_url', 'surveyprofield_character');
-                    break;
-                default:
-                    $fillinginstruction = get_string('restrictions_custom', 'surveyprofield_character', $this->pattern_text);
+            if ($haslowerbound) {
+                $a = $this->lowerbound;
+                $fillinginstruction[] = get_string('restriction_lower', 'surveyprofield_numeric', $a);
             }
+
+            if ($hasupperbound) {
+                $a = $this->upperbound;
+                $fillinginstruction[] = get_string('restriction_upper', 'surveyprofield_numeric', $a);
+            }
+        }
+
+        if (!empty($this->decimals)) {
+            $a = $this->decimals;
+            $fillinginstruction[] = get_string('restriction_hasdecimals', 'surveyprofield_numeric', $a);
+            $fillinginstruction[] = get_string('decimalautofix', 'surveyprofield_numeric');
+            // this sentence dials about decimal separator not about the expected value
+            // so I leave it as last sentence
+            $fillinginstruction[] = get_string('declaredecimalseparator', 'surveyprofield_numeric', $this->decimalseparator);
+        } else {
+            $fillinginstruction[] = get_string('restriction_isinteger', 'surveyprofield_numeric');
+        }
+
+        if (count($fillinginstruction)) {
+            $fillinginstruction = get_string('number', 'surveyprofield_numeric').implode('; ', $fillinginstruction);
+        } else {
+            $fillinginstruction = '';
         }
 
         return $fillinginstruction;
@@ -530,7 +551,33 @@ EOS;
         if (strlen($answer['mainelement']) == 0) {
             $olduserdata->content = SURVEYPRO_NOANSWERVALUE;
         } else {
-            $olduserdata->content = $answer['mainelement'];
+            if (empty($this->decimals)) {
+                $olduserdata->content = $answer['mainelement'];
+            } else {
+                $matches = $this->item_atomize_number($answer['mainelement']);
+                $decimals = isset($matches[3]) ? $matches[3] : '';
+                if (strlen($decimals) > $this->decimals) {
+                    // round it
+                    $decimals = round((float)$decimals, $this->decimals);
+                }
+                if (strlen($decimals) < $this->decimals) {
+                    // padright
+                    $decimals = str_pad($decimals, $this->decimals, '0', STR_PAD_RIGHT);
+                }
+                if (isset($matches[2])) {
+                    // I DO ALWATYS save using english decimal separator
+                    // At load time, the number will be formatted according to user settings
+                    $olduserdata->content = $matches[2].'.'.$decimals;
+                    if ($matches[1] == '-') {
+                        $olduserdata->content *= -1;
+                    }
+                } else {
+                    // in the SEARCH form the remote user entered something very wrong
+                    // remember: the for search form NO VALIDATION IS PERFORMED
+                    // user is free to waste his/her time as he/she like
+                    $olduserdata->content = $answer['mainelement'];
+                }
+            }
         }
     }
 
@@ -540,7 +587,7 @@ EOS;
      *
      * userform_set_prefill
      *
-     * @param $olduserdata
+     * @param $fromdb
      * @return
      */
     public function userform_set_prefill($fromdb) {
@@ -553,7 +600,7 @@ EOS;
         if ($fromdb->content == SURVEYPRO_NOANSWERVALUE) {
             $prefill[$this->itemname] = '';
         } else {
-            $prefill[$this->itemname] = $fromdb->content;
+            $prefill[$this->itemname] = number_format((double)$fromdb->content, $this->decimals, $this->decimalseparator, '');
         }
 
         return $prefill;
@@ -568,28 +615,16 @@ EOS;
      * @return
      */
     public function userform_db_to_export($answer, $format='') {
-        // content
         $content = trim($answer->content);
-        // SURVEYPRO_NOANSWERVALUE does not exist here
+
         if ($content == SURVEYPRO_NOANSWERVALUE) { // answer was "no answer"
             return get_string('answerisnoanswer', 'surveypro');
         }
-        if ($content === null) { // item was disabled
+        if (strlen($content) == 0) { // item was disabled
             return get_string('notanswereditem', 'surveypro');
         }
 
-        // output
-        if (strlen($content)) {
-            $return = $content;
-        } else {
-            if ($format == SURVEYPRO_FIRENDLYFORMAT) {
-                $return = get_string('emptyanswer', 'surveypro');
-            } else {
-                $return = '';
-            }
-        }
-
-        return $return;
+        return $content;
     }
 
     /**

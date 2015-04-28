@@ -15,8 +15,6 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This is a one-line short description of the file
- *
  * @package    mod_surveypro
  * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -622,7 +620,7 @@ class mod_surveypro_templatebase {
                     $itemid = $DB->insert_record($tablename, $record);
                 } else {
                     // before adding the item, ask to its class to check its coherence
-                    require_once($CFG->dirroot.'/mod/surveypro/'.$currenttype.'/'.$currentplugin.'/plugin.class.php');
+                    require_once($CFG->dirroot.'/mod/surveypro/'.$currenttype.'/'.$currentplugin.'/classes/plugin.class.php');
                     $item = surveypro_get_item(0, $currenttype, $currentplugin);
                     $item->item_validate_record_coherence($record);
 
@@ -752,7 +750,7 @@ class mod_surveypro_templatebase {
 
                     // I could use a random class here because they all share the same parent item_get_item_schema
                     // but, I need the right class name for the next table, so I start loading the correct class now
-                    require_once($CFG->dirroot.'/mod/surveypro/'.$currenttype.'/'.$currentplugin.'/plugin.class.php');
+                    require_once($CFG->dirroot.'/mod/surveypro/'.$currenttype.'/'.$currentplugin.'/classes/plugin.class.php');
                     $itemclassname = 'mod_surveypro_'.$currenttype.'_'.$currentplugin;
                     $xsd = $itemclassname::item_get_item_schema(); // <- itembase schema
                 } else {

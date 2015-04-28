@@ -15,8 +15,6 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This is a one-line short description of the file
- *
  * @package    mod_surveypro
  * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,9 +23,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/surveypro/classes/itembase.class.php');
-require_once($CFG->dirroot.'/mod/surveypro/field/textarea/lib.php');
+require_once($CFG->dirroot.'/mod/surveypro/field/fileupload/lib.php');
 
-class mod_surveypro_field_textarea extends mod_surveypro_itembase {
+class mod_surveypro_field_fileupload extends mod_surveypro_itembase {
 
     /**
      * $content = the text content of the item.
@@ -66,11 +64,6 @@ class mod_surveypro_field_textarea extends mod_surveypro_itembase {
     public $required = 0;
 
     /**
-     * $hideinstructions = boolean. Exceptionally hide filling instructions
-     */
-    public $hideinstructions = 0;
-
-    /**
      * $variable = the name of the field storing data in the db table
      */
     public $variable = '';
@@ -83,29 +76,19 @@ class mod_surveypro_field_textarea extends mod_surveypro_itembase {
     // -----------------------------
 
     /**
-     * $useeditor = does the item use html editor?.
+     * $maxfiles = the maximum number of files allowed to upload
      */
-    public $useeditor = true;
+    public $maxfiles = '1';
 
     /**
-     * $arearows = number or rows of the text area?
+     * $maxbytes = the maximum allowed size of the file to upload
      */
-    public $arearows = 10;
+    public $maxbytes = '1024';
 
     /**
-     * $areacols = number or columns of the text area?
+     * $filetypes = list of allowed file extension
      */
-    public $areacols = 60;
-
-    /**
-     * $minlength = the minimum allowed text length
-     */
-    public $minlength = '0';
-
-    /**
-     * $maxlength = the maximum allowed text length
-     */
-    public $maxlength = null;
+    public $filetypes = '*';
 
     /**
      * static canbeparent
@@ -128,7 +111,7 @@ class mod_surveypro_field_textarea extends mod_surveypro_itembase {
 
         // list of constant element attributes
         $this->type = SURVEYPRO_TYPEFIELD;
-        $this->plugin = 'textarea';
+        $this->plugin = 'fileupload';
         // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
         $this->savepositiontodb = false;
 
@@ -160,8 +143,6 @@ class mod_surveypro_field_textarea extends mod_surveypro_itembase {
         // multilang load support for builtin surveypro
         // whether executed, the 'content' field is ALWAYS handled
         $this->item_builtin_string_load_support();
-
-        $this->item_custom_fields_to_form();
     }
 
     /**
@@ -178,69 +159,10 @@ class mod_surveypro_field_textarea extends mod_surveypro_itembase {
         // -----------------------------
 
         // begin of: plugin specific settings (eventally overriding general ones)
-        // set custom fields value as defined for this question plugin
-        $this->item_custom_fields_to_db($record);
-
-        // do preliminary actions on $record values corresponding to fields type checkbox
-        $checkboxes = array('useeditor');
-        foreach ($checkboxes as $checkbox) {
-            $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
-        }
-        if (!strlen($record->minlength)) {
-            $record->minlength = 0;
-        }
-        if (!strlen($record->maxlength)) {
-            $record->maxlength = null;
-        }
-        if (empty($record->arearows)) {
-            $record->arearows = SURVEYPROFIELD_TEXTAREA_DEFAULTROWS;
-        }
-        if (empty($record->areacols)) {
-            $record->areacols = SURVEYPROFIELD_TEXTAREA_DEFAULTCOLS;
-        }
         // end of: plugin specific settings (eventally overriding general ones)
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record)))
         return parent::item_save($record);
-    }
-
-    /**
-     * item_custom_fields_to_form
-     * add checkboxes selection for empty fields
-     *
-     * @param none
-     * @return
-     */
-    public function item_custom_fields_to_form() {
-        // 1. special management for fields equipped with "free" checkbox
-        // nothing to do: they don't exist in this plugin
-
-        // 2. special management for composite fields
-        // nothing to do: they don't exist in this plugin
-
-        // 3. special management for defaultvalue
-        // nothing to do: defaultvalue doesn't need any further care
-    }
-
-    /**
-     * item_custom_fields_to_db
-     * sets record field to store the correct value to db for the age custom item
-     *
-     * @param $record
-     * @return
-     */
-    public function item_custom_fields_to_db($record) {
-        // 1. special management for fields equipped with "free" checkbox
-        // nothing to do: they don't exist in this plugin
-
-        // 2. special management for composite fields
-        // nothing to do: they don't exist in this plugin
-        if (!strlen($record->minlength)) {
-            $record->minlength = 0;
-        }
-
-        // 3. special management for defaultvalue
-        // nothing to do: defaultvalue doesn't need any further care
     }
 
     /**
@@ -256,18 +178,6 @@ class mod_surveypro_field_textarea extends mod_surveypro_itembase {
         return $fieldlist;
     }
 
-    // MARK get
-
-    /**
-     * get_useeditor
-     *
-     * @param $field
-     * @return
-     */
-    public function get_useeditor() {
-        return $this->useeditor;
-    }
-
     /**
      * item_get_plugin_schema
      * Return the xml schema for surveypro_<<plugin>> table.
@@ -278,7 +188,7 @@ class mod_surveypro_field_textarea extends mod_surveypro_itembase {
         $schema = <<<EOS
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
-    <xs:element name="surveyprofield_textarea">
+    <xs:element name="surveyprofield_fileupload">
         <xs:complexType>
             <xs:sequence>
                 <xs:element type="xs:string" name="content"/>
@@ -296,15 +206,12 @@ class mod_surveypro_field_textarea extends mod_surveypro_itembase {
                 <xs:element type="xs:int" name="position"/>
                 <xs:element type="xs:string" name="extranote" minOccurs="0"/>
                 <xs:element type="xs:int" name="required"/>
-                <xs:element type="xs:int" name="hideinstructions"/>
                 <xs:element type="xs:string" name="variable"/>
                 <xs:element type="xs:int" name="indent"/>
 
-                <xs:element type="xs:int" name="useeditor"/>
-                <xs:element type="xs:int" name="arearows"/>
-                <xs:element type="xs:int" name="areacols"/>
-                <xs:element type="xs:int" name="minlength" minOccurs="0"/>
-                <xs:element type="xs:int" name="maxlength" minOccurs="0"/>
+                <xs:element type="xs:int" name="maxfiles"/>
+                <xs:element type="xs:int" name="maxbytes"/>
+                <xs:element type="xs:string" name="filetypes"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -327,41 +234,33 @@ EOS;
      */
     public function userform_mform_element($mform, $searchform, $readonly=false, $submissionid=0) {
         // this plugin has $this->isinitemform['insearchform'] = false; so it will never be part of a search form
-        // TODO: make $this->isinitemform['insearchform'] = true;
+
+        $fieldname = $this->itemname.'_filemanager';
 
         $labelsep = get_string('labelsep', 'langconfig'); // ': '
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
-        $idprefix = 'id_surveypro_field_textarea_'.$this->sortindex;
+        $idprefix = 'id_surveypro_field_fileupload_'.$this->sortindex;
+
+        $filetypes = array_map('trim', explode(',', $this->filetypes));
 
         $paramelement = array();
-        $paramelement['class'] = 'indent-'.$this->indent;
-        $paramelement['id'] = $idprefix;
-        if (empty($this->useeditor)) {
-            $fieldname = $this->itemname;
-            $paramelement['wrap'] = 'virtual';
-            $paramelement['rows'] = $this->arearows;
-            $paramelement['cols'] = $this->areacols;
-            $mform->addElement('textarea', $fieldname, $elementlabel, $paramelement);
-            $mform->setType($fieldname, PARAM_TEXT);
-        } else {
-            // $paramelement['class'] and $paramelement['id'] do not work: MDL_28194
-            $fieldname = $this->itemname.'_editor';
-            $editoroptions = array('trusttext' => true, 'subdirs' => true, 'maxfiles' => EDITOR_UNLIMITED_FILES);
-            $mform->addElement('editor', $fieldname, $elementlabel, $paramelement, $editoroptions);
-            $mform->setType($fieldname, PARAM_CLEANHTML);
-        }
+        $paramelement['maxbytes'] = $this->maxbytes;
+        $paramelement['accepted_types'] = $filetypes;
+        $paramelement['subdirs'] = false;
+        $paramelement['maxfiles'] = $this->maxfiles;
+        $paramelement['id'] = $idprefix; // does not work: MDL_28194
+        $paramelement['class'] = 'indent-'.$this->indent; // does not work: MDL_28194
+        $mform->addElement('filemanager', $fieldname, $elementlabel, null, $paramelement);
 
-        if (!$searchform) {
-            if ($this->required) {
-                // even if the item is required I CAN NOT ADD ANY RULE HERE because:
-                // -> I do not want JS form validation if the page is submitted through the "previous" button
-                // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815
-                // simply add a dummy star to the item and the footer note about mandatory fields
-                $starplace = ($this->position != SURVEYPRO_POSITIONLEFT) ? $this->itemname.'_extrarow' : $this->itemname;
-                $mform->_required[] = $starplace;
-            }
+        if ($this->required) {
+            // even if the item is required I CAN NOT ADD ANY RULE HERE because:
+            // -> I do not want JS form validation if the page is submitted through the "previous" button
+            // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815
+            // simply add a dummy star to the item and the footer note about mandatory fields
+            $starplace = ($this->position != SURVEYPRO_POSITIONLEFT) ? $this->itemname.'_extrarow' : $this->itemname;
+            $mform->_required[] = $starplace;
         }
     }
 
@@ -379,27 +278,14 @@ EOS;
             return;
         }
 
-        if (!empty($this->useeditor)) {
-            $errorkey = $this->itemname.'_editor';
-            $fieldname = $this->itemname.'_editor';
-            $itemcontent = $data[$fieldname]['text'];
-        } else {
-            $errorkey = $this->itemname;
-            $fieldname = $this->itemname;
-            $itemcontent = $data[$fieldname];
-        }
-
         if ($this->required) {
+            $errorkey = $this->itemname.'_filemanager';
+
+            $fieldname = $this->itemname.'_filemanager';
             if (empty($data[$fieldname])) {
                 $errors[$errorkey] = get_string('required');
+                return;
             }
-        }
-
-        if ( $this->maxlength && (strlen($itemcontent) > $this->maxlength) ) {
-            $errors[$errorkey] = get_string('texttoolong', 'surveyprofield_textarea');
-        }
-        if (strlen($itemcontent) < $this->minlength) {
-            $errors[$errorkey] = get_string('texttooshort', 'surveyprofield_textarea');
         }
     }
 
@@ -411,23 +297,13 @@ EOS;
      */
     public function userform_get_filling_instructions() {
 
-        if ($this->minlength > 0) {
-            if (isset($this->maxlength) && ($this->maxlength > 0)) {
-                $a = new StadClass();
-                $a->minlength = $this->minlength;
-                $a->maxlength = $this->maxlength;
-                $fillinginstruction = get_string('hasminmaxlength', 'surveyprofield_textarea', $a);
-            } else {
-                $a = $this->minlength;
-                $fillinginstruction = get_string('hasminlength', 'surveyprofield_textarea', $a);
-            }
+        if ($this->filetypes != '*') {
+            // $filetypelist = preg_replace('/([a-zA-Z0-9]+,)([^\s])/', "$1 $2", $this->filetypes);
+            $filetypelist = preg_replace('~,(?! )~', ', ', $this->filetypes); // Credits to Sam Marshall
+
+            $fillinginstruction = get_string('filetypes', 'surveyprofield_fileupload').$filetypelist;
         } else {
-            if (isset($this->maxlength) && ($this->maxlength > 0)) {
-                $a = $this->maxlength;
-                $fillinginstruction = get_string('hasmaxlength', 'surveyprofield_textarea', $a);
-            } else {
-                $fillinginstruction = '';
-            }
+            $fillinginstruction = '';
         }
 
         return $fillinginstruction;
@@ -445,16 +321,17 @@ EOS;
      * @return
      */
     public function userform_save_preprocessing($answer, $olduserdata, $searchform) {
-        if (!empty($this->useeditor)) {
-            $olduserdata->{$this->itemname.'_editor'} = $answer['editor'];
+        if (!empty($answer)) {
+            $fieldname = $this->itemname.'_filemanager';
 
-            $editoroptions = array('trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $this->context);
-            $olduserdata = file_postupdate_standard_editor($olduserdata, $this->itemname, $editoroptions, $this->context,
-                    'mod_surveypro', SURVEYPROFIELD_TEXTAREA_FILEAREA, $olduserdata->id);
-            $olduserdata->content = $olduserdata->{$this->itemname};
-            $olduserdata->contentformat = FORMAT_HTML;
-        } else {
-            $olduserdata->content = $answer['mainelement'];
+            $paramelement = array();
+            $paramelement['maxbytes'] = $this->maxbytes;
+            $paramelement['accepted_types'] = $this->filetypes;
+            $paramelement['subdirs'] = false;
+            $paramelement['maxfiles'] = $this->maxfiles;
+            file_save_draft_area_files($answer['filemanager'], $this->context->id, 'surveyprofield_fileupload', SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $olduserdata->id, $paramelement);
+
+            $olduserdata->content = ''; // nothing is expected here
         }
     }
 
@@ -474,19 +351,42 @@ EOS;
             return $prefill;
         }
 
-        if (isset($fromdb->content)) {
-            if (!empty($this->useeditor)) {
-                $editoroptions = array('trusttext' => true, 'subdirs' => true, 'maxfiles' => EDITOR_UNLIMITED_FILES, 'context' => $this->context);
-                $fromdb->contentformat = FORMAT_HTML;
-                $fromdb = file_prepare_standard_editor($fromdb, 'content', $editoroptions, $this->context, 'mod_surveypro', SURVEYPROFIELD_TEXTAREA_FILEAREA, $fromdb->id);
+        $fieldname = $this->itemname.'_filemanager';
 
-                $prefill[$this->itemname.'_editor'] = $fromdb->content_editor;
-            } else {
-                $prefill[$this->itemname] = $fromdb->content;
-            }
-        }
+        // $prefill->id = $fromdb->submissionid;
+        $draftitemid = 0;
+        $paramelement = array();
+        $paramelement['maxbytes'] = $this->maxbytes;
+        $paramelement['accepted_types'] = $this->filetypes;
+        $paramelement['subdirs'] = false;
+        $paramelement['maxfiles'] = $this->maxfiles;
+        file_prepare_draft_area($draftitemid, $this->context->id, 'surveyprofield_fileupload', SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $fromdb->id, $paramelement);
+
+        $prefill[$fieldname] = $draftitemid;
 
         return $prefill;
+    }
+
+    /**
+     * userform_db_to_export
+     * strating from the info stored in the database, this function returns the corresponding content for the export file
+     *
+     * @param $answers
+     * @param $format
+     * @return
+     */
+    public function userform_db_to_export($answer, $format='') {
+        // SURVEYPRO_NOANSWERVALUE does not exist here
+        $fs = get_file_storage();
+        $files = $fs->get_area_files($this->context->id, 'surveyprofield_fileupload', SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $answer->id);
+        $filename = array();
+        foreach ($files as $file) {
+            if ($file->is_directory()) {
+                continue;
+            }
+            $filename[] = $file->get_filename();
+        }
+        return implode(',', $filename);
     }
 
     /**
@@ -497,12 +397,7 @@ EOS;
      * @return
      */
     public function userform_get_root_elements_name() {
-        $elementnames = array();
-        if (!empty($this->useeditor)) {
-            $elementnames[] = $this->itemname.'_editor';
-        } else {
-            $elementnames[] = $this->itemname;
-        }
+        $elementnames = array($this->itemname.'_filemanager');
 
         return $elementnames;
     }

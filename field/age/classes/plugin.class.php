@@ -15,8 +15,6 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This is a one-line short description of the file
- *
  * @package    mod_surveypro
  * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,9 +23,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/surveypro/classes/itembase.class.php');
-require_once($CFG->dirroot.'/mod/surveypro/field/datetime/lib.php');
+require_once($CFG->dirroot.'/mod/surveypro/field/age/lib.php');
 
-class mod_surveypro_field_datetime extends mod_surveypro_itembase {
+class mod_surveypro_field_age extends mod_surveypro_itembase {
 
     /**
      * $content = the text content of the item.
@@ -66,11 +64,6 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
     public $required = 0;
 
     /**
-     * $hideinstructions = boolean. Exceptionally hide filling instructions
-     */
-    public $hideinstructions = 0;
-
-    /**
      * $variable = the name of the field storing data in the db table
      */
     public $variable = '';
@@ -83,49 +76,30 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
     // -----------------------------
 
     /**
-     * $step = the step for minutes drop down menu
-     */
-    public $step = 1;
-
-    /**
-     * $defaultoption = the value of the field when the form is initially displayed.
+     * $defaultoption
      */
     public $defaultoption = SURVEYPRO_INVITATIONDEFAULT;
 
     /**
-     * $downloadformat = the format of the content once downloaded
-     */
-    public $downloadformat = null;
-
-    /**
      * $defaultvalue = the value of the field when the form is initially displayed.
      */
-    public $defaultvalue = 0;
+    public $defaultvalue = -2635200;
     public $defaultvalue_year = null;
     public $defaultvalue_month = null;
-    public $defaultvalue_day = null;
-    public $defaultvalue_hour = null;
-    public $defaultvalue_minute = null;
 
     /**
-     * $lowerbound = the minimum allowed date and time
+     * $lowerbound = the minimum allowed age
      */
-    public $lowerbound = 0;
+    public $lowerbound = -2635200;
     public $lowerbound_year = null;
     public $lowerbound_month = null;
-    public $lowerbound_day = null;
-    public $lowerbound_hour = null;
-    public $lowerbound_minute = null;
 
     /**
-     * $upperbound = the maximum allowed date and time
+     * $upperbound = the maximum allowed age
      */
     public $upperbound = 0;
     public $upperbound_year = null;
     public $upperbound_month = null;
-    public $upperbound_day = null;
-    public $upperbound_hour = null;
-    public $upperbound_minute = null;
 
     /**
      * static canbeparent
@@ -144,24 +118,20 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
      * @param bool $evaluateparentcontent: add also 'parentcontent' among other item elements
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
-        global $DB;
-
         parent::__construct($cm, $itemid, $evaluateparentcontent);
 
         // list of constant element attributes
         $this->type = SURVEYPRO_TYPEFIELD;
-        $this->plugin = 'datetime';
+        $this->plugin = 'age';
         // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
         $this->savepositiontodb = false;
 
         // other element specific properties
-        // nothing
+        $maximumage = get_config('surveyprofield_age', 'maximumage');
+        $this->upperbound = $this->item_age_to_unix_time($maximumage, 11);
 
         // override properties depending from $surveypro settings
-        $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
-        $this->lowerbound = $this->item_datetime_to_unix_time($surveypro->startyear, 1, 1, 0, 0);
-        $this->upperbound = $this->item_datetime_to_unix_time($surveypro->stopyear, 12, 31, 23, 59);
-        $this->defaultvalue = $this->lowerbound;
+        // nothing
 
         // list of fields I do not want to have in the item definition form
         // EMPTY LIST
@@ -205,24 +175,11 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
         // begin of: plugin specific settings (eventally overriding general ones)
         // set custom fields value as defined for this question plugin
         $this->item_custom_fields_to_db($record);
+
         // end of: plugin specific settings (eventally overriding general ones)
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record)))
         return parent::item_save($record);
-    }
-
-    /**
-     * item_datetime_to_unix_time
-     *
-     * @param $year
-     * @param $month
-     * @param $day
-     * @param $hour
-     * @param $minute
-     * @return
-     */
-    public function item_datetime_to_unix_time($year, $month, $day, $hour, $minute) {
-        return (gmmktime($hour, $minute, 0, $month, $day, $year)); // This is GMT
     }
 
     /**
@@ -235,60 +192,79 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
      */
     public function item_validate_record_coherence($record) {
         if (isset($record->defaultvalue)) {
-            $mindatetime = $item->item_date_to_unix_time($this->surveypro->startyear, 1, 1);
-            if ($record->defaultvalue < $mindatetime) {
-                $record->defaultvalue = $mindatetime;
-            }
-            $maxdatetime = $item->item_date_to_unix_time($this->surveypro->stopyear, 12, 31);
-            if ($record->defaultvalue > $maxdatetime) {
-                $record->defaultvalue = $maxdatetime;
+            $maxyear = get_config('surveyprofield_age', 'maximumage');
+            $maximumage = $this->item_age_to_unix_time($maxyear, 11);
+            if ($record->defaultvalue > $maximumage) {
+                $record->defaultvalue = $maximumage;
             }
         }
     }
 
     /**
+     * item_split_unix_time
+     *
+     * @param $time
+     * @param $applyusersettings
+     * @return
+     */
+    public function item_split_unix_time($time, $applyusersettings=false) {
+        $getdate = parent::item_split_unix_time($time, $applyusersettings);
+
+        $getdate['year'] -= SURVEYPROFIELD_AGE_YEAROFFSET;
+        if ($getdate['mon'] == 12) {
+            $getdate['year']++;
+            $getdate['mon'] = 0;
+        }
+
+        return $getdate;
+    }
+
+    /**
+     * item_age_to_unix_time
+     *
+     * @param $year
+     * @param $month
+     * @return
+     */
+    public function item_age_to_unix_time($year, $month) {
+        $year += SURVEYPROFIELD_AGE_YEAROFFSET;
+        return (gmmktime(12, 0, 0, $month, 1, $year)); // This is GMT
+    }
+
+    /**
      * item_custom_fields_to_form
-     * translates the datetime class property $fieldlist in $field.'_year' and $field.'_month' and so forth
+     * translates the age class property $fieldlist in $field.'_year' and $field.'_month'
      *
      * @param none
      * @return
      */
     public function item_custom_fields_to_form() {
-        global $surveypro;
-
         // 1. special management for fields equipped with "free" checkbox
         // nothing to do: they don't exist in this plugin
 
         // 2. special management for composite fields
         $fieldlist = $this->item_composite_fields();
         foreach ($fieldlist as $field) {
-            if (!isset($this->{$field})) {
-                switch ($field) {
-                    case 'defaultvalue':
-                        continue 2; // it may be; continues switch and foreach too
-                    case 'lowerbound':
-                        $this->{$field} = $this->item_datetime_to_unix_time($surveypro->startyear, 1, 1, 0, 0);
-                        break;
-                    case 'upperbound':
-                        $this->{$field} = $this->item_datetime_to_unix_time($surveypro->stopyear, 12, 31, 23, 59);
-                        break;
-                }
-            }
-            $datetimearray = $this->item_split_unix_time($this->{$field});
-            $this->{$field.'_year'} = $datetimearray['year'];
-            $this->{$field.'_month'} = $datetimearray['mon'];
-            $this->{$field.'_day'} = $datetimearray['mday'];
-            $this->{$field.'_hour'} = $datetimearray['hours'];
-            $this->{$field.'_minute'} = $datetimearray['minutes'];
+            $agearray = $this->item_split_unix_time($this->{$field});
+            $this->{$field.'_year'} = $agearray['year'];
+            $this->{$field.'_month'} = $agearray['mon'];
         }
 
         // 3. special management for defaultvalue
-        // nothing to do: defaultvalue doesn't need any further care
+        if (!isset($this->defaultvalue)) {
+            $this->defaultoption = SURVEYPRO_NOANSWERDEFAULT;
+        } else {
+            if ($this->defaultvalue == SURVEYPRO_INVITATIONDBVALUE) {
+                $this->defaultoption = SURVEYPRO_INVITATIONDEFAULT;
+            } else {
+                $this->defaultoption = SURVEYPRO_CUSTOMDEFAULT;
+            }
+        }
     }
 
     /**
      * item_custom_fields_to_db
-     * sets record field to store the correct value to db for the date custom item
+     * sets record field to store the correct value to db for the age custom item
      *
      * @param $record
      * @return
@@ -300,22 +276,31 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
         // 2. special management for composite fields
         $fieldlist = $this->item_composite_fields();
         foreach ($fieldlist as $field) {
-            if (isset($record->{$field.'_year'}) && isset($record->{$field.'_month'}) && isset($record->{$field.'_day'}) &&
-                isset($record->{$field.'_hour'}) && isset($record->{$field.'_minute'})) {
-                $record->{$field} = $this->item_datetime_to_unix_time($record->{$field.'_year'}, $record->{$field.'_month'},
-                        $record->{$field.'_day'}, $record->{$field.'_hour'}, $record->{$field.'_minute'});
+            if (isset($record->{$field.'_year'}) && isset($record->{$field.'_month'})) {
+                $record->{$field} = $this->item_age_to_unix_time($record->{$field.'_year'}, $record->{$field.'_month'});
                 unset($record->{$field.'_year'});
                 unset($record->{$field.'_month'});
-                unset($record->{$field.'_day'});
-                unset($record->{$field.'_hour'});
-                unset($record->{$field.'_minute'});
             } else {
                 $record->{$field} = null;
             }
         }
 
         // 3. special management for defaultvalue
-        // nothing to do: defaultvalue doesn't need any further care
+        switch ($record->defaultoption) {
+            case SURVEYPRO_CUSTOMDEFAULT:
+                // $record->defaultvalue has already been set
+                break;
+            case SURVEYPRO_NOANSWERDEFAULT:
+                $record->defaultvalue = null;
+                break;
+            case SURVEYPRO_INVITATIONDEFAULT:
+                $record->defaultvalue = SURVEYPRO_INVITATIONDBVALUE;
+                break;
+            default:
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $record->defaultoption = '.$record->defaultoption, DEBUG_DEVELOPER);
+        }
+        unset($record->defaultvalue_year);
+        unset($record->defaultvalue_month);
     }
 
     /**
@@ -330,35 +315,27 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
     }
 
     /**
-     * item_get_downloadformats
+     * item_age_to_text
+     * starting from an agearray returns the corresponding age in text format
      *
-     * @param none
+     * @param $agearray
      * @return
      */
-    public function item_get_downloadformats() {
-        $option = array();
-        $timenow = time();
+    public function item_age_to_text($agearray) {
+        $stryears = get_string('years');
+        $strmonths = get_string('months', 'surveyprofield_age');
 
-        for ($i = 1; $i < 13; $i++) {
-            $strname = 'strftime'.str_pad($i, 2, '0', STR_PAD_LEFT);
-            $option[$strname] = userdate($timenow, get_string($strname, 'surveyprofield_datetime')); // Monday 17 June, 05.15
+        $return = '';
+        if (!empty($agearray['year'])) {
+            $return .= $agearray['year'].' '.$stryears;
+            if (!empty($agearray['mon'])) {
+                $return .= ' '.get_string('and', 'surveyprofield_age').' '.$agearray['mon'].' '.$strmonths;
+            }
+        } else {
+            $return .= $agearray['mon'].' '.$strmonths;
         }
-        $option['unixtime'] = get_string('unixtime', 'surveypro');
-        // Friday, 21 June 2013, 08:14
-        // Friday, 21 June 2013, 8:14 am
-        // Fri, 21 Jun 2013, 8:14 am
-        // Fri, 21 Jun 2013, 08:14
-        // 21 June 2013, 08:14
-        // 21 June 2013, 8:14 am
-        // 21 Jun, 08:14
-        // 21 Jun, 8:14 am
-        // 21/06/13, 08:14
-        // 21/06/13, 8:14 am
-        // 21/06/2013, 08:14
-        // 21/06/2013, 8:14 am
-        // unix time
 
-        return $option;
+        return $return;
     }
 
     /**
@@ -375,16 +352,6 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
     }
 
     /**
-     * item_get_friendlyformat
-     *
-     * @param none
-     * @return
-     */
-    public function item_get_friendlyformat() {
-        return 'strftime01';
-    }
-
-    /**
      * item_get_plugin_schema
      * Return the xml schema for surveypro_<<plugin>> table.
      *
@@ -394,7 +361,7 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
         $schema = <<<EOS
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
-    <xs:element name="surveyprofield_datetime">
+    <xs:element name="surveyprofield_age">
         <xs:complexType>
             <xs:sequence>
                 <xs:element type="xs:string" name="content"/>
@@ -416,10 +383,8 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
                 <xs:element type="xs:string" name="variable"/>
                 <xs:element type="xs:int" name="indent"/>
 
-                <xs:element type="xs:int" name="step"/>
                 <xs:element type="xs:int" name="defaultoption"/>
                 <xs:element type="unixtime" name="defaultvalue" minOccurs="0"/>
-                <xs:element type="xs:string" name="downloadformat"/>
                 <xs:element type="unixtime" name="lowerbound"/>
                 <xs:element type="unixtime" name="upperbound"/>
             </xs:sequence>
@@ -448,59 +413,41 @@ EOS;
      * @return
      */
     public function userform_mform_element($mform, $searchform, $readonly=false, $submissionid=0) {
-        global $DB, $USER;
-
         $labelsep = get_string('labelsep', 'langconfig'); // ': '
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
-        $idprefix = 'id_surveypro_field_datetime_'.$this->sortindex;
+        $idprefix = 'id_surveypro_field_age_'.$this->sortindex;
 
         // element values
-        $days = array();
-        $months = array();
         $years = array();
-        $hours = array();
-        $minutes = array();
+        $months = array();
         if (!$searchform) {
             if ($this->defaultoption == SURVEYPRO_INVITATIONDEFAULT) {
-                $days[SURVEYPRO_INVITATIONVALUE] = get_string('invitationday', 'surveyprofield_datetime');
-                $months[SURVEYPRO_INVITATIONVALUE] = get_string('invitationmonth', 'surveyprofield_datetime');
-                $years[SURVEYPRO_INVITATIONVALUE] = get_string('invitationyear', 'surveyprofield_datetime');
-                $hours[SURVEYPRO_INVITATIONVALUE] = get_string('invitationhour', 'surveyprofield_datetime');
-                $minutes[SURVEYPRO_INVITATIONVALUE] = get_string('invitationminute', 'surveyprofield_datetime');
+                $years[SURVEYPRO_INVITATIONVALUE] = get_string('invitationyear', 'surveyprofield_age');
+                $months[SURVEYPRO_INVITATIONVALUE] = get_string('invitationmonth', 'surveyprofield_age');
             }
         } else {
-            $days[SURVEYPRO_IGNOREME] = '';
-            $months[SURVEYPRO_IGNOREME] = '';
             $years[SURVEYPRO_IGNOREME] = '';
-            $hours[SURVEYPRO_IGNOREME] = '';
-            $minutes[SURVEYPRO_IGNOREME] = '';
-        }
-        $days += array_combine(range(1, 31), range(1, 31));
-        for ($i = 1; $i <= 12; $i++) {
-            $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B"); // january, february, march...
+            $months[SURVEYPRO_IGNOREME] = '';
         }
         $years += array_combine(range($this->lowerbound_year, $this->upperbound_year), range($this->lowerbound_year, $this->upperbound_year));
-        for ($i = 0; $i < 24; $i++) {
-            $hours[$i] = sprintf("%02d", $i);
-        }
-        for ($i = 0; $i <= 59; $i += $this->step) {
-            $minutes[$i] = sprintf("%02d", $i);
-        }
+        $months += array_combine(range(0, 11), range(0, 11));
         // End of: element values
 
         // mform element
         $elementgroup = array();
-        $elementgroup[] = $mform->createElement('select', $this->itemname.'_day', '', $days, array('class' => 'indent-'.$this->indent, 'id' => $idprefix.'_day'));
+        $elementgroup[] = $mform->createElement('select', $this->itemname.'_year', '', $years, array('class' => 'indent-'.$this->indent, 'id' => $idprefix.'_year'));
+        if ($readonly) {
+            $elementgroup[] = $mform->createElement('static', 'yearlabel_'.$this->itemid, null, get_string('years'));
+        }
         $elementgroup[] = $mform->createElement('select', $this->itemname.'_month', '', $months, array('id' => $idprefix.'_month'));
-        $elementgroup[] = $mform->createElement('select', $this->itemname.'_year', '', $years, array('id' => $idprefix.'_year'));
-        $elementgroup[] = $mform->createElement('select', $this->itemname.'_hour', '', $hours, array('id' => $idprefix.'_hour'));
-        $elementgroup[] = $mform->createElement('select', $this->itemname.'_minute', '', $minutes, array('id' => $idprefix.'_minute'));
+        if ($readonly) {
+            $elementgroup[] = $mform->createElement('static', 'monthlabel_'.$this->itemid, null, get_string('months', 'surveypro'));
+        }
 
-        $separator = array(' ', ' ', ', ', ':');
         if ($this->required) {
-            $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, $separator, false);
+            $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
 
             if (!$searchform) {
                 // even if the item is required I CAN NOT ADD ANY RULE HERE because:
@@ -512,8 +459,7 @@ EOS;
             }
         } else {
             $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), array('id' => $idprefix.'_noanswer'));
-            $separator[] = ' ';
-            $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, $separator, false);
+            $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
         }
         // End of: mform element
@@ -521,48 +467,24 @@ EOS;
         // default section
         if (!$searchform) {
             if ($this->defaultoption == SURVEYPRO_INVITATIONDEFAULT) {
-                $mform->setDefault($this->itemname.'_day', SURVEYPRO_INVITATIONVALUE);
-                $mform->setDefault($this->itemname.'_month', SURVEYPRO_INVITATIONVALUE);
                 $mform->setDefault($this->itemname.'_year', SURVEYPRO_INVITATIONVALUE);
-                $mform->setDefault($this->itemname.'_hour', SURVEYPRO_INVITATIONVALUE);
-                $mform->setDefault($this->itemname.'_minute', SURVEYPRO_INVITATIONVALUE);
+                $mform->setDefault($this->itemname.'_month', SURVEYPRO_INVITATIONVALUE);
             } else {
                 switch ($this->defaultoption) {
                     case SURVEYPRO_CUSTOMDEFAULT:
-                        $datetimearray = $this->item_split_unix_time($this->defaultvalue, true);
-                        break;
-                    case SURVEYPRO_TIMENOWDEFAULT:
-                        $datetimearray = $this->item_split_unix_time(time(), true);
+                        $agearray = $this->item_split_unix_time($this->defaultvalue);
                         break;
                     case SURVEYPRO_NOANSWERDEFAULT:
-                        $datetimearray = $this->item_split_unix_time($this->lowerbound, true);
+                        $agearray = $this->item_split_unix_time($this->lowerbound);
                         $mform->setDefault($this->itemname.'_noanswer', '1');
                         break;
-                    case SURVEYPRO_LIKELASTDEFAULT:
-                        // look for my last submission
-                        $sql = 'userid = :userid ORDER BY timecreated DESC LIMIT 1';
-                        $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, array('userid' => $USER->id), IGNORE_MISSING);
-                        if ($time = $DB->get_field('surveypro_answer', 'content', array('itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid), IGNORE_MISSING)) {
-                            $datetimearray = $this->item_split_unix_time($time, false);
-                        } else { // as in standard default
-                            $datetimearray = $this->item_split_unix_time(time(), true);
-                        }
-                        break;
-                    default:
-                        debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->defaultoption = '.$this->defaultoption, DEBUG_DEVELOPER);
                 }
-                $mform->setDefault($this->itemname.'_day', $datetimearray['mday']);
-                $mform->setDefault($this->itemname.'_month', $datetimearray['mon']);
-                $mform->setDefault($this->itemname.'_year', $datetimearray['year']);
-                $mform->setDefault($this->itemname.'_hour', $datetimearray['hours']);
-                $mform->setDefault($this->itemname.'_minute', $datetimearray['minutes']);
+                $mform->setDefault($this->itemname.'_year', $agearray['year']);
+                $mform->setDefault($this->itemname.'_month', $agearray['mon']);
             }
         } else {
-            $mform->setDefault($this->itemname.'_day', SURVEYPRO_IGNOREME);
-            $mform->setDefault($this->itemname.'_month', SURVEYPRO_IGNOREME);
-            $mform->setDefault($this->itemname.'_year', SURVEYPRO_IGNOREME);
-            $mform->setDefault($this->itemname.'_hour', SURVEYPRO_IGNOREME);
-            $mform->setDefault($this->itemname.'_minute', SURVEYPRO_IGNOREME);
+            $mform->setDefault($this->itemname.'_year', SURVEYPRO_IGNOREME); // empty label
+            $mform->setDefault($this->itemname.'_month', SURVEYPRO_IGNOREME); // empty label
             if (!$this->required) {
                 $mform->setDefault($this->itemname.'_noanswer', '0');
             }
@@ -587,38 +509,30 @@ EOS;
             return; // nothing to validate
         }
 
+        $maximumage = get_config('surveyprofield_age', 'maximumage');
         $errorkey = $this->itemname.'_group';
 
         // verify the content of each drop down menu
         if (!$searchform) {
             $testpassed = true;
-            $testpassed = $testpassed && ($data[$this->itemname.'_day'] != SURVEYPRO_INVITATIONVALUE);
-            $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_INVITATIONVALUE);
             $testpassed = $testpassed && ($data[$this->itemname.'_year'] != SURVEYPRO_INVITATIONVALUE);
-            $testpassed = $testpassed && ($data[$this->itemname.'_hour'] != SURVEYPRO_INVITATIONVALUE);
-            $testpassed = $testpassed && ($data[$this->itemname.'_minute'] != SURVEYPRO_INVITATIONVALUE);
+            $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_INVITATIONVALUE);
         } else {
-            // all five drop down menues are allowed to be == SURVEYPRO_IGNOREME
-            // but not only 4, 3, 2 or 1
+            // both drop down menues are allowed to be == SURVEYPRO_IGNOREME
+            // but not only 1
             $testpassed = true;
-            if ($data[$this->itemname.'_day'] == SURVEYPRO_IGNOREME) {
+            if ($data[$this->itemname.'_year'] == SURVEYPRO_IGNOREME) {
                 $testpassed = $testpassed && ($data[$this->itemname.'_month'] == SURVEYPRO_IGNOREME);
-                $testpassed = $testpassed && ($data[$this->itemname.'_year'] == SURVEYPRO_IGNOREME);
-                $testpassed = $testpassed && ($data[$this->itemname.'_hour'] == SURVEYPRO_IGNOREME);
-                $testpassed = $testpassed && ($data[$this->itemname.'_minute'] == SURVEYPRO_IGNOREME);
             } else {
                 $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_IGNOREME);
-                $testpassed = $testpassed && ($data[$this->itemname.'_year'] != SURVEYPRO_IGNOREME);
-                $testpassed = $testpassed && ($data[$this->itemname.'_hour'] != SURVEYPRO_IGNOREME);
-                $testpassed = $testpassed && ($data[$this->itemname.'_minute'] != SURVEYPRO_IGNOREME);
             }
         }
         if (!$testpassed) {
             if ($this->required) {
-                $errors[$errorkey] = get_string('uerr_datetimenotsetrequired', 'surveyprofield_datetime');
+                $errors[$errorkey] = get_string('uerr_agenotsetrequired', 'surveyprofield_age');
             } else {
                 $a = get_string('noanswer', 'surveypro');
-                $errors[$errorkey] = get_string('uerr_datetimenotset', 'surveyprofield_datetime', $a);
+                $errors[$errorkey] = get_string('uerr_agenotset', 'surveyprofield_age', $a);
             }
             return;
         }
@@ -629,23 +543,22 @@ EOS;
             return;
         }
 
-        $haslowerbound = ($this->lowerbound != $this->item_datetime_to_unix_time($surveypro->startyear, 1, 1, 0, 0));
-        $hasupperbound = ($this->upperbound != $this->item_datetime_to_unix_time($surveypro->stopyear, 12, 31, 23, 59));
+        $haslowerbound = ($this->lowerbound != $this->item_age_to_unix_time(0, 0));
+        $hasupperbound = ($this->upperbound != $this->item_age_to_unix_time($maximumage, 11));
 
-        $userinput = $this->item_datetime_to_unix_time($data[$this->itemname.'_year'], $data[$this->itemname.'_month'],
-                $data[$this->itemname.'_day'], $data[$this->itemname.'_hour'], $data[$this->itemname.'_minute']);
+        $userinput = $this->item_age_to_unix_time($data[$this->itemname.'_year'], $data[$this->itemname.'_month']);
 
         if ($haslowerbound && $hasupperbound) {
             // internal range
             if ( ($userinput < $this->lowerbound) || ($userinput > $this->upperbound) ) {
-                $errors[$errorkey] = get_string('uerr_outofinternalrange', 'surveyprofield_datetime');
+                $errors[$errorkey] = get_string('uerr_outofinternalrange', 'surveyprofield_age');
             }
         } else {
             if ($haslowerbound && ($userinput < $this->lowerbound)) {
-                $errors[$errorkey] = get_string('uerr_lowerthanminimum', 'surveyprofield_datetime');
+                $errors[$errorkey] = get_string('uerr_lowerthanminimum', 'surveyprofield_age');
             }
             if ($hasupperbound && ($userinput > $this->upperbound)) {
-                $errors[$errorkey] = get_string('uerr_greaterthanmaximum', 'surveyprofield_datetime');
+                $errors[$errorkey] = get_string('uerr_greaterthanmaximum', 'surveyprofield_age');
             }
         }
     }
@@ -657,27 +570,31 @@ EOS;
      * @return string $fillinginstruction
      */
     public function userform_get_filling_instructions() {
-        global $surveypro;
+        $maximumage = get_config('surveyprofield_age', 'maximumage');
 
-        $haslowerbound = ($this->lowerbound != $this->item_datetime_to_unix_time($surveypro->startyear, 1, 1, 0, 0));
-        $hasupperbound = ($this->upperbound != $this->item_datetime_to_unix_time($surveypro->stopyear, 12, 31, 23, 59));
+        $haslowerbound = ($this->lowerbound != $this->item_age_to_unix_time(0, 0));
+        $hasupperbound = ($this->upperbound != $this->item_age_to_unix_time($maximumage, 11));
 
-        $format = get_string('strftimedatetime', 'langconfig');
+        $a = '';
+        $lowerbound = $this->item_split_unix_time($this->lowerbound);
+        $upperbound = $this->item_split_unix_time($this->upperbound);
+
+        $fillinginstruction = '';
         if ($haslowerbound && $hasupperbound) {
             $a = new stdClass();
-            $a->lowerbound = userdate($this->lowerbound, $format, 0);
-            $a->upperbound = userdate($this->upperbound, $format, 0);
+            $a->lowerbound = $this->item_age_to_text($lowerbound);
+            $a->upperbound = $this->item_age_to_text($upperbound);
 
-            $fillinginstruction = get_string('restriction_lowerupper', 'surveyprofield_datetime', $a);
+            $fillinginstruction .= get_string('restriction_lowerupper', 'surveyprofield_age', $a);
         } else {
-            $fillinginstruction = '';
             if ($haslowerbound) {
-                $a = userdate($this->lowerbound, $format, 0);
-                $fillinginstruction = get_string('restriction_lower', 'surveyprofield_datetime', $a);
+                $a = $this->item_age_to_text($lowerbound);
+                $fillinginstruction .= get_string('restriction_lower', 'surveyprofield_age', $a);
             }
+
             if ($hasupperbound) {
-                $a = userdate($this->upperbound, $format, 0);
-                $fillinginstruction = get_string('restriction_upper', 'surveyprofield_datetime', $a);
+                $a = $this->item_age_to_text($upperbound);
+                $fillinginstruction .= get_string('restriction_upper', 'surveyprofield_age', $a);
             }
         }
 
@@ -700,12 +617,12 @@ EOS;
             $olduserdata->content = SURVEYPRO_NOANSWERVALUE;
         } else {
             if (!$searchform) {
-                $olduserdata->content = $this->item_datetime_to_unix_time($answer['year'], $answer['month'], $answer['day'], $answer['hour'], $answer['minute']);
+                $olduserdata->content = $this->item_age_to_unix_time($answer['year'], $answer['month']);
             } else {
                 if ($answer['year'] == SURVEYPRO_IGNOREME) {
                     $olduserdata->content = null;
                 } else {
-                    $olduserdata->content = $this->item_datetime_to_unix_time($answer['year'], $answer['month'], $answer['day'], $answer['hour'], $answer['minute']);
+                    $olduserdata->content = $this->item_age_to_unix_time($answer['year'], $answer['month']);
                 }
             }
         }
@@ -731,12 +648,9 @@ EOS;
             if ($fromdb->content == SURVEYPRO_NOANSWERVALUE) {
                 $prefill[$this->itemname.'_noanswer'] = 1;
             } else {
-                $datetimearray = $this->item_split_unix_time($fromdb->content);
-                $prefill[$this->itemname.'_day'] = $datetimearray['mday'];
-                $prefill[$this->itemname.'_month'] = $datetimearray['mon'];
-                $prefill[$this->itemname.'_year'] = $datetimearray['year'];
-                $prefill[$this->itemname.'_hour'] = $datetimearray['hours'];
-                $prefill[$this->itemname.'_minute'] = $datetimearray['minutes'];
+                $datearray = $this->item_split_unix_time($fromdb->content);
+                $prefill[$this->itemname.'_month'] = $datearray['mon'];
+                $prefill[$this->itemname.'_year'] = $datearray['year'];
             }
         }
 
@@ -752,7 +666,6 @@ EOS;
      * @return
      */
     public function userform_db_to_export($answer, $format='') {
-        // content
         $content = $answer->content;
         if ($content == SURVEYPRO_NOANSWERVALUE) { // answer was "no answer"
             return get_string('answerisnoanswer', 'surveypro');
@@ -761,20 +674,8 @@ EOS;
             return get_string('notanswereditem', 'surveypro');
         }
 
-        // format
-        if ($format == SURVEYPRO_FIRENDLYFORMAT) {
-            $format = $this->item_get_friendlyformat();
-        }
-        if (empty($format)) {
-            $format = $this->downloadformat;
-        }
-
-        // output
-        if ($format == 'unixtime') {
-            return $content;
-        } else {
-            return userdate($content, get_string($format, 'surveyprofield_datetime'), 0);
-        }
+        $agearray = $this->item_split_unix_time($content);
+        return $this->item_age_to_text($agearray);
     }
 
     /**

@@ -15,8 +15,6 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This is a one-line short description of the file
- *
  * @package    mod_surveypro
  * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -237,7 +235,7 @@ class mod_surveypro_itembaseform extends moodleform {
             // build the list only for searchable plugins
             $pluginlist = surveypro_get_plugin_list(SURVEYPRO_TYPEFIELD);
             foreach ($pluginlist as $plugin) {
-                require_once($CFG->dirroot.'/mod/surveypro/'.SURVEYPRO_TYPEFIELD.'/'.$plugin.'/plugin.class.php');
+                require_once($CFG->dirroot.'/mod/surveypro/'.SURVEYPRO_TYPEFIELD.'/'.$plugin.'/classes/plugin.class.php');
                 $classname = 'mod_surveypro_'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
                 if (!$classname::get_canbeparent()) {
                     unset($pluginlist[$plugin]);

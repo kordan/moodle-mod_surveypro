@@ -15,8 +15,6 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This is a one-line short description of the file
- *
  * @package    mod_surveypro
  * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,9 +23,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/surveypro/classes/itembase.class.php');
-require_once($CFG->dirroot.'/mod/surveypro/field/time/lib.php');
+require_once($CFG->dirroot.'/mod/surveypro/field/recurrence/lib.php');
 
-class mod_surveypro_field_time extends mod_surveypro_itembase {
+class mod_surveypro_field_recurrence extends mod_surveypro_itembase {
 
     /**
      * $content = the text content of the item.
@@ -83,11 +81,6 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
     // -----------------------------
 
     /**
-     * $step = the step for minutes drop down menu
-     */
-    public $step = 1;
-
-    /**
      * $defaultoption = the value of the field when the form is initially displayed.
      */
     public $defaultoption = SURVEYPRO_INVITATIONDEFAULT;
@@ -101,22 +94,22 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
      * $defaultvalue = the value of the field when the form is initially displayed.
      */
     public $defaultvalue = 0;
-    public $defaultvalue_hour = null;
-    public $defaultvalue_minute = null;
+    public $defaultvalue_month = null;
+    public $defaultvalue_day = null;
 
     /**
-     * $lowerbound = the minimum allowed time
+     * $lowerbound = the minimum allowed recurrence
      */
     public $lowerbound = 0;
-    public $lowerbound_hour = null;
-    public $lowerbound_minute = null;
+    public $lowerbound_month = null;
+    public $lowerbound_day = null;
 
     /**
-     * $upperbound = the maximum allowed time
+     * $upperbound = the maximum allowed recurrence
      */
-    public $upperbound = 86340;
-    public $upperbound_hour = null;
-    public $upperbound_minute = null;
+    public $upperbound = 0;
+    public $upperbound_month = null;
+    public $upperbound_day = null;
 
     /**
      * static canbeparent
@@ -139,12 +132,14 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
 
         // list of constant element attributes
         $this->type = SURVEYPRO_TYPEFIELD;
-        $this->plugin = 'time';
+        $this->plugin = 'recurrence';
         // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
         $this->savepositiontodb = false;
 
         // other element specific properties
-        // nothing
+        $this->lowerbound = $this->item_recurrence_to_unix_time(1, 1);
+        $this->upperbound = $this->item_recurrence_to_unix_time(12, 31);
+        $this->defaultvalue = $this->lowerbound;
 
         // override properties depending from $surveypro settings
         // nothing
@@ -191,21 +186,6 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
         // begin of: plugin specific settings (eventally overriding general ones)
         // set custom fields value as defined for this question plugin
         $this->item_custom_fields_to_db($record);
-
-        // round defaultvalue according to step
-        $timearray = $this->item_split_unix_time($record->defaultvalue);
-        $defaultvaluehour = $timearray['hours'];
-        $defaultvalueminute = $timearray['minutes'];
-
-        $stepscount = intval($defaultvalueminute / $record->step);
-        $exceed = $defaultvalueminute % $record->step;
-        if ($exceed < ($record->step / 2)) {
-            $defaultvalueminute = $stepscount * $record->step;
-        } else {
-            $defaultvalueminute = (1 + $stepscount) * $record->step;
-        }
-        $record->defaultvalue = $this->item_time_to_unix_time($defaultvaluehour, $defaultvalueminute);
-        // end of: round defaultvalue according to step
         // end of: plugin specific settings (eventally overriding general ones)
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record)))
@@ -213,24 +193,26 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
     }
 
     /**
-     * item_time_to_unix_time
+     * item_recurrence_to_unix_time
      *
-     * @param $hour
-     * @param $minute
+     * @param $month
+     * @param $day
      * @return
      */
-    public function item_time_to_unix_time($hour, $minute) {
-        return (gmmktime($hour, $minute, 0, SURVEYPROFIELD_TIME_MONTHOFFSET, SURVEYPROFIELD_TIME_DAYOFFSET, SURVEYPROFIELD_TIME_YEAROFFSET)); // This is GMT
+    public function item_recurrence_to_unix_time($month, $day) {
+        return (gmmktime(12, 0, 0, $month, $day, SURVEYPROFIELD_RECURRENCE_YEAROFFSET)); // This is GMT
     }
 
     /**
      * item_custom_fields_to_form
-     * sets record field to store the correct value to the form for customfields of the time item
+     * translates the recurrence class property $fieldlist in $field.'_month' and $field.'_day'
      *
      * @param none
      * @return
      */
     public function item_custom_fields_to_form() {
+        global $surveypro;
+
         // 1. special management for fields equipped with "free" checkbox
         // nothing to do: they don't exist in this plugin
 
@@ -242,16 +224,16 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
                     case 'defaultvalue':
                         continue 2; // it may be; continues switch and foreach too
                     case 'lowerbound':
-                        $this->{$field} = 0;
+                        $this->{$field} = $this->item_recurrence_to_unix_time(1, 1);
                         break;
                     case 'upperbound':
-                        $this->{$field} = 86340;
+                        $this->{$field} = $this->item_recurrence_to_unix_time(1, 1);
                         break;
                 }
             }
-            $timearray = $this->item_split_unix_time($this->{$field});
-            $this->{$field.'_hour'} = $timearray['hours'];
-            $this->{$field.'_minute'} = $timearray['minutes'];
+            $recurrencearray = $this->item_split_unix_time($this->{$field});
+            $this->{$field.'_month'} = $recurrencearray['mon'];
+            $this->{$field.'_day'} = $recurrencearray['mday'];
         }
 
         // 3. special management for defaultvalue
@@ -260,7 +242,7 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
 
     /**
      * item_custom_fields_to_db
-     * sets record field to store the correct value to db for the time custom item
+     * sets record field to store the correct value to db for the recurrence custom item
      *
      * @param $record
      * @return
@@ -272,10 +254,10 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
         // 2. special management for composite fields
         $fieldlist = $this->item_composite_fields();
         foreach ($fieldlist as $field) {
-            if (isset($record->{$field.'_hour'}) && isset($record->{$field.'_minute'})) {
-                $record->{$field} = $this->item_time_to_unix_time($record->{$field.'_hour'}, $record->{$field.'_minute'});
-                unset($record->{$field.'_hour'});
-                unset($record->{$field.'_minute'});
+            if (isset($record->{$field.'_month'}) && isset($record->{$field.'_day'})) {
+                $record->{$field} = $this->item_recurrence_to_unix_time($record->{$field.'_month'}, $record->{$field.'_day'});
+                unset($record->{$field.'_month'});
+                unset($record->{$field.'_day'});
             } else {
                 $record->{$field} = null;
             }
@@ -306,11 +288,32 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
         $option = array();
         $timenow = time();
 
-        $option['strftime1'] = userdate($timenow, get_string('strftime1', 'surveyprofield_time')); // 05:15
-        $option['strftime2'] = userdate($timenow, get_string('strftime2', 'surveyprofield_time')); // 5:15 am
+        $option['strftime1'] = userdate($timenow, get_string('strftime1', 'surveyprofield_recurrence')); // 21 Giugno
+        $option['strftime2'] = userdate($timenow, get_string('strftime2', 'surveyprofield_recurrence')); // 21 Giu
+        $option['strftime3'] = userdate($timenow, get_string('strftime3', 'surveyprofield_recurrence')); // 21/06
         $option['unixtime'] = get_string('unixtime', 'surveypro');
 
         return $option;
+    }
+
+    /**
+     * item_check_monthday
+     *
+     * @param $day
+     * @param $month
+     * @return
+     */
+    public function item_check_monthday($day, $month) {
+        if ($month == 2) {
+            return ($day <= 29);
+        }
+
+        $longmonths = array(1, 3, 5, 7, 8, 10, 12);
+        if (in_array($month, $longmonths)) {
+            return ($day <= 31);
+        } else {
+            return ($day <= 30);
+        }
     }
 
     /**
@@ -320,7 +323,7 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
      * @return
      */
     public function item_get_friendlyformat() {
-        return 'strftime1';
+        return 'strftime3';
     }
 
     /**
@@ -346,7 +349,7 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
         $schema = <<<EOS
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
-    <xs:element name="surveyprofield_time">
+    <xs:element name="surveyprofield_recurrence">
         <xs:complexType>
             <xs:sequence>
                 <xs:element type="xs:string" name="content"/>
@@ -368,15 +371,19 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
                 <xs:element type="xs:string" name="variable"/>
                 <xs:element type="xs:int" name="indent"/>
 
-                <xs:element type="xs:int" name="step"/>
                 <xs:element type="xs:int" name="defaultoption"/>
-                <xs:element type="xs:int" name="defaultvalue" minOccurs="0"/>
+                <xs:element type="unixtime" name="defaultvalue" minOccurs="0"/>
                 <xs:element type="xs:string" name="downloadformat"/>
-                <xs:element type="xs:int" name="lowerbound"/>
-                <xs:element type="xs:int" name="upperbound"/>
+                <xs:element type="unixtime" name="lowerbound"/>
+                <xs:element type="unixtime" name="upperbound"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+    <xs:simpleType name="unixtime">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="-?\d{0,10}"/>
+        </xs:restriction>
+    </xs:simpleType>
 </xs:schema>
 EOS;
 
@@ -401,46 +408,33 @@ EOS;
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
-        $idprefix = 'id_surveypro_field_time_'.$this->sortindex;
+        $idprefix = 'id_surveypro_field_recurrence_'.$this->sortindex;
 
         // element values
-        $hours = array();
-        $minutes = array();
+        $days = array();
+        $months = array();
         if (!$searchform) {
             if ($this->defaultoption == SURVEYPRO_INVITATIONDEFAULT) {
-                $hours[SURVEYPRO_INVITATIONVALUE] = get_string('invitationhour', 'surveyprofield_time');
-                $minutes[SURVEYPRO_INVITATIONVALUE] = get_string('invitationminute', 'surveyprofield_time');
+                $days[SURVEYPRO_INVITATIONVALUE] = get_string('invitationday', 'surveyprofield_recurrence');
+                $months[SURVEYPRO_INVITATIONVALUE] = get_string('invitationmonth', 'surveyprofield_recurrence');
             }
         } else {
-            $hours[SURVEYPRO_IGNOREME] = '';
-            $minutes[SURVEYPRO_IGNOREME] = '';
+            $days[SURVEYPRO_IGNOREME] = '';
+            $months[SURVEYPRO_IGNOREME] = '';
         }
-
-        if ($this->lowerbound_hour <= $this->upperbound_hour) {
-            for ($i = (int)$this->lowerbound_hour; $i <= $this->upperbound_hour; $i++) {
-                $hours[$i] = sprintf("%02d", $i);
-            }
-        } else {
-            for ($i = (int)$this->lowerbound_hour; $i <= 24; $i++) {
-                $hours[$i] = sprintf("%02d", $i);
-            }
-            for ($i = (int)1; $i <= $this->upperbound_hour; $i++) {
-                $hours[$i] = sprintf("%02d", $i);
-            }
-        }
-        for ($i = 0; $i <= 59; $i += $this->step) {
-            $minutes[$i] = sprintf("%02d", $i);
+        $days += array_combine(range(1, 31), range(1, 31));
+        for ($i = 1; $i <= 12; $i++) {
+            $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // january, february, march...
         }
         // End of: element values
 
         // mform element
         $elementgroup = array();
-        $elementgroup[] = $mform->createElement('select', $this->itemname.'_hour', '', $hours, array('class' => 'indent-'.$this->indent, 'id' => $idprefix.'_hour'));
-        $elementgroup[] = $mform->createElement('select', $this->itemname.'_minute', '', $minutes, array('id' => $idprefix.'_minute'));
+        $elementgroup[] = $mform->createElement('select', $this->itemname.'_day', '', $days, array('class' => 'indent-'.$this->indent, 'id' => $idprefix.'_day'));
+        $elementgroup[] = $mform->createElement('select', $this->itemname.'_month', '', $months, array('id' => $idprefix.'_month'));
 
-        $separator = array(':');
         if ($this->required) {
-            $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, $separator, false);
+            $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
 
             if (!$searchform) {
                 // even if the item is required I CAN NOT ADD ANY RULE HERE because:
@@ -452,52 +446,51 @@ EOS;
             }
         } else {
             $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), array('id' => $idprefix.'_noanswer'));
-            $separator[] = ' ';
-            $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, $separator, false);
+            $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
         }
-        // End of: mform element
 
         // default section
         if (!$searchform) {
             if ($this->defaultoption == SURVEYPRO_INVITATIONDEFAULT) {
-                $mform->setDefault($this->itemname.'_hour', SURVEYPRO_INVITATIONVALUE);
-                $mform->setDefault($this->itemname.'_minute', SURVEYPRO_INVITATIONVALUE);
+                $mform->setDefault($this->itemname.'_day', SURVEYPRO_INVITATIONVALUE);
+                $mform->setDefault($this->itemname.'_month', SURVEYPRO_INVITATIONVALUE);
             } else {
                 switch ($this->defaultoption) {
                     case SURVEYPRO_CUSTOMDEFAULT:
-                        $timearray = $this->item_split_unix_time($this->defaultvalue, true);
+                        $recurrencearray = $this->item_split_unix_time($this->defaultvalue, true);
                         break;
                     case SURVEYPRO_TIMENOWDEFAULT:
-                        $timearray = $this->item_split_unix_time(time(), true);
+                        $recurrencearray = $this->item_split_unix_time(time(), true);
                         break;
                     case SURVEYPRO_NOANSWERDEFAULT:
-                        $timearray = $this->item_split_unix_time($this->lowerbound, true);
+                        $recurrencearray = $this->item_split_unix_time($this->lowerbound, true);
                         $mform->setDefault($this->itemname.'_noanswer', '1');
                         break;
                     case SURVEYPRO_LIKELASTDEFAULT:
-                        // look for the last submission I made
+                        // look for the most recent submission I made
                         $sql = 'userid = :userid ORDER BY timecreated DESC LIMIT 1';
                         $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, array('userid' => $USER->id), IGNORE_MISSING);
                         if ($time = $DB->get_field('surveypro_answer', 'content', array('itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid), IGNORE_MISSING)) {
-                            $timearray = $this->item_split_unix_time($time, false);
+                            $recurrencearray = $this->item_split_unix_time($time, false);
                         } else { // as in standard default
-                            $timearray = $this->item_split_unix_time(time(), true);
+                            $recurrencearray = $this->item_split_unix_time(time(), true);
                         }
                         break;
                     default:
                         debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->defaultoption = '.$this->defaultoption, DEBUG_DEVELOPER);
                 }
-                $mform->setDefault($this->itemname.'_hour', $timearray['hours']);
-                $mform->setDefault($this->itemname.'_minute', $timearray['minutes']);
+                $mform->setDefault($this->itemname.'_day', $recurrencearray['mday']);
+                $mform->setDefault($this->itemname.'_month', $recurrencearray['mon']);
             }
         } else {
-            $mform->setDefault($this->itemname.'_hour', SURVEYPRO_IGNOREME);
-            $mform->setDefault($this->itemname.'_minute', SURVEYPRO_IGNOREME);
+            $mform->setDefault($this->itemname.'_day', SURVEYPRO_IGNOREME);
+            $mform->setDefault($this->itemname.'_month', SURVEYPRO_IGNOREME);
             if (!$this->required) {
                 $mform->setDefault($this->itemname.'_noanswer', '0');
             }
         }
+        // End of: default section
     }
 
     /**
@@ -522,24 +515,24 @@ EOS;
         // verify the content of each drop down menu
         if (!$searchform) {
             $testpassed = true;
-            $testpassed = $testpassed && ($data[$this->itemname.'_hour'] != SURVEYPRO_INVITATIONVALUE);
-            $testpassed = $testpassed && ($data[$this->itemname.'_minute'] != SURVEYPRO_INVITATIONVALUE);
+            $testpassed = $testpassed && ($data[$this->itemname.'_day'] != SURVEYPRO_INVITATIONVALUE);
+            $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_INVITATIONVALUE);
         } else {
             // both drop down menues are allowed to be == SURVEYPRO_IGNOREME
             // but not only 1
             $testpassed = true;
-            if ($data[$this->itemname.'_hour'] == SURVEYPRO_IGNOREME) {
-                $testpassed = $testpassed && ($data[$this->itemname.'_minute'] == SURVEYPRO_IGNOREME);
+            if ($data[$this->itemname.'_day'] == SURVEYPRO_IGNOREME) {
+                $testpassed = $testpassed && ($data[$this->itemname.'_month'] == SURVEYPRO_IGNOREME);
             } else {
-                $testpassed = $testpassed && ($data[$this->itemname.'_minute'] != SURVEYPRO_IGNOREME);
+                $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_IGNOREME);
             }
         }
         if (!$testpassed) {
             if ($this->required) {
-                $errors[$errorkey] = get_string('uerr_timenotsetrequired', 'surveyprofield_time');
+                $errors[$errorkey] = get_string('uerr_recurrencenotsetrequired', 'surveyprofield_recurrence');
             } else {
                 $a = get_string('noanswer', 'surveypro');
-                $errors[$errorkey] = get_string('uerr_timenotset', 'surveyprofield_time', $a);
+                $errors[$errorkey] = get_string('uerr_recurrencenotset', 'surveyprofield_recurrence', $a);
             }
             return;
         }
@@ -550,36 +543,27 @@ EOS;
             return;
         }
 
-        $haslowerbound = ($this->lowerbound != $this->item_time_to_unix_time(0, 0));
-        $hasupperbound = ($this->upperbound != $this->item_time_to_unix_time(23, 59));
+        if (!$this->item_check_monthday($data[$this->itemname.'_day'], $data[$this->itemname.'_month'])) {
+            $errors[$errorkey] = get_string('incorrectrecurrence', 'surveyprofield_recurrence');
+        }
 
-        $userinput = $this->item_time_to_unix_time($data[$this->itemname.'_hour'], $data[$this->itemname.'_minute']);
+        $haslowerbound = ($this->lowerbound != $this->item_recurrence_to_unix_time(1, 1));
+        $hasupperbound = ($this->upperbound != $this->item_recurrence_to_unix_time(12, 31));
 
+        $userinput = $this->item_recurrence_to_unix_time($data[$this->itemname.'_month'], $data[$this->itemname.'_day']);
+
+        $format = get_string('strftimedateshort', 'langconfig');
         if ($haslowerbound && $hasupperbound) {
-            $format = get_string('strftimetime', 'langconfig');
-            if ($this->lowerbound < $this->upperbound) {
-                // internal range
-                if ( ($userinput < $this->lowerbound) || ($userinput > $this->upperbound) ) {
-                    $errors[$errorkey] = get_string('uerr_outofinternalrange', 'surveyprofield_time');
-                }
-            }
-
-            if ($this->lowerbound > $this->upperbound) {
-                // external range
-                if ( ($userinput > $this->lowerbound) && ($userinput < $this->upperbound) ) {
-                    $format = $this->item_get_friendlyformat();
-                    $a = new stdClass();
-                    $a->lowerbound = userdate($this->lowerbound, get_string($format, 'surveyprofield_time'), 0);
-                    $a->upperbound = userdate($this->upperbound, get_string($format, 'surveyprofield_time'), 0);
-                    $errors[$errorkey] = get_string('uerr_outofexternalrange', 'surveyprofield_time', $a);
-                }
+            // internal range
+            if ( ($userinput < $this->lowerbound) || ($userinput > $this->upperbound) ) {
+                $errors[$errorkey] = get_string('uerr_outofinternalrange', 'surveyprofield_recurrence');
             }
         } else {
             if ($haslowerbound && ($userinput < $this->lowerbound)) {
-                $errors[$errorkey] = get_string('uerr_lowerthanminimum', 'surveyprofield_time');
+                $errors[$errorkey] = get_string('uerr_lowerthanminimum', 'surveyprofield_recurrence');
             }
             if ($hasupperbound && ($userinput > $this->upperbound)) {
-                $errors[$errorkey] = get_string('uerr_greaterthanmaximum', 'surveyprofield_time');
+                $errors[$errorkey] = get_string('uerr_greaterthanmaximum', 'surveyprofield_recurrence');
             }
         }
     }
@@ -591,34 +575,28 @@ EOS;
      * @return string $fillinginstruction
      */
     public function userform_get_filling_instructions() {
+        global $surveypro;
 
-        $haslowerbound = ($this->lowerbound != $this->item_time_to_unix_time(0, 0));
-        $hasupperbound = ($this->upperbound != $this->item_time_to_unix_time(23, 59));
+        $haslowerbound = ($this->lowerbound != $this->item_recurrence_to_unix_time(1, 1));
+        $hasupperbound = ($this->upperbound != $this->item_recurrence_to_unix_time(12, 31));
 
-        $format = get_string('strftimetime', 'langconfig');
+        $format = get_string('strftimedateshort', 'langconfig');
         if ($haslowerbound && $hasupperbound) {
             $a = new stdClass();
             $a->lowerbound = userdate($this->lowerbound, $format, 0);
             $a->upperbound = userdate($this->upperbound, $format, 0);
 
-            if ($this->lowerbound < $this->upperbound) {
-                // internal range
-                $fillinginstruction = get_string('restriction_lowerupper', 'surveyprofield_time', $a);
-            }
-
-            if ($this->lowerbound > $this->upperbound) {
-                // external range
-                $fillinginstruction = get_string('restriction_upperlower', 'surveyprofield_time', $a);
-            }
+            // internal range
+            $fillinginstruction = get_string('restriction_lowerupper', 'surveyprofield_recurrence', $a);
         } else {
             $fillinginstruction = '';
             if ($haslowerbound) {
                 $a = userdate($this->lowerbound, $format, 0);
-                $fillinginstruction = get_string('restriction_lower', 'surveyprofield_time', $a);
+                $fillinginstruction = get_string('restriction_lower', 'surveyprofield_recurrence', $a);
             }
             if ($hasupperbound) {
                 $a = userdate($this->upperbound, $format, 0);
-                $fillinginstruction = get_string('restriction_upper', 'surveyprofield_time', $a);
+                $fillinginstruction = get_string('restriction_upper', 'surveyprofield_recurrence', $a);
             }
         }
 
@@ -641,12 +619,12 @@ EOS;
             $olduserdata->content = SURVEYPRO_NOANSWERVALUE;
         } else {
             if (!$searchform) {
-                $olduserdata->content = $this->item_time_to_unix_time($answer['hour'], $answer['minute']);
+                $olduserdata->content = $this->item_recurrence_to_unix_time($answer['month'], $answer['day']);
             } else {
-                if ($answer['hour'] == SURVEYPRO_IGNOREME) {
+                if ($answer['month'] == SURVEYPRO_IGNOREME) {
                     $olduserdata->content = null;
                 } else {
-                    $olduserdata->content = $this->item_time_to_unix_time($answer['hour'], $answer['minute']);
+                    $olduserdata->content = $this->item_recurrence_to_unix_time($answer['month'], $answer['day']);
                 }
             }
         }
@@ -672,9 +650,9 @@ EOS;
             if ($fromdb->content == SURVEYPRO_NOANSWERVALUE) {
                 $prefill[$this->itemname.'_noanswer'] = 1;
             } else {
-                $datearray = $this->item_split_unix_time($fromdb->content);
-                $prefill[$this->itemname.'_hour'] = $datearray['hours'];
-                $prefill[$this->itemname.'_minute'] = $datearray['minutes'];
+                $recurrencearray = $this->item_split_unix_time($fromdb->content);
+                $prefill[$this->itemname.'_day'] = $recurrencearray['mday'];
+                $prefill[$this->itemname.'_month'] = $recurrencearray['mon'];
             }
         }
 
@@ -711,7 +689,7 @@ EOS;
         if ($format == 'unixtime') {
             return $content;
         } else {
-            return userdate($content, get_string($format, 'surveyprofield_time'), 0);
+            return userdate($content, get_string($format, 'surveyprofield_recurrence'), 0);
         }
     }
 

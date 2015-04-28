@@ -15,8 +15,6 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This is a one-line short description of the file
- *
  * @package    mod_surveypro
  * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,9 +23,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/surveypro/classes/itembase.class.php');
-require_once($CFG->dirroot.'/mod/surveypro/field/select/lib.php');
+require_once($CFG->dirroot.'/mod/surveypro/field/radiobutton/lib.php');
 
-class mod_surveypro_field_select extends mod_surveypro_itembase {
+class mod_surveypro_field_radiobutton extends mod_surveypro_itembase {
 
     /**
      * $content = the text content of the item.
@@ -83,14 +81,14 @@ class mod_surveypro_field_select extends mod_surveypro_itembase {
     public $options = '';
 
     /**
-     * $labelother = the text label for the optional option "other" in the form of "$value SURVEYPRO_OTHERSEPARATOR $label"
-     */
-    public $labelother = '';
-
-    /**
      * $defaultoption
      */
     public $defaultoption = SURVEYPRO_INVITATIONDEFAULT;
+
+    /**
+     * $labelother = the text label for the optional option "other" in the form of "$value SURVEYPRO_OTHERSEPARATOR $label"
+     */
+    public $labelother = '';
 
     /**
      * $defaultvalue = the value of the field when the form is initially displayed.
@@ -101,6 +99,11 @@ class mod_surveypro_field_select extends mod_surveypro_itembase {
      * $downloadformat = the format of the content once downloaded
      */
     public $downloadformat = null;
+
+    /**
+     * $adjustment = the orientation of the list of options.
+     */
+    public $adjustment = 0;
 
     /**
      * static canbeparent
@@ -123,7 +126,7 @@ class mod_surveypro_field_select extends mod_surveypro_itembase {
 
         // list of constant element attributes
         $this->type = SURVEYPRO_TYPEFIELD;
-        $this->plugin = 'select';
+        $this->plugin = 'radiobutton';
         // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
         $this->savepositiontodb = true;
 
@@ -173,7 +176,7 @@ class mod_surveypro_field_select extends mod_surveypro_itembase {
         // -----------------------------
 
         // begin of: plugin specific settings (eventally overriding general ones)
-        // drop empty rows and trim edging rows spaces from each textarea field
+        // drop empty rows and trim trialing spaces from each row of each textarea field
         $fieldlist = array('options');
         $this->item_clean_textarea_fields($record, $fieldlist);
 
@@ -253,16 +256,16 @@ class mod_surveypro_field_select extends mod_surveypro_itembase {
      * @return list of contraints of the plugin (as parent) in text format
      */
     public function item_list_constraints() {
-        $labelsep = get_string('labelsep', 'langconfig'); // ': '
         $constraints = array();
 
+        $labelsep = get_string('labelsep', 'langconfig'); // ': '
         $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
-        $optionstr = get_string('option', 'surveyprofield_select');
+        $optionstr = get_string('option', 'surveyprofield_radiobutton');
         foreach ($values as $value) {
             $constraints[] = $optionstr.$labelsep.$value;
         }
         if (!empty($this->labelother)) {
-            $constraints[] = get_string('labelother', 'surveyprofield_select').$labelsep.get_string('allowed', 'surveyprofield_select');
+            $constraints[] = get_string('labelother', 'surveyprofield_radiobutton').$labelsep.get_string('allowed', 'surveyprofield_radiobutton');
         }
 
         return implode($constraints, '<br />');
@@ -287,7 +290,7 @@ class mod_surveypro_field_select extends mod_surveypro_itembase {
      */
     public function item_get_multilang_fields() {
         $fieldlist = parent::item_get_multilang_fields();
-        $fieldlist['select'] = array('content', 'options', 'labelother', 'defaultvalue');
+        $fieldlist['radiobutton'] = array('content', 'options', 'labelother', 'defaultvalue');
 
         return $fieldlist;
     }
@@ -302,7 +305,7 @@ class mod_surveypro_field_select extends mod_surveypro_itembase {
         $schema = <<<EOS
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
-    <xs:element name="surveyprofield_select">
+    <xs:element name="surveyprofield_radiobutton">
         <xs:complexType>
             <xs:sequence>
                 <xs:element type="xs:string" name="content"/>
@@ -328,6 +331,7 @@ class mod_surveypro_field_select extends mod_surveypro_itembase {
                 <xs:element type="xs:int" name="defaultoption"/>
                 <xs:element type="xs:string" name="defaultvalue" minOccurs="0"/>
                 <xs:element type="xs:int" name="downloadformat"/>
+                <xs:element type="xs:int" name="adjustment"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -477,59 +481,92 @@ EOS;
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
-        $idprefix = 'id_surveypro_field_select_'.$this->sortindex;
+        $idprefix = 'id_surveypro_field_radiobutton_'.$this->sortindex;
 
-        // element values
-        $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
+        $paramelement = array('class' => 'indent-'.$this->indent);
+        $elementgroup = array();
+
+        // mform elements
         if (!$searchform) {
             if ($this->defaultoption == SURVEYPRO_INVITATIONDEFAULT) {
-                $labels = array(SURVEYPRO_INVITATIONVALUE => get_string('choosedots')) + $labels;
+                $paramelement['id'] = $idprefix.'_invitation';
+                $elementgroup[] = $mform->createElement('radio', $this->itemname, '', get_string('choosedots'), SURVEYPRO_INVITATIONVALUE, $paramelement);
+                if ($this->adjustment == SURVEYPRO_HORIZONTAL) {
+                    unset($paramelement['class']);
+                }
             }
         } else {
-            $labels = array(SURVEYPRO_IGNOREME => '') + $labels;
+            $paramelement['id'] = $idprefix.'_ignoreme';
+            $elementgroup[] = $mform->createElement('radio', $this->itemname, '', get_string('star', 'surveypro'), SURVEYPRO_IGNOREME, $paramelement);
+            if ($this->adjustment == SURVEYPRO_HORIZONTAL) {
+                unset($paramelement['class']);
+            }
         }
+
+        $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
+        $labelcount = count($labels);
+        foreach ($labels as $k => $label) {
+            $paramelement['id'] = $idprefix.'_'."$k";
+            $elementgroup[] = $mform->createElement('radio', $this->itemname, '', $label, "$k", $paramelement);
+            if ($this->adjustment == SURVEYPRO_HORIZONTAL) {
+                unset($paramelement['class']);
+            }
+        }
+
         if (!empty($this->labelother)) {
             list($othervalue, $otherlabel) = $this->item_get_other();
-            $labels['other'] = $otherlabel;
-        }
-        if (!$this->required) {
-            $labels[SURVEYPRO_NOANSWERVALUE] = get_string('noanswer', 'surveypro');
-        }
-        // End of: element values
+            $labels['other'] = $othervalue;
 
-        if (!$this->labelother) {
-            $mform->addElement('select', $this->itemname, $elementlabel, $labels, array('class' => 'indent-'.$this->indent, 'id' => $idprefix));
-        } else {
-            $elementgroup = array();
-            $elementgroup[] = $mform->createElement('select', $this->itemname, '', $labels, array('class' => 'indent-'.$this->indent, 'id' => $idprefix));
-            $elementgroup[] = $mform->createElement('text', $this->itemname.'_text', '', array('id' => $idprefix.'_text'));
+            $paramelement['id'] = $idprefix.'_other';
+            $elementgroup[] = $mform->createElement('radio', $this->itemname, '', $otherlabel, 'other', $paramelement);
+
+            $paramelement['id'] = $idprefix.'_text';
+            $elementgroup[] = $mform->createElement('text', $this->itemname.'_text', '', $paramelement);
             $mform->setType($this->itemname.'_text', PARAM_RAW);
             $mform->disabledIf($this->itemname.'_text', $this->itemname, 'neq', 'other');
-            $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
         }
 
+        if (!$this->required) {
+            $paramelement['id'] = $idprefix.'_noanswer';
+            $elementgroup[] = $mform->createElement('radio', $this->itemname, '', get_string('noanswer', 'surveypro'), SURVEYPRO_NOANSWERVALUE, $paramelement);
+        }
+        // End of: mform elements
+
+        // definition of separator
+        if ($this->adjustment == SURVEYPRO_VERTICAL) {
+            $separator = array_fill(0, $labelcount - 1, '<br />');
+            if ($this->defaultoption == SURVEYPRO_INVITATIONDEFAULT) {
+                array_unshift($separator, '<br />');
+            }
+            if (!empty($this->labelother)) {
+                $separator[] = '<br />';
+                $separator[] = ' ';
+            }
+            if (!$this->required) {
+                $separator[] = '<br />';
+            }
+        } else { // SURVEYPRO_HORIZONTAL
+            $separator = ' ';
+        }
+        // End of: definition of separator
+        $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, $separator, false);
+
+        // default section
         if (!$searchform) {
             if ($this->required) {
                 // even if the item is required I CAN NOT ADD ANY RULE HERE because:
                 // -> I do not want JS form validation if the page is submitted through the "previous" button
                 // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815
                 // simply add a dummy star to the item and the footer note about mandatory fields
-                if ($this->position != SURVEYPRO_POSITIONLEFT) {
-                    $starplace = $this->itemname.'_extrarow';
-                } else {
-                    $starplace = ($this->labelother) ? $this->itemname.'_group' : $this->itemname;
-                }
+                $starplace = ($this->position != SURVEYPRO_POSITIONLEFT) ? $this->itemname.'_extrarow' : $this->itemname.'_group';
                 $mform->_required[] = $starplace;
             }
-        }
 
-        if (!$searchform) {
             switch ($this->defaultoption) {
                 case SURVEYPRO_CUSTOMDEFAULT:
-                    if ($key = array_search($this->defaultvalue, $labels)) {
+                    $key = array_search($this->defaultvalue, $labels);
+                    if ($key !== false) {
                         $mform->setDefault($this->itemname, "$key");
-                    } else {
-                        $mform->setDefault($this->itemname, 'other');
                     }
                     break;
                 case SURVEYPRO_INVITATIONDEFAULT:
@@ -544,10 +581,11 @@ EOS;
         } else {
             $mform->setDefault($this->itemname, SURVEYPRO_IGNOREME);
         }
-        // $this->itemname.'_text' has to ALWAYS get a default (if required) even if it is not selected
+        // $this->itemname.'_text' has to ALWAYS get a default (if it exists) even if it is not selected
         if (!empty($this->labelother)) {
             $mform->setDefault($this->itemname.'_text', $othervalue);
         }
+        // End of: default section
     }
 
     /**
@@ -560,17 +598,24 @@ EOS;
      * @return
      */
     public function userform_mform_validation($data, &$errors, $surveypro, $searchform) {
-        // this plugin displays as dropdown menu. It will never return empty values.
+        // this plugin displays as a set of radio buttons. It will never return empty values.
         // if ($this->required) { if (empty($data[$this->itemname])) { is useless
 
         if ($searchform) {
             return;
         }
 
-        $errorkey = empty($this->labelother) ? $this->itemname : $this->itemname.'_group';
+        $errorkey = $this->itemname.'_group';
 
+        if ( ($data[$this->itemname] == 'other') && empty($data[$this->itemname.'_text']) ) {
+            $errors[$errorkey] = get_string('missingothertext', 'surveyprofield_radiobutton');
+            return;
+        }
+
+        // I need to check value is different from SURVEYPRO_INVITATIONVALUE even if it is not required
         if ($data[$this->itemname] == SURVEYPRO_INVITATIONVALUE) {
-            $errors[$errorkey] = get_string('uerr_optionnotset', 'surveyprofield_select');
+            $errors[$errorkey] = get_string('uerr_optionnotset', 'surveyprofield_radiobutton');
+            return;
         }
     }
 
@@ -620,7 +665,7 @@ EOS;
                     $mformelementinfo = new stdClass();
                     $mformelementinfo->parentname = $this->itemname.'_text';
                     $mformelementinfo->operator = 'neq';
-                    $mformelementinfo->content = $childparentvalue;
+                    $mformelementinfo->content = $label;
                     $disabilitationinfo[] = $mformelementinfo;
                 }
             }
@@ -652,7 +697,7 @@ EOS;
      * @return boolean: true: if the item is welcome; false: if the item must be dropped out
      */
     public function userform_child_item_allowed_dynamic($childparentvalue, $data) {
-        // 1) I am a select item
+        // 1) I am a radiobutton item
         // 2) in $data I can ONLY find $this->itemname, $this->itemname.'_text'
 
         // I need to verify (checkbox per checkbox) if they hold the same value the user entered
@@ -679,10 +724,16 @@ EOS;
      */
     public function userform_save_preprocessing($answer, $olduserdata, $searchform) {
         if (isset($answer['mainelement'])) {
-            if ($answer['mainelement'] == 'other') {
-                $olduserdata->content = $answer['text'];
-            } else {
-                $olduserdata->content = $answer['mainelement'];
+            switch ($answer['mainelement']) {
+                case 'other':
+                    $olduserdata->content = $answer['text'];
+                    break;
+                case '':
+                    $olduserdata->content = null;
+                    break;
+                default:
+                    $olduserdata->content = $answer['mainelement'];
+                    break;
             }
             return;
         }
@@ -723,7 +774,7 @@ EOS;
         } else {
             // nothing was set
             // do not accept defaults but overwrite them
-            // but... if this is a select, how can it be empty($fromdb->content)?
+            // but... if this is a group of radio buttons, how can it be empty($fromdb->content)?
             // Because user selected "Not answering" or question was disabled
             $prefill[$this->itemname] = '';
         }
@@ -792,12 +843,7 @@ EOS;
      * @return
      */
     public function userform_get_root_elements_name() {
-        $elementnames = array();
-        if (!$this->labelother) {
-            $elementnames[] = $this->itemname;
-        } else {
-            $elementnames[] = $this->itemname.'_group';
-        }
+        $elementnames = array($this->itemname.'_group');
 
         return $elementnames;
     }

@@ -23,6 +23,7 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->dirroot.'/mod/surveypro/adminlib.php');
 
 $ADMIN->add('modsettings', new admin_category('modsurveyprofolder', new lang_string('pluginname', 'mod_surveypro'), !$module->is_enabled()));

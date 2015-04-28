@@ -9,7 +9,7 @@ button is needed. (thanks to JR)
 -> surveypro_scale_used($surveyproid, $scaleid)?
 -> surveypro_scale_used_anywhere($scaleid)?
 -> unit test (they are a must)
--> *** Crucial known issue that is not fixable in my opinion. I apply a master template. I make a surveypro with it. Tomorrow I update the master template with a newer version. This new version has one more item in the middle. Surveys build with the old release of the plugin will stop working fine as they will find in the right position string of a different template.
+-> *** Crucial known issue that is not fixable in my opinion. I apply a master template. I make a surveypro with it. Tomorrow I update the master template with a newer version. This new version has one more item in the middle. Surveys built with the old release of the plugin will stop working fine as they will find in the right position string of a different template.
 -> possible better solution: use the first 32 chars of the question escaped
 -> is the autofill field saved to userdata even if it is not shown?
 -> allow upperbound date/datetime == to now
