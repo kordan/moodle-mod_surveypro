@@ -22,6 +22,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+global $CFG;
+
+// require_once(dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))))).'/config.php');
 require_once($CFG->libdir.'/form/filemanager.php');
 
 class mod_surveypro_mform_filemanager extends MoodleQuickForm_filemanager {
