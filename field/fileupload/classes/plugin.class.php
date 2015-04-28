@@ -252,7 +252,7 @@ EOS;
         $paramelement['maxfiles'] = $this->maxfiles;
         $paramelement['id'] = $idprefix; // does not work: MDL_28194
         $paramelement['class'] = 'indent-'.$this->indent; // does not work: MDL_28194
-        $mform->addElement('filemanager', $fieldname, $elementlabel, null, $paramelement);
+        $mform->addElement('mod_surveypro_filemanager', $fieldname, $elementlabel, null, $paramelement);
 
         if ($this->required) {
             // even if the item is required I CAN NOT ADD ANY RULE HERE because:

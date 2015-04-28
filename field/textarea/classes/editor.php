@@ -22,7 +22,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/lib/form/editor.php');
+require_once($CFG->libdir.'/form/editor.php');
 
 class mod_surveypro_mform_editor extends MoodleQuickForm_editor {
 

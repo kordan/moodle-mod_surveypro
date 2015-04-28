@@ -347,7 +347,7 @@ EOS;
             // $paramelement['class'] and $paramelement['id'] do not work: MDL_28194
             $fieldname = $this->itemname.'_editor';
             $editoroptions = array('trusttext' => true, 'subdirs' => true, 'maxfiles' => EDITOR_UNLIMITED_FILES);
-            $mform->addElement('editor', $fieldname, $elementlabel, $paramelement, $editoroptions);
+            $mform->addElement('mod_surveypro_editor', $fieldname, $elementlabel, $paramelement, $editoroptions);
             $mform->setType($fieldname, PARAM_CLEANHTML);
         }
 
