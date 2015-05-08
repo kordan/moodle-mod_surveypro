@@ -49,7 +49,7 @@ $reportman->set_group($group);
 $reportman->set_area($area);
 $reportman->set_qid($qid);
 
-$graph = new graph(SURVEYPRO_GWIDTH, SURVEYPRO_GHEIGHT);
+$graph = new graph(SURVEYPROREPORT_COLLES_GWIDTH, SURVEYPROREPORT_COLLES_GHEIGHT);
 if ($type == 'summary') {
     $reportman->fetch_summarydata();
 

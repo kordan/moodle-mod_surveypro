@@ -52,7 +52,7 @@ function surveypro_get_item($itemid=0, $type='', $plugin='', $evaluateparentcont
         $plugin = $itemseed->plugin;
     }
 
-    require_once($CFG->dirroot.'/mod/surveypro/'.$type.'/'.$plugin.'/plugin.class.php');
+    require_once($CFG->dirroot.'/mod/surveypro/'.$type.'/'.$plugin.'/classes/plugin.class.php');
     $itemclassname = 'mod_surveypro_'.$type.'_'.$plugin;
     $item = new $itemclassname($cm, $itemid, $evaluateparentcontent);
 
@@ -154,3 +154,6 @@ function surveypro_groupmates($cm, $userid=0) {
 
     return array_keys($groupusers);
 }
+
+MoodleQuickForm::registerElementType('mod_surveypro_editor', "$CFG->dirroot/mod/surveypro/field/textarea/classes/editor.php", 'mod_surveypro_mform_editor');
+MoodleQuickForm::registerElementType('mod_surveypro_filemanager', "$CFG->dirroot/mod/surveypro/field/fileupload/classes/filemanager.php", 'mod_surveypro_mform_filemanager');

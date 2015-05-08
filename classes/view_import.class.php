@@ -15,8 +15,6 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This is a one-line short description of the file
- *
  * @package    mod_surveypro
  * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -93,7 +91,7 @@ class mod_surveypro_importmanager {
         $semanticitem = array();
         $plugins = surveypro_get_plugin_list(SURVEYPRO_TYPEFIELD);
         foreach ($plugins as $k => $plugin) {
-            require_once($CFG->dirroot.'/mod/surveypro/field/'.$plugin.'/plugin.class.php');
+            require_once($CFG->dirroot.'/mod/surveypro/field/'.$plugin.'/classes/plugin.class.php');
 
             $itemclass = 'mod_surveypro_'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
             $item = new $itemclass($this->cm, null, false);
@@ -161,7 +159,7 @@ class mod_surveypro_importmanager {
         $surveyheaders = array();
         $where = array('surveyproid' => $this->surveypro->id);
         foreach ($pluginlist as $plugin) {
-            require_once($CFG->dirroot.'/mod/surveypro/field/'.$plugin.'/plugin.class.php');
+            require_once($CFG->dirroot.'/mod/surveypro/field/'.$plugin.'/classes/plugin.class.php');
 
             // $tablename === $itemclass :)
             // $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;

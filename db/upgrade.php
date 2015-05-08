@@ -42,6 +42,9 @@ function xmldb_surveypro_upgrade($oldversion) {
 
     $dbman = $DB->get_manager();
 
+    // Moodle v2.6.0 release upgrade line.
+    // Put any upgrade step following this.
+
     if ($oldversion < 2014051901) {
 
         // Define table surveypro_userdata to be renamed to surveypro_answer.
@@ -53,6 +56,15 @@ function xmldb_surveypro_upgrade($oldversion) {
         // Surveypro savepoint reached.
         upgrade_mod_savepoint(true, 2014051901, 'surveypro');
     }
+
+    // Moodle v2.7.0 release upgrade line.
+    // Put any upgrade step following this.
+
+    // Moodle v2.8.0 release upgrade line.
+    // Put any upgrade step following this.
+
+    // Moodle v2.9.0 release upgrade line.
+    // Put any upgrade step following this.
 
     return true;
 }

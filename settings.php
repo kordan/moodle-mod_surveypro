@@ -23,6 +23,7 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->dirroot.'/mod/surveypro/adminlib.php');
 
 $ADMIN->add('modsettings', new admin_category('modsurveyprofolder', new lang_string('pluginname', 'mod_surveypro'), !$module->is_enabled()));
@@ -30,13 +31,11 @@ $ADMIN->add('modsettings', new admin_category('modsurveyprofolder', new lang_str
 $settings = new admin_settingpage($section, get_string('settings', 'mod_surveypro'), 'moodle/site:config', !$module->is_enabled());
 
 if ($ADMIN->fulltree) {
-    $name = new lang_string('requiremodintro', 'admin');
-    if ($CFG->branch == '29') {
-        $description = new lang_string('requiremodintro_desc', 'admin');
-    } else {
+    if ($CFG->branch < '29') {
+        $name = new lang_string('requiremodintro', 'admin');
         $description = new lang_string('configrequiremodintro', 'admin');
+        $settings->add(new admin_setting_configcheckbox('surveypro/requiremodintro', $name, $description, 0));
     }
-    $settings->add(new admin_setting_configcheckbox('surveypro/requiremodintro', $name, $description, 0));
 
     $name = new lang_string('maxinputdelay', 'mod_surveypro');
     $description = new lang_string('maxinputdelay_descr', 'mod_surveypro');
