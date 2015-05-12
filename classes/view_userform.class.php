@@ -15,8 +15,6 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This is a one-line short description of the file
- *
  * @package    mod_surveypro
  * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -297,7 +295,7 @@ class mod_surveypro_userformmanager {
             }
 
             $parentplugin = $DB->get_field('surveypro_item', 'plugin', array('id' => $itemseed->parentid));
-            require_once($CFG->dirroot.'/mod/surveypro/field/'.$parentplugin.'/plugin.class.php');
+            require_once($CFG->dirroot.'/mod/surveypro/field/'.$parentplugin.'/classes/plugin.class.php');
 
             $itemclass = 'mod_surveypro_field_'.$parentplugin;
             $parentitem = new $itemclass($this->cm, $itemseed->parentid, false);

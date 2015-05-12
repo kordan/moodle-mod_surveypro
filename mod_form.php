@@ -30,7 +30,6 @@ class mod_surveypro_mod_form extends moodleform_mod {
         global $COURSE, $DB, $CFG, $cm;
 
         $mform = $this->_form;
-        $config = get_config('surveypro');
 
         // Adding the "general" fieldset, where all the common settings are showed
         $fieldname = 'general';
@@ -49,7 +48,12 @@ class mod_surveypro_mod_form extends moodleform_mod {
         $mform->addHelpButton($fieldname, 'surveyproname', 'surveypro');
 
         // Adding the standard "intro" and "introformat" fields
-        $this->add_intro_editor($config->requiremodintro, get_string('moduleintro'));
+        if ($CFG->branch < '29') {
+            $config = get_config('surveypro');
+            $this->add_intro_editor($config->requiremodintro, get_string('moduleintro'));
+        } else {
+            $this->standard_intro_elements(get_string('moduleintro'));
+        }
 
         // Open date
         $fieldname = 'timeopen';

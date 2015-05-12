@@ -226,8 +226,8 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
 
         $imgparams = array();
         $imgparams['class'] = 'resultgraph';
-        $imgparams['height'] = SURVEYPRO_GHEIGHT;
-        $imgparams['width'] = SURVEYPRO_GWIDTH;
+        $imgparams['height'] = SURVEYPROREPORT_COLLES_GHEIGHT;
+        $imgparams['width'] = SURVEYPROREPORT_COLLES_GWIDTH;
         $imgparams['src'] = $graphurl;
         $imgparams['alt'] = get_string($altkey, 'surveyproreport_colles');
 

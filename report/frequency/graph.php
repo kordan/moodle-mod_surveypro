@@ -60,7 +60,7 @@ if ($counted < $submissionscount) {
 
 $answers->close();
 
-$graph = new graph(SURVEYPRO_GWIDTH, SURVEYPRO_GHEIGHT);
+$graph = new graph(SURVEYPROREPORT_FREQUENCY_GWIDTH, SURVEYPROREPORT_FREQUENCY_GHEIGHT);
 $graph->parameter['title'] = '';
 
 $graph->x_data = $content;

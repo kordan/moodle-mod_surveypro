@@ -206,8 +206,8 @@ class mod_surveypro_report_frequency extends mod_surveypro_reportbase {
         } else {
             $imgparams = array();
             $imgparams['class'] = 'resultgraph';
-            $imgparams['height'] = SURVEYPRO_GHEIGHT;
-            $imgparams['width'] = SURVEYPRO_GWIDTH;
+            $imgparams['height'] = SURVEYPROREPORT_FREQUENCY_GHEIGHT;
+            $imgparams['width'] = SURVEYPROREPORT_FREQUENCY_GWIDTH;
             $imgparams['src'] = $graphurl;
             $imgparams['alt'] = get_string('pluginname', 'surveyproreport_frequency');
 
