@@ -176,6 +176,15 @@ class mod_surveypro_field_multiselect extends mod_surveypro_itembase {
     }
 
     /**
+     * get_canbeparent
+     *
+     * @return the content of the static property "canbeparent"
+     */
+    public static function item_get_canbeparent() {
+        return self::$canbeparent;
+    }
+
+    /**
      * item_list_constraints
      * this method prepare the list of constraints the child has to respect in order to create a valid relation
      *
@@ -465,7 +474,9 @@ EOS;
                 $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), $paramelement);
 
                 $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, '<br />', false);
-                $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
+                // Multiselect uses a special syntax that is different from the syntax of all the other mform groups with disabilitation chechbox
+                // $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
+                $mform->disabledIf($this->itemname.'[]', $this->itemname.'_noanswer', 'checked');
             }
         } else {
             $elementgroup = array();
@@ -484,9 +495,12 @@ EOS;
 
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, '<br />', false);
             if (!$this->minimumrequired) {
-                $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
+                // Multiselect uses a special syntax that is different from the syntax of all the other mform groups with disabilitation chechbox
+                // $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
+                $mform->disabledIf($this->itemname.'[]', $this->itemname.'_noanswer', 'checked');
             }
-            $mform->disabledIf($this->itemname.'_group', $this->itemname.'_ignoreme', 'checked');
+            $mform->disabledIf($this->itemname.'[]', $this->itemname.'_ignoreme', 'checked');
+            $mform->disabledIf($this->itemname.'_noanswer', $this->itemname.'_ignoreme', 'checked');
             $mform->setDefault($this->itemname.'_ignoreme', '1');
         }
 
@@ -598,6 +612,7 @@ EOS;
             $disabilitationinfo[] = $mformelementinfo;
             // $mform->disabledIf('surveypro_field_select_2491', 'surveypro_field_multiselect_2490[]', 'neq', array('foo', 'bar'));
         }
+
         return $disabilitationinfo;
     }
 
@@ -779,18 +794,9 @@ EOS;
      */
     public function userform_get_root_elements_name() {
         $elementnames = array();
-        $elementnames[] = $this->itemname;
+        $elementnames[] = $this->itemname.'[]';
         $elementnames[] = SURVEYPRO_PLACEHOLDERPREFIX.'_'.$this->type.'_'.$this->plugin.'_'.$this->itemid.'_placeholder';
 
         return $elementnames;
-    }
-
-    /**
-     * get_canbeparent
-     *
-     * @return the content of the static property "canbeparent"
-     */
-    public static function get_canbeparent() {
-        return self::$canbeparent;
     }
 }

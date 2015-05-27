@@ -187,6 +187,15 @@ class mod_surveypro_field_checkbox extends mod_surveypro_itembase {
     }
 
     /**
+     * get_canbeparent
+     *
+     * @return the content of the static property "canbeparent"
+     */
+    public static function item_get_canbeparent() {
+        return self::$canbeparent;
+    }
+
+    /**
      * item_list_constraints
      * this method prepare the list of constraints the child has to respect in order to create a valid relation
      *
@@ -917,14 +926,5 @@ EOS;
         $elementnames[] = $this->itemname.'_group';
 
         return $elementnames;
-    }
-
-    /**
-     * get_canbeparent
-     *
-     * @return the content of the static property "canbeparent"
-     */
-    public static function get_canbeparent() {
-        return self::$canbeparent;
     }
 }

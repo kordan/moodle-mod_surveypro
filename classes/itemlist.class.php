@@ -368,8 +368,7 @@ class mod_surveypro_itemlist {
                 $message = get_string('parentid_alt', 'surveypro');
                 $parentsortindex = $DB->get_field('surveypro_item', 'sortindex', array('id' => $item->get_parentid()));
                 $content = $parentsortindex;
-                $content .= $OUTPUT->pix_icon('branch', $message, 'surveypro',
-                        array('title' => $message, 'class' => 'smallicon'));
+                $content .= $OUTPUT->pix_icon('branch', $message, 'surveypro', array('title' => $message, 'class' => 'smallicon'));
                 $content .= $item->get_parentcontent('; ');
             } else {
                 $content = '';
@@ -412,13 +411,7 @@ class mod_surveypro_itemlist {
 
             // availability
             $currenthide = $item->get_hidden();
-            if ($currenthide) {
-                $message = get_string('hidden', 'surveypro');
-                $icons = $OUTPUT->pix_icon('absent', $message, 'surveypro', array('title' => $message, 'class' => 'smallicon'));
-
-                // $message = get_string('hidden', 'surveypro');
-                $icons .= $OUTPUT->pix_icon('absent', $message, 'surveypro', array('title' => $message, 'class' => 'smallicon'));
-            } else {
+            if (empty($currenthide)) {
                 // first icon: advanced vs generally available
                 if (!$item->get_advanced()) {
                     $message = get_string('available', 'surveypro');
@@ -468,22 +461,28 @@ class mod_surveypro_itemlist {
                         $icons .= $OUTPUT->pix_icon('absent', $message, 'surveypro', array('title' => $message, 'class' => 'smallicon'));
                     }
                 }
+            } else {
+                $message = get_string('hidden', 'surveypro');
+                $icons = $OUTPUT->pix_icon('absent', $message, 'surveypro', array('title' => $message, 'class' => 'smallicon'));
+
+                // $message = get_string('hidden', 'surveypro');
+                $icons .= $OUTPUT->pix_icon('absent', $message, 'surveypro', array('title' => $message, 'class' => 'smallicon'));
             }
 
             // third icon: hide vs show
             if (!$this->hassubmissions || $riskyediting) {
                 $paramurl = $paramurlbase;
                 $paramurl['sesskey'] = sesskey();
-                if (!empty($currenthide)) {
-                    $icopath = 't/show';
-                    $paramurl['act'] = SURVEYPRO_SHOWITEM;
-                    $message = $showtitle;
-                    $linkidprefix = 'show_item_';
-                } else {
+                if (empty($currenthide)) {
                     $icopath = 't/hide';
                     $paramurl['act'] = SURVEYPRO_HIDEITEM;
                     $message = $hidetitle;
                     $linkidprefix = 'hide_item_';
+                } else {
+                    $icopath = 't/show';
+                    $paramurl['act'] = SURVEYPRO_SHOWITEM;
+                    $message = $showtitle;
+                    $linkidprefix = 'show_item_';
                 }
 
                 $icons .= $OUTPUT->action_icon(new moodle_url('/mod/surveypro/items_manage.php', $paramurl),
@@ -594,8 +593,8 @@ class mod_surveypro_itemlist {
 
             $tablerow[] = $icons;
 
-            $addedclass = ($currenthide) ? 'dimmed' : '';
-            $table->add_data($tablerow, $addedclass);
+            $rowclass = empty($currenthide) ? '' : 'dimmed';
+            $table->add_data($tablerow, $rowclass);
 
             // print_object($item);
             if ($this->view == SURVEYPRO_CHANGEORDERASK) {
@@ -763,6 +762,7 @@ class mod_surveypro_itemlist {
                     debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->confirm = '.$this->confirm, DEBUG_DEVELOPER);
             }
         }
+
         return $itemstoprocess; // did you do something?
     }
 
@@ -828,6 +828,7 @@ class mod_surveypro_itemlist {
                     debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->confirm = '.$this->confirm, DEBUG_DEVELOPER);
             }
         }
+
         return $itemstoprocess; // did you do something?
     }
 
@@ -966,6 +967,7 @@ class mod_surveypro_itemlist {
                     debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->confirm = '.$this->confirm, DEBUG_DEVELOPER);
             }
         }
+
         return $itemstoprocess; // did you do something?
     }
 
@@ -1309,8 +1311,7 @@ class mod_surveypro_itemlist {
             if ($item->get_parentid()) {
                 $message = get_string('parentid_alt', 'surveypro');
                 $content = $parentitem->get_sortindex();
-                $content .= $OUTPUT->pix_icon('branch', $message, 'surveypro',
-                        array('title' => $message, 'class' => 'smallicon'));
+                $content .= $OUTPUT->pix_icon('branch', $message, 'surveypro', array('title' => $message, 'class' => 'smallicon'));
                 $content .= $item->get_parentcontent('; ');
             } else {
                 $content = '';
@@ -1384,8 +1385,8 @@ class mod_surveypro_itemlist {
 
             $tablerow[] = $icons;
 
-            $addedclass = empty($currenthide) ? '' : 'dimmed';
-            $table->add_data($tablerow, $addedclass);
+            $rowclass = empty($currenthide) ? '' : 'dimmed';
+            $table->add_data($tablerow, $rowclass);
         }
         $itemseeds->close();
 

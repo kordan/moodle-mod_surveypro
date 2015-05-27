@@ -21,23 +21,22 @@ button is needed. (thanks to JR)
 ************
 known issues
 ************
-- long text (using html editor) as child is not disabled by the parent whether in the same parent page: see MDL-25067
-- fileupload (filemanager) as child is not disabled by the parent whether in the same parent page: see MDL-31796
-- non mandatory multiselect (so, equipped with the "no answer" checkbox) does not get disabled when "no answer" is selected: see MDL-45723
-- fileupload (filemanager) are not shown in read only mode forms: see MDL-45815. Bloody patch here in surveypro/tests/fixtures/miscellaneous/MDL_45815-filemanager.patch
-- text (long) (editor) are not shown in read only mode forms: see MDL-29421. Bloody patch here in surveypro/tests/fixtures/miscellaneous/MDL_29421-editor.patch
+- long text (using html editor) as child is not disabled by the parent even if in the same parent page: see MDL-25067. I found it is caused by the js of the editor.
+- module icons are missing from head/admin/plugins.php overview report: see MDL-45723
 
 ************
 Blockers bugs:
 ************
 MDL-25067: Not able to disable the editor
-MDL-29421: Form elements editor and filepicker do not support freezing
-MDL-31796: $mform->disabledIf doesn't work for 'filemanager' mform elements.
-MDL-43704: multiselect not disabled by checkbox
 MDL-45723: uniformize the handling of svgs in resolve_image_location() calls.
-MDL-45815: filemanager mform elements are completely discarded in readonly forms
 
-may:
+************
+Not blocker or partially fixed or locally fixed:
+************
+MDL-29421: Form elements editor and filepicker do not support freezing. [Fixed locally by overriding corresponding classes]
+MDL-31796: $mform->disabledIf doesn't work for 'filemanager' mform elements. [Hiddenly fixed by someone. Today (May 2015) it works as expected]
+MDL-45815: filemanager mform elements are completely discarded in readonly forms. [Fixed locally by overriding corresponding classes]
+MDL-43704: multiselect not disabled by checkbox. [Fixed with the workaround described in the tracker]
 MDL-28194: I am in trouble assigning syles to some mform element.
 MDL-34815: Disabled mform items need to be skipped during validation (and more).
 MDL-43689: Adv. check box not returning actual value but default one.

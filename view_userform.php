@@ -93,6 +93,7 @@ $formparams->canaccessadvanceditems = $userformman->canaccessadvanceditems; // H
 $formparams->formpage = $userformman->formpage;
 $formparams->modulepage = $userformman->modulepage; // this is the page to get corresponding fields
 $formparams->readonly = ($userformman->modulepage == SURVEYPRO_SUBMISSION_READONLY);
+$formparams->preview = ($view == SURVEYPRO_PREVIEWSURVEYFORM);
 // end of: prepare params for the form
 // -----------------------------
 

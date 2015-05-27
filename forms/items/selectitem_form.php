@@ -53,7 +53,7 @@ class mod_surveypro_itemtypeform extends moodleform {
         }
         asort($formatplugins);
 
-        $pluginlist = array(get_string('typefield' , 'surveypro') => $fieldplugins,
+        $pluginlist = array(get_string('typefield', 'surveypro') => $fieldplugins,
                             get_string('typeformat', 'surveypro') => $formatplugins);
 
         $elementgroup = array();

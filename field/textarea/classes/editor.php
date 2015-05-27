@@ -45,14 +45,44 @@ class mod_surveypro_mform_editor extends MoodleQuickForm_editor {
     }
 
     /**
+     * Returns HTML for editor form element.
+     *
+     * @return string
+     */
+    public function toHtml() {
+        // the core code is ONLY MISSING the class in the first <div>
+        // I add it with a simple relace
+        $output = parent::toHtml(); // core code
+
+        // My intervention only replaces <div> with <div class="indent-x"> AT THE BEGINNING of $output
+        // I force the beginning (^) to avoid to replace different <div> eventually found into $output
+        // I use the output of parent::toHtml() to get advantages of future updates to core mform class
+        // I search for simple <div> without attributes so that if moodle HQ will fix this issue in the core code,
+        // my intervention will result in nothing without adding useless or dangerous modifications
+        $tabs = $this->_getTabs();
+        $pattern = '~^'.$tabs.'<div>~';
+        $class = empty($this->_attributes['class']) ? 'indent-0' : $this->_attributes['class'];
+        $replacement = $tabs.'<div class="'.$class.'">';
+        $output = preg_replace($pattern, $replacement, $output);
+
+        return $output;
+    }
+
+    /**
      * What to display when element is frozen.
      *
      * @return empty string
      */
     public function getFrozenHtml() {
-        $value = $this->_values['text'];
-        $return = strlen($value) ? $value : '&nbsp;';
+        $class = empty($this->_attributes['class']) ? 'indent-0' : $this->_attributes['class'];
+        $output = $this->_getTabs().'<div class="'.$class.'">';
 
-        return $return.$this->_getPersistantData();
+        $value = $this->_values['text'];
+        $output .= strlen($value) ? $value : '&nbsp;';
+
+        $output .= '</div>';
+        $output .= $this->_getPersistantData();
+
+        return $output;
     }
 }

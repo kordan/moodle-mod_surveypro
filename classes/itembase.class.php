@@ -585,7 +585,7 @@ class mod_surveypro_itembase {
 
         require_once($CFG->dirroot.'/mod/surveypro/'.$this->type.'/'.$this->plugin.'/classes/plugin.class.php');
         $itemclassname = 'mod_surveypro_'.$this->type.'_'.$this->plugin;
-        if ($itemclassname::get_canbeparent()) {
+        if ($itemclassname::item_get_canbeparent()) {
             // take care: you can not use $this->item_get_content_array(SURVEYPRO_VALUES, 'options') to evaluate values
             // because $item was loaded before last save, so $this->item_get_content_array(SURVEYPRO_VALUES, 'options')
             // is still returning the previous values
@@ -1410,7 +1410,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * userform_disable_element
+     * userform_add_disabledif
      * this function is used ONLY if $surveypro->newpageforchild == false
      * it adds as much as needed $mform->disabledIf to disable items when parent condition does not match
      * This method is used by the child item
@@ -1420,7 +1420,7 @@ class mod_surveypro_itembase {
      * @param $canaccessadvanceditems
      * @return
      */
-    public function userform_disable_element($mform, $canaccessadvanceditems) {
+    public function userform_add_disabledif($mform, $canaccessadvanceditems) {
         global $DB;
 
         if (!$this->parentid || ($this->type == SURVEYPRO_TYPEFORMAT)) {
@@ -1485,7 +1485,7 @@ class mod_surveypro_itembase {
                 }
             }
 
-            // write disableIf
+            // write disabledIf
             foreach ($disabilitationinfo as $parentinfo) {
                 foreach ($fieldnames as $fieldname) {
                     if (isset($parentinfo->operator)) {

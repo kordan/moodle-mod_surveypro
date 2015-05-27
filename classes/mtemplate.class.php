@@ -315,6 +315,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
                 $stringsastext[] = get_string('translatedstring', 'surveypro', $a);
             }
         }
+
         return "\n".implode("\n", $stringsastext);
     }
 

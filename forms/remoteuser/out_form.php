@@ -48,7 +48,12 @@ class mod_surveypro_submissionform extends moodleform {
         $formpage = $this->_customdata->formpage;
         $canaccessadvanceditems = $this->_customdata->canaccessadvanceditems;
         $modulepage = $this->_customdata->modulepage;
-        $readonly = $this->_customdata->readonly;
+        $readonly = $this->_customdata->readonly; // I see a form (record) that is not mine
+        $preview = $this->_customdata->preview; // we are in preview mode
+
+        if ($preview) {
+            $mform->disable_form_change_checker();
+        }
 
         // ----------------------------------------
         // userform: s
@@ -175,7 +180,7 @@ class mod_surveypro_submissionform extends moodleform {
                     }
 
                     if (!$surveypro->newpageforchild) {
-                        $item->userform_disable_element($mform, $canaccessadvanceditems);
+                        $item->userform_add_disabledif($mform, $canaccessadvanceditems);
                     }
                 }
             }

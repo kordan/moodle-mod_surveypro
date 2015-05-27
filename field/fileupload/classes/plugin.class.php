@@ -166,6 +166,15 @@ class mod_surveypro_field_fileupload extends mod_surveypro_itembase {
     }
 
     /**
+     * get_canbeparent
+     *
+     * @return the content of the static property "canbeparent"
+     */
+    public static function item_get_canbeparent() {
+        return self::$canbeparent;
+    }
+
+    /**
      * item_get_multilang_fields
      * make the list of multilang plugin fields
      *
@@ -386,6 +395,7 @@ EOS;
             }
             $filename[] = $file->get_filename();
         }
+
         return implode(',', $filename);
     }
 
@@ -400,14 +410,5 @@ EOS;
         $elementnames = array($this->itemname.'_filemanager');
 
         return $elementnames;
-    }
-
-    /**
-     * get_canbeparent
-     *
-     * @return the content of the static property "canbeparent"
-     */
-    public static function get_canbeparent() {
-        return self::$canbeparent;
     }
 }
