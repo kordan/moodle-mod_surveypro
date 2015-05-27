@@ -228,7 +228,7 @@ class mod_surveypro_itembaseform extends moodleform {
             $fieldname = 'parentid';
             // create the list of each item with:
             //     sortindex lower than mine (whether already exists)
-            //     $classname::get_canbeparent() == true
+            //     $classname::item_get_canbeparent() == true
             //     advanced == my one <-- I omit this verification because the surveypro creator can, at every time, change the basicform of the current item
             //                            So I move the verification of the holding form at the form verification time.
 
@@ -237,7 +237,7 @@ class mod_surveypro_itembaseform extends moodleform {
             foreach ($pluginlist as $plugin) {
                 require_once($CFG->dirroot.'/mod/surveypro/'.SURVEYPRO_TYPEFIELD.'/'.$plugin.'/classes/plugin.class.php');
                 $classname = 'mod_surveypro_'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
-                if (!$classname::get_canbeparent()) {
+                if (!$classname::item_get_canbeparent()) {
                     unset($pluginlist[$plugin]);
                 }
             }

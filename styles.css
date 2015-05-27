@@ -284,40 +284,44 @@
 }
 /* end of: selectors for the static field explaining the format needed by each plugin in parentcontent field */
 
-#page-mod-surveypro-view_userform .mform .fitem .indent-1 {
-    margin-left:5%;
+#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-0 {
+     margin-left:0;
 }
 
-#page-mod-surveypro-view_userform .mform .fitem .indent-2 {
-    margin-left:10%;
+#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-1 {
+     margin-left:1.5em;
 }
 
-#page-mod-surveypro-view_userform .mform .fitem .indent-3 {
-    margin-left:15%;
+#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-2 {
+    margin-left:3em;
 }
 
-#page-mod-surveypro-view_userform .mform .fitem .indent-4 {
-    margin-left:20%;
+#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-3 {
+    margin-left:4.5em;
 }
 
-#page-mod-surveypro-view_userform .mform .fitem .indent-5 {
-    margin-left:25%;
+#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-4 {
+    margin-left:6em;
 }
 
-#page-mod-surveypro-view_userform .mform .fitem .indent-6 {
-    margin-left:30%;
+#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-5 {
+    margin-left:7.5em;
 }
 
-#page-mod-surveypro-view_userform .mform .fitem .indent-7 {
-    margin-left:35%;
+#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-6 {
+    margin-left:9em;
 }
 
-#page-mod-surveypro-view_userform .mform .fitem .indent-8 {
-    margin-left:40%;
+#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-7 {
+    margin-left:10.5em;
 }
 
-#page-mod-surveypro-view_userform .mform .fitem .indent-9 {
-    margin-left:45%;
+#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-8 {
+    margin-left:12em;
+}
+
+#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-9 {
+    margin-left:13.5em;
 }
 
 /* begin of: for long edit fields in itemsetup form */
@@ -327,7 +331,7 @@
 /* end of: for long edit fields in itemsetup form */
 
 /* begin of: fix to owful alignment of fielset legends in the cover */
-.coverinfolegend {
+#page-mod-surveypro-view_cover .coverinfolegend {
     margin-top:20px;
     margin-bottom:0;
 }
@@ -341,9 +345,11 @@
 #page-mod-surveypro-index table.mod_index .col5 {
     text-align: left;
 }
+
 #page-mod-surveypro-index table.mod_index .col1 {
     white-space: nowrap;
 }
+
 #page-mod-surveypro-index table.mod_index td span.dimmed {
     color: #999;
 }

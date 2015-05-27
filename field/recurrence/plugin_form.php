@@ -170,6 +170,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
             $a = get_string('noanswer', 'surveypro');
             $errors['defaultvalue_group'] = get_string('notalloweddefault', 'surveypro', $a);
         }
+
         return $errors;
     }
 }

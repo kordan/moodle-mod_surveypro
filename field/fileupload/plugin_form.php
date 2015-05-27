@@ -111,6 +111,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
                 }
             }
         }
+
         return $errors;
     }
 }
