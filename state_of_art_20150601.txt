@@ -1,7 +1,7 @@
 The module is quite complete and is already in beta-testing and in use in two pilot projects.
 It is completely modular (uses db/subplugins.php) and uses oop.
 
-The module foreseen: 16 types of fields and 3 types of other items.
+The module foreseen: 18 types of fields and 4 types of other items.
 Everywhere I used mform.
 
 what is in:
@@ -33,21 +33,39 @@ They are:
 -> 3) item type "fieldsetend" to close an opened fieldset
 -> 4) item type "label" to display labels in the surveypro page
 
-User can choose, setup them and include them into search forms.
-They all have a long list of features to verify the content provided by the user.
+User can choose, setup and include them into search forms.
+They all have a long list of features even to verify the content provided by the user.
 Surveypro foreseen conditional branching, sort of fields during export, item indentation, custom number, feature to hide, groups of users with with "extended" permissions, mandatory/optional items, fields limited to people with a specific permission
 
+************
+known issues
+************
+- long text (using html editor) as child is not disabled by the parent even if in the same page: see MDL-25067. I found it is caused by the js of the editor.
+- module icons are missing from head/admin/plugins.php overview report: see MDL-45723
+
 Pending tracker issues:
-√ MDL-30940: multiselect mform doesn't work! Fixed by Frédéric Massart on April 19, 2013
-√ MDL-34760, MDL-38975: How disable fields upon checkboxes sets? Fixed by Eloy Lafuente on April 8, 2013
-√ MDL-39280: $mform->disabledIf doesn't work for 'multiselect' mform elements. Fixed by Frédéric Massart on May 10, 2013
-MDL-25067: TinyMCE instance can not be disabled.
-MDL-28194: I am in trouble assigning syles to some mform element. (not blocker)
-MDL-29421: Form elements editor and filepicker do not support freezing
-MDL-31796: $mform->disabledIf doesn't work for 'filemanager' mform elements.
+************
+Fixed issues:
+************
+MDL-30940: multiselect mform doesn't work! Fixed by Frédéric Massart on April 19, 2013
+MDL-34760, MDL-38975: How disable fields upon checkboxes sets? Fixed by Eloy Lafuente on April 8, 2013
+MDL-39280: $mform->disabledIf doesn't work for 'multiselect' mform elements. Fixed by Frédéric Massart on May 10, 2013
+
+************
+Issues that are still a problem:
+************
+MDL-25067: mform editor element can not be disabled with mform->disabledIf method
+MDL-45723: uniformize the handling of svgs in resolve_image_location() calls.
+
+************
+Issues that were not fixed but that are no longer a problem:
+************
+MDL-29421: Form elements editor and filepicker do not support freezing. [Fixed locally by overriding corresponding classes]
+MDL-31796: $mform->disabledIf doesn't work for 'filemanager' mform elements. [Fixed along the years witout any notification in this tracker issue. Today (May 2015) it seems to work as expected]
+MDL-45815: filemanager mform elements are completely discarded in readonly forms. [Fixed locally by overriding corresponding classes]
+MDL-43704: mform multiselect element is not disabled by the grouped checkbox (as many of other mform elements do) [Fixed with the workaround described in the tracker]
+MDL-28194: I am in trouble assigning syles to some mform element.
 MDL-34815: Disabled mform items need to be skipped during validation (and more).
-MDL-43689: With set of advanced checkboxes, if the set is disabled each single chechbox returns its default value instead of its actual value
-MDL-43704: mform multiselect element is not disabled by the grouped checkbox (as many of other mform elements do)
+MDL-43689: With set of advanced checkboxes, if the set is disabled each single chechbox returns its default value instead of its current value
 MDL-40418: A missing <label> tag in mform causes wrong display (not blocker)
 MDL-44138: The height (in pixel) of the same mform element changes with the content of the other mform elements
-MDL-45815: filemanager mform elements are completely discarded in readonly forms
