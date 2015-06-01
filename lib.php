@@ -617,11 +617,12 @@ function surveypro_scale_used_anywhere($scaleid) {
     global $DB;
 
     /* @example */
-    if ($scaleid and $DB->record_exists('surveypro', array('grade' => -$scaleid))) {
-        return true;
-    } else {
-        return false;
-    }
+    // if ($scaleid and $DB->record_exists('surveypro', array('grade' => -$scaleid))) {
+    //     return true;
+    // } else {
+    //     return false;
+    // }
+    return false;
 }
 
 /**
