@@ -358,7 +358,7 @@ class mod_surveypro_templatebase {
                 $sql = 'SELECT si.plugin, si.type
                         FROM {surveypro_item} si
                         WHERE si.surveyproid = :surveyproid
-                        GROUP BY si.plugin';
+                        GROUP BY si.plugin, si.type';
                 $pluginseeds = $DB->get_records_sql($sql, $parambase);
 
                 $this->items_deletion($pluginseeds, $parambase);
