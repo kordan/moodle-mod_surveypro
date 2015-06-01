@@ -53,13 +53,7 @@ What is really missing is the automatic conversion of current Moodle core survey
 Known bugs
 If a long text using the html editor has a parent item, it is NOT disabled while the answer to the parent item does not match the condition required by the child. MDL-25067: mform editor element can not be disabled with mform->disabledIf method.
 
-'Multiselect' and 'long text' do NOT get indented in the form.
-MDL-28194: I am in trouble assigning syles to some mform element.
-
-A not mandatory 'multiselect' item is NOT disabled while the "No answer" checkbox is selected.
-MDL-43704: mform multiselect element is not disabled by the grouped checkbox (as many of other mform elements do)
-
 Surveypro icons are missing from head/admin/plugins.php overview report.
 MDL-45723: uniformize the handling of svgs in resolve_image_location() calls.
 
-Thanks to Joseph Rezeau for the revision of the text and English.
+Thanks to Joseph Rézeau for the revision of the text and the English.

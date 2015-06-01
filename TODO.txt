@@ -18,29 +18,6 @@ button is needed. (thanks to JR)
 -> I need a regex to validate an url
 -> mform elements in MMM have different sizes probably because of /theme/yui_combo.php?3.13.0/cssreset/cssreset.css&3.13.0/cssfonts/cssfonts.css&3.13.0/cssgrids/cssgrids.css&3.13.0/cssbase/cssbase.css
 
-************
-known issues
-************
-- long text (using html editor) as child is not disabled by the parent even if in the same parent page: see MDL-25067. I found it is caused by the js of the editor.
-- module icons are missing from head/admin/plugins.php overview report: see MDL-45723
-
-************
-Blockers bugs:
-************
-MDL-25067: Not able to disable the editor
-MDL-45723: uniformize the handling of svgs in resolve_image_location() calls.
-
-************
-Not blocker or partially fixed or locally fixed:
-************
-MDL-29421: Form elements editor and filepicker do not support freezing. [Fixed locally by overriding corresponding classes]
-MDL-31796: $mform->disabledIf doesn't work for 'filemanager' mform elements. [Hiddenly fixed by someone. Today (May 2015) it works as expected]
-MDL-45815: filemanager mform elements are completely discarded in readonly forms. [Fixed locally by overriding corresponding classes]
-MDL-43704: multiselect not disabled by checkbox. [Fixed with the workaround described in the tracker]
-MDL-28194: I am in trouble assigning syles to some mform element.
-MDL-34815: Disabled mform items need to be skipped during validation (and more).
-MDL-43689: Adv. check box not returning actual value but default one.
-
 1) Still it seems to be something strange when handling fileareas. I just grepped by get_area_files and found a bunch of them new/strange for me. ELOY has to review this!
 > Please let me know better what do you mean. I can not understand it.
 
