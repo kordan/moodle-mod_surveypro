@@ -114,12 +114,12 @@ if ($userformman->formdata = $userform->get_data()) {
     $prevbutton = (isset($userformman->formdata->prevbutton) && ($userformman->formdata->prevbutton));
     $pausebutton = (isset($userformman->formdata->pausebutton) && ($userformman->formdata->pausebutton));
 
-    if (!$prevbutton && !$pausebutton) {
+    // if (!$prevbutton && !$pausebutton) {
         if ($userformman->modulepage != SURVEYPRO_ITEMS_PREVIEW) {
             $userformman->save_user_data(); // <-- SAVE SAVE SAVE SAVE
             $userformman->notifypeople();
         }
-    }
+    // }
 
     // if "pause" button has been pressed, redirect
     if ($pausebutton) {

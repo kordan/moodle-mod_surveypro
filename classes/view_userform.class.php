@@ -673,10 +673,12 @@ class mod_surveypro_userformmanager {
             $this->drop_unexpected_values();
         }
 
-        $timenow = time();
-        $savebutton = (isset($this->formdata->savebutton) && ($this->formdata->savebutton));
+        $timenow         = time();
+        $savebutton      = (isset($this->formdata->savebutton) && ($this->formdata->savebutton));
         $saveasnewbutton = (isset($this->formdata->saveasnewbutton) && ($this->formdata->saveasnewbutton));
-        $nextbutton = (isset($this->formdata->nextbutton) && ($this->formdata->nextbutton));
+        $nextbutton      = (isset($this->formdata->nextbutton) && ($this->formdata->nextbutton));
+        $pausebutton     = (isset($this->formdata->pausebutton) && ($this->formdata->pausebutton));
+        $prevbutton      = (isset($this->formdata->prevbutton) && ($this->formdata->prevbutton));
         if ($saveasnewbutton) {
             $this->formdata->submissionid = 0;
         }
@@ -689,7 +691,7 @@ class mod_surveypro_userformmanager {
             $submissions->timecreated = $timenow;
 
             // submit buttons are 3 and only 3
-            if ($nextbutton) {
+            if ($nextbutton || $pausebutton || $prevbutton) {
                 $submissions->status = SURVEYPRO_STATUSINPROGRESS;
             }
             if ($savebutton || $saveasnewbutton) {
