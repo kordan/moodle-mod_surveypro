@@ -368,8 +368,8 @@ EOS;
 
             if (!$this->hiddenfield) {
                 // workaround suggested by Marina Glancy in MDL-42946
-                $label = html_writer::tag('span', $value, array('class' => 'indent-'.$this->indent));
-                $mform->addElement('static', $this->itemname.'_static', $elementlabel, $label);
+                $class = array('class' => 'indent-'.$this->indent);
+                $mform->addElement('mod_surveypro_static', $this->itemname.'_static', $elementlabel, $value, $class);
             }
         } else {
             $elementgroup = array();

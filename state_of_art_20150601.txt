@@ -60,12 +60,13 @@ MDL-45723: uniformize the handling of svgs in resolve_image_location() calls.
 ************
 Issues that were not fixed but that are no longer a problem:
 ************
-MDL-29421: Form elements editor and filepicker do not support freezing. [Fixed locally by overriding corresponding classes]
+MDL-29421: Form elements editor and filepicker do not support freezing. [Fixed locally by overriding corresponding class]
 MDL-31796: $mform->disabledIf doesn't work for 'filemanager' mform elements. [Fixed along the years witout any notification in this tracker issue. Today (May 2015) it seems to work as expected]
-MDL-45815: filemanager mform elements are completely discarded in readonly forms. [Fixed locally by overriding corresponding classes]
+MDL-45815: filemanager mform elements are completely discarded in readonly forms. [Fixed locally by overriding corresponding class]
 MDL-43704: mform multiselect element is not disabled by the grouped checkbox (as many of other mform elements do) [Fixed with the workaround described in the tracker]
 MDL-28194: I am in trouble assigning syles to some mform element.
 MDL-34815: Disabled mform items need to be skipped during validation (and more).
 MDL-43689: With set of advanced checkboxes, if the set is disabled each single chechbox returns its default value instead of its current value
 MDL-40418: A missing <label> tag in mform causes wrong display (not blocker)
 MDL-44138: The height (in pixel) of the same mform element changes with the content of the other mform elements
+MDL-42946: It is not possible to provide a css style for a static mform element. [Fixed locally by overriding corresponding class]

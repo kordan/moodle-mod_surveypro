@@ -242,11 +242,8 @@ EOS;
             $labelsep = get_string('labelsep', 'langconfig'); // ': '
             $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
             $elementlabel = $elementnumber.$this->leftlabel;
-
-            // workaround suggested by Marina Glancy in MDL-42946
-            $content = html_writer::tag('span', $this->get_content(), array('class' => 'indent-'.$this->indent));
-
-            $mform->addElement('static', $this->itemname, $elementlabel, $content);
+            $class = array('class' => 'indent-'.$this->indent);
+            $mform->addElement('mod_surveypro_static', $this->itemname, $elementlabel, $this->get_content(), $class);
         }
     }
 

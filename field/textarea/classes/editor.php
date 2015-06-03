@@ -51,7 +51,7 @@ class mod_surveypro_mform_editor extends MoodleQuickForm_editor {
      */
     public function toHtml() {
         // the core code is ONLY MISSING the class in the first <div>
-        // I add it with a simple relace
+        // I add it with a simple replace
         $output = parent::toHtml(); // core code
 
         // My intervention only replaces <div> with <div class="indent-x"> AT THE BEGINNING of $output

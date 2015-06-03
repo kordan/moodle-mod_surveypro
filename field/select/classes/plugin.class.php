@@ -242,7 +242,7 @@ class mod_surveypro_field_select extends mod_surveypro_itembase {
         $optionarray = surveypro_textarea_to_array($this->options);
         $firstoption = reset($optionarray);
 
-        if (preg_match('/^(.*)'.SURVEYPRO_VALUELABELSEPARATOR.'(.*)$/', $firstoption, $match)) { // do not warn: it can never be equal to zero
+        if (preg_match('~^(.*)'.SURVEYPRO_VALUELABELSEPARATOR.'(.*)$~', $firstoption, $match)) { // do not warn: it can never be equal to zero
             // print_object($match);
             $default = $match[1];
         } else {

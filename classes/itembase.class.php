@@ -785,7 +785,7 @@ class mod_surveypro_itembase {
 
         $values = array();
         foreach ($options as $k => $option) {
-            if (preg_match('/^(.*)'.SURVEYPRO_VALUELABELSEPARATOR.'(.*)$/', $option, $match)) {
+            if (preg_match('~^(.*)'.SURVEYPRO_VALUELABELSEPARATOR.'(.*)$~', $option, $match)) {
                 $values[] = $match[$index];
             } else {
                 $values[] = $option;
@@ -824,7 +824,7 @@ class mod_surveypro_itembase {
      * @return $label
      */
     public function item_get_other() {
-        if (preg_match('/^(.*)'.SURVEYPRO_OTHERSEPARATOR.'(.*)$/', $this->labelother, $match)) { // do not warn: it can never be equal to zero
+        if (preg_match('~^(.*)'.SURVEYPRO_OTHERSEPARATOR.'(.*)$~', $this->labelother, $match)) { // do not warn: it can never be equal to zero
             $value = trim($match[2]);
             $label = trim($match[1]);
         } else {

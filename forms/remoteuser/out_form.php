@@ -100,7 +100,7 @@ class mod_surveypro_submissionform extends moodleform {
             // this dummy item is needed for the colours alternation
             // because 'label' or ($position == SURVEYPRO_POSITIONFULLWIDTH)
             //     as first item are out from the a fieldset
-            //     so they and are not selected by the css3 selector: fieldset div.fitem:nth-of-type(even) {
+            //     so they are not selected by the css3 selector: fieldset div.fitem:nth-of-type(even) {
             $mform->addElement('static', 'beginning_extrarow', '', '');
 
             foreach ($itemseeds as $itemseed) {
@@ -136,17 +136,18 @@ class mod_surveypro_submissionform extends moodleform {
                     $position = $item->get_position();
                     $elementnumber = $item->get_customnumber() ? $item->get_customnumber().':' : '';
                     if ($position == SURVEYPRO_POSITIONTOP) {
-                        // workaround suggested by Marina Glancy in MDL-42946
-                        $content = html_writer::tag('div', $item->get_content(), array('class' => 'indent-'.$item->get_indent()));
+                        $itemname = $item->get_itemname().'_extrarow';
+                        $content = $item->get_content();
+                        $class = array('class' => 'indent-'.$item->get_indent());
+                        $mform->addElement('mod_surveypro_static', $itemname, $elementnumber, $content, $class);
 
-                        $mform->addElement('static', $item->get_itemname().'_extrarow', $elementnumber, $content);
                         $item->item_add_color_unifier($mform);
                     }
                     if ($position == SURVEYPRO_POSITIONFULLWIDTH) {
                         $questioncontent = $item->get_content();
                         if ($elementnumber) {
                             // I want to change "4.2:<p>Do you live in NY?</p>" to "<p>4.2: Do you live in NY?</p>"
-                            if (preg_match('/^<p>(.*)$/', $questioncontent, $match)) {
+                            if (preg_match('~^<p>(.*)$~', $questioncontent, $match)) {
                                 // print_object($match);
                                 $questioncontent = '<p>'.$elementnumber.' '.$match[1];
                             }
@@ -164,6 +165,7 @@ class mod_surveypro_submissionform extends moodleform {
                         // $content .= html_writer::end_tag('div');
                         // $content .= html_writer::end_tag('fieldset');
                         $mform->addElement('html', $content);
+
                         $item->item_add_color_unifier($mform);
                     }
 
@@ -172,11 +174,11 @@ class mod_surveypro_submissionform extends moodleform {
 
                     // note
                     if ($fullinfo = $item->userform_get_full_info(false)) {
-                        // workaround suggested by Marina Glancy in MDL-42946
-                        $content = html_writer::tag('div', $fullinfo, array('class' => 'indent-'.$item->get_indent()));
-
                         $item->item_add_color_unifier($mform);
-                        $mform->addElement('static', $item->get_itemname().'_note', get_string('note', 'surveypro'), $content);
+
+                        $itemname = $item->get_itemname().'_note';
+                        $class = array('class' => 'indent-'.$item->get_indent());
+                        $mform->addElement('mod_surveypro_static', $itemname, get_string('note', 'surveypro'), $fullinfo, $class);
                     }
 
                     if (!$surveypro->newpageforchild) {

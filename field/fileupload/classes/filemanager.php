@@ -33,7 +33,8 @@ class mod_surveypro_mform_filemanager extends MoodleQuickForm_filemanager {
      * All types must have this constructor implemented.
      */
     public function mod_surveypro_mform_filemanager($elementName=null, $elementLabel=null, $attributes=null, $options=null) {
-       parent::MoodleQuickForm_filemanager($elementName, $elementLabel, $attributes, $options);
+        parent::MoodleQuickForm_filemanager($elementName, $elementLabel, $attributes, $options);
+        $this->_options['class'] = !isset($options['class']) ? 'indent-0' : $options['class'];
     }
 
     /**
@@ -43,6 +44,30 @@ class mod_surveypro_mform_filemanager extends MoodleQuickForm_filemanager {
      */
     public function getElementTemplateType() {
         return 'default';
+    }
+
+    /**
+     * Returns HTML for editor form element.
+     *
+     * @return string
+     */
+    public function toHtml() {
+        $output = parent::toHtml(); // core code
+
+        // I want to change at the beginning:
+        //     <div id="filemanager-556eb09a98375" class="filemanager fm-loading">
+        // to:
+        //     <div id="filemanager-556eb09a98375" class="indent-x filemanager fm-loading">
+
+        // I need to trim the code because mform library add a newline at the beginning
+        $output = trim($output);
+
+        $pattern = '~^<div id="filemanager-([a-z0-9]*)" class="(.*)"~';
+        $class = $this->_options['class'];
+        $replacement = '<div id="filemanager-${1}" class="'.$class.' ${2}"';
+        $output = preg_replace($pattern, $replacement, $output);
+
+        return $output;
     }
 
     /**
