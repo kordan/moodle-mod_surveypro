@@ -514,6 +514,8 @@ class mod_surveypro_userformmanager {
     public function save_user_data() {
         global $DB;
 
+        $savebutton = isset($this->formdata->savebutton);
+        $saveasnewbutton = isset($this->formdata->saveasnewbutton);
         $pausebutton = isset($this->formdata->pausebutton);
         $prevbutton = isset($this->formdata->prevbutton);
 
@@ -633,11 +635,74 @@ class mod_surveypro_userformmanager {
             }
         }
 
+        // Before closing the save session I need two more verifications
+
+        // FIRST VERIFICATION
+        // Let's suppose the following scenario.
+        // 1) User is filling a surveypro divided into 4 pages.
+        // 2) User fill all the fields of first page and moves to page 2.
+        // 3) User reads the url and understands that the formapge is passed in GET (visible in the url).
+        // 4) At page 3 (the page the user still does not see) of the surveypro there is mandatory field.
+        // 5) Because of 3) user jumps to page 4 and make the final submit.
+        // This check is needed to verify that EACH mandatory surveypro field was actually saved
+
+        // SECOND VERIFICATION
+        // 1) User is filling a surveypro divided into 3 pages.
+        // 2) User fill all the fields of first page and moves to page 2.
+        // 3) User reads the url and understands that the formapge is passed in GET (visible in the url).
+        // 4) At page 2 of the surveypro there is a mandatory field.
+        // 5) User return back to page 1 without filling the mandatory field.
+        // 6) Page 2 is saved WITHOUT the mandatory field because when the user moves back, the form validation is not executed.
+        // 7) Because of 3) user jumps to page 3 and make the final submit.
+        // This check is needed to verify that EACH surveypro field was actually saved as VERIFIED
+
+        if ($savebutton || $saveasnewbutton) {
+            $this->check_all_was_verified();
+            if (!$this->dirty) {
+                // $this->check_mandatories_are_in();
+                $this->check_all_was_verified();
+            }
+        }
+
         // Update completion state
         $course = $DB->get_record('course', array('id' => $this->cm->course), '*', MUST_EXIST);
         $completion = new completion_info($course);
         if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
             $completion->update_state($this->cm, COMPLETION_COMPLETE);
+        }
+    }
+
+    /**
+     * check_mandatories_are_in
+     *
+     * @param none
+     * @return
+     */
+    public function check_mandatories_are_in() {
+        // get the list of all mandatory fields
+        // verify is is supposed to be answered (its parent allows it)
+        // verify the corresponding value if actually in the database
+    }
+
+    /**
+     * check_all_verified
+     *
+     * @param none
+     * @return
+     */
+    public function check_all_was_verified() {
+        global $DB;
+
+        $conditions = array('submissionid' => $this->submissionid, 'verified' => 0);
+        $this->dirty = $DB->get_record('surveypro_answer', $conditions, 'id', IGNORE_MULTIPLE);
+        // echo '$this->dirty:';
+        // var_dump($this->dirty);
+
+        if ($this->dirty) {
+            // user jumped pages using direct input (or something more dangerous)
+            // set this submission as SURVEYPRO_STATUSINPROGRESS
+            $conditions = array('id' => $this->submissionid);
+            $DB->set_field('surveypro_submission', 'status', SURVEYPRO_STATUSINPROGRESS, $conditions);
         }
     }
 
@@ -689,34 +754,6 @@ class mod_surveypro_userformmanager {
         }
 
         $submissions = new stdClass();
-        // few word about status
-        // Before assigning status = SURVEYPRO_STATUSCLOSED make one more verification
-        //
-        // Let's suppose the following scenario.
-        //
-        // 1) User is filling a surveypro divided over 3 pages.
-        // 2) User fills all the fields of first page and moves to page 2.
-        // 3) User reads the url and understands that the formapge is passed in GET (visible in the url).
-        // 4) At page 2 of the surveypro there is a mandatory field.
-        // 5) User return back to page 1 without filling the mandatory field.
-        // 6) Page 2 is saved WITHOUT the mandatory field because when the user moves back, the form validation is not executed.
-        // 7) Because of 3) user jumps to page 3 (making direct input) and make the final submit.
-        // This last verification is needed to check that EACH saved submission field was actually VERIFIED
-        if ($savebutton || $saveasnewbutton) {
-            // status should be SURVEYPRO_STATUSCLOSED
-            // before assigning it, let me chek if each datum was verified before its save
-            $conditions = array('submissionid' => $this->submissionid, 'verified' => 0);
-            $this->dirty = $DB->get_record('surveypro_answer', $conditions, 'id', IGNORE_MULTIPLE);
-            // echo '$dirty:';
-            // var_dump($dirty);
-            if ($this->dirty) {
-                // user jumped pages using direct input (or something more dangerous)
-                $submissions->status = SURVEYPRO_STATUSINPROGRESS;
-            } else {
-                $submissions->status = SURVEYPRO_STATUSCLOSED;
-            }
-        }
-
         if (empty($this->formdata->submissionid)) {
             // add a new record to surveypro_submission
             $submissions->surveyproid = $this->surveypro->id;
