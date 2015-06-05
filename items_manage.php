@@ -52,7 +52,7 @@ $lastitembefore = optional_param('lib', 0, PARAM_INT);
 $confirm = optional_param('cnf', SURVEYPRO_UNCONFIRMED, PARAM_INT);
 $nextindent = optional_param('ind', 0, PARAM_INT);
 $parentid = optional_param('pid', 0, PARAM_INT);
-$userfeedback = optional_param('ufd', SURVEYPRO_NOFEEDBACK, PARAM_INT);
+$userfeedbackmask = optional_param('ufd', SURVEYPRO_NOFEEDBACK, PARAM_INT);
 $saveasnew = optional_param('saveasnew', null, PARAM_TEXT);
 
 if ($action != SURVEYPRO_NOACTION) {
@@ -122,7 +122,7 @@ $itemlistman->set_lastitembefore($lastitembefore);
 $itemlistman->set_confirm($confirm);
 $itemlistman->set_nextindent($nextindent);
 $itemlistman->set_parentid($parentid);
-$itemlistman->set_userfeedback($userfeedback);
+$itemlistman->set_userfeedbackmask($userfeedbackmask);
 $itemlistman->set_saveasnew($saveasnew);
 
 // I need to execute this method before the page load because it modifies TAB elements

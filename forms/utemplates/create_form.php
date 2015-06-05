@@ -119,7 +119,8 @@ class mod_surveypro_utemplatecreateform extends moodleform {
      * @return $errors
      */
     public function validation($data, $files) {
-        $mform = $this->_form;
+        // ----------------------------------------
+        // $mform = $this->_form;
 
         // ----------------------------------------
         $cmid = $this->_customdata->cmid;

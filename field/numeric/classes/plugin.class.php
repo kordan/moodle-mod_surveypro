@@ -220,7 +220,7 @@ class mod_surveypro_field_numeric extends mod_surveypro_itembase {
     }
 
     /**
-     * get_canbeparent
+     * item_get_canbeparent
      *
      * @return the content of the static property "canbeparent"
      */
@@ -547,21 +547,21 @@ EOS;
      * or what to return for the search form
      *
      * @param $answer
-     * @param $olduserdata
+     * @param $olduseranswer
      * @param $searchform
      * @return
      */
-    public function userform_save_preprocessing($answer, $olduserdata, $searchform) {
+    public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
         if (isset($answer['ignoreme'])) {
-            $olduserdata->content = null;
+            $olduseranswer->content = null;
             return;
         }
 
         if (strlen($answer['mainelement']) == 0) {
-            $olduserdata->content = SURVEYPRO_NOANSWERVALUE;
+            $olduseranswer->content = SURVEYPRO_NOANSWERVALUE;
         } else {
             if (empty($this->decimals)) {
-                $olduserdata->content = $answer['mainelement'];
+                $olduseranswer->content = $answer['mainelement'];
             } else {
                 $matches = $this->item_atomize_number($answer['mainelement']);
                 $decimals = isset($matches[3]) ? $matches[3] : '';
@@ -576,15 +576,15 @@ EOS;
                 if (isset($matches[2])) {
                     // I DO ALWATYS save using english decimal separator
                     // At load time, the number will be formatted according to user settings
-                    $olduserdata->content = $matches[2].'.'.$decimals;
+                    $olduseranswer->content = $matches[2].'.'.$decimals;
                     if ($matches[1] == '-') {
-                        $olduserdata->content *= -1;
+                        $olduseranswer->content *= -1;
                     }
                 } else {
                     // in the SEARCH form the remote user entered something very wrong
                     // remember: the for search form NO VALIDATION IS PERFORMED
                     // user is free to waste his/her time as he/she like
-                    $olduserdata->content = $answer['mainelement'];
+                    $olduseranswer->content = $answer['mainelement'];
                 }
             }
         }

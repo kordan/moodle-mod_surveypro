@@ -66,5 +66,20 @@ function xmldb_surveypro_upgrade($oldversion) {
     // Moodle v2.9.0 release upgrade line.
     // Put any upgrade step following this.
 
+    if ($oldversion < 2015060401) {
+
+        // Define field verified to be added to surveypro_answer.
+        $table = new xmldb_table('surveypro_answer');
+        $field = new xmldb_field('verified', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '1', 'itemid');
+
+        // Conditionally launch add field verified.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Surveypro savepoint reached.
+        upgrade_mod_savepoint(true, 2015060401, 'surveypro');
+    }
+
     return true;
 }

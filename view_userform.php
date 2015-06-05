@@ -109,19 +109,13 @@ if ($userform->is_cancelled()) {
 }
 
 if ($userformman->formdata = $userform->get_data()) {
-    // SAVE unless the "previous" button has been pressed
-    //             and "pause"    button has been pressed
-    $prevbutton = (isset($userformman->formdata->prevbutton) && ($userformman->formdata->prevbutton));
-    $pausebutton = (isset($userformman->formdata->pausebutton) && ($userformman->formdata->pausebutton));
-
-    if (!$prevbutton && !$pausebutton) {
-        if ($userformman->modulepage != SURVEYPRO_ITEMS_PREVIEW) {
-            $userformman->save_user_data(); // <-- SAVE SAVE SAVE SAVE
-            $userformman->notifypeople();
-        }
+    if ($view != SURVEYPRO_PREVIEWSURVEYFORM) {
+        $userformman->save_user_data(); // <-- SAVE SAVE SAVE SAVE
+        $userformman->notifypeople();
     }
 
     // if "pause" button has been pressed, redirect
+    $pausebutton = isset($userformman->formdata->pausebutton);
     if ($pausebutton) {
         $localparamurl = array('id' => $cm->id, 'view' => $view, 'cover' => 0);
         $redirecturl = new moodle_url('/mod/surveypro/view.php', $localparamurl);
@@ -131,6 +125,7 @@ if ($userformman->formdata = $userform->get_data()) {
     $paramurl['submissionid'] = $userformman->submissionid;
 
     // if "previous" button has been pressed, redirect
+    $prevbutton = isset($userformman->formdata->prevbutton);
     if ($prevbutton) {
         $userformman->next_not_empty_page(false, $userformman->formpage, $userformman->modulepage);
         $paramurl['formpage'] = $userformman->firstpageleft;
@@ -138,13 +133,19 @@ if ($userformman->formdata = $userform->get_data()) {
         redirect($redirecturl); // -> go to the first non empty previous page of the form
     }
 
-    $nextbutton = (isset($userformman->formdata->nextbutton) && ($userformman->formdata->nextbutton));
+    // if "next" button has been pressed, redirect
+    $nextbutton = isset($userformman->formdata->nextbutton);
     if ($nextbutton) {
         $userformman->next_not_empty_page(true, $userformman->formpage, $userformman->modulepage);
+
         // ok, I am leaving page $userformman->formpage
         // to go to page $userformman->firstpageright
         // I need to delete all the answer that were (maybe) written during a previous walk along the surveypro.
-        // Data of each item in a page between ($userformman->formpage+1) and ($userformman->formpage-1) included, must be deleted
+        // Data of each item in a page between ($this->formpage + 1), ($this->firstpageright - 1) included, must be deleted
+        //
+        // Example: I am leaving page 3. On the basis of current input $userformman->firstpageright is 10.
+        // Maybe yesterday I had different data in $userformman->formpage = 3 and on that basis I was redirected to page 4
+        // Now that data of $userformman->formpage = 3 redirects me to page 10, for sure answers to items in page 4 have to be deleted.
         $userformman->drop_jumped_saved_data();
 
         $paramurl['formpage'] = $userformman->firstpageright;

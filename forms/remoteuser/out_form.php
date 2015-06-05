@@ -238,7 +238,7 @@ class mod_surveypro_submissionform extends moodleform {
             $mform->setType('buttonar', PARAM_RAW);
             $mform->closeHeaderBefore('buttonar');
         } else { // only one button here
-            foreach ($buttonlist as $name => $label) {
+            foreach ($buttonlist as $name => $label) { // $buttonlist is a one element only array
                 $mform->closeHeaderBefore($name);
                 $mform->addElement('submit', $name, $label);
             }
@@ -253,28 +253,35 @@ class mod_surveypro_submissionform extends moodleform {
      * @return $errors
      */
     public function validation($data, $files) {
-        $mform = $this->_form;
-
-        // ----------------------------------------
-        // $cmid = $this->_customdata->cmid;
-        $modulepage = $this->_customdata->modulepage;
-
-        if (isset($data['prevbutton']) || ($modulepage == SURVEYPRO_ITEMS_PREVIEW)) {
+        if (isset($data['prevbutton']) || isset($data['pausebutton'])) {
             // skip validation
             return array();
         }
 
+        // ----------------------------------------
+        // $mform = $this->_form;
+
+        // ----------------------------------------
+        // $cmid = $this->_customdata->cmid;
+        $modulepage = $this->_customdata->modulepage;
         $surveypro = $this->_customdata->surveypro;
         $submissionid = $this->_customdata->submissionid;
         $formpage = $this->_customdata->formpage;
         $firstpageright = $this->_customdata->firstpageright;
         $maxassignedpage = $this->_customdata->maxassignedpage;
         $canaccessadvanceditems = $this->_customdata->canaccessadvanceditems;
+        // $readonly = $this->_customdata->readonly; // I see a form (record) that is not mine
+        $preview = $this->_customdata->preview; // we are in preview mode
+
+        if ($preview) {
+            // skip validation
+            return array();
+        }
 
         $errors = parent::validation($data, $files);
 
-        // Show the item only if: the current item matches the parent value
-        $regexp = '~('.SURVEYPRO_ITEMPREFIX.'|'.SURVEYPRO_PLACEHOLDERPREFIX.')_('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_([a-z]+)_([0-9]+)_?([a-z0-9]+)?~';
+        // Validate an item only if is enabled, alias: only if it matches the parent value
+        $regexp = '~('.SURVEYPRO_ITEMPREFIX.'|'.SURVEYPRO_DONTSAVEMEPREFIX.')_('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_([a-z]+)_([0-9]+)_?([a-z0-9]+)?~';
         $olditemid = 0;
         foreach ($data as $itemname => $v) {
             if (preg_match($regexp, $itemname, $matches)) {

@@ -92,9 +92,9 @@ class mod_surveypro_itemlist {
     public $parentid = 0;
 
     /**
-     * $userfeedback
+     * $userfeedbackmask
      */
-    public $userfeedback = SURVEYPRO_NOFEEDBACK;
+    public $userfeedbackmask = SURVEYPRO_NOFEEDBACK;
 
     /**
      * $saveasnew
@@ -1404,14 +1404,14 @@ class mod_surveypro_itemlist {
     public function display_user_feedback() {
         global $OUTPUT;
 
-        if ($this->userfeedback == SURVEYPRO_NOFEEDBACK) {
+        if ($this->userfeedbackmask == SURVEYPRO_NOFEEDBACK) {
             return;
         }
 
         // look at position 1
-        $bit = $this->userfeedback & 2; // bitwise logic
+        $bit = $this->userfeedbackmask & 2; // bitwise logic
         if ($bit) { // edit
-            $bit = $this->userfeedback & 1; // bitwise logic
+            $bit = $this->userfeedbackmask & 1; // bitwise logic
             if ($bit) {
                 $message = get_string('itemeditok', 'surveypro');
                 $class = 'notifysuccess';
@@ -1420,7 +1420,7 @@ class mod_surveypro_itemlist {
                 $class = 'notifyproblem';
             }
         } else {    // add
-            $bit = $this->userfeedback & 1; // bitwise logic
+            $bit = $this->userfeedbackmask & 1; // bitwise logic
             if ($bit) {
                 $message = get_string('itemaddok', 'surveypro');
                 $class = 'notifysuccess';
@@ -1431,7 +1431,7 @@ class mod_surveypro_itemlist {
         }
 
         for ($position = 2; $position <= 5; $position++) {
-            $bit = $this->userfeedback & pow(2, $position); // bitwise logic
+            $bit = $this->userfeedbackmask & pow(2, $position); // bitwise logic
             switch ($position) {
                 case 2: // a chain of items is now shown
                     if ($bit) {
@@ -1598,13 +1598,13 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * set_userfeedback
+     * set_userfeedbackmask
      *
-     * @param string $userfeedback
+     * @param string $userfeedbackmask
      * @return none
      */
-    public function set_userfeedback($userfeedback) {
-        $this->userfeedback = $userfeedback;
+    public function set_userfeedbackmask($userfeedbackmask) {
+        $this->userfeedbackmask = $userfeedbackmask;
     }
 
     /**

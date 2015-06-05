@@ -203,7 +203,7 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
     }
 
     /**
-     * get_canbeparent
+     * item_get_canbeparent
      *
      * @return the content of the static property "canbeparent"
      */
@@ -402,19 +402,19 @@ EOS;
      * or what to return for the search form
      *
      * @param $answer
-     * @param $olduserdata
+     * @param $olduseranswer
      * @param $searchform
      * @return
      */
-    public function userform_save_preprocessing($answer, $olduserdata, $searchform) {
+    public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
         global $USER, $COURSE, $DB, $surveypro;
 
         if ($searchform) {
             if (isset($answer['ignoreme'])) {
-                $olduserdata->content = null;
+                $olduseranswer->content = null;
             } else {
                 if (isset($answer['mainelement'])) {
-                    $olduserdata->content = $answer['mainelement'];
+                    $olduseranswer->content = $answer['mainelement'];
                 } else {
                     $a = '$answer = '.$answer;
                     print_error('unhandledvalue', 'surveypro', null, $a);
@@ -424,10 +424,10 @@ EOS;
         }
 
         // get the original user actually making the first submission
-        $userid = $DB->get_field('surveypro_submission', 'userid', array('id' => $olduserdata->submissionid, 'surveyproid' => $surveypro->id), IGNORE_MULTIPLE);
+        $userid = $DB->get_field('surveypro_submission', 'userid', array('id' => $olduseranswer->submissionid, 'surveyproid' => $surveypro->id), IGNORE_MULTIPLE);
         $user = $DB->get_record('user', array('id' => $userid));
 
-        $olduserdata->content = $this->userform_get_content($olduserdata->submissionid);
+        $olduseranswer->content = $this->userform_get_content($olduseranswer->submissionid);
     }
 
     /**

@@ -62,7 +62,7 @@ class backup_surveypro_activity_structure_step extends backup_activity_structure
         $answers = new backup_nested_element('answers');
 
         $answer = new backup_nested_element('answer', array('id', 'itemid', 'plugin'), array(
-                    'content', 'contentformat'));
+                    'verified', 'content', 'contentformat'));
 
         // Build the tree
         $surveypro->add_child($items);

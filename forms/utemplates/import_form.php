@@ -85,7 +85,8 @@ class mod_surveypro_importutemplateform extends moodleform {
     public function validation($data, $files) {
         global $USER;
 
-        $mform = $this->_form;
+        // ----------------------------------------
+        // $mform = $this->_form;
 
         // ----------------------------------------
         $cmid = $this->_customdata->cmid;

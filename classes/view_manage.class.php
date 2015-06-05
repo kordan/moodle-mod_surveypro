@@ -118,9 +118,9 @@ class mod_surveypro_submissionmanager {
     public $searchquery = '';
 
     /**
-     * $userfeedback
+     * $userfeedbackmask
      */
-    public $userfeedback = '';
+    public $userfeedbackmask = SURVEYPRO_NOFEEDBACK;
 
     /**
      * Class constructor

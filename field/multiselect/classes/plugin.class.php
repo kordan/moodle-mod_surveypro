@@ -176,7 +176,7 @@ class mod_surveypro_field_multiselect extends mod_surveypro_itembase {
     }
 
     /**
-     * get_canbeparent
+     * item_get_canbeparent
      *
      * @return the content of the static property "canbeparent"
      */
@@ -528,7 +528,7 @@ EOS;
         //
         // TAKE CARE: I choose a name for this item that IS UNIQUE BUT is missing the SURVEYPRO_ITEMPREFIX.'_'
         //            In this way I am sure the item will never be saved in the database
-        $placeholderitemname = SURVEYPRO_PLACEHOLDERPREFIX.'_'.$this->type.'_'.$this->plugin.'_'.$this->itemid.'_placeholder';
+        $placeholderitemname = SURVEYPRO_DONTSAVEMEPREFIX.'_'.$this->type.'_'.$this->plugin.'_'.$this->itemid.'_placeholder';
         $mform->addElement('hidden', $placeholderitemname, 1);
         $mform->setType($placeholderitemname, PARAM_INT);
 
@@ -678,22 +678,22 @@ EOS;
      * or what to return for the search form
      *
      * @param $answer
-     * @param $olduserdata
+     * @param $olduseranswer
      * @param $searchform
      * @return
      */
-    public function userform_save_preprocessing($answer, $olduserdata, $searchform) {
+    public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
         if (isset($answer['noanswer'])) {
-            $olduserdata->content = SURVEYPRO_NOANSWERVALUE;
+            $olduseranswer->content = SURVEYPRO_NOANSWERVALUE;
             return;
         }
 
         if (!isset($answer['mainelement'])) { // only placeholder arrived here
             $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
-            $olduserdata->content = implode(SURVEYPRO_DBMULTICONTENTSEPARATOR, array_fill(1, count($labels), '0'));
+            $olduseranswer->content = implode(SURVEYPRO_DBMULTICONTENTSEPARATOR, array_fill(1, count($labels), '0'));
         } else {
             // $answer is an array with the keys of the selected elements
-            $olduserdata->content = implode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $answer['mainelement']);
+            $olduseranswer->content = implode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $answer['mainelement']);
         }
     }
 
@@ -795,7 +795,7 @@ EOS;
     public function userform_get_root_elements_name() {
         $elementnames = array();
         $elementnames[] = $this->itemname.'[]';
-        $elementnames[] = SURVEYPRO_PLACEHOLDERPREFIX.'_'.$this->type.'_'.$this->plugin.'_'.$this->itemid.'_placeholder';
+        $elementnames[] = SURVEYPRO_DONTSAVEMEPREFIX.'_'.$this->type.'_'.$this->plugin.'_'.$this->itemid.'_placeholder';
 
         return $elementnames;
     }

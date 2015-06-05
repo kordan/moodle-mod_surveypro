@@ -79,8 +79,8 @@ $itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro);
 // parentid is useless (it is set to its default), do not set it
 // $itemlistman->set_parentid(0);
 
-// userfeedback is useless (it is set to its default), do not set it
-// $itemlistman->userfeedback(SURVEYPRO_NOFEEDBACK);
+// userfeedbackmask is useless (it is set to its default), do not set it
+// $itemlistman->userfeedbackmask(SURVEYPRO_NOFEEDBACK);
 
 // saveasnew is useless (it is set to its default), do not set it
 // $itemlistman->set_saveasnew(0);

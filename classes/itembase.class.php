@@ -103,9 +103,9 @@ class mod_surveypro_itembase {
     public $timemodified = null;
 
     /**
-     * $userfeedback
+     * $userfeedbackmask
      */
-    public $userfeedback = SURVEYPRO_NOFEEDBACK;
+    public $userfeedbackmask = SURVEYPRO_NOFEEDBACK;
 
     /**
      * public editorlist
@@ -287,7 +287,7 @@ class mod_surveypro_itembase {
     public function item_save($record) {
         global $DB;
 
-        // $this->userfeedback
+        // $this->userfeedbackmask
         //   +--- children inherited limited access
         //   |       +--- parents were made available for all
         //   |       |       +--- children were hided because this item was hided
@@ -307,7 +307,7 @@ class mod_surveypro_itembase {
         // (digit in place 5) == 1 means items inherited limited access because this (as parent) got a limited access
 
         $tablename = 'surveypro'.$this->type.'_'.$this->plugin;
-        $this->userfeedback = SURVEYPRO_NOFEEDBACK;
+        $this->userfeedbackmask = SURVEYPRO_NOFEEDBACK;
 
         // Does this record need to be saved as new record or as un update on a preexisting record?
         if (empty($record->itemid)) {
@@ -333,7 +333,7 @@ class mod_surveypro_itembase {
 
                     $record->itemid = $itemid;
                     if ($pluginid = $DB->insert_record($tablename, $record)) { // <-- first $tablename save
-                        $this->userfeedback += 1; // 0*2^1+1*2^0
+                        $this->userfeedbackmask += 1; // 0*2^1+1*2^0
                     }
                 }
 
@@ -350,9 +350,9 @@ class mod_surveypro_itembase {
                     $record->id = $pluginid;
 
                     if (!$DB->update_record($tablename, $record)) { // <-- $tablename update
-                        $this->userfeedback -= ($this->userfeedback % 2); // whatever it was, now it is a fail
+                        $this->userfeedbackmask -= ($this->userfeedbackmask % 2); // whatever it was, now it is a fail
                         // } else {
-                        // leave the previous $this->userfeedback
+                        // leave the previous $this->userfeedbackmask
                         // if it was a success, leave it as now you got one more success
                         // if it was a fail, leave it as you can not cover the previous fail
                     }
@@ -411,12 +411,12 @@ class mod_surveypro_itembase {
 
                     $record->id = $record->pluginid;
                     if ($DB->update_record($tablename, $record)) {
-                        $this->userfeedback += 3; // 1*2^1+1*2^0 alias: editing + success
+                        $this->userfeedbackmask += 3; // 1*2^1+1*2^0 alias: editing + success
                     } else {
-                        $this->userfeedback += 2; // 1*2^1+0*2^0 alias: editing + fail
+                        $this->userfeedbackmask += 2; // 1*2^1+0*2^0 alias: editing + fail
                     }
                 } else {
-                    $this->userfeedback += 2; // 1*2^1+0*2^0 alias: editing + fail
+                    $this->userfeedbackmask += 2; // 1*2^1+0*2^0 alias: editing + fail
                 }
 
                 $transaction->allow_commit();
@@ -436,7 +436,7 @@ class mod_surveypro_itembase {
             $event->trigger();
         }
 
-        // $this->userfeedback is going to be part of $returnurl in items_setup.php and to be send to items_manage.php
+        // $this->userfeedbackmask is going to be part of $returnurl in items_setup.php and to be send to items_manage.php
         return $record->itemid;
     }
 
@@ -509,7 +509,7 @@ class mod_surveypro_itembase {
         global $DB;
 
         // now hide or unhide (whether needed) chain of ancestors or descendents
-        if ($this->userfeedback & 1) { // bitwise logic, alias: if the item was successfully saved
+        if ($this->userfeedbackmask & 1) { // bitwise logic, alias: if the item was successfully saved
             // -----------------------------
             // manage ($oldhidden != $newhidden)
             // -----------------------------
@@ -530,13 +530,13 @@ class mod_surveypro_itembase {
             if ( ($oldhidden == 1) && ($newhidden == 0) ) {
                 if ($itemlistman->manage_item_show()) {
                     // a chain of parent items has been showed
-                    $this->userfeedback += 4; // 1*2^2
+                    $this->userfeedbackmask += 4; // 1*2^2
                 }
             }
             if ( ($oldhidden == 0) && ($newhidden == 1) ) {
                 if ($itemlistman->manage_item_hide()) {
                     // a chain of child items has been hided
-                    $this->userfeedback += 8; // 1*2^3
+                    $this->userfeedbackmask += 8; // 1*2^3
                 }
             }
             // end of: hide/unhide part 2
@@ -561,13 +561,13 @@ class mod_surveypro_itembase {
             if ( ($oldadvanced == 1) && ($newadvanced == 0) ) {
                 if ($itemlistman->manage_item_makestandard()) {
                     // a chain of parent items has been made available for all
-                    $this->userfeedback += 16; // 1*2^4
+                    $this->userfeedbackmask += 16; // 1*2^4
                 }
             }
             if ( ($oldadvanced == 0) && ($newadvanced == 1) ) {
                 if ($itemlistman->manage_item_makeadvanced()) {
                     // a chain of child items got a limited access
-                    $this->userfeedback += 32; // 1*2^5
+                    $this->userfeedbackmask += 32; // 1*2^5
                 }
             }
             // end of: limit/unlimit access part 2

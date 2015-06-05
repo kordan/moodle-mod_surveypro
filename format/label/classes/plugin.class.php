@@ -150,7 +150,7 @@ class mod_surveypro_format_label extends mod_surveypro_itembase {
     }
 
     /**
-     * get_canbeparent
+     * item_get_canbeparent
      *
      * @return the content of the static property "canbeparent"
      */

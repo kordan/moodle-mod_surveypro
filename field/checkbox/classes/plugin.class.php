@@ -187,7 +187,7 @@ class mod_surveypro_field_checkbox extends mod_surveypro_itembase {
     }
 
     /**
-     * get_canbeparent
+     * item_get_canbeparent
      *
      * @return the content of the static property "canbeparent"
      */
@@ -744,18 +744,18 @@ EOS;
      * or what to return for the search form
      *
      * @param $answer
-     * @param $olduserdata
+     * @param $olduseranswer
      * @param $searchform
      * @return
      */
-    public function userform_save_preprocessing($answer, $olduserdata, $searchform) {
+    public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
         if (isset($answer['ignoreme']) && ($answer['ignoreme'] == 1)) { // it ia an advcheckbox
-            $olduserdata->content = null;
+            $olduseranswer->content = null;
             return;
         }
 
         if (isset($answer['noanswer']) && ($answer['noanswer'] == 1)) { // it ia an advcheckbox
-            $olduserdata->content = SURVEYPRO_NOANSWERVALUE;
+            $olduseranswer->content = SURVEYPRO_NOANSWERVALUE;
             return;
         }
 
@@ -768,7 +768,7 @@ EOS;
         if (!$this->minimumrequired) {
             unset($return['noanswer']);
         }
-        $olduserdata->content = implode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $return);
+        $olduseranswer->content = implode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $return);
     }
 
     /**

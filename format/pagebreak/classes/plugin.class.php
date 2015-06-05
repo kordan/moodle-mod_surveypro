@@ -116,11 +116,11 @@ class mod_surveypro_format_pagebreak extends mod_surveypro_itembase {
     }
 
     /**
-     * get_canbeparent
+     * item_get_canbeparent
      *
      * @return the content of the static property "canbeparent"
      */
-    public static function item_item_get_canbeparent() {
+    public static function item_get_canbeparent() {
         return self::$canbeparent;
     }
 

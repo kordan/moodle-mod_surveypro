@@ -191,7 +191,7 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
     }
 
     /**
-     * get_canbeparent
+     * item_get_canbeparent
      *
      * @return the content of the static property "canbeparent"
      */
@@ -524,20 +524,20 @@ EOS;
      * or what to return for the search form
      *
      * @param $answer
-     * @param $olduserdata
+     * @param $olduseranswer
      * @param $searchform
      * @return
      */
-    public function userform_save_preprocessing($answer, $olduserdata, $searchform) {
+    public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
         if (isset($answer['ignoreme'])) {
-            $olduserdata->content = null;
+            $olduseranswer->content = null;
             return;
         }
 
         if (strlen($answer['mainelement']) == 0) {
-            $olduserdata->content = SURVEYPRO_NOANSWERVALUE;
+            $olduseranswer->content = SURVEYPRO_NOANSWERVALUE;
         } else {
-            $olduserdata->content = $answer['mainelement'];
+            $olduseranswer->content = $answer['mainelement'];
         }
     }
 
@@ -547,7 +547,7 @@ EOS;
      *
      * userform_set_prefill
      *
-     * @param $olduserdata
+     * @param $formdb
      * @return
      */
     public function userform_set_prefill($fromdb) {

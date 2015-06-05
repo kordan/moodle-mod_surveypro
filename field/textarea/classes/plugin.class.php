@@ -203,7 +203,7 @@ class mod_surveypro_field_textarea extends mod_surveypro_itembase {
     }
 
     /**
-     * get_canbeparent
+     * item_get_canbeparent
      *
      * @return the content of the static property "canbeparent"
      */
@@ -447,21 +447,21 @@ EOS;
      * or what to return for the search form
      *
      * @param $answer
-     * @param $olduserdata
+     * @param $olduseranswer
      * @param $searchform
      * @return
      */
-    public function userform_save_preprocessing($answer, $olduserdata, $searchform) {
+    public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
         if (!empty($this->useeditor)) {
-            $olduserdata->{$this->itemname.'_editor'} = $answer['editor'];
+            $olduseranswer->{$this->itemname.'_editor'} = $answer['editor'];
 
             $editoroptions = array('trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $this->context);
-            $olduserdata = file_postupdate_standard_editor($olduserdata, $this->itemname, $editoroptions, $this->context,
-                    'mod_surveypro', SURVEYPROFIELD_TEXTAREA_FILEAREA, $olduserdata->id);
-            $olduserdata->content = $olduserdata->{$this->itemname};
-            $olduserdata->contentformat = FORMAT_HTML;
+            $olduseranswer = file_postupdate_standard_editor($olduseranswer, $this->itemname, $editoroptions, $this->context,
+                    'mod_surveypro', SURVEYPROFIELD_TEXTAREA_FILEAREA, $olduseranswer->id);
+            $olduseranswer->content = $olduseranswer->{$this->itemname};
+            $olduseranswer->contentformat = FORMAT_HTML;
         } else {
-            $olduserdata->content = $answer['mainelement'];
+            $olduseranswer->content = $answer['mainelement'];
         }
     }
 

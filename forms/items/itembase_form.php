@@ -34,6 +34,7 @@ class mod_surveypro_itembaseform extends moodleform {
      */
     public function definition() {
         global $DB, $CFG;
+
         // ----------------------------------------
         $mform = $this->_form;
 
@@ -324,6 +325,7 @@ class mod_surveypro_itembaseform extends moodleform {
     public function add_item_buttons() {
         global $CFG;
 
+        // ----------------------------------------
         $mform = $this->_form;
 
         // ----------------------------------------

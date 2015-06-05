@@ -147,6 +147,7 @@ $string['deletehiddenitems'] = 'Delete hidden elements';
 $string['deletepluginmessage'] = 'You are about to completely delete the survey plugin "{$a}". This will completely delete everything in the database associated with this plugin. Are you SURE you want to continue?';
 $string['deletevisibleitems'] = 'Delete visible elements';
 $string['deletingplugin'] = 'Deleting plugin {$a}.';
+$string['dirtydatafound'] = 'Some data of this response has been found as unverified. Because of this, the overall response has been marked as "{$a}".<br />Your data is not necessarialy incorrect but needs verification before definitive storage.<br />To fix this issue, please edit the response and review item contents page per pgage.';
 $string['downloadformat'] = 'Download format';
 $string['downloadpdf'] = 'download to pdf';
 $string['downloadtocsv'] = 'download to comma separated values';
@@ -480,4 +481,9 @@ $string['xsdnotfound'] = 'xsd validation schema for your xml template was not fo
 $string['you'] = 'You';
 $string['yournextattempt'] = 'You are going to fill your response number {$a}';
 
+$string['aaa'] = '';
+$string['aaa'] = '';
+$string['aaa'] = '';
+$string['aaa'] = '';
+$string['aaa'] = '';
 $string['aaa'] = '';

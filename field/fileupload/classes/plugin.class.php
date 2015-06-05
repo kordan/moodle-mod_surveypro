@@ -166,7 +166,7 @@ class mod_surveypro_field_fileupload extends mod_surveypro_itembase {
     }
 
     /**
-     * get_canbeparent
+     * item_get_canbeparent
      *
      * @return the content of the static property "canbeparent"
      */
@@ -325,11 +325,11 @@ EOS;
      * or what to return for the search form
      *
      * @param $answer
-     * @param $olduserdata
+     * @param $olduseranswer
      * @param $searchform
      * @return
      */
-    public function userform_save_preprocessing($answer, $olduserdata, $searchform) {
+    public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
         if (!empty($answer)) {
             $fieldname = $this->itemname.'_filemanager';
 
@@ -338,9 +338,9 @@ EOS;
             $paramelement['accepted_types'] = $this->filetypes;
             $paramelement['subdirs'] = false;
             $paramelement['maxfiles'] = $this->maxfiles;
-            file_save_draft_area_files($answer['filemanager'], $this->context->id, 'surveyprofield_fileupload', SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $olduserdata->id, $paramelement);
+            file_save_draft_area_files($answer['filemanager'], $this->context->id, 'surveyprofield_fileupload', SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $olduseranswer->id, $paramelement);
 
-            $olduserdata->content = ''; // nothing is expected here
+            $olduseranswer->content = ''; // nothing is expected here
         }
     }
 

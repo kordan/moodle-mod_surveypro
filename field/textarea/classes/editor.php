@@ -74,13 +74,16 @@ class mod_surveypro_mform_editor extends MoodleQuickForm_editor {
      * @return empty string
      */
     public function getFrozenHtml() {
-        $class = empty($this->_attributes['class']) ? 'indent-0' : $this->_attributes['class'];
-        $output = $this->_getTabs().'<div class="'.$class.'">';
+        $value = strlen($this->_values['text']) ? $this->_values['text'] : '&nbsp;';
 
-        $value = $this->_values['text'];
-        $output .= strlen($value) ? $value : '&nbsp;';
+        if (empty($this->_attributes['class'])) {
+            $class = array('class' => 'indent-0');
+        } else {
+            $class = array('class' => $this->_attributes['class']);
+        }
 
-        $output .= '</div>';
+        $output = $this->_getTabs();
+        $output .= html_writer::tag('div', $value, $class);
         $output .= $this->_getPersistantData();
 
         return $output;

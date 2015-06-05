@@ -186,7 +186,7 @@ class mod_surveypro_field_select extends mod_surveypro_itembase {
     }
 
     /**
-     * get_canbeparent
+     * item_get_canbeparent
      *
      * @return the content of the static property "canbeparent"
      */
@@ -680,16 +680,16 @@ EOS;
      * or what to return for the search form
      *
      * @param $answer
-     * @param $olduserdata
+     * @param $olduseranswer
      * @param $searchform
      * @return
      */
-    public function userform_save_preprocessing($answer, $olduserdata, $searchform) {
+    public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
         if (isset($answer['mainelement'])) {
             if ($answer['mainelement'] == 'other') {
-                $olduserdata->content = $answer['text'];
+                $olduseranswer->content = $answer['text'];
             } else {
-                $olduserdata->content = $answer['mainelement'];
+                $olduseranswer->content = $answer['mainelement'];
             }
             return;
         }

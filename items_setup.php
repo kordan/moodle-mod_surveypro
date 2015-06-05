@@ -84,8 +84,8 @@ $itemlistman->set_view($view);
 // parentid is useless (it is set to its default), do not set it
 // $itemlistman->set_parentid(0);
 
-// userfeedback is useless (it is set to its default), do not set it
-// $itemlistman->set_userfeedback(SURVEYPRO_NOFEEDBACK);
+// userfeedbackmask is useless (it is set to its default), do not set it
+// $itemlistman->set_userfeedbackmask(SURVEYPRO_NOFEEDBACK);
 
 // saveasnew is useless (it is set to its default), do not set it
 // $itemlistman->set_saveasnew(0);
@@ -133,7 +133,7 @@ if ($fromform = $itemform->get_data()) {
     }
 
     $itemid = $item->item_save($fromform);
-    $feedback = $item->userfeedback; // copy the returned feedback
+    $feedback = $item->userfeedbackmask; // copy the returned feedback
 
     // overwrite item to get new settings in the object
     $item = surveypro_get_item($itemid, $item->type, $item->plugin);

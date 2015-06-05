@@ -112,8 +112,10 @@ class mod_surveypro_exportmanager {
         }
 
         // now finalise $sql
-        $sql .= ' WHERE s.surveyproid = :surveyproid';
+        $sql .= ' WHERE s.surveyproid = :surveyproid
+                      AND a.verified = :verified';
         $whereparams['surveyproid'] = $this->surveypro->id;
+        $whereparams['verified'] = 1;
 
         // for IN PROGRESS submission where no fields were filled
         // I need the LEFT JOIN {surveypro_item}

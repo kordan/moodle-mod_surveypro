@@ -119,19 +119,19 @@ define('SURVEYPRO_TYPEFORMAT', 'format');
 define('SURVEYPRO_LEFT_OVERFLOW' , -10);
 define('SURVEYPRO_RIGHT_OVERFLOW', -20);
 
-// SAVESTATUS
+// FEEDBACKMASK
 define('SURVEYPRO_NOFEEDBACK', 0);
 
 // ITEMPREFIX
 define('SURVEYPRO_ITEMPREFIX', 'surveypro');
-define('SURVEYPRO_PLACEHOLDERPREFIX', 'placeholder');
+define('SURVEYPRO_DONTSAVEMEPREFIX', 'placeholder');
 
-// INVITATION AND NO ANSWER VALUE
+// INVITATION AND NO-ANSWER VALUE
 define('SURVEYPRO_INVITATIONVALUE', '__invItat10n__'); // user should never guess it
 define('SURVEYPRO_NOANSWERVALUE', '__n0__Answer__');   // user should never guess it
 define('SURVEYPRO_IGNOREME', '__1gn0rE__me__');        // user should never guess it
 
-// ADJUSTMENTS
+// ITEM ADJUSTMENTS
 define('SURVEYPRO_VERTICAL',   0);
 define('SURVEYPRO_HORIZONTAL', 1);
 
@@ -209,6 +209,9 @@ define('SURVEYPRO_POSITIONS', 'positions');
 // templates types
 define('SURVEYPRO_MASTERTEMPLATE', 'mastertemplate');
 define('SURVEYPRO_USERTEMPLATE',   'usertemplate');
+
+// dummy content used at answer save time
+define('SURVEYPRO_DUMMYCONTENT', '__my_dummy_content@@');
 
 // event to use for logging 2
 if ($CFG->branch == '26') {

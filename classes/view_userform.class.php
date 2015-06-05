@@ -88,6 +88,11 @@ class mod_surveypro_userformmanager {
     public $modulepage = '';
 
     /**
+     * $dirty: is the record supposed to be SURVEYPRO_STATUSCLOSED dirty because of some old field?
+     */
+    public $dirty = false;
+
+    /**
      * $canaccessadvanceditems
      */
     public $canaccessadvanceditems = false;
@@ -509,6 +514,9 @@ class mod_surveypro_userformmanager {
     public function save_user_data() {
         global $DB;
 
+        $pausebutton = isset($this->formdata->pausebutton);
+        $prevbutton = isset($this->formdata->prevbutton);
+
         // at each submission I need to save one 'surveypro_submission' and some 'surveypro_answer'
 
         // -----------------------------
@@ -521,21 +529,19 @@ class mod_surveypro_userformmanager {
         // -----------------------------
 
         // save now all the answers provided by the user
-        $regexp = '~('.SURVEYPRO_ITEMPREFIX.'|'.SURVEYPRO_PLACEHOLDERPREFIX.')_('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_([a-z]+)_([0-9]+)_?([a-z0-9]+)?~';
+        $regexp = '~('.SURVEYPRO_ITEMPREFIX.'|'.SURVEYPRO_DONTSAVEMEPREFIX.')_('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_([a-z]+)_([0-9]+)_?([a-z0-9]+)?~';
 
         $itemhelperinfo = array();
         foreach ($this->formdata as $itemname => $content) {
             if (!preg_match($regexp, $itemname, $matches)) {
                 // button or something not relevant
-                switch ($itemname) {
-                    case 's': // <-- s is the surveypro id
-                        $surveyproid = $content;
-                        break;
-                    default:
-                        // this is the black hole where is thrown each useless info like:
-                        // - formpage
-                        // - nextbutton
-                        // and some more
+                if ($itemname == 's') {
+                    $surveyproid = $content;
+                // } else {
+                // this is the black hole where is thrown each useless info like:
+                // - formpage
+                // - nextbutton
+                // and some more
                 }
                 continue; // to next foreach
             }
@@ -600,31 +606,30 @@ class mod_surveypro_userformmanager {
         //    asking to each item class to manage its informations
 
         foreach ($itemhelperinfo as $iteminfo) {
-            if (!$userdatarec = $DB->get_record('surveypro_answer', array('submissionid' => $iteminfo->submissionid, 'itemid' => $iteminfo->itemid))) {
+            if (!$useranswer = $DB->get_record('surveypro_answer', array('submissionid' => $iteminfo->submissionid, 'itemid' => $iteminfo->itemid))) {
                 // Quickly make one new!
-                $userdatarec = new stdClass();
-                $userdatarec->surveyproid = $iteminfo->surveyproid;
-                $userdatarec->submissionid = $iteminfo->submissionid;
-                $userdatarec->itemid = $iteminfo->itemid;
-                $userdatarec->content = '__my_dummy_content@@';
-                $userdatarec->contentformat = null;
+                $useranswer = new stdClass();
+                $useranswer->surveyproid = $iteminfo->surveyproid;
+                $useranswer->submissionid = $iteminfo->submissionid;
+                $useranswer->itemid = $iteminfo->itemid;
+                $useranswer->content = SURVEYPRO_DUMMYCONTENT;
+                $useranswer->contentformat = null;
 
-                $id = $DB->insert_record('surveypro_answer', $userdatarec);
-                $userdatarec = $DB->get_record('surveypro_answer', array('id' => $id));
+                $useranswer->id = $DB->insert_record('surveypro_answer', $useranswer);
             }
-            $userdatarec->timecreated = time();
+            $useranswer->timecreated = time();
+            $useranswer->verified = ($prevbutton || $pausebutton) ? 0 : 1;
 
             $item = surveypro_get_item($iteminfo->itemid, $iteminfo->type, $iteminfo->plugin);
 
-            // In this method I update $userdatarec->content
+            // In this method I only update $useranswer->content
             // I do not really save to database
-            $item->userform_save_preprocessing($iteminfo->contentperelement, $userdatarec, false);
+            $item->userform_save_preprocessing($iteminfo->contentperelement, $useranswer, false);
 
-            if ($userdatarec->content != '__my_dummy_content@@') {
-                $DB->update_record('surveypro_answer', $userdatarec);
+            if ($useranswer->content == SURVEYPRO_DUMMYCONTENT) {
+                print_error('wrong_userdatarec_found', 'surveypro', null, SURVEYPRO_DUMMYCONTENT);
             } else {
-                $a = '__my_dummy_content@@';
-                print_error('wrong_userdatarec_found', 'surveypro', null, $a);
+                $DB->update_record('surveypro_answer', $useranswer);
             }
         }
 
@@ -674,22 +679,54 @@ class mod_surveypro_userformmanager {
         }
 
         $timenow = time();
-        $savebutton = (isset($this->formdata->savebutton) && ($this->formdata->savebutton));
-        $saveasnewbutton = (isset($this->formdata->saveasnewbutton) && ($this->formdata->saveasnewbutton));
-        $nextbutton = (isset($this->formdata->nextbutton) && ($this->formdata->nextbutton));
+        $savebutton = isset($this->formdata->savebutton);
+        $saveasnewbutton = isset($this->formdata->saveasnewbutton);
+        $nextbutton = isset($this->formdata->nextbutton);
+        $pausebutton = isset($this->formdata->pausebutton);
+        $prevbutton = isset($this->formdata->prevbutton);
         if ($saveasnewbutton) {
             $this->formdata->submissionid = 0;
         }
 
         $submissions = new stdClass();
+        // few word about status
+        // Before assigning status = SURVEYPRO_STATUSCLOSED make one more verification
+        //
+        // Let's suppose the following scenario.
+        //
+        // 1) User is filling a surveypro divided over 3 pages.
+        // 2) User fills all the fields of first page and moves to page 2.
+        // 3) User reads the url and understands that the formapge is passed in GET (visible in the url).
+        // 4) At page 2 of the surveypro there is a mandatory field.
+        // 5) User return back to page 1 without filling the mandatory field.
+        // 6) Page 2 is saved WITHOUT the mandatory field because when the user moves back, the form validation is not executed.
+        // 7) Because of 3) user jumps to page 3 (making direct input) and make the final submit.
+        // This last verification is needed to check that EACH saved submission field was actually VERIFIED
+        if ($savebutton || $saveasnewbutton) {
+            // status should be SURVEYPRO_STATUSCLOSED
+            // before assigning it, let me chek if each datum was verified before its save
+            $conditions = array('submissionid' => $this->submissionid, 'verified' => 0);
+            $this->dirty = $DB->get_record('surveypro_answer', $conditions, 'id', IGNORE_MULTIPLE);
+            // echo '$dirty:';
+            // var_dump($dirty);
+            if ($this->dirty) {
+                // user jumped pages using direct input (or something more dangerous)
+                $submissions->status = SURVEYPRO_STATUSINPROGRESS;
+            } else {
+                $submissions->status = SURVEYPRO_STATUSCLOSED;
+            }
+        }
+
         if (empty($this->formdata->submissionid)) {
             // add a new record to surveypro_submission
             $submissions->surveyproid = $this->surveypro->id;
             $submissions->userid = $USER->id;
             $submissions->timecreated = $timenow;
 
-            // submit buttons are 3 and only 3
-            if ($nextbutton) {
+            // the idea is that I ALWAYS save, without care about which button was pressed
+            // probably if empty($this->formdata->submissionid) then $prevbutton can't be pressed, but I don't care
+            // in the worst hypothesis it is a case that will never be verified
+            if ($nextbutton || $pausebutton || $prevbutton) {
                 $submissions->status = SURVEYPRO_STATUSINPROGRESS;
             }
             if ($savebutton || $saveasnewbutton) {
@@ -704,7 +741,7 @@ class mod_surveypro_userformmanager {
             $event->trigger();
         } else {
             // surveypro_submission already exists
-            // but I asked to save
+            // and I asked to save again
             if ($savebutton) {
                 $submissions->id = $this->formdata->submissionid;
                 $submissions->status = SURVEYPRO_STATUSCLOSED;
@@ -714,11 +751,13 @@ class mod_surveypro_userformmanager {
                 // I have $this->formdata->submissionid
                 // case: "save" was requested, I am not here
                 // case: "save as" was requested, I am not here
+                // case: "prev" was requested, I am not here because in view_userform.php the save_user_data() method is jumped
                 // case: "next" was requested, so status = SURVEYPRO_STATUSINPROGRESS
-                $status = $DB->get_field('surveypro_submission', 'status', array('id' => $this->formdata->submissionid), MUST_EXIST);
+                // case: "pause" was requested, I am not here because in view_userform.php the save_user_data() method is jumped
                 $submissions->id = $this->formdata->submissionid;
-                $submissions->status = $status;
+                $submissions->status = SURVEYPRO_STATUSINPROGRESS;
             }
+
             $eventdata = array('context' => $this->context, 'objectid' => $submissions->id);
             $eventdata['other'] = array('view' => SURVEYPRO_EDITRESPONSE);
             $event = \mod_surveypro\event\submission_modified::create($eventdata);
@@ -953,8 +992,8 @@ class mod_surveypro_userformmanager {
     public function manage_thanks_page() {
         global $OUTPUT;
 
-        $savebutton = (isset($this->formdata->savebutton) && ($this->formdata->savebutton));
-        $saveasnewbutton = (isset($this->formdata->saveasnewbutton) && ($this->formdata->saveasnewbutton));
+        $savebutton = isset($this->formdata->savebutton);
+        $saveasnewbutton = isset($this->formdata->saveasnewbutton);
         if ($savebutton || $saveasnewbutton) {
             $this->show_thanks_page();
             echo $OUTPUT->footer();
@@ -970,6 +1009,12 @@ class mod_surveypro_userformmanager {
      */
     public function show_thanks_page() {
         global $DB, $OUTPUT, $USER;
+
+        if ($this->dirty) {
+            $a = get_string('statusinprogress', 'surveypro');
+            $message = get_string('dirtydatafound', 'surveypro', $a);
+            echo $OUTPUT->notification($message, 'notifyproblem');
+        }
 
         if ($this->view == SURVEYPRO_EDITRESPONSE) {
             $message = get_string('defaulteditingthanksmessage', 'surveypro');

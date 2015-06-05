@@ -197,7 +197,7 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
     }
 
     /**
-     * get_canbeparent
+     * item_get_canbeparent
      *
      * @return the content of the static property "canbeparent"
      */
@@ -604,21 +604,21 @@ EOS;
      * or what to return for the search form
      *
      * @param $answer
-     * @param $olduserdata
+     * @param $olduseranswer
      * @param $searchform
      * @return
      */
-    public function userform_save_preprocessing($answer, $olduserdata, $searchform) {
+    public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
         if (isset($answer['noanswer'])) { // this is correct for input and search form both
-            $olduserdata->content = SURVEYPRO_NOANSWERVALUE;
+            $olduseranswer->content = SURVEYPRO_NOANSWERVALUE;
         } else {
             if (!$searchform) {
-                $olduserdata->content = $this->item_shortdate_to_unix_time($answer['month'], $answer['year']);
+                $olduseranswer->content = $this->item_shortdate_to_unix_time($answer['month'], $answer['year']);
             } else {
                 if ($answer['month'] == SURVEYPRO_IGNOREME) {
-                    $olduserdata->content = null;
+                    $olduseranswer->content = null;
                 } else {
-                    $olduserdata->content = $this->item_shortdate_to_unix_time($answer['month'], $answer['year']);
+                    $olduseranswer->content = $this->item_shortdate_to_unix_time($answer['month'], $answer['year']);
                 }
             }
         }

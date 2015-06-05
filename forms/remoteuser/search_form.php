@@ -134,7 +134,7 @@ class mod_surveypro_searchform extends moodleform {
         $errors = array();
 
         // TODO: verify item per item whether they provide a coherent requests
-        $regexp = '~('.SURVEYPRO_ITEMPREFIX.'|'.SURVEYPRO_PLACEHOLDERPREFIX.')_('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_([a-z]+)_([0-9]+)_?([a-z0-9]+)?~';
+        $regexp = '~('.SURVEYPRO_ITEMPREFIX.'|'.SURVEYPRO_DONTSAVEMEPREFIX.')_('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_([a-z]+)_([0-9]+)_?([a-z0-9]+)?~';
         $olditemid = 0;
         foreach ($data as $itemname => $v) {
             if (preg_match($regexp, $itemname, $matches)) {
