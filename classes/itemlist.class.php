@@ -239,7 +239,7 @@ class mod_surveypro_itemlist {
         $tableheaders = array();
         $tableheaders[] = get_string('plugin', 'surveypro');
         $tableheaders[] = get_string('sortindex', 'surveypro');
-        $tableheaders[] = get_string('parentid_header', 'surveypro');
+        $tableheaders[] = get_string('branching', 'surveypro');
         $tableheaders[] = get_string('customnumber_header', 'surveypro');
         $tableheaders[] = get_string('content', 'surveypro');
         $tableheaders[] = get_string('variable', 'surveypro');
@@ -1230,7 +1230,7 @@ class mod_surveypro_itemlist {
         $tableheaders = array();
         $tableheaders[] = get_string('plugin', 'surveypro');
         $tableheaders[] = get_string('sortindex', 'surveypro');
-        $tableheaders[] = get_string('parentid_header', 'surveypro');
+        $tableheaders[] = get_string('branching', 'surveypro');
         $tableheaders[] = get_string('customnumber_header', 'surveypro');
         $tableheaders[] = get_string('content', 'surveypro');
         $tableheaders[] = get_string('parentconstraints', 'surveypro');

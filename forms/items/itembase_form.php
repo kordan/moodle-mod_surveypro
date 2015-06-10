@@ -220,7 +220,7 @@ class mod_surveypro_itembaseform extends moodleform {
             // -----------------------------
             // here I open a new fieldset
             // -----------------------------
-            $fieldname = 'branching_fs';
+            $fieldname = 'branching';
             $mform->addElement('header', $fieldname, get_string($fieldname, 'surveypro'));
 
             // ----------------------------------------

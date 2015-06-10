@@ -1387,14 +1387,14 @@ class mod_surveypro_itembase {
      * userform_child_item_allowed_static
      * this method is called if (and only if) parent item and child item DON'T live in the same form page
      * this method has two purposes:
-     * - skip the iitem from the current page of $userpageform
+     * - skip the item from the current page of $userpageform
      * - get if a page has items
      *
      * as parentitem declare whether my child item is allowed to in the page that is going to be displayed
      *
      * @param int $submissionid:
      * @param array $childitemrecord:
-     * @return $status: true: the item is welcome; false: the item must be dropped out
+     * @return $status: true: the item is allowed; false: the item must be dropped out
      */
     public function userform_child_item_allowed_static($submissionid, $childitemrecord) {
         global $DB;

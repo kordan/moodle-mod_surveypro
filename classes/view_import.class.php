@@ -147,7 +147,7 @@ class mod_surveypro_importmanager {
     public function get_survey_infos() {
         global $DB, $CFG;
 
-        $sql = 'SELECT id, plugin
+        $sql = 'SELECT MIN(id), plugin
             FROM {surveypro_item}
             WHERE surveyproid = :surveyproid
                 AND type = :type
@@ -164,12 +164,12 @@ class mod_surveypro_importmanager {
             // $tablename === $itemclass :)
             // $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
             $itemclass = 'mod_surveypro_'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
-            $item = new $itemclass($this->cm, null, false);
+            // $item = new $itemclass($this->cm, null, false);
             $requiredfieldname = $itemclass::get_requiredfieldname();
 
             $sql = 'SELECT p.itemid, p.variable, p.'.$requiredfieldname.'
                 FROM {surveypro_item} i
-                    JOIN {'.$itemclass.'} p ON i.id = p.itemid
+                    JOIN {surveypro_'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'} p ON i.id = p.itemid
                 WHERE i.surveyproid = :surveyproid
                 ORDER BY p.itemid';
             $itemvariables = $DB->get_records_sql($sql, $where);

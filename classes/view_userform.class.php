@@ -88,9 +88,9 @@ class mod_surveypro_userformmanager {
     public $modulepage = '';
 
     /**
-     * $dirty: is the record supposed to be SURVEYPRO_STATUSCLOSED dirty because of some old field?
+     * $finalresponseevaluation: final validation of the submitted response
      */
-    public $dirty = false;
+    public $finalresponseevaluation = SURVEYPRO_VALIDRESPONSE;
 
     /**
      * $canaccessadvanceditems
@@ -294,7 +294,7 @@ class mod_surveypro_userformmanager {
         }
 
         foreach ($itemseeds as $itemseed) {
-            // make sure that the visibility condition is verified
+            // skip format items
             if ($itemseed->type == SURVEYPRO_TYPEFORMAT) {
                 continue;
             }
@@ -306,7 +306,6 @@ class mod_surveypro_userformmanager {
             $parentitem = new $itemclass($this->cm, $itemseed->parentid, false);
 
             if ($parentitem->userform_child_item_allowed_static($this->submissionid, $itemseed)) {
-                // if (userform_child_item_allowed_static($this->submissionid, $itemseed)) {
                 return true;
             }
         }
@@ -405,6 +404,82 @@ class mod_surveypro_userformmanager {
             $items->close();
             $this->maxassignedpage = $pagenumber;
         }
+    }
+
+    /**
+     * save_surveypro_submission
+     *
+     * @param none
+     * @return surveypro_submission record
+     */
+    public function save_surveypro_submission() {
+        global $USER, $DB;
+
+        if (!$this->surveypro->newpageforchild) {
+            $this->drop_unexpected_values();
+        }
+
+        $timenow = time();
+        $savebutton = isset($this->formdata->savebutton);
+        $saveasnewbutton = isset($this->formdata->saveasnewbutton);
+        $nextbutton = isset($this->formdata->nextbutton);
+        $pausebutton = isset($this->formdata->pausebutton);
+        $prevbutton = isset($this->formdata->prevbutton);
+        if ($saveasnewbutton) {
+            $this->formdata->submissionid = 0;
+        }
+
+        $submission = new stdClass();
+        if (empty($this->formdata->submissionid)) {
+            // add a new record to surveypro_submission
+            $submission->surveyproid = $this->surveypro->id;
+            $submission->userid = $USER->id;
+            $submission->timecreated = $timenow;
+
+            // the idea is that I ALWAYS save, without care about which button was pressed
+            // probably if empty($this->formdata->submissionid) then $prevbutton can't be pressed, but I don't care
+            // in the worst hypothesis it is a case that will never be verified
+            if ($nextbutton || $pausebutton || $prevbutton) {
+                $submission->status = SURVEYPRO_STATUSINPROGRESS;
+            }
+            if ($savebutton || $saveasnewbutton) {
+                $submission->status = SURVEYPRO_STATUSCLOSED;
+            }
+
+            $submission->id = $DB->insert_record('surveypro_submission', $submission);
+
+            $eventdata = array('context' => $this->context, 'objectid' => $submission->id);
+            $eventdata['other'] = array('view' => SURVEYPRO_NEWRESPONSE);
+            $event = \mod_surveypro\event\submission_created::create($eventdata);
+            $event->trigger();
+        } else {
+            // surveypro_submission already exists
+            // and I asked to save again
+            if ($savebutton) {
+                $submission->id = $this->formdata->submissionid;
+                $submission->status = SURVEYPRO_STATUSCLOSED;
+                $submission->timemodified = $timenow;
+                $DB->update_record('surveypro_submission', $submission);
+            } else {
+                // I have $this->formdata->submissionid
+                // case: "save" was requested, I am not here
+                // case: "save as" was requested, I am not here
+                // case: "prev" was requested, I am not here because in view_userform.php the save_user_data() method is jumped
+                // case: "next" was requested, so status = SURVEYPRO_STATUSINPROGRESS
+                // case: "pause" was requested, I am not here because in view_userform.php the save_user_data() method is jumped
+                $submission->id = $this->formdata->submissionid;
+                $submission->status = SURVEYPRO_STATUSINPROGRESS;
+            }
+
+            $eventdata = array('context' => $this->context, 'objectid' => $submission->id);
+            $eventdata['other'] = array('view' => SURVEYPRO_EDITRESPONSE);
+            $event = \mod_surveypro\event\submission_modified::create($eventdata);
+            $event->trigger();
+        }
+
+        // before returning, set two class properties
+        $this->submissionid = $submission->id;
+        $this->status = $submission->status;
     }
 
     /**
@@ -657,10 +732,18 @@ class mod_surveypro_userformmanager {
         // This check is needed to verify that EACH surveypro field was actually saved as VERIFIED
 
         if ($savebutton || $saveasnewbutton) {
+            // let's start with the lightest check (lightest in terms of query)
             $this->check_all_was_verified();
-            if (!$this->dirty) {
-                // $this->check_mandatories_are_in();
-                $this->check_all_was_verified();
+            if ($this->finalresponseevaluation == SURVEYPRO_VALIDRESPONSE) { // if this answer is still considered valid, check more
+                $this->check_mandatories_are_in();
+            }
+
+            // if this answer is not valid for some reason
+            if ($this->finalresponseevaluation != SURVEYPRO_VALIDRESPONSE) {
+                // user jumped pages using direct input (or something more dangerous)
+                // set this submission as SURVEYPRO_STATUSINPROGRESS
+                $conditions = array('id' => $this->submissionid);
+                $DB->set_field('surveypro_submission', 'status', SURVEYPRO_STATUSINPROGRESS, $conditions);
             }
         }
 
@@ -679,9 +762,81 @@ class mod_surveypro_userformmanager {
      * @return
      */
     public function check_mandatories_are_in() {
+        global $DB, $CFG;
+
         // get the list of all mandatory fields
-        // verify is is supposed to be answered (its parent allows it)
-        // verify the corresponding value if actually in the database
+        $sql = 'SELECT MIN(id), plugin
+            FROM {surveypro_item}
+            WHERE surveyproid = :surveyproid
+                AND type = :type
+            GROUP BY plugin';
+        $whereparams = array('surveyproid' => $this->surveypro->id, 'type' => SURVEYPRO_TYPEFIELD);
+        $pluginlist = $DB->get_records_sql_menu($sql, $whereparams);
+
+        $requireditems = array();
+        foreach ($pluginlist as $plugin) {
+            require_once($CFG->dirroot.'/mod/surveypro/field/'.$plugin.'/classes/plugin.class.php');
+
+            $itemclass = 'mod_surveypro_'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
+            $requiredfieldname = $itemclass::get_requiredfieldname();
+            $sql = 'SELECT i.id, i.parentid, i.parentvalue, p.'.$requiredfieldname.'
+                FROM {surveypro_item} i
+                    JOIN {surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'} p ON i.id = p.itemid
+                WHERE i.surveyproid = :surveyproid
+                ORDER BY p.itemid';
+
+            $whereparams = array('surveyproid' => $this->surveypro->id);
+            $pluginitems = $DB->get_records_sql($sql, $whereparams);
+
+            foreach ($pluginitems as $pluginitem) {
+                if ($pluginitem->{$requiredfieldname} > 0) {
+                    unset ($pluginitem->{$requiredfieldname});
+
+                    $requireditems[$pluginitem->id] = $pluginitem;
+                }
+            }
+        }
+
+        // $requireditems = array (size=3)
+        //   7521 =>
+        //     object(stdClass)[1108]
+        //       public 'id' => string '7521' (length=4)
+        //       public 'parentid' => string '0' (length=1)
+        //       public 'parentvalue' => null
+        //   7527 =>
+        //     object(stdClass)[889]
+        //       public 'id' => string '7527' (length=4)
+        //       public 'parentid' => string '0' (length=1)
+        //       public 'parentvalue' => null
+        //   7528 =>
+        //     object(stdClass)[1107]
+        //       public 'id' => string '7528' (length=4)
+        //       public 'parentid' => string '0' (length=1)
+        //       public 'parentvalue' => null
+        // end of: get the list of all mandatory fields
+
+        // make only ONE query taking ALL the answer provided in the frame of this submission
+        // (and, implicitally, for this surveypro)
+        $whereparams = array('submissionid' => $this->submissionid);
+        $providedanswers = $DB->get_records_menu('surveypro_answer', $whereparams, 'itemid', 'itemid, 1');
+
+        foreach ($requireditems as $itemseed) {
+            if (!isset($providedanswers[$itemseed->id])) { // required item was not answered.
+                if (empty($itemseed->parentid)) { // there is no parent item!!! Answer was jumped.
+                    $this->finalresponseevaluation = SURVEYPRO_MISSINGMANDATORY;
+                    break;
+                } else {
+                    $parentitem = surveypro_get_item($itemseed->parentid);
+                    if ($parentitem->userform_child_item_allowed_static($this->submissionid, $itemseed)) {
+                        // parent is here but it allows this item as child in this submission. Answer was jumped.
+                        // TAKE CARE: this check is valid for chains of parent-child relations too.
+                        // If the parent item was not allowed by its parent,
+                        //     it was not answered and userform_child_item_allowed_static returns false
+                        $this->finalresponseevaluation = SURVEYPRO_MISSINGMANDATORY;
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -694,16 +849,11 @@ class mod_surveypro_userformmanager {
         global $DB;
 
         $conditions = array('submissionid' => $this->submissionid, 'verified' => 0);
-        $this->dirty = $DB->get_record('surveypro_answer', $conditions, 'id', IGNORE_MULTIPLE);
-        // echo '$this->dirty:';
-        // var_dump($this->dirty);
-
-        if ($this->dirty) {
-            // user jumped pages using direct input (or something more dangerous)
-            // set this submission as SURVEYPRO_STATUSINPROGRESS
-            $conditions = array('id' => $this->submissionid);
-            $DB->set_field('surveypro_submission', 'status', SURVEYPRO_STATUSINPROGRESS, $conditions);
+        if($DB->get_record('surveypro_answer', $conditions, 'id', IGNORE_MULTIPLE)) {
+            $this->finalresponseevaluation = SURVEYPRO_MISSINGVALIDATION;
         }
+        // echo '$this->finalresponseevaluation:';
+        // var_dump($this->finalresponseevaluation);
     }
 
     /**
@@ -728,82 +878,6 @@ class mod_surveypro_userformmanager {
         $where = 'submissionid = :submissionid
             AND itemid IN ('.implode(',', $itemlistid).')';
         $DB->delete_records_select('surveypro_answer', $where, array('submissionid' => $this->formdata->submissionid));
-    }
-
-    /**
-     * save_surveypro_submission
-     *
-     * @param none
-     * @return surveypro_submission record
-     */
-    public function save_surveypro_submission() {
-        global $USER, $DB;
-
-        if (!$this->surveypro->newpageforchild) {
-            $this->drop_unexpected_values();
-        }
-
-        $timenow = time();
-        $savebutton = isset($this->formdata->savebutton);
-        $saveasnewbutton = isset($this->formdata->saveasnewbutton);
-        $nextbutton = isset($this->formdata->nextbutton);
-        $pausebutton = isset($this->formdata->pausebutton);
-        $prevbutton = isset($this->formdata->prevbutton);
-        if ($saveasnewbutton) {
-            $this->formdata->submissionid = 0;
-        }
-
-        $submissions = new stdClass();
-        if (empty($this->formdata->submissionid)) {
-            // add a new record to surveypro_submission
-            $submissions->surveyproid = $this->surveypro->id;
-            $submissions->userid = $USER->id;
-            $submissions->timecreated = $timenow;
-
-            // the idea is that I ALWAYS save, without care about which button was pressed
-            // probably if empty($this->formdata->submissionid) then $prevbutton can't be pressed, but I don't care
-            // in the worst hypothesis it is a case that will never be verified
-            if ($nextbutton || $pausebutton || $prevbutton) {
-                $submissions->status = SURVEYPRO_STATUSINPROGRESS;
-            }
-            if ($savebutton || $saveasnewbutton) {
-                $submissions->status = SURVEYPRO_STATUSCLOSED;
-            }
-
-            $submissions->id = $DB->insert_record('surveypro_submission', $submissions);
-
-            $eventdata = array('context' => $this->context, 'objectid' => $submissions->id);
-            $eventdata['other'] = array('view' => SURVEYPRO_NEWRESPONSE);
-            $event = \mod_surveypro\event\submission_created::create($eventdata);
-            $event->trigger();
-        } else {
-            // surveypro_submission already exists
-            // and I asked to save again
-            if ($savebutton) {
-                $submissions->id = $this->formdata->submissionid;
-                $submissions->status = SURVEYPRO_STATUSCLOSED;
-                $submissions->timemodified = $timenow;
-                $DB->update_record('surveypro_submission', $submissions);
-            } else {
-                // I have $this->formdata->submissionid
-                // case: "save" was requested, I am not here
-                // case: "save as" was requested, I am not here
-                // case: "prev" was requested, I am not here because in view_userform.php the save_user_data() method is jumped
-                // case: "next" was requested, so status = SURVEYPRO_STATUSINPROGRESS
-                // case: "pause" was requested, I am not here because in view_userform.php the save_user_data() method is jumped
-                $submissions->id = $this->formdata->submissionid;
-                $submissions->status = SURVEYPRO_STATUSINPROGRESS;
-            }
-
-            $eventdata = array('context' => $this->context, 'objectid' => $submissions->id);
-            $eventdata['other'] = array('view' => SURVEYPRO_EDITRESPONSE);
-            $event = \mod_surveypro\event\submission_modified::create($eventdata);
-            $event->trigger();
-        }
-
-        // before returning, set two class properties
-        $this->submissionid = $submissions->id;
-        $this->status = $submissions->status;
     }
 
     /**
@@ -1047,9 +1121,15 @@ class mod_surveypro_userformmanager {
     public function show_thanks_page() {
         global $DB, $OUTPUT, $USER;
 
-        if ($this->dirty) {
+        if ($this->finalresponseevaluation == SURVEYPRO_MISSINGMANDATORY) {
             $a = get_string('statusinprogress', 'surveypro');
-            $message = get_string('dirtydatafound', 'surveypro', $a);
+            $message = get_string('missingmandatory', 'surveypro', $a);
+            echo $OUTPUT->notification($message, 'notifyproblem');
+        }
+
+        if ($this->finalresponseevaluation == SURVEYPRO_MISSINGVALIDATION) {
+            $a = get_string('statusinprogress', 'surveypro');
+            $message = get_string('missingvalidation', 'surveypro', $a);
             echo $OUTPUT->notification($message, 'notifyproblem');
         }
 

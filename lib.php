@@ -213,6 +213,11 @@ define('SURVEYPRO_USERTEMPLATE',   'usertemplate');
 // dummy content used at answer save time
 define('SURVEYPRO_DUMMYCONTENT', '__my_dummy_content@@');
 
+// output of final submission evaluation
+define('SURVEYPRO_VALIDRESPONSE', 0);
+define('SURVEYPRO_MISSINGMANDATORY', 1);
+define('SURVEYPRO_MISSINGVALIDATION', 2);
+
 // event to use for logging 2
 if ($CFG->branch == '26') {
     define ('SURVEYPRO_EVENTLEVEL', 'level');
