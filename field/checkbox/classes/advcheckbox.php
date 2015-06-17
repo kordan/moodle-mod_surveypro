@@ -43,10 +43,12 @@ class mod_surveypro_mform_advcheckbox extends MoodleQuickForm_advcheckbox {
     public function getFrozenHtml() {
         $output = parent::getFrozenHtml();
 
-        $pattern = '~disabled="disabled"~';
-        $class = $this->_attributes['class'];
-        $replacement = 'disabled="disabled" class="'.$class.'"';
-        $output = preg_replace($pattern, $replacement, $output);
+        if (isset($this->_attributes['class'])) {
+            $pattern = '~disabled="disabled"~';
+            $class = $this->_attributes['class'];
+            $replacement = 'disabled="disabled" class="'.$class.'"';
+            $output = preg_replace($pattern, $replacement, $output);
+        }
 
         return $output;
     }

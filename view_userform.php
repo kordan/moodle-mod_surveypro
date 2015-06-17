@@ -159,7 +159,7 @@ if ($userformman->formdata = $userform->get_data()) {
 // -----------------------------
 // output starts here
 // -----------------------------
-$paramurl = array('s' => $surveypro->id, 'view' => $view);
+$paramurl = array('s' => $surveypro->id, 'submissionid' => $submissionid, 'view' => $view);
 $url = new moodle_url('/mod/surveypro/view_userform.php', $paramurl);
 $PAGE->set_url($url);
 $PAGE->set_context($context);

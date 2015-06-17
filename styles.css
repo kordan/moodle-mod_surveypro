@@ -5,7 +5,7 @@
 /* begin of: to correct display problems of firefox for mac */
 #page-mod-surveypro-view_userform .mform .fitem .felement,
 #page-mod-surveypro-view_search .mform .fitem .felement {
-    min-height: 2em;
+    /* min-height: 2em; */ /* too much horintal room */
     padding-top:8px;
 }
 /* end of: to eliminate display problems of firefox for mac */
@@ -367,9 +367,17 @@
 /* end of: table with list of surveypro in index.php */
 
 /* to correct vertical alignment in read only mode */
+#page-mod-surveypro-view_userform .mform .fitem .felement.fgroup,
 #page-mod-surveypro-view_userform .mform .fitem .felement.feditor,
 #page-mod-surveypro-view_userform .mform .fitem .felement.fselect,
 #page-mod-surveypro-view_userform .mform .fitem .felement.fstatic {
     padding-top: 5px;
 }
 
+/* vertical distance between select in rate is too much */
+#page-mod-surveypro-view_userform #userentry .fitem .felement select,
+#page-mod-surveypro-view_userform .mform .fitem .felement select,
+#page-mod-surveypro-view_userform #userentry .fitem .felement input,
+#page-mod-surveypro-view_userform .mform .fitem .felement input {
+    margin-bottom:0;
+}

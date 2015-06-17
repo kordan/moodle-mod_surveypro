@@ -149,7 +149,12 @@ if ($fromform = $itemform->get_data()) {
 // -----------------------------
 // output starts here
 // -----------------------------
-$url = new moodle_url('/mod/surveypro/items_setup.php', array('id' => $cm->id));
+$paramurl = array('id' => $cm->id);
+$paramurl['itemid'] = $itemid;
+$paramurl['type'] = $type;
+$paramurl['plugin'] = $plugin;
+$paramurl['view'] = $view;
+$url = new moodle_url('/mod/surveypro/items_setup.php', $paramurl);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
