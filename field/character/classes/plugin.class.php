@@ -359,17 +359,18 @@ EOS;
 
         $idprefix = 'id_surveypro_field_character_'.$this->sortindex;
 
-        $thresholdsize = 48;
+        $thresholdsize = 37;
+        $lengthtochar = 1.3;
         $paramelement = array('class' => 'indent-'.$this->indent, 'id' => $idprefix);
         if (!empty($this->maxlength)) {
             $paramelement['maxlength'] = $this->maxlength;
             if ($this->maxlength < $thresholdsize) {
-                $paramelement['size'] = $this->maxlength;
+                $paramelement['size'] = $this->maxlength * $lengthtochar;
             } else {
-                $paramelement['size'] = $thresholdsize;
+                $paramelement['size'] = $thresholdsize * $lengthtochar;
             }
         } else {
-            $paramelement['size'] = $thresholdsize;
+            $paramelement['size'] = $thresholdsize * $lengthtochar;
         }
         if (!$searchform) {
             $mform->addElement('text', $this->itemname, $elementlabel, $paramelement);
@@ -391,7 +392,7 @@ EOS;
 
             unset($paramelement['class']);
             $paramelement['id'] = $idprefix.'_ignoreme';
-            $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'surveypro'), $paramelement);
+            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'surveypro'), $paramelement);
             $mform->setType($this->itemname, PARAM_RAW);
 
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);

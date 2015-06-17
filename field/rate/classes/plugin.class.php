@@ -419,7 +419,7 @@ EOS;
                 $elementgroup = array();
                 foreach ($rates as $j => $rate) {
                     $paramelement['id'] = $idprefix.'_'.$k.'_'.$j;
-                    $elementgroup[] = $mform->createElement('radio', $uniquename, '', $rate, $j, $paramelement);
+                    $elementgroup[] = $mform->createElement('mod_surveypro_radio', $uniquename, '', $rate, $j, $paramelement);
                     unset($paramelement['class']);
                 }
                 $mform->addGroup($elementgroup, $uniquename.'_group', $option, ' ', false);
@@ -432,14 +432,14 @@ EOS;
             foreach ($options as $k => $option) {
                 $uniquename = $this->itemname.'_'.$k;
                 $paramelement['id'] = $idprefix.'_'.$k;
-                $mform->addElement('select', $uniquename, $option, $rates, $paramelement);
+                $mform->addElement('mod_surveypro_select', $uniquename, $option, $rates, $paramelement);
                 $this->item_add_color_unifier($mform, $k, $optioncount);
             }
         }
 
         if (!$this->required) { // This is the last if it exists
             $paramelement['id'] = $idprefix.'_noanswer';
-            $mform->addElement('checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), $paramelement);
+            $mform->addElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), $paramelement);
         }
 
         if ($this->required) {

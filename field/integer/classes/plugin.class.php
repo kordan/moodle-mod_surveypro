@@ -475,7 +475,7 @@ EOS;
         }
         // End of: element values
 
-        $mform->addElement('select', $this->itemname, $elementlabel, $integers, array('class' => 'indent-'.$this->indent, 'id' => $idprefix));
+        $mform->addElement('mod_surveypro_select', $this->itemname, $elementlabel, $integers, array('class' => 'indent-'.$this->indent, 'id' => $idprefix));
 
         if (!$searchform) {
             if ($this->required) {

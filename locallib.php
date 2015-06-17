@@ -157,4 +157,9 @@ function surveypro_groupmates($cm, $userid=0) {
 
 MoodleQuickForm::registerElementType('mod_surveypro_editor', "$CFG->dirroot/mod/surveypro/field/textarea/classes/editor.php", 'mod_surveypro_mform_editor');
 MoodleQuickForm::registerElementType('mod_surveypro_filemanager', "$CFG->dirroot/mod/surveypro/field/fileupload/classes/filemanager.php", 'mod_surveypro_mform_filemanager');
+MoodleQuickForm::registerElementType('mod_surveypro_select', "$CFG->dirroot/mod/surveypro/field/select/classes/select.php", 'mod_surveypro_mform_select');
+MoodleQuickForm::registerElementType('mod_surveypro_radio', "$CFG->dirroot/mod/surveypro/field/radiobutton/classes/radio.php", 'mod_surveypro_mform_radio');
+MoodleQuickForm::registerElementType('mod_surveypro_checkbox', "$CFG->dirroot/mod/surveypro/field/checkbox/classes/checkbox.php", 'mod_surveypro_mform_checkbox');
+MoodleQuickForm::registerElementType('mod_surveypro_advcheckbox', "$CFG->dirroot/mod/surveypro/field/checkbox/classes/advcheckbox.php", 'mod_surveypro_mform_advcheckbox');
+
 MoodleQuickForm::registerElementType('mod_surveypro_static', "$CFG->dirroot/mod/surveypro/format/label/classes/static.php", 'mod_surveypro_mform_static');

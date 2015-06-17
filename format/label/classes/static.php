@@ -31,8 +31,8 @@ class mod_surveypro_mform_static extends MoodleQuickForm_static {
     /**
      * All types must have this constructor implemented.
      */
-    public function mod_surveypro_mform_static($elementName=null, $elementLabel=null, $attributes=null, $options=null) {
-        parent::MoodleQuickForm_static($elementName, $elementLabel, $attributes, $options);
+    public function mod_surveypro_mform_static($elementName=null, $elementLabel=null, $text=null, $options=null) {
+        parent::MoodleQuickForm_static($elementName, $elementLabel, $text);
         $this->_options['class'] = !isset($options['class']) ? 'indent-0' : $options['class'];
     }
 
@@ -52,6 +52,7 @@ class mod_surveypro_mform_static extends MoodleQuickForm_static {
      */
     public function toHtml() {
         $output = parent::toHtml(); // core code
+
         // even if the simpler way to pass the class is:
         // $output = html_writer::tag('div', $output, $this->_options);
         // I create the array from scratch in order to

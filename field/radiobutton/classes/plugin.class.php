@@ -499,14 +499,14 @@ EOS;
         if (!$searchform) {
             if ($this->defaultoption == SURVEYPRO_INVITATIONDEFAULT) {
                 $paramelement['id'] = $idprefix.'_invitation';
-                $elementgroup[] = $mform->createElement('radio', $this->itemname, '', get_string('choosedots'), SURVEYPRO_INVITATIONVALUE, $paramelement);
+                $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('choosedots'), SURVEYPRO_INVITATIONVALUE, $paramelement);
                 if ($this->adjustment == SURVEYPRO_HORIZONTAL) {
                     unset($paramelement['class']);
                 }
             }
         } else {
             $paramelement['id'] = $idprefix.'_ignoreme';
-            $elementgroup[] = $mform->createElement('radio', $this->itemname, '', get_string('star', 'surveypro'), SURVEYPRO_IGNOREME, $paramelement);
+            $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('star', 'surveypro'), SURVEYPRO_IGNOREME, $paramelement);
             if ($this->adjustment == SURVEYPRO_HORIZONTAL) {
                 unset($paramelement['class']);
             }
@@ -516,7 +516,7 @@ EOS;
         $labelcount = count($labels);
         foreach ($labels as $k => $label) {
             $paramelement['id'] = $idprefix.'_'."$k";
-            $elementgroup[] = $mform->createElement('radio', $this->itemname, '', $label, "$k", $paramelement);
+            $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', $label, "$k", $paramelement);
             if ($this->adjustment == SURVEYPRO_HORIZONTAL) {
                 unset($paramelement['class']);
             }
@@ -527,7 +527,7 @@ EOS;
             $labels['other'] = $othervalue;
 
             $paramelement['id'] = $idprefix.'_other';
-            $elementgroup[] = $mform->createElement('radio', $this->itemname, '', $otherlabel, 'other', $paramelement);
+            $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', $otherlabel, 'other', $paramelement);
 
             $paramelement['id'] = $idprefix.'_text';
             $elementgroup[] = $mform->createElement('text', $this->itemname.'_text', '', $paramelement);
@@ -537,7 +537,7 @@ EOS;
 
         if (!$this->required) {
             $paramelement['id'] = $idprefix.'_noanswer';
-            $elementgroup[] = $mform->createElement('radio', $this->itemname, '', get_string('noanswer', 'surveypro'), SURVEYPRO_NOANSWERVALUE, $paramelement);
+            $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('noanswer', 'surveypro'), SURVEYPRO_NOANSWERVALUE, $paramelement);
         }
         // End of: mform elements
 

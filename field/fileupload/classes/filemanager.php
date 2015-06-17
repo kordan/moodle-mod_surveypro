@@ -28,7 +28,6 @@ require_once($CFG->libdir.'/form/filemanager.php');
 
 class mod_surveypro_mform_filemanager extends MoodleQuickForm_filemanager {
 
-
     /**
      * All types must have this constructor implemented.
      */
@@ -62,9 +61,10 @@ class mod_surveypro_mform_filemanager extends MoodleQuickForm_filemanager {
         // I need to trim the code because mform library add a newline at the beginning
         $output = trim($output);
 
-        $pattern = '~^<div id="filemanager-([a-z0-9]*)" class="(.*)"~';
+        $tabs = $this->_getTabs();
+        $pattern = '~^'.$tabs.'<div id="filemanager-([a-z0-9]*)" class="(.*)"~';
         $class = $this->_options['class'];
-        $replacement = '<div id="filemanager-${1}" class="'.$class.' ${2}"';
+        $replacement = $tabs.'<div id="filemanager-${1}" class="'.$class.' ${2}"';
         $output = preg_replace($pattern, $replacement, $output);
 
         return $output;
@@ -110,12 +110,16 @@ class mod_surveypro_mform_filemanager extends MoodleQuickForm_filemanager {
         $options->context = $PAGE->context;
         $options->areamaxbytes = $this->_options['areamaxbytes'];
 
+        $class = $this->_options['class'];
+
         $fm = new form_filemanager($options);
 
         $return = '';
         $attachmentcount = count($fm->options->list);
         $attachmentcount -= 1;
         foreach ($fm->options->list as $k => $list) {
+            $return .= html_writer::start_tag('div', array('class' => $class));
+
             // $return .= '<a href="'.$list->url.'"><img src="'.$list->thumbnail.'" /></a>';
             $return .= html_writer::start_tag('a', array('title' => s($list->filename), 'href' => $list->url));
             $return .= html_writer::empty_tag('img', array('src' => $list->thumbnail));
@@ -126,9 +130,7 @@ class mod_surveypro_mform_filemanager extends MoodleQuickForm_filemanager {
             $return .= s($list->filename);
             $return .= html_writer::end_tag('a');
 
-            if ($k < $attachmentcount) {
-                $return .= html_writer::empty_tag('br');
-            }
+            $return .= html_writer::end_tag('div');
         }
 
         return $return;

@@ -64,8 +64,8 @@ class mod_surveypro_searchform extends moodleform {
             if ($position == SURVEYPRO_POSITIONTOP) {
                 $itemname = $item->get_itemname().'_extrarow';
                 $content = $item->get_content();
-                $class = array('class' => 'indent-'.$item->get_indent());
-                $mform->addElement('mod_surveypro_static', $itemname, $elementnumber, $content, $class);
+                $option = array('class' => 'indent-'.$item->get_indent());
+                $mform->addElement('mod_surveypro_static', $itemname, $elementnumber, $content, $option);
 
                 $item->item_add_color_unifier($mform);
             }
@@ -103,8 +103,8 @@ class mod_surveypro_searchform extends moodleform {
                 $item->item_add_color_unifier($mform);
 
                 $itemname = $item->get_itemname().'_info';
-                $class = array('class' => 'indent-'.$item->get_indent());
-                $mform->addElement('mod_surveypro_static', $itemname, get_string('note', 'surveypro'), $fullinfo, $class);
+                $option = array('class' => 'indent-'.$item->get_indent());
+                $mform->addElement('mod_surveypro_static', $itemname, get_string('note', 'surveypro'), $fullinfo, $option);
             }
         }
         $itemseeds->close();

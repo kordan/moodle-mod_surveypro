@@ -461,37 +461,37 @@ EOS;
         $paramelement = array('size' => $this->heightinrows, 'class' => 'indent-'.$this->indent, 'id' => $idprefix);
         if (!$searchform) {
             if ($this->minimumrequired) {
-                $select = $mform->addElement('select', $this->itemname, $elementlabel, $labels, $paramelement);
+                $select = $mform->addElement('mod_surveypro_select', $this->itemname, $elementlabel, $labels, $paramelement);
                 $select->setMultiple(true);
             } else {
                 $elementgroup = array();
-                $select = $mform->createElement('select', $this->itemname, '', $labels, $paramelement);
+                $select = $mform->createElement('mod_surveypro_select', $this->itemname, '', $labels, $paramelement);
                 $select->setMultiple(true);
                 $elementgroup[] = $select;
 
                 unset($paramelement['size']);
                 $paramelement['id'] = $idprefix.'_noanswer';
-                $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), $paramelement);
+                $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), $paramelement);
 
-                $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, '<br />', false);
+                $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, '', false);
                 // Multiselect uses a special syntax that is different from the syntax of all the other mform groups with disabilitation chechbox
                 // $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
                 $mform->disabledIf($this->itemname.'[]', $this->itemname.'_noanswer', 'checked');
             }
         } else {
             $elementgroup = array();
-            $select = $mform->createElement('select', $this->itemname, '', $labels, $paramelement);
+            $select = $mform->createElement('mod_surveypro_select', $this->itemname, '', $labels, $paramelement);
             $select->setMultiple(true);
             $elementgroup[] = $select;
 
             if (!$this->minimumrequired) {
                 unset($paramelement['size']);
                 $paramelement['id'] = $idprefix.'_noanswer';
-                $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), $paramelement);
+                $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), $paramelement);
             }
 
             $paramelement['id'] = $idprefix.'_ignoreme';
-            $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'surveypro'), $paramelement);
+            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'surveypro'), $paramelement);
 
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, '<br />', false);
             if (!$this->minimumrequired) {

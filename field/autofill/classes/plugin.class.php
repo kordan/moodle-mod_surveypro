@@ -368,13 +368,13 @@ EOS;
 
             if (!$this->hiddenfield) {
                 // workaround suggested by Marina Glancy in MDL-42946
-                $class = array('class' => 'indent-'.$this->indent);
-                $mform->addElement('mod_surveypro_static', $this->itemname.'_static', $elementlabel, $value, $class);
+                $option = array('class' => 'indent-'.$this->indent);
+                $mform->addElement('mod_surveypro_static', $this->itemname.'_static', $elementlabel, $value, $option);
             }
         } else {
             $elementgroup = array();
             $elementgroup[] = $mform->createElement('text', $this->itemname, '', array('class' => 'indent-'.$this->indent));
-            $elementgroup[] = $mform->createElement('checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'surveypro'));
+            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'surveypro'));
             $mform->setType($this->itemname, PARAM_RAW);
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_ignoreme', 'checked');

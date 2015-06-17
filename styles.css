@@ -284,43 +284,54 @@
 }
 /* end of: selectors for the static field explaining the format needed by each plugin in parentcontent field */
 
-#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-0 {
+/* the first class selecter is for the form in R/W mode, the second is for the RO mode */
+#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-0,
+#page-mod-surveypro-view_userform .mform .fitem .felement .indent-0 {
      margin-left:0;
 }
 
-#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-1 {
+#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-1,
+#page-mod-surveypro-view_userform .mform .fitem .felement .indent-1 {
      margin-left:1.5em;
 }
 
-#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-2 {
+#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-2,
+#page-mod-surveypro-view_userform .mform .fitem .felement .indent-2 {
     margin-left:3em;
 }
 
-#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-3 {
+#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-3,
+#page-mod-surveypro-view_userform .mform .fitem .felement .indent-3 {
     margin-left:4.5em;
 }
 
-#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-4 {
+#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-4,
+#page-mod-surveypro-view_userform .mform .fitem .felement .indent-4 {
     margin-left:6em;
 }
 
-#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-5 {
+#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-5,
+#page-mod-surveypro-view_userform .mform .fitem .felement .indent-5 {
     margin-left:7.5em;
 }
 
-#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-6 {
+#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-6,
+#page-mod-surveypro-view_userform .mform .fitem .felement .indent-6 {
     margin-left:9em;
 }
 
-#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-7 {
+#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-7,
+#page-mod-surveypro-view_userform .mform .fitem .felement .indent-7 {
     margin-left:10.5em;
 }
 
-#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-8 {
+#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-8,
+#page-mod-surveypro-view_userform .mform .fitem .felement .indent-8 {
     margin-left:12em;
 }
 
-#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-9 {
+#page-mod-surveypro-view_userform #userentry .fitem .felement .indent-9,
+#page-mod-surveypro-view_userform .mform .fitem .felement .indent-9 {
     margin-left:13.5em;
 }
 
@@ -354,3 +365,11 @@
     color: #999;
 }
 /* end of: table with list of surveypro in index.php */
+
+/* to correct vertical alignment in read only mode */
+#page-mod-surveypro-view_userform .mform .fitem .felement.feditor,
+#page-mod-surveypro-view_userform .mform .fitem .felement.fselect,
+#page-mod-surveypro-view_userform .mform .fitem .felement.fstatic {
+    padding-top: 5px;
+}
+

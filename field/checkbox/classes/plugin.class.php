@@ -478,7 +478,7 @@ EOS;
         foreach ($labels as $value => $label) {
             $uniqueid = $this->itemname.'_'.$i;
             $paramelement['id'] = $idprefix.'_'.$i;
-            $elementgroup[] = $mform->createElement('advcheckbox', $uniqueid, '', $label, $paramelement, array('0', '1'));
+            $elementgroup[] = $mform->createElement('mod_surveypro_advcheckbox', $uniqueid, '', $label, $paramelement, array('0', '1'));
 
             if ($this->adjustment == SURVEYPRO_HORIZONTAL) {
                 unset($paramelement['class']);
@@ -495,7 +495,7 @@ EOS;
             list($othervalue, $otherlabel) = $this->item_get_other();
 
             $paramelement['id'] = $idprefix.'_other';
-            $elementgroup[] = $mform->createElement('advcheckbox', $this->itemname.'_other', '', $otherlabel, $paramelement, array('0', '1'));
+            $elementgroup[] = $mform->createElement('mod_surveypro_advcheckbox', $this->itemname.'_other', '', $otherlabel, $paramelement, array('0', '1'));
 
             unset($paramelement['group']);
             $paramelement['id'] = $idprefix.'_text';
@@ -514,7 +514,7 @@ EOS;
         if (!$this->minimumrequired) {
             $paramelement['group'] = 1;
             $paramelement['id'] = $idprefix.'_noanswer';
-            $elementgroup[] = $mform->createElement('advcheckbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), $paramelement, array('0', '1'));
+            $elementgroup[] = $mform->createElement('mod_surveypro_advcheckbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), $paramelement, array('0', '1'));
             if (!empty($this->noanswerdefault)) {
                 $mform->setDefault($this->itemname.'_noanswer', '1');
             }
@@ -545,7 +545,7 @@ EOS;
         if ($searchform) {
             $this->item_add_color_unifier($mform);
             $paramelement['id'] = $idprefix.'_ignoreme';
-            $mform->addElement('checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'surveypro'), $paramelement);
+            $mform->addElement('mod_surveypro_checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'surveypro'), $paramelement);
             $mform->setDefault($this->itemname.'_ignoreme', '1');
 
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_ignoreme', 'checked');
