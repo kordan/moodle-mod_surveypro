@@ -370,6 +370,7 @@
 #page-mod-surveypro-view_userform .mform .fitem .felement.fgroup,
 #page-mod-surveypro-view_userform .mform .fitem .felement.feditor,
 #page-mod-surveypro-view_userform .mform .fitem .felement.fselect,
+#page-mod-surveypro-view_userform .mform .fitem .felement.fcheckbox,
 #page-mod-surveypro-view_userform .mform .fitem .felement.fstatic {
     padding-top: 5px;
 }

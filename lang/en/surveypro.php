@@ -462,9 +462,9 @@ The headers of the csv file to import are supposed to match the "variable names"
 Currently it is not allowed the import of attachment elements.<br />
 Unknown headers will break the import process.<br />
 "Userid" can be included among headers. It will assign the ownership of each imported response (even if the survey is anonymous).<br />
-If the "Userid" column is missing, the imported responses will be assigned to the user executing the import.<br />
+If the "Userid" column is missing from the csv file, the imported responses will be assigned to the user executing the import.<br />
 It is possible to import csv missing required elements but, whether included, they must contain valid, non empty values.<br />
-Import files missing required elements are allowed and the imported responses will be labeled as "in progress".<br />
+Import files missing required elements are allowed and the imported responses will be marked as "in progress".<br />
 Semantic defines the meaning of the content of the csv file for some specific elements. For instance, for a "select" plugin element, the csv file can provide the label of the answer such as its value or its position in the drop down user interface<br />
 Elements currently using semantic are: <ul>{$a->items}</ul>
 It is possible to choose a single semantic that will apply to EACH element to import or to choose `{$a->customsemantic}` option to provide a custom semantic for each element.<br />

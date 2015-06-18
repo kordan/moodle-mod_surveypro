@@ -1286,7 +1286,8 @@ class mod_surveypro_itemlist {
         $sortfield = ($table->get_sql_sort()) ? $table->get_sql_sort() : 'sortindex';
         $itemseeds = $DB->get_recordset('surveypro_item', $whereparams, $sortfield, 'id as itemid, plugin, type');
 
-        echo $OUTPUT->box(get_string('validationinfo', 'surveypro'));
+        $message = get_string('validationinfo', 'surveypro');
+        echo $OUTPUT->notification($message, 'notifymessage');
 
         foreach ($itemseeds as $itemseed) {
             $item = surveypro_get_item($itemseed->itemid, $itemseed->type, $itemseed->plugin, true);

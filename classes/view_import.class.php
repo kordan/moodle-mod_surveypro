@@ -104,7 +104,7 @@ class mod_surveypro_importmanager {
         $a->customsemantic = get_string('itemdrivensemantic', 'surveypro', get_string('downloadformat', 'surveypro'));
         $a->items = '<li>'.implode(';</li><li>', $semanticitem).'.</li>';
         $message = get_string('welcomeimport', 'surveypro', $a);
-        echo $OUTPUT->notification($message, 'notice');
+        echo $OUTPUT->notification($message, 'notifymessage');
     }
 
     /**
