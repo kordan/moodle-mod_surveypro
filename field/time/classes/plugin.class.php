@@ -419,8 +419,8 @@ EOS;
                 $minutes[SURVEYPRO_INVITATIONVALUE] = get_string('invitationminute', 'surveyprofield_time');
             }
         } else {
-            $hours[SURVEYPRO_IGNOREME] = '';
-            $minutes[SURVEYPRO_IGNOREME] = '';
+            $hours[SURVEYPRO_IGNOREMEVALUE] = '';
+            $minutes[SURVEYPRO_IGNOREMEVALUE] = '';
         }
 
         if ($this->lowerbound_hour <= $this->upperbound_hour) {
@@ -499,8 +499,8 @@ EOS;
                 $mform->setDefault($this->itemname.'_minute', $timearray['minutes']);
             }
         } else {
-            $mform->setDefault($this->itemname.'_hour', SURVEYPRO_IGNOREME);
-            $mform->setDefault($this->itemname.'_minute', SURVEYPRO_IGNOREME);
+            $mform->setDefault($this->itemname.'_hour', SURVEYPRO_IGNOREMEVALUE);
+            $mform->setDefault($this->itemname.'_minute', SURVEYPRO_IGNOREMEVALUE);
             if (!$this->required) {
                 $mform->setDefault($this->itemname.'_noanswer', '0');
             }
@@ -532,13 +532,13 @@ EOS;
             $testpassed = $testpassed && ($data[$this->itemname.'_hour'] != SURVEYPRO_INVITATIONVALUE);
             $testpassed = $testpassed && ($data[$this->itemname.'_minute'] != SURVEYPRO_INVITATIONVALUE);
         } else {
-            // both drop down menues are allowed to be == SURVEYPRO_IGNOREME
+            // both drop down menues are allowed to be == SURVEYPRO_IGNOREMEVALUE
             // but not only 1
             $testpassed = true;
-            if ($data[$this->itemname.'_hour'] == SURVEYPRO_IGNOREME) {
-                $testpassed = $testpassed && ($data[$this->itemname.'_minute'] == SURVEYPRO_IGNOREME);
+            if ($data[$this->itemname.'_hour'] == SURVEYPRO_IGNOREMEVALUE) {
+                $testpassed = $testpassed && ($data[$this->itemname.'_minute'] == SURVEYPRO_IGNOREMEVALUE);
             } else {
-                $testpassed = $testpassed && ($data[$this->itemname.'_minute'] != SURVEYPRO_IGNOREME);
+                $testpassed = $testpassed && ($data[$this->itemname.'_minute'] != SURVEYPRO_IGNOREMEVALUE);
             }
         }
         if (!$testpassed) {
@@ -650,7 +650,7 @@ EOS;
             if (!$searchform) {
                 $olduseranswer->content = $this->item_time_to_unix_time($answer['hour'], $answer['minute']);
             } else {
-                if ($answer['hour'] == SURVEYPRO_IGNOREME) {
+                if ($answer['hour'] == SURVEYPRO_IGNOREMEVALUE) {
                     $olduseranswer->content = null;
                 } else {
                     $olduseranswer->content = $this->item_time_to_unix_time($answer['hour'], $answer['minute']);

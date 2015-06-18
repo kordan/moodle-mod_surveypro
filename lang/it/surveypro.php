@@ -34,10 +34,10 @@ $string['surveypro'] = 'surveypro';
 $string['pluginadministration'] = 'Gestione surveypro';
 $string['pluginname'] = 'Surveypro';
 
-$string['tabitemsname'] = 'Elementi';
+$string['tabitemsname'] = 'Scheda';
     $string['tabitemspage1'] = 'Anteprima';
     $string['tabitemspage2'] = 'Gestione';
-    $string['tabitemspage3'] = 'Definizione';
+    $string['tabitemspage3'] = 'Dettaglio elemento';
     $string['tabitemspage4'] = 'Verifica relazioni';
 $string['tabsubmissionsname'] = 'Indagine';
     $string['tabsubmissionspage1'] = 'Stato';

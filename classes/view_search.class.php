@@ -91,7 +91,7 @@ class mod_surveypro_searchmanager {
                 // do not waste your time
                 continue;
             }
-            if ( isset($iteminfo->contentperelement['mainelement']) && ($iteminfo->contentperelement['mainelement'] == SURVEYPRO_IGNOREME)) {
+            if ( isset($iteminfo->contentperelement['mainelement']) && ($iteminfo->contentperelement['mainelement'] == SURVEYPRO_IGNOREMEVALUE)) {
                 // do not waste your time
                 continue;
             }

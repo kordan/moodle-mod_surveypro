@@ -493,7 +493,7 @@ EOS;
                 $labels = array(SURVEYPRO_INVITATIONVALUE => get_string('choosedots')) + $labels;
             }
         } else {
-            $labels = array(SURVEYPRO_IGNOREME => '') + $labels;
+            $labels = array(SURVEYPRO_IGNOREMEVALUE => '') + $labels;
         }
         if (!empty($this->labelother)) {
             list($othervalue, $otherlabel) = $this->item_get_other();
@@ -549,7 +549,7 @@ EOS;
                     debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->defaultoption = '.$this->defaultoption, DEBUG_DEVELOPER);
             }
         } else {
-            $mform->setDefault($this->itemname, SURVEYPRO_IGNOREME);
+            $mform->setDefault($this->itemname, SURVEYPRO_IGNOREMEVALUE);
         }
         // $this->itemname.'_text' has to ALWAYS get a default (if required) even if it is not selected
         if (!empty($this->labelother)) {

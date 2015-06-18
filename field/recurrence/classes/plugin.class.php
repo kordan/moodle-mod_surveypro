@@ -428,8 +428,8 @@ EOS;
                 $months[SURVEYPRO_INVITATIONVALUE] = get_string('invitationmonth', 'surveyprofield_recurrence');
             }
         } else {
-            $days[SURVEYPRO_IGNOREME] = '';
-            $months[SURVEYPRO_IGNOREME] = '';
+            $days[SURVEYPRO_IGNOREMEVALUE] = '';
+            $months[SURVEYPRO_IGNOREMEVALUE] = '';
         }
         $days += array_combine(range(1, 31), range(1, 31));
         for ($i = 1; $i <= 12; $i++) {
@@ -493,8 +493,8 @@ EOS;
                 $mform->setDefault($this->itemname.'_month', $recurrencearray['mon']);
             }
         } else {
-            $mform->setDefault($this->itemname.'_day', SURVEYPRO_IGNOREME);
-            $mform->setDefault($this->itemname.'_month', SURVEYPRO_IGNOREME);
+            $mform->setDefault($this->itemname.'_day', SURVEYPRO_IGNOREMEVALUE);
+            $mform->setDefault($this->itemname.'_month', SURVEYPRO_IGNOREMEVALUE);
             if (!$this->required) {
                 $mform->setDefault($this->itemname.'_noanswer', '0');
             }
@@ -527,13 +527,13 @@ EOS;
             $testpassed = $testpassed && ($data[$this->itemname.'_day'] != SURVEYPRO_INVITATIONVALUE);
             $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_INVITATIONVALUE);
         } else {
-            // both drop down menues are allowed to be == SURVEYPRO_IGNOREME
+            // both drop down menues are allowed to be == SURVEYPRO_IGNOREMEVALUE
             // but not only 1
             $testpassed = true;
-            if ($data[$this->itemname.'_day'] == SURVEYPRO_IGNOREME) {
-                $testpassed = $testpassed && ($data[$this->itemname.'_month'] == SURVEYPRO_IGNOREME);
+            if ($data[$this->itemname.'_day'] == SURVEYPRO_IGNOREMEVALUE) {
+                $testpassed = $testpassed && ($data[$this->itemname.'_month'] == SURVEYPRO_IGNOREMEVALUE);
             } else {
-                $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_IGNOREME);
+                $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_IGNOREMEVALUE);
             }
         }
         if (!$testpassed) {
@@ -630,7 +630,7 @@ EOS;
             if (!$searchform) {
                 $olduseranswer->content = $this->item_recurrence_to_unix_time($answer['month'], $answer['day']);
             } else {
-                if ($answer['month'] == SURVEYPRO_IGNOREME) {
+                if ($answer['month'] == SURVEYPRO_IGNOREMEVALUE) {
                     $olduseranswer->content = null;
                 } else {
                     $olduseranswer->content = $this->item_recurrence_to_unix_time($answer['month'], $answer['day']);

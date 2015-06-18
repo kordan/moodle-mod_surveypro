@@ -118,9 +118,10 @@ class mod_surveypro_mod_form extends moodleform_mod {
 
         // maxentries
         $fieldname = 'maxentries';
-        $countoptions = array(0 => get_string('unlimited', 'surveypro')) +
-                        (array_combine(range(1, SURVEYPRO_MAX_ENTRIES),   // keys
-                                       range(1, SURVEYPRO_MAX_ENTRIES))); // values
+        $maxentries = 50;
+        $countoptions = array_combine(range(1, $maxentries), range(1, $maxentries));
+        array_unshift($countoptions, get_string('unlimited', 'surveypro'));
+
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveypro'), $countoptions);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 

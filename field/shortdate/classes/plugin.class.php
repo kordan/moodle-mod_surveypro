@@ -418,8 +418,8 @@ EOS;
                 $years[SURVEYPRO_INVITATIONVALUE] = get_string('invitationyear', 'surveyprofield_shortdate');
             }
         } else {
-            $months[SURVEYPRO_IGNOREME] = '';
-            $years[SURVEYPRO_IGNOREME] = '';
+            $months[SURVEYPRO_IGNOREMEVALUE] = '';
+            $years[SURVEYPRO_IGNOREMEVALUE] = '';
         }
         for ($i = 1; $i <= 12; $i++) {
             $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // january, february, march...
@@ -484,8 +484,8 @@ EOS;
                 $mform->setDefault($this->itemname.'_year', $shortdatearray['year']);
             }
         } else {
-            $mform->setDefault($this->itemname.'_month', SURVEYPRO_IGNOREME);
-            $mform->setDefault($this->itemname.'_year', SURVEYPRO_IGNOREME);
+            $mform->setDefault($this->itemname.'_month', SURVEYPRO_IGNOREMEVALUE);
+            $mform->setDefault($this->itemname.'_year', SURVEYPRO_IGNOREMEVALUE);
             if (!$this->required) {
                 $mform->setDefault($this->itemname.'_noanswer', '0');
             }
@@ -517,13 +517,13 @@ EOS;
             $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_INVITATIONVALUE);
             $testpassed = $testpassed && ($data[$this->itemname.'_year'] != SURVEYPRO_INVITATIONVALUE);
         } else {
-            // both drop down menues are allowed to be == SURVEYPRO_IGNOREME
+            // both drop down menues are allowed to be == SURVEYPRO_IGNOREMEVALUE
             // but not only 1
             $testpassed = true;
-            if ($data[$this->itemname.'_month'] == SURVEYPRO_IGNOREME) {
-                $testpassed = $testpassed && ($data[$this->itemname.'_year'] == SURVEYPRO_IGNOREME);
+            if ($data[$this->itemname.'_month'] == SURVEYPRO_IGNOREMEVALUE) {
+                $testpassed = $testpassed && ($data[$this->itemname.'_year'] == SURVEYPRO_IGNOREMEVALUE);
             } else {
-                $testpassed = $testpassed && ($data[$this->itemname.'_year'] != SURVEYPRO_IGNOREME);
+                $testpassed = $testpassed && ($data[$this->itemname.'_year'] != SURVEYPRO_IGNOREMEVALUE);
             }
         }
         if (!$testpassed) {
@@ -615,7 +615,7 @@ EOS;
             if (!$searchform) {
                 $olduseranswer->content = $this->item_shortdate_to_unix_time($answer['month'], $answer['year']);
             } else {
-                if ($answer['month'] == SURVEYPRO_IGNOREME) {
+                if ($answer['month'] == SURVEYPRO_IGNOREMEVALUE) {
                     $olduseranswer->content = null;
                 } else {
                     $olduseranswer->content = $this->item_shortdate_to_unix_time($answer['month'], $answer['year']);

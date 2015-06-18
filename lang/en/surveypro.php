@@ -34,10 +34,10 @@ $string['surveypro'] = 'survey';
 $string['pluginadministration'] = 'Surveypro administration';
 $string['pluginname'] = 'Surveypro';
 
-$string['tabitemsname'] = 'Elements';
+$string['tabitemsname'] = 'Layout';
     $string['tabitemspage1'] = 'Preview';
-    $string['tabitemspage2'] = 'Manage';
-    $string['tabitemspage3'] = 'Setup';
+    $string['tabitemspage2'] = 'Management';
+    $string['tabitemspage3'] = 'Item setup';
     $string['tabitemspage4'] = 'Validate branching';
 $string['tabsubmissionsname'] = 'Survey';
     $string['tabsubmissionspage1'] = 'Overview';

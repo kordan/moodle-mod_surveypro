@@ -467,7 +467,7 @@ EOS;
                 $integers[SURVEYPRO_INVITATIONVALUE] = get_string('choosedots');
             }
         } else {
-            $integers[SURVEYPRO_IGNOREME] = '';
+            $integers[SURVEYPRO_IGNOREMEVALUE] = '';
         }
         $integers += array_combine(range($this->lowerbound, $this->upperbound), range($this->lowerbound, $this->upperbound));
         if (!$this->required) {
@@ -504,7 +504,7 @@ EOS;
                 $mform->setDefault($this->itemname, "$defaultinteger");
             }
         } else {
-            $mform->setDefault($this->itemname, SURVEYPRO_IGNOREME);
+            $mform->setDefault($this->itemname, SURVEYPRO_IGNOREMEVALUE);
         }
     }
 

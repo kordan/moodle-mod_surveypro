@@ -495,7 +495,7 @@ EOS;
                     $options[SURVEYPRO_INVITATIONVALUE] = get_string('choosedots');
                 }
             } else {
-                $options[SURVEYPRO_IGNOREME] = '';
+                $options[SURVEYPRO_IGNOREMEVALUE] = '';
             }
             $options['1'] = $yeslabel;
             $options['0'] = $nolabel;
@@ -534,7 +534,7 @@ EOS;
                 }
             } else {
                 $paramelement['id'] = $idprefix.'_ignoreme';
-                $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('star', 'surveypro'), SURVEYPRO_IGNOREME, $paramelement);
+                $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('star', 'surveypro'), SURVEYPRO_IGNOREMEVALUE, $paramelement);
                 if ($this->style == SURVEYPROFIELD_BOOLEAN_USERADIOH) {
                     unset($paramelement['class']);
                 }
@@ -591,7 +591,7 @@ EOS;
                     debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->defaultoption = '.$this->defaultoption, DEBUG_DEVELOPER);
             }
         } else {
-            $mform->setDefault($this->itemname, SURVEYPRO_IGNOREME);
+            $mform->setDefault($this->itemname, SURVEYPRO_IGNOREMEVALUE);
         }
     }
 

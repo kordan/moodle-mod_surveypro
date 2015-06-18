@@ -30,117 +30,142 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-// Some constants
-define('SURVEYPRO_MAX_ENTRIES'        , 50);
+/*
+ * Some constants
+ */
 define('SURVEYPRO_VALUELABELSEPARATOR', '::');
 define('SURVEYPRO_OTHERSEPARATOR'     , '->');
 
-// to change tabs order, just exchange numbers if the following lines
+/*
+ * TABS
+ */
 define('SURVEYPRO_TABITEMS'      , 1);
 define('SURVEYPRO_TABSUBMISSIONS', 2);
 define('SURVEYPRO_TABUTEMPLATES' , 3);
 define('SURVEYPRO_TABMTEMPLATES' , 4);
 
-// PAGES
-    // ITEMS PAGES
-    define('SURVEYPRO_ITEMS_PREVIEW' , 1);
-    define('SURVEYPRO_ITEMS_MANAGE'  , 2);
-    define('SURVEYPRO_ITEMS_SETUP'   , 3);
-    define('SURVEYPRO_ITEMS_VALIDATE', 4);
+/*
+ * PAGES
+ */
+// PAGES in tab ITEMS
+define('SURVEYPRO_ITEMS_PREVIEW' , 1);
+define('SURVEYPRO_ITEMS_MANAGE'  , 2);
+define('SURVEYPRO_ITEMS_SETUP'   , 3);
+define('SURVEYPRO_ITEMS_VALIDATE', 4);
 
-    // SUBMISSIONS PAGES
-    define('SURVEYPRO_SUBMISSION_CPANEL'  , 1);
-    define('SURVEYPRO_SUBMISSION_MANAGE'  , 2);
-    define('SURVEYPRO_SUBMISSION_INSERT'  , 3);
-    define('SURVEYPRO_SUBMISSION_EDIT'    , 4);
-    define('SURVEYPRO_SUBMISSION_READONLY', 5);
-    define('SURVEYPRO_SUBMISSION_SEARCH'  , 6);
-    define('SURVEYPRO_SUBMISSION_REPORT'  , 7);
-    define('SURVEYPRO_SUBMISSION_IMPORT'  , 8);
-    define('SURVEYPRO_SUBMISSION_EXPORT'  , 9);
+// PAGES in tab SUBMISSION
+define('SURVEYPRO_SUBMISSION_CPANEL'  , 1);
+define('SURVEYPRO_SUBMISSION_MANAGE'  , 2);
+define('SURVEYPRO_SUBMISSION_INSERT'  , 3);
+define('SURVEYPRO_SUBMISSION_EDIT'    , 4);
+define('SURVEYPRO_SUBMISSION_READONLY', 5);
+define('SURVEYPRO_SUBMISSION_SEARCH'  , 6);
+define('SURVEYPRO_SUBMISSION_REPORT'  , 7);
+define('SURVEYPRO_SUBMISSION_IMPORT'  , 8);
+define('SURVEYPRO_SUBMISSION_EXPORT'  , 9);
 
-    // USER TEMPLATES PAGES
-    define('SURVEYPRO_UTEMPLATES_MANAGE', 1);
-    define('SURVEYPRO_UTEMPLATES_BUILD' , 2);
-    define('SURVEYPRO_UTEMPLATES_IMPORT', 3);
-    define('SURVEYPRO_UTEMPLATES_APPLY' , 4);
+// PAGES in tab USER TEMPLATES
+define('SURVEYPRO_UTEMPLATES_MANAGE', 1);
+define('SURVEYPRO_UTEMPLATES_BUILD' , 2);
+define('SURVEYPRO_UTEMPLATES_IMPORT', 3);
+define('SURVEYPRO_UTEMPLATES_APPLY' , 4);
 
-    // MASTER TEMPLATES PAGES
-    define('SURVEYPRO_MTEMPLATES_BUILD', 1);
-    define('SURVEYPRO_MTEMPLATES_APPLY', 2);
+// PAGES in tab MASTER TEMPLATES
+define('SURVEYPRO_MTEMPLATES_BUILD', 1);
+define('SURVEYPRO_MTEMPLATES_APPLY', 2);
 
-// ITEM TYPES
+/*
+ * ITEM TYPES
+ */
 define('SURVEYPRO_TYPEFIELD' , 'field');
 define('SURVEYPRO_TYPEFORMAT', 'format');
 
-// ACTIONS
-    define('SURVEYPRO_NOACTION'          , '0');
+/*
+ * ACTIONS
+ */
+define('SURVEYPRO_NOACTION'          , '0');
 
-    // ITEM MANAGEMENT section
-    define('SURVEYPRO_CHANGEORDER'       , '1');
-    define('SURVEYPRO_HIDEITEM'          , '2');
-    define('SURVEYPRO_SHOWITEM'          , '3');
-    define('SURVEYPRO_DELETEITEM'        , '4');
-    define('SURVEYPRO_DROPMULTILANG'     , '5');
-    define('SURVEYPRO_REQUIREDOFF'       , '6');
-    define('SURVEYPRO_REQUIREDON'        , '7');
-    define('SURVEYPRO_CHANGEINDENT'      , '8');
-    define('SURVEYPRO_ADDTOSEARCH'       , '9');
-    define('SURVEYPRO_OUTOFSEARCH'       , '10');
-    define('SURVEYPRO_MAKEFORALL'        , '11');
-    define('SURVEYPRO_MAKELIMITED'       , '12');
+// ACTIONS in ITEM MANAGEMENT section
+define('SURVEYPRO_CHANGEORDER'       , '1');
+define('SURVEYPRO_HIDEITEM'          , '2');
+define('SURVEYPRO_SHOWITEM'          , '3');
+define('SURVEYPRO_DELETEITEM'        , '4');
+define('SURVEYPRO_DROPMULTILANG'     , '5');
+define('SURVEYPRO_REQUIREDOFF'       , '6');
+define('SURVEYPRO_REQUIREDON'        , '7');
+define('SURVEYPRO_CHANGEINDENT'      , '8');
+define('SURVEYPRO_ADDTOSEARCH'       , '9');
+define('SURVEYPRO_OUTOFSEARCH'       , '10');
+define('SURVEYPRO_MAKEFORALL'        , '11');
+define('SURVEYPRO_MAKELIMITED'       , '12');
 
-    // RESPONSES section
-    define('SURVEYPRO_DELETERESPONSE'    , '13');
-    define('SURVEYPRO_DELETEALLRESPONSES', '14');
+// ACTIONS in RESPONSES section
+define('SURVEYPRO_DELETERESPONSE'    , '13');
+define('SURVEYPRO_DELETEALLRESPONSES', '14');
 
-    // UTEMPLATE section
-    define('SURVEYPRO_DELETEUTEMPLATE'   , '16');
+// ACTIONS in UTEMPLATE section
+define('SURVEYPRO_DELETEUTEMPLATE'   , '16');
 
-// VIEW
-    // EMPTY FORM section (User page)
-    define('SURVEYPRO_NOVIEW'           , '0');
-    define('SURVEYPRO_NEWRESPONSE'      , '1');
-    define('SURVEYPRO_PREVIEWSURVEYFORM', '2');
-    define('SURVEYPRO_EDITRESPONSE'     , '3');
-    define('SURVEYPRO_READONLYRESPONSE' , '4');
+/*
+ * VIEW
+ */
+// VIEW in USER FORM section
+define('SURVEYPRO_NOVIEW'           , '0');
+define('SURVEYPRO_NEWRESPONSE'      , '1');
+define('SURVEYPRO_PREVIEWSURVEYFORM', '2');
+define('SURVEYPRO_EDITRESPONSE'     , '3');
+define('SURVEYPRO_READONLYRESPONSE' , '4');
 
-    // ITEM section
-    define('SURVEYPRO_EDITITEM'        , '5');
-    define('SURVEYPRO_CHANGEORDERASK'  , '6');
+// VIEW in ITEM section
+define('SURVEYPRO_EDITITEM'        , '5');
+define('SURVEYPRO_CHANGEORDERASK'  , '6');
 
-    // RESPONSES section
-    define('SURVEYPRO_RESPONSETOPDF'   , '7');
+// VIEW in RESPONSES section
+define('SURVEYPRO_RESPONSETOPDF'   , '7');
 
-    // UTEMPLATE section
-    define('SURVEYPRO_EXPORTUTEMPLATE' , '8');
+// VIEW in UTEMPLATE section
+define('SURVEYPRO_EXPORTUTEMPLATE' , '8');
 
-// OVERFLOW
+/*
+ * OVERFLOW
+ */
 define('SURVEYPRO_LEFT_OVERFLOW' , -10);
 define('SURVEYPRO_RIGHT_OVERFLOW', -20);
 
-// FEEDBACKMASK
+/*
+ * FEEDBACKMASK
+ */
 define('SURVEYPRO_NOFEEDBACK', 0);
 
-// ITEMPREFIX
+/*
+ * ITEMPREFIX
+ */
 define('SURVEYPRO_ITEMPREFIX', 'surveypro');
 define('SURVEYPRO_DONTSAVEMEPREFIX', 'placeholder');
 
-// INVITATION AND NO-ANSWER VALUE
+/*
+ * INVITATION, NO-ANSWER AND IGNOREME VALUE
+ */
 define('SURVEYPRO_INVITATIONVALUE', '__invItat10n__'); // user should never guess it
 define('SURVEYPRO_NOANSWERVALUE', '__n0__Answer__');   // user should never guess it
-define('SURVEYPRO_IGNOREME', '__1gn0rE__me__');        // user should never guess it
+define('SURVEYPRO_IGNOREMEVALUE', '__1gn0rE__me__');   // user should never guess it
 
-// ITEM ADJUSTMENTS
+/*
+ * ITEM ADJUSTMENTS
+ */
 define('SURVEYPRO_VERTICAL',   0);
 define('SURVEYPRO_HORIZONTAL', 1);
 
-// SURVEYPRO STATUS
+/*
+ * SURVEYPRO STATUS
+ */
 define('SURVEYPRO_STATUSINPROGRESS', 1);
 define('SURVEYPRO_STATUSCLOSED'    , 0);
 define('SURVEYPRO_STATUSALL'       , 2);
 
-// DOWNLOAD
+/*
+ * DOWNLOAD
+ */
 define('SURVEYPRO_DOWNLOADCSV', 1);
 define('SURVEYPRO_DOWNLOADTSV', 2);
 define('SURVEYPRO_DOWNLOADXLS', 3);
@@ -149,15 +174,22 @@ define('SURVEYPRO_FILESBYITEM', 5);
 define('SURVEYPRO_NOFIELDSSELECTED', 1);
 define('SURVEYPRO_NORECORDSFOUND'  , 2);
 
+/*
+ * SEPARATORS
+ */
 define('SURVEYPRO_DBMULTICONTENTSEPARATOR',     ';');
 define('SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR', '; ');
 
-// CONFIRMATION
+/*
+ * CONFIRMATION
+ */
 define('SURVEYPRO_UNCONFIRMED',   0);
 define('SURVEYPRO_CONFIRMED_YES', 1);
 define('SURVEYPRO_CONFIRMED_NO' , 2);
 
-// values for defaultvalue_option
+/*
+ * DEFAULTVALUE OPTION
+ */
 define('SURVEYPRO_CUSTOMDEFAULT'    , 1);
 define('SURVEYPRO_INVITATIONDEFAULT', 2);
 define('SURVEYPRO_NOANSWERDEFAULT'  , 3);
@@ -166,59 +198,75 @@ define('SURVEYPRO_TIMENOWDEFAULT'   , 5);
 
 define('SURVEYPRO_INVITATIONDBVALUE', -1);
 
-// mandatory field
-define('SURVEYPRO_REQUIREDITEM', 1);
-define('SURVEYPRO_OPTIONALITEM', 0);
-
-// fileareas
+/*
+ * FILEAREAS
+ */
 define('SURVEYPRO_STYLEFILEAREA'      , 'userstyle');
 define('SURVEYPRO_TEMPLATEFILEAREA'   , 'templatefilearea');
 define('SURVEYPRO_THANKSHTMLFILEAREA' , 'thankshtml');
 define('SURVEYPRO_ITEMCONTENTFILEAREA', 'itemcontent');
 
-// otheritems
+/*
+ * OPTIONS of 'otheritems' in 'APPLY USER TEMPLATE'
+ */
 define('SURVEYPRO_IGNOREITEMS'       , '1');
 define('SURVEYPRO_HIDEITEMS'         , '2');
 define('SURVEYPRO_DELETEALLITEMS'    , '3');
 define('SURVEYPRO_DELETEVISIBLEITEMS', '4');
 define('SURVEYPRO_DELETEHIDDENITEMS' , '5');
 
-// friendly format
+/*
+ * FIRENDLY FORMAT
+ */
 define('SURVEYPRO_FIRENDLYFORMAT', -1);
 
-// position of the content
+/*
+ * POSITION OF THE QUESTION CONTENT IN THE ITEM
+ */
 define('SURVEYPRO_POSITIONLEFT',      0);
 define('SURVEYPRO_POSITIONTOP',       1);
 define('SURVEYPRO_POSITIONFULLWIDTH', 2);
 
-// relation condition format
+/*
+ * STATUS OF CONDITIONS OF RELATIONS
+ */
 define('SURVEYPRO_CONDITIONOK',         0);
 define('SURVEYPRO_CONDITIONNEVERMATCH', 1);
 define('SURVEYPRO_CONDITIONMALFORMED',  2);
 
-// formats
+/*
+ * SEMANTIC OF CONTENT RETURNED BY ITEMS
+ */
 define('SURVEYPRO_ITEMSRETURNSVALUES',  0);
 define('SURVEYPRO_ITEMRETURNSLABELS',   1);
 define('SURVEYPRO_ITEMRETURNSPOSITION', 2);
 
-// output content
+/*
+ * OUTPUT CONTENT
+ */
 define('SURVEYPRO_LABELS', 'labels');
 define('SURVEYPRO_VALUES', 'values');
 define('SURVEYPRO_POSITIONS', 'positions');
 
-// templates types
+/*
+ * TEMPLATES TYPES
+ */
 define('SURVEYPRO_MASTERTEMPLATE', 'mastertemplate');
 define('SURVEYPRO_USERTEMPLATE',   'usertemplate');
 
-// dummy content used at answer save time
+/*
+ * DUMMY CONTENT USED AT ANSWER SAVE TIME
+ */
 define('SURVEYPRO_DUMMYCONTENT', '__my_dummy_content@@');
 
-// output of final submission evaluation
+/*
+ * OUTPUT OF FINAL SUBMISSION EVALUATION
+ */
 define('SURVEYPRO_VALIDRESPONSE', 0);
 define('SURVEYPRO_MISSINGMANDATORY', 1);
 define('SURVEYPRO_MISSINGVALIDATION', 2);
 
-// event to use for logging 2
+// EVENT LEVEL of LOGGING 2
 if ($CFG->branch == '26') {
     define ('SURVEYPRO_EVENTLEVEL', 'level');
 } else {

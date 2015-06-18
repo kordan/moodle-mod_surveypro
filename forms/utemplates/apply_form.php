@@ -71,7 +71,8 @@ class mod_surveypro_applyutemplateform extends moodleform {
         // applyutemplate: usertemplate
         // ----------------------------------------
         $fieldname = 'usertemplateinfo';
-        $templatesfiles = array(get_string('notanyset', 'surveypro')) + $templatesfiles;
+        // $templatesfiles = array(get_string('notanyset', 'surveypro')) + $templatesfiles;
+        array_unshift($templatesfiles, get_string('notanyset', 'surveypro'));
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveypro'), $templatesfiles);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
         $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');

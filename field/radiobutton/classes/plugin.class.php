@@ -506,7 +506,7 @@ EOS;
             }
         } else {
             $paramelement['id'] = $idprefix.'_ignoreme';
-            $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('star', 'surveypro'), SURVEYPRO_IGNOREME, $paramelement);
+            $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('star', 'surveypro'), SURVEYPRO_IGNOREMEVALUE, $paramelement);
             if ($this->adjustment == SURVEYPRO_HORIZONTAL) {
                 unset($paramelement['class']);
             }
@@ -588,7 +588,7 @@ EOS;
                     debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->defaultoption = '.$this->defaultoption, DEBUG_DEVELOPER);
             }
         } else {
-            $mform->setDefault($this->itemname, SURVEYPRO_IGNOREME);
+            $mform->setDefault($this->itemname, SURVEYPRO_IGNOREMEVALUE);
         }
         // $this->itemname.'_text' has to ALWAYS get a default (if it exists) even if it is not selected
         if (!empty($this->labelother)) {

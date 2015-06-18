@@ -437,8 +437,8 @@ EOS;
                 $months[SURVEYPRO_INVITATIONVALUE] = get_string('invitationmonth', 'surveyprofield_age');
             }
         } else {
-            $years[SURVEYPRO_IGNOREME] = '';
-            $months[SURVEYPRO_IGNOREME] = '';
+            $years[SURVEYPRO_IGNOREMEVALUE] = '';
+            $months[SURVEYPRO_IGNOREMEVALUE] = '';
         }
         $years += array_combine(range($this->lowerbound_year, $this->upperbound_year), range($this->lowerbound_year, $this->upperbound_year));
         $months += array_combine(range(0, 11), range(0, 11));
@@ -492,8 +492,8 @@ EOS;
                 $mform->setDefault($this->itemname.'_month', $agearray['mon']);
             }
         } else {
-            $mform->setDefault($this->itemname.'_year', SURVEYPRO_IGNOREME); // empty label
-            $mform->setDefault($this->itemname.'_month', SURVEYPRO_IGNOREME); // empty label
+            $mform->setDefault($this->itemname.'_year', SURVEYPRO_IGNOREMEVALUE); // empty label
+            $mform->setDefault($this->itemname.'_month', SURVEYPRO_IGNOREMEVALUE); // empty label
             if (!$this->required) {
                 $mform->setDefault($this->itemname.'_noanswer', '0');
             }
@@ -527,13 +527,13 @@ EOS;
             $testpassed = $testpassed && ($data[$this->itemname.'_year'] != SURVEYPRO_INVITATIONVALUE);
             $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_INVITATIONVALUE);
         } else {
-            // both drop down menues are allowed to be == SURVEYPRO_IGNOREME
+            // both drop down menues are allowed to be == SURVEYPRO_IGNOREMEVALUE
             // but not only 1
             $testpassed = true;
-            if ($data[$this->itemname.'_year'] == SURVEYPRO_IGNOREME) {
-                $testpassed = $testpassed && ($data[$this->itemname.'_month'] == SURVEYPRO_IGNOREME);
+            if ($data[$this->itemname.'_year'] == SURVEYPRO_IGNOREMEVALUE) {
+                $testpassed = $testpassed && ($data[$this->itemname.'_month'] == SURVEYPRO_IGNOREMEVALUE);
             } else {
-                $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_IGNOREME);
+                $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_IGNOREMEVALUE);
             }
         }
         if (!$testpassed) {
@@ -628,7 +628,7 @@ EOS;
             if (!$searchform) {
                 $olduseranswer->content = $this->item_age_to_unix_time($answer['year'], $answer['month']);
             } else {
-                if ($answer['year'] == SURVEYPRO_IGNOREME) {
+                if ($answer['year'] == SURVEYPRO_IGNOREMEVALUE) {
                     $olduseranswer->content = null;
                 } else {
                     $olduseranswer->content = $this->item_age_to_unix_time($answer['year'], $answer['month']);

@@ -478,11 +478,11 @@ EOS;
                 $minutes[SURVEYPRO_INVITATIONVALUE] = get_string('invitationminute', 'surveyprofield_datetime');
             }
         } else {
-            $days[SURVEYPRO_IGNOREME] = '';
-            $months[SURVEYPRO_IGNOREME] = '';
-            $years[SURVEYPRO_IGNOREME] = '';
-            $hours[SURVEYPRO_IGNOREME] = '';
-            $minutes[SURVEYPRO_IGNOREME] = '';
+            $days[SURVEYPRO_IGNOREMEVALUE] = '';
+            $months[SURVEYPRO_IGNOREMEVALUE] = '';
+            $years[SURVEYPRO_IGNOREMEVALUE] = '';
+            $hours[SURVEYPRO_IGNOREMEVALUE] = '';
+            $minutes[SURVEYPRO_IGNOREMEVALUE] = '';
         }
         $days += array_combine(range(1, 31), range(1, 31));
         for ($i = 1; $i <= 12; $i++) {
@@ -565,11 +565,11 @@ EOS;
                 $mform->setDefault($this->itemname.'_minute', $datetimearray['minutes']);
             }
         } else {
-            $mform->setDefault($this->itemname.'_day', SURVEYPRO_IGNOREME);
-            $mform->setDefault($this->itemname.'_month', SURVEYPRO_IGNOREME);
-            $mform->setDefault($this->itemname.'_year', SURVEYPRO_IGNOREME);
-            $mform->setDefault($this->itemname.'_hour', SURVEYPRO_IGNOREME);
-            $mform->setDefault($this->itemname.'_minute', SURVEYPRO_IGNOREME);
+            $mform->setDefault($this->itemname.'_day', SURVEYPRO_IGNOREMEVALUE);
+            $mform->setDefault($this->itemname.'_month', SURVEYPRO_IGNOREMEVALUE);
+            $mform->setDefault($this->itemname.'_year', SURVEYPRO_IGNOREMEVALUE);
+            $mform->setDefault($this->itemname.'_hour', SURVEYPRO_IGNOREMEVALUE);
+            $mform->setDefault($this->itemname.'_minute', SURVEYPRO_IGNOREMEVALUE);
             if (!$this->required) {
                 $mform->setDefault($this->itemname.'_noanswer', '0');
             }
@@ -605,19 +605,19 @@ EOS;
             $testpassed = $testpassed && ($data[$this->itemname.'_hour'] != SURVEYPRO_INVITATIONVALUE);
             $testpassed = $testpassed && ($data[$this->itemname.'_minute'] != SURVEYPRO_INVITATIONVALUE);
         } else {
-            // all five drop down menues are allowed to be == SURVEYPRO_IGNOREME
+            // all five drop down menues are allowed to be == SURVEYPRO_IGNOREMEVALUE
             // but not only 4, 3, 2 or 1
             $testpassed = true;
-            if ($data[$this->itemname.'_day'] == SURVEYPRO_IGNOREME) {
-                $testpassed = $testpassed && ($data[$this->itemname.'_month'] == SURVEYPRO_IGNOREME);
-                $testpassed = $testpassed && ($data[$this->itemname.'_year'] == SURVEYPRO_IGNOREME);
-                $testpassed = $testpassed && ($data[$this->itemname.'_hour'] == SURVEYPRO_IGNOREME);
-                $testpassed = $testpassed && ($data[$this->itemname.'_minute'] == SURVEYPRO_IGNOREME);
+            if ($data[$this->itemname.'_day'] == SURVEYPRO_IGNOREMEVALUE) {
+                $testpassed = $testpassed && ($data[$this->itemname.'_month'] == SURVEYPRO_IGNOREMEVALUE);
+                $testpassed = $testpassed && ($data[$this->itemname.'_year'] == SURVEYPRO_IGNOREMEVALUE);
+                $testpassed = $testpassed && ($data[$this->itemname.'_hour'] == SURVEYPRO_IGNOREMEVALUE);
+                $testpassed = $testpassed && ($data[$this->itemname.'_minute'] == SURVEYPRO_IGNOREMEVALUE);
             } else {
-                $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_IGNOREME);
-                $testpassed = $testpassed && ($data[$this->itemname.'_year'] != SURVEYPRO_IGNOREME);
-                $testpassed = $testpassed && ($data[$this->itemname.'_hour'] != SURVEYPRO_IGNOREME);
-                $testpassed = $testpassed && ($data[$this->itemname.'_minute'] != SURVEYPRO_IGNOREME);
+                $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_IGNOREMEVALUE);
+                $testpassed = $testpassed && ($data[$this->itemname.'_year'] != SURVEYPRO_IGNOREMEVALUE);
+                $testpassed = $testpassed && ($data[$this->itemname.'_hour'] != SURVEYPRO_IGNOREMEVALUE);
+                $testpassed = $testpassed && ($data[$this->itemname.'_minute'] != SURVEYPRO_IGNOREMEVALUE);
             }
         }
         if (!$testpassed) {
@@ -709,7 +709,7 @@ EOS;
             if (!$searchform) {
                 $olduseranswer->content = $this->item_datetime_to_unix_time($answer['year'], $answer['month'], $answer['day'], $answer['hour'], $answer['minute']);
             } else {
-                if ($answer['year'] == SURVEYPRO_IGNOREME) {
+                if ($answer['year'] == SURVEYPRO_IGNOREMEVALUE) {
                     $olduseranswer->content = null;
                 } else {
                     $olduseranswer->content = $this->item_datetime_to_unix_time($answer['year'], $answer['month'], $answer['day'], $answer['hour'], $answer['minute']);
