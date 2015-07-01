@@ -546,7 +546,7 @@ class mod_surveypro_itembase {
             // -----------------------------
             if ($oldadvanced != $newadvanced) {
                 $surveypro = $DB->get_record('surveypro', array('id' => $this->cm->instance), '*', MUST_EXIST);
-                $action = ($oldadvanced) ? SURVEYPRO_MAKEFORALL : SURVEYPRO_MAKELIMITED;
+                $action = ($oldadvanced) ? SURVEYPRO_MAKESTANDARD : SURVEYPRO_MAKEADVANCED;
 
                 $itemlistman = new mod_surveypro_itemlist($this->cm, $this->context, $surveypro);
                 $itemlistman->set_type($this->type);

@@ -175,7 +175,7 @@ class mod_surveypro_field_radiobutton extends mod_surveypro_itembase {
         // Now execute very specific plugin level actions
         // -----------------------------
 
-        // begin of: plugin specific settings (eventally overriding general ones)
+        // begin of: plugin specific settings (eventually overriding general ones)
         // drop empty rows and trim trialing spaces from each row of each textarea field
         $fieldlist = array('options');
         $this->item_clean_textarea_fields($record, $fieldlist);
@@ -184,7 +184,7 @@ class mod_surveypro_field_radiobutton extends mod_surveypro_itembase {
         $this->item_custom_fields_to_db($record);
 
         $record->hideinstructions = 1;
-        // end of: plugin specific settings (eventally overriding general ones)
+        // end of: plugin specific settings (eventually overriding general ones)
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record)))
         return parent::item_save($record);
@@ -245,7 +245,7 @@ class mod_surveypro_field_radiobutton extends mod_surveypro_itembase {
      */
     public function item_generate_standard_default() {
         $optionarray = surveypro_textarea_to_array($this->options);
-        $firstoption = reset($optionarray);
+        $firstoption = array_shift($optionarray);
 
         if (preg_match('~^(.*)'.SURVEYPRO_VALUELABELSEPARATOR.'(.*)$~', $firstoption, $match)) { // do not warn: it can never be equal to zero
             // print_object($match);

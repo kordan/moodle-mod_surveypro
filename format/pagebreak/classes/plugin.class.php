@@ -107,9 +107,9 @@ class mod_surveypro_format_pagebreak extends mod_surveypro_itembase {
         // Now execute very specific plugin level actions
         // -----------------------------
 
-        // begin of: plugin specific settings (eventally overriding general ones)
+        // begin of: plugin specific settings (eventually overriding general ones)
         $record->content = SURVEYPROFORMAT_PAGEBREAK_CONTENT;
-        // end of: plugin specific settings (eventally overriding general ones)
+        // end of: plugin specific settings (eventually overriding general ones)
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record)))
         return parent::item_save($record);

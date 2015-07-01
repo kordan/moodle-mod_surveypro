@@ -165,12 +165,12 @@ class mod_surveypro_field_boolean extends mod_surveypro_itembase {
         // Now execute very specific plugin level actions
         // -----------------------------
 
-        // begin of: plugin specific settings (eventally overriding general ones)
+        // begin of: plugin specific settings (eventually overriding general ones)
         // set custom fields value as defined for this question plugin
         $this->item_custom_fields_to_db($record);
 
         $record->hideinstructions = 1;
-        // end of: plugin specific settings (eventally overriding general ones)
+        // end of: plugin specific settings (eventually overriding general ones)
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record)))
         return parent::item_save($record);

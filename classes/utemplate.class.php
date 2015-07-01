@@ -498,7 +498,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         if ($files = $fs->get_area_files($contextid, 'mod_surveypro', SURVEYPRO_TEMPLATEFILEAREA, 0, 'sortorder', false)) {
             if (count($files) == 1) {
                 // only one file attached, set it as main file automatically
-                $file = reset($files);
+                $file = array_shift($files);
                 file_set_sortorder($contextid, 'mod_surveypro', SURVEYPRO_TEMPLATEFILEAREA, 0, $file->get_filepath(), $file->get_filename(), 1);
             }
         }

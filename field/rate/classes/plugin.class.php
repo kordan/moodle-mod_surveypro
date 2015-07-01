@@ -185,7 +185,7 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
         // Now execute very specific plugin level actions
         // -----------------------------
 
-        // begin of: plugin specific settings (eventally overriding general ones)
+        // begin of: plugin specific settings (eventually overriding general ones)
         // set custom fields value as defined for this question plugin
         // drop empty rows and trim edging rows spaces from each textarea field
         $fieldlist = array('options', 'rates', 'defaultvalue');
@@ -198,7 +198,7 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
         $record->position = SURVEYPRO_POSITIONTOP;
         $record->hideinstructions = 1;
         $record->differentrates = isset($record->differentrates) ? 1 : 0;
-        // end of: plugin specific settings (eventally overriding general ones)
+        // end of: plugin specific settings (eventually overriding general ones)
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record)))
         return parent::item_save($record);
@@ -296,7 +296,7 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
                     }
                 }
             } else {
-                $firstrate = reset($ratesarray);
+                $firstrate = array_shift($ratesarray);
 
                 if (strpos($firstrate, SURVEYPRO_VALUELABELSEPARATOR) === false) {
                     $defaultrate = $firstrate;

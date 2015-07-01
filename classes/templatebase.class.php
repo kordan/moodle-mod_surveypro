@@ -671,7 +671,11 @@ class mod_surveypro_templatebase {
 
         $versiondisk = $this->get_plugin_versiondisk();
         $lastsortindex = 0;
-        $simplexml = new SimpleXMLElement($xml);
+        if ($CFG->debug == DEBUG_DEVELOPER) {
+            $simplexml = new SimpleXMLElement($xml);
+        } else {
+            $simplexml = @new SimpleXMLElement($xml);
+        }
         foreach ($simplexml->children() as $xmlitem) {
             foreach ($xmlitem->attributes() as $attribute => $value) {
                 // <item type="format" plugin="label" version="2014030201">
@@ -755,6 +759,13 @@ class mod_surveypro_templatebase {
                     $xsd = $itemclassname::item_get_item_schema(); // <- itembase schema
                 } else {
                     // $classname is already onboard because of the previous loop over surveypro_item fields
+                    if (!isset($itemclassname)) {
+                        $error = new stdClass();
+                        $error->key = 'badtablenamefound';
+                        $error->a = $tablename;
+
+                        return $error;
+                    }
                     $xsd = $itemclassname::item_get_plugin_schema(); // <- plugin schema
                 }
 
@@ -788,8 +799,10 @@ class mod_surveypro_templatebase {
                 libxml_use_internal_errors($olderrormode);
 
                 if (!empty($errors)) {
-                    $firsterror = reset($errors);
-                    $a = sprintf('%s as required by the xsd of the "%s" plugin', trim($firsterror->message, "\n\r\t ."), $currentplugin);
+                    $firsterror = array_shift($errors);
+                    $atemplate = get_string('reportederrortemplate', 'surveypro');
+                    // $atemplate = '%s as required by the xsd of the "%s" plugin'
+                    $a = sprintf($atemplate, trim($firsterror->message, "\n\r\t ."), $currentplugin);
 
                     $error = new stdClass();
                     $error->a = $a;

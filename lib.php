@@ -96,8 +96,8 @@ define('SURVEYPRO_REQUIREDON'        , '7');
 define('SURVEYPRO_CHANGEINDENT'      , '8');
 define('SURVEYPRO_ADDTOSEARCH'       , '9');
 define('SURVEYPRO_OUTOFSEARCH'       , '10');
-define('SURVEYPRO_MAKEFORALL'        , '11');
-define('SURVEYPRO_MAKELIMITED'       , '12');
+define('SURVEYPRO_MAKESTANDARD'      , '11');
+define('SURVEYPRO_MAKEADVANCED'      , '12');
 
 // ACTIONS in RESPONSES section
 define('SURVEYPRO_DELETERESPONSE'    , '13');

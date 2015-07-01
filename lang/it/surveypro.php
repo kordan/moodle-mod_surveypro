@@ -36,7 +36,7 @@ $string['pluginname'] = 'Surveypro';
 
 $string['tabitemsname'] = 'Scheda';
     $string['tabitemspage1'] = 'Anteprima';
-    $string['tabitemspage2'] = 'Gestione';
+    $string['tabitemspage2'] = 'Elementi';
     $string['tabitemspage3'] = 'Dettaglio elemento';
     $string['tabitemspage4'] = 'Verifica relazioni';
 $string['tabsubmissionsname'] = 'Indagine';
