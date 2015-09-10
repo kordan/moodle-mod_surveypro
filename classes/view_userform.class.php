@@ -676,7 +676,7 @@ class mod_surveypro_userformmanager {
         // } else {
         //     echo 'Nothing has been found<br />';
         // }
-        // die;
+        // die();
 
         // once $itemhelperinfo is onboard...
         //    I update/create the corresponding record

@@ -144,7 +144,7 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         if ($itemrecords->valid()) {
             foreach ($itemrecords as $itemrecord) {
                 if ($itemrecord->parentid) {
-                    $newparentid = $this->get_mappingid('item', $itemrecord->parentid);
+                    $newparentid = $this->get_mappingid('surveypro_item', $itemrecord->parentid);
                     $DB->set_field('surveypro_item', 'parentid', $newparentid, array('id' => $itemrecord->id));
                 }
             }

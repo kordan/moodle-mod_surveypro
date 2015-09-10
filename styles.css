@@ -92,6 +92,10 @@
     width:90px;
 }
 
+#page-mod-surveypro-items_manage table#manageitems .hide {
+    display: none;
+}
+
 #page-mod-surveypro-items_manage table#manageitems .sortindex,
 #page-mod-surveypro-items_manage table#sortitems .sortindex,
 #page-mod-surveypro-items_validate table#validaterelations .sortindex {

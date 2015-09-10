@@ -69,6 +69,7 @@ $string['anonymous_help'] = 'This survey will be totally anonymous. Each infos a
 $string['anonymous'] = 'Anonymous responses';
 $string['answerisnoanswer'] = 'Answer refused';
 $string['answerlabel'] = 'label';
+$string['answermissingindb'] = 'Answer is missing in the database';
 $string['answerposition'] = 'position';
 $string['answervalue'] = 'value';
 $string['applymastertemplates'] = '<a href="{$a}">Apply master templates</a>';
@@ -129,9 +130,9 @@ $string['confirmsurveyprodeletion'] = 'Yes, delete this response';
 $string['content_editor_err'] = 'The content is mandatory';
 $string['content_editor_help'] = 'The content of the element as it will be shown to remote user';
 $string['content_editor'] = 'Content';
-$string['content'] = 'Content';
-$string['content_help'] = 'The content of the element as it will be shown to remote user';
 $string['content_err'] = 'The content is mandatory';
+$string['content_help'] = 'The content of the element as it will be shown to remote user';
+$string['content'] = 'Content';
 $string['course'] = 'Course';
 $string['coverpage_welcome'] = 'Welcome to {$a}';
 $string['csvsemantic'] = 'Content semantic (whether applicable)';
@@ -144,19 +145,19 @@ $string['defaultcreationthanksmessage'] = 'Thank you. Your response has been suc
 $string['defaulteditingthanksmessage'] = 'Thank you. Your response has been successfully modified!';
 $string['deleteallitems'] = 'Delete all elements';
 $string['deleteallsubmissions'] = 'Delete all responses';
-$string['deletionbreakslinks'] = 'The current element has child element(s) that are going to be deleted too. The child element(s) position is: {$a}';
 $string['deletehiddenitems'] = 'Delete hidden elements';
 $string['deletepluginmessage'] = 'You are about to completely delete the survey plugin "{$a}". This will completely delete everything in the database associated with this plugin. Are you SURE you want to continue?';
 $string['deletevisibleitems'] = 'Delete visible elements';
 $string['deletingplugin'] = 'Deleting plugin {$a}.';
+$string['deletionbreakslinks'] = 'The current element has child element(s) that are going to be deleted too. The child element(s) position is: {$a}';
 $string['downloadformat'] = 'Download format';
 $string['downloadpdf'] = 'download to pdf';
-$string['downloadtocsv'] = 'download to comma separated values';
-$string['downloadtotsv'] = 'download to TAB separated values';
-$string['downloadtoxls'] = 'download to xls';
+$string['downloadtocsv'] = 'comma separated values';
+$string['downloadtotsv'] = 'TAB separated values';
+$string['downloadtoxls'] = 'xls';
 $string['downloadtozipbysubmission'] = 'download attachments by item to zip';
 $string['downloadtozipbyuser'] = 'download attachments by user to zip';
-$string['downloadtype'] = 'Exported file type';
+$string['downloadtype'] = 'Download file type';
 $string['emptyanswer'] = 'Empty answer';
 $string['emptydownload'] = 'No responses to export were found';
 $string['emptysearchform'] = 'No elements were found for this search form.<br />This could be due to elements:<ul><li>still not created;</li><li>not visible;</li><li>not set to belong to this form.</li></ul>To add an element to the search form use its availability feature.<br />Take care because only searchable element type can be added to the search form.';
@@ -218,22 +219,31 @@ $string['hideshow'] = 'Hide/Show';
 $string['history_help'] = 'Preserving history, users will no longer be able to directly modify a submitted response. Modification to closed responses will be saved as a new copy, leaving the original response untouched and the history preserved.';
 $string['history'] = 'Preserve history';
 $string['ignoreitems'] = 'Ignore';
-$string['inprogressresponses'] = 'In progress responses';
 $string['import_attachmentsnotallowed'] = 'It seems you are trying to import attachments for the following elements:<ul>{$a}</ul><br />This is not allowed at the moment.';
 $string['import_breakingmaxentries'] = 'Import will assign {$a->totalentries} responses to user ID {$a->userid}. This exceeds the maximum allowed number as it has been set to {$a->maxentries}';
 $string['import_columnscountchanges'] = 'The number of the columns changes in the file';
 $string['import_duplicateheader'] = 'The header "{$a}" was found, at least, twice';
 $string['import_emptyrequiredvalue'] = 'The surveypro item "{$a}" is required but its value is missing in the selected file';
 $string['import_extraheaderfound'] = 'Some fields in the selected file were not found among variables of this surveypro.<br />They are: <ul>{$a}</ul>';
+$string['import_invalidtimecreated'] = 'The timecreated "{$a}" is invalid';
+$string['import_invalidtimemodified'] = 'The timemodified "{$a}" is invalid';
 $string['import_invaliduserid'] = 'The userid "{$a}" is invalid';
 $string['import_missingsemantic'] = 'A semanticless value "{$a->csvvalue}" has been found in the column {$a->csvcol} ({$a->header}) of the row: "{$a->csvrow}". The semantic for this item is supposed to be: {$a->semantic}';
+$string['import_missingtimecreated'] = 'Empty creation time is invalid';
+$string['import_missingtimemodified'] = 'Empty modification itme is invalid';
 $string['import_missinguserid'] = 'Empty userid is invalid';
+$string['import_positionnotinteger'] = 'The position {$a->position} found in "{$a->csvvalue}" for the column {$a->csvcol} is not an integer number';
+$string['import_positionoutofbound'] = 'The position {$a->position} found in "{$a->csvvalue}" for the column {$a->csvcol} is out of bound. Allowed bounds are: "{$a->bounds}"';
 $string['importfile'] = 'Choose files to import';
 $string['importusertemplates'] = '<a href="{$a}">Import user templates</a>';
+$string['includeadvanced'] = 'Include advanced element';
+$string['includedates'] = 'Include dates';
 $string['includehidden'] = 'Include hidden elements';
+$string['includenames'] = 'Include names';
 $string['incorrectaccessdetected'] = 'Incorrect access detected';
 $string['indent_help'] = 'The indent of the element alias the left margin the element will respect once drawn';
 $string['indent'] = 'Indent';
+$string['inprogressresponses'] = 'In progress responses';
 $string['inprogresssubmissions'] = 'In progress response/s: {$a}';
 $string['insearchform_help'] = 'Is this element going to be used in the search form?';
 $string['insearchform'] = 'Search form';
@@ -245,7 +255,7 @@ $string['item'] = 'Element';
 $string['itemaddfail'] = 'The new element has not been added';
 $string['itemaddok'] = 'Element has been successfully added';
 $string['itemdeleted'] = 'The \'{$a->pluginname}\' element: {$a->content} has been successfully deleted';
-$string['itemdrivensemantic'] = 'as in item "{$a}"';
+$string['itemdrivensemantic'] = 'as in the "{$a}" of each item';
 $string['itemeditfail'] = 'An error occurred saving the element';
 $string['itemedithidehide'] = 'Hiding this element, some depending elements were hided too.';
 $string['itemeditmakeadvanced'] = 'Marking this element as "Advanced", some depending elements were forced to "Advanced" too.';
@@ -296,6 +306,7 @@ You can review it <a title="{$a->title}" href="{$a->href}">here</a>';
 $string['newsubmissionsubject'] = 'New response';
 $string['nextformpage'] = 'Next page >>';
 $string['noanswer'] = 'No answer';
+$string['noattachmentfound'] = 'Not any attachment has been found';
 $string['noitemsfound'] = 'The survey you are accessing is still a work in progress.<br />Please try again later.';
 $string['nomoreitems'] = 'On the basis of the answers provided, no more elements remain to display.<br />Your survey is over. You only need to submit{$a}.';
 $string['nomoresubmissionsallowed'] = 'The maximun number of {$a} responses was already reached.<br />No more attempts are allowed.';
@@ -322,6 +333,7 @@ $string['onlyadvanceditemhere'] = 'The current page holds only advanced elements
 $string['onlyoptional'] = 'Optional is forced by the value of default.';
 $string['onlyreview'] = ' or review';
 $string['opened'] = 'Opening time';
+$string['outputstyle'] = 'Output style';
 $string['overwrite_help'] = 'Selecting this checkbox you will overwrite an older template with the same name. If you leave this checkbox unselected, in case of conflicts, you will be asked for a new unique name.';
 $string['overwrite'] = 'Replace older template';
 $string['pagexofy'] = 'Page {$a->formpage} of {$a->maxassignedpage}';
@@ -334,8 +346,6 @@ $string['parentid_header'] = 'Relation';
 $string['parentid_help'] = 'Parent elements allow you to create conditional branching. Dimmed elements in the list identify hidden parent elments. Show them to have them available in this list.<br />Elements preceded by an asterisk are supposed to belong ONLY to advanced form.';
 $string['parentid'] = 'Parent element';
 $string['pause'] = 'Pause';
-$string['typeplugin_help'] = 'This is the list of available elements. Survey elements are of two types: "field" type and "format" type. Choose the element that better suite your needs.';
-$string['typeplugin'] = 'Element';
 $string['plugin'] = 'Element';
 $string['pluginname_help'] = 'Write here the name of the survey plugin you are going to save';
 $string['plugintype'] = 'Plugin type';
@@ -345,14 +355,14 @@ The two \'top\' positions are usually needed for contents longer than few words 
 $string['position'] = 'Question position';
 $string['previewmode'] = 'You are in \'{$a}\': buttons to save data are not supposed to display';
 $string['previousformpage'] = '<< Previous page';
+$string['raw'] = 'Raw (for further import into different instances of surveypro)';
 $string['readonlyaccess'] = 'Read only access';
-$string['reviewsubmissions'] = 'review surveypro submissions';
 $string['relation_status'] = 'Status';
 $string['reportederror'] = '{$a}';
+$string['reportederrortemplate'] = '%s as required by the xsd of the "%s" plugin';
 $string['reportplugin'] = 'Report plugin';
 $string['reportplugins'] = 'Report plugin';
 $string['reportsection'] = 'Reports section';
-$string['reportederrortemplate'] = '%s as required by the xsd of the "%s" plugin';
 $string['required_help'] = 'Will the user be forced to answer this element?';
 $string['required'] = 'Required';
 $string['responseauthor'] = 'Author: ';
@@ -360,6 +370,7 @@ $string['responsedeleted'] = 'User response has been successfully deleted';
 $string['responsetimecreated'] = 'Response sbmitted on: ';
 $string['responsetimemodified'] = ', Last modified on: ';
 $string['revieworpause'] = ', review or pause';
+$string['reviewsubmissions'] = 'review surveypro submissions';
 $string['riskyeditdeadline_help'] = 'Allow users permitted to manage survey elements to force modifications of this survey even whether answered';
 $string['riskyeditdeadline'] = 'Deadline of risky modification session';
 $string['runreport'] = '<a href="{$a->href}">Run {$a->reportname} report</a>';
@@ -441,6 +452,8 @@ $string['translatedstring'] = '$string[\'{$a->stringindex}\'] = \'English transl
 $string['type'] = 'Type';
 $string['typefield'] = 'Fields';
 $string['typeformat'] = 'Formats';
+$string['typeplugin_help'] = 'This is the list of available elements. Survey elements are of two types: "field" type and "format" type. Choose the element that better suite your needs.';
+$string['typeplugin'] = 'Element';
 $string['unhandledvalue'] = 'Unhandled return value from {$a}';
 $string['unixtime'] = 'unix time';
 $string['unlimited'] = 'Unlimited';
@@ -457,16 +470,18 @@ $string['validation'] = 'Validation options';
 $string['validationinfo'] = 'This report let you verify the reliability of the current survey. This tool checks the validity of each relation identifying the bad ones that will never allow child element to be included in the survey.';
 $string['variable_help'] = 'The name of the variable once downloaded';
 $string['variable'] = 'Variable';
+$string['verbose'] = 'Verbose (for human reading)';
 $string['versionmismatch'] = 'Version mismatch for {$a->plugin} {$a->type} plugin. Template uses version: {$a->currentversion} while your surveypro plugin uses version {$a->versiondisk}';
 $string['visiblesonly_help'] = 'Include in this template only visibles elements';
 $string['visiblesonly'] = 'Visibles elements only';
+
 $string['welcomeimport'] = 'Use this page to import responses into this survey. <br />
 The headers of the csv file to import are supposed to match the "variable names" of the elements of the survey.<br />
 Currently it is not allowed the import of attachment elements.<br />
 Unknown headers will break the import process.<br />
 "Userid" can be included among headers. It will assign the ownership of each imported response (even if the survey is anonymous).<br />
 If the "Userid" column is missing from the csv file, the imported responses will be assigned to the user executing the import.<br />
-It is possible to import csv missing required elements but, whether included, they must contain valid, non empty values.<br />
+It is allowed the importation of csv files missing required elements but, whether included, they must hold valid and non empty values.<br />
 Import files missing required elements are allowed and the imported responses will be marked as "in progress".<br />
 Semantic defines the meaning of the content of the csv file for some specific elements. For instance, for a "select" plugin element, the csv file can provide the label of the answer such as its value or its position in the drop down user interface<br />
 Elements currently using semantic are: <ul>{$a->items}</ul>

@@ -113,7 +113,7 @@ class mod_surveypro_itembase {
     public $editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA);
 
     /**
-     * public savepositiontodb: can this plugin save, a user answer, the position of the user interface elements in the form?
+     * public savepositiontodb: can this plugin save, as user answer, the position of the user interface elements in the form?
      */
     public $savepositiontodb = null;
 

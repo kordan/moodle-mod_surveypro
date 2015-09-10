@@ -146,9 +146,13 @@ define('SURVEYPRO_DONTSAVEMEPREFIX', 'placeholder');
 /*
  * INVITATION, NO-ANSWER AND IGNOREME VALUE
  */
-define('SURVEYPRO_INVITATIONVALUE', '__invItat10n__'); // user should never guess it
-define('SURVEYPRO_NOANSWERVALUE', '__n0__Answer__');   // user should never guess it
-define('SURVEYPRO_IGNOREMEVALUE', '__1gn0rE__me__');   // user should never guess it
+// define('SURVEYPRO_INVITATIONVALUE', '__invItat10n__'); // user should never guess it
+// define('SURVEYPRO_NOANSWERVALUE',   '__n0__Answer__'); // user should never guess it
+// define('SURVEYPRO_IGNOREMEVALUE',   '__1gn0rE__me__'); // user should never guess it
+define('SURVEYPRO_INVITATIONVALUE',   '@@_INVITE_@@'); // user should never guess it
+define('SURVEYPRO_NOANSWERVALUE',     '@@_NOANSW_@@'); // user should never guess it
+define('SURVEYPRO_IGNOREMEVALUE',     '@@_IGNORE_@@'); // user should never guess it
+define('SURVEYPRO_ANSWERNOTINDBVALUE','@@_ANINDB_@@'); // user should never guess it
 
 /*
  * ITEM ADJUSTMENTS
@@ -171,8 +175,9 @@ define('SURVEYPRO_DOWNLOADTSV', 2);
 define('SURVEYPRO_DOWNLOADXLS', 3);
 define('SURVEYPRO_FILESBYUSER', 4);
 define('SURVEYPRO_FILESBYITEM', 5);
-define('SURVEYPRO_NOFIELDSSELECTED', 1);
-define('SURVEYPRO_NORECORDSFOUND'  , 2);
+define('SURVEYPRO_NOFIELDSSELECTED' , 1);
+define('SURVEYPRO_NORECORDSFOUND'   , 2);
+define('SURVEYPRO_NOATTACHMENTFOUND', 3);
 
 /*
  * SEPARATORS
@@ -247,6 +252,7 @@ define('SURVEYPRO_ITEMRETURNSPOSITION', 2);
 define('SURVEYPRO_LABELS', 'labels');
 define('SURVEYPRO_VALUES', 'values');
 define('SURVEYPRO_POSITIONS', 'positions');
+define('SURVEYPRO_ITEMDRIVEN', 'itemdriven');
 
 /*
  * TEMPLATES TYPES
@@ -262,9 +268,15 @@ define('SURVEYPRO_DUMMYCONTENT', '__my_dummy_content@@');
 /*
  * OUTPUT OF FINAL SUBMISSION EVALUATION
  */
-define('SURVEYPRO_VALIDRESPONSE', 0);
-define('SURVEYPRO_MISSINGMANDATORY', 1);
+define('SURVEYPRO_VALIDRESPONSE',     0);
+define('SURVEYPRO_MISSINGMANDATORY',  1);
 define('SURVEYPRO_MISSINGVALIDATION', 2);
+
+/*
+ * EXPORT CSV FILE STYLE
+ */
+define('SURVEYPRO_RAW',     0);
+define('SURVEYPRO_VERBOSE', 1);
 
 // EVENT LEVEL of LOGGING 2
 if ($CFG->branch == '26') {

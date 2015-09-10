@@ -1141,7 +1141,7 @@ class mod_surveypro_submissionmanager {
                 $content = $item->userform_db_to_export($userdatarecord[$item->get_itemid()], SURVEYPRO_FIRENDLYFORMAT);
                 if ($item->get_plugin() != 'textarea') { // content does not come from an html editor
                     $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
-                } else {
+                } else { // content comes from a textarea item
                     if (!$item->get_useeditor()) { // content does not come from an html editor
                         $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
                     }

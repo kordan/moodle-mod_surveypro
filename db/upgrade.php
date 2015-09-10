@@ -81,5 +81,25 @@ function xmldb_surveypro_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2015060401, 'surveypro');
     }
 
+    if ($oldversion < 2015070201) {
+        $DB->set_field('surveypro_answer', 'verified', '1');
+
+        // Surveypro savepoint reached.
+        upgrade_mod_savepoint(true, 2015070201, 'surveypro');
+    }
+
+    if ($oldversion < 2015090901) {
+        $oldcontents = array('__invItat10n__', '__n0__Answer__', '__1gn0rE__me__');
+        $newcontents = array('@@_INVITE_@@', '@@_NOANSW_@@', '@@_IGNORE_@@');
+
+        $sql = 'UPDATE {surveypro_answer} SET content = :newcontent WHERE content = '.$DB->sql_compare_text(':oldcontent');
+        foreach ($oldcontents as $k => $oldcontent) {
+            $DB->execute($sql, array('oldcontent' => $oldcontent, 'newcontent' => $newcontents[$k]));
+        }
+
+        // Surveypro savepoint reached.
+        upgrade_mod_savepoint(true, 2015090901, 'surveypro');
+    }
+
     return true;
 }

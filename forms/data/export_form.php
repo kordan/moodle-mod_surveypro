@@ -80,6 +80,24 @@ class mod_surveypro_exportform extends moodleform {
         }
 
         // ----------------------------------------
+        // submissionexport: first and last name
+        // ----------------------------------------
+        if (empty($this->surveypro->anonymous)) {
+            $fieldname = 'includenames';
+            $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveypro'));
+            $mform->setDefault($fieldname, 1);
+            $mform->setType($fieldname, PARAM_INT);
+        }
+
+        // ----------------------------------------
+        // submissionexport: Creation and modification date
+        // ----------------------------------------
+        $fieldname = 'includedates';
+        $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveypro'));
+        $mform->setDefault($fieldname, 1);
+        $mform->setType($fieldname, PARAM_INT);
+
+        // ----------------------------------------
         // submissionexport: includehidden
         // ----------------------------------------
         $fieldname = 'includehidden';
@@ -87,9 +105,9 @@ class mod_surveypro_exportform extends moodleform {
         $mform->setType($fieldname, PARAM_INT);
 
         // ----------------------------------------
-        // submissionexport: advanced
+        // submissionexport: includeadvanced
         // ----------------------------------------
-        $fieldname = 'advanced';
+        $fieldname = 'includeadvanced';
         if (has_capability('mod/surveypro:accessadvanceditems', $context)) {
             $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveypro'));
         } else {
@@ -107,6 +125,18 @@ class mod_surveypro_exportform extends moodleform {
                             SURVEYPRO_FILESBYUSER => get_string('downloadtozipbyuser', 'surveypro'),
                             SURVEYPRO_FILESBYITEM => get_string('downloadtozipbysubmission', 'surveypro'));
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveypro'), $pluginlist);
+
+        // ----------------------------------------
+        // submissionexport: outputstyle
+        // ----------------------------------------
+        $fieldname = 'outputstyle';
+        $elementgroup = array();
+        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('verbose', 'surveypro'), SURVEYPRO_VERBOSE);
+        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('raw', 'surveypro'), SURVEYPRO_RAW);
+        $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveypro'), '<br />', false);
+        $mform->setDefault($fieldname, SURVEYPRO_VERBOSE);
+        $mform->disabledIf($fieldname.'_group', 'downloadtype', 'eq', SURVEYPRO_FILESBYUSER);
+        $mform->disabledIf($fieldname.'_group', 'downloadtype', 'eq', SURVEYPRO_FILESBYITEM);
 
         $this->add_action_buttons(false, get_string('continue'));
     }

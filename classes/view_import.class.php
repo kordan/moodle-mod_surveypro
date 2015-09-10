@@ -169,7 +169,7 @@ class mod_surveypro_importmanager {
 
             $sql = 'SELECT p.itemid, p.variable, p.'.$requiredfieldname.'
                 FROM {surveypro_item} i
-                    JOIN {surveypro_'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'} p ON i.id = p.itemid
+                    JOIN {surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'} p ON i.id = p.itemid
                 WHERE i.surveyproid = :surveyproid
                 ORDER BY p.itemid';
             $itemvariables = $DB->get_records_sql($sql, $where);
@@ -253,43 +253,57 @@ class mod_surveypro_importmanager {
      * @param $surveyheaders
      * @return array $columntoitemid
      * @return array $nonmatchingheaders
-     * @return int   $useridcolumnkey
+     * @return array $environmentheaders
      */
     public function get_columntoitemid($foundheaders, $surveyheaders) {
         $columntoitemid = array();
 
-        $useridcolumnkey = -1;
         $nonmatchingheaders = array();
+        $environmentheaders = array();
+
         foreach ($foundheaders as $k => $foundheader) {
             $key = array_search($foundheader, $surveyheaders);
             if ($key !== false) {
                 if ($key == 'userid') {
-                    $useridcolumnkey = $k;
-                } else {
-                    $columntoitemid[$k] = $key;
+                    $environmentheaders['userid'] = $k;
                 }
+                if ($key == 'timecreated') {
+                    $environmentheaders['timecreated'] = $k;
+                }
+                if ($key == 'timemodified') {
+                    $environmentheaders['timemodified'] = $k;
+                }
+                $columntoitemid[$k] = $key;
             } else {
                 $nonmatchingheaders[] = $foundheader;
             }
         }
 
-        return array($columntoitemid, $nonmatchingheaders, $useridcolumnkey);
+        return array($columntoitemid, $nonmatchingheaders, $environmentheaders);
     }
 
     /**
      * get_items_helperinfo
      *
      * @param $columntoitemid
-     * @param $useridcolumnkey
+     * @param $environmentheaders
      * @return $itemhelperinfo (one $itemhelperinfo per each item)
      * @return $itemoptions (one $itemoptions only each items with $info->savepositiontodb = 1)
      */
-    public function get_items_helperinfo($columntoitemid, $useridcolumnkey) {
+    public function get_items_helperinfo($columntoitemid, $environmentheaders) {
         $itemhelperinfo = array(); // one element per each item
         $itemoptions = array(); // one element only for items saving position to db
         foreach ($columntoitemid as $col => $itemid) {
-            if ($col == $useridcolumnkey) {
+            if (isset($environmentheaders['userid']) && ($col == $environmentheaders['userid'])) {
                 // the column for userid
+                continue;
+            }
+            if (isset($environmentheaders['timecreated']) && ($col == $environmentheaders['timecreated'])) {
+                // the column for timecreated
+                continue;
+            }
+            if (isset($environmentheaders['timemodified']) && ($col == $environmentheaders['timemodified'])) {
+                // the column for timemodified
                 continue;
             }
             $item = surveypro_get_item($itemid);
@@ -298,9 +312,10 @@ class mod_surveypro_importmanager {
             $info = new stdClass();
             $info->required = $item->get_required();
             $info->savepositiontodb = $item->get_savepositiontodb();
-            $info->contentformat = $item->get_contentformat();
-            if (($this->formdata->csvsemantic == 'itemdriven') && ($info->savepositiontodb)) {
+            if (($this->formdata->csvsemantic == SURVEYPRO_ITEMDRIVEN) && ($info->savepositiontodb)) {
                 $info->contentformat = $item->get_downloadformat();
+            } else {
+                $info->contentformat = $item->get_contentformat();
             }
             $itemhelperinfo[$col] = $info;
 
@@ -314,11 +329,23 @@ class mod_surveypro_importmanager {
                     $itemoptions[$col] = $item->item_get_content_array(SURVEYPRO_VALUES, 'options');
                     continue;
                 }
-                if ($this->formdata->csvsemantic == 'itemdriven') {
-                    if ($this->get_downloadformat() == SURVEYPRO_ITEMRETURNSLABELS) {
-                        $itemoptions[$col] = $item->item_get_content_array(SURVEYPRO_LABELS, 'options');
-                    } else { // SURVEYPRO_ITEMSRETURNSVALUES
-                        $itemoptions[$col] = $item->item_get_content_array(SURVEYPRO_VALUES, 'options');
+                if ($this->formdata->csvsemantic == SURVEYPRO_ITEMDRIVEN) {
+                    $itemdownloadformat = $item->get_downloadformat();
+                    switch ($itemdownloadformat) {
+                        case SURVEYPRO_ITEMRETURNSLABELS:
+                            $itemoptions[$col] = $item->item_get_content_array(SURVEYPRO_LABELS, 'options');
+                            break;
+                        case SURVEYPRO_ITEMSRETURNSVALUES:
+                            $itemoptions[$col] = $item->item_get_content_array(SURVEYPRO_VALUES, 'options');
+                            break;
+                        case SURVEYPRO_ITEMRETURNSPOSITION:
+                            // do not waste your memory calculating $itemoptions.
+                            // $itemoptions is useless as the position is already available in the csv
+                            // the count of the options is enough
+                            $itemoptions[$col] = count($item->item_get_content_array(SURVEYPRO_LABELS, 'options'));
+                            break;
+                        default:
+                            debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->formdata->csvsemantic = '.$this->formdata->csvsemantic, DEBUG_DEVELOPER);
                     }
                     continue;
                 }
@@ -361,6 +388,7 @@ class mod_surveypro_importmanager {
         // is each column unique?
         $foundheaders = $cir->get_columns();
         if ($debug) {
+            echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
             echo '$foundheaders:';
             var_dump($foundheaders);
         }
@@ -369,6 +397,7 @@ class mod_surveypro_importmanager {
             $cir->cleanup();
             print_error('import_duplicateheader', 'surveypro', $returnurl, $duplicateheader);
         }
+
         // is the user trying to import an attachment?
         if ($attachments = $this->verify_attachments_import($foundheaders)) { // error
             $cir->close();
@@ -380,8 +409,9 @@ class mod_surveypro_importmanager {
         // make a list of the header of each item in the survey
         // and the list of the id of the required items
         list($surveyheaders, $requireditems) = $this->get_survey_infos();
-        $surveyheaders = array('userid' => 'userid') + $surveyheaders;
+        $surveyheaders = array('userid' => 'userid', 'timecreated' => 'timecreated', 'timemodified' => 'timemodified') + $surveyheaders;
         if ($debug) {
+            echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
             echo '$surveyheaders:';
             var_dump($surveyheaders);
             echo '$requireditems:';
@@ -393,7 +423,7 @@ class mod_surveypro_importmanager {
         // Each datum is gold. Because of this, I DECIDED that:
         // even if a required field is not present
         //     I will anyway import the record
-        //     I will even import the data for items placed in pages greater than the page of the required missing item
+        //     I will even import the content for the items placed in pages greater than the page of a missing required item
         //
         // TO MAKE THIS CLEAR ONCE AND FOR EVER
         //     teacher IS NOT allowed to enter a invalid content
@@ -401,9 +431,9 @@ class mod_surveypro_importmanager {
         // *******************************************************
 
         // make a relation between each column header and the corresponding itemid
-        // was userid added? if userid was added ? $useridcolumnkey holds its column key : $useridcolumnkey = null
-        list($columntoitemid, $nonmatchingheaders, $useridcolumnkey) = $this->get_columntoitemid($foundheaders, $surveyheaders);
+        list($columntoitemid, $nonmatchingheaders, $environmentheaders) = $this->get_columntoitemid($foundheaders, $surveyheaders);
         if ($debug) {
+            echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
             echo '$columntoitemid:';
             var_dump($columntoitemid);
             // array (size=5)
@@ -412,13 +442,11 @@ class mod_surveypro_importmanager {
             //   2 => int 676
             //   3 => int 673
             //   4 => int 675
-            echo '$useridcolumnkey: ';
-            var_dump($useridcolumnkey);
+            echo '$environmentheaders: ';
+            var_dump($environmentheaders);
         }
-        // if ($useridcolumnkey == -1) {
-        //     // userid column in the csv is not mandatory
-        //     // if it is not present, imported surveys vill be given to admin
-        // }
+        // userid column in the csv is not mandatory
+        // if it is not present, imported surveys vill be given to $USER
         if (count($nonmatchingheaders)) {
             $cir->close();
             $cir->cleanup();
@@ -437,32 +465,39 @@ class mod_surveypro_importmanager {
 
         // to save time during all validations to carry out, save to $itemhelperinfo some information
         // in this way I no longer will need to load item hundreds times
-        // get now, once and for ever, each item helperinfo. For items saving position,
-        list($itemhelperinfo, $itemoptions) = $this->get_items_helperinfo($columntoitemid, $useridcolumnkey);
+        // get now, once and for ever, each item helperinfo.
+        list($itemhelperinfo, $itemoptions) = $this->get_items_helperinfo($columntoitemid, $environmentheaders);
         // end of: get now, once and for ever, each item option (where applicable)
 
         if ($debug) {
+            echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
             echo '$itemhelperinfo:';
             var_dump($itemhelperinfo);
             echo '$itemoptions:';
             var_dump($itemoptions);
         }
 
-        // Does EACH RECORD provide a valid value (per each item)?
+        // DOES EACH RECORD provide a valid value?
+        $reservedwords = array();
+        $reservedwords[] = SURVEYPRO_INVITATIONVALUE;
+        $reservedwords[] = SURVEYPRO_NOANSWERVALUE;
+        $reservedwords[] = SURVEYPRO_IGNOREMEVALUE;
+        $reservedwords[] = SURVEYPRO_ANSWERNOTINDBVALUE;
+
         $csvusers = array();
         $cir->init();
         while ($csvrow = $cir->next()) {
             foreach ($foundheaders as $col => $unused) {
                 $value = $csvrow[$col]; // the value reported in the csv file
 
-                if ($col == $useridcolumnkey) {
+                if (isset($environmentheaders['userid']) && ($col == $environmentheaders['userid'])) {
                     // the column for userid
                     if (empty($value)) {
                         $cir->close();
                         $cir->cleanup();
                         print_error('import_missinguserid', 'surveypro', $returnurl);
                     } else {
-                        if (!(int)$value) {
+                        if (!is_number($value)) {
                             $cir->close();
                             $cir->cleanup();
                             print_error('import_invaliduserid', 'surveypro', $returnurl, $value);
@@ -478,7 +513,39 @@ class mod_surveypro_importmanager {
                     continue;
                 }
 
+                if (isset($environmentheaders['timecreated']) && ($col == $environmentheaders['timecreated'])) {
+                    // the column for timecreated
+                    if (empty($value)) {
+                        $cir->close();
+                        $cir->cleanup();
+                        print_error('import_missingtimecreated', 'surveypro', $returnurl);
+                    }
+                    if (!is_number($value)) {
+                        $cir->close();
+                        $cir->cleanup();
+                        print_error('import_invalidtimecreated', 'surveypro', $returnurl, $value);
+                    }
+                    continue;
+                }
+
+                if (isset($environmentheaders['timemodified']) && ($col == $environmentheaders['timemodified'])) {
+                    // the column for timemodified
+                    if (empty($value)) {
+                        $cir->close();
+                        $cir->cleanup();
+                        print_error('import_missingtimemodified', 'surveypro', $returnurl);
+                    }
+                    if (!is_number($value)) {
+                        $cir->close();
+                        $cir->cleanup();
+                        print_error('import_invalidtimemodified', 'surveypro', $returnurl, $value);
+                    }
+                    continue;
+                }
+
                 $info = $itemhelperinfo[$col]; // the itemhelperinfo of the item in col = $col
+                // I import records with missing mandatory content too
+                // but if the content is provided, then it has to be present
                 if ($info->required) {
                     // verify it is not empty
                     if (empty($value)) { // error
@@ -491,42 +558,123 @@ class mod_surveypro_importmanager {
                 if ($info->savepositiontodb) {
                     // verify it is valid
                     $options = $itemoptions[$col];
-                    if ($debug) {
-                        echo '$options:';
-                        var_dump($options);
-                    }
-                    $key = array_search($value, $options);
-                    if ($key === false) { // error
-                        $cir->close();
-                        $cir->cleanup();
 
+                    if ($debug) {
+                        echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
+                        echo '----> Validation of the content reported for the column number: '.$col.'<br />';
+                        echo '----> Surveypro_item $options:';
+                        var_dump($options);
+                        echo 'I have $value = '.$value.'<br />';
+                    }
+
+                    if (!is_array($options)) {
+                        // $option is not an array. It is a number. (see "public function get_items_helperinfo" for the reason.)
+                        // This means that the content reported in the csv for this column is supposed to be ALREADY a position
+                        // verify the content is REALLY a VALID position
+                        $positions = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $value);
+                        $positionscount = count($positions);
+
+                        if ($debug) {
+                            echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
+                            echo '$positions:';
+                            var_dump($positions);
+                        }
                         $a = new stdClass();
-                        $a->csvrow = implode(', ', $csvrow);
                         $a->csvcol = $col;
                         $a->csvvalue = $value;
-                        $a->header = $foundheaders[$col];
-                        switch ($this->formdata->csvsemantic) {
-                            case SURVEYPRO_LABELS:
-                                $a->semantic = get_string('answerlabel', 'surveypro');
-                                break;
-                            case SURVEYPRO_VALUES:
-                                $a->semantic = get_string('answervalue', 'surveypro');
-                                break;
-                            case SURVEYPRO_POSITIONS:
-                                $a->semantic = get_string('answerposition', 'surveypro');
-                                break;
-                            case 'itemdriven':
-                                $a->semantic = $itemhelperinfo[$col]->contentformat;
-                                break;
-                            default:
-                                debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->formdata->csvsemantic = '.$this->formdata->csvsemantic, DEBUG_DEVELOPER);
+
+                        foreach ($positions as $k => $position) {
+                            if (is_number($position)) {
+                                // if position is out of range...
+                                if (($position >= $options) || ($position < 0)) { // for radio buttons
+                                    $cir->close();
+                                    $cir->cleanup();
+                                    $a->position = $position;
+                                    $a->bounds = '0..'.$options;
+                                    print_error('import_positionoutofbound', 'surveypro', $returnurl, $a);
+                                }
+                            } else {
+                                // if $position must be numeric if $k is not is at its last value
+                                if ($k < $contentscount-1) {
+                                    $cir->close();
+                                    $cir->cleanup();
+                                    $a->position = $position;
+                                    print_error('import_positionnotinteger', 'surveypro', $returnurl, $a);
+                                }
+                            }
                         }
-                        print_error('import_missingsemantic', 'surveypro', $returnurl, $a);
+                    } else {
+                        $contents = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $value);
+                        $contentscount = count($contents);
+
+                        if ($debug) {
+                            echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
+                            echo '$positions:';
+                            var_dump($positions);
+                        }
+
+                        foreach ($contents as $k => $content) {
+                            $key = array_search($content, $options);
+                            if ($key !== false) { // it is not an error, accept it
+                                continue;
+                            }
+                            if (in_array($content, $reservedwords)) { // it is not an error, accept it
+                                continue;
+                            }
+                            if ($k == $contentscount-1) { // it is not an error, accept it
+                                continue;
+                            }
+
+                            if ($debug) {
+                                echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
+                                echo '**Errore**<br />';
+                                echo 'Non trovo "'.$value.'" fra gli elementi di $options<br />';
+                            }
+
+                            $cir->close();
+                            $cir->cleanup();
+
+                            $a = new stdClass();
+                            $a->csvcol = $col;
+                            $a->csvvalue = $content;
+                            $a->csvrow = implode(', ', $csvrow);
+                            $a->header = $foundheaders[$col];
+                            switch ($this->formdata->csvsemantic) {
+                                case SURVEYPRO_LABELS:
+                                    $a->semantic = get_string('answerlabel', 'surveypro');
+                                    break;
+                                case SURVEYPRO_VALUES:
+                                    $a->semantic = get_string('answervalue', 'surveypro');
+                                    break;
+                                case SURVEYPRO_POSITIONS:
+                                    $a->semantic = get_string('answerposition', 'surveypro');
+                                    break;
+                                case SURVEYPRO_ITEMDRIVEN:
+                                    $itemdownloadformat = $itemhelperinfo[$col]->contentformat;
+                                    switch ($itemdownloadformat) {
+                                        case SURVEYPRO_ITEMRETURNSLABELS:
+                                            $a->semantic = get_string('answerlabel', 'surveypro');
+                                            break;
+                                        case SURVEYPRO_ITEMSRETURNSVALUES:
+                                            $a->semantic = get_string('answervalue', 'surveypro');
+                                            break;
+                                        case SURVEYPRO_ITEMRETURNSPOSITION:
+                                            $a->semantic = get_string('answerposition', 'surveypro');
+                                            break;
+                                        default:
+                                            debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $itemhelperinfo[$col]->contentformat = '.$itemhelperinfo[$col]->contentformat, DEBUG_DEVELOPER);
+                                    }
+                                    break;
+                                default:
+                                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->formdata->csvsemantic = '.$this->formdata->csvsemantic, DEBUG_DEVELOPER);
+                            }
+                            print_error('import_missingsemantic', 'surveypro', $returnurl, $a);
+                        }
                     }
                 }
             }
         }
-        // end of: Do they ALL and IN EACH RECORD provide a valid value?
+        // end of: DOES EACH RECORD provide a valid value?
         unset($foundheaders);
 
         // Am I going to break maxentries limit (for each user)?
@@ -555,7 +703,7 @@ class mod_surveypro_importmanager {
 
         // if you did not die, each validation passed.
         // Continue with the import
-        // I am safe to import each value without arguing about its validity
+        // I am now safe to import each value without arguing about its validity
         $timenow = time();
 
         if ($debug) {
@@ -567,19 +715,23 @@ class mod_surveypro_importmanager {
         //   F I N A L L Y   I M P O R T
         // ********************************
         // init csv import helper
+        $debug = false;
+
         $gooduserids = array();
         $baduserids = array();
 
         $cir->init();
         while ($csvrow = $cir->next()) {
             if ($debug) {
+                echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
                 echo '$csvrow = '.implode(', ', $csvrow).'<br />';
             }
+
             // add one record to surveypro_submission
             $record = new stdClass();
             $record->surveyproid = $this->surveypro->id;
-            if (($useridcolumnkey !== null) && !empty($csvrow[$useridcolumnkey])) {
-                $userid = $csvrow[$useridcolumnkey];
+            if (isset($environmentheaders['userid'])) {
+                $userid = $csvrow[$environmentheaders['userid']];
                 // try to save querys
                 if (in_array($userid, $gooduserids)) {
                     $record->userid = $userid;
@@ -599,9 +751,19 @@ class mod_surveypro_importmanager {
             } else {
                 $record->userid = $USER->id;
             }
+
+            if (isset($environmentheaders['timecreated'])) {
+                $record->timecreated = $csvrow[$environmentheaders['timecreated']];
+            } else {
+                $record->timecreated = $timenow;
+            }
+
+            if (isset($environmentheaders['timemodified'])) {
+                $record->timemodified = $csvrow[$environmentheaders['timemodified']];
+            }
+
             $record->status = $defaultstatus;
-            $record->timecreated = $timenow;
-            // $record->timemodified = never
+
             if ($debug) {
                 echo 'I am going to save to surveypro_submission:<br />';
                 echo '$record:';
@@ -609,9 +771,18 @@ class mod_surveypro_importmanager {
             }
             $submissionid = $DB->insert_record('surveypro_submission', $record);
 
+            // add many records to surveypro_answer
             $status = $defaultstatus;
             foreach ($csvrow as $col => $value) {
-                if ($col == $useridcolumnkey) {
+                if (isset($environmentheaders['userid']) && ($col == $environmentheaders['userid'])) {
+                    // the column for userid
+                    continue;
+                }
+                if (isset($environmentheaders['timecreated']) && ($col == $environmentheaders['timecreated'])) {
+                    // the column for userid
+                    continue;
+                }
+                if (isset($environmentheaders['timemodified']) && ($col == $environmentheaders['timemodified'])) {
                     // the column for userid
                     continue;
                 }
@@ -631,32 +802,14 @@ class mod_surveypro_importmanager {
                     continue;
                 }
 
-                // is the current item saving position to db?
-                if ($itemhelperinfo[$col]->savepositiontodb) {
-                    if ($debug) {
-                        echo 'Item saves position<br />';
-                    }
-                    $options = $itemoptions[$col];
-                    if ($debug) {
-                        echo '$options:';
-                        var_dump($options);
-                    }
-                    $content = array_search($value, $options);
-                } else {
-                    if ($debug) {
-                        echo 'Item saves raw data<br />';
-                    }
-                    // merely save the content
-                    $content = $value;
-                }
-
                 // finally, save
                 $record = new stdClass();
                 $record->submissionid = $submissionid;
                 $record->itemid = $columntoitemid[$col];
-                $record->content = $content;
+                $record->content = $value;
                 $record->contentformat = $itemhelperinfo[$col]->contentformat;
                 if ($debug) {
+                    echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
                     echo 'I am going to save to surveypro_answer:<br />';
                     echo '$record:';
                     var_dump($record);
@@ -665,9 +818,14 @@ class mod_surveypro_importmanager {
             }
 
             if ($status != $defaultstatus) {
-                $record = $DB->get_record('surveypro_submission', array('id' => $submissionid));
+                // $record = $DB->get_record('surveypro_submission', array('id' => $submissionid));
+                $record = new StdClass();
+                $record->id = $submissionid;
                 $record->status = $status;
-                $DB->insert_record('surveypro_submission', $record);
+                $DB->update_record('surveypro_submission', $record);
+            }
+            if ($debug) {
+                die();
             }
         }
 

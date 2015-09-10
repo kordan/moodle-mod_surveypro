@@ -361,7 +361,7 @@ class mod_surveypro_itemlist {
 
             // plugin
             $plugintitle = get_string('userfriendlypluginname', 'surveypro'.$item->get_type().'_'.$item->get_plugin());
-            $content = html_writer::tag('a', '', array('id' => 'sortindex_'.$sortindex));
+            $content = html_writer::tag('a', '', array('id' => 'sortindex_'.$sortindex, 'class' => 'hide'));
             $content .= $OUTPUT->pix_icon('icon', $plugintitle, 'surveypro'.$item->get_type().'_'.$item->get_plugin(),
                     array('title' => $plugintitle, 'class' => 'icon'));
 

@@ -59,7 +59,7 @@ class mod_surveypro_importform extends moodleform {
         $options[SURVEYPRO_LABELS] = get_string('answerlabel', 'surveypro');
         $options[SURVEYPRO_VALUES] = get_string('answervalue', 'surveypro');
         $options[SURVEYPRO_POSITIONS] = get_string('answerposition', 'surveypro');
-        $options['itemdriven'] = get_string('itemdrivensemantic', 'surveypro', $a);
+        $options[SURVEYPRO_ITEMDRIVEN] = get_string('itemdrivensemantic', 'surveypro', $a);
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveypro'), $options);
         $mform->setDefault($fieldname, 'label');
 
