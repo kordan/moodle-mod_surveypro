@@ -86,7 +86,7 @@ class mod_surveypro_importmanager {
      * @return null
      */
     public function welcome_message() {
-        global $OUTPUT, $CFG;
+        global $CFG, $OUTPUT;
 
         $semanticitem = array();
         $plugins = surveypro_get_plugin_list(SURVEYPRO_TYPEFIELD);
@@ -145,7 +145,7 @@ class mod_surveypro_importmanager {
      * @return $surveyheaders and $requireditems
      */
     public function get_survey_infos() {
-        global $DB, $CFG;
+        global $CFG, $DB;
 
         $sql = 'SELECT MIN(id), plugin
             FROM {surveypro_item}

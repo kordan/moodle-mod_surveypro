@@ -517,7 +517,7 @@ class mod_surveypro_templatebase {
      * @return
      */
     public function add_items_from_template() {
-        global $DB, $CFG;
+        global $CFG, $DB;
 
         $fs = get_file_storage();
 

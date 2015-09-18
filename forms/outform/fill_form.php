@@ -33,7 +33,7 @@ class mod_surveypro_submissionform extends moodleform {
      * @return none
      */
     public function definition() {
-        global $DB, $CFG;
+        global $CFG, $DB;
 
         // ----------------------------------------
         $mform = $this->_form;

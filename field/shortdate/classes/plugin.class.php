@@ -28,6 +28,11 @@ require_once($CFG->dirroot.'/mod/surveypro/field/shortdate/lib.php');
 class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
 
     /**
+     * $surveypro
+     */
+    public $surveypro = null;
+
+    /**
      * $content = the text content of the item.
      */
     public $content = '';
@@ -143,9 +148,9 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
 
         // override properties depending from $surveypro settings
         // override properties depending from $surveypro settings
-        $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
-        $this->lowerbound = $this->item_shortdate_to_unix_time(1, $surveypro->startyear);
-        $this->upperbound = $this->item_shortdate_to_unix_time(12, $surveypro->stopyear);
+        $this->surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
+        $this->lowerbound = $this->item_shortdate_to_unix_time(1, $this->surveypro->startyear);
+        $this->upperbound = $this->item_shortdate_to_unix_time(12, $this->surveypro->stopyear);
         $this->defaultvalue = $this->lowerbound;
 
         // list of fields I do not want to have in the item definition form
@@ -224,8 +229,6 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
      * @return
      */
     public function item_custom_fields_to_form() {
-        global $surveypro;
-
         // 1. special management for fields equipped with "free" checkbox
         // nothing to do: they don't exist in this plugin
 
@@ -237,10 +240,10 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
                     case 'defaultvalue':
                         continue 2; // it may be; continues switch and foreach too
                     case 'lowerbound':
-                        $this->{$field} = $this->item_shortdate_to_unix_time(1, $surveypro->startyear);
+                        $this->{$field} = $this->item_shortdate_to_unix_time(1, $this->surveypro->startyear);
                         break;
                     case 'upperbound':
-                        $this->{$field} = $this->item_shortdate_to_unix_time(1, $surveypro->stopyear);
+                        $this->{$field} = $this->item_shortdate_to_unix_time(1, $this->surveypro->stopyear);
                         break;
                 }
             }
@@ -569,10 +572,8 @@ EOS;
      * @return string $fillinginstruction
      */
     public function userform_get_filling_instructions() {
-        global $surveypro;
-
-        $haslowerbound = ($this->lowerbound != $this->item_shortdate_to_unix_time(1, $surveypro->startyear));
-        $hasupperbound = ($this->upperbound != $this->item_shortdate_to_unix_time(12, $surveypro->stopyear));
+        $haslowerbound = ($this->lowerbound != $this->item_shortdate_to_unix_time(1, $this->surveypro->startyear));
+        $hasupperbound = ($this->upperbound != $this->item_shortdate_to_unix_time(12, $this->surveypro->stopyear));
 
         $format = get_string('strftimemonthyear', 'langconfig');
         if ($haslowerbound && $hasupperbound) {

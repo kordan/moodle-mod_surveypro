@@ -158,7 +158,7 @@ class mod_surveypro_itemlist {
      * @return
      */
     public function manage_actions() {
-        global $OUTPUT, $DB;
+        global $DB;
 
         switch ($this->action) {
             case SURVEYPRO_NOACTION:
@@ -991,7 +991,7 @@ class mod_surveypro_itemlist {
      * @return
      */
     public function manage_item_deletion() {
-        global $CFG, $DB, $OUTPUT;
+        global $DB, $OUTPUT;
 
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             // ask for confirmation
@@ -1093,7 +1093,7 @@ class mod_surveypro_itemlist {
      * @return
      */
     public function manage_item_dropmultilang() {
-        global $CFG, $DB, $OUTPUT;
+        global $DB, $OUTPUT;
 
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             // ask for confirmation

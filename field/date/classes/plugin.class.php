@@ -28,6 +28,11 @@ require_once($CFG->dirroot.'/mod/surveypro/field/date/lib.php');
 class mod_surveypro_field_date extends mod_surveypro_itembase {
 
     /**
+     * $surveypro
+     */
+    public $surveypro = null;
+
+    /**
      * $content = the text content of the item.
      */
     public $content = '';
@@ -145,9 +150,9 @@ class mod_surveypro_field_date extends mod_surveypro_itembase {
         // nothing
 
         // override properties depending from $surveypro settings
-        $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
-        $this->lowerbound = $this->item_date_to_unix_time($surveypro->startyear, 1, 1);
-        $this->upperbound = $this->item_date_to_unix_time($surveypro->stopyear, 12, 31);
+        $this->surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
+        $this->lowerbound = $this->item_date_to_unix_time($this->surveypro->startyear, 1, 1);
+        $this->upperbound = $this->item_date_to_unix_time($this->surveypro->stopyear, 12, 31);
         $this->defaultvalue = $this->lowerbound;
 
         // list of fields I do not want to have in the item definition form
@@ -229,11 +234,11 @@ class mod_surveypro_field_date extends mod_surveypro_itembase {
      */
     public function item_validate_record_coherence($record) {
         if (isset($record->defaultvalue)) {
-            $mindate = $item->item_date_to_unix_time($this->surveypro->startyear, 1, 1);
+            $mindate = $this->item_date_to_unix_time($this->surveypro->startyear, 1, 1);
             if ($record->defaultvalue < $mindate) {
                 $record->defaultvalue = $mindate;
             }
-            $maxdate = $item->item_date_to_unix_time($this->surveypro->startyear, 12, 31);
+            $maxdate = $this->item_date_to_unix_time($this->surveypro->startyear, 12, 31);
             if ($record->defaultvalue > $maxdate) {
                 $record->defaultvalue = $maxdate;
             }
@@ -248,8 +253,6 @@ class mod_surveypro_field_date extends mod_surveypro_itembase {
      * @return
      */
     public function item_custom_fields_to_form() {
-        global $surveypro;
-
         // 1. special management for fields equipped with "free" checkbox
         // nothing to do: they don't exist in this plugin
 
@@ -261,10 +264,10 @@ class mod_surveypro_field_date extends mod_surveypro_itembase {
                     case 'defaultvalue':
                         continue 2; // it may be; continues switch and foreach too
                     case 'lowerbound':
-                        $this->{$field} = $this->item_date_to_unix_time($surveypro->startyear, 1, 1);
+                        $this->{$field} = $this->item_date_to_unix_time($this->surveypro->startyear, 1, 1);
                         break;
                     case 'upperbound':
-                        $this->{$field} = $this->item_date_to_unix_time($surveypro->stopyear, 1, 1);
+                        $this->{$field} = $this->item_date_to_unix_time($this->surveypro->stopyear, 1, 1);
                         break;
                 }
             }
@@ -611,10 +614,8 @@ EOS;
      * @return string $fillinginstruction
      */
     public function userform_get_filling_instructions() {
-        global $surveypro;
-
-        $haslowerbound = ($this->lowerbound != $this->item_date_to_unix_time($surveypro->startyear, 1, 1));
-        $hasupperbound = ($this->upperbound != $this->item_date_to_unix_time($surveypro->stopyear, 12, 31));
+        $haslowerbound = ($this->lowerbound != $this->item_date_to_unix_time($this->surveypro->startyear, 1, 1));
+        $hasupperbound = ($this->upperbound != $this->item_date_to_unix_time($this->surveypro->stopyear, 12, 31));
 
         $format = get_string('strftimedate', 'langconfig');
         if ($haslowerbound && $hasupperbound) {

@@ -71,7 +71,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
      * @return
      */
     public function generate_mtemplate() {
-        global $CFG, $DB;
+        global $CFG;
 
         $pluginname = clean_filename($this->formdata->mastertemplatename);
         $pluginname = str_replace(' ', '_', $pluginname);

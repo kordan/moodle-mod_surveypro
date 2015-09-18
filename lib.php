@@ -682,7 +682,7 @@ function surveypro_scale_used($surveyproid, $scaleid) {
  * @return boolean true if the scale is used by any surveypro instance
  */
 function surveypro_scale_used_anywhere($scaleid) {
-    global $DB;
+    // global $DB;
 
     /* @example */
     // if ($scaleid and $DB->record_exists('surveypro', array('grade' => -$scaleid))) {
@@ -1018,8 +1018,6 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
  * @return
  */
 function surveypro_extend_navigation(navigation_node $navref, stdClass $course, stdClass $surveypro, cm_info $cm) {
-    // global $COURSE;
-
     // $context = context_system::instance();
     $context = context_module::instance($cm->id);
 

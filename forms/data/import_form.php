@@ -98,8 +98,6 @@ class mod_surveypro_importform extends moodleform {
      * @return $errors
      */
     // public function validation($data, $files) {
-    //     global $USER;
-    //
     //     $mform = $this->_form;
     //
     //     // $surveypro = $this->_customdata->surveypro;

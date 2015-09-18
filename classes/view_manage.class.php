@@ -592,7 +592,7 @@ class mod_surveypro_submissionmanager {
      * @return
      */
     public function manage_submissions() {
-        global $OUTPUT, $CFG, $DB, $COURSE, $USER;
+        global $CFG, $OUTPUT, $DB, $COURSE, $USER;
 
         require_once($CFG->libdir.'/tablelib.php');
 
@@ -1141,6 +1141,7 @@ class mod_surveypro_submissionmanager {
                 $content = $item->userform_db_to_export($userdatarecord[$item->get_itemid()], SURVEYPRO_FIRENDLYFORMAT);
                 if ($item->get_plugin() != 'textarea') { // content does not come from an html editor
                     $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
+                    $content = str_replace(SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR, '<br />', $content);
                 } else { // content comes from a textarea item
                     if (!$item->get_useeditor()) { // content does not come from an html editor
                         $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');

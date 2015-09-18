@@ -762,7 +762,7 @@ class mod_surveypro_userformmanager {
      * @return
      */
     public function check_mandatories_are_in() {
-        global $DB, $CFG;
+        global $CFG, $DB;
 
         // get the list of all mandatory fields
         $sql = 'SELECT MIN(id), plugin
@@ -1216,6 +1216,7 @@ class mod_surveypro_userformmanager {
      */
     public function add_readonly_browsing_buttons() {
         global $OUTPUT;
+
         $params = array();
         $params['s'] = $this->surveypro->id;
         $params['submissionid'] = $this->submissionid;

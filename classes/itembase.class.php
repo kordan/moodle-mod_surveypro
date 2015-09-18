@@ -679,12 +679,11 @@ class mod_surveypro_itembase {
     public function item_delete($itemid) {
         global $DB;
 
-        $recordtokill = $DB->get_record('surveypro_item', array('id' => $itemid));
         if (!$DB->delete_records('surveypro_item', array('id' => $itemid))) {
             print_error('notdeleted_item', 'surveypro', null, $itemid);
         }
 
-        if (!$DB->delete_records('surveypro'.$this->type.'_'.$this->plugin, array('id' => $this->pluginid))) {
+        if (!$DB->delete_records('surveypro'.$this->type.'_'.$this->plugin, array('itemid' => $itemid))) {
             $a = new stdClass();
             $a->pluginid = $this->pluginid;
             $a->type = $this->type;
@@ -1035,7 +1034,7 @@ class mod_surveypro_itembase {
      * @return the content of the field
      */
     public function get_surveyproid() {
-        return $this->surveyproid;
+        return $this->cm->instance;
     }
 
     /**

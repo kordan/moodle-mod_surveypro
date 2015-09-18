@@ -33,7 +33,7 @@ class mod_surveypro_itembaseform extends moodleform {
      * @return none
      */
     public function definition() {
-        global $DB, $CFG;
+        global $CFG, $DB;
 
         // ----------------------------------------
         $mform = $this->_form;
@@ -323,8 +323,6 @@ class mod_surveypro_itembaseform extends moodleform {
      * @return none
      */
     public function add_item_buttons() {
-        global $CFG;
-
         // ----------------------------------------
         $mform = $this->_form;
 
@@ -361,8 +359,6 @@ class mod_surveypro_itembaseform extends moodleform {
      * @return $errors
      */
     public function validation($data, $files) {
-        global $CFG, $DB;
-
         // ----------------------------------------
         // $item = $this->_customdata->item;
         // $surveypro = $this->_customdata->surveypro;

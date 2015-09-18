@@ -407,7 +407,7 @@ EOS;
      * @return
      */
     public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
-        global $USER, $COURSE, $DB, $surveypro;
+        global $DB, $PAGE;
 
         if ($searchform) {
             if (isset($answer['ignoreme'])) {
@@ -424,7 +424,8 @@ EOS;
         }
 
         // get the original user actually making the first submission
-        $userid = $DB->get_field('surveypro_submission', 'userid', array('id' => $olduseranswer->submissionid, 'surveyproid' => $surveypro->id), IGNORE_MULTIPLE);
+        $surveyproid = $PAGE->cm->instance;
+        $userid = $DB->get_field('surveypro_submission', 'userid', array('id' => $olduseranswer->submissionid, 'surveyproid' => $surveyproid), IGNORE_MULTIPLE);
         $user = $DB->get_record('user', array('id' => $userid));
 
         $olduseranswer->content = $this->userform_get_content($olduseranswer->submissionid);
@@ -458,7 +459,10 @@ EOS;
      * @return
      */
     public function userform_get_content($submissionid) {
-        global $USER, $COURSE, $DB, $surveypro;
+        global $USER, $COURSE, $DB, $PAGE;
+
+        $surveyproid = $PAGE->cm->instance;
+        $surveypro = $DB->get_record('surveypro', array('id' => $surveyproid));
 
         if ($submissionid) {
             $userid = $DB->get_field('surveypro_submission', 'userid', array('id' => $submissionid, 'surveyproid' => $surveypro->id), IGNORE_MULTIPLE);

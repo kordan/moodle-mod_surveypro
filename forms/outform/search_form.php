@@ -33,7 +33,7 @@ class mod_surveypro_searchform extends moodleform {
      * @return none
      */
     public function definition() {
-        global $CFG, $DB;
+        global $DB;
 
         // ----------------------------------------
         $mform = $this->_form;

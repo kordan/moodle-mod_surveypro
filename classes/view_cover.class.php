@@ -55,8 +55,6 @@ class mod_surveypro_covermanager {
      * Class constructor
      */
     public function __construct($cm, $context, $surveypro) {
-        global $DB;
-
         $this->cm = $cm;
         $this->context = $context;
         $this->surveypro = $surveypro;
@@ -73,7 +71,7 @@ class mod_surveypro_covermanager {
      * @return
      */
     public function display_cover() {
-        global $OUTPUT, $CFG, $COURSE;
+        global $CFG, $OUTPUT, $COURSE;
 
         $labelsep = get_string('labelsep', 'langconfig'); // ': '
         $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context, null, true);

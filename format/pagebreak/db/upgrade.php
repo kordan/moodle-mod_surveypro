@@ -30,7 +30,7 @@
  * @return bool true
  */
 function xmldb_surveyproformat_pagebreak_upgrade($oldversion) {
-    global $CFG, $DB;
+    global $DB;
 
     $dbman = $DB->get_manager();
 

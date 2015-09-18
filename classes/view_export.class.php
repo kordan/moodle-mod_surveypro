@@ -169,7 +169,7 @@ class mod_surveypro_exportmanager {
      * @return $exporterror
      */
     public function surveypro_export() {
-        global $CFG, $DB;
+        global $DB;
 
         // do I need to filter groups?
         $filtergroups = surveypro_need_group_filtering($this->cm, $this->context);

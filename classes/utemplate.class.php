@@ -228,7 +228,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      * @return $options
      */
     public function get_sharinglevel_options() {
-        global $DB, $COURSE, $USER, $SITE;
+        global $USER;
 
         $labelsep = get_string('labelsep', 'langconfig'); // ': '
 
@@ -373,8 +373,6 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      * @return none
      */
     public function check_items_versions() {
-        global $CFG;
-
         if (empty($this->formdata->usertemplateinfo)) { // nothing was selected
             return;
         }
@@ -544,7 +542,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      * @return
      */
     public function manage_utemplates() {
-        global $USER, $OUTPUT, $CFG;
+        global $CFG, $USER, $OUTPUT;
 
         require_once($CFG->libdir.'/tablelib.php');
 

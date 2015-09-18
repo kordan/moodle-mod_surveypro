@@ -220,8 +220,6 @@ class mod_surveypro_field_recurrence extends mod_surveypro_itembase {
      * @return
      */
     public function item_custom_fields_to_form() {
-        global $surveypro;
-
         // 1. special management for fields equipped with "free" checkbox
         // nothing to do: they don't exist in this plugin
 
@@ -584,8 +582,6 @@ EOS;
      * @return string $fillinginstruction
      */
     public function userform_get_filling_instructions() {
-        global $surveypro;
-
         $haslowerbound = ($this->lowerbound != $this->item_recurrence_to_unix_time(1, 1));
         $hasupperbound = ($this->upperbound != $this->item_recurrence_to_unix_time(12, 31));
 

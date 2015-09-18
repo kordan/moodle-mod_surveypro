@@ -33,7 +33,7 @@ class mod_surveypro_report_filterform extends moodleform {
      * @return none
      */
     public function definition() {
-        global $DB, $CFG, $COURSE;
+        global $DB, $COURSE;
 
         // ----------------------------------------
         $mform = $this->_form;

@@ -87,7 +87,7 @@ class mod_surveypro_applymtemplateform extends moodleform {
      * @return $errors
      */
     public function validation($data, $files) {
-        global $USER, $CFG;
+        global $CFG;
 
         // ----------------------------------------
         // $mform = $this->_form;

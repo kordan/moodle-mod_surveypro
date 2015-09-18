@@ -81,7 +81,7 @@ class mod_surveypro_report_missing extends mod_surveypro_reportbase {
      * fetch_data
      */
     public function fetch_data() {
-        global $CFG, $DB, $COURSE, $OUTPUT;
+        global $DB, $COURSE, $OUTPUT;
 
         $coursecontext = context_course::instance($COURSE->id);
         $roles = get_roles_used_in_context($coursecontext);

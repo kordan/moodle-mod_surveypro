@@ -85,7 +85,7 @@ class mod_surveypro_report_frequency extends mod_surveypro_reportbase {
      * stop_if_textareas_only
      */
     public function stop_if_textareas_only() {
-        global $CFG, $DB, $OUTPUT;
+        global $DB, $OUTPUT;
 
         $where = 'surveyproid = :surveyproid AND type = :type AND advanced = :advanced AND hidden = :hidden AND plugin <> :plugin';
 

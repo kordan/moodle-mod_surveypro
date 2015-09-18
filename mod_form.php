@@ -27,7 +27,7 @@ class mod_surveypro_mod_form extends moodleform_mod {
      * @return none
      */
     public function definition() {
-        global $COURSE, $DB, $CFG, $cm;
+        global $CFG, $COURSE;
 
         $mform = $this->_form;
 
@@ -197,8 +197,6 @@ class mod_surveypro_mod_form extends moodleform_mod {
     // this function is executed once mod_form has been displayed
     // and is needed to define some presets
     public function data_preprocessing(&$defaults) {
-        global $DB;
-
         parent::data_preprocessing($defaults);
 
         if ($this->current->instance) {

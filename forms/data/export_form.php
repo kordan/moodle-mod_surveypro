@@ -27,7 +27,7 @@ class mod_surveypro_exportform extends moodleform {
      * @return none
      */
     public function definition() {
-        global $CFG, $DB, $COURSE, $USER;
+        global $DB, $COURSE, $USER;
 
         // ----------------------------------------
         $mform = $this->_form;
