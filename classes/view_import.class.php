@@ -374,6 +374,15 @@ class mod_surveypro_importmanager {
         $cir = new csv_import_reader($iid, 'surveyprouserdata');
 
         $csvcontent = $this->get_csv_content();
+        // does data come from OLD surveypro?
+        if ( (strpos($csvcontent, '__invItat10n__') === false) &&
+             (strpos($csvcontent, '__n0__Answer__') === false) &&
+             (strpos($csvcontent, '__1gn0rE__me__') === false) ) {
+            $csvusesolddata = false;
+        } else {
+            $csvusesolddata = true;
+        }
+
         $recordcount = $cir->load_csv_content($csvcontent, $this->formdata->encoding, $this->formdata->csvdelimiter);
         unset($csvcontent);
 
@@ -479,9 +488,15 @@ class mod_surveypro_importmanager {
 
         // DOES EACH RECORD provide a valid value?
         $reservedwords = array();
-        $reservedwords[] = SURVEYPRO_INVITATIONVALUE;
-        $reservedwords[] = SURVEYPRO_NOANSWERVALUE;
-        $reservedwords[] = SURVEYPRO_IGNOREMEVALUE;
+        if ($csvusesolddata) {
+            $reservedwords[] = '__invItat10n__';
+            $reservedwords[] = '__n0__Answer__';
+            $reservedwords[] = '__1gn0rE__me__';
+        } else {
+            $reservedwords[] = SURVEYPRO_INVITATIONVALUE;
+            $reservedwords[] = SURVEYPRO_NOANSWERVALUE;
+            $reservedwords[] = SURVEYPRO_IGNOREMEVALUE;
+        }
         $reservedwords[] = SURVEYPRO_ANSWERNOTINDBVALUE;
 
         $csvusers = array();
@@ -544,14 +559,19 @@ class mod_surveypro_importmanager {
                 }
 
                 $info = $itemhelperinfo[$col]; // the itemhelperinfo of the item in col = $col
+
                 // I import records with missing mandatory content too
                 // but if the content is provided, then it has to be present
                 if ($info->required) {
                     // verify it is not empty
-                    if (empty($value)) { // error
+                    if (!strlen($value)) { // error
                         $cir->close();
                         $cir->cleanup();
-                        print_error('import_emptyrequiredvalue', 'surveypro', $returnurl, $requireditem);
+
+                        $a = new stdClass();
+                        $a->row = implode(', ', $csvrow);
+                        $a->col = $col;
+                        print_error('import_emptyrequiredvalue', 'surveypro', $returnurl, $a);
                     }
                 }
 

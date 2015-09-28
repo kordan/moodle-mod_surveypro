@@ -325,7 +325,7 @@ class mod_surveypro_itembase {
             try {
                 $transaction = $DB->start_delegated_transaction();
 
-                if ($itemid = $DB->insert_record('surveypro_item', $record)) { // <-- first surveypro_itemsave
+                if ($itemid = $DB->insert_record('surveypro_item', $record)) { // <-- first surveypro_item save
 
                     // $tablename
                     // before saving to the the plugin table, validate the variable name
@@ -420,20 +420,20 @@ class mod_surveypro_itembase {
                 }
 
                 $transaction->allow_commit();
+
+                $this->item_manage_chains($record->itemid, $oldhidden, $record->hidden, $oldadvanced, $record->advanced);
+
+                // event: item_modified
+                $eventdata = array('context' => $this->context, 'objectid' => $record->itemid);
+                $eventdata['other'] = array('type' => $record->type, 'plugin' => $record->plugin, 'view' => SURVEYPRO_EDITITEM);
+                $event = \mod_surveypro\event\item_modified::create($eventdata);
+                $event->trigger();
             } catch (Exception $e) {
                 // extra cleanup steps
                 $transaction->rollback($e); // rethrows exception
             }
 
             // save process is over
-
-            $this->item_manage_chains($record->itemid, $oldhidden, $record->hidden, $oldadvanced, $record->advanced);
-
-            // event: item_modified
-            $eventdata = array('context' => $this->context, 'objectid' => $record->itemid);
-            $eventdata['other'] = array('type' => $record->type, 'plugin' => $record->plugin, 'view' => SURVEYPRO_EDITITEM);
-            $event = \mod_surveypro\event\item_modified::create($eventdata);
-            $event->trigger();
         }
 
         // $this->userfeedbackmask is going to be part of $returnurl in items_setup.php and to be send to items_manage.php
@@ -679,41 +679,50 @@ class mod_surveypro_itembase {
     public function item_delete($itemid) {
         global $DB;
 
-        if (!$DB->delete_records('surveypro_item', array('id' => $itemid))) {
-            print_error('notdeleted_item', 'surveypro', null, $itemid);
-        }
+        try {
+            $transaction = $DB->start_delegated_transaction();
 
-        if (!$DB->delete_records('surveypro'.$this->type.'_'.$this->plugin, array('itemid' => $itemid))) {
-            $a = new stdClass();
-            $a->pluginid = $this->pluginid;
-            $a->type = $this->type;
-            $a->plugin = $this->plugin;
-            print_error('notdeleted_plugin', 'surveypro', null, $a);
-        }
-
-        $eventdata = array('context' => $this->context, 'objectid' => $this->cm->instance);
-        $eventdata['other'] = array('plugin' => $this->plugin);
-        $event = \mod_surveypro\event\item_deleted::create($eventdata);
-        $event->trigger();
-
-        surveypro_reset_items_pages($this->cm->instance);
-
-        // delete records from surveypro_answer
-        // if, at the end, the related surveypro_submission has no data, then, delete it too.
-        if (!$DB->delete_records('surveypro_answer', array('itemid' => $itemid))) {
-            print_error('notdeleted_userdata', 'surveypro', null, $itemid);
-        }
-
-        $emptysubmissions = 'SELECT c.id
-                             FROM {surveypro_submission} c
-                                 LEFT JOIN {surveypro_answer} d ON c.id = d.submissionid
-                             WHERE (d.id IS null)';
-        if ($surveyprotodelete = $DB->get_records_sql($emptysubmissions)) {
-            $surveyprotodelete = array_keys($surveyprotodelete);
-            if (!$DB->delete_records_select('surveypro_submission', 'id IN ('.implode(',', $surveyprotodelete).')')) {
-                $a = implode(',', $surveyprotodelete);
-                print_error('notdeleted_submission', 'surveypro', null, $a);
+            if (!$DB->delete_records('surveypro_item', array('id' => $itemid))) {
+                print_error('notdeleted_item', 'surveypro', null, $itemid);
             }
+
+            if (!$DB->delete_records('surveypro'.$this->type.'_'.$this->plugin, array('itemid' => $itemid))) {
+                $a = new stdClass();
+                $a->pluginid = $this->pluginid;
+                $a->type = $this->type;
+                $a->plugin = $this->plugin;
+                print_error('notdeleted_plugin', 'surveypro', null, $a);
+            }
+
+            surveypro_reset_items_pages($this->cm->instance);
+
+            // delete records from surveypro_answer
+            // if, at the end, the related surveypro_submission has no data, then, delete it too.
+            if (!$DB->delete_records('surveypro_answer', array('itemid' => $itemid))) {
+                print_error('notdeleted_userdata', 'surveypro', null, $itemid);
+            }
+
+            $emptysubmissions = 'SELECT c.id
+                                 FROM {surveypro_submission} c
+                                     LEFT JOIN {surveypro_answer} d ON c.id = d.submissionid
+                                 WHERE (d.id IS null)';
+            if ($surveyprotodelete = $DB->get_records_sql($emptysubmissions)) {
+                $surveyprotodelete = array_keys($surveyprotodelete);
+                if (!$DB->delete_records_select('surveypro_submission', 'id IN ('.implode(',', $surveyprotodelete).')')) {
+                    $a = implode(',', $surveyprotodelete);
+                    print_error('notdeleted_submission', 'surveypro', null, $a);
+                }
+            }
+
+            $transaction->allow_commit();
+
+            $eventdata = array('context' => $this->context, 'objectid' => $this->cm->instance);
+            $eventdata['other'] = array('plugin' => $this->plugin);
+            $event = \mod_surveypro\event\item_deleted::create($eventdata);
+            $event->trigger();
+        } catch (Exception $e) {
+            // extra cleanup steps
+            $transaction->rollback($e); // rethrows exception
         }
     }
 

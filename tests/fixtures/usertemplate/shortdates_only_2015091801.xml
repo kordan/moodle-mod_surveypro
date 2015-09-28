@@ -83,7 +83,7 @@
       <sortindex>5</sortindex>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;input is limited to last 15 years&lt;/li&gt;&lt;li&gt;the default is set to the last input&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is probably set to a valid value so the user can "fly" over this item leaving the proposed default untouched (and the question not read) or tick the "No answer" checkbox or tick the "No answer" checkbox.&lt;br /&gt;</content>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;input is limited to last 15 years&lt;/li&gt;&lt;li&gt;the default is set to the last input&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is probably set to a valid value so the user can "fly" over this item leaving the proposed default untouched (and the question not read) or tick the "No answer" checkbox.&lt;br /&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>3 intro</customnumber>
       <indent>0</indent>
@@ -159,7 +159,7 @@ he/she is forced to choose a different date or to tick the "No answer" checkbox.
       <sortindex>9</sortindex>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;input is limited to last 15 years&lt;/li&gt;&lt;li&gt;the default is set to "No answer"&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can "fly" over this item leaving the proposed default untouched (and the question not read) or tick the "No answer" checkbox or tick the "No answer" checkbox and setting a different date.&lt;br /&gt;</content>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;input is limited to last 15 years&lt;/li&gt;&lt;li&gt;the default is set to "No answer"&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can "fly" over this item leaving the proposed default untouched (and the question not read) or tick the "No answer" checkbox and setting a different date.&lt;br /&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>5 intro</customnumber>
       <indent>0</indent>

@@ -146,9 +146,12 @@ define('SURVEYPRO_DONTSAVEMEPREFIX', 'placeholder');
 /*
  * INVITATION, NO-ANSWER AND IGNOREME VALUE
  */
+// since the very first beginning of the development
 // define('SURVEYPRO_INVITATIONVALUE', '__invItat10n__'); // user should never guess it
 // define('SURVEYPRO_NOANSWERVALUE',   '__n0__Answer__'); // user should never guess it
 // define('SURVEYPRO_IGNOREMEVALUE',   '__1gn0rE__me__'); // user should never guess it
+
+// started from version 2015090901
 define('SURVEYPRO_INVITATIONVALUE',   '@@_INVITE_@@'); // user should never guess it
 define('SURVEYPRO_NOANSWERVALUE',     '@@_NOANSW_@@'); // user should never guess it
 define('SURVEYPRO_IGNOREMEVALUE',     '@@_IGNORE_@@'); // user should never guess it

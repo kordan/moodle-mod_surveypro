@@ -296,24 +296,25 @@ class mod_surveypro_submissionmanager {
 
                         $transaction->allow_commit();
 
+                        // Update completion state
+                        $course = $DB->get_record('course', array('id' => $this->cm->course), '*', MUST_EXIST);
+                        $completion = new completion_info($course);
+                        if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
+                            $completion->update_state($this->cm, COMPLETION_INCOMPLETE);
+                        }
+
+                        // event: submission_deleted
+                        $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
+                        $eventdata['other'] = array('cover' => 0);
+                        $event = \mod_surveypro\event\submission_deleted::create($eventdata);
+                        $event->trigger();
+
                         echo $OUTPUT->notification(get_string('responsedeleted', 'surveypro'), 'notifysuccess');
                     } catch (Exception $e) {
                         // extra cleanup steps
                         $transaction->rollback($e); // rethrows exception
                     }
 
-                    // Update completion state
-                    $course = $DB->get_record('course', array('id' => $this->cm->course), '*', MUST_EXIST);
-                    $completion = new completion_info($course);
-                    if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
-                        $completion->update_state($this->cm, COMPLETION_INCOMPLETE);
-                    }
-
-                    // event: submission_deleted
-                    $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
-                    $eventdata['other'] = array('cover' => 0);
-                    $event = \mod_surveypro\event\submission_deleted::create($eventdata);
-                    $event->trigger();
                     break;
                 case SURVEYPRO_CONFIRMED_NO:
                     $message = get_string('usercanceled', 'surveypro');
@@ -374,26 +375,28 @@ class mod_surveypro_submissionmanager {
                         }
 
                         $DB->delete_records('surveypro_submission', array('surveyproid' => $this->surveypro->id));
-                        echo $OUTPUT->notification(get_string('allsubmissionsdeleted', 'surveypro'), 'notifymessage');
 
                         $transaction->allow_commit();
+
+                        // Update completion state
+                        $course = $DB->get_record('course', array('id' => $this->cm->course), '*', MUST_EXIST);
+                        $completion = new completion_info($course);
+                        if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
+                            $completion->update_state($this->cm, COMPLETION_INCOMPLETE);
+                        }
+
+                        // event: all_submissions_deleted
+                        $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
+                        $eventdata['other'] = array('cover' => 0);
+                        $event = \mod_surveypro\event\all_submissions_deleted::create($eventdata);
+                        $event->trigger();
+
+                        echo $OUTPUT->notification(get_string('allsubmissionsdeleted', 'surveypro'), 'notifymessage');
                     } catch (Exception $e) {
                         // extra cleanup steps
                         $transaction->rollback($e); // rethrows exception
                     }
 
-                    // Update completion state
-                    $course = $DB->get_record('course', array('id' => $this->cm->course), '*', MUST_EXIST);
-                    $completion = new completion_info($course);
-                    if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
-                        $completion->update_state($this->cm, COMPLETION_INCOMPLETE);
-                    }
-
-                    // event: all_submissions_deleted
-                    $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
-                    $eventdata['other'] = array('cover' => 0);
-                    $event = \mod_surveypro\event\all_submissions_deleted::create($eventdata);
-                    $event->trigger();
                     break;
                 case SURVEYPRO_CONFIRMED_NO:
                     $message = get_string('usercanceled', 'surveypro');
