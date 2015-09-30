@@ -80,7 +80,7 @@ class mod_surveypro_exportform extends moodleform {
         }
 
         // ----------------------------------------
-        // submissionexport: first and last name
+        // submissionexport: includenames
         // ----------------------------------------
         if (empty($this->surveypro->anonymous)) {
             $fieldname = 'includenames';

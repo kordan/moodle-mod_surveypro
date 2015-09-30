@@ -230,16 +230,15 @@ $string['import_invalidtimemodified'] = 'The timemodified "{$a}" is invalid';
 $string['import_invaliduserid'] = 'The userid "{$a}" is invalid';
 $string['import_missingsemantic'] = 'A semanticless value "{$a->csvvalue}" has been found in the column {$a->csvcol} ({$a->header}) of the row: "{$a->csvrow}". The semantic for this item is supposed to be: {$a->semantic}';
 $string['import_missingtimecreated'] = 'Empty creation time is invalid';
-$string['import_missingtimemodified'] = 'Empty modification itme is invalid';
 $string['import_missinguserid'] = 'Empty userid is invalid';
 $string['import_positionnotinteger'] = 'The position {$a->position} found in "{$a->csvvalue}" for the column {$a->csvcol} is not an integer number';
 $string['import_positionoutofbound'] = 'The position {$a->position} found in "{$a->csvvalue}" for the column {$a->csvcol} is out of bound. Allowed bounds are: "{$a->bounds}"';
 $string['importfile'] = 'Choose files to import';
 $string['importusertemplates'] = '<a href="{$a}">Import user templates</a>';
 $string['includeadvanced'] = 'Include advanced element';
-$string['includedates'] = 'Include dates';
+$string['includedates'] = 'Include creation and modification dates';
 $string['includehidden'] = 'Include hidden elements';
-$string['includenames'] = 'Include names';
+$string['includenames'] = 'Include owner name';
 $string['incorrectaccessdetected'] = 'Incorrect access detected';
 $string['indent_help'] = 'The indent of the element alias the left margin the element will respect once drawn';
 $string['indent'] = 'Indent';
@@ -479,8 +478,8 @@ $string['welcomeimport'] = 'Use this page to import responses into this survey. 
 The headers of the csv file to import are supposed to match the "variable names" of the elements of the survey.<br />
 Currently it is not allowed the import of attachment elements.<br />
 Unknown headers will break the import process.<br />
-"Userid" can be included among headers. It will assign the ownership of each imported response (even if the survey is anonymous).<br />
-If the "Userid" column is missing from the csv file, the imported responses will be assigned to the user executing the import.<br />
+"Ownerid" can be included among headers. It will assign the ownership of each imported response (even if the survey is anonymous).<br />
+If the "Ownerid" column is missing from the csv file, the imported responses will be assigned to the user executing the import.<br />
 It is allowed the importation of csv files missing required elements but, whether included, they must hold valid and non empty values.<br />
 Import files missing required elements are allowed and the imported responses will be marked as "in progress".<br />
 Semantic defines the meaning of the content of the csv file for some specific elements. For instance, for a "select" plugin element, the csv file can provide the label of the answer such as its value or its position in the drop down user interface<br />

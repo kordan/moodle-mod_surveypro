@@ -157,6 +157,10 @@ class mod_surveypro_importmanager {
 
         $requireditems = array();
         $surveyheaders = array();
+        $surveyheaders[SURVEYPRO_OWNERIDLABEL] = SURVEYPRO_OWNERIDLABEL;
+        $surveyheaders[SURVEYPRO_TIMECREATEDLABEL] = SURVEYPRO_TIMECREATEDLABEL;
+        $surveyheaders[SURVEYPRO_TIMEMODIFIEDLABEL] = SURVEYPRO_TIMEMODIFIEDLABEL;
+
         $where = array('surveyproid' => $this->surveypro->id);
         foreach ($pluginlist as $plugin) {
             require_once($CFG->dirroot.'/mod/surveypro/field/'.$plugin.'/classes/plugin.class.php');
@@ -264,16 +268,19 @@ class mod_surveypro_importmanager {
         foreach ($foundheaders as $k => $foundheader) {
             $key = array_search($foundheader, $surveyheaders);
             if ($key !== false) {
-                if ($key == 'userid') {
-                    $environmentheaders['userid'] = $k;
-                }
-                if ($key == 'timecreated') {
-                    $environmentheaders['timecreated'] = $k;
-                }
-                if ($key == 'timemodified') {
-                    $environmentheaders['timemodified'] = $k;
-                }
                 $columntoitemid[$k] = $key;
+                if ($key == SURVEYPRO_OWNERIDLABEL) {
+                    $environmentheaders[SURVEYPRO_OWNERIDLABEL] = $k;
+                    continue;
+                }
+                if ($key == SURVEYPRO_TIMECREATEDLABEL) {
+                    $environmentheaders[SURVEYPRO_TIMECREATEDLABEL] = $k;
+                    continue;
+                }
+                if ($key == SURVEYPRO_TIMEMODIFIEDLABEL) {
+                    $environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL] = $k;
+                    continue;
+                }
             } else {
                 $nonmatchingheaders[] = $foundheader;
             }
@@ -294,15 +301,15 @@ class mod_surveypro_importmanager {
         $itemhelperinfo = array(); // one element per each item
         $itemoptions = array(); // one element only for items saving position to db
         foreach ($columntoitemid as $col => $itemid) {
-            if (isset($environmentheaders['userid']) && ($col == $environmentheaders['userid'])) {
+            if (isset($environmentheaders[SURVEYPRO_OWNERIDLABEL]) && ($col == $environmentheaders[SURVEYPRO_OWNERIDLABEL])) {
                 // the column for userid
                 continue;
             }
-            if (isset($environmentheaders['timecreated']) && ($col == $environmentheaders['timecreated'])) {
+            if (isset($environmentheaders[SURVEYPRO_TIMECREATEDLABEL]) && ($col == $environmentheaders[SURVEYPRO_TIMECREATEDLABEL])) {
                 // the column for timecreated
                 continue;
             }
-            if (isset($environmentheaders['timemodified']) && ($col == $environmentheaders['timemodified'])) {
+            if (isset($environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL]) && ($col == $environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL])) {
                 // the column for timemodified
                 continue;
             }
@@ -386,15 +393,18 @@ class mod_surveypro_importmanager {
         $recordcount = $cir->load_csv_content($csvcontent, $this->formdata->encoding, $this->formdata->csvdelimiter);
         unset($csvcontent);
 
-        // is the number of field of each row homogeneous with all the others?
+        // *******************************************************
+        // Start here 3 tests against general file configuration
+        // *******************************************************
+        // 1) is the number of field of each line homogeneous with all the others?
         $csvfileerror = $cir->get_error();
-        if (!is_null($csvfileerror)) { // error
+        if (!is_null($csvfileerror)) {
             $cir->close();
             $cir->cleanup();
             print_error('import_columnscountchanges', 'surveypro', $returnurl, $csvfileerror);
         }
 
-        // is each column unique?
+        // 2) is each column unique?
         $foundheaders = $cir->get_columns();
         if ($debug) {
             echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
@@ -407,7 +417,7 @@ class mod_surveypro_importmanager {
             print_error('import_duplicateheader', 'surveypro', $returnurl, $duplicateheader);
         }
 
-        // is the user trying to import an attachment?
+        // 3) is the user trying to import an attachment?
         if ($attachments = $this->verify_attachments_import($foundheaders)) { // error
             $cir->close();
             $cir->cleanup();
@@ -415,10 +425,11 @@ class mod_surveypro_importmanager {
             print_error('import_attachmentsnotallowed', 'surveypro', $returnurl, $a);
         }
 
+        // *******************************************************
         // make a list of the header of each item in the survey
         // and the list of the id of the required items
+        // *******************************************************
         list($surveyheaders, $requireditems) = $this->get_survey_infos();
-        $surveyheaders = array('userid' => 'userid', 'timecreated' => 'timecreated', 'timemodified' => 'timemodified') + $surveyheaders;
         if ($debug) {
             echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
             echo '$surveyheaders:';
@@ -439,7 +450,9 @@ class mod_surveypro_importmanager {
         //     but IS allowed to partially import records even jumping mandatory values
         // *******************************************************
 
+        // *******************************************************
         // make a relation between each column header and the corresponding itemid
+        // *******************************************************
         list($columntoitemid, $nonmatchingheaders, $environmentheaders) = $this->get_columntoitemid($foundheaders, $surveyheaders);
         if ($debug) {
             echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
@@ -451,11 +464,14 @@ class mod_surveypro_importmanager {
             //   2 => int 676
             //   3 => int 673
             //   4 => int 675
-            echo '$environmentheaders: ';
+            echo '$environmentheaders:';
             var_dump($environmentheaders);
+
+            echo '$nonmatchingheaders:';
+            var_dump($nonmatchingheaders);
+            die;
         }
-        // userid column in the csv is not mandatory
-        // if it is not present, imported surveys vill be given to $USER
+
         if (count($nonmatchingheaders)) {
             $cir->close();
             $cir->cleanup();
@@ -463,7 +479,10 @@ class mod_surveypro_importmanager {
             print_error('import_extraheaderfound', 'surveypro', $returnurl, $a);
         }
 
+        // *******************************************************
+        // Define the stautus of imported records
         // is each required item included into the csv?
+        // *******************************************************
         if ($this->verify_required($requireditems, $columntoitemid, $surveyheaders)) {
             $defaultstatus = SURVEYPRO_STATUSINPROGRESS;
         } else {
@@ -486,7 +505,10 @@ class mod_surveypro_importmanager {
             var_dump($itemoptions);
         }
 
+        // *******************************************************
         // DOES EACH RECORD provide a valid value?
+        // Start here a looooooooong list of verifications against founded values record per record
+        // *******************************************************
         $reservedwords = array();
         if ($csvusesolddata) {
             $reservedwords[] = '__invItat10n__';
@@ -505,7 +527,7 @@ class mod_surveypro_importmanager {
             foreach ($foundheaders as $col => $unused) {
                 $value = $csvrow[$col]; // the value reported in the csv file
 
-                if (isset($environmentheaders['userid']) && ($col == $environmentheaders['userid'])) {
+                if (isset($environmentheaders[SURVEYPRO_OWNERIDLABEL]) && ($col == $environmentheaders[SURVEYPRO_OWNERIDLABEL])) {
                     // the column for userid
                     if (empty($value)) {
                         $cir->close();
@@ -528,7 +550,7 @@ class mod_surveypro_importmanager {
                     continue;
                 }
 
-                if (isset($environmentheaders['timecreated']) && ($col == $environmentheaders['timecreated'])) {
+                if (isset($environmentheaders[SURVEYPRO_TIMECREATEDLABEL]) && ($col == $environmentheaders[SURVEYPRO_TIMECREATEDLABEL])) {
                     // the column for timecreated
                     if (empty($value)) {
                         $cir->close();
@@ -543,14 +565,8 @@ class mod_surveypro_importmanager {
                     continue;
                 }
 
-                if (isset($environmentheaders['timemodified']) && ($col == $environmentheaders['timemodified'])) {
-                    // the column for timemodified
-                    if (empty($value)) {
-                        $cir->close();
-                        $cir->cleanup();
-                        print_error('import_missingtimemodified', 'surveypro', $returnurl);
-                    }
-                    if (!is_number($value)) {
+                if (isset($environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL]) && ($col == $environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL])) {
+                    if (!empty($value) && !is_number($value)) {
                         $cir->close();
                         $cir->cleanup();
                         print_error('import_invalidtimemodified', 'surveypro', $returnurl, $value);
@@ -750,8 +766,8 @@ class mod_surveypro_importmanager {
             // add one record to surveypro_submission
             $record = new stdClass();
             $record->surveyproid = $this->surveypro->id;
-            if (isset($environmentheaders['userid'])) {
-                $userid = $csvrow[$environmentheaders['userid']];
+            if (isset($environmentheaders[SURVEYPRO_OWNERIDLABEL])) {
+                $userid = $csvrow[$environmentheaders[SURVEYPRO_OWNERIDLABEL]];
                 // try to save querys
                 if (in_array($userid, $gooduserids)) {
                     $record->userid = $userid;
@@ -772,14 +788,16 @@ class mod_surveypro_importmanager {
                 $record->userid = $USER->id;
             }
 
-            if (isset($environmentheaders['timecreated'])) {
-                $record->timecreated = $csvrow[$environmentheaders['timecreated']];
+            if (isset($environmentheaders[SURVEYPRO_TIMECREATEDLABEL])) {
+                $record->timecreated = $csvrow[$environmentheaders[SURVEYPRO_TIMECREATEDLABEL]];
             } else {
                 $record->timecreated = $timenow;
             }
 
-            if (isset($environmentheaders['timemodified'])) {
-                $record->timemodified = $csvrow[$environmentheaders['timemodified']];
+            if (isset($environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL])) {
+                if (!empty($csvrow[$environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL]])) {
+                    $record->timemodified = $csvrow[$environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL]];
+                }
             }
 
             $record->status = $defaultstatus;
@@ -794,15 +812,15 @@ class mod_surveypro_importmanager {
             // add many records to surveypro_answer
             $status = $defaultstatus;
             foreach ($csvrow as $col => $value) {
-                if (isset($environmentheaders['userid']) && ($col == $environmentheaders['userid'])) {
+                if (isset($environmentheaders[SURVEYPRO_OWNERIDLABEL]) && ($col == $environmentheaders[SURVEYPRO_OWNERIDLABEL])) {
                     // the column for userid
                     continue;
                 }
-                if (isset($environmentheaders['timecreated']) && ($col == $environmentheaders['timecreated'])) {
+                if (isset($environmentheaders[SURVEYPRO_TIMECREATEDLABEL]) && ($col == $environmentheaders[SURVEYPRO_TIMECREATEDLABEL])) {
                     // the column for userid
                     continue;
                 }
-                if (isset($environmentheaders['timemodified']) && ($col == $environmentheaders['timemodified'])) {
+                if (isset($environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL]) && ($col == $environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL])) {
                     // the column for userid
                     continue;
                 }
@@ -827,6 +845,7 @@ class mod_surveypro_importmanager {
                 $record->submissionid = $submissionid;
                 $record->itemid = $columntoitemid[$col];
                 $record->content = $value;
+                $record->verified = 1;
                 $record->contentformat = $itemhelperinfo[$col]->contentformat;
                 if ($debug) {
                     echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';

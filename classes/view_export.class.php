@@ -188,7 +188,10 @@ class mod_surveypro_exportmanager {
             die();
         }
 
-        list($richsubmissionssql, $whereparams) = $this->export_get_sql();
+        list($richsubmissionssql, $whereparams) = $this->export_get_sql(false);
+        // echo '$richsubmissionssql = '.$richsubmissionssql.'<br />';
+        // echo '$whereparams:';
+        // var_dump($whereparams);
         $richsubmissions = $DB->get_recordset_sql($richsubmissionssql, $whereparams);
 
         if ($richsubmissions->valid()) {
@@ -225,17 +228,29 @@ class mod_surveypro_exportmanager {
 
         // print header
         $headerlabels = array();
+// echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
+        if (empty($this->surveypro->anonymous)) {
+            $headerlabels[] = SURVEYPRO_OWNERIDLABEL;
+        }
+// echo 'Ho aggiunto ownerid<br />';
+// echo 'count parziale di $headerlabels = '.count($headerlabels).'<br />';
         if (empty($this->surveypro->anonymous) && isset($this->formdata->includenames)) {
             $headerlabels[] = get_string('firstname');
             $headerlabels[] = get_string('lastname');
         }
+// echo 'Ho aggiunto i nomi<br />';
+// echo 'count parziale di $headerlabels = '.count($headerlabels).'<br />';
         foreach ($itemseeds as $itemseed) {
             $headerlabels[] = $DB->get_field('surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemseed->plugin, 'variable', array('itemid' => $itemseed->id));
         }
+// echo 'Ho aggiunto i placeholders<br />';
+// echo 'count parziale di $headerlabels = '.count($headerlabels).'<br />';
         if (isset($this->formdata->includedates)) {
-            $headerlabels[] = get_string('timecreated', 'surveypro');
-            $headerlabels[] = get_string('timemodified', 'surveypro');
+            $headerlabels[] = SURVEYPRO_TIMECREATEDLABEL;
+            $headerlabels[] = SURVEYPRO_TIMEMODIFIEDLABEL;
         }
+// echo 'Ho aggiunto le date<br />';
+// echo 'count parziale di $headerlabels = '.count($headerlabels).'<br />';
         $csvexport->add_data($headerlabels);
 
         // reduce the weight of $itemseeds disposing no longer relevant infos
@@ -245,8 +260,10 @@ class mod_surveypro_exportmanager {
             $answermissingindb = SURVEYPRO_ANSWERNOTINDBVALUE;
         }
         $itemseedskeys = array_keys($itemseeds);
-        $placeholders = array_fill_keys($itemseedskeys, $answermissingindb);
         unset($itemseeds);
+
+        // define once and forever $placeholders
+        $placeholders = array_fill_keys($itemseedskeys, $answermissingindb);
 
         // echo '$placeholders:';
         // var_dump($placeholders);
@@ -260,6 +277,10 @@ class mod_surveypro_exportmanager {
         foreach ($richsubmissions as $richsubmission) {
             if ($oldsubmissionid != $richsubmission->submissionid) {
                 if (!empty($oldsubmissionid)) { // new richsubmissionid, stop managing old record
+                    // echo 'Record ready for the save<br />';
+                    // echo '$recordtoexport:';
+                    // var_dump($recordtoexport);
+
                     // write old record
                     $csvexport->add_data($recordtoexport);
                 }
@@ -269,9 +290,22 @@ class mod_surveypro_exportmanager {
 
                 // begin a new record
                 $recordtoexport = array();
+                $recordtoexport += $this->export_add_ownerid($richsubmission);
+// echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
+// echo 'Ho aggiunto ownerid<br />';
+// echo 'count parziale di $recordtoexport = '.count($recordtoexport).'<br />';
                 $recordtoexport += $this->export_add_names($richsubmission);
+// echo 'Ho aggiunto i nomi<br />';
+// echo 'count parziale di $recordtoexport = '.count($recordtoexport).'<br />';
                 $recordtoexport += $placeholders;
+// echo 'Ho aggiunto i placeholders<br />';
+// echo 'count parziale di $recordtoexport = '.count($recordtoexport).'<br />';
                 $recordtoexport += $this->export_add_dates($richsubmission);
+// echo 'Ho aggiunto le date<br />';
+// echo 'count parziale di $recordtoexport = '.count($recordtoexport).'<br />';
+                // echo 'Just created empty record<br />';
+                // echo '$recordtoexport:';
+                // var_dump($recordtoexport);
             }
 
             if ($this->formdata->outputstyle == SURVEYPRO_VERBOSE) {
@@ -403,12 +437,26 @@ class mod_surveypro_exportmanager {
 
         if (!$itemseeds = $DB->get_records('surveypro_item', $where, 'sortindex', 'id, plugin')) {
             return SURVEYPRO_NOFIELDSSELECTED;
-            die();
+            die(); // <-- never reached
         }
         // end of: get the field list
         // -----------------------------
 
         return $itemseeds;
+    }
+
+    /**
+     * export_add_ownerid
+     *
+     * @param $richsubmission
+     * @return $owner
+     */
+    public function export_add_ownerid($richsubmission) {
+        if (empty($this->surveypro->anonymous)) {
+            $owner = array(SURVEYPRO_OWNERIDLABEL => $richsubmission->userid);
+        }
+
+        return $owner;
     }
 
     /**
@@ -447,8 +495,8 @@ class mod_surveypro_exportmanager {
                 $dates['timecreated'] = $richsubmission->timecreated;
                 if ($richsubmission->timemodified) {
                     $dates['timemodified'] = $richsubmission->timemodified;
-                    // } else {
-                    // do not set $dates['timemodified']
+                } else {
+                    $dates['timemodified'] = null;
                 }
             }
         }
