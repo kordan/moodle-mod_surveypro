@@ -340,6 +340,16 @@ EOS;
         return $schema;
     }
 
+    /**
+     * get_can_be_mandatory
+     *
+     * @param none
+     * @return whether the item of this plugin can be mandatory
+     */
+    public static function item_get_can_be_mandatory() {
+        return false;
+    }
+
     // MARK userform
 
     /**

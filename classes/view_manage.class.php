@@ -843,15 +843,15 @@ class mod_surveypro_submissionmanager {
         $inprogress = $this->user_sent_submissions(SURVEYPRO_STATUSINPROGRESS);
         $next = $countclosed + $inprogress + 1;
 
-        $adnew = $this->cansubmit;
+        $addnew = $this->cansubmit;
         if ($this->surveypro->timeopen) {
-            $adnew = $adnew && ($this->surveypro->timeopen < $timenow);
+            $addnew = $addnew && ($this->surveypro->timeopen < $timenow);
         }
         if ($this->surveypro->timeclose) {
-            $adnew = $adnew && ($this->surveypro->timeclose > $timenow);
+            $addnew = $addnew && ($this->surveypro->timeclose > $timenow);
         }
         if (!$this->canignoremaxentries) {
-            $adnew = $adnew && (($this->surveypro->maxentries == 0) || ($next <= $this->surveypro->maxentries));
+            $addnew = $addnew && (($this->surveypro->maxentries == 0) || ($next <= $this->surveypro->maxentries));
         }
         // End of: is the button to add one more response going to be the page?
 
@@ -865,7 +865,7 @@ class mod_surveypro_submissionmanager {
         // End of: is the button to delete all responses going to be the page?
 
         $buttoncount = 0;
-        if ($adnew) {
+        if ($addnew) {
             $addurl = new moodle_url('/mod/surveypro/view_userform.php', array('id' => $this->cm->id, 'view' => SURVEYPRO_NEWRESPONSE));
             $buttoncount = 1;
         }
@@ -885,7 +885,7 @@ class mod_surveypro_submissionmanager {
         }
 
         if ($buttoncount == 1) {
-            if ($adnew) {
+            if ($addnew) {
                 echo $OUTPUT->box($OUTPUT->single_button($addurl, get_string('addnewsubmission', 'surveypro'), 'get'), 'clearfix mdl-align');
             }
 
@@ -896,8 +896,10 @@ class mod_surveypro_submissionmanager {
             $addbutton = new single_button($addurl, get_string('addnewsubmission', 'surveypro'), 'get', array('class' => 'buttons'));
             $deleteallbutton = new single_button($deleteurl, get_string('deleteallsubmissions', 'surveypro'), 'get', array('class' => 'buttons'));
 
+            // this code comes from "public function confirm(" around line 1711 in outputrenderers.php.
+            // It is not wrong. The misalign comes from bootstrapbase theme and is present in clean theme too.
             echo $OUTPUT->box_start('generalbox centerpara', 'notice');
-            echo html_writer::tag('div', $OUTPUT->render($addbutton) . $OUTPUT->render($deleteallbutton), array('class' => 'buttons'));
+            echo html_writer::tag('div', $OUTPUT->render($addbutton).$OUTPUT->render($deleteallbutton), array('class' => 'buttons'));
             echo $OUTPUT->box_end();
         }
     }
@@ -1105,10 +1107,8 @@ class mod_surveypro_submissionmanager {
         foreach ($itemseeds as $itemseed) {
             $item = surveypro_get_item($itemseed->id, $itemseed->type, $itemseed->plugin);
             // ($itemseed->plugin == 'pagebreak') is not selected by surveypro_fetch_items_seeds
-            if (($itemseed->plugin == 'fieldset') || ($itemseed->plugin == 'fieldsetend')) {
-                continue;
-            }
-            if ($itemseed->plugin == 'label') {
+            $template = $item::item_get_pdf_template();
+            if ($template == SURVEYPRO_2COLUMNSTEMPLATE) {
                 // first column
                 $html = $htmllabeltemplate;
                 $content = ($item->get_customnumber()) ? $item->get_customnumber().':' : '';
@@ -1122,40 +1122,41 @@ class mod_surveypro_submissionmanager {
                 // $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
                 $html = str_replace('@@col2@@', $content, $html);
                 $pdf->writeHTMLCell(0, 0, '', '', $html, $border, 1, 0, true, '', true); // this is like span 2
-                continue;
             }
 
-            // first column
-            $html = $htmlstandardtemplate;
-            $content = ($item->get_customnumber()) ? $item->get_customnumber().':' : '';
-            $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
-            $html = str_replace('@@col1@@', $content, $html);
+            if ($template == SURVEYPRO_3COLUMNSTEMPLATE) {
+                // first column
+                $html = $htmlstandardtemplate;
+                $content = ($item->get_customnumber()) ? $item->get_customnumber().':' : '';
+                $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
+                $html = str_replace('@@col1@@', $content, $html);
 
-            // second column
-            // $content = trim(strip_tags($item->get_content()), " \t\n\r"); <-- I want images in the PDF
-            $content = $item->get_content();
-            // why does $content here is already html encoded so that I do not have to apply htmlspecialchars?
-            // because it comes from an editor?
-            // $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
-            $html = str_replace('@@col2@@', $content, $html);
+                // second column
+                // $content = trim(strip_tags($item->get_content()), " \t\n\r"); <-- I want images in the PDF
+                $content = $item->get_content();
+                // why does $content here is already html encoded so that I do not have to apply htmlspecialchars?
+                // because it comes from an editor?
+                // $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
+                $html = str_replace('@@col2@@', $content, $html);
 
-            // third column
-            if (isset($userdatarecord[$item->get_itemid()])) {
-                $content = $item->userform_db_to_export($userdatarecord[$item->get_itemid()], SURVEYPRO_FIRENDLYFORMAT);
-                if ($item->get_plugin() != 'textarea') { // content does not come from an html editor
-                    $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
-                    $content = str_replace(SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR, '<br />', $content);
-                } else { // content comes from a textarea item
-                    if (!$item->get_useeditor()) { // content does not come from an html editor
+                // third column
+                if (isset($userdatarecord[$item->get_itemid()])) {
+                    $content = $item->userform_db_to_export($userdatarecord[$item->get_itemid()], SURVEYPRO_FIRENDLYFORMAT);
+                    if ($item->get_plugin() != 'textarea') { // content does not come from an html editor
                         $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
+                        $content = str_replace(SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR, '<br />', $content);
+                    } else { // content comes from a textarea item
+                        if (!$item->get_useeditor()) { // content does not come from an html editor
+                            $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
+                        }
                     }
+                } else {
+                    // $content = $emptyanswer;
+                    $content = '';
                 }
-            } else {
-                // $content = $emptyanswer;
-                $content = '';
+                $html = str_replace('@@col3@@', $content, $html);
+                $pdf->writeHTMLCell(0, 0, '', '', $html, $border, 1, 0, true, '', true);
             }
-            $html = str_replace('@@col3@@', $content, $html);
-            $pdf->writeHTMLCell(0, 0, '', '', $html, $border, 1, 0, true, '', true);
         }
 
         $filename = $this->surveypro->name.'_'.$this->submissionid.'.pdf';

@@ -114,6 +114,16 @@ class mod_surveypro_format_fieldset extends mod_surveypro_itembase {
     }
 
     /**
+     * item_get_pdf_template
+     *
+     * @param none
+     * @return the template to use at response report creation
+     */
+    public static function item_get_pdf_template() {
+        return 0;
+    }
+
+    /**
      * item_get_canbeparent
      *
      * @return the content of the static property "canbeparent"

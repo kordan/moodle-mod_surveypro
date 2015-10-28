@@ -385,21 +385,19 @@ class mod_surveypro_userformmanager {
                         $pagenumber++;
                     }
                     $lastwaspagebreak = true;
-                    continue;
                 } else {
                     $lastwaspagebreak = false;
-                }
-                if ($this->surveypro->newpageforchild) {
-                    $parentitemid = $item->parentid;
-                    if (!empty($parentitemid)) {
-                        $parentpage = $DB->get_field('surveypro_item', 'formpage', array('id' => $item->parentid), MUST_EXIST);
-                        if ($parentpage == $pagenumber) {
-                            $pagenumber++;
+                    if ($this->surveypro->newpageforchild) {
+                        if (!empty($item->parentid)) {
+                            $parentpage = $DB->get_field('surveypro_item', 'formpage', array('id' => $item->parentid), MUST_EXIST);
+                            if ($parentpage == $pagenumber) {
+                                $pagenumber++;
+                            }
                         }
                     }
+                    // echo 'Assigning pages: $DB->set_field(\'surveypro_item\', \'formpage\', '.$pagenumber.', array(\'id\' => '.$item->id.'));<br />';
+                    $DB->set_field('surveypro_item', 'formpage', $pagenumber, array('id' => $item->id));
                 }
-                // echo 'Assigning pages: $DB->set_field(\'surveypro_item\', \'formpage\', '.$pagenumber.', array(\'id\' => '.$item->id.'));<br />';
-                $DB->set_field('surveypro_item', 'formpage', $pagenumber, array('id' => $item->id));
             }
             $items->close();
             $this->maxassignedpage = $pagenumber;
@@ -778,21 +776,25 @@ class mod_surveypro_userformmanager {
             require_once($CFG->dirroot.'/mod/surveypro/field/'.$plugin.'/classes/plugin.class.php');
 
             $itemclass = 'mod_surveypro_'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
-            $requiredfieldname = $itemclass::get_requiredfieldname();
-            $sql = 'SELECT i.id, i.parentid, i.parentvalue, p.'.$requiredfieldname.'
-                FROM {surveypro_item} i
-                    JOIN {surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'} p ON i.id = p.itemid
-                WHERE i.surveyproid = :surveyproid
-                ORDER BY p.itemid';
+            
+            $itemcanbemandatory = $itemclass::item_get_can_be_mandatory();
+            if ($itemcanbemandatory) {
+                $requiredfieldname = $itemclass::get_requiredfieldname();
+                $sql = 'SELECT i.id, i.parentid, i.parentvalue, p.'.$requiredfieldname.'
+                    FROM {surveypro_item} i
+                        JOIN {surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'} p ON i.id = p.itemid
+                    WHERE i.surveyproid = :surveyproid
+                    ORDER BY p.itemid';
 
-            $whereparams = array('surveyproid' => $this->surveypro->id);
-            $pluginitems = $DB->get_records_sql($sql, $whereparams);
+                $whereparams = array('surveyproid' => $this->surveypro->id);
+                $pluginitems = $DB->get_records_sql($sql, $whereparams);
 
-            foreach ($pluginitems as $pluginitem) {
-                if ($pluginitem->{$requiredfieldname} > 0) {
-                    unset ($pluginitem->{$requiredfieldname});
+                foreach ($pluginitems as $pluginitem) {
+                    if ($pluginitem->{$requiredfieldname} > 0) {
+                        unset ($pluginitem->{$requiredfieldname});
 
-                    $requireditems[$pluginitem->id] = $pluginitem;
+                        $requireditems[$pluginitem->id] = $pluginitem;
+                    }
                 }
             }
         }
@@ -1237,6 +1239,8 @@ class mod_surveypro_userformmanager {
                 }
 
                 if (isset($backwardbutton) && isset($forwardbutton)) {
+                    // this code comes from "public function confirm(" around line 1711 in outputrenderers.php.
+                    // It is not wrong. The misalign comes from bootstrapbase theme and is present in clean theme too.
                     echo html_writer::tag('div', $OUTPUT->render($backwardbutton).$OUTPUT->render($forwardbutton), array('class' => 'buttons'));
                 } else {
                     if (isset($backwardbutton)) {

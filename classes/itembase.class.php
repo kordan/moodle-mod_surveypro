@@ -954,6 +954,26 @@ class mod_surveypro_itembase {
         }
     }
 
+    /**
+     * get_can_be_mandatory
+     *
+     * @param none
+     * @return whether the item of this plugin can be mandatory
+     */
+    public static function item_get_can_be_mandatory() {
+        return true;
+    }
+
+    /**
+     * item_get_pdf_template
+     *
+     * @param none
+     * @return the template to use at response report creation
+     */
+    public static function item_get_pdf_template() {
+        return SURVEYPRO_3COLUMNSTEMPLATE;
+    }
+
     // MARK get
 
     /**
