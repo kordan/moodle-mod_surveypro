@@ -47,6 +47,11 @@ class mod_surveypro_submissionmanager {
     public $canignoremaxentries = false;
 
     /**
+     * $canalwaysseeowner
+     */
+    public $canalwaysseeowner = false;
+
+    /**
      * $canaccessadvanceditems
      */
     public $canaccessadvanceditems = false;
@@ -133,6 +138,7 @@ class mod_surveypro_submissionmanager {
         $this->cansubmit = has_capability('mod/surveypro:submit', $this->context, null, true);
         $this->canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
         $this->canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context, null, true);
+        $this->canalwaysseeowner = has_capability('mod/surveypro:alwaysseeowner', $this->context, null, true);
 
         $this->canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $this->context, null, true);
 
@@ -615,8 +621,10 @@ class mod_surveypro_submissionmanager {
         $table->define_baseurl($baseurl);
 
         $tablecolumns = array();
-        $tablecolumns[] = 'picture';
-        $tablecolumns[] = 'fullname';
+        if ($this->canalwaysseeowner || empty($this->surveypro->anonymous)) {
+            $tablecolumns[] = 'picture';
+            $tablecolumns[] = 'fullname';
+        }
         $tablecolumns[] = 'status';
         $tablecolumns[] = 'timecreated';
         if (!$this->surveypro->history) {
@@ -626,8 +634,10 @@ class mod_surveypro_submissionmanager {
         $table->define_columns($tablecolumns);
 
         $tableheaders = array();
-        $tableheaders[] = '';
-        $tableheaders[] = get_string('fullname');
+        if ($this->canalwaysseeowner || empty($this->surveypro->anonymous)) {
+            $tableheaders[] = '';
+            $tableheaders[] = get_string('fullname');
+        }
         $tableheaders[] = get_string('status');
         $tableheaders[] = get_string('timecreated', 'surveypro');
         if (!$this->surveypro->history) {
@@ -652,8 +662,10 @@ class mod_surveypro_submissionmanager {
         $table->column_class('actions', 'actions');
 
         // hide the same info whether in two consecutive rows
-        $table->column_suppress('picture');
-        $table->column_suppress('fullname');
+        if ($this->canalwaysseeowner || empty($this->surveypro->anonymous)) {
+            $table->column_suppress('picture');
+            $table->column_suppress('fullname');
+        }
 
         // general properties for the whole table
         // $table->set_attribute('name', 'submissions');
@@ -718,12 +730,14 @@ class mod_surveypro_submissionmanager {
                 $tablerow = array();
 
                 // icon
-                $tablerow[] = $OUTPUT->user_picture($submission, array('courseid' => $COURSE->id));
+                if ($this->canalwaysseeowner || empty($this->surveypro->anonymous)) {
+                    $tablerow[] = $OUTPUT->user_picture($submission, array('courseid' => $COURSE->id));
 
-                // user fullname
-                $paramurl = array('id' => $submission->userid, 'course' => $COURSE->id);
-                $url = new moodle_url('/user/view.php', $paramurl);
-                $tablerow[] = '<a href="'.$url->out().'">'.fullname($submission).'</a>';
+                    // user fullname
+                    $paramurl = array('id' => $submission->userid, 'course' => $COURSE->id);
+                    $url = new moodle_url('/user/view.php', $paramurl);
+                    $tablerow[] = '<a href="'.$url->out().'">'.fullname($submission).'</a>';
+                }
 
                 // surveypro status
                 $tablerow[] = $status[$submission->status];

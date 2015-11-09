@@ -58,6 +58,10 @@
  *  -------------------------------------------
  *  TAB ELEMENTS
  *  -------------------------------------------
+ *  SUB-TAB == SURVEYPRO_ITEMS_PREVIEW
+ *      $elementurl = new moodle_url('/mod/surveypro/view_userform.php', $localparamurl);
+ *      mod/surveypro:preview
+ *
  *  SUB-TAB == SURVEYPRO_ITEMS_MANAGE
  *      $elementurl = new moodle_url('/mod/surveypro/items_manage.php', $localparamurl);
  *      mod/surveypro:manageitems
@@ -72,10 +76,6 @@
  *  -------------------------------------------
  *  TAB SURVEYPRO
  *  -------------------------------------------
- *  SUB-TAB == SURVEYPRO_ITEMS_PREVIEW
- *      $elementurl = new moodle_url('/mod/surveypro/view_userform.php', $localparamurl);
- *      mod/surveypro:preview
- *
  *  SUB-TAB == SURVEYPRO_SUBMISSION_CPANEL
  *
  *  SUB-TAB == SURVEYPRO_SUBMISSION_INSERT
@@ -88,6 +88,8 @@
  *  SUB-TAB == SURVEYPRO_SUBMISSION_MANAGE
  *      $elementurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
  *
+ *      mod/surveypro:alwaysseeowner
+ *
  *      mod/surveypro:seeownsubmissions <-- It does not actually exist. It is always allowed.
  *      mod/surveypro:seeotherssubmissions
  *
@@ -98,6 +100,7 @@
  *      mod/surveypro:deleteotherssubmissions
  *
  *      mod/surveypro:savesubmissiontopdf
+ *
  *  SUB-TAB == SURVEYPRO_SUBMISSION_EDIT
  *  SUB-TAB == SURVEYPRO_SUBMISSION_READONLY
  *      $elementurl = new moodle_url('/mod/surveypro/view_userform.php', $localparamurl);
@@ -218,6 +221,17 @@ $capabilities = array(
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
             'teacher' => CAP_ALLOW
+        )
+    ),
+
+    'mod/surveypro:alwaysseeowner' => array(
+
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => array(
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW
         )
     ),
 
