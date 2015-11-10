@@ -403,6 +403,7 @@ $string['surveypro:accessownreports'] = 'Access own reports';
 $string['surveypro:accessreports'] = 'Access reports';
 $string['surveypro:addinstance'] = 'Add a new survey activity';
 $string['surveypro:additems'] = 'Add survey elements';
+$string['surveypro:alwaysseeowner'] = 'Always see the owner of responses';
 $string['surveypro:applymastertemplates'] = 'Apply master template';
 $string['surveypro:applyusertemplates'] = 'Apply user templates';
 $string['surveypro:deleteotherssubmissions'] = 'Delete responses from other users';
