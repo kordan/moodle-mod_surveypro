@@ -21,8 +21,8 @@ Feature: test the use of advanced elements
     And I follow "Advanced elements"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-      | Surveypro name | Advanced element test                        |
-      | Description    | This is a surveypro to test advanced element |
+      | Name        | Advanced element test                        |
+      | Description | This is a surveypro to test advanced element |
     And I follow "Advanced element test"
 
     # add the first age item generally available
@@ -90,8 +90,3 @@ Feature: test the use of advanced elements
       | id_surveypro_field_age_2_year  | 24 |
       | id_surveypro_field_age_2_month | 6  |
     And I press "Submit"
-    And I follow "Export"
-    And I set the following fields to these values:
-      | Advanced element   | 1               |
-      | Exported file type | download to xls |
-    # And I press "Continue"

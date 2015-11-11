@@ -37,9 +37,9 @@ Feature: editing a submission, autofill userID is not overwritten
     And I follow "Course divided into groups"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-      | Surveypro name | Surveypro test                                                                            |
-      | Description    | This is a surveypro to test that editing a submission, autofill userID is not overwritten |
-      | Group mode     | Separate groups                                                                           |
+      | Name        | Surveypro test                                                                            |
+      | Description | This is a surveypro to test that editing a submission, autofill userID is not overwritten |
+      | Group mode  | Separate groups                                                                           |
     And I follow "Surveypro test"
 
     And I set the field "typeplugin" to "Autofill"

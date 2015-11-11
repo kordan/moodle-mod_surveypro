@@ -101,10 +101,13 @@ function xmldb_surveypro_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2015090901, 'surveypro');
     }
 
-    if ($oldversion < 2015110902) {
+    if ($oldversion < 2015111004) {
         // Surveypro savepoint reached.
-        upgrade_mod_savepoint(true, 2015110902, 'surveypro');
+        upgrade_mod_savepoint(true, 2015111004, 'surveypro');
     }
+
+    // Moodle v3.0.0 release upgrade line.
+    // Put any upgrade step following this.
 
     return true;
 }

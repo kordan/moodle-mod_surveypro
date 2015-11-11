@@ -38,9 +38,9 @@ Feature: test each student sees only personal submissions
     And I follow "Course divided into groups"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-      | Surveypro name | Surveypro test                                                                                 |
-      | Description    | This is a surveypro to test each student can only see submissions from people of his/her group |
-      | Group mode     | Separate groups                                                                                |
+      | Name        | Surveypro test                                                                                 |
+      | Description | This is a surveypro to test each student can only see submissions from people of his/her group |
+      | Group mode  | Separate groups                                                                                |
     And I follow "Surveypro test"
 
     And I set the field "typeplugin" to "Text (short)"

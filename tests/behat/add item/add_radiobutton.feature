@@ -19,8 +19,8 @@ Feature: verify a radiobutton item can be added to a survey
     And I follow "Add radiobutton item"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-      | Surveypro name | Surveypro test                                |
-      | Description    | This is a surveypro to add a radiobutton item |
+      | Name        | Surveypro test                                |
+      | Description | This is a surveypro to add a radiobutton item |
     And I follow "Surveypro test"
 
     And I set the field "typeplugin" to "Radio buttons"

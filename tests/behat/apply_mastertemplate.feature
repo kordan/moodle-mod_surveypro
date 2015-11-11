@@ -22,8 +22,8 @@ Feature: apply a mastertemplate
   @javascript
   Scenario: apply ATTLS (20 item version) master template
     When I add a "Surveypro" to section "1" and I fill the form with:
-      | Surveypro name | To apply ATTLS                                              |
-      | Description    | This is a surveypro test to apply the ATTLS master template |
+      | Name        | To apply ATTLS                                              |
+      | Description | This is a surveypro test to apply the ATTLS master template |
     And I follow "To apply ATTLS"
     And I set the field "Master templates" to "ATTLS (20 item version)"
     And I press "Create"
@@ -32,7 +32,7 @@ Feature: apply a mastertemplate
   @javascript
   Scenario: apply COLLES (Preferred) master template
     When I add a "Surveypro" to section "2" and I fill the form with:
-      | Surveypro name | To apply COLLES (Preferred)                                           |
+      | Name        | To apply COLLES (Preferred)                                              |
       | Description | This is a surveypro test to apply the COLLES (Preferred) master template |
     And I follow "To apply COLLES (Preferred)"
     And I set the field "Master templates" to "COLLES (Preferred)"
@@ -43,7 +43,7 @@ Feature: apply a mastertemplate
   @javascript
   Scenario: apply COLLES (Actual) master template
     When I add a "Surveypro" to section "3" and I fill the form with:
-      | Surveypro name | To apply COLLES (Actual)                                           |
+      | Name        | To apply COLLES (Actual)                                              |
       | Description | This is a surveypro test to apply the COLLES (Actual) master template |
     And I follow "To apply COLLES (Actual)"
     And I set the field "Master templates" to "COLLES (Actual)"
@@ -54,7 +54,7 @@ Feature: apply a mastertemplate
   @javascript
   Scenario: apply COLLES (Actual Preferred) master template
     When I add a "Surveypro" to section "4" and I fill the form with:
-      | Surveypro name | To apply COLLES (Actual Preferred)                                           |
+      | Name        | To apply COLLES (Actual Preferred)                                              |
       | Description | This is a surveypro test to apply the COLLES (Actual Preferred) master template |
     And I follow "To apply COLLES (Actual Preferred)"
     And I set the field "Master templates" to "COLLES (Actual Preferred)"
@@ -65,7 +65,7 @@ Feature: apply a mastertemplate
   @javascript
   Scenario: apply Critical Incidents master template
     When I add a "Surveypro" to section "5" and I fill the form with:
-      | Surveypro name | To apply Critical Incidents                                           |
+      | Name        | To apply Critical Incidents                                              |
       | Description | This is a surveypro test to apply the Critical Incidents master template |
     And I follow "To apply Critical Incidents"
     And I set the field "Master templates" to "Critical Incidents"

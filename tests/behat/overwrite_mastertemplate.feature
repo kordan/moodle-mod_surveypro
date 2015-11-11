@@ -20,15 +20,15 @@ Feature: verify the deletion of old items works as expected during master templa
     And I follow "Overwrite mastertemplate"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-     | Surveypro name | To overwrite master template                      |
-     | Description    | This is a surveypro to overwrite master templates |
+     | Name        | To overwrite master template                      |
+     | Description | This is a surveypro to overwrite master templates |
     And I follow "To overwrite master template"
 
     And I set the field "mastertemplate" to "ATTLS (20 item version)"
     And I press "Create"
     Then I should see "Attitudes Towards Thinking and Learning"
 
-    And I follow "Manage"
+    And I follow "Elements"
     And I press "Yes"
 
     And I navigate to "Apply" node in "Surveypro administration > Master templates"
@@ -37,7 +37,7 @@ Feature: verify the deletion of old items works as expected during master templa
     Then I should see "I prefer that my learning focuses on issues that interest me."
     Then I should see "I found that my learning focuses on issues that interest me."
 
-    And I follow "Manage"
+    And I follow "Elements"
     And I press "Yes"
 
     And I navigate to "Apply" node in "Surveypro administration > Master templates"
@@ -46,7 +46,7 @@ Feature: verify the deletion of old items works as expected during master templa
     Then I should see "In this online unit, I found that..."
     Then I should see "my learning focuses on issues that interest me"
 
-    And I follow "Manage"
+    And I follow "Elements"
     And I press "Yes"
 
     And I navigate to "Apply" node in "Surveypro administration > Master templates"
@@ -55,7 +55,7 @@ Feature: verify the deletion of old items works as expected during master templa
     Then I should see "In this online unit, I prefer that..."
     Then I should see "my learning focuses on issues that interest me"
 
-    And I follow "Manage"
+    And I follow "Elements"
     And I press "Yes"
 
     And I navigate to "Apply" node in "Surveypro administration > Master templates"

@@ -19,8 +19,8 @@ Feature: verify a time item can be added to a survey
     And I follow "Add time item"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-      | Surveypro name | Surveypro test                         |
-      | Description    | This is a surveypro to add a time item |
+      | Name        | Surveypro test                         |
+      | Description | This is a surveypro to add a time item |
     And I follow "Surveypro test"
 
     And I set the field "typeplugin" to "Time"

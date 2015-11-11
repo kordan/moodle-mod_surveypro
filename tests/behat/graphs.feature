@@ -23,7 +23,7 @@ Feature: apply a COLLES mastertemplate to test graphs
   @javascript
   Scenario: apply COLLES (Actual) master template, add a record and call reports
     When I add a "Surveypro" to section "1" and I fill the form with:
-      | Surveypro name | Run COLLES report                           |
+      | Name        | Run COLLES report                              |
       | Description | This is a surveypro test to test COLLES graphs |
     And I follow "Run COLLES report"
     And I set the field "Master templates" to "COLLES (Actual)"
@@ -91,7 +91,7 @@ Feature: apply a COLLES mastertemplate to test graphs
   @javascript
   Scenario: apply COLLES (Preferred) master template, add a record and call reports
     When I add a "Surveypro" to section "1" and I fill the form with:
-      | Surveypro name | Run COLLES report                           |
+      | Name        | Run COLLES report                              |
       | Description | This is a surveypro test to test COLLES graphs |
     And I follow "Run COLLES report"
     And I set the field "Master templates" to "COLLES (Preferred)"
@@ -159,7 +159,7 @@ Feature: apply a COLLES mastertemplate to test graphs
   @javascript
   Scenario: apply COLLES (Actual Preferred) master template, add a record and call reports
     When I add a "Surveypro" to section "1" and I fill the form with:
-      | Surveypro name | Run COLLES report                           |
+      | Name        | Run COLLES report                              |
       | Description | This is a surveypro test to test COLLES graphs |
     And I follow "Run COLLES report"
     And I set the field "Master templates" to "COLLES (Actual Preferred)"

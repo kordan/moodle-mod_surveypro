@@ -216,7 +216,7 @@ $capabilities = array(
     ),
 
     'mod/surveypro:ignoremaxentries' => array(
-        'riskbitmask' => RISK_XSS,
+
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
@@ -225,7 +225,7 @@ $capabilities = array(
     ),
 
     'mod/surveypro:alwaysseeowner' => array(
-
+        'riskbitmask' => RISK_PERSONAL,
         'captype' => 'read',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
@@ -247,7 +247,7 @@ $capabilities = array(
     ),
 
     'mod/surveypro:editownsubmissions' => array(
-        'riskbitmask' => RISK_PERSONAL,
+        'riskbitmask' => RISK_CONFIG | RISK_PERSONAL,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
@@ -258,7 +258,7 @@ $capabilities = array(
     ),
 
     'mod/surveypro:editotherssubmissions' => array(
-        'riskbitmask' => RISK_PERSONAL,
+        'riskbitmask' => RISK_CONFIG | RISK_PERSONAL,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
@@ -269,7 +269,7 @@ $capabilities = array(
     ),
 
     'mod/surveypro:deleteownsubmissions' => array(
-        'riskbitmask' => RISK_PERSONAL,
+        'riskbitmask' => RISK_CONFIG,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
@@ -280,7 +280,7 @@ $capabilities = array(
     ),
 
     'mod/surveypro:deleteotherssubmissions' => array(
-        'riskbitmask' => RISK_PERSONAL,
+        'riskbitmask' => RISK_CONFIG,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
@@ -326,7 +326,7 @@ $capabilities = array(
     ),
 
     'mod/surveypro:accessownreports' => array(
-        'riskbitmask' => RISK_PERSONAL,
+
         'captype' => 'read',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
@@ -335,7 +335,7 @@ $capabilities = array(
     ),
 
     'mod/surveypro:importdata' => array(
-        'riskbitmask' => RISK_PERSONAL,
+        'riskbitmask' => RISK_CONFIG | RISK_PERSONAL,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
@@ -346,7 +346,7 @@ $capabilities = array(
     ),
 
     'mod/surveypro:exportdata' => array(
-        'riskbitmask' => RISK_PERSONAL,
+
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
@@ -357,7 +357,7 @@ $capabilities = array(
     ),
 
     'mod/surveypro:manageitems' => array(
-        'riskbitmask' => RISK_PERSONAL,
+        'riskbitmask' => RISK_CONFIG,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
@@ -368,7 +368,7 @@ $capabilities = array(
     ),
 
     'mod/surveypro:additems' => array(
-        'riskbitmask' => RISK_PERSONAL,
+        'riskbitmask' => RISK_XSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
@@ -379,7 +379,7 @@ $capabilities = array(
     ),
 
     'mod/surveypro:manageusertemplates' => array(
-        'riskbitmask' => RISK_PERSONAL,
+
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
@@ -389,7 +389,7 @@ $capabilities = array(
     ),
 
     'mod/surveypro:deleteusertemplates' => array(
-        'riskbitmask' => RISK_PERSONAL,
+        'riskbitmask' => RISK_CONFIG,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
@@ -399,7 +399,7 @@ $capabilities = array(
     ),
 
     'mod/surveypro:downloadusertemplates' => array(
-        'riskbitmask' => RISK_PERSONAL,
+
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
@@ -419,7 +419,7 @@ $capabilities = array(
     ),
 
     'mod/surveypro:importusertemplates' => array(
-        'riskbitmask' => RISK_PERSONAL,
+
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
@@ -429,7 +429,7 @@ $capabilities = array(
     ),
 
     'mod/surveypro:applyusertemplates' => array(
-        'riskbitmask' => RISK_PERSONAL,
+        'riskbitmask' => RISK_CONFIG,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
@@ -439,7 +439,7 @@ $capabilities = array(
     ),
 
     'mod/surveypro:savemastertemplates' => array(
-        'riskbitmask' => RISK_PERSONAL,
+
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
@@ -449,7 +449,7 @@ $capabilities = array(
     ),
 
     'mod/surveypro:applymastertemplates' => array(
-        'riskbitmask' => RISK_PERSONAL,
+        'riskbitmask' => RISK_CONFIG,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(

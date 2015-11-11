@@ -780,7 +780,7 @@ class mod_surveypro_userformmanager {
             $itemcanbemandatory = $itemclass::item_get_can_be_mandatory();
             if ($itemcanbemandatory) {
                 $requiredfieldname = $itemclass::get_requiredfieldname();
-                $sql = 'SELECT i.id, i.parentid, i.parentvalue, p.'.$requiredfieldname.'
+                $sql = 'SELECT i.id, i.parentid, i.parentvalue, i.advanced, p.'.$requiredfieldname.'
                     FROM {surveypro_item} i
                         JOIN {surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'} p ON i.id = p.itemid
                     WHERE i.surveyproid = :surveyproid
@@ -791,9 +791,13 @@ class mod_surveypro_userformmanager {
 
                 foreach ($pluginitems as $pluginitem) {
                     if ($pluginitem->{$requiredfieldname} > 0) {
-                        unset ($pluginitem->{$requiredfieldname});
-
-                        $requireditems[$pluginitem->id] = $pluginitem;
+                        if ( (!$pluginitem->advanced) || $this->canaccessadvanceditems ) {
+                            // just to save few bits of RAM
+                            unset ($pluginitem->{$requiredfieldname});
+                            unset ($pluginitem->advanced);
+                            
+                            $requireditems[$pluginitem->id] = $pluginitem;
+                        }
                     }
                 }
             }
