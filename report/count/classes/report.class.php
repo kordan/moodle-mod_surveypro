@@ -44,7 +44,7 @@ class mod_surveypro_report_count extends mod_surveypro_reportbase {
         $this->outputtable = new flexible_table('userattempts');
 
         $paramurl = array('id' => $this->cm->id, 'rname' => 'count', 'cover' => 0);
-        $baseurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
+        $baseurl = new moodle_url('/mod/surveypro/report/count/view.php', $paramurl);
         $this->outputtable->define_baseurl($baseurl);
 
         $tablecolumns = array();
@@ -98,7 +98,7 @@ class mod_surveypro_report_count extends mod_surveypro_reportbase {
                         FROM {role_assignments}
                         WHERE contextid = '.$coursecontext->id.'
                           AND roleid IN ('.implode(',', $role).')) ra ON u.id = ra.userid
-                LEFT JOIN (SELECT userid, count(id) as attempts
+                RIGHT JOIN (SELECT userid, count(id) as attempts
                              FROM {surveypro_submission}
                              WHERE surveyproid = :surveyproid
                              GROUP BY userid) s ON s.userid = u.id';

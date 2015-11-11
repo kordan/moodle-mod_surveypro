@@ -464,7 +464,7 @@ class mod_surveypro_submissionmanager {
 
             $searchrestrictions = unserialize($this->searchquery);
 
-            // written following http://buysql.com/mysql/14-how-to-automate-pivot-tables.html
+            // this code has been written following http://buysql.com/mysql/14-how-to-automate-pivot-tables.html
             $transposeduserdata = 'SELECT submissionid, ';
             $sqlrow = array();
             foreach ($searchrestrictions as $itemid => $searchrestriction) {
@@ -595,12 +595,12 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * manage_submissions
+     * display_submissions_table
      *
      * @param none
      * @return
      */
-    public function manage_submissions() {
+    public function display_submissions_table() {
         global $CFG, $OUTPUT, $DB, $COURSE, $USER;
 
         require_once($CFG->libdir.'/tablelib.php');

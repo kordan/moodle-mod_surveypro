@@ -110,7 +110,7 @@ $modulepage = SURVEYPRO_SUBMISSION_MANAGE; // needed by tabs.php
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
 $submissionman->show_action_buttons();
-$submissionman->manage_submissions();
+$submissionman->display_submissions_table();
 $submissionman->trigger_event(); // event: all_submissions_viewed
 
 // Finish the page

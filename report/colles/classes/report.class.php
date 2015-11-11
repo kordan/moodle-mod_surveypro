@@ -360,7 +360,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
         }
         foreach ($toevaluate as $k => $qidarea) {
             foreach ($qidarea as $areaidlist) {
-                $sql = 'SELECT count(ud.id) as countofanswers, SUM(ud.content) as sumofanswers
+                $sql = 'SELECT COUNT(ud.id) as countofanswers, SUM(ud.content) as sumofanswers
                         FROM {surveypro_answer} ud
                         WHERE ud.itemid IN ('.implode(',', $areaidlist).')';
                 $aggregate = $DB->get_record_sql($sql);
@@ -398,7 +398,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
 
             foreach ($toevaluate as $k => $qidarea) {
                 foreach ($qidarea as $areaidlist) {
-                    $sql = 'SELECT count(ud.id) as countofanswers, SUM(ud.content) as sumofanswers
+                    $sql = 'SELECT COUNT(ud.id) as countofanswers, SUM(ud.content) as sumofanswers
                             FROM {surveypro_answer} ud
                                 JOIN {surveypro_submission} ss ON ss.id = ud.submissionid
                             WHERE ud.itemid IN ('.implode(',', $areaidlist).')

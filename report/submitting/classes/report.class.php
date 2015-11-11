@@ -21,7 +21,7 @@
  * /admin/index.php
  *
  * @package    surveyproreport
- * @subpackage missing
+ * @subpackage submitting
  * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir.'/tablelib.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/reportbase.class.php');
 
-class mod_surveypro_report_missing extends mod_surveypro_reportbase {
+class mod_surveypro_report_submitting extends mod_surveypro_reportbase {
     /**
      * outputtable
      */
@@ -41,26 +41,29 @@ class mod_surveypro_report_missing extends mod_surveypro_reportbase {
      * setup_outputtable
      */
     public function setup_outputtable() {
-        $this->outputtable = new flexible_table('missingusers');
+        $this->outputtable = new flexible_table('userattempts');
 
-        $paramurl = array('id' => $this->cm->id, 'rname' => 'missing', 'cover' => 0);
-        $baseurl = new moodle_url('/mod/surveypro/report/missing/view.php', $paramurl);
+        $paramurl = array('id' => $this->cm->id, 'rname' => 'count', 'cover' => 0);
+        $baseurl = new moodle_url('/mod/surveypro/report/submitting/view.php', $paramurl);
         $this->outputtable->define_baseurl($baseurl);
 
         $tablecolumns = array();
         $tablecolumns[] = 'picture';
         $tablecolumns[] = 'fullname';
+        $tablecolumns[] = 'attempts';
         $this->outputtable->define_columns($tablecolumns);
 
         $tableheaders = array();
         $tableheaders[] = '';
         $tableheaders[] = get_string('fullname');
+        $tableheaders[] = get_string('submissions', 'surveypro');
         $this->outputtable->define_headers($tableheaders);
 
         $this->outputtable->sortable(true, 'lastname', 'ASC'); // sorted by lastname by default
 
         $this->outputtable->column_class('picture', 'picture');
         $this->outputtable->column_class('fullname', 'fullname');
+        $this->outputtable->column_class('attempts', 'attempts');
 
         $this->outputtable->initialbars(true);
 
@@ -70,7 +73,7 @@ class mod_surveypro_report_missing extends mod_surveypro_reportbase {
 
         // general properties for the whole table
         $this->outputtable->summary = get_string('submissionslist', 'surveypro');
-        $this->outputtable->set_attribute('cellpadding', '5');
+        // $this->outputtable->set_attribute('cellpadding', '5');
         $this->outputtable->set_attribute('id', 'userattempts');
         $this->outputtable->set_attribute('class', 'generaltable');
         // $this->outputtable->set_attribute('width', '90%');
@@ -89,17 +92,17 @@ class mod_surveypro_report_missing extends mod_surveypro_reportbase {
             // return nothing
             return;
         }
-        $sql = 'SELECT DISTINCT '.user_picture::fields('u').'
+        $sql = 'SELECT '.user_picture::fields('u').', s.attempts
                 FROM {user} u
                 JOIN (SELECT id, userid
                         FROM {role_assignments}
                         WHERE contextid = '.$coursecontext->id.'
                           AND roleid IN ('.implode(',', $role).')) ra ON u.id = ra.userid
-                LEFT JOIN (SELECT id, userid
+                RIGHT JOIN (SELECT userid, count(id) as attempts
                              FROM {surveypro_submission}
                              WHERE surveyproid = :surveyproid
                              GROUP BY userid) s ON s.userid = u.id
-                WHERE ISNULL(s.id)';
+                WHERE attempts > 0';
         $whereparams = array('surveyproid' => $this->surveypro->id);
 
         list($where, $filterparams) = $this->outputtable->get_sql_where();
@@ -126,6 +129,9 @@ class mod_surveypro_report_missing extends mod_surveypro_reportbase {
             $url = new moodle_url('/user/view.php', $paramurl);
             $tablerow[] = '<a href="'.$url->out().'">'.fullname($usersubmission).'</a>';
 
+            // user attempts
+            $tablerow[] = isset($usersubmission->attempts) ? $usersubmission->attempts : '--';
+
             // add row to the table
             $this->outputtable->add_data($tablerow);
         }
@@ -139,7 +145,7 @@ class mod_surveypro_report_missing extends mod_surveypro_reportbase {
     public function output_data() {
         global $OUTPUT;
 
-        echo $OUTPUT->heading(get_string('pluginname', 'surveyproreport_missing'));
+        echo $OUTPUT->heading(get_string('pluginname', 'surveyproreport_submitting'));
         $this->outputtable->print_html();
     }
 }

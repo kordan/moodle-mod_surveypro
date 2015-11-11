@@ -44,7 +44,7 @@ class mod_surveypro_report_frequency extends mod_surveypro_reportbase {
         $this->outputtable = new flexible_table('submissionslist');
 
         $paramurl = array('id' => $this->cm->id, 'rname' => 'frequency', 'cover' => 0);
-        $baseurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
+        $baseurl = new moodle_url('/mod/surveypro/report/frequency/view.php', $paramurl);
         $this->outputtable->define_baseurl($baseurl);
 
         $tablecolumns = array();

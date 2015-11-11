@@ -211,12 +211,12 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * manage_items
+     * display_items_table
      *
      * @param none
      * @return
      */
-    public function manage_items() {
+    public function display_items_table() {
         global $CFG, $DB, $OUTPUT;
 
         require_once($CFG->libdir.'/tablelib.php');

@@ -180,7 +180,7 @@ if (!$itemlistman->surveypro->template) {
     }
 }
 
-$itemlistman->manage_items();
+$itemlistman->display_items_table();
 $itemlistman->trigger_event($itemcount); // event: all_items_viewed
 
 // Finish the page

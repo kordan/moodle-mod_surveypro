@@ -57,7 +57,7 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
         $this->outputtable = new flexible_table('attachmentslist');
 
         $paramurl = array('id' => $this->cm->id, 'cover' => 0);
-        $baseurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
+        $baseurl = new moodle_url('/mod/surveypro/report/attachments_overview/view.php', $paramurl);
         $this->outputtable->define_baseurl($baseurl);
 
         $tablecolumns = array();
