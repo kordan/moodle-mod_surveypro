@@ -95,13 +95,13 @@ class mod_surveypro_report_submitting extends mod_surveypro_reportbase {
         $sql = 'SELECT '.user_picture::fields('u').', s.attempts
                 FROM {user} u
                 JOIN (SELECT id, userid
-                        FROM {role_assignments}
-                        WHERE contextid = '.$coursecontext->id.'
-                          AND roleid IN ('.implode(',', $role).')) ra ON u.id = ra.userid
+                      FROM {role_assignments}
+                      WHERE contextid = '.$coursecontext->id.'
+                        AND roleid IN ('.implode(',', $role).')) ra ON u.id = ra.userid
                 RIGHT JOIN (SELECT userid, count(id) as attempts
-                             FROM {surveypro_submission}
-                             WHERE surveyproid = :surveyproid
-                             GROUP BY userid) s ON s.userid = u.id
+                            FROM {surveypro_submission}
+                            WHERE surveyproid = :surveyproid
+                            GROUP BY userid) s ON s.userid = u.id
                 WHERE attempts > 0';
         $whereparams = array('surveyproid' => $this->surveypro->id);
 

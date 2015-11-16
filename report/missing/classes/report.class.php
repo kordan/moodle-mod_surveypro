@@ -92,13 +92,13 @@ class mod_surveypro_report_missing extends mod_surveypro_reportbase {
         $sql = 'SELECT DISTINCT '.user_picture::fields('u').'
                 FROM {user} u
                 JOIN (SELECT id, userid
-                        FROM {role_assignments}
-                        WHERE contextid = '.$coursecontext->id.'
-                          AND roleid IN ('.implode(',', $role).')) ra ON u.id = ra.userid
+                      FROM {role_assignments}
+                      WHERE contextid = '.$coursecontext->id.'
+                        AND roleid IN ('.implode(',', $role).')) ra ON u.id = ra.userid
                 LEFT JOIN (SELECT id, userid
-                             FROM {surveypro_submission}
-                             WHERE surveyproid = :surveyproid
-                             GROUP BY userid) s ON s.userid = u.id
+                           FROM {surveypro_submission}
+                           WHERE surveyproid = :surveyproid
+                           GROUP BY userid) s ON s.userid = u.id
                 WHERE ISNULL(s.id)';
         $whereparams = array('surveyproid' => $this->surveypro->id);
 

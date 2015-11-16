@@ -79,7 +79,6 @@ Feature: test each student sees only personal submissions
     And I follow "Responses"
     Then I should see "Nothing to display"
 
-    And I follow "Overview"
     And I press "New response"
 
     # student1 submits his first response
@@ -110,7 +109,6 @@ Feature: test each student sees only personal submissions
     And I should see "Never" in the "student1 user1" "table_row"
     Then I should see "2" submissions displayed
 
-    And I follow "Overview"
     And I press "New response"
 
     # student2 submits his first response
@@ -134,7 +132,6 @@ Feature: test each student sees only personal submissions
     And I follow "Responses"
     Then I should see "Nothing to display"
 
-    And I follow "Overview"
     And I press "New response"
 
     # student3 submits his first response

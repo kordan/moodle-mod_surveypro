@@ -415,122 +415,6 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * get_manage_sql
-     *
-     * @param $table
-     * @return
-     */
-    public function get_manage_sql($table) {
-        global $COURSE, $USER;
-
-        if ($groupmode = groups_get_activity_groupmode($this->cm, $COURSE)) {
-            if ($groupmode == SEPARATEGROUPS) {
-                $mygroupmates = surveypro_groupmates($this->cm);
-                // if (!count($mygroupmates)) then the user is a teacher
-                if (!count($mygroupmates)) { // user is not in any group
-                    if (has_capability('mod/surveypro:manageitems', $this->context)) {
-                        // This is a teacher
-                        // Has to see each submission
-                        $manageallsubmissions = true;
-                    } else {
-                        // This is a student that has not been added to any group.
-                        // The sql needs to return an empty set
-                        $sql = 'SELECT DISTINCT s.*, s.id as submissionid, '.user_picture::fields('u').'
-                                FROM {surveypro_submission} s
-                                    JOIN {user} u ON s.userid = u.id
-                                WHERE u.id = :userid';
-                        return array($sql, array('userid' => -1));
-                    }
-                } else {
-                    // I don'care if the user is a teacher or a student.
-                    // He/she was assigned to a group.
-                    // I allow him/her only to submissions of his/her groupmates.
-                    $manageallsubmissions = false;
-                    $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $this->cm->groupingid);
-                    $mygroups = array_keys($mygroups);
-                }
-            }
-        }
-
-        // DISTINCT is needed when a user belongs to more than a single group
-        $sql = 'SELECT DISTINCT s.*, s.id as submissionid, '.user_picture::fields('u').'
-                FROM {surveypro_submission} s
-                    JOIN {user} u ON s.userid = u.id';
-
-        // write $transposeduserdata whether necessary
-        if ($this->searchquery) {
-            // this will be re-send to URL for next page reload, whether requested with a sort, for instance
-            $paramurl['searchquery'] = $this->searchquery;
-
-            $searchrestrictions = unserialize($this->searchquery);
-
-            // this code has been written following http://buysql.com/mysql/14-how-to-automate-pivot-tables.html
-            $transposeduserdata = 'SELECT submissionid, ';
-            $sqlrow = array();
-            foreach ($searchrestrictions as $itemid => $searchrestriction) {
-                $sqlrow[] = 'MAX(IF(itemid = \''.$itemid.'\', content, NULL)) AS \'c_'.$itemid.'\'';
-            }
-            $transposeduserdata .= implode(', ', $sqlrow);
-            $transposeduserdata .= ' FROM {surveypro_answer}';
-            $transposeduserdata .= ' GROUP BY submissionid';
-
-            $sql .= ' JOIN ('.$transposeduserdata.') tud ON tud.submissionid = s.id '; // tud == transposed user data
-        }
-
-        if (($groupmode == SEPARATEGROUPS) && (!$manageallsubmissions)) {
-            $sql .= ' JOIN {groups_members} gm ON gm.userid = s.userid ';
-        }
-
-        // now finalise $sql
-        $sql .= ' WHERE s.surveyproid = :surveyproid';
-        $whereparams['surveyproid'] = $this->surveypro->id;
-
-        list($wherefilter, $wherefilterparams) = $table->get_sql_where();
-        if ($wherefilter) {
-            $sql .= ' AND '.$wherefilter;
-            $whereparams = $whereparams + $wherefilterparams;
-        }
-
-        if (($groupmode == SEPARATEGROUPS) && (!$manageallsubmissions)) {
-            if (count($mygroups)) {
-                // restrict to your groups only
-                $sql .= ' AND gm.groupid IN ('.implode(',', $mygroups).')';
-            } else {
-                $sql .= ' AND s.userid = :userid';
-                $whereparams['userid'] = $USER->id;
-                debugging('Activity is divided into SEPARATE groups BUT you do not belong to anyone of them', DEBUG_DEVELOPER);
-
-                return array($sql, $whereparams);
-            }
-        }
-        if (!$this->canseeotherssubmissions) {
-            // restrict to your submissions only
-            $sql .= ' AND s.userid = :userid';
-            $whereparams['userid'] = $USER->id;
-        }
-
-        if ($this->searchquery) {
-            foreach ($searchrestrictions as $itemid => $searchrestriction) {
-                $sql .= ' AND tud.c_'.$itemid.' = :c_'.$itemid;
-                $whereparams['c_'.$itemid] = $searchrestriction;
-            }
-        }
-
-        // sort coming from $table->get_sql_sort()
-        if ($table->get_sql_sort()) {
-            $sql .= ' ORDER BY '.$table->get_sql_sort();
-        } else {
-            $sql .= ' ORDER BY s.timecreated';
-        }
-
-        // echo '$sql = '.$sql.'<br />';
-        // echo '$whereparams:';
-        // var_dump($whereparams);
-
-        return array($sql, $whereparams);
-    }
-
-    /**
      * get_has_items
      *
      * @param none
@@ -594,6 +478,296 @@ class mod_surveypro_submissionmanager {
         return $DB->count_records('surveypro_submission', $whereparams);
     }
 
+    /**
+     * get_submissions_sql
+     *
+     * @param $table
+     * @return
+     */
+    public function get_submissions_sql($table) {
+        global $COURSE, $USER;
+
+        $emptysql = 'SELECT DISTINCT s.*, s.id as submissionid, '.user_picture::fields('u').'
+                     FROM {surveypro_submission} s
+                       JOIN {user} u ON s.userid = u.id
+                     WHERE u.id = :userid';
+
+        $coursecontext = context_course::instance($COURSE->id);
+        $roles = get_roles_used_in_context($coursecontext);
+        if (!$role = array_keys($roles)) {
+            // return nothing
+            return array($emptysql, array('userid' => -1));
+        }
+
+        if ($groupmode = groups_get_activity_groupmode($this->cm, $COURSE)) {
+            if ($groupmode == SEPARATEGROUPS) {
+                $mygroupmates = surveypro_groupmates($this->cm);
+                if (!count($mygroupmates)) { // user is not in any group
+                    if (has_capability('mod/surveypro:manageitems', $this->context)) {
+                        // This is a teacher
+                        // Has to see each submission
+                        $manageallsubmissions = true;
+                    } else {
+                        // This is a student that has not been added to any group.
+                        // The sql needs to return an empty set
+                        return array($emptysql, array('userid' => -1));
+                    }
+                } else {
+                    // I don'care if the user is a teacher or a student.
+                    // He/she was assigned to a group.
+                    // I allow him/her only to submissions of his/her groupmates.
+                    $manageallsubmissions = false;
+                    $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $this->cm->groupingid);
+                    $mygroups = array_keys($mygroups);
+                }
+            }
+        }
+
+        // DISTINCT is needed when a user belongs to more than a single group
+        $sql = 'SELECT DISTINCT s.id as submissionid, s.surveyproid, s.status, s.userid, s.timecreated, s.timemodified, ';
+        if ($this->searchquery) {
+            $sql .= 'COUNT(a.submissionid) as matchcount, ';
+        }
+        $sql .= user_picture::fields('u');
+        $sql .= ' FROM {surveypro_submission} s';
+        $sql .= '  JOIN {user} u ON s.userid = u.id';
+        $sql .= '  JOIN {role_assignments} ra ON u.id = ra.userid ';
+        if ($this->searchquery) {
+            $sql .= '  JOIN {surveypro_answer} a ON s.id = a.submissionid ';
+        }
+        
+        if (($groupmode == SEPARATEGROUPS) && (!$manageallsubmissions)) {
+            $sql .= '  JOIN {groups_members} gm ON gm.userid = s.userid ';
+        }
+
+        // now finalise $sql
+        $sql .= 'WHERE ra.contextid = :contextid ';
+        $whereparams['contextid'] = $coursecontext->id;
+        $sql .= '  AND roleid IN ('.implode(',', $role).')';
+        $sql .= '  AND s.surveyproid = :surveyproid';
+        $whereparams['surveyproid'] = $this->surveypro->id;
+
+        // manage table alphabetical filter
+        list($wherefilter, $wherefilterparams) = $table->get_sql_where();
+        if ($wherefilter) {
+            $sql .= '  AND '.$wherefilter;
+            $whereparams = $whereparams + $wherefilterparams;
+        }
+
+        if (($groupmode == SEPARATEGROUPS) && (!$manageallsubmissions)) {
+            if (count($mygroups)) {
+                // restrict to your groups only
+                $sql .= '  AND gm.groupid IN ('.implode(',', $mygroups).')';
+            } else {
+                $sql .= '  AND s.userid = :userid';
+                $whereparams['userid'] = $USER->id;
+                debugging('Activity is divided into SEPARATE groups BUT you do not belong to anyone of them', DEBUG_DEVELOPER);
+
+                return array($sql, $whereparams);
+            }
+        }
+        
+        if (!$this->canseeotherssubmissions) {
+            // restrict to your submissions only
+            $sql .= '  AND s.userid = :userid';
+            $whereparams['userid'] = $USER->id;
+        }
+
+        // manage user selection
+        if ($this->searchquery) {
+            // this will be re-send to URL for next page reload, whether requested with a sort, for instance
+            $paramurl['searchquery'] = $this->searchquery;
+
+            $searchrestrictions = unserialize($this->searchquery);
+
+            // ((a.itemid = 7720 AND a.content = 0) OR (a.itemid = 7722 AND a.content = 1))
+            $userquery = array();
+            foreach ($searchrestrictions as $itemid => $searchrestriction) {
+                $userquery[] = '(a.itemid = '.$itemid.' AND a.content = \''.$searchrestriction.'\')';
+            }
+            $sql .= '  AND ('.implode(' OR ', $userquery).') ';
+            $sql .= 'GROUP BY s.id ';
+            $sql .= 'HAVING matchcount = :matchcount ';
+            $whereparams['matchcount'] = count($userquery);
+        }
+
+
+        if ($table->get_sql_sort()) {
+            // sort coming from $table->get_sql_sort()
+            $sql .= ' ORDER BY '.$table->get_sql_sort();
+        } else {
+            $sql .= ' ORDER BY s.timecreated';
+        }
+
+        // echo '$sql = '.$sql.'<br />';
+        // echo '$whereparams:';
+        // var_dump($whereparams);
+
+        return array($sql, $whereparams);
+    }
+
+    /**
+     * show_submissions_info_sql
+     *
+     * @param $sql
+     * @param $whereparams
+     * @return
+     */
+    public function show_submissions_info_sql($sql, $whereparams) {
+        global $DB, $OUTPUT;
+            
+        $strstatusinprogress = get_string('statusinprogress', 'surveypro');
+        $strstatusclosed = get_string('statusclosed', 'surveypro');
+        $struser = get_string('loweruser', 'surveypro');
+        $strusers = get_string('lowerusers', 'surveypro');
+        $strresponse = get_string('response', 'surveypro');
+        $strresponses = get_string('responses', 'surveypro');
+        
+        // get $sqlall
+        $pattern = '~SELECT(.*)FROM~';
+        if ($this->searchquery) {
+            $replacement = 'SELECT selection.status, COUNT(selection.submissionid) as submissions, COUNT(DISTINCT(selection.userid)) as distinctusers ';
+            $replacement .= 'FROM (SELECT DISTINCT s.id as submissionid, s.surveyproid, s.status, COUNT(a.submissionid) as matchcount, u.id as userid ';
+            $replacement .= 'FROM';
+        } else {
+            $replacement = 'SELECT COUNT(DISTINCT(s.id)) as submissions, COUNT(DISTINCT(s.userid)) as distinctusers FROM';
+        }
+        $sqlall = preg_replace($pattern, $replacement, $sql);
+
+        if ($this->searchquery) {
+            $sqlall .= ') selection';
+        }
+
+        $all = $DB->get_records_sql($sqlall, $whereparams);
+        $all = reset($all);
+
+        // get $sqlstatus
+        $pattern = '~SELECT(.*)FROM~';
+        if ($this->searchquery) {
+            $replacement = 'SELECT selection.status, COUNT(selection.submissionid) as submissions, COUNT(DISTINCT(selection.userid)) as distinctusers ';
+            $replacement .= 'FROM (SELECT DISTINCT s.id as submissionid, s.surveyproid, s.status, COUNT(a.submissionid) as matchcount, u.id as userid ';
+            $replacement .= 'FROM';
+        } else {
+            $replacement = 'SELECT s.id, s.status, COUNT(DISTINCT(s.id)) as submissions, COUNT(DISTINCT(s.userid)) as distinctusers FROM';
+        }
+        $sqlstatus = preg_replace($pattern, $replacement, $sql);
+
+        if ($this->searchquery) {
+            $sqlstatus .= ') selection GROUP BY selection.status';
+        } else {
+            $pattern = '~ORDER BY~';
+            $replacement = 'GROUP BY status ORDER BY';
+            $sqlstatus = preg_replace($pattern, $replacement, $sqlstatus);
+        }
+
+        $perstatus = $DB->get_records_sql($sqlstatus, $whereparams);
+
+        // echo '$whereparams:';
+        // var_dump($whereparams);
+        // echo '<textarea rows="8" cols="100">sql = '.$sql.'</textarea>';
+        // echo '<textarea rows="8" cols="100">sqlall = '.$sqlall.'</textarea>';
+        // echo '<textarea rows="8" cols="100">sqlstatus = '.$sqlstatus.'</textarea>';
+
+        // begin output
+        echo html_writer::start_tag('fieldset', array('class' => 'generalbox'));
+        echo html_writer::start_tag('legend', array('class' => 'coverinfolegend'));
+        echo get_string('submissions_welcome', 'surveypro');
+        echo html_writer::end_tag('legend');
+
+        if (count($perstatus) == 2) {
+            $a = new stdClass();
+            $a->submissions = $all->submissions;
+            $a->distinctusers = $all->distinctusers;
+            $a->oneormanyresponses = ($all->submissions == 1) ? $strresponse : $strresponses;
+            $a->oneormanyusers = ($all->distinctusers == 1) ? $struser : $strusers;
+            $message = get_string('submissions_all', 'surveypro', $a);
+            echo $OUTPUT->container($message, 'mdl-left');
+        }
+
+        foreach ($perstatus as $detail) {
+            $a = new stdClass();
+            $a->submissions = $detail->submissions;
+            $a->distinctusers = $detail->distinctusers;
+            $a->status = ($detail->status == 0) ? $strstatusclosed : $strstatusinprogress;
+            $a->oneormanyresponses = ($detail->submissions == 1) ? $strresponse : $strresponses;
+            $a->oneormanyusers = ($detail->distinctusers == 1) ? $struser : $strusers;
+            $message = get_string('submissions_detail', 'surveypro', $a);
+            echo $OUTPUT->container($message, 'mdl-left');
+        }
+
+        if ($this->searchquery) {
+            $findallurl = new moodle_url('/mod/surveypro/view.php', array('id' => $this->cm->id, 'cover' => 0));
+            $label = get_string('findall', 'surveypro');
+            
+            echo $OUTPUT->single_button($findallurl, $label, 'get', array('class' => 'box clearfix mdl-align'));
+        }
+        echo html_writer::end_tag('fieldset');
+    }
+
+    /**
+     * show_submissions_info_sql
+     *
+     * @param $sql
+     * @param $whereparams
+     * @return
+     */
+    public function show_submissions_info($inprogresssubmission, $inprogressusers, $closedsubmission, $closedusers) {
+        global $OUTPUT;
+        
+        $strstatusinprogress = get_string('statusinprogress', 'surveypro');
+        $strstatusclosed = get_string('statusclosed', 'surveypro');
+        $struser = get_string('loweruser', 'surveypro');
+        $strusers = get_string('lowerusers', 'surveypro');
+        $strresponse = get_string('response', 'surveypro');
+        $strresponses = get_string('responses', 'surveypro');
+
+        echo html_writer::start_tag('fieldset', array('class' => 'generalbox'));
+        echo html_writer::start_tag('legend', array('class' => 'coverinfolegend'));
+        echo get_string('submissions_welcome', 'surveypro');
+        echo html_writer::end_tag('legend');
+
+        if ($submissions = $inprogresssubmission + $closedsubmission) {
+            if (!empty($inprogresssubmission) && !empty($closedsubmission)) {
+                $a = new stdClass();
+                $a->submissions = $submissions;
+                $a->distinctusers = count(array_unique($inprogressusers)) + count(array_unique($closedusers));
+                $a->oneormanyresponses = ($a->submissions == 1) ? $strresponse : $strresponses;
+                $a->oneormanyusers = ($a->distinctusers == 1) ? $struser : $strusers;
+                $message = get_string('submissions_all', 'surveypro', $a);
+                echo $OUTPUT->container($message, 'mdl-left');
+            }
+
+            if (!empty($inprogresssubmission)) {
+                $a = new stdClass();
+                $a->submissions = $inprogresssubmission;
+                $a->distinctusers = count(array_unique($inprogressusers));
+                $a->status = $strstatusinprogress;
+                $a->oneormanyresponses = ($a->submissions == 1) ? $strresponse : $strresponses;
+                $a->oneormanyusers = ($a->distinctusers == 1) ? $struser : $strusers;
+                $message = get_string('submissions_detail', 'surveypro', $a);
+                echo $OUTPUT->container($message, 'mdl-left');
+            }
+
+            if (!empty($closedsubmission)) {
+                $a = new stdClass();
+                $a->submissions = $closedsubmission;
+                $a->distinctusers = count(array_unique($closedusers));
+                $a->status = $strstatusclosed;
+                $a->oneormanyresponses = ($a->submissions == 1) ? $strresponse : $strresponses;
+                $a->oneormanyusers = ($a->distinctusers == 1) ? $struser : $strusers;
+                $message = get_string('submissions_detail', 'surveypro', $a);
+                echo $OUTPUT->container($message, 'mdl-left');
+            }
+        }
+
+        if ($this->searchquery) {
+            $findallurl = new moodle_url('/mod/surveypro/view.php', array('id' => $this->cm->id, 'cover' => 0));
+            $label = get_string('findall', 'surveypro');
+            
+            echo $OUTPUT->single_button($findallurl, $label, 'get', array('class' => 'box clearfix mdl-align'));
+        }
+        echo html_writer::end_tag('fieldset');
+    }
     /**
      * display_submissions_table
      *
@@ -676,8 +850,10 @@ class mod_surveypro_submissionmanager {
         // $table->set_attribute('width', '90%');
         $table->setup();
 
-        $status = array(SURVEYPRO_STATUSINPROGRESS => get_string('statusinprogress', 'surveypro'),
-                        SURVEYPRO_STATUSCLOSED => get_string('statusclosed', 'surveypro'));
+        $status = array();
+        $status[SURVEYPRO_STATUSINPROGRESS] = get_string('statusinprogress', 'surveypro');
+        $status[SURVEYPRO_STATUSCLOSED] = get_string('statusclosed', 'surveypro');
+        
         $downloadpdftitle = get_string('downloadpdf', 'surveypro');
         $deletetitle = get_string('delete');
         $neverstring = get_string('never');
@@ -695,7 +871,13 @@ class mod_surveypro_submissionmanager {
             $editiconpath = 't/edit';
         }
 
-        list($sql, $whereparams) = $this->get_manage_sql($table);
+        list($sql, $whereparams) = $this->get_submissions_sql($table);
+        // $this->show_submissions_info_sql works fine (AFAIK) but makes 2 big queries.
+        // Until the table is not divided into pages (20 record per page or so)
+        //     a count of the records before they are added to the table is less resource expensive 
+        if ($useshowsubmissionsinfosql = false) {
+            $this->show_submissions_info_sql($sql, $whereparams);
+        }
         $submissions = $DB->get_recordset_sql($sql, $whereparams);
 
         if ($submissions->valid()) {
@@ -706,7 +888,36 @@ class mod_surveypro_submissionmanager {
             }
 
             $paramurlbase = array('id' => $this->cm->id);
+            $inprogresssubmission = 0;
+            $inprogressusers = array();
+            $closedsubmission = 0;
+            $closedusers = array();
             $tablerowcounter = 0;
+            if (!$useshowsubmissionsinfosql) {
+                foreach ($submissions as $submission) {
+                    // count:
+                    //   number of 'in progress' submissions
+                    //   number of user with 'in progress' submissions
+                    // 
+                    //   number of 'closed' submissions
+                    //   number of user with 'closed' submissions
+                    switch ($submission->status) {
+                        case SURVEYPRO_STATUSINPROGRESS:
+                            $inprogresssubmission++;
+                            $inprogressusers[] = $submission->userid;
+                            break;
+                        case SURVEYPRO_STATUSCLOSED:
+                            $closedsubmission++;
+                            $closedusers[] = $submission->userid;
+                            break;
+                        default:
+                            debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $submission->status = '.$submission->status, DEBUG_DEVELOPER);
+                    }
+                }
+                $this->show_submissions_info($inprogresssubmission, $inprogressusers, $closedsubmission, $closedusers);
+            }
+
+            $submissions = $DB->get_recordset_sql($sql, $whereparams);
             foreach ($submissions as $submission) {
                 // count submissions per each user
                 $tablerowcounter++;

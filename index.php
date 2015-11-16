@@ -36,8 +36,8 @@ $strname = get_string('name');
 $strsurveypro = get_string('modulename', 'surveypro');
 $strintro = get_string('moduleintro');
 $strdataplural  = get_string('modulenameplural', 'surveypro');
-$inprogress = get_string('inprogressresponses', 'surveypro');
-$closed = get_string('closedresponses', 'surveypro');
+$inprogress = get_string('inprogresssubmissions', 'surveypro');
+$closed = get_string('closedsubmissions', 'surveypro');
 
 $PAGE->set_pagelayout('incourse');
 $PAGE->set_url('/mod/surveypro/index.php', array('id' => $id));
@@ -80,10 +80,10 @@ $sql = 'SELECT surveyproid, COUNT(id) as responses
         WHERE status = :status
         GROUP BY surveyproid';
 $whereparam = array('status' => SURVEYPRO_STATUSINPROGRESS);
-$inprogressresponses = $DB->get_records_sql_menu($sql, $whereparam);
+$inprogresssubmissions = $DB->get_records_sql_menu($sql, $whereparam);
 
 $whereparam = array('status' => SURVEYPRO_STATUSCLOSED);
-$closedresponses = $DB->get_records_sql_menu($sql, $whereparam);
+$closedsubmissions = $DB->get_records_sql_menu($sql, $whereparam);
 
 foreach ($surveypros as $surveypro) {
     if ($surveypro->section != $currentsection) {
@@ -103,8 +103,8 @@ foreach ($surveypros as $surveypro) {
     }
 
     $url = new moodle_url('/mod/surveypro/view.php', array('id' => $surveypro->coursemodule));
-    $inprogressresp = isset($inprogressresponses[$surveypro->id]) ? $inprogressresponses[$surveypro->id] : 0;
-    $closedresp = isset($closedresponses[$surveypro->id]) ? $closedresponses[$surveypro->id] : 0;
+    $inprogressresp = isset($inprogresssubmissions[$surveypro->id]) ? $inprogresssubmissions[$surveypro->id] : 0;
+    $closedresp = isset($closedsubmissions[$surveypro->id]) ? $closedsubmissions[$surveypro->id] : 0;
 
     $content = array(html_writer::tag('span', $printsection, $sectionclass),
         html_writer::link($url, format_string($surveypro->name), $cellclass),

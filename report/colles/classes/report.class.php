@@ -400,9 +400,9 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
                 foreach ($qidarea as $areaidlist) {
                     $sql = 'SELECT COUNT(ud.id) as countofanswers, SUM(ud.content) as sumofanswers
                             FROM {surveypro_answer} ud
-                                JOIN {surveypro_submission} ss ON ss.id = ud.submissionid
+                              JOIN {surveypro_submission} ss ON ss.id = ud.submissionid
                             WHERE ud.itemid IN ('.implode(',', $areaidlist).')
-                            AND ss.userid = :userid';
+                              AND ss.userid = :userid';
                     $aggregate = $DB->get_record_sql($sql, $whereparams);
 
                     if ($aggregate->countofanswers) {

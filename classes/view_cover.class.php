@@ -133,11 +133,17 @@ class mod_surveypro_covermanager {
             }
             $messages[] = get_string('maxentries', 'surveypro').$labelsep.$maxentries;
 
-            // user closed attempt number:
-            $messages[] = get_string('closedsubmissions', 'surveypro', $countclosed);
+            // your 'closed' responses:
+            $a = new stdClass();
+            $a->status = get_string('statusclosed', 'surveypro');
+            $a->responsescount = $countclosed;
+            $messages[] = get_string('yoursubmissions', 'surveypro', $a);
 
-            // your in progress attempt number:
-            $messages[] = get_string('inprogresssubmissions', 'surveypro', $inprogress);
+            // your 'in progress' responses:
+            $a = new stdClass();
+            $a->status = get_string('statusinprogress', 'surveypro');
+            $a->responsescount = $inprogress;
+            $messages[] = get_string('yoursubmissions', 'surveypro', $a);
 
             if ($displaybutton) {
                 $messages[] = get_string('yournextattempt', 'surveypro', $next);
