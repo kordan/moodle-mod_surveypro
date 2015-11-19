@@ -101,13 +101,25 @@ function xmldb_surveypro_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2015090901, 'surveypro');
     }
 
-    if ($oldversion < 2015111004) {
-        // Surveypro savepoint reached.
-        upgrade_mod_savepoint(true, 2015111004, 'surveypro');
-    }
-
     // Moodle v3.0.0 release upgrade line.
     // Put any upgrade step following this.
+
+    if ($oldversion < 2015111904) {
+        $settings = $DB->get_records('config_plugins', array('plugin' => 'surveypro'));
+
+        foreach ($settings as $setting) {
+            // $value = $setting->value; // should be faster but uses direct access. ok. I don't care performance here!
+            $value = get_config('surveypro', $setting->name);
+
+            unset_config($setting->name, 'surveypro');
+
+            $newplugin = 'mod_'.$setting->plugin;
+            set_config($setting->name, $value, $newplugin);
+        }
+
+        // Surveypro savepoint reached.
+        upgrade_mod_savepoint(true, 2015111904, 'surveypro');
+    }
 
     return true;
 }

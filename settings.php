@@ -34,20 +34,20 @@ if ($ADMIN->fulltree) {
     if ($CFG->branch < '29') {
         $name = new lang_string('requiremodintro', 'admin');
         $description = new lang_string('configrequiremodintro', 'admin');
-        $settings->add(new admin_setting_configcheckbox('surveypro/requiremodintro', $name, $description, 0));
+        $settings->add(new admin_setting_configcheckbox('mod_surveypro/requiremodintro', $name, $description, 0));
     }
 
     $name = new lang_string('maxinputdelay', 'mod_surveypro');
     $description = new lang_string('maxinputdelay_descr', 'mod_surveypro');
-    $settings->add(new admin_setting_configtext('surveypro/maxinputdelay', $name, $description, 168, PARAM_INT)); // alias: 7*24 hours == 1 week
+    $settings->add(new admin_setting_configtext('mod_surveypro/maxinputdelay', $name, $description, 168, PARAM_INT)); // alias: 7*24 hours == 1 week
 
     $name = new lang_string('extranoteinsearch', 'mod_surveypro');
     $description = new lang_string('extranoteinsearch_descr', 'mod_surveypro');
-    $settings->add(new admin_setting_configcheckbox('surveypro/extranoteinsearch', $name, $description, 0));
+    $settings->add(new admin_setting_configcheckbox('mod_surveypro/extranoteinsearch', $name, $description, 0));
 
     $name = new lang_string('fillinginstructioninsearch', 'mod_surveypro');
     $description = new lang_string('fillinginstructioninsearch_descr', 'mod_surveypro');
-    $settings->add(new admin_setting_configcheckbox('surveypro/fillinginstructioninsearch', $name, $description, 0));
+    $settings->add(new admin_setting_configcheckbox('mod_surveypro/fillinginstructioninsearch', $name, $description, 0));
 }
 
 $ADMIN->add('modsurveyprofolder', $settings);
