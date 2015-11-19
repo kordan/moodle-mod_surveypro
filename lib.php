@@ -612,7 +612,7 @@ function surveypro_cron() {
     //     I delete records now
     // permission == 1:  saveresume is allowed
     //     these records are older than maximum allowed time delay
-    $maxinputdelay = get_config('surveypro', 'maxinputdelay');
+    $maxinputdelay = get_config('mod_surveypro', 'maxinputdelay');
     foreach ($permission as $saveresume) {
         if (($saveresume == 1) && ($maxinputdelay == 0)) { // maxinputdelay == 0 means, please don't delete
             continue;
