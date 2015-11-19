@@ -105,16 +105,13 @@ function xmldb_surveypro_upgrade($oldversion) {
     // Put any upgrade step following this.
 
     if ($oldversion < 2015111904) {
+        // Move settings to use plugintype prefix.
         $settings = $DB->get_records('config_plugins', array('plugin' => 'surveypro'));
 
         foreach ($settings as $setting) {
-            // $value = $setting->value; // should be faster but uses direct access. ok. I don't care performance here!
-            $value = get_config('surveypro', $setting->name);
+            set_config($setting->name, $setting->value, 'mod_surveypro');
 
             unset_config($setting->name, 'surveypro');
-
-            $newplugin = 'mod_'.$setting->plugin;
-            set_config($setting->name, $value, $newplugin);
         }
 
         // Surveypro savepoint reached.
