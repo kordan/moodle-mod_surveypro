@@ -3,7 +3,7 @@ moodle-mod_surveypro
 This module comes from the need to perform a very closely validated data collection to gather customized data. It allows the creation of custom survey assembling fields and format elements.
 Fields and formats, usually called "elements", are two of the four managed plugin. Surveypro plugins include: fields, formats, templates and report.
 
-Surveypro ships with a set of 21 built-in elements as plugins. They include 17 fields and 4 formats. Fields are the user items needed by the student to enter their responses while formats are "read only" elements like page break, fieldset or labels. If you can't find the field or the format you need, you can always ask a developer to build the plugin closely matching your needs. Fields share a set of properties. In addition to these, each field manages its own specific features. Among common properties, usually, can be found: mandatory, indent, position of the element content, custom number, variable name, note, availability, validation, default and branching.
+Surveypro ships with a set of 21 built-in elements as plugins. They include 17 fields and 4 formats. "Fields" are the user items needed by the student to enter their responses while "formats" are read-only elements like page break, fieldset or labels. If you can't find the field or the format you need, you can always ask a developer to build the plugin closely matching your needs. "Fields" elements share a set of properties. In addition to these, each field manages its own specific features. Among common properties, usually, can be found: mandatory, indent, position of the element content, custom number, variable name, note, availability, validation, default and branching.
 The meaning of the less common properties is:
 - Note is free text that the editing teacher can use to provide a custom explanation of an element.
 - Availability defines who will see the field in the form. It can be:
@@ -15,9 +15,9 @@ The meaning of the less common properties is:
 - Default is what the blank form will display as predefined value of an element.
 
 Templates are divided into two subcategories: user-templates and master-templates. Master template is the plugin to quickly create a classic survey such as ATTLS, COLLES's or Critical Incidents.
-Editing teacher is allowed to create his own mater templates based on a manually created survey. The added value of master templates is the multilanguage behaviour. Once a course creator saves a survey as master template, in order to use it in a different moodle instance he needs to copy it to the filesystem of the target moodle instance and to navigate the notification page. Each language added to the lang folder of the master template package will be available to students in the target moodle instance. This means that the same survey will be served to students in their own language if available.
+Editing teacher is allowed to create his own master templates based on a manually created survey. The added value of master templates is the multilanguage behaviour. Once a course creator saves a survey as master template, in order to use it in a different moodle instance, he needs to copy it to the filesystem of the target moodle instance and to navigate the notification page. Each language added to the lang folder of the master template package will be available to students in the target moodle instance. This means that the same survey will be served to students in their own language, whether available.
 User template is the plugin for editing teachers to quickly make snapshots of surveys to share and apply them a second time without the need to copy them to the filesystem. Case uses for user templates are, for instance,
-1) An editing teacher is frequently called to create custom surveys where a fixed set of elements is included. Let's say: First name, Last name, Date of birth, Gender. To save time, the editing teacher can create a surveypro including this set of elements and then save the corresponding user-template. Later, whenever he/she is called to build a new mod_surveypro with the set of elements of the first surveypro, he/she will apply the generated user-template to the new mod_surveypro. All fields of the user-template will be included at once.
+1) An editing teacher is frequently called to create custom surveys where a fixed set of elements is included. Let's say: First name, Last name, Date of birth, Gender. To save time, the editing teacher can create a surveypro including this set of elements and then save the corresponding user-template. Later, whenever he/she is called to create a new instance of surveypro with the set of elements of the first surveypro, he/she will apply the generated user-template to the new instance. All fields of the user-template will be included at once.
 2) An editing teacher is asked to create the same surveypro in different courses. He can store a usertemplate at some level (category level, user level, or site level as last chance) and he/she will find it in each new course (of the same shared level) ready to be applied.
 3) Two editing teachers are working on their local moodle instance drafting the same surveypro. Saving and sharing by email the corresponding usertemplate is a quick way to share progress achieved.
 
@@ -55,5 +55,13 @@ If a long text using the html editor has a parent item, it is NOT disabled while
 
 Surveypro icons are missing from head/admin/plugins.php overview report.
 MDL-45723: uniformize the handling of svgs in resolve_image_location() calls.
+
+Please report issues about this module in the tracker: https://tracker.moodle.org
+using:
+    Project: Plugins (CONTRIB)
+    Component/s: Module: Survey Pro
+
+Documentation (very old and outdated):
+    https://docs.moodle.org/dev/Survey_2_module
 
 Thanks to Joseph Rézeau for the revision of the text and the English.

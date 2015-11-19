@@ -1021,7 +1021,7 @@ class mod_surveypro_itemlist {
             $optionsyes['plugin'] = $this->plugin;
             $optionsyes['type'] = $this->type;
 
-            $urlyes = new moodle_url('/mod/surveypro/items_manage.php#sortindex_'.($this->sortindex-1), $optionsyes);
+            $urlyes = new moodle_url('/mod/surveypro/items_manage.php#sortindex_'.($this->sortindex - 1), $optionsyes);
             $buttonyes = new single_button($urlyes, $labelyes, 'get');
 
             $optionsno = $optionbase;

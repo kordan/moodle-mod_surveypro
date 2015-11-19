@@ -535,7 +535,7 @@ class mod_surveypro_submissionmanager {
         if ($this->searchquery) {
             $sql .= '  JOIN {surveypro_answer} a ON s.id = a.submissionid ';
         }
-        
+
         if (($groupmode == SEPARATEGROUPS) && (!$manageallsubmissions)) {
             $sql .= '  JOIN {groups_members} gm ON gm.userid = s.userid ';
         }
@@ -566,7 +566,7 @@ class mod_surveypro_submissionmanager {
                 return array($sql, $whereparams);
             }
         }
-        
+
         if (!$this->canseeotherssubmissions) {
             // restrict to your submissions only
             $sql .= '  AND s.userid = :userid';
@@ -591,7 +591,6 @@ class mod_surveypro_submissionmanager {
             $whereparams['matchcount'] = count($userquery);
         }
 
-
         if ($table->get_sql_sort()) {
             // sort coming from $table->get_sql_sort()
             $sql .= ' ORDER BY '.$table->get_sql_sort();
@@ -615,14 +614,14 @@ class mod_surveypro_submissionmanager {
      */
     public function show_submissions_info_sql($sql, $whereparams) {
         global $DB, $OUTPUT;
-            
+
         $strstatusinprogress = get_string('statusinprogress', 'surveypro');
         $strstatusclosed = get_string('statusclosed', 'surveypro');
         $struser = get_string('loweruser', 'surveypro');
         $strusers = get_string('lowerusers', 'surveypro');
         $strresponse = get_string('response', 'surveypro');
         $strresponses = get_string('responses', 'surveypro');
-        
+
         // get $sqlall
         $pattern = '~SELECT(.*)FROM~';
         if ($this->searchquery) {
@@ -698,7 +697,7 @@ class mod_surveypro_submissionmanager {
         if ($this->searchquery) {
             $findallurl = new moodle_url('/mod/surveypro/view.php', array('id' => $this->cm->id, 'cover' => 0));
             $label = get_string('findall', 'surveypro');
-            
+
             echo $OUTPUT->single_button($findallurl, $label, 'get', array('class' => 'box clearfix mdl-align'));
         }
         echo html_writer::end_tag('fieldset');
@@ -713,7 +712,7 @@ class mod_surveypro_submissionmanager {
      */
     public function show_submissions_info($inprogresssubmission, $inprogressusers, $closedsubmission, $closedusers) {
         global $OUTPUT;
-        
+
         $strstatusinprogress = get_string('statusinprogress', 'surveypro');
         $strstatusclosed = get_string('statusclosed', 'surveypro');
         $struser = get_string('loweruser', 'surveypro');
@@ -763,7 +762,7 @@ class mod_surveypro_submissionmanager {
         if ($this->searchquery) {
             $findallurl = new moodle_url('/mod/surveypro/view.php', array('id' => $this->cm->id, 'cover' => 0));
             $label = get_string('findall', 'surveypro');
-            
+
             echo $OUTPUT->single_button($findallurl, $label, 'get', array('class' => 'box clearfix mdl-align'));
         }
         echo html_writer::end_tag('fieldset');
@@ -853,7 +852,7 @@ class mod_surveypro_submissionmanager {
         $status = array();
         $status[SURVEYPRO_STATUSINPROGRESS] = get_string('statusinprogress', 'surveypro');
         $status[SURVEYPRO_STATUSCLOSED] = get_string('statusclosed', 'surveypro');
-        
+
         $downloadpdftitle = get_string('downloadpdf', 'surveypro');
         $deletetitle = get_string('delete');
         $neverstring = get_string('never');
@@ -874,7 +873,7 @@ class mod_surveypro_submissionmanager {
         list($sql, $whereparams) = $this->get_submissions_sql($table);
         // $this->show_submissions_info_sql works fine (AFAIK) but makes 2 big queries.
         // Until the table is not divided into pages (20 record per page or so)
-        //     a count of the records before they are added to the table is less resource expensive 
+        //     a count of the records before they are added to the table is less resource expensive
         if ($useshowsubmissionsinfosql = false) {
             $this->show_submissions_info_sql($sql, $whereparams);
         }
@@ -898,7 +897,7 @@ class mod_surveypro_submissionmanager {
                     // count:
                     //   number of 'in progress' submissions
                     //   number of user with 'in progress' submissions
-                    // 
+                    //
                     //   number of 'closed' submissions
                     //   number of user with 'closed' submissions
                     switch ($submission->status) {

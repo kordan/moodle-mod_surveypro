@@ -29,7 +29,7 @@ $string['useritem'] = 'Style of the choice elements';
 $string['useritem_desc'] = 'This option let you choose the style of the elemets for the choices of the survey. "Radio buttons" is the standard, "Select" is better for not huge monitors.<br />Changes will take effect with new surveypro';
 $string['useradio'] = 'Use radio buttons';
 $string['useselect'] = 'Use drop down menus';
-$string['position'] = 'Use custom position for attls built in surveypro';
+$string['position'] = 'Position of attls elements question';
 $string['position_desc'] = 'This option let you choose the position of the question respect to the user interface to provide the answer.<br />Changes will take effect with new surveypro';
 
 $string['label_content_01'] = '<p>The purpose of this survey is to help us understand what you value in an online learning experience.<br />Each one of the 24 statements below asks about your preferred (ideal) experience in this unit.<br />There are no \'right\' or \'wrong\' answers; we are interested only in your opinion. Please be assured that your responses will be treated with a high degree of confidentiality, and will not affect your assessment.<br /><br />Your carefully considered responses will help us improve the way this unit is presented online in the future.<br />Thanks very much.</p>';

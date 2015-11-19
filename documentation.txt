@@ -1,93 +1,107 @@
 documentazione surveypro
 What surveypro does
 
-Surveypro is a moodle module to create custom surveypro.
-Among custom surveypro fews set of world accepted templates are included like ATTLS, COLLES, CI.
-The main news of surveypro are that you have:
+Surveypro is a moodle module to create custom surveys.
+User can create custom surveys such as create standard surveys.
+Standard surveys managed by surveypro are: ATTLS, COLLES and CI.
+
+The main news of surveypro are:
 • question branching
 • required fields
-• field level validation
-• items limited to teachers only
-• surveypro has:
-• pluggable field elements
-• pluggable format elements
-• pluggable preset templates
-• pluggable reoprts
+• element level validation
+• elements limited to teachers only
+
+Surveypro has pluggable plugins for:
+• field elements
+• format elements
+• preset templates
+• reoprts
 
 How a surveypro module page appears
-to students
+• to students
+• to teachers
 
-to teachers
-
-A surveypro can be delivered in a lot of different ways for a lot of different purposes. So it is natural that some settings were added to personalize your own surveypro.
-They are divided into: general site settings level and instance settings level.
+A surveypro can be delivered in a lot of different ways for a lot of different purposes.
+Because of this some settings were added to personalize each surveypro.
+Settings are divided into: global site settings level and instance settings level.
 You can get the first through Administration -> Plugins -> Activity modules -> Survey
-They are:
-• Max input delay: <<TODO: add the the description>>
-• Extra note in search form: <<TODO: add the the description>>
-• Instruction guides in search form: <<TODO: add the the description>>
-• Use advanced permissions: <<TODO: add the the description>>
-• Maximum age: <<TODO: add the the description>>
-• Maximum integer: <<TODO: add the the description>>
-• Use extra row for attls built in template: <<TODO: add the the description>>
 
-In addition to this first general settings level, affecting EACH surveypro on your moodle installation, surveypro provides a set of instance level settings.
-They are:
-• Available from: <<TODO: add the the description>>
-• Available to: <<TODO: add the the description>>
-• Advanced permissions: <<TODO: add the the description>>
-• Branching element increases page: <<TODO: add the the description>>
-• Allow Save/Resume: <<TODO: add the the description>>
-• Preserve history: <<TODO: add the the description>>
-• Anonymous: <<TODO: add the the description>>
-• Minimum allowed year: <<TODO: add the the description>>
-• Maximum allowed year: <<TODO: add the the description>>
-• Custom style sheet: <<TODO: add the the description>>
-• Maximum attempts: <<TODO: add the the description>>
-• Notify role: <<TODO: add the the description>>
-• More notifications: <<TODO: add the the description>>
-• Thanks web page: <<TODO: add the the description>>
+This set of settings includes...
+... for the surveypro module:
+• Max input delay: the maximum time allowed to finalize a surveypro response once paused. A surveypro can be paused so the user is alloed to stop its compilation and start it again in a second time.
+• Extra note in search form: Sometimes the content of the element question is not enough to exactly describe what an element is really asking. Because of this elements can be equipped with some extra detail. Must these details be displayed in the search form too?
+• Filling instruction in search form: some elements are equipped with a short "Instruction guide". For instance: "An email is expected here" or "Only numbers lower than 50 are expected here". Must these "Instruction guides" be displayed in the search form too?
 
-A list of "items" are available to create the surveypro.
-This list of "items" is divided into: "fields" and "format" elements.
+... for "age" surveypro plugin:
+• Maximum age: simply the maximum age allowed all over the site. This value can be further restricted by a similar setting at element level.
+
+... for "integer" surveypro plugin:
+• Maximum integer: simply the maximum integer allowed all over the site. This value can be further restricted by a similar setting at element level.
+
+... for "ATTLS (20 item version)", "COLLES (Actual)" ,"COLLES (Actual Preferred)" and "COLLES (Preferred)" surveypro plugin:
+• Position of attls elements question: the place where the question of each element will be located. The position usually depends from the size of the monitor of the foreseen class.
+• Style of the choice elements: Standard surveys like ATTLS, COLLES and CI are mainly made by multichoice questions. They can be realized using radiobuttons or drop down menu both.
+
+In addition to global site settings level, affecting EACH surveypro, surveypro provides a set of instance level settings.
+They are:
+• Available from: the first date available for students to fill a survey..
+• Available to: the last date available for students to fill a survey.
+• Branches increase pagese: a branch in the survey is always followed by an automatic page break in the survey.
+• Allow Save/Resume: allow to pause a survey in order to resume and submit it in a second data entry session.
+• Preserve history: Preserves saved response denying any modification to DEFINITELY submitted answers. Until the response is "in progress" (whether used in conjunction with "Allow Save/Resume" setting) you will be allowed to continue its compilation. Once it is submitted as "closed" if you go to edit it again, you will be forced to edit and save a copy of it in order to preserve the history of your original response.
+• Anonymous responses: the responses management table does not show the owner of the responses and reports are anonymous.
+• Minimum allowed year: the minimum number of responses a student is allowed to submit for this activity. This value can be further restricted at element level.
+• Maximum allowed year: the maximum number of responses a student is allowed to submit for this activity. This value can be further restricted at element level.
+• Custom style sheet: a personal cascade style sheet (css) for the current surveypro only
+• Maximum allowed attempts: The maximum number of responses a student is allowed to submit for this activity.
+• Notify role: The role whose members will receive a notification email at each user response. The email will only advise about response from the user, not about its content and without sender details.
+• More notifications: Some additional email addresses to notify about new responses. Addresses are supposed to be one per row.
+• Thanks web page: The html code of the web page the user get at each response closing time.
+• Deadline of risky modification session: Allow users permitted to manage survey elements to force modifications of this survey even once already answered.
+
+A list of "elements" are available to create the surveypro.
+This list of "elements" is divided into: "fields" and "format" elements.
 Fields and formats are pluggable so each developer can create a new kind of field, i.e. a new kind of question, to use it is his special surveypro.
 In the starting release of surveypro was crafted with:
 • 17 items of type "field"
 • 3 items of type "format"
 
 The 17 fields type are:
-• item type "age" to ask for question like: "How old were you at you first access to narcotic"
-• item type "autofill" to autofill a field with infos from user, course, time, date or surveypro
-• item type "boolean" to ask for question like: "Is this true?"
-• item type "character" to ask for question like: "write down your email" or "enter your personal web site URL" or "enter the PIN code of your card"
-• item type "checkbox" to ask for question like: "what do you usually eat for breakfast? milk, sugar, jam, chocolate, other..."
-• item type "date" to ask for question like: "When were you born?"
-• item type "datetime" to ask for question like... well, this item type is really useless, AFAIK, but it was too simple to develop
-• item type "fileupload" to ask for question like: "Please, upload your CV in PDF format"
-• item type "integer" to ask for question like: "how many dogs do you feed dayly?"
-• item type "multiselect" to ask for question like: "what do you usually eat for breakfast? milk, sugar, jam, chocolate, other..."
-• item type "numeric" to ask for question like: "how many chilgdren do you have?"
-• item type "radiobutton" to ask for question like: "where do you usually spend your summer holidays? sea, mountain, lake, hills, desert..."
-• item type "rate" to ask for question like: "please order the following list of foreign languages according to your preferences: EN, ES, IT, FR..."
-• item type "select" to ask for question like: "where do you usually spend your summer holidays? sea, mountain, lake, hills, desert..."
-• item type "shortdate" to ask for question like: "when were you first arrested?"
-• item type "textarea" to ask for question like: "enter a small description of what you saw"
-• item type "time" to ask for question like: "At what time do you usually get breakfast?"
+• element type "age" to ask for question like: "How old were you at you first access to narcotic?"
+• element type "autofill" to autofill a field with infos from user, course, time, date or surveypro
+• element type "boolean" to ask for question like: "Is this true?"
+• element type "character" to ask for question like: "Write down your email" or "Enter your personal web site URL" or "Enter the PIN code of your card"
+• element type "checkbox" to ask for question like: "What do you usually eat for breakfast?" A: "milk, sugar, jam, chocolate, other..."
+• element type "date" to ask for question like: "When were you born?"
+• element type "datetime" to ask for question like... well, this item type has a really limited use, AFAIK, but it was too simple to develop
+• element type "fileupload" to ask for question like: "Upload your CV in PDF format"
+• element type "integer" to ask for question like: "How many street cats do you feed dayly?"
+• element type "multiselect" to ask for question like: "What do you usually eat for breakfast?" A: "milk, sugar, jam, chocolate, other..."
+• element type "numeric" to ask for question like: "Write the best approximation of π you feel correct"
+• element type "radiobutton" to ask for question like: "Where do you usually spend your summer holidays?" A: "sea, mountain, lake, hills, desert..."
+• element type "rate" to ask for question like: "Order the following list of foreign languages according to your preferences." A: "EN, ES, IT, FR..."
+• element type "select" to ask for question like: "Where do you usually spend your summer holidays?" A: "sea, mountain, lake, hills, desert..."
+• element type "shortdate" to ask for question like: "When were you first arrested?" A: "September 2004"
+• element type "textarea" to ask for question like: "Describe briefly of what you saw"
+• element type "time" to ask for question like: "At what time do you usually get breakfast?"" A: "7:45"
 
 The 4 format type are:
-• item type "fieldset" to group your question
-• item type "fieldsetend" to close an opened fieldset
-• item type "pagebreak"
-• item type "label" to display labels in the surveypro page
+• element type "fieldset" to group your question
+• element type "fieldsetend" to close an opened fieldset
+• element type "pagebreak"
+• element type "label" to display labels in the surveypro page
 
-Each item (== fields + formats) is hight configurable.
-Each field/format item, share a part of its settings with the other fields/formats.
-On the opposite, each field/format has a very special set of setting.
+Each element (== fields + formats) is hight configurable.
+It has part of its settings shared with all the other fields and formats and, on the opposite side, has a very special set of personal settings.
 
 The common field settings are usually divided into three fieldset:
 • General settings
 • Availability
 • Branching
+The very special set of personal setting of each item is always enclosed in a specific fieldset named:
+• <<element type>> specific settings
+• Validation options
+
 and they are:
 • General settings->Content: the content of the question
 • General settings->Extra row for question: use this to put your "question content" in a dedicated row just upper the elements to enter the answer. If you do not check this box the "question content" will be displayed on the left of the elements to enter the answer.
@@ -96,11 +110,12 @@ and they are:
 • General settings->Indent: <<TODO: add the the description>>
 • General settings->Required: <<TODO: add the the description>>
 • General settings->Variable name: <<TODO: add the the description>>
+
 • Availability->Hide: <<TODO: add the the description>>
 • Availability->Basic entry form: <<TODO: add the the description>>
 • Availability->Advanced search formHelp with Advanced search form: <<TODO: add the the description>>
+
 • Branching->Parent: <<TODO: add the the description>>
 • Branching->Parent content: <<TODO: add the the description>>
 
-The very special set of setting of each item is always enclosed in a specific fieldset:
-• <<item_type>> specific settings
+• <<element type>> specific settings->

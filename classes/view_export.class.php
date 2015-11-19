@@ -228,29 +228,24 @@ class mod_surveypro_exportmanager {
 
         // print header
         $headerlabels = array();
-// echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
         if (empty($this->surveypro->anonymous)) {
             $headerlabels[] = SURVEYPRO_OWNERIDLABEL;
         }
-// echo 'Ho aggiunto ownerid<br />';
-// echo 'count parziale di $headerlabels = '.count($headerlabels).'<br />';
+
         if (empty($this->surveypro->anonymous) && isset($this->formdata->includenames)) {
             $headerlabels[] = get_string('firstname');
             $headerlabels[] = get_string('lastname');
         }
-// echo 'Ho aggiunto i nomi<br />';
-// echo 'count parziale di $headerlabels = '.count($headerlabels).'<br />';
+
         foreach ($itemseeds as $itemseed) {
             $headerlabels[] = $DB->get_field('surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemseed->plugin, 'variable', array('itemid' => $itemseed->id));
         }
-// echo 'Ho aggiunto i placeholders<br />';
-// echo 'count parziale di $headerlabels = '.count($headerlabels).'<br />';
+
         if (isset($this->formdata->includedates)) {
             $headerlabels[] = SURVEYPRO_TIMECREATEDLABEL;
             $headerlabels[] = SURVEYPRO_TIMEMODIFIEDLABEL;
         }
-// echo 'Ho aggiunto le date<br />';
-// echo 'count parziale di $headerlabels = '.count($headerlabels).'<br />';
+
         $csvexport->add_data($headerlabels);
 
         // reduce the weight of $itemseeds disposing no longer relevant infos
@@ -291,18 +286,9 @@ class mod_surveypro_exportmanager {
                 // begin a new record
                 $recordtoexport = array();
                 $recordtoexport += $this->export_add_ownerid($richsubmission);
-// echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
-// echo 'Ho aggiunto ownerid<br />';
-// echo 'count parziale di $recordtoexport = '.count($recordtoexport).'<br />';
                 $recordtoexport += $this->export_add_names($richsubmission);
-// echo 'Ho aggiunto i nomi<br />';
-// echo 'count parziale di $recordtoexport = '.count($recordtoexport).'<br />';
                 $recordtoexport += $placeholders;
-// echo 'Ho aggiunto i placeholders<br />';
-// echo 'count parziale di $recordtoexport = '.count($recordtoexport).'<br />';
                 $recordtoexport += $this->export_add_dates($richsubmission);
-// echo 'Ho aggiunto le date<br />';
-// echo 'count parziale di $recordtoexport = '.count($recordtoexport).'<br />';
                 // echo 'Just created empty record<br />';
                 // echo '$recordtoexport:';
                 // var_dump($recordtoexport);

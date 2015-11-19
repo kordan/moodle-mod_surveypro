@@ -152,10 +152,10 @@ define('SURVEYPRO_DONTSAVEMEPREFIX', 'placeholder');
 // define('SURVEYPRO_IGNOREMEVALUE',   '__1gn0rE__me__'); // user should never guess it
 
 // started from version 2015090901
-define('SURVEYPRO_INVITATIONVALUE',   '@@_INVITE_@@'); // user should never guess it
-define('SURVEYPRO_NOANSWERVALUE',     '@@_NOANSW_@@'); // user should never guess it
-define('SURVEYPRO_IGNOREMEVALUE',     '@@_IGNORE_@@'); // user should never guess it
-define('SURVEYPRO_ANSWERNOTINDBVALUE','@@_ANINDB_@@'); // user should never guess it
+define('SURVEYPRO_INVITATIONVALUE',    '@@_INVITE_@@'); // user should never guess it
+define('SURVEYPRO_NOANSWERVALUE',      '@@_NOANSW_@@'); // user should never guess it
+define('SURVEYPRO_IGNOREMEVALUE',      '@@_IGNORE_@@'); // user should never guess it
+define('SURVEYPRO_ANSWERNOTINDBVALUE', '@@_ANINDB_@@'); // user should never guess it
 
 /*
  * ITEM ADJUSTMENTS

@@ -631,7 +631,7 @@ class mod_surveypro_importmanager {
                                 }
                             } else {
                                 // if $position must be numeric if $k is not is at its last value
-                                if ($k < $contentscount-1) {
+                                if ($k < $contentscount - 1) {
                                     $cir->close();
                                     $cir->cleanup();
                                     $a->position = $position;
@@ -657,7 +657,7 @@ class mod_surveypro_importmanager {
                             if (in_array($content, $reservedwords)) { // it is not an error, accept it
                                 continue;
                             }
-                            if ($k == $contentscount-1) { // it is not an error, accept it
+                            if ($k == $contentscount - 1) { // it is not an error, accept it
                                 continue;
                             }
 
@@ -698,7 +698,7 @@ class mod_surveypro_importmanager {
                                             $a->semantic = get_string('answerposition', 'surveypro');
                                             break;
                                         default:
-                                            debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $itemhelperinfo[$col]->contentformat = '.$itemhelperinfo[$col]->contentformat, DEBUG_DEVELOPER);
+                                            debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $itemdownloadformat = '.$itemdownloadformat, DEBUG_DEVELOPER);
                                     }
                                     break;
                                 default:

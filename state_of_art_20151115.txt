@@ -1,4 +1,4 @@
-The module is quite complete and is already in beta-testing and in use in two pilot projects.
+The module is quite complete. It is still in beta-version but is in use in some pilot projects.
 It is completely modular (uses db/subplugins.php) and uses oop.
 
 The module foreseen: 18 types of fields and 4 types of other items.
@@ -35,7 +35,7 @@ They are:
 
 User can choose, setup and include them into search forms.
 They all have a long list of features even to verify the content provided by the user.
-Surveypro foreseen conditional branching, sort of fields during export, item indentation, custom number, feature to hide, groups of users with with "extended" permissions, mandatory/optional items, fields limited to people with a specific permission
+Surveypro foreseen conditional branching, sort of fields during export, item indentation, custom number, feature to hide element, groups of users with "extended" permissions, mandatory/optional element, element limited to people with a specific permission
 
 ************
 known issues

@@ -612,11 +612,11 @@ class mod_surveypro_userformmanager {
                 // button or something not relevant
                 if ($itemname == 's') {
                     $surveyproid = $content;
-                // } else {
-                // this is the black hole where is thrown each useless info like:
-                // - formpage
-                // - nextbutton
-                // and some more
+                    // } else {
+                    // this is the black hole where is thrown each useless info like:
+                    // - formpage
+                    // - nextbutton
+                    // and some more
                 }
                 continue; // to next foreach
             }
@@ -776,7 +776,7 @@ class mod_surveypro_userformmanager {
             require_once($CFG->dirroot.'/mod/surveypro/field/'.$plugin.'/classes/plugin.class.php');
 
             $itemclass = 'mod_surveypro_'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
-            
+
             $itemcanbemandatory = $itemclass::item_get_can_be_mandatory();
             if ($itemcanbemandatory) {
                 $requiredfieldname = $itemclass::get_requiredfieldname();
@@ -795,7 +795,7 @@ class mod_surveypro_userformmanager {
                             // just to save few bits of RAM
                             unset ($pluginitem->{$requiredfieldname});
                             unset ($pluginitem->advanced);
-                            
+
                             $requireditems[$pluginitem->id] = $pluginitem;
                         }
                     }
@@ -855,7 +855,7 @@ class mod_surveypro_userformmanager {
         global $DB;
 
         $conditions = array('submissionid' => $this->submissionid, 'verified' => 0);
-        if($DB->get_record('surveypro_answer', $conditions, 'id', IGNORE_MULTIPLE)) {
+        if ($DB->get_record('surveypro_answer', $conditions, 'id', IGNORE_MULTIPLE)) {
             $this->finalresponseevaluation = SURVEYPRO_MISSINGVALIDATION;
         }
         // echo '$this->finalresponseevaluation:';
