@@ -103,19 +103,21 @@ The very special set of personal setting of each item is always enclosed in a sp
 • Validation options
 
 and they are:
-• General settings->Content: the content of the question
-• General settings->Extra row for question: use this to put your "question content" in a dedicated row just upper the elements to enter the answer. If you do not check this box the "question content" will be displayed on the left of the elements to enter the answer.
-• General settings->Question notes: use this option to add a comment to your item. It was added to provide help to fill the form.
-• General settings->Question number: this is
-• General settings->Indent: <<TODO: add the the description>>
-• General settings->Required: <<TODO: add the the description>>
-• General settings->Variable name: <<TODO: add the the description>>
+• General settings->Content: the text content of the element as it will be shown to remote user.
+• General settings->Required: a flag to make the element mandatory or optional
+• General settings->Indent: the indent of the element alias the left margin the element will respect once drawn.
+• General settings->Question position: the position of the content of the element. It can be to the left of the user interface, in a dedicated row just upper the interface to enter the answer or in a dedicated row just upper the interface spanning all the row. Note: The left position forces element contents to plain text without images. The two 'top' positions are usually needed for contents longer than few words and are required for questions containing images!
+• General settings->Element number: the custom number of the element. It may be a natural number such as 1 or 1.a or whatever you may choose. Take in mind that you are responsible for coherence of that numbers. Because of this take care if you plan to change the order of the elements.
+• General settings->Hide filling instruction: elements are equipped with filling instructions explaining what each user is supposed to enter in the field. This flag allow to hide this instructions.
+• General settings->Variable: the name of the element once it is downloaded
+• General settings->Additional note: use this option to add a personal comment to your item. It help improving instructions to fill the element.
 
-• Availability->Hide: <<TODO: add the the description>>
-• Availability->Basic entry form: <<TODO: add the the description>>
-• Availability->Advanced search formHelp with Advanced search form: <<TODO: add the the description>>
+• Availability->Hidden: to hide the element. Hided elements will not be available at all. You can consider these elements as not part of the survey.
+• Availability->Search form: <<TODO: add the the description>>
+• Availability->Advanced element: <<TODO: add the the description>>
 
-• Branching->Parent: <<TODO: add the the description>>
+• Branching->Parent element: <<TODO: add the the description>>
 • Branching->Parent content: <<TODO: add the the description>>
 
 • <<element type>> specific settings->
+• Validation options

@@ -151,8 +151,8 @@ if ($fromform = $itemform->get_data()) {
 // -----------------------------
 $paramurl = array('id' => $cm->id);
 $paramurl['itemid'] = $itemid;
-$paramurl['type'] = $type;
-$paramurl['plugin'] = $plugin;
+$paramurl['type'] = $itemlistman->type;
+$paramurl['plugin'] = $itemlistman->plugin;
 $paramurl['view'] = $view;
 $url = new moodle_url('/mod/surveypro/items_setup.php', $paramurl);
 $PAGE->set_url($url);

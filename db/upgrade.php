@@ -110,7 +110,6 @@ function xmldb_surveypro_upgrade($oldversion) {
 
         foreach ($settings as $setting) {
             set_config($setting->name, $setting->value, 'mod_surveypro');
-
             unset_config($setting->name, 'surveypro');
         }
 
