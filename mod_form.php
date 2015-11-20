@@ -49,7 +49,7 @@ class mod_surveypro_mod_form extends moodleform_mod {
 
         // Adding the standard "intro" and "introformat" fields
         if ($CFG->branch < '29') {
-            $config = get_config('surveypro');
+            $config = get_config('mod_surveypro');
             $this->add_intro_editor($config->requiremodintro, get_string('moduleintro'));
         } else {
             $this->standard_intro_elements(get_string('moduleintro'));

@@ -1366,7 +1366,7 @@ class mod_surveypro_itembase {
      * @return string fullinfo
      */
     public function userform_get_full_info($searchform) {
-        $config = get_config('surveypro');
+        $config = get_config('mod_surveypro');
 
         if (!$searchform) {
             if (!$this->get_hideinstructions()) {
