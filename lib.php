@@ -290,13 +290,6 @@ define('SURVEYPRO_3COLUMNSTEMPLATE', 3);
 define('SURVEYPRO_RAW',     0);
 define('SURVEYPRO_VERBOSE', 1);
 
-// EVENT LEVEL of LOGGING 2
-if ($CFG->branch == '26') {
-    define ('SURVEYPRO_EVENTLEVEL', 'level');
-} else {
-    define ('SURVEYPRO_EVENTLEVEL', 'edulevel');
-}
-
 // -----------------------------
 // Moodle core API
 // -----------------------------

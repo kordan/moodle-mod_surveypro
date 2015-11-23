@@ -35,7 +35,7 @@ class all_items_viewed extends \core\event\base {
      */
     protected function init() {
         $this->data['crud'] = 'r'; // c(reate), r(ead), u(pdate), d(elete)
-        $this->data[SURVEYPRO_EVENTLEVEL] = self::LEVEL_TEACHING;
+        $this->data['edulevel'] = self::LEVEL_TEACHING;
         $this->data['objecttable'] = 'surveypro';
     }
 

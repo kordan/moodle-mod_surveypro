@@ -117,5 +117,12 @@ function xmldb_surveypro_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2015111904, 'surveypro');
     }
 
+    if ($oldversion < 2015112301) {
+        unset_config('requiremodintro', 'mod_surveypro');
+
+        // Surveypro savepoint reached.
+        upgrade_mod_savepoint(true, 2015112301, 'surveypro');
+    }
+
     return true;
 }

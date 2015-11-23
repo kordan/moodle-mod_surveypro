@@ -121,3 +121,5 @@ and they are:
 
 • <<element type>> specific settings->
 • Validation options
+
+How to create a surveypro

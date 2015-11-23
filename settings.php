@@ -31,12 +31,6 @@ $ADMIN->add('modsettings', new admin_category('modsurveyprofolder', new lang_str
 $settings = new admin_settingpage($section, get_string('settings', 'mod_surveypro'), 'moodle/site:config', !$module->is_enabled());
 
 if ($ADMIN->fulltree) {
-    if ($CFG->branch < '29') {
-        $name = new lang_string('requiremodintro', 'admin');
-        $description = new lang_string('configrequiremodintro', 'admin');
-        $settings->add(new admin_setting_configcheckbox('mod_surveypro/requiremodintro', $name, $description, 0));
-    }
-
     $name = new lang_string('maxinputdelay', 'mod_surveypro');
     $description = new lang_string('maxinputdelay_descr', 'mod_surveypro');
     $settings->add(new admin_setting_configtext('mod_surveypro/maxinputdelay', $name, $description, 168, PARAM_INT)); // alias: 7*24 hours == 1 week

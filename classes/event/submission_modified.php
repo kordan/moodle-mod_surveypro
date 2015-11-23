@@ -35,7 +35,7 @@ class submission_modified extends \core\event\base {
      */
     protected function init() {
         $this->data['crud'] = 'u'; // c(reate), r(ead), u(pdate), d(elete)
-        $this->data[SURVEYPRO_EVENTLEVEL] = self::LEVEL_PARTICIPATING;
+        $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
         $this->data['objecttable'] = 'surveypro_submission';
     }
 
