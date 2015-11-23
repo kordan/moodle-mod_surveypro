@@ -35,7 +35,7 @@ class usertemplate_applied extends \core\event\base {
      */
     protected function init() {
         $this->data['crud'] = 'u'; // c(reate), r(ead), u(pdate), d(elete)
-        $this->data[SURVEYPRO_EVENTLEVEL] = self::LEVEL_OTHER;
+        $this->data['edulevel'] = self::LEVEL_OTHER;
         $this->data['objecttable'] = 'surveypro';
     }
 
