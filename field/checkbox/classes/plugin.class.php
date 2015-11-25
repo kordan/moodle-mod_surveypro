@@ -592,7 +592,7 @@ EOS;
             $answercount = 0;
             foreach ($labels as $k => $label) {
                 $uniqueid = $this->itemname.'_'.$k;
-                if ($data[$uniqueid]) { // they are advanced checkbox
+                if ($data[$uniqueid]) { // they are advanced checkbox so I am sure the answer always exist.
                     $answercount++;
                 }
             }
