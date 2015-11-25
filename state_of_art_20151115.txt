@@ -19,10 +19,10 @@ They are:
 ->  9) item type "integer" to ask for question like: "How many siblings do you have?"
 -> 10) item type "multiselect" to ask for question like: "What do you usually eat for breakfast? milk, sugar, jam, chocolate, other..."
 -> 11) item type "numeric" to ask for question like: "How the mean temperature of the room is supposed to be?"
--> 12) item type "radiobutton" to ask for question like: "Where do you mainly spend your summer holidays? sea, mountain, lake, hills, desert..."
+-> 12) item type "radiobutton" to ask for question like: "Which summer holidays place do you prefer? sea, mountain, lake, hills, desert..."
 -> 13) item type "rate" to ask for question like: "Please order the following list of foreign languages according to your preferences: EN, ES, IT, FR..."
 -> 14) item type "recurrence" to ask for question like: "When do you usually celebrate your name-day?" A: July 7
--> 15) item type "select" to ask for question like: "Where do you mainly spend your summer holidays? sea, mountain, lake, hills, desert..."
+-> 15) item type "select" to ask for question like: "Which summer holidays place do you prefer? sea, mountain, lake, hills, desert..."
 -> 16) item type "shortdate" to ask for question like: "When were you first arrested?" A: August 2002
 -> 17) item type "textarea" to ask for question like: "Enter a short description of yourself"
 -> 18) item type "time" to ask for question like: "At what time do you usually get breakfast?" A: 7:45
