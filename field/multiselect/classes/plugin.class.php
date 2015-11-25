@@ -561,7 +561,7 @@ EOS;
         if ($this->minimumrequired) {
             $errorkey = $this->itemname;
 
-            $answercount = count($data[$this->itemname]);
+            $answercount = (isset($data[$this->itemname])) ? count($data[$this->itemname]) : 0;
             if ($answercount < $this->minimumrequired) {
                 if ($this->minimumrequired == 1) {
                     $errors[$errorkey] = get_string('lowerthanminimum_one', 'surveyprofield_multiselect');
