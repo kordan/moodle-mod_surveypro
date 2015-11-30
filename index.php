@@ -33,11 +33,11 @@ require_course_login($course, true);
 
 // Get all required strings
 $strname = get_string('name');
-$strsurveypro = get_string('modulename', 'surveypro');
+$strsurveypro = get_string('modulename', 'mod_surveypro');
 $strintro = get_string('moduleintro');
-$strdataplural  = get_string('modulenameplural', 'surveypro');
-$inprogress = get_string('inprogresssubmissions', 'surveypro');
-$closed = get_string('closedsubmissions', 'surveypro');
+$strdataplural  = get_string('modulenameplural', 'mod_surveypro');
+$inprogress = get_string('inprogresssubmissions', 'mod_surveypro');
+$closed = get_string('closedsubmissions', 'mod_surveypro');
 
 $PAGE->set_pagelayout('incourse');
 $PAGE->set_url('/mod/surveypro/index.php', array('id' => $id));

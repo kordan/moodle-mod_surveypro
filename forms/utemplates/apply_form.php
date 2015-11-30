@@ -52,7 +52,7 @@ class mod_surveypro_applyutemplateform extends moodleform {
             $contextstring = $utemplateman->get_contextstring_from_sharinglevel($contextlevel);
             $contextfiles = $utemplateman->get_available_templates($contextid);
 
-            $contextlabel = get_string($contextstring, 'surveypro');
+            $contextlabel = get_string($contextstring, 'mod_surveypro');
             foreach ($contextfiles as $xmlfile) {
                 $itemsetname = $xmlfile->get_filename();
                 $templatesfiles[$contextlevel.'_'.$xmlfile->get_id()] = '('.$contextlabel.') '.$itemsetname;
@@ -71,9 +71,9 @@ class mod_surveypro_applyutemplateform extends moodleform {
         // applyutemplate: usertemplate
         // ----------------------------------------
         $fieldname = 'usertemplateinfo';
-        // $templatesfiles = array(get_string('notanyset', 'surveypro')) + $templatesfiles;
-        array_unshift($templatesfiles, get_string('notanyset', 'surveypro'));
-        $mform->addElement('select', $fieldname, get_string($fieldname, 'surveypro'), $templatesfiles);
+        // $templatesfiles = array(get_string('notanyset', 'mod_surveypro')) + $templatesfiles;
+        array_unshift($templatesfiles, get_string('notanyset', 'mod_surveypro'));
+        $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $templatesfiles);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
         $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
 
@@ -81,12 +81,12 @@ class mod_surveypro_applyutemplateform extends moodleform {
         // applyutemplate: otheritems
         // ----------------------------------------
         $fieldname = 'action';
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('ignoreitems', 'surveypro'), SURVEYPRO_IGNOREITEMS);
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('hideitems', 'surveypro'), SURVEYPRO_HIDEITEMS);
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('deleteallitems', 'surveypro'), SURVEYPRO_DELETEALLITEMS);
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('deletevisibleitems', 'surveypro'), SURVEYPRO_DELETEVISIBLEITEMS);
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('deletehiddenitems', 'surveypro'), SURVEYPRO_DELETEHIDDENITEMS);
-        $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveypro'), '<br />', false);
+        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('ignoreitems', 'mod_surveypro'), SURVEYPRO_IGNOREITEMS);
+        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('hideitems', 'mod_surveypro'), SURVEYPRO_HIDEITEMS);
+        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('deleteallitems', 'mod_surveypro'), SURVEYPRO_DELETEALLITEMS);
+        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('deletevisibleitems', 'mod_surveypro'), SURVEYPRO_DELETEVISIBLEITEMS);
+        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('deletehiddenitems', 'mod_surveypro'), SURVEYPRO_DELETEHIDDENITEMS);
+        $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'mod_surveypro'), '<br />', false);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveypro');
         $mform->setDefault($fieldname, SURVEYPRO_IGNOREITEMS);
 

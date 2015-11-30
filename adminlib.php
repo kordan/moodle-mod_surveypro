@@ -47,7 +47,7 @@ class mod_surveypro_admin_page_manage_surveypro_plugins extends admin_externalpa
         $this->subtype = $subtype;
         $url = new moodle_url('/mod/surveypro/adminmanageplugins.php', array('subtype' => $subtype));
         parent::__construct('manage'.$subtype.'plugins',
-                            get_string('manage'.$subtype.'plugins', 'surveypro'),
+                            get_string('manage'.$subtype.'plugins', 'mod_surveypro'),
                             $url);
     }
 
@@ -161,10 +161,10 @@ class mod_surveypro_plugin_manager {
         $table->define_columns($tablecolumns);
 
         $tableheaders = array();
-        $tableheaders[] = get_string($this->subtype.'pluginname', 'surveypro');
+        $tableheaders[] = get_string($this->subtype.'pluginname', 'mod_surveypro');
         $tableheaders[] = get_string('version');
-        $tableheaders[] = get_string('numinstances', 'surveypro');
-        $tableheaders[] = get_string('hideshow', 'surveypro');
+        $tableheaders[] = get_string('numinstances', 'mod_surveypro');
+        $tableheaders[] = get_string('hideshow', 'mod_surveypro');
         $tableheaders[] = get_string('delete');
         $tableheaders[] = get_string('settings');
         $table->define_headers($tableheaders);
@@ -272,7 +272,7 @@ class mod_surveypro_plugin_manager {
 
         // Print the page heading.
         echo $OUTPUT->header();
-        echo $OUTPUT->heading(get_string('manage'.$this->subtype.'plugins', 'surveypro'));
+        echo $OUTPUT->heading(get_string('manage'.$this->subtype.'plugins', 'mod_surveypro'));
     }
 
     /**
@@ -354,7 +354,7 @@ class mod_surveypro_plugin_manager {
 
         $this->view_header();
         $pluginname = get_string('pluginname', $this->subtype.'_'.$plugin);
-        echo $OUTPUT->heading(get_string('deletingplugin', 'surveypro', $pluginname));
+        echo $OUTPUT->heading(get_string('deletingplugin', 'mod_surveypro', $pluginname));
         echo $this->error;
         $shortsubtype = substr($this->subtype, strlen('surveypro'));
         $messageparams = array('name' => $pluginname,
@@ -375,10 +375,10 @@ class mod_surveypro_plugin_manager {
 
         $this->view_header();
         $pluginname = get_string('pluginname', $this->subtype.'_'.$plugin);
-        echo $OUTPUT->heading(get_string('deletingplugin', 'surveypro', $pluginname));
+        echo $OUTPUT->heading(get_string('deletingplugin', 'mod_surveypro', $pluginname));
         $urlparams = array('action' => 'delete', 'plugin' => $plugin, 'confirm' => 1);
         $confirmurl = new moodle_url($this->pageurl, $urlparams);
-        echo $OUTPUT->confirm(get_string('deletepluginmessage', 'surveypro', $pluginname),
+        echo $OUTPUT->confirm(get_string('deletepluginmessage', 'mod_surveypro', $pluginname),
                 $confirmurl,
                 $this->pageurl);
         $this->view_footer();

@@ -78,7 +78,7 @@ class mod_surveypro_field_age extends mod_surveypro_itembase {
     /**
      * $defaultoption
      */
-    public $defaultoption = SURVEYPRO_INVITATIONDEFAULT;
+    public $defaultoption = SURVEYPRO_INVITEDEFAULT;
 
     /**
      * $defaultvalue = the value of the field when the form is initially displayed.
@@ -263,8 +263,8 @@ class mod_surveypro_field_age extends mod_surveypro_itembase {
         if (!isset($this->defaultvalue)) {
             $this->defaultoption = SURVEYPRO_NOANSWERDEFAULT;
         } else {
-            if ($this->defaultvalue == SURVEYPRO_INVITATIONDBVALUE) {
-                $this->defaultoption = SURVEYPRO_INVITATIONDEFAULT;
+            if ($this->defaultvalue == SURVEYPRO_INVITEDBVALUE) {
+                $this->defaultoption = SURVEYPRO_INVITEDEFAULT;
             } else {
                 $this->defaultoption = SURVEYPRO_CUSTOMDEFAULT;
             }
@@ -302,8 +302,8 @@ class mod_surveypro_field_age extends mod_surveypro_itembase {
             case SURVEYPRO_NOANSWERDEFAULT:
                 $record->defaultvalue = null;
                 break;
-            case SURVEYPRO_INVITATIONDEFAULT:
-                $record->defaultvalue = SURVEYPRO_INVITATIONDBVALUE;
+            case SURVEYPRO_INVITEDEFAULT:
+                $record->defaultvalue = SURVEYPRO_INVITEDBVALUE;
                 break;
             default:
                 debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $record->defaultoption = '.$record->defaultoption, DEBUG_DEVELOPER);
@@ -432,9 +432,9 @@ EOS;
         $years = array();
         $months = array();
         if (!$searchform) {
-            if ($this->defaultoption == SURVEYPRO_INVITATIONDEFAULT) {
-                $years[SURVEYPRO_INVITATIONVALUE] = get_string('invitationyear', 'surveyprofield_age');
-                $months[SURVEYPRO_INVITATIONVALUE] = get_string('invitationmonth', 'surveyprofield_age');
+            if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
+                $years[SURVEYPRO_INVITEVALUE] = get_string('inviteyear', 'surveyprofield_age');
+                $months[SURVEYPRO_INVITEVALUE] = get_string('invitemonth', 'surveyprofield_age');
             }
         } else {
             $years[SURVEYPRO_IGNOREMEVALUE] = '';
@@ -452,7 +452,7 @@ EOS;
         }
         $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_month', '', $months, array('id' => $idprefix.'_month'));
         if ($readonly) {
-            $elementgroup[] = $mform->createElement('mod_surveypro_static', 'monthlabel_'.$this->itemid, null, get_string('months', 'surveypro'));
+            $elementgroup[] = $mform->createElement('mod_surveypro_static', 'monthlabel_'.$this->itemid, null, get_string('months', 'mod_surveypro'));
         }
 
         if ($this->required) {
@@ -467,7 +467,7 @@ EOS;
                 $mform->_required[] = $starplace;
             }
         } else {
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), array('id' => $idprefix.'_noanswer'));
+            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'mod_surveypro'), array('id' => $idprefix.'_noanswer'));
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
         }
@@ -475,9 +475,9 @@ EOS;
 
         // default section
         if (!$searchform) {
-            if ($this->defaultoption == SURVEYPRO_INVITATIONDEFAULT) {
-                $mform->setDefault($this->itemname.'_year', SURVEYPRO_INVITATIONVALUE);
-                $mform->setDefault($this->itemname.'_month', SURVEYPRO_INVITATIONVALUE);
+            if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
+                $mform->setDefault($this->itemname.'_year', SURVEYPRO_INVITEVALUE);
+                $mform->setDefault($this->itemname.'_month', SURVEYPRO_INVITEVALUE);
             } else {
                 switch ($this->defaultoption) {
                     case SURVEYPRO_CUSTOMDEFAULT:
@@ -524,8 +524,8 @@ EOS;
         // verify the content of each drop down menu
         if (!$searchform) {
             $testpassed = true;
-            $testpassed = $testpassed && ($data[$this->itemname.'_year'] != SURVEYPRO_INVITATIONVALUE);
-            $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_INVITATIONVALUE);
+            $testpassed = $testpassed && ($data[$this->itemname.'_year'] != SURVEYPRO_INVITEVALUE);
+            $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_INVITEVALUE);
         } else {
             // both drop down menues are allowed to be == SURVEYPRO_IGNOREMEVALUE
             // but not only 1
@@ -540,7 +540,7 @@ EOS;
             if ($this->required) {
                 $errors[$errorkey] = get_string('uerr_agenotsetrequired', 'surveyprofield_age');
             } else {
-                $a = get_string('noanswer', 'surveypro');
+                $a = get_string('noanswer', 'mod_surveypro');
                 $errors[$errorkey] = get_string('uerr_agenotset', 'surveyprofield_age', $a);
             }
             return;
@@ -677,10 +677,10 @@ EOS;
     public function userform_db_to_export($answer, $format='') {
         $content = $answer->content;
         if ($content == SURVEYPRO_NOANSWERVALUE) { // answer was "no answer"
-            return get_string('answerisnoanswer', 'surveypro');
+            return get_string('answerisnoanswer', 'mod_surveypro');
         }
         if ($content === null) { // item was disabled
-            return get_string('notanswereditem', 'surveypro');
+            return get_string('notanswereditem', 'mod_surveypro');
         }
 
         $agearray = $this->item_split_unix_time($content);

@@ -261,15 +261,15 @@ class mod_surveypro_submissionmanager {
                 $user = $DB->get_record('user', array('id' => $submission->userid), user_picture::fields());
                 $a->fullname = fullname($user);
                 if ($a->timemodified == 0) {
-                    $message = get_string('askdeleteonesurveypronevermodified', 'surveypro', $a);
+                    $message = get_string('askdeleteonesurveypronevermodified', 'mod_surveypro', $a);
                 } else {
-                    $message = get_string('askdeleteonesurveypro', 'surveypro', $a);
+                    $message = get_string('askdeleteonesurveypro', 'mod_surveypro', $a);
                 }
             } else {
                 if ($a->timemodified == 0) {
-                    $message = get_string('askdeletemysubmissionsnevermodified', 'surveypro', $a);
+                    $message = get_string('askdeletemysubmissionsnevermodified', 'mod_surveypro', $a);
                 } else {
-                    $message = get_string('askdeletemysubmissions', 'surveypro', $a);
+                    $message = get_string('askdeletemysubmissions', 'mod_surveypro', $a);
                 }
             }
 
@@ -280,7 +280,7 @@ class mod_surveypro_submissionmanager {
             $optionsyes['submissionid'] = $this->submissionid;
             $optionsyes['cover'] = 0;
             $urlyes = new moodle_url('/mod/surveypro/view.php', $optionsyes);
-            $buttonyes = new single_button($urlyes, get_string('confirmsurveyprodeletion', 'surveypro'));
+            $buttonyes = new single_button($urlyes, get_string('confirmsurveyprodeletion', 'mod_surveypro'));
 
             $optionsno = $optionbase;
             $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
@@ -315,7 +315,7 @@ class mod_surveypro_submissionmanager {
                         $event = \mod_surveypro\event\submission_deleted::create($eventdata);
                         $event->trigger();
 
-                        echo $OUTPUT->notification(get_string('responsedeleted', 'surveypro'), 'notifysuccess');
+                        echo $OUTPUT->notification(get_string('responsedeleted', 'mod_surveypro'), 'notifysuccess');
                     } catch (Exception $e) {
                         // extra cleanup steps
                         $transaction->rollback($e); // rethrows exception
@@ -323,7 +323,7 @@ class mod_surveypro_submissionmanager {
 
                     break;
                 case SURVEYPRO_CONFIRMED_NO:
-                    $message = get_string('usercanceled', 'surveypro');
+                    $message = get_string('usercanceled', 'mod_surveypro');
                     echo $OUTPUT->notification($message, 'notifymessage');
                     break;
                 default:
@@ -343,7 +343,7 @@ class mod_surveypro_submissionmanager {
 
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             // ask for confirmation
-            $message = get_string('askdeleteallsubmissions', 'surveypro');
+            $message = get_string('askdeleteallsubmissions', 'mod_surveypro');
 
             $optionbase = array('s' => $this->surveypro->id, 'surveyproid' => $this->surveypro->id, 'act' => SURVEYPRO_DELETEALLRESPONSES);
 
@@ -351,7 +351,7 @@ class mod_surveypro_submissionmanager {
             $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
             $optionsyes['cover'] = 0;
             $urlyes = new moodle_url('/mod/surveypro/view.php', $optionsyes);
-            $buttonyes = new single_button($urlyes, get_string('confirmallsubmissionsdeletion', 'surveypro'));
+            $buttonyes = new single_button($urlyes, get_string('confirmallsubmissionsdeletion', 'mod_surveypro'));
 
             $optionsno = $optionbase;
             $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
@@ -397,7 +397,7 @@ class mod_surveypro_submissionmanager {
                         $event = \mod_surveypro\event\all_submissions_deleted::create($eventdata);
                         $event->trigger();
 
-                        echo $OUTPUT->notification(get_string('allsubmissionsdeleted', 'surveypro'), 'notifymessage');
+                        echo $OUTPUT->notification(get_string('allsubmissionsdeleted', 'mod_surveypro'), 'notifymessage');
                     } catch (Exception $e) {
                         // extra cleanup steps
                         $transaction->rollback($e); // rethrows exception
@@ -405,7 +405,7 @@ class mod_surveypro_submissionmanager {
 
                     break;
                 case SURVEYPRO_CONFIRMED_NO:
-                    $message = get_string('usercanceled', 'surveypro');
+                    $message = get_string('usercanceled', 'mod_surveypro');
                     echo $OUTPUT->notification($message, 'notifymessage');
                     break;
                 default:
@@ -443,7 +443,7 @@ class mod_surveypro_submissionmanager {
     public function noitem_stopexecution() {
         global $COURSE, $OUTPUT;
 
-        $message = get_string('noitemsfound', 'surveypro');
+        $message = get_string('noitemsfound', 'mod_surveypro');
         echo $OUTPUT->notification($message, 'notifyproblem');
 
         $continueurl = new moodle_url('/course/view.php', array('id' => $COURSE->id));
@@ -470,7 +470,7 @@ class mod_surveypro_submissionmanager {
             $statuslist = array(SURVEYPRO_STATUSCLOSED, SURVEYPRO_STATUSINPROGRESS);
             if (!in_array($status, $statuslist)) {
                 $a = 'user_sent_submissions';
-                print_error('invalid_status', 'surveypro', null, $a);
+                print_error('invalid_status', 'mod_surveypro', null, $a);
             }
             $whereparams['status'] = $status;
         }
@@ -615,12 +615,12 @@ class mod_surveypro_submissionmanager {
     public function show_submissions_info_sql($sql, $whereparams) {
         global $DB, $OUTPUT;
 
-        $strstatusinprogress = get_string('statusinprogress', 'surveypro');
-        $strstatusclosed = get_string('statusclosed', 'surveypro');
-        $struser = get_string('loweruser', 'surveypro');
-        $strusers = get_string('lowerusers', 'surveypro');
-        $strresponse = get_string('response', 'surveypro');
-        $strresponses = get_string('responses', 'surveypro');
+        $strstatusinprogress = get_string('statusinprogress', 'mod_surveypro');
+        $strstatusclosed = get_string('statusclosed', 'mod_surveypro');
+        $struser = get_string('loweruser', 'mod_surveypro');
+        $strusers = get_string('lowerusers', 'mod_surveypro');
+        $strresponse = get_string('response', 'mod_surveypro');
+        $strresponses = get_string('responses', 'mod_surveypro');
 
         // get $sqlall
         $pattern = '~SELECT(.*)FROM~';
@@ -670,7 +670,7 @@ class mod_surveypro_submissionmanager {
         // begin output
         echo html_writer::start_tag('fieldset', array('class' => 'generalbox'));
         echo html_writer::start_tag('legend', array('class' => 'coverinfolegend'));
-        echo get_string('submissions_welcome', 'surveypro');
+        echo get_string('submissions_welcome', 'mod_surveypro');
         echo html_writer::end_tag('legend');
 
         if (count($perstatus) == 2) {
@@ -679,7 +679,7 @@ class mod_surveypro_submissionmanager {
             $a->distinctusers = $all->distinctusers;
             $a->oneormanyresponses = ($all->submissions == 1) ? $strresponse : $strresponses;
             $a->oneormanyusers = ($all->distinctusers == 1) ? $struser : $strusers;
-            $message = get_string('submissions_all', 'surveypro', $a);
+            $message = get_string('submissions_all', 'mod_surveypro', $a);
             echo $OUTPUT->container($message, 'mdl-left');
         }
 
@@ -690,13 +690,13 @@ class mod_surveypro_submissionmanager {
             $a->status = ($detail->status == 0) ? $strstatusclosed : $strstatusinprogress;
             $a->oneormanyresponses = ($detail->submissions == 1) ? $strresponse : $strresponses;
             $a->oneormanyusers = ($detail->distinctusers == 1) ? $struser : $strusers;
-            $message = get_string('submissions_detail', 'surveypro', $a);
+            $message = get_string('submissions_detail', 'mod_surveypro', $a);
             echo $OUTPUT->container($message, 'mdl-left');
         }
 
         if ($this->searchquery) {
             $findallurl = new moodle_url('/mod/surveypro/view.php', array('id' => $this->cm->id, 'cover' => 0));
-            $label = get_string('findall', 'surveypro');
+            $label = get_string('findall', 'mod_surveypro');
 
             echo $OUTPUT->single_button($findallurl, $label, 'get', array('class' => 'box clearfix mdl-align'));
         }
@@ -713,16 +713,16 @@ class mod_surveypro_submissionmanager {
     public function show_submissions_info($inprogresssubmission, $inprogressusers, $closedsubmission, $closedusers) {
         global $OUTPUT;
 
-        $strstatusinprogress = get_string('statusinprogress', 'surveypro');
-        $strstatusclosed = get_string('statusclosed', 'surveypro');
-        $struser = get_string('loweruser', 'surveypro');
-        $strusers = get_string('lowerusers', 'surveypro');
-        $strresponse = get_string('response', 'surveypro');
-        $strresponses = get_string('responses', 'surveypro');
+        $strstatusinprogress = get_string('statusinprogress', 'mod_surveypro');
+        $strstatusclosed = get_string('statusclosed', 'mod_surveypro');
+        $struser = get_string('loweruser', 'mod_surveypro');
+        $strusers = get_string('lowerusers', 'mod_surveypro');
+        $strresponse = get_string('response', 'mod_surveypro');
+        $strresponses = get_string('responses', 'mod_surveypro');
 
         echo html_writer::start_tag('fieldset', array('class' => 'generalbox'));
         echo html_writer::start_tag('legend', array('class' => 'coverinfolegend'));
-        echo get_string('submissions_welcome', 'surveypro');
+        echo get_string('submissions_welcome', 'mod_surveypro');
         echo html_writer::end_tag('legend');
 
         if ($submissions = $inprogresssubmission + $closedsubmission) {
@@ -732,7 +732,7 @@ class mod_surveypro_submissionmanager {
                 $a->distinctusers = count(array_unique($inprogressusers)) + count(array_unique($closedusers));
                 $a->oneormanyresponses = ($a->submissions == 1) ? $strresponse : $strresponses;
                 $a->oneormanyusers = ($a->distinctusers == 1) ? $struser : $strusers;
-                $message = get_string('submissions_all', 'surveypro', $a);
+                $message = get_string('submissions_all', 'mod_surveypro', $a);
                 echo $OUTPUT->container($message, 'mdl-left');
             }
 
@@ -743,7 +743,7 @@ class mod_surveypro_submissionmanager {
                 $a->status = $strstatusinprogress;
                 $a->oneormanyresponses = ($a->submissions == 1) ? $strresponse : $strresponses;
                 $a->oneormanyusers = ($a->distinctusers == 1) ? $struser : $strusers;
-                $message = get_string('submissions_detail', 'surveypro', $a);
+                $message = get_string('submissions_detail', 'mod_surveypro', $a);
                 echo $OUTPUT->container($message, 'mdl-left');
             }
 
@@ -754,14 +754,14 @@ class mod_surveypro_submissionmanager {
                 $a->status = $strstatusclosed;
                 $a->oneormanyresponses = ($a->submissions == 1) ? $strresponse : $strresponses;
                 $a->oneormanyusers = ($a->distinctusers == 1) ? $struser : $strusers;
-                $message = get_string('submissions_detail', 'surveypro', $a);
+                $message = get_string('submissions_detail', 'mod_surveypro', $a);
                 echo $OUTPUT->container($message, 'mdl-left');
             }
         }
 
         if ($this->searchquery) {
             $findallurl = new moodle_url('/mod/surveypro/view.php', array('id' => $this->cm->id, 'cover' => 0));
-            $label = get_string('findall', 'surveypro');
+            $label = get_string('findall', 'mod_surveypro');
 
             echo $OUTPUT->single_button($findallurl, $label, 'get', array('class' => 'box clearfix mdl-align'));
         }
@@ -812,9 +812,9 @@ class mod_surveypro_submissionmanager {
             $tableheaders[] = get_string('fullname');
         }
         $tableheaders[] = get_string('status');
-        $tableheaders[] = get_string('timecreated', 'surveypro');
+        $tableheaders[] = get_string('timecreated', 'mod_surveypro');
         if (!$this->surveypro->history) {
-            $tableheaders[] = get_string('timemodified', 'surveypro');
+            $tableheaders[] = get_string('timemodified', 'mod_surveypro');
         }
         $tableheaders[] = get_string('actions');
         $table->define_headers($tableheaders);
@@ -850,13 +850,13 @@ class mod_surveypro_submissionmanager {
         $table->setup();
 
         $status = array();
-        $status[SURVEYPRO_STATUSINPROGRESS] = get_string('statusinprogress', 'surveypro');
-        $status[SURVEYPRO_STATUSCLOSED] = get_string('statusclosed', 'surveypro');
+        $status[SURVEYPRO_STATUSINPROGRESS] = get_string('statusinprogress', 'mod_surveypro');
+        $status[SURVEYPRO_STATUSCLOSED] = get_string('statusclosed', 'mod_surveypro');
 
-        $downloadpdftitle = get_string('downloadpdf', 'surveypro');
+        $downloadpdftitle = get_string('downloadpdf', 'mod_surveypro');
         $deletetitle = get_string('delete');
         $neverstring = get_string('never');
-        $readonlyaccess = get_string('readonlyaccess', 'surveypro');
+        $readonlyaccess = get_string('readonlyaccess', 'mod_surveypro');
 
         $nonhistoryedittitle = get_string('edit');
         $historyedittitle = get_string('duplicate');
@@ -1041,14 +1041,14 @@ class mod_surveypro_submissionmanager {
         }
         $submissions->close();
 
-        $table->summary = get_string('submissionslist', 'surveypro');
+        $table->summary = get_string('submissionslist', 'mod_surveypro');
         $table->print_html();
 
         // if this is the output of a search and nothing has been found
         // give to the user a way to show all submissions
         if (!isset($tablerow) && ($this->searchquery)) {
             $url = new moodle_url('/mod/surveypro/view.php', array('id' => $this->cm->id, 'cover' => 0));
-            echo $OUTPUT->box($OUTPUT->single_button($url, get_string('showallsubmissions', 'surveypro'), 'get'), 'clearfix mdl-align');
+            echo $OUTPUT->box($OUTPUT->single_button($url, get_string('showallsubmissions', 'mod_surveypro'), 'get'), 'clearfix mdl-align');
         }
     }
 
@@ -1110,15 +1110,15 @@ class mod_surveypro_submissionmanager {
 
         if ($buttoncount == 1) {
             if ($addnew) {
-                echo $OUTPUT->box($OUTPUT->single_button($addurl, get_string('addnewsubmission', 'surveypro'), 'get'), 'clearfix mdl-align');
+                echo $OUTPUT->box($OUTPUT->single_button($addurl, get_string('addnewsubmission', 'mod_surveypro'), 'get'), 'clearfix mdl-align');
             }
 
             if ($deleteall) {
-                echo $OUTPUT->box($OUTPUT->single_button($deleteurl, get_string('deleteallsubmissions', 'surveypro'), 'get'), 'clearfix mdl-align');
+                echo $OUTPUT->box($OUTPUT->single_button($deleteurl, get_string('deleteallsubmissions', 'mod_surveypro'), 'get'), 'clearfix mdl-align');
             }
         } else {
-            $addbutton = new single_button($addurl, get_string('addnewsubmission', 'surveypro'), 'get', array('class' => 'buttons'));
-            $deleteallbutton = new single_button($deleteurl, get_string('deleteallsubmissions', 'surveypro'), 'get', array('class' => 'buttons'));
+            $addbutton = new single_button($addurl, get_string('addnewsubmission', 'mod_surveypro'), 'get', array('class' => 'buttons'));
+            $deleteallbutton = new single_button($deleteurl, get_string('deleteallsubmissions', 'mod_surveypro'), 'get', array('class' => 'buttons'));
 
             // this code comes from "public function confirm(" around line 1711 in outputrenderers.php.
             // It is not wrong. The misalign comes from bootstrapbase theme and is present in clean theme too.
@@ -1145,7 +1145,7 @@ class mod_surveypro_submissionmanager {
         }
         if ($this->action != SURVEYPRO_DELETEALLRESPONSES) { // if a specific submission is involved
             if (!$ownerid = $DB->get_field('surveypro_submission', 'userid', array('id' => $this->submissionid), IGNORE_MISSING)) {
-                print_error('incorrectaccessdetected', 'surveypro');
+                print_error('incorrectaccessdetected', 'mod_surveypro');
             }
 
             if (!$ismine = ($ownerid == $USER->id)) {
@@ -1222,7 +1222,7 @@ class mod_surveypro_submissionmanager {
         }
 
         if (!$allowed) {
-            print_error('incorrectaccessdetected', 'surveypro');
+            print_error('incorrectaccessdetected', 'mod_surveypro');
         }
     }
 
@@ -1248,7 +1248,7 @@ class mod_surveypro_submissionmanager {
         require_once($CFG->libdir.'/tcpdf/tcpdf.php');
         require_once($CFG->libdir.'/tcpdf/config/tcpdf_config.php');
 
-        $emptyanswer = get_string('notanswereditem', 'surveypro');
+        $emptyanswer = get_string('notanswereditem', 'mod_surveypro');
 
         $submission = $DB->get_record('surveypro_submission', array('id' => $this->submissionid));
         $user = $DB->get_record('user', array('id' => $submission->userid));
@@ -1275,13 +1275,13 @@ class mod_surveypro_submissionmanager {
         $pdf->SetSubject('Single response in PDF');
 
         // set default header data
-        $textheader = get_string('responseauthor', 'surveypro');
+        $textheader = get_string('responseauthor', 'mod_surveypro');
         $textheader .= fullname($user);
         $textheader .= "\n";
-        $textheader .= get_string('responsetimecreated', 'surveypro');
+        $textheader .= get_string('responsetimecreated', 'mod_surveypro');
         $textheader .= userdate($submission->timecreated);
         if ($submission->timemodified) {
-            $textheader .= get_string('responsetimemodified', 'surveypro');
+            $textheader .= get_string('responsetimemodified', 'mod_surveypro');
             $textheader .= userdate($submission->timemodified);
         }
 

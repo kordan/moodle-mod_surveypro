@@ -54,13 +54,13 @@ class mod_surveypro_importform extends moodleform {
         // submissionimport: csvcontent
         // ----------------------------------------
         $fieldname = 'csvsemantic';
-        $a = get_string('downloadformat', 'surveypro');
+        $a = get_string('downloadformat', 'mod_surveypro');
         $options = array();
-        $options[SURVEYPRO_LABELS] = get_string('answerlabel', 'surveypro');
-        $options[SURVEYPRO_VALUES] = get_string('answervalue', 'surveypro');
-        $options[SURVEYPRO_POSITIONS] = get_string('answerposition', 'surveypro');
-        $options[SURVEYPRO_ITEMDRIVEN] = get_string('itemdrivensemantic', 'surveypro', $a);
-        $mform->addElement('select', $fieldname, get_string($fieldname, 'surveypro'), $options);
+        $options[SURVEYPRO_LABELS] = get_string('answerlabel', 'mod_surveypro');
+        $options[SURVEYPRO_VALUES] = get_string('answervalue', 'mod_surveypro');
+        $options[SURVEYPRO_POSITIONS] = get_string('answerposition', 'mod_surveypro');
+        $options[SURVEYPRO_ITEMDRIVEN] = get_string('itemdrivensemantic', 'mod_surveypro', $a);
+        $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $options);
         $mform->setDefault($fieldname, 'label');
 
         // ----------------------------------------
@@ -87,7 +87,7 @@ class mod_surveypro_importform extends moodleform {
 
         // ----------------------------------------
         // buttons
-        $this->add_action_buttons(false, get_string('dataimport', 'surveypro'));
+        $this->add_action_buttons(false, get_string('dataimport', 'mod_surveypro'));
     }
 
     /*
@@ -110,7 +110,7 @@ class mod_surveypro_importform extends moodleform {
     //     $csvfilename = $this->get_name('importfile_filepicker');
     //     // echo '$csvfilename = '.$csvfilename.'<br />';
     //     if (!$importman->validate_csv($csvcontent, $data->encoding, $data->delimiter_name)) {
-    //         $errors['importfile_filepicker'] = get_string('invalidcsvfile', 'surveypro', $csvfilename);
+    //         $errors['importfile_filepicker'] = get_string('invalidcsvfile', 'mod_surveypro', $csvfilename);
     //         return $errors;
     //     }
     //

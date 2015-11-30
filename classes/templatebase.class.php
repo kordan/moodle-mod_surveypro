@@ -429,17 +429,17 @@ class mod_surveypro_templatebase {
                 $parts = explode('_', $this->formdata->usertemplateinfo);
                 $contextlevel = $parts[0];
                 $contextstring = $this->get_contextstring_from_sharinglevel($contextlevel);
-                $contextlabel = get_string($contextstring, 'surveypro');
+                $contextlabel = get_string($contextstring, 'mod_surveypro');
 
                 // for sure I am dealing with a usertemplate
                 $a = new stdClass();
                 $a->templatename = '('.$contextlabel.') '.$this->get_utemplate_name();
                 $a->plugins = '<li>'.implode('</li>;<li>', array_keys($this->nonmatchingplugin)).'.</li>';
-                $a->tab = get_string('tabutemplatename', 'surveypro');
-                $a->page1 = get_string('tabutemplatepage1' , 'surveypro');
-                $a->page3 = get_string('tabutemplatepage3' , 'surveypro');
+                $a->tab = get_string('tabutemplatename', 'mod_surveypro');
+                $a->page1 = get_string('tabutemplatepage1' , 'mod_surveypro');
+                $a->page3 = get_string('tabutemplatepage3' , 'mod_surveypro');
 
-                $message = get_string('frendlyversionmismatchuser', 'surveypro', $a);
+                $message = get_string('frendlyversionmismatchuser', 'mod_surveypro', $a);
                 echo $OUTPUT->notification($message, 'notifyproblem');
                 return;
             }
@@ -449,7 +449,7 @@ class mod_surveypro_templatebase {
         $hassubmissions = surveypro_count_submissions($this->surveypro->id);
 
         if ($hassubmissions && (!$riskyediting)) {
-            echo $OUTPUT->notification(get_string('applyusertemplatedenied01', 'surveypro'), 'notifyproblem');
+            echo $OUTPUT->notification(get_string('applyusertemplatedenied01', 'mod_surveypro'), 'notifyproblem');
             $url = new moodle_url('/mod/surveypro/view.php', array('s' => $this->surveypro->id, 'cover' => 0));
             echo $OUTPUT->continue_button($url);
             echo $OUTPUT->footer();
@@ -458,7 +458,7 @@ class mod_surveypro_templatebase {
 
         if ($this->templatetype == SURVEYPRO_USERTEMPLATE) {
             if ($this->surveypro->template && (!$riskyediting)) { // this survey comes from a master template so it is multilang
-                echo $OUTPUT->notification(get_string('applyusertemplatedenied02', 'surveypro'), 'notifyproblem');
+                echo $OUTPUT->notification(get_string('applyusertemplatedenied02', 'mod_surveypro'), 'notifyproblem');
                 $url = new moodle_url('/mod/surveypro/view_userform.php', array('s' => $this->surveypro->id));
                 echo $OUTPUT->continue_button($url);
                 echo $OUTPUT->footer();
@@ -470,7 +470,7 @@ class mod_surveypro_templatebase {
                     // if you really were in the dangerous situation,
                     if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
                         // but you got a disconfirmation: declare it and give up.
-                        $message = get_string('usercanceled', 'surveypro');
+                        $message = get_string('usercanceled', 'mod_surveypro');
                         echo $OUTPUT->notification($message, 'notifymessage');
                     }
                 }
@@ -485,7 +485,7 @@ class mod_surveypro_templatebase {
             // if you really are in the dangerous situation, ask!
             if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
                 // ask for confirmation
-                $message = get_string('askallitemserase', 'surveypro');
+                $message = get_string('askallitemserase', 'mod_surveypro');
 
                 $optionbase = array();
                 $optionbase['s'] = $this->surveypro->id;
@@ -496,7 +496,7 @@ class mod_surveypro_templatebase {
                 $optionsyes = $optionbase;
                 $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
                 $urlyes = new moodle_url('/mod/surveypro/utemplates_apply.php', $optionsyes);
-                $buttonyes = new single_button($urlyes, get_string('confirmallitemserase', 'surveypro'));
+                $buttonyes = new single_button($urlyes, get_string('confirmallitemserase', 'mod_surveypro'));
 
                 $optionsno = $optionbase;
                 $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
@@ -800,7 +800,7 @@ class mod_surveypro_templatebase {
 
                 if (!empty($errors)) {
                     $firsterror = array_shift($errors);
-                    $atemplate = get_string('reportederrortemplate', 'surveypro');
+                    $atemplate = get_string('reportederrortemplate', 'mod_surveypro');
                     // $atemplate = '%s as required by the xsd of the "%s" plugin'
                     $a = sprintf($atemplate, trim($firsterror->message, "\n\r\t ."), $currentplugin);
 

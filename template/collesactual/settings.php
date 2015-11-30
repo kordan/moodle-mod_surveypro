@@ -26,9 +26,9 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/surveypro/template/collesactual/lib.php');
 
 $options = array(
-    SURVEYPRO_POSITIONLEFT => get_string('left', 'surveypro'),
-    SURVEYPRO_POSITIONTOP => get_string('top', 'surveypro'),
-    SURVEYPRO_POSITIONFULLWIDTH => get_string('fullwidth', 'surveypro'),
+    SURVEYPRO_POSITIONLEFT => get_string('left', 'mod_surveypro'),
+    SURVEYPRO_POSITIONTOP => get_string('top', 'mod_surveypro'),
+    SURVEYPRO_POSITIONFULLWIDTH => get_string('fullwidth', 'mod_surveypro'),
 );
 
 $name = get_string('position', 'surveyprotemplate_collesactual');

@@ -242,14 +242,14 @@ class mod_surveypro_itemlist {
         $table->define_columns($tablecolumns);
 
         $tableheaders = array();
-        $tableheaders[] = get_string('plugin', 'surveypro');
-        $tableheaders[] = get_string('sortindex', 'surveypro');
-        $tableheaders[] = get_string('branching', 'surveypro');
-        $tableheaders[] = get_string('customnumber_header', 'surveypro');
-        $tableheaders[] = get_string('content', 'surveypro');
-        $tableheaders[] = get_string('variable', 'surveypro');
+        $tableheaders[] = get_string('plugin', 'mod_surveypro');
+        $tableheaders[] = get_string('sortindex', 'mod_surveypro');
+        $tableheaders[] = get_string('branching', 'mod_surveypro');
+        $tableheaders[] = get_string('customnumber_header', 'mod_surveypro');
+        $tableheaders[] = get_string('content', 'mod_surveypro');
+        $tableheaders[] = get_string('variable', 'mod_surveypro');
         $tableheaders[] = get_string('page');
-        $tableheaders[] = get_string('availability', 'surveypro');
+        $tableheaders[] = get_string('availability', 'mod_surveypro');
         $tableheaders[] = get_string('actions');
         $table->define_headers($tableheaders);
 
@@ -289,16 +289,16 @@ class mod_surveypro_itemlist {
 
         // -----------------------------
         $edittitle = get_string('edit');
-        $requiredtitle = get_string('switchrequired', 'surveypro');
-        $optionaltitle = get_string('switchoptional', 'surveypro');
-        $onlyoptionaltitle = get_string('onlyoptional', 'surveypro');
-        $changetitle = get_string('changeorder', 'surveypro');
-        $hidetitle = get_string('hidefield', 'surveypro');
-        $showtitle = get_string('showfield', 'surveypro');
+        $requiredtitle = get_string('switchrequired', 'mod_surveypro');
+        $optionaltitle = get_string('switchoptional', 'mod_surveypro');
+        $onlyoptionaltitle = get_string('onlyoptional', 'mod_surveypro');
+        $changetitle = get_string('changeorder', 'mod_surveypro');
+        $hidetitle = get_string('hidefield', 'mod_surveypro');
+        $showtitle = get_string('showfield', 'mod_surveypro');
         $deletetitle = get_string('delete');
-        $indenttitle = get_string('indent', 'surveypro');
+        $indenttitle = get_string('indent', 'mod_surveypro');
         $moveheretitle = get_string('movehere');
-        $namenotset = get_string('namenotset', 'surveypro');
+        $namenotset = get_string('namenotset', 'mod_surveypro');
 
         // -----------------------------
         // $paramurlmove definition
@@ -373,7 +373,7 @@ class mod_surveypro_itemlist {
             // parentid
             if ($item->get_parentid()) {
                 // if (!empty($content)) $content .= ' ';
-                $message = get_string('parentid_alt', 'surveypro');
+                $message = get_string('parentid_alt', 'mod_surveypro');
                 $parentsortindex = $DB->get_field('surveypro_item', 'sortindex', array('id' => $item->get_parentid()));
                 $content = $parentsortindex;
                 $content .= $OUTPUT->pix_icon('branch', $message, 'surveypro', array('title' => $message, 'class' => 'smallicon'));
@@ -422,7 +422,7 @@ class mod_surveypro_itemlist {
             if (empty($currenthide)) {
                 // first icon: advanced vs standard (generally available)
                 if (!$item->get_advanced()) {
-                    $message = get_string('available', 'surveypro');
+                    $message = get_string('available', 'mod_surveypro');
                     if ($item->get_isinitemform('advanced')) {
                         $paramurl = $paramurlbase;
                         $paramurl['act'] = SURVEYPRO_MAKEADVANCED;
@@ -436,7 +436,7 @@ class mod_surveypro_itemlist {
                         $icons = $OUTPUT->pix_icon('all', $message, 'surveypro', array('title' => $message, 'class' => 'smallicon'));
                     }
                 } else {
-                    $message = get_string('needrole', 'surveypro');
+                    $message = get_string('needrole', 'mod_surveypro');
                     $paramurl = $paramurlbase;
                     $paramurl['act'] = SURVEYPRO_MAKESTANDARD;
                     $paramurl['sortindex'] = $sortindex;
@@ -449,7 +449,7 @@ class mod_surveypro_itemlist {
 
                 // second icon: insearchform vs not insearchform
                 if ($item->get_insearchform()) {
-                    $message = get_string('belongtosearchform', 'surveypro');
+                    $message = get_string('belongtosearchform', 'mod_surveypro');
                     $paramurl = $paramurlbase;
                     $paramurl['act'] = SURVEYPRO_OUTOFSEARCH;
                     $paramurl['sesskey'] = sesskey();
@@ -458,7 +458,7 @@ class mod_surveypro_itemlist {
                         new pix_icon('insearch', $message, 'surveypro', array('title' => $message)),
                         null, array('id' => 'removesearch_item_'.$item->sortindex, 'title' => $message));
                 } else {
-                    $message = get_string('notinsearchform', 'surveypro');
+                    $message = get_string('notinsearchform', 'mod_surveypro');
                     if ($item->get_isinitemform('insearchform')) {
                         $paramurl = $paramurlbase;
                         $paramurl['act'] = SURVEYPRO_ADDTOSEARCH;
@@ -472,10 +472,10 @@ class mod_surveypro_itemlist {
                     }
                 }
             } else {
-                $message = get_string('hidden', 'surveypro');
+                $message = get_string('hidden', 'mod_surveypro');
                 $icons = $OUTPUT->pix_icon('absent', $message, 'surveypro', array('title' => $message, 'class' => 'smallicon'));
 
-                // $message = get_string('hidden', 'surveypro');
+                // $message = get_string('hidden', 'mod_surveypro');
                 $icons .= $OUTPUT->pix_icon('absent', $message, 'surveypro', array('title' => $message, 'class' => 'smallicon'));
             }
 
@@ -646,7 +646,7 @@ class mod_surveypro_itemlist {
         }
 
         $table->set_attribute('align', 'center');
-        $table->summary = get_string('itemlist', 'surveypro');
+        $table->summary = get_string('itemlist', 'mod_surveypro');
         $table->print_html();
     }
 
@@ -663,7 +663,7 @@ class mod_surveypro_itemlist {
 
         if (!is_array($additionalcondition)) {
             $a = 'add_child_node';
-            print_error('arrayexpected', 'surveypro', null, $a);
+            print_error('arrayexpected', 'mod_surveypro', null, $a);
         }
 
         $i = count($nodelist);
@@ -689,7 +689,7 @@ class mod_surveypro_itemlist {
 
         if (!is_array($additionalcondition)) {
             $a = 'add_parent_node';
-            print_error('arrayexpected', 'surveypro', null, $a);
+            print_error('arrayexpected', 'mod_surveypro', null, $a);
         }
 
         $nodelist = array($this->itemid);
@@ -733,7 +733,7 @@ class mod_surveypro_itemlist {
                 $a = new stdClass();
                 $a->parentid = $item->get_content();
                 $a->dependencies = implode(', ', $sortindextohidelist);
-                $message = get_string('askitemstohide', 'surveypro', $a);
+                $message = get_string('askitemstohide', 'mod_surveypro', $a);
 
                 $optionbase = array('id' => $this->cm->id, 'act' => SURVEYPRO_HIDEITEM, 'sesskey' => sesskey());
 
@@ -743,7 +743,7 @@ class mod_surveypro_itemlist {
                 $optionsyes['plugin'] = $this->plugin;
                 $optionsyes['type'] = $this->type;
                 $urlyes = new moodle_url('/mod/surveypro/items_manage.php#sortindex_'.$this->sortindex, $optionsyes);
-                $buttonyes = new single_button($urlyes, get_string('confirmitemstohide', 'surveypro'), 'get');
+                $buttonyes = new single_button($urlyes, get_string('confirmitemstohide', 'mod_surveypro'), 'get');
 
                 $optionsno = $optionbase;
                 $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
@@ -768,7 +768,7 @@ class mod_surveypro_itemlist {
                     break;
                 case SURVEYPRO_CONFIRMED_NO:
                     $itemstoprocess = 0;
-                    $message = get_string('usercanceled', 'surveypro');
+                    $message = get_string('usercanceled', 'mod_surveypro');
                     echo $OUTPUT->notification($message, 'notifymessage');
                     break;
                 default:
@@ -799,7 +799,7 @@ class mod_surveypro_itemlist {
                 $a = new stdClass();
                 $a->lastitem = $item->get_content();
                 $a->ancestors = implode(', ', $sortindextoshowlist);
-                $message = get_string('askitemstoshow', 'surveypro', $a);
+                $message = get_string('askitemstoshow', 'mod_surveypro', $a);
 
                 $optionbase = array('id' => $this->cm->id, 'act' => SURVEYPRO_SHOWITEM, 'itemid' => $this->itemid, 'sesskey' => sesskey());
 
@@ -809,7 +809,7 @@ class mod_surveypro_itemlist {
                 $optionsyes['plugin'] = $this->plugin;
                 $optionsyes['type'] = $this->type;
                 $urlyes = new moodle_url('/mod/surveypro/items_manage.php#sortindex_'.$this->sortindex, $optionsyes);
-                $buttonyes = new single_button($urlyes, get_string('confirmitemstoshow', 'surveypro'), 'get');
+                $buttonyes = new single_button($urlyes, get_string('confirmitemstoshow', 'mod_surveypro'), 'get');
 
                 $optionsno = $optionbase;
                 $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
@@ -834,7 +834,7 @@ class mod_surveypro_itemlist {
                     break;
                 case SURVEYPRO_CONFIRMED_NO:
                     $itemstoprocess = 0;
-                    $message = get_string('usercanceled', 'surveypro');
+                    $message = get_string('usercanceled', 'mod_surveypro');
                     echo $OUTPUT->notification($message, 'notifymessage');
                     break;
                 default:
@@ -872,7 +872,7 @@ class mod_surveypro_itemlist {
                 $a = new stdClass();
                 $a->parentid = $item->get_content();
                 $a->dependencies = implode(', ', $sortindextoadvancedlist);
-                $message = get_string('askitemstoadvanced', 'surveypro', $a);
+                $message = get_string('askitemstoadvanced', 'mod_surveypro', $a);
 
                 $optionbase = array('id' => $this->cm->id, 'act' => SURVEYPRO_MAKEADVANCED, 'sesskey' => sesskey());
 
@@ -882,7 +882,7 @@ class mod_surveypro_itemlist {
                 $optionsyes['plugin'] = $this->plugin;
                 $optionsyes['type'] = $this->type;
                 $urlyes = new moodle_url('/mod/surveypro/items_manage.php#sortindex_'.$this->sortindex, $optionsyes);
-                $buttonyes = new single_button($urlyes, get_string('confirmitemstoadvanced', 'surveypro'), 'get');
+                $buttonyes = new single_button($urlyes, get_string('confirmitemstoadvanced', 'mod_surveypro'), 'get');
 
                 $optionsno = $optionbase;
                 $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
@@ -907,7 +907,7 @@ class mod_surveypro_itemlist {
                     break;
                 case SURVEYPRO_CONFIRMED_NO:
                     $itemstoprocess = 0;
-                    $message = get_string('usercanceled', 'surveypro');
+                    $message = get_string('usercanceled', 'mod_surveypro');
                     echo $OUTPUT->notification($message, 'notifymessage');
                     break;
                 default:
@@ -938,7 +938,7 @@ class mod_surveypro_itemlist {
                 $a = new stdClass();
                 $a->lastitem = $item->get_content();
                 $a->ancestors = implode(', ', $sortindextostandardlist);
-                $message = get_string('askitemstostandard', 'surveypro', $a);
+                $message = get_string('askitemstostandard', 'mod_surveypro', $a);
 
                 $optionbase = array('id' => $this->cm->id, 'act' => SURVEYPRO_MAKESTANDARD, 'itemid' => $this->itemid, 'sesskey' => sesskey());
 
@@ -948,7 +948,7 @@ class mod_surveypro_itemlist {
                 $optionsyes['plugin'] = $this->plugin;
                 $optionsyes['type'] = $this->type;
                 $urlyes = new moodle_url('/mod/surveypro/items_manage.php#sortindex_'.$this->sortindex, $optionsyes);
-                $buttonyes = new single_button($urlyes, get_string('confirmitemstostandard', 'surveypro'), 'get');
+                $buttonyes = new single_button($urlyes, get_string('confirmitemstostandard', 'mod_surveypro'), 'get');
 
                 $optionsno = $optionbase;
                 $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
@@ -973,7 +973,7 @@ class mod_surveypro_itemlist {
                     break;
                 case SURVEYPRO_CONFIRMED_NO:
                     $itemstoprocess = 0;
-                    $message = get_string('usercanceled', 'surveypro');
+                    $message = get_string('usercanceled', 'mod_surveypro');
                     echo $OUTPUT->notification($message, 'notifymessage');
                     break;
                 default:
@@ -1001,14 +1001,14 @@ class mod_surveypro_itemlist {
             $a = new stdClass();
             $a->content = $item->get_content();
             $a->pluginname = strtolower(get_string('pluginname', 'surveypro'.$this->type.'_'.$this->plugin));
-            $message = get_string('askdeleteoneitem', 'surveypro', $a);
+            $message = get_string('askdeleteoneitem', 'mod_surveypro', $a);
 
             // is there any child item link to break
             if ($childitems = $DB->get_records('surveypro_item', array('parentid' => $this->itemid), 'sortindex', 'sortindex')) { // sortindex is suposed to be a valid key
                 $childitems = array_keys($childitems);
                 $nodes = implode(', ', $childitems);
-                $message .= get_string('deletionbreakslinks', 'surveypro', $nodes);
-                $labelyes = get_string('confirmitemsdeletion', 'surveypro');
+                $message .= get_string('deletionbreakslinks', 'mod_surveypro', $nodes);
+                $labelyes = get_string('confirmitemsdeletion', 'mod_surveypro');
             } else {
                 $labelyes = get_string('yes');
             }
@@ -1070,14 +1070,14 @@ class mod_surveypro_itemlist {
                     $itemlist->close();
 
                     if ($childrenseeds) {
-                        $message = get_string('chaindeleted', 'surveypro', $a);
+                        $message = get_string('chaindeleted', 'mod_surveypro', $a);
                     } else {
-                        $message = get_string('itemdeleted', 'surveypro', $a);
+                        $message = get_string('itemdeleted', 'mod_surveypro', $a);
                     }
                     echo $OUTPUT->notification($message, 'notifysuccess');
                     break;
                 case SURVEYPRO_CONFIRMED_NO:
-                    $message = get_string('usercanceled', 'surveypro');
+                    $message = get_string('usercanceled', 'mod_surveypro');
                     echo $OUTPUT->notification($message, 'notifymessage');
                     break;
                 default:
@@ -1097,7 +1097,7 @@ class mod_surveypro_itemlist {
 
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             // ask for confirmation
-            $message = get_string('mastertemplate_noedit', 'surveypro');
+            $message = get_string('mastertemplate_noedit', 'mod_surveypro');
 
             $optionbase = array('id' => $this->cm->id, 'act' => SURVEYPRO_DROPMULTILANG);
 
@@ -1243,13 +1243,13 @@ class mod_surveypro_itemlist {
         $table->define_columns($tablecolumns);
 
         $tableheaders = array();
-        $tableheaders[] = get_string('plugin', 'surveypro');
-        $tableheaders[] = get_string('sortindex', 'surveypro');
-        $tableheaders[] = get_string('branching', 'surveypro');
-        $tableheaders[] = get_string('customnumber_header', 'surveypro');
-        $tableheaders[] = get_string('content', 'surveypro');
-        $tableheaders[] = get_string('parentconstraints', 'surveypro');
-        $tableheaders[] = get_string('relation_status', 'surveypro');
+        $tableheaders[] = get_string('plugin', 'mod_surveypro');
+        $tableheaders[] = get_string('sortindex', 'mod_surveypro');
+        $tableheaders[] = get_string('branching', 'mod_surveypro');
+        $tableheaders[] = get_string('customnumber_header', 'mod_surveypro');
+        $tableheaders[] = get_string('content', 'mod_surveypro');
+        $tableheaders[] = get_string('parentconstraints', 'mod_surveypro');
+        $tableheaders[] = get_string('relation_status', 'mod_surveypro');
         $tableheaders[] = get_string('actions');
         $table->define_headers($tableheaders);
 
@@ -1301,7 +1301,7 @@ class mod_surveypro_itemlist {
         $sortfield = ($table->get_sql_sort()) ? $table->get_sql_sort() : 'sortindex';
         $itemseeds = $DB->get_recordset('surveypro_item', $whereparams, $sortfield, 'id as itemid, plugin, type');
 
-        $message = get_string('validationinfo', 'surveypro');
+        $message = get_string('validationinfo', 'mod_surveypro');
         echo $OUTPUT->notification($message, 'notifymessage');
 
         foreach ($itemseeds as $itemseed) {
@@ -1325,7 +1325,7 @@ class mod_surveypro_itemlist {
 
             // parentid
             if ($item->get_parentid()) {
-                $message = get_string('parentid_alt', 'surveypro');
+                $message = get_string('parentid_alt', 'mod_surveypro');
                 $content = $parentitem->get_sortindex();
                 $content .= $OUTPUT->pix_icon('branch', $message, 'surveypro', array('title' => $message, 'class' => 'smallicon'));
                 $content .= $item->get_parentcontent('; ');
@@ -1363,16 +1363,16 @@ class mod_surveypro_itemlist {
                 } else {
                     if ($status == SURVEYPRO_CONDITIONNEVERMATCH) {
                         if (empty($currenthide)) {
-                            $tablerow[] = '<span class="errormessage">'.get_string('wrongrelation', 'surveypro', $item->get_parentcontent('; ')).'</span>';
+                            $tablerow[] = '<span class="errormessage">'.get_string('wrongrelation', 'mod_surveypro', $item->get_parentcontent('; ')).'</span>';
                         } else {
-                            $tablerow[] = get_string('wrongrelation', 'surveypro', $item->get_parentcontent('; '));
+                            $tablerow[] = get_string('wrongrelation', 'mod_surveypro', $item->get_parentcontent('; '));
                         }
                     }
                     if ($status == SURVEYPRO_CONDITIONMALFORMED) {
                         if (empty($currenthide)) {
-                            $tablerow[] = '<span class="errormessage">'.get_string('malformedchildparentvalue', 'surveypro', $item->get_parentcontent('; ')).'</span>';
+                            $tablerow[] = '<span class="errormessage">'.get_string('malformedchildparentvalue', 'mod_surveypro', $item->get_parentcontent('; ')).'</span>';
                         } else {
-                            $tablerow[] = get_string('malformedchildparentvalue', 'surveypro', $item->get_parentcontent('; '));
+                            $tablerow[] = get_string('malformedchildparentvalue', 'mod_surveypro', $item->get_parentcontent('; '));
                         }
                     }
                 }
@@ -1407,7 +1407,7 @@ class mod_surveypro_itemlist {
         $itemseeds->close();
 
         $table->set_attribute('align', 'center');
-        $table->summary = get_string('itemlist', 'surveypro');
+        $table->summary = get_string('itemlist', 'mod_surveypro');
         $table->print_html();
     }
 
@@ -1429,19 +1429,19 @@ class mod_surveypro_itemlist {
         if ($bit) { // edit
             $bit = $this->userfeedbackmask & 1; // bitwise logic
             if ($bit) {
-                $message = get_string('itemeditok', 'surveypro');
+                $message = get_string('itemeditok', 'mod_surveypro');
                 $class = 'notifysuccess';
             } else {
-                $message = get_string('itemeditfail', 'surveypro');
+                $message = get_string('itemeditfail', 'mod_surveypro');
                 $class = 'notifyproblem';
             }
         } else {    // add
             $bit = $this->userfeedbackmask & 1; // bitwise logic
             if ($bit) {
-                $message = get_string('itemaddok', 'surveypro');
+                $message = get_string('itemaddok', 'mod_surveypro');
                 $class = 'notifysuccess';
             } else {
-                $message = get_string('itemaddfail', 'surveypro');
+                $message = get_string('itemaddfail', 'mod_surveypro');
                 $class = 'notifyproblem';
             }
         }
@@ -1451,22 +1451,22 @@ class mod_surveypro_itemlist {
             switch ($position) {
                 case 2: // a chain of items is now shown
                     if ($bit) {
-                        $message .= '<br />'.get_string('itemeditshow', 'surveypro');
+                        $message .= '<br />'.get_string('itemeditshow', 'mod_surveypro');
                     }
                     break;
                 case 3: // a chain of items is now hided because one item was hided
                     if ($bit) {
-                        $message .= '<br />'.get_string('itemedithidehide', 'surveypro');
+                        $message .= '<br />'.get_string('itemedithidehide', 'mod_surveypro');
                     }
                     break;
                 case 4: // a chain of items was moved in the user entry form
                     if ($bit) {
-                        $message .= '<br />'.get_string('itemeditshowinbasicform', 'surveypro');
+                        $message .= '<br />'.get_string('itemeditshowinbasicform', 'mod_surveypro');
                     }
                     break;
                 case 5: // a chain of items was removed from the user entry form
                     if ($bit) {
-                        $message .= '<br />'.get_string('itemeditmakeadvanced', 'surveypro');
+                        $message .= '<br />'.get_string('itemeditmakeadvanced', 'mod_surveypro');
                     }
                     break;
             }
@@ -1488,7 +1488,7 @@ class mod_surveypro_itemlist {
 
         $message = $OUTPUT->pix_icon('icon', $plugintitle, 'surveypro'.$this->type.'_'.$this->plugin,
                 array('title' => $plugintitle, 'class' => 'icon'));
-        $message .= get_string($this->type, 'surveypro').$labelsep.$plugintitle;
+        $message .= get_string($this->type, 'mod_surveypro').$labelsep.$plugintitle;
 
         echo $OUTPUT->box($message);
     }
@@ -1501,7 +1501,7 @@ class mod_surveypro_itemlist {
      */
     public function prevent_direct_user_input() {
         if ($this->surveypro->template) {
-            print_error('incorrectaccessdetected', 'surveypro');
+            print_error('incorrectaccessdetected', 'mod_surveypro');
         }
     }
 

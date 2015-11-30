@@ -119,7 +119,7 @@ class mod_surveypro_report_uploadformmanager {
         $allowed = has_capability('mod/surveypro:accessreports', $this->context, null, true);
 
         if (!$allowed) {
-            print_error('incorrectaccessdetected', 'surveypro');
+            print_error('incorrectaccessdetected', 'mod_surveypro');
         }
     }
 
@@ -166,11 +166,11 @@ EOS;
 
         $left = get_string('submissioninfo', 'surveyproreport_attachments_overview');
         $right = get_string('submissionid', 'surveyproreport_attachments_overview').': '.$submission->id.'<br />';
-        $right .= get_string('timecreated', 'surveypro').': '.userdate($submission->timecreated).'<br />';
+        $right .= get_string('timecreated', 'mod_surveypro').': '.userdate($submission->timecreated).'<br />';
         if ($submission->timemodified) {
-            $right .= get_string('timemodified', 'surveypro').': '.userdate($submission->timemodified);
+            $right .= get_string('timemodified', 'mod_surveypro').': '.userdate($submission->timemodified);
         } else {
-            $right .= get_string('timemodified', 'surveypro').': '.get_string('never');
+            $right .= get_string('timemodified', 'mod_surveypro').': '.get_string('never');
         }
 
         $output .= str_replace('@@left@@', $left, $layout);

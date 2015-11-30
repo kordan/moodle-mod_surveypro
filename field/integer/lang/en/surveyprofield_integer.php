@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'field_integer', language 'en', branch 'MOODLE_28_STABLE'
+ * Strings for component 'field_integer', language 'en', branch 'MOODLE_31_STABLE'
  *
  * @package    surveypro
  * @subpackage integer
@@ -35,9 +35,6 @@ $string['maximuminteger'] = 'Maximum integer';
 $string['outofrangedefault'] = 'Default does not fall within the specified range';
 $string['parentformat'] = '[an integer]';
 $string['pluginname'] = 'Integer';
-$string['restriction_lower'] = 'Answer is supposed to be greater-equal than {$a}';
-$string['restriction_lowerupper'] = 'Answer is supposed to fit between {$a->lowerbound} and {$a->upperbound}';
-$string['restriction_upper'] = 'Answer is supposed to be lower-equal than {$a}';
 $string['uerr_greaterthanmaximum'] = 'Provided value is greater than maximum allowed';
 $string['uerr_integernotset'] = 'Please choose a value or the last item: "{$a}"';
 $string['uerr_integernotsetrequired'] = 'Please choose a value';

@@ -250,7 +250,7 @@ class mod_surveypro_exportmanager {
 
         // reduce the weight of $itemseeds disposing no longer relevant infos
         if ($this->formdata->outputstyle == SURVEYPRO_VERBOSE) {
-            $answermissingindb = get_string('answermissingindb', 'surveypro');
+            $answermissingindb = get_string('answermissingindb', 'mod_surveypro');
         } else {
             $answermissingindb = SURVEYPRO_ANSWERNOTINDBVALUE;
         }
@@ -323,7 +323,7 @@ class mod_surveypro_exportmanager {
         $workbook->send($filename);
 
         $worksheet = array();
-        $worksheet[0] = $workbook->add_worksheet(get_string('surveypro', 'surveypro'));
+        $worksheet[0] = $workbook->add_worksheet(get_string('surveypro', 'mod_surveypro'));
 
         $itemseeds = $this->export_get_field_list();
 
@@ -338,8 +338,8 @@ class mod_surveypro_exportmanager {
             $headerlabels[] = $DB->get_field('surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemseed->plugin, 'variable', array('itemid' => $itemseed->id));
         }
         if (isset($this->formdata->includedates)) {
-            $headerlabels[] = get_string('timecreated', 'surveypro');
-            $headerlabels[] = get_string('timemodified', 'surveypro');
+            $headerlabels[] = get_string('timecreated', 'mod_surveypro');
+            $headerlabels[] = get_string('timemodified', 'mod_surveypro');
         }
 
         foreach ($headerlabels as $k => $label) {
@@ -348,7 +348,7 @@ class mod_surveypro_exportmanager {
 
         // reduce the weight of $itemseeds disposing no longer relevant infos
         if ($this->formdata->outputstyle == SURVEYPRO_VERBOSE) {
-            $answermissingindb = get_string('answermissingindb', 'surveypro');
+            $answermissingindb = get_string('answermissingindb', 'mod_surveypro');
         } else {
             $answermissingindb = SURVEYPRO_ANSWERNOTINDBVALUE;
         }
@@ -540,9 +540,9 @@ class mod_surveypro_exportmanager {
 
         require_once($CFG->dirroot.'/mod/surveypro/field/fileupload/lib.php');
 
-        $anonymousstr = get_string('anonymous', 'surveypro');
-        $itemstr = get_string('item', 'surveypro');
-        $submissionstr = get_string('submission', 'surveypro');
+        $anonymousstr = get_string('anonymous', 'mod_surveypro');
+        $itemstr = get_string('item', 'mod_surveypro');
+        $submissionstr = get_string('submission', 'mod_surveypro');
         $dummyuserid = 0;
         $dirnames = array();
         $filelist = array();
@@ -652,9 +652,9 @@ class mod_surveypro_exportmanager {
 
         require_once($CFG->dirroot.'/mod/surveypro/field/fileupload/lib.php');
 
-        $anonymousstr = get_string('anonymous', 'surveypro');
-        $itemstr = get_string('item', 'surveypro');
-        $submissionstr = get_string('submission', 'surveypro');
+        $anonymousstr = get_string('anonymous', 'mod_surveypro');
+        $itemstr = get_string('item', 'mod_surveypro');
+        $submissionstr = get_string('submission', 'mod_surveypro');
         $dummyuserid = 0;
         $dirnames = array();
         $filelist = array();

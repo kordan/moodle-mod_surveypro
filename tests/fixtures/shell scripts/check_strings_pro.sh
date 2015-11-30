@@ -7,20 +7,19 @@ echo "You are runing the script: `basename "$0"` from: `dirname "$0"`"
 echo "The current working directory is `pwd`"
 
 echo $GENERIC_FRAME
-echo 'Drop here a "lang file" to scan to verify the real use of its string'
-echo 'TAKE CARE: your <<newmodule>> "lang file" is supposed to be in <<newmodule>>/lang/en/'
-echo '           and is supposed to be named: <<newmodule>>.php'
-read langfilepath
-echo $GENERIC_FRAME
+# echo 'Drop here a "lang file" to scan in order to verify the real use of its string'
+# echo 'TAKE CARE: your <<newmodule>> "lang file" is supposed to be in <<newmodule>>/lang/en/'
+# echo '           and is supposed to be named: <<newmodule>>.php'
+# read langfilepath
+# echo $GENERIC_FRAME
 
-# set -x
-cd $(dirname $langfilepath)
-cd ../..
+langfilepath=`dirname "$0"`/../../../../
+mydir=`dirname "$langfilepath"`
+cd "$mydir"
 
 surveyprobasepath=`pwd`
 excludefilename=`pwd`
 excludefilename=`basename "$excludefilename"`
-regex="string\[['|\"](.*)['|\"]\]"
 
 langfilepath=()
 
@@ -68,14 +67,25 @@ done
 # do
 # 	echo langfilepath = $langfilepath
 # done
+# read a
 
+# langkeyregex="string\[['|\"](.*)['|\"]\]"
+# langkeyregex="$string\[['|\"](.*)['|\"]\]"
+langkeyregex=\^\\\$"string\[['|\"](.*)['|\"]\]"
+
+endoflangkey=( _help _err _group _descr _check _header )
+beginoflangkey=( surveypro: )
+
+# set -x
 for langfilepath in "${langfilepath[@]}"
 do
 	echo
-	langfilepath=$surveyprobasepath/$langfilepath
-	# echo langfilepath = $langfilepath
 
-    cd $(dirname $langfilepath)
+    langfilepath=$surveyprobasepath/$langfilepath
+    mydir=`dirname "$langfilepath"`
+    cd "$mydir"
+
+    # cd $(dirname $langfilepath)
     cd ../..
     excludefilename=$(basename $langfilepath)
 
@@ -86,16 +96,54 @@ do
     do
         # individua la parola nella riga
         # echo
-        # echo $langfile_line
-        if [[ $langfile_line =~ $regex ]]; then
-            #echo $BASH_REMATCH is what I wanted
-            langstring=`echo ${BASH_REMATCH[1]}`
+        # echo 'I do search in: '$langfile_line
+        if [[ $langfile_line =~ $langkeyregex ]]; then
+            #echo $BASH_REMATCH is what I want
+            langkey=`echo ${BASH_REMATCH[1]}`
 
-            # cerca la parola nella cartella
-            output=`grep -r --exclude="$excludefilename" $langstring *`
+# echo 'Lavoro su '$langkey
+# echo
+# echo langkey = $langkey
+
+            # I look for the extracted word into surveypro folder
+            output=`grep -rP "(get_string|print_error|lang_string)\(['\"]$langkey['\"], *['\"](mod_)?surveypro" *`
             if [ "${#output}" = 0 ]; then
-                messagewritten=1
-                echo '    '$langstring
+                # try to exclude get_string($fieldname
+                output=`grep -r "[$fieldname = ['\"]$langkey['\"];" *`
+                if [ "${#output}" = 0 ]; then
+
+                    langkeyinuse=0
+                    for keyend in "${endoflangkey[@]}"
+                    do
+                        # try to exclude strings ending with keyend
+                        n=${#keyend}
+                        stringedge=`echo ${langkey:(-$n)}`
+                        if [ "${stringedge}" = $keyend ]; then
+                            langkeyinuse=1
+                            break # for keyend in "${endoflangkey[@]}"
+                        fi
+                    done
+
+                    if [[ $langkeyinuse = 1 ]]; then
+                        continue # while read langfile_line
+                    fi
+
+                    for keystart in "${beginoflangkey[@]}"
+                    do
+                        # try to exclude strings beginning with keystart
+                        n=${#keystart}
+                        stringedge=`echo ${langkey:0:$n}`
+                        if [ "${stringedge}" = $keystart ]; then
+                            langkeyinuse=1
+                            break # for keystart in "${beginoflangkey[@]}"
+                        fi
+                    done
+
+                    if [[ $langkeyinuse = 0 ]]; then
+                        messagewritten=1
+                        echo '    '$langkey
+                    fi
+                fi
             fi
         fi
     done < $langfilepath

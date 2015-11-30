@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'field_date', language 'en', branch 'MOODLE_28_STABLE'
+ * Strings for component 'field_date', language 'en', branch 'MOODLE_31_STABLE'
  *
  * @package    surveypro
  * @subpackage date
@@ -30,9 +30,9 @@ $string['defaultoption'] = 'Default';
 $string['defaultvalue_err'] = 'The default item "{$a}" was not found among options';
 $string['downloadformat_help'] = 'Choose the format of the answer as it appear once user attempts are downloaded';
 $string['downloadformat'] = 'Download format';
-$string['invitationday'] = 'Choose a day';
-$string['invitationmonth'] = 'Choose a month';
-$string['invitationyear'] = 'Choose a year';
+$string['inviteday'] = 'Choose a day';
+$string['invitemonth'] = 'Choose a month';
+$string['inviteyear'] = 'Choose a year';
 $string['lowerbound_help'] = 'The lowest date the user is allowed to enter';
 $string['lowerbound'] = 'Lower bound';
 $string['lowerequaltoupper'] = 'Lower and upper bounds need to be different';

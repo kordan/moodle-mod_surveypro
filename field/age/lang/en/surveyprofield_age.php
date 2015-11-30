@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'field_age', language 'en', branch 'MOODLE_28_STABLE'
+ * Strings for component 'field_age', language 'en', branch 'MOODLE_31_STABLE'
  *
  * @package    surveypro
  * @subpackage age
@@ -27,8 +27,8 @@ $string['and'] = 'and';
 $string['customdefault'] = 'Custom';
 $string['defaultoption_help'] = 'This is the age the remote user will find answered by default. The default for this type of question is mandatory.';
 $string['defaultoption'] = 'Default';
-$string['invitationmonth'] = 'Choose a month';
-$string['invitationyear'] = 'Choose a year';
+$string['invitemonth'] = 'Choose a month';
+$string['inviteyear'] = 'Choose a year';
 $string['lowerbound_help'] = 'The lowest age the user is allowed to enter';
 $string['lowerbound'] = 'Lower bound';
 $string['lowerequaltoupper'] = 'Lower and upper bounds need to be different';

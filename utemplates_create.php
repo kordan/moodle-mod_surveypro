@@ -111,8 +111,8 @@ $moduletab = SURVEYPRO_TABUTEMPLATES; // needed by tabs.php
 $modulepage = SURVEYPRO_UTEMPLATES_BUILD; // needed by tabs.php
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
-$a = get_string('sharinglevel', 'surveypro');
-$message = get_string('templatecreateinfo', 'surveypro', $a);
+$a = get_string('sharinglevel', 'mod_surveypro');
+$message = get_string('templatecreateinfo', 'mod_surveypro', $a);
 echo $OUTPUT->box($message, 'generaltable generalbox boxaligncenter boxwidthnormal');
 
 $record = new stdClass();

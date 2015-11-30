@@ -545,7 +545,7 @@ EOS;
         if ($searchform) {
             $this->item_add_color_unifier($mform);
             $paramelement['id'] = $idprefix.'_ignoreme';
-            $mform->addElement('mod_surveypro_checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'surveypro'), $paramelement);
+            $mform->addElement('mod_surveypro_checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'mod_surveypro'), $paramelement);
             $mform->setDefault($this->itemname.'_ignoreme', '1');
 
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_ignoreme', 'checked');
@@ -837,10 +837,10 @@ EOS;
         // content
         $content = $answer->content;
         if ($content === SURVEYPRO_NOANSWERVALUE) { // answer was "no answer"
-            return get_string('answerisnoanswer', 'surveypro');
+            return get_string('answerisnoanswer', 'mod_surveypro');
         }
         if ($content === null) { // item was disabled
-            return get_string('notanswereditem', 'surveypro');
+            return get_string('notanswereditem', 'mod_surveypro');
         }
 
         // format
@@ -875,7 +875,7 @@ EOS;
                 if (!empty($output)) {
                     $return = implode(SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR, $output);
                 } else {
-                    $return = get_string('emptyanswer', 'surveypro');
+                    $return = get_string('emptyanswer', 'mod_surveypro');
                 }
                 break;
             case SURVEYPRO_ITEMRETURNSLABELS:
@@ -899,7 +899,7 @@ EOS;
                 if (!empty($output)) {
                     $return = implode(SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR, $output);
                 } else {
-                    $return = get_string('emptyanswer', 'surveypro');
+                    $return = get_string('emptyanswer', 'mod_surveypro');
                 }
                 break;
             case SURVEYPRO_ITEMRETURNSPOSITION:

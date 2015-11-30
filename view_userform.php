@@ -105,7 +105,7 @@ $userform = new mod_surveypro_submissionform($formurl, $formparams, 'post', '', 
 if ($userform->is_cancelled()) {
     $localparamurl = array('id' => $cm->id, 'view' => $view, 'cover' => 0);
     $redirecturl = new moodle_url('/mod/surveypro/view.php', $localparamurl);
-    redirect($redirecturl, get_string('usercanceled', 'surveypro'));
+    redirect($redirecturl, get_string('usercanceled', 'mod_surveypro'));
 }
 
 if ($userformman->formdata = $userform->get_data()) {

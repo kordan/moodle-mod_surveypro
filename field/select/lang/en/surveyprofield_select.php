@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'field_select', language 'en', branch 'MOODLE_28_STABLE'
+ * Strings for component 'field_select', language 'en', branch 'MOODLE_31_STABLE'
  *
  * @package    surveypro
  * @subpackage select
@@ -27,10 +27,10 @@ require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/lib.php');
 
 $string['allowed'] = 'allowed';
 $string['customdefault'] = 'Custom';
-$string['default_missing'] = 'Default is missing. You may like to choose the "{$a}" radio button.';
-$string['defaultvalue_err'] = 'The default item "{$a}" was not found among options';
+$string['default_missing'] = 'Custom default is missing. You may like to choose the "{$a}" one.';
 $string['defaultoption_help'] = 'This is the value the remote user will find answered by default. The default for this type of question is mandatory so, whether not specified for required items, it will be the first available option. For not required items, unspecified default will provide "Not answering" as pre-filled answer.';
 $string['defaultoption'] = 'Default';
+$string['defaultvalue_err'] = 'The default item "{$a}" was not found among options';
 $string['downloadformat_help'] = 'Choose the format of the answer as it appear once user attempts are downloaded';
 $string['downloadformat'] = 'Download format';
 $string['labelother_help'] = 'If this question is equipped with the option "other" followed by a text field, enter here the label for that option. You can choose to write this option with the format: label'.SURVEYPRO_OTHERSEPARATOR.'value. The label will be displayed on the screen, the value will be used as default for the text field. If you only specify one word, the field default will be neglected.';
@@ -44,6 +44,5 @@ $string['pluginname'] = 'Select';
 $string['returnlabels'] = 'label of selected items';
 $string['returnposition'] = 'positional answer';
 $string['returnvalues'] = 'value of selected items';
-$string['standarddefault'] = 'Standard';
-$string['userfriendlypluginname'] = 'Select';
 $string['uerr_optionnotset'] = 'Please choose an option';
+$string['userfriendlypluginname'] = 'Select';

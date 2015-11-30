@@ -95,7 +95,7 @@ function surveypro_autofill_get_elements($surveyproid) {
         $value = constant('SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT'.sprintf('%02d', $i));
         $subelements[$value] = get_string($value, 'surveyprofield_autofill');
     }
-    $menuitemlabel = get_string('modulename', 'surveypro');
+    $menuitemlabel = get_string('modulename', 'mod_surveypro');
     $options[$menuitemlabel] = $subelements;
 
     // course

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'field_autofill', language 'en', branch 'MOODLE_28_STABLE'
+ * Strings for component 'field_autofill', language 'en', branch 'MOODLE_31_STABLE'
  *
  * @package    surveyproreport
  * @subpackage frequency
@@ -23,12 +23,12 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Frequency distribution';
-$string['itemid'] = 'Survey question';
-$string['itemid_help'] = 'Choose the survey question to calculate its distribution';
-$string['content'] = 'answer';
 $string['absolute'] = 'absolute';
+$string['answernotpresent'] = 'missing';
+$string['content'] = 'answer';
+$string['itemid_help'] = 'Choose the survey question to calculate its distribution';
+$string['itemid'] = 'Survey question';
 $string['percentage'] = 'percentage';
 $string['pleasechooseavalue'] = 'Please choose an item for the distribution';
-$string['answernotpresent'] = 'missing';
+$string['pluginname'] = 'Frequency distribution';
 $string['textareasarenotallowed'] = 'This survey has no fields or uses only fields, among visible and not advanced, that are not suitable for this report.';

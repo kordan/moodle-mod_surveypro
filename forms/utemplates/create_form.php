@@ -53,7 +53,7 @@ class mod_surveypro_utemplatecreateform extends moodleform {
         // utemplatecreate: templatename
         // ----------------------------------------
         $fieldname = 'templatename';
-        $mform->addElement('text', $fieldname, get_string($fieldname, 'surveypro'));
+        $mform->addElement('text', $fieldname, get_string($fieldname, 'mod_surveypro'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
         $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
         $mform->setType($fieldname, PARAM_FILE); // templatename is going to be a file name
@@ -62,14 +62,14 @@ class mod_surveypro_utemplatecreateform extends moodleform {
         // utemplatecreate: overwrite
         // ----------------------------------------
         $fieldname = 'overwrite';
-        $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveypro'));
+        $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // ----------------------------------------
         // utemplatecreate: visiblesonly
         // ----------------------------------------
         $fieldname = 'visiblesonly';
-        $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveypro'));
+        $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // ----------------------------------------
@@ -80,7 +80,7 @@ class mod_surveypro_utemplatecreateform extends moodleform {
 
         $options = $utemplateman->get_sharinglevel_options($cmid, $surveypro);
 
-        $mform->addElement('select', $fieldname, get_string($fieldname, 'surveypro'), $options);
+        $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $options);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
         $mform->setDefault($fieldname, CONTEXT_SYSTEM);
 
@@ -141,8 +141,8 @@ class mod_surveypro_utemplatecreateform extends moodleform {
                 } else {
                     $a = new stdClass();
                     $a->filename = $data['templatename'];
-                    $a->overwrite = get_string('overwrite', 'surveypro');
-                    $errors['templatename'] = get_string('enteruniquename', 'surveypro', $a);
+                    $a->overwrite = get_string('overwrite', 'mod_surveypro');
+                    $errors['templatename'] = get_string('enteruniquename', 'mod_surveypro', $a);
                 }
                 break;
             }

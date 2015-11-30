@@ -683,7 +683,7 @@ class mod_surveypro_itembase {
             $transaction = $DB->start_delegated_transaction();
 
             if (!$DB->delete_records('surveypro_item', array('id' => $itemid))) {
-                print_error('notdeleted_item', 'surveypro', null, $itemid);
+                print_error('notdeleted_item', 'mod_surveypro', null, $itemid);
             }
 
             if (!$DB->delete_records('surveypro'.$this->type.'_'.$this->plugin, array('itemid' => $itemid))) {
@@ -691,7 +691,7 @@ class mod_surveypro_itembase {
                 $a->pluginid = $this->pluginid;
                 $a->type = $this->type;
                 $a->plugin = $this->plugin;
-                print_error('notdeleted_plugin', 'surveypro', null, $a);
+                print_error('notdeleted_plugin', 'mod_surveypro', null, $a);
             }
 
             surveypro_reset_items_pages($this->cm->instance);
@@ -699,7 +699,7 @@ class mod_surveypro_itembase {
             // delete records from surveypro_answer
             // if, at the end, the related surveypro_submission has no data, then, delete it too.
             if (!$DB->delete_records('surveypro_answer', array('itemid' => $itemid))) {
-                print_error('notdeleted_userdata', 'surveypro', null, $itemid);
+                print_error('notdeleted_userdata', 'mod_surveypro', null, $itemid);
             }
 
             $emptysubmissions = 'SELECT c.id
@@ -710,7 +710,7 @@ class mod_surveypro_itembase {
                 $surveyprotodelete = array_keys($surveyprotodelete);
                 if (!$DB->delete_records_select('surveypro_submission', 'id IN ('.implode(',', $surveyprotodelete).')')) {
                     $a = implode(',', $surveyprotodelete);
-                    print_error('notdeleted_submission', 'surveypro', null, $a);
+                    print_error('notdeleted_submission', 'mod_surveypro', null, $a);
                 }
             }
 
@@ -815,7 +815,7 @@ class mod_surveypro_itembase {
         foreach ($fieldlist as $field) {
             // Some item may be undefined causing:
             // Notice: Undefined property: stdClass::$defaultvalue
-            // as, for instance, disabled $defaultvalue field when $delaultoption == invitation
+            // as, for instance, disabled $defaultvalue field when $delaultoption == invite
             if (isset($record->{$field})) {
                 $temparray = surveypro_textarea_to_array($record->{$field});
                 $record->{$field} = implode("\n", $temparray);
@@ -1538,10 +1538,10 @@ class mod_surveypro_itembase {
     public function userform_db_to_export($answer, $format='') {
         $content = trim($answer->content);
         if ($content == SURVEYPRO_NOANSWERVALUE) { // answer was "no answer"
-            return get_string('answerisnoanswer', 'surveypro');
+            return get_string('answerisnoanswer', 'mod_surveypro');
         }
         if ($content === null) { // item was disabled
-            return get_string('notanswereditem', 'surveypro');
+            return get_string('notanswereditem', 'mod_surveypro');
         }
 
         return $content;

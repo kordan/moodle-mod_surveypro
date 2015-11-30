@@ -240,7 +240,7 @@ class mod_surveypro_userformmanager {
                 $a->startingpage = 'SURVEYPRO_LEFT_OVERFLOW';
             }
             $a->methodname = 'next_not_empty_page';
-            print_error('wrong_direction_found', 'surveypro', null, $a);
+            print_error('wrong_direction_found', 'mod_surveypro', null, $a);
         }
 
         if ($startingpage == SURVEYPRO_RIGHT_OVERFLOW) {
@@ -702,7 +702,7 @@ class mod_surveypro_userformmanager {
             $item->userform_save_preprocessing($iteminfo->contentperelement, $useranswer, false);
 
             if ($useranswer->content == SURVEYPRO_DUMMYCONTENT) {
-                print_error('wrong_userdatarec_found', 'surveypro', null, SURVEYPRO_DUMMYCONTENT);
+                print_error('wrong_userdatarec_found', 'mod_surveypro', null, SURVEYPRO_DUMMYCONTENT);
             } else {
                 $DB->update_record('surveypro_answer', $useranswer);
             }
@@ -979,16 +979,16 @@ class mod_surveypro_userformmanager {
         $a = new stdClass();
         $a->username = fullname($USER);
         $a->surveyproname = $this->surveypro->name;
-        $a->title = get_string('reviewsubmissions', 'surveypro');
+        $a->title = get_string('reviewsubmissions', 'mod_surveypro');
         $a->href = $CFG->wwwroot.'/mod/surveypro/view.php?s='.$this->surveypro->id;
 
         $htmlbody = $mailheader;
-        $htmlbody .= get_string('newsubmissionbody', 'surveypro', $a);
+        $htmlbody .= get_string('newsubmissionbody', 'mod_surveypro', $a);
         $htmlbody .= $mailfooter;
 
         $body = strip_tags($htmlbody);
 
-        $subject = get_string('newsubmissionsubject', 'surveypro');
+        $subject = get_string('newsubmissionsubject', 'mod_surveypro');
 
         foreach ($recipients as $recipient) {
             email_to_user($recipient, $from, $subject, $body, $htmlbody);
@@ -1024,7 +1024,7 @@ class mod_surveypro_userformmanager {
     public function noitem_stopexecution() {
         global $COURSE, $OUTPUT;
 
-        $message = get_string('noitemsfound', 'surveypro');
+        $message = get_string('noitemsfound', 'mod_surveypro');
         echo $OUTPUT->notification($message, 'notifyproblem');
 
         $continueurl = new moodle_url('/course/view.php', array('id' => $COURSE->id));
@@ -1072,7 +1072,7 @@ class mod_surveypro_userformmanager {
             $statuslist = array(SURVEYPRO_STATUSCLOSED, SURVEYPRO_STATUSINPROGRESS);
             if (!in_array($status, $statuslist)) {
                 $a = 'user_sent_submissions';
-                print_error('invalid_status', 'surveypro', null, $a);
+                print_error('invalid_status', 'mod_surveypro', null, $a);
             }
             $whereparams['status'] = $status;
         }
@@ -1089,7 +1089,7 @@ class mod_surveypro_userformmanager {
     public function submissions_exceeded_stopexecution() {
         global $OUTPUT;
 
-        $message = get_string('nomoresubmissionsallowed', 'surveypro', $this->surveypro->maxentries);
+        $message = get_string('nomoresubmissionsallowed', 'mod_surveypro', $this->surveypro->maxentries);
         echo $OUTPUT->notification($message, 'notifyproblem');
 
         $whereparams = array('id' => $this->cm->id, 'cover' => 0);
@@ -1128,24 +1128,24 @@ class mod_surveypro_userformmanager {
         global $DB, $OUTPUT, $USER;
 
         if ($this->finalresponseevaluation == SURVEYPRO_MISSINGMANDATORY) {
-            $a = get_string('statusinprogress', 'surveypro');
-            $message = get_string('missingmandatory', 'surveypro', $a);
+            $a = get_string('statusinprogress', 'mod_surveypro');
+            $message = get_string('missingmandatory', 'mod_surveypro', $a);
             echo $OUTPUT->notification($message, 'notifyproblem');
         }
 
         if ($this->finalresponseevaluation == SURVEYPRO_MISSINGVALIDATION) {
-            $a = get_string('statusinprogress', 'surveypro');
-            $message = get_string('missingvalidation', 'surveypro', $a);
+            $a = get_string('statusinprogress', 'mod_surveypro');
+            $message = get_string('missingvalidation', 'mod_surveypro', $a);
             echo $OUTPUT->notification($message, 'notifyproblem');
         }
 
         if ($this->view == SURVEYPRO_EDITRESPONSE) {
-            $message = get_string('defaulteditingthanksmessage', 'surveypro');
+            $message = get_string('defaulteditingthanksmessage', 'mod_surveypro');
         } else {
             if (!empty($this->surveypro->thankshtml)) {
                 $message = file_rewrite_pluginfile_urls($this->surveypro->thankshtml, 'pluginfile.php', $this->context->id, 'mod_surveypro', SURVEYPRO_THANKSHTMLFILEAREA, $this->surveypro->id);
             } else {
-                $message = get_string('defaultcreationthanksmessage', 'surveypro');
+                $message = get_string('defaultcreationthanksmessage', 'mod_surveypro');
             }
         }
 
@@ -1161,16 +1161,16 @@ class mod_surveypro_userformmanager {
         $condition = $condition || $this->canignoremaxentries;
         if ($condition) { // if the user is allowed to submit one more surveypro
             $buttonurl = new moodle_url('/mod/surveypro/view_userform.php', array('id' => $this->cm->id, 'view' => SURVEYPRO_NEWRESPONSE));
-            $onemore = new single_button($buttonurl, get_string('addnewsubmission', 'surveypro'));
+            $onemore = new single_button($buttonurl, get_string('addnewsubmission', 'mod_surveypro'));
 
             $buttonurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
-            $gotolist = new single_button($buttonurl, get_string('gotolist', 'surveypro'));
+            $gotolist = new single_button($buttonurl, get_string('gotolist', 'mod_surveypro'));
 
             echo $OUTPUT->confirm($message, $onemore, $gotolist);
         } else {
             echo $OUTPUT->box($message, 'notice centerpara');
             $buttonurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
-            echo $OUTPUT->box($OUTPUT->single_button($buttonurl, get_string('gotolist', 'surveypro'), 'get'), 'clearfix mdl-align');
+            echo $OUTPUT->box($OUTPUT->single_button($buttonurl, get_string('gotolist', 'mod_surveypro'), 'get'), 'clearfix mdl-align');
         }
     }
 
@@ -1184,8 +1184,8 @@ class mod_surveypro_userformmanager {
         global $OUTPUT;
 
         if ($this->modulepage == SURVEYPRO_ITEMS_PREVIEW) {
-            $a = get_string('tabitemspage1', 'surveypro');
-            $previewmodestring = get_string('previewmode', 'surveypro', $a);
+            $a = get_string('tabitemspage1', 'mod_surveypro');
+            $previewmodestring = get_string('previewmode', 'mod_surveypro', $a);
             echo $OUTPUT->heading($previewmodestring, 4);
         }
     }
@@ -1210,7 +1210,7 @@ class mod_surveypro_userformmanager {
             }
 
             $a->maxassignedpage = $this->maxassignedpage;
-            echo $OUTPUT->heading(get_string('pagexofy', 'surveypro', $a));
+            echo $OUTPUT->heading(get_string('pagexofy', 'mod_surveypro', $a));
         }
     }
 
@@ -1233,13 +1233,13 @@ class mod_surveypro_userformmanager {
                 if (($this->formpage != SURVEYPRO_LEFT_OVERFLOW) && ($this->formpage != 1)) {
                     $params['formpage'] = $this->formpage - 1;
                     $url = new moodle_url('/mod/surveypro/view_userform.php', $params);
-                    $backwardbutton = new single_button($url, get_string('previousformpage', 'surveypro'), 'get');
+                    $backwardbutton = new single_button($url, get_string('previousformpage', 'mod_surveypro'), 'get');
                 }
 
                 if (($this->formpage != SURVEYPRO_RIGHT_OVERFLOW) && ($this->formpage != $this->maxassignedpage)) {
                     $params['formpage'] = $this->formpage + 1;
                     $url = new moodle_url('/mod/surveypro/view_userform.php', $params);
-                    $forwardbutton = new single_button($url, get_string('nextformpage', 'surveypro'), 'get');
+                    $forwardbutton = new single_button($url, get_string('nextformpage', 'mod_surveypro'), 'get');
                 }
 
                 if (isset($backwardbutton) && isset($forwardbutton)) {
@@ -1381,7 +1381,7 @@ class mod_surveypro_userformmanager {
 
         if (($this->view == SURVEYPRO_READONLYRESPONSE) || ($this->view == SURVEYPRO_EDITRESPONSE)) {
             if (!$submission = $DB->get_record('surveypro_submission', array('id' => $this->submissionid), '*', IGNORE_MISSING)) {
-                print_error('incorrectaccessdetected', 'surveypro');
+                print_error('incorrectaccessdetected', 'mod_surveypro');
             }
             if ($submission->userid != $USER->id) {
                 $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
@@ -1457,7 +1457,7 @@ class mod_surveypro_userformmanager {
                 $allowed = false;
         }
         if (!$allowed) {
-            print_error('incorrectaccessdetected', 'surveypro');
+            print_error('incorrectaccessdetected', 'mod_surveypro');
         }
     }
 

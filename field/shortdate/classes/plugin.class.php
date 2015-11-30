@@ -88,7 +88,7 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
     /**
      * $defaultoption = the value of the field when the form is initially displayed.
      */
-    public $defaultoption = SURVEYPRO_INVITATIONDEFAULT;
+    public $defaultoption = SURVEYPRO_INVITEDEFAULT;
 
     /**
      * $downloadformat = the format of the content once downloaded
@@ -308,7 +308,7 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
             $strname = 'strftime'.str_pad($i, 2, '0', STR_PAD_LEFT);
             $option[$strname] = userdate($timenow, get_string($strname, 'surveyprofield_shortdate'));
         }
-        $option['unixtime'] = get_string('unixtime', 'surveypro');
+        $option['unixtime'] = get_string('unixtime', 'mod_surveypro');
         // June 2013
         // June '13
         // Jun 2013
@@ -418,9 +418,9 @@ EOS;
         $months = array();
         $years = array();
         if (!$searchform) {
-            if ($this->defaultoption == SURVEYPRO_INVITATIONDEFAULT) {
-                $months[SURVEYPRO_INVITATIONVALUE] = get_string('invitationmonth', 'surveyprofield_shortdate');
-                $years[SURVEYPRO_INVITATIONVALUE] = get_string('invitationyear', 'surveyprofield_shortdate');
+            if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
+                $months[SURVEYPRO_INVITEVALUE] = get_string('invitemonth', 'surveyprofield_shortdate');
+                $years[SURVEYPRO_INVITEVALUE] = get_string('inviteyear', 'surveyprofield_shortdate');
             }
         } else {
             $months[SURVEYPRO_IGNOREMEVALUE] = '';
@@ -449,7 +449,7 @@ EOS;
                 $mform->_required[] = $starplace;
             }
         } else {
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), array('id' => $idprefix.'_noanswer'));
+            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'mod_surveypro'), array('id' => $idprefix.'_noanswer'));
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
         }
@@ -457,9 +457,9 @@ EOS;
 
         // default section
         if (!$searchform) {
-            if ($this->defaultoption == SURVEYPRO_INVITATIONDEFAULT) {
-                $mform->setDefault($this->itemname.'_month', SURVEYPRO_INVITATIONVALUE);
-                $mform->setDefault($this->itemname.'_year', SURVEYPRO_INVITATIONVALUE);
+            if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
+                $mform->setDefault($this->itemname.'_month', SURVEYPRO_INVITEVALUE);
+                $mform->setDefault($this->itemname.'_year', SURVEYPRO_INVITEVALUE);
             } else {
                 switch ($this->defaultoption) {
                     case SURVEYPRO_CUSTOMDEFAULT:
@@ -519,8 +519,8 @@ EOS;
         // verify the content of each drop down menu
         if (!$searchform) {
             $testpassed = true;
-            $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_INVITATIONVALUE);
-            $testpassed = $testpassed && ($data[$this->itemname.'_year'] != SURVEYPRO_INVITATIONVALUE);
+            $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_INVITEVALUE);
+            $testpassed = $testpassed && ($data[$this->itemname.'_year'] != SURVEYPRO_INVITEVALUE);
         } else {
             // both drop down menues are allowed to be == SURVEYPRO_IGNOREMEVALUE
             // but not only 1
@@ -535,7 +535,7 @@ EOS;
             if ($this->required) {
                 $errors[$errorkey] = get_string('uerr_shortdatenotsetrequired', 'surveyprofield_shortdate');
             } else {
-                $a = get_string('noanswer', 'surveypro');
+                $a = get_string('noanswer', 'mod_surveypro');
                 $errors[$errorkey] = get_string('uerr_shortdatenotset', 'surveyprofield_shortdate', $a);
             }
             return;
@@ -668,10 +668,10 @@ EOS;
         // content
         $content = $answer->content;
         if ($content == SURVEYPRO_NOANSWERVALUE) { // answer was "no answer"
-            return get_string('answerisnoanswer', 'surveypro');
+            return get_string('answerisnoanswer', 'mod_surveypro');
         }
         if ($content === null) { // item was disabled
-            return get_string('notanswereditem', 'surveypro');
+            return get_string('notanswereditem', 'mod_surveypro');
         }
 
         // format

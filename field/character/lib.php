@@ -45,6 +45,7 @@ function surveypro_character_text_match_pattern($text, $pattern) {
         $text = substr_replace($text, '*', $pos, 1);
     }
 
+    // build the pattern matching the text provided
     $regex = array('~[A-Z]~', '~[a-z]~', '~[0-9]~');
     $replacement = array('A', 'a', '0');
     $text = preg_replace($regex, $replacement, $text);

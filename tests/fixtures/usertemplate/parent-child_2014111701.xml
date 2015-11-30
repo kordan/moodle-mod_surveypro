@@ -296,7 +296,7 @@ A4 paper</options>
       <sortindex>15</sortindex>
     </surveypro_item>
     <surveyprofield_multiselect>
-      <content>&lt;p&gt;Example with multiselect item: What do you eat for breakfast? (shift click to manage selection)&lt;/p&gt;</content>
+      <content>&lt;p&gt;Example with multiselect item: What do you eat for breakfast? (click or shift-click to change the selection)&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>4</customnumber>
       <position>0</position>

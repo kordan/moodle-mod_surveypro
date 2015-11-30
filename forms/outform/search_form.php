@@ -104,7 +104,7 @@ class mod_surveypro_searchform extends moodleform {
 
                 $itemname = $item->get_itemname().'_info';
                 $option = array('class' => 'indent-'.$item->get_indent());
-                $mform->addElement('mod_surveypro_static', $itemname, get_string('note', 'surveypro'), $fullinfo, $option);
+                $mform->addElement('mod_surveypro_static', $itemname, get_string('note', 'mod_surveypro'), $fullinfo, $option);
             }
         }
         $itemseeds->close();
@@ -113,7 +113,7 @@ class mod_surveypro_searchform extends moodleform {
         // $this->add_action_buttons(true, get_string('search'));
         $buttonarray = array();
         $buttonarray[] = $mform->createElement('submit', 'submitbutton', get_string('search'));
-        $buttonarray[] = $mform->createElement('cancel', 'cancel', get_string('findall', 'surveypro'));
+        $buttonarray[] = $mform->createElement('cancel', 'cancel', get_string('findall', 'mod_surveypro'));
         $mform->addGroup($buttonarray, 'buttonar', '', array(' '), false);
         $mform->closeHeaderBefore('buttonar');
     }

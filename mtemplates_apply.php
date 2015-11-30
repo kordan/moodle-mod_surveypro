@@ -104,10 +104,10 @@ require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 $mtemplateman->friendly_stop();
 
 if (surveypro_count_submissions($surveypro->id, SURVEYPRO_STATUSALL)) {
-    echo $OUTPUT->notification(get_string('hassubmissions_alert', 'surveypro'), 'notifymessage');
+    echo $OUTPUT->notification(get_string('hassubmissions_alert', 'mod_surveypro'), 'notifymessage');
 }
 
-$message = get_string('applymtemplateinfo', 'surveypro');
+$message = get_string('applymtemplateinfo', 'mod_surveypro');
 echo $OUTPUT->box($message, 'generaltable generalbox boxaligncenter boxwidthnormal');
 
 $applymtemplate->display();

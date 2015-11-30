@@ -74,14 +74,14 @@ class mod_surveypro_submissionform extends moodleform {
         $mform->setType('formpage', PARAM_INT);
 
         if ($formpage == SURVEYPRO_LEFT_OVERFLOW) {
-            $mform->addElement('static', 'nomoreitems', get_string('note', 'surveypro'), get_string('onlyadvanceditemhere', 'surveypro'));
-            // $mform->addElement('static', 'nomoreitems', get_string('note', 'surveypro'), 'SURVEYPRO_LEFT_OVERFLOW');
+            $mform->addElement('static', 'nomoreitems', get_string('note', 'mod_surveypro'), get_string('onlyadvanceditemhere', 'mod_surveypro'));
+            // $mform->addElement('static', 'nomoreitems', get_string('note', 'mod_surveypro'), 'SURVEYPRO_LEFT_OVERFLOW');
         }
 
         if ($formpage == SURVEYPRO_RIGHT_OVERFLOW) {
-            $a = $surveypro->saveresume ? get_string('revieworpause', 'surveypro') : get_string('onlyreview', 'surveypro');
-            $mform->addElement('static', 'nomoreitems', get_string('note', 'surveypro'), get_string('nomoreitems', 'surveypro', $a));
-            // $mform->addElement('static', 'nomoreitems', get_string('note', 'surveypro'), 'SURVEYPRO_RIGHT_OVERFLOW');
+            $a = $surveypro->saveresume ? get_string('revieworpause', 'mod_surveypro') : get_string('onlyreview', 'mod_surveypro');
+            $mform->addElement('static', 'nomoreitems', get_string('note', 'mod_surveypro'), get_string('nomoreitems', 'mod_surveypro', $a));
+            // $mform->addElement('static', 'nomoreitems', get_string('note', 'mod_surveypro'), 'SURVEYPRO_RIGHT_OVERFLOW');
         }
 
         if ($formpage >= 0) {
@@ -92,7 +92,7 @@ class mod_surveypro_submissionform extends moodleform {
             if (!$itemseeds->valid()) {
                 // no items are in this page
                 // display an error message
-                $mform->addElement('static', 'noitemshere', get_string('note', 'surveypro'), 'ERROR: How can I be here if ($formpage > 0) ?');
+                $mform->addElement('static', 'noitemshere', get_string('note', 'mod_surveypro'), 'ERROR: How can I be here if ($formpage > 0) ?');
             }
 
             $context = context_module::instance($cmid);
@@ -178,7 +178,7 @@ class mod_surveypro_submissionform extends moodleform {
 
                         $itemname = $item->get_itemname().'_note';
                         $option = array('class' => 'indent-'.$item->get_indent());
-                        $mform->addElement('mod_surveypro_static', $itemname, get_string('note', 'surveypro'), $fullinfo, $option);
+                        $mform->addElement('mod_surveypro_static', $itemname, get_string('note', 'mod_surveypro'), $fullinfo, $option);
                     }
 
                     if (!$surveypro->newpageforchild) {
@@ -199,12 +199,12 @@ class mod_surveypro_submissionform extends moodleform {
         $buttonlist = array();
 
         if ( ($formpage == SURVEYPRO_RIGHT_OVERFLOW) || ($formpage > 1) ) {
-            $buttonlist['prevbutton'] = get_string('previousformpage', 'surveypro');
+            $buttonlist['prevbutton'] = get_string('previousformpage', 'mod_surveypro');
         }
         if ($modulepage != SURVEYPRO_ITEMS_PREVIEW) {
             if ($surveypro->saveresume) {
                 if ($maxassignedpage > 1) {
-                    $buttonlist['pausebutton'] = get_string('pause', 'surveypro');
+                    $buttonlist['pausebutton'] = get_string('pause', 'mod_surveypro');
                 }
             }
             if (($formpage == $maxassignedpage) || ($formpage == SURVEYPRO_RIGHT_OVERFLOW)) {
@@ -221,12 +221,12 @@ class mod_surveypro_submissionform extends moodleform {
                 if ($usesimplesavebutton) {
                     $buttonlist['savebutton'] = get_string('submit');
                 } else {
-                    $buttonlist['saveasnewbutton'] = get_string('saveasnew', 'surveypro');
+                    $buttonlist['saveasnewbutton'] = get_string('saveasnew', 'mod_surveypro');
                 }
             }
         }
         if ( ($formpage == SURVEYPRO_LEFT_OVERFLOW) || ($formpage > 0 && $formpage < $maxassignedpage) ) {
-            $buttonlist['nextbutton'] = get_string('nextformpage', 'surveypro');
+            $buttonlist['nextbutton'] = get_string('nextformpage', 'mod_surveypro');
         }
 
         if (count($buttonlist) > 1) {

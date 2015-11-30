@@ -53,14 +53,14 @@ class mod_surveypro_itemtypeform extends moodleform {
         }
         asort($formatplugins);
 
-        $pluginlist = array(get_string('typefield', 'surveypro') => $fieldplugins,
-                            get_string('typeformat', 'surveypro') => $formatplugins);
+        $pluginlist = array(get_string('typefield', 'mod_surveypro') => $fieldplugins,
+                            get_string('typeformat', 'mod_surveypro') => $formatplugins);
 
         $elementgroup = array();
         $elementgroup[] = $mform->createElement('selectgroups', $fieldname, '', $pluginlist);
         // $elementgroup[] = $mform->createElement('selectgroups', $fieldname, '', $pluginlist, array('id' => 'type_plugin', 'class' => 'autosubmit ignoredirty'));
         $elementgroup[] = $mform->createElement('submit', $fieldname.'_button', get_string('add'));
-        $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveypro'), array(' '), false);
+        $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'mod_surveypro'), array(' '), false);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveypro');
     }
 }

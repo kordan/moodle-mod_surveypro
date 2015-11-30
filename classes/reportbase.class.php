@@ -89,7 +89,7 @@ class mod_surveypro_reportbase {
 
         $hassubmissions = surveypro_count_submissions($this->surveypro->id);
         if (!$hassubmissions) {
-            $message = get_string('nosubmissionfound', 'surveypro');
+            $message = get_string('nosubmissionfound', 'mod_surveypro');
             echo $OUTPUT->box($message, 'notice centerpara');
 
             // Finish the page

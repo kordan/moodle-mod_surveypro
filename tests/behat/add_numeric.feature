@@ -28,10 +28,10 @@ Feature: verify a numeric item can be added to a survey
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content                  | Which is your preferred mean temperature in the room where you are asked to work? |
-      | Required                 | 1                                                                                 |
-      | Indent                   | 0                                                                                 |
-      | Question position        | left                                                                              |
-      | Element number           | 11                                                                                |
-      | Hide filling instruction | 1                                                                                 |
+      | Content                  | Which temperature best suit your preferences? |
+      | Required                 | 1                                             |
+      | Indent                   | 0                                             |
+      | Question position        | left                                          |
+      | Element number           | 11                                            |
+      | Hide filling instruction | 1                                             |
     And I press "Add"
