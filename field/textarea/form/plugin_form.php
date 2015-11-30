@@ -79,7 +79,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // here I open a new fieldset
         // -----------------------------
         $fieldname = 'validation';
-        $mform->addElement('header', $fieldname, get_string($fieldname, 'surveypro'));
+        $mform->addElement('header', $fieldname, get_string($fieldname, 'mod_surveypro'));
 
         // ----------------------------------------
         // item: minlength

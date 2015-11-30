@@ -93,7 +93,7 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
     /**
      * $defaultoption
      */
-    public $defaultoption = SURVEYPRO_INVITATIONDEFAULT;
+    public $defaultoption = SURVEYPRO_INVITEDEFAULT;
 
     /**
      * $defaultvalue = the value of the field when the form is initially displayed.
@@ -404,11 +404,11 @@ EOS;
 
         $idprefix = 'id_surveypro_field_rate_'.$this->sortindex;
 
-        if (($this->defaultoption == SURVEYPRO_INVITATIONDEFAULT)) {
+        if (($this->defaultoption == SURVEYPRO_INVITEDEFAULT)) {
             if ($this->style == SURVEYPROFIELD_RATE_USERADIO) {
-                $rates += array(SURVEYPRO_INVITATIONVALUE => get_string('choosedots'));
+                $rates += array(SURVEYPRO_INVITEVALUE => get_string('choosedots'));
             } else {
-                $rates = array(SURVEYPRO_INVITATIONVALUE => get_string('choosedots')) + $rates;
+                $rates = array(SURVEYPRO_INVITEVALUE => get_string('choosedots')) + $rates;
             }
         }
 
@@ -439,7 +439,7 @@ EOS;
 
         if (!$this->required) { // This is the last if it exists
             $paramelement['id'] = $idprefix.'_noanswer';
-            $mform->addElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), $paramelement);
+            $mform->addElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'mod_surveypro'), $paramelement);
         }
 
         if ($this->required) {
@@ -474,10 +474,10 @@ EOS;
                     $mform->setDefault($uniquename, "$defaultindex");
                 }
                 break;
-            case SURVEYPRO_INVITATIONDEFAULT:
+            case SURVEYPRO_INVITEDEFAULT:
                 foreach ($options as $k => $option) {
                     $uniquename = $this->itemname.'_'.$k;
-                    $mform->setDefault($uniquename, SURVEYPRO_INVITATIONVALUE);
+                    $mform->setDefault($uniquename, SURVEYPRO_INVITEVALUE);
                 }
                 break;
             case SURVEYPRO_NOANSWERDEFAULT:
@@ -517,7 +517,7 @@ EOS;
         $return = false;
         foreach ($options as $option) {
             $uniquename = $this->itemname.'_'.$optionindex;
-            if ($data[$uniquename] == SURVEYPRO_INVITATIONVALUE) {
+            if ($data[$uniquename] == SURVEYPRO_INVITEVALUE) {
                 if ($this->style == SURVEYPROFIELD_RATE_USERADIO) {
                     $elementname = $uniquename.'_group';
                 } else {
@@ -642,10 +642,10 @@ EOS;
         // content
         $content = $answer->content;
         if ($content == SURVEYPRO_NOANSWERVALUE) { // answer was "no answer"
-            return get_string('answerisnoanswer', 'surveypro');
+            return get_string('answerisnoanswer', 'mod_surveypro');
         }
         if ($content === null) { // item was disabled
-            return get_string('notanswereditem', 'surveypro');
+            return get_string('notanswereditem', 'mod_surveypro');
         }
 
         // format

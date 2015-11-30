@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'field_textarea', language 'en', branch 'MOODLE_28_STABLE'
+ * Strings for component 'field_textarea', language 'en', branch 'MOODLE_31_STABLE'
  *
  * @package    surveypro
  * @subpackage textarea
@@ -23,23 +23,22 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Text area';
-$string['userfriendlypluginname'] = 'Text (long)';
-$string['useeditor_help'] = 'Is the answer supposed to be in plain text or in html?';
-$string['useeditor'] = 'Use html editor';
 $string['areacols_help'] = 'Define a custom width for the text area';
 $string['areacols'] = 'Area width in columns';
 $string['arearows_help'] = 'Define a custom width for the text area';
 $string['arearows'] = 'Area heigh in rows';
-$string['minlength_help'] = 'The minimun number of allowed characters for the answer to this question';
-$string['minlength'] = 'Minimum length';
+$string['hasmaxlength'] = 'Text is supposed to be shorter or equal than {$a} characters';
+$string['hasminlength'] = 'Text is supposed to be longer or equal than {$a} characters';
+$string['hasminmaxlength'] = 'Text is supposed to fit between {$a->minlength} and {$a->maxlength} characters';
 $string['maxlength_help'] = 'The maximun number of allowed characters for the answer. Empty for unlimited length.';
 $string['maxlength'] = 'Maximum length';
-$string['hasminmaxlength'] = 'Text is supposed to fit between {$a->minlength} and {$a->maxlength} characters';
-$string['hasminlength'] = 'Text is supposed to be longer or equal than {$a} characters';
-$string['hasmaxlength'] = 'Text is supposed to be shorter or equal than {$a} characters';
-$string['texttoolong'] = 'Text is too long';
-$string['texttooshort'] = 'Text is too short';
 $string['maxlengthlowerthanminlength'] = 'Maximum length can not be lowwer-equal than minimum length';
 $string['maxlengthnotinteger'] = 'Maximum length must be integer';
-
+$string['minlength_help'] = 'The minimun number of allowed characters for the answer to this question';
+$string['minlength'] = 'Minimum length';
+$string['pluginname'] = 'Text area';
+$string['texttoolong'] = 'Text is too long';
+$string['texttooshort'] = 'Text is too short';
+$string['useeditor_help'] = 'Is the answer supposed to be in plain text or in html?';
+$string['useeditor'] = 'Use html editor';
+$string['userfriendlypluginname'] = 'Text (long)';

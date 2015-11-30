@@ -88,7 +88,7 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
     /**
      * $defaultoption = the value of the field when the form is initially displayed.
      */
-    public $defaultoption = SURVEYPRO_INVITATIONDEFAULT;
+    public $defaultoption = SURVEYPRO_INVITEDEFAULT;
 
     /**
      * $downloadformat = the format of the content once downloaded
@@ -315,7 +315,7 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
 
         $option['strftime1'] = userdate($timenow, get_string('strftime1', 'surveyprofield_time')); // 05:15
         $option['strftime2'] = userdate($timenow, get_string('strftime2', 'surveyprofield_time')); // 5:15 am
-        $option['unixtime'] = get_string('unixtime', 'surveypro');
+        $option['unixtime'] = get_string('unixtime', 'mod_surveypro');
 
         return $option;
     }
@@ -414,9 +414,9 @@ EOS;
         $hours = array();
         $minutes = array();
         if (!$searchform) {
-            if ($this->defaultoption == SURVEYPRO_INVITATIONDEFAULT) {
-                $hours[SURVEYPRO_INVITATIONVALUE] = get_string('invitationhour', 'surveyprofield_time');
-                $minutes[SURVEYPRO_INVITATIONVALUE] = get_string('invitationminute', 'surveyprofield_time');
+            if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
+                $hours[SURVEYPRO_INVITEVALUE] = get_string('invitehour', 'surveyprofield_time');
+                $minutes[SURVEYPRO_INVITEVALUE] = get_string('inviteminute', 'surveyprofield_time');
             }
         } else {
             $hours[SURVEYPRO_IGNOREMEVALUE] = '';
@@ -458,7 +458,7 @@ EOS;
                 $mform->_required[] = $starplace;
             }
         } else {
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), array('id' => $idprefix.'_noanswer'));
+            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'mod_surveypro'), array('id' => $idprefix.'_noanswer'));
             $separator[] = ' ';
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, $separator, false);
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
@@ -467,9 +467,9 @@ EOS;
 
         // default section
         if (!$searchform) {
-            if ($this->defaultoption == SURVEYPRO_INVITATIONDEFAULT) {
-                $mform->setDefault($this->itemname.'_hour', SURVEYPRO_INVITATIONVALUE);
-                $mform->setDefault($this->itemname.'_minute', SURVEYPRO_INVITATIONVALUE);
+            if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
+                $mform->setDefault($this->itemname.'_hour', SURVEYPRO_INVITEVALUE);
+                $mform->setDefault($this->itemname.'_minute', SURVEYPRO_INVITEVALUE);
             } else {
                 switch ($this->defaultoption) {
                     case SURVEYPRO_CUSTOMDEFAULT:
@@ -529,8 +529,8 @@ EOS;
         // verify the content of each drop down menu
         if (!$searchform) {
             $testpassed = true;
-            $testpassed = $testpassed && ($data[$this->itemname.'_hour'] != SURVEYPRO_INVITATIONVALUE);
-            $testpassed = $testpassed && ($data[$this->itemname.'_minute'] != SURVEYPRO_INVITATIONVALUE);
+            $testpassed = $testpassed && ($data[$this->itemname.'_hour'] != SURVEYPRO_INVITEVALUE);
+            $testpassed = $testpassed && ($data[$this->itemname.'_minute'] != SURVEYPRO_INVITEVALUE);
         } else {
             // both drop down menues are allowed to be == SURVEYPRO_IGNOREMEVALUE
             // but not only 1
@@ -545,7 +545,7 @@ EOS;
             if ($this->required) {
                 $errors[$errorkey] = get_string('uerr_timenotsetrequired', 'surveyprofield_time');
             } else {
-                $a = get_string('noanswer', 'surveypro');
+                $a = get_string('noanswer', 'mod_surveypro');
                 $errors[$errorkey] = get_string('uerr_timenotset', 'surveyprofield_time', $a);
             }
             return;
@@ -700,10 +700,10 @@ EOS;
         // content
         $content = $answer->content;
         if ($content == SURVEYPRO_NOANSWERVALUE) { // answer was "no answer"
-            return get_string('answerisnoanswer', 'surveypro');
+            return get_string('answerisnoanswer', 'mod_surveypro');
         }
         if ($content === null) { // item was disabled
-            return get_string('notanswereditem', 'surveypro');
+            return get_string('notanswereditem', 'mod_surveypro');
         }
 
         // format

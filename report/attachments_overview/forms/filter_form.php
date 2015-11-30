@@ -54,7 +54,7 @@ class mod_surveypro_report_filterform extends moodleform {
         if (!$itemseeds->valid()) {
             // no items are in this page
             // display an error message
-            $mform->addElement('static', 'noitemshere', get_string('note', 'surveypro'), 'ERROR: How can I be here if ($formpage > 0) ?');
+            $mform->addElement('static', 'noitemshere', get_string('note', 'mod_surveypro'), 'ERROR: How can I be here if ($formpage > 0) ?');
         }
 
         // fieldset

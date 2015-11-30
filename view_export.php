@@ -98,15 +98,15 @@ $modulepage = SURVEYPRO_SUBMISSION_EXPORT; // needed by tabs.php
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
 if ($exporterror == SURVEYPRO_NOFIELDSSELECTED) {
-    echo $OUTPUT->notification(get_string('nothingtodownload', 'surveypro'), 'notifyproblem');
+    echo $OUTPUT->notification(get_string('nothingtodownload', 'mod_surveypro'), 'notifyproblem');
 }
 
 if ($exporterror == SURVEYPRO_NORECORDSFOUND) {
-    echo $OUTPUT->notification(get_string('emptydownload', 'surveypro'), 'notifyproblem');
+    echo $OUTPUT->notification(get_string('emptydownload', 'mod_surveypro'), 'notifyproblem');
 }
 
 if ($exporterror == SURVEYPRO_NOATTACHMENTFOUND) {
-    echo $OUTPUT->notification(get_string('noattachmentfound', 'surveypro'), 'notifyproblem');
+    echo $OUTPUT->notification(get_string('noattachmentfound', 'mod_surveypro'), 'notifyproblem');
 }
 
 $exportform->display();

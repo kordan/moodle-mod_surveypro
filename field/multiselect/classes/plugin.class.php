@@ -471,7 +471,7 @@ EOS;
 
                 unset($paramelement['size']);
                 $paramelement['id'] = $idprefix.'_noanswer';
-                $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), $paramelement);
+                $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'mod_surveypro'), $paramelement);
 
                 $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, '', false);
                 // Multiselect uses a special syntax that is different from the syntax of all the other mform groups with disabilitation chechbox
@@ -487,11 +487,11 @@ EOS;
             if (!$this->minimumrequired) {
                 unset($paramelement['size']);
                 $paramelement['id'] = $idprefix.'_noanswer';
-                $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), $paramelement);
+                $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'mod_surveypro'), $paramelement);
             }
 
             $paramelement['id'] = $idprefix.'_ignoreme';
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'surveypro'), $paramelement);
+            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'mod_surveypro'), $paramelement);
 
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, '<br />', false);
             if (!$this->minimumrequired) {
@@ -734,7 +734,7 @@ EOS;
         $content = $answer->content;
         // SURVEYPRO_NOANSWERVALUE does not exist here
         if ($content === null) { // item was disabled
-            return get_string('notanswereditem', 'surveypro');
+            return get_string('notanswereditem', 'mod_surveypro');
         }
 
         // format

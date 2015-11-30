@@ -163,7 +163,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
             $a = new stdClass();
             $a->sharinglevel = $sharinglevel;
             $a->methodname = 'get_contextid_from_sharinglevel';
-            print_error('wrong_sharinglevel_found', 'surveypro', null, $a);
+            print_error('wrong_sharinglevel_found', 'mod_surveypro', null, $a);
         }
 
         switch ($contextlevel) {
@@ -234,7 +234,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
         $options = array();
         $options[CONTEXT_USER.'_'.$USER->id] = get_string('user').$labelsep.fullname($USER);
-        // $options[CONTEXT_MODULE.'_'.$this->cm->id] = get_string('module', 'surveypro').$labelsep.$this->surveypro->name;
+        // $options[CONTEXT_MODULE.'_'.$this->cm->id] = get_string('module', 'mod_surveypro').$labelsep.$this->surveypro->name;
 
         $parentcontexts = $this->context->get_parent_contexts();
         foreach ($parentcontexts as $context) {
@@ -348,12 +348,12 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         global $OUTPUT;
 
         $a = new stdClass();
-        $a->usertemplate = get_string('usertemplateinfo', 'surveypro');
-        $a->none = get_string('notanyset', 'surveypro');
-        $a->action = get_string('action', 'surveypro');
-        $a->deleteallitems = get_string('deleteallitems', 'surveypro');
+        $a->usertemplate = get_string('usertemplateinfo', 'mod_surveypro');
+        $a->none = get_string('notanyset', 'mod_surveypro');
+        $a->action = get_string('action', 'mod_surveypro');
+        $a->deleteallitems = get_string('deleteallitems', 'mod_surveypro');
 
-        $message = get_string('applyutemplateinfo', 'surveypro', $a);
+        $message = get_string('applyutemplateinfo', 'mod_surveypro', $a);
         echo $OUTPUT->box($message, 'generaltable generalbox boxaligncenter boxwidthnormal');
     }
 
@@ -397,7 +397,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
             }
 
             if (empty($currentplugin)) {
-                $currentplugin = get_string('missingplugin', 'surveypro');
+                $currentplugin = get_string('missingplugin', 'mod_surveypro');
             }
 
             if (empty($currentversion)) {
@@ -567,9 +567,9 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $table->define_columns($tablecolumns);
 
         $tableheaders = array();
-        $tableheaders[] = get_string('templatename', 'surveypro');
-        $tableheaders[] = get_string('sharinglevel', 'surveypro');
-        $tableheaders[] = get_string('timecreated', 'surveypro');
+        $tableheaders[] = get_string('templatename', 'mod_surveypro');
+        $tableheaders[] = get_string('sharinglevel', 'mod_surveypro');
+        $tableheaders[] = get_string('timecreated', 'mod_surveypro');
         $tableheaders[] = get_string('actions');
         $table->define_headers($tableheaders);
 
@@ -589,9 +589,9 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         // $table->set_attribute('width', '90%');
         $table->setup();
 
-        $applytitle = get_string('applytemplate', 'surveypro');
+        $applytitle = get_string('applytemplate', 'mod_surveypro');
         $deletetitle = get_string('delete');
-        $exporttitle = get_string('exporttemplate', 'surveypro');
+        $exporttitle = get_string('exporttemplate', 'mod_surveypro');
 
         $options = $this->get_sharinglevel_options($this->cm->id);
 
@@ -620,7 +620,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                 $tablerow = array();
                 // $tablerow[] = $xmlfile->get_filename();
                 $tablerow[] = $dummysort[$row]['templatename'];
-                // $tablerow[] = get_string($contextstring, 'surveypro');
+                // $tablerow[] = get_string($contextstring, 'mod_surveypro');
                 $tablerow[] = $dummysort[$row]['sharinglevel'];
                 // $tablerow[] = userdate($xmlfile->get_timecreated());
                 $tablerow[] = userdate($dummysort[$row]['creationdate']);
@@ -659,7 +659,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
             }
         }
         $table->set_attribute('align', 'center');
-        $table->summary = get_string('templatelist', 'surveypro');
+        $table->summary = get_string('templatelist', 'mod_surveypro');
         $table->print_html();
     }
 
@@ -679,7 +679,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         foreach ($templates as $contextstring => $contextfiles) {
             foreach ($contextfiles as $xmlfile) {
                 $templatenamecol[] = $xmlfile->get_filename();
-                $sharinglevelcol[] = get_string($contextstring, 'surveypro');
+                $sharinglevelcol[] = get_string($contextstring, 'mod_surveypro');
                 $creationdatecol[] = $xmlfile->get_timecreated();
                 $xmlfileidcol[] = $xmlfile->get_id();
             }
@@ -735,7 +735,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             // ask for confirmation
             $a = $this->get_utemplate_name();
-            $message = get_string('askdeleteonetemplate', 'surveypro', $a);
+            $message = get_string('askdeleteonetemplate', 'mod_surveypro', $a);
             $optionsbase = array('s' => $this->surveypro->id, 'act' => SURVEYPRO_DELETEUTEMPLATE);
 
             $optionsyes = $optionsbase;
@@ -762,7 +762,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                     $this->trigger_event('usertemplate_deleted');
                     break;
                 case SURVEYPRO_CONFIRMED_NO:
-                    $message = get_string('usercanceled', 'surveypro');
+                    $message = get_string('usercanceled', 'mod_surveypro');
                     echo $OUTPUT->notification($message, 'notifymessage');
                     break;
                 default:

@@ -72,7 +72,7 @@ class mod_surveypro_report_frequency extends mod_surveypro_reportbase {
         $this->outputtable->column_suppress('fullname');
 
         // general properties for the whole table
-        $this->outputtable->summary = get_string('submissionslist', 'surveypro');
+        $this->outputtable->summary = get_string('submissionslist', 'mod_surveypro');
         $this->outputtable->set_attribute('cellpadding', '5');
         $this->outputtable->set_attribute('id', 'submissions');
         $this->outputtable->set_attribute('class', 'generaltable');

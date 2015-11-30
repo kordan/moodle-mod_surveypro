@@ -311,8 +311,8 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         $a->userlang = $userlang;
         foreach ($this->langtree as $langbranch) {
             foreach ($langbranch as $k => $stringcontent) {
-                $a->stringindex = $k;
-                $stringsastext[] = get_string('translatedstring', 'surveypro', $a);
+                $a->stringkey = $k;
+                $stringsastext[] = get_string('translatedstring', 'mod_surveypro', $a);
             }
         }
 

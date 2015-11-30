@@ -114,7 +114,7 @@ require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 $utemplateman->friendly_stop();
 
 if (surveypro_count_submissions($surveypro->id, SURVEYPRO_STATUSALL)) {
-    echo $OUTPUT->notification(get_string('hassubmissions_alert', 'surveypro'), 'notifymessage');
+    echo $OUTPUT->notification(get_string('hassubmissions_alert', 'mod_surveypro'), 'notifymessage');
 }
 
 $utemplateman->welcome_message();

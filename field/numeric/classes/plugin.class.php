@@ -392,7 +392,7 @@ EOS;
         } else {
             $elementgroup = array();
             $elementgroup[] = $mform->createElement('text', $this->itemname, '', array('class' => 'indent-'.$this->indent, 'id' => $idprefix));
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'surveypro'), array('id' => $idprefix.'_ignoreme'));
+            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'mod_surveypro'), array('id' => $idprefix.'_ignoreme'));
             $mform->setType($this->itemname, PARAM_RAW);
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_ignoreme', 'checked');
@@ -627,10 +627,10 @@ EOS;
         $content = trim($answer->content);
 
         if ($content == SURVEYPRO_NOANSWERVALUE) { // answer was "no answer"
-            return get_string('answerisnoanswer', 'surveypro');
+            return get_string('answerisnoanswer', 'mod_surveypro');
         }
         if (strlen($content) == 0) { // item was disabled
-            return get_string('notanswereditem', 'surveypro');
+            return get_string('notanswereditem', 'mod_surveypro');
         }
 
         return $content;

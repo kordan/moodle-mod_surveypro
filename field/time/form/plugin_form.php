@@ -79,9 +79,9 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $elementgroup = array();
         $elementgroup[] = $mform->createElement('radio', 'defaultoption', '', get_string('customdefault', 'surveyprofield_time'), SURVEYPRO_CUSTOMDEFAULT);
         $elementgroup[] = $mform->createElement('radio', 'defaultoption', '', get_string('currenttimedefault', 'surveyprofield_time'), SURVEYPRO_TIMENOWDEFAULT);
-        $elementgroup[] = $mform->createElement('radio', 'defaultoption', '', get_string('invitationdefault', 'surveypro'), SURVEYPRO_INVITATIONDEFAULT);
-        $elementgroup[] = $mform->createElement('radio', 'defaultoption', '', get_string('likelast', 'surveypro'), SURVEYPRO_LIKELASTDEFAULT);
-        $elementgroup[] = $mform->createElement('radio', 'defaultoption', '', get_string('noanswer', 'surveypro'), SURVEYPRO_NOANSWERDEFAULT);
+        $elementgroup[] = $mform->createElement('radio', 'defaultoption', '', get_string('invitedefault', 'mod_surveypro'), SURVEYPRO_INVITEDEFAULT);
+        $elementgroup[] = $mform->createElement('radio', 'defaultoption', '', get_string('likelast', 'mod_surveypro'), SURVEYPRO_LIKELASTDEFAULT);
+        $elementgroup[] = $mform->createElement('radio', 'defaultoption', '', get_string('noanswer', 'mod_surveypro'), SURVEYPRO_NOANSWERDEFAULT);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_time'), ' ', false);
         $mform->setDefault($fieldname, SURVEYPRO_TIMENOWDEFAULT);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_time');
@@ -109,7 +109,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // here I open a new fieldset
         // -----------------------------
         $fieldname = 'validation';
-        $mform->addElement('header', $fieldname, get_string($fieldname, 'surveypro'));
+        $mform->addElement('header', $fieldname, get_string($fieldname, 'mod_surveypro'));
 
         // ----------------------------------------
         // item: lowerbound
@@ -184,8 +184,8 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
 
         // if (default == noanswer) but item is required => error
         if ( ($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required']) ) {
-            $a = get_string('noanswer', 'surveypro');
-            $errors['defaultvalue_group'] = get_string('notalloweddefault', 'surveypro', $a);
+            $a = get_string('noanswer', 'mod_surveypro');
+            $errors['defaultvalue_group'] = get_string('notalloweddefault', 'mod_surveypro', $a);
         }
 
         return $errors;

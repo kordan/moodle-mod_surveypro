@@ -72,7 +72,7 @@ class mod_surveypro_chooseitemform extends moodleform {
         }
 
         $fieldname = 'itemid';
-        $mform->addElement('select', $fieldname, get_string('variable', 'surveypro'), $options);
+        $mform->addElement('select', $fieldname, get_string('variable', 'mod_surveypro'), $options);
         $mform->addHelpButton($fieldname, $fieldname, 'surveyproreport_frequency');
 
         // ----------------------------------------

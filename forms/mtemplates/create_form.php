@@ -47,11 +47,11 @@ class mod_surveypro_mtemplatecreateform extends moodleform {
         // mtemplatecreate: mastertemplatename
         // ----------------------------------------
         $fieldname = 'mastertemplatename';
-        $mform->addElement('text', $fieldname, get_string($fieldname, 'surveypro'));
+        $mform->addElement('text', $fieldname, get_string($fieldname, 'mod_surveypro'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
         $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
         $mform->setType($fieldname, PARAM_FILE); // this word is going to be a file name
 
-        $this->add_action_buttons(false, get_string('builplugin', 'surveypro'));
+        $this->add_action_buttons(false, get_string('builplugin', 'mod_surveypro'));
     }
 }

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'surveyprotemplate_collesactualpreferred', language 'en', branch 'MOODLE_28_STABLE'
+ * Strings for component 'surveyprotemplate_collesactualpreferred', language 'en', branch 'MOODLE_31_STABLE'
  *
  * @package    surveyprotemplate
  * @subpackage collesactualpreferred
@@ -134,7 +134,6 @@ $string['textarea_content_52'] = '<p>Do you have any other comments?</p>';
 // --------------
 // common strings
 // --------------
-$string['item_content_beginlabel'] = '<p>In this online unit...</p>';
 $string['item_parentvalue_01'] = '';
 
 $string['label_leftlabel_01'] = '';

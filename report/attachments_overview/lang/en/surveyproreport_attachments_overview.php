@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'field_autofill', language 'en', branch 'MOODLE_28_STABLE'
+ * Strings for component 'field_autofill', language 'en', branch 'MOODLE_31_STABLE'
  *
  * @package    surveyproreport
  * @subpackage missing
@@ -23,13 +23,12 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Attachments overview';
 $string['display_uploads'] = 'Display attachments';
 $string['eachitem'] = 'Each item';
-$string['missing_submission'] = 'User still didn\'t submit any response';
 $string['missing_uploads'] = 'No attachments found';
 $string['noattachmentitemsfound'] = 'No attachment items were found in this survey.';
 $string['nofilesfound'] = 'no attachment uploaded';
+$string['pluginname'] = 'Attachments overview';
 $string['submission'] = 'Response';
 $string['submissionid'] = 'Response id';
 $string['submissioninfo'] = 'Response info';

@@ -52,42 +52,42 @@ class mod_surveypro_mod_form extends moodleform_mod {
 
         // Open date
         $fieldname = 'timeopen';
-        $mform->addElement('date_time_selector', $fieldname, get_string($fieldname, 'surveypro'), array('optional' => true));
+        $mform->addElement('date_time_selector', $fieldname, get_string($fieldname, 'mod_surveypro'), array('optional' => true));
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // Close date
         $fieldname = 'timeclose';
-        $mform->addElement('date_time_selector', $fieldname, get_string($fieldname, 'surveypro'), array('optional' => true));
+        $mform->addElement('date_time_selector', $fieldname, get_string($fieldname, 'mod_surveypro'), array('optional' => true));
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // modulesettinghdr fieldset (header)
         $fieldname = 'modulesettinghdr';
-        $mform->addElement('header', $fieldname, get_string($fieldname, 'surveypro'));
+        $mform->addElement('header', $fieldname, get_string($fieldname, 'mod_surveypro'));
 
         // newpageforchild
         $fieldname = 'newpageforchild';
-        $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveypro'));
+        $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // allow/deny saveresume
         $fieldname = 'saveresume';
-        $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveypro'));
+        $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // history
         $fieldname = 'history';
-        $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveypro'));
+        $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // allow/deny anonymous
         $fieldname = 'anonymous';
-        $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveypro'));
+        $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // recaptcha
         if (surveypro_site_recaptcha_enabled()) {
             $fieldname = 'captcha';
-            $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveypro'));
+            $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'));
             $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
         }
 
@@ -95,29 +95,29 @@ class mod_surveypro_mod_form extends moodleform_mod {
         $boundaryyear = array_combine(range(1902, 2038), range(1902, 2038));
 
         $fieldname = 'startyear';
-        $mform->addElement('select', $fieldname, get_string($fieldname, 'surveypro'), $boundaryyear);
+        $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $boundaryyear);
         $mform->setDefault($fieldname, 1970);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // stopyear
         $fieldname = 'stopyear';
-        $mform->addElement('select', $fieldname, get_string($fieldname, 'surveypro'), $boundaryyear);
+        $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $boundaryyear);
         $mform->setDefault($fieldname, 2020);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // userstyle
         $fieldname = 'userstyle';
         $filemanageroptions = surveypro_get_user_style_options();
-        $mform->addElement('filemanager', $fieldname.'_filemanager', get_string($fieldname, 'surveypro'), null, $filemanageroptions);
+        $mform->addElement('filemanager', $fieldname.'_filemanager', get_string($fieldname, 'mod_surveypro'), null, $filemanageroptions);
         $mform->addHelpButton($fieldname.'_filemanager', $fieldname, 'surveypro');
 
         // maxentries
         $fieldname = 'maxentries';
         $maxentries = 50;
         $countoptions = array_combine(range(1, $maxentries), range(1, $maxentries));
-        array_unshift($countoptions, get_string('unlimited', 'surveypro'));
+        array_unshift($countoptions, get_string('unlimited', 'mod_surveypro'));
 
-        $mform->addElement('select', $fieldname, get_string($fieldname, 'surveypro'), $countoptions);
+        $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $countoptions);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // notifyrole
@@ -129,26 +129,26 @@ class mod_surveypro_mod_form extends moodleform_mod {
         foreach ($roleoptions as $roleid => $rolename) {
             $options[$roleid] = $rolename;
         }
-        $select = $mform->addElement('select', $fieldname, get_string($fieldname, 'surveypro'), $options);
+        $select = $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $options);
         $select->setMultiple(true);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // notifymore
         $fieldname = 'notifymore';
-        $mform->addElement('textarea', $fieldname, get_string($fieldname, 'surveypro'), array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65'));
+        $mform->addElement('textarea', $fieldname, get_string($fieldname, 'mod_surveypro'), array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // define thanks page
         $fieldname = 'thankshtml';
         // $context = context_course::instance($COURSE->id); <-- just defined 20 rows above
         $editoroptions = surveypro_get_editor_options();
-        $mform->addElement('editor', $fieldname.'_editor', get_string($fieldname, 'surveypro'), null, $editoroptions);
+        $mform->addElement('editor', $fieldname.'_editor', get_string($fieldname, 'mod_surveypro'), null, $editoroptions);
         $mform->addHelpButton($fieldname.'_editor', $fieldname, 'surveypro');
         $mform->setType($fieldname.'_editor', PARAM_RAW); // no XSS prevention here, users must be trusted
 
         // riskyeditdeadline
         $fieldname = 'riskyeditdeadline';
-        $mform->addElement('date_time_selector', $fieldname, get_string($fieldname, 'surveypro'));
+        $mform->addElement('date_time_selector', $fieldname, get_string($fieldname, 'mod_surveypro'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // ----------------------------------------
@@ -258,10 +258,10 @@ class mod_surveypro_mod_form extends moodleform_mod {
         // see data_preprocessing method just few lines above
         $fieldname = 'completionsubmit';
         $elementgroup = array();
-        $elementgroup[] = $mform->createElement('checkbox', $fieldname.'_check', '', get_string($fieldname.'_check', 'surveypro'));
+        $elementgroup[] = $mform->createElement('checkbox', $fieldname.'_check', '', get_string($fieldname.'_check', 'mod_surveypro'));
         $elementgroup[] = $mform->createElement('text', $fieldname, '', array('size' => 3));
         $mform->setType($fieldname, PARAM_INT);
-        $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname.'_group', 'surveypro'), ' ', false);
+        $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname.'_group', 'mod_surveypro'), ' ', false);
         $mform->addHelpButton($fieldname.'_group', $fieldname.'_group', 'surveypro');
         $mform->disabledIf($fieldname, $fieldname.'_check', 'notchecked');
 

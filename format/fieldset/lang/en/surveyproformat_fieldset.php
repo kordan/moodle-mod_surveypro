@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'format_fieldset', language 'en', branch 'MOODLE_28_STABLE'
+ * Strings for component 'format_fieldset', language 'en', branch 'MOODLE_31_STABLE'
  *
  * @package    surveypro
  * @subpackage fieldset
@@ -25,5 +25,3 @@
 
 $string['pluginname'] = 'Fieldset';
 $string['userfriendlypluginname'] = 'Fieldset';
-$string['fieldsetname'] = 'Fieldset label';
-$string['fieldsetname_help'] = 'The label describing by the fieldset.';

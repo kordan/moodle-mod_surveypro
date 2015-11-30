@@ -392,7 +392,7 @@ EOS;
 
             unset($paramelement['class']);
             $paramelement['id'] = $idprefix.'_ignoreme';
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'surveypro'), $paramelement);
+            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'mod_surveypro'), $paramelement);
             $mform->setType($this->itemname, PARAM_RAW);
 
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
@@ -580,10 +580,10 @@ EOS;
         $content = trim($answer->content);
         // SURVEYPRO_NOANSWERVALUE does not exist here
         if ($content == SURVEYPRO_NOANSWERVALUE) { // answer was "no answer"
-            return get_string('answerisnoanswer', 'surveypro');
+            return get_string('answerisnoanswer', 'mod_surveypro');
         }
         if ($content === null) { // item was disabled
-            return get_string('notanswereditem', 'surveypro');
+            return get_string('notanswereditem', 'mod_surveypro');
         }
 
         // output
@@ -591,7 +591,7 @@ EOS;
             $return = $content;
         } else {
             if ($format == SURVEYPRO_FIRENDLYFORMAT) {
-                $return = get_string('emptyanswer', 'surveypro');
+                $return = get_string('emptyanswer', 'mod_surveypro');
             } else {
                 $return = '';
             }

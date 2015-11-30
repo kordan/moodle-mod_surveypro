@@ -154,12 +154,12 @@ $itemlistman->manage_actions();
 $itemlistman->display_user_feedback();
 
 if ($itemlistman->hassubmissions) {
-    echo $OUTPUT->notification(get_string('hassubmissions_alert', 'surveypro'), 'notifymessage');
+    echo $OUTPUT->notification(get_string('hassubmissions_alert', 'mod_surveypro'), 'notifymessage');
 }
 
 // add master templates selection form
 if (!$itemcount) {
-    $message = get_string('beginfromscratch', 'surveypro');
+    $message = get_string('beginfromscratch', 'mod_surveypro');
     echo $OUTPUT->box($message, 'generaltable generalbox boxaligncenter boxwidthnormal');
 
     $applymtemplate->display();

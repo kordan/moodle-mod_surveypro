@@ -60,10 +60,10 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $fieldname = 'defaultoption';
         $elementgroup = array();
         $elementgroup[] = $mform->createElement('radio', 'defaultoption', '', get_string('customdefault', 'surveyprofield_age'), SURVEYPRO_CUSTOMDEFAULT);
-        $elementgroup[] = $mform->createElement('radio', 'defaultoption', '', get_string('invitationdefault', 'surveypro'), SURVEYPRO_INVITATIONDEFAULT);
-        $elementgroup[] = $mform->createElement('radio', 'defaultoption', '', get_string('noanswer', 'surveypro'), SURVEYPRO_NOANSWERDEFAULT);
+        $elementgroup[] = $mform->createElement('radio', 'defaultoption', '', get_string('invitedefault', 'mod_surveypro'), SURVEYPRO_INVITEDEFAULT);
+        $elementgroup[] = $mform->createElement('radio', 'defaultoption', '', get_string('noanswer', 'mod_surveypro'), SURVEYPRO_NOANSWERDEFAULT);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_age'), ' ', false);
-        $mform->setDefault($fieldname, SURVEYPRO_INVITATIONDEFAULT);
+        $mform->setDefault($fieldname, SURVEYPRO_INVITEDEFAULT);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_age');
 
         // ----------------------------------------
@@ -80,7 +80,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // here I open a new fieldset
         // -----------------------------
         $fieldname = 'validation';
-        $mform->addElement('header', $fieldname, get_string($fieldname, 'surveypro'));
+        $mform->addElement('header', $fieldname, get_string($fieldname, 'mod_surveypro'));
 
         // ----------------------------------------
         // item: lowerbound
@@ -126,8 +126,8 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
 
         // "noanswer" default option is not allowed when the item is mandator
         if ( ($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required']) ) {
-            $a = get_string('noanswer', 'surveypro');
-            $errors['defaultvalue_group'] = get_string('notalloweddefault', 'surveypro', $a);
+            $a = get_string('noanswer', 'mod_surveypro');
+            $errors['defaultvalue_group'] = get_string('notalloweddefault', 'mod_surveypro', $a);
         }
 
         // echo PHP_INT_SIZE;

@@ -64,7 +64,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $errors = parent::validation($data, $files);
 
         if (strlen($data['content']) > 128) {
-            $errors['content'] = get_string('contenttoolong', 'surveypro');
+            $errors['content'] = get_string('contenttoolong', 'mod_surveypro');
         }
     }
 }

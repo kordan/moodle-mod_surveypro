@@ -1,4 +1,4 @@
-@mod @mod_surveypro @current
+@mod @mod_surveypro
 Feature: make a submission test for each available item
   In order to test that minimal use of surveypro is guaranteed
   As student1
@@ -173,12 +173,12 @@ Feature: make a submission test for each available item
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content                  | When did you have your last meal?           |
-      | Required                 | 1                                           |
-      | Indent                   | 0                                           |
-      | Question position        | left                                        |
-      | Element number           | 9                                           |
-      | Additional note          | The value is supposed to be in hours        |
+      | Content                  | How long have you been without eating since your last meal? |
+      | Required                 | 1                                                           |
+      | Indent                   | 0                                                           |
+      | Question position        | left                                                        |
+      | Element number           | 9                                                           |
+      | Additional note          | Please specify the elapsed time in hours                    |
     And I press "Add"
 
     # #############
@@ -382,27 +382,27 @@ Feature: make a submission test for each available item
     And I press "Next page >>"
 
     And I set the following fields to these values:
-      | 9: When did you have your last meal?                | 7                  |
-      | id_surveypro_field_multiselect_12                   | milk               |
-      | 11: Which temperature best suit your preferences?   | 25.5               |
-      | id_surveypro_field_radiobutton_14_3                 | 1                  |
-      | id_surveypro_field_rate_16_0_0                      | 1                  |
-      | id_surveypro_field_rate_16_1_1                      | 1                  |
-      | id_surveypro_field_rate_16_2_2                      | 1                  |
-      | id_surveypro_field_rate_16_3_3                      | 1                  |
-      | id_surveypro_field_rate_16_4_2                      | 1                  |
-      | id_surveypro_field_rate_17_0                        | Mother tongue      |
-      | id_surveypro_field_rate_17_1                        | Quite well         |
-      | id_surveypro_field_rate_17_2                        | Not sufficient     |
-      | id_surveypro_field_rate_17_3                        | Completely unknown |
-      | id_surveypro_field_rate_17_4                        | Not sufficient     |
-      | id_surveypro_field_recurrence_19_day                | 7                  |
-      | id_surveypro_field_recurrence_19_month              | June               |
-      | 15: Which summer holidays place do you prefer?      | hills              |
-      | 16: Enter a short description of yourself           | I am cool          |
-      | 17: Write down your email                           | me@myserver.net    |
-      | id_surveypro_field_time_23_hour                     | 7                  |
-      | id_surveypro_field_time_23_minute                   | 15                 |
+      | 9: How long have you been without eating since your last meal? | 7                  |
+      | id_surveypro_field_multiselect_12                              | milk               |
+      | 11: Which temperature best suit your preferences?              | 25.5               |
+      | id_surveypro_field_radiobutton_14_3                            | 1                  |
+      | id_surveypro_field_rate_16_0_0                                 | 1                  |
+      | id_surveypro_field_rate_16_1_1                                 | 1                  |
+      | id_surveypro_field_rate_16_2_2                                 | 1                  |
+      | id_surveypro_field_rate_16_3_3                                 | 1                  |
+      | id_surveypro_field_rate_16_4_2                                 | 1                  |
+      | id_surveypro_field_rate_17_0                                   | Mother tongue      |
+      | id_surveypro_field_rate_17_1                                   | Quite well         |
+      | id_surveypro_field_rate_17_2                                   | Not sufficient     |
+      | id_surveypro_field_rate_17_3                                   | Completely unknown |
+      | id_surveypro_field_rate_17_4                                   | Not sufficient     |
+      | id_surveypro_field_recurrence_19_day                           | 7                  |
+      | id_surveypro_field_recurrence_19_month                         | June               |
+      | 15: Which summer holidays place do you prefer?                 | hills              |
+      | 16: Enter a short description of yourself                      | I am cool          |
+      | 17: Write down your email                                      | me@myserver.net    |
+      | id_surveypro_field_time_23_hour                                | 7                  |
+      | id_surveypro_field_time_23_minute                              | 15                 |
     And I press "Submit"
 
     And I press "Continue to responses list"

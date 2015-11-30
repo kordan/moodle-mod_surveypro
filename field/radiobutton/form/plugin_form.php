@@ -70,10 +70,10 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $fieldname = 'defaultoption';
         $elementgroup = array();
         $elementgroup[] = $mform->createElement('radio', 'defaultoption', '', get_string('customdefault', 'surveyprofield_radiobutton'), SURVEYPRO_CUSTOMDEFAULT);
-        $elementgroup[] = $mform->createElement('radio', 'defaultoption', '', get_string('invitationdefault', 'surveypro'), SURVEYPRO_INVITATIONDEFAULT);
-        $elementgroup[] = $mform->createElement('radio', 'defaultoption', '', get_string('noanswer', 'surveypro'), SURVEYPRO_NOANSWERDEFAULT);
+        $elementgroup[] = $mform->createElement('radio', 'defaultoption', '', get_string('invitedefault', 'mod_surveypro'), SURVEYPRO_INVITEDEFAULT);
+        $elementgroup[] = $mform->createElement('radio', 'defaultoption', '', get_string('noanswer', 'mod_surveypro'), SURVEYPRO_NOANSWERDEFAULT);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_radiobutton'), ' ', false);
-        $mform->setDefault($fieldname, SURVEYPRO_INVITATIONDEFAULT);
+        $mform->setDefault($fieldname, SURVEYPRO_INVITEDEFAULT);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_radiobutton');
 
         // ----------------------------------------
@@ -157,8 +157,8 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
 
         // if (default == noanswer) but item is required => error
         if ( ($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required']) ) {
-            $a = get_string('noanswer', 'surveypro');
-            $errors['defaultvalue'] = get_string('notalloweddefault', 'surveypro', $a);
+            $a = get_string('noanswer', 'mod_surveypro');
+            $errors['defaultoption_group'] = get_string('notalloweddefault', 'mod_surveypro', $a);
         }
 
         if ($data['defaultoption'] == SURVEYPRO_CUSTOMDEFAULT) {
@@ -167,19 +167,19 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
                 // first check
                 // user asks for SURVEYPRO_CUSTOMDEFAULT but doesn't provide it
                 // -----------------------------
-                $a = get_string('standarddefault', 'surveyprofield_radiobutton');
-                $errors['defaultvalue_group'] = get_string('default_missing', 'surveyprofield_radiobutton', $a);
+                $a = get_string('invitedefault', 'mod_surveypro');
+                $errors['defaultoption_group'] = get_string('default_missing', 'surveyprofield_radiobutton', $a);
             } else {
                 // -----------------------------
                 // second check
                 // each item of default has to also be among options OR has to be == to otherlabel value
                 // -----------------------------
                 if (!in_array($cleandefaultvalue, $labels)) {
-                    $errors['defaultvalue_group'] = get_string('defaultvalue_err', 'surveyprofield_radiobutton', $cleandefaultvalue);
+                    $errors['defaultvalue'] = get_string('defaultvalue_err', 'surveyprofield_radiobutton', $cleandefaultvalue);
                 }
 
                 // -----------------------------
-                // second check
+                // third check
                 // each single option item has to be unique
                 // -----------------------------
                 $arrayunique = array_unique($cleanoptions);

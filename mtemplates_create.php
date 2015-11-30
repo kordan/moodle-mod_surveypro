@@ -87,7 +87,7 @@ $moduletab = SURVEYPRO_TABMTEMPLATES; // needed by tabs.php
 $modulepage = SURVEYPRO_MTEMPLATES_BUILD; // needed by tabs.php
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
-echo $OUTPUT->notification(get_string('currenttotemplate', 'surveypro'), 'notifymessage');
+echo $OUTPUT->notification(get_string('currenttotemplate', 'mod_surveypro'), 'notifymessage');
 
 $record = new stdClass();
 $record->surveyproid = $surveypro->id;

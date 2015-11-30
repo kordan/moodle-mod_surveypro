@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'field_radiobutton', language 'en', branch 'MOODLE_28_STABLE'
+ * Strings for component 'field_radiobutton', language 'en', branch 'MOODLE_31_STABLE'
  *
  * @package    surveypro
  * @subpackage radiobutton
@@ -25,28 +25,29 @@
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/lib.php');
 
-$string['parentformat'] = '[label]';
-$string['pluginname'] = 'Radio button';
-$string['userfriendlypluginname'] = 'Radio buttons';
 $string['adjustment_help'] = 'How this list of items will be shown? In horital or in vertical?';
 $string['adjustment'] = 'Adjustment';
-$string['defaultvalue_err'] = 'The default item "{$a}" was not found among options';
+$string['allowed'] = 'allowed';
+$string['customdefault'] = 'Custom';
+$string['default_missing'] = 'Custom default is missing. You may like to choose the "{$a}" one.';
 $string['defaultoption_help'] = 'This is the value the remote user will find answered by default. The default for this type of question is mandatory so, whether not specified for required items, it will be the first available option. For not required items, unspecified default will provide "Not answering" as pre-filled answer.';
 $string['defaultoption'] = 'Default';
+$string['defaultvalue_err'] = 'The default item "{$a}" was not found among options';
+$string['downloadformat_help'] = 'Choose the format of the answer as it appear once user attempts are downloaded';
+$string['downloadformat'] = 'Download format';
 $string['horizontal'] = 'horizontal';
 $string['labelother_help'] = 'If this question is equipped with the option "other" followed by a text field, enter here the label for that option. You can choose to write this option with the format: label'.SURVEYPRO_OTHERSEPARATOR.'value. The label will be displayed on the screen, the value will be used as default for the text field. If you only specify one word, the field default will be neglected.';
 $string['labelother'] = 'Option "other"';
+$string['missingothertext'] = 'Please add the text required by your selection';
+$string['option'] = 'Option';
 $string['options_err'] = 'Options need your attection';
 $string['options_help'] = 'The list of the options for this item. You are allowed to write them as: value'.SURVEYPRO_VALUELABELSEPARATOR.'label in order to define value and label both. The label will be displayed close to the corresponding radio button, the value will be stored in the survey field. If you only specify one word per line (without separator), value and label will both be valued to that word.';
 $string['options'] = 'Options';
-$string['vertical'] = 'vertical';
-$string['customdefault'] = 'Custom';
-$string['uerr_optionnotset'] = 'Please choose an option';
-$string['option'] = 'Option';
-$string['allowed'] = 'allowed';
-$string['downloadformat'] = 'Download format';
-$string['downloadformat_help'] = 'Choose the format of the answer as it appear once user attempts are downloaded';
-$string['returnvalues'] = 'value of selected items';
+$string['parentformat'] = '[label]';
+$string['pluginname'] = 'Radio button';
 $string['returnlabels'] = 'label of selected items';
 $string['returnposition'] = 'positional answer';
-$string['missingothertext'] = 'Please add the text required by your selection';
+$string['returnvalues'] = 'value of selected items';
+$string['uerr_optionnotset'] = 'Please choose an option';
+$string['userfriendlypluginname'] = 'Radio buttons';
+$string['vertical'] = 'vertical';

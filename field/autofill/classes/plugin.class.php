@@ -384,7 +384,7 @@ EOS;
         } else {
             $elementgroup = array();
             $elementgroup[] = $mform->createElement('text', $this->itemname, '', array('class' => 'indent-'.$this->indent));
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'surveypro'));
+            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'mod_surveypro'));
             $mform->setType($this->itemname, PARAM_RAW);
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_ignoreme', 'checked');
@@ -427,7 +427,7 @@ EOS;
                     $olduseranswer->content = $answer['mainelement'];
                 } else {
                     $a = '$answer = '.$answer;
-                    print_error('unhandledvalue', 'surveypro', null, $a);
+                    print_error('unhandledvalue', 'mod_surveypro', null, $a);
                 }
             }
             return;

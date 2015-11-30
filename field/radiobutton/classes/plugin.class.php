@@ -83,7 +83,7 @@ class mod_surveypro_field_radiobutton extends mod_surveypro_itembase {
     /**
      * $defaultoption
      */
-    public $defaultoption = SURVEYPRO_INVITATIONDEFAULT;
+    public $defaultoption = SURVEYPRO_INVITEDEFAULT;
 
     /**
      * $labelother = the text label for the optional option "other" in the form of "$value SURVEYPRO_OTHERSEPARATOR $label"
@@ -274,7 +274,7 @@ class mod_surveypro_field_radiobutton extends mod_surveypro_itembase {
             $constraints[] = $optionstr.$labelsep.$value;
         }
         if (!empty($this->labelother)) {
-            $constraints[] = get_string('labelother', 'surveyprofield_radiobutton').$labelsep.get_string('allowed', 'surveyprofield_radiobutton');
+            $constraints[] = get_string('labelother', 'mod_surveyprofield_radiobutton').$labelsep.get_string('allowed', 'surveyprofield_radiobutton');
         }
 
         return implode($constraints, '<br />');
@@ -497,16 +497,16 @@ EOS;
 
         // mform elements
         if (!$searchform) {
-            if ($this->defaultoption == SURVEYPRO_INVITATIONDEFAULT) {
-                $paramelement['id'] = $idprefix.'_invitation';
-                $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('choosedots'), SURVEYPRO_INVITATIONVALUE, $paramelement);
+            if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
+                $paramelement['id'] = $idprefix.'_invite';
+                $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('choosedots'), SURVEYPRO_INVITEVALUE, $paramelement);
                 if ($this->adjustment == SURVEYPRO_HORIZONTAL) {
                     unset($paramelement['class']);
                 }
             }
         } else {
             $paramelement['id'] = $idprefix.'_ignoreme';
-            $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('star', 'surveypro'), SURVEYPRO_IGNOREMEVALUE, $paramelement);
+            $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('star', 'mod_surveypro'), SURVEYPRO_IGNOREMEVALUE, $paramelement);
             if ($this->adjustment == SURVEYPRO_HORIZONTAL) {
                 unset($paramelement['class']);
             }
@@ -537,14 +537,14 @@ EOS;
 
         if (!$this->required) {
             $paramelement['id'] = $idprefix.'_noanswer';
-            $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('noanswer', 'surveypro'), SURVEYPRO_NOANSWERVALUE, $paramelement);
+            $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('noanswer', 'mod_surveypro'), SURVEYPRO_NOANSWERVALUE, $paramelement);
         }
         // End of: mform elements
 
         // definition of separator
         if ($this->adjustment == SURVEYPRO_VERTICAL) {
             $separator = array_fill(0, $labelcount - 1, '<br />');
-            if ($this->defaultoption == SURVEYPRO_INVITATIONDEFAULT) {
+            if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
                 array_unshift($separator, '<br />');
             }
             if (!empty($this->labelother)) {
@@ -578,8 +578,8 @@ EOS;
                         $mform->setDefault($this->itemname, "$key");
                     }
                     break;
-                case SURVEYPRO_INVITATIONDEFAULT:
-                    $mform->setDefault($this->itemname, SURVEYPRO_INVITATIONVALUE);
+                case SURVEYPRO_INVITEDEFAULT:
+                    $mform->setDefault($this->itemname, SURVEYPRO_INVITEVALUE);
                     break;
                 case SURVEYPRO_NOANSWERDEFAULT:
                     $mform->setDefault($this->itemname, SURVEYPRO_NOANSWERVALUE);
@@ -621,8 +621,8 @@ EOS;
             return;
         }
 
-        // I need to check value is different from SURVEYPRO_INVITATIONVALUE even if it is not required
-        if ($data[$this->itemname] == SURVEYPRO_INVITATIONVALUE) {
+        // I need to check value is different from SURVEYPRO_INVITEVALUE even if it is not required
+        if ($data[$this->itemname] == SURVEYPRO_INVITEVALUE) {
             $errors[$errorkey] = get_string('uerr_optionnotset', 'surveyprofield_radiobutton');
             return;
         }
@@ -748,7 +748,7 @@ EOS;
         }
 
         $a = '$answer = '.$answer;
-        print_error('unhandledvalue', 'surveypro', null, $a);
+        print_error('unhandledvalue', 'mod_surveypro', null, $a);
     }
 
     /**
@@ -803,10 +803,10 @@ EOS;
         // content
         $content = $answer->content;
         if ($content == SURVEYPRO_NOANSWERVALUE) { // answer was "no answer"
-            return get_string('answerisnoanswer', 'surveypro');
+            return get_string('answerisnoanswer', 'mod_surveypro');
         }
         if ($content === null) { // item was disabled
-            return get_string('notanswereditem', 'surveypro');
+            return get_string('notanswereditem', 'mod_surveypro');
         }
 
         // format

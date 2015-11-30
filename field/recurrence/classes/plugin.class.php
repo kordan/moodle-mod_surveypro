@@ -83,7 +83,7 @@ class mod_surveypro_field_recurrence extends mod_surveypro_itembase {
     /**
      * $defaultoption = the value of the field when the form is initially displayed.
      */
-    public $defaultoption = SURVEYPRO_INVITATIONDEFAULT;
+    public $defaultoption = SURVEYPRO_INVITEDEFAULT;
 
     /**
      * $downloadformat = the format of the content once downloaded
@@ -298,7 +298,7 @@ class mod_surveypro_field_recurrence extends mod_surveypro_itembase {
         $option['strftime1'] = userdate($timenow, get_string('strftime1', 'surveyprofield_recurrence')); // 21 Giugno
         $option['strftime2'] = userdate($timenow, get_string('strftime2', 'surveyprofield_recurrence')); // 21 Giu
         $option['strftime3'] = userdate($timenow, get_string('strftime3', 'surveyprofield_recurrence')); // 21/06
-        $option['unixtime'] = get_string('unixtime', 'surveypro');
+        $option['unixtime'] = get_string('unixtime', 'mod_surveypro');
 
         return $option;
     }
@@ -421,9 +421,9 @@ EOS;
         $days = array();
         $months = array();
         if (!$searchform) {
-            if ($this->defaultoption == SURVEYPRO_INVITATIONDEFAULT) {
-                $days[SURVEYPRO_INVITATIONVALUE] = get_string('invitationday', 'surveyprofield_recurrence');
-                $months[SURVEYPRO_INVITATIONVALUE] = get_string('invitationmonth', 'surveyprofield_recurrence');
+            if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
+                $days[SURVEYPRO_INVITEVALUE] = get_string('inviteday', 'surveyprofield_recurrence');
+                $months[SURVEYPRO_INVITEVALUE] = get_string('invitemonth', 'surveyprofield_recurrence');
             }
         } else {
             $days[SURVEYPRO_IGNOREMEVALUE] = '';
@@ -452,16 +452,16 @@ EOS;
                 $mform->_required[] = $starplace;
             }
         } else {
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), array('id' => $idprefix.'_noanswer'));
+            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'mod_surveypro'), array('id' => $idprefix.'_noanswer'));
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
         }
 
         // default section
         if (!$searchform) {
-            if ($this->defaultoption == SURVEYPRO_INVITATIONDEFAULT) {
-                $mform->setDefault($this->itemname.'_day', SURVEYPRO_INVITATIONVALUE);
-                $mform->setDefault($this->itemname.'_month', SURVEYPRO_INVITATIONVALUE);
+            if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
+                $mform->setDefault($this->itemname.'_day', SURVEYPRO_INVITEVALUE);
+                $mform->setDefault($this->itemname.'_month', SURVEYPRO_INVITEVALUE);
             } else {
                 switch ($this->defaultoption) {
                     case SURVEYPRO_CUSTOMDEFAULT:
@@ -522,8 +522,8 @@ EOS;
         // verify the content of each drop down menu
         if (!$searchform) {
             $testpassed = true;
-            $testpassed = $testpassed && ($data[$this->itemname.'_day'] != SURVEYPRO_INVITATIONVALUE);
-            $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_INVITATIONVALUE);
+            $testpassed = $testpassed && ($data[$this->itemname.'_day'] != SURVEYPRO_INVITEVALUE);
+            $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_INVITEVALUE);
         } else {
             // both drop down menues are allowed to be == SURVEYPRO_IGNOREMEVALUE
             // but not only 1
@@ -538,7 +538,7 @@ EOS;
             if ($this->required) {
                 $errors[$errorkey] = get_string('uerr_recurrencenotsetrequired', 'surveyprofield_recurrence');
             } else {
-                $a = get_string('noanswer', 'surveypro');
+                $a = get_string('noanswer', 'mod_surveypro');
                 $errors[$errorkey] = get_string('uerr_recurrencenotset', 'surveyprofield_recurrence', $a);
             }
             return;
@@ -676,10 +676,10 @@ EOS;
         // content
         $content = $answer->content;
         if ($content == SURVEYPRO_NOANSWERVALUE) { // answer was "no answer"
-            return get_string('answerisnoanswer', 'surveypro');
+            return get_string('answerisnoanswer', 'mod_surveypro');
         }
         if ($content === null) { // item was disabled
-            return get_string('notanswereditem', 'surveypro');
+            return get_string('notanswereditem', 'mod_surveypro');
         }
 
         // format

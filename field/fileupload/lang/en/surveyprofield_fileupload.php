@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'field_fileupload', language 'en', branch 'MOODLE_28_STABLE'
+ * Strings for component 'field_fileupload', language 'en', branch 'MOODLE_31_STABLE'
  *
  * @package    surveypro
  * @subpackage fileupload
@@ -23,14 +23,14 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'File upload';
-$string['userfriendlypluginname'] = 'Attachment';
-$string['maxbytes_help'] = 'Maximum size of the file to upload';
-$string['maxbytes'] = 'Maximum file size';
-$string['filetypes_help'] = 'The comma separated list of allowed file extension';
-$string['filetypes'] = 'Allowed file types (comma separated)';
-$string['maxfiles_help'] = 'Maximum uploadable attachments';
-$string['maxfiles'] = 'Maximum files';
+$string['extensionisempty'] = 'Extension can not be empty. Probabily you typed a comma twice';
 $string['extensionmissingdot'] = 'Extension/s start with a dot';
 $string['extensiononlyonedot'] = 'Only one dot is allowed per each extension';
-$string['extensionisempty'] = 'Extension can not be empty. Probabily you typed a comma twice';
+$string['filetypes_help'] = 'The comma separated list of allowed file extension';
+$string['filetypes'] = 'Allowed file types (comma separated)';
+$string['maxbytes_help'] = 'Maximum size of the file to upload';
+$string['maxbytes'] = 'Maximum file size';
+$string['maxfiles_help'] = 'Maximum uploadable attachments';
+$string['maxfiles'] = 'Maximum files';
+$string['pluginname'] = 'File upload';
+$string['userfriendlypluginname'] = 'Attachment';

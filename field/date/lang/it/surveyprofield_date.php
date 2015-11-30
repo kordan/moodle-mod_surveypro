@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'field_date', language 'en', branch 'MOODLE_28_STABLE'
+ * Strings for component 'field_date', language 'en', branch 'MOODLE_31_STABLE'
  *
  * @package    surveypro
  * @subpackage date
@@ -23,6 +23,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['invitationday'] = 'Seleziona un giorno';
-$string['invitationmonth'] = 'Seleziona un mese';
-$string['invitationyear'] = 'Seleziona un anno';
+$string['inviteday'] = 'Seleziona un giorno';
+$string['invitemonth'] = 'Seleziona un mese';
+$string['inviteyear'] = 'Seleziona un anno';

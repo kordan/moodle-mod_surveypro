@@ -78,7 +78,7 @@ class mod_surveypro_field_boolean extends mod_surveypro_itembase {
     /**
      * $defaultoption
      */
-    public $defaultoption = SURVEYPRO_INVITATIONDEFAULT;
+    public $defaultoption = SURVEYPRO_INVITEDEFAULT;
 
     /**
      * $defaultvalue = the value of the field when the form is initially displayed.
@@ -202,8 +202,8 @@ class mod_surveypro_field_boolean extends mod_surveypro_itembase {
         if (!isset($this->defaultvalue)) {
             $this->defaultoption = SURVEYPRO_NOANSWERDEFAULT;
         } else {
-            if ($this->defaultvalue == SURVEYPRO_INVITATIONDBVALUE) {
-                $this->defaultoption = SURVEYPRO_INVITATIONDEFAULT;
+            if ($this->defaultvalue == SURVEYPRO_INVITEDBVALUE) {
+                $this->defaultoption = SURVEYPRO_INVITEDEFAULT;
             } else {
                 $this->defaultoption = SURVEYPRO_CUSTOMDEFAULT;
             }
@@ -232,8 +232,8 @@ class mod_surveypro_field_boolean extends mod_surveypro_itembase {
             case SURVEYPRO_NOANSWERDEFAULT:
                 $record->defaultvalue = null;
                 break;
-            case SURVEYPRO_INVITATIONDEFAULT:
-                $record->defaultvalue = SURVEYPRO_INVITATIONDBVALUE;
+            case SURVEYPRO_INVITEDEFAULT:
+                $record->defaultvalue = SURVEYPRO_INVITEDBVALUE;
                 break;
             default:
                 debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $record->defaultoption = '.$record->defaultoption, DEBUG_DEVELOPER);
@@ -491,8 +491,8 @@ EOS;
             // element values
             $options = array();
             if (!$searchform) {
-                if ($this->defaultoption == SURVEYPRO_INVITATIONDEFAULT) {
-                    $options[SURVEYPRO_INVITATIONVALUE] = get_string('choosedots');
+                if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
+                    $options[SURVEYPRO_INVITEVALUE] = get_string('choosedots');
                 }
             } else {
                 $options[SURVEYPRO_IGNOREMEVALUE] = '';
@@ -500,7 +500,7 @@ EOS;
             $options['1'] = $yeslabel;
             $options['0'] = $nolabel;
             if (!$this->required) {
-                $options += array(SURVEYPRO_NOANSWERVALUE => get_string('noanswer', 'surveypro'));
+                $options += array(SURVEYPRO_NOANSWERVALUE => get_string('noanswer', 'mod_surveypro'));
             }
             // End of: element values
 
@@ -525,16 +525,16 @@ EOS;
             $paramelement = array('class' => 'indent-'.$this->indent);
 
             if (!$searchform) {
-                if ($this->defaultoption == SURVEYPRO_INVITATIONDEFAULT) {
-                    $paramelement['id'] = $idprefix.'_invitation';
-                    $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('choosedots'), SURVEYPRO_INVITATIONVALUE, $paramelement);
+                if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
+                    $paramelement['id'] = $idprefix.'_invite';
+                    $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('choosedots'), SURVEYPRO_INVITEVALUE, $paramelement);
                     if ($this->style == SURVEYPROFIELD_BOOLEAN_USERADIOH) {
                         unset($paramelement['class']);
                     }
                 }
             } else {
                 $paramelement['id'] = $idprefix.'_ignoreme';
-                $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('star', 'surveypro'), SURVEYPRO_IGNOREMEVALUE, $paramelement);
+                $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('star', 'mod_surveypro'), SURVEYPRO_IGNOREMEVALUE, $paramelement);
                 if ($this->style == SURVEYPROFIELD_BOOLEAN_USERADIOH) {
                     unset($paramelement['class']);
                 }
@@ -552,7 +552,7 @@ EOS;
 
             if (!$this->required) {
                 $paramelement['id'] = $idprefix.'_noanswer';
-                $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('noanswer', 'surveypro'), SURVEYPRO_NOANSWERVALUE, $paramelement);
+                $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('noanswer', 'mod_surveypro'), SURVEYPRO_NOANSWERVALUE, $paramelement);
             }
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, $separator, false);
             // End of: mform elements
@@ -578,8 +578,8 @@ EOS;
             }
 
             switch ($this->defaultoption) {
-                case SURVEYPRO_INVITATIONDEFAULT:
-                    $mform->setDefault($this->itemname, SURVEYPRO_INVITATIONVALUE);
+                case SURVEYPRO_INVITEDEFAULT:
+                    $mform->setDefault($this->itemname, SURVEYPRO_INVITEVALUE);
                     break;
                 case SURVEYPRO_CUSTOMDEFAULT:
                     $mform->setDefault($this->itemname, $this->defaultvalue);
@@ -618,8 +618,8 @@ EOS;
             $errorkey = $this->itemname;
         }
 
-        // I need to check value is different from SURVEYPRO_INVITATIONVALUE even if it is not required
-        if ($data[$this->itemname] == SURVEYPRO_INVITATIONVALUE) {
+        // I need to check value is different from SURVEYPRO_INVITEVALUE even if it is not required
+        if ($data[$this->itemname] == SURVEYPRO_INVITEVALUE) {
             $errors[$errorkey] = get_string('uerr_booleannotset', 'surveyprofield_boolean');
             return;
         }
@@ -743,10 +743,10 @@ EOS;
         // content
         $content = $answer->content;
         if ($content == SURVEYPRO_NOANSWERVALUE) { // answer was "no answer"
-            return get_string('answerisnoanswer', 'surveypro');
+            return get_string('answerisnoanswer', 'mod_surveypro');
         }
         if ($content === null) { // item was disabled
-            return get_string('notanswereditem', 'surveypro');
+            return get_string('notanswereditem', 'mod_surveypro');
         }
 
         // format

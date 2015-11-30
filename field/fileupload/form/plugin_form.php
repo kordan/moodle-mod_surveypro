@@ -52,7 +52,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // ----------------------------------------
         $fieldname = 'maxfiles';
         $options = array_combine(range(1, 5), range(1, 5));
-        $options[EDITOR_UNLIMITED_FILES] = get_string('unlimited', 'surveypro');
+        $options[EDITOR_UNLIMITED_FILES] = get_string('unlimited', 'mod_surveypro');
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_fileupload'), $options);
         $mform->setDefault($fieldname, '1048576');
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_fileupload');

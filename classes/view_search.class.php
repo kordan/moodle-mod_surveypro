@@ -136,7 +136,7 @@ class mod_surveypro_searchmanager {
     public function noitem_stopexecution() {
         global $OUTPUT;
 
-        echo $OUTPUT->notification(get_string('emptysearchform', 'surveypro'), 'notifyproblem');
+        echo $OUTPUT->notification(get_string('emptysearchform', 'mod_surveypro'), 'notifyproblem');
 
         $continueurl = new moodle_url('/mod/surveypro/view.php', array('s' => $this->surveypro->id, 'cover' => 0));
         echo $OUTPUT->continue_button($continueurl);

@@ -48,14 +48,14 @@ class mod_surveypro_importutemplateform extends moodleform {
         // ----------------------------------------
         // here I use filemanager because I can even upload more than one usertemplate at once
         $fieldname = 'importfile';
-        $mform->addElement('filemanager', $fieldname.'_filemanager', get_string($fieldname, 'surveypro'), null, $filemanageroptions);
+        $mform->addElement('filemanager', $fieldname.'_filemanager', get_string($fieldname, 'mod_surveypro'), null, $filemanageroptions);
         $mform->addRule($fieldname.'_filemanager', null, 'required');
 
         // ----------------------------------------
         // templateimport: overwrite
         // ----------------------------------------
         $fieldname = 'overwrite';
-        $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveypro'));
+        $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // ----------------------------------------
@@ -66,7 +66,7 @@ class mod_surveypro_importutemplateform extends moodleform {
 
         $options = $utemplateman->get_sharinglevel_options($cmid, $surveypro);
 
-        $mform->addElement('select', $fieldname, get_string($fieldname, 'surveypro'), $options);
+        $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $options);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
         $mform->setDefault($fieldname, CONTEXT_SYSTEM);
 
@@ -102,7 +102,7 @@ class mod_surveypro_importutemplateform extends moodleform {
         $draftfiles = $fs->get_area_files($usercontext->id, 'user', 'draft', $draftitemid, '', false);
 
         if (!count($draftfiles)) {
-            $errors['importfile_filemanager'] = get_string('missingfile', 'surveypro');
+            $errors['importfile_filemanager'] = get_string('missingfile', 'mod_surveypro');
         }
 
         $importedfiles = array();
@@ -116,9 +116,9 @@ class mod_surveypro_importutemplateform extends moodleform {
             $errormessage = $utemplateman->validate_xml($xml);
             if ($errormessage !== false) {
                 if (isset($errormessage->a)) {
-                    $errors['importfile_filemanager'] = get_string($errormessage->key, 'surveypro', $errormessage->a);
+                    $errors['importfile_filemanager'] = get_string($errormessage->key, 'mod_surveypro', $errormessage->a);
                 } else {
-                    $errors['importfile_filemanager'] = get_string($errormessage->key, 'surveypro');
+                    $errors['importfile_filemanager'] = get_string($errormessage->key, 'mod_surveypro');
                 }
                 return $errors;
             }
@@ -143,8 +143,8 @@ class mod_surveypro_importutemplateform extends moodleform {
                 } else {
                     $a = new stdClass();
                     $a->filename = $filename;
-                    $a->overwrite = get_string('overwrite', 'surveypro');
-                    $errors['importfile_filemanager'] = get_string('enteruniquename', 'surveypro', $a);
+                    $a->overwrite = get_string('overwrite', 'mod_surveypro');
+                    $errors['importfile_filemanager'] = get_string('enteruniquename', 'mod_surveypro', $a);
                     break;
                 }
             }

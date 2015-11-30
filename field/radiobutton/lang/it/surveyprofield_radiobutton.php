@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'field_radiobutton', language 'en', branch 'MOODLE_28_STABLE'
+ * Strings for component 'field_radiobutton', language 'en', branch 'MOODLE_31_STABLE'
  *
  * @package    surveypro
  * @subpackage radiobutton
@@ -25,5 +25,5 @@
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/lib.php');
 
-$string['uerr_optionnotset'] = 'Si selezioni 1 opzione';
 $string['missingothertext'] = 'Si riporti il testo corrispondente alla scelta selezionata';
+$string['uerr_optionnotset'] = 'Si selezioni 1 opzione';

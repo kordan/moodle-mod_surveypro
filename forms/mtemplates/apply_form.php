@@ -56,16 +56,16 @@ class mod_surveypro_applymtemplateform extends moodleform {
         // ----------------------------------------
         // applymtemplate: mastertemplate
         // ----------------------------------------
-        $fieldname = 'mastertemplate';
         if (count($mtemplates)) {
+            $fieldname = 'mastertemplate';
             if ($inline) {
                 $elementgroup = array();
-                $elementgroup[] = $mform->createElement('select', $fieldname, get_string($fieldname, 'surveypro'), $mtemplates);
+                $elementgroup[] = $mform->createElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $mtemplates);
                 $elementgroup[] = $mform->createElement('submit', $fieldname.'_button', get_string('create'));
-                $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveypro'), array(' '), false);
+                $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'mod_surveypro'), array(' '), false);
                 $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveypro');
             } else {
-                $mform->addElement('select', $fieldname, get_string($fieldname, 'surveypro'), $mtemplates);
+                $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $mtemplates);
                 $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
                 $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
 
@@ -74,8 +74,9 @@ class mod_surveypro_applymtemplateform extends moodleform {
                 $this->add_action_buttons(true, get_string('continue'));
             }
         } else {
-            $mform->addElement('static', 'nomtemplates', get_string('mastertemplate', 'surveypro'), get_string('nomtemplates_message', 'surveypro'));
-            $mform->addHelpButton('nomtemplates', 'nomtemplates', 'surveypro');
+            $fieldname = 'nomtemplates';
+            $mform->addElement('static', $fieldname, get_string('mastertemplate', 'mod_surveypro'), get_string('nomtemplates_message', 'mod_surveypro'));
+            $mform->addHelpButton($fieldname, 'nomtemplates', 'surveypro');
         }
     }
 
@@ -106,11 +107,11 @@ class mod_surveypro_applymtemplateform extends moodleform {
         // $xml = @new SimpleXMLElement($templatecontent);
         $errormessage = $mtemplateman->validate_xml($xml);
         if ($errormessage !== false) {
-            $addendum = get_string('mastertemplateaddendum', 'surveypro');
+            $addendum = get_string('mastertemplateaddendum', 'mod_surveypro');
             if (isset($errormessage->a)) {
-                $errors['mastertemplate'] = get_string($errormessage->key, 'surveypro', $errormessage->a).$addendum;
+                $errors['mastertemplate'] = get_string($errormessage->key, 'mod_surveypro', $errormessage->a).$addendum;
             } else {
-                $errors['mastertemplate'] = get_string($errormessage->key, 'surveypro').$addendum;
+                $errors['mastertemplate'] = get_string($errormessage->key, 'mod_surveypro').$addendum;
             }
         }
 

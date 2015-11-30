@@ -88,7 +88,7 @@ class mod_surveypro_field_select extends mod_surveypro_itembase {
     /**
      * $defaultoption
      */
-    public $defaultoption = SURVEYPRO_INVITATIONDEFAULT;
+    public $defaultoption = SURVEYPRO_INVITEDEFAULT;
 
     /**
      * $defaultvalue = the value of the field when the form is initially displayed.
@@ -489,8 +489,8 @@ EOS;
         // element values
         $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
         if (!$searchform) {
-            if ($this->defaultoption == SURVEYPRO_INVITATIONDEFAULT) {
-                $labels = array(SURVEYPRO_INVITATIONVALUE => get_string('choosedots')) + $labels;
+            if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
+                $labels = array(SURVEYPRO_INVITEVALUE => get_string('choosedots')) + $labels;
             }
         } else {
             $labels = array(SURVEYPRO_IGNOREMEVALUE => '') + $labels;
@@ -500,7 +500,7 @@ EOS;
             $labels['other'] = $otherlabel;
         }
         if (!$this->required) {
-            $labels[SURVEYPRO_NOANSWERVALUE] = get_string('noanswer', 'surveypro');
+            $labels[SURVEYPRO_NOANSWERVALUE] = get_string('noanswer', 'mod_surveypro');
         }
         // End of: element values
 
@@ -539,8 +539,8 @@ EOS;
                         $mform->setDefault($this->itemname, 'other');
                     }
                     break;
-                case SURVEYPRO_INVITATIONDEFAULT:
-                    $mform->setDefault($this->itemname, SURVEYPRO_INVITATIONVALUE);
+                case SURVEYPRO_INVITEDEFAULT:
+                    $mform->setDefault($this->itemname, SURVEYPRO_INVITEVALUE);
                     break;
                 case SURVEYPRO_NOANSWERDEFAULT:
                     $mform->setDefault($this->itemname, SURVEYPRO_NOANSWERVALUE);
@@ -576,7 +576,7 @@ EOS;
 
         $errorkey = empty($this->labelother) ? $this->itemname : $this->itemname.'_group';
 
-        if ($data[$this->itemname] == SURVEYPRO_INVITATIONVALUE) {
+        if ($data[$this->itemname] == SURVEYPRO_INVITEVALUE) {
             $errors[$errorkey] = get_string('uerr_optionnotset', 'surveyprofield_select');
         }
     }
@@ -695,7 +695,7 @@ EOS;
         }
 
         $a = '$answer = '.$answer;
-        print_error('unhandledvalue', 'surveypro', null, $a);
+        print_error('unhandledvalue', 'mod_surveypro', null, $a);
     }
 
     /**
@@ -750,10 +750,10 @@ EOS;
         // content
         $content = $answer->content;
         if ($content == SURVEYPRO_NOANSWERVALUE) { // answer was "no answer"
-            return get_string('answerisnoanswer', 'surveypro');
+            return get_string('answerisnoanswer', 'mod_surveypro');
         }
         if ($content === null) { // item was disabled
-            return get_string('notanswereditem', 'surveypro');
+            return get_string('notanswereditem', 'mod_surveypro');
         }
 
         // format

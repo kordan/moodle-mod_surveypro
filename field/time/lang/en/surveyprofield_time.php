@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'field_time', language 'en', branch 'MOODLE_28_STABLE'
+ * Strings for component 'field_time', language 'en', branch 'MOODLE_31_STABLE'
  *
  * @package    surveypro
  * @subpackage time
@@ -32,8 +32,8 @@ $string['downloadformat_help'] = 'Choose the format of the answer as it appear o
 $string['downloadformat'] = 'Download format';
 $string['fifteenminutes'] = 'fifteen minutes';
 $string['fiveminutes'] = 'five minutes';
-$string['invitationhour'] = 'Choose an hour';
-$string['invitationminute'] = 'Choose a minute';
+$string['invitehour'] = 'Choose an hour';
+$string['inviteminute'] = 'Choose a minute';
 $string['lowerbound_help'] = 'The lowest time the user is allowed to enter';
 $string['lowerbound'] = 'Lower bound';
 $string['lowerequaltoupper'] = 'Lower and upper bounds need to be different';
@@ -45,7 +45,6 @@ $string['restriction_lower'] = 'Answer is supposed to be greater-equal than {$a}
 $string['restriction_lowerupper'] = 'Answer is supposed to fit between {$a->lowerbound} and {$a->upperbound}';
 $string['restriction_upper'] = 'Answer is supposed to be lower-equal than {$a}';
 $string['restriction_upperlower'] = 'Answer is supposed to be greater-equal than {$a->lowerbound} or lower-equal than {$a->upperbound}';
-$string['secondssincemidnight'] = 'Seconds since mid night';
 $string['step_help'] = 'Step of the minute drop down menu as it appear in the attemp form';
 $string['step'] = 'Step';
 $string['strftime1'] = '%H:%M';

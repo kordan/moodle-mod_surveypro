@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'field_boolean', language 'en', branch 'MOODLE_28_STABLE'
+ * Strings for component 'field_boolean', language 'en', branch 'MOODLE_31_STABLE'
  *
  * @package    surveypro
  * @subpackage boolean
@@ -24,19 +24,14 @@
  */
 
 $string['customdefault'] = 'Custom';
-$string['defaultvalue_err'] = 'The default item "{$a}" was not found among options';
 $string['defaultoption_help'] = 'This is the value the remote user will find answered by default. The default for this type of question is mandatory.';
 $string['defaultoption'] = 'Default';
+$string['defaultvalue_err'] = 'The default item "{$a}" was not found among options';
+$string['downloadformat_help'] = 'Choose the format of the answer as it appear once user attempts are downloaded';
+$string['downloadformat'] = 'Download format';
 $string['option'] = 'Option';
 $string['parentformat'] = '[0] or [1]';
 $string['pluginname'] = 'Boolean';
-$string['style_help'] = 'The style of the field';
-$string['style'] = 'Boolean style';
-$string['uerr_booleannotset'] = 'Please choose a value';
-$string['usemenu'] = 'dropdown menu';
-$string['useradioh'] = 'horizontal radio buttons';
-$string['useradiov'] = 'vertical radio buttons';
-$string['userfriendlypluginname'] = 'Boolean';
 $string['strfbool01'] = 'yes/no';
 $string['strfbool02'] = 'Yes/No';
 $string['strfbool03'] = 'y/n';
@@ -47,5 +42,10 @@ $string['strfbool07'] = 'True/False';
 $string['strfbool08'] = 'T/F';
 $string['strfbool09'] = '1/0';
 $string['strfbool10'] = '+/-';
-$string['downloadformat'] = 'Download format';
-$string['downloadformat_help'] = 'Choose the format of the answer as it appear once user attempts are downloaded';
+$string['style_help'] = 'The style of the field';
+$string['style'] = 'Boolean style';
+$string['uerr_booleannotset'] = 'Please choose a value';
+$string['usemenu'] = 'dropdown menu';
+$string['useradioh'] = 'horizontal radio buttons';
+$string['useradiov'] = 'vertical radio buttons';
+$string['userfriendlypluginname'] = 'Boolean';

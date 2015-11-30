@@ -78,7 +78,7 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
     /**
      * $defaultoption
      */
-    public $defaultoption = SURVEYPRO_INVITATIONDEFAULT;
+    public $defaultoption = SURVEYPRO_INVITEDEFAULT;
 
     /**
      * $defaultvalue = the value of the field when the form is initially displayed.
@@ -218,8 +218,8 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
         if (!isset($this->defaultvalue)) {
             $this->defaultoption = SURVEYPRO_NOANSWERDEFAULT;
         } else {
-            if ($this->defaultvalue == SURVEYPRO_INVITATIONDBVALUE) {
-                $this->defaultoption = SURVEYPRO_INVITATIONDEFAULT;
+            if ($this->defaultvalue == SURVEYPRO_INVITEDBVALUE) {
+                $this->defaultoption = SURVEYPRO_INVITEDEFAULT;
             } else {
                 $this->defaultoption = SURVEYPRO_CUSTOMDEFAULT;
             }
@@ -248,8 +248,8 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
             case SURVEYPRO_NOANSWERDEFAULT:
                 $record->defaultvalue = null;
                 break;
-            case SURVEYPRO_INVITATIONDEFAULT:
-                $record->defaultvalue = SURVEYPRO_INVITATIONDBVALUE;
+            case SURVEYPRO_INVITEDEFAULT:
+                $record->defaultvalue = SURVEYPRO_INVITEDBVALUE;
                 break;
             default:
                 debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $record->defaultoption = '.$record->defaultoption, DEBUG_DEVELOPER);
@@ -463,15 +463,15 @@ EOS;
         // element values
         $integers = array();
         if (!$searchform) {
-            if ($this->defaultoption == SURVEYPRO_INVITATIONDEFAULT) {
-                $integers[SURVEYPRO_INVITATIONVALUE] = get_string('choosedots');
+            if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
+                $integers[SURVEYPRO_INVITEVALUE] = get_string('choosedots');
             }
         } else {
             $integers[SURVEYPRO_IGNOREMEVALUE] = '';
         }
         $integers += array_combine(range($this->lowerbound, $this->upperbound), range($this->lowerbound, $this->upperbound));
         if (!$this->required) {
-            $integers += array(SURVEYPRO_NOANSWERVALUE => get_string('noanswer', 'surveypro'));
+            $integers += array(SURVEYPRO_NOANSWERVALUE => get_string('noanswer', 'mod_surveypro'));
         }
         // End of: element values
 
@@ -490,8 +490,8 @@ EOS;
 
         // default section
         if (!$searchform) {
-            if ($this->defaultoption == SURVEYPRO_INVITATIONDEFAULT) {
-                $mform->setDefault($this->itemname, SURVEYPRO_INVITATIONVALUE);
+            if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
+                $mform->setDefault($this->itemname, SURVEYPRO_INVITEVALUE);
             } else {
                 switch ($this->defaultoption) {
                     case SURVEYPRO_CUSTOMDEFAULT:
@@ -530,12 +530,12 @@ EOS;
 
         $maximuminteger = get_config('surveyprofield_integer', 'maximuminteger');
 
-        // I need to check value is different from SURVEYPRO_INVITATIONVALUE even if it is not required
-        if ($userinput == SURVEYPRO_INVITATIONVALUE) {
+        // I need to check value is different from SURVEYPRO_INVITEVALUE even if it is not required
+        if ($userinput == SURVEYPRO_INVITEVALUE) {
             if ($this->required) {
                 $errors[$errorkey] = get_string('uerr_integernotsetrequired', 'surveyprofield_integer');
             } else {
-                $a = get_string('noanswer', 'surveypro');
+                $a = get_string('noanswer', 'mod_surveypro');
                 $errors[$errorkey] = get_string('uerr_integernotset', 'surveyprofield_integer', $a);
             }
             return;
@@ -682,10 +682,10 @@ EOS;
         $content = $answer->content;
 
         if ($content == SURVEYPRO_NOANSWERVALUE) { // answer was "no answer"
-            return get_string('answerisnoanswer', 'surveypro');
+            return get_string('answerisnoanswer', 'mod_surveypro');
         }
         if ($content === null) { // item was disabled
-            return get_string('notanswereditem', 'surveypro');
+            return get_string('notanswereditem', 'mod_surveypro');
         }
 
         return $content;

@@ -52,7 +52,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // -----------------------------
         $fieldname = 'specializations';
         $typename = get_string('pluginname', 'surveyproformat_'.$item->plugin);
-        $mform->addElement('header', $fieldname, get_string($fieldname, 'surveypro', $typename));
+        $mform->addElement('header', $fieldname, get_string($fieldname, 'mod_surveypro', $typename));
 
         // ----------------------------------------
         // item: fullwidth
