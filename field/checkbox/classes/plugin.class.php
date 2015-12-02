@@ -581,7 +581,7 @@ EOS;
 
         if (!empty($this->labelother)) {
             if (($data[$this->itemname.'_other']) && empty($data[$this->itemname.'_text']) ) {
-                $errors[$errorkey] = get_string('missingothertext', 'surveyprofield_checkbox');
+                $errors[$errorkey] = get_string('uerr_missingothertext', 'surveyprofield_checkbox');
                 return;
             }
         }
@@ -605,9 +605,9 @@ EOS;
 
             if ($answercount < $this->minimumrequired) {
                 if ($this->minimumrequired == 1) {
-                    $errors[$errorkey] = get_string('lowerthanminimum_one', 'surveyprofield_checkbox');
+                    $errors[$errorkey] = get_string('uerr_lowerthanminimum_one', 'surveyprofield_checkbox');
                 } else {
-                    $errors[$errorkey] = get_string('lowerthanminimum_more', 'surveyprofield_checkbox', $this->minimumrequired);
+                    $errors[$errorkey] = get_string('uerr_lowerthanminimum_more', 'surveyprofield_checkbox', $this->minimumrequired);
                 }
             }
         }

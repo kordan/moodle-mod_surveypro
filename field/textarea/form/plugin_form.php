@@ -23,7 +23,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
-require_once($CFG->dirroot.'/mod/surveypro/forms/items/itembase_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/form/items/itembase_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/field/textarea/lib.php');
 
 class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
@@ -117,11 +117,11 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         if (strlen($data['maxlength'])) {
             $isinteger = (bool)(strval(intval($data['maxlength'])) == strval($data['maxlength']));
             if (!$isinteger) {
-                $errors['maxlength'] = get_string('maxlengthnotinteger', 'surveyprofield_textarea');
+                $errors['maxlength'] = get_string('ierr_maxlengthnotinteger', 'surveyprofield_textarea');
             } else {
                 if ($data['maxlength'] <= $data['minlength']) {
                     if (!$data['maxlength']) {
-                        $errors['maxlength'] = get_string('maxlengthlowerthanminlength', 'surveyprofield_textarea');
+                        $errors['maxlength'] = get_string('ierr_maxlengthlowerthanminlength', 'surveyprofield_textarea');
                     }
                 }
             }

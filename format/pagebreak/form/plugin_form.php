@@ -23,7 +23,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
-require_once($CFG->dirroot.'/mod/surveypro/forms/items/itembase_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/form/items/itembase_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/format/pagebreak/lib.php');
 
 class mod_surveypro_pluginform extends mod_surveypro_itembaseform {

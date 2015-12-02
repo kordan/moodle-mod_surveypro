@@ -23,7 +23,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
-require_once($CFG->dirroot.'/mod/surveypro/forms/items/itembase_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/form/items/itembase_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/field/numeric/lib.php');
 
 class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
@@ -115,7 +115,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         if (strlen($draftnumber)) {
             $matches = $item->item_atomize_number($draftnumber);
             if (empty($matches)) {
-                $errors['lowerbound'] = get_string('lowerbound_notanumber', 'surveyprofield_numeric');
+                $errors['lowerbound'] = get_string('ierr_notanumber', 'surveyprofield_numeric');
                 return $errors;
             } else {
                 $lowerbound = unformat_float($draftnumber, true);
@@ -127,7 +127,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         if (strlen($draftnumber)) {
             $matches = $item->item_atomize_number($draftnumber);
             if (empty($matches)) {
-                $errors['upperbound'] = get_string('upperbound_notanumber', 'surveyprofield_numeric');
+                $errors['upperbound'] = get_string('ierr_notanumber', 'surveyprofield_numeric');
                 return $errors;
             } else {
                 $upperbound = unformat_float($draftnumber, true);
@@ -136,20 +136,20 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
 
         if (isset($lowerbound) && isset($upperbound)) {
             if ($lowerbound == $upperbound) {
-                $errors['lowerbound'] = get_string('lowerequaltoupper', 'surveyprofield_numeric');
+                $errors['lowerbound'] = get_string('ierr_lowerequaltoupper', 'surveyprofield_numeric');
             }
             if ($lowerbound > $upperbound) {
-                $errors['lowerbound'] = get_string('lowergreaterthanupper', 'surveyprofield_numeric');
+                $errors['lowerbound'] = get_string('ierr_lowergreaterthanupper', 'surveyprofield_numeric');
             }
         }
 
         if (!isset($data['signed'])) {
             if (isset($lowerbound) && ($lowerbound < 0)) {
-                $errors['lowerbound'] = get_string('lowernegative', 'surveyprofield_numeric');
+                $errors['lowerbound'] = get_string('ierr_lowernegative', 'surveyprofield_numeric');
             }
 
             if (isset($upperbound) && ($upperbound < 0)) {
-                $errors['upperbound'] = get_string('uppernegative', 'surveyprofield_numeric');
+                $errors['upperbound'] = get_string('ierr_uppernegative', 'surveyprofield_numeric');
             }
         }
 
@@ -158,27 +158,27 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         if (strlen($draftnumber)) {
             $matches = $item->item_atomize_number($draftnumber);
             if (empty($matches)) {
-                $errors['defaultvalue'] = get_string('default_notanumber', 'surveyprofield_numeric');
+                $errors['defaultvalue'] = get_string('ierr_notanumber', 'surveyprofield_numeric');
             } else {
                 $defaultvalue = unformat_float($draftnumber, true);
 
                 // constrain default between boundaries
                 // if it is < 0 but has been defined as unsigned, shouts
                 if ((!isset($data['signed'])) && ($defaultvalue < 0)) {
-                    $errors['defaultvalue'] = get_string('defaultsignnotallowed', 'surveyprofield_numeric');
+                    $errors['defaultvalue'] = get_string('ierr_defaultsignnotallowed', 'surveyprofield_numeric');
                 }
 
                 $isinteger = (bool)(strval(intval($defaultvalue)) == strval($defaultvalue));
                 // if it has decimal but has been defined as integer, shouts
                 if ( ($data['decimals'] == 0) && (!$isinteger) ) {
-                    $errors['defaultvalue'] = get_string('default_notinteger', 'surveyprofield_numeric');
+                    $errors['defaultvalue'] = get_string('ierr_default_notinteger', 'surveyprofield_numeric');
                 }
 
                 if (isset($lowerbound) && isset($upperbound)) {
                     if ($lowerbound < $upperbound) {
                         // internal range
                         if ( ($defaultvalue < $lowerbound) || ($defaultvalue > $upperbound) ) {
-                            $errors['defaultvalue'] = get_string('outofrangedefault', 'surveyprofield_numeric');
+                            $errors['defaultvalue'] = get_string('ierr_outofrangedefault', 'surveyprofield_numeric');
                         }
                     }
 
@@ -186,21 +186,21 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
                         // external range
                         if (($defaultvalue > $upperbound) && ($defaultvalue < $lowerbound)) {
                             $a = get_string('upperbound', 'surveyprofield_numeric');
-                            $errors['defaultvalue'] = get_string('outofexternalrangedefault', 'surveyprofield_numeric', $a);
+                            $errors['defaultvalue'] = get_string('ierr_outofexternalrangedefault', 'surveyprofield_numeric', $a);
                         }
                     }
                 } else {
                     if (isset($lowerbound)) {
                         // if defaultvalue is < $this->lowerbound, shouts
                         if ($defaultvalue < $lowerbound) {
-                            $errors['defaultvalue'] = get_string('default_outofrange', 'surveyprofield_numeric');
+                            $errors['defaultvalue'] = get_string('ierr_default_outofrange', 'surveyprofield_numeric');
                         }
                     }
 
                     if (isset($upperbound)) {
                         // if defaultvalue is > $this->upperbound, shouts
                         if ($defaultvalue > $upperbound) {
-                            $errors['defaultvalue'] = get_string('default_outofrange', 'surveyprofield_numeric');
+                            $errors['defaultvalue'] = get_string('ierr_default_outofrange', 'surveyprofield_numeric');
                         }
                     }
                 }

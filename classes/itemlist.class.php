@@ -1515,7 +1515,7 @@ class mod_surveypro_itemlist {
      */
     public function set_typeplugin($typeplugin) {
         if (preg_match('~^('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_(\w+)$~', $typeplugin, $match)) {
-            // execution comes from /forms/items/selectitem_form.php
+            // execution comes from /form/items/selectitem_form.php
             $this->type = $match[1]; // field or format
             $this->plugin = $match[2]; // boolean or char ... or fieldset ...
         } else {

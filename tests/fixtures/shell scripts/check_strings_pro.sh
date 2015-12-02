@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 GENERIC_FRAME='*\*\*\*\*\*\*************************************************'
 
@@ -69,9 +69,8 @@ done
 # done
 # read a
 
-# langkeyregex="string\[['|\"](.*)['|\"]\]"
-# langkeyregex="$string\[['|\"](.*)['|\"]\]"
-langkeyregex=\^\\\$"string\[['|\"](.*)['|\"]\]"
+# langkeyregex=\^\\\$"string\[['|\"](.*)['|\"]\]"
+langkeyregex=\^\\\$"string\[['|\"]([^ ]*)['|\"]\]"
 
 endoflangkey=( _help _err _group _descr _check _header )
 beginoflangkey=( surveypro: )
@@ -98,19 +97,28 @@ do
         # echo
         # echo 'I do search in: '$langfile_line
         if [[ $langfile_line =~ $langkeyregex ]]; then
-            #echo $BASH_REMATCH is what I want
             langkey=`echo ${BASH_REMATCH[1]}`
 
-# echo 'Lavoro su '$langkey
-# echo
-# echo langkey = $langkey
-
             # I look for the extracted word into surveypro folder
-            output=`grep -rP "(get_string|print_error|lang_string)\(['\"]$langkey['\"], *['\"](mod_)?surveypro" *`
-            if [ "${#output}" = 0 ]; then
+            if [[ $excludefilename = 'surveypro.php' ]]; then
+                myoutput=`grep -rP "(get_string|print_error|lang_string)\(['\"]$langkey['\"], ['\"](mod_)?surveypro['\"]" *`
+            else
+                # get type and plugin from the path
+            	# langfilepath: /Applications/MAMP/htdocs/head/mod/surveypro/field/select/lang/en/surveyprofield_select.php
+                typepluginregex="/mod/surveypro/(.*)/(.*)/lang/en"
+                if [[ $langfilepath =~ $typepluginregex ]]; then
+                    mytype=${BASH_REMATCH[1]}
+                    myplugin=${BASH_REMATCH[2]}
+                    myoutput=`grep -rP "(get_string|print_error|lang_string)\(['\"]$langkey['\"], *['\"](mod_)?surveypro$mytype(_)$myplugin['\"]" *`
+                else
+                    # something was wrong. I use the standard grep
+                    myoutput=`grep -rP "(get_string|print_error|lang_string)\(['\"]$langkey['\"], *['\"](mod_)?surveypro" *`
+                fi
+            fi
+            if [[ -z "$myoutput" ]]; then
                 # try to exclude get_string($fieldname
-                output=`grep -r "[$fieldname = ['\"]$langkey['\"];" *`
-                if [ "${#output}" = 0 ]; then
+                myoutput=`grep -rP "[\$fieldname = ['\"]$langkey['\"];" *`
+                if [[ -z "$myoutput" ]]; then
 
                     langkeyinuse=0
                     for keyend in "${endoflangkey[@]}"

@@ -23,7 +23,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
-require_once($CFG->dirroot.'/mod/surveypro/forms/items/itembase_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/form/items/itembase_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/field/recurrence/lib.php');
 
 class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
@@ -139,10 +139,10 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $lowerbound = $item->item_recurrence_to_unix_time($data['lowerbound_month'], $data['lowerbound_day']);
         $upperbound = $item->item_recurrence_to_unix_time($data['upperbound_month'], $data['upperbound_day']);
         if ($lowerbound == $upperbound) {
-            $errors['lowerbound_group'] = get_string('lowerequaltoupper', 'surveyprofield_recurrence');
+            $errors['lowerbound_group'] = get_string('ierr_lowerequaltoupper', 'surveyprofield_recurrence');
         }
         if ($lowerbound > $upperbound) {
-            $errors['lowerbound_group'] = get_string('lowergreaterthanupper', 'surveyprofield_recurrence');
+            $errors['lowerbound_group'] = get_string('ierr_lowergreaterthanupper', 'surveyprofield_recurrence');
         }
 
         // constrain default between boundaries
@@ -150,25 +150,25 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
             $defaultvalue = $item->item_recurrence_to_unix_time($data['defaultvalue_month'], $data['defaultvalue_day']);
 
             if (!$item->item_check_monthday($data['defaultvalue_day'], $data['defaultvalue_month'])) {
-                $errors['defaultvalue_group'] = get_string('notvaliddefault', 'surveyprofield_recurrence');
+                $errors['defaultvalue_group'] = get_string('ierr_invaliddefault', 'surveyprofield_recurrence');
             }
             if (!$item->item_check_monthday($data['lowerbound_day'], $data['lowerbound_month'])) {
-                $errors['lowerbound_group'] = get_string('notvalidlowerbound', 'surveyprofield_recurrence');
+                $errors['lowerbound_group'] = get_string('ierr_invalidlowerbound', 'surveyprofield_recurrence');
             }
             if (!$item->item_check_monthday($data['upperbound_day'], $data['upperbound_month'])) {
-                $errors['upperbound_group'] = get_string('notvalidupperbound', 'surveyprofield_recurrence');
+                $errors['upperbound_group'] = get_string('ierr_invalidupperbound', 'surveyprofield_recurrence');
             }
 
             // internal range
             if (($defaultvalue < $lowerbound) || ($defaultvalue > $upperbound)) {
-                $errors['defaultvalue_group'] = get_string('outofrangedefault', 'surveyprofield_recurrence');
+                $errors['defaultvalue_group'] = get_string('ierr_outofrangedefault', 'surveyprofield_recurrence');
             }
         }
 
         // if (default == noanswer && the field is mandatory) => error
         if ( ($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required']) ) {
             $a = get_string('noanswer', 'mod_surveypro');
-            $errors['defaultvalue_group'] = get_string('notalloweddefault', 'mod_surveypro', $a);
+            $errors['defaultvalue_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
         }
 
         return $errors;

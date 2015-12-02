@@ -368,7 +368,7 @@ class mod_surveypro_itembaseform extends moodleform {
         // if (default == noanswer) but item is required => error
         if ( isset($data['defaultvalue_check']) && isset($data['required']) ) {
             $a = get_string('noanswer', 'mod_surveypro');
-            $errors['defaultvalue_group'] = get_string('notalloweddefault', 'mod_surveypro', $a);
+            $errors['defaultvalue_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
         }
 
         if (empty($data['parentid']) && empty($data['parentcontent'])) {
@@ -379,13 +379,13 @@ class mod_surveypro_itembaseform extends moodleform {
         // you choosed a parentid but you are missing the parentcontent
         if (empty($data['parentid']) && (strlen($data['parentcontent']) > 0)) { // $data['parentcontent'] can be = '0'
             $a = get_string('parentcontent', 'mod_surveypro');
-            $errors['parentid'] = get_string('missingparentid_err', 'mod_surveypro', $a);
+            $errors['parentid'] = get_string('ierr_missingparentid', 'mod_surveypro', $a);
         }
 
         // you did not choose a parent item but you entered an answer
         if ( !empty($data['parentid']) && (strlen($data['parentcontent']) == 0) ) { // $data['parentcontent'] can be = '0'
             $a = get_string('parentid', 'mod_surveypro');
-            $errors['parentcontent'] = get_string('missingparentcontent_err', 'mod_surveypro', $a);
+            $errors['parentcontent'] = get_string('ierr_missingparentcontent', 'mod_surveypro', $a);
         }
 
         return $errors;

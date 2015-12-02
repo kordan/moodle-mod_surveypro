@@ -23,7 +23,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
-require_once($CFG->dirroot.'/mod/surveypro/forms/items/itembase_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/form/items/itembase_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/field/date/lib.php');
 
 class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
@@ -146,10 +146,10 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $lowerbound = $item->item_date_to_unix_time($data['lowerbound_year'], $data['lowerbound_month'], $data['lowerbound_day']);
         $upperbound = $item->item_date_to_unix_time($data['upperbound_year'], $data['upperbound_month'], $data['upperbound_day']);
         if ($lowerbound == $upperbound) {
-            $errors['lowerbound_group'] = get_string('lowerequaltoupper', 'surveyprofield_date');
+            $errors['lowerbound_group'] = get_string('ierr_lowerequaltoupper', 'surveyprofield_date');
         }
         if ($lowerbound > $upperbound) {
-            $errors['lowerbound_group'] = get_string('lowergreaterthanupper', 'surveyprofield_date');
+            $errors['lowerbound_group'] = get_string('ierr_lowergreaterthanupper', 'surveyprofield_date');
         }
 
         // constrain default between boundaries
@@ -158,14 +158,14 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
 
             // internal range
             if ( ($defaultvalue < $lowerbound) || ($defaultvalue > $upperbound) ) {
-                $errors['defaultvalue_group'] = get_string('outofrangedefault', 'surveyprofield_date');
+                $errors['defaultvalue_group'] = get_string('ierr_outofrangedefault', 'surveyprofield_date');
             }
         }
 
         // if (default == noanswer && the field is mandatory) => error
         if ( ($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required']) ) {
             $a = get_string('noanswer', 'mod_surveypro');
-            $errors['defaultvalue_group'] = get_string('notalloweddefault', 'mod_surveypro', $a);
+            $errors['defaultvalue_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
         }
 
         return $errors;
