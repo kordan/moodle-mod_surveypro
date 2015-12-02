@@ -108,7 +108,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // "noanswer" default option is not allowed when the item is mandatory
         if ( ($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required']) ) {
             $a = get_string('noanswer', 'mod_surveypro');
-            $errors['defaultoption_group'] = get_string('notalloweddefault', 'mod_surveypro', $a);
+            $errors['defaultoption_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
         }
 
         return $errors;

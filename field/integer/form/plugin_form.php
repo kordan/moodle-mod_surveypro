@@ -113,10 +113,10 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $lowerbound = $data['lowerbound'];
         $upperbound = $data['upperbound'];
         if ($lowerbound == $upperbound) {
-            $errors['lowerbound'] = get_string('lowerequaltoupper', 'surveyprofield_integer');
+            $errors['lowerbound'] = get_string('ierr_lowerequaltoupper', 'surveyprofield_integer');
         }
         if ($lowerbound > $upperbound) {
-            $errors['lowerbound'] = get_string('lowergreaterthanupper', 'surveyprofield_integer');
+            $errors['lowerbound'] = get_string('ierr_lowergreaterthanupper', 'surveyprofield_integer');
         }
 
         // constrain default between boundaries
@@ -125,14 +125,14 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
 
             // only internal range is allowed for integers
             if ( ($defaultvalue < $lowerbound) || ($defaultvalue > $upperbound) ) {
-                $errors['defaultvalue'] = get_string('outofrangedefault', 'surveyprofield_integer');
+                $errors['defaultvalue'] = get_string('ierr_outofrangedefault', 'surveyprofield_integer');
             }
         }
 
         // if (default == noanswer && the field is mandatory) => error
         if ( ($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required']) ) {
             $a = get_string('noanswer', 'mod_surveypro');
-            $errors['defaultvalue_group'] = get_string('notalloweddefault', 'mod_surveypro', $a);
+            $errors['defaultvalue_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
         }
 
         return $errors;

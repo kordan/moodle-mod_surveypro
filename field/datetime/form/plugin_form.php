@@ -177,10 +177,10 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $upperbound = $item->item_datetime_to_unix_time($data['upperbound_year'], $data['upperbound_month'],
                 $data['upperbound_day'], $data['upperbound_hour'], $data['upperbound_minute']);
         if ($lowerbound == $upperbound) {
-            $errors['lowerbound_group'] = get_string('lowerequaltoupper', 'surveyprofield_datetime');
+            $errors['lowerbound_group'] = get_string('ierr_lowerequaltoupper', 'surveyprofield_datetime');
         }
         if ($lowerbound > $upperbound) {
-            $errors['lowerbound_group'] = get_string('lowergreaterthanupper', 'surveyprofield_datetime');
+            $errors['lowerbound_group'] = get_string('ierr_lowergreaterthanupper', 'surveyprofield_datetime');
         }
 
         // Constraint default between boundaries.
@@ -190,14 +190,14 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
 
             // internal range
             if ( ($defaultvalue < $lowerbound) || ($defaultvalue > $upperbound) ) {
-                $errors['defaultvalue_group'] = get_string('outofrangedefault', 'surveyprofield_datetime');
+                $errors['defaultvalue_group'] = get_string('ierr_outofrangedefault', 'surveyprofield_datetime');
             }
         }
 
         // if (default == noanswer && the field is mandatory) => error
         if ( ($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required']) ) {
             $a = get_string('noanswer', 'mod_surveypro');
-            $errors['defaultvalue_group'] = get_string('notalloweddefault', 'mod_surveypro', $a);
+            $errors['defaultvalue_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
         }
 
         return $errors;
