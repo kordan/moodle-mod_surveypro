@@ -24,7 +24,6 @@
  */
 
 $string['custompattern'] = 'custom';
-$string['defaultvalue_err'] = 'The default item "{$a}" was not found among options';
 $string['defaultvalue_help'] = 'This is the value the remote user will find answered by default';
 $string['defaultvalue'] = 'Default';
 $string['free'] = 'free pattern';

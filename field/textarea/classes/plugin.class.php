@@ -403,10 +403,10 @@ EOS;
         }
 
         if ( $this->maxlength && (strlen($itemcontent) > $this->maxlength) ) {
-            $errors[$errorkey] = get_string('texttoolong', 'surveyprofield_textarea');
+            $errors[$errorkey] = get_string('uerr_texttoolong', 'surveyprofield_textarea');
         }
         if (strlen($itemcontent) < $this->minlength) {
-            $errors[$errorkey] = get_string('texttooshort', 'surveyprofield_textarea');
+            $errors[$errorkey] = get_string('uerr_texttooshort', 'surveyprofield_textarea');
         }
     }
 

@@ -23,11 +23,11 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['extensionisempty'] = 'Extension can not be empty. Probabily you typed a comma twice';
-$string['extensionmissingdot'] = 'Extension/s start with a dot';
-$string['extensiononlyonedot'] = 'Only one dot is allowed per each extension';
 $string['filetypes_help'] = 'The comma separated list of allowed file extension';
 $string['filetypes'] = 'Allowed file types (comma separated)';
+$string['ierr_extensionisempty'] = 'Extension can not be empty. Probabily you typed a comma twice';
+$string['ierr_extensionmissingdot'] = 'Extension/s start with a dot';
+$string['ierr_extensiononlyonedot'] = 'Only one dot is allowed per each extension';
 $string['maxbytes_help'] = 'Maximum size of the file to upload';
 $string['maxbytes'] = 'Maximum file size';
 $string['maxfiles_help'] = 'Maximum uploadable attachments';

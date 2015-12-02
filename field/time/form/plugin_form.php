@@ -155,21 +155,17 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $lowerbound = $item->item_time_to_unix_time($data['lowerbound_hour'], $data['lowerbound_minute']);
         $upperbound = $item->item_time_to_unix_time($data['upperbound_hour'], $data['upperbound_minute']);
         if ($lowerbound == $upperbound) {
-            $errors['lowerbound_group'] = get_string('lowerequaltoupper', 'surveyprofield_time');
+            $errors['lowerbound_group'] = get_string('ierr_lowerequaltoupper', 'surveyprofield_time');
         }
 
         // constrain default between boundaries
         if ($data['defaultoption'] == SURVEYPRO_CUSTOMDEFAULT) {
             $defaultvalue = $item->item_time_to_unix_time($data['defaultvalue_hour'], $data['defaultvalue_minute']);
 
-            if ($lowerbound == $upperbound) {
-                $errors['lowerbound_group'] = get_string('lowerequaltoupper', 'surveyprofield_time');
-            }
-
             if ($lowerbound < $upperbound) {
                 // internal range
                 if (($defaultvalue < $lowerbound) || ($defaultvalue > $upperbound)) {
-                    $errors['defaultvalue_group'] = get_string('outofrangedefault', 'surveyprofield_time');
+                    $errors['defaultvalue_group'] = get_string('ierr_outofrangedefault', 'surveyprofield_time');
                 }
             }
 
@@ -177,7 +173,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
                 // external range
                 if (($defaultvalue > $upperbound) && ($defaultvalue < $lowerbound)) {
                     $a = get_string('upperbound', 'surveyprofield_time');
-                    $errors['defaultvalue_group'] = get_string('outofexternalrangedefault', 'surveyprofield_time', $a);
+                    $errors['defaultvalue_group'] = get_string('ierr_outofexternalrangedefault', 'surveyprofield_time', $a);
                 }
             }
         }
@@ -185,7 +181,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // if (default == noanswer) but item is required => error
         if ( ($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required']) ) {
             $a = get_string('noanswer', 'mod_surveypro');
-            $errors['defaultvalue_group'] = get_string('notalloweddefault', 'mod_surveypro', $a);
+            $errors['defaultvalue_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
         }
 
         return $errors;

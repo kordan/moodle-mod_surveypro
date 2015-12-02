@@ -86,8 +86,6 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $fieldname = 'minlength';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_character'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_character');
-        $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
-        $mform->setDefault($fieldname, '0');
         $mform->setType($fieldname, PARAM_INT);
 
         // ----------------------------------------

@@ -96,17 +96,17 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $filetypes = array_map('trim', explode(',', $data['filetypes']));
         foreach ($filetypes as $filetype) {
             if (!$filetype) {
-                $errors['filetypes'] = get_string('extensionisempty', 'surveyprofield_fileupload');
+                $errors['filetypes'] = get_string('ierr_extensionisempty', 'surveyprofield_fileupload');
                 break;
             }
             if ($filetype != '*') {
                 if ($filetype[0] != '.') {
-                    $errors['filetypes'] = get_string('extensionmissingdot', 'surveyprofield_fileupload');
+                    $errors['filetypes'] = get_string('ierr_extensionmissingdot', 'surveyprofield_fileupload');
                     break;
                 }
                 $testtype = str_replace('.', '', $filetype, $count);
                 if ($count > 1) {
-                    $errors['filetypes'] = get_string('extensiononlyonedot', 'surveyprofield_fileupload');
+                    $errors['filetypes'] = get_string('ierr_extensiononlyonedot', 'surveyprofield_fileupload');
                     break;
                 }
             }

@@ -435,8 +435,10 @@ EOS;
                     $errors[$errorkey] = get_string('uerr_texttoolong', 'surveyprofield_character');
                 }
             }
-            if ($fieldlength < $this->minlength) {
-                $errors[$errorkey] = get_string('uerr_texttooshort', 'surveyprofield_character');
+            if (!empty($this->minlength)) {
+                if ($fieldlength < $this->minlength) {
+                    $errors[$errorkey] = get_string('uerr_texttooshort', 'surveyprofield_character');
+                }
             }
             if (!empty($data[$this->itemname]) && !empty($this->pattern)) {
                 switch ($this->pattern) {
@@ -484,8 +486,8 @@ EOS;
     public function userform_get_filling_instructions() {
 
         if ($this->pattern == SURVEYPROFIELD_CHARACTER_FREEPATTERN) {
-            if ($this->minlength) {
-                if ($this->maxlength) {
+            if (!empty($this->minlength)) {
+                if (!empty($this->maxlength)) {
                     $a = new stdClass();
                     $a->minlength = $this->minlength;
                     $a->maxlength = $this->maxlength;
@@ -495,7 +497,7 @@ EOS;
                     $fillinginstruction = get_string('restrictions_min', 'surveyprofield_character', $a);
                 }
             } else {
-                if ($this->maxlength) {
+                if (!empty($this->maxlength)) {
                     $a = $this->maxlength;
                     $fillinginstruction = get_string('restrictions_max', 'surveyprofield_character', $a);
                 } else {
