@@ -25,8 +25,6 @@
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/lib.php');
 
-$string['defaultvalue_err'] = 'The default item "{$a}" was not found among options';
-$string['defaultvalue_err'] = 'The default item "{$a}" was not found among options';
 $string['defaultvalue_help'] = 'This is the value the remote user will find answered by default';
 $string['defaultvalue'] = 'Default';
 $string['defaultvalue'] = 'Default';
@@ -34,16 +32,16 @@ $string['downloadformat_help'] = 'Use this option to define the format of the va
 $string['downloadformat'] = 'Download format';
 $string['heightinrows_help'] = 'The number of rows the multiselect will show';
 $string['heightinrows'] = 'Height in rows';
-$string['lowerthanminimum_more'] = 'Please select at least {$a} options';
-$string['lowerthanminimum_one'] = 'Please select at least 1 option';
-$string['minimumrequired_err'] = 'The minimum number of items to select must be lower than {$a}';
+$string['ierr_foreigndefaultvalue'] = 'The default item "{$a}" was not found among options';
+$string['ierr_minimumrequired'] = 'The minimum number of items to select must be lower than {$a}';
+$string['ierr_optionduplicated'] = 'At least one option is duplicated';
+$string['ierr_optionsduplicated'] = 'At least one option is duplicated';
+$string['ierr_optionswithseparator'] = 'Options can not contain "{$a}"';
 $string['minimumrequired_help'] = 'The minimum number of items the user is forced to choose in his/her answer';
 $string['minimumrequired'] = 'Minimum required items';
 $string['option'] = 'Option';
 $string['options_help'] = 'The list of the options for this item. You are allowed to write them as: value'.SURVEYPRO_VALUELABELSEPARATOR.'label in order to define value and label both. The label will be displayed in the element list, the value will be stored in the survey field. If you only specify one word per line (without separator), value and label will both be valued to that word.';
 $string['options'] = 'Options';
-$string['optionsduplicated_err'] = 'At least one option is duplicated';
-$string['optionswithseparator_err'] = 'Options can not contain "{$a}"';
 $string['parentformat'] = '[label<br />one more label<br />last label]';
 $string['pluginname'] = 'Multiple selection';
 $string['restrictions_minimumrequired_more'] = 'At least {$a} items have to be selected';
@@ -51,4 +49,6 @@ $string['restrictions_minimumrequired_one'] = 'At least 1 item has to be selecte
 $string['returnlabels'] = 'label of selected items';
 $string['returnposition'] = 'positional answer';
 $string['returnvalues'] = 'value of selected items';
+$string['uerr_lowerthanminimum_more'] = 'Please select at least {$a} options';
+$string['uerr_lowerthanminimum_one'] = 'Please select at least 1 option';
 $string['userfriendlypluginname'] = 'Multiple selection';

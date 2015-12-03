@@ -26,7 +26,6 @@
 $string['customdefault'] = 'Custom';
 $string['defaultoption_help'] = 'This is the value the remote user will find answered by default. The default for this type of question is mandatory.';
 $string['defaultoption'] = 'Default';
-$string['defaultvalue_err'] = 'The default item "{$a}" was not found among options';
 $string['downloadformat_help'] = 'Choose the format of the answer as it appear once user attempts are downloaded';
 $string['downloadformat'] = 'Download format';
 $string['option'] = 'Option';

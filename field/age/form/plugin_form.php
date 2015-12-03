@@ -23,7 +23,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
-require_once($CFG->dirroot.'/mod/surveypro/forms/items/itembase_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/form/items/itembase_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/field/age/lib.php');
 
 class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
@@ -127,17 +127,17 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // "noanswer" default option is not allowed when the item is mandator
         if ( ($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required']) ) {
             $a = get_string('noanswer', 'mod_surveypro');
-            $errors['defaultvalue_group'] = get_string('notalloweddefault', 'mod_surveypro', $a);
+            $errors['defaultvalue_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
         }
 
         // echo PHP_INT_SIZE;
         $lowerbound = $item->item_age_to_unix_time($data['lowerbound_year'], $data['lowerbound_month']);
         $upperbound = $item->item_age_to_unix_time($data['upperbound_year'], $data['upperbound_month']);
         if ($lowerbound == $upperbound) {
-            $errors['lowerbound_group'] = get_string('lowerequaltoupper', 'surveyprofield_age');
+            $errors['lowerbound_group'] = get_string('ierr_lowerequaltoupper', 'surveyprofield_age');
         }
         if ($lowerbound > $upperbound) {
-            $errors['lowerbound_group'] = get_string('lowergreaterthanupper', 'surveyprofield_age');
+            $errors['lowerbound_group'] = get_string('ierr_lowergreaterthanupper', 'surveyprofield_age');
         }
 
         // constrain default between boundaries
@@ -146,7 +146,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
 
             // internal range
             if ( ($defaultvalue < $lowerbound) || ($defaultvalue > $upperbound) ) {
-                $errors['defaultvalue_group'] = get_string('outofrangedefault', 'surveyprofield_age');
+                $errors['defaultvalue_group'] = get_string('ierr_outofrangedefault', 'surveyprofield_age');
             }
         }
 

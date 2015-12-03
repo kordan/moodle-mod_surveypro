@@ -23,7 +23,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
-require_once($CFG->dirroot.'/mod/surveypro/forms/items/itembase_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/form/items/itembase_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/field/multiselect/lib.php');
 
 class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
@@ -139,7 +139,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         if (!empty($data['defaultvalue'])) {
             foreach ($cleandefaultvalue as $default) {
                 if (!in_array($default, $labels)) {
-                    $errors['defaultvalue'] = get_string('defaultvalue_err', 'surveyprofield_multiselect', $default);
+                    $errors['defaultvalue'] = get_string('ierr_foreigndefaultvalue', 'surveyprofield_multiselect', $default);
                     break;
                 }
             }
@@ -152,11 +152,11 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // -----------------------------
         $arrayunique = array_unique($cleanoptions);
         if (count($cleanoptions) != count($arrayunique)) {
-            $errors['options'] = get_string('optionsduplicated_err', 'surveyprofield_multiselect');
+            $errors['options'] = get_string('ierr_optionsduplicated', 'surveyprofield_multiselect');
         }
         $arrayunique = array_unique($cleandefaultvalue);
         if (count($cleandefaultvalue) != count($arrayunique)) {
-            $errors['defaultvalue'] = get_string('defaultvalue_err', 'surveyprofield_multiselect', $default);
+            $errors['defaultvalue'] = get_string('ierr_optionduplicated', 'surveyprofield_multiselect', $default);
         }
 
         // -----------------------------
@@ -165,7 +165,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // -----------------------------
         foreach ($values as $value) {
             if (strpos($value, SURVEYPRO_DBMULTICONTENTSEPARATOR) !== false) {
-                $errors['options'] = get_string('optionswithseparator_err', 'surveyprofield_multiselect', SURVEYPRO_DBMULTICONTENTSEPARATOR);
+                $errors['options'] = get_string('ierr_optionswithseparator', 'surveyprofield_multiselect', SURVEYPRO_DBMULTICONTENTSEPARATOR);
                 break;
             }
         }
@@ -175,7 +175,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // minimumrequired has to be lower than count($cleanoptions)
         // -----------------------------
         if ($data['minimumrequired'] > count($cleanoptions) - 1) {
-            $errors['minimumrequired'] = get_string('minimumrequired_err', 'surveyprofield_multiselect', count($cleanoptions));
+            $errors['minimumrequired'] = get_string('ierr_minimumrequired', 'surveyprofield_multiselect', count($cleanoptions));
         }
 
         return $errors;

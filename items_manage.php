@@ -25,7 +25,7 @@
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/itemlist.class.php');
-require_once($CFG->dirroot.'/mod/surveypro/forms/items/selectitem_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/form/items/selectitem_form.php');
 
 $id = optional_param('id', 0, PARAM_INT); // course_module ID, or
 $s = optional_param('s', 0, PARAM_INT);  // surveypro instance ID
@@ -71,7 +71,7 @@ require_capability('mod/surveypro:manageitems', $context);
 $itemcount = $DB->count_records('surveypro_item', array('surveyproid' => $surveypro->id));
 if (!$itemcount) {
     require_once($CFG->dirroot.'/mod/surveypro/classes/mtemplate.class.php');
-    require_once($CFG->dirroot.'/mod/surveypro/forms/mtemplates/apply_form.php');
+    require_once($CFG->dirroot.'/mod/surveypro/form/mtemplates/apply_form.php');
 
     $mtemplateman = new mod_surveypro_mastertemplate($cm, $context, $surveypro);
 

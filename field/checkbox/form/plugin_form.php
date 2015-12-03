@@ -23,7 +23,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
-require_once($CFG->dirroot.'/mod/surveypro/forms/items/itembase_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/form/items/itembase_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/field/checkbox/lib.php');
 
 class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
@@ -166,7 +166,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         if (!empty($data['defaultvalue'])) {
             foreach ($cleandefaultvalue as $default) {
                 if (!in_array($default, $labels)) {
-                    $errors['defaultvalue'] = get_string('defaultvalue_err', 'surveyprofield_checkbox', $default);
+                    $errors['defaultvalue'] = get_string('ierr_foreigndefaultvalue', 'surveyprofield_checkbox', $default);
                     break;
                 }
             }
@@ -178,7 +178,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // -----------------------------
         if ( isset($data['noanswerdefault']) && ($data['minimumrequired'] > 0) ) {
             $a = get_string('noanswer', 'mod_surveypro');
-            $errors['noanswerdefault'] = get_string('notalloweddefault', 'mod_surveypro', $a);
+            $errors['noanswerdefault'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
         }
 
         // -----------------------------
@@ -188,11 +188,11 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // -----------------------------
         $arrayunique = array_unique($cleanoptions);
         if (count($cleanoptions) != count($arrayunique)) {
-            $errors['options'] = get_string('optionsduplicated_err', 'surveyprofield_checkbox');
+            $errors['options'] = get_string('ierr_optionsduplicated', 'surveyprofield_checkbox');
         }
         $arrayunique = array_unique($cleandefaultvalue);
         if (count($cleandefaultvalue) != count($arrayunique)) {
-            $errors['defaultvalue'] = get_string('defaultvalue_err', 'surveyprofield_checkbox', $default);
+            $errors['defaultvalue'] = get_string('ierr_optionduplicated', 'surveyprofield_checkbox', $default);
         }
 
         // -----------------------------
@@ -202,9 +202,9 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         foreach ($values as $value) {
             if (strpos($value, SURVEYPRO_DBMULTICONTENTSEPARATOR) !== false) {
                 if (!empty($cleanlabelother) && ($value == end($values))) { // if $value is the last
-                    $errors['labelother'] = get_string('optionswithseparator_err', 'surveyprofield_checkbox', SURVEYPRO_DBMULTICONTENTSEPARATOR);
+                    $errors['labelother'] = get_string('ierr_optionswithseparator', 'surveyprofield_checkbox', SURVEYPRO_DBMULTICONTENTSEPARATOR);
                 } else {
-                    $errors['options'] = get_string('optionswithseparator_err', 'surveyprofield_checkbox', SURVEYPRO_DBMULTICONTENTSEPARATOR);
+                    $errors['options'] = get_string('ierr_optionswithseparator', 'surveyprofield_checkbox', SURVEYPRO_DBMULTICONTENTSEPARATOR);
                 }
                 break;
             }
@@ -215,7 +215,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // minimumrequired has to be lower than count($cleanoptions)
         // -----------------------------
         if ($data['minimumrequired'] > count($cleanoptions) - 1) {
-            $errors['minimumrequired'] = get_string('minimumrequired_err', 'surveyprofield_checkbox', count($cleanoptions));
+            $errors['minimumrequired'] = get_string('ierr_minimumrequired', 'surveyprofield_checkbox', count($cleanoptions));
         }
 
         return $errors;

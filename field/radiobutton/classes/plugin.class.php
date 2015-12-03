@@ -617,7 +617,7 @@ EOS;
         $errorkey = $this->itemname.'_group';
 
         if ( ($data[$this->itemname] == 'other') && empty($data[$this->itemname.'_text']) ) {
-            $errors[$errorkey] = get_string('missingothertext', 'surveyprofield_radiobutton');
+            $errors[$errorkey] = get_string('uerr_missingothertext', 'surveyprofield_radiobutton');
             return;
         }
 

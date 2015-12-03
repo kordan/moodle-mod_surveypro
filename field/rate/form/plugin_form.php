@@ -23,7 +23,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
-require_once($CFG->dirroot.'/mod/surveypro/forms/items/itembase_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/form/items/itembase_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/field/rate/lib.php');
 
 class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
@@ -149,7 +149,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         if ($data['defaultoption'] == SURVEYPRO_CUSTOMDEFAULT) {
             // il numero dei default deve essere pari al numero delle opzioni
             if (count($cleandefaultvalue) != count($cleanoptions)) {
-                $errors['defaultvalue_group'] = get_string('defaults_wrongdefaultsnumber', 'surveyprofield_rate');
+                $errors['defaultvalue_group'] = get_string('ierr_invaliddefaultscount', 'surveyprofield_rate');
             }
 
             $values = array();
@@ -168,7 +168,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
             // values in the default field must all be hold among rates ($labels)
             foreach ($cleandefaultvalue as $default) {
                 if (!in_array($default, $labels)) {
-                    $errors['defaultvalue_group'] = get_string('default_notamongrates', 'surveyprofield_rate', $default);
+                    $errors['defaultvalue_group'] = get_string('ierr_foreigndefaultvalue', 'surveyprofield_rate', $default);
                     break;
                 }
             }
@@ -177,7 +177,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // if (default == noanswer) but item is required => error
         if ( ($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required']) ) {
             $a = get_string('noanswer', 'mod_surveypro');
-            $errors['defaultvalue_group'] = get_string('notalloweddefault', 'mod_surveypro', $a);
+            $errors['defaultvalue_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
         }
 
         // if differentrates was requested
@@ -185,13 +185,13 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         if (isset($data['differentrates'])) {
             // if I claim for different rates, I must provide a sufficient number of rates
             if (count($cleanoptions) > count($cleanrates)) {
-                $errors['rates'] = get_string('notenoughrares', 'surveyprofield_rate');
+                $errors['rates'] = get_string('ierr_notenoughrates', 'surveyprofield_rate');
             }
 
             if ($data['defaultoption'] == SURVEYPRO_CUSTOMDEFAULT) {
                 // if I claim for different rates, I have to respect the constraint in the default
                 if (count($cleandefaultvalue) > count(array_unique($cleandefaultvalue))) {
-                    $errors['defaultvalue_group'] = get_string('deafultsnotunique', 'surveyprofield_rate');
+                    $errors['defaultvalue_group'] = get_string('ierr_optionduplicated', 'surveyprofield_rate');
                 }
             }
         }

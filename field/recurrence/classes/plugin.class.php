@@ -551,7 +551,7 @@ EOS;
         }
 
         if (!$this->item_check_monthday($data[$this->itemname.'_day'], $data[$this->itemname.'_month'])) {
-            $errors[$errorkey] = get_string('incorrectrecurrence', 'surveyprofield_recurrence');
+            $errors[$errorkey] = get_string('uerr_incorrectrecurrence', 'surveyprofield_recurrence');
         }
 
         $haslowerbound = ($this->lowerbound != $this->item_recurrence_to_unix_time(1, 1));

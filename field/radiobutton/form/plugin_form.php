@@ -23,7 +23,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
-require_once($CFG->dirroot.'/mod/surveypro/forms/items/itembase_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/form/items/itembase_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/field/radiobutton/lib.php');
 
 class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
@@ -158,7 +158,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // if (default == noanswer) but item is required => error
         if ( ($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required']) ) {
             $a = get_string('noanswer', 'mod_surveypro');
-            $errors['defaultoption_group'] = get_string('notalloweddefault', 'mod_surveypro', $a);
+            $errors['defaultoption_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
         }
 
         if ($data['defaultoption'] == SURVEYPRO_CUSTOMDEFAULT) {
@@ -168,14 +168,14 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
                 // user asks for SURVEYPRO_CUSTOMDEFAULT but doesn't provide it
                 // -----------------------------
                 $a = get_string('invitedefault', 'mod_surveypro');
-                $errors['defaultoption_group'] = get_string('default_missing', 'surveyprofield_radiobutton', $a);
+                $errors['defaultoption_group'] = get_string('ierr_missingdefault', 'surveyprofield_radiobutton', $a);
             } else {
                 // -----------------------------
                 // second check
                 // each item of default has to also be among options OR has to be == to otherlabel value
                 // -----------------------------
                 if (!in_array($cleandefaultvalue, $labels)) {
-                    $errors['defaultvalue'] = get_string('defaultvalue_err', 'surveyprofield_radiobutton', $cleandefaultvalue);
+                    $errors['defaultvalue'] = get_string('ierr_foreigndefaultvalue', 'surveyprofield_radiobutton', $cleandefaultvalue);
                 }
 
                 // -----------------------------
@@ -184,7 +184,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
                 // -----------------------------
                 $arrayunique = array_unique($cleanoptions);
                 if (count($cleanoptions) != count($arrayunique)) {
-                    $errors['options'] = get_string('options_err', 'surveyprofield_radiobutton', $default);
+                    $errors['options'] = get_string('ierr_optionsduplicated', 'surveyprofield_radiobutton');
                 }
             }
         }

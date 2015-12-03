@@ -26,7 +26,6 @@
 $string['contentelement_group_help'] = 'Element building the static text';
 $string['contentelement_group'] = 'Content element';
 $string['contentselect_err'] = 'At least one element has to be not null';
-$string['contenttext_err'] = 'The requested text can be null';
 $string['courseid'] = 'course ID';
 $string['coursename'] = 'course name';
 $string['custominfo'] = 'Custom info';
@@ -38,6 +37,7 @@ $string['element04'] = 'Fourth content element';
 $string['element05'] = 'Fifth content element';
 $string['hiddenfield_help'] = 'This option allow you to hide or show this autofill element from the survey form. Selecting this checkbox the element will be added to the form as hidden field so the user will not see it.';
 $string['hiddenfield'] = 'Make hidden';
+$string['ierr_contenttext'] = 'The requested text can be null';
 $string['label'] = 'static label';
 $string['latevalue'] = 'Content will be added at response save time';
 $string['pluginname'] = 'Autofill';

@@ -26,13 +26,13 @@
 $string['customdefault'] = 'Custom';
 $string['defaultoption_help'] = 'This is the integer the remote user will find answered by default. The default for this type of question is mandatory.';
 $string['defaultoption'] = 'Default';
+$string['ierr_lowerequaltoupper'] = 'Lower and upper bounds need to be different';
+$string['ierr_lowergreaterthanupper'] = 'Lower bound must be lower than upper bound';
+$string['ierr_outofrangedefault'] = 'Default does not fall within the specified range';
 $string['lowerbound_help'] = 'The lowest integer the user is allowed to enter';
 $string['lowerbound'] = 'Lower bound';
-$string['lowerequaltoupper'] = 'Lower and upper bounds need to be different';
-$string['lowergreaterthanupper'] = 'Lower bound must be lower than upper bound';
 $string['maximuminteger_desc'] = 'The maximun integer this software will allow to ever enter';
 $string['maximuminteger'] = 'Maximum integer';
-$string['outofrangedefault'] = 'Default does not fall within the specified range';
 $string['parentformat'] = '[an integer]';
 $string['pluginname'] = 'Integer';
 $string['uerr_greaterthanmaximum'] = 'Provided value is greater than maximum allowed';

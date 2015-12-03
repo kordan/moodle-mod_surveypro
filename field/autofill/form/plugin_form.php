@@ -23,7 +23,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
-require_once($CFG->dirroot.'/mod/surveypro/forms/items/itembase_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/form/items/itembase_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/field/autofill/lib.php');
 
 class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
@@ -99,7 +99,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
             $index = sprintf('%02d', $i);
             $fieldname = 'element'.$index;
             if ( ($data[$fieldname.'_select'] == constant($constantname)) && (!$data[$fieldname.'_text']) ) {
-                $errors[$fieldname.'_group'] = get_string('contenttext_err', 'surveyprofield_autofill');
+                $errors[$fieldname.'_group'] = get_string('ierr_contenttext', 'surveyprofield_autofill');
             }
         }
 

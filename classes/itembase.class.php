@@ -371,7 +371,7 @@ class mod_surveypro_itembase {
                 $transaction->rollback($e); // rethrows exception
             }
         } else {
-            // item is already known
+            // item already exists
 
             // special care to "editors"
             if ($editors = $this->get_editorlist()) {
