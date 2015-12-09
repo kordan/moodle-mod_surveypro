@@ -39,7 +39,7 @@ require_once($CFG->dirroot.'/mod/surveypro/lib.php');
  * @return $item
  */
 function surveypro_get_item($cm, $itemid=0, $type='', $plugin='', $evaluateparentcontent=false) {
-    global $CFG, $DB, $PAGE;
+    global $CFG, $DB;
 
     if (empty($type) || empty($plugin)) {
         if (empty($itemid)) {

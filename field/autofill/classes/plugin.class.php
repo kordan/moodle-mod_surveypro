@@ -416,7 +416,7 @@ EOS;
      * @return
      */
     public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
-        global $DB, $PAGE;
+        global $DB;
 
         if ($searchform) {
             if (isset($answer['ignoreme'])) {
