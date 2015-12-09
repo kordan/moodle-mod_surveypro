@@ -84,7 +84,7 @@ $formurl = new moodle_url('/mod/surveypro/view_userform.php', $paramurl);
 // -----------------------------
 // prepare params for the form
 $formparams = new stdClass();
-$formparams->cmid = $cm->id;
+$formparams->cm = $cm; // required to call surveypro_get_item
 $formparams->surveypro = $surveypro;
 $formparams->submissionid = $submissionid;
 $formparams->firstpageright = $userformman->firstpageright;

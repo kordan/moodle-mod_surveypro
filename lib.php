@@ -856,7 +856,6 @@ function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
 function surveypro_extend_settings_navigation(settings_navigation $settings, navigation_node $surveypronode) {
     global $CFG, $PAGE, $DB;
 
-    $cm = $PAGE->cm;
     if (!$cm = $PAGE->cm) {
         return;
     }

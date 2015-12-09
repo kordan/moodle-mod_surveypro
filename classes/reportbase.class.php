@@ -32,6 +32,11 @@ class mod_surveypro_reportbase {
     public $cm = null;
 
     /**
+     * $context
+     */
+    public $context = null;
+
+    /**
      * $surveypro: the record of this surveypro
      */
     public $surveypro = null;

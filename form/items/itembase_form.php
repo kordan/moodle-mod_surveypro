@@ -41,6 +41,7 @@ class mod_surveypro_itembaseform extends moodleform {
         // ----------------------------------------
         // get _customdata
         $item = $this->_customdata->item;
+        $cm = $this->_customdata->cm;
         $surveypro = $this->_customdata->surveypro;
 
         // ----------------------------------------
@@ -259,7 +260,7 @@ class mod_surveypro_itembaseform extends moodleform {
             $select = $quickform->createElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'));
             $select->addOption(get_string('choosedots'), 0);
             foreach ($parentsseeds as $parentsseed) {
-                $parentitem = surveypro_get_item($parentsseed->id, $parentsseed->type, $parentsseed->plugin);
+                $parentitem = surveypro_get_item($cm, $parentsseed->id, $parentsseed->type, $parentsseed->plugin);
                 $star = ($parentitem->get_advanced()) ? '(*) ' : '';
 
                 // I do not need to take care of contents of items of master templates because if I am here, $parent is a standard item and not a multilang one
@@ -327,7 +328,9 @@ class mod_surveypro_itembaseform extends moodleform {
         $mform = $this->_form;
 
         // ----------------------------------------
+        // get _customdata
         $item = $this->_customdata->item;
+        // $cm = $this->_customdata->cm;
         $surveypro = $this->_customdata->surveypro;
 
         $hassubmissions = surveypro_count_submissions($surveypro->id);
@@ -360,7 +363,9 @@ class mod_surveypro_itembaseform extends moodleform {
      */
     public function validation($data, $files) {
         // ----------------------------------------
+        // get _customdata
         // $item = $this->_customdata->item;
+        // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
 
         $errors = array();

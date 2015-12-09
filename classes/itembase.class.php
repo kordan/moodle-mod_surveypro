@@ -151,7 +151,7 @@ class mod_surveypro_itembase {
      * item_load
      *
      * @param integer $itemid
-     * @param boolean $evaluateparentcontent: to spent time to include among item contents, also the 'parentcontent'
+     * @param boolean $evaluateparentcontent: include among item elements the 'parentcontent' too
      * @return
      */
     public function item_load($itemid, $evaluateparentcontent) {
@@ -174,7 +174,7 @@ class mod_surveypro_itembase {
             unset($this->id); // I do not care it. I already heave: itemid and pluginid
             $this->itemname = SURVEYPRO_ITEMPREFIX.'_'.$this->type.'_'.$this->plugin.'_'.$this->itemid;
             if ($evaluateparentcontent && $this->parentid) {
-                $parentitem = surveypro_get_item($this->parentid);
+                $parentitem = surveypro_get_item($this->cm, $this->parentid);
                 $this->parentcontent = $parentitem->parent_decode_child_parentvalue($this->parentvalue);
             }
         } else {
@@ -270,7 +270,7 @@ class mod_surveypro_itembase {
         // because of this, even if the user writes, for instance, "bread\nmilk" to parentvalue
         // I have to encode it to key(bread);key(milk)
         if (isset($record->parentid) && $record->parentid) {
-            $parentitem = surveypro_get_item($record->parentid);
+            $parentitem = surveypro_get_item($this->cm, $record->parentid);
             $record->parentvalue = $parentitem->parent_encode_child_parentcontent($record->parentcontent);
             unset($record->parentcontent);
         }
@@ -1491,7 +1491,7 @@ class mod_surveypro_itembase {
 
         $displaydebuginfo = false;
         foreach ($parentrestrictions as $parentid => $childparentvalue) {
-            $parentitem = surveypro_get_item($parentid);
+            $parentitem = surveypro_get_item($this->cm, $parentid);
             $disabilitationinfo = $parentitem->userform_get_parent_disabilitation_info($childparentvalue);
 
             if ($displaydebuginfo) {

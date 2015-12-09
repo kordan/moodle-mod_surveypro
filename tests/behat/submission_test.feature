@@ -151,12 +151,12 @@ Feature: make a submission test for each available item
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content                  | In which day and at what time do you remember it happened? |
-      | Required                 | 1                                                          |
-      | Indent                   | 0                                                          |
-      | Question position        | left                                                       |
-      | Element number           | 8                                                          |
-      | Hide filling instruction | 1                                                          |
+      | Content                  | Please, write down date and time of your last flight to Los Angeles. |
+      | Required                 | 1                                                                    |
+      | Indent                   | 0                                                                    |
+      | Question position        | left                                                                 |
+      | Element number           | 8                                                                    |
+      | Hide filling instruction | 1                                                                    |
     And I press "Add"
 
     # #############
@@ -173,12 +173,11 @@ Feature: make a submission test for each available item
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content                  | How long have you been without eating since your last meal? |
-      | Required                 | 1                                                           |
-      | Indent                   | 0                                                           |
-      | Question position        | left                                                        |
-      | Element number           | 9                                                           |
-      | Additional note          | Please specify the elapsed time in hours                    |
+      | Content                  | How many brothers/sisters do you have? |
+      | Required                 | 1                                      |
+      | Indent                   | 0                                      |
+      | Question position        | left                                   |
+      | Element number           | 9                                      |
     And I press "Add"
 
     # #############
@@ -202,15 +201,15 @@ Feature: make a submission test for each available item
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content                  | Which temperature best suit your preferences? |
-      | Required                 | 1                                             |
-      | Indent                   | 0                                             |
-      | Question position        | left                                          |
-      | Element number           | 11                                            |
-      | Hide filling instruction | 1                                             |
-      | Decimal positions        | 1                                             |
-      | Minimum value            | 10                                            |
-      | Maximum value            | 40                                            |
+      | Content                  | Write the best approximation of π you can remember |
+      | Required                 | 1                                                  |
+      | Indent                   | 0                                                  |
+      | Question position        | left                                               |
+      | Element number           | 11                                                 |
+      | Hide filling instruction | 1                                                  |
+      | Decimal positions        | 2                                                  |
+      | Minimum value            | 2                                                 |
+      | Maximum value            | 4                                                 |
     And I press "Add"
 
     # #############
@@ -245,12 +244,12 @@ Feature: make a submission test for each available item
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content        | Please order these foreign languages according to your preferences |
-      | Required       | 1                                                                  |
-      | Indent         | 0                                                                  |
-      | Element number | 13a                                                                |
+      | Content        | How confident are you with the following languages? |
+      | Required       | 1                                                   |
+      | Indent         | 0                                                   |
+      | Element number | 13a                                                 |
     And I fill the textarea "Options" with multiline content "Italian\nSpanish\nEnglish\nFrench\nGerman"
-    And I fill the textarea "Rates" with multiline content "Mother tongue\nQuite well\nNot sufficient\nCompletely unknown"
+    And I fill the textarea "Rates" with multiline content "Mother tongue\nVery confident\nNot enought\nCompletely unknown"
     And I press "Add"
 
     And I set the field "typeplugin" to "Rate"
@@ -258,13 +257,13 @@ Feature: make a submission test for each available item
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content        | Please order these foreign languages according to your preferences |
-      | Required       | 1                                                                  |
-      | Indent         | 0                                                                  |
-      | Element number | 13b                                                                |
-      | Rate style     | dropdown menu                                                      |
+      | Content        | How confident are you with the following languages? |
+      | Required       | 1                                                   |
+      | Indent         | 0                                                   |
+      | Element number | 13b                                                 |
+      | Rate style     | dropdown menu                                       |
     And I fill the textarea "Options" with multiline content "Italian\nSpanish\nEnglish\nFrench\nGerman"
-    And I fill the textarea "Rates" with multiline content "Mother tongue\nQuite well\nNot sufficient\nCompletely unknown"
+    And I fill the textarea "Rates" with multiline content "Mother tongue\nVery confident\nNot enought\nCompletely unknown"
     And I press "Add"
 
     # #############
@@ -330,9 +329,52 @@ Feature: make a submission test for each available item
       | Required                 | 1                     |
       | Indent                   | 0                     |
       | Question position        | left                  |
-      | Element number           | 17                    |
-      | Hide filling instruction | 1                     |
+      | Element number           | 17a                   |
+      | Hide filling instruction | 0                     |
       | id_pattern               | email address         |
+    And I press "Add"
+
+    And I set the field "typeplugin" to "Text (short)"
+    And I press "Add"
+
+    And I expand all fieldsets
+    And I set the following fields to these values:
+      | Content                  | Type a web address |
+      | Required                 | 1                  |
+      | Indent                   | 0                  |
+      | Question position        | left               |
+      | Element number           | 17b                |
+      | Hide filling instruction | 0                  |
+      | id_pattern               | web page URL       |
+    And I press "Add"
+
+    And I set the field "typeplugin" to "Text (short)"
+    And I press "Add"
+
+    And I expand all fieldsets
+    And I set the following fields to these values:
+      | Content                  | Enter a postal code |
+      | Required                 | 1                   |
+      | Indent                   | 0                   |
+      | Question position        | left                |
+      | Element number           | 17c                 |
+      | Hide filling instruction | 0                   |
+      | id_pattern               | custom              |
+      | id_pattern_text          | 00000               |
+    And I press "Add"
+
+    And I set the field "typeplugin" to "Text (short)"
+    And I press "Add"
+
+    And I expand all fieldsets
+    And I set the following fields to these values:
+      | Content                  | This is a free text |
+      | Required                 | 1                   |
+      | Indent                   | 0                   |
+      | Question position        | left                |
+      | Element number           | 17d                 |
+      | Hide filling instruction | 0                   |
+      | id_pattern               | free pattern        |
     And I press "Add"
 
     # #############
@@ -342,11 +384,11 @@ Feature: make a submission test for each available item
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content                  | At what time do you usually get breakfast? |
-      | Required                 | 1                                          |
-      | Indent                   | 0                                          |
-      | Element number           | 18                                         |
-      | Hide filling instruction | 1                                          |
+      | Content                  | At what time do you usually get up in the morning in the working days? |
+      | Required                 | 1                                                                      |
+      | Indent                   | 0                                                                      |
+      | Element number           | 18                                                                     |
+      | Hide filling instruction | 1                                                                      |
     And I press "Add"
 
     And I log out
@@ -382,27 +424,30 @@ Feature: make a submission test for each available item
     And I press "Next page >>"
 
     And I set the following fields to these values:
-      | 9: How long have you been without eating since your last meal? | 7                  |
-      | id_surveypro_field_multiselect_12                              | milk               |
-      | 11: Which temperature best suit your preferences?              | 25.5               |
-      | id_surveypro_field_radiobutton_14_3                            | 1                  |
-      | id_surveypro_field_rate_16_0_0                                 | 1                  |
-      | id_surveypro_field_rate_16_1_1                                 | 1                  |
-      | id_surveypro_field_rate_16_2_2                                 | 1                  |
-      | id_surveypro_field_rate_16_3_3                                 | 1                  |
-      | id_surveypro_field_rate_16_4_2                                 | 1                  |
-      | id_surveypro_field_rate_17_0                                   | Mother tongue      |
-      | id_surveypro_field_rate_17_1                                   | Quite well         |
-      | id_surveypro_field_rate_17_2                                   | Not sufficient     |
-      | id_surveypro_field_rate_17_3                                   | Completely unknown |
-      | id_surveypro_field_rate_17_4                                   | Not sufficient     |
-      | id_surveypro_field_recurrence_19_day                           | 7                  |
-      | id_surveypro_field_recurrence_19_month                         | June               |
-      | 15: Which summer holidays place do you prefer?                 | hills              |
-      | 16: Enter a short description of yourself                      | I am cool          |
-      | 17: Write down your email                                      | me@myserver.net    |
-      | id_surveypro_field_time_23_hour                                | 7                  |
-      | id_surveypro_field_time_23_minute                              | 15                 |
+      | 9: How many brothers/sisters do you have?              | 7                      |
+      | id_surveypro_field_multiselect_12                      | milk                   |
+      | 11: Write the best approximation of π you can remember | 3.14                   |
+      | id_surveypro_field_radiobutton_14_3                    | 1                      |
+      | id_surveypro_field_rate_16_0_0                         | 1                      |
+      | id_surveypro_field_rate_16_1_1                         | 1                      |
+      | id_surveypro_field_rate_16_2_2                         | 1                      |
+      | id_surveypro_field_rate_16_3_3                         | 1                      |
+      | id_surveypro_field_rate_16_4_2                         | 1                      |
+      | id_surveypro_field_rate_17_0                           | Mother tongue          |
+      | id_surveypro_field_rate_17_1                           | Very confident         |
+      | id_surveypro_field_rate_17_2                           | Not enought            |
+      | id_surveypro_field_rate_17_3                           | Completely unknown     |
+      | id_surveypro_field_rate_17_4                           | Not enought            |
+      | id_surveypro_field_recurrence_19_day                   | 7                      |
+      | id_surveypro_field_recurrence_19_month                 | June                   |
+      | 15: Which summer holidays place do you prefer?         | hills                  |
+      | 16: Enter a short description of yourself              | Super!                 |
+      | 17a: Write down your email                             | me@myserver.net        |
+      | 17b: Type a web address                                | https://www.google.com |
+      | 17c: Enter a postal code                               | 00136                  |
+      | 17d: This is a free text                               | Free text here         |
+      | id_surveypro_field_time_26_hour                        | 7                      |
+      | id_surveypro_field_time_26_minute                      | 15                     |
     And I press "Submit"
 
     And I press "Continue to responses list"

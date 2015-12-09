@@ -62,7 +62,7 @@ $formurl = new moodle_url('/mod/surveypro/view_search.php', $paramurl);
 // -----------------------------
 // prepare params for the search form
 $formparams = new stdClass();
-$formparams->cmid = $cm->id;
+$formparams->cm = $cm; // required to call surveypro_get_item
 $formparams->surveypro = $surveypro;
 $formparams->canaccessadvanceditems = $searchman->canaccessadvanceditems; // Help selecting the fields to show
 $formparams->formpage = $formpage;

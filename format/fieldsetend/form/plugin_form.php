@@ -45,6 +45,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // ----------------------------------------
         // get _customdata
         // $item = $this->_customdata->item;
+        // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
 
         $this->add_item_buttons();

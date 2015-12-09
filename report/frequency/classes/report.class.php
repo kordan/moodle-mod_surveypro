@@ -134,7 +134,7 @@ class mod_surveypro_report_frequency extends mod_surveypro_reportbase {
 
         $answers = $DB->get_recordset_sql($sql, $whereparams);
 
-        $dummyitem = surveypro_get_item($itemid);
+        $dummyitem = surveypro_get_item($this->cm, $itemid);
 
         $decimalseparator = get_string('decsep', 'langconfig');
         $counted = 0;

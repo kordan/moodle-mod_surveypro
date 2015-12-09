@@ -13,7 +13,7 @@ for PLUGIN in age autofill boolean character checkbox date datetime fileupload i
             echo '-----------------------------------------------------------------'
             echo 'Searching for: "'$WRONGPLUGIN'" in the frame of the '$PLUGIN' plugin'
             echo '-----------------------------------------------------------------'
-            grep -rnw $WRONGPLUGIN *
+            grep -rnw 'surveyprofield_'$WRONGPLUGIN *
         fi
         echo
     done
@@ -34,7 +34,7 @@ for PLUGIN in fieldset fieldsetend label pagebreak; do
             echo '-----------------------------------------------------------------'
             echo 'Searching for: "'$WRONGPLUGIN'" in the frame of the '$PLUGIN' plugin'
             echo '-----------------------------------------------------------------'
-            grep -rnw $WRONGPLUGIN *
+            grep -rnw 'surveyproformat_'$WRONGPLUGIN *
         fi
         echo
     done

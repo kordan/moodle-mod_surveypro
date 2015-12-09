@@ -124,7 +124,7 @@ class mod_surveypro_field_numeric extends mod_surveypro_itembase {
      *
      * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
-     * @param bool $evaluateparentcontent: add also 'parentcontent' among other item elements
+     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
@@ -153,7 +153,7 @@ class mod_surveypro_field_numeric extends mod_surveypro_itembase {
      * item_load
      *
      * @param $itemid
-     * @param bool $evaluateparentcontent: add also 'parentcontent' among other item elements
+     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
      * @return
      */
     public function item_load($itemid, $evaluateparentcontent) {
@@ -428,10 +428,10 @@ EOS;
             return;
         }
 
-        // if it is not a number, shouts
         if (strlen($draftuserinput)) {
             $matches = $this->item_atomize_number($draftuserinput);
             if (empty($matches)) {
+                // it is not a number, shouts
                 $errors[$errorkey] = get_string('uerr_notanumber', 'surveyprofield_numeric');
                 return;
             } else {
@@ -557,36 +557,18 @@ EOS;
             return;
         }
 
-        if (strlen($answer['mainelement']) == 0) {
-            $olduseranswer->content = SURVEYPRO_NOANSWERVALUE;
-        } else {
-            if (empty($this->decimals)) {
-                $olduseranswer->content = $answer['mainelement'];
+        if (!$searchform) {
+            if (strlen($answer['mainelement']) == 0) {
+                $olduseranswer->content = SURVEYPRO_NOANSWERVALUE;
             } else {
-                $matches = $this->item_atomize_number($answer['mainelement']);
-                $decimals = isset($matches[3]) ? $matches[3] : '';
-                if (strlen($decimals) > $this->decimals) {
-                    // round it
-                    $decimals = round((float)$decimals, $this->decimals);
-                }
-                if (strlen($decimals) < $this->decimals) {
-                    // padright
-                    $decimals = str_pad($decimals, $this->decimals, '0', STR_PAD_RIGHT);
-                }
-                if (isset($matches[2])) {
-                    // I DO ALWATYS save using english decimal separator
-                    // At load time, the number will be formatted according to user settings
-                    $olduseranswer->content = $matches[2].'.'.$decimals;
-                    if ($matches[1] == '-') {
-                        $olduseranswer->content *= -1;
-                    }
-                } else {
-                    // in the SEARCH form the remote user entered something very wrong
-                    // remember: the for search form NO VALIDATION IS PERFORMED
-                    // user is free to waste his/her time as he/she like
-                    $olduseranswer->content = $answer['mainelement'];
-                }
+                $userinput = unformat_float($answer['mainelement'], true);
+                $olduseranswer->content = round($userinput, $this->decimals);
             }
+        } else {
+            // in the SEARCH form the remote user entered something very wrong
+            // remember: in the search form NO VALIDATION IS PERFORMED
+            // user is free to waste his/her time as he/she likes
+            $olduseranswer->content = $answer['mainelement'];
         }
     }
 

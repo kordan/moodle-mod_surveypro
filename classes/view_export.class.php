@@ -519,7 +519,7 @@ class mod_surveypro_exportmanager {
         if (isset($content)) {
             $plugin = $richsubmission->plugin;
             $itemid = $richsubmission->itemid;
-            $item = surveypro_get_item($itemid, SURVEYPRO_TYPEFIELD, $plugin);
+            $item = surveypro_get_item($this->cm, $itemid, SURVEYPRO_TYPEFIELD, $plugin);
 
             $return = $item->userform_db_to_export($richsubmission);
         } else {

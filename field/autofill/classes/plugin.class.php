@@ -129,7 +129,7 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
      *
      * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
-     * @param bool $evaluateparentcontent: add also 'parentcontent' among other item elements
+     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
@@ -149,7 +149,6 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
         // list of fields I do not want to have in the item definition form
         $this->isinitemform['required'] = false;
         $this->isinitemform['hideinstructions'] = false;
-        $this->isinitemform['parentid'] = false;
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $evaluateparentcontent);
@@ -160,7 +159,7 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
      * item_load
      *
      * @param $itemid
-     * @param bool $evaluateparentcontent: add also 'parentcontent' among other item elements
+     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
      * @return
      */
     public function item_load($itemid, $evaluateparentcontent) {
@@ -434,9 +433,8 @@ EOS;
         }
 
         // get the original user actually making the first submission
-        $surveyproid = $PAGE->cm->instance;
-        $userid = $DB->get_field('surveypro_submission', 'userid', array('id' => $olduseranswer->submissionid, 'surveyproid' => $surveyproid), IGNORE_MULTIPLE);
-        $user = $DB->get_record('user', array('id' => $userid));
+        // $userid = $DB->get_field('surveypro_submission', 'userid', array('id' => $olduseranswer->submissionid), IGNORE_MULTIPLE);
+        // $user = $DB->get_record('user', array('id' => $userid));
 
         $olduseranswer->content = $this->userform_get_content($olduseranswer->submissionid);
     }
@@ -469,17 +467,14 @@ EOS;
      * @return
      */
     public function userform_get_content($submissionid) {
-        global $USER, $COURSE, $DB, $PAGE;
-
-        $surveyproid = $PAGE->cm->instance;
-        $surveypro = $DB->get_record('surveypro', array('id' => $surveyproid));
+        global $COURSE, $DB, $USER;
 
         if ($submissionid) {
-            $userid = $DB->get_field('surveypro_submission', 'userid', array('id' => $submissionid, 'surveyproid' => $surveypro->id), IGNORE_MULTIPLE);
-            $user = $DB->get_record('user', array('id' => $userid));
-
-            $submission = $DB->get_record('surveypro_submission', array('id' => $submissionid));
+            $submission = $DB->get_record('surveypro_submission', array('id' => $submissionid), '*', MUST_EXIST);
+            $surveypro = $DB->get_record('surveypro', array('id' => $submission->surveyproid), '*', MUST_EXIST);
+            $user = $DB->get_record('user', array('id' => $submission->userid));
         } else {
+            $surveypro = $DB->get_record('surveypro', array('id' => $this->cm->instance), '*', MUST_EXIST);
             $user = $USER;
         }
 
@@ -490,10 +485,10 @@ EOS;
                 switch ($this->{'element'.$index}) {
                     case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT01: // submissionid
                         if ($submissionid) {
-                            $label = $submission->id;
+                            $label .= $submission->id;
                         } else {
                             // if during string build you find a element that can not be valued now,
-                            // overwrite $label, break switch and continue in the for
+                            // overwrite $label, break switch and continue both
                             $label = get_string('latevalue', 'surveyprofield_autofill');
                             break 2; // it is the first time I use it! Coooool :-)
                         }
@@ -502,10 +497,10 @@ EOS;
                         if ($submissionid) {
                             // $format = get_string('strftimetime', 'langconfig');
                             $format = get_string('strftimedaytime', 'langconfig');
-                            $label = userdate($submission->timecreated, $format);
+                            $label .= userdate($submission->timecreated, $format);
                         } else {
                             // if during string build you find a element that can not be valued now,
-                            // overwrite $label, break switch and continue in the for
+                            // overwrite $label, break switch and continue both
                             $label = get_string('latevalue', 'surveyprofield_autofill');
                             break 2; // it is the first time I use it! Coooool :-)
                         }
@@ -514,10 +509,10 @@ EOS;
                         if ($submissionid) {
                             // $format = get_string('strftimedatefullshort', 'langconfig');
                             $format = get_string('strftimedate', 'langconfig');
-                            $label = userdate($submission->timecreated, $format);
+                            $label .= userdate($submission->timecreated, $format);
                         } else {
                             // if during string build you find a element that can not be valued now,
-                            // overwrite $label, break switch and continue in the for
+                            // overwrite $label, break switch and continue both
                             $label = get_string('latevalue', 'surveyprofield_autofill');
                             break 2; // it is the first time I use it! Coooool :-)
                         }
@@ -526,10 +521,10 @@ EOS;
                         if ($submissionid) {
                             // $format = get_string('strftimedatetimeshort', 'langconfig');
                             $format = get_string('strftimedatetime', 'langconfig');
-                            $label = userdate($submission->timecreated, $format);
+                            $label .= userdate($submission->timecreated, $format);
                         } else {
                             // if during string build you find a element that can not be valued now,
-                            // overwrite $label, break switch and continue in the for
+                            // overwrite $label, break switch and continue both
                             $label = get_string('latevalue', 'surveyprofield_autofill');
                             break 2; // it is the first time I use it! Coooool :-)
                         }
@@ -569,7 +564,7 @@ EOS;
                     case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT14: // coursename
                         $label .= $COURSE->name;
                         break;
-                    default:                                    // label
+                    default:                                       // label
                         $label .= $this->{'element'.$index};
                 }
             }

@@ -695,7 +695,7 @@ class mod_surveypro_userformmanager {
             $useranswer->timecreated = time();
             $useranswer->verified = ($prevbutton || $pausebutton) ? 0 : 1;
 
-            $item = surveypro_get_item($iteminfo->itemid, $iteminfo->type, $iteminfo->plugin);
+            $item = surveypro_get_item($this->cm, $iteminfo->itemid, $iteminfo->type, $iteminfo->plugin);
 
             // In this method I only update $useranswer->content
             // I do not really save to database
@@ -832,7 +832,7 @@ class mod_surveypro_userformmanager {
                     $this->finalresponseevaluation = SURVEYPRO_MISSINGMANDATORY;
                     break;
                 } else {
-                    $parentitem = surveypro_get_item($itemseed->parentid);
+                    $parentitem = surveypro_get_item($this->cm, $itemseed->parentid);
                     if ($parentitem->userform_child_item_allowed_static($this->submissionid, $itemseed)) {
                         // parent is here but it allows this item as child in this submission. Answer was jumped.
                         // TAKE CARE: this check is valid for chains of parent-child relations too.
@@ -1029,6 +1029,7 @@ class mod_surveypro_userformmanager {
 
         $continueurl = new moodle_url('/course/view.php', array('id' => $COURSE->id));
         echo $OUTPUT->continue_button($continueurl);
+
         echo $OUTPUT->footer();
         die();
     }
@@ -1274,7 +1275,7 @@ class mod_surveypro_userformmanager {
             list($sql, $whereparams) = surveypro_fetch_items_seeds($this->surveypro->id, $this->canaccessadvanceditems, false, SURVEYPRO_TYPEFIELD, $this->formpage);
             if ($itemseeds = $DB->get_recordset_sql($sql, $whereparams)) {
                 foreach ($itemseeds as $itemseed) {
-                    $item = surveypro_get_item($itemseed->id, $itemseed->type, $itemseed->plugin);
+                    $item = surveypro_get_item($this->cm, $itemseed->id, $itemseed->type, $itemseed->plugin);
 
                     $olduserdata = $DB->get_record('surveypro_answer', array('submissionid' => $this->submissionid, 'itemid' => $item->get_itemid()));
                     $singleprefill = $item->userform_set_prefill($olduserdata);
@@ -1318,7 +1319,7 @@ class mod_surveypro_userformmanager {
             // let's start
             $olditemid = $itemid;
 
-            $childitem = surveypro_get_item($itemid, $type, $plugin);
+            $childitem = surveypro_get_item($this->cm, $itemid, $type, $plugin);
 
             if (empty($childitem->parentid)) {
                 continue;
@@ -1331,7 +1332,7 @@ class mod_surveypro_userformmanager {
             }
 
             // call parentitem
-            $parentitem = surveypro_get_item($childitem->parentid);
+            $parentitem = surveypro_get_item($this->cm, $childitem->parentid);
 
             $parentinsamepage = false;
             foreach ($indexes as $itemname) {

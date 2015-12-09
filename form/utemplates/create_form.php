@@ -123,6 +123,7 @@ class mod_surveypro_utemplatecreateform extends moodleform {
         // $mform = $this->_form;
 
         // ----------------------------------------
+        // get _customdata
         $cmid = $this->_customdata->cmid;
         $surveypro = $this->_customdata->surveypro;
         $utemplateman = $this->_customdata->utemplateman;
