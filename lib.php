@@ -598,26 +598,37 @@ function surveypro_cron() {
 
     // delete too old submissions from surveypro_answer and surveypro_submission
 
-    $permission = array(0, 1);
-    // permission == 0:  saveresume is not allowed
+    $saveresumestatus = array(0, 1);
+    // saveresumestatus == 0:  saveresume is not allowed
     //     users leaved records in progress more than four hours ago...
     //     I can not believe they are still working on them so
     //     I delete records now
-    // permission == 1:  saveresume is allowed
+    // saveresumestatus == 1:  saveresume is allowed
     //     these records are older than maximum allowed time delay
     $maxinputdelay = get_config('mod_surveypro', 'maxinputdelay');
-    foreach ($permission as $saveresume) {
+    foreach ($saveresumestatus as $saveresume) {
         if (($saveresume == 1) && ($maxinputdelay == 0)) { // maxinputdelay == 0 means, please don't delete
             continue;
         }
         if ($surveypros = $DB->get_records('surveypro', array('saveresume' => $saveresume), null, 'id')) {
-            $where = 'surveyproid IN ('.implode(',', array_keys($surveypros)).') AND status = :status AND timecreated < :sofar';
             $sofar = ($saveresume == 0) ? (4 * 3600) : ($maxinputdelay * 3600);
             $sofar = time() - $sofar;
+            $where = 'surveyproid IN ('.implode(',', array_keys($surveypros)).') AND status = :status AND timecreated < :sofar';
             $whereparams = array('status' => SURVEYPRO_STATUSINPROGRESS, 'sofar' => $sofar);
             if ($submissionidlist = $DB->get_fieldset_select('surveypro_submission', 'id', $where, $whereparams)) {
+                $surveyproidlist = $DB->get_fieldset_select('surveypro_submission', 'DISTINCT(surveyproid)', $where, $whereparams);
+
                 $DB->delete_records_list('surveypro_answer', 'submissionid', $submissionidlist);
                 $DB->delete_records_list('surveypro_submission', 'id', $submissionidlist);
+
+                foreach ($surveyproidlist as $surveyproid) {
+                    $cm = get_coursemodule_from_instance('surveypro', $surveyproid, 0, false, MUST_EXIST);
+                    $context = context_module::instance($cm->id);
+                    $eventdata = array('context' => $context, 'objectid' => $surveyproid);
+                    $eventdata['other'] = array('cover' => 0);
+                    $event = \mod_surveypro\event\unattended_submissions_deleted::create($eventdata);
+                    $event->trigger();
+                }
             }
         }
     }
