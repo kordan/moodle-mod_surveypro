@@ -49,19 +49,11 @@ function surveypro_get_item($cm, $itemid=0, $type='', $plugin='', $evaluateparen
         }
 
         $itemseed = $DB->get_record('surveypro_item', array('id' => $itemid), 'surveyproid, type, plugin', MUST_EXIST);
-        if ($cm->instanceid != $itemseed->surveyproid) {
-            $message = 'Mismatch between passed itemid ('.$itemid.') and corresponding cm->instanceid ('.$cm->instanceid.')';
-            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-        }
         $type = $itemseed->type;
         $plugin = $itemseed->plugin;
     } else {
         if (!empty($itemid)) {
             $itemseed = $DB->get_record('surveypro_item', array('id' => $itemid), 'surveyproid, type, plugin', MUST_EXIST);
-            if ($cm->instanceid != $itemseed->surveyproid) {
-                $message = 'Mismatch between passed itemid ('.$itemid.') and corresponding cm->instanceid ('.$cm->instanceid.')';
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-            }
             if ($type != $itemseed->type) {
                 $message = 'Mismatch between passed type ('.$type.') and found type ('.$itemseed->type.')';
                 debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
@@ -71,6 +63,11 @@ function surveypro_get_item($cm, $itemid=0, $type='', $plugin='', $evaluateparen
                 debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
             }
         }
+    }
+
+    if ($cm->instance != $itemseed->surveyproid) {
+        $message = 'Mismatch between passed itemid ('.$itemid.') and corresponding cm->instanceid ('.$cm->instanceid.')';
+        debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
     }
 
     require_once($CFG->dirroot.'/mod/surveypro/'.$type.'/'.$plugin.'/classes/plugin.class.php');
