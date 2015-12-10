@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * mod_surveypro mastertemplate saved event.
+ * mod_surveypro submission deleted event.
  *
  * @package    mod_surveypro
  * @copyright  2013 onwards kordan <kordan@mclink.it>
@@ -26,14 +26,14 @@ namespace mod_surveypro\event;
 
 defined('MOODLE_INTERNAL') || die();
 
-class mastertemplate_saved extends \core\event\base {
+class unattended_submissions_deleted extends \core\event\base {
     /**
      * Set basic properties for the event.
      */
     protected function init() {
-        $this->data['crud'] = 'c'; // c(reate), r(ead), u(pdate), d(elete)
-        $this->data['edulevel'] = self::LEVEL_OTHER;
-        $this->data['objecttable'] = 'surveypro';
+        $this->data['crud'] = 'd'; // c(reate), r(ead), u(pdate), d(elete)
+        $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
+        $this->data['objecttable'] = 'surveypro_submission';
     }
 
     /**
@@ -42,7 +42,7 @@ class mastertemplate_saved extends \core\event\base {
      * @return string
      */
     public static function get_name() {
-        return get_string('event_mastertemplate_saved', 'mod_surveypro');
+        return get_string('event_unattended_submissions_deleted', 'mod_surveypro');
     }
 
     /**
@@ -51,7 +51,7 @@ class mastertemplate_saved extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "User with id '{$this->userid}' has saved the master template '{$this->other['templatename']}'.";
+        return "Periodic check detected and deleted unattended submissions";
     }
 
     /**
@@ -60,7 +60,10 @@ class mastertemplate_saved extends \core\event\base {
      * @return \moodle_url
      */
     public function get_url() {
-        return new \moodle_url('/mod/surveypro/mtemplates_create.php', array('id' => $this->contextinstanceid));
+        $paramurl = array();
+        $paramurl['id'] = $this->contextinstanceid;
+        $paramurl['cover'] = $this->other['cover'];
+        return new \moodle_url('/mod/surveypro/view.php', $paramurl);
     }
 
     /**
@@ -70,7 +73,7 @@ class mastertemplate_saved extends \core\event\base {
      */
     public function get_legacy_logdata() {
         // Override if you are migrating an add_to_log() call.
-        return array($this->courseid, 'surveypro', 'mastertemplate saved',
+        return array($this->courseid, 'surveypro', 'unattended submission deleted',
             $this->get_url(), $this->objectid, $this->contextinstanceid);
     }
 
@@ -105,8 +108,8 @@ class mastertemplate_saved extends \core\event\base {
      * @return none
      */
     protected function validate_data() {
-        if (!isset($this->other['templatename'])) {
-            throw new \coding_exception('templatename is a mandatory property.');
+        if (!isset($this->other['cover'])) {
+            throw new \coding_exception('cover is a mandatory property.');
         }
     }
 }
