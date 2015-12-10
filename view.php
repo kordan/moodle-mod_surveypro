@@ -82,7 +82,7 @@ if ($cover === null) {
             $redirecturl = new moodle_url('/mod/surveypro/view_cover.php', $paramurl);
             redirect($redirecturl);
             // } else {
-            // if (!$submissionman->hasitems) { just below will stop execution
+            // if (!$submissionman->hasitems) { just below execution is stopped
         }
     }
 }

@@ -206,7 +206,8 @@ class mod_surveypro_itemlist {
                 $this->manage_item_makestandard();
                 break;
             default:
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->action = '.$this->action, DEBUG_DEVELOPER);
+                $message = 'Unexpected $this->action = '.$this->action;
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
     }
 
@@ -772,7 +773,8 @@ class mod_surveypro_itemlist {
                     echo $OUTPUT->notification($message, 'notifymessage');
                     break;
                 default:
-                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->confirm = '.$this->confirm, DEBUG_DEVELOPER);
+                    $message = 'Unexpected $this->confirm = '.$this->confirm;
+                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
             }
         }
 
@@ -838,7 +840,8 @@ class mod_surveypro_itemlist {
                     echo $OUTPUT->notification($message, 'notifymessage');
                     break;
                 default:
-                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->confirm = '.$this->confirm, DEBUG_DEVELOPER);
+                    $message = 'Unexpected $this->confirm = '.$this->confirm;
+                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
             }
         }
 
@@ -911,7 +914,8 @@ class mod_surveypro_itemlist {
                     echo $OUTPUT->notification($message, 'notifymessage');
                     break;
                 default:
-                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->confirm = '.$this->confirm, DEBUG_DEVELOPER);
+                    $message = 'Unexpected $this->confirm = '.$this->confirm;
+                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
             }
         }
 
@@ -977,7 +981,8 @@ class mod_surveypro_itemlist {
                     echo $OUTPUT->notification($message, 'notifymessage');
                     break;
                 default:
-                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->confirm = '.$this->confirm, DEBUG_DEVELOPER);
+                    $message = 'Unexpected $this->confirm = '.$this->confirm;
+                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
             }
         }
 
@@ -1081,7 +1086,8 @@ class mod_surveypro_itemlist {
                     echo $OUTPUT->notification($message, 'notifymessage');
                     break;
                 default:
-                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->confirm = '.$this->confirm, DEBUG_DEVELOPER);
+                    $message = 'Unexpected $this->confirm = '.$this->confirm;
+                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
             }
         }
     }
@@ -1165,7 +1171,8 @@ class mod_surveypro_itemlist {
                     redirect($returnurl);
                     break;
                 default:
-                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->confirm = '.$this->confirm, DEBUG_DEVELOPER);
+                    $message = 'Unexpected $this->confirm = '.$this->confirm;
+                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
             }
         }
     }
@@ -1519,7 +1526,8 @@ class mod_surveypro_itemlist {
             $this->type = $match[1]; // field or format
             $this->plugin = $match[2]; // boolean or char ... or fieldset ...
         } else {
-            debugging('Malformed typeplugin parameter passed to set_typeplugin', DEBUG_DEVELOPER);
+            $message = 'Malformed typeplugin parameter passed to set_typeplugin';
+            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
     }
 

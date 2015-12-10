@@ -414,32 +414,32 @@ EOS;
 
         if ($this->style == SURVEYPROFIELD_RATE_USERADIO) {
             foreach ($options as $k => $option) {
-                $paramelement = array('class' => 'indent-'.$this->indent);
+                $attributes = array('class' => 'indent-'.$this->indent);
                 $uniquename = $this->itemname.'_'.$k;
                 $elementgroup = array();
                 foreach ($rates as $j => $rate) {
-                    $paramelement['id'] = $idprefix.'_'.$k.'_'.$j;
-                    $elementgroup[] = $mform->createElement('mod_surveypro_radio', $uniquename, '', $rate, $j, $paramelement);
-                    unset($paramelement['class']);
+                    $attributes['id'] = $idprefix.'_'.$k.'_'.$j;
+                    $elementgroup[] = $mform->createElement('mod_surveypro_radio', $uniquename, '', $rate, $j, $attributes);
+                    unset($attributes['class']);
                 }
                 $mform->addGroup($elementgroup, $uniquename.'_group', $option, ' ', false);
                 $this->item_add_color_unifier($mform, $k, $optioncount);
             }
         }
 
-        $paramelement = array('class' => 'indent-'.$this->indent);
+        $attributes = array('class' => 'indent-'.$this->indent);
         if ($this->style == SURVEYPROFIELD_RATE_USESELECT) {
             foreach ($options as $k => $option) {
                 $uniquename = $this->itemname.'_'.$k;
-                $paramelement['id'] = $idprefix.'_'.$k;
-                $mform->addElement('mod_surveypro_select', $uniquename, $option, $rates, $paramelement);
+                $attributes['id'] = $idprefix.'_'.$k;
+                $mform->addElement('mod_surveypro_select', $uniquename, $option, $rates, $attributes);
                 $this->item_add_color_unifier($mform, $k, $optioncount);
             }
         }
 
         if (!$this->required) { // This is the last if it exists
-            $paramelement['id'] = $idprefix.'_noanswer';
-            $mform->addElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'mod_surveypro'), $paramelement);
+            $attributes['id'] = $idprefix.'_noanswer';
+            $mform->addElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'mod_surveypro'), $attributes);
         }
 
         if ($this->required) {
@@ -485,7 +485,8 @@ EOS;
                 $mform->setDefault($uniquename, SURVEYPRO_NOANSWERVALUE);
                 break;
             default:
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->defaultoption = '.$this->defaultoption, DEBUG_DEVELOPER);
+                $message = 'Unexpected $this->defaultoption = '.$this->defaultoption;
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
     }
 
@@ -688,7 +689,8 @@ EOS;
                 $return = $content;
                 break;
             default:
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $format = '.$format, DEBUG_DEVELOPER);
+                $message = 'Unexpected $format = '.$format;
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
 
         return $return;

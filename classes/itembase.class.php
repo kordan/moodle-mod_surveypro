@@ -178,7 +178,8 @@ class mod_surveypro_itembase {
                 $this->parentcontent = $parentitem->parent_decode_child_parentvalue($this->parentvalue);
             }
         } else {
-            debugging('Something was wrong at line '.__LINE__.' of file '.__FILE__.'!<br />I can not find the surveypro item ID = '.$itemid.' using:<br />'.$sql, DEBUG_DEVELOPER);
+            $message = 'I can not find surveypro item ID = '.$itemid;
+            debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
     }
 

@@ -434,8 +434,10 @@ EOS;
 
         // mform element
         $elementgroup = array();
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_month', '', $months, array('id' => $idprefix.'_month', 'class' => 'indent-'.$this->indent));
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_year', '', $years, array('id' => $idprefix.'_year'));
+        $attributes = array('id' => $idprefix.'_month', 'class' => 'indent-'.$this->indent);
+        $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_month', '', $months, $attributes);
+        $attributes = array('id' => $idprefix.'_year');
+        $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_year', '', $years, $attributes);
 
         if ($this->required) {
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
@@ -449,7 +451,8 @@ EOS;
                 $mform->_required[] = $starplace;
             }
         } else {
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'mod_surveypro'), array('id' => $idprefix.'_noanswer'));
+            $attributes = array('id' => $idprefix.'_noanswer');
+            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'mod_surveypro'), $attributes);
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
         }
@@ -483,7 +486,8 @@ EOS;
                         }
                         break;
                     default:
-                        debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->defaultoption = '.$this->defaultoption, DEBUG_DEVELOPER);
+                        $message = 'Unexpected $this->defaultoption = '.$this->defaultoption;
+                        debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
                 }
                 $mform->setDefault($this->itemname.'_month', $shortdatearray['mon']);
                 $mform->setDefault($this->itemname.'_year', $shortdatearray['year']);
