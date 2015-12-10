@@ -247,7 +247,8 @@ class mod_surveypro_submissionmanager {
                 $this->manage_all_submission_deletion();
                 break;
             default:
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->action = '.$this->action, DEBUG_DEVELOPER);
+                $message = 'Unexpected $this->action = '.$this->action;
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
     }
 
@@ -337,7 +338,8 @@ class mod_surveypro_submissionmanager {
                     echo $OUTPUT->notification($message, 'notifymessage');
                     break;
                 default:
-                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->confirm = '.$this->confirm, DEBUG_DEVELOPER);
+                    $message = 'Unexpected $this->confirm = '.$this->confirm;
+                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
             }
         }
     }
@@ -419,7 +421,8 @@ class mod_surveypro_submissionmanager {
                     echo $OUTPUT->notification($message, 'notifymessage');
                     break;
                 default:
-                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->confirm = '.$this->confirm, DEBUG_DEVELOPER);
+                    $message = 'Unexpected $this->confirm = '.$this->confirm;
+                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
             }
         }
     }
@@ -571,7 +574,9 @@ class mod_surveypro_submissionmanager {
             } else {
                 $sql .= '  AND s.userid = :userid';
                 $whereparams['userid'] = $USER->id;
-                debugging('Activity is divided into SEPARATE groups BUT you do not belong to anyone of them', DEBUG_DEVELOPER);
+
+                $message = 'Activity is divided into SEPARATE groups BUT you do not belong to anyone of them';
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
 
                 return array($sql, $whereparams);
             }
@@ -920,7 +925,8 @@ class mod_surveypro_submissionmanager {
                             $closedusers[] = $submission->userid;
                             break;
                         default:
-                            debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $submission->status = '.$submission->status, DEBUG_DEVELOPER);
+                            $message = 'Unexpected $submission->status = '.$submission->status;
+                            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
                     }
                 }
                 $this->show_submissions_info($inprogresssubmission, $inprogressusers, $closedsubmission, $closedusers);

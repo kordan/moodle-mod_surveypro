@@ -352,7 +352,8 @@ class mod_surveypro_importmanager {
                             $itemoptions[$col] = count($item->item_get_content_array(SURVEYPRO_LABELS, 'options'));
                             break;
                         default:
-                            debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->formdata->csvsemantic = '.$this->formdata->csvsemantic, DEBUG_DEVELOPER);
+                            $message = 'Unexpected $itemdownloadformat = '.$itemdownloadformat;
+                            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
                     }
                     continue;
                 }
@@ -698,11 +699,13 @@ class mod_surveypro_importmanager {
                                             $a->semantic = get_string('answerposition', 'mod_surveypro');
                                             break;
                                         default:
-                                            debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $itemdownloadformat = '.$itemdownloadformat, DEBUG_DEVELOPER);
+                                            $message = 'Unexpected $itemdownloadformat = '.$itemdownloadformat;
+                                            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
                                     }
                                     break;
                                 default:
-                                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->formdata->csvsemantic = '.$this->formdata->csvsemantic, DEBUG_DEVELOPER);
+                                    $message = 'Unexpected $this->formdata->csvsemantic = '.$this->formdata->csvsemantic;
+                                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
                             }
                             print_error('import_missingsemantic', 'mod_surveypro', $returnurl, $a);
                         }

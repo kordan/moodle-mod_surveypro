@@ -185,7 +185,8 @@ class mod_surveypro_userformmanager {
      */
     public function set_formpage($formpage) {
         if ($this->view === null) {
-            debugging('Please call set_view method of the class mod_surveypro_userformmanager before calling set_formpage', DEBUG_DEVELOPER);
+            $message = 'Please call set_view method of the class mod_surveypro_userformmanager before calling set_formpage';
+            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
 
         // calculare $this->firstpageright
@@ -343,7 +344,8 @@ class mod_surveypro_userformmanager {
                 $this->modulepage = SURVEYPRO_SUBMISSION_READONLY; // needed by tabs.php
                 break;
             default:
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->view = '.$this->view, DEBUG_DEVELOPER);
+                $message = 'Unexpected $this->view = '.$this->view;
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
     }
 
@@ -1514,7 +1516,8 @@ class mod_surveypro_userformmanager {
                 $event->trigger();
                 break;
             default:
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $view = '.$view, DEBUG_DEVELOPER);
+                $message = 'Unexpected $view = '.$view;
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
     }
 }

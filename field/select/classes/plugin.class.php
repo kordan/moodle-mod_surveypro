@@ -546,7 +546,8 @@ EOS;
                     $mform->setDefault($this->itemname, SURVEYPRO_NOANSWERVALUE);
                     break;
                 default:
-                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->defaultoption = '.$this->defaultoption, DEBUG_DEVELOPER);
+                    $message = 'Unexpected $this->defaultoption = '.$this->defaultoption;
+                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
             }
         } else {
             $mform->setDefault($this->itemname, SURVEYPRO_IGNOREMEVALUE);
@@ -785,7 +786,8 @@ EOS;
                 $return = $content;
                 break;
             default:
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $format = '.$format, DEBUG_DEVELOPER);
+                $message = 'Unexpected $format = '.$format;
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
 
         return $return;

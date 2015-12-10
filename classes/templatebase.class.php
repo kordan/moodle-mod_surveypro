@@ -386,7 +386,8 @@ class mod_surveypro_templatebase {
                 // END: delete other items
                 break;
             default:
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->formdata->action = '.$this->formdata->action, DEBUG_DEVELOPER);
+                $message = 'Unexpected $action = '.$action;
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
 
         if ($this->templatetype == SURVEYPRO_USERTEMPLATE) {

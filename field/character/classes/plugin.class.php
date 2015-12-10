@@ -361,19 +361,19 @@ EOS;
 
         $thresholdsize = 37;
         $lengthtochar = 1.3;
-        $paramelement = array('class' => 'indent-'.$this->indent, 'id' => $idprefix);
+        $attributes = array('class' => 'indent-'.$this->indent, 'id' => $idprefix);
         if (!empty($this->maxlength)) {
-            $paramelement['maxlength'] = $this->maxlength;
+            $attributes['maxlength'] = $this->maxlength;
             if ($this->maxlength < $thresholdsize) {
-                $paramelement['size'] = $this->maxlength * $lengthtochar;
+                $attributes['size'] = $this->maxlength * $lengthtochar;
             } else {
-                $paramelement['size'] = $thresholdsize * $lengthtochar;
+                $attributes['size'] = $thresholdsize * $lengthtochar;
             }
         } else {
-            $paramelement['size'] = $thresholdsize * $lengthtochar;
+            $attributes['size'] = $thresholdsize * $lengthtochar;
         }
         if (!$searchform) {
-            $mform->addElement('text', $this->itemname, $elementlabel, $paramelement);
+            $mform->addElement('text', $this->itemname, $elementlabel, $attributes);
             $mform->setType($this->itemname, PARAM_RAW);
             $mform->setDefault($this->itemname, $this->defaultvalue);
 
@@ -387,12 +387,12 @@ EOS;
             }
         } else {
             $elementgroup = array();
-            $paramelement['id'] = $idprefix.'_text';
-            $elementgroup[] = $mform->createElement('text', $this->itemname, '', $paramelement);
+            $attributes['id'] = $idprefix.'_text';
+            $elementgroup[] = $mform->createElement('text', $this->itemname, '', $attributes);
 
-            unset($paramelement['class']);
-            $paramelement['id'] = $idprefix.'_ignoreme';
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'mod_surveypro'), $paramelement);
+            unset($attributes['class']);
+            $attributes['id'] = $idprefix.'_ignoreme';
+            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'mod_surveypro'), $attributes);
             $mform->setType($this->itemname, PARAM_RAW);
 
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
@@ -470,7 +470,8 @@ EOS;
                         }
                         break;
                     default:
-                        debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->pattern = '.$this->pattern, DEBUG_DEVELOPER);
+                        $message = 'Unexpected $this->pattern = '.$this->pattern;
+                        debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
                 }
             }
         }

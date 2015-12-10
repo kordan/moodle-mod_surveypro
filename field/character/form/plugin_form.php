@@ -168,7 +168,8 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
                     }
                     break;
                 default:
-                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $data[\'pattern\'] = '.$data['pattern'], DEBUG_DEVELOPER);
+                    $message = 'Unexpected $data[\'pattern\'] = '.$data['pattern'];
+                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
             }
         }
 

@@ -43,7 +43,8 @@ function surveypro_get_item($cm, $itemid=0, $type='', $plugin='', $evaluateparen
 
     if (empty($type) || empty($plugin)) {
         if (empty($itemid)) {
-            debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected empty($itemid)', DEBUG_DEVELOPER);
+            $message = 'Unexpected empty($itemid)';
+            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
         $itemseed = $DB->get_record('surveypro_item', array('id' => $itemid), 'type, plugin', MUST_EXIST);
         $type = $itemseed->type;

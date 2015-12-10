@@ -252,7 +252,8 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
                 $record->defaultvalue = SURVEYPRO_INVITEDBVALUE;
                 break;
             default:
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $record->defaultoption = '.$record->defaultoption, DEBUG_DEVELOPER);
+                $message = 'Unexpected $record->defaultoption = '.$record->defaultoption;
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
         unset($record->defaultvalue);
     }

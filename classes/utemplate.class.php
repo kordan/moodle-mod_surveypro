@@ -183,7 +183,8 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                 $context = context_system::instance();
                 break;
             default:
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $contextlevel = '.$contextlevel, DEBUG_DEVELOPER);
+                $message = 'Unexpected $contextlevel = '.$contextlevel;
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
 
         return $context->id;
@@ -215,7 +216,8 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                 $contextstring = 'user';
                 break;
             default:
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $contextlevel = '.$contextlevel, DEBUG_DEVELOPER);
+                $message = 'Unexpected $contextlevel = '.$contextlevel;
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
 
         return $contextstring;
@@ -766,7 +768,8 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                     echo $OUTPUT->notification($message, 'notifymessage');
                     break;
                 default:
-                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->confirm = '.$this->confirm, DEBUG_DEVELOPER);
+                    $message = 'Unexpected $this->confirm = '.$this->confirm;
+                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
             }
         }
     }
@@ -826,7 +829,8 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                 $event = \mod_surveypro\event\usertemplate_deleted::create($eventdata);
                 break;
             default:
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $logaction = '.$logaction, DEBUG_DEVELOPER);
+                $message = 'Unexpected $event = '.$event;
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
         $event->trigger();
     }

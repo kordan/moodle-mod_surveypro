@@ -236,7 +236,8 @@ class mod_surveypro_field_boolean extends mod_surveypro_itembase {
                 $record->defaultvalue = SURVEYPRO_INVITEDBVALUE;
                 break;
             default:
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $record->defaultoption = '.$record->defaultoption, DEBUG_DEVELOPER);
+                $message = 'Unexpected $record->defaultoption = '.$record->defaultoption;
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
     }
 
@@ -522,37 +523,37 @@ EOS;
             $elementgroup = array();
 
             // mform elements
-            $paramelement = array('class' => 'indent-'.$this->indent);
+            $attributes = array('class' => 'indent-'.$this->indent);
 
             if (!$searchform) {
                 if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
-                    $paramelement['id'] = $idprefix.'_invite';
-                    $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('choosedots'), SURVEYPRO_INVITEVALUE, $paramelement);
+                    $attributes['id'] = $idprefix.'_invite';
+                    $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('choosedots'), SURVEYPRO_INVITEVALUE, $attributes);
                     if ($this->style == SURVEYPROFIELD_BOOLEAN_USERADIOH) {
-                        unset($paramelement['class']);
+                        unset($attributes['class']);
                     }
                 }
             } else {
-                $paramelement['id'] = $idprefix.'_ignoreme';
-                $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('star', 'mod_surveypro'), SURVEYPRO_IGNOREMEVALUE, $paramelement);
+                $attributes['id'] = $idprefix.'_ignoreme';
+                $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('star', 'mod_surveypro'), SURVEYPRO_IGNOREMEVALUE, $attributes);
                 if ($this->style == SURVEYPROFIELD_BOOLEAN_USERADIOH) {
-                    unset($paramelement['class']);
+                    unset($attributes['class']);
                 }
             }
 
-            $paramelement['id'] = $idprefix.'_1';
-            $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', $yeslabel, '1', $paramelement);
+            $attributes['id'] = $idprefix.'_1';
+            $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', $yeslabel, '1', $attributes);
 
             if ($this->style == SURVEYPROFIELD_BOOLEAN_USERADIOH) {
-                unset($paramelement['class']);
+                unset($attributes['class']);
             }
 
-            $paramelement['id'] = $idprefix.'_0';
-            $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', $nolabel, '0', $paramelement);
+            $attributes['id'] = $idprefix.'_0';
+            $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', $nolabel, '0', $attributes);
 
             if (!$this->required) {
-                $paramelement['id'] = $idprefix.'_noanswer';
-                $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('noanswer', 'mod_surveypro'), SURVEYPRO_NOANSWERVALUE, $paramelement);
+                $attributes['id'] = $idprefix.'_noanswer';
+                $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('noanswer', 'mod_surveypro'), SURVEYPRO_NOANSWERVALUE, $attributes);
             }
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, $separator, false);
             // End of: mform elements
@@ -588,7 +589,8 @@ EOS;
                     $mform->setDefault($this->itemname, SURVEYPRO_NOANSWERVALUE);
                     break;
                 default:
-                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->defaultoption = '.$this->defaultoption, DEBUG_DEVELOPER);
+                    $message = 'Unexpected $this->defaultoption = '.$this->defaultoption;
+                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
             }
         } else {
             $mform->setDefault($this->itemname, SURVEYPRO_IGNOREMEVALUE);

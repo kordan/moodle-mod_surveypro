@@ -492,33 +492,33 @@ EOS;
 
         $idprefix = 'id_surveypro_field_radiobutton_'.$this->sortindex;
 
-        $paramelement = array('class' => 'indent-'.$this->indent);
+        $attributes = array('class' => 'indent-'.$this->indent);
         $elementgroup = array();
 
         // mform elements
         if (!$searchform) {
             if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
-                $paramelement['id'] = $idprefix.'_invite';
-                $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('choosedots'), SURVEYPRO_INVITEVALUE, $paramelement);
+                $attributes['id'] = $idprefix.'_invite';
+                $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('choosedots'), SURVEYPRO_INVITEVALUE, $attributes);
                 if ($this->adjustment == SURVEYPRO_HORIZONTAL) {
-                    unset($paramelement['class']);
+                    unset($attributes['class']);
                 }
             }
         } else {
-            $paramelement['id'] = $idprefix.'_ignoreme';
-            $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('star', 'mod_surveypro'), SURVEYPRO_IGNOREMEVALUE, $paramelement);
+            $attributes['id'] = $idprefix.'_ignoreme';
+            $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('star', 'mod_surveypro'), SURVEYPRO_IGNOREMEVALUE, $attributes);
             if ($this->adjustment == SURVEYPRO_HORIZONTAL) {
-                unset($paramelement['class']);
+                unset($attributes['class']);
             }
         }
 
         $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
         $labelcount = count($labels);
         foreach ($labels as $k => $label) {
-            $paramelement['id'] = $idprefix.'_'."$k";
-            $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', $label, "$k", $paramelement);
+            $attributes['id'] = $idprefix.'_'."$k";
+            $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', $label, "$k", $attributes);
             if ($this->adjustment == SURVEYPRO_HORIZONTAL) {
-                unset($paramelement['class']);
+                unset($attributes['class']);
             }
         }
 
@@ -526,18 +526,18 @@ EOS;
             list($othervalue, $otherlabel) = $this->item_get_other();
             $labels['other'] = $othervalue;
 
-            $paramelement['id'] = $idprefix.'_other';
-            $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', $otherlabel, 'other', $paramelement);
+            $attributes['id'] = $idprefix.'_other';
+            $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', $otherlabel, 'other', $attributes);
 
-            $paramelement['id'] = $idprefix.'_text';
-            $elementgroup[] = $mform->createElement('text', $this->itemname.'_text', '', $paramelement);
+            $attributes['id'] = $idprefix.'_text';
+            $elementgroup[] = $mform->createElement('text', $this->itemname.'_text', '', $attributes);
             $mform->setType($this->itemname.'_text', PARAM_RAW);
             $mform->disabledIf($this->itemname.'_text', $this->itemname, 'neq', 'other');
         }
 
         if (!$this->required) {
-            $paramelement['id'] = $idprefix.'_noanswer';
-            $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('noanswer', 'mod_surveypro'), SURVEYPRO_NOANSWERVALUE, $paramelement);
+            $attributes['id'] = $idprefix.'_noanswer';
+            $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('noanswer', 'mod_surveypro'), SURVEYPRO_NOANSWERVALUE, $attributes);
         }
         // End of: mform elements
 
@@ -585,7 +585,8 @@ EOS;
                     $mform->setDefault($this->itemname, SURVEYPRO_NOANSWERVALUE);
                     break;
                 default:
-                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $this->defaultoption = '.$this->defaultoption, DEBUG_DEVELOPER);
+                    $message = 'Unexpected $this->defaultoption = '.$this->defaultoption;
+                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
             }
         } else {
             $mform->setDefault($this->itemname, SURVEYPRO_IGNOREMEVALUE);
@@ -838,7 +839,8 @@ EOS;
                 $return = $content;
                 break;
             default:
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $format = '.$format, DEBUG_DEVELOPER);
+                $message = 'Unexpected $format = '.$format;
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
 
         return $return;

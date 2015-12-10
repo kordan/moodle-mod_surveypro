@@ -466,7 +466,8 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
         global $DB;
 
         if ($area === false) { // $area MUST BE provided
-            debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected null $area', DEBUG_DEVELOPER);
+            $message = 'Unexpected $area === false';
+            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
 
         $this->graphtitle = get_string('fieldset_content_0'.($area + 1), 'surveyprotemplate_'.$this->template);
@@ -588,10 +589,12 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
         global $DB;
 
         if ($area === false) { // $area MUST BE provided
-            debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected null $area', DEBUG_DEVELOPER);
+            $message = 'Unexpected $area === false';
+            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
         if ($qid === false) { // $area MUST BE provided
-            debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected null $qid', DEBUG_DEVELOPER);
+            $message = 'Unexpected $qid === false';
+            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
 
         // group question id per area of investigation

@@ -336,7 +336,8 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
                 $event = \mod_surveypro\event\mastertemplate_saved::create($eventdata);
                 break;
             default:
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. Unexpected $event = '.$event, DEBUG_DEVELOPER);
+                $message = 'Unexpected $event = '.$event;
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
         $event->trigger();
     }

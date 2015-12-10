@@ -254,14 +254,14 @@ EOS;
 
         $filetypes = array_map('trim', explode(',', $this->filetypes));
 
-        $paramelement = array();
-        $paramelement['maxbytes'] = $this->maxbytes;
-        $paramelement['accepted_types'] = $filetypes;
-        $paramelement['subdirs'] = false;
-        $paramelement['maxfiles'] = $this->maxfiles;
-        $paramelement['id'] = $idprefix;
-        $paramelement['class'] = 'indent-'.$this->indent; // does not work: MDL-28194
-        $mform->addElement('mod_surveypro_filemanager', $fieldname, $elementlabel, null, $paramelement);
+        $attributes = array();
+        $attributes['maxbytes'] = $this->maxbytes;
+        $attributes['accepted_types'] = $filetypes;
+        $attributes['subdirs'] = false;
+        $attributes['maxfiles'] = $this->maxfiles;
+        $attributes['id'] = $idprefix;
+        $attributes['class'] = 'indent-'.$this->indent; // does not work: MDL-28194
+        $mform->addElement('mod_surveypro_filemanager', $fieldname, $elementlabel, null, $attributes);
 
         if ($this->required) {
             // even if the item is required I CAN NOT ADD ANY RULE HERE because:
@@ -333,12 +333,12 @@ EOS;
         if (!empty($answer)) {
             $fieldname = $this->itemname.'_filemanager';
 
-            $paramelement = array();
-            $paramelement['maxbytes'] = $this->maxbytes;
-            $paramelement['accepted_types'] = $this->filetypes;
-            $paramelement['subdirs'] = false;
-            $paramelement['maxfiles'] = $this->maxfiles;
-            file_save_draft_area_files($answer['filemanager'], $this->context->id, 'surveyprofield_fileupload', SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $olduseranswer->id, $paramelement);
+            $attributes = array();
+            $attributes['maxbytes'] = $this->maxbytes;
+            $attributes['accepted_types'] = $this->filetypes;
+            $attributes['subdirs'] = false;
+            $attributes['maxfiles'] = $this->maxfiles;
+            file_save_draft_area_files($answer['filemanager'], $this->context->id, 'surveyprofield_fileupload', SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $olduseranswer->id, $attributes);
 
             $olduseranswer->content = ''; // nothing is expected here
         }
@@ -364,12 +364,12 @@ EOS;
 
         // $prefill->id = $fromdb->submissionid;
         $draftitemid = 0;
-        $paramelement = array();
-        $paramelement['maxbytes'] = $this->maxbytes;
-        $paramelement['accepted_types'] = $this->filetypes;
-        $paramelement['subdirs'] = false;
-        $paramelement['maxfiles'] = $this->maxfiles;
-        file_prepare_draft_area($draftitemid, $this->context->id, 'surveyprofield_fileupload', SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $fromdb->id, $paramelement);
+        $attributes = array();
+        $attributes['maxbytes'] = $this->maxbytes;
+        $attributes['accepted_types'] = $this->filetypes;
+        $attributes['subdirs'] = false;
+        $attributes['maxfiles'] = $this->maxfiles;
+        file_prepare_draft_area($draftitemid, $this->context->id, 'surveyprofield_fileupload', SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $fromdb->id, $attributes);
 
         $prefill[$fieldname] = $draftitemid;
 
