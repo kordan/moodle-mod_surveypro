@@ -73,17 +73,17 @@ The 17 fields type are:
 • element type "character" to ask for question like: "Write down your email" or "Enter your personal web site URL" or "Enter the PIN code of your card"
 • element type "checkbox" to ask for question like: "What do you usually eat for breakfast?" A: "milk, sugar, jam, chocolate, other..."
 • element type "date" to ask for question like: "When were you born?"
-• element type "datetime" to ask for question like... well, this item type has a really limited use, AFAIK, but it was too simple to develop
+• element type "datetime" to ask for question like: "Please, write down date and time of your last flight to Los Angeles."
 • element type "fileupload" to ask for question like: "Upload your CV in PDF format"
-• element type "integer" to ask for question like: "How many street cats do you feed dayly?"
+• element type "integer" to ask for question like: "How many brothers/sisters do you have?"
 • element type "multiselect" to ask for question like: "What do you usually eat for breakfast?" A: "milk, sugar, jam, chocolate, other..."
-• element type "numeric" to ask for question like: "Write the best approximation of π you feel correct"
+• element type "numeric" to ask for question like: "Write the best approximation of π you can remember"
 • element type "radiobutton" to ask for question like: "Where do you usually spend your summer holidays?" A: "sea, mountain, lake, hills, desert..."
-• element type "rate" to ask for question like: "Order the following list of foreign languages according to your preferences." A: "EN, ES, IT, FR..."
+• element type "rate" to ask for question like: "How confident are you with the following languages? EN, ES, IT, FR. Mother toungue, very confident, not sufficient, unknown."
 • element type "select" to ask for question like: "Where do you usually spend your summer holidays?" A: "sea, mountain, lake, hills, desert..."
-• element type "shortdate" to ask for question like: "When were you first arrested?" A: "September 2004"
-• element type "textarea" to ask for question like: "Describe briefly of what you saw"
-• element type "time" to ask for question like: "At what time do you usually get breakfast?"" A: "7:45"
+• element type "shortdate" to ask for question like: "When did you buy your current car?" A: "September 2004"
+• element type "textarea" to ask for question like: "Enter a short description of yourself"
+• element type "time" to ask for question like: "At what time do you usually get up in the morning in the working days?"" A: "7:00"
 
 The 4 format type are:
 • element type "fieldset" to group your question

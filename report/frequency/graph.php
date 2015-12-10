@@ -35,7 +35,7 @@ require_capability('mod/surveypro:accessreports', $context);
 
 $groupmode = groups_get_activity_groupmode($cm, $course);   // Groups are being used
 
-$item = surveypro_get_item($itemid);
+$item = surveypro_get_item($cm, $itemid);
 
 $whereparams = array('itemid' => $itemid);
 $sql = 'SELECT content, count(id) as absolute

@@ -27,6 +27,11 @@ defined('MOODLE_INTERNAL') || die();
  */
 class mod_surveypro_searchmanager {
     /**
+     * $cm
+     */
+    public $cm = null;
+
+    /**
      * $context
      */
     public $context = null;
@@ -95,7 +100,7 @@ class mod_surveypro_searchmanager {
                 // do not waste your time
                 continue;
             }
-            $item = surveypro_get_item($iteminfo->itemid, $iteminfo->type, $iteminfo->plugin);
+            $item = surveypro_get_item($this->cm, $iteminfo->itemid, $iteminfo->type, $iteminfo->plugin);
 
             $userdata = new stdClass();
             $item->userform_save_preprocessing($iteminfo->contentperelement, $userdata, true);

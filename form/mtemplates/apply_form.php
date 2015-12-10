@@ -94,6 +94,7 @@ class mod_surveypro_applymtemplateform extends moodleform {
         // $mform = $this->_form;
 
         // ----------------------------------------
+        // get _customdata
         $cmid = $this->_customdata->cmid;
         $surveypro = $this->_customdata->surveypro;
         $mtemplateman = $this->_customdata->mtemplateman;

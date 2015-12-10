@@ -144,7 +144,7 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
      *
      * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
-     * @param bool $evaluateparentcontent: add also 'parentcontent' among other item elements
+     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         global $DB;
@@ -178,7 +178,7 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
      * item_load
      *
      * @param $itemid
-     * @param bool $evaluateparentcontent: add also 'parentcontent' among other item elements
+     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
      * @return
      */
     public function item_load($itemid, $evaluateparentcontent) {

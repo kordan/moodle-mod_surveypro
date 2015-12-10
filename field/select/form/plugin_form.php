@@ -45,6 +45,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // ----------------------------------------
         // get _customdata
         $item = $this->_customdata->item;
+        // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
 
         // ----------------------------------------
@@ -94,7 +95,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
                          SURVEYPRO_ITEMRETURNSPOSITION => get_string('returnposition', 'surveyprofield_select'));
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_select'), $options);
         $mform->setDefault($fieldname, $item->item_get_friendlyformat());
-        $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_radiobutton');
+        $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_select');
         $mform->setType($fieldname, PARAM_INT);
 
         $this->add_item_buttons();
@@ -109,7 +110,10 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
      */
     public function validation($data, $files) {
         // ----------------------------------------
+        // get _customdata
         // $item = $this->_customdata->item;
+        // $cm = $this->_customdata->cm;
+        // $surveypro = $this->_customdata->surveypro;
 
         $errors = parent::validation($data, $files);
 

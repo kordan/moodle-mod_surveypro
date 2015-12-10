@@ -29,7 +29,7 @@ button is needed. (thanks to JR)
 > must be by group.
 things like the "phantom tabs" (sorry for the expression, lol, just joking) or the way "attempts" are performed... are substandard (to name it in some way).
 
-2.a) A read me about what's missing (backup, migration from old, usability review and discussion)
+2.a) A read me about what's missing (migration from old, usability review and discussion)
 
 2.b) A commit (decided by you) where you want me to cut history. Can be current commit of anything else if you want to preserve your latest commits for any reason.
 

@@ -313,7 +313,7 @@ class mod_surveypro_importmanager {
                 // the column for timemodified
                 continue;
             }
-            $item = surveypro_get_item($itemid);
+            $item = surveypro_get_item($this->cm, $itemid);
 
             // itemhelperinfo
             $info = new stdClass();

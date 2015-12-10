@@ -180,18 +180,18 @@ class mod_surveypro_itemlist {
                 $this->reorder_items();
                 break;
             case SURVEYPRO_REQUIREDON:
-                $item = surveypro_get_item($this->itemid, $this->type, $this->plugin);
+                $item = surveypro_get_item($this->cm, $this->itemid, $this->type, $this->plugin);
                 $item->set_required(1);
                 break;
             case SURVEYPRO_REQUIREDOFF:
-                $item = surveypro_get_item($this->itemid, $this->type, $this->plugin);
+                $item = surveypro_get_item($this->cm, $this->itemid, $this->type, $this->plugin);
                 $item->set_required(0);
                 break;
             case SURVEYPRO_CHANGEINDENT:
                 $DB->set_field('surveypro'.$this->type.'_'.$this->plugin, 'indent', $this->nextindent, array('itemid' => $this->itemid));
                 break;
             case SURVEYPRO_ADDTOSEARCH:
-                $item = surveypro_get_item($this->itemid, $this->type, $this->plugin);
+                $item = surveypro_get_item($this->cm, $this->itemid, $this->type, $this->plugin);
                 if ($item->get_isinitemform('insearchform')) {
                     $DB->set_field('surveypro_item', 'insearchform', 1, array('id' => $this->itemid));
                 }
@@ -338,7 +338,7 @@ class mod_surveypro_itemlist {
         }
 
         foreach ($itemseeds as $itemseed) {
-            $item = surveypro_get_item($itemseed->itemid, $itemseed->type, $itemseed->plugin, true);
+            $item = surveypro_get_item($this->cm, $itemseed->itemid, $itemseed->type, $itemseed->plugin, true);
 
             $sortindex = $item->get_sortindex();
 
@@ -728,7 +728,7 @@ class mod_surveypro_itemlist {
         $itemstoprocess = count($tohidelist);
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             if ($itemstoprocess > 1) { // ask for confirmation
-                $item = surveypro_get_item($this->itemid, $this->type, $this->plugin);
+                $item = surveypro_get_item($this->cm, $this->itemid, $this->type, $this->plugin);
 
                 $a = new stdClass();
                 $a->parentid = $item->get_content();
@@ -794,7 +794,7 @@ class mod_surveypro_itemlist {
         $itemstoprocess = count($toshowlist); // this is the list of ancestors
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             if ($itemstoprocess > 1) { // ask for confirmation
-                $item = surveypro_get_item($this->itemid, $this->type, $this->plugin);
+                $item = surveypro_get_item($this->cm, $this->itemid, $this->type, $this->plugin);
 
                 $a = new stdClass();
                 $a->lastitem = $item->get_content();
@@ -867,7 +867,7 @@ class mod_surveypro_itemlist {
         $itemstoprocess = count($toadvancedlist);
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             if (count($toadvancedlist) > 1) { // ask for confirmation
-                $item = surveypro_get_item($this->itemid, $this->type, $this->plugin);
+                $item = surveypro_get_item($this->cm, $this->itemid, $this->type, $this->plugin);
 
                 $a = new stdClass();
                 $a->parentid = $item->get_content();
@@ -933,7 +933,7 @@ class mod_surveypro_itemlist {
         $itemstoprocess = count($tostandardlist); // this is the list of ancestors
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             if ($itemstoprocess > 1) { // ask for confirmation
-                $item = surveypro_get_item($this->itemid, $this->type, $this->plugin);
+                $item = surveypro_get_item($this->cm, $this->itemid, $this->type, $this->plugin);
 
                 $a = new stdClass();
                 $a->lastitem = $item->get_content();
@@ -996,7 +996,7 @@ class mod_surveypro_itemlist {
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             // ask for confirmation
             // in the frame of the confirmation I need to declare whether some child will break the link
-            $item = surveypro_get_item($this->itemid, $this->type, $this->plugin);
+            $item = surveypro_get_item($this->cm, $this->itemid, $this->type, $this->plugin);
 
             $a = new stdClass();
             $a->content = $item->get_content();
@@ -1039,13 +1039,13 @@ class mod_surveypro_itemlist {
                     // $maxsortindex = $DB->get_field('surveypro_item', 'MAX(sortindex)', array('surveyproid' => $this->cm->instance));
                     if ($childrenseeds = $DB->get_records('surveypro_item', array('parentid' => $this->itemid), 'id', 'id, type, plugin')) {
                         foreach ($childrenseeds as $childseed) {
-                            $item = surveypro_get_item($childseed->id, $childseed->type, $childseed->plugin);
+                            $item = surveypro_get_item($this->cm, $childseed->id, $childseed->type, $childseed->plugin);
                             $item->item_delete($childseed->id);
                         }
                     }
 
                     // get the content of the item for the closing message
-                    $item = surveypro_get_item($this->itemid, $this->type, $this->plugin);
+                    $item = surveypro_get_item($this->cm, $this->itemid, $this->type, $this->plugin);
 
                     $a = new stdClass();
                     $a->content = $item->get_content();
@@ -1124,7 +1124,7 @@ class mod_surveypro_itemlist {
                         $id = $itemseed->id;
                         $type = $itemseed->type;
                         $plugin = $itemseed->plugin;
-                        $item = surveypro_get_item($id, $type, $plugin);
+                        $item = surveypro_get_item($this->cm, $id, $type, $plugin);
                         if ($multilangfields = $item->item_get_multilang_fields()) {
                             foreach ($multilangfields as $plugin => $fieldnames) {
                                 $record = new stdClass();
@@ -1305,11 +1305,11 @@ class mod_surveypro_itemlist {
         echo $OUTPUT->notification($message, 'notifymessage');
 
         foreach ($itemseeds as $itemseed) {
-            $item = surveypro_get_item($itemseed->itemid, $itemseed->type, $itemseed->plugin, true);
+            $item = surveypro_get_item($this->cm, $itemseed->itemid, $itemseed->type, $itemseed->plugin, true);
             $currenthide = $item->get_hidden();
 
             if ($item->get_parentid()) {
-                $parentitem = surveypro_get_item($item->get_parentid()); // here I do not know type and plugin
+                $parentitem = surveypro_get_item($this->cm, $item->get_parentid()); // here I do not know type and plugin
             }
 
             $tablerow = array();

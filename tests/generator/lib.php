@@ -52,7 +52,9 @@ class mod_surveypro_generator extends testing_module_generator {
     public function create_instance($record = null, array $options = null) {
         global $CFG;
 
-        require_once($CFG->dirroot.'/mod/surveypro/lib.php');
+        require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
+        require_once($CFG->dirroot.'/mod/surveypro/tests/behat/lib_behattest.php');
+
         $record = (object)(array)$record;
 
         // Apply defaults.
@@ -84,6 +86,7 @@ class mod_surveypro_generator extends testing_module_generator {
                 'itemid' => file_get_unused_draft_itemid()
             )
         );
+
         foreach ($defaults as $name => $value) {
             if (!isset($record->{$name})) {
                 $record->{$name} = $value;

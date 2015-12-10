@@ -88,6 +88,10 @@ class mod_surveypro_chooseitemform extends moodleform {
      * @return $errors
      */
     public function validation($data, $files) {
+        // ----------------------------------------
+        // get _customdata
+        // $surveypro = $this->_customdata->surveypro;
+
         // "noanswer" default option is not allowed when the item is mandatory
         $errors = array();
 

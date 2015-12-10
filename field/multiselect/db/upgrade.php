@@ -76,7 +76,7 @@ function xmldb_surveyprofield_multiselect_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
 
-        // Define field surveyproid to be dropped from surveyprofield_checkbox.
+        // Define field surveyproid to be dropped from surveyprofield_multiselect.
         $table = new xmldb_table('surveyprofield_multiselect');
         $field = new xmldb_field('required');
 

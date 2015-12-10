@@ -23,7 +23,7 @@
       <sortindex>2</sortindex>
     </surveypro_item>
     <surveyprofield_datetime>
-      <content>&lt;p&gt;Please write down date and time of your preferred flight to Los Angeles for the next corporate summit.&lt;br /&gt;&lt;/p&gt;</content>
+      <content>&lt;p&gt;Please, write down date and time of your last flight to Los Angeles.&lt;br /&gt;&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>1</customnumber>
       <position>0</position>
@@ -61,7 +61,7 @@
       <sortindex>4</sortindex>
     </surveypro_item>
     <surveyprofield_datetime>
-      <content>&lt;p&gt;Please write down date and time of your preferred flight to Los Angeles for the next corporate summit.&lt;br /&gt;&lt;/p&gt;</content>
+      <content>&lt;p&gt;Please, write down date and time of your last flight to Los Angeles.&lt;br /&gt;&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>2</customnumber>
       <position>0</position>
@@ -100,7 +100,7 @@
       <sortindex>6</sortindex>
     </surveypro_item>
     <surveyprofield_datetime>
-      <content>&lt;p&gt;Please write down date and time of your preferred flight to Los Angeles for the next corporate summit.&lt;br /&gt;&lt;/p&gt;</content>
+      <content>&lt;p&gt;Please, write down date and time of your last flight to Los Angeles.&lt;br /&gt;&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>3</customnumber>
       <position>0</position>
@@ -140,7 +140,7 @@ he/she is forced to choose a different date and time or to tick the "No answer" 
       <sortindex>8</sortindex>
     </surveypro_item>
     <surveyprofield_datetime>
-      <content>&lt;p&gt;Please write down date and time of your preferred flight to Los Angeles for the next corporate summit.&lt;br /&gt;&lt;/p&gt;</content>
+      <content>&lt;p&gt;Please, write down date and time of your last flight to Los Angeles.&lt;br /&gt;&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>4</customnumber>
       <position>0</position>
@@ -178,7 +178,7 @@ he/she is forced to choose a different date and time or to tick the "No answer" 
       <sortindex>10</sortindex>
     </surveypro_item>
     <surveyprofield_datetime>
-      <content>&lt;p&gt;Please write down date and time of your preferred flight to Los Angeles for the next corporate summit.&lt;br /&gt;&lt;/p&gt;</content>
+      <content>&lt;p&gt;Please, write down date and time of your last flight to Los Angeles.&lt;br /&gt;&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>5</customnumber>
       <position>0</position>
@@ -216,7 +216,7 @@ he/she is forced to choose a different date and time or to tick the "No answer" 
       <sortindex>12</sortindex>
     </surveypro_item>
     <surveyprofield_datetime>
-      <content>&lt;p&gt;Please write down date and time of your preferred flight to Los Angeles for the next corporate summit.&lt;br /&gt;&lt;/p&gt;</content>
+      <content>&lt;p&gt;Please, write down date and time of your last flight to Los Angeles.&lt;br /&gt;&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>6</customnumber>
       <position>0</position>
@@ -255,7 +255,7 @@ he/she is forced to choose a different date and time or to tick the "No answer" 
       <sortindex>14</sortindex>
     </surveypro_item>
     <surveyprofield_datetime>
-      <content>&lt;p&gt;Please write down date and time of your preferred flight to Los Angeles for the next corporate summit.&lt;br /&gt;&lt;/p&gt;</content>
+      <content>&lt;p&gt;Please, write down date and time of your last flight to Los Angeles.&lt;br /&gt;&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>7</customnumber>
       <position>0</position>
@@ -294,7 +294,7 @@ he/she is forced to choose a different date and time or to tick the "No answer" 
       <sortindex>16</sortindex>
     </surveypro_item>
     <surveyprofield_datetime>
-      <content>&lt;p&gt;Please write down date and time of your preferred flight to Los Angeles for the next corporate summit.&lt;br /&gt;&lt;/p&gt;</content>
+      <content>&lt;p&gt;Please, write down date and time of your last flight to Los Angeles.&lt;br /&gt;&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>8</customnumber>
       <position>0</position>
@@ -334,7 +334,7 @@ he/she is forced to choose a different date.&lt;br /&gt;</content>
       <sortindex>18</sortindex>
     </surveypro_item>
     <surveyprofield_datetime>
-      <content>&lt;p&gt;Please write down date and time of your preferred flight to Los Angeles for the next corporate summit.&lt;br /&gt;&lt;/p&gt;</content>
+      <content>&lt;p&gt;Please, write down date and time of your last flight to Los Angeles.&lt;br /&gt;&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>9</customnumber>
       <position>0</position>

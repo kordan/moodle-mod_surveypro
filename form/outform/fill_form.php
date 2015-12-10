@@ -40,7 +40,7 @@ class mod_surveypro_submissionform extends moodleform {
 
         // ----------------------------------------
         // get _customdata
-        $cmid = $this->_customdata->cmid;
+        $cm = $this->_customdata->cm;
         $firstpageright = $this->_customdata->firstpageright;
         $maxassignedpage = $this->_customdata->maxassignedpage;
         $surveypro = $this->_customdata->surveypro;
@@ -95,7 +95,7 @@ class mod_surveypro_submissionform extends moodleform {
                 $mform->addElement('static', 'noitemshere', get_string('note', 'mod_surveypro'), 'ERROR: How can I be here if ($formpage > 0) ?');
             }
 
-            $context = context_module::instance($cmid);
+            $context = context_module::instance($cm->id);
 
             // this dummy item is needed for the colours alternation
             // because 'label' or ($position == SURVEYPRO_POSITIONFULLWIDTH)
@@ -110,7 +110,7 @@ class mod_surveypro_submissionform extends moodleform {
                     // is the current item allowed to be displayed in this page?
                     if ($itemseed->parentid) {
                         // get it now AND NEVER MORE
-                        $parentitem = surveypro_get_item($itemseed->parentid);
+                        $parentitem = surveypro_get_item($cm, $itemseed->parentid);
 
                         // if parentitem is in a previous page, have a check
                         // otherwise
@@ -130,7 +130,7 @@ class mod_surveypro_submissionform extends moodleform {
                 }
 
                 if ($itemaschildisallowed) {
-                    $item = surveypro_get_item($itemseed->id, $itemseed->type, $itemseed->plugin);
+                    $item = surveypro_get_item($cm, $itemseed->id, $itemseed->type, $itemseed->plugin);
 
                     // position
                     $position = $item->get_position();
@@ -262,7 +262,8 @@ class mod_surveypro_submissionform extends moodleform {
         // $mform = $this->_form;
 
         // ----------------------------------------
-        // $cmid = $this->_customdata->cmid;
+        // get _customdata
+        $cm = $this->_customdata->cm;
         $modulepage = $this->_customdata->modulepage;
         $surveypro = $this->_customdata->surveypro;
         $submissionid = $this->_customdata->submissionid;
@@ -296,7 +297,7 @@ class mod_surveypro_submissionform extends moodleform {
 
                 $olditemid = $itemid;
 
-                $item = surveypro_get_item($itemid, $type, $plugin);
+                $item = surveypro_get_item($cm, $itemid, $type, $plugin);
                 if ($surveypro->newpageforchild) {
                     $itemisenabled = true; // since it is displayed, it is enabled
                     $parentitem = null;
@@ -307,7 +308,7 @@ class mod_surveypro_submissionform extends moodleform {
                         $parentitem = null;
                     } else {
                         // call its parent
-                        $parentitem = surveypro_get_item($parentitemid);
+                        $parentitem = surveypro_get_item($cm, $parentitemid);
                         // tell parent that his child has parentvalue = 1;3
                         if ($parentitem->get_formpage() == $item->get_formpage()) {
                             $itemisenabled = $parentitem->userform_child_item_allowed_dynamic($item->get_parentvalue(), $data);

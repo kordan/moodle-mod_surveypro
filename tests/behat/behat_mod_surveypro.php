@@ -28,6 +28,7 @@
 require_once(__DIR__ . '/../../../../lib/behat/behat_base.php');
 
 use Behat\Behat\Context\Step\Given as Given,
+    Behat\Gherkin\Node\TableNode as TableNode,
     Behat\Mink\Exception\ExpectationException as ExpectationException;
 
 class behat_mod_surveypro extends behat_base {
@@ -64,6 +65,48 @@ class behat_mod_surveypro extends behat_base {
         if (intval($givennumber) !== $tablerows) {
             $message = sprintf('%d rows found in the "submission" table, but should be %d.', $tablerows, $givennumber);
             throw new ExpectationException($message, $this->getsession());
+        }
+    }
+
+    /**
+     * Add the specified items to the specified surveypro.
+     *
+     * The first row should be column names:
+     * | type | plugin |
+     * that are required.
+     *
+     * @param string $surveyproname the name of the surveypro to add items to.
+     * @param TableNode $data information about the items to add.
+     *
+     * @Given /^surveypro "([^"]*)" contains the following items:$/
+     */
+    public function surveypro_has_the_following_items($surveyproname, TableNode $data) {
+        global $DB;
+
+        $surveypro = $DB->get_record('surveypro', array('name' => $surveyproname), '*', MUST_EXIST);
+        $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
+
+        // Add the questions.
+        $lastpage = 0;
+        foreach ($data->getHash() as $surveyprodata) {
+            if (!array_key_exists('type', $surveyprodata)) {
+                throw new ExpectationException('When adding an item to a surveypro, ' .
+                        'the type column is required.', $this->getSession());
+            }
+            if (!array_key_exists('plugin', $surveyprodata)) {
+                throw new ExpectationException('When adding item to a surveypro, ' .
+                        'the plugin column is required.', $this->getSession());
+            }
+
+            $type = clean_param($surveyprodata['type'], PARAM_TEXT);
+            $plugin = clean_param($surveyprodata['plugin'], PARAM_TEXT);
+            // get dummy contents based on type and plugin
+            // $record = $this->get_dummy_contents($type, $plugin);
+            $record = get_dummy_contents($type, $plugin);
+
+            // Add the item.
+            $item = surveypro_get_item($cm, 0, $type, $plugin);
+            $item->item_save($record);
         }
     }
 }

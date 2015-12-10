@@ -1,26 +1,29 @@
 @mod @mod_surveypro
-Feature: verify a radiobutton item can be added to a survey
-  In order to verify radiobutton items can be added to a survey
-  As a teacher
-  I add a radiobutton item to a survey
+Feature: make a submission test for each available item
+  In order to test that minimal use of surveypro is guaranteed
+  As student1
+  I add a radio button item, I fill it and I go to see responses
 
   @javascript
-  Scenario: add radiobutton item
+  Scenario: test a submission works fine for each available item
     Given the following "courses" exist:
-      | fullname             | shortname       | category | groupmode |
-      | Add radiobutton item | Add radiobutton | 0        | 0         |
+      | fullname                               | shortname       | category |
+      | Test submission for radio buttons item | Submission test | 0        |
     And the following "users" exist:
       | username | firstname | lastname | email                |
-      | teacher1 | Teacher   | 1        | teacher1@nowhere.net |
+      | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
+      | student1 | Student1  | user1    | student1@nowhere.net |
     And the following "course enrolments" exist:
       | user     | course          | role           |
-      | teacher1 | Add radiobutton | editingteacher |
+      | teacher1 | Submission test | editingteacher |
+      | student1 | Submission test | student        |
+
     And I log in as "teacher1"
-    And I follow "Add radiobutton item"
+    And I follow "Test submission for radio buttons item"
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
-      | Name        | Surveypro test                                |
-      | Description | This is a surveypro to add a radiobutton item |
+      | Name        | Surveypro test                                               |
+      | Description | This is a surveypro to test submission of radio buttons item |
     And I follow "Surveypro test"
 
     And I set the field "typeplugin" to "Radio buttons"
@@ -50,3 +53,21 @@ Feature: verify a radiobutton item can be added to a survey
       | Adjustment        | horizontal                                 |
     And I fill the textarea "Options" with multiline content "sea\nmountain\nlake\nhills\ndesert"
     And I press "Add"
+
+    And I log out
+
+    # student1 logs in
+    When I log in as "student1"
+    And I follow "Test submission for radio buttons item"
+    And I follow "Surveypro test"
+    And I press "New response"
+
+    # student1 submits
+    And I set the following fields to these values:
+      | id_surveypro_field_radiobutton_1_3 | 1 |
+      | id_surveypro_field_radiobutton_2_2 | 1 |
+
+    And I press "Submit"
+
+    And I press "Continue to responses list"
+    Then I should see "1" submissions displayed

@@ -27,6 +27,16 @@ defined('MOODLE_INTERNAL') || die();
  */
 class mod_surveypro_submissionmanager {
     /**
+     * $cm
+     */
+    public $cm = null;
+
+    /**
+     * $context
+     */
+    public $context = null;
+
+    /**
      * $surveypro: the record of this surveypro
      */
     public $surveypro = null;
@@ -1329,7 +1339,7 @@ class mod_surveypro_submissionmanager {
 
         $border = array('T' => array('width' => 0.2, 'cap' => 'butt', 'join' => 'miter', 'dash' => 1, 'color' => array(179, 219, 181)));
         foreach ($itemseeds as $itemseed) {
-            $item = surveypro_get_item($itemseed->id, $itemseed->type, $itemseed->plugin);
+            $item = surveypro_get_item($this->cm, $itemseed->id, $itemseed->type, $itemseed->plugin);
             // ($itemseed->plugin == 'pagebreak') is not selected by surveypro_fetch_items_seeds
             $template = $item::item_get_pdf_template();
             if ($template == SURVEYPRO_2COLUMNSTEMPLATE) {

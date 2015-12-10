@@ -103,7 +103,7 @@ class mod_surveypro_templatebase {
         $counter = array();
         $xmltemplate = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><items></items>');
         foreach ($itemseeds as $itemseed) {
-            $item = surveypro_get_item($itemseed->id, $itemseed->type, $itemseed->plugin);
+            $item = surveypro_get_item($this->cm, $itemseed->id, $itemseed->type, $itemseed->plugin);
             $xmlitem = $xmltemplate->addChild('item');
             $xmlitem->addAttribute('type', $itemseed->type);
             $xmlitem->addAttribute('plugin', $itemseed->plugin);
@@ -621,7 +621,7 @@ class mod_surveypro_templatebase {
                 } else {
                     // before adding the item, ask to its class to check its coherence
                     require_once($CFG->dirroot.'/mod/surveypro/'.$currenttype.'/'.$currentplugin.'/classes/plugin.class.php');
-                    $item = surveypro_get_item(0, $currenttype, $currentplugin);
+                    $item = surveypro_get_item($this->cm, 0, $currenttype, $currentplugin);
                     $item->item_validate_record_coherence($record);
 
                     if ($currenttype == SURVEYPRO_TYPEFIELD) {
