@@ -26,7 +26,6 @@ namespace mod_surveypro\event;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/lib.php');
 
 class submissions_imported extends \core\event\base {
