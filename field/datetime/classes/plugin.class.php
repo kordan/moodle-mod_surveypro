@@ -238,14 +238,14 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
     }
 
     /**
-     * item_validate_record_coherence
+     * item_force_coherence
      * verify the validity of contents of the record
      * for instance: age not greater than maximumage
      *
      * @param stdClass $record
      * @return stdClass $record
      */
-    public function item_validate_record_coherence($record) {
+    public function item_force_coherence($record) {
         if (isset($record->defaultvalue)) {
             $mindatetime = $item->item_date_to_unix_time($this->surveypro->startyear, 1, 1);
             if ($record->defaultvalue < $mindatetime) {

@@ -122,4 +122,12 @@ and they are:
 • <<element type>> specific settings->
 • Validation options
 
+Relevant not so common features:
+    -> relational db creation
+    -> possibility to use "values" different from "labels" for checkboxes, radiobutton, select, multiselect and rate
+    -> conditional branching
+    -> export format
+    -> user templates to store and quickly paste sets of items
+    -> very close input validation
+
 How to create a surveypro
