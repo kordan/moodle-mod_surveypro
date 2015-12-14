@@ -25,6 +25,7 @@ Feature: Backup and restore of surveyspro
       | format | pagebreak   |
       | field  | boolean     |
       | field  | select      |
+
     And I am on site homepage
     When I follow "Course 1"
     And I turn editing mode on

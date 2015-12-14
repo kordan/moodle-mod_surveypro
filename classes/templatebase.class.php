@@ -623,7 +623,7 @@ class mod_surveypro_templatebase {
                     // before adding the item, ask to its class to check its coherence
                     require_once($CFG->dirroot.'/mod/surveypro/'.$currenttype.'/'.$currentplugin.'/classes/plugin.class.php');
                     $item = surveypro_get_item($this->cm, 0, $currenttype, $currentplugin);
-                    $item->item_validate_record_coherence($record);
+                    $item->item_force_coherence($record);
 
                     if ($currenttype == SURVEYPRO_TYPEFIELD) {
                         $item->item_validate_variablename($record, $itemid);

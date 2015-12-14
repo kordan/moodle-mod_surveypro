@@ -184,14 +184,14 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * item_validate_record_coherence
+     * item_force_coherence
      * verify the validity of contents of the record
      * for instance: age not greater than maximumage
      *
      * @param stdClass $record
      * @return stdClass $record
      */
-    public function item_validate_record_coherence($record) {
+    public function item_force_coherence($record) {
         // nothing to do here
     }
 
