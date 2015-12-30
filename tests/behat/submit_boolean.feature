@@ -48,7 +48,7 @@ Feature: make a submission test for each available item
       | Indent            | 0                      |
       | Question position | left                   |
       | Element number    | 4b                     |
-      | Boolean style     | vertical radio buttons |
+      | Element style     | vertical radio buttons |
     And I press "Add"
 
     And I set the field "typeplugin" to "Boolean"
@@ -61,7 +61,7 @@ Feature: make a submission test for each available item
       | Indent            | 0                        |
       | Question position | left                     |
       | Element number    | 4c                       |
-      | Boolean style     | horizontal radio buttons |
+      | Element style     | horizontal radio buttons |
     And I press "Add"
 
     And I log out

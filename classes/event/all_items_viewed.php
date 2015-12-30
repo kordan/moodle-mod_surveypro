@@ -31,7 +31,7 @@ class all_items_viewed extends \core\event\base {
      * Set basic properties for the event.
      */
     protected function init() {
-        $this->data['crud'] = 'r'; // c(reate), r(ead), u(pdate), d(elete)
+        $this->data['crud'] = 'r'; // One of these: c(reate), r(ead), u(pdate), d(elete).
         $this->data['edulevel'] = self::LEVEL_TEACHING;
         $this->data['objecttable'] = 'surveypro';
     }

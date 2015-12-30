@@ -894,7 +894,7 @@ class mod_surveypro_itembase {
         $schema .= '                <xs:element type="xs:int" name="insearchform"/>'."\n";
         $schema .= '                <xs:element type="xs:int" name="advanced"/>'."\n";
 
-        $schema .= '                <xs:element type="xs:int" name="sortindex"/>'."\n";
+        // $schema .= '                <xs:element type="xs:int" name="sortindex"/>'."\n";
         // $schema .= '                <xs:element type="xs:int" name="formpage"/>'."\n";
 
         $schema .= '                <xs:element type="xs:int" name="parentid" minOccurs="0"/>'."\n";

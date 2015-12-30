@@ -31,8 +31,8 @@ class mod_surveypro_mform_static extends MoodleQuickForm_static {
     /**
      * All types must have this constructor implemented.
      */
-    public function mod_surveypro_mform_static($elementName=null, $elementLabel=null, $text=null, $options=null) {
-        parent::MoodleQuickForm_static($elementName, $elementLabel, $text);
+    public function __construct($elementName=null, $elementLabel=null, $text=null, $options=null) {
+        parent::__construct($elementName, $elementLabel, $text);
         $this->_options['class'] = !isset($options['class']) ? 'indent-0' : $options['class'];
     }
 

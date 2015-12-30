@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <items>
-  <item type="format" plugin="label" version="2014111000">
+  <item type="format" plugin="label" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>1</advanced>
-      <sortindex>1</sortindex>
     </surveypro_item>
     <surveyproformat_label>
       <content>&lt;p&gt;&lt;img src="@@PLUGINFILE@@/MMM_logo.png" alt="MMM" width="313" height="70" /&gt;&lt;/p&gt;</content>
@@ -18,12 +17,11 @@
       <fullwidth>1</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="format" plugin="label" version="2014111000">
+  <item type="format" plugin="label" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>2</sortindex>
     </surveypro_item>
     <surveyproformat_label>
       <content>&lt;p&gt;This is a demo survey I made to let you quickly see some features of the items. This not a real survey, question are silly or non complete or meaningless (and, for sure, written in a bad English), but they are examples of what you can get playing with this module.&lt;/p&gt;&#13;
@@ -35,23 +33,21 @@
       <fullwidth>1</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="format" plugin="pagebreak" version="2014111000">
+  <item type="format" plugin="pagebreak" version="2015123000">
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>3</sortindex>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item type="field" plugin="age" version="2014111000">
+  <item type="field" plugin="age" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>4</sortindex>
     </surveypro_item>
     <surveyprofield_age>
       <content>&lt;p&gt;&lt;img style="float:left;" src="@@PLUGINFILE@@/anziano.jpg" alt="old man" width="120" height="120" /&gt;How old is the person shown in the picture, in your personal opinion?&lt;/p&gt;</content>
@@ -73,12 +69,11 @@
       <upperbound>1004616000</upperbound>
     </surveyprofield_age>
   </item>
-  <item type="field" plugin="age" version="2014111000">
+  <item type="field" plugin="age" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>5</sortindex>
     </surveypro_item>
     <surveyprofield_age>
       <content>&lt;p&gt;&lt;img style="float:left;" src="@@PLUGINFILE@@/anziano.jpg" alt="old man" width="120" height="120" /&gt;How old is the person shown in the picture, in your personal opinion?&lt;/p&gt;</content>
@@ -100,12 +95,11 @@
       <upperbound>-2119608000</upperbound>
     </surveyprofield_age>
   </item>
-  <item type="field" plugin="age" version="2014111000">
+  <item type="field" plugin="age" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>6</sortindex>
     </surveypro_item>
     <surveyprofield_age>
       <content>&lt;p&gt;&lt;img style="float:left;" src="@@PLUGINFILE@@/anziano.jpg" alt="old man" width="120" height="120" /&gt;How old is the person shown in the picture, in your personal opinion?&lt;/p&gt;</content>
@@ -127,12 +121,11 @@
       <upperbound>-2119608000</upperbound>
     </surveyprofield_age>
   </item>
-  <item type="field" plugin="age" version="2014111000">
+  <item type="field" plugin="age" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>7</sortindex>
     </surveypro_item>
     <surveyprofield_age>
       <content>&lt;p&gt;&lt;img style="float:left;" src="@@PLUGINFILE@@/anziano.jpg" alt="old man" width="120" height="120" /&gt;How old is the person shown in the picture, in your personal opinion?&lt;/p&gt;</content>
@@ -153,23 +146,21 @@
       <upperbound>-2119608000</upperbound>
     </surveyprofield_age>
   </item>
-  <item type="format" plugin="pagebreak" version="2014111000">
+  <item type="format" plugin="pagebreak" version="2015123000">
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>8</sortindex>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item type="field" plugin="autofill" version="2014111000">
+  <item type="field" plugin="autofill" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>9</sortindex>
     </surveypro_item>
     <surveyprofield_autofill>
       <content>&lt;p&gt;user ID&lt;/p&gt;</content>
@@ -183,30 +174,28 @@
       <element01>userid</element01>
     </surveyprofield_autofill>
   </item>
-  <item type="format" plugin="pagebreak" version="2014111000">
+  <item type="format" plugin="pagebreak" version="2015123000">
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>10</sortindex>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item type="field" plugin="boolean" version="2014111000">
+  <item type="field" plugin="boolean" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>11</sortindex>
     </surveypro_item>
     <surveyprofield_boolean>
       <content>&lt;p&gt;Do you live in NY?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>4.1</customnumber>
       <position>0</position>
-      <extranote>First instance of boolean question using drop down menu as user interface</extranote>
+      <extranote>First instance of boolean question using radio buttons as user interface</extranote>
       <required>0</required>
       <variable>boolean_001</variable>
       <indent>0</indent>
@@ -216,12 +205,11 @@
       <style>1</style>
     </surveyprofield_boolean>
   </item>
-  <item type="field" plugin="boolean" version="2014111000">
+  <item type="field" plugin="boolean" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>12</sortindex>
     </surveypro_item>
     <surveyprofield_boolean>
       <content>&lt;p&gt;Do you live in NY?&lt;/p&gt;</content>
@@ -238,12 +226,11 @@
       <style>0</style>
     </surveyprofield_boolean>
   </item>
-  <item type="field" plugin="boolean" version="2014111000">
+  <item type="field" plugin="boolean" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>13</sortindex>
     </surveypro_item>
     <surveyprofield_boolean>
       <content>&lt;p&gt;Do you live in NY?&lt;/p&gt;</content>
@@ -259,12 +246,11 @@
       <style>0</style>
     </surveyprofield_boolean>
   </item>
-  <item type="field" plugin="boolean" version="2014111000">
+  <item type="field" plugin="boolean" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>14</sortindex>
     </surveypro_item>
     <surveyprofield_boolean>
       <content>&lt;p&gt;Do you live in NY?&lt;/p&gt;</content>
@@ -281,12 +267,11 @@
       <style>2</style>
     </surveyprofield_boolean>
   </item>
-  <item type="field" plugin="boolean" version="2014111000">
+  <item type="field" plugin="boolean" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>15</sortindex>
     </surveypro_item>
     <surveyprofield_boolean>
       <content>&lt;p&gt;Do you live in NY?&lt;/p&gt;</content>
@@ -303,23 +288,21 @@
       <style>1</style>
     </surveyprofield_boolean>
   </item>
-  <item type="format" plugin="pagebreak" version="2014111000">
+  <item type="format" plugin="pagebreak" version="2015123000">
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>16</sortindex>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item type="field" plugin="checkbox" version="2014111701">
+  <item type="field" plugin="checkbox" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>17</sortindex>
     </surveypro_item>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually eat for breakfast?&lt;/p&gt;</content>
@@ -341,12 +324,11 @@ milk</defaultvalue>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="field" plugin="checkbox" version="2014111701">
+  <item type="field" plugin="checkbox" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>18</sortindex>
     </surveypro_item>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually eat for breakfast?&lt;/p&gt;</content>
@@ -370,23 +352,21 @@ Apple juice</defaultvalue>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="pagebreak" version="2014111000">
+  <item type="format" plugin="pagebreak" version="2015123000">
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>19</sortindex>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item type="field" plugin="shortdate" version="2014111000">
+  <item type="field" plugin="shortdate" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>20</sortindex>
     </surveypro_item>
     <surveyprofield_shortdate>
       <content>&lt;p&gt;When did you get your last car?&lt;/p&gt;</content>
@@ -402,12 +382,11 @@ Apple juice</defaultvalue>
       <upperbound>1378036800</upperbound>
     </surveyprofield_shortdate>
   </item>
-  <item type="field" plugin="shortdate" version="2014111000">
+  <item type="field" plugin="shortdate" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>21</sortindex>
     </surveypro_item>
     <surveyprofield_shortdate>
       <content>&lt;p&gt;When did you get your last car?&lt;/p&gt;</content>
@@ -423,23 +402,21 @@ Apple juice</defaultvalue>
       <upperbound>1380628800</upperbound>
     </surveyprofield_shortdate>
   </item>
-  <item type="format" plugin="pagebreak" version="2014111000">
+  <item type="format" plugin="pagebreak" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>22</sortindex>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item type="field" plugin="date" version="2014111000">
+  <item type="field" plugin="date" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>23</sortindex>
     </surveypro_item>
     <surveyprofield_date>
       <content>&lt;p&gt;Date of birth&lt;/p&gt;</content>
@@ -455,12 +432,11 @@ Apple juice</defaultvalue>
       <upperbound>1262347200</upperbound>
     </surveyprofield_date>
   </item>
-  <item type="field" plugin="date" version="2014111000">
+  <item type="field" plugin="date" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>24</sortindex>
     </surveypro_item>
     <surveyprofield_date>
       <content>&lt;p&gt;Date of birth&lt;/p&gt;</content>
@@ -476,23 +452,21 @@ Apple juice</defaultvalue>
       <upperbound>1262347200</upperbound>
     </surveyprofield_date>
   </item>
-  <item type="format" plugin="pagebreak" version="2014111000">
+  <item type="format" plugin="pagebreak" version="2015123000">
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>25</sortindex>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item type="field" plugin="datetime" version="2014111000">
+  <item type="field" plugin="datetime" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>26</sortindex>
     </surveypro_item>
     <surveyprofield_datetime>
       <content>&lt;p&gt;In which day and at what time do you remember the event?&lt;/p&gt;</content>
@@ -509,23 +483,21 @@ Apple juice</defaultvalue>
       <upperbound>1609459140</upperbound>
     </surveyprofield_datetime>
   </item>
-  <item type="format" plugin="pagebreak" version="2014111000">
+  <item type="format" plugin="pagebreak" version="2015123000">
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>27</sortindex>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item type="field" plugin="fileupload" version="2014111000">
+  <item type="field" plugin="fileupload" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>28</sortindex>
     </surveypro_item>
     <surveyprofield_fileupload>
       <content>&lt;p&gt;Please, attach your Curriculum Vitae.&lt;/p&gt;</content>
@@ -541,12 +513,11 @@ Apple juice</defaultvalue>
       <filetypes>*</filetypes>
     </surveyprofield_fileupload>
   </item>
-  <item type="field" plugin="fileupload" version="2014111000">
+  <item type="field" plugin="fileupload" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>29</sortindex>
     </surveypro_item>
     <surveyprofield_fileupload>
       <content>&lt;p&gt;Please, attach your Curriculum Vitae.&lt;/p&gt;</content>
@@ -562,23 +533,21 @@ Apple juice</defaultvalue>
       <filetypes>.pdf, .zip</filetypes>
     </surveyprofield_fileupload>
   </item>
-  <item type="format" plugin="pagebreak" version="2014111000">
+  <item type="format" plugin="pagebreak" version="2015123000">
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>30</sortindex>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item type="field" plugin="integer" version="2014111000">
+  <item type="field" plugin="integer" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>31</sortindex>
     </surveypro_item>
     <surveyprofield_integer>
       <content>&lt;p&gt;How many days do you foreseen for your Easter holidays?&lt;/p&gt;</content>
@@ -592,12 +561,11 @@ Apple juice</defaultvalue>
       <upperbound>13</upperbound>
     </surveyprofield_integer>
   </item>
-  <item type="field" plugin="integer" version="2014111000">
+  <item type="field" plugin="integer" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>32</sortindex>
     </surveypro_item>
     <surveyprofield_integer>
       <content>&lt;p&gt;How many days do you foreseen for your Easter holidays?&lt;/p&gt;</content>
@@ -612,23 +580,21 @@ Apple juice</defaultvalue>
       <upperbound>13</upperbound>
     </surveyprofield_integer>
   </item>
-  <item type="format" plugin="pagebreak" version="2014111000">
+  <item type="format" plugin="pagebreak" version="2015123000">
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>33</sortindex>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item type="field" plugin="multiselect" version="2014111000">
+  <item type="field" plugin="multiselect" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>34</sortindex>
     </surveypro_item>
     <surveyprofield_multiselect>
       <content>&lt;p&gt;What do you usually eat for breakfast?&lt;/p&gt;</content>
@@ -648,23 +614,21 @@ chocolate</defaultvalue>
       <heightinrows>4</heightinrows>
     </surveyprofield_multiselect>
   </item>
-  <item type="format" plugin="pagebreak" version="2014111000">
+  <item type="format" plugin="pagebreak" version="2015123000">
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>35</sortindex>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item type="field" plugin="numeric" version="2014111000">
+  <item type="field" plugin="numeric" version="2015123000">
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>36</sortindex>
     </surveypro_item>
     <surveyprofield_numeric>
       <content>&lt;p&gt;Which is the mean room temperature you prefer?&lt;/p&gt;</content>
@@ -681,23 +645,21 @@ chocolate</defaultvalue>
       <decimals>1</decimals>
     </surveyprofield_numeric>
   </item>
-  <item type="format" plugin="pagebreak" version="2014111000">
+  <item type="format" plugin="pagebreak" version="2015123000">
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>37</sortindex>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item type="field" plugin="radiobutton" version="2014111000">
+  <item type="field" plugin="radiobutton" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>38</sortindex>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
@@ -716,12 +678,11 @@ Lake</options>
       <adjustment>0</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="field" plugin="radiobutton" version="2014111000">
+  <item type="field" plugin="radiobutton" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>39</sortindex>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
@@ -741,12 +702,11 @@ Lake</options>
       <adjustment>0</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="field" plugin="radiobutton" version="2014111000">
+  <item type="field" plugin="radiobutton" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>40</sortindex>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
@@ -766,23 +726,21 @@ Lake</options>
       <adjustment>0</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="format" plugin="pagebreak" version="2014111000">
+  <item type="format" plugin="pagebreak" version="2015123000">
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>41</sortindex>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item type="field" plugin="rate" version="2014111000">
+  <item type="field" plugin="rate" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>42</sortindex>
     </surveypro_item>
     <surveyprofield_rate>
       <content>&lt;p&gt;Order the following languages ​​according to your knowledge of them&lt;/p&gt;</content>
@@ -809,12 +767,11 @@ Optimum</rates>
       <differentrates>0</differentrates>
     </surveyprofield_rate>
   </item>
-  <item type="field" plugin="rate" version="2014111000">
+  <item type="field" plugin="rate" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>43</sortindex>
     </surveypro_item>
     <surveyprofield_rate>
       <content>&lt;p&gt;Order the following languages ​​according to your knowledge of them&lt;/p&gt;</content>
@@ -846,12 +803,11 @@ Good</defaultvalue>
       <differentrates>0</differentrates>
     </surveyprofield_rate>
   </item>
-  <item type="field" plugin="rate" version="2014111000">
+  <item type="field" plugin="rate" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>44</sortindex>
     </surveypro_item>
     <surveyprofield_rate>
       <content>&lt;p&gt;Order the following languages ​​according to your knowledge of them&lt;/p&gt;</content>
@@ -878,23 +834,21 @@ Optimum</rates>
       <differentrates>0</differentrates>
     </surveyprofield_rate>
   </item>
-  <item type="format" plugin="pagebreak" version="2014111000">
+  <item type="format" plugin="pagebreak" version="2015123000">
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>45</sortindex>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item type="field" plugin="recurrence" version="2014111000">
+  <item type="field" plugin="recurrence" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>46</sortindex>
     </surveypro_item>
     <surveyprofield_recurrence>
       <content>&lt;p&gt;When do you usually celebrate your name-day?&lt;/p&gt;</content>
@@ -910,23 +864,21 @@ Optimum</rates>
       <upperbound>31492800</upperbound>
     </surveyprofield_recurrence>
   </item>
-  <item type="format" plugin="pagebreak" version="2014111000">
+  <item type="format" plugin="pagebreak" version="2015123000">
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>47</sortindex>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item type="field" plugin="select" version="2014111000">
+  <item type="field" plugin="select" version="2015123000">
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>48</sortindex>
     </surveypro_item>
     <surveyprofield_select>
       <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
@@ -944,23 +896,21 @@ hill</options>
       <downloadformat>0</downloadformat>
     </surveyprofield_select>
   </item>
-  <item type="format" plugin="pagebreak" version="2014111000">
+  <item type="format" plugin="pagebreak" version="2015123000">
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>49</sortindex>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item type="field" plugin="textarea" version="2014111000">
+  <item type="field" plugin="textarea" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>50</sortindex>
     </surveypro_item>
     <surveyprofield_textarea>
       <content>&lt;p&gt;Write few lines describing yourself&lt;/p&gt;</content>
@@ -978,12 +928,11 @@ hill</options>
       <maxlength>1000</maxlength>
     </surveyprofield_textarea>
   </item>
-  <item type="field" plugin="textarea" version="2014111000">
+  <item type="field" plugin="textarea" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>51</sortindex>
     </surveypro_item>
     <surveyprofield_textarea>
       <content>&lt;p&gt;Write few lines describing yourself&lt;/p&gt;</content>
@@ -1001,23 +950,21 @@ hill</options>
       <maxlength>1000</maxlength>
     </surveyprofield_textarea>
   </item>
-  <item type="format" plugin="pagebreak" version="2014111000">
+  <item type="format" plugin="pagebreak" version="2015123000">
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>52</sortindex>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item type="field" plugin="time" version="2014111000">
+  <item type="field" plugin="time" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>53</sortindex>
     </surveypro_item>
     <surveyprofield_time>
       <content>&lt;p&gt;At what time do you usually get up in the morning in the working days?&lt;/p&gt;</content>
@@ -1035,12 +982,11 @@ hill</options>
       <upperbound>35940</upperbound>
     </surveyprofield_time>
   </item>
-  <item type="field" plugin="time" version="2014111000">
+  <item type="field" plugin="time" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>54</sortindex>
     </surveypro_item>
     <surveyprofield_time>
       <content>&lt;p&gt;At what time do you usually get up in the morning in the working days?&lt;/p&gt;</content>
@@ -1058,23 +1004,21 @@ hill</options>
       <upperbound>14340</upperbound>
     </surveyprofield_time>
   </item>
-  <item type="format" plugin="pagebreak" version="2014111000">
+  <item type="format" plugin="pagebreak" version="2015123000">
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>55</sortindex>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item type="field" plugin="character" version="2014111000">
+  <item type="field" plugin="character" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>56</sortindex>
     </surveypro_item>
     <surveyprofield_character>
       <content>&lt;p&gt;Enter the number of your VISA card&lt;/p&gt;</content>
@@ -1089,12 +1033,11 @@ hill</options>
       <maxlength>16</maxlength>
     </surveyprofield_character>
   </item>
-  <item type="field" plugin="character" version="2014111000">
+  <item type="field" plugin="character" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>57</sortindex>
     </surveypro_item>
     <surveyprofield_character>
       <content>&lt;p&gt;Enter your email address&lt;/p&gt;</content>
@@ -1108,12 +1051,11 @@ hill</options>
       <minlength>0</minlength>
     </surveyprofield_character>
   </item>
-  <item type="field" plugin="character" version="2014111000">
+  <item type="field" plugin="character" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>58</sortindex>
     </surveypro_item>
     <surveyprofield_character>
       <content>&lt;p&gt;Enter the URL of the site you found not working properly&lt;/p&gt;</content>
@@ -1127,23 +1069,21 @@ hill</options>
       <minlength>0</minlength>
     </surveyprofield_character>
   </item>
-  <item type="format" plugin="pagebreak" version="2014111000">
+  <item type="format" plugin="pagebreak" version="2015123000">
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>59</sortindex>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item type="field" plugin="boolean" version="2014111000">
+  <item type="field" plugin="boolean" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>60</sortindex>
     </surveypro_item>
     <surveyprofield_boolean>
       <content>&lt;p&gt;Do you have the driving licence?&lt;/p&gt;</content>
@@ -1158,12 +1098,11 @@ hill</options>
       <style>0</style>
     </surveyprofield_boolean>
   </item>
-  <item type="format" plugin="fieldset" version="2014111000">
+  <item type="format" plugin="fieldset" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>61</sortindex>
       <parentid>60</parentid>
       <parentvalue>1</parentvalue>
     </surveypro_item>
@@ -1171,12 +1110,11 @@ hill</options>
       <content>With driving licence</content>
     </surveyproformat_fieldset>
   </item>
-  <item type="field" plugin="select" version="2014111000">
+  <item type="field" plugin="select" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>62</sortindex>
       <parentid>60</parentid>
       <parentvalue>1</parentvalue>
     </surveypro_item>
@@ -1194,12 +1132,11 @@ C::for tracks</options>
       <downloadformat>0</downloadformat>
     </surveyprofield_select>
   </item>
-  <item type="format" plugin="fieldset" version="2014111000">
+  <item type="format" plugin="fieldset" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>63</sortindex>
       <parentid>60</parentid>
       <parentvalue>0</parentvalue>
     </surveypro_item>
@@ -1207,12 +1144,11 @@ C::for tracks</options>
       <content>Without driving licence</content>
     </surveyproformat_fieldset>
   </item>
-  <item type="field" plugin="select" version="2014111000">
+  <item type="field" plugin="select" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>64</sortindex>
       <parentid>60</parentid>
       <parentvalue>0</parentvalue>
     </surveypro_item>

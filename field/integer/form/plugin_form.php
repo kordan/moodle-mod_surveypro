@@ -135,7 +135,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // if (default == noanswer && the field is mandatory) => error
         if ( ($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required']) ) {
             $a = get_string('noanswer', 'mod_surveypro');
-            $errors['defaultvalue_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
+            $errors['defaultoption_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
         }
 
         return $errors;

@@ -310,7 +310,7 @@ EOS;
             // $filetypelist = preg_replace('/([a-zA-Z0-9]+,)([^\s])/', "$1 $2", $this->filetypes);
             $filetypelist = preg_replace('~,(?! )~', ', ', $this->filetypes); // Credits to Sam Marshall
 
-            $fillinginstruction = get_string('filetypes', 'surveyprofield_fileupload').$filetypelist;
+            $fillinginstruction = get_string('fileextensions', 'surveyprofield_fileupload').$filetypelist;
         } else {
             $fillinginstruction = '';
         }

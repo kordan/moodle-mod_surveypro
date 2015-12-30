@@ -151,7 +151,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         if (!empty($cleanlabelother)) {
             if (strpos($cleanlabelother, SURVEYPRO_OTHERSEPARATOR) === false) {
                 $values[] = $cleanlabelother;
-                $labels[] = $cleanlabelother;
+                $labels[] = ''; // for labelother the label is equal to the value
             } else {
                 $pair = explode(SURVEYPRO_OTHERSEPARATOR, $cleanlabelother);
                 $values[] = $pair[0];

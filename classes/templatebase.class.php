@@ -129,6 +129,9 @@ class mod_surveypro_templatebase {
                 if ($field == 'surveyproid') {
                     continue;
                 }
+                if ($field == 'sortindex') {
+                    continue;
+                }
                 if ($field == 'formpage') {
                     continue;
                 }
@@ -291,6 +294,31 @@ class mod_surveypro_templatebase {
     }
 
     /**
+     * items_reindex
+     *
+     * @return null
+     */
+    public function items_reindex() {
+        global $DB;
+
+        // renum sortindex
+        $sql = 'SELECT id, sortindex
+                FROM {surveypro_item}
+                WHERE surveyproid = :surveyproid
+                ORDER BY sortindex ASC';
+        $whereparams = array('surveyproid' => $this->surveypro->id);
+        $itemlist = $DB->get_recordset_sql($sql, $whereparams);
+        $currentsortindex = 1;
+        foreach ($itemlist as $item) {
+            if ($item->sortindex != $currentsortindex) {
+                $DB->set_field('surveypro_item', 'sortindex', $currentsortindex, array('id' => $item->id));
+            }
+            $currentsortindex++;
+        }
+        $itemlist->close();
+    }
+
+    /**
      * apply_template
      *
      * @param none
@@ -383,6 +411,7 @@ class mod_surveypro_templatebase {
                 $pluginseeds = $DB->get_records_sql($sql, $parambase);
 
                 $this->items_deletion($pluginseeds, $parambase);
+                $this->items_reindex();
                 // END: delete other items
                 break;
             default:
@@ -548,6 +577,7 @@ class mod_surveypro_templatebase {
             // load it only once. You are going to use it later.
             $config = get_config('surveyprotemplate_'.$this->templatename);
         }
+        $naturalsortindex = 0;
         foreach ($simplexml->children() as $xmlitem) {
             // echo '<h3>Count of tables for the current item: '.count($xmlitem->children()).'</h3>';
             foreach ($xmlitem->attributes() as $attribute => $value) {
@@ -568,7 +598,7 @@ class mod_surveypro_templatebase {
                 foreach ($xmltable->children() as $xmlfield) {
                     $fieldname = $xmlfield->getName();
 
-                    // tag <embedded> always belong to surveypro_<<plugin>> table
+                    // tag <embedded> always belong to surveypro(field|format)_<<plugin>> table
                     // so: ($fieldname == 'embedded') only when surveypro_item has already been saved
                     // so: $itemid is known
                     if ($fieldname == 'embedded') {
@@ -612,7 +642,8 @@ class mod_surveypro_templatebase {
                 }
 
                 if ($tablename == 'surveypro_item') {
-                    $record->sortindex += $sortindexoffset;
+                    $naturalsortindex++;
+                    $record->sortindex = $naturalsortindex + $sortindexoffset;
                     if (!empty($record->parentid)) {
                         $whereparams = array('surveyproid' => $this->surveypro->id, 'sortindex' => ($record->parentid + $sortindexoffset));
                         $record->parentid = $DB->get_field('surveypro_item', 'id', $whereparams, MUST_EXIST);
@@ -671,7 +702,6 @@ class mod_surveypro_templatebase {
         // $debug = true; //if you want to stop anyway to see where the xml template is buggy
 
         $versiondisk = $this->get_plugin_versiondisk();
-        $lastsortindex = 0;
         if ($CFG->debug == DEBUG_DEVELOPER) {
             $simplexml = new SimpleXMLElement($xml);
         } else {
@@ -737,22 +767,6 @@ class mod_surveypro_templatebase {
 
                 // I am assuming that surveypro_item table is ALWAYS before the surveypro_<<plugin>> table
                 if ($tablename == 'surveypro_item') {
-                    if (!isset($xmltable->children()->sortindex)) {
-                        $error = new stdClass();
-                        $error->key = 'missingsortindex';
-
-                        return $error;
-                    } else {
-                        $sortindex = (string)$xmltable->children()->sortindex;
-                        if ($sortindex != ($lastsortindex + 1)) {
-                            $error = new stdClass();
-                            $error->key = 'wrongsortindex';
-
-                            return $error;
-                        }
-                        $lastsortindex = $sortindex;
-                    }
-
                     // I could use a random class here because they all share the same parent item_get_item_schema
                     // but, I need the right class name for the next table, so I start loading the correct class now
                     require_once($CFG->dirroot.'/mod/surveypro/'.$currenttype.'/'.$currentplugin.'/classes/plugin.class.php');

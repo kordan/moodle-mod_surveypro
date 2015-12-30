@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items>
+  <item type="format" plugin="label" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;h5&gt;ATTACHMENT&lt;/h5&gt;&lt;p&gt;This plugin, like all the others provided by surveypro core, is equipped with a set of common settings shared with all the other surveypro elements.&lt;/p&gt;&lt;p&gt;The &lt;b&gt;common settings&lt;/b&gt; set is done by:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Required&lt;/li&gt;&lt;li&gt;Indent&lt;/li&gt;&lt;li&gt;Question position&lt;/li&gt;&lt;li&gt;Element number&lt;/li&gt;&lt;li&gt;Hide filling instruction&lt;/li&gt;&lt;li&gt;Variable&lt;/li&gt;&lt;li&gt;Additional note&lt;br /&gt;&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;This plugin is equipped with three &lt;b&gt;file upload specific setting&lt;/b&gt;:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Maximum files&lt;/li&gt;&lt;li&gt;Maximum file size&lt;/li&gt;&lt;li&gt;Allowed file types&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;The cartesian product of all these settings makes a very long list of possible implementations of this element. In this usertemplate few use cases are described.&lt;br /&gt;&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="fileupload" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyprofield_fileupload>
+      <content>&lt;p&gt;Upload your CV, please.&lt;br /&gt;&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <position>0</position>
+      <required>0</required>
+      <variable>fileupload_001</variable>
+      <indent>0</indent>
+      <maxfiles>1</maxfiles>
+      <maxbytes>0</maxbytes>
+      <filetypes>.pdf, .docx</filetypes>
+    </surveyprofield_fileupload>
+  </item>
+  <item type="field" plugin="fileupload" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyprofield_fileupload>
+      <content>&lt;p&gt;Please, upload the menu of the next week using a specific file per each working day.&lt;br /&gt;&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <position>0</position>
+      <required>0</required>
+      <variable>fileupload_002</variable>
+      <indent>0</indent>
+      <maxfiles>5</maxfiles>
+      <maxbytes>512000</maxbytes>
+      <filetypes>.pdf</filetypes>
+    </surveyprofield_fileupload>
+  </item>
+</items>

@@ -197,17 +197,6 @@ class mod_surveypro_field_boolean extends mod_surveypro_itembase {
 
         // 2. special management for composite fields
         // nothing to do: they don't exist in this plugin
-
-        // 3. special management for defaultvalue
-        if (!isset($this->defaultvalue)) {
-            $this->defaultoption = SURVEYPRO_NOANSWERDEFAULT;
-        } else {
-            if ($this->defaultvalue == SURVEYPRO_INVITEDBVALUE) {
-                $this->defaultoption = SURVEYPRO_INVITEDEFAULT;
-            } else {
-                $this->defaultoption = SURVEYPRO_CUSTOMDEFAULT;
-            }
-        }
     }
 
     /**
@@ -223,22 +212,6 @@ class mod_surveypro_field_boolean extends mod_surveypro_itembase {
 
         // 2. special management for composite fields
         // nothing to do: they don't exist in this plugin
-
-        // 3. special management for defaultvalue
-        switch ($record->defaultoption) {
-            case SURVEYPRO_CUSTOMDEFAULT:
-                // $record->defaultvalue has already been set
-                break;
-            case SURVEYPRO_NOANSWERDEFAULT:
-                $record->defaultvalue = null;
-                break;
-            case SURVEYPRO_INVITEDEFAULT:
-                $record->defaultvalue = SURVEYPRO_INVITEDBVALUE;
-                break;
-            default:
-                $message = 'Unexpected $record->defaultoption = '.$record->defaultoption;
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-        }
     }
 
     /**

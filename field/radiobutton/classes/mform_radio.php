@@ -50,8 +50,8 @@ class mod_surveypro_mform_radio extends MoodleQuickForm_radio {
      * @param mixed $attributes (optional) Either a typical HTML attribute string
      *              or an associative array
      */
-    function mod_surveypro_mform_radio($elementName=null, $elementLabel=null, $text=null, $value=null, $attributes=null) {
-        parent::HTML_QuickForm_radio($elementName, $elementLabel, $text, $value, $attributes);
+    function __construct($elementName=null, $elementLabel=null, $text=null, $value=null, $attributes=null) {
+        parent::__construct($elementName, $elementLabel, $text, $value, $attributes);
     }
 
     /**

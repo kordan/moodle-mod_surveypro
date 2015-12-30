@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <items>
-  <item type="format" plugin="label" version="2014111000">
+  <item type="format" plugin="label" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>1</sortindex>
       <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyproformat_label>
@@ -16,24 +15,22 @@
       <leftlabel>label_leftlabel_01</leftlabel>
     </surveyproformat_label>
   </item>
-  <item type="format" plugin="fieldset" version="2014111000">
+  <item type="format" plugin="fieldset" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>2</sortindex>
       <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyproformat_fieldset>
       <content>fieldset_content_01</content>
     </surveyproformat_fieldset>
   </item>
-  <item type="field" plugin="radiobutton" version="2014111000">
+  <item type="field" plugin="radiobutton" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>3</sortindex>
       <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
@@ -51,12 +48,11 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="field" plugin="radiobutton" version="2014111000">
+  <item type="field" plugin="radiobutton" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>4</sortindex>
       <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
@@ -74,12 +70,11 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="field" plugin="radiobutton" version="2014111000">
+  <item type="field" plugin="radiobutton" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>5</sortindex>
       <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
@@ -97,12 +92,11 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="field" plugin="radiobutton" version="2014111000">
+  <item type="field" plugin="radiobutton" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>6</sortindex>
       <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
@@ -120,12 +114,11 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="field" plugin="radiobutton" version="2014111000">
+  <item type="field" plugin="radiobutton" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>7</sortindex>
       <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
@@ -143,12 +136,11 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="field" plugin="radiobutton" version="2014111000">
+  <item type="field" plugin="radiobutton" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>8</sortindex>
       <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
@@ -166,12 +158,11 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="field" plugin="radiobutton" version="2014111000">
+  <item type="field" plugin="radiobutton" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>9</sortindex>
       <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
@@ -189,12 +180,11 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="field" plugin="radiobutton" version="2014111000">
+  <item type="field" plugin="radiobutton" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>10</sortindex>
       <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
@@ -212,12 +202,11 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="field" plugin="radiobutton" version="2014111000">
+  <item type="field" plugin="radiobutton" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>11</sortindex>
       <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
@@ -235,12 +224,11 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="field" plugin="radiobutton" version="2014111000">
+  <item type="field" plugin="radiobutton" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>12</sortindex>
       <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
@@ -258,12 +246,11 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="field" plugin="radiobutton" version="2014111000">
+  <item type="field" plugin="radiobutton" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>13</sortindex>
       <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
@@ -281,12 +268,11 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="field" plugin="radiobutton" version="2014111000">
+  <item type="field" plugin="radiobutton" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>14</sortindex>
       <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
@@ -304,12 +290,11 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="field" plugin="radiobutton" version="2014111000">
+  <item type="field" plugin="radiobutton" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>15</sortindex>
       <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
@@ -327,12 +312,11 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="field" plugin="radiobutton" version="2014111000">
+  <item type="field" plugin="radiobutton" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>16</sortindex>
       <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
@@ -350,12 +334,11 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="field" plugin="radiobutton" version="2014111000">
+  <item type="field" plugin="radiobutton" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>17</sortindex>
       <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
@@ -373,12 +356,11 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="field" plugin="radiobutton" version="2014111000">
+  <item type="field" plugin="radiobutton" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>18</sortindex>
       <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
@@ -396,12 +378,11 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="field" plugin="radiobutton" version="2014111000">
+  <item type="field" plugin="radiobutton" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>19</sortindex>
       <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
@@ -419,12 +400,11 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="field" plugin="radiobutton" version="2014111000">
+  <item type="field" plugin="radiobutton" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>20</sortindex>
       <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
@@ -442,12 +422,11 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="field" plugin="radiobutton" version="2014111000">
+  <item type="field" plugin="radiobutton" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>21</sortindex>
       <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
@@ -465,12 +444,11 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="field" plugin="radiobutton" version="2014111000">
+  <item type="field" plugin="radiobutton" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>22</sortindex>
       <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>

@@ -31,8 +31,8 @@ class mod_surveypro_mform_checkbox extends MoodleQuickForm_checkbox {
     /**
      * All types must have this constructor implemented.
      */
-    public function mod_surveypro_mform_checkbox($elementName=null, $elementLabel=null, $attributes=null, $options=null) {
-        parent::MoodleQuickForm_checkbox($elementName, $elementLabel, $attributes, $options);
+    public function __construct($elementName=null, $elementLabel=null, $attributes=null, $options=null) {
+        parent::__construct($elementName, $elementLabel, $attributes, $options);
     }
 
     /**

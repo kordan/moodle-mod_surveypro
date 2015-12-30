@@ -238,13 +238,12 @@ class mod_surveypro_field_recurrence extends mod_surveypro_itembase {
                         break;
                 }
             }
-            $recurrencearray = $this->item_split_unix_time($this->{$field});
-            $this->{$field.'_month'} = $recurrencearray['mon'];
-            $this->{$field.'_day'} = $recurrencearray['mday'];
+            if (!empty($this->{$field})) {
+                $recurrencearray = $this->item_split_unix_time($this->{$field});
+                $this->{$field.'_month'} = $recurrencearray['mon'];
+                $this->{$field.'_day'} = $recurrencearray['mday'];
+            }
         }
-
-        // 3. special management for defaultvalue
-        // nothing to do: defaultvalue doesn't need any further care
     }
 
     /**
@@ -269,9 +268,6 @@ class mod_surveypro_field_recurrence extends mod_surveypro_itembase {
                 $record->{$field} = null;
             }
         }
-
-        // 3. special management for defaultvalue
-        // nothing to do: defaultvalue doesn't need any further care
     }
 
     /**

@@ -256,13 +256,12 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
                         break;
                 }
             }
-            $timearray = $this->item_split_unix_time($this->{$field});
-            $this->{$field.'_hour'} = $timearray['hours'];
-            $this->{$field.'_minute'} = $timearray['minutes'];
+            if (!empty($this->{$field})) {
+                $timearray = $this->item_split_unix_time($this->{$field});
+                $this->{$field.'_hour'} = $timearray['hours'];
+                $this->{$field.'_minute'} = $timearray['minutes'];
+            }
         }
-
-        // 3. special management for defaultvalue
-        // nothing to do: defaultvalue doesn't need any further care
     }
 
     /**
@@ -287,9 +286,6 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
                 $record->{$field} = null;
             }
         }
-
-        // 3. special management for defaultvalue
-        // nothing to do: defaultvalue doesn't need any further care
     }
 
     /**
