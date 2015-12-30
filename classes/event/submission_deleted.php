@@ -31,7 +31,7 @@ class submission_deleted extends \core\event\base {
      * Set basic properties for the event.
      */
     protected function init() {
-        $this->data['crud'] = 'd'; // c(reate), r(ead), u(pdate), d(elete)
+        $this->data['crud'] = 'd'; // One of these: c(reate), r(ead), u(pdate), d(elete).
         $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
         $this->data['objecttable'] = 'surveypro_submission';
     }

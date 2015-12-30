@@ -284,16 +284,15 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
                         break;
                 }
             }
-            $datetimearray = $this->item_split_unix_time($this->{$field});
-            $this->{$field.'_year'} = $datetimearray['year'];
-            $this->{$field.'_month'} = $datetimearray['mon'];
-            $this->{$field.'_day'} = $datetimearray['mday'];
-            $this->{$field.'_hour'} = $datetimearray['hours'];
-            $this->{$field.'_minute'} = $datetimearray['minutes'];
+            if (!empty($this->{$field})) {
+                $datetimearray = $this->item_split_unix_time($this->{$field});
+                $this->{$field.'_year'} = $datetimearray['year'];
+                $this->{$field.'_month'} = $datetimearray['mon'];
+                $this->{$field.'_day'} = $datetimearray['mday'];
+                $this->{$field.'_hour'} = $datetimearray['hours'];
+                $this->{$field.'_minute'} = $datetimearray['minutes'];
+            }
         }
-
-        // 3. special management for defaultvalue
-        // nothing to do: defaultvalue doesn't need any further care
     }
 
     /**
@@ -323,9 +322,6 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
                 $record->{$field} = null;
             }
         }
-
-        // 3. special management for defaultvalue
-        // nothing to do: defaultvalue doesn't need any further care
     }
 
     /**

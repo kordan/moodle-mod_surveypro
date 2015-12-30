@@ -241,9 +241,6 @@ class mod_surveypro_field_numeric extends mod_surveypro_itembase {
 
         // 2. special management for composite fields
         // nothing to do: they don't exist in this plugin
-
-        // 3. special management for defaultvalue
-        // nothing to do: defaultvalue doesn't need any further care
     }
 
     /**
@@ -259,12 +256,6 @@ class mod_surveypro_field_numeric extends mod_surveypro_itembase {
 
         // 2. special management for composite fields
         // nothing to do: they don't exist in this plugin
-
-        // 3. special management for defaultvalue
-        // nothing to do: defaultvalue doesn't need any further care
-        if ($record->defaultvalue === '') {
-            $record->defaultvalue = null;
-        }
     }
 
     /**
@@ -534,7 +525,7 @@ EOS;
         }
 
         if (count($fillinginstruction)) {
-            $fillinginstruction = get_string('number', 'surveyprofield_numeric').implode('; ', $fillinginstruction);
+            $fillinginstruction = implode('; ', $fillinginstruction);
         } else {
             $fillinginstruction = '';
         }

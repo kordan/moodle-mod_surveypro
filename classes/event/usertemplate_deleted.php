@@ -31,7 +31,7 @@ class usertemplate_deleted extends \core\event\base {
      * Set basic properties for the event.
      */
     protected function init() {
-        $this->data['crud'] = 'c'; // c(reate), r(ead), u(pdate), d(elete)
+        $this->data['crud'] = 'c'; // One of these: c(reate), r(ead), u(pdate), d(elete).
         $this->data['edulevel'] = self::LEVEL_OTHER;
         $this->data['objecttable'] = 'surveypro';
     }

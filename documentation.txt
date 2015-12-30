@@ -76,7 +76,7 @@ The 17 fields type are:
 • element type "datetime" to ask for question like: "Please, write down date and time of your last flight to Los Angeles."
 • element type "fileupload" to ask for question like: "Upload your CV in PDF format"
 • element type "integer" to ask for question like: "How many brothers/sisters do you have?"
-• element type "multiselect" to ask for question like: "What do you usually eat for breakfast?" A: "milk, sugar, jam, chocolate, other..."
+• element type "multiselect" to ask for question like: "What do you usually eat for breakfast?" A: "milk, sugar, jam, chocolate"
 • element type "numeric" to ask for question like: "Write the best approximation of π you can remember"
 • element type "radiobutton" to ask for question like: "Where do you usually spend your summer holidays?" A: "sea, mountain, lake, hills, desert..."
 • element type "rate" to ask for question like: "How confident are you with the following languages? EN, ES, IT, FR. Mother toungue, very confident, not sufficient, unknown."
@@ -104,13 +104,14 @@ The very special set of personal setting of each item is always enclosed in a sp
 
 and they are:
 • General settings->Content: the text content of the element as it will be shown to remote user.
-• General settings->Required: a flag to make the element mandatory or optional
+• General settings->Required(*): a flag to make the element mandatory or optional
 • General settings->Indent: the indent of the element alias the left margin the element will respect once drawn.
 • General settings->Question position: the position of the content of the element. It can be to the left of the user interface, in a dedicated row just upper the interface to enter the answer or in a dedicated row just upper the interface spanning all the row. Note: The left position forces element contents to plain text without images. The two 'top' positions are usually needed for contents longer than few words and are required for questions containing images!
 • General settings->Element number: the custom number of the element. It may be a natural number such as 1 or 1.a or whatever you may choose. Take in mind that you are responsible for coherence of that numbers. Because of this take care if you plan to change the order of the elements.
-• General settings->Hide filling instruction: elements are equipped with filling instructions explaining what each user is supposed to enter in the field. This flag allow to hide this instructions.
+• General settings->Hide filling instruction(*): elements are equipped with filling instructions explaining what each user is supposed to enter in the field. This flag allow to hide this instructions.
 • General settings->Variable: the name of the element once it is downloaded
 • General settings->Additional note: use this option to add a personal comment to your item. It help improving instructions to fill the element.
+(*) few field may miss this setting because not applicable
 
 • Availability->Hidden: to hide the element. Hided elements will not be available at all. You can consider these elements as not part of the survey.
 • Availability->Search form: <<TODO: add the the description>>
@@ -129,5 +130,6 @@ Relevant not so common features:
     -> export format
     -> user templates to store and quickly paste sets of items
     -> very close input validation
+    -> a lot of examples among tests/fixtures/usertemplate describing each possible use of each core elements
 
 How to create a surveypro

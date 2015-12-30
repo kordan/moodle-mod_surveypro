@@ -206,7 +206,7 @@
       <contentformat>1</contentformat>
       <customnumber>4.1</customnumber>
       <position>0</position>
-      <extranote>First instance of boolean question using drop down menu as user interface</extranote>
+      <extranote>First instance of boolean question using radio buttons as user interface</extranote>
       <required>0</required>
       <variable>boolean_001</variable>
       <indent>0</indent>

@@ -224,10 +224,7 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
         // 2. special management for composite fields
         // nothing to do: they don't exist in this plugin
 
-        // 3. special management for defaultvalue
-        // nothing to do: defaultvalue doesn't need any further care
-
-        // 4. special management for autofill contents
+        // 3. special management for autofill contents
         $referencearray = array(''); // <-- take care, the first element is already on board
         for ($i = 1; $i <= SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT_COUNT; $i++) {
             $referencearray[] = constant('SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT'.sprintf('%02d', $i));
@@ -262,10 +259,7 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
         // 2. special management for composite fields
         // nothing to do: they don't exist in this plugin
 
-        // 3. special management for defaultvalue
-        // nothing to do: defaultvalue doesn't need any further care
-
-        // 4. special management for autofill contents
+        // 3. special management for autofill contents
         for ($i = 1; $i < 6; $i++) {
             $index = sprintf('%02d', $i);
             if (!empty($record->{'element'.$index.'_select'})) {

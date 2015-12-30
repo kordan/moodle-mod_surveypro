@@ -31,8 +31,8 @@ class mod_surveypro_mform_filemanager extends MoodleQuickForm_filemanager {
     /**
      * All types must have this constructor implemented.
      */
-    public function mod_surveypro_mform_filemanager($elementName=null, $elementLabel=null, $attributes=null, $options=null) {
-        parent::MoodleQuickForm_filemanager($elementName, $elementLabel, $attributes, $options);
+    public function __construct($elementName=null, $elementLabel=null, $attributes=null, $options=null) {
+        parent::__construct($elementName, $elementLabel, $attributes, $options);
         $this->_options['class'] = !isset($options['class']) ? 'indent-0' : $options['class'];
     }
 

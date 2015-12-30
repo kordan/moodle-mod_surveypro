@@ -254,19 +254,10 @@ class mod_surveypro_field_age extends mod_surveypro_itembase {
         // 2. special management for composite fields
         $fieldlist = $this->item_composite_fields();
         foreach ($fieldlist as $field) {
-            $agearray = $this->item_split_unix_time($this->{$field});
-            $this->{$field.'_year'} = $agearray['year'];
-            $this->{$field.'_month'} = $agearray['mon'];
-        }
-
-        // 3. special management for defaultvalue
-        if (!isset($this->defaultvalue)) {
-            $this->defaultoption = SURVEYPRO_NOANSWERDEFAULT;
-        } else {
-            if ($this->defaultvalue == SURVEYPRO_INVITEDBVALUE) {
-                $this->defaultoption = SURVEYPRO_INVITEDEFAULT;
-            } else {
-                $this->defaultoption = SURVEYPRO_CUSTOMDEFAULT;
+            if (!empty($this->{$field})) {
+                $agearray = $this->item_split_unix_time($this->{$field});
+                $this->{$field.'_year'} = $agearray['year'];
+                $this->{$field.'_month'} = $agearray['mon'];
             }
         }
     }
@@ -293,24 +284,6 @@ class mod_surveypro_field_age extends mod_surveypro_itembase {
                 $record->{$field} = null;
             }
         }
-
-        // 3. special management for defaultvalue
-        switch ($record->defaultoption) {
-            case SURVEYPRO_CUSTOMDEFAULT:
-                // $record->defaultvalue has already been set
-                break;
-            case SURVEYPRO_NOANSWERDEFAULT:
-                $record->defaultvalue = null;
-                break;
-            case SURVEYPRO_INVITEDEFAULT:
-                $record->defaultvalue = SURVEYPRO_INVITEDBVALUE;
-                break;
-            default:
-                $message = 'Unexpected $record->defaultoption = '.$record->defaultoption;
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-        }
-        unset($record->defaultvalue_year);
-        unset($record->defaultvalue_month);
     }
 
     /**
@@ -494,8 +467,8 @@ EOS;
                 $mform->setDefault($this->itemname.'_month', $agearray['mon']);
             }
         } else {
-            $mform->setDefault($this->itemname.'_year', SURVEYPRO_IGNOREMEVALUE); // empty label
-            $mform->setDefault($this->itemname.'_month', SURVEYPRO_IGNOREMEVALUE); // empty label
+            $mform->setDefault($this->itemname.'_year', SURVEYPRO_IGNOREMEVALUE);
+            $mform->setDefault($this->itemname.'_month', SURVEYPRO_IGNOREMEVALUE);
             if (!$this->required) {
                 $mform->setDefault($this->itemname.'_noanswer', '0');
             }

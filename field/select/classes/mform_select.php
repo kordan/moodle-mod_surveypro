@@ -31,8 +31,8 @@ class mod_surveypro_mform_select extends MoodleQuickForm_select {
     /**
      * All types must have this constructor implemented.
      */
-    public function mod_surveypro_mform_select($elementName=null, $elementLabel=null, $options=null, $attributes=null) {
-        parent::MoodleQuickForm_select($elementName, $elementLabel, $options, $attributes);
+    public function __construct($elementName=null, $elementLabel=null, $options=null, $attributes=null) {
+        parent::__construct($elementName, $elementLabel, $options, $attributes);
     }
 
     /**
