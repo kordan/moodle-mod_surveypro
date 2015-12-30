@@ -207,8 +207,6 @@ define('SURVEYPRO_NOANSWERDEFAULT' , 3);
 define('SURVEYPRO_LIKELASTDEFAULT' , 4);
 define('SURVEYPRO_TIMENOWDEFAULT'  , 5);
 
-define('SURVEYPRO_INVITEDBVALUE'   , -1);
-
 /*
  * FILEAREAS
  */
@@ -319,13 +317,13 @@ function surveypro_add_instance($surveypro, $mform) {
     $surveypro->timemodified = time();
 
     $surveypro->id = $DB->insert_record('surveypro', $surveypro);
-    // stop working with the surveypro table (unless $surveypro->thankshtml_editor['itemid'] != 0)
+    // Stop working with the surveypro table (unless $surveypro->thankshtml_editor['itemid'] != 0)
 
-    // manage userstyle filemanager
+    // Manage userstyle filemanager
     $draftitemid = $surveypro->userstyle_filemanager;
     file_save_draft_area_files($draftitemid, $context->id, 'mod_surveypro', SURVEYPRO_STYLEFILEAREA, 0);
 
-    // manage thankshtml editor
+    // Manage thankshtml editor
     $editoroptions = surveypro_get_editor_options();
     if ($draftitemid = $surveypro->thankshtml_editor['itemid']) {
         $surveypro->thankshtml = file_save_draft_area_files($draftitemid, $context->id, 'mod_surveypro', SURVEYPRO_THANKSHTMLFILEAREA,
@@ -365,12 +363,12 @@ function surveypro_update_instance($surveypro, $mform) {
     $DB->update_record('surveypro', $surveypro);
     // stop working with the surveypro table (unless $surveypro->thankshtml_editor['itemid'] != 0)
 
-    // manage userstyle filemanager
+    // Manage userstyle filemanager.
     if ($draftitemid = file_get_submitted_draft_itemid('userstyle_filemanager')) {
         file_save_draft_area_files($draftitemid, $context->id, 'mod_surveypro', SURVEYPRO_STYLEFILEAREA, 0);
     }
 
-    // manage thankshtml editor
+    // Manage thankshtml editor.
     $editoroptions = surveypro_get_editor_options();
     if ($draftitemid = $surveypro->thankshtml_editor['itemid']) {
         $surveypro->thankshtml = file_save_draft_area_files($draftitemid, $context->id, 'mod_surveypro', SURVEYPRO_THANKSHTMLFILEAREA,
@@ -420,22 +418,22 @@ function surveypro_delete_instance($id) {
     $dbman = $DB->get_manager();
     $whereparams = array('surveyproid' => $surveypro->id);
 
-    // Delete any dependent records here
+    // Delete any dependent records here.
     $submissions = $DB->get_records('surveypro_submission', $whereparams, '', 'id');
     $submissions = array_keys($submissions);
 
-    // delete all associated surveypro_answer
+    // Delete all associated surveypro_answer.
     $DB->delete_records_list('surveypro_answer', 'submissionid', $submissions);
 
-    // delete all associated surveypro_submission
+    // Delete all associated surveypro_submission.
     $DB->delete_records('surveypro_submission', $whereparams);
 
-    // get all item_<<plugin>> and format_<<plugin>>
+    // Get all item_<<plugin>> and format_<<plugin>>.
     $surveyprotypes = array(SURVEYPRO_TYPEFIELD, SURVEYPRO_TYPEFORMAT);
     foreach ($surveyprotypes as $surveyprotype) {
         $pluginlist = surveypro_get_plugin_list($surveyprotype);
 
-        // delete all associated item<<$surveyprotype>>_<<plugin>>
+        // Delete all associated item<<$surveyprotype>>_<<plugin>>.
         foreach ($pluginlist as $plugin) {
             $tablename = 'surveypro'.$surveyprotype.'_'.$plugin;
             $whereparams['plugin'] = $plugin;
@@ -448,10 +446,10 @@ function surveypro_delete_instance($id) {
         }
     }
 
-    // delete all associated surveypro_items
+    // Delete all associated surveypro_items.
     $DB->delete_records('surveypro_item', array('surveyproid' => $surveypro->id));
 
-    // finally, delete the surveypro record
+    // Finally, delete the surveypro record.
     $DB->delete_records('surveypro', array('id' => $surveypro->id));
 
     // -----------------------------
@@ -555,7 +553,7 @@ function surveypro_user_complete($course, $user, $mod, $surveypro) {
  * @return boolean
  */
 function surveypro_print_recent_activity($course, $viewfullnames, $timestart) {
-    return false;  //  True if anything was printed, otherwise false
+    return false;  // True if anything was printed, otherwise false.
 }
 
 /**
@@ -596,14 +594,14 @@ function surveypro_print_recent_mod_activity($activity, $courseid, $detail, $mod
 function surveypro_cron() {
     global $DB;
 
-    // delete too old submissions from surveypro_answer and surveypro_submission
+    // Delete too old submissions from surveypro_answer and surveypro_submission.
 
     $saveresumestatus = array(0, 1);
-    // saveresumestatus == 0:  saveresume is not allowed
+    // $saveresumestatus == 0:  saveresume is not allowed
     //     users leaved records in progress more than four hours ago...
     //     I can not believe they are still working on them so
     //     I delete records now
-    // saveresumestatus == 1:  saveresume is allowed
+    // $saveresumestatus == 1:  saveresume is allowed
     //     these records are older than maximum allowed time delay
     $maxinputdelay = get_config('mod_surveypro', 'maxinputdelay');
     foreach ($saveresumestatus as $saveresume) {

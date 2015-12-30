@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items>
+  <item type="format" plugin="label" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>1</sortindex>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;h5&gt;NUMERIC&lt;br /&gt;&lt;/h5&gt;&lt;p&gt;This plugin, like all the others provided by surveypro core, is equipped with a set of common settings shared with all the other surveypro elements.&lt;/p&gt;&lt;p&gt;The &lt;b&gt;common settings&lt;/b&gt; set is done by:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Required&lt;/li&gt;&lt;li&gt;Indent&lt;/li&gt;&lt;li&gt;Question position&lt;/li&gt;&lt;li&gt;Element number&lt;/li&gt;&lt;li&gt;Hide filling instruction&lt;br /&gt;&lt;/li&gt;&lt;li&gt;Variable&lt;/li&gt;&lt;li&gt;Additional note&lt;br /&gt;&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;This plugin is equipped with only one&lt;b&gt; &lt;/b&gt;&lt;b&gt;Numeric specific setting&lt;/b&gt;:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Default&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;&lt;span class="rangySelectionBoundary" style="line-height:0;"&gt;﻿&lt;/span&gt;and with some more &lt;span class="rangySelectionBoundary" style="line-height:0;"&gt;﻿&lt;/span&gt;&lt;b&gt;validation options&lt;/b&gt;&lt;br /&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Signed value&lt;br /&gt;&lt;/li&gt;&lt;li&gt;Decimal positions&lt;/li&gt;&lt;li&gt;Minimum value&lt;/li&gt;&lt;li&gt;Maximum value&lt;br /&gt;&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;The cartesian product of all these settings makes a very long list of possible implementations of this element. In this usertemplate few use cases are described.&lt;br /&gt;&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="format" plugin="label" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>2</sortindex>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory&lt;br /&gt;&lt;/li&gt;&lt;li&gt;default is set to 3.1&lt;br /&gt;&lt;/li&gt;&lt;li&gt;decimal positions set to 4&lt;br /&gt;&lt;/li&gt;&lt;li&gt;minimum value set to 3.1&lt;br /&gt;&lt;/li&gt;&lt;li&gt;maximum value set to 3.2&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory and the default is set to a valid value so the user can "fly" &lt;span class="rangySelectionBoundary" style="line-height:0;"&gt;﻿&lt;/span&gt; over this element leaving the proposed default untouched (and the question not read). &lt;span class="rangySelectionBoundary" style="line-height:0;"&gt;﻿&lt;/span&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>1 info</customnumber>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="numeric" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>3</sortindex>
+    </surveypro_item>
+    <surveyprofield_numeric>
+      <content>&lt;p&gt;Write the best approximation of π you can remember&lt;br /&gt;&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>1</customnumber>
+      <position>0</position>
+      <required>1</required>
+      <hideinstructions>0</hideinstructions>
+      <variable>numeric_001</variable>
+      <indent>0</indent>
+      <defaultvalue>3.1</defaultvalue>
+      <signed>0</signed>
+      <lowerbound>3.1</lowerbound>
+      <upperbound>3.2</upperbound>
+      <decimals>4</decimals>
+    </surveyprofield_numeric>
+  </item>
+  <item type="format" plugin="label" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>4</sortindex>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory&lt;br /&gt;&lt;/li&gt;&lt;li&gt;default is set to 3.1&lt;br /&gt;&lt;/li&gt;&lt;li&gt;decimal positions set to 4&lt;br /&gt;&lt;/li&gt;&lt;li&gt;minimum value set to 3.1&lt;br /&gt;&lt;/li&gt;&lt;li&gt;maximum value set to 3.2&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory and the default is set to a valid value so the user can "fly" &lt;span class="rangySelectionBoundary" style="line-height:0;"&gt;﻿&lt;/span&gt; over this element leaving the proposed default untouched (and the question not read) &lt;span class="rangySelectionBoundary" style="line-height:0;"&gt;﻿&lt;/span&gt;or blank the field.&lt;br /&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>2 info</customnumber>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="numeric" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>5</sortindex>
+    </surveypro_item>
+    <surveyprofield_numeric>
+      <content>&lt;p&gt;Write the best approximation of π you can remember&lt;br /&gt;&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>2</customnumber>
+      <position>0</position>
+      <required>0</required>
+      <hideinstructions>0</hideinstructions>
+      <variable>numeric_002</variable>
+      <indent>0</indent>
+      <defaultvalue>3.1</defaultvalue>
+      <signed>0</signed>
+      <lowerbound>3.1</lowerbound>
+      <upperbound>3.2</upperbound>
+      <decimals>4</decimals>
+    </surveyprofield_numeric>
+  </item>
+  <item type="format" plugin="label" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>6</sortindex>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory&lt;br /&gt;&lt;/li&gt;&lt;li&gt;default is not set&lt;br /&gt;&lt;/li&gt;&lt;li&gt;decimal positions set to 4&lt;br /&gt;&lt;/li&gt;&lt;li&gt;minimum value set to 3.1&lt;br /&gt;&lt;/li&gt;&lt;li&gt;maximum value set to 3.2&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory but the default is unset. &lt;span class="rangySelectionBoundary" style="line-height:0;"&gt;﻿&lt;/span&gt;The user &lt;span class="rangySelectionBoundary" style="line-height:0;"&gt;﻿&lt;/span&gt;will be forced to choose a value.</content>
+      <contentformat>1</contentformat>
+      <customnumber>3 info</customnumber>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="numeric" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>7</sortindex>
+    </surveypro_item>
+    <surveyprofield_numeric>
+      <content>&lt;p&gt;Write the best approximation of π you can remember&lt;br /&gt;&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>3</customnumber>
+      <position>0</position>
+      <required>1</required>
+      <hideinstructions>0</hideinstructions>
+      <variable>numeric_003</variable>
+      <indent>0</indent>
+      <signed>0</signed>
+      <lowerbound>3.1</lowerbound>
+      <upperbound>3.2</upperbound>
+      <decimals>4</decimals>
+    </surveyprofield_numeric>
+  </item>
+  <item type="format" plugin="label" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>8</sortindex>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory&lt;br /&gt;&lt;/li&gt;&lt;li&gt;default is not set&lt;br /&gt;&lt;/li&gt;&lt;li&gt;decimal positions set to 4&lt;br /&gt;&lt;/li&gt;&lt;li&gt;minimum value set to 3.1&lt;br /&gt;&lt;/li&gt;&lt;li&gt;maximum value set to 3.2&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can "fly" &lt;span class="rangySelectionBoundary" style="line-height:0;"&gt;﻿&lt;/span&gt; over this element leaving the proposed default untouched (and the question not read).&lt;br /&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>4 info</customnumber>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="numeric" version="2014111000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+      <sortindex>9</sortindex>
+    </surveypro_item>
+    <surveyprofield_numeric>
+      <content>&lt;p&gt;Write the best approximation of π you can remember&lt;br /&gt;&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>4</customnumber>
+      <position>0</position>
+      <required>0</required>
+      <hideinstructions>0</hideinstructions>
+      <variable>numeric_004</variable>
+      <indent>0</indent>
+      <signed>0</signed>
+      <lowerbound>3.1</lowerbound>
+      <upperbound>3.2</upperbound>
+      <decimals>4</decimals>
+    </surveyprofield_numeric>
+  </item>
+</items>

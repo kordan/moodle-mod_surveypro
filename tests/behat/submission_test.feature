@@ -97,7 +97,7 @@ Feature: make a submission test for each available item
       | Indent            | 0                        |
       | Question position | left                     |
       | Element number    | 4b                       |
-      | Boolean style     | horizontal radio buttons |
+      | Element style     | horizontal radio buttons |
     And I press "Add"
 
     # #############

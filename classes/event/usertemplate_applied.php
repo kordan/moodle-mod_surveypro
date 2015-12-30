@@ -31,7 +31,7 @@ class usertemplate_applied extends \core\event\base {
      * Set basic properties for the event.
      */
     protected function init() {
-        $this->data['crud'] = 'u'; // c(reate), r(ead), u(pdate), d(elete)
+        $this->data['crud'] = 'u'; // One of these: c(reate), r(ead), u(pdate), d(elete).
         $this->data['edulevel'] = self::LEVEL_OTHER;
         $this->data['objecttable'] = 'surveypro';
     }

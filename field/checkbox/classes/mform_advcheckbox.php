@@ -31,8 +31,8 @@ class mod_surveypro_mform_advcheckbox extends MoodleQuickForm_advcheckbox {
     /**
      * All types must have this constructor implemented.
      */
-    public function mod_surveypro_mform_advcheckbox($elementName=null, $elementLabel=null, $attributes=null, $options=null) {
-        parent::MoodleQuickForm_advcheckbox($elementName, $elementLabel, $attributes, $options);
+    public function __construct($elementName=null, $elementLabel=null, $attributes=null, $options=null) {
+        parent::__construct($elementName, $elementLabel, $attributes, $options);
     }
 
     /**
