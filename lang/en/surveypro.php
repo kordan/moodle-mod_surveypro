@@ -203,7 +203,7 @@ Applying it may lead to an unexpected behaviour. Please:<ul>
 <li>Go to {$a->tab}->{$a->page1};</li>
 <li>Download {$a->templatename};</li>
 <li>Delete it from the list in the page;</li>
-<li>Go to {$a->tab}->{$a->page3} and try to import it again. You will get warnings.</li>;
+<li>Go to {$a->tab}->{$a->page3} and try to import it again. You will get warnings</li>;
 <li>Modify your usertemplate according to the suggestions displayed during upload.</li>';
 $string['fullwidth'] = 'top left (full width)';
 $string['gotolist'] = 'Continue to responses list';
@@ -220,7 +220,7 @@ $string['history_help'] = 'Preserving history, users will no longer be able to d
 $string['history'] = 'Preserve history';
 $string['ierr_missingparentcontent'] = 'You need to specify a parent content otherwise clear the "{$a}" field';
 $string['ierr_missingparentid'] = 'You need to select a element to branch the survey. Otherwise clear the "{$a}" field';
-$string['ierr_notalloweddefault'] = '"{$a}" is not an allowed default whether the element is set to "required"';
+$string['ierr_notalloweddefault'] = '"{$a}" is not an allowed default whether the element is "required"';
 $string['ignoreitems'] = 'Ignore';
 $string['import_attachmentsnotallowed'] = 'It seems you are trying to import attachments for the following elements:<ul>{$a}</ul><br />This is not allowed at the moment.';
 $string['import_breakingmaxentries'] = 'Import will assign {$a->totalentries} responses to user ID {$a->userid}. This exceeds the maximum allowed number as it has been set to {$a->maxentries}';

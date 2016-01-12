@@ -134,7 +134,11 @@ class mod_surveypro_utemplatecreateform extends moodleform {
         $contextid = $utemplateman->get_contextid_from_sharinglevel($data['sharinglevel']);
         $componentfiles = $utemplateman->get_available_templates($contextid);
 
-        $comparename = str_replace(' ', '_', $data['templatename']).'.xml';
+        $comparename = str_replace(' ', '_', $data['templatename']);
+        if (!preg_match('~\.xml$~', $comparename)) {
+            $comparename .= '.xml';
+        }
+
         foreach ($componentfiles as $xmlfile) {
             if ($xmlfile->get_filename() == $comparename) {
                 if (isset($data['overwrite'])) {

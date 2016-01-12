@@ -49,6 +49,7 @@ $logs = array(
     array('module' => 'surveypro', 'action' => 'submission viewed', 'mtable' => 'surveypro_submission', 'field' => 'id'),
     array('module' => 'surveypro', 'action' => 'mastertemplate applied', 'mtable' => 'surveypro', 'field' => 'name'),
     array('module' => 'surveypro', 'action' => 'mastertemplate saved', 'mtable' => 'surveypro', 'field' => 'name'),
+    array('module' => 'surveypro', 'action' => 'unattended submissions deleted', 'mtable' => 'surveypro_submission', 'field' => 'id'),
     array('module' => 'surveypro', 'action' => 'usertemplate applied', 'mtable' => 'surveypro', 'field' => 'name'),
     array('module' => 'surveypro', 'action' => 'usertemplate exported', 'mtable' => 'surveypro', 'field' => 'name'),
     array('module' => 'surveypro', 'action' => 'usertemplate saved', 'mtable' => 'surveypro', 'field' => 'name'),

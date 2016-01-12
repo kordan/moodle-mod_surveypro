@@ -1,40 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <items>
-  <item type="format" plugin="label" version="2014111000">
+  <item type="format" plugin="label" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>1</sortindex>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;h5&gt;CHECKBOX&lt;/h5&gt;</content>
+      <content>&lt;h5&gt;CHECKBOX&lt;/h5&gt;&lt;p&gt;This plugin, like all the others provided by surveypro core, is equipped with a set of common settings shared with all the other surveypro elements.&lt;/p&gt;&lt;p&gt;The &lt;b&gt;common settings&lt;/b&gt; set is done by:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Indent&lt;/li&gt;&lt;li&gt;Question position&lt;/li&gt;&lt;li&gt;Element number&lt;/li&gt;&lt;li&gt;Hide filling instruction&lt;br /&gt;&lt;/li&gt;&lt;li&gt;Variable&lt;/li&gt;&lt;li&gt;Additional note&lt;br /&gt;&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;This plugin is equipped with only one &lt;b&gt;checkbox specific setting&lt;/b&gt;:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Options&lt;br /&gt;&lt;/li&gt;&lt;li&gt;"Option other"&lt;/li&gt;&lt;li&gt;Default&lt;/li&gt;&lt;li&gt;"No answer" as defaults&lt;/li&gt;&lt;li&gt;Adjustment&lt;/li&gt;&lt;li&gt;Minimum required options&lt;/li&gt;&lt;li&gt;Download format&lt;br /&gt;&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;The cartesian product of all these settings makes a very long list of possible implementations of this element. In this usertemplate few use cases are described.&lt;br /&gt;&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <indent>0</indent>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="format" plugin="label" version="2014111000">
+  <item type="format" plugin="label" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>2</sortindex>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;"butter" is the default&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to an acceptable value so the user can "fly" over this item leaving the proposed default untouched (and the question not read)&lt;/p&gt;</content>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;"butter" is the default&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to an acceptable value so the user can "fly" over this element leaving the proposed default untouched (and the question not read)&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>1 intro</customnumber>
       <indent>0</indent>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2014111701">
+  <item type="field" plugin="checkbox" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>3</sortindex>
     </surveypro_item>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually eat for breakfast?&lt;/p&gt;</content>
@@ -55,27 +52,25 @@ bread</options>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2014111000">
+  <item type="format" plugin="label" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>4</sortindex>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;"No answer" is the default&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to an acceptable value so the user can "fly" over this item leaving the proposed default untouched (and the question not read). Please note that standard checkboxes will remain disabled until "No answer" is checked.&lt;/p&gt;</content>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;"No answer" is the default&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to an acceptable value so the user can "fly" over this element leaving the proposed default untouched (and the question not read). Please note that standard checkboxes will remain disabled until "No answer" is checked.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>2 intro</customnumber>
       <indent>0</indent>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2014111701">
+  <item type="field" plugin="checkbox" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>5</sortindex>
     </surveypro_item>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually eat for breakfast?&lt;/p&gt;</content>
@@ -95,27 +90,25 @@ bread</options>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2014111000">
+  <item type="format" plugin="label" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>6</sortindex>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;"butter" is the default&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to an acceptable value so the user can "fly" over this item leaving the proposed default untouched (and the question not read)&lt;/p&gt;</content>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;"butter" is the default&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to an acceptable value so the user can "fly" over this element leaving the proposed default untouched (and the question not read)&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>3 intro</customnumber>
       <indent>0</indent>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2014111701">
+  <item type="field" plugin="checkbox" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>7</sortindex>
     </surveypro_item>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually eat for breakfast?&lt;/p&gt;</content>
@@ -136,12 +129,11 @@ bread</options>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2014111000">
+  <item type="format" plugin="label" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>8</sortindex>
     </surveypro_item>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;default is not set&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The minimum number of checkboxes to tick is set to 1 so the item is mandatory. The user will be forced to tick at least one checkbox.&lt;/p&gt;</content>
@@ -151,12 +143,11 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2014111701">
+  <item type="field" plugin="checkbox" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>9</sortindex>
     </surveypro_item>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually eat for breakfast?&lt;/p&gt;</content>
@@ -176,12 +167,11 @@ bread</options>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2014111000">
+  <item type="format" plugin="label" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>10</sortindex>
     </surveypro_item>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;default is not set&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The minimum number of checkboxes to tick is set to 2 so the item is mandatory. The user will be forced to tick at least two checkboxes.&lt;/p&gt;</content>
@@ -191,12 +181,11 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2014111701">
+  <item type="field" plugin="checkbox" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>11</sortindex>
     </surveypro_item>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually eat for breakfast?&lt;/p&gt;</content>
@@ -216,27 +205,25 @@ bread</options>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2014111000">
+  <item type="format" plugin="label" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>12</sortindex>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;other is foreseen&lt;/li&gt;&lt;li&gt;"butter" is the default&lt;/li&gt;&lt;li&gt;"Other" has not a default&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item has its usual behaviour (see examples 1..5) and the student is allowed to include into his/her answer a option not listed&lt;/p&gt;</content>
+      <content>&lt;ul&gt;&lt;li&gt;Option other is foreseen&lt;/li&gt;&lt;li&gt;"butter" is the default&lt;/li&gt;&lt;li&gt;"Option other" has not a default&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item has its usual behaviour (see examples 1..5) and the student is allowed to include into his/her answer a option not listed&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>6 intro</customnumber>
       <indent>0</indent>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2014111701">
+  <item type="field" plugin="checkbox" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>13</sortindex>
     </surveypro_item>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually eat for breakfast?&lt;/p&gt;</content>
@@ -258,27 +245,25 @@ bread</options>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2014111000">
+  <item type="format" plugin="label" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>14</sortindex>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;other is foreseen&lt;/li&gt;&lt;li&gt;"butter" is among defaults&lt;/li&gt;&lt;li&gt;"Other" has a default&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item has its usual behaviour (see examples 1..5) and the student is allowed to include into his/her answer a option not listed. A default option is proposed even if it is not selected to be part of the student answer.&lt;/p&gt;</content>
+      <content>&lt;ul&gt;&lt;li&gt;Option other is foreseen&lt;/li&gt;&lt;li&gt;"butter" is among defaults&lt;/li&gt;&lt;li&gt;"Option other" has a default&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item has its usual behaviour (see examples 1..5) and the student is allowed to include into his/her answer a option not listed. A default option is proposed even if it is not selected to be part of the student answer.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>7 intro</customnumber>
       <indent>0</indent>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2014111701">
+  <item type="field" plugin="checkbox" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>15</sortindex>
     </surveypro_item>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually eat for breakfast?&lt;/p&gt;</content>
@@ -292,7 +277,7 @@ bread</options>
 coffee
 butter
 bread</options>
-      <labelother>other-&gt;biscuits</labelother>
+      <labelother>other, please specify-&gt;biscuits</labelother>
       <defaultvalue>butter</defaultvalue>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
@@ -300,27 +285,25 @@ bread</options>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2014111000">
+  <item type="format" plugin="label" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>16</sortindex>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;other is foreseen&lt;/li&gt;&lt;li&gt;"butter" is among defaults&lt;/li&gt;&lt;li&gt;"Other" has a chosen default&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item has its usual behaviour (see examples 1..5) and the student is allowed to include into his/her answer a option not listed. A default option is proposed and it is selected to be part of the student answer.&lt;/p&gt;</content>
+      <content>&lt;ul&gt;&lt;li&gt;Option other is foreseen&lt;/li&gt;&lt;li&gt;"butter" is among defaults&lt;/li&gt;&lt;li&gt;"Option other" has a chosen default&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item has its usual behaviour (see examples 1..5) and the student is allowed to include into his/her answer a option not listed. A default option is proposed and it is selected to be part of the student answer.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>8 intro</customnumber>
       <indent>0</indent>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2014111701">
+  <item type="field" plugin="checkbox" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>17</sortindex>
     </surveypro_item>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually eat for breakfast?&lt;/p&gt;</content>
@@ -334,7 +317,7 @@ bread</options>
 coffee
 butter
 bread</options>
-      <labelother>other-&gt;biscuits</labelother>
+      <labelother>other, please specify-&gt;biscuits</labelother>
       <defaultvalue>butter
 biscuits</defaultvalue>
       <noanswerdefault>0</noanswerdefault>
@@ -343,27 +326,25 @@ biscuits</defaultvalue>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2014111000">
+  <item type="format" plugin="label" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>18</sortindex>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;"butter" is the default&lt;/li&gt;&lt;li&gt;checkboxes are horizontally displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to an acceptable value so the user can "fly" over this item leaving the proposed default untouched (and the question not read)&lt;/p&gt;</content>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;"butter" is the default&lt;/li&gt;&lt;li&gt;checkboxes are horizontally displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to an acceptable value so the user can "fly" over this element leaving the proposed default untouched (and the question not read)&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>9 intro</customnumber>
       <indent>0</indent>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2014111701">
+  <item type="field" plugin="checkbox" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>19</sortindex>
     </surveypro_item>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually eat for breakfast?&lt;/p&gt;</content>
@@ -384,27 +365,25 @@ bread</options>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2014111000">
+  <item type="format" plugin="label" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>20</sortindex>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;"No answer" is the default&lt;/li&gt;&lt;li&gt;checkboxes are horizontally displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to an acceptable value so the user can "fly" over this item leaving the proposed default untouched (and the question not read). Please note that standard checkboxes will remain disabled until "No answer" is checked.&lt;/p&gt;</content>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;"No answer" is the default&lt;/li&gt;&lt;li&gt;checkboxes are horizontally displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to an acceptable value so the user can "fly" over this element leaving the proposed default untouched (and the question not read). Please note that standard checkboxes will remain disabled until "No answer" is checked.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>10 intro</customnumber>
       <indent>0</indent>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2014111701">
+  <item type="field" plugin="checkbox" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>21</sortindex>
     </surveypro_item>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually eat for breakfast?&lt;/p&gt;</content>
@@ -424,27 +403,25 @@ bread</options>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2014111000">
+  <item type="format" plugin="label" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>22</sortindex>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;"butter" is the default&lt;/li&gt;&lt;li&gt;checkboxes are horizontally displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to an acceptable value so the user can "fly" over this item leaving the proposed default untouched (and the question not read)&lt;/p&gt;</content>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;"butter" is the default&lt;/li&gt;&lt;li&gt;checkboxes are horizontally displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to an acceptable value so the user can "fly" over this element leaving the proposed default untouched (and the question not read)&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>11 intro</customnumber>
       <indent>0</indent>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2014111701">
+  <item type="field" plugin="checkbox" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>23</sortindex>
     </surveypro_item>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually eat for breakfast?&lt;/p&gt;</content>
@@ -465,12 +442,11 @@ bread</options>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2014111000">
+  <item type="format" plugin="label" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>24</sortindex>
     </surveypro_item>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;default is not set&lt;/li&gt;&lt;li&gt;checkboxes are horizontally displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The minimum number of checkboxes to tick is set to 1 so the item is mandatory. The user will be forced to tick at least one checkbox.&lt;/p&gt;</content>
@@ -480,12 +456,11 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2014111701">
+  <item type="field" plugin="checkbox" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>25</sortindex>
     </surveypro_item>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually eat for breakfast?&lt;/p&gt;</content>
@@ -505,12 +480,11 @@ bread</options>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2014111000">
+  <item type="format" plugin="label" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>26</sortindex>
     </surveypro_item>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;default is not set&lt;/li&gt;&lt;li&gt;checkboxes are horizontally displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The minimum number of checkboxes to tick is set to 2 so the item is mandatory. The user will be forced to tick at least two checkboxes.&lt;/p&gt;</content>
@@ -520,12 +494,11 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2014111701">
+  <item type="field" plugin="checkbox" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>27</sortindex>
     </surveypro_item>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually eat for breakfast?&lt;/p&gt;</content>
@@ -545,27 +518,25 @@ bread</options>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2014111000">
+  <item type="format" plugin="label" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>28</sortindex>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;other is foreseen&lt;/li&gt;&lt;li&gt;"butter" is the default&lt;/li&gt;&lt;li&gt;"Other" has not a default&lt;/li&gt;&lt;li&gt;checkboxes are horizontally displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item has its usual behaviour (see examples 1..5) and the student is allowed to include into his/her answer a option not listed&lt;/p&gt;</content>
+      <content>&lt;ul&gt;&lt;li&gt;Option other is foreseen&lt;/li&gt;&lt;li&gt;"butter" is the default&lt;/li&gt;&lt;li&gt;"Option other" has not a default&lt;/li&gt;&lt;li&gt;checkboxes are horizontally displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item has its usual behaviour (see examples 1..5) and the student is allowed to include into his/her answer a option not listed&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>14 intro</customnumber>
       <indent>0</indent>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2014111701">
+  <item type="field" plugin="checkbox" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>29</sortindex>
     </surveypro_item>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually eat for breakfast?&lt;/p&gt;</content>
@@ -587,27 +558,25 @@ bread</options>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2014111000">
+  <item type="format" plugin="label" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>30</sortindex>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;other is foreseen&lt;/li&gt;&lt;li&gt;"butter" is among defaults&lt;/li&gt;&lt;li&gt;"Other" has a default&lt;/li&gt;&lt;li&gt;checkboxes are horizontally displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item has its usual behaviour (see examples 1..5) and the student is allowed to include into his/her answer a option not listed. A default option is proposed even if it is not selected to be part of the student answer.&lt;/p&gt;</content>
+      <content>&lt;ul&gt;&lt;li&gt;Option other is foreseen&lt;/li&gt;&lt;li&gt;"butter" is among defaults&lt;/li&gt;&lt;li&gt;"Option other" has a default&lt;/li&gt;&lt;li&gt;checkboxes are horizontally displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item has its usual behaviour (see examples 1..5) and the student is allowed to include into his/her answer a option not listed. A default option is proposed even if it is not selected to be part of the student answer.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>15 intro</customnumber>
       <indent>0</indent>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2014111701">
+  <item type="field" plugin="checkbox" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>31</sortindex>
     </surveypro_item>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually eat for breakfast?&lt;/p&gt;</content>
@@ -621,7 +590,7 @@ bread</options>
 coffee
 butter
 bread</options>
-      <labelother>other-&gt;biscuits</labelother>
+      <labelother>other, please specify-&gt;biscuits</labelother>
       <defaultvalue>butter</defaultvalue>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
@@ -629,15 +598,14 @@ bread</options>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2014111000">
+  <item type="format" plugin="label" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>32</sortindex>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;other is foreseen&lt;/li&gt;&lt;li&gt;"butter" is among defaults&lt;/li&gt;&lt;li&gt;"Other" has a chosen default&lt;/li&gt;&lt;li&gt;checkboxes are horizontally displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item has its usual behaviour (see examples 1..5) and the &#13;
+      <content>&lt;ul&gt;&lt;li&gt;Option other is foreseen&lt;/li&gt;&lt;li&gt;"butter" is among defaults&lt;/li&gt;&lt;li&gt;"Option other" has a selected default&lt;/li&gt;&lt;li&gt;checkboxes are horizontally displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item has its usual behaviour (see examples 1..5) and the &#13;
 student is allowed to include into his/her answer a option not listed. A&#13;
  default option is proposed and it is selected to be part of the student&#13;
  answer.&lt;/p&gt;</content>
@@ -647,12 +615,11 @@ student is allowed to include into his/her answer a option not listed. A&#13;
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2014111701">
+  <item type="field" plugin="checkbox" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <advanced>0</advanced>
-      <sortindex>33</sortindex>
     </surveypro_item>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually eat for breakfast?&lt;/p&gt;</content>
@@ -666,7 +633,7 @@ student is allowed to include into his/her answer a option not listed. A&#13;
 coffee
 butter
 bread</options>
-      <labelother>other-&gt;biscuits</labelother>
+      <labelother>other, please specify-&gt;biscuits</labelother>
       <defaultvalue>butter
 biscuits</defaultvalue>
       <noanswerdefault>0</noanswerdefault>

@@ -247,13 +247,12 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
                         break;
                 }
             }
-            $shortdatearray = $this->item_split_unix_time($this->{$field});
-            $this->{$field.'_month'} = $shortdatearray['mon'];
-            $this->{$field.'_year'} = $shortdatearray['year'];
+            if (!empty($this->{$field})) {
+                $shortdatearray = $this->item_split_unix_time($this->{$field});
+                $this->{$field.'_month'} = $shortdatearray['mon'];
+                $this->{$field.'_year'} = $shortdatearray['year'];
+            }
         }
-
-        // 3. special management for defaultvalue
-        // nothing to do: defaultvalue doesn't need any further care
     }
 
     /**
@@ -278,9 +277,6 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
                 $record->{$field} = null;
             }
         }
-
-        // 3. special management for defaultvalue
-        // nothing to do: defaultvalue doesn't need any further care
     }
 
     /**

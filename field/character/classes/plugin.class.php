@@ -219,9 +219,6 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
                 $this->pattern_text = $this->pattern;
                 $this->pattern = SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN;
         }
-
-        // 3. special management for defaultvalue
-        // nothing to do: defaultvalue doesn't need any further care
     }
 
     /**
@@ -242,9 +239,6 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
             $record->minlength = strlen($record->pattern_text);
             $record->maxlength = $record->minlength;
         }
-
-        // 3. special management for defaultvalue
-        // nothing to do: defaultvalue doesn't need any further care
     }
 
     /**

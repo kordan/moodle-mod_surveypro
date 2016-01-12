@@ -325,10 +325,10 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
      * @param string $event: event to trigger
      * @return none
      */
-    public function trigger_event($event) {
+    public function trigger_event($eventname) {
         $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
         $eventdata['other'] = array('templatename' => $this->templatename);
-        switch ($event) {
+        switch ($eventname) {
             case 'mastertemplate_applied':
                 $event = \mod_surveypro\event\mastertemplate_applied::create($eventdata);
                 break;

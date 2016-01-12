@@ -1,4 +1,4 @@
-@mod @mod_surveypro
+@mod @mod_surveypro @current
 Feature: make a submission test for each available item
   In order to test that minimal use of surveypro is guaranteed
   As student1

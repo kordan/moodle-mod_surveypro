@@ -324,7 +324,10 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $exportsubdir = "mod_surveypro/templateexport";
         make_temp_directory($exportsubdir);
         $exportdir = "$CFG->tempdir/$exportsubdir";
-        $exportfile = $exportdir.'/'.$templatename.'.xml';
+        $exportfile = $exportdir.'/'.$templatename;
+        if (!preg_match('~\.xml$~', $exportfile)) {
+            $exportfile .= '.xml';
+        }
         $this->templatename = basename($exportfile);
 
         $this->trigger_event('usertemplate_exported');
@@ -462,7 +465,12 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                     continue;
                 }
 
-                $filerecord = array('contextid' => $contextid, 'component' => 'mod_surveypro', 'filearea' => SURVEYPRO_TEMPLATEFILEAREA, 'itemid' => 0, 'timemodified' => time());
+                $filerecord = array();
+                $filerecord['contextid'] = $contextid;
+                $filerecord['component'] = 'mod_surveypro';
+                $filerecord['filearea'] = SURVEYPRO_TEMPLATEFILEAREA;
+                $filerecord['itemid'] = 0;
+                $filerecord['timemodified'] = time();
                 if (!$templateoptions['subdirs']) {
                     if ($file->get_filepath() !== '/' or $file->is_directory()) {
                         continue;
@@ -531,7 +539,10 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $filerecord->filepath = '/';
         $filerecord->userid = $USER->id;
 
-        $filerecord->filename = str_replace(' ', '_', $this->formdata->templatename).'.xml';
+        $filerecord->filename = str_replace(' ', '_', $this->formdata->templatename);
+        if (!preg_match('~\.xml$~', $filerecord->filename)) {
+            $filerecord->filename .= '.xml';
+        }
         $fs->create_file_from_string($filerecord, $xmlcontent);
 
         return true;
@@ -802,9 +813,9 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      * @param string $event: event to trigger
      * @return none
      */
-    public function trigger_event($event) {
+    public function trigger_event($eventname) {
         $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
-        switch ($event) {
+        switch ($eventname) {
             case 'all_usertemplates_viewed':
                 $event = \mod_surveypro\event\all_usertemplates_viewed::create($eventdata);
                 break;

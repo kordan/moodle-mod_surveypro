@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <items>
-  <item type="format" plugin="label" version="2014111000">
+  <item type="format" plugin="label" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>1</sortindex>
       <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyproformat_label>
@@ -16,12 +15,11 @@
       <leftlabel>label_leftlabel_01</leftlabel>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="textarea" version="2014111000">
+  <item type="field" plugin="textarea" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>2</sortindex>
       <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_textarea>
@@ -39,12 +37,11 @@
       <maxlength>0</maxlength>
     </surveyprofield_textarea>
   </item>
-  <item type="field" plugin="textarea" version="2014111000">
+  <item type="field" plugin="textarea" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>3</sortindex>
       <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_textarea>
@@ -62,12 +59,11 @@
       <maxlength>0</maxlength>
     </surveyprofield_textarea>
   </item>
-  <item type="field" plugin="textarea" version="2014111000">
+  <item type="field" plugin="textarea" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>4</sortindex>
       <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_textarea>
@@ -85,12 +81,11 @@
       <maxlength>0</maxlength>
     </surveyprofield_textarea>
   </item>
-  <item type="field" plugin="textarea" version="2014111000">
+  <item type="field" plugin="textarea" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>5</sortindex>
       <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_textarea>
@@ -108,12 +103,11 @@
       <maxlength>0</maxlength>
     </surveyprofield_textarea>
   </item>
-  <item type="field" plugin="textarea" version="2014111000">
+  <item type="field" plugin="textarea" version="2015123000">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <advanced>0</advanced>
-      <sortindex>6</sortindex>
       <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_textarea>
