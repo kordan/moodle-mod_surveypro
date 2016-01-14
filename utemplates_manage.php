@@ -26,8 +26,8 @@ require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/utemplate.class.php');
 
-$id = optional_param('id', 0, PARAM_INT); // course_module ID, or
-$s = optional_param('s', 0, PARAM_INT);  // surveypro instance ID
+$id = optional_param('id', 0, PARAM_INT); // Course_module id.
+$s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
@@ -49,9 +49,7 @@ $confirm = optional_param('cnf', SURVEYPRO_UNCONFIRMED, PARAM_INT);
 $context = context_module::instance($cm->id);
 require_capability('mod/surveypro:manageusertemplates', $context);
 
-// -----------------------------
-// calculations
-// -----------------------------
+// Calculations.
 $utemplateman = new mod_surveypro_usertemplate($cm, $context, $surveypro);
 $utemplateman->set_utemplateid($utemplateid);
 $utemplateman->set_action($action);
@@ -65,9 +63,7 @@ if ($view == SURVEYPRO_EXPORTUTEMPLATE) {
     die();
 }
 
-// -----------------------------
-// output starts here
-// -----------------------------
+// Output starts here.
 $url = new moodle_url('/mod/surveypro/utemplates_manage.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
@@ -75,19 +71,19 @@ $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
-// make bold the navigation menu/link that refers to me
+// Make bold the navigation menu/link that refers to me.
 navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
-$moduletab = SURVEYPRO_TABUTEMPLATES; // needed by tabs.php
-$modulepage = SURVEYPRO_UTEMPLATES_MANAGE; // needed by tabs.php
+$moduletab = SURVEYPRO_TABUTEMPLATES; // Needed by tabs.php.
+$modulepage = SURVEYPRO_UTEMPLATES_MANAGE; // Needed by tabs.php.
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
 $utemplateman->delete_utemplate();
 
 $utemplateman->manage_utemplates();
-$utemplateman->trigger_event('all_usertemplates_viewed'); // event: all_usertemplates_viewed
+$utemplateman->trigger_event('all_usertemplates_viewed'); // Event: all_usertemplates_viewed.
 
-// Finish the page
+// Finish the page.
 echo $OUTPUT->footer();

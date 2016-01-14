@@ -1,7 +1,5 @@
 -> does it make sense the research per long text?
--> "Manage relation" page has lots of features, but the consequence is that the page is
-"cluttered" with too many settings. Obviously a Show/Hide advanced
-button is needed. (thanks to JR)
+-> "Manage relation" page has lots of features, but the consequence is that the page is "cluttered" with too many settings. Obviously a Show/Hide advanced button is needed. (thanks to JR)
 -> The Autofill question message "Content will be added at submit time" should not be displayed to the Student when taking the Survey, as it does not mean anything to him. That is a message for Teacher, not Student. (thanks to JR)
 -> grades?
 -> surveypro_get_view_actions()?
@@ -48,5 +46,3 @@ README.md (so it will display nicely in github) ?
 4) Webservices?
 
 5) Verify guests submissions. Permissions, relations with anonymous.
-
-6) backup/restore of attachements in fileupload plugin

@@ -33,19 +33,19 @@ class backup_surveyprofield_fileupload_subplugin extends backup_subplugin {
      */
     protected function define_item_subplugin_structure() {
 
-        // XML nodes declaration
-        $subplugin = $this->get_subplugin_element(null, '../../plugin', 'fileupload'); // virtual optigroup element
+        // XML nodes declaration.
+        $subplugin = $this->get_subplugin_element(null, '../../plugin', 'fileupload'); // Virtual optigroup element.
         $wrapper = new backup_nested_element($this->get_recommended_name());
         $subpluginfileupload = new backup_nested_element('surveyprofield_fileupload', array('id'), array(
             'content', 'contentformat', 'customnumber', 'position',
             'extranote', 'required', 'variable', 'indent',
             'maxfiles', 'maxbytes', 'filetypes'));
 
-        // connect XML elements into the tree
+        // Connect XML elements into the tree.
         $subplugin->add_child($wrapper);
         $wrapper->add_child($subpluginfileupload);
 
-        // Define sources
+        // Define sources.
         $subpluginfileupload->set_source_table('surveyprofield_fileupload', array('itemid' => backup::VAR_PARENTID));
 
         return $subplugin;
@@ -58,11 +58,11 @@ class backup_surveyprofield_fileupload_subplugin extends backup_subplugin {
      * @return none
      */
     protected function define_answer_subplugin_structure() {
-        // XML nodes declaration
-        $subplugin = $this->get_subplugin_element(null, '../../plugin', 'fileupload'); // virtual optigroup element
+        // XML nodes declaration.
+        $subplugin = $this->get_subplugin_element(null, '../../plugin', 'fileupload'); // Virtual optigroup element.
         $wrapper = new backup_nested_element($this->get_recommended_name());
 
-        // connect XML elements into the tree
+        // Connect XML elements into the tree.
         $subplugin->add_child($wrapper);
 
         $wrapper->annotate_files('surveyprofield_fileupload', 'fileuploadfiles', backup::VAR_PARENTID);

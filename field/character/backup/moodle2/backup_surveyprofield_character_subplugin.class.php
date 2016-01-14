@@ -31,19 +31,19 @@ class backup_surveyprofield_character_subplugin extends backup_subplugin {
      */
     protected function define_item_subplugin_structure() {
 
-        // XML nodes declaration
-        $subplugin = $this->get_subplugin_element(null, '../../plugin', 'character'); // virtual optigroup element
+        // XML nodes declaration.
+        $subplugin = $this->get_subplugin_element(null, '../../plugin', 'character'); // Virtual optigroup element.
         $wrapper = new backup_nested_element($this->get_recommended_name());
         $subplugincharacter = new backup_nested_element('surveyprofield_character', array('id'), array(
             'content', 'contentformat', 'customnumber', 'position',
             'extranote', 'required', 'hideinstructions', 'variable', 'indent',
             'defaultvalue', 'pattern', 'minlength', 'maxlength'));
 
-        // connect XML elements into the tree
+        // Connect XML elements into the tree.
         $subplugin->add_child($wrapper);
         $wrapper->add_child($subplugincharacter);
 
-        // Define sources
+        // Define sources.
         $subplugincharacter->set_source_table('surveyprofield_character', array('itemid' => backup::VAR_PARENTID));
 
         return $subplugin;

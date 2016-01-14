@@ -1,8 +1,8 @@
 @mod @mod_surveypro
-Feature: Backup and restore of surveyspro
-  In order to use the file mod/quiz/tests/behat/backup.feature as a guide
+Feature: Duplicate a surveyspro instance
+  In order to validate backup and restore process
   As a teacher
-  I need to be able to back them up and restore them.
+  I duplicate a surveypro instance.
 
   Background:
     Given the following "courses" exist:
@@ -35,7 +35,7 @@ Feature: Backup and restore of surveyspro
     And I follow "Layout"
     Then I should see "Welcome to this new instance of surveypro"
     And I should see "Grouped data"
-    And I should see "What do you usually eat for breakfast?"
+    And I should see "What do you usually get for breakfast?"
     And I should see "Write the best approximation of π you can remember"
     And I should see "Is this true?"
     And I should see "Where do you usually spend your summer holidays?"

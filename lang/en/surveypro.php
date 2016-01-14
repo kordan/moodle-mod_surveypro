@@ -220,7 +220,7 @@ $string['history_help'] = 'Preserving history, users will no longer be able to d
 $string['history'] = 'Preserve history';
 $string['ierr_missingparentcontent'] = 'You need to specify a parent content otherwise clear the "{$a}" field';
 $string['ierr_missingparentid'] = 'You need to select a element to branch the survey. Otherwise clear the "{$a}" field';
-$string['ierr_notalloweddefault'] = '"{$a}" is not an allowed default whether the element is "required"';
+$string['ierr_notalloweddefault'] = '"{$a}" is not an allowed default for "required" elements';
 $string['ignoreitems'] = 'Ignore';
 $string['import_attachmentsnotallowed'] = 'It seems you are trying to import attachments for the following elements:<ul>{$a}</ul><br />This is not allowed at the moment.';
 $string['import_breakingmaxentries'] = 'Import will assign {$a->totalentries} responses to user ID {$a->userid}. This exceeds the maximum allowed number as it has been set to {$a->maxentries}';
@@ -493,9 +493,9 @@ It is possible to choose a single semantic that will apply to EACH element to im
 The import process breaks if it lead to exceed the maximum number of responses allowed to users (if set).';
 $string['willclose'] = 'Closure time';
 $string['willopen'] = 'This survey will open at';
-$string['wrong_direction_found'] = 'Unacceptable $direction provided to {$a->methodname} in conjunction with $startingpage == {$a->methodname}';
-$string['wrong_sharinglevel_found'] = 'Unacceptable $sharinglevel = "{$a->sharinglevel}" provided to {$a->methodname}';
-$string['wrong_userdatarec_found'] = 'Unacceptable $userdatarec = \'{$a}\' has not been replaced';
+$string['wrong_direction_found'] = 'Invalid $direction provided to {$a->methodname} in conjunction with $startingpage == {$a->methodname}';
+$string['wrong_sharinglevel_found'] = 'Invalid $sharinglevel = "{$a->sharinglevel}" provided to {$a->methodname}';
+$string['wrong_userdatarec_found'] = 'Invalid $userdatarec = \'{$a}\' has not been replaced';
 $string['wrongrelation'] = '"{$a}" will never match';
 $string['wrongsortindex'] = 'The sortindex of the items in the template does not grow uniformly';
 $string['xmltemplate_help'] = 'Choose the template you want to download as zip file to share it with other moodle users.';

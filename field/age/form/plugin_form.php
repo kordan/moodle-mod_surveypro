@@ -35,29 +35,23 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
      * @return none
      */
     public function definition() {
-        // ----------------------------------------
-        // start with common section of the form
+        // Start with common section of the form.
         parent::definition();
 
-        // ----------------------------------------
         $mform = $this->_form;
 
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         // $item = $this->_customdata->item;
         // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
 
-        // ----------------------------------------
         $maximumage = get_config('surveyprofield_age', 'maximumage');
         $format = get_string('strftimemonthyear', 'langconfig');
 
         $years = array_combine(range(0, $maximumage), range(0, $maximumage));
         $months = array_combine(range(0, 11), range(0, 11));
 
-        // ----------------------------------------
-        // item: defaultoption
-        // ----------------------------------------
+        // Item: defaultoption.
         $fieldname = 'defaultoption';
         $elementgroup = array();
         $elementgroup[] = $mform->createElement('radio', 'defaultoption', '', get_string('customdefault', 'surveyprofield_age'), SURVEYPRO_CUSTOMDEFAULT);
@@ -67,9 +61,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setDefault($fieldname, SURVEYPRO_INVITEDEFAULT);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_age');
 
-        // ----------------------------------------
-        // item: defaultvalue
-        // ----------------------------------------
+        // Item: defaultvalue.
         $fieldname = 'defaultvalue';
         $elementgroup = array();
         $elementgroup[] = $mform->createElement('select', $fieldname.'_year', '', $years);
@@ -77,15 +69,11 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addGroup($elementgroup, $fieldname.'_group', null, ' ', false);
         $mform->disabledIf($fieldname.'_group', 'defaultoption', 'neq', SURVEYPRO_CUSTOMDEFAULT);
 
-        // -----------------------------
-        // here I open a new fieldset
-        // -----------------------------
+        // Here I open a new fieldset.
         $fieldname = 'validation';
         $mform->addElement('header', $fieldname, get_string($fieldname, 'mod_surveypro'));
 
-        // ----------------------------------------
-        // item: lowerbound
-        // ----------------------------------------
+        // Item: lowerbound.
         $fieldname = 'lowerbound';
         $elementgroup = array();
         $elementgroup[] = $mform->createElement('select', $fieldname.'_year', '', $years);
@@ -96,9 +84,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setDefault($fieldname.'_month', '0');
         // $mform->disabledIf($fieldname.'_group', $fieldname.'_select', 'neq', constant($constantname));
 
-        // ----------------------------------------
-        // item: upperbound
-        // ----------------------------------------
+        // Item: upperbound.
         $fieldname = 'upperbound';
         $elementgroup = array();
         $elementgroup[] = $mform->createElement('select', $fieldname.'_year', '', $years);
@@ -119,8 +105,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
      * @return $errors
      */
     public function validation($data, $files) {
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         $item = $this->_customdata->item;
         // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
@@ -130,7 +115,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // "noanswer" default option is not allowed when the item is mandator
         if ( ($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required']) ) {
             $a = get_string('noanswer', 'mod_surveypro');
-            $errors['defaultvalue_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
+            $errors['defaultoption_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
         }
 
         // echo PHP_INT_SIZE;
@@ -143,11 +128,11 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
             $errors['lowerbound_group'] = get_string('ierr_lowergreaterthanupper', 'surveyprofield_age');
         }
 
-        // constrain default between boundaries
+        // Constrain default between boundaries.
         if ($data['defaultoption'] == SURVEYPRO_CUSTOMDEFAULT) {
             $defaultvalue = $item->item_age_to_unix_time($data['defaultvalue_year'], $data['defaultvalue_month']);
 
-            // internal range
+            // Internal range.
             if ( ($defaultvalue < $lowerbound) || ($defaultvalue > $upperbound) ) {
                 $errors['defaultvalue_group'] = get_string('ierr_outofrangedefault', 'surveyprofield_age');
             }

@@ -96,7 +96,7 @@ foreach ($surveypros as $surveypro) {
         $printsection = '';
     }
 
-    if (empty($sectionclass)) { // section is visible
+    if (empty($sectionclass)) { // The section is visible.
         $cellclass = $surveypro->visible ? null : array('class' => 'dimmed');
     } else {
         $cellclass = array('class' => 'dimmed');
@@ -118,4 +118,5 @@ foreach ($surveypros as $surveypro) {
 
 echo html_writer::table($table);
 
+// Finish the page.
 echo $OUTPUT->footer();

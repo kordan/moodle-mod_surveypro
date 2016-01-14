@@ -35,60 +35,45 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
      * @return none
      */
     public function definition() {
-        // ----------------------------------------
-        // start with common section of the form
+        // Start with common section of the form.
         parent::definition();
 
-        // ----------------------------------------
         $mform = $this->_form;
 
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         // $item = $this->_customdata->item;
         // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
 
-        // ----------------------------------------
-        // item: defaultvalue
-        // ----------------------------------------
+        // Item: defaultvalue.
         $fieldname = 'defaultvalue';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_numeric'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_numeric');
-        $mform->setType($fieldname, PARAM_TEXT); // maybe I use ',' as decimal separator so it is not a INT and not a FLOAT
+        $mform->setType($fieldname, PARAM_TEXT); // Maybe I use ',' as decimal separator so it is not a INT and not a FLOAT.
 
-        // -----------------------------
-        // here I open a new fieldset
-        // -----------------------------
+        // Here I open a new fieldset.
         $fieldname = 'validation';
         $mform->addElement('header', $fieldname, get_string($fieldname, 'mod_surveypro'));
 
-        // ----------------------------------------
-        // item: signed
-        // ----------------------------------------
+        // Item: signed.
         $fieldname = 'signed';
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveyprofield_numeric'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_numeric');
         $mform->setType($fieldname, PARAM_INT);
 
-        // ----------------------------------------
-        // item: decimals
-        // ----------------------------------------
+        // Item: decimals.
         $fieldname = 'decimals';
         $options = array_combine(range(0, 8), range(0, 8));
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_numeric'), $options);
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_numeric');
 
-        // ----------------------------------------
-        // item: lowerbound
-        // ----------------------------------------
+        // Item: lowerbound.
         $fieldname = 'lowerbound';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_numeric'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_numeric');
         $mform->setType($fieldname, PARAM_RAW);
 
-        // ----------------------------------------
-        // item: upperbound
-        // ----------------------------------------
+        // Item: upperbound.
         $fieldname = 'upperbound';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_numeric'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_numeric');
@@ -105,8 +90,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
      * @return $errors
      */
     public function validation($data, $files) {
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         $item = $this->_customdata->item;
         // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
@@ -114,7 +98,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $errors = parent::validation($data, $files);
 
         $draftnumber = $data['lowerbound'];
-        // get lowerbound
+        // Get lowerbound.
         if (strlen($draftnumber)) {
             $matches = $item->item_atomize_number($draftnumber);
             if (empty($matches)) {
@@ -126,7 +110,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         }
 
         $draftnumber = $data['upperbound'];
-        // get upperbound
+        // Get upperbound.
         if (strlen($draftnumber)) {
             $matches = $item->item_atomize_number($draftnumber);
             if (empty($matches)) {
@@ -157,7 +141,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         }
 
         $draftnumber = $data['defaultvalue'];
-        // get defaultvalue
+        // Get defaultvalue.
         if (strlen($draftnumber)) {
             $matches = $item->item_atomize_number($draftnumber);
             if (empty($matches)) {
@@ -165,28 +149,28 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
             } else {
                 $defaultvalue = unformat_float($draftnumber, true);
 
-                // constrain default between boundaries
-                // if it is < 0 but has been defined as unsigned, shouts
+                // Constrain default between boundaries.
+                // If it is < 0 but has been defined as unsigned, shouts.
                 if ((!isset($data['signed'])) && ($defaultvalue < 0)) {
                     $errors['defaultvalue'] = get_string('ierr_defaultsignnotallowed', 'surveyprofield_numeric');
                 }
 
                 $isinteger = (bool)(strval(intval($defaultvalue)) == strval($defaultvalue));
-                // if it has decimal but has been defined as integer, shouts
+                // If it has decimal but has been defined as integer, shouts.
                 if ( ($data['decimals'] == 0) && (!$isinteger) ) {
                     $errors['defaultvalue'] = get_string('ierr_default_notinteger', 'surveyprofield_numeric');
                 }
 
                 if (isset($lowerbound) && isset($upperbound)) {
                     if ($lowerbound < $upperbound) {
-                        // internal range
+                        // Internal range.
                         if ( ($defaultvalue < $lowerbound) || ($defaultvalue > $upperbound) ) {
                             $errors['defaultvalue'] = get_string('ierr_outofrangedefault', 'surveyprofield_numeric');
                         }
                     }
 
                     if ($lowerbound > $upperbound) {
-                        // external range
+                        // External range.
                         if (($defaultvalue > $upperbound) && ($defaultvalue < $lowerbound)) {
                             $a = get_string('upperbound', 'surveyprofield_numeric');
                             $errors['defaultvalue'] = get_string('ierr_outofexternalrangedefault', 'surveyprofield_numeric', $a);
@@ -194,14 +178,14 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
                     }
                 } else {
                     if (isset($lowerbound)) {
-                        // if defaultvalue is < $this->lowerbound, shouts
+                        // If defaultvalue is < $this->lowerbound, shouts.
                         if ($defaultvalue < $lowerbound) {
                             $errors['defaultvalue'] = get_string('ierr_default_outofrange', 'surveyprofield_numeric');
                         }
                     }
 
                     if (isset($upperbound)) {
-                        // if defaultvalue is > $this->upperbound, shouts
+                        // If defaultvalue is > $this->upperbound, shouts.
                         if ($defaultvalue > $upperbound) {
                             $errors['defaultvalue'] = get_string('ierr_default_outofrange', 'surveyprofield_numeric');
                         }

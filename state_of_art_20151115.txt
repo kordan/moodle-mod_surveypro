@@ -12,19 +12,19 @@ They are:
 ->  2) item type "autofill" to autofill a field with infos from user, course, time, date or surveypro
 ->  3) item type "boolean" to ask for question like: "Is this true?"
 ->  4) item type "character" to ask for question like: "Write down your email" or "Enter your personal web site URL" or "Enter the PIN code of your card"
-->  5) item type "checkbox" to ask for question like: "What do you usually eat for breakfast? milk, sugar, jam, chocolate, other..."
+->  5) item type "checkbox" to ask for question like: "What do you usually get for breakfast? milk, sugar, jam, chocolate, other..."
 ->  6) item type "date" to ask for question like: "When were you born?" A: October 12, 1492
 ->  7) item type "datetime" to ask for question like: "Please, write down date and time of your last flight to Los Angeles." A: October 12, 2008 at 14:45
 ->  8) item type "fileupload" to ask for question like: "Please, upload your CV in PDF format"
 ->  9) item type "integer" to ask for question like: "How many brothers/sisters do you have?"
--> 10) item type "multiselect" to ask for question like: "What do you usually eat for breakfast? milk, sugar, jam, chocolate, other..."
+-> 10) item type "multiselect" to ask for question like: "What do you usually get for breakfast? milk, sugar, jam, chocolate, other..."
 -> 11) item type "numeric" to ask for question like: "How the mean temperature of the room is supposed to be?"
 -> 12) item type "radiobutton" to ask for question like: "Which summer holidays place do you prefer? sea, mountain, lake, hills, desert..."
 -> 13) item type "rate" to ask for question like: "How confident are you with the following languages? EN, ES, IT, FR. Mother tongue, Very confident, Not enought, Completely unknown."
 -> 14) item type "recurrence" to ask for question like: "When do you usually celebrate your name-day?" A: July 7
 -> 15) item type "select" to ask for question like: "Which summer holidays place do you prefer? sea, mountain, lake, hills, desert..."
 -> 16) item type "shortdate" to ask for question like: "When did you buy your current car?" A: August 2002
--> 17) item type "textarea" to ask for question like: "Enter a short description of yourself"
+-> 17) item type "textarea" to ask for question like: "Write a short description of yourself"
 -> 18) item type "time" to ask for question like: "At what time do you usually get up in the morning in the working days?" A: 6:45
 
 -- formats --

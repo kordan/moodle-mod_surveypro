@@ -49,7 +49,6 @@ Feature: test each student sees only personal submissions
     And I expand all fieldsets
     And I set the following fields to these values:
       | Content                  | Write down your email |
-      | Required                 | 1                     |
       | Indent                   | 0                     |
       | Question position        | left                  |
       | Element number           | 1                     |

@@ -73,8 +73,6 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
      */
     public $indent = 0;
 
-    // -----------------------------
-
     /**
      * $hiddenfield = is the static text visible in the mform?
      */
@@ -120,8 +118,6 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
      */
     public static $canbeparent = false;
 
-    // -----------------------------
-
     /**
      * Class constructor
      *
@@ -134,19 +130,19 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
 
-        // list of constant element attributes
+        // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'autofill';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // It is already true from parent class.
         $this->savepositiontodb = false;
 
-        // other element specific properties
-        // nothing
+        // Other element specific properties.
+        // No properties here.
 
-        // override properties depending from $surveypro settings
-        // nothing
+        // Override properties depending from $surveypro settings..
+        // No properties here.
 
-        // list of fields I do not want to have in the item definition form
+        // List of fields I do not want to have in the item definition form.
         $this->isinitemform['required'] = false;
         $this->isinitemform['hideinstructions'] = false;
 
@@ -166,8 +162,8 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
         // Do parent item loading stuff here (mod_surveypro_itembase::item_load($itemid, $evaluateparentcontent)))
         parent::item_load($itemid, $evaluateparentcontent);
 
-        // multilang load support for builtin surveypro
-        // whether executed, the 'content' field is ALWAYS handled
+        // Multilang load support for builtin surveypro.
+        // Whether executed, the 'content' field is ALWAYS handled.
         $this->item_builtin_string_load_support();
 
         $this->item_custom_fields_to_form();
@@ -182,22 +178,14 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
     public function item_save($record) {
         $this->item_get_common_settings($record);
 
-        // -----------------------------
-        // Now execute very specific plugin level actions
-        // -----------------------------
+        // Now execute very specific plugin level actions.
 
-        // begin of: plugin specific settings (eventually overriding general ones)
-        // set custom fields value as defined for this question plugin
+        // Begin of: plugin specific settings (eventually overriding general ones).
+        // Set custom fields value as defined for this question plugin.
         $this->item_custom_fields_to_db($record);
+        // End of: plugin specific settings (eventually overriding general ones).
 
-        $record->hideinstructions = 1;
-        $checkboxes = array('hiddenfield');
-        foreach ($checkboxes as $checkbox) {
-            $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
-        }
-        // end of: plugin specific settings (eventually overriding general ones)
-
-        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record)))
+        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
     }
 
@@ -218,11 +206,8 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
      * @return
      */
     public function item_custom_fields_to_form() {
-        // 1. special management for fields equipped with "free" checkbox
-        // nothing to do: they don't exist in this plugin
-
-        // 2. special management for composite fields
-        // nothing to do: they don't exist in this plugin
+        // 1. Special management for composite fields.
+        // Nothing to do: they don't exist in this plugin.
 
         // 3. special management for autofill contents
         $referencearray = array(''); // <-- take care, the first element is already on board
@@ -252,20 +237,25 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
      * @return
      */
     public function item_custom_fields_to_db($record) {
+        // 1. Special management for composite fields.
+        // Nothing to do: they don't exist in this plugin.
 
-        // 1. special management for fields equipped with "free" checkbox
-        // nothing to do: they don't exist in this plugin
+        // 2. Override few values.
+        // Hideinstructions is set by design.
+        $record->hideinstructions = 1;
 
-        // 2. special management for composite fields
-        // nothing to do: they don't exist in this plugin
+        // 3. Set values corresponding to checkboxes.
+        $checkboxes = array('hiddenfield');
+        foreach ($checkboxes as $checkbox) {
+            $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
+        }
 
-        // 3. special management for autofill contents
+        // 4. Other: special management for autofill contents
         for ($i = 1; $i < 6; $i++) {
             $index = sprintf('%02d', $i);
             if (!empty($record->{'element'.$index.'_select'})) {
                 $constantname = 'SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT'.SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT_COUNT;
-                // intanto aggiorna le variabili
-                // per i campi della tabella surveypro_autofill
+                // In the meantime, update variables linked to fields of table surveypro_autofill.
                 if ($record->{'element'.$index.'_select'} == constant($constantname)) {
                     $record->{'element'.$index} = $record->{'element'.$index.'_text'};
                 } else {
@@ -370,7 +360,7 @@ EOS;
             $mform->setType($this->itemname, PARAM_RAW);
 
             if (!$this->hiddenfield) {
-                // workaround suggested by Marina Glancy in MDL-42946
+                // Workaround suggested by Marina Glancy in MDL-42946.
                 $option = array('class' => 'indent-'.$this->indent);
                 $mform->addElement('mod_surveypro_static', $this->itemname.'_static', $elementlabel, $value, $option);
             }
@@ -395,7 +385,7 @@ EOS;
      * @return
      */
     public function userform_mform_validation($data, &$errors, $surveypro, $searchform) {
-        // nothing to do here
+        // Nothing to do here.
     }
 
     /**
@@ -426,7 +416,7 @@ EOS;
             return;
         }
 
-        // get the original user actually making the first submission
+        // Get the original user actually making the first submission.
         // $userid = $DB->get_field('surveypro_submission', 'userid', array('id' => $olduseranswer->submissionid), IGNORE_MULTIPLE);
         // $user = $DB->get_record('user', array('id' => $userid));
 
@@ -477,68 +467,68 @@ EOS;
             $index = sprintf('%02d', $i);
             if (!empty($this->{'element'.$index})) {
                 switch ($this->{'element'.$index}) {
-                    case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT01: // submissionid
+                    case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT01: // Submissionid.
                         if ($submissionid) {
                             $label .= $submission->id;
                         } else {
-                            // if during string build you find a element that can not be valued now,
-                            // overwrite $label, break switch and continue both
+                            // If during string build you find a element that can not be valued now,
+                            //     overwrite $label, break switch and continue both
                             $label = get_string('latevalue', 'surveyprofield_autofill');
-                            break 2; // it is the first time I use it! Coooool :-)
+                            break 2; // It is the first time I use it! Coooool :-).
                         }
                         break;
-                    case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT02: // submissiontime
+                    case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT02: // Submissiontime.
                         if ($submissionid) {
                             // $format = get_string('strftimetime', 'langconfig');
                             $format = get_string('strftimedaytime', 'langconfig');
                             $label .= userdate($submission->timecreated, $format);
                         } else {
-                            // if during string build you find a element that can not be valued now,
-                            // overwrite $label, break switch and continue both
+                            // If during string build you find a element that can not be valued now,
+                            //     overwrite $label, break switch and continue both
                             $label = get_string('latevalue', 'surveyprofield_autofill');
-                            break 2; // it is the first time I use it! Coooool :-)
+                            break 2; // It is the first time I use it! Coooool :-)
                         }
                         break;
-                    case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT03: // submissiondate
+                    case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT03: // Submissiondate.
                         if ($submissionid) {
                             // $format = get_string('strftimedatefullshort', 'langconfig');
                             $format = get_string('strftimedate', 'langconfig');
                             $label .= userdate($submission->timecreated, $format);
                         } else {
-                            // if during string build you find a element that can not be valued now,
-                            // overwrite $label, break switch and continue both
+                            // If during string build you find a element that can not be valued now,
+                            //     overwrite $label, break switch and continue both
                             $label = get_string('latevalue', 'surveyprofield_autofill');
-                            break 2; // it is the first time I use it! Coooool :-)
+                            break 2; // It is the first time I use it! Coooool :-)
                         }
                         break;
-                    case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT04: // submissiondateandtime
+                    case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT04: // Submissiondateandtime.
                         if ($submissionid) {
                             // $format = get_string('strftimedatetimeshort', 'langconfig');
                             $format = get_string('strftimedatetime', 'langconfig');
                             $label .= userdate($submission->timecreated, $format);
                         } else {
-                            // if during string build you find a element that can not be valued now,
-                            // overwrite $label, break switch and continue both
+                            // If during string build you find a element that can not be valued now,
+                            //     overwrite $label, break switch and continue both
                             $label = get_string('latevalue', 'surveyprofield_autofill');
-                            break 2; // it is the first time I use it! Coooool :-)
+                            break 2; // It is the first time I use it! Coooool :-)
                         }
-                    case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT05: // userid
+                    case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT05: // Userid.
                         $label .= $user->id;
                         break;
-                    case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT06: // userfirstname
+                    case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT06: // Userfirstname.
                         $label .= $user->firstname;
                         break;
-                    case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT07: // userlastname
+                    case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT07: // Userlastname.
                         $label .= $user->lastname;
                         break;
-                    case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT08: // userfullname
+                    case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT08: // Userfullname.
                         $label .= fullname($user);
                         break;
-                    case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT09: // usergroupid
+                    case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT09: // Usergroupid.
                         $usergroups = groups_get_user_groups($COURSE->id, $user->id);
                         $label .= implode(', ', $usergroups[0]);
                         break;
-                    case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT10: // usergroupname
+                    case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT10: // Usergroupname.
                         $names = array();
                         $usergroups = groups_get_user_groups($COURSE->id, $user->id);
                         foreach ($usergroups[0] as $groupid) {
@@ -546,19 +536,19 @@ EOS;
                         }
                         $label .= implode(', ', $names);
                         break;
-                    case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT11: // surveyproid
+                    case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT11: // Surveyproid.
                         $label .= $surveypro->id;
                         break;
-                    case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT12: // surveyproname
+                    case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT12: // Surveyproname.
                         $label .= $surveypro->name;
                         break;
-                    case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT13: // courseid
+                    case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT13: // Courseid.
                         $label .= $COURSE->id;
                         break;
-                    case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT14: // coursename
+                    case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT14: // Coursename.
                         $label .= $COURSE->name;
                         break;
-                    default:                                       // label
+                    default:                                       // Label.
                         $label .= $this->{'element'.$index};
                 }
             }

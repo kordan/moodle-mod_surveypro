@@ -75,7 +75,7 @@ class mod_surveypro_searchmanager {
         foreach ($this->formdata as $elementname => $content) {
 
             if (preg_match($regexp, $elementname, $matches)) {
-                $itemid = $matches[4]; // itemid of the search_form element (or of the search_form family element)
+                $itemid = $matches[4]; // Itemid of the search_form element (or of the search_form family element).
                 if (!isset($itemhelperinfo[$itemid])) {
                     $itemhelperinfo[$itemid] = new stdClass();
                     $itemhelperinfo[$itemid]->type = $matches[2];
@@ -93,11 +93,11 @@ class mod_surveypro_searchmanager {
         $searchfields = array();
         foreach ($itemhelperinfo as $iteminfo) {
             if ( isset($iteminfo->contentperelement['ignoreme']) && $iteminfo->contentperelement['ignoreme'] ) {
-                // do not waste your time
+                // Do not waste your time.
                 continue;
             }
             if ( isset($iteminfo->contentperelement['mainelement']) && ($iteminfo->contentperelement['mainelement'] == SURVEYPRO_IGNOREMEVALUE)) {
-                // do not waste your time
+                // Do not waste your time.
                 continue;
             }
             $item = surveypro_get_item($this->cm, $iteminfo->itemid, $iteminfo->type, $iteminfo->plugin);
@@ -126,7 +126,7 @@ class mod_surveypro_searchmanager {
     public function has_search_items() {
         global $DB;
 
-        // if no items are available, stop the intervention here
+        // If no items are available, stop the intervention here.
         $whereparams = array('surveyproid' => $this->surveypro->id, 'hidden' => 0, 'insearchform' => 1);
 
         return ($DB->count_records('surveypro_item', $whereparams) > 0);
@@ -145,7 +145,6 @@ class mod_surveypro_searchmanager {
 
         $continueurl = new moodle_url('/mod/surveypro/view.php', array('s' => $this->surveypro->id, 'cover' => 0));
         echo $OUTPUT->continue_button($continueurl);
-
         echo $OUTPUT->footer();
         die();
     }

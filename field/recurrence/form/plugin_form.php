@@ -35,15 +35,12 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
      * @return none
      */
     public function definition() {
-        // ----------------------------------------
-        // start with common section of the form
+        // Start with common section of the form.
         parent::definition();
 
-        // ----------------------------------------
         $mform = $this->_form;
 
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         $item = $this->_customdata->item;
         // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
@@ -51,9 +48,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $startyear = $this->_customdata->surveypro->startyear;
         $stopyear = $this->_customdata->surveypro->stopyear;
 
-        // ----------------------------------------
-        // item: defaultoption
-        // ----------------------------------------
+        // Item: defaultoption.
         $fieldname = 'defaultoption';
         $days = array_combine(range(1, 31), range(1, 31));
         $months = array();
@@ -72,9 +67,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setDefault($fieldname, SURVEYPRO_INVITEDEFAULT);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_recurrence');
 
-        // ----------------------------------------
-        // item: defaultvalue
-        // ----------------------------------------
+        // Item: defaultvalue.
         $fieldname = 'defaultvalue';
         $elementgroup = array();
         $elementgroup[] = $mform->createElement('select', $fieldname.'_day', '', $days);
@@ -82,24 +75,18 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addGroup($elementgroup, $fieldname.'_group', null, ' ', false);
         $mform->disabledIf($fieldname.'_group', 'defaultoption', 'neq', SURVEYPRO_CUSTOMDEFAULT);
 
-        // ----------------------------------------
-        // item: downloadformat
-        // ----------------------------------------
+        // Item: downloadformat.
         $fieldname = 'downloadformat';
         $options = $item->item_get_downloadformats();
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_recurrence'), $options);
         $mform->setDefault($fieldname, $item->item_get_friendlyformat());
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_recurrence');
 
-        // -----------------------------
-        // here I open a new fieldset
-        // -----------------------------
+        // Here I open a new fieldset.
         $fieldname = 'validation';
         $mform->addElement('header', $fieldname, get_string($fieldname, 'mod_surveypro'));
 
-        // ----------------------------------------
-        // item: lowerbound
-        // ----------------------------------------
+        // Item: lowerbound.
         $fieldname = 'lowerbound';
         $elementgroup = array();
         $elementgroup[] = $mform->createElement('select', $fieldname.'_day', '', $days);
@@ -109,9 +96,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setDefault($fieldname.'_day', '1');
         $mform->setDefault($fieldname.'_month', '1');
 
-        // ----------------------------------------
-        // item: upperbound
-        // ----------------------------------------
+        // Item: upperbound.
         $fieldname = 'upperbound';
         $elementgroup = array();
         $elementgroup[] = $mform->createElement('select', $fieldname.'_day', '', $days);
@@ -132,8 +117,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
      * @return $errors
      */
     public function validation($data, $files) {
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         $item = $this->_customdata->item;
         // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
@@ -149,7 +133,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
             $errors['lowerbound_group'] = get_string('ierr_lowergreaterthanupper', 'surveyprofield_recurrence');
         }
 
-        // constrain default between boundaries
+        // Constrain default between boundaries.
         if ($data['defaultoption'] == SURVEYPRO_CUSTOMDEFAULT) {
             $defaultvalue = $item->item_recurrence_to_unix_time($data['defaultvalue_month'], $data['defaultvalue_day']);
 
@@ -163,16 +147,16 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
                 $errors['upperbound_group'] = get_string('ierr_invalidupperbound', 'surveyprofield_recurrence');
             }
 
-            // internal range
+            // Internal range.
             if (($defaultvalue < $lowerbound) || ($defaultvalue > $upperbound)) {
                 $errors['defaultvalue_group'] = get_string('ierr_outofrangedefault', 'surveyprofield_recurrence');
             }
         }
 
-        // if (default == noanswer && the field is mandatory) => error
+        // If (default == noanswer && the field is mandatory) => error.
         if ( ($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required']) ) {
             $a = get_string('noanswer', 'mod_surveypro');
-            $errors['defaultvalue_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
+            $errors['defaultoption_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
         }
 
         return $errors;

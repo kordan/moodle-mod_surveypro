@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
  * radio type form element
  *
@@ -59,7 +58,7 @@ class mod_surveypro_mform_radio extends MoodleQuickForm_radio {
      *
      * @return string
      */
-    function getElementTemplateType(){
+    function getElementTemplateType() {
         return 'default';
     }
 

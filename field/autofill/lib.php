@@ -57,7 +57,7 @@ function surveypro_autofill_get_elements($surveyproid) {
     $options = array();
     $options[''] = array('' => get_string('choosedots'));
 
-    // submission date and time
+    // Submission date and time.
     $begin = 1;
     $end = $begin + 3; // 3 == ('number of cycles' - 1)
     $subelements = array();
@@ -68,7 +68,7 @@ function surveypro_autofill_get_elements($surveyproid) {
     $menuitemlabel = get_string('submission', 'surveyprofield_autofill');
     $options[$menuitemlabel] = $subelements;
 
-    // user
+    // User.
     $begin = $end + 1;
     $menuelements = 3; // 3 == ('number of cycles' - 1)
     if ($usegroups) {
@@ -83,9 +83,9 @@ function surveypro_autofill_get_elements($surveyproid) {
     $menuitemlabel = get_string('user');
     $options[$menuitemlabel] = $subelements;
 
-    // surveypro
+    // Surveypro.
     $begin = $end + 1;
-    if (!$usegroups) { // jump last two menu items
+    if (!$usegroups) { // Jump last two menu items.
         $begin += 2;
     }
     $end = $begin + 1; // 1 == ('number of cycles' - 1)
@@ -98,7 +98,7 @@ function surveypro_autofill_get_elements($surveyproid) {
     $menuitemlabel = get_string('modulename', 'mod_surveypro');
     $options[$menuitemlabel] = $subelements;
 
-    // course
+    // Course.
     $begin = $end + 1;
     $end = $begin + 1; // 1 == ('number of cycles' - 1)
     $subelements = array();
@@ -109,9 +109,9 @@ function surveypro_autofill_get_elements($surveyproid) {
     $menuitemlabel = get_string('course');
     $options[$menuitemlabel] = $subelements;
 
-    // submission info
+    // Submission info.
 
-    // custom info
+    // Custom info.
     $begin = $end + 1;
     $end = $begin; // 0 == ('number of cycles' - 1)
     $subelements = array();

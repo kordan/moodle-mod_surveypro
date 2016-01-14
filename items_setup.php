@@ -26,8 +26,8 @@ require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/itemlist.class.php');
 
-$id = optional_param('id', 0, PARAM_INT); // course_module ID, or
-$s = optional_param('s', 0, PARAM_INT);  // surveypro instance ID
+$id = optional_param('id', 0, PARAM_INT); // Course_module id.
+$s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
@@ -55,9 +55,7 @@ if ($action != SURVEYPRO_NOACTION) {
 $context = context_module::instance($cm->id);
 require_capability('mod/surveypro:additems', $context);
 
-// -----------------------------
-// calculations
-// -----------------------------
+// Calculations.
 $itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro);
 if (!empty($typeplugin)) {
     $itemlistman->set_typeplugin($typeplugin);
@@ -69,25 +67,25 @@ $itemlistman->set_itemid($itemid);
 $itemlistman->set_action($action);
 $itemlistman->set_view($view);
 
-// itemtomove is useless (it is set to its default), do not set it
+// Property itemtomove is useless (it is set to its default), do not set it.
 // $itemlistman->set_itemtomove(0);
 
-// lastitembefore is useless (it is set to its default), do not set it
+// Property lastitembefore is useless (it is set to its default), do not set it.
 // $itemlistman->set_lastitembefore(0);
 
-// confirm is useless (it is set to its default), do not set it
+// Property confirm is useless (it is set to its default), do not set it.
 // $itemlistman->set_confirm(SURVEYPRO_UNCONFIRMED);
 
-// nextindent is useless (it is set to its default), do not set it
+// Property nextindent is useless (it is set to its default), do not set it.
 // $itemlistman->set_nextindent(0);
 
-// parentid is useless (it is set to its default), do not set it
+// Property parentid is useless (it is set to its default), do not set it.
 // $itemlistman->set_parentid(0);
 
-// userfeedbackmask is useless (it is set to its default), do not set it
+// Property userfeedbackmask is useless (it is set to its default), do not set it.
 // $itemlistman->set_userfeedbackmask(SURVEYPRO_NOFEEDBACK);
 
-// saveasnew is useless (it is set to its default), do not set it
+// Property saveasnew is useless (it is set to its default), do not set it.
 // $itemlistman->set_saveasnew(0);
 
 $itemlistman->prevent_direct_user_input();
@@ -95,48 +93,41 @@ $itemlistman->prevent_direct_user_input();
 require_once($CFG->dirroot.'/mod/surveypro/'.$itemlistman->type.'/'.$itemlistman->plugin.'/classes/plugin.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/'.$itemlistman->type.'/'.$itemlistman->plugin.'/form/plugin_form.php');
 
-// -----------------------------
-// get item
+// Begin of: get item.
 $item = surveypro_get_item($cm, $itemlistman->itemid, $itemlistman->type, $itemlistman->plugin, true);
 
 $item->item_set_editor();
-// end of: get item
-// -----------------------------
+// End of: get item.
 
-// -----------------------------
-// define $itemform return url
+// Begin of: define $itemform return url.
 $paramurl = array('id' => $cm->id);
 $formurl = new moodle_url('/mod/surveypro/items_setup.php', $paramurl);
-// end of: define $itemform return url
-// -----------------------------
+// End of: define $itemform return url.
 
-// -----------------------------
-// prepare params for the form
+// Begin of: prepare params for the form.
 $formparams = new stdClass();
-$formparams->item = $item; // needed in many situations
-$formparams->cm = $cm; // required to call surveypro_get_item
-$formparams->surveypro = $surveypro; // needed to setup date boundaries in date fields
+$formparams->item = $item; // Needed in many situations.
+$formparams->cm = $cm; // Required to call surveypro_get_item.
+$formparams->surveypro = $surveypro; // Needed to setup date boundaries in date fields.
 $itemform = new mod_surveypro_pluginform($formurl, $formparams);
-// end of: prepare params for the form
-// -----------------------------
+// End of: prepare params for the form.
 
-// -----------------------------
-// manage form submission
+// Begin of: manage form submission.
 if ($itemform->is_cancelled()) {
     $returnurl = new moodle_url('/mod/surveypro/items_manage.php', $paramurl);
     redirect($returnurl);
 }
 
 if ($fromform = $itemform->get_data()) {
-    // was this item forced to be new?
+    // Was this item forced to be new?
     if (!empty($fromform->saveasnew)) {
         unset($fromform->itemid);
     }
 
     $itemid = $item->item_save($fromform);
-    $feedback = $item->userfeedbackmask; // copy the returned feedback
+    $feedback = $item->userfeedbackmask; // Copy the returned feedback.
 
-    // overwrite item to get new settings in the object
+    // Overwrite item to get new settings in the object.
     $item = surveypro_get_item($cm, $itemid, $item->type, $item->plugin);
     $item->item_update_childrenparentvalue();
 
@@ -144,12 +135,9 @@ if ($fromform = $itemform->get_data()) {
     $returnurl = new moodle_url('/mod/surveypro/items_manage.php', $paramurl);
     redirect($returnurl);
 }
-// end of: manage form submission
-// -----------------------------
+// End of: manage form submission.
 
-// -----------------------------
-// output starts here
-// -----------------------------
+// Output starts here.
 $paramurl = array('id' => $cm->id);
 $paramurl['itemid'] = $itemid;
 $paramurl['type'] = $itemlistman->type;
@@ -168,8 +156,8 @@ $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
 
-$moduletab = SURVEYPRO_TABITEMS; // needed by tabs.php
-$modulepage = SURVEYPRO_ITEMS_SETUP; // needed by tabs.php
+$moduletab = SURVEYPRO_TABITEMS; // Needed by tabs.php.
+$modulepage = SURVEYPRO_ITEMS_SETUP; // Needed by tabs.php.
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
 if ($itemlistman->hassubmissions) {
@@ -180,5 +168,5 @@ $itemlistman->item_welcome();
 $itemform->set_data($item);
 $itemform->display();
 
-// Finish the page
+// Finish the page.
 echo $OUTPUT->footer();

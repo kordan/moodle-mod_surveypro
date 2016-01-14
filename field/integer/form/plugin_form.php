@@ -35,26 +35,20 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
      * @return none
      */
     public function definition() {
-        // ----------------------------------------
-        // start with common section of the form
+        // Start with common section of the form.
         parent::definition();
 
-        // ----------------------------------------
         $mform = $this->_form;
 
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         // $item = $this->_customdata->item;
         // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
 
-        // ----------------------------------------
         $maximuminteger = get_config('surveyprofield_integer', 'maximuminteger');
         $integers = array_combine(range(0, $maximuminteger), range(0, $maximuminteger));
 
-        // ----------------------------------------
-        // item: defaultoption
-        // ----------------------------------------
+        // Item: defaultoption.
         $fieldname = 'defaultoption';
         $elementgroup = array();
         $elementgroup[] = $mform->createElement('radio', 'defaultoption', '', get_string('customdefault', 'surveyprofield_integer'), SURVEYPRO_CUSTOMDEFAULT);
@@ -65,30 +59,22 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setDefault($fieldname, SURVEYPRO_INVITEDEFAULT);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_integer');
 
-        // ----------------------------------------
-        // item: defaultvalue
-        // ----------------------------------------
+        // Item: defaultvalue.
         $fieldname = 'defaultvalue';
         $mform->addElement('select', $fieldname, null, $integers);
         $mform->disabledIf($fieldname, 'defaultoption', 'neq', SURVEYPRO_CUSTOMDEFAULT);
 
-        // -----------------------------
-        // here I open a new fieldset
-        // -----------------------------
+        // Here I open a new fieldset.
         $fieldname = 'validation';
         $mform->addElement('header', $fieldname, get_string($fieldname, 'mod_surveypro'));
 
-        // ----------------------------------------
-        // item: lowerbound
-        // ----------------------------------------
+        // Item: lowerbound.
         $fieldname = 'lowerbound';
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_integer'), $integers);
         $mform->setDefault($fieldname, '0');
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_integer');
 
-        // ----------------------------------------
-        // item: upperbound
-        // ----------------------------------------
+        // Item: upperbound.
         $fieldname = 'upperbound';
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_integer'), $integers);
         $mform->setDefault($fieldname, "$maximuminteger");
@@ -105,8 +91,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
      * @return $errors
      */
     public function validation($data, $files) {
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         // $item = $this->_customdata->item;
         // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
@@ -122,17 +107,17 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
             $errors['lowerbound'] = get_string('ierr_lowergreaterthanupper', 'surveyprofield_integer');
         }
 
-        // constrain default between boundaries
+        // Constrain default between boundaries.
         if ($data['defaultoption'] == SURVEYPRO_CUSTOMDEFAULT) {
             $defaultvalue = $data['defaultvalue'];
 
-            // only internal range is allowed for integers
+            // Only internal range is allowed for integers.
             if ( ($defaultvalue < $lowerbound) || ($defaultvalue > $upperbound) ) {
                 $errors['defaultvalue'] = get_string('ierr_outofrangedefault', 'surveyprofield_integer');
             }
         }
 
-        // if (default == noanswer && the field is mandatory) => error
+        // if (default == noanswer && the field is mandatory) => error.
         if ( ($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required']) ) {
             $a = get_string('noanswer', 'mod_surveypro');
             $errors['defaultoption_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);

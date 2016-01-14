@@ -35,11 +35,9 @@ class mod_surveypro_searchform extends moodleform {
     public function definition() {
         global $DB;
 
-        // ----------------------------------------
         $mform = $this->_form;
 
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         $cm = $this->_customdata->cm;
         $surveypro = $this->_customdata->surveypro;
         $canaccessadvanceditems = $this->_customdata->canaccessadvanceditems;
@@ -50,15 +48,15 @@ class mod_surveypro_searchform extends moodleform {
 
         $context = context_module::instance($cm->id);
 
-        // this dummy item is needed for the colours alternation
-        // because 'label' or ($position == SURVEYPRO_POSITIONFULLWIDTH)
+        // This dummy item is needed for the colours alternation.
+        // Because 'label' or ($position == SURVEYPRO_POSITIONFULLWIDTH).
         //     as first item are out from the a fieldset
         //     so they and are not selected by the css3 selector: fieldset div.fitem:nth-of-type(even) {
         $mform->addElement('static', 'beginning_extrarow', '', '');
         foreach ($itemseeds as $itemseed) {
             $item = surveypro_get_item($cm, $itemseed->id, $itemseed->type, $itemseed->plugin);
 
-            // position
+            // Position.
             $position = $item->get_position();
             $elementnumber = $item->get_customnumber() ? $item->get_customnumber().':' : '';
             if ($position == SURVEYPRO_POSITIONTOP) {
@@ -95,10 +93,10 @@ class mod_surveypro_searchform extends moodleform {
                 $item->item_add_color_unifier($mform);
             }
 
-            // element
+            // Element.
             $item->userform_mform_element($mform, true);
 
-            // note
+            // Note.
             if ($fullinfo = $item->userform_get_full_info(true)) {
                 $item->item_add_color_unifier($mform);
 
@@ -109,7 +107,7 @@ class mod_surveypro_searchform extends moodleform {
         }
         $itemseeds->close();
 
-        // buttons
+        // Buttons.
         // $this->add_action_buttons(true, get_string('search'));
         $buttonarray = array();
         $buttonarray[] = $mform->createElement('submit', 'submitbutton', get_string('search'));
@@ -126,8 +124,7 @@ class mod_surveypro_searchform extends moodleform {
      * @return $errors
      */
     public function validation($data, $files) {
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         $cm = $this->_customdata->cm;
         $surveypro = $this->_customdata->surveypro;
         // $canaccessadvanceditems = $this->_customdata->canaccessadvanceditems;
@@ -139,9 +136,9 @@ class mod_surveypro_searchform extends moodleform {
         $olditemid = 0;
         foreach ($data as $itemname => $v) {
             if (preg_match($regexp, $itemname, $matches)) {
-                $type = $matches[2]; // item type
-                $plugin = $matches[3]; // item plugin
-                $itemid = $matches[4]; // item id
+                $type = $matches[2]; // Item type.
+                $plugin = $matches[3]; // Item plugin.
+                $itemid = $matches[4]; // Item id.
                 // $option = $matches[5]; // _text or _noanswer or...
 
                 if ($itemid == $olditemid) {

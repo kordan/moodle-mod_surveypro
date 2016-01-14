@@ -59,7 +59,7 @@ class mod_surveypro_report_frequency extends mod_surveypro_reportbase {
         $tableheaders[] = get_string('percentage', 'surveyproreport_frequency');
         $this->outputtable->define_headers($tableheaders);
 
-        $this->outputtable->sortable(false, 'content', 'ASC'); // sorted by content by default
+        $this->outputtable->sortable(false, 'content', 'ASC'); // Sorted by content by default.
 
         $this->outputtable->column_class('content', 'content');
         $this->outputtable->column_class('absolute', 'absolute');
@@ -67,11 +67,11 @@ class mod_surveypro_report_frequency extends mod_surveypro_reportbase {
 
         // $this->outputtable->initialbars(true);
 
-        // hide the same info whether in two consecutive rows
+        // Hide the same info whether in two consecutive rows.
         $this->outputtable->column_suppress('picture');
         $this->outputtable->column_suppress('fullname');
 
-        // general properties for the whole table
+        // General properties for the whole table.
         $this->outputtable->summary = get_string('submissionslist', 'mod_surveypro');
         $this->outputtable->set_attribute('cellpadding', '5');
         $this->outputtable->set_attribute('id', 'submissions');
@@ -102,7 +102,6 @@ class mod_surveypro_report_frequency extends mod_surveypro_reportbase {
             $url = new moodle_url('/mod/surveypro/view.php', array('s' => $this->surveypro->id, 'cover' => 0));
             echo $OUTPUT->continue_button($url);
             echo $OUTPUT->footer();
-
             die();
         }
     }
@@ -141,37 +140,37 @@ class mod_surveypro_report_frequency extends mod_surveypro_reportbase {
         foreach ($answers as $answer) {
             $tablerow = array();
 
-            // answer
+            // Answer.
             $itemvalue = new stdClass();
             $itemvalue->id = $answer->id;
             $itemvalue->content = $answer->content;
             $tablerow[] = $dummyitem->userform_db_to_export($itemvalue);
 
-            // absolute
+            // Absolute.
             $tablerow[] = $answer->absolute;
             $counted += $answer->absolute;
 
-            // percentage
+            // Percentage.
             $tablerow[] = number_format(100 * $answer->absolute / $submissionscount, 2, $decimalseparator, ' ').'%';
 
-            // add row to the table
+            // Add row to the table.
             $this->outputtable->add_data($tablerow);
         }
 
-        // each item may be unanswered because it was not allowed by its ancestors
+        // Each item may be unanswered because it was not allowed by its ancestors.
         if ($counted < $submissionscount) {
             $tablerow = array();
 
-            // answer
+            // Answer.
             $tablerow[] = get_string('answernotpresent', 'surveyproreport_frequency');
 
-            // absolute
+            // Absolute.
             $tablerow[] = ($submissionscount - $counted);
 
-            // percentage
+            // Percentage.
             $tablerow[] = number_format(100 * ($submissionscount - $counted) / $submissionscount, 2, $decimalseparator, ' ').'%';
 
-            // add row to the table
+            // Add row to the table.
             $this->outputtable->add_data($tablerow);
         }
 

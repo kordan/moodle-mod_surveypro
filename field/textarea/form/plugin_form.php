@@ -35,30 +35,23 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
      * @return none
      */
     public function definition() {
-        // ----------------------------------------
-        // start with common section of the form
+        // Start with common section of the form.
         parent::definition();
 
-        // ----------------------------------------
         $mform = $this->_form;
 
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         // $item = $this->_customdata->item;
         // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
 
-        // ----------------------------------------
-        // item: useeditor
-        // ----------------------------------------
+        // Item: useeditor.
         $fieldname = 'useeditor';
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveyprofield_textarea'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_textarea');
         $mform->setType($fieldname, PARAM_INT);
 
-        // ----------------------------------------
-        // item: arearows
-        // ----------------------------------------
+        // Item: arearows.
         $fieldname = 'arearows';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_textarea'));
         $mform->setDefault($fieldname, SURVEYPROFIELD_TEXTAREA_DEFAULTROWS);
@@ -66,9 +59,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
         $mform->setType($fieldname, PARAM_INT);
 
-        // ----------------------------------------
-        // item: areacols
-        // ----------------------------------------
+        // Item: areacols.
         $fieldname = 'areacols';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_textarea'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_textarea');
@@ -76,15 +67,11 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_INT);
         $mform->setDefault($fieldname, SURVEYPROFIELD_TEXTAREA_DEFAULTCOLS);
 
-        // -----------------------------
-        // here I open a new fieldset
-        // -----------------------------
+        // Here I open a new fieldset.
         $fieldname = 'validation';
         $mform->addElement('header', $fieldname, get_string($fieldname, 'mod_surveypro'));
 
-        // ----------------------------------------
-        // item: minlength
-        // ----------------------------------------
+        // Item: minlength.
         $fieldname = 'minlength';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_textarea'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_textarea');
@@ -92,9 +79,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_INT);
         $mform->setDefault($fieldname, 0);
 
-        // ----------------------------------------
-        // item: maxlength
-        // ----------------------------------------
+        // Item: maxlength.
         $fieldname = 'maxlength';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_textarea'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_textarea');
@@ -111,8 +96,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
      * @return $errors
      */
     public function validation($data, $files) {
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         // $item = $this->_customdata->item;
         // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
@@ -124,9 +108,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
                 $errors['maxlength'] = get_string('ierr_maxlengthnotinteger', 'surveyprofield_textarea');
             } else {
                 if ($data['maxlength'] <= $data['minlength']) {
-                    if (!$data['maxlength']) {
-                        $errors['maxlength'] = get_string('ierr_maxlengthlowerthanminlength', 'surveyprofield_textarea');
-                    }
+                    $errors['maxlength'] = get_string('ierr_maxlengthlowerthanminlength', 'surveyprofield_textarea');
                 }
             }
         }

@@ -88,12 +88,13 @@ class mod_surveypro_covermanager {
         $messages = array();
         $timenow = time();
 
-        // user submitted responses:
+        // User submitted responses:.
         $countclosed = $this->user_sent_submissions(SURVEYPRO_STATUSCLOSED);
         $inprogress = $this->user_sent_submissions(SURVEYPRO_STATUSINPROGRESS);
         $next = $countclosed + $inprogress + 1;
 
-        // is the button to add one more surveypro going to be displayed?
+        // Begin of: the button to add one more surveypro.
+        // Begin of: is the button to add one more surveypro going to be displayed?
         $displaybutton = $this->cansubmit;
         if ($this->surveypro->timeopen) {
             $displaybutton = $displaybutton && ($this->surveypro->timeopen < $timenow);
@@ -109,18 +110,15 @@ class mod_surveypro_covermanager {
         echo $OUTPUT->heading(get_string('coverpage_welcome', 'mod_surveypro', $this->surveypro->name));
         if ($this->surveypro->intro) {
             echo $OUTPUT->box(format_module_intro('surveypro', $this->surveypro, $this->cm->id), 'generalbox description', 'intro');
-            // old code
-            // $intro = file_rewrite_pluginfile_urls($this->surveypro->intro, 'pluginfile.php', $this->context->id, 'mod_surveypro', 'intro', null);
-            // echo $OUTPUT->box($intro, 'generalbox description', 'intro');
         }
 
-        // general info
-        if ($this->surveypro->timeopen) { // opening time:
+        // Begin of: general info.
+        if ($this->surveypro->timeopen) { // Opening time.
             $langkey = ($this->surveypro->timeopen > $timenow) ? 'willopen' : 'opened';
             $messages[] = get_string($langkey, 'mod_surveypro').$labelsep.userdate($this->surveypro->timeopen);
         }
 
-        if ($this->surveypro->timeclose) { // closing time:
+        if ($this->surveypro->timeclose) { // Closing time.
             $langkey = ($this->surveypro->timeclose > $timenow) ? 'willclose' : 'closed';
             $messages[] = get_string($langkey, 'mod_surveypro').$labelsep.userdate($this->surveypro->timeclose);
         }
@@ -133,13 +131,13 @@ class mod_surveypro_covermanager {
             }
             $messages[] = get_string('maxentries', 'mod_surveypro').$labelsep.$maxentries;
 
-            // your 'closed' responses:
+            // Your 'closed' responses.
             $a = new stdClass();
             $a->status = get_string('statusclosed', 'mod_surveypro');
             $a->responsescount = $countclosed;
             $messages[] = get_string('yoursubmissions', 'mod_surveypro', $a);
 
-            // your 'in progress' responses:
+            // Your 'in progress' responses.
             $a = new stdClass();
             $a->status = get_string('statusinprogress', 'mod_surveypro');
             $a->responsescount = $inprogress;
@@ -152,7 +150,7 @@ class mod_surveypro_covermanager {
 
         $this->display_messages($messages, get_string('attemptinfo', 'mod_surveypro'));
         $messages = array();
-        // end of: general info
+        // End of: general info.
 
         if ($displaybutton) {
             $url = new moodle_url('/mod/surveypro/view_userform.php', array('id' => $this->cm->id, 'view' => SURVEYPRO_NEWRESPONSE));
@@ -172,9 +170,9 @@ class mod_surveypro_covermanager {
                 echo $OUTPUT->container($message, 'centerpara');
             }
         }
-        // end of: the button to add one more surveypro
+        // End of: the button to add one more surveypro.
 
-        // report
+        // Begin of: report.
         $surveyproreportlist = get_plugin_list('surveyproreport');
         $paramurlbase = array('id' => $this->cm->id);
         foreach ($surveyproreportlist as $pluginname => $pluginpath) {
@@ -210,9 +208,9 @@ class mod_surveypro_covermanager {
 
         $this->display_messages($messages, get_string('reportsection', 'mod_surveypro'));
         $messages = array();
-        // end of: report
+        // End of: report.
 
-        // user templates
+        // Begin of: user templates.
         if ($canmanageusertemplates) {
             $url = new moodle_url('/mod/surveypro/utemplates_manage.php', $paramurlbase);
             $messages[] = get_string('manageusertemplates', 'mod_surveypro', $url->out());
@@ -235,9 +233,9 @@ class mod_surveypro_covermanager {
 
         $this->display_messages($messages, get_string('utemplatessection', 'mod_surveypro'));
         $messages = array();
-        // end of: user templates
+        // End of: user templates.
 
-        // master templates
+        // Begin of: master templates.
         if ($cansavemastertemplates) {
             $url = new moodle_url('/mod/surveypro/mtemplates_create.php', $paramurlbase);
             $messages[] = get_string('savemastertemplates', 'mod_surveypro', $url->out());
@@ -250,7 +248,7 @@ class mod_surveypro_covermanager {
 
         $this->display_messages($messages, get_string('mtemplatessection', 'mod_surveypro'));
         $messages = array();
-        // end of: master templates
+        // End of: master templates.
     }
 
     /**

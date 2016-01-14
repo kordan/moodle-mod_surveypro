@@ -78,8 +78,6 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
      */
     public $indent = 0;
 
-    // -----------------------------
-
     /**
      * $options = list of options in the form of "$value SURVEYPRO_VALUELABELSEPARATOR $label"
      */
@@ -120,8 +118,6 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
      */
     public static $canbeparent = false;
 
-    // -----------------------------
-
     /**
      * Class constructor
      *
@@ -133,19 +129,19 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
 
-        // list of constant element attributes
+        // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'rate';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // It is already true from parent class.
         $this->savepositiontodb = false;
 
-        // other element specific properties
-        // nothing
+        // Other element specific properties.
+        // No properties here.
 
-        // override properties depending from $surveypro settings
-        // nothing
+        // Override properties depending from $surveypro settings..
+        // No properties here.
 
-        // list of fields I do not want to have in the item definition form
+        // List of fields I do not want to have in the item definition form.
         $this->isinitemform['insearchform'] = false;
         $this->isinitemform['position'] = SURVEYPRO_POSITIONLEFT;
 
@@ -165,8 +161,8 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
         // Do parent item loading stuff here (mod_surveypro_itembase::item_load($itemid, $evaluateparentcontent)))
         parent::item_load($itemid, $evaluateparentcontent);
 
-        // multilang load support for builtin surveypro
-        // whether executed, the 'content' field is ALWAYS handled
+        // Multilang load support for builtin surveypro.
+        // Whether executed, the 'content' field is ALWAYS handled.
         $this->item_builtin_string_load_support();
 
         $this->item_custom_fields_to_form();
@@ -181,26 +177,19 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
     public function item_save($record) {
         $this->item_get_common_settings($record);
 
-        // -----------------------------
-        // Now execute very specific plugin level actions
-        // -----------------------------
+        // Now execute very specific plugin level actions.
 
-        // begin of: plugin specific settings (eventually overriding general ones)
-        // set custom fields value as defined for this question plugin
-        // drop empty rows and trim edging rows spaces from each textarea field
+        // Begin of: plugin specific settings (eventually overriding general ones).
+        // Set custom fields value as defined for this question plugin.
+        // Drop empty rows and trim edging rows spaces from each textarea field.
         $fieldlist = array('options', 'rates', 'defaultvalue');
         $this->item_clean_textarea_fields($record, $fieldlist);
 
-        // set custom fields value as defined for this question plugin
+        // Set custom fields value as defined for this question plugin.
         $this->item_custom_fields_to_db($record);
+        // End of: plugin specific settings (eventually overriding general ones).
 
-        // position and hideinstructions are set by design
-        $record->position = SURVEYPRO_POSITIONTOP;
-        $record->hideinstructions = 1;
-        $record->differentrates = isset($record->differentrates) ? 1 : 0;
-        // end of: plugin specific settings (eventually overriding general ones)
-
-        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record)))
+        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
     }
 
@@ -220,11 +209,8 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
      * @return
      */
     public function item_custom_fields_to_form() {
-        // 1. special management for fields equipped with "free" checkbox
-        // nothing to do: they don't exist in this plugin
-
-        // 2. special management for composite fields
-        // nothing to do: they don't exist in this plugin
+        // 1. Special management for composite fields.
+        // Nothing to do: they don't exist in this plugin.
     }
 
     /**
@@ -235,11 +221,21 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
      * @return
      */
     public function item_custom_fields_to_db($record) {
-        // 1. special management for fields equipped with "free" checkbox
-        // nothing to do: they don't exist in this plugin
+        // 1. Special management for composite fields.
+        // Nothing to do: they don't exist in this plugin.
 
-        // 2. special management for composite fields
-        // nothing to do: they don't exist in this plugin
+        // 2. Override few values.
+        // Position and hideinstructions are set by design.
+        $record->position = SURVEYPRO_POSITIONTOP;
+        $record->hideinstructions = 1;
+
+        // 3. Set values corresponding to checkboxes.
+        $checkboxes = array('differentrates');
+        foreach ($checkboxes as $checkbox) {
+            $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
+        }
+
+        // 4. Other.
     }
 
     /**
@@ -387,7 +383,7 @@ EOS;
      * @return
      */
     public function userform_mform_element($mform, $searchform, $readonly=false, $submissionid=0) {
-        // this plugin has $this->isinitemform['insearchform'] = false; so it will never be part of a search form
+        // This plugin has $this->isinitemform['insearchform'] = false; so it will never be part of a search form.
 
         $options = surveypro_textarea_to_array($this->options);
         $optioncount = count($options) - 1;
@@ -435,13 +431,13 @@ EOS;
         }
 
         if ($this->required) {
-            // even if the item is required I CAN NOT ADD ANY RULE HERE because:
-            // -> I do not want JS form validation if the page is submitted through the "previous" button
-            // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815
-            // simply add a dummy star to the item and the footer note about mandatory fields
+            // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
+            // -> I do not want JS form validation if the page is submitted through the "previous" button.
+            // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
+            // Simply add a dummy star to the item and the footer note about mandatory fields.
             $mform->_required[] = $this->itemname.'_extrarow';
         } else {
-            // disable if $this->itemname.'_noanswer' is selected
+            // Disable if $this->itemname.'_noanswer' is selected.
             $optionindex = 0;
             foreach ($options as $option) {
                 if ($this->style == SURVEYPROFIELD_RATE_USERADIO) {
@@ -499,11 +495,11 @@ EOS;
             return;
         }
 
-        // if different rates were requested, it is time to verify this
+        // If different rates were requested, it is time to verify this.
         $options = surveypro_textarea_to_array($this->options);
 
         if (isset($data[$this->itemname.'_noanswer'])) {
-            return; // nothing to validate
+            return; // Nothing to validate.
         }
 
         $optionindex = 0;
@@ -632,16 +628,16 @@ EOS;
      * @return
      */
     public function userform_db_to_export($answer, $format='') {
-        // content
+        // Content.
         $content = $answer->content;
-        if ($content == SURVEYPRO_NOANSWERVALUE) { // answer was "no answer"
+        if ($content == SURVEYPRO_NOANSWERVALUE) { // Answer was "no answer".
             return get_string('answerisnoanswer', 'mod_surveypro');
         }
-        if ($content === null) { // item was disabled
+        if ($content === null) { // Item was disabled.
             return get_string('notanswereditem', 'mod_surveypro');
         }
 
-        // format
+        // Format.
         if ($format == SURVEYPRO_FIRENDLYFORMAT) {
             $format = $this->item_get_friendlyformat();
         }
@@ -676,8 +672,8 @@ EOS;
                 $return = implode(SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR, $output);
                 break;
             case SURVEYPRO_ITEMRETURNSPOSITION:
-                // here I will ALWAYS HAVE 0;1;6;4;0;7 so each separator is welcome, even ','
-                // I do not like pass the idea that ',' can be a separator so, I do not use it
+                // Here I will ALWAYS HAVE 0;1;6;4;0;7 so each separator is welcome, even ','.
+                // I do not like pass the idea that ',' can be a separator so, I do not use it.
                 $return = $content;
                 break;
             default:

@@ -35,22 +35,17 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
      * @return none
      */
     public function definition() {
-        // ----------------------------------------
-        // start with common section of the form
+        // Start with common section of the form.
         parent::definition();
 
-        // ----------------------------------------
         $mform = $this->_form;
 
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         $item = $this->_customdata->item;
         // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
 
-        // ----------------------------------------
-        // item: style
-        // ----------------------------------------
+        // Item: style.
         $fieldname = 'style';
         $options = array(SURVEYPROFIELD_RATE_USERADIO => get_string('useradio', 'surveyprofield_rate'),
                          SURVEYPROFIELD_RATE_USESELECT => get_string('usemenu', 'surveyprofield_rate')
@@ -60,27 +55,21 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_rate');
         $mform->setType($fieldname, PARAM_INT);
 
-        // ----------------------------------------
-        // item: options
-        // ----------------------------------------
+        // Item: options.
         $fieldname = 'options';
         $mform->addElement('textarea', $fieldname, get_string($fieldname, 'surveyprofield_rate'), array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_rate');
         $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
         $mform->setType($fieldname, PARAM_RAW); // PARAM_RAW and not PARAM_TEXT otherwise '<' is not accepted
 
-        // ----------------------------------------
-        // item: rates
-        // ----------------------------------------
+        // Item: rates.
         $fieldname = 'rates';
         $mform->addElement('textarea', $fieldname, get_string($fieldname, 'surveyprofield_rate'), array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_rate');
         $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
         $mform->setType($fieldname, PARAM_TEXT);
 
-        // ----------------------------------------
-        // item: defaultoption
-        // ----------------------------------------
+        // Item: defaultoption.
         $fieldname = 'defaultoption';
         $elementgroup = array();
         $elementgroup[] = $mform->createElement('radio', 'defaultoption', '', get_string('customdefault', 'surveyprofield_rate'), SURVEYPRO_CUSTOMDEFAULT);
@@ -90,17 +79,13 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setDefault($fieldname, SURVEYPRO_INVITEDEFAULT);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_rate');
 
-        // ----------------------------------------
-        // item: defaultvalue
-        // ----------------------------------------
+        // Item: defaultvalue.
         $fieldname = 'defaultvalue';
         $mform->addElement('textarea', $fieldname, '', array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65'));
         $mform->setType($fieldname, PARAM_RAW);
         $mform->disabledIf($fieldname, 'defaultoption', 'neq', SURVEYPRO_CUSTOMDEFAULT);
 
-        // ----------------------------------------
-        // item: downloadformat
-        // ----------------------------------------
+        // Item: downloadformat.
         $fieldname = 'downloadformat';
         $options = array(SURVEYPRO_ITEMSRETURNSVALUES => get_string('returnvalues', 'surveyprofield_rate'),
                          SURVEYPRO_ITEMRETURNSLABELS => get_string('returnlabels', 'surveyprofield_rate'),
@@ -110,15 +95,11 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_rate');
         $mform->setType($fieldname, PARAM_INT);
 
-        // -----------------------------
-        // here I open a new fieldset
-        // -----------------------------
+        // Here I open a new fieldset.
         $fieldname = 'validation';
         $mform->addElement('header', $fieldname, get_string($fieldname, 'mod_surveypro'));
 
-        // ----------------------------------------
-        // item: differentrates
-        // ----------------------------------------
+        // Item: differentrates.
         $fieldname = 'differentrates';
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveyprofield_rate'));
         $mform->setDefault($fieldname, '0');
@@ -136,22 +117,21 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
      * @return $errors
      */
     public function validation($data, $files) {
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         // $item = $this->_customdata->item;
         // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
 
         $errors = parent::validation($data, $files);
 
-        // clean inputs
+        // Clean inputs.
         $cleanoptions = surveypro_textarea_to_array($data['options']);
         $cleanrates = surveypro_textarea_to_array($data['rates']);
         $cleandefaultvalue = isset($data['defaultvalue']) ? surveypro_textarea_to_array($data['defaultvalue']) : '';
 
-        // if a default is required
+        // If a default is required.
         if ($data['defaultoption'] == SURVEYPRO_CUSTOMDEFAULT) {
-            // il numero dei default deve essere pari al numero delle opzioni
+            // Defaults count has to be equal to the number of the options.
             if (count($cleandefaultvalue) != count($cleanoptions)) {
                 $errors['defaultvalue_group'] = get_string('ierr_invaliddefaultscount', 'surveyprofield_rate');
             }
@@ -169,7 +149,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
                 }
             }
 
-            // values in the default field must all be hold among rates ($labels)
+            // Values in the default field must all be hold among rates ($labels).
             foreach ($cleandefaultvalue as $default) {
                 if (!in_array($default, $labels)) {
                     $errors['defaultvalue_group'] = get_string('ierr_foreigndefaultvalue', 'surveyprofield_rate', $default);
@@ -178,22 +158,22 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
             }
         }
 
-        // if (default == noanswer) but item is required => error
+        // If (default == noanswer) but item is required => error.
         if ( ($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required']) ) {
             $a = get_string('noanswer', 'mod_surveypro');
-            $errors['defaultvalue_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
+            $errors['defaultoption_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
         }
 
-        // if differentrates was requested
-        // count($cleanrates) HAS TO be >= count($cleanrates)
+        // If differentrates was requested.
+        // Count($cleanrates) HAS TO be >= count($cleanrates).
         if (isset($data['differentrates'])) {
-            // if I claim for different rates, I must provide a sufficient number of rates
+            // If I claim for different rates, I must provide a sufficient number of rates.
             if (count($cleanoptions) > count($cleanrates)) {
                 $errors['rates'] = get_string('ierr_notenoughrates', 'surveyprofield_rate');
             }
 
             if ($data['defaultoption'] == SURVEYPRO_CUSTOMDEFAULT) {
-                // if I claim for different rates, I have to respect the constraint in the default
+                // If I claim for different rates, I have to respect the constraint in the default.
                 if (count($cleandefaultvalue) > count(array_unique($cleandefaultvalue))) {
                     $errors['defaultvalue_group'] = get_string('ierr_optionduplicated', 'surveyprofield_rate');
                 }

@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items>
+  <item type="format" plugin="label" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;h5&gt;RADIO BUTTON&lt;/h5&gt;&lt;p&gt;This plugin, like all the others provided by surveypro core, is equipped with a set of common settings shared with all the other surveypro plugins.&lt;/p&gt;&lt;p&gt;The &lt;b&gt;common settings&lt;/b&gt; set is done by:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Required&lt;/li&gt;&lt;li&gt;Indent&lt;/li&gt;&lt;li&gt;Question position&lt;/li&gt;&lt;li&gt;Element number&lt;/li&gt;&lt;li&gt;Variable&lt;/li&gt;&lt;li&gt;Additional note&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;This plugin is equipped with some &lt;b&gt;radio button specific setting&lt;/b&gt;:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Options&lt;/li&gt;&lt;li&gt;Option "other"&lt;/li&gt;&lt;li&gt;Default&lt;/li&gt;&lt;li&gt;Download format&lt;/li&gt;&lt;li&gt;Adjustment&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;The cartesian product of all these settings makes a very long list of possible implementations of this element. In this usertemplate few use cases are described.&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="format" plugin="label" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value&lt;/li&gt;&lt;li&gt;"option other" is not set&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a not valid value so the user is forced to choose a valid option or to select the "No answer" value.&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>1 intro</customnumber>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="radiobutton" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyprofield_radiobutton>
+      <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>1</customnumber>
+      <position>0</position>
+      <required>0</required>
+      <variable>radiobutton_001</variable>
+      <indent>0</indent>
+      <options>sea
+mountain
+lake
+hills
+desert</options>
+      <defaultoption>2</defaultoption>
+      <downloadformat>1</downloadformat>
+      <adjustment>0</adjustment>
+    </surveyprofield_radiobutton>
+  </item>
+  <item type="format" plugin="label" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value&lt;/li&gt;&lt;li&gt;"option other" is not set&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to a not valid value so the user is forced to choose a valid option.&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>2 intro</customnumber>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="radiobutton" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyprofield_radiobutton>
+      <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>2</customnumber>
+      <position>0</position>
+      <required>1</required>
+      <variable>radiobutton_002</variable>
+      <indent>0</indent>
+      <options>sea
+mountain
+lake
+hills
+desert</options>
+      <defaultoption>2</defaultoption>
+      <downloadformat>1</downloadformat>
+      <adjustment>0</adjustment>
+    </surveyprofield_radiobutton>
+  </item>
+  <item type="format" plugin="label" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;the default is set to "No answer"&lt;/li&gt;&lt;li&gt;"option other" is not set&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>3 intro</customnumber>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="radiobutton" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyprofield_radiobutton>
+      <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>3</customnumber>
+      <position>0</position>
+      <required>0</required>
+      <variable>radiobutton_003</variable>
+      <indent>0</indent>
+      <options>sea
+mountain
+lake
+hills
+desert</options>
+      <defaultoption>3</defaultoption>
+      <downloadformat>1</downloadformat>
+      <adjustment>0</adjustment>
+    </surveyprofield_radiobutton>
+  </item>
+  <item type="format" plugin="label" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;the default is set to a valid value&lt;/li&gt;&lt;li&gt;"option other" is not set&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>4 intro</customnumber>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="radiobutton" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyprofield_radiobutton>
+      <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>4</customnumber>
+      <position>0</position>
+      <required>0</required>
+      <variable>radiobutton_004</variable>
+      <indent>0</indent>
+      <options>sea
+mountain
+lake
+hills
+desert</options>
+      <defaultoption>1</defaultoption>
+      <defaultvalue>mountain</defaultvalue>
+      <downloadformat>1</downloadformat>
+      <adjustment>0</adjustment>
+    </surveyprofield_radiobutton>
+  </item>
+  <item type="format" plugin="label" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default is set to a valid value&lt;/li&gt;&lt;li&gt;"option other" is not set&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>5 intro</customnumber>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="radiobutton" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyprofield_radiobutton>
+      <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>5</customnumber>
+      <position>0</position>
+      <required>1</required>
+      <variable>radiobutton_005</variable>
+      <indent>0</indent>
+      <options>sea
+mountain
+lake
+hills
+desert</options>
+      <defaultoption>1</defaultoption>
+      <defaultvalue>mountain</defaultvalue>
+      <downloadformat>1</downloadformat>
+      <adjustment>0</adjustment>
+    </surveyprofield_radiobutton>
+  </item>
+  <item type="format" plugin="label" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value&lt;/li&gt;&lt;li&gt;"option other" is set to "other, please specify"&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a not valid value so the user is forced to choose a valid option or to select the "No answer" value.&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>6 intro</customnumber>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="radiobutton" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyprofield_radiobutton>
+      <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>6</customnumber>
+      <position>0</position>
+      <required>0</required>
+      <variable>radiobutton_006</variable>
+      <indent>0</indent>
+      <options>sea
+mountain
+lake
+hills
+desert</options>
+      <labelother>other, please specify</labelother>
+      <defaultoption>2</defaultoption>
+      <downloadformat>1</downloadformat>
+      <adjustment>0</adjustment>
+    </surveyprofield_radiobutton>
+  </item>
+  <item type="format" plugin="label" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value&lt;/li&gt;&lt;li&gt;"option other" is set to "other, please specify"&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to a not valid value so the user is forced to choose a valid option.&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>7 intro</customnumber>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="radiobutton" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyprofield_radiobutton>
+      <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>7</customnumber>
+      <position>0</position>
+      <required>1</required>
+      <variable>radiobutton_007</variable>
+      <indent>0</indent>
+      <options>sea
+mountain
+lake
+hills
+desert</options>
+      <labelother>other, plase specify</labelother>
+      <defaultoption>2</defaultoption>
+      <downloadformat>1</downloadformat>
+      <adjustment>0</adjustment>
+    </surveyprofield_radiobutton>
+  </item>
+  <item type="format" plugin="label" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;the default is set to "No answer"&lt;/li&gt;&lt;li&gt;"option other" is set to "other, please specify"&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>8 intro</customnumber>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="radiobutton" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyprofield_radiobutton>
+      <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>8</customnumber>
+      <position>0</position>
+      <required>0</required>
+      <variable>radiobutton_008</variable>
+      <indent>0</indent>
+      <options>sea
+mountain
+lake
+hills
+desert</options>
+      <labelother>other, please specify</labelother>
+      <defaultoption>3</defaultoption>
+      <downloadformat>1</downloadformat>
+      <adjustment>0</adjustment>
+    </surveyprofield_radiobutton>
+  </item>
+  <item type="format" plugin="label" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;the default is set to a valid value&lt;/li&gt;&lt;li&gt;"option other" is set to "other, please specify"&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>9 intro</customnumber>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="radiobutton" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyprofield_radiobutton>
+      <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>9</customnumber>
+      <position>0</position>
+      <required>0</required>
+      <variable>radiobutton_009</variable>
+      <indent>0</indent>
+      <options>sea
+mountain
+lake
+hills
+desert</options>
+      <labelother>other, please specify</labelother>
+      <defaultoption>1</defaultoption>
+      <defaultvalue>mountain</defaultvalue>
+      <downloadformat>1</downloadformat>
+      <adjustment>0</adjustment>
+    </surveyprofield_radiobutton>
+  </item>
+  <item type="format" plugin="label" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default is set to a valid value&lt;/li&gt;&lt;li&gt;"option other" is set to "other, please specify"&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>10 intro</customnumber>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="radiobutton" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyprofield_radiobutton>
+      <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>10</customnumber>
+      <position>0</position>
+      <required>1</required>
+      <variable>radiobutton_010</variable>
+      <indent>0</indent>
+      <options>sea
+mountain
+lake
+hills
+desert</options>
+      <labelother>other, please specify</labelother>
+      <defaultoption>1</defaultoption>
+      <defaultvalue>mountain</defaultvalue>
+      <downloadformat>1</downloadformat>
+      <adjustment>0</adjustment>
+    </surveyprofield_radiobutton>
+  </item>
+  <item type="format" plugin="label" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the defaultis set to a valid value&lt;/li&gt;&lt;li&gt;"option other" is set to "other, please specify" and has a default&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>11 intro</customnumber>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="radiobutton" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyprofield_radiobutton>
+      <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>11</customnumber>
+      <position>0</position>
+      <required>1</required>
+      <variable>radiobutton_012</variable>
+      <indent>0</indent>
+      <options>sea
+mountain
+lake
+hills
+desert</options>
+      <labelother>other, please specify-&gt;North pole</labelother>
+      <defaultoption>1</defaultoption>
+      <defaultvalue>mountain</defaultvalue>
+      <downloadformat>1</downloadformat>
+      <adjustment>0</adjustment>
+    </surveyprofield_radiobutton>
+  </item>
+  <item type="format" plugin="label" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default is set to the label of the "option other"&lt;/li&gt;&lt;li&gt;"option other" is set to "other, please specify"&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>12 intro</customnumber>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="radiobutton" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyprofield_radiobutton>
+      <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>12</customnumber>
+      <position>0</position>
+      <required>1</required>
+      <variable>radiobutton_011</variable>
+      <indent>0</indent>
+      <options>sea
+mountain
+lake
+hills
+desert</options>
+      <labelother>other, please specify-&gt;North pole</labelother>
+      <defaultoption>1</defaultoption>
+      <defaultvalue>other, please specify</defaultvalue>
+      <downloadformat>1</downloadformat>
+      <adjustment>0</adjustment>
+    </surveyprofield_radiobutton>
+  </item>
+  <item type="format" plugin="label" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyproformat_label>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default is set to the label of "option other"&lt;/li&gt;&lt;li&gt;custom value is not set&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to an invalid value so the user is forced to choose a valid option or to write a custom value.&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>13 intro</customnumber>
+      <indent>0</indent>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="radiobutton" version="2015123000">
+    <surveypro_item>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <advanced>0</advanced>
+    </surveypro_item>
+    <surveyprofield_radiobutton>
+      <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <customnumber>13</customnumber>
+      <position>0</position>
+      <required>1</required>
+      <variable>radiobutton_013</variable>
+      <indent>0</indent>
+      <options>sea
+mountain
+lake
+hills
+desert</options>
+      <labelother>other, please specify</labelother>
+      <defaultoption>1</defaultoption>
+      <defaultvalue>other, please specify</defaultvalue>
+      <downloadformat>1</downloadformat>
+      <adjustment>0</adjustment>
+    </surveyprofield_radiobutton>
+  </item>
+</items>

@@ -53,7 +53,7 @@ $graph = new graph(SURVEYPROREPORT_COLLES_GWIDTH, SURVEYPROREPORT_COLLES_GHEIGHT
 if ($type == 'summary') {
     $reportman->fetch_summarydata();
 
-    // legend for $y_format_params
+    // Legend for $y_format_params.
     if ($reportman->template == 'collesactualpreferred') {
         $legendgraph1 = get_string('collespreferred', 'surveyproreport_colles');
         $legendgraph2 = get_string('collesactual', 'surveyproreport_colles');
@@ -61,7 +61,7 @@ if ($type == 'summary') {
         $legendgraph1 = get_string($reportman->template, 'surveyproreport_colles');
     }
 
-    // x axis labels
+    // X axis labels.
     $graph->x_data = $reportman->xlabels;
     $graph->y_tick_labels = $reportman->ylabels;
 
@@ -112,8 +112,8 @@ if ($type == 'summary') {
     }
 
     $allowsingle = !$reportman->canaccessreports && $reportman->canaccessownreports;
-    if ($allowsingle) { // if the user hasn't general right but only canaccessownreports
-        if ($reportman->studenttrend1) { // if the user submitted at least one response
+    if ($allowsingle) { // If the user hasn't general right but only canaccessownreports.
+        if ($reportman->studenttrend1) { // If the user submitted at least one response.
             $labelsep = get_string('labelsep', 'langconfig'); // ': '
 
             // $graph5params (the same as $graph1params except for...)
@@ -136,15 +136,15 @@ if ($type == 'summary') {
         }
     }
 
-    // order of graphics
+    // Order of graphics.
     if ($reportman->template == 'collesactualpreferred') {
-        if ($allowsingle && ($reportman->studenttrend1)) { // if the user hasn't general right but only canaccessownreports && submitted at least one response
+        if ($allowsingle && ($reportman->studenttrend1)) { // If the user hasn't general right but only canaccessownreports && submitted at least one response.
             $graph->y_order = array('stdev1', 'answers1', 'stdev2', 'answers2', 'answers3', 'answers4');
         } else {
             $graph->y_order = array('stdev1', 'answers1', 'stdev2', 'answers2');
         }
     } else {
-        if ($allowsingle && ($reportman->studenttrend1)) { // if the user hasn't general right but only canaccessownreports && submitted at least one response
+        if ($allowsingle && ($reportman->studenttrend1)) { // If the user hasn't general right but only canaccessownreports && submitted at least one response.
             $graph->y_order = array('stdev1', 'answers1', 'answers3');
         } else {
             $graph->y_order = array('stdev1', 'answers1');
@@ -170,7 +170,7 @@ if ($type == 'summary') {
 if ($type == 'scales') {
     $reportman->fetch_scalesdata($area);
 
-    // legend for $y_format_params
+    // Legend for $y_format_params.
     if ($reportman->template == 'collesactualpreferred') {
         $legendgraph1 = get_string('collespreferred', 'surveyproreport_colles');
         $legendgraph2 = get_string('collesactual', 'surveyproreport_colles');
@@ -180,7 +180,7 @@ if ($type == 'scales') {
 
     $graph->parameter['title'] = $reportman->graphtitle; // 'Relevance'
 
-    // x axis labels
+    // X axis labels.
     $graph->x_data = $reportman->xlabels; // array('focus on interesting issues', 'important to my practice'...
     $graph->y_tick_labels = $reportman->ylabels;
 
@@ -254,7 +254,7 @@ if ($type == 'scales') {
 if ($type == 'questions') {
     $reportman->fetch_questionsdata($area, $qid);
 
-    // legend for $y_format_params
+    // Legend for $y_format_params.
     if ($reportman->template == 'collesactualpreferred') {
         $legendgraph1 = get_string('collespreferred', 'surveyproreport_colles');
         $legendgraph2 = get_string('collesactual', 'surveyproreport_colles');
@@ -266,24 +266,24 @@ if ($type == 'questions') {
 
     $graph->x_data = $reportman->xlabels; // array('focus on interesting issues', 'important to my practice'...
 
-    // $graph1params
+    // $graph1params.
     $graph1params = array();
     $graph1params['colour'] = 'ltblue';
     $graph1params['bar'] = 'fill';
     $graph1params['legend'] = $legendgraph1;
     $graph1params['bar_size'] = 0.4;
 
-    // 1st graph
+    // 1st graph.
     $graph->y_data['answers1'] = $reportman->trend1; // array(1.5, 2.5...
     $graph->y_format['answers1'] = $graph1params;
 
     if ($reportman->template == 'collesactualpreferred') {
-        // $graph2params (the same as $graph1params except for...)
+        // $graph2params (the same as $graph1params except for...).
         $graph1params['colour'] = 'ltorange';
         $graph1params['legend'] = $legendgraph2;
         $graph1params['bar_size'] = 0.2;
 
-        // 2nd graph
+        // 2nd graph.
         $graph->y_data['answers2'] = $reportman->trend2; // array(1.5, 2.5...
         $graph->y_format['answers2'] = $graph1params;
 

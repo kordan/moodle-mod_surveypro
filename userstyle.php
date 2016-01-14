@@ -20,14 +20,14 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define('NO_MOODLE_COOKIES', true); // session not used here
+define('NO_MOODLE_COOKIES', true); // Session not used here.
 
 require_once('../../config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 
-$id = optional_param('id', 0, PARAM_INT);     // database id
-$cmid = optional_param('cmid', 0, PARAM_INT); // database id
-$lifetime = 600;                              // Seconds to cache this stylesheet
+$id = optional_param('id', 0, PARAM_INT);
+$cmid = optional_param('cmid', 0, PARAM_INT);
+$lifetime = 600;
 
 // $PAGE->set_url('/mod/surveypro/css.php', array('id' => $id));
 
@@ -43,7 +43,7 @@ if ($surveypro = $DB->get_record('surveypro', array('id' => $id))) {
     header('Pragma: ');
     header('Content-type: text/css; charset=utf-8');  // Correct MIME type
 
-    // test
+    // Test.
     // echo 'body {background-color:green;}';
 
     foreach ($files as $file) {

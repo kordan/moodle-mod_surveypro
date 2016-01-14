@@ -47,10 +47,10 @@ function surveyprofield_fileupload_pluginfile($course, $cm, $context, $filearea,
 
     require_login($course, false, $cm);
 
-    // prevent_direct_user_input
+    // Prevent_direct_user_input.
 
     $answerid = (int)array_shift($args);
-    // from $answerid to $answer
+    // From $answerid to $answer.
     $sql = 'SELECT plugin, surveyproid
             FROM {surveypro_item} si
                 JOIN {surveypro_answer} a ON a.itemid = si.id

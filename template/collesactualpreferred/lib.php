@@ -23,6 +23,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-// position of the content
+// Kind of user interface.
 define('SURVEYPROTEMPLATE_COLLESACTUALPREFERREDUSERADIO', 1);
 define('SURVEYPROTEMPLATE_COLLESACTUALPREFERREDUSESELECT', 2);

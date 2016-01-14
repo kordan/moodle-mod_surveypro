@@ -33,34 +33,26 @@ class mod_surveypro_importutemplateform extends moodleform {
      * @return none
      */
     public function definition() {
-        // ----------------------------------------
         $mform = $this->_form;
 
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         $cmid = $this->_customdata->cmid;
         $surveypro = $this->_customdata->surveypro;
         $utemplateman = $this->_customdata->utemplateman;
         $filemanageroptions = $this->_customdata->filemanageroptions;
 
-        // ----------------------------------------
-        // templateimport: importfile
-        // ----------------------------------------
-        // here I use filemanager because I can even upload more than one usertemplate at once
+        // Templateimport: importfile.
+        // Here I use filemanager because I can even upload more than one usertemplate at once.
         $fieldname = 'importfile';
         $mform->addElement('filemanager', $fieldname.'_filemanager', get_string($fieldname, 'mod_surveypro'), null, $filemanageroptions);
         $mform->addRule($fieldname.'_filemanager', null, 'required');
 
-        // ----------------------------------------
-        // templateimport: overwrite
-        // ----------------------------------------
+        // Templateimport: overwrite.
         $fieldname = 'overwrite';
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
-        // ----------------------------------------
-        // templateimport: sharinglevel
-        // ----------------------------------------
+        // Templateimport: sharinglevel.
         $fieldname = 'sharinglevel';
         $options = array();
 
@@ -70,8 +62,7 @@ class mod_surveypro_importutemplateform extends moodleform {
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
         $mform->setDefault($fieldname, CONTEXT_SYSTEM);
 
-        // ----------------------------------------
-        // buttons
+        // Buttons.
         $this->add_action_buttons(false, get_string('import'));
     }
 
@@ -85,11 +76,9 @@ class mod_surveypro_importutemplateform extends moodleform {
     public function validation($data, $files) {
         global $USER;
 
-        // ----------------------------------------
         // $mform = $this->_form;
 
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         $cmid = $this->_customdata->cmid;
         $surveypro = $this->_customdata->surveypro;
         $utemplateman = $this->_customdata->utemplateman;
@@ -125,14 +114,14 @@ class mod_surveypro_importutemplateform extends moodleform {
             }
         }
 
-        // set $debug = true; if you want to always stop to see where the xml template is buggy
+        // Set $debug = true; if you want to always stop to see where the xml template is buggy.
         $debug = false;
         if ($debug) {
             $errors['importfile_filemanager'] = 'All is fine here!';
             return $errors;
         }
 
-        // get all template files in the specified context
+        // Get all template files in the specified context.
         $contextid = $utemplateman->get_contextid_from_sharinglevel($data['sharinglevel']);
         $componentfiles = $utemplateman->get_available_templates($contextid);
 

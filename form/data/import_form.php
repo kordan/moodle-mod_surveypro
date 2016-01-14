@@ -34,25 +34,18 @@ class mod_surveypro_importform extends moodleform {
      * @return none
      */
     public function definition() {
-        // ----------------------------------------
         $mform = $this->_form;
 
-        // ----------------------------------------
-        // submissionimport: settingsheader
-        // ----------------------------------------
+        // Submissionimport: settingsheader.
         $mform->addElement('header', 'settingsheader', get_string('upload'));
 
-        // ----------------------------------------
-        // submissionimport: csvfile
-        // ----------------------------------------
-        // here I use filepicker because I want ONE, and only ONE, file to import
+        // Submissionimport: csvfile.
+        // Here I use filepicker because I want ONE, and only ONE, file to import.
         $fieldname = 'csvfile';
         $mform->addElement('filepicker', $fieldname.'_filepicker', get_string('file'));
         $mform->addRule($fieldname.'_filepicker', null, 'required');
 
-        // ----------------------------------------
-        // submissionimport: csvcontent
-        // ----------------------------------------
+        // Submissionimport: csvcontent.
         $fieldname = 'csvsemantic';
         $a = get_string('downloadformat', 'mod_surveypro');
         $options = array();
@@ -63,9 +56,7 @@ class mod_surveypro_importform extends moodleform {
         $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $options);
         $mform->setDefault($fieldname, 'label');
 
-        // ----------------------------------------
-        // submissionimport: csvdelimiter
-        // ----------------------------------------
+        // Submissionimport: csvdelimiter.
         $fieldname = 'csvdelimiter';
         $options = csv_import_reader::get_delimiter_list();
         $mform->addElement('select', $fieldname, get_string($fieldname, 'tool_uploaduser'), $options);
@@ -77,16 +68,13 @@ class mod_surveypro_importform extends moodleform {
             $mform->setDefault($fieldname, 'comma');
         }
 
-        // ----------------------------------------
-        // submissionimport: encoding
-        // ----------------------------------------
+        // Submissionimport: encoding.
         $fieldname = 'encoding';
         $options = core_text::get_encodings();
         $mform->addElement('select', $fieldname, get_string($fieldname, 'tool_uploaduser'), $options);
         $mform->setDefault($fieldname, 'UTF-8');
 
-        // ----------------------------------------
-        // buttons
+        // Buttons.
         $this->add_action_buttons(false, get_string('dataimport', 'mod_surveypro'));
     }
 

@@ -81,13 +81,13 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         $masterbasepath = "$CFG->dirroot/mod/surveypro/templatemaster";
         $masterfilelist = get_directory_list($masterbasepath);
 
-        // I need to get xml content now because, to save time, I get xml AND $this->langtree contemporary
+        // I need to get xml content now because, to save time, I get xml AND $this->langtree contemporary.
         $xmlcontent = $this->write_template_content();
 
         foreach ($masterfilelist as $masterfile) {
             $masterfileinfo = pathinfo($masterfile);
-            // create the structure of the temporary folder
-            // the folder has to be created WITHOUT $CFG->tempdir/
+            // Create the structure of the temporary folder.
+            // The folder has to be created WITHOUT $CFG->tempdir/.
             $temppath = $tempsubdir.'/'.dirname($masterfile);
             make_temp_directory($temppath); // <-- just created the folder for the current plugin
 
@@ -100,7 +100,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             // echo dirname($masterfile) . "<br />";
 
             if ($masterfileinfo['basename'] == 'icon.gif') {
-                // simply copy icon.gif
+                // Simply copy icon.gif.
                 copy($masterbasepath.'/'.$masterfile, $tempfullpath.'/'.$masterfileinfo['basename']);
                 continue;
             }
@@ -108,16 +108,16 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             if ($masterfileinfo['basename'] == 'template.class.php') {
                 $templateclass = file_get_contents($masterbasepath.'/'.$masterfile);
 
-                // replace surveyproTemplatePluginMaster with the name of the current surveypro
+                // Replace surveyproTemplatePluginMaster with the name of the current surveypro.
                 $templateclass = str_replace(SURVEYPROTEMPLATE_NAMEPLACEHOLDER, $pluginname, $templateclass);
 
                 $temppath = $CFG->tempdir.'/'.$tempsubdir.'/'.$masterfileinfo['basename'];
 
-                // create $temppath
+                // Create $temppath.
                 $filehandler = fopen($temppath, 'w');
-                // write inside all the strings
+                // Write inside all the strings.
                 fwrite($filehandler, $templateclass);
-                // close
+                // Close.
                 fclose($filehandler);
                 continue;
             }
@@ -125,73 +125,73 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             if ($masterfileinfo['basename'] == 'template.xml') {
                 $temppath = $CFG->tempdir.'/'.$tempsubdir.'/'.$masterfileinfo['basename'];
 
-                // create $temppath
+                // Create $temppath.
                 $filehandler = fopen($temppath, 'w');
-                // write inside all the strings
+                // Write inside all the strings.
                 fwrite($filehandler, $xmlcontent);
-                // close
+                // Close.
                 fclose($filehandler);
                 continue;
             }
 
             if ($masterfileinfo['dirname'] == 'lang/en') {
-                // in which language the user is using Moodle?
+                // In which language the user is using Moodle?.
                 $userlang = current_language();
                 $temppath = $CFG->tempdir.'/'.$tempsubdir.'/lang/'.$userlang;
 
-                // this is the language folder of the strings hardcoded in the surveypro
-                // the folder lang/en already exist
+                // This is the language folder of the strings hardcoded in the surveypro.
+                // The folder lang/en already exist.
                 if ($userlang != 'en') {
-                    // I need to create the folder lang/it
+                    // I need to create the folder lang/it.
                     make_temp_directory($tempsubdir.'/lang/'.$userlang);
                 }
 
                 // echo '$masterbasepath = '.$masterbasepath.'<br />';
 
                 $filecopyright = file_get_contents($masterbasepath.'/lang/en/surveyprotemplate_pluginname.php');
-                // replace surveyproTemplatePluginMaster with the name of the current surveypro
+                // Replace surveyproTemplatePluginMaster with the name of the current surveypro.
                 $filecopyright = str_replace(SURVEYPROTEMPLATE_NAMEPLACEHOLDER, $pluginname, $filecopyright);
 
                 $savedstrings = $filecopyright.$this->extract_original_string();
                 // echo '<textarea rows="30" cols="100">'.$savedstrings.'</textarea>';
                 // die();
 
-                // create - this could be 'en' such as 'it'
+                // Create - this could be 'en' such as 'it'.
                 $filehandler = fopen($temppath.'/surveyprotemplate_'.$pluginname.'.php', 'w');
-                // write inside all the strings
+                // Write inside all the strings.
                 fwrite($filehandler, $savedstrings);
-                // close
+                // Close.
                 fclose($filehandler);
 
-                // this is the folder of the language en in case the user language is different from en
+                // This is the folder of the language en in case the user language is different from en.
                 if ($userlang != 'en') {
                     $temppath = $CFG->tempdir.'/'.$tempsubdir.'/lang/en';
-                    // create
+                    // Create.
                     $filehandler = fopen($temppath.'/surveyprotemplate_'.$pluginname.'.php', 'w');
-                    // write inside all the strings in teh form: 'english translation of $string[stringxx]'
+                    // Write inside all the strings in teh form: 'english translation of $string[stringxx]'.
                     $savedstrings = $filecopyright.$this->get_translated_strings($userlang);
-                    // save into surveyprotemplate_<<$pluginname>>.php
+                    // Save into surveyprotemplate_<<$pluginname>>.php.
                     fwrite($filehandler, $savedstrings);
-                    // close
+                    // Close.
                     fclose($filehandler);
                 }
                 continue;
             }
 
-            // for all the other files: version.php
-            // read the master
+            // For all the other files: version.php.
+            // Read the master.
             $filecontent = file_get_contents($masterbasepath.'/'.$masterfile);
-            // replace surveyproTemplatePluginMaster with the name of the current surveypro
+            // Replace surveyproTemplatePluginMaster with the name of the current surveypro.
             $filecontent = str_replace(SURVEYPROTEMPLATE_NAMEPLACEHOLDER, $pluginname, $filecontent);
             if ($masterfileinfo['basename'] == 'version.php') {
                 $currentdate = gmdate("Ymd").'01';
                 $filecontent = str_replace('1965100401', $currentdate, $filecontent);
             }
-            // open
+            // Open.
             $filehandler = fopen($tempbasedir.'/'.$masterfile, 'w');
-            // write
+            // Write.
             fwrite($filehandler, $filecontent);
-            // close
+            // Close.
             fclose($filehandler);
         }
 
@@ -233,7 +233,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         rmdir($tempbasedir);
         // }
 
-        // Return the full path to the exported template file:
+        // Return the full path to the exported template file.
         return $exportfile;
     }
 
@@ -246,7 +246,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     public function get_used_plugin() {
         global $DB;
 
-        // STEP 01: make a list of used plugins
+        // STEP 01: make a list of used plugins.
         $sql = 'SELECT si.plugin
                 FROM {surveypro_item} si
                 WHERE si.surveyproid = :surveyproid
@@ -254,7 +254,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         $whereparams = array('surveyproid' => $this->surveypro->id);
         $templateplugins = $DB->get_records_sql($sql, $whereparams);
 
-        // STEP 02: add, at top of $templateplugins, the fictitious 'item' plugin
+        // STEP 02: add, at top of $templateplugins, the fictitious 'item' plugin.
         $base = new stdClass();
         $base->plugin = 'item';
         return array_merge(array('item' => $base), $templateplugins);
@@ -332,7 +332,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             case 'mastertemplate_applied':
                 $event = \mod_surveypro\event\mastertemplate_applied::create($eventdata);
                 break;
-            case 'mastertemplate_saved': // sometimes called 'downloaded' too
+            case 'mastertemplate_saved': // Sometimes called 'downloaded' too.
                 $event = \mod_surveypro\event\mastertemplate_saved::create($eventdata);
                 break;
             default:

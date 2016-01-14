@@ -31,19 +31,19 @@ class backup_surveyprofield_checkbox_subplugin extends backup_subplugin {
      */
     protected function define_item_subplugin_structure() {
 
-        // XML nodes declaration
-        $subplugin = $this->get_subplugin_element(null, '../../plugin', 'checkbox'); // virtual optigroup element
+        // XML nodes declaration.
+        $subplugin = $this->get_subplugin_element(null, '../../plugin', 'checkbox'); // Virtual optigroup element.
         $wrapper = new backup_nested_element($this->get_recommended_name());
         $subplugincheckbox = new backup_nested_element('surveyprofield_checkbox', array('id'), array(
             'content', 'contentformat', 'customnumber', 'position', 'extranote',
-            'hideinstructions', 'variable', 'indent', 'options', 'labelother',
+            'required', 'hideinstructions', 'variable', 'indent', 'options', 'labelother',
             'defaultvalue', 'noanswerdefault', 'downloadformat', 'minimumrequired', 'adjustment'));
 
-        // connect XML elements into the tree
+        // Connect XML elements into the tree.
         $subplugin->add_child($wrapper);
         $wrapper->add_child($subplugincheckbox);
 
-        // Define sources
+        // Define sources.
         $subplugincheckbox->set_source_table('surveyprofield_checkbox', array('itemid' => backup::VAR_PARENTID));
 
         return $subplugin;

@@ -39,13 +39,13 @@ define('SURVEYPROFIELD_CHARACTER_URLPATTERN'   , 'PATTERN_URL');
  * @return
  */
 function surveypro_character_text_match_pattern($text, $pattern) {
-    // replace free characters
+    // Replace free characters.
     $pos = -1;
     while ($pos = strpos($pattern, '*', $pos + 1)) {
         $text = substr_replace($text, '*', $pos, 1);
     }
 
-    // build the pattern matching the text provided
+    // Build the pattern matching the text provided.
     $regex = array('~[A-Z]~', '~[a-z]~', '~[0-9]~');
     $replacement = array('A', 'a', '0');
     $text = preg_replace($regex, $replacement, $text);

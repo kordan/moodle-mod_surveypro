@@ -23,6 +23,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-// position of the content
+// Position of the content.
 define('SURVEYPROTEMPLATE_ATTLSUSERADIO', 1);
 define('SURVEYPROTEMPLATE_ATTLSUSESELECT', 2);

@@ -19,6 +19,7 @@
  * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 defined('MOODLE_INTERNAL') || die();
 
 /**
@@ -31,16 +32,16 @@ class backup_surveyproformat_pagebreak_subplugin extends backup_subplugin {
      */
     protected function define_item_subplugin_structure() {
 
-        // XML nodes declaration
-        $subplugin = $this->get_subplugin_element(null, '../../plugin', 'pagebreak'); // virtual optigroup element
+        // XML nodes declaration.
+        $subplugin = $this->get_subplugin_element(null, '../../plugin', 'pagebreak'); // Virtual optigroup element.
         $wrapper = new backup_nested_element($this->get_recommended_name());
         $subpluginpagebreak = new backup_nested_element('surveyproformat_pagebreak', array('id'), array('content'));
 
-        // connect XML elements into the tree
+        // Connect XML elements into the tree.
         $subplugin->add_child($wrapper);
         $wrapper->add_child($subpluginpagebreak);
 
-        // Define sources
+        // Define sources.
         $subpluginpagebreak->set_source_table('surveyproformat_pagebreak', array('itemid' => backup::VAR_PARENTID));
 
         return $subplugin;

@@ -35,39 +35,30 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
      * @return none
      */
     public function definition() {
-        // ----------------------------------------
-        // start with common section of the form
+        // Start with common section of the form.
         parent::definition();
 
-        // ----------------------------------------
         $mform = $this->_form;
 
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         $item = $this->_customdata->item;
         // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
 
-        // ----------------------------------------
-        // item: options
-        // ----------------------------------------
+        // Item: options.
         $fieldname = 'options';
         $mform->addElement('textarea', $fieldname, get_string($fieldname, 'surveyprofield_radiobutton'), array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_radiobutton');
         $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
         $mform->setType($fieldname, PARAM_RAW); // PARAM_RAW and not PARAM_TEXT otherwise '<' is not accepted
 
-        // ----------------------------------------
-        // item: labelother
-        // ----------------------------------------
+        // Item: labelother.
         $fieldname = 'labelother';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_radiobutton'), array('maxlength' => '64', 'size' => '50'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_radiobutton');
         $mform->setType($fieldname, PARAM_TEXT);
 
-        // ----------------------------------------
-        // item: defaultoption
-        // ----------------------------------------
+        // Item: defaultoption.
         $fieldname = 'defaultoption';
         $elementgroup = array();
         $elementgroup[] = $mform->createElement('radio', 'defaultoption', '', get_string('customdefault', 'surveyprofield_radiobutton'), SURVEYPRO_CUSTOMDEFAULT);
@@ -77,18 +68,14 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setDefault($fieldname, SURVEYPRO_INVITEDEFAULT);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_radiobutton');
 
-        // ----------------------------------------
-        // item: defaultvalue
-        // ----------------------------------------
+        // Item: defaultvalue.
         $fieldname = 'defaultvalue';
         $elementgroup = array();
         $mform->addElement('text', $fieldname, '');
         $mform->disabledIf($fieldname, 'defaultoption', 'neq', SURVEYPRO_CUSTOMDEFAULT);
         $mform->setType($fieldname, PARAM_RAW);
 
-        // ----------------------------------------
-        // item: downloadformat
-        // ----------------------------------------
+        // Item: downloadformat.
         $fieldname = 'downloadformat';
         $options = array(SURVEYPRO_ITEMSRETURNSVALUES => get_string('returnvalues', 'surveyprofield_radiobutton'),
                          SURVEYPRO_ITEMRETURNSLABELS => get_string('returnlabels', 'surveyprofield_radiobutton'),
@@ -98,9 +85,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_radiobutton');
         $mform->setType($fieldname, PARAM_INT);
 
-        // ----------------------------------------
-        // item: adjustment
-        // ----------------------------------------
+        // Item: adjustment.
         $fieldname = 'adjustment';
         $options = array(SURVEYPRO_HORIZONTAL => get_string('horizontal', 'surveyprofield_radiobutton'),
                          SURVEYPRO_VERTICAL => get_string('vertical', 'surveyprofield_radiobutton'));
@@ -120,21 +105,20 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
      * @return $errors
      */
     public function validation($data, $files) {
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         // $item = $this->_customdata->item;
         // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
 
         $errors = parent::validation($data, $files);
 
-        // clean inputs
-        // first of all get the value from the field
+        // Clean inputs.
+        // First of all get the value from the field.
         $cleanoptions = surveypro_textarea_to_array($data['options']);
         $cleanlabelother = trim($data['labelother']);
         $cleandefaultvalue = isset($data['defaultvalue']) ? trim($data['defaultvalue']) : '';
 
-        // build $value and $label arrays starting from $cleanoptions and $cleanlabelother
+        // Build $value and $label arrays starting from $cleanoptions and $cleanlabelother.
         $values = array();
         $labels = array();
 
@@ -150,16 +134,16 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         }
         if (!empty($cleanlabelother)) {
             if (strpos($cleanlabelother, SURVEYPRO_OTHERSEPARATOR) === false) {
-                $values[] = $cleanlabelother;
-                $labels[] = ''; // for labelother the label is equal to the value
+                $values[] = '';
+                $labels[] = $cleanlabelother;
             } else {
                 $pair = explode(SURVEYPRO_OTHERSEPARATOR, $cleanlabelother);
-                $values[] = $pair[0];
-                $labels[] = $pair[1];
+                $values[] = $pair[1];
+                $labels[] = $pair[0];
             }
         }
 
-        // if (default == noanswer) but item is required => error
+        // If (default == noanswer) but item is required => error.
         if ( ($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required']) ) {
             $a = get_string('noanswer', 'mod_surveypro');
             $errors['defaultoption_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
@@ -167,25 +151,19 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
 
         if ($data['defaultoption'] == SURVEYPRO_CUSTOMDEFAULT) {
             if (empty($data['defaultvalue'])) {
-                // -----------------------------
-                // first check
-                // user asks for SURVEYPRO_CUSTOMDEFAULT but doesn't provide it
-                // -----------------------------
+                // First check.
+                // User asks for SURVEYPRO_CUSTOMDEFAULT but doesn't provide it.
                 $a = get_string('invitedefault', 'mod_surveypro');
                 $errors['defaultoption_group'] = get_string('ierr_missingdefault', 'surveyprofield_radiobutton', $a);
             } else {
-                // -----------------------------
-                // second check
-                // each item of default has to also be among options OR has to be == to otherlabel value
-                // -----------------------------
+                // Second check.
+                // Each item of default has to also be among options OR has to be == to otherlabel value.
                 if (!in_array($cleandefaultvalue, $labels)) {
                     $errors['defaultvalue'] = get_string('ierr_foreigndefaultvalue', 'surveyprofield_radiobutton', $cleandefaultvalue);
                 }
 
-                // -----------------------------
-                // third check
-                // each single option item has to be unique
-                // -----------------------------
+                // Third check.
+                // Each single option item has to be unique.
                 $arrayunique = array_unique($cleanoptions);
                 if (count($cleanoptions) != count($arrayunique)) {
                     $errors['options'] = get_string('ierr_optionsduplicated', 'surveyprofield_radiobutton');

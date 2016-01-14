@@ -98,7 +98,7 @@ function get_dummy_contents($type, $plugin) {
             return $return;
         }
         if ($plugin == 'checkbox') {
-            $return->content_editor['text'] = 'What do you usually eat for breakfast?';
+            $return->content_editor['text'] = 'What do you usually get for breakfast?';
             $return->contentformat = 1;
             $return->options = "milk\nsugar\njam\nchocolate";
             $return->labelother = '';
@@ -168,7 +168,7 @@ function get_dummy_contents($type, $plugin) {
             return $return;
         }
         if ($plugin == 'multiselect') {
-            $return->content_editor['text'] = 'What do you usually eat for breakfast?';
+            $return->content_editor['text'] = 'What do you usually get for breakfast?';
             $return->contentformat = 1;
             $return->options = "milk\nsugar\njam\nchocolate";
             $return->defaultvalue = '';
@@ -233,7 +233,7 @@ function get_dummy_contents($type, $plugin) {
             return $return;
         }
         if ($plugin == 'textarea') {
-            $return->content_editor['text'] = 'Enter a short description of yourself';
+            $return->content_editor['text'] = 'Write a short description of yourself';
             $return->contentformat = 1;
             $return->useeditor = 1;
             $return->arearows = 10;

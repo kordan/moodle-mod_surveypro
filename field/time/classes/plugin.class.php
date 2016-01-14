@@ -78,8 +78,6 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
      */
     public $indent = 0;
 
-    // -----------------------------
-
     /**
      * $step = the step for minutes drop down menu
      */
@@ -121,8 +119,6 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
      */
     public static $canbeparent = false;
 
-    // -----------------------------
-
     /**
      * Class constructor
      *
@@ -135,20 +131,20 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
 
-        // list of constant element attributes
+        // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'time';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // It is already true from parent class.
         $this->savepositiontodb = false;
 
-        // other element specific properties
-        // nothing
+        // Other element specific properties.
+        // No properties here.
 
-        // override properties depending from $surveypro settings
-        // nothing
+        // Override properties depending from $surveypro settings..
+        // No properties here.
 
-        // list of fields I do not want to have in the item definition form
-        // EMPTY LIST
+        // List of fields I do not want to have in the item definition form.
+        // Empty list.
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $evaluateparentcontent);
@@ -166,8 +162,8 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
         // Do parent item loading stuff here (mod_surveypro_itembase::item_load($itemid, $evaluateparentcontent)))
         parent::item_load($itemid, $evaluateparentcontent);
 
-        // multilang load support for builtin surveypro
-        // whether executed, the 'content' field is ALWAYS handled
+        // Multilang load support for builtin surveypro.
+        // Whether executed, the 'content' field is ALWAYS handled.
         $this->item_builtin_string_load_support();
 
         $this->item_custom_fields_to_form();
@@ -182,31 +178,14 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
     public function item_save($record) {
         $this->item_get_common_settings($record);
 
-        // -----------------------------
-        // Now execute very specific plugin level actions
-        // -----------------------------
+        // Now execute very specific plugin level actions.
 
-        // begin of: plugin specific settings (eventually overriding general ones)
-        // set custom fields value as defined for this question plugin
+        // Begin of: plugin specific settings (eventually overriding general ones).
+        // Set custom fields value as defined for this question plugin.
         $this->item_custom_fields_to_db($record);
+        // End of: plugin specific settings (eventually overriding general ones).
 
-        // round defaultvalue according to step
-        $timearray = $this->item_split_unix_time($record->defaultvalue);
-        $defaultvaluehour = $timearray['hours'];
-        $defaultvalueminute = $timearray['minutes'];
-
-        $stepscount = intval($defaultvalueminute / $record->step);
-        $exceed = $defaultvalueminute % $record->step;
-        if ($exceed < ($record->step / 2)) {
-            $defaultvalueminute = $stepscount * $record->step;
-        } else {
-            $defaultvalueminute = (1 + $stepscount) * $record->step;
-        }
-        $record->defaultvalue = $this->item_time_to_unix_time($defaultvaluehour, $defaultvalueminute);
-        // end of: round defaultvalue according to step
-        // end of: plugin specific settings (eventually overriding general ones)
-
-        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record)))
+        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
     }
 
@@ -238,16 +217,13 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
      * @return
      */
     public function item_custom_fields_to_form() {
-        // 1. special management for fields equipped with "free" checkbox
-        // nothing to do: they don't exist in this plugin
-
-        // 2. special management for composite fields
+        // 1. Special management for composite fields.
         $fieldlist = $this->item_composite_fields();
         foreach ($fieldlist as $field) {
             if (!isset($this->{$field})) {
                 switch ($field) {
                     case 'defaultvalue':
-                        continue 2; // it may be; continues switch and foreach too
+                        continue 2; // It may be; continues switch and foreach too.
                     case 'lowerbound':
                         $this->{$field} = 0;
                         break;
@@ -272,10 +248,7 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
      * @return
      */
     public function item_custom_fields_to_db($record) {
-        // 1. special management for fields equipped with "free" checkbox
-        // nothing to do: they don't exist in this plugin
-
-        // 2. special management for composite fields
+        // 1. Special management for composite fields.
         $fieldlist = $this->item_composite_fields();
         foreach ($fieldlist as $field) {
             if (isset($record->{$field.'_hour'}) && isset($record->{$field.'_minute'})) {
@@ -286,6 +259,27 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
                 $record->{$field} = null;
             }
         }
+
+        // 2. Override few values.
+        // Begin of: round defaultvalue according to step.
+        $timearray = $this->item_split_unix_time($record->defaultvalue);
+        $defaultvaluehour = $timearray['hours'];
+        $defaultvalueminute = $timearray['minutes'];
+
+        $stepscount = intval($defaultvalueminute / $record->step);
+        $exceed = $defaultvalueminute % $record->step;
+        if ($exceed < ($record->step / 2)) {
+            $defaultvalueminute = $stepscount * $record->step;
+        } else {
+            $defaultvalueminute = (1 + $stepscount) * $record->step;
+        }
+        $record->defaultvalue = $this->item_time_to_unix_time($defaultvaluehour, $defaultvalueminute);
+        // End of: round defaultvalue according to step.
+
+        // 3. Set values corresponding to checkboxes.
+        // Nothing to do: no checkboxes in this plugin item form.
+
+        // 4. Other.
     }
 
     /**
@@ -406,7 +400,7 @@ EOS;
 
         $idprefix = 'id_surveypro_field_time_'.$this->sortindex;
 
-        // element values
+        // Begin of: element values.
         $hours = array();
         $minutes = array();
         if (!$searchform) {
@@ -436,7 +430,7 @@ EOS;
         }
         // End of: element values
 
-        // mform element
+        // Begin of: mform element.
         $elementgroup = array();
         $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_hour', '', $hours, array('class' => 'indent-'.$this->indent, 'id' => $idprefix.'_hour'));
         $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_minute', '', $minutes, array('id' => $idprefix.'_minute'));
@@ -446,10 +440,10 @@ EOS;
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, $separator, false);
 
             if (!$searchform) {
-                // even if the item is required I CAN NOT ADD ANY RULE HERE because:
-                // -> I do not want JS form validation if the page is submitted through the "previous" button
-                // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815
-                // simply add a dummy star to the item and the footer note about mandatory fields
+                // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
+                // -> I do not want JS form validation if the page is submitted through the "previous" button.
+                // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
+                // Simply add a dummy star to the item and the footer note about mandatory fields.
                 $starplace = ($this->position != SURVEYPRO_POSITIONLEFT) ? $this->itemname.'_extrarow' : $this->itemname.'_group';
                 $mform->_required[] = $starplace;
             }
@@ -460,9 +454,9 @@ EOS;
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, $separator, false);
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
         }
-        // End of: mform element
+        // End of: mform element.
 
-        // default section
+        // Default section.
         if (!$searchform) {
             if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
                 $mform->setDefault($this->itemname.'_hour', SURVEYPRO_INVITEVALUE);
@@ -480,12 +474,12 @@ EOS;
                         $mform->setDefault($this->itemname.'_noanswer', '1');
                         break;
                     case SURVEYPRO_LIKELASTDEFAULT:
-                        // look for the last submission I made
+                        // Look for the last submission I made.
                         $sql = 'userid = :userid ORDER BY timecreated DESC LIMIT 1';
                         $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, array('userid' => $USER->id), IGNORE_MISSING);
                         if ($time = $DB->get_field('surveypro_answer', 'content', array('itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid), IGNORE_MISSING)) {
                             $timearray = $this->item_split_unix_time($time, false);
-                        } else { // as in standard default
+                        } else { // As in standard default.
                             $timearray = $this->item_split_unix_time(time(), true);
                         }
                         break;
@@ -519,19 +513,19 @@ EOS;
         // if ($this->required) { if (empty($data[$this->itemname])) { is useless
 
         if (isset($data[$this->itemname.'_noanswer'])) {
-            return; // nothing to validate
+            return; // Nothing to validate.
         }
 
         $errorkey = $this->itemname.'_group';
 
-        // verify the content of each drop down menu
+        // Begin of: verify the content of each drop down menu.
         if (!$searchform) {
             $testpassed = true;
             $testpassed = $testpassed && ($data[$this->itemname.'_hour'] != SURVEYPRO_INVITEVALUE);
             $testpassed = $testpassed && ($data[$this->itemname.'_minute'] != SURVEYPRO_INVITEVALUE);
         } else {
-            // both drop down menues are allowed to be == SURVEYPRO_IGNOREMEVALUE
-            // but not only 1
+            // Both drop down menues are allowed to be == SURVEYPRO_IGNOREMEVALUE.
+            // But not only 1.
             $testpassed = true;
             if ($data[$this->itemname.'_hour'] == SURVEYPRO_IGNOREMEVALUE) {
                 $testpassed = $testpassed && ($data[$this->itemname.'_minute'] == SURVEYPRO_IGNOREMEVALUE);
@@ -563,14 +557,14 @@ EOS;
         if ($haslowerbound && $hasupperbound) {
             $format = get_string('strftimetime', 'langconfig');
             if ($this->lowerbound < $this->upperbound) {
-                // internal range
+                // Internal range.
                 if ( ($userinput < $this->lowerbound) || ($userinput > $this->upperbound) ) {
                     $errors[$errorkey] = get_string('uerr_outofinternalrange', 'surveyprofield_time');
                 }
             }
 
             if ($this->lowerbound > $this->upperbound) {
-                // external range
+                // External range.
                 if ( ($userinput > $this->lowerbound) && ($userinput < $this->upperbound) ) {
                     $format = $this->item_get_friendlyformat();
                     $a = new stdClass();
@@ -607,12 +601,12 @@ EOS;
             $a->upperbound = userdate($this->upperbound, $format, 0);
 
             if ($this->lowerbound < $this->upperbound) {
-                // internal range
+                // Internal range.
                 $fillinginstruction = get_string('restriction_lowerupper', 'surveyprofield_time', $a);
             }
 
             if ($this->lowerbound > $this->upperbound) {
-                // external range
+                // External range.
                 $fillinginstruction = get_string('restriction_upperlower', 'surveyprofield_time', $a);
             }
         } else {
@@ -642,7 +636,7 @@ EOS;
      * @return
      */
     public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
-        if (isset($answer['noanswer'])) { // this is correct for input and search form both
+        if (isset($answer['noanswer'])) { // This is correct for input and search form both.
             $olduseranswer->content = SURVEYPRO_NOANSWERVALUE;
         } else {
             if (!$searchform) {
@@ -695,16 +689,16 @@ EOS;
      * @return
      */
     public function userform_db_to_export($answer, $format='') {
-        // content
+        // Content.
         $content = $answer->content;
-        if ($content == SURVEYPRO_NOANSWERVALUE) { // answer was "no answer"
+        if ($content == SURVEYPRO_NOANSWERVALUE) { // Answer was "no answer".
             return get_string('answerisnoanswer', 'mod_surveypro');
         }
-        if ($content === null) { // item was disabled
+        if ($content === null) { // Item was disabled.
             return get_string('notanswereditem', 'mod_surveypro');
         }
 
-        // format
+        // Format.
         if ($format == SURVEYPRO_FIRENDLYFORMAT) {
             $format = $this->item_get_friendlyformat();
         }
@@ -712,7 +706,7 @@ EOS;
             $format = $this->downloadformat;
         }
 
-        // output
+        // Output.
         if ($format == 'unixtime') {
             return $content;
         } else {

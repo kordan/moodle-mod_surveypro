@@ -49,23 +49,17 @@ require_course_login($course, true, $cm);
 $context = context_module::instance($cm->id);
 require_capability('mod/surveypro:accessreports', $context);
 
-// -----------------------------
-// calculations
-// -----------------------------
+// Calculations.
 $hassubmissions = surveypro_count_submissions($surveypro->id);
 $reportman = new mod_surveypro_report_frequency($cm, $context, $surveypro);
 $reportman->setup_outputtable();
 
-// -----------------------------
-// define $mform return url
+// Begin of: define $mform return url.
 $paramurl = array('id' => $cm->id, 'rname' => 'frequency');
 $formurl = new moodle_url('/mod/surveypro/report/frequency/view.php', $paramurl);
-// end of: define $mform return url
-// -----------------------------
+// End of: define $mform return url.
 
-// -----------------------------
-// output starts here
-// -----------------------------
+// Output starts here.
 $url = new moodle_url('/mod/surveypro/report/frequency/view.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
@@ -73,40 +67,33 @@ $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
-// make bold the navigation menu/link that refers to me
+// Make bold the navigation menu/link that refers to me.
 navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
-$moduletab = SURVEYPRO_TABSUBMISSIONS; // needed by tabs.php
-$modulepage = SURVEYPRO_SUBMISSION_REPORT; // needed by tabs.php
+$moduletab = SURVEYPRO_TABSUBMISSIONS; // Needed by tabs.php.
+$modulepage = SURVEYPRO_SUBMISSION_REPORT; // Needed by tabs.php.
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
-// -----------------------------
-// stop here if only textareas are in the surveypro
+// Begin of: stop here if only textareas are in the surveypro.
 $reportman->stop_if_textareas_only();
-// end of: stop here if only textareas are in the surveypro
-// -----------------------------
+// End of: stop here if only textareas are in the surveypro.
 
 $reportman->check_submissions();
 
-// -----------------------------
-// prepare params for the form
+// Begin of: prepare params for the form.
 $formparams = new stdClass();
 $formparams->surveypro = $surveypro;
 $formparams->answercount = $hassubmissions;
 $mform = new mod_surveypro_chooseitemform($formurl, $formparams);
-// end of: prepare params for the form
-// -----------------------------
+// End of: prepare params for the form.
 
-// -----------------------------
-// display the form
+// Begin of: display the form.
 $mform->display();
-// end of: display the form
-// -----------------------------
+// End of: display the form.
 
-// -----------------------------
-// manage form submission
+// Begin of: manage form submission.
 if ($fromform = $mform->get_data()) {
     $reportman->fetch_data($fromform->itemid, $hassubmissions);
 
@@ -116,12 +103,12 @@ if ($fromform = $mform->get_data()) {
     $paramurl['itemid'] = $fromform->itemid;
     $paramurl['submissionscount'] = $hassubmissions;
     $url = new moodle_url('/mod/surveypro/report/frequency/graph.php', $paramurl);
-    // to troubleshoot graph, open a new window in the broser and directly call
-    // http://localhost/head/mod/surveypro/report/frequency/graph.php?id=xx&group=0&itemid=yyy&submissionscount=1
+    // To troubleshoot graph, open a new window in the broser and directly call.
+    // For instance: http://localhost/head/mod/surveypro/report/frequency/graph.php?id=xx&group=0&itemid=yyy&submissionscount=1
 
     $reportman->output_data($url);
 }
-// end of: manage form submission
-// -----------------------------
+// End of: manage form submission.
 
+// Finish the page.
 echo $OUTPUT->footer();

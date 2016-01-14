@@ -93,9 +93,7 @@ $string['select_options_01'] = '1::under 1 min'."\n".'2::1-2 min'."\n".'3::2-3 m
 
 $string['textarea_content_28'] = '<p>Do you have any other comments?</p>';
 
-// --------------
-// common strings
-// --------------
+// Common strings.
 $string['item_parentvalue_01'] = '';
 
 $string['label_leftlabel_01'] = '';

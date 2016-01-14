@@ -159,7 +159,3 @@ do
         echo '    Not any string appears to be useless. Congratulation!'
     fi
 done
-
-
-
-

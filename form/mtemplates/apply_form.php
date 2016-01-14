@@ -33,11 +33,9 @@ class mod_surveypro_applymtemplateform extends moodleform {
      * @return none
      */
     public function definition() {
-        // ----------------------------------------
         $mform = $this->_form;
 
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         $cmid = $this->_customdata->cmid;
         $surveypro = $this->_customdata->surveypro;
         $inline = $this->_customdata->inline;
@@ -53,9 +51,7 @@ class mod_surveypro_applymtemplateform extends moodleform {
             asort($mtemplates);
         }
 
-        // ----------------------------------------
-        // applymtemplate: mastertemplate
-        // ----------------------------------------
+        // Applymtemplate: mastertemplate.
         if (count($mtemplates)) {
             $fieldname = 'mastertemplate';
             if ($inline) {
@@ -69,8 +65,7 @@ class mod_surveypro_applymtemplateform extends moodleform {
                 $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
                 $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
 
-                // ----------------------------------------
-                // buttons
+                // Buttons.
                 $this->add_action_buttons(true, get_string('continue'));
             }
         } else {
@@ -90,11 +85,9 @@ class mod_surveypro_applymtemplateform extends moodleform {
     public function validation($data, $files) {
         global $CFG;
 
-        // ----------------------------------------
         // $mform = $this->_form;
 
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         $cmid = $this->_customdata->cmid;
         $surveypro = $this->_customdata->surveypro;
         $mtemplateman = $this->_customdata->mtemplateman;

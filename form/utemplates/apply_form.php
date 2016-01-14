@@ -33,11 +33,9 @@ class mod_surveypro_applyutemplateform extends moodleform {
      * @return none
      */
     public function definition() {
-        // ----------------------------------------
         $mform = $this->_form;
 
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         $cmid = $this->_customdata->cmid;
         $surveypro = $this->_customdata->surveypro;
         $utemplateman = $this->_customdata->utemplateman;
@@ -60,16 +58,12 @@ class mod_surveypro_applyutemplateform extends moodleform {
         }
         asort($templatesfiles);
 
-        // ----------------------------------------
-        // applyutemplate: cnf
-        // ----------------------------------------
+        // Applyutemplate: cnf.
         $fieldname = 'cnf';
         $mform->addElement('hidden', $fieldname, SURVEYPRO_UNCONFIRMED);
         $mform->setType($fieldname, PARAM_INT);
 
-        // ----------------------------------------
-        // applyutemplate: usertemplate
-        // ----------------------------------------
+        // Applyutemplate: usertemplate.
         $fieldname = 'usertemplateinfo';
         // $templatesfiles = array(get_string('notanyset', 'mod_surveypro')) + $templatesfiles;
         array_unshift($templatesfiles, get_string('notanyset', 'mod_surveypro'));
@@ -77,9 +71,7 @@ class mod_surveypro_applyutemplateform extends moodleform {
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
         $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
 
-        // ----------------------------------------
-        // applyutemplate: otheritems
-        // ----------------------------------------
+        // Applyutemplate: otheritems.
         $fieldname = 'action';
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('ignoreitems', 'mod_surveypro'), SURVEYPRO_IGNOREITEMS);
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('hideitems', 'mod_surveypro'), SURVEYPRO_HIDEITEMS);
@@ -90,8 +82,7 @@ class mod_surveypro_applyutemplateform extends moodleform {
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveypro');
         $mform->setDefault($fieldname, SURVEYPRO_IGNOREITEMS);
 
-        // ----------------------------------------
-        // buttons
+        // Buttons.
         $this->add_action_buttons(true, get_string('continue'));
     }
 }

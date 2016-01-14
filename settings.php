@@ -33,7 +33,7 @@ $settings = new admin_settingpage($section, get_string('settings', 'mod_surveypr
 if ($ADMIN->fulltree) {
     $name = new lang_string('maxinputdelay', 'mod_surveypro');
     $description = new lang_string('maxinputdelay_descr', 'mod_surveypro');
-    $settings->add(new admin_setting_configtext('mod_surveypro/maxinputdelay', $name, $description, 168, PARAM_INT)); // alias: 7*24 hours == 1 week
+    $settings->add(new admin_setting_configtext('mod_surveypro/maxinputdelay', $name, $description, 168, PARAM_INT)); // Alias: 7*24 hours == 1 week.
 
     $name = new lang_string('extranoteinsearch', 'mod_surveypro');
     $description = new lang_string('extranoteinsearch_descr', 'mod_surveypro');
@@ -49,22 +49,22 @@ $ADMIN->add('modsurveyprofolder', $settings);
 // Tell core we already added the settings structure.
 $settings = null;
 
-// folder 'surveypro field'
+// Folder 'surveypro field'.
 $ADMIN->add('modsurveyprofolder', new admin_category('surveyprofieldplugins',
                 new lang_string('fieldplugins', 'surveypro'), !$module->is_enabled()));
 $ADMIN->add('surveyprofieldplugins', new mod_surveypro_admin_page_manage_surveypro_plugins('surveyprofield'));
 
-// folder 'surveypro format'
+// Folder 'surveypro format'.
 $ADMIN->add('modsurveyprofolder', new admin_category('surveyproformatplugins',
                 new lang_string('formatplugins', 'surveypro'), !$module->is_enabled()));
 $ADMIN->add('surveyproformatplugins', new mod_surveypro_admin_page_manage_surveypro_plugins('surveyproformat'));
 
-// folder 'surveypro (master) templates'
+// Folder 'surveypro (master) templates'.
 $ADMIN->add('modsurveyprofolder', new admin_category('surveyprotemplateplugins',
                 new lang_string('mastertemplateplugins', 'surveypro'), !$module->is_enabled()));
 $ADMIN->add('surveyprotemplateplugins', new mod_surveypro_admin_page_manage_surveypro_plugins('surveyprotemplate'));
 
-// folder 'surveypro reports'
+// Folder 'surveypro reports'.
 $ADMIN->add('modsurveyprofolder', new admin_category('surveyproreportplugins',
                 new lang_string('reportplugins', 'surveypro'), !$module->is_enabled()));
 $ADMIN->add('surveyproreportplugins', new mod_surveypro_admin_page_manage_surveypro_plugins('surveyproreport'));

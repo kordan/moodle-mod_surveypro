@@ -2,63 +2,63 @@
     font-size:large;
 }
 
-/* begin of: to correct display problems of firefox for mac */
+/* Begin of: to correct display problems of firefox for mac */
 #page-mod-surveypro-view_userform .mform .fitem .felement,
 #page-mod-surveypro-view_search .mform .fitem .felement {
     /* min-height: 2em; */ /* too much horintal room */
     padding-top:8px;
 }
-/* end of: to eliminate display problems of firefox for mac */
+/* End of: to eliminate display problems of firefox for mac */
 
-/* begin of: colours alternation for #userentry, #usersearch forms and read-only table*/
+/* Begin of: colours alternation for #userentry, #usersearch forms and read-only table*/
 #page-mod-surveypro-view_userform fieldset div.fitem:nth-of-type(even),
 #page-mod-surveypro-view_search fieldset div.fitem:nth-of-type(even) {
     background-color:#EDEDED;
 }
-/* end of: colours alternation for #userentry, #usersearch forms and read-only table*/
+/* End of: colours alternation for #userentry, #usersearch forms and read-only table*/
 
-/* begin of: hacky coluorunifier html element */
+/* Begin of: hacky coluorunifier html element */
 #page-mod-surveypro-view_userform .mform fieldset div.colorunifier,
 #page-mod-surveypro-view_search .mform fieldset div.colorunifier {
     line-height:0;
     margin-bottom:0;
     padding:0;
 }
-/* end of: hacky coluorunifier html element */
+/* End of: hacky coluorunifier html element */
 
-/* begin of: connect fullwidth question and graphic user items */
+/* Begin of: connect fullwidth question and graphic user items */
 #page-mod-surveypro-view_userform .mform fieldset.hidden,
 #page-mod-surveypro-view_userform .mform fieldset.hidden div,
 #page-mod-surveypro-view_search .mform fieldset.hidden,
 #page-mod-surveypro-view_search .mform fieldset.hidden div {
     margin-bottom: 0;
 }
-/* end of: connect fullwidth question and graphic user items */
+/* End of: connect fullwidth question and graphic user items */
 
-/* begin of: connect note to question */
+/* Begin of: connect note to question */
 #page-mod-surveypro-view_userform .mform .fitem,
 #page-mod-surveypro-view_search .mform .fitem {
     margin:0;
 }
-/* end of: connect note to question */
+/* End of: connect note to question */
 
-/* begin of: no margin bottom to p inside question in SURVEYPRO_POSITIONTOP and SURVEYPRO_POSITIONFULLWIDTH */
+/* Begin of: no margin bottom to p inside question in SURVEYPRO_POSITIONTOP and SURVEYPRO_POSITIONFULLWIDTH */
 #page-mod-surveypro-view_userform .mform .fitem .felement div p,
 #page-mod-surveypro-view_userform .mform .fitem .fullwidth p,
 #page-mod-surveypro-view_search .mform .fitem .felement div p,
 #page-mod-surveypro-view_search .mform .fitem .fullwidth p {
     margin:0;
 }
-/* end of: no margin bottom to p inside .fullwidth */
+/* End of: no margin bottom to p inside .fullwidth */
 
-/* begin of: drop out pictures longer than the available width in #userentry and #usersearch */
+/* Begin of: drop out pictures longer than the available width in #userentry and #usersearch */
 #page-mod-surveypro-view_userform .mform .itemlabel .fullwidth,
 #page-mod-surveypro-view_search .mform .itemlabel .fullwidth {
     overflow: hidden;
 }
-/* end of: drop out pictures longer than the available width */
+/* End of: drop out pictures longer than the available width */
 
-/* begin of: move horizontal checkbox and radio label closer to corresponding checkboes */
+/* Begin of: move horizontal checkbox and radio label closer to corresponding checkboes */
 /* useful in case of radio button and checkboxes horizontally aligned */
 /* NOTE: I have to add #userentry and #usersearch because I want to leave read-only layout untouched */
 #page-mod-surveypro-view_userform #userentry .fitem .felement input[type="checkbox"],
@@ -71,9 +71,9 @@
 #page-mod-surveypro-view_userform .mform .fitem .felement label {
     margin-right: 1em;
 }
-/* end of: move horizontal checkbox and radio label closer to corresponding checkboes */
+/* End of: move horizontal checkbox and radio label closer to corresponding checkboes */
 
-/* begin of: #manageitems, #sortitems, #managetemplates and #validaterelations tables*/
+/* Begin of: #manageitems, #sortitems, #managetemplates and #validaterelations tables*/
 #page-mod-surveypro-items_manage table#manageitems,
 #page-mod-surveypro-items_manage table#sortitems,
 #page-mod-surveypro-utemplates_manage table#managetemplates,
@@ -205,7 +205,7 @@
 }
 /* End of: #manageitems, #sortitems, #managetemplates and #validaterelations tables*/
 
-/* begin of: submissions table */
+/* Begin of: submissions table */
 #page-mod-surveypro-view_manage table#submissions {
     width:100%;
 }
@@ -226,7 +226,7 @@
 }
 /* End of: submissions table */
 
-/* begin of: Page break and fieldset presentation in the items table and during deletion confirmation */
+/* Begin of: Page break and fieldset presentation in the items table and during deletion confirmation */
 /* first hypotesis: only a simple double horizontal line */
 /* #page-mod-surveypro-items_manage hr.pagebreakcontent {
     border: none;
@@ -266,9 +266,9 @@
     border-style: none none dotted;
     width: 90%;
 }
-/* end of: Page break and fieldset presentation in the items table and during deletion confirmation */
+/* End of: Page break and fieldset presentation in the items table and during deletion confirmation */
 
-/* begin of: selectors for the static field explaining the format needed by each plugin in parentcontent field */
+/* Begin of: selectors for the static field explaining the format needed by each plugin in parentcontent field */
 #page-mod-surveypro-items_setup .pluginname {
     left:0;
     width:25%;
@@ -286,7 +286,7 @@
 #page-mod-surveypro-items_setup .felement.fstatic ul {
     line-height:1.2em;
 }
-/* end of: selectors for the static field explaining the format needed by each plugin in parentcontent field */
+/* End of: selectors for the static field explaining the format needed by each plugin in parentcontent field */
 
 /* the first class selecter is for the form in R/W mode, the second is for the RO mode */
 #page-mod-surveypro-view_userform #userentry .fitem .felement .indent-0,
@@ -339,18 +339,18 @@
     margin-left:13.5em;
 }
 
-/* begin of: for long edit fields in itemsetup form */
+/* Begin of: for long edit fields in itemsetup form */
 #page-mod-surveypro-items_setup .mform .fitem .felement .longfield {
     width:25em;
 }
-/* end of: for long edit fields in itemsetup form */
+/* End of: for long edit fields in itemsetup form */
 
-/* begin of: fix to owful alignment of fielset legends in the cover */
+/* Begin of: fix to owful alignment of fielset legends in the cover */
 #page-mod-surveypro-view_cover .coverinfolegend {
     margin-top:20px;
     margin-bottom:0;
 }
-/* end of: fix to owful alignment of fielset legends in the cover */
+/* End of: fix to owful alignment of fielset legends in the cover */
 
 /* table with list of surveypro in index.php */
 #page-mod-surveypro-index table.mod_index .col1,
@@ -368,7 +368,7 @@
 #page-mod-surveypro-index table.mod_index td span.dimmed {
     color: #999;
 }
-/* end of: table with list of surveypro in index.php */
+/* End of: table with list of surveypro in index.php */
 
 /* to correct vertical alignment in read only mode */
 #page-mod-surveypro-view_userform .mform .fitem .felement.fgroup,

@@ -35,37 +35,28 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
      * @return none
      */
     public function definition() {
-        // ----------------------------------------
         // I close with the common section of the form
         parent::definition();
 
-        // ----------------------------------------
         $mform = $this->_form;
 
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         $item = $this->_customdata->item;
         // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
 
-        // -----------------------------
-        // here I open a new fieldset
-        // -----------------------------
+        // Here I open a new fieldset.
         $fieldname = 'specializations';
         $typename = get_string('pluginname', 'surveyproformat_'.$item->plugin);
         $mform->addElement('header', $fieldname, get_string($fieldname, 'mod_surveypro', $typename));
 
-        // ----------------------------------------
-        // item: fullwidth
-        // ----------------------------------------
+        // Item: fullwidth.
         $fieldname = 'fullwidth';
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveyproformat_label'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveyproformat_label');
         $mform->setType($fieldname, PARAM_INT);
 
-        // ----------------------------------------
-        // item: leftlabel
-        // ----------------------------------------
+        // Item: leftlabel.
         $fieldname = 'leftlabel';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyproformat_label'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveyproformat_label');

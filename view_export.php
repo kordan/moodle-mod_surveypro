@@ -27,8 +27,8 @@ require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/view_export.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/data/export_form.php');
 
-$id = optional_param('id', 0, PARAM_INT); // course_module ID, or
-$s = optional_param('s', 0, PARAM_INT);  // surveypro instance ID
+$id = optional_param('id', 0, PARAM_INT); // Course_module id.
+$s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
@@ -45,30 +45,23 @@ require_course_login($course, true, $cm);
 $context = context_module::instance($cm->id);
 require_capability('mod/surveypro:exportdata', $context);
 
-// -----------------------------
-// calculations
-// -----------------------------
+// Calculations.
 $exportman = new mod_surveypro_exportmanager($cm, $context, $surveypro);
 
-// -----------------------------
-// define exportform return url
+// Begin of: define exportform return url.
 $paramurl = array('id' => $cm->id);
 $formurl = new moodle_url('/mod/surveypro/view_export.php', $paramurl);
-// end of: define $mform return url
-// -----------------------------
+// End of: define $mform return url.
 
-// -----------------------------
-// prepare params for the form
+// Begin of: prepare params for the form.
 $formparams = new stdClass();
 $formparams->surveypro = $surveypro;
 $formparams->activityisgrouped = groups_get_activity_groupmode($cm, $course);
 $formparams->context = $context;
 $exportform = new mod_surveypro_exportform($formurl, $formparams);
-// end of: prepare params for the form
-// -----------------------------
+// End of: prepare params for the form.
 
-// -----------------------------
-// manage form submission
+// Begin of: manage form submission.
 if ($exportman->formdata = $exportform->get_data()) {
     if (!$exporterror = $exportman->surveypro_export()) {
         // All is fine!
@@ -79,12 +72,9 @@ if ($exportman->formdata = $exportform->get_data()) {
 } else {
     $exporterror = null;
 }
-// end of: manage form submission
-// -----------------------------
+// End of: manage form submission.
 
-// -----------------------------
-// output starts here
-// -----------------------------
+// Output starts here.
 $PAGE->set_url('/mod/surveypro/view_export.php', array('s' => $surveypro->id));
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -93,8 +83,8 @@ $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
 
-$moduletab = SURVEYPRO_TABSUBMISSIONS; // needed by tabs.php
-$modulepage = SURVEYPRO_SUBMISSION_EXPORT; // needed by tabs.php
+$moduletab = SURVEYPRO_TABSUBMISSIONS; // Needed by tabs.php.
+$modulepage = SURVEYPRO_SUBMISSION_EXPORT; // Needed by tabs.php.
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
 if ($exporterror == SURVEYPRO_NOFIELDSSELECTED) {
@@ -111,5 +101,5 @@ if ($exporterror == SURVEYPRO_NOATTACHMENTFOUND) {
 
 $exportform->display();
 
-// Finish the page
+// Finish the page.
 echo $OUTPUT->footer();

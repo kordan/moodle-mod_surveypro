@@ -35,55 +35,42 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
      * @return none
      */
     public function definition() {
-        // ----------------------------------------
-        // start with common section of the form
+        // Start with common section of the form.
         parent::definition();
 
-        // ----------------------------------------
         $mform = $this->_form;
 
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         $item = $this->_customdata->item;
         // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
 
-        // ----------------------------------------
-        // item: options
-        // ----------------------------------------
+        // Item: options.
         $fieldname = 'options';
         $mform->addElement('textarea', $fieldname, get_string($fieldname, 'surveyprofield_checkbox'), array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_checkbox');
         $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
         $mform->setType($fieldname, PARAM_RAW); // PARAM_RAW and not PARAM_TEXT otherwise '<' is not accepted
 
-        // ----------------------------------------
-        // item: labelother
-        // ----------------------------------------
+        // Item: labelother.
         $fieldname = 'labelother';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_checkbox'), array('maxlength' => '64', 'size' => '50'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_checkbox');
         $mform->setType($fieldname, PARAM_TEXT);
 
-        // ----------------------------------------
-        // item: defaultvalue
-        // ----------------------------------------
+        // Item: defaultvalue.
         $fieldname = 'defaultvalue';
         $mform->addElement('textarea', $fieldname, get_string($fieldname, 'surveyprofield_checkbox'), array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_checkbox');
         $mform->setType($fieldname, PARAM_TEXT);
 
-        // ----------------------------------------
-        // item: noanswerdefault
-        // ----------------------------------------
+        // Item: noanswerdefault.
         $fieldname = 'noanswerdefault';
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveyprofield_checkbox'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_checkbox');
         $mform->setType($fieldname, PARAM_INT);
 
-        // ----------------------------------------
-        // item: adjustment
-        // ----------------------------------------
+        // Item: adjustment.
         $fieldname = 'adjustment';
         $options = array(SURVEYPRO_HORIZONTAL => get_string('horizontal', 'surveyprofield_checkbox'), SURVEYPRO_VERTICAL => get_string('vertical', 'surveyprofield_checkbox'));
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_checkbox'), $options);
@@ -91,25 +78,25 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_checkbox');
         $mform->setType($fieldname, PARAM_INT);
 
-        // ----------------------------------------
-        // item: minimumrequired
-        // ----------------------------------------
-        $fieldname = 'minimumrequired';
-        $options = array_combine(range(0, 9), range(0, 9));
-        $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_checkbox'), $options);
-        $mform->setDefault($fieldname, 0);
-        $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_checkbox');
-        $mform->setType($fieldname, PARAM_INT);
-
-        // ----------------------------------------
-        // item: downloadformat
-        // ----------------------------------------
+        // Item: downloadformat.
         $fieldname = 'downloadformat';
         $options = array(SURVEYPRO_ITEMSRETURNSVALUES => get_string('returnvalues', 'surveyprofield_checkbox'),
                          SURVEYPRO_ITEMRETURNSLABELS => get_string('returnlabels', 'surveyprofield_checkbox'),
                          SURVEYPRO_ITEMRETURNSPOSITION => get_string('returnposition', 'surveyprofield_checkbox'));
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_checkbox'), $options);
         $mform->setDefault($fieldname, $item->item_get_friendlyformat());
+        $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_checkbox');
+        $mform->setType($fieldname, PARAM_INT);
+
+        // Here I open a new fieldset.
+        $fieldname = 'validation';
+        $mform->addElement('header', $fieldname, get_string($fieldname, 'mod_surveypro'));
+
+        // Item: minimumrequired.
+        $fieldname = 'minimumrequired';
+        $options = array_combine(range(0, 9), range(0, 9));
+        $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_checkbox'), $options);
+        $mform->setDefault($fieldname, 0);
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_checkbox');
         $mform->setType($fieldname, PARAM_INT);
 
@@ -124,20 +111,19 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
      * @return $errors
      */
     public function validation($data, $files) {
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         // $item = $this->_customdata->item;
         // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
 
         $errors = parent::validation($data, $files);
 
-        // clean inputs
+        // Clean inputs.
         $cleanoptions = surveypro_textarea_to_array($data['options']);
         $cleandefaultvalue = surveypro_textarea_to_array($data['defaultvalue']);
         $cleanlabelother = trim($data['labelother']);
 
-        // build $value and $label arrays starting from $cleanoptions and $cleanlabelother
+        // Build $value and $label arrays starting from $cleanoptions and $cleanlabelother.
         $values = array();
         $labels = array();
 
@@ -153,20 +139,18 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         }
         if (!empty($cleanlabelother)) {
             if (strpos($cleanlabelother, SURVEYPRO_OTHERSEPARATOR) === false) {
-                $values[] = $cleanlabelother;
-                $labels[] = '';
+                $values[] = '';
+                $labels[] = $cleanlabelother;
             } else {
                 $pair = explode(SURVEYPRO_OTHERSEPARATOR, $cleanlabelother);
-                $values[] = $pair[0];
-                $labels[] = $pair[1];
+                $values[] = $pair[1];
+                $labels[] = $pair[0];
             }
         }
 
-        // -----------------------------
-        // first check
-        // each item of default has to be among options OR has to be == to otherlabel value
-        // this also verify (helped by the third check) that the number of default is not greater than the number of options
-        // -----------------------------
+        // First check.
+        // Each item of default has to be among options OR has to be == to otherlabel value.
+        // This also verify (helped by the third check) that the number of default is not greater than the number of options.
         if (!empty($data['defaultvalue'])) {
             foreach ($cleandefaultvalue as $default) {
                 if (!in_array($default, $labels)) {
@@ -176,20 +160,16 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
             }
         }
 
-        // -----------------------------
-        // second check
-        // no answer is not allowed if the item is mandatory
-        // -----------------------------
-        if ( isset($data['noanswerdefault']) && ($data['minimumrequired'] > 0) ) {
+        // Second check.
+        // No answer is not allowed if the item is mandatory.
+        if ( isset($data['noanswerdefault']) && (isset($data['required'])) ) {
             $a = get_string('noanswer', 'mod_surveypro');
             $errors['noanswerdefault'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
         }
 
-        // -----------------------------
-        // third check
-        // each single option item has to be unique
-        // each single default item has to be unique
-        // -----------------------------
+        // Third check.
+        // Each single option item has to be unique.
+        // Each single default item has to be unique.
         $arrayunique = array_unique($cleanoptions);
         if (count($cleanoptions) != count($arrayunique)) {
             $errors['options'] = get_string('ierr_optionsduplicated', 'surveyprofield_checkbox');
@@ -199,13 +179,11 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
             $errors['defaultvalue'] = get_string('ierr_optionduplicated', 'surveyprofield_checkbox', $default);
         }
 
-        // -----------------------------
-        // fourth check
-        // SURVEYPRO_DBMULTICONTENTSEPARATOR can not be contained into values
-        // -----------------------------
+        // Fourth check.
+        // SURVEYPRO_DBMULTICONTENTSEPARATOR can not be contained into values.
         foreach ($values as $value) {
             if (strpos($value, SURVEYPRO_DBMULTICONTENTSEPARATOR) !== false) {
-                if (!empty($cleanlabelother) && ($value == end($values))) { // if $value is the last
+                if (!empty($cleanlabelother) && ($value == end($values))) { // If $value is the last.
                     $errors['labelother'] = get_string('ierr_optionswithseparator', 'surveyprofield_checkbox', SURVEYPRO_DBMULTICONTENTSEPARATOR);
                 } else {
                     $errors['options'] = get_string('ierr_optionswithseparator', 'surveyprofield_checkbox', SURVEYPRO_DBMULTICONTENTSEPARATOR);
@@ -214,10 +192,8 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
             }
         }
 
-        // -----------------------------
-        // fifth check
-        // minimumrequired has to be lower than count($cleanoptions)
-        // -----------------------------
+        // Fifth check.
+        // Minimumrequired has to be lower than count($cleanoptions).
         if ($data['minimumrequired'] > count($cleanoptions) - 1) {
             $errors['minimumrequired'] = get_string('ierr_minimumrequired', 'surveyprofield_checkbox', count($cleanoptions));
         }
