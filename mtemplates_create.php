@@ -24,6 +24,7 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/mtemplate.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/mtemplates/create_form.php');
 
@@ -75,9 +76,7 @@ navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
-$moduletab = SURVEYPRO_TABMTEMPLATES; // Needed by tabs.php.
-$modulepage = SURVEYPRO_MTEMPLATES_BUILD; // Needed by tabs.php.
-require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
+$tab = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABMTEMPLATES, SURVEYPRO_MTEMPLATES_BUILD);
 
 echo $OUTPUT->notification(get_string('currenttotemplate', 'mod_surveypro'), 'notifymessage');
 

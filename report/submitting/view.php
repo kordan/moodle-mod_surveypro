@@ -27,6 +27,7 @@
  */
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
 require_once($CFG->libdir.'/tablelib.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/submitting/classes/report.class.php');
 
@@ -60,9 +61,7 @@ navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
-$moduletab = SURVEYPRO_TABSUBMISSIONS; // Needed by tabs.php.
-$modulepage = SURVEYPRO_SUBMISSION_REPORT; // Needed by tabs.php.
-require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
+$tab = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_REPORT);
 
 $reportman = new mod_surveypro_report_submitting($cm, $context, $surveypro);
 $reportman->setup_outputtable();
