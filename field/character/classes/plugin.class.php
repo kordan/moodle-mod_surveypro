@@ -411,7 +411,7 @@ EOS;
             return;
         }
 
-         if (!empty($data[$this->itemname])) {
+        if (!empty($data[$this->itemname])) {
             $fieldlength = strlen($data[$this->itemname]);
             if (!empty($this->minlength)) {
                 if ($fieldlength < $this->minlength) {

@@ -95,6 +95,7 @@ $pageid = 'idpage'.$modulepage;
 // **********************************************
 // echo '$moduletab = '.$moduletab.'<br />';
 // echo '$modulepage = '.$modulepage.'<br />';
+$row = array();
 switch ($moduletab) {
     case SURVEYPRO_TABITEMS:
         // Permissions.
@@ -103,7 +104,6 @@ switch ($moduletab) {
         $inactive = array($tabitemsname);
         $activetwo = array($tabitemsname);
 
-        $row = array();
         // Preview.
         if ($canpreview) {
             $localparamurl = array('id' => $cm->id, 'view' => SURVEYPRO_PREVIEWSURVEYFORM);
@@ -158,7 +158,7 @@ switch ($moduletab) {
             $row[] = new tabobject('idpage1', $elementurl->out(), $strlabel);
         }
 
-        // Responses
+        // Responses.
         if (!is_guest($context)) {
             $localparamurl = array('id' => $cm->id, 'cover' => 0);
             $elementurl = new moodle_url('/mod/surveypro/view.php', $localparamurl);
@@ -197,8 +197,8 @@ switch ($moduletab) {
             $row[] = new tabobject('idpage6', $elementurl->out(), $strlabel);
         }
 
-        // Report.
         if ($modulepage == SURVEYPRO_SUBMISSION_REPORT) {
+            // Report.
             if ($canaccessreports) {
                 $elementurl = new moodle_url('/mod/surveypro/view_report.php', $paramurl);
                 $strlabel = get_string('tabsubmissionspage7', 'mod_surveypro');
@@ -241,7 +241,6 @@ switch ($moduletab) {
         $activetwo = array($tabutemplatename);
 
         if ($canmanageusertemplates) {
-            $row = array();
             // Manage.
             $elementurl = new moodle_url('/mod/surveypro/utemplates_manage.php', $paramurl);
             $strlabel = get_string('tabutemplatepage1', 'mod_surveypro');
@@ -276,16 +275,15 @@ switch ($moduletab) {
         $inactive = array($tabmtemplatename);
         $activetwo = array($tabmtemplatename);
 
-        $row = array();
-        // create.
         if ($cansavemastertemplates) {
+            // Create.
             $elementurl = new moodle_url('/mod/surveypro/mtemplates_create.php', $paramurl);
             $strlabel = get_string('tabmtemplatepage1', 'mod_surveypro');
             $row[] = new tabobject('idpage1', $elementurl->out(), $strlabel);
         }
 
-        // apply.
         if ( (!$hassubmissions || $riskyediting) && $canapplymastertemplates ) { // if submissions were done, do not modify the list of fields.
+            // Apply.
             $elementurl = new moodle_url('/mod/surveypro/mtemplates_apply.php', $paramurl);
             $strlabel = get_string('tabmtemplatepage2', 'mod_surveypro');
             $row[] = new tabobject('idpage2', $elementurl->out(), $strlabel);
