@@ -42,7 +42,7 @@ class mod_surveypro_reportbase {
     public $surveypro = null;
 
     /**
-     * $hassubmissions: the record of this surveypro
+     * $hassubmissions
      */
     public $hassubmissions = false;
 
