@@ -24,6 +24,7 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/view_userform.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/outform/fill_form.php');
 
@@ -103,7 +104,7 @@ if ($userform->is_cancelled()) {
 
 if ($userformman->formdata = $userform->get_data()) {
     if ($view != SURVEYPRO_PREVIEWSURVEYFORM) {
-        $userformman->save_user_data(); // <-- SAVE SAVE SAVE SAVE
+        $userformman->save_user_data(); // <-- SAVE SAVE SAVE SAVE.
         $userformman->notifypeople();
     }
 
@@ -112,7 +113,7 @@ if ($userformman->formdata = $userform->get_data()) {
     if ($pausebutton) {
         $localparamurl = array('id' => $cm->id, 'view' => $view, 'cover' => 0);
         $redirecturl = new moodle_url('/mod/surveypro/view.php', $localparamurl);
-        redirect($redirecturl); // -> go somewhere
+        redirect($redirecturl); // Go somewhere.
     }
 
     $paramurl['submissionid'] = $userformman->submissionid;
@@ -163,15 +164,9 @@ $PAGE->set_heading($course->shortname);
 // Make bold the navigation menu/link that refers to me.
 navigation_node::override_active_url($url);
 
-// Other things you may want to set - remove if not needed.
-// $PAGE->set_cacheable(false);
-// $PAGE->set_focuscontrol('some-html-id');
-
 echo $OUTPUT->header();
 
-$moduletab = $userformman->moduletab; // Needed by tabs.php.
-$modulepage = $userformman->modulepage; // Needed by tabs.php.
-require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
+$tab = new mod_surveypro_tabs($cm, $context, $surveypro, $userformman->moduletab, $userformman->modulepage);
 
 // Begin of: if surveypro is without items, alert and stop.
 if (!$userformman->canaccessadvanceditems) {

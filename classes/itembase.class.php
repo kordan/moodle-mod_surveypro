@@ -118,15 +118,6 @@ class mod_surveypro_itembase {
     public $savepositiontodb = null;
 
     /**
-     * Class constructor
-     */
-    public function __construct($cm, $itemid, $evaluateparentcontent) {
-        $this->cm = $cm;
-
-        $this->context = context_module::instance($cm->id);
-    }
-
-    /**
      * $isinitemform = list of fields properties the surveypro creator will have in the item definition form
      * By default each field property is present in the form
      * so, in each child class, I only need to "deactivate" field property (mform element) I don't want to have
@@ -148,13 +139,22 @@ class mod_surveypro_itembase {
     );
 
     /**
+     * Class constructor
+     */
+    public function __construct($cm, $itemid, $evaluateparentcontent) {
+        $this->cm = $cm;
+
+        $this->context = context_module::instance($cm->id);
+    }
+
+    /**
      * item_load
      *
      * @param integer $itemid
      * @param boolean $evaluateparentcontent: include among item elements the 'parentcontent' too
      * @return
      */
-    public function item_load($itemid, $evaluateparentcontent) {
+    protected function item_load($itemid, $evaluateparentcontent) {
         global $DB;
 
         if (!$itemid) {
@@ -191,7 +191,7 @@ class mod_surveypro_itembase {
      * @param stdClass $record
      * @return stdClass $record
      */
-    public function item_force_coherence($record) {
+    protected function item_force_coherence($record) {
         // Nothing to do here.
     }
 
@@ -228,7 +228,7 @@ class mod_surveypro_itembase {
      * @param stdClass $record
      * @return
      */
-    public function item_get_common_settings($record) {
+    protected function item_get_common_settings($record) {
         // You are going to change item content (maybe sortindex, maybe the parentitem).
         // So, do not forget to reset items per page.
         surveypro_reset_items_pages($this->cm->instance);
@@ -503,7 +503,7 @@ class mod_surveypro_itembase {
      * @param boolean 0/1 $newadvanced
      * @return
      */
-    public function item_manage_chains($itemid, $oldhidden, $newhidden, $oldadvanced, $newadvanced) {
+    private function item_manage_chains($itemid, $oldhidden, $newhidden, $oldadvanced, $newadvanced) {
         global $DB;
 
         // Now hide or unhide (whether needed) chain of ancestors or descendents.
@@ -607,7 +607,7 @@ class mod_surveypro_itembase {
      * @param none
      * @return
      */
-    public function item_builtin_string_load_support() {
+    protected function item_builtin_string_load_support() {
         global $CFG, $DB;
 
         $surveyproid = $this->get_surveyproid();
@@ -639,7 +639,7 @@ class mod_surveypro_itembase {
      * @param boolean $applyusersettings
      * @return
      */
-    public function item_split_unix_time($time, $applyusersettings=false) {
+    protected function item_split_unix_time($time, $applyusersettings=false) {
         if ($applyusersettings) {
             $datestring = userdate($time, '%B_%A_%j_%Y_%m_%w_%d_%H_%M_%S', 0);
         } else {
@@ -805,7 +805,7 @@ class mod_surveypro_itembase {
      * @param array $fieldlist: the list of fields to clean
      * @return none
      */
-    public function item_clean_textarea_fields($record, $fieldlist) {
+    protected function item_clean_textarea_fields($record, $fieldlist) {
         foreach ($fieldlist as $field) {
             // Some item may be undefined causing:
             // Notice: Undefined property: stdClass::$defaultvalue
@@ -825,7 +825,7 @@ class mod_surveypro_itembase {
      * @return $value
      * @return $label
      */
-    public function item_get_other() {
+    protected function item_get_other() {
         if (preg_match('~^(.*)'.SURVEYPRO_OTHERSEPARATOR.'(.*)$~', $this->labelother, $match)) { // Do not warn: it can never be equal to zero.
             $label = trim($match[1]);
             $value = trim($match[2]);
@@ -1392,7 +1392,7 @@ class mod_surveypro_itembase {
      * @param none
      * @return empty string
      */
-    public function userform_get_filling_instructions() {
+    protected function userform_get_filling_instructions() {
         return '';
     }
 

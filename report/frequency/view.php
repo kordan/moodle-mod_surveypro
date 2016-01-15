@@ -27,6 +27,7 @@
  */
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/frequency/classes/report.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/frequency/form/item_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/frequency/lib.php');
@@ -72,9 +73,7 @@ navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
-$moduletab = SURVEYPRO_TABSUBMISSIONS; // Needed by tabs.php.
-$modulepage = SURVEYPRO_SUBMISSION_REPORT; // Needed by tabs.php.
-require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
+$tab = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_REPORT);
 
 // Begin of: stop here if only textareas are in the surveypro.
 $reportman->stop_if_textareas_only();
