@@ -24,6 +24,7 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/itemlist.class.php');
 
 $id = optional_param('id', 0, PARAM_INT); // course_module ID, or
@@ -168,9 +169,7 @@ $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
 
-$moduletab = SURVEYPRO_TABITEMS; // needed by tabs.php
-$modulepage = SURVEYPRO_ITEMS_SETUP; // needed by tabs.php
-require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
+$tab = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABITEMS, SURVEYPRO_ITEMS_SETUP);
 
 if ($itemlistman->hassubmissions) {
     echo $OUTPUT->notification(get_string('hassubmissions_alert', 'mod_surveypro'), 'notifymessage');
