@@ -33,24 +33,19 @@ class mod_surveypro_mtemplatecreateform extends moodleform {
      * @return none
      */
     public function definition() {
-        // ----------------------------------------
         $mform = $this->_form;
 
-        // ----------------------------------------
-        // mtemplatecreate: surveyproid
-        // ----------------------------------------
+        // Mtemplatecreate: surveyproid.
         $fieldname = 'surveyproid';
         $mform->addElement('hidden', $fieldname, 0);
         $mform->setType($fieldname, PARAM_INT);
 
-        // ----------------------------------------
-        // mtemplatecreate: mastertemplatename
-        // ----------------------------------------
+        // Mtemplatecreate: mastertemplatename.
         $fieldname = 'mastertemplatename';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'mod_surveypro'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
         $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
-        $mform->setType($fieldname, PARAM_FILE); // this word is going to be a file name
+        $mform->setType($fieldname, PARAM_FILE); // This word is going to be a file name.
 
         $this->add_action_buttons(false, get_string('builplugin', 'mod_surveypro'));
     }

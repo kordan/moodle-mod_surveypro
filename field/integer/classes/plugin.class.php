@@ -73,8 +73,6 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
      */
     public $indent = 0;
 
-    // -----------------------------
-
     /**
      * $defaultoption
      */
@@ -100,8 +98,6 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
      */
     public static $canbeparent = true;
 
-    // -----------------------------
-
     /**
      * Class constructor
      *
@@ -114,20 +110,20 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
 
-        // list of constant element attributes
+        // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'integer';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // It is already true from parent class.
         $this->savepositiontodb = false;
 
-        // other element specific properties
+        // Other element specific properties.
         $maximuminteger = get_config('surveyprofield_integer', 'maximuminteger');
         $this->upperbound = $maximuminteger;
 
-        // override properties depending from $surveypro settings
-        // nothing
+        // Override properties depending from $surveypro settings.
+        // No properties here.
 
-        // list of fields I do not want to have in the item definition form
+        // List of fields I do not want to have in the item definition form.
         $this->isinitemform['hideinstructions'] = false;
 
         if (!empty($itemid)) {
@@ -146,11 +142,9 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
         // Do parent item loading stuff here (mod_surveypro_itembase::item_load($itemid, $evaluateparentcontent)))
         parent::item_load($itemid, $evaluateparentcontent);
 
-        // multilang load support for builtin surveypro
-        // whether executed, the 'content' field is ALWAYS handled
+        // Multilang load support for builtin surveypro.
+        // Whether executed, the 'content' field is ALWAYS handled.
         $this->item_builtin_string_load_support();
-
-        $this->item_custom_fields_to_form();
     }
 
     /**
@@ -162,16 +156,13 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
     public function item_save($record) {
         $this->item_get_common_settings($record);
 
-        // -----------------------------
-        // Now execute very specific plugin level actions
-        // -----------------------------
+        // Now execute very specific plugin level actions.
 
-        // begin of: plugin specific settings (eventually overriding general ones)
-        // set custom fields value as defined for this question plugin
-        $this->item_custom_fields_to_db($record);
-        // end of: plugin specific settings (eventually overriding general ones)
+        // Begin of: plugin specific settings (eventually overriding general ones).
+        // Set custom fields value as defined for this question plugin.
+        // End of: plugin specific settings (eventually overriding general ones).
 
-        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record)))
+        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
     }
 
@@ -199,35 +190,6 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
                 $record->defaultvalue = $maximuminteger;
             }
         }
-    }
-
-    /**
-     * item_custom_fields_to_form
-     *
-     * @param none
-     * @return
-     */
-    public function item_custom_fields_to_form() {
-        // 1. special management for fields equipped with "free" checkbox
-        // nothing to do: they don't exist in this plugin
-
-        // 2. special management for composite fields
-        // nothing to do: they don't exist in this plugin
-    }
-
-    /**
-     * item_custom_fields_to_db
-     * sets record field to store the correct value to db for the integer custom item
-     *
-     * @param $record
-     * @return
-     */
-    public function item_custom_fields_to_db($record) {
-        // 1. special management for fields equipped with "free" checkbox
-        // nothing to do: they don't exist in this plugin
-
-        // 2. special management for composite fields
-        // nothing to do: they don't exist in this plugin
     }
 
     /**
@@ -327,7 +289,7 @@ EOS;
             if ($condition) {
                 $childparentvalue[] = $parentcontent;
             } else {
-                // only garbage, but user wrote it
+                // Only garbage, but user wrote it.
                 $labels[] = $parentcontent;
             }
         }
@@ -369,7 +331,7 @@ EOS;
             }
 
             $key++;
-            // only garbage after the first label, but user wrote it
+            // Only garbage after the first label, but user wrote it.
             for ($i = $key; $i < $actualcount; $i++) {
                 $childparentcontent[] = $parentvalues[$i];
             }
@@ -394,7 +356,7 @@ EOS;
      *     2 = $childparentvalue is malformed
      */
     public function parent_validate_child_constraints($childparentvalue) {
-        // see parent method for explanation
+        // See parent method for explanation.
 
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue);
         $actualcount = count($parentvalues);
@@ -433,7 +395,7 @@ EOS;
 
         $idprefix = 'id_surveypro_field_integer_'.$this->sortindex;
 
-        // element values
+        // Begin of: element values.
         $integers = array();
         if (!$searchform) {
             if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
@@ -452,16 +414,16 @@ EOS;
 
         if (!$searchform) {
             if ($this->required) {
-                // even if the item is required I CAN NOT ADD ANY RULE HERE because:
-                // -> I do not want JS form validation if the page is submitted through the "previous" button
-                // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815
-                // simply add a dummy star to the item and the footer note about mandatory fields
+                // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
+                // -> I do not want JS form validation if the page is submitted through the "previous" button.
+                // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
+                // Simply add a dummy star to the item and the footer note about mandatory fields.
                 $starplace = ($this->position != SURVEYPRO_POSITIONLEFT) ? $this->itemname.'_extrarow' : $this->itemname;
                 $mform->_required[] = $starplace;
             }
         }
 
-        // default section
+        // Default section.
         if (!$searchform) {
             if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
                 $mform->setDefault($this->itemname, SURVEYPRO_INVITEVALUE);
@@ -495,8 +457,8 @@ EOS;
             return;
         }
 
-        // this plugin displays as dropdown menu. It will never return empty values.
-        // if ($this->required) { if (empty($data[$this->itemname])) { is useless
+        // This plugin displays as dropdown menu. It will never return empty values.
+        // If ($this->required) { if (empty($data[$this->itemname])) { is useless
         $userinput = $data[$this->itemname];
 
         $errorkey = $this->itemname;
@@ -521,7 +483,7 @@ EOS;
             return;
         }
         if ($haslowerbound && $hasupperbound) {
-            // internal range
+            // Internal range.
             if ( ($userinput < $this->lowerbound) || ($userinput > $this->upperbound) ) {
                 $errors[$errorkey] = get_string('uerr_outofinternalrange', 'surveyprofield_integer');
             }
@@ -558,7 +520,7 @@ EOS;
         }
 
         if ($indexsubset) {
-            // only garbage after the first index, but user wrote it
+            // Only garbage after the first index, but user wrote it.
             foreach ($indexsubset as $k => $index) {
                 $mformelementinfo = new stdClass();
                 $mformelementinfo->parentname = $this->itemname;
@@ -569,7 +531,7 @@ EOS;
         }
 
         if ($labelsubset) {
-            // only garbage, but user wrote it
+            // Only garbage, but user wrote it.
             foreach ($labelsubset as $k => $label) {
                 $mformelementinfo = new stdClass();
                 $mformelementinfo->parentname = $this->itemname;
@@ -654,10 +616,10 @@ EOS;
     public function userform_db_to_export($answer, $format='') {
         $content = $answer->content;
 
-        if ($content == SURVEYPRO_NOANSWERVALUE) { // answer was "no answer"
+        if ($content == SURVEYPRO_NOANSWERVALUE) { // Answer was "no answer".
             return get_string('answerisnoanswer', 'mod_surveypro');
         }
-        if ($content === null) { // item was disabled
+        if ($content === null) { // Item was disabled.
             return get_string('notanswereditem', 'mod_surveypro');
         }
 

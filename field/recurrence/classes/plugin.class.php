@@ -78,8 +78,6 @@ class mod_surveypro_field_recurrence extends mod_surveypro_itembase {
      */
     public $indent = 0;
 
-    // -----------------------------
-
     /**
      * $defaultoption = the value of the field when the form is initially displayed.
      */
@@ -116,8 +114,6 @@ class mod_surveypro_field_recurrence extends mod_surveypro_itembase {
      */
     public static $canbeparent = false;
 
-    // -----------------------------
-
     /**
      * Class constructor
      *
@@ -130,22 +126,22 @@ class mod_surveypro_field_recurrence extends mod_surveypro_itembase {
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
 
-        // list of constant element attributes
+        // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'recurrence';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // It is already true from parent class.
         $this->savepositiontodb = false;
 
-        // other element specific properties
+        // Other element specific properties.
         $this->lowerbound = $this->item_recurrence_to_unix_time(1, 1);
         $this->upperbound = $this->item_recurrence_to_unix_time(12, 31);
         $this->defaultvalue = $this->lowerbound;
 
-        // override properties depending from $surveypro settings
-        // nothing
+        // Override properties depending from $surveypro settings..
+        // No properties here.
 
-        // list of fields I do not want to have in the item definition form
-        // EMPTY LIST
+        // List of fields I do not want to have in the item definition form.
+        // Empty list.
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $evaluateparentcontent);
@@ -163,8 +159,8 @@ class mod_surveypro_field_recurrence extends mod_surveypro_itembase {
         // Do parent item loading stuff here (mod_surveypro_itembase::item_load($itemid, $evaluateparentcontent)))
         parent::item_load($itemid, $evaluateparentcontent);
 
-        // multilang load support for builtin surveypro
-        // whether executed, the 'content' field is ALWAYS handled
+        // Multilang load support for builtin surveypro.
+        // Whether executed, the 'content' field is ALWAYS handled.
         $this->item_builtin_string_load_support();
 
         $this->item_custom_fields_to_form();
@@ -179,16 +175,14 @@ class mod_surveypro_field_recurrence extends mod_surveypro_itembase {
     public function item_save($record) {
         $this->item_get_common_settings($record);
 
-        // -----------------------------
-        // Now execute very specific plugin level actions
-        // -----------------------------
+        // Now execute very specific plugin level actions.
 
-        // begin of: plugin specific settings (eventually overriding general ones)
-        // set custom fields value as defined for this question plugin
+        // Begin of: plugin specific settings (eventually overriding general ones).
+        // Set custom fields value as defined for this question plugin.
         $this->item_custom_fields_to_db($record);
-        // end of: plugin specific settings (eventually overriding general ones)
+        // End of: plugin specific settings (eventually overriding general ones).
 
-        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record)))
+        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
     }
 
@@ -220,16 +214,13 @@ class mod_surveypro_field_recurrence extends mod_surveypro_itembase {
      * @return
      */
     public function item_custom_fields_to_form() {
-        // 1. special management for fields equipped with "free" checkbox
-        // nothing to do: they don't exist in this plugin
-
-        // 2. special management for composite fields
+        // 1. Special management for composite fields.
         $fieldlist = $this->item_composite_fields();
         foreach ($fieldlist as $field) {
             if (!isset($this->{$field})) {
                 switch ($field) {
                     case 'defaultvalue':
-                        continue 2; // it may be; continues switch and foreach too
+                        continue 2; // It may be; continues switch and foreach too.
                     case 'lowerbound':
                         $this->{$field} = $this->item_recurrence_to_unix_time(1, 1);
                         break;
@@ -254,10 +245,7 @@ class mod_surveypro_field_recurrence extends mod_surveypro_itembase {
      * @return
      */
     public function item_custom_fields_to_db($record) {
-        // 1. special management for fields equipped with "free" checkbox
-        // nothing to do: they don't exist in this plugin
-
-        // 2. special management for composite fields
+        // 1. Special management for composite fields.
         $fieldlist = $this->item_composite_fields();
         foreach ($fieldlist as $field) {
             if (isset($record->{$field.'_month'}) && isset($record->{$field.'_day'})) {
@@ -268,6 +256,14 @@ class mod_surveypro_field_recurrence extends mod_surveypro_itembase {
                 $record->{$field} = null;
             }
         }
+
+        // 2. Override few values.
+        // Nothing to do: no need to overwrite variables.
+
+        // 3. Set values corresponding to checkboxes.
+        // Nothing to do: no checkboxes in this plugin item form.
+
+        // 4. Other.
     }
 
     /**
@@ -413,7 +409,7 @@ EOS;
 
         $idprefix = 'id_surveypro_field_recurrence_'.$this->sortindex;
 
-        // element values
+        // Begin of: element values.
         $days = array();
         $months = array();
         if (!$searchform) {
@@ -427,11 +423,11 @@ EOS;
         }
         $days += array_combine(range(1, 31), range(1, 31));
         for ($i = 1; $i <= 12; $i++) {
-            $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // january, february, march...
+            $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
         }
         // End of: element values
 
-        // mform element
+        // Begin of: mform element.
         $elementgroup = array();
         $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_day', '', $days, array('class' => 'indent-'.$this->indent, 'id' => $idprefix.'_day'));
         $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_month', '', $months, array('id' => $idprefix.'_month'));
@@ -440,10 +436,10 @@ EOS;
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
 
             if (!$searchform) {
-                // even if the item is required I CAN NOT ADD ANY RULE HERE because:
-                // -> I do not want JS form validation if the page is submitted through the "previous" button
-                // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815
-                // simply add a dummy star to the item and the footer note about mandatory fields
+                // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
+                // -> I do not want JS form validation if the page is submitted through the "previous" button.
+                // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
+                // Simply add a dummy star to the item and the footer note about mandatory fields.
                 $starplace = ($this->position != SURVEYPRO_POSITIONLEFT) ? $this->itemname.'_extrarow' : $this->itemname.'_group';
                 $mform->_required[] = $starplace;
             }
@@ -453,8 +449,9 @@ EOS;
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
         }
+        // End of: mform element.
 
-        // default section
+        // Begin of: default section.
         if (!$searchform) {
             if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
                 $mform->setDefault($this->itemname.'_day', SURVEYPRO_INVITEVALUE);
@@ -472,12 +469,12 @@ EOS;
                         $mform->setDefault($this->itemname.'_noanswer', '1');
                         break;
                     case SURVEYPRO_LIKELASTDEFAULT:
-                        // look for the most recent submission I made
+                        // Look for the most recent submission I made.
                         $sql = 'userid = :userid ORDER BY timecreated DESC LIMIT 1';
                         $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, array('userid' => $USER->id), IGNORE_MISSING);
                         if ($time = $DB->get_field('surveypro_answer', 'content', array('itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid), IGNORE_MISSING)) {
                             $recurrencearray = $this->item_split_unix_time($time, false);
-                        } else { // as in standard default
+                        } else { // As in standard default.
                             $recurrencearray = $this->item_split_unix_time(time(), true);
                         }
                         break;
@@ -508,23 +505,23 @@ EOS;
      * @return
      */
     public function userform_mform_validation($data, &$errors, $surveypro, $searchform) {
-        // this plugin displays as dropdown menu. It will never return empty values.
-        // if ($this->required) { if (empty($data[$this->itemname])) { is useless
+        // This plugin displays as dropdown menu. It will never return empty values.
+        // If ($this->required) { if (empty($data[$this->itemname])) { is useless
 
         if (isset($data[$this->itemname.'_noanswer'])) {
-            return; // nothing to validate
+            return; // Nothing to validate.
         }
 
         $errorkey = $this->itemname.'_group';
 
-        // verify the content of each drop down menu
+        // Begin of: verify the content of each drop down menu.
         if (!$searchform) {
             $testpassed = true;
             $testpassed = $testpassed && ($data[$this->itemname.'_day'] != SURVEYPRO_INVITEVALUE);
             $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_INVITEVALUE);
         } else {
-            // both drop down menues are allowed to be == SURVEYPRO_IGNOREMEVALUE
-            // but not only 1
+            // Both drop down menues are allowed to be == SURVEYPRO_IGNOREMEVALUE.
+            // But not only 1.
             $testpassed = true;
             if ($data[$this->itemname.'_day'] == SURVEYPRO_IGNOREMEVALUE) {
                 $testpassed = $testpassed && ($data[$this->itemname.'_month'] == SURVEYPRO_IGNOREMEVALUE);
@@ -544,7 +541,7 @@ EOS;
         // End of: verify the content of each drop down menu
 
         if ($searchform) {
-            // stop here your investigation. I don't further validations.
+            // Stop here your investigation. I don't further validations.
             return;
         }
 
@@ -559,7 +556,7 @@ EOS;
 
         $format = get_string('strftimedateshort', 'langconfig');
         if ($haslowerbound && $hasupperbound) {
-            // internal range
+            // Internal range.
             if ( ($userinput < $this->lowerbound) || ($userinput > $this->upperbound) ) {
                 $errors[$errorkey] = get_string('uerr_outofinternalrange', 'surveyprofield_recurrence');
             }
@@ -589,7 +586,7 @@ EOS;
             $a->lowerbound = userdate($this->lowerbound, $format, 0);
             $a->upperbound = userdate($this->upperbound, $format, 0);
 
-            // internal range
+            // Internal range.
             $fillinginstruction = get_string('restriction_lowerupper', 'surveyprofield_recurrence', $a);
         } else {
             $fillinginstruction = '';
@@ -618,7 +615,7 @@ EOS;
      * @return
      */
     public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
-        if (isset($answer['noanswer'])) { // this is correct for input and search form both
+        if (isset($answer['noanswer'])) { // This is correct for input and search form both.
             $olduseranswer->content = SURVEYPRO_NOANSWERVALUE;
         } else {
             if (!$searchform) {
@@ -671,16 +668,16 @@ EOS;
      * @return
      */
     public function userform_db_to_export($answer, $format='') {
-        // content
+        // Content.
         $content = $answer->content;
-        if ($content == SURVEYPRO_NOANSWERVALUE) { // answer was "no answer"
+        if ($content == SURVEYPRO_NOANSWERVALUE) { // Answer was "no answer".
             return get_string('answerisnoanswer', 'mod_surveypro');
         }
-        if ($content === null) { // item was disabled
+        if ($content === null) { // Item was disabled.
             return get_string('notanswereditem', 'mod_surveypro');
         }
 
-        // format
+        // Format.
         if ($format == SURVEYPRO_FIRENDLYFORMAT) {
             $format = $this->item_get_friendlyformat();
         }
@@ -688,7 +685,7 @@ EOS;
             $format = $this->downloadformat;
         }
 
-        // output
+        // Output.
         if ($format == 'unixtime') {
             return $content;
         } else {

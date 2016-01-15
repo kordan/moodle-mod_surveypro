@@ -27,8 +27,8 @@ require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/utemplate.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/utemplates/import_form.php');
 
-$id = optional_param('id', 0, PARAM_INT); // course_module ID, or
-$s = optional_param('s', 0, PARAM_INT);  // surveypro instance ID
+$id = optional_param('id', 0, PARAM_INT); // Course_module id.
+$s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
@@ -44,7 +44,7 @@ require_course_login($course, true, $cm);
 
 $utemplateid = optional_param('fid', 0, PARAM_INT);
 
-// params never passed but needed by called class
+// Params never passed but needed by called class.
 $action = SURVEYPRO_NOACTION;
 $view = SURVEYPRO_NOVIEW;
 $confirm = SURVEYPRO_UNCONFIRMED;
@@ -52,35 +52,28 @@ $confirm = SURVEYPRO_UNCONFIRMED;
 $context = context_module::instance($cm->id);
 require_capability('mod/surveypro:importusertemplates', $context);
 
-// -----------------------------
-// calculations
-// -----------------------------
+// Calculations.
 $utemplateman = new mod_surveypro_usertemplate($cm, $context, $surveypro);
 $utemplateman->set_utemplateid($utemplateid);
 $utemplateman->set_action($action);
 $utemplateman->set_view($view);
 $utemplateman->set_confirm($confirm);
 
-// -----------------------------
-// define $importutemplate return url
+// Begin of: define $importutemplate return url.
 $paramurl = array('id' => $cm->id);
 $formurl = new moodle_url('/mod/surveypro/utemplates_import.php', $paramurl);
-// end of: define $importutemplate return url
-// -----------------------------
+// End of: define $importutemplate return url.
 
-// -----------------------------
-// prepare params for the form
+// Begin of: prepare params for the form.
 $formparams = new stdClass();
 $formparams->cmid = $cm->id;
 $formparams->surveypro = $surveypro;
 $formparams->utemplateman = $utemplateman;
 $formparams->filemanageroptions = $utemplateman->get_filemanager_options();
 $importutemplate = new mod_surveypro_importutemplateform($formurl, $formparams);
-// end of: prepare params for the form
-// -----------------------------
+// End of: prepare params for the form.
 
-// -----------------------------
-// manage form submission
+// Begin of: manage form submission.
 if ($utemplateman->formdata = $importutemplate->get_data()) {
     $utemplateman->upload_utemplate();
     $utemplateman->trigger_event('usertemplate_imported');
@@ -90,12 +83,9 @@ if ($utemplateman->formdata = $importutemplate->get_data()) {
     $redirecturl = new moodle_url('/mod/surveypro/utemplates_manage.php', $paramurl);
     redirect($redirecturl);
 }
-// end of: manage form submission
-// -----------------------------
+// End of: manage form submission.
 
-// -----------------------------
-// output starts here
-// -----------------------------
+// Output starts here.
 $url = new moodle_url('/mod/surveypro/utemplates_import.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
@@ -103,16 +93,16 @@ $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
-// make bold the navigation menu/link that refers to me
+// Make bold the navigation menu/link that refers to me.
 navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
-$moduletab = SURVEYPRO_TABUTEMPLATES; // needed by tabs.php
-$modulepage = SURVEYPRO_UTEMPLATES_IMPORT; // needed by tabs.php
+$moduletab = SURVEYPRO_TABUTEMPLATES; // Needed by tabs.php.
+$modulepage = SURVEYPRO_UTEMPLATES_IMPORT; // Needed by tabs.php.
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
 $importutemplate->display();
 
-// Finish the page
+// Finish the page.
 echo $OUTPUT->footer();

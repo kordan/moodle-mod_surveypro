@@ -73,8 +73,6 @@ class mod_surveypro_field_boolean extends mod_surveypro_itembase {
      */
     public $indent = 0;
 
-    // -----------------------------
-
     /**
      * $defaultoption
      */
@@ -100,8 +98,6 @@ class mod_surveypro_field_boolean extends mod_surveypro_itembase {
      */
     public static $canbeparent = true;
 
-    // -----------------------------
-
     /**
      * Class constructor
      *
@@ -114,19 +110,19 @@ class mod_surveypro_field_boolean extends mod_surveypro_itembase {
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
 
-        // list of constant element attributes
+        // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'boolean';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // It is already true from parent class.
         $this->savepositiontodb = false;
 
-        // other element specific properties
-        // nothing
+        // Other element specific properties.
+        // No properties here.
 
-        // override properties depending from $surveypro settings
-        // nothing
+        // Override properties depending from $surveypro settings.
+        // No properties here.
 
-        // list of fields I do not want to have in the item definition form
+        // List of fields I do not want to have in the item definition form.
         $this->isinitemform['hideinstructions'] = false;
 
         if (!empty($itemid)) {
@@ -145,8 +141,8 @@ class mod_surveypro_field_boolean extends mod_surveypro_itembase {
         // Do parent item loading stuff here (mod_surveypro_itembase::item_load($itemid, $evaluateparentcontent)))
         parent::item_load($itemid, $evaluateparentcontent);
 
-        // multilang load support for builtin surveypro
-        // whether executed, the 'content' field is ALWAYS handled
+        // Multilang load support for builtin surveypro.
+        // Whether executed, the 'content' field is ALWAYS handled.
         $this->item_builtin_string_load_support();
 
         $this->item_custom_fields_to_form();
@@ -161,18 +157,14 @@ class mod_surveypro_field_boolean extends mod_surveypro_itembase {
     public function item_save($record) {
         $this->item_get_common_settings($record);
 
-        // -----------------------------
-        // Now execute very specific plugin level actions
-        // -----------------------------
+        // Now execute very specific plugin level actions.
 
-        // begin of: plugin specific settings (eventually overriding general ones)
-        // set custom fields value as defined for this question plugin
+        // Begin of: plugin specific settings (eventually overriding general ones).
+        // Set custom fields value as defined for this question plugin.
         $this->item_custom_fields_to_db($record);
+        // End of: plugin specific settings (eventually overriding general ones).
 
-        $record->hideinstructions = 1;
-        // end of: plugin specific settings (eventually overriding general ones)
-
-        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record)))
+        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
     }
 
@@ -192,11 +184,8 @@ class mod_surveypro_field_boolean extends mod_surveypro_itembase {
      * @return
      */
     public function item_custom_fields_to_form() {
-        // 1. special management for fields equipped with "free" checkbox
-        // nothing to do: they don't exist in this plugin
-
-        // 2. special management for composite fields
-        // nothing to do: they don't exist in this plugin
+        // 1. Special management for composite fields.
+        // Nothing to do: they don't exist in this plugin.
     }
 
     /**
@@ -207,11 +196,17 @@ class mod_surveypro_field_boolean extends mod_surveypro_itembase {
      * @return
      */
     public function item_custom_fields_to_db($record) {
-        // 1. special management for fields equipped with "free" checkbox
-        // nothing to do: they don't exist in this plugin
+        // 1. Special management for composite fields.
+        // Nothing to do: they don't exist in this plugin.
 
-        // 2. special management for composite fields
-        // nothing to do: they don't exist in this plugin
+        // 2. Override few values.
+        // Hideinstructions is set by design.
+        $record->hideinstructions = 1;
+
+        // 3. Set values corresponding to checkboxes.
+        // Nothing to do: no checkboxes in this plugin item form.
+
+        // 4. Other.
     }
 
     /**
@@ -239,16 +234,16 @@ class mod_surveypro_field_boolean extends mod_surveypro_itembase {
      */
     public function item_get_downloadformats() {
         $option = array();
-        $option['strfbool01'] = get_string('strfbool01', 'surveyprofield_boolean'); // yes/no
-        $option['strfbool02'] = get_string('strfbool02', 'surveyprofield_boolean'); // Yes/No
-        $option['strfbool03'] = get_string('strfbool03', 'surveyprofield_boolean'); // y/n
-        $option['strfbool04'] = get_string('strfbool04', 'surveyprofield_boolean'); // Y/N
-        $option['strfbool05'] = get_string('strfbool05', 'surveyprofield_boolean'); // up/down
-        $option['strfbool06'] = get_string('strfbool06', 'surveyprofield_boolean'); // true/false
-        $option['strfbool07'] = get_string('strfbool07', 'surveyprofield_boolean'); // True/False
-        $option['strfbool08'] = get_string('strfbool08', 'surveyprofield_boolean'); // T/F
-        $option['strfbool09'] = get_string('strfbool09', 'surveyprofield_boolean'); // 1/0
-        $option['strfbool10'] = get_string('strfbool10', 'surveyprofield_boolean'); // +/-
+        $option['strfbool01'] = get_string('strfbool01', 'surveyprofield_boolean'); // yes/no.
+        $option['strfbool02'] = get_string('strfbool02', 'surveyprofield_boolean'); // Yes/No.
+        $option['strfbool03'] = get_string('strfbool03', 'surveyprofield_boolean'); // y/n.
+        $option['strfbool04'] = get_string('strfbool04', 'surveyprofield_boolean'); // Y/N.
+        $option['strfbool05'] = get_string('strfbool05', 'surveyprofield_boolean'); // up/down.
+        $option['strfbool06'] = get_string('strfbool06', 'surveyprofield_boolean'); // true/false.
+        $option['strfbool07'] = get_string('strfbool07', 'surveyprofield_boolean'); // True/False.
+        $option['strfbool08'] = get_string('strfbool08', 'surveyprofield_boolean'); // T/F.
+        $option['strfbool09'] = get_string('strfbool09', 'surveyprofield_boolean'); // 1/0.
+        $option['strfbool10'] = get_string('strfbool10', 'surveyprofield_boolean'); // +/-.
 
         return $option;
     }
@@ -342,7 +337,7 @@ EOS;
             if ($key !== false) {
                 $childparentvalue[] = $key;
             } else {
-                // only garbage, but user wrote it
+                // Only garbage, but user wrote it.
                 $labels[] = $parentcontent;
             }
         }
@@ -390,7 +385,7 @@ EOS;
             }
 
             $key++;
-            // only garbage but user wrote it
+            // Only garbage but user wrote it.
             for ($i = $key; $i < $actualcount; $i++) {
                 $childparentcontent[] = $parentvalues[$i];
             }
@@ -419,7 +414,7 @@ EOS;
      *     2 = $childparentvalue is malformed
      */
     public function parent_validate_child_constraints($childparentvalue) {
-        // see parent method for explanation
+        // See parent method for explanation.
 
         $values = array('0', '1');
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue);
@@ -462,7 +457,7 @@ EOS;
         $nolabel = get_string('no');
 
         if ($this->style == SURVEYPROFIELD_BOOLEAN_USESELECT) {
-            // element values
+            // Begin of: element values.
             $options = array();
             if (!$searchform) {
                 if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
@@ -478,24 +473,24 @@ EOS;
             }
             // End of: element values
 
-            // mform element
+            // Begin of: mform element.
             if ($this->required) {
                 if (!$searchform) {
-                    // even if the item is required I CAN NOT ADD ANY RULE HERE because:
-                    // -> I do not want JS form validation if the page is submitted through the "previous" button
-                    // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815
-                    // simply add a dummy star to the item and the footer note about mandatory fields
+                    // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
+                    // -> I do not want JS form validation if the page is submitted through the "previous" button.
+                    // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
+                    // Simply add a dummy star to the item and the footer note about mandatory fields.
                     $starplace = ($this->position != SURVEYPRO_POSITIONLEFT) ? $this->itemname.'_extrarow' : $this->itemname;
                     $mform->_required[] = $starplace;
                 }
             }
             $mform->addElement('mod_surveypro_select', $this->itemname, $elementlabel, $options, array('class' => 'indent-'.$this->indent, 'id' => $idprefix));
-            // End of: mform element
-        } else { // SURVEYPROFIELD_BOOLEAN_USERADIOV or SURVEYPROFIELD_BOOLEAN_USERADIOH
+            // End of: mform element.
+        } else { // SURVEYPROFIELD_BOOLEAN_USERADIOV or SURVEYPROFIELD_BOOLEAN_USERADIOH.
             $separator = ($this->style == SURVEYPROFIELD_BOOLEAN_USERADIOV) ? '<br />' : ' ';
             $elementgroup = array();
 
-            // mform elements
+            // Begin of: mform element.
             $attributes = array('class' => 'indent-'.$this->indent);
 
             if (!$searchform) {
@@ -529,16 +524,16 @@ EOS;
                 $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('noanswer', 'mod_surveypro'), SURVEYPRO_NOANSWERVALUE, $attributes);
             }
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, $separator, false);
-            // End of: mform elements
+            // End of: mform element.
         }
 
-        // default section
+        // Default section.
         if (!$searchform) {
             if ($this->required) {
-                // even if the item is required I CAN NOT ADD ANY RULE HERE because:
-                // -> I do not want JS form validation if the page is submitted through the "previous" button
-                // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815
-                // simply add a dummy star to the item and the footer note about mandatory fields
+                // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
+                // -> I do not want JS form validation if the page is submitted through the "previous" button.
+                // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
+                // Simply add a dummy star to the item and the footer note about mandatory fields.
                 if ($this->position != SURVEYPRO_POSITIONLEFT) {
                     $starplace = $this->itemname.'_extrarow';
                 } else {
@@ -580,18 +575,14 @@ EOS;
      * @return
      */
     public function userform_mform_validation($data, &$errors, $surveypro, $searchform) {
-        // this plugin displays as dropdown menu or a radio buttons set. It will never return empty values.
-        // if ($this->required) { if (empty($data[$this->itemname])) { is useless
+        // This plugin displays as dropdown menu or a radio buttons set. It will never return empty values.
+        // If ($this->required) { if (empty($data[$this->itemname])) { is useless.
 
         if ($searchform) {
             return;
         }
 
-        if ($this->style != SURVEYPROFIELD_BOOLEAN_USESELECT) {
-            $errorkey = $this->itemname.'_group';
-        } else {
-            $errorkey = $this->itemname;
-        }
+        $errorkey = ($this->style != SURVEYPROFIELD_BOOLEAN_USESELECT) ? $this->itemname.'_group' : $this->itemname;
 
         // I need to check value is different from SURVEYPRO_INVITEVALUE even if it is not required
         if ($data[$this->itemname] == SURVEYPRO_INVITEVALUE) {
@@ -623,7 +614,7 @@ EOS;
         }
 
         if ($indexsubset) {
-            // only garbage after the first index, but user wrote it
+            // Only garbage after the first index, but user wrote it.
             foreach ($indexsubset as $index) {
                 $mformelementinfo = new stdClass();
                 $mformelementinfo->parentname = $this->itemname;
@@ -633,7 +624,7 @@ EOS;
             }
         }
 
-        // only garbage but user wrote it
+        // Only garbage but user wrote it.
         if ($labelsubset) {
             foreach ($labelsubset as $k => $label) {
                 $mformelementinfo = new stdClass();
@@ -715,16 +706,16 @@ EOS;
      * @return
      */
     public function userform_db_to_export($answer, $format='') {
-        // content
+        // Content.
         $content = $answer->content;
-        if ($content == SURVEYPRO_NOANSWERVALUE) { // answer was "no answer"
+        if ($content == SURVEYPRO_NOANSWERVALUE) { // Answer was "no answer".
             return get_string('answerisnoanswer', 'mod_surveypro');
         }
-        if ($content === null) { // item was disabled
+        if ($content === null) { // Item was disabled.
             return get_string('notanswereditem', 'mod_surveypro');
         }
 
-        // format
+        // Format.
         if ($format == SURVEYPRO_FIRENDLYFORMAT) {
             $format = $this->item_get_friendlyformat();
         }
@@ -732,7 +723,7 @@ EOS;
             $format = $this->downloadformat;
         }
 
-        // output
+        // Output.
         $answers = explode('/', get_string($format, 'surveyprofield_boolean'));
         $return = ($content) ? $answers[0] : $answers[1];
 

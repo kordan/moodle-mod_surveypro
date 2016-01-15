@@ -51,14 +51,14 @@ class mod_surveypro_mform_filemanager extends MoodleQuickForm_filemanager {
      * @return string
      */
     public function toHtml() {
-        $output = parent::toHtml(); // core code
+        $output = parent::toHtml(); // Core code.
 
         // I want to change at the beginning:
         //     <div id="filemanager-556eb09a98375" class="filemanager fm-loading">
         // to:
         //     <div id="filemanager-556eb09a98375" class="indent-x filemanager fm-loading">
 
-        // I need to trim the code because mform library add a newline at the beginning
+        // I need to trim the code because mform library add a newline at the beginning.
         $output = trim($output);
 
         $tabs = $this->_getTabs();
@@ -88,7 +88,7 @@ class mod_surveypro_mform_filemanager extends MoodleQuickForm_filemanager {
         $accepted_types = $this->_options['accepted_types'];
 
         if (empty($draftitemid)) {
-            // no existing area info provided - let's use fresh new draft area
+            // No existing area info provided - let's use fresh new draft area.
             require_once("$CFG->libdir/filelib.php");
             $this->setValue(file_get_unused_draft_itemid());
             $draftitemid = $this->getValue();
@@ -96,7 +96,7 @@ class mod_surveypro_mform_filemanager extends MoodleQuickForm_filemanager {
 
         $client_id = uniqid();
 
-        // filemanager options
+        // Filemanager options.
         $options = new stdClass();
         $options->mainfile = $this->_options['mainfile'];
         $options->maxbytes = $this->_options['maxbytes'];

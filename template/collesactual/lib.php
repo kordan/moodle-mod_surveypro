@@ -23,6 +23,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-// position of the content
+// Position of the content.
 define('SURVEYPROTEMPLATE_COLLESACTUALUSERADIO', 1);
 define('SURVEYPROTEMPLATE_COLLESACTUALUSESELECT', 2);

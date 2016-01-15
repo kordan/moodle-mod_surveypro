@@ -43,10 +43,10 @@ if (!empty($id)) {
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
 
-$type = optional_param('type', 'summary', PARAM_ALPHA);  // type of graph
-$group = optional_param('group', 0, PARAM_INT);  // Group ID
-$area = optional_param('area', false, PARAM_INT);  // Student ID
-$qid = optional_param('qid', 0, PARAM_INT);  // 0..3 the question in the area
+$type = optional_param('type', 'summary', PARAM_ALPHA);  // Type of graph.
+$group = optional_param('group', 0, PARAM_INT);  // Group ID.
+$area = optional_param('area', false, PARAM_INT);  // Student ID.
+$qid = optional_param('qid', 0, PARAM_INT);  // 0..3 the question in the area.
 
 require_course_login($course, true, $cm);
 
@@ -70,9 +70,7 @@ if (!empty($qid)) {
     $paramurl['qid'] = $qid;
 }
 
-// -----------------------------
-// output starts here
-// -----------------------------
+// Output starts here.
 $url = new moodle_url('/mod/surveypro/report/colles/view.php', $paramurl);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
@@ -80,13 +78,13 @@ $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
-// make bold the navigation menu/link that refers to me
+// Make bold the navigation menu/link that refers to me.
 navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
-$moduletab = SURVEYPRO_TABSUBMISSIONS; // needed by tabs.php
-$modulepage = SURVEYPRO_SUBMISSION_REPORT; // needed by tabs.php
+$moduletab = SURVEYPRO_TABSUBMISSIONS; // Needed by tabs.php.
+$modulepage = SURVEYPRO_SUBMISSION_REPORT; // Needed by tabs.php.
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
 $reportman = new mod_surveypro_report_colles($cm, $context, $surveypro);
@@ -110,5 +108,5 @@ switch ($type) {
         break;
 }
 
-// Finish the page
+// Finish the page.
 echo $OUTPUT->footer();

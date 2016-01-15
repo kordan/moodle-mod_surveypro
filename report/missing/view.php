@@ -47,9 +47,7 @@ require_course_login($course, true, $cm);
 $context = context_module::instance($cm->id);
 require_capability('mod/surveypro:accessreports', $context);
 
-// -----------------------------
-// output starts here
-// -----------------------------
+// Output starts here.
 $url = new moodle_url('/mod/surveypro/report/missing/view.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
@@ -57,13 +55,13 @@ $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
-// make bold the navigation menu/link that refers to me
+// Make bold the navigation menu/link that refers to me.
 navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
-$moduletab = SURVEYPRO_TABSUBMISSIONS; // needed by tabs.php
-$modulepage = SURVEYPRO_SUBMISSION_REPORT; // needed by tabs.php
+$moduletab = SURVEYPRO_TABSUBMISSIONS; // Needed by tabs.php.
+$modulepage = SURVEYPRO_SUBMISSION_REPORT; // Needed by tabs.php.
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
 $reportman = new mod_surveypro_report_missing($cm, $context, $surveypro);
@@ -72,5 +70,5 @@ $reportman->check_submissions();
 $reportman->fetch_data();
 $reportman->output_data();
 
-// Finish the page
+// Finish the page.
 echo $OUTPUT->footer();

@@ -35,22 +35,17 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
      * @return none
      */
     public function definition() {
-        // ----------------------------------------
         // I close with the common section of the form
         parent::definition();
 
-        // ----------------------------------------
         $mform = $this->_form;
 
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         // $item = $this->_customdata->item;
         // $cm = $this->_customdata->cm;
         $surveypro = $this->_customdata->surveypro;
 
-        // ----------------------------------------
-        // item: contentelement$i
-        // ----------------------------------------
+        // Item: contentelement$i.
         $options = surveypro_autofill_get_elements($surveypro->id);
         for ($i = 1; $i < 6; $i++) {
             $index = sprintf('%02d', $i);
@@ -69,9 +64,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         }
         $mform->addRule('element01_group', get_string('required'), 'required', null, 'client');
 
-        // ----------------------------------------
-        // item: hiddenfield
-        // ----------------------------------------
+        // Item: hiddenfield.
         $fieldname = 'hiddenfield';
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveyprofield_autofill'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_autofill');
@@ -88,8 +81,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
      * @return $errors
      */
     public function validation($data, $files) {
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         // $item = $this->_customdata->item;
         // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;

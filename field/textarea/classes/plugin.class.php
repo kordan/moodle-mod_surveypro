@@ -78,8 +78,6 @@ class mod_surveypro_field_textarea extends mod_surveypro_itembase {
      */
     public $indent = 0;
 
-    // -----------------------------
-
     /**
      * $useeditor = does the item use html editor?.
      */
@@ -110,8 +108,6 @@ class mod_surveypro_field_textarea extends mod_surveypro_itembase {
      */
     public static $canbeparent = false;
 
-    // -----------------------------
-
     /**
      * Class constructor
      *
@@ -124,19 +120,19 @@ class mod_surveypro_field_textarea extends mod_surveypro_itembase {
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
 
-        // list of constant element attributes
+        // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'textarea';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // It is already true from parent class.
         $this->savepositiontodb = false;
 
-        // other element specific properties
-        // nothing
+        // Other element specific properties.
+        // No properties here.
 
-        // override properties depending from $surveypro settings
-        // nothing
+        // Override properties depending from $surveypro settings..
+        // No properties here.
 
-        // list of fields I do not want to have in the item definition form
+        // List of fields I do not want to have in the item definition form.
         $this->isinitemform['insearchform'] = false;
 
         if (!empty($itemid)) {
@@ -155,8 +151,8 @@ class mod_surveypro_field_textarea extends mod_surveypro_itembase {
         // Do parent item loading stuff here (mod_surveypro_itembase::item_load($itemid, $evaluateparentcontent)))
         parent::item_load($itemid, $evaluateparentcontent);
 
-        // multilang load support for builtin surveypro
-        // whether executed, the 'content' field is ALWAYS handled
+        // Multilang load support for builtin surveypro.
+        // Whether executed, the 'content' field is ALWAYS handled.
         $this->item_builtin_string_load_support();
 
         $this->item_custom_fields_to_form();
@@ -171,34 +167,14 @@ class mod_surveypro_field_textarea extends mod_surveypro_itembase {
     public function item_save($record) {
         $this->item_get_common_settings($record);
 
-        // -----------------------------
-        // Now execute very specific plugin level actions
-        // -----------------------------
+        // Now execute very specific plugin level actions.
 
-        // begin of: plugin specific settings (eventually overriding general ones)
-        // set custom fields value as defined for this question plugin
+        // Begin of: plugin specific settings (eventually overriding general ones).
+        // Set custom fields value as defined for this question plugin.
         $this->item_custom_fields_to_db($record);
+        // End of: plugin specific settings (eventually overriding general ones).
 
-        // do preliminary actions on $record values corresponding to fields type checkbox
-        $checkboxes = array('useeditor');
-        foreach ($checkboxes as $checkbox) {
-            $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
-        }
-        if (!strlen($record->minlength)) {
-            $record->minlength = 0;
-        }
-        if (!strlen($record->maxlength)) {
-            $record->maxlength = null;
-        }
-        if (empty($record->arearows)) {
-            $record->arearows = SURVEYPROFIELD_TEXTAREA_DEFAULTROWS;
-        }
-        if (empty($record->areacols)) {
-            $record->areacols = SURVEYPROFIELD_TEXTAREA_DEFAULTCOLS;
-        }
-        // end of: plugin specific settings (eventually overriding general ones)
-
-        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record)))
+        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
     }
 
@@ -219,11 +195,8 @@ class mod_surveypro_field_textarea extends mod_surveypro_itembase {
      * @return
      */
     public function item_custom_fields_to_form() {
-        // 1. special management for fields equipped with "free" checkbox
-        // nothing to do: they don't exist in this plugin
-
-        // 2. special management for composite fields
-        // nothing to do: they don't exist in this plugin
+        // 1. Special management for composite fields.
+        // Nothing to do: they don't exist in this plugin.
     }
 
     /**
@@ -234,14 +207,33 @@ class mod_surveypro_field_textarea extends mod_surveypro_itembase {
      * @return
      */
     public function item_custom_fields_to_db($record) {
-        // 1. special management for fields equipped with "free" checkbox
-        // nothing to do: they don't exist in this plugin
-
-        // 2. special management for composite fields
-        // nothing to do: they don't exist in this plugin
+        // 1. Special management for composite fields.
+        // Nothing to do: they don't exist in this plugin.
         if (!strlen($record->minlength)) {
             $record->minlength = 0;
         }
+
+        // 2. Override few values.
+        if (!strlen($record->minlength)) {
+            $record->minlength = 0;
+        }
+        if (!strlen($record->maxlength)) {
+            $record->maxlength = null;
+        }
+        if (empty($record->arearows)) {
+            $record->arearows = SURVEYPROFIELD_TEXTAREA_DEFAULTROWS;
+        }
+        if (empty($record->areacols)) {
+            $record->areacols = SURVEYPROFIELD_TEXTAREA_DEFAULTCOLS;
+        }
+
+        // 3. Set values corresponding to checkboxes.
+        $checkboxes = array('useeditor');
+        foreach ($checkboxes as $checkbox) {
+            $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
+        }
+
+        // 4. Other.
     }
 
     /**
@@ -255,18 +247,6 @@ class mod_surveypro_field_textarea extends mod_surveypro_itembase {
         $fieldlist = parent::item_get_multilang_fields();
 
         return $fieldlist;
-    }
-
-    // MARK get
-
-    /**
-     * get_useeditor
-     *
-     * @param $field
-     * @return
-     */
-    public function get_useeditor() {
-        return $this->useeditor;
     }
 
     /**
@@ -315,6 +295,18 @@ EOS;
         return $schema;
     }
 
+    // MARK get
+
+    /**
+     * get_useeditor
+     *
+     * @param $field
+     * @return
+     */
+    public function get_useeditor() {
+        return $this->useeditor;
+    }
+
     // MARK userform
 
     /**
@@ -327,7 +319,7 @@ EOS;
      * @return
      */
     public function userform_mform_element($mform, $searchform, $readonly=false, $submissionid=0) {
-        // this plugin has $this->isinitemform['insearchform'] = false; so it will never be part of a search form
+        // This plugin has $this->isinitemform['insearchform'] = false; so it will never be part of a search form.
         // TODO: make $this->isinitemform['insearchform'] = true;
 
         $labelsep = get_string('labelsep', 'langconfig'); // ': '
@@ -356,11 +348,11 @@ EOS;
 
         if (!$searchform) {
             if ($this->required) {
-                // even if the item is required I CAN NOT ADD ANY RULE HERE because:
-                // -> I do not want JS form validation if the page is submitted through the "previous" button
-                // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815
-                // simply add a dummy star to the item and the footer note about mandatory fields
-                $starplace = ($this->position != SURVEYPRO_POSITIONLEFT) ? $this->itemname.'_extrarow' : $this->itemname;
+                // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
+                // -> I do not want JS form validation if the page is submitted through the "previous" button.
+                // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
+                // Simply add a dummy star to the item and the footer note about mandatory fields.
+                $starplace = ($this->position != SURVEYPRO_POSITIONLEFT) ? $this->itemname.'_extrarow' : $fieldname;
                 $mform->_required[] = $starplace;
             }
         }
@@ -390,12 +382,15 @@ EOS;
             $itemcontent = $data[$fieldname];
         }
 
-        if ($this->required) {
-            if (empty($data[$fieldname])) {
+        if (empty($itemcontent)) {
+            if ($this->required) {
                 $errors[$errorkey] = get_string('required');
             }
+            return;
         }
 
+        // I don't care if this element is required or not.
+        // If the user provides an answer, it has to be compliant with the field validation rules.
         if ( $this->maxlength && (strlen($itemcontent) > $this->maxlength) ) {
             $errors[$errorkey] = get_string('uerr_texttoolong', 'surveyprofield_textarea');
         }

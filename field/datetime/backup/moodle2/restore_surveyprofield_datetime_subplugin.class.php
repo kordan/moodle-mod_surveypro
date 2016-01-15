@@ -37,7 +37,7 @@ class restore_surveyprofield_datetime_subplugin extends restore_subplugin {
         $elepath = $this->get_pathfor($elename);
         $paths[] = new restore_path_element($elename, $elepath);
 
-        return $paths; // And we return the interesting paths
+        return $paths; // And we return the interesting paths.
     }
 
     /**
@@ -49,7 +49,7 @@ class restore_surveyprofield_datetime_subplugin extends restore_subplugin {
         $data = (object)$data;
         $data->itemid = $this->get_new_parentid('surveypro_item');
 
-        // insert the surveyprofield_datetime record
+        // Insert the surveyprofield_datetime record.
         $newdatetimeid = $DB->insert_record('surveyprofield_datetime', $data);
     }
 }

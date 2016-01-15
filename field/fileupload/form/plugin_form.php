@@ -35,22 +35,17 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
      * @return none
      */
     public function definition() {
-        // ----------------------------------------
-        // start with common section of the form
+        // Start with common section of the form.
         parent::definition();
 
-        // ----------------------------------------
         $mform = $this->_form;
 
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         // $item = $this->_customdata->item;
         // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
 
-        // ----------------------------------------
-        // item: maxfiles
-        // ----------------------------------------
+        // Item: maxfiles.
         $fieldname = 'maxfiles';
         $options = array_combine(range(1, 5), range(1, 5));
         $options[EDITOR_UNLIMITED_FILES] = get_string('unlimited', 'mod_surveypro');
@@ -59,9 +54,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_fileupload');
         $mform->setType($fieldname, PARAM_INT);
 
-        // ----------------------------------------
-        // item: maxbytes
-        // ----------------------------------------
+        // Item: maxbytes.
         $fieldname = 'maxbytes';
         $options = get_max_upload_sizes();
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_fileupload'), $options);
@@ -69,9 +62,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_fileupload');
         $mform->setType($fieldname, PARAM_INT);
 
-        // ----------------------------------------
-        // item: filetypes
-        // ----------------------------------------
+        // Item: filetypes.
         $fieldname = 'filetypes';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_fileupload'));
         $mform->setDefault($fieldname, '*');
@@ -89,8 +80,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
      * @return $errors
      */
     public function validation($data, $files) {
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         // $item = $this->_customdata->item;
         // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;

@@ -35,11 +35,9 @@ class mod_surveypro_report_filterform extends moodleform {
     public function definition() {
         global $DB, $COURSE;
 
-        // ----------------------------------------
         $mform = $this->_form;
 
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         $cmid = $this->_customdata->cmid;
         $surveypro = $this->_customdata->surveypro;
         $userid = $this->_customdata->userid;
@@ -52,15 +50,15 @@ class mod_surveypro_report_filterform extends moodleform {
         $itemseeds = $DB->get_recordset_sql($sql, $whereparams);
 
         if (!$itemseeds->valid()) {
-            // no items are in this page
-            // display an error message
+            // No items are in this page.
+            // Display an error message.
             $mform->addElement('static', 'noitemshere', get_string('note', 'mod_surveypro'), 'ERROR: How can I be here if ($formpage > 0) ?');
         }
 
-        // fieldset
+        // Fieldset.
         // $mform->addElement('header', 'headertools', 'Tools');
 
-        // itemid
+        // Itemid.
         $options = array('0' => get_string('eachitem', 'surveyproreport_attachments_overview'));
         $tablename = 'surveyprofield_fileupload';
         foreach ($itemseeds as $itemseed) {
@@ -73,16 +71,16 @@ class mod_surveypro_report_filterform extends moodleform {
         $elementgroup = array();
         $elementgroup[] = $mform->createElement('select', 'itemid', '', $options);
 
-        // get submissions list. Needed later.
+        // Get submissions list. Needed later.
         $options = array();
         $whereparams = array('surveyproid' => $surveypro->id, 'userid' => $userid);
         $submissions = $DB->get_records('surveypro_submission', $whereparams);
 
-        // userid
+        // Userid.
         $coursecontext = context_course::instance($COURSE->id);
         $roles = get_roles_used_in_context($coursecontext);
         if (!$role = array_keys($roles)) {
-            // return nothing
+            // Return nothing.
             return;
         }
         $sql = 'SELECT u.id as userid, '.user_picture::fields('u').'
@@ -114,7 +112,7 @@ class mod_surveypro_report_filterform extends moodleform {
         $elementgroup[] = $mform->createElement('select', 'userid', '', $options);
         $mform->setDefault('userid', $userid.'_'.$submissionid);
 
-        // button
+        // Button.
         $elementgroup[] = $mform->createElement('submit', 'submitbutton', get_string('reload'));
 
         $mform->addGroup($elementgroup, 'item_user', get_string('filter'), array(' '), false);

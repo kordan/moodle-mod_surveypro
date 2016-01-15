@@ -73,8 +73,6 @@ class mod_surveypro_field_radiobutton extends mod_surveypro_itembase {
      */
     public $indent = 0;
 
-    // -----------------------------
-
     /**
      * $options = list of options in the form of "$value SURVEYPRO_VALUELABELSEPARATOR $label"
      */
@@ -110,8 +108,6 @@ class mod_surveypro_field_radiobutton extends mod_surveypro_itembase {
      */
     public static $canbeparent = true;
 
-    // -----------------------------
-
     /**
      * Class constructor
      *
@@ -124,19 +120,19 @@ class mod_surveypro_field_radiobutton extends mod_surveypro_itembase {
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
 
-        // list of constant element attributes
+        // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'radiobutton';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // It is already true from parent class.
         $this->savepositiontodb = true;
 
-        // other element specific properties
-        // nothing
+        // Other element specific properties.
+        // No properties here.
 
-        // override properties depending from $surveypro settings
-        // nothing
+        // Override properties depending from $surveypro settings.
+        // No properties here.
 
-        // list of fields I do not want to have in the item definition form
+        // List of fields I do not want to have in the item definition form.
         $this->isinitemform['hideinstructions'] = false;
 
         if (!empty($itemid)) {
@@ -155,8 +151,8 @@ class mod_surveypro_field_radiobutton extends mod_surveypro_itembase {
         // Do parent item loading stuff here (mod_surveypro_itembase::item_load($itemid, $evaluateparentcontent)))
         parent::item_load($itemid, $evaluateparentcontent);
 
-        // multilang load support for builtin surveypro
-        // whether executed, the 'content' field is ALWAYS handled
+        // Multilang load support for builtin surveypro.
+        // Whether executed, the 'content' field is ALWAYS handled.
         $this->item_builtin_string_load_support();
 
         $this->item_custom_fields_to_form();
@@ -171,22 +167,18 @@ class mod_surveypro_field_radiobutton extends mod_surveypro_itembase {
     public function item_save($record) {
         $this->item_get_common_settings($record);
 
-        // -----------------------------
-        // Now execute very specific plugin level actions
-        // -----------------------------
+        // Now execute very specific plugin level actions.
 
-        // begin of: plugin specific settings (eventually overriding general ones)
-        // drop empty rows and trim trialing spaces from each row of each textarea field
+        // Begin of: plugin specific settings (eventually overriding general ones).
+        // Drop empty rows and trim trialing spaces from each row of each textarea field.
         $fieldlist = array('options');
         $this->item_clean_textarea_fields($record, $fieldlist);
 
-        // set custom fields value as defined for this question plugin
+        // Set custom fields value as defined for this question plugin.
         $this->item_custom_fields_to_db($record);
+        // End of: plugin specific settings (eventually overriding general ones).
 
-        $record->hideinstructions = 1;
-        // end of: plugin specific settings (eventually overriding general ones)
-
-        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record)))
+        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
     }
 
@@ -206,11 +198,8 @@ class mod_surveypro_field_radiobutton extends mod_surveypro_itembase {
      * @return
      */
     public function item_custom_fields_to_form() {
-        // 1. special management for fields equipped with "free" checkbox
-        // nothing to do: they don't exist in this plugin
-
-        // 2. special management for composite fields
-        // nothing to do: they don't exist in this plugin
+        // 1. Special management for composite fields.
+        // Nothing to do: they don't exist in this plugin.
     }
 
     /**
@@ -221,11 +210,17 @@ class mod_surveypro_field_radiobutton extends mod_surveypro_itembase {
      * @return
      */
     public function item_custom_fields_to_db($record) {
-        // 1. special management for fields equipped with "free" checkbox
-        // nothing to do: they don't exist in this plugin
+        // 1. Special management for composite fields.
+        // Nothing to do: they don't exist in this plugin.
 
-        // 2. special management for composite fields
-        // nothing to do: they don't exist in this plugin
+        // 2. Override few values.
+        // Hideinstructions is set by design.
+        $record->hideinstructions = 1;
+
+        // 3. Set values corresponding to checkboxes.
+        // Nothing to do: no checkboxes in this plugin item form.
+
+        // 4. Other.
     }
 
     /**
@@ -239,7 +234,7 @@ class mod_surveypro_field_radiobutton extends mod_surveypro_itembase {
         $optionarray = surveypro_textarea_to_array($this->options);
         $firstoption = array_shift($optionarray);
 
-        if (preg_match('~^(.*)'.SURVEYPRO_VALUELABELSEPARATOR.'(.*)$~', $firstoption, $match)) { // do not warn: it can never be equal to zero
+        if (preg_match('~^(.*)'.SURVEYPRO_VALUELABELSEPARATOR.'(.*)$~', $firstoption, $match)) { // Do not warn: it can never be equal to zero.
             // print_object($match);
             $default = $match[1];
         } else {
@@ -412,7 +407,7 @@ EOS;
             }
 
             $key++;
-            // only garbage after the first label, but user wrote it
+            // Only garbage after the first label, but user wrote it.
             for ($i = $key; $i < $actualcount; $i++) {
                 $childparentcontent[] = $parentvalues[$i];
             }
@@ -441,7 +436,7 @@ EOS;
      *     2 = $childparentvalue is malformed
      */
     public function parent_validate_child_constraints($childparentvalue) {
-        // see parent method for explanation
+        // See parent method for explanation.
 
         $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue);
@@ -487,7 +482,7 @@ EOS;
         $attributes = array('class' => 'indent-'.$this->indent);
         $elementgroup = array();
 
-        // mform elements
+        // Begin of: mform element.
         if (!$searchform) {
             if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
                 $attributes['id'] = $idprefix.'_invite';
@@ -516,7 +511,7 @@ EOS;
 
         if (!empty($this->labelother)) {
             list($othervalue, $otherlabel) = $this->item_get_other();
-            $labels['other'] = $othervalue;
+            $labels['other'] = $otherlabel;
 
             $attributes['id'] = $idprefix.'_other';
             $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', $otherlabel, 'other', $attributes);
@@ -531,9 +526,9 @@ EOS;
             $attributes['id'] = $idprefix.'_noanswer';
             $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('noanswer', 'mod_surveypro'), SURVEYPRO_NOANSWERVALUE, $attributes);
         }
-        // End of: mform elements
+        // End of: mform element.
 
-        // definition of separator
+        // Begin of: definition of separator.
         if ($this->adjustment == SURVEYPRO_VERTICAL) {
             $separator = array_fill(0, $labelcount - 1, '<br />');
             if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
@@ -552,13 +547,13 @@ EOS;
         // End of: definition of separator
         $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, $separator, false);
 
-        // default section
+        // Begin of: default section.
         if (!$searchform) {
             if ($this->required) {
-                // even if the item is required I CAN NOT ADD ANY RULE HERE because:
-                // -> I do not want JS form validation if the page is submitted through the "previous" button
-                // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815
-                // simply add a dummy star to the item and the footer note about mandatory fields
+                // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
+                // -> I do not want JS form validation if the page is submitted through the "previous" button.
+                // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
+                // Simply add a dummy star to the item and the footer note about mandatory fields.
                 $starplace = ($this->position != SURVEYPRO_POSITIONLEFT) ? $this->itemname.'_extrarow' : $this->itemname.'_group';
                 $mform->_required[] = $starplace;
             }
@@ -600,8 +595,8 @@ EOS;
      * @return
      */
     public function userform_mform_validation($data, &$errors, $surveypro, $searchform) {
-        // this plugin displays as a set of radio buttons. It will never return empty values.
-        // if ($this->required) { if (empty($data[$this->itemname])) { is useless
+        // This plugin displays as a set of radio buttons. It will never return empty values.
+        // If ($this->required) { if (empty($data[$this->itemname])) { is useless
 
         if ($searchform) {
             return;
@@ -644,7 +639,7 @@ EOS;
         }
 
         if ($indexsubset) {
-            // only garbage after the first index, but user wrote it
+            // Only garbage after the first index, but user wrote it.
             foreach ($indexsubset as $k => $index) {
                 $mformelementinfo = new stdClass();
                 $mformelementinfo->parentname = $this->itemname;
@@ -656,7 +651,7 @@ EOS;
 
         if ($labelsubset) {
             foreach ($labelsubset as $k => $label) {
-                // only garbage after the first label, but user wrote it
+                // Only garbage after the first label, but user wrote it.
                 if (!empty($this->labelother)) {
                     $mformelementinfo = new stdClass();
                     $mformelementinfo->parentname = $this->itemname;
@@ -672,7 +667,7 @@ EOS;
                 }
             }
         } else {
-            // even if no labels were provided
+            // Even if no labels were provided.
             // I have to add one more $disabilitationinfo if $this->other is not empty
             if (!empty($this->labelother)) {
                 $mformelementinfo = new stdClass();
@@ -768,16 +763,16 @@ EOS;
                 if ($fromdb->content == SURVEYPRO_NOANSWERVALUE) {
                     $prefill[$this->itemname] = SURVEYPRO_NOANSWERVALUE;
                 } else {
-                    // it is, for sure, the content of _text
+                    // It is, for sure, the content of _text.
                     $prefill[$this->itemname] = 'other';
                     $prefill[$this->itemname.'_text'] = $fromdb->content;
                 }
             }
         } else {
-            // nothing was set
-            // do not accept defaults but overwrite them
-            // but... if this is a group of radio buttons, how can it be empty($fromdb->content)?
-            // Because user selected "Not answering" or question was disabled
+            // Nothing was set.
+            // Do not accept defaults but overwrite them.
+            // But... if this is a group of radio buttons, how can it be empty($fromdb->content)?
+            // Because user selected "Not answering" or question was disabled.
             $prefill[$this->itemname] = '';
         }
 
@@ -793,16 +788,16 @@ EOS;
      * @return
      */
     public function userform_db_to_export($answer, $format='') {
-        // content
+        // Content.
         $content = $answer->content;
-        if ($content == SURVEYPRO_NOANSWERVALUE) { // answer was "no answer"
+        if ($content == SURVEYPRO_NOANSWERVALUE) { // Answer was "no answer".
             return get_string('answerisnoanswer', 'mod_surveypro');
         }
-        if ($content === null) { // item was disabled
+        if ($content === null) { // Item was disabled.
             return get_string('notanswereditem', 'mod_surveypro');
         }
 
-        // format
+        // Format.
         if ($format == SURVEYPRO_FIRENDLYFORMAT) {
             $format = $this->item_get_friendlyformat();
         }

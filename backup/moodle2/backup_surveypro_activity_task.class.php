@@ -22,8 +22,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once($CFG->dirroot . '/mod/surveypro/backup/moodle2/backup_surveypro_stepslib.php'); // Because it exists (must)
-require_once($CFG->dirroot . '/mod/surveypro/backup/moodle2/backup_surveypro_settingslib.php'); // Because it exists (optional)
+require_once($CFG->dirroot . '/mod/surveypro/backup/moodle2/backup_surveypro_stepslib.php'); // Because it exists (must).
+require_once($CFG->dirroot . '/mod/surveypro/backup/moodle2/backup_surveypro_settingslib.php'); // Because it exists (optional).
 
 /**
  * surveypro backup task that provides all the settings and steps to perform one
@@ -35,14 +35,14 @@ class backup_surveypro_activity_task extends backup_activity_task {
      * Define (add) particular settings this activity can have
      */
     protected function define_my_settings() {
-        // No particular settings for this activity
+        // No particular settings for this activity.
     }
 
     /**
      * Define (add) particular steps this activity can have
      */
     protected function define_my_steps() {
-        // surveypro only has one structure step
+        // Surveypro only has one structure step.
         $this->add_step(new backup_surveypro_activity_structure_step('surveypro_structure', 'surveypro.xml'));
     }
 
@@ -55,11 +55,11 @@ class backup_surveypro_activity_task extends backup_activity_task {
 
         $base = preg_quote($CFG->wwwroot, "/");
 
-        // Link to the list of surveypros
+        // Link to the list of surveypros.
         $search = "/(".$base."\/mod\/surveypro\/index.php\?id\=)([0-9]+)/";
         $content = preg_replace($search, '$@SURVEYPROINDEX*$2@$', $content);
 
-        // Link to surveypro view by moduleid
+        // Link to surveypro view by moduleid.
         $search = "/(".$base."\/mod\/surveypro\/view.php\?id\=)([0-9]+)/";
         $content = preg_replace($search, '$@SURVEYPROVIEWBYID*$2@$', $content);
 

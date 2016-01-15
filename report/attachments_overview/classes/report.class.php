@@ -72,7 +72,7 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
         $tableheaders[] = get_string('uploads', 'surveyproreport_attachments_overview');
         $this->outputtable->define_headers($tableheaders);
 
-        $this->outputtable->sortable(true, 'lastname', 'ASC'); // sorted by lastname by default
+        $this->outputtable->sortable(true, 'lastname', 'ASC'); // Sorted by lastname by default.
         $this->outputtable->no_sorting('uploads');
 
         $this->outputtable->column_class('picture', 'picture');
@@ -81,11 +81,11 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
 
         $this->outputtable->initialbars(true);
 
-        // hide the same info whether in two consecutive rows
+        // Hide the same info whether in two consecutive rows.
         $this->outputtable->column_suppress('picture');
         $this->outputtable->column_suppress('fullname');
 
-        // general properties for the whole table
+        // General properties for the whole table.
         $this->outputtable->summary = get_string('submissionslist', 'mod_surveypro');
         $this->outputtable->set_attribute('cellpadding', '5');
         $this->outputtable->set_attribute('id', 'userattempts');
@@ -106,7 +106,7 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
         $coursecontext = context_course::instance($COURSE->id);
         $roles = get_roles_used_in_context($coursecontext);
         if (!$role = array_keys($roles)) {
-            // return nothing
+            // Return nothing.
             return;
         }
 
@@ -142,15 +142,15 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
         foreach ($usersubmissions as $usersubmission) {
             $tablerow = array();
 
-            // picture
+            // Picture.
             $tablerow[] = $OUTPUT->user_picture($usersubmission, array('courseid' => $COURSE->id));
 
-            // user fullname
+            // User fullname.
             $paramurl = array('id' => $usersubmission->id, 'cover' => 0);
             $url = new moodle_url('/user/view.php', $paramurl);
             $tablerow[] = '<a href="'.$url->out().'">'.fullname($usersubmission).'</a>';
 
-            // users with $usersubmission->submissionid == null have no submissions
+            // Users with $usersubmission->submissionid == null have no submissions.
             if (!empty($usersubmission->submissionid)) {
                 $paramurl = array();
                 $paramurl['s'] = $this->surveypro->id;
@@ -162,7 +162,7 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
                 $tablerow[] = $missinguploads;
             }
 
-            // add row to the table
+            // Add row to the table.
             $this->outputtable->add_data($tablerow);
         }
 
@@ -199,10 +199,7 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
         if (!$attachmentitems) {
             $message = get_string('noattachmentitemsfound', 'surveyproreport_attachments_overview');
             echo $OUTPUT->box($message, 'notice centerpara');
-
-            // Finish the page
             echo $OUTPUT->footer();
-
             die();
         }
     }

@@ -73,8 +73,6 @@ class mod_surveypro_field_fileupload extends mod_surveypro_itembase {
      */
     public $indent = 0;
 
-    // -----------------------------
-
     /**
      * $maxfiles = the maximum number of files allowed to upload
      */
@@ -95,8 +93,6 @@ class mod_surveypro_field_fileupload extends mod_surveypro_itembase {
      */
     public static $canbeparent = false;
 
-    // -----------------------------
-
     /**
      * Class constructor
      *
@@ -109,19 +105,19 @@ class mod_surveypro_field_fileupload extends mod_surveypro_itembase {
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
 
-        // list of constant element attributes
+        // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'fileupload';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // It is already true from parent class.
         $this->savepositiontodb = false;
 
-        // other element specific properties
-        // nothing
+        // Other element specific properties.
+        // No properties here.
 
-        // override properties depending from $surveypro settings
-        // nothing
+        // Override properties depending from $surveypro settings.
+        // No properties here.
 
-        // list of fields I do not want to have in the item definition form
+        // List of fields I do not want to have in the item definition form.
         $this->isinitemform['insearchform'] = false;
 
         if (!empty($itemid)) {
@@ -140,8 +136,8 @@ class mod_surveypro_field_fileupload extends mod_surveypro_itembase {
         // Do parent item loading stuff here (mod_surveypro_itembase::item_load($itemid, $evaluateparentcontent)))
         parent::item_load($itemid, $evaluateparentcontent);
 
-        // multilang load support for builtin surveypro
-        // whether executed, the 'content' field is ALWAYS handled
+        // Multilang load support for builtin surveypro.
+        // Whether executed, the 'content' field is ALWAYS handled.
         $this->item_builtin_string_load_support();
     }
 
@@ -154,14 +150,12 @@ class mod_surveypro_field_fileupload extends mod_surveypro_itembase {
     public function item_save($record) {
         $this->item_get_common_settings($record);
 
-        // -----------------------------
-        // Now execute very specific plugin level actions
-        // -----------------------------
+        // Now execute very specific plugin level actions.
 
-        // begin of: plugin specific settings (eventually overriding general ones)
-        // end of: plugin specific settings (eventually overriding general ones)
+        // Begin of: plugin specific settings (eventually overriding general ones).
+        // End of: plugin specific settings (eventually overriding general ones).
 
-        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record)))
+        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
     }
 
@@ -242,7 +236,7 @@ EOS;
      * @return
      */
     public function userform_mform_element($mform, $searchform, $readonly=false, $submissionid=0) {
-        // this plugin has $this->isinitemform['insearchform'] = false; so it will never be part of a search form
+        // This plugin has $this->isinitemform['insearchform'] = false; so it will never be part of a search form.
 
         $fieldname = $this->itemname.'_filemanager';
 
@@ -260,14 +254,14 @@ EOS;
         $attributes['subdirs'] = false;
         $attributes['maxfiles'] = $this->maxfiles;
         $attributes['id'] = $idprefix;
-        $attributes['class'] = 'indent-'.$this->indent; // does not work: MDL-28194
+        $attributes['class'] = 'indent-'.$this->indent; // Does not work: MDL-28194.
         $mform->addElement('mod_surveypro_filemanager', $fieldname, $elementlabel, null, $attributes);
 
         if ($this->required) {
-            // even if the item is required I CAN NOT ADD ANY RULE HERE because:
-            // -> I do not want JS form validation if the page is submitted through the "previous" button
-            // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815
-            // simply add a dummy star to the item and the footer note about mandatory fields
+            // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
+            // -> I do not want JS form validation if the page is submitted through the "previous" button.
+            // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
+            // Simply add a dummy star to the item and the footer note about mandatory fields.
             $starplace = ($this->position != SURVEYPRO_POSITIONLEFT) ? $this->itemname.'_extrarow' : $this->itemname;
             $mform->_required[] = $starplace;
         }
@@ -340,7 +334,7 @@ EOS;
             $attributes['maxfiles'] = $this->maxfiles;
             file_save_draft_area_files($answer['filemanager'], $this->context->id, 'surveyprofield_fileupload', SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $olduseranswer->id, $attributes);
 
-            $olduseranswer->content = ''; // nothing is expected here
+            $olduseranswer->content = ''; // Nothing is expected here.
         }
     }
 

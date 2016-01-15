@@ -37,8 +37,6 @@ class mod_surveypro_format_fieldsetend extends mod_surveypro_itembase {
      */
     public static $canbeparent = false;
 
-    // -----------------------------
-
     /**
      * Class constructor
      *
@@ -51,19 +49,19 @@ class mod_surveypro_format_fieldsetend extends mod_surveypro_itembase {
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
 
-        // list of constant element attributes
+        // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFORMAT;
         $this->plugin = 'fieldsetend';
         $this->editorlist = array();
         $this->savepositiontodb = false;
 
-        // other element specific properties
-        // nothing
+        // Other element specific properties.
+        // No properties here.
 
-        // override properties depending from $surveypro settings
-        // nothing
+        // Override properties depending from $surveypro settings..
+        // No properties here.
 
-        // list of fields I do not want to have in the item definition form
+        // List of fields I do not want to have in the item definition form.
         $this->isinitemform['common_fs'] = false;
         $this->isinitemform['content'] = false;
         $this->isinitemform['customnumber'] = false;
@@ -100,15 +98,14 @@ class mod_surveypro_format_fieldsetend extends mod_surveypro_itembase {
     public function item_save($record) {
         $this->item_get_common_settings($record);
 
-        // -----------------------------
-        // Now execute very specific plugin level actions
-        // -----------------------------
+        // Now execute very specific plugin level actions.
 
-        // begin of: plugin specific settings (eventually overriding general ones)
+        // Begin of: plugin specific settings (eventually overriding general ones).
+        // Override few values.
         $record->content = SURVEYPROFORMAT_FIELDSETEND_CONTENT;
-        // end of: plugin specific settings (eventually overriding general ones)
+        // End of: plugin specific settings (eventually overriding general ones).
 
-        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record)))
+        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
     }
 
@@ -179,9 +176,9 @@ EOS;
      * @return
      */
     public function userform_mform_element($mform, $searchform, $readonly=false, $submissionid=0) {
-        // this plugin has $this->isinitemform['insearchform'] = false; so it will never be part of a search form
+        // This plugin has $this->isinitemform['insearchform'] = false; so it will never be part of a search form.
 
-        // workaround suggested by Marina Glancy in MDL-42946
+        // Workaround suggested by Marina Glancy in MDL-42946.
         $label = html_writer::tag('span', '&nbsp;', array('style' => 'display:none;'));
 
         $mform->addElement('static', $this->itemname, '', $label);
@@ -198,7 +195,7 @@ EOS;
      * @return
      */
     public function userform_mform_validation($data, &$errors, $surveypro, $searchform) {
-        // nothing to do here
+        // Nothing to do here.
     }
 
     /**

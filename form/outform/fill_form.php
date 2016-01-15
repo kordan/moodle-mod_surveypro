@@ -35,11 +35,9 @@ class mod_surveypro_submissionform extends moodleform {
     public function definition() {
         global $CFG, $DB;
 
-        // ----------------------------------------
         $mform = $this->_form;
 
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         $cm = $this->_customdata->cm;
         $firstpageright = $this->_customdata->firstpageright;
         $maxassignedpage = $this->_customdata->maxassignedpage;
@@ -48,28 +46,22 @@ class mod_surveypro_submissionform extends moodleform {
         $formpage = $this->_customdata->formpage;
         $canaccessadvanceditems = $this->_customdata->canaccessadvanceditems;
         $modulepage = $this->_customdata->modulepage;
-        $readonly = $this->_customdata->readonly; // I see a form (record) that is not mine
-        $preview = $this->_customdata->preview; // we are in preview mode
+        $readonly = $this->_customdata->readonly; // I see a form (record) that is not mine.
+        $preview = $this->_customdata->preview; // We are in preview mode.
 
         if ($preview) {
             $mform->disable_form_change_checker();
         }
 
-        // ----------------------------------------
-        // userform: s
-        // ----------------------------------------
+        // Userform: s.
         $mform->addElement('hidden', 's', $surveypro->id);
         $mform->setType('s', PARAM_INT);
 
-        // ----------------------------------------
-        // userform: submissionid
-        // ----------------------------------------
+        // Userform: submissionid.
         $mform->addElement('hidden', 'submissionid', 0);
         $mform->setType('submissionid', PARAM_INT);
 
-        // ----------------------------------------
-        // userform: formpage
-        // ----------------------------------------
+        // Userform: formpage.
         $mform->addElement('hidden', 'formpage', 0); // <-- this value comes from default as set just before $mform->display(); in view_userform.php
         $mform->setType('formpage', PARAM_INT);
 
@@ -90,15 +82,15 @@ class mod_surveypro_submissionform extends moodleform {
             $itemseeds = $DB->get_recordset_sql($sql, $whereparams);
 
             if (!$itemseeds->valid()) {
-                // no items are in this page
-                // display an error message
+                // No items are in this page.
+                // Display an error message.
                 $mform->addElement('static', 'noitemshere', get_string('note', 'mod_surveypro'), 'ERROR: How can I be here if ($formpage > 0) ?');
             }
 
             $context = context_module::instance($cm->id);
 
-            // this dummy item is needed for the colours alternation
-            // because 'label' or ($position == SURVEYPRO_POSITIONFULLWIDTH)
+            // This dummy item is needed for the colours alternation.
+            // Because 'label' or ($position == SURVEYPRO_POSITIONFULLWIDTH).
             //     as first item are out from the a fieldset
             //     so they are not selected by the css3 selector: fieldset div.fitem:nth-of-type(even) {
             $mform->addElement('static', 'beginning_extrarow', '', '');
@@ -107,14 +99,14 @@ class mod_surveypro_submissionform extends moodleform {
                 if ($modulepage == SURVEYPRO_ITEMS_PREVIEW) {
                     $itemaschildisallowed = true;
                 } else {
-                    // is the current item allowed to be displayed in this page?
+                    // Is the current item allowed to be displayed in this page?
                     if ($itemseed->parentid) {
-                        // get it now AND NEVER MORE
+                        // Get it now AND NEVER MORE.
                         $parentitem = surveypro_get_item($cm, $itemseed->parentid);
 
-                        // if parentitem is in a previous page, have a check
-                        // otherwise
-                        // display the current item
+                        // If parentitem is in a previous page, have a check.
+                        // Otherwise.
+                        // Display the current item.
                         if ($parentitem->get_formpage() < $formpage) {
                             require_once($CFG->dirroot.'/mod/surveypro/'.$itemseed->type.'/'.$itemseed->plugin.'/classes/plugin.class.php');
 
@@ -123,7 +115,7 @@ class mod_surveypro_submissionform extends moodleform {
                             $itemaschildisallowed = true;
                         }
                     } else {
-                        // current item has no parent: display it
+                        // Current item has no parent: display it.
                         $parentitem = null;
                         $itemaschildisallowed = true;
                     }
@@ -132,7 +124,7 @@ class mod_surveypro_submissionform extends moodleform {
                 if ($itemaschildisallowed) {
                     $item = surveypro_get_item($cm, $itemseed->id, $itemseed->type, $itemseed->plugin);
 
-                    // position
+                    // Position.
                     $position = $item->get_position();
                     $elementnumber = $item->get_customnumber() ? $item->get_customnumber().':' : '';
                     if ($position == SURVEYPRO_POSITIONTOP) {
@@ -169,10 +161,10 @@ class mod_surveypro_submissionform extends moodleform {
                         $item->item_add_color_unifier($mform);
                     }
 
-                    // element
+                    // Element.
                     $item->userform_mform_element($mform, false, $readonly, $submissionid);
 
-                    // note
+                    // Note.
                     if ($fullinfo = $item->userform_get_full_info(false)) {
                         $item->item_add_color_unifier($mform);
 
@@ -195,7 +187,7 @@ class mod_surveypro_submissionform extends moodleform {
             }
         }
 
-        // buttons
+        // Buttons.
         $buttonlist = array();
 
         if ( ($formpage == SURVEYPRO_RIGHT_OVERFLOW) || ($formpage > 1) ) {
@@ -210,7 +202,7 @@ class mod_surveypro_submissionform extends moodleform {
             if (($formpage == $maxassignedpage) || ($formpage == SURVEYPRO_RIGHT_OVERFLOW)) {
                 if ($surveypro->history) {
                     $submissionstatus = $DB->get_field('surveypro_submission', 'status', array('id' => $submissionid), IGNORE_MISSING);
-                    if ($submissionstatus === false) { // submissions still does not exist
+                    if ($submissionstatus === false) { // Submissions still does not exist.
                         $usesimplesavebutton = true;
                     } else {
                         $usesimplesavebutton = ($submissionstatus == SURVEYPRO_STATUSINPROGRESS);
@@ -237,7 +229,7 @@ class mod_surveypro_submissionform extends moodleform {
             $mform->addGroup($buttonarray, 'buttonsrow', '', ' ', false);
             $mform->setType('buttonar', PARAM_RAW);
             $mform->closeHeaderBefore('buttonar');
-        } else { // only one button here
+        } else { // Only one button here.
             foreach ($buttonlist as $name => $label) { // $buttonlist is a one element only array
                 $mform->closeHeaderBefore($name);
                 $mform->addElement('submit', $name, $label);
@@ -254,15 +246,13 @@ class mod_surveypro_submissionform extends moodleform {
      */
     public function validation($data, $files) {
         if (isset($data['prevbutton']) || isset($data['pausebutton'])) {
-            // skip validation
+            // Skip validation.
             return array();
         }
 
-        // ----------------------------------------
         // $mform = $this->_form;
 
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         $cm = $this->_customdata->cm;
         $modulepage = $this->_customdata->modulepage;
         $surveypro = $this->_customdata->surveypro;
@@ -272,10 +262,10 @@ class mod_surveypro_submissionform extends moodleform {
         $maxassignedpage = $this->_customdata->maxassignedpage;
         $canaccessadvanceditems = $this->_customdata->canaccessadvanceditems;
         // $readonly = $this->_customdata->readonly; // I see a form (record) that is not mine
-        $preview = $this->_customdata->preview; // we are in preview mode
+        $preview = $this->_customdata->preview; // We are in preview mode.
 
         if ($preview) {
-            // skip validation
+            // Skip validation.
             return array();
         }
 
@@ -286,9 +276,9 @@ class mod_surveypro_submissionform extends moodleform {
         $olditemid = 0;
         foreach ($data as $itemname => $v) {
             if (preg_match($regexp, $itemname, $matches)) {
-                $type = $matches[2]; // item type
-                $plugin = $matches[3]; // item plugin
-                $itemid = $matches[4]; // item id
+                $type = $matches[2]; // Item type.
+                $plugin = $matches[3]; // Item plugin.
+                $itemid = $matches[4]; // Item id.
                 // $option = $matches[5]; // _text or _noanswer or...
 
                 if ($itemid == $olditemid) {
@@ -299,7 +289,7 @@ class mod_surveypro_submissionform extends moodleform {
 
                 $item = surveypro_get_item($cm, $itemid, $type, $plugin);
                 if ($surveypro->newpageforchild) {
-                    $itemisenabled = true; // since it is displayed, it is enabled
+                    $itemisenabled = true; // Since it is displayed, it is enabled.
                     $parentitem = null;
                 } else {
                     $parentitemid = $item->get_parentid();
@@ -307,15 +297,15 @@ class mod_surveypro_submissionform extends moodleform {
                         $itemisenabled = true;
                         $parentitem = null;
                     } else {
-                        // call its parent
+                        // Call its parent.
                         $parentitem = surveypro_get_item($cm, $parentitemid);
-                        // tell parent that his child has parentvalue = 1;3
+                        // Tell parent that his child has parentvalue = 1;3.
                         if ($parentitem->get_formpage() == $item->get_formpage()) {
                             $itemisenabled = $parentitem->userform_child_item_allowed_dynamic($item->get_parentvalue(), $data);
                         } else {
                             $itemisenabled = true;
                         }
-                        // parent item, knowing how itself exactly is, compare what is needed and provide an answer
+                        // Parent item, knowing how itself exactly is, compare what is needed and provide an answer.
                     }
                 }
 

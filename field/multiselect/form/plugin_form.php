@@ -35,39 +35,30 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
      * @return none
      */
     public function definition() {
-        // ----------------------------------------
-        // start with common section of the form
+        // Start with common section of the form.
         parent::definition();
 
-        // ----------------------------------------
         $mform = $this->_form;
 
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         $item = $this->_customdata->item;
         // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
 
-        // ----------------------------------------
-        // item: options
-        // ----------------------------------------
+        // Item: options.
         $fieldname = 'options';
         $mform->addElement('textarea', $fieldname, get_string($fieldname, 'surveyprofield_multiselect'), array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_multiselect');
         $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
         $mform->setType($fieldname, PARAM_RAW); // PARAM_RAW and not PARAM_TEXT otherwise '<' is not accepted
 
-        // ----------------------------------------
-        // item: defaultvalue
-        // ----------------------------------------
+        // Item: defaultvalue.
         $fieldname = 'defaultvalue';
         $mform->addElement('textarea', $fieldname, get_string($fieldname, 'surveyprofield_multiselect'), array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_multiselect');
         $mform->setType($fieldname, PARAM_TEXT);
 
-        // ----------------------------------------
-        // item: heightinrows
-        // ----------------------------------------
+        // Item: heightinrows.
         $fieldname = 'heightinrows';
         $options = array_combine(range(3, 12), range(3, 12));
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_multiselect'), $options);
@@ -75,25 +66,25 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_multiselect');
         $mform->setType($fieldname, PARAM_INT);
 
-        // ----------------------------------------
-        // item: minimumrequired
-        // ----------------------------------------
-        $fieldname = 'minimumrequired';
-        $options = array_combine(range(0, 9), range(0, 9));
-        $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_multiselect'), $options);
-        $mform->setDefault($fieldname, 0);
-        $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_multiselect');
-        $mform->setType($fieldname, PARAM_INT);
-
-        // ----------------------------------------
-        // item: downloadformat
-        // ----------------------------------------
+        // Item: downloadformat.
         $fieldname = 'downloadformat';
         $options = array(SURVEYPRO_ITEMSRETURNSVALUES => get_string('returnvalues', 'surveyprofield_multiselect'),
                          SURVEYPRO_ITEMRETURNSLABELS => get_string('returnlabels', 'surveyprofield_multiselect'),
                          SURVEYPRO_ITEMRETURNSPOSITION => get_string('returnposition', 'surveyprofield_multiselect'));
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_multiselect'), $options);
         $mform->setDefault($fieldname, $item->item_get_friendlyformat());
+        $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_multiselect');
+        $mform->setType($fieldname, PARAM_INT);
+
+        // Here I open a new fieldset.
+        $fieldname = 'validation';
+        $mform->addElement('header', $fieldname, get_string($fieldname, 'mod_surveypro'));
+
+        // Item: minimumrequired.
+        $fieldname = 'minimumrequired';
+        $options = array_combine(range(0, 9), range(0, 9));
+        $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_multiselect'), $options);
+        $mform->setDefault($fieldname, 0);
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_multiselect');
         $mform->setType($fieldname, PARAM_INT);
 
@@ -108,19 +99,18 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
      * @return $errors
      */
     public function validation($data, $files) {
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         // $item = $this->_customdata->item;
         // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
 
         $errors = parent::validation($data, $files);
 
-        // clean inputs
+        // Clean inputs.
         $cleanoptions = surveypro_textarea_to_array($data['options']);
         $cleandefaultvalue = surveypro_textarea_to_array($data['defaultvalue']);
 
-        // build $value array (I do not care about $label) starting from $cleanoptions
+        // Build $value array (I do not care about $label) starting from $cleanoptions.
         $values = array();
         $labels = array();
 
@@ -135,11 +125,9 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
             }
         }
 
-        // -----------------------------
-        // first check
-        // each item of default has to be among options item OR has to be == to otherlabel value
-        // this also verify (helped by the second check) that the number of default is not greater than the number of options
-        // -----------------------------
+        // First check.
+        // Each item of default has to be among options item OR has to be == to otherlabel value.
+        // This also verify (helped by the second check) that the number of default is not greater than the number of options.
         if (!empty($data['defaultvalue'])) {
             foreach ($cleandefaultvalue as $default) {
                 if (!in_array($default, $labels)) {
@@ -149,11 +137,9 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
             }
         }
 
-        // -----------------------------
-        // second check
-        // each single option item has to be unique
-        // each single default item has to be unique
-        // -----------------------------
+        // Second check.
+        // Each single option item has to be unique.
+        // Each single default item has to be unique.
         $arrayunique = array_unique($cleanoptions);
         if (count($cleanoptions) != count($arrayunique)) {
             $errors['options'] = get_string('ierr_optionsduplicated', 'surveyprofield_multiselect');
@@ -163,10 +149,8 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
             $errors['defaultvalue'] = get_string('ierr_optionduplicated', 'surveyprofield_multiselect', $default);
         }
 
-        // -----------------------------
-        // third check
-        // SURVEYPRO_DBMULTICONTENTSEPARATOR can not be contained into values
-        // -----------------------------
+        // Third check.
+        // SURVEYPRO_DBMULTICONTENTSEPARATOR can not be contained into values.
         foreach ($values as $value) {
             if (strpos($value, SURVEYPRO_DBMULTICONTENTSEPARATOR) !== false) {
                 $errors['options'] = get_string('ierr_optionswithseparator', 'surveyprofield_multiselect', SURVEYPRO_DBMULTICONTENTSEPARATOR);
@@ -174,10 +158,8 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
             }
         }
 
-        // -----------------------------
-        // fourth check
-        // minimumrequired has to be lower than count($cleanoptions)
-        // -----------------------------
+        // Fourth check.
+        // Minimumrequired has to be lower than count($cleanoptions).
         if ($data['minimumrequired'] > count($cleanoptions) - 1) {
             $errors['minimumrequired'] = get_string('ierr_minimumrequired', 'surveyprofield_multiselect', count($cleanoptions));
         }

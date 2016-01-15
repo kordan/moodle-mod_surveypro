@@ -59,6 +59,11 @@ class mod_surveypro_field_checkbox extends mod_surveypro_itembase {
     public $extranote = '';
 
     /**
+     * $required = boolean. O == optional item; 1 == mandatory item
+     */
+    public $required = 0;
+
+    /**
      * $variable = the name of the field storing data in the db table
      */
     public $variable = '';
@@ -67,8 +72,6 @@ class mod_surveypro_field_checkbox extends mod_surveypro_itembase {
      * $indent = the indent of the item in the form page
      */
     public $indent = 0;
-
-    // -----------------------------
 
     /**
      * $options = list of options in the form of "$value SURVEYPRO_VALUELABELSEPARATOR $label"
@@ -110,8 +113,6 @@ class mod_surveypro_field_checkbox extends mod_surveypro_itembase {
      */
     public static $canbeparent = true;
 
-    // -----------------------------
-
     /**
      * Class constructor
      *
@@ -124,20 +125,20 @@ class mod_surveypro_field_checkbox extends mod_surveypro_itembase {
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
 
-        // list of constant element attributes
+        // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'checkbox';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // It is already true from parent class.
         $this->savepositiontodb = true;
 
-        // other element specific properties
-        // nothing
+        // Other element specific properties.
+        // No properties here.
 
-        // override properties depending from $surveypro settings
-        // nothing
+        // Override properties depending from $surveypro settings.
+        // No properties here.
 
-        // list of fields I do not want to have in the item definition form
-        $this->isinitemform['required'] = false;
+        // List of fields I do not want to have in the item definition form.
+        // Empty list.
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $evaluateparentcontent);
@@ -155,9 +156,11 @@ class mod_surveypro_field_checkbox extends mod_surveypro_itembase {
         // Do parent item loading stuff here (mod_surveypro_itembase::item_load($itemid, $evaluateparentcontent)))
         parent::item_load($itemid, $evaluateparentcontent);
 
-        // multilang load support for builtin surveypro
-        // whether executed, the 'content' field is ALWAYS handled
+        // Multilang load support for builtin surveypro.
+        // Whether executed, the 'content' field is ALWAYS handled.
         $this->item_builtin_string_load_support();
+
+        $this->item_custom_fields_to_form();
     }
 
     /**
@@ -169,20 +172,18 @@ class mod_surveypro_field_checkbox extends mod_surveypro_itembase {
     public function item_save($record) {
         $this->item_get_common_settings($record);
 
-        // -----------------------------
-        // Now execute very specific plugin level actions
-        // -----------------------------
+        // Now execute very specific plugin level actions.
 
-        // begin of: plugin specific settings (eventually overriding general ones)
-        // drop empty rows and trim trailing spaces from each textarea field
+        // Begin of: plugin specific settings (eventually overriding general ones).
+        // Drop empty rows and trim trailing spaces from each textarea field.
         $fieldlist = array('options', 'defaultvalue');
         $this->item_clean_textarea_fields($record, $fieldlist);
 
-        // override few values
-        $record->noanswerdefault = isset($record->noanswerdefault) ? 1 : 0;
-        // end of: plugin specific settings (eventually overriding general ones)
+        // Set custom fields value as defined for this question plugin.
+        $this->item_custom_fields_to_db($record);
+        // End of: plugin specific settings (eventually overriding general ones).
 
-        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record)))
+        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
     }
 
@@ -193,6 +194,41 @@ class mod_surveypro_field_checkbox extends mod_surveypro_itembase {
      */
     public static function item_get_canbeparent() {
         return self::$canbeparent;
+    }
+
+    /**
+     * item_custom_fields_to_db
+     * sets record field to store the correct value to db for the date custom item
+     *
+     * @param $record
+     * @return
+     */
+    public function item_custom_fields_to_db($record) {
+        // 1. Special management for composite fields.
+        // Nothing to do: they don't exist in this plugin.
+
+        // 2. Override few values.
+        // Nothing to do: no need to overwrite variables.
+
+        // 3. Set values corresponding to checkboxes.
+        $checkboxes = array('noanswerdefault');
+        foreach ($checkboxes as $checkbox) {
+            $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
+        }
+
+        // 4. Other.
+    }
+
+    /**
+     * item_custom_fields_to_form
+     * translates the class properties to form fields value
+     *
+     * @param none
+     * @return
+     */
+    public function item_custom_fields_to_form() {
+        // 1. Special management for composite fields.
+        // Nothing to do: they don't exist in this plugin.
     }
 
     /**
@@ -269,6 +305,7 @@ class mod_surveypro_field_checkbox extends mod_surveypro_itembase {
                 <xs:element type="xs:string" name="customnumber" minOccurs="0"/>
                 <xs:element type="xs:int" name="position"/>
                 <xs:element type="xs:string" name="extranote" minOccurs="0"/>
+                <xs:element type="xs:int" name="required"/>
                 <xs:element type="xs:int" name="hideinstructions"/>
                 <xs:element type="xs:string" name="variable"/>
                 <xs:element type="xs:int" name="indent"/>
@@ -287,45 +324,6 @@ class mod_surveypro_field_checkbox extends mod_surveypro_itembase {
 EOS;
 
         return $schema;
-    }
-
-    // MARK get
-
-    /**
-     * get_required
-     *
-     * @param none
-     * @return bool
-     */
-    public function get_required() {
-        if (empty($this->minimumrequired)) {
-            return 0;
-        } else {
-            return 1;
-        }
-    }
-
-    /**
-     * get_requiredfieldname
-     *
-     * @return string the name of the database table field specifying if the item is required
-     */
-    public static function get_requiredfieldname() {
-        return 'minimumrequired';
-    }
-
-    // MARK set
-
-    /**
-     * set_required
-     *
-     * @param $value
-     * @return
-     */
-    public function set_required($value) {
-        global $DB;
-
-        $DB->set_field('surveypro'.$this->type.'_'.$this->plugin, 'minimumrequired', $value, array('itemid' => $this->itemid));
     }
 
     // MARK parent
@@ -350,7 +348,7 @@ EOS;
             if ($key !== false) {
                 $childparentvalue[$key] = 1;
             } else {
-                // only garbage, but user wrote it
+                // Only garbage, but user wrote it.
                 $labels[] = $parentcontent;
             }
         }
@@ -399,7 +397,7 @@ EOS;
             }
 
             $key++;
-            // only garbage after the first index, but user wrote it
+            // Only garbage after the first index, but user wrote it.
             for ($i = $key; $i < $actualcount; $i++) {
                 $childparentcontent[] = $parentvalues[$i];
             }
@@ -430,7 +428,7 @@ EOS;
      *     2 = $childparentvalue is malformed
      */
     public function parent_validate_child_constraints($childparentvalue) {
-        // see parent method for explanation
+        // See parent method for explanation.
 
         $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
         $expectedcount = count($values);
@@ -440,8 +438,8 @@ EOS;
         $key = array_search('>', $parentvalues);
         if ($key !== false) {
             $condition = empty($this->labelother) ? empty($parentvalues[$actualcount - 1]) : true;
-            $condition = $condition && ($actualcount == ($key + 2)); // only one label is allowed
-            $condition = $condition && ($expectedcount == $key); // only $expectedcount checkboxes are allowed
+            $condition = $condition && ($actualcount == ($key + 2)); // Only one label is allowed.
+            $condition = $condition && ($expectedcount == $key); // Only $expectedcount checkboxes are allowed.
             $return = ($condition) ? SURVEYPRO_CONDITIONOK : SURVEYPRO_CONDITIONMALFORMED;
         } else {
             $return = ($actualcount == $expectedcount) ? SURVEYPRO_CONDITIONOK : SURVEYPRO_CONDITIONMALFORMED;
@@ -504,14 +502,14 @@ EOS;
 
             if (!$searchform) {
                 $mform->setDefault($this->itemname.'_text', $othervalue);
-                if (in_array($othervalue, $defaults)) {
+                if (in_array($otherlabel, $defaults)) {
                     $mform->setDefault($this->itemname.'_other', '1');
                 }
             }
             $mform->disabledIf($this->itemname.'_text', $this->itemname.'_other', 'notchecked');
         }
 
-        if (!$this->minimumrequired) {
+        if (!$this->required) {
             $attributes['group'] = 1;
             $attributes['id'] = $idprefix.'_noanswer';
             $elementgroup[] = $mform->createElement('mod_surveypro_advcheckbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), $attributes, array('0', '1'));
@@ -530,7 +528,7 @@ EOS;
                 $separator[] = '<br />';
                 $separator[] = ' ';
             }
-            if (!$this->minimumrequired) {
+            if (!$this->required) {
                 $separator[] = '<br />';
             }
         } else { // SURVEYPRO_HORIZONTAL
@@ -538,7 +536,7 @@ EOS;
         }
         $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, $separator, false);
 
-        if (!$this->minimumrequired) {
+        if (!$this->required) {
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
         }
 
@@ -552,11 +550,11 @@ EOS;
         }
 
         if (!$searchform) {
-            if ($this->minimumrequired) {
-                // even if the item is required I CAN NOT ADD ANY RULE HERE because:
-                // -> I do not want JS form validation if the page is submitted through the "previous" button
-                // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815
-                // simply add a dummy star to the item and the footer note about mandatory fields
+            if ($this->required) {
+                // Even if the item is required I CAN NOT ADD ANY RULE HERE because:
+                // -> I do not want JS form validation if the page is submitted through the "previous" button.
+                // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
+                // Simply add a dummy star to the item and the footer note about mandatory fields.
                 $starplace = ($this->position == SURVEYPRO_POSITIONLEFT) ? $this->itemname.'_group' : $this->itemname.'_extrarow';
                 $mform->_required[] = $starplace;
             }
@@ -576,6 +574,9 @@ EOS;
         if ($searchform) {
             return;
         }
+        if (isset($data[$this->itemname.'_noanswer']) && ($data[$this->itemname.'_noanswer'] == 1) ) {
+            return; // Nothing to validate.
+        }
 
         $errorkey = $this->itemname.'_group';
 
@@ -586,29 +587,30 @@ EOS;
             }
         }
 
-        if ($this->minimumrequired) {
-            $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
+        // Begin of: get answercount.
+        $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
 
-            $answercount = 0;
-            foreach ($labels as $k => $label) {
-                $uniqueid = $this->itemname.'_'.$k;
-                if ($data[$uniqueid]) { // they are advanced checkbox so I am sure the answer always exist.
-                    $answercount++;
-                }
+        $answercount = 0;
+        foreach ($labels as $k => $label) {
+            $uniqueid = $this->itemname.'_'.$k;
+            if ($data[$uniqueid]) { // They are advanced checkbox so I am sure the answer always exist.
+                $answercount++;
             }
+        }
 
-            if (!empty($this->labelother)) {
-                if (($data[$this->itemname.'_other']) && (!empty($data[$this->itemname.'_text']))) {
-                    $answercount++;
-                }
+        if (!empty($this->labelother)) {
+            if (($data[$this->itemname.'_other']) && (!empty($data[$this->itemname.'_text']))) {
+                $answercount++;
             }
-
-            if ($answercount < $this->minimumrequired) {
-                if ($this->minimumrequired == 1) {
-                    $errors[$errorkey] = get_string('uerr_lowerthanminimum_one', 'surveyprofield_checkbox');
-                } else {
-                    $errors[$errorkey] = get_string('uerr_lowerthanminimum_more', 'surveyprofield_checkbox', $this->minimumrequired);
-                }
+        }
+        // End of: get answercount.
+        // I don't care if this element is required or not.
+        // If the user provides an answer, it has to be compliant with the field validation rules.
+        if ($answercount < $this->minimumrequired) {
+            if ($this->minimumrequired == 1) {
+                $errors[$errorkey] = get_string('uerr_lowerthanminimum_one', 'surveyprofield_checkbox');
+            } else {
+                $errors[$errorkey] = get_string('uerr_lowerthanminimum_more', 'surveyprofield_checkbox', $this->minimumrequired);
             }
         }
     }
@@ -662,8 +664,8 @@ EOS;
                 $disabilitationinfo[] = $mformelementinfo;
             }
         } else {
-            // even if no labels were provided
-            // I have to add one more $disabilitationinfo if $this->other is not empty
+            // Even if no labels were provided.
+            // I have to add one more $disabilitationinfo if $this->other is not empty.
             if (!empty($this->labelother)) {
                 $mformelementinfo = new stdClass();
                 $mformelementinfo->parentname = $this->itemname.'_other';
@@ -749,12 +751,12 @@ EOS;
      * @return
      */
     public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
-        if (isset($answer['ignoreme']) && ($answer['ignoreme'] == 1)) { // it ia an advcheckbox
+        if (isset($answer['ignoreme']) && ($answer['ignoreme'] == 1)) { // It ia an advcheckbox.
             $olduseranswer->content = null;
             return;
         }
 
-        if (isset($answer['noanswer']) && ($answer['noanswer'] == 1)) { // it ia an advcheckbox
+        if (isset($answer['noanswer']) && ($answer['noanswer'] == 1)) { // It ia an advcheckbox.
             $olduseranswer->content = SURVEYPRO_NOANSWERVALUE;
             return;
         }
@@ -765,7 +767,7 @@ EOS;
             unset($return['other']);
             unset($return['text']);
         }
-        if (!$this->minimumrequired) {
+        if (!$this->required) {
             unset($return['noanswer']);
         }
         $olduseranswer->content = implode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $return);
@@ -788,10 +790,10 @@ EOS;
         }
 
         if (isset($fromdb->content)) { // I made some selection
-            // count of answers is == count of checkboxes
+            // Count of answers is == count of checkboxes.
             $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $fromdb->content);
 
-            // if SURVEYPRO_NOANSWERVALUE is returned...
+            // If SURVEYPRO_NOANSWERVALUE is returned...
             //  it will be alone and a special prefill needs to be returned
             if ($answers == array(SURVEYPRO_NOANSWERVALUE)) {
                 $uniqueid = $this->itemname.'_noanswer';
@@ -800,16 +802,16 @@ EOS;
                 return $prefill;
             }
 
-            // here $answers is an array like: array(1,1,0,0,'dummytext')
+            // Here $answers is an array like: array(1,1,0,0,'dummytext').
             foreach ($answers as $k => $checkboxvalue) {
                 $uniqueid = $this->itemname.'_'.$k;
                 $prefill[$uniqueid] = $checkboxvalue;
             }
             if (!empty($this->labelother)) {
-                // delete last item of $prefill
+                // Delete last item of $prefill.
                 unset($prefill[$uniqueid]);
 
-                // add last element of the $prefill
+                // Add last element of the $prefill.
                 $lastanswer = end($answers);
 
                 if (strlen($lastanswer)) {
@@ -834,16 +836,16 @@ EOS;
      * @return
      */
     public function userform_db_to_export($answer, $format='') {
-        // content
+        // Content.
         $content = $answer->content;
-        if ($content === SURVEYPRO_NOANSWERVALUE) { // answer was "no answer"
+        if ($content === SURVEYPRO_NOANSWERVALUE) { // Answer was "no answer".
             return get_string('answerisnoanswer', 'mod_surveypro');
         }
-        if ($content === null) { // item was disabled
+        if ($content === null) { // Item was disabled.
             return get_string('notanswereditem', 'mod_surveypro');
         }
 
-        // format
+        // Format.
         if ($format == SURVEYPRO_FIRENDLYFORMAT) {
             $format = $this->item_get_friendlyformat();
         }
@@ -851,7 +853,7 @@ EOS;
             $format = $this->downloadformat;
         }
 
-        // output
+        // Output.
         // $answers is an array like: array(1,1,0,0,'dummytext')
         switch ($format) {
             case SURVEYPRO_ITEMSRETURNSVALUES:
@@ -868,7 +870,7 @@ EOS;
                 if (!empty($this->labelother)) {
                     $value = end($answers);
                     if (!empty($value)) {
-                        $output[] = $value; // last element of the array $answers
+                        $output[] = $value; // Last element of the array $answers.
                     }
                 }
 
@@ -892,7 +894,7 @@ EOS;
                 if (!empty($this->labelother)) {
                     $value = end($answers);
                     if (!empty($value)) {
-                        $output[] = $value; // last element of the array $answers
+                        $output[] = $value; // Last element of the array $answers.
                     }
                 }
 
@@ -903,8 +905,8 @@ EOS;
                 }
                 break;
             case SURVEYPRO_ITEMRETURNSPOSITION:
-                // here I will ALWAYS HAVE 0/1 so each separator is welcome, even ','
-                // I do not like pass the idea that ',' can be a separator so, I do not use it
+                // Here I will ALWAYS HAVE 0/1 so each separator is welcome, even ','.
+                // I do not like pass the idea that ',' can be a separator so, I do not use it.
                 $return = $content;
                 break;
             default:

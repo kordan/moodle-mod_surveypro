@@ -78,8 +78,6 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
      */
     public $indent = 0;
 
-    // -----------------------------
-
     /**
      * $defaultvalue = the value of the field when the form is initially displayed.
      */
@@ -91,7 +89,6 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
      */
     public $pattern = '';
     public $pattern_text = '';
-
 
     /**
      * $minlength = the minimum allowed length
@@ -108,8 +105,6 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
      */
     public static $canbeparent = false;
 
-    // -----------------------------
-
     /**
      * Class constructor
      *
@@ -122,20 +117,20 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
 
-        // list of constant element attributes
+        // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'character';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // It is already true from parent class.
         $this->savepositiontodb = false;
 
-        // other element specific properties
-        // nothing
+        // Other element specific properties.
+        // No properties here.
 
-        // override properties depending from $surveypro settings
-        // nothing
+        // Override properties depending from $surveypro settings.
+        // No properties here.
 
-        // list of fields I do not want to have in the item definition form
-        // EMPTY LIST
+        // List of fields I do not want to have in the item definition form.
+        // Empty list.
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $evaluateparentcontent);
@@ -153,8 +148,8 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
         // Do parent item loading stuff here (mod_surveypro_itembase::item_load($itemid, $evaluateparentcontent)))
         parent::item_load($itemid, $evaluateparentcontent);
 
-        // multilang load support for builtin surveypro
-        // whether executed, the 'content' field is ALWAYS handled
+        // Multilang load support for builtin surveypro.
+        // Whether executed, the 'content' field is ALWAYS handled.
         $this->item_builtin_string_load_support();
 
         $this->item_custom_fields_to_form();
@@ -169,24 +164,14 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
     public function item_save($record) {
         $this->item_get_common_settings($record);
 
-        // -----------------------------
-        // Now execute very specific plugin level actions
-        // -----------------------------
+        // Now execute very specific plugin level actions.
 
-        // begin of: plugin specific settings (eventually overriding general ones)
-        // set custom fields value as defined for this question plugin
+        // Begin of: plugin specific settings (eventually overriding general ones).
+        // Set custom fields value as defined for this question plugin.
         $this->item_custom_fields_to_db($record);
+        // End of: plugin specific settings (eventually overriding general ones).
 
-        if (!isset($record->minlength)) {
-            $record->minlength = 0;
-        }
-        // maxlength is a PARAM_INT. If the user leaves it empty in the form, maxlength becomes = 0
-        if (empty($record->maxlength)) {
-            $record->maxlength = null;
-        }
-        // end of: plugin specific settings (eventually overriding general ones)
-
-        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record)))
+        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
     }
 
@@ -206,10 +191,7 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
      * @return
      */
     public function item_custom_fields_to_form() {
-        // 1. special management for fields equipped with "free" checkbox
-        // nothing to do: they don't exist in this plugin
-
-        // 2. special management for composite fields
+        // 1. Special management for composite fields.
         switch ($this->pattern) {
             case SURVEYPROFIELD_CHARACTER_FREEPATTERN:
             case SURVEYPROFIELD_CHARACTER_EMAILPATTERN:
@@ -229,16 +211,27 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
      * @return
      */
     public function item_custom_fields_to_db($record) {
-        // 1. special management for fields equipped with "free" checkbox
-        // nothing to do: they don't exist in this plugin
-
-        // 2. special management for composite fields
+        // 1. Special management for composite fields.
         if ($record->pattern == SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN) {
             $record->pattern = $record->pattern_text;
 
             $record->minlength = strlen($record->pattern_text);
             $record->maxlength = $record->minlength;
         }
+
+        // 2. Override few values.
+        if (!isset($record->minlength)) {
+            $record->minlength = 0;
+        }
+        // Maxlength is a PARAM_INT. If the user leaves it empty in the form, maxlength becomes = 0.
+        if (empty($record->maxlength)) {
+            $record->maxlength = null;
+        }
+
+        // 3. Set values corresponding to checkboxes.
+        // Nothing to do: no checkboxes in this plugin item form.
+
+        // 4. Other.
     }
 
     /**
@@ -372,10 +365,10 @@ EOS;
             $mform->setDefault($this->itemname, $this->defaultvalue);
 
             if ($this->required) {
-                // even if the item is required I CAN NOT ADD ANY RULE HERE because:
-                // -> I do not want JS form validation if the page is submitted through the "previous" button
-                // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815
-                // simply add a dummy star to the item and the footer note about mandatory fields
+                // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
+                // -> I do not want JS form validation if the page is submitted through the "previous" button.
+                // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
+                // Simply add a dummy star to the item and the footer note about mandatory fields.
                 $starplace = ($this->position != SURVEYPRO_POSITIONLEFT) ? $this->itemname.'_extrarow' : $this->itemname;
                 $mform->_required[] = $starplace;
             }
@@ -411,27 +404,23 @@ EOS;
 
         $errorkey = $this->itemname;
 
-        if ($this->required) {
-            if (empty($data[$this->itemname])) {
+        if (empty($data[$this->itemname])) {
+            if ($this->required) {
                 $errors[$errorkey] = get_string('required');
-                return;
             }
-        }
-
-        if ($this->pattern == SURVEYPROFIELD_CHARACTER_FREEPATTERN) {
             return;
         }
 
         if (!empty($data[$this->itemname])) {
             $fieldlength = strlen($data[$this->itemname]);
-            if (!empty($this->maxlength)) {
-                if ($fieldlength > $this->maxlength) {
-                    $errors[$errorkey] = get_string('uerr_texttoolong', 'surveyprofield_character');
-                }
-            }
             if (!empty($this->minlength)) {
                 if ($fieldlength < $this->minlength) {
                     $errors[$errorkey] = get_string('uerr_texttooshort', 'surveyprofield_character');
+                }
+            }
+            if (!empty($this->maxlength)) {
+                if ($fieldlength > $this->maxlength) {
+                    $errors[$errorkey] = get_string('uerr_texttoolong', 'surveyprofield_character');
                 }
             }
             if (!empty($data[$this->itemname]) && !empty($this->pattern)) {
@@ -442,18 +431,18 @@ EOS;
                         }
                         break;
                     case SURVEYPROFIELD_CHARACTER_URLPATTERN:
-                        $regex = '~^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$~i';
+                        // $regex = '~^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$~i';
                         $regex = '~^(http(s?)\:\/\/)?[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\‌​-‌​\.\?\,\'\/\\\+&amp;%\$#_]*)?$~i';
                         // if (!surveypro_character_is_valid_url($data[$this->itemname])) {
                         if (!preg_match($regex, $data[$this->itemname])) {
                             $errors[$errorkey] = get_string('uerr_invalidurl', 'surveyprofield_character');
                         }
                         break;
-                    case SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN: // it is a custom pattern done with "A", "a", "*" and "0"
-                        // "A" UPPER CASE CHARACTERS
-                        // "a" lower case characters
-                        // "*" UPPER case, LOWER case or any special characters like '@', ',', '%', '5', ' ' or whatever
-                        // "0" numbers
+                    case SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN: // It is a custom pattern done with "A", "a", "*" and "0".
+                        // "A" UPPER CASE CHARACTERS.
+                        // "a" lower case characters.
+                        // "*" UPPER case, LOWER case or any special characters like '@', ',', '%', '5', ' ' or whatever.
+                        // "0" numbers.
 
                         if ($fieldlength != strlen($this->pattern_text)) {
                             $errors[$errorkey] = get_string('uerr_badlength', 'surveyprofield_character');
@@ -463,13 +452,15 @@ EOS;
                             $errors[$errorkey] = get_string('uerr_nopatternmatch', 'surveyprofield_character');
                         }
                         break;
+                    case SURVEYPROFIELD_CHARACTER_FREEPATTERN:
+                        break;
                     default:
                         $message = 'Unexpected $this->pattern = '.$this->pattern;
                         debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
                 }
             }
         }
-        // return $errors; is not needed because $errors is passed by reference
+        // Return $errors; is not needed because $errors is passed by reference.
     }
 
     /**
@@ -480,36 +471,49 @@ EOS;
      */
     public function userform_get_filling_instructions() {
 
-        if ($this->pattern == SURVEYPROFIELD_CHARACTER_FREEPATTERN) {
-            if (!empty($this->minlength)) {
-                if (!empty($this->maxlength)) {
+        $arrayinstruction = array();
+
+        if (!empty($this->minlength)) {
+            if (!empty($this->maxlength)) {
+                if ($this->minlength == $this->maxlength) {
+                    $a = $this->minlength;
+                    $arrayinstruction[] = get_string('restrictions_exact', 'surveyprofield_character', $a);
+                } else {
                     $a = new stdClass();
                     $a->minlength = $this->minlength;
                     $a->maxlength = $this->maxlength;
-                    $fillinginstruction = get_string('restrictions_minmax', 'surveyprofield_character', $a);
-                } else {
-                    $a = $this->minlength;
-                    $fillinginstruction = get_string('restrictions_min', 'surveyprofield_character', $a);
+                    $arrayinstruction[] = get_string('restrictions_minmax', 'surveyprofield_character', $a);
                 }
             } else {
-                if (!empty($this->maxlength)) {
-                    $a = $this->maxlength;
-                    $fillinginstruction = get_string('restrictions_max', 'surveyprofield_character', $a);
-                } else {
-                    $fillinginstruction = '';
-                }
+                $a = $this->minlength;
+                $arrayinstruction[] = get_string('restrictions_min', 'surveyprofield_character', $a);
             }
         } else {
-            switch ($this->pattern) {
-                case SURVEYPROFIELD_CHARACTER_EMAILPATTERN:
-                    $fillinginstruction = get_string('restrictions_email', 'surveyprofield_character');
-                    break;
-                case SURVEYPROFIELD_CHARACTER_URLPATTERN:
-                    $fillinginstruction = get_string('restrictions_url', 'surveyprofield_character');
-                    break;
-                default:
-                    $fillinginstruction = get_string('restrictions_custom', 'surveyprofield_character', $this->pattern_text);
+            if (!empty($this->maxlength)) {
+                $a = $this->maxlength;
+                $arrayinstruction[] = get_string('restrictions_max', 'surveyprofield_character', $a);
             }
+        }
+
+        switch ($this->pattern) {
+            case SURVEYPROFIELD_CHARACTER_EMAILPATTERN:
+                $arrayinstruction[] = get_string('restrictions_email', 'surveyprofield_character');
+                break;
+            case SURVEYPROFIELD_CHARACTER_URLPATTERN:
+                $arrayinstruction[] = get_string('restrictions_url', 'surveyprofield_character');
+                break;
+            case SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN:
+                $arrayinstruction[] = get_string('restrictions_custom', 'surveyprofield_character', $this->pattern_text);
+                break;
+            case SURVEYPROFIELD_CHARACTER_FREEPATTERN:
+                break;
+            default:
+        }
+
+        if (count($arrayinstruction)) {
+            $fillinginstruction = implode('; ', $arrayinstruction);
+        } else {
+            $fillinginstruction = '';
         }
 
         return $fillinginstruction;
@@ -573,17 +577,17 @@ EOS;
      * @return
      */
     public function userform_db_to_export($answer, $format='') {
-        // content
+        // Content.
         $content = trim($answer->content);
         // SURVEYPRO_NOANSWERVALUE does not exist here
-        if ($content == SURVEYPRO_NOANSWERVALUE) { // answer was "no answer"
+        if ($content == SURVEYPRO_NOANSWERVALUE) { // Answer was "no answer".
             return get_string('answerisnoanswer', 'mod_surveypro');
         }
-        if ($content === null) { // item was disabled
+        if ($content === null) { // Item was disabled.
             return get_string('notanswereditem', 'mod_surveypro');
         }
 
-        // output
+        // Output.
         if (strlen($content)) {
             $return = $content;
         } else {

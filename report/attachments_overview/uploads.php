@@ -27,8 +27,8 @@ require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/attachments_overview/classes/uploadsform.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/attachments_overview/form/filter_form.php');
 
-$id = optional_param('id', 0, PARAM_INT); // course_module ID, or
-$s = optional_param('s', 0, PARAM_INT);  // surveypro instance ID
+$id = optional_param('id', 0, PARAM_INT); // Course_module id.
+$s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
@@ -42,23 +42,21 @@ if (!empty($id)) {
 
 require_course_login($course, true, $cm);
 
-$itemid = optional_param('itemid', 0, PARAM_INT);  // item ID
-$container = optional_param('userid', 0, PARAM_TEXT);  // userid only OR userid_submissionid
+$itemid = optional_param('itemid', 0, PARAM_INT);  // Item id.
+$container = optional_param('userid', 0, PARAM_TEXT);  // Userid only OR userid_submissionid.
 $parts = explode('_', $container);
 if (count($parts) == 2) {
     $userid = (int)$parts[0];
     $submissionid = (int)$parts[1];
 } else {
     $userid = (int)$container;
-    $submissionid = optional_param('submissionid', 0, PARAM_INT);  // userid only OR userid_submissionid
+    $submissionid = optional_param('submissionid', 0, PARAM_INT);
     if (!$submissionid) {
         $submissionid = $DB->get_field('surveypro_submission', 'MIN(id)', array('userid' => $userid));
     }
 }
 
-// -----------------------------
-// calculations
-// -----------------------------
+// Calculations.
 $context = context_module::instance($cm->id);
 $uploadsformman = new mod_surveypro_report_uploadformmanager($cm, $context, $surveypro);
 $uploadsformman->prevent_direct_user_input();
@@ -66,15 +64,12 @@ $uploadsformman->set_userid($userid);
 $uploadsformman->set_itemid($itemid);
 $uploadsformman->set_submissionid($submissionid);
 
-// -----------------------------
-// define $filterform return url
+// Begin of: define $filterform return url.
 $paramurl = array('id' => $cm->id);
 $formurl = new moodle_url('/mod/surveypro/report/attachments_overview/uploads.php', $paramurl);
-// end of: define $user_form return url
-// -----------------------------
+// End of: define $user_form return url.
 
-// -----------------------------
-// prepare params for the form
+// Begin of: prepare params for the form.
 $formparams = new stdClass();
 $formparams->cmid = $cm->id;
 $formparams->surveypro = $surveypro;
@@ -82,14 +77,11 @@ $formparams->itemid = $itemid;
 $formparams->userid = $userid;
 $formparams->submissionid = $submissionid;
 $formparams->canaccessadvanceditems = $uploadsformman->canaccessadvanceditems; // Help selecting the fields to show
-// end of: prepare params for the form
-// -----------------------------
+// End of: prepare params for the form.
 
 $filterform = new mod_surveypro_report_filterform($formurl, $formparams, 'post', '', array('id' => 'userentry'));
 
-// -----------------------------
-// output starts here
-// -----------------------------
+// Output starts here.
 $url = new moodle_url('/mod/surveypro/report/attachments_overview/view.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
@@ -97,18 +89,18 @@ $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
-// make bold the navigation menu/link that refers to me
+// Make bold the navigation menu/link that refers to me.
 navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
-$moduletab = SURVEYPRO_TABSUBMISSIONS; // needed by tabs.php
-$modulepage = SURVEYPRO_SUBMISSION_REPORT; // needed by tabs.php
+$moduletab = SURVEYPRO_TABSUBMISSIONS; // Needed by tabs.php.
+$modulepage = SURVEYPRO_SUBMISSION_REPORT; // Needed by tabs.php.
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
 $filterform->display();
 
 $uploadsformman->display_attachment($submissionid, $itemid);
 
-// Finish the page
+// Finish the page.
 echo $OUTPUT->footer();

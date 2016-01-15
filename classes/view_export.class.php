@@ -42,11 +42,6 @@ class mod_surveypro_exportmanager {
     public $surveypro = null;
 
     /**
-     * $canseeownsubmissions
-     */
-    // public $canseeownsubmissions = true;
-
-    /**
      * $canseeotherssubmissions
      */
     public $canseeotherssubmissions = false;
@@ -64,7 +59,6 @@ class mod_surveypro_exportmanager {
         $this->context = $context;
         $this->surveypro = $surveypro;
 
-        // $this->canseeownsubmissions = true;
         $this->canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
     }
 
@@ -104,23 +98,23 @@ class mod_surveypro_exportmanager {
 
         // !$this->canseeotherssubmissions do not overload the query with useless conditions
         if ($this->canseeotherssubmissions) {
-            if ($groupmode) { // activity is divided into groups
+            if ($groupmode) { // Activity is divided into groups.
                 if (!empty($this->formdata->groupid)) {
                     $sql .= ' JOIN {groups_members} gm ON gm.userid = s.userid ';
                 }
             }
         }
 
-        // now finalise $sql
+        // Now finalise $sql.
         $sql .= ' WHERE s.surveyproid = :surveyproid
                       AND a.verified = :verified';
         $whereparams['surveyproid'] = $this->surveypro->id;
         $whereparams['verified'] = 1;
 
-        // for IN PROGRESS submission where no fields were filled
-        // I need the LEFT JOIN {surveypro_item}
+        // For IN PROGRESS submission where no fields were filled.
+        // I need the LEFT JOIN {surveypro_item}.
         // In this case,
-        // if I add a clause for fields of UNEXISTING {surveypro_item} (because no fields was filled)
+        // If I add a clause for fields of UNEXISTING {surveypro_item} (because no fields was filled).
         // I will miss the record if I do not further add OR ISNULL(si.xxxx)
         if (!isset($this->formdata->includehidden)) {
             $sql .= ' AND (si.hidden = 0 OR ISNULL(si.hidden))';
@@ -140,14 +134,14 @@ class mod_surveypro_exportmanager {
 
         // !$this->canseeotherssubmissions do not overload the query with useless conditions
         if ($this->canseeotherssubmissions) {
-            if ($groupmode) { // activity is divided into groups
+            if ($groupmode) { // Activity is divided into groups.
                 if (!empty($this->formdata->groupid)) {
                     $sql .= ' AND gm.groupid = :groupid';
                     $whereparams['groupid'] = $this->formdata->groupid;
                 }
             }
         } else {
-            // restrict to your submissions only
+            // Restrict to your submissions only.
             $sql .= ' AND s.userid = :userid';
             $whereparams['userid'] = $USER->id;
         }
@@ -171,7 +165,7 @@ class mod_surveypro_exportmanager {
     public function surveypro_export() {
         global $DB;
 
-        // do I need to filter groups?
+        // Do I need to filter groups?
         $filtergroups = surveypro_need_group_filtering($this->cm, $this->context);
 
         if ($this->formdata->downloadtype == SURVEYPRO_FILESBYUSER) {
@@ -226,7 +220,7 @@ class mod_surveypro_exportmanager {
 
         $itemseeds = $this->export_get_field_list();
 
-        // print header
+        // Print header.
         $headerlabels = array();
         if (empty($this->surveypro->anonymous)) {
             $headerlabels[] = SURVEYPRO_OWNERIDLABEL;
@@ -248,7 +242,7 @@ class mod_surveypro_exportmanager {
 
         $csvexport->add_data($headerlabels);
 
-        // reduce the weight of $itemseeds disposing no longer relevant infos
+        // Reduce the weight of $itemseeds disposing no longer relevant infos.
         if ($this->formdata->outputstyle == SURVEYPRO_VERBOSE) {
             $answermissingindb = get_string('answermissingindb', 'mod_surveypro');
         } else {
@@ -257,13 +251,13 @@ class mod_surveypro_exportmanager {
         $itemseedskeys = array_keys($itemseeds);
         unset($itemseeds);
 
-        // define once and forever $placeholders
+        // Define once and forever $placeholders.
         $placeholders = array_fill_keys($itemseedskeys, $answermissingindb);
 
         // echo '$placeholders:';
         // var_dump($placeholders);
 
-        // get user groups (to filter surveypro to download) ???? TODO: NEVER USED ????
+        // Get user groups (to filter surveypro to download) ???? TODO: NEVER USED ????
         // $mygroups = groups_get_all_groups($course->id, $USER->id, $this->cm->groupingid);
 
         $oldsubmissionid = 0;
@@ -271,19 +265,19 @@ class mod_surveypro_exportmanager {
 
         foreach ($richsubmissions as $richsubmission) {
             if ($oldsubmissionid != $richsubmission->submissionid) {
-                if (!empty($oldsubmissionid)) { // new richsubmissionid, stop managing old record
+                if (!empty($oldsubmissionid)) { // New richsubmissionid, stop managing old record.
                     // echo 'Record ready for the save<br />';
                     // echo '$recordtoexport:';
                     // var_dump($recordtoexport);
 
-                    // write old record
+                    // Write old record.
                     $csvexport->add_data($recordtoexport);
                 }
 
-                // update the reference
+                // Update the reference.
                 $oldsubmissionid = $richsubmission->submissionid;
 
-                // begin a new record
+                // Begin a new record.
                 $recordtoexport = array();
                 $recordtoexport += $this->export_add_ownerid($richsubmission);
                 $recordtoexport += $this->export_add_names($richsubmission);
@@ -327,13 +321,13 @@ class mod_surveypro_exportmanager {
 
         $itemseeds = $this->export_get_field_list();
 
-        // print header
+        // Print header.
         $headerlabels = array();
         if (empty($this->surveypro->anonymous) && isset($this->formdata->includenames)) {
             $headerlabels[] = get_string('firstname');
             $headerlabels[] = get_string('lastname');
         }
-        // variables
+        // Variables.
         foreach ($itemseeds as $itemseed) {
             $headerlabels[] = $DB->get_field('surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemseed->plugin, 'variable', array('itemid' => $itemseed->id));
         }
@@ -346,7 +340,7 @@ class mod_surveypro_exportmanager {
             $worksheet[0]->write(0, $k, $label, '');
         }
 
-        // reduce the weight of $itemseeds disposing no longer relevant infos
+        // Reduce the weight of $itemseeds disposing no longer relevant infos.
         if ($this->formdata->outputstyle == SURVEYPRO_VERBOSE) {
             $answermissingindb = get_string('answermissingindb', 'mod_surveypro');
         } else {
@@ -359,7 +353,7 @@ class mod_surveypro_exportmanager {
         // echo '$placeholders:';
         // var_dump($placeholders);
 
-        // get user groups (to filter surveypro to download) ???? TODO: NEVER USED ????
+        // Get user groups (to filter surveypro to download) ???? TODO: NEVER USED ????
         // $mygroups = groups_get_all_groups($course->id, $USER->id, $this->cm->groupingid);
 
         $oldsubmissionid = 0;
@@ -367,15 +361,15 @@ class mod_surveypro_exportmanager {
 
         foreach ($richsubmissions as $richsubmission) {
             if ($oldsubmissionid != $richsubmission->submissionid) {
-                if (!empty($oldsubmissionid)) { // new richsubmissionid, stop managing old record
-                    // write old record
+                if (!empty($oldsubmissionid)) { // New richsubmissionid, stop managing old record.
+                    // Write old record.
                     $this->export_close_record($recordtoexport, $worksheet);
                 }
 
-                // update the reference
+                // Update the reference.
                 $oldsubmissionid = $richsubmission->submissionid;
 
-                // begin a new record
+                // Begin a new record.
                 $recordtoexport = array();
                 $recordtoexport += $this->export_add_names($richsubmission);
                 $recordtoexport += $placeholders;
@@ -404,9 +398,8 @@ class mod_surveypro_exportmanager {
     public function export_get_field_list() {
         global $DB;
 
-        // -----------------------------
-        // get the field list
-        //     no matter for the page
+        // Begin of: get the field list.
+        // No matter for the page.
         $where = array();
         $where['surveyproid'] = $this->surveypro->id;
         $where['type'] = SURVEYPRO_TYPEFIELD;
@@ -425,8 +418,7 @@ class mod_surveypro_exportmanager {
             return SURVEYPRO_NOFIELDSSELECTED;
             die(); // <-- never reached
         }
-        // end of: get the field list
-        // -----------------------------
+        // End of: get the field list.
 
         return $itemseeds;
     }
@@ -563,12 +555,12 @@ class mod_surveypro_exportmanager {
             $oldsubmissionid = 0;
             $olduserid = 0;
             foreach ($richsubmissions as $richsubmission) {
-                // itemid always changes so, I look at submissionid
+                // Itemid always changes so, I look at submissionid.
                 if ($oldsubmissionid != $richsubmission->submissionid) {
-                    // new submissionid
+                    // New submissionid.
                     if ($olduserid != $richsubmission->userid) {
-                        // new user
-                        // add a new folder named fullname($richsubmission).'_'.$richsubmission->userid;
+                        // New user.
+                        // Add a new folder named fullname($richsubmission).'_'.$richsubmission->userid;
                         if ($this->surveypro->anonymous) {
                             $dummyuserid++;
                             $tempuserdir = $anonymousstr.'_'.$dummyuserid;
@@ -583,7 +575,7 @@ class mod_surveypro_exportmanager {
                         $olduserid = $richsubmission->userid;
                     }
 
-                    // add a new folder named $richsubmission->submissionid
+                    // Add a new folder named $richsubmission->submissionid.
                     $tempsubmissiondir = $submissionstr.'_'.$richsubmission->submissionid;
                     $tempsubmissiondir = str_replace(' ', '_', $tempsubmissiondir);
                     $temppath = $tempsubdir.'/'.$tempuserdir.'/'.$tempsubmissiondir;
@@ -593,7 +585,7 @@ class mod_surveypro_exportmanager {
                     $oldsubmissionid = $richsubmission->submissionid;
                 }
 
-                // add a new folder named $itemid
+                // Add a new folder named $itemid.
                 $tempitemdir = $itemstr.'_'.$richsubmission->itemid;
                 $tempitemdir = str_replace(' ', '_', $tempitemdir);
                 $currentfilepath = $tempuserdir.'/'.$tempsubmissiondir.'/'.$tempitemdir;
@@ -602,7 +594,7 @@ class mod_surveypro_exportmanager {
                 $dirnames[] = $temppath;
 
                 $tempfullpath = $CFG->tempdir.'/'.$temppath;
-                // finally add the attachment
+                // Finally add the attachment.
                 if ($files = $fs->get_area_files($this->context->id, 'surveyprofield_fileupload', SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $richsubmission->id, "timemodified", false)) {
                     foreach ($files as $file) {
                         $filename = $file->get_filename();
@@ -617,7 +609,7 @@ class mod_surveypro_exportmanager {
             }
             $richsubmissions->close();
 
-            // continue making zip file available ONLY IF selection was valid
+            // Continue making zip file available ONLY IF selection was valid.
             $exportfile = $tempbasedir.'.zip';
             file_exists($exportfile) && unlink($exportfile);
 
@@ -677,8 +669,8 @@ class mod_surveypro_exportmanager {
             $forcenewuserfolder = false;
             foreach ($richsubmissions as $richsubmission) {
                 if ($olditemid != $richsubmission->itemid) {
-                    // new item
-                    // add a new folder named 'element_'.$richsubmission->itemid
+                    // New item.
+                    // Add a new folder named 'element_'.$richsubmission->itemid.
                     $tempitemdir = $itemstr.'_'.$richsubmission->itemid;
                     $tempitemdir = str_replace(' ', '_', $tempitemdir);
                     $temppath = $tempsubdir.'/'.$tempitemdir;
@@ -692,8 +684,8 @@ class mod_surveypro_exportmanager {
                 if (($olduserid != $richsubmission->userid) || ($forcenewuserfolder)) {
                     $forcenewuserfolder = false;
 
-                    // new user or forced by new item
-                    // add a new folder named $richsubmission->userid
+                    // New user or forced by new item.
+                    // Add a new folder named $richsubmission->userid.
                     if ($this->surveypro->anonymous) {
                         $dummyuserid++;
                         $tempuserdir = $anonymousstr.'_'.$dummyuserid;
@@ -708,7 +700,7 @@ class mod_surveypro_exportmanager {
                     $olduserid = $richsubmission->userid;
                 }
 
-                // add a new folder named $richsubmission->submissionid
+                // Add a new folder named $richsubmission->submissionid.
                 $tempsubmissiondir = $submissionstr.'_'.$richsubmission->submissionid;
                 $tempsubmissiondir = str_replace(' ', '_', $tempsubmissiondir);
                 $currentfilepath = $tempitemdir.'/'.$tempuserdir.'/'.$tempsubmissiondir;
@@ -717,7 +709,7 @@ class mod_surveypro_exportmanager {
                 $dirnames[] = $temppath;
 
                 $tempfullpath = $CFG->tempdir.'/'.$temppath;
-                // finally add the attachment
+                // Finally add the attachment.
                 if ($files = $fs->get_area_files($this->context->id, 'surveyprofield_fileupload', SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $richsubmission->id, "timemodified", false)) {
                     foreach ($files as $file) {
                         $filename = $file->get_filename();
@@ -732,7 +724,7 @@ class mod_surveypro_exportmanager {
             }
             $richsubmissions->close();
 
-            // continue making zip file available ONLY IF selection was valid
+            // Continue making zip file available ONLY IF selection was valid.
             $exportfile = $tempbasedir.'.zip';
             file_exists($exportfile) && unlink($exportfile);
 

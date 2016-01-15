@@ -78,8 +78,6 @@ class mod_surveypro_field_numeric extends mod_surveypro_itembase {
      */
     public $indent = 0;
 
-    // -----------------------------
-
     /**
      * $defaultvalue = the value of the field when the form is initially displayed.
      */
@@ -115,8 +113,6 @@ class mod_surveypro_field_numeric extends mod_surveypro_itembase {
      */
     public static $canbeparent = false;
 
-    // -----------------------------
-
     /**
      * Class constructor
      *
@@ -129,20 +125,20 @@ class mod_surveypro_field_numeric extends mod_surveypro_itembase {
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
 
-        // list of constant element attributes
+        // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'numeric';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // It is already true from parent class.
         $this->savepositiontodb = false;
 
-        // other element specific properties
+        // Other element specific properties.
         $this->decimalseparator = get_string('decsep', 'langconfig');
 
-        // override properties depending from $surveypro settings
-        // nothing
+        // Override properties depending from $surveypro settings.
+        // No properties here.
 
-        // list of fields I do not want to have in the item definition form
-        // EMPTY LIST
+        // List of fields I do not want to have in the item definition form.
+        // Empty list.
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $evaluateparentcontent);
@@ -160,19 +156,8 @@ class mod_surveypro_field_numeric extends mod_surveypro_itembase {
         // Do parent item loading stuff here (mod_surveypro_itembase::item_load($itemid, $evaluateparentcontent)))
         parent::item_load($itemid, $evaluateparentcontent);
 
-        // float numbers need more attention because I can write them using , or .
-        if (strlen($this->defaultvalue)) {
-            $this->defaultvalue = format_float($this->defaultvalue, $this->decimals);
-        }
-        if (strlen($this->lowerbound)) {
-            $this->lowerbound = format_float($this->lowerbound, $this->decimals);
-        }
-        if (strlen($this->upperbound)) {
-            $this->upperbound = format_float($this->upperbound, $this->decimals);
-        }
-
-        // multilang load support for builtin surveypro
-        // whether executed, the 'content' field is ALWAYS handled
+        // Multilang load support for builtin surveypro.
+        // Whether executed, the 'content' field is ALWAYS handled.
         $this->item_builtin_string_load_support();
 
         $this->item_custom_fields_to_form();
@@ -187,35 +172,14 @@ class mod_surveypro_field_numeric extends mod_surveypro_itembase {
     public function item_save($record) {
         $this->item_get_common_settings($record);
 
-        // -----------------------------
-        // Now execute very specific plugin level actions
-        // -----------------------------
+        // Now execute very specific plugin level actions.
 
-        // begin of: plugin specific settings (eventually overriding general ones)
-        // set custom fields value as defined for this question plugin
+        // Begin of: plugin specific settings (eventually overriding general ones).
+        // Set custom fields value as defined for this question plugin.
         $this->item_custom_fields_to_db($record);
+        // End of: plugin specific settings (eventually overriding general ones).
 
-        $record->signed = isset($record->signed) ? 1 : 0;
-
-        // float numbers need more attention because I can write them using , or .
-        if (strlen($record->defaultvalue)) {
-            $record->defaultvalue = unformat_float($record->defaultvalue, true);
-        } else {
-            unset($record->defaultvalue);
-        }
-        if (strlen($record->lowerbound)) {
-            $record->lowerbound = unformat_float($record->lowerbound, true);
-        } else {
-            unset($record->lowerbound);
-        }
-        if (strlen($record->upperbound)) {
-            $record->upperbound = unformat_float($record->upperbound, true);
-        } else {
-            unset($record->upperbound);
-        }
-        // end of: plugin specific settings (eventually overriding general ones)
-
-        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record)))
+        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
     }
 
@@ -236,11 +200,19 @@ class mod_surveypro_field_numeric extends mod_surveypro_itembase {
      * @return
      */
     public function item_custom_fields_to_form() {
-        // 1. special management for fields equipped with "free" checkbox
-        // nothing to do: they don't exist in this plugin
+        // 1. Special management for composite fields.
+        // Nothing to do: they don't exist in this plugin.
 
-        // 2. special management for composite fields
-        // nothing to do: they don't exist in this plugin
+        // 2. float numbers need more attention because I can write them using , or .
+        if (strlen($this->defaultvalue)) {
+            $this->defaultvalue = format_float($this->defaultvalue, $this->decimals);
+        }
+        if (strlen($this->lowerbound)) {
+            $this->lowerbound = format_float($this->lowerbound, $this->decimals);
+        }
+        if (strlen($this->upperbound)) {
+            $this->upperbound = format_float($this->upperbound, $this->decimals);
+        }
     }
 
     /**
@@ -251,11 +223,34 @@ class mod_surveypro_field_numeric extends mod_surveypro_itembase {
      * @return
      */
     public function item_custom_fields_to_db($record) {
-        // 1. special management for fields equipped with "free" checkbox
-        // nothing to do: they don't exist in this plugin
+        // 1. Special management for composite fields.
+        // Nothing to do: they don't exist in this plugin.
 
-        // 2. special management for composite fields
-        // nothing to do: they don't exist in this plugin
+        // 2. Override few values.
+        $checkboxes = array('signed');
+        foreach ($checkboxes as $checkbox) {
+            $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
+        }
+
+        // 3. Set values corresponding to checkboxes.
+        // Nothing to do: no checkboxes in this plugin item form.
+
+        // 4. Other: float numbers need more attention because I can write them using , or .
+        if (strlen($record->defaultvalue)) {
+            $record->defaultvalue = unformat_float($record->defaultvalue, true);
+        } else {
+            unset($record->defaultvalue);
+        }
+        if (strlen($record->lowerbound)) {
+            $record->lowerbound = unformat_float($record->lowerbound, true);
+        } else {
+            unset($record->lowerbound);
+        }
+        if (strlen($record->upperbound)) {
+            $record->upperbound = unformat_float($record->upperbound, true);
+        } else {
+            unset($record->upperbound);
+        }
     }
 
     /**
@@ -367,16 +362,16 @@ EOS;
 
         if (!$searchform) {
             $mform->addElement('text', $this->itemname, $elementlabel, array('class' => 'indent-'.$this->indent, 'id' => $idprefix));
-            $mform->setType($this->itemname, PARAM_RAW); // see: moodlelib.php lines 133+
+            $mform->setType($this->itemname, PARAM_RAW); // See: moodlelib.php lines 133+.
             if (strlen($this->defaultvalue)) {
                 $mform->setDefault($this->itemname, "$this->defaultvalue");
             }
 
             if ($this->required) {
-                // even if the item is required I CAN NOT ADD ANY RULE HERE because:
-                // -> I do not want JS form validation if the page is submitted through the "previous" button
-                // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815
-                // simply add a dummy star to the item and the footer note about mandatory fields
+                // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
+                // -> I do not want JS form validation if the page is submitted through the "previous" button.
+                // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
+                // Simply add a dummy star to the item and the footer note about mandatory fields.
                 $starplace = ($this->position != SURVEYPRO_POSITIONLEFT) ? $this->itemname.'_extrarow' : $this->itemname;
                 $mform->_required[] = $starplace;
             }
@@ -424,16 +419,16 @@ EOS;
         if (strlen($draftuserinput)) {
             $matches = $this->item_atomize_number($draftuserinput);
             if (empty($matches)) {
-                // it is not a number, shouts
+                // It is not a number, shouts.
                 $errors[$errorkey] = get_string('uerr_notanumber', 'surveyprofield_numeric');
                 return;
             } else {
                 $userinput = unformat_float($draftuserinput, true);
-                // if it is < 0 but has been defined as unsigned, shouts
+                // If it is < 0 but has been defined as unsigned, shouts.
                 if (!$this->signed && ($userinput < 0)) {
                     $errors[$errorkey] = get_string('uerr_negative', 'surveyprofield_numeric');
                 }
-                // if it has decimal but has been defined as integer, shouts
+                // If it has decimal but has been defined as integer, shouts.
                 $isinteger = (bool)(strval(intval($userinput)) == strval($userinput));
                 if (($this->decimals == 0) && (!$isinteger)) {
                     $errors[$errorkey] = get_string('uerr_notinteger', 'surveyprofield_numeric');
@@ -446,14 +441,14 @@ EOS;
 
         if ($haslowerbound && $hasupperbound) {
             if ($this->lowerbound < $this->upperbound) {
-                // internal range
+                // Internal range.
                 if ( ($userinput < $this->lowerbound) || ($userinput > $this->upperbound) ) {
                     $errors[$errorkey] = get_string('uerr_outofinternalrange', 'surveyprofield_numeric');
                 }
             }
 
             if ($this->lowerbound > $this->upperbound) {
-                // external range
+                // External range.
                 if (($userinput > $this->lowerbound) && ($userinput < $this->upperbound)) {
                     $format = get_string($this->item_get_friendlyformat(), 'surveyprofield_numeric');
                     $a = new stdClass();
@@ -483,10 +478,10 @@ EOS;
 
         $haslowerbound = (strlen($this->lowerbound));
         $hasupperbound = (strlen($this->upperbound));
-        $fillinginstruction = array();
+        $arrayinstruction = array();
 
         if (!empty($this->signed)) {
-            $fillinginstruction[] = get_string('restriction_hassign', 'surveyprofield_numeric');
+            $arrayinstruction[] = get_string('restriction_hassign', 'surveyprofield_numeric');
         }
 
         if ($haslowerbound && $hasupperbound) {
@@ -495,37 +490,37 @@ EOS;
             $a->upperbound = $this->upperbound;
 
             if ($this->lowerbound < $this->upperbound) {
-                $fillinginstruction[] = get_string('restriction_lowerupper', 'surveyprofield_numeric', $a);
+                $arrayinstruction[] = get_string('restriction_lowerupper', 'surveyprofield_numeric', $a);
             }
 
             if ($this->lowerbound > $this->upperbound) {
-                $fillinginstruction[] = get_string('restriction_upperlower', 'surveyprofield_numeric', $a);
+                $arrayinstruction[] = get_string('restriction_upperlower', 'surveyprofield_numeric', $a);
             }
         } else {
             if ($haslowerbound) {
                 $a = $this->lowerbound;
-                $fillinginstruction[] = get_string('restriction_lower', 'surveyprofield_numeric', $a);
+                $arrayinstruction[] = get_string('restriction_lower', 'surveyprofield_numeric', $a);
             }
 
             if ($hasupperbound) {
                 $a = $this->upperbound;
-                $fillinginstruction[] = get_string('restriction_upper', 'surveyprofield_numeric', $a);
+                $arrayinstruction[] = get_string('restriction_upper', 'surveyprofield_numeric', $a);
             }
         }
 
         if (!empty($this->decimals)) {
             $a = $this->decimals;
-            $fillinginstruction[] = get_string('restriction_hasdecimals', 'surveyprofield_numeric', $a);
-            $fillinginstruction[] = get_string('decimalautofix', 'surveyprofield_numeric');
-            // this sentence dials about decimal separator not about the expected value
-            // so I leave it as last sentence
-            $fillinginstruction[] = get_string('declaredecimalseparator', 'surveyprofield_numeric', $this->decimalseparator);
+            $arrayinstruction[] = get_string('restriction_hasdecimals', 'surveyprofield_numeric', $a);
+            $arrayinstruction[] = get_string('decimalautofix', 'surveyprofield_numeric');
+            // This sentence dials about decimal separator not about the expected value.
+            // So I leave it as last sentence.
+            $arrayinstruction[] = get_string('declaredecimalseparator', 'surveyprofield_numeric', $this->decimalseparator);
         } else {
-            $fillinginstruction[] = get_string('restriction_isinteger', 'surveyprofield_numeric');
+            $arrayinstruction[] = get_string('restriction_isinteger', 'surveyprofield_numeric');
         }
 
-        if (count($fillinginstruction)) {
-            $fillinginstruction = implode('; ', $fillinginstruction);
+        if (count($arrayinstruction)) {
+            $fillinginstruction = implode('; ', $arrayinstruction);
         } else {
             $fillinginstruction = '';
         }
@@ -558,9 +553,9 @@ EOS;
                 $olduseranswer->content = round($userinput, $this->decimals);
             }
         } else {
-            // in the SEARCH form the remote user entered something very wrong
-            // remember: in the search form NO VALIDATION IS PERFORMED
-            // user is free to waste his/her time as he/she likes
+            // In the SEARCH form the remote user entered something very wrong.
+            // Remember: in the search form NO VALIDATION IS PERFORMED.
+            // User is free to waste his/her time as he/she likes.
             $olduseranswer->content = $answer['mainelement'];
         }
     }
@@ -601,10 +596,10 @@ EOS;
     public function userform_db_to_export($answer, $format='') {
         $content = trim($answer->content);
 
-        if ($content == SURVEYPRO_NOANSWERVALUE) { // answer was "no answer"
+        if ($content == SURVEYPRO_NOANSWERVALUE) { // Answer was "no answer".
             return get_string('answerisnoanswer', 'mod_surveypro');
         }
-        if (strlen($content) == 0) { // item was disabled
+        if (strlen($content) == 0) { // Item was disabled.
             return get_string('notanswereditem', 'mod_surveypro');
         }
 

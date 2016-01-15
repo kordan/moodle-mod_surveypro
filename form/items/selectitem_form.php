@@ -33,12 +33,9 @@ class mod_surveypro_itemtypeform extends moodleform {
      * @return none
      */
     public function definition() {
-        // ----------------------------------------
         $mform = $this->_form;
 
-        // ----------------------------------------
-        // selectitem: plugin
-        // ----------------------------------------
+        // Selectitem: plugin.
         $fieldname = 'typeplugin';
         // TAKE CARE! Here the plugin holds type and plugin both
         $fieldplugins = surveypro_get_plugin_list(SURVEYPRO_TYPEFIELD, true);

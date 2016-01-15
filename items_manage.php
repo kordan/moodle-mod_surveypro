@@ -27,8 +27,8 @@ require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/itemlist.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/items/selectitem_form.php');
 
-$id = optional_param('id', 0, PARAM_INT); // course_module ID, or
-$s = optional_param('s', 0, PARAM_INT);  // surveypro instance ID
+$id = optional_param('id', 0, PARAM_INT); // Course_module id.
+$s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
@@ -62,12 +62,9 @@ if ($action != SURVEYPRO_NOACTION) {
 $context = context_module::instance($cm->id);
 require_capability('mod/surveypro:manageitems', $context);
 
-// -----------------------------
-// calculations
-// -----------------------------
+// Calculations.
 
-// -----------------------------
-// the form showing the drop down menu with the list of master templates
+// Begin of: the form showing the drop down menu with the list of master templates.
 $itemcount = $DB->count_records('surveypro_item', array('surveyproid' => $surveypro->id));
 if (!$itemcount) {
     require_once($CFG->dirroot.'/mod/surveypro/classes/mtemplate.class.php');
@@ -75,15 +72,12 @@ if (!$itemcount) {
 
     $mtemplateman = new mod_surveypro_mastertemplate($cm, $context, $surveypro);
 
-    // -----------------------------
-    // define $applymtemplate return url
+    // Begin of: define $applymtemplate return url.
     $paramurl = array('id' => $cm->id);
     $formurl = new moodle_url('/mod/surveypro/mtemplates_apply.php', $paramurl);
-    // end of: define $applymtemplate return url
-    // -----------------------------
+    // End of: define $applymtemplate return url.
 
-    // -----------------------------
-    // prepare params for the form
+    // Begin of: prepare params for the form.
     $formparams = new stdClass();
     $formparams->cmid = $cm->id;
     $formparams->surveypro = $surveypro;
@@ -91,11 +85,9 @@ if (!$itemcount) {
     $formparams->inline = true;
 
     $applymtemplate = new mod_surveypro_applymtemplateform($formurl, $formparams);
-    // end of: prepare params for the form
-    // -----------------------------
+    // End of: prepare params for the form.
 
-    // -----------------------------
-    // manage form submission
+    // Begin of: manage form submission.
     if ($applymtemplate->is_cancelled()) {
         $returnurl = new moodle_url('/mod/surveypro/utemplates_add.php', $paramurl);
         redirect($returnurl);
@@ -104,14 +96,11 @@ if (!$itemcount) {
     if ($mtemplateman->formdata = $applymtemplate->get_data()) {
         $mtemplateman->apply_template();
     }
-    // end of: manage form submission
-    // -----------------------------
+    // End of: manage form submission.
 }
-// end of: the form showing the drop down menu with the list of master templates
-// -----------------------------
+// End of: the form showing the drop down menu with the list of master templates.
 
-// -----------------------------
-// the form showing the drop down menu with the list of items
+// The form showing the drop down menu with the list of items.
 $itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro);
 $itemlistman->set_type($type);
 $itemlistman->set_plugin($plugin);
@@ -130,9 +119,7 @@ $itemlistman->set_saveasnew($saveasnew);
 // I need to execute this method before the page load because it modifies TAB elements
 $itemlistman->drop_multilang();
 
-// -----------------------------
-// output starts here
-// -----------------------------
+// Output starts here.
 $url = new moodle_url('/mod/surveypro/items_manage.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
@@ -140,13 +127,13 @@ $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
-// make bold the navigation menu/link that refers to me
+// Make bold the navigation menu/link that refers to me.
 navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
-$moduletab = SURVEYPRO_TABITEMS; // needed by tabs.php
-$modulepage = SURVEYPRO_ITEMS_MANAGE; // needed by tabs.php
+$moduletab = SURVEYPRO_TABITEMS; // Needed by tabs.php.
+$modulepage = SURVEYPRO_ITEMS_MANAGE; // Needed by tabs.php.
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
 $itemlistman->manage_actions();
@@ -157,7 +144,7 @@ if ($itemlistman->hassubmissions) {
     echo $OUTPUT->notification(get_string('hassubmissions_alert', 'mod_surveypro'), 'notifymessage');
 }
 
-// add master templates selection form
+// Add master templates selection form.
 if (!$itemcount) {
     $message = get_string('beginfromscratch', 'mod_surveypro');
     echo $OUTPUT->box($message, 'generaltable generalbox boxaligncenter boxwidthnormal');
@@ -165,7 +152,7 @@ if (!$itemcount) {
     $applymtemplate->display();
 }
 
-// add item form
+// Add item form.
 if (!$itemlistman->surveypro->template) {
     $riskyediting = ($surveypro->riskyeditdeadline > time());
 
@@ -181,7 +168,7 @@ if (!$itemlistman->surveypro->template) {
 }
 
 $itemlistman->display_items_table();
-$itemlistman->trigger_event($itemcount); // event: all_items_viewed
+$itemlistman->trigger_event($itemcount); // Event: all_items_viewed.
 
-// Finish the page
+// Finish the page.
 echo $OUTPUT->footer();

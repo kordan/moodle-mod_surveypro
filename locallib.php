@@ -71,7 +71,6 @@ function surveypro_get_item($cm, $itemid=0, $type='', $plugin='', $evaluateparen
         }
     }
 
-
     require_once($CFG->dirroot.'/mod/surveypro/'.$type.'/'.$plugin.'/classes/plugin.class.php');
     $itemclassname = 'mod_surveypro_'.$type.'_'.$plugin;
     $item = new $itemclassname($cm, $itemid, $evaluateparentcontent);
@@ -86,7 +85,7 @@ function surveypro_get_item($cm, $itemid=0, $type='', $plugin='', $evaluateparen
  * @return int length of the array element
  */
 function surveypro_non_empty_only($arrayelement) {
-    return strlen(trim($arrayelement)); // returns 0 if the array element is empty
+    return strlen(trim($arrayelement)); // Returns 0 if the array element is empty.
 }
 
 /**
@@ -118,7 +117,7 @@ function surveypro_textarea_to_array($textareacontent) {
 function surveypro_need_group_filtering($cm, $context) {
     global $COURSE, $USER;
 
-    // do I need to filter groups?
+    // Do I need to filter groups?
     $groupmode = groups_get_activity_groupmode($cm, $COURSE);
     $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $cm->groupingid);
     $mygroups = array_keys($mygroups);

@@ -35,37 +35,28 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
      * @return none
      */
     public function definition() {
-        // ----------------------------------------
-        // start with the common section of the form
+        // Start with the common section of the form.
         parent::definition();
 
-        // ----------------------------------------
         $mform = $this->_form;
 
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         // $item = $this->_customdata->item;
         // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
 
-        // ----------------------------------------
-        // item: defaultvalue
-        // ----------------------------------------
+        // Item: defaultvalue.
         $fieldname = 'defaultvalue';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_character'));
         $mform->setDefault($fieldname, '');
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_character');
         $mform->setType($fieldname, PARAM_RAW);
 
-        // -----------------------------
-        // here I open a new fieldset
-        // -----------------------------
+        // Here I open a new fieldset.
         $fieldname = 'validation';
         $mform->addElement('header', $fieldname, get_string($fieldname, 'mod_surveypro'));
 
-        // ----------------------------------------
-        // item: pattern
-        // ----------------------------------------
+        // Item: pattern.
         $fieldname = 'pattern';
         $options = array();
         $options[SURVEYPROFIELD_CHARACTER_FREEPATTERN] = get_string('free', 'surveyprofield_character');
@@ -81,17 +72,13 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform->setType($fieldname, PARAM_RAW);
         $mform->setType($fieldname.'_text', PARAM_TEXT);
 
-        // ----------------------------------------
-        // item: minlength
-        // ----------------------------------------
+        // Item: minlength.
         $fieldname = 'minlength';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_character'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_character');
         $mform->setType($fieldname, PARAM_INT);
 
-        // ----------------------------------------
-        // item: maxlength
-        // ----------------------------------------
+        // Item: maxlength.
         $fieldname = 'maxlength';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_character'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_character');
@@ -108,8 +95,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
      * @return $errors
      */
     public function validation($data, $files) {
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         // $item = $this->_customdata->item;
         // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
@@ -145,7 +131,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
                 $errors['defaultvalue'] = get_string('ierr_tooshortdefault', 'surveyprofield_character');
             }
 
-            // default has to match the text pattern
+            // Default has to match the text pattern.
             switch ($data['pattern']) {
                 case SURVEYPROFIELD_CHARACTER_FREEPATTERN:
                     break;
@@ -173,14 +159,14 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
             }
         }
 
-        // if pattern == SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN, its length has to fall between minlength and maxlength
+        // If pattern == SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN, its length has to fall between minlength and maxlength.
         if ($data['pattern'] == SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN) {
             $patternlength = strlen($data['pattern_text']);
-            // pattern can not be empty
+            // Pattern can not be empty.
             if (!$patternlength) {
                 $errors['pattern_group'] = get_string('ierr_patternisempty', 'surveyprofield_character');
             }
-            // pattern can be done only from A, a, * and 0
+            // Pattern can be done only from A, a, * and 0.
             if (preg_match_all('~[^Aa\*0]~', $data['pattern_text'], $matches)) {
                 $denied = array_unique($matches[0]);
                 $a = '"'.implode('", "', $denied).'"';

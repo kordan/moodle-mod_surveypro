@@ -33,48 +33,36 @@ class mod_surveypro_utemplatecreateform extends moodleform {
      * @return none
      */
     public function definition() {
-        // ----------------------------------------
         $mform = $this->_form;
 
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         $cmid = $this->_customdata->cmid;
         $surveypro = $this->_customdata->surveypro;
         $utemplateman = $this->_customdata->utemplateman;
 
-        // ----------------------------------------
-        // utemplatecreate: surveyproid
-        // ----------------------------------------
+        // Utemplatecreate: surveyproid.
         $fieldname = 'surveyproid';
         $mform->addElement('hidden', $fieldname, 0);
         $mform->setType($fieldname, PARAM_INT);
 
-        // ----------------------------------------
-        // utemplatecreate: templatename
-        // ----------------------------------------
+        // Utemplatecreate: templatename.
         $fieldname = 'templatename';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'mod_surveypro'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
         $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
-        $mform->setType($fieldname, PARAM_FILE); // templatename is going to be a file name
+        $mform->setType($fieldname, PARAM_FILE); // Templatename is going to be a file name.
 
-        // ----------------------------------------
-        // utemplatecreate: overwrite
-        // ----------------------------------------
+        // Utemplatecreate: overwrite.
         $fieldname = 'overwrite';
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
-        // ----------------------------------------
-        // utemplatecreate: visiblesonly
-        // ----------------------------------------
+        // Utemplatecreate: visiblesonly.
         $fieldname = 'visiblesonly';
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
-        // ----------------------------------------
-        // utemplatecreate: sharinglevel
-        // ----------------------------------------
+        // Utemplatecreate: sharinglevel.
         $fieldname = 'sharinglevel';
         $options = array();
 
@@ -84,8 +72,7 @@ class mod_surveypro_utemplatecreateform extends moodleform {
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
         $mform->setDefault($fieldname, CONTEXT_SYSTEM);
 
-        // ----------------------------------------
-        // buttons
+        // Buttons.
         $this->add_action_buttons(false, get_string('continue'));
     }
 
@@ -119,18 +106,16 @@ class mod_surveypro_utemplatecreateform extends moodleform {
      * @return $errors
      */
     public function validation($data, $files) {
-        // ----------------------------------------
         // $mform = $this->_form;
 
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         $cmid = $this->_customdata->cmid;
         $surveypro = $this->_customdata->surveypro;
         $utemplateman = $this->_customdata->utemplateman;
 
         $errors = parent::validation($data, $files);
 
-        // get all template files
+        // Get all template files.
         $contextid = $utemplateman->get_contextid_from_sharinglevel($data['sharinglevel']);
         $componentfiles = $utemplateman->get_available_templates($contextid);
 
@@ -145,7 +130,7 @@ class mod_surveypro_utemplatecreateform extends moodleform {
                     $xmlfile->delete();
                 } else {
                     $a = new stdClass();
-                    $a->filename = $data['templatename'];
+                    $a->filename = $comparename;
                     $a->overwrite = get_string('overwrite', 'mod_surveypro');
                     $errors['templatename'] = get_string('enteruniquename', 'mod_surveypro', $a);
                 }

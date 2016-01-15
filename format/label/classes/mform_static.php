@@ -51,12 +51,12 @@ class mod_surveypro_mform_static extends MoodleQuickForm_static {
      * @return string
      */
     public function toHtml() {
-        $output = parent::toHtml(); // core code
+        $output = parent::toHtml(); // Core code.
 
-        // even if the simpler way to pass the class is:
+        // Even if the simpler way to pass the class is:
         // $output = html_writer::tag('div', $output, $this->_options);
         // I create the array from scratch in order to
-        // drop any other potentially dangerous element of the original $this->_options array
+        //     drop any other potentially dangerous element of the original $this->_options array.
         $class = array('class' => $this->_options['class']);
         $output = html_writer::tag('div', $output, $class);
 

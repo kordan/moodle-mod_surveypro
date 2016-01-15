@@ -26,8 +26,8 @@ require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/view_manage.class.php');
 
-$id = optional_param('id', 0, PARAM_INT); // course_module ID, or
-$s = optional_param('s', 0, PARAM_INT);  // surveypro instance ID
+$id = optional_param('id', 0, PARAM_INT); // Course_module id.
+$s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
@@ -58,9 +58,7 @@ if ($action != SURVEYPRO_NOACTION) {
     require_sesskey();
 }
 
-// -----------------------------
-// calculations
-// -----------------------------
+// Calculations.
 $context = context_module::instance($cm->id);
 $submissionman = new mod_surveypro_submissionmanager($cm, $context, $surveypro);
 $submissionman->set_submissionid($submissionid);
@@ -75,23 +73,21 @@ if ($cover === null) {
             $paramurl = array('s' => $surveypro->id);
             $redirecturl = new moodle_url('/mod/surveypro/items_manage.php', $paramurl);
             redirect($redirecturl);
-        } // else: carry on
+        } // Else: carry on.
     } else {
         if ($submissionman->hasitems) {
             $paramurl = array('s' => $surveypro->id);
             $redirecturl = new moodle_url('/mod/surveypro/view_cover.php', $paramurl);
             redirect($redirecturl);
             // } else {
-            // if (!$submissionman->hasitems) { just below execution is stopped
+            // If (!$submissionman->hasitems) { just below execution is stopped.
         }
     }
 }
 $submissionman->prevent_direct_user_input($confirm);
 $submissionman->submission_to_pdf();
 
-// -----------------------------
-// output starts here
-// -----------------------------
+// Output starts here.
 $PAGE->set_url('/mod/surveypro/view.php', array('s' => $surveypro->id, 'cover' => 0));
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -103,15 +99,15 @@ echo $OUTPUT->header();
 if (!$submissionman->hasitems) {
     $submissionman->noitem_stopexecution();
 }
-$submissionman->manage_actions(); // action feedback before tabs
+$submissionman->manage_actions(); // Action feedback before tabs.
 
-$moduletab = SURVEYPRO_TABSUBMISSIONS; // needed by tabs.php
-$modulepage = SURVEYPRO_SUBMISSION_MANAGE; // needed by tabs.php
+$moduletab = SURVEYPRO_TABSUBMISSIONS; // Needed by tabs.php.
+$modulepage = SURVEYPRO_SUBMISSION_MANAGE; // Needed by tabs.php.
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
 $submissionman->show_action_buttons();
 $submissionman->display_submissions_table();
-$submissionman->trigger_event(); // event: all_submissions_viewed
+$submissionman->trigger_event(); // Event: all_submissions_viewed
 
-// Finish the page
+// Finish the page.
 echo $OUTPUT->footer();

@@ -252,20 +252,20 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     public function get_qid_per_area() {
         global $DB;
 
-        $qid1area = array(); // array of id of items referring to the trend 1
-        $qid2area = array(); // array of id of items referring to the trend 2
+        $qid1area = array(); // Array of id of items referring to the trend 1.
+        $qid2area = array(); // Array of id of items referring to the trend 2.
         $sql = 'SELECT si.id, si.sortindex, si.plugin
                 FROM {surveypro_item} si
                 WHERE si.surveyproid = :surveyproid
                     AND si.plugin = :plugin
                 ORDER BY si.sortindex';
 
-        $whereparams = array('surveyproid' => $this->surveypro->id, 'plugin' => $this->templateuseritem); // was static 'radiobutton'
+        $whereparams = array('surveyproid' => $this->surveypro->id, 'plugin' => $this->templateuseritem); // Was static 'radiobutton'.
         $itemseeds = $DB->get_recordset_sql($sql, $whereparams);
 
         if ($this->template == 'collesactualpreferred') {
-            $id1 = array(); // id of items referring to preferred trend
-            $id2 = array(); // id of items referring to actual trend
+            $id1 = array(); // Id of items referring to preferred trend.
+            $id2 = array(); // Id of items referring to actual trend.
             $i = 0;
             foreach ($itemseeds as $itemseed) {
                 $i++;
@@ -284,7 +284,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
                 }
             }
         } else {
-            $id1 = array(); // id of items referring to the trend 1 (it may be preferred such as actual)
+            $id1 = array(); // Id of items referring to the trend 1 (it may be preferred such as actual).
             foreach ($itemseeds as $itemseed) {
                 $id1[] = $itemseed->id;
                 if (count($id1) == 4) {
@@ -336,23 +336,23 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
 
         $this->graphtitle = get_string('summary', 'surveyproreport_colles');
 
-        // names of areas of investigation
+        // Begin of: names of areas of investigation.
         for ($i = 1; $i < 7; $i++) {
             $this->xlabels[] = get_string('fieldset_content_0'.$i, 'surveyprotemplate_'.$this->template);
         }
-        // end of: names of areas of investigation
+        // End of: names of areas of investigation.
 
-        // group question id per area of investigation
+        // Begin of: group question id per area of investigation.
         list($qid1area, $qid2area) = $this->get_qid_per_area();
-        // end of: group question id per area of investigation
+        // End of: group question id per area of investigation.
 
-        // options (label of answers)
-        $itemid = $qid1area[0][0]; // one of the itemid of the surveypro (the first)
-        $item = surveypro_get_item($this->cm, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem); // was static 'radiobutton'
+        // Begin of: options (label of answers).
+        $itemid = $qid1area[0][0]; // One of the itemid of the surveypro (the first).
+        $item = surveypro_get_item($this->cm, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem); // Was static 'radiobutton'.
         $this->ylabels = $item->item_get_content_array(SURVEYPRO_LABELS, 'options');
-        // end of: options (label of answers)
+        // End of: options (label of answers).
 
-        // calculate the mean and the standard deviation of answers
+        // Begin of: calculate the mean and the standard deviation of answers.
         if ($this->template == 'collesactualpreferred') {
             $toevaluate = array($qid1area, $qid2area);
         } else {
@@ -393,7 +393,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
             }
         }
 
-        if (!$this->canaccessreports && $this->canaccessownreports) { // if the user hasn't general right but only canaccessownreports
+        if (!$this->canaccessreports && $this->canaccessownreports) { // If the user hasn't general right but only canaccessownreports.
             $whereparams = array('userid' => $USER->id);
 
             foreach ($toevaluate as $k => $qidarea) {
@@ -424,7 +424,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
                 }
             }
         }
-        // end of: calculate the mean and the standard deviation of answers
+        // End of: calculate the mean and the standard deviation of answers.
     }
 
     /**
@@ -472,26 +472,27 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
 
         $this->graphtitle = get_string('fieldset_content_0'.($area + 1), 'surveyprotemplate_'.$this->template);
 
-        // short names of questions
+        // Begin of: names of areas of investigation.
+        // Short names of questions.
         $name = array();
         for ($i = 1; $i < 5; $i++) {
             $index = sprintf('%02d', 4 * $area + $i);
             $key = 'question'.$index.'short';
             $this->xlabels[] = get_string($key, 'surveyproreport_colles');
         }
-        // end of: names of areas of investigation
+        // End of: names of areas of investigation.
 
-        // group question id per area of investigation
+        // Begin of: group question id per area of investigation.
         list($qid1area, $qid2area) = $this->get_qid_per_area();
-        // end of: group question id per area of investigation
+        // End of: group question id per area of investigation.
 
-        // options (label of answers)
-        $itemid = $qid1area[0][0]; // one of the itemid of the surveypro (the first)
-        $item = surveypro_get_item($this->cm, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem); // was static 'radiobutton'
+        // Begin of: options (label of answers).
+        $itemid = $qid1area[0][0]; // One of the itemid of the surveypro (the first).
+        $item = surveypro_get_item($this->cm, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem); // Was static 'radiobutton'.
         $this->ylabels = $item->item_get_content_array(SURVEYPRO_LABELS, 'options');
-        // end of: options (label of answers)
+        // End of: options (label of answers).
 
-        // calculate the mean and the standard deviation of answers
+        // Begin of: calculate the mean and the standard deviation of answers.
         if ($this->template == 'collesactualpreferred') {
             $toevaluate = array($qid1area[$area], $qid2area[$area]);
         } else {
@@ -507,7 +508,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
                 // $whereparams = array('itemid' => $itemid);
                 // $aggregate = $DB->get_record_sql($sql, $whereparams);
 
-                // verified on October 17. It seems it arrived the time to delete the long version of the query.
+                // Verified on October 17. It seems it arrived the time to delete the long version of the query.
                 $whereparams = array('itemid' => $itemid);
                 $aggregate = $DB->get_record('surveypro_answer', $whereparams, 'COUNT(id) as countofanswers, SUM(content) as sumofanswers');
                 $m = $aggregate->sumofanswers / $aggregate->countofanswers;
@@ -524,7 +525,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
                 //         FROM {surveypro_answer} ud
                 //         WHERE ud.itemid = :itemid';
                 // $answers = $DB->get_recordset_sql($sql, $whereparams);
-                // $whereparams = array('itemid' => $itemid); // already defined
+                // $whereparams = array('itemid' => $itemid); // Already defined.
                 $answers = $DB->get_recordset('surveypro_answer', $whereparams, '', 'content');
                 $bigsum = 0;
                 foreach ($answers as $answer) {
@@ -541,7 +542,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
                 $answers->close();
             }
         }
-        // end of: calculate the mean and the standard deviation of answers
+        // End of: calculate the mean and the standard deviation of answers.
     }
 
     /**
@@ -597,27 +598,27 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
             debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
 
-        // group question id per area of investigation
+        // Begin of: group question id per area of investigation.
         list($qid1area, $qid2area) = $this->get_qid_per_area();
-        // end of: group question id per area of investigation
+        // End of: group question id per area of investigation.
 
-        // options (label of answers)
-        $itemid = $qid1area[$area][$qid]; // one of the itemid of the surveypro (the first)
-        $item = surveypro_get_item($this->cm, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem); // was static 'radiobutton'
+        // Begin of: options (label of answers).
+        $itemid = $qid1area[$area][$qid]; // One of the itemid of the surveypro (the first).
+        $item = surveypro_get_item($this->cm, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem); // Was static 'radiobutton'.
         $this->xlabels = $item->item_get_content_array(SURVEYPRO_LABELS, 'options');
-        // end of: options (label of answers)
+        // End of: options (label of answers).
 
-        // graph title
+        // Begin of: graph title.
         $this->graphtitle = strip_tags($item->get_content());
-        // end of: graph title
+        // End of: graph title.
 
-        // starts with empty defaults
+        // Begin of: calculate trend1 and, maybe, trend2.
+        // Starts with empty defaults.
         for ($i = 0; $i < 5; $i++) { // 0..4
             $this->trend1[] = 0;
             $this->trend2[] = 0;
         }
 
-        // calculate trend1 and, maybe, trend2
         if ($this->template == 'collesactualpreferred') {
             $toevaluate = array($qid1area[$area], $qid2area[$area]);
         } else {
@@ -642,6 +643,6 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
                 }
             }
         }
-        // end of: calculate trend1 and, maybe, trend2
+        // End of: calculate trend1 and, maybe, trend2.
     }
 }

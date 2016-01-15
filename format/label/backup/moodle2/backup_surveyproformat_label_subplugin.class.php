@@ -31,17 +31,17 @@ class backup_surveyproformat_label_subplugin extends backup_subplugin {
      */
     protected function define_item_subplugin_structure() {
 
-        // XML nodes declaration
-        $subplugin = $this->get_subplugin_element(null, '../../plugin', 'label'); // virtual optigroup element
+        // XML nodes declaration.
+        $subplugin = $this->get_subplugin_element(null, '../../plugin', 'label'); // Virtual optigroup element.
         $wrapper = new backup_nested_element($this->get_recommended_name());
         $subpluginlabel = new backup_nested_element('surveyproformat_label', array('id'), array(
             'content', 'contentformat', 'customnumber', 'indent', 'fullwidth', 'leftlabel'));
 
-        // connect XML elements into the tree
+        // Connect XML elements into the tree.
         $subplugin->add_child($wrapper);
         $wrapper->add_child($subpluginlabel);
 
-        // Define sources
+        // Define sources.
         $subpluginlabel->set_source_table('surveyproformat_label', array('itemid' => backup::VAR_PARENTID));
 
         return $subplugin;

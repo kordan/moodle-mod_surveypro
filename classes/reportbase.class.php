@@ -96,8 +96,6 @@ class mod_surveypro_reportbase {
         if (!$hassubmissions) {
             $message = get_string('nosubmissionfound', 'mod_surveypro');
             echo $OUTPUT->box($message, 'notice centerpara');
-
-            // Finish the page
             echo $OUTPUT->footer();
 
             die();

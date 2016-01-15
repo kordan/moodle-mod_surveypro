@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
  * radio type form element
  *
@@ -50,7 +49,7 @@ class mod_surveypro_mform_radio extends MoodleQuickForm_radio {
      * @param mixed $attributes (optional) Either a typical HTML attribute string
      *              or an associative array
      */
-    function __construct($elementName=null, $elementLabel=null, $text=null, $value=null, $attributes=null) {
+    public function __construct($elementName=null, $elementLabel=null, $text=null, $value=null, $attributes=null) {
         parent::__construct($elementName, $elementLabel, $text, $value, $attributes);
     }
 
@@ -59,7 +58,7 @@ class mod_surveypro_mform_radio extends MoodleQuickForm_radio {
      *
      * @return string
      */
-    function getElementTemplateType(){
+    public function getElementTemplateType() {
         return 'default';
     }
 
@@ -69,7 +68,7 @@ class mod_surveypro_mform_radio extends MoodleQuickForm_radio {
      *
      * @return string
      */
-    function getFrozenHtml() {
+    public function getFrozenHtml() {
         $output = parent::getFrozenHtml();
 
         if (isset($this->_attributes['class'])) {

@@ -197,8 +197,8 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      * @return $contextstring
      */
     public function get_contextstring_from_sharinglevel($contextlevel) {
-        // depending on the context level the component can be:
-        // system, category, course, module, user
+        // Depending on the context level the component can be:
+        //     system, category, course, module, user
         switch ($contextlevel) {
             case CONTEXT_SYSTEM:
                 $contextstring = 'system';
@@ -378,7 +378,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      * @return none
      */
     public function check_items_versions() {
-        if (empty($this->formdata->usertemplateinfo)) { // nothing was selected
+        if (empty($this->formdata->usertemplateinfo)) { // Nothing was selected.
             return;
         }
 
@@ -409,17 +409,17 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                 $currentversion = '-1';
             }
 
-            // just to save few nanoseconds: continue if already pinned
+            // Just to save few nanoseconds: continue if already pinned.
             if (isset($this->nonmatchingplugin["$currentplugin"])) {
-                // already pinned
+                // Already pinned.
                 continue;
             }
-            if (isset($versiondisk["$currentplugin"])) { // to be sure user didn't write a bad plugin or missed it
+            if (isset($versiondisk["$currentplugin"])) { // To be sure user didn't write a bad plugin or missed it.
                 if (($versiondisk["$currentplugin"] != $currentversion)) {
                     $this->nonmatchingplugin["$currentplugin"] = $versiondisk["$currentplugin"];
                 }
             } else {
-                // if the user wrote a bad plugin or missed it
+                // If the user wrote a bad plugin or missed it.
                 $this->nonmatchingplugin["$currentplugin"] = 0;
             }
         }
@@ -439,7 +439,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $contextid = $this->get_contextid_from_sharinglevel();
         $fs = get_file_storage();
 
-        // look at what is already on board
+        // Look at what is already on board.
         $oldfiles = array();
         if ($files = $fs->get_area_files($contextid, 'mod_surveypro', SURVEYPRO_TEMPLATEFILEAREA, 0, 'sortorder', false)) {
             foreach ($files as $file) {
@@ -447,13 +447,13 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
             }
         }
 
-        // add current files
+        // Add current files.
         $fieldname = 'importfile';
         if ($draftitemid = $this->formdata->{$fieldname.'_filemanager'}) {
             if (isset($templateoptions['return_types']) && !($templateoptions['return_types'] & FILE_REFERENCE)) {
-                // we assume that if $options['return_types'] is NOT specified, we DO allow references.
-                // this is not exactly right. BUT there are many places in code where filemanager options
-                // are not passed to file_save_draft_area_files()
+                // We assume that if $options['return_types'] is NOT specified, we DO allow references.
+                // This is not exactly right. BUT there are many places in code where filemanager options...
+                // ...are not passed to file_save_draft_area_files()
                 $allowreferences = false;
             }
 
@@ -477,11 +477,11 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                     }
                 }
                 if ($templateoptions['maxbytes'] and $templateoptions['maxbytes'] < $file->get_filesize()) {
-                    // oversized file - should not get here at all
+                    // Oversized file - should not get here at all.
                     continue;
                 }
                 if ($templateoptions['maxfiles'] != -1 and $templateoptions['maxfiles'] <= $filecount) {
-                    // more files - should not get here at all
+                    // More files - should not get here at all.
                     break;
                 }
                 if (!$file->is_directory()) {
@@ -505,7 +505,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
         if ($files = $fs->get_area_files($contextid, 'mod_surveypro', SURVEYPRO_TEMPLATEFILEAREA, 0, 'sortorder', false)) {
             if (count($files) == 1) {
-                // only one file attached, set it as main file automatically
+                // Only one file attached, set it as main file automatically.
                 $file = array_shift($files);
                 file_set_sortorder($contextid, 'mod_surveypro', SURVEYPRO_TEMPLATEFILEAREA, 0, $file->get_filepath(), $file->get_filename(), 1);
             }
@@ -559,12 +559,10 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
         require_once($CFG->libdir.'/tablelib.php');
 
-        // -----------------------------
-        // $paramurlbase definition
+        // Begin of: $paramurlbase definition.
         $paramurlbase = array();
         $paramurlbase['id'] = $this->cm->id;
-        // end of $paramurlbase definition
-        // -----------------------------
+        // End of $paramurlbase definition.
 
         $table = new flexible_table('templatelist');
 
@@ -587,7 +585,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $table->define_headers($tableheaders);
 
         // $table->collapsible(true);
-        $table->sortable(true, 'templatename'); // sorted by sortindex by default
+        $table->sortable(true, 'templatename'); // Sorted by sortindex by default.
         $table->no_sorting('actions');
 
         $table->column_class('templatename', 'templatename');
@@ -595,7 +593,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $table->column_class('timecreated', 'timecreated');
         $table->column_class('actions', 'actions');
 
-        // general properties for the whole table
+        // General properties for the whole table.
         // $table->set_attribute('cellpadding', '5');
         $table->set_attribute('id', 'managetemplates');
         $table->set_attribute('class', 'generaltable');
@@ -608,9 +606,6 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
         $options = $this->get_sharinglevel_options($this->cm->id);
 
-        // echo '$options:';
-        // var_dump($options);
-
         $templates = new stdClass();
         foreach ($options as $sharinglevel => $v) {
             $parts = explode('_', $sharinglevel);
@@ -620,8 +615,6 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
             $contextstring = $this->get_contextstring_from_sharinglevel($contextlevel);
             $templates->{$contextstring} = $this->get_available_templates($contextid);
         }
-        // echo '$templates:';
-        // var_dump($templates);
 
         $dummysort = $this->create_fictitious_table($templates, $table->get_sql_sort());
 
@@ -643,9 +636,9 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                 $row++;
 
                 $icons = '';
-                // *************************************** SURVEYPRO_DELETEUTEMPLATE
+                // SURVEYPRO_DELETEUTEMPLATE.
                 if ($this->candeleteutemplates) {
-                    if ($xmlfile->get_userid() == $USER->id) { // only the owner can delete his/her template
+                    if ($xmlfile->get_userid() == $USER->id) { // Only the owner can delete his/her template.
                         $paramurl = $paramurlbase;
                         $paramurl['act'] = SURVEYPRO_DELETEUTEMPLATE;
                         $paramurl['sesskey'] = sesskey();
@@ -656,7 +649,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                     }
                 }
 
-                // *************************************** SURVEYPRO_EXPORTUTEMPLATE
+                // SURVEYPRO_EXPORTUTEMPLATE.
                 if ($this->candownloadutemplates) {
                     $paramurl = $paramurlbase;
                     $paramurl['view'] = SURVEYPRO_EXPORTUTEMPLATE;
@@ -684,7 +677,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      * @return null
      */
     public function create_fictitious_table($templates, $usersort) {
-        // original table per columns: originaltablepercols
+        // Original table per columns: originaltablepercols.
         $templatenamecol = array();
         $sharinglevelcol = array();
         $creationdatecol = array();
@@ -699,7 +692,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         }
         $originaltablepercols = array($templatenamecol, $sharinglevelcol, $creationdatecol, $xmlfileidcol);
 
-        // original table per rows: originaltableperrows
+        // Original table per rows: originaltableperrows.
         $originaltableperrows = array();
         foreach ($templatenamecol as $k => $value) {
             $tablerow = array();
@@ -746,7 +739,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
             return;
         }
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
-            // ask for confirmation
+            // Ask for confirmation.
             $a = $this->get_utemplate_name();
             $message = get_string('askdeleteonetemplate', 'mod_surveypro', $a);
             $optionsbase = array('s' => $this->surveypro->id, 'act' => SURVEYPRO_DELETEUTEMPLATE);

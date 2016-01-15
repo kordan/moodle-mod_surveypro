@@ -73,7 +73,7 @@ function xmldb_surveyprofield_checkbox_upgrade($oldversion) {
 
     if ($oldversion < 2014090502) {
 
-        // Define field surveyproid to be dropped from surveyprofield_checkbox.
+        // Define field required to be dropped from surveyprofield_checkbox.
         $table = new xmldb_table('surveyprofield_checkbox');
         $field = new xmldb_field('required');
 
@@ -99,6 +99,21 @@ function xmldb_surveyprofield_checkbox_upgrade($oldversion) {
 
         // Surveypro savepoint reached.
         upgrade_plugin_savepoint(true, 2014111701, 'surveyprofield', 'checkbox');
+    }
+
+    if ($oldversion < 2015123000) {
+
+        // Define field required to be added to surveyprofield_checkbox.
+        $table = new xmldb_table('surveyprofield_checkbox');
+        $field = new xmldb_field('required', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '2', 'extranote');
+
+        // Conditionally launch add field noanswerdefault.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Surveypro savepoint reached.
+        upgrade_plugin_savepoint(true, 2015123000, 'surveyprofield', 'checkbox');
     }
 
     return true;

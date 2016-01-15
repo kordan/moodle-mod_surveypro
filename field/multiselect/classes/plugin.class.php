@@ -59,6 +59,11 @@ class mod_surveypro_field_multiselect extends mod_surveypro_itembase {
     public $extranote = '';
 
     /**
+     * $required = boolean. O == optional item; 1 == mandatory item
+     */
+    public $required = 0;
+
+    /**
      * $variable = the name of the field storing data in the db table
      */
     public $variable = '';
@@ -67,8 +72,6 @@ class mod_surveypro_field_multiselect extends mod_surveypro_itembase {
      * $indent = the indent of the item in the form page
      */
     public $indent = 0;
-
-    // -----------------------------
 
     /**
      * $options = list of options in the form of "$value SURVEYPRO_VALUELABELSEPARATOR $label"
@@ -100,8 +103,6 @@ class mod_surveypro_field_multiselect extends mod_surveypro_itembase {
      */
     public static $canbeparent = true;
 
-    // -----------------------------
-
     /**
      * Class constructor
      *
@@ -114,20 +115,20 @@ class mod_surveypro_field_multiselect extends mod_surveypro_itembase {
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
 
-        // list of constant element attributes
+        // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'multiselect';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // it is already true from parent class
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // It is already true from parent class.
         $this->savepositiontodb = true;
 
-        // other element specific properties
-        // nothing
+        // Other element specific properties.
+        // No properties here.
 
-        // override properties depending from $surveypro settings
-        // nothing
+        // Override properties depending from $surveypro settings.
+        // No properties here.
 
-        // list of fields I do not want to have in the item definition form
-        $this->isinitemform['required'] = false;
+        // List of fields I do not want to have in the item definition form.
+        // Empty list.
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $evaluateparentcontent);
@@ -145,8 +146,8 @@ class mod_surveypro_field_multiselect extends mod_surveypro_itembase {
         // Do parent item loading stuff here (mod_surveypro_itembase::item_load($itemid, $evaluateparentcontent)))
         parent::item_load($itemid, $evaluateparentcontent);
 
-        // multilang load support for builtin surveypro
-        // whether executed, the 'content' field is ALWAYS handled
+        // Multilang load support for builtin surveypro.
+        // Whether executed, the 'content' field is ALWAYS handled.
         $this->item_builtin_string_load_support();
     }
 
@@ -159,19 +160,17 @@ class mod_surveypro_field_multiselect extends mod_surveypro_itembase {
     public function item_save($record) {
         $this->item_get_common_settings($record);
 
-        // -----------------------------
-        // Now execute very specific plugin level actions
-        // -----------------------------
+        // Now execute very specific plugin level actions.
 
-        // begin of: plugin specific settings (eventually overriding general ones)
-        // drop empty rows and trim edging rows spaces from each textarea field
+        // Begin of: plugin specific settings (eventually overriding general ones).
+        // Drop empty rows and trim edging rows spaces from each textarea field.
         $fieldlist = array('options', 'defaultvalue');
         $this->item_clean_textarea_fields($record, $fieldlist);
 
-        // override few values
-        // end of: plugin specific settings (eventually overriding general ones)
+        // Set custom fields value as defined for this question plugin.
+        // End of: plugin specific settings (eventually overriding general ones).
 
-        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record)))
+        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
     }
 
@@ -255,6 +254,7 @@ class mod_surveypro_field_multiselect extends mod_surveypro_itembase {
                 <xs:element type="xs:string" name="customnumber" minOccurs="0"/>
                 <xs:element type="xs:int" name="position"/>
                 <xs:element type="xs:string" name="extranote" minOccurs="0"/>
+                <xs:element type="xs:int" name="required"/>
                 <xs:element type="xs:int" name="hideinstructions"/>
                 <xs:element type="xs:string" name="variable"/>
                 <xs:element type="xs:int" name="indent"/>
@@ -271,45 +271,6 @@ class mod_surveypro_field_multiselect extends mod_surveypro_itembase {
 EOS;
 
         return $schema;
-    }
-
-    // MARK get
-
-    /**
-     * get_required
-     *
-     * @param none
-     * @return bool
-     */
-    public function get_required() {
-        if (empty($this->minimumrequired)) {
-            return 0;
-        } else {
-            return 1;
-        }
-    }
-
-    /**
-     * get_requiredfieldname
-     *
-     * @return string the name of the database table field specifying if the item is required
-     */
-    public static function get_requiredfieldname() {
-        return 'minimumrequired';
-    }
-
-    // MARK set
-
-    /**
-     * set_required
-     *
-     * @param $value
-     * @return
-     */
-    public function set_required($value) {
-        global $DB;
-
-        $DB->set_field('surveypro'.$this->type.'_'.$this->plugin, 'minimumrequired', $value, array('itemid' => $this->itemid));
     }
 
     // MARK parent
@@ -334,7 +295,7 @@ EOS;
             if ($key !== false) {
                 $childparentvalue[] = $key;
             } else {
-                // only garbage, but user wrote it
+                // Only garbage, but user wrote it.
                 $labels[] = $parentcontent;
             }
         }
@@ -382,7 +343,7 @@ EOS;
             }
 
             $key++;
-            // only garbage after the first label, but user wrote it
+            // Only garbage after the first label, but user wrote it.
             for ($i = $key; $i < $actualcount; $i++) {
                 $childparentcontent[] = $parentvalues[$i];
             }
@@ -411,7 +372,7 @@ EOS;
      *     2 = $childparentvalue is malformed
      */
     public function parent_validate_child_constraints($childparentvalue) {
-        // see parent method for explanation
+        // See parent method for explanation.
 
         $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
         $optioncount = count($values);
@@ -457,10 +418,9 @@ EOS;
         $idprefix = 'id_surveypro_field_multiselect_'.$this->sortindex;
 
         $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
-
         $attributes = array('size' => $this->heightinrows, 'class' => 'indent-'.$this->indent, 'id' => $idprefix);
         if (!$searchform) {
-            if ($this->minimumrequired) {
+            if ($this->required) {
                 $select = $mform->addElement('mod_surveypro_select', $this->itemname, $elementlabel, $labels, $attributes);
                 $select->setMultiple(true);
             } else {
@@ -484,7 +444,7 @@ EOS;
             $select->setMultiple(true);
             $elementgroup[] = $select;
 
-            if (!$this->minimumrequired) {
+            if (!$this->required) {
                 unset($attributes['size']);
                 $attributes['id'] = $idprefix.'_noanswer';
                 $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'mod_surveypro'), $attributes);
@@ -494,7 +454,7 @@ EOS;
             $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'mod_surveypro'), $attributes);
 
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, '<br />', false);
-            if (!$this->minimumrequired) {
+            if (!$this->required) {
                 // Multiselect uses a special syntax that is different from the syntax of all the other mform groups with disabilitation chechbox
                 // $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
                 $mform->disabledIf($this->itemname.'[]', $this->itemname.'_noanswer', 'checked');
@@ -504,7 +464,7 @@ EOS;
             $mform->setDefault($this->itemname.'_ignoreme', '1');
         }
 
-        // defaults
+        // Begin of: defaults.
         if (!$searchform) {
             if ($defaults = surveypro_textarea_to_array($this->defaultvalue)) {
                 $defaultkeys = array();
@@ -518,7 +478,7 @@ EOS;
         }
         // End of: defaults
 
-        // this last item is needed because:
+        // This last item is needed because:
         // the check for the not empty field is performed in the validation routine. (not by JS)
         // (JS validation is never added because I do not want it when the "previous" button is pressed and when an item is disabled even if mandatory)
         // The validation routine is executed ONLY ON ITEM that are actually submitted.
@@ -533,11 +493,11 @@ EOS;
         $mform->setType($placeholderitemname, PARAM_INT);
 
         if (!$searchform) {
-            if ($this->minimumrequired) {
-                // even if the item is required I CAN NOT ADD ANY RULE HERE because:
-                // -> I do not want JS form validation if the page is submitted through the "previous" button
-                // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815
-                // simply add a dummy star to the item and the footer note about mandatory fields
+            if ($this->required) {
+                // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
+                // -> I do not want JS form validation if the page is submitted through the "previous" button.
+                // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
+                // Simply add a dummy star to the item and the footer note about mandatory fields.
                 $starplace = ($this->position != SURVEYPRO_POSITIONLEFT) ? $this->itemname.'_extrarow' : $this->itemname;
                 $mform->_required[] = $starplace;
             }
@@ -557,17 +517,20 @@ EOS;
         if ($searchform) {
             return;
         }
+        if (isset($data[$this->itemname.'_noanswer']) && ($data[$this->itemname.'_noanswer'] == 1) ) {
+            return; // Nothing to validate.
+        }
 
-        if ($this->minimumrequired) {
-            $errorkey = $this->itemname;
+        $errorkey = $this->required ? $this->itemname : $this->itemname.'_group';
 
-            $answercount = (isset($data[$this->itemname])) ? count($data[$this->itemname]) : 0;
-            if ($answercount < $this->minimumrequired) {
-                if ($this->minimumrequired == 1) {
-                    $errors[$errorkey] = get_string('uerr_lowerthanminimum_one', 'surveyprofield_multiselect');
-                } else {
-                    $errors[$errorkey] = get_string('uerr_lowerthanminimum_more', 'surveyprofield_multiselect', $this->minimumrequired);
-                }
+        // I don't care if this element is required or not.
+        // If the user provides an answer, it has to be compliant with the field validation rules.
+        $answercount = (isset($data[$this->itemname])) ? count($data[$this->itemname]) : 0;
+        if ($answercount < $this->minimumrequired) {
+            if ($this->minimumrequired == 1) {
+                $errors[$errorkey] = get_string('uerr_lowerthanminimum_one', 'surveyprofield_multiselect');
+            } else {
+                $errors[$errorkey] = get_string('uerr_lowerthanminimum_more', 'surveyprofield_multiselect', $this->minimumrequired);
             }
         }
     }
@@ -604,7 +567,7 @@ EOS;
         }
 
         if ($labelsubset) {
-            // only garbage, but user wrote it
+            // Only garbage, but user wrote it.
             $mformelementinfo = new stdClass();
             $mformelementinfo->parentname = $this->itemname.'[]';
             $mformelementinfo->operator = 'neq';
@@ -688,7 +651,7 @@ EOS;
             return;
         }
 
-        if (!isset($answer['mainelement'])) { // only placeholder arrived here
+        if (!isset($answer['mainelement'])) { // Only placeholder arrived here.
             $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
             $olduseranswer->content = implode(SURVEYPRO_DBMULTICONTENTSEPARATOR, array_fill(1, count($labels), '0'));
         } else {
@@ -730,14 +693,14 @@ EOS;
      * @return
      */
     public function userform_db_to_export($answer, $format='') {
-        // content
+        // Content.
         $content = $answer->content;
         // SURVEYPRO_NOANSWERVALUE does not exist here
-        if ($content === null) { // item was disabled
+        if ($content === null) { // Item was disabled.
             return get_string('notanswereditem', 'mod_surveypro');
         }
 
-        // format
+        // Format.
         if ($format == SURVEYPRO_FIRENDLYFORMAT) {
             $format = $this->item_get_friendlyformat();
         }
@@ -774,8 +737,8 @@ EOS;
                 $return = implode(SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR, $output);
                 break;
             case SURVEYPRO_ITEMRETURNSPOSITION:
-                // here I will ALWAYS HAVE 0/1 so each separator is welcome, even ','
-                // I do not like pass the idea that ',' can be a separator so, I do not use it
+                // Here I will ALWAYS HAVE 0/1 so each separator is welcome, even ','.
+                // I do not like pass the idea that ',' can be a separator so, I do not use it.
                 $return = $content;
                 break;
             default:

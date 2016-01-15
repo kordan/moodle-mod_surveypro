@@ -26,8 +26,8 @@ require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/view_cover.class.php');
 
-$id = optional_param('id', 0, PARAM_INT); // course_module ID, or
-$s = optional_param('s', 0, PARAM_INT);  // surveypro instance ID
+$id = optional_param('id', 0, PARAM_INT); // Course_module id.
+$s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
@@ -43,14 +43,10 @@ require_course_login($course, true, $cm);
 
 $context = context_module::instance($cm->id);
 
-// -----------------------------
-// calculations
-// -----------------------------
+// Calculations.
 $coverman = new mod_surveypro_covermanager($cm, $context, $surveypro);
 
-// -----------------------------
-// output starts here
-// -----------------------------
+// Output starts here.
 $url = new moodle_url('/mod/surveypro/view_cover.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
@@ -63,10 +59,11 @@ navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
-$moduletab = SURVEYPRO_TABSUBMISSIONS; // needed by tabs.php
-$modulepage = SURVEYPRO_SUBMISSION_CPANEL; // needed by tabs.php
+$moduletab = SURVEYPRO_TABSUBMISSIONS; // Needed by tabs.php.
+$modulepage = SURVEYPRO_SUBMISSION_CPANEL; // Needed by tabs.php.
 require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
 $coverman->display_cover();
 
+// Finish the page.
 echo $OUTPUT->footer();

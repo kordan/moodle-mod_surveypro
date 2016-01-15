@@ -36,16 +36,14 @@ class mod_surveypro_chooseitemform extends moodleform {
     public function definition() {
         global $DB;
 
-        // ----------------------------------------
         $mform = $this->_form;
 
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         $surveypro = $this->_customdata->surveypro;
 
-        // only fields
-        // no matter for the page
-        // elenco dei campi che l'utente vuole vedere nel file esportato
+        // Only fields.
+        // No matter for the page.
+        // I get the list of fields that the use wants to see in the exported file.
 
         $where = array();
         $where['surveyproid'] = $surveypro->id;
@@ -54,7 +52,7 @@ class mod_surveypro_chooseitemform extends moodleform {
         $where['hidden'] = 0;
         $itemseeds = $DB->get_recordset('surveypro_item', $where, 'sortindex');
 
-        // build options array
+        // Build options array.
         $labelsep = get_string('labelsep', 'langconfig'); // ': '
         $options = array(get_string('choosedots'));
         foreach ($itemseeds as $itemseed) {
@@ -75,8 +73,7 @@ class mod_surveypro_chooseitemform extends moodleform {
         $mform->addElement('select', $fieldname, get_string('variable', 'mod_surveypro'), $options);
         $mform->addHelpButton($fieldname, $fieldname, 'surveyproreport_frequency');
 
-        // ----------------------------------------
-        // buttons
+        // Buttons.
         $this->add_action_buttons(false, get_string('continue'));
     }
 
@@ -88,8 +85,7 @@ class mod_surveypro_chooseitemform extends moodleform {
      * @return $errors
      */
     public function validation($data, $files) {
-        // ----------------------------------------
-        // get _customdata
+        // Get _customdata.
         // $surveypro = $this->_customdata->surveypro;
 
         // "noanswer" default option is not allowed when the item is mandatory
