@@ -105,6 +105,7 @@ define('SURVEYPRO_DELETEALLRESPONSES', '14');
 
 // ACTIONS in UTEMPLATE section
 define('SURVEYPRO_DELETEUTEMPLATE'   , '16');
+define('SURVEYPRO_EXPORTUTEMPLATE'   , '17');
 
 /*
  * VIEW
@@ -112,19 +113,15 @@ define('SURVEYPRO_DELETEUTEMPLATE'   , '16');
 // VIEW in USER FORM section
 define('SURVEYPRO_NOVIEW'           , '0');
 define('SURVEYPRO_NEWRESPONSE'      , '1');
-define('SURVEYPRO_PREVIEWSURVEYFORM', '2');
-define('SURVEYPRO_EDITRESPONSE'     , '3');
-define('SURVEYPRO_READONLYRESPONSE' , '4');
+define('SURVEYPRO_EDITRESPONSE'     , '2');
+define('SURVEYPRO_READONLYRESPONSE' , '3');
 
 // VIEW in ITEM section
-define('SURVEYPRO_EDITITEM'        , '5');
-define('SURVEYPRO_CHANGEORDERASK'  , '6');
+define('SURVEYPRO_EDITITEM'         , '4');
+define('SURVEYPRO_CHANGEORDERASK'   , '5');
 
 // VIEW in RESPONSES section
-define('SURVEYPRO_RESPONSETOPDF'   , '7');
-
-// VIEW in UTEMPLATE section
-define('SURVEYPRO_EXPORTUTEMPLATE' , '8');
+define('SURVEYPRO_RESPONSETOPDF'    , '6');
 
 /*
  * OVERFLOW
@@ -194,9 +191,10 @@ define('SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR', '; ');
 /*
  * CONFIRMATION
  */
-define('SURVEYPRO_UNCONFIRMED',   0);
-define('SURVEYPRO_CONFIRMED_YES', 1);
-define('SURVEYPRO_CONFIRMED_NO' , 2);
+define('SURVEYPRO_UNCONFIRMED',    0);
+define('SURVEYPRO_CONFIRMED_YES',  1);
+define('SURVEYPRO_CONFIRMED_NO' ,  2);
+define('SURVEYPRO_CONFIRMED_DONE', 3);
 
 /*
  * DEFAULTVALUE OPTION
@@ -257,12 +255,6 @@ define('SURVEYPRO_LABELS', 'labels');
 define('SURVEYPRO_VALUES', 'values');
 define('SURVEYPRO_POSITIONS', 'positions');
 define('SURVEYPRO_ITEMDRIVEN', 'itemdriven');
-
-/*
- * TEMPLATES TYPES
- */
-define('SURVEYPRO_MASTERTEMPLATE', 'mastertemplate');
-define('SURVEYPRO_USERTEMPLATE',   'usertemplate');
 
 /*
  * DUMMY CONTENT USED AT ANSWER SAVE TIME
@@ -618,7 +610,6 @@ function surveypro_cron() {
                     $cm = get_coursemodule_from_instance('surveypro', $surveyproid, 0, false, MUST_EXIST);
                     $context = context_module::instance($cm->id);
                     $eventdata = array('context' => $context, 'objectid' => $surveyproid);
-                    $eventdata['other'] = array('cover' => 0);
                     $event = \mod_surveypro\event\unattended_submissions_deleted::create($eventdata);
                     $event->trigger();
                 }
@@ -882,7 +873,9 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
     $canaccessreports = has_capability('mod/surveypro:accessreports', $context, null, true);
     $canaccessownreports = has_capability('mod/surveypro:accessownreports', $context, null, true);
 
-    $hassubmissions = surveypro_count_submissions($cm->instance);
+    require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
+    $utilityman = new mod_surveypro_utility($cm);
+    $hassubmissions = $utilityman->has_submissions();
 
     $whereparams = array('surveyproid' => $cm->instance);
     $countparents = $DB->count_records_select('surveypro_item', 'surveyproid = :surveyproid AND parentid <> 0', $whereparams);
@@ -897,16 +890,16 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
     // -> children
     if ($canpreview) {
         $nodelabel = get_string('tabitemspage1', 'mod_surveypro');
-        $localparamurl = array('s' => $cm->instance, 'view' => SURVEYPRO_PREVIEWSURVEYFORM);
-        $navnode->add($nodelabel, new moodle_url('/mod/surveypro/view_userform.php', $localparamurl), navigation_node::TYPE_SETTING);
+        $localparamurl = array('s' => $cm->instance);
+        $navnode->add($nodelabel, new moodle_url('/mod/surveypro/layout_preview.php', $localparamurl), navigation_node::TYPE_SETTING);
     }
     if ($canmanageitems) {
         $nodelabel = get_string('tabitemspage2', 'mod_surveypro');
-        $navnode->add($nodelabel, new moodle_url('/mod/surveypro/items_manage.php', $paramurlbase), navigation_node::TYPE_SETTING);
+        $navnode->add($nodelabel, new moodle_url('/mod/surveypro/layout_manage.php', $paramurlbase), navigation_node::TYPE_SETTING);
         if (empty($surveypro->template)) {
             if ($countparents) {
                 $nodelabel = get_string('tabitemspage4', 'mod_surveypro');
-                $navnode->add($nodelabel, new moodle_url('/mod/surveypro/items_validate.php', $paramurlbase), navigation_node::TYPE_SETTING);
+                $navnode->add($nodelabel, new moodle_url('/mod/surveypro/layout_validation.php', $paramurlbase), navigation_node::TYPE_SETTING);
             }
         }
     }
@@ -914,7 +907,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
     // SURVEYPRO_TABSUBMISSIONS
     if ($canimportdata || $canexportdata) {
         // -> parent
-        $nodelabel = get_string('tabsubmissionspage2', 'mod_surveypro');
+        $nodelabel = get_string('tabsubmissionsname', 'mod_surveypro');
         $navnode = $surveypronode->add($nodelabel,  null, navigation_node::TYPE_CONTAINER);
 
         // -> children
@@ -1033,7 +1026,7 @@ function surveypro_extend_navigation(navigation_node $navref, stdClass $course, 
     // SURVEYPRO_TABSUBMISSIONS.
     // Children only.
     $paramurl = array('s' => $cm->instance);
-    $localparamurl = array('s' => $cm->instance, 'cover' => 0);
+    $localparamurl = array('s' => $cm->instance);
     $nodelabel = get_string('tabsubmissionspage1', 'mod_surveypro');
     $navref->add($nodelabel, new moodle_url('/mod/surveypro/view_cover.php', $paramurl), navigation_node::TYPE_SETTING);
     $nodelabel = get_string('tabsubmissionspage2', 'mod_surveypro');
@@ -1208,38 +1201,6 @@ function surveypro_reset_items_pages($surveyproid) {
 
     $whereparams = array('surveyproid' => $surveyproid);
     $DB->set_field('surveypro_item', 'formpage', 0, $whereparams);
-}
-
-/**
- * surveypro_count_items
- *
- * @param $surveyproid
- * @return
- */
-function surveypro_count_items($surveyproid) {
-    global $DB;
-
-    $whereparams = array('surveyproid' => $surveyproid);
-
-    return $DB->count_records('surveypro_item', $whereparams);
-}
-
-/**
- * surveypro_count_submissions
- *
- * @param $surveyproid
- * @param $status
- * @return
- */
-function surveypro_count_submissions($surveyproid, $status=SURVEYPRO_STATUSALL) {
-    global $DB;
-
-    $params = array('surveyproid' => $surveyproid);
-    if ($status != SURVEYPRO_STATUSALL) {
-        $params['status'] = $status;
-    }
-
-    return $DB->count_records('surveypro_submission', $params);
 }
 
 /**

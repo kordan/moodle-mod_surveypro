@@ -18,7 +18,15 @@ Feature: Validate creation and submit for "multiselect" elements using the princ
       | user     | course           | role           |
       | teacher1 | Multiselect item | editingteacher |
       | student1 | Multiselect item | student        |
+    And the following "activities" exist:
+      | activity  | name           | intro              | course           | idnumber   |
+      | surveypro | Surveypro test | For testing backup | Multiselect item | surveypro1 |
     And I log in as "teacher1"
+    And I follow "Test submission for multiselect item"
+    And I follow "Surveypro test"
+    And I set the field "typeplugin" to "Multiple selection"
+    And I press "Add"
+    And I expand all fieldsets
 
   @javascript
   Scenario: test multiselect element with the following settings: 1; milk\ncoffee\nbutter\nbread; coffee; 0
@@ -26,16 +34,7 @@ Feature: Validate creation and submit for "multiselect" elements using the princ
       # Options (fixed):        milk\ncoffee\nbutter\nbread
       # Default:                coffee
       # Minimum required items: 0
-    Given the following "activities" exist:
-      | activity  | name           | intro              | course           | idnumber   |
-      | surveypro | Surveypro test | For testing backup | Multiselect item | surveypro1 |
-    And I follow "Test submission for multiselect item"
-    And I follow "Surveypro test"
-
-    And I set the field "typeplugin" to "Multiple selection"
-    And I press "Add"
-
-    And I set the following fields to these values:
+    Given I set the following fields to these values:
       | Content                | What do you usually get for breakfast? |
       | Required               | 1                                      |
     And I fill the textarea "Options" with multiline content "milk\ncoffee\nbutter\nbread"
@@ -71,16 +70,7 @@ Feature: Validate creation and submit for "multiselect" elements using the princ
       # Options (fixed):        milk\ncoffee\nbutter\nbread
       # Default:                coffee
       # Minimum required items: 2
-    Given the following "activities" exist:
-      | activity  | name           | intro              | course           | idnumber   |
-      | surveypro | Surveypro test | For testing backup | Multiselect item | surveypro1 |
-    And I follow "Test submission for multiselect item"
-    And I follow "Surveypro test"
-
-    And I set the field "typeplugin" to "Multiple selection"
-    And I press "Add"
-
-    And I set the following fields to these values:
+    Given I set the following fields to these values:
       | Content                | What do you usually get for breakfast? |
       | Required               | 1                                      |
     And I fill the textarea "Options" with multiline content "milk\ncoffee\nbutter\nbread"

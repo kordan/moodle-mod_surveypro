@@ -24,7 +24,6 @@ Feature: make a submission test for each available item
     And I follow "Test submission for each available item"
     And I follow "Each item submission"
 
-    # #############
     # add an item using the 1st plugin
     And I set the field "typeplugin" to "Age [yy/mm]"
     And I press "Add"
@@ -42,7 +41,6 @@ Feature: make a submission test for each available item
       | id_defaultvalue_month    | 4                                                 |
     And I press "Add"
 
-    # #############
     # add an item using the 2nd plugin
     And I set the field "typeplugin" to "Attachment"
     And I press "Add"
@@ -57,7 +55,6 @@ Feature: make a submission test for each available item
       | Hide filling instruction | 1                                   |
     And I press "Add"
 
-    # #############
     # add an item using the 3rd plugin
     And I set the field "typeplugin" to "Autofill"
     And I press "Add"
@@ -71,7 +68,6 @@ Feature: make a submission test for each available item
       | id_element01_select | user ID      |
     And I press "Add"
 
-    # #############
     # add two items using the 4th plugin
     And I set the field "typeplugin" to "Boolean"
     And I press "Add"
@@ -83,6 +79,7 @@ Feature: make a submission test for each available item
       | Indent            | 0             |
       | Question position | left          |
       | Element number    | 4a            |
+      | Element style     | dropdown menu |
     And I press "Add"
 
     And I set the field "typeplugin" to "Boolean"
@@ -90,15 +87,13 @@ Feature: make a submission test for each available item
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content           | Is this true?            |
-      | Required          | 1                        |
-      | Indent            | 0                        |
-      | Question position | left                     |
-      | Element number    | 4b                       |
-      | Element style     | horizontal radio buttons |
+      | Content           | Is this true? |
+      | Required          | 1             |
+      | Indent            | 0             |
+      | Question position | left          |
+      | Element number    | 4b            |
     And I press "Add"
 
-    # #############
     # add an item using the 5th plugin
     And I set the field "typeplugin" to "Checkbox"
     And I press "Add"
@@ -112,7 +107,6 @@ Feature: make a submission test for each available item
     And I fill the textarea "Options" with multiline content "milk\nsugar\njam\nchocolate"
     And I press "Add"
 
-    # #############
     # add an item using the 6th plugin
     And I set the field "typeplugin" to "Date (short) [mm/yyyy]"
     And I press "Add"
@@ -127,7 +121,6 @@ Feature: make a submission test for each available item
       | Hide filling instruction | 1                                  |
     And I press "Add"
 
-    # #############
     # add an item using the 7th plugin
     And I set the field "typeplugin" to "Date [dd/mm/yyyy]"
     And I press "Add"
@@ -142,7 +135,6 @@ Feature: make a submission test for each available item
       | Hide filling instruction | 1                   |
     And I press "Add"
 
-    # #############
     # add an item using the 8th plugin
     And I set the field "typeplugin" to "Date and time [dd/mm/yyyy;hh:mm]"
     And I press "Add"
@@ -157,14 +149,12 @@ Feature: make a submission test for each available item
       | Hide filling instruction | 1                                                                    |
     And I press "Add"
 
-    # #############
     # add an item using the 22th plugin
     And I set the field "typeplugin" to "Page break"
     And I press "Add"
 
     And I press "Add"
 
-    # #############
     # add an item using the 9th plugin
     And I set the field "typeplugin" to "Integer (small)"
     And I press "Add"
@@ -178,7 +168,6 @@ Feature: make a submission test for each available item
       | Element number           | 9                                      |
     And I press "Add"
 
-    # #############
     # add an item using the 10th plugin
     And I set the field "typeplugin" to "Multiple selection"
     And I press "Add"
@@ -192,7 +181,6 @@ Feature: make a submission test for each available item
     And I fill the textarea "Options" with multiline content "milk\nsugar\njam\nchocolate"
     And I press "Add"
 
-    # #############
     # add an item using the 11th plugin
     And I set the field "typeplugin" to "Numeric"
     And I press "Add"
@@ -204,13 +192,12 @@ Feature: make a submission test for each available item
       | Indent                   | 0                                                  |
       | Question position        | left                                               |
       | Element number           | 11                                                 |
-      | Hide filling instruction | 1                                                  |
+      | Hide filling instruction | 0                                                  |
       | Decimal positions        | 2                                                  |
       | Minimum value            | 2                                                 |
       | Maximum value            | 4                                                 |
     And I press "Add"
 
-    # #############
     # add an item using the 12th plugin
     And I set the field "typeplugin" to "Radio buttons"
     And I press "Add"
@@ -225,7 +212,6 @@ Feature: make a submission test for each available item
     And I fill the textarea "Options" with multiline content "sea\nmountain\nlake\nhills\ndesert"
     And I press "Add"
 
-    # #############
     # add an item using the 19th plugin
     And I set the field "typeplugin" to "Fieldset"
     And I press "Add"
@@ -235,7 +221,6 @@ Feature: make a submission test for each available item
       | Content | Here you can find two different styled rate item |
     And I press "Add"
 
-    # #############
     # add two items using the 13th plugin
     And I set the field "typeplugin" to "Rate"
     And I press "Add"
@@ -264,14 +249,12 @@ Feature: make a submission test for each available item
     And I fill the textarea "Rates" with multiline content "Mother tongue\nVery confident\nNot enought\nCompletely unknown"
     And I press "Add"
 
-    # #############
     # add an item using the 20th plugin
     And I set the field "typeplugin" to "Fieldset closure"
     And I press "Add"
 
     And I press "Add"
 
-    # #############
     # add an item using the 14th plugin
     And I set the field "typeplugin" to "Recurrence [dd/mm]"
     And I press "Add"
@@ -286,7 +269,6 @@ Feature: make a submission test for each available item
       | Hide filling instruction | 1                                            |
     And I press "Add"
 
-    # #############
     # add an item using the 15th plugin
     And I set the field "typeplugin" to "Select"
     And I press "Add"
@@ -301,7 +283,6 @@ Feature: make a submission test for each available item
     And I fill the textarea "Options" with multiline content "sea\nmountain\nlake\nhills\ndesert"
     And I press "Add"
 
-    # #############
     # add an item using the 16th plugin
     And I set the field "typeplugin" to "Text (long)"
     And I press "Add"
@@ -315,7 +296,6 @@ Feature: make a submission test for each available item
       | Hide filling instruction | 1                                     |
     And I press "Add"
 
-    # #############
     # add an item using the 17th plugin
     And I set the field "typeplugin" to "Text (short)"
     And I press "Add"
@@ -348,13 +328,13 @@ Feature: make a submission test for each available item
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content                  | Enter a postal code |
-      | Indent                   | 0                   |
-      | Question position        | left                |
-      | Element number           | 17c                 |
-      | Hide filling instruction | 0                   |
-      | id_pattern               | custom              |
-      | id_pattern_text          | 00000               |
+      | Content                  | Enter a zip code |
+      | Indent                   | 0                |
+      | Question position        | left             |
+      | Element number           | 17c              |
+      | Hide filling instruction | 0                |
+      | id_pattern               | custom           |
+      | id_pattern_text          | 00000            |
     And I press "Add"
 
     And I set the field "typeplugin" to "Text (short)"
@@ -370,7 +350,6 @@ Feature: make a submission test for each available item
       | id_pattern               | free pattern        |
     And I press "Add"
 
-    # #############
     # add an item using the 18th plugin
     And I set the field "typeplugin" to "Time"
     And I press "Add"
@@ -383,6 +362,12 @@ Feature: make a submission test for each available item
       | Element number           | 18                                                                     |
       | Hide filling instruction | 1                                                                      |
     And I press "Add"
+
+    And I press "Add"
+
+    And I follow "Preview"
+    And I press "Next page >>"
+    And I press "<< Previous page"
 
     And I log out
 
@@ -437,7 +422,7 @@ Feature: make a submission test for each available item
       | 16: Write a short description of yourself              | Super!                 |
       | 17a: Write down your email                             | me@myserver.net        |
       | 17b: Type a web address                                | https://www.google.com |
-      | 17c: Enter a postal code                               | 00136                  |
+      | 17c: Enter a zip code                                  | 00136                  |
       | 17d: This is a free text                               | Free text here         |
       | id_surveypro_field_time_26_hour                        | 7                      |
       | id_surveypro_field_time_26_minute                      | 15                     |
@@ -445,3 +430,20 @@ Feature: make a submission test for each available item
 
     And I press "Continue to responses list"
     Then I should see "1" submissions displayed
+
+    And I follow "view_submission_row_1"
+    And I press "Next page >>"
+    And I press "<< Previous page"
+    And I follow "Responses"
+    And I log out
+
+    When I log in as "teacher1"
+
+    And I follow "Test submission for each available item"
+    And I follow "Each item submission"
+    And I follow "edit_submission_row_1"
+    And I press "Next page >>"
+    And I set the field "id_surveypro_field_multiselect_12" to "sugar, jam"
+    And I press "Submit"
+
+    And I press "Continue to responses list"

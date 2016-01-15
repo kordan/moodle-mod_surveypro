@@ -28,95 +28,87 @@ require_once($CFG->dirroot.'/mod/surveypro/field/rate/lib.php');
 class mod_surveypro_field_rate extends mod_surveypro_itembase {
 
     /**
-     * $content = the text content of the item.
+     * Item content stuff.
      */
     public $content = '';
-
-    /**
-     * $contenttrust
-     */
     public $contenttrust = 1;
-
-    /**
-     * public $contentformat = '';
-     */
     public $contentformat = '';
 
     /**
      * $customnumber = the custom number of the item.
      * It usually is 1. 1.1, a, 2.1.a...
      */
-    public $customnumber = '';
+    protected $customnumber;
 
     /**
      * $position = where does the question go?
      */
-    public $position = SURVEYPRO_POSITIONLEFT;
+    protected $position;
 
     /**
      * $extranote = an optional text describing the item
      */
-    public $extranote = '';
+    protected $extranote;
 
     /**
      * $required = boolean. O == optional item; 1 == mandatory item
      */
-    public $required = 0;
+    protected $required;
 
     /**
      * $hideinstructions = boolean. Exceptionally hide filling instructions
      */
-    public $hideinstructions = 0;
+    protected $hideinstructions;
 
     /**
      * $variable = the name of the field storing data in the db table
      */
-    public $variable = '';
+    protected $variable;
 
     /**
      * $indent = the indent of the item in the form page
      */
-    public $indent = 0;
+    protected $indent;
 
     /**
      * $options = list of options in the form of "$value SURVEYPRO_VALUELABELSEPARATOR $label"
      */
-    public $options = '';
+    protected $options;
 
     /**
      * $rates = list of allowed rates in the form: "$value SURVEYPRO_VALUELABELSEPARATOR $label"
      */
-    public $rates = '';
+    protected $rates;
 
     /**
      * $defaultoption
      */
-    public $defaultoption = SURVEYPRO_INVITEDEFAULT;
+    protected $defaultoption;
 
     /**
      * $defaultvalue = the value of the field when the form is initially displayed.
      */
-    public $defaultvalue = '';
+    protected $defaultvalue;
 
     /**
      * $downloadformat = the format of the content once downloaded
      */
-    public $downloadformat = null;
+    protected $downloadformat;
 
     /**
      * $style = how is this rate item displayed? with radiobutton or with dropdown menu?
      */
-    public $style = 0;
+    protected $style;
 
     /**
      * $allowsamerate = is the user allowed to provide two equal rates for two different options?
      */
-    public $differentrates = false;
+    protected $differentrates;
 
     /**
      * static canbeparent
      */
-    public static $canbeparent = false;
+    protected static $canbeparent = false;
 
     /**
      * Class constructor
@@ -124,7 +116,7 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
      * If itemid is provided, load the object (item + base + plugin) from database
      *
      * @param int optional $itemid
-     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
+     * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
@@ -132,7 +124,7 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'rate';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // It is already true from parent class.
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // Already set in parent class.
         $this->savepositiontodb = false;
 
         // Other element specific properties.
@@ -142,8 +134,8 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
         // No properties here.
 
         // List of fields I do not want to have in the item definition form.
-        $this->isinitemform['insearchform'] = false;
-        $this->isinitemform['position'] = SURVEYPRO_POSITIONLEFT;
+        $this->insetupform['insearchform'] = false;
+        $this->insetupform['position'] = SURVEYPRO_POSITIONLEFT;
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $evaluateparentcontent);
@@ -154,7 +146,7 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
      * item_load
      *
      * @param $itemid
-     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
+     * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
      * @return
      */
     public function item_load($itemid, $evaluateparentcontent) {
@@ -383,7 +375,7 @@ EOS;
      * @return
      */
     public function userform_mform_element($mform, $searchform, $readonly=false, $submissionid=0) {
-        // This plugin has $this->isinitemform['insearchform'] = false; so it will never be part of a search form.
+        // This plugin has $this->insetupform['insearchform'] = false; so it will never be part of a search form.
 
         $options = surveypro_textarea_to_array($this->options);
         $optioncount = count($options) - 1;

@@ -18,7 +18,15 @@ Feature: Validate creation and submit for textarea elements using the principal 
       | user     | course        | role           |
       | teacher1 | Textarea item | editingteacher |
       | student1 | Textarea item | student        |
+    And the following "activities" exist:
+      | activity  | name           | intro              | course        | idnumber   |
+      | surveypro | Surveypro test | For testing backup | Textarea item | surveypro1 |
     And I log in as "teacher1"
+    And I follow "Test submission for textarea item"
+    And I follow "Surveypro test"
+    And I set the field "typeplugin" to "Text (long)"
+    And I press "Add"
+    And I expand all fieldsets
 
   @javascript
   Scenario: test textarea element with the following settings: 0; 1; 20; 1 and then empty
@@ -26,17 +34,8 @@ Feature: Validate creation and submit for textarea elements using the principal 
       # Use html editor:                1
       # Minimum length (in characters): 20
       # Maximum length (in characters): 1 and then empty
-    Given the following "activities" exist:
-      | activity  | name           | intro              | course        | idnumber   |
-      | surveypro | Surveypro test | For testing backup | Textarea item | surveypro1 |
-    And I follow "Test submission for textarea item"
-    And I follow "Surveypro test"
-
-    And I set the field "typeplugin" to "Text (long)"
-    And I press "Add"
-
     # Test number 1: teacher create an invalid element
-    And I set the following fields to these values:
+    Given I set the following fields to these values:
       | Content                        | Write a short description of yourself |
       | Required                       | 0                                     |
       | Use html editor                | 1                                     |
@@ -82,16 +81,7 @@ Feature: Validate creation and submit for textarea elements using the principal 
       # Use html editor:                1
       # Minimum length (in characters): 20
       # Maximum length (in characters): empty
-    Given the following "activities" exist:
-      | activity  | name           | intro              | course        | idnumber   |
-      | surveypro | Surveypro test | For testing backup | Textarea item | surveypro1 |
-    And I follow "Test submission for textarea item"
-    And I follow "Surveypro test"
-
-    And I set the field "typeplugin" to "Text (long)"
-    And I press "Add"
-
-    And I set the following fields to these values:
+    Given I set the following fields to these values:
       | Content                        | Write a short description of yourself |
       | Required                       | 1                                     |
       | Use html editor                | 1                                     |
@@ -130,17 +120,7 @@ Feature: Validate creation and submit for textarea elements using the principal 
       # Use html editor:                0
       # Minimum length (in characters): 20
       # Maximum length (in characters): 1 and then empty
-    Given the following "activities" exist:
-      | activity  | name           | intro              | course        | idnumber   |
-      | surveypro | Surveypro test | For testing backup | Textarea item | surveypro1 |
-    And I follow "Test submission for textarea item"
-    And I follow "Surveypro test"
-
-    And I set the field "typeplugin" to "Text (long)"
-    And I press "Add"
-
-    # Test number 8: teacher create an invalid element
-    And I set the following fields to these values:
+    Given I set the following fields to these values:
       | Content                        | Write a short description of yourself |
       | Required                       | 0                                     |
       | Use html editor                | 0                                     |
@@ -188,16 +168,7 @@ Feature: Validate creation and submit for textarea elements using the principal 
       # Use html editor:                0
       # Minimum length (in characters): 20
       # Maximum length (in characters): empty
-    Given the following "activities" exist:
-      | activity  | name           | intro              | course        | idnumber   |
-      | surveypro | Surveypro test | For testing backup | Textarea item | surveypro1 |
-    And I follow "Test submission for textarea item"
-    And I follow "Surveypro test"
-
-    And I set the field "typeplugin" to "Text (long)"
-    And I press "Add"
-
-    And I set the following fields to these values:
+    Given I set the following fields to these values:
       | Content                        | Write a short description of yourself |
       | Required                       | 1                                     |
       | Use html editor                | 0                                     |

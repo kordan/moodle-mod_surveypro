@@ -24,6 +24,7 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/utemplate.class.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
@@ -43,7 +44,6 @@ require_course_login($course, true, $cm);
 
 $utemplateid = optional_param('fid', 0, PARAM_INT);
 $action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
-$view = optional_param('view', SURVEYPRO_NOVIEW, PARAM_INT);
 $confirm = optional_param('cnf', SURVEYPRO_UNCONFIRMED, PARAM_INT);
 
 $context = context_module::instance($cm->id);
@@ -51,14 +51,11 @@ require_capability('mod/surveypro:manageusertemplates', $context);
 
 // Calculations.
 $utemplateman = new mod_surveypro_usertemplate($cm, $context, $surveypro);
-$utemplateman->set_utemplateid($utemplateid);
-$utemplateman->set_action($action);
-$utemplateman->set_view($view);
-$utemplateman->set_confirm($confirm);
+$utemplateman->setup($utemplateid, $action, $confirm);
 
 $utemplateman->prevent_direct_user_input();
 
-if ($view == SURVEYPRO_EXPORTUTEMPLATE) {
+if ($action == SURVEYPRO_EXPORTUTEMPLATE) {
     $utemplateman->export_utemplate();
     die();
 }
@@ -76,9 +73,7 @@ navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
-$moduletab = SURVEYPRO_TABUTEMPLATES; // Needed by tabs.php.
-$modulepage = SURVEYPRO_UTEMPLATES_MANAGE; // Needed by tabs.php.
-require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
+$tabman = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABUTEMPLATES, SURVEYPRO_UTEMPLATES_MANAGE);
 
 $utemplateman->delete_utemplate();
 

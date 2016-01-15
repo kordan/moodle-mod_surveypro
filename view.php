@@ -24,7 +24,8 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
-require_once($CFG->dirroot.'/mod/surveypro/classes/view_manage.class.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/view_submissions.class.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
@@ -46,13 +47,7 @@ $action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
 $view = optional_param('view', SURVEYPRO_NOVIEW, PARAM_INT);
 $confirm = optional_param('cnf', SURVEYPRO_UNCONFIRMED, PARAM_INT);
 $searchquery = optional_param('searchquery', '', PARAM_RAW);
-$cover = optional_param('cover', null, PARAM_INT);
-
-if ($cover == 1) {
-    $paramurl = array('s' => $surveypro->id);
-    $redirecturl = new moodle_url('/mod/surveypro/view_cover.php', $paramurl);
-    redirect($redirecturl);
-}
+$force = optional_param('force', 0, PARAM_INT);
 
 if ($action != SURVEYPRO_NOACTION) {
     require_sesskey();
@@ -61,34 +56,16 @@ if ($action != SURVEYPRO_NOACTION) {
 // Calculations.
 $context = context_module::instance($cm->id);
 $submissionman = new mod_surveypro_submissionmanager($cm, $context, $surveypro);
-$submissionman->set_submissionid($submissionid);
-$submissionman->set_action($action);
-$submissionman->set_view($view);
-$submissionman->set_confirm($confirm);
-$submissionman->set_searchquery($searchquery);
+$submissionman->setup($submissionid, $action, $view, $confirm, $searchquery);
 
-if ($cover === null) {
-    if ($submissionman->canmanageitems) {
-        if (!$submissionman->hasitems) {
-            $paramurl = array('s' => $surveypro->id);
-            $redirecturl = new moodle_url('/mod/surveypro/items_manage.php', $paramurl);
-            redirect($redirecturl);
-        } // Else: carry on.
-    } else {
-        if ($submissionman->hasitems) {
-            $paramurl = array('s' => $surveypro->id);
-            $redirecturl = new moodle_url('/mod/surveypro/view_cover.php', $paramurl);
-            redirect($redirecturl);
-            // } else {
-            // If (!$submissionman->hasitems) { just below execution is stopped.
-        }
-    }
+if (empty($force)) {
+    $submissionman->noitem_redirect();
 }
-$submissionman->prevent_direct_user_input($confirm);
-$submissionman->submission_to_pdf();
+
+$submissionman->actions_execution(); // Perform action before PAGE. (Items in admin block depends on this).
 
 // Output starts here.
-$PAGE->set_url('/mod/surveypro/view.php', array('s' => $surveypro->id, 'cover' => 0));
+$PAGE->set_url('/mod/surveypro/view.php', array('s' => $surveypro->id));
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
@@ -96,14 +73,9 @@ $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
 
-if (!$submissionman->hasitems) {
-    $submissionman->noitem_stopexecution();
-}
-$submissionman->manage_actions(); // Action feedback before tabs.
+$tabman = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_MANAGE);
 
-$moduletab = SURVEYPRO_TABSUBMISSIONS; // Needed by tabs.php.
-$modulepage = SURVEYPRO_SUBMISSION_MANAGE; // Needed by tabs.php.
-require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
+$submissionman->actions_feedback(); // Action feedback after PAGE.
 
 $submissionman->show_action_buttons();
 $submissionman->display_submissions_table();

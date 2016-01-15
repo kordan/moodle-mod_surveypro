@@ -108,7 +108,7 @@ class mod_surveypro_searchform extends moodleform {
         $itemseeds->close();
 
         // Buttons.
-        // $this->add_action_buttons(true, get_string('search'));
+        // $this->add_action_buttons(true, get_string('search')) does not allow me to give a label to the cancel button!
         $buttonarray = array();
         $buttonarray[] = $mform->createElement('submit', 'submitbutton', get_string('search'));
         $buttonarray[] = $mform->createElement('cancel', 'cancel', get_string('findall', 'mod_surveypro'));

@@ -42,7 +42,6 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
 
         // Get _customdata.
         // $item = $this->_customdata->item;
-        // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
 
         // Item: defaultvalue.
@@ -67,6 +66,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $elementgroup[] = $mform->createElement('select', $fieldname, '', $options);
         $elementgroup[] = $mform->createElement('text', $fieldname.'_text', '');
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_character'), ' ', false);
+        // $mform->setDefault($fieldname, SURVEYPROFIELD_CHARACTER_FREEPATTERN);
         $mform->disabledIf($fieldname.'_text', $fieldname, 'neq', SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_character');
         $mform->setType($fieldname, PARAM_RAW);
@@ -75,6 +75,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // Item: minlength.
         $fieldname = 'minlength';
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_character'));
+        $mform->setDefault($fieldname, 0);
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_character');
         $mform->setType($fieldname, PARAM_INT);
 
@@ -97,7 +98,6 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
     public function validation($data, $files) {
         // Get _customdata.
         // $item = $this->_customdata->item;
-        // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
 
         $errors = parent::validation($data, $files);

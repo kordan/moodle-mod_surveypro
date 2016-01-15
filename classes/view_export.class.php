@@ -27,24 +27,11 @@ defined('MOODLE_INTERNAL') || die();
  */
 class mod_surveypro_exportmanager {
     /**
-     * $cm
+     * Basic necessary essential ingredients
      */
-    public $cm = null;
-
-    /**
-     * $context
-     */
-    public $context = null;
-
-    /**
-     * $surveypro: the record of this surveypro
-     */
-    public $surveypro = null;
-
-    /**
-     * $canseeotherssubmissions
-     */
-    public $canseeotherssubmissions = false;
+    protected $cm;
+    protected $context;
+    protected $surveypro;
 
     /**
      * $formdata: the form content as submitted by the user
@@ -58,8 +45,6 @@ class mod_surveypro_exportmanager {
         $this->cm = $cm;
         $this->context = $context;
         $this->surveypro = $surveypro;
-
-        $this->canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
     }
 
     /**
@@ -83,6 +68,7 @@ class mod_surveypro_exportmanager {
     public function export_get_sql($forceuserid=false) {
         global $USER, $COURSE;
 
+        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
         $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
 
         $sql = 'SELECT s.id as submissionid, s.status, s.timecreated, s.timemodified, ';
@@ -96,8 +82,8 @@ class mod_surveypro_exportmanager {
                                 LEFT JOIN {surveypro_answer} a ON a.submissionid = s.id
                                 LEFT JOIN {surveypro_item} si ON si.id = a.itemid';
 
-        // !$this->canseeotherssubmissions do not overload the query with useless conditions
-        if ($this->canseeotherssubmissions) {
+        // !$canseeotherssubmissions do not overload the query with useless conditions
+        if ($canseeotherssubmissions) {
             if ($groupmode) { // Activity is divided into groups.
                 if (!empty($this->formdata->groupid)) {
                     $sql .= ' JOIN {groups_members} gm ON gm.userid = s.userid ';
@@ -132,8 +118,8 @@ class mod_surveypro_exportmanager {
             $whereparams['plugin'] = 'fileupload';
         }
 
-        // !$this->canseeotherssubmissions do not overload the query with useless conditions
-        if ($this->canseeotherssubmissions) {
+        // !$canseeotherssubmissions do not overload the query with useless conditions
+        if ($canseeotherssubmissions) {
             if ($groupmode) { // Activity is divided into groups.
                 if (!empty($this->formdata->groupid)) {
                     $sql .= ' AND gm.groupid = :groupid';

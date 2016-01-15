@@ -28,70 +28,62 @@ require_once($CFG->dirroot.'/mod/surveypro/field/fileupload/lib.php');
 class mod_surveypro_field_fileupload extends mod_surveypro_itembase {
 
     /**
-     * $content = the text content of the item.
+     * Item content stuff.
      */
     public $content = '';
-
-    /**
-     * $contenttrust
-     */
     public $contenttrust = 1;
-
-    /**
-     * public $contentformat = '';
-     */
     public $contentformat = '';
 
     /**
      * $customnumber = the custom number of the item.
      * It usually is 1. 1.1, a, 2.1.a...
      */
-    public $customnumber = '';
+    protected $customnumber;
 
     /**
      * $position = where does the question go?
      */
-    public $position = SURVEYPRO_POSITIONLEFT;
+    protected $position;
 
     /**
      * $extranote = an optional text describing the item
      */
-    public $extranote = '';
+    protected $extranote;
 
     /**
      * $required = boolean. O == optional item; 1 == mandatory item
      */
-    public $required = 0;
+    protected $required;
 
     /**
      * $variable = the name of the field storing data in the db table
      */
-    public $variable = '';
+    protected $variable;
 
     /**
      * $indent = the indent of the item in the form page
      */
-    public $indent = 0;
+    protected $indent;
 
     /**
      * $maxfiles = the maximum number of files allowed to upload
      */
-    public $maxfiles = '1';
+    protected $maxfiles;
 
     /**
      * $maxbytes = the maximum allowed size of the file to upload
      */
-    public $maxbytes = '1024';
+    protected $maxbytes;
 
     /**
      * $filetypes = list of allowed file extension
      */
-    public $filetypes = '*';
+    protected $filetypes;
 
     /**
      * static canbeparent
      */
-    public static $canbeparent = false;
+    protected static $canbeparent = false;
 
     /**
      * Class constructor
@@ -100,7 +92,7 @@ class mod_surveypro_field_fileupload extends mod_surveypro_itembase {
      *
      * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
-     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
+     * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
@@ -108,7 +100,7 @@ class mod_surveypro_field_fileupload extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'fileupload';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // It is already true from parent class.
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // Already set in parent class.
         $this->savepositiontodb = false;
 
         // Other element specific properties.
@@ -118,7 +110,7 @@ class mod_surveypro_field_fileupload extends mod_surveypro_itembase {
         // No properties here.
 
         // List of fields I do not want to have in the item definition form.
-        $this->isinitemform['insearchform'] = false;
+        $this->insetupform['insearchform'] = false;
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $evaluateparentcontent);
@@ -129,7 +121,7 @@ class mod_surveypro_field_fileupload extends mod_surveypro_itembase {
      * item_load
      *
      * @param $itemid
-     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
+     * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
      * @return
      */
     public function item_load($itemid, $evaluateparentcontent) {
@@ -236,7 +228,7 @@ EOS;
      * @return
      */
     public function userform_mform_element($mform, $searchform, $readonly=false, $submissionid=0) {
-        // This plugin has $this->isinitemform['insearchform'] = false; so it will never be part of a search form.
+        // This plugin has $this->insetupform['insearchform'] = false; so it will never be part of a search form.
 
         $fieldname = $this->itemname.'_filemanager';
 
@@ -325,6 +317,7 @@ EOS;
      */
     public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
         if (!empty($answer)) {
+            $context = context_module::instance($this->cm->id);
             $fieldname = $this->itemname.'_filemanager';
 
             $attributes = array();
@@ -332,7 +325,7 @@ EOS;
             $attributes['accepted_types'] = $this->filetypes;
             $attributes['subdirs'] = false;
             $attributes['maxfiles'] = $this->maxfiles;
-            file_save_draft_area_files($answer['filemanager'], $this->context->id, 'surveyprofield_fileupload', SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $olduseranswer->id, $attributes);
+            file_save_draft_area_files($answer['filemanager'], $context->id, 'surveyprofield_fileupload', SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $olduseranswer->id, $attributes);
 
             $olduseranswer->content = ''; // Nothing is expected here.
         }
@@ -354,16 +347,16 @@ EOS;
             return $prefill;
         }
 
+        $context = context_module::instance($this->cm->id);
         $fieldname = $this->itemname.'_filemanager';
 
-        // $prefill->id = $fromdb->submissionid;
         $draftitemid = 0;
         $attributes = array();
         $attributes['maxbytes'] = $this->maxbytes;
         $attributes['accepted_types'] = $this->filetypes;
         $attributes['subdirs'] = false;
         $attributes['maxfiles'] = $this->maxfiles;
-        file_prepare_draft_area($draftitemid, $this->context->id, 'surveyprofield_fileupload', SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $fromdb->id, $attributes);
+        file_prepare_draft_area($draftitemid, $context->id, 'surveyprofield_fileupload', SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $fromdb->id, $attributes);
 
         $prefill[$fieldname] = $draftitemid;
 
@@ -380,8 +373,10 @@ EOS;
      */
     public function userform_db_to_export($answer, $format='') {
         // SURVEYPRO_NOANSWERVALUE does not exist here
+        $context = context_module::instance($this->cm->id);
+
         $fs = get_file_storage();
-        $files = $fs->get_area_files($this->context->id, 'surveyprofield_fileupload', SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $answer->id);
+        $files = $fs->get_area_files($context->id, 'surveyprofield_fileupload', SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $answer->id);
         $filename = array();
         foreach ($files as $file) {
             if ($file->is_directory()) {

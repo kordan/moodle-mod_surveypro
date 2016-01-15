@@ -51,6 +51,9 @@ $reportman->set_qid($qid);
 
 $graph = new graph(SURVEYPROREPORT_COLLES_GWIDTH, SURVEYPROREPORT_COLLES_GHEIGHT);
 if ($type == 'summary') {
+    $canaccessreports = has_capability('mod/surveypro:accessreports', $context, null, true);
+    $canaccessownreports = has_capability('mod/surveypro:accessownreports', $context, null, true);
+
     $reportman->fetch_summarydata();
 
     // Legend for $y_format_params.
@@ -111,7 +114,7 @@ if ($type == 'summary') {
         $graph->offset_relation['stdev2'] = 'answers2';
     }
 
-    $allowsingle = !$reportman->canaccessreports && $reportman->canaccessownreports;
+    $allowsingle = !$canaccessreports && $canaccessownreports;
     if ($allowsingle) { // If the user hasn't general right but only canaccessownreports.
         if ($reportman->studenttrend1) { // If the user submitted at least one response.
             $labelsep = get_string('labelsep', 'langconfig'); // ': '
@@ -138,7 +141,7 @@ if ($type == 'summary') {
 
     // Order of graphics.
     if ($reportman->template == 'collesactualpreferred') {
-        if ($allowsingle && ($reportman->studenttrend1)) { // If the user hasn't general right but only canaccessownreports && submitted at least one response.
+        if ($allowsingle && ($reportman->studenttrend1)) { // If the user hasn't general right but only canaccessownreports && submitted at least one response.
             $graph->y_order = array('stdev1', 'answers1', 'stdev2', 'answers2', 'answers3', 'answers4');
         } else {
             $graph->y_order = array('stdev1', 'answers1', 'stdev2', 'answers2');

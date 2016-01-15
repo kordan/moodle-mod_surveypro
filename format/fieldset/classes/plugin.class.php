@@ -28,14 +28,14 @@ require_once($CFG->dirroot.'/mod/surveypro/format/fieldset/lib.php');
 class mod_surveypro_format_fieldset extends mod_surveypro_itembase {
 
     /**
-     * $content = the text content of the item.
+     * Item content, alias: the label of the fieldset.
      */
-    public $content = '';
+    protected $content;
 
     /**
      * static canbeparent
      */
-    public static $canbeparent = false;
+    protected static $canbeparent = false;
 
     /**
      * Class constructor
@@ -44,7 +44,7 @@ class mod_surveypro_format_fieldset extends mod_surveypro_itembase {
      *
      * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
-     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
+     * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
@@ -62,13 +62,13 @@ class mod_surveypro_format_fieldset extends mod_surveypro_itembase {
         // No properties here.
 
         // List of fields I do not want to have in the item definition form.
-        $this->isinitemform['extranote'] = false;
-        $this->isinitemform['customnumber'] = false;
-        $this->isinitemform['position'] = false;
-        $this->isinitemform['required'] = false;
-        $this->isinitemform['variable'] = false;
-        $this->isinitemform['indent'] = false;
-        $this->isinitemform['hideinstructions'] = false;
+        $this->insetupform['extranote'] = false;
+        $this->insetupform['customnumber'] = false;
+        $this->insetupform['position'] = false;
+        $this->insetupform['required'] = false;
+        $this->insetupform['variable'] = false;
+        $this->insetupform['indent'] = false;
+        $this->insetupform['hideinstructions'] = false;
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $evaluateparentcontent);
@@ -79,7 +79,7 @@ class mod_surveypro_format_fieldset extends mod_surveypro_itembase {
      * item_load
      *
      * @param $itemid
-     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
+     * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
      * @return
      */
     public function item_load($itemid, $evaluateparentcontent) {
@@ -176,7 +176,7 @@ EOS;
      * @return
      */
     public function userform_mform_element($mform, $searchform, $readonly=false, $submissionid=0) {
-        // This plugin has $this->isinitemform['insearchform'] = false; so it will never be part of a search form.
+        // This plugin has $this->insetupform['insearchform'] = false; so it will never be part of a search form.
 
         $mform->addElement('header', $this->itemname, $this->get_content());
     }

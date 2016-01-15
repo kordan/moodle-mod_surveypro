@@ -49,6 +49,7 @@ Feature: test each student sees only personal submissions
       | Indent            | 0             |
       | Question position | left          |
       | Element number    | 2             |
+      | Element style     | dropdown menu |
     And I press "Add"
 
     And I log out

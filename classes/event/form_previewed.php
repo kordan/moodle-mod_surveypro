@@ -62,8 +62,7 @@ class form_previewed extends \core\event\base {
     public function get_url() {
         $paramurl = array();
         $paramurl['id'] = $this->contextinstanceid;
-        $paramurl['view'] = $this->other['view'];
-        return new \moodle_url('/mod/surveypro/view_userform.php', $paramurl);
+        return new \moodle_url('/mod/surveypro/layout_preview.php', $paramurl);
     }
 
     /**
@@ -99,17 +98,5 @@ class form_previewed extends \core\event\base {
         $data->id = $this->objectid;
         $data->userid = $this->relateduserid;
         return $data; */
-    }
-
-    /**
-     * Custom validation.
-     *
-     * @throws \coding_exception
-     * @return none
-     */
-    protected function validate_data() {
-        if (!isset($this->other['view'])) {
-            throw new \coding_exception('view is a mandatory property.');
-        }
     }
 }

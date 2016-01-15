@@ -435,7 +435,7 @@ mountain
 lake
 hills
 desert</options>
-      <labelother>other, please specify-&gt;North pole</labelother>
+      <labelother>other (please specify)-&gt;North pole</labelother>
       <defaultoption>1</defaultoption>
       <defaultvalue>mountain</defaultvalue>
       <downloadformat>1</downloadformat>
@@ -475,9 +475,9 @@ mountain
 lake
 hills
 desert</options>
-      <labelother>other, please specify-&gt;North pole</labelother>
+      <labelother>other (please specify)-&gt;North pole</labelother>
       <defaultoption>1</defaultoption>
-      <defaultvalue>other, please specify</defaultvalue>
+      <defaultvalue>other (please specify)</defaultvalue>
       <downloadformat>1</downloadformat>
       <adjustment>0</adjustment>
     </surveyprofield_radiobutton>

@@ -23,6 +23,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
 
 class mod_surveypro_itembaseform extends moodleform {
 
@@ -39,17 +40,17 @@ class mod_surveypro_itembaseform extends moodleform {
 
         // Get _customdata.
         $item = $this->_customdata->item;
-        $cm = $this->_customdata->cm;
         $surveypro = $this->_customdata->surveypro;
+        $cm = $this->_customdata->item->get_cm();
 
         // Itembase: itemid.
         $fieldname = 'itemid';
-        $mform->addElement('hidden', $fieldname, '');
+        $mform->addElement('hidden', $fieldname, 0);
         $mform->setType($fieldname, PARAM_INT);
 
         // Itembase: pluginid.
         $fieldname = 'pluginid';
-        $mform->addElement('hidden', $fieldname, '');
+        $mform->addElement('hidden', $fieldname, 0);
         $mform->setType($fieldname, PARAM_INT);
 
         // Itembase: type.
@@ -64,12 +65,12 @@ class mod_surveypro_itembaseform extends moodleform {
 
         // Here I open a new fieldset.
         $fieldname = 'common_fs';
-        if ($item->get_isinitemform($fieldname)) {
+        if ($item->get_insetupform($fieldname)) {
             $mform->addElement('header', $fieldname, get_string($fieldname, 'mod_surveypro'));
         }
 
         // Itembase: content & contentformat.
-        if ($item->get_isinitemform('content')) {
+        if ($item->get_insetupform('content')) {
             $editors = $item->get_editorlist();
             if (array_key_exists('content', $editors)) {
                 $fieldname = 'content_editor';
@@ -89,7 +90,7 @@ class mod_surveypro_itembaseform extends moodleform {
 
         // Itembase: required.
         $fieldname = 'required';
-        if ($item->get_isinitemform($fieldname)) {
+        if ($item->get_insetupform($fieldname)) {
             $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'));
             $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
             $mform->setType($fieldname, PARAM_INT);
@@ -97,7 +98,7 @@ class mod_surveypro_itembaseform extends moodleform {
 
         // Itembase: indent.
         $fieldname = 'indent';
-        if ($item->get_isinitemform($fieldname)) {
+        if ($item->get_insetupform($fieldname)) {
             $options = array_combine(range(0, 9), range(0, 9));
             $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $options);
             $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
@@ -106,21 +107,24 @@ class mod_surveypro_itembaseform extends moodleform {
 
         // Itembase: position.
         $fieldname = 'position';
-        if ($position = $item->get_isinitemform($fieldname)) {
-            $options = array(SURVEYPRO_POSITIONTOP => get_string('top', 'mod_surveypro'),
-                            SURVEYPRO_POSITIONFULLWIDTH => get_string('fullwidth', 'mod_surveypro'));
+        if ($position = $item->get_insetupform($fieldname)) {
+            $options = array();
+            $default = SURVEYPRO_POSITIONTOP;
             if ($item->item_left_position_allowed()) { // Position can even be SURVEYPRO_POSITIONLEFT.
-                $options = array(SURVEYPRO_POSITIONLEFT => get_string('left', 'mod_surveypro')) + $options;
+                $options[SURVEYPRO_POSITIONLEFT] =  get_string('left', 'mod_surveypro');
+                $default = SURVEYPRO_POSITIONLEFT;
             }
+            $options[SURVEYPRO_POSITIONTOP] = get_string('top', 'mod_surveypro');
+            $options[SURVEYPRO_POSITIONFULLWIDTH] = get_string('fullwidth', 'mod_surveypro');
             $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $options);
             $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
-            $mform->setDefault($fieldname, $position);
+            $mform->setDefault($fieldname, $default);
             $mform->setType($fieldname, PARAM_INT);
         }
 
         // Itembase: customnumber.
         $fieldname = 'customnumber';
-        if ($item->get_isinitemform($fieldname)) {
+        if ($item->get_insetupform($fieldname)) {
             $mform->addElement('text', $fieldname, get_string($fieldname, 'mod_surveypro'));
             $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
             $mform->setType($fieldname, PARAM_TEXT);
@@ -128,7 +132,7 @@ class mod_surveypro_itembaseform extends moodleform {
 
         // Itembase: hideinstructions.
         $fieldname = 'hideinstructions';
-        if ($item->get_isinitemform($fieldname)) {
+        if ($item->get_insetupform($fieldname)) {
             $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'));
             $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
             $mform->setType($fieldname, PARAM_INT);
@@ -137,7 +141,7 @@ class mod_surveypro_itembaseform extends moodleform {
         // Itembase: variable.
         // For SURVEYPRO_TYPEFIELD only.
         $fieldname = 'variable';
-        if ($item->get_isinitemform($fieldname)) {
+        if ($item->get_insetupform($fieldname)) {
             $options = array('maxlength' => 64, 'size' => 12, 'class' => 'longfield');
 
             $mform->addElement('text', $fieldname, get_string($fieldname, 'mod_surveypro'), $options);
@@ -147,7 +151,7 @@ class mod_surveypro_itembaseform extends moodleform {
 
         // Itembase: extranote.
         $fieldname = 'extranote';
-        if ($item->get_isinitemform($fieldname)) {
+        if ($item->get_insetupform($fieldname)) {
             $mform->addElement('text', $fieldname, get_string($fieldname, 'mod_surveypro'), array('class' => 'longfield'));
             $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
             $mform->setType($fieldname, PARAM_TEXT);
@@ -159,7 +163,7 @@ class mod_surveypro_itembaseform extends moodleform {
 
         // Itembase: hidden.
         $fieldname = 'hidden';
-        if ($item->get_isinitemform($fieldname)) {
+        if ($item->get_insetupform($fieldname)) {
             $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'));
             $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
             $mform->setType($fieldname, PARAM_INT);
@@ -167,7 +171,7 @@ class mod_surveypro_itembaseform extends moodleform {
 
         // Itembase: insearchform.
         $fieldname = 'insearchform';
-        if ($item->get_isinitemform($fieldname)) {
+        if ($item->get_insetupform($fieldname)) {
             $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'));
             $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
             $mform->setType($fieldname, PARAM_INT);
@@ -175,13 +179,13 @@ class mod_surveypro_itembaseform extends moodleform {
 
         // Itembase: advanced.
         $fieldname = 'advanced';
-        if ($item->get_isinitemform($fieldname)) {
+        if ($item->get_insetupform($fieldname)) {
             $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'));
             $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
             $mform->setType($fieldname, PARAM_INT);
         }
 
-        if ($item->get_isinitemform('parentid')) {
+        if ($item->get_insetupform('parentid')) {
             // Here I open a new fieldset.
             $fieldname = 'branching';
             $mform->addElement('header', $fieldname, get_string($fieldname, 'mod_surveypro'));
@@ -227,12 +231,12 @@ class mod_surveypro_itembaseform extends moodleform {
                 $content = $star;
                 $content .= get_string('pluginname', 'surveyprofield_'.$parentitem->get_plugin());
                 $content .= ' ['.$parentitem->get_sortindex().']: '.strip_tags($parentitem->get_content());
-                $content = surveypro_fixlength($content, 60);
+                $content = surveypro_cutdownstring($content);
 
                 $condition = ($parentitem->get_hidden() == 1);
                 $condition = $condition && ($item->parentid != $parentitem->itemid);
                 $disabled = $condition ? array('disabled' => 'disabled') : null;
-                $select->addOption($content, $parentitem->itemid, $disabled);
+                $select->addOption($content, $parentitem->get_itemid(), $disabled);
             }
             $parentsseeds->close();
 
@@ -249,17 +253,19 @@ class mod_surveypro_itembaseform extends moodleform {
 
             // Itembase::parentformat.
             $fieldname = 'parentformat';
-            $a = html_writer::start_tag('ul');
+            $a = new stdClass();
+            $a->fieldname = get_string('parentcontent', 'mod_surveypro');
+            $a->examples = html_writer::start_tag('ul');
             foreach ($pluginlist as $plugin) {
-                $a .= html_writer::start_tag('li');
-                $a .= html_writer::start_tag('div');
-                $a .= html_writer::tag('div', get_string('pluginname', 'surveyprofield_'.$plugin), array('class' => 'pluginname'));
-                $a .= html_writer::tag('div', get_string('parentformat', 'surveyprofield_'.$plugin), array('class' => 'inputformat'));
-                $a .= html_writer::end_tag('div');
-                $a .= html_writer::end_tag('li');
-                $a .= "\n";
+                $a->examples .= html_writer::start_tag('li');
+                $a->examples .= html_writer::start_tag('div');
+                $a->examples .= html_writer::tag('div', get_string('pluginname', 'surveyprofield_'.$plugin), array('class' => 'pluginname'));
+                $a->examples .= html_writer::tag('div', get_string('parentformat', 'surveyprofield_'.$plugin), array('class' => 'inputformat'));
+                $a->examples .= html_writer::end_tag('div');
+                $a->examples .= html_writer::end_tag('li');
+                $a->examples .= "\n";
             }
-            $a .= html_writer::end_tag('ul');
+            $a->examples .= html_writer::end_tag('ul');
             $mform->addElement('static', $fieldname, get_string('note', 'mod_surveypro'), get_string($fieldname, 'mod_surveypro', $a));
         }
 
@@ -282,10 +288,11 @@ class mod_surveypro_itembaseform extends moodleform {
 
         // Get _customdata.
         $item = $this->_customdata->item;
-        // $cm = $this->_customdata->cm;
         $surveypro = $this->_customdata->surveypro;
+        $cm = $this->_customdata->item->get_cm();
 
-        $hassubmissions = surveypro_count_submissions($surveypro->id);
+        $utilityman = new mod_surveypro_utility($cm, $surveypro);
+        $hassubmissions = $utilityman->has_submissions();
         $riskyediting = ($surveypro->riskyeditdeadline > time());
 
         // Buttons.
@@ -315,8 +322,8 @@ class mod_surveypro_itembaseform extends moodleform {
     public function validation($data, $files) {
         // Get _customdata.
         // $item = $this->_customdata->item;
-        // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
+        // $cm = $this->_customdata->item->get_cm();
 
         $errors = array();
 

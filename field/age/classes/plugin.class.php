@@ -28,81 +28,73 @@ require_once($CFG->dirroot.'/mod/surveypro/field/age/lib.php');
 class mod_surveypro_field_age extends mod_surveypro_itembase {
 
     /**
-     * $content = the text content of the item.
+     * Item content stuff.
      */
     public $content = '';
-
-    /**
-     * $contenttrust
-     */
     public $contenttrust = 1;
-
-    /**
-     * public $contentformat = '';
-     */
     public $contentformat = '';
 
     /**
      * $customnumber = the custom number of the item.
      * It usually is 1. 1.1, a, 2.1.a...
      */
-    public $customnumber = '';
+    protected $customnumber;
 
     /**
      * $position = where does the question go?
      */
-    public $position = SURVEYPRO_POSITIONLEFT;
+    protected $position;
 
     /**
      * $extranote = an optional text describing the item
      */
-    public $extranote = '';
+    protected $extranote;
 
     /**
      * $required = boolean. O == optional item; 1 == mandatory item
      */
-    public $required = 0;
+    protected $required;
 
     /**
      * $variable = the name of the field storing data in the db table
      */
-    public $variable = '';
+    protected $variable;
 
     /**
      * $indent = the indent of the item in the form page
      */
-    public $indent = 0;
+    protected $indent;
 
     /**
      * $defaultoption
      */
-    public $defaultoption = SURVEYPRO_INVITEDEFAULT;
+    protected $defaultoption;
 
     /**
      * $defaultvalue = the value of the field when the form is initially displayed.
      */
-    public $defaultvalue = -2635200;
-    public $defaultvalue_year = null;
-    public $defaultvalue_month = null;
+    protected $defaultvalue;
+    protected $defaultvalue_year;
+    protected $defaultvalue_month;
 
     /**
      * $lowerbound = the minimum allowed age
      */
-    public $lowerbound = -2635200;
-    public $lowerbound_year = null;
-    public $lowerbound_month = null;
+    protected $lowerbound;
+    protected $lowerbound_year;
+    protected $lowerbound_month;
 
     /**
      * $upperbound = the maximum allowed age
      */
-    public $upperbound = 0;
-    public $upperbound_year = null;
-    public $upperbound_month = null;
+    protected $upperbound;
+    protected $upperbound_year;
+    protected $upperbound_month;
 
     /**
      * static canbeparent
      */
-    public static $canbeparent = false;
+    protected static $canbeparent = false;
 
     /**
      * Class constructor
@@ -111,7 +103,7 @@ class mod_surveypro_field_age extends mod_surveypro_itembase {
      *
      * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
-     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
+     * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
@@ -119,7 +111,7 @@ class mod_surveypro_field_age extends mod_surveypro_itembase {
         // List of properties set to static values..
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'age';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // It is already true from parent class.
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // Already set in parent class.
         $this->savepositiontodb = false;
 
         // Other element specific properties.
@@ -141,7 +133,7 @@ class mod_surveypro_field_age extends mod_surveypro_itembase {
      * item_load
      *
      * @param $itemid
-     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
+     * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
      * @return
      */
     public function item_load($itemid, $evaluateparentcontent) {
@@ -417,11 +409,11 @@ EOS;
         $elementgroup = array();
         $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_year', '', $years, array('class' => 'indent-'.$this->indent, 'id' => $idprefix.'_year'));
         if ($readonly) {
-            $elementgroup[] = $mform->createElement('mod_surveypro_static', 'yearlabel_'.$this->itemid, null, get_string('years'));
+            $elementgroup[] = $mform->createElement('mod_surveypro_static', 'yearlabel_'.$this->itemid, null, get_string('years'), array('class' => 'inline'));
         }
         $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_month', '', $months, array('id' => $idprefix.'_month'));
         if ($readonly) {
-            $elementgroup[] = $mform->createElement('mod_surveypro_static', 'monthlabel_'.$this->itemid, null, get_string('months', 'mod_surveypro'));
+            $elementgroup[] = $mform->createElement('mod_surveypro_static', 'monthlabel_'.$this->itemid, null, get_string('months', 'mod_surveypro'), array('class' => 'inline'));
         }
 
         if ($this->required) {
@@ -596,9 +588,13 @@ EOS;
             $olduseranswer->content = SURVEYPRO_NOANSWERVALUE;
         } else {
             if (!$searchform) {
-                $olduseranswer->content = $this->item_age_to_unix_time($answer['year'], $answer['month']);
+                if (($answer['year'] == SURVEYPRO_INVITEVALUE) || ($answer['month'] == SURVEYPRO_INVITEVALUE)) {
+                    $olduseranswer->content = null;
+                } else {
+                    $olduseranswer->content = $this->item_age_to_unix_time($answer['year'], $answer['month']);
+                }
             } else {
-                if ($answer['year'] == SURVEYPRO_IGNOREMEVALUE) {
+                if (($answer['year'] == SURVEYPRO_IGNOREMEVALUE) || ($answer['month'] == SURVEYPRO_IGNOREMEVALUE)) {
                     $olduseranswer->content = null;
                 } else {
                     $olduseranswer->content = $this->item_age_to_unix_time($answer['year'], $answer['month']);

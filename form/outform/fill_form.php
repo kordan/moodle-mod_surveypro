@@ -24,7 +24,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
 
-class mod_surveypro_submissionform extends moodleform {
+class mod_surveypro_outform extends moodleform {
 
     /*
      * definition
@@ -47,7 +47,7 @@ class mod_surveypro_submissionform extends moodleform {
         $canaccessadvanceditems = $this->_customdata->canaccessadvanceditems;
         $modulepage = $this->_customdata->modulepage;
         $readonly = $this->_customdata->readonly; // I see a form (record) that is not mine.
-        $preview = $this->_customdata->preview; // We are in preview mode.
+        $preview = $this->_customdata->preview; // Are we in preview mode?
 
         if ($preview) {
             $mform->disable_form_change_checker();
@@ -62,7 +62,7 @@ class mod_surveypro_submissionform extends moodleform {
         $mform->setType('submissionid', PARAM_INT);
 
         // Userform: formpage.
-        $mform->addElement('hidden', 'formpage', 0); // <-- this value comes from default as set just before $mform->display(); in view_userform.php
+        $mform->addElement('hidden', 'formpage', 0); // <-- this value comes from default as set just before $mform->display(); in view_form.php
         $mform->setType('formpage', PARAM_INT);
 
         if ($formpage == SURVEYPRO_LEFT_OVERFLOW) {
@@ -90,9 +90,9 @@ class mod_surveypro_submissionform extends moodleform {
             $context = context_module::instance($cm->id);
 
             // This dummy item is needed for the colours alternation.
-            // Because 'label' or ($position == SURVEYPRO_POSITIONFULLWIDTH).
-            //     as first item are out from the a fieldset
-            //     so they are not selected by the css3 selector: fieldset div.fitem:nth-of-type(even) {
+            // Because 'label' or ($position == SURVEYPRO_POSITIONFULLWIDTH)
+            // as first item are out from the a fieldset
+            // so they are not selected by the css3 selector: fieldset div.fitem:nth-of-type(even) {.
             $mform->addElement('static', 'beginning_extrarow', '', '');
 
             foreach ($itemseeds as $itemseed) {
@@ -104,9 +104,9 @@ class mod_surveypro_submissionform extends moodleform {
                         // Get it now AND NEVER MORE.
                         $parentitem = surveypro_get_item($cm, $itemseed->parentid);
 
-                        // If parentitem is in a previous page, have a check.
-                        // Otherwise.
-                        // Display the current item.
+                        // If parentitem is in a previous page, have a check
+                        // otherwise
+                        // display the current item.
                         if ($parentitem->get_formpage() < $formpage) {
                             require_once($CFG->dirroot.'/mod/surveypro/'.$itemseed->type.'/'.$itemseed->plugin.'/classes/plugin.class.php');
 
@@ -262,7 +262,7 @@ class mod_surveypro_submissionform extends moodleform {
         $maxassignedpage = $this->_customdata->maxassignedpage;
         $canaccessadvanceditems = $this->_customdata->canaccessadvanceditems;
         // $readonly = $this->_customdata->readonly; // I see a form (record) that is not mine
-        $preview = $this->_customdata->preview; // We are in preview mode.
+        $preview = $this->_customdata->preview; // Are we in preview mode?
 
         if ($preview) {
             // Skip validation.

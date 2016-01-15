@@ -65,7 +65,7 @@ class mod_surveypro_chooseitemform extends moodleform {
             }
 
             $content = get_string('pluginname', 'surveyprofield_'.$itemseed->plugin).$labelsep.strip_tags($thiscontent);
-            $content = surveypro_fixlength($content, 60);
+            $content = surveypro_cutdownstring($content);
             $options[$itemseed->id] = $content;
         }
 
@@ -73,7 +73,6 @@ class mod_surveypro_chooseitemform extends moodleform {
         $mform->addElement('select', $fieldname, get_string('variable', 'mod_surveypro'), $options);
         $mform->addHelpButton($fieldname, $fieldname, 'surveyproreport_frequency');
 
-        // Buttons.
         $this->add_action_buttons(false, get_string('continue'));
     }
 

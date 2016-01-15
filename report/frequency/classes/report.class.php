@@ -43,7 +43,7 @@ class mod_surveypro_report_frequency extends mod_surveypro_reportbase {
     public function setup_outputtable() {
         $this->outputtable = new flexible_table('submissionslist');
 
-        $paramurl = array('id' => $this->cm->id, 'rname' => 'frequency', 'cover' => 0);
+        $paramurl = array('id' => $this->cm->id, 'rname' => 'frequency');
         $baseurl = new moodle_url('/mod/surveypro/report/frequency/view.php', $paramurl);
         $this->outputtable->define_baseurl($baseurl);
 
@@ -99,7 +99,7 @@ class mod_surveypro_report_frequency extends mod_surveypro_reportbase {
         $countfields = $DB->count_records_select('surveypro_item', $where, $params);
         if (!$countfields) {
             echo $OUTPUT->box(get_string('textareasarenotallowed', 'surveyproreport_frequency'));
-            $url = new moodle_url('/mod/surveypro/view.php', array('s' => $this->surveypro->id, 'cover' => 0));
+            $url = new moodle_url('/mod/surveypro/view.php', array('s' => $this->surveypro->id));
             echo $OUTPUT->continue_button($url);
             echo $OUTPUT->footer();
             die();

@@ -23,7 +23,7 @@ excludefilename=`basename "$excludefilename"`
 
 langfilepath=()
 
-# il file di lingua del modulo
+# il file di lingua del modulo
 langfilepath+=("lang/en/$excludefilename.php")
 
 surveyprosubplugin='field'
@@ -32,40 +32,40 @@ for surveypropluginname in "${surveypropluginlist[@]}"
 do
     # echo surveyprosubplugin = $surveyprosubplugin
     # echo surveypropluginname = $surveypropluginname
-	langfilepath+=($surveyprosubplugin/$surveypropluginname/lang/en/surveypro"$surveyprosubplugin"_"$surveypropluginname".php)
+    langfilepath+=($surveyprosubplugin/$surveypropluginname/lang/en/surveypro"$surveyprosubplugin"_"$surveypropluginname".php)
 done
 
 surveyprosubplugin='format'
 surveypropluginlist=( fieldset fieldsetend label pagebreak )
 for surveypropluginname in "${surveypropluginlist[@]}"
 do
-    # echo surveyprosubplugin = $surveyprosubplugin
-    # echo surveypropluginname = $surveypropluginname
-	langfilepath+=($surveyprosubplugin/$surveypropluginname/lang/en/surveypro"$surveyprosubplugin"_"$surveypropluginname".php)
+    # echo surveyprosubplugin = $surveyprosubplugin
+    # echo surveypropluginname = $surveypropluginname
+    langfilepath+=($surveyprosubplugin/$surveypropluginname/lang/en/surveypro"$surveyprosubplugin"_"$surveypropluginname".php)
 done
 
 surveyprosubplugin='template'
 surveypropluginlist=( attls collespreferred collesactual collesactualpreferred criticalincidents )
 for surveypropluginname in "${surveypropluginlist[@]}"
 do
-    # echo surveyprosubplugin = $surveyprosubplugin
-    # echo surveypropluginname = $surveypropluginname
-	langfilepath+=($surveyprosubplugin/$surveypropluginname/lang/en/surveypro"$surveyprosubplugin"_"$surveypropluginname".php)
+    # echo surveyprosubplugin = $surveyprosubplugin
+    # echo surveypropluginname = $surveypropluginname
+    langfilepath+=($surveyprosubplugin/$surveypropluginname/lang/en/surveypro"$surveyprosubplugin"_"$surveypropluginname".php)
 done
 
 surveyprosubplugin='report'
 surveypropluginlist=( attachments_overview colles count frequency missing )
 for surveypropluginname in "${surveypropluginlist[@]}"
 do
-    # echo surveyprosubplugin = $surveyprosubplugin
-    # echo surveypropluginname = $surveypropluginname
-	langfilepath+=($surveyprosubplugin/$surveypropluginname/lang/en/surveypro"$surveyprosubplugin"_"$surveypropluginname".php)
+    # echo surveyprosubplugin = $surveyprosubplugin
+    # echo surveypropluginname = $surveypropluginname
+    langfilepath+=($surveyprosubplugin/$surveypropluginname/lang/en/surveypro"$surveyprosubplugin"_"$surveypropluginname".php)
 done
 
-# routine di controllo
+# routine di controllo
 # for langfilepath in "${langfilepath[@]}"
 # do
-# 	echo langfilepath = $langfilepath
+#     echo langfilepath = $langfilepath
 # done
 # read a
 
@@ -78,7 +78,7 @@ beginoflangkey=( surveypro: )
 # set -x
 for langfilepath in "${langfilepath[@]}"
 do
-	echo
+    echo
 
     langfilepath=$surveyprobasepath/$langfilepath
     mydir=`dirname "$langfilepath"`
@@ -103,8 +103,8 @@ do
             if [[ $excludefilename = 'surveypro.php' ]]; then
                 myoutput=`grep -rP "(get_string|print_error|lang_string)\(['\"]$langkey['\"], ['\"](mod_)?surveypro['\"]" *`
             else
-                # get type and plugin from the path
-            	# langfilepath: /Applications/MAMP/htdocs/head/mod/surveypro/field/select/lang/en/surveyprofield_select.php
+                # get type and plugin from the path
+                # langfilepath: /Applications/MAMP/htdocs/head/mod/surveypro/field/select/lang/en/surveyprofield_select.php
                 typepluginregex="/mod/surveypro/(.*)/(.*)/lang/en"
                 if [[ $langfilepath =~ $typepluginregex ]]; then
                     mytype=${BASH_REMATCH[1]}
@@ -116,14 +116,14 @@ do
                 fi
             fi
             if [[ -z "$myoutput" ]]; then
-                # try to exclude get_string($fieldname
+                # try to exclude get_string($fieldname
                 myoutput=`grep -rP "[\$fieldname = ['\"]$langkey['\"];" *`
                 if [[ -z "$myoutput" ]]; then
 
                     langkeyinuse=0
                     for keyend in "${endoflangkey[@]}"
                     do
-                        # try to exclude strings ending with keyend
+                        # try to exclude strings ending with keyend
                         n=${#keyend}
                         stringedge=`echo ${langkey:(-$n)}`
                         if [ "${stringedge}" = $keyend ]; then
@@ -138,7 +138,7 @@ do
 
                     for keystart in "${beginoflangkey[@]}"
                     do
-                        # try to exclude strings beginning with keystart
+                        # try to exclude strings beginning with keystart
                         n=${#keystart}
                         stringedge=`echo ${langkey:0:$n}`
                         if [ "${stringedge}" = $keystart ]; then

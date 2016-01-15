@@ -33,105 +33,97 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
     public $surveypro = null;
 
     /**
-     * $content = the text content of the item.
+     * Item content stuff.
      */
     public $content = '';
-
-    /**
-     * $contenttrust
-     */
     public $contenttrust = 1;
-
-    /**
-     * public $contentformat = '';
-     */
     public $contentformat = '';
 
     /**
      * $customnumber = the custom number of the item.
      * It usually is 1. 1.1, a, 2.1.a...
      */
-    public $customnumber = '';
+    protected $customnumber;
 
     /**
      * $position = where does the question go?
      */
-    public $position = SURVEYPRO_POSITIONLEFT;
+    protected $position;
 
     /**
      * $extranote = an optional text describing the item
      */
-    public $extranote = '';
+    protected $extranote;
 
     /**
      * $required = boolean. O == optional item; 1 == mandatory item
      */
-    public $required = 0;
+    protected $required;
 
     /**
      * $hideinstructions = boolean. Exceptionally hide filling instructions
      */
-    public $hideinstructions = 0;
+    protected $hideinstructions;
 
     /**
      * $variable = the name of the field storing data in the db table
      */
-    public $variable = '';
+    protected $variable;
 
     /**
      * $indent = the indent of the item in the form page
      */
-    public $indent = 0;
+    protected $indent;
 
     /**
      * $step = the step for minutes drop down menu
      */
-    public $step = 1;
+    protected $step;
 
     /**
      * $defaultoption = the value of the field when the form is initially displayed.
      */
-    public $defaultoption = SURVEYPRO_INVITEDEFAULT;
+    protected $defaultoption;
 
     /**
      * $downloadformat = the format of the content once downloaded
      */
-    public $downloadformat = null;
+    protected $downloadformat;
 
     /**
      * $defaultvalue = the value of the field when the form is initially displayed.
      */
-    public $defaultvalue = 0;
-    public $defaultvalue_year = null;
-    public $defaultvalue_month = null;
-    public $defaultvalue_day = null;
-    public $defaultvalue_hour = null;
-    public $defaultvalue_minute = null;
+    protected $defaultvalue;
+    protected $defaultvalue_year;
+    protected $defaultvalue_month;
+    protected $defaultvalue_day;
+    protected $defaultvalue_hour;
+    protected $defaultvalue_minute;
 
     /**
      * $lowerbound = the minimum allowed date and time
      */
-    public $lowerbound = 0;
-    public $lowerbound_year = null;
-    public $lowerbound_month = null;
-    public $lowerbound_day = null;
-    public $lowerbound_hour = null;
-    public $lowerbound_minute = null;
+    protected $lowerbound;
+    protected $lowerbound_year;
+    protected $lowerbound_month;
+    protected $lowerbound_day;
+    protected $lowerbound_hour;
+    protected $lowerbound_minute;
 
     /**
      * $upperbound = the maximum allowed date and time
      */
-    public $upperbound = 0;
-    public $upperbound_year = null;
-    public $upperbound_month = null;
-    public $upperbound_day = null;
-    public $upperbound_hour = null;
-    public $upperbound_minute = null;
+    protected $upperbound;
+    protected $upperbound_year;
+    protected $upperbound_month;
+    protected $upperbound_day;
+    protected $upperbound_hour;
+    protected $upperbound_minute;
 
     /**
      * static canbeparent
      */
-    public static $canbeparent = false;
+    protected static $canbeparent = false;
 
     /**
      * Class constructor
@@ -140,7 +132,7 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
      *
      * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
-     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
+     * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         global $DB;
@@ -150,7 +142,7 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'datetime';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // It is already true from parent class.
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // Already set in parent class.
         $this->savepositiontodb = false;
 
         // Other element specific properties.
@@ -174,7 +166,7 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
      * item_load
      *
      * @param $itemid
-     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
+     * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
      * @return
      */
     public function item_load($itemid, $evaluateparentcontent) {
@@ -702,9 +694,23 @@ EOS;
             $olduseranswer->content = SURVEYPRO_NOANSWERVALUE;
         } else {
             if (!$searchform) {
-                $olduseranswer->content = $this->item_datetime_to_unix_time($answer['year'], $answer['month'], $answer['day'], $answer['hour'], $answer['minute']);
+                $condition = ($answer['year'] == SURVEYPRO_INVITEVALUE);
+                $condition = $condition || ($answer['month'] == SURVEYPRO_INVITEVALUE);
+                $condition = $condition || ($answer['day'] == SURVEYPRO_INVITEVALUE);
+                $condition = $condition || ($answer['hour'] == SURVEYPRO_INVITEVALUE);
+                $condition = $condition || ($answer['minute'] == SURVEYPRO_INVITEVALUE);
+                if ($condition) {
+                    $olduseranswer->content = null;
+                } else {
+                    $olduseranswer->content = $this->item_datetime_to_unix_time($answer['year'], $answer['month'], $answer['day'], $answer['hour'], $answer['minute']);
+                }
             } else {
-                if ($answer['year'] == SURVEYPRO_IGNOREMEVALUE) {
+                $condition = ($answer['year'] == SURVEYPRO_IGNOREMEVALUE);
+                $condition = $condition || ($answer['month'] == SURVEYPRO_IGNOREMEVALUE);
+                $condition = $condition || ($answer['day'] == SURVEYPRO_IGNOREMEVALUE);
+                $condition = $condition || ($answer['hour'] == SURVEYPRO_IGNOREMEVALUE);
+                $condition = $condition || ($answer['minute'] == SURVEYPRO_IGNOREMEVALUE);
+                if ($condition) {
                     $olduseranswer->content = null;
                 } else {
                     $olduseranswer->content = $this->item_datetime_to_unix_time($answer['year'], $answer['month'], $answer['day'], $answer['hour'], $answer['minute']);

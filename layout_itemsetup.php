@@ -24,6 +24,7 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/itemlist.class.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
@@ -82,39 +83,38 @@ $itemlistman->set_view($view);
 // Property parentid is useless (it is set to its default), do not set it.
 // $itemlistman->set_parentid(0);
 
-// Property userfeedbackmask is useless (it is set to its default), do not set it.
-// $itemlistman->set_userfeedbackmask(SURVEYPRO_NOFEEDBACK);
+// Property savefeedbackmask is useless (it is set to its default), do not set it.
+// $itemlistman->set_savefeedbackmask(SURVEYPRO_NOFEEDBACK);
 
 // Property saveasnew is useless (it is set to its default), do not set it.
 // $itemlistman->set_saveasnew(0);
 
 $itemlistman->prevent_direct_user_input();
 
-require_once($CFG->dirroot.'/mod/surveypro/'.$itemlistman->type.'/'.$itemlistman->plugin.'/classes/plugin.class.php');
-require_once($CFG->dirroot.'/mod/surveypro/'.$itemlistman->type.'/'.$itemlistman->plugin.'/form/plugin_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/'.$itemlistman->get_type().'/'.$itemlistman->get_plugin().'/classes/plugin.class.php');
+require_once($CFG->dirroot.'/mod/surveypro/'.$itemlistman->get_type().'/'.$itemlistman->get_plugin().'/form/plugin_form.php');
 
 // Begin of: get item.
-$item = surveypro_get_item($cm, $itemlistman->itemid, $itemlistman->type, $itemlistman->plugin, true);
-
+$item = surveypro_get_item($cm, $itemid, $itemlistman->get_type(), $itemlistman->get_plugin(), true);
 $item->item_set_editor();
 // End of: get item.
 
 // Begin of: define $itemform return url.
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('/mod/surveypro/items_setup.php', $paramurl);
+$formurl = new moodle_url('/mod/surveypro/layout_itemsetup.php', $paramurl);
 // End of: define $itemform return url.
 
 // Begin of: prepare params for the form.
 $formparams = new stdClass();
 $formparams->item = $item; // Needed in many situations.
-$formparams->cm = $cm; // Required to call surveypro_get_item.
+// $formparams->cm = $cm; // Required to call surveypro_get_item.
 $formparams->surveypro = $surveypro; // Needed to setup date boundaries in date fields.
 $itemform = new mod_surveypro_pluginform($formurl, $formparams);
 // End of: prepare params for the form.
 
 // Begin of: manage form submission.
 if ($itemform->is_cancelled()) {
-    $returnurl = new moodle_url('/mod/surveypro/items_manage.php', $paramurl);
+    $returnurl = new moodle_url('/mod/surveypro/layout_manage.php', $paramurl);
     redirect($returnurl);
 }
 
@@ -125,14 +125,14 @@ if ($fromform = $itemform->get_data()) {
     }
 
     $itemid = $item->item_save($fromform);
-    $feedback = $item->userfeedbackmask; // Copy the returned feedback.
+    $feedback = $item->get_savefeedbackmask(); // Copy the returned feedback.
 
     // Overwrite item to get new settings in the object.
-    $item = surveypro_get_item($cm, $itemid, $item->type, $item->plugin);
+    $item = surveypro_get_item($cm, $itemid, $item->get_type(), $item->get_plugin());
     $item->item_update_childrenparentvalue();
 
     $paramurl = array('id' => $cm->id, 'ufd' => $feedback);
-    $returnurl = new moodle_url('/mod/surveypro/items_manage.php', $paramurl);
+    $returnurl = new moodle_url('/mod/surveypro/layout_manage.php', $paramurl);
     redirect($returnurl);
 }
 // End of: manage form submission.
@@ -140,10 +140,10 @@ if ($fromform = $itemform->get_data()) {
 // Output starts here.
 $paramurl = array('id' => $cm->id);
 $paramurl['itemid'] = $itemid;
-$paramurl['type'] = $itemlistman->type;
-$paramurl['plugin'] = $itemlistman->plugin;
+$paramurl['type'] = $itemlistman->get_type();
+$paramurl['plugin'] = $itemlistman->get_plugin();
 $paramurl['view'] = $view;
-$url = new moodle_url('/mod/surveypro/items_setup.php', $paramurl);
+$url = new moodle_url('/mod/surveypro/layout_itemsetup.php', $paramurl);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -156,16 +156,15 @@ $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
 
-$moduletab = SURVEYPRO_TABITEMS; // Needed by tabs.php.
-$modulepage = SURVEYPRO_ITEMS_SETUP; // Needed by tabs.php.
-require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
+$tabman = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABITEMS, SURVEYPRO_ITEMS_SETUP);
 
-if ($itemlistman->hassubmissions) {
+if ($itemlistman->get_hassubmissions()) {
     echo $OUTPUT->notification(get_string('hassubmissions_alert', 'mod_surveypro'), 'notifymessage');
 }
 $itemlistman->item_welcome();
 
-$itemform->set_data($item);
+$data = $item->get_itemform_preset();
+$itemform->set_data($data);
 $itemform->display();
 
 // Finish the page.

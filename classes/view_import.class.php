@@ -27,24 +27,11 @@ defined('MOODLE_INTERNAL') || die();
  */
 class mod_surveypro_importmanager {
     /**
-     * $cm
+     * Basic necessary essential ingredients
      */
-    public $cm = null;
-
-    /**
-     * $context
-     */
-    public $context = null;
-
-    /**
-     * $surveypro: the record of this surveypro
-     */
-    public $surveypro = null;
-
-    /**
-     * $canseeotherssubmissions
-     */
-    public $canseeotherssubmissions = false;
+    protected $cm;
+    protected $context;
+    protected $surveypro;
 
     /**
      * $formdata: the form content as submitted by the user
@@ -58,8 +45,6 @@ class mod_surveypro_importmanager {
         $this->cm = $cm;
         $this->context = $context;
         $this->surveypro = $surveypro;
-
-        $this->canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
     }
 
     /**
@@ -238,7 +223,7 @@ class mod_surveypro_importmanager {
         $foundheaders = array();
         foreach ($foundheaders as $foundheader) {
             $key = in_array($foundheader, $variablenames);
-            if ($key !== false) {
+            if ($key) {
                 $foundheaders[] = $foundheader;
             }
         }
@@ -444,12 +429,12 @@ class mod_surveypro_importmanager {
         // Rationale: teacher is importing.
         // Each datum is gold. Because of this, I DECIDED that:
         // Even if a required field is not present...
-        //     I will anyway import the record;
-        //     I will even import the content for the items placed in pages greater than the page of a missing required item;
+        // -> I will anyway import the record;
+        // -> I will even import the content for the items placed in pages greater than the page of a missing required item;
         //
         // TO MAKE THIS CLEAR ONCE AND FOR EVER:
-        //     Teacher IS NOT allowed to enter a invalid content
-        //     But IS allowed to partially import records even jumping mandatory values
+        // -> Teacher IS NOT allowed to enter a invalid content
+        // -> But IS allowed to partially import records even jumping mandatory values
 
         // Make a relation between each column header and the corresponding itemid.
         list($columntoitemid, $nonmatchingheaders, $environmentheaders) = $this->get_columntoitemid($foundheaders, $surveyheaders);
@@ -457,12 +442,7 @@ class mod_surveypro_importmanager {
             echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
             echo '$columntoitemid:';
             var_dump($columntoitemid);
-            // array (size=5)
-            //   0 => int 672
-            //   1 => int 674
-            //   2 => int 676
-            //   3 => int 673
-            //   4 => int 675
+
             echo '$environmentheaders:';
             var_dump($environmentheaders);
 

@@ -57,7 +57,7 @@ class mod_surveypro_applymtemplateform extends moodleform {
             if ($inline) {
                 $elementgroup = array();
                 $elementgroup[] = $mform->createElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $mtemplates);
-                $elementgroup[] = $mform->createElement('submit', $fieldname.'_button', get_string('create'));
+                $elementgroup[] = $mform->createElement('submit', $fieldname.'_button', get_string('apply', 'mod_surveypro'));
                 $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'mod_surveypro'), array(' '), false);
                 $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveypro');
             } else {
@@ -65,8 +65,7 @@ class mod_surveypro_applymtemplateform extends moodleform {
                 $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
                 $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
 
-                // Buttons.
-                $this->add_action_buttons(true, get_string('continue'));
+                $this->add_action_buttons(true, get_string('apply', 'mod_surveypro'));
             }
         } else {
             $fieldname = 'nomtemplates';

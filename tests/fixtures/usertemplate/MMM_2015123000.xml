@@ -700,7 +700,7 @@ Hill
 Lake</options>
       <labelother>other (specify)-&gt;Desert</labelother>
       <defaultoption>1</defaultoption>
-      <defaultvalue>Desert</defaultvalue>
+      <defaultvalue>other (specify)</defaultvalue>
       <downloadformat>0</downloadformat>
       <adjustment>0</adjustment>
     </surveyprofield_radiobutton>
@@ -724,7 +724,7 @@ Hill
 Lake</options>
       <labelother>other (specify)-&gt;Desert</labelother>
       <defaultoption>1</defaultoption>
-      <defaultvalue>Desert</defaultvalue>
+      <defaultvalue>other (specify)</defaultvalue>
       <downloadformat>0</downloadformat>
       <adjustment>0</adjustment>
     </surveyprofield_radiobutton>

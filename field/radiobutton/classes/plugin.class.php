@@ -28,85 +28,77 @@ require_once($CFG->dirroot.'/mod/surveypro/field/radiobutton/lib.php');
 class mod_surveypro_field_radiobutton extends mod_surveypro_itembase {
 
     /**
-     * $content = the text content of the item.
+     * Item content stuff.
      */
     public $content = '';
-
-    /**
-     * $contenttrust
-     */
     public $contenttrust = 1;
-
-    /**
-     * public $contentformat = '';
-     */
     public $contentformat = '';
 
     /**
      * $customnumber = the custom number of the item.
      * It usually is 1. 1.1, a, 2.1.a...
      */
-    public $customnumber = '';
+    protected $customnumber;
 
     /**
      * $position = where does the question go?
      */
-    public $position = SURVEYPRO_POSITIONLEFT;
+    protected $position;
 
     /**
      * $extranote = an optional text describing the item
      */
-    public $extranote = '';
+    protected $extranote;
 
     /**
      * $required = boolean. O == optional item; 1 == mandatory item
      */
-    public $required = 0;
+    protected $required;
 
     /**
      * $variable = the name of the field storing data in the db table
      */
-    public $variable = '';
+    protected $variable;
 
     /**
      * $indent = the indent of the item in the form page
      */
-    public $indent = 0;
+    protected $indent;
 
     /**
      * $options = list of options in the form of "$value SURVEYPRO_VALUELABELSEPARATOR $label"
      */
-    public $options = '';
+    protected $options;
 
     /**
      * $defaultoption
      */
-    public $defaultoption = SURVEYPRO_INVITEDEFAULT;
+    protected $defaultoption;
 
     /**
      * $labelother = the text label for the optional option "other" in the form of "$value SURVEYPRO_OTHERSEPARATOR $label"
      */
-    public $labelother = '';
+    protected $labelother;
 
     /**
      * $defaultvalue = the value of the field when the form is initially displayed.
      */
-    public $defaultvalue = '';
+    protected $defaultvalue;
 
     /**
      * $downloadformat = the format of the content once downloaded
      */
-    public $downloadformat = null;
+    protected $downloadformat;
 
     /**
      * $adjustment = the orientation of the list of options.
      */
-    public $adjustment = 0;
+    protected $adjustment;
 
     /**
      * static canbeparent
      */
-    public static $canbeparent = true;
+    protected static $canbeparent = true;
 
     /**
      * Class constructor
@@ -115,7 +107,7 @@ class mod_surveypro_field_radiobutton extends mod_surveypro_itembase {
      *
      * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
-     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
+     * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
@@ -123,7 +115,7 @@ class mod_surveypro_field_radiobutton extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'radiobutton';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // It is already true from parent class.
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // Already set in parent class.
         $this->savepositiontodb = true;
 
         // Other element specific properties.
@@ -133,7 +125,7 @@ class mod_surveypro_field_radiobutton extends mod_surveypro_itembase {
         // No properties here.
 
         // List of fields I do not want to have in the item definition form.
-        $this->isinitemform['hideinstructions'] = false;
+        $this->insetupform['hideinstructions'] = false;
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $evaluateparentcontent);
@@ -144,7 +136,7 @@ class mod_surveypro_field_radiobutton extends mod_surveypro_itembase {
      * item_load
      *
      * @param $itemid
-     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
+     * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
      * @return
      */
     public function item_load($itemid, $evaluateparentcontent) {
@@ -725,7 +717,7 @@ EOS;
                 case 'other':
                     $olduseranswer->content = $answer['text'];
                     break;
-                case '':
+                case SURVEYPRO_INVITEVALUE:
                     $olduseranswer->content = null;
                     break;
                 default:
@@ -768,12 +760,6 @@ EOS;
                     $prefill[$this->itemname.'_text'] = $fromdb->content;
                 }
             }
-        } else {
-            // Nothing was set.
-            // Do not accept defaults but overwrite them.
-            // But... if this is a group of radio buttons, how can it be empty($fromdb->content)?
-            // Because user selected "Not answering" or question was disabled.
-            $prefill[$this->itemname] = '';
         }
 
         return $prefill;

@@ -17,27 +17,25 @@ Feature: Validate creation and submit for "character" elements using the princip
       | user     | course         | role            |
       | teacher1 | Character item | editingteacher |
       | student1 | Character item | student        |
+    And the following "activities" exist:
+      | activity  | name           | intro              | course         | idnumber   |
+      | surveypro | Surveypro test | For testing backup | Character item | surveypro1 |
     And I log in as "teacher1"
+    And I follow "Test submission for character item"
+    And I follow "Surveypro test"
+    And I set the field "typeplugin" to "Text (short)"
+    And I press "Add"
+    And I expand all fieldsets
 
   @javascript
   Scenario: test character element with the following settings: 0; web page URL; empty
       # required:                       0
       # Text pattern:                   web page URL
       # Minimum length (in characters): empty
-    Given the following "activities" exist:
-      | activity  | name           | intro              | course         | idnumber   |
-      | surveypro | Surveypro test | For testing backup | Character item | surveypro1 |
-    And I follow "Test submission for character item"
-    And I follow "Surveypro test"
-
-    And I set the field "typeplugin" to "Text (short)"
-    And I press "Add"
-
-    And I expand all fieldsets
-    And I set the following fields to these values:
-      | Content                        | Type a web address |
-      | Required                       | 0                  |
-      | id_pattern                     | web page URL       |
+    Given I set the following fields to these values:
+      | Content    | Type a web address |
+      | Required   | 0                  |
+      | id_pattern | web page URL       |
     And I press "Add"
 
     And I log out
@@ -47,6 +45,7 @@ Feature: Validate creation and submit for "character" elements using the princip
 
     # Test number 1: Student flies over the answer
     And I press "New response"
+    Then I should see "URL is expected here"
     And I press "Submit"
     And I press "Continue to responses list"
     Then I should see "1" submissions displayed
@@ -54,6 +53,7 @@ Feature: Validate creation and submit for "character" elements using the princip
 
     # Test number 2: Student submits a standard answer
     And I press "New response"
+    Then I should see "URL is expected here"
     And I set the field "Type a web address" to "moodle site"
     And I press "Submit"
     Then I should see "Text is not a valid URL"
@@ -68,17 +68,7 @@ Feature: Validate creation and submit for "character" elements using the princip
       # required:                       0
       # Text pattern:                   web page URL
       # Minimum length (in characters): 20
-    Given the following "activities" exist:
-      | activity  | name           | intro              | course         | idnumber   |
-      | surveypro | Surveypro test | For testing backup | Character item | surveypro1 |
-    And I follow "Test submission for character item"
-    And I follow "Surveypro test"
-
-    And I set the field "typeplugin" to "Text (short)"
-    And I press "Add"
-
-    And I expand all fieldsets
-    And I set the following fields to these values:
+    Given I set the following fields to these values:
       | Content                        | Type a web address |
       | Required                       | 0                  |
       | id_pattern                     | web page URL       |
@@ -92,6 +82,7 @@ Feature: Validate creation and submit for "character" elements using the princip
 
     # Test number 3: Student flies over the answer
     And I press "New response"
+    Then I should see "URL is expected here"
     Then I should see "Text is supposed to be longer-equal than 20 characters"
     And I press "Submit"
     And I press "Continue to responses list"
@@ -100,7 +91,7 @@ Feature: Validate creation and submit for "character" elements using the princip
 
     # Test number 4: Student submits a standard answer
     And I press "New response"
-    Then I should see "Text is supposed to be longer-equal than 20 characters"
+    Then I should see "Text is supposed to be longer-equal than 20 characters; URL is expected here"
     And I set the field "Type a web address" to "www.moodle.org"
     And I press "Submit"
     Then I should see "Text is too short"

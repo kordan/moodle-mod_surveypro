@@ -24,7 +24,8 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
-require_once($CFG->dirroot.'/mod/surveypro/classes/view_userform.class.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/view_form.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/outform/fill_form.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
@@ -43,38 +44,19 @@ if (!empty($id)) {
 require_course_login($course, true, $cm);
 
 $context = context_module::instance($cm->id);
+$submissionid = optional_param('submissionid', 0, PARAM_INT);
 $formpage = optional_param('formpage', 0, PARAM_INT); // Form page number.
 $view = optional_param('view', SURVEYPRO_NOVIEW, PARAM_INT);
-$submissionid = optional_param('submissionid', 0, PARAM_INT);
 
 // Calculations.
-$userformman = new mod_surveypro_userformmanager($cm, $context, $surveypro);
-$userformman->set_submissionid($submissionid);
-$userformman->set_view($view);
-$userformman->set_formpage($formpage);
-
-$userformman->prevent_direct_user_input();
-$userformman->trigger_event($view);
+$userformman = new mod_surveypro_userform($cm, $context, $surveypro);
+$userformman->setup($submissionid, $formpage, $view);
 
 $userformman->surveypro_add_custom_css();
 
-// Redirect if no items were created and you are supposed to create them.
-if ($userformman->canaccessadvanceditems) {
-    if (!$userformman->hasinputitems) {
-        if (($formpage == 0) || ($formpage == 1)) {
-            $paramurl = array('id' => $cm->id);
-            $returnurl = new moodle_url('/mod/surveypro/items_manage.php', $paramurl);
-            redirect($returnurl);
-        }
-    }
-}
-
-$pageallowesubmission = ($userformman->modulepage != SURVEYPRO_SUBMISSION_READONLY);
-$pageallowesubmission = $pageallowesubmission && ($userformman->modulepage != SURVEYPRO_ITEMS_PREVIEW);
-
 // Begin of: define $user_form return url.
 $paramurl = array('id' => $cm->id, 'view' => $view);
-$formurl = new moodle_url('/mod/surveypro/view_userform.php', $paramurl);
+$formurl = new moodle_url('/mod/surveypro/view_form.php', $paramurl);
 // End of: define $user_form return url.
 
 // Begin of: prepare params for the form.
@@ -82,54 +64,52 @@ $formparams = new stdClass();
 $formparams->cm = $cm; // Required to call surveypro_get_item.
 $formparams->surveypro = $surveypro;
 $formparams->submissionid = $submissionid;
-$formparams->firstpageright = $userformman->firstpageright;
-$formparams->maxassignedpage = $userformman->maxassignedpage;
-$formparams->canaccessadvanceditems = $userformman->canaccessadvanceditems; // Help selecting the fields to show
-$formparams->formpage = $userformman->formpage;
-$formparams->modulepage = $userformman->modulepage; // This is the page to get corresponding fields.
-$formparams->readonly = ($userformman->modulepage == SURVEYPRO_SUBMISSION_READONLY);
-$formparams->preview = ($view == SURVEYPRO_PREVIEWSURVEYFORM);
+$formparams->firstpageright = $userformman->get_firstpageright();
+$formparams->maxassignedpage = $userformman->get_maxassignedpage();
+$formparams->canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $context, null, true); // Help selecting the fields to show
+$formparams->formpage = $userformman->get_formpage(); // The page of the form to select subset of fields
+$formparams->modulepage = $userformman->get_modulepage(); // The page of the TAB-PAGE structure.
+$formparams->readonly = ($userformman->get_modulepage() == SURVEYPRO_SUBMISSION_READONLY);
+$formparams->preview = false;
 // End of: prepare params for the form.
 
 // if ($view == SURVEYPRO_READONLYRESPONSE) {$editable = false} else {$editable = true}
-$userform = new mod_surveypro_submissionform($formurl, $formparams, 'post', '', array('id' => 'userentry'), ($view != SURVEYPRO_READONLYRESPONSE));
+$userform = new mod_surveypro_outform($formurl, $formparams, 'post', '', array('id' => 'userentry'), ($view != SURVEYPRO_READONLYRESPONSE));
 
 // Begin of: manage form submission.
 if ($userform->is_cancelled()) {
-    $localparamurl = array('id' => $cm->id, 'view' => $view, 'cover' => 0);
+    $localparamurl = array('id' => $cm->id, 'view' => $view);
     $redirecturl = new moodle_url('/mod/surveypro/view.php', $localparamurl);
     redirect($redirecturl, get_string('usercanceled', 'mod_surveypro'));
 }
 
 if ($userformman->formdata = $userform->get_data()) {
-    if ($view != SURVEYPRO_PREVIEWSURVEYFORM) {
-        $userformman->save_user_data(); // <-- SAVE SAVE SAVE SAVE
-        $userformman->notifypeople();
-    }
+    $userformman->save_user_data(); // <-- SAVE SAVE SAVE SAVE.
+    $userformman->notifypeople();
 
     // If "pause" button has been pressed, redirect.
     $pausebutton = isset($userformman->formdata->pausebutton);
     if ($pausebutton) {
-        $localparamurl = array('id' => $cm->id, 'view' => $view, 'cover' => 0);
+        $localparamurl = array('id' => $cm->id, 'view' => $view);
         $redirecturl = new moodle_url('/mod/surveypro/view.php', $localparamurl);
-        redirect($redirecturl); // -> go somewhere
+        redirect($redirecturl); // Go somewhere.
     }
 
-    $paramurl['submissionid'] = $userformman->submissionid;
+    $paramurl['submissionid'] = $userformman->get_submissionid();
 
     // If "previous" button has been pressed, redirect.
     $prevbutton = isset($userformman->formdata->prevbutton);
     if ($prevbutton) {
-        $userformman->next_not_empty_page(false, $userformman->formpage, $userformman->modulepage);
-        $paramurl['formpage'] = $userformman->firstpageleft;
-        $redirecturl = new moodle_url('/mod/surveypro/view_userform.php', $paramurl);
+        $userformman->next_not_empty_page(false);
+        $paramurl['formpage'] = $userformman->get_firstpageleft();
+        $redirecturl = new moodle_url('/mod/surveypro/view_form.php', $paramurl);
         redirect($redirecturl); // -> go to the first non empty previous page of the form
     }
 
     // If "next" button has been pressed, redirect.
     $nextbutton = isset($userformman->formdata->nextbutton);
     if ($nextbutton) {
-        $userformman->next_not_empty_page(true, $userformman->formpage, $userformman->modulepage);
+        $userformman->next_not_empty_page(true);
 
         // Ok, I am moving from $userformman->formpage to page $userformman->firstpageright.
         // I need to delete all the answer that were (maybe) written during a previous walk along the surveypro.
@@ -140,8 +120,8 @@ if ($userformman->formdata = $userform->get_data()) {
         // Now that data of $userformman->formpage = 3 redirects me to page 10, for sure answers to items in page 4 have to be deleted.
         $userformman->drop_jumped_saved_data();
 
-        $paramurl['formpage'] = $userformman->firstpageright;
-        $redirecturl = new moodle_url('/mod/surveypro/view_userform.php', $paramurl);
+        $paramurl['formpage'] = $userformman->get_firstpageright();
+        $redirecturl = new moodle_url('/mod/surveypro/view_form.php', $paramurl);
         redirect($redirecturl); // -> go to the first non empty next page of the form
     }
 }
@@ -152,7 +132,7 @@ $paramurl = array('s' => $surveypro->id, 'view' => $view);
 if (!empty($submissionid)) {
     $paramurl['submissionid'] = $submissionid;
 }
-$url = new moodle_url('/mod/surveypro/view_userform.php', $paramurl);
+$url = new moodle_url('/mod/surveypro/view_form.php', $paramurl);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -162,53 +142,19 @@ $PAGE->set_heading($course->shortname);
 // Make bold the navigation menu/link that refers to me.
 navigation_node::override_active_url($url);
 
-// Other things you may want to set - remove if not needed.
-// $PAGE->set_cacheable(false);
-// $PAGE->set_focuscontrol('some-html-id');
-
 echo $OUTPUT->header();
 
-$moduletab = $userformman->moduletab; // Needed by tabs.php.
-$modulepage = $userformman->modulepage; // Needed by tabs.php.
-require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
+$tabman = new mod_surveypro_tabs($cm, $context, $surveypro, $userformman->get_moduletab(), $userformman->get_modulepage());
 
-// Begin of: if surveypro is without items, alert and stop.
-if (!$userformman->canaccessadvanceditems) {
-    if (!$userformman->hasinputitems) {
-        $userformman->noitem_stopexecution();
-    }
-}
-// End of: if surveypro is without items, alert and stop.
-
-// Begin of: is the user allowed to submit one more surveypro?
-if ($pageallowesubmission) {
-    if (!$userformman->submissions_allowed()) {
-        $userformman->submissions_exceeded_stopexecution();
-    }
-    // } else {
-    // I am editing an "in progress" submission.
-    // You are always allowed to carry on with your "in progress" submission.
-}
-// End of: is the user allowed to submit one more surveypro?
-
-// Begin of: manage the thanks page.
-if ($pageallowesubmission) {
-    $userformman->manage_thanks_page();
-}
-// End of: manage the thanks page.
-
-// Begin of: display an alert to explain why buttons are missing.
-$userformman->message_preview_mode();
-// End of: display an alert to explain why buttons are missing.
-
-// Begin of: display orientation text: page xx of yy.
+$userformman->noitem_stopexecution();
+$userformman->nomoresubmissions_stopexecution();
+$userformman->manage_thanks_page();
 $userformman->display_page_x_of_y();
-// End of: display orientation text: page xx of yy
 
 // Begin of: calculate prefill for fields and prepare standard editors and filemanager.
 // If sumission already exists.
 $prefill = $userformman->get_prefill_data();
-$prefill['formpage'] = $userformman->formpage;
+$prefill['formpage'] = $userformman->get_formpage();
 // End of: calculate prefill for fields and prepare standard editors and filemanager.
 
 $userform->set_data($prefill);
@@ -218,10 +164,6 @@ $userform->display();
 // I need to add navigation buttons manually
 // Because the surveypro is not displayed as a form but as a simple list of graphic user items.
 $userformman->add_readonly_browsing_buttons();
-
-// Begin of: display an alert to explain why buttons are missing.
-$userformman->message_preview_mode();
-// End of: display an alert to explain why buttons are missing.
 
 // Finish the page.
 echo $OUTPUT->footer();

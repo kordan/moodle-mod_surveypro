@@ -74,7 +74,6 @@ class mod_surveypro_importform extends moodleform {
         $mform->addElement('select', $fieldname, get_string($fieldname, 'tool_uploaduser'), $options);
         $mform->setDefault($fieldname, 'UTF-8');
 
-        // Buttons.
         $this->add_action_buttons(false, get_string('dataimport', 'mod_surveypro'));
     }
 

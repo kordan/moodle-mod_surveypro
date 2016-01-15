@@ -86,6 +86,7 @@ Feature: editing a submission, autofill userID is not overwritten
       | Indent            | 0             |
       | Question position | left          |
       | Element number    | 4             |
+      | Element style     | dropdown menu |
     And I press "Add"
 
     And I log out

@@ -28,95 +28,87 @@ require_once($CFG->dirroot.'/mod/surveypro/field/autofill/lib.php');
 class mod_surveypro_field_autofill extends mod_surveypro_itembase {
 
     /**
-     * $content = the text content of the item.
+     * Item content stuff.
      */
     public $content = '';
-
-    /**
-     * $contenttrust
-     */
     public $contenttrust = 1;
-
-    /**
-     * public $contentformat = '';
-     */
     public $contentformat = '';
 
     /**
      * $customnumber = the custom number of the item.
      * It usually is 1. 1.1, a, 2.1.a...
      */
-    public $customnumber = '';
+    protected $customnumber;
 
     /**
      * $position = where does the question go?
      */
-    public $position = SURVEYPRO_POSITIONLEFT;
+    protected $position;
 
     /**
      * $extranote = an optional text describing the item
      */
-    public $extranote = '';
+    protected $extranote;
 
     /**
      * $hideinstructions = boolean. Exceptionally hide filling instructions
      */
-    public $hideinstructions = 0;
+    protected $hideinstructions;
 
     /**
      * $variable = the name of the field storing data in the db table
      */
-    public $variable = '';
+    protected $variable;
 
     /**
      * $indent = the indent of the item in the form page
      */
-    public $indent = 0;
+    protected $indent;
 
     /**
      * $hiddenfield = is the static text visible in the mform?
      */
-    public $hiddenfield = false;
+    protected $hiddenfield;
 
     /**
      * $element01 = element for $content
      */
-    public $element01 = '';
-    public $element01_select = '';
-    public $element01_text = '';
+    protected $element01;
+    protected $element01_select;
+    protected $element01_text;
 
     /**
      * $element02 = element for $content
      */
-    public $element02 = '';
-    public $element02_select = '';
-    public $element02_text = '';
+    protected $element02;
+    protected $element02_select;
+    protected $element02_text;
 
     /**
      * $element03 = element for $content
      */
-    public $element03 = '';
-    public $element03_select = '';
-    public $element03_text = '';
+    protected $element03;
+    protected $element03_select;
+    protected $element03_text;
 
     /**
      * $element04 = element for $content
      */
-    public $element04 = '';
-    public $element04_select = '';
-    public $element04_text = '';
+    protected $element04;
+    protected $element04_select;
+    protected $element04_text;
 
     /**
      * $element05 = element for $content
      */
-    public $element05 = '';
-    public $element05_select = '';
-    public $element05_text = '';
+    protected $element05;
+    protected $element05_select;
+    protected $element05_text;
 
     /**
      * static canbeparent
      */
-    public static $canbeparent = false;
+    protected static $canbeparent = false;
 
     /**
      * Class constructor
@@ -125,7 +117,7 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
      *
      * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
-     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
+     * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
@@ -133,7 +125,7 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'autofill';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // It is already true from parent class.
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // Already set in parent class.
         $this->savepositiontodb = false;
 
         // Other element specific properties.
@@ -143,8 +135,8 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
         // No properties here.
 
         // List of fields I do not want to have in the item definition form.
-        $this->isinitemform['required'] = false;
-        $this->isinitemform['hideinstructions'] = false;
+        $this->insetupform['required'] = false;
+        $this->insetupform['hideinstructions'] = false;
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $evaluateparentcontent);
@@ -155,7 +147,7 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
      * item_load
      *
      * @param $itemid
-     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
+     * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
      * @return
      */
     public function item_load($itemid, $evaluateparentcontent) {
@@ -439,7 +431,9 @@ EOS;
             return $prefill;
         }
 
-        $prefill[$this->itemname] = $fromdb->content;
+        if (isset($fromdb->content)) {
+            $prefill[$this->itemname] = $fromdb->content;
+        }
 
         return $prefill;
     }
@@ -471,8 +465,8 @@ EOS;
                         if ($submissionid) {
                             $label .= $submission->id;
                         } else {
-                            // If during string build you find a element that can not be valued now,
-                            //     overwrite $label, break switch and continue both
+                            // If during string build you find a element that cannot be evaluated now,
+                            // overwrite $label, break switch and continue both
                             $label = get_string('latevalue', 'surveyprofield_autofill');
                             break 2; // It is the first time I use it! Coooool :-).
                         }
@@ -483,8 +477,8 @@ EOS;
                             $format = get_string('strftimedaytime', 'langconfig');
                             $label .= userdate($submission->timecreated, $format);
                         } else {
-                            // If during string build you find a element that can not be valued now,
-                            //     overwrite $label, break switch and continue both
+                            // If during string build you find a element that cannot be evaluated now,
+                            // overwrite $label, break switch and continue both
                             $label = get_string('latevalue', 'surveyprofield_autofill');
                             break 2; // It is the first time I use it! Coooool :-)
                         }
@@ -495,8 +489,8 @@ EOS;
                             $format = get_string('strftimedate', 'langconfig');
                             $label .= userdate($submission->timecreated, $format);
                         } else {
-                            // If during string build you find a element that can not be valued now,
-                            //     overwrite $label, break switch and continue both
+                            // If during string build you find a element that cannot be evaluated now,
+                            // overwrite $label, break switch and continue both
                             $label = get_string('latevalue', 'surveyprofield_autofill');
                             break 2; // It is the first time I use it! Coooool :-)
                         }
@@ -507,8 +501,8 @@ EOS;
                             $format = get_string('strftimedatetime', 'langconfig');
                             $label .= userdate($submission->timecreated, $format);
                         } else {
-                            // If during string build you find a element that can not be valued now,
-                            //     overwrite $label, break switch and continue both
+                            // If during string build you find a element that cannot be evaluated now,
+                            // overwrite $label, break switch and continue both
                             $label = get_string('latevalue', 'surveyprofield_autofill');
                             break 2; // It is the first time I use it! Coooool :-)
                         }

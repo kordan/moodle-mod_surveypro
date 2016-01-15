@@ -131,7 +131,7 @@ function surveypro_need_group_filtering($cm, $context) {
 }
 
 /**
- * surveypro_fixlength
+ * surveypro_cutdownstring
  *
  * @param $plainstring
  * @param optional $maxlength
@@ -139,12 +139,11 @@ function surveypro_need_group_filtering($cm, $context) {
  *
  * @return
  */
-function surveypro_fixlength($plainstring, $maxlength=60) {
-    $ellipsis = '...';
-    $cutlength = $maxlength - strlen($ellipsis);
+function surveypro_cutdownstring($plainstring, $maxlength=60) {
     if (strlen($plainstring) > $maxlength) {
+        $ellipsis = '...';
+        $cutlength = $maxlength - strlen($ellipsis);
         $plainstring = substr($plainstring, 0, $cutlength).$ellipsis;
-        $return = $plainstring;
     }
 
     return $plainstring;

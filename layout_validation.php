@@ -24,6 +24,7 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/itemlist.class.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
@@ -78,14 +79,14 @@ $itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro);
 // Property parentid is useless (it is set to its default), do not set it
 // $itemlistman->set_parentid(0);
 
-// Property userfeedbackmask is useless (it is set to its default), do not set it
-// $itemlistman->userfeedbackmask(SURVEYPRO_NOFEEDBACK);
+// Property savefeedbackmask is useless (it is set to its default), do not set it
+// $itemlistman->savefeedbackmask(SURVEYPRO_NOFEEDBACK);
 
 // Property saveasnew is useless (it is set to its default), do not set it
 // $itemlistman->set_saveasnew(0);
 
 // Output starts here.
-$url = new moodle_url('/mod/surveypro/items_validate.php', array('s' => $surveypro->id));
+$url = new moodle_url('/mod/surveypro/layout_validation.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -97,9 +98,7 @@ navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
-$moduletab = SURVEYPRO_TABITEMS; // Needed by tabs.php.
-$modulepage = SURVEYPRO_ITEMS_VALIDATE; // Needed by tabs.php.
-require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
+$tabman = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABITEMS, SURVEYPRO_ITEMS_VALIDATE);
 
 $itemlistman->validate_relations();
 

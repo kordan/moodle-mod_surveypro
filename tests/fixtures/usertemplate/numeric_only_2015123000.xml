@@ -20,7 +20,7 @@
       <advanced>0</advanced>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;mandatory&lt;/li&gt;&lt;li&gt;default is set to 3.1&lt;/li&gt;&lt;li&gt;decimal positions set to 4&lt;/li&gt;&lt;li&gt;minimum value set to 3.1&lt;/li&gt;&lt;li&gt;maximum value set to 3.2&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read). </content>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory&lt;/li&gt;&lt;li&gt;default is set to 3.1&lt;/li&gt;&lt;li&gt;decimal positions set to 4&lt;/li&gt;&lt;li&gt;minimum value set to 3.1&lt;/li&gt;&lt;li&gt;maximum value set to 3.2&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read). </content>
       <contentformat>1</contentformat>
       <customnumber>1 info</customnumber>
       <indent>0</indent>
@@ -92,7 +92,7 @@
       <advanced>0</advanced>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;mandatory&lt;/li&gt;&lt;li&gt;default is not set&lt;/li&gt;&lt;li&gt;decimal positions set to 4&lt;/li&gt;&lt;li&gt;minimum value set to 3.1&lt;/li&gt;&lt;li&gt;maximum value set to 3.2&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory but the default is unset. The user will be forced to choose a value.</content>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory&lt;/li&gt;&lt;li&gt;default is not set&lt;/li&gt;&lt;li&gt;decimal positions set to 4&lt;/li&gt;&lt;li&gt;minimum value set to 3.1&lt;/li&gt;&lt;li&gt;maximum value set to 3.2&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory but the default is unset. The user will be forced to choose a value.</content>
       <contentformat>1</contentformat>
       <customnumber>3 info</customnumber>
       <indent>0</indent>

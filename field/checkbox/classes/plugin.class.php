@@ -28,90 +28,82 @@ require_once($CFG->dirroot.'/mod/surveypro/field/checkbox/lib.php');
 class mod_surveypro_field_checkbox extends mod_surveypro_itembase {
 
     /**
-     * $content = the text content of the item.
+     * Item content stuff.
      */
     public $content = '';
-
-    /**
-     * $contenttrust
-     */
     public $contenttrust = 1;
-
-    /**
-     * public $contentformat = '';
-     */
     public $contentformat = '';
 
     /**
      * $customnumber = the custom number of the item.
      * It usually is 1. 1.1, a, 2.1.a...
      */
-    public $customnumber = '';
+    protected $customnumber;
 
     /**
      * $position = where does the question go?
      */
-    public $position = SURVEYPRO_POSITIONLEFT;
+    protected $position;
 
     /**
      * $extranote = an optional text describing the item
      */
-    public $extranote = '';
+    protected $extranote;
 
     /**
      * $required = boolean. O == optional item; 1 == mandatory item
      */
-    public $required = 0;
+    protected $required;
 
     /**
      * $variable = the name of the field storing data in the db table
      */
-    public $variable = '';
+    protected $variable;
 
     /**
      * $indent = the indent of the item in the form page
      */
-    public $indent = 0;
+    protected $indent;
 
     /**
      * $options = list of options in the form of "$value SURVEYPRO_VALUELABELSEPARATOR $label"
      */
-    public $options = '';
+    protected $options;
 
     /**
      * $labelother = the text label for the optional option "other" in the form of "$value SURVEYPRO_OTHERSEPARATOR $label"
      */
-    public $labelother = '';
+    protected $labelother;
 
     /**
      * $defaultvalue = the value of the field when the form is initially displayed.
      */
-    public $defaultvalue = '';
+    protected $defaultvalue;
 
     /**
      * $noanswerdefault = include noanswer among defaults
      */
-    public $noanswerdefault = '';
+    protected $noanswerdefault;
 
     /**
      * $downloadformat = the format of the content once downloaded
      */
-    public $downloadformat = null;
+    protected $downloadformat;
 
     /**
      * $minimumrequired = The minimum number of checkboxes the user is forced to choose in his/her answer
      */
-    public $minimumrequired = 0;
+    protected $minimumrequired;
 
     /**
      * $adjustment = the orientation of the list of options.
      */
-    public $adjustment = 0;
+    protected $adjustment;
 
     /**
      * static canbeparent
      */
-    public static $canbeparent = true;
+    protected static $canbeparent = true;
 
     /**
      * Class constructor
@@ -120,7 +112,7 @@ class mod_surveypro_field_checkbox extends mod_surveypro_itembase {
      *
      * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
-     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
+     * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
@@ -128,7 +120,7 @@ class mod_surveypro_field_checkbox extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'checkbox';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // It is already true from parent class.
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // Already set in parent class.
         $this->savepositiontodb = true;
 
         // Other element specific properties.
@@ -149,7 +141,7 @@ class mod_surveypro_field_checkbox extends mod_surveypro_itembase {
      * item_load
      *
      * @param $itemid
-     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
+     * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
      * @return
      */
     public function item_load($itemid, $evaluateparentcontent) {
@@ -512,7 +504,8 @@ EOS;
         if (!$this->required) {
             $attributes['group'] = 1;
             $attributes['id'] = $idprefix.'_noanswer';
-            $elementgroup[] = $mform->createElement('mod_surveypro_advcheckbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), $attributes, array('0', '1'));
+            $options = array('0', '1');
+            $elementgroup[] = $mform->createElement('mod_surveypro_advcheckbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), $attributes, $options);
             if (!empty($this->noanswerdefault)) {
                 $mform->setDefault($this->itemname.'_noanswer', '1');
             }
@@ -691,12 +684,12 @@ EOS;
      * @return boolean: true: if the item is welcome; false: if the item must be dropped out
      */
     public function userform_child_item_allowed_dynamic($childparentvalue, $data) {
-        // 1) I am a checkbox item
-        // 2) in $data I can ONLY find $this->itemname, $this->itemname.'_other', $this->itemname.'_text'
+        // 1) I am a checkbox item.
+        // 2) in $data I can ONLY find $this->itemname, $this->itemname.'_other', $this->itemname.'_text'.
 
         // I need to verify (checkbox per checkbox) if they hold the same value the user entered
         $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
-        $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 2;3;shark
+        $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 2;3;shark.
 
         $status = true;
         foreach ($labels as $k => $label) {
@@ -785,7 +778,7 @@ EOS;
     public function userform_set_prefill($fromdb) {
         $prefill = array();
 
-        if (!$fromdb) { // $fromdb may be boolean false for not existing data
+        if (!$fromdb) { // $fromdb may be boolean false for not existing data.
             return $prefill;
         }
 
@@ -794,32 +787,29 @@ EOS;
             $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $fromdb->content);
 
             // If SURVEYPRO_NOANSWERVALUE is returned...
-            //  it will be alone and a special prefill needs to be returned
+            // it will be alone and a special prefill needs to be returned.
             if ($answers == array(SURVEYPRO_NOANSWERVALUE)) {
-                $uniqueid = $this->itemname.'_noanswer';
-                $prefill[$uniqueid] = '1';
+                $prefill[$this->itemname.'_noanswer'] = '1';
+            } else {
+                // Here $answers is an array like: array(1,1,0,0,'dummytext').
+                foreach ($answers as $k => $checkboxvalue) {
+                    $uniqueid = $this->itemname.'_'.$k;
+                    $prefill[$uniqueid] = $checkboxvalue;
+                }
+                if (!empty($this->labelother)) {
+                    // Delete last item of $prefill.
+                    unset($prefill[$uniqueid]);
 
-                return $prefill;
-            }
+                    // Add last element of the $prefill.
+                    $lastanswer = end($answers);
 
-            // Here $answers is an array like: array(1,1,0,0,'dummytext').
-            foreach ($answers as $k => $checkboxvalue) {
-                $uniqueid = $this->itemname.'_'.$k;
-                $prefill[$uniqueid] = $checkboxvalue;
-            }
-            if (!empty($this->labelother)) {
-                // Delete last item of $prefill.
-                unset($prefill[$uniqueid]);
-
-                // Add last element of the $prefill.
-                $lastanswer = end($answers);
-
-                if (strlen($lastanswer)) {
-                    $prefill[$this->itemname.'_other'] = 1;
-                    $prefill[$this->itemname.'_text'] = $lastanswer;
-                } else {
-                    $prefill[$this->itemname.'_other'] = 0;
-                    $prefill[$this->itemname.'_text'] = '';
+                    if (strlen($lastanswer)) {
+                        $prefill[$this->itemname.'_other'] = 1;
+                        $prefill[$this->itemname.'_text'] = $lastanswer;
+                    } else {
+                        $prefill[$this->itemname.'_other'] = 0;
+                        $prefill[$this->itemname.'_text'] = '';
+                    }
                 }
             }
         }

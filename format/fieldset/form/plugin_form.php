@@ -41,8 +41,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // $mform = $this->_form;
 
         // Get _customdata.
-        // $item = $this->_customdata->item;
-        // $cm = $this->_customdata->cm;
+        $item = $this->_customdata->item;
         // $surveypro = $this->_customdata->surveypro;
 
         $this->add_item_buttons();
@@ -58,7 +57,6 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
     public function validation($data, $files) {
         // Get _customdata.
         // $item = $this->_customdata->item;
-        // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
 
         $errors = parent::validation($data, $files);
