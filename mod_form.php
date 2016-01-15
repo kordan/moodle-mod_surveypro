@@ -187,8 +187,7 @@ class mod_surveypro_mod_form extends moodleform_mod {
         return $data;
     }
 
-    // This function is executed once mod_form has been displayed
-    // and is needed to define some presets.
+    // This function is executed once mod_form has been displayed and is needed to define some presets.
     public function data_preprocessing(&$defaults) {
         parent::data_preprocessing($defaults);
 

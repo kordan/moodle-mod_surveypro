@@ -423,7 +423,7 @@ EOS;
         }
         $days += array_combine(range(1, 31), range(1, 31));
         for ($i = 1; $i <= 12; $i++) {
-            $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // january, february, march...
+            $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
         }
         // End of: element values
 
@@ -505,8 +505,8 @@ EOS;
      * @return
      */
     public function userform_mform_validation($data, &$errors, $surveypro, $searchform) {
-        // this plugin displays as dropdown menu. It will never return empty values.
-        // if ($this->required) { if (empty($data[$this->itemname])) { is useless
+        // This plugin displays as dropdown menu. It will never return empty values.
+        // If ($this->required) { if (empty($data[$this->itemname])) { is useless
 
         if (isset($data[$this->itemname.'_noanswer'])) {
             return; // Nothing to validate.
@@ -541,7 +541,7 @@ EOS;
         // End of: verify the content of each drop down menu
 
         if ($searchform) {
-            // stop here your investigation. I don't further validations.
+            // Stop here your investigation. I don't further validations.
             return;
         }
 

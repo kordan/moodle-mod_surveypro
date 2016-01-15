@@ -377,12 +377,12 @@ class mod_surveypro_templatebase {
             case SURVEYPRO_IGNOREITEMS:
                 break;
             case SURVEYPRO_HIDEITEMS:
-                // BEGIN: hide all other items.
+                // Begin of: hide all other items.
                 $DB->set_field('surveypro_item', 'hidden', 1, array('surveyproid' => $this->surveypro->id, 'hidden' => 0));
-                // END: hide all other items.
+                // End of: hide all other items.
                 break;
             case SURVEYPRO_DELETEALLITEMS:
-                // BEGIN: delete all existing items.
+                // Begin of: delete all existing items.
                 $parambase = array('surveyproid' => $this->surveypro->id);
                 $sql = 'SELECT si.plugin, si.type
                         FROM {surveypro_item} si
@@ -391,11 +391,11 @@ class mod_surveypro_templatebase {
                 $pluginseeds = $DB->get_records_sql($sql, $parambase);
 
                 $this->items_deletion($pluginseeds, $parambase);
-                // END: delete all existing items.
+                // End of: delete all existing items.
                 break;
             case SURVEYPRO_DELETEVISIBLEITEMS:
             case SURVEYPRO_DELETEHIDDENITEMS:
-                // BEGIN: delete other items.
+                // Begin of: delete other items.
                 $parambase = array('surveyproid' => $this->surveypro->id);
                 if ($this->formdata->action == SURVEYPRO_DELETEVISIBLEITEMS) {
                     $parambase['hidden'] = 0;
@@ -413,7 +413,7 @@ class mod_surveypro_templatebase {
 
                 $this->items_deletion($pluginseeds, $parambase);
                 $this->items_reindex();
-                // END: delete other items.
+                // End of: delete other items.
                 break;
             default:
                 $message = 'Unexpected $action = '.$action;
@@ -500,7 +500,7 @@ class mod_surveypro_templatebase {
                 if (($this->action == SURVEYPRO_DELETEALLITEMS) && ($this->utemplateid == 0)) {
                     // If you really were in the dangerous situation...
                     if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
-                        // but you got a disconfirmation: declare it and give up.
+                        // But you got a disconfirmation: declare it and give up.
                         $message = get_string('usercanceled', 'mod_surveypro');
                         echo $OUTPUT->notification($message, 'notifymessage');
                     }
@@ -575,7 +575,7 @@ class mod_surveypro_templatebase {
         }
 
         if ($this->templatetype == SURVEYPRO_MASTERTEMPLATE) {
-            // load it only once. You are going to use it later.
+            // Load it only once. You are going to use it later.
             $config = get_config('surveyprotemplate_'.$this->templatename);
         }
         $naturalsortindex = 0;

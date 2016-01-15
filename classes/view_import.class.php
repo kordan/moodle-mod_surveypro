@@ -42,11 +42,6 @@ class mod_surveypro_importmanager {
     public $surveypro = null;
 
     /**
-     * $canseeownsubmissions
-     */
-    // public $canseeownsubmissions = true;
-
-    /**
      * $canseeotherssubmissions
      */
     public $canseeotherssubmissions = false;
@@ -620,7 +615,7 @@ class mod_surveypro_importmanager {
 
                         foreach ($positions as $k => $position) {
                             if (is_number($position)) {
-                                // if position is out of range...
+                                // If position is out of range...
                                 if (($position >= $options) || ($position < 0)) { // For radio buttons.
                                     $cir->close();
                                     $cir->cleanup();

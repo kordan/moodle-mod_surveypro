@@ -472,7 +472,7 @@ class mod_surveypro_itembase {
             $candidatevariable = $record->variable;
         }
 
-        // verify the given name is unique. If not, change it.
+        // Verify the given name is unique. If not, change it.
         $sql = 'SELECT p.id, p.variable
                 FROM {'.$tablename.'} p
                     JOIN {surveypro_item} i ON i.id = p.itemid

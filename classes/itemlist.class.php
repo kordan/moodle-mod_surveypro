@@ -308,7 +308,7 @@ class mod_surveypro_itemlist {
         // End of: $paramurlmove definition.
 
         $where = array('surveyproid' => $this->surveypro->id);
-        if ($this->view == SURVEYPRO_CHANGEORDERASK) { // if you are reordering, force ordering to...
+        if ($this->view == SURVEYPRO_CHANGEORDERASK) { // If you are reordering, force ordering to...
             $itemseeds = $DB->get_records('surveypro_item', $where, 'sortindex ASC', '*, id as itemid');
         } else {
             $itemseeds = $DB->get_records('surveypro_item', $where, $table->get_sql_sort(), '*, id as itemid');

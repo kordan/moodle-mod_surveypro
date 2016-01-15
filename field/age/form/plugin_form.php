@@ -118,7 +118,6 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
             $errors['defaultoption_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
         }
 
-        // echo PHP_INT_SIZE;
         $lowerbound = $item->item_age_to_unix_time($data['lowerbound_year'], $data['lowerbound_month']);
         $upperbound = $item->item_age_to_unix_time($data['upperbound_year'], $data['upperbound_month']);
         if ($lowerbound == $upperbound) {

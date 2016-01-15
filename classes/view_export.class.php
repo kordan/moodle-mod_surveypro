@@ -42,11 +42,6 @@ class mod_surveypro_exportmanager {
     public $surveypro = null;
 
     /**
-     * $canseeownsubmissions
-     */
-    // public $canseeownsubmissions = true;
-
-    /**
      * $canseeotherssubmissions
      */
     public $canseeotherssubmissions = false;
@@ -64,7 +59,6 @@ class mod_surveypro_exportmanager {
         $this->context = $context;
         $this->surveypro = $surveypro;
 
-        // $this->canseeownsubmissions = true;
         $this->canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
     }
 
@@ -263,7 +257,7 @@ class mod_surveypro_exportmanager {
         // echo '$placeholders:';
         // var_dump($placeholders);
 
-        // get user groups (to filter surveypro to download) ???? TODO: NEVER USED ????
+        // Get user groups (to filter surveypro to download) ???? TODO: NEVER USED ????
         // $mygroups = groups_get_all_groups($course->id, $USER->id, $this->cm->groupingid);
 
         $oldsubmissionid = 0;
@@ -359,7 +353,7 @@ class mod_surveypro_exportmanager {
         // echo '$placeholders:';
         // var_dump($placeholders);
 
-        // get user groups (to filter surveypro to download) ???? TODO: NEVER USED ????
+        // Get user groups (to filter surveypro to download) ???? TODO: NEVER USED ????
         // $mygroups = groups_get_all_groups($course->id, $USER->id, $this->cm->groupingid);
 
         $oldsubmissionid = 0;

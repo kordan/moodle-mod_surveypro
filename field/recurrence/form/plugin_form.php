@@ -53,7 +53,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $days = array_combine(range(1, 31), range(1, 31));
         $months = array();
         for ($i = 1; $i <= 12; $i++) {
-            $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // january, february, march...
+            $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
         }
         $years = array_combine(range($startyear, $stopyear), range($startyear, $stopyear));
 

@@ -824,17 +824,17 @@ class mod_surveypro_userformmanager {
         $providedanswers = $DB->get_records_menu('surveypro_answer', $whereparams, 'itemid', 'itemid, 1');
 
         foreach ($requireditems as $itemseed) {
-            if (!isset($providedanswers[$itemseed->id])) { // required item was not answered.
-                if (empty($itemseed->parentid)) { // there is no parent item!!! Answer was jumped.
+            if (!isset($providedanswers[$itemseed->id])) { // Required item was not answered.
+                if (empty($itemseed->parentid)) { // There is no parent item!!! Answer was jumped.
                     $this->finalresponseevaluation = SURVEYPRO_MISSINGMANDATORY;
                     break;
                 } else {
                     $parentitem = surveypro_get_item($this->cm, $itemseed->parentid);
                     if ($parentitem->userform_child_item_allowed_static($this->submissionid, $itemseed)) {
-                        // parent is here but it allows this item as child in this submission. Answer was jumped.
+                        // Parent is here but it allows this item as child in this submission. Answer was jumped.
                         // TAKE CARE: this check is valid for chains of parent-child relations too.
                         // If the parent item was not allowed by its parent,
-                        //     it was not answered and userform_child_item_allowed_static returns false
+                        //     it was not answered and userform_child_item_allowed_static returns false.
                         $this->finalresponseevaluation = SURVEYPRO_MISSINGMANDATORY;
                     }
                 }
@@ -1240,7 +1240,7 @@ class mod_surveypro_userformmanager {
                 }
 
                 if (isset($backwardbutton) && isset($forwardbutton)) {
-                    // this code comes from "public function confirm(" around line 1711 in outputrenderers.php.
+                    // This code comes from "public function confirm(" around line 1711 in outputrenderers.php.
                     // It is not wrong. The misalign comes from bootstrapbase theme and is present in clean theme too.
                     echo html_writer::tag('div', $OUTPUT->render($backwardbutton).$OUTPUT->render($forwardbutton), array('class' => 'buttons'));
                 } else {
@@ -1293,7 +1293,7 @@ class mod_surveypro_userformmanager {
      * @return
      */
     public function drop_unexpected_values() {
-        // BEGIN: delete all the bloody values that were NOT supposed to be returned: MDL-34815
+        // Begin of: delete all the bloody values that were NOT supposed to be returned: MDL-34815
         $dirtydata = (array)$this->formdata;
         $indexes = array_keys($dirtydata);
 
@@ -1348,9 +1348,9 @@ class mod_surveypro_userformmanager {
                 }
             }
         } // Check next item.
-        // END: delete all the bloody values that were supposed to NOT be returned: MDL-34815
+        // End of: delete all the bloody values that were supposed to NOT be returned: MDL-34815
 
-        // if not expected items are here...
+        // If not expected items are here...
         if (count($disposelist)) {
             $regexp = '~'.SURVEYPRO_ITEMPREFIX.'_('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_([a-z]+)_([0-9]+)_?([a-z0-9]+)?~';
             foreach ($indexes as $itemname) {
@@ -1402,7 +1402,7 @@ class mod_surveypro_userformmanager {
                 // $this->user_sent_submissions(SURVEYPRO_STATUSALL) = N - 1
                 // When I fill the FIRST page of a survey, I get $next = N
                 // But when I go to fill the SECOND page of a survey I have one more "in progress" survey
-                // that is the one that I created when I saved the FIRST page, so...
+                //     that is the one that I created when I saved the FIRST page, so...
                 // $this->user_sent_submissions(SURVEYPRO_STATUSALL) = N
                 // $next = N + 1
                 // I am wrongly stopped here!

@@ -508,7 +508,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
                 // $whereparams = array('itemid' => $itemid);
                 // $aggregate = $DB->get_record_sql($sql, $whereparams);
 
-                // verified on October 17. It seems it arrived the time to delete the long version of the query.
+                // Verified on October 17. It seems it arrived the time to delete the long version of the query.
                 $whereparams = array('itemid' => $itemid);
                 $aggregate = $DB->get_record('surveypro_answer', $whereparams, 'COUNT(id) as countofanswers, SUM(content) as sumofanswers');
                 $m = $aggregate->sumofanswers / $aggregate->countofanswers;

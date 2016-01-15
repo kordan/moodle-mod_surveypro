@@ -908,12 +908,12 @@ class mod_surveypro_submissionmanager {
             $tablerowcounter = 0;
             if (!$useshowsubmissionsinfosql) {
                 foreach ($submissions as $submission) {
-                    // count:
-                    //   number of 'in progress' submissions
-                    //   number of user with 'in progress' submissions
+                    // Get:
+                    //   Count of 'in progress' submissions.
+                    //   Count of user with 'in progress' submissions.
                     //
-                    //   number of 'closed' submissions
-                    //   number of user with 'closed' submissions
+                    //   Count of 'closed' submissions.
+                    //   Count of user with 'closed' submissions.
                     switch ($submission->status) {
                         case SURVEYPRO_STATUSINPROGRESS:
                             $inprogresssubmission++;
@@ -1134,7 +1134,7 @@ class mod_surveypro_submissionmanager {
             $addbutton = new single_button($addurl, get_string('addnewsubmission', 'mod_surveypro'), 'get', array('class' => 'buttons'));
             $deleteallbutton = new single_button($deleteurl, get_string('deleteallsubmissions', 'mod_surveypro'), 'get', array('class' => 'buttons'));
 
-            // this code comes from "public function confirm(" around line 1711 in outputrenderers.php.
+            // This code comes from "public function confirm(" around line 1711 in outputrenderers.php.
             // It is not wrong. The misalign comes from bootstrapbase theme and is present in clean theme too.
             echo $OUTPUT->box_start('generalbox centerpara', 'notice');
             echo html_writer::tag('div', $OUTPUT->render($addbutton).$OUTPUT->render($deleteallbutton), array('class' => 'buttons'));

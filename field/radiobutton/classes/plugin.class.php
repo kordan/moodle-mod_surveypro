@@ -595,8 +595,8 @@ EOS;
      * @return
      */
     public function userform_mform_validation($data, &$errors, $surveypro, $searchform) {
-        // this plugin displays as a set of radio buttons. It will never return empty values.
-        // if ($this->required) { if (empty($data[$this->itemname])) { is useless
+        // This plugin displays as a set of radio buttons. It will never return empty values.
+        // If ($this->required) { if (empty($data[$this->itemname])) { is useless
 
         if ($searchform) {
             return;

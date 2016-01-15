@@ -68,7 +68,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // $months = array_combine(range(0, 11), range(0, 11));
         $months = array();
         for ($i = 1; $i <= 12; $i++) {
-            $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // january, february, march...
+            $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
         }
         $years = array_combine(range($startyear, $stopyear), range($startyear, $stopyear));
         $hours = array_combine(range(0, 23), range(0, 23));
@@ -178,7 +178,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
             }
         }
 
-        // if (default == noanswer && the field is mandatory) => error.
+        // If (default == noanswer && the field is mandatory) => error.
         if ( ($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required']) ) {
             $a = get_string('noanswer', 'mod_surveypro');
             $errors['defaultoption_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);

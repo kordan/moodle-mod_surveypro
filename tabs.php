@@ -282,7 +282,7 @@ switch ($moduletab) {
             $row[] = new tabobject('idpage1', $elementurl->out(), $strlabel);
         }
 
-        if ( (!$hassubmissions || $riskyediting) && $canapplymastertemplates ) { // if submissions were done, do not modify the list of fields.
+        if ( (!$hassubmissions || $riskyediting) && $canapplymastertemplates ) { // If submissions were done, do not modify the list of fields.
             // Apply.
             $elementurl = new moodle_url('/mod/surveypro/mtemplates_apply.php', $paramurl);
             $strlabel = get_string('tabmtemplatepage2', 'mod_surveypro');

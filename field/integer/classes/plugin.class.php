@@ -458,7 +458,7 @@ EOS;
         }
 
         // This plugin displays as dropdown menu. It will never return empty values.
-        // if ($this->required) { if (empty($data[$this->itemname])) { is useless
+        // If ($this->required) { if (empty($data[$this->itemname])) { is useless
         $userinput = $data[$this->itemname];
 
         $errorkey = $this->itemname;

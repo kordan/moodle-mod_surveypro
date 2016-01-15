@@ -73,14 +73,14 @@ if ($cover === null) {
             $paramurl = array('s' => $surveypro->id);
             $redirecturl = new moodle_url('/mod/surveypro/items_manage.php', $paramurl);
             redirect($redirecturl);
-        } // else: carry on.
+        } // Else: carry on.
     } else {
         if ($submissionman->hasitems) {
             $paramurl = array('s' => $surveypro->id);
             $redirecturl = new moodle_url('/mod/surveypro/view_cover.php', $paramurl);
             redirect($redirecturl);
             // } else {
-            // if (!$submissionman->hasitems) { just below execution is stopped
+            // If (!$submissionman->hasitems) { just below execution is stopped.
         }
     }
 }
@@ -99,7 +99,7 @@ echo $OUTPUT->header();
 if (!$submissionman->hasitems) {
     $submissionman->noitem_stopexecution();
 }
-$submissionman->manage_actions(); // action feedback before tabs
+$submissionman->manage_actions(); // Action feedback before tabs.
 
 $moduletab = SURVEYPRO_TABSUBMISSIONS; // Needed by tabs.php.
 $modulepage = SURVEYPRO_SUBMISSION_MANAGE; // Needed by tabs.php.
@@ -107,7 +107,7 @@ require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
 
 $submissionman->show_action_buttons();
 $submissionman->display_submissions_table();
-$submissionman->trigger_event(); // event: all_submissions_viewed
+$submissionman->trigger_event(); // Event: all_submissions_viewed
 
 // Finish the page.
 echo $OUTPUT->footer();

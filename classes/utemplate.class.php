@@ -606,9 +606,6 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
         $options = $this->get_sharinglevel_options($this->cm->id);
 
-        // echo '$options:';
-        // var_dump($options);
-
         $templates = new stdClass();
         foreach ($options as $sharinglevel => $v) {
             $parts = explode('_', $sharinglevel);
@@ -618,8 +615,6 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
             $contextstring = $this->get_contextstring_from_sharinglevel($contextlevel);
             $templates->{$contextstring} = $this->get_available_templates($contextid);
         }
-        // echo '$templates:';
-        // var_dump($templates);
 
         $dummysort = $this->create_fictitious_table($templates, $table->get_sql_sort());
 

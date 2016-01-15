@@ -71,7 +71,7 @@ class mod_surveypro_report_filterform extends moodleform {
         $elementgroup = array();
         $elementgroup[] = $mform->createElement('select', 'itemid', '', $options);
 
-        // get submissions list. Needed later.
+        // Get submissions list. Needed later.
         $options = array();
         $whereparams = array('surveyproid' => $surveypro->id, 'userid' => $userid);
         $submissions = $DB->get_records('surveypro_submission', $whereparams);

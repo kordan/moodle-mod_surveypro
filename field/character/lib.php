@@ -25,7 +25,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 
-// patterns
+// Patterns.
 define('SURVEYPROFIELD_CHARACTER_FREEPATTERN'  , 'PATTERN_FREE');
 define('SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN', 'PATTERN_CUSTOM');
 define('SURVEYPROFIELD_CHARACTER_EMAILPATTERN' , 'PATTERN_EMAIL');
