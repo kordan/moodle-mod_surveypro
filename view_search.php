@@ -81,7 +81,7 @@ if ($searchman->formdata = $searchform->get_data()) {
     $returnurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
     redirect($returnurl);
 }
-// Begin of: end of: manage form submission.
+// End of: manage form submission.
 
 // Output starts here.
 $PAGE->set_url('/mod/surveypro/view_search.php', array('s' => $surveypro->id));

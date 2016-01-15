@@ -450,7 +450,6 @@ function surveypro_delete_instance($id) {
     // Finally, delete the surveypro record.
     $DB->delete_records('surveypro', array('id' => $surveypro->id));
 
-    // -----------------------------
     // TODO: Am I supposed to delete files too?
     // AREAS:
     //     SURVEYPRO_STYLEFILEAREA
