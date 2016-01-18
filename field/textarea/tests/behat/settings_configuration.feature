@@ -11,29 +11,29 @@ Feature: Validate feebacks of creation and submit using all the principal combin
 
   Background:
     Given the following "courses" exist:
-      | fullname                           | shortname      | category | numsections |
-      | Test submission for long text item | Long text item | 0        | 3           |
+      | fullname                          | shortname     | category | numsections |
+      | Test submission for textarea item | Textarea item | 0        | 3           |
     And the following "users" exist:
       | username | firstname | lastname | email                |
       | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
       | student1 | Student1  | user1    | student1@nowhere.net |
     And the following "course enrolments" exist:
       | user     | course         | role           |
-      | teacher1 | Long text item | editingteacher |
-      | student1 | Long text item | student        |
+      | teacher1 | Textarea item | editingteacher |
+      | student1 | Textarea item | student        |
     And I log in as "teacher1"
 
   @javascript
-  Scenario: test long text element with the following settings: 0; 1; 20; 1 and then empty
+  Scenario: test textarea element with the following settings: 0; 1; 20; 1 and then empty
       # required:                       0
       # Use html editor:                1
       # Minimum length (in characters): 20
       # Maximum length (in characters): 1 and then empty
     Given the following "activities" exist:
-      | activity   | name           | intro              | course         | idnumber   |
-      | surveypro  | Surveypro test | For testing backup | Long text item | surveypro1 |
+      | activity   | name           | intro              | course        | idnumber   |
+      | surveypro  | Surveypro test | For testing backup | Textarea item | surveypro1 |
 
-    And I follow "Test submission for long text item"
+    And I follow "Test submission for textarea item"
     And I follow "Surveypro test"
 
     And I set the field "typeplugin" to "Text (long)"
@@ -54,7 +54,7 @@ Feature: Validate feebacks of creation and submit using all the principal combin
 
     And I log out
     When I log in as "student1"
-    And I follow "Test submission for long text item"
+    And I follow "Test submission for textarea item"
     And I follow "Surveypro test"
 
     # Test number 2: Student flies over the answer
@@ -81,16 +81,16 @@ Feature: Validate feebacks of creation and submit using all the principal combin
     # End of test number 4
 
   @javascript
-  Scenario: test long text element with the following settings: 1; 1; 20; empty
+  Scenario: test textarea element with the following settings: 1; 1; 20; empty
       # required:                       1
       # Use html editor:                1
       # Minimum length (in characters): 20
       # Maximum length (in characters): empty
     Given the following "activities" exist:
-      | activity   | name           | intro              | course         | idnumber   |
-      | surveypro  | Surveypro test | For testing backup | Long text item | surveypro1 |
+      | activity   | name           | intro              | course        | idnumber   |
+      | surveypro  | Surveypro test | For testing backup | Textarea item | surveypro1 |
 
-    And I follow "Test submission for long text item"
+    And I follow "Test submission for textarea item"
     And I follow "Surveypro test"
 
     And I set the field "typeplugin" to "Text (long)"
@@ -105,7 +105,7 @@ Feature: Validate feebacks of creation and submit using all the principal combin
 
     And I log out
     When I log in as "student1"
-    And I follow "Test submission for long text item"
+    And I follow "Test submission for textarea item"
     And I follow "Surveypro test"
 
     # Test number 5: student submits an empty answer
@@ -130,16 +130,16 @@ Feature: Validate feebacks of creation and submit using all the principal combin
     # End of test number 7
 
   @javascript
-  Scenario: test long text element with the following settings: 0; 0; 20; 1 and then empty
+  Scenario: test textarea element with the following settings: 0; 0; 20; 1 and then empty
       # required:                       0
       # Use html editor:                0
       # Minimum length (in characters): 20
       # Maximum length (in characters): 1 and then empty
     Given the following "activities" exist:
-      | activity   | name           | intro              | course         | idnumber   |
-      | surveypro  | Surveypro test | For testing backup | Long text item | surveypro1 |
+      | activity   | name           | intro              | course        | idnumber   |
+      | surveypro  | Surveypro test | For testing backup | Textarea item | surveypro1 |
 
-    And I follow "Test submission for long text item"
+    And I follow "Test submission for textarea item"
     And I follow "Surveypro test"
 
     And I set the field "typeplugin" to "Text (long)"
@@ -162,7 +162,7 @@ Feature: Validate feebacks of creation and submit using all the principal combin
 
     And I log out
     When I log in as "student1"
-    And I follow "Test submission for long text item"
+    And I follow "Test submission for textarea item"
     And I follow "Surveypro test"
 
     # Test number 9: Student flies over the answer
@@ -189,16 +189,16 @@ Feature: Validate feebacks of creation and submit using all the principal combin
     # End of test number 11
 
   @javascript
-  Scenario: test long text element with the following settings: 1; 0; 20; empty
+  Scenario: test textarea element with the following settings: 1; 0; 20; empty
       # required:                       1
       # Use html editor:                0
       # Minimum length (in characters): 20
       # Maximum length (in characters): empty
     Given the following "activities" exist:
-      | activity   | name           | intro              | course         | idnumber   |
-      | surveypro  | Surveypro test | For testing backup | Long text item | surveypro1 |
+      | activity   | name           | intro              | course        | idnumber   |
+      | surveypro  | Surveypro test | For testing backup | Textarea item | surveypro1 |
 
-    And I follow "Test submission for long text item"
+    And I follow "Test submission for textarea item"
     And I follow "Surveypro test"
 
     And I set the field "typeplugin" to "Text (long)"
@@ -213,7 +213,7 @@ Feature: Validate feebacks of creation and submit using all the principal combin
 
     And I log out
     When I log in as "student1"
-    And I follow "Test submission for long text item"
+    And I follow "Test submission for textarea item"
     And I follow "Surveypro test"
 
     # Test number 12: student submits an empty answer

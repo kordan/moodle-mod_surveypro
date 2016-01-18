@@ -24,7 +24,7 @@ Feature: Validate feebacks of creation and submit using all the principal combin
     And I log in as "teacher1"
 
   @javascript
-  Scenario: test long text element with the following settings: 1; milk\ncoffee\nbutter\nbread; empty; 0
+  Scenario: test multiselect element with the following settings: 1; milk\ncoffee\nbutter\nbread; empty; 0
       # required:               1
       # Options (fixed):        milk\ncoffee\nbutter\nbread
       # Default:                empty
@@ -70,7 +70,7 @@ Feature: Validate feebacks of creation and submit using all the principal combin
     # End of test number 2
 
   @javascript
-  Scenario: test long text element with the following settings: 1; milk\ncoffee\nbutter\nbread; empty; 2
+  Scenario: test multiselect element with the following settings: 1; milk\ncoffee\nbutter\nbread; empty; 2
       # required:               1
       # Options (fixed):        milk\ncoffee\nbutter\nbread
       # Default:                empty

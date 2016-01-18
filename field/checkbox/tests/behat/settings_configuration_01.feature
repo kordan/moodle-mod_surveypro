@@ -24,7 +24,7 @@ Feature: Validate feebacks of creation and submit using all the principal combin
     And I log in as "teacher1"
 
   @javascript
-  Scenario: test long text element with the following settings: 0; milk\ncoffee\nbutter\nbread; empty; 0
+  Scenario: test checkbox element with the following settings: 0; milk\ncoffee\nbutter\nbread; empty; 0
       # required:                 0
       # Options (fixed):          milk\ncoffee\nbutter\nbread
       # Default:                  empty
@@ -81,7 +81,7 @@ Feature: Validate feebacks of creation and submit using all the principal combin
     # End of test number 3
 
   @javascript
-  Scenario: test long text element with the following settings: 0; milk\ncoffee\nbutter\nbread; empty; 2
+  Scenario: test checkbox element with the following settings: 0; milk\ncoffee\nbutter\nbread; empty; 2
       # required:                 0
       # Options (fixed):          milk\ncoffee\nbutter\nbread
       # Default:                  empty
