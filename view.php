@@ -49,7 +49,7 @@ $searchquery = optional_param('searchquery', '', PARAM_RAW);
 $cover = optional_param('cover', null, PARAM_INT);
 
 if ($cover == 1) {
-    $paramurl = array('s' => $this->surveypro->id);
+    $paramurl = array('s' => $surveypro->id);
     $redirecturl = new moodle_url('/mod/surveypro/view_cover.php', $paramurl);
     redirect($redirecturl);
 }

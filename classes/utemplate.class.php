@@ -365,7 +365,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     /**
      * check_items_versions
      *
-     * rationale: usertemplates are validated at upload time using validate_xml.
+     * Rationale: usertemplates are validated at upload time using validate_xml.
      * Mastertemplates are not validated "at the beginning" because they are never uploaded.
      * At application time, I only need check_items_versions for user templates
      * while I need the bigger validate_xml to validate mastertemplates for the first time.
