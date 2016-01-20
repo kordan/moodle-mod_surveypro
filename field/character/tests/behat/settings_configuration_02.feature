@@ -23,7 +23,7 @@ Feature: Validate feebacks of creation and submit using all the principal combin
     And I log in as "teacher1"
 
   @javascript
-  Scenario: test long text element with the following settings: 0; email address; empty
+  Scenario: test character element with the following settings: 0; email address; empty
       # required:                       0
       # Text pattern:                   email address
       # Minimum length (in characters): empty
@@ -68,7 +68,7 @@ Feature: Validate feebacks of creation and submit using all the principal combin
     # End of test number 2
 
   @javascript
-  Scenario: test long text element with the following settings: 0; email address; 20
+  Scenario: test character element with the following settings: 0; email address; 20
       # required:                       0
       # Text pattern:                   email address
       # Minimum length (in characters): 20

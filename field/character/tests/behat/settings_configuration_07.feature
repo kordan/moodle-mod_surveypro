@@ -23,7 +23,7 @@ Feature: Validate feebacks of creation and submit using all the principal combin
     And I log in as "teacher1"
 
   @javascript
-  Scenario: test long text element with the following settings: 1; web page URL; empty
+  Scenario: test character element with the following settings: 1; web page URL; empty
       # required:                       1
       # Text pattern:                   web page URL
       # Minimum length (in characters): empty
@@ -63,7 +63,7 @@ Feature: Validate feebacks of creation and submit using all the principal combin
     # End of test number 1
 
   @javascript
-  Scenario: test long text element with the following settings: 1; web page URL; 20
+  Scenario: test character element with the following settings: 1; web page URL; 20
       # required:                       1
       # Text pattern:                   web page URL
       # Minimum length (in characters): 20
