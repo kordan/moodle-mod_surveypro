@@ -334,9 +334,9 @@ class mod_surveypro_templatebase {
             }
 
             if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
-                // I arrived here after the confirmation of the COMPLETE deletion of each item in the surveypro due to.
-                // User templates = None.
-                // Preexisting elements = Delete all elements.
+                // I arrived here after the confirmation of the COMPLETE deletion of each item in the surveypro due to:
+                //     -> User templates = None.
+                //     -> Preexisting elements = Delete all elements.
                 $action = SURVEYPRO_DELETEALLITEMS;
                 $this->utemplateid = 0;
             } else {
