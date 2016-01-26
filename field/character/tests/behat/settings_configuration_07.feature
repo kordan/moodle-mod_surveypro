@@ -1,12 +1,11 @@
-@mod @mod_surveypro @surveyprofield @surveyprofield_character @current
+@mod @mod_surveypro @surveyprofield @surveyprofield_character
 Feature: Validate feebacks of creation and submit using all the principal combinations of settings
-  Setting I check in this test are:
+  In order to validate the item creation
+  As a teacher
+  I create items changing the following settings:
       # required:                       0 - 1
       # Text pattern:                   free pattern - email address - web page URL - custom
       # Minimum length (in characters): empty - 20
-  In order to validate backup and restore process
-  As a teacher
-  I duplicate a surveypro instance.
 
   Background:
     Given the following "courses" exist:
