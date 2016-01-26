@@ -1,4 +1,4 @@
-@mod @mod_surveypro @surveyprofield @surveyprofield_character @current
+@mod @mod_surveypro @surveyprofield @surveyprofield_character
 Feature: Validate feebacks of creation and submit using all the principal combinations of settings
   Setting I check in this test are:
       # required:                       0 - 1

@@ -191,7 +191,7 @@ class mod_surveypro_itembase {
      * @param stdClass $record
      * @return stdClass $record
      */
-    protected function item_force_coherence($record) {
+    public function item_force_coherence($record) {
         // Nothing to do here.
     }
 
