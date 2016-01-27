@@ -135,7 +135,7 @@ class mod_surveypro_tabs {
     }
 
     /**
-     * has_search_items
+     * has_search_items as opposed to "has_input_items"
      *
      * @param none
      * @return
