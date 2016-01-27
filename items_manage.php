@@ -133,7 +133,7 @@ navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
-$tab = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABITEMS, SURVEYPRO_ITEMS_MANAGE);
+$tabman = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABITEMS, SURVEYPRO_ITEMS_MANAGE);
 
 $itemlistman->manage_actions();
 

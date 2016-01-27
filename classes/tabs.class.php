@@ -135,6 +135,21 @@ class mod_surveypro_tabs {
     }
 
     /**
+     * has_search_items
+     *
+     * @param none
+     * @return
+     */
+    public function has_search_items() {
+        global $DB;
+
+        // If no items are available, stop the intervention here.
+        $whereparams = array('surveyproid' => $this->surveypro->id, 'hidden' => 0, 'insearchform' => 1);
+
+        return ($DB->count_records('surveypro_item', $whereparams) > 0);
+    }
+
+    /**
      * get_tabs_structure
      */
     private function get_tabs_structure() {
@@ -156,8 +171,8 @@ class mod_surveypro_tabs {
 
         // TAB USER TEMPLATES.
         $this->tabutemplatename = get_string('tabutemplatename', 'mod_surveypro');
-        if (empty($surveypro->template)) {
-            if ($this->moduletab == SURVEYPRO_TABUTEMPLATES) {
+        if ($this->moduletab == SURVEYPRO_TABUTEMPLATES) {
+            if (empty($surveypro->template)) {
                 if ($this->canmanageusertemplates) {
                     $elementurl = new moodle_url('/mod/surveypro/utemplates_create.php', $paramurl);
                     $row[] = new tabobject($this->tabutemplatename, $elementurl->out(), $this->tabutemplatename);
@@ -246,6 +261,7 @@ class mod_surveypro_tabs {
                 // Permissions used only locally.
                 $canview = has_capability('mod/surveypro:view', $this->context, null, true);
                 $cansearch = has_capability('mod/surveypro:searchsubmissions', $this->context, null, true);
+                $cansearch = $cansearch && $this->has_search_items();
                 $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context, null, true);
                 $canimportdata = has_capability('mod/surveypro:importdata', $this->context, null, true);
                 $canexportdata = has_capability('mod/surveypro:exportdata', $this->context, null, true);

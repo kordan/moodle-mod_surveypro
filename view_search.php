@@ -93,13 +93,9 @@ $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
 
-$tab = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_SEARCH);
+$tabman = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_SEARCH);
 
-if (!$searchman->has_search_items()) {
-    $searchman->noitem_stopexecution();
-} else {
-    $searchform->display();
-}
+$searchform->display();
 
 // Finish the page.
 echo $OUTPUT->footer();

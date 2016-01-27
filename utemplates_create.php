@@ -98,7 +98,7 @@ navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
-$tab = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABUTEMPLATES, SURVEYPRO_UTEMPLATES_BUILD);
+$tabman = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABUTEMPLATES, SURVEYPRO_UTEMPLATES_BUILD);
 
 $a = get_string('sharinglevel', 'mod_surveypro');
 $message = get_string('templatecreateinfo', 'mod_surveypro', $a);

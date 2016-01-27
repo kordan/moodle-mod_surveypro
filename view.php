@@ -76,12 +76,11 @@ if ($cover === null) {
             redirect($redirecturl);
         } // Else: carry on.
     } else {
+        // If (!$submissionman->hasitems) { just below execution is stopped.
         if ($submissionman->hasitems) {
             $paramurl = array('s' => $surveypro->id);
             $redirecturl = new moodle_url('/mod/surveypro/view_cover.php', $paramurl);
             redirect($redirecturl);
-            // } else {
-            // If (!$submissionman->hasitems) { just below execution is stopped.
         }
     }
 }
@@ -97,12 +96,9 @@ $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
 
-if (!$submissionman->hasitems) {
-    $submissionman->noitem_stopexecution();
-}
 $submissionman->manage_actions(); // Action feedback before tabs.
 
-$tab = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_MANAGE);
+$tabman = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_MANAGE);
 
 $submissionman->show_action_buttons();
 $submissionman->display_submissions_table();

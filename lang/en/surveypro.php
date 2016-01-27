@@ -158,7 +158,6 @@ $string['downloadtozipbyuser'] = 'download attachments by user to zip';
 $string['downloadtype'] = 'Download file type';
 $string['emptyanswer'] = 'Empty answer';
 $string['emptydownload'] = 'No responses to export were found';
-$string['emptysearchform'] = 'No elements were found for this search form.<br />This could be due to elements:<ul><li>still not created;</li><li>not visible;</li><li>not set to belong to this form.</li></ul>To add an element to the search form use its availability feature.<br />Take care because only searchable element type can be added to the search form.';
 $string['enteruniquename'] = 'Please choose a unique name or tick the option "{$a->overwrite}" since "{$a->filename}" already exists in the choosen context';
 $string['event_all_items_viewed'] = 'All items have been viewed';
 $string['event_all_submissions_deleted'] = 'All submissions have been deleted';

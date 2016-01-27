@@ -76,7 +76,7 @@ navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
-$tab = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABMTEMPLATES, SURVEYPRO_MTEMPLATES_BUILD);
+$tabman = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABMTEMPLATES, SURVEYPRO_MTEMPLATES_BUILD);
 
 echo $OUTPUT->notification(get_string('currenttotemplate', 'mod_surveypro'), 'notifymessage');
 

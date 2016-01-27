@@ -47,9 +47,9 @@ class mod_surveypro_userformmanager {
     public $submissionid = 0;
 
     /**
-     * $hasinputitems
+     * $hasitems
      */
-    public $hasinputitems = false;
+    public $hasitems = 0;
 
     /**
      * $formpage: the form page as recalculated according to the first non empty page
@@ -136,7 +136,7 @@ class mod_surveypro_userformmanager {
         $this->cm = $cm;
         $this->context = $context;
         $this->surveypro = $surveypro;
-        $this->hasinputitems = $this->has_input_items();
+        $this->hasitems = $this->has_input_items();
 
         // $this->canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
         $this->canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $this->context, null, true);
