@@ -54,45 +54,25 @@ class mod_surveypro_tabs {
     /**
      * $riskyediting
      */
-    public $riskyediting = '';
+    private $riskyediting = '';
 
     /**
      * $hassubmissions
      */
-    public $hassubmissions = '';
-
-    /**
-     * $canmanageitems
-     */
-    public $canmanageitems = '';
-
-    /**
-     * $canmanageusertemplates
-     */
-    public $canmanageusertemplates = '';
-
-    /**
-     * $cansavemastertemplates
-     */
-    public $cansavemastertemplates = '';
-
-    /**
-     * $canapplymastertemplates
-     */
-    public $canapplymastertemplates = '';
+    private $hassubmissions = '';
 
     /**
      * $tabs: array for tabs
      */
-    public $tabs = array();
+    private $tabs = array();
 
     /**
      * $tab names
      */
-    public $tabitemsname = '';
-    public $tabsubmissionsname = '';
-    public $tabutemplatename = '';
-    public $tabmtemplatename = '';
+    private $tabitemsname = '';
+    private $tabsubmissionsname = '';
+    private $tabutemplatename = '';
+    private $tabmtemplatename = '';
 
     /**
      * Class constructor
@@ -126,12 +106,6 @@ class mod_surveypro_tabs {
         $this->riskyediting = ($this->surveypro->riskyeditdeadline > time());
 
         $this->hassubmissions = surveypro_count_submissions($this->surveypro->id);
-
-        $this->canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
-        $this->canmanageusertemplates = has_capability('mod/surveypro:manageusertemplates', $this->context, null, true);
-
-        $this->cansavemastertemplates = has_capability('mod/surveypro:savemastertemplates', $this->context, null, true);
-        $this->canapplymastertemplates = has_capability('mod/surveypro:applymastertemplates', $this->context, null, true);
     }
 
     /**
@@ -156,9 +130,11 @@ class mod_surveypro_tabs {
         $paramurl = array('id' => $this->cm->id);
         $row = array();
 
+        $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
+
         // TAB ITEMS.
         $this->tabitemsname = get_string('tabitemsname', 'mod_surveypro');
-        if ($this->canmanageitems) {
+        if ($canmanageitems) {
             $elementurl = new moodle_url('/mod/surveypro/items_manage.php', $paramurl);
             $row[] = new tabobject($this->tabitemsname, $elementurl->out(), $this->tabitemsname);
         }
@@ -173,7 +149,8 @@ class mod_surveypro_tabs {
         $this->tabutemplatename = get_string('tabutemplatename', 'mod_surveypro');
         if ($this->moduletab == SURVEYPRO_TABUTEMPLATES) {
             if (empty($surveypro->template)) {
-                if ($this->canmanageusertemplates) {
+                $canmanageusertemplates = has_capability('mod/surveypro:manageusertemplates', $this->context, null, true);
+                if ($canmanageusertemplates) {
                     $elementurl = new moodle_url('/mod/surveypro/utemplates_create.php', $paramurl);
                     $row[] = new tabobject($this->tabutemplatename, $elementurl->out(), $this->tabutemplatename);
                 }
@@ -183,7 +160,9 @@ class mod_surveypro_tabs {
         // TAB MASTER TEMPLATES.
         $this->tabmtemplatename = get_string('tabmtemplatename', 'mod_surveypro');
         if ($this->moduletab == SURVEYPRO_TABMTEMPLATES) {
-            if ($this->cansavemastertemplates || ((!$this->hassubmissions || $riskyediting) && $this->canapplymastertemplates)) {
+            $cansavemastertemplates = has_capability('mod/surveypro:savemastertemplates', $this->context, null, true);
+            $canapplymastertemplates = has_capability('mod/surveypro:applymastertemplates', $this->context, null, true);
+            if ($cansavemastertemplates || ((!$this->hassubmissions || $this->riskyediting) && $canapplymastertemplates)) {
                 $elementurl = new moodle_url('/mod/surveypro/mtemplates_create.php', $paramurl);
                 $row[] = new tabobject($this->tabmtemplatename, $elementurl->out(), $this->tabmtemplatename);
             }
@@ -217,6 +196,7 @@ class mod_surveypro_tabs {
             case SURVEYPRO_TABITEMS:
                 // Permissions used only locally.
                 $canpreview = has_capability('mod/surveypro:preview', $this->context, null, true);
+                $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
 
                 $inactive = array($this->tabitemsname);
                 $activetwo = array($this->tabitemsname);
@@ -229,7 +209,7 @@ class mod_surveypro_tabs {
                     $row[] = new tabobject('idpage1', $elementurl->out(), $strlabel);
                 }
 
-                if ($this->canmanageitems) {
+                if ($canmanageitems) {
                     // Manage.
                     $elementurl = new moodle_url('/mod/surveypro/items_manage.php', $paramurl);
                     $strlabel = get_string('tabitemspage2', 'mod_surveypro');
@@ -350,6 +330,7 @@ class mod_surveypro_tabs {
                 $cansaveusertemplates = has_capability('mod/surveypro:saveusertemplates', $this->context, null, true);
                 $canimportusertemplates = has_capability('mod/surveypro:importusertemplates', $this->context, null, true);
                 $canapplyusertemplates = has_capability('mod/surveypro:applyusertemplates', $this->context, null, true);
+                $canmanageusertemplates = has_capability('mod/surveypro:manageusertemplates', $this->context, null, true);
 
                 if (!empty($this->surveypro->template)) {
                     break;
@@ -358,7 +339,7 @@ class mod_surveypro_tabs {
                 $inactive = array($this->tabutemplatename);
                 $activetwo = array($this->tabutemplatename);
 
-                if ($this->canmanageusertemplates) {
+                if ($canmanageusertemplates) {
                     // Manage.
                     $elementurl = new moodle_url('/mod/surveypro/utemplates_manage.php', $paramurl);
                     $strlabel = get_string('tabutemplatepage1', 'mod_surveypro');
@@ -379,7 +360,7 @@ class mod_surveypro_tabs {
                     }
 
                     // Apply.
-                    if ( (!$this->hassubmissions || $riskyediting) && $canapplyusertemplates ) {
+                    if ( (!$this->hassubmissions || $this->riskyediting) && $canapplyusertemplates ) {
                         $elementurl = new moodle_url('/mod/surveypro/utemplates_apply.php', $paramurl);
                         $strlabel = get_string('tabutemplatepage4', 'mod_surveypro');
                         $row[] = new tabobject('idpage4', $elementurl->out(), $strlabel);
@@ -390,11 +371,14 @@ class mod_surveypro_tabs {
 
                 break;
             case SURVEYPRO_TABMTEMPLATES:
+                $cansavemastertemplates = has_capability('mod/surveypro:savemastertemplates', $this->context, null, true);
+                $canapplymastertemplates = has_capability('mod/surveypro:applymastertemplates', $this->context, null, true);
+
                 $inactive = array($this->tabmtemplatename);
                 $activetwo = array($this->tabmtemplatename);
 
                 // Create.
-                if ($this->cansavemastertemplates) {
+                if ($cansavemastertemplates) {
                     $elementurl = new moodle_url('/mod/surveypro/mtemplates_create.php', $paramurl);
                     $strlabel = get_string('tabmtemplatepage1', 'mod_surveypro');
                     $row[] = new tabobject('idpage1', $elementurl->out(), $strlabel);
@@ -402,7 +386,7 @@ class mod_surveypro_tabs {
 
                 // Apply.
                 // If there are submissions, do not allow the modification of the surveypro.
-                if ( (!$this->hassubmissions || $riskyediting) && $this->canapplymastertemplates ) {
+                if ( (!$this->hassubmissions || $this->riskyediting) && $canapplymastertemplates ) {
                     $elementurl = new moodle_url('/mod/surveypro/mtemplates_apply.php', $paramurl);
                     $strlabel = get_string('tabmtemplatepage2', 'mod_surveypro');
                     $row[] = new tabobject('idpage2', $elementurl->out(), $strlabel);
