@@ -59,17 +59,6 @@ $userformman->trigger_event($view);
 
 $userformman->surveypro_add_custom_css();
 
-// Redirect if no items were created and you are supposed to create them.
-if ($userformman->canaccessadvanceditems) {
-    if (!$userformman->hasitems) {
-        if (($formpage == 0) || ($formpage == 1)) {
-            $paramurl = array('id' => $cm->id);
-            $returnurl = new moodle_url('/mod/surveypro/items_manage.php', $paramurl);
-            redirect($returnurl);
-        }
-    }
-}
-
 $pageallowesubmission = ($userformman->modulepage != SURVEYPRO_SUBMISSION_READONLY);
 $pageallowesubmission = $pageallowesubmission && ($userformman->modulepage != SURVEYPRO_ITEMS_PREVIEW);
 
@@ -169,10 +158,8 @@ echo $OUTPUT->header();
 $tabman = new mod_surveypro_tabs($cm, $context, $surveypro, $userformman->moduletab, $userformman->modulepage);
 
 // Begin of: if surveypro is without items, alert and stop.
-if (!$userformman->canaccessadvanceditems) {
-    if (!$userformman->hasitems) {
-        $userformman->noitem_stopexecution();
-    }
+if (!$userformman->hasitems) {
+    $userformman->noitem_stopexecution();
 }
 // End of: if surveypro is without items, alert and stop.
 
