@@ -67,7 +67,7 @@ In the starting release of surveypro was crafted with:
 • 3 items of type "format"
 
 The 18 fields type are:
-• element type "age" to ask for question like: "How old were you at you first access to narcotic?"
+• element type "age" to ask for question like: "How old were you when you learned to ride a bike?"
 • element type "autofill" to autofill a field with infos from user, course, time, date or surveypro
 • element type "boolean" to ask for question like: "Is this true?"
 • element type "character" to ask for question like: "Write down your email" or "Enter your personal web site URL" or "Enter the PIN code of your card"

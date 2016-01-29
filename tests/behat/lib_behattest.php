@@ -41,7 +41,7 @@ function get_dummy_contents($type, $plugin) {
 
     if ($type == SURVEYPRO_TYPEFIELD) {
         if ($plugin == 'age') {
-            $return->content_editor['text'] = 'How old were you at you first access to narcotic?';
+            $return->content_editor['text'] = 'How old were you when you learned to ride a bike?';
             $return->contentformat = 1;
             $return->indent = 0;
             $return->position = 0;
