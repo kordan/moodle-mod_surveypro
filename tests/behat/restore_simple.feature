@@ -1,5 +1,5 @@
 @mod @mod_surveypro @current
-Feature: Backup and restore of surveyspro
+Feature: Simple restore of a surveypro
   In order to test simple restore procedure
   As a teacher
   I make a simple restore of a course with two instances of surveypro
