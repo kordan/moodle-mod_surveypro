@@ -1,5 +1,5 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_integer
-Feature: make a submission test for each available item
+Feature: make a submission test for "integer" item
   In order to test that minimal use of surveypro is guaranteed
   As student1
   I add an integer item, I fill it and I go to see responses

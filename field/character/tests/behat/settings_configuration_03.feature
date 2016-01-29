@@ -1,8 +1,6 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_character
-Feature: Validate feebacks of creation and submit using all the principal combinations of settings
-  In order to validate the item creation
-  As a teacher
-  I create items changing the following settings:
+Feature: Validate creation and submit for "character" elements using the principal combinations of settings (3 of 7)
+  Setting I check in this test are:
       # required:                       0 - 1
       # Text pattern:                   free pattern - email address - web page URL - custom
       # Minimum length (in characters): empty - 20

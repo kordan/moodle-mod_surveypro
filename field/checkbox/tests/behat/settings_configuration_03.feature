@@ -1,8 +1,6 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_checkbox
-Feature: Validate feebacks of creation and submit using all the principal combinations of settings
-  In order to validate the item creation
-  As a teacher
-  I create items changing the following settings:
+Feature: Validate creation and submit for "checkbox" elements using the principal combinations of settings (3 of 4)
+  Setting I check in this test are:
       # required:                 0 - 1
       # Options (fixed):          milk\ncoffee\nbutter\nbread
       # Default:                  empty - coffee

@@ -1,5 +1,5 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_rate
-Feature: make a submission test for each available item
+Feature: make a submission test for "rate" item
   In order to test that minimal use of surveypro is guaranteed
   As student1
   I add a rate item, I fill it and I go to see responses

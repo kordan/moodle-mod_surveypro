@@ -1,5 +1,5 @@
 @mod @mod_surveypro
-Feature: test each student sees only personal submissions
+Feature: test students can see submissions from their groups only
   In order to test that students can only see submissions from their groups
   As student1 and student2 and student3
   I fill a surveypro and go to see responses

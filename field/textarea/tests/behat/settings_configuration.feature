@@ -1,5 +1,5 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_textarea
-Feature: Validate feebacks of creation and submit using all the principal combinations of settings
+Feature: Validate creation and submit for textarea elements using the principal combinations of settings
   Setting I check in this test are:
       # required:                       0 - 1
       # Use html editor:                0 - 1

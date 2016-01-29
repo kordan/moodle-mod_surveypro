@@ -5,7 +5,7 @@ Feature: test each student sees only personal submissions
   I fill a surveypro and go to see responses
 
   @javascript
-  Scenario: test each student sees only personal submissions
+  Scenario: test each student sees only his/her own submissions
     Given the following "courses" exist:
       | fullname                      | shortname                 | category | groupmode |
       | See only personal submissions | Only personal submissions | 0        | 0         |

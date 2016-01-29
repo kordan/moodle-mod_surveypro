@@ -1,5 +1,5 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_date
-Feature: make a submission test for each available item
+Feature: make a submission test for "date" item
   In order to test that minimal use of surveypro is guaranteed
   As student1
   I add a date item, I fill it and I go to see responses
