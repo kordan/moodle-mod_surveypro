@@ -41,7 +41,7 @@ function get_dummy_contents($type, $plugin) {
 
     if ($type == SURVEYPRO_TYPEFIELD) {
         if ($plugin == 'age') {
-            $return->content_editor['text'] = 'How old were you at you first access to narcotic?';
+            $return->content_editor['text'] = 'How old were you when you learned to ride a bike?';
             $return->contentformat = 1;
             $return->indent = 0;
             $return->position = 0;
@@ -90,9 +90,8 @@ function get_dummy_contents($type, $plugin) {
         if ($plugin == 'character') {
             $return->content_editor['text'] = 'Write down your email';
             $return->contentformat = 1;
-            $return->pattern = PATTERN_EMAIL;
-            $return->defaultvalue = '';
             $return->pattern = 'PATTERN_EMAIL';
+            $return->defaultvalue = '';
             $return->minlength = 0;
             $return->maxlength = 0;
             return $return;
@@ -207,6 +206,18 @@ function get_dummy_contents($type, $plugin) {
             $return->style = '0';
             $return->defaultoption = '2';
             $return->downloadformat = '1';
+
+            return $return;
+        }
+        if ($plugin == 'recurrence') {
+            $return->content_editor['text'] = 'When do you usually celebrate your name-day?';
+            $return->contentformat = 1;
+            $return->defaultoption = 2;
+            $return->downloadformat = 'strftime2';
+            $return->lowerbound_day = '1';
+            $return->lowerbound_month = '1';
+            $return->upperbound_day = '31';
+            $return->upperbound_month = '12';
 
             return $return;
         }

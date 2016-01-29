@@ -1,13 +1,12 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_checkbox @aaa
 Feature: Validate feebacks of creation and submit using all the principal combinations of settings
-  Setting I check in this test are:
+  In order to validate the item creation
+  As a teacher
+  I create items changing the following settings:
       # required:                 0 - 1
       # Options (fixed):          milk\ncoffee\nbutter\nbread
       # Default:                  empty - coffee
       # Minimum required options: 0 - 2
-  In order to validate backup and restore process
-  As a teacher
-  I duplicate a surveypro instance.
 
   Background:
     Given the following "courses" exist:

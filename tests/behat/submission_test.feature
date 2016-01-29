@@ -33,7 +33,7 @@ Feature: make a submission test for each available item
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content                  | How old were you at you first access to narcotics |
+      | Content                  | How old were you when you learned to ride a bike? |
       | Required                 | 1                                                 |
       | Indent                   | 0                                                 |
       | Question position        | left                                              |
