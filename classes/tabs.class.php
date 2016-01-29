@@ -29,27 +29,27 @@ class mod_surveypro_tabs {
     /**
      * cm
      */
-    public $cm = null;
+    private $cm = null;
 
     /**
      * $context
      */
-    public $context = null;
+    private $context = null;
 
     /**
      * $surveypro: the record of this surveypro
      */
-    public $surveypro = null;
+    private $surveypro = null;
 
     /**
      * $modulettab
      */
-    public $modulettab = '';
+    private $modulettab = '';
 
     /**
      * $modulepage
      */
-    public $modulepage = '';
+    private $modulepage = '';
 
     /**
      * $riskyediting
