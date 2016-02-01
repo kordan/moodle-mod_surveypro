@@ -578,7 +578,7 @@ EOS;
         // End of: verify the content of each drop down menu
 
         if ($searchform) {
-            // Stop here your investigation. I don't further validations.
+            // Stop here your investigation. I don't need further validations.
             return;
         }
 
