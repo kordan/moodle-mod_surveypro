@@ -116,36 +116,4 @@ class mod_surveypro_searchmanager {
             return;
         }
     }
-
-    /**
-     * has_search_items as opposed to "has_input_items"
-     *
-     * @param none
-     * @return
-     */
-    public function has_search_items() {
-        global $DB;
-
-        // If no items are available, stop the intervention here.
-        $whereparams = array('surveyproid' => $this->surveypro->id, 'hidden' => 0, 'insearchform' => 1);
-
-        return ($DB->count_records('surveypro_item', $whereparams) > 0);
-    }
-
-    /**
-     * noitem_stopexecution
-     *
-     * @param none
-     * @return
-     */
-    public function noitem_stopexecution() {
-        global $OUTPUT;
-
-        echo $OUTPUT->notification(get_string('emptysearchform', 'mod_surveypro'), 'notifyproblem');
-
-        $continueurl = new moodle_url('/mod/surveypro/view.php', array('s' => $this->surveypro->id, 'cover' => 0));
-        echo $OUTPUT->continue_button($continueurl);
-        echo $OUTPUT->footer();
-        die();
-    }
 }

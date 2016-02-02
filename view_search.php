@@ -24,6 +24,7 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/view_search.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/outform/search_form.php');
 
@@ -92,15 +93,9 @@ $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
 
-$moduletab = SURVEYPRO_TABSUBMISSIONS; // Needed by tabs.php.
-$modulepage = SURVEYPRO_SUBMISSION_SEARCH; // Needed by tabs.php.
-require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
+$tabman = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_SEARCH);
 
-if (!$searchman->has_search_items()) {
-    $searchman->noitem_stopexecution();
-} else {
-    $searchform->display();
-}
+$searchform->display();
 
 // Finish the page.
 echo $OUTPUT->footer();

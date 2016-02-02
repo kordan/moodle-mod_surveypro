@@ -24,6 +24,7 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/view_manage.class.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
@@ -75,12 +76,11 @@ if ($cover === null) {
             redirect($redirecturl);
         } // Else: carry on.
     } else {
+        // If (!$submissionman->hasitems) { just below execution is stopped.
         if ($submissionman->hasitems) {
             $paramurl = array('s' => $surveypro->id);
             $redirecturl = new moodle_url('/mod/surveypro/view_cover.php', $paramurl);
             redirect($redirecturl);
-            // } else {
-            // If (!$submissionman->hasitems) { just below execution is stopped.
         }
     }
 }
@@ -96,14 +96,9 @@ $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
 
-if (!$submissionman->hasitems) {
-    $submissionman->noitem_stopexecution();
-}
 $submissionman->manage_actions(); // Action feedback before tabs.
 
-$moduletab = SURVEYPRO_TABSUBMISSIONS; // Needed by tabs.php.
-$modulepage = SURVEYPRO_SUBMISSION_MANAGE; // Needed by tabs.php.
-require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
+$tabman = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_MANAGE);
 
 $submissionman->show_action_buttons();
 $submissionman->display_submissions_table();

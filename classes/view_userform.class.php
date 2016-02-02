@@ -47,9 +47,9 @@ class mod_surveypro_userformmanager {
     public $submissionid = 0;
 
     /**
-     * $hasinputitems
+     * $hasitems
      */
-    public $hasinputitems = false;
+    public $hasitems = 0;
 
     /**
      * $formpage: the form page as recalculated according to the first non empty page
@@ -91,6 +91,11 @@ class mod_surveypro_userformmanager {
      * $finalresponseevaluation: final validation of the submitted response
      */
     public $finalresponseevaluation = SURVEYPRO_VALIDRESPONSE;
+
+    /**
+     * $canmanageitems
+     */
+    public $canmanageitems = false;
 
     /**
      * $canaccessadvanceditems
@@ -136,9 +141,9 @@ class mod_surveypro_userformmanager {
         $this->cm = $cm;
         $this->context = $context;
         $this->surveypro = $surveypro;
-        $this->hasinputitems = $this->has_input_items();
+        $this->hasitems = $this->has_input_items();
 
-        // $this->canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
+        $this->canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
         $this->canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $this->context, null, true);
         $this->cansubmit = has_capability('mod/surveypro:submit', $this->context, null, true);
         $this->canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context, null, true);
@@ -189,7 +194,7 @@ class mod_surveypro_userformmanager {
             debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
 
-        // Calculare $this->firstpageright.
+        // Get $this->firstpageright.
         if ($this->canaccessadvanceditems) {
             $this->firstpageright = 1;
         } else {
@@ -282,7 +287,6 @@ class mod_surveypro_userformmanager {
     public function page_has_items($formpage) {
         global $CFG, $DB;
 
-        // $canaccessadvanceditems, $searchform=false, $type=SURVEYPRO_TYPEFIELD, $formpage=$formpage
         list($sql, $whereparams) = surveypro_fetch_items_seeds($this->surveypro->id, $this->canaccessadvanceditems, false, false, $formpage);
         $itemseeds = $DB->get_records_sql($sql, $whereparams);
 
@@ -1021,11 +1025,19 @@ class mod_surveypro_userformmanager {
     public function noitem_stopexecution() {
         global $COURSE, $OUTPUT;
 
-        $message = get_string('noitemsfound', 'mod_surveypro');
-        echo $OUTPUT->notification($message, 'notifyproblem');
+        if ($this->canmanageitems) {
+            $a = get_string('tabitemspage2', 'mod_surveypro');
+            $message = get_string('noitemsfoundadmin', 'mod_surveypro', $a);
+            echo $OUTPUT->notification($message, 'notifyproblem');
+        } else {
+            // More or less no user without $this->canmanageitems should ever be here.
+            $message = get_string('noitemsfound', 'mod_surveypro');
+            echo $OUTPUT->container($message, 'notifyproblem');
 
-        $continueurl = new moodle_url('/course/view.php', array('id' => $COURSE->id));
-        echo $OUTPUT->continue_button($continueurl);
+            $continueurl = new moodle_url('/course/view.php', array('id' => $COURSE->id));
+            echo $OUTPUT->continue_button($continueurl);
+        }
+
         echo $OUTPUT->footer();
         die();
     }

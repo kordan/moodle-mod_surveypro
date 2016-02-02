@@ -84,7 +84,7 @@ class mod_surveypro_submissionmanager {
     /**
      * $hasitems
      */
-    public $hasitems = false;
+    public $hasitems = 0;
 
     /**
      * $canmanageitems
@@ -163,7 +163,7 @@ class mod_surveypro_submissionmanager {
 
         $this->cansavesubmissiontopdf = has_capability('mod/surveypro:savesubmissiontopdf', $this->context, null, true);
 
-        $this->hasitems = $this->get_has_items();
+        $this->hasitems = $this->has_input_items();
     }
 
     /**
@@ -428,12 +428,12 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * get_has_items
+     * has_input_items
      *
      * @param none
      * @return
      */
-    public function get_has_items() {
+    public function has_input_items() {
         global $DB;
 
         $whereparams = array('surveyproid' => $this->surveypro->id, 'hidden' => 0);
@@ -445,24 +445,6 @@ class mod_surveypro_submissionmanager {
         }
 
         return ($DB->count_records('surveypro_item', $whereparams) > 0);
-    }
-
-    /**
-     * noitem_stopexecution
-     *
-     * @param none
-     * @return
-     */
-    public function noitem_stopexecution() {
-        global $COURSE, $OUTPUT;
-
-        $message = get_string('noitemsfound', 'mod_surveypro');
-        echo $OUTPUT->notification($message, 'notifyproblem');
-
-        $continueurl = new moodle_url('/course/view.php', array('id' => $COURSE->id));
-        echo $OUTPUT->continue_button($continueurl);
-        echo $OUTPUT->footer();
-        die();
     }
 
     /**
@@ -1082,6 +1064,7 @@ class mod_surveypro_submissionmanager {
         $next = $countclosed + $inprogress + 1;
 
         $addnew = $this->cansubmit;
+        $addnew = $addnew && $this->hasitems;
         if ($this->surveypro->timeopen) {
             $addnew = $addnew && ($this->surveypro->timeopen < $timenow);
         }

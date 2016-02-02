@@ -24,6 +24,7 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/view_userform.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/outform/fill_form.php');
 
@@ -57,17 +58,6 @@ $userformman->prevent_direct_user_input();
 $userformman->trigger_event($view);
 
 $userformman->surveypro_add_custom_css();
-
-// Redirect if no items were created and you are supposed to create them.
-if ($userformman->canaccessadvanceditems) {
-    if (!$userformman->hasinputitems) {
-        if (($formpage == 0) || ($formpage == 1)) {
-            $paramurl = array('id' => $cm->id);
-            $returnurl = new moodle_url('/mod/surveypro/items_manage.php', $paramurl);
-            redirect($returnurl);
-        }
-    }
-}
 
 $pageallowesubmission = ($userformman->modulepage != SURVEYPRO_SUBMISSION_READONLY);
 $pageallowesubmission = $pageallowesubmission && ($userformman->modulepage != SURVEYPRO_ITEMS_PREVIEW);
@@ -103,7 +93,7 @@ if ($userform->is_cancelled()) {
 
 if ($userformman->formdata = $userform->get_data()) {
     if ($view != SURVEYPRO_PREVIEWSURVEYFORM) {
-        $userformman->save_user_data(); // <-- SAVE SAVE SAVE SAVE
+        $userformman->save_user_data(); // <-- SAVE SAVE SAVE SAVE.
         $userformman->notifypeople();
     }
 
@@ -112,7 +102,7 @@ if ($userformman->formdata = $userform->get_data()) {
     if ($pausebutton) {
         $localparamurl = array('id' => $cm->id, 'view' => $view, 'cover' => 0);
         $redirecturl = new moodle_url('/mod/surveypro/view.php', $localparamurl);
-        redirect($redirecturl); // -> go somewhere
+        redirect($redirecturl); // Go somewhere.
     }
 
     $paramurl['submissionid'] = $userformman->submissionid;
@@ -163,21 +153,13 @@ $PAGE->set_heading($course->shortname);
 // Make bold the navigation menu/link that refers to me.
 navigation_node::override_active_url($url);
 
-// Other things you may want to set - remove if not needed.
-// $PAGE->set_cacheable(false);
-// $PAGE->set_focuscontrol('some-html-id');
-
 echo $OUTPUT->header();
 
-$moduletab = $userformman->moduletab; // Needed by tabs.php.
-$modulepage = $userformman->modulepage; // Needed by tabs.php.
-require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
+$tabman = new mod_surveypro_tabs($cm, $context, $surveypro, $userformman->moduletab, $userformman->modulepage);
 
 // Begin of: if surveypro is without items, alert and stop.
-if (!$userformman->canaccessadvanceditems) {
-    if (!$userformman->hasinputitems) {
-        $userformman->noitem_stopexecution();
-    }
+if (!$userformman->hasitems) {
+    $userformman->noitem_stopexecution();
 }
 // End of: if surveypro is without items, alert and stop.
 

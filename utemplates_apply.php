@@ -24,6 +24,7 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/utemplate.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/utemplates/apply_form.php');
 
@@ -97,9 +98,7 @@ navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
-$moduletab = SURVEYPRO_TABUTEMPLATES; // Needed by tabs.php.
-$modulepage = SURVEYPRO_UTEMPLATES_APPLY; // Needed by tabs.php.
-require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
+$tabman = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABUTEMPLATES, SURVEYPRO_UTEMPLATES_APPLY);
 
 $utemplateman->friendly_stop();
 

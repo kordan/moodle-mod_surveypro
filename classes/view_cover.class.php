@@ -42,6 +42,11 @@ class mod_surveypro_covermanager {
     public $surveypro = null;
 
     /**
+     * $hasitems
+     */
+    public $hasitems = 0;
+
+    /**
      * $cansubmit
      */
     public $cansubmit = false;
@@ -52,6 +57,11 @@ class mod_surveypro_covermanager {
     public $canignoremaxentries = false;
 
     /**
+     * $canaccessadvanceditems
+     */
+    public $canaccessadvanceditems = false;
+
+    /**
      * Class constructor
      */
     public function __construct($cm, $context, $surveypro) {
@@ -60,8 +70,27 @@ class mod_surveypro_covermanager {
         $this->surveypro = $surveypro;
 
         // $this->canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
+        $this->hasitems = $this->has_input_items();
+        $this->canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $this->context, null, true);
         $this->cansubmit = has_capability('mod/surveypro:submit', $this->context, null, true);
         $this->canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context, null, true);
+    }
+
+    /**
+     * has_input_items
+     *
+     * @param none
+     * @return
+     */
+    public function has_input_items() {
+        global $DB;
+
+        $whereparams = array('surveyproid' => $this->surveypro->id, 'hidden' => 0);
+        if (!$this->canaccessadvanceditems) {
+            $whereparams['advanced'] = 0;
+        }
+
+        return ($DB->count_records('surveypro_item', $whereparams) > 0);
     }
 
     /**
@@ -88,7 +117,7 @@ class mod_surveypro_covermanager {
         $messages = array();
         $timenow = time();
 
-        // User submitted responses:.
+        // User submitted responses.
         $countclosed = $this->user_sent_submissions(SURVEYPRO_STATUSCLOSED);
         $inprogress = $this->user_sent_submissions(SURVEYPRO_STATUSINPROGRESS);
         $next = $countclosed + $inprogress + 1;
@@ -96,6 +125,7 @@ class mod_surveypro_covermanager {
         // Begin of: the button to add one more surveypro.
         // Begin of: is the button to add one more surveypro going to be displayed?
         $displaybutton = $this->cansubmit;
+        $displaybutton = $displaybutton && $this->hasitems;
         if ($this->surveypro->timeopen) {
             $displaybutton = $displaybutton && ($this->surveypro->timeopen < $timenow);
         }
@@ -168,11 +198,18 @@ class mod_surveypro_covermanager {
             } else if (($this->surveypro->maxentries > 0) && ($next >= $this->surveypro->maxentries)) {
                 $message = get_string('nomoresubmissionsallowed', 'mod_surveypro', $this->surveypro->maxentries);
                 echo $OUTPUT->container($message, 'centerpara');
+            } else if (!$this->hasitems) {
+                $message = get_string('noitemsfound', 'mod_surveypro');
+                echo $OUTPUT->container($message, 'centerpara');
             }
         }
         // End of: the button to add one more surveypro.
 
-        // Begin of: report.
+        if (!$this->hasitems) {
+            return;
+        }
+
+        // Begin of: report section.
         $surveyproreportlist = get_plugin_list('surveyproreport');
         $paramurlbase = array('id' => $this->cm->id);
         foreach ($surveyproreportlist as $pluginname => $pluginpath) {
@@ -208,9 +245,9 @@ class mod_surveypro_covermanager {
 
         $this->display_messages($messages, get_string('reportsection', 'mod_surveypro'));
         $messages = array();
-        // End of: report.
+        // End of: report section.
 
-        // Begin of: user templates.
+        // Begin of: user templates section.
         if ($canmanageusertemplates) {
             $url = new moodle_url('/mod/surveypro/utemplates_manage.php', $paramurlbase);
             $messages[] = get_string('manageusertemplates', 'mod_surveypro', $url->out());
@@ -233,9 +270,9 @@ class mod_surveypro_covermanager {
 
         $this->display_messages($messages, get_string('utemplatessection', 'mod_surveypro'));
         $messages = array();
-        // End of: user templates.
+        // End of: user templates section.
 
-        // Begin of: master templates.
+        // Begin of: master templates section.
         if ($cansavemastertemplates) {
             $url = new moodle_url('/mod/surveypro/mtemplates_create.php', $paramurlbase);
             $messages[] = get_string('savemastertemplates', 'mod_surveypro', $url->out());
@@ -248,7 +285,7 @@ class mod_surveypro_covermanager {
 
         $this->display_messages($messages, get_string('mtemplatessection', 'mod_surveypro'));
         $messages = array();
-        // End of: master templates.
+        // End of: master templates section.
     }
 
     /**

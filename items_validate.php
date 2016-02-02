@@ -24,6 +24,7 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/itemlist.class.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
@@ -97,9 +98,7 @@ navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
-$moduletab = SURVEYPRO_TABITEMS; // Needed by tabs.php.
-$modulepage = SURVEYPRO_ITEMS_VALIDATE; // Needed by tabs.php.
-require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
+$tabman = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABITEMS, SURVEYPRO_ITEMS_VALIDATE);
 
 $itemlistman->validate_relations();
 

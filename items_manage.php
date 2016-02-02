@@ -24,6 +24,7 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/itemlist.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/items/selectitem_form.php');
 
@@ -132,9 +133,7 @@ navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
-$moduletab = SURVEYPRO_TABITEMS; // Needed by tabs.php.
-$modulepage = SURVEYPRO_ITEMS_MANAGE; // Needed by tabs.php.
-require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
+$tabman = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABITEMS, SURVEYPRO_ITEMS_MANAGE);
 
 $itemlistman->manage_actions();
 
