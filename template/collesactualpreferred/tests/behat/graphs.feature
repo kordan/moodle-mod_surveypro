@@ -1,5 +1,5 @@
 @mod @mod_surveypro @surveyprotemplate @surveyprotemplate_collesactualpreferred
-Feature: apply a COLLES mastertemplate to test graphs
+Feature: apply a COLLES (actual and preferred) mastertemplate to test graphs
   In order to verify graphs for COLLES mastertemplates // Why this feature is useful
   As a teacher                                         // It can be 'an admin', 'a teacher', 'a student', 'a guest', 'a user', 'a tests writer' and 'a developer'
   I need to apply a mastertemplate                     // The feature we want
