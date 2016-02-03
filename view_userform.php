@@ -131,10 +131,9 @@ if ($userformman->formdata = $userform->get_data()) {
     if ($nextbutton) {
         $userformman->next_not_empty_page(true, $userformman->formpage, $userformman->modulepage);
 
-        // Ok, I am leaving page $userformman->formpage
-        // to go to page $userformman->firstpageright.
+        // Ok, I am moving from $userformman->formpage to page $userformman->firstpageright.
         // I need to delete all the answer that were (maybe) written during a previous walk along the surveypro.
-        // Data of each item in a page between ($this->formpage + 1), ($this->firstpageright - 1) included, must be deleted.
+        // Answers to each item in a page between ($this->formpage + 1) and ($this->firstpageright - 1) included, must be deleted.
         //
         // Example: I am leaving page 3. On the basis of current input $userformman->firstpageright is 10.
         // Maybe yesterday I had different data in $userformman->formpage = 3 and on that basis I was redirected to page 4.

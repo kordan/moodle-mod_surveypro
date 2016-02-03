@@ -15,13 +15,12 @@ Feature: verify a fieldset item can be added to a survey
     And the following "course enrolments" exist:
       | user     | course       | role           |
       | teacher1 | Add fieldset | editingteacher |
+    And the following "activities" exist:
+      | activity  | name          | intro                             | course       | idnumber   |
+      | surveypro | Fieldset test | To test addition of fieldset item | Add fieldset | surveypro1 |
     And I log in as "teacher1"
     And I follow "Add fieldset item"
-    And I turn editing mode on
-    And I add a "Surveypro" to section "1" and I fill the form with:
-      | Name        | Surveypro test                             |
-      | Description | This is a surveypro to add a fieldset item |
-    And I follow "Surveypro test"
+    And I follow "Fieldset test"
 
     And I set the field "typeplugin" to "Fieldset"
     And I press "Add"

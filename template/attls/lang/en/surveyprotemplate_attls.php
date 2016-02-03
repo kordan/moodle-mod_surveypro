@@ -26,13 +26,21 @@
 $string['pluginname'] = 'ATTLS (20 item version)';
 
 $string['useritem'] = 'Style of the choice elements';
-$string['useritem_desc'] = 'This option let you choose the style of the elemets for the choices of the survey. "Radio buttons" is the standard, "Select" is better for not huge monitors.<br />Changes will take effect with new surveypro';
-$string['useradio'] = 'Use radio buttons';
+$string['useritem_desc'] = 'This option let you choose the style of the elemets for the choices of the survey. "Radio buttons" is the standard, "Drop down menu" is better for not huge monitors.<br />Changes will take effect with new surveypro';
+$string['useradio'] = 'Radio buttons';
 $string['useselect'] = 'Use drop down menus';
 $string['position'] = 'Position of attls elements question';
 $string['position_desc'] = 'This option let you choose the position of the question respect to the user interface to provide the answer.<br />Changes will take effect with new surveypro';
 
-$string['label_content_01'] = '<p>The purpose of this questionnaire is to help us evaluate your attitudes towards thinking and learning. There are no \'right\' or \'wrong\' answers; we are interested only in your opinion. Please be assured that your responses will be treated with a high degree of confidentiality, and will not affect your assessment.</p>';
+$string['label_content_01'] = '<p>The purpose of this questionnaire is to help us understand how well the online delivery of this unit enabled you to learn.
+
+Each couple of the 24 statements below asks you to compare your <b>preferred</b> (ideal) and <b>actual</b> experience in this unit.
+
+There are no \'right\' or \'wrong\' answers; we are interested only in your opinion. Please be assured that your responses will be treated with a high degree of confidentiality, and will not affect your assessment.
+
+Your carefully considered responses will help us improve the way this unit is presented online in the future.
+
+Thanks very much.</p>';
 
 $string['fieldset_content_01'] = 'Attitudes Towards Thinking and Learning';
 

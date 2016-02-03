@@ -7,24 +7,22 @@ Feature: make a submission test for "date" item
   @javascript
   Scenario: test a submission works fine for date item
     Given the following "courses" exist:
-      | fullname                      | shortname       | category |
-      | Test submission for date item | Submission test | 0        |
+      | fullname                      | shortname            | category |
+      | Test submission for date item | Date submission test | 0        |
     And the following "users" exist:
       | username | firstname | lastname | email                |
       | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
       | student1 | Student1  | user1    | student1@nowhere.net |
     And the following "course enrolments" exist:
-      | user     | course          | role           |
-      | teacher1 | Submission test | editingteacher |
-      | student1 | Submission test | student        |
-
+      | user     | course               | role           |
+      | teacher1 | Date submission test | editingteacher |
+      | student1 | Date submission test | student        |
+    And the following "activities" exist:
+      | activity  | name         | intro                        | course               | idnumber   |
+      | surveypro | Date test | To test submission of date item | Date submission test | surveypro1 |
     And I log in as "teacher1"
     And I follow "Test submission for date item"
-    And I turn editing mode on
-    And I add a "Surveypro" to section "1" and I fill the form with:
-      | Name        | Surveypro test                                      |
-      | Description | This is a surveypro to test submission of date item |
-    And I follow "Surveypro test"
+    And I follow "Date test"
 
     And I set the field "typeplugin" to "Date [dd/mm/yyyy]"
     And I press "Add"
@@ -44,7 +42,7 @@ Feature: make a submission test for "date" item
     # student1 logs in
     When I log in as "student1"
     And I follow "Test submission for date item"
-    And I follow "Surveypro test"
+    And I follow "Date test"
     And I press "New response"
 
     # student1 submits

@@ -7,24 +7,22 @@ Feature: make a submission test for "radiobutton" item
   @javascript
   Scenario: test a submission works fine for radio button item
     Given the following "courses" exist:
-      | fullname                               | shortname       | category |
-      | Test submission for radio buttons item | Submission test | 0        |
+      | fullname                               | shortname                   | category |
+      | Test submission for radio buttons item | Radiobutton submission test | 0        |
     And the following "users" exist:
       | username | firstname | lastname | email                |
       | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
       | student1 | Student1  | user1    | student1@nowhere.net |
     And the following "course enrolments" exist:
-      | user     | course          | role           |
-      | teacher1 | Submission test | editingteacher |
-      | student1 | Submission test | student        |
-
+      | user     | course                      | role           |
+      | teacher1 | Radiobutton submission test | editingteacher |
+      | student1 | Radiobutton submission test | student        |
+    And the following "activities" exist:
+      | activity  | name             | intro                                  | course                      | idnumber   |
+      | surveypro | Radiobutton test | To test submission of radiobutton item | Radiobutton submission test | surveypro1 |
     And I log in as "teacher1"
     And I follow "Test submission for radio buttons item"
-    And I turn editing mode on
-    And I add a "Surveypro" to section "1" and I fill the form with:
-      | Name        | Surveypro test                                               |
-      | Description | This is a surveypro to test submission of radio buttons item |
-    And I follow "Surveypro test"
+    And I follow "Radiobutton test"
 
     And I set the field "typeplugin" to "Radio buttons"
     And I press "Add"
@@ -59,7 +57,7 @@ Feature: make a submission test for "radiobutton" item
     # student1 logs in
     When I log in as "student1"
     And I follow "Test submission for radio buttons item"
-    And I follow "Surveypro test"
+    And I follow "Radiobutton test"
     And I press "New response"
 
     # student1 submits

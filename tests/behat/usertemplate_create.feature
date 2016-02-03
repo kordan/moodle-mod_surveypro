@@ -15,13 +15,11 @@ Feature: Load, apply and save a usertemplate in order to test, among others, use
     And the following "course enrolments" exist:
       | user     | course              | role           |
       | teacher1 | Create usertemplate | editingteacher |
-
+    And the following "activities" exist:
+      | activity  | name                  | intro                              | course              | idnumber   |
+      | surveypro | Create a usertemplate | Surveypro to cretae a usertemplate | Create usertemplate | surveypro1 |
     And I log in as "teacher1"
     And I follow "To create usertemplate"
-    And I turn editing mode on
-    And I add a "Surveypro" to section "1" and I fill the form with:
-      | Name        | Create a usertemplate                        |
-      | Description | This is a surveypro to cretae a usertemplate |
     And I follow "Create a usertemplate"
 
     And I navigate to "Import" node in "Surveypro administration > User templates"

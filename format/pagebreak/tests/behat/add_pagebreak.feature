@@ -15,13 +15,12 @@ Feature: verify a pagebreak item can be added to a survey
     And the following "course enrolments" exist:
       | user     | course        | role           |
       | teacher1 | Add pagebreak | editingteacher |
+    And the following "activities" exist:
+      | activity  | name           | intro                              | course        | idnumber   |
+      | surveypro | Pagebreak test | To test addition of pagebreak item | Add pagebreak | surveypro1 |
     And I log in as "teacher1"
     And I follow "Add pagebreak item"
-    And I turn editing mode on
-    And I add a "Surveypro" to section "1" and I fill the form with:
-      | Name        | Surveypro test                              |
-      | Description | This is a surveypro to add a pagebreak item |
-    And I follow "Surveypro test"
+    And I follow "Pagebreak test"
 
     And I set the field "typeplugin" to "Page break"
     And I press "Add"

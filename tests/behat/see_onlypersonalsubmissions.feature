@@ -19,14 +19,12 @@ Feature: test each student sees only personal submissions
       | teacher1 | Only personal submissions | editingteacher |
       | student1 | Only personal submissions | student        |
       | student2 | Only personal submissions | student        |
-
+    And the following "activities" exist:
+      | activity  | name                        | intro                                                  | course                    | idnumber   |
+      | surveypro | Get only my own submissions | Test each student can only see his/her own submissions | Only personal submissions | surveypro1 |
     And I log in as "teacher1"
     And I follow "See only personal submissions"
-    And I turn editing mode on
-    And I add a "Surveypro" to section "1" and I fill the form with:
-      | Name        | Surveypro test                                                         |
-      | Description | This is a surveypro to test each user can only get his own submissions |
-    And I follow "Surveypro test"
+    And I follow "Get only my own submissions"
 
     And I set the field "typeplugin" to "Text (short)"
     And I press "Add"
@@ -58,7 +56,7 @@ Feature: test each student sees only personal submissions
     # student1 logs in
     When I log in as "student1"
     And I follow "See only personal submissions"
-    And I follow "Surveypro test"
+    And I follow "Get only my own submissions"
     And I press "New response"
 
     # student1 submits his first response
@@ -69,7 +67,7 @@ Feature: test each student sees only personal submissions
 
     And I press "New response"
 
-    # student1 submits one more response
+    # student1 submits his second response
     And I set the following fields to these values:
       | 1: Write down your email | st12email@st12server.net |
       | 2: Is this true?         | No                       |
@@ -80,7 +78,9 @@ Feature: test each student sees only personal submissions
     # student2 logs in
     When I log in as "student2"
     And I follow "See only personal submissions"
-    And I follow "Surveypro test"
+    And I follow "Get only my own submissions"
+    And I follow "Responses"
+    Then I should see "Nothing to display"
     And I press "New response"
 
     # student2 submits a response
@@ -99,7 +99,7 @@ Feature: test each student sees only personal submissions
     # student1 goes to check for his personal submissions
     When I log in as "student1"
     And I follow "See only personal submissions"
-    And I follow "Surveypro test"
+    And I follow "Get only my own submissions"
 
     And I follow "Responses"
     Then I should see "Never" in the "Student1 user1" "table_row"

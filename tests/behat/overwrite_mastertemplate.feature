@@ -15,14 +15,12 @@ Feature: verify the deletion of old items works as expected during master templa
     And the following "course enrolments" exist:
       | user     | course                   | role           |
       | teacher1 | Overwrite mastertemplate | editingteacher |
-
+    And the following "activities" exist:
+      | activity  | name                          | intro                                | course                   | idnumber   |
+      | surveypro | To overwrite master templates | To test overwrite of master template | Overwrite mastertemplate | surveypro1 |
     And I log in as "teacher1"
     And I follow "Overwrite mastertemplate"
-    And I turn editing mode on
-    And I add a "Surveypro" to section "1" and I fill the form with:
-     | Name        | To overwrite master template                      |
-     | Description | This is a surveypro to overwrite master templates |
-    And I follow "To overwrite master template"
+    And I follow "To overwrite master templates"
 
     And I set the field "mastertemplate" to "ATTLS (20 item version)"
     And I press "Create"
@@ -32,7 +30,7 @@ Feature: verify the deletion of old items works as expected during master templa
     And I press "Yes"
 
     And I navigate to "Apply" node in "Surveypro administration > Master templates"
-    And I set the field "mastertemplate" to "COLLES (Actual Preferred)"
+    And I set the field "mastertemplate" to "COLLES (Preferred and Actual)"
     And I press "Continue"
     Then I should see "I prefer that my learning focuses on issues that interest me."
     Then I should see "I found that my learning focuses on issues that interest me."
@@ -43,7 +41,7 @@ Feature: verify the deletion of old items works as expected during master templa
     And I navigate to "Apply" node in "Surveypro administration > Master templates"
     And I set the field "mastertemplate" to "COLLES (Actual)"
     And I press "Continue"
-    Then I should see "In this online unit, I found that..."
+    Then I should see "In this online unit"
     Then I should see "my learning focuses on issues that interest me"
 
     And I follow "Elements"
@@ -52,7 +50,7 @@ Feature: verify the deletion of old items works as expected during master templa
     And I navigate to "Apply" node in "Surveypro administration > Master templates"
     And I set the field "mastertemplate" to "COLLES (Preferred)"
     And I press "Continue"
-    Then I should see "In this online unit, I prefer that..."
+    Then I should see "In this online unit"
     Then I should see "my learning focuses on issues that interest me"
 
     And I follow "Elements"

@@ -25,9 +25,8 @@ Feature: Validate creation and submit for "character" elements using the princip
       # Text pattern:                   free pattern
       # Minimum length (in characters): empty
     Given the following "activities" exist:
-      | activity   | name           | intro              | course         | idnumber   |
-      | surveypro  | Surveypro test | For testing backup | Character item | surveypro1 |
-
+      | activity  | name           | intro              | course         | idnumber   |
+      | surveypro | Surveypro test | For testing backup | Character item | surveypro1 |
     And I follow "Test submission for character item"
     And I follow "Surveypro test"
 
@@ -67,9 +66,8 @@ Feature: Validate creation and submit for "character" elements using the princip
       # Text pattern:                   free pattern
       # Minimum length (in characters): 20
     Given the following "activities" exist:
-      | activity   | name           | intro              | course         | idnumber   |
-      | surveypro  | Surveypro test | For testing backup | Character item | surveypro1 |
-
+      | activity  | name           | intro              | course         | idnumber   |
+      | surveypro | Surveypro test | For testing backup | Character item | surveypro1 |
     And I follow "Test submission for character item"
     And I follow "Surveypro test"
 

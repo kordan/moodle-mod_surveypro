@@ -17,14 +17,12 @@ Feature: make a submission test for each available item
       | user     | course          | role           |
       | teacher1 | Submission test | editingteacher |
       | student1 | Submission test | student        |
-
+    And the following "activities" exist:
+      | activity  | name                 | intro                                      | course          | idnumber   |
+      | surveypro | Each item submission | To test submission for each available item | Submission test | surveypro1 |
     And I log in as "teacher1"
     And I follow "Test submission for each available item"
-    And I turn editing mode on
-    And I add a "Surveypro" to section "1" and I fill the form with:
-      | Name        | Surveypro test                                                 |
-      | Description | This is a surveypro to test submission for each available item |
-    And I follow "Surveypro test"
+    And I follow "Each item submission"
 
     # #############
     # add an item using the 1st plugin
@@ -391,7 +389,7 @@ Feature: make a submission test for each available item
     # student1 logs in
     When I log in as "student1"
     And I follow "Test submission for each available item"
-    And I follow "Surveypro test"
+    And I follow "Each item submission"
     And I press "New response"
 
     # student1 submits his first response

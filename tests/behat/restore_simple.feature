@@ -1,4 +1,4 @@
-@mod @mod_surveypro @current
+@mod @mod_surveypro
 Feature: Simple restore of a surveypro
   In order to test simple restore procedure
   As a teacher

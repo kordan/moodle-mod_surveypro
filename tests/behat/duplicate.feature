@@ -1,5 +1,5 @@
 @mod @mod_surveypro
-Feature: Duplicate a surveyspro instance
+Feature: Duplicate a surveypro instance
   In order to validate backup and restore process
   As a teacher
   I duplicate a surveypro instance.
@@ -13,8 +13,8 @@ Feature: Duplicate a surveyspro instance
   @javascript
   Scenario: Duplicate a surveypro with some item
     Given the following "activities" exist:
-      | activity   | name           | intro              | course | idnumber   |
-      | surveypro  | surveypro test | For testing backup | C1     | surveypro1 |
+      | activity  | name           | intro              | course | idnumber   |
+      | surveypro | surveypro test | For testing backup | C1     | surveypro1 |
     And surveypro "surveypro test" contains the following items:
       | type   | plugin      |
       | format | label       |

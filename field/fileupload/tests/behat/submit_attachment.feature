@@ -7,24 +7,22 @@ Feature: make a submission test for "fileupload" item
   @javascript
   Scenario: test a submission works fine for attachment item
     Given the following "courses" exist:
-      | fullname                            | shortname       | category |
-      | Test submission for attachment item | Submission test | 0        |
+      | fullname                            | shortname                  | category |
+      | Test submission for attachment item | Attachment submission test | 0        |
     And the following "users" exist:
       | username | firstname | lastname | email                |
       | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
       | student1 | Student1  | user1    | student1@nowhere.net |
     And the following "course enrolments" exist:
-      | user     | course          | role           |
-      | teacher1 | Submission test | editingteacher |
-      | student1 | Submission test | student        |
-
+      | user     | course                     | role           |
+      | teacher1 | Attachment submission test | editingteacher |
+      | student1 | Attachment submission test | student        |
+    And the following "activities" exist:
+      | activity  | name            | intro                                 | course                     | idnumber   |
+      | surveypro | Attachment test | To test submission of attachment item | Attachment submission test | surveypro1 |
     And I log in as "teacher1"
     And I follow "Test submission for attachment item"
-    And I turn editing mode on
-    And I add a "Surveypro" to section "1" and I fill the form with:
-      | Name        | Surveypro test                                            |
-      | Description | This is a surveypro to test submission of attachment item |
-    And I follow "Surveypro test"
+    And I follow "Attachment test"
 
     And I set the field "typeplugin" to "Attachment"
     And I press "Add"
@@ -44,7 +42,7 @@ Feature: make a submission test for "fileupload" item
     # student1 logs in
     When I log in as "student1"
     And I follow "Test submission for attachment item"
-    And I follow "Surveypro test"
+    And I follow "Attachment test"
     And I press "New response"
 
     # student1 submits
