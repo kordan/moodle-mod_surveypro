@@ -1,5 +1,5 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_character
-Feature: Validate creation and submit for "character" elements using the principal combinations of settings (1 of 7)
+Feature: Validate creation and submit for "character" elements using the principal combinations of settings (2 of 7)
   Setting I check in this test are:
       # required:                       0 - 1
       # Text pattern:                   free pattern - email address - web page URL - custom
