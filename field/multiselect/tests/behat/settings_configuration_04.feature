@@ -21,7 +21,7 @@ Feature: Validate creation and submit for "multiselect" elements using the princ
     And I log in as "teacher1"
 
   @javascript
-  Scenario: test multiselect element with the following settings: 0; milk\ncoffee\nbutter\nbread; empty; 0
+  Scenario: test multiselect element with the following settings: 1; milk\ncoffee\nbutter\nbread; coffee; 0
       # required:               1
       # Options (fixed):        milk\ncoffee\nbutter\nbread
       # Default:                coffee
