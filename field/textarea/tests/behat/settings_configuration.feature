@@ -5,9 +5,6 @@ Feature: Validate creation and submit for textarea elements using the principal 
       # Use html editor:                0 - 1
       # Minimum length (in characters): 20
       # Maximum length (in characters): 1 - empty
-  In order to validate backup and restore process
-  As a teacher
-  I duplicate a surveypro instance.
 
   Background:
     Given the following "courses" exist:
@@ -18,7 +15,7 @@ Feature: Validate creation and submit for textarea elements using the principal 
       | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
       | student1 | Student1  | user1    | student1@nowhere.net |
     And the following "course enrolments" exist:
-      | user     | course         | role           |
+      | user     | course        | role           |
       | teacher1 | Textarea item | editingteacher |
       | student1 | Textarea item | student        |
     And I log in as "teacher1"
@@ -30,9 +27,8 @@ Feature: Validate creation and submit for textarea elements using the principal 
       # Minimum length (in characters): 20
       # Maximum length (in characters): 1 and then empty
     Given the following "activities" exist:
-      | activity   | name           | intro              | course        | idnumber   |
-      | surveypro  | Surveypro test | For testing backup | Textarea item | surveypro1 |
-
+      | activity  | name           | intro              | course        | idnumber   |
+      | surveypro | Surveypro test | For testing backup | Textarea item | surveypro1 |
     And I follow "Test submission for textarea item"
     And I follow "Surveypro test"
 
@@ -87,9 +83,8 @@ Feature: Validate creation and submit for textarea elements using the principal 
       # Minimum length (in characters): 20
       # Maximum length (in characters): empty
     Given the following "activities" exist:
-      | activity   | name           | intro              | course        | idnumber   |
-      | surveypro  | Surveypro test | For testing backup | Textarea item | surveypro1 |
-
+      | activity  | name           | intro              | course        | idnumber   |
+      | surveypro | Surveypro test | For testing backup | Textarea item | surveypro1 |
     And I follow "Test submission for textarea item"
     And I follow "Surveypro test"
 
@@ -136,9 +131,8 @@ Feature: Validate creation and submit for textarea elements using the principal 
       # Minimum length (in characters): 20
       # Maximum length (in characters): 1 and then empty
     Given the following "activities" exist:
-      | activity   | name           | intro              | course        | idnumber   |
-      | surveypro  | Surveypro test | For testing backup | Textarea item | surveypro1 |
-
+      | activity  | name           | intro              | course        | idnumber   |
+      | surveypro | Surveypro test | For testing backup | Textarea item | surveypro1 |
     And I follow "Test submission for textarea item"
     And I follow "Surveypro test"
 
@@ -195,9 +189,8 @@ Feature: Validate creation and submit for textarea elements using the principal 
       # Minimum length (in characters): 20
       # Maximum length (in characters): empty
     Given the following "activities" exist:
-      | activity   | name           | intro              | course        | idnumber   |
-      | surveypro  | Surveypro test | For testing backup | Textarea item | surveypro1 |
-
+      | activity  | name           | intro              | course        | idnumber   |
+      | surveypro | Surveypro test | For testing backup | Textarea item | surveypro1 |
     And I follow "Test submission for textarea item"
     And I follow "Surveypro test"
 

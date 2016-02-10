@@ -14,7 +14,7 @@ Feature: Validate creation and submit for "character" elements using the princip
       | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
       | student1 | Student1  | user1    | student1@nowhere.net |
     And the following "course enrolments" exist:
-      | user     | course        | role            |
+      | user     | course         | role            |
       | teacher1 | Character item | editingteacher |
       | student1 | Character item | student        |
     And I log in as "teacher1"
@@ -25,9 +25,8 @@ Feature: Validate creation and submit for "character" elements using the princip
       # Text pattern:                   web page URL
       # Minimum length (in characters): empty
     Given the following "activities" exist:
-      | activity   | name           | intro              | course         | idnumber   |
-      | surveypro  | Surveypro test | For testing backup | Character item | surveypro1 |
-
+      | activity  | name           | intro              | course         | idnumber   |
+      | surveypro | Surveypro test | For testing backup | Character item | surveypro1 |
     And I follow "Test submission for character item"
     And I follow "Surveypro test"
 
@@ -65,9 +64,8 @@ Feature: Validate creation and submit for "character" elements using the princip
       # Text pattern:                   web page URL
       # Minimum length (in characters): 20
     Given the following "activities" exist:
-      | activity   | name           | intro              | course         | idnumber   |
-      | surveypro  | Surveypro test | For testing backup | Character item | surveypro1 |
-
+      | activity  | name           | intro              | course         | idnumber   |
+      | surveypro | Surveypro test | For testing backup | Character item | surveypro1 |
     And I follow "Test submission for character item"
     And I follow "Surveypro test"
 

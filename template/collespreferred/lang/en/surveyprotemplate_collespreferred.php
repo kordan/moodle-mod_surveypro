@@ -26,17 +26,25 @@
 $string['pluginname'] = 'COLLES (Preferred)';
 
 $string['useritem'] = 'Style of the choice elements';
-$string['useritem_desc'] = 'This option let you choose the style of the elemets for the choices of the survey. "Radio buttons" is the standard, "Select" is better for not huge monitors.<br />Changes will take effect with new surveypro';
-$string['useradio'] = 'Use radio buttons';
+$string['useritem_desc'] = 'This option let you choose the style of the elemets for the choices of the survey. "Radio buttons" is the standard, "Drop down menu" is better for not huge monitors.<br />Changes will take effect with new surveypro';
+$string['useradio'] = 'Radio buttons';
 $string['useselect'] = 'Use drop down menus';
 $string['position'] = 'Position of attls elements question';
 $string['position_desc'] = 'This option let you choose the position of the question respect to the user interface to provide the answer.<br />Changes will take effect with new surveypro';
 
-$string['label_content_01'] = '<p>The purpose of this survey is to help us understand what you value in an online learning experience.<br />Each one of the 24 statements below asks about your preferred (ideal) experience in this unit.<br />There are no \'right\' or \'wrong\' answers; we are interested only in your opinion. Please be assured that your responses will be treated with a high degree of confidentiality, and will not affect your assessment.<br /><br />Your carefully considered responses will help us improve the way this unit is presented online in the future.<br />Thanks very much.</p>';
+$string['label_content_01'] = '<p>The purpose of this survey is to help us understand what you value in an online learning experience.
+
+Each one of the 24 statements below asks about your <b>preferred</b> (ideal) experience in this unit.
+
+There are no \'right\' or \'wrong\' answers; we are interested only in your opinion. Please be assured that your responses will be treated with a high degree of confidentiality, and will not affect your assessment.
+
+Your carefully considered responses will help us improve the way this unit is presented online in the future.
+
+Thanks very much.</p>';
 
 $string['fieldset_content_01'] = 'Relevance';
 
-$string['label_content_02'] = '<p>In this online unit, I prefer that...</p>';
+$string['label_content_02'] = '<p>In this online unit...</p>';
 
 $string['radiobutton_content_03'] = '<p>my learning focuses on issues that interest me.</p>';
 $string['radiobutton_content_04'] = '<p>what I learn is important for my professional practice.</p>';

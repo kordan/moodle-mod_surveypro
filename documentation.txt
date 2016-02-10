@@ -38,7 +38,7 @@ This set of settings includes...
 ... for "integer" surveypro plugin:
 • Maximum integer: simply the maximum integer allowed all over the site. This value can be further restricted by a similar setting at element level.
 
-... for "ATTLS (20 item version)", "COLLES (Actual)" ,"COLLES (Actual Preferred)" and "COLLES (Preferred)" surveypro plugin:
+... for "ATTLS (20 item version)", "COLLES (Actual)" ,"COLLES (Preferred and Actual)" and "COLLES (Preferred)" surveypro plugin:
 • Position of attls elements question: the place where the question of each element will be located. The position usually depends from the size of the monitor of the foreseen class.
 • Style of the choice elements: Standard surveys like ATTLS, COLLES and CI are mainly made by multichoice questions. They can be realized using radiobuttons or drop down menu both.
 

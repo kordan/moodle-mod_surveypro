@@ -11,21 +11,19 @@ Feature: apply COLLES (Actual) mastertemplate
     And the following "users" exist:
       | username | firstname | lastname | email                |
       | teacher1 | Teacher   | 1        | teacher1@nowhere.net |
-      | student1 | Student   | 1        | student1@nowhere.net |
     And the following "course enrolments" exist:
       | user     | course               | role           |
       | teacher1 | Apply mastertemplate | editingteacher |
+    And the following "activities" exist:
+      | activity  | name                     | intro                   | course               | idnumber   |
+      | surveypro | To apply COLLES (Actual) | To test COLLES (Actual) | Apply mastertemplate | surveypro1 |
     And I log in as "teacher1"
     And I follow "To apply mastertemplate"
-    And I turn editing mode on
 
   @javascript
   Scenario: apply COLLES (Actual) master template
-    When I add a "Surveypro" to section "3" and I fill the form with:
-      | Name        | To apply COLLES (Actual)                                              |
-      | Description | This is a surveypro test to apply the COLLES (Actual) master template |
-    And I follow "To apply COLLES (Actual)"
+    When I follow "To apply COLLES (Actual)"
     And I set the field "Master templates" to "COLLES (Actual)"
     And I press "Create"
-    Then I should see "In this online unit, I found that..."
+    Then I should see "In this online unit"
     Then I should see "my learning focuses on issues that interest me"

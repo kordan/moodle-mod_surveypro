@@ -11,20 +11,18 @@ Feature: apply ATTLS (20 item version) mastertemplate
     And the following "users" exist:
       | username | firstname | lastname | email                |
       | teacher1 | Teacher   | 1        | teacher1@nowhere.net |
-      | student1 | Student   | 1        | student1@nowhere.net |
     And the following "course enrolments" exist:
       | user     | course               | role           |
       | teacher1 | Apply mastertemplate | editingteacher |
+    And the following "activities" exist:
+      | activity  | name           | intro         | course               | idnumber   |
+      | surveypro | To apply ATTLS | To test ATTLS | Apply mastertemplate | surveypro1 |
     And I log in as "teacher1"
     And I follow "To apply mastertemplate"
-    And I turn editing mode on
 
   @javascript
   Scenario: apply ATTLS (20 item version) master template
-    When I add a "Surveypro" to section "1" and I fill the form with:
-      | Name        | To apply ATTLS                                              |
-      | Description | This is a surveypro test to apply the ATTLS master template |
-    And I follow "To apply ATTLS"
+    When I follow "To apply ATTLS"
     And I set the field "Master templates" to "ATTLS (20 item version)"
     And I press "Create"
     Then I should see "Attitudes Towards Thinking and Learning"

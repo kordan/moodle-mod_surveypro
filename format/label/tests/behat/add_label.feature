@@ -15,13 +15,12 @@ Feature: verify a label item can be added to a survey
     And the following "course enrolments" exist:
       | user     | course    | role           |
       | teacher1 | Add label | editingteacher |
+    And the following "activities" exist:
+      | activity  | name       | intro                          | course    | idnumber   |
+      | surveypro | Label test | To test addition of label item | Add label | surveypro1 |
     And I log in as "teacher1"
     And I follow "Add label item"
-    And I turn editing mode on
-    And I add a "Surveypro" to section "1" and I fill the form with:
-      | Name        | Surveypro test                          |
-      | Description | This is a surveypro to add a label item |
-    And I follow "Surveypro test"
+    And I follow "Label test"
 
     And I set the field "typeplugin" to "Label"
     And I press "Add"

@@ -79,6 +79,8 @@ class mod_surveypro_generator extends testing_module_generator {
             'timecreated' => time(),
             'timemodified' => time(),
 
+            'groupmode' => 0,
+
             'userstyle_filemanager' => file_get_unused_draft_itemid(),
             'thankshtml_editor' => array(
                 'text' => 'Thank you very much for your commitment on this survey',

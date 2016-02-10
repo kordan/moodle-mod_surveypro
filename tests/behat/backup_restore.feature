@@ -1,5 +1,5 @@
-@mod @mod_surveypro @current
-Feature: Duplicate a surveyspro instance
+@mod @mod_surveypro
+Feature: Duplicate a surveypro instance
   In order to validate backup and restore process
   As a teacher
   I backup and restore a surveypro instance.
@@ -11,10 +11,10 @@ Feature: Duplicate a surveyspro instance
     And I log in as "admin"
 
   @javascript
-  Scenario: Duplicate a surveypro with some item
+  Scenario: Backup and restore a surveypro with some item
     Given the following "activities" exist:
-      | activity   | name           | intro              | course | idnumber   |
-      | surveypro  | Surveypro test | For testing backup | C1     | surveypro1 |
+      | activity  | name           | intro              | course | idnumber   |
+      | surveypro | Surveypro test | For testing backup | C1     | surveypro1 |
     And surveypro "surveypro test" contains the following items:
       | type   | plugin      |
       | format | label       |

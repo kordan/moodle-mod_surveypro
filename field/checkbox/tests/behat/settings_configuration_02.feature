@@ -27,9 +27,8 @@ Feature: Validate creation and submit for "checkbox" elements using the principa
       # Default:                  coffee
       # Minimum required options: 0
     Given the following "activities" exist:
-      | activity   | name           | intro              | course        | idnumber   |
-      | surveypro  | Surveypro test | For testing backup | Checkbox item | surveypro1 |
-
+      | activity  | name           | intro              | course        | idnumber   |
+      | surveypro | Surveypro test | For testing backup | Checkbox item | surveypro1 |
     And I follow "Test submission for checkbox item"
     And I follow "Surveypro test"
 
@@ -84,9 +83,8 @@ Feature: Validate creation and submit for "checkbox" elements using the principa
       # Default:                  coffee
       # Minimum required options: 2
     Given the following "activities" exist:
-      | activity   | name           | intro              | course        | idnumber   |
-      | surveypro  | Surveypro test | For testing backup | Checkbox item | surveypro1 |
-
+      | activity  | name           | intro              | course        | idnumber   |
+      | surveypro | Surveypro test | For testing backup | Checkbox item | surveypro1 |
     And I follow "Test submission for checkbox item"
     And I follow "Surveypro test"
 

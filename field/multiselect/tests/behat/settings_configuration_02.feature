@@ -27,9 +27,8 @@ Feature: Validate creation and submit for "multiselect" elements using the princ
       # Default:                coffee
       # Minimum required items: 0
     Given the following "activities" exist:
-      | activity   | name           | intro              | course           | idnumber   |
-      | surveypro  | Surveypro test | For testing backup | Multiselect item | surveypro1 |
-
+      | activity  | name           | intro              | course           | idnumber   |
+      | surveypro | Surveypro test | For testing backup | Multiselect item | surveypro1 |
     And I follow "Test submission for multiselect item"
     And I follow "Surveypro test"
 
@@ -82,9 +81,8 @@ Feature: Validate creation and submit for "multiselect" elements using the princ
       # Default:                coffee
       # Minimum required items: 2
     Given the following "activities" exist:
-      | activity   | name           | intro              | course           | idnumber   |
-      | surveypro  | Surveypro test | For testing backup | Multiselect item | surveypro1 |
-
+      | activity  | name           | intro              | course           | idnumber   |
+      | surveypro | Surveypro test | For testing backup | Multiselect item | surveypro1 |
     And I follow "Test submission for multiselect item"
     And I follow "Surveypro test"
 

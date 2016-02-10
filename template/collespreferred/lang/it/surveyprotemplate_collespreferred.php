@@ -15,15 +15,15 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'surveyprotemplate_collesactual', language 'en', branch 'MOODLE_31_STABLE'
+ * Strings for component 'surveyprotemplate_collespreferred', language 'en', branch 'MOODLE_31_STABLE'
  *
  * @package    surveyprotemplate
- * @subpackage collesactual
+ * @subpackage collespreferred
  * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'COLLES (Actual)';
+$string['pluginname'] = 'COLLES (Ideale)';
 
 $string['useritem'] = 'Tipo di selettore';
 $string['useritem_desc'] = 'Questa opzione consente di scegliere il tipo di selettore per rispondere al sondaggio. "Bottoni radio" è lo standard, "Menu a tendina" è consigliato per i monitor di modeste dimensioni.<br />Le modifiche avranno effetto sui prossimi nuovi somdaggi.';
@@ -34,11 +34,11 @@ $string['position_desc'] = 'Questa opzione consente di scegliere la posizione de
 
 $string['label_content_01'] = '<p>L\'obiettivo di questo sondaggio è di aiutarci a capire come lo svolgimento online di questa unità ti sia stato utile nell\'apprendimento.
 
-Ciascuna delle seguenti 24 domande riguarda la tua esperienza in questa unità.
+Ciascuna delle seguenti 24 domande riguarda l\'esperienza <b>ideale</b> in questa unità.
 
 Non ci sono domande \'giuste\' o \'sbagliate\'; ci interessa solo la tua opinione. Garantiamo che le risposte saranno trattate con il massimo grado di riservatezza e non influenzeranno la tua valutazione.
 
-Le tue risposte saranno considerate con attenzione e ci aiuteranno a migliorare le caratteristiche di questa unità.
+Le tue risposte saranno considerate con attenzione e ci aiuteranno a migliorare le caratteristiche di questa unità online in futuro.
 
 Grazie.</p>';
 

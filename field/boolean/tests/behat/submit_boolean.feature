@@ -7,24 +7,22 @@ Feature: make a submission test for "boolean" item
   @javascript
   Scenario: test a submission works fine for boolean item
     Given the following "courses" exist:
-      | fullname                         | shortname       | category |
-      | Test submission for boolean item | Submission test | 0        |
+      | fullname                         | shortname               | category |
+      | Test submission for boolean item | Boolean submission test | 0        |
     And the following "users" exist:
       | username | firstname | lastname | email                |
       | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
       | student1 | Student1  | user1    | student1@nowhere.net |
     And the following "course enrolments" exist:
-      | user     | course          | role           |
-      | teacher1 | Submission test | editingteacher |
-      | student1 | Submission test | student        |
-
+      | user     | course                  | role           |
+      | teacher1 | Boolean submission test | editingteacher |
+      | student1 | Boolean submission test | student        |
+    And the following "activities" exist:
+      | activity  | name         | intro                              | course                  | idnumber   |
+      | surveypro | Boolean test | To test submission of boolean item | Boolean submission test | surveypro1 |
     And I log in as "teacher1"
     And I follow "Test submission for boolean item"
-    And I turn editing mode on
-    And I add a "Surveypro" to section "1" and I fill the form with:
-      | Name        | Surveypro test                                         |
-      | Description | This is a surveypro to test submission of boolean item |
-    And I follow "Surveypro test"
+    And I follow "Boolean test"
 
     And I set the field "typeplugin" to "Boolean"
     And I press "Add"
@@ -69,7 +67,7 @@ Feature: make a submission test for "boolean" item
     # student1 logs in
     When I log in as "student1"
     And I follow "Test submission for boolean item"
-    And I follow "Surveypro test"
+    And I follow "Boolean test"
     And I press "New response"
 
     # student1 submits

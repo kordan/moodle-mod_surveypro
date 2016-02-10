@@ -15,13 +15,11 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
     And the following "course enrolments" exist:
       | user     | course                  | role           |
       | teacher1 | Apply each usertemplate | editingteacher |
-
+    And the following "activities" exist:
+      | activity  | name      | intro                                | course                  | idnumber   |
+      | surveypro | Apply all | Surveypro to apply all usertemplates | Apply each usertemplate | surveypro1 |
     And I log in as "teacher1"
     And I follow "To apply all usertemplates"
-    And I turn editing mode on
-    And I add a "Surveypro" to section "1" and I fill the form with:
-      | Name        | Apply all                                      |
-      | Description | This is a surveypro to apply all usertemplates |
     And I follow "Apply all"
 
     And I navigate to "Import" node in "Surveypro administration > User templates"

@@ -7,24 +7,22 @@ Feature: make a submission test for "age" item
   @javascript
   Scenario: test a submission works fine for age item
     Given the following "courses" exist:
-      | fullname                     | shortname       | category |
-      | Test submission for age item | Submission test | 0        |
+      | fullname                     | shortname           | category |
+      | Test submission for age item | Age submission test | 0        |
     And the following "users" exist:
       | username | firstname | lastname | email                |
       | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
       | student1 | Student1  | user1    | student1@nowhere.net |
     And the following "course enrolments" exist:
-      | user     | course          | role           |
-      | teacher1 | Submission test | editingteacher |
-      | student1 | Submission test | student        |
-
+      | user     | course              | role           |
+      | teacher1 | Age submission test | editingteacher |
+      | student1 | Age submission test | student        |
+    And the following "activities" exist:
+      | activity  | name     | intro                          | course              | idnumber   |
+      | surveypro | Age test | To test submission of age item | Age submission test | surveypro1 |
     And I log in as "teacher1"
     And I follow "Test submission for age item"
-    And I turn editing mode on
-    And I add a "Surveypro" to section "1" and I fill the form with:
-      | Name        | Surveypro test                                     |
-      | Description | This is a surveypro to test submission of age item |
-    And I follow "Surveypro test"
+    And I follow "Age test"
 
     And I set the field "typeplugin" to "Age"
     And I press "Add"
@@ -47,7 +45,7 @@ Feature: make a submission test for "age" item
     # student1 logs in
     When I log in as "student1"
     And I follow "Test submission for age item"
-    And I follow "Surveypro test"
+    And I follow "Age test"
     And I press "New response"
 
     # student1 submits

@@ -16,19 +16,18 @@ Feature: apply a COLLES (preferred) mastertemplate to test graphs
       | user     | course      | role           |
       | teacher1 | Test graphs | editingteacher |
       | student1 | Test graphs | student        |
+    And the following "activities" exist:
+      | activity  | name              | intro                         | course      | idnumber   |
+      | surveypro | Run COLLES report | This is to test COLLES graphs | Test graphs | surveypro1 |
     And I log in as "teacher1"
     And I follow "To test COLLES graphs"
-    And I turn editing mode on
 
   @javascript
   Scenario: apply COLLES (Preferred) master template, add a record and call reports
-    When I add a "Surveypro" to section "1" and I fill the form with:
-      | Name        | Run COLLES report                              |
-      | Description | This is a surveypro test to test COLLES graphs |
-    And I follow "Run COLLES report"
+    When I follow "Run COLLES report"
     And I set the field "Master templates" to "COLLES (Preferred)"
     And I press "Create"
-    Then I should see "In this online unit, I prefer that..."
+    Then I should see "In this online unit"
     Then I should see "my learning focuses on issues that interest me."
 
     And I log out

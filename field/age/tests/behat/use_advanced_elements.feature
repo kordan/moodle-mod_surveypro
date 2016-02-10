@@ -17,12 +17,11 @@ Feature: test the use of advanced elements
       | user     | course            | role           |
       | teacher1 | Advanced elements | editingteacher |
       | student1 | Advanced elements | student        |
+    And the following "activities" exist:
+      | activity  | name                  | intro                    | course            | idnumber   |
+      | surveypro | Advanced element test | To test advanced element | Advanced elements | surveypro1 |
     And I log in as "teacher1"
     And I follow "Advanced elements"
-    And I turn editing mode on
-    And I add a "Surveypro" to section "1" and I fill the form with:
-      | Name        | Advanced element test                        |
-      | Description | This is a surveypro to test advanced element |
     And I follow "Advanced element test"
 
     # add the first age item generally available
