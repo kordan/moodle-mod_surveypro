@@ -5,7 +5,7 @@ Feature: verify a fieldsetend item can be added to a survey
   I add a fieldsetend item to a survey
 
   @javascript
-  Scenario: add fieldset item
+  Scenario: add fieldsetend item
     Given the following "courses" exist:
       | fullname             | shortname       | category | groupmode |
       | Add fieldsetend item | Add fieldsetend | 0        | 0         |
