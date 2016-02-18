@@ -36,6 +36,7 @@
 /* End of: connect fullwidth question and graphic user items */
 
 /* Begin of: connect note to question */
+#page-mod-surveypro-layout_preview .mform .fitem,
 #page-mod-surveypro-view_userform .mform .fitem,
 #page-mod-surveypro-view_search .mform .fitem {
     margin:0;
@@ -289,51 +290,71 @@
 /* End of: selectors for the static field explaining the format needed by each plugin in parentcontent field */
 
 /* the first class selecter is for the form in R/W mode, the second is for the RO mode */
+#page-mod-surveypro-layout_preview #userentry .fitem .felement .indent-0,
+#page-mod-surveypro-layout_preview .mform .fitem .felement .indent-0,
 #page-mod-surveypro-view_userform #userentry .fitem .felement .indent-0,
 #page-mod-surveypro-view_userform .mform .fitem .felement .indent-0 {
      margin-left:0;
 }
 
+#page-mod-surveypro-layout_preview #userentry .fitem .felement .indent-1,
+#page-mod-surveypro-layout_preview .mform .fitem .felement .indent-1,
 #page-mod-surveypro-view_userform #userentry .fitem .felement .indent-1,
 #page-mod-surveypro-view_userform .mform .fitem .felement .indent-1 {
      margin-left:1.5em;
 }
 
+#page-mod-surveypro-layout_preview #userentry .fitem .felement .indent-2,
+#page-mod-surveypro-layout_preview .mform .fitem .felement .indent-2,
 #page-mod-surveypro-view_userform #userentry .fitem .felement .indent-2,
 #page-mod-surveypro-view_userform .mform .fitem .felement .indent-2 {
     margin-left:3em;
 }
 
+#page-mod-surveypro-layout_preview #userentry .fitem .felement .indent-3,
+#page-mod-surveypro-layout_preview .mform .fitem .felement .indent-3,
 #page-mod-surveypro-view_userform #userentry .fitem .felement .indent-3,
 #page-mod-surveypro-view_userform .mform .fitem .felement .indent-3 {
     margin-left:4.5em;
 }
 
+#page-mod-surveypro-layout_preview #userentry .fitem .felement .indent-4,
+#page-mod-surveypro-layout_preview .mform .fitem .felement .indent-4,
 #page-mod-surveypro-view_userform #userentry .fitem .felement .indent-4,
 #page-mod-surveypro-view_userform .mform .fitem .felement .indent-4 {
     margin-left:6em;
 }
 
+#page-mod-surveypro-layout_preview #userentry .fitem .felement .indent-5,
+#page-mod-surveypro-layout_preview .mform .fitem .felement .indent-5,
 #page-mod-surveypro-view_userform #userentry .fitem .felement .indent-5,
 #page-mod-surveypro-view_userform .mform .fitem .felement .indent-5 {
     margin-left:7.5em;
 }
 
+#page-mod-surveypro-layout_preview #userentry .fitem .felement .indent-6,
+#page-mod-surveypro-layout_preview .mform .fitem .felement .indent-6,
 #page-mod-surveypro-view_userform #userentry .fitem .felement .indent-6,
 #page-mod-surveypro-view_userform .mform .fitem .felement .indent-6 {
     margin-left:9em;
 }
 
+#page-mod-surveypro-layout_preview #userentry .fitem .felement .indent-7,
+#page-mod-surveypro-layout_preview .mform .fitem .felement .indent-7,
 #page-mod-surveypro-view_userform #userentry .fitem .felement .indent-7,
 #page-mod-surveypro-view_userform .mform .fitem .felement .indent-7 {
     margin-left:10.5em;
 }
 
+#page-mod-surveypro-layout_preview #userentry .fitem .felement .indent-8,
+#page-mod-surveypro-layout_preview .mform .fitem .felement .indent-8,
 #page-mod-surveypro-view_userform #userentry .fitem .felement .indent-8,
 #page-mod-surveypro-view_userform .mform .fitem .felement .indent-8 {
     margin-left:12em;
 }
 
+#page-mod-surveypro-layout_preview #userentry .fitem .felement .indent-9,
+#page-mod-surveypro-layout_preview .mform .fitem .felement .indent-9,
 #page-mod-surveypro-view_userform #userentry .fitem .felement .indent-9,
 #page-mod-surveypro-view_userform .mform .fitem .felement .indent-9 {
     margin-left:13.5em;
