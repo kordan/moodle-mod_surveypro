@@ -716,7 +716,7 @@ class mod_surveypro_submissionmanager {
 
         if ($this->searchquery) {
             $findallurl = new moodle_url('/mod/surveypro/view.php', array('id' => $this->cm->id));
-            $label = get_string('findall', 'mod_surveypro');
+            $label = get_string('showallsubmissions', 'mod_surveypro');
 
             echo $OUTPUT->single_button($findallurl, $label, 'get', array('class' => 'box clearfix mdl-align'));
         }
@@ -781,7 +781,7 @@ class mod_surveypro_submissionmanager {
 
         if ($this->searchquery) {
             $findallurl = new moodle_url('/mod/surveypro/view.php', array('id' => $this->cm->id));
-            $label = get_string('findall', 'mod_surveypro');
+            $label = get_string('showallsubmissions', 'mod_surveypro');
 
             echo $OUTPUT->single_button($findallurl, $label, 'get', array('class' => 'box clearfix mdl-align'));
         }
