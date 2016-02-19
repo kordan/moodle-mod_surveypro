@@ -596,20 +596,22 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
             // ->    4 => string '1452' (length=4)
             // ->    5 => string 'check' (length=5)
             // }
-            // $matches = array{}
+            // $matches = array{
             // ->    0 => string 'surveypro_field_checkbox_1452_73' (length=30)
             // ->    1 => string 'surveypro' (length=6)
             // ->    2 => string 'field' (length=5)
             // ->    3 => string 'checkbox' (length=8)
             // ->    4 => string '1452' (length=4)
             // ->    5 => string '73' (length=2)
-            // $matches = array{}
+            // }
+            // $matches = array{
             // ->    0 => string 'placeholder_field_multiselect_199_placeholder' (length=45)
             // ->    1 => string 'placeholder' (length=11)
             // ->    2 => string 'field' (length=5)
             // ->    3 => string 'multiselect' (length=11)
             // ->    4 => string '199' (length=3)
             // ->    5 => string 'placeholder' (length=11)
+            // }
 
             $itemid = $matches[4]; // Itemid of the mform element (or of the group of mform elements referring to the same item).
             if (!isset($itemhelperinfo[$itemid])) {

@@ -332,8 +332,7 @@ EOS;
     }
 
     /**
-     * this method is called from surveypro_set_prefill (in locallib.php) to set $prefill at user form display time
-     * (defaults are set in userform_mform_element)
+     * this method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time
      *
      * userform_set_prefill
      *

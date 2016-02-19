@@ -749,14 +749,9 @@ EOS;
             return;
         }
 
-        if (isset($answer['noanswer']) && ($answer['noanswer'] == 1)) { // It ia an advcheckbox.
-            $olduseranswer->content = SURVEYPRO_NOANSWERVALUE;
-            return;
-        }
-
         $return = $answer;
         if (!empty($this->labelother)) {
-            $return[] = isset($answer['other']) ? $answer['text'] : '';
+            $return[] = (isset($answer['other']) && ($answer['other'] == 1)) ? $answer['text'] : '';
             unset($return['other']);
             unset($return['text']);
         }
@@ -767,7 +762,7 @@ EOS;
     }
 
     /**
-     * this method is called from surveypro_set_prefill (in locallib.php) to set $prefill at user form display time
+     * this method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time
      * (defaults are set in userform_mform_element)
      *
      * userform_set_prefill
@@ -782,33 +777,32 @@ EOS;
             return $prefill;
         }
 
-        if (isset($fromdb->content)) { // I made some selection
+        if (isset($fromdb->content)) {
             // Count of answers is == count of checkboxes.
             $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $fromdb->content);
 
-            // If SURVEYPRO_NOANSWERVALUE is returned...
-            // it will be alone and a special prefill needs to be returned.
-            if ($answers == array(SURVEYPRO_NOANSWERVALUE)) {
-                $prefill[$this->itemname.'_noanswer'] = '1';
-            } else {
-                // Here $answers is an array like: array(1,1,0,0,'dummytext').
-                foreach ($answers as $k => $checkboxvalue) {
-                    $uniqueid = $this->itemname.'_'.$k;
-                    $prefill[$uniqueid] = $checkboxvalue;
-                }
-                if (!empty($this->labelother)) {
-                    // Delete last item of $prefill.
-                    unset($prefill[$uniqueid]);
+            // Here $answers is an array like: array(1,1,0,0,'dummytext').
+            foreach ($answers as $k => $checkboxvalue) {
+                $uniqueid = $this->itemname.'_'.$k;
+                $prefill[$uniqueid] = $checkboxvalue;
+            }
+            if (!empty($this->labelother)) {
+                // Delete last item of $prefill.
+                unset($prefill[$uniqueid]);
 
-                    // Add last element of the $prefill.
-                    $lastanswer = end($answers);
+                // Add last element of the $prefill.
+                $lastanswer = end($answers);
 
-                    if (strlen($lastanswer)) {
-                        $prefill[$this->itemname.'_other'] = 1;
-                        $prefill[$this->itemname.'_text'] = $lastanswer;
-                    } else {
-                        $prefill[$this->itemname.'_other'] = 0;
+                if (strlen($lastanswer)) {
+                    $prefill[$this->itemname.'_other'] = 1;
+                    $prefill[$this->itemname.'_text'] = $lastanswer;
+                } else {
+                    $prefill[$this->itemname.'_other'] = 0;
+                    if ($fromdb->verified) { // If the answer was validated
                         $prefill[$this->itemname.'_text'] = '';
+                    } else {
+                        list($othervalue, $otherlabel) = $this->item_get_other();
+                        $prefill[$this->itemname.'_text'] = $othervalue;
                     }
                 }
             }
