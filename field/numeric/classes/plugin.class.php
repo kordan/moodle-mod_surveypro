@@ -28,90 +28,82 @@ require_once($CFG->dirroot.'/mod/surveypro/field/numeric/lib.php');
 class mod_surveypro_field_numeric extends mod_surveypro_itembase {
 
     /**
-     * $content = the text content of the item.
+     * Item content stuff.
      */
     public $content = '';
-
-    /**
-     * $contenttrust
-     */
     public $contenttrust = 1;
-
-    /**
-     * public $contentformat = '';
-     */
     public $contentformat = '';
 
     /**
      * $customnumber = the custom number of the item.
      * It usually is 1. 1.1, a, 2.1.a...
      */
-    public $customnumber = '';
+    protected $customnumber;
 
     /**
      * $position = where does the question go?
      */
-    public $position = SURVEYPRO_POSITIONLEFT;
+    protected $position;
 
     /**
      * $extranote = an optional text describing the item
      */
-    public $extranote = '';
+    protected $extranote;
 
     /**
      * $required = boolean. O == optional item; 1 == mandatory item
      */
-    public $required = 0;
+    protected $required;
 
     /**
      * $hideinstructions = boolean. Exceptionally hide filling instructions
      */
-    public $hideinstructions = 0;
+    protected $hideinstructions;
 
     /**
      * $variable = the name of the field storing data in the db table
      */
-    public $variable = '';
+    protected $variable;
 
     /**
      * $indent = the indent of the item in the form page
      */
-    public $indent = 0;
+    protected $indent;
 
     /**
      * $defaultvalue = the value of the field when the form is initially displayed.
      */
-    public $defaultvalue = '';
+    protected $defaultvalue;
 
     /**
      * $decimalseparator
      */
-    public $decimalseparator = '.';
+    protected $decimalseparator;
 
     /**
      * $signed = will be, the expected number, signed
      */
-    public $signed = 0;
+    protected $signed;
 
     /**
      * $lowerbound = the minimun allowed value
      */
-    public $lowerbound = '';
+    protected $lowerbound;
 
     /**
      * $upperbound = the maximum allowed value
      */
-    public $upperbound = '';
+    protected $upperbound;
 
     /**
      * $decimals = number of decimals allowed for this number
      */
-    public $decimals = 0;
+    protected $decimals;
 
     /**
      * static canbeparent
      */
-    public static $canbeparent = false;
+    protected static $canbeparent = false;
 
     /**
      * Class constructor
@@ -120,7 +112,7 @@ class mod_surveypro_field_numeric extends mod_surveypro_itembase {
      *
      * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
-     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
+     * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
@@ -128,7 +120,7 @@ class mod_surveypro_field_numeric extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'numeric';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // It is already true from parent class.
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // Already set in parent class.
         $this->savepositiontodb = false;
 
         // Other element specific properties.
@@ -149,7 +141,7 @@ class mod_surveypro_field_numeric extends mod_surveypro_itembase {
      * item_load
      *
      * @param $itemid
-     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
+     * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
      * @return
      */
     public function item_load($itemid, $evaluateparentcontent) {
@@ -360,8 +352,14 @@ EOS;
 
         $idprefix = 'id_surveypro_field_numeric_'.$this->sortindex;
 
+        $attributes = array('class' => 'indent-'.$this->indent, 'id' => $idprefix);
+
+        // Cool for browsers supporting html 5.
+        // $attributes['type'] = 'number';
+        // But it doesn't work because "type" property is reserved to mform library
+
         if (!$searchform) {
-            $mform->addElement('text', $this->itemname, $elementlabel, array('class' => 'indent-'.$this->indent, 'id' => $idprefix));
+            $mform->addElement('text', $this->itemname, $elementlabel, $attributes);
             $mform->setType($this->itemname, PARAM_RAW); // See: moodlelib.php lines 133+.
             if (strlen($this->defaultvalue)) {
                 $mform->setDefault($this->itemname, "$this->defaultvalue");
@@ -377,7 +375,6 @@ EOS;
             }
         } else {
             $elementgroup = array();
-            $attributes = array('class' => 'indent-'.$this->indent, 'id' => $idprefix);
             $elementgroup[] = $mform->createElement('text', $this->itemname, '', $attributes);
             $attributes = array('id' => $idprefix.'_ignoreme');
             $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'mod_surveypro'), $attributes);
@@ -547,7 +544,7 @@ EOS;
 
         if (!$searchform) {
             if (strlen($answer['mainelement']) == 0) {
-                $olduseranswer->content = SURVEYPRO_NOANSWERVALUE;
+                $olduseranswer->content = null;
             } else {
                 $userinput = unformat_float($answer['mainelement'], true);
                 $olduseranswer->content = round($userinput, $this->decimals);
@@ -576,10 +573,15 @@ EOS;
             return $prefill;
         }
 
-        if ($fromdb->content == SURVEYPRO_NOANSWERVALUE) {
-            $prefill[$this->itemname] = '';
-        } else {
-            $prefill[$this->itemname] = number_format((double)$fromdb->content, $this->decimals, $this->decimalseparator, '');
+        if (isset($fromdb->content)) {
+            // If it is a number, write it using number_format otherwise simply write it.
+            $matches = $this->item_atomize_number($fromdb->content);
+            if (empty($matches)) {
+                // It is not a number.
+                $prefill[$this->itemname] = $fromdb->content;
+            } else {
+                $prefill[$this->itemname] = number_format((double)$fromdb->content, $this->decimals, $this->decimalseparator, '');
+            }
         }
 
         return $prefill;

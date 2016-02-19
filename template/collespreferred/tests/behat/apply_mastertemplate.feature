@@ -24,6 +24,6 @@ Feature: apply COLLES (Preferred) mastertemplate
   Scenario: apply COLLES (Preferred) master template
     When I follow "To apply COLLES (Preferred)"
     And I set the field "Master templates" to "COLLES (Preferred)"
-    And I press "Create"
+    And I press "Apply"
     Then I should see "In this online unit"
     Then I should see "my learning focuses on issues that interest me"

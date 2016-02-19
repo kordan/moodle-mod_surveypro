@@ -24,6 +24,8 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/mtemplate.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/mtemplates/apply_form.php');
 
@@ -87,13 +89,12 @@ navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
-$moduletab = SURVEYPRO_TABMTEMPLATES; // Needed by tabs.php.
-$modulepage = SURVEYPRO_MTEMPLATES_APPLY; // Needed by tabs.php.
-require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
+$tabman = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABMTEMPLATES, SURVEYPRO_MTEMPLATES_APPLY);
 
 $mtemplateman->friendly_stop();
 
-if (surveypro_count_submissions($surveypro->id, SURVEYPRO_STATUSALL)) {
+$utilityman = new mod_surveypro_utility($cm, $surveypro);
+if ($utilityman->has_submissions()) {
     echo $OUTPUT->notification(get_string('hassubmissions_alert', 'mod_surveypro'), 'notifymessage');
 }
 

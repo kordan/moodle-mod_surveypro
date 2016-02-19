@@ -28,82 +28,74 @@ require_once($CFG->dirroot.'/mod/surveypro/field/character/lib.php');
 class mod_surveypro_field_character extends mod_surveypro_itembase {
 
     /**
-     * $content = the text content of the item.
+     * Item content stuff.
      */
     public $content = '';
-
-    /**
-     * $contenttrust
-     */
     public $contenttrust = 1;
-
-    /**
-     * public $contentformat = '';
-     */
     public $contentformat = '';
 
     /**
      * $customnumber = the custom number of the item.
      * It usually is 1. 1.1, a, 2.1.a...
      */
-    public $customnumber = '';
+    protected $customnumber;
 
     /**
      * $position = where does the question go?
      */
-    public $position = SURVEYPRO_POSITIONLEFT;
+    protected $position;
 
     /**
      * $extranote = an optional text describing the item
      */
-    public $extranote = '';
+    protected $extranote;
 
     /**
      * $required = boolean. O == optional item; 1 == mandatory item
      */
-    public $required = 0;
+    protected $required;
 
     /**
      * $hideinstructions = boolean. Exceptionally hide filling instructions
      */
-    public $hideinstructions = 0;
+    protected $hideinstructions;
 
     /**
      * $variable = the name of the field storing data in the db table
      */
-    public $variable = '';
+    protected $variable;
 
     /**
      * $indent = the indent of the item in the form page
      */
-    public $indent = 0;
+    protected $indent;
 
     /**
      * $defaultvalue = the value of the field when the form is initially displayed.
      */
-    public $defaultvalue = '';
+    protected $defaultvalue;
 
     /**
      * $pattern = a string defining which character is expected in each position of the incoming string
      * [a regular expression?]
      */
-    public $pattern = '';
-    public $pattern_text = '';
+    protected $pattern;
+    protected $pattern_text;
 
     /**
      * $minlength = the minimum allowed length
      */
-    public $minlength = '0';
+    protected $minlength;
 
     /**
      * $maxlength = the maximum allowed length
      */
-    public $maxlength = null;
+    protected $maxlength;
 
     /**
      * static canbeparent
      */
-    public static $canbeparent = false;
+    protected static $canbeparent = false;
 
     /**
      * Class constructor
@@ -112,7 +104,7 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
      *
      * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
-     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
+     * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
@@ -120,7 +112,7 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'character';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // It is already true from parent class.
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // Already set in parent class.
         $this->savepositiontodb = false;
 
         // Other element specific properties.
@@ -141,7 +133,7 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
      * item_load
      *
      * @param $itemid
-     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
+     * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
      * @return
      */
     public function item_load($itemid, $evaluateparentcontent) {
@@ -349,6 +341,14 @@ EOS;
         $thresholdsize = 37;
         $lengthtochar = 1.3;
         $attributes = array('class' => 'indent-'.$this->indent, 'id' => $idprefix);
+        // Cool for browsers supporting html 5.
+        // if ($this->pattern == SURVEYPROFIELD_CHARACTER_EMAILPATTERN) {
+        //     $attributes['type'] = 'email';
+        // }
+        // if ($this->pattern == SURVEYPROFIELD_CHARACTER_URLPATTERN) {
+        //     $attributes['type'] = 'url';
+        // }
+        // But it doesn't work because "type" property is reserved to mform library
         if (!empty($this->maxlength)) {
             $attributes['maxlength'] = $this->maxlength;
             if ($this->maxlength < $thresholdsize) {
@@ -412,14 +412,14 @@ EOS;
         }
 
         if (!empty($data[$this->itemname])) {
-            $fieldlength = strlen($data[$this->itemname]);
+            $answerlength = strlen($data[$this->itemname]);
             if (!empty($this->minlength)) {
-                if ($fieldlength < $this->minlength) {
+                if ($answerlength < $this->minlength) {
                     $errors[$errorkey] = get_string('uerr_texttooshort', 'surveyprofield_character');
                 }
             }
             if (!empty($this->maxlength)) {
-                if ($fieldlength > $this->maxlength) {
+                if ($answerlength > $this->maxlength) {
                     $errors[$errorkey] = get_string('uerr_texttoolong', 'surveyprofield_character');
                 }
             }
@@ -444,7 +444,7 @@ EOS;
                         // "*" UPPER case, LOWER case or any special characters like '@', ',', '%', '5', ' ' or whatever.
                         // "0" numbers.
 
-                        if ($fieldlength != strlen($this->pattern_text)) {
+                        if ($answerlength != strlen($this->pattern_text)) {
                             $errors[$errorkey] = get_string('uerr_badlength', 'surveyprofield_character');
                         }
 
@@ -537,7 +537,7 @@ EOS;
         }
 
         if (strlen($answer['mainelement']) == 0) {
-            $olduseranswer->content = SURVEYPRO_NOANSWERVALUE;
+            $olduseranswer->content = null;
         } else {
             $olduseranswer->content = $answer['mainelement'];
         }
@@ -559,10 +559,12 @@ EOS;
             return $prefill;
         }
 
-        if ($fromdb->content == SURVEYPRO_NOANSWERVALUE) {
-            $prefill[$this->itemname] = '';
-        } else {
-            $prefill[$this->itemname] = $fromdb->content;
+        if (isset($fromdb->content)) {
+            if ($fromdb->content == SURVEYPRO_NOANSWERVALUE) {
+                $prefill[$this->itemname] = '';
+            } else {
+                $prefill[$this->itemname] = $fromdb->content;
+            }
         }
 
         return $prefill;

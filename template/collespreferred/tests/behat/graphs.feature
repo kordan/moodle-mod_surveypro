@@ -26,7 +26,7 @@ Feature: apply a COLLES (preferred) mastertemplate to test graphs
   Scenario: apply COLLES (Preferred) master template, add a record and call reports
     When I follow "Run COLLES report"
     And I set the field "Master templates" to "COLLES (Preferred)"
-    And I press "Create"
+    And I press "Apply"
     Then I should see "In this online unit"
     Then I should see "my learning focuses on issues that interest me."
 

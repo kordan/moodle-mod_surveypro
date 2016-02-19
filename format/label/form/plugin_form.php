@@ -42,12 +42,11 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
 
         // Get _customdata.
         $item = $this->_customdata->item;
-        // $cm = $this->_customdata->cm;
         // $surveypro = $this->_customdata->surveypro;
 
         // Here I open a new fieldset.
         $fieldname = 'specializations';
-        $typename = get_string('pluginname', 'surveyproformat_'.$item->plugin);
+        $typename = get_string('pluginname', 'surveyproformat_'.$item->get_plugin());
         $mform->addElement('header', $fieldname, get_string($fieldname, 'mod_surveypro', $typename));
 
         // Item: fullwidth.

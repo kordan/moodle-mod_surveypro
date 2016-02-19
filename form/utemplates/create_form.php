@@ -66,14 +66,13 @@ class mod_surveypro_utemplatecreateform extends moodleform {
         $fieldname = 'sharinglevel';
         $options = array();
 
-        $options = $utemplateman->get_sharinglevel_options($cmid, $surveypro);
+        $options = $utemplateman->get_sharinglevel_options();
 
         $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $options);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
         $mform->setDefault($fieldname, CONTEXT_SYSTEM);
 
-        // Buttons.
-        $this->add_action_buttons(false, get_string('continue'));
+        $this->add_action_buttons(false, get_string('save', 'mod_surveypro'));
     }
 
     /*

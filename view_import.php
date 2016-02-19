@@ -24,6 +24,7 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/view_import.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/data/import_form.php');
 
@@ -61,7 +62,7 @@ $importform = new mod_surveypro_importform($formurl);
 if ($importman->formdata = $importform->get_data()) {
     $importman->import_csv();
 
-    $redirecturl = new moodle_url('/mod/surveypro/view.php', array('s' => $surveypro->id, 'cover' => 0));
+    $redirecturl = new moodle_url('/mod/surveypro/view.php', array('s' => $surveypro->id));
     redirect($redirecturl);
 }
 // End of: manage form submission.
@@ -75,9 +76,7 @@ $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
 
-$moduletab = SURVEYPRO_TABSUBMISSIONS; // Needed by tabs.php.
-$modulepage = SURVEYPRO_SUBMISSION_IMPORT; // Needed by tabs.php.
-require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
+$tabman = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_IMPORT);
 
 $importman->welcome_message();
 $importform->display();

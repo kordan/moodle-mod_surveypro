@@ -106,7 +106,7 @@ unknown</rates>
       <advanced>0</advanced>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default is set to a valid value&lt;/li&gt;&lt;li&gt;element style is set to "radio buttons"&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to a valid value so the user can "fly"  over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default is set to a valid value&lt;/li&gt;&lt;li&gt;element style is set to "radio buttons"&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to a valid value so the user can "fly"  over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>3 intro</customnumber>
       <indent>0</indent>
@@ -153,7 +153,7 @@ mother tongue</defaultvalue>
       <advanced>0</advanced>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;the default is set to a valid value&lt;/li&gt;&lt;li&gt;element style is set to "radio buttons"&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can "fly"  over this element leaving the proposed default untouched (and the question not read) or tick the "No answer" checkbox.&lt;/p&gt;</content>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;the default is set to a valid value&lt;/li&gt;&lt;li&gt;element style is set to "radio buttons"&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can "fly"  over this element leaving the proposed default untouched (and the question not read) or tick the "No answer" checkbox.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>4 intro</customnumber>
       <indent>0</indent>
@@ -329,7 +329,7 @@ unknown</rates>
       <advanced>0</advanced>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default is set to a valid value&lt;/li&gt;&lt;li&gt;element style is set to "drop down menu"&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to a valid value so the user can "fly"  over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default is set to a valid value&lt;/li&gt;&lt;li&gt;element style is set to "drop down menu"&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to a valid value so the user can "fly"  over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>8 intro</customnumber>
       <indent>0</indent>
@@ -376,7 +376,7 @@ mother tongue</defaultvalue>
       <advanced>0</advanced>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;the default is set to a valid value&lt;/li&gt;&lt;li&gt;element style is set to "drop down menu"&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can "fly"  over this element leaving the proposed default untouched (and the question not read) or tick the "No answer" checkbox.&lt;/p&gt;</content>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;the default is set to a valid value&lt;/li&gt;&lt;li&gt;element style is set to "drop down menu"&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can "fly"  over this element leaving the proposed default untouched (and the question not read) or tick the "No answer" checkbox.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>9 intro</customnumber>
       <indent>0</indent>

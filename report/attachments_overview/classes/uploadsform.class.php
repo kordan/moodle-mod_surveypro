@@ -29,29 +29,16 @@ require_once($CFG->dirroot.'/mod/surveypro/field/fileupload/lib.php');
  */
 class mod_surveypro_report_uploadformmanager {
     /**
-     * $cm
+     * Basic necessary essential ingredients
      */
-    public $cm = null;
-
-    /**
-     * $context
-     */
-    public $context = null;
-
-    /**
-     * $surveypro: the record of this surveypro
-     */
-    public $surveypro = null;
+    protected $cm;
+    protected $context;
+    protected $surveypro;
 
     /**
      * $submissionid: the ID of the saved surbey_submission
      */
     public $submissionid = 0;
-
-    /**
-     * $canaccessadvanceditems
-     */
-    public $canaccessadvanceditems = false;
 
     /**
      * $formdata: the form content as submitted by the user
@@ -72,9 +59,6 @@ class mod_surveypro_report_uploadformmanager {
         $this->cm = $cm;
         $this->context = $context;
         $this->surveypro = $surveypro;
-
-        // $this->canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
-        $this->canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $this->context, null, true);
     }
 
     // MARK set

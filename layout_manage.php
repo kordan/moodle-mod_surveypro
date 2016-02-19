@@ -24,6 +24,7 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/itemlist.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/items/selectitem_form.php');
 
@@ -53,7 +54,7 @@ $lastitembefore = optional_param('lib', 0, PARAM_INT);
 $confirm = optional_param('cnf', SURVEYPRO_UNCONFIRMED, PARAM_INT);
 $nextindent = optional_param('ind', 0, PARAM_INT);
 $parentid = optional_param('pid', 0, PARAM_INT);
-$userfeedbackmask = optional_param('ufd', SURVEYPRO_NOFEEDBACK, PARAM_INT);
+$savefeedbackmask = optional_param('ufd', SURVEYPRO_NOFEEDBACK, PARAM_INT);
 $saveasnew = optional_param('saveasnew', null, PARAM_TEXT);
 
 if ($action != SURVEYPRO_NOACTION) {
@@ -113,14 +114,14 @@ $itemlistman->set_lastitembefore($lastitembefore);
 $itemlistman->set_confirm($confirm);
 $itemlistman->set_nextindent($nextindent);
 $itemlistman->set_parentid($parentid);
-$itemlistman->set_userfeedbackmask($userfeedbackmask);
+$itemlistman->set_savefeedbackmask($savefeedbackmask);
 $itemlistman->set_saveasnew($saveasnew);
 
 // I need to execute this method before the page load because it modifies TAB elements
 $itemlistman->drop_multilang();
 
 // Output starts here.
-$url = new moodle_url('/mod/surveypro/items_manage.php', array('s' => $surveypro->id));
+$url = new moodle_url('/mod/surveypro/layout_manage.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -132,15 +133,13 @@ navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
-$moduletab = SURVEYPRO_TABITEMS; // Needed by tabs.php.
-$modulepage = SURVEYPRO_ITEMS_MANAGE; // Needed by tabs.php.
-require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
+$tabman = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABITEMS, SURVEYPRO_ITEMS_MANAGE);
 
 $itemlistman->manage_actions();
 
 $itemlistman->display_user_feedback();
 
-if ($itemlistman->hassubmissions) {
+if ($itemlistman->get_hassubmissions()) {
     echo $OUTPUT->notification(get_string('hassubmissions_alert', 'mod_surveypro'), 'notifymessage');
 }
 
@@ -153,13 +152,13 @@ if (!$itemcount) {
 }
 
 // Add item form.
-if (!$itemlistman->surveypro->template) {
+if (!$surveypro->template) {
     $riskyediting = ($surveypro->riskyeditdeadline > time());
 
-    if (!$itemlistman->hassubmissions || $riskyediting) {
+    if (!$itemlistman->get_hassubmissions() || $riskyediting) {
         if (has_capability('mod/surveypro:additems', $context)) {
             $paramurl = array('id' => $cm->id);
-            $formurl = new moodle_url('/mod/surveypro/items_setup.php', $paramurl);
+            $formurl = new moodle_url('/mod/surveypro/layout_itemsetup.php', $paramurl);
 
             $itemtype = new mod_surveypro_itemtypeform($formurl);
             $itemtype->display();

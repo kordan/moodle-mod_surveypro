@@ -56,7 +56,7 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
     public function setup_outputtable() {
         $this->outputtable = new flexible_table('attachmentslist');
 
-        $paramurl = array('id' => $this->cm->id, 'cover' => 0);
+        $paramurl = array('id' => $this->cm->id);
         $baseurl = new moodle_url('/mod/surveypro/report/attachments_overview/view.php', $paramurl);
         $this->outputtable->define_baseurl($baseurl);
 
@@ -146,7 +146,7 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
             $tablerow[] = $OUTPUT->user_picture($usersubmission, array('courseid' => $COURSE->id));
 
             // User fullname.
-            $paramurl = array('id' => $usersubmission->id, 'cover' => 0);
+            $paramurl = array('id' => $usersubmission->id);
             $url = new moodle_url('/user/view.php', $paramurl);
             $tablerow[] = '<a href="'.$url->out().'">'.fullname($usersubmission).'</a>';
 

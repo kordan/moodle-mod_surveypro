@@ -32,16 +32,6 @@ require_once($CFG->dirroot.'/mod/surveypro/classes/reportbase.class.php');
 
 class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     /**
-     * canaccessreports
-     */
-    public $canaccessreports;
-
-    /**
-     * canaccessownreports
-     */
-    public $canaccessownreports;
-
-    /**
      * template
      */
     public $template;
@@ -125,8 +115,6 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
         parent::__construct($cm, $context, $surveypro);
 
         $this->template = $DB->get_field('surveypro', 'template', array('id' => $this->surveypro->id));
-        $this->canaccessreports = has_capability('mod/surveypro:accessreports', $context, null, true);
-        $this->canaccessownreports = has_capability('mod/surveypro:accessownreports', $context, null, true);
 
         // Which plugin has been used to build this master template? Radiobutton or select?
         $guessplugin = array('radiobutton', 'select');
@@ -218,9 +206,9 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
      * @return none
      */
     public function output_html($nexturl, $graphurl, $altkey) {
-        static $strseemoredetail;
+        static $strseemoredetail; // Cache the string for the next future
 
-        if (empty($strseemoredetail)) {     // Cache the string for the next future
+        if (empty($strseemoredetail)) {
             $strseemoredetail = get_string('seemoredetail', 'surveyproreport_colles');
         }
 
@@ -305,7 +293,9 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
      * @return none
      */
     public function output_summarydata() {
-        if ($this->canaccessreports) {
+        $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context, null, true);
+
+        if ($canaccessreports) {
             $paramnexturl = array();
             $paramnexturl['s'] = $this->surveypro->id;
             $paramnexturl['type'] = 'scales';
@@ -323,6 +313,8 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
         $graphurl = new moodle_url('/mod/surveypro/report/colles/graph.php', $paramurl);
 
         $this->output_html($nexturl, $graphurl, 'summaryreport');
+        // To debug a graph, open o new broser window and go to:
+        // http://localhost/head/mod/surveypro/report/colles/graph.php?id=xxx&type=yyy
     }
 
     /**
@@ -334,6 +326,8 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     public function fetch_summarydata() {
         global $DB, $USER;
 
+        $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context, null, true);
+        $canaccessownreports = has_capability('mod/surveypro:accessownreports', $this->context, null, true);
         $this->graphtitle = get_string('summary', 'surveyproreport_colles');
 
         // Begin of: names of areas of investigation.
@@ -393,7 +387,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
             }
         }
 
-        if (!$this->canaccessreports && $this->canaccessownreports) { // If the user hasn't general right but only canaccessownreports.
+        if (!$canaccessreports && $canaccessownreports) { // If the user hasn't general right but only canaccessownreports.
             $whereparams = array('userid' => $USER->id);
 
             foreach ($toevaluate as $k => $qidarea) {

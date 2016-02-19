@@ -22,29 +22,18 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
+
 /**
  * The base class representing a field
  */
 class mod_surveypro_reportbase {
     /**
-     * cm
+     * Basic necessary essential ingredients
      */
-    public $cm = null;
-
-    /**
-     * $context
-     */
-    public $context = null;
-
-    /**
-     * $surveypro: the record of this surveypro
-     */
-    public $surveypro = null;
-
-    /**
-     * $hassubmissions: the record of this surveypro
-     */
-    public $hassubmissions = false;
+    protected $cm;
+    protected $context;
+    protected $surveypro;
 
     /**
      * Class constructor
@@ -92,7 +81,8 @@ class mod_surveypro_reportbase {
     public function check_submissions() {
         global $OUTPUT;
 
-        $hassubmissions = surveypro_count_submissions($this->surveypro->id);
+        $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+        $hassubmissions = $utilityman->has_submissions();
         if (!$hassubmissions) {
             $message = get_string('nosubmissionfound', 'mod_surveypro');
             echo $OUTPUT->box($message, 'notice centerpara');

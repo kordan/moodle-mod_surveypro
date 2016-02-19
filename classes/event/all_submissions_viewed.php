@@ -62,7 +62,6 @@ class all_submissions_viewed extends \core\event\base {
     public function get_url() {
         $paramurl = array();
         $paramurl['id'] = $this->contextinstanceid;
-        $paramurl['cover'] = $this->other['cover'];
         return new \moodle_url('/mod/surveypro/view.php', $paramurl);
     }
 
@@ -99,17 +98,5 @@ class all_submissions_viewed extends \core\event\base {
         $data->id = $this->objectid;
         $data->userid = $this->relateduserid;
         return $data; */
-    }
-
-    /**
-     * Custom validation.
-     *
-     * @throws \coding_exception
-     * @return none
-     */
-    protected function validate_data() {
-        if (!isset($this->other['cover'])) {
-            throw new \coding_exception('cover is a mandatory property.');
-        }
     }
 }

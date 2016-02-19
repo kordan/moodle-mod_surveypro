@@ -17,27 +17,25 @@ Feature: Validate creation and submit for "character" elements using the princip
       | user     | course         | role            |
       | teacher1 | Character item | editingteacher |
       | student1 | Character item | student        |
+    And the following "activities" exist:
+      | activity  | name           | intro              | course         | idnumber   |
+      | surveypro | Surveypro test | For testing backup | Character item | surveypro1 |
     And I log in as "teacher1"
+    And I follow "Test submission for character item"
+    And I follow "Surveypro test"
+    And I set the field "typeplugin" to "Text (short)"
+    And I press "Add"
+    And I expand all fieldsets
 
   @javascript
   Scenario: test character element with the following settings: 0; email address; empty
       # required:                       0
       # Text pattern:                   email address
       # Minimum length (in characters): empty
-    Given the following "activities" exist:
-      | activity  | name           | intro              | course         | idnumber   |
-      | surveypro | Surveypro test | For testing backup | Character item | surveypro1 |
-    And I follow "Test submission for character item"
-    And I follow "Surveypro test"
-
-    And I set the field "typeplugin" to "Text (short)"
-    And I press "Add"
-
-    And I expand all fieldsets
-    And I set the following fields to these values:
-      | Content                        | Write down your email |
-      | Required                       | 0                     |
-      | id_pattern                     | email address         |
+    Given I set the following fields to these values:
+      | Content    | Write down your email |
+      | Required   | 0                     |
+      | id_pattern | email address         |
     And I press "Add"
 
     And I log out
@@ -68,17 +66,7 @@ Feature: Validate creation and submit for "character" elements using the princip
       # required:                       0
       # Text pattern:                   email address
       # Minimum length (in characters): 20
-    Given the following "activities" exist:
-      | activity  | name           | intro              | course         | idnumber   |
-      | surveypro | Surveypro test | For testing backup | Character item | surveypro1 |
-    And I follow "Test submission for character item"
-    And I follow "Surveypro test"
-
-    And I set the field "typeplugin" to "Text (short)"
-    And I press "Add"
-
-    And I expand all fieldsets
-    And I set the following fields to these values:
+    Given I set the following fields to these values:
       | Content                        | Write down your email |
       | Required                       | 0                     |
       | id_pattern                     | email address         |

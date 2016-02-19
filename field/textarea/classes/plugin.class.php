@@ -28,85 +28,77 @@ require_once($CFG->dirroot.'/mod/surveypro/field/textarea/lib.php');
 class mod_surveypro_field_textarea extends mod_surveypro_itembase {
 
     /**
-     * $content = the text content of the item.
+     * Item content stuff.
      */
     public $content = '';
-
-    /**
-     * $contenttrust
-     */
     public $contenttrust = 1;
-
-    /**
-     * public $contentformat = '';
-     */
     public $contentformat = '';
 
     /**
      * $customnumber = the custom number of the item.
      * It usually is 1. 1.1, a, 2.1.a...
      */
-    public $customnumber = '';
+    protected $customnumber;
 
     /**
      * $position = where does the question go?
      */
-    public $position = SURVEYPRO_POSITIONLEFT;
+    protected $position;
 
     /**
      * $extranote = an optional text describing the item
      */
-    public $extranote = '';
+    protected $extranote;
 
     /**
      * $required = boolean. O == optional item; 1 == mandatory item
      */
-    public $required = 0;
+    protected $required;
 
     /**
      * $hideinstructions = boolean. Exceptionally hide filling instructions
      */
-    public $hideinstructions = 0;
+    protected $hideinstructions;
 
     /**
      * $variable = the name of the field storing data in the db table
      */
-    public $variable = '';
+    protected $variable;
 
     /**
      * $indent = the indent of the item in the form page
      */
-    public $indent = 0;
+    protected $indent;
 
     /**
      * $useeditor = does the item use html editor?.
      */
-    public $useeditor = true;
+    protected $useeditor;
 
     /**
      * $arearows = number or rows of the text area?
      */
-    public $arearows = 10;
+    protected $arearows;
 
     /**
      * $areacols = number or columns of the text area?
      */
-    public $areacols = 60;
+    protected $areacols;
 
     /**
      * $minlength = the minimum allowed text length
      */
-    public $minlength = '0';
+    protected $minlength;
 
     /**
      * $maxlength = the maximum allowed text length
      */
-    public $maxlength = null;
+    protected $maxlength;
 
     /**
      * static canbeparent
      */
-    public static $canbeparent = false;
+    protected static $canbeparent = false;
 
     /**
      * Class constructor
@@ -115,7 +107,7 @@ class mod_surveypro_field_textarea extends mod_surveypro_itembase {
      *
      * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
-     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
+     * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
@@ -123,7 +115,7 @@ class mod_surveypro_field_textarea extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'textarea';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // It is already true from parent class.
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // Already set in parent class.
         $this->savepositiontodb = false;
 
         // Other element specific properties.
@@ -133,7 +125,7 @@ class mod_surveypro_field_textarea extends mod_surveypro_itembase {
         // No properties here.
 
         // List of fields I do not want to have in the item definition form.
-        $this->isinitemform['insearchform'] = false;
+        $this->insetupform['insearchform'] = false;
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $evaluateparentcontent);
@@ -144,7 +136,7 @@ class mod_surveypro_field_textarea extends mod_surveypro_itembase {
      * item_load
      *
      * @param $itemid
-     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
+     * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
      * @return
      */
     public function item_load($itemid, $evaluateparentcontent) {
@@ -319,8 +311,8 @@ EOS;
      * @return
      */
     public function userform_mform_element($mform, $searchform, $readonly=false, $submissionid=0) {
-        // This plugin has $this->isinitemform['insearchform'] = false; so it will never be part of a search form.
-        // TODO: make $this->isinitemform['insearchform'] = true;
+        // This plugin has $this->insetupform['insearchform'] = false; so it will never be part of a search form.
+        // TODO: make $this->insetupform['insearchform'] = true;
 
         $labelsep = get_string('labelsep', 'langconfig'); // ': '
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
@@ -442,10 +434,11 @@ EOS;
      */
     public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
         if (!empty($this->useeditor)) {
+            $context = context_module::instance($this->cm->id);
             $olduseranswer->{$this->itemname.'_editor'} = $answer['editor'];
 
-            $editoroptions = array('trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $this->context);
-            $olduseranswer = file_postupdate_standard_editor($olduseranswer, $this->itemname, $editoroptions, $this->context,
+            $editoroptions = array('trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $context);
+            $olduseranswer = file_postupdate_standard_editor($olduseranswer, $this->itemname, $editoroptions, $context,
                     'mod_surveypro', SURVEYPROFIELD_TEXTAREA_FILEAREA, $olduseranswer->id);
             $olduseranswer->content = $olduseranswer->{$this->itemname};
             $olduseranswer->contentformat = FORMAT_HTML;
@@ -472,9 +465,11 @@ EOS;
 
         if (isset($fromdb->content)) {
             if (!empty($this->useeditor)) {
-                $editoroptions = array('trusttext' => true, 'subdirs' => true, 'maxfiles' => EDITOR_UNLIMITED_FILES, 'context' => $this->context);
+                $context = context_module::instance($this->cm->id);
+
+                $editoroptions = array('trusttext' => true, 'subdirs' => true, 'maxfiles' => EDITOR_UNLIMITED_FILES, 'context' => $context);
                 $fromdb->contentformat = FORMAT_HTML;
-                $fromdb = file_prepare_standard_editor($fromdb, 'content', $editoroptions, $this->context, 'mod_surveypro', SURVEYPROFIELD_TEXTAREA_FILEAREA, $fromdb->id);
+                $fromdb = file_prepare_standard_editor($fromdb, 'content', $editoroptions, $context, 'mod_surveypro', SURVEYPROFIELD_TEXTAREA_FILEAREA, $fromdb->id);
 
                 $prefill[$this->itemname.'_editor'] = $fromdb->content_editor;
             } else {

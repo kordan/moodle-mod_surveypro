@@ -24,6 +24,6 @@ Feature: apply COLLES (Actual) mastertemplate
   Scenario: apply COLLES (Actual) master template
     When I follow "To apply COLLES (Actual)"
     And I set the field "Master templates" to "COLLES (Actual)"
-    And I press "Create"
+    And I press "Apply"
     Then I should see "In this online unit"
     Then I should see "my learning focuses on issues that interest me"

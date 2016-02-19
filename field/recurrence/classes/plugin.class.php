@@ -28,91 +28,83 @@ require_once($CFG->dirroot.'/mod/surveypro/field/recurrence/lib.php');
 class mod_surveypro_field_recurrence extends mod_surveypro_itembase {
 
     /**
-     * $content = the text content of the item.
+     * Item content stuff.
      */
     public $content = '';
-
-    /**
-     * $contenttrust
-     */
     public $contenttrust = 1;
-
-    /**
-     * public $contentformat = '';
-     */
     public $contentformat = '';
 
     /**
      * $customnumber = the custom number of the item.
      * It usually is 1. 1.1, a, 2.1.a...
      */
-    public $customnumber = '';
+    protected $customnumber;
 
     /**
      * $position = where does the question go?
      */
-    public $position = SURVEYPRO_POSITIONLEFT;
+    protected $position;
 
     /**
      * $extranote = an optional text describing the item
      */
-    public $extranote = '';
+    protected $extranote;
 
     /**
      * $required = boolean. O == optional item; 1 == mandatory item
      */
-    public $required = 0;
+    protected $required;
 
     /**
      * $hideinstructions = boolean. Exceptionally hide filling instructions
      */
-    public $hideinstructions = 0;
+    protected $hideinstructions;
 
     /**
      * $variable = the name of the field storing data in the db table
      */
-    public $variable = '';
+    protected $variable;
 
     /**
      * $indent = the indent of the item in the form page
      */
-    public $indent = 0;
+    protected $indent;
 
     /**
      * $defaultoption = the value of the field when the form is initially displayed.
      */
-    public $defaultoption = SURVEYPRO_INVITEDEFAULT;
+    protected $defaultoption;
 
     /**
      * $downloadformat = the format of the content once downloaded
      */
-    public $downloadformat = null;
+    protected $downloadformat;
 
     /**
      * $defaultvalue = the value of the field when the form is initially displayed.
      */
-    public $defaultvalue = 0;
-    public $defaultvalue_month = null;
-    public $defaultvalue_day = null;
+    protected $defaultvalue;
+    protected $defaultvalue_month;
+    protected $defaultvalue_day;
 
     /**
      * $lowerbound = the minimum allowed recurrence
      */
-    public $lowerbound = 0;
-    public $lowerbound_month = null;
-    public $lowerbound_day = null;
+    protected $lowerbound;
+    protected $lowerbound_month;
+    protected $lowerbound_day;
 
     /**
      * $upperbound = the maximum allowed recurrence
      */
-    public $upperbound = 0;
-    public $upperbound_month = null;
-    public $upperbound_day = null;
+    protected $upperbound;
+    protected $upperbound_month;
+    protected $upperbound_day;
 
     /**
      * static canbeparent
      */
-    public static $canbeparent = false;
+    protected static $canbeparent = false;
 
     /**
      * Class constructor
@@ -121,7 +113,7 @@ class mod_surveypro_field_recurrence extends mod_surveypro_itembase {
      *
      * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
-     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
+     * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
@@ -129,7 +121,7 @@ class mod_surveypro_field_recurrence extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'recurrence';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // It is already true from parent class.
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // Already set in parent class.
         $this->savepositiontodb = false;
 
         // Other element specific properties.
@@ -152,7 +144,7 @@ class mod_surveypro_field_recurrence extends mod_surveypro_itembase {
      * item_load
      *
      * @param $itemid
-     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
+     * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
      * @return
      */
     public function item_load($itemid, $evaluateparentcontent) {
@@ -619,9 +611,13 @@ EOS;
             $olduseranswer->content = SURVEYPRO_NOANSWERVALUE;
         } else {
             if (!$searchform) {
-                $olduseranswer->content = $this->item_recurrence_to_unix_time($answer['month'], $answer['day']);
+                if (($answer['month'] == SURVEYPRO_INVITEVALUE) || ($answer['day'] == SURVEYPRO_INVITEVALUE)) {
+                    $olduseranswer->content = null;
+                } else {
+                    $olduseranswer->content = $this->item_recurrence_to_unix_time($answer['month'], $answer['day']);
+                }
             } else {
-                if ($answer['month'] == SURVEYPRO_IGNOREMEVALUE) {
+                if (($answer['month'] == SURVEYPRO_IGNOREMEVALUE) || ($answer['day'] == SURVEYPRO_IGNOREMEVALUE)) {
                     $olduseranswer->content = null;
                 } else {
                     $olduseranswer->content = $this->item_recurrence_to_unix_time($answer['month'], $answer['day']);

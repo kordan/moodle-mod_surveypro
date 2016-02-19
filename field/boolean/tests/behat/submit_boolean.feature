@@ -34,6 +34,7 @@ Feature: make a submission test for "boolean" item
       | Indent            | 0             |
       | Question position | left          |
       | Element number    | 4a            |
+      | Element style     | dropdown menu |
     And I press "Add"
 
     And I set the field "typeplugin" to "Boolean"

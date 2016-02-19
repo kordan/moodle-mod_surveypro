@@ -82,7 +82,6 @@ class mod_surveypro_applyutemplateform extends moodleform {
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveypro');
         $mform->setDefault($fieldname, SURVEYPRO_IGNOREITEMS);
 
-        // Buttons.
-        $this->add_action_buttons(true, get_string('continue'));
+        $this->add_action_buttons(true, get_string('apply', 'mod_surveypro'));
     }
 }

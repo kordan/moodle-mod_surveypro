@@ -47,6 +47,6 @@ class mod_surveypro_mtemplatecreateform extends moodleform {
         $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
         $mform->setType($fieldname, PARAM_FILE); // This word is going to be a file name.
 
-        $this->add_action_buttons(false, get_string('builplugin', 'mod_surveypro'));
+        $this->add_action_buttons(false, get_string('save', 'mod_surveypro'));
     }
 }

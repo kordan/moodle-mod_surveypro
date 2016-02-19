@@ -66,6 +66,7 @@ Feature: test students can see submissions from their groups only
       | Indent            | 0             |
       | Question position | left          |
       | Element number    | 2             |
+      | Element style     | dropdown menu |
     And I press "Add"
 
     And I log out

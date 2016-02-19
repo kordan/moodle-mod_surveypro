@@ -29,24 +29,24 @@ Feature: Load, apply and save a usertemplate in order to test, among others, use
     And I set the field "Sharing level" to "Course: To create usertemplate"
     And I press "Import"
 
-    # now I am in the "Manage" page
+    # now I am in the "Manage" page
     And I navigate to "Apply" node in "Surveypro administration > User templates"
 
-    # now I am in the "Apply" page
+    # now I am in the "Apply" page
     And I set the following fields to these values:
       | User templates       | (Course) MMM_2015123000.xml |
       | id_action_1          | 1                           |
-    And I press "Continue"
+    And I press "Apply"
 
     Then I should see "This is a demo survey to quickly see"
 
     And I navigate to "Save" node in "Surveypro administration > User templates"
 
-    # now I am in the "Create" page
+    # now I am in the "Create" page
     And I set the following fields to these values:
       | Template name | MMM user template              |
       | Sharing level | Course: To create usertemplate |
-    And I press "Continue"
+    And I press "Save"
 
     Then I should see "MMM_user_template.xml"
     And I log out

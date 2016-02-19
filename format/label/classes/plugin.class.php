@@ -28,45 +28,37 @@ require_once($CFG->dirroot.'/mod/surveypro/format/label/lib.php');
 class mod_surveypro_format_label extends mod_surveypro_itembase {
 
     /**
-     * $content = the text content of the item.
+     * Item content stuff.
      */
     public $content = '';
-
-    /**
-     * $contenttrust
-     */
     public $contenttrust = 1;
-
-    /**
-     * public $contentformat = '';
-     */
     public $contentformat = '';
 
     /**
      * $customnumber = the custom number of the item.
      * It usually is 1. 1.1, a, 2.1.a...
      */
-    public $customnumber = '';
+    protected $customnumber;
 
     /**
      * $fullwidth
      */
-    public $fullwidth = '';
+    protected $fullwidth;
 
     /**
      * $leftlabel = label on the left of the label content
      */
-    public $leftlabel = '';
+    protected $leftlabel;
 
     /**
      * $labelformat = the text format of the item.
      */
-    public $leftlabelformat = '';
+    protected $leftlabelformat;
 
     /**
      * static canbeparent
      */
-    public static $canbeparent = false;
+    protected static $canbeparent = false;
 
     /**
      * Class constructor
@@ -75,7 +67,7 @@ class mod_surveypro_format_label extends mod_surveypro_itembase {
      *
      * @param stdClass $cm
      * @param int $itemid. Optional surveypro_item ID
-     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
+     * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
      */
     public function __construct($cm, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $itemid, $evaluateparentcontent);
@@ -83,7 +75,7 @@ class mod_surveypro_format_label extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFORMAT;
         $this->plugin = 'label';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // It is already true from parent class.
+        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // Already set in parent class.
         $this->savepositiontodb = false;
 
         // Other element specific properties.
@@ -93,11 +85,11 @@ class mod_surveypro_format_label extends mod_surveypro_itembase {
         // No properties here.
 
         // List of fields I do not want to have in the item definition form.
-        $this->isinitemform['position'] = false;
-        $this->isinitemform['extranote'] = false;
-        $this->isinitemform['required'] = false;
-        $this->isinitemform['variable'] = false;
-        $this->isinitemform['hideinstructions'] = false;
+        $this->insetupform['position'] = false;
+        $this->insetupform['extranote'] = false;
+        $this->insetupform['required'] = false;
+        $this->insetupform['variable'] = false;
+        $this->insetupform['hideinstructions'] = false;
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $evaluateparentcontent);
@@ -108,7 +100,7 @@ class mod_surveypro_format_label extends mod_surveypro_itembase {
      * item_load
      *
      * @param $itemid
-     * @param bool $evaluateparentcontent: include among item elements the 'parentcontent' too
+     * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
      * @return
      */
     public function item_load($itemid, $evaluateparentcontent) {
@@ -227,7 +219,7 @@ EOS;
      * @return
      */
     public function userform_mform_element($mform, $searchform, $readonly=false, $submissionid=0) {
-        // This plugin has $this->isinitemform['insearchform'] = false; so it will never be part of a search form.
+        // This plugin has $this->insetupform['insearchform'] = false; so it will never be part of a search form.
 
         if ($this->fullwidth) {
             $content = '';

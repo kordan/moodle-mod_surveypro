@@ -24,6 +24,7 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/view_search.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/outform/search_form.php');
 
@@ -59,14 +60,14 @@ $formurl = new moodle_url('/mod/surveypro/view_search.php', $paramurl);
 $formparams = new stdClass();
 $formparams->cm = $cm; // Required to call surveypro_get_item.
 $formparams->surveypro = $surveypro;
-$formparams->canaccessadvanceditems = $searchman->canaccessadvanceditems; // Help selecting the fields to show.
+$formparams->canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $context, null, true); // Help selecting the fields to show.
 $formparams->formpage = $formpage;
 $searchform = new mod_surveypro_searchform($formurl, $formparams, 'post', '', array('id' => 'usersearch'));
 // End of: prepare params for the form.
 
 // Begin of: manage form submission.
 if ($searchform->is_cancelled()) {
-    $paramurl = array('id' => $cm->id, 'cover' => 0);
+    $paramurl = array('id' => $cm->id);
     $returnurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
     redirect($returnurl);
 }
@@ -74,7 +75,7 @@ if ($searchform->is_cancelled()) {
 if ($searchman->formdata = $searchform->get_data()) {
     // In this routine I do not execute a real search.
     // I only define the param searchquery for the url of SURVEYPRO_SUBMISSION_MANAGE.
-    $paramurl = array('id' => $cm->id, 'cover' => 0);
+    $paramurl = array('id' => $cm->id);
     if ($searchquery = $searchman->get_searchparamurl()) {
         $paramurl['searchquery'] = $searchquery;
     }
@@ -92,15 +93,9 @@ $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
 
-$moduletab = SURVEYPRO_TABSUBMISSIONS; // Needed by tabs.php.
-$modulepage = SURVEYPRO_SUBMISSION_SEARCH; // Needed by tabs.php.
-require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
+$tabman = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_SEARCH);
 
-if (!$searchman->has_search_items()) {
-    $searchman->noitem_stopexecution();
-} else {
-    $searchform->display();
-}
+$searchform->display();
 
 // Finish the page.
 echo $OUTPUT->footer();

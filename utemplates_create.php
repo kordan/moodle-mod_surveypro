@@ -24,6 +24,7 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/utemplate.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/utemplates/create_form.php');
 
@@ -46,7 +47,6 @@ $utemplateid = optional_param('fid', 0, PARAM_INT);
 
 // Params never passed but needed by called class.
 $action = SURVEYPRO_NOACTION;
-$view = SURVEYPRO_NOVIEW;
 $confirm = SURVEYPRO_UNCONFIRMED;
 
 $context = context_module::instance($cm->id);
@@ -54,10 +54,10 @@ require_capability('mod/surveypro:saveusertemplates', $context);
 
 // Calculations.
 $utemplateman = new mod_surveypro_usertemplate($cm, $context, $surveypro);
-$utemplateman->set_utemplateid($utemplateid);
-$utemplateman->set_action($action);
-$utemplateman->set_view($view);
-$utemplateman->set_confirm($confirm);
+$utemplateman->setup($utemplateid, $action, $confirm);
+
+// $utemplateman->prevent_direct_user_input();
+// is not needed because the check has already been done here with: require_capability('mod/surveypro:saveusertemplates', $context);
 
 // Begin of: define $createutemplate return url.
 $paramurl = array('id' => $cm->id);
@@ -77,9 +77,7 @@ if ($utemplateman->formdata = $createutemplate->get_data()) {
     $utemplateman->generate_utemplate();
     $utemplateman->trigger_event('usertemplate_saved');
 
-    $paramurl = array();
-    $paramurl['s'] = $surveypro->id;
-    $redirecturl = new moodle_url('/mod/surveypro/utemplates_manage.php', $paramurl);
+    $redirecturl = new moodle_url('/mod/surveypro/utemplates_manage.php', array('s' => $surveypro->id));
     redirect($redirecturl);
 }
 // End of: manage form submission.
@@ -97,9 +95,7 @@ navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
-$moduletab = SURVEYPRO_TABUTEMPLATES; // Needed by tabs.php.
-$modulepage = SURVEYPRO_UTEMPLATES_BUILD; // Needed by tabs.php.
-require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
+$tabman = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABUTEMPLATES, SURVEYPRO_UTEMPLATES_BUILD);
 
 $a = get_string('sharinglevel', 'mod_surveypro');
 $message = get_string('templatecreateinfo', 'mod_surveypro', $a);

@@ -22,149 +22,74 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->dirroot.'/mod/surveypro/classes/formbase.class.php');
+
 /**
  * The base class representing a field
  */
-class mod_surveypro_userformmanager {
-    /**
-     * $cm
-     */
-    public $cm = null;
-
-    /**
-     * $context
-     */
-    public $context = null;
-
-    /**
-     * $surveypro: the record of this surveypro
-     */
-    public $surveypro = null;
-
-    /**
-     * $submissionid: the ID of the saved surbey_submission
-     */
-    public $submissionid = 0;
-
-    /**
-     * $hasinputitems
-     */
-    public $hasinputitems = false;
-
-    /**
-     * $formpage: the form page as recalculated according to the first non empty page
-     * do not confuse this properties with $this->formdata->formpage
-     */
-    public $formpage = null;
-
-    /**
-     * $maxassignedpage
-     */
-    public $maxassignedpage = 0;
-
+class mod_surveypro_userform extends mod_surveypro_formbase {
     /**
      * $firstpageright
      */
-    public $firstpageright = 0;
+    protected $firstpageright;
 
     /**
      * $firstpageleft
      */
-    public $firstpageleft = 0;
+    protected $firstpageleft;
 
     /**
      * $view
      */
-    public $view = null;
+    protected $view;
 
     /**
      * $moduletab: The tab of the module where the page will be shown
      */
-    public $moduletab = '';
+    protected $moduletab;
 
     /**
      * $modulepage: this is the page of the module. Nothing to share with $formpage
      */
-    public $modulepage = '';
+    protected $modulepage;
 
     /**
      * $finalresponseevaluation: final validation of the submitted response
      */
-    public $finalresponseevaluation = SURVEYPRO_VALIDRESPONSE;
-
-    /**
-     * $canaccessadvanceditems
-     */
-    public $canaccessadvanceditems = false;
-
-    /**
-     * $canseeotherssubmissions
-     */
-    public $canseeotherssubmissions = false;
-
-    /**
-     * $caneditownsubmissions
-     */
-    public $caneditownsubmissions = false;
-
-    /**
-     * $caneditotherssubmissions
-     */
-    public $caneditotherssubmissions = false;
-
-    /**
-     * $cansubmit
-     */
-    public $cansubmit = false;
-
-    /**
-     * $canignoremaxentries
-     */
-    public $canignoremaxentries = false;
+    protected $finalresponseevaluation;
 
     /**
      * $formdata: the form content as submitted by the user
      */
-    public $formdata = null;
+    public $formdata;
 
     /**
-     * Class constructor
+     * Do what is needed ONLY AFTER the view parameter is set
+     * setup
      */
-    public function __construct($cm, $context, $surveypro) {
+    public function setup($submissionid, $formpage, $view) {
         global $DB;
 
-        $this->cm = $cm;
-        $this->context = $context;
-        $this->surveypro = $surveypro;
-        $this->hasinputitems = $this->has_input_items();
-
-        // $this->canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
-        $this->canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $this->context, null, true);
-        $this->cansubmit = has_capability('mod/surveypro:submit', $this->context, null, true);
-        $this->canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context, null, true);
-
-        $this->canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
-
-        $this->caneditownsubmissions = has_capability('mod/surveypro:editownsubmissions', $this->context, null, true);
-        $this->caneditotherssubmissions = has_capability('mod/surveypro:editotherssubmissions', $this->context, null, true);
-
         // Assign pages to items.
-        if (!$this->maxassignedpage = $DB->get_field('surveypro_item', 'MAX(formpage)', array('surveyproid' => $surveypro->id))) {
-            $this->assign_pages();
+        $maxassignedpage = $DB->get_field('surveypro_item', 'MAX(formpage)', array('surveyproid' => $this->surveypro->id));
+        if (!$maxassignedpage) {
+            $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+            $maxassignedpage = $utilityman->assign_pages();
+            $this->set_maxassignedpage($maxassignedpage);
+        } else {
+            $this->set_maxassignedpage($maxassignedpage);
         }
+
+        $this->set_view($view);
+        $this->set_submissionid($submissionid);
+        $this->set_formpage($formpage);
+
+        $this->set_tabs_params();
+        $this->prevent_direct_user_input();
+        $this->trigger_event();
     }
 
     // MARK set
-
-    /**
-     * set_submissionid
-     *
-     * @param $submissionid
-     * @return none
-     */
-    public function set_submissionid($submissionid) {
-        $this->submissionid = $submissionid;
-    }
 
     /**
      * set_view
@@ -172,9 +97,8 @@ class mod_surveypro_userformmanager {
      * @param $view
      * @return none
      */
-    public function set_view($view) {
+    private function set_view($view) {
         $this->view = $view;
-        $this->set_tabs_params();
     }
 
     /**
@@ -185,15 +109,16 @@ class mod_surveypro_userformmanager {
      */
     public function set_formpage($formpage) {
         if ($this->view === null) {
-            $message = 'Please call set_view method of the class mod_surveypro_userformmanager before calling set_formpage';
+            $message = 'Please call set_view method of the class mod_surveypro_userform before calling set_formpage';
             debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
 
-        // Calculare $this->firstpageright.
-        if ($this->canaccessadvanceditems) {
+        $canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $this->context, null, true);
+
+        if ($canaccessadvanceditems) {
             $this->firstpageright = 1;
         } else {
-            $this->next_not_empty_page(true, 0, $this->view); // This assign $this->firstformpage.
+            $this->next_not_empty_page(true, 0); // This sets $this->firstformpage.
         }
 
         if ($formpage == 0) { // You are viewing the surveypro for the first time.
@@ -204,35 +129,109 @@ class mod_surveypro_userformmanager {
     }
 
     /**
-     * next_not_empty_page
+     * set_firstpageleft
      *
-     * @param $forward
+     * @param $firstpageleft
+     * @return none
+     */
+    public function set_firstpageleft($firstpageleft) {
+        $this->firstpageleft = $firstpageleft;
+    }
+
+    /**
+     * set_firstpageright
+     *
+     * @param $firstpageright
+     * @return none
+     */
+    public function set_firstpageright($firstpageright) {
+        $this->firstpageright = $firstpageright;
+    }
+
+    /**
+     * set_moduletab
+     *
+     * @param $moduletab
+     * @return none
+     */
+    public function set_moduletab($moduletab) {
+        $this->moduletab = $moduletab;
+    }
+
+    /**
+     * set_modulepage
+     *
+     * @param $modulepage
+     * @return none
+     */
+    public function set_modulepage($modulepage) {
+        $this->modulepage = $modulepage;
+    }
+
+    /**
+     * get_firstpageleft
+     *
+     * @param none
+     * @return the content of the $firstpageleft property
+     */
+    public function get_firstpageleft() {
+        return $this->firstpageleft;
+    }
+
+    /**
+     * get_firstpageright
+     *
+     * @param none
+     * @return the content of the $firstpageright property
+     */
+    public function get_firstpageright() {
+        return $this->firstpageright;
+    }
+
+    /**
+     * get_moduletab
+     *
+     * @param none
+     * @return the content of the $moduletab property
+     */
+    public function get_moduletab() {
+        return $this->moduletab;
+    }
+
+    /**
+     * get_modulepage
+     *
+     * @param none
+     * @return the content of the $modulepage property
+     */
+    public function get_modulepage() {
+        return $this->modulepage;
+    }
+
+    /**
+     * Get the first NON EMPTY page on the right or on the left
+     *
+     * Depending on answers provided by the user, the previous or next page may have no items to display.
+     * The purpose of this function is to get the first page WITH items.
+     *
+     * If $rightdirection == true, this method sets...
+     *     the page number of the lower non empty page (according to user answers) greater than $startingpage in $this->firstpageright;
+     *     returns $nextpage or SURVEYPRO_RIGHT_OVERFLOW if no more empty pages are found on the right.
+     * If $rightdirection == false, this method sets...
+     *     the page number of the greater non empty page (according to user answers) lower than $startingpage in $this->firstpageleft;
+     *     returns $nextpage or SURVEYPRO_LEFT_OVERFLOW if no more empty pages are found on the left.
+     *
+     * @param $rightdirection
      * @param $startingpage
      * @return
      */
-    public function next_not_empty_page($forward, $startingpage, $modulepage) {
-        // Depending on user provided answer, in the previous or next page there may be no items to display.
-        // Get the first page WITH items.
-        //
-        // This method writes:
-        // If $forward == true:
-        //     the page number of the first non empty page (according to user answers) in $this->firstpageright;
-        //     returns $nextpage or SURVEYPRO_RIGHT_OVERFLOW if no more empty pages are found on the right.
-        // If $forward == false:
-        //     the page number of the bigger non empty page lower than $startingpage (according to user answers) in $this->firstpageleft;
-        //     returns $nextpage or SURVEYPRO_LEFT_OVERFLOW if no more empty pages are found on the left.
-
-        if ($modulepage == SURVEYPRO_ITEMS_PREVIEW) { // I do not care item parent-child relations, I am in "preview mode".
-            if ($forward) {
-                $this->firstpageright = ++$startingpage;
-            } else {
-                $this->firstpageleft = --$startingpage;
-            }
-            return;
+    public function next_not_empty_page($rightdirection, $startingpage=null) {
+        if ($startingpage === null) {
+            $startingpage = $this->get_formpage();
         }
 
-        $condition = ($startingpage == SURVEYPRO_RIGHT_OVERFLOW) && ($forward);
-        $condition = $condition || (($startingpage == SURVEYPRO_LEFT_OVERFLOW) && (!$forward));
+        $condition = ($startingpage == SURVEYPRO_RIGHT_OVERFLOW) && ($rightdirection);
+        $condition = $condition || (($startingpage == SURVEYPRO_LEFT_OVERFLOW) && (!$rightdirection));
         if ($condition) {
             $a = new stdClass();
             if ($startingpage == SURVEYPRO_RIGHT_OVERFLOW) {
@@ -245,15 +244,15 @@ class mod_surveypro_userformmanager {
         }
 
         if ($startingpage == SURVEYPRO_RIGHT_OVERFLOW) {
-            $startingpage = $this->maxassignedpage + 1;
+            $startingpage = $this->get_maxassignedpage() + 1;
         }
         if ($startingpage == SURVEYPRO_LEFT_OVERFLOW) {
             $startingpage = 0;
         }
 
-        if ($forward) {
+        if ($rightdirection) {
             $nextpage = ++$startingpage;
-            $overflowpage = $this->maxassignedpage + 1; // Maxpage = $maxformpage, but I have to add      1 because of ($i != $overflowpage).
+            $overflowpage = $this->get_maxassignedpage() + 1; // Maxpage = $maxformpage, but I have to add      1 because of ($i != $overflowpage).
         } else {
             $nextpage = --$startingpage;
             $overflowpage = 0;                          // Minpage = 1,            but I have to subtract 1 because of ($i != $overflowpage).
@@ -263,33 +262,40 @@ class mod_surveypro_userformmanager {
             if ($this->page_has_items($nextpage)) {
                 break;
             }
-            $nextpage = ($forward) ? ++$nextpage : --$nextpage;
+            $nextpage = ($rightdirection) ? ++$nextpage : --$nextpage;
         } while ($nextpage != $overflowpage);
 
-        if ($forward) {
-            $this->firstpageright = ($nextpage == $overflowpage) ? SURVEYPRO_RIGHT_OVERFLOW : $nextpage;
+        if ($rightdirection) {
+            $firstpageright = ($nextpage == $overflowpage) ? SURVEYPRO_RIGHT_OVERFLOW : $nextpage;
+            $this->set_firstpageright($firstpageright);
         } else {
-            $this->firstpageleft = ($nextpage == $overflowpage) ? SURVEYPRO_LEFT_OVERFLOW : $nextpage;
+            $firstpageleft = ($nextpage == $overflowpage) ? SURVEYPRO_LEFT_OVERFLOW : $nextpage;
+            $this->set_firstpageleft($firstpageleft);
         }
     }
 
     /**
      * page_has_items
      *
+     * In this method, I am not ONLY going to check if the page $formpage has item
+     * but I am also verifying that those items are supposed to be displayed
+     * on the basis of the answers provided to their parents.
+     *
      * @param $formpage
      * @return
      */
-    public function page_has_items($formpage) {
+    private function page_has_items($formpage) {
         global $CFG, $DB;
 
-        // $canaccessadvanceditems, $searchform=false, $type=SURVEYPRO_TYPEFIELD, $formpage=$formpage
-        list($sql, $whereparams) = surveypro_fetch_items_seeds($this->surveypro->id, $this->canaccessadvanceditems, false, false, $formpage);
+        $canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $this->context, null, true);
+
+        list($sql, $whereparams) = surveypro_fetch_items_seeds($this->surveypro->id, $canaccessadvanceditems, false, false, $formpage);
         $itemseeds = $DB->get_records_sql($sql, $whereparams);
 
-        // Start looking ONLY at empty($item->parentid) because it doesn't involve extra queries.
+        // Start looking ONLY at empty($itemseed->parentid) because it doesn't involve extra queries.
         foreach ($itemseeds as $itemseed) {
             if (empty($itemseed->parentid)) {
-                // If at least one item has an empty parentid, I finished.
+                // If at least one item has no parent, I finished. The page is going to display items.
                 return true;
             }
         }
@@ -306,12 +312,13 @@ class mod_surveypro_userformmanager {
             $itemclass = 'mod_surveypro_field_'.$parentplugin;
             $parentitem = new $itemclass($this->cm, $itemseed->parentid, false);
 
-            if ($parentitem->userform_child_item_allowed_static($this->submissionid, $itemseed)) {
+            if ($parentitem->userform_child_item_allowed_static($this->get_submissionid(), $itemseed)) {
+                // If at least one parent allows its child, I finished. The page is going to display items.
                 return true;
             }
         }
 
-        // If you're not able to get out in the two previous occasions ... declares defeat.
+        // If you were not able to get out in the two previous occasions... this page is empty.
         return false;
     }
 
@@ -321,27 +328,23 @@ class mod_surveypro_userformmanager {
      * @param none
      * @return
      */
-    public function set_tabs_params() {
+    private function set_tabs_params() {
         switch ($this->view) {
             case SURVEYPRO_NOVIEW:
-                $this->moduletab = SURVEYPRO_TABSUBMISSIONS; // Needed by tabs.php.
-                $this->modulepage = SURVEYPRO_SUBMISSION_CPANEL; // Needed by tabs.php.
+                $this->set_moduletab(SURVEYPRO_TABSUBMISSIONS); // Needed by tabs.class.php.
+                $this->set_modulepage(SURVEYPRO_SUBMISSION_CPANEL); // Needed by tabs.class.php.
                 break;
             case SURVEYPRO_NEWRESPONSE:
-                $this->moduletab = SURVEYPRO_TABSUBMISSIONS; // Needed by tabs.php.
-                $this->modulepage = SURVEYPRO_SUBMISSION_INSERT; // Needed by tabs.php.
-                break;
-            case SURVEYPRO_PREVIEWSURVEYFORM:
-                $this->moduletab = SURVEYPRO_TABITEMS; // Needed by tabs.php.
-                $this->modulepage = SURVEYPRO_ITEMS_PREVIEW; // Needed by tabs.php.
+                $this->set_moduletab(SURVEYPRO_TABSUBMISSIONS); // Needed by tabs.class.php.
+                $this->set_modulepage(SURVEYPRO_SUBMISSION_INSERT); // Needed by tabs.class.php.
                 break;
             case SURVEYPRO_EDITRESPONSE:
-                $this->moduletab = SURVEYPRO_TABSUBMISSIONS; // Needed by tabs.php.
-                $this->modulepage = SURVEYPRO_SUBMISSION_EDIT; // Needed by tabs.php.
+                $this->set_moduletab(SURVEYPRO_TABSUBMISSIONS); // Needed by tabs.class.php.
+                $this->set_modulepage(SURVEYPRO_SUBMISSION_EDIT); // Needed by tabs.class.php.
                 break;
             case SURVEYPRO_READONLYRESPONSE:
-                $this->moduletab = SURVEYPRO_TABSUBMISSIONS; // Needed by tabs.php.
-                $this->modulepage = SURVEYPRO_SUBMISSION_READONLY; // Needed by tabs.php.
+                $this->set_moduletab(SURVEYPRO_TABSUBMISSIONS); // Needed by tabs.class.php.
+                $this->set_modulepage(SURVEYPRO_SUBMISSION_READONLY); // Needed by tabs.class.php.
                 break;
             default:
                 $message = 'Unexpected $this->view = '.$this->view;
@@ -365,54 +368,12 @@ class mod_surveypro_userformmanager {
     }
 
     /**
-     * assign_pages
-     *
-     * @param none
-     * @return
-     */
-    public function assign_pages() {
-        global $DB;
-
-        $where = array();
-        $where['surveyproid'] = $this->surveypro->id;
-        $where['hidden'] = 0;
-
-        $lastwaspagebreak = true; // Whether 2 page breaks in line, the second one is ignored.
-        $pagenumber = 1;
-        $items = $DB->get_recordset('surveypro_item', $where, 'sortindex', 'id, type, plugin, parentid, formpage, sortindex');
-        if ($items) {
-            foreach ($items as $item) {
-                if ($item->plugin == 'pagebreak') { // It is a page break.
-                    if (!$lastwaspagebreak) {
-                        $pagenumber++;
-                    }
-                    $lastwaspagebreak = true;
-                } else {
-                    $lastwaspagebreak = false;
-                    if ($this->surveypro->newpageforchild) {
-                        if (!empty($item->parentid)) {
-                            $parentpage = $DB->get_field('surveypro_item', 'formpage', array('id' => $item->parentid), MUST_EXIST);
-                            if ($parentpage == $pagenumber) {
-                                $pagenumber++;
-                            }
-                        }
-                    }
-                    // echo 'Assigning pages: $DB->set_field(\'surveypro_item\', \'formpage\', '.$pagenumber.', array(\'id\' => '.$item->id.'));<br />';
-                    $DB->set_field('surveypro_item', 'formpage', $pagenumber, array('id' => $item->id));
-                }
-            }
-            $items->close();
-            $this->maxassignedpage = $pagenumber;
-        }
-    }
-
-    /**
      * save_surveypro_submission
      *
      * @param none
      * @return surveypro_submission record
      */
-    public function save_surveypro_submission() {
+    private function save_surveypro_submission() {
         global $USER, $DB;
 
         if (!$this->surveypro->newpageforchild) {
@@ -464,9 +425,9 @@ class mod_surveypro_userformmanager {
                 // I have $this->formdata->submissionid.
                 // Case: "save" was requested, I am not here.
                 // Case: "save as" was requested, I am not here.
-                // Case: "prev" was requested, I am not here because in view_userform.php the save_user_data() method is jumped.
+                // Case: "prev" was requested, I am not here because in view_form.php the save_user_data() method is jumped.
                 // Case: "next" was requested, so status = SURVEYPRO_STATUSINPROGRESS.
-                // Case: "pause" was requested, I am not here because in view_userform.php the save_user_data() method is jumped.
+                // Case: "pause" was requested, I am not here because in view_form.php the save_user_data() method is jumped.
                 $submission->id = $this->formdata->submissionid;
                 $submission->status = SURVEYPRO_STATUSINPROGRESS;
             }
@@ -478,7 +439,7 @@ class mod_surveypro_userformmanager {
         }
 
         // Before returning, set two class properties.
-        $this->submissionid = $submission->id;
+        $this->set_submissionid($submission->id);
         $this->status = $submission->status;
     }
 
@@ -621,40 +582,40 @@ class mod_surveypro_userformmanager {
 
             // var_dump($matches);
             // $matches = array{
-            //   0 => string 'surveypro_field_radiobutton_1452' (length=27)
-            //   1 => string 'surveypro' (length=6)
-            //   2 => string 'field' (length=5)
-            //   3 => string 'radiobutton' (length=11)
-            //   4 => string '1452' (length=4)
+            // ->    0 => string 'surveypro_field_radiobutton_1452' (length=27)
+            // ->    1 => string 'surveypro' (length=6)
+            // ->    2 => string 'field' (length=5)
+            // ->    3 => string 'radiobutton' (length=11)
+            // ->    4 => string '1452' (length=4)
             // }
             // $matches = array{
-            //   0 => string 'surveypro_field_radiobutton_1452_check' (length=33)
-            //   1 => string 'surveypro' (length=6)
-            //   2 => string 'field' (length=5)
-            //   3 => string 'radiobutton' (length=11)
-            //   4 => string '1452' (length=4)
-            //   5 => string 'check' (length=5)
+            // ->    0 => string 'surveypro_field_radiobutton_1452_check' (length=33)
+            // ->    1 => string 'surveypro' (length=6)
+            // ->    2 => string 'field' (length=5)
+            // ->    3 => string 'radiobutton' (length=11)
+            // ->    4 => string '1452' (length=4)
+            // ->    5 => string 'check' (length=5)
             // }
             // $matches = array{}
-            //   0 => string 'surveypro_field_checkbox_1452_73' (length=30)
-            //   1 => string 'surveypro' (length=6)
-            //   2 => string 'field' (length=5)
-            //   3 => string 'checkbox' (length=8)
-            //   4 => string '1452' (length=4)
-            //   5 => string '73' (length=2)
+            // ->    0 => string 'surveypro_field_checkbox_1452_73' (length=30)
+            // ->    1 => string 'surveypro' (length=6)
+            // ->    2 => string 'field' (length=5)
+            // ->    3 => string 'checkbox' (length=8)
+            // ->    4 => string '1452' (length=4)
+            // ->    5 => string '73' (length=2)
             // $matches = array{}
-            //   0 => string 'placeholder_field_multiselect_199_placeholder' (length=45)
-            //   1 => string 'placeholder' (length=11)
-            //   2 => string 'field' (length=5)
-            //   3 => string 'multiselect' (length=11)
-            //   4 => string '199' (length=3)
-            //   5 => string 'placeholder' (length=11)
+            // ->    0 => string 'placeholder_field_multiselect_199_placeholder' (length=45)
+            // ->    1 => string 'placeholder' (length=11)
+            // ->    2 => string 'field' (length=5)
+            // ->    3 => string 'multiselect' (length=11)
+            // ->    4 => string '199' (length=3)
+            // ->    5 => string 'placeholder' (length=11)
 
             $itemid = $matches[4]; // Itemid of the mform element (or of the group of mform elements referring to the same item).
             if (!isset($itemhelperinfo[$itemid])) {
                 $itemhelperinfo[$itemid] = new stdClass();
                 $itemhelperinfo[$itemid]->surveyproid = $surveyproid;
-                $itemhelperinfo[$itemid]->submissionid = $this->submissionid;
+                $itemhelperinfo[$itemid]->submissionid = $this->get_submissionid();
                 $itemhelperinfo[$itemid]->type = $matches[2];
                 $itemhelperinfo[$itemid]->plugin = $matches[3];
                 $itemhelperinfo[$itemid]->itemid = $itemid;
@@ -666,17 +627,9 @@ class mod_surveypro_userformmanager {
             }
         }
 
-        // if (isset($itemhelperinfo)) {
-        //     echo '$itemhelperinfo = <br />';
-        //     print_object($itemhelperinfo);
-        // } else {
-        //     echo 'Nothing has been found<br />';
-        // }
-        // die();
-
         // once $itemhelperinfo is onboard...
-        //    I update/create the corresponding record
-        //    asking to each item class to manage its informations
+        // ->   I update/create the corresponding record
+        // ->   asking to each item class to manage its informations
 
         foreach ($itemhelperinfo as $iteminfo) {
             if (!$useranswer = $DB->get_record('surveypro_answer', array('submissionid' => $iteminfo->submissionid, 'itemid' => $iteminfo->itemid))) {
@@ -738,7 +691,7 @@ class mod_surveypro_userformmanager {
             if ($this->finalresponseevaluation != SURVEYPRO_VALIDRESPONSE) {
                 // User jumped pages using direct input (or something more dangerous).
                 // Set this submission as SURVEYPRO_STATUSINPROGRESS.
-                $conditions = array('id' => $this->submissionid);
+                $conditions = array('id' => $this->get_submissionid());
                 $DB->set_field('surveypro_submission', 'status', SURVEYPRO_STATUSINPROGRESS, $conditions);
             }
         }
@@ -757,8 +710,10 @@ class mod_surveypro_userformmanager {
      * @param none
      * @return
      */
-    public function check_mandatories_are_in() {
+    private function check_mandatories_are_in() {
         global $CFG, $DB;
+
+        $canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $this->context, null, true);
 
         // Begin of: get the list of all mandatory fields.
         $sql = 'SELECT MIN(id), plugin
@@ -788,7 +743,7 @@ class mod_surveypro_userformmanager {
 
                 foreach ($pluginitems as $pluginitem) {
                     if ($pluginitem->required > 0) {
-                        if ( (!$pluginitem->advanced) || $this->canaccessadvanceditems ) {
+                        if ( (!$pluginitem->advanced) || $canaccessadvanceditems ) {
                             // Just to save few bits of RAM.
                             unset ($pluginitem->required);
                             unset ($pluginitem->advanced);
@@ -801,26 +756,26 @@ class mod_surveypro_userformmanager {
         }
 
         // $requireditems = array (size=3)
-        //   7521 =>
-        //     object(stdClass)[1108]
-        //       public 'id' => string '7521' (length=4)
-        //       public 'parentid' => string '0' (length=1)
-        //       public 'parentvalue' => null
-        //   7527 =>
-        //     object(stdClass)[889]
-        //       public 'id' => string '7527' (length=4)
-        //       public 'parentid' => string '0' (length=1)
-        //       public 'parentvalue' => null
-        //   7528 =>
-        //     object(stdClass)[1107]
-        //       public 'id' => string '7528' (length=4)
-        //       public 'parentid' => string '0' (length=1)
-        //       public 'parentvalue' => null
+        // ->  7521 =>
+        // ->    object(stdClass)[1108]
+        // ->      public 'id' => string '7521' (length=4)
+        // ->      public 'parentid' => string '0' (length=1)
+        // ->      public 'parentvalue' => null
+        // ->  7527 =>
+        // ->    object(stdClass)[889]
+        // ->      public 'id' => string '7527' (length=4)
+        // ->      public 'parentid' => string '0' (length=1)
+        // ->      public 'parentvalue' => null
+        // ->  7528 =>
+        // ->    object(stdClass)[1107]
+        // ->      public 'id' => string '7528' (length=4)
+        // ->      public 'parentid' => string '0' (length=1)
+        // ->      public 'parentvalue' => null
         // End of: get the list of all mandatory fields.
 
         // Make only ONE query taking ALL the answer provided in the frame of this submission.
-        // (and, implicitally, for this surveypro)
-        $whereparams = array('submissionid' => $this->submissionid);
+        // (and, implicitally, for this surveypro).
+        $whereparams = array('submissionid' => $this->get_submissionid());
         $providedanswers = $DB->get_records_menu('surveypro_answer', $whereparams, 'itemid', 'itemid, 1');
 
         foreach ($requireditems as $itemseed) {
@@ -830,11 +785,11 @@ class mod_surveypro_userformmanager {
                     break;
                 } else {
                     $parentitem = surveypro_get_item($this->cm, $itemseed->parentid);
-                    if ($parentitem->userform_child_item_allowed_static($this->submissionid, $itemseed)) {
+                    if ($parentitem->userform_child_item_allowed_static($this->get_submissionid(), $itemseed)) {
                         // Parent is here but it allows this item as child in this submission. Answer was jumped.
                         // TAKE CARE: this check is valid for chains of parent-child relations too.
                         // If the parent item was not allowed by its parent,
-                        //     it was not answered and userform_child_item_allowed_static returns false.
+                        // it was not answered and userform_child_item_allowed_static returns false.
                         $this->finalresponseevaluation = SURVEYPRO_MISSINGMANDATORY;
                     }
                 }
@@ -848,10 +803,10 @@ class mod_surveypro_userformmanager {
      * @param none
      * @return
      */
-    public function check_all_was_verified() {
+    private function check_all_was_verified() {
         global $DB;
 
-        $conditions = array('submissionid' => $this->submissionid, 'verified' => 0);
+        $conditions = array('submissionid' => $this->get_submissionid(), 'verified' => 0);
         if ($DB->get_record('surveypro_answer', $conditions, 'id', IGNORE_MULTIPLE)) {
             $this->finalresponseevaluation = SURVEYPRO_MISSINGVALIDATION;
         }
@@ -868,11 +823,11 @@ class mod_surveypro_userformmanager {
     public function drop_jumped_saved_data() {
         global $DB;
 
-        if ($this->firstpageright == ($this->formpage + 1)) {
+        if ($this->firstpageright == ($this->get_formpage() + 1)) {
             return;
         }
 
-        $pages = range($this->formpage + 1, $this->firstpageright - 1);
+        $pages = range($this->get_formpage() + 1, $this->firstpageright - 1);
         $where = 'surveyproid = :surveyproid
                 AND formpage IN ('.implode(',', $pages).')';
         $itemlistid = $DB->get_records_select('surveypro_item', $where, array('surveyproid' => $this->surveypro->id), 'id', 'id');
@@ -993,44 +948,6 @@ class mod_surveypro_userformmanager {
     }
 
     /**
-     * has_input_items as opposed to "has_search_items"
-     *
-     * @param none
-     * @return
-     */
-    public function has_input_items() {
-        global $DB;
-
-        $whereparams = array('surveyproid' => $this->surveypro->id, 'hidden' => 0);
-        if (!empty($this->formpage)) {
-            $whereparams['formpage'] = $this->formpage;
-        }
-        if (!$this->canaccessadvanceditems) {
-            $whereclause['advanced'] = 0;
-        }
-
-        return ($DB->count_records('surveypro_item', $whereparams) > 0);
-    }
-
-    /**
-     * noitem_stopexecution
-     *
-     * @param none
-     * @return
-     */
-    public function noitem_stopexecution() {
-        global $COURSE, $OUTPUT;
-
-        $message = get_string('noitemsfound', 'mod_surveypro');
-        echo $OUTPUT->notification($message, 'notifyproblem');
-
-        $continueurl = new moodle_url('/course/view.php', array('id' => $COURSE->id));
-        echo $OUTPUT->continue_button($continueurl);
-        echo $OUTPUT->footer();
-        die();
-    }
-
-    /**
      * submissions_allowed
      *
      * @param none
@@ -1039,10 +956,11 @@ class mod_surveypro_userformmanager {
     public function submissions_allowed() {
         // If $this->formdata is available, this means that the form was already displayed and submitted.
         // So it is not the time to say the user is not allowed to submit one more surveypro.
-        if ($this->submissionid) { // Submissionid is already defined, so I am not going to create one more new submission.
+        if ($this->formdata) {
             return true;
         }
-        if ($this->formdata) {
+        // If submissionid is already defined I am not going to create one more new submission.
+        if ($this->get_submissionid()) {
             return true;
         }
         if (!$this->surveypro->maxentries) {
@@ -1061,7 +979,7 @@ class mod_surveypro_userformmanager {
      * @param $status
      * @return
      */
-    public function user_sent_submissions($status=SURVEYPRO_STATUSALL) {
+    private function user_sent_submissions($status=SURVEYPRO_STATUSALL) {
         global $USER, $DB;
 
         $whereparams = array('surveyproid' => $this->surveypro->id, 'userid' => $USER->id);
@@ -1078,23 +996,28 @@ class mod_surveypro_userformmanager {
     }
 
     /**
-     * submissions_exceeded_stopexecution
+     * nomoresubmissions_stopexecution
      *
      * @param none
      * @return
      */
-    public function submissions_exceeded_stopexecution() {
+    public function nomoresubmissions_stopexecution() {
         global $OUTPUT;
 
-        $message = get_string('nomoresubmissionsallowed', 'mod_surveypro', $this->surveypro->maxentries);
-        echo $OUTPUT->notification($message, 'notifyproblem');
+        $modulepage = $this->get_modulepage();
+        if ($modulepage != SURVEYPRO_SUBMISSION_READONLY) {
+            if (!$this->submissions_allowed()) {
+                $message = get_string('nomoresubmissionsallowed', 'mod_surveypro', $this->surveypro->maxentries);
+                echo $OUTPUT->notification($message, 'notifyproblem');
 
-        $whereparams = array('id' => $this->cm->id, 'cover' => 0);
-        $continueurl = new moodle_url('/mod/surveypro/view.php', $whereparams);
+                $whereparams = array('id' => $this->cm->id);
+                $continueurl = new moodle_url('/mod/surveypro/view.php', $whereparams);
 
-        echo $OUTPUT->continue_button($continueurl);
-        echo $OUTPUT->footer();
-        die();
+                echo $OUTPUT->continue_button($continueurl);
+                echo $OUTPUT->footer();
+                die();
+            }
+        }
     }
 
     /**
@@ -1121,8 +1044,10 @@ class mod_surveypro_userformmanager {
      * @param none
      * @return
      */
-    public function show_thanks_page() {
+    private function show_thanks_page() {
         global $DB, $OUTPUT, $USER;
+
+        $canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context, null, true);
 
         if ($this->finalresponseevaluation == SURVEYPRO_MISSINGMANDATORY) {
             $a = get_string('statusinprogress', 'mod_surveypro');
@@ -1146,7 +1071,7 @@ class mod_surveypro_userformmanager {
             }
         }
 
-        $paramurl = array('id' => $this->cm->id, 'cover' => 0);
+        $paramurl = array('id' => $this->cm->id);
         // Just to save a query.
         if (empty($this->surveypro->maxentries)) {
             $alreadysubmitted = -1;
@@ -1155,9 +1080,9 @@ class mod_surveypro_userformmanager {
         }
         $condition = ($alreadysubmitted < $this->surveypro->maxentries);
         $condition = $condition || empty($this->surveypro->maxentries);
-        $condition = $condition || $this->canignoremaxentries;
+        $condition = $condition || $canignoremaxentries;
         if ($condition) { // If the user is allowed to submit one more surveypro.
-            $buttonurl = new moodle_url('/mod/surveypro/view_userform.php', array('id' => $this->cm->id, 'view' => SURVEYPRO_NEWRESPONSE));
+            $buttonurl = new moodle_url('/mod/surveypro/view_form.php', array('id' => $this->cm->id, 'view' => SURVEYPRO_NEWRESPONSE));
             $onemore = new single_button($buttonurl, get_string('addnewsubmission', 'mod_surveypro'));
 
             $buttonurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
@@ -1172,46 +1097,6 @@ class mod_surveypro_userformmanager {
     }
 
     /**
-     * message_preview_mode
-     *
-     * @param none
-     * @return
-     */
-    public function message_preview_mode() {
-        global $OUTPUT;
-
-        if ($this->modulepage == SURVEYPRO_ITEMS_PREVIEW) {
-            $a = get_string('tabitemspage1', 'mod_surveypro');
-            $previewmodestring = get_string('previewmode', 'mod_surveypro', $a);
-            echo $OUTPUT->heading($previewmodestring, 4);
-        }
-    }
-
-    /**
-     * display_page_x_of_y
-     *
-     * @param none
-     * @return
-     */
-    public function display_page_x_of_y() {
-        global $OUTPUT;
-
-        if ($this->maxassignedpage > 1) {
-            $a = new stdClass();
-            $a->formpage = $this->formpage;
-            if ($this->formpage == SURVEYPRO_LEFT_OVERFLOW) {
-                $a->formpage = 1;
-            }
-            if ($this->formpage == SURVEYPRO_RIGHT_OVERFLOW) {
-                $a->formpage = $this->maxassignedpage;
-            }
-
-            $a->maxassignedpage = $this->maxassignedpage;
-            echo $OUTPUT->heading(get_string('pagexofy', 'mod_surveypro', $a));
-        }
-    }
-
-    /**
      * add_browsing_buttons
      *
      * @param none
@@ -1222,20 +1107,23 @@ class mod_surveypro_userformmanager {
 
         $params = array();
         $params['s'] = $this->surveypro->id;
-        $params['submissionid'] = $this->submissionid;
+        $params['submissionid'] = $this->get_submissionid();
         $params['view'] = SURVEYPRO_READONLYRESPONSE;
 
-        if ($this->modulepage == SURVEYPRO_SUBMISSION_READONLY) {
-            if ($this->maxassignedpage > 1) {
-                if (($this->formpage != SURVEYPRO_LEFT_OVERFLOW) && ($this->formpage != 1)) {
-                    $params['formpage'] = $this->formpage - 1;
-                    $url = new moodle_url('/mod/surveypro/view_userform.php', $params);
+        $modulepage = $this->get_modulepage();
+        if ($modulepage == SURVEYPRO_SUBMISSION_READONLY) {
+            $maxassignedpage = $this->get_maxassignedpage();
+            if ($maxassignedpage > 1) {
+                $formpage = $this->get_formpage();
+                if (($formpage != SURVEYPRO_LEFT_OVERFLOW) && ($formpage != 1)) {
+                    $params['formpage'] = $formpage - 1;
+                    $url = new moodle_url('/mod/surveypro/view_form.php', $params);
                     $backwardbutton = new single_button($url, get_string('previousformpage', 'mod_surveypro'), 'get');
                 }
 
-                if (($this->formpage != SURVEYPRO_RIGHT_OVERFLOW) && ($this->formpage != $this->maxassignedpage)) {
-                    $params['formpage'] = $this->formpage + 1;
-                    $url = new moodle_url('/mod/surveypro/view_userform.php', $params);
+                if (($formpage != SURVEYPRO_RIGHT_OVERFLOW) && ($formpage != $maxassignedpage)) {
+                    $params['formpage'] = $formpage + 1;
+                    $url = new moodle_url('/mod/surveypro/view_form.php', $params);
                     $forwardbutton = new single_button($url, get_string('nextformpage', 'mod_surveypro'), 'get');
                 }
 
@@ -1256,43 +1144,12 @@ class mod_surveypro_userformmanager {
     }
 
     /**
-     * get_prefill_data
-     *
-     * @param none
-     * @return
-     */
-    public function get_prefill_data() {
-        global $DB;
-
-        $prefill = array();
-
-        if (!empty($this->submissionid)) {
-            // $canaccessadvanceditems, $searchform=false, $type=SURVEYPRO_TYPEFIELD, $formpage=$this->formpage
-            list($sql, $whereparams) = surveypro_fetch_items_seeds($this->surveypro->id, $this->canaccessadvanceditems, false, SURVEYPRO_TYPEFIELD, $this->formpage);
-            if ($itemseeds = $DB->get_recordset_sql($sql, $whereparams)) {
-                foreach ($itemseeds as $itemseed) {
-                    $item = surveypro_get_item($this->cm, $itemseed->id, $itemseed->type, $itemseed->plugin);
-
-                    $olduserdata = $DB->get_record('surveypro_answer', array('submissionid' => $this->submissionid, 'itemid' => $item->get_itemid()));
-                    $singleprefill = $item->userform_set_prefill($olduserdata);
-                    $prefill = array_merge($prefill, $singleprefill);
-                }
-                $itemseeds->close();
-            }
-
-            $prefill['submissionid'] = $this->submissionid;
-        }
-
-        return $prefill;
-    }
-
-    /**
      * drop_unexpected_values
      *
      * @param none
      * @return
      */
-    public function drop_unexpected_values() {
+    private function drop_unexpected_values() {
         // Begin of: delete all the bloody values that were NOT supposed to be returned: MDL-34815
         $dirtydata = (array)$this->formdata;
         $indexes = array_keys($dirtydata);
@@ -1317,22 +1174,22 @@ class mod_surveypro_userformmanager {
 
             $childitem = surveypro_get_item($this->cm, $itemid, $type, $plugin);
 
-            if (empty($childitem->parentid)) {
+            if (empty($childitem->get_parentid())) {
                 continue;
             }
 
             // If my parent is already in $disposelist, I have to go to $disposelist FOR SURE.
-            if (in_array($childitem->parentid, $disposelist)) {
-                $disposelist[] = $childitem->itemid;
+            if (in_array($childitem->get_parentid(), $disposelist)) {
+                $disposelist[] = $childitem->get_itemid();
                 continue;
             }
 
             // Call parentitem.
-            $parentitem = surveypro_get_item($this->cm, $childitem->parentid);
+            $parentitem = surveypro_get_item($this->cm, $childitem->get_parentid());
 
             $parentinsamepage = false;
             foreach ($indexes as $itemname) {
-                if (strpos($itemname, $parentitem->itemid)) {
+                if (strpos($itemname, $parentitem->get_itemid())) {
                     $parentinsamepage = true;
                     break;
                 }
@@ -1340,11 +1197,11 @@ class mod_surveypro_userformmanager {
 
             if ($parentinsamepage) { // If parent is in this same page.
                 // Tell parentitem what child needs in order to be displayed and compare it with what was answered to parentitem ($dirtydata).
-                $expectedvalue = $parentitem->userform_child_item_allowed_dynamic($childitem->parentvalue, $dirtydata);
+                $expectedvalue = $parentitem->userform_child_item_allowed_dynamic($childitem->get_parentvalue(), $dirtydata);
                 // Parentitem, knowing itself, compare what is needed and provide an answer.
 
                 if (!$expectedvalue) {
-                    $disposelist[] = $childitem->itemid;
+                    $disposelist[] = $childitem->get_itemid();
                 }
             }
         } // Check next item.
@@ -1373,11 +1230,17 @@ class mod_surveypro_userformmanager {
      * @param none
      * @return
      */
-    public function prevent_direct_user_input() {
+    private function prevent_direct_user_input() {
         global $DB, $USER, $COURSE;
 
+        $cansubmit = has_capability('mod/surveypro:submit', $this->context, null, true);
+        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
+        $canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context, null, true);
+        $caneditotherssubmissions = has_capability('mod/surveypro:editotherssubmissions', $this->context, null, true);
+        $caneditownsubmissions = has_capability('mod/surveypro:editownsubmissions', $this->context, null, true);
+
         if (($this->view == SURVEYPRO_READONLYRESPONSE) || ($this->view == SURVEYPRO_EDITRESPONSE)) {
-            if (!$submission = $DB->get_record('surveypro_submission', array('id' => $this->submissionid), '*', IGNORE_MISSING)) {
+            if (!$submission = $DB->get_record('surveypro_submission', array('id' => $this->get_submissionid()), '*', IGNORE_MISSING)) {
                 print_error('incorrectaccessdetected', 'mod_surveypro');
             }
             if ($submission->userid != $USER->id) {
@@ -1402,40 +1265,37 @@ class mod_surveypro_userformmanager {
                 // $this->user_sent_submissions(SURVEYPRO_STATUSALL) = N - 1
                 // When I fill the FIRST page of a survey, I get $next = N
                 // But when I go to fill the SECOND page of a survey I have one more "in progress" survey
-                //     that is the one that I created when I saved the FIRST page, so...
+                // that is the one that I created when I saved the FIRST page, so...
                 // $this->user_sent_submissions(SURVEYPRO_STATUSALL) = N
                 // $next = N + 1
                 // I am wrongly stopped here!
                 // Because of this:
-                if ($this->submissionid) {
+                if ($this->get_submissionid()) {
                     $next = $this->user_sent_submissions(SURVEYPRO_STATUSALL);
                 } else {
                     $next = 1 + $this->user_sent_submissions(SURVEYPRO_STATUSALL);
                 }
 
-                $allowed = $this->cansubmit;
+                $allowed = $cansubmit;
                 if ($this->surveypro->timeopen) {
                     $allowed = $allowed && ($this->surveypro->timeopen < $timenow);
                 }
                 if ($this->surveypro->timeclose) {
                     $allowed = $allowed && ($this->surveypro->timeclose > $timenow);
                 }
-                if (!$this->canignoremaxentries) {
+                if (!$canignoremaxentries) {
                     $allowed = $allowed && (($this->surveypro->maxentries == 0) || ($next <= $this->surveypro->maxentries));
                 }
-                break;
-            case SURVEYPRO_PREVIEWSURVEYFORM:
-                $allowed = has_capability('mod/surveypro:preview', $this->context);
                 break;
             case SURVEYPRO_EDITRESPONSE:
                 if ($USER->id == $submission->userid) {
                     // Whether in progress, always allow.
-                    $allowed = ($submission->status == SURVEYPRO_STATUSINPROGRESS) ? true : $this->caneditownsubmissions;
+                    $allowed = ($submission->status == SURVEYPRO_STATUSINPROGRESS) ? true : $caneditownsubmissions;
                 } else {
                     if ($groupmode == SEPARATEGROUPS) {
-                        $allowed = $groupuser && $this->caneditotherssubmissions;
+                        $allowed = $groupuser && $caneditotherssubmissions;
                     } else { // NOGROUPS || VISIBLEGROUPS
-                        $allowed = $this->caneditotherssubmissions;
+                        $allowed = $caneditotherssubmissions;
                     }
                 }
                 break;
@@ -1444,9 +1304,9 @@ class mod_surveypro_userformmanager {
                     $allowed = true;
                 } else {
                     if ($groupmode == SEPARATEGROUPS) {
-                        $allowed = $groupuser && $this->canseeotherssubmissions;
+                        $allowed = $groupuser && $canseeotherssubmissions;
                     } else { // NOGROUPS || VISIBLEGROUPS
-                        $allowed = $this->canseeotherssubmissions;
+                        $allowed = $canseeotherssubmissions;
                     }
                 }
                 break;
@@ -1464,23 +1324,23 @@ class mod_surveypro_userformmanager {
      * @param $allpages
      * @return
      */
-    public function duplicate_submission() {
+    private function duplicate_submission() {
         global $DB;
 
-        $submissions = $DB->get_record('surveypro_submission', array('id' => $this->submissionid));
+        $submissions = $DB->get_record('surveypro_submission', array('id' => $this->get_submissionid()));
         $submissions->timecreated = time();
         $submissions->status = SURVEYPRO_STATUSINPROGRESS;
         unset($submissions->timemodified);
         $submissionid = $DB->insert_record('surveypro_submission', $submissions);
 
-        $surveyprouserdata = $DB->get_recordset('surveypro_answer', array('submissionid' => $this->submissionid));
+        $surveyprouserdata = $DB->get_recordset('surveypro_answer', array('submissionid' => $this->get_submissionid()));
         foreach ($surveyprouserdata as $userdatum) {
             unset($userdatum->id);
-            $userdatum->submissionid = $submissionid;
+            $userdatum->set_submissionid($submissionid);
             $DB->insert_record('surveypro_answer', $userdatum);
         }
         $surveyprouserdata->close();
-        $this->submissionid = $submissionid;
+        $this->set_submissionid($submissionid);
     }
 
     /**
@@ -1489,18 +1349,11 @@ class mod_surveypro_userformmanager {
      * @param $view
      * @return none
      */
-    public function trigger_event($view) {
-        switch ($view) {
+    private function trigger_event() {
+        switch ($this->view) {
             case SURVEYPRO_NOVIEW:
             case SURVEYPRO_EDITRESPONSE: // Item_modified will be, eventually, logged.
             case SURVEYPRO_NEWRESPONSE:  // Item_created will be, eventually, logged.
-                break;
-            case SURVEYPRO_PREVIEWSURVEYFORM:
-                // Event: form_previewed.
-                $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
-                $eventdata['other'] = array('view' => SURVEYPRO_PREVIEWSURVEYFORM);
-                $event = \mod_surveypro\event\form_previewed::create($eventdata);
-                $event->trigger();
                 break;
             case SURVEYPRO_READONLYRESPONSE:
                 // Event: submission_viewed.
@@ -1510,7 +1363,7 @@ class mod_surveypro_userformmanager {
                 $event->trigger();
                 break;
             default:
-                $message = 'Unexpected $view = '.$view;
+                $message = 'Unexpected $this->view = '.$this->view;
                 debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
     }

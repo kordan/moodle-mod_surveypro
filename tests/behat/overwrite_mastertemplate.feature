@@ -1,11 +1,11 @@
-@mod @mod_surveypro
+@mod @mod_surveypro @aaa
 Feature: verify the deletion of old items works as expected during master templates replacement
   In order to verify the overwrite of master templates
   As a teacher
   I need apply mastertemplates one over the previous
 
   @javascript
-  Scenario: test that deletion of old items works as expected during master templates replacement
+  Scenario: test that deletion of old items works as expected when apply master templates
     Given the following "courses" exist:
       | fullname                 | shortname                | category | groupmode |
       | Overwrite mastertemplate | Overwrite mastertemplate | 0        | 0         |
@@ -23,7 +23,7 @@ Feature: verify the deletion of old items works as expected during master templa
     And I follow "To overwrite master templates"
 
     And I set the field "mastertemplate" to "ATTLS (20 item version)"
-    And I press "Create"
+    And I press "Apply"
     Then I should see "Attitudes Towards Thinking and Learning"
 
     And I follow "Elements"
@@ -31,7 +31,7 @@ Feature: verify the deletion of old items works as expected during master templa
 
     And I navigate to "Apply" node in "Surveypro administration > Master templates"
     And I set the field "mastertemplate" to "COLLES (Preferred and Actual)"
-    And I press "Continue"
+    And I press "Apply"
     Then I should see "I prefer that my learning focuses on issues that interest me."
     Then I should see "I found that my learning focuses on issues that interest me."
 
@@ -40,7 +40,7 @@ Feature: verify the deletion of old items works as expected during master templa
 
     And I navigate to "Apply" node in "Surveypro administration > Master templates"
     And I set the field "mastertemplate" to "COLLES (Actual)"
-    And I press "Continue"
+    And I press "Apply"
     Then I should see "In this online unit"
     Then I should see "my learning focuses on issues that interest me"
 
@@ -49,7 +49,7 @@ Feature: verify the deletion of old items works as expected during master templa
 
     And I navigate to "Apply" node in "Surveypro administration > Master templates"
     And I set the field "mastertemplate" to "COLLES (Preferred)"
-    And I press "Continue"
+    And I press "Apply"
     Then I should see "In this online unit"
     Then I should see "my learning focuses on issues that interest me"
 
@@ -58,5 +58,5 @@ Feature: verify the deletion of old items works as expected during master templa
 
     And I navigate to "Apply" node in "Surveypro administration > Master templates"
     And I set the field "mastertemplate" to "Critical Incidents"
-    And I press "Continue"
+    And I press "Apply"
     Then I should see "While thinking about recent events in this class, answer the questions below."

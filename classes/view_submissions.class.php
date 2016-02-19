@@ -22,120 +22,48 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
+
 /**
  * The base class representing a field
  */
 class mod_surveypro_submissionmanager {
     /**
-     * $cm
+     * Basic necessary essential ingredients
      */
-    public $cm = null;
-
-    /**
-     * $context
-     */
-    public $context = null;
-
-    /**
-     * $surveypro: the record of this surveypro
-     */
-    public $surveypro = null;
+    protected $cm;
+    protected $context;
+    protected $surveypro;
 
     /**
      * $submissionid: the ID of the current submission
      */
-    public $submissionid = 0;
-
-    /**
-     * $cansubmit
-     */
-    public $cansubmit = false;
-
-    /**
-     * $canignoremaxentries
-     */
-    public $canignoremaxentries = false;
-
-    /**
-     * $canalwaysseeowner
-     */
-    public $canalwaysseeowner = false;
-
-    /**
-     * $canaccessadvanceditems
-     */
-    public $canaccessadvanceditems = false;
+    protected $submissionid;
 
     /**
      * $action
      */
-    public $action = SURVEYPRO_NOACTION;
+    protected $action;
 
     /**
      * $view
      */
-    public $view = SURVEYPRO_NOVIEW;
+    protected $view;
 
     /**
      * $confirm
      */
-    public $confirm = false;
+    protected $confirm;
 
     /**
      * $hasitems
      */
-    public $hasitems = false;
-
-    /**
-     * $canmanageitems
-     */
-    public $canmanageitems = false;
-
-    /**
-     * $canseeownsubmissions
-     *
-     * public $canseeownsubmissions = true;
-     */
-
-    /**
-     * $canseeotherssubmissions
-     */
-    public $canseeotherssubmissions = false;
-
-    /**
-     * $caneditownsubmissions
-     */
-    public $caneditownsubmissions = false;
-
-    /**
-     * $caneditotherssubmissions
-     */
-    public $caneditotherssubmissions = false;
-
-    /**
-     * $candeleteownsubmissions
-     */
-    public $candeleteownsubmissions = false;
-
-    /**
-     * $candeleteotherssubmissions
-     */
-    public $candeleteotherssubmissions = false;
-
-    /**
-     * $cansavesubmissiontopdf
-     */
-    public $cansavesubmissiontopdf = false;
+    protected $hasitems;
 
     /**
      * $searchquery
      */
-    public $searchquery = '';
-
-    /**
-     * $userfeedbackmask
-     */
-    public $userfeedbackmask = SURVEYPRO_NOFEEDBACK;
+    protected $searchquery;
 
     /**
      * Class constructor
@@ -145,25 +73,67 @@ class mod_surveypro_submissionmanager {
         $this->context = $context;
         $this->surveypro = $surveypro;
 
-        $this->cansubmit = has_capability('mod/surveypro:submit', $this->context, null, true);
-        $this->canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
-        $this->canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context, null, true);
-        $this->canalwaysseeowner = has_capability('mod/surveypro:alwaysseeowner', $this->context, null, true);
+        $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
+        $canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $this->context, null, true);
 
-        $this->canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $this->context, null, true);
+        $utilityman = new mod_surveypro_utility($cm, $surveypro);
+        $this->hasitems = $utilityman->has_input_items(0, false, $canmanageitems, $canaccessadvanceditems);
+    }
 
-        // $this->canseeownsubmissions = true;
-        $this->canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
+    /**
+     * setup
+     */
+    public function setup($submissionid, $action, $view, $confirm, $searchquery) {
+        $this->set_submissionid($submissionid);
+        $this->set_action($action);
+        $this->set_view($view);
+        $this->set_confirm($confirm);
+        $this->set_searchquery($searchquery);
 
-        $this->caneditownsubmissions = has_capability('mod/surveypro:editownsubmissions', $this->context, null, true);
-        $this->caneditotherssubmissions = has_capability('mod/surveypro:editotherssubmissions', $this->context, null, true);
+        $this->prevent_direct_user_input($confirm);
+        $this->submission_to_pdf();
 
-        $this->candeleteownsubmissions = has_capability('mod/surveypro:deleteownsubmissions', $this->context, null, true);
-        $this->candeleteotherssubmissions = has_capability('mod/surveypro:deleteotherssubmissions', $this->context, null, true);
+    }
 
-        $this->cansavesubmissiontopdf = has_capability('mod/surveypro:savesubmissiontopdf', $this->context, null, true);
 
-        $this->hasitems = $this->get_has_items();
+    /**
+     * noitem_redirect
+     *
+     * I HATE software thinking for me.
+     * Because of this I ALWAYS want to go where I ask, even if the place I ask is not supposed to be accessed by me.
+     * In this particular case, I want a message explaining WHY the place I asked is not supposed to be accessed by me.
+     * I NEVER want to be silently redirected.
+     *
+     * By default accessing a surveypro from a course (/view.php?id=xxx), the "predefined" landing page should be:
+     *     -> for admin/editing teacher:
+     *         -> if no items were created: layout_manage.php
+     *         -> if items were already created: view.php with the submission list
+     *     -> for students: ALWAYS view.php with the submission list
+     *
+     * So the software HAS TO decide where to send the admin/editing teacher when he arrives from a course.
+     * So in the view.php I MUST add a code snippet TAKING THE DECISION for the user.
+     *
+     * The problem rises up when the admin/editing teacher decides to go where he should not go, alias in:
+     *     -> layout_manage.php even if items were already created
+     *     -> view.php with the submission list even if no items were created
+     *
+     * The first request is a false problem, because the admin/editing teacher is always allowed to go there.
+     * The second request is allowed by the introduction of the parameter &force=1 in the URL of the TAB
+     *     When the admin/editing teacher asks for view.php by clicking the corresponding TAB he asks for view.php?id=xxx&force=1
+     *     and the software decision is omitted.
+     *     As opposite:
+     *     When the admin/editing teacher arrives from a course, he is sent to land in view.php?id=xxx and the decision is taken.
+     *
+     * @param none
+     * @return
+     */
+    public function noitem_redirect() {
+        if (!$this->hasitems) {
+            $paramurl = array('s' => $this->surveypro->id);
+            $redirecturl = new moodle_url('/mod/surveypro/layout_manage.php', $paramurl);
+            redirect($redirecturl);
+            die();
+        }
     }
 
     /**
@@ -225,7 +195,6 @@ class mod_surveypro_submissionmanager {
     public function trigger_event() {
         // Event: all_submissions_viewed.
         $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
-        $eventdata['other'] = array('cover' => 0);
         $event = \mod_surveypro\event\all_submissions_viewed::create($eventdata);
         $event->trigger();
     }
@@ -236,15 +205,15 @@ class mod_surveypro_submissionmanager {
      * @param none
      * @return
      */
-    public function manage_actions() {
+    public function actions_execution() {
         switch ($this->action) {
             case SURVEYPRO_NOACTION:
                 break;
             case SURVEYPRO_DELETERESPONSE:
-                $this->manage_submission_deletion();
+                $this->one_submission_deletion_execute();
                 break;
             case SURVEYPRO_DELETEALLRESPONSES:
-                $this->manage_all_submission_deletion();
+                $this->all_submission_deletion_execute();
                 break;
             default:
                 $message = 'Unexpected $this->action = '.$this->action;
@@ -253,12 +222,59 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * manage_submission_deletion
+     * one_submission_deletion_execute
      *
      * @param none
      * @return
      */
-    public function manage_submission_deletion() {
+    public function one_submission_deletion_execute() {
+        global $DB;
+
+        if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
+            try {
+                $transaction = $DB->start_delegated_transaction();
+
+                $DB->delete_records('surveypro_answer', array('submissionid' => $this->submissionid));
+                $DB->delete_records('surveypro_submission', array('id' => $this->submissionid));
+
+                $transaction->allow_commit();
+
+                // Update completion state.
+                $course = $DB->get_record('course', array('id' => $this->cm->course), '*', MUST_EXIST);
+                $completion = new completion_info($course);
+                if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
+                    $completion->update_state($this->cm, COMPLETION_INCOMPLETE);
+                }
+
+                // Event: submission_deleted.
+                $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
+                $event = \mod_surveypro\event\submission_deleted::create($eventdata);
+                $event->trigger();
+
+                // redirect
+                $paramurl = array();
+                $paramurl['id'] = $this->cm->id;
+                $paramurl['act'] = SURVEYPRO_DELETERESPONSE;
+                $paramurl['cnf'] = SURVEYPRO_CONFIRMED_DONE;
+                $paramurl['sesskey'] = sesskey();
+
+                $redirecturl = new moodle_url('/mod/surveypro/view.php', $paramurl);
+                redirect($redirecturl);
+
+            } catch (Exception $e) {
+                // Extra cleanup steps.
+                $transaction->rollback($e); // Rethrows exception.
+            }
+        }
+    }
+
+    /**
+     * one_submission_deletion_feedback
+     *
+     * @param none
+     * @return
+     */
+    public function one_submission_deletion_feedback() {
         global $USER, $DB, $OUTPUT;
 
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
@@ -289,13 +305,11 @@ class mod_surveypro_submissionmanager {
             $optionsyes = $optionbase;
             $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
             $optionsyes['submissionid'] = $this->submissionid;
-            $optionsyes['cover'] = 0;
             $urlyes = new moodle_url('/mod/surveypro/view.php', $optionsyes);
             $buttonyes = new single_button($urlyes, get_string('confirmsurveyprodeletion', 'mod_surveypro'));
 
             $optionsno = $optionbase;
             $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-            $optionsyes['cover'] = 0;
             $urlno = new moodle_url('/mod/surveypro/view.php', $optionsno);
             $buttonno = new single_button($urlno, get_string('no'));
 
@@ -304,34 +318,8 @@ class mod_surveypro_submissionmanager {
             die();
         } else {
             switch ($this->confirm) {
-                case SURVEYPRO_CONFIRMED_YES:
-                    try {
-                        $transaction = $DB->start_delegated_transaction();
-
-                        $DB->delete_records('surveypro_answer', array('submissionid' => $this->submissionid));
-                        $DB->delete_records('surveypro_submission', array('id' => $this->submissionid));
-
-                        $transaction->allow_commit();
-
-                        // Update completion state.
-                        $course = $DB->get_record('course', array('id' => $this->cm->course), '*', MUST_EXIST);
-                        $completion = new completion_info($course);
-                        if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
-                            $completion->update_state($this->cm, COMPLETION_INCOMPLETE);
-                        }
-
-                        // Event: submission_deleted.
-                        $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
-                        $eventdata['other'] = array('cover' => 0);
-                        $event = \mod_surveypro\event\submission_deleted::create($eventdata);
-                        $event->trigger();
-
-                        echo $OUTPUT->notification(get_string('responsedeleted', 'mod_surveypro'), 'notifysuccess');
-                    } catch (Exception $e) {
-                        // Extra cleanup steps.
-                        $transaction->rollback($e); // Rethrows exception.
-                    }
-
+                case SURVEYPRO_CONFIRMED_DONE:
+                    echo $OUTPUT->notification(get_string('responsedeleted', 'mod_surveypro'), 'notifysuccess');
                     break;
                 case SURVEYPRO_CONFIRMED_NO:
                     $message = get_string('usercanceled', 'mod_surveypro');
@@ -345,124 +333,138 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * manage_all_submission_deletion
+     * manage_actions
      *
      * @param none
      * @return
      */
-    public function manage_all_submission_deletion() {
-        global $DB, $OUTPUT;
-
-        if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
-            // Ask for confirmation.
-            $message = get_string('askdeleteallsubmissions', 'mod_surveypro');
-
-            $optionbase = array('s' => $this->surveypro->id, 'surveyproid' => $this->surveypro->id, 'act' => SURVEYPRO_DELETEALLRESPONSES);
-
-            $optionsyes = $optionbase;
-            $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
-            $optionsyes['cover'] = 0;
-            $urlyes = new moodle_url('/mod/surveypro/view.php', $optionsyes);
-            $buttonyes = new single_button($urlyes, get_string('confirmallsubmissionsdeletion', 'mod_surveypro'));
-
-            $optionsno = $optionbase;
-            $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-            $optionsyes['cover'] = 0;
-            $urlno = new moodle_url('/mod/surveypro/view.php', $optionsno);
-            $buttonno = new single_button($urlno, get_string('no'));
-
-            echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
-            echo $OUTPUT->footer();
-            die();
-        } else {
-            switch ($this->confirm) {
-                case SURVEYPRO_CONFIRMED_YES:
-                    try {
-                        $transaction = $DB->start_delegated_transaction();
-                        // Changed to a shorter version on September 25, 2014.
-                        // Older version will be deleted as soon as the wew one will be checked.
-                        // $sql = 'SELECT s.id
-                        //             FROM {surveypro_submission} s
-                        //             WHERE s.surveyproid = :surveyproid';
-                        // $idlist = $DB->get_records_sql($sql, array('surveyproid' => $this->surveypro->id));
-                        $whereparams = array('surveyproid' => $this->surveypro->id);
-                        $idlist = $DB->get_records('surveypro_submission', $whereparams, '', 'id');
-
-                        foreach ($idlist as $submissionid) {
-                            $DB->delete_records('surveypro_answer', array('submissionid' => $submissionid->id));
-                        }
-
-                        $DB->delete_records('surveypro_submission', array('surveyproid' => $this->surveypro->id));
-
-                        $transaction->allow_commit();
-
-                        // Update completion state.
-                        $course = $DB->get_record('course', array('id' => $this->cm->course), '*', MUST_EXIST);
-                        $completion = new completion_info($course);
-                        if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
-                            $completion->update_state($this->cm, COMPLETION_INCOMPLETE);
-                        }
-
-                        // Event: all_submissions_deleted.
-                        $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
-                        $eventdata['other'] = array('cover' => 0);
-                        $event = \mod_surveypro\event\all_submissions_deleted::create($eventdata);
-                        $event->trigger();
-
-                        echo $OUTPUT->notification(get_string('allsubmissionsdeleted', 'mod_surveypro'), 'notifymessage');
-                    } catch (Exception $e) {
-                        // Extra cleanup steps.
-                        $transaction->rollback($e); // Rethrows exception.
-                    }
-
-                    break;
-                case SURVEYPRO_CONFIRMED_NO:
-                    $message = get_string('usercanceled', 'mod_surveypro');
-                    echo $OUTPUT->notification($message, 'notifymessage');
-                    break;
-                default:
-                    $message = 'Unexpected $this->confirm = '.$this->confirm;
-                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-            }
+    public function actions_feedback() {
+        switch ($this->action) {
+            case SURVEYPRO_NOACTION:
+                break;
+            case SURVEYPRO_DELETERESPONSE:
+                $this->one_submission_deletion_feedback();
+                break;
+            case SURVEYPRO_DELETEALLRESPONSES:
+                $this->all_submission_deletion_feedback();
+                break;
+            default:
+                $message = 'Unexpected $this->action = '.$this->action;
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
     }
 
     /**
-     * get_has_items
+     * all_submission_deletion_execute
      *
      * @param none
      * @return
      */
-    public function get_has_items() {
+    public function all_submission_deletion_execute() {
         global $DB;
+
+        if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
+            try {
+                $transaction = $DB->start_delegated_transaction();
+                $whereparams = array('surveyproid' => $this->surveypro->id);
+                $idlist = $DB->get_records('surveypro_submission', $whereparams, '', 'id');
+
+                foreach ($idlist as $submissionid) {
+                    $DB->delete_records('surveypro_answer', array('submissionid' => $submissionid->id));
+                }
+
+                $DB->delete_records('surveypro_submission', array('surveyproid' => $this->surveypro->id));
+
+                $transaction->allow_commit();
+
+                // Update completion state.
+                $course = $DB->get_record('course', array('id' => $this->cm->course), '*', MUST_EXIST);
+                $completion = new completion_info($course);
+                if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
+                    $completion->update_state($this->cm, COMPLETION_INCOMPLETE);
+                }
+
+                // Event: all_submissions_deleted.
+                $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
+                $event = \mod_surveypro\event\all_submissions_deleted::create($eventdata);
+                $event->trigger();
+
+                // redirect
+                $paramurl = array('id' => $this->cm->id);
+                $paramurl['submissionid'] = $submissionid->id;
+                $paramurl['act'] = SURVEYPRO_DELETEALLRESPONSES;
+                $paramurl['cnf'] = SURVEYPRO_CONFIRMED_DONE;
+                $paramurl['sesskey'] = sesskey();
+                $redirecturl = new moodle_url('/mod/surveypro/view.php', $paramurl);
+                redirect($redirecturl);
+
+            } catch (Exception $e) {
+                // Extra cleanup steps.
+                $transaction->rollback($e); // Rethrows exception.
+            }
+        }
+    }
+
+    /**
+     * all_submission_deletion_feedback
+     *
+     * @param none
+     * @return
+     */
+    public function all_submission_deletion_feedback() {
+        global $OUTPUT, $DB;
+
+        switch ($this->confirm) {
+            case SURVEYPRO_UNCONFIRMED:
+                // Ask for confirmation.
+                $message = get_string('askdeleteallsubmissions', 'mod_surveypro');
+                $optionbase = array('id' => $this->cm->id, 'act' => SURVEYPRO_DELETEALLRESPONSES);
+
+                $optionsyes = $optionbase;
+                $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
+                $urlyes = new moodle_url('/mod/surveypro/view.php', $optionsyes);
+                $buttonyes = new single_button($urlyes, get_string('confirmallsubmissionsdeletion', 'mod_surveypro'));
+
+                $optionsno = $optionbase;
+                $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
+                $urlno = new moodle_url('/mod/surveypro/view.php', $optionsno);
+                $buttonno = new single_button($urlno, get_string('no'));
+                echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
+                echo $OUTPUT->footer();
+                die();
+            case SURVEYPRO_CONFIRMED_DONE:
+                echo $OUTPUT->notification(get_string('allsubmissionsdeleted', 'mod_surveypro'), 'notifymessage');
+                break;
+            case SURVEYPRO_CONFIRMED_NO:
+                $message = get_string('usercanceled', 'mod_surveypro');
+                echo $OUTPUT->notification($message, 'notifymessage');
+                break;
+            default:
+                $message = 'Unexpected $this->confirm = '.$this->confirm;
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+        }
+    }
+
+    /**
+     * has_input_items
+     *
+     * @param none
+     * @return
+     */
+    public function has_input_items() {
+        global $DB;
+
+        $canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $this->context, null, true);
 
         $whereparams = array('surveyproid' => $this->surveypro->id, 'hidden' => 0);
         if (!empty($this->formpage)) {
             $whereparams['formpage'] = $this->formpage;
         }
-        if (!$this->canaccessadvanceditems) {
+        if (!$canaccessadvanceditems) {
             $whereparams['advanced'] = 0;
         }
 
         return ($DB->count_records('surveypro_item', $whereparams) > 0);
-    }
-
-    /**
-     * noitem_stopexecution
-     *
-     * @param none
-     * @return
-     */
-    public function noitem_stopexecution() {
-        global $COURSE, $OUTPUT;
-
-        $message = get_string('noitemsfound', 'mod_surveypro');
-        echo $OUTPUT->notification($message, 'notifyproblem');
-
-        $continueurl = new moodle_url('/course/view.php', array('id' => $COURSE->id));
-        echo $OUTPUT->continue_button($continueurl);
-        echo $OUTPUT->footer();
-        die();
     }
 
     /**
@@ -474,8 +476,10 @@ class mod_surveypro_submissionmanager {
     public function user_sent_submissions($status=SURVEYPRO_STATUSALL) {
         global $USER, $DB;
 
+        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
+
         $whereparams = array('surveyproid' => $this->surveypro->id);
-        if (!$this->canseeotherssubmissions) {
+        if (!$canseeotherssubmissions) {
             $whereparams['userid'] = $USER->id;
         }
         if ($status != SURVEYPRO_STATUSALL) {
@@ -498,6 +502,8 @@ class mod_surveypro_submissionmanager {
      */
     public function get_submissions_sql($table) {
         global $COURSE, $USER;
+
+        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
 
         $emptysql = 'SELECT DISTINCT s.*, s.id as submissionid, '.user_picture::fields('u').'
                      FROM {surveypro_submission} s
@@ -581,7 +587,7 @@ class mod_surveypro_submissionmanager {
             }
         }
 
-        if (!$this->canseeotherssubmissions) {
+        if (!$canseeotherssubmissions) {
             // Restrict to your submissions only.
             $sql .= '  AND s.userid = :userid';
             $whereparams['userid'] = $USER->id;
@@ -709,7 +715,7 @@ class mod_surveypro_submissionmanager {
         }
 
         if ($this->searchquery) {
-            $findallurl = new moodle_url('/mod/surveypro/view.php', array('id' => $this->cm->id, 'cover' => 0));
+            $findallurl = new moodle_url('/mod/surveypro/view.php', array('id' => $this->cm->id));
             $label = get_string('findall', 'mod_surveypro');
 
             echo $OUTPUT->single_button($findallurl, $label, 'get', array('class' => 'box clearfix mdl-align'));
@@ -774,7 +780,7 @@ class mod_surveypro_submissionmanager {
         }
 
         if ($this->searchquery) {
-            $findallurl = new moodle_url('/mod/surveypro/view.php', array('id' => $this->cm->id, 'cover' => 0));
+            $findallurl = new moodle_url('/mod/surveypro/view.php', array('id' => $this->cm->id));
             $label = get_string('findall', 'mod_surveypro');
 
             echo $OUTPUT->single_button($findallurl, $label, 'get', array('class' => 'box clearfix mdl-align'));
@@ -790,17 +796,24 @@ class mod_surveypro_submissionmanager {
     public function display_submissions_table() {
         global $CFG, $OUTPUT, $DB, $COURSE, $USER;
 
+        $canalwaysseeowner = has_capability('mod/surveypro:alwaysseeowner', $this->context, null, true);
+        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
+        $caneditownsubmissions = has_capability('mod/surveypro:editownsubmissions', $this->context, null, true);
+        $caneditotherssubmissions = has_capability('mod/surveypro:editotherssubmissions', $this->context, null, true);
+        $candeleteownsubmissions = has_capability('mod/surveypro:deleteownsubmissions', $this->context, null, true);
+        $candeleteotherssubmissions = has_capability('mod/surveypro:deleteotherssubmissions', $this->context, null, true);
+        $cansavesubmissiontopdf = has_capability('mod/surveypro:savesubmissiontopdf', $this->context, null, true);
+
         require_once($CFG->libdir.'/tablelib.php');
 
         $table = new flexible_table('submissionslist');
 
-        if ($this->canseeotherssubmissions) {
+        if ($canseeotherssubmissions) {
             $table->initialbars(true);
         }
 
         $paramurl = array();
         $paramurl['id'] = $this->cm->id;
-        $paramurl['cover'] = 0;
         if ($this->searchquery) {
             $paramurl['searchquery'] = $this->searchquery;
         }
@@ -808,7 +821,7 @@ class mod_surveypro_submissionmanager {
         $table->define_baseurl($baseurl);
 
         $tablecolumns = array();
-        if ($this->canalwaysseeowner || empty($this->surveypro->anonymous)) {
+        if ($canalwaysseeowner || empty($this->surveypro->anonymous)) {
             $tablecolumns[] = 'picture';
             $tablecolumns[] = 'fullname';
         }
@@ -821,7 +834,7 @@ class mod_surveypro_submissionmanager {
         $table->define_columns($tablecolumns);
 
         $tableheaders = array();
-        if ($this->canalwaysseeowner || empty($this->surveypro->anonymous)) {
+        if ($canalwaysseeowner || empty($this->surveypro->anonymous)) {
             $tableheaders[] = '';
             $tableheaders[] = get_string('fullname');
         }
@@ -849,7 +862,7 @@ class mod_surveypro_submissionmanager {
         $table->column_class('actions', 'actions');
 
         // Hide the same info whether in two consecutive rows.
-        if ($this->canalwaysseeowner || empty($this->surveypro->anonymous)) {
+        if ($canalwaysseeowner || empty($this->surveypro->anonymous)) {
             $table->column_suppress('picture');
             $table->column_suppress('fullname');
         }
@@ -887,12 +900,11 @@ class mod_surveypro_submissionmanager {
         list($sql, $whereparams) = $this->get_submissions_sql($table);
         // $this->show_submissions_info_sql works fine (AFAIK) but makes 2 big queries.
         // Until the table is not divided into pages (20 record per page or so).
-        //     a count of the records before they are added to the table is less resource expensive
+        // a count of the records before they are added to the table is less resource expensive
         if ($useshowsubmissionsinfosql = false) {
             $this->show_submissions_info_sql($sql, $whereparams);
         }
         $submissions = $DB->get_recordset_sql($sql, $whereparams);
-
         if ($submissions->valid()) {
             if ($groupmode = groups_get_activity_groupmode($this->cm, $COURSE)) {
                 if ($groupmode == SEPARATEGROUPS) {
@@ -909,11 +921,11 @@ class mod_surveypro_submissionmanager {
             if (!$useshowsubmissionsinfosql) {
                 foreach ($submissions as $submission) {
                     // Get:
-                    //   Count of 'in progress' submissions.
-                    //   Count of user with 'in progress' submissions.
+                    // -> Count of 'in progress' submissions.
+                    // -> Count of user with 'in progress' submissions.
                     //
-                    //   Count of 'closed' submissions.
-                    //   Count of user with 'closed' submissions.
+                    // -> Count of 'closed' submissions.
+                    // -> Count of user with 'closed' submissions.
                     switch ($submission->status) {
                         case SURVEYPRO_STATUSINPROGRESS:
                             $inprogresssubmission++;
@@ -939,7 +951,7 @@ class mod_surveypro_submissionmanager {
 
                 // Before starting, just set some information.
                 if (!$ismine = ($submission->userid == $USER->id)) {
-                    if (!$this->canseeotherssubmissions) {
+                    if (!$canseeotherssubmissions) {
                         continue;
                     }
                     if ($groupmode == SEPARATEGROUPS) {
@@ -955,7 +967,7 @@ class mod_surveypro_submissionmanager {
                 $tablerow = array();
 
                 // Icon.
-                if ($this->canalwaysseeowner || empty($this->surveypro->anonymous)) {
+                if ($canalwaysseeowner || empty($this->surveypro->anonymous)) {
                     $tablerow[] = $OUTPUT->user_picture($submission, array('courseid' => $COURSE->id));
 
                     // User fullname.
@@ -989,29 +1001,29 @@ class mod_surveypro_submissionmanager {
                     if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
                         $displayediticon = true;
                     } else {
-                        $displayediticon = $this->caneditownsubmissions;
+                        $displayediticon = $caneditownsubmissions;
                     }
                 } else { // I am not the owner.
                     if ($groupmode == SEPARATEGROUPS) {
-                        $displayediticon = $groupuser && $this->caneditotherssubmissions;
+                        $displayediticon = $groupuser && $caneditotherssubmissions;
                     } else { // NOGROUPS || VISIBLEGROUPS.
-                        $displayediticon = $this->caneditotherssubmissions;
+                        $displayediticon = $caneditotherssubmissions;
                     }
                 }
                 if ($displayediticon) {
                     $paramurl['view'] = SURVEYPRO_EDITRESPONSE;
                     if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
-                        $icons = $OUTPUT->action_icon(new moodle_url('/mod/surveypro/view_userform.php', $paramurl),
+                        $icons = $OUTPUT->action_icon(new moodle_url('/mod/surveypro/view_form.php', $paramurl),
                             new pix_icon('t/edit', $nonhistoryedittitle, 'moodle', array('title' => $nonhistoryedittitle)),
                             null, array('id' => 'edit_submission_'.$submissionsuffix, 'title' => $nonhistoryedittitle));
                     } else {
-                        $icons = $OUTPUT->action_icon(new moodle_url('/mod/surveypro/view_userform.php', $paramurl),
+                        $icons = $OUTPUT->action_icon(new moodle_url('/mod/surveypro/view_form.php', $paramurl),
                             new pix_icon($editiconpath, $edittitle, 'moodle', array('title' => $edittitle)),
                             null, array('id' => $linkidprefix.$submissionsuffix, 'title' => $edittitle));
                     }
                 } else {
                     $paramurl['view'] = SURVEYPRO_READONLYRESPONSE;
-                    $icons = $OUTPUT->action_icon(new moodle_url('/mod/surveypro/view_userform.php', $paramurl),
+                    $icons = $OUTPUT->action_icon(new moodle_url('/mod/surveypro/view_form.php', $paramurl),
                         new pix_icon('readonly', $readonlyaccess, 'surveypro', array('title' => $readonlyaccess)),
                         null, array('id' => 'view_submission_'.$submissionsuffix, 'title' => $readonlyaccess));
                 }
@@ -1020,29 +1032,27 @@ class mod_surveypro_submissionmanager {
                 $paramurl = $paramurlbase;
                 $paramurl['submissionid'] = $submission->submissionid;
                 if ($ismine) { // I am the owner.
-                    $displaydeleteicon = $this->candeleteownsubmissions;
+                    $displaydeleteicon = $candeleteownsubmissions;
                 } else {
                     if ($groupmode == SEPARATEGROUPS) {
-                        $displaydeleteicon = $groupuser && $this->candeleteotherssubmissions;
+                        $displaydeleteicon = $groupuser && $candeleteotherssubmissions;
                     } else { // NOGROUPS || VISIBLEGROUPS.
-                        $displaydeleteicon = $this->candeleteotherssubmissions;
+                        $displaydeleteicon = $candeleteotherssubmissions;
                     }
                 }
                 if ($displaydeleteicon) {
                     $paramurl['act'] = SURVEYPRO_DELETERESPONSE;
                     $paramurl['sesskey'] = sesskey();
-                    $paramurl['cover'] = 0;
                     $icons .= $OUTPUT->action_icon(new moodle_url('/mod/surveypro/view.php', $paramurl),
                         new pix_icon('t/delete', $deletetitle, 'moodle', array('title' => $deletetitle)),
                         null, array('id' => 'delete_submission_'.$submissionsuffix, 'title' => $deletetitle));
                 }
 
                 // Download to pdf.
-                if ($this->cansavesubmissiontopdf) {
+                if ($cansavesubmissiontopdf) {
                     $paramurl = $paramurlbase;
                     $paramurl['submissionid'] = $submission->submissionid;
                     $paramurl['view'] = SURVEYPRO_RESPONSETOPDF;
-                    $paramurl['cover'] = 0;
                     $icons .= $OUTPUT->action_icon(new moodle_url('/mod/surveypro/view.php', $paramurl),
                         new pix_icon('i/export', $downloadpdftitle, 'moodle', array('title' => $downloadpdftitle)),
                         null, array('id' => 'pdf_submission_'.$submissionsuffix, 'title' => $downloadpdftitle));
@@ -1061,7 +1071,7 @@ class mod_surveypro_submissionmanager {
 
         // If this is the output of a search and nothing has been found add a way to show all submissions.
         if (!isset($tablerow) && ($this->searchquery)) {
-            $url = new moodle_url('/mod/surveypro/view.php', array('id' => $this->cm->id, 'cover' => 0));
+            $url = new moodle_url('/mod/surveypro/view.php', array('id' => $this->cm->id));
             echo $OUTPUT->box($OUTPUT->single_button($url, get_string('showallsubmissions', 'mod_surveypro'), 'get'), 'clearfix mdl-align');
         }
     }
@@ -1075,27 +1085,35 @@ class mod_surveypro_submissionmanager {
     public function show_action_buttons() {
         global $OUTPUT;
 
+        $cansubmit = has_capability('mod/surveypro:submit', $this->context, null, true);
+        $canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context, null, true);
+        $candeleteownsubmissions = has_capability('mod/surveypro:deleteownsubmissions', $this->context, null, true);
+        $candeleteotherssubmissions = has_capability('mod/surveypro:deleteotherssubmissions', $this->context, null, true);
+
         // Begin of: is the button to add one more response going to be the page?
         $timenow = time();
         $countclosed = $this->user_sent_submissions(SURVEYPRO_STATUSCLOSED);
         $inprogress = $this->user_sent_submissions(SURVEYPRO_STATUSINPROGRESS);
         $next = $countclosed + $inprogress + 1;
 
-        $addnew = $this->cansubmit;
+        $roles = get_roles_used_in_context($this->context);
+        $addnew = count(array_keys($roles));
+        $addnew = $addnew && $cansubmit;
+        $addnew = $addnew && $this->hasitems;
         if ($this->surveypro->timeopen) {
             $addnew = $addnew && ($this->surveypro->timeopen < $timenow);
         }
         if ($this->surveypro->timeclose) {
             $addnew = $addnew && ($this->surveypro->timeclose > $timenow);
         }
-        if (!$this->canignoremaxentries) {
+        if (!$canignoremaxentries) {
             $addnew = $addnew && (($this->surveypro->maxentries == 0) || ($next <= $this->surveypro->maxentries));
         }
         // End of: is the button to add one more response going to be the page?
 
         // Begin of: is the button to delete all responses going to be the page?
-        $deleteall = $this->candeleteownsubmissions;
-        $deleteall = $deleteall && $this->candeleteotherssubmissions;
+        $deleteall = $candeleteownsubmissions;
+        $deleteall = $deleteall && $candeleteotherssubmissions;
         $deleteall = $deleteall && empty($this->searchquery);
         $deleteall = $deleteall && empty($_GET['tifirst']); // Hide the deleteall button if only partial responses are shown.
         $deleteall = $deleteall && empty($_GET['tilast']);  // Hide the deleteall button if only partial responses are shown.
@@ -1104,14 +1122,13 @@ class mod_surveypro_submissionmanager {
 
         $buttoncount = 0;
         if ($addnew) {
-            $addurl = new moodle_url('/mod/surveypro/view_userform.php', array('id' => $this->cm->id, 'view' => SURVEYPRO_NEWRESPONSE));
+            $addurl = new moodle_url('/mod/surveypro/view_form.php', array('id' => $this->cm->id, 'view' => SURVEYPRO_NEWRESPONSE));
             $buttoncount = 1;
         }
         if ($deleteall) {
             $paramurl = array();
             $paramurl['id'] = $this->cm->id;
             $paramurl['act'] = SURVEYPRO_DELETEALLRESPONSES;
-            $paramurl['cover'] = 0;
             $paramurl['sesskey'] = sesskey();
 
             $deleteurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
@@ -1148,21 +1165,51 @@ class mod_surveypro_submissionmanager {
      * @param $confirm
      * @return
      */
-    public function prevent_direct_user_input($confirm) {
+    private function prevent_direct_user_input($confirm) {
         global $COURSE, $USER, $DB;
 
         if ($this->action == SURVEYPRO_NOACTION) {
             return true;
         }
+        if ($confirm == SURVEYPRO_CONFIRMED_DONE) {
+            return true;
+        }
         if ($confirm == SURVEYPRO_CONFIRMED_NO) {
             return true;
         }
+
+        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
+        $caneditownsubmissions = has_capability('mod/surveypro:editownsubmissions', $this->context, null, true);
+        $caneditotherssubmissions = has_capability('mod/surveypro:editotherssubmissions', $this->context, null, true);
+        $candeleteownsubmissions = has_capability('mod/surveypro:deleteownsubmissions', $this->context, null, true);
+        $candeleteotherssubmissions = has_capability('mod/surveypro:deleteotherssubmissions', $this->context, null, true);
+        $cansavesubmissiontopdf = has_capability('mod/surveypro:savesubmissiontopdf', $this->context, null, true);
+
+        if ($this->action == SURVEYPRO_NOACTION) {
+            return true;
+        }
+        if ($confirm == SURVEYPRO_CONFIRMED_DONE) {
+            return true;
+        }
+        if ($confirm == SURVEYPRO_CONFIRMED_NO) {
+            return true;
+        }
+
+        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
+        $caneditownsubmissions = has_capability('mod/surveypro:editownsubmissions', $this->context, null, true);
+        $caneditotherssubmissions = has_capability('mod/surveypro:editotherssubmissions', $this->context, null, true);
+        $candeleteownsubmissions = has_capability('mod/surveypro:deleteownsubmissions', $this->context, null, true);
+        $candeleteotherssubmissions = has_capability('mod/surveypro:deleteotherssubmissions', $this->context, null, true);
+        $cansavesubmissiontopdf = has_capability('mod/surveypro:savesubmissiontopdf', $this->context, null, true);
+
         if ($this->action != SURVEYPRO_DELETEALLRESPONSES) { // If a specific submission is involved.
-            if (!$ownerid = $DB->get_field('surveypro_submission', 'userid', array('id' => $this->submissionid), IGNORE_MISSING)) {
+            $ownerid = $DB->get_field('surveypro_submission', 'userid', array('id' => $this->submissionid), IGNORE_MISSING);
+            if (!$ownerid) {
                 print_error('incorrectaccessdetected', 'mod_surveypro');
             }
 
-            if (!$ismine = ($ownerid == $USER->id)) {
+            $ismine = ($ownerid == $USER->id);
+            if (!$ismine) {
                 $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
                 if ($groupmode == SEPARATEGROUPS) {
                     $mygroupmates = surveypro_groupmates($this->cm);
@@ -1174,21 +1221,21 @@ class mod_surveypro_submissionmanager {
         switch ($this->action) {
             case SURVEYPRO_DELETERESPONSE:
                 if ($ismine) {
-                    $allowed = $this->candeleteownsubmissions;
+                    $allowed = $candeleteownsubmissions;
                 } else {
                     if (!$groupmode) {
-                        $allowed = $this->candeleteotherssubmissions;
+                        $allowed = $candeleteotherssubmissions;
                     } else {
                         if ($groupmode == SEPARATEGROUPS) {
-                            $allowed = $groupuser && $this->candeleteotherssubmissions;
+                            $allowed = $groupuser && $candeleteotherssubmissions;
                         } else { // NOGROUPS || VISIBLEGROUPS.
-                            $allowed = $this->candeleteotherssubmissions;
+                            $allowed = $candeleteotherssubmissions;
                         }
                     }
                 }
                 break;
             case SURVEYPRO_DELETEALLRESPONSES:
-                $allowed = $this->candeleteotherssubmissions;
+                $allowed = $candeleteotherssubmissions;
                 break;
             default:
                 $allowed = false;
@@ -1203,33 +1250,33 @@ class mod_surveypro_submissionmanager {
                     $allowed = $this->canseeownsubmissions;
                 } else {
                     if (!$groupmode) {
-                        $allowed = $this->canseeotherssubmissions;
+                        $allowed = $canseeotherssubmissions;
                     } else {
                         if ($groupmode == SEPARATEGROUPS) {
-                            $allowed = $groupuser && $this->canseeotherssubmissions;
+                            $allowed = $groupuser && $canseeotherssubmissions;
                         } else { // NOGROUPS || VISIBLEGROUPS.
-                            $allowed = $this->canseeotherssubmissions;
+                            $allowed = $canseeotherssubmissions;
                         }
                     }
                 }
                 break;
             case SURVEYPRO_EDITRESPONSE:
                 if ($ismine) {
-                    $allowed = $this->caneditownsubmissions;
+                    $allowed = $caneditownsubmissions;
                 } else {
                     if (!$groupmode) {
-                        $allowed = $this->caneditotherssubmissions;
+                        $allowed = $caneditotherssubmissions;
                     } else {
                         if ($groupmode == SEPARATEGROUPS) {
-                            $allowed = $groupuser && $this->caneditotherssubmissions;
+                            $allowed = $groupuser && $caneditotherssubmissions;
                         } else { // NOGROUPS || VISIBLEGROUPS.
-                            $allowed = $this->caneditotherssubmissions;
+                            $allowed = $caneditotherssubmissions;
                         }
                     }
                 }
                 break;
             case SURVEYPRO_RESPONSETOPDF:
-                $allowed = $this->cansavesubmissiontopdf;
+                $allowed = $cansavesubmissiontopdf;
                 break;
             default:
                 $allowed = false;
@@ -1246,7 +1293,7 @@ class mod_surveypro_submissionmanager {
      * @param none
      * @return
      */
-    public function submission_to_pdf() {
+    private function submission_to_pdf() {
         global $CFG, $DB;
 
         if ($this->view != SURVEYPRO_RESPONSETOPDF) {
@@ -1255,7 +1302,7 @@ class mod_surveypro_submissionmanager {
 
         // Event: submissioninpdf_downloaded.
         $eventdata = array('context' => $this->context, 'objectid' => $this->submissionid);
-        $eventdata['other'] = array('cover' => 0, 'view' => SURVEYPRO_RESPONSETOPDF);
+        $eventdata['other'] = array('view' => SURVEYPRO_RESPONSETOPDF);
         $event = \mod_surveypro\event\submissioninpdf_downloaded::create($eventdata);
         $event->trigger();
 
@@ -1268,16 +1315,11 @@ class mod_surveypro_submissionmanager {
         $user = $DB->get_record('user', array('id' => $submission->userid));
         $userdatarecord = $DB->get_records('surveypro_answer', array('submissionid' => $this->submissionid), '', 'itemid, id, content');
 
-        $accessedadvancedform = has_capability('mod/surveypro:accessadvanceditems', $this->context, $user->id, true);
-        // $canaccessadvanceditems, $searchform = false; $type = false; $formpage = false;
-        list($sql, $whereparams) = surveypro_fetch_items_seeds($this->surveypro->id, $accessedadvancedform, false);
+        $canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $this->context, $user->id, true);
+        list($sql, $whereparams) = surveypro_fetch_items_seeds($this->surveypro->id, $canaccessadvanceditems, false);
 
         // I am not allowed to get ONLY answers from surveypro_answer
-        //     because I also need to gather info about fieldset and label so:
-        // $sql = 'SELECT *, s.id as submissionid, ud.id as userdataid, ud.itemid as id
-        //         FROM {surveypro_submission} s
-        //             JOIN {surveypro_answer} ud ON ud.submissionid = s.id
-        //         WHERE s.id = :submissionid';
+        // because I also need to gather info about fieldset and label so:
         $itemseeds = $DB->get_recordset_sql($sql, $whereparams);
 
         $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);

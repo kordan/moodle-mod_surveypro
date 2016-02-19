@@ -24,6 +24,8 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/utemplate.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/utemplates/apply_form.php');
 
@@ -46,18 +48,12 @@ $utemplateid = optional_param('fid', 0, PARAM_INT);
 $action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
 $confirm = optional_param('cnf', SURVEYPRO_UNCONFIRMED, PARAM_INT);
 
-// Params never passed but needed by called class.
-$view = SURVEYPRO_NOVIEW;
-
 $context = context_module::instance($cm->id);
 require_capability('mod/surveypro:applyusertemplates', $context);
 
 // Calculations.
 $utemplateman = new mod_surveypro_usertemplate($cm, $context, $surveypro);
-$utemplateman->set_utemplateid($utemplateid);
-$utemplateman->set_action($action);
-$utemplateman->set_view($view);
-$utemplateman->set_confirm($confirm);
+$utemplateman->setup($utemplateid, $action, $confirm);
 
 $utemplateman->prevent_direct_user_input();
 
@@ -97,13 +93,12 @@ navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
-$moduletab = SURVEYPRO_TABUTEMPLATES; // Needed by tabs.php.
-$modulepage = SURVEYPRO_UTEMPLATES_APPLY; // Needed by tabs.php.
-require_once($CFG->dirroot.'/mod/surveypro/tabs.php');
+$tabman = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABUTEMPLATES, SURVEYPRO_UTEMPLATES_APPLY);
 
 $utemplateman->friendly_stop();
 
-if (surveypro_count_submissions($surveypro->id, SURVEYPRO_STATUSALL)) {
+$utilityman = new mod_surveypro_utility($cm, $surveypro);
+if ($utilityman->has_submissions()) {
     echo $OUTPUT->notification(get_string('hassubmissions_alert', 'mod_surveypro'), 'notifymessage');
 }
 

@@ -220,7 +220,7 @@
       <advanced>0</advanced>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;mandatory&lt;br /&gt;&lt;/li&gt;&lt;li&gt;pattern set to email address&lt;br /&gt;&lt;/li&gt;&lt;li&gt;default not set&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is not set so the user will be forced to enter a an email address.&lt;/p&gt;</content>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory&lt;br /&gt;&lt;/li&gt;&lt;li&gt;pattern set to email address&lt;br /&gt;&lt;/li&gt;&lt;li&gt;default not set&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is not set so the user will be forced to enter a an email address.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>7 intro</customnumber>
       <indent>0</indent>
@@ -253,7 +253,7 @@
       <advanced>0</advanced>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;mandatory&lt;br /&gt;&lt;/li&gt;&lt;li&gt;pattern set to web page URL&lt;br /&gt;&lt;/li&gt;&lt;li&gt;default not set&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is not set so the user will be forced to enter a web page URL.&lt;/p&gt;</content>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory&lt;br /&gt;&lt;/li&gt;&lt;li&gt;pattern set to web page URL&lt;br /&gt;&lt;/li&gt;&lt;li&gt;default not set&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is not set so the user will be forced to enter a web page URL.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <customnumber>8 intro</customnumber>
       <indent>0</indent>
