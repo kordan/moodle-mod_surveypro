@@ -192,7 +192,6 @@ $string['fieldplugin'] = 'Element plugin';
 $string['fieldplugins'] = 'Field plugin';
 $string['fillinginstructioninsearch_descr'] = 'Are filling instructions needed in the search form?';
 $string['fillinginstructioninsearch'] = 'Filling instruction in search form';
-$string['findall'] = 'Find all';
 $string['format'] = 'format element';
 $string['formatplugin'] = 'Format plugin';
 $string['formatplugins'] = 'Format plugin';
