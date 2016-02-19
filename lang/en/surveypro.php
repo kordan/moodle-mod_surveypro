@@ -501,7 +501,6 @@ $string['wrongrelation'] = '"{$a}" will never match';
 $string['wrongsortindex'] = 'The sortindex of the items in the template does not grow uniformly';
 $string['xmltemplate_help'] = 'Choose the template you want to download as zip file to share it with other moodle users.';
 $string['xsdnotfound'] = 'xsd validation schema for your xml template was not found.<br />Your code must be fixed by a developer.';
-$string['yournextattempt'] = 'You could fill out your survey number {$a}';
 $string['yoursubmissions'] = 'Your \'{$a->status}\' responses: {$a->responsescount}';
 
 $string['count_allitems'] = 'Survey built on {$a} elements.';

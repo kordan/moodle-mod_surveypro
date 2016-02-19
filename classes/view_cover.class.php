@@ -153,10 +153,6 @@ class mod_surveypro_covermanager {
             $a->status = get_string('statusinprogress', 'mod_surveypro');
             $a->responsescount = $inprogress;
             $messages[] = get_string('yoursubmissions', 'mod_surveypro', $a);
-
-            if ($displaybutton) {
-                $messages[] = get_string('yournextattempt', 'mod_surveypro', $next);
-            }
         }
 
         $this->display_messages($messages, get_string('attemptinfo', 'mod_surveypro'));

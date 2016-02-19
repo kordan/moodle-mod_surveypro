@@ -666,14 +666,14 @@ EOS;
      */
     public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
         if (isset($answer['mainelement'])) {
+            if ($answer['mainelement'] == SURVEYPRO_INVITEVALUE) {
+                $olduseranswer->content = null;
+                return;
+            }
             if ($answer['mainelement'] == 'other') {
                 $olduseranswer->content = $answer['text'];
             } else {
-                if ($answer['mainelement'] == SURVEYPRO_INVITEVALUE) {
-                    $olduseranswer->content = null;
-                } else {
-                    $olduseranswer->content = $answer['mainelement'];
-                }
+                $olduseranswer->content = $answer['mainelement'];
             }
             return;
         }
@@ -683,8 +683,7 @@ EOS;
     }
 
     /**
-     * this method is called from surveypro_set_prefill (in locallib.php) to set $prefill at user form display time
-     * (defaults are set in userform_mform_element)
+     * this method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time
      *
      * userform_set_prefill
      *
