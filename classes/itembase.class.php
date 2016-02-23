@@ -1011,12 +1011,18 @@ class mod_surveypro_itembase {
      * @return the content of the corresponding element of $this->insetupform
      */
     public function get_itemform_preset() {
-        $data = get_object_vars($this);
+        if (!empty($this->itemid)) {
+            $data = get_object_vars($this);
 
-        // Just to save few nanoseconds.
-        unset($data['cm']);
-        // unset($data['context']);
-        unset($data['insetupform']);
+            // Just to save few nanoseconds.
+            unset($data['cm']);
+            // unset($data['context']);
+            unset($data['insetupform']);
+        } else {
+            $data = array();
+            $data['type'] = $this->type;
+            $data['plugin'] = $this->plugin;
+        }
 
         return $data;
     }
