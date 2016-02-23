@@ -441,7 +441,14 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
             surveypro_reset_items_pages($this->surveypro->id);
         }
 
-        $this->trigger_event('usertemplate_applied');
+        if (empty($this->utemplateid)) {
+            // If $action == SURVEYPRO_IGNOREITEMS don't add any log.
+            if ($action != SURVEYPRO_IGNOREITEMS) {
+                $this->trigger_event('usertemplate_appliedempty', $action);
+            }
+        } else {
+            $this->trigger_event('usertemplate_applied', $action);
+        }
 
         switch ($action) {
             case SURVEYPRO_IGNOREITEMS:
@@ -1209,14 +1216,48 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      * @param string $event: event to trigger
      * @return none
      */
-    public function trigger_event($eventname) {
+    public function trigger_event($eventname, $action=null) {
         $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
         switch ($eventname) {
             case 'all_usertemplates_viewed':
                 $event = \mod_surveypro\event\all_usertemplates_viewed::create($eventdata);
                 break;
+            case 'usertemplate_appliedempty':
+                if ($action == SURVEYPRO_HIDEITEMS) {
+                    $straction = get_string('hideitems', 'mod_surveypro');
+                }
+                if ($action == SURVEYPRO_DELETEALLITEMS) {
+                    $straction = get_string('deleteallitems', 'mod_surveypro');
+                }
+                if ($action == SURVEYPRO_DELETEVISIBLEITEMS) {
+                    $straction = get_string('deletevisibleitems', 'mod_surveypro');
+                }
+                if ($action == SURVEYPRO_DELETEHIDDENITEMS) {
+                    $straction = get_string('deletehiddenitems', 'mod_surveypro');
+                }
+                $eventdata['other'] = array('action' => $straction);
+                $event = \mod_surveypro\event\usertemplate_appliedempty::create($eventdata);
+                break;
             case 'usertemplate_applied':
-                $eventdata['other'] = array('templatename' => $this->get_utemplate_name());
+                if ($action == SURVEYPRO_IGNOREITEMS) {
+                    $straction = get_string('ignoreitems', 'mod_surveypro');
+                }
+                if ($action == SURVEYPRO_HIDEITEMS) {
+                    $straction = get_string('hideitems', 'mod_surveypro');
+                }
+                if ($action == SURVEYPRO_DELETEALLITEMS) {
+                    $straction = get_string('deleteallitems', 'mod_surveypro');
+                }
+                if ($action == SURVEYPRO_DELETEVISIBLEITEMS) {
+                    $straction = get_string('deletevisibleitems', 'mod_surveypro');
+                }
+                if ($action == SURVEYPRO_DELETEHIDDENITEMS) {
+                    $straction = get_string('deletehiddenitems', 'mod_surveypro');
+                }
+                $other = array();
+                $other['templatename'] = $this->get_utemplate_name();
+                $other['action'] = $straction;
+                $eventdata['other'] = $other;
                 $event = \mod_surveypro\event\usertemplate_applied::create($eventdata);
                 break;
             case 'usertemplate_exported':
