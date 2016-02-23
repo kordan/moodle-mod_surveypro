@@ -191,6 +191,23 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
     }
 
     /**
+     * item_add_mandatory_plugin_fields
+     * Copy mandatory fields to $record.
+     *
+     * @param stdClass $record
+     * @return nothing
+     */
+    public function item_add_mandatory_plugin_fields(&$record) {
+        $record['content'] = 'Autofill';
+        $record['contentformat'] = 1;
+        $record['position'] = 0;
+        $record['variable'] = 'autofill_001';
+        $record['indent'] = 0;
+        $record['hiddenfield'] = 0;
+        $record['element01'] = 'userid';
+    }
+
+    /**
      * item_custom_fields_to_form
      * translates the class properties to form fields value
      *

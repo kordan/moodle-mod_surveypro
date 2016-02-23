@@ -189,6 +189,28 @@ class mod_surveypro_field_checkbox extends mod_surveypro_itembase {
     }
 
     /**
+     * item_add_mandatory_plugin_fields
+     * Copy mandatory fields to $record.
+     *
+     * @param stdClass $record
+     * @return nothing
+     */
+    public function item_add_mandatory_plugin_fields(&$record) {
+        $record['content'] = 'Checkbox';
+        $record['contentformat'] = 1;
+        $record['position'] = 0;
+        $record['required'] = 0;
+        $record['hideinstructions'] = 0;
+        $record['variable'] = 'checkbox_001';
+        $record['indent'] = 0;
+        $record['options'] = "first\nsecond";
+        $record['noanswerdefault'] = 0;
+        $record['downloadformat'] = SURVEYPRO_ITEMRETURNSLABELS;
+        $record['minimumrequired'] = 0;
+        $record['adjustment'] = 0;
+    }
+
+    /**
      * item_custom_fields_to_db
      * sets record field to store the correct value to db for the date custom item
      *
@@ -203,7 +225,7 @@ class mod_surveypro_field_checkbox extends mod_surveypro_itembase {
         // Nothing to do: no need to overwrite variables.
 
         // 3. Set values corresponding to checkboxes.
-        $checkboxes = array('noanswerdefault');
+        $checkboxes = array('required', 'hideinstructions', 'noanswerdefault');
         foreach ($checkboxes as $checkbox) {
             $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
         }

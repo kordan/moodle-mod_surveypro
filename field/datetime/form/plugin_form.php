@@ -80,7 +80,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $elementgroup[] = $mform->createElement('radio', 'defaultoption', '', get_string('likelast', 'mod_surveypro'), SURVEYPRO_LIKELASTDEFAULT);
         $elementgroup[] = $mform->createElement('radio', 'defaultoption', '', get_string('noanswer', 'mod_surveypro'), SURVEYPRO_NOANSWERDEFAULT);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_datetime'), ' ', false);
-        $mform->setDefault($fieldname, SURVEYPRO_TIMENOWDEFAULT);
+        $mform->setDefault($fieldname, SURVEYPRO_INVITEDEFAULT);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_datetime');
 
         // Item: defaultvalue.
