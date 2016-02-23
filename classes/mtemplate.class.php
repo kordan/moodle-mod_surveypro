@@ -423,7 +423,6 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
 
         $paramurl = array('s' => $this->surveypro->id);
         $redirecturl = new moodle_url('/mod/surveypro/layout_preview.php', $paramurl);
-
         redirect($redirecturl);
     }
 
@@ -480,7 +479,9 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
 
         $naturalsortindex = 0;
         foreach ($simplexml->children() as $xmlitem) {
-            // echo '<h3>Count of tables for the current item: '.count($xmlitem->children()).'</h3>';
+
+            // Read the attributes of the item node:
+            // <item type="field" plugin="character" version="2015123000">
             foreach ($xmlitem->attributes() as $attribute => $value) {
                 // <item type="format" plugin="label" version="2014030201">
                 // echo 'Trovo: '.$attribute.' = '.$value.'<br />';
@@ -492,10 +493,28 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
                 }
             }
 
+            // Take care to details.
+            // Load the item class in order to call its methods to validate $record before saving it.
+            require_once($CFG->dirroot.'/mod/surveypro/'.$currenttype.'/'.$currentplugin.'/classes/plugin.class.php');
+            $item = surveypro_get_item($this->cm, 0, $currenttype, $currentplugin);
+
             foreach ($xmlitem->children() as $xmltable) { // Surveypro_item and surveypro_<<plugin>>.
                 $tablename = $xmltable->getName();
-                // echo '<h4>Count of fields of the table '.$tablename.': '.count($xmltable->children()).'</h4>';
+
+                $currenttablestructure = $this->get_table_structure($tablename);
+
                 $record = new stdClass();
+
+                // Add to $record mandatory fields that will be overwritten, hopefully, with the content of the usertemplate.
+                $record->surveyproid = (int)$this->surveypro->id;
+                $record->type = $currenttype;
+                $record->plugin = $currentplugin;
+                if ($tablename == 'surveypro_item') {
+                    $item->item_add_mandatory_base_fields($record);
+                } else {
+                    $item->item_add_mandatory_plugin_fields($record);
+                }
+
                 foreach ($xmltable->children() as $xmlfield) {
                     $fieldname = $xmlfield->getName();
 
@@ -527,15 +546,14 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
                         $filerecord->filename = $filename;
                         $fileinfo = $fs->create_file_from_string($filerecord, $filecontent);
                     } else {
-                        $record->{$fieldname} = (string)$xmlfield;
+                        $fieldexists = in_array($fieldname, $currenttablestructure);
+                        if ($fieldexists) {
+                            $record->{$fieldname} = (string)$xmlfield;
+                        }
                     }
                 }
 
                 unset($record->id);
-                $record->surveyproid = $this->surveypro->id;
-
-                $record->type = $currenttype;
-                $record->plugin = $currentplugin;
 
                 // Apply master template settings.
                 list($tablename, $record) = $mastertemplate->apply_template_settings($tablename, $record, $config);
@@ -550,16 +568,13 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
 
                     $itemid = $DB->insert_record($tablename, $record);
                 } else {
-                    // Before adding the item, ask to its class to check its coherence.
-                    require_once($CFG->dirroot.'/mod/surveypro/'.$currenttype.'/'.$currentplugin.'/classes/plugin.class.php');
-                    $item = surveypro_get_item($this->cm, 0, $currenttype, $currentplugin);
+                    // $item has already been defined few lines before $tablename was == 'surveypro_item'.
+
+                    // Take care to details.
                     $item->item_force_coherence($record);
-
-                    if ($currenttype == SURVEYPRO_TYPEFIELD) {
-                        $item->item_validate_variablename($record, $itemid);
-                    }
-
+                    $item->item_validate_variablename($record, $itemid);
                     $record->itemid = $itemid;
+
                     $DB->insert_record($tablename, $record, false);
                 }
             }

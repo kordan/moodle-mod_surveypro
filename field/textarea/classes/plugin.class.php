@@ -180,6 +180,27 @@ class mod_surveypro_field_textarea extends mod_surveypro_itembase {
     }
 
     /**
+     * item_add_mandatory_plugin_fields
+     * Copy mandatory fields to $record.
+     *
+     * @param stdClass $record
+     * @return nothing
+     */
+    public function item_add_mandatory_plugin_fields(&$record) {
+        $record->content = 'Text (long)';
+        $record->contentformat = 1;
+        $record->position = 0;
+        $record->required = 0;
+        $record->hideinstructions = 0;
+        $record->variable = 'textarea_001';
+        $record->indent = 0;
+        $record->useeditor = 0;
+        $record->arearows = 10;
+        $record->areacols = 60;
+        $record->minlength = 0;
+    }
+
+    /**
      * item_custom_fields_to_form
      * add checkboxes selection for empty fields
      *
@@ -220,6 +241,7 @@ class mod_surveypro_field_textarea extends mod_surveypro_itembase {
         }
 
         // 3. Set values corresponding to checkboxes.
+        // Take care: 'required', 'hideinstructions' were already considered in item_get_common_settings
         $checkboxes = array('useeditor');
         foreach ($checkboxes as $checkbox) {
             $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;

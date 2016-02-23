@@ -165,6 +165,7 @@ $itemlistman->item_welcome();
 
 $data = $item->get_itemform_preset();
 $itemform->set_data($data);
+
 $itemform->display();
 
 // Finish the page.

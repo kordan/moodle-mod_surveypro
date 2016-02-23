@@ -170,6 +170,26 @@ class mod_surveypro_field_boolean extends mod_surveypro_itembase {
     }
 
     /**
+     * item_add_mandatory_plugin_fields
+     * Copy mandatory fields to $record.
+     *
+     * @param stdClass $record
+     * @return nothing
+     */
+    public function item_add_mandatory_plugin_fields(&$record) {
+        $record->content = 'Boolean';
+        $record->contentformat = 1;
+        $record->position = 0;
+        $record->required = 0;
+        $record->variable = 'boolean_001';
+        $record->indent = 0;
+        $record->defaultoption = SURVEYPRO_INVITEDEFAULT;
+        $record->defaultvalue = 1;
+        $record->downloadformat = 'strfbool01';
+        $record->style = 2;
+    }
+
+    /**
      * item_custom_fields_to_form
      *
      * @param none
@@ -196,6 +216,7 @@ class mod_surveypro_field_boolean extends mod_surveypro_itembase {
         $record->hideinstructions = 1;
 
         // 3. Set values corresponding to checkboxes.
+        // Take care: 'required', 'hideinstructions' were already considered in item_get_common_settings
         // Nothing to do: no checkboxes in this plugin item form.
 
         // 4. Other.

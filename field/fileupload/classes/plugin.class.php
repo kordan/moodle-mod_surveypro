@@ -145,6 +145,8 @@ class mod_surveypro_field_fileupload extends mod_surveypro_itembase {
         // Now execute very specific plugin level actions.
 
         // Begin of: plugin specific settings (eventually overriding general ones).
+        // Set custom fields value as defined for this question plugin.
+        $this->item_custom_fields_to_db($record);
         // End of: plugin specific settings (eventually overriding general ones).
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
@@ -158,6 +160,46 @@ class mod_surveypro_field_fileupload extends mod_surveypro_itembase {
      */
     public static function item_get_canbeparent() {
         return self::$canbeparent;
+    }
+
+    /**
+     * item_custom_fields_to_db
+     * sets record field to store the correct value to db for the age custom item
+     *
+     * @param $record
+     * @return
+     */
+    public function item_custom_fields_to_db($record) {
+        // 1. Special management for composite fields.
+        // Nothing to do: they don't exist in this plugin.
+
+        // 2. Override few values.
+        // Nothing to do: no need to overwrite variables.
+
+        // 3. Set values corresponding to checkboxes.
+        // Take care: 'required', 'hideinstructions' were already considered in item_get_common_settings
+        // Nothing to do: no checkboxes in this plugin item form.
+
+        // 4. Other.
+    }
+
+    /**
+     * item_add_mandatory_plugin_fields
+     * Copy mandatory fields to $record.
+     *
+     * @param stdClass $record
+     * @return nothing
+     */
+    public function item_add_mandatory_plugin_fields(&$record) {
+        $record->content = 'Attachment';
+        $record->contentformat = 1;
+        $record->position = 0;
+        $record->required = 0;
+        $record->variable = 'fileupload_001';
+        $record->indent = 0;
+        $record->maxfiles = 1;
+        $record->maxbytes = 1048576;
+        $record->filetypes = '*';
     }
 
     /**
