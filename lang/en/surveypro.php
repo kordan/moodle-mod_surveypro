@@ -178,6 +178,7 @@ $string['event_submission_viewed'] = 'A response has been viewed';
 $string['event_submissioninpdf_downloaded'] = 'A response has been downloaded to pdf';
 $string['event_unattended_submissions_deleted'] = 'Unattended submissions were deleted by periodic sanity check';
 $string['event_usertemplate_applied'] = 'A user template has been applied';
+$string['event_usertemplate_appliedempty'] = 'An empty user template has been applied';
 $string['event_usertemplate_deleted'] = 'A user template has been deleted';
 $string['event_usertemplate_exported'] = 'A user template has been exported';
 $string['event_usertemplate_imported'] = 'A user template has been imported';

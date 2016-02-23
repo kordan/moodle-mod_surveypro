@@ -51,7 +51,7 @@ class usertemplate_applied extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "User with id '{$this->userid}' has applied the user template '{$this->other['templatename']}'.";
+        return "User with id '{$this->userid}' has applied the user template '{$this->other['templatename']}' with action: '{$this->other['action']}'.";
     }
 
     /**
@@ -107,6 +107,9 @@ class usertemplate_applied extends \core\event\base {
     protected function validate_data() {
         if (!isset($this->other['templatename'])) {
             throw new \coding_exception('templatename is a mandatory property.');
+        }
+        if (!isset($this->other['action'])) {
+            throw new \coding_exception('action is a mandatory property.');
         }
     }
 }
