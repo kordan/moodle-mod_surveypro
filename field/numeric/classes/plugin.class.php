@@ -185,6 +185,25 @@ class mod_surveypro_field_numeric extends mod_surveypro_itembase {
     }
 
     /**
+     * item_add_mandatory_plugin_fields
+     * Copy mandatory fields to $record.
+     *
+     * @param stdClass $record
+     * @return nothing
+     */
+    public function item_add_mandatory_plugin_fields(&$record) {
+        $record['content'] = 'Numeric';
+        $record['contentformat'] = 1;
+        $record['position'] = 0;
+        $record['required'] = 0;
+        $record['hideinstructions'] = 0;
+        $record['variable'] = 'numeric_001';
+        $record['indent'] = 0;
+        $record['signed'] = 0;
+        $record['decimals'] = 0;
+    }
+
+    /**
      * item_custom_fields_to_form
      * add checkboxes selection for empty fields
      *
@@ -219,13 +238,13 @@ class mod_surveypro_field_numeric extends mod_surveypro_itembase {
         // Nothing to do: they don't exist in this plugin.
 
         // 2. Override few values.
-        $checkboxes = array('signed');
+        // Nothing to do: no need to overwrite variables.
+
+        // 3. Set values corresponding to checkboxes.
+        $checkboxes = array('required', 'hideinstructions', 'signed');
         foreach ($checkboxes as $checkbox) {
             $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
         }
-
-        // 3. Set values corresponding to checkboxes.
-        // Nothing to do: no checkboxes in this plugin item form.
 
         // 4. Other: float numbers need more attention because I can write them using , or .
         if (strlen($record->defaultvalue)) {

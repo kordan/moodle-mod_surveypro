@@ -124,12 +124,7 @@ class mod_surveypro_format_label extends mod_surveypro_itembase {
         // Now execute very specific plugin level actions.
 
         // Begin of: plugin specific settings (eventually overriding general ones).
-        // Override few values.
-        // Do preliminary actions on values corresponding to checkboxes.
-        $checkboxes = array('fullwidth');
-        foreach ($checkboxes as $checkbox) {
-            $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
-        }
+        $this->item_custom_fields_to_db($record);
         // End of: plugin specific settings (eventually overriding general ones).
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
@@ -147,12 +142,49 @@ class mod_surveypro_format_label extends mod_surveypro_itembase {
     }
 
     /**
+     * item_custom_fields_to_db
+     * sets record field to store the correct value to db for the age custom item
+     *
+     * @param $record
+     * @return
+     */
+    public function item_custom_fields_to_db($record) {
+        // 1. Special management for composite fields.
+        // Nothing to do: they don't exist in this plugin.
+
+        // 2. Override few values.
+        // Nothing to do: no need to overwrite variables.
+
+        // 3. Set values corresponding to checkboxes.
+        $checkboxes = array('fullwidth');
+        foreach ($checkboxes as $checkbox) {
+            $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
+        }
+
+        // 4. Other.
+    }
+
+    /**
      * item_get_canbeparent
      *
      * @return the content of the static property "canbeparent"
      */
     public static function item_get_canbeparent() {
         return self::$canbeparent;
+    }
+
+    /**
+     * item_add_mandatory_plugin_fields
+     * Copy mandatory fields to $record.
+     *
+     * @param stdClass $record
+     * @return nothing
+     */
+    public function item_add_mandatory_plugin_fields(&$record) {
+        $record['content'] = 'Label';
+        $record['contentformat'] = 1;
+        $record['indent'] = 0;
+        $record['fullwidth'] = 0;
     }
 
     /**

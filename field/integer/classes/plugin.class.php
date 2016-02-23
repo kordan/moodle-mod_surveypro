@@ -116,7 +116,7 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
         // No properties here.
 
         // List of fields I do not want to have in the item definition form.
-        $this->insetupform['hideinstructions'] = false;
+        // Empty list.
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $evaluateparentcontent);
@@ -152,6 +152,7 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
 
         // Begin of: plugin specific settings (eventually overriding general ones).
         // Set custom fields value as defined for this question plugin.
+        $this->item_custom_fields_to_db($record);
         // End of: plugin specific settings (eventually overriding general ones).
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
@@ -168,18 +169,61 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
     }
 
     /**
+     * item_custom_fields_to_db
+     * sets record field to store the correct value to db for the age custom item
+     *
+     * @param $record
+     * @return
+     */
+    public function item_custom_fields_to_db($record) {
+        // 1. Special management for composite fields.
+        // Nothing to do: they don't exist in this plugin.
+
+        // 2. Override few values.
+        // Nothing to do: no need to overwrite variables.
+
+        // 3. Set values corresponding to checkboxes.
+        $checkboxes = array('required', 'hideinstructions');
+        foreach ($checkboxes as $checkbox) {
+            $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
+        }
+
+        // 4. Other.
+    }
+
+    /**
+     * item_add_mandatory_plugin_fields
+     * Copy mandatory fields to $record.
+     *
+     * @param stdClass $record
+     * @return nothing
+     */
+    public function item_add_mandatory_plugin_fields(&$record) {
+        $record['content'] = 'Integer (small)';
+        $record['contentformat'] = 1;
+        $record['position'] = 0;
+        $record['required'] = 0;
+        $record['variable'] = 'integer_001';
+        $record['indent'] = 0;
+        $record['defaultoption'] = SURVEYPRO_INVITEDEFAULT;
+        $record['defaultvalue'] = 0;
+        $record['lowerbound'] = 0;
+        $record['upperbound'] = 255;
+    }
+
+    /**
      * item_force_coherence
      * verify the validity of contents of the record
      * for instance: age not greater than maximumage
      *
      * @param stdClass $record
-     * @return stdClass $record
+     * @return nothing
      */
     public function item_force_coherence($record) {
-        if (isset($record->defaultvalue)) {
+        if (isset($record['defaultvalue'])) {
             $maximuminteger = get_config('surveyprofield_integer', 'maximuminteger');
-            if ($record->defaultvalue > $maximuminteger) {
-                $record->defaultvalue = $maximuminteger;
+            if ($record['defaultvalue'] > $maximuminteger) {
+                $record['defaultvalue'] = $maximuminteger;
             }
         }
     }
@@ -487,6 +531,38 @@ EOS;
                 $errors[$errorkey] = get_string('uerr_greaterthanmaximum', 'surveyprofield_integer');
             }
         }
+    }
+
+    /**
+     * userform_get_filling_instructions
+     *
+     * @param none
+     * @return string $fillinginstruction
+     */
+    public function userform_get_filling_instructions() {
+        $haslowerbound = ($this->lowerbound != 0);
+        $hasupperbound = ($this->upperbound != get_config('surveyprofield_integer', 'maximuminteger'));
+
+        $format = get_string('strftimedate', 'langconfig');
+        if ($haslowerbound && $hasupperbound) {
+            $a = new stdClass();
+            $a->lowerbound = $this->lowerbound;
+            $a->upperbound = $this->upperbound;
+
+            $fillinginstruction = get_string('restriction_lowerupper', 'surveyprofield_integer', $a);
+        } else {
+            $fillinginstruction = '';
+            if ($haslowerbound) {
+                $a = $this->lowerbound;
+                $fillinginstruction = get_string('restriction_lower', 'surveyprofield_integer', $a);
+            }
+            if ($hasupperbound) {
+                $a = $this->upperbound;
+                $fillinginstruction = get_string('restriction_upper', 'surveyprofield_integer', $a);
+            }
+        }
+
+        return $fillinginstruction;
     }
 
     /**

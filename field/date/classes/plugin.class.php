@@ -199,6 +199,28 @@ class mod_surveypro_field_date extends mod_surveypro_itembase {
     }
 
     /**
+     * item_add_mandatory_plugin_fields
+     * Copy mandatory fields to $record.
+     *
+     * @param stdClass $record
+     * @return nothing
+     */
+    public function item_add_mandatory_plugin_fields(&$record) {
+        $record['content'] = 'Date [dd/mm/yyyy]';
+        $record['contentformat'] = 1;
+        $record['position'] = 0;
+        $record['required'] = 0;
+        $record['hideinstructions'] = 0;
+        $record['variable'] = 'date_001';
+        $record['indent'] = 0;
+        $record['defaultoption'] = SURVEYPRO_INVITEDEFAULT;
+        $record['defaultvalue'] = 43200;
+        $record['downloadformat'] = 'strftime05';
+        $record['lowerbound'] = 43200;
+        $record['upperbound'] = 1609416000;
+    }
+
+    /**
      * item_date_to_unix_time
      *
      * @param $year
@@ -216,17 +238,17 @@ class mod_surveypro_field_date extends mod_surveypro_itembase {
      * for instance: age not greater than maximumage
      *
      * @param stdClass $record
-     * @return stdClass $record
+     * @return nothing
      */
     public function item_force_coherence($record) {
-        if (isset($record->defaultvalue)) {
+        if (isset($record['defaultvalue'])) {
             $mindate = $this->item_date_to_unix_time($this->surveypro->startyear, 1, 1);
-            if ($record->defaultvalue < $mindate) {
-                $record->defaultvalue = $mindate;
+            if ($record['defaultvalue'] < $mindate) {
+                $record['defaultvalue'] = $mindate;
             }
             $maxdate = $this->item_date_to_unix_time($this->surveypro->startyear, 12, 31);
-            if ($record->defaultvalue > $maxdate) {
-                $record->defaultvalue = $maxdate;
+            if ($record['defaultvalue'] > $maxdate) {
+                $record['defaultvalue'] = $maxdate;
             }
         }
     }
@@ -288,7 +310,10 @@ class mod_surveypro_field_date extends mod_surveypro_itembase {
         // Nothing to do: no need to overwrite variables.
 
         // 3. Set values corresponding to checkboxes.
-        // Nothing to do: no checkboxes in this plugin item form.
+        $checkboxes = array('required', 'hideinstructions');
+        foreach ($checkboxes as $checkbox) {
+            $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
+        }
 
         // 4. Other.
     }

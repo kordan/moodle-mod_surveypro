@@ -184,6 +184,26 @@ class mod_surveypro_field_radiobutton extends mod_surveypro_itembase {
     }
 
     /**
+     * item_add_mandatory_plugin_fields
+     * Copy mandatory fields to $record.
+     *
+     * @param stdClass $record
+     * @return nothing
+     */
+    public function item_add_mandatory_plugin_fields(&$record) {
+        $record['content'] = 'Radio buttons';
+        $record['contentformat'] = 1;
+        $record['position'] = 0;
+        $record['required'] = 0;
+        $record['variable'] = 'radiobutton_001';
+        $record['indent'] = 0;
+        $record['options'] = "first\nsecond";
+        $record['defaultoption'] = SURVEYPRO_INVITEDEFAULT;
+        $record['downloadformat'] = SURVEYPRO_ITEMRETURNSLABELS;
+        $record['adjustment'] = SURVEYPRO_VERTICAL;
+    }
+
+    /**
      * item_custom_fields_to_form
      *
      * @param none
@@ -210,7 +230,10 @@ class mod_surveypro_field_radiobutton extends mod_surveypro_itembase {
         $record->hideinstructions = 1;
 
         // 3. Set values corresponding to checkboxes.
-        // Nothing to do: no checkboxes in this plugin item form.
+        $checkboxes = array('required');
+        foreach ($checkboxes as $checkbox) {
+            $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
+        }
 
         // 4. Other.
     }
