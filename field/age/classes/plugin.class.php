@@ -177,19 +177,39 @@ class mod_surveypro_field_age extends mod_surveypro_itembase {
     }
 
     /**
+     * item_add_mandatory_plugin_fields
+     * Copy mandatory fields to $record.
+     *
+     * @param stdClass $record
+     * @return nothing
+     */
+    public function item_add_mandatory_plugin_fields(&$record) {
+        $record['content'] = 'Age [yy/mm]';
+        $record['contentformat'] = 1;
+        $record['position'] = 0;
+        $record['required'] = 0;
+        $record['hideinstructions'] = 0;
+        $record['variable'] = 'age_001';
+        $record['indent'] = 0;
+        $record['defaultoption'] = SURVEYPRO_INVITEDEFAULT;
+        $record['lowerbound'] = -2148552000;
+        $record['upperbound'] = 1193918400;
+    }
+
+    /**
      * item_force_coherence
      * verify the validity of contents of the record
      * for instance: age not greater than maximumage
      *
      * @param stdClass $record
-     * @return stdClass $record
+     * @return nothing
      */
     public function item_force_coherence($record) {
-        if (isset($record->defaultvalue)) {
+        if (isset($record['defaultvalue'])) {
             $maxyear = get_config('surveyprofield_age', 'maximumage');
             $maximumage = $this->item_age_to_unix_time($maxyear, 11);
-            if ($record->defaultvalue > $maximumage) {
-                $record->defaultvalue = $maximumage;
+            if ($record['defaultvalue'] > $maximumage) {
+                $record['defaultvalue'] = $maximumage;
             }
         }
     }
@@ -268,7 +288,10 @@ class mod_surveypro_field_age extends mod_surveypro_itembase {
         // Nothing to do: no need to overwrite variables.
 
         // 3. Set values corresponding to checkboxes.
-        // Nothing to do: no checkboxes in this plugin item form.
+        $checkboxes = array('required', 'hideinstructions');
+        foreach ($checkboxes as $checkbox) {
+            $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
+        }
 
         // 4. Other.
     }

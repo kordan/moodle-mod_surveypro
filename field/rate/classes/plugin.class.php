@@ -195,6 +195,29 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
     }
 
     /**
+     * item_add_mandatory_plugin_fields
+     * Copy mandatory fields to $record.
+     *
+     * @param stdClass $record
+     * @return nothing
+     */
+    public function item_add_mandatory_plugin_fields(&$record) {
+        $record['content'] = 'Rate';
+        $record['contentformat'] = 1;
+        $record['position'] = 1;
+        $record['required'] = 0;
+        $record['hideinstructions'] = 0;
+        $record['variable'] = 'rate_001';
+        $record['indent'] = 0;
+        $record['options'] = "first\nsecond";
+        $record['rates'] = "up\ndown";;
+        $record['defaultoption'] = SURVEYPRO_INVITEDEFAULT;
+        $record['downloadformat'] = SURVEYPRO_ITEMRETURNSLABELS;
+        $record['style'] = 0;
+        $record['differentrates'] = 0;
+    }
+
+    /**
      * item_custom_fields_to_form
      *
      * @param none
@@ -219,10 +242,9 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
         // 2. Override few values.
         // Position and hideinstructions are set by design.
         $record->position = SURVEYPRO_POSITIONTOP;
-        $record->hideinstructions = 1;
 
         // 3. Set values corresponding to checkboxes.
-        $checkboxes = array('differentrates');
+        $checkboxes = array('hideinstructions', 'differentrates');
         foreach ($checkboxes as $checkbox) {
             $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
         }

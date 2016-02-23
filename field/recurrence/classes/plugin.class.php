@@ -188,6 +188,28 @@ class mod_surveypro_field_recurrence extends mod_surveypro_itembase {
     }
 
     /**
+     * item_add_mandatory_plugin_fields
+     * Copy mandatory fields to $record.
+     *
+     * @param stdClass $record
+     * @return nothing
+     */
+    public function item_add_mandatory_plugin_fields(&$record) {
+        $record['content'] = 'Recurrence [dd/mm]';
+        $record['contentformat'] = 1;
+        $record['position'] = 0;
+        $record['required'] = 0;
+        $record['hideinstructions'] = 0;
+        $record['variable'] = 'recurrence_001';
+        $record['indent'] = 0;
+        $record['defaultoption'] = SURVEYPRO_INVITEDEFAULT;
+        $record['defaultvalue'] = 43200;
+        $record['downloadformat'] = 'strftime3';
+        $record['lowerbound'] = 43200;
+        $record['upperbound'] = 31492800;
+    }
+
+    /**
      * item_recurrence_to_unix_time
      *
      * @param $month
@@ -253,7 +275,10 @@ class mod_surveypro_field_recurrence extends mod_surveypro_itembase {
         // Nothing to do: no need to overwrite variables.
 
         // 3. Set values corresponding to checkboxes.
-        // Nothing to do: no checkboxes in this plugin item form.
+        $checkboxes = array('required', 'hideinstructions');
+        foreach ($checkboxes as $checkbox) {
+            $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
+        }
 
         // 4. Other.
     }
