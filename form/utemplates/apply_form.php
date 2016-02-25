@@ -63,10 +63,9 @@ class mod_surveypro_applyutemplateform extends moodleform {
         $mform->addElement('hidden', $fieldname, SURVEYPRO_UNCONFIRMED);
         $mform->setType($fieldname, PARAM_INT);
 
-        // Applyutemplate: usertemplate.
+        // Applyutemplate: usertemplateinfo.
         $fieldname = 'usertemplateinfo';
-        // $templatesfiles = array(get_string('notanyset', 'mod_surveypro')) + $templatesfiles;
-        array_unshift($templatesfiles, get_string('notanyset', 'mod_surveypro'));
+        array_unshift($templatesfiles, get_string('choosedots'));
         $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $templatesfiles);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
         $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
@@ -83,5 +82,30 @@ class mod_surveypro_applyutemplateform extends moodleform {
         $mform->setDefault($fieldname, SURVEYPRO_IGNOREITEMS);
 
         $this->add_action_buttons(true, get_string('apply', 'mod_surveypro'));
+    }
+
+    /*
+     * validation
+     *
+     * @param $data
+     * @param $files
+     * @return $errors
+     */
+    public function validation($data, $files) {
+        $mform = $this->_form;
+
+        // Get _customdata.
+        // $cmid = $this->_customdata->cmid;
+        // $surveypro = $this->_customdata->surveypro;
+        // $utemplateman = $this->_customdata->utemplateman;
+
+        $errors = parent::validation($data, $files);
+
+        // Constrain default between boundaries.
+        if (empty($data['usertemplateinfo'])) {
+            $errors['usertemplateinfo'] = get_string('required');
+        }
+
+        return $errors;
     }
 }
