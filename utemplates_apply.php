@@ -72,9 +72,9 @@ $applyutemplate = new mod_surveypro_applyutemplateform($formurl, $formparams);
 
 // Begin of: manage form submission.
 $utemplateman->formdata = $applyutemplate->get_data();
-if ($utemplateman->formdata || ($confirm == SURVEYPRO_CONFIRMED_YES)) {
-    // Here I don't need to execute validate_xml because xml was validated at upload time.
-    // Here I only need to verfy that plugin versions still match.
+if ($utemplateman->formdata) {
+    // Here I don't need to execute validate_xml because xml was validated at upload time
+    // Here I only need to verfy that plugin versions still match
     // $utemplateman->check_items_versions();
     $utemplateman->apply_template();
 }
@@ -101,8 +101,6 @@ $utilityman = new mod_surveypro_utility($cm, $surveypro);
 if ($utilityman->has_submissions()) {
     echo $OUTPUT->notification(get_string('hassubmissions_alert', 'mod_surveypro'), 'notifymessage');
 }
-
-$utemplateman->welcome_message();
 
 $applyutemplate->display();
 

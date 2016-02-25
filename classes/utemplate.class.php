@@ -401,30 +401,9 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     public function apply_template() {
         global $DB;
 
-        if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
-            // I arrived here after the confirmation of the COMPLETE deletion of each item in the surveypro due to:
-            // -> User templates = None.
-            // -> Preexisting elements = Delete all elements.
-            $action = SURVEYPRO_DELETEALLITEMS;
-            $this->utemplateid = 0;
-        } else {
-            $action = $this->formdata->action;
-            if (empty($this->formdata->usertemplateinfo)) {
-                $this->utemplateid = 0;
-            } else {
-                $parts = explode('_', $this->formdata->usertemplateinfo);
-                $this->utemplateid = $parts[1];
-            }
-        }
-
-        // --> --> VERY DANGEROUS ACTION: User is going to erase all the items of the survey <-- <--
-        if ((empty($this->utemplateid)) && ($action == SURVEYPRO_DELETEALLITEMS)) {
-            // If you really are in the dangerous situation, ask!
-            if ($this->confirm != SURVEYPRO_CONFIRMED_YES) {
-                // Do not operate. Ask for confirmation before!
-                return;
-            }
-        }
+        $action = $this->formdata->action;
+        $parts = explode('_', $this->formdata->usertemplateinfo);
+        $this->utemplateid = $parts[1];
 
         // Before continuing.
         if ($action != SURVEYPRO_DELETEALLITEMS) {
@@ -432,7 +411,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
             surveypro_reset_items_pages($this->surveypro->id);
         }
 
-        $this->trigger_event('usertemplate_applied');
+        $this->trigger_event('usertemplate_applied', $action);
 
         switch ($action) {
             case SURVEYPRO_IGNOREITEMS:
@@ -481,9 +460,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                 debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
 
-        if (!empty($this->utemplateid)) { // Something was selected.
-            $this->add_items_from_template();
-        }
+        $this->add_items_from_template();
 
         $paramurl = array('s' => $this->surveypro->id);
         $redirecturl = new moodle_url('/mod/surveypro/layout_manage.php', $paramurl);
@@ -515,49 +492,6 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
             echo $OUTPUT->notification(get_string('applyusertemplatedenied02', 'mod_surveypro'), 'notifyproblem');
             $url = new moodle_url('/mod/surveypro/view_userform.php', array('s' => $this->surveypro->id));
             echo $OUTPUT->continue_button($url);
-            echo $OUTPUT->footer();
-            die();
-        }
-
-        if (!$this->formdata) {
-            if (($this->action == SURVEYPRO_DELETEALLITEMS) && ($this->utemplateid == 0)) {
-                // If you really were in the dangerous situation...
-                if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
-                    // But you got a disconfirmation: declare it and give up.
-                    $message = get_string('usercanceled', 'mod_surveypro');
-                    echo $OUTPUT->notification($message, 'notifymessage');
-                }
-            }
-            return;
-        }
-
-        if ((!empty($this->formdata->usertemplateinfo)) || ($this->formdata->action != SURVEYPRO_DELETEALLITEMS)) {
-            return;
-        }
-
-        // --> --> VERY DANGEROUS ACTION: User is going to erase all the items of the survey <-- <--
-        // If you really are in the dangerous situation, ask!
-        if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
-            // Ask for confirmation.
-            $message = get_string('askallitemserase', 'mod_surveypro');
-
-            $optionbase = array();
-            $optionbase['s'] = $this->surveypro->id;
-            $optionbase['usertemplate'] = $this->formdata->usertemplateinfo;
-            $optionbase['act'] = SURVEYPRO_DELETEALLITEMS;
-            $optionbase['sesskey'] = sesskey();
-
-            $optionsyes = $optionbase;
-            $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
-            $urlyes = new moodle_url('/mod/surveypro/utemplates_apply.php', $optionsyes);
-            $buttonyes = new single_button($urlyes, get_string('confirmallitemserase', 'mod_surveypro'));
-
-            $optionsno = $optionbase;
-            $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-            $urlno = new moodle_url('/mod/surveypro/utemplates_apply.php', $optionsno);
-            $buttonno = new single_button($urlno, get_string('no'));
-
-            echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
             echo $OUTPUT->footer();
             die();
         }
@@ -728,25 +662,6 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         print $content;
         fclose($xmlfile);
         unlink($exportdir.'/'.$this->templatename);
-    }
-
-    /**
-     * welcome_message
-     *
-     * @param none
-     * @return none
-     */
-    public function welcome_message() {
-        global $OUTPUT;
-
-        $a = new stdClass();
-        $a->usertemplate = get_string('usertemplateinfo', 'mod_surveypro');
-        $a->none = get_string('notanyset', 'mod_surveypro');
-        $a->action = get_string('action', 'mod_surveypro');
-        $a->deleteallitems = get_string('deleteallitems', 'mod_surveypro');
-
-        $message = get_string('applyutemplateinfo', 'mod_surveypro', $a);
-        echo $OUTPUT->box($message, 'generaltable generalbox boxaligncenter boxwidthnormal');
     }
 
     /**
@@ -1137,14 +1052,32 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      * @param string $event: event to trigger
      * @return none
      */
-    public function trigger_event($eventname) {
+    public function trigger_event($eventname, $action=null) {
         $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
         switch ($eventname) {
             case 'all_usertemplates_viewed':
                 $event = \mod_surveypro\event\all_usertemplates_viewed::create($eventdata);
                 break;
             case 'usertemplate_applied':
-                $eventdata['other'] = array('templatename' => $this->get_utemplate_name());
+                if ($action == SURVEYPRO_IGNOREITEMS) {
+                    $straction = get_string('ignoreitems', 'mod_surveypro');
+                }
+                if ($action == SURVEYPRO_HIDEITEMS) {
+                    $straction = get_string('hideitems', 'mod_surveypro');
+                }
+                if ($action == SURVEYPRO_DELETEALLITEMS) {
+                    $straction = get_string('deleteallitems', 'mod_surveypro');
+                }
+                if ($action == SURVEYPRO_DELETEVISIBLEITEMS) {
+                    $straction = get_string('deletevisibleitems', 'mod_surveypro');
+                }
+                if ($action == SURVEYPRO_DELETEHIDDENITEMS) {
+                    $straction = get_string('deletehiddenitems', 'mod_surveypro');
+                }
+                $other = array();
+                $other['templatename'] = $this->get_utemplate_name();
+                $other['action'] = $straction;
+                $eventdata['other'] = $other;
                 $event = \mod_surveypro\event\usertemplate_applied::create($eventdata);
                 break;
             case 'usertemplate_exported':

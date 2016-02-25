@@ -78,7 +78,6 @@ $string['applytemplate'] = 'Apply template';
 $string['applyusertemplatedenied01'] = 'You are not allowed to apply a user template because the current survey has already been responded';
 $string['applyusertemplatedenied02'] = 'You are not allowed to apply a user template over a master template';
 $string['applyusertemplates'] = '<a href="{$a}">Apply user templates</a>';
-$string['applyutemplateinfo'] = 'You can enrich your survey applying set of elements taken from an XML user template<br /><strong>Be warned: by setting "{$a->usertemplate}" to "{$a->none}" and "{$a->action}" to "{$a->deleteallitems}" you drop all the items currently included in this survey</strong>';
 $string['arrayexpected'] = 'Array is expected in {$a}';
 $string['askallitemserase'] = 'Are you sure you want to drop all the items of this survey without applying any user template?';
 $string['askdeleteallsubmissions'] = 'Are you sure you want delete ALL saved responses?';
@@ -315,7 +314,6 @@ $string['nomtemplates_message'] = 'Sorry. Not any master template seems availabl
 $string['nomtemplates'] = 'Missing master templates';
 $string['nosubmissionfound'] = 'No responses were found in this survey.';
 $string['notanswereditem'] = 'Answer not submitted';
-$string['notanyset'] = 'none';
 $string['notdeleted_item'] = 'Unable to delete record id = {$a} from surveypro_item';
 $string['notdeleted_plugin'] = 'Unable to delete record id = {$a->pluginid} from surveypro{$a->type}_{$a->plugin}';
 $string['notdeleted_submission'] = 'Unable to delete record with id IN ({$a}) from surveypro_submission';
