@@ -129,6 +129,17 @@ class mod_surveypro_format_fieldset extends mod_surveypro_itembase {
     }
 
     /**
+     * item_add_mandatory_plugin_fields
+     * Copy mandatory fields to $record.
+     *
+     * @param stdClass $record
+     * @return nothing
+     */
+    public function item_add_mandatory_plugin_fields(&$record) {
+        $record->content = 'Fieldset';
+    }
+
+    /**
      * item_get_multilang_fields
      * make the list of multilang plugin fields
      *

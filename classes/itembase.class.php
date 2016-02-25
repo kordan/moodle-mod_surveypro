@@ -173,7 +173,7 @@ class mod_surveypro_itembase {
      * for instance: age not greater than maximumage
      *
      * @param stdClass $record
-     * @return stdClass $record
+     * @return nothing
      */
     public function item_force_coherence($record) {
         // Nothing to do here.
@@ -312,14 +312,14 @@ class mod_surveypro_itembase {
             try {
                 $transaction = $DB->start_delegated_transaction();
 
-                if ($itemid = $DB->insert_record('surveypro_item', $record)) { // <-- first surveypro_item save
+                if ($itemid = $DB->insert_record('surveypro_item', $record)) { // First surveypro_item save.
+                    // Now think to $tablename
 
-                    // $tablename
                     // Before saving to the the plugin table, validate the variable name.
                     $this->item_validate_variablename($record, $itemid);
 
                     $record->itemid = $itemid;
-                    if ($pluginid = $DB->insert_record($tablename, $record)) { // <-- first $tablename save
+                    if ($pluginid = $DB->insert_record($tablename, $record)) { // First $tablename save.
                         $this->savefeedbackmask += 1; // 0*2^1+1*2^0
                     }
                 }
@@ -850,6 +850,21 @@ class mod_surveypro_itembase {
     }
 
     /**
+     * item_add_mandatory_base_fields
+     * Copy mandatory fields to $record.
+     *
+     * @param stdClass $record
+     * @return nothing
+     */
+    public function item_add_mandatory_base_fields(&$record) {
+        $record->hidden = 0;
+        $record->insearchform = 0;
+        $record->advanced = 0;
+        $record->formpage = 0;
+        $record->timecreated = time();
+    }
+
+    /**
      * item_get_multilang_fields
      * make the list of multilang plugin fields
      *
@@ -881,7 +896,8 @@ class mod_surveypro_itembase {
         $schema .= '                <xs:element type="xs:int" name="insearchform"/>'."\n";
         $schema .= '                <xs:element type="xs:int" name="advanced"/>'."\n";
 
-        // $schema .= '                <xs:element type="xs:int" name="sortindex"/>'."\n";
+        // sortindex has been dropped on December 30, 2015. Next line only for backword compatibility.
+        $schema .= '                <xs:element type="xs:int" name="sortindex" minOccurs="0"/>'."\n";
         // $schema .= '                <xs:element type="xs:int" name="formpage"/>'."\n";
 
         $schema .= '                <xs:element type="xs:int" name="parentid" minOccurs="0"/>'."\n";

@@ -171,7 +171,7 @@ class mod_surveypro_templatebase {
                 return $error;
             }
 
-            if (($versiondisk["$currentplugin"] != $currentversion)) {
+            if (($versiondisk["$currentplugin"] < $currentversion)) {
                 $a = new stdClass();
                 $a->type = $currenttype;
                 $a->plugin = $currentplugin;
@@ -190,8 +190,8 @@ class mod_surveypro_templatebase {
 
                 // I am assuming that surveypro_item table is ALWAYS before the surveypro_<<plugin>> table.
                 if ($tablename == 'surveypro_item') {
-                    // I could use a random class here because they all share the same parent item_get_item_schema.
-                    // But, I need the right class name for the next table, so I start loading the correct class now.
+                    // I could use a random class here because they all share the same parent item_get_item_schema
+                    // but, I need the right class name for the next table, so I choose to load the correct class from the beginning.
                     require_once($CFG->dirroot.'/mod/surveypro/'.$currenttype.'/'.$currentplugin.'/classes/plugin.class.php');
                     $itemclassname = 'mod_surveypro_'.$currenttype.'_'.$currentplugin;
                     $xsd = $itemclassname::item_get_item_schema(); // <- itembase schema
@@ -220,8 +220,8 @@ class mod_surveypro_templatebase {
                 // Let's capture errors.
                 $olderrormode = libxml_use_internal_errors(true);
 
-                // Clear XML error flag so that we don't incorrectly report failure.
-                // When a previous xml parse failed.
+                // Clear XML error flag so that we don't incorrectly report failure
+                // when a previous xml parse failed.
                 libxml_clear_errors();
 
                 if ($debug) {
@@ -276,27 +276,18 @@ class mod_surveypro_templatebase {
      * @param $dropid
      * @return
      */
-    public function get_table_structure($tablename, $dropid=true) {
+    public function get_table_structure($tablename) {
         global $DB;
 
         $dbman = $DB->get_manager();
 
-        if ($dbman->table_exists($tablename)) {
-            $dbstructure = array();
-
-            if ($dbfields = $DB->get_columns($tablename)) {
-                foreach ($dbfields as $dbfield) {
-                    $dbstructure[] = $dbfield->name;
-                }
-            }
-
-            if ($dropid) {
-                array_shift($dbstructure); // ID is always the first item.
-            }
-
+        $table = new xmldb_table($tablename);
+        if ($dbman->table_exists($table)) {
+            $dbstructure = array_keys($DB->get_columns($tablename));
             return $dbstructure;
         } else {
-            return false;
+            $message = 'Database table "'.$tablename.'" doesn\'t exist';
+            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
     }
 

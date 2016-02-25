@@ -88,18 +88,6 @@ class mod_surveypro_importmanager {
     }
 
     /**
-     * get_csv_content
-     *
-     * @param none
-     * @return csv content
-     */
-    public function get_csv_content() {
-        $importform = new mod_surveypro_importform();
-
-        return $importform->get_file_content('csvfile_filepicker');
-    }
-
-    /**
      * get_uniqueness_columns
      *
      * @param $foundheaders
@@ -233,6 +221,18 @@ class mod_surveypro_importmanager {
         } else {
             return false;
         }
+    }
+
+    /**
+     * get_csv_content
+     *
+     * @param none
+     * @return csv content
+     */
+    public function get_csv_content() {
+        $importform = new mod_surveypro_importform();
+
+        return $importform->get_file_content('csvfile_filepicker');
     }
 
     /**

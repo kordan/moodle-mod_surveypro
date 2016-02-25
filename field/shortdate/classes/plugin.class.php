@@ -197,6 +197,27 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
     }
 
     /**
+     * item_add_mandatory_plugin_fields
+     * Copy mandatory fields to $record.
+     *
+     * @param stdClass $record
+     * @return nothing
+     */
+    public function item_add_mandatory_plugin_fields(&$record) {
+        $record->content = 'Date (short) [mm/yyyy]';
+        $record->contentformat = 1;
+        $record->position = 0;
+        $record->required = 0;
+        $record->hideinstructions = 0;
+        $record->variable = 'shortdate_001';
+        $record->indent = 0;
+        $record->defaultoption = SURVEYPRO_INVITEDEFAULT;
+        $record->downloadformat = 'strftime01';
+        $record->lowerbound = 43200;
+        $record->upperbound = 1606824000;
+    }
+
+    /**
      * item_shortdate_to_unix_time
      *
      * @param $month
@@ -259,7 +280,10 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
         }
 
         // 2. Override few values.
-        // Nothing to do: no need to overwrite variables.
+        $checkboxes = array('required', 'hideinstructions');
+        foreach ($checkboxes as $checkbox) {
+            $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
+        }
 
         // 3. Set values corresponding to checkboxes.
         // Nothing to do: no checkboxes in this plugin item form.

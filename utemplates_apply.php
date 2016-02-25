@@ -73,9 +73,9 @@ $applyutemplate = new mod_surveypro_applyutemplateform($formurl, $formparams);
 // Begin of: manage form submission.
 $utemplateman->formdata = $applyutemplate->get_data();
 if ($utemplateman->formdata || ($confirm == SURVEYPRO_CONFIRMED_YES)) {
-    // Here I don't need to execute validate_xml because xml was validated at upload time
-    // Here I only need to verfy that plugin versions still match
-    $utemplateman->check_items_versions();
+    // Here I don't need to execute validate_xml because xml was validated at upload time.
+    // Here I only need to verfy that plugin versions still match.
+    // $utemplateman->check_items_versions();
     $utemplateman->apply_template();
 }
 // End of: manage form submission.
