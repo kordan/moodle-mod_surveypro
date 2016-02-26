@@ -55,7 +55,7 @@ $lastitembefore = optional_param('lib', 0, PARAM_INT);
 $confirm = optional_param('cnf', SURVEYPRO_UNCONFIRMED, PARAM_INT);
 $nextindent = optional_param('ind', 0, PARAM_INT);
 $parentid = optional_param('pid', 0, PARAM_INT);
-$newitemfeedbackmask = optional_param('nifeedback', SURVEYPRO_NOFEEDBACK, PARAM_INT);
+$itemeditingfeedback = optional_param('iefeedback', SURVEYPRO_NOFEEDBACK, PARAM_INT);
 $saveasnew = optional_param('saveasnew', null, PARAM_TEXT);
 
 if ($action != SURVEYPRO_NOACTION) {
@@ -82,7 +82,7 @@ $itemlistman->set_lastitembefore($lastitembefore);
 $itemlistman->set_confirm($confirm);
 $itemlistman->set_nextindent($nextindent);
 $itemlistman->set_parentid($parentid);
-$itemlistman->set_newitemfeedbackmask($newitemfeedbackmask);
+$itemlistman->set_itemeditingfeedback($itemeditingfeedback);
 $itemlistman->set_saveasnew($saveasnew);
 $itemlistman->set_hassubmissions($hassubmissions);
 $itemlistman->set_itemcount($itemcount);
@@ -168,7 +168,7 @@ if ($hassubmissions) {
 }
 
 $itemlistman->actions_feedback();
-$itemlistman->item_editing_feedback();
+$itemlistman->display_item_editing_feedback();
 
 if ($mtemplatecondition) {
     // display mtemplate form

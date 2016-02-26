@@ -86,8 +86,8 @@ $itemlistman->set_hassubmissions($hassubmissions);
 // Property parentid is useless (it is set to its default), do not set it.
 // $itemlistman->set_parentid(0);
 
-// Property newitemfeedbackmask is useless (it is set to its default), do not set it.
-// $itemlistman->set_newitemfeedbackmask(SURVEYPRO_NOFEEDBACK);
+// Property itemeditingfeedback is useless (it is set to its default), do not set it.
+// $itemlistman->set_itemeditingfeedback(SURVEYPRO_NOFEEDBACK);
 
 // Property saveasnew is useless (it is set to its default), do not set it.
 // $itemlistman->set_saveasnew(0);
@@ -133,13 +133,13 @@ if ($fromform = $itemform->get_data()) {
     }
 
     $itemid = $item->item_save($fromform);
-    $feedback = $item->get_newitemfeedbackmask(); // Copy the returned feedback.
+    $feedback = $item->get_itemeditingfeedback(); // Copy the returned feedback.
 
     // Overwrite item to get new settings in the object.
     $item = surveypro_get_item($cm, $surveypro, $itemid, $item->get_type(), $item->get_plugin());
     $item->item_update_childrenparentvalue();
 
-    $paramurl = array('id' => $cm->id, 'nifeedback' => $feedback);
+    $paramurl = array('id' => $cm->id, 'iefeedback' => $feedback);
     $returnurl = new moodle_url('/mod/surveypro/layout_manage.php', $paramurl);
     redirect($returnurl);
 }
@@ -167,7 +167,7 @@ if ($hassubmissions) {
     $message = $utilityman->warning_message();
     echo $OUTPUT->notification($message, 'notifyproblem');
 }
-$itemlistman->item_welcome();
+$itemlistman->item_fingerprint();
 
 $data = $item->get_itemform_preset();
 $itemform->set_data($data);

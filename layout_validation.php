@@ -79,8 +79,8 @@ $itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro);
 // Property parentid is useless (it is set to its default), do not set it
 // $itemlistman->set_parentid(0);
 
-// Property newitemfeedbackmask is useless (it is set to its default), do not set it
-// $itemlistman->newitemfeedbackmask(SURVEYPRO_NOFEEDBACK);
+// Property itemeditingfeedback is useless (it is set to its default), do not set it
+// $itemlistman->set_itemeditingfeedback(SURVEYPRO_NOFEEDBACK);
 
 // Property saveasnew is useless (it is set to its default), do not set it
 // $itemlistman->set_saveasnew(0);
@@ -106,7 +106,7 @@ echo $OUTPUT->header();
 
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABITEMS, SURVEYPRO_ITEMS_VALIDATE);
 
-$itemlistman->validate_relations();
+$itemlistman->display_validate_relations_table();
 
 // Finish the page.
 echo $OUTPUT->footer();

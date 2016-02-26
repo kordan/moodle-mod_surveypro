@@ -91,9 +91,9 @@ class mod_surveypro_itembase {
     protected $parentvalue;
 
     /**
-     * $newitemfeedbackmask
+     * $itemeditingfeedback
      */
-    protected $newitemfeedbackmask;
+    protected $itemeditingfeedback;
 
     /**
      * $editorlist
@@ -269,8 +269,8 @@ class mod_surveypro_itembase {
      * Executes surveyproitem_<<plugin>> global level actions
      * this is the save point of the global part of each plugin
      *
-     * Here is the explanation of $this->newitemfeedbackmask
-     * $this->newitemfeedbackmask
+     * Here is the explanation of $this->itemeditingfeedback
+     * $this->itemeditingfeedback
      *   +--- children inherited limited access
      *   |       +--- parents were made available for all
      *   |       |       +--- children were hided because this item was hided
@@ -301,7 +301,7 @@ class mod_surveypro_itembase {
         $hassubmission = $utilityman->has_submissions(false);
 
         $tablename = 'surveypro'.$this->type.'_'.$this->plugin;
-        $this->newitemfeedbackmask = SURVEYPRO_NOFEEDBACK;
+        $this->itemeditingfeedback = SURVEYPRO_NOFEEDBACK;
 
         // Does this record need to be saved as new record or as un update on a preexisting record?
         if (empty($record->itemid)) {
@@ -327,7 +327,7 @@ class mod_surveypro_itembase {
 
                     $record->itemid = $itemid;
                     if ($pluginid = $DB->insert_record($tablename, $record)) { // First $tablename save.
-                        $this->newitemfeedbackmask += 1; // 0*2^1+1*2^0
+                        $this->itemeditingfeedback += 1; // 0*2^1+1*2^0
                     }
                 }
 
@@ -344,9 +344,9 @@ class mod_surveypro_itembase {
                     $record->id = $pluginid;
 
                     if (!$DB->update_record($tablename, $record)) { // <-- $tablename update
-                        $this->newitemfeedbackmask -= ($this->newitemfeedbackmask % 2); // Whatever it was, now it is a fail.
+                        $this->itemeditingfeedback -= ($this->itemeditingfeedback % 2); // Whatever it was, now it is a fail.
                         // } else {
-                        // Leave the previous $this->newitemfeedbackmask.
+                        // Leave the previous $this->itemeditingfeedback.
                         // If it was a success, leave it as now you got one more success.
                         // If it was a fail, leave it as you can not cover the previous fail.
                     }
@@ -409,12 +409,12 @@ class mod_surveypro_itembase {
 
                     $record->id = $record->pluginid;
                     if ($DB->update_record($tablename, $record)) {
-                        $this->newitemfeedbackmask += 3; // 1*2^1+1*2^0 alias: editing + success
+                        $this->itemeditingfeedback += 3; // 1*2^1+1*2^0 alias: editing + success
                     } else {
-                        $this->newitemfeedbackmask += 2; // 1*2^1+0*2^0 alias: editing + fail
+                        $this->itemeditingfeedback += 2; // 1*2^1+0*2^0 alias: editing + fail
                     }
                 } else {
-                    $this->newitemfeedbackmask += 2; // 1*2^1+0*2^0 alias: editing + fail
+                    $this->itemeditingfeedback += 2; // 1*2^1+0*2^0 alias: editing + fail
                 }
 
                 $transaction->allow_commit();
@@ -461,7 +461,7 @@ class mod_surveypro_itembase {
             }
         }
 
-        // $this->newitemfeedbackmask is going to be part of $returnurl in layout_itemsetup.php and to be send to layout_manage.php
+        // $this->itemeditingfeedback is going to be part of $returnurl in layout_itemsetup.php and to be send to layout_manage.php
         return $record->itemid;
     }
 
@@ -521,7 +521,7 @@ class mod_surveypro_itembase {
     /**
      * item_manage_chains
      * Executes surveyproitem_<<plugin>> global level actions
-     * this is the save point of the global part of each plugin
+     * this is the save point of the common part of each plugin
      *
      * @param integer $itemid
      * @param boolean 0/1 $oldhidden
@@ -536,64 +536,62 @@ class mod_surveypro_itembase {
         $context = context_module::instance($this->cm->id);
 
         // Now hide or unhide (whether needed) chain of ancestors or descendents.
-        if ($this->newitemfeedbackmask & 1) { // Bitwise logic, alias: if the item was successfully saved.
+        if ($this->itemeditingfeedback & 1) { // Bitwise logic, alias: if the item was successfully saved.
             // Manage ($oldhidden != $newhidden).
             if ($oldhidden != $newhidden) {
-                $surveypro = $DB->get_record('surveypro', array('id' => $this->cm->instance), '*', MUST_EXIST);
                 $action = ($oldhidden) ? SURVEYPRO_SHOWITEM : SURVEYPRO_HIDEITEM;
 
-                $itemlistman = new mod_surveypro_itemlist($this->cm, $context, $surveypro);
+                $itemlistman = new mod_surveypro_itemlist($this->cm, $context, $this->surveypro);
                 $itemlistman->set_type($this->type);
                 $itemlistman->set_plugin($this->plugin);
                 $itemlistman->set_itemid($itemid);
                 $itemlistman->set_action($action);
                 $itemlistman->set_view(SURVEYPRO_NOVIEW);
                 $itemlistman->set_confirm(SURVEYPRO_CONFIRMED_YES);
+
+                // Begin of: Hide/unhide part 2.
+                if ( ($oldhidden == 1) && ($newhidden == 0) ) {
+                    $itemlistman->item_show_execute();
+                    // A chain of parent items has been shown.
+                    $this->itemeditingfeedback += 4; // 1*2^2.
+
+                }
+                if ( ($oldhidden == 0) && ($newhidden == 1) ) {
+                    $itemlistman->item_hide_execute();
+                    // A chain of child items has been hided.
+                    $this->itemeditingfeedback += 8; // 1*2^3.
+                }
+                // End of: hide/unhide part 2.
             }
 
-            // Begin of: Hide/unhide part 2.
-            if ( ($oldhidden == 1) && ($newhidden == 0) ) {
-                if ($itemlistman->manage_item_show()) {
-                    // A chain of parent items has been showed.
-                    $this->newitemfeedbackmask += 4; // 1*2^2.
-                }
-            }
-            if ( ($oldhidden == 0) && ($newhidden == 1) ) {
-                if ($itemlistman->manage_item_hide()) {
-                    // A chain of child items has been hided.
-                    $this->newitemfeedbackmask += 8; // 1*2^3.
-                }
-            }
-            // End of: hide/unhide part 2.
 
             // Manage ($oldadvanced != $newadvanced).
             if ($oldadvanced != $newadvanced) {
-                $surveypro = $DB->get_record('surveypro', array('id' => $this->cm->instance), '*', MUST_EXIST);
                 $action = ($oldadvanced) ? SURVEYPRO_MAKESTANDARD : SURVEYPRO_MAKEADVANCED;
 
-                $itemlistman = new mod_surveypro_itemlist($this->cm, $context, $surveypro);
+                $itemlistman = new mod_surveypro_itemlist($this->cm, $context, $this->surveypro);
                 $itemlistman->set_type($this->type);
                 $itemlistman->set_plugin($this->plugin);
                 $itemlistman->set_itemid($itemid);
                 $itemlistman->set_action($action);
                 $itemlistman->set_view(SURVEYPRO_NOVIEW);
                 $itemlistman->set_confirm(SURVEYPRO_CONFIRMED_YES);
-            }
 
-            // Begin of: Limit/unlimit access part 2.
-            if ( ($oldadvanced == 1) && ($newadvanced == 0) ) {
-                if ($itemlistman->manage_item_makestandard()) {
-                    // A chain of parent items has been made available for all.
-                    $this->newitemfeedbackmask += 16; // 1*2^4.
+                // Begin of: Limit/unlimit access part 2.
+                if ( ($oldadvanced == 1) && ($newadvanced == 0) ) {
+                    if ($itemlistman->item_makestandard_execute()) {
+                        // A chain of parent items has been made available for all.
+                        $this->itemeditingfeedback += 16; // 1*2^4.
+                    }
                 }
-            }
-            if ( ($oldadvanced == 0) && ($newadvanced == 1) ) {
-                if ($itemlistman->manage_item_makeadvanced()) {
-                    // A chain of child items got a limited access.
-                    $this->newitemfeedbackmask += 32; // 1*2^5
+                if ( ($oldadvanced == 0) && ($newadvanced == 1) ) {
+                    if ($itemlistman->item_makeadvanced_execute()) {
+                        // A chain of child items got a limited access.
+                        $this->itemeditingfeedback += 32; // 1*2^5
+                    }
                 }
+                // End of: limit/unlimit access part 2.
             }
-            // End of: limit/unlimit access part 2.
         }
     }
 
@@ -1325,13 +1323,13 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * get_newitemfeedbackmask
+     * get_itemeditingfeedback
      *
      * @param none
-     * @return the content of the $newitemfeedbackmask property whether defined
+     * @return the content of the $itemeditingfeedback property whether defined
      */
-    public function get_newitemfeedbackmask() {
-        return $this->newitemfeedbackmask;
+    public function get_itemeditingfeedback() {
+        return $this->itemeditingfeedback;
     }
 
 
