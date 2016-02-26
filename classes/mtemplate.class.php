@@ -36,7 +36,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
      * download_mtemplate
      *
      * @param none
-     * @return
+     * @return void
      */
     public function download_mtemplate() {
         $this->templatename = $this->generate_mtemplate();
@@ -56,7 +56,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
      * generate_mtemplate
      *
      * @param none
-     * @return
+     * @return void
      */
     public function generate_mtemplate() {
         global $CFG;
@@ -229,7 +229,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
      * write_template_content
      *
      * @param boolean $visiblesonly
-     * @return
+     * @return void
      */
     public function write_template_content($visiblesonly=true) {
         global $DB;
@@ -260,7 +260,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
 
         $xmltemplate = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><items></items>');
         foreach ($itemseeds as $itemseed) {
-            $item = surveypro_get_item($this->cm, $itemseed->id, $itemseed->type, $itemseed->plugin);
+            $item = surveypro_get_item($this->cm, $this->surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);
 
             $xmlitem = $xmltemplate->addChild('item');
             $xmlitem->addAttribute('type', $itemseed->type);
@@ -363,7 +363,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
      * @param $dummyplugin
      * @param $field
      * @param $multilangfields
-     * @return
+     * @return void
      */
     public function xml_get_field_content($item, $dummyplugin, $field, $multilangfields) {
         // 1st: which fields are multilang for the current item?
@@ -397,19 +397,15 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
      * @return null
      */
     public function apply_template() {
-        global $DB;
+        global $DB, $CFG;
 
         $this->trigger_event('mastertemplate_applied');
 
         // Begin of: delete all existing items.
-        $parambase = array('surveyproid' => $this->surveypro->id);
-        $sql = 'SELECT si.plugin, si.type
-                FROM {surveypro_item} si
-                WHERE si.surveyproid = :surveyproid
-                GROUP BY si.plugin, si.type';
-        $pluginseeds = $DB->get_records_sql($sql, $parambase);
-
-        $this->items_deletion($pluginseeds, $parambase);
+        require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
+        $utilityman = new mod_surveypro_utility($this->cm);
+        $whereparam = array('surveyproid' => $this->surveypro->id);
+        $utilityman->delete_items($whereparam);
         // End of: delete all existing items.
 
         $this->templatename = $this->formdata->mastertemplate;
@@ -452,7 +448,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
      * add_items_from_template
      *
      * @param $templateid
-     * @return
+     * @return void
      */
     public function add_items_from_template() {
         global $CFG, $DB;
@@ -496,7 +492,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             // Take care to details.
             // Load the item class in order to call its methods to validate $record before saving it.
             require_once($CFG->dirroot.'/mod/surveypro/'.$currenttype.'/'.$currentplugin.'/classes/plugin.class.php');
-            $item = surveypro_get_item($this->cm, 0, $currenttype, $currentplugin);
+            $item = surveypro_get_item($this->cm, $this->surveypro, 0, $currenttype, $currentplugin);
 
             foreach ($xmlitem->children() as $xmltable) { // Surveypro_item and surveypro_<<plugin>>.
                 $tablename = $xmltable->getName();
@@ -587,7 +583,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
      * @param $dummyplugin
      * @param $multilangfields
      * @param $item
-     * @return
+     * @return void
      */
     public function build_langtree($dummyplugin, $multilangfields, $item) {
         foreach ($multilangfields as $dummyplugin => $fieldnames) {
@@ -608,7 +604,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
      * extract_original_string
      *
      * @param none
-     * @return
+     * @return void
      */
     public function extract_original_string() {
         $stringsastext = array();
@@ -625,7 +621,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
      * trigger_event
      *
      * @param string $event: event to trigger
-     * @return none
+     * @return void
      */
     public function trigger_event($eventname) {
         $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
@@ -650,7 +646,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
      * get_used_plugin
      *
      * @param none
-     * @return
+     * @return void
      */
     public function get_used_plugin() {
         global $DB;
@@ -673,7 +669,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
      * get_translated_strings
      *
      * @param $userlang
-     * @return
+     * @return void
      */
     public function get_translated_strings($userlang) {
         $stringsastext = array();

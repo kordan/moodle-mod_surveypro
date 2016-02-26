@@ -23,6 +23,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/surveypro/classes/templatebase.class.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
 
 class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     /**
@@ -50,7 +51,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      * set_utemplateid
      *
      * @param $utemplateid
-     * @return none
+     * @return void
      */
     private function set_utemplateid($utemplateid) {
         $this->utemplateid = $utemplateid;
@@ -60,7 +61,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      * set_action
      *
      * @param $action
-     * @return none
+     * @return void
      */
     private function set_action($action) {
         $this->action = $action;
@@ -70,7 +71,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      * set_confirm
      *
      * @param $confirm
-     * @return none
+     * @return void
      */
     private function set_confirm($confirm) {
         $this->confirm = $confirm;
@@ -218,7 +219,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      * get_utemplate_content
      *
      * @param $utemplateid
-     * @return
+     * @return void
      */
     public function get_utemplate_content($utemplateid=0) {
         $fs = get_file_storage();
@@ -234,7 +235,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      * get_utemplate_name
      *
      * @param none
-     * @return
+     * @return void
      */
     public function get_utemplate_name() {
         $fs = get_file_storage();
@@ -269,7 +270,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      * write_template_content
      *
      * @param boolean $visiblesonly
-     * @return
+     * @return void
      */
     public function write_template_content($visiblesonly=true) {
         global $DB;
@@ -300,7 +301,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
         $xmltemplate = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><items></items>');
         foreach ($itemseeds as $itemseed) {
-            $item = surveypro_get_item($this->cm, $itemseed->id, $itemseed->type, $itemseed->plugin);
+            $item = surveypro_get_item($this->cm, $this->surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);
 
             $xmlitem = $xmltemplate->addChild('item');
             $xmlitem->addAttribute('type', $itemseed->type);
@@ -399,7 +400,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      * @return null
      */
     public function apply_template() {
-        global $DB;
+        global $CFG, $DB;
 
         $action = $this->formdata->action;
         $parts = explode('_', $this->formdata->usertemplateinfo);
@@ -408,7 +409,8 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         // Before continuing.
         if ($action != SURVEYPRO_DELETEALLITEMS) {
             // Dispose assignemnt of pages.
-            surveypro_reset_items_pages($this->surveypro->id);
+            $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+            $utilityman->reset_items_pages();
         }
 
         $this->trigger_event('usertemplate_applied', $action);
@@ -416,44 +418,35 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         switch ($action) {
             case SURVEYPRO_IGNOREITEMS:
                 break;
-            case SURVEYPRO_HIDEITEMS:
-                // Begin of: hide all other items.
-                $DB->set_field('surveypro_item', 'hidden', 1, array('surveyproid' => $this->surveypro->id, 'hidden' => 0));
-                // End of: hide all other items.
+            case SURVEYPRO_HIDEALLITEMS:
+                $whereparams = array('surveyproid' => $this->surveypro->id);
+                $whereparams['hidden'] = 0;
+                $utilityman->hide_items($whereparams);
+
+                $utilityman->reset_items_pages();
+
                 break;
             case SURVEYPRO_DELETEALLITEMS:
-                // Begin of: delete all existing items.
-                $parambase = array('surveyproid' => $this->surveypro->id);
-                $sql = 'SELECT si.plugin, si.type
-                        FROM {surveypro_item} si
-                        WHERE si.surveyproid = :surveyproid
-                        GROUP BY si.plugin, si.type';
-                $pluginseeds = $DB->get_records_sql($sql, $parambase);
-
-                $this->items_deletion($pluginseeds, $parambase);
-                // End of: delete all existing items.
+                $utilityman = new mod_surveypro_utility($this->cm);
+                $whereparam = array('surveyproid' => $this->surveypro->id);
+                $utilityman->delete_items($whereparam);
                 break;
             case SURVEYPRO_DELETEVISIBLEITEMS:
+                $whereparams = array('surveyproid' => $this->surveypro->id);
+                $whereparams['hidden'] = 0;
+                $utilityman->delete_items($whereparams);
+
+                $utilityman->items_reindex();
+
+                break;
             case SURVEYPRO_DELETEHIDDENITEMS:
-                // Begin of: delete other items.
-                $parambase = array('surveyproid' => $this->surveypro->id);
-                if ($this->formdata->action == SURVEYPRO_DELETEVISIBLEITEMS) {
-                    $parambase['hidden'] = 0;
-                }
-                if ($this->formdata->action == SURVEYPRO_DELETEHIDDENITEMS) {
-                    $parambase['hidden'] = 1;
-                }
+                $whereparams = array('surveyproid' => $this->surveypro->id);
+                $whereparams['hidden'] = 1;
+                $utilityman->delete_items($whereparams);
 
-                $sql = 'SELECT si.plugin, si.type
-                        FROM {surveypro_item} si
-                        WHERE si.surveyproid = :surveyproid
-                            AND si.hidden = :hidden
-                        GROUP BY si.plugin';
-                $pluginseeds = $DB->get_records_sql($sql, $parambase);
+                $utilityman->items_reindex();
 
-                $this->items_deletion($pluginseeds, $parambase);
-                $this->items_reindex();
-                // End of: delete other items.
+                break;
                 break;
             default:
                 $message = 'Unexpected $action = '.$action;
@@ -501,7 +494,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      * add_items_from_template
      *
      * @param $templateid
-     * @return
+     * @return void
      */
     public function add_items_from_template() {
         global $CFG, $DB;
@@ -535,7 +528,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
             // Take care to details.
             // Load the item class in order to call its methods to validate $record before saving it.
             require_once($CFG->dirroot.'/mod/surveypro/'.$currenttype.'/'.$currentplugin.'/classes/plugin.class.php');
-            $item = surveypro_get_item($this->cm, 0, $currenttype, $currentplugin);
+            $item = surveypro_get_item($this->cm, $this->surveypro, 0, $currenttype, $currentplugin);
 
             foreach ($xmlitem->children() as $xmltable) { // Tables are: surveypro_item and surveypro(field|format)_<<plugin>>.
                 $tablename = $xmltable->getName();
@@ -629,7 +622,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      * export_utemplate
      *
      * @param none
-     * @return
+     * @return void
      */
     public function export_utemplate() {
         global $CFG;
@@ -755,7 +748,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      * generate_utemplate
      *
      * @param none
-     * @return
+     * @return void
      */
     public function generate_utemplate() {
         global $USER;
@@ -792,7 +785,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      * manage_utemplates
      *
      * @param none
-     * @return
+     * @return void
      */
     public function manage_utemplates() {
         global $CFG, $USER, $OUTPUT;
@@ -1050,7 +1043,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      * trigger_event
      *
      * @param string $event: event to trigger
-     * @return none
+     * @return void
      */
     public function trigger_event($eventname, $action=null) {
         $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
@@ -1062,7 +1055,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                 if ($action == SURVEYPRO_IGNOREITEMS) {
                     $straction = get_string('ignoreitems', 'mod_surveypro');
                 }
-                if ($action == SURVEYPRO_HIDEITEMS) {
+                if ($action == SURVEYPRO_HIDEALLITEMS) {
                     $straction = get_string('hideitems', 'mod_surveypro');
                 }
                 if ($action == SURVEYPRO_DELETEALLITEMS) {

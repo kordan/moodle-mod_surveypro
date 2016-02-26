@@ -30,7 +30,7 @@ class mod_surveypro_outform extends moodleform {
      * definition
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function definition() {
         global $CFG, $DB;
@@ -39,12 +39,11 @@ class mod_surveypro_outform extends moodleform {
 
         // Get _customdata.
         $cm = $this->_customdata->cm;
-        $firstpageright = $this->_customdata->firstpageright;
-        $maxassignedpage = $this->_customdata->maxassignedpage;
         $surveypro = $this->_customdata->surveypro;
         $submissionid = $this->_customdata->submissionid;
-        $formpage = $this->_customdata->formpage;
+        $maxassignedpage = $this->_customdata->maxassignedpage;
         $canaccessadvanceditems = $this->_customdata->canaccessadvanceditems;
+        $formpage = $this->_customdata->formpage;
         $modulepage = $this->_customdata->modulepage;
         $readonly = $this->_customdata->readonly; // I see a form (record) that is not mine.
         $preview = $this->_customdata->preview; // Are we in preview mode?
@@ -102,7 +101,7 @@ class mod_surveypro_outform extends moodleform {
                     // Is the current item allowed to be displayed in this page?
                     if ($itemseed->parentid) {
                         // Get it now AND NEVER MORE.
-                        $parentitem = surveypro_get_item($cm, $itemseed->parentid);
+                        $parentitem = surveypro_get_item($cm, $surveypro, $itemseed->parentid);
 
                         // If parentitem is in a previous page, have a check
                         // otherwise
@@ -122,7 +121,7 @@ class mod_surveypro_outform extends moodleform {
                 }
 
                 if ($itemaschildisallowed) {
-                    $item = surveypro_get_item($cm, $itemseed->id, $itemseed->type, $itemseed->plugin);
+                    $item = surveypro_get_item($cm, $surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);
 
                     // Position.
                     $position = $item->get_position();
@@ -258,7 +257,6 @@ class mod_surveypro_outform extends moodleform {
         $surveypro = $this->_customdata->surveypro;
         $submissionid = $this->_customdata->submissionid;
         $formpage = $this->_customdata->formpage;
-        $firstpageright = $this->_customdata->firstpageright;
         $maxassignedpage = $this->_customdata->maxassignedpage;
         $canaccessadvanceditems = $this->_customdata->canaccessadvanceditems;
         // $readonly = $this->_customdata->readonly; // I see a form (record) that is not mine
@@ -287,7 +285,7 @@ class mod_surveypro_outform extends moodleform {
 
                 $olditemid = $itemid;
 
-                $item = surveypro_get_item($cm, $itemid, $type, $plugin);
+                $item = surveypro_get_item($cm, $surveypro, $itemid, $type, $plugin);
                 if ($surveypro->newpageforchild) {
                     $itemisenabled = true; // Since it is displayed, it is enabled.
                     $parentitem = null;
@@ -298,7 +296,7 @@ class mod_surveypro_outform extends moodleform {
                         $parentitem = null;
                     } else {
                         // Call its parent.
-                        $parentitem = surveypro_get_item($cm, $parentitemid);
+                        $parentitem = surveypro_get_item($cm, $surveypro, $parentitemid);
                         // Tell parent that his child has parentvalue = 1;3.
                         if ($parentitem->get_formpage() == $item->get_formpage()) {
                             $itemisenabled = $parentitem->userform_child_item_allowed_dynamic($item->get_parentvalue(), $data);

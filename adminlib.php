@@ -138,7 +138,7 @@ class mod_surveypro_plugin_manager {
      * Write the HTML for the submission plugins table.
      *
      * @param none
-     * @return none
+     * @return void
      */
     private function view_plugins_table() {
         global $OUTPUT, $CFG, $DB;
@@ -263,7 +263,7 @@ class mod_surveypro_plugin_manager {
      * Write the page header
      *
      * @param none
-     * @return none
+     * @return void
      */
     private function view_header() {
         global $OUTPUT;
@@ -279,7 +279,7 @@ class mod_surveypro_plugin_manager {
      * Write the page footer
      *
      * @param none
-     * @return none
+     * @return void
      */
     private function view_footer() {
         global $OUTPUT;
@@ -291,7 +291,7 @@ class mod_surveypro_plugin_manager {
      * Check this user has permission to edit the list of installed plugins
      *
      * @param none
-     * @return none
+     * @return void
      */
     private function check_permissions() {
         // Check permissions.
@@ -347,7 +347,7 @@ class mod_surveypro_plugin_manager {
      * Show the page that gives the details of the plugin that was just deleted.
      *
      * @param string $plugin - The plugin that was just deleted
-     * @return none
+     * @return void
      */
     private function view_plugin_deleted($plugin) {
         global $OUTPUT;
@@ -368,7 +368,7 @@ class mod_surveypro_plugin_manager {
      * Show the page that asks the user to confirm they want to delete a plugin.
      *
      * @param string $plugin - The plugin that will be deleted
-     * @return none
+     * @return void
      */
     private function view_confirm_delete($plugin) {
         global $OUTPUT;
@@ -411,7 +411,7 @@ class mod_surveypro_plugin_manager {
      *
      * @param string $action - The action to perform
      * @param string $plugin - Optional name of a plugin type to perform the action on
-     * @return none
+     * @return void
      */
     public function execute($action, $plugin) {
         if ($action == null) {
@@ -447,7 +447,7 @@ class mod_surveypro_plugin_manager {
      * @param part_of_admin_tree $admin - The handle to the admin menu
      * @param admin_settingpage $settings - The handle to current node in the navigation tree
      * @param stdClass|plugininfo_mod $module - The handle to the current module
-     * @return none
+     * @return void
      */
     public static function add_admin_surveypro_plugin_settings($subtype,
                                                             part_of_admin_tree $admin,

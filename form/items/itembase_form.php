@@ -31,7 +31,7 @@ class mod_surveypro_itembaseform extends moodleform {
      * definition
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function definition() {
         global $CFG, $DB;
@@ -224,7 +224,7 @@ class mod_surveypro_itembaseform extends moodleform {
             $select = $quickform->createElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'));
             $select->addOption(get_string('choosedots'), 0);
             foreach ($parentsseeds as $parentsseed) {
-                $parentitem = surveypro_get_item($cm, $parentsseed->id, $parentsseed->type, $parentsseed->plugin);
+                $parentitem = surveypro_get_item($cm, $surveypro, $parentsseed->id, $parentsseed->type, $parentsseed->plugin);
                 $star = ($parentitem->get_advanced()) ? '(*) ' : '';
 
                 // I do not need to take care of contents of items of master templates because if I am here, $parent is a standard item and not a multilang one
@@ -281,7 +281,7 @@ class mod_surveypro_itembaseform extends moodleform {
      * add_item_buttons
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function add_item_buttons() {
         $mform = $this->_form;

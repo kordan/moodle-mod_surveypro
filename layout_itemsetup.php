@@ -95,7 +95,7 @@ require_once($CFG->dirroot.'/mod/surveypro/'.$itemlistman->get_type().'/'.$iteml
 require_once($CFG->dirroot.'/mod/surveypro/'.$itemlistman->get_type().'/'.$itemlistman->get_plugin().'/form/plugin_form.php');
 
 // Begin of: get item.
-$item = surveypro_get_item($cm, $itemid, $itemlistman->get_type(), $itemlistman->get_plugin(), true);
+$item = surveypro_get_item($cm, $surveypro, $itemid, $itemlistman->get_type(), $itemlistman->get_plugin(), true);
 $item->item_set_editor();
 // End of: get item.
 
@@ -107,7 +107,6 @@ $formurl = new moodle_url('/mod/surveypro/layout_itemsetup.php', $paramurl);
 // Begin of: prepare params for the form.
 $formparams = new stdClass();
 $formparams->item = $item; // Needed in many situations.
-// $formparams->cm = $cm; // Required to call surveypro_get_item.
 $formparams->surveypro = $surveypro; // Needed to setup date boundaries in date fields.
 $itemform = new mod_surveypro_pluginform($formurl, $formparams);
 // End of: prepare params for the form.
@@ -128,7 +127,7 @@ if ($fromform = $itemform->get_data()) {
     $feedback = $item->get_savefeedbackmask(); // Copy the returned feedback.
 
     // Overwrite item to get new settings in the object.
-    $item = surveypro_get_item($cm, $itemid, $item->get_type(), $item->get_plugin());
+    $item = surveypro_get_item($cm, $surveypro, $itemid, $item->get_type(), $item->get_plugin());
     $item->item_update_childrenparentvalue();
 
     $paramurl = array('id' => $cm->id, 'ufd' => $feedback);

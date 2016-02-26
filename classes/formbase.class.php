@@ -60,7 +60,7 @@ class mod_surveypro_formbase {
      * noitem_stopexecution
      *
      * @param none
-     * @return
+     * @return void
      */
     public function noitem_stopexecution() {
         global $COURSE, $OUTPUT;
@@ -93,7 +93,7 @@ class mod_surveypro_formbase {
      * get_prefill_data
      *
      * @param none
-     * @return
+     * @return void
      */
     public function get_prefill_data() {
         global $DB;
@@ -106,7 +106,7 @@ class mod_surveypro_formbase {
             list($sql, $whereparams) = surveypro_fetch_items_seeds($this->surveypro->id, $canaccessadvanceditems, false, SURVEYPRO_TYPEFIELD, $this->formpage);
             if ($itemseeds = $DB->get_recordset_sql($sql, $whereparams)) {
                 foreach ($itemseeds as $itemseed) {
-                    $item = surveypro_get_item($this->cm, $itemseed->id, $itemseed->type, $itemseed->plugin);
+                    $item = surveypro_get_item($this->cm, $this->surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);
 
                     $olduserdata = $DB->get_record('surveypro_answer', array('submissionid' => $this->submissionid, 'itemid' => $item->get_itemid()));
                     $singleprefill = $item->userform_set_prefill($olduserdata);
@@ -125,7 +125,7 @@ class mod_surveypro_formbase {
      * display_page_x_of_y
      *
      * @param none
-     * @return
+     * @return void
      */
     public function display_page_x_of_y() {
         global $OUTPUT;
@@ -151,7 +151,7 @@ class mod_surveypro_formbase {
      * set_submissionid
      *
      * @param $submissionid
-     * @return none
+     * @return void
      */
     public function set_submissionid($submissionid) {
         $this->submissionid = $submissionid;
@@ -161,7 +161,7 @@ class mod_surveypro_formbase {
      * set_maxassignedpage
      *
      * @param $formpage
-     * @return none
+     * @return void
      */
     public function set_maxassignedpage($maxassignedpage) {
         $this->maxassignedpage = $maxassignedpage;
@@ -171,7 +171,7 @@ class mod_surveypro_formbase {
      * set_formpage
      *
      * @param $formpage
-     * @return none
+     * @return void
      */
     public function set_formpage($formpage) {
         $this->formpage = ($formpage == 0) ? 1 : $formpage;

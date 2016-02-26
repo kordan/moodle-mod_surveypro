@@ -67,7 +67,7 @@ class mod_surveypro_report_uploadformmanager {
      * set_userid
      *
      * @param string $userid
-     * @return none
+     * @return void
      */
     public function set_userid($userid) {
         $this->userid = $userid;
@@ -77,7 +77,7 @@ class mod_surveypro_report_uploadformmanager {
      * set_itemid
      *
      * @param string $itemid
-     * @return none
+     * @return void
      */
     public function set_itemid($itemid) {
         $this->itemid = $itemid;
@@ -87,7 +87,7 @@ class mod_surveypro_report_uploadformmanager {
      * set_submissionid
      *
      * @param string $submissionid
-     * @return none
+     * @return void
      */
     public function set_submissionid($submissionid) {
         $this->submissionid = $submissionid;
@@ -97,7 +97,7 @@ class mod_surveypro_report_uploadformmanager {
      * prevent_direct_user_input
      *
      * @param none
-     * @return
+     * @return void
      */
     public function prevent_direct_user_input() {
         $allowed = has_capability('mod/surveypro:accessreports', $this->context, null, true);
@@ -112,7 +112,7 @@ class mod_surveypro_report_uploadformmanager {
      *
      * @param $submissionid
      * @param $itemid
-     * @return
+     * @return void
      */
     public function display_attachment($submissionid, $itemid) {
         global $CFG, $DB, $OUTPUT;

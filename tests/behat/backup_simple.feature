@@ -11,7 +11,6 @@ Feature: Backup and restore of surveyspro
     And the following "activities" exist:
       | activity  | course | idnumber   | name                 | intro                     | section |
       | surveypro | C1     | surveypro1 | Test surveypro       | Surveypro description     | 1       |
-      | surveypro | C1     | surveypro2 | Test surveypro again | New surveypro description | 2       |
     And I log in as "admin"
 
   @javascript

@@ -106,6 +106,11 @@ class mod_surveypro_itemlist {
     protected $hassubmissions;
 
     /**
+     * $formdata: the form content as submitted by the user
+     */
+    public $formdata = null;
+
+    /**
      * Class constructor
      */
     public function __construct($cm, $context, $surveypro) {
@@ -122,7 +127,7 @@ class mod_surveypro_itemlist {
      * drop_multilang
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function drop_multilang() {
         if ($this->surveypro->template) {
@@ -137,7 +142,7 @@ class mod_surveypro_itemlist {
      * trigger_event
      *
      * @param $itemcount
-     * @return none
+     * @return void
      */
     public function trigger_event($itemcount) {
         if (!empty($itemcount)) {
@@ -151,7 +156,7 @@ class mod_surveypro_itemlist {
      * manage_actions
      *
      * @param none
-     * @return
+     * @return void
      */
     public function manage_actions() {
         global $DB;
@@ -176,18 +181,18 @@ class mod_surveypro_itemlist {
                 $this->reorder_items();
                 break;
             case SURVEYPRO_REQUIREDON:
-                $item = surveypro_get_item($this->cm, $this->itemid, $this->type, $this->plugin);
+                $item = surveypro_get_item($this->cm, $this->surveypro, $this->itemid, $this->type, $this->plugin);
                 $item->set_required(1);
                 break;
             case SURVEYPRO_REQUIREDOFF:
-                $item = surveypro_get_item($this->cm, $this->itemid, $this->type, $this->plugin);
+                $item = surveypro_get_item($this->cm, $this->surveypro, $this->itemid, $this->type, $this->plugin);
                 $item->set_required(0);
                 break;
             case SURVEYPRO_CHANGEINDENT:
                 $DB->set_field('surveypro'.$this->type.'_'.$this->plugin, 'indent', $this->nextindent, array('itemid' => $this->itemid));
                 break;
             case SURVEYPRO_ADDTOSEARCH:
-                $item = surveypro_get_item($this->cm, $this->itemid, $this->type, $this->plugin);
+                $item = surveypro_get_item($this->cm, $this->surveypro, $this->itemid, $this->type, $this->plugin);
                 if ($item->get_insetupform('insearchform')) {
                     $DB->set_field('surveypro_item', 'insearchform', 1, array('id' => $this->itemid));
                 }
@@ -211,7 +216,7 @@ class mod_surveypro_itemlist {
      * display_items_table
      *
      * @param none
-     * @return
+     * @return void
      */
     public function display_items_table() {
         global $CFG, $DB, $OUTPUT;
@@ -332,7 +337,7 @@ class mod_surveypro_itemlist {
         }
 
         foreach ($itemseeds as $itemseed) {
-            $item = surveypro_get_item($this->cm, $itemseed->itemid, $itemseed->type, $itemseed->plugin, true);
+            $item = surveypro_get_item($this->cm, $this->surveypro, $itemseed->itemid, $itemseed->type, $itemseed->plugin, true);
 
             $sortindex = $item->get_sortindex();
 
@@ -645,7 +650,7 @@ class mod_surveypro_itemlist {
      * @param &$nodelist
      * @param &$sortindexnodelist
      * @param $additionalcondition
-     * @return
+     * @return void
      */
     public function add_child_node(&$nodelist, &$sortindexnodelist, $additionalcondition) {
         global $DB;
@@ -671,7 +676,7 @@ class mod_surveypro_itemlist {
      * add_parent_node
      *
      * @param $additionalcondition
-     * @return
+     * @return void
      */
     public function add_parent_node($additionalcondition) {
         global $DB;
@@ -703,7 +708,7 @@ class mod_surveypro_itemlist {
      * manage_item_hide
      *
      * @param none
-     * @return
+     * @return void
      */
     public function manage_item_hide() {
         global $DB, $OUTPUT;
@@ -717,7 +722,7 @@ class mod_surveypro_itemlist {
         $itemstoprocess = count($tohidelist);
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             if ($itemstoprocess > 1) { // Ask for confirmation.
-                $item = surveypro_get_item($this->cm, $this->itemid, $this->type, $this->plugin);
+                $item = surveypro_get_item($this->cm, $this->surveypro, $this->itemid, $this->type, $this->plugin);
 
                 $a = new stdClass();
                 $a->parentid = $item->get_content();
@@ -744,7 +749,8 @@ class mod_surveypro_itemlist {
                 die();
             } else { // Hide without asking.
                 $DB->set_field('surveypro_item', 'hidden', 1, array('id' => $this->itemid));
-                surveypro_reset_items_pages($this->cm->instance);
+                $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+                $utilityman->reset_items_pages();
             }
         } else {
             switch ($this->confirm) {
@@ -753,7 +759,8 @@ class mod_surveypro_itemlist {
                     foreach ($tohidelist as $tohideitemid) {
                         $DB->set_field('surveypro_item', 'hidden', 1, array('id' => $tohideitemid));
                     }
-                    surveypro_reset_items_pages($this->cm->instance);
+                    $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+                    $utilityman->reset_items_pages();
                     break;
                 case SURVEYPRO_CONFIRMED_NO:
                     $itemstoprocess = 0;
@@ -773,7 +780,7 @@ class mod_surveypro_itemlist {
      * manage_item_show
      *
      * @param none
-     * @return
+     * @return void
      */
     public function manage_item_show() {
         global $DB, $OUTPUT;
@@ -784,7 +791,7 @@ class mod_surveypro_itemlist {
         $itemstoprocess = count($toshowlist); // This is the list of ancestors.
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             if ($itemstoprocess > 1) { // Ask for confirmation.
-                $item = surveypro_get_item($this->cm, $this->itemid, $this->type, $this->plugin);
+                $item = surveypro_get_item($this->cm, $this->surveypro, $this->itemid, $this->type, $this->plugin);
 
                 $a = new stdClass();
                 $a->lastitem = $item->get_content();
@@ -811,7 +818,8 @@ class mod_surveypro_itemlist {
                 die();
             } else { // Show without asking.
                 $DB->set_field('surveypro_item', 'hidden', 0, array('id' => $this->itemid));
-                surveypro_reset_items_pages($this->cm->instance);
+                $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+                $utilityman->reset_items_pages();
             }
         } else {
             switch ($this->confirm) {
@@ -820,7 +828,8 @@ class mod_surveypro_itemlist {
                     foreach ($toshowlist as $toshowitemid) {
                         $DB->set_field('surveypro_item', 'hidden', 0, array('id' => $toshowitemid));
                     }
-                    surveypro_reset_items_pages($this->cm->instance);
+                    $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+                    $utilityman->reset_items_pages();
                     break;
                 case SURVEYPRO_CONFIRMED_NO:
                     $itemstoprocess = 0;
@@ -844,7 +853,7 @@ class mod_surveypro_itemlist {
      *     -> item with limited access (advanced) can ONLY BE parent of items with limited access (advanced)
      *
      * @param none
-     * @return
+     * @return void
      */
     public function manage_item_makeadvanced() {
         global $DB, $OUTPUT;
@@ -858,7 +867,7 @@ class mod_surveypro_itemlist {
         $itemstoprocess = count($toadvancedlist);
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             if (count($toadvancedlist) > 1) { // Ask for confirmation.
-                $item = surveypro_get_item($this->cm, $this->itemid, $this->type, $this->plugin);
+                $item = surveypro_get_item($this->cm, $this->surveypro, $this->itemid, $this->type, $this->plugin);
 
                 $a = new stdClass();
                 $a->parentid = $item->get_content();
@@ -885,7 +894,8 @@ class mod_surveypro_itemlist {
                 die();
             } else { // Hide without asking.
                 $DB->set_field('surveypro_item', 'advanced', 1, array('id' => $this->itemid));
-                surveypro_reset_items_pages($this->cm->instance);
+                $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+                $utilityman->reset_items_pages();
             }
         } else {
             switch ($this->confirm) {
@@ -894,7 +904,8 @@ class mod_surveypro_itemlist {
                     foreach ($toadvancedlist as $tohideitemid) {
                         $DB->set_field('surveypro_item', 'advanced', 1, array('id' => $tohideitemid));
                     }
-                    surveypro_reset_items_pages($this->cm->instance);
+                    $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+                    $utilityman->reset_items_pages();
                     break;
                 case SURVEYPRO_CONFIRMED_NO:
                     $itemstoprocess = 0;
@@ -914,7 +925,7 @@ class mod_surveypro_itemlist {
      * manage_item_makestandard
      *
      * @param none
-     * @return
+     * @return void
      */
     public function manage_item_makestandard() {
         global $DB, $OUTPUT;
@@ -925,7 +936,7 @@ class mod_surveypro_itemlist {
         $itemstoprocess = count($tostandardlist); // This is the list of ancestors.
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             if ($itemstoprocess > 1) { // Ask for confirmation.
-                $item = surveypro_get_item($this->cm, $this->itemid, $this->type, $this->plugin);
+                $item = surveypro_get_item($this->cm, $this->surveypro, $this->itemid, $this->type, $this->plugin);
 
                 $a = new stdClass();
                 $a->lastitem = $item->get_content();
@@ -952,7 +963,8 @@ class mod_surveypro_itemlist {
                 die();
             } else { // Show without asking.
                 $DB->set_field('surveypro_item', 'advanced', 0, array('id' => $this->itemid));
-                surveypro_reset_items_pages($this->cm->instance);
+                $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+                $utilityman->reset_items_pages();
             }
         } else {
             switch ($this->confirm) {
@@ -961,7 +973,8 @@ class mod_surveypro_itemlist {
                     foreach ($tostandardlist as $toshowitemid) {
                         $DB->set_field('surveypro_item', 'advanced', 0, array('id' => $toshowitemid));
                     }
-                    surveypro_reset_items_pages($this->cm->instance);
+                    $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+                    $utilityman->reset_items_pages();
                     break;
                 case SURVEYPRO_CONFIRMED_NO:
                     $itemstoprocess = 0;
@@ -981,7 +994,7 @@ class mod_surveypro_itemlist {
      * manage_item_deletion
      *
      * @param none
-     * @return
+     * @return void
      */
     public function manage_item_deletion() {
         global $DB, $OUTPUT;
@@ -989,7 +1002,7 @@ class mod_surveypro_itemlist {
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             // Ask for confirmation.
             // In the frame of the confirmation I need to declare whether some child will break the link.
-            $item = surveypro_get_item($this->cm, $this->itemid, $this->type, $this->plugin);
+            $item = surveypro_get_item($this->cm, $this->surveypro, $this->itemid, $this->type, $this->plugin);
 
             $a = new stdClass();
             $a->content = $item->get_content();
@@ -1029,38 +1042,29 @@ class mod_surveypro_itemlist {
         } else {
             switch ($this->confirm) {
                 case SURVEYPRO_CONFIRMED_YES:
-                    // $maxsortindex = $DB->get_field('surveypro_item', 'MAX(sortindex)', array('surveyproid' => $this->cm->instance));
+                    $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+                    $utilityman->reset_items_pages();
+                    $whereparam = array('surveyproid' => $this->surveypro->id);
+
                     if ($childrenseeds = $DB->get_records('surveypro_item', array('parentid' => $this->itemid), 'id', 'id, type, plugin')) {
                         foreach ($childrenseeds as $childseed) {
-                            $item = surveypro_get_item($this->cm, $childseed->id, $childseed->type, $childseed->plugin);
-                            $item->item_delete($childseed->id);
+                            $whereparam['itemid'] = $childseed->id;
+                            $utilityman->delete_items($whereparam);
                         }
                     }
 
                     // Get the content of the item for the closing message.
-                    $item = surveypro_get_item($this->cm, $this->itemid, $this->type, $this->plugin);
+                    $item = surveypro_get_item($this->cm, $this->surveypro, $this->itemid, $this->type, $this->plugin);
 
                     $a = new stdClass();
                     $a->content = $item->get_content();
                     $a->pluginname = strtolower(get_string('pluginname', 'surveypro'.$this->type.'_'.$this->plugin));
 
                     $killedsortindex = $item->get_sortindex();
-                    $item->item_delete($this->itemid);
+                    $whereparam['itemid'] = $childseed->id;
+                    $utilityman->delete_items($this->itemid);
 
-                    // Renum sortindex.
-                    $sql = 'SELECT id
-                            FROM {surveypro_item}
-                            WHERE surveyproid = :surveyproid
-                                AND sortindex > :killedsortindex
-                            ORDER BY sortindex';
-                    $whereparams = array('surveyproid' => $this->surveypro->id, 'killedsortindex' => $killedsortindex);
-                    $itemlist = $DB->get_recordset_sql($sql, $whereparams);
-                    $currentsortindex = $killedsortindex;
-                    foreach ($itemlist as $item) {
-                        $DB->set_field('surveypro_item', 'sortindex', $currentsortindex, array('id' => $item->id));
-                        $currentsortindex++;
-                    }
-                    $itemlist->close();
+                    $utilityman->items_reindex($killedsortindex);
 
                     if ($childrenseeds) {
                         $message = get_string('chaindeleted', 'mod_surveypro', $a);
@@ -1084,7 +1088,7 @@ class mod_surveypro_itemlist {
      * manage_item_dropmultilang
      *
      * @param none
-     * @return
+     * @return void
      */
     public function manage_item_dropmultilang() {
         global $DB, $OUTPUT;
@@ -1118,7 +1122,7 @@ class mod_surveypro_itemlist {
                         $id = $itemseed->id;
                         $type = $itemseed->type;
                         $plugin = $itemseed->plugin;
-                        $item = surveypro_get_item($this->cm, $id, $type, $plugin);
+                        $item = surveypro_get_item($this->cm, $this->surveypro, $id, $type, $plugin);
                         if ($multilangfields = $item->item_get_multilang_fields()) {
                             foreach ($multilangfields as $plugin => $fieldnames) {
                                 $record = new stdClass();
@@ -1166,10 +1170,68 @@ class mod_surveypro_itemlist {
     }
 
     /**
+     * manage_bulk_action
+     *
+     * @param none
+     * @return void
+     */
+    public function manage_bulk_action() {
+        $utilityman = new mod_surveypro_utility($this->cm);
+        $bulkaction = $this->formdata->bulkaction;
+        switch ($bulkaction) {
+            case SURVEYPRO_NOACTION;
+                break;
+            case SURVEYPRO_HIDEALLITEMS:
+                $whereparams = array('surveyproid' => $this->surveypro->id);
+                $whereparams['hidden'] = 0;
+                $utilityman->hide_items($whereparams);
+
+                $utilityman->reset_items_pages();
+
+                break;
+            case SURVEYPRO_SHOWALLITEMS:
+                $whereparams = array('surveyproid' => $this->surveypro->id);
+                $whereparams['hidden'] = 1;
+                $utilityman->show_items($whereparams);
+
+                $utilityman->items_reindex();
+
+                break;
+            case SURVEYPRO_DELETEALLITEMS:
+                $whereparams = array('surveyproid' => $this->surveypro->id);
+                $utilityman->delete_items($whereparams);
+                break;
+            case SURVEYPRO_DELETEVISIBLEITEMS:
+                $whereparams = array('surveyproid' => $this->surveypro->id);
+                $whereparams['hidden'] = 0;
+                $utilityman->delete_items($whereparams);
+
+                $utilityman->items_reindex();
+
+                break;
+            case SURVEYPRO_DELETEHIDDENITEMS:
+                $whereparams = array('surveyproid' => $this->surveypro->id);
+                $whereparams['hidden'] = 1;
+                $utilityman->delete_items($whereparams);
+
+                $utilityman->items_reindex();
+
+                break;
+            default:
+                $message = 'Unexpected $this->bulkaction = '.$bulkaction;
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+        }
+
+        $paramurl = array('id' => $this->cm->id);
+        $returnurl = new moodle_url('/mod/surveypro/layout_manage.php', $paramurl);
+        redirect($returnurl);
+    }
+
+    /**
      * reorder_items
      *
      * @param none
-     * @return
+     * @return void
      */
     public function reorder_items() {
         global $DB;
@@ -1206,14 +1268,15 @@ class mod_surveypro_itemlist {
 
         // You changed item order.
         // So, do no forget to reset items per page.
-        surveypro_reset_items_pages($this->surveypro->id);
+        $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+        $utilityman->reset_items_pages();
     }
 
     /**
      * validate_relations
      *
      * @param none
-     * @return
+     * @return void
      */
     public function validate_relations() {
         global $CFG, $DB, $OUTPUT;
@@ -1300,11 +1363,11 @@ class mod_surveypro_itemlist {
         echo $OUTPUT->notification($message, 'notifymessage');
 
         foreach ($itemseeds as $itemseed) {
-            $item = surveypro_get_item($this->cm, $itemseed->itemid, $itemseed->type, $itemseed->plugin, true);
+            $item = surveypro_get_item($this->cm, $this->surveypro, $itemseed->itemid, $itemseed->type, $itemseed->plugin, true);
             $currenthide = $item->get_hidden();
 
             if ($item->get_parentid()) {
-                $parentitem = surveypro_get_item($this->cm, $item->get_parentid()); // Here I do not know type and plugin.
+                $parentitem = surveypro_get_item($this->cm, $this->surveypro, $item->get_parentid()); // Here I do not know type and plugin.
             }
 
             $tablerow = array();
@@ -1408,7 +1471,7 @@ class mod_surveypro_itemlist {
      * display_user_feedback
      *
      * @param none
-     * @return
+     * @return void
      */
     public function display_user_feedback() {
         global $OUTPUT;
@@ -1471,7 +1534,7 @@ class mod_surveypro_itemlist {
      * item_welcome
      *
      * @param none
-     * @return
+     * @return void
      */
     public function item_welcome() {
         global $OUTPUT;
@@ -1504,7 +1567,7 @@ class mod_surveypro_itemlist {
      * get_itemid
      *
      * @param
-     * @return none
+     * @return void
      */
     public function get_itemid() {
         return $this->itemid;
@@ -1514,7 +1577,7 @@ class mod_surveypro_itemlist {
      * get_type
      *
      * @param
-     * @return none
+     * @return void
      */
     public function get_type() {
         return $this->type;
@@ -1524,7 +1587,7 @@ class mod_surveypro_itemlist {
      * get_plugin
      *
      * @param
-     * @return none
+     * @return void
      */
     public function get_plugin() {
         return $this->plugin;
@@ -1534,7 +1597,7 @@ class mod_surveypro_itemlist {
      * get_hassubmissions
      *
      * @param
-     * @return none
+     * @return void
      */
     public function get_hassubmissions() {
         return $this->hassubmissions;
@@ -1546,7 +1609,7 @@ class mod_surveypro_itemlist {
      * set_typeplugin
      *
      * @param $typeplugin
-     * @return none
+     * @return void
      */
     public function set_typeplugin($typeplugin) {
         if (preg_match('~^('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_(\w+)$~', $typeplugin, $match)) {
@@ -1563,7 +1626,7 @@ class mod_surveypro_itemlist {
      * set_type
      *
      * @param $type
-     * @return none
+     * @return void
      */
     public function set_type($type) {
         $this->type = $type;
@@ -1573,7 +1636,7 @@ class mod_surveypro_itemlist {
      * set_plugin
      *
      * @param $plugin
-     * @return none
+     * @return void
      */
     public function set_plugin($plugin) {
         $this->plugin = $plugin;
@@ -1583,7 +1646,7 @@ class mod_surveypro_itemlist {
      * set_itemid
      *
      * @param int $itemid
-     * @return none
+     * @return void
      */
     public function set_itemid($itemid) {
         $this->itemid = $itemid;
@@ -1593,7 +1656,7 @@ class mod_surveypro_itemlist {
      * set_hassubmissions
      *
      * @param int $hassubmissions
-     * @return none
+     * @return void
      */
     public function set_hassubmissions($hassubmissions) {
         $this->hassubmissions = $hassubmissions;
@@ -1603,7 +1666,7 @@ class mod_surveypro_itemlist {
      * set_sortindex
      *
      * @param int $sortindex
-     * @return none
+     * @return void
      */
     public function set_sortindex($sortindex) {
         $this->sortindex = $sortindex;
@@ -1613,7 +1676,7 @@ class mod_surveypro_itemlist {
      * set_action
      *
      * @param int $action
-     * @return none
+     * @return void
      */
     public function set_action($action) {
         $this->action = $action;
@@ -1623,7 +1686,7 @@ class mod_surveypro_itemlist {
      * set_view
      *
      * @param int $view
-     * @return none
+     * @return void
      */
     public function set_view($view) {
         $this->view = $view;
@@ -1633,7 +1696,7 @@ class mod_surveypro_itemlist {
      * set_lastitembefore
      *
      * @param int $lastitembefore
-     * @return none
+     * @return void
      */
     public function set_lastitembefore($lastitembefore) {
         $this->lastitembefore = $lastitembefore;
@@ -1643,7 +1706,7 @@ class mod_surveypro_itemlist {
      * set_confirm
      *
      * @param int $confirm
-     * @return none
+     * @return void
      */
     public function set_confirm($confirm) {
         $this->confirm = $confirm;
@@ -1653,7 +1716,7 @@ class mod_surveypro_itemlist {
      * set_nextindent
      *
      * @param int $nextindent
-     * @return none
+     * @return void
      */
     public function set_nextindent($nextindent) {
         $this->nextindent = $nextindent;
@@ -1663,7 +1726,7 @@ class mod_surveypro_itemlist {
      * set_parentid
      *
      * @param int $parentid
-     * @return none
+     * @return void
      */
     public function set_parentid($parentid) {
         $this->parentid = $parentid;
@@ -1673,7 +1736,7 @@ class mod_surveypro_itemlist {
      * set_savefeedbackmask
      *
      * @param int $savefeedbackmask
-     * @return none
+     * @return void
      */
     public function set_savefeedbackmask($savefeedbackmask) {
         $this->savefeedbackmask = $savefeedbackmask;
@@ -1683,7 +1746,7 @@ class mod_surveypro_itemlist {
      * set_itemtomove
      *
      * @param int $itemtomove
-     * @return none
+     * @return void
      */
     public function set_itemtomove($itemtomove) {
         $this->itemtomove = $itemtomove;
@@ -1693,7 +1756,7 @@ class mod_surveypro_itemlist {
      * set_saveasnew
      *
      * @param int $saveasnew
-     * @return none
+     * @return void
      */
     public function set_saveasnew($saveasnew) {
         $this->saveasnew = $saveasnew;

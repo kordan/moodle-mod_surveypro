@@ -24,7 +24,7 @@ class mod_surveypro_mod_form extends moodleform_mod {
      * definition
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function definition() {
         global $CFG, $COURSE;
@@ -245,7 +245,7 @@ class mod_surveypro_mod_form extends moodleform_mod {
     /*
      * add_completion_rules
      *
-     * @return none
+     * @return void
      */
     public function add_completion_rules() {
         $mform =& $this->_form;
@@ -269,7 +269,7 @@ class mod_surveypro_mod_form extends moodleform_mod {
      * completion_rule_enabled
      *
      * @param $data
-     * @return none
+     * @return void
      */
     public function completion_rule_enabled($data) {
         return (!empty($data['completionsubmit_check']) && ($data['completionsubmit'] != 0));

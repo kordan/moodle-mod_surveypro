@@ -61,10 +61,9 @@ $formurl = new moodle_url('/mod/surveypro/view_form.php', $paramurl);
 
 // Begin of: prepare params for the form.
 $formparams = new stdClass();
-$formparams->cm = $cm; // Required to call surveypro_get_item.
+$formparams->cm = $cm;
 $formparams->surveypro = $surveypro;
 $formparams->submissionid = $submissionid;
-$formparams->firstpageright = $userformman->get_firstpageright();
 $formparams->maxassignedpage = $userformman->get_maxassignedpage();
 $formparams->canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $context, null, true); // Help selecting the fields to show
 $formparams->formpage = $userformman->get_formpage(); // The page of the form to select subset of fields

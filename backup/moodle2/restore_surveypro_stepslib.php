@@ -34,7 +34,7 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
      * define_structure
      *
      * @param none
-     * @return none
+     * @return void
      */
     protected function define_structure() {
 
@@ -125,7 +125,7 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
      * after_execute
      *
      * @param none
-     * @return none
+     * @return void
      */
     protected function after_execute() {
         global $DB;

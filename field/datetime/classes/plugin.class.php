@@ -134,10 +134,10 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
      * @param int $itemid. Optional surveypro_item ID
      * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
      */
-    public function __construct($cm, $itemid=0, $evaluateparentcontent) {
+    public function __construct($cm, $surveypro, $itemid=0, $evaluateparentcontent) {
         global $DB;
 
-        parent::__construct($cm, $itemid, $evaluateparentcontent);
+        parent::__construct($cm, $surveypro, $itemid, $evaluateparentcontent);
 
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
@@ -167,7 +167,7 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
      *
      * @param $itemid
      * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
-     * @return
+     * @return void
      */
     public function item_load($itemid, $evaluateparentcontent) {
         // Do parent item loading stuff here (mod_surveypro_itembase::item_load($itemid, $evaluateparentcontent)))
@@ -184,7 +184,7 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
      * item_save
      *
      * @param $record
-     * @return
+     * @return void
      */
     public function item_save($record) {
         $this->item_get_common_settings($record);
@@ -214,7 +214,7 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
      * Copy mandatory fields to $record.
      *
      * @param stdClass $record
-     * @return nothing
+     * @return void
      */
     public function item_add_mandatory_plugin_fields(&$record) {
         $record->content = 'Date and time [dd/mm/yyyy;hh:mm]';
@@ -240,7 +240,7 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
      * @param $day
      * @param $hour
      * @param $minute
-     * @return
+     * @return void
      */
     public function item_datetime_to_unix_time($year, $month, $day, $hour, $minute) {
         return (gmmktime($hour, $minute, 0, $month, $day, $year)); // This is GMT
@@ -249,10 +249,10 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
     /**
      * item_force_coherence
      * verify the validity of contents of the record
-     * for instance: age not greater than maximumage
+     * for instance: datetime not greater than maximum datetime
      *
      * @param stdClass $record
-     * @return nothing
+     * @return void
      */
     public function item_force_coherence($record) {
         if (isset($record->defaultvalue)) {
@@ -272,7 +272,7 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
      * translates the datetime class property $fieldlist in $field.'_year' and $field.'_month' and so forth
      *
      * @param none
-     * @return
+     * @return void
      */
     public function item_custom_fields_to_form() {
         // 1. Special management for composite fields.
@@ -306,7 +306,7 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
      * sets record field to store the correct value to db for the date custom item
      *
      * @param $record
-     * @return
+     * @return void
      */
     public function item_custom_fields_to_db($record) {
         // 1. Special management for composite fields.
@@ -341,7 +341,7 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
      * get the list of composite fields
      *
      * @param none
-     * @return
+     * @return void
      */
     public function item_composite_fields() {
         return array('defaultvalue', 'lowerbound', 'upperbound');
@@ -351,7 +351,7 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
      * item_get_downloadformats
      *
      * @param none
-     * @return
+     * @return void
      */
     public function item_get_downloadformats() {
         $option = array();
@@ -396,7 +396,7 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
      * item_get_friendlyformat
      *
      * @param none
-     * @return
+     * @return void
      */
     public function item_get_friendlyformat() {
         return 'strftime01';
@@ -463,7 +463,7 @@ EOS;
      * @param $searchform
      * @param $readonly
      * @param $submissionid
-     * @return
+     * @return void
      */
     public function userform_mform_element($mform, $searchform, $readonly=false, $submissionid=0) {
         global $DB, $USER;
@@ -597,7 +597,7 @@ EOS;
      * @param &$errors
      * @param $surveypro
      * @param $searchform
-     * @return
+     * @return void
      */
     public function userform_mform_validation($data, &$errors, $surveypro, $searchform) {
         // This plugin displays as dropdown menu. It will never return empty values.
@@ -711,7 +711,7 @@ EOS;
      * @param $answer
      * @param $olduseranswer
      * @param $searchform
-     * @return
+     * @return void
      */
     public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
         if (isset($answer['noanswer'])) { // This is correct for input and search form both.
@@ -749,7 +749,7 @@ EOS;
      * userform_set_prefill
      *
      * @param $fromdb
-     * @return
+     * @return void
      */
     public function userform_set_prefill($fromdb) {
         $prefill = array();
@@ -780,7 +780,7 @@ EOS;
      *
      * @param $answers
      * @param $format
-     * @return
+     * @return void
      */
     public function userform_db_to_export($answer, $format='') {
         // Content.
@@ -813,7 +813,7 @@ EOS;
      * returns an array with the names of the mform element added using $mform->addElement or $mform->addGroup
      *
      * @param none
-     * @return
+     * @return void
      */
     public function userform_get_root_elements_name() {
         $elementnames = array($this->itemname.'_group');

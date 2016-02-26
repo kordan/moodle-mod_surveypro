@@ -30,7 +30,7 @@ class mod_surveypro_applyutemplateform extends moodleform {
      * definition
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function definition() {
         $mform = $this->_form;
@@ -73,7 +73,7 @@ class mod_surveypro_applyutemplateform extends moodleform {
         // Applyutemplate: otheritems.
         $fieldname = 'action';
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('ignoreitems', 'mod_surveypro'), SURVEYPRO_IGNOREITEMS);
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('hideitems', 'mod_surveypro'), SURVEYPRO_HIDEITEMS);
+        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('hideitems', 'mod_surveypro'), SURVEYPRO_HIDEALLITEMS);
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('deleteallitems', 'mod_surveypro'), SURVEYPRO_DELETEALLITEMS);
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('deletevisibleitems', 'mod_surveypro'), SURVEYPRO_DELETEVISIBLEITEMS);
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('deletehiddenitems', 'mod_surveypro'), SURVEYPRO_DELETEHIDDENITEMS);

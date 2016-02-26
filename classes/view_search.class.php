@@ -51,7 +51,7 @@ class mod_surveypro_searchmanager {
      * get_searchparamurl
      *
      * @param none
-     * @return
+     * @return void
      */
     public function get_searchparamurl() {
         $regexp = '~('.SURVEYPRO_ITEMPREFIX.'|'.SURVEYPRO_DONTSAVEMEPREFIX.')_('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_([a-z]+)_([0-9]+)_?([a-z0-9]+)?~';
@@ -85,7 +85,7 @@ class mod_surveypro_searchmanager {
                 // Do not waste your time.
                 continue;
             }
-            $item = surveypro_get_item($this->cm, $iteminfo->itemid, $iteminfo->type, $iteminfo->plugin);
+            $item = surveypro_get_item($this->cm, $this->surveypro, $iteminfo->itemid, $iteminfo->type, $iteminfo->plugin);
 
             $userdata = new stdClass();
             $item->userform_save_preprocessing($iteminfo->contentperelement, $userdata, true);

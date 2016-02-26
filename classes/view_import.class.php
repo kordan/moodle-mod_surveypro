@@ -51,7 +51,7 @@ class mod_surveypro_importmanager {
      * trigger_event
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function trigger_event() {
         $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
@@ -129,7 +129,7 @@ class mod_surveypro_importmanager {
         $surveyheaders[SURVEYPRO_TIMECREATEDLABEL] = SURVEYPRO_TIMECREATEDLABEL;
         $surveyheaders[SURVEYPRO_TIMEMODIFIEDLABEL] = SURVEYPRO_TIMEMODIFIEDLABEL;
 
-        $where = array('surveyproid' => $this->surveypro->id);
+        $whereparams = array('surveyproid' => $this->surveypro->id);
         foreach ($pluginlist as $plugin) {
             require_once($CFG->dirroot.'/mod/surveypro/field/'.$plugin.'/classes/plugin.class.php');
 
@@ -142,14 +142,14 @@ class mod_surveypro_importmanager {
                         JOIN {surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'} p ON i.id = p.itemid
                     WHERE i.surveyproid = :surveyproid
                     ORDER BY p.itemid';
-                $itemvariables = $DB->get_records_sql($sql, $where);
+                $itemvariables = $DB->get_records_sql($sql, $whereparams);
             } else {
                 $sql = 'SELECT p.itemid, p.variable
                     FROM {surveypro_item} i
                         JOIN {surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'} p ON i.id = p.itemid
                     WHERE i.surveyproid = :surveyproid
                     ORDER BY p.itemid';
-                $itemvariables = $DB->get_records_sql($sql, $where);
+                $itemvariables = $DB->get_records_sql($sql, $whereparams);
             }
 
             foreach ($itemvariables as $itemvariable) {
@@ -304,7 +304,7 @@ class mod_surveypro_importmanager {
                 // The column for timemodified.
                 continue;
             }
-            $item = surveypro_get_item($this->cm, $itemid);
+            $item = surveypro_get_item($this->cm, $this->surveypro, $itemid);
 
             // Itemhelperinfo.
             $info = new stdClass();
@@ -358,7 +358,7 @@ class mod_surveypro_importmanager {
      * validate_csv
      *
      * @param none
-     * @return
+     * @return void
      */
     public function import_csv() {
         global $USER, $DB;

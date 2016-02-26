@@ -214,13 +214,14 @@ define('SURVEYPRO_THANKSHTMLFILEAREA' , 'thankshtml');
 define('SURVEYPRO_ITEMCONTENTFILEAREA', 'itemcontent');
 
 /*
- * OPTIONS of 'otheritems' in 'APPLY USER TEMPLATE'
+ * BULK ACTIONS
  */
 define('SURVEYPRO_IGNOREITEMS'       , '1');
-define('SURVEYPRO_HIDEITEMS'         , '2');
-define('SURVEYPRO_DELETEALLITEMS'    , '3');
-define('SURVEYPRO_DELETEVISIBLEITEMS', '4');
-define('SURVEYPRO_DELETEHIDDENITEMS' , '5');
+define('SURVEYPRO_HIDEALLITEMS'      , '2');
+define('SURVEYPRO_SHOWALLITEMS'      , '3');
+define('SURVEYPRO_DELETEALLITEMS'    , '4');
+define('SURVEYPRO_DELETEVISIBLEITEMS', '5');
+define('SURVEYPRO_DELETEHIDDENITEMS' , '6');
 
 /*
  * FIRENDLY FORMAT
@@ -348,7 +349,11 @@ function surveypro_update_instance($surveypro, $mform) {
 
     surveypro_pre_process_checkboxes($surveypro);
 
-    surveypro_reset_items_pages($surveypro->id);
+    // I don't think classes are available here!
+    // mod_surveypro_utility->reset_items_pages($surveypro->id);
+    $whereparams = array('surveyproid' => $surveypro);
+    $DB->set_field('surveypro_item', 'formpage', 0, $whereparams);
+
 
     $DB->update_record('surveypro', $surveypro);
     // Stop working with the surveypro table (unless $surveypro->thankshtml_editor['itemid'] != 0).
@@ -377,7 +382,7 @@ function surveypro_update_instance($surveypro, $mform) {
  * surveypro_pre_process_checkboxes
  *
  * @param object $surveypro Surveypro record
- * @return none
+ * @return void
  */
 function surveypro_pre_process_checkboxes($surveypro) {
     $checkboxes = array('newpageforchild', 'history', 'saveresume', 'anonymous', 'notifyteachers');
@@ -526,7 +531,7 @@ function surveypro_user_outline($course, $user, $mod, $surveypro) {
  * @param stdClass $user the record of the user we are generating report for
  * @param cm_info $mod course module info
  * @param stdClass $surveypro the module instance record
- * @return none, is supposed to echp directly
+ * @return void, is supposed to echp directly
  */
 function surveypro_user_complete($course, $user, $mod, $surveypro) {
     return true;
@@ -557,7 +562,7 @@ function surveypro_print_recent_activity($course, $viewfullnames, $timestart) {
  * @param int $cmid course module id
  * @param int $userid check for a particular user's activity only, defaults to 0 (all users)
  * @param int $groupid check for a particular group's activity only, defaults to 0 (all groups)
- * @return none adds items into $activities and increases $index
+ * @return void adds items into $activities and increases $index
  */
 function surveypro_get_recent_mod_activity(&$activities, &$index, $timestart, $courseid, $cmid, $userid=0, $groupid=0) {
 }
@@ -565,7 +570,7 @@ function surveypro_get_recent_mod_activity(&$activities, &$index, $timestart, $c
 /**
  * Prints single activity item prepared by {@see surveypro_get_recent_mod_activity()}
  *
- * @return none
+ * @return void
  */
 function surveypro_print_recent_mod_activity($activity, $courseid, $detail, $modnames, $viewfullnames) {
 }
@@ -696,7 +701,7 @@ function surveypro_scale_used_anywhere($scaleid) {
  * Needed by grade_update_mod_grades() in lib/gradelib.php
  *
  * @param stdClass $surveypro instance object with extra cmidnumber and modname property
- * @return none
+ * @return void
  */
 // I will remove comments when I will understand why this method is called
 // function surveypro_grade_item_update(stdClass $surveypro) {
@@ -720,7 +725,7 @@ function surveypro_scale_used_anywhere($scaleid) {
  *
  * @param stdClass $surveypro instance object with extra cmidnumber and modname property
  * @param int $userid update grade of specific user only, 0 means all participants
- * @return none
+ * @return void
  */
 function surveypro_update_grades(stdClass $surveypro, $userid = 0) {
     global $CFG;
@@ -759,7 +764,7 @@ function surveypro_get_file_areas($course, $cm, $context) {
  * @param string $filearea
  * @param array $args
  * @param bool $forcedownload
- * @return none this should never return to the caller
+ * @return void this should never return to the caller
  */
 function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload) {
     global $CFG;
@@ -840,7 +845,7 @@ function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
  *
  * @param settings_navigation $settingsnav {@link settings_navigation}
  * @param navigation_node $surveypronode {@link navigation_node}
- * @return
+ * @return void
  */
 function surveypro_extend_settings_navigation(settings_navigation $settings, navigation_node $surveypronode) {
     global $CFG, $PAGE, $DB;
@@ -1010,7 +1015,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
  * @param stdClass $course
  * @param stdClass $surveypro
  * @param cm_info $cm
- * @return
+ * @return void
  */
 function surveypro_extend_navigation(navigation_node $navref, stdClass $course, stdClass $surveypro, cm_info $cm) {
     // $context = context_system::instance();
@@ -1056,7 +1061,7 @@ function surveypro_site_recaptcha_enabled() {
  * @param $plugintype
  * @param $includetype
  * @param $count
- * @return
+ * @return void
  */
 function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=false) {
     $plugincount = 0;
@@ -1131,7 +1136,7 @@ function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=
  * @param $searchform
  * @param $type
  * @param $formpage
- * @return
+ * @return void
  */
 function surveypro_fetch_items_seeds($surveyproid, $canaccessadvanceditems, $searchform, $type=false, $formpage=false) {
     $sql = 'SELECT si.*
@@ -1165,7 +1170,7 @@ function surveypro_fetch_items_seeds($surveyproid, $canaccessadvanceditems, $sea
  * surveypro_get_view_actions
  *
  * @param
- * @return
+ * @return void
  */
 function surveypro_get_view_actions() {
     return array('view', 'view all');
@@ -1175,7 +1180,7 @@ function surveypro_get_view_actions() {
  * surveypro_get_post_actions
  *
  * @param
- * @return
+ * @return void
  */
 function surveypro_get_post_actions() {
     return array('add', 'update');
@@ -1188,19 +1193,6 @@ function surveypro_get_post_actions() {
  */
 function surveypro_get_editor_options() {
     return array('trusttext' => true, 'subdirs' => false, 'maxfiles' => EDITOR_UNLIMITED_FILES);
-}
-
-/**
- * surveypro_reset_items_pages
- *
- * @param $surveyproid
- * @return
- */
-function surveypro_reset_items_pages($surveyproid) {
-    global $DB;
-
-    $whereparams = array('surveyproid' => $surveyproid);
-    $DB->set_field('surveypro_item', 'formpage', 0, $whereparams);
 }
 
 /**

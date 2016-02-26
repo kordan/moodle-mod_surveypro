@@ -31,7 +31,7 @@ class mod_surveypro_importform extends moodleform {
      * definition
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function definition() {
         $mform = $this->_form;

@@ -23,10 +23,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
-require_once($CFG->dirroot.'/mod/surveypro/form/items/itembase_form.php');
-require_once($CFG->dirroot.'/mod/surveypro/format/pagebreak/lib.php');
 
-class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
+class mod_surveypro_bulkactionform extends moodleform {
 
     /*
      * definition
@@ -35,15 +33,20 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
      * @return void
      */
     public function definition() {
-        // I close with the common section of the form
-        parent::definition();
+        $mform = $this->_form;
 
-        // $mform = $this->_form;
+        $fieldname = 'bulkaction';
+        $options = array();
+        $options[SURVEYPRO_NOACTION] = get_string('choosedots');
+        $options[SURVEYPRO_HIDEALLITEMS] = get_string('hideallitems', 'mod_surveypro');
+        $options[SURVEYPRO_SHOWALLITEMS] = get_string('showallitems', 'mod_surveypro');
+        $options[SURVEYPRO_DELETEALLITEMS] = get_string('deleteallitems', 'mod_surveypro');
+        $options[SURVEYPRO_DELETEVISIBLEITEMS] = get_string('deletevisibleitems', 'mod_surveypro');
+        $options[SURVEYPRO_DELETEHIDDENITEMS] = get_string('deletehiddenitems', 'mod_surveypro');
 
-        // Get _customdata.
-        // $item = $this->_customdata->item;
-        // $surveypro = $this->_customdata->surveypro;
-
-        $this->add_item_buttons();
+        $elementgroup = array();
+        $elementgroup[] = $mform->createElement('select', $fieldname, null, $options);
+        $elementgroup[] = $mform->createElement('submit', 'button', get_string('go'));
+        $mform->addElement('group', $fieldname.'_group', get_string('bulkactions'), $elementgroup, ' ', false);
     }
 }

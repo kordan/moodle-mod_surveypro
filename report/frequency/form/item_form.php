@@ -31,7 +31,7 @@ class mod_surveypro_chooseitemform extends moodleform {
      * definition
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function definition() {
         global $DB;

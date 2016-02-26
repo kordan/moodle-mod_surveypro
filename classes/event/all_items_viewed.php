@@ -51,7 +51,7 @@ class all_items_viewed extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "User with id '{$this->userid}' has viewed all the items.";
+        return "User with id '{$this->userid}' has viewed all the items'.";
     }
 
     /**

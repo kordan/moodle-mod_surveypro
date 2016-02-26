@@ -49,7 +49,7 @@ Feature: Load and apply usertemplates in order to test, among others, partial it
     And I navigate to "Apply" node in "Surveypro administration > User templates"
     And I set the following fields to these values:
       | User templates       | (Course) parent-child_2015123000.xml |
-      | id_action_5          | 1                                    |
+      | id_action_6          | 1                                    |
     And I press "Apply"
 
     Then I should see "This is a demo survey to quickly see"
