@@ -41,7 +41,7 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
      * report_apply
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function report_apply() {
         return (!$this->surveypro->anonymous);
@@ -51,7 +51,7 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
      * setup_outputtable
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function setup_outputtable() {
         $this->outputtable = new flexible_table('attachmentslist');
@@ -98,7 +98,7 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
      * fetch_data
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function fetch_data() {
         global $DB, $COURSE, $OUTPUT;
@@ -173,7 +173,7 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
      * output_data
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function output_data() {
         global $OUTPUT;
@@ -186,7 +186,7 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
      * check_attachmentitems
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function check_attachmentitems() {
         global $OUTPUT, $DB;
@@ -208,7 +208,7 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
      * prevent_direct_user_input
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function prevent_direct_user_input() {
         if ($this->surveypro->anonymous) {

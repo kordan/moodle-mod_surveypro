@@ -1,5 +1,5 @@
 @mod @mod_surveypro
-Feature: Duplicate a surveypro instance
+Feature: Backup and restore a surveypro instance
   In order to validate backup and restore process
   As a teacher
   I backup and restore a surveypro instance.

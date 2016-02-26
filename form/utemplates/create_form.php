@@ -30,7 +30,7 @@ class mod_surveypro_utemplatecreateform extends moodleform {
      * definition
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function definition() {
         $mform = $this->_form;
@@ -79,7 +79,7 @@ class mod_surveypro_utemplatecreateform extends moodleform {
      * get_data
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function get_data() {
         $data = parent::get_data();

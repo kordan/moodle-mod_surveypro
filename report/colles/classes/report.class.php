@@ -132,7 +132,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
      * set_group
      *
      * @param int $group
-     * @return none
+     * @return void
      */
     public function set_group($group) {
         $this->group = $group;
@@ -142,7 +142,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
      * set_area
      *
      * @param int $area
-     * @return none
+     * @return void
      */
     public function set_area($area) {
         $this->area = $area;
@@ -152,7 +152,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
      * set_qid
      *
      * @param int $qid
-     * @return none
+     * @return void
      */
     public function set_qid($qid) {
         $this->qid = $qid;
@@ -162,7 +162,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
      * restrict_templates
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function restrict_templates() {
         return array('collesactual', 'collespreferred', 'collesactualpreferred');
@@ -172,7 +172,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
      * has_student_report
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function has_student_report() {
         return true;
@@ -182,7 +182,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
      * get_childreports
      *
      * @param bool $canaccessreports
-     * @return none
+     * @return void
      */
     public function get_childreports($canaccessreports) {
         if ($canaccessreports) {
@@ -203,7 +203,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
      * @param string $nexturl
      * @param string $graphurl
      * @param string $altkey
-     * @return none
+     * @return void
      */
     public function output_html($nexturl, $graphurl, $altkey) {
         static $strseemoredetail; // Cache the string for the next future
@@ -235,7 +235,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
      * get_qid_per_area
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function get_qid_per_area() {
         global $DB;
@@ -290,7 +290,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
      * output_summarydata
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function output_summarydata() {
         $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context, null, true);
@@ -321,7 +321,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
      * fetch_summarydata
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function fetch_summarydata() {
         global $DB, $USER;
@@ -425,7 +425,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
      * output_scalesdata
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function output_scalesdata() {
         $paramnexturl = array();
@@ -454,7 +454,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
      * fetch_scalesdata
      *
      * @param int $area
-     * @return none
+     * @return void
      */
     public function fetch_scalesdata($area=false) {
         global $DB;
@@ -543,7 +543,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
      * output_questionsdata
      *
      * @param int $area
-     * @return none
+     * @return void
      */
     public function output_questionsdata($area=false) {
         $paramnexturl = array();
@@ -578,7 +578,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
      *
      * @param int $area
      * @param int $qid
-     * @return none
+     * @return void
      */
     public function fetch_questionsdata($area=false, $qid=false) {
         global $DB;

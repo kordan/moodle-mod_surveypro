@@ -122,7 +122,7 @@ class mod_surveypro_itemlist {
      * drop_multilang
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function drop_multilang() {
         if ($this->surveypro->template) {
@@ -137,7 +137,7 @@ class mod_surveypro_itemlist {
      * trigger_event
      *
      * @param $itemcount
-     * @return none
+     * @return void
      */
     public function trigger_event($itemcount) {
         if (!empty($itemcount)) {
@@ -1504,7 +1504,7 @@ class mod_surveypro_itemlist {
      * get_itemid
      *
      * @param
-     * @return none
+     * @return void
      */
     public function get_itemid() {
         return $this->itemid;
@@ -1514,7 +1514,7 @@ class mod_surveypro_itemlist {
      * get_type
      *
      * @param
-     * @return none
+     * @return void
      */
     public function get_type() {
         return $this->type;
@@ -1524,7 +1524,7 @@ class mod_surveypro_itemlist {
      * get_plugin
      *
      * @param
-     * @return none
+     * @return void
      */
     public function get_plugin() {
         return $this->plugin;
@@ -1534,7 +1534,7 @@ class mod_surveypro_itemlist {
      * get_hassubmissions
      *
      * @param
-     * @return none
+     * @return void
      */
     public function get_hassubmissions() {
         return $this->hassubmissions;
@@ -1546,7 +1546,7 @@ class mod_surveypro_itemlist {
      * set_typeplugin
      *
      * @param $typeplugin
-     * @return none
+     * @return void
      */
     public function set_typeplugin($typeplugin) {
         if (preg_match('~^('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_(\w+)$~', $typeplugin, $match)) {
@@ -1563,7 +1563,7 @@ class mod_surveypro_itemlist {
      * set_type
      *
      * @param $type
-     * @return none
+     * @return void
      */
     public function set_type($type) {
         $this->type = $type;
@@ -1573,7 +1573,7 @@ class mod_surveypro_itemlist {
      * set_plugin
      *
      * @param $plugin
-     * @return none
+     * @return void
      */
     public function set_plugin($plugin) {
         $this->plugin = $plugin;
@@ -1583,7 +1583,7 @@ class mod_surveypro_itemlist {
      * set_itemid
      *
      * @param int $itemid
-     * @return none
+     * @return void
      */
     public function set_itemid($itemid) {
         $this->itemid = $itemid;
@@ -1593,7 +1593,7 @@ class mod_surveypro_itemlist {
      * set_hassubmissions
      *
      * @param int $hassubmissions
-     * @return none
+     * @return void
      */
     public function set_hassubmissions($hassubmissions) {
         $this->hassubmissions = $hassubmissions;
@@ -1603,7 +1603,7 @@ class mod_surveypro_itemlist {
      * set_sortindex
      *
      * @param int $sortindex
-     * @return none
+     * @return void
      */
     public function set_sortindex($sortindex) {
         $this->sortindex = $sortindex;
@@ -1613,7 +1613,7 @@ class mod_surveypro_itemlist {
      * set_action
      *
      * @param int $action
-     * @return none
+     * @return void
      */
     public function set_action($action) {
         $this->action = $action;
@@ -1623,7 +1623,7 @@ class mod_surveypro_itemlist {
      * set_view
      *
      * @param int $view
-     * @return none
+     * @return void
      */
     public function set_view($view) {
         $this->view = $view;
@@ -1633,7 +1633,7 @@ class mod_surveypro_itemlist {
      * set_lastitembefore
      *
      * @param int $lastitembefore
-     * @return none
+     * @return void
      */
     public function set_lastitembefore($lastitembefore) {
         $this->lastitembefore = $lastitembefore;
@@ -1643,7 +1643,7 @@ class mod_surveypro_itemlist {
      * set_confirm
      *
      * @param int $confirm
-     * @return none
+     * @return void
      */
     public function set_confirm($confirm) {
         $this->confirm = $confirm;
@@ -1653,7 +1653,7 @@ class mod_surveypro_itemlist {
      * set_nextindent
      *
      * @param int $nextindent
-     * @return none
+     * @return void
      */
     public function set_nextindent($nextindent) {
         $this->nextindent = $nextindent;
@@ -1663,7 +1663,7 @@ class mod_surveypro_itemlist {
      * set_parentid
      *
      * @param int $parentid
-     * @return none
+     * @return void
      */
     public function set_parentid($parentid) {
         $this->parentid = $parentid;
@@ -1673,7 +1673,7 @@ class mod_surveypro_itemlist {
      * set_savefeedbackmask
      *
      * @param int $savefeedbackmask
-     * @return none
+     * @return void
      */
     public function set_savefeedbackmask($savefeedbackmask) {
         $this->savefeedbackmask = $savefeedbackmask;
@@ -1683,7 +1683,7 @@ class mod_surveypro_itemlist {
      * set_itemtomove
      *
      * @param int $itemtomove
-     * @return none
+     * @return void
      */
     public function set_itemtomove($itemtomove) {
         $this->itemtomove = $itemtomove;
@@ -1693,7 +1693,7 @@ class mod_surveypro_itemlist {
      * set_saveasnew
      *
      * @param int $saveasnew
-     * @return none
+     * @return void
      */
     public function set_saveasnew($saveasnew) {
         $this->saveasnew = $saveasnew;

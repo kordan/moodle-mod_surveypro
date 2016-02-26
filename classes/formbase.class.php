@@ -151,7 +151,7 @@ class mod_surveypro_formbase {
      * set_submissionid
      *
      * @param $submissionid
-     * @return none
+     * @return void
      */
     public function set_submissionid($submissionid) {
         $this->submissionid = $submissionid;
@@ -161,7 +161,7 @@ class mod_surveypro_formbase {
      * set_maxassignedpage
      *
      * @param $formpage
-     * @return none
+     * @return void
      */
     public function set_maxassignedpage($maxassignedpage) {
         $this->maxassignedpage = $maxassignedpage;
@@ -171,7 +171,7 @@ class mod_surveypro_formbase {
      * set_formpage
      *
      * @param $formpage
-     * @return none
+     * @return void
      */
     public function set_formpage($formpage) {
         $this->formpage = ($formpage == 0) ? 1 : $formpage;

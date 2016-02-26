@@ -194,7 +194,7 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
      * Copy mandatory fields to $record.
      *
      * @param stdClass $record
-     * @return nothing
+     * @return void
      */
     public function item_add_mandatory_plugin_fields(&$record) {
         $record->content = 'Integer (small)';
@@ -215,7 +215,7 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
      * for instance: age not greater than maximumage
      *
      * @param stdClass $record
-     * @return nothing
+     * @return void
      */
     public function item_force_coherence($record) {
         if (isset($record->defaultvalue)) {

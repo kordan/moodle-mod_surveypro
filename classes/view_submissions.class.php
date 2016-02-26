@@ -140,7 +140,7 @@ class mod_surveypro_submissionmanager {
      * set_submissionid
      *
      * @param $submissionid
-     * @return none
+     * @return void
      */
     public function set_submissionid($submissionid) {
         $this->submissionid = $submissionid;
@@ -150,7 +150,7 @@ class mod_surveypro_submissionmanager {
      * set_action
      *
      * @param $action
-     * @return none
+     * @return void
      */
     public function set_action($action) {
         $this->action = $action;
@@ -160,7 +160,7 @@ class mod_surveypro_submissionmanager {
      * set_view
      *
      * @param $view
-     * @return none
+     * @return void
      */
     public function set_view($view) {
         $this->view = $view;
@@ -170,7 +170,7 @@ class mod_surveypro_submissionmanager {
      * set_confirm
      *
      * @param $confirm
-     * @return none
+     * @return void
      */
     public function set_confirm($confirm) {
         $this->confirm = $confirm;
@@ -180,7 +180,7 @@ class mod_surveypro_submissionmanager {
      * set_searchquery
      *
      * @param $searchquery
-     * @return none
+     * @return void
      */
     public function set_searchquery($searchquery) {
         $this->searchquery = $searchquery;
@@ -190,7 +190,7 @@ class mod_surveypro_submissionmanager {
      * trigger_event
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function trigger_event() {
         // Event: all_submissions_viewed.

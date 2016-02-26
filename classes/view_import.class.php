@@ -51,7 +51,7 @@ class mod_surveypro_importmanager {
      * trigger_event
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function trigger_event() {
         $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);

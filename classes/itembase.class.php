@@ -173,7 +173,7 @@ class mod_surveypro_itembase {
      * for instance: age not greater than maximumage
      *
      * @param stdClass $record
-     * @return nothing
+     * @return void
      */
     public function item_force_coherence($record) {
         // Nothing to do here.
@@ -796,7 +796,7 @@ class mod_surveypro_itembase {
      *
      * @param stadCalss $record: the item record
      * @param array $fieldlist: the list of fields to clean
-     * @return none
+     * @return void
      */
     protected function item_clean_textarea_fields($record, $fieldlist) {
         foreach ($fieldlist as $field) {
@@ -854,7 +854,7 @@ class mod_surveypro_itembase {
      * Copy mandatory fields to $record.
      *
      * @param stdClass $record
-     * @return nothing
+     * @return void
      */
     public function item_add_mandatory_base_fields(&$record) {
         $record->hidden = 0;
@@ -922,7 +922,7 @@ class mod_surveypro_itembase {
      * @param $mform: the form to which add the row
      * @param integer $currentposition: a counter to decide whether add the row
      * @param integer $allpositions: one more counter to decide whether add the row
-     * @return none
+     * @return void
      */
     public function item_add_color_unifier($mform, $currentposition=null, $allpositions=null) {
         if (is_null($currentposition) && is_null($allpositions)) {
@@ -1359,7 +1359,7 @@ class mod_surveypro_itembase {
      * set_contentformat
      *
      * @param string $contentformat
-     * @return none
+     * @return void
      */
     public function set_contentformat($contentformat) {
         $this->contentformat = $contentformat;
@@ -1369,7 +1369,7 @@ class mod_surveypro_itembase {
      * set_contenttrust
      *
      * @param string $contenttrust
-     * @return none
+     * @return void
      */
     public function set_contenttrust($contenttrust) {
         $this->contenttrust = $contenttrust;
@@ -1379,7 +1379,7 @@ class mod_surveypro_itembase {
      * set_required
      *
      * @param integer $value; the value to set
-     * @return none
+     * @return void
      */
     public function set_required($value) {
         global $DB;

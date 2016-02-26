@@ -67,7 +67,7 @@ class mod_surveypro_report_uploadformmanager {
      * set_userid
      *
      * @param string $userid
-     * @return none
+     * @return void
      */
     public function set_userid($userid) {
         $this->userid = $userid;
@@ -77,7 +77,7 @@ class mod_surveypro_report_uploadformmanager {
      * set_itemid
      *
      * @param string $itemid
-     * @return none
+     * @return void
      */
     public function set_itemid($itemid) {
         $this->itemid = $itemid;
@@ -87,7 +87,7 @@ class mod_surveypro_report_uploadformmanager {
      * set_submissionid
      *
      * @param string $submissionid
-     * @return none
+     * @return void
      */
     public function set_submissionid($submissionid) {
         $this->submissionid = $submissionid;

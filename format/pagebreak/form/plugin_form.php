@@ -32,7 +32,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
      * definition
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function definition() {
         // I close with the common section of the form

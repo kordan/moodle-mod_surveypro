@@ -55,7 +55,7 @@ class backup_surveyprofield_fileupload_subplugin extends backup_subplugin {
      * define_answer_subplugin_structure
      *
      * @param none
-     * @return none
+     * @return void
      */
     protected function define_answer_subplugin_structure() {
         // XML nodes declaration.

@@ -95,7 +95,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      * set_view
      *
      * @param $view
-     * @return none
+     * @return void
      */
     private function set_view($view) {
         $this->view = $view;
@@ -105,7 +105,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      * set_formpage
      *
      * @param $formpage
-     * @return none
+     * @return void
      */
     public function set_formpage($formpage) {
         if ($this->view === null) {
@@ -132,7 +132,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      * set_firstpageleft
      *
      * @param $firstpageleft
-     * @return none
+     * @return void
      */
     public function set_firstpageleft($firstpageleft) {
         $this->firstpageleft = $firstpageleft;
@@ -142,7 +142,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      * set_firstpageright
      *
      * @param $firstpageright
-     * @return none
+     * @return void
      */
     public function set_firstpageright($firstpageright) {
         $this->firstpageright = $firstpageright;
@@ -152,7 +152,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      * set_moduletab
      *
      * @param $moduletab
-     * @return none
+     * @return void
      */
     public function set_moduletab($moduletab) {
         $this->moduletab = $moduletab;
@@ -162,7 +162,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      * set_modulepage
      *
      * @param $modulepage
-     * @return none
+     * @return void
      */
     public function set_modulepage($modulepage) {
         $this->modulepage = $modulepage;
@@ -1349,7 +1349,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      * trigger_event
      *
      * @param $view
-     * @return none
+     * @return void
      */
     private function trigger_event() {
         switch ($this->view) {

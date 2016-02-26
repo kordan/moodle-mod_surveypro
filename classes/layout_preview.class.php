@@ -97,7 +97,7 @@ class mod_surveypro_formpreview extends mod_surveypro_formbase {
     /**
      * trigger_event
      *
-     * @return none
+     * @return void
      */
     private function trigger_event() {
         // Event: form_previewed.

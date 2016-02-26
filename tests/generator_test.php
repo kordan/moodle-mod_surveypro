@@ -27,7 +27,7 @@ class mod_surveypro_generator_testcase extends advanced_testcase {
      * test_create_instance
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function test_create_instance() {
         global $DB;
@@ -53,7 +53,7 @@ class mod_surveypro_generator_testcase extends advanced_testcase {
      * test_apply_mastertemplate
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function test_apply_mastertemplate() {
         global $DB;

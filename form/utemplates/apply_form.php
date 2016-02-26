@@ -30,7 +30,7 @@ class mod_surveypro_applyutemplateform extends moodleform {
      * definition
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function definition() {
         $mform = $this->_form;

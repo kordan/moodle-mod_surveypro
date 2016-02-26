@@ -31,7 +31,7 @@ class backup_surveypro_activity_structure_step extends backup_activity_structure
      * define_structure
      *
      * @param none
-     * @return none
+     * @return void
      */
     protected function define_structure() {
 

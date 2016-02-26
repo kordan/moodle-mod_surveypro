@@ -47,7 +47,7 @@ class mod_surveypro_generator extends testing_module_generator {
      *
      * @param $record
      * @param array $options
-     * @return none
+     * @return void
      */
     public function create_instance($record = null, array $options = null) {
         global $CFG;
