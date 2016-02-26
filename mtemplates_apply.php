@@ -89,13 +89,15 @@ navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
-$tabman = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABMTEMPLATES, SURVEYPRO_MTEMPLATES_APPLY);
+new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABMTEMPLATES, SURVEYPRO_MTEMPLATES_APPLY);
 
 $mtemplateman->friendly_stop();
 
+$riskyediting = ($surveypro->riskyeditdeadline > time());
 $utilityman = new mod_surveypro_utility($cm, $surveypro);
-if ($utilityman->has_submissions()) {
-    echo $OUTPUT->notification(get_string('hassubmissions_alert', 'mod_surveypro'), 'notifymessage');
+if ($utilityman->has_submissions() && $riskyediting) {
+    $message = $utilityman->warning_message();
+    echo $OUTPUT->notification($message, 'notifyproblem');
 }
 
 $message = get_string('applymtemplateinfo', 'mod_surveypro');

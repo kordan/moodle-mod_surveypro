@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * mod_surveypro all items viewed event.
+ * mod_surveypro hidden items deleted event.
  *
  * @package    mod_surveypro
  * @copyright  2013 onwards kordan <kordan@mclink.it>
@@ -26,7 +26,7 @@ namespace mod_surveypro\event;
 
 defined('MOODLE_INTERNAL') || die();
 
-class all_items_viewed extends \core\event\base {
+class hidden_items_deleted extends \core\event\base {
     /**
      * Set basic properties for the event.
      */
@@ -42,7 +42,7 @@ class all_items_viewed extends \core\event\base {
      * @return string
      */
     public static function get_name() {
-        return get_string('event_all_items_viewed', 'mod_surveypro');
+        return get_string('event_hidden_items_deleted', 'mod_surveypro');
     }
 
     /**
@@ -51,7 +51,7 @@ class all_items_viewed extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "User with id '{$this->userid}' has viewed all the items.";
+        return "User with id '{$this->userid}' deleted all the hidden items.";
     }
 
     /**
@@ -70,7 +70,7 @@ class all_items_viewed extends \core\event\base {
      */
     public function get_legacy_logdata() {
         // Override if you are migrating an add_to_log() call.
-        return array($this->courseid, 'surveypro', 'all items viewed',
+        return array($this->courseid, 'surveypro', 'hidden items deleted',
             $this->get_url(), $this->objectid, $this->contextinstanceid);
     }
 

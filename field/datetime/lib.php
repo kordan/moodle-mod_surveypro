@@ -32,7 +32,7 @@ define('SURVEYPROFIELD_DATETIME_FORMAT', '[dd/mm/yyyy;hh:mm]');
  *
  * @param $hour
  * @param $minute
- * @return
+ * @return void
  */
 function surveypro_datetime_check_time($hour, $minute) {
     if ($hour > -1 && $hour < 24 && $minute > -1 && $minute < 60) {

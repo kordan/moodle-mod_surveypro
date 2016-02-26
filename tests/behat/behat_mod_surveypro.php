@@ -53,7 +53,7 @@ class behat_mod_surveypro extends behat_base {
      * @Then /^I should see "(?P<given_number>\d+)" submissions displayed$/
      *
      * @param integer $givennumber The supposed count of $locator
-     * @return
+     * @return void
      */
     public function i_should_see_submissions($givennumber) {
         // Getting the container where the text should be found.
@@ -105,7 +105,7 @@ class behat_mod_surveypro extends behat_base {
             $record = get_dummy_contents($type, $plugin);
 
             // Add the item.
-            $item = surveypro_get_item($cm, 0, $type, $plugin);
+            $item = surveypro_get_item($cm, $surveypro, 0, $type, $plugin);
             $item->item_save($record);
         }
     }

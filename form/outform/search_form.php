@@ -54,7 +54,7 @@ class mod_surveypro_searchform extends moodleform {
         //     so they and are not selected by the css3 selector: fieldset div.fitem:nth-of-type(even) {
         $mform->addElement('static', 'beginning_extrarow', '', '');
         foreach ($itemseeds as $itemseed) {
-            $item = surveypro_get_item($cm, $itemseed->id, $itemseed->type, $itemseed->plugin);
+            $item = surveypro_get_item($cm, $surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);
 
             // Position.
             $position = $item->get_position();
@@ -147,7 +147,7 @@ class mod_surveypro_searchform extends moodleform {
 
                 $olditemid = $itemid;
 
-                $item = surveypro_get_item($cm, $itemid, $type, $plugin);
+                $item = surveypro_get_item($cm, $surveypro, $itemid, $type, $plugin);
                 $item->userform_mform_validation($data, $errors, $surveypro, true);
             }
         }

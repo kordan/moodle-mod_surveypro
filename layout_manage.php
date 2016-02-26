@@ -27,6 +27,7 @@ require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/itemlist.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/items/selectitem_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/form/items/bulk_action_form.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
@@ -54,7 +55,7 @@ $lastitembefore = optional_param('lib', 0, PARAM_INT);
 $confirm = optional_param('cnf', SURVEYPRO_UNCONFIRMED, PARAM_INT);
 $nextindent = optional_param('ind', 0, PARAM_INT);
 $parentid = optional_param('pid', 0, PARAM_INT);
-$savefeedbackmask = optional_param('ufd', SURVEYPRO_NOFEEDBACK, PARAM_INT);
+$newitemfeedbackmask = optional_param('nifeedback', SURVEYPRO_NOFEEDBACK, PARAM_INT);
 $saveasnew = optional_param('saveasnew', null, PARAM_TEXT);
 
 if ($action != SURVEYPRO_NOACTION) {
@@ -64,44 +65,11 @@ $context = context_module::instance($cm->id);
 require_capability('mod/surveypro:manageitems', $context);
 
 // Calculations.
+$utilityman = new mod_surveypro_utility($cm, $surveypro);
+$hassubmissions = $utilityman->has_submissions();
+$itemcount = $utilityman->has_input_items(0, true, true, true);
 
-// Begin of: the form showing the drop down menu with the list of master templates.
-$itemcount = $DB->count_records('surveypro_item', array('surveyproid' => $surveypro->id));
-if (!$itemcount) {
-    require_once($CFG->dirroot.'/mod/surveypro/classes/mtemplate.class.php');
-    require_once($CFG->dirroot.'/mod/surveypro/form/mtemplates/apply_form.php');
-
-    $mtemplateman = new mod_surveypro_mastertemplate($cm, $context, $surveypro);
-
-    // Begin of: define $applymtemplate return url.
-    $paramurl = array('id' => $cm->id);
-    $formurl = new moodle_url('/mod/surveypro/mtemplates_apply.php', $paramurl);
-    // End of: define $applymtemplate return url.
-
-    // Begin of: prepare params for the form.
-    $formparams = new stdClass();
-    $formparams->cmid = $cm->id;
-    $formparams->surveypro = $surveypro;
-    $formparams->mtemplateman = $mtemplateman;
-    $formparams->inline = true;
-
-    $applymtemplate = new mod_surveypro_applymtemplateform($formurl, $formparams);
-    // End of: prepare params for the form.
-
-    // Begin of: manage form submission.
-    if ($applymtemplate->is_cancelled()) {
-        $returnurl = new moodle_url('/mod/surveypro/utemplates_add.php', $paramurl);
-        redirect($returnurl);
-    }
-
-    if ($mtemplateman->formdata = $applymtemplate->get_data()) {
-        $mtemplateman->apply_template();
-    }
-    // End of: manage form submission.
-}
-// End of: the form showing the drop down menu with the list of master templates.
-
-// The form showing the drop down menu with the list of items.
+// Define the manager.
 $itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro);
 $itemlistman->set_type($type);
 $itemlistman->set_plugin($plugin);
@@ -114,11 +82,70 @@ $itemlistman->set_lastitembefore($lastitembefore);
 $itemlistman->set_confirm($confirm);
 $itemlistman->set_nextindent($nextindent);
 $itemlistman->set_parentid($parentid);
-$itemlistman->set_savefeedbackmask($savefeedbackmask);
+$itemlistman->set_newitemfeedbackmask($newitemfeedbackmask);
 $itemlistman->set_saveasnew($saveasnew);
+$itemlistman->set_hassubmissions($hassubmissions);
+$itemlistman->set_itemcount($itemcount);
 
-// I need to execute this method before the page load because it modifies TAB elements
-$itemlistman->drop_multilang();
+$itemlistman->actions_execution();
+$hassubmissions = $utilityman->has_submissions();
+$itemlistman->set_hassubmissions($hassubmissions);
+
+$riskyediting = ($surveypro->riskyeditdeadline > time());
+
+$basecondition = true;
+$basecondition = $basecondition && empty($surveypro->template);
+$basecondition = $basecondition && (!$hassubmissions || $riskyediting);
+
+// master template form
+$mtemplatecondition =  true;
+$mtemplatecondition =  $mtemplatecondition && (!$itemcount);
+if ($mtemplatecondition) {
+    require_once($CFG->dirroot.'/mod/surveypro/classes/mtemplate.class.php');
+    require_once($CFG->dirroot.'/mod/surveypro/form/mtemplates/apply_form.php');
+
+    $mtemplateman = new mod_surveypro_mastertemplate($cm, $context, $surveypro);
+
+    $paramurl = array('id' => $cm->id);
+    $formurl = new moodle_url('/mod/surveypro/mtemplates_apply.php', $paramurl);
+
+    $formparams = new stdClass();
+    $formparams->mtemplateman = $mtemplateman;
+    $formparams->inline = true;
+
+    // Init mtemplateform form.
+    $mtemplateform = new mod_surveypro_applymtemplateform($formurl, $formparams);
+
+    // Management is in mtemplates_apply.
+}
+
+// new item form
+$newitemcondition = $basecondition && has_capability('mod/surveypro:additems', $context);
+if ($newitemcondition) {
+    $paramurl = array('id' => $cm->id);
+    $formurl = new moodle_url('/mod/surveypro/layout_itemsetup.php', $paramurl);
+
+    // Init new item form.
+    $newitemform = new mod_surveypro_itemtypeform($formurl);
+
+    // Management is in layout_itemsetup.
+}
+
+// bulk action form
+$bulkactioncondition = $basecondition && ($itemcount);
+$bulkactioncondition = $bulkactioncondition && has_capability('mod/surveypro:manageitems', $context);
+if ($bulkactioncondition) {
+    $paramurl = array('id' => $cm->id);
+    $formurl = new moodle_url('/mod/surveypro/layout_manage.php', $paramurl);
+
+    // Init bulkaction form.
+    $bulkactionform = new mod_surveypro_bulkactionform($formurl);
+
+    // Manage bulkaction form.
+    if ($formdata = $bulkactionform->get_data()) {
+        $itemlistman->set_action($formdata->bulkaction);
+    }
+}
 
 // Output starts here.
 $url = new moodle_url('/mod/surveypro/layout_manage.php', array('s' => $surveypro->id));
@@ -133,41 +160,36 @@ navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
-$tabman = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABITEMS, SURVEYPRO_ITEMS_MANAGE);
+new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABITEMS, SURVEYPRO_ITEMS_MANAGE);
 
-$itemlistman->manage_actions();
-
-$itemlistman->display_user_feedback();
-
-if ($itemlistman->get_hassubmissions()) {
-    echo $OUTPUT->notification(get_string('hassubmissions_alert', 'mod_surveypro'), 'notifymessage');
+if ($hassubmissions) {
+    $message = $utilityman->warning_message();
+    echo $OUTPUT->notification($message, 'notifyproblem');
 }
 
-// Add master templates selection form.
-if (!$itemcount) {
+$itemlistman->actions_feedback();
+$itemlistman->item_editing_feedback();
+
+if ($mtemplatecondition) {
+    // display mtemplate form
     $message = get_string('beginfromscratch', 'mod_surveypro');
     echo $OUTPUT->box($message, 'generaltable generalbox boxaligncenter boxwidthnormal');
 
-    $applymtemplate->display();
+    // Display addnewitem form.
+    $mtemplateform->display();
 }
 
-// Add item form.
-if (!$surveypro->template) {
-    $riskyediting = ($surveypro->riskyeditdeadline > time());
+if ($newitemcondition) {
+    // Display addnewitem form.
+    $newitemform->display();
+}
 
-    if (!$itemlistman->get_hassubmissions() || $riskyediting) {
-        if (has_capability('mod/surveypro:additems', $context)) {
-            $paramurl = array('id' => $cm->id);
-            $formurl = new moodle_url('/mod/surveypro/layout_itemsetup.php', $paramurl);
-
-            $itemtype = new mod_surveypro_itemtypeform($formurl);
-            $itemtype->display();
-        }
-    }
+if ($bulkactioncondition) {
+    // Display bulkaction form.
+    $bulkactionform->display();
 }
 
 $itemlistman->display_items_table();
-$itemlistman->trigger_event($itemcount); // Event: all_items_viewed.
 
 // Finish the page.
 echo $OUTPUT->footer();

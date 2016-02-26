@@ -118,8 +118,8 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
      * @param int optional $itemid
      * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
      */
-    public function __construct($cm, $itemid=0, $evaluateparentcontent) {
-        parent::__construct($cm, $itemid, $evaluateparentcontent);
+    public function __construct($cm, $surveypro, $itemid=0, $evaluateparentcontent) {
+        parent::__construct($cm, $surveypro, $itemid, $evaluateparentcontent);
 
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
@@ -147,7 +147,7 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
      *
      * @param $itemid
      * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
-     * @return
+     * @return void
      */
     public function item_load($itemid, $evaluateparentcontent) {
         // Do parent item loading stuff here (mod_surveypro_itembase::item_load($itemid, $evaluateparentcontent)))
@@ -164,7 +164,7 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
      * item_save
      *
      * @param $record
-     * @return
+     * @return void
      */
     public function item_save($record) {
         $this->item_get_common_settings($record);
@@ -221,7 +221,7 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
      * item_custom_fields_to_form
      *
      * @param none
-     * @return
+     * @return void
      */
     public function item_custom_fields_to_form() {
         // 1. Special management for composite fields.
@@ -233,7 +233,7 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
      * sets record field to store the correct value to db for the date custom item
      *
      * @param $record
-     * @return
+     * @return void
      */
     public function item_custom_fields_to_db($record) {
         // 1. Special management for composite fields.
@@ -268,7 +268,7 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
      * sets record field to store the correct value to db for the date custom item
      *
      * @param $record
-     * @return
+     * @return void
      */
     public function item_generate_standard_default($options=null, $rates=null, $differentrates=null) {
 
@@ -318,7 +318,7 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
      * item_get_friendlyformat
      *
      * @param none
-     * @return
+     * @return void
      */
     public function item_get_friendlyformat() {
         return SURVEYPRO_ITEMRETURNSLABELS;
@@ -395,7 +395,7 @@ EOS;
      * @param $searchform
      * @param $readonly
      * @param $submissionid
-     * @return
+     * @return void
      */
     public function userform_mform_element($mform, $searchform, $readonly=false, $submissionid=0) {
         // This plugin has $this->insetupform['insearchform'] = false; so it will never be part of a search form.
@@ -500,7 +500,7 @@ EOS;
      * @param &$errors
      * @param $surveypro
      * @param $searchform
-     * @return
+     * @return void
      */
     public function userform_mform_validation($data, &$errors, $surveypro, $searchform) {
         // This plugin displays as a set of dropdown menu or radio buttons. It will never return empty values.
@@ -583,7 +583,7 @@ EOS;
      * @param $answer
      * @param $olduseranswer
      * @param $searchform
-     * @return
+     * @return void
      */
     public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
         if (isset($answer['noanswer'])) {
@@ -603,7 +603,7 @@ EOS;
      * userform_set_prefill
      *
      * @param $fromdb
-     * @return
+     * @return void
      */
     public function userform_set_prefill($fromdb) {
         // [surveypro_field_rate_157_0] => italian: 3
@@ -639,7 +639,7 @@ EOS;
      *
      * @param $answers
      * @param $format
-     * @return
+     * @return void
      */
     public function userform_db_to_export($answer, $format='') {
         // Content.
@@ -703,7 +703,7 @@ EOS;
      * returns an array with the names of the mform element added using $mform->addElement or $mform->addGroup
      *
      * @param none
-     * @return
+     * @return void
      */
     public function userform_get_root_elements_name() {
         $elementnames = array();

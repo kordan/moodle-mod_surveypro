@@ -35,7 +35,7 @@ Feature: Load and apply usertemplates in order to test, among others, partial it
     # now I am in the "Apply" page
     And I set the following fields to these values:
       | User templates       | (Course) MMM_2015123000.xml |
-      | id_action_1          | 1                           |
+      | id_action_0          | 1                           |
     And I press "Apply"
 
     # now I am in the Element > Manage page
@@ -44,12 +44,12 @@ Feature: Load and apply usertemplates in order to test, among others, partial it
     And I follow "hide_item_6"
     And I follow "hide_item_7"
     And I follow "hide_item_60"
-    And I press "Yes, hide them all"
+    And I press "Continue"
 
     And I navigate to "Apply" node in "Surveypro administration > User templates"
     And I set the following fields to these values:
       | User templates       | (Course) parent-child_2015123000.xml |
-      | id_action_5          | 1                                    |
+      | id_action_17         | 1                                    |
     And I press "Apply"
 
     Then I should see "This is a demo survey to quickly see"

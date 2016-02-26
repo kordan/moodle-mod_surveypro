@@ -79,11 +79,17 @@ $itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro);
 // Property parentid is useless (it is set to its default), do not set it
 // $itemlistman->set_parentid(0);
 
-// Property savefeedbackmask is useless (it is set to its default), do not set it
-// $itemlistman->savefeedbackmask(SURVEYPRO_NOFEEDBACK);
+// Property newitemfeedbackmask is useless (it is set to its default), do not set it
+// $itemlistman->newitemfeedbackmask(SURVEYPRO_NOFEEDBACK);
 
 // Property saveasnew is useless (it is set to its default), do not set it
 // $itemlistman->set_saveasnew(0);
+
+// Property hassubmissions is useless (it is set to its default), do not set it.
+// $itemlistman->set_hassubmissions($hassubmissions);
+
+// Property itemcount is useless (it is set to its default), do not set it.
+// $itemlistman->set_itemcount($itemcount);
 
 // Output starts here.
 $url = new moodle_url('/mod/surveypro/layout_validation.php', array('s' => $surveypro->id));
@@ -98,7 +104,7 @@ navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
-$tabman = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABITEMS, SURVEYPRO_ITEMS_VALIDATE);
+new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABITEMS, SURVEYPRO_ITEMS_VALIDATE);
 
 $itemlistman->validate_relations();
 

@@ -75,7 +75,7 @@ navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
-$tabman = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_REPORT);
+new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_REPORT);
 
 // Begin of: stop here if only textareas are in the surveypro.
 $reportman->stop_if_textareas_only();

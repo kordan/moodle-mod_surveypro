@@ -79,11 +79,11 @@ $sql = 'SELECT surveyproid, COUNT(id) as responses
         FROM {surveypro_submission}
         WHERE status = :status
         GROUP BY surveyproid';
-$whereparam = array('status' => SURVEYPRO_STATUSINPROGRESS);
-$inprogresssubmissions = $DB->get_records_sql_menu($sql, $whereparam);
+$whereparams = array('status' => SURVEYPRO_STATUSINPROGRESS);
+$inprogresssubmissions = $DB->get_records_sql_menu($sql, $whereparams);
 
-$whereparam = array('status' => SURVEYPRO_STATUSCLOSED);
-$closedsubmissions = $DB->get_records_sql_menu($sql, $whereparam);
+$whereparams = array('status' => SURVEYPRO_STATUSCLOSED);
+$closedsubmissions = $DB->get_records_sql_menu($sql, $whereparams);
 
 foreach ($surveypros as $surveypro) {
     if ($surveypro->section != $currentsection) {

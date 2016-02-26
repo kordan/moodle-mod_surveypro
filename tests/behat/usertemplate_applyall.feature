@@ -50,8 +50,8 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates       | (Course) age_only_2015123000.xml |
-      | id_action_3          | 1                                |
+      | User templates | (Course) age_only_2015123000.xml |
+      | id_action_15   | 1                                |
     And I press "Apply"
 
     # now I am in the "Manage" page
@@ -59,8 +59,8 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates       | (Course) attachment_only_2015123000.xml |
-      | id_action_3          | 1                                       |
+      | User templates | (Course) attachment_only_2015123000.xml |
+      | id_action_15   | 1                                       |
     And I press "Apply"
 
     # now I am in the "Manage" page
@@ -68,8 +68,8 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates       | (Course) autofill_only_2015123000.xml |
-      | id_action_3          | 1                                     |
+      | User templates | (Course) autofill_only_2015123000.xml |
+      | id_action_15   | 1                                     |
     And I press "Apply"
 
     # now I am in the "Manage" page
@@ -77,8 +77,8 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates       | (Course) boolean_only_2015123000.xml |
-      | id_action_3          | 1                                    |
+      | User templates | (Course) boolean_only_2015123000.xml |
+      | id_action_15   | 1                                    |
     And I press "Apply"
 
     # now I am in the "Manage" page
@@ -86,8 +86,8 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates       | (Course) checkbox_only_2015123000.xml |
-      | id_action_3          | 1                                     |
+      | User templates | (Course) checkbox_only_2015123000.xml |
+      | id_action_15   | 1                                     |
     And I press "Apply"
 
     # now I am in the "Manage" page
@@ -95,8 +95,8 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates       | (Course) date_only_2015123000.xml |
-      | id_action_3          | 1                                 |
+      | User templates | (Course) date_only_2015123000.xml |
+      | id_action_15   | 1                                 |
     And I press "Apply"
 
     # now I am in the "Manage" page
@@ -104,8 +104,8 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates       | (Course) dateshort_only_2015123000.xml |
-      | id_action_3          | 1                                      |
+      | User templates | (Course) dateshort_only_2015123000.xml |
+      | id_action_15   | 1                                      |
     And I press "Apply"
 
     # now I am in the "Manage" page
@@ -113,8 +113,8 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates       | (Course) datetime_only_2015123000.xml |
-      | id_action_3          | 1                                     |
+      | User templates | (Course) datetime_only_2015123000.xml |
+      | id_action_15   | 1                                     |
     And I press "Apply"
 
     # now I am in the "Manage" page
@@ -122,8 +122,8 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates       | (Course) integer_only_2015123000.xml |
-      | id_action_3          | 1                                    |
+      | User templates | (Course) integer_only_2015123000.xml |
+      | id_action_15   | 1                                    |
     And I press "Apply"
 
     # now I am in the "Manage" page
@@ -131,8 +131,8 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates       | (Course) multiselect_only_2015123000.xml |
-      | id_action_3          | 1                                        |
+      | User templates | (Course) multiselect_only_2015123000.xml |
+      | id_action_15   | 1                                        |
     And I press "Apply"
 
     # now I am in the "Manage" page
@@ -140,8 +140,8 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates       | (Course) numeric_only_2015123000.xml |
-      | id_action_3          | 1                                    |
+      | User templates | (Course) numeric_only_2015123000.xml |
+      | id_action_15   | 1                                    |
     And I press "Apply"
 
     # now I am in the "Manage" page
@@ -149,8 +149,8 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates       | (Course) radiobutton_only_2015123000.xml |
-      | id_action_3          | 1                                        |
+      | User templates | (Course) radiobutton_only_2015123000.xml |
+      | id_action_15   | 1                                        |
     And I press "Apply"
 
     # now I am in the "Manage" page
@@ -158,8 +158,8 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates       | (Course) rate_only_2015123000.xml |
-      | id_action_3          | 1                                 |
+      | User templates | (Course) rate_only_2015123000.xml |
+      | id_action_15   | 1                                 |
     And I press "Apply"
 
     # now I am in the "Manage" page
@@ -167,8 +167,8 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates       | (Course) recurrence_only_2015123000.xml |
-      | id_action_3          | 1                                       |
+      | User templates | (Course) recurrence_only_2015123000.xml |
+      | id_action_15   | 1                                       |
     And I press "Apply"
 
     # now I am in the "Manage" page
@@ -176,8 +176,8 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates       | (Course) select_only_2015123000.xml |
-      | id_action_3          | 1                                   |
+      | User templates | (Course) select_only_2015123000.xml |
+      | id_action_15   | 1                                   |
     And I press "Apply"
 
     # now I am in the "Manage" page
@@ -185,8 +185,8 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates       | (Course) textarea_only_2015123000.xml |
-      | id_action_3          | 1                                     |
+      | User templates | (Course) textarea_only_2015123000.xml |
+      | id_action_15   | 1                                     |
     And I press "Apply"
 
     # now I am in the "Manage" page
@@ -194,8 +194,8 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates       | (Course) textshort_only_2015123000.xml |
-      | id_action_3          | 1                                     |
+      | User templates | (Course) textshort_only_2015123000.xml |
+      | id_action_15   | 1                                      |
     And I press "Apply"
 
     # now I am in the "Manage" page
@@ -203,8 +203,8 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates       | (Course) time_only_2015123000.xml |
-      | id_action_3          | 1                                 |
+      | User templates | (Course) time_only_2015123000.xml |
+      | id_action_15   | 1                                 |
     And I press "Apply"
 
     And I log out

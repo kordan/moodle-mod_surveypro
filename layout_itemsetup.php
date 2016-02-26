@@ -57,6 +57,9 @@ $context = context_module::instance($cm->id);
 require_capability('mod/surveypro:additems', $context);
 
 // Calculations.
+$utilityman = new mod_surveypro_utility($cm, $surveypro);
+$hassubmissions = $utilityman->has_submissions();
+
 $itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro);
 if (!empty($typeplugin)) {
     $itemlistman->set_typeplugin($typeplugin);
@@ -67,7 +70,7 @@ if (!empty($typeplugin)) {
 $itemlistman->set_itemid($itemid);
 $itemlistman->set_action($action);
 $itemlistman->set_view($view);
-
+$itemlistman->set_hassubmissions($hassubmissions);
 // Property itemtomove is useless (it is set to its default), do not set it.
 // $itemlistman->set_itemtomove(0);
 
@@ -83,11 +86,17 @@ $itemlistman->set_view($view);
 // Property parentid is useless (it is set to its default), do not set it.
 // $itemlistman->set_parentid(0);
 
-// Property savefeedbackmask is useless (it is set to its default), do not set it.
-// $itemlistman->set_savefeedbackmask(SURVEYPRO_NOFEEDBACK);
+// Property newitemfeedbackmask is useless (it is set to its default), do not set it.
+// $itemlistman->set_newitemfeedbackmask(SURVEYPRO_NOFEEDBACK);
 
 // Property saveasnew is useless (it is set to its default), do not set it.
 // $itemlistman->set_saveasnew(0);
+
+// Property hassubmissions is useless (it is set to its default), do not set it.
+// $itemlistman->set_hassubmissions($hassubmissions);
+
+// Property itemcount is useless (it is set to its default), do not set it.
+// $itemlistman->set_itemcount($itemcount);
 
 $itemlistman->prevent_direct_user_input();
 
@@ -95,7 +104,7 @@ require_once($CFG->dirroot.'/mod/surveypro/'.$itemlistman->get_type().'/'.$iteml
 require_once($CFG->dirroot.'/mod/surveypro/'.$itemlistman->get_type().'/'.$itemlistman->get_plugin().'/form/plugin_form.php');
 
 // Begin of: get item.
-$item = surveypro_get_item($cm, $itemid, $itemlistman->get_type(), $itemlistman->get_plugin(), true);
+$item = surveypro_get_item($cm, $surveypro, $itemid, $itemlistman->get_type(), $itemlistman->get_plugin(), true);
 $item->item_set_editor();
 // End of: get item.
 
@@ -107,7 +116,6 @@ $formurl = new moodle_url('/mod/surveypro/layout_itemsetup.php', $paramurl);
 // Begin of: prepare params for the form.
 $formparams = new stdClass();
 $formparams->item = $item; // Needed in many situations.
-// $formparams->cm = $cm; // Required to call surveypro_get_item.
 $formparams->surveypro = $surveypro; // Needed to setup date boundaries in date fields.
 $itemform = new mod_surveypro_pluginform($formurl, $formparams);
 // End of: prepare params for the form.
@@ -125,13 +133,13 @@ if ($fromform = $itemform->get_data()) {
     }
 
     $itemid = $item->item_save($fromform);
-    $feedback = $item->get_savefeedbackmask(); // Copy the returned feedback.
+    $feedback = $item->get_newitemfeedbackmask(); // Copy the returned feedback.
 
     // Overwrite item to get new settings in the object.
-    $item = surveypro_get_item($cm, $itemid, $item->get_type(), $item->get_plugin());
+    $item = surveypro_get_item($cm, $surveypro, $itemid, $item->get_type(), $item->get_plugin());
     $item->item_update_childrenparentvalue();
 
-    $paramurl = array('id' => $cm->id, 'ufd' => $feedback);
+    $paramurl = array('id' => $cm->id, 'nifeedback' => $feedback);
     $returnurl = new moodle_url('/mod/surveypro/layout_manage.php', $paramurl);
     redirect($returnurl);
 }
@@ -149,17 +157,15 @@ $PAGE->set_context($context);
 $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
-// $PAGE->requires->yui_module('moodle-core-formautosubmit',
-//     'M.core.init_formautosubmit',
-//     array(array('selectid' => 'type_plugin'), 'nothing' => true)
-// );
 
 echo $OUTPUT->header();
 
-$tabman = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABITEMS, SURVEYPRO_ITEMS_SETUP);
+new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABITEMS, SURVEYPRO_ITEMS_SETUP);
 
-if ($itemlistman->get_hassubmissions()) {
-    echo $OUTPUT->notification(get_string('hassubmissions_alert', 'mod_surveypro'), 'notifymessage');
+$utilityman = new mod_surveypro_utility($cm, $surveypro);
+if ($hassubmissions) {
+    $message = $utilityman->warning_message();
+    echo $OUTPUT->notification($message, 'notifyproblem');
 }
 $itemlistman->item_welcome();
 

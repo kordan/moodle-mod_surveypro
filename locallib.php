@@ -39,7 +39,7 @@ require_once($CFG->dirroot.'/mod/surveypro/lib.php');
  * @param optional $evaluateparentcontent
  * @return $item object
  */
-function surveypro_get_item($cm, $itemid=0, $type='', $plugin='', $evaluateparentcontent=false) {
+function surveypro_get_item($cm, $surveypro, $itemid=0, $type='', $plugin='', $evaluateparentcontent=false) {
     global $CFG, $DB;
 
     if (!empty($itemid)) {
@@ -73,7 +73,7 @@ function surveypro_get_item($cm, $itemid=0, $type='', $plugin='', $evaluateparen
 
     require_once($CFG->dirroot.'/mod/surveypro/'.$type.'/'.$plugin.'/classes/plugin.class.php');
     $itemclassname = 'mod_surveypro_'.$type.'_'.$plugin;
-    $item = new $itemclassname($cm, $itemid, $evaluateparentcontent);
+    $item = new $itemclassname($cm, $surveypro, $itemid, $evaluateparentcontent);
 
     return $item;
 }
@@ -137,7 +137,7 @@ function surveypro_need_group_filtering($cm, $context) {
  * @param optional $maxlength
  * @param $plainstring
  *
- * @return
+ * @return void
  */
 function surveypro_cutdownstring($plainstring, $maxlength=60) {
     if (strlen($plainstring) > $maxlength) {
