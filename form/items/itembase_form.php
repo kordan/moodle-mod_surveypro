@@ -224,7 +224,7 @@ class mod_surveypro_itembaseform extends moodleform {
             $select = $quickform->createElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'));
             $select->addOption(get_string('choosedots'), 0);
             foreach ($parentsseeds as $parentsseed) {
-                $parentitem = surveypro_get_item($cm, $parentsseed->id, $parentsseed->type, $parentsseed->plugin);
+                $parentitem = surveypro_get_item($cm, $surveypro, $parentsseed->id, $parentsseed->type, $parentsseed->plugin);
                 $star = ($parentitem->get_advanced()) ? '(*) ' : '';
 
                 // I do not need to take care of contents of items of master templates because if I am here, $parent is a standard item and not a multilang one
@@ -234,7 +234,7 @@ class mod_surveypro_itembaseform extends moodleform {
                 $content = surveypro_cutdownstring($content);
 
                 $condition = ($parentitem->get_hidden() == 1);
-                $condition = $condition && ($item->parentid != $parentitem->itemid);
+                $condition = $condition && ($item->get_parentid() != $parentitem->get_itemid());
                 $disabled = $condition ? array('disabled' => 'disabled') : null;
                 $select->addOption($content, $parentitem->get_itemid(), $disabled);
             }

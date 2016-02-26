@@ -58,10 +58,9 @@ $formurl = new moodle_url('/mod/surveypro/view_search.php', $paramurl);
 
 // Begin of: prepare params for the search form.
 $formparams = new stdClass();
-$formparams->cm = $cm; // Required to call surveypro_get_item.
+$formparams->cm = $cm;
 $formparams->surveypro = $surveypro;
 $formparams->canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $context, null, true); // Help selecting the fields to show.
-$formparams->formpage = $formpage;
 $searchform = new mod_surveypro_searchform($formurl, $formparams, 'post', '', array('id' => 'usersearch'));
 // End of: prepare params for the form.
 
@@ -93,7 +92,7 @@ $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
 
-$tabman = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_SEARCH);
+new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_SEARCH);
 
 $searchform->display();
 

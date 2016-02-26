@@ -51,7 +51,7 @@ class all_submissions_exported extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "User with id '{$this->userid}' has exported all the submissions.";
+        return "User with id '{$this->userid}' exported all the submissions.";
     }
 
     /**

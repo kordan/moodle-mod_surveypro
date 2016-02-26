@@ -51,7 +51,7 @@ class usertemplate_deleted extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "User with id '{$this->userid}' has deleted the user template '{$this->other['templatename']}'.";
+        return "User with id '{$this->userid}' deleted the user template '{$this->other['templatename']}'.";
     }
 
     /**

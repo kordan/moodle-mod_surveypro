@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * mod_surveypro usertemplate applied event.
+ * mod_surveypro all items hided event.
  *
  * @package    mod_surveypro
  * @copyright  2013 onwards kordan <kordan@mclink.it>
@@ -26,13 +26,13 @@ namespace mod_surveypro\event;
 
 defined('MOODLE_INTERNAL') || die();
 
-class usertemplate_applied extends \core\event\base {
+class all_items_hidden extends \core\event\base {
     /**
      * Set basic properties for the event.
      */
     protected function init() {
-        $this->data['crud'] = 'u'; // One of these: c(reate), r(ead), u(pdate), d(elete).
-        $this->data['edulevel'] = self::LEVEL_OTHER;
+        $this->data['crud'] = 'r'; // One of these: c(reate), r(ead), u(pdate), d(elete).
+        $this->data['edulevel'] = self::LEVEL_TEACHING;
         $this->data['objecttable'] = 'surveypro';
     }
 
@@ -42,7 +42,7 @@ class usertemplate_applied extends \core\event\base {
      * @return string
      */
     public static function get_name() {
-        return get_string('event_usertemplate_applied', 'mod_surveypro');
+        return get_string('eventall_items_hidden', 'mod_surveypro');
     }
 
     /**
@@ -51,7 +51,7 @@ class usertemplate_applied extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "User with id '{$this->userid}' applied the user template '{$this->other['templatename']}' with action: '{$this->other['action']}'.";
+        return "User with id '{$this->userid}' hided all the items.";
     }
 
     /**
@@ -60,7 +60,7 @@ class usertemplate_applied extends \core\event\base {
      * @return \moodle_url
      */
     public function get_url() {
-        return new \moodle_url('/mod/surveypro/utemplates_apply.php', array('id' => $this->contextinstanceid));
+        return new \moodle_url('/mod/surveypro/layout_manage.php', array('id' => $this->contextinstanceid));
     }
 
     /**
@@ -70,7 +70,7 @@ class usertemplate_applied extends \core\event\base {
      */
     public function get_legacy_logdata() {
         // Override if you are migrating an add_to_log() call.
-        return array($this->courseid, 'surveypro', 'usertemplate applied',
+        return array($this->courseid, 'surveypro', 'all items hided',
             $this->get_url(), $this->objectid, $this->contextinstanceid);
     }
 
@@ -96,20 +96,5 @@ class usertemplate_applied extends \core\event\base {
         $data->id = $this->objectid;
         $data->userid = $this->relateduserid;
         return $data; */
-    }
-
-    /**
-     * Custom validation.
-     *
-     * @throws \coding_exception
-     * @return void
-     */
-    protected function validate_data() {
-        if (!isset($this->other['templatename'])) {
-            throw new \coding_exception('templatename is a mandatory property.');
-        }
-        if (!isset($this->other['action'])) {
-            throw new \coding_exception('action is a mandatory property.');
-        }
     }
 }

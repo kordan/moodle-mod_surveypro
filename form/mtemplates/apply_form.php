@@ -36,8 +36,7 @@ class mod_surveypro_applymtemplateform extends moodleform {
         $mform = $this->_form;
 
         // Get _customdata.
-        $cmid = $this->_customdata->cmid;
-        $surveypro = $this->_customdata->surveypro;
+        // $mtemplateman = $this->_customdata->mtemplateman;
         $inline = $this->_customdata->inline;
 
         if ($mtemplatepluginlist = get_plugin_list('surveyprotemplate')) {
@@ -87,8 +86,6 @@ class mod_surveypro_applymtemplateform extends moodleform {
         // $mform = $this->_form;
 
         // Get _customdata.
-        $cmid = $this->_customdata->cmid;
-        $surveypro = $this->_customdata->surveypro;
         $mtemplateman = $this->_customdata->mtemplateman;
         $inline = $this->_customdata->inline;
 

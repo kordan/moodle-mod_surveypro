@@ -51,7 +51,7 @@ class all_submissions_viewed extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "User with id '{$this->userid}' has viewed all the submissions.";
+        return "User with id '{$this->userid}' viewed all the submissions.";
     }
 
     /**

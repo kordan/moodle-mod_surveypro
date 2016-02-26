@@ -51,7 +51,7 @@ class item_deleted extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "User with id '{$this->userid}' has deleted the '{$this->other['plugin']}' item with id '{$this->objectid}'.";
+        return "User with id '{$this->userid}' deleted the '{$this->other['plugin']}' item with id '{$this->objectid}'.";
     }
 
     /**

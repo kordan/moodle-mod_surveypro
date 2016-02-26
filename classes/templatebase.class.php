@@ -59,60 +59,6 @@ class mod_surveypro_templatebase {
     }
 
     /**
-     * items_deletion
-     *
-     * @param records $pluginseeds
-     * @param records $parambase
-     * @return null
-     */
-    public function items_deletion($pluginseeds, $parambase) {
-        global $DB;
-
-        $dbman = $DB->get_manager();
-
-        $pluginparams = $parambase;
-        foreach ($pluginseeds as $pluginseed) {
-            $tablename = 'surveypro'.$pluginseed->type.'_'.$pluginseed->plugin;
-            if ($dbman->table_exists($tablename)) {
-                $pluginparams['plugin'] = $pluginseed->plugin;
-
-                if ($deletelist = $DB->get_records('surveypro_item', $pluginparams, 'id', 'id')) {
-                    $deletelist = array_keys($deletelist);
-
-                    $select = 'itemid IN ('.implode(',', $deletelist).')';
-                    $DB->delete_records_select($tablename, $select);
-                }
-            }
-        }
-        $DB->delete_records('surveypro_item', $parambase);
-    }
-
-    /**
-     * items_reindex
-     *
-     * @return null
-     */
-    public function items_reindex() {
-        global $DB;
-
-        // Renum sortindex.
-        $sql = 'SELECT id, sortindex
-                FROM {surveypro_item}
-                WHERE surveyproid = :surveyproid
-                ORDER BY sortindex ASC';
-        $whereparams = array('surveyproid' => $this->surveypro->id);
-        $itemlist = $DB->get_recordset_sql($sql, $whereparams);
-        $currentsortindex = 1;
-        foreach ($itemlist as $item) {
-            if ($item->sortindex != $currentsortindex) {
-                $DB->set_field('surveypro_item', 'sortindex', $currentsortindex, array('id' => $item->id));
-            }
-            $currentsortindex++;
-        }
-        $itemlist->close();
-    }
-
-    /**
      * validate_xml
      *
      * @param $xml
@@ -274,7 +220,7 @@ class mod_surveypro_templatebase {
      *
      * @param $tablename
      * @param $dropid
-     * @return
+     * @return void
      */
     public function get_table_structure($tablename) {
         global $DB;

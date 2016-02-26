@@ -342,7 +342,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
 
         // Begin of: options (label of answers).
         $itemid = $qid1area[0][0]; // One of the itemid of the surveypro (the first).
-        $item = surveypro_get_item($this->cm, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem); // Was static 'radiobutton'.
+        $item = surveypro_get_item($this->cm, $this->surveypro, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem); // Was static 'radiobutton'.
         $this->ylabels = $item->item_get_content_array(SURVEYPRO_LABELS, 'options');
         // End of: options (label of answers).
 
@@ -482,7 +482,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
 
         // Begin of: options (label of answers).
         $itemid = $qid1area[0][0]; // One of the itemid of the surveypro (the first).
-        $item = surveypro_get_item($this->cm, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem); // Was static 'radiobutton'.
+        $item = surveypro_get_item($this->cm, $this->surveypro, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem); // Was static 'radiobutton'.
         $this->ylabels = $item->item_get_content_array(SURVEYPRO_LABELS, 'options');
         // End of: options (label of answers).
 
@@ -598,7 +598,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
 
         // Begin of: options (label of answers).
         $itemid = $qid1area[$area][$qid]; // One of the itemid of the surveypro (the first).
-        $item = surveypro_get_item($this->cm, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem); // Was static 'radiobutton'.
+        $item = surveypro_get_item($this->cm, $this->surveypro, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem); // Was static 'radiobutton'.
         $this->xlabels = $item->item_get_content_array(SURVEYPRO_LABELS, 'options');
         // End of: options (label of answers).
 

@@ -51,7 +51,7 @@ class all_submissions_deleted extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "User with id '{$this->userid}' has deleted all the submissions.";
+        return "User with id '{$this->userid}' deleted all the submissions.";
     }
 
     /**
