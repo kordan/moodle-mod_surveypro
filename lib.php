@@ -377,7 +377,7 @@ function surveypro_update_instance($surveypro, $mform) {
  * surveypro_pre_process_checkboxes
  *
  * @param object $surveypro Surveypro record
- * @return none
+ * @return void
  */
 function surveypro_pre_process_checkboxes($surveypro) {
     $checkboxes = array('newpageforchild', 'history', 'saveresume', 'anonymous', 'notifyteachers');
@@ -526,7 +526,7 @@ function surveypro_user_outline($course, $user, $mod, $surveypro) {
  * @param stdClass $user the record of the user we are generating report for
  * @param cm_info $mod course module info
  * @param stdClass $surveypro the module instance record
- * @return none, is supposed to echp directly
+ * @return void, is supposed to echp directly
  */
 function surveypro_user_complete($course, $user, $mod, $surveypro) {
     return true;
@@ -557,7 +557,7 @@ function surveypro_print_recent_activity($course, $viewfullnames, $timestart) {
  * @param int $cmid course module id
  * @param int $userid check for a particular user's activity only, defaults to 0 (all users)
  * @param int $groupid check for a particular group's activity only, defaults to 0 (all groups)
- * @return none adds items into $activities and increases $index
+ * @return void adds items into $activities and increases $index
  */
 function surveypro_get_recent_mod_activity(&$activities, &$index, $timestart, $courseid, $cmid, $userid=0, $groupid=0) {
 }
@@ -565,7 +565,7 @@ function surveypro_get_recent_mod_activity(&$activities, &$index, $timestart, $c
 /**
  * Prints single activity item prepared by {@see surveypro_get_recent_mod_activity()}
  *
- * @return none
+ * @return void
  */
 function surveypro_print_recent_mod_activity($activity, $courseid, $detail, $modnames, $viewfullnames) {
 }
@@ -696,7 +696,7 @@ function surveypro_scale_used_anywhere($scaleid) {
  * Needed by grade_update_mod_grades() in lib/gradelib.php
  *
  * @param stdClass $surveypro instance object with extra cmidnumber and modname property
- * @return none
+ * @return void
  */
 // I will remove comments when I will understand why this method is called
 // function surveypro_grade_item_update(stdClass $surveypro) {
@@ -720,7 +720,7 @@ function surveypro_scale_used_anywhere($scaleid) {
  *
  * @param stdClass $surveypro instance object with extra cmidnumber and modname property
  * @param int $userid update grade of specific user only, 0 means all participants
- * @return none
+ * @return void
  */
 function surveypro_update_grades(stdClass $surveypro, $userid = 0) {
     global $CFG;
@@ -759,7 +759,7 @@ function surveypro_get_file_areas($course, $cm, $context) {
  * @param string $filearea
  * @param array $args
  * @param bool $forcedownload
- * @return none this should never return to the caller
+ * @return void this should never return to the caller
  */
 function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload) {
     global $CFG;

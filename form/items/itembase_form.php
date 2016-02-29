@@ -31,7 +31,7 @@ class mod_surveypro_itembaseform extends moodleform {
      * definition
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function definition() {
         global $CFG, $DB;
@@ -281,7 +281,7 @@ class mod_surveypro_itembaseform extends moodleform {
      * add_item_buttons
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function add_item_buttons() {
         $mform = $this->_form;

@@ -111,7 +111,7 @@ class mod_surveypro_report_frequency extends mod_surveypro_reportbase {
      *
      * @param int $itemid
      * @param int $submissionscount
-     * @return none
+     * @return void
      */
     public function fetch_data($itemid, $submissionscount) {
         global $DB;
@@ -181,7 +181,7 @@ class mod_surveypro_report_frequency extends mod_surveypro_reportbase {
      * output_data
      *
      * @param string $url
-     * @return none
+     * @return void
      */
     public function output_data($url) {
         global $OUTPUT;
@@ -195,7 +195,7 @@ class mod_surveypro_report_frequency extends mod_surveypro_reportbase {
 
     /**
      * @param string $graphurl
-     * @return none
+     * @return void
      */
     public function print_graph($graphurl) {
         global $CFG;

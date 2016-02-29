@@ -50,7 +50,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      * set_utemplateid
      *
      * @param $utemplateid
-     * @return none
+     * @return void
      */
     private function set_utemplateid($utemplateid) {
         $this->utemplateid = $utemplateid;
@@ -60,7 +60,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      * set_action
      *
      * @param $action
-     * @return none
+     * @return void
      */
     private function set_action($action) {
         $this->action = $action;
@@ -70,7 +70,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      * set_confirm
      *
      * @param $confirm
-     * @return none
+     * @return void
      */
     private function set_confirm($confirm) {
         $this->confirm = $confirm;
@@ -1050,7 +1050,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      * trigger_event
      *
      * @param string $event: event to trigger
-     * @return none
+     * @return void
      */
     public function trigger_event($eventname, $action=null) {
         $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);

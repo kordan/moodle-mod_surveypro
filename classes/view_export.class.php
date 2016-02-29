@@ -51,7 +51,7 @@ class mod_surveypro_exportmanager {
      * trigger_event
      *
      * @param none
-     * @return none
+     * @return void
      */
     public function trigger_event() {
         $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
@@ -189,7 +189,7 @@ class mod_surveypro_exportmanager {
      * export_to_csv
      *
      * @param $richsubmissions
-     * @return none
+     * @return void
      */
     public function export_to_csv($richsubmissions) {
         global $CFG, $DB;
@@ -291,7 +291,7 @@ class mod_surveypro_exportmanager {
      * export_to_xls
      *
      * @param $richsubmissions
-     * @return none
+     * @return void
      */
     public function export_to_xls($richsubmissions) {
         global $CFG, $DB;

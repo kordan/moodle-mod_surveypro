@@ -69,7 +69,7 @@ class mod_surveypro_reportbase {
      * get_childreports
      *
      * @param bool $canaccessreports
-     * @return none
+     * @return void
      */
     public function get_childreports($canaccessreports) {
         return false;

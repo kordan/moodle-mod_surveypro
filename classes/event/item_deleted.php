@@ -102,7 +102,7 @@ class item_deleted extends \core\event\base {
      * Custom validation.
      *
      * @throws \coding_exception
-     * @return none
+     * @return void
      */
     protected function validate_data() {
         if (!isset($this->other['plugin'])) {

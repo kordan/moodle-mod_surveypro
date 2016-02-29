@@ -179,7 +179,7 @@ class mod_surveypro_format_label extends mod_surveypro_itembase {
      * Copy mandatory fields to $record.
      *
      * @param stdClass $record
-     * @return nothing
+     * @return void
      */
     public function item_add_mandatory_plugin_fields(&$record) {
         $record->content = 'Label';
