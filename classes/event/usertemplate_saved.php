@@ -51,7 +51,7 @@ class usertemplate_saved extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "User with id '{$this->userid}' has saved the user template '{$this->other['templatename']}'.";
+        return "User with id '{$this->userid}' saved the user template '{$this->other['templatename']}'.";
     }
 
     /**

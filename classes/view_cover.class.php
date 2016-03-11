@@ -48,7 +48,7 @@ class mod_surveypro_covermanager {
      * display_cover
      *
      * @param none
-     * @return
+     * @return void
      */
     public function display_cover() {
         global $CFG, $OUTPUT, $COURSE;
@@ -270,7 +270,7 @@ class mod_surveypro_covermanager {
      *
      * @param $messages
      * @param $strlegend
-     * @return
+     * @return void
      */
     public function display_messages($messages, $strlegend) {
         global $OUTPUT;
@@ -293,7 +293,7 @@ class mod_surveypro_covermanager {
      * user_sent_submissions
      *
      * @param $status
-     * @return
+     * @return void
      */
     public function user_sent_submissions($status=SURVEYPRO_STATUSALL) {
         global $USER, $DB;

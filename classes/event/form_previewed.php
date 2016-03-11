@@ -51,7 +51,7 @@ class form_previewed extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "User with id '{$this->userid}' has created the item with id '{$this->objectid}'.";
+        return "User with id '{$this->userid}' previewed the surveypro.";
     }
 
     /**

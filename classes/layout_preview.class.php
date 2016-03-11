@@ -57,7 +57,7 @@ class mod_surveypro_formpreview extends mod_surveypro_formbase {
      * surveypro_add_custom_css
      *
      * @param none
-     * @return
+     * @return void
      */
     public function surveypro_add_custom_css() {
         global $PAGE;
@@ -72,7 +72,7 @@ class mod_surveypro_formpreview extends mod_surveypro_formbase {
      * message_preview_mode
      *
      * @param none
-     * @return
+     * @return void
      */
     public function message_preview_mode() {
         global $OUTPUT;
@@ -86,7 +86,7 @@ class mod_surveypro_formpreview extends mod_surveypro_formbase {
      * prevent_direct_user_input
      *
      * @param none
-     * @return
+     * @return void
      */
     private function prevent_direct_user_input() {
         if (!has_capability('mod/surveypro:preview', $this->context)) {

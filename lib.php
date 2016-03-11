@@ -85,7 +85,9 @@ define('SURVEYPRO_TYPEFORMAT', 'format');
  */
 define('SURVEYPRO_NOACTION'          , '0');
 
-// ACTIONS in ITEM MANAGEMENT section
+/*
+ * ACTIONS in LAYOUT MANAGEMENT page
+ */
 define('SURVEYPRO_CHANGEORDER'       , '1');
 define('SURVEYPRO_HIDEITEM'          , '2');
 define('SURVEYPRO_SHOWITEM'          , '3');
@@ -95,9 +97,19 @@ define('SURVEYPRO_REQUIREDOFF'       , '6');
 define('SURVEYPRO_REQUIREDON'        , '7');
 define('SURVEYPRO_CHANGEINDENT'      , '8');
 define('SURVEYPRO_ADDTOSEARCH'       , '9');
-define('SURVEYPRO_OUTOFSEARCH'       , '10');
+define('SURVEYPRO_REMOVEFROMSEARCH'  , '10');
 define('SURVEYPRO_MAKESTANDARD'      , '11');
 define('SURVEYPRO_MAKEADVANCED'      , '12');
+
+/*
+ * BULK ACTIONS in LAYOUT MANAGEMENT and in APPLY UTEMPLATE page
+ */
+define('SURVEYPRO_IGNOREITEMS'       , '0');
+define('SURVEYPRO_HIDEALLITEMS'      , '13');
+define('SURVEYPRO_SHOWALLITEMS'      , '14');
+define('SURVEYPRO_DELETEALLITEMS'    , '15');
+define('SURVEYPRO_DELETEVISIBLEITEMS', '16');
+define('SURVEYPRO_DELETEHIDDENITEMS' , '17');
 
 // ACTIONS in RESPONSES section
 define('SURVEYPRO_DELETERESPONSE'    , '13');
@@ -191,10 +203,10 @@ define('SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR', '; ');
 /*
  * CONFIRMATION
  */
-define('SURVEYPRO_UNCONFIRMED',    0);
-define('SURVEYPRO_CONFIRMED_YES',  1);
-define('SURVEYPRO_CONFIRMED_NO' ,  2);
-define('SURVEYPRO_CONFIRMED_DONE', 3);
+define('SURVEYPRO_UNCONFIRMED'    , 0);
+define('SURVEYPRO_CONFIRMED_YES'  , 1);
+define('SURVEYPRO_CONFIRMED_NO'   , 2);
+define('SURVEYPRO_ACTION_EXECUTED', 3);
 
 /*
  * DEFAULTVALUE OPTION
@@ -212,15 +224,6 @@ define('SURVEYPRO_STYLEFILEAREA'      , 'userstyle');
 define('SURVEYPRO_TEMPLATEFILEAREA'   , 'templatefilearea');
 define('SURVEYPRO_THANKSHTMLFILEAREA' , 'thankshtml');
 define('SURVEYPRO_ITEMCONTENTFILEAREA', 'itemcontent');
-
-/*
- * OPTIONS of 'otheritems' in 'APPLY USER TEMPLATE'
- */
-define('SURVEYPRO_IGNOREITEMS'       , '1');
-define('SURVEYPRO_HIDEITEMS'         , '2');
-define('SURVEYPRO_DELETEALLITEMS'    , '3');
-define('SURVEYPRO_DELETEVISIBLEITEMS', '4');
-define('SURVEYPRO_DELETEHIDDENITEMS' , '5');
 
 /*
  * FIRENDLY FORMAT
@@ -348,7 +351,11 @@ function surveypro_update_instance($surveypro, $mform) {
 
     surveypro_pre_process_checkboxes($surveypro);
 
-    surveypro_reset_items_pages($surveypro->id);
+    // I don't think classes are available here!
+    // mod_surveypro_utility->reset_items_pages($surveypro->id);
+    $whereparams = array('surveyproid' => $surveypro->id);
+    $DB->set_field('surveypro_item', 'formpage', 0, $whereparams);
+
 
     $DB->update_record('surveypro', $surveypro);
     // Stop working with the surveypro table (unless $surveypro->thankshtml_editor['itemid'] != 0).
@@ -633,7 +640,12 @@ function surveypro_cron() {
  * @return boolean|array false if no participants, array of objects otherwise
  */
 function surveypro_get_participants($surveyproid) {
-    return false;
+    global $DB;
+
+    $sql = 'SELECT DISTINCT s.userid as id, s.userid as id
+            FROM {surveypro_submission} s
+            WHERE s.surveyproid = :surveyproid';
+    return $DB->get_records_sql($sql, array('surveyproid' => $surveyproid));
 }
 
 /**
@@ -840,7 +852,7 @@ function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
  *
  * @param settings_navigation $settingsnav {@link settings_navigation}
  * @param navigation_node $surveypronode {@link navigation_node}
- * @return
+ * @return void
  */
 function surveypro_extend_settings_navigation(settings_navigation $settings, navigation_node $surveypronode) {
     global $CFG, $PAGE, $DB;
@@ -1010,7 +1022,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
  * @param stdClass $course
  * @param stdClass $surveypro
  * @param cm_info $cm
- * @return
+ * @return void
  */
 function surveypro_extend_navigation(navigation_node $navref, stdClass $course, stdClass $surveypro, cm_info $cm) {
     // $context = context_system::instance();
@@ -1056,7 +1068,7 @@ function surveypro_site_recaptcha_enabled() {
  * @param $plugintype
  * @param $includetype
  * @param $count
- * @return
+ * @return void
  */
 function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=false) {
     $plugincount = 0;
@@ -1131,7 +1143,7 @@ function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=
  * @param $searchform
  * @param $type
  * @param $formpage
- * @return
+ * @return void
  */
 function surveypro_fetch_items_seeds($surveyproid, $canaccessadvanceditems, $searchform, $type=false, $formpage=false) {
     $sql = 'SELECT si.*
@@ -1165,7 +1177,7 @@ function surveypro_fetch_items_seeds($surveyproid, $canaccessadvanceditems, $sea
  * surveypro_get_view_actions
  *
  * @param
- * @return
+ * @return void
  */
 function surveypro_get_view_actions() {
     return array('view', 'view all');
@@ -1175,7 +1187,7 @@ function surveypro_get_view_actions() {
  * surveypro_get_post_actions
  *
  * @param
- * @return
+ * @return void
  */
 function surveypro_get_post_actions() {
     return array('add', 'update');
@@ -1188,19 +1200,6 @@ function surveypro_get_post_actions() {
  */
 function surveypro_get_editor_options() {
     return array('trusttext' => true, 'subdirs' => false, 'maxfiles' => EDITOR_UNLIMITED_FILES);
-}
-
-/**
- * surveypro_reset_items_pages
- *
- * @param $surveyproid
- * @return
- */
-function surveypro_reset_items_pages($surveyproid) {
-    global $DB;
-
-    $whereparams = array('surveyproid' => $surveyproid);
-    $DB->set_field('surveypro_item', 'formpage', 0, $whereparams);
 }
 
 /**

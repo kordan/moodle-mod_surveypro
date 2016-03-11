@@ -51,7 +51,7 @@ class unattended_submissions_deleted extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "Periodic check detected and deleted unattended submissions";
+        return "Periodic check executed and unattended submissions were deleted";
     }
 
     /**

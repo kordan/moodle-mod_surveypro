@@ -36,7 +36,7 @@ define('SURVEYPROFIELD_TIME_FORMAT', '[hh:mm]');
  *
  * @param $hour
  * @param $minute
- * @return
+ * @return void
  */
 function surveypro_time_check_time($hour, $minute) {
     if ($hour > -1 && $hour < 24 && $minute > -1 && $minute < 60) {

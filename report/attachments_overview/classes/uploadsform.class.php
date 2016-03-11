@@ -97,7 +97,7 @@ class mod_surveypro_report_uploadformmanager {
      * prevent_direct_user_input
      *
      * @param none
-     * @return
+     * @return void
      */
     public function prevent_direct_user_input() {
         $allowed = has_capability('mod/surveypro:accessreports', $this->context, null, true);
@@ -112,7 +112,7 @@ class mod_surveypro_report_uploadformmanager {
      *
      * @param $submissionid
      * @param $itemid
-     * @return
+     * @return void
      */
     public function display_attachment($submissionid, $itemid) {
         global $CFG, $DB, $OUTPUT;

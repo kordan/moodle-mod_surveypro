@@ -36,7 +36,7 @@ define('SURVEYPROFIELD_CHARACTER_URLPATTERN'   , 'PATTERN_URL');
  *
  * @param $text
  * @param $pattern
- * @return
+ * @return void
  */
 function surveypro_character_text_match_pattern($text, $pattern) {
     // Replace free characters.
@@ -57,7 +57,7 @@ function surveypro_character_text_match_pattern($text, $pattern) {
  * surveypro_character_is_valid_url
  *
  * @param $url
- * @return
+ * @return void
  */
 function surveypro_character_is_valid_url($url) {
     return (filter_var($url, FILTER_VALIDATE_URL) !== false);

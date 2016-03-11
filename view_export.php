@@ -84,7 +84,7 @@ $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
 
-$tabman = new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_EXPORT);
+new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_EXPORT);
 
 if ($exporterror == SURVEYPRO_NOFIELDSSELECTED) {
     echo $OUTPUT->notification(get_string('nothingtodownload', 'mod_surveypro'), 'notifyproblem');

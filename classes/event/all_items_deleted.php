@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * mod_surveypro all items viewed event.
+ * mod_surveypro all items deleted event.
  *
  * @package    mod_surveypro
  * @copyright  2013 onwards kordan <kordan@mclink.it>
@@ -51,7 +51,7 @@ class all_items_deleted extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "User with id '{$this->userid}' has deleted all the items.";
+        return "User with id '{$this->userid}' deleted all the items.";
     }
 
     /**

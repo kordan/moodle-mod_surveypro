@@ -223,7 +223,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      *
      * @param $rightdirection
      * @param $startingpage
-     * @return
+     * @return void
      */
     public function next_not_empty_page($rightdirection, $startingpage=null) {
         if ($startingpage === null) {
@@ -282,7 +282,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      * on the basis of the answers provided to their parents.
      *
      * @param $formpage
-     * @return
+     * @return void
      */
     private function page_has_items($formpage) {
         global $CFG, $DB;
@@ -326,7 +326,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      * set_tabs_params
      *
      * @param none
-     * @return
+     * @return void
      */
     private function set_tabs_params() {
         switch ($this->view) {
@@ -356,7 +356,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      * surveypro_add_custom_css
      *
      * @param none
-     * @return
+     * @return void
      */
     public function surveypro_add_custom_css() {
         global $PAGE;
@@ -548,7 +548,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      *    passing it $iteminfo->contentperelement
      */
     public function save_user_data() {
-        global $DB;
+        global $DB, $COURSE;
 
         $savebutton = isset($this->formdata->savebutton);
         $saveasnewbutton = isset($this->formdata->saveasnewbutton);
@@ -648,7 +648,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
             $useranswer->timecreated = time();
             $useranswer->verified = ($prevbutton || $pausebutton) ? 0 : 1;
 
-            $item = surveypro_get_item($this->cm, $iteminfo->itemid, $iteminfo->type, $iteminfo->plugin);
+            $item = surveypro_get_item($this->cm, $this->surveypro, $iteminfo->itemid, $iteminfo->type, $iteminfo->plugin);
 
             // In this method I only update $useranswer->content.
             // I do not really save to database.
@@ -698,9 +698,8 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
             }
         }
 
-        // Update completion state
-        $course = $DB->get_record('course', array('id' => $this->cm->course), '*', MUST_EXIST);
-        $completion = new completion_info($course);
+        // Update completion state.
+        $completion = new completion_info($COURSE);
         if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
             $completion->update_state($this->cm, COMPLETION_COMPLETE);
         }
@@ -710,7 +709,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      * check_mandatories_are_in
      *
      * @param none
-     * @return
+     * @return void
      */
     private function check_mandatories_are_in() {
         global $CFG, $DB;
@@ -786,7 +785,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
                     $this->finalresponseevaluation = SURVEYPRO_MISSINGMANDATORY;
                     break;
                 } else {
-                    $parentitem = surveypro_get_item($this->cm, $itemseed->parentid);
+                    $parentitem = surveypro_get_item($this->cm, $this->surveypro, $itemseed->parentid);
                     if ($parentitem->userform_child_item_allowed_static($this->get_submissionid(), $itemseed)) {
                         // Parent is here but it allows this item as child in this submission. Answer was jumped.
                         // TAKE CARE: this check is valid for chains of parent-child relations too.
@@ -803,7 +802,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      * check_all_verified
      *
      * @param none
-     * @return
+     * @return void
      */
     private function check_all_was_verified() {
         global $DB;
@@ -820,7 +819,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      * drop_jumped_saved_data
      *
      * @param none
-     * @return
+     * @return void
      */
     public function drop_jumped_saved_data() {
         global $DB;
@@ -844,7 +843,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      * notifypeople
      *
      * @param none
-     * @return
+     * @return void
      */
     public function notifypeople() {
         global $CFG, $DB, $COURSE, $USER;
@@ -953,7 +952,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      * submissions_allowed
      *
      * @param none
-     * @return
+     * @return void
      */
     public function submissions_allowed() {
         // If $this->formdata is available, this means that the form was already displayed and submitted.
@@ -979,7 +978,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      * user_sent_submissions
      *
      * @param $status
-     * @return
+     * @return void
      */
     private function user_sent_submissions($status=SURVEYPRO_STATUSALL) {
         global $USER, $DB;
@@ -1001,7 +1000,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      * nomoresubmissions_stopexecution
      *
      * @param none
-     * @return
+     * @return void
      */
     public function nomoresubmissions_stopexecution() {
         global $OUTPUT;
@@ -1026,7 +1025,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      * manage_thanks_page
      *
      * @param none
-     * @return
+     * @return void
      */
     public function manage_thanks_page() {
         global $OUTPUT;
@@ -1044,7 +1043,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      * surveypro_show_thanks_page
      *
      * @param none
-     * @return
+     * @return void
      */
     private function show_thanks_page() {
         global $DB, $OUTPUT, $USER;
@@ -1102,7 +1101,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      * add_browsing_buttons
      *
      * @param none
-     * @return
+     * @return void
      */
     public function add_readonly_browsing_buttons() {
         global $OUTPUT;
@@ -1149,7 +1148,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      * drop_unexpected_values
      *
      * @param none
-     * @return
+     * @return void
      */
     private function drop_unexpected_values() {
         // Begin of: delete all the bloody values that were NOT supposed to be returned: MDL-34815
@@ -1174,7 +1173,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
             // Let's start.
             $olditemid = $itemid;
 
-            $childitem = surveypro_get_item($this->cm, $itemid, $type, $plugin);
+            $childitem = surveypro_get_item($this->cm, $this->surveypro, $itemid, $type, $plugin);
 
             if (empty($childitem->get_parentid())) {
                 continue;
@@ -1187,7 +1186,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
             }
 
             // Call parentitem.
-            $parentitem = surveypro_get_item($this->cm, $childitem->get_parentid());
+            $parentitem = surveypro_get_item($this->cm, $this->surveypro, $childitem->get_parentid());
 
             $parentinsamepage = false;
             foreach ($indexes as $itemname) {
@@ -1230,7 +1229,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      * prevent_direct_user_input
      *
      * @param none
-     * @return
+     * @return void
      */
     private function prevent_direct_user_input() {
         global $DB, $USER, $COURSE;
@@ -1324,7 +1323,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      * duplicate_submission
      *
      * @param $allpages
-     * @return
+     * @return void
      */
     private function duplicate_submission() {
         global $DB;

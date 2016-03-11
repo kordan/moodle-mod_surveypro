@@ -22,6 +22,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
+
 /**
  * The base class defining an item
  */
@@ -30,6 +32,7 @@ class mod_surveypro_itembase {
      * Basic necessary essential ingredients
      */
     protected $cm;
+    protected $surveypro;
     // protected $context;
 
     /**
@@ -88,9 +91,9 @@ class mod_surveypro_itembase {
     protected $parentvalue;
 
     /**
-     * $savefeedbackmask
+     * $itemeditingfeedback
      */
-    protected $savefeedbackmask;
+    protected $itemeditingfeedback;
 
     /**
      * $editorlist
@@ -126,9 +129,9 @@ class mod_surveypro_itembase {
     /**
      * Class constructor
      */
-    public function __construct($cm, $itemid, $evaluateparentcontent) {
+    public function __construct($cm, $surveypro, $itemid, $evaluateparentcontent) {
         $this->cm = $cm;
-        // $this->context = context_module::instance($cm->id);
+        $this->surveypro = $surveypro;
     }
 
     /**
@@ -136,7 +139,7 @@ class mod_surveypro_itembase {
      *
      * @param integer $itemid
      * @param boolean $evaluateparentcontent: include among item elements the 'parentcontent' too
-     * @return
+     * @return void
      */
     protected function item_load($itemid, $evaluateparentcontent) {
         global $DB;
@@ -158,7 +161,7 @@ class mod_surveypro_itembase {
             unset($this->id); // I do not care it. I already heave: itemid and pluginid.
             $this->itemname = SURVEYPRO_ITEMPREFIX.'_'.$this->type.'_'.$this->plugin.'_'.$this->itemid;
             if ($evaluateparentcontent && $this->parentid) {
-                $parentitem = surveypro_get_item($this->cm, $this->parentid);
+                $parentitem = surveypro_get_item($this->cm, $this->surveypro, $this->parentid);
                 $this->parentcontent = $parentitem->parent_decode_child_parentvalue($this->parentvalue);
             }
         } else {
@@ -170,7 +173,7 @@ class mod_surveypro_itembase {
     /**
      * item_force_coherence
      * verify the validity of contents of the record
-     * for instance: age not greater than maximumage
+     * for instance: age not greater than maximum age
      *
      * @param stdClass $record
      * @return void
@@ -210,12 +213,13 @@ class mod_surveypro_itembase {
      *     formpage
      *
      * @param stdClass $record
-     * @return
+     * @return void
      */
     protected function item_get_common_settings($record) {
         // You are going to change item content (maybe sortindex, maybe the parentitem)
         // so, do not forget to reset items per page.
-        surveypro_reset_items_pages($this->cm->instance);
+        $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+        $utilityman->reset_items_pages();
 
         $timenow = time();
 
@@ -254,7 +258,7 @@ class mod_surveypro_itembase {
         // Because of this, even if the user writes, for instance, "bread\nmilk" to parentvalue
         // I have to encode it to key(bread);key(milk).
         if (isset($record->parentid) && $record->parentid) {
-            $parentitem = surveypro_get_item($this->cm, $record->parentid);
+            $parentitem = surveypro_get_item($this->cm, $this->surveypro, $record->parentid);
             $record->parentvalue = $parentitem->parent_encode_child_parentcontent($record->parentcontent);
             unset($record->parentcontent);
         }
@@ -265,8 +269,8 @@ class mod_surveypro_itembase {
      * Executes surveyproitem_<<plugin>> global level actions
      * this is the save point of the global part of each plugin
      *
-     * Here is the explanation of $this->savefeedbackmask
-     * $this->savefeedbackmask
+     * Here is the explanation of $this->itemeditingfeedback
+     * $this->itemeditingfeedback
      *   +--- children inherited limited access
      *   |       +--- parents were made available for all
      *   |       |       +--- children were hided because this item was hided
@@ -286,15 +290,18 @@ class mod_surveypro_itembase {
      * (digit in place 5) == 1 means items inherited limited access because this (as parent) got a limited access
      *
      * @param stdClass $record
-     * @return
+     * @return void
      */
     public function item_save($record) {
-        global $DB;
+        global $DB, $COURSE;
 
         $context = context_module::instance($this->cm->id);
 
+        $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+        $hassubmission = $utilityman->has_submissions(false);
+
         $tablename = 'surveypro'.$this->type.'_'.$this->plugin;
-        $this->savefeedbackmask = SURVEYPRO_NOFEEDBACK;
+        $this->itemeditingfeedback = SURVEYPRO_NOFEEDBACK;
 
         // Does this record need to be saved as new record or as un update on a preexisting record?
         if (empty($record->itemid)) {
@@ -320,7 +327,7 @@ class mod_surveypro_itembase {
 
                     $record->itemid = $itemid;
                     if ($pluginid = $DB->insert_record($tablename, $record)) { // First $tablename save.
-                        $this->savefeedbackmask += 1; // 0*2^1+1*2^0
+                        $this->itemeditingfeedback += 1; // 0*2^1+1*2^0
                     }
                 }
 
@@ -337,9 +344,9 @@ class mod_surveypro_itembase {
                     $record->id = $pluginid;
 
                     if (!$DB->update_record($tablename, $record)) { // <-- $tablename update
-                        $this->savefeedbackmask -= ($this->savefeedbackmask % 2); // Whatever it was, now it is a fail.
+                        $this->itemeditingfeedback -= ($this->itemeditingfeedback % 2); // Whatever it was, now it is a fail.
                         // } else {
-                        // Leave the previous $this->savefeedbackmask.
+                        // Leave the previous $this->itemeditingfeedback.
                         // If it was a success, leave it as now you got one more success.
                         // If it was a fail, leave it as you can not cover the previous fail.
                     }
@@ -357,6 +364,12 @@ class mod_surveypro_itembase {
                 // Extra cleanup steps.
                 $transaction->rollback($e); // Rethrows exception.
             }
+
+            if ($hassubmission) {
+                // Set to SURVEYPRO_STATUSINPROGRESS each already sent submission
+                $whereparams = array('surveyproid' => $this->surveypro->id);
+                $utilityman->submissions_set_status($whereparams, SURVEYPRO_STATUSINPROGRESS);
+            }
         } else {
             // Item already exists.
 
@@ -373,7 +386,6 @@ class mod_surveypro_itembase {
 
             // Begin of: Hide/unhide part 1.
             $oldhidden = $this->get_hidden(); // Used later.
-            // $oldhidden = $DB->get_field('surveypro_item', 'hidden', array('id' => $record->itemid)); // Used later.
             // End of: hide/unhide 1.
 
             // Begin of: Limit/unlimit access part 1.
@@ -397,12 +409,12 @@ class mod_surveypro_itembase {
 
                     $record->id = $record->pluginid;
                     if ($DB->update_record($tablename, $record)) {
-                        $this->savefeedbackmask += 3; // 1*2^1+1*2^0 alias: editing + success
+                        $this->itemeditingfeedback += 3; // 1*2^1+1*2^0 alias: editing + success
                     } else {
-                        $this->savefeedbackmask += 2; // 1*2^1+0*2^0 alias: editing + fail
+                        $this->itemeditingfeedback += 2; // 1*2^1+0*2^0 alias: editing + fail
                     }
                 } else {
-                    $this->savefeedbackmask += 2; // 1*2^1+0*2^0 alias: editing + fail
+                    $this->itemeditingfeedback += 2; // 1*2^1+0*2^0 alias: editing + fail
                 }
 
                 $transaction->allow_commit();
@@ -419,10 +431,37 @@ class mod_surveypro_itembase {
                 $transaction->rollback($e); // Rethrows exception.
             }
 
-            // Save process is over.
+            // If this item WAS NOT mandatory and it IS NOW mandatory
+            // then EACH submission (if any)
+            // where the answer to this item was SURVEYPRO_NOANSWERVALUE
+            // needs to be switched to SURVEYPRO_STATUSINPROGRESS.
+            if ($hassubmission) {
+                if (isset($this->required)) { // this plugin uses required
+                    $oldrequired = $this->get_required(); // This is the value of required for this item as it was when it was loaded.
+                    if ($oldrequired == 0) { // This item was not required
+                        if (isset($record->required) && ($record->required == 1)) { // This item is now required
+                            // This item that was not mandatory is NOW mandatory.
+                            $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+                            $utilityman->optional_to_required_followup($record->itemid);
+                        }
+                    }
+                }
+            }
+        }
+        // Save process is over.
+
+        if ($hassubmission) {
+            // Update completion state.
+            $possibleusers = surveypro_get_participants($this->surveypro->id);
+            $completion = new completion_info($COURSE);
+            if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
+                foreach ($possibleusers as $user) {
+                    $completion->update_state($this->cm, COMPLETION_INCOMPLETE, $user->id);
+                }
+            }
         }
 
-        // $this->savefeedbackmask is going to be part of $returnurl in layout_itemsetup.php and to be send to layout_manage.php
+        // $this->itemeditingfeedback is going to be part of $returnurl in layout_itemsetup.php and to be send to layout_manage.php
         return $record->itemid;
     }
 
@@ -431,7 +470,7 @@ class mod_surveypro_itembase {
      *
      * @param stdobject $record
      * @param integer $itemid
-     * @return
+     * @return void
      */
     public function item_validate_variablename($record, $itemid) {
         global $DB;
@@ -482,14 +521,14 @@ class mod_surveypro_itembase {
     /**
      * item_manage_chains
      * Executes surveyproitem_<<plugin>> global level actions
-     * this is the save point of the global part of each plugin
+     * this is the save point of the common part of each plugin
      *
      * @param integer $itemid
      * @param boolean 0/1 $oldhidden
      * @param boolean 0/1 $newhidden
      * @param boolean 0/1 $oldadvanced
      * @param boolean 0/1 $newadvanced
-     * @return
+     * @return void
      */
     private function item_manage_chains($itemid, $oldhidden, $newhidden, $oldadvanced, $newadvanced) {
         global $DB;
@@ -497,64 +536,62 @@ class mod_surveypro_itembase {
         $context = context_module::instance($this->cm->id);
 
         // Now hide or unhide (whether needed) chain of ancestors or descendents.
-        if ($this->savefeedbackmask & 1) { // Bitwise logic, alias: if the item was successfully saved.
+        if ($this->itemeditingfeedback & 1) { // Bitwise logic, alias: if the item was successfully saved.
             // Manage ($oldhidden != $newhidden).
             if ($oldhidden != $newhidden) {
-                $surveypro = $DB->get_record('surveypro', array('id' => $this->cm->instance), '*', MUST_EXIST);
                 $action = ($oldhidden) ? SURVEYPRO_SHOWITEM : SURVEYPRO_HIDEITEM;
 
-                $itemlistman = new mod_surveypro_itemlist($this->cm, $context, $surveypro);
+                $itemlistman = new mod_surveypro_itemlist($this->cm, $context, $this->surveypro);
                 $itemlistman->set_type($this->type);
                 $itemlistman->set_plugin($this->plugin);
                 $itemlistman->set_itemid($itemid);
                 $itemlistman->set_action($action);
                 $itemlistman->set_view(SURVEYPRO_NOVIEW);
                 $itemlistman->set_confirm(SURVEYPRO_CONFIRMED_YES);
+
+                // Begin of: Hide/unhide part 2.
+                if ( ($oldhidden == 1) && ($newhidden == 0) ) {
+                    $itemlistman->item_show_execute();
+                    // A chain of parent items has been shown.
+                    $this->itemeditingfeedback += 4; // 1*2^2.
+
+                }
+                if ( ($oldhidden == 0) && ($newhidden == 1) ) {
+                    $itemlistman->item_hide_execute();
+                    // A chain of child items has been hided.
+                    $this->itemeditingfeedback += 8; // 1*2^3.
+                }
+                // End of: hide/unhide part 2.
             }
 
-            // Begin of: Hide/unhide part 2.
-            if ( ($oldhidden == 1) && ($newhidden == 0) ) {
-                if ($itemlistman->manage_item_show()) {
-                    // A chain of parent items has been showed.
-                    $this->savefeedbackmask += 4; // 1*2^2.
-                }
-            }
-            if ( ($oldhidden == 0) && ($newhidden == 1) ) {
-                if ($itemlistman->manage_item_hide()) {
-                    // A chain of child items has been hided.
-                    $this->savefeedbackmask += 8; // 1*2^3.
-                }
-            }
-            // End of: hide/unhide part 2.
 
             // Manage ($oldadvanced != $newadvanced).
             if ($oldadvanced != $newadvanced) {
-                $surveypro = $DB->get_record('surveypro', array('id' => $this->cm->instance), '*', MUST_EXIST);
                 $action = ($oldadvanced) ? SURVEYPRO_MAKESTANDARD : SURVEYPRO_MAKEADVANCED;
 
-                $itemlistman = new mod_surveypro_itemlist($this->cm, $context, $surveypro);
+                $itemlistman = new mod_surveypro_itemlist($this->cm, $context, $this->surveypro);
                 $itemlistman->set_type($this->type);
                 $itemlistman->set_plugin($this->plugin);
                 $itemlistman->set_itemid($itemid);
                 $itemlistman->set_action($action);
                 $itemlistman->set_view(SURVEYPRO_NOVIEW);
                 $itemlistman->set_confirm(SURVEYPRO_CONFIRMED_YES);
-            }
 
-            // Begin of: Limit/unlimit access part 2.
-            if ( ($oldadvanced == 1) && ($newadvanced == 0) ) {
-                if ($itemlistman->manage_item_makestandard()) {
-                    // A chain of parent items has been made available for all.
-                    $this->savefeedbackmask += 16; // 1*2^4.
+                // Begin of: Limit/unlimit access part 2.
+                if ( ($oldadvanced == 1) && ($newadvanced == 0) ) {
+                    if ($itemlistman->item_makestandard_execute()) {
+                        // A chain of parent items has been made available for all.
+                        $this->itemeditingfeedback += 16; // 1*2^4.
+                    }
                 }
-            }
-            if ( ($oldadvanced == 0) && ($newadvanced == 1) ) {
-                if ($itemlistman->manage_item_makeadvanced()) {
-                    // A chain of child items got a limited access.
-                    $this->savefeedbackmask += 32; // 1*2^5
+                if ( ($oldadvanced == 0) && ($newadvanced == 1) ) {
+                    if ($itemlistman->item_makeadvanced_execute()) {
+                        // A chain of child items got a limited access.
+                        $this->itemeditingfeedback += 32; // 1*2^5
+                    }
                 }
+                // End of: limit/unlimit access part 2.
             }
-            // End of: limit/unlimit access part 2.
         }
     }
 
@@ -562,7 +599,7 @@ class mod_surveypro_itembase {
      * item_update_childparentvalue
      *
      * @param none
-     * @return
+     * @return void
      */
     public function item_update_childrenparentvalue() {
         global $DB, $CFG;
@@ -595,7 +632,7 @@ class mod_surveypro_itembase {
      * This function is used to populate empty strings according to the user language
      *
      * @param none
-     * @return
+     * @return void
      */
     protected function item_builtin_string_load_support() {
         global $CFG, $DB;
@@ -627,7 +664,7 @@ class mod_surveypro_itembase {
      *
      * @param integer $time
      * @param boolean $applyusersettings
-     * @return
+     * @return void
      */
     protected function item_split_unix_time($time, $applyusersettings=false) {
         if ($applyusersettings) {
@@ -652,64 +689,6 @@ class mod_surveypro_itembase {
 
         // Print_object($getdate);.
         return $getdate;
-    }
-
-    /**
-     * item_delete
-     *
-     * @param integer $itemid
-     * @return
-     */
-    public function item_delete($itemid) {
-        global $DB;
-
-        $context = context_module::instance($this->cm->id);
-
-        try {
-            $transaction = $DB->start_delegated_transaction();
-
-            if (!$DB->delete_records('surveypro_item', array('id' => $itemid))) {
-                print_error('notdeleted_item', 'mod_surveypro', null, $itemid);
-            }
-
-            if (!$DB->delete_records('surveypro'.$this->type.'_'.$this->plugin, array('itemid' => $itemid))) {
-                $a = new stdClass();
-                $a->pluginid = $this->pluginid;
-                $a->type = $this->type;
-                $a->plugin = $this->plugin;
-                print_error('notdeleted_plugin', 'mod_surveypro', null, $a);
-            }
-
-            surveypro_reset_items_pages($this->cm->instance);
-
-            // Delete records from surveypro_answer.
-            // If, at the end, the related surveypro_submission has no data, then, delete it too.
-            if (!$DB->delete_records('surveypro_answer', array('itemid' => $itemid))) {
-                print_error('notdeleted_userdata', 'mod_surveypro', null, $itemid);
-            }
-
-            $emptysubmissions = 'SELECT c.id
-                                 FROM {surveypro_submission} c
-                                     LEFT JOIN {surveypro_answer} d ON c.id = d.submissionid
-                                 WHERE (d.id IS null)';
-            if ($surveyprotodelete = $DB->get_records_sql($emptysubmissions)) {
-                $surveyprotodelete = array_keys($surveyprotodelete);
-                if (!$DB->delete_records_select('surveypro_submission', 'id IN ('.implode(',', $surveyprotodelete).')')) {
-                    $a = implode(',', $surveyprotodelete);
-                    print_error('notdeleted_submission', 'mod_surveypro', null, $a);
-                }
-            }
-
-            $transaction->allow_commit();
-
-            $eventdata = array('context' => $context, 'objectid' => $this->cm->instance);
-            $eventdata['other'] = array('plugin' => $this->plugin);
-            $event = \mod_surveypro\event\item_deleted::create($eventdata);
-            $event->trigger();
-        } catch (Exception $e) {
-            // Extra cleanup steps.
-            $transaction->rollback($e); // Rethrows exception.
-        }
     }
 
     /**
@@ -738,7 +717,7 @@ class mod_surveypro_itembase {
      * (copied from moodle20/cohort/edit.php)
      *
      * @param none
-     * @return
+     * @return void
      */
     public function item_set_editor() {
         if (!$editors = $this->get_editorlist()) {
@@ -991,6 +970,16 @@ class mod_surveypro_itembase {
     }
 
     /**
+     * get_surveyproid
+     *
+     * @param none
+     * @return the content of the $surveyproid property
+     */
+    public function get_surveyproid() {
+        return $this->cm->instance;
+    }
+
+    /**
      * get_context
      *
      * @param none
@@ -1032,7 +1021,7 @@ class mod_surveypro_itembase {
 
             // Just to save few nanoseconds.
             unset($data['cm']);
-            // unset($data['context']);
+            unset($data['surveypro']);
             unset($data['insetupform']);
         } else {
             $data = array();
@@ -1107,16 +1096,6 @@ class mod_surveypro_itembase {
      */
     public function get_contentformat() {
         return $this->contentformat;
-    }
-
-    /**
-     * get_surveyproid
-     *
-     * @param none
-     * @return the content of the $surveyproid property
-     */
-    public function get_surveyproid() {
-        return $this->cm->instance;
     }
 
     /**
@@ -1257,10 +1236,11 @@ class mod_surveypro_itembase {
      * get_required
      *
      * @param none
-     * @return bool: the content of the $required property whether defined
+     * @return bool false if the property is not set for the class (like, for instance, for autofill or label)
+     *         int  0|1 acording to the property
      */
     public function get_required() {
-        // It may not be set as in page_break, autofill or some more.
+        // It may be not set as in page_break, autofill or some more.
         if (!isset($this->required)) {
             return false;
         } else {
@@ -1343,13 +1323,13 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * get_savefeedbackmask
+     * get_itemeditingfeedback
      *
      * @param none
-     * @return the content of the $savefeedbackmask property whether defined
+     * @return the content of the $itemeditingfeedback property whether defined
      */
-    public function get_savefeedbackmask() {
-        return $this->savefeedbackmask;
+    public function get_itemeditingfeedback() {
+        return $this->itemeditingfeedback;
     }
 
 
@@ -1373,22 +1353,6 @@ class mod_surveypro_itembase {
      */
     public function set_contenttrust($contenttrust) {
         $this->contenttrust = $contenttrust;
-    }
-
-    /**
-     * set_required
-     *
-     * @param integer $value; the value to set
-     * @return void
-     */
-    public function set_required($value) {
-        global $DB;
-
-        if (($value != 0) && ($value != 1)) {
-            throw new Exception('Bad parameter passed to set_required');
-        }
-
-        $DB->set_field('surveypro'.$this->type.'_'.$this->plugin, 'required', $value, array('itemid' => $this->itemid));
     }
 
     // MARK parent
@@ -1505,7 +1469,7 @@ class mod_surveypro_itembase {
      *
      * @param $mform
      * @param $canaccessadvanceditems
-     * @return
+     * @return void
      */
     public function userform_add_disabledif($mform, $canaccessadvanceditems) {
         global $DB;
@@ -1548,7 +1512,7 @@ class mod_surveypro_itembase {
 
         $displaydebuginfo = false;
         foreach ($parentrestrictions as $parentid => $childparentvalue) {
-            $parentitem = surveypro_get_item($this->cm, $parentid);
+            $parentitem = surveypro_get_item($this->cm, $this->surveypro, $parentid);
             $disabilitationinfo = $parentitem->userform_get_parent_disabilitation_info($childparentvalue);
 
             if ($displaydebuginfo) {
@@ -1590,7 +1554,7 @@ class mod_surveypro_itembase {
      *
      * @param $answers
      * @param $format
-     * @return
+     * @return void
      */
     public function userform_db_to_export($answer, $format='') {
         $content = trim($answer->content);

@@ -35,7 +35,7 @@ Feature: Load, apply and save a usertemplate in order to test, among others, use
     # now I am in the "Apply" page
     And I set the following fields to these values:
       | User templates       | (Course) MMM_2015123000.xml |
-      | id_action_1          | 1                           |
+      | id_action_0          | 1                           |
     And I press "Apply"
 
     Then I should see "This is a demo survey to quickly see"

@@ -63,7 +63,7 @@ class mod_surveypro_exportmanager {
      * export_get_sql
      *
      * @param optional $forceuserid
-     * @return
+     * @return void
      */
     public function export_get_sql($forceuserid=false) {
         global $USER, $COURSE;
@@ -379,7 +379,7 @@ class mod_surveypro_exportmanager {
      * get the list of the fields of this surveypro
      *
      * @param none
-     * @return
+     * @return void
      */
     public function export_get_field_list() {
         global $DB;
@@ -473,7 +473,7 @@ class mod_surveypro_exportmanager {
      *
      * @param $recordtoexport
      * @param $worksheet
-     * @return
+     * @return void
      */
     public function export_close_record($recordtoexport, $worksheet) {
         static $row = 0;
@@ -490,14 +490,14 @@ class mod_surveypro_exportmanager {
      * decode_content
      *
      * @param $richsubmission
-     * @return
+     * @return void
      */
     public function decode_content($richsubmission) {
         $content = $richsubmission->content;
         if (isset($content)) {
             $plugin = $richsubmission->plugin;
             $itemid = $richsubmission->itemid;
-            $item = surveypro_get_item($this->cm, $itemid, SURVEYPRO_TYPEFIELD, $plugin);
+            $item = surveypro_get_item($this->cm, $this->surveypro, $itemid, SURVEYPRO_TYPEFIELD, $plugin);
 
             $return = $item->userform_db_to_export($richsubmission);
         } else {
@@ -511,7 +511,7 @@ class mod_surveypro_exportmanager {
      * attachments_downloadbyuser
      *
      * @param none
-     * @return
+     * @return void
      */
     public function attachments_downloadbyuser() {
         global $CFG, $DB;
@@ -623,7 +623,7 @@ class mod_surveypro_exportmanager {
      * attachments_downloadbyitem
      *
      * @param none
-     * @return
+     * @return void
      */
     public function attachments_downloadbyitem() {
         global $CFG, $DB;
@@ -738,7 +738,7 @@ class mod_surveypro_exportmanager {
      * makezip_available
      *
      * @param $exportfile: the file to make available
-     * @return
+     * @return void
      */
     public function makezip_available($exportfile) {
         $exportfilename = basename($exportfile);
