@@ -72,12 +72,11 @@ $formurl = new moodle_url('/mod/surveypro/report/attachments_overview/uploads.ph
 
 // Begin of: prepare params for the form.
 $formparams = new stdClass();
-$formparams->cmid = $cm->id;
 $formparams->surveypro = $surveypro;
 $formparams->itemid = $itemid;
 $formparams->userid = $userid;
 $formparams->submissionid = $submissionid;
-$formparams->canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $context, null, true);
+$formparams->canaccessreserveditems = $uploadsformman->canaccessreserveditems;
 // End of: prepare params for the form.
 
 $filterform = new mod_surveypro_report_filterform($formurl, $formparams, 'post', '', array('id' => 'userentry'));

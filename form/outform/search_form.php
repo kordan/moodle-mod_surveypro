@@ -40,13 +40,11 @@ class mod_surveypro_searchform extends moodleform {
         // Get _customdata.
         $cm = $this->_customdata->cm;
         $surveypro = $this->_customdata->surveypro;
-        $canaccessadvanceditems = $this->_customdata->canaccessadvanceditems;
+        $canaccessreserveditems = $this->_customdata->canaccessreserveditems;
 
-        // $canaccessadvanceditems, $searchform=true, $type=false, $formpage=false
-        list($sql, $whereparams) = surveypro_fetch_items_seeds($surveypro->id, $canaccessadvanceditems, true);
+        // $canaccessreserveditems, $searchform=true, $type=false, $formpage=false
+        list($sql, $whereparams) = surveypro_fetch_items_seeds($surveypro->id, $canaccessreserveditems, true);
         $itemseeds = $DB->get_recordset_sql($sql, $whereparams);
-
-        $context = context_module::instance($cm->id);
 
         // This dummy item is needed for the colours alternation.
         // Because 'label' or ($position == SURVEYPRO_POSITIONFULLWIDTH).
@@ -127,14 +125,14 @@ class mod_surveypro_searchform extends moodleform {
         // Get _customdata.
         $cm = $this->_customdata->cm;
         $surveypro = $this->_customdata->surveypro;
-        // $canaccessadvanceditems = $this->_customdata->canaccessadvanceditems;
+        // $canaccessreserveditems = $this->_customdata->canaccessreserveditems;
 
         $errors = array();
 
         // TODO: verify item per item whether they provide a coherent requests
         $regexp = '~('.SURVEYPRO_ITEMPREFIX.'|'.SURVEYPRO_DONTSAVEMEPREFIX.')_('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_([a-z]+)_([0-9]+)_?([a-z0-9]+)?~';
         $olditemid = 0;
-        foreach ($data as $itemname => $v) {
+        foreach ($data as $itemname => $unused) {
             if (preg_match($regexp, $itemname, $matches)) {
                 $type = $matches[2]; // Item type.
                 $plugin = $matches[3]; // Item plugin.

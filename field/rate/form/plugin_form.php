@@ -173,7 +173,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
             if ($data['defaultoption'] == SURVEYPRO_CUSTOMDEFAULT) {
                 // If I claim for different rates, I have to respect the constraint in the default.
                 if (count($cleandefaultvalue) > count(array_unique($cleandefaultvalue))) {
-                    $errors['defaultvalue_group'] = get_string('ierr_optionduplicated', 'surveyprofield_rate');
+                    $errors['defaultvalue_group'] = get_string('ierr_defaultsduplicated', 'surveyprofield_rate');
                 }
             }
         }

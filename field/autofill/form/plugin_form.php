@@ -86,7 +86,6 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
 
         $errors = parent::validation($data, $files);
 
-        $uniontext = '';
         $constantname = 'SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT'.SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT_COUNT;
         for ($i = 1; $i < 6; $i++) {
             $index = sprintf('%02d', $i);

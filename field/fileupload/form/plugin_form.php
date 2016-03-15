@@ -96,7 +96,6 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
                     $errors['filetypes'] = get_string('ierr_extensionmissingdot', 'surveyprofield_fileupload');
                     break;
                 }
-                $testtype = str_replace('.', '', $filetype, $count);
                 if ($count > 1) {
                     $errors['filetypes'] = get_string('ierr_extensiononlyonedot', 'surveyprofield_fileupload');
                     break;

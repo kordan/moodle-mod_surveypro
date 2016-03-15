@@ -87,7 +87,6 @@ class behat_mod_surveypro extends behat_base {
         $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
 
         // Add the questions.
-        $lastpage = 0;
         foreach ($data->getHash() as $surveyprodata) {
             if (!array_key_exists('type', $surveyprodata)) {
                 throw new ExpectationException('When adding an item to a surveypro, ' .

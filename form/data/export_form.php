@@ -89,9 +89,9 @@ class mod_surveypro_exportform extends moodleform {
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'));
         $mform->setType($fieldname, PARAM_INT);
 
-        // Submissionexport: includeadvanced.
-        $fieldname = 'includeadvanced';
-        if (has_capability('mod/surveypro:accessadvanceditems', $context)) {
+        // Submissionexport: includereserved.
+        $fieldname = 'includereserved';
+        if (has_capability('mod/surveypro:accessreserveditems', $context)) {
             $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'));
         } else {
             $mform->addElement('hidden', $fieldname, 0);

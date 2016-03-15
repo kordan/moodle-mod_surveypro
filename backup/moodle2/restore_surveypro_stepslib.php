@@ -69,6 +69,10 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         $oldid = $data->id;
         $data->course = $this->get_courseid();
 
+        // Old backups using advanced field map to new reserved field.
+        if (isset($data->advanced)) {
+            $data->reserved = $data->advanced;
+        }
         $data->timeopen = $this->apply_date_offset($data->timeopen);
         $data->timeclose = $this->apply_date_offset($data->timeclose);
         $data->timemodified = $this->apply_date_offset($data->timemodified);

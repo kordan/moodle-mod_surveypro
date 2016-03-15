@@ -615,7 +615,7 @@ EOS;
         }
 
         if ($labelsubset) {
-            foreach ($labelsubset as $k => $label) {
+            foreach ($labelsubset as $k => $unused) {
                 // Only garbage after the first label, but user wrote it.
                 if (!empty($this->labelother)) {
                     $mformelementinfo = new stdClass();

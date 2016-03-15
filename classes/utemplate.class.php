@@ -400,8 +400,6 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      * @return null
      */
     public function apply_template() {
-        global $CFG, $DB;
-
         $action = $this->formdata->action;
         $parts = explode('_', $this->formdata->usertemplateinfo);
         $this->utemplateid = $parts[1];
@@ -835,14 +833,13 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         // $table->set_attribute('width', '90%');
         $table->setup();
 
-        $applytitle = get_string('applytemplate', 'mod_surveypro');
         $deletetitle = get_string('delete');
         $exporttitle = get_string('exporttemplate', 'mod_surveypro');
 
         $options = $this->get_sharinglevel_options();
 
         $templates = new stdClass();
-        foreach ($options as $sharinglevel => $v) {
+        foreach ($options as $sharinglevel => $unused) {
             $parts = explode('_', $sharinglevel);
             $contextlevel = $parts[0];
 
@@ -930,7 +927,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
         // Original table per rows: originaltableperrows.
         $originaltableperrows = array();
-        foreach ($templatenamecol as $k => $value) {
+        foreach ($templatenamecol as $k => $unused) {
             $tablerow = array();
             $tablerow['templatename'] = $templatenamecol[$k];
             $tablerow['sharinglevel'] = $sharinglevelcol[$k];

@@ -15,13 +15,13 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines the version of surveypro surveyproTemplate_@@templateNamePlaceholder@@ subplugin
+ * Defines the version of surveypro surveyproTemplate_00templateNamePlaceholder00 subplugin
  *
  * This code fragment is called by moodle_needs_upgrading() and
  * /admin/index.php
  *
  * @package    surveyprotemplate
- * @subpackage @@templateNamePlaceholder@@
+ * @subpackage 00templateNamePlaceholder00
  * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -31,4 +31,4 @@ defined('MOODLE_INTERNAL') || die();
 $plugin->version = 2014111000;
 $plugin->release = '1.0';
 $plugin->requires = 2013111800; // Requires this Moodle version
-$plugin->component = 'surveyprotemplate_@@templateNamePlaceholder@@'; // Full name of the plugin (used for diagnostics)
+$plugin->component = 'surveyprotemplate_00templateNamePlaceholder00'; // Full name of the plugin (used for diagnostics)

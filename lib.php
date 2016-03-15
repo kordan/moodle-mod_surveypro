@@ -412,7 +412,6 @@ function surveypro_delete_instance($id) {
         return false;
     }
 
-    $dbman = $DB->get_manager();
     $whereparams = array('surveyproid' => $surveypro->id);
 
     // Delete any dependent records here.
@@ -1029,8 +1028,6 @@ function surveypro_extend_navigation(navigation_node $navref, stdClass $course, 
     $context = context_module::instance($cm->id);
 
     $cansearch = has_capability('mod/surveypro:searchsubmissions', $context, null, true);
-    $canimportdata = has_capability('mod/surveypro:importdata', $context, null, true);
-    $canexportdata = has_capability('mod/surveypro:exportdata', $context, null, true);
 
     // $currentgroup = groups_get_activity_group($cm);
     // $groupmode = groups_get_activity_groupmode($cm, $COURSE);
@@ -1139,13 +1136,13 @@ function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=
  * surveypro_fetch_items_seeds
  *
  * @param $surveyproid
- * @param $canaccessadvanceditems
+ * @param $canaccessreserveditems
  * @param $searchform
  * @param $type
  * @param $formpage
  * @return void
  */
-function surveypro_fetch_items_seeds($surveyproid, $canaccessadvanceditems, $searchform, $type=false, $formpage=false) {
+function surveypro_fetch_items_seeds($surveyproid, $canaccessreserveditems, $searchform, $type=false, $formpage=false) {
     $sql = 'SELECT si.*
                FROM {surveypro_item} si
                WHERE si.surveyproid = :surveyproid
@@ -1153,8 +1150,8 @@ function surveypro_fetch_items_seeds($surveyproid, $canaccessadvanceditems, $sea
     $params = array();
     $params['surveyproid'] = $surveyproid;
 
-    if (!$canaccessadvanceditems) {
-        // $sql .= ' AND si.advanced = 0';
+    if (!$canaccessreserveditems) {
+        $sql .= ' AND si.reserved = 0';
     }
     if ($searchform) { // Advanced search.
         $sql .= ' AND si.insearchform = 1';

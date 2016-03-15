@@ -64,7 +64,7 @@ class mod_surveypro_admin_page_manage_surveypro_plugins extends admin_externalpa
 
         $found = false;
 
-        foreach (core_component::get_plugin_list($this->subtype) as $name => $notused) {
+        foreach (core_component::get_plugin_list($this->subtype) as $name => $unused) {
             if (strpos(core_text::strtolower(get_string('pluginname', $this->subtype.'_'.$name)),
                     $query) !== false) {
                 $found = true;
@@ -119,7 +119,7 @@ class mod_surveypro_plugin_manager {
 
         $result = array();
 
-        foreach ($names as $name => $notused) {
+        foreach ($names as $name => $unused) {
             $idx = get_config($this->subtype.'_'.$name, 'sortorder');
             if (!$idx) {
                 $idx = 0;
@@ -458,7 +458,7 @@ class mod_surveypro_plugin_manager {
         $plugins = core_component::get_plugin_list_with_file($subtype, 'settings.php', false);
         // $plugins = get_plugin_list_with_file($subtype, 'settings.php', false);
         $pluginsbyname = array();
-        foreach ($plugins as $plugin => $notused) {
+        foreach ($plugins as $plugin => $unused) {
             $pluginname = get_string('pluginname', $subtype.'_'.$plugin);
             $pluginsbyname[$pluginname] = $plugin;
         }

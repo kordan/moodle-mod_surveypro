@@ -87,7 +87,7 @@ class mod_surveypro_applymtemplateform extends moodleform {
 
         // Get _customdata.
         $mtemplateman = $this->_customdata->mtemplateman;
-        $inline = $this->_customdata->inline;
+        // $inline = $this->_customdata->inline;
 
         $errors = parent::validation($data, $files);
 

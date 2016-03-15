@@ -639,7 +639,7 @@ EOS;
 
         // Only garbage but user wrote it.
         if ($labelsubset) {
-            foreach ($labelsubset as $k => $label) {
+            foreach ($labelsubset as $label) {
                 $mformelementinfo = new stdClass();
                 $mformelementinfo->parentname = $this->itemname;
                 $mformelementinfo->operator = 'neq';

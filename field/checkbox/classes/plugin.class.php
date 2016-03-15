@@ -488,7 +488,7 @@ EOS;
 
         $elementgroup = array();
         $i = 0;
-        foreach ($labels as $value => $label) {
+        foreach ($labels as $label) {
             $uniqueid = $this->itemname.'_'.$i;
             $attributes['id'] = $idprefix.'_'.$i;
             $elementgroup[] = $mform->createElement('mod_surveypro_advcheckbox', $uniqueid, '', $label, $attributes, array('0', '1'));
@@ -607,7 +607,7 @@ EOS;
         $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
 
         $answercount = 0;
-        foreach ($labels as $k => $label) {
+        foreach ($labels as $k => $unused) {
             $uniqueid = $this->itemname.'_'.$k;
             if ($data[$uniqueid]) { // They are advanced checkbox so I am sure the answer always exist.
                 $answercount++;
@@ -654,7 +654,7 @@ EOS;
         }
 
         if ($indexsubset) {
-            foreach ($indexsubset as $k => $index) {
+            foreach ($indexsubset as $k => $unused) {
                 $mformelementinfo = new stdClass();
                 $mformelementinfo->parentname = $this->itemname.'_'.$k;
                 if ($indexsubset[$k] == 1) {
@@ -715,7 +715,7 @@ EOS;
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 2;3;shark.
 
         $status = true;
-        foreach ($labels as $k => $label) {
+        foreach ($labels as $k => $unused) {
             $key = array_search($k, $parentvalues);
             if ($key !== false) {
                 $status = $status && (isset($data[$this->itemname.'_'.$k]));

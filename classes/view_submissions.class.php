@@ -74,10 +74,10 @@ class mod_surveypro_submissionmanager {
         $this->surveypro = $surveypro;
 
         $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
-        $canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $this->context, null, true);
+        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context, null, true);
 
         $utilityman = new mod_surveypro_utility($cm, $surveypro);
-        $this->hasitems = $utilityman->has_input_items(0, false, $canmanageitems, $canaccessadvanceditems);
+        $this->hasitems = $utilityman->has_input_items(0, false, $canmanageitems, $canaccessreserveditems);
     }
 
     /**
@@ -251,7 +251,7 @@ class mod_surveypro_submissionmanager {
         // Manage user selection.
         if ($this->searchquery) {
             // This will be re-send to URL for next page reload, whether requested with a sort, for instance.
-            $paramurl['searchquery'] = $this->searchquery;
+            $whereparams['searchquery'] = $this->searchquery;
 
             $searchrestrictions = unserialize($this->searchquery);
 
@@ -472,7 +472,7 @@ class mod_surveypro_submissionmanager {
      * @return void
      */
     public function all_submission_deletion_feedback() {
-        global $OUTPUT, $DB;
+        global $OUTPUT;
 
         switch ($this->confirm) {
             case SURVEYPRO_UNCONFIRMED:
@@ -1120,7 +1120,7 @@ class mod_surveypro_submissionmanager {
                 $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
                 if ($groupmode == SEPARATEGROUPS) {
                     $mygroupmates = surveypro_groupmates($this->cm);
-                    $groupuser = in_array($submission->userid, $mygroupmates);
+                    $groupuser = in_array($ownerid, $mygroupmates);
                 }
             }
         }
@@ -1216,14 +1216,12 @@ class mod_surveypro_submissionmanager {
         require_once($CFG->libdir.'/tcpdf/tcpdf.php');
         require_once($CFG->libdir.'/tcpdf/config/tcpdf_config.php');
 
-        $emptyanswer = get_string('notanswereditem', 'mod_surveypro');
-
         $submission = $DB->get_record('surveypro_submission', array('id' => $this->submissionid));
         $user = $DB->get_record('user', array('id' => $submission->userid));
         $userdatarecord = $DB->get_records('surveypro_answer', array('submissionid' => $this->submissionid), '', 'itemid, id, content');
 
-        $canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $this->context, $user->id, true);
-        list($sql, $whereparams) = surveypro_fetch_items_seeds($this->surveypro->id, $canaccessadvanceditems, false);
+        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context, $user->id, true);
+        list($sql, $whereparams) = surveypro_fetch_items_seeds($this->surveypro->id, $canaccessreserveditems, false);
 
         // I am not allowed to get ONLY answers from surveypro_answer
         // because I also need to gather info about fieldset and label so:

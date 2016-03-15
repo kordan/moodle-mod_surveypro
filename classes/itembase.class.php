@@ -66,9 +66,9 @@ class mod_surveypro_itembase {
     protected $insearchform;
 
     /**
-     * $advanced = is this field going to be available only to users with accessadvanceditems capability?
+     * $reserved = is this field going to be available only to users with accessreserveditems capability?
      */
-    protected $advanced;
+    protected $reserved;
 
     /**
      * $sortindex = the order of this item in the surveypro form
@@ -121,7 +121,7 @@ class mod_surveypro_itembase {
         'variable' => true,
         'indent' => true,
         'hidden' => true,
-        'advanced' => true,
+        'reserved' => true,
         'insearchform' => true,
         'parentid' => true
     );
@@ -192,7 +192,7 @@ class mod_surveypro_itembase {
      *     √ plugin
      *     √ hidden
      *     √ insearchform
-     *     √ advanced
+     *     √ reserved
      *     sortindex
      *     formpage
      *     √ parentid
@@ -229,7 +229,7 @@ class mod_surveypro_itembase {
         // Plugin and type are already onboard.
 
         // Checkboxes content.
-        $checkboxessettings = array('hidden', 'insearchform', 'advanced', 'hideinstructions', 'required');
+        $checkboxessettings = array('hidden', 'insearchform', 'reserved', 'hideinstructions', 'required');
         foreach ($checkboxessettings as $checkboxessetting) {
             if ($this->insetupform[$checkboxessetting]) {
                 $record->{$checkboxessetting} = isset($record->{$checkboxessetting}) ? 1 : 0;
@@ -389,7 +389,7 @@ class mod_surveypro_itembase {
             // End of: hide/unhide 1.
 
             // Begin of: Limit/unlimit access part 1.
-            $oldadvanced = $this->get_advanced(); // Used later.
+            $oldreserved = $this->get_reserved(); // Used later.
             // End of: limit/unlimit access part 1.
 
             // Sortindex.
@@ -419,7 +419,7 @@ class mod_surveypro_itembase {
 
                 $transaction->allow_commit();
 
-                $this->item_manage_chains($record->itemid, $oldhidden, $record->hidden, $oldadvanced, $record->advanced);
+                $this->item_manage_chains($record->itemid, $oldhidden, $record->hidden, $oldreserved, $record->reserved);
 
                 // Event: item_modified.
                 $eventdata = array('context' => $context, 'objectid' => $record->itemid);
@@ -526,13 +526,11 @@ class mod_surveypro_itembase {
      * @param integer $itemid
      * @param boolean 0/1 $oldhidden
      * @param boolean 0/1 $newhidden
-     * @param boolean 0/1 $oldadvanced
-     * @param boolean 0/1 $newadvanced
+     * @param boolean 0/1 $oldreserved
+     * @param boolean 0/1 $newreserved
      * @return void
      */
-    private function item_manage_chains($itemid, $oldhidden, $newhidden, $oldadvanced, $newadvanced) {
-        global $DB;
-
+    private function item_manage_chains($itemid, $oldhidden, $newhidden, $oldreserved, $newreserved) {
         $context = context_module::instance($this->cm->id);
 
         // Now hide or unhide (whether needed) chain of ancestors or descendents.
@@ -565,9 +563,9 @@ class mod_surveypro_itembase {
             }
 
 
-            // Manage ($oldadvanced != $newadvanced).
-            if ($oldadvanced != $newadvanced) {
-                $action = ($oldadvanced) ? SURVEYPRO_MAKESTANDARD : SURVEYPRO_MAKEADVANCED;
+            // Manage ($oldreserved != $newreserved).
+            if ($oldreserved != $newreserved) {
+                $action = ($oldreserved) ? SURVEYPRO_MAKESTANDARD : SURVEYPRO_MAKEADVANCED;
 
                 $itemlistman = new mod_surveypro_itemlist($this->cm, $context, $this->surveypro);
                 $itemlistman->set_type($this->type);
@@ -578,14 +576,14 @@ class mod_surveypro_itembase {
                 $itemlistman->set_confirm(SURVEYPRO_CONFIRMED_YES);
 
                 // Begin of: Limit/unlimit access part 2.
-                if ( ($oldadvanced == 1) && ($newadvanced == 0) ) {
+                if ( ($oldreserved == 1) && ($newreserved == 0) ) {
                     if ($itemlistman->item_makestandard_execute()) {
                         // A chain of parent items has been made available for all.
                         $this->itemeditingfeedback += 16; // 1*2^4.
                     }
                 }
-                if ( ($oldadvanced == 0) && ($newadvanced == 1) ) {
-                    if ($itemlistman->item_makeadvanced_execute()) {
+                if ( ($oldreserved == 0) && ($newreserved == 1) ) {
+                    if ($itemlistman->item_makereserved_execute()) {
                         // A chain of child items got a limited access.
                         $this->itemeditingfeedback += 32; // 1*2^5
                     }
@@ -650,7 +648,7 @@ class mod_surveypro_itembase {
         }
 
         if ($multilangfields = $this->item_get_multilang_fields()) {
-            foreach ($multilangfields as $plugin => $fieldnames) {
+            foreach ($multilangfields as $fieldnames) {
                 foreach ($fieldnames as $fieldname) {
                     $stringkey = $this->{$fieldname};
                     $this->{$fieldname} = get_string($stringkey, 'surveyprotemplate_'.$template);
@@ -758,7 +756,7 @@ class mod_surveypro_itembase {
         $options = surveypro_textarea_to_array($this->{$field});
 
         $values = array();
-        foreach ($options as $k => $option) {
+        foreach ($options as $option) {
             if (preg_match('~^(.*)'.SURVEYPRO_VALUELABELSEPARATOR.'(.*)$~', $option, $match)) {
                 $values[] = $match[$index];
             } else {
@@ -838,7 +836,7 @@ class mod_surveypro_itembase {
     public function item_add_mandatory_base_fields(&$record) {
         $record->hidden = 0;
         $record->insearchform = 0;
-        $record->advanced = 0;
+        $record->reserved = 0;
         $record->formpage = 0;
         $record->timecreated = time();
     }
@@ -864,26 +862,24 @@ class mod_surveypro_itembase {
      * @return string $schema
      */
     public static function item_get_item_schema() {
+
+        // Fields: surveyproid, formpage, timecreated and timemodified are not supposed to be part of the file!
         $schema = '<?xml version="1.0" encoding="UTF-8"?>'."\n";
         $schema .= '<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">'."\n";
         $schema .= '    <xs:element name="surveypro_item">'."\n";
         $schema .= '        <xs:complexType>'."\n";
         $schema .= '            <xs:sequence>'."\n";
-        // $schema .= '                <xs:element type="xs:int" name="surveyproid"/>'."\n";
-
         $schema .= '                <xs:element type="xs:int" name="hidden"/>'."\n";
         $schema .= '                <xs:element type="xs:int" name="insearchform"/>'."\n";
-        $schema .= '                <xs:element type="xs:int" name="advanced"/>'."\n";
-
-        // sortindex has been dropped on December 30, 2015. Next line only for backword compatibility.
+        // "advanced" has been replaced by "reserved" on March 21, 2016. Next lines guarantee backword compatibility.
+        $schema .= '                <xs:choice>'."\n";
+        $schema .= '                  <xs:element name="advanced" type="xs:int" minOccurs="0" maxOccurs="1" />'."\n";
+        $schema .= '                  <xs:element name="reserved" type="xs:int" minOccurs="0" maxOccurs="1" />'."\n";
+        $schema .= '                </xs:choice>'."\n";
+        // "sortindex" has been dropped on December 30, 2015. Next line only for backword compatibility.
         $schema .= '                <xs:element type="xs:int" name="sortindex" minOccurs="0"/>'."\n";
-        // $schema .= '                <xs:element type="xs:int" name="formpage"/>'."\n";
-
         $schema .= '                <xs:element type="xs:int" name="parentid" minOccurs="0"/>'."\n";
         $schema .= '                <xs:element type="xs:string" name="parentvalue" minOccurs="0"/>'."\n";
-
-        // $schema .= '                <xs:element type="xs:int" name="timecreated"/>'."\n";
-        // $schema .= '                <xs:element type="xs:int" name="timemodified"/>'."\n";
         $schema .= '            </xs:sequence>'."\n";
         $schema .= '        </xs:complexType>'."\n";
         $schema .= '    </xs:element>'."\n";
@@ -1143,13 +1139,13 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * get_advanced
+     * get_reserved
      *
      * @param none
-     * @return the content of the $advanced property
+     * @return the content of the $reserved property
      */
-    public function get_advanced() {
-        return $this->advanced;
+    public function get_reserved() {
+        return $this->reserved;
     }
 
     /**
@@ -1468,10 +1464,10 @@ class mod_surveypro_itembase {
      * In the frame of this method the parent item is calculated and is requested to provide the disabledif conditions to disable its child item
      *
      * @param $mform
-     * @param $canaccessadvanceditems
+     * @param $canaccessreserveditems
      * @return void
      */
-    public function userform_add_disabledif($mform, $canaccessadvanceditems) {
+    public function userform_add_disabledif($mform, $canaccessreserveditems) {
         global $DB;
 
         if (!$this->parentid || ($this->type == SURVEYPRO_TYPEFORMAT)) {

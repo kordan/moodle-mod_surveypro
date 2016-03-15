@@ -154,7 +154,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
                 // Each single option item has to be unique.
                 $arrayunique = array_unique($cleanoptions);
                 if (count($cleanoptions) != count($arrayunique)) {
-                    $errors['options'] = get_string('ierr_optionsduplicated', 'mod_surveypro', $default);
+                    $errors['options'] = get_string('ierr_optionsduplicated', 'surveyprofield_select');
                 }
             }
         }

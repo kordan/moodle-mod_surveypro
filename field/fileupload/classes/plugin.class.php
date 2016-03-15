@@ -360,7 +360,6 @@ EOS;
     public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
         if (!empty($answer)) {
             $context = context_module::instance($this->cm->id);
-            $fieldname = $this->itemname.'_filemanager';
 
             $attributes = array();
             $attributes['maxbytes'] = $this->maxbytes;

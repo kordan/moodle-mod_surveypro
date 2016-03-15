@@ -22,7 +22,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-define('SURVEYPROTEMPLATE_NAMEPLACEHOLDER', '@@templateNamePlaceholder@@');
+define('SURVEYPROTEMPLATE_NAMEPLACEHOLDER', '00templateNamePlaceholder00');
 
 require_once($CFG->dirroot.'/mod/surveypro/classes/templatebase.class.php');
 
@@ -676,7 +676,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         $a = new stdClass();
         $a->userlang = $userlang;
         foreach ($this->langtree as $langbranch) {
-            foreach ($langbranch as $k => $stringcontent) {
+            foreach ($langbranch as $k => $unused) {
                 $a->stringkey = $k;
                 $stringsastext[] = get_string('translatedstring', 'mod_surveypro', $a);
             }

@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_age
-Feature: test the use of advanced elements
-  In order to test advanced elements are only seen by teacher and not students
+Feature: test the use of reserved elements
+  In order to test reserved elements are only seen by teacher and not students
   As a teacher and student
   I add two items with different availability and go to fill the corresponding survey and edit it
 
   @javascript
-  Scenario: use advanced elements
+  Scenario: use reserved elements
     Given the following "courses" exist:
       | fullname          | shortname         | category | groupmode |
       | Advanced elements | Advanced elements | 0        | 0         |
@@ -19,7 +19,7 @@ Feature: test the use of advanced elements
       | student1 | Advanced elements | student        |
     And the following "activities" exist:
       | activity  | name                  | intro                    | course            | idnumber   |
-      | surveypro | Advanced element test | To test advanced element | Advanced elements | surveypro1 |
+      | surveypro | Advanced element test | To test reserved element | Advanced elements | surveypro1 |
     And I log in as "teacher1"
     And I follow "Advanced elements"
     And I follow "Advanced element test"
@@ -41,7 +41,7 @@ Feature: test the use of advanced elements
       | id_defaultvalue_month    | 4              |
     And I press "Add"
 
-    # add the second age item (as advanced element)
+    # add the second age item (as reserved element)
     And I set the field "typeplugin" to "Age [yy/mm]"
     And I press "Add"
 

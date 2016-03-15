@@ -96,10 +96,10 @@ class mod_surveypro_utility {
      * @param $surveyproid
      * @param $formpage
      * @param $includehidden
-     * @param $includeadvanced
+     * @param $includereserved
      * @return bool|int as required by $returncount
      */
-    public function has_input_items($formpage=0, $returncount=false, $includehidden=false, $includeadvanced=false) {
+    public function has_input_items($formpage=0, $returncount=false, $includehidden=false, $includereserved=false) {
         global $DB;
 
         $whereparams = array('surveyproid' => $this->surveypro->id, 'type' => SURVEYPRO_TYPEFIELD);
@@ -109,8 +109,8 @@ class mod_surveypro_utility {
         if (!$includehidden) {
             $whereclause['hidden'] = 0;
         }
-        if (!$includeadvanced) {
-            $whereclause['advanced'] = 0;
+        if (!$includereserved) {
+            $whereclause['reserved'] = 0;
         }
 
         if ($returncount) {
@@ -387,7 +387,7 @@ class mod_surveypro_utility {
      * @return void
      */
     public function delete_answer($whereparams=null) {
-        global $DB, $COURSE;
+        global $DB;
 
         if (empty($whereparams)) {
             $whereparams = array();

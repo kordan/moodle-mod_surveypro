@@ -541,7 +541,6 @@ EOS;
         $haslowerbound = ($this->lowerbound != 0);
         $hasupperbound = ($this->upperbound != get_config('surveyprofield_integer', 'maximuminteger'));
 
-        $format = get_string('strftimedate', 'langconfig');
         if ($haslowerbound && $hasupperbound) {
             $a = new stdClass();
             $a->lowerbound = $this->lowerbound;

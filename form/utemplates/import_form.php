@@ -36,8 +36,6 @@ class mod_surveypro_importutemplateform extends moodleform {
         $mform = $this->_form;
 
         // Get _customdata.
-        $cmid = $this->_customdata->cmid;
-        $surveypro = $this->_customdata->surveypro;
         $utemplateman = $this->_customdata->utemplateman;
         $filemanageroptions = $this->_customdata->filemanageroptions;
 
@@ -78,8 +76,6 @@ class mod_surveypro_importutemplateform extends moodleform {
         // $mform = $this->_form;
 
         // Get _customdata.
-        $cmid = $this->_customdata->cmid;
-        $surveypro = $this->_customdata->surveypro;
         $utemplateman = $this->_customdata->utemplateman;
         // $filemanageroptions = $this->_customdata->filemanager_options;
 

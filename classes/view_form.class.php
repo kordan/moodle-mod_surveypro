@@ -113,9 +113,9 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
             debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
 
-        $canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $this->context, null, true);
+        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context, null, true);
 
-        if ($canaccessadvanceditems) {
+        if ($canaccessreserveditems) {
             $this->firstpageright = 1;
         } else {
             $this->next_not_empty_page(true, 0); // This sets $this->firstformpage.
@@ -287,9 +287,9 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     private function page_has_items($formpage) {
         global $CFG, $DB;
 
-        $canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $this->context, null, true);
+        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context, null, true);
 
-        list($sql, $whereparams) = surveypro_fetch_items_seeds($this->surveypro->id, $canaccessadvanceditems, false, false, $formpage);
+        list($sql, $whereparams) = surveypro_fetch_items_seeds($this->surveypro->id, $canaccessreserveditems, false, false, $formpage);
         $itemseeds = $DB->get_records_sql($sql, $whereparams);
 
         // Start looking ONLY at empty($itemseed->parentid) because it doesn't involve extra queries.
@@ -362,7 +362,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
         global $PAGE;
 
         $fs = get_file_storage();
-        if ($files = $fs->get_area_files($this->context->id, 'mod_surveypro', SURVEYPRO_STYLEFILEAREA, 0, 'sortorder', false)) {
+        if ($fs->get_area_files($this->context->id, 'mod_surveypro', SURVEYPRO_STYLEFILEAREA, 0, 'sortorder', false)) {
             $PAGE->requires->css('/mod/surveypro/userstyle.php?id='.$this->surveypro->id.'&amp;cmid='.$this->cm->id); // Not overridable via themes!
         }
     }
@@ -714,7 +714,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     private function check_mandatories_are_in() {
         global $CFG, $DB;
 
-        $canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $this->context, null, true);
+        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context, null, true);
 
         // Begin of: get the list of all mandatory fields.
         $sql = 'SELECT MIN(id), plugin
@@ -733,7 +733,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
 
             $itemcanbemandatory = $itemclass::item_get_can_be_mandatory();
             if ($itemcanbemandatory) {
-                $sql = 'SELECT i.id, i.parentid, i.parentvalue, i.advanced, p.required
+                $sql = 'SELECT i.id, i.parentid, i.parentvalue, i.reserved, p.required
                     FROM {surveypro_item} i
                         JOIN {surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'} p ON i.id = p.itemid
                     WHERE i.surveyproid = :surveyproid
@@ -744,10 +744,10 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
 
                 foreach ($pluginitems as $pluginitem) {
                     if ($pluginitem->required > 0) {
-                        if ( (!$pluginitem->advanced) || $canaccessadvanceditems ) {
+                        if ( (!$pluginitem->reserved) || $canaccessreserveditems ) {
                             // Just to save few bits of RAM.
                             unset ($pluginitem->required);
-                            unset ($pluginitem->advanced);
+                            unset ($pluginitem->reserved);
 
                             $requireditems[$pluginitem->id] = $pluginitem;
                         }
@@ -1175,7 +1175,8 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
 
             $childitem = surveypro_get_item($this->cm, $this->surveypro, $itemid, $type, $plugin);
 
-            if (empty($childitem->get_parentid())) {
+            $parentid = $childitem->get_parentid();
+            if (empty($parentid)) {
                 continue;
             }
 

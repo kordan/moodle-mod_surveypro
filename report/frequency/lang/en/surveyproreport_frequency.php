@@ -31,4 +31,4 @@ $string['itemid'] = 'Survey question';
 $string['percentage'] = 'percentage';
 $string['pleasechooseavalue'] = 'Please choose an item for the distribution';
 $string['pluginname'] = 'Frequency distribution';
-$string['textareasarenotallowed'] = 'This survey has no fields or uses only fields, among visible and not advanced, that are not suitable for this report.';
+$string['textareasarenotallowed'] = 'This survey has no fields or uses only fields, among visible and not reserved, that are not suitable for this report.';

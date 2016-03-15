@@ -174,7 +174,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         }
         $arrayunique = array_unique($cleandefaultvalue);
         if (count($cleandefaultvalue) != count($arrayunique)) {
-            $errors['defaultvalue'] = get_string('ierr_optionduplicated', 'surveyprofield_checkbox', $default);
+            $errors['defaultvalue'] = get_string('ierr_defaultsduplicated', 'surveyprofield_checkbox');
         }
 
         // Fourth check.

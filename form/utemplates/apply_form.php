@@ -36,14 +36,14 @@ class mod_surveypro_applyutemplateform extends moodleform {
         $mform = $this->_form;
 
         // Get _customdata.
-        $cmid = $this->_customdata->cmid;
-        $surveypro = $this->_customdata->surveypro;
+        // $cmid = $this->_customdata->cmid;
+        // $surveypro = $this->_customdata->surveypro;
         $utemplateman = $this->_customdata->utemplateman;
 
         $options = $utemplateman->get_sharinglevel_options();
 
         $templatesfiles = array();
-        foreach ($options as $sharinglevel => $v) {
+        foreach ($options as $sharinglevel => $unused) {
             $parts = explode('_', $sharinglevel);
             $contextlevel = $parts[0];
             $contextid = $utemplateman->get_contextid_from_sharinglevel($sharinglevel);
@@ -92,7 +92,7 @@ class mod_surveypro_applyutemplateform extends moodleform {
      * @return $errors
      */
     public function validation($data, $files) {
-        $mform = $this->_form;
+        // $mform = $this->_form;
 
         // Get _customdata.
         // $cmid = $this->_customdata->cmid;

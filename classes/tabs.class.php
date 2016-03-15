@@ -122,7 +122,7 @@ class mod_surveypro_tabs {
         // TAB USER TEMPLATES.
         $this->tabutemplatename = get_string('tabutemplatename', 'mod_surveypro');
         if ($this->moduletab == SURVEYPRO_TABUTEMPLATES) {
-            if (empty($surveypro->template)) {
+            if (empty($this->surveypro->template)) {
                 $canmanageusertemplates = has_capability('mod/surveypro:manageusertemplates', $this->context, null, true);
                 if ($canmanageusertemplates) {
                     $elementurl = new moodle_url('/mod/surveypro/utemplates_create.php', $paramurl);
@@ -189,7 +189,7 @@ class mod_surveypro_tabs {
                     $strlabel = get_string('tabitemspage2', 'mod_surveypro');
                     $row[] = new tabobject('idpage2', $elementurl->out(), $strlabel);
 
-                    if (empty($surveypro->template)) {
+                    if (empty($this->surveypro->template)) {
                         // Setup.
                         if ($this->modulepage == SURVEYPRO_ITEMS_SETUP) {
                             $elementurl = new moodle_url('/mod/surveypro/layout_itemsetup.php', $paramurl);
