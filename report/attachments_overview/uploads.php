@@ -77,13 +77,13 @@ $formparams->surveypro = $surveypro;
 $formparams->itemid = $itemid;
 $formparams->userid = $userid;
 $formparams->submissionid = $submissionid;
-$formparams->canaccessadvanceditems = $uploadsformman->canaccessadvanceditems; // Help selecting the fields to show
+$formparams->canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $context, null, true);
 // End of: prepare params for the form.
 
 $filterform = new mod_surveypro_report_filterform($formurl, $formparams, 'post', '', array('id' => 'userentry'));
 
 // Output starts here.
-$url = new moodle_url('/mod/surveypro/report/attachments_overview/view.php', array('s' => $surveypro->id));
+$url = new moodle_url('/mod/surveypro/report/attachments_overview/upload.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -91,6 +91,7 @@ $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
 // Make bold the navigation menu/link that refers to me.
+$url = new moodle_url('/mod/surveypro/report/attachments_overview/view.php', array('s' => $surveypro->id));
 navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();

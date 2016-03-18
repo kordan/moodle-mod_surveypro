@@ -65,7 +65,7 @@ $formparams->cm = $cm;
 $formparams->surveypro = $surveypro;
 $formparams->submissionid = $submissionid;
 $formparams->maxassignedpage = $userformman->get_maxassignedpage();
-$formparams->canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $context, null, true); // Help selecting the fields to show
+$formparams->canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $context, null, true);
 $formparams->formpage = $userformman->get_formpage(); // The page of the form to select subset of fields
 $formparams->modulepage = $userformman->get_modulepage(); // The page of the TAB-PAGE structure.
 $formparams->readonly = ($userformman->get_modulepage() == SURVEYPRO_SUBMISSION_READONLY);
@@ -137,9 +137,6 @@ $PAGE->set_context($context);
 $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
-
-// Make bold the navigation menu/link that refers to me.
-navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
 
