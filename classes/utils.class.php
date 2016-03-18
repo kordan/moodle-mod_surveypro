@@ -170,11 +170,11 @@ class mod_surveypro_utility {
      * surveypro_item                 surveypro(field|format)_<<plugin>>
      *   id  <-----------------|        id
      *   surveyproid           |------- itemid
-	 *   type                           ...
-	 *   status
-	 *   ...
-	 *   timecreated
-	 *   timemodified
+     *   type                           ...
+     *   status
+     *   ...
+     *   timecreated
+     *   timemodified
      *
      * @param $whereparams
      * @return void
@@ -278,10 +278,10 @@ class mod_surveypro_utility {
      * surveypro_submission           surveypro_answer
      *   id  <-----------------|        id
      *   surveyproid           |------- submissionid
-	 *   userid                         itemid
-	 *   status                         verified
-	 *   timecreated                    content
-	 *   timemodified                   contentformat
+     *   userid                         itemid
+     *   status                         verified
+     *   timecreated                    content
+     *   timemodified                   contentformat
      *
      * @param $whereparams
      * @return void
@@ -378,10 +378,10 @@ class mod_surveypro_utility {
      * surveypro_submission           surveypro_answer
      *   id  <-----------------|        id
      *   surveyproid           |------- submissionid
-	 *   userid                         itemid
-	 *   status                         verified
-	 *   timecreated                    content
-	 *   timemodified                   contentformat
+     *   userid                         itemid
+     *   status                         verified
+     *   timecreated                    content
+     *   timemodified                   contentformat
      *
      * @param $itemid
      * @return void

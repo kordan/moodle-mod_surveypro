@@ -635,17 +635,6 @@ class mod_surveypro_itemlist {
         $edittitle = get_string('edit');
         $okstring = get_string('ok');
 
-        // Changed to a shorter version on September 25, 2014.
-        // Older version will be deleted as soon as the wew one will be checked.
-        // $sql = 'SELECT si.*, si.id as itemid, si.plugin, si.type
-        //         FROM {surveypro_item} si
-        //         WHERE si.surveyproid = :surveyproid';
-        // if ($table->get_sql_sort()) {
-        //     $sql .= ' ORDER BY '.$table->get_sql_sort();
-        // } else {
-        //     $sql .= ' ORDER BY si.sortindex';
-        // }
-        // $itemseeds = $DB->get_recordset_sql($sql, array('surveyproid' => $this->surveypro->id));
         $whereparams = array('surveyproid' => $this->surveypro->id);
         $sortfield = ($table->get_sql_sort()) ? $table->get_sql_sort() : 'sortindex';
         $itemseeds = $DB->get_recordset('surveypro_item', $whereparams, $sortfield, 'id as itemid, plugin, type');
@@ -1076,7 +1065,7 @@ class mod_surveypro_itemlist {
             case SURVEYPRO_DELETEHIDDENITEMS:
                 $this->delete_hidden_feedback();
                 break;
-             default:
+            default:
                 // Black hole for all the actions not needing feedback.
         }
     }
