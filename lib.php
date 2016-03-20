@@ -1154,7 +1154,7 @@ function surveypro_fetch_items_seeds($surveyproid, $canaccessadvanceditems, $sea
     $params['surveyproid'] = $surveyproid;
 
     if (!$canaccessadvanceditems) {
-        $sql .= ' AND si.advanced = 0';
+        // $sql .= ' AND si.advanced = 0';
     }
     if ($searchform) { // Advanced search.
         $sql .= ' AND si.insearchform = 1';

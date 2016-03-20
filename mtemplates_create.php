@@ -71,9 +71,6 @@ $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
-// Make bold the navigation menu/link that refers to me.
-navigation_node::override_active_url($url);
-
 echo $OUTPUT->header();
 
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABMTEMPLATES, SURVEYPRO_MTEMPLATES_BUILD);
