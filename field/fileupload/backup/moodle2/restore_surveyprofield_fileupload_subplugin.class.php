@@ -78,10 +78,10 @@ class restore_surveyprofield_fileupload_subplugin extends restore_subplugin {
      */
     protected function process_surveyprofield_fileupload_answer($data) {
         // Nothing really expected here to process, because the subplugin
-        //     does not contain own XML structures, but we need at least this
-        //     process of empty XML path defined in order to get the following
-        //     after_execute at answer level executed, leading to the restoration
-        //     of answer files.
+        // does not contain own XML structures, but we need at least this
+        // process of empty XML path defined in order to get the following
+        // after_execute at answer level executed, leading to the restoration
+        // of answer files.
     }
 
     /**
