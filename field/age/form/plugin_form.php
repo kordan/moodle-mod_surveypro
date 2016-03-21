@@ -41,11 +41,10 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform = $this->_form;
 
         // Get _customdata.
-        $item = $this->_customdata->item;
+        // $item = $this->_customdata->item;
         // $surveypro = $this->_customdata->surveypro;
 
         $maximumage = get_config('surveyprofield_age', 'maximumage');
-        $format = get_string('strftimemonthyear', 'langconfig');
 
         $years = array_combine(range(0, $maximumage), range(0, $maximumage));
         $months = array_combine(range(0, 11), range(0, 11));

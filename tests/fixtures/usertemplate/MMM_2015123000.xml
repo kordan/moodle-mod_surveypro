@@ -4,7 +4,7 @@
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
-      <advanced>1</advanced>
+      <reserved>1</reserved>
     </surveypro_item>
     <surveyproformat_label>
       <content>&lt;p&gt;&lt;img src="@@PLUGINFILE@@/MMM_logo.png" alt="MMM" width="313" height="70" /&gt;&lt;/p&gt;</content>
@@ -21,7 +21,7 @@
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
       <content>&lt;p&gt;This is a demo survey to quickly see some features of the items. This not a real survey, question are silly or non complete or meaningless (and, for sure, written in a bad English), but they are examples of what you can get playing with this module.&lt;/p&gt;&#13;
@@ -37,7 +37,7 @@
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
@@ -47,7 +47,7 @@
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_age>
       <content>&lt;p&gt;&lt;img style="float:left;" src="@@PLUGINFILE@@/anziano.jpg" alt="old man" width="120" height="120" /&gt;How old is the person shown in the picture, in your personal opinion?&lt;/p&gt;</content>
@@ -73,7 +73,7 @@
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_age>
       <content>&lt;p&gt;&lt;img style="float:left;" src="@@PLUGINFILE@@/anziano.jpg" alt="old man" width="120" height="120" /&gt;How old is the person shown in the picture, in your personal opinion?&lt;/p&gt;</content>
@@ -99,7 +99,7 @@
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_age>
       <content>&lt;p&gt;&lt;img style="float:left;" src="@@PLUGINFILE@@/anziano.jpg" alt="old man" width="120" height="120" /&gt;How old is the person shown in the picture, in your personal opinion?&lt;/p&gt;</content>
@@ -125,7 +125,7 @@
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_age>
       <content>&lt;p&gt;&lt;img style="float:left;" src="@@PLUGINFILE@@/anziano.jpg" alt="old man" width="120" height="120" /&gt;How old is the person shown in the picture, in your personal opinion?&lt;/p&gt;</content>
@@ -150,7 +150,7 @@
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
@@ -160,7 +160,7 @@
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_autofill>
       <content>&lt;p&gt;user ID&lt;/p&gt;</content>
@@ -178,7 +178,7 @@
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
@@ -188,7 +188,7 @@
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
       <content>&lt;p&gt;Do you live in NY?&lt;/p&gt;</content>
@@ -209,7 +209,7 @@
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
       <content>&lt;p&gt;Do you live in NY?&lt;/p&gt;</content>
@@ -230,7 +230,7 @@
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
       <content>&lt;p&gt;Do you live in NY?&lt;/p&gt;</content>
@@ -250,7 +250,7 @@
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
       <content>&lt;p&gt;Do you live in NY?&lt;/p&gt;</content>
@@ -271,7 +271,7 @@
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
       <content>&lt;p&gt;Do you live in NY?&lt;/p&gt;</content>
@@ -292,7 +292,7 @@
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
@@ -302,7 +302,7 @@
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
@@ -329,7 +329,7 @@ milk</defaultvalue>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
@@ -358,7 +358,7 @@ Apple juice</defaultvalue>
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
@@ -368,7 +368,7 @@ Apple juice</defaultvalue>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_shortdate>
       <content>&lt;p&gt;When did you get your last car?&lt;/p&gt;</content>
@@ -388,7 +388,7 @@ Apple juice</defaultvalue>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_shortdate>
       <content>&lt;p&gt;When did you get your last car?&lt;/p&gt;</content>
@@ -408,7 +408,7 @@ Apple juice</defaultvalue>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
@@ -418,7 +418,7 @@ Apple juice</defaultvalue>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_date>
       <content>&lt;p&gt;Date of birth&lt;/p&gt;</content>
@@ -438,7 +438,7 @@ Apple juice</defaultvalue>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_date>
       <content>&lt;p&gt;Date of birth&lt;/p&gt;</content>
@@ -458,7 +458,7 @@ Apple juice</defaultvalue>
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
@@ -468,7 +468,7 @@ Apple juice</defaultvalue>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_datetime>
       <content>&lt;p&gt;In which day and at what time do you remember the event?&lt;/p&gt;</content>
@@ -489,7 +489,7 @@ Apple juice</defaultvalue>
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
@@ -499,7 +499,7 @@ Apple juice</defaultvalue>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_fileupload>
       <content>&lt;p&gt;Please, attach your Curriculum Vitae.&lt;/p&gt;</content>
@@ -519,7 +519,7 @@ Apple juice</defaultvalue>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_fileupload>
       <content>&lt;p&gt;Please, attach your Curriculum Vitae.&lt;/p&gt;</content>
@@ -539,7 +539,7 @@ Apple juice</defaultvalue>
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
@@ -549,7 +549,7 @@ Apple juice</defaultvalue>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_integer>
       <content>&lt;p&gt;How many days do you foreseen for your Easter holidays?&lt;/p&gt;</content>
@@ -567,7 +567,7 @@ Apple juice</defaultvalue>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_integer>
       <content>&lt;p&gt;How many days do you foreseen for your Easter holidays?&lt;/p&gt;</content>
@@ -586,7 +586,7 @@ Apple juice</defaultvalue>
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
@@ -596,7 +596,7 @@ Apple juice</defaultvalue>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_multiselect>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
@@ -621,7 +621,7 @@ chocolate</defaultvalue>
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
@@ -631,7 +631,7 @@ chocolate</defaultvalue>
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>1</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_numeric>
       <content>&lt;p&gt;Which is the mean room temperature you prefer?&lt;/p&gt;</content>
@@ -652,7 +652,7 @@ chocolate</defaultvalue>
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
@@ -662,7 +662,7 @@ chocolate</defaultvalue>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
@@ -685,7 +685,7 @@ Lake</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
@@ -709,7 +709,7 @@ Lake</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
@@ -733,7 +733,7 @@ Lake</options>
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
@@ -743,7 +743,7 @@ Lake</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_rate>
       <content>&lt;p&gt;How confident are you with the following languages?&lt;/p&gt;</content>
@@ -774,7 +774,7 @@ Optimum</rates>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_rate>
       <content>&lt;p&gt;How confident are you with the following languages?&lt;/p&gt;</content>
@@ -810,7 +810,7 @@ Good</defaultvalue>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_rate>
       <content>&lt;p&gt;How confident are you with the following languages?&lt;/p&gt;</content>
@@ -841,7 +841,7 @@ Optimum</rates>
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
@@ -851,7 +851,7 @@ Optimum</rates>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_recurrence>
       <content>&lt;p&gt;When do you usually celebrate your name-day?&lt;/p&gt;</content>
@@ -871,7 +871,7 @@ Optimum</rates>
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
@@ -881,7 +881,7 @@ Optimum</rates>
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>1</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_select>
       <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
@@ -903,7 +903,7 @@ hill</options>
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
@@ -913,7 +913,7 @@ hill</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_textarea>
       <content>&lt;p&gt;Write a short description of yourself.&lt;/p&gt;</content>
@@ -934,7 +934,7 @@ hill</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_textarea>
       <content>&lt;p&gt;Write a short description of yourself.&lt;/p&gt;</content>
@@ -955,7 +955,7 @@ hill</options>
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
@@ -965,7 +965,7 @@ hill</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_time>
       <content>&lt;p&gt;At what time do you usually get up in the morning in the working days?&lt;/p&gt;</content>
@@ -987,7 +987,7 @@ hill</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_time>
       <content>&lt;p&gt;At what time do you usually get up in the morning in the working days?&lt;/p&gt;</content>
@@ -1009,7 +1009,7 @@ hill</options>
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
@@ -1019,7 +1019,7 @@ hill</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_character>
       <content>&lt;p&gt;Enter your VISA card number.&lt;/p&gt;</content>
@@ -1038,7 +1038,7 @@ hill</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_character>
       <content>&lt;p&gt;Enter your email address.&lt;/p&gt;</content>
@@ -1056,7 +1056,7 @@ hill</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_character>
       <content>&lt;p&gt;Enter the URL of your favourite site.&lt;/p&gt;</content>
@@ -1074,7 +1074,7 @@ hill</options>
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
@@ -1084,7 +1084,7 @@ hill</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
       <content>&lt;p&gt;Do you have the driving licence?&lt;/p&gt;</content>
@@ -1103,7 +1103,7 @@ hill</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
       <parentid>60</parentid>
       <parentvalue>1</parentvalue>
     </surveypro_item>
@@ -1115,7 +1115,7 @@ hill</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
       <parentid>60</parentid>
       <parentvalue>1</parentvalue>
     </surveypro_item>
@@ -1137,7 +1137,7 @@ C::for tracks</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
       <parentid>60</parentid>
       <parentvalue>0</parentvalue>
     </surveypro_item>
@@ -1149,7 +1149,7 @@ C::for tracks</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
       <parentid>60</parentid>
       <parentvalue>0</parentvalue>
     </surveypro_item>

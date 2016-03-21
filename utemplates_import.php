@@ -66,8 +66,6 @@ $formurl = new moodle_url('/mod/surveypro/utemplates_import.php', $paramurl);
 
 // Begin of: prepare params for the form.
 $formparams = new stdClass();
-$formparams->cmid = $cm->id;
-$formparams->surveypro = $surveypro;
 $formparams->utemplateman = $utemplateman;
 $formparams->filemanageroptions = $utemplateman->get_filemanager_options();
 $importutemplate = new mod_surveypro_importutemplateform($formurl, $formparams);

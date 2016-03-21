@@ -636,7 +636,7 @@ EOS;
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 2;3
 
         $status = true;
-        foreach ($labels as $k => $label) {
+        foreach ($labels as $k => $unused) {
             $key = array_search($k, $parentvalues);
             if ($key !== false) {
                 $status = $status && (isset($data[$this->itemname.'_'.$k]));

@@ -67,11 +67,11 @@ class mod_surveypro_covermanager {
         $cansavemastertemplates = has_capability('mod/surveypro:savemastertemplates', $this->context, null, true);
         $canapplymastertemplates = has_capability('mod/surveypro:applymastertemplates', $this->context, null, true);
         $canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context, null, true);
-        $canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $this->context, null, true);
+        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context, null, true);
 
         $riskyediting = ($this->surveypro->riskyeditdeadline > time());
         $hassubmissions = $utilityman->has_submissions();
-        $itemcount = $utilityman->has_input_items(0, true, $canmanageitems, $canaccessadvanceditems);
+        $itemcount = $utilityman->has_input_items(0, true, $canmanageitems, $canaccessreserveditems);
 
         $messages = array();
         $timenow = time();
@@ -121,7 +121,7 @@ class mod_surveypro_covermanager {
             if ($canmanageitems) {
                 // If I $canmanageitems in $itemcount items counted were: visible + hidden.
                 $message .= ' ';
-                $visibleonly = $utilityman->has_input_items(0, true, false, $canaccessadvanceditems);
+                $visibleonly = $utilityman->has_input_items(0, true, false, $canaccessreserveditems);
                 $a = $itemcount - $visibleonly;
                 $message .= get_string('count_hiddenitems', 'mod_surveypro', $a);
             }

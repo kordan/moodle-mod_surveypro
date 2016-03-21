@@ -4,7 +4,7 @@
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
       <content>&lt;p&gt;Before starting I need to let you know few details at general level.&lt;/p&gt;&#13;
@@ -34,7 +34,7 @@
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
       <content>&lt;p&gt;Example with boolean item: Is this true or false?&lt;/p&gt;</content>
@@ -54,7 +54,7 @@
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
@@ -64,7 +64,7 @@
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
       <parentid>2</parentid>
       <parentvalue>1</parentvalue>
     </surveypro_item>
@@ -87,7 +87,7 @@
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
       <parentid>2</parentid>
       <parentvalue>0</parentvalue>
     </surveypro_item>
@@ -110,7 +110,7 @@
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
       <content>&lt;p&gt;As you can see, by answering "No answer" to the parent item you get disabled the first such as the second child too.&lt;/p&gt;</content>
@@ -123,7 +123,7 @@
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;Example with checkbox item: What do you always want to find on your desk in the office?&lt;/p&gt;</content>
@@ -148,7 +148,7 @@ A4 paper</options>
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
@@ -158,7 +158,7 @@ A4 paper</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
       <parentid>7</parentid>
       <parentvalue>1;1;1;0</parentvalue>
     </surveypro_item>
@@ -180,7 +180,7 @@ A4 paper</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
       <parentid>7</parentid>
       <parentvalue>0;1;0;0</parentvalue>
     </surveypro_item>
@@ -204,7 +204,7 @@ A4 paper</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_integer>
       <content>&lt;p&gt;Example with numeric (small integer) item: Enter an integer value.&lt;/p&gt;</content>
@@ -224,7 +224,7 @@ A4 paper</options>
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
@@ -234,7 +234,7 @@ A4 paper</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
       <parentid>11</parentid>
       <parentvalue>11</parentvalue>
     </surveypro_item>
@@ -256,7 +256,7 @@ A4 paper</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
       <parentid>11</parentid>
       <parentvalue>22</parentvalue>
     </surveypro_item>
@@ -279,7 +279,7 @@ A4 paper</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_multiselect>
       <content>&lt;p&gt;Example with multiselect item: What do you eat for breakfast? (click or shift-click to change the selection).&lt;/p&gt;</content>
@@ -306,7 +306,7 @@ ham</defaultvalue>
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
@@ -316,7 +316,7 @@ ham</defaultvalue>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
       <parentid>15</parentid>
       <parentvalue>3;0</parentvalue>
     </surveypro_item>
@@ -339,7 +339,7 @@ ham</defaultvalue>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
       <parentid>15</parentid>
       <parentvalue>2;3;4</parentvalue>
     </surveypro_item>
@@ -363,7 +363,7 @@ ham</defaultvalue>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>&lt;p&gt;Example with radio button item: which countryside do you like more for your summer holidays?&lt;/p&gt;</content>
@@ -388,7 +388,7 @@ City</options>
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
@@ -398,7 +398,7 @@ City</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
       <parentid>19</parentid>
       <parentvalue>3</parentvalue>
     </surveypro_item>
@@ -422,7 +422,7 @@ City</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
       <parentid>19</parentid>
       <parentvalue>0</parentvalue>
     </surveypro_item>
@@ -460,7 +460,7 @@ bad</defaultvalue>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_select>
       <content>&lt;p&gt;Example with select item: Indicate your preferred direction.&lt;/p&gt;</content>
@@ -482,7 +482,7 @@ left</options>
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_pagebreak>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
@@ -492,7 +492,7 @@ left</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
       <parentid>23</parentid>
       <parentvalue>1</parentvalue>
     </surveypro_item>
@@ -516,7 +516,7 @@ left</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
       <parentid>23</parentid>
       <parentvalue>0</parentvalue>
     </surveypro_item>

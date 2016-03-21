@@ -81,9 +81,9 @@ class mod_surveypro_mform_filemanager extends MoodleQuickForm_filemanager {
         require_once("$CFG->dirroot/repository/lib.php");
 
         $id = $this->_attributes['id'];
-        $elname = $this->_attributes['name'];
-        $subdirs = $this->_options['subdirs'];
-        $maxbytes = $this->_options['maxbytes'];
+        // $elname = $this->_attributes['name'];
+        // $subdirs = $this->_options['subdirs'];
+        // $maxbytes = $this->_options['maxbytes'];
         $draftitemid = $this->getValue();
         $accepted_types = $this->_options['accepted_types'];
 
@@ -117,7 +117,7 @@ class mod_surveypro_mform_filemanager extends MoodleQuickForm_filemanager {
         $return = '';
         $attachmentcount = count($fm->options->list);
         $attachmentcount -= 1;
-        foreach ($fm->options->list as $k => $list) {
+        foreach ($fm->options->list as $list) {
             $return .= html_writer::start_tag('div', array('class' => $class));
 
             // $return .= '<a href="'.$list->url.'"><img src="'.$list->thumbnail.'" /></a>';

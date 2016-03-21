@@ -47,8 +47,6 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $startyear = $this->_customdata->surveypro->startyear;
         $stopyear = $this->_customdata->surveypro->stopyear;
 
-        $format = get_string('strftimemonthyear', 'langconfig');
-
         // Item: defaultoption.
         $fieldname = 'defaultoption';
         $months = array();

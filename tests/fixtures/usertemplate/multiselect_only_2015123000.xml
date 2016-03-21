@@ -4,7 +4,7 @@
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
       <content>&lt;h5&gt;MULTISELECT&lt;/h5&gt;&lt;p&gt;This plugin, like all the others provided by surveypro core, is equipped with a set of common settings shared with all the other surveypro elements.&lt;/p&gt;&lt;p&gt;The &lt;b&gt;common settings&lt;/b&gt; set is done by:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Required&lt;/li&gt;&lt;li&gt;Indent&lt;/li&gt;&lt;li&gt;Question position&lt;/li&gt;&lt;li&gt;Element number&lt;/li&gt;&lt;li&gt;Hide filling instruction&lt;/li&gt;&lt;li&gt;Variable&lt;/li&gt;&lt;li&gt;Additional note&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;This plugin is equipped with some&lt;b&gt;multiple selection specific setting&lt;/b&gt;:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Options&lt;/li&gt;&lt;li&gt;Default&lt;/li&gt;&lt;li&gt;Height in rows&lt;/li&gt;&lt;li&gt;Minimum required items&lt;/li&gt;&lt;li&gt;Download format&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;and with one &lt;b&gt;validation options&lt;/b&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Minimum required options&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;The cartesian product of all these settings makes a very long list of possible implementations of this element. In this usertemplate few use cases are described.&lt;/p&gt;</content>
@@ -17,7 +17,7 @@
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;a default is not set&lt;/li&gt;&lt;li&gt;minimum required is (automatically) set to 1&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory and the default is not set so the user is forced to select at least one item.</content>
@@ -31,7 +31,7 @@
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_multiselect>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
@@ -55,7 +55,7 @@ chocolate</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;a default is set&lt;/li&gt;&lt;li&gt;minimum required is (automatically) set to 1&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory and the default is set so to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read).</content>
@@ -69,7 +69,7 @@ chocolate</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_multiselect>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
@@ -95,7 +95,7 @@ jam</defaultvalue>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;a default is not set&lt;/li&gt;&lt;li&gt;minimum required is set to 1&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is not set so the user is forced to select at least one item or to select the "No answer" checkbox.</content>
@@ -109,7 +109,7 @@ jam</defaultvalue>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_multiselect>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
@@ -133,7 +133,7 @@ chocolate</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;a default is set&lt;/li&gt;&lt;li&gt;minimum required is (automatically) set to 1&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is set but so the user is forced to select at least one item.</content>
@@ -147,7 +147,7 @@ chocolate</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_multiselect>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
@@ -172,7 +172,7 @@ chocolate</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;a default is not set&lt;/li&gt;&lt;li&gt;minimum required is set to 2&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory and the default is not set so the user is forced to select at least two items.</content>
@@ -186,7 +186,7 @@ chocolate</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_multiselect>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
@@ -210,7 +210,7 @@ chocolate</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;a default is set&lt;/li&gt;&lt;li&gt;minimum required is set to 2&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory and the default is set so to a valid value but the user can not "fly" over this element because the minimum &#13;
@@ -225,7 +225,7 @@ required options is set to 2.&lt;br /&gt;</content>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_multiselect>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
@@ -251,7 +251,7 @@ jam</defaultvalue>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;a default is not set&lt;/li&gt;&lt;li&gt;minimum required is set to 2&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is not set so the user is forced to select at least two items or to select the "No answer" checkbox.</content>
@@ -265,7 +265,7 @@ jam</defaultvalue>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_multiselect>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
@@ -289,7 +289,7 @@ chocolate</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;a default is set&lt;/li&gt;&lt;li&gt;minimum required is (automatically) set to 1&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is set but so the user is forced to select at least one item.</content>
@@ -303,7 +303,7 @@ chocolate</options>
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_multiselect>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>

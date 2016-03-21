@@ -65,7 +65,7 @@ $formparams->cm = $cm;
 $formparams->surveypro = $surveypro;
 $formparams->submissionid = $submissionid;
 $formparams->maxassignedpage = $userformman->get_maxassignedpage();
-$formparams->canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $context, null, true);
+$formparams->canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context, null, true);
 $formparams->formpage = $userformman->get_formpage(); // The page of the form to select subset of fields
 $formparams->modulepage = $userformman->get_modulepage(); // The page of the TAB-PAGE structure.
 $formparams->readonly = ($userformman->get_modulepage() == SURVEYPRO_SUBMISSION_READONLY);

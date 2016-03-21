@@ -382,7 +382,7 @@ class mod_surveypro_importmanager {
             $csvusesolddata = true;
         }
 
-        $recordcount = $cir->load_csv_content($csvcontent, $this->formdata->encoding, $this->formdata->csvdelimiter);
+        // $recordcount = $cir->load_csv_content($csvcontent, $this->formdata->encoding, $this->formdata->csvdelimiter);
         unset($csvcontent);
 
         // Start here 3 tests against general file configuration.
@@ -582,7 +582,6 @@ class mod_surveypro_importmanager {
                         // This means that the content reported in the csv for this column is supposed to be ALREADY a position.
                         // Verify the content is REALLY a VALID position.
                         $positions = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $value);
-                        $positionscount = count($positions);
 
                         if ($debug) {
                             echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';

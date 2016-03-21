@@ -60,7 +60,7 @@ $formurl = new moodle_url('/mod/surveypro/view_search.php', $paramurl);
 $formparams = new stdClass();
 $formparams->cm = $cm;
 $formparams->surveypro = $surveypro;
-$formparams->canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $context, null, true);
+$formparams->canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context, null, true);
 $searchform = new mod_surveypro_searchform($formurl, $formparams, 'post', '', array('id' => 'usersearch'));
 // End of: prepare params for the form.
 

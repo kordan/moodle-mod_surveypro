@@ -9,7 +9,7 @@ The meaning of the less common properties is:
 - Availability defines who will see the field in the form. It can be:
 -- all: each user will see the field in the survey form;
 -- hidden: not any user will see the field in the survey form;
--- advanced: only students with specific permissions (accessadvanceditems) will see the field in the survey form;
+-- reserved: only students with specific permissions (accessreserveditems) will see the field in the survey form;
 -- search: the field will be available in the search form too (if not hidden).
 - Validation options define the range of allowed responses for the students.
 - Default is what the blank form will display as predefined value of an element.

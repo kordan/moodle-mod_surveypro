@@ -464,7 +464,6 @@ EOS;
             if ($this->lowerbound > $this->upperbound) {
                 // External range.
                 if (($userinput > $this->lowerbound) && ($userinput < $this->upperbound)) {
-                    $format = get_string($this->item_get_friendlyformat(), 'surveyprofield_numeric');
                     $a = new stdClass();
                     $a->lowerbound = $this->lowerbound;
                     $a->upperbound = $this->upperbound;

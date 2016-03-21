@@ -248,7 +248,7 @@ class mod_surveypro_templatebase {
         $pluginman = core_plugin_manager::instance();
         $subplugins = $pluginman->get_subplugins_of_plugin('surveypro');
         $versions = array();
-        foreach ($subplugins as $component => $plugin) {
+        foreach ($subplugins as $plugin) {
             if (($plugin->type != 'surveypro'.SURVEYPRO_TYPEFIELD) &&
                 ($plugin->type != 'surveypro'.SURVEYPRO_TYPEFORMAT)) {
                 continue;

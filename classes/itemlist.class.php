@@ -127,8 +127,6 @@ class mod_surveypro_itemlist {
         $this->cm = $cm;
         $this->context = $context;
         $this->surveypro = $surveypro;
-
-        $utilityman = new mod_surveypro_utility($cm, $surveypro);
     }
 
     /**
@@ -335,10 +333,10 @@ class mod_surveypro_itemlist {
             // Availability.
             $currenthide = $item->get_hidden();
             if (empty($currenthide)) {
-                // First icon: advanced vs standard (generally available).
-                if (!$item->get_advanced()) {
+                // First icon: reserved vs standard (generally available).
+                if (!$item->get_reserved()) {
                     $message = get_string('available', 'mod_surveypro');
-                    if ($item->get_insetupform('advanced')) {
+                    if ($item->get_insetupform('reserved')) {
                         $paramurl = $paramurlbase;
                         $paramurl['act'] = SURVEYPRO_MAKEADVANCED;
                         $paramurl['sortindex'] = $sortindex;
@@ -442,8 +440,8 @@ class mod_surveypro_itemlist {
                     }
 
                     $icons .= $OUTPUT->action_icon(new moodle_url('/mod/surveypro/layout_manage.php#sortindex_'.($sortindex - 1), $paramurl),
-                        new pix_icon('t/move', $edittitle, 'moodle', array('title' => $edittitle)),
-                        null, array('id' => 'move_item_'.$item->get_sortindex(), 'title' => $edittitle));
+                        new pix_icon('t/move', $edittitle, 'moodle', array('title' => $changetitle)),
+                        null, array('id' => 'move_item_'.$item->get_sortindex(), 'title' => $changetitle));
                 }
 
                 // SURVEYPRO_DELETEITEM.
@@ -907,7 +905,7 @@ class mod_surveypro_itemlist {
                     break;
                 case 5: // A chain of items was removed from the user entry form.
                     if ($bit) {
-                        $message .= '<br />'.get_string('itemeditmakeadvanced', 'mod_surveypro');
+                        $message .= '<br />'.get_string('itemeditmakereserved', 'mod_surveypro');
                     }
                     break;
             }
@@ -995,7 +993,7 @@ class mod_surveypro_itemlist {
                 $DB->set_field('surveypro_item', 'insearchform', 0, array('id' => $this->itemid));
                 break;
             case SURVEYPRO_MAKEADVANCED:
-                $this->item_makeadvanced_execute();
+                $this->item_makereserved_execute();
                 break;
             case SURVEYPRO_MAKESTANDARD:
                 $this->item_makestandard_execute();
@@ -1045,7 +1043,7 @@ class mod_surveypro_itemlist {
                 $this->item_delete_feedback();
                 break;
             case SURVEYPRO_MAKEADVANCED:
-                $this->item_makeadvanced_feedback();
+                $this->item_makereserved_feedback();
                 break;
             case SURVEYPRO_MAKESTANDARD:
                 $this->item_makestandard_feedback();
@@ -1105,7 +1103,7 @@ class mod_surveypro_itemlist {
      * @return void
      */
     public function item_hide_execute() {
-        global $DB, $OUTPUT;
+        global $DB;
 
         // Build tohidelist.
         // Here I must select the whole tree down.
@@ -1131,7 +1129,7 @@ class mod_surveypro_itemlist {
      * @return void
      */
     public function item_hide_feedback() {
-        global $DB, $OUTPUT;
+        global $OUTPUT;
 
         // Build tohidelist.
         // Here I must select the whole tree down.
@@ -1184,8 +1182,6 @@ class mod_surveypro_itemlist {
      * @return void
      */
     public function item_show_execute() {
-        global $DB, $OUTPUT;
-
         // Build toshowlist.
         list($toshowlist, $sortindextoshowlist) = $this->add_parent_node(array('hidden' => 1));
 
@@ -1207,7 +1203,7 @@ class mod_surveypro_itemlist {
      * @return void
      */
     public function item_show_feedback() {
-        global $DB, $OUTPUT;
+        global $OUTPUT;
 
         // Build toshowlist.
         list($toshowlist, $sortindextoshowlist) = $this->add_parent_node(array('hidden' => 1));
@@ -1432,7 +1428,7 @@ class mod_surveypro_itemlist {
      * @return void
      */
     public function drop_multilang_feedback() {
-        global $DB, $OUTPUT;
+        global $OUTPUT;
 
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             // Ask for confirmation.
@@ -1478,32 +1474,32 @@ class mod_surveypro_itemlist {
         $DB->set_field('surveypro'.$this->type.'_'.$this->plugin, 'required', $value, array('itemid' => $this->itemid));
     }
 
-    // MARK item make advanced
+    // MARK item make reserved
 
     /**
-     * item_makeadvanced_execute
+     * item_makereserved_execute
      *
-     * the idea is: in a chain of parent-child items,
-     *     -> items available to each user (standard items) can be parent of item available to each user such as item with limited access (advanced)
-     *     -> item with limited access (advanced) can ONLY BE parent of items with limited access (advanced)
+     * the idea is this: in a chain of parent-child items,
+     *     -> items available to each user (public items) can be parent of item available to each user such as item with reserved access
+     *     -> item with reserved access can ONLY BE parent of items with reserved access
      *
      * @param none
      * @return void
      */
-    public function item_makeadvanced_execute() {
+    public function item_makereserved_execute() {
         global $DB;
 
-        // Build toadvancedlist.
+        // Build toreservedlist.
         // Here I must select the whole tree down.
-        $toadvancedlist = array($this->itemid);
-        $sortindextoadvancedlist = array();
-        $this->add_child_node($toadvancedlist, $sortindextoadvancedlist, array('advanced' => 0));
+        $toreservedlist = array($this->itemid);
+        $sortindextoreservedlist = array();
+        $this->add_child_node($toreservedlist, $sortindextoreservedlist, array('reserved' => 0));
 
-        $itemstoprocess = count($toadvancedlist);
+        $itemstoprocess = count($toreservedlist);
         if ( ($this->confirm == SURVEYPRO_CONFIRMED_YES) || ($itemstoprocess == 1) ) {
-            // Make items advanced.
-            foreach ($toadvancedlist as $tohideitemid) {
-                $DB->set_field('surveypro_item', 'advanced', 1, array('id' => $tohideitemid));
+            // Make items reserved.
+            foreach ($toreservedlist as $tohideitemid) {
+                $DB->set_field('surveypro_item', 'reserved', 1, array('id' => $tohideitemid));
             }
             $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
             $utilityman->reset_items_pages();
@@ -1511,33 +1507,32 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * item_makeadvanced_feedback
+     * item_makereserved_feedback
      *
-     * the idea is: in a chain of parent-child items,
-     *     -> items available to each user (standard items) can be parent of item available to each user such as item with limited access (advanced)
-     *     -> item with limited access (advanced) can ONLY BE parent of items with limited access (advanced)
+     * the idea is this: in a chain of parent-child items,
+     *     -> items available to each user (public items) can be parent of item available to each user such as item with reserved access
+     *     -> item with reserved access can ONLY BE parent of items with reserved access
      *
      * @param none
      * @return void
      */
-    public function item_makeadvanced_feedback() {
-        global $DB, $OUTPUT;
+    public function item_makereserved_feedback() {
+        global $OUTPUT;
 
-        // Build toadvancedlist.
+        // Build toreservedlist.
         // Here I must select the whole tree down.
-        $toadvancedlist = array($this->itemid);
-        $sortindextoadvancedlist = array();
-        $this->add_child_node($toadvancedlist, $sortindextoadvancedlist, array('advanced' => 0));
+        $toreservedlist = array($this->itemid);
+        $sortindextoreservedlist = array();
+        $this->add_child_node($toreservedlist, $sortindextoreservedlist, array('reserved' => 0));
 
-        $itemstoprocess = count($toadvancedlist);
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
-            if (count($toadvancedlist) > 1) { // Ask for confirmation.
+            if (count($toreservedlist) > 1) { // Ask for confirmation.
                 $item = surveypro_get_item($this->cm, $this->surveypro, $this->itemid, $this->type, $this->plugin);
 
                 $a = new stdClass();
                 $a->parentid = $item->get_content();
-                $a->dependencies = implode(', ', $sortindextoadvancedlist);
-                $message = get_string('askitemstoadvanced', 'mod_surveypro', $a);
+                $a->dependencies = implode(', ', $sortindextoreservedlist);
+                $message = get_string('askitemstoreserved', 'mod_surveypro', $a);
 
                 $optionbase = array('id' => $this->cm->id, 'act' => SURVEYPRO_MAKEADVANCED, 'sesskey' => sesskey());
 
@@ -1577,13 +1572,13 @@ class mod_surveypro_itemlist {
         global $DB;
 
         // Build tostandardlist.
-        list($tostandardlist, $sortindextostandardlist) = $this->add_parent_node(array('advanced' => 1));
+        list($tostandardlist, $sortindextostandardlist) = $this->add_parent_node(array('reserved' => 1));
 
         $itemstoprocess = count($tostandardlist); // This is the list of ancestors.
         if ( ($this->confirm == SURVEYPRO_CONFIRMED_YES) || ($itemstoprocess == 1) ) {
             // Make items standard.
             foreach ($tostandardlist as $toshowitemid) {
-                $DB->set_field('surveypro_item', 'advanced', 0, array('id' => $toshowitemid));
+                $DB->set_field('surveypro_item', 'reserved', 0, array('id' => $toshowitemid));
             }
             $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
             $utilityman->reset_items_pages();
@@ -1597,10 +1592,10 @@ class mod_surveypro_itemlist {
      * @return void
      */
     public function item_makestandard_feedback() {
-        global $DB, $OUTPUT;
+        global $OUTPUT;
 
         // Build tostandardlist.
-        list($tostandardlist, $sortindextostandardlist) = $this->add_parent_node(array('advanced' => 1));
+        list($tostandardlist, $sortindextostandardlist) = $this->add_parent_node(array('reserved' => 1));
 
         $itemstoprocess = count($tostandardlist); // This is the list of ancestors.
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {

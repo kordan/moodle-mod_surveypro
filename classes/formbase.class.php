@@ -65,10 +65,10 @@ class mod_surveypro_formbase {
     public function noitem_stopexecution() {
         global $COURSE, $OUTPUT;
 
-        $canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $this->context, null, true);
+        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context, null, true);
 
         $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-        if (!$utilityman->has_input_items(0, false, false, $canaccessadvanceditems)) {
+        if (!$utilityman->has_input_items(0, false, false, $canaccessreserveditems)) {
             $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
 
             if ($canmanageitems) {
@@ -98,12 +98,12 @@ class mod_surveypro_formbase {
     public function get_prefill_data() {
         global $DB;
 
-        $canaccessadvanceditems = has_capability('mod/surveypro:accessadvanceditems', $this->context, null, true);
+        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context, null, true);
         $prefill = array();
 
         if (!empty($this->submissionid)) {
-            // $canaccessadvanceditems, $searchform=false, $type=SURVEYPRO_TYPEFIELD, $formpage=$this->formpage
-            list($sql, $whereparams) = surveypro_fetch_items_seeds($this->surveypro->id, $canaccessadvanceditems, false, SURVEYPRO_TYPEFIELD, $this->formpage);
+            // $canaccessreserveditems, $searchform=false, $type=SURVEYPRO_TYPEFIELD, $formpage=$this->formpage
+            list($sql, $whereparams) = surveypro_fetch_items_seeds($this->surveypro->id, $canaccessreserveditems, false, SURVEYPRO_TYPEFIELD, $this->formpage);
             if ($itemseeds = $DB->get_recordset_sql($sql, $whereparams)) {
                 foreach ($itemseeds as $itemseed) {
                     $item = surveypro_get_item($this->cm, $this->surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);

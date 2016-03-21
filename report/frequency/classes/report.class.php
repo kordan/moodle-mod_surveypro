@@ -87,12 +87,12 @@ class mod_surveypro_report_frequency extends mod_surveypro_reportbase {
     public function stop_if_textareas_only() {
         global $DB, $OUTPUT;
 
-        $where = 'surveyproid = :surveyproid AND type = :type AND advanced = :advanced AND hidden = :hidden AND plugin <> :plugin';
+        $where = 'surveyproid = :surveyproid AND type = :type AND reserved = :reserved AND hidden = :hidden AND plugin <> :plugin';
 
         $params = array();
         $params['surveyproid'] = $this->surveypro->id;
         $params['type'] = SURVEYPRO_TYPEFIELD;
-        $params['advanced'] = 0;
+        $params['reserved'] = 0;
         $params['hidden'] = 0;
         $params['plugin'] = 'textarea';
 

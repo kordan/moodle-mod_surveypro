@@ -105,8 +105,8 @@ class mod_surveypro_exportmanager {
         if (!isset($this->formdata->includehidden)) {
             $sql .= ' AND (si.hidden = 0 OR ISNULL(si.hidden))';
         }
-        if (!isset($this->formdata->includeadvanced)) {
-            $sql .= ' AND (si.advanced = 0 OR ISNULL(si.advanced))';
+        if (!isset($this->formdata->includereserved)) {
+            $sql .= ' AND (si.reserved = 0 OR ISNULL(si.reserved))';
         }
         if ($this->formdata->status != SURVEYPRO_STATUSALL) {
             $sql .= ' AND s.status = :status';
@@ -152,7 +152,7 @@ class mod_surveypro_exportmanager {
         global $DB;
 
         // Do I need to filter groups?
-        $filtergroups = surveypro_need_group_filtering($this->cm, $this->context);
+        // $filtergroups = surveypro_need_group_filtering($this->cm, $this->context);
 
         if ($this->formdata->downloadtype == SURVEYPRO_FILESBYUSER) {
             if ($errorreturned = $this->attachments_downloadbyuser()) {
@@ -247,8 +247,6 @@ class mod_surveypro_exportmanager {
         // $mygroups = groups_get_all_groups($course->id, $USER->id, $this->cm->groupingid);
 
         $oldsubmissionid = 0;
-        $strnever = get_string('never');
-
         foreach ($richsubmissions as $richsubmission) {
             if ($oldsubmissionid != $richsubmission->submissionid) {
                 if (!empty($oldsubmissionid)) { // New richsubmissionid, stop managing old record.
@@ -343,8 +341,6 @@ class mod_surveypro_exportmanager {
         // $mygroups = groups_get_all_groups($course->id, $USER->id, $this->cm->groupingid);
 
         $oldsubmissionid = 0;
-        $strnever = get_string('never');
-
         foreach ($richsubmissions as $richsubmission) {
             if ($oldsubmissionid != $richsubmission->submissionid) {
                 if (!empty($oldsubmissionid)) { // New richsubmissionid, stop managing old record.
@@ -389,8 +385,8 @@ class mod_surveypro_exportmanager {
         $where = array();
         $where['surveyproid'] = $this->surveypro->id;
         $where['type'] = SURVEYPRO_TYPEFIELD;
-        if (!isset($this->formdata->includeadvanced)) {
-            $where['advanced'] = 0;
+        if (!isset($this->formdata->includereserved)) {
+            $where['reserved'] = 0;
         }
         if (!isset($this->formdata->includehide)) {
             $where['hidden'] = 0;

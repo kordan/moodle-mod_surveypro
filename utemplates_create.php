@@ -66,8 +66,6 @@ $formurl = new moodle_url('/mod/surveypro/utemplates_create.php', $paramurl);
 
 // Begin of: prepare params for the form.
 $formparams = new stdClass();
-$formparams->cmid = $cm->id;
-$formparams->surveypro = $surveypro;
 $formparams->utemplateman = $utemplateman;
 $createutemplate = new mod_surveypro_utemplatecreateform($formurl, $formparams);
 // End of: prepare params for the form.

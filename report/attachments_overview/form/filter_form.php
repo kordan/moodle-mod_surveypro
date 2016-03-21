@@ -38,15 +38,14 @@ class mod_surveypro_report_filterform extends moodleform {
         $mform = $this->_form;
 
         // Get _customdata.
-        $cmid = $this->_customdata->cmid;
         $surveypro = $this->_customdata->surveypro;
         $userid = $this->_customdata->userid;
         $submissionid = $this->_customdata->submissionid;
-        $canaccessadvanceditems = $this->_customdata->canaccessadvanceditems;
+        $canaccessreserveditems = $this->_customdata->canaccessreserveditems;
 
         $submissionidstring = get_string('submission', 'surveyproreport_attachments_overview');
 
-        list($sql, $whereparams) = surveypro_fetch_items_seeds($surveypro->id, $canaccessadvanceditems, false);
+        list($sql, $whereparams) = surveypro_fetch_items_seeds($surveypro->id, $canaccessreserveditems, false);
         $itemseeds = $DB->get_recordset_sql($sql, $whereparams);
 
         if (!$itemseeds->valid()) {
@@ -60,7 +59,6 @@ class mod_surveypro_report_filterform extends moodleform {
 
         // Itemid.
         $options = array('0' => get_string('eachitem', 'surveyproreport_attachments_overview'));
-        $tablename = 'surveyprofield_fileupload';
         foreach ($itemseeds as $itemseed) {
             if ($itemseed->plugin != 'fileupload') {
                 continue;
@@ -97,7 +95,6 @@ class mod_surveypro_report_filterform extends moodleform {
         $users = $DB->get_recordset_sql($sql, $whereparams);
 
         $options = array();
-        $submissionoptions = array();
         foreach ($users as $user) {
             if ($user->userid == $userid) {
                 $i = 0;

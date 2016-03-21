@@ -569,7 +569,6 @@ EOS;
 
         $userinput = $this->item_recurrence_to_unix_time($data[$this->itemname.'_month'], $data[$this->itemname.'_day']);
 
-        $format = get_string('strftimedateshort', 'langconfig');
         if ($haslowerbound && $hasupperbound) {
             // Internal range.
             if ( ($userinput < $this->lowerbound) || ($userinput > $this->upperbound) ) {

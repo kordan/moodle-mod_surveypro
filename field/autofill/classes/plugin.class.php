@@ -224,7 +224,6 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
             $referencearray[] = constant('SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT'.sprintf('%02d', $i));
         }
 
-        $items = array();
         for ($i = 1; $i < 6; $i++) {
             $index = sprintf('%02d', $i);
             $fieldname = 'element'.$index.'_select';
@@ -410,8 +409,6 @@ EOS;
      * @return void
      */
     public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
-        global $DB;
-
         if ($searchform) {
             if (isset($answer['ignoreme'])) {
                 $olduseranswer->content = null;

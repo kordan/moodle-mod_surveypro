@@ -15,12 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'surveyprotemplate_@@templateNamePlaceholder@@', language 'en', branch 'MOODLE_26_STABLE'
+ * Strings for component 'surveyprotemplate_00templateNamePlaceholder00', language 'en', branch 'MOODLE_26_STABLE'
  *
  * @package    surveyprotemplate
- * @subpackage surveyproTemplate_@@templateNamePlaceholder@@
+ * @subpackage surveyproTemplate_00templateNamePlaceholder00
  * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = '@@templateNamePlaceholder@@';
+$string['pluginname'] = '00templateNamePlaceholder00';

@@ -48,7 +48,7 @@ class mod_surveypro_chooseitemform extends moodleform {
         $where = array();
         $where['surveyproid'] = $surveypro->id;
         $where['type'] = SURVEYPRO_TYPEFIELD;
-        $where['advanced'] = 0;
+        $where['reserved'] = 0;
         $where['hidden'] = 0;
         $itemseeds = $DB->get_recordset('surveypro_item', $where, 'sortindex');
 

@@ -65,7 +65,7 @@ class mod_surveypro_format_pagebreak extends mod_surveypro_itembase {
         $this->insetupform['required'] = false;
         $this->insetupform['variable'] = false;
         $this->insetupform['insearchform'] = false;
-        $this->insetupform['advanced'] = false;
+        $this->insetupform['reserved'] = false;
         $this->insetupform['indent'] = false;
         $this->insetupform['hideinstructions'] = false;
         $this->insetupform['parentid'] = false;

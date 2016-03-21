@@ -124,5 +124,18 @@ function xmldb_surveypro_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2015112301, 'surveypro');
     }
 
+    if ($oldversion < 2016031501) {
+
+        // Rename field advanced on table surveypro_item to reserved.
+        $table = new xmldb_table('surveypro_item');
+        $field = new xmldb_field('advanced', XMLDB_TYPE_INTEGER, '4', null, null, null, null, 'insearchform');
+
+        // Launch rename field advanced.
+        $dbman->rename_field($table, $field, 'reserved');
+
+        // Surveypro savepoint reached.
+        upgrade_mod_savepoint(true, 2016031501, 'surveypro');
+    }
+
     return true;
 }

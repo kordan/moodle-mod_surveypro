@@ -42,7 +42,7 @@ class mod_surveypro_outform extends moodleform {
         $surveypro = $this->_customdata->surveypro;
         $submissionid = $this->_customdata->submissionid;
         $maxassignedpage = $this->_customdata->maxassignedpage;
-        $canaccessadvanceditems = $this->_customdata->canaccessadvanceditems;
+        $canaccessreserveditems = $this->_customdata->canaccessreserveditems;
         $formpage = $this->_customdata->formpage;
         $modulepage = $this->_customdata->modulepage;
         $readonly = $this->_customdata->readonly; // I see a form (record) that is not mine.
@@ -65,7 +65,7 @@ class mod_surveypro_outform extends moodleform {
         $mform->setType('formpage', PARAM_INT);
 
         if ($formpage == SURVEYPRO_LEFT_OVERFLOW) {
-            $mform->addElement('static', 'nomoreitems', get_string('note', 'mod_surveypro'), get_string('onlyadvanceditemhere', 'mod_surveypro'));
+            $mform->addElement('static', 'nomoreitems', get_string('note', 'mod_surveypro'), get_string('onlyreserveditemhere', 'mod_surveypro'));
             // $mform->addElement('static', 'nomoreitems', get_string('note', 'mod_surveypro'), 'SURVEYPRO_LEFT_OVERFLOW');
         }
 
@@ -76,8 +76,8 @@ class mod_surveypro_outform extends moodleform {
         }
 
         if ($formpage >= 0) {
-            // $canaccessadvanceditems, $searchform=false, $type=false, $formpage
-            list($sql, $whereparams) = surveypro_fetch_items_seeds($surveypro->id, $canaccessadvanceditems, false, false, $formpage);
+            // $canaccessreserveditems, $searchform=false, $type=false, $formpage
+            list($sql, $whereparams) = surveypro_fetch_items_seeds($surveypro->id, $canaccessreserveditems, false, false, $formpage);
             $itemseeds = $DB->get_recordset_sql($sql, $whereparams);
 
             if (!$itemseeds->valid()) {
@@ -85,8 +85,6 @@ class mod_surveypro_outform extends moodleform {
                 // Display an error message.
                 $mform->addElement('static', 'noitemshere', get_string('note', 'mod_surveypro'), 'ERROR: How can I be here if ($formpage > 0) ?');
             }
-
-            $context = context_module::instance($cm->id);
 
             // This dummy item is needed for the colours alternation.
             // Because 'label' or ($position == SURVEYPRO_POSITIONFULLWIDTH)
@@ -173,7 +171,7 @@ class mod_surveypro_outform extends moodleform {
                     }
 
                     if (!$surveypro->newpageforchild) {
-                        $item->userform_add_disabledif($mform, $canaccessadvanceditems);
+                        $item->userform_add_disabledif($mform, $canaccessreserveditems);
                     }
                 }
             }
@@ -253,12 +251,12 @@ class mod_surveypro_outform extends moodleform {
 
         // Get _customdata.
         $cm = $this->_customdata->cm;
-        $modulepage = $this->_customdata->modulepage;
+        // $modulepage = $this->_customdata->modulepage;
         $surveypro = $this->_customdata->surveypro;
-        $submissionid = $this->_customdata->submissionid;
-        $formpage = $this->_customdata->formpage;
-        $maxassignedpage = $this->_customdata->maxassignedpage;
-        $canaccessadvanceditems = $this->_customdata->canaccessadvanceditems;
+        // $submissionid = $this->_customdata->submissionid;
+        // $formpage = $this->_customdata->formpage;
+        // $maxassignedpage = $this->_customdata->maxassignedpage;
+        // $canaccessreserveditems = $this->_customdata->canaccessreserveditems;
         // $readonly = $this->_customdata->readonly; // I see a form (record) that is not mine
         $preview = $this->_customdata->preview; // Are we in preview mode?
 
@@ -272,7 +270,7 @@ class mod_surveypro_outform extends moodleform {
         // Validate an item only if is enabled, alias: only if it matches the parent value
         $regexp = '~('.SURVEYPRO_ITEMPREFIX.'|'.SURVEYPRO_DONTSAVEMEPREFIX.')_('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_([a-z]+)_([0-9]+)_?([a-z0-9]+)?~';
         $olditemid = 0;
-        foreach ($data as $itemname => $v) {
+        foreach ($data as $itemname => $unused) {
             if (preg_match($regexp, $itemname, $matches)) {
                 $type = $matches[2]; // Item type.
                 $plugin = $matches[3]; // Item plugin.

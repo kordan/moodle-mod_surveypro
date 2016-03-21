@@ -107,7 +107,7 @@ class mod_surveypro_itembaseform extends moodleform {
 
         // Itembase: position.
         $fieldname = 'position';
-        if ($position = $item->get_insetupform($fieldname)) {
+        if ($item->get_insetupform($fieldname)) {
             $options = array();
             $default = SURVEYPRO_POSITIONTOP;
             if ($item->item_left_position_allowed()) { // Position can even be SURVEYPRO_POSITIONLEFT.
@@ -177,8 +177,8 @@ class mod_surveypro_itembaseform extends moodleform {
             $mform->setType($fieldname, PARAM_INT);
         }
 
-        // Itembase: advanced.
-        $fieldname = 'advanced';
+        // Itembase: reserved.
+        $fieldname = 'reserved';
         if ($item->get_insetupform($fieldname)) {
             $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'));
             $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
@@ -195,7 +195,7 @@ class mod_surveypro_itembaseform extends moodleform {
             // Create the list of each item with:
             //     sortindex lower than mine (whether already exists);
             //     $classname::item_get_canbeparent() == true;
-            //     advanced == my one <-- I omit this verification because the surveypro creator can, at every time, change the availability of the current item
+            //     reserved == my one <-- I omit this verification because the surveypro creator can, at every time, change the availability of the current item
             //                            So I move the verification of the holding form at the form verification time.
 
             // Build the list only for searchable plugins.
@@ -225,7 +225,7 @@ class mod_surveypro_itembaseform extends moodleform {
             $select->addOption(get_string('choosedots'), 0);
             foreach ($parentsseeds as $parentsseed) {
                 $parentitem = surveypro_get_item($cm, $surveypro, $parentsseed->id, $parentsseed->type, $parentsseed->plugin);
-                $star = ($parentitem->get_advanced()) ? '(*) ' : '';
+                $star = ($parentitem->get_reserved()) ? '(*) ' : '';
 
                 // I do not need to take care of contents of items of master templates because if I am here, $parent is a standard item and not a multilang one
                 $content = $star;

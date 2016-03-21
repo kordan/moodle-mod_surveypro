@@ -468,7 +468,6 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
 
         // Begin of: names of areas of investigation.
         // Short names of questions.
-        $name = array();
         for ($i = 1; $i < 5; $i++) {
             $index = sprintf('%02d', 4 * $area + $i);
             $key = 'question'.$index.'short';

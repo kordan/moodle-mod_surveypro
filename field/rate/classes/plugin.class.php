@@ -286,7 +286,7 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
             $ratesarray = surveypro_textarea_to_array($rates);
             if ($differentrates) {
                 $default = array();
-                foreach ($ratesarray as $k => $singlerate) {
+                foreach ($ratesarray as $singlerate) {
                     if (strpos($singlerate, SURVEYPRO_VALUELABELSEPARATOR) === false) {
                         $defaultrate = $singlerate;
                     } else {
@@ -517,9 +517,8 @@ EOS;
             return; // Nothing to validate.
         }
 
-        $optionindex = 0;
         $return = false;
-        foreach ($options as $option) {
+        foreach ($options as $optionindex => $unused) {
             $uniquename = $this->itemname.'_'.$optionindex;
             if ($data[$uniquename] == SURVEYPRO_INVITEVALUE) {
                 if ($this->style == SURVEYPROFIELD_RATE_USERADIO) {
@@ -530,7 +529,6 @@ EOS;
                 $errors[$elementname] = get_string('uerr_optionnotset', 'surveyprofield_rate');
                 $return = true;
             }
-            $optionindex++;
         }
         if ($return) {
             return;
@@ -546,7 +544,7 @@ EOS;
             $uniquerates = array_unique($rates);
             $duplicaterates = array_diff_assoc($rates, $uniquerates);
 
-            foreach ($duplicaterates as $k => $v) {
+            foreach ($duplicaterates as $k => $unused) {
                 if ($this->style == SURVEYPROFIELD_RATE_USERADIO) {
                     $elementname = $this->itemname.'_'.$k.'_group';
                 } else {
@@ -623,7 +621,7 @@ EOS;
             } else {
                 $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $fromdb->content);
 
-                foreach ($answers as $optionindex => $value) {
+                foreach ($answers as $optionindex => $unused) {
                     $uniquename = $this->itemname.'_'.$optionindex;
                     $prefill[$uniquename] = $answers[$optionindex];
                 }

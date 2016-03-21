@@ -4,7 +4,7 @@
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
       <content>&lt;h5&gt;AUTOFILL&lt;/h5&gt;&lt;p&gt;This plugin, like all the others provided by surveypro core, is equipped with a set of common settings shared with all the other surveypro elements.&lt;/p&gt;&lt;p&gt;The &lt;b&gt;common settings&lt;/b&gt; set is done by:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Indent&lt;/li&gt;&lt;li&gt;Question position&lt;/li&gt;&lt;li&gt;Element number&lt;/li&gt;&lt;li&gt;Variable&lt;/li&gt;&lt;li&gt;Additional note&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;This plugin is equipped with only one &lt;b&gt;autofill specific setting&lt;/b&gt;:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;First content element&lt;/li&gt;&lt;li&gt;Second content element&lt;/li&gt;&lt;li&gt;Third content element&lt;/li&gt;&lt;li&gt;Fourth content element&lt;/li&gt;&lt;li&gt;Fifth content element&lt;/li&gt;&lt;li&gt;Make hidden&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;The cartesian product of all these settings makes a very long list of possible implementations of this element. In this usertemplate few use cases are described.&lt;/p&gt;</content>
@@ -17,7 +17,7 @@
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;the User ID (probably for future relationship between exported tables)&lt;/li&gt;&lt;li&gt;field is visible&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The element is supposed to display the ID of the owner of the record and that ID is going to be visible in the surveypro page.&lt;/p&gt;</content>
@@ -31,7 +31,7 @@
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_autofill>
       <content>&lt;p&gt;Your user ID&lt;/p&gt;</content>
@@ -47,7 +47,7 @@
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;the User ID (probably for future relationship between exported tables)&lt;/li&gt;&lt;li&gt;field is not visible&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The element is supposed to display the ID of the owner of the record and that ID is not going to be visible in the surveypro page. This is the reason why you can not see that element in the surveypro preview page.&lt;/p&gt;</content>
@@ -61,7 +61,7 @@
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
-      <advanced>0</advanced>
+      <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_autofill>
       <content>&lt;p&gt;Your user ID&lt;/p&gt;</content>
