@@ -60,7 +60,7 @@ $importform = new mod_surveypro_importform($formurl);
 
 // Begin of: manage form submission.
 if ($importman->formdata = $importform->get_data()) {
-    $importman->import_csv();
+    // $importman->import_csv();
 
     $redirecturl = new moodle_url('/mod/surveypro/view.php', array('s' => $surveypro->id));
     redirect($redirecturl);

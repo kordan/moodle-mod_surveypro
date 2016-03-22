@@ -493,15 +493,6 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
         }
         foreach ($toevaluate as $k => $areaidlist) {
             foreach ($areaidlist as $itemid) {
-                // Changed to a shorter version on September 25, 2014.
-                // Older version will be deleted as soon as the wew one will be checked.
-                // $sql = 'SELECT COUNT(ud.id) as countofanswers, SUM(ud.content) as sumofanswers
-                //         FROM {surveypro_answer} ud
-                //         WHERE ud.itemid = :itemid';
-                // $whereparams = array('itemid' => $itemid);
-                // $aggregate = $DB->get_record_sql($sql, $whereparams);
-
-                // Verified on October 17. It seems it arrived the time to delete the long version of the query.
                 $whereparams = array('itemid' => $itemid);
                 $aggregate = $DB->get_record('surveypro_answer', $whereparams, 'COUNT(id) as countofanswers, SUM(content) as sumofanswers');
                 $m = $aggregate->sumofanswers / $aggregate->countofanswers;
@@ -512,13 +503,6 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
                     $this->trend2[] = $m;
                 }
 
-                // Changed to a shorter version on September 25, 2014.
-                // Older version will be deleted as soon as the wew one will be checked.
-                // $sql = 'SELECT ud.content
-                //         FROM {surveypro_answer} ud
-                //         WHERE ud.itemid = :itemid';
-                // $answers = $DB->get_recordset_sql($sql, $whereparams);
-                // $whereparams = array('itemid' => $itemid); // Already defined.
                 $answers = $DB->get_recordset('surveypro_answer', $whereparams, '', 'content');
                 $bigsum = 0;
                 foreach ($answers as $answer) {

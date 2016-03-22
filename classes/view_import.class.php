@@ -74,7 +74,7 @@ class mod_surveypro_importmanager {
             require_once($CFG->dirroot.'/mod/surveypro/field/'.$plugin.'/classes/plugin.class.php');
 
             $itemclass = 'mod_surveypro_'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
-            $item = new $itemclass($this->cm, null, false);
+            $item = surveypro_get_item($this->cm, $this->surveypro, 0, SURVEYPRO_TYPEFIELD, $plugin, false);
             if ($item->get_savepositiontodb()) {
                 $semanticitem[] = $plugins[$k];
             }
@@ -371,8 +371,18 @@ class mod_surveypro_importmanager {
 
         $iid = csv_import_reader::get_new_iid('surveyprouserdata');
         $cir = new csv_import_reader($iid, 'surveyprouserdata');
+        if ($debug) {
+            echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
+            echo '$iid = '.$iid.'<br />';
+            echo '$cir:';
+            var_dump($cir);
+        }
 
         $csvcontent = $this->get_csv_content();
+        if ($debug) {
+            echo '$csvcontent = '.$csvcontent.'<br />';
+        }
+
         // Does data come from OLD surveypro?
         if ( (strpos($csvcontent, '__invItat10n__') === false) &&
              (strpos($csvcontent, '__n0__Answer__') === false) &&
@@ -382,7 +392,6 @@ class mod_surveypro_importmanager {
             $csvusesolddata = true;
         }
 
-        // $recordcount = $cir->load_csv_content($csvcontent, $this->formdata->encoding, $this->formdata->csvdelimiter);
         unset($csvcontent);
 
         // Start here 3 tests against general file configuration.
@@ -397,7 +406,6 @@ class mod_surveypro_importmanager {
         // 2) is each column unique?
         $foundheaders = $cir->get_columns();
         if ($debug) {
-            echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
             echo '$foundheaders:';
             var_dump($foundheaders);
         }

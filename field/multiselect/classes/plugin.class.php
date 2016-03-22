@@ -508,21 +508,17 @@ EOS;
                 }
                 $mform->setDefault($this->itemname, $defaultkeys);
             }
-            // } else {
-            // $mform->setDefault($this->itemname, array());
         }
         // End of: defaults
 
         // This last item is needed because:
-        // the check for the not empty field is performed in the validation routine. (not by JS)
-        // (JS validation is never added because I do not want it when the "previous" button is pressed and when an item is disabled even if mandatory)
-        // The validation routine is executed ONLY ON ITEM that are actually submitted.
-        // For multiselect, nothing is submitted if no item is selected
+        // the check for the not empty field is performed in the validation routine (not by JS).
+        // For multiselect element, nothing is submitted if no option is selected
         // so, if the user neglects the mandatory multiselect AT ALL, it is not submitted and, as conseguence, not validated.
         // TO ALWAYS SUBMIT A MULTISELECT I add a dummy hidden item.
         //
-        // TAKE CARE: I choose a name for this item that IS UNIQUE BUT is missing the SURVEYPRO_ITEMPREFIX.'_'
-        //            In this way I am sure the item will never be saved in the database
+        // TAKE CARE: I choose a name for this item that IS UNIQUE BUT is missing the SURVEYPRO_ITEMPREFIX.'_'.
+        // In this way I am sure the item will never be saved to the database.
         $placeholderitemname = SURVEYPRO_DONTSAVEMEPREFIX.'_'.$this->type.'_'.$this->plugin.'_'.$this->itemid.'_placeholder';
         $mform->addElement('hidden', $placeholderitemname, 1);
         $mform->setType($placeholderitemname, PARAM_INT);

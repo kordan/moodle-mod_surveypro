@@ -562,7 +562,6 @@ class mod_surveypro_itembase {
                 // End of: hide/unhide part 2.
             }
 
-
             // Manage ($oldreserved != $newreserved).
             if ($oldreserved != $newreserved) {
                 $action = ($oldreserved) ? SURVEYPRO_MAKESTANDARD : SURVEYPRO_MAKEADVANCED;
@@ -603,8 +602,8 @@ class mod_surveypro_itembase {
         global $DB, $CFG;
 
         require_once($CFG->dirroot.'/mod/surveypro/'.$this->type.'/'.$this->plugin.'/classes/plugin.class.php');
-        $itemclassname = 'mod_surveypro_'.$this->type.'_'.$this->plugin;
-        if ($itemclassname::item_get_canbeparent()) {
+        $classname = 'mod_surveypro_'.$this->type.'_'.$this->plugin;
+        if ($classname::item_get_canbeparent()) {
             // Take care: you can not use $this->item_get_content_array(SURVEYPRO_VALUES, 'options') to evaluate values.
             // Because $item was loaded before last save, so $this->item_get_content_array(SURVEYPRO_VALUES, 'options').
             // Is still returning the previous values.
@@ -862,7 +861,6 @@ class mod_surveypro_itembase {
      * @return string $schema
      */
     public static function item_get_item_schema() {
-
         // Fields: surveyproid, formpage, timecreated and timemodified are not supposed to be part of the file!
         $schema = '<?xml version="1.0" encoding="UTF-8"?>'."\n";
         $schema .= '<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">'."\n";
@@ -974,16 +972,6 @@ class mod_surveypro_itembase {
     public function get_surveyproid() {
         return $this->cm->instance;
     }
-
-    /**
-     * get_context
-     *
-     * @param none
-     * @return the content of the $context property
-     */
-    // public function get_context() {
-    //     return $this->context;
-    // }
 
     /**
      * get_editorlist
@@ -1327,7 +1315,6 @@ class mod_surveypro_itembase {
     public function get_itemeditingfeedback() {
         return $this->itemeditingfeedback;
     }
-
 
     // MARK set
 

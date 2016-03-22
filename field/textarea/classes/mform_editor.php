@@ -47,6 +47,11 @@ class mod_surveypro_mform_editor extends MoodleQuickForm_editor {
     /**
      * Returns HTML for editor form element.
      *
+     * My intervention only replaces <div> with <div class="indent-x"> AT THE BEGINNING of $output.
+     * I use the output of parent::toHtml() to get advantages of future updates to core mform class.
+     * I search for simple <div> without attributes so that if moodle HQ will ever fix this issue in the core code,
+     * my intervention will result in nothing without adding useless or dangerous modifications.
+     *
      * @return string
      */
     public function toHtml() {
@@ -54,11 +59,6 @@ class mod_surveypro_mform_editor extends MoodleQuickForm_editor {
         // I add it with a simple replace.
         $output = parent::toHtml(); // Core code.
 
-        // My intervention only replaces <div> with <div class="indent-x"> AT THE BEGINNING of $output.
-        // I force the beginning (^) to avoid to replace different <div> eventually found into $output.
-        // I use the output of parent::toHtml() to get advantages of future updates to core mform class.
-        // I search for simple <div> without attributes so that if moodle HQ will fix this issue in the core code,
-        //     my intervention will result in nothing without adding useless or dangerous modifications.
         $tabs = $this->_getTabs();
         $pattern = '~^'.$tabs.'<div>~';
         $class = empty($this->_attributes['class']) ? 'indent-0' : $this->_attributes['class'];

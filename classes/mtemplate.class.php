@@ -455,8 +455,8 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
 
         // Create the class to apply mastertemplate settings.
         require_once($CFG->dirroot.'/mod/surveypro/template/'.$this->templatename.'/template.class.php');
-        $itemclassname = 'mod_surveypro_template_'.$this->templatename;
-        $mastertemplate = new $itemclassname();
+        $classname = 'mod_surveypro_template_'.$this->templatename;
+        $mastertemplate = new $classname();
 
         $fs = get_file_storage();
 

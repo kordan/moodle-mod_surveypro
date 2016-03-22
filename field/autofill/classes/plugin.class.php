@@ -359,11 +359,6 @@ EOS;
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
         if (!$searchform) {
-            // $referencearray = array(''); // <-- take care, the first element is already on board
-            // for ($i = 1; $i <= SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT_COUNT; $i++) {
-            //     $referencearray[] = constant('SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT'.sprintf('%02d', $i));
-            // }
-
             $value = $this->userform_get_content($submissionid);
             $mform->addElement('hidden', $this->itemname, $value);
             $mform->setType($this->itemname, PARAM_RAW);

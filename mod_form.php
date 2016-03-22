@@ -205,12 +205,8 @@ class mod_surveypro_mod_form extends moodleform_mod {
             $editoroptions = surveypro_get_editor_options();
             // Editing an existing surveypro - let us prepare the added editor elements (intro done automatically).
             $draftitemid = file_get_submitted_draft_itemid($filename);
-            $defaults[$filename.'_editor']['text'] =
-                                    file_prepare_draft_area($draftitemid, $this->context->id,
-                                    'mod_surveypro', SURVEYPRO_THANKSHTMLFILEAREA, false,
-                                    $editoroptions,
-                                    $defaults[$filename]);
-
+            $defaults[$filename.'_editor']['text'] = file_prepare_draft_area($draftitemid, $this->context->id,
+                'mod_surveypro', SURVEYPRO_THANKSHTMLFILEAREA, false, $editoroptions, $defaults[$filename]);
             $defaults[$filename.'_editor']['format'] = $defaults['thankshtmlformat'];
             $defaults[$filename.'_editor']['itemid'] = $draftitemid;
 
