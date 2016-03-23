@@ -68,7 +68,7 @@
 #page-mod-surveypro-view_form #userentry .fitem .felement input[type="radio"],
 #page-mod-surveypro-view_form #usersearch .fitem .felement input[type="checkbox"],
 #page-mod-surveypro-view_form #usersearch .fitem .felement input[type="radio"] {
-    margin-right:0px;
+    margin-right:0;
 }
 
 #page-mod-surveypro-view_form .mform .fitem .felement label {
@@ -269,7 +269,7 @@
 }
 
 #page-mod-surveypro-layout_itemsetup .inputformat {
-    position:relative:
+    position:relative;
     padding-left:26%;
     margin-left:26%;
     /*border:1px blue solid;*/

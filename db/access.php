@@ -204,7 +204,7 @@ $capabilities = array(
             'manager' => CAP_ALLOW
         ),
 
-        'clonepermissionsfrom' =>  'mod/surveypro:accessadvanceditems'
+        'clonepermissionsfrom' => 'mod/surveypro:accessadvanceditems'
     ),
 
     'mod/surveypro:submit' => array(

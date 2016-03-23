@@ -1066,7 +1066,8 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
             $message = get_string('defaulteditingthanksmessage', 'mod_surveypro');
         } else {
             if (!empty($this->surveypro->thankshtml)) {
-                $message = file_rewrite_pluginfile_urls($this->surveypro->thankshtml, 'pluginfile.php', $this->context->id, 'mod_surveypro', SURVEYPRO_THANKSHTMLFILEAREA, $this->surveypro->id);
+                $htmlbody = $this->surveypro->thankshtml;
+                $message = file_rewrite_pluginfile_urls($htmlbody, 'pluginfile.php', $this->context->id, 'mod_surveypro', SURVEYPRO_THANKSHTMLFILEAREA, $this->surveypro->id);
             } else {
                 $message = get_string('defaultcreationthanksmessage', 'mod_surveypro');
             }

@@ -361,14 +361,16 @@ EOS;
         $thresholdsize = 37;
         $lengthtochar = 1.3;
         $attributes = array('class' => 'indent-'.$this->indent, 'id' => $idprefix);
-        // Cool for browsers supporting html 5.
-        // if ($this->pattern == SURVEYPROFIELD_CHARACTER_EMAILPATTERN) {
-        //     $attributes['type'] = 'email';
-        // }
-        // if ($this->pattern == SURVEYPROFIELD_CHARACTER_URLPATTERN) {
-        //     $attributes['type'] = 'url';
-        // }
-        // But it doesn't work because "type" property is reserved to mform library
+        /*
+         * Cool for browsers supporting html 5.
+         * if ($this->pattern == SURVEYPROFIELD_CHARACTER_EMAILPATTERN) {
+         *     $attributes['type'] = 'email';
+         * }
+         * if ($this->pattern == SURVEYPROFIELD_CHARACTER_URLPATTERN) {
+         *     $attributes['type'] = 'url';
+         * }
+         * But it doesn't work because "type" property is reserved to mform library
+         */
         if (!empty($this->maxlength)) {
             $attributes['maxlength'] = $this->maxlength;
             if ($this->maxlength < $thresholdsize) {

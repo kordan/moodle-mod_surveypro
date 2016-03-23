@@ -23,11 +23,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(dirname(__FILE__) . '/lib.php');
-
-// $settings->add(new admin_setting_heading('surveyprofield_age_settings', get_string('header_left', 'surveyprofield_age'),
-//     get_string('header_right', 'surveyprofield_age')));
-
 $settings->add(new admin_setting_configtext('surveyprofield_age/maximumage',
     get_string('maximumage', 'surveyprofield_age'),
     get_string('maximumage_desc', 'surveyprofield_age'), 105, PARAM_INT));
