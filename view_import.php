@@ -60,10 +60,12 @@ $importform = new mod_surveypro_importform($formurl);
 
 // Begin of: manage form submission.
 if ($importman->formdata = $importform->get_data()) {
-    $importman->import_csv();
+    $errormessage = $importman->import_csv();
 
-    $redirecturl = new moodle_url('/mod/surveypro/view.php', array('s' => $surveypro->id));
-    redirect($redirecturl);
+    if ($errormessage === false) {
+        $redirecturl = new moodle_url('/mod/surveypro/view.php', array('s' => $surveypro->id));
+        redirect($redirecturl);
+    }
 }
 // End of: manage form submission.
 
@@ -78,8 +80,20 @@ echo $OUTPUT->header();
 
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_IMPORT);
 
-$importman->welcome_message();
-$importform->display();
+if (isset($errormessage) && ($errormessage !== false)) {
+    if (isset($errormessage->a)) {
+        $message = get_string($errormessage->key, 'mod_surveypro', $errormessage->a);
+    } else {
+        $message = get_string($errormessage->key, 'mod_surveypro');
+    }
+    echo $OUTPUT->notification($message, 'notifyproblem');
+
+    $returnurl = new moodle_url('/mod/surveypro/view_import.php', array('s' => $surveypro->id));
+    echo $OUTPUT->continue_button($returnurl);
+} else {
+    $importman->welcome_message();
+    $importform->display();
+}
 
 // Finish the page.
 echo $OUTPUT->footer();
