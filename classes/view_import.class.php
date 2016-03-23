@@ -73,8 +73,7 @@ class mod_surveypro_importmanager {
         foreach ($plugins as $k => $plugin) {
             require_once($CFG->dirroot.'/mod/surveypro/field/'.$plugin.'/classes/plugin.class.php');
 
-            $itemclass = 'mod_surveypro_'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
-            $item = new $itemclass($this->cm, null, false);
+            $item = surveypro_get_item($this->cm, $this->surveypro, 0, SURVEYPRO_TYPEFIELD, $plugin, false);
             if ($item->get_savepositiontodb()) {
                 $semanticitem[] = $plugins[$k];
             }
@@ -365,14 +364,20 @@ class mod_surveypro_importmanager {
 
         $debug = false;
 
-        // Start with the validation.
-        // Define the url to redirect in case of validation failure.
-        $returnurl = new moodle_url('/mod/surveypro/view_import.php', array('s' => $this->surveypro->id));
-
         $iid = csv_import_reader::get_new_iid('surveyprouserdata');
         $cir = new csv_import_reader($iid, 'surveyprouserdata');
+        if ($debug) {
+            echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
+            echo '$iid = '.$iid.'<br />';
+            echo '$cir:';
+            var_dump($cir);
+        }
 
         $csvcontent = $this->get_csv_content();
+        if ($debug) {
+            echo '$csvcontent = '.$csvcontent.'<br />';
+        }
+
         // Does data come from OLD surveypro?
         if ( (strpos($csvcontent, '__invItat10n__') === false) &&
              (strpos($csvcontent, '__n0__Answer__') === false) &&
@@ -382,7 +387,9 @@ class mod_surveypro_importmanager {
             $csvusesolddata = true;
         }
 
-        // $recordcount = $cir->load_csv_content($csvcontent, $this->formdata->encoding, $this->formdata->csvdelimiter);
+        // load_csv_content is needed to define properties in the class.
+        $recordcount = $cir->load_csv_content($csvcontent, $this->formdata->encoding, $this->formdata->csvdelimiter);
+
         unset($csvcontent);
 
         // Start here 3 tests against general file configuration.
@@ -391,7 +398,10 @@ class mod_surveypro_importmanager {
         if (!is_null($csvfileerror)) {
             $cir->close();
             $cir->cleanup();
-            print_error('import_columnscountchanges', 'mod_surveypro', $returnurl, $csvfileerror);
+
+            $error = new stdClass();
+            $error->key = 'import_columnscountchanges';
+            return $error;
         }
 
         // 2) is each column unique?
@@ -404,15 +414,22 @@ class mod_surveypro_importmanager {
         if ($duplicateheader = $this->verify_header_duplication($foundheaders)) { // Error.
             $cir->close();
             $cir->cleanup();
-            print_error('import_duplicateheader', 'mod_surveypro', $returnurl, $duplicateheader);
+
+            $error = new stdClass();
+            $error->key = 'import_duplicateheader';
+            $error->a = $duplicateheader;
+            return $error;
         }
 
         // 3) is the user trying to import an attachment?
         if ($attachments = $this->verify_attachments_import($foundheaders)) { // Error.
             $cir->close();
             $cir->cleanup();
-            $a = '<li>'.implode(';</li><li>', $attachments).'.</li>';
-            print_error('import_attachmentsnotallowed', 'mod_surveypro', $returnurl, $a);
+
+            $error = new stdClass();
+            $error->key = 'import_attachmentsnotallowed';
+            $error->a = '<li>'.implode(';</li><li>', $attachments).'.</li>';
+            return $error;
         }
 
         // Make a list of the header of each item in the survey.
@@ -454,8 +471,11 @@ class mod_surveypro_importmanager {
         if (count($nonmatchingheaders)) {
             $cir->close();
             $cir->cleanup();
-            $a = '<li>'.implode(';</li><li>', $nonmatchingheaders).'.</li>';
-            print_error('import_extraheaderfound', 'mod_surveypro', $returnurl, $a);
+
+            $error = new stdClass();
+            $error->key = 'import_extraheaderfound';
+            $error->a = '<li>'.implode(';</li><li>', $nonmatchingheaders).'.</li>';
+            return $error;
         }
 
         // Define the stautus of imported records.
@@ -506,12 +526,19 @@ class mod_surveypro_importmanager {
                     if (empty($value)) {
                         $cir->close();
                         $cir->cleanup();
-                        print_error('import_missinguserid', 'mod_surveypro', $returnurl);
+
+                        $error = new stdClass();
+                        $error->key = 'import_missinguserid';
+                        return $error;
                     } else {
                         if (!is_number($value)) {
                             $cir->close();
                             $cir->cleanup();
-                            print_error('import_invaliduserid', 'mod_surveypro', $returnurl, $value);
+
+                            $error = new stdClass();
+                            $error->key = 'import_invaliduserid';
+                            $error->a = $value;
+                            return $error;
                         }
                         if ($value != $USER->id) {
                             if (!isset($csvusers[$value])) {
@@ -529,12 +556,19 @@ class mod_surveypro_importmanager {
                     if (empty($value)) {
                         $cir->close();
                         $cir->cleanup();
-                        print_error('import_missingtimecreated', 'mod_surveypro', $returnurl);
+
+                        $error = new stdClass();
+                        $error->key = 'import_missingtimecreated';
+                        return $error;
                     }
                     if (!is_number($value)) {
                         $cir->close();
                         $cir->cleanup();
-                        print_error('import_invalidtimecreated', 'mod_surveypro', $returnurl, $value);
+
+                        $error = new stdClass();
+                        $error->key = 'import_invalidtimecreated';
+                        $error->a = $value;
+                        return $error;
                     }
                     continue;
                 }
@@ -543,25 +577,36 @@ class mod_surveypro_importmanager {
                     if (!empty($value) && !is_number($value)) {
                         $cir->close();
                         $cir->cleanup();
-                        print_error('import_invalidtimemodified', 'mod_surveypro', $returnurl, $value);
+
+                        $error = new stdClass();
+                        $error->key = 'import_invalidtimemodified';
+                        $error->a = $value;
+                        return $error;
                     }
                     continue;
                 }
 
-                $info = $itemhelperinfo[$col]; // The itemhelperinfo of the item in col = $col.
+                $info = $itemhelperinfo[$col]; // The itemhelperinfo of the item in column = $col.
+                if ($debug) {
+                    echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
+                    echo '$info:';
+                    var_dump($info);
+                }
 
-                // I import records with missing mandatory content too.
-                // But if the content is provided, then it has to be present.
+                // I import files with missing mandatory columns (fields) too.
+                // But, if the column of the mandatory element is provided in the csv file then it has to be not empty.
                 if ($info->required) {
                     // Verify it is not empty.
                     if (!strlen($value)) { // Error.
                         $cir->close();
                         $cir->cleanup();
 
-                        $a = new stdClass();
-                        $a->row = implode(', ', $csvrow);
-                        $a->col = $col;
-                        print_error('import_emptyrequiredvalue', 'mod_surveypro', $returnurl, $a);
+                        $error = new stdClass();
+                        $error->key = 'import_emptyrequiredvalue';
+                        $error->a = new stdClass();
+                        $error->a->row = implode(', ', $csvrow);
+                        $error->a->col = $col;
+                        return $error;
                     }
                 }
 
@@ -600,7 +645,13 @@ class mod_surveypro_importmanager {
                                     $cir->cleanup();
                                     $a->position = $position;
                                     $a->bounds = '0..'.$options;
-                                    print_error('import_positionoutofbound', 'mod_surveypro', $returnurl, $a);
+
+                                    $error = new stdClass();
+                                    $error->key = 'import_positionoutofbound';
+                                    $error->a = new stdClass();
+                                    $error->a->position = $position;
+                                    $error->a->bounds = '0..'.$options;
+                                    return $error;
                                 }
                             } else {
                                 // If $position must be numeric if $k is not is at its last value.
@@ -608,7 +659,11 @@ class mod_surveypro_importmanager {
                                     $cir->close();
                                     $cir->cleanup();
                                     $a->position = $position;
-                                    print_error('import_positionnotinteger', 'mod_surveypro', $returnurl, $a);
+
+                                    $error = new stdClass();
+                                    $error->key = 'import_positionnotinteger';
+                                    $error->a = $position;
+                                    return $error;
                                 }
                             }
                         }
@@ -618,16 +673,16 @@ class mod_surveypro_importmanager {
 
                         if ($debug) {
                             echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
-                            echo '$positions:';
-                            var_dump($positions);
+                            echo '$contents:';
+                            var_dump($contents);
                         }
 
                         foreach ($contents as $k => $content) {
                             $key = array_search($content, $options);
-                            if ($key !== false) { // It is not an error, accept it.
+                            if ($key !== false) { // $content was found, carry on!
                                 continue;
                             }
-                            if (in_array($content, $reservedwords)) { // It is not an error, accept it.
+                            if (in_array($content, $reservedwords)) { // $content is a reserved word. Good. Carry on!
                                 continue;
                             }
                             if ($k == $contentscount - 1) { // It is not an error, accept it.
@@ -636,39 +691,42 @@ class mod_surveypro_importmanager {
 
                             if ($debug) {
                                 echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
-                                echo '**Errore**<br />';
-                                echo 'Non trovo "'.$value.'" fra gli elementi di $options<br />';
+                                echo '** Error **<br />';
+                                echo 'I can\'t find "'.$value.'" among $options items<br />';
                             }
 
                             $cir->close();
                             $cir->cleanup();
 
-                            $a = new stdClass();
-                            $a->csvcol = $col;
-                            $a->csvvalue = $content;
-                            $a->csvrow = implode(', ', $csvrow);
-                            $a->header = $foundheaders[$col];
+                            $error = new stdClass();
+                            $error->key = 'import_missingsemantic';
+                            $error->a = new stdClass();
+                            $error->a->csvcol = $col;
+                            $error->a->csvvalue = $value;
+                            $error->a->csvrow = implode(', ', $csvrow);
+                            $error->a->header = $foundheaders[$col];
+
                             switch ($this->formdata->csvsemantic) {
                                 case SURVEYPRO_LABELS:
-                                    $a->semantic = get_string('answerlabel', 'mod_surveypro');
+                                    $error->a->semantic = get_string('answerlabel', 'mod_surveypro');
                                     break;
                                 case SURVEYPRO_VALUES:
-                                    $a->semantic = get_string('answervalue', 'mod_surveypro');
+                                    $error->a->semantic = get_string('answervalue', 'mod_surveypro');
                                     break;
                                 case SURVEYPRO_POSITIONS:
-                                    $a->semantic = get_string('answerposition', 'mod_surveypro');
+                                    $error->a->semantic = get_string('answerposition', 'mod_surveypro');
                                     break;
                                 case SURVEYPRO_ITEMDRIVEN:
                                     $itemdownloadformat = $itemhelperinfo[$col]->contentformat;
                                     switch ($itemdownloadformat) {
                                         case SURVEYPRO_ITEMRETURNSLABELS:
-                                            $a->semantic = get_string('answerlabel', 'mod_surveypro');
+                                            $error->a->semantic = get_string('answerlabel', 'mod_surveypro');
                                             break;
                                         case SURVEYPRO_ITEMSRETURNSVALUES:
-                                            $a->semantic = get_string('answervalue', 'mod_surveypro');
+                                            $error->a->semantic = get_string('answervalue', 'mod_surveypro');
                                             break;
                                         case SURVEYPRO_ITEMRETURNSPOSITION:
-                                            $a->semantic = get_string('answerposition', 'mod_surveypro');
+                                            $error->a->semantic = get_string('answerposition', 'mod_surveypro');
                                             break;
                                         default:
                                             $message = 'Unexpected $itemdownloadformat = '.$itemdownloadformat;
@@ -679,7 +737,7 @@ class mod_surveypro_importmanager {
                                     $message = 'Unexpected $this->formdata->csvsemantic = '.$this->formdata->csvsemantic;
                                     debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
                             }
-                            print_error('import_missingsemantic', 'mod_surveypro', $returnurl, $a);
+                            return $error;
                         }
                     }
                 }
@@ -706,7 +764,14 @@ class mod_surveypro_importmanager {
                         $a->userid = $csvuserid;
                         $a->maxentries = $this->surveypro->maxentries;
                         $a->totalentries = $totalsubmissions;
-                        print_error('import_breakingmaxentries', 'mod_surveypro', $returnurl, $a);
+
+                        $error = new stdClass();
+                        $error->key = 'import_breakingmaxentries';
+                        $error->a = new stdClass();
+                        $error->a->userid = $csvuserid;
+                        $error->a->maxentries = $this->surveypro->maxentries;
+                        $error->a->totalentries = $totalsubmissions;
+                        return $error;
                     }
                 }
             }
