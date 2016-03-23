@@ -139,18 +139,18 @@ class mod_surveypro_templatebase {
                     // I could use a random class here because they all share the same parent item_get_item_schema
                     // but, I need the right class name for the next table, so I choose to load the correct class from the beginning.
                     require_once($CFG->dirroot.'/mod/surveypro/'.$currenttype.'/'.$currentplugin.'/classes/plugin.class.php');
-                    $itemclassname = 'mod_surveypro_'.$currenttype.'_'.$currentplugin;
-                    $xsd = $itemclassname::item_get_item_schema(); // <- itembase schema
+                    $classname = 'mod_surveypro_'.$currenttype.'_'.$currentplugin;
+                    $xsd = $classname::item_get_item_schema(); // <- itembase schema
                 } else {
                     // $classname is already onboard because of the previous loop over surveypro_item fields
-                    if (!isset($itemclassname)) {
+                    if (!isset($classname)) {
                         $error = new stdClass();
                         $error->key = 'badtablenamefound';
                         $error->a = $tablename;
 
                         return $error;
                     }
-                    $xsd = $itemclassname::item_get_plugin_schema(); // <- plugin schema
+                    $xsd = $classname::item_get_plugin_schema(); // <- plugin schema
                 }
 
                 if (empty($xsd)) {

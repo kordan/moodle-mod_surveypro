@@ -78,9 +78,6 @@ class mod_surveypro_tabs {
         $this->moduletab = $moduletab;
         $this->modulepage = $modulepage;
 
-        // do not prevent direct user input
-        // prevention is done in each working page according to actions
-
         $this->riskyediting = ($this->surveypro->riskyeditdeadline > time());
 
         $utilityman = new mod_surveypro_utility($cm, $surveypro);

@@ -48,15 +48,15 @@ class mod_surveypro_mform_filemanager extends MoodleQuickForm_filemanager {
     /**
      * Returns HTML for editor form element.
      *
-     * @return string
+     * I want to change at the beginning:
+     *     <div id="filemanager-556eb09a98375" class="filemanager fm-loading">
+     * to
+     *     <div id="filemanager-556eb09a98375" class="indent-x filemanager fm-loading">
+     *
+     * @return string $output
      */
     public function toHtml() {
         $output = parent::toHtml(); // Core code.
-
-        // I want to change at the beginning:
-        //     <div id="filemanager-556eb09a98375" class="filemanager fm-loading">
-        // to:
-        //     <div id="filemanager-556eb09a98375" class="indent-x filemanager fm-loading">
 
         // I need to trim the code because mform library add a newline at the beginning.
         $output = trim($output);

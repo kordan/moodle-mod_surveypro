@@ -356,7 +356,6 @@ function surveypro_update_instance($surveypro, $mform) {
     $whereparams = array('surveyproid' => $surveypro->id);
     $DB->set_field('surveypro_item', 'formpage', 0, $whereparams);
 
-
     $DB->update_record('surveypro', $surveypro);
     // Stop working with the surveypro table (unless $surveypro->thankshtml_editor['itemid'] != 0).
 
@@ -449,14 +448,13 @@ function surveypro_delete_instance($id) {
     $DB->delete_records('surveypro', array('id' => $surveypro->id));
 
     // TODO: Am I supposed to delete files too?
-    // AREAS:
-    //     SURVEYPRO_STYLEFILEAREA
-    //     SURVEYPRO_TEMPLATEFILEAREA
-    //     SURVEYPRO_THANKSHTMLFILEAREA
+    // SURVEYPRO_STYLEFILEAREA
+    // SURVEYPRO_TEMPLATEFILEAREA
+    // SURVEYPRO_THANKSHTMLFILEAREA
 
-    //     SURVEYPRO_ITEMCONTENTFILEAREA <-- is this supposed to go to its delete_instance plugin?
-    //     SURVEYPROFIELD_FILEUPLOAD_FILEAREA <-- is this supposed to go to its delete_instance plugin?
-    //     SURVEYPROFIELD_TEXTAREAFILEAREA <-- is this supposed to go to its delete_instance plugin?
+    // SURVEYPRO_ITEMCONTENTFILEAREA <-- is this supposed to go to its delete_instance plugin?
+    // SURVEYPROFIELD_FILEUPLOAD_FILEAREA <-- is this supposed to go to its delete_instance plugin?
+    // SURVEYPROFIELD_TEXTAREAFILEAREA <-- is this supposed to go to its delete_instance plugin?
 
     // Never delete mod_surveypro files in each AREA in $context = context_user::instance($userid);
 
@@ -591,11 +589,11 @@ function surveypro_cron() {
 
     $saveresumestatus = array(0, 1);
     // $saveresumestatus == 0:  saveresume is not allowed
-    //     users leaved records in progress more than four hours ago...
-    //     I can not believe they are still working on them so
-    //     I delete records now
+    // users leaved records in progress more than four hours ago...
+    // I can not believe they are still working on them so
+    // I delete records now
     // $saveresumestatus == 1:  saveresume is allowed
-    //     these records are older than maximum allowed time delay
+    // These records are older than maximum allowed time delay
     $maxinputdelay = get_config('mod_surveypro', 'maxinputdelay');
     foreach ($saveresumestatus as $saveresume) {
         if (($saveresume == 1) && ($maxinputdelay == 0)) { // Maxinputdelay == 0 means, please don't delete.
@@ -671,15 +669,15 @@ function surveypro_get_extra_capabilities() {
  * @return bool true if the scale is used by the given surveypro instance
  */
 function surveypro_scale_used($surveyproid, $scaleid) {
-    // global $DB;
+    /* global $DB;
 
-    /* @example */
-    // if ($scaleid and $DB->record_exists('surveypro', array('id' => $surveyproid, 'grade' => -$scaleid))) {
-    //     return true;
-    // } else {
-    //     return false;
-    // }
-    return false;
+    // @example
+    if ($scaleid and $DB->record_exists('surveypro', array('id' => $surveyproid, 'grade' => -$scaleid))) {
+        return true;
+    } else {
+        return false;
+    }
+    return false; */
 }
 
 /**
@@ -691,14 +689,14 @@ function surveypro_scale_used($surveyproid, $scaleid) {
  * @return boolean true if the scale is used by any surveypro instance
  */
 function surveypro_scale_used_anywhere($scaleid) {
-    // global $DB;
+    /* global $DB;
 
-    /* @example */
-    // if ($scaleid and $DB->record_exists('surveypro', array('grade' => -$scaleid))) {
-    //     return true;
-    // } else {
-    //     return false;
-    // }
+    // @example
+    if ($scaleid and $DB->record_exists('surveypro', array('grade' => -$scaleid))) {
+        return true;
+    } else {
+        return false;
+    } */
 }
 
 /**
@@ -709,20 +707,19 @@ function surveypro_scale_used_anywhere($scaleid) {
  * @param stdClass $surveypro instance object with extra cmidnumber and modname property
  * @return void
  */
-// I will remove comments when I will understand why this method is called
-// function surveypro_grade_item_update(stdClass $surveypro) {
-//     global $CFG;
-//     require_once($CFG->libdir.'/gradelib.php');
-//
-//     /* @example */
-//     $item = array();
-//     $item['itemname'] = clean_param($surveypro->name, PARAM_NOTAGS);
-//     $item['gradetype'] = GRADE_TYPE_VALUE;
-//     $item['grademax'] = $surveypro->grade;
-//     $item['grademin'] = 0;
-//
-//     grade_update('mod/surveypro', $surveypro->course, 'mod', 'surveypro', $surveypro->id, 0, null, $item);
-// }
+function surveypro_grade_item_update(stdClass $surveypro) {
+    /* global $CFG;
+    require_once($CFG->libdir.'/gradelib.php');
+
+    // @example
+    $item = array();
+    $item['itemname'] = clean_param($surveypro->name, PARAM_NOTAGS);
+    $item['gradetype'] = GRADE_TYPE_VALUE;
+    $item['grademax'] = $surveypro->grade;
+    $item['grademin'] = 0;
+
+    grade_update('mod/surveypro', $surveypro->course, 'mod', 'surveypro', $surveypro->id, 0, null, $item); */
+}
 
 /**
  * Update surveypro grades in the gradebook
