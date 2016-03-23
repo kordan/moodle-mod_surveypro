@@ -333,7 +333,7 @@ class mod_surveypro_utility {
         }
 
         if ($updatecompletion) {
-           if (count($whereparams) == 1) { // Delete all submission for this surveypro.
+            if (count($whereparams) == 1) { // Delete all submission for this surveypro.
                 // Update completion state.
                 $possibleusers = surveypro_get_participants($this->surveypro->id);
 
