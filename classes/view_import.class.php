@@ -71,8 +71,6 @@ class mod_surveypro_importmanager {
         $semanticitem = array();
         $plugins = surveypro_get_plugin_list(SURVEYPRO_TYPEFIELD);
         foreach ($plugins as $k => $plugin) {
-            require_once($CFG->dirroot.'/mod/surveypro/field/'.$plugin.'/classes/plugin.class.php');
-
             $item = surveypro_get_item($this->cm, $this->surveypro, 0, SURVEYPRO_TYPEFIELD, $plugin, false);
             if ($item->get_savepositiontodb()) {
                 $semanticitem[] = $plugins[$k];
@@ -407,7 +405,6 @@ class mod_surveypro_importmanager {
         // 2) is each column unique?
         $foundheaders = $cir->get_columns();
         if ($debug) {
-            echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
             echo '$foundheaders:';
             var_dump($foundheaders);
         }

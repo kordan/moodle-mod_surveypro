@@ -111,7 +111,7 @@ class mod_surveypro_itembaseform extends moodleform {
             $options = array();
             $default = SURVEYPRO_POSITIONTOP;
             if ($item->item_left_position_allowed()) { // Position can even be SURVEYPRO_POSITIONLEFT.
-                $options[SURVEYPRO_POSITIONLEFT] =  get_string('left', 'mod_surveypro');
+                $options[SURVEYPRO_POSITIONLEFT] = get_string('left', 'mod_surveypro');
                 $default = SURVEYPRO_POSITIONLEFT;
             }
             $options[SURVEYPRO_POSITIONTOP] = get_string('top', 'mod_surveypro');
@@ -193,10 +193,10 @@ class mod_surveypro_itembaseform extends moodleform {
             // Itembase::parentid.
             $fieldname = 'parentid';
             // Create the list of each item with:
-            //     sortindex lower than mine (whether already exists);
-            //     $classname::item_get_canbeparent() == true;
-            //     reserved == my one <-- I omit this verification because the surveypro creator can, at every time, change the availability of the current item
-            //                            So I move the verification of the holding form at the form verification time.
+            // sortindex lower than mine (whether already exists);
+            // $classname::item_get_canbeparent() == true;
+            // reserved == my one <-- I omit this verification because the surveypro creator can, at every time, change the availability of the current item
+            // So I move the verification of the holding form at the form verification time.
 
             // Build the list only for searchable plugins.
             $pluginlist = surveypro_get_plugin_list(SURVEYPRO_TYPEFIELD);

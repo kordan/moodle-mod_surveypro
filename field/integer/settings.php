@@ -23,11 +23,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(dirname(__FILE__) . '/lib.php');
-
-// $settings->add(new admin_setting_heading('surveyprofield_numeric_settings', get_string('header_left', 'surveyprofield_integer'),
-//     get_string('header_right', 'surveyprofield_integer')));
-
 $settings->add(new admin_setting_configtext('surveyprofield_integer/maximuminteger',
     get_string('maximuminteger', 'surveyprofield_integer'),
     get_string('maximuminteger_desc', 'surveyprofield_integer'), 255, PARAM_INT));

@@ -48,8 +48,8 @@ class mod_surveypro_searchform extends moodleform {
 
         // This dummy item is needed for the colours alternation.
         // Because 'label' or ($position == SURVEYPRO_POSITIONFULLWIDTH).
-        //     as first item are out from the a fieldset
-        //     so they and are not selected by the css3 selector: fieldset div.fitem:nth-of-type(even) {
+        // as first item are out from the a fieldset
+        // so they and are not selected by the css3 selector: fieldset div.fitem:nth-of-type(even) {
         $mform->addElement('static', 'beginning_extrarow', '', '');
         foreach ($itemseeds as $itemseed) {
             $item = surveypro_get_item($cm, $surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);

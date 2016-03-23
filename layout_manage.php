@@ -98,8 +98,8 @@ $basecondition = $basecondition && empty($surveypro->template);
 $basecondition = $basecondition && (!$hassubmissions || $riskyediting);
 
 // master template form
-$mtemplatecondition =  true;
-$mtemplatecondition =  $mtemplatecondition && (!$itemcount);
+$mtemplatecondition = true;
+$mtemplatecondition = $mtemplatecondition && (!$itemcount);
 if ($mtemplatecondition) {
     require_once($CFG->dirroot.'/mod/surveypro/classes/mtemplate.class.php');
     require_once($CFG->dirroot.'/mod/surveypro/form/mtemplates/apply_form.php');
