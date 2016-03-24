@@ -1150,7 +1150,7 @@ function surveypro_fetch_items_seeds($surveyproid, $canaccessreserveditems, $sea
     if (!$canaccessreserveditems) {
         $sql .= ' AND si.reserved = 0';
     }
-    if ($searchform) { // Advanced search.
+    if ($searchform) {
         $sql .= ' AND si.insearchform = 1';
         $sql .= ' AND si.plugin <> "pagebreak"';
     }

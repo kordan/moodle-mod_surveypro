@@ -8,21 +8,21 @@ Feature: test the use of reserved elements
   Scenario: use reserved elements
     Given the following "courses" exist:
       | fullname          | shortname         | category | groupmode |
-      | Advanced elements | Advanced elements | 0        | 0         |
+      | Reserved elements | Reserved elements | 0        | 0         |
     And the following "users" exist:
       | username | firstname | lastname | email                |
       | teacher1 | Teacher   | 1        | teacher1@nowhere.net |
       | student1 | Student   | 1        | student1@nowhere.net |
     And the following "course enrolments" exist:
       | user     | course            | role           |
-      | teacher1 | Advanced elements | editingteacher |
-      | student1 | Advanced elements | student        |
+      | teacher1 | Reserved elements | editingteacher |
+      | student1 | Reserved elements | student        |
     And the following "activities" exist:
       | activity  | name                  | intro                    | course            | idnumber   |
-      | surveypro | Advanced element test | To test reserved element | Advanced elements | surveypro1 |
+      | surveypro | Reserved element test | To test reserved element | Reserved elements | surveypro1 |
     And I log in as "teacher1"
-    And I follow "Advanced elements"
-    And I follow "Advanced element test"
+    And I follow "Reserved elements"
+    And I follow "Reserved element test"
 
     # add the first age item generally available
     And I set the field "typeplugin" to "Age [yy/mm]"
@@ -52,7 +52,7 @@ Feature: test the use of reserved elements
       | Indent                   | 0               |
       | Question position        | left            |
       | Element number           | 2               |
-      | Advanced element         | 1               |
+      | Reserved                 | 1               |
       | Hide filling instruction | 1               |
       | id_defaultoption_2       | Custom          |
       | id_defaultvalue_year     | 14              |
@@ -63,8 +63,8 @@ Feature: test the use of reserved elements
 
     # test the user sees only the first age item
     When I log in as "student1"
-    And I follow "Advanced elements"
-    And I follow "Advanced element test"
+    And I follow "Reserved elements"
+    And I follow "Reserved element test"
     And I press "New response"
     Then I should see "1: First age item"
     Then I should not see "2: Second age item"
@@ -79,8 +79,8 @@ Feature: test the use of reserved elements
 
     # test the teacher sees the first and the second age items both
     When I log in as "teacher1"
-    And I follow "Advanced elements"
-    And I follow "Advanced element test"
+    And I follow "Reserved elements"
+    And I follow "Reserved element test"
     And I follow "edit_submission_row_1"
     Then I should see "1: First age item"
     Then I should see "2: Second age item"

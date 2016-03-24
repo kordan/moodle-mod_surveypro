@@ -116,7 +116,7 @@ and they are:
 
 • Availability->Hidden: to hide the element. Hided elements will not be available at all. You can consider these elements as not part of the survey.
 • Availability->Search form: <<TODO: add the the description>>
-• Availability->Advanced element: <<TODO: add the the description>>
+• Availability->Reserved element: <<TODO: add the the description>>
 
 • Branching->Parent element: <<TODO: add the the description>>
 • Branching->Parent content: <<TODO: add the the description>>
