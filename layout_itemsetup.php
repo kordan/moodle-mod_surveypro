@@ -164,7 +164,7 @@ new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABITEMS, SURVEYPRO_
 
 $utilityman = new mod_surveypro_utility($cm, $surveypro);
 if ($hassubmissions) {
-    $message = $utilityman->warning_message();
+    $message = $utilityman->has_submissions_warning();
     echo $OUTPUT->notification($message, 'notifyproblem');
 }
 $itemlistman->item_fingerprint();

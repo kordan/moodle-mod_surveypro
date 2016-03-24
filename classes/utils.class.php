@@ -581,12 +581,12 @@ class mod_surveypro_utility {
     }
 
     /**
-     * warning_message
+     * has_submissions_warning
      *
      * @param none
      * @return void
      */
-    public function warning_message() {
+    public function has_submissions_warning() {
         global $COURSE;
 
         $message = get_string('hassubmissions_alert', 'mod_surveypro');
@@ -596,5 +596,33 @@ class mod_surveypro_utility {
         }
 
         return $message;
+    }
+
+    /**
+     * get_used_plugin_list
+     *
+     * This method provide the list af the plugin used in the current surveypro
+     * getting them from the items already added.
+     *
+     * @param type
+     * @return array $pluginlist;
+     */
+    public function get_used_plugin_list($type='') {
+        global $DB;
+
+        $whereparams = array();
+        $sql = 'SELECT MIN(id), plugin
+                FROM {surveypro_item}
+                WHERE surveyproid = :surveyproid';
+        $whereparams['surveyproid'] = $this->surveypro->id;
+        if (!empty($type)) {
+            $sql .= ' AND type = :type';
+            $whereparams['type'] = $type;
+        }
+        $sql .= ' GROUP BY plugin';
+
+        $pluginlist = $DB->get_records_sql_menu($sql, $whereparams);
+
+        return $pluginlist;
     }
 }

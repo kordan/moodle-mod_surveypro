@@ -480,42 +480,40 @@ class mod_surveypro_itembase {
             return;
         }
 
-        $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$this->plugin;
-        $whereparams = array('itemid' => $itemid, 'surveyproid' => (int)$record->surveyproid);
-        $sql = 'SELECT COUNT(p.id)
-                FROM {'.$tablename.'} p
-                    JOIN {surveypro_item} i ON i.id = p.itemid
-                WHERE ((p.itemid <> :itemid)
-                    AND (i.surveyproid = :surveyproid)
-                    AND ('.$DB->sql_length('p.variable').' > 0))';
-
         // Verify variable was set. If not, set it.
         if (!isset($record->variable) || empty($record->variable)) {
-            $plugincount = 1 + $DB->count_records_sql($sql, $whereparams);
-            $plugincount = str_pad($plugincount, 3, '0', STR_PAD_LEFT);
-
-            $candidatevariable = $this->plugin.'_'.$plugincount;
+            $testname = $this->plugin.'_001';
         } else {
-            $candidatevariable = $record->variable;
+            $testname = $record->variable;
+        }
+        // Bloody Editing Teachers were creating a boolean element naming it 'age_001'
+        // having an age element named 'age_001' already onboard!
+        // Before paying a killer, I need to make as much queries as the number of used plugins in my surveypro!
+
+        // Get the list of used plugin.
+        $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+        $pluginlist = $utilityman->get_used_plugin_list(SURVEYPRO_TYPEFIELD);
+
+        $usednames = array();
+        foreach ($pluginlist as $plugin) {
+            $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
+            $sql = 'SELECT p.id, p.variable
+                    FROM {surveypro_item} i
+                        JOIN {'.$tablename.'} p ON i.id = p.itemid
+                    WHERE ((i.surveyproid = :surveyproid)
+                        AND (p.itemid <> :itemid))';
+            $whereparams = array('surveyproid' => (int)$record->surveyproid, 'itemid' => $itemid);
+            $usednames += $DB->get_records_sql_menu($sql, $whereparams);
         }
 
         // Verify the given name is unique. If not, change it.
-        $sql = 'SELECT p.id, p.variable
-                FROM {'.$tablename.'} p
-                    JOIN {surveypro_item} i ON i.id = p.itemid
-                WHERE ((p.itemid <> :itemid)
-                    AND (i.surveyproid = :surveyproid))';
-        $whereparams['variable'] = $candidatevariable;
-
         $i = 0; // If name is duplicate, restart verification from 1.
-        $usednames = $DB->get_records_sql_menu($sql, $whereparams);
-        while (in_array($candidatevariable, $usednames)) {
+        while (in_array($testname, $usednames)) {
             $i++;
-            $candidatevariable = $record->plugin.'_'.str_pad($i, 3, '0', STR_PAD_LEFT);
-            $whereparams['variable'] = $candidatevariable;
+            $testname = $record->plugin.'_'.str_pad($i, 3, '0', STR_PAD_LEFT);
         }
 
-        $record->variable = $candidatevariable;
+        $record->variable = $testname;
     }
 
     /**
@@ -1435,6 +1433,11 @@ class mod_surveypro_itembase {
 
         if (!$childitemrecord->parentid) {
             return true;
+        }
+
+        if (!isset($childitemrecord->parentvalue)) {
+            $message = 'Unexpected $childitemrecord->parentvalue not set';
+            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
 
         $where = array('submissionid' => $submissionid, 'itemid' => $this->itemid);

@@ -255,7 +255,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
             $overflowpage = $this->get_maxassignedpage() + 1; // Maxpage = $maxformpage, but I have to add      1 because of ($i != $overflowpage).
         } else {
             $nextpage = --$startingpage;
-            $overflowpage = 0;                          // Minpage = 1,            but I have to subtract 1 because of ($i != $overflowpage).
+            $overflowpage = 0;                                // Minpage = 1,            but I have to subtract 1 because of ($i != $overflowpage).
         }
 
         do {
@@ -289,8 +289,9 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
 
         $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context, null, true);
 
-        list($sql, $whereparams) = surveypro_fetch_items_seeds($this->surveypro->id, $canaccessreserveditems, false, false, $formpage);
-        $itemseeds = $DB->get_records_sql($sql, $whereparams);
+        list($where, $params) = surveypro_fetch_items_seeds($this->surveypro->id, $canaccessreserveditems, null, null, $formpage);
+        // Here I can not use get_recordset_select because I could browse returned records twice.
+        $itemseeds = $DB->get_records_select('surveypro_item', $where, $params, 'sortindex', 'id, parentid, parentvalue');
 
         // Start looking ONLY at empty($itemseed->parentid) because it doesn't involve extra queries.
         foreach ($itemseeds as $itemseed) {
@@ -301,17 +302,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
         }
 
         foreach ($itemseeds as $itemseed) {
-            // Skip format items.
-            if ($itemseed->type == SURVEYPRO_TYPEFORMAT) {
-                continue;
-            }
-
-            $parentplugin = $DB->get_field('surveypro_item', 'plugin', array('id' => $itemseed->parentid));
-            require_once($CFG->dirroot.'/mod/surveypro/field/'.$parentplugin.'/classes/plugin.class.php');
-
-            $itemclass = 'mod_surveypro_field_'.$parentplugin;
-            $parentitem = new $itemclass($this->cm, $itemseed->parentid, false);
-
+            $parentitem = surveypro_get_item($this->cm, $this->surveypro, $itemseed->parentid);
             if ($parentitem->userform_child_item_allowed_static($this->get_submissionid(), $itemseed)) {
                 // If at least one parent allows its child, I finished. The page is going to display items.
                 return true;
@@ -716,21 +707,15 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
 
         $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context, null, true);
 
-        // Begin of: get the list of all mandatory fields.
-        $sql = 'SELECT MIN(id), plugin
-            FROM {surveypro_item}
-            WHERE surveyproid = :surveyproid
-                AND type = :type
-            GROUP BY plugin';
-        $whereparams = array('surveyproid' => $this->surveypro->id, 'type' => SURVEYPRO_TYPEFIELD);
-        $pluginlist = $DB->get_records_sql_menu($sql, $whereparams);
+        // Get the list of used plugin.
+        $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+        $pluginlist = $utilityman->get_used_plugin_list(SURVEYPRO_TYPEFIELD);
 
+        // Begin of: get the list of all mandatory fields.
         $requireditems = array();
         foreach ($pluginlist as $plugin) {
             require_once($CFG->dirroot.'/mod/surveypro/field/'.$plugin.'/classes/plugin.class.php');
-
             $itemclass = 'mod_surveypro_'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
-
             $itemcanbemandatory = $itemclass::item_get_can_be_mandatory();
             if ($itemcanbemandatory) {
                 $sql = 'SELECT i.id, i.parentid, i.parentvalue, i.reserved, p.required

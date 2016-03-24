@@ -225,12 +225,11 @@ class mod_surveypro_itemlist {
         $paramurlmove['itm'] = $this->itemtomove;
         // End of: $paramurlmove definition.
 
-        $where = array('surveyproid' => $this->surveypro->id);
-        if ($this->view == SURVEYPRO_CHANGEORDERASK) { // If you are reordering, force ordering to...
-            $itemseeds = $DB->get_records('surveypro_item', $where, 'sortindex ASC', '*, id as itemid');
-        } else {
-            $itemseeds = $DB->get_records('surveypro_item', $where, $table->get_sql_sort(), '*, id as itemid');
-        }
+
+        list($where, $params) = surveypro_fetch_items_seeds($this->surveypro->id, true, null, null, null, true);
+        // If you are reordering, force ordering to...
+        $orderby = ($this->view == SURVEYPRO_CHANGEORDERASK) ? 'sortindex ASC' : $table->get_sql_sort();
+        $itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, $orderby, 'id as itemid, type, plugin');
         $drawmovearrow = (count($itemseeds) > 1);
 
         // This is the very first position, so if the item has a parent, no "moveherebox" must appear.

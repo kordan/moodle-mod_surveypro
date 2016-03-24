@@ -165,19 +165,19 @@ class mod_surveypro_covermanager {
         } else {
             if (!$cansubmit) {
                 $message = get_string('canneversubmit', 'mod_surveypro');
-                echo $OUTPUT->container($message, 'centerpara');
+                echo $OUTPUT->notification($message, 'notifyproblem');
             } else if (($this->surveypro->timeopen) && ($this->surveypro->timeopen >= $timenow)) {
                 $message = get_string('cannotsubmittooearly', 'mod_surveypro', userdate($this->surveypro->timeopen));
-                echo $OUTPUT->container($message, 'centerpara');
+                echo $OUTPUT->notification($message, 'notifyproblem');
             } else if (($this->surveypro->timeclose) && ($this->surveypro->timeclose <= $timenow)) {
                 $message = get_string('cannotsubmittoolate', 'mod_surveypro', userdate($this->surveypro->timeclose));
-                echo $OUTPUT->container($message, 'centerpara');
+                echo $OUTPUT->notification($message, 'notifyproblem');
             } else if (($this->surveypro->maxentries > 0) && ($next >= $this->surveypro->maxentries)) {
                 $message = get_string('nomoresubmissionsallowed', 'mod_surveypro', $this->surveypro->maxentries);
-                echo $OUTPUT->container($message, 'centerpara');
+                echo $OUTPUT->notification($message, 'notifyproblem');
             } else if (!$itemcount) {
                 $message = get_string('noitemsfound', 'mod_surveypro');
-                echo $OUTPUT->container($message, 'centerpara');
+                echo $OUTPUT->notification($message, 'notifyproblem');
             }
         }
         // End of: the button to add one more surveypro.

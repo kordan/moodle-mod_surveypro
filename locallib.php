@@ -45,7 +45,7 @@ function surveypro_get_item($cm, $surveypro, $itemid=0, $type='', $plugin='', $e
     if (!empty($itemid)) {
         $itemseed = $DB->get_record('surveypro_item', array('id' => $itemid), 'surveyproid, type, plugin', MUST_EXIST);
         if ($cm->instance != $itemseed->surveyproid) {
-            $message = 'Mismatch between passed itemid ('.$itemid.') and corresponding cm->instanceid ('.$cm->instanceid.')';
+            $message = 'Mismatch between passed itemid ('.$itemid.') and corresponding cm->instance ('.$cm->instance.')';
             debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
     }

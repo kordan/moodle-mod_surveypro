@@ -1137,34 +1137,43 @@ function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=
  * @param $searchform
  * @param $type
  * @param $formpage
- * @return void
+ * @return array($where, $params)
  */
-function surveypro_fetch_items_seeds($surveyproid, $canaccessreserveditems, $searchform, $type=false, $formpage=false) {
-    $sql = 'SELECT si.*
-               FROM {surveypro_item} si
-               WHERE si.surveyproid = :surveyproid
-                   AND si.hidden = 0';
+function surveypro_fetch_items_seeds($surveyproid, $canaccessreserveditems, $searchform=false, $type=false, $formpage=false, $pagebreak=false) {
     $params = array();
-    $params['surveyproid'] = $surveyproid;
+    $conditions = array();
+
+    $conditions[] = 'surveyproid = :surveyproid';
+    $params['surveyproid'] = (int)$surveyproid;
+
+    $conditions[] = 'hidden = :hidden';
+    $params['hidden'] = 0;
+
+    if (!$pagebreak) {
+        $conditions[] = 'plugin <> ":plugin"';
+        $params['plugin'] = "pagebreak";
+    }
 
     if (!$canaccessreserveditems) {
-        $sql .= ' AND si.reserved = 0';
+        $conditions[] = 'reserved = :reserved';
+        $params['reserved'] = 0;
     }
     if ($searchform) {
-        $sql .= ' AND si.insearchform = 1';
-        $sql .= ' AND si.plugin <> "pagebreak"';
+        $conditions[] = 'insearchform = :insearchform';
+        $params['insearchform'] = 1;
     }
     if ($type) {
-        $sql .= ' AND si.type = :type';
+        $conditions[] = 'type = :type';
         $params['type'] = $type;
     }
-    if ($formpage) { // If I am asking for a single page ONLY.
-        $sql .= ' AND si.formpage = :formpage';
+    if ($formpage) {
+        $conditions[] = 'formpage = :formpage';
         $params['formpage'] = $formpage;
     }
-    $sql .= ' ORDER BY si.sortindex';
 
-    return array($sql, $params);
+    $where = '( ('.implode(') AND (', $conditions).') )';
+
+    return array($where, $params);
 }
 
 /**

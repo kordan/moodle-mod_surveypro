@@ -42,9 +42,8 @@ class mod_surveypro_searchform extends moodleform {
         $surveypro = $this->_customdata->surveypro;
         $canaccessreserveditems = $this->_customdata->canaccessreserveditems;
 
-        // $canaccessreserveditems, $searchform=true, $type=false, $formpage=false
-        list($sql, $whereparams) = surveypro_fetch_items_seeds($surveypro->id, $canaccessreserveditems, true);
-        $itemseeds = $DB->get_recordset_sql($sql, $whereparams);
+        list($where, $params) = surveypro_fetch_items_seeds($surveypro->id, $canaccessreserveditems, true);
+        $itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, 'sortindex', 'id, type, plugin');
 
         // This dummy item is needed for the colours alternation.
         // Because 'label' or ($position == SURVEYPRO_POSITIONFULLWIDTH).
