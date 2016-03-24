@@ -84,9 +84,6 @@ class submission_modified extends \core\event\base {
      * @return string
      */
     public static function get_legacy_eventname() {
-        // Override ONLY if you are migrating events_trigger() call.
-        // MYPLUGIN_OLD_EVENT_NAME will come from surveypro for moodle 1.*
-        // return 'MYPLUGIN_OLD_EVENT_NAME';
     }
 
     /**
