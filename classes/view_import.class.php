@@ -112,13 +112,9 @@ class mod_surveypro_importmanager {
     public function get_survey_infos() {
         global $CFG, $DB;
 
-        $sql = 'SELECT MIN(id), plugin
-            FROM {surveypro_item}
-            WHERE surveyproid = :surveyproid
-                AND type = :type
-            GROUP BY plugin';
-        $whereparams = array('surveyproid' => $this->surveypro->id, 'type' => SURVEYPRO_TYPEFIELD);
-        $pluginlist = $DB->get_records_sql_menu($sql, $whereparams);
+        // Get the list of used plugin.
+        $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+        $pluginlist = $utilityman->get_used_plugin_list(SURVEYPRO_TYPEFIELD);
 
         $requireditems = array();
         $surveyheaders = array();
@@ -133,17 +129,18 @@ class mod_surveypro_importmanager {
             $itemclass = 'mod_surveypro_'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
             $canbemandatory = $itemclass::item_get_can_be_mandatory();
 
+            $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
             if ($canbemandatory) {
                 $sql = 'SELECT p.itemid, p.variable, p.required
                     FROM {surveypro_item} i
-                        JOIN {surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'} p ON i.id = p.itemid
+                        JOIN {'.$tablename.'} p ON i.id = p.itemid
                     WHERE i.surveyproid = :surveyproid
                     ORDER BY p.itemid';
                 $itemvariables = $DB->get_records_sql($sql, $whereparams);
             } else {
                 $sql = 'SELECT p.itemid, p.variable
                     FROM {surveypro_item} i
-                        JOIN {surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'} p ON i.id = p.itemid
+                        JOIN {'.$tablename.'} p ON i.id = p.itemid
                     WHERE i.surveyproid = :surveyproid
                     ORDER BY p.itemid';
                 $itemvariables = $DB->get_records_sql($sql, $whereparams);

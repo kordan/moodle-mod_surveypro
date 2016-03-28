@@ -102,8 +102,8 @@ class mod_surveypro_formbase {
         $prefill = array();
 
         if (!empty($this->submissionid)) {
-            list($sql, $whereparams) = surveypro_fetch_items_seeds($this->surveypro->id, $canaccessreserveditems, false, SURVEYPRO_TYPEFIELD, $this->formpage);
-            if ($itemseeds = $DB->get_recordset_sql($sql, $whereparams)) {
+            list($where, $params) = surveypro_fetch_items_seeds($this->surveypro->id, $canaccessreserveditems, null, SURVEYPRO_TYPEFIELD, $this->formpage);
+            if ($itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, 'sortindex', 'id, type, plugin')) {
                 foreach ($itemseeds as $itemseed) {
                     $item = surveypro_get_item($this->cm, $this->surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);
 

@@ -77,8 +77,8 @@ class mod_surveypro_outform extends moodleform {
 
         if ($formpage >= 0) {
             // $canaccessreserveditems, $searchform=false, $type=false, $formpage
-            list($sql, $whereparams) = surveypro_fetch_items_seeds($surveypro->id, $canaccessreserveditems, false, false, $formpage);
-            $itemseeds = $DB->get_recordset_sql($sql, $whereparams);
+            list($where, $params) = surveypro_fetch_items_seeds($surveypro->id, $canaccessreserveditems, null, null, $formpage);
+            $itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, 'sortindex', 'id, type, plugin, parentid, parentvalue');
 
             if (!$itemseeds->valid()) {
                 // No items are in this page.

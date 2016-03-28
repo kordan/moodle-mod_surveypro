@@ -160,7 +160,7 @@ echo $OUTPUT->header();
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABITEMS, SURVEYPRO_ITEMS_MANAGE);
 
 if ($hassubmissions) {
-    $message = $utilityman->warning_message();
+    $message = $utilityman->has_submissions_warning();
     echo $OUTPUT->notification($message, 'notifyproblem');
 }
 

@@ -45,8 +45,8 @@ class mod_surveypro_report_filterform extends moodleform {
 
         $submissionidstring = get_string('submission', 'surveyproreport_attachments_overview');
 
-        list($sql, $whereparams) = surveypro_fetch_items_seeds($surveypro->id, $canaccessreserveditems, false);
-        $itemseeds = $DB->get_recordset_sql($sql, $whereparams);
+        list($where, $params) = surveypro_fetch_items_seeds($surveypro->id, $canaccessreserveditems);
+        $itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, 'sortindex', 'id, plugin');
 
         if (!$itemseeds->valid()) {
             // No items are in this page.
@@ -66,6 +66,8 @@ class mod_surveypro_report_filterform extends moodleform {
             $content = $DB->get_field('surveyprofield_fileupload', 'content', array('itemid' => $itemseed->id));
             $options[$itemseed->id] = strip_tags($content);
         }
+        $itemseeds->close();
+
         $elementgroup = array();
         $elementgroup[] = $mform->createElement('select', 'itemid', '', $options);
 

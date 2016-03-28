@@ -93,7 +93,7 @@ $mtemplateman->friendly_stop();
 $riskyediting = ($surveypro->riskyeditdeadline > time());
 $utilityman = new mod_surveypro_utility($cm, $surveypro);
 if ($utilityman->has_submissions() && $riskyediting) {
-    $message = $utilityman->warning_message();
+    $message = $utilityman->has_submissions_warning();
     echo $OUTPUT->notification($message, 'notifyproblem');
 }
 
