@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_surveypro
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -26,10 +26,9 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 
 class mod_surveypro_report_filterform extends moodleform {
 
-    /*
+    /**
      * definition
      *
-     * @param none
      * @return void
      */
     public function definition() {
@@ -85,13 +84,13 @@ class mod_surveypro_report_filterform extends moodleform {
         }
         $sql = 'SELECT u.id as userid, '.user_picture::fields('u').'
                 FROM {user} u
-                JOIN (SELECT id, userid
+                  JOIN (SELECT id, userid
                         FROM {role_assignments}
                         WHERE contextid = '.$coursecontext->id.'
                           AND roleid IN ('.implode(',', $role).')) ra ON u.id = ra.userid
-                JOIN (SELECT DISTINCT userid
-                         FROM {surveypro_submission}
-                         WHERE surveyproid = :surveyproid) s ON u.id = s.userid
+                  JOIN (SELECT DISTINCT userid
+                        FROM {surveypro_submission}
+                        WHERE surveyproid = :surveyproid) s ON u.id = s.userid
                 ORDER BY u.lastname ASC';
         $whereparams = array('surveyproid' => $surveypro->id);
         $users = $DB->get_recordset_sql($sql, $whereparams);

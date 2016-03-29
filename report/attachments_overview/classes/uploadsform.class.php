@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_surveypro
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -29,10 +29,18 @@ require_once($CFG->dirroot.'/mod/surveypro/field/fileupload/lib.php');
  */
 class mod_surveypro_report_uploadformmanager {
     /**
-     * Basic necessary essential ingredients
+     * @var object, the course module object
      */
     protected $cm;
+
+    /**
+     * @var object, the context object
+     */
     protected $context;
+
+    /**
+     * @var object, the surveypro object
+     */
     protected $surveypro;
 
     /**
@@ -48,12 +56,9 @@ class mod_surveypro_report_uploadformmanager {
     /**
      * Class constructor
      *
-     * @param $cm
-     * @param $context
-     * @param $surveypro
-     * @param $userid
-     * @param $itemid
-     * @param $submissionid
+     * @param object $cm
+     * @param object $context
+     * @param object $surveypro
      */
     public function __construct($cm, $context, $surveypro) {
         $this->cm = $cm;
@@ -96,7 +101,6 @@ class mod_surveypro_report_uploadformmanager {
     /**
      * prevent_direct_user_input
      *
-     * @param none
      * @return void
      */
     public function prevent_direct_user_input() {
@@ -162,11 +166,11 @@ EOS;
 
         $whereparams = array('submissionid' => $submissionid, 'plugin' => 'fileupload');
         $sql = 'SELECT si.id, a.id as answerid, fu.content
-            FROM {surveypro_item} si
-                JOIN {surveypro_answer} a ON a.itemid = si.id
-                JOIN {surveyprofield_fileupload} fu ON fu.itemid = a.itemid
-            WHERE si.plugin = :plugin
-                AND a.submissionid = :submissionid';
+                FROM {surveypro_item} si
+                  JOIN {surveypro_answer} a ON a.itemid = si.id
+                  JOIN {surveyprofield_fileupload} fu ON fu.itemid = a.itemid
+                WHERE si.plugin = :plugin
+                  AND a.submissionid = :submissionid';
         if ($itemid) {
             $sql .= ' AND si.id = :itemid ';
             $whereparams['itemid'] = $itemid;

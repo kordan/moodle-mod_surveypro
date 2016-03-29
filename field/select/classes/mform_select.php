@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_surveypro
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -29,7 +29,12 @@ require_once($CFG->libdir.'/form/select.php');
 class mod_surveypro_mform_select extends MoodleQuickForm_select {
 
     /**
-     * All types must have this constructor implemented.
+     * Class constructor
+     *
+     * @param string $elementName
+     * @param string $elementLabel
+     * @param array $attributes
+     * @param array $options
      */
     public function __construct($elementName=null, $elementLabel=null, $options=null, $attributes=null) {
         parent::__construct($elementName, $elementLabel, $options, $attributes);

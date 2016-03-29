@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_surveypro
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -27,10 +27,9 @@ require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
 
 class mod_surveypro_itembaseform extends moodleform {
 
-    /*
+    /**
      * definition
      *
-     * @param none
      * @return void
      */
     public function definition() {
@@ -217,7 +216,7 @@ class mod_surveypro_itembaseform extends moodleform {
                 $whereparams['sortindex'] = $item->get_sortindex();
             }
             $sql .= ' AND plugin IN (\''.implode("','", $pluginlist).'\')
-                        ORDER BY sortindex';
+                    ORDER BY sortindex';
             $parentsseeds = $DB->get_recordset_sql($sql, $whereparams);
 
             $quickform = new HTML_QuickForm();
@@ -277,10 +276,9 @@ class mod_surveypro_itembaseform extends moodleform {
         }
     }
 
-    /*
+    /**
      * add_item_buttons
      *
-     * @param none
      * @return void
      */
     public function add_item_buttons() {
@@ -312,7 +310,7 @@ class mod_surveypro_itembaseform extends moodleform {
         }
     }
 
-    /*
+    /**
      * validation
      *
      * @param $data

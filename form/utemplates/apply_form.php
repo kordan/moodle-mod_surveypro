@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_surveypro
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -26,10 +26,9 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 
 class mod_surveypro_applyutemplateform extends moodleform {
 
-    /*
+    /**
      * definition
      *
-     * @param none
      * @return void
      */
     public function definition() {
@@ -84,7 +83,7 @@ class mod_surveypro_applyutemplateform extends moodleform {
         $this->add_action_buttons(true, get_string('apply', 'mod_surveypro'));
     }
 
-    /*
+    /**
      * validation
      *
      * @param $data

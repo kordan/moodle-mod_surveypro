@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_surveypro
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -27,13 +27,20 @@ defined('MOODLE_INTERNAL') || die();
  */
 class mod_surveypro_utility {
     /**
-     * Basic necessary essential ingredients
+     * @var object, the course module object
      */
     protected $cm;
+
+    /**
+     * @var object, the surveypro object
+     */
     protected $surveypro;
 
     /**
      * Class constructor
+     *
+     * @param object $cm
+     * @param object $surveypro
      */
     public function __construct($cm, $surveypro=null) {
         global $DB;
@@ -48,7 +55,6 @@ class mod_surveypro_utility {
     /**
      * assign_pages
      *
-     * @param none
      * @return void
      */
     public function assign_pages() {
@@ -533,7 +539,7 @@ class mod_surveypro_utility {
         // Get submissions from constrains on surveypro_answer.
         $sql = 'SELECT s.id
                 FROM {surveypro_submission} s
-                    JOIN {surveypro_answer} a ON s.id = a.submissionid
+                  JOIN {surveypro_answer} a ON s.id = a.submissionid
                 WHERE (s.surveyproid = :surveyproid)';
         if (array_key_exists('content', $whereparams)) {
             $sql .= ' AND a.content = '.$DB->sql_compare_text(':content');
@@ -583,7 +589,6 @@ class mod_surveypro_utility {
     /**
      * has_submissions_warning
      *
-     * @param none
      * @return void
      */
     public function has_submissions_warning() {

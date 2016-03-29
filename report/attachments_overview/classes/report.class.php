@@ -40,7 +40,6 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
     /**
      * report_apply
      *
-     * @param none
      * @return void
      */
     public function report_apply() {
@@ -50,7 +49,6 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
     /**
      * setup_outputtable
      *
-     * @param none
      * @return void
      */
     public function setup_outputtable() {
@@ -97,7 +95,6 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
     /**
      * fetch_data
      *
-     * @param none
      * @return void
      */
     public function fetch_data() {
@@ -116,13 +113,13 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
 
         $sql = 'SELECT '.user_picture::fields('u').', s.id as submissionid
                 FROM {user} u
-                JOIN (SELECT id, userid
-                      FROM {role_assignments}
-                      WHERE contextid = :contextid
-                        AND roleid IN ('.implode(',', $role).')) ra ON u.id = ra.userid
-                LEFT JOIN (SELECT id, userid
-                           FROM {surveypro_submission}
-                           WHERE surveyproid = :surveyproid) s ON u.id = s.userid';
+                  JOIN (SELECT id, userid
+                        FROM {role_assignments}
+                        WHERE contextid = :contextid
+                          AND roleid IN ('.implode(',', $role).')) ra ON u.id = ra.userid
+                  LEFT JOIN (SELECT id, userid
+                             FROM {surveypro_submission}
+                             WHERE surveyproid = :surveyproid) s ON u.id = s.userid';
         $whereparams = array();
         $whereparams['surveyproid'] = $this->surveypro->id;
         $whereparams['contextid'] = $coursecontext->id;
@@ -172,7 +169,6 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
     /**
      * output_data
      *
-     * @param none
      * @return void
      */
     public function output_data() {
@@ -185,7 +181,6 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
     /**
      * check_attachmentitems
      *
-     * @param none
      * @return void
      */
     public function check_attachmentitems() {
@@ -207,7 +202,6 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
     /**
      * prevent_direct_user_input
      *
-     * @param none
      * @return void
      */
     public function prevent_direct_user_input() {

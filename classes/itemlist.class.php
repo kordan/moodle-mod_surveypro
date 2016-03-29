@@ -15,9 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_surveypro
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * Surveypro itemlist class.
+ *
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -29,10 +31,18 @@ require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
  */
 class mod_surveypro_itemlist {
     /**
-     * Basic necessary essential ingredients
+     * @var object, the course module object
      */
     protected $cm;
+
+    /**
+     * @var object, the context object
+     */
     protected $context;
+
+    /**
+     * @var object, the surveypro object
+     */
     protected $surveypro;
 
     /**
@@ -122,6 +132,10 @@ class mod_surveypro_itemlist {
 
     /**
      * Class constructor
+     *
+     * @param object $cm
+     * @param object $context
+     * @param object $surveypro
      */
     public function __construct($cm, $context, $surveypro) {
         $this->cm = $cm;
@@ -132,7 +146,6 @@ class mod_surveypro_itemlist {
     /**
      * display_items_table
      *
-     * @param none
      * @return void
      */
     public function display_items_table() {
@@ -562,7 +575,6 @@ class mod_surveypro_itemlist {
     /**
      * display_validate_relations_table
      *
-     * @param none
      * @return void
      */
     public function display_validate_relations_table() {
@@ -746,9 +758,9 @@ class mod_surveypro_itemlist {
     /**
      * add_child_node
      *
-     * @param &$nodelist
-     * @param &$sortindexnodelist
-     * @param $additionalcondition
+     * @param integer $nodelist
+     * @param integer $sortindexnodelist
+     * @param array $additionalcondition
      * @return void
      */
     public function add_child_node(&$nodelist, &$sortindexnodelist, $additionalcondition) {
@@ -759,8 +771,7 @@ class mod_surveypro_itemlist {
             print_error('arrayexpected', 'mod_surveypro', null, $a);
         }
 
-        $i = count($nodelist);
-        $itemid = $nodelist[$i - 1];
+        $itemid = end($nodelist);
         $where = array('parentid' => $itemid) + $additionalcondition;
         if ($childitems = $DB->get_records('surveypro_item', $where, 'sortindex', 'id, sortindex')) {
             foreach ($childitems as $childitem) {
@@ -774,7 +785,7 @@ class mod_surveypro_itemlist {
     /**
      * add_parent_node
      *
-     * @param $additionalcondition
+     * @param array $additionalcondition
      * @return void
      */
     public function add_parent_node($additionalcondition) {
@@ -806,7 +817,6 @@ class mod_surveypro_itemlist {
     /**
      * reorder_items
      *
-     * @param none
      * @return void
      */
     public function reorder_items() {
@@ -851,7 +861,6 @@ class mod_surveypro_itemlist {
     /**
      * display_item_editing_feedback
      *
-     * @param none
      * @return void
      */
     public function display_item_editing_feedback() {
@@ -914,7 +923,6 @@ class mod_surveypro_itemlist {
     /**
      * item_fingerprint
      *
-     * @param none
      * @return void
      */
     public function item_fingerprint() {
@@ -933,7 +941,6 @@ class mod_surveypro_itemlist {
     /**
      * prevent_direct_user_input
      *
-     * @param none
      * @return null
      */
     public function prevent_direct_user_input() {
@@ -947,7 +954,6 @@ class mod_surveypro_itemlist {
     /**
      * item_actions_execution
      *
-     * @param none
      * @return void
      */
     public function actions_execution() {
@@ -1021,7 +1027,6 @@ class mod_surveypro_itemlist {
     /**
      * item_actions_feedback
      *
-     * @param none
      * @return void
      */
     public function actions_feedback() {
@@ -1069,7 +1074,7 @@ class mod_surveypro_itemlist {
     /**
      * bulk_action_ask
      *
-     * @param $message
+     * @param string $message
      * @return void
      */
     public function bulk_action_ask($message) {
@@ -1097,7 +1102,6 @@ class mod_surveypro_itemlist {
     /**
      * item_hide_execute
      *
-     * @param none
      * @return void
      */
     public function item_hide_execute() {
@@ -1123,7 +1127,6 @@ class mod_surveypro_itemlist {
     /**
      * item_hide_feedback
      *
-     * @param none
      * @return void
      */
     public function item_hide_feedback() {
@@ -1176,7 +1179,6 @@ class mod_surveypro_itemlist {
     /**
      * item_show_execute
      *
-     * @param none
      * @return void
      */
     public function item_show_execute() {
@@ -1197,7 +1199,6 @@ class mod_surveypro_itemlist {
     /**
      * item_show_feedback
      *
-     * @param none
      * @return void
      */
     public function item_show_feedback() {
@@ -1247,7 +1248,6 @@ class mod_surveypro_itemlist {
     /**
      * item_delete_execute
      *
-     * @param none
      * @return void
      */
     public function item_delete_execute() {
@@ -1287,7 +1287,6 @@ class mod_surveypro_itemlist {
     /**
      * item_delete_feedback
      *
-     * @param none
      * @return void
      */
     public function item_delete_feedback() {
@@ -1357,7 +1356,6 @@ class mod_surveypro_itemlist {
     /**
      * drop_multilang_execute
      *
-     * @param none
      * @return void
      */
     public function drop_multilang_execute() {
@@ -1422,7 +1420,6 @@ class mod_surveypro_itemlist {
     /**
      * drop_multilang_feedback
      *
-     * @param none
      * @return void
      */
     public function drop_multilang_feedback() {
@@ -1459,7 +1456,7 @@ class mod_surveypro_itemlist {
     /**
      * item_setrequired_execute
      *
-     * @param integer $value; the value to set
+     * @param integer $value - the value to set
      * @return void
      */
     public function item_setrequired_execute($value) {
@@ -1481,7 +1478,6 @@ class mod_surveypro_itemlist {
      *     -> items available to each user (public items) can be parent of item available to each user such as item with reserved access
      *     -> item with reserved access can ONLY BE parent of items with reserved access
      *
-     * @param none
      * @return void
      */
     public function item_makereserved_execute() {
@@ -1511,7 +1507,6 @@ class mod_surveypro_itemlist {
      *     -> items available to each user (public items) can be parent of item available to each user such as item with reserved access
      *     -> item with reserved access can ONLY BE parent of items with reserved access
      *
-     * @param none
      * @return void
      */
     public function item_makereserved_feedback() {
@@ -1563,7 +1558,6 @@ class mod_surveypro_itemlist {
     /**
      * item_makestandard_execute
      *
-     * @param none
      * @return void
      */
     public function item_makestandard_execute() {
@@ -1586,7 +1580,6 @@ class mod_surveypro_itemlist {
     /**
      * item_makestandard_feedback
      *
-     * @param none
      * @return void
      */
     public function item_makestandard_feedback() {
@@ -1636,7 +1629,6 @@ class mod_surveypro_itemlist {
     /**
      * hide_all_execute
      *
-     * @param none
      * @return void
      */
     public function hide_all_execute() {
@@ -1659,7 +1651,6 @@ class mod_surveypro_itemlist {
     /**
      * hide_all_feedback
      *
-     * @param none
      * @return void
      */
     public function hide_all_feedback() {
@@ -1684,7 +1675,6 @@ class mod_surveypro_itemlist {
     /**
      * show_all_execute
      *
-     * @param none
      * @return void
      */
     public function show_all_execute() {
@@ -1708,7 +1698,6 @@ class mod_surveypro_itemlist {
     /**
      * show_all_feedback
      *
-     * @param none
      * @return void
      */
     public function show_all_feedback() {
@@ -1733,7 +1722,6 @@ class mod_surveypro_itemlist {
     /**
      * delete_all_execute
      *
-     * @param none
      * @return void
      */
     public function delete_all_execute() {
@@ -1761,7 +1749,6 @@ class mod_surveypro_itemlist {
     /**
      * delete_all_feedback
      *
-     * @param none
      * @return void
      */
     public function delete_all_feedback() {
@@ -1786,7 +1773,6 @@ class mod_surveypro_itemlist {
     /**
      * delete_visible_execute
      *
-     * @param none
      * @return void
      */
     public function delete_visible_execute() {
@@ -1817,7 +1803,6 @@ class mod_surveypro_itemlist {
     /**
      * delete_visible_feedback
      *
-     * @param none
      * @return void
      */
     public function delete_visible_feedback() {
@@ -1842,7 +1827,6 @@ class mod_surveypro_itemlist {
     /**
      * delete_hidden_execute
      *
-     * @param none
      * @return void
      */
     public function delete_hidden_execute() {
@@ -1873,7 +1857,6 @@ class mod_surveypro_itemlist {
     /**
      * delete_hidden_feedback
      *
-     * @param none
      * @return void
      */
     public function delete_hidden_feedback() {
@@ -1898,7 +1881,6 @@ class mod_surveypro_itemlist {
     /**
      * get_itemid
      *
-     * @param
      * @return void
      */
     public function get_itemid() {
@@ -1908,7 +1890,6 @@ class mod_surveypro_itemlist {
     /**
      * get_type
      *
-     * @param
      * @return void
      */
     public function get_type() {
@@ -1918,7 +1899,6 @@ class mod_surveypro_itemlist {
     /**
      * get_plugin
      *
-     * @param
      * @return void
      */
     public function get_plugin() {
@@ -1948,7 +1928,7 @@ class mod_surveypro_itemlist {
     /**
      * set_typeplugin
      *
-     * @param $typeplugin
+     * @param string $typeplugin
      * @return void
      */
     public function set_typeplugin($typeplugin) {
@@ -1965,7 +1945,7 @@ class mod_surveypro_itemlist {
     /**
      * set_type
      *
-     * @param $type
+     * @param string $type
      * @return void
      */
     public function set_type($type) {
@@ -1975,7 +1955,7 @@ class mod_surveypro_itemlist {
     /**
      * set_plugin
      *
-     * @param $plugin
+     * @param string $plugin
      * @return void
      */
     public function set_plugin($plugin) {
@@ -2105,7 +2085,7 @@ class mod_surveypro_itemlist {
     /**
      * set_itemcount
      *
-     * @param int $hassubmissions
+     * @param int $itemcount
      * @return void
      */
     public function set_itemcount($itemcount) {

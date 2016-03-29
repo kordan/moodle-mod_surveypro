@@ -17,16 +17,15 @@
 /**
  * Generator tests class.
  *
- * @package    mod_surveypro
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_surveypro_generator_testcase extends advanced_testcase {
 
-    /*
+    /**
      * test_create_instance
      *
-     * @param none
      * @return void
      */
     public function test_create_instance() {
@@ -49,10 +48,9 @@ class mod_surveypro_generator_testcase extends advanced_testcase {
         $this->assertEquals('One more surveypro', $DB->get_field('surveypro', 'name', array('id' => $surveypro->id)));
     }
 
-    /*
+    /**
      * test_apply_mastertemplate
      *
-     * @param none
      * @return void
      */
     public function test_apply_mastertemplate() {

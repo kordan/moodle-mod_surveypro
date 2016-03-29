@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_surveypro
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -29,10 +29,18 @@ require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
  */
 class mod_surveypro_tabs {
     /**
-     * Basic necessary essential ingredients
+     * @var object, the course module object
      */
     protected $cm;
+
+    /**
+     * @var object, the context object
+     */
     protected $context;
+
+    /**
+     * @var object, the surveypro object
+     */
     protected $surveypro;
 
     /**
@@ -70,6 +78,12 @@ class mod_surveypro_tabs {
 
     /**
      * Class constructor
+     *
+     * @param object $cm
+     * @param object $context
+     * @param object $surveypro
+     * @param int $moduletab
+     * @param int $modulepage
      */
     public function __construct($cm, $context, $surveypro, $moduletab, $modulepage) {
         $this->cm = $cm;

@@ -121,12 +121,12 @@ class mod_surveypro_report_frequency extends mod_surveypro_reportbase {
         $sql = 'SELECT *, count(ud.id) as absolute
                 FROM {surveypro_answer} ud
                 WHERE ud.itemid = :itemid
-                GROUP BY ud.content';
+                GROUP BY ud.content ';
 
         if ($this->outputtable->get_sql_sort()) {
-            $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort();
+            $sql .= 'ORDER BY '.$this->outputtable->get_sql_sort();
         } else {
-            $sql .= ' ORDER BY ud.content';
+            $sql .= 'ORDER BY ud.content';
         }
 
         $whereparams['itemid'] = $itemid;

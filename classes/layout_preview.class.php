@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_surveypro
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -56,7 +56,6 @@ class mod_surveypro_formpreview extends mod_surveypro_formbase {
     /**
      * surveypro_add_custom_css
      *
-     * @param none
      * @return void
      */
     public function surveypro_add_custom_css() {
@@ -71,7 +70,6 @@ class mod_surveypro_formpreview extends mod_surveypro_formbase {
     /**
      * message_preview_mode
      *
-     * @param none
      * @return void
      */
     public function message_preview_mode() {
@@ -85,7 +83,6 @@ class mod_surveypro_formpreview extends mod_surveypro_formbase {
     /**
      * prevent_direct_user_input
      *
-     * @param none
      * @return void
      */
     private function prevent_direct_user_input() {

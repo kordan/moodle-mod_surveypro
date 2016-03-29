@@ -108,6 +108,10 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
 
     /**
      * Class constructor
+     *
+     * @param object $cm
+     * @param object $context
+     * @param object $surveypro
      */
     public function __construct($cm, $context, $surveypro) {
         global $DB;
@@ -161,7 +165,6 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     /**
      * restrict_templates
      *
-     * @param none
      * @return void
      */
     public function restrict_templates() {
@@ -171,7 +174,6 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     /**
      * has_student_report
      *
-     * @param none
      * @return void
      */
     public function has_student_report() {
@@ -234,7 +236,6 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     /**
      * get_qid_per_area
      *
-     * @param none
      * @return void
      */
     public function get_qid_per_area() {
@@ -245,7 +246,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
         $sql = 'SELECT si.id, si.sortindex, si.plugin
                 FROM {surveypro_item} si
                 WHERE si.surveyproid = :surveyproid
-                    AND si.plugin = :plugin
+                  AND si.plugin = :plugin
                 ORDER BY si.sortindex';
 
         $whereparams = array('surveyproid' => $this->surveypro->id, 'plugin' => $this->templateuseritem); // Was static 'radiobutton'.
@@ -289,7 +290,6 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     /**
      * output_summarydata
      *
-     * @param none
      * @return void
      */
     public function output_summarydata() {
@@ -320,7 +320,6 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     /**
      * fetch_summarydata
      *
-     * @param none
      * @return void
      */
     public function fetch_summarydata() {
@@ -424,7 +423,6 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     /**
      * output_scalesdata
      *
-     * @param none
      * @return void
      */
     public function output_scalesdata() {

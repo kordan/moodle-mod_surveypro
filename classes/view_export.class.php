@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_surveypro
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -27,10 +27,18 @@ defined('MOODLE_INTERNAL') || die();
  */
 class mod_surveypro_exportmanager {
     /**
-     * Basic necessary essential ingredients
+     * @var object, the course module object
      */
     protected $cm;
+
+    /**
+     * @var object, the context object
+     */
     protected $context;
+
+    /**
+     * @var object, the surveypro object
+     */
     protected $surveypro;
 
     /**
@@ -40,6 +48,10 @@ class mod_surveypro_exportmanager {
 
     /**
      * Class constructor
+     *
+     * @param object $cm
+     * @param object $context
+     * @param object $surveypro
      */
     public function __construct($cm, $context, $surveypro) {
         $this->cm = $cm;
@@ -50,7 +62,6 @@ class mod_surveypro_exportmanager {
     /**
      * trigger_event
      *
-     * @param none
      * @return void
      */
     public function trigger_event() {
@@ -73,14 +84,14 @@ class mod_surveypro_exportmanager {
 
         $sql = 'SELECT s.id as submissionid, s.status, s.timecreated, s.timemodified, ';
         if (empty($this->surveypro->anonymous) || ($forceuserid)) {
-            $sql .= 'u.id as userid, '.user_picture::fields('u').',';
+            $sql .= 'u.id as userid, '.user_picture::fields('u').', ';
         }
         $sql .= 'a.id as id, a.itemid, a.content,
-                                si.sortindex, si.plugin
-                            FROM {surveypro_submission} s
-                                     JOIN {user} u ON u.id = s.userid
-                                LEFT JOIN {surveypro_answer} a ON a.submissionid = s.id
-                                LEFT JOIN {surveypro_item} si ON si.id = a.itemid';
+                 si.sortindex, si.plugin
+                 FROM {surveypro_submission} s
+                   JOIN {user} u ON u.id = s.userid
+                   LEFT JOIN {surveypro_answer} a ON a.submissionid = s.id
+                   LEFT JOIN {surveypro_item} si ON si.id = a.itemid';
 
         // !$canseeotherssubmissions do not overload the query with useless conditions
         if ($canseeotherssubmissions) {
@@ -145,7 +156,6 @@ class mod_surveypro_exportmanager {
     /**
      * surveypro_export
      *
-     * @param none
      * @return $exporterror
      */
     public function surveypro_export() {
@@ -374,7 +384,6 @@ class mod_surveypro_exportmanager {
      * export_get_field_list
      * get the list of the fields of this surveypro
      *
-     * @param none
      * @return void
      */
     public function export_get_field_list() {
@@ -506,7 +515,6 @@ class mod_surveypro_exportmanager {
     /**
      * attachments_downloadbyuser
      *
-     * @param none
      * @return void
      */
     public function attachments_downloadbyuser() {
@@ -618,7 +626,6 @@ class mod_surveypro_exportmanager {
     /**
      * attachments_downloadbyitem
      *
-     * @param none
      * @return void
      */
     public function attachments_downloadbyitem() {

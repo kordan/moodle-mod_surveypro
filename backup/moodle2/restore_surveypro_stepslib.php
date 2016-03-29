@@ -15,25 +15,28 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Define the complete assignment structure for restore, with file and id annotations
+ *
  * @package    mod_surveypro
  * @subpackage backup-moodle2
  * @copyright  2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/**
- * Define all the restore steps that will be used by the restore_surveypro_activity_task
- */
+defined('MOODLE_INTERNAL') || die();
 
 /**
- * Structure step to restore one surveypro activity
+ * Define all the restore steps that will be used by the restore_surveypro_activity_task
+ *
+ * @package   mod_surveypro
+ * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class restore_surveypro_activity_structure_step extends restore_activity_structure_step {
 
-    /*
-     * define_structure
+    /**
+     * Define the structure of the restore workflow.
      *
-     * @param none
      * @return void
      */
     protected function define_structure() {
@@ -62,6 +65,12 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         return $this->prepare_activity_structure($paths);
     }
 
+    /**
+     * Process a surveypro restore.
+     *
+     * @param object $data The data in object form
+     * @return void
+     */
     protected function process_surveypro($data) {
         global $DB;
 
@@ -84,6 +93,12 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         $this->apply_activity_instance($newitemid);
     }
 
+    /**
+     * Process an item restore
+     * @param object $data The data in object form
+     *
+     * @return void
+     */
     protected function process_surveypro_item($data) {
         global $DB;
 
@@ -97,6 +112,12 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         $this->set_mapping('surveypro_item', $oldid, $newitemid, true); // We need the mapping to be able to restore files from filearea 'itemcontent'.
     }
 
+    /**
+     * Process a submission restore
+     * @param object $data The data in object form
+     *
+     * @return void
+     */
     protected function process_surveypro_submission($data) {
         global $DB;
 
@@ -112,6 +133,12 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         $this->set_mapping('surveypro_submission', $oldid, $newitemid);
     }
 
+    /**
+     * Process an answer restore
+     * @param object $data The data in object form
+     *
+     * @return void
+     */
     protected function process_surveypro_answer($data) {
         global $DB;
 
@@ -125,10 +152,9 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         $this->set_mapping('surveypro_answer', $oldid, $newitemid, true);
     }
 
-    /*
-     * after_execute
+    /**
+     * Once the database tables have been fully restored, restore the files
      *
-     * @param none
      * @return void
      */
     protected function after_execute() {

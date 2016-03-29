@@ -23,20 +23,20 @@
  * logic, should go to locallib.php. This will help to save some memory when
  * Moodle is performing actions across all modules.
  *
- * @package    mod_surveypro
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-/*
+/**
  * Some constants
  */
 define('SURVEYPRO_VALUELABELSEPARATOR', '::');
 define('SURVEYPRO_OTHERSEPARATOR'     , '->');
 
-/*
+/**
  * TABS
  */
 define('SURVEYPRO_TABITEMS'      , 1);
@@ -44,7 +44,7 @@ define('SURVEYPRO_TABSUBMISSIONS', 2);
 define('SURVEYPRO_TABUTEMPLATES' , 3);
 define('SURVEYPRO_TABMTEMPLATES' , 4);
 
-/*
+/**
  * PAGES
  */
 // PAGES in tab ITEMS
@@ -74,18 +74,18 @@ define('SURVEYPRO_UTEMPLATES_APPLY' , 4);
 define('SURVEYPRO_MTEMPLATES_BUILD', 1);
 define('SURVEYPRO_MTEMPLATES_APPLY', 2);
 
-/*
+/**
  * ITEM TYPES
  */
 define('SURVEYPRO_TYPEFIELD' , 'field');
 define('SURVEYPRO_TYPEFORMAT', 'format');
 
-/*
+/**
  * ACTIONS
  */
 define('SURVEYPRO_NOACTION'          , '0');
 
-/*
+/**
  * ACTIONS in LAYOUT MANAGEMENT page
  */
 define('SURVEYPRO_CHANGEORDER'       , '1');
@@ -101,7 +101,7 @@ define('SURVEYPRO_REMOVEFROMSEARCH'  , '10');
 define('SURVEYPRO_MAKESTANDARD'      , '11');
 define('SURVEYPRO_MAKEADVANCED'      , '12');
 
-/*
+/**
  * BULK ACTIONS in LAYOUT MANAGEMENT and in APPLY UTEMPLATE page
  */
 define('SURVEYPRO_IGNOREITEMS'       , '0');
@@ -119,7 +119,7 @@ define('SURVEYPRO_DELETEALLRESPONSES', '14');
 define('SURVEYPRO_DELETEUTEMPLATE'   , '16');
 define('SURVEYPRO_EXPORTUTEMPLATE'   , '17');
 
-/*
+/**
  * VIEW
  */
 // VIEW in USER FORM section
@@ -135,24 +135,24 @@ define('SURVEYPRO_CHANGEORDERASK'   , '5');
 // VIEW in RESPONSES section
 define('SURVEYPRO_RESPONSETOPDF'    , '6');
 
-/*
+/**
  * OVERFLOW
  */
 define('SURVEYPRO_LEFT_OVERFLOW' , -10);
 define('SURVEYPRO_RIGHT_OVERFLOW', -20);
 
-/*
+/**
  * FEEDBACKMASK
  */
 define('SURVEYPRO_NOFEEDBACK', 0);
 
-/*
+/**
  * ITEMPREFIX
  */
 define('SURVEYPRO_ITEMPREFIX', 'surveypro');
 define('SURVEYPRO_DONTSAVEMEPREFIX', 'placeholder');
 
-/*
+/**
  * INVITE, NO-ANSWER AND IGNOREME VALUE
  */
 // Since the very first beginning of the development.
@@ -166,20 +166,20 @@ define('SURVEYPRO_NOANSWERVALUE',      '@@_NOANSW_@@'); // User should never gue
 define('SURVEYPRO_IGNOREMEVALUE',      '@@_IGNORE_@@'); // User should never guess it.
 define('SURVEYPRO_ANSWERNOTINDBVALUE', '@@_ANINDB_@@'); // User should never guess it.
 
-/*
+/**
  * ITEM ADJUSTMENTS
  */
 define('SURVEYPRO_VERTICAL',   0);
 define('SURVEYPRO_HORIZONTAL', 1);
 
-/*
+/**
  * SURVEYPRO STATUS
  */
 define('SURVEYPRO_STATUSINPROGRESS', 1);
 define('SURVEYPRO_STATUSCLOSED'    , 0);
 define('SURVEYPRO_STATUSALL'       , 2);
 
-/*
+/**
  * DOWNLOAD
  */
 define('SURVEYPRO_DOWNLOADCSV', 1);
@@ -194,13 +194,13 @@ define('SURVEYPRO_OWNERIDLABEL', 'ownerid');
 define('SURVEYPRO_TIMECREATEDLABEL', 'timecreated');
 define('SURVEYPRO_TIMEMODIFIEDLABEL', 'timemodified');
 
-/*
+/**
  * SEPARATORS
  */
 define('SURVEYPRO_DBMULTICONTENTSEPARATOR',     ';');
 define('SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR', '; ');
 
-/*
+/**
  * CONFIRMATION
  */
 define('SURVEYPRO_UNCONFIRMED'    , 0);
@@ -208,7 +208,7 @@ define('SURVEYPRO_CONFIRMED_YES'  , 1);
 define('SURVEYPRO_CONFIRMED_NO'   , 2);
 define('SURVEYPRO_ACTION_EXECUTED', 3);
 
-/*
+/**
  * DEFAULTVALUE OPTION
  */
 define('SURVEYPRO_CUSTOMDEFAULT'   , 1);
@@ -217,7 +217,7 @@ define('SURVEYPRO_NOANSWERDEFAULT' , 3);
 define('SURVEYPRO_LIKELASTDEFAULT' , 4);
 define('SURVEYPRO_TIMENOWDEFAULT'  , 5);
 
-/*
+/**
  * FILEAREAS
  */
 define('SURVEYPRO_STYLEFILEAREA'      , 'userstyle');
@@ -225,33 +225,33 @@ define('SURVEYPRO_TEMPLATEFILEAREA'   , 'templatefilearea');
 define('SURVEYPRO_THANKSHTMLFILEAREA' , 'thankshtml');
 define('SURVEYPRO_ITEMCONTENTFILEAREA', 'itemcontent');
 
-/*
+/**
  * FIRENDLY FORMAT
  */
 define('SURVEYPRO_FIRENDLYFORMAT', -1);
 
-/*
+/**
  * POSITION OF THE QUESTION CONTENT IN THE ITEM
  */
 define('SURVEYPRO_POSITIONLEFT',      0);
 define('SURVEYPRO_POSITIONTOP',       1);
 define('SURVEYPRO_POSITIONFULLWIDTH', 2);
 
-/*
+/**
  * STATUS OF CONDITIONS OF RELATIONS
  */
 define('SURVEYPRO_CONDITIONOK',         0);
 define('SURVEYPRO_CONDITIONNEVERMATCH', 1);
 define('SURVEYPRO_CONDITIONMALFORMED',  2);
 
-/*
+/**
  * SEMANTIC OF CONTENT RETURNED BY ITEMS
  */
 define('SURVEYPRO_ITEMSRETURNSVALUES',  0);
 define('SURVEYPRO_ITEMRETURNSLABELS',   1);
 define('SURVEYPRO_ITEMRETURNSPOSITION', 2);
 
-/*
+/**
  * OUTPUT CONTENT
  */
 define('SURVEYPRO_LABELS', 'labels');
@@ -259,25 +259,25 @@ define('SURVEYPRO_VALUES', 'values');
 define('SURVEYPRO_POSITIONS', 'positions');
 define('SURVEYPRO_ITEMDRIVEN', 'itemdriven');
 
-/*
+/**
  * DUMMY CONTENT USED AT ANSWER SAVE TIME
  */
 define('SURVEYPRO_DUMMYCONTENT', '__my_dummy_content@@');
 
-/*
+/**
  * OUTPUT OF FINAL SUBMISSION EVALUATION
  */
 define('SURVEYPRO_VALIDRESPONSE',     0);
 define('SURVEYPRO_MISSINGMANDATORY',  1);
 define('SURVEYPRO_MISSINGVALIDATION', 2);
 
-/*
+/**
  * PDF TEMPLATES
  */
 define('SURVEYPRO_2COLUMNSTEMPLATE', 2);
 define('SURVEYPRO_3COLUMNSTEMPLATE', 3);
 
-/*
+/**
  * EXPORT CSV FILE STYLE
  */
 define('SURVEYPRO_RAW',     0);

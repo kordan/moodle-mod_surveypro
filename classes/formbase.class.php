@@ -15,9 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_surveypro
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * Surveypro formbase class.
+ *
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -25,31 +27,50 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
 
 /**
- * The base class representing a field
+ * The base class representing the commom part of the item form
+ *
+ * @package    mod_surveypro
+ * @copyright  2015 David Monllao {@link http://www.davidmonllao.com}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_surveypro_formbase {
     /**
-     * Basic necessary essential ingredients
+     * @var object, the course module object
      */
     protected $cm;
+
+    /**
+     * @var object, the context object
+     */
     protected $context;
+
+    /**
+     * @var object, the surveypro object
+     */
     protected $surveypro;
 
     /**
-     * $submissionid: the ID of the saved surbey_submission
+     * @var int, the ID of the saved surbey_submission
      */
     protected $submissionid;
 
     /**
-     * $formpage: the form page as recalculated according to the first non empty page
+     * @var int, the form page as recalculated according to the first non empty page
      */
     protected $formpage;
 
     /**
-     * $maxassignedpage
+     * @var int, the last page of the out form
      */
     protected $maxassignedpage;
 
+    /**
+     * Class constructor
+     *
+     * @param object $cm
+     * @param object $context
+     * @param object $surveypro
+     */
     public function __construct($cm, $context, $surveypro) {
         $this->cm = $cm;
         $this->context = $context;
@@ -59,7 +80,6 @@ class mod_surveypro_formbase {
     /**
      * noitem_stopexecution
      *
-     * @param none
      * @return void
      */
     public function noitem_stopexecution() {
@@ -92,7 +112,6 @@ class mod_surveypro_formbase {
     /**
      * get_prefill_data
      *
-     * @param none
      * @return void
      */
     public function get_prefill_data() {
@@ -123,7 +142,6 @@ class mod_surveypro_formbase {
     /**
      * display_page_x_of_y
      *
-     * @param none
      * @return void
      */
     public function display_page_x_of_y() {
@@ -147,9 +165,9 @@ class mod_surveypro_formbase {
     // MARK set
 
     /**
-     * set_submissionid
+     * Set submissionid.
      *
-     * @param $submissionid
+     * @param int $submissionid
      * @return void
      */
     public function set_submissionid($submissionid) {
@@ -157,9 +175,9 @@ class mod_surveypro_formbase {
     }
 
     /**
-     * set_maxassignedpage
+     * Set maxassignedpage.
      *
-     * @param $formpage
+     * @param int $maxassignedpage
      * @return void
      */
     public function set_maxassignedpage($maxassignedpage) {
@@ -167,9 +185,9 @@ class mod_surveypro_formbase {
     }
 
     /**
-     * set_formpage
+     * Set formpage.
      *
-     * @param $formpage
+     * @param int $formpage
      * @return void
      */
     public function set_formpage($formpage) {
@@ -179,9 +197,8 @@ class mod_surveypro_formbase {
     // MARK get
 
     /**
-     * get_submissionid
+     * Get submissionid.
      *
-     * @param none
      * @return the content of the $submissionid property
      */
     public function get_submissionid() {
@@ -189,9 +206,8 @@ class mod_surveypro_formbase {
     }
 
     /**
-     * get_submissionid
+     * Get submissionid.
      *
-     * @param none
      * @return the content of the $formpage property
      */
     public function get_formpage() {
@@ -201,7 +217,6 @@ class mod_surveypro_formbase {
     /**
      * get_maxassignedpage
      *
-     * @param $formpage
      * @return the content of the $maxassignedpage property
      */
     public function get_maxassignedpage() {

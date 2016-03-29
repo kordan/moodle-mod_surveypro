@@ -42,7 +42,7 @@ class mod_surveypro_generator extends testing_module_generator {
         parent::reset();
     }
 
-    /*
+    /**
      * create_instance
      *
      * @param $record
