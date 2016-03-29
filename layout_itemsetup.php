@@ -160,7 +160,7 @@ $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
 
-new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABITEMS, SURVEYPRO_ITEMS_SETUP);
+new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABLAYOUT, SURVEYPRO_LAYOUT_SETUP);
 
 $utilityman = new mod_surveypro_utility($cm, $surveypro);
 if ($hassubmissions) {

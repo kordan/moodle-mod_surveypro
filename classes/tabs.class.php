@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Surveypro tabs class.
+ *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,56 +27,53 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
 
 /**
- * The base class representing a field
+ * The class representing the tab-page structure on top of every page of the module
+ *
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_surveypro_tabs {
+
     /**
-     * @var object, the course module object
+     * @var object Course module object
      */
     protected $cm;
 
     /**
-     * @var object, the context object
+     * @var object Context object
      */
     protected $context;
 
     /**
-     * @var object, the surveypro object
+     * @var object Surveypro object
      */
     protected $surveypro;
 
     /**
-     * $modulettab
+     * @var int Current tab requested by the user
      */
     protected $modulettab;
 
     /**
-     * $modulepage
+     * @var int Current page requested by the user
      */
     protected $modulepage;
 
     /**
-     * $riskyediting
+     * @var bool True if risky editing is on, false otherwise
      */
     protected $riskyediting;
 
     /**
-     * $hassubmissions
+     * @var bool True if this surveypro has submissions, false otherwise
      */
     protected $hassubmissions;
 
     /**
-     * $tabs: array for tabs
+     * @var array Whole structure for tabs and corresponding pages
      */
     protected $tabs = array();
-
-    /**
-     * $tab names
-     */
-    protected $tabitemsname;
-    protected $tabsubmissionsname;
-    protected $tabutemplatename;
-    protected $tabmtemplatename;
 
     /**
      * Class constructor
@@ -109,7 +108,7 @@ class mod_surveypro_tabs {
     }
 
     /**
-     * get_tabs_structure
+     * Get tabs structure
      */
     private function get_tabs_structure() {
         $paramurl = array('id' => $this->cm->id);
@@ -117,39 +116,39 @@ class mod_surveypro_tabs {
 
         $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
 
-        // TAB ITEMS.
-        $this->tabitemsname = get_string('tabitemsname', 'mod_surveypro');
+        // TAB LAYOUT.
+        $tablayoutname = get_string('tablayoutname', 'mod_surveypro');
         if ($canmanageitems) {
             $elementurl = new moodle_url('/mod/surveypro/layout_manage.php', $paramurl);
-            $row[] = new tabobject($this->tabitemsname, $elementurl->out(), $this->tabitemsname);
+            $row[] = new tabobject($tablayoutname, $elementurl->out(), $tablayoutname);
         }
 
         // TAB SUBMISSIONS.
-        $this->tabsubmissionsname = get_string('tabsubmissionsname', 'mod_surveypro');
+        $tabsubmissionsname = get_string('tabsubmissionsname', 'mod_surveypro');
         $localparamurl = array('id' => $this->cm->id, 'force' => 1);
         $elementurl = new moodle_url('/mod/surveypro/view.php', $localparamurl);
-        $row[] = new tabobject($this->tabsubmissionsname, $elementurl->out(), $this->tabsubmissionsname);
+        $row[] = new tabobject($tabsubmissionsname, $elementurl->out(), $tabsubmissionsname);
 
         // TAB USER TEMPLATES.
-        $this->tabutemplatename = get_string('tabutemplatename', 'mod_surveypro');
+        $tabutemplatename = get_string('tabutemplatename', 'mod_surveypro');
         if ($this->moduletab == SURVEYPRO_TABUTEMPLATES) {
             if (empty($this->surveypro->template)) {
                 $canmanageusertemplates = has_capability('mod/surveypro:manageusertemplates', $this->context, null, true);
                 if ($canmanageusertemplates) {
                     $elementurl = new moodle_url('/mod/surveypro/utemplates_create.php', $paramurl);
-                    $row[] = new tabobject($this->tabutemplatename, $elementurl->out(), $this->tabutemplatename);
+                    $row[] = new tabobject($tabutemplatename, $elementurl->out(), $tabutemplatename);
                 }
             }
         }
 
         // TAB MASTER TEMPLATES.
-        $this->tabmtemplatename = get_string('tabmtemplatename', 'mod_surveypro');
+        $tabmtemplatename = get_string('tabmtemplatename', 'mod_surveypro');
         if ($this->moduletab == SURVEYPRO_TABMTEMPLATES) {
             $cansavemastertemplates = has_capability('mod/surveypro:savemastertemplates', $this->context, null, true);
             $canapplymastertemplates = has_capability('mod/surveypro:applymastertemplates', $this->context, null, true);
             if ($cansavemastertemplates || ((!$this->hassubmissions || $this->riskyediting) && $canapplymastertemplates)) {
                 $elementurl = new moodle_url('/mod/surveypro/mtemplates_create.php', $paramurl);
-                $row[] = new tabobject($this->tabmtemplatename, $elementurl->out(), $this->tabmtemplatename);
+                $row[] = new tabobject($tabmtemplatename, $elementurl->out(), $tabmtemplatename);
             }
         }
 
@@ -158,7 +157,7 @@ class mod_surveypro_tabs {
     }
 
     /**
-     * get_pages_structure
+     * Get pages structure
      */
     private function get_pages_structure() {
         global $DB;
@@ -178,13 +177,15 @@ class mod_surveypro_tabs {
         // echo '$this->moduletab = '.$this->moduletab.'<br />';
         // echo '$modulepage = '.$modulepage.'<br />';
         switch ($this->moduletab) {
-            case SURVEYPRO_TABITEMS:
+            case SURVEYPRO_TABLAYOUT:
+                $tablayoutname = get_string('tablayoutname', 'mod_surveypro');
+
                 // Permissions used only locally.
                 $canpreview = has_capability('mod/surveypro:preview', $this->context, null, true);
                 $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
 
-                $inactive = array($this->tabitemsname);
-                $activetwo = array($this->tabitemsname);
+                $inactive = array($tablayoutname);
+                $activetwo = array($tablayoutname);
 
                 if ($canpreview) {
                     // Preview.
@@ -202,7 +203,7 @@ class mod_surveypro_tabs {
 
                     if (empty($this->surveypro->template)) {
                         // Setup.
-                        if ($this->modulepage == SURVEYPRO_ITEMS_SETUP) {
+                        if ($this->modulepage == SURVEYPRO_LAYOUT_SETUP) {
                             $elementurl = new moodle_url('/mod/surveypro/layout_itemsetup.php', $paramurl);
                             $strlabel = get_string('tabitemspage3', 'mod_surveypro');
                             $row[] = new tabobject('idpage3', $elementurl->out(), $strlabel);
@@ -223,6 +224,8 @@ class mod_surveypro_tabs {
 
                 break;
             case SURVEYPRO_TABSUBMISSIONS:
+                $tabsubmissionsname = get_string('tabsubmissionsname', 'mod_surveypro');
+
                 $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
 
                 $canview = has_capability('mod/surveypro:view', $this->context, null, true);
@@ -232,8 +235,8 @@ class mod_surveypro_tabs {
                 $canimportdata = has_capability('mod/surveypro:importdata', $this->context, null, true);
                 $canexportdata = has_capability('mod/surveypro:exportdata', $this->context, null, true);
 
-                $inactive = array($this->tabsubmissionsname);
-                $activetwo = array($this->tabsubmissionsname);
+                $inactive = array($tabsubmissionsname);
+                $activetwo = array($tabsubmissionsname);
 
                 if ($canview) {
                     // Cover page.
@@ -312,6 +315,8 @@ class mod_surveypro_tabs {
 
                 break;
             case SURVEYPRO_TABUTEMPLATES:
+                $tabutemplatename = get_string('tabutemplatename', 'mod_surveypro');
+
                 // Permissions used only locally.
                 $cansaveusertemplates = has_capability('mod/surveypro:saveusertemplates', $this->context, null, true);
                 $canimportusertemplates = has_capability('mod/surveypro:importusertemplates', $this->context, null, true);
@@ -322,8 +327,8 @@ class mod_surveypro_tabs {
                     break;
                 }
 
-                $inactive = array($this->tabutemplatename);
-                $activetwo = array($this->tabutemplatename);
+                $inactive = array($tabutemplatename);
+                $activetwo = array($tabutemplatename);
 
                 if ($canmanageusertemplates) {
                     // Manage.
@@ -357,11 +362,13 @@ class mod_surveypro_tabs {
 
                 break;
             case SURVEYPRO_TABMTEMPLATES:
+                $tabmtemplatename = get_string('tabmtemplatename', 'mod_surveypro');
+
                 $cansavemastertemplates = has_capability('mod/surveypro:savemastertemplates', $this->context, null, true);
                 $canapplymastertemplates = has_capability('mod/surveypro:applymastertemplates', $this->context, null, true);
 
-                $inactive = array($this->tabmtemplatename);
-                $activetwo = array($this->tabmtemplatename);
+                $inactive = array($tabmtemplatename);
+                $activetwo = array($tabmtemplatename);
 
                 // Create.
                 if ($cansavemastertemplates) {

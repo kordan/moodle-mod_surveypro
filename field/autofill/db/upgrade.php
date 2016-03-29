@@ -17,16 +17,15 @@
 /**
  * Keeps track of upgrades to the surveyproitem autofill
  *
- * @package    surveyprofield
- * @subpackage autofill
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   surveyprofield_autofill
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 /**
  * Performs upgrade of the database structure and data
  *
- * @param int $oldversion the version we are upgrading from
+ * @param int $oldversion Version we are upgrading from
  * @return bool true
  */
 function xmldb_surveyprofield_autofill_upgrade($oldversion) {

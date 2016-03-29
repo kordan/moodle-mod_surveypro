@@ -27,7 +27,7 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 class mod_surveypro_utemplatecreateform extends moodleform {
 
     /**
-     * definition
+     * Definition
      *
      * @return void
      */
@@ -73,7 +73,7 @@ class mod_surveypro_utemplatecreateform extends moodleform {
     }
 
     /**
-     * get_data
+     * Get data
      *
      * @return void
      */
@@ -94,11 +94,11 @@ class mod_surveypro_utemplatecreateform extends moodleform {
     }
 
     /**
-     * validation
+     * Validation
      *
-     * @param $data
-     * @param $files
-     * @return $errors
+     * @param array $data
+     * @param array $files
+     * @return array $errors
      */
     public function validation($data, $files) {
         // $mform = $this->_form;

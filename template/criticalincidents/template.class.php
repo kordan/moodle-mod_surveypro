@@ -24,8 +24,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 class mod_surveypro_template_criticalincidents {
+
     /**
-     * apply_template_settings
+     * Apply_template_settings
      *
      * @param $tablename
      * @param $record

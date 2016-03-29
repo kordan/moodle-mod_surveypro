@@ -15,7 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package   mod_surveypro
+ * Surveypro pluginform class.
+ *
+ * @package   surveyproformat_label
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,10 +28,17 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/items/itembase_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/format/label/lib.php');
 
+/**
+ * The class representing the plugin form
+ *
+ * @package   surveyproformat_label
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
 
     /**
-     * definition
+     * Definition
      *
      * @return void
      */

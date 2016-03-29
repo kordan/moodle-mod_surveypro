@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * The submissionmanager class
+ *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,51 +27,56 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
 
 /**
- * The base class representing a field
+ * The class managing users submissions
+ *
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_surveypro_submissionmanager {
+
     /**
-     * @var object, the course module object
+     * @var object Course module object
      */
     protected $cm;
 
     /**
-     * @var object, the context object
+     * @var object Context object
      */
     protected $context;
 
     /**
-     * @var object, the surveypro object
+     * @var object Surveypro object
      */
     protected $surveypro;
 
     /**
-     * $submissionid: the ID of the current submission
+     * @var int ID of the current submission
      */
     protected $submissionid;
 
     /**
-     * $action
+     * @var int Action to execute
      */
     protected $action;
 
     /**
-     * $view
+     * @var int View
      */
     protected $view;
 
     /**
-     * $confirm
+     * @var int User confirmation to actions
      */
     protected $confirm;
 
     /**
-     * $hasitems
+     * @var int Has this surveypro items
      */
     protected $hasitems;
 
     /**
-     * $searchquery
+     * @var string $searchquery
      */
     protected $searchquery;
 
@@ -93,7 +100,14 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * setup
+     * Object setup
+     *
+     * @param int $submissionid
+     * @param int $action
+     * @param int $view
+     * @param bool $confirm
+     * @param string $searchquery
+     * @return void
      */
     public function setup($submissionid, $action, $view, $confirm, $searchquery) {
         $this->set_submissionid($submissionid);
@@ -110,9 +124,9 @@ class mod_surveypro_submissionmanager {
     // MARK set
 
     /**
-     * set_submissionid
+     * Set submission id
      *
-     * @param $submissionid
+     * @param int $submissionid
      * @return void
      */
     public function set_submissionid($submissionid) {
@@ -120,9 +134,9 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * set_action
+     * Set action
      *
-     * @param $action
+     * @param int $action
      * @return void
      */
     public function set_action($action) {
@@ -130,9 +144,9 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * set_view
+     * Set view
      *
-     * @param $view
+     * @param int $view
      * @return void
      */
     public function set_view($view) {
@@ -140,9 +154,9 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * set_confirm
+     * Set confirm
      *
-     * @param $confirm
+     * @param int $confirm
      * @return void
      */
     public function set_confirm($confirm) {
@@ -150,9 +164,9 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * set_searchquery
+     * Set search query
      *
-     * @param $searchquery
+     * @param string $searchquery
      * @return void
      */
     public function set_searchquery($searchquery) {
@@ -162,9 +176,9 @@ class mod_surveypro_submissionmanager {
     // MARK get
 
     /**
-     * get_submissions_sql
+     * Get submissions sql
      *
-     * @param $table
+     * @param flexible_table $table
      * @return void
      */
     public function get_submissions_sql($table) {
@@ -293,7 +307,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * noitem_redirect
+     * Noitem_redirect
      *
      * I HATE software thinking for me.
      * Because of this I ALWAYS want to go where I ask, even if the place I ask is not supposed to be accessed by me.
@@ -332,7 +346,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * trigger_event
+     * Trigger_event
      *
      * @return void
      */
@@ -344,7 +358,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * manage_actions
+     * Manage_actions
      *
      * @return void
      */
@@ -391,7 +405,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * manage_actions
+     * Manage_actions
      *
      * @return void
      */
@@ -412,7 +426,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * one_submission_deletion_feedback
+     * One_submission_deletion_feedback
      *
      * @return void
      */
@@ -473,7 +487,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * all_submission_deletion_feedback
+     * All_submission_deletion_feedback
      *
      * @return void
      */
@@ -512,9 +526,9 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * user_sent_submissions
+     * User_sent_submissions
      *
-     * @param $status
+     * @param bool $status
      * @return void
      */
     public function user_sent_submissions($status=SURVEYPRO_STATUSALL) {
@@ -539,13 +553,13 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * show_submissions_info_sql
+     * Get_submissions_info_sql
      *
-     * @param $sql
-     * @param $whereparams
+     * @param string $sql
+     * @param array $whereparams
      * @return void
      */
-    public function show_submissions_info_sql($sql, $whereparams) {
+    public function get_submissions_info_sql($sql, $whereparams) {
         global $DB, $OUTPUT;
 
         $strstatusinprogress = get_string('statusinprogress', 'mod_surveypro');
@@ -594,56 +608,29 @@ class mod_surveypro_submissionmanager {
 
         $perstatus = $DB->get_records_sql($sqlstatus, $whereparams);
 
-        // echo '$whereparams:';
-        // var_dump($whereparams);
-        // echo '<textarea rows="8" cols="100">sql = '.$sql.'</textarea>';
-        // echo '<textarea rows="8" cols="100">sqlall = '.$sqlall.'</textarea>';
-        // echo '<textarea rows="8" cols="100">sqlstatus = '.$sqlstatus.'</textarea>';
-
-        // Begin output.
-        echo html_writer::start_tag('fieldset', array('class' => 'generalbox'));
-        echo html_writer::start_tag('legend', array('class' => 'coverinfolegend'));
-        echo get_string('submissions_welcome', 'mod_surveypro');
-        echo html_writer::end_tag('legend');
-
-        if (count($perstatus) == 2) {
-            $a = new stdClass();
-            $a->submissions = $all->submissions;
-            $a->distinctusers = $all->distinctusers;
-            $a->oneormanyresponses = ($all->submissions == 1) ? $strresponse : $strresponses;
-            $a->oneormanyusers = ($all->distinctusers == 1) ? $struser : $strusers;
-            $message = get_string('submissions_all', 'mod_surveypro', $a);
-            echo $OUTPUT->container($message, 'mdl-left');
+        foreach ($perstatus as $status => $detail) {
+            if ($detail->status == SURVEYPRO_STATUSCLOSED) {
+                $closedsubmission = $detail->submissions
+                $closedusers = $detail->distinctusers;
+            }
+            if ($detail->status == SURVEYPRO_STATUSINPROGRESS) {
+                $inprogresssubmission = $detail->submissions
+                $inprogressuser = $detail->distinctusers;
+            }
         }
-
-        foreach ($perstatus as $detail) {
-            $a = new stdClass();
-            $a->submissions = $detail->submissions;
-            $a->distinctusers = $detail->distinctusers;
-            $a->status = ($detail->status == 0) ? $strstatusclosed : $strstatusinprogress;
-            $a->oneormanyresponses = ($detail->submissions == 1) ? $strresponse : $strresponses;
-            $a->oneormanyusers = ($detail->distinctusers == 1) ? $struser : $strusers;
-            $message = get_string('submissions_detail', 'mod_surveypro', $a);
-            echo $OUTPUT->container($message, 'mdl-left');
-        }
-
-        if ($this->searchquery) {
-            $findallurl = new moodle_url('/mod/surveypro/view.php', array('id' => $this->cm->id));
-            $label = get_string('showallsubmissions', 'mod_surveypro');
-
-            echo $OUTPUT->single_button($findallurl, $label, 'get', array('class' => 'box clearfix mdl-align'));
-        }
-        echo html_writer::end_tag('fieldset');
+        $this->display_submissions_info($inprogresssubmission, $inprogressusers, $closedsubmission, $closedusers);
     }
 
     /**
-     * show_submissions_info_sql
+     * Display_submissions_info
      *
-     * @param $sql
-     * @param $whereparams
+     * @param int $inprogresssubmission
+     * @param int $inprogressusers
+     * @param int $closedsubmission
+     * @param int $closedusers
      * @return void
      */
-    public function show_submissions_info($inprogresssubmission, $inprogressusers, $closedsubmission, $closedusers) {
+    public function display_submissions_info($inprogresssubmission, $inprogressusers, $closedsubmission, $closedusers) {
         global $OUTPUT;
 
         $strstatusinprogress = get_string('statusinprogress', 'mod_surveypro');
@@ -701,7 +688,7 @@ class mod_surveypro_submissionmanager {
         echo html_writer::end_tag('fieldset');
     }
     /**
-     * display_submissions_table
+     * Display_submissions_table
      *
      * @return void
      */
@@ -810,11 +797,12 @@ class mod_surveypro_submissionmanager {
         }
 
         list($sql, $whereparams) = $this->get_submissions_sql($table);
-        // $this->show_submissions_info_sql works fine (AFAIK) but makes 2 big queries.
-        // Until the table is not divided into pages (20 record per page or so).
-        // a count of the records before they are added to the table is less resource expensive
-        if ($useshowsubmissionsinfosql = false) {
-            $this->show_submissions_info_sql($sql, $whereparams);
+        $useshowsubmissionsinfosql = false;
+        if ($useshowsubmissionsinfosql) {
+            // $this->get_submissions_info_sql works fine (AFAIK) but makes 2 big queries.
+            // Until the table is not divided into pages (20 record per page or so),
+            // a count of the records before they are added to the table is less resource expensive.
+            $this->get_submissions_info_sql($sql, $whereparams);
         }
         $submissions = $DB->get_recordset_sql($sql, $whereparams);
         if ($submissions->valid()) {
@@ -852,7 +840,7 @@ class mod_surveypro_submissionmanager {
                             debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
                     }
                 }
-                $this->show_submissions_info($inprogresssubmission, $inprogressusers, $closedsubmission, $closedusers);
+                $this->display_submissions_info($inprogresssubmission, $inprogressusers, $closedsubmission, $closedusers);
             }
 
             $submissions = $DB->get_recordset_sql($sql, $whereparams);
@@ -989,7 +977,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * show_action_buttons
+     * Show_action_buttons
      *
      * @return void
      */
@@ -1071,9 +1059,9 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * prevent_direct_user_input
+     * Prevent_direct_user_input
      *
-     * @param $confirm
+     * @param bool $confirm
      * @return void
      */
     private function prevent_direct_user_input($confirm) {
@@ -1199,7 +1187,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * submission_to_pdf
+     * Submission_to_pdf
      *
      * @return void
      */

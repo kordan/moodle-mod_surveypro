@@ -17,13 +17,9 @@
 /**
  * Defines the version of surveypro multiselect subplugin
  *
- * This code fragment is called by moodle_needs_upgrading() and
- * /admin/index.php
- *
- * @package    surveyprofield
- * @subpackage multiselect
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   surveyprofield_multiselect
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();

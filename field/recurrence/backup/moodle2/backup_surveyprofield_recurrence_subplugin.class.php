@@ -15,14 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ *  This file contains the backup code for the surveyprofield_recurrence plugin.
+ *
  * @package   surveyprofield_recurrence
  * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 defined('MOODLE_INTERNAL') || die();
 
 /**
  * Provides the information to backup recurrence field information
+ *
+ * @package   surveyprofield_recurrence
+ * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class backup_surveyprofield_recurrence_subplugin extends backup_subplugin {
 

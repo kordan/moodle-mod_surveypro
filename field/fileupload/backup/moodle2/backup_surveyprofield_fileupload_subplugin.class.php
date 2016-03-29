@@ -15,19 +15,26 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ *  This file contains the backup code for the surveyprofield_fileupload plugin.
+ *
  * @package   surveyprofield_fileupload
  * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 defined('MOODLE_INTERNAL') || die();
 
 /**
  * Provides the information to backup fileupload field information
+ *
+ * @package   surveyprofield_fileupload
+ * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class backup_surveyprofield_fileupload_subplugin extends backup_subplugin {
 
     /**
-     * define_item_subplugin_structure
+     * Define_item_subplugin_structure
      *
      * Returns the structure to be attached to the 'item' XML element
      */
@@ -52,7 +59,7 @@ class backup_surveyprofield_fileupload_subplugin extends backup_subplugin {
     }
 
     /**
-     * define_answer_subplugin_structure
+     * Define_answer_subplugin_structure
      *
      * @return void
      */

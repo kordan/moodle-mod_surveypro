@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Surveypro usertemplate class.
+ *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,19 +27,32 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/surveypro/classes/templatebase.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
 
+/**
+ * The class representing a user tempalete
+ *
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
+
     /**
-     * $utemplateid: the ID of the current working user template
+     * @var int ID of the current user template
      */
     protected $utemplateid;
 
     /**
-     * $confirm: is the action confirmed by the user?
+     * @var int User confirmation to actions
      */
     protected $confirm;
 
     /**
-     * setup
+     * Setup
+     *
+     * @param int $utemplateid
+     * @param int $action
+     * @param int $confirm
+     * @return void
      */
     public function setup($utemplateid, $action, $confirm) {
         $this->set_utemplateid($utemplateid);
@@ -48,9 +63,9 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     // MARK set
 
     /**
-     * set_utemplateid
+     * Set utemplateid.
      *
-     * @param $utemplateid
+     * @param int $utemplateid
      * @return void
      */
     private function set_utemplateid($utemplateid) {
@@ -58,9 +73,9 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * set_action
+     * Set action.
      *
-     * @param $action
+     * @param int $action
      * @return void
      */
     private function set_action($action) {
@@ -68,9 +83,9 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * set_confirm
+     * Set confirm.
      *
-     * @param $confirm
+     * @param int $confirm
      * @return void
      */
     private function set_confirm($confirm) {
@@ -80,7 +95,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     // MARK get
 
     /**
-     * get_filemanager_options
+     * Get filemanager options
      *
      * @return $filemanageroptions
      */
@@ -96,7 +111,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * get_contextid_from_sharinglevel
+     * Get context id from sharing level
      *
      * It follow how $sharinglevel is formed:
      *
@@ -108,8 +123,8 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      *     CONTEXT_MODULE | $cm->id
      *       CONTEXT_USER | $USER->id
      *
-     * @param sharinglevel
-     * @return $context->id
+     * @param string $sharinglevel
+     * @return int $context->id
      */
     public function get_contextid_from_sharinglevel($sharinglevel='') {
         if (empty($sharinglevel)) {
@@ -152,10 +167,10 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * get_contextstring_from_sharinglevel
+     * Get context string from sharing level
      *
-     * @param $contextlevel
-     * @return $contextstring
+     * @param int $contextlevel
+     * @return string $contextstring
      */
     public function get_contextstring_from_sharinglevel($contextlevel) {
         // Depending on the context level the component can be:
@@ -185,7 +200,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * get_sharinglevel_options
+     * Get sharing level options
      *
      * @return $options
      */
@@ -214,9 +229,9 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * get_utemplate_content
+     * Get user template content
      *
-     * @param $utemplateid
+     * @param int $utemplateid
      * @return void
      */
     public function get_utemplate_content($utemplateid=0) {
@@ -230,7 +245,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * get_utemplate_name
+     * Get user template name
      *
      * @return void
      */
@@ -244,8 +259,8 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     /**
      * Gets an array of all of the templates that users have saved to the site.
      *
-     * @param stdClass $context The context that we are looking for.
-     * @return array An array of templates
+     * @param int $contextid Context that we are looking for.
+     * @return array $templates
      */
     public function get_available_templates($contextid) {
 
@@ -264,7 +279,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * write_template_content
+     * Write_template_content
      *
      * @param boolean $visiblesonly
      * @return void
@@ -391,9 +406,9 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * apply_template
+     * Apply_template
      *
-     * @return null
+     * @return void
      */
     public function apply_template() {
         $action = $this->formdata->action;
@@ -454,9 +469,9 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * friendly_stop
+     * Friendly_stop
      *
-     * @return null
+     * @return void
      */
     public function friendly_stop() {
         global $OUTPUT;
@@ -483,9 +498,8 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * add_items_from_template
+     * Add_items_from_template
      *
-     * @param $templateid
      * @return void
      */
     public function add_items_from_template() {
@@ -611,7 +625,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * export_utemplate
+     * Export_utemplate
      *
      * @return void
      */
@@ -649,9 +663,9 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * upload_utemplate
+     * Upload_utemplate
      *
-     * @return null
+     * @return void
      */
     public function upload_utemplate() {
 
@@ -735,7 +749,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * generate_utemplate
+     * Generate_utemplate
      *
      * @return void
      */
@@ -771,7 +785,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * manage_utemplates
+     * Manage_utemplates
      *
      * @return void
      */
@@ -894,11 +908,11 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * create_fictitious_table
+     * Create_fictitious_table
      *
-     * @param $templates
-     * @param $usersort
-     * @return null
+     * @param array $templates
+     * @param string $usersort
+     * @return void
      */
     private function create_fictitious_table($templates, $usersort) {
         // Original table per columns: originaltablepercols.
@@ -951,9 +965,9 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * delete_utemplate
+     * Delete_utemplate
      *
-     * @return null
+     * @return void
      */
     public function delete_utemplate() {
         global $OUTPUT;
@@ -1005,9 +1019,9 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * prevent_direct_user_input
+     * Prevent_direct_user_input
      *
-     * @return null
+     * @return void
      */
     public function prevent_direct_user_input() {
         if ($this->action != SURVEYPRO_NOACTION) {
@@ -1025,9 +1039,10 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * trigger_event
+     * Trigger_event
      *
-     * @param string $event: event to trigger
+     * @param string $eventname Event to trigger
+     * @param int $action
      * @return void
      */
     public function trigger_event($eventname, $action=null) {

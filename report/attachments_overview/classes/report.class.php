@@ -17,13 +17,9 @@
 /**
  * Defines the version of surveypro autofill subplugin
  *
- * This code fragment is called by moodle_needs_upgrading() and
- * /admin/index.php
- *
- * @package    surveyproreport
- * @subpackage count
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   surveyproreport_attachement_overview
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -32,13 +28,14 @@ require_once($CFG->libdir.'/tablelib.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/reportbase.class.php');
 
 class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase {
+
     /**
-     * outputtable
+     * Outputtable
      */
     public $outputtable = null;
 
     /**
-     * report_apply
+     * Report_apply
      *
      * @return void
      */
@@ -47,7 +44,7 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
     }
 
     /**
-     * setup_outputtable
+     * Setup_outputtable
      *
      * @return void
      */
@@ -93,7 +90,7 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
     }
 
     /**
-     * fetch_data
+     * Fetch_data
      *
      * @return void
      */
@@ -167,7 +164,7 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
     }
 
     /**
-     * output_data
+     * Output_data
      *
      * @return void
      */
@@ -179,7 +176,7 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
     }
 
     /**
-     * check_attachmentitems
+     * Check_attachmentitems
      *
      * @return void
      */
@@ -200,7 +197,7 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
     }
 
     /**
-     * prevent_direct_user_input
+     * Prevent_direct_user_input
      *
      * @return void
      */

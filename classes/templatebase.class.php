@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Surveypro templatebase class.
+ *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -24,36 +26,41 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
 /**
- * The base class representing a field
+ * The base class for templates
+ *
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_surveypro_templatebase {
+
     /**
-     * @var object, the course module object
+     * @var object Course module object
      */
     protected $cm;
 
     /**
-     * @var object, the context object
+     * @var object Context object
      */
     protected $context;
 
     /**
-     * @var object, the surveypro object
+     * @var object Surveypro object
      */
     protected $surveypro;
 
     /**
-     * $templatename
+     * @var string Name of the template
      */
     protected $templatename;
 
     /**
-     * $formdata: the form content as submitted by the user
+     * @var object Form content as submitted by the user
      */
     public $formdata = null;
 
     /**
-     * $langtree
+     * @var array, $langtree
      */
     protected $langtree = array();
 
@@ -71,9 +78,9 @@ class mod_surveypro_templatebase {
     }
 
     /**
-     * validate_xml
+     * Validate_xml
      *
-     * @param $xml
+     * @param object $xml File to validate
      * @return object|boolean error describing the message to show, false if no error is found
      */
     public function validate_xml($xml) {
@@ -228,10 +235,9 @@ class mod_surveypro_templatebase {
     // MARK get
 
     /**
-     * get_table_structure
+     * Get table structure
      *
-     * @param $tablename
-     * @param $dropid
+     * @param string $tablename
      * @return void
      */
     public function get_table_structure($tablename) {
@@ -250,7 +256,7 @@ class mod_surveypro_templatebase {
     }
 
     /**
-     * get_plugin_versiondisk
+     * Get plugin version on disk
      *
      * @return versions of each field|format item plugin
      */

@@ -21,7 +21,7 @@ require_once($CFG->dirroot.'/course/moodleform_mod.php');
 class mod_surveypro_mod_form extends moodleform_mod {
 
     /**
-     * definition
+     * Definition
      *
      * @return void
      */
@@ -225,11 +225,11 @@ class mod_surveypro_mod_form extends moodleform_mod {
     }
 
     /**
-     * validation
+     * Validation
      *
-     * @param $data
-     * @param $files
-     * @return $errors
+     * @param array $data
+     * @param array $files
+     * @return array $errors
      */
     public function validation($data, $files) {
         $errors = parent::validation($data, $files);
@@ -238,7 +238,7 @@ class mod_surveypro_mod_form extends moodleform_mod {
     }
 
     /**
-     * add_completion_rules
+     * Add_completion_rules
      *
      * @return void
      */
@@ -261,7 +261,7 @@ class mod_surveypro_mod_form extends moodleform_mod {
     }
 
     /**
-     * completion_rule_enabled
+     * Completion_rule_enabled
      *
      * @param $data
      * @return void

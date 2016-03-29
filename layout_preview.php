@@ -66,7 +66,7 @@ $formparams->submissionid = $submissionid;
 $formparams->maxassignedpage = $previewman->get_maxassignedpage();
 $formparams->canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context, null, true);
 $formparams->formpage = $previewman->get_formpage(); // The page of the form to select subset of fields
-$formparams->modulepage = SURVEYPRO_ITEMS_PREVIEW; // This is the page of the TAB-PAGE structure.
+$formparams->modulepage = SURVEYPRO_LAYOUT_PREVIEW; // This is the page of the TAB-PAGE structure.
 $formparams->readonly = false;
 $formparams->preview = true;
 // End of: prepare params for the form.
@@ -109,7 +109,7 @@ $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
 
-new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABITEMS, SURVEYPRO_ITEMS_PREVIEW);
+new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABLAYOUT, SURVEYPRO_LAYOUT_PREVIEW);
 
 $previewman->noitem_stopexecution();
 $previewman->message_preview_mode();

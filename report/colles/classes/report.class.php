@@ -17,13 +17,9 @@
 /**
  * Defines the version of surveypro autofill subplugin
  *
- * This code fragment is called by moodle_needs_upgrading() and
- * /admin/index.php
- *
- * @package    surveyproreport
- * @subpackage colles
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   surveyproreport_colles
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -31,78 +27,79 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/surveypro/classes/reportbase.class.php');
 
 class mod_surveypro_report_colles extends mod_surveypro_reportbase {
+
     /**
-     * template
+     * Template
      */
     public $template;
 
     /**
-     * group
+     * Group
      */
     public $group = 0;
 
     /**
-     * sid
+     * Sid
      */
     public $area = 0;
 
     /**
-     * templateuseritem
+     * Templateuseritem
      */
     public $templateuseritem = '';
 
     /**
-     * qid
+     * Qid
      */
     public $qid = 0;
 
     /**
-     * graphtitle
+     * Graphtitle
      */
     public $graphtitle = '';
 
     /**
-     * xlabels
+     * Xlabels
      */
     public $xlabels = array();
 
     /**
-     * ylabels
+     * Ylabels
      */
     public $ylabels = array();
 
     /**
-     * trend1
+     * Trend1
      */
     public $trend1 = array();
 
     /**
-     * trend1stdev
+     * Trend1stdev
      */
     public $trend1stdev = array();
 
     /**
-     * trend2
+     * Trend2
      */
     public $trend2 = array();
 
     /**
-     * trend2stdev
+     * Trend2stdev
      */
     public $trend2stdev = array();
 
     /**
-     * studenttrend1
+     * Studenttrend1
      */
     public $studenttrend1 = array();
 
     /**
-     * studenttrend2
+     * Studenttrend2
      */
     public $studenttrend2 = array();
 
     /**
-     * iarea
+     * Iarea
      */
     public $iarea;
 
@@ -133,7 +130,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     }
 
     /**
-     * set_group
+     * Set group
      *
      * @param int $group
      * @return void
@@ -143,7 +140,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     }
 
     /**
-     * set_area
+     * Set area
      *
      * @param int $area
      * @return void
@@ -153,7 +150,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     }
 
     /**
-     * set_qid
+     * Set q id
      *
      * @param int $qid
      * @return void
@@ -163,7 +160,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     }
 
     /**
-     * restrict_templates
+     * Restrict_templates
      *
      * @return void
      */
@@ -172,7 +169,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     }
 
     /**
-     * has_student_report
+     * Has_student_report
      *
      * @return void
      */
@@ -181,7 +178,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     }
 
     /**
-     * get_childreports
+     * Get child reports
      *
      * @param bool $canaccessreports
      * @return void
@@ -200,7 +197,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     }
 
     /**
-     * output_html
+     * Output_html
      *
      * @param string $nexturl
      * @param string $graphurl
@@ -234,7 +231,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     }
 
     /**
-     * get_qid_per_area
+     * Get q id per area
      *
      * @return void
      */
@@ -288,7 +285,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     }
 
     /**
-     * output_summarydata
+     * Output_summarydata
      *
      * @return void
      */
@@ -318,7 +315,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     }
 
     /**
-     * fetch_summarydata
+     * Fetch_summarydata
      *
      * @return void
      */
@@ -421,7 +418,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     }
 
     /**
-     * output_scalesdata
+     * Output_scalesdata
      *
      * @return void
      */
@@ -449,7 +446,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     }
 
     /**
-     * fetch_scalesdata
+     * Fetch_scalesdata
      *
      * @param int $area
      * @return void
@@ -521,7 +518,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     }
 
     /**
-     * output_questionsdata
+     * Output_questionsdata
      *
      * @param int $area
      * @return void
@@ -555,7 +552,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     }
 
     /**
-     * fetch_questionsdata
+     * Fetch_questionsdata
      *
      * @param int $area
      * @param int $qid

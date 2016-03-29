@@ -17,8 +17,7 @@
 /**
  * Functions used by some stages of autofill plugin upgrade
  *
- * @package    surveyprofield
- * @subpackage autofill
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   surveyprofield_autofill
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

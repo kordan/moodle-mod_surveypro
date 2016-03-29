@@ -15,15 +15,24 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    surveypro_multiselect
+ * This file contains the restore code for the surveyprofield_multiselect plugin.
+ *
+ * @package    surveyprofield_multiselect
  * @subpackage backup-moodle2
  * @copyright  2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+defined('MOODLE_INTERNAL') || die();
 
 /**
- * restore subplugin class that provides the necessary information
- * needed to restore one surveypro->multiselect subplugin.
+ * Restore subplugin class.
+ *
+ * Provides the necessary information needed
+ * to restore one surveyprofield_multiselect subplugin.
+ *
+ * @package   surveyprofield_multiselect
+ * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class restore_surveyprofield_multiselect_subplugin extends restore_subplugin {
 
@@ -42,6 +51,8 @@ class restore_surveyprofield_multiselect_subplugin extends restore_subplugin {
 
     /**
      * Processes the surveyprofield_multiselect element
+     *
+     * @param mixed $data
      */
     public function process_surveyprofield_multiselect($data) {
         global $DB;

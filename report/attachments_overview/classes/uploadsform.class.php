@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * The uploadformmanager class
+ *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,31 +27,36 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/surveypro/field/fileupload/lib.php');
 
 /**
- * The base class representing a field
+ * The class managing the attachement overview report
+ *
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_surveypro_report_uploadformmanager {
+
     /**
-     * @var object, the course module object
+     * @var object Course module object
      */
     protected $cm;
 
     /**
-     * @var object, the context object
+     * @var object Context object
      */
     protected $context;
 
     /**
-     * @var object, the surveypro object
+     * @var object Surveypro object
      */
     protected $surveypro;
 
     /**
-     * $submissionid: the ID of the saved surbey_submission
+     * @var int ID of the saved suryey_submission
      */
     public $submissionid = 0;
 
     /**
-     * $formdata: the form content as submitted by the user
+     * @var object Form content as submitted by the user
      */
     public $formdata = null;
 
@@ -69,7 +76,7 @@ class mod_surveypro_report_uploadformmanager {
     // MARK set
 
     /**
-     * set_userid
+     * Set user id
      *
      * @param string $userid
      * @return void
@@ -79,7 +86,7 @@ class mod_surveypro_report_uploadformmanager {
     }
 
     /**
-     * set_itemid
+     * Set item id
      *
      * @param string $itemid
      * @return void
@@ -89,7 +96,7 @@ class mod_surveypro_report_uploadformmanager {
     }
 
     /**
-     * set_submissionid
+     * Set submission id
      *
      * @param string $submissionid
      * @return void
@@ -99,7 +106,7 @@ class mod_surveypro_report_uploadformmanager {
     }
 
     /**
-     * prevent_direct_user_input
+     * Prevent_direct_user_input
      *
      * @return void
      */
@@ -112,7 +119,7 @@ class mod_surveypro_report_uploadformmanager {
     }
 
     /**
-     * display_attachment
+     * Display_attachment
      *
      * @param $submissionid
      * @param $itemid

@@ -15,10 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    surveyprofield
- * @subpackage character
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * library for surveyprofield_character
+ *
+ * @package   surveyprofield_character
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -32,13 +33,13 @@ define('SURVEYPROFIELD_CHARACTER_EMAILPATTERN' , 'PATTERN_EMAIL');
 define('SURVEYPROFIELD_CHARACTER_URLPATTERN'   , 'PATTERN_URL');
 
 /**
- * surveypro_character_text_match_pattern
+ * surveyprofield_character_validate_pattern
  *
- * @param $text
- * @param $pattern
- * @return void
+ * @param string $text
+ * @param string $pattern
+ * @return bool, True if the text matches the pattern; false otherwise.
  */
-function surveypro_character_text_match_pattern($text, $pattern) {
+function surveyprofield_character_validate_pattern($text, $pattern) {
     // Replace free characters.
     $pos = -1;
     while ($pos = strpos($pattern, '*', $pos + 1)) {
@@ -56,8 +57,8 @@ function surveypro_character_text_match_pattern($text, $pattern) {
 /**
  * surveypro_character_is_valid_url
  *
- * @param $url
- * @return void
+ * @param string $url
+ * @return bool, True if the string hold a correct url; false otherwise.
  */
 function surveypro_character_is_valid_url($url) {
     return (filter_var($url, FILTER_VALIDATE_URL) !== false);

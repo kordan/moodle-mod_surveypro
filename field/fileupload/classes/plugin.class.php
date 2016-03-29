@@ -15,7 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package   mod_surveypro
+ * This file contains the mod_surveypro_field_fileupload
+ *
+ * @package   surveyprofield_fileupload
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -25,43 +27,59 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/surveypro/classes/itembase.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/field/fileupload/lib.php');
 
+/**
+ * Class to manage each aspect of the fileupload item
+ *
+ * @package   surveyprofield_fileupload
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class mod_surveypro_field_fileupload extends mod_surveypro_itembase {
 
     /**
-     * Item content stuff.
+     * @var string $content
      */
     public $content = '';
+
+    /**
+     * @var int $contenttrust
+     */
     public $contenttrust = 1;
+
+    /**
+     * @var string $contentformat
+     */
     public $contentformat = '';
 
     /**
-     * $customnumber = the custom number of the item.
-     * It usually is 1. 1.1, a, 2.1.a...
+     * @var string $customnumber, the custom number of the item.
+     *
+     * It usually is 1, 1.1, a, 2.1.a...
      */
     protected $customnumber;
 
     /**
-     * $position = where does the question go?
+     * @var int $position, SURVEYPRO_POSITIONLEFT, SURVEYPRO_POSITIONTOP or SURVEYPRO_POSITIONFULLWIDTH
      */
     protected $position;
 
     /**
-     * $extranote = an optional text describing the item
+     * @var string $extranote, the optional text describing the item
      */
     protected $extranote;
 
     /**
-     * $required = boolean. O == optional item; 1 == mandatory item
+     * @var bool $required,  O => optional item; 1 => mandatory item;
      */
     protected $required;
 
     /**
-     * $variable = the name of the field storing data in the db table
+     * @var string $variable,  the name of the field storing data in the db table
      */
     protected $variable;
 
     /**
-     * $indent = the indent of the item in the form page
+     * @var int $indent, the indent of the item in the form page
      */
     protected $indent;
 
@@ -81,7 +99,7 @@ class mod_surveypro_field_fileupload extends mod_surveypro_itembase {
     protected $filetypes;
 
     /**
-     * static canbeparent
+     * @var bool canbeparent
      */
     protected static $canbeparent = false;
 
@@ -93,8 +111,8 @@ class mod_surveypro_field_fileupload extends mod_surveypro_itembase {
      *
      * @param stdClass $cm
      * @param object $surveypro
-     * @param int $itemid - optional surveypro_item ID
-     * @param bool $evaluateparentcontent - to include $item->parentcontent (as decoded by the parent item) too.
+     * @param int $itemid Optional item ID
+     * @param bool $evaluateparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise.
      */
     public function __construct($cm, $surveypro, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $surveypro, $itemid, $evaluateparentcontent);
@@ -120,10 +138,10 @@ class mod_surveypro_field_fileupload extends mod_surveypro_itembase {
     }
 
     /**
-     * item_load
+     * Item load
      *
-     * @param $itemid
-     * @param bool $evaluateparentcontent - to include $item->parentcontent (as decoded by the parent item) too.
+     * @param int $itemid
+     * @param bool $evaluateparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise.
      * @return void
      */
     public function item_load($itemid, $evaluateparentcontent) {
@@ -136,9 +154,9 @@ class mod_surveypro_field_fileupload extends mod_surveypro_itembase {
     }
 
     /**
-     * item_save
+     * Item save
      *
-     * @param $record
+     * @param object $record
      * @return void
      */
     public function item_save($record) {
@@ -156,7 +174,7 @@ class mod_surveypro_field_fileupload extends mod_surveypro_itembase {
     }
 
     /**
-     * item_get_canbeparent
+     * Item get can be parent
      *
      * @return the content of the static property "canbeparent"
      */
@@ -165,10 +183,9 @@ class mod_surveypro_field_fileupload extends mod_surveypro_itembase {
     }
 
     /**
-     * item_custom_fields_to_db
-     * sets record field to store the correct value to db for the age custom item
+     * Traslate values from the mform of this item to values for corresponding properties
      *
-     * @param $record
+     * @param object $record
      * @return void
      */
     public function item_custom_fields_to_db($record) {
@@ -186,7 +203,7 @@ class mod_surveypro_field_fileupload extends mod_surveypro_itembase {
     }
 
     /**
-     * item_add_mandatory_plugin_fields
+     * Item add mandatory plugin fields
      * Copy mandatory fields to $record.
      *
      * @param stdClass $record
@@ -205,7 +222,7 @@ class mod_surveypro_field_fileupload extends mod_surveypro_itembase {
     }
 
     /**
-     * item_get_multilang_fields
+     * Item_get_multilang_fields
      * make the list of multilang plugin fields
      *
      * @return array of felds
@@ -217,8 +234,7 @@ class mod_surveypro_field_fileupload extends mod_surveypro_itembase {
     }
 
     /**
-     * item_get_plugin_schema
-     * Return the xml schema for surveypro_<<plugin>> table.
+     * Return the xml schema for surveypro_<<plugin>> table
      *
      * @return string $schema
      */
@@ -262,12 +278,12 @@ EOS;
     // MARK userform
 
     /**
-     * userform_mform_element
+     * Define the mform element for the outform and the searchform
      *
      * @param moodleform $mform
-     * @param $searchform
-     * @param $readonly
-     * @param $submissionid
+     * @param bool $searchform
+     * @param bool $readonly
+     * @param int $submissionid
      * @return void
      */
     public function userform_mform_element($mform, $searchform, $readonly=false, $submissionid=0) {
@@ -303,12 +319,12 @@ EOS;
     }
 
     /**
-     * userform_mform_validation
+     * Perform outform and searchform data validation
      *
-     * @param $data
-     * @param &$errors
-     * @param $surveypro
-     * @param $searchform
+     * @param array $data
+     * @param array $errors
+     * @param array $surveypro
+     * @param bool $searchform
      * @return void
      */
     public function userform_mform_validation($data, &$errors, $surveypro, $searchform) {
@@ -328,7 +344,7 @@ EOS;
     }
 
     /**
-     * userform_get_filling_instructions
+     * Prepare the string with the filling instruction
      *
      * @return string $fillinginstruction
      */
@@ -347,14 +363,13 @@ EOS;
     }
 
     /**
-     * userform_save_preprocessing
-     * starting from the info set by the user in the form
+     * Starting from the info set by the user in the form
      * this method calculates what to save in the db
      * or what to return for the search form
      *
-     * @param $answer
-     * @param $olduseranswer
-     * @param $searchform
+     * @param array $answer
+     * @param object $olduseranswer
+     * @param bool $searchform
      * @return void
      */
     public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
@@ -373,11 +388,9 @@ EOS;
     }
 
     /**
-     * this method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time
+     * This method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time
      *
-     * userform_set_prefill
-     *
-     * @param $fromdb
+     * @param object $fromdb
      * @return void
      */
     public function userform_set_prefill($fromdb) {
@@ -404,12 +417,11 @@ EOS;
     }
 
     /**
-     * userform_db_to_export
-     * strating from the info stored in the database, this function returns the corresponding content for the export file
+     * Starting from the info stored into $answer, this function returns the corresponding content for the export file
      *
-     * @param $answers
-     * @param $format
-     * @return void
+     * @param object $answer
+     * @param string $format
+     * @return string - the string for the export file
      */
     public function userform_db_to_export($answer, $format='') {
         // SURVEYPRO_NOANSWERVALUE does not exist here
@@ -429,10 +441,9 @@ EOS;
     }
 
     /**
-     * userform_get_root_elements_name
-     * returns an array with the names of the mform element added using $mform->addElement or $mform->addGroup
+     * Returns an array with the names of the mform element added using $mform->addElement or $mform->addGroup
      *
-     * @return void
+     * @return array
      */
     public function userform_get_root_elements_name() {
         $elementnames = array($this->itemname.'_filemanager');

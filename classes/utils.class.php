@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Surveypro utility class.
+ *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -23,16 +25,21 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * The base class representing a field
+ * The utility class
+ *
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_surveypro_utility {
+
     /**
-     * @var object, the course module object
+     * @var object Course module object
      */
     protected $cm;
 
     /**
-     * @var object, the surveypro object
+     * @var object Surveypro object
      */
     protected $surveypro;
 
@@ -53,7 +60,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * assign_pages
+     * Assign_pages
      *
      * @return void
      */
@@ -97,12 +104,12 @@ class mod_surveypro_utility {
     }
 
     /**
-     * has_input_items
+     * Has_input_items
      *
-     * @param $surveyproid
-     * @param $formpage
-     * @param $includehidden
-     * @param $includereserved
+     * @param int $formpage
+     * @param int $returncount
+     * @param bool $includehidden
+     * @param bool $includereserved
      * @return bool|int as required by $returncount
      */
     public function has_input_items($formpage=0, $returncount=false, $includehidden=false, $includereserved=false) {
@@ -127,9 +134,9 @@ class mod_surveypro_utility {
     }
 
     /**
-     * has_search_items
+     * Has_search_items
      *
-     * @param $surveyproid
+     * @param bool $returncount
      * @return bool|int as required by $returncount
      */
     public function has_search_items($returncount=false) {
@@ -145,11 +152,11 @@ class mod_surveypro_utility {
     }
 
     /**
-     * has_submissions
+     * Has_submissions
      *
-     * @param $surveyproid
-     * @param $status
-     * @param $userid
+     * @param bool $returncount
+     * @param int $status
+     * @param int $userid
      * @return int
      */
     public function has_submissions($returncount=false, $status=SURVEYPRO_STATUSALL, $userid=null) {
@@ -171,7 +178,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * delete_items
+     * Delete_items
      *
      * surveypro_item                 surveypro(field|format)_<<plugin>>
      *   id  <-----------------|        id
@@ -182,7 +189,7 @@ class mod_surveypro_utility {
      *   timecreated
      *   timemodified
      *
-     * @param $whereparams
+     * @param array $whereparams
      * @return void
      */
     public function delete_items($whereparams=null) {
@@ -279,7 +286,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * delete_submissions
+     * Delete_submissions
      *
      * surveypro_submission           surveypro_answer
      *   id  <-----------------|        id
@@ -289,7 +296,8 @@ class mod_surveypro_utility {
      *   timecreated                    content
      *   timemodified                   contentformat
      *
-     * @param $whereparams
+     * @param array $whereparams
+     * @param bool $updatecompletion
      * @return void
      */
     public function delete_submissions($whereparams=null, $updatecompletion=true) {
@@ -375,7 +383,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * delete_answer
+     * Delete_answer
      *
      * This is the rationale: an item was deleted.
      * This method drops from EACH submission of the surveypro that had the deleted item
@@ -389,7 +397,7 @@ class mod_surveypro_utility {
      *   timecreated                    content
      *   timemodified                   contentformat
      *
-     * @param $itemid
+     * @param array $whereparams
      * @return void
      */
     public function delete_answer($whereparams=null) {
@@ -434,9 +442,10 @@ class mod_surveypro_utility {
     }
 
     /**
-     * items_set_visibility
+     * Items_set_visibility
      *
-     * @param $whereparams
+     * @param array $whereparams
+     * @param bool $visibility
      * @return void
      */
     public function items_set_visibility($whereparams=null, $visibility) {
@@ -460,9 +469,10 @@ class mod_surveypro_utility {
     }
 
     /**
-     * items_reindex
+     * Items_reindex
      *
-     * @return null
+     * @param int $startingsortindex
+     * @return void
      */
     public function items_reindex($startingsortindex=0) {
         global $DB;
@@ -490,9 +500,8 @@ class mod_surveypro_utility {
     }
 
     /**
-     * reset_items_pages
+     * Reset_items_pages
      *
-     * @param $surveyproid
      * @return void
      */
     public function reset_items_pages() {
@@ -503,9 +512,10 @@ class mod_surveypro_utility {
     }
 
     /**
-     * submissions_set_status
+     * Submissions_set_status
      *
-     * @param $surveyproid
+     * @param array $whereparams
+     * @param bool $status
      * @return void
      */
     public function submissions_set_status($whereparams=null, $status) {
@@ -528,9 +538,9 @@ class mod_surveypro_utility {
     }
 
     /**
-     * get_submissionsid_from_answers
+     * Get submissions id from answers
      *
-     * @param $whereparams
+     * @param array $whereparams
      * @return recordset
      */
     public function get_submissionsid_from_answers($whereparams) {
@@ -562,9 +572,9 @@ class mod_surveypro_utility {
     }
 
     /**
-     * optional_to_required_followup
+     * Optional_to_required_followup
      *
-     * @param $itemid
+     * @param int $itemid
      * @return void
      */
     public function optional_to_required_followup($itemid) {
@@ -587,7 +597,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * has_submissions_warning
+     * Has_submissions_warning
      *
      * @return void
      */
@@ -604,19 +614,19 @@ class mod_surveypro_utility {
     }
 
     /**
-     * get_used_plugin_list
+     * Get used plugin list
      *
      * This method provide the list af the plugin used in the current surveypro
      * getting them from the items already added.
      *
-     * @param type
+     * @param string $type Optional plugin type
      * @return array $pluginlist;
      */
     public function get_used_plugin_list($type='') {
         global $DB;
 
         $whereparams = array();
-        $sql = 'SELECT MIN(id), plugin
+        $sql = 'SELECT plugin
                 FROM {surveypro_item}
                 WHERE surveyproid = :surveyproid';
         $whereparams['surveyproid'] = $this->surveypro->id;
@@ -626,7 +636,7 @@ class mod_surveypro_utility {
         }
         $sql .= ' GROUP BY plugin';
 
-        $pluginlist = $DB->get_records_sql_menu($sql, $whereparams);
+        $pluginlist = $DB->get_fieldset_sql($sql, $whereparams);
 
         return $pluginlist;
     }

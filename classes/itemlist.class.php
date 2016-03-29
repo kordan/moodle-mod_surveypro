@@ -27,106 +27,106 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
 
 /**
- * The base class representing a field
+ * The base class representing the list of elements of this surveypro
+ *
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_surveypro_itemlist {
+
     /**
-     * @var object, the course module object
+     * @var object Course module object
      */
     protected $cm;
 
     /**
-     * @var object, the context object
+     * @var object Context object
      */
     protected $context;
 
     /**
-     * @var object, the surveypro object
+     * @var object Surveypro object
      */
     protected $surveypro;
 
     /**
-     * $type
+     * @var string Type of the leading item
      */
     protected $type;
 
     /**
-     * $plugin
+     * @var string Plugin of the leading item
      */
     protected $plugin;
 
     /**
-     * $itemid
+     * @var int Itemid of the leading item
      */
     protected $itemid;
 
     /**
-     * $sortindex
+     * @var int Sortindex of the leading item
      */
     protected $sortindex;
 
     /**
-     * $action
+     *  @var int Required action
      */
     protected $action;
 
     /**
-     * $action
+     * @var int Required view
      */
     protected $view;
 
     /**
-     * $itemtomove
+     * @var int Id of the item to move
      */
     protected $itemtomove;
 
     /**
-     * $lastitembefore
+     * @var int Id of the last item before the moving one
      */
     protected $lastitembefore;
 
     /**
-     * $confirm
+     * @var int User confirmation to actions
      */
     protected $confirm;
 
     /**
-     * $nextindent
+     * @var int New indent requested for $itemid
      */
     protected $nextindent;
 
     /**
-     * $parentid
+     * @var int Id of the parent item of $itemid
      */
     protected $parentid;
 
     /**
-     * $saveasnew
-     */
-    protected $saveasnew;
-
-    /**
-     * $hassubmissions
+     * @var bool True if this surveypro has submissions; false otherwise
      */
     protected $hassubmissions;
 
     /**
-     * $itemcount
+     * @var int Count of the items of this surveypro
      */
     protected $itemcount;
 
     /**
-     * $itemeditingfeedback
+     * @var int Binary number providing a mask for the feedback of the item editing
      */
     protected $itemeditingfeedback;
 
     /**
-     * $actionfeedback
+     * @var int Feedback of the performed action
      */
     protected $actionfeedback;
 
     /**
-     * $formdata: the form content as submitted by the user
+     * @var object Form content as submitted by the user
      */
     public $formdata = null;
 
@@ -144,7 +144,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * display_items_table
+     * Display_items_table
      *
      * @return void
      */
@@ -573,7 +573,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * display_validate_relations_table
+     * Display_validate_relations_table
      *
      * @return void
      */
@@ -756,7 +756,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * add_child_node
+     * Add_child_node
      *
      * @param integer $nodelist
      * @param integer $sortindexnodelist
@@ -783,7 +783,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * add_parent_node
+     * Add_parent_node
      *
      * @param array $additionalcondition
      * @return void
@@ -815,7 +815,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * reorder_items
+     * Reorder_items
      *
      * @return void
      */
@@ -859,7 +859,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * display_item_editing_feedback
+     * Display_item_editing_feedback
      *
      * @return void
      */
@@ -921,7 +921,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * item_fingerprint
+     * Item_fingerprint
      *
      * @return void
      */
@@ -939,9 +939,9 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * prevent_direct_user_input
+     * Prevent_direct_user_input
      *
-     * @return null
+     * @return void
      */
     public function prevent_direct_user_input() {
         if ($this->surveypro->template) {
@@ -952,7 +952,7 @@ class mod_surveypro_itemlist {
     // MARK item action execution
 
     /**
-     * item_actions_execution
+     * Item_actions_execution
      *
      * @return void
      */
@@ -1025,7 +1025,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * item_actions_feedback
+     * Item_actions_feedback
      *
      * @return void
      */
@@ -1072,7 +1072,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * bulk_action_ask
+     * Bulk_action_ask
      *
      * @param string $message
      * @return void
@@ -1100,7 +1100,7 @@ class mod_surveypro_itemlist {
     // MARK item hide
 
     /**
-     * item_hide_execute
+     * Item_hide_execute
      *
      * @return void
      */
@@ -1125,7 +1125,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * item_hide_feedback
+     * Item_hide_feedback
      *
      * @return void
      */
@@ -1177,7 +1177,7 @@ class mod_surveypro_itemlist {
     // MARK item show
 
     /**
-     * item_show_execute
+     * Item_show_execute
      *
      * @return void
      */
@@ -1197,7 +1197,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * item_show_feedback
+     * Item_show_feedback
      *
      * @return void
      */
@@ -1246,7 +1246,7 @@ class mod_surveypro_itemlist {
     // MARK item delete
 
     /**
-     * item_delete_execute
+     * Item_delete_execute
      *
      * @return void
      */
@@ -1285,7 +1285,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * item_delete_feedback
+     * Item_delete_feedback
      *
      * @return void
      */
@@ -1354,7 +1354,7 @@ class mod_surveypro_itemlist {
     // MARK drop multilang
 
     /**
-     * drop_multilang_execute
+     * Drop_multilang_execute
      *
      * @return void
      */
@@ -1418,7 +1418,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * drop_multilang_feedback
+     * Drop_multilang_feedback
      *
      * @return void
      */
@@ -1454,9 +1454,9 @@ class mod_surveypro_itemlist {
     // MARK item make required
 
     /**
-     * item_setrequired_execute
+     * Item_setrequired_execute
      *
-     * @param integer $value - the value to set
+     * @param integer $value Value to set
      * @return void
      */
     public function item_setrequired_execute($value) {
@@ -1472,7 +1472,7 @@ class mod_surveypro_itemlist {
     // MARK item make reserved
 
     /**
-     * item_makereserved_execute
+     * Item_makereserved_execute
      *
      * the idea is this: in a chain of parent-child items,
      *     -> items available to each user (public items) can be parent of item available to each user such as item with reserved access
@@ -1501,7 +1501,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * item_makereserved_feedback
+     * Item_makereserved_feedback
      *
      * the idea is this: in a chain of parent-child items,
      *     -> items available to each user (public items) can be parent of item available to each user such as item with reserved access
@@ -1556,7 +1556,7 @@ class mod_surveypro_itemlist {
     // MARK item make standard
 
     /**
-     * item_makestandard_execute
+     * Item_makestandard_execute
      *
      * @return void
      */
@@ -1578,7 +1578,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * item_makestandard_feedback
+     * Item_makestandard_feedback
      *
      * @return void
      */
@@ -1627,7 +1627,7 @@ class mod_surveypro_itemlist {
     // MARK all hide
 
     /**
-     * hide_all_execute
+     * Hide_all_execute
      *
      * @return void
      */
@@ -1649,7 +1649,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * hide_all_feedback
+     * Hide_all_feedback
      *
      * @return void
      */
@@ -1673,7 +1673,7 @@ class mod_surveypro_itemlist {
     // MARK all show
 
     /**
-     * show_all_execute
+     * Show_all_execute
      *
      * @return void
      */
@@ -1696,7 +1696,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * show_all_feedback
+     * Show_all_feedback
      *
      * @return void
      */
@@ -1720,7 +1720,7 @@ class mod_surveypro_itemlist {
     // MARK all delete
 
     /**
-     * delete_all_execute
+     * Delete_all_execute
      *
      * @return void
      */
@@ -1747,7 +1747,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * delete_all_feedback
+     * Delete_all_feedback
      *
      * @return void
      */
@@ -1771,7 +1771,7 @@ class mod_surveypro_itemlist {
     // MARK visible delete
 
     /**
-     * delete_visible_execute
+     * Delete_visible_execute
      *
      * @return void
      */
@@ -1801,7 +1801,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * delete_visible_feedback
+     * Delete_visible_feedback
      *
      * @return void
      */
@@ -1825,7 +1825,7 @@ class mod_surveypro_itemlist {
     // MARK hidden delete
 
     /**
-     * delete_hidden_execute
+     * Delete_hidden_execute
      *
      * @return void
      */
@@ -1855,7 +1855,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * delete_hidden_feedback
+     * Delete_hidden_feedback
      *
      * @return void
      */
@@ -1879,7 +1879,7 @@ class mod_surveypro_itemlist {
     // MARK get
 
     /**
-     * get_itemid
+     * Get item id
      *
      * @return void
      */
@@ -1888,7 +1888,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * get_type
+     * Get type
      *
      * @return void
      */
@@ -1897,7 +1897,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * get_plugin
+     * Get plugin
      *
      * @return void
      */
@@ -1906,7 +1906,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * get_hassubmissions
+     * Get has submissions
      *
      * @return void
      */
@@ -1915,7 +1915,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * get_itemcount
+     * Get item count
      *
      * @return void
      */
@@ -1926,7 +1926,7 @@ class mod_surveypro_itemlist {
     // MARK set
 
     /**
-     * set_typeplugin
+     * Set typeplugin.
      *
      * @param string $typeplugin
      * @return void
@@ -1943,7 +1943,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * set_type
+     * Set type.
      *
      * @param string $type
      * @return void
@@ -1953,7 +1953,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * set_plugin
+     * Set plugin.
      *
      * @param string $plugin
      * @return void
@@ -1963,7 +1963,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * set_itemid
+     * Set itemid.
      *
      * @param int $itemid
      * @return void
@@ -1973,7 +1973,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * set_sortindex
+     * Set sortindex.
      *
      * @param int $sortindex
      * @return void
@@ -1983,7 +1983,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * set_action
+     * Set action.
      *
      * @param int $action
      * @return void
@@ -1993,7 +1993,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * set_view
+     * Set view.
      *
      * @param int $view
      * @return void
@@ -2003,7 +2003,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * set_lastitembefore
+     * Set last item before.
      *
      * @param int $lastitembefore
      * @return void
@@ -2013,7 +2013,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * set_confirm
+     * Set confirm.
      *
      * @param int $confirm
      * @return void
@@ -2023,7 +2023,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * set_nextindent
+     * Set nextindent.
      *
      * @param int $nextindent
      * @return void
@@ -2033,7 +2033,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * set_parentid
+     * Set parentid.
      *
      * @param int $parentid
      * @return void
@@ -2043,7 +2043,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * set_itemeditingfeedback
+     * Set item editing feedback.
      *
      * @param int $itemeditingfeedback
      * @return void
@@ -2053,7 +2053,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * set_itemtomove
+     * Set itemtomove.
      *
      * @param int $itemtomove
      * @return void
@@ -2063,7 +2063,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * set_saveasnew
+     * Set saveasnew.
      *
      * @param int $saveasnew
      * @return void
@@ -2073,7 +2073,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * set_hassubmissions
+     * Set hassubmissions.
      *
      * @param int $hassubmissions
      * @return void
@@ -2083,7 +2083,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * set_itemcount
+     * Set itemcount.
      *
      * @param int $itemcount
      * @return void

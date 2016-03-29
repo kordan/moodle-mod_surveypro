@@ -34,7 +34,7 @@ $string['surveypro'] = 'surveypro';
 $string['pluginadministration'] = 'Gestione surveypro';
 $string['pluginname'] = 'Surveypro';
 
-$string['tabitemsname'] = 'Scheda';
+$string['tablayoutname'] = 'Scheda';
     $string['tabitemspage1'] = 'Anteprima';
     $string['tabitemspage2'] = 'Elementi';
     $string['tabitemspage3'] = 'Dettaglio elemento';

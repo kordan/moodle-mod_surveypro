@@ -17,9 +17,6 @@
 /**
  * Defines the version of surveypro attls template subplugin
  *
- * This code fragment is called by moodle_needs_upgrading() and
- * /admin/index.php
- *
  * @package    surveyprotemplate
  * @subpackage attls
  * @copyright  2013 onwards kordan <kordan@mclink.it>

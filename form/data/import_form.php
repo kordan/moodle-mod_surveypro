@@ -28,7 +28,7 @@ require_once($CFG->dirroot.'/lib/csvlib.class.php');
 class mod_surveypro_importform extends moodleform {
 
     /**
-     * definition
+     * Definition
      *
      * @return void
      */
