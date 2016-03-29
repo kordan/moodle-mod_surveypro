@@ -30,10 +30,10 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->version = 2014111000;
 $plugin->release = '1.0';
-$plugin->requires = 2013111800; // Requires this Moodle version
+$plugin->requires = 2013111800; // Requires this Moodle version.
 $plugin->dependencies = array(
     'surveyprotemplate_collesactual' => 2013103101,
     'surveyprotemplate_collesactualpreferred' => 2013103101,
     'surveyprotemplate_collespreferred' => 2013103101,
 );
-$plugin->component = 'surveyproreport_colles'; // Full name of the plugin (used for diagnostics)
+$plugin->component = 'surveyproreport_colles'; // Full name of the plugin (used for diagnostics).

@@ -36,79 +36,79 @@ class mod_surveypro_itembase {
     // protected $context;
 
     /**
-     * unique itemid of the surveyproitem in surveypro_item table
+     * Unique itemid of the surveyproitem in surveypro_item table.
      */
     protected $itemid;
 
     /**
-     * $type = the type of the item. It can only be: SURVEYPRO_TYPEFIELD or SURVEYPRO_TYPEFORMAT
+     * The type of the item. It can only be: SURVEYPRO_TYPEFIELD or SURVEYPRO_TYPEFORMAT.
      */
     protected $type;
 
     /**
-     * $plugin = the item plugin
+     * The item plugin
      */
     protected $plugin;
 
     /**
-     * $itemname = the name of the field as it is in userpageform
+     * The basename of the field as it is in the out form.
      */
     protected $itemname;
 
     /**
-     * $hidden = is this field going to be shown in the form?
+     * The visibility of this item in the out form.
      */
     protected $hidden;
 
     /**
-     * $insearchform = is this field going to be part of the search form?
+     * The membership of the item to the search form.
      */
     protected $insearchform;
 
     /**
-     * $reserved = is this field going to be available only to users with accessreserveditems capability?
+     * The availability of this item: to everyone or to user with "accessreserveditems" capability only.
      */
     protected $reserved;
 
     /**
-     * $sortindex = the order of this item in the surveypro form
+     * The positiom of this item in the surveypro form.
      */
     protected $sortindex;
 
     /**
-     * $formpage = the user surveypro page for this item
+     * The page where this item will be located.
      */
     protected $formpage;
 
     /**
-     * $parentid = the item this item depends from
+     * The id of the parent item.
      */
     protected $parentid;
 
     /**
-     * $parentvalue = the answer the parent item has to have in order to show this item as child
+     * The answer the parent item has to have in order to show this item as child.
      */
     protected $parentvalue;
 
     /**
-     * $itemeditingfeedback
+     * The feedback mask for the user to define the feedback once the item is edited.
      */
     protected $itemeditingfeedback;
 
     /**
-     * $editorlist
+     * $editorlist.
      */
     protected $editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA);
 
     /**
-     * $savepositiontodb: can this plugin save, as user answer, the position of the user interface elements in the form?
+     * The possibility for this plugin to save, as user answer, the position of the user interface elements in the out form.
      */
     protected $savepositiontodb = null;
 
     /**
-     * $insetupform = list of fields properties the surveypro creator will have in the item definition form
-     * By default each field property is present in the form
-     * so, in each child class, I only need to "deactivate" field property (mform element) I don't want to have
+     * List of fields properties the surveypro creator will manage in the item definition form
+     * By default each item property is present in the form
+     * so, in each child class, I only need to "deactivate" item property not desired/needed/handled/wanted.
      */
     protected $insetupform = array(
         'common_fs' => true,

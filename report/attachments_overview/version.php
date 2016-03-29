@@ -30,5 +30,5 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->version = 2014111000;
 $plugin->release = '1.0';
-$plugin->requires = 2013111800; // Requires this Moodle version
-$plugin->component = 'surveyproreport_attachments_overview'; // Full name of the plugin (used for diagnostics)
+$plugin->requires = 2013111800; // Requires this Moodle version.
+$plugin->component = 'surveyproreport_attachments_overview'; // Full name of the plugin (used for diagnostics).
