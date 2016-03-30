@@ -1150,7 +1150,7 @@ function surveypro_fetch_items_seeds($surveyproid, $canaccessreserveditems, $sea
     $params['hidden'] = 0;
 
     if (!$pagebreak) {
-        $conditions[] = 'plugin <> ":plugin"';
+        $conditions[] = 'plugin <> :plugin';
         $params['plugin'] = "pagebreak";
     }
 

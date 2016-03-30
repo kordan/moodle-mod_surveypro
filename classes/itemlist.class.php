@@ -225,7 +225,6 @@ class mod_surveypro_itemlist {
         $paramurlmove['itm'] = $this->itemtomove;
         // End of: $paramurlmove definition.
 
-
         list($where, $params) = surveypro_fetch_items_seeds($this->surveypro->id, true, null, null, null, true);
         // If you are reordering, force ordering to...
         $orderby = ($this->view == SURVEYPRO_CHANGEORDERASK) ? 'sortindex ASC' : $table->get_sql_sort();
