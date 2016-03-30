@@ -17,15 +17,22 @@
 /**
  * mod_surveypro all submissions deleted event.
  *
- * @package    mod_surveypro
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace mod_surveypro\event;
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * The mod_surveypro all submissions deleted event class.
+ *
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class all_submissions_deleted extends \core\event\base {
     /**
      * Set basic properties for the event.

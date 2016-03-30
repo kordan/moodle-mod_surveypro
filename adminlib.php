@@ -17,9 +17,9 @@
 /**
  * This file contains the classes for the admin settings of the surveypro module.
  *
- * @package    mod_surveypro
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -29,9 +29,9 @@ require_once($CFG->libdir.'/adminlib.php');
 /**
  * Admin external page that displays a list of the installed submission plugins.
  *
- * @package    mod_surveypro
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_surveypro_admin_page_manage_surveypro_plugins extends admin_externalpage {
 
@@ -85,9 +85,9 @@ class mod_surveypro_admin_page_manage_surveypro_plugins extends admin_externalpa
 /**
  * Class that handles the display and configuration of the list of submission plugins.
  *
- * @package    mod_surveypro
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_surveypro_plugin_manager {
 
@@ -111,7 +111,6 @@ class mod_surveypro_plugin_manager {
     /**
      * Return a list of plugins sorted by the order defined in the admin interface
      *
-     * @param none
      * @return array The list of plugins
      */
     public function get_sorted_plugins_list() {
@@ -137,7 +136,6 @@ class mod_surveypro_plugin_manager {
     /**
      * Write the HTML for the submission plugins table.
      *
-     * @param none
      * @return void
      */
     private function view_plugins_table() {
@@ -262,7 +260,6 @@ class mod_surveypro_plugin_manager {
     /**
      * Write the page header
      *
-     * @param none
      * @return void
      */
     private function view_header() {
@@ -278,7 +275,6 @@ class mod_surveypro_plugin_manager {
     /**
      * Write the page footer
      *
-     * @param none
      * @return void
      */
     private function view_footer() {
@@ -290,7 +286,6 @@ class mod_surveypro_plugin_manager {
     /**
      * Check this user has permission to edit the list of installed plugins
      *
-     * @param none
      * @return void
      */
     private function check_permissions() {
@@ -442,7 +437,6 @@ class mod_surveypro_plugin_manager {
     /**
      * This function adds plugin pages to the navigation menu.
      *
-     * @static
      * @param string $subtype - The type of plugin (submission or feedback)
      * @param part_of_admin_tree $admin - The handle to the admin menu
      * @param admin_settingpage $settings - The handle to current node in the navigation tree

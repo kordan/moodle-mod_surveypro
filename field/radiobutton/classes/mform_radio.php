@@ -40,7 +40,7 @@ require_once($CFG->libdir.'/form/radio.php');
  */
 class mod_surveypro_mform_radio extends MoodleQuickForm_radio {
     /**
-     * constructor
+     * Class constructor.
      *
      * @param string $elementName (optional) name of the radio element
      * @param string $elementLabel (optional) label for radio element

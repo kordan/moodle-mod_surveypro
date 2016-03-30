@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_surveypro
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -82,7 +82,6 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     /**
      * get_filemanager_options
      *
-     * @param none
      * @return $filemanageroptions
      */
     public function get_filemanager_options() {
@@ -188,7 +187,6 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     /**
      * get_sharinglevel_options
      *
-     * @param none
      * @return $options
      */
     public function get_sharinglevel_options() {
@@ -234,7 +232,6 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     /**
      * get_utemplate_name
      *
-     * @param none
      * @return void
      */
     public function get_utemplate_name() {
@@ -396,7 +393,6 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     /**
      * apply_template
      *
-     * @param none
      * @return null
      */
     public function apply_template() {
@@ -460,7 +456,6 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     /**
      * friendly_stop
      *
-     * @param none
      * @return null
      */
     public function friendly_stop() {
@@ -618,7 +613,6 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     /**
      * export_utemplate
      *
-     * @param none
      * @return void
      */
     public function export_utemplate() {
@@ -657,7 +651,6 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     /**
      * upload_utemplate
      *
-     * @param none
      * @return null
      */
     public function upload_utemplate() {
@@ -744,7 +737,6 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     /**
      * generate_utemplate
      *
-     * @param none
      * @return void
      */
     public function generate_utemplate() {
@@ -781,7 +773,6 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     /**
      * manage_utemplates
      *
-     * @param none
      * @return void
      */
     public function manage_utemplates() {
@@ -962,7 +953,6 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     /**
      * delete_utemplate
      *
-     * @param none
      * @return null
      */
     public function delete_utemplate() {
@@ -1017,7 +1007,6 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     /**
      * prevent_direct_user_input
      *
-     * @param none
      * @return null
      */
     public function prevent_direct_user_input() {

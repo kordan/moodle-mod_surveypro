@@ -20,10 +20,9 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 
 class mod_surveypro_exportform extends moodleform {
 
-    /*
+    /**
      * definition
      *
-     * @param none
      * @return void
      */
     public function definition() {

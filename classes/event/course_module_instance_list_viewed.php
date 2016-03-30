@@ -17,15 +17,22 @@
 /**
  * mod_surveypro course_module viewed event.
  *
- * @package    mod_surveypro
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace mod_surveypro\event;
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * The mod_surveypro instance list viewed event class.
+ *
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class course_module_instance_list_viewed extends \core\event\course_module_instance_list_viewed {
     /**
      * Create the event from course record.

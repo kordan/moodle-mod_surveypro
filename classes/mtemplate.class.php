@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_surveypro
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -35,7 +35,6 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     /**
      * download_mtemplate
      *
-     * @param none
      * @return void
      */
     public function download_mtemplate() {
@@ -55,7 +54,6 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     /**
      * generate_mtemplate
      *
-     * @param none
      * @return void
      */
     public function generate_mtemplate() {
@@ -393,7 +391,6 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     /**
      * apply_template
      *
-     * @param none
      * @return null
      */
     public function apply_template() {
@@ -425,7 +422,6 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     /**
      * friendly_stop
      *
-     * @param none
      * @return null
      */
     public function friendly_stop() {
@@ -603,7 +599,6 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     /**
      * extract_original_string
      *
-     * @param none
      * @return void
      */
     public function extract_original_string() {
@@ -645,7 +640,6 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     /**
      * get_used_plugin
      *
-     * @param none
      * @return void
      */
     public function get_used_plugin() {

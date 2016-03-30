@@ -17,9 +17,9 @@
 /**
  * Surveypro surveyproreport info class.
  *
- * @package    mod_surveypro
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 namespace mod_surveypro\plugininfo;
 
@@ -27,11 +27,17 @@ use core\plugininfo\base, core_plugin_manager, moodle_url;
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * The mod_surveypro report plugin class.
+ *
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class surveyproreport extends base {
     /**
      * Finds all enabled plugins, the result may include missing plugins.
      *
-     * @param none
      * @return array|null of enabled plugins $pluginname=>$pluginname, null means unknown
      */
     public static function get_enabled_plugins() {
@@ -64,10 +70,9 @@ class surveyproreport extends base {
         return $enabled;
     }
 
-    /*
+    /**
      * is_uninstall_allowed
      *
-     * @param none
      * @return bool true
      */
     public function is_uninstall_allowed() {
@@ -77,17 +82,15 @@ class surveyproreport extends base {
     /**
      * Return URL used for management of plugins of this type.
      *
-     * @paran none
      * @return moodle_url
      */
     public static function get_manage_url() {
         return new moodle_url('/mod/surveypro/adminmanageplugins.php', array('subtype' => 'surveyproreport'));
     }
 
-    /*
+    /**
      * get_settings_section_name
      *
-     * @param none
      * @return settings section name
      */
     public function get_settings_section_name() {

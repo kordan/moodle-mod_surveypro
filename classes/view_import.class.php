@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_surveypro
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -27,10 +27,18 @@ defined('MOODLE_INTERNAL') || die();
  */
 class mod_surveypro_importmanager {
     /**
-     * Basic necessary essential ingredients
+     * @var object, the course module object
      */
     protected $cm;
+
+    /**
+     * @var object, the context object
+     */
     protected $context;
+
+    /**
+     * @var object, the surveypro object
+     */
     protected $surveypro;
 
     /**
@@ -40,6 +48,10 @@ class mod_surveypro_importmanager {
 
     /**
      * Class constructor
+     *
+     * @param object $cm
+     * @param object $context
+     * @param object $surveypro
      */
     public function __construct($cm, $context, $surveypro) {
         $this->cm = $cm;
@@ -50,7 +62,6 @@ class mod_surveypro_importmanager {
     /**
      * trigger_event
      *
-     * @param none
      * @return void
      */
     public function trigger_event() {
@@ -62,7 +73,6 @@ class mod_surveypro_importmanager {
     /**
      * welcome_message
      *
-     * @param none
      * @return null
      */
     public function welcome_message() {
@@ -106,7 +116,6 @@ class mod_surveypro_importmanager {
     /**
      * get_survey_infos
      *
-     * @param none
      * @return $surveyheaders and $requireditems
      */
     public function get_survey_infos() {
@@ -132,17 +141,17 @@ class mod_surveypro_importmanager {
             $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
             if ($canbemandatory) {
                 $sql = 'SELECT p.itemid, p.variable, p.required
-                    FROM {surveypro_item} i
-                        JOIN {'.$tablename.'} p ON i.id = p.itemid
-                    WHERE i.surveyproid = :surveyproid
-                    ORDER BY p.itemid';
+                        FROM {surveypro_item} i
+                          JOIN {'.$tablename.'} p ON i.id = p.itemid
+                        WHERE i.surveyproid = :surveyproid
+                        ORDER BY p.itemid';
                 $itemvariables = $DB->get_records_sql($sql, $whereparams);
             } else {
                 $sql = 'SELECT p.itemid, p.variable
-                    FROM {surveypro_item} i
-                        JOIN {'.$tablename.'} p ON i.id = p.itemid
-                    WHERE i.surveyproid = :surveyproid
-                    ORDER BY p.itemid';
+                        FROM {surveypro_item} i
+                          JOIN {'.$tablename.'} p ON i.id = p.itemid
+                        WHERE i.surveyproid = :surveyproid
+                        ORDER BY p.itemid';
                 $itemvariables = $DB->get_records_sql($sql, $whereparams);
             }
 
@@ -193,10 +202,10 @@ class mod_surveypro_importmanager {
         // First step: make the list of each variablename of fileupload items of this surveypro.
         $where = array('surveyproid' => $this->surveypro->id);
         $sql = 'SELECT p.itemid, p.variable
-            FROM {surveypro_item} i
-                JOIN {surveyprofield_fileupload} p ON i.id = p.itemid
-            WHERE i.surveyproid = :surveyproid
-            ORDER BY p.itemid';
+                FROM {surveypro_item} i
+                  JOIN {surveyprofield_fileupload} p ON i.id = p.itemid
+                WHERE i.surveyproid = :surveyproid
+                ORDER BY p.itemid';
         $variablenames = $DB->get_records_sql_menu($sql, $where);
         if (!count($variablenames)) {
             return false;
@@ -220,7 +229,6 @@ class mod_surveypro_importmanager {
     /**
      * get_csv_content
      *
-     * @param none
      * @return csv content
      */
     public function get_csv_content() {
@@ -351,7 +359,6 @@ class mod_surveypro_importmanager {
     /**
      * validate_csv
      *
-     * @param none
      * @return void
      */
     public function import_csv() {
@@ -745,10 +752,10 @@ class mod_surveypro_importmanager {
             if (count($csvusers)) {
                 $whereparams = array('surveyproid' => $this->surveypro->id);
                 $sql = 'SELECT userid, COUNT(\'x\')
-                    FROM {surveypro_submission}
-                    WHERE surveyproid = :surveyproid
-                        AND userid IN ('.implode(',', array_keys($csvusers)).')
-                    GROUP BY userid';
+                        FROM {surveypro_submission}
+                        WHERE surveyproid = :surveyproid
+                          AND userid IN ('.implode(',', array_keys($csvusers)).')
+                        GROUP BY userid';
                 $oldsubmissionsperuser = $DB->get_records_sql_menu($sql, $whereparams);
 
                 foreach ($oldsubmissionsperuser as $csvuserid => $oldsubmissions) {

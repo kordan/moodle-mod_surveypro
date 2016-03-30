@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_surveypro
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -35,11 +35,13 @@ class mod_surveypro_format_fieldsetend extends mod_surveypro_itembase {
     /**
      * Class constructor
      *
-     * If itemid is provided, load the object (item + base + plugin) from database
+     * If itemid is provided, load the object (item + base + plugin) from database.
+     * If evaluateparentcontent is true, load the parentitem parentcontent property too.
      *
      * @param stdClass $cm
-     * @param int $itemid. Optional surveypro_item ID
-     * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
+     * @param object $surveypro
+     * @param int $itemid - optional surveypro_item ID
+     * @param bool $evaluateparentcontent - to include $item->parentcontent (as decoded by the parent item) too.
      */
     public function __construct($cm, $surveypro, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $surveypro, $itemid, $evaluateparentcontent);
@@ -76,7 +78,7 @@ class mod_surveypro_format_fieldsetend extends mod_surveypro_itembase {
      * item_load
      *
      * @param $itemid
-     * @param bool $evaluateparentcontent. To include $item->parentcontent (as decoded by the parent item) too.
+     * @param bool $evaluateparentcontent - to include $item->parentcontent (as decoded by the parent item) too.
      * @return void
      */
     public function item_load($itemid, $evaluateparentcontent) {
@@ -107,7 +109,6 @@ class mod_surveypro_format_fieldsetend extends mod_surveypro_itembase {
     /**
      * item_get_pdf_template
      *
-     * @param none
      * @return the template to use at response report creation
      */
     public static function item_get_pdf_template() {
@@ -138,7 +139,6 @@ class mod_surveypro_format_fieldsetend extends mod_surveypro_itembase {
      * item_get_multilang_fields
      * make the list of multilang plugin fields
      *
-     * @param none
      * @return array of felds
      */
     public function item_get_multilang_fields() {
@@ -175,7 +175,7 @@ EOS;
     /**
      * userform_mform_element
      *
-     * @param $mform
+     * @param moodleform $mform
      * @param $searchform
      * @param $readonly
      * @param $submissionid
@@ -234,7 +234,6 @@ EOS;
      * userform_get_root_elements_name
      * returns an array with the names of the mform element added using $mform->addElement or $mform->addGroup
      *
-     * @param none
      * @return void
      */
     public function userform_get_root_elements_name() {

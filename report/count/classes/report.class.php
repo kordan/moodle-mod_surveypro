@@ -94,14 +94,14 @@ class mod_surveypro_report_count extends mod_surveypro_reportbase {
         }
         $sql = 'SELECT '.user_picture::fields('u').', s.attempts
                 FROM {user} u
-                JOIN (SELECT id, userid
-                      FROM {role_assignments}
-                      WHERE contextid = '.$coursecontext->id.'
-                        AND roleid IN ('.implode(',', $role).')) ra ON u.id = ra.userid
-                RIGHT JOIN (SELECT userid, count(id) as attempts
-                            FROM {surveypro_submission}
-                            WHERE surveyproid = :surveyproid
-                            GROUP BY userid) s ON s.userid = u.id';
+                  JOIN (SELECT id, userid
+                        FROM {role_assignments}
+                        WHERE contextid = '.$coursecontext->id.'
+                          AND roleid IN ('.implode(',', $role).')) ra ON u.id = ra.userid
+                  RIGHT JOIN (SELECT userid, count(id) as attempts
+                              FROM {surveypro_submission}
+                              WHERE surveyproid = :surveyproid
+                              GROUP BY userid) s ON s.userid = u.id';
         $whereparams = array('surveyproid' => $this->surveypro->id);
 
         list($where, $filterparams) = $this->outputtable->get_sql_where();

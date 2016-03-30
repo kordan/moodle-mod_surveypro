@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_surveypro
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -29,10 +29,18 @@ require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
  */
 class mod_surveypro_submissionmanager {
     /**
-     * Basic necessary essential ingredients
+     * @var object, the course module object
      */
     protected $cm;
+
+    /**
+     * @var object, the context object
+     */
     protected $context;
+
+    /**
+     * @var object, the surveypro object
+     */
     protected $surveypro;
 
     /**
@@ -67,6 +75,10 @@ class mod_surveypro_submissionmanager {
 
     /**
      * Class constructor
+     *
+     * @param object $cm
+     * @param object $context
+     * @param object $surveypro
      */
     public function __construct($cm, $context, $surveypro) {
         $this->cm = $cm;
@@ -203,14 +215,14 @@ class mod_surveypro_submissionmanager {
         }
         $sql .= user_picture::fields('u');
         $sql .= ' FROM {surveypro_submission} s';
-        $sql .= '  JOIN {user} u ON s.userid = u.id';
-        $sql .= '  JOIN {role_assignments} ra ON u.id = ra.userid ';
+        $sql .= '   JOIN {user} u ON s.userid = u.id';
+        $sql .= '   JOIN {role_assignments} ra ON u.id = ra.userid ';
         if ($this->searchquery) {
-            $sql .= '  JOIN {surveypro_answer} a ON s.id = a.submissionid ';
+            $sql .= '   JOIN {surveypro_answer} a ON s.id = a.submissionid ';
         }
 
         if (($groupmode == SEPARATEGROUPS) && (!$manageallsubmissions)) {
-            $sql .= '  JOIN {groups_members} gm ON gm.userid = s.userid ';
+            $sql .= '   JOIN {groups_members} gm ON gm.userid = s.userid ';
         }
 
         // Now finalise $sql.
@@ -308,7 +320,6 @@ class mod_surveypro_submissionmanager {
      *     As opposite:
      *     When the admin/editing teacher arrives from a course, he is sent to land in view.php?id=xxx and the decision is taken.
      *
-     * @param none
      * @return void
      */
     public function noitem_redirect() {
@@ -323,7 +334,6 @@ class mod_surveypro_submissionmanager {
     /**
      * trigger_event
      *
-     * @param none
      * @return void
      */
     public function trigger_event() {
@@ -336,7 +346,6 @@ class mod_surveypro_submissionmanager {
     /**
      * manage_actions
      *
-     * @param none
      * @return void
      */
     public function actions_execution() {
@@ -384,7 +393,6 @@ class mod_surveypro_submissionmanager {
     /**
      * manage_actions
      *
-     * @param none
      * @return void
      */
     public function actions_feedback() {
@@ -406,7 +414,6 @@ class mod_surveypro_submissionmanager {
     /**
      * one_submission_deletion_feedback
      *
-     * @param none
      * @return void
      */
     public function one_submission_deletion_feedback() {
@@ -468,7 +475,6 @@ class mod_surveypro_submissionmanager {
     /**
      * all_submission_deletion_feedback
      *
-     * @param none
      * @return void
      */
     public function all_submission_deletion_feedback() {
@@ -697,7 +703,6 @@ class mod_surveypro_submissionmanager {
     /**
      * display_submissions_table
      *
-     * @param none
      * @return void
      */
     public function display_submissions_table() {
@@ -986,7 +991,6 @@ class mod_surveypro_submissionmanager {
     /**
      * show_action_buttons
      *
-     * @param none
      * @return void
      */
     public function show_action_buttons() {
@@ -1197,7 +1201,6 @@ class mod_surveypro_submissionmanager {
     /**
      * submission_to_pdf
      *
-     * @param none
      * @return void
      */
     private function submission_to_pdf() {

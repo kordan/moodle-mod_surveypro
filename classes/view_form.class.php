@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_surveypro
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -171,7 +171,6 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     /**
      * get_firstpageleft
      *
-     * @param none
      * @return the content of the $firstpageleft property
      */
     public function get_firstpageleft() {
@@ -181,7 +180,6 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     /**
      * get_firstpageright
      *
-     * @param none
      * @return the content of the $firstpageright property
      */
     public function get_firstpageright() {
@@ -191,7 +189,6 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     /**
      * get_moduletab
      *
-     * @param none
      * @return the content of the $moduletab property
      */
     public function get_moduletab() {
@@ -201,7 +198,6 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     /**
      * get_modulepage
      *
-     * @param none
      * @return the content of the $modulepage property
      */
     public function get_modulepage() {
@@ -316,7 +312,6 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     /**
      * set_tabs_params
      *
-     * @param none
      * @return void
      */
     private function set_tabs_params() {
@@ -346,7 +341,6 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     /**
      * surveypro_add_custom_css
      *
-     * @param none
      * @return void
      */
     public function surveypro_add_custom_css() {
@@ -361,7 +355,6 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     /**
      * save_surveypro_submission
      *
-     * @param none
      * @return surveypro_submission record
      */
     private function save_surveypro_submission() {
@@ -699,7 +692,6 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     /**
      * check_mandatories_are_in
      *
-     * @param none
      * @return void
      */
     private function check_mandatories_are_in() {
@@ -719,10 +711,10 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
             $itemcanbemandatory = $itemclass::item_get_can_be_mandatory();
             if ($itemcanbemandatory) {
                 $sql = 'SELECT i.id, i.parentid, i.parentvalue, i.reserved, p.required
-                    FROM {surveypro_item} i
-                        JOIN {surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'} p ON i.id = p.itemid
-                    WHERE i.surveyproid = :surveyproid
-                    ORDER BY p.itemid';
+                        FROM {surveypro_item} i
+                          JOIN {surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'} p ON i.id = p.itemid
+                        WHERE i.surveyproid = :surveyproid
+                        ORDER BY p.itemid';
 
                 $whereparams = array('surveyproid' => $this->surveypro->id);
                 $pluginitems = $DB->get_records_sql($sql, $whereparams);
@@ -786,7 +778,6 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     /**
      * check_all_verified
      *
-     * @param none
      * @return void
      */
     private function check_all_was_verified() {
@@ -803,7 +794,6 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     /**
      * drop_jumped_saved_data
      *
-     * @param none
      * @return void
      */
     public function drop_jumped_saved_data() {
@@ -827,7 +817,6 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     /**
      * notifypeople
      *
-     * @param none
      * @return void
      */
     public function notifypeople() {
@@ -871,9 +860,9 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
                 $whereparams = array('contextid' => $context->id);
                 $sql = 'SELECT DISTINCT '.user_picture::fields('u').', u.maildisplay, u.mailformat
                         FROM {user} u
-                            JOIN {role_assignments} ra ON u.id = ra.userid
+                          JOIN {role_assignments} ra ON u.id = ra.userid
                         WHERE contextid = :contextid
-                            AND roleid IN ('.$this->surveypro->notifyrole.')';
+                          AND roleid IN ('.$this->surveypro->notifyrole.')';
                 $recipients = $DB->get_records_sql($sql, $whereparams);
             }
         } else {
@@ -936,7 +925,6 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     /**
      * submissions_allowed
      *
-     * @param none
      * @return void
      */
     public function submissions_allowed() {
@@ -984,7 +972,6 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     /**
      * nomoresubmissions_stopexecution
      *
-     * @param none
      * @return void
      */
     public function nomoresubmissions_stopexecution() {
@@ -1009,7 +996,6 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     /**
      * manage_thanks_page
      *
-     * @param none
      * @return void
      */
     public function manage_thanks_page() {
@@ -1027,7 +1013,6 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     /**
      * surveypro_show_thanks_page
      *
-     * @param none
      * @return void
      */
     private function show_thanks_page() {
@@ -1086,7 +1071,6 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     /**
      * add_browsing_buttons
      *
-     * @param none
      * @return void
      */
     public function add_readonly_browsing_buttons() {
@@ -1133,7 +1117,6 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     /**
      * drop_unexpected_values
      *
-     * @param none
      * @return void
      */
     private function drop_unexpected_values() {
@@ -1215,7 +1198,6 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     /**
      * prevent_direct_user_input
      *
-     * @param none
      * @return void
      */
     private function prevent_direct_user_input() {

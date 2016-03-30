@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_surveypro
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -28,10 +28,9 @@ require_once($CFG->dirroot.'/mod/surveypro/format/fieldset/lib.php');
 
 class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
 
-    /*
+    /**
      * definition
      *
-     * @param none
      * @return void
      */
     public function definition() {
@@ -47,7 +46,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $this->add_item_buttons();
     }
 
-    /*
+    /**
      * validation
      *
      * @param $data

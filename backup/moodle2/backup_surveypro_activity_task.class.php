@@ -17,17 +17,22 @@
 /**
  * Define all the backup steps that will be used by the backup_surveypro_activity_task
  *
- * @package    mod_surveypro
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/mod/surveypro/backup/moodle2/backup_surveypro_stepslib.php'); // Because it exists (must).
 require_once($CFG->dirroot . '/mod/surveypro/backup/moodle2/backup_surveypro_settingslib.php'); // Because it exists (optional).
 
 /**
- * surveypro backup task that provides all the settings and steps to perform one
- * complete backup of the activity
+ * surveypro backup task that provides all the settings and steps to perform one complete backup of the activity
+ *
+ * @package   mod_surveypro
+ * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class backup_surveypro_activity_task extends backup_activity_task {
 
@@ -49,6 +54,9 @@ class backup_surveypro_activity_task extends backup_activity_task {
     /**
      * Code the transformations to perform in the activity in
      * order to get transportable (encoded) links
+     *
+     * @param string $content
+     * @return string
      */
     static public function encode_content_links($content) {
         global $CFG;

@@ -20,10 +20,9 @@ require_once($CFG->dirroot.'/course/moodleform_mod.php');
 
 class mod_surveypro_mod_form extends moodleform_mod {
 
-    /*
+    /**
      * definition
      *
-     * @param none
      * @return void
      */
     public function definition() {
@@ -225,7 +224,7 @@ class mod_surveypro_mod_form extends moodleform_mod {
         }
     }
 
-    /*
+    /**
      * validation
      *
      * @param $data
@@ -238,7 +237,7 @@ class mod_surveypro_mod_form extends moodleform_mod {
         return $errors;
     }
 
-    /*
+    /**
      * add_completion_rules
      *
      * @return void
@@ -261,7 +260,7 @@ class mod_surveypro_mod_form extends moodleform_mod {
         return array($fieldname.'_group');
     }
 
-    /*
+    /**
      * completion_rule_enabled
      *
      * @param $data

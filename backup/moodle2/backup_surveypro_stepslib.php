@@ -17,20 +17,25 @@
 /**
  * Define all the backup steps that will be used by the backup_surveypro_activity_task
  *
- * @package    mod_surveypro
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Define the complete surveypro structure for backup, with file and id annotations
+ *
+ * @package   mod_surveypro
+ * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class backup_surveypro_activity_structure_step extends backup_activity_structure_step {
 
-    /*
-     * define_structure
+    /**
+     * Define the structure for the assign activity
      *
-     * @param none
      * @return void
      */
     protected function define_structure() {
@@ -91,7 +96,7 @@ class backup_surveypro_activity_structure_step extends backup_activity_structure
             $submission->set_source_table('surveypro_submission', array('surveyproid' => backup::VAR_ACTIVITYID));
             $answer->set_source_sql('SELECT sa.*, si.plugin
                                      FROM {surveypro_answer} sa
-                                         JOIN {surveypro_item} si ON si.id = sa.itemid
+                                       JOIN {surveypro_item} si ON si.id = sa.itemid
                                      WHERE sa.submissionid = ?', array(backup::VAR_PARENTID));
         }
 
