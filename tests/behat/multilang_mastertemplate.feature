@@ -5,7 +5,8 @@ Feature: verify multilang in ATTLS (20 item version) mastertemplate
   I display a mastertemplate                                                  // The feature we want
 
   Background:
-    Given the following "courses" exist:
+    Given remote langimport tests are enabled
+    And the following "courses" exist:
       | fullname                 | shortname    | category | groupmode |
       | Multilang mastertemplate | ML Mtemplate | 0        | 0         |
     And the following "users" exist:
@@ -33,13 +34,10 @@ Feature: verify multilang in ATTLS (20 item version) mastertemplate
     Then I should see "Language pack 'it' was successfully installed"
     And I log out
 
-    # Take care: you are in Italian now and "Log in" has been replaced by "Login"
-    And I follow "Login"
-    And I set the following fields to these values:
-      | Username | teacher1 |
-      | Password | teacher1 |
-    And I press "Login"
-
+    # Force English for UI.
+    And I follow "English" in the language menu
+    And I log in as "teacher1"
+    And I am on site homepage
     And I follow "Multilang mastertemplate"
     And I follow "Multilang in ATTLS"
     And I set the field "Master templates" to "ATTLS (20 item version)"
@@ -71,17 +69,14 @@ Feature: verify multilang in ATTLS (20 item version) mastertemplate
 
     And I log out
 
+    # Force Italiano for UI.
+    And I follow "Italiano (it)" in the language menu
     # Take care: you are in Italian now and "Log in" has been replaced by "Login"
     And I follow "Login"
     And I set the following fields to these values:
       | Username | student1 |
       | Password | student1 |
     And I press "Login"
-
-    And I follow "Preferences" in the user menu
-    And I follow "Preferred language"
-    And I set the field "Preferred language" to "Italiano"
-    And I press "Save changes"
 
     And I am on site homepage
     And I follow "Multilang mastertemplate"
@@ -107,3 +102,7 @@ Feature: verify multilang in ATTLS (20 item version) mastertemplate
     And I navigate to "Multilang in Critical Incidents" node in "Corso in uso > ML Mtemplate > Argomento 5"
     And I press "Nuova risposta"
     Then I should see "In classe in quale momento sei più partecipe come studente?"
+
+    # Force English for UI (at the end).
+    And I follow "English (en)" in the language menu
+    And I log out
