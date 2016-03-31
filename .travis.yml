@@ -55,6 +55,8 @@ install:
 #    - If your plugin has Behat features, then Behat will be setup.
 #    - If your plugin has unit tests, then PHPUnit will be setup.
   - moodle-plugin-ci install
+# To allow the execution of multilang_mastertemplate.feature test in travis-ci too.
+  - moodle-plugin-ci add-config 'define("TOOL_LANGIMPORT_REMOTE_TESTS", true);'
 
 # This lists steps that are run for the purposes of testing.  Any of
 # these steps can be re-ordered or removed to your liking.  And of
