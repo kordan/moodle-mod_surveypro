@@ -108,4 +108,34 @@ class behat_mod_surveypro extends behat_base {
             $item->item_save($record);
         }
     }
+
+    /**
+     * Click on an entry in the language menu.
+     * @Given /^I follow "(?P<nodetext_string>(?:[^"]|\\")*)" in the language menu$/
+     *
+     * @param string $nodetext
+     * @return bool|void
+     */
+    public function i_follow_in_the_language_menu($nodetext) {
+        $steps = array();
+
+        if ($this->running_javascript()) {
+            // The language menu must be expanded when JS is enabled.
+            $xpath = "//li[contains(concat(' ', @class, ' '), ' langmenu ')]//a[contains(concat(' ', @class, ' '), ' dropdown-toggle ')]";
+            $steps[] = new Given('I click on "'.$xpath.'" "xpath_element"');
+        }
+
+        // Now select the link.
+        // The CSS path is always present, with or without JS.
+        $csspath = ".langmenu .dropdown-menu";
+        // We need this because the lang menu has some hidden chars and we'll need to match them if the original text
+        // has code between parenthesis. See get_list_of_translations() implementation.
+        $nodetext = str_replace(
+            array('(', ')'),
+            array(json_decode('"\u200E"') . '(', ')' . json_decode('"\u200E"')),
+            $nodetext);
+        $steps[] = new Given('I click on "'.$nodetext.'" "link" in the "'.$csspath.'" "css_element"');
+
+        return $steps;
+    }
 }
