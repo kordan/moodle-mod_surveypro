@@ -30,6 +30,8 @@ global $CFG;
 
 require_once($CFG->libdir.'/form/select.php');
 
+// @codingStandardsIgnoreFile
+
 /**
  * select mform element
  *
@@ -44,10 +46,11 @@ class mod_surveypro_mform_select extends MoodleQuickForm_select {
     /**
      * Class constructor
      *
-     * @param string $elementName
-     * @param string $elementLabel
-     * @param array $attributes
-     * @param array $options
+     * @param string $elementName Select name attribute
+     * @param mixed $elementLabel Label(s) for the select
+     * @param mixed $options Data to be used to populate options
+     * @param mixed $attributes Either a typical HTML attribute string
+     *              or an associative array
      */
     public function __construct($elementName=null, $elementLabel=null, $options=null, $attributes=null) {
         parent::__construct($elementName, $elementLabel, $options, $attributes);

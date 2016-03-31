@@ -30,6 +30,8 @@ global $CFG;
 
 require_once($CFG->libdir.'/form/filemanager.php');
 
+// @codingStandardsIgnoreFile
+
 /**
  * filemanager mform element
  *
@@ -42,12 +44,13 @@ require_once($CFG->libdir.'/form/filemanager.php');
 class mod_surveypro_mform_filemanager extends MoodleQuickForm_filemanager {
 
     /**
-     * Class constructor
+     * Constructor
      *
-     * @param string $elementName
-     * @param string $elementLabel
-     * @param array $attributes
-     * @param array $options
+     * @param string $elementName (optional) name of the filemanager
+     * @param string $elementLabel (optional) filemanager label
+     * @param array $attributes (optional) Either a typical HTML attribute string
+     *              or an associative array
+     * @param array $options set of options to initalize filemanager
      */
     public function __construct($elementName=null, $elementLabel=null, $attributes=null, $options=null) {
         parent::__construct($elementName, $elementLabel, $attributes, $options);

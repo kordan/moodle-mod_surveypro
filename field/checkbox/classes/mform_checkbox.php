@@ -30,6 +30,8 @@ global $CFG;
 
 require_once($CFG->libdir.'/form/checkbox.php');
 
+// @codingStandardsIgnoreFile
+
 /**
  * checkbox mform element
  *
@@ -42,15 +44,16 @@ require_once($CFG->libdir.'/form/checkbox.php');
 class mod_surveypro_mform_checkbox extends MoodleQuickForm_checkbox {
 
     /**
-     * Class constructor
+     * Constructor
      *
-     * @param string $elementName
-     * @param string $elementLabel
-     * @param array $attributes
-     * @param array $options
+     * @param string $elementName (optional) name of the checkbox
+     * @param string $elementLabel (optional) checkbox label
+     * @param string $text (optional) Text to put after the checkbox
+     * @param mixed $attributes (optional) Either a typical HTML attribute string
+     *              or an associative array
      */
-    public function __construct($elementName=null, $elementLabel=null, $attributes=null, $options=null) {
-        parent::__construct($elementName, $elementLabel, $attributes, $options);
+    public function __construct($elementName=null, $elementLabel=null, $text=null, $attributes=null) {
+        parent::__construct($elementName, $elementLabel, $text, $attributes);
     }
 
     /**
