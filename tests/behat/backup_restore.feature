@@ -15,7 +15,7 @@ Feature: Backup and restore a surveypro instance
     Given the following "activities" exist:
       | activity  | name           | intro              | course | idnumber   |
       | surveypro | Surveypro test | For testing backup | C1     | surveypro1 |
-    And surveypro "surveypro test" contains the following items:
+    And surveypro "Surveypro test" contains the following items:
       | type   | plugin      |
       | format | label       |
       | format | fieldset    |
