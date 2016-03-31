@@ -1,5 +1,5 @@
 @mod @mod_surveypro
-Feature: verify multilang in ATTLS (20 item version) mastertemplate
+Feature: verify multilang in mastertemplates
   In order to verify mastertemplates display correctly in different languages // Why this feature is useful
   As a teacher and as a student                                               // It can be 'an admin', 'a teacher', 'a student', 'a guest', 'a user', 'a tests writer' and 'a developer'
   I display a mastertemplate                                                  // The feature we want
