@@ -42,23 +42,11 @@ class mod_surveypro_generator extends testing_module_generator {
         parent::reset();
     }
 
-    /**
-     * create_instance
-     *
-     * @param $record
-     * @param array $options
-     * @return void
-     */
     public function create_instance($record = null, array $options = null) {
         global $CFG;
 
-        require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
-        require_once($CFG->dirroot.'/mod/surveypro/tests/behat/lib_behattest.php');
-
-        $record = (object)(array)$record;
-
-        // Apply defaults.
-        $defaults = array(
+        // Add default values for surveypro.
+        $record = (array)$record + array(
             'newpageforchild' => 0,
             'saveresume' => 0,
             'captcha' => 0,
@@ -89,12 +77,6 @@ class mod_surveypro_generator extends testing_module_generator {
             )
         );
 
-        foreach ($defaults as $name => $value) {
-            if (!isset($record->{$name})) {
-                $record->{$name} = $value;
-            }
-        }
-
         return parent::create_instance($record, (array)$options);
     }
 
@@ -109,8 +91,6 @@ class mod_surveypro_generator extends testing_module_generator {
 
         $record = (object)(array)$record;
         $options = (array) $options;
-
-        // echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
 
         if (empty($record->mastertemplatename)) {
             throw new coding_exception('Master template application requires $record->mastertemplatename');
