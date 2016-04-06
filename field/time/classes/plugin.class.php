@@ -106,22 +106,22 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
      * @var string $defaultvalue, the value of the field when the form is initially displayed.
      */
     protected $defaultvalue;
-    protected $defaultvalue_hour;
-    protected $defaultvalue_minute;
+    protected $defaultvaluehour;
+    protected $defaultvalueminute;
 
     /**
      * $lowerbound = the minimum allowed time
      */
     protected $lowerbound;
-    protected $lowerbound_hour;
-    protected $lowerbound_minute;
+    protected $lowerboundhour;
+    protected $lowerboundminute;
 
     /**
      * $upperbound = the maximum allowed time
      */
     protected $upperbound;
-    protected $upperbound_hour;
-    protected $upperbound_minute;
+    protected $upperboundhour;
+    protected $upperboundminute;
 
     /**
      * @var bool canbeparent
@@ -266,8 +266,8 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
             }
             if (!empty($this->{$field})) {
                 $timearray = $this->item_split_unix_time($this->{$field});
-                $this->{$field.'_hour'} = $timearray['hours'];
-                $this->{$field.'_minute'} = $timearray['minutes'];
+                $this->{$field.'hour'} = $timearray['hours'];
+                $this->{$field.'minute'} = $timearray['minutes'];
             }
         }
     }
@@ -439,15 +439,15 @@ EOS;
             $minutes[SURVEYPRO_IGNOREMEVALUE] = '';
         }
 
-        if ($this->lowerbound_hour <= $this->upperbound_hour) {
-            for ($i = (int)$this->lowerbound_hour; $i <= $this->upperbound_hour; $i++) {
+        if ($this->lowerboundhour <= $this->upperboundhour) {
+            for ($i = (int)$this->lowerboundhour; $i <= $this->upperboundhour; $i++) {
                 $hours[$i] = sprintf("%02d", $i);
             }
         } else {
-            for ($i = (int)$this->lowerbound_hour; $i <= 24; $i++) {
+            for ($i = (int)$this->lowerboundhour; $i <= 24; $i++) {
                 $hours[$i] = sprintf("%02d", $i);
             }
-            for ($i = (int)1; $i <= $this->upperbound_hour; $i++) {
+            for ($i = (int)1; $i <= $this->upperboundhour; $i++) {
                 $hours[$i] = sprintf("%02d", $i);
             }
         }

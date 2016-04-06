@@ -92,22 +92,22 @@ class mod_surveypro_field_age extends mod_surveypro_itembase {
      * @var string $defaultvalue, the value of the options (years and months) to use as default
      */
     protected $defaultvalue;
-    protected $defaultvalue_year;
-    protected $defaultvalue_month;
+    protected $defaultvalueyear;
+    protected $defaultvaluemonth;
 
     /**
      * $lowerbound = the minimum allowed age
      */
     protected $lowerbound;
-    protected $lowerbound_year;
-    protected $lowerbound_month;
+    protected $lowerboundyear;
+    protected $lowerboundmonth;
 
     /**
      * $upperbound = the maximum allowed age
      */
     protected $upperbound;
-    protected $upperbound_year;
-    protected $upperbound_month;
+    protected $upperboundyear;
+    protected $upperboundmonth;
 
     /**
      * @var bool canbeparent
@@ -268,6 +268,8 @@ class mod_surveypro_field_age extends mod_surveypro_itembase {
     /**
      * Prepare values for the mform of this item
      *
+     * translates the age class property $fieldlist in $field.'year' and $field.'month'
+     *
      * @return void
      */
     public function item_custom_fields_to_form() {
@@ -276,8 +278,8 @@ class mod_surveypro_field_age extends mod_surveypro_itembase {
         foreach ($fieldlist as $field) {
             if (!empty($this->{$field})) {
                 $agearray = $this->item_split_unix_time($this->{$field});
-                $this->{$field.'_year'} = $agearray['year'];
-                $this->{$field.'_month'} = $agearray['mon'];
+                $this->{$field.'year'} = $agearray['year'];
+                $this->{$field.'month'} = $agearray['mon'];
             }
         }
     }
@@ -434,7 +436,7 @@ EOS;
             $years[SURVEYPRO_IGNOREMEVALUE] = '';
             $months[SURVEYPRO_IGNOREMEVALUE] = '';
         }
-        $years += array_combine(range($this->lowerbound_year, $this->upperbound_year), range($this->lowerbound_year, $this->upperbound_year));
+        $years += array_combine(range($this->lowerboundyear, $this->upperboundyear), range($this->lowerboundyear, $this->upperboundyear));
         $months += array_combine(range(0, 11), range(0, 11));
         // End of: element values
 

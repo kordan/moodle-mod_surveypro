@@ -101,22 +101,22 @@ class mod_surveypro_field_recurrence extends mod_surveypro_itembase {
      * @var string $defaultvalue, the value of the field when the form is initially displayed.
      */
     protected $defaultvalue;
-    protected $defaultvalue_month;
-    protected $defaultvalue_day;
+    protected $defaultvaluemonth;
+    protected $defaultvalueday;
 
     /**
      * $lowerbound = the minimum allowed recurrence
      */
     protected $lowerbound;
-    protected $lowerbound_month;
-    protected $lowerbound_day;
+    protected $lowerboundmonth;
+    protected $lowerboundday;
 
     /**
      * $upperbound = the maximum allowed recurrence
      */
     protected $upperbound;
-    protected $upperbound_month;
-    protected $upperbound_day;
+    protected $upperboundmonth;
+    protected $upperboundday;
 
     /**
      * @var bool canbeparent
@@ -242,6 +242,8 @@ class mod_surveypro_field_recurrence extends mod_surveypro_itembase {
     /**
      * Prepare values for the mform of this item
      *
+     * translates the recurrence class property $fieldlist in $field.'month' and $field.'day'
+     *
      * @return void
      */
     public function item_custom_fields_to_form() {
@@ -262,8 +264,8 @@ class mod_surveypro_field_recurrence extends mod_surveypro_itembase {
             }
             if (!empty($this->{$field})) {
                 $recurrencearray = $this->item_split_unix_time($this->{$field});
-                $this->{$field.'_month'} = $recurrencearray['mon'];
-                $this->{$field.'_day'} = $recurrencearray['mday'];
+                $this->{$field.'month'} = $recurrencearray['mon'];
+                $this->{$field.'day'} = $recurrencearray['mday'];
             }
         }
     }

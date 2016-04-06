@@ -92,36 +92,36 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
      * @var label $element01, element for $content
      */
     protected $element01;
-    protected $element01_select;
-    protected $element01_text;
+    protected $element01select;
+    protected $element01text;
 
     /**
      * @var label $element02, element for $content
      */
     protected $element02;
-    protected $element02_select;
-    protected $element02_text;
+    protected $element02select;
+    protected $element02text;
 
     /**
      * @var label $element03, element for $content
      */
     protected $element03;
-    protected $element03_select;
-    protected $element03_text;
+    protected $element03select;
+    protected $element03text;
 
     /**
      * @var label $element04, element for $content
      */
     protected $element04;
-    protected $element04_select;
-    protected $element04_text;
+    protected $element04select;
+    protected $element04text;
 
     /**
      * @var label $element05, element for $content
      */
     protected $element05;
-    protected $element05_select;
-    protected $element05_text;
+    protected $element05select;
+    protected $element05text;
 
     /**
      * @var bool canbeparent
@@ -244,13 +244,13 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
 
         for ($i = 1; $i < 6; $i++) {
             $index = sprintf('%02d', $i);
-            $fieldname = 'element'.$index.'_select';
+            $fieldname = 'element'.$index.'select';
             if (in_array($this->{'element'.$index}, $referencearray)) {
                 $this->{$fieldname} = $this->{'element'.$index};
             } else {
                 $constantname = 'SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT'.SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT_COUNT;
                 $this->{$fieldname} = constant($constantname);
-                $fieldname = 'element'.$index.'_text';
+                $fieldname = 'element'.$index.'text';
                 $this->{$fieldname} = $this->{'element'.$index};
             }
         }
