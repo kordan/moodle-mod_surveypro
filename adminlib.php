@@ -36,8 +36,8 @@ require_once($CFG->libdir.'/adminlib.php');
 class mod_surveypro_admin_page_manage_surveypro_plugins extends admin_externalpage {
 
     /**
-    * @var string Name of plugin subtype
-    */
+     * @var string Name of plugin subtype
+     */
     private $subtype = '';
 
     /**

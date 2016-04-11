@@ -71,7 +71,7 @@ class mod_surveypro_itemlist {
     protected $sortindex;
 
     /**
-     *  @var int Required action
+     * @var int Required action
      */
     protected $action;
 
