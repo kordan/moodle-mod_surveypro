@@ -17,16 +17,15 @@
 /**
  * Keeps track of upgrades to the surveyproitem pagebreak
  *
- * @package    surveyproformat
- * @subpackage pagebreak
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   surveyproformat_pagebreak
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 /**
  * Performs upgrade of the database structure and data
  *
- * @param int $oldversion the version we are upgrading from
+ * @param int $oldversion Version we are upgrading from
  * @return bool true
  */
 function xmldb_surveyproformat_pagebreak_upgrade($oldversion) {

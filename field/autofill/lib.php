@@ -15,10 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    surveyprofield
- * @subpackage autofill
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * library for surveyprofield_autofill
+ *
+ * @package   surveyprofield_autofill
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -45,7 +46,7 @@ define('SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT15', 'label');
 /**
  * surveypro_autofill_get_elements
  *
- * @param
+ * @param int $surveyproid
  * @return void
  */
 function surveypro_autofill_get_elements($surveyproid) {

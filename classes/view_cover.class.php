@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * The covermanager class
+ *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,21 +27,26 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
 
 /**
- * The base class representing a field
+ * The class managing the page "cover" of the module
+ *
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_surveypro_covermanager {
+
     /**
-     * @var object, the course module object
+     * @var object Course module object
      */
     protected $cm;
 
     /**
-     * @var object, the context object
+     * @var object Context object
      */
     protected $context;
 
     /**
-     * @var object, the surveypro object
+     * @var object Surveypro object
      */
     protected $surveypro;
 
@@ -57,7 +64,7 @@ class mod_surveypro_covermanager {
     }
 
     /**
-     * display_cover
+     * Display_cover
      *
      * @return void
      */
@@ -277,10 +284,10 @@ class mod_surveypro_covermanager {
     }
 
     /**
-     * display_messages
+     * Display_messages
      *
-     * @param $messages
-     * @param $strlegend
+     * @param string $messages
+     * @param string $strlegend
      * @return void
      */
     public function display_messages($messages, $strlegend) {
@@ -301,9 +308,9 @@ class mod_surveypro_covermanager {
     }
 
     /**
-     * user_sent_submissions
+     * User_sent_submissions
      *
-     * @param $status
+     * @param int $status
      * @return void
      */
     public function user_sent_submissions($status=SURVEYPRO_STATUSALL) {

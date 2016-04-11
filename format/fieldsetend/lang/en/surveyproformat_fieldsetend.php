@@ -15,12 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'format_fieldsetend', language 'en', branch 'MOODLE_31_STABLE'
+ * Strings for component 'surveyproformat_fieldsetend', language 'en', branch 'MOODLE_31_STABLE'
  *
- * @package    surveypro
- * @subpackage fieldsetend
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   surveyproformat_fieldsetend
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $string['pluginname'] = 'Fieldsetend';

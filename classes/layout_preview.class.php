@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Surveypro formpreview class.
+ *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -27,11 +29,17 @@ require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
 
 /**
  * The base class representing a field
+ *
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_surveypro_formpreview extends mod_surveypro_formbase {
+
     /**
      * Do what is needed ONLY AFTER the view parameter is set
-     * setup
+     *
+     * @param int $submissionid
+     * @param object $formpage
      */
     public function setup($submissionid, $formpage) {
         global $DB;
@@ -54,7 +62,7 @@ class mod_surveypro_formpreview extends mod_surveypro_formbase {
     }
 
     /**
-     * surveypro_add_custom_css
+     * Surveypro_add_custom_css
      *
      * @return void
      */
@@ -68,7 +76,7 @@ class mod_surveypro_formpreview extends mod_surveypro_formbase {
     }
 
     /**
-     * message_preview_mode
+     * Message_preview_mode
      *
      * @return void
      */
@@ -81,7 +89,7 @@ class mod_surveypro_formpreview extends mod_surveypro_formbase {
     }
 
     /**
-     * prevent_direct_user_input
+     * Prevent_direct_user_input
      *
      * @return void
      */
@@ -92,7 +100,7 @@ class mod_surveypro_formpreview extends mod_surveypro_formbase {
     }
 
     /**
-     * trigger_event
+     * Trigger_event
      *
      * @return void
      */

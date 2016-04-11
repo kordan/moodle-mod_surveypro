@@ -15,12 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'format_label', language 'en', branch 'MOODLE_31_STABLE'
+ * Strings for component 'surveyproformat_label', language 'en', branch 'MOODLE_31_STABLE'
  *
- * @package    surveypro
- * @subpackage label
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   surveyproformat_label
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $string['fullwidth_help'] = 'Use full screen width to display the label using as much space as possible starting from the left of the screen. When this option is used the element label and the element number will not be displayed.<br />As opposite alternative, the element will be drawn on the right side of the row leaving to its label the room on the left.';

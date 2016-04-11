@@ -17,10 +17,9 @@
 /**
  * Strings for component 'field_autofill', language 'en', branch 'MOODLE_31_STABLE'
  *
- * @package    surveyproreport
- * @subpackage count
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   surveyproreport_colles
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $string['pluginname'] = 'Colles report';

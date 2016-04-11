@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * The importmanager class
+ *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -23,26 +25,31 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * The base class representing a field
+ * The class importing data from CSV
+ *
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_surveypro_importmanager {
+
     /**
-     * @var object, the course module object
+     * @var object Course module object
      */
     protected $cm;
 
     /**
-     * @var object, the context object
+     * @var object Context object
      */
     protected $context;
 
     /**
-     * @var object, the surveypro object
+     * @var object Surveypro object
      */
     protected $surveypro;
 
     /**
-     * $formdata: the form content as submitted by the user
+     * @var object Form content as submitted by the user
      */
     public $formdata = null;
 
@@ -60,7 +67,7 @@ class mod_surveypro_importmanager {
     }
 
     /**
-     * trigger_event
+     * Trigger_event
      *
      * @return void
      */
@@ -71,9 +78,9 @@ class mod_surveypro_importmanager {
     }
 
     /**
-     * welcome_message
+     * Welcome_message
      *
-     * @return null
+     * @return void
      */
     public function welcome_message() {
         global $CFG, $OUTPUT;
@@ -95,9 +102,9 @@ class mod_surveypro_importmanager {
     }
 
     /**
-     * get_uniqueness_columns
+     * Get uniqueness columns
      *
-     * @param $foundheaders
+     * @param array $foundheaders
      * @return false or the duplicate header
      */
     public function verify_header_duplication($foundheaders) {
@@ -114,7 +121,7 @@ class mod_surveypro_importmanager {
     }
 
     /**
-     * get_survey_infos
+     * Get survey infos
      *
      * @return $surveyheaders and $requireditems
      */
@@ -172,11 +179,11 @@ class mod_surveypro_importmanager {
     }
 
     /**
-     * verify_required
+     * Verify_required
      *
-     * @param $requireditems
-     * @param $columntoitemid
-     * @param $surveyheaders
+     * @param array $requireditems
+     * @param int $columntoitemid
+     * @param array $surveyheaders
      * @return false or the missing required header
      */
     public function verify_required($requireditems, $columntoitemid, $surveyheaders) {
@@ -191,10 +198,10 @@ class mod_surveypro_importmanager {
     }
 
     /**
-     * verify_attachments_import
+     * Verify_attachments_import
      *
-     * @param $foundheaders
-     * @return [array extraheadres|bool false]
+     * @param array $foundheaders
+     * @return either array extraheadres or bool false
      */
     public function verify_attachments_import($foundheaders) {
         global $DB;
@@ -227,7 +234,7 @@ class mod_surveypro_importmanager {
     }
 
     /**
-     * get_csv_content
+     * Get csv content
      *
      * @return csv content
      */
@@ -238,7 +245,7 @@ class mod_surveypro_importmanager {
     }
 
     /**
-     * get_columntoitemid
+     * Get column to item id
      *
      * This method returns the correspondence between the column where the datum is found
      * and the id of the surveypro item where the datum has to go
@@ -246,8 +253,8 @@ class mod_surveypro_importmanager {
      * $foundheaders
      * $surveyheaders
      *
-     * @param $foundheaders
-     * @param $surveyheaders
+     * @param array $foundheaders
+     * @param array $surveyheaders
      * @return array $columntoitemid
      * @return array $nonmatchingheaders
      * @return array $environmentheaders
@@ -283,10 +290,10 @@ class mod_surveypro_importmanager {
     }
 
     /**
-     * get_items_helperinfo
+     * Get items helper info
      *
-     * @param $columntoitemid
-     * @param $environmentheaders
+     * @param array $columntoitemid
+     * @param array $environmentheaders
      * @return $itemhelperinfo (one $itemhelperinfo per each item)
      * @return $itemoptions (one $itemoptions only each items with $info->savepositiontodb = 1)
      */
@@ -357,7 +364,7 @@ class mod_surveypro_importmanager {
     }
 
     /**
-     * validate_csv
+     * Validate_csv
      *
      * @return void
      */

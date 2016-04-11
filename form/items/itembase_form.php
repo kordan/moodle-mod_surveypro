@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Surveypro itembaseform class.
+ *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,10 +27,17 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/lib/formslib.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
 
+/**
+ * The class representing the base form shared by all the items of the module
+ *
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class mod_surveypro_itembaseform extends moodleform {
 
     /**
-     * definition
+     * Definition
      *
      * @return void
      */
@@ -277,7 +286,7 @@ class mod_surveypro_itembaseform extends moodleform {
     }
 
     /**
-     * add_item_buttons
+     * Add_item_buttons
      *
      * @return void
      */
@@ -311,11 +320,11 @@ class mod_surveypro_itembaseform extends moodleform {
     }
 
     /**
-     * validation
+     * Validation
      *
-     * @param $data
-     * @param $files
-     * @return $errors
+     * @param array $data
+     * @param array $files
+     * @return array $errors
      */
     public function validation($data, $files) {
         // Get _customdata.

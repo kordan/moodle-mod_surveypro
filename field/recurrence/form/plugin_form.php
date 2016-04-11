@@ -15,7 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package   mod_surveypro
+ * Surveypro pluginform class.
+ *
+ * @package   surveyprofield_recurrence
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,10 +28,17 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/items/itembase_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/field/recurrence/lib.php');
 
+/**
+ * The class representing the plugin form
+ *
+ * @package   surveyprofield_recurrence
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
 
     /**
-     * definition
+     * Definition
      *
      * @return void
      */
@@ -107,11 +116,11 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
     }
 
     /**
-     * validation
+     * Validation
      *
-     * @param $data
-     * @param $files
-     * @return $errors
+     * @param array $data
+     * @param array $files
+     * @return array $errors
      */
     public function validation($data, $files) {
         // Get _customdata.

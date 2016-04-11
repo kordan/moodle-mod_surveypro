@@ -15,12 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'field_integer', language 'en', branch 'MOODLE_31_STABLE'
+ * Strings for component 'surveyprofield_integer', language 'en', branch 'MOODLE_31_STABLE'
  *
- * @package    surveypro
- * @subpackage integer
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $string['uerr_integernotsetrequired'] = 'Si selezioni un valore';

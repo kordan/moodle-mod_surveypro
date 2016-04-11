@@ -15,12 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'field_shortdate', language 'en', branch 'MOODLE_31_STABLE'
+ * Strings for component 'surveyprofield_shortdate', language 'en', branch 'MOODLE_31_STABLE'
  *
- * @package    surveypro
- * @subpackage shortdate
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   surveyprofield_shortdate
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $string['currentshortdatedefault'] = 'Current short date';

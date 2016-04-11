@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * The userform class
+ *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,47 +27,56 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/surveypro/classes/formbase.class.php');
 
 /**
- * The base class representing a field
+ * The class managing the form where users are supposed to enter expected data
+ *
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_surveypro_userform extends mod_surveypro_formbase {
+
     /**
-     * $firstpageright
+     * @var int $firstpageright, the next non empty page
      */
     protected $firstpageright;
 
     /**
-     * $firstpageleft
+     * @var int $firstpageleft, the first non empty page
      */
     protected $firstpageleft;
 
     /**
-     * $view
+     * @var int $view
      */
     protected $view;
 
     /**
-     * $moduletab: The tab of the module where the page will be shown
+     * @var int $moduletab, The tab of the module where the page will be shown
      */
     protected $moduletab;
 
     /**
-     * $modulepage: this is the page of the module. Nothing to share with $formpage
+     * @var int $modulepage, this is the page of the module. Nothing to share with $formpage
      */
     protected $modulepage;
 
     /**
-     * $finalresponseevaluation: final validation of the submitted response
+     * @var int $finalresponseevaluation, final validation of the submitted response
      */
     protected $finalresponseevaluation;
 
     /**
-     * $formdata: the form content as submitted by the user
+     * @var object Form content as submitted by the user
      */
-    public $formdata;
+    public $formdata = null;
 
     /**
-     * Do what is needed ONLY AFTER the view parameter is set
-     * setup
+     * Setup
+     *
+     * @param int $submissionid
+     * @param int $formpage
+     * @param int $view
+     * @return void
      */
     public function setup($submissionid, $formpage, $view) {
         global $DB;
@@ -92,9 +103,9 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     // MARK set
 
     /**
-     * set_view
+     * Set view.
      *
-     * @param $view
+     * @param int $view
      * @return void
      */
     private function set_view($view) {
@@ -102,9 +113,9 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * set_formpage
+     * Set formpage
      *
-     * @param $formpage
+     * @param int $formpage
      * @return void
      */
     public function set_formpage($formpage) {
@@ -129,9 +140,9 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * set_firstpageleft
+     * Set first page left
      *
-     * @param $firstpageleft
+     * @param int $firstpageleft
      * @return void
      */
     public function set_firstpageleft($firstpageleft) {
@@ -139,9 +150,9 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * set_firstpageright
+     * Set first page right
      *
-     * @param $firstpageright
+     * @param int $firstpageright
      * @return void
      */
     public function set_firstpageright($firstpageright) {
@@ -149,9 +160,9 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * set_moduletab
+     * Set module tab
      *
-     * @param $moduletab
+     * @param int $moduletab
      * @return void
      */
     public function set_moduletab($moduletab) {
@@ -159,9 +170,9 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * set_modulepage
+     * Set modulepage
      *
-     * @param $modulepage
+     * @param int $modulepage
      * @return void
      */
     public function set_modulepage($modulepage) {
@@ -169,7 +180,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * get_firstpageleft
+     * Get first page left
      *
      * @return the content of the $firstpageleft property
      */
@@ -178,7 +189,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * get_firstpageright
+     * Get first page right
      *
      * @return the content of the $firstpageright property
      */
@@ -187,7 +198,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * get_moduletab
+     * Get module tab
      *
      * @return the content of the $moduletab property
      */
@@ -196,7 +207,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * get_modulepage
+     * Get module page
      *
      * @return the content of the $modulepage property
      */
@@ -217,8 +228,8 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      *     the page number of the greater non empty page (according to user answers) lower than $startingpage in $this->firstpageleft;
      *     returns $nextpage or SURVEYPRO_LEFT_OVERFLOW if no more empty pages are found on the left.
      *
-     * @param $rightdirection
-     * @param $startingpage
+     * @param bool $rightdirection
+     * @param int $startingpage
      * @return void
      */
     public function next_not_empty_page($rightdirection, $startingpage=null) {
@@ -271,13 +282,13 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * page_has_items
+     * Page_has_items
      *
      * In this method, I am not ONLY going to check if the page $formpage has item
      * but I am also verifying that those items are supposed to be displayed
      * on the basis of the answers provided to their parents.
      *
-     * @param $formpage
+     * @param int $formpage
      * @return void
      */
     private function page_has_items($formpage) {
@@ -310,7 +321,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * set_tabs_params
+     * Set tabs params
      *
      * @return void
      */
@@ -339,7 +350,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * surveypro_add_custom_css
+     * Surveypro_add_custom_css
      *
      * @return void
      */
@@ -353,7 +364,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * save_surveypro_submission
+     * Save_surveypro_submission
      *
      * @return surveypro_submission record
      */
@@ -428,7 +439,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * there are items spreading out their value over more than one single field
+     * There are items spreading out their value over more than one single field
      * so you may have more than one $this->formdata element referring to the same item
      * Es.:
      *   $fieldname = surveypro_datetime_1452_day
@@ -690,7 +701,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * check_mandatories_are_in
+     * Check_mandatories_are_in
      *
      * @return void
      */
@@ -776,7 +787,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * check_all_verified
+     * Check_all_verified
      *
      * @return void
      */
@@ -792,7 +803,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * drop_jumped_saved_data
+     * Drop_jumped_saved_data
      *
      * @return void
      */
@@ -815,7 +826,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * notifypeople
+     * Notifypeople
      *
      * @return void
      */
@@ -923,7 +934,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * submissions_allowed
+     * Submissions_allowed
      *
      * @return void
      */
@@ -948,9 +959,9 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * user_sent_submissions
+     * User_sent_submissions
      *
-     * @param $status
+     * @param bool $status
      * @return void
      */
     private function user_sent_submissions($status=SURVEYPRO_STATUSALL) {
@@ -970,7 +981,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * nomoresubmissions_stopexecution
+     * Nomoresubmissions_stopexecution
      *
      * @return void
      */
@@ -994,7 +1005,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * manage_thanks_page
+     * Manage_thanks_page
      *
      * @return void
      */
@@ -1011,7 +1022,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * surveypro_show_thanks_page
+     * Surveypro_show_thanks_page
      *
      * @return void
      */
@@ -1043,33 +1054,34 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
             }
         }
 
-        $paramurl = array('id' => $this->cm->id);
-        // Just to save a query.
-        if (empty($this->surveypro->maxentries)) {
-            $alreadysubmitted = -1;
+        if (empty($this->surveypro->maxentries) || $canignoremaxentries) {
+            $cansubmitmore = true;
         } else {
             $alreadysubmitted = $DB->count_records('surveypro_submission', array('surveyproid' => $this->surveypro->id, 'userid' => $USER->id));
+            $cansubmitmore = ($alreadysubmitted < $this->surveypro->maxentries);
         }
-        $condition = ($alreadysubmitted < $this->surveypro->maxentries);
-        $condition = $condition || empty($this->surveypro->maxentries);
-        $condition = $condition || $canignoremaxentries;
-        if ($condition) { // If the user is allowed to submit one more surveypro.
+
+        $paramurl = array('id' => $this->cm->id);
+        if ($cansubmitmore) { // If the user is allowed to submit one more surveypro.
             $buttonurl = new moodle_url('/mod/surveypro/view_form.php', array('id' => $this->cm->id, 'view' => SURVEYPRO_NEWRESPONSE));
             $onemore = new single_button($buttonurl, get_string('addnewsubmission', 'mod_surveypro'));
 
             $buttonurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
             $gotolist = new single_button($buttonurl, get_string('gotolist', 'mod_surveypro'));
 
-            echo $OUTPUT->confirm($message, $onemore, $gotolist);
+            echo $OUTPUT->box_start('generalbox centerpara', 'notice');
+            echo html_writer::tag('p', $message);
+            echo html_writer::tag('div', $OUTPUT->render($onemore).$OUTPUT->render($gotolist), array('class' => 'buttons'));
+            echo $OUTPUT->box_end();
         } else {
             echo $OUTPUT->box($message, 'notice centerpara');
             $buttonurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
-            echo $OUTPUT->box($OUTPUT->single_button($buttonurl, get_string('gotolist', 'mod_surveypro'), 'get'), 'clearfix mdl-align');
+            echo $OUTPUT->box($OUTPUT->single_button($buttonurl, get_string('gotolist', 'mod_surveypro'), 'get'), 'generalbox centerpara');
         }
     }
 
     /**
-     * add_browsing_buttons
+     * Add_browsing_buttons
      *
      * @return void
      */
@@ -1115,7 +1127,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * drop_unexpected_values
+     * Drop_unexpected_values
      *
      * @return void
      */
@@ -1196,7 +1208,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * prevent_direct_user_input
+     * Prevent_direct_user_input
      *
      * @return void
      */
@@ -1289,9 +1301,8 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * duplicate_submission
+     * Duplicate_submission
      *
-     * @param $allpages
      * @return void
      */
     private function duplicate_submission() {
@@ -1314,9 +1325,8 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * trigger_event
+     * Trigger_event
      *
-     * @param $view
      * @return void
      */
     private function trigger_event() {

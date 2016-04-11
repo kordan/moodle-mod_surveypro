@@ -17,9 +17,6 @@
 /**
  * Defines the version of surveypro surveyproTemplate_00templateNamePlaceholder00 subplugin
  *
- * This code fragment is called by moodle_needs_upgrading() and
- * /admin/index.php
- *
  * @package    surveyprotemplate
  * @subpackage 00templateNamePlaceholder00
  * @copyright  2013 onwards kordan <kordan@mclink.it>

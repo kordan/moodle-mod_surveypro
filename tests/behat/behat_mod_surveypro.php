@@ -75,7 +75,7 @@ class behat_mod_surveypro extends behat_base {
      * | type | plugin |
      * that are required.
      *
-     * @param string $surveyproname the name of the surveypro to add items to.
+     * @param string $surveyproname Name of the surveypro to add items to.
      * @param TableNode $data information about the items to add.
      *
      * @Given /^surveypro "([^"]*)" contains the following items:$/

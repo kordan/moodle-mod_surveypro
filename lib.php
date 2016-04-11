@@ -39,7 +39,7 @@ define('SURVEYPRO_OTHERSEPARATOR'     , '->');
 /**
  * TABS
  */
-define('SURVEYPRO_TABITEMS'      , 1);
+define('SURVEYPRO_TABLAYOUT'      , 1);
 define('SURVEYPRO_TABSUBMISSIONS', 2);
 define('SURVEYPRO_TABUTEMPLATES' , 3);
 define('SURVEYPRO_TABMTEMPLATES' , 4);
@@ -47,11 +47,11 @@ define('SURVEYPRO_TABMTEMPLATES' , 4);
 /**
  * PAGES
  */
-// PAGES in tab ITEMS
-define('SURVEYPRO_ITEMS_PREVIEW' , 1);
-define('SURVEYPRO_ITEMS_MANAGE'  , 2);
-define('SURVEYPRO_ITEMS_SETUP'   , 3);
-define('SURVEYPRO_ITEMS_VALIDATE', 4);
+// PAGES in tab LAYOUT
+define('SURVEYPRO_LAYOUT_PREVIEW' , 1);
+define('SURVEYPRO_LAYOUT_MANAGE'  , 2);
+define('SURVEYPRO_LAYOUT_SETUP'   , 3);
+define('SURVEYPRO_LAYOUT_VALIDATE', 4);
 
 // PAGES in tab SUBMISSION
 define('SURVEYPRO_SUBMISSION_CPANEL'  , 1);
@@ -123,17 +123,17 @@ define('SURVEYPRO_EXPORTUTEMPLATE'   , '17');
  * VIEW
  */
 // VIEW in USER FORM section
-define('SURVEYPRO_NOVIEW'           , '0');
-define('SURVEYPRO_NEWRESPONSE'      , '1');
-define('SURVEYPRO_EDITRESPONSE'     , '2');
-define('SURVEYPRO_READONLYRESPONSE' , '3');
+define('SURVEYPRO_NOVIEW'          , '0');
+define('SURVEYPRO_NEWRESPONSE'     , '1');
+define('SURVEYPRO_EDITRESPONSE'    , '2');
+define('SURVEYPRO_READONLYRESPONSE', '3');
 
 // VIEW in ITEM section
-define('SURVEYPRO_EDITITEM'         , '4');
-define('SURVEYPRO_CHANGEORDERASK'   , '5');
+define('SURVEYPRO_EDITITEM'        , '4');
+define('SURVEYPRO_CHANGEORDERASK'  , '5');
 
 // VIEW in RESPONSES section
-define('SURVEYPRO_RESPONSETOPDF'    , '6');
+define('SURVEYPRO_RESPONSETOPDF'   , '6');
 
 /**
  * OVERFLOW
@@ -211,11 +211,11 @@ define('SURVEYPRO_ACTION_EXECUTED', 3);
 /**
  * DEFAULTVALUE OPTION
  */
-define('SURVEYPRO_CUSTOMDEFAULT'   , 1);
-define('SURVEYPRO_INVITEDEFAULT'   , 2);
-define('SURVEYPRO_NOANSWERDEFAULT' , 3);
-define('SURVEYPRO_LIKELASTDEFAULT' , 4);
-define('SURVEYPRO_TIMENOWDEFAULT'  , 5);
+define('SURVEYPRO_CUSTOMDEFAULT'  , 1);
+define('SURVEYPRO_INVITEDEFAULT'  , 2);
+define('SURVEYPRO_NOANSWERDEFAULT', 3);
+define('SURVEYPRO_LIKELASTDEFAULT', 4);
+define('SURVEYPRO_TIMENOWDEFAULT' , 5);
 
 /**
  * FILEAREAS
@@ -554,13 +554,13 @@ function surveypro_print_recent_activity($course, $viewfullnames, $timestart) {
  * custom activity records. These records are then rendered into HTML via
  * {@link surveypro_print_recent_mod_activity()}.
  *
- * @param array $activities sequentially indexed array of objects with the 'cmid' property
- * @param int $index the index in the $activities to use for the next record
- * @param int $timestart append activity since this time
- * @param int $courseid the id of the course we produce the report for
- * @param int $cmid course module id
- * @param int $userid check for a particular user's activity only, defaults to 0 (all users)
- * @param int $groupid check for a particular group's activity only, defaults to 0 (all groups)
+ * @param array $activities Sequentially indexed array of objects with the 'cmid' property
+ * @param int $index Index in the $activities to use for the next record
+ * @param int $timestart Append activity since this time
+ * @param int $courseid Id of the course we produce the report for
+ * @param int $cmid Course module id
+ * @param int $userid Check for a particular user's activity only, defaults to 0 (all users)
+ * @param int $groupid Check for a particular group's activity only, defaults to 0 (all groups)
  * @return void adds items into $activities and increases $index
  */
 function surveypro_get_recent_mod_activity(&$activities, &$index, $timestart, $courseid, $cmid, $userid=0, $groupid=0) {
@@ -727,7 +727,7 @@ function surveypro_grade_item_update(stdClass $surveypro) {
  * Needed by grade_update_mod_grades() in lib/gradelib.php
  *
  * @param stdClass $surveypro instance object with extra cmidnumber and modname property
- * @param int $userid update grade of specific user only, 0 means all participants
+ * @param int $userid Update grade of specific user only, 0 means all participants
  * @return void
  */
 function surveypro_update_grades(stdClass $surveypro, $userid = 0) {
@@ -888,10 +888,10 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
     $whereparams = array('surveyproid' => $cm->instance);
     $countparents = $DB->count_records_select('surveypro_item', 'surveyproid = :surveyproid AND parentid <> 0', $whereparams);
 
-    // SURVEYPRO_TABITEMS
+    // SURVEYPRO_TABLAYOUT
     // -> parent
     if (($canpreview) || ($canmanageitems && empty($surveypro->template))) {
-        $nodelabel = get_string('tabitemsname', 'mod_surveypro');
+        $nodelabel = get_string('tablayoutname', 'mod_surveypro');
         $navnode = $surveypronode->add($nodelabel,  null, navigation_node::TYPE_CONTAINER);
     }
 

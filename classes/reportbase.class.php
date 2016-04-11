@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Surveypro reportbase class.
+ *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,21 +27,26 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
 
 /**
- * The base class representing a field
+ * The base class representing a report
+ *
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_surveypro_reportbase {
+
     /**
-     * @var object, the course module object
+     * @var object Course module object
      */
     protected $cm;
 
     /**
-     * @var object, the context object
+     * @var object Context object
      */
     protected $context;
 
     /**
-     * @var object, the surveypro object
+     * @var object Surveypro object
      */
     protected $surveypro;
 
@@ -57,38 +64,44 @@ class mod_surveypro_reportbase {
     }
 
     /**
-     * restrict_templates
+     * Restrict_templates
+     *
+     * @return array
      */
     public function restrict_templates() {
         return array();
     }
 
     /**
-     * has_student_report
+     * Has_student_report
+     *
+     * @return boolean false
      */
     public function has_student_report() {
         return false;
     }
 
     /**
-     * report_apply
+     * Report_apply
+     *
+     * @return boolean true
      */
     public function report_apply() {
         return true;
     }
 
     /**
-     * get_childreports
+     * Get child reports
      *
      * @param bool $canaccessreports
-     * @return void
+     * @return boolean false
      */
     public function get_childreports($canaccessreports) {
         return false;
     }
 
     /**
-     * check_submissions
+     * Check_submissions
      */
     public function check_submissions() {
         global $OUTPUT;

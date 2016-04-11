@@ -15,10 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    surveyprofield
- * @subpackage boolean
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * library for surveyprofield_boolean
+ *
+ * @package   surveyprofield_boolean
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -26,6 +27,6 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 
 // Rates styles.
-define('SURVEYPROFIELD_BOOLEAN_USESELECT' , 0);
-define('SURVEYPROFIELD_BOOLEAN_USERADIOV' , 1);
-define('SURVEYPROFIELD_BOOLEAN_USERADIOH' , 2);
+define('SURVEYPROFIELD_BOOLEAN_USESELECT', 0);
+define('SURVEYPROFIELD_BOOLEAN_USERADIOV', 1);
+define('SURVEYPROFIELD_BOOLEAN_USERADIOH', 2);

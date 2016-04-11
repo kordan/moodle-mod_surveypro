@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 class mod_surveypro_generator extends testing_module_generator {
 
     /**
-     * @var int keep track of how many items have been created,
+     * @var int Keep track of how many items have been created,
      */
     protected $itemcount = 0;
 
@@ -43,7 +43,7 @@ class mod_surveypro_generator extends testing_module_generator {
     }
 
     /**
-     * create_instance
+     * Create_instance
      *
      * @param $record
      * @param array $options

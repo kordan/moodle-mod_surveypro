@@ -35,6 +35,7 @@ defined('MOODLE_INTERNAL') || die();
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class surveyproreport extends base {
+
     /**
      * Finds all enabled plugins, the result may include missing plugins.
      *
@@ -71,7 +72,7 @@ class surveyproreport extends base {
     }
 
     /**
-     * is_uninstall_allowed
+     * Is_uninstall_allowed
      *
      * @return bool true
      */
@@ -89,7 +90,7 @@ class surveyproreport extends base {
     }
 
     /**
-     * get_settings_section_name
+     * Get settings section name
      *
      * @return settings section name
      */
@@ -105,7 +106,7 @@ class surveyproreport extends base {
      *
      * @param \part_of_admin_tree $adminroot
      * @param string $parentnodename
-     * @param bool $hassiteconfig whether the current user has moodle/site:config capability
+     * @param bool $hassiteconfig Whether the current user has moodle/site:config capability
      * @return void
      */
     public function load_settings(\part_of_admin_tree $adminroot, $parentnodename, $hassiteconfig) {

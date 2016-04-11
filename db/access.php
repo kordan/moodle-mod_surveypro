@@ -58,19 +58,19 @@
  *  -------------------------------------------
  *  TAB ELEMENTS
  *  -------------------------------------------
- *  SUB-TAB == SURVEYPRO_ITEMS_PREVIEW
+ *  SUB-TAB == SURVEYPRO_LAYOUT_PREVIEW
  *      $elementurl = new moodle_url('/mod/surveypro/layout_preview.php', $localparamurl);
  *      mod/surveypro:preview
  *
- *  SUB-TAB == SURVEYPRO_ITEMS_MANAGE
+ *  SUB-TAB == SURVEYPRO_LAYOUT_MANAGE
  *      $elementurl = new moodle_url('/mod/surveypro/layout_manage.php', $localparamurl);
  *      mod/surveypro:manageitems
  *      mod/surveypro:additems
  *
- *  SUB-TAB == SURVEYPRO_ITEMS_SETUP
+ *  SUB-TAB == SURVEYPRO_LAYOUT_SETUP
  *      $elementurl = new moodle_url('/mod/surveypro/layout_itemsetup.php', $localparamurl);
  *
- *  SUB-TAB == SURVEYPRO_ITEMS_VALIDATE
+ *  SUB-TAB == SURVEYPRO_LAYOUT_VALIDATE
  *      $elementurl = new moodle_url('/mod/surveypro/layout_validation.php', $localparamurl);
  *
  *  -------------------------------------------

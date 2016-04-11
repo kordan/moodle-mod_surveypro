@@ -29,38 +29,39 @@ require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
 /**
  * The base class representing the commom part of the item form
  *
- * @package    mod_surveypro
- * @copyright  2015 David Monllao {@link http://www.davidmonllao.com}
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_surveypro_formbase {
+
     /**
-     * @var object, the course module object
+     * @var object Course module object
      */
     protected $cm;
 
     /**
-     * @var object, the context object
+     * @var object Context object
      */
     protected $context;
 
     /**
-     * @var object, the surveypro object
+     * @var object Surveypro object
      */
     protected $surveypro;
 
     /**
-     * @var int, the ID of the saved surbey_submission
+     * @var int ID of the saved surbey_submission
      */
     protected $submissionid;
 
     /**
-     * @var int, the form page as recalculated according to the first non empty page
+     * @var int Form page as recalculated according to the first non empty page
      */
     protected $formpage;
 
     /**
-     * @var int, the last page of the out form
+     * @var int Last page of the out form
      */
     protected $maxassignedpage;
 
@@ -78,7 +79,7 @@ class mod_surveypro_formbase {
     }
 
     /**
-     * noitem_stopexecution
+     * Noitem_stopexecution
      *
      * @return void
      */
@@ -110,7 +111,7 @@ class mod_surveypro_formbase {
     }
 
     /**
-     * get_prefill_data
+     * Get prefill data
      *
      * @return void
      */
@@ -140,7 +141,7 @@ class mod_surveypro_formbase {
     }
 
     /**
-     * display_page_x_of_y
+     * Display the text "Page x of y"
      *
      * @return void
      */
@@ -215,7 +216,7 @@ class mod_surveypro_formbase {
     }
 
     /**
-     * get_maxassignedpage
+     * Get max assigned page
      *
      * @return the content of the $maxassignedpage property
      */

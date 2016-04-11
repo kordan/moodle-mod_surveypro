@@ -16,9 +16,6 @@
 
 /**
  * Definition of log events
- * NOTE: this is an example how to insert log event during installation/update.
- * It is not really essential to know about it, but these logs were created as example
- * in the previous 1.9 SURVEY.
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
@@ -33,26 +30,39 @@ $logs = array(
     array('module' => 'surveypro', 'action' => 'view', 'mtable' => 'surveypro', 'field' => 'name'),
     array('module' => 'surveypro', 'action' => 'view all', 'mtable' => 'surveypro', 'field' => 'name'),
 
-    array('module' => 'surveypro', 'action' => 'all items viewed', 'mtable' => 'surveypro', 'field' => 'name'),
+    array('module' => 'surveypro', 'action' => 'all items deleted', 'mtable' => 'surveypro', 'field' => 'name'),
+    array('module' => 'surveypro', 'action' => 'all items hidden', 'mtable' => 'surveypro', 'field' => 'name'),
+    array('module' => 'surveypro', 'action' => 'all items visible', 'mtable' => 'surveypro', 'field' => 'name'),
+
     array('module' => 'surveypro', 'action' => 'all submissions deleted', 'mtable' => 'surveypro', 'field' => 'name'),
     array('module' => 'surveypro', 'action' => 'all submissions exported', 'mtable' => 'surveypro', 'field' => 'name'),
     array('module' => 'surveypro', 'action' => 'all submissions viewed', 'mtable' => 'surveypro', 'field' => 'name'),
     array('module' => 'surveypro', 'action' => 'all usertemplates viewed', 'mtable' => 'surveypro', 'field' => 'name'),
+
+    array('module' => 'surveypro', 'action' => 'form previewed', 'mtable' => 'surveypro', 'field' => 'name'),
+
+    array('module' => 'surveypro', 'action' => 'hidden items deleted', 'mtable' => 'surveypro', 'field' => 'name'),
+
     array('module' => 'surveypro', 'action' => 'item created', 'mtable' => 'surveypro_item', 'field' => 'plugin'),
     array('module' => 'surveypro', 'action' => 'item deleted', 'mtable' => 'surveypro', 'field' => 'name'),
     array('module' => 'surveypro', 'action' => 'item modified', 'mtable' => 'surveypro_item', 'field' => 'plugin'),
-    array('module' => 'surveypro', 'action' => 'form previewed', 'mtable' => 'surveypro', 'field' => 'name'),
-    array('module' => 'surveypro', 'action' => 'submission created', 'mtable' => 'surveypro_submission', 'field' => 'id'),
-    array('module' => 'surveypro', 'action' => 'submission deleted', 'mtable' => 'surveypro_submission', 'field' => 'id'),
-    array('module' => 'surveypro', 'action' => 'submission downloaded to pdf', 'mtable' => 'surveypro_submission', 'field' => 'id'),
-    array('module' => 'surveypro', 'action' => 'submission modified', 'mtable' => 'surveypro_submission', 'field' => 'id'),
-    array('module' => 'surveypro', 'action' => 'submission viewed', 'mtable' => 'surveypro_submission', 'field' => 'id'),
+
     array('module' => 'surveypro', 'action' => 'mastertemplate applied', 'mtable' => 'surveypro', 'field' => 'name'),
     array('module' => 'surveypro', 'action' => 'mastertemplate saved', 'mtable' => 'surveypro', 'field' => 'name'),
+
+    array('module' => 'surveypro', 'action' => 'submission created', 'mtable' => 'surveypro_submission', 'field' => 'id'),
+    array('module' => 'surveypro', 'action' => 'submission deleted', 'mtable' => 'surveypro_submission', 'field' => 'id'),
+    array('module' => 'surveypro', 'action' => 'submission modified', 'mtable' => 'surveypro_submission', 'field' => 'id'),
+    array('module' => 'surveypro', 'action' => 'submission viewed', 'mtable' => 'surveypro_submission', 'field' => 'id'),
+    array('module' => 'surveypro', 'action' => 'submission downloaded to pdf', 'mtable' => 'surveypro_submission', 'field' => 'id'),
+    array('module' => 'surveypro', 'action' => 'submissions imported', 'mtable' => 'surveypro_submission', 'field' => 'id'),
+
     array('module' => 'surveypro', 'action' => 'unattended submissions deleted', 'mtable' => 'surveypro_submission', 'field' => 'id'),
+
     array('module' => 'surveypro', 'action' => 'usertemplate applied', 'mtable' => 'surveypro', 'field' => 'name'),
+    array('module' => 'surveypro', 'action' => 'usertemplate deleted', 'mtable' => 'surveypro', 'field' => 'name'),
     array('module' => 'surveypro', 'action' => 'usertemplate exported', 'mtable' => 'surveypro', 'field' => 'name'),
-    array('module' => 'surveypro', 'action' => 'usertemplate saved', 'mtable' => 'surveypro', 'field' => 'name'),
     array('module' => 'surveypro', 'action' => 'usertemplate imported', 'mtable' => 'surveypro', 'field' => 'name'),
+    array('module' => 'surveypro', 'action' => 'usertemplate saved', 'mtable' => 'surveypro', 'field' => 'name'),
     array('module' => 'surveypro', 'action' => 'usertemplate deleted', 'mtable' => 'surveypro', 'field' => 'name'),
 );

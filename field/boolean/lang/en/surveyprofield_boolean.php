@@ -17,10 +17,9 @@
 /**
  * Strings for component 'field_boolean', language 'en', branch 'MOODLE_31_STABLE'
  *
- * @package    surveypro
- * @subpackage boolean
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   surveyprofield_boolean
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $string['customdefault'] = 'Custom';

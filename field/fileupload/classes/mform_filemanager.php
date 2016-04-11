@@ -15,6 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * filemanager mform element
+ *
+ * Extends the core mform class for filemanager element
+ *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -26,6 +30,15 @@ global $CFG;
 
 require_once($CFG->libdir.'/form/filemanager.php');
 
+/**
+ * filemanager mform element
+ *
+ * Extends the core mform class for filemanager element
+ *
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class mod_surveypro_mform_filemanager extends MoodleQuickForm_filemanager {
 
     /**

@@ -35,7 +35,9 @@ require_once($CFG->libdir.'/adminlib.php');
  */
 class mod_surveypro_admin_page_manage_surveypro_plugins extends admin_externalpage {
 
-    /** @var string the name of plugin subtype */
+    /**
+    * @var string Name of plugin subtype
+    */
     private $subtype = '';
 
     /**
@@ -54,7 +56,7 @@ class mod_surveypro_admin_page_manage_surveypro_plugins extends admin_externalpa
     /**
      * Search plugins for the specified string
      *
-     * @param string $query The string to search for
+     * @param string $query String to search for
      * @return array
      */
     public function search($query) {
@@ -73,7 +75,7 @@ class mod_surveypro_admin_page_manage_surveypro_plugins extends admin_externalpa
         }
         if ($found) {
             $result = new stdClass();
-            $result->page     = $this;
+            $result->page = $this;
             $result->settings = array();
             return array($this->name => $result);
         } else {
@@ -91,17 +93,25 @@ class mod_surveypro_admin_page_manage_surveypro_plugins extends admin_externalpa
  */
 class mod_surveypro_plugin_manager {
 
-    /** @var object the url of the manage submission plugin page */
+    /**
+     * @var object Url of the manage submission plugin page
+     */
     private $pageurl;
-    /** @var string any error from the current action */
+
+    /**
+     * @var string Any error from the current action
+     */
     private $error = '';
-    /** @var string either submission or feedback */
+
+    /**
+     * @var string Either submission or feedback
+     */
     private $subtype = '';
 
     /**
      * Constructor for this surveypro plugin manager
      *
-     * @param string $subtype - either surveyprofield, surveyproformat, surveyprotemplate or surveyproreport
+     * @param string $subtype Either surveyprofield, surveyproformat, surveyprotemplate or surveyproreport
      */
     public function __construct($subtype) {
         $this->pageurl = new moodle_url('/mod/surveypro/adminmanageplugins.php', array('subtype' => $subtype));
@@ -298,7 +308,7 @@ class mod_surveypro_plugin_manager {
     /**
      * Delete the database and files associated with this plugin.
      *
-     * @param string $plugin - The type of the plugin to delete
+     * @param string $plugin Type of the plugin to delete
      * @return string the name of the next page to display
      */
     public function delete_plugin($plugin) {
@@ -341,7 +351,7 @@ class mod_surveypro_plugin_manager {
     /**
      * Show the page that gives the details of the plugin that was just deleted.
      *
-     * @param string $plugin - The plugin that was just deleted
+     * @param string $plugin Plugin that was just deleted
      * @return void
      */
     private function view_plugin_deleted($plugin) {
@@ -362,7 +372,7 @@ class mod_surveypro_plugin_manager {
     /**
      * Show the page that asks the user to confirm they want to delete a plugin.
      *
-     * @param string $plugin - The plugin that will be deleted
+     * @param string $plugin Plugin that will be deleted
      * @return void
      */
     private function view_confirm_delete($plugin) {
@@ -382,7 +392,7 @@ class mod_surveypro_plugin_manager {
     /**
      * Hide this plugin.
      *
-     * @param string $plugin - The plugin to hide
+     * @param string $plugin Plugin to hide
      * @return string The next page to display
      */
     public function hide_plugin($plugin) {
@@ -393,7 +403,7 @@ class mod_surveypro_plugin_manager {
     /**
      * Show this plugin.
      *
-     * @param string $plugin - The plugin to show
+     * @param string $plugin Plugin to show
      * @return string The next page to display
      */
     public function show_plugin($plugin) {
@@ -404,8 +414,8 @@ class mod_surveypro_plugin_manager {
     /**
      * This is the entry point for this controller class.
      *
-     * @param string $action - The action to perform
-     * @param string $plugin - Optional name of a plugin type to perform the action on
+     * @param string $action Action to perform
+     * @param string $plugin Optional name of a plugin type to perform the action on
      * @return void
      */
     public function execute($action, $plugin) {
@@ -437,10 +447,10 @@ class mod_surveypro_plugin_manager {
     /**
      * This function adds plugin pages to the navigation menu.
      *
-     * @param string $subtype - The type of plugin (submission or feedback)
-     * @param part_of_admin_tree $admin - The handle to the admin menu
-     * @param admin_settingpage $settings - The handle to current node in the navigation tree
-     * @param stdClass|plugininfo_mod $module - The handle to the current module
+     * @param string $subtype Type of plugin (submission or feedback)
+     * @param part_of_admin_tree $admin Handle to the admin menu
+     * @param admin_settingpage $settings Handle to current node in the navigation tree
+     * @param stdClass|plugininfo_mod $module Handle to the current module
      * @return void
      */
     public static function add_admin_surveypro_plugin_settings($subtype,

@@ -68,7 +68,7 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
     /**
      * Process a surveypro restore.
      *
-     * @param object $data The data in object form
+     * @param object $data Data in object form
      * @return void
      */
     protected function process_surveypro($data) {
@@ -95,7 +95,7 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
 
     /**
      * Process an item restore
-     * @param object $data The data in object form
+     * @param object $data Data in object form
      *
      * @return void
      */
@@ -114,7 +114,7 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
 
     /**
      * Process a submission restore
-     * @param object $data The data in object form
+     * @param object $data Data in object form
      *
      * @return void
      */
@@ -135,7 +135,7 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
 
     /**
      * Process an answer restore
-     * @param object $data The data in object form
+     * @param object $data Data in object form
      *
      * @return void
      */

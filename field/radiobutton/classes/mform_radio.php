@@ -15,12 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * radio type form element
+ * radio mform element
  *
- * Contains HTML class for a radio type element
+ * Extends the core mform class for a radio type element
  *
- * @package   core_form
- * @copyright 2006 Jamie Pratt <me@jamiep.org>
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -29,24 +29,24 @@ global $CFG;
 require_once($CFG->libdir.'/form/radio.php');
 
 /**
- * radio type form element
+ * radio form element
  *
  * HTML class for a radio type element
  *
- * @package   core_form
- * @category  form
- * @copyright 2006 Jamie Pratt <me@jamiep.org>
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_surveypro_mform_radio extends MoodleQuickForm_radio {
+
     /**
      * Class constructor.
      *
-     * @param string $elementName (optional) name of the radio element
-     * @param string $elementLabel (optional) label for radio element
-     * @param string $text (optional) Text to put after the radio element
-     * @param string $value (optional) default value
-     * @param mixed $attributes (optional) Either a typical HTML attribute string
+     * @param string $elementName Optional name of the radio element
+     * @param string $elementLabel Optional label for radio element
+     * @param string $text Optional Text to put after the radio element
+     * @param string $value Optional default value
+     * @param mixed $attributes Optional Either a typical HTML attribute string
      *              or an associative array
      */
     public function __construct($elementName=null, $elementLabel=null, $text=null, $value=null, $attributes=null) {

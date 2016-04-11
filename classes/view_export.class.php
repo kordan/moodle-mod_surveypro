@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * The exportmanager class
+ *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -23,26 +25,31 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * The base class representing a field
+ * The class exporting gathered data
+ *
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_surveypro_exportmanager {
+
     /**
-     * @var object, the course module object
+     * @var object Course module object
      */
     protected $cm;
 
     /**
-     * @var object, the context object
+     * @var object Context object
      */
     protected $context;
 
     /**
-     * @var object, the surveypro object
+     * @var object Surveypro object
      */
     protected $surveypro;
 
     /**
-     * $formdata: the form content as submitted by the user
+     * @var object Form content as submitted by the user
      */
     public $formdata = null;
 
@@ -60,7 +67,7 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * trigger_event
+     * Trigger_event
      *
      * @return void
      */
@@ -71,9 +78,9 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * export_get_sql
+     * Export_get_sql
      *
-     * @param optional $forceuserid
+     * @param bool $forceuserid
      * @return void
      */
     public function export_get_sql($forceuserid=false) {
@@ -154,7 +161,7 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * surveypro_export
+     * Surveypro_export
      *
      * @return $exporterror
      */
@@ -196,9 +203,9 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * export_to_csv
+     * Export_to_csv
      *
-     * @param $richsubmissions
+     * @param array $richsubmissions
      * @return void
      */
     public function export_to_csv($richsubmissions) {
@@ -296,9 +303,9 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * export_to_xls
+     * Export_to_xls
      *
-     * @param $richsubmissions
+     * @param array $richsubmissions
      * @return void
      */
     public function export_to_xls($richsubmissions) {
@@ -381,7 +388,7 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * export_get_field_list
+     * Export_get_field_list
      * get the list of the fields of this surveypro
      *
      * @return void
@@ -415,9 +422,9 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * export_add_ownerid
+     * Export_add_ownerid
      *
-     * @param $richsubmission
+     * @param array $richsubmission
      * @return $owner
      */
     public function export_add_ownerid($richsubmission) {
@@ -429,10 +436,10 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * export_add_names
+     * Export_add_names
      *
-     * @param $richsubmission
-     * @return $names
+     * @param array $richsubmission
+     * @return array $names
      */
     public function export_add_names($richsubmission) {
         $names = array();
@@ -445,10 +452,10 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * export_add_dates
+     * Export_add_dates
      *
-     * @param $richsubmission
-     * @return $dates
+     * @param array $richsubmission
+     * @return array $dates
      */
     public function export_add_dates($richsubmission) {
         $dates = array();
@@ -474,10 +481,10 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * export_close_record
+     * Export_close_record
      *
-     * @param $recordtoexport
-     * @param $worksheet
+     * @param array $recordtoexport
+     * @param object $worksheet
      * @return void
      */
     public function export_close_record($recordtoexport, $worksheet) {
@@ -492,9 +499,9 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * decode_content
+     * Decode_content
      *
-     * @param $richsubmission
+     * @param array $richsubmission
      * @return void
      */
     public function decode_content($richsubmission) {
@@ -513,7 +520,7 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * attachments_downloadbyuser
+     * Attachments_downloadbyuser
      *
      * @return void
      */
@@ -606,7 +613,6 @@ class mod_surveypro_exportmanager {
             $fp = get_file_packer('application/zip');
             $fp->archive_to_pathname($filelist, $exportfile);
 
-            // if (false) {
             foreach ($filelist as $file) {
                 unlink($file);
             }
@@ -615,7 +621,6 @@ class mod_surveypro_exportmanager {
                 rmdir($CFG->tempdir.$dir);
             }
             rmdir($tempbasedir);
-            // }
 
             $this->makezip_available($exportfile);
         } else {
@@ -624,7 +629,7 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * attachments_downloadbyitem
+     * Attachments_downloadbyitem
      *
      * @return void
      */
@@ -738,9 +743,9 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * makezip_available
+     * Makezip_available
      *
-     * @param $exportfile: the file to make available
+     * @param string $exportfile File to make available
      * @return void
      */
     public function makezip_available($exportfile) {

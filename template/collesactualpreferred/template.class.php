@@ -26,8 +26,9 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/surveypro/template/collesactualpreferred/lib.php');
 
 class mod_surveypro_template_collesactualpreferred {
+
     /**
-     * apply_template_settings
+     * Apply_template_settings
      *
      * @param $tablename
      * @param $record

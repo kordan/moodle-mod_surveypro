@@ -15,12 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'field_textarea', language 'en', branch 'MOODLE_31_STABLE'
+ * Strings for component 'surveyprofield_textarea', language 'en', branch 'MOODLE_31_STABLE'
  *
- * @package    surveypro
- * @subpackage textarea
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   surveyprofield_textarea
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $string['hasmaxlength'] = 'Il testo deve essere al massimo di {$a} caratteri';

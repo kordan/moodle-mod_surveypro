@@ -15,7 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package   mod_surveypro
+ * This file contains the mod_surveypro_format_fieldset
+ *
+ * @package   surveyproformat_fieldset
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -25,6 +27,13 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/surveypro/classes/itembase.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/format/fieldset/lib.php');
 
+/**
+ * Class to manage each aspect of the fieldset item
+ *
+ * @package   surveyproformat_fieldset
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class mod_surveypro_format_fieldset extends mod_surveypro_itembase {
 
     /**
@@ -33,7 +42,7 @@ class mod_surveypro_format_fieldset extends mod_surveypro_itembase {
     protected $content;
 
     /**
-     * static canbeparent
+     * @var bool canbeparent
      */
     protected static $canbeparent = false;
 
@@ -45,8 +54,8 @@ class mod_surveypro_format_fieldset extends mod_surveypro_itembase {
      *
      * @param stdClass $cm
      * @param object $surveypro
-     * @param int $itemid - optional surveypro_item ID
-     * @param bool $evaluateparentcontent - to include $item->parentcontent (as decoded by the parent item) too.
+     * @param int $itemid Optional item ID
+     * @param bool $evaluateparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise.
      */
     public function __construct($cm, $surveypro, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $surveypro, $itemid, $evaluateparentcontent);
@@ -60,7 +69,7 @@ class mod_surveypro_format_fieldset extends mod_surveypro_itembase {
         // Other element specific properties.
         // No properties here.
 
-        // Override properties depending from $surveypro settings..
+        // Override properties depending from $surveypro settings.
         // No properties here.
 
         // List of fields I do not want to have in the item definition form.
@@ -78,10 +87,10 @@ class mod_surveypro_format_fieldset extends mod_surveypro_itembase {
     }
 
     /**
-     * item_load
+     * Item load
      *
-     * @param $itemid
-     * @param bool $evaluateparentcontent - to include $item->parentcontent (as decoded by the parent item) too.
+     * @param int $itemid
+     * @param bool $evaluateparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise.
      * @return void
      */
     public function item_load($itemid, $evaluateparentcontent) {
@@ -94,9 +103,9 @@ class mod_surveypro_format_fieldset extends mod_surveypro_itembase {
     }
 
     /**
-     * item_save
+     * Item save
      *
-     * @param $record
+     * @param object $record
      * @return void
      */
     public function item_save($record) {
@@ -112,7 +121,7 @@ class mod_surveypro_format_fieldset extends mod_surveypro_itembase {
     }
 
     /**
-     * item_get_pdf_template
+     * Item_get_pdf_template
      *
      * @return the template to use at response report creation
      */
@@ -121,7 +130,7 @@ class mod_surveypro_format_fieldset extends mod_surveypro_itembase {
     }
 
     /**
-     * item_get_canbeparent
+     * Item get can be parent
      *
      * @return the content of the static property "canbeparent"
      */
@@ -130,7 +139,7 @@ class mod_surveypro_format_fieldset extends mod_surveypro_itembase {
     }
 
     /**
-     * item_add_mandatory_plugin_fields
+     * Item add mandatory plugin fields
      * Copy mandatory fields to $record.
      *
      * @param stdClass $record
@@ -141,7 +150,7 @@ class mod_surveypro_format_fieldset extends mod_surveypro_itembase {
     }
 
     /**
-     * item_get_multilang_fields
+     * Item_get_multilang_fields
      * make the list of multilang plugin fields
      *
      * @return array of felds
@@ -153,8 +162,7 @@ class mod_surveypro_format_fieldset extends mod_surveypro_itembase {
     }
 
     /**
-     * item_get_plugin_schema
-     * Return the xml schema for surveypro_<<plugin>> table.
+     * Return the xml schema for surveypro_<<plugin>> table
      *
      * @return string $schema
      */
@@ -178,12 +186,12 @@ EOS;
     // MARK userform
 
     /**
-     * userform_mform_element
+     * Define the mform element for the outform and the searchform
      *
      * @param moodleform $mform
-     * @param $searchform
-     * @param $readonly
-     * @param $submissionid
+     * @param bool $searchform
+     * @param bool $readonly
+     * @param int $submissionid
      * @return void
      */
     public function userform_mform_element($mform, $searchform, $readonly=false, $submissionid=0) {
@@ -193,12 +201,12 @@ EOS;
     }
 
     /**
-     * userform_mform_validation
+     * Perform outform and searchform data validation
      *
-     * @param $data
-     * @param &$errors
-     * @param $surveypro
-     * @param $searchform
+     * @param array $data
+     * @param array $errors
+     * @param array $surveypro
+     * @param bool $searchform
      * @return void
      */
     public function userform_mform_validation($data, &$errors, $surveypro, $searchform) {
@@ -206,11 +214,9 @@ EOS;
     }
 
     /**
-     * this method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time
+     * This method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time
      *
-     * userform_set_prefill
-     *
-     * @param $fromdb
+     * @param object $fromdb
      * @return void
      */
     public function userform_set_prefill($fromdb) {
@@ -220,22 +226,20 @@ EOS;
     }
 
     /**
-     * userform_db_to_export
-     * strating from the info stored in the database, this function returns the corresponding content for the export file
+     * Starting from the info stored into $answer, this function returns the corresponding content for the export file
      *
-     * @param $answers
-     * @param $format
-     * @return void
+     * @param object $answer
+     * @param string $format
+     * @return string - the string for the export file
      */
     public function userform_db_to_export($answer, $format='') {
         return '';
     }
 
     /**
-     * userform_get_root_elements_name
-     * returns an array with the names of the mform element added using $mform->addElement or $mform->addGroup
+     * Returns an array with the names of the mform element added using $mform->addElement or $mform->addGroup
      *
-     * @return void
+     * @return array
      */
     public function userform_get_root_elements_name() {
         $elementnames = array($this->itemname);

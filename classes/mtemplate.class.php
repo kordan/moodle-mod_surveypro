@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Surveypro mastertemplate class.
+ *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -26,14 +28,22 @@ define('SURVEYPROTEMPLATE_NAMEPLACEHOLDER', '00templateNamePlaceholder00');
 
 require_once($CFG->dirroot.'/mod/surveypro/classes/templatebase.class.php');
 
+/**
+ * The class representing a master tempalete
+ *
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
+
     /**
-     * $langtree
+     * @var array, $langtree
      */
     protected $langtree = array();
 
     /**
-     * download_mtemplate
+     * Download master template
      *
      * @return void
      */
@@ -52,7 +62,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * generate_mtemplate
+     * Generate master template
      *
      * @return void
      */
@@ -224,7 +234,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * write_template_content
+     * Write master template content
      *
      * @param boolean $visiblesonly
      * @return void
@@ -355,12 +365,12 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * xml_get_field_content
+     * Xml_get_field_content
      *
-     * @param $item
-     * @param $dummyplugin
-     * @param $field
-     * @param $multilangfields
+     * @param object $item
+     * @param string $dummyplugin
+     * @param string $field
+     * @param array $multilangfields
      * @return void
      */
     public function xml_get_field_content($item, $dummyplugin, $field, $multilangfields) {
@@ -389,9 +399,9 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * apply_template
+     * Apply_template
      *
-     * @return null
+     * @return void
      */
     public function apply_template() {
         global $DB, $CFG;
@@ -420,9 +430,9 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * friendly_stop
+     * Friendly_stop
      *
-     * @return null
+     * @return void
      */
     public function friendly_stop() {
         global $OUTPUT;
@@ -441,9 +451,8 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * add_items_from_template
+     * Add_items_from_template
      *
-     * @param $templateid
      * @return void
      */
     public function add_items_from_template() {
@@ -574,11 +583,11 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * build_langtree
+     * Build_langtree
      *
-     * @param $dummyplugin
-     * @param $multilangfields
-     * @param $item
+     * @param string $dummyplugin
+     * @param array $multilangfields
+     * @param object $item
      * @return void
      */
     public function build_langtree($dummyplugin, $multilangfields, $item) {
@@ -597,7 +606,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * extract_original_string
+     * Extract_original_string
      *
      * @return void
      */
@@ -613,9 +622,9 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * trigger_event
+     * Trigger_event
      *
-     * @param string $event: event to trigger
+     * @param string $eventname Event to trigger
      * @return void
      */
     public function trigger_event($eventname) {
@@ -638,31 +647,9 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     // MARK get
 
     /**
-     * get_used_plugin
+     * Get translated strings
      *
-     * @return void
-     */
-    public function get_used_plugin() {
-        global $DB;
-
-        // STEP 01: make a list of used plugins.
-        $sql = 'SELECT si.plugin
-                FROM {surveypro_item} si
-                WHERE si.surveyproid = :surveyproid
-                GROUP BY si.plugin';
-        $whereparams = array('surveyproid' => $this->surveypro->id);
-        $templateplugins = $DB->get_records_sql($sql, $whereparams);
-
-        // STEP 02: add, at top of $templateplugins, the fictitious 'item' plugin.
-        $base = new stdClass();
-        $base->plugin = 'item';
-        return array_merge(array('item' => $base), $templateplugins);
-    }
-
-    /**
-     * get_translated_strings
-     *
-     * @param $userlang
+     * @param string $userlang
      * @return void
      */
     public function get_translated_strings($userlang) {
