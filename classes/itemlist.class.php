@@ -2063,16 +2063,6 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * Set saveasnew.
-     *
-     * @param int $saveasnew
-     * @return void
-     */
-    public function set_saveasnew($saveasnew) {
-        $this->saveasnew = $saveasnew;
-    }
-
-    /**
      * Set hassubmissions.
      *
      * @param int $hassubmissions

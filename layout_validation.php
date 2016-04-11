@@ -82,9 +82,6 @@ $itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro);
 // Property itemeditingfeedback is useless (it is set to its default), do not set it
 // $itemlistman->set_itemeditingfeedback(SURVEYPRO_NOFEEDBACK);
 
-// Property saveasnew is useless (it is set to its default), do not set it
-// $itemlistman->set_saveasnew(0);
-
 // Property hassubmissions is useless (it is set to its default), do not set it.
 // $itemlistman->set_hassubmissions($hassubmissions);
 

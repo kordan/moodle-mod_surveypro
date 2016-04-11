@@ -83,7 +83,6 @@ $itemlistman->set_confirm($confirm);
 $itemlistman->set_nextindent($nextindent);
 $itemlistman->set_parentid($parentid);
 $itemlistman->set_itemeditingfeedback($itemeditingfeedback);
-$itemlistman->set_saveasnew($saveasnew);
 $itemlistman->set_hassubmissions($hassubmissions);
 $itemlistman->set_itemcount($itemcount);
 
