@@ -610,11 +610,11 @@ class mod_surveypro_submissionmanager {
 
         foreach ($perstatus as $status => $detail) {
             if ($detail->status == SURVEYPRO_STATUSCLOSED) {
-                $closedsubmission = $detail->submissions
+                $closedsubmission = $detail->submissions;
                 $closedusers = $detail->distinctusers;
             }
             if ($detail->status == SURVEYPRO_STATUSINPROGRESS) {
-                $inprogresssubmission = $detail->submissions
+                $inprogresssubmission = $detail->submissions;
                 $inprogressuser = $detail->distinctusers;
             }
         }
