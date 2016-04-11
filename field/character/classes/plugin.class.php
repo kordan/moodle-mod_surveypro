@@ -492,7 +492,7 @@ EOS;
                             $errors[$errorkey] = get_string('uerr_badlength', 'surveyprofield_character');
                         }
 
-                        if (!surveyprofield_character_validate_pattern($data[$this->itemname], $this->pattern_text)) {
+                        if (!surveyprofield_character_validate_pattern($data[$this->itemname], $this->patterntext)) {
                             $errors[$errorkey] = get_string('uerr_nopatternmatch', 'surveyprofield_character');
                         }
                         break;
