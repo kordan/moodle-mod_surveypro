@@ -28,6 +28,7 @@ global $CFG;
 
 require_once($CFG->libdir.'/form/radio.php');
 
+// @codingStandardsIgnoreFile
 /**
  * radio form element
  *
@@ -40,7 +41,7 @@ require_once($CFG->libdir.'/form/radio.php');
 class mod_surveypro_mform_radio extends MoodleQuickForm_radio {
 
     /**
-     * Class constructor.
+     * Class constructor
      *
      * @param string $elementName Optional name of the radio element
      * @param string $elementLabel Optional label for radio element

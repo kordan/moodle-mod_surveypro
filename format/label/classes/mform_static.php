@@ -30,6 +30,8 @@ global $CFG;
 
 require_once($CFG->libdir.'/form/static.php');
 
+// @codingStandardsIgnoreFile
+
 /**
  * static form element
  *
@@ -44,14 +46,15 @@ class mod_surveypro_mform_static extends MoodleQuickForm_static {
     /**
      * Class constructor
      *
-     * @param string $elementName
-     * @param string $elementLabel
-     * @param array $attributes
-     * @param array $options
+     * @param string $elementName Select name attribute
+     * @param mixed $elementLabel Label(s) for the select
+     * @param mixed $options Data to be used to populate options
+     * @param mixed $attributes Either a typical HTML attribute string
+     *              or an associative array
      */
-    public function __construct($elementName=null, $elementLabel=null, $text=null, $options=null) {
-        parent::__construct($elementName, $elementLabel, $text);
-        $this->_options['class'] = !isset($options['class']) ? 'indent-0' : $options['class'];
+    public function __construct($elementName=null, $elementLabel=null, $options=null, $attributes=null) {
+        parent::__construct($elementName, $elementLabel, $options);
+        $this->_options['class'] = !isset($attributes['class']) ? 'indent-0' : $attributes['class'];
     }
 
     /**
