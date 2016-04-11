@@ -106,22 +106,22 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
      * @var string $defaultvalue, the value of the field when the form is initially displayed.
      */
     protected $defaultvalue;
-    protected $defaultvalue_month;
-    protected $defaultvalue_year;
+    protected $defaultvaluemonth;
+    protected $defaultvalueyear;
 
     /**
      * $lowerbound = the minimum allowed short date
      */
     protected $lowerbound;
-    protected $lowerbound_month;
-    protected $lowerbound_year;
+    protected $lowerboundmonth;
+    protected $lowerboundyear;
 
     /**
      * $upperbound = the maximum allowed short date
      */
     protected $upperbound;
-    protected $upperbound_month;
-    protected $upperbound_year;
+    protected $upperboundmonth;
+    protected $upperboundyear;
 
     /**
      * @var bool canbeparent
@@ -270,8 +270,8 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
             }
             if (!empty($this->{$field})) {
                 $shortdatearray = $this->item_split_unix_time($this->{$field});
-                $this->{$field.'_month'} = $shortdatearray['mon'];
-                $this->{$field.'_year'} = $shortdatearray['year'];
+                $this->{$field.'month'} = $shortdatearray['mon'];
+                $this->{$field.'year'} = $shortdatearray['year'];
             }
         }
     }
@@ -447,7 +447,7 @@ EOS;
         for ($i = 1; $i <= 12; $i++) {
             $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
         }
-        $years += array_combine(range($this->lowerbound_year, $this->upperbound_year), range($this->lowerbound_year, $this->upperbound_year));
+        $years += array_combine(range($this->lowerboundyear, $this->upperboundyear), range($this->lowerboundyear, $this->upperboundyear));
         // End of: element values
 
         // Begin of: mform element.

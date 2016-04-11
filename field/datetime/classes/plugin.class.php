@@ -111,31 +111,31 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
      * @var string $defaultvalue, the value of the field when the form is initially displayed.
      */
     protected $defaultvalue;
-    protected $defaultvalue_year;
-    protected $defaultvalue_month;
-    protected $defaultvalue_day;
-    protected $defaultvalue_hour;
-    protected $defaultvalue_minute;
+    protected $defaultvalueyear;
+    protected $defaultvaluemonth;
+    protected $defaultvalueday;
+    protected $defaultvaluehour;
+    protected $defaultvalueminute;
 
     /**
      * $lowerbound = the minimum allowed date and time
      */
     protected $lowerbound;
-    protected $lowerbound_year;
-    protected $lowerbound_month;
-    protected $lowerbound_day;
-    protected $lowerbound_hour;
-    protected $lowerbound_minute;
+    protected $lowerboundyear;
+    protected $lowerboundmonth;
+    protected $lowerboundday;
+    protected $lowerboundhour;
+    protected $lowerboundminute;
 
     /**
      * $upperbound = the maximum allowed date and time
      */
     protected $upperbound;
-    protected $upperbound_year;
-    protected $upperbound_month;
-    protected $upperbound_day;
-    protected $upperbound_hour;
-    protected $upperbound_minute;
+    protected $upperboundyear;
+    protected $upperboundmonth;
+    protected $upperboundday;
+    protected $upperboundhour;
+    protected $upperboundminute;
 
     /**
      * @var bool canbeparent
@@ -289,6 +289,8 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
     /**
      * Prepare values for the mform of this item
      *
+     * translates the datetime class property $fieldlist in $field.'year' and $field.'month' and so forth
+     *
      * @return void
      */
     public function item_custom_fields_to_form() {
@@ -309,11 +311,11 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
             }
             if (!empty($this->{$field})) {
                 $datetimearray = $this->item_split_unix_time($this->{$field});
-                $this->{$field.'_year'} = $datetimearray['year'];
-                $this->{$field.'_month'} = $datetimearray['mon'];
-                $this->{$field.'_day'} = $datetimearray['mday'];
-                $this->{$field.'_hour'} = $datetimearray['hours'];
-                $this->{$field.'_minute'} = $datetimearray['minutes'];
+                $this->{$field.'year'} = $datetimearray['year'];
+                $this->{$field.'month'} = $datetimearray['mon'];
+                $this->{$field.'day'} = $datetimearray['mday'];
+                $this->{$field.'hour'} = $datetimearray['hours'];
+                $this->{$field.'minute'} = $datetimearray['minutes'];
             }
         }
     }
@@ -509,7 +511,7 @@ EOS;
         for ($i = 1; $i <= 12; $i++) {
             $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B"); // January, February, March...
         }
-        $years += array_combine(range($this->lowerbound_year, $this->upperbound_year), range($this->lowerbound_year, $this->upperbound_year));
+        $years += array_combine(range($this->lowerboundyear, $this->upperboundyear), range($this->lowerboundyear, $this->upperboundyear));
         for ($i = 0; $i < 24; $i++) {
             $hours[$i] = sprintf("%02d", $i);
         }

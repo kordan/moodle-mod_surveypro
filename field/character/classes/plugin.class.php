@@ -107,7 +107,7 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
     /**
      * @var string $pattern_text, required pattern for the text. Mix of: 'A', 'a', '0'
      */
-    protected $pattern_text;
+    protected $patterntext;
 
     /**
      * @var int $minlength, the minimum allowed length
@@ -237,7 +237,7 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
             case SURVEYPROFIELD_CHARACTER_URLPATTERN:
                 break;
             default:
-                $this->pattern_text = $this->pattern;
+                $this->patterntext = $this->pattern;
                 $this->pattern = SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN;
         }
     }
@@ -298,7 +298,7 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
     public function item_get_generic_property($field) {
         if ($field == 'pattern') {
             if ($this->pattern == SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN) {
-                return $this->pattern_text;
+                return $this->patterntext;
             } else {
                 return $this->pattern;
             }
@@ -368,6 +368,15 @@ EOS;
     /**
      * Define the mform element for the outform and the searchform
      *
+     * Cool for browsers supporting html 5.
+     * if ($this->pattern == SURVEYPROFIELD_CHARACTER_EMAILPATTERN) {
+     *     $attributes['type'] = 'email';
+     * }
+     * if ($this->pattern == SURVEYPROFIELD_CHARACTER_URLPATTERN) {
+     *     $attributes['type'] = 'url';
+     * }
+     * But it doesn't work because "type" property is reserved to mform library
+     *
      * @param moodleform $mform
      * @param bool $searchform
      * @param bool $readonly
@@ -384,16 +393,6 @@ EOS;
         $thresholdsize = 37;
         $lengthtochar = 1.3;
         $attributes = array('class' => 'indent-'.$this->indent, 'id' => $idprefix);
-        /**
-         * Cool for browsers supporting html 5.
-         * if ($this->pattern == SURVEYPROFIELD_CHARACTER_EMAILPATTERN) {
-         *     $attributes['type'] = 'email';
-         * }
-         * if ($this->pattern == SURVEYPROFIELD_CHARACTER_URLPATTERN) {
-         *     $attributes['type'] = 'url';
-         * }
-         * But it doesn't work because "type" property is reserved to mform library
-         */
         if (!empty($this->maxlength)) {
             $attributes['maxlength'] = $this->maxlength;
             if ($this->maxlength < $thresholdsize) {
@@ -489,7 +488,7 @@ EOS;
                         // "*" UPPER case, LOWER case or any special characters like '@', ',', '%', '5', ' ' or whatever.
                         // "0" numbers.
 
-                        if ($answerlength != strlen($this->pattern_text)) {
+                        if ($answerlength != strlen($this->patterntext)) {
                             $errors[$errorkey] = get_string('uerr_badlength', 'surveyprofield_character');
                         }
 
@@ -547,7 +546,7 @@ EOS;
                 $arrayinstruction[] = get_string('restrictions_url', 'surveyprofield_character');
                 break;
             case SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN:
-                $arrayinstruction[] = get_string('restrictions_custom', 'surveyprofield_character', $this->pattern_text);
+                $arrayinstruction[] = get_string('restrictions_custom', 'surveyprofield_character', $this->patterntext);
                 break;
             case SURVEYPROFIELD_CHARACTER_FREEPATTERN:
                 break;

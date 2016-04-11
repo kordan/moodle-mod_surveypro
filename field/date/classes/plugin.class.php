@@ -106,25 +106,25 @@ class mod_surveypro_field_date extends mod_surveypro_itembase {
      * @var string $defaultvalue, the value of the field when the form is initially displayed.
      */
     protected $defaultvalue;
-    protected $defaultvalue_year;
-    protected $defaultvalue_month;
-    protected $defaultvalue_day;
+    protected $defaultvalueyear;
+    protected $defaultvaluemonth;
+    protected $defaultvalueday;
 
     /**
      * $lowerbound = the minimum allowed date
      */
     protected $lowerbound;
-    protected $lowerbound_year;
-    protected $lowerbound_month;
-    protected $lowerbound_day;
+    protected $lowerboundyear;
+    protected $lowerboundmonth;
+    protected $lowerboundday;
 
     /**
      * $upperbound = the maximum allowed date
      */
     protected $upperbound;
-    protected $upperbound_year;
-    protected $upperbound_month;
-    protected $upperbound_day;
+    protected $upperboundyear;
+    protected $upperboundmonth;
+    protected $upperboundday;
 
     /**
      * @var bool canbeparent
@@ -275,6 +275,8 @@ class mod_surveypro_field_date extends mod_surveypro_itembase {
     /**
      * Prepare values for the mform of this item
      *
+     * translates the date class property $fieldlist in $field.'year', $field.'month' and $field.'day'
+     *
      * @return void
      */
     public function item_custom_fields_to_form() {
@@ -295,9 +297,9 @@ class mod_surveypro_field_date extends mod_surveypro_itembase {
             }
             if (!empty($this->{$field})) {
                 $datearray = $this->item_split_unix_time($this->{$field});
-                $this->{$field.'_year'} = $datearray['year'];
-                $this->{$field.'_month'} = $datearray['mon'];
-                $this->{$field.'_day'} = $datearray['mday'];
+                $this->{$field.'year'} = $datearray['year'];
+                $this->{$field.'month'} = $datearray['mon'];
+                $this->{$field.'day'} = $datearray['mday'];
             }
         }
     }
@@ -480,7 +482,7 @@ EOS;
         for ($i = 1; $i <= 12; $i++) {
             $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
         }
-        $years += array_combine(range($this->lowerbound_year, $this->upperbound_year), range($this->lowerbound_year, $this->upperbound_year));
+        $years += array_combine(range($this->lowerboundyear, $this->upperboundyear), range($this->lowerboundyear, $this->upperboundyear));
         // End of: element values
 
         // Begin of: mform element.
