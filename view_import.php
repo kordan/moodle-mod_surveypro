@@ -62,7 +62,7 @@ $importform = new mod_surveypro_importform($formurl);
 if ($importman->formdata = $importform->get_data()) {
     $errormessage = $importman->import_csv();
 
-    if ($errormessage === false) {
+    if (empty($errormessage)) {
         $redirecturl = new moodle_url('/mod/surveypro/view.php', array('s' => $surveypro->id));
         redirect($redirecturl);
     }
@@ -80,7 +80,7 @@ echo $OUTPUT->header();
 
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_IMPORT);
 
-if (isset($errormessage) && ($errormessage !== false)) {
+if (!empty($errormessage)) {
     if (isset($errormessage->a)) {
         $message = get_string($errormessage->key, 'mod_surveypro', $errormessage->a);
     } else {
