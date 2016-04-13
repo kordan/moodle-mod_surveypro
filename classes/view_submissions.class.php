@@ -369,7 +369,7 @@ class mod_surveypro_submissionmanager {
             case SURVEYPRO_DELETERESPONSE:
                 if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
                     $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-                    $utilityman->delete_submissions(array('surveyproid' => $this->surveypro->id));
+                    $utilityman->delete_submissions(array('surveyproid' => $this->surveypro->id, 'id' => $this->submissionid));
                     // $this->one_submission_deletion_execute();
 
                     // redirect
