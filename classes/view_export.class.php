@@ -67,7 +67,7 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * Trigger_event
+     * Trigger the all_submissions_exported event
      *
      * @return void
      */
@@ -78,12 +78,12 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * Export_get_sql
+     * Get the query to export submissions
      *
      * @param bool $forceuserid
      * @return void
      */
-    public function export_get_sql($forceuserid=false) {
+    public function get_export_sql($forceuserid=false) {
         global $USER, $COURSE;
 
         $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
@@ -165,7 +165,7 @@ class mod_surveypro_exportmanager {
      *
      * @return $exporterror
      */
-    public function surveypro_export() {
+    public function submissions_export() {
         global $DB;
 
         // Do I need to filter groups?
@@ -185,7 +185,7 @@ class mod_surveypro_exportmanager {
             die();
         }
 
-        list($richsubmissionssql, $whereparams) = $this->export_get_sql(false);
+        list($richsubmissionssql, $whereparams) = $this->get_export_sql(false);
         // echo '$richsubmissionssql = '.$richsubmissionssql.'<br />';
         // echo '$whereparams:';
         // var_dump($whereparams);
@@ -193,9 +193,9 @@ class mod_surveypro_exportmanager {
 
         if ($richsubmissions->valid()) {
             if ($this->formdata->downloadtype == SURVEYPRO_DOWNLOADXLS) {
-                $this->export_to_xls($richsubmissions);
+                $this->output_to_xls($richsubmissions);
             } else { // SURVEYPRO_DOWNLOADCSV or SURVEYPRO_DOWNLOADTSV
-                $this->export_to_csv($richsubmissions);
+                $this->output_to_csv($richsubmissions);
             }
         } else {
             return SURVEYPRO_NORECORDSFOUND;
@@ -203,12 +203,12 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * Export_to_csv
+     * output_to_csv
      *
      * @param array $richsubmissions
      * @return void
      */
-    public function export_to_csv($richsubmissions) {
+    public function output_to_csv($richsubmissions) {
         global $CFG, $DB;
 
         require_once($CFG->libdir.'/csvlib.class.php');
@@ -303,12 +303,12 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * Export_to_xls
+     * output_to_xls
      *
      * @param array $richsubmissions
      * @return void
      */
-    public function export_to_xls($richsubmissions) {
+    public function output_to_xls($richsubmissions) {
         global $CFG, $DB;
 
         require_once($CFG->libdir.'/excellib.class.php');
@@ -537,7 +537,7 @@ class mod_surveypro_exportmanager {
         $filelist = array();
 
         $fs = get_file_storage();
-        list($richsubmissionssql, $whereparams) = $this->export_get_sql(true);
+        list($richsubmissionssql, $whereparams) = $this->get_export_sql(true);
         // ORDER BY s.userid, submissionid, ud.itemid
 
         $richsubmissions = $DB->get_recordset_sql($richsubmissionssql, $whereparams);
@@ -646,7 +646,7 @@ class mod_surveypro_exportmanager {
         $filelist = array();
 
         $fs = get_file_storage();
-        list($richsubmissionssql, $whereparams) = $this->export_get_sql(true);
+        list($richsubmissionssql, $whereparams) = $this->get_export_sql(true);
         // ORDER BY ud.itemid, s.userid, submissionid
 
         $richsubmissions = $DB->get_recordset_sql($richsubmissionssql, $whereparams);

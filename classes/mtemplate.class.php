@@ -148,13 +148,11 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
                 // Replace surveyproTemplatePluginMaster with the name of the current surveypro.
                 $filecopyright = str_replace(SURVEYPROTEMPLATE_NAMEPLACEHOLDER, $pluginname, $filecopyright);
 
-                $savedstrings = $filecopyright.$this->extract_original_string();
-                // echo '<textarea rows="30" cols="100">'.$savedstrings.'</textarea>';
-                // die();
+                $savedstrings = $filecopyright.$this->get_lang_file_content();
 
                 // Create - this could be 'en' such as 'it'.
                 $filehandler = fopen($temppath.'/surveyprotemplate_'.$pluginname.'.php', 'w');
-                // Write inside all the strings.
+                // Append all the $string['xxx'] = 'yyy' rows.
                 fwrite($filehandler, $savedstrings);
                 // Close.
                 fclose($filehandler);
@@ -279,7 +277,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             $xmltable = $xmlitem->addChild('surveypro_item');
 
             if ($multilangfields = $item->item_get_multilang_fields()) { // Pagebreak and fieldset have not multilang_fields.
-                $this->build_langtree('item', $multilangfields, $item);
+                $this->build_langtree($multilangfields, $item);
             }
 
             $structure = $this->get_table_structure('surveypro_item');
@@ -365,7 +363,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Xml_get_field_content
+     * Get the content of a field for the XML file
      *
      * @param object $item
      * @param string $dummyplugin
@@ -399,7 +397,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Apply_template
+     * Apply template
      *
      * @return void
      */
@@ -430,7 +428,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Friendly_stop
+     * Display a friendly message to stop the page load under particular conditions
      *
      * @return void
      */
@@ -451,7 +449,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Add_items_from_template
+     * Actually add items coming from template to the db
      *
      * @return void
      */
@@ -469,7 +467,6 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         $templatecontent = file_get_contents($templatepath);
 
         $simplexml = new SimpleXMLElement($templatecontent);
-        // echo '<h2>Items saved in the file ('.count($simplexml->item).')</h2>';
 
         if (!$sortindexoffset = $DB->get_field('surveypro_item', 'MAX(sortindex)', array('surveyproid' => $this->surveypro->id))) {
             $sortindexoffset = 0;
@@ -482,10 +479,8 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         foreach ($simplexml->children() as $xmlitem) {
 
             // Read the attributes of the item node:
-            // <item type="field" plugin="character" version="2015123000">
             foreach ($xmlitem->attributes() as $attribute => $value) {
                 // <item type="format" plugin="label" version="2014030201">
-                // echo 'Trovo: '.$attribute.' = '.$value.'<br />';
                 if ($attribute == 'type') {
                     $currenttype = (string)$value;
                 }
@@ -583,14 +578,14 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Build_langtree
+     * Append all the field that will have content derived from the lang files
      *
      * @param string $dummyplugin
      * @param array $multilangfields
      * @param object $item
      * @return void
      */
-    public function build_langtree($dummyplugin, $multilangfields, $item) {
+    public function build_langtree($multilangfields, $item) {
         foreach ($multilangfields as $dummyplugin => $fieldnames) {
             foreach ($fieldnames as $fieldname) {
                 $component = $dummyplugin.'_'.$fieldname;
@@ -606,15 +601,17 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Extract_original_string
+     * Generate the array of strings for the lang file of the mastertemplate plugin
      *
      * @return void
      */
-    public function extract_original_string() {
+    public function get_lang_file_content() {
         $stringsastext = array();
         foreach ($this->langtree as $langbranch) {
             foreach ($langbranch as $k => $stringcontent) {
-                $stringsastext[] = '$string[\''.$k.'\'] = \''.addslashes($stringcontent).'\';';
+                // Do not use php addslashes() because it adds slashes to " too.
+                $stringcontent = str_replace("'",  "\\'", $stringcontent);
+                $stringsastext[] = '$string[\''.$k.'\'] = \''.$stringcontent.'\';';
             }
         }
 
@@ -622,7 +619,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Trigger_event
+     * Trigger the provided event
      *
      * @param string $eventname Event to trigger
      * @return void

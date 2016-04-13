@@ -64,16 +64,19 @@ class mod_surveypro_reportbase {
     }
 
     /**
-     * Restrict_templates
+     * Get the list of mastertemplates to which this report is applicable
+     *
+     * If ruturns an empty array, each report is added to admin menu
+     * If returns a non empty array, only reports listed will be added to admin menu
      *
      * @return array
      */
-    public function restrict_templates() {
+    public function allowed_templates() {
         return array();
     }
 
     /**
-     * Has_student_report
+     * Returns if this report was created for student too
      *
      * @return boolean false
      */
@@ -82,7 +85,10 @@ class mod_surveypro_reportbase {
     }
 
     /**
-     * Report_apply
+     * Return if this report applies
+     *
+     * true means: the report apply
+     * (!$this->surveypro->anonymous) means that reports applies ONLY IF user is not anonymous
      *
      * @return boolean true
      */
@@ -101,9 +107,9 @@ class mod_surveypro_reportbase {
     }
 
     /**
-     * Check_submissions
+     * Display a message if no submissions were provided
      */
-    public function check_submissions() {
+    public function nosubmissions_stop() {
         global $OUTPUT;
 
         $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);

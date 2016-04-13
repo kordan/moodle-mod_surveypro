@@ -197,7 +197,7 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
     }
 
     /**
-     * Prevent_direct_user_input
+     * Prevent direct user input
      *
      * @return void
      */

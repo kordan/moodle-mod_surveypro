@@ -51,7 +51,7 @@ class mod_surveypro_formbase {
     protected $surveypro;
 
     /**
-     * @var int ID of the saved surbey_submission
+     * @var int Id of the saved submission
      */
     protected $submissionid;
 
@@ -79,7 +79,7 @@ class mod_surveypro_formbase {
     }
 
     /**
-     * Noitem_stopexecution
+     * Stop of the page display procedure because no item is available
      *
      * @return void
      */

@@ -719,7 +719,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
         foreach ($pluginlist as $plugin) {
             require_once($CFG->dirroot.'/mod/surveypro/field/'.$plugin.'/classes/plugin.class.php');
             $itemclass = 'mod_surveypro_'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
-            $itemcanbemandatory = $itemclass::item_get_can_be_mandatory();
+            $itemcanbemandatory = $itemclass::item_uses_mandatory_dbfield();
             if ($itemcanbemandatory) {
                 $sql = 'SELECT i.id, i.parentid, i.parentvalue, i.reserved, p.required
                         FROM {surveypro_item} i
@@ -1208,7 +1208,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Prevent_direct_user_input
+     * Prevent direct user input
      *
      * @return void
      */
@@ -1325,7 +1325,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Trigger_event
+     * Trigger the submission_viewed event
      *
      * @return void
      */

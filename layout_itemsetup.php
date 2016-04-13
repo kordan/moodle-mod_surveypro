@@ -164,7 +164,7 @@ if ($hassubmissions) {
     $message = $utilityman->has_submissions_warning();
     echo $OUTPUT->notification($message, 'notifyproblem');
 }
-$itemlistman->item_fingerprint();
+$itemlistman->item_identitycard();
 
 $data = $item->get_itemform_preset();
 $itemform->set_data($data);

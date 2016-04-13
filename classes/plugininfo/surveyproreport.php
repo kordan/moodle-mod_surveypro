@@ -72,7 +72,7 @@ class surveyproreport extends base {
     }
 
     /**
-     * Is_uninstall_allowed
+     * Is uninstall allowed
      *
      * @return bool true
      */

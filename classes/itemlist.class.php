@@ -144,7 +144,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * Display_items_table
+     * Display all the items in a table
      *
      * @return void
      */
@@ -573,7 +573,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * Display_validate_relations_table
+     * Display the "validate_relations" table
      *
      * @return void
      */
@@ -756,7 +756,10 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * Add_child_node
+     * Adds elements to an array starting from initial conditions
+     *
+     * Conditions are array('hidden' => 0) OR array('reserved' => 0)
+     * Add to $nodelist all the children that will inherit the parent condition
      *
      * @param integer $nodelist
      * @param integer $sortindexnodelist
@@ -783,7 +786,10 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * Add_parent_node
+     * Adds elements to an array starting from initial conditions
+     *
+     * Conditions are array('hidden' => 1) OR array('reserved' => 1)
+     * Add to $nodelist all the parent that will inherit the child condition
      *
      * @param array $additionalcondition
      * @return void
@@ -815,7 +821,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * Reorder_items
+     * Store to the database sortindex field, the relative position at the items according to last changes
      *
      * @return void
      */
@@ -852,14 +858,14 @@ class mod_surveypro_itemlist {
             $DB->set_field('surveypro_item', 'sortindex', $replaceitem, array('id' => $itemid));
         }
 
-        // You changed item order.
-        // So, do no forget to reset items per page.
+        // You changed item order
+        // so, do not forget to reset items per page.
         $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
         $utilityman->reset_items_pages();
     }
 
     /**
-     * Display_item_editing_feedback
+     * Display a feedback for the editing teacher once an item is edited
      *
      * @return void
      */
@@ -921,11 +927,11 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * Item_fingerprint
+     * Display the identity card of the item going to be created/edited just before the beginning of the item form
      *
      * @return void
      */
-    public function item_fingerprint() {
+    public function item_identitycard() {
         global $OUTPUT;
 
         $labelsep = get_string('labelsep', 'langconfig'); // ': '
@@ -939,7 +945,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * Prevent_direct_user_input
+     * Prevent direct user input
      *
      * @return void
      */
@@ -952,7 +958,7 @@ class mod_surveypro_itemlist {
     // MARK item action execution
 
     /**
-     * Item_actions_execution
+     * Perform the actions required through icon click into items table
      *
      * @return void
      */
@@ -1025,7 +1031,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * Item_actions_feedback
+     * Provide a feedback for the actions performed in actions_execution
      *
      * @return void
      */
@@ -1072,7 +1078,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * Bulk_action_ask
+     * Ask for confirmation before a bulk action
      *
      * @param string $message
      * @return void
@@ -1100,7 +1106,7 @@ class mod_surveypro_itemlist {
     // MARK item hide
 
     /**
-     * Item_hide_execute
+     * Hide an item and (maybe) all its descendants
      *
      * @return void
      */
@@ -1125,7 +1131,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * Item_hide_feedback
+     * Provide a feedback after item_hide_execute
      *
      * @return void
      */
@@ -1177,7 +1183,7 @@ class mod_surveypro_itemlist {
     // MARK item show
 
     /**
-     * Item_show_execute
+     * Show an item and (maybe) all its ascendants
      *
      * @return void
      */
@@ -1197,7 +1203,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * Item_show_feedback
+     * Provide a feedback after item_show_execute
      *
      * @return void
      */
@@ -1246,7 +1252,7 @@ class mod_surveypro_itemlist {
     // MARK item delete
 
     /**
-     * Item_delete_execute
+     * Delete an item and (maybe) all its descendants
      *
      * @return void
      */
@@ -1285,7 +1291,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * Item_delete_feedback
+     * Provide a feedback after item_delete_execute
      *
      * @return void
      */
@@ -1354,7 +1360,7 @@ class mod_surveypro_itemlist {
     // MARK drop multilang
 
     /**
-     * Drop_multilang_execute
+     * Drop multilang from all the item
      *
      * @return void
      */
@@ -1418,7 +1424,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * Drop_multilang_feedback
+     * Provide a feedback after drop_multilang_execute
      *
      * @return void
      */
@@ -1454,7 +1460,7 @@ class mod_surveypro_itemlist {
     // MARK item make required
 
     /**
-     * Item_setrequired_execute
+     * Set the item as required
      *
      * @param integer $value Value to set
      * @return void
@@ -1472,7 +1478,7 @@ class mod_surveypro_itemlist {
     // MARK item make reserved
 
     /**
-     * Item_makereserved_execute
+     * Set the item as reserved
      *
      * the idea is this: in a chain of parent-child items,
      *     -> items available to each user (public items) can be parent of item available to each user such as item with reserved access
@@ -1501,7 +1507,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * Item_makereserved_feedback
+     * Provide a feedback after item_makereserved_execute
      *
      * the idea is this: in a chain of parent-child items,
      *     -> items available to each user (public items) can be parent of item available to each user such as item with reserved access
@@ -1556,7 +1562,7 @@ class mod_surveypro_itemlist {
     // MARK item make standard
 
     /**
-     * Item_makestandard_execute
+     * Set the item as standard (free)
      *
      * @return void
      */
@@ -1578,7 +1584,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * Item_makestandard_feedback
+     * Provide a feedback after item_makestandard_execute
      *
      * @return void
      */
@@ -1627,7 +1633,7 @@ class mod_surveypro_itemlist {
     // MARK all hide
 
     /**
-     * Hide_all_execute
+     * Hide all items
      *
      * @return void
      */
@@ -1649,7 +1655,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * Hide_all_feedback
+     * Provide a feedback after hide_all_execute
      *
      * @return void
      */
@@ -1673,7 +1679,7 @@ class mod_surveypro_itemlist {
     // MARK all show
 
     /**
-     * Show_all_execute
+     * Show all items
      *
      * @return void
      */
@@ -1696,7 +1702,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * Show_all_feedback
+     * Provide a feedback after show_all_execute
      *
      * @return void
      */
@@ -1720,7 +1726,7 @@ class mod_surveypro_itemlist {
     // MARK all delete
 
     /**
-     * Delete_all_execute
+     * Delete all items
      *
      * @return void
      */
@@ -1747,7 +1753,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * Delete_all_feedback
+     * Provide a feedback after delete_all_execute
      *
      * @return void
      */
@@ -1771,7 +1777,7 @@ class mod_surveypro_itemlist {
     // MARK visible delete
 
     /**
-     * Delete_visible_execute
+     * Delete visible items
      *
      * @return void
      */
@@ -1801,7 +1807,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * Delete_visible_feedback
+     * Provide a feedback after delete_visible_execute
      *
      * @return void
      */
@@ -1825,7 +1831,7 @@ class mod_surveypro_itemlist {
     // MARK hidden delete
 
     /**
-     * Delete_hidden_execute
+     * Delete hidden items
      *
      * @return void
      */
@@ -1855,7 +1861,7 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * Delete_hidden_feedback
+     * Provide a feedback after delete_hidden_feedback
      *
      * @return void
      */

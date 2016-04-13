@@ -106,7 +106,7 @@ class mod_surveypro_report_uploadformmanager {
     }
 
     /**
-     * Prevent_direct_user_input
+     * Prevent direct user input
      *
      * @return void
      */

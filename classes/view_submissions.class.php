@@ -346,7 +346,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * Trigger_event
+     * Trigger the all_submissions_viewed event
      *
      * @return void
      */
@@ -369,7 +369,7 @@ class mod_surveypro_submissionmanager {
             case SURVEYPRO_DELETERESPONSE:
                 if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
                     $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-                    $utilityman->delete_submissions(array('surveyproid' => $this->surveypro->id));
+                    $utilityman->delete_submissions(array('surveyproid' => $this->surveypro->id, 'id' => $this->submissionid));
                     // $this->one_submission_deletion_execute();
 
                     // redirect
@@ -688,7 +688,7 @@ class mod_surveypro_submissionmanager {
         echo html_writer::end_tag('fieldset');
     }
     /**
-     * Display_submissions_table
+     * Display the submissions table
      *
      * @return void
      */
@@ -1059,7 +1059,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * Prevent_direct_user_input
+     * Prevent direct user input
      *
      * @param bool $confirm
      * @return void

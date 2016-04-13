@@ -67,7 +67,7 @@ class mod_surveypro_importmanager {
     }
 
     /**
-     * Trigger_event
+     * Trigger the all_submissions_exported event
      *
      * @return void
      */
@@ -143,7 +143,7 @@ class mod_surveypro_importmanager {
             require_once($CFG->dirroot.'/mod/surveypro/field/'.$plugin.'/classes/plugin.class.php');
 
             $itemclass = 'mod_surveypro_'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
-            $canbemandatory = $itemclass::item_get_can_be_mandatory();
+            $canbemandatory = $itemclass::item_uses_mandatory_dbfield();
 
             $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
             if ($canbemandatory) {

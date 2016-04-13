@@ -980,9 +980,9 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
             $classname = 'mod_surveypro_report_'.$pluginname;
             $reportman = new $classname($cm, $context, $surveypro);
 
-            $restricttemplates = $reportman->restrict_templates();
+            $allowedtemplates = $reportman->allowed_templates();
 
-            if ((!$restricttemplates) || in_array($surveypro->template, $restricttemplates)) {
+            if ((!$allowedtemplates) || in_array($surveypro->template, $allowedtemplates)) {
                 if ($canaccessreports || ($reportman->has_student_report() && $canaccessownreports)) {
                     if ($reportman->report_apply()) {
                         if (!isset($reportnode)) {

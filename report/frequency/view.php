@@ -74,7 +74,9 @@ new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURV
 $reportman->stop_if_textareas_only();
 // End of: stop here if only textareas are in the surveypro.
 
-$reportman->check_submissions();
+// Begin of: stop here if no submissions are available.
+$reportman->nosubmissions_stop();
+// End of: stop here if no submissions are available.
 
 // Begin of: prepare params for the form.
 $formparams = new stdClass();

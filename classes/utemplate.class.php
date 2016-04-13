@@ -279,7 +279,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Write_template_content
+     * Write template content
      *
      * @param boolean $visiblesonly
      * @return void
@@ -406,7 +406,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Apply_template
+     * Apply template
      *
      * @return void
      */
@@ -424,6 +424,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
         $this->trigger_event('usertemplate_applied', $action);
 
+        // Begin the process executing preliminary actions.
         switch ($action) {
             case SURVEYPRO_IGNOREITEMS:
                 break;
@@ -461,6 +462,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                 debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
 
+        // Now actually add items from template.
         $this->add_items_from_template();
 
         $paramurl = array('s' => $this->surveypro->id);
@@ -469,7 +471,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Friendly_stop
+     * Display a friendly message to stop the page load under particular conditions
      *
      * @return void
      */
@@ -498,7 +500,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Add_items_from_template
+     * Actually add items from template.
      *
      * @return void
      */
@@ -625,7 +627,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Export_utemplate
+     * Make the usertemplate available for the download
      *
      * @return void
      */
@@ -663,7 +665,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Upload_utemplate
+     * Upload the usertemplate
      *
      * @return void
      */
@@ -749,7 +751,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Generate_utemplate
+     * Generate the usertemplate
      *
      * @return void
      */
@@ -785,11 +787,11 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Manage_utemplates
+     * Display the usertemplates table
      *
      * @return void
      */
-    public function manage_utemplates() {
+    public function display_usertemplates_table() {
         global $CFG, $USER, $OUTPUT;
 
         $candownloadutemplates = has_capability('mod/surveypro:downloadusertemplates', $this->context, null, true);
@@ -908,7 +910,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Create_fictitious_table
+     * Create the tool to sort usertemplates in the table
      *
      * @param array $templates
      * @param string $usersort
@@ -965,7 +967,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Delete_utemplate
+     * Delete usertemplate
      *
      * @return void
      */
@@ -1019,7 +1021,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Prevent_direct_user_input
+     * Prevent direct user input
      *
      * @return void
      */
@@ -1039,7 +1041,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Trigger_event
+     * Trigger the provided event
      *
      * @param string $eventname Event to trigger
      * @param int $action

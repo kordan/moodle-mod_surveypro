@@ -80,10 +80,11 @@ echo $OUTPUT->header();
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_REPORT);
 
 $reportman = new mod_surveypro_report_colles($cm, $context, $surveypro);
+$reportman->nosubmissions_stop();
+
 $reportman->set_group($group);
 $reportman->set_area($area);
 $reportman->set_qid($qid);
-$reportman->check_submissions();
 switch ($type) {
     case 'summary':
         $reportman->output_summarydata();

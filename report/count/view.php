@@ -57,9 +57,9 @@ echo $OUTPUT->header();
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_REPORT);
 
 $reportman = new mod_surveypro_report_count($cm, $context, $surveypro);
-$reportman->setup_outputtable();
+$reportman->nosubmissions_stop();
 
-$reportman->check_submissions();
+$reportman->setup_outputtable();
 $reportman->fetch_data();
 $reportman->output_data();
 
