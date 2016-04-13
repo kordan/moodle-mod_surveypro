@@ -74,7 +74,7 @@ new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABUTEMPLATES, SURVE
 
 $utemplateman->delete_utemplate();
 
-$utemplateman->manage_utemplates();
+$utemplateman->display_usertemplates_table();
 $utemplateman->trigger_event('all_usertemplates_viewed'); // Event: all_usertemplates_viewed.
 
 // Finish the page.

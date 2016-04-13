@@ -64,7 +64,7 @@ $exportform = new mod_surveypro_exportform($formurl, $formparams);
 
 // Begin of: manage form submission.
 if ($exportman->formdata = $exportform->get_data()) {
-    if (!$exporterror = $exportman->surveypro_export()) {
+    if (!$exporterror = $exportman->submissions_export()) {
         // All is fine!
         $exportman->trigger_event(); // Event: all_submissions_exported.
 

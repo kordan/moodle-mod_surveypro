@@ -353,7 +353,7 @@ EOS;
      *
      * @return whether the item of this plugin can be mandatory
      */
-    public static function item_get_can_be_mandatory() {
+    public static function item_uses_mandatory_dbfield() {
         return false;
     }
 

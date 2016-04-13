@@ -346,7 +346,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * Trigger_event
+     * Trigger the all_submissions_viewed event
      *
      * @return void
      */
@@ -688,7 +688,7 @@ class mod_surveypro_submissionmanager {
         echo html_writer::end_tag('fieldset');
     }
     /**
-     * Display_submissions_table
+     * Display the submissions table
      *
      * @return void
      */
@@ -1059,7 +1059,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * Prevent_direct_user_input
+     * Prevent direct user input
      *
      * @param bool $confirm
      * @return void

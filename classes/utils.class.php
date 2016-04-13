@@ -60,7 +60,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Assign_pages
+     * Assign pages to item writing them in the db
      *
      * @return void
      */
@@ -104,7 +104,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Has_input_items
+     * Return if the survey has input items
      *
      * @param int $formpage
      * @param int $returncount
@@ -134,7 +134,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Has_search_items
+     * Return if the survey has search items
      *
      * @param bool $returncount
      * @return bool|int as required by $returncount
@@ -152,7 +152,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Has_submissions
+     * Return if the survey has submissions
      *
      * @param bool $returncount
      * @param int $status
@@ -164,10 +164,10 @@ class mod_surveypro_utility {
 
         $whereparams = array('surveyproid' => $this->surveypro->id);
         if ($status != SURVEYPRO_STATUSALL) {
-            $params['status'] = $status;
+            $whereparams['status'] = $status;
         }
         if (!empty($userid)) {
-            $params['userid'] = $userid;
+            $whereparams['userid'] = $userid;
         }
 
         if ($returncount) {
@@ -178,7 +178,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Delete_items
+     * Delete items
      *
      * surveypro_item                 surveypro(field|format)_<<plugin>>
      *   id  <-----------------|        id
@@ -286,7 +286,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Delete_submissions
+     * Delete submissions
      *
      * surveypro_submission           surveypro_answer
      *   id  <-----------------|        id
@@ -383,7 +383,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Delete_answer
+     * Delete answer
      *
      * This is the rationale: an item was deleted.
      * This method drops from EACH submission of the surveypro that had the deleted item
@@ -442,7 +442,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Items_set_visibility
+     * Set the visibility to items
      *
      * @param array $whereparams
      * @param bool $visibility
@@ -469,7 +469,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Items_reindex
+     * Reindex items
      *
      * @param int $startingsortindex
      * @return void
@@ -500,7 +500,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Reset_items_pages
+     * Reset the pages assigned to items
      *
      * @return void
      */
@@ -512,7 +512,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Submissions_set_status
+     * Set the status to submissions
      *
      * @param array $whereparams
      * @param bool $status
@@ -572,7 +572,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Optional_to_required_followup
+     * Perform necessary followup to the change of obligatoriness
      *
      * @param int $itemid
      * @return void
@@ -597,7 +597,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Has_submissions_warning
+     * Display an alarming message whether there are submissions
      *
      * @return void
      */

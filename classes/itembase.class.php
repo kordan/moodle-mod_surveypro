@@ -191,8 +191,8 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Item_force_coherence
-     * verify the validity of contents of the record
+     * Verify the validity of contents of the record
+     *
      * for instance: age not greater than maximum age
      *
      * @param stdClass $record
@@ -203,6 +203,8 @@ class mod_surveypro_itembase {
     }
 
     /**
+     * Set in $record few elements that are common to each item
+     *
      * Common settings are the setting saved to surveypro_item
      * they are:
      *     id
@@ -223,7 +225,7 @@ class mod_surveypro_itembase {
      *     hideinstructions
      *     required
      *
-     * in spite of this, here I also cleanup:
+     * in addition, here I also make cleanup of:
      *     extranote
      *     parentvalue
      *
@@ -485,7 +487,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Item_validate_variablename
+     * Validate the name of the variable in order to make sure it is unique
      *
      * @param stdobject $record
      * @param integer $itemid
@@ -536,9 +538,8 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Item_manage_chains
-     * Executes surveyproitem_<<plugin>> global level actions
-     * this is the save point of the common part of each plugin
+     * Show/Hide chains of descendant/ancestors on the basis of the settings provided in the current editing process
+     * Make reserved/standard chains of descendant/ancestors on the basis of the settings provided in the current editing process
      *
      * @param integer $itemid
      * @param boolean $oldhidden
@@ -569,7 +570,6 @@ class mod_surveypro_itembase {
                     $itemlistman->item_show_execute();
                     // A chain of parent items has been shown.
                     $this->itemeditingfeedback += 4; // 1*2^2.
-
                 }
                 if ( ($oldhidden == 0) && ($newhidden == 1) ) {
                     $itemlistman->item_hide_execute();
@@ -610,7 +610,11 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Item_update_childparentvalue
+     * redefine the parentvalue of children items according to the new parameters of the just saved parent item
+     *
+     * for instance: if I removed an item from the parent item
+     * while some children were using that item as condition to appear,
+     * I drop that item from the parentvalue of that children
      *
      * @return void
      */
@@ -620,9 +624,9 @@ class mod_surveypro_itembase {
         require_once($CFG->dirroot.'/mod/surveypro/'.$this->type.'/'.$this->plugin.'/classes/plugin.class.php');
         $classname = 'mod_surveypro_'.$this->type.'_'.$this->plugin;
         if ($classname::item_get_canbeparent()) {
-            // Take care: you can not use $this->item_get_content_array(SURVEYPRO_VALUES, 'options') to evaluate values.
-            // Because $item was loaded before last save, so $this->item_get_content_array(SURVEYPRO_VALUES, 'options').
-            // Is still returning the previous values.
+            // Take care: you can not use $this->item_get_content_array(SURVEYPRO_VALUES, 'options') to evaluate values
+            // because $item was loaded before last save, so $this->item_get_content_array(SURVEYPRO_VALUES, 'options')
+            // will still return the previous values.
 
             $children = $DB->get_records('surveypro_item', array('parentid' => $this->itemid), 'id', 'id, parentvalue');
             foreach ($children as $child) {
@@ -703,7 +707,9 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Item_uses_form_page
+     * Does this item live into a form page?
+     *
+     * Each item lives into a form page but not the pagebreak
      *
      * @return boolean
      */
@@ -712,7 +718,9 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Item_left_position_allowed
+     * Does this item allow the question in left position?
+     *
+     * Each item allows the question in left position but not the rate
      *
      * @return boolean
      */
@@ -721,9 +729,14 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Item_set_editor
-     * defines presets for the editor field of surveyproitem in itembase_form.php
+     * Defines presets for the editor field of surveyproitem in itembase_form.php
+     *
      * (copied from moodle20/cohort/edit.php)
+     *
+     * Some examples:
+     * Each SURVEYPRO_ITEMFIELD has: $this->insetupform['content'] == true  and $editors == array('content').
+     * Fieldset plugin          has: $this->insetupform['content'] == true  and $editors == null.
+     * Pagebreak plugin         has: $this->insetupform['content'] == false and $editors == null.
      *
      * @return void
      */
@@ -732,10 +745,6 @@ class mod_surveypro_itembase {
             return;
         }
 
-        // Some examples.
-        // Each SURVEYPRO_ITEMFIELD has: $this->insetupform['content'] == true  and $editors == array('content').
-        // Fieldset                 has: $this->insetupform['content'] == true  and $editors == null.
-        // Pagebreak                has: $this->insetupform['content'] == false and $editors == null.
         $context = context_module::instance($this->cm->id);
         $editoroptions = array('trusttext' => true, 'subdirs' => true, 'maxfiles' => -1, 'context' => $context);
         foreach ($editors as $fieldname => $filearea) {
@@ -777,8 +786,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * $this->item_clean_textarea_fields
-     * clean the content of the field $record->{$field}
+     * clean the content of the field $record->{$field} (remove blank lines, trailing \r)
      *
      * @param object $record Item record
      * @param array $fieldlist List of fields to clean
@@ -815,11 +823,13 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Item_mandatory_is_allowed
-     * this method defines if an item can be switched to mandatory or not.
+     * This method defines if an item can be switched to mandatory or not.
      *
-     * A mandatory field is allowed ONLY if:
+     * Used by mod_surveypro_itemlist->display_items_table() to define the icon to show
+     *
+     * A field can be changed to mandatory ONLY if:
      *     -> !isset($this->defaultoption)
+     *         OR
      *     -> $this->defaultoption != SURVEYPRO_NOANSWERDEFAULT
      *
      * @return boolean
@@ -833,8 +843,8 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Item_add_mandatory_base_fields
-     * Copy mandatory fields to $record.
+     * Add to the item record that is going to be saved, items that can not be omitted with default value
+     * They, maybe, will be overwritten
      *
      * @param stdClass $record
      * @return void
@@ -891,9 +901,10 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Item_add_color_unifier
-     * credits for this amazing solution to the great Eloy Lafuente! He is a genius.
-     * add a dummy useless row (with height = 0) to the form in order to drop the color alternation
+     * Add a dummy row to the mform in order to preserve the colour alternation also for items using more than a single mform element
+     *
+     * Credits for this amazing solution to the great Eloy Lafuente! He is a genius.
+     * Add a dummy useless row (with height = 0) to the form in order to preserve the color alternation
      * mainly used for rate items, but not only
      *
      * @param moodleform $mform Form to which add the row
@@ -922,7 +933,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Item_get_generic_property
+     * Get the requested property
      *
      * @param string $field
      * @return the content of the field whether defined
@@ -936,16 +947,18 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get can be mandatory
+     * Uses mandatory database field?
      *
-     * @return whether the item of this plugin can be mandatory
+     * Each item uses teh "mandatory" database field but not the autofill
+     *
+     * @return whether the item uses the "mandatory" database field
      */
-    public static function item_get_can_be_mandatory() {
+    public static function item_uses_mandatory_dbfield() {
         return true;
     }
 
     /**
-     * Item_get_pdf_template
+     * Assign the template that better match the structure of the item to optimally display it into the PDF
      *
      * @return the template to use at response report creation
      */
@@ -956,7 +969,7 @@ class mod_surveypro_itembase {
     // MARK get
 
     /**
-     * Get cm
+     * Get course module
      *
      * @return the content of the $cm property
      */
@@ -1336,8 +1349,8 @@ class mod_surveypro_itembase {
     // MARK userform
 
     /**
-     * Full_info == extranote + fillinginstruction
-     * provides extra info THAT IS NOT SAVED IN THE DATABASE but is shown in the "Add"/"Search" form
+     * Get full info == extranote + fillinginstruction
+     * provides extra info THAT IS NOT SAVED IN THE DATABASE but is shown in the Add/Search form
      *
      * @param boolean $searchform
      * @return string fullinfo

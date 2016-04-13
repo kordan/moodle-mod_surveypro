@@ -62,7 +62,7 @@ class mod_surveypro_formpreview extends mod_surveypro_formbase {
     }
 
     /**
-     * Surveypro_add_custom_css
+     * Assign to the user outform the custom css provided for the instance
      *
      * @return void
      */
@@ -76,7 +76,7 @@ class mod_surveypro_formpreview extends mod_surveypro_formbase {
     }
 
     /**
-     * Message_preview_mode
+     * Display the message about the preview mode
      *
      * @return void
      */
@@ -89,7 +89,7 @@ class mod_surveypro_formpreview extends mod_surveypro_formbase {
     }
 
     /**
-     * Prevent_direct_user_input
+     * Prevent direct user input
      *
      * @return void
      */
@@ -100,7 +100,7 @@ class mod_surveypro_formpreview extends mod_surveypro_formbase {
     }
 
     /**
-     * Trigger_event
+     * Trigger the form_previewed event
      *
      * @return void
      */

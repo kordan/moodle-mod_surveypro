@@ -78,7 +78,7 @@ class mod_surveypro_templatebase {
     }
 
     /**
-     * Validate_xml
+     * Validate the uploaded xml file
      *
      * @param object $xml File to validate
      * @return object|boolean error describing the message to show, false if no error is found
@@ -87,7 +87,7 @@ class mod_surveypro_templatebase {
         global $CFG;
 
         $debug = false;
-        // $debug = true; //if you want to stop anyway to see where the xml template is buggy
+        // $debug = true; // if you want to stop anyway to see where the xml template is buggy.
 
         $versiondisk = $this->get_plugin_versiondisk();
         if ($CFG->debug == DEBUG_DEVELOPER) {
@@ -127,6 +127,7 @@ class mod_surveypro_templatebase {
 
                 return $error;
             }
+
             // Ok, $currenttype and $currentplugin are onboard.
             // Do they define correctly a class?
             if (!file_exists($CFG->dirroot.'/mod/surveypro/'.$currenttype.'/'.$currentplugin.'/version.php')) {

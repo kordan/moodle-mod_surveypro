@@ -60,7 +60,7 @@ $reportman = new mod_surveypro_report_attachments_overview($cm, $context, $surve
 $reportman->setup_outputtable();
 // $reportman->prevent_direct_user_input(); // Useless?
 $reportman->check_attachmentitems();
-$reportman->check_submissions();
+$reportman->nosubmissions_stop();
 $reportman->fetch_data();
 $reportman->output_data();
 

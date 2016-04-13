@@ -160,11 +160,14 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     }
 
     /**
-     * Restrict_templates
+     * Get the list of mastertemplates to which this report is applicable
+     *
+     * If ruturns an empty array, each report is added to admin menu
+     * If returns a non empty array, only reports listed will be added to admin menu
      *
      * @return void
      */
-    public function restrict_templates() {
+    public function allowed_templates() {
         return array('collesactual', 'collespreferred', 'collesactualpreferred');
     }
 

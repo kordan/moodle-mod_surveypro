@@ -64,12 +64,12 @@ class mod_surveypro_covermanager {
     }
 
     /**
-     * Display_cover
+     * Display the overview page
      *
      * @return void
      */
     public function display_cover() {
-        global $CFG, $OUTPUT, $COURSE;
+        global $CFG, $OUTPUT, $COURSE, $USER;
 
         $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
 
@@ -95,8 +95,10 @@ class mod_surveypro_covermanager {
         $timenow = time();
 
         // User submitted responses.
-        $countclosed = $this->user_sent_submissions(SURVEYPRO_STATUSCLOSED);
-        $inprogress = $this->user_sent_submissions(SURVEYPRO_STATUSINPROGRESS);
+        $countclosed = $utilityman->has_submissions(true, SURVEYPRO_STATUSCLOSED, $USER->id);
+echo '$countclosed = '.$countclosed.'<br />';
+        $inprogress = $utilityman->has_submissions(true, SURVEYPRO_STATUSINPROGRESS, $USER->id);
+echo '$inprogress = '.$inprogress.'<br />';
         $next = $countclosed + $inprogress + 1;
 
         // Begin of: the button to add one more surveypro.
@@ -212,9 +214,9 @@ class mod_surveypro_covermanager {
             $classname = 'mod_surveypro_report_'.$pluginname;
             $reportman = new $classname($this->cm, $this->context, $this->surveypro);
 
-            $restricttemplates = $reportman->restrict_templates();
+            $allowedtemplates = $reportman->allowed_templates();
 
-            if ((!$restricttemplates) || in_array($this->surveypro->template, $restricttemplates)) {
+            if ((!$allowedtemplates) || in_array($this->surveypro->template, $allowedtemplates)) {
                 if ($canaccessreports || ($reportman->has_student_report() && $canaccessownreports)) {
                     if ($reportman->report_apply()) {
                         if ($childreports = $reportman->get_childreports($canaccessreports)) {
@@ -284,7 +286,7 @@ class mod_surveypro_covermanager {
     }
 
     /**
-     * Display_messages
+     * Display the generic message of the overview page
      *
      * @param string $messages
      * @param string $strlegend
@@ -305,27 +307,5 @@ class mod_surveypro_covermanager {
             echo html_writer::end_tag('fieldset');
             // echo $OUTPUT->box_end();
         }
-    }
-
-    /**
-     * User_sent_submissions
-     *
-     * @param int $status
-     * @return void
-     */
-    public function user_sent_submissions($status=SURVEYPRO_STATUSALL) {
-        global $USER, $DB;
-
-        $whereparams = array('surveyproid' => $this->surveypro->id, 'userid' => $USER->id);
-        if ($status != SURVEYPRO_STATUSALL) {
-            $statuslist = array(SURVEYPRO_STATUSCLOSED, SURVEYPRO_STATUSINPROGRESS);
-            if (!in_array($status, $statuslist)) {
-                $a = 'user_sent_submissions';
-                print_error('invalid_status', 'mod_surveypro', null, $a);
-            }
-            $whereparams['status'] = $status;
-        }
-
-        return $DB->count_records('surveypro_submission', $whereparams);
     }
 }

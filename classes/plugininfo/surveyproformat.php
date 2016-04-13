@@ -72,7 +72,7 @@ class surveyproformat extends base {
     }
 
     /**
-     * Is_uninstall_allowed
+     * Is uninstall allowed
      *
      * @return bool: false if the corrsponding record exists
      */

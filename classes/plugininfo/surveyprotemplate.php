@@ -72,7 +72,7 @@ class surveyprotemplate extends base {
     }
 
     /**
-     * Is_uninstall_allowed
+     * Is uninstall allowed
      *
      * @return bool: false if the corrsponding template has been instancied
      */
