@@ -104,7 +104,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     public $iarea;
 
     /**
-     * Class constructor
+     * Class constructor.
      *
      * @param object $cm
      * @param object $context
@@ -130,7 +130,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     }
 
     /**
-     * Set group
+     * Set group.
      *
      * @param int $group
      * @return void
@@ -140,7 +140,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     }
 
     /**
-     * Set area
+     * Set area.
      *
      * @param int $area
      * @return void
@@ -150,7 +150,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     }
 
     /**
-     * Set q id
+     * Set q id.
      *
      * @param int $qid
      * @return void
@@ -160,7 +160,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     }
 
     /**
-     * Get the list of mastertemplates to which this report is applicable
+     * Get the list of mastertemplates to which this report is applicable.
      *
      * If ruturns an empty array, each report is added to admin menu
      * If returns a non empty array, only reports listed will be added to admin menu
@@ -172,7 +172,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     }
 
     /**
-     * Has_student_report
+     * Has_student_report.
      *
      * @return void
      */
@@ -181,7 +181,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     }
 
     /**
-     * Get child reports
+     * Get child reports.
      *
      * @param bool $canaccessreports
      * @return void
@@ -200,7 +200,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     }
 
     /**
-     * Output_html
+     * Output_html.
      *
      * @param string $nexturl
      * @param string $graphurl
@@ -234,7 +234,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     }
 
     /**
-     * Get q id per area
+     * Get q id per area.
      *
      * @return void
      */
@@ -288,7 +288,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     }
 
     /**
-     * Output_summarydata
+     * Output_summarydata.
      *
      * @return void
      */
@@ -318,7 +318,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     }
 
     /**
-     * Fetch_summarydata
+     * Fetch_summarydata.
      *
      * @return void
      */
@@ -421,7 +421,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     }
 
     /**
-     * Output_scalesdata
+     * Output_scalesdata.
      *
      * @return void
      */
@@ -449,7 +449,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     }
 
     /**
-     * Fetch_scalesdata
+     * Fetch_scalesdata.
      *
      * @param int $area
      * @return void
@@ -521,7 +521,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     }
 
     /**
-     * Output_questionsdata
+     * Output_questionsdata.
      *
      * @param int $area
      * @return void
@@ -555,7 +555,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     }
 
     /**
-     * Fetch_questionsdata
+     * Fetch_questionsdata.
      *
      * @param int $area
      * @param int $qid

@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Library for surveyprofield_fileupload
+ *
  * @package   surveyprofield_fileupload
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -35,6 +37,7 @@ define('SURVEYPROFIELD_FILEUPLOAD_FILEAREA', 'fileuploadfiles');
  * @param string $filearea
  * @param array $args
  * @param bool $forcedownload
+ * @param array $options
  * @return bool false if file not found, does not return if found - just send the file
  */
 function surveyprofield_fileupload_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=array()) {

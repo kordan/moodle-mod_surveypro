@@ -36,7 +36,7 @@ require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
 class mod_surveypro_formpreview extends mod_surveypro_formbase {
 
     /**
-     * Do what is needed ONLY AFTER the view parameter is set
+     * Do what is needed ONLY AFTER the view parameter is set.
      *
      * @param int $submissionid
      * @param object $formpage
@@ -62,7 +62,7 @@ class mod_surveypro_formpreview extends mod_surveypro_formbase {
     }
 
     /**
-     * Assign to the user outform the custom css provided for the instance
+     * Assign to the user outform the custom css provided for the instance.
      *
      * @return void
      */
@@ -76,7 +76,7 @@ class mod_surveypro_formpreview extends mod_surveypro_formbase {
     }
 
     /**
-     * Display the message about the preview mode
+     * Display the message about the preview mode.
      *
      * @return void
      */
@@ -89,7 +89,7 @@ class mod_surveypro_formpreview extends mod_surveypro_formbase {
     }
 
     /**
-     * Prevent direct user input
+     * Prevent direct user input.
      *
      * @return void
      */
@@ -100,7 +100,7 @@ class mod_surveypro_formpreview extends mod_surveypro_formbase {
     }
 
     /**
-     * Trigger the form_previewed event
+     * Trigger the form_previewed event.
      *
      * @return void
      */

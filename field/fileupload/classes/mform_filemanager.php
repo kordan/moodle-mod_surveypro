@@ -19,7 +19,7 @@
  *
  * Extends the core mform class for filemanager element
  *
- * @package   mod_surveypro
+ * @package   surveyprofield_fileupload
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -37,14 +37,14 @@ require_once($CFG->libdir.'/form/filemanager.php');
  *
  * Extends the core mform class for filemanager element
  *
- * @package   mod_surveypro
+ * @package   surveyprofield_fileupload
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_surveypro_mform_filemanager extends MoodleQuickForm_filemanager {
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $elementName (optional) name of the filemanager
      * @param string $elementLabel (optional) filemanager label
@@ -58,7 +58,7 @@ class mod_surveypro_mform_filemanager extends MoodleQuickForm_filemanager {
     }
 
     /**
-     * Returns type of editor element
+     * Returns type of editor element.
      *
      * @return string
      */

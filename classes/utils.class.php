@@ -44,7 +44,7 @@ class mod_surveypro_utility {
     protected $surveypro;
 
     /**
-     * Class constructor
+     * Class constructor.
      *
      * @param object $cm
      * @param object $surveypro
@@ -60,7 +60,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Assign pages to item writing them in the db
+     * Assign pages to item writing them in the db.
      *
      * @return void
      */
@@ -104,7 +104,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Return if the survey has input items
+     * Return if the survey has input items.
      *
      * @param int $formpage
      * @param int $returncount
@@ -134,7 +134,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Return if the survey has search items
+     * Return if the survey has search items.
      *
      * @param bool $returncount
      * @return bool|int as required by $returncount
@@ -152,7 +152,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Return if the survey has submissions
+     * Return if the survey has submissions.
      *
      * @param bool $returncount
      * @param int $status
@@ -178,14 +178,14 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Delete items
+     * Delete items.
      *
      * surveypro_item                 surveypro(field|format)_<<plugin>>
      *   id  <-----------------|        id
      *   surveyproid           |------- itemid
-     *   type                           ...
+     *   type                           ..
      *   status
-     *   ...
+     *   ..
      *   timecreated
      *   timemodified
      *
@@ -286,7 +286,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Delete submissions
+     * Delete submissions.
      *
      * surveypro_submission           surveypro_answer
      *   id  <-----------------|        id
@@ -383,9 +383,9 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Delete answer
+     * Delete answer.
      *
-     * This is the rationale: an item was deleted.
+     * This is the rationale: an item was deleted
      * This method drops from EACH submission of the surveypro that had the deleted item
      * the answer to that item
      *
@@ -442,7 +442,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Set the visibility to items
+     * Set the visibility to items.
      *
      * @param array $whereparams
      * @param bool $visibility
@@ -469,7 +469,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Reindex items
+     * Reindex items.
      *
      * @param int $startingsortindex
      * @return void
@@ -500,7 +500,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Reset the pages assigned to items
+     * Reset the pages assigned to items.
      *
      * @return void
      */
@@ -512,7 +512,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Set the status to submissions
+     * Set the status to submissions.
      *
      * @param array $whereparams
      * @param bool $status
@@ -538,7 +538,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Get submissions id from answers
+     * Get submissions id from answers.
      *
      * @param array $whereparams
      * @return recordset
@@ -572,7 +572,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Perform necessary followup to the change of obligatoriness
+     * Perform necessary followup to the change of obligatoriness.
      *
      * @param int $itemid
      * @return void
@@ -597,7 +597,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Display an alarming message whether there are submissions
+     * Display an alarming message whether there are submissions.
      *
      * @return void
      */
@@ -614,10 +614,10 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Get used plugin list
+     * Get used plugin list.
      *
      * This method provide the list af the plugin used in the current surveypro
-     * getting them from the items already added.
+     * getting them from the items already added
      *
      * @param string $type Optional plugin type
      * @return array $pluginlist;

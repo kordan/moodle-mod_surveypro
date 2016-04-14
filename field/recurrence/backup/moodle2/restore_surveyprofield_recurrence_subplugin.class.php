@@ -50,7 +50,7 @@ class restore_surveyprofield_recurrence_subplugin extends restore_subplugin {
     }
 
     /**
-     * Processes the surveyprofield_recurrence element
+     * Processes the surveyprofield_recurrence element.
      *
      * @param mixed $data
      */

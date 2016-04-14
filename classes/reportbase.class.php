@@ -51,7 +51,7 @@ class mod_surveypro_reportbase {
     protected $surveypro;
 
     /**
-     * Class constructor
+     * Class constructor.
      *
      * @param object $cm
      * @param object $context
@@ -64,7 +64,7 @@ class mod_surveypro_reportbase {
     }
 
     /**
-     * Get the list of mastertemplates to which this report is applicable
+     * Get the list of mastertemplates to which this report is applicable.
      *
      * If ruturns an empty array, each report is added to admin menu
      * If returns a non empty array, only reports listed will be added to admin menu
@@ -76,7 +76,7 @@ class mod_surveypro_reportbase {
     }
 
     /**
-     * Returns if this report was created for student too
+     * Returns if this report was created for student too.
      *
      * @return boolean false
      */
@@ -85,7 +85,7 @@ class mod_surveypro_reportbase {
     }
 
     /**
-     * Return if this report applies
+     * Return if this report applies.
      *
      * true means: the report apply
      * (!$this->surveypro->anonymous) means that reports applies ONLY IF user is not anonymous
@@ -97,7 +97,7 @@ class mod_surveypro_reportbase {
     }
 
     /**
-     * Get child reports
+     * Get child reports.
      *
      * @param bool $canaccessreports
      * @return boolean false

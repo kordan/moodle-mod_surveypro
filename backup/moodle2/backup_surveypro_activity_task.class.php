@@ -37,14 +37,14 @@ require_once($CFG->dirroot . '/mod/surveypro/backup/moodle2/backup_surveypro_set
 class backup_surveypro_activity_task extends backup_activity_task {
 
     /**
-     * Define (add) particular settings this activity can have
+     * Define (add) particular settings this activity can have.
      */
     protected function define_my_settings() {
         // No particular settings for this activity.
     }
 
     /**
-     * Define (add) particular steps this activity can have
+     * Define (add) particular steps this activity can have.
      */
     protected function define_my_steps() {
         // Surveypro only has one structure step.

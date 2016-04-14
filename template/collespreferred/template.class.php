@@ -28,7 +28,7 @@ require_once($CFG->dirroot.'/mod/surveypro/template/collespreferred/lib.php');
 class mod_surveypro_template_collespreferred {
 
     /**
-     * Apply_template_settings
+     * Apply_template_settings.
      *
      * @param $tablename
      * @param $record

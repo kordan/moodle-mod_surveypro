@@ -35,7 +35,7 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
     public $outputtable = null;
 
     /**
-     * Report_apply
+     * Report_apply.
      *
      * @return void
      */
@@ -44,7 +44,7 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
     }
 
     /**
-     * Setup_outputtable
+     * Setup_outputtable.
      *
      * @return void
      */
@@ -90,7 +90,7 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
     }
 
     /**
-     * Fetch_data
+     * Fetch_data.
      *
      * @return void
      */
@@ -164,7 +164,7 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
     }
 
     /**
-     * Output_data
+     * Output_data.
      *
      * @return void
      */
@@ -176,7 +176,7 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
     }
 
     /**
-     * Check_attachmentitems
+     * Check_attachmentitems.
      *
      * @return void
      */
@@ -197,7 +197,7 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
     }
 
     /**
-     * Prevent direct user input
+     * Prevent direct user input.
      *
      * @return void
      */

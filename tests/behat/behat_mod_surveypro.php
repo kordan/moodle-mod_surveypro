@@ -73,10 +73,10 @@ class behat_mod_surveypro extends behat_base {
      *
      * The first row should be column names:
      * | type | plugin |
-     * that are required.
+     * that are required
      *
-     * @param string $surveyproname Name of the surveypro to add items to.
-     * @param TableNode $data information about the items to add.
+     * @param string $surveyproname Name of the surveypro to add items to
+     * @param TableNode $data information about the items to add
      *
      * @Given /^surveypro "([^"]*)" contains the following items:$/
      */
@@ -110,7 +110,7 @@ class behat_mod_surveypro extends behat_base {
     }
 
     /**
-     * Click on an entry in the language menu.
+     * Click on an entry in the language menu
      * @Given /^I follow "(?P<nodetext_string>(?:[^"]|\\")*)" in the language menu$/
      *
      * @param string $nodetext

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * library for surveyprofield_autofill
+ * Library for surveyprofield_autofill
  *
  * @package   surveyprofield_autofill
  * @copyright 2013 onwards kordan <kordan@mclink.it>

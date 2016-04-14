@@ -76,7 +76,7 @@ class mod_surveypro_tabs {
     protected $tabs = array();
 
     /**
-     * Class constructor
+     * Class constructor.
      *
      * @param object $cm
      * @param object $context

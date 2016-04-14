@@ -36,7 +36,7 @@ defined('MOODLE_INTERNAL') || die();
 class visible_items_deleted extends \core\event\base {
 
     /**
-     * Set basic properties for the event.
+     * Set basic properties for the event
      */
     protected function init() {
         $this->data['crud'] = 'r'; // One of these: c(reate), r(ead), u(pdate), d(elete).

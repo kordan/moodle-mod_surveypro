@@ -50,7 +50,7 @@ class restore_surveyproformat_pagebreak_subplugin extends restore_subplugin {
     }
 
     /**
-     * Processes the surveyproformat_pagebreak element
+     * Processes the surveyproformat_pagebreak element.
      *
      * @param mixed $data
      */

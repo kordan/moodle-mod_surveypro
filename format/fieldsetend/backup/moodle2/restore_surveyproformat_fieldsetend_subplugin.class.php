@@ -50,7 +50,7 @@ class restore_surveyproformat_fieldsetend_subplugin extends restore_subplugin {
     }
 
     /**
-     * Processes the surveyproformat_fieldsetend element
+     * Processes the surveyproformat_fieldsetend element.
      *
      * @param mixed $data
      */

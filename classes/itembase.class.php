@@ -46,12 +46,12 @@ class mod_surveypro_itembase {
     protected $context;
 
     /**
-     * @var int Unique itemid of the surveyproitem in surveypro_item table.
+     * @var int Unique itemid of the surveyproitem in surveypro_item table
      */
     protected $itemid;
 
     /**
-     * @var string Type of the item. It can only be: SURVEYPRO_TYPEFIELD or SURVEYPRO_TYPEFORMAT.
+     * @var string Type of the item. It can only be: SURVEYPRO_TYPEFIELD or SURVEYPRO_TYPEFORMAT
      */
     protected $type;
 
@@ -61,64 +61,64 @@ class mod_surveypro_itembase {
     protected $plugin;
 
     /**
-     * @var string Basename of the field as it is in the out form.
+     * @var string Basename of the field as it is in the out form
      */
     protected $itemname;
 
     /**
-     * @var bool Visibility of this item in the out form.
+     * @var bool Visibility of this item in the out form
      */
     protected $hidden;
 
     /**
-     * @var bool Membership of the item to the search form.
+     * @var bool Membership of the item to the search form
      */
     protected $insearchform;
 
     /**
-     * @var bool Availability of this item: to everyone or to user with "accessreserveditems" capability only.
+     * @var bool Availability of this item: to everyone or to user with "accessreserveditems" capability only
      */
     protected $reserved;
 
     /**
-     * @var int Positiom of this item in the surveypro form.
+     * @var int Positiom of this item in the surveypro form
      */
     protected $sortindex;
 
     /**
-     * @var int Page where this item will be located.
+     * @var int Page where this item will be located
      */
     protected $formpage;
 
     /**
-     * @var int Id of the parent item.
+     * @var int Id of the parent item
      */
     protected $parentid;
 
     /**
-     * @var string Answer the parent item has to have in order to show this item as child.
+     * @var string Answer the parent item has to have in order to show this item as child
      */
     protected $parentvalue;
 
     /**
-     * @var int Feedback mask for the user to define the feedback once the item is edited.
+     * @var int Feedback mask for the user to define the feedback once the item is edited
      */
     protected $itemeditingfeedback;
 
     /**
-     * @var array The $editorlist.
+     * @var array
      */
     protected $editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA);
 
     /**
-     * @var bool Possibility for this plugin to save, as user answer, the position of the user interface elements in the out form.
+     * @var bool Possibility for this plugin to save, as user answer, the position of the user interface elements in the out form
      */
     protected $savepositiontodb = null;
 
     /**
      * List of fields properties the surveypro creator will manage in the item definition form
      * By default each item property is present in the form
-     * so, in each child class, I only need to "deactivate" item property not desired/needed/handled/wanted.
+     * so, in each child class, I only need to "deactivate" item property not desired/needed/handled/wanted
      *
      * @var array
      */
@@ -139,12 +139,12 @@ class mod_surveypro_itembase {
     );
 
     /**
-     * Class constructor
+     * Class constructor.
      *
      * @param object $cm
      * @param object $surveypro
      * @param int $itemid
-     * @param bool $evaluateparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise.
+     * @param bool $evaluateparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise
      */
     public function __construct($cm, $surveypro, $itemid, $evaluateparentcontent) {
         $this->cm = $cm;
@@ -152,10 +152,10 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Item load
+     * Item load.
      *
-     * If itemid is provided, load the object (item + base + plugin) from database.
-     * If evaluateparentcontent is true, load the parentitem parentcontent property too.
+     * If itemid is provided, load the object (item + base + plugin) from database
+     * If evaluateparentcontent is true, load the parentitem parentcontent property too
      *
      * @param integer $itemid
      * @param boolean $evaluateparentcontent To include among item elements the 'parentcontent' too
@@ -191,7 +191,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Verify the validity of contents of the record
+     * Verify the validity of contents of the record.
      *
      * for instance: age not greater than maximum age
      *
@@ -203,7 +203,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Set in $record few elements that are common to each item
+     * Set in $record few elements that are common to each item.
      *
      * Common settings are the setting saved to surveypro_item
      * they are:
@@ -288,7 +288,7 @@ class mod_surveypro_itembase {
     /**
      * Item save
      * Executes surveyproitem_<<plugin>> global level actions
-     * this is the save point of the global part of each plugin.
+     * this is the save point of the global part of each plugin
      *
      * Here is the explanation of $this->itemeditingfeedback
      * $this->itemeditingfeedback
@@ -299,11 +299,11 @@ class mod_surveypro_itembase {
      *   |     |     |     |     +--- new|edit
      *   |     |     |     |     |     +--- success|fail
      * [0|1] [0|1] [0|1] [0|1] [0|1] [0|1]
-     * Last digit (on the right, of course) == 1 means that the process was globally successfull.
-     * Last digit (on the right, of course) == 0 means that the process was globally NOT successfull.
+     * Last digit (on the right, of course) == 1 means that the process was globally successfull
+     * Last digit (on the right, of course) == 0 means that the process was globally NOT successfull
      *
-     * Beforelast digit == 0 means NEW.
-     * Beforelast digit == 1 means EDIT.
+     * Beforelast digit == 0 means NEW
+     * Beforelast digit == 1 means EDIT
      *
      * (digit in place 2) == 1 means other items were shown because this (as child) was shown
      * (digit in place 3) == 1 means other items were hided because this (as parent) was hided
@@ -487,7 +487,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Validate the name of the variable in order to make sure it is unique
+     * Validate the name of the variable in order to make sure it is unique.
      *
      * @param stdobject $record
      * @param integer $itemid
@@ -610,7 +610,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * redefine the parentvalue of children items according to the new parameters of the just saved parent item
+     * redefine the parentvalue of children items according to the new parameters of the just saved parent item.
      *
      * for instance: if I removed an item from the parent item
      * while some children were using that item as condition to appear,
@@ -645,7 +645,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * This function is used to populate empty strings according to the user language
+     * This function is used to populate empty strings according to the user language.
      *
      * @return void
      */
@@ -675,7 +675,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Item split unix time
+     * Item split unix time.
      *
      * @param integer $time
      * @param boolean $applyusersettings
@@ -707,7 +707,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Does this item live into a form page?
+     * Does this item live into a form page?.
      *
      * Each item lives into a form page but not the pagebreak
      *
@@ -718,7 +718,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Does this item allow the question in left position?
+     * Does this item allow the question in left position?.
      *
      * Each item allows the question in left position but not the rate
      *
@@ -729,14 +729,14 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Defines presets for the editor field of surveyproitem in itembase_form.php
+     * Defines presets for the editor field of surveyproitem in itembase_form.php.
      *
      * (copied from moodle20/cohort/edit.php)
      *
      * Some examples:
-     * Each SURVEYPRO_ITEMFIELD has: $this->insetupform['content'] == true  and $editors == array('content').
-     * Fieldset plugin          has: $this->insetupform['content'] == true  and $editors == null.
-     * Pagebreak plugin         has: $this->insetupform['content'] == false and $editors == null.
+     * Each SURVEYPRO_ITEMFIELD has: $this->insetupform['content'] == true  and $editors == array('content')
+     * Fieldset plugin          has: $this->insetupform['content'] == true  and $editors == null
+     * Pagebreak plugin         has: $this->insetupform['content'] == false and $editors == null
      *
      * @return void
      */
@@ -786,7 +786,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * clean the content of the field $record->{$field} (remove blank lines, trailing \r)
+     * clean the content of the field $record->{$field} (remove blank lines, trailing \r).
      *
      * @param object $record Item record
      * @param array $fieldlist List of fields to clean
@@ -805,7 +805,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Parse $this->labelother in $value and $label
+     * Parse $this->labelother in $value and $label.
      *
      * @return $value
      * @return $label
@@ -858,7 +858,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Make the list of multilang plugin fields
+     * Make the list of multilang plugin fields.
      *
      * @return array of felds
      */
@@ -901,9 +901,9 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Add a dummy row to the mform in order to preserve the colour alternation also for items using more than a single mform element
+     * Add a dummy row to the mform in order to preserve the colour alternation also for items using more than a single mform element.
      *
-     * Credits for this amazing solution to the great Eloy Lafuente! He is a genius.
+     * Credits for this amazing solution to the great Eloy Lafuente! He is a genius
      * Add a dummy useless row (with height = 0) to the form in order to preserve the color alternation
      * mainly used for rate items, but not only
      *
@@ -933,7 +933,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get the requested property
+     * Get the requested property.
      *
      * @param string $field
      * @return the content of the field whether defined
@@ -947,7 +947,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Uses mandatory database field?
+     * Uses mandatory database field?.
      *
      * Each item uses teh "mandatory" database field but not the autofill
      *
@@ -958,7 +958,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Assign the template that better match the structure of the item to optimally display it into the PDF
+     * Assign the template that better match the structure of the item to optimally display it into the PDF.
      *
      * @return the template to use at response report creation
      */
@@ -969,7 +969,7 @@ class mod_surveypro_itembase {
     // MARK get
 
     /**
-     * Get course module
+     * Get course module.
      *
      * @return the content of the $cm property
      */
@@ -978,7 +978,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get surveyproid
+     * Get surveyproid.
      *
      * @return the content of the $surveyproid property
      */
@@ -987,7 +987,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get editorlist
+     * Get editorlist.
      *
      * @return the content of the $editorlist property
      */
@@ -996,7 +996,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get savepositiontodb
+     * Get savepositiontodb.
      *
      * @return the content of the $savepositiontodb property
      */
@@ -1005,7 +1005,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get the preset for the item setup form
+     * Get the preset for the item setup form.
      *
      * @return array $data
      */
@@ -1027,17 +1027,17 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get if the mform element corresponding to the propery $itemformelement has to be shown in the form
+     * Get if the mform element corresponding to the propery $itemformelement has to be shown in the form.
      *
      * @param string $itemformelement
-     * @return true if the corresponding element has to be shown in the form; false otherwise.
+     * @return true if the corresponding element has to be shown in the form; false otherwise
      */
     public function get_insetupform($itemformelement) {
         return $this->insetupform[$itemformelement];
     }
 
     /**
-     * Get item id
+     * Get item id.
      *
      * @return the content of the $itemid property
      */
@@ -1050,7 +1050,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get type
+     * Get type.
      *
      * @return the content of the $type property
      */
@@ -1059,7 +1059,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get plugin
+     * Get plugin.
      *
      * @return the content of the $plugin property
      */
@@ -1068,7 +1068,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get content
+     * Get content.
      *
      * @return the content of the $content property
      */
@@ -1079,7 +1079,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get content format
+     * Get content format.
      *
      * @return the content of the $contentformat property
      */
@@ -1088,7 +1088,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get plugin id
+     * Get plugin id.
      *
      * @return the content of the $pluginid property
      */
@@ -1101,7 +1101,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get item name
+     * Get item name.
      *
      * @return the content of the $itemname property
      */
@@ -1110,7 +1110,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get hidden
+     * Get hidden.
      *
      * @return the content of the $hidden property
      */
@@ -1119,7 +1119,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get in search form
+     * Get in search form.
      *
      * @return the content of the $insearchform property
      */
@@ -1128,7 +1128,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get reserved
+     * Get reserved.
      *
      * @return the content of the $reserved property
      */
@@ -1137,7 +1137,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get sortindex
+     * Get sortindex.
      *
      * @return the content of the $sortindex property
      */
@@ -1146,7 +1146,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get form page
+     * Get form page.
      *
      * @return the content of the $formpage property
      */
@@ -1155,7 +1155,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get parent id
+     * Get parent id.
      *
      * @return the content of the $parentid property
      */
@@ -1164,7 +1164,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get parent content
+     * Get parent content.
      *
      * @param string $separator Required separator
      * @return the content of the $parentcontent property, properly separated
@@ -1180,7 +1180,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get parentvalue
+     * Get parentvalue.
      *
      * @return the content of the $parentvalue property
      */
@@ -1189,7 +1189,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get variable
+     * Get variable.
      *
      * @return the content of the $variable property
      */
@@ -1198,7 +1198,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get customnumber
+     * Get customnumber.
      *
      * @return the content of the $customnumber property whether defined
      */
@@ -1211,7 +1211,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get required
+     * Get required.
      *
      * @return bool false if the property is not set for the class (like, for instance, for autofill or label)
      *         int  0|1 acording to the property
@@ -1230,7 +1230,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get indent
+     * Get indent.
      *
      * @return the content of the $indent property whether defined
      */
@@ -1243,7 +1243,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get hideinstructions
+     * Get hideinstructions.
      *
      * @return the content of the $hideinstructions property whether defined
      */
@@ -1256,7 +1256,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get position
+     * Get position.
      *
      * @return the content of the $position property whether defined
      */
@@ -1269,7 +1269,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get extranote
+     * Get extranote.
      *
      * @return the content of the $extranote property whether defined
      */
@@ -1282,7 +1282,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get downloadformat
+     * Get downloadformat.
      *
      * @return the content of the $downloadformat property whether defined
      */
@@ -1295,7 +1295,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Get itemeditingfeedback
+     * Get itemeditingfeedback.
      *
      * @return the content of the $itemeditingfeedback property whether defined
      */
@@ -1329,15 +1329,15 @@ class mod_surveypro_itembase {
 
     /**
      * I can not make ANY assumption about $childparentvalue because of the following explanation:
-     * At child item save time, I encode its $parentcontent to $parentvalue.
-     * The encoding is done through a parent method according to parent values.
+     * At child item save time, I encode its $parentcontent to $parentvalue
+     * The encoding is done through a parent method according to parent values
      * Once the child is saved, I can return to parent and I can change it as much as I want
-     * like, for instance, the number and the content of its options.
+     * like, for instance, the number and the content of its options
      * At parent save time, the child parentvalue is rewritten
      * -> but it may result in a too short or too long list of keys
      * -> or with a wrong number of unrecognized keys
-     * Because of this, I need to...
-     * ...implement all possible checks to avoid crashes/malfunctions during code execution.
+     * Because of this, I need to..
+     * ...implement all possible checks to avoid crashes/malfunctions during code execution
      *
      * @param string $childparentvalue
      * @return status of child relation
@@ -1388,7 +1388,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Provides extra fillinginstruction THAT IS NOT SAVED IN THE DATABASE but is shown in the "Add"/"Search" form
+     * Provides extra fillinginstruction THAT IS NOT SAVED IN THE DATABASE but is shown in the "Add"/"Search" form.
      *
      * if this method is not handled at plugin level,
      * it means it is supposed to return an empty fillinginstruction
@@ -1517,7 +1517,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Starting from the info stored into $answer, this function returns the corresponding content for the export file
+     * Starting from the info stored into $answer, this function returns the corresponding content for the export file.
      *
      * @param object $answer
      * @param string $format

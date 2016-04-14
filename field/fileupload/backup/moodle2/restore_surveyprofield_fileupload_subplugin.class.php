@@ -37,7 +37,7 @@ defined('MOODLE_INTERNAL') || die();
 class restore_surveyprofield_fileupload_subplugin extends restore_subplugin {
 
     /**
-     * Define new path for subplugin at item level.
+     * Define new path for subplugin at item level
      */
     protected function define_item_subplugin_structure() {
         $paths = array();
@@ -72,7 +72,7 @@ class restore_surveyprofield_fileupload_subplugin extends restore_subplugin {
     }
 
     /**
-     * Define new path for subplugin at answer level.
+     * Define new path for subplugin at answer level
      */
     protected function define_answer_subplugin_structure() {
         $paths = array();
@@ -85,7 +85,10 @@ class restore_surveyprofield_fileupload_subplugin extends restore_subplugin {
     }
 
     /**
-     * Processes the surveyprofield_fileupload element at answer level.
+     * Process an answer restore.
+     *
+     * @param object $data Data in object form
+     * Processes the surveyprofield_fileupload element at answer level
      */
     protected function process_surveyprofield_fileupload_answer($data) {
         // Nothing really expected here to process, because the subplugin

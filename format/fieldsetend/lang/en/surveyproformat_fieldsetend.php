@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'surveyproformat_fieldsetend', language 'en', branch 'MOODLE_31_STABLE'
+ * Strings for component 'surveyproformat_fieldsetend', language 'en'
  *
  * @package   surveyproformat_fieldsetend
  * @copyright 2013 onwards kordan <kordan@mclink.it>

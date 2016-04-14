@@ -24,7 +24,7 @@
 class mod_surveypro_generator_testcase extends advanced_testcase {
 
     /**
-     * Test_create_instance
+     * Test_create_instance.
      *
      * @return void
      */
@@ -49,7 +49,7 @@ class mod_surveypro_generator_testcase extends advanced_testcase {
     }
 
     /**
-     * Test_apply_mastertemplate
+     * Test_apply_mastertemplate.
      *
      * @return void
      */

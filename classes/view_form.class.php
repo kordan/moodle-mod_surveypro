@@ -36,12 +36,12 @@ require_once($CFG->dirroot.'/mod/surveypro/classes/formbase.class.php');
 class mod_surveypro_userform extends mod_surveypro_formbase {
 
     /**
-     * @var int $firstpageright, the next non empty page
+     * @var int Next non empty page
      */
     protected $firstpageright;
 
     /**
-     * @var int $firstpageleft, the first non empty page
+     * @var int First non empty page
      */
     protected $firstpageleft;
 
@@ -51,17 +51,17 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     protected $view;
 
     /**
-     * @var int $moduletab, The tab of the module where the page will be shown
+     * @var int Tab of the module where the page will be shown
      */
     protected $moduletab;
 
     /**
-     * @var int $modulepage, this is the page of the module. Nothing to share with $formpage
+     * @var int This is the page of the module. Nothing to share with $formpage
      */
     protected $modulepage;
 
     /**
-     * @var int $finalresponseevaluation, final validation of the submitted response
+     * @var int Final validation of the submitted response
      */
     protected $finalresponseevaluation;
 
@@ -71,7 +71,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     public $formdata = null;
 
     /**
-     * Setup
+     * Setup.
      *
      * @param int $submissionid
      * @param int $formpage
@@ -113,7 +113,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Set formpage
+     * Set formpage.
      *
      * @param int $formpage
      * @return void
@@ -140,7 +140,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Set first page left
+     * Set first page left.
      *
      * @param int $firstpageleft
      * @return void
@@ -150,7 +150,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Set first page right
+     * Set first page right.
      *
      * @param int $firstpageright
      * @return void
@@ -160,7 +160,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Set module tab
+     * Set module tab.
      *
      * @param int $moduletab
      * @return void
@@ -170,7 +170,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Set modulepage
+     * Set modulepage.
      *
      * @param int $modulepage
      * @return void
@@ -180,7 +180,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Get first page left
+     * Get first page left.
      *
      * @return the content of the $firstpageleft property
      */
@@ -189,7 +189,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Get first page right
+     * Get first page right.
      *
      * @return the content of the $firstpageright property
      */
@@ -198,7 +198,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Get module tab
+     * Get module tab.
      *
      * @return the content of the $moduletab property
      */
@@ -207,7 +207,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Get module page
+     * Get module page.
      *
      * @return the content of the $modulepage property
      */
@@ -216,17 +216,17 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Get the first NON EMPTY page on the right or on the left
+     * Get the first NON EMPTY page on the right or on the left.
      *
-     * Depending on answers provided by the user, the previous or next page may have no items to display.
-     * The purpose of this function is to get the first page WITH items.
+     * Depending on answers provided by the user, the previous or next page may have no items to display
+     * The purpose of this function is to get the first page WITH items
      *
-     * If $rightdirection == true, this method sets...
+     * If $rightdirection == true, this method sets..
      *     the page number of the lower non empty page (according to user answers) greater than $startingpage in $this->firstpageright;
-     *     returns $nextpage or SURVEYPRO_RIGHT_OVERFLOW if no more empty pages are found on the right.
-     * If $rightdirection == false, this method sets...
+     *     returns $nextpage or SURVEYPRO_RIGHT_OVERFLOW if no more empty pages are found on the right
+     * If $rightdirection == false, this method sets..
      *     the page number of the greater non empty page (according to user answers) lower than $startingpage in $this->firstpageleft;
-     *     returns $nextpage or SURVEYPRO_LEFT_OVERFLOW if no more empty pages are found on the left.
+     *     returns $nextpage or SURVEYPRO_LEFT_OVERFLOW if no more empty pages are found on the left
      *
      * @param bool $rightdirection
      * @param int $startingpage
@@ -282,11 +282,11 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Page_has_items
+     * Page_has_items.
      *
      * In this method, I am not ONLY going to check if the page $formpage has item
      * but I am also verifying that those items are supposed to be displayed
-     * on the basis of the answers provided to their parents.
+     * on the basis of the answers provided to their parents
      *
      * @param int $formpage
      * @return void
@@ -321,7 +321,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Set tabs params
+     * Set tabs params.
      *
      * @return void
      */
@@ -350,7 +350,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Surveypro_add_custom_css
+     * Surveypro_add_custom_css.
      *
      * @return void
      */
@@ -364,7 +364,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Save_surveypro_submission
+     * Save_surveypro_submission.
      *
      * @return surveypro_submission record
      */
@@ -537,7 +537,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      *                [noanswer] => 1
      *            )
      *        )
-     * 2. once $itemhelperinfo is onboard...
+     * 2. once $itemhelperinfo is onboard..
      *    I update or I create the corresponding record
      *    asking to the parent class to manage its own data
      *    passing it $iteminfo->contentperelement
@@ -701,7 +701,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Check_mandatories_are_in
+     * Check_mandatories_are_in.
      *
      * @return void
      */
@@ -787,7 +787,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Check_all_verified
+     * Check_all_verified.
      *
      * @return void
      */
@@ -803,7 +803,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Drop_jumped_saved_data
+     * Drop_jumped_saved_data.
      *
      * @return void
      */
@@ -826,7 +826,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Notifypeople
+     * Notifypeople.
      *
      * @return void
      */
@@ -934,7 +934,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Submissions_allowed
+     * Submissions_allowed.
      *
      * @return void
      */
@@ -959,7 +959,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * User_sent_submissions
+     * User_sent_submissions.
      *
      * @param bool $status
      * @return void
@@ -981,7 +981,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Nomoresubmissions_stopexecution
+     * Nomoresubmissions_stopexecution.
      *
      * @return void
      */
@@ -1005,7 +1005,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Manage_thanks_page
+     * Manage_thanks_page.
      *
      * @return void
      */
@@ -1022,7 +1022,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Surveypro_show_thanks_page
+     * Surveypro_show_thanks_page.
      *
      * @return void
      */
@@ -1081,7 +1081,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Add_browsing_buttons
+     * Add_browsing_buttons.
      *
      * @return void
      */
@@ -1127,7 +1127,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Drop_unexpected_values
+     * Drop_unexpected_values.
      *
      * @return void
      */
@@ -1208,7 +1208,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Prevent direct user input
+     * Prevent direct user input.
      *
      * @return void
      */
@@ -1301,7 +1301,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Duplicate_submission
+     * Duplicate_submission.
      *
      * @return void
      */
@@ -1325,7 +1325,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Trigger the submission_viewed event
+     * Trigger the submission_viewed event.
      *
      * @return void
      */

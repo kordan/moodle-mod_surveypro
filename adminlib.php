@@ -36,12 +36,12 @@ require_once($CFG->libdir.'/adminlib.php');
 class mod_surveypro_admin_page_manage_surveypro_plugins extends admin_externalpage {
 
     /**
-     * @var string Name of plugin subtype
+     * @var string Name of plugin subtype.
      */
     private $subtype = '';
 
     /**
-     * The constructor - calls parent constructor
+     * The constructor - calls parent constructor.
      *
      * @param string $subtype
      */
@@ -54,7 +54,7 @@ class mod_surveypro_admin_page_manage_surveypro_plugins extends admin_externalpa
     }
 
     /**
-     * Search plugins for the specified string
+     * Search plugins for the specified string.
      *
      * @param string $query String to search for
      * @return array
@@ -109,7 +109,7 @@ class mod_surveypro_plugin_manager {
     private $subtype = '';
 
     /**
-     * Constructor for this surveypro plugin manager
+     * Constructor for this surveypro plugin manager.
      *
      * @param string $subtype Either surveyprofield, surveyproformat, surveyprotemplate or surveyproreport
      */
@@ -119,7 +119,7 @@ class mod_surveypro_plugin_manager {
     }
 
     /**
-     * Return a list of plugins sorted by the order defined in the admin interface
+     * Return a list of plugins sorted by the order defined in the admin interface.
      *
      * @return array The list of plugins
      */
@@ -268,7 +268,7 @@ class mod_surveypro_plugin_manager {
     }
 
     /**
-     * Write the page header
+     * Write the page header.
      *
      * @return void
      */
@@ -283,7 +283,7 @@ class mod_surveypro_plugin_manager {
     }
 
     /**
-     * Write the page footer
+     * Write the page footer.
      *
      * @return void
      */
@@ -294,7 +294,7 @@ class mod_surveypro_plugin_manager {
     }
 
     /**
-     * Check this user has permission to edit the list of installed plugins
+     * Check this user has permission to edit the list of installed plugins.
      *
      * @return void
      */

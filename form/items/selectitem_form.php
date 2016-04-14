@@ -27,7 +27,7 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 class mod_surveypro_itemtypeform extends moodleform {
 
     /**
-     * Definition
+     * Definition.
      *
      * @return void
      */

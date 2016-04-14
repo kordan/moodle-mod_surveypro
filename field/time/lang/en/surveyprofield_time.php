@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'surveyprofield_time', language 'en', branch 'MOODLE_31_STABLE'
+ * Strings for component 'surveyprofield_time', language 'en'
  *
  * @package   surveyprofield_time
  * @copyright 2013 onwards kordan <kordan@mclink.it>

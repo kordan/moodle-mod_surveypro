@@ -50,7 +50,7 @@ class restore_surveyprofield_multiselect_subplugin extends restore_subplugin {
     }
 
     /**
-     * Processes the surveyprofield_multiselect element
+     * Processes the surveyprofield_multiselect element.
      *
      * @param mixed $data
      */

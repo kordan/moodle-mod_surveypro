@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * library for surveyprofield_character
+ * Library for surveyprofield_character
  *
  * @package   surveyprofield_character
  * @copyright 2013 onwards kordan <kordan@mclink.it>

@@ -28,7 +28,7 @@ require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 class mod_surveypro_chooseitemform extends moodleform {
 
     /**
-     * Definition
+     * Definition.
      *
      * @return void
      */
@@ -76,7 +76,7 @@ class mod_surveypro_chooseitemform extends moodleform {
     }
 
     /**
-     * Validation
+     * Validation.
      *
      * @param array $data
      * @param array $files

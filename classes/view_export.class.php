@@ -54,7 +54,7 @@ class mod_surveypro_exportmanager {
     public $formdata = null;
 
     /**
-     * Class constructor
+     * Class constructor.
      *
      * @param object $cm
      * @param object $context
@@ -67,7 +67,7 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * Trigger the all_submissions_exported event
+     * Trigger the all_submissions_exported event.
      *
      * @return void
      */
@@ -78,7 +78,7 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * Get the query to export submissions
+     * Get the query to export submissions.
      *
      * @param bool $forceuserid
      * @return void
@@ -161,7 +161,7 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * Surveypro_export
+     * Surveypro_export.
      *
      * @return $exporterror
      */
@@ -203,7 +203,7 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * output_to_csv
+     * output_to_csv.
      *
      * @param array $richsubmissions
      * @return void
@@ -303,7 +303,7 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * output_to_xls
+     * output_to_xls.
      *
      * @param array $richsubmissions
      * @return void
@@ -422,7 +422,7 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * Export_add_ownerid
+     * Export_add_ownerid.
      *
      * @param array $richsubmission
      * @return $owner
@@ -436,7 +436,7 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * Export_add_names
+     * Export_add_names.
      *
      * @param array $richsubmission
      * @return array $names
@@ -452,7 +452,7 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * Export_add_dates
+     * Export_add_dates.
      *
      * @param array $richsubmission
      * @return array $dates
@@ -481,7 +481,7 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * Export_close_record
+     * Export_close_record.
      *
      * @param array $recordtoexport
      * @param object $worksheet
@@ -499,7 +499,7 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * Decode_content
+     * Decode_content.
      *
      * @param array $richsubmission
      * @return void
@@ -520,7 +520,7 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * Attachments_downloadbyuser
+     * Attachments_downloadbyuser.
      *
      * @return void
      */
@@ -629,7 +629,7 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * Attachments_downloadbyitem
+     * Attachments_downloadbyitem.
      *
      * @return void
      */
@@ -743,7 +743,7 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * Makezip_available
+     * Makezip_available.
      *
      * @param string $exportfile File to make available
      * @return void

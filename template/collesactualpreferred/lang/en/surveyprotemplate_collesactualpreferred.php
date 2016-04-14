@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'surveyprotemplate_collesactualpreferred', language 'en', branch 'MOODLE_31_STABLE'
+ * Strings for component 'surveyprotemplate_collesactualpreferred', language 'en'
  *
  * @package    surveyprotemplate
  * @subpackage collesactualpreferred

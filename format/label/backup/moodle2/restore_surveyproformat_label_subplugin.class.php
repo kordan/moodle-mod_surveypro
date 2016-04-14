@@ -50,7 +50,7 @@ class restore_surveyproformat_label_subplugin extends restore_subplugin {
     }
 
     /**
-     * Processes the surveyproformat_label element
+     * Processes the surveyproformat_label element.
      *
      * @param mixed $data
      */

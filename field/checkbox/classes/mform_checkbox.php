@@ -44,7 +44,7 @@ require_once($CFG->libdir.'/form/checkbox.php');
 class mod_surveypro_mform_checkbox extends MoodleQuickForm_checkbox {
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $elementName (optional) name of the checkbox
      * @param string $elementLabel (optional) checkbox label

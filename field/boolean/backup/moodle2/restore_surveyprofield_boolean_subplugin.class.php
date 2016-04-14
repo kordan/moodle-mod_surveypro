@@ -50,7 +50,7 @@ class restore_surveyprofield_boolean_subplugin extends restore_subplugin {
     }
 
     /**
-     * Processes the surveyprofield_boolean element
+     * Processes the surveyprofield_boolean element.
      *
      * @param mixed $data
      */

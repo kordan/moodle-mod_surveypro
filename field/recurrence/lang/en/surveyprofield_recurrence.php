@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'surveyprofield_recurrence', language 'en', branch 'MOODLE_31_STABLE'
+ * Strings for component 'surveyprofield_recurrence', language 'en'
  *
  * @package   surveyprofield_recurrence
  * @copyright 2013 onwards kordan <kordan@mclink.it>

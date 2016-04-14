@@ -15,8 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    surveyprotemplate
- * @subpackage collesactual
+ * Admin settings for surveyprotemplate_collesactual
+ *
+ * @package    surveyprotemplate_collesactual
  * @copyright  2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

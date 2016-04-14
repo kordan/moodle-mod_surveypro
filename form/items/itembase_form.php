@@ -37,7 +37,7 @@ require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
 class mod_surveypro_itembaseform extends moodleform {
 
     /**
-     * Definition
+     * Definition.
      *
      * @return void
      */
@@ -286,7 +286,7 @@ class mod_surveypro_itembaseform extends moodleform {
     }
 
     /**
-     * Add_item_buttons
+     * Add_item_buttons.
      *
      * @return void
      */
@@ -320,7 +320,7 @@ class mod_surveypro_itembaseform extends moodleform {
     }
 
     /**
-     * Validation
+     * Validation.
      *
      * @param array $data
      * @param array $files
