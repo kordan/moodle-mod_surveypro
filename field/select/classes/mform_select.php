@@ -44,7 +44,7 @@ require_once($CFG->libdir.'/form/select.php');
 class mod_surveypro_mform_select extends MoodleQuickForm_select {
 
     /**
-     * Class constructor
+     * Class constructor.
      *
      * @param string $elementName Select name attribute
      * @param mixed $elementLabel Label(s) for the select
@@ -58,8 +58,8 @@ class mod_surveypro_mform_select extends MoodleQuickForm_select {
 
     /**
      * Slightly different container template when frozen. Don't want to use a label tag
-     * with a for attribute in that case for the element label but instead use a div.
-     * Templates are defined in renderer constructor.
+     * with a for attribute in that case for the element label but instead use a div
+     * Templates are defined in renderer constructor
      *
      * @return string
      */

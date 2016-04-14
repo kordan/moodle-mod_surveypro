@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'surveyproformat_pagebreak', language 'en', branch 'MOODLE_31_STABLE'
+ * Strings for component 'surveyproformat_pagebreak', language 'en'
  *
  * @package   surveyproformat_pagebreak
  * @copyright 2013 onwards kordan <kordan@mclink.it>

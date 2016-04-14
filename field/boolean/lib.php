@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * library for surveyprofield_boolean
+ * Library for surveyprofield_boolean
  *
  * @package   surveyprofield_boolean
  * @copyright 2013 onwards kordan <kordan@mclink.it>

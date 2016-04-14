@@ -34,7 +34,7 @@ defined('MOODLE_INTERNAL') || die();
 class backup_surveypro_activity_structure_step extends backup_activity_structure_step {
 
     /**
-     * Define the structure for the assign activity
+     * Define the structure for the assign activity.
      *
      * @return void
      */

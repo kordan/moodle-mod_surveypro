@@ -52,59 +52,59 @@ class mod_surveypro_field_select extends mod_surveypro_itembase {
     public $contentformat = '';
 
     /**
-     * @var string $customnumber, the custom number of the item.
+     * @var string Custom number of the item
      *
-     * It usually is 1, 1.1, a, 2.1.a...
+     * It usually is 1, 1.1, a, 2.1.a..
      */
     protected $customnumber;
 
     /**
-     * @var int $position, SURVEYPRO_POSITIONLEFT, SURVEYPRO_POSITIONTOP or SURVEYPRO_POSITIONFULLWIDTH
+     * @var int SURVEYPRO_POSITIONLEFT, SURVEYPRO_POSITIONTOP or SURVEYPRO_POSITIONFULLWIDTH
      */
     protected $position;
 
     /**
-     * @var string $extranote, the optional text describing the item
+     * @var string Optional text with item custom note
      */
     protected $extranote;
 
     /**
-     * @var bool $required,  O => optional item; 1 => mandatory item;
+     * @var bool 0 => optional item; 1 => mandatory item;
      */
     protected $required;
 
     /**
-     * @var string $variable,  the name of the field storing data in the db table
+     * @var string Name of the field storing data in the db table
      */
     protected $variable;
 
     /**
-     * @var int $indent, the indent of the item in the form page
+     * @var int Indent of the item in the form page
      */
     protected $indent;
 
     /**
-     * $options = list of options in the form of "$value SURVEYPRO_VALUELABELSEPARATOR $label"
+     * @var string List of options in the form of "$value SURVEYPRO_VALUELABELSEPARATOR $label"
      */
     protected $options;
 
     /**
-     * $labelother = the text label for the optional option "other" in the form of "$value SURVEYPRO_OTHERSEPARATOR $label"
+     * @var string Text label for the optional option "other" in the form of "$value SURVEYPRO_OTHERSEPARATOR $label"
      */
     protected $labelother;
 
     /**
-     * @var string $defaultoption, the value of the default setting (invite, custom...)
+     * @var string Value of the default setting (invite, custom...)
      */
     protected $defaultoption;
 
     /**
-     * @var string $defaultvalue, the value of the field when the form is initially displayed.
+     * @var string Value of the field when the form is initially displayed
      */
     protected $defaultvalue;
 
     /**
-     * @var string $downloadformat, the format of the content once downloaded
+     * @var string Format of the content once downloaded
      */
     protected $downloadformat;
 
@@ -114,15 +114,15 @@ class mod_surveypro_field_select extends mod_surveypro_itembase {
     protected static $canbeparent = true;
 
     /**
-     * Class constructor
+     * Class constructor.
      *
-     * If itemid is provided, load the object (item + base + plugin) from database.
-     * If evaluateparentcontent is true, load the parentitem parentcontent property too.
+     * If itemid is provided, load the object (item + base + plugin) from database
+     * If evaluateparentcontent is true, load the parentitem parentcontent property too
      *
      * @param stdClass $cm
      * @param object $surveypro
      * @param int $itemid Optional item ID
-     * @param bool $evaluateparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise.
+     * @param bool $evaluateparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise
      */
     public function __construct($cm, $surveypro, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $surveypro, $itemid, $evaluateparentcontent);
@@ -148,10 +148,10 @@ class mod_surveypro_field_select extends mod_surveypro_itembase {
     }
 
     /**
-     * Item load
+     * Item load.
      *
      * @param int $itemid
-     * @param bool $evaluateparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise.
+     * @param bool $evaluateparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise
      * @return void
      */
     public function item_load($itemid, $evaluateparentcontent) {
@@ -166,7 +166,7 @@ class mod_surveypro_field_select extends mod_surveypro_itembase {
     }
 
     /**
-     * Item save
+     * Item save.
      *
      * @param object $record
      * @return void
@@ -190,7 +190,7 @@ class mod_surveypro_field_select extends mod_surveypro_itembase {
     }
 
     /**
-     * Item get can be parent
+     * Item get can be parent.
      *
      * @return the content of the static property "canbeparent"
      */
@@ -200,7 +200,7 @@ class mod_surveypro_field_select extends mod_surveypro_itembase {
 
     /**
      * Item add mandatory plugin fields
-     * Copy mandatory fields to $record.
+     * Copy mandatory fields to $record
      *
      * @param stdClass $record
      * @return void
@@ -218,7 +218,7 @@ class mod_surveypro_field_select extends mod_surveypro_itembase {
     }
 
     /**
-     * Prepare values for the mform of this item
+     * Prepare values for the mform of this item.
      *
      * @return void
      */
@@ -228,7 +228,7 @@ class mod_surveypro_field_select extends mod_surveypro_itembase {
     }
 
     /**
-     * Traslate values from the mform of this item to values for corresponding properties
+     * Traslate values from the mform of this item to values for corresponding properties.
      *
      * @param object $record
      * @return void
@@ -291,7 +291,7 @@ class mod_surveypro_field_select extends mod_surveypro_itembase {
     }
 
     /**
-     * Item_get_friendlyformat
+     * Item_get_friendlyformat.
      *
      * @return void
      */
@@ -313,7 +313,7 @@ class mod_surveypro_field_select extends mod_surveypro_itembase {
     }
 
     /**
-     * Return the xml schema for surveypro_<<plugin>> table
+     * Return the xml schema for surveypro_<<plugin>> table.
      *
      * @return string $schema
      */
@@ -359,13 +359,10 @@ EOS;
     // MARK parent
 
     /**
-     * Parent_encode_child_parentcontent
-     *
-     * this method is called ONLY at item save time
-     * it encodes the child parentcontent to parentindex
+     * Translate the parentcontent of the child item to the corresponding parentvalue.
      *
      * @param $childparentcontent
-     * return childparentvalue
+     * return string childparentvalue
      */
     public function parent_encode_child_parentcontent($childparentcontent) {
         $parentcontents = array_unique(surveypro_textarea_to_array($childparentcontent));
@@ -391,14 +388,14 @@ EOS;
 
     /**
      * I can not make ANY assumption about $childparentvalue because of the following explanation:
-     * At child save time, I encode its $parentcontent to $parentvalue.
-     * The encoding is done through a parent method according to parent values.
-     * Once the child is saved, I can return to parent and I can change it as much as I want.
-     * For instance by changing the number and the content of its options.
+     * At child save time, I encode its $parentcontent to $parentvalue
+     * The encoding is done through a parent method according to parent values
+     * Once the child is saved, I can return to parent and I can change it as much as I want
+     * For instance by changing the number and the content of its options
      * At parent save time, the child parentvalue is rewritten
      * -> but it may result in a too short or too long list of keys
-     * -> or with a wrong number of unrecognized keys so I need to...
-     * ...implement all possible checks to avoid crashes/malfunctions during code execution.
+     * -> or with a wrong number of unrecognized keys so I need to..
+     * ...implement all possible checks to avoid crashes/malfunctions during code execution
      *
      * this method decodes parentindex to parentcontent
      *
@@ -442,7 +439,7 @@ EOS;
     }
 
     /**
-     * This method, starting from child parentvalue (index/es), declare if the child could be include in the surveypro
+     * This method, starting from child parentvalue (index/es), declare if the child could be include in the surveypro.
      *
      * @param string $childparentvalue
      * @return status of child relation
@@ -479,7 +476,7 @@ EOS;
     // MARK userform
 
     /**
-     * Define the mform element for the outform and the searchform
+     * Define the mform element for the outform and the searchform.
      *
      * @param moodleform $mform
      * @param bool $searchform
@@ -567,7 +564,7 @@ EOS;
     }
 
     /**
-     * Perform outform and searchform data validation
+     * Perform outform and searchform data validation.
      *
      * @param array $data
      * @param array $errors
@@ -710,7 +707,7 @@ EOS;
     }
 
     /**
-     * This method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time
+     * This method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time.
      *
      * @param object $fromdb
      * @return void
@@ -741,7 +738,7 @@ EOS;
     }
 
     /**
-     * Starting from the info stored into $answer, this function returns the corresponding content for the export file
+     * Starting from the info stored into $answer, this function returns the corresponding content for the export file.
      *
      * @param object $answer
      * @param string $format
@@ -794,7 +791,7 @@ EOS;
     }
 
     /**
-     * Returns an array with the names of the mform element added using $mform->addElement or $mform->addGroup
+     * Returns an array with the names of the mform element added using $mform->addElement or $mform->addGroup.
      *
      * @return array
      */

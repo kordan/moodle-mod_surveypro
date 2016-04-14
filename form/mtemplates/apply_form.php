@@ -27,7 +27,7 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 class mod_surveypro_applymtemplateform extends moodleform {
 
     /**
-     * Definition
+     * Definition.
      *
      * @return void
      */
@@ -73,7 +73,7 @@ class mod_surveypro_applymtemplateform extends moodleform {
     }
 
     /**
-     * Validation
+     * Validation.
      *
      * @param array $data
      * @param array $files

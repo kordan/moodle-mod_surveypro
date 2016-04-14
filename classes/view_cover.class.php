@@ -51,7 +51,7 @@ class mod_surveypro_covermanager {
     protected $surveypro;
 
     /**
-     * Class constructor
+     * Class constructor.
      *
      * @param object $cm
      * @param object $context
@@ -64,7 +64,7 @@ class mod_surveypro_covermanager {
     }
 
     /**
-     * Display the overview page
+     * Display the overview page.
      *
      * @return void
      */
@@ -286,7 +286,7 @@ echo '$inprogress = '.$inprogress.'<br />';
     }
 
     /**
-     * Display the generic message of the overview page
+     * Display the generic message of the overview page.
      *
      * @param string $messages
      * @param string $strlegend

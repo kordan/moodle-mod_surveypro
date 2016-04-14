@@ -66,7 +66,7 @@ class mod_surveypro_formbase {
     protected $maxassignedpage;
 
     /**
-     * Class constructor
+     * Class constructor.
      *
      * @param object $cm
      * @param object $context
@@ -79,7 +79,7 @@ class mod_surveypro_formbase {
     }
 
     /**
-     * Stop of the page display procedure because no item is available
+     * Stop of the page display procedure because no item is available.
      *
      * @return void
      */
@@ -111,7 +111,7 @@ class mod_surveypro_formbase {
     }
 
     /**
-     * Get prefill data
+     * Get prefill data.
      *
      * @return void
      */
@@ -141,7 +141,7 @@ class mod_surveypro_formbase {
     }
 
     /**
-     * Display the text "Page x of y"
+     * Display the text "Page x of y".
      *
      * @return void
      */
@@ -216,7 +216,7 @@ class mod_surveypro_formbase {
     }
 
     /**
-     * Get max assigned page
+     * Get max assigned page.
      *
      * @return the content of the $maxassignedpage property
      */

@@ -60,12 +60,12 @@ class mod_surveypro_templatebase {
     public $formdata = null;
 
     /**
-     * @var array, $langtree
+     * @var array
      */
     protected $langtree = array();
 
     /**
-     * Class constructor
+     * Class constructor.
      *
      * @param object $cm
      * @param object $context
@@ -78,7 +78,7 @@ class mod_surveypro_templatebase {
     }
 
     /**
-     * Validate the uploaded xml file
+     * Validate the uploaded xml file.
      *
      * @param object $xml File to validate
      * @return object|boolean error describing the message to show, false if no error is found
@@ -236,7 +236,7 @@ class mod_surveypro_templatebase {
     // MARK get
 
     /**
-     * Get table structure
+     * Get table structure.
      *
      * @param string $tablename
      * @return void
@@ -257,7 +257,7 @@ class mod_surveypro_templatebase {
     }
 
     /**
-     * Get plugin version on disk
+     * Get plugin version on disk.
      *
      * @return versions of each field|format item plugin
      */

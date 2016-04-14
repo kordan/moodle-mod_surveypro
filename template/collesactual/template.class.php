@@ -28,7 +28,7 @@ require_once($CFG->dirroot.'/mod/surveypro/template/collesactual/lib.php');
 class mod_surveypro_template_collesactual {
 
     /**
-     * Apply_template_settings
+     * Apply_template_settings.
      *
      * @param $tablename
      * @param $record

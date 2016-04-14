@@ -28,7 +28,7 @@ require_once($CFG->dirroot.'/mod/surveypro/template/collesactualpreferred/lib.ph
 class mod_surveypro_template_collesactualpreferred {
 
     /**
-     * Apply_template_settings
+     * Apply_template_settings.
      *
      * @param $tablename
      * @param $record

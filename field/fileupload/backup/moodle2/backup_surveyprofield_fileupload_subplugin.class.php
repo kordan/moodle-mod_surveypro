@@ -34,7 +34,7 @@ defined('MOODLE_INTERNAL') || die();
 class backup_surveyprofield_fileupload_subplugin extends backup_subplugin {
 
     /**
-     * Define_item_subplugin_structure
+     * Define_item_subplugin_structure.
      *
      * Returns the structure to be attached to the 'item' XML element
      */
@@ -59,7 +59,7 @@ class backup_surveyprofield_fileupload_subplugin extends backup_subplugin {
     }
 
     /**
-     * Define_answer_subplugin_structure
+     * Define_answer_subplugin_structure.
      *
      * @return void
      */

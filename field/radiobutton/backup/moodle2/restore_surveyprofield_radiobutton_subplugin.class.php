@@ -50,7 +50,7 @@ class restore_surveyprofield_radiobutton_subplugin extends restore_subplugin {
     }
 
     /**
-     * Processes the surveyprofield_radiobutton element
+     * Processes the surveyprofield_radiobutton element.
      *
      * @param mixed $data
      */

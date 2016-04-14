@@ -27,7 +27,7 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 class mod_surveypro_report_filterform extends moodleform {
 
     /**
-     * Definition
+     * Definition.
      *
      * @return void
      */

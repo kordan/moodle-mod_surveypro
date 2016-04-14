@@ -44,7 +44,7 @@ require_once($CFG->libdir.'/form/editor.php');
 class mod_surveypro_mform_editor extends MoodleQuickForm_editor {
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $elementName (optional) name of the editor
      * @param string $elementLabel (optional) editor label
@@ -57,7 +57,7 @@ class mod_surveypro_mform_editor extends MoodleQuickForm_editor {
     }
 
     /**
-     * Returns type of editor element
+     * Returns type of editor element.
      *
      * @return string
      */
@@ -68,10 +68,10 @@ class mod_surveypro_mform_editor extends MoodleQuickForm_editor {
     /**
      * Returns HTML for editor form element.
      *
-     * My intervention only replaces <div> with <div class="indent-x"> AT THE BEGINNING of $output.
-     * I use the output of parent::toHtml() to get advantages of future updates to core mform class.
+     * My intervention only replaces <div> with <div class="indent-x"> AT THE BEGINNING of $output
+     * I use the output of parent::toHtml() to get advantages of future updates to core mform class
      * I search for simple <div> without attributes so that if moodle HQ will ever fix this issue in the core code,
-     * my intervention will result in nothing without adding useless or dangerous modifications.
+     * my intervention will result in nothing without adding useless or dangerous modifications
      *
      * @return string
      */

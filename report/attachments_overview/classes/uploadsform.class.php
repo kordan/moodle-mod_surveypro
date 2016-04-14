@@ -61,7 +61,7 @@ class mod_surveypro_report_uploadformmanager {
     public $formdata = null;
 
     /**
-     * Class constructor
+     * Class constructor.
      *
      * @param object $cm
      * @param object $context
@@ -76,7 +76,7 @@ class mod_surveypro_report_uploadformmanager {
     // MARK set
 
     /**
-     * Set user id
+     * Set user id.
      *
      * @param string $userid
      * @return void
@@ -86,7 +86,7 @@ class mod_surveypro_report_uploadformmanager {
     }
 
     /**
-     * Set item id
+     * Set item id.
      *
      * @param string $itemid
      * @return void
@@ -96,7 +96,7 @@ class mod_surveypro_report_uploadformmanager {
     }
 
     /**
-     * Set submission id
+     * Set submission id.
      *
      * @param string $submissionid
      * @return void
@@ -106,7 +106,7 @@ class mod_surveypro_report_uploadformmanager {
     }
 
     /**
-     * Prevent direct user input
+     * Prevent direct user input.
      *
      * @return void
      */
@@ -119,7 +119,7 @@ class mod_surveypro_report_uploadformmanager {
     }
 
     /**
-     * Display_attachment
+     * Display_attachment.
      *
      * @param $submissionid
      * @param $itemid

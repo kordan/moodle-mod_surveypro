@@ -50,7 +50,7 @@ class restore_surveyprofield_rate_subplugin extends restore_subplugin {
     }
 
     /**
-     * Processes the surveyprofield_rate element
+     * Processes the surveyprofield_rate element.
      *
      * @param mixed $data
      */

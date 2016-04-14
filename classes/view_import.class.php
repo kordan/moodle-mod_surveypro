@@ -54,7 +54,7 @@ class mod_surveypro_importmanager {
     public $formdata = null;
 
     /**
-     * Class constructor
+     * Class constructor.
      *
      * @param object $cm
      * @param object $context
@@ -67,7 +67,7 @@ class mod_surveypro_importmanager {
     }
 
     /**
-     * Trigger the all_submissions_exported event
+     * Trigger the all_submissions_exported event.
      *
      * @return void
      */
@@ -78,7 +78,7 @@ class mod_surveypro_importmanager {
     }
 
     /**
-     * Welcome_message
+     * Welcome_message.
      *
      * @return void
      */
@@ -102,7 +102,7 @@ class mod_surveypro_importmanager {
     }
 
     /**
-     * Get uniqueness columns
+     * Get uniqueness columns.
      *
      * @param array $foundheaders
      * @return false or the duplicate header
@@ -121,7 +121,7 @@ class mod_surveypro_importmanager {
     }
 
     /**
-     * Get survey infos
+     * Get survey infos.
      *
      * @return $surveyheaders and $requireditems
      */
@@ -179,7 +179,7 @@ class mod_surveypro_importmanager {
     }
 
     /**
-     * Verify_required
+     * Verify_required.
      *
      * @param array $requireditems
      * @param int $columntoitemid
@@ -198,7 +198,7 @@ class mod_surveypro_importmanager {
     }
 
     /**
-     * Verify_attachments_import
+     * Verify_attachments_import.
      *
      * @param array $foundheaders
      * @return either array extraheadres or bool false
@@ -234,7 +234,7 @@ class mod_surveypro_importmanager {
     }
 
     /**
-     * Get csv content
+     * Get csv content.
      *
      * @return csv content
      */
@@ -245,7 +245,7 @@ class mod_surveypro_importmanager {
     }
 
     /**
-     * Get column to item id
+     * Get column to item id.
      *
      * This method returns the correspondence between the column where the datum is found
      * and the id of the surveypro item where the datum has to go
@@ -290,7 +290,7 @@ class mod_surveypro_importmanager {
     }
 
     /**
-     * Get items helper info
+     * Get items helper info.
      *
      * @param array $columntoitemid
      * @param array $environmentheaders
@@ -364,7 +364,7 @@ class mod_surveypro_importmanager {
     }
 
     /**
-     * Validate_csv
+     * Validate_csv.
      *
      * @return void
      */

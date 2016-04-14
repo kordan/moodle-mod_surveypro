@@ -44,7 +44,7 @@ require_once($CFG->libdir.'/form/static.php');
 class mod_surveypro_mform_static extends MoodleQuickForm_static {
 
     /**
-     * Class constructor
+     * Class constructor.
      *
      * @param string $elementName Select name attribute
      * @param mixed $elementLabel Label(s) for the select
@@ -58,7 +58,7 @@ class mod_surveypro_mform_static extends MoodleQuickForm_static {
     }
 
     /**
-     * Returns type of editor element
+     * Returns type of editor element.
      *
      * @return string
      */

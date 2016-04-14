@@ -54,7 +54,7 @@ class mod_surveypro_searchmanager {
     public $formdata = null;
 
     /**
-     * Class constructor
+     * Class constructor.
      *
      * @param object $cm
      * @param object $context
@@ -67,7 +67,7 @@ class mod_surveypro_searchmanager {
     }
 
     /**
-     * Get_searchparamurl
+     * Get_searchparamurl.
      *
      * @return void
      */

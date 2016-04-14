@@ -50,7 +50,7 @@ class restore_surveyprofield_character_subplugin extends restore_subplugin {
     }
 
     /**
-     * Processes the surveyprofield_character element
+     * Processes the surveyprofield_character element.
      *
      * @param mixed $data
      */

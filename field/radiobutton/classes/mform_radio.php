@@ -41,7 +41,7 @@ require_once($CFG->libdir.'/form/radio.php');
 class mod_surveypro_mform_radio extends MoodleQuickForm_radio {
 
     /**
-     * Class constructor
+     * Class constructor.
      *
      * @param string $elementName Optional name of the radio element
      * @param string $elementLabel Optional label for radio element
@@ -65,7 +65,7 @@ class mod_surveypro_mform_radio extends MoodleQuickForm_radio {
 
     /**
      * Returns the disabled field. Accessibility: the return "( )" from parent
-     * class is not acceptable for screenreader users, and we DO want a label.
+     * class is not acceptable for screenreader users, and we DO want a label
      *
      * @return string
      */

@@ -72,7 +72,7 @@ class surveyproreport extends base {
     }
 
     /**
-     * Is uninstall allowed
+     * Is uninstall allowed.
      *
      * @return bool true
      */
@@ -90,7 +90,7 @@ class surveyproreport extends base {
     }
 
     /**
-     * Get settings section name
+     * Get settings section name.
      *
      * @return settings section name
      */
@@ -99,9 +99,9 @@ class surveyproreport extends base {
     }
 
     /**
-     * Loads plugin settings to the settings tree
+     * Loads plugin settings to the settings tree.
      *
-     * This function usually includes settings.php file in plugins folder.
+     * This function usually includes settings.php file in plugins folder
      * Alternatively it can create a link to some settings page (instance of admin_externalpage)
      *
      * @param \part_of_admin_tree $adminroot

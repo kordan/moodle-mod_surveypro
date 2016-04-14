@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'field_boolean', language 'en', branch 'MOODLE_31_STABLE'
+ * Strings for component 'field_boolean', language 'en'
  *
  * @package   surveyprofield_boolean
  * @copyright 2013 onwards kordan <kordan@mclink.it>

@@ -50,7 +50,7 @@ class restore_surveyprofield_numeric_subplugin extends restore_subplugin {
     }
 
     /**
-     * Processes the surveyprofield_numeric element
+     * Processes the surveyprofield_numeric element.
      *
      * @param mixed $data
      */

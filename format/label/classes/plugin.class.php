@@ -52,9 +52,9 @@ class mod_surveypro_format_label extends mod_surveypro_itembase {
     public $contentformat = '';
 
     /**
-     * @var string $customnumber, the custom number of the item.
+     * @var string Custom number of the item
      *
-     * It usually is 1, 1.1, a, 2.1.a...
+     * It usually is 1, 1.1, a, 2.1.a..
      */
     protected $customnumber;
 
@@ -69,7 +69,7 @@ class mod_surveypro_format_label extends mod_surveypro_itembase {
     protected $leftlabel;
 
     /**
-     * $labelformat = the text format of the item.
+     * $labelformat = the text format of the item
      */
     protected $leftlabelformat;
 
@@ -79,15 +79,15 @@ class mod_surveypro_format_label extends mod_surveypro_itembase {
     protected static $canbeparent = false;
 
     /**
-     * Class constructor
+     * Class constructor.
      *
-     * If itemid is provided, load the object (item + base + plugin) from database.
-     * If evaluateparentcontent is true, load the parentitem parentcontent property too.
+     * If itemid is provided, load the object (item + base + plugin) from database
+     * If evaluateparentcontent is true, load the parentitem parentcontent property too
      *
      * @param stdClass $cm
      * @param object $surveypro
      * @param int $itemid Optional item ID
-     * @param bool $evaluateparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise.
+     * @param bool $evaluateparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise
      */
     public function __construct($cm, $surveypro, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $surveypro, $itemid, $evaluateparentcontent);
@@ -117,10 +117,10 @@ class mod_surveypro_format_label extends mod_surveypro_itembase {
     }
 
     /**
-     * Item load
+     * Item load.
      *
      * @param int $itemid
-     * @param bool $evaluateparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise.
+     * @param bool $evaluateparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise
      * @return void
      */
     public function item_load($itemid, $evaluateparentcontent) {
@@ -133,7 +133,7 @@ class mod_surveypro_format_label extends mod_surveypro_itembase {
     }
 
     /**
-     * Item save
+     * Item save.
      *
      * @param object $record
      * @return void
@@ -152,7 +152,7 @@ class mod_surveypro_format_label extends mod_surveypro_itembase {
     }
 
     /**
-     * Item_get_pdf_template
+     * Item_get_pdf_template.
      *
      * @return the template to use at response report creation
      */
@@ -161,7 +161,7 @@ class mod_surveypro_format_label extends mod_surveypro_itembase {
     }
 
     /**
-     * Traslate values from the mform of this item to values for corresponding properties
+     * Traslate values from the mform of this item to values for corresponding properties.
      *
      * @param object $record
      * @return void
@@ -184,7 +184,7 @@ class mod_surveypro_format_label extends mod_surveypro_itembase {
     }
 
     /**
-     * Item get can be parent
+     * Item get can be parent.
      *
      * @return the content of the static property "canbeparent"
      */
@@ -194,7 +194,7 @@ class mod_surveypro_format_label extends mod_surveypro_itembase {
 
     /**
      * Item add mandatory plugin fields
-     * Copy mandatory fields to $record.
+     * Copy mandatory fields to $record
      *
      * @param stdClass $record
      * @return void
@@ -220,7 +220,7 @@ class mod_surveypro_format_label extends mod_surveypro_itembase {
     }
 
     /**
-     * Return the xml schema for surveypro_<<plugin>> table
+     * Return the xml schema for surveypro_<<plugin>> table.
      *
      * @return string $schema
      */
@@ -259,7 +259,7 @@ EOS;
     // MARK userform
 
     /**
-     * Define the mform element for the outform and the searchform
+     * Define the mform element for the outform and the searchform.
      *
      * @param moodleform $mform
      * @param bool $searchform
@@ -294,7 +294,7 @@ EOS;
     }
 
     /**
-     * Perform outform and searchform data validation
+     * Perform outform and searchform data validation.
      *
      * @param array $data
      * @param array $errors
@@ -307,7 +307,7 @@ EOS;
     }
 
     /**
-     * This method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time
+     * This method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time.
      *
      * @param object $fromdb
      * @return void
@@ -319,7 +319,7 @@ EOS;
     }
 
     /**
-     * Starting from the info stored into $answer, this function returns the corresponding content for the export file
+     * Starting from the info stored into $answer, this function returns the corresponding content for the export file.
      *
      * @param object $answer
      * @param string $format
@@ -330,7 +330,7 @@ EOS;
     }
 
     /**
-     * Returns an array with the names of the mform element added using $mform->addElement or $mform->addGroup
+     * Returns an array with the names of the mform element added using $mform->addElement or $mform->addGroup.
      *
      * @return array
      */
@@ -343,7 +343,7 @@ EOS;
     }
 
     /**
-     * Get indent
+     * Get indent.
      *
      * @return void
      */

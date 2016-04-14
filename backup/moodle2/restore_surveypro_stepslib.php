@@ -94,9 +94,9 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
     }
 
     /**
-     * Process an item restore
-     * @param object $data Data in object form
+     * Process an item restore.
      *
+     * @param object $data Data in object form
      * @return void
      */
     protected function process_surveypro_item($data) {
@@ -113,9 +113,9 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
     }
 
     /**
-     * Process a submission restore
-     * @param object $data Data in object form
+     * Process a submission restore.
      *
+     * @param object $data Data in object form
      * @return void
      */
     protected function process_surveypro_submission($data) {
@@ -134,9 +134,9 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
     }
 
     /**
-     * Process an answer restore
-     * @param object $data Data in object form
+     * Process an answer restore.
      *
+     * @param object $data Data in object form
      * @return void
      */
     protected function process_surveypro_answer($data) {
@@ -153,7 +153,7 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
     }
 
     /**
-     * Once the database tables have been fully restored, restore the files
+     * Once the database tables have been fully restored, restore the files.
      *
      * @return void
      */

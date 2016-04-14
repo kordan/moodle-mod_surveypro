@@ -38,7 +38,7 @@ require_once($CFG->dirroot.'/mod/surveypro/format/pagebreak/lib.php');
 class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
 
     /**
-     * Definition
+     * Definition.
      *
      * @return void
      */

@@ -50,7 +50,7 @@ class restore_surveyprofield_checkbox_subplugin extends restore_subplugin {
     }
 
     /**
-     * Processes the surveyprofield_checkbox element
+     * Processes the surveyprofield_checkbox element.
      *
      * @param mixed $data
      */

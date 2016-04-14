@@ -52,34 +52,34 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
     public $contentformat = '';
 
     /**
-     * @var string $customnumber, the custom number of the item.
+     * @var string Custom number of the item
      *
-     * It usually is 1, 1.1, a, 2.1.a...
+     * It usually is 1, 1.1, a, 2.1.a..
      */
     protected $customnumber;
 
     /**
-     * @var int $position, SURVEYPRO_POSITIONLEFT, SURVEYPRO_POSITIONTOP or SURVEYPRO_POSITIONFULLWIDTH
+     * @var int SURVEYPRO_POSITIONLEFT, SURVEYPRO_POSITIONTOP or SURVEYPRO_POSITIONFULLWIDTH
      */
     protected $position;
 
     /**
-     * @var string $extranote, the optional text describing the item
+     * @var string Optional text with item custom note
      */
     protected $extranote;
 
     /**
-     * @var boolean $hideinstructions, True if the instructions are going to be shown in the form; false otherwise
+     * @var boolean True if the instructions are going to be shown in the form; false otherwise
      */
     protected $hideinstructions;
 
     /**
-     * @var string $variable, the name of the field storing data in the db table
+     * @var string Name of the field storing data in the db table
      */
     protected $variable;
 
     /**
-     * @var int $indent, the indent of the item in the form page
+     * @var int Indent of the item in the form page
      */
     protected $indent;
 
@@ -89,38 +89,78 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
     protected $hiddenfield;
 
     /**
-     * @var label $element01, element for $content
+     * @var string Element #1 for $content
      */
     protected $element01;
+
+    /**
+     * @var string Select of the element #1
+     */
     protected $element01select;
+
+    /**
+     * @var string Text of the element #1
+     */
     protected $element01text;
 
     /**
-     * @var label $element02, element for $content
+     * @var string Element #2 for $content
      */
     protected $element02;
+
+    /**
+     * @var string Select of the element #2
+     */
     protected $element02select;
+
+    /**
+     * @var string Text of the element #2
+     */
     protected $element02text;
 
     /**
-     * @var label $element03, element for $content
+     * @var string Element #3 for $content
      */
     protected $element03;
+
+    /**
+     * @var string Select of the element #3
+     */
     protected $element03select;
+
+    /**
+     * @var string Text of the element #3
+     */
     protected $element03text;
 
     /**
-     * @var label $element04, element for $content
+     * @var string Element #4 for $content
      */
     protected $element04;
+
+    /**
+     * @var string Select of the element #4
+     */
     protected $element04select;
+
+    /**
+     * @var string Text of the element #4
+     */
     protected $element04text;
 
     /**
-     * @var label $element05, element for $content
+     * @var string Element #5 for $content
      */
     protected $element05;
+
+    /**
+     * @var string Select of the element #5
+     */
     protected $element05select;
+
+    /**
+     * @var string Text of the element #5
+     */
     protected $element05text;
 
     /**
@@ -129,15 +169,15 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
     protected static $canbeparent = false;
 
     /**
-     * Class constructor
+     * Class constructor.
      *
-     * If itemid is provided, load the object (item + base + plugin) from database.
-     * If evaluateparentcontent is true, load the parentitem parentcontent property too.
+     * If itemid is provided, load the object (item + base + plugin) from database
+     * If evaluateparentcontent is true, load the parentitem parentcontent property too
      *
      * @param stdClass $cm
      * @param object $surveypro
      * @param int $itemid Optional item ID
-     * @param bool $evaluateparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise.
+     * @param bool $evaluateparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise
      */
     public function __construct($cm, $surveypro, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $surveypro, $itemid, $evaluateparentcontent);
@@ -164,10 +204,10 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
     }
 
     /**
-     * Item load
+     * Item load.
      *
      * @param int $itemid
-     * @param bool $evaluateparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise.
+     * @param bool $evaluateparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise
      * @return void
      */
     public function item_load($itemid, $evaluateparentcontent) {
@@ -182,7 +222,7 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
     }
 
     /**
-     * Item save
+     * Item save.
      *
      * @param object $record
      * @return void
@@ -202,7 +242,7 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
     }
 
     /**
-     * Item get can be parent
+     * Item get can be parent.
      *
      * @return the content of the static property "canbeparent"
      */
@@ -212,7 +252,7 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
 
     /**
      * Item add mandatory plugin fields
-     * Copy mandatory fields to $record.
+     * Copy mandatory fields to $record
      *
      * @param stdClass $record
      * @return void
@@ -228,7 +268,7 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
     }
 
     /**
-     * Prepare values for the mform of this item
+     * Prepare values for the mform of this item.
      *
      * @return void
      */
@@ -257,7 +297,7 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
     }
 
     /**
-     * Traslate values from the mform of this item to values for corresponding properties
+     * Traslate values from the mform of this item to values for corresponding properties.
      *
      * @param object $record
      * @return void
@@ -305,7 +345,7 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
     }
 
     /**
-     * Return the xml schema for surveypro_<<plugin>> table
+     * Return the xml schema for surveypro_<<plugin>> table.
      *
      * @return string $schema
      */
@@ -349,7 +389,7 @@ EOS;
     }
 
     /**
-     * Get can be mandatory
+     * Get can be mandatory.
      *
      * @return whether the item of this plugin can be mandatory
      */
@@ -360,7 +400,7 @@ EOS;
     // MARK userform
 
     /**
-     * Define the mform element for the outform and the searchform
+     * Define the mform element for the outform and the searchform.
      *
      * @param moodleform $mform
      * @param bool $searchform
@@ -395,7 +435,7 @@ EOS;
     }
 
     /**
-     * Perform outform and searchform data validation
+     * Perform outform and searchform data validation.
      *
      * @param array $data
      * @param array $errors
@@ -440,7 +480,7 @@ EOS;
     }
 
     /**
-     * This method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time
+     * This method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time.
      *
      * @param object $fromdb
      * @return void
@@ -460,7 +500,7 @@ EOS;
     }
 
     /**
-     * Userform_get_content
+     * Userform_get_content.
      *
      * @param int $submissionid
      * @return string
@@ -573,7 +613,7 @@ EOS;
     }
 
     /**
-     * Returns an array with the names of the mform element added using $mform->addElement or $mform->addGroup
+     * Returns an array with the names of the mform element added using $mform->addElement or $mform->addGroup.
      *
      * @return array
      */

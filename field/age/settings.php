@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file defines the admin settings for this plugin
+ * Admin settings for surveyprofield_age
  *
  * @package   surveyprofield_age
  * @copyright 2013 onwards kordan <kordan@mclink.it>

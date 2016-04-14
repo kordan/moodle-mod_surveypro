@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'surveyprofield_radiobutton', language 'en', branch 'MOODLE_31_STABLE'
+ * Strings for component 'surveyprofield_radiobutton', language 'en'
  *
  * @package   surveyprofield_radiobutton
  * @copyright 2013 onwards kordan <kordan@mclink.it>

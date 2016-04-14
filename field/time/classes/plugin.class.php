@@ -52,39 +52,39 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
     public $contentformat = '';
 
     /**
-     * @var string $customnumber, the custom number of the item.
+     * @var string Custom number of the item
      *
-     * It usually is 1, 1.1, a, 2.1.a...
+     * It usually is 1, 1.1, a, 2.1.a..
      */
     protected $customnumber;
 
     /**
-     * @var int $position, SURVEYPRO_POSITIONLEFT, SURVEYPRO_POSITIONTOP or SURVEYPRO_POSITIONFULLWIDTH
+     * @var int SURVEYPRO_POSITIONLEFT, SURVEYPRO_POSITIONTOP or SURVEYPRO_POSITIONFULLWIDTH
      */
     protected $position;
 
     /**
-     * @var string $extranote, the optional text describing the item
+     * @var string Optional text with item custom note
      */
     protected $extranote;
 
     /**
-     * @var bool $required,  O => optional item; 1 => mandatory item;
+     * @var bool 0 => optional item; 1 => mandatory item;
      */
     protected $required;
 
     /**
-     * @var boolean $hideinstructions, True if the instructions are going to be shown in the form; false otherwise
+     * @var boolean True if the instructions are going to be shown in the form; false otherwise
      */
     protected $hideinstructions;
 
     /**
-     * @var string $variable,  the name of the field storing data in the db table
+     * @var string Name of the field storing data in the db table
      */
     protected $variable;
 
     /**
-     * @var int $indent, the indent of the item in the form page
+     * @var int Indent of the item in the form page
      */
     protected $indent;
 
@@ -94,33 +94,58 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
     protected $step;
 
     /**
-     * $defaultoption = the value of the field when the form is initially displayed.
+     * @var string Value of the default setting (invite, custom...)
      */
     protected $defaultoption;
 
     /**
-     * @var string $downloadformat, the format of the content once downloaded
+     * @var string Format of the content once downloaded
      */
     protected $downloadformat;
+
     /**
-     * @var string $defaultvalue, the value of the field when the form is initially displayed.
+     * @var int Defaultvalue for the time in unixtime
      */
     protected $defaultvalue;
+
+    /**
+     * @var int Hour of the defaultvalue for the time
+     */
     protected $defaultvaluehour;
+
+    /**
+     * @var int Minute of the defaultvalue for the time
+     */
     protected $defaultvalueminute;
 
     /**
-     * $lowerbound = the minimum allowed time
+     * @var int Lowerbound for the shortdate in unixtime
      */
     protected $lowerbound;
+
+    /**
+     * @var int Hour of the lowerbound for the time
+     */
     protected $lowerboundhour;
+
+    /**
+     * @var int Minute of the lowerbound for the time
+     */
     protected $lowerboundminute;
 
     /**
-     * $upperbound = the maximum allowed time
+     * @var int Upperbound for the shortdate in unixtime
      */
     protected $upperbound;
+
+    /**
+     * @var int Hour of the upperbound for the time
+     */
     protected $upperboundhour;
+
+    /**
+     * @var int Minute of the upperbound for the time
+     */
     protected $upperboundminute;
 
     /**
@@ -129,15 +154,15 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
     protected static $canbeparent = false;
 
     /**
-     * Class constructor
+     * Class constructor.
      *
-     * If itemid is provided, load the object (item + base + plugin) from database.
-     * If evaluateparentcontent is true, load the parentitem parentcontent property too.
+     * If itemid is provided, load the object (item + base + plugin) from database
+     * If evaluateparentcontent is true, load the parentitem parentcontent property too
      *
      * @param stdClass $cm
      * @param object $surveypro
      * @param int $itemid Optional item ID
-     * @param bool $evaluateparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise.
+     * @param bool $evaluateparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise
      */
     public function __construct($cm, $surveypro, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $surveypro, $itemid, $evaluateparentcontent);
@@ -163,10 +188,10 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
     }
 
     /**
-     * Item load
+     * Item load.
      *
      * @param int $itemid
-     * @param bool $evaluateparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise.
+     * @param bool $evaluateparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise
      * @return void
      */
     public function item_load($itemid, $evaluateparentcontent) {
@@ -181,7 +206,7 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
     }
 
     /**
-     * Item save
+     * Item save.
      *
      * @param object $record
      * @return void
@@ -201,7 +226,7 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
     }
 
     /**
-     * Item get can be parent
+     * Item get can be parent.
      *
      * @return the content of the static property "canbeparent"
      */
@@ -211,7 +236,7 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
 
     /**
      * Item add mandatory plugin fields
-     * Copy mandatory fields to $record.
+     * Copy mandatory fields to $record
      *
      * @param stdClass $record
      * @return void
@@ -233,7 +258,7 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
     }
 
     /**
-     * Item_time_to_unix_time
+     * Item_time_to_unix_time.
      *
      * @param $hour
      * @param $minute
@@ -244,7 +269,7 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
     }
 
     /**
-     * Prepare values for the mform of this item
+     * Prepare values for the mform of this item.
      *
      * @return void
      */
@@ -273,7 +298,7 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
     }
 
     /**
-     * Traslate values from the mform of this item to values for corresponding properties
+     * Traslate values from the mform of this item to values for corresponding properties.
      *
      * @param object $record
      * @return void
@@ -315,7 +340,7 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
     }
 
     /**
-     * Get the list of composite fields
+     * Get the list of composite fields.
      *
      * @return void
      */
@@ -324,7 +349,7 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
     }
 
     /**
-     * Item_get_downloadformats
+     * Item_get_downloadformats.
      *
      * @return void
      */
@@ -340,7 +365,7 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
     }
 
     /**
-     * Item_get_friendlyformat
+     * Item_get_friendlyformat.
      *
      * @return void
      */
@@ -361,7 +386,7 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
     }
 
     /**
-     * Return the xml schema for surveypro_<<plugin>> table
+     * Return the xml schema for surveypro_<<plugin>> table.
      *
      * @return string $schema
      */
@@ -409,7 +434,7 @@ EOS;
     // MARK userform
 
     /**
-     * Define the mform element for the outform and the searchform
+     * Define the mform element for the outform and the searchform.
      *
      * @param moodleform $mform
      * @param bool $searchform
@@ -526,7 +551,7 @@ EOS;
     }
 
     /**
-     * Perform outform and searchform data validation
+     * Perform outform and searchform data validation.
      *
      * @param array $data
      * @param array $errors
@@ -610,7 +635,7 @@ EOS;
     }
 
     /**
-     * Prepare the string with the filling instruction
+     * Prepare the string with the filling instruction.
      *
      * @return string $fillinginstruction
      */
@@ -680,7 +705,7 @@ EOS;
     }
 
     /**
-     * This method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time
+     * This method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time.
      *
      * @param object $fromdb
      * @return void
@@ -706,7 +731,7 @@ EOS;
     }
 
     /**
-     * Starting from the info stored into $answer, this function returns the corresponding content for the export file
+     * Starting from the info stored into $answer, this function returns the corresponding content for the export file.
      *
      * @param object $answer
      * @param string $format
@@ -739,7 +764,7 @@ EOS;
     }
 
     /**
-     * Returns an array with the names of the mform element added using $mform->addElement or $mform->addGroup
+     * Returns an array with the names of the mform element added using $mform->addElement or $mform->addGroup.
      *
      * @return array
      */

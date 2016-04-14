@@ -81,7 +81,7 @@ class mod_surveypro_submissionmanager {
     protected $searchquery;
 
     /**
-     * Class constructor
+     * Class constructor.
      *
      * @param object $cm
      * @param object $context
@@ -100,7 +100,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * Object setup
+     * Object setup.
      *
      * @param int $submissionid
      * @param int $action
@@ -124,7 +124,7 @@ class mod_surveypro_submissionmanager {
     // MARK set
 
     /**
-     * Set submission id
+     * Set submission id.
      *
      * @param int $submissionid
      * @return void
@@ -134,7 +134,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * Set action
+     * Set action.
      *
      * @param int $action
      * @return void
@@ -144,7 +144,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * Set view
+     * Set view.
      *
      * @param int $view
      * @return void
@@ -154,7 +154,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * Set confirm
+     * Set confirm.
      *
      * @param int $confirm
      * @return void
@@ -164,7 +164,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * Set search query
+     * Set search query.
      *
      * @param string $searchquery
      * @return void
@@ -176,7 +176,7 @@ class mod_surveypro_submissionmanager {
     // MARK get
 
     /**
-     * Get submissions sql
+     * Get submissions sql.
      *
      * @param flexible_table $table
      * @return void
@@ -307,12 +307,12 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * Noitem_redirect
+     * Noitem_redirect.
      *
-     * I HATE software thinking for me.
-     * Because of this I ALWAYS want to go where I ask, even if the place I ask is not supposed to be accessed by me.
-     * In this particular case, I want a message explaining WHY the place I asked is not supposed to be accessed by me.
-     * I NEVER want to be silently redirected.
+     * I HATE software thinking for me
+     * Because of this I ALWAYS want to go where I ask, even if the place I ask is not supposed to be accessed by me
+     * In this particular case, I want a message explaining WHY the place I asked is not supposed to be accessed by me
+     * I NEVER want to be silently redirected
      *
      * By default accessing a surveypro from a course (/view.php?id=xxx), the "predefined" landing page should be:
      *     -> for admin/editing teacher:
@@ -320,19 +320,19 @@ class mod_surveypro_submissionmanager {
      *         -> if items were already created: view.php with the submission list
      *     -> for students: ALWAYS view.php with the submission list
      *
-     * So the software HAS TO decide where to send the admin/editing teacher when he arrives from a course.
-     * So in the view.php I MUST add a code snippet TAKING THE DECISION for the user.
+     * So the software HAS TO decide where to send the admin/editing teacher when he arrives from a course
+     * So in the view.php I MUST add a code snippet TAKING THE DECISION for the user
      *
      * The problem rises up when the admin/editing teacher decides to go where he should not go, alias in:
      *     -> layout_manage.php even if items were already created
      *     -> view.php with the submission list even if no items were created
      *
-     * The first request is a false problem, because the admin/editing teacher is always allowed to go there.
+     * The first request is a false problem, because the admin/editing teacher is always allowed to go there
      * The second request is allowed by the introduction of the parameter &force=1 in the URL of the TAB
      *     When the admin/editing teacher asks for view.php by clicking the corresponding TAB he asks for view.php?id=xxx&force=1
-     *     and the software decision is omitted.
+     *     and the software decision is omitted
      *     As opposite:
-     *     When the admin/editing teacher arrives from a course, he is sent to land in view.php?id=xxx and the decision is taken.
+     *     When the admin/editing teacher arrives from a course, he is sent to land in view.php?id=xxx and the decision is taken
      *
      * @return void
      */
@@ -346,7 +346,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * Trigger the all_submissions_viewed event
+     * Trigger the all_submissions_viewed event.
      *
      * @return void
      */
@@ -358,7 +358,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * Manage_actions
+     * Manage_actions.
      *
      * @return void
      */
@@ -405,7 +405,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * Manage_actions
+     * Manage_actions.
      *
      * @return void
      */
@@ -426,7 +426,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * One_submission_deletion_feedback
+     * One_submission_deletion_feedback.
      *
      * @return void
      */
@@ -487,7 +487,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * All_submission_deletion_feedback
+     * All_submission_deletion_feedback.
      *
      * @return void
      */
@@ -526,7 +526,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * User_sent_submissions
+     * User_sent_submissions.
      *
      * @param bool $status
      * @return void
@@ -553,7 +553,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * Get_submissions_info_sql
+     * Get_submissions_info_sql.
      *
      * @param string $sql
      * @param array $whereparams
@@ -622,7 +622,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * Display_submissions_info
+     * Display_submissions_info.
      *
      * @param int $inprogresssubmission
      * @param int $inprogressusers
@@ -688,7 +688,7 @@ class mod_surveypro_submissionmanager {
         echo html_writer::end_tag('fieldset');
     }
     /**
-     * Display the submissions table
+     * Display the submissions table.
      *
      * @return void
      */
@@ -977,7 +977,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * Show_action_buttons
+     * Show_action_buttons.
      *
      * @return void
      */
@@ -1059,7 +1059,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * Prevent direct user input
+     * Prevent direct user input.
      *
      * @param bool $confirm
      * @return void
@@ -1187,7 +1187,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * Submission_to_pdf
+     * Submission_to_pdf.
      *
      * @return void
      */

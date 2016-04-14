@@ -50,7 +50,7 @@ class restore_surveyprofield_textarea_subplugin extends restore_subplugin {
     }
 
     /**
-     * Processes the surveyprofield_textarea element
+     * Processes the surveyprofield_textarea element.
      *
      * @param mixed $data
      */

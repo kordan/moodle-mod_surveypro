@@ -27,7 +27,7 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 class mod_surveypro_outform extends moodleform {
 
     /**
-     * Definition
+     * Definition.
      *
      * @return void
      */
@@ -234,7 +234,7 @@ class mod_surveypro_outform extends moodleform {
     }
 
     /**
-     * Validation
+     * Validation.
      *
      * @param array $data
      * @param array $files

@@ -38,7 +38,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/integer/lib.php');
 class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
 
     /**
-     * Definition
+     * Definition.
      *
      * @return void
      */
@@ -91,7 +91,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
     }
 
     /**
-     * Validation
+     * Validation.
      *
      * @param array $data
      * @param array $files

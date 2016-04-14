@@ -47,7 +47,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     protected $confirm;
 
     /**
-     * Setup
+     * Setup.
      *
      * @param int $utemplateid
      * @param int $action
@@ -95,7 +95,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     // MARK get
 
     /**
-     * Get filemanager options
+     * Get filemanager options.
      *
      * @return $filemanageroptions
      */
@@ -111,7 +111,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Get context id from sharing level
+     * Get context id from sharing level.
      *
      * It follow how $sharinglevel is formed:
      *
@@ -167,7 +167,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Get context string from sharing level
+     * Get context string from sharing level.
      *
      * @param int $contextlevel
      * @return string $contextstring
@@ -200,7 +200,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Get sharing level options
+     * Get sharing level options.
      *
      * @return $options
      */
@@ -229,7 +229,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Get user template content
+     * Get user template content.
      *
      * @param int $utemplateid
      * @return void
@@ -245,7 +245,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Get user template name
+     * Get user template name.
      *
      * @return void
      */
@@ -259,7 +259,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     /**
      * Gets an array of all of the templates that users have saved to the site.
      *
-     * @param int $contextid Context that we are looking for.
+     * @param int $contextid Context that we are looking for
      * @return array $templates
      */
     public function get_available_templates($contextid) {
@@ -279,7 +279,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Write template content
+     * Write template content.
      *
      * @param boolean $visiblesonly
      * @return void
@@ -406,7 +406,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Apply template
+     * Apply template.
      *
      * @return void
      */
@@ -471,7 +471,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Display a friendly message to stop the page load under particular conditions
+     * Display a friendly message to stop the page load under particular conditions.
      *
      * @return void
      */
@@ -627,7 +627,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Make the usertemplate available for the download
+     * Make the usertemplate available for the download.
      *
      * @return void
      */
@@ -665,7 +665,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Upload the usertemplate
+     * Upload the usertemplate.
      *
      * @return void
      */
@@ -751,7 +751,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Generate the usertemplate
+     * Generate the usertemplate.
      *
      * @return void
      */
@@ -787,7 +787,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Display the usertemplates table
+     * Display the usertemplates table.
      *
      * @return void
      */
@@ -910,7 +910,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Create the tool to sort usertemplates in the table
+     * Create the tool to sort usertemplates in the table.
      *
      * @param array $templates
      * @param string $usersort
@@ -967,7 +967,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Delete usertemplate
+     * Delete usertemplate.
      *
      * @return void
      */
@@ -1021,7 +1021,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Prevent direct user input
+     * Prevent direct user input.
      *
      * @return void
      */
@@ -1041,7 +1041,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Trigger the provided event
+     * Trigger the provided event.
      *
      * @param string $eventname Event to trigger
      * @param int $action

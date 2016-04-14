@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'surveyprofield_textarea', language 'en', branch 'MOODLE_31_STABLE'
+ * Strings for component 'surveyprofield_textarea', language 'en'
  *
  * @package   surveyprofield_textarea
  * @copyright 2013 onwards kordan <kordan@mclink.it>

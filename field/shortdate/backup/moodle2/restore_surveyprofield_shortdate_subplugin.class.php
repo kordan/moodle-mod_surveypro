@@ -50,7 +50,7 @@ class restore_surveyprofield_shortdate_subplugin extends restore_subplugin {
     }
 
     /**
-     * Processes the surveyprofield_shortdate element
+     * Processes the surveyprofield_shortdate element.
      *
      * @param mixed $data
      */

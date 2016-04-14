@@ -38,12 +38,12 @@ require_once($CFG->dirroot.'/mod/surveypro/classes/templatebase.class.php');
 class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
 
     /**
-     * @var array, $langtree
+     * @var array
      */
     protected $langtree = array();
 
     /**
-     * Download master template
+     * Download master template.
      *
      * @return void
      */
@@ -62,7 +62,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Generate master template
+     * Generate master template.
      *
      * @return void
      */
@@ -232,7 +232,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Write master template content
+     * Write master template content.
      *
      * @param boolean $visiblesonly
      * @return void
@@ -363,7 +363,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Get the content of a field for the XML file
+     * Get the content of a field for the XML file.
      *
      * @param object $item
      * @param string $dummyplugin
@@ -397,7 +397,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Apply template
+     * Apply template.
      *
      * @return void
      */
@@ -428,7 +428,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Display a friendly message to stop the page load under particular conditions
+     * Display a friendly message to stop the page load under particular conditions.
      *
      * @return void
      */
@@ -449,7 +449,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Actually add items coming from template to the db
+     * Actually add items coming from template to the db.
      *
      * @return void
      */
@@ -578,9 +578,8 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Append all the field that will have content derived from the lang files
+     * Append all the field that will have content derived from the lang files.
      *
-     * @param string $dummyplugin
      * @param array $multilangfields
      * @param object $item
      * @return void
@@ -601,7 +600,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Generate the array of strings for the lang file of the mastertemplate plugin
+     * Generate the array of strings for the lang file of the mastertemplate plugin.
      *
      * @return void
      */
@@ -619,7 +618,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     }
 
     /**
-     * Trigger the provided event
+     * Trigger the provided event.
      *
      * @param string $eventname Event to trigger
      * @return void
@@ -644,7 +643,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     // MARK get
 
     /**
-     * Get translated strings
+     * Get translated strings.
      *
      * @param string $userlang
      * @return void

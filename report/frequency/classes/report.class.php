@@ -104,7 +104,7 @@ class mod_surveypro_report_frequency extends mod_surveypro_reportbase {
     }
 
     /**
-     * Fetch_data
+     * Fetch_data.
      *
      * @param int $itemid
      * @param int $submissionscount
@@ -175,7 +175,7 @@ class mod_surveypro_report_frequency extends mod_surveypro_reportbase {
     }
 
     /**
-     * Output_data
+     * Output_data.
      *
      * @param string $url
      * @return void

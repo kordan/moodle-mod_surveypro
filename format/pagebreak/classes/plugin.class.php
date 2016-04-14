@@ -42,15 +42,15 @@ class mod_surveypro_format_pagebreak extends mod_surveypro_itembase {
     protected static $canbeparent = false;
 
     /**
-     * Class constructor
+     * Class constructor.
      *
-     * If itemid is provided, load the object (item + base + plugin) from database.
-     * If evaluateparentcontent is true, load the parentitem parentcontent property too.
+     * If itemid is provided, load the object (item + base + plugin) from database
+     * If evaluateparentcontent is true, load the parentitem parentcontent property too
      *
      * @param stdClass $cm
      * @param object $surveypro
      * @param int $itemid Optional item ID
-     * @param bool $evaluateparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise.
+     * @param bool $evaluateparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise
      */
     public function __construct($cm, $surveypro, $itemid=0, $evaluateparentcontent) {
         parent::__construct($cm, $surveypro, $itemid, $evaluateparentcontent);
@@ -87,10 +87,10 @@ class mod_surveypro_format_pagebreak extends mod_surveypro_itembase {
     }
 
     /**
-     * Item load
+     * Item load.
      *
      * @param int $itemid
-     * @param bool $evaluateparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise.
+     * @param bool $evaluateparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise
      * @return void
      */
     public function item_load($itemid, $evaluateparentcontent) {
@@ -99,7 +99,7 @@ class mod_surveypro_format_pagebreak extends mod_surveypro_itembase {
     }
 
     /**
-     * Item save
+     * Item save.
      *
      * @param object $record
      * @return void
@@ -119,7 +119,7 @@ class mod_surveypro_format_pagebreak extends mod_surveypro_itembase {
     }
 
     /**
-     * Item get can be parent
+     * Item get can be parent.
      *
      * @return the content of the static property "canbeparent"
      */
@@ -129,7 +129,7 @@ class mod_surveypro_format_pagebreak extends mod_surveypro_itembase {
 
     /**
      * Item add mandatory plugin fields
-     * Copy mandatory fields to $record.
+     * Copy mandatory fields to $record
      *
      * @param stdClass $record
      * @return void
@@ -151,7 +151,7 @@ class mod_surveypro_format_pagebreak extends mod_surveypro_itembase {
     }
 
     /**
-     * Item_uses_form_page
+     * Item_uses_form_page.
      *
      * @return: boolean
      */
@@ -160,7 +160,7 @@ class mod_surveypro_format_pagebreak extends mod_surveypro_itembase {
     }
 
     /**
-     * Return the xml schema for surveypro_<<plugin>> table
+     * Return the xml schema for surveypro_<<plugin>> table.
      *
      * @return string $schema
      */
@@ -184,7 +184,7 @@ EOS;
     // MARK userform
 
     /**
-     * Define the mform element for the outform and the searchform
+     * Define the mform element for the outform and the searchform.
      *
      * @param moodleform $mform
      * @param bool $searchform
@@ -200,7 +200,7 @@ EOS;
     }
 
     /**
-     * Perform outform and searchform data validation
+     * Perform outform and searchform data validation.
      *
      * @param array $data
      * @param array $errors
@@ -213,7 +213,7 @@ EOS;
     }
 
     /**
-     * This method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time
+     * This method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time.
      *
      * @param object $fromdb
      * @return void
@@ -225,7 +225,7 @@ EOS;
     }
 
     /**
-     * Starting from the info stored into $answer, this function returns the corresponding content for the export file
+     * Starting from the info stored into $answer, this function returns the corresponding content for the export file.
      *
      * @param object $answer
      * @param string $format
@@ -236,7 +236,7 @@ EOS;
     }
 
     /**
-     * Returns an array with the names of the mform element added using $mform->addElement or $mform->addGroup
+     * Returns an array with the names of the mform element added using $mform->addElement or $mform->addGroup.
      *
      * @return array
      */
