@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines the version of surveypro autofill subplugin
+ * Surveypro class to manage attachment overview report
  *
- * @package   surveyproreport_attachement_overview
+ * @package   surveyproreport_attachments_overview
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -27,17 +27,27 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir.'/tablelib.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/reportbase.class.php');
 
+/**
+ * The class to manage attachment overview report.
+ *
+ * @package   surveyproreport_attachments_overview
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase {
 
     /**
-     * Outputtable
+     * @var flexible_table $outputtable
      */
     public $outputtable = null;
 
     /**
-     * Report_apply.
+     * Return if this report applies.
      *
-     * @return void
+     * true means: the report apply
+     * (!$this->surveypro->anonymous) means that reports applies ONLY IF user is not anonymous
+     *
+     * @return boolean
      */
     public function report_apply() {
         return (!$this->surveypro->anonymous);
@@ -45,8 +55,6 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
 
     /**
      * Setup_outputtable.
-     *
-     * @return void
      */
     public function setup_outputtable() {
         $this->outputtable = new flexible_table('attachmentslist');

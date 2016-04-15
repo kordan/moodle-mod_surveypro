@@ -31,16 +31,3 @@ define('SURVEYPROFIELD_TIME_YEAROFFSET', 1970);
 define('SURVEYPROFIELD_TIME_DAYOFFSET', 1);
 define('SURVEYPROFIELD_TIME_MONTHOFFSET', 1);
 define('SURVEYPROFIELD_TIME_FORMAT', '[hh:mm]');
-
-/**
- * surveypro_time_check_time
- *
- * @param $hour
- * @param $minute
- * @return void
- */
-function surveypro_time_check_time($hour, $minute) {
-    if ($hour > -1 && $hour < 24 && $minute > -1 && $minute < 60) {
-        return true;
-    }
-}

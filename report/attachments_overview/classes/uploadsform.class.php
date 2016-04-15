@@ -17,7 +17,7 @@
 /**
  * The uploadformmanager class
  *
- * @package   mod_surveypro
+ * @package   surveyproreport_attachments_overview
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -29,7 +29,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/fileupload/lib.php');
 /**
  * The class managing the attachement overview report
  *
- * @package   mod_surveypro
+ * @package   surveyproreport_attachments_overview
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -121,8 +121,8 @@ class mod_surveypro_report_uploadformmanager {
     /**
      * Display_attachment.
      *
-     * @param $submissionid
-     * @param $itemid
+     * @param int $submissionid
+     * @param int $itemid
      * @return void
      */
     public function display_attachment($submissionid, $itemid) {

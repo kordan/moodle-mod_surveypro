@@ -104,7 +104,7 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
     protected $upperbound;
 
     /**
-     * @var bool canbeparent
+     * @var bool Can this item be parent?
      */
     protected static $canbeparent = true;
 
@@ -325,7 +325,7 @@ EOS;
      * return string childparentvalue
      */
     public function parent_encode_child_parentcontent($childparentcontent) {
-        $parentcontents = array_unique(surveypro_textarea_to_array($childparentcontent));
+        $parentcontents = array_unique(surveypro_multilinetext_to_array($childparentcontent));
 
         $childparentvalue = array();
         $labels = array();

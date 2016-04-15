@@ -37,12 +37,12 @@ require_once($CFG->dirroot.'/mod/surveypro/format/fieldset/lib.php');
 class mod_surveypro_format_fieldset extends mod_surveypro_itembase {
 
     /**
-     * Item content, alias: the label of the fieldset
+     * @var string Label of the fieldset
      */
     protected $content;
 
     /**
-     * @var bool canbeparent
+     * @var bool Can this item be parent?
      */
     protected static $canbeparent = false;
 

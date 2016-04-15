@@ -59,22 +59,17 @@ class mod_surveypro_format_label extends mod_surveypro_itembase {
     protected $customnumber;
 
     /**
-     * $fullwidth
+     * @var int The label has a dedicated row
      */
     protected $fullwidth;
 
     /**
-     * $leftlabel = label on the left of the label content
+     * @var string Label on the left of the label content
      */
     protected $leftlabel;
 
     /**
-     * $labelformat = the text format of the item
-     */
-    protected $leftlabelformat;
-
-    /**
-     * @var bool canbeparent
+     * @var bool Can this item be parent?
      */
     protected static $canbeparent = false;
 

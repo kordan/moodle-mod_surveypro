@@ -32,11 +32,12 @@ require_once($CFG->dirroot.'/mod/surveypro/lib.php');
 /**
  * surveypro_get_item
  *
- * @param $cm
- * @param $itemid
- * @param $type
- * @param $plugin
- * @param optional $evaluateparentcontent
+ * @param object $cm
+ * @param object $surveypro
+ * @param int $itemid
+ * @param string $type
+ * @param string $plugin
+ * @param bool $evaluateparentcontent
  * @return $item object
  */
 function surveypro_get_item($cm, $surveypro, $itemid=0, $type='', $plugin='', $evaluateparentcontent=false) {
@@ -81,20 +82,20 @@ function surveypro_get_item($cm, $surveypro, $itemid=0, $type='', $plugin='', $e
 /**
  * surveypro_non_empty_only
  *
- * @param $arrayelement
- * @return int length of the array element
+ * @param string $arrayelement
+ * @return int Length of the array element
  */
 function surveypro_non_empty_only($arrayelement) {
     return strlen(trim($arrayelement)); // Returns 0 if the array element is empty.
 }
 
 /**
- * surveypro_textarea_to_array
+ * Copy the content of multiline textarea to an array line by line
  *
- * @param $textareacontent
- * @return $arraytextarea
+ * @param string $textareacontent
+ * @return array
  */
-function surveypro_textarea_to_array($textareacontent) {
+function surveypro_multilinetext_to_array($textareacontent) {
 
     $textareacontent = trim($textareacontent);
     $textareacontent = str_replace("\r", '', $textareacontent);
@@ -110,8 +111,8 @@ function surveypro_textarea_to_array($textareacontent) {
  * surveypro_need_group_filtering
  * this function answer the question: do I Need to filter group in my next task?
  *
- * @param $cm
- * @param $context
+ * @param object $cm
+ * @param object $context
  * @return $filtergroups
  */
 function surveypro_need_group_filtering($cm, $context) {
@@ -131,11 +132,10 @@ function surveypro_need_group_filtering($cm, $context) {
 }
 
 /**
- * surveypro_cutdownstring
+ * cut down a string and close it with ellipsis
  *
- * @param $plainstring
- * @param optional $maxlength
- * @param $plainstring
+ * @param string $plainstring
+ * @param int $maxlength
  *
  * @return void
  */
@@ -152,9 +152,9 @@ function surveypro_cutdownstring($plainstring, $maxlength=60) {
 /**
  * surveypro_groupmates
  *
- * @param $cm: the course module
- * @param optional $userid: the user you want to know his/her groupmates
- * @return: an array with the list of groupmates of the user
+ * @param object $cm
+ * @param int $userid Optional $userid: the user you want to know his/her groupmates
+ * @return Array with the list of groupmates of the user
  */
 function surveypro_groupmates($cm, $userid=0) {
     global $COURSE, $USER;

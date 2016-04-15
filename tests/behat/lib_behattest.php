@@ -26,6 +26,10 @@ defined('MOODLE_INTERNAL') || die();
 
 /**
  * Provide mandatory dummy contents for each plugin item
+ *
+ * @param string $type
+ * @param string $plugin
+ * @return object
  */
 function get_dummy_contents($type, $plugin) {
 

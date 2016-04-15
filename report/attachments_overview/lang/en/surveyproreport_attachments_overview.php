@@ -17,7 +17,7 @@
 /**
  * Strings for component 'field_autofill', language 'en'
  *
- * @package   surveyproreport_attachment_overview
+ * @package   surveyproreport_attachments_overview
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

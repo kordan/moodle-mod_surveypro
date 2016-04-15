@@ -99,7 +99,7 @@ class mod_surveypro_field_fileupload extends mod_surveypro_itembase {
     protected $filetypes;
 
     /**
-     * @var bool canbeparent
+     * @var bool Can this item be parent?
      */
     protected static $canbeparent = false;
 

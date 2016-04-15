@@ -90,7 +90,7 @@ class mod_surveypro_reportbase {
      * true means: the report apply
      * (!$this->surveypro->anonymous) means that reports applies ONLY IF user is not anonymous
      *
-     * @return boolean true
+     * @return boolean
      */
     public function report_apply() {
         return true;

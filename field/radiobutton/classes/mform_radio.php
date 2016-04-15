@@ -19,7 +19,7 @@
  *
  * Extends the core mform class for a radio type element
  *
- * @package   mod_surveypro
+ * @package   surveyprofield_radiobutton
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -29,12 +29,13 @@ global $CFG;
 require_once($CFG->libdir.'/form/radio.php');
 
 // @codingStandardsIgnoreFile
+
 /**
  * radio form element
  *
  * HTML class for a radio type element
  *
- * @package   mod_surveypro
+ * @package   surveyprofield_radiobutton
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

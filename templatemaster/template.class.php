@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Library for surveyprotemplate_00templateNamePlaceholder00
+ * Surveypro class to manage surveyprotemplate_00templateNamePlaceholder00 template
  *
  * @package   surveyprotemplate_00templateNamePlaceholder00
  * @copyright 2013 onwards kordan <kordan@mclink.it>
@@ -24,16 +24,22 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * The class to manage surveyprotemplate_00templateNamePlaceholder00 template
+ *
+ * @package   surveyprotemplate_00templateNamePlaceholder00
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class mod_surveypro_template_00templateNamePlaceholder00 {
 
     /**
      * Apply template settings.
      *
-     * @param $tablename
-     * @param $record
-     * @param $config
-     * @return tablename
-     * @return record
+     * @param string $tablename
+     * @param object $record
+     * @param object $config
+     * @return array($tablename, $record)
      */
     public function apply_template_settings($tablename, $record, $config) {
         return array($tablename, $record);

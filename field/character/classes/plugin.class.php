@@ -120,7 +120,7 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
     protected $maxlength;
 
     /**
-     * @var bool canbeparent
+     * @var bool Can this item be parent?
      */
     protected static $canbeparent = false;
 

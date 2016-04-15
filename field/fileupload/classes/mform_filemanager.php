@@ -46,9 +46,9 @@ class mod_surveypro_mform_filemanager extends MoodleQuickForm_filemanager {
     /**
      * Constructor.
      *
-     * @param string $elementName (optional) name of the filemanager
-     * @param string $elementLabel (optional) filemanager label
-     * @param array $attributes (optional) Either a typical HTML attribute string
+     * @param string $elementName Optional name of the filemanager
+     * @param string $elementLabel Optional filemanager label
+     * @param array $attributes Optional either a typical HTML attribute string
      *              or an associative array
      * @param array $options set of options to initalize filemanager
      */

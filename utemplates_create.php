@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Prints a particular instance of surveypro
+ * Starting page to create a user template.
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
@@ -67,7 +67,7 @@ $formurl = new moodle_url('/mod/surveypro/utemplates_create.php', $paramurl);
 // Begin of: prepare params for the form.
 $formparams = new stdClass();
 $formparams->utemplateman = $utemplateman;
-$createutemplate = new mod_surveypro_utemplatecreateform($formurl, $formparams);
+$createutemplate = new mod_surveypro_createutemplateform($formurl, $formparams);
 // End of: prepare params for the form.
 
 // Begin of: manage form submission.

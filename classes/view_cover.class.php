@@ -96,9 +96,7 @@ class mod_surveypro_covermanager {
 
         // User submitted responses.
         $countclosed = $utilityman->has_submissions(true, SURVEYPRO_STATUSCLOSED, $USER->id);
-echo '$countclosed = '.$countclosed.'<br />';
         $inprogress = $utilityman->has_submissions(true, SURVEYPRO_STATUSINPROGRESS, $USER->id);
-echo '$inprogress = '.$inprogress.'<br />';
         $next = $countclosed + $inprogress + 1;
 
         // Begin of: the button to add one more surveypro.

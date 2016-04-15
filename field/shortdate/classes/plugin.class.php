@@ -149,7 +149,7 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
     protected $upperboundyear;
 
     /**
-     * @var bool canbeparent
+     * @var bool Can this item be parent?
      */
     protected static $canbeparent = false;
 
@@ -262,11 +262,11 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
     }
 
     /**
-     * Item_shortdate_to_unix_time.
+     * Change $month, $year to unixtime.
      *
-     * @param $month
-     * @param $year
-     * @return void
+     * @param int $month
+     * @param int $year
+     * @return int unixtime
      */
     public function item_shortdate_to_unix_time($month, $year) {
         return (gmmktime(12, 0, 0, $month, 1, $year)); // This is GMT

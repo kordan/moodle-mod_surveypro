@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines the version of surveypro autofill subplugin
+ * Surveypro class to missing count report
  *
  * @package   surveyproreport_missing
  * @copyright 2013 onwards kordan <kordan@mclink.it>
@@ -27,10 +27,17 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir.'/tablelib.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/reportbase.class.php');
 
+/**
+ * The class to missing count report
+ *
+ * @package   surveyproreport_missing
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class mod_surveypro_report_missing extends mod_surveypro_reportbase {
 
     /**
-     * Outputtable
+     * @var flexible_table $outputtable
      */
     public $outputtable = null;
 

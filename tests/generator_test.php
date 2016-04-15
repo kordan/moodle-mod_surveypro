@@ -15,10 +15,20 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Generator tests class.
+ * PHPUnit data generator test.
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2015 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+defined('MOODLE_INTERNAL') || die();
+
+/**
+ * PHPUnit label generator testcase
+ *
+ * @package   mod_surveypro
+ * @copyright 2015 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_surveypro_generator_testcase extends advanced_testcase {
@@ -49,7 +59,7 @@ class mod_surveypro_generator_testcase extends advanced_testcase {
     }
 
     /**
-     * Test_apply_mastertemplate.
+     * Test apply mastertemplate.
      *
      * @return void
      */

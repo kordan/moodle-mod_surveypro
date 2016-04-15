@@ -104,7 +104,7 @@ class mod_surveypro_field_boolean extends mod_surveypro_itembase {
     protected $style;
 
     /**
-     * @var bool canbeparent
+     * @var bool Can this item be parent?
      */
     protected static $canbeparent = true;
 
@@ -350,7 +350,7 @@ EOS;
      * return string childparentvalue
      */
     public function parent_encode_child_parentcontent($childparentcontent) {
-        $parentcontents = array_unique(surveypro_textarea_to_array($childparentcontent));
+        $parentcontents = array_unique(surveypro_multilinetext_to_array($childparentcontent));
         $values = array('0', '1');
 
         $childparentvalue = array();

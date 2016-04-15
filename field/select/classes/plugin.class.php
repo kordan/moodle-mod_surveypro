@@ -109,7 +109,7 @@ class mod_surveypro_field_select extends mod_surveypro_itembase {
     protected $downloadformat;
 
     /**
-     * @var bool canbeparent
+     * @var bool Can this item be parent?
      */
     protected static $canbeparent = true;
 
@@ -249,26 +249,6 @@ class mod_surveypro_field_select extends mod_surveypro_itembase {
     }
 
     /**
-     * Item_generate_standard_default
-     * sets record field to store the correct value to db for the date custom item
-     *
-     * @return void
-     */
-    public function item_generate_standard_default() {
-        $optionarray = surveypro_textarea_to_array($this->options);
-        $firstoption = array_shift($optionarray);
-
-        if (preg_match('~^(.*)'.SURVEYPRO_VALUELABELSEPARATOR.'(.*)$~', $firstoption, $match)) { // Do not warn: it can never be equal to zero.
-            // print_object($match);
-            $default = $match[1];
-        } else {
-            $default = $firstoption;
-        }
-
-        return $default;
-    }
-
-    /**
      * Item_list_constraints
      * this method prepare the list of constraints the child has to respect in order to create a valid relation
      *
@@ -361,11 +341,11 @@ EOS;
     /**
      * Translate the parentcontent of the child item to the corresponding parentvalue.
      *
-     * @param $childparentcontent
+     * @param string $childparentcontent
      * return string childparentvalue
      */
     public function parent_encode_child_parentcontent($childparentcontent) {
-        $parentcontents = array_unique(surveypro_textarea_to_array($childparentcontent));
+        $parentcontents = array_unique(surveypro_multilinetext_to_array($childparentcontent));
         $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
 
         $childparentvalue = array();

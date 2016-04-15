@@ -19,7 +19,7 @@
  *
  * HTML class for a editor type element
  *
- * @package   mod_surveypro
+ * @package   surveyprofield_textarea
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -37,7 +37,7 @@ require_once($CFG->libdir.'/form/editor.php');
  *
  * HTML class for a editor type element
  *
- * @package   mod_surveypro
+ * @package   surveyprofield_textarea
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -46,9 +46,9 @@ class mod_surveypro_mform_editor extends MoodleQuickForm_editor {
     /**
      * Constructor.
      *
-     * @param string $elementName (optional) name of the editor
-     * @param string $elementLabel (optional) editor label
-     * @param array $attributes (optional) Either a typical HTML attribute string
+     * @param string $elementName Optional name of the editor
+     * @param string $elementLabel Optional editor label
+     * @param array $attributes Optional either a typical HTML attribute string
      *              or an associative array
      * @param array $options set of options to initalize filepicker
      */

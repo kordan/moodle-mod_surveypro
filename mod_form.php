@@ -14,10 +14,24 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * This file contains the forms to create and edit an instance of this module
+ *
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/course/moodleform_mod.php');
 
+/**
+ * Surveypro settings form.
+ *
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class mod_surveypro_mod_form extends moodleform_mod {
 
     /**
@@ -157,8 +171,11 @@ class mod_surveypro_mod_form extends moodleform_mod {
         $this->add_action_buttons();
     }
 
-    // This function is executed once mod_form has been displayed
-    // and it is an helper to prepare data before saving them.
+    /**
+     * Retrieve the data parsed from the address.
+     *
+     * @return \stdClass the parsed data.
+     */
     public function get_data() {
         $data = parent::get_data();
         if (!$data) {
@@ -186,7 +203,12 @@ class mod_surveypro_mod_form extends moodleform_mod {
         return $data;
     }
 
-    // This function is executed once mod_form has been displayed and is needed to define some presets.
+    /**
+     * Any data processing needed before the form is displayed
+     * (needed to set up draft areas for editor and filemanager elements)
+     *
+     * @param object $defaults the data being passed to the form.
+     */
     public function data_preprocessing(&$defaults) {
         parent::data_preprocessing($defaults);
 
@@ -225,11 +247,11 @@ class mod_surveypro_mod_form extends moodleform_mod {
     }
 
     /**
-     * Validation.
+     * Validate form data.
      *
      * @param array $data
      * @param array $files
-     * @return array $errors
+     * @return array
      */
     public function validation($data, $files) {
         $errors = parent::validation($data, $files);
@@ -263,8 +285,8 @@ class mod_surveypro_mod_form extends moodleform_mod {
     /**
      * Completion_rule_enabled.
      *
-     * @param $data
-     * @return void
+     * @param array $data
+     * @return bool
      */
     public function completion_rule_enabled($data) {
         return (!empty($data['completionsubmit_check']) && ($data['completionsubmit'] != 0));

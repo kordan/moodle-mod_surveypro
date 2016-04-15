@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines the version of surveypro autofill subplugin
+ * Surveypro class to manage colles report
  *
  * @package   surveyproreport_colles
  * @copyright 2013 onwards kordan <kordan@mclink.it>
@@ -26,82 +26,84 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/surveypro/classes/reportbase.class.php');
 
+/**
+ * The class to manage colles report
+ *
+ * @package   surveyproreport_colles
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class mod_surveypro_report_colles extends mod_surveypro_reportbase {
 
     /**
-     * Template
+     * @var string $template
      */
     public $template;
 
     /**
-     * Group
+     * @var int $group
      */
     public $group = 0;
 
     /**
-     * Sid
+     * @var int $id
      */
     public $area = 0;
 
     /**
-     * Templateuseritem
+     * @var string $templateuseritem
      */
     public $templateuseritem = '';
 
     /**
-     * Qid
+     * @var int $qid
      */
     public $qid = 0;
 
     /**
-     * Graphtitle
+     * @var string $graphtitle
      */
     public $graphtitle = '';
 
     /**
-     * Xlabels
+     * @var array $xlabels
      */
     public $xlabels = array();
 
     /**
-     * Ylabels
+     * @var array $ylabels
      */
     public $ylabels = array();
 
     /**
-     * Trend1
+     * @var array $trend1
      */
     public $trend1 = array();
 
     /**
-     * Trend1stdev
+     * @var array $trend1stdev
      */
     public $trend1stdev = array();
 
     /**
-     * Trend2
+     * @var array $trend2
      */
     public $trend2 = array();
 
     /**
-     * Trend2stdev
+     * @var array $trend2stdev
      */
     public $trend2stdev = array();
 
     /**
-     * Studenttrend1
+     * @var array $studenttrend1
      */
     public $studenttrend1 = array();
 
     /**
-     * Studenttrend2
+     * @var array $studenttrend2
      */
     public $studenttrend2 = array();
-
-    /**
-     * Iarea
-     */
-    public $iarea;
 
     /**
      * Class constructor.
@@ -125,8 +127,6 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
         } else {
             $this->templateuseritem = $guessplugin[1];
         }
-
-        $this->iarea = new stdClass();
     }
 
     /**

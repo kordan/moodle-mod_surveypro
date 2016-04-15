@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Prints a particular instance of surveypro
+ * Starting page to create a mastertemplate
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
@@ -52,7 +52,7 @@ $mtemplateman = new mod_surveypro_mastertemplate($cm, $context, $surveypro);
 // Start of: define $createmtemplate return url.
 $paramurl = array('id' => $cm->id);
 $formurl = new moodle_url('/mod/surveypro/mtemplates_create.php', $paramurl);
-$createmtemplate = new mod_surveypro_mtemplatecreateform($formurl);
+$createmtemplate = new mod_surveypro_createmtemplateform($formurl);
 // End of: define $createmtemplate return url.
 
 // Start of: manage form submission.

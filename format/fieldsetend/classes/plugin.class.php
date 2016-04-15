@@ -37,7 +37,7 @@ require_once($CFG->dirroot.'/mod/surveypro/format/fieldsetend/lib.php');
 class mod_surveypro_format_fieldsetend extends mod_surveypro_itembase {
 
     /**
-     * @var bool canbeparent
+     * @var bool Can this item be parent?
      */
     protected static $canbeparent = false;
 
