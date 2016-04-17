@@ -507,15 +507,14 @@ function surveypro_supports($feature) {
 }
 
 /**
- * Returns a small object with summary information about what a
- * user has done with a given particular instance of this module
- * Used for user activity reports.
- * $return->time = the time they did it
- * $return->info = a short text description
+ * Print the grade information for the surveypro for this user.
  *
- * @return stdClass|null
+ * @param stdClass $course
+ * @param stdClass $user
+ * @param stdClass $coursemodule
+ * @param stdClass $surveypro
  */
-function surveypro_user_outline($course, $user, $mod, $surveypro) {
+function surveypro_user_outline($course, $user, $coursemodule, $surveypro) {
     $return = new stdClass();
     $return->time = 0;
     $return->info = '';
@@ -537,41 +536,43 @@ function surveypro_user_complete($course, $user, $mod, $surveypro) {
 }
 
 /**
- * Given a course and a time, this module should find recent activity
- * that has occurred in surveypro activities and print it out.
- * Return true if there was output, or false is there was none.
+ * Print recent activity from all surveypro in a given course
  *
- * @return boolean
+ * This is used by the recent activity block
+ * @param mixed $course the course to print activity for
+ * @param bool $viewfullnames boolean to determine whether to show full names or not
+ * @param int $timestart the time the rendering started
+ * @return bool true if activity was printed, false otherwise.
  */
 function surveypro_print_recent_activity($course, $viewfullnames, $timestart) {
     return false;  // True if anything was printed, otherwise false.
 }
 
 /**
- * Prepares the recent activity data
+ * Returns all surveypro since a given time.
  *
- * This callback function is supposed to populate the passed array with
- * custom activity records. These records are then rendered into HTML via
- * {@link surveypro_print_recent_mod_activity()}.
- *
- * @param array $activities Sequentially indexed array of objects with the 'cmid' property
- * @param int $index Index in the $activities to use for the next record
- * @param int $timestart Append activity since this time
- * @param int $courseid Id of the course we produce the report for
- * @param int $cmid Course module id
- * @param int $userid Check for a particular user's activity only, defaults to 0 (all users)
- * @param int $groupid Check for a particular group's activity only, defaults to 0 (all groups)
- * @return void adds items into $activities and increases $index
+ * @param array $activities The activity information is returned in this array
+ * @param int $index The current index in the activities array
+ * @param int $timestart The earliest activity to show
+ * @param int $courseid Limit the search to this course
+ * @param int $cmid The course module id
+ * @param int $userid Optional user id
+ * @param int $groupid Optional group id
+ * @return void
  */
 function surveypro_get_recent_mod_activity(&$activities, &$index, $timestart, $courseid, $cmid, $userid=0, $groupid=0) {
 }
 
 /**
- * Prints single activity item prepared by {@see surveypro_get_recent_mod_activity()}
+ * Print recent activity from all assignments in a given course
  *
- * @return void
+ * This is used by course/recent.php
+ * @param stdClass $activity
+ * @param int $courseid
+ * @param bool $detail
+ * @param array $modnames
  */
-function surveypro_print_recent_mod_activity($activity, $courseid, $detail, $modnames, $viewfullnames) {
+function surveypro_print_recent_mod_activity($activity, $courseid, $detail, $modnames) {
 }
 
 /**
@@ -648,30 +649,25 @@ function surveypro_get_participants($surveyproid) {
 /**
  * Returns all other caps used in the module
  *
- * @example return array('moodle/site:accessallgroups');
  * @return array
  */
 function surveypro_get_extra_capabilities() {
-    return array('moodle/site:accessallgroups', 'moodle/site:viewfullnames', 'moodle/rating:view', 'moodle/rating:viewany', 'moodle/rating:viewall', 'moodle/rating:rate');
+    return array('moodle/site:config', 'moodle/site:accessallgroups');
 }
 
 // Gradebook API
 
 /**
- * Is a given scale used by the instance of surveypro?
+ * Checks if a scale is being used by an surveypro.
  *
- * This function returns if a scale is being used by one surveypro
- * if it has support for grading and scales. Commented code should be
- * modified if necessary. See forum, glossary or journal modules
- * as reference.
- *
- * @param int $surveyproid ID of an instance of this module
- * @return bool true if the scale is used by the given surveypro instance
+ * This is used by the backup code to decide whether to back up a scale
+ * @param int $surveyproid
+ * @param int $scaleid
+ * @return boolean True if the scale is used by the surveypro
  */
 function surveypro_scale_used($surveyproid, $scaleid) {
     /* global $DB;
 
-    // @example
     if ($scaleid and $DB->record_exists('surveypro', array('id' => $surveyproid, 'grade' => -$scaleid))) {
         return true;
     } else {
@@ -681,17 +677,15 @@ function surveypro_scale_used($surveyproid, $scaleid) {
 }
 
 /**
- * Checks if scale is being used by any instance of surveypro.
+ * Checks if scale is being used by any instance of surveypro
  *
- * This is used to find out if scale used anywhere.
- *
- * @param $scaleid int
- * @return boolean true if the scale is used by any surveypro instance
+ * This is used to find out if scale used anywhere
+ * @param int $scaleid
+ * @return boolean True if the scale is used by any surveypro
  */
 function surveypro_scale_used_anywhere($scaleid) {
     /* global $DB;
 
-    // @example
     if ($scaleid and $DB->record_exists('surveypro', array('grade' => -$scaleid))) {
         return true;
     } else {
@@ -711,7 +705,6 @@ function surveypro_grade_item_update(stdClass $surveypro) {
     /* global $CFG;
     require_once($CFG->libdir.'/gradelib.php');
 
-    // @example
     $item = array();
     $item['itemname'] = clean_param($surveypro->name, PARAM_NOTAGS);
     $item['gradetype'] = GRADE_TYPE_VALUE;
@@ -731,14 +724,13 @@ function surveypro_grade_item_update(stdClass $surveypro) {
  * @return void
  */
 function surveypro_update_grades(stdClass $surveypro, $userid = 0) {
-    global $CFG;
+    /* global $CFG;
 
     require_once($CFG->libdir.'/gradelib.php');
 
-    /* @example */
     $grades = array(); // Populate array of grade objects indexed by userid.
 
-    grade_update('mod/surveypro', $surveypro->course, 'mod', 'surveypro', $surveypro->id, 0, $grades);
+    grade_update('mod/surveypro', $surveypro->course, 'mod', 'surveypro', $surveypro->id, 0, $grades); */
 }
 
 // File API
@@ -841,16 +833,13 @@ function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
 // Navigation API
 
 /**
- * Extends the settings navigation with the surveypro settings
+ * extend a surveypro navigation settings
  *
- * This function is called when the context for the page is a surveypro module. This is not called by AJAX
- * so it is safe to rely on the $PAGE.
- *
- * @param settings_navigation $settingsnav {@link settings_navigation}
- * @param navigation_node $surveypronode {@link navigation_node}
+ * @param settings_navigation $settings
+ * @param navigation_node $navref
  * @return void
  */
-function surveypro_extend_settings_navigation(settings_navigation $settings, navigation_node $surveypronode) {
+function surveypro_extend_settings_navigation(settings_navigation $settings, navigation_node $navref) {
     global $CFG, $PAGE, $DB;
 
     if (!$cm = $PAGE->cm) {
@@ -892,7 +881,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
     // -> parent
     if (($canpreview) || ($canmanageitems && empty($surveypro->template))) {
         $nodelabel = get_string('tablayoutname', 'mod_surveypro');
-        $navnode = $surveypronode->add($nodelabel,  null, navigation_node::TYPE_CONTAINER);
+        $navnode = $navref->add($nodelabel,  null, navigation_node::TYPE_CONTAINER);
     }
 
     // -> children
@@ -916,7 +905,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
     if ($canimportdata || $canexportdata) {
         // -> parent
         $nodelabel = get_string('tabsubmissionsname', 'mod_surveypro');
-        $navnode = $surveypronode->add($nodelabel,  null, navigation_node::TYPE_CONTAINER);
+        $navnode = $navref->add($nodelabel,  null, navigation_node::TYPE_CONTAINER);
 
         // -> children
         if ($canimportdata) { // Import.
@@ -933,7 +922,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
     if ($canmanageusertemplates && empty($surveypro->template)) {
         // -> parent
         $nodelabel = get_string('tabutemplatename', 'mod_surveypro');
-        $navnode = $surveypronode->add($nodelabel,  null, navigation_node::TYPE_CONTAINER);
+        $navnode = $navref->add($nodelabel,  null, navigation_node::TYPE_CONTAINER);
 
         // -> children
         $nodelabel = get_string('tabutemplatepage1', 'mod_surveypro');
@@ -958,7 +947,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
     if ($condition1 || $condition2) {
         // -> parent
         $nodelabel = get_string('tabmtemplatename', 'mod_surveypro');
-        $navnode = $surveypronode->add($nodelabel, null, navigation_node::TYPE_CONTAINER);
+        $navnode = $navref->add($nodelabel, null, navigation_node::TYPE_CONTAINER);
 
         // -> children
         if ($condition1) {
@@ -987,7 +976,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
                     if ($reportman->report_apply()) {
                         if (!isset($reportnode)) {
                             $nodelabel = get_string('report');
-                            $reportnode = $surveypronode->add($nodelabel, null, navigation_node::TYPE_CONTAINER);
+                            $reportnode = $navref->add($nodelabel, null, navigation_node::TYPE_CONTAINER);
                         }
                         if ($childreports = $reportman->get_childreports($canaccessreports)) {
                             $nodelabel = get_string('pluginname', 'surveyproreport_'.$pluginname);
@@ -1059,9 +1048,9 @@ function surveypro_site_recaptcha_enabled() {
 /**
  * surveypro_get_plugin_list
  *
- * @param $plugintype
- * @param $includetype
- * @param $count
+ * @param string $plugintype
+ * @param bool $includetype
+ * @param bool $count
  * @return void
  */
 function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=false) {
@@ -1132,11 +1121,12 @@ function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=
 /**
  * surveypro_fetch_items_seeds
  *
- * @param $surveyproid
- * @param $canaccessreserveditems
- * @param $searchform
- * @param $type
- * @param $formpage
+ * @param int $surveyproid
+ * @param bool $canaccessreserveditems
+ * @param bool $searchform
+ * @param string $type
+ * @param int $formpage
+ * @param bool $pagebreak
  * @return array($where, $params)
  */
 function surveypro_fetch_items_seeds($surveyproid, $canaccessreserveditems, $searchform=false, $type=false, $formpage=false, $pagebreak=false) {
@@ -1179,8 +1169,7 @@ function surveypro_fetch_items_seeds($surveyproid, $canaccessreserveditems, $sea
 /**
  * surveypro_get_view_actions
  *
- * @param
- * @return void
+ * @return array('view', 'view all')
  */
 function surveypro_get_view_actions() {
     return array('view', 'view all');
@@ -1189,8 +1178,7 @@ function surveypro_get_view_actions() {
 /**
  * surveypro_get_post_actions
  *
- * @param
- * @return void
+ * @return array('add', 'update')
  */
 function surveypro_get_post_actions() {
     return array('add', 'update');
@@ -1208,7 +1196,6 @@ function surveypro_get_editor_options() {
 /**
  * surveypro_get_user_style_options
  *
- * @param none
  * @return $filemanageroptions
  */
 function surveypro_get_user_style_options() {

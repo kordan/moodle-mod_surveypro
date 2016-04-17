@@ -199,7 +199,7 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
     protected $upperboundminute;
 
     /**
-     * @var bool canbeparent
+     * @var bool Can this item be parent?
      */
     protected static $canbeparent = false;
 
@@ -313,14 +313,14 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
     }
 
     /**
-     * Item_datetime_to_unix_time.
+     * Change $year, $month, $day, $hour, $minute to unixtime.
      *
      * @param int $year
      * @param int $month
      * @param int $day
      * @param int $hour
      * @param int $minute
-     * @return void
+     * @return int unixtime
      */
     public function item_datetime_to_unix_time($year, $month, $day, $hour, $minute) {
         return (gmmktime($hour, $minute, 0, $month, $day, $year)); // This is GMT

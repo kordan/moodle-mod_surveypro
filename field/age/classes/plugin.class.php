@@ -134,7 +134,7 @@ class mod_surveypro_field_age extends mod_surveypro_itembase {
     protected $upperboundmonth;
 
     /**
-     * @var bool
+     * @var bool Can this item be parent?
      */
     protected static $canbeparent = false;
 

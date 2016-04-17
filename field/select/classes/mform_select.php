@@ -19,7 +19,7 @@
  *
  * Extends the core mform class for select element
  *
- * @package   mod_surveypro
+ * @package   surveyprofield_select
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -37,7 +37,7 @@ require_once($CFG->libdir.'/form/select.php');
  *
  * Extends the core mform class for select element
  *
- * @package   mod_surveypro
+ * @package   surveyprofield_select
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

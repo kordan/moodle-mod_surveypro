@@ -164,7 +164,7 @@ class mod_surveypro_field_date extends mod_surveypro_itembase {
     protected $upperboundday;
 
     /**
-     * @var bool canbeparent
+     * @var bool Can this item be parent?
      */
     protected static $canbeparent = false;
 
@@ -277,12 +277,12 @@ class mod_surveypro_field_date extends mod_surveypro_itembase {
     }
 
     /**
-     * Item_date_to_unix_time.
+     * Change $year, $month, $day to unixtime.
      *
      * @param int $year
      * @param int $month
      * @param int $day
-     * @return void
+     * @return int unixtime
      */
     public function item_date_to_unix_time($year, $month, $day) {
         return (gmmktime(12, 0, 0, $month, $day, $year)); // This is GMT

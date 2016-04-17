@@ -17,10 +17,9 @@
 /**
  * Strings for component 'surveyprotemplate_attls', language 'en'
  *
- * @package    surveyprotemplate
- * @subpackage attls
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   surveyprotemplate_attls
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $string['pluginname'] = 'ATTLS (20 item version)';

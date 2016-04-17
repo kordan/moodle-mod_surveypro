@@ -25,6 +25,14 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Surveypro module data generator class
+ *
+ * @package   mod_surveypro
+ * @category  test
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class mod_surveypro_generator extends testing_module_generator {
 
     /**
@@ -45,7 +53,7 @@ class mod_surveypro_generator extends testing_module_generator {
     /**
      * Create_instance.
      *
-     * @param $record
+     * @param array $record
      * @param array $options
      * @return void
      */
@@ -90,8 +98,8 @@ class mod_surveypro_generator extends testing_module_generator {
     /**
      * Apply a template to the surveypro instance.
      *
-     * @param $record array|stdClass $record containing course, surveypro and valid template
-     * @param $options
+     * @param array $record array|stdClass $record containing course, surveypro and valid template
+     * @param array $options
      * @return stdClass[] of created items
      */
     public function apply_mastertemplate($record = null, array $options = null) {

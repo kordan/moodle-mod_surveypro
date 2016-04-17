@@ -15,26 +15,33 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    surveyprotemplate
- * @subpackage collesactual
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * Surveypro class to manage collesactual template
+ *
+ * @package   surveyprotemplate_collesactual
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/surveypro/template/collesactual/lib.php');
 
+/**
+ * The class to manage collesactual template
+ *
+ * @package   surveyprotemplate_collesactual
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class mod_surveypro_template_collesactual {
 
     /**
-     * Apply_template_settings.
+     * Apply template settings.
      *
-     * @param $tablename
-     * @param $record
-     * @param $config
-     * @return tablename
-     * @return record
+     * @param string $tablename
+     * @param object $record
+     * @param object $config
+     * @return array($tablename, $record)
      */
     public function apply_template_settings($tablename, $record, $config) {
         if ($tablename == 'surveyprofield_radiobutton') {

@@ -37,7 +37,7 @@ require_once($CFG->dirroot.'/mod/surveypro/format/pagebreak/lib.php');
 class mod_surveypro_format_pagebreak extends mod_surveypro_itembase {
 
     /**
-     * @var bool canbeparent
+     * @var bool Can this item be parent?
      */
     protected static $canbeparent = false;
 
@@ -153,7 +153,7 @@ class mod_surveypro_format_pagebreak extends mod_surveypro_itembase {
     /**
      * Item_uses_form_page.
      *
-     * @return: boolean
+     * @return boolean
      */
     public function item_uses_form_page() {
         return false;

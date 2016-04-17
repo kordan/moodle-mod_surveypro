@@ -893,7 +893,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
             $singleuser->maildisplay = 2;
             $singleuser->mailformat = 1;
 
-            $morerecipients = surveypro_textarea_to_array($this->surveypro->notifymore);
+            $morerecipients = surveypro_multilinetext_to_array($this->surveypro->notifymore);
             foreach ($morerecipients as $moreemail) {
                 $singleuser->email = $moreemail;
                 $recipients[] = $singleuser;

@@ -164,7 +164,7 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
     protected $element05text;
 
     /**
-     * @var bool canbeparent
+     * @var bool Can this item be parent?
      */
     protected static $canbeparent = false;
 

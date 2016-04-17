@@ -107,6 +107,7 @@ class mod_surveypro_field_checkbox extends mod_surveypro_itembase {
      * @var string Format of the content once downloaded
      */
     protected $downloadformat;
+
     /**
      * @var int Mminimum number of checkboxes the user is forced to choose in his/her answer
      */
@@ -118,7 +119,7 @@ class mod_surveypro_field_checkbox extends mod_surveypro_itembase {
     protected $adjustment;
 
     /**
-     * @var bool canbeparent
+     * @var bool Can this item be parent?
      */
     protected static $canbeparent = true;
 
@@ -362,7 +363,7 @@ EOS;
      * return string childparentvalue
      */
     public function parent_encode_child_parentcontent($childparentcontent) {
-        $parentcontents = array_unique(surveypro_textarea_to_array($childparentcontent));
+        $parentcontents = array_unique(surveypro_multilinetext_to_array($childparentcontent));
         $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
 
         $childparentvalue = array_fill(0, count($values), 0);
@@ -487,7 +488,7 @@ EOS;
         $idprefix = 'id_surveypro_field_checkbox_'.$this->sortindex;
 
         $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
-        $defaults = surveypro_textarea_to_array($this->defaultvalue);
+        $defaults = surveypro_multilinetext_to_array($this->defaultvalue);
 
         $attributes = array('class' => 'indent-'.$this->indent, 'group' => 1);
 

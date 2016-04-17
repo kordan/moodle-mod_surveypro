@@ -771,7 +771,7 @@ class mod_surveypro_itembase {
         }
 
         $index = ($content == SURVEYPRO_VALUES) ? 1 : 2;
-        $options = surveypro_textarea_to_array($this->{$field});
+        $options = surveypro_multilinetext_to_array($this->{$field});
 
         $values = array();
         foreach ($options as $option) {
@@ -798,7 +798,7 @@ class mod_surveypro_itembase {
             // Notice: Undefined property: stdClass::$defaultvalue
             // As, for instance, disabled $defaultvalue field when $delaultoption == invite.
             if (isset($record->{$field})) {
-                $temparray = surveypro_textarea_to_array($record->{$field});
+                $temparray = surveypro_multilinetext_to_array($record->{$field});
                 $record->{$field} = implode("\n", $temparray);
             }
         }

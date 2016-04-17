@@ -113,7 +113,7 @@ class mod_surveypro_formbase {
     /**
      * Get prefill data.
      *
-     * @return void
+     * @return array
      */
     public function get_prefill_data() {
         global $DB;

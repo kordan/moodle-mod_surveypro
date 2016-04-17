@@ -89,7 +89,7 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
     protected $indent;
 
     /**
-     * $step = the step for minutes drop down menu
+     * @var int Step for minutes drop down menu
      */
     protected $step;
 
@@ -149,7 +149,7 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
     protected $upperboundminute;
 
     /**
-     * @var bool canbeparent
+     * @var bool Can this item be parent?
      */
     protected static $canbeparent = false;
 
@@ -258,11 +258,11 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
     }
 
     /**
-     * Item_time_to_unix_time.
+     * Change $hour, $minute to unixtime.
      *
-     * @param $hour
-     * @param $minute
-     * @return void
+     * @param int $hour
+     * @param int $minute
+     * @return int unixtime
      */
     public function item_time_to_unix_time($hour, $minute) {
         return (gmmktime($hour, $minute, 0, SURVEYPROFIELD_TIME_MONTHOFFSET, SURVEYPROFIELD_TIME_DAYOFFSET, SURVEYPROFIELD_TIME_YEAROFFSET)); // This is GMT

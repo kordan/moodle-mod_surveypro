@@ -17,10 +17,9 @@
 /**
  * Defines the version of surveypro collesactualpreferred template subplugin
  *
- * @package    surveyprotemplate
- * @subpackage collesactualpreferred
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   surveyprotemplate_collesactualpreferred
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();

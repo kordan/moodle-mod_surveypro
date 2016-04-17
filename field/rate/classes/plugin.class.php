@@ -94,7 +94,7 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
     protected $options;
 
     /**
-     * $rates = list of allowed rates in the form: "$value SURVEYPRO_VALUELABELSEPARATOR $label"
+     * @var string list of allowed rates in the form: "$value SURVEYPRO_VALUELABELSEPARATOR $label"
      */
     protected $rates;
 
@@ -112,18 +112,19 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
      * @var string Format of the content once downloaded
      */
     protected $downloadformat;
+
     /**
-     * $style = how is this rate item displayed? with radiobutton or with dropdown menu?
+     * @var bool Style of the rate item: radiobutton or dropdown menu?
      */
     protected $style;
 
     /**
-     * $allowsamerate = is the user allowed to provide two equal rates for two different options?
+     * @var bool Force the user to use different rates at answer time
      */
     protected $differentrates;
 
     /**
-     * @var bool canbeparent
+     * @var bool Can this item be parent?
      */
     protected static $canbeparent = false;
 
@@ -274,61 +275,10 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
     /**
      * Item_left_position_allowed.
      *
-     * @return: boolean
+     * @return boolean
      */
     public function item_left_position_allowed() {
         return false;
-    }
-
-    /**
-     * Item_generate_standard_default
-     * sets record field to store the correct value to db for the date custom item
-     *
-     * @param $record
-     * @return void
-     */
-    public function item_generate_standard_default($options=null, $rates=null, $differentrates=null) {
-
-        if (is_null($options)) {
-            $options = $this->options;
-        }
-        if (is_null($rates)) {
-            $rates = $this->rates;
-        }
-        if (is_null($differentrates)) {
-            $differentrates = $this->differentrates;
-        }
-
-        if ($optionscount = count(surveypro_textarea_to_array($options))) {
-            $ratesarray = surveypro_textarea_to_array($rates);
-            if ($differentrates) {
-                $default = array();
-                foreach ($ratesarray as $singlerate) {
-                    if (strpos($singlerate, SURVEYPRO_VALUELABELSEPARATOR) === false) {
-                        $defaultrate = $singlerate;
-                    } else {
-                        $pair = explode(SURVEYPRO_VALUELABELSEPARATOR, $singlerate);
-                        $defaultrate = $pair[0];
-                    }
-                    $default[] = $defaultrate;
-                    if (count($default) == $optionscount) {
-                        break;
-                    }
-                }
-            } else {
-                $firstrate = array_shift($ratesarray);
-
-                if (strpos($firstrate, SURVEYPRO_VALUELABELSEPARATOR) === false) {
-                    $defaultrate = $firstrate;
-                } else {
-                    $pair = explode(SURVEYPRO_VALUELABELSEPARATOR, $firstrate);
-                    $defaultrate = $pair[0];
-                }
-
-                $default = array_fill(1, $optionscount, $defaultrate);
-            }
-            return implode("\n", $default);
-        }
     }
 
     /**
@@ -414,10 +364,10 @@ EOS;
     public function userform_mform_element($mform, $searchform, $readonly=false, $submissionid=0) {
         // This plugin has $this->insetupform['insearchform'] = false; so it will never be part of a search form.
 
-        $options = surveypro_textarea_to_array($this->options);
+        $options = surveypro_multilinetext_to_array($this->options);
         $optioncount = count($options) - 1;
         $rates = $this->item_get_content_array(SURVEYPRO_LABELS, 'rates');
-        $defaultvalues = surveypro_textarea_to_array($this->defaultvalue);
+        $defaultvalues = surveypro_multilinetext_to_array($this->defaultvalue);
 
         $idprefix = 'id_surveypro_field_rate_'.$this->sortindex;
 
@@ -525,7 +475,7 @@ EOS;
         }
 
         // If different rates were requested, it is time to verify this.
-        $options = surveypro_textarea_to_array($this->options);
+        $options = surveypro_multilinetext_to_array($this->options);
 
         if (isset($data[$this->itemname.'_noanswer'])) {
             return; // Nothing to validate.
@@ -708,7 +658,7 @@ EOS;
     public function userform_get_root_elements_name() {
         $elementnames = array();
 
-        $options = surveypro_textarea_to_array($this->options);
+        $options = surveypro_multilinetext_to_array($this->options);
         if ($this->style == SURVEYPROFIELD_RATE_USERADIO) {
             foreach ($options as $k => $option) {
                 $elementnames[] = $this->itemname.'_'.$k.'_group';

@@ -131,9 +131,9 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $errors = parent::validation($data, $files);
 
         // Clean inputs.
-        $cleanoptions = surveypro_textarea_to_array($data['options']);
-        $cleanrates = surveypro_textarea_to_array($data['rates']);
-        $cleandefaultvalue = isset($data['defaultvalue']) ? surveypro_textarea_to_array($data['defaultvalue']) : '';
+        $cleanoptions = surveypro_multilinetext_to_array($data['options']);
+        $cleanrates = surveypro_multilinetext_to_array($data['rates']);
+        $cleandefaultvalue = isset($data['defaultvalue']) ? surveypro_multilinetext_to_array($data['defaultvalue']) : '';
 
         // If a default is required.
         if ($data['defaultoption'] == SURVEYPRO_CUSTOMDEFAULT) {

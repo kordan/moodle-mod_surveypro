@@ -97,6 +97,7 @@ class mod_surveypro_field_multiselect extends mod_surveypro_itembase {
      * @var string Format of the content once downloaded
      */
     protected $downloadformat;
+
     /**
      * @var int Height of the multiselect in rows
      */
@@ -108,7 +109,7 @@ class mod_surveypro_field_multiselect extends mod_surveypro_itembase {
     protected $minimumrequired;
 
     /**
-     * @var bool canbeparent
+     * @var bool Can this item be parent?
      */
     protected static $canbeparent = true;
 
@@ -331,7 +332,7 @@ EOS;
      * return string childparentvalue
      */
     public function parent_encode_child_parentcontent($childparentcontent) {
-        $parentcontents = array_unique(surveypro_textarea_to_array($childparentcontent));
+        $parentcontents = array_unique(surveypro_multilinetext_to_array($childparentcontent));
         $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
 
         $childparentvalue = array();
@@ -508,7 +509,7 @@ EOS;
 
         // Begin of: defaults.
         if (!$searchform) {
-            if ($defaults = surveypro_textarea_to_array($this->defaultvalue)) {
+            if ($defaults = surveypro_multilinetext_to_array($this->defaultvalue)) {
                 $defaultkeys = array();
                 foreach ($defaults as $default) {
                     $defaultkeys[] = array_search($default, $labels);

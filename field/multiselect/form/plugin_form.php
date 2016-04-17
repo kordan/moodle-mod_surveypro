@@ -113,8 +113,8 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $errors = parent::validation($data, $files);
 
         // Clean inputs.
-        $cleanoptions = surveypro_textarea_to_array($data['options']);
-        $cleandefaultvalue = surveypro_textarea_to_array($data['defaultvalue']);
+        $cleanoptions = surveypro_multilinetext_to_array($data['options']);
+        $cleandefaultvalue = surveypro_multilinetext_to_array($data['defaultvalue']);
 
         // Build $value array (I do not care about $label) starting from $cleanoptions.
         $values = array();

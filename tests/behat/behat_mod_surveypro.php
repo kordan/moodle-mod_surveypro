@@ -17,10 +17,10 @@
 /**
  * Steps definitions related to mod_surveypro.
  *
- * @package    mod_surveypro
- * @category   test
- * @copyright  2013 onwards kordan <kordan@mclink.it>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_surveypro
+ * @category  test
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 // NOTE: no MOODLE_INTERNAL test here, this file may be required by behat before including /config.php.
@@ -31,12 +31,24 @@ use Behat\Behat\Context\Step\Given as Given,
     Behat\Gherkin\Node\TableNode as TableNode,
     Behat\Mink\Exception\ExpectationException as ExpectationException;
 
+/**
+ * Library for surveypro behat tests
+ *
+ * @package   mod_surveypro
+ * @category  test
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class behat_mod_surveypro extends behat_base {
 
     /**
      * Fill a textarea with a multiline content.
      *
      * @Given /^I fill the textarea "(?P<textarea_name>(?:[^"]|\\")*)" with multiline content "(?P<multiline_content>(?:[^"]|\\")*)"$/
+     *
+     * @param string $textareafield
+     * @param string $multilinevalue
+     * @return void
      */
     public function i_fill_the_textarea_with_multiline_content($textareafield, $multilinevalue) {
         $textareafield = $this->escape($textareafield);
@@ -52,7 +64,7 @@ class behat_mod_surveypro extends behat_base {
      *
      * @Then /^I should see "(?P<given_number>\d+)" submissions displayed$/
      *
-     * @param integer $givennumber The supposed count of $locator
+     * @param integer $givennumber
      * @return void
      */
     public function i_should_see_submissions($givennumber) {

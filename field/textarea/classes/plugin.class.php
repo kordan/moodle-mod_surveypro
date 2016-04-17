@@ -89,32 +89,32 @@ class mod_surveypro_field_textarea extends mod_surveypro_itembase {
     protected $indent;
 
     /**
-     * $useeditor = does the item use html editor?
+     * @var bool Does the item use html editor?
      */
     protected $useeditor;
 
     /**
-     * $arearows = number or rows of the text area?
+     * @var int Number or rows of the text area?
      */
     protected $arearows;
 
     /**
-     * $areacols = number or columns of the text area?
+     * @var int Number or columns of the text area?
      */
     protected $areacols;
 
     /**
-     * $minlength = the minimum allowed text length
+     * @var int Minimum allowed text length
      */
     protected $minlength;
 
     /**
-     * $maxlength = the maximum allowed text length
+     * @var int Maximum allowed text length
      */
     protected $maxlength;
 
     /**
-     * @var bool canbeparent
+     * @var bool Can this item be parent?
      */
     protected static $canbeparent = false;
 
@@ -329,8 +329,7 @@ EOS;
     /**
      * Get use editor.
      *
-     * @param $field
-     * @return void
+     * @return the content of the $useeditor property
      */
     public function get_useeditor() {
         return $this->useeditor;

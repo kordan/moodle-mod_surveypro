@@ -144,7 +144,7 @@ class mod_surveypro_field_recurrence extends mod_surveypro_itembase {
     protected $upperboundday;
 
     /**
-     * @var bool canbeparent
+     * @var bool Can this item be parent?
      */
     protected static $canbeparent = false;
 
@@ -254,11 +254,11 @@ class mod_surveypro_field_recurrence extends mod_surveypro_itembase {
     }
 
     /**
-     * Item_recurrence_to_unix_time.
+     * Change $month, $day to unixtime.
      *
-     * @param $month
-     * @param $day
-     * @return void
+     * @param int $month
+     * @param int $day
+     * @return int unixtime
      */
     public function item_recurrence_to_unix_time($month, $day) {
         return (gmmktime(12, 0, 0, $month, $day, SURVEYPROFIELD_RECURRENCE_YEAROFFSET)); // This is GMT
@@ -353,8 +353,8 @@ class mod_surveypro_field_recurrence extends mod_surveypro_itembase {
     /**
      * Item_check_monthday.
      *
-     * @param $day
-     * @param $month
+     * @param int $day
+     * @param int $month
      * @return void
      */
     public function item_check_monthday($day, $month) {

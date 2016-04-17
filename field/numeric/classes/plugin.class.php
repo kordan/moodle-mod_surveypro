@@ -114,12 +114,12 @@ class mod_surveypro_field_numeric extends mod_surveypro_itembase {
     protected $upperbound;
 
     /**
-     * $decimals = number of decimals allowed for this number
+     * @var int Number of decimals allowed for this number
      */
     protected $decimals;
 
     /**
-     * @var bool canbeparent
+     * @var bool Can this item be parent?
      */
     protected static $canbeparent = false;
 

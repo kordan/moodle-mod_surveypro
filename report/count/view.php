@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines the version of surveypro autofill subplugin
+ * Starting page of the count report.
  *
  * @package   surveyproreport_count
  * @copyright 2013 onwards kordan <kordan@mclink.it>

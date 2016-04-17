@@ -14,6 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Starting page to display graphs of the frequency report.
+ *
+ * @package   surveyproreport_frequency
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 require_once('../../../../config.php');
 require_once($CFG->libdir.'/graphlib.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');

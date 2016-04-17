@@ -15,12 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Internal library of functions for module surveypro
+ * Internal library of functions for colles report of surveypro
  *
  * All the surveypro specific functions, needed to implement the module
  * logic, should go here. Never include this file from your lib.php!
  *
- * @package   mod_surveypro
+ * @package   surveyproreport_colles
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

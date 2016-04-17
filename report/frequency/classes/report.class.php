@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines the version of surveypro autofill subplugin
+ * Surveypro class to manage frequency report
  *
  * @package   surveyproreport_frequency
  * @copyright 2013 onwards kordan <kordan@mclink.it>
@@ -27,10 +27,17 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir.'/tablelib.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/reportbase.class.php');
 
+/**
+ * The class to manage frequency report
+ *
+ * @package   surveyproreport_frequency
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class mod_surveypro_report_frequency extends mod_surveypro_reportbase {
 
     /**
-     * Outputtable
+     * @var flexible_table $outputtable
      */
     public $outputtable = null;
 
@@ -177,7 +184,7 @@ class mod_surveypro_report_frequency extends mod_surveypro_reportbase {
     /**
      * Output_data.
      *
-     * @param string $url
+     * @param moodle_url $url
      * @return void
      */
     public function output_data($url) {
@@ -191,7 +198,9 @@ class mod_surveypro_report_frequency extends mod_surveypro_reportbase {
     }
 
     /**
-     * @param string $graphurl
+     * Display the graph.
+     *
+     * @param moodle_url $graphurl
      * @return void
      */
     public function print_graph($graphurl) {
