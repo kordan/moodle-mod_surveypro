@@ -52,7 +52,8 @@ $view = optional_param('view', SURVEYPRO_NOVIEW, PARAM_INT);
 $userformman = new mod_surveypro_userform($cm, $context, $surveypro);
 $userformman->setup($submissionid, $formpage, $view);
 
-$userformman->surveypro_add_custom_css();
+$utilityman = new mod_surveypro_utility($cm, $surveypro);
+$utilityman->add_custom_css();
 
 // Begin of: define $user_form return url.
 $paramurl = array('id' => $cm->id, 'view' => $view);
@@ -67,8 +68,8 @@ $formparams->submissionid = $submissionid;
 $formparams->maxassignedpage = $userformman->get_maxassignedpage();
 $formparams->canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context, null, true);
 $formparams->formpage = $userformman->get_formpage(); // The page of the form to select subset of fields
-$formparams->modulepage = $userformman->get_modulepage(); // The page of the TAB-PAGE structure.
-$formparams->readonly = ($userformman->get_modulepage() == SURVEYPRO_SUBMISSION_READONLY);
+$formparams->tabpage = $userformman->get_tabpage(); // The page of the TAB-PAGE structure.
+$formparams->readonly = ($userformman->get_tabpage() == SURVEYPRO_SUBMISSION_READONLY);
 $formparams->preview = false;
 // End of: prepare params for the form.
 
@@ -116,7 +117,7 @@ if ($userformman->formdata = $userform->get_data()) {
         //
         // Example: I am leaving page 3. On the basis of current input $userformman->firstpageright is 10.
         // Maybe yesterday I had different data in $userformman->formpage = 3 and on that basis I was redirected to page 4.
-        // Now that data of $userformman->formpage = 3 redirects me to page 10, for sure answers to items in page 4 have to be deleted.
+        // Now that data of $userformman->formpage = 3 redirects me to page 10, for sure answers to items in page 4 must be deleted.
         $userformman->drop_jumped_saved_data();
 
         $paramurl['formpage'] = $userformman->get_firstpageright();
@@ -140,7 +141,7 @@ $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
 
-new mod_surveypro_tabs($cm, $context, $surveypro, $userformman->get_moduletab(), $userformman->get_modulepage());
+new mod_surveypro_tabs($cm, $context, $surveypro, $userformman->get_tabtab(), $userformman->get_tabpage());
 
 $userformman->noitem_stopexecution();
 $userformman->nomoresubmissions_stopexecution();
@@ -156,7 +157,7 @@ $prefill['formpage'] = $userformman->get_formpage();
 $userform->set_data($prefill);
 $userform->display();
 
-// If surveypro is multipage and $userformman->modulepage == SURVEYPRO_READONLYRESPONSE.
+// If surveypro is multipage and $userformman->tabpage == SURVEYPRO_READONLYRESPONSE.
 // I need to add navigation buttons manually
 // Because the surveypro is not displayed as a form but as a simple list of graphic user items.
 $userformman->add_readonly_browsing_buttons();

@@ -51,7 +51,8 @@ $submissionid = optional_param('submissionid', 0, PARAM_INT);
 $previewman = new mod_surveypro_formpreview($cm, $context, $surveypro);
 $previewman->setup($submissionid, $formpage);
 
-$previewman->surveypro_add_custom_css();
+$utilityman = new mod_surveypro_utility($cm, $surveypro);
+$utilityman->add_custom_css();
 
 // Begin of: define $user_form return url.
 $paramurl = array('id' => $cm->id);
@@ -66,7 +67,7 @@ $formparams->submissionid = $submissionid;
 $formparams->maxassignedpage = $previewman->get_maxassignedpage();
 $formparams->canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context, null, true);
 $formparams->formpage = $previewman->get_formpage(); // The page of the form to select subset of fields
-$formparams->modulepage = SURVEYPRO_LAYOUT_PREVIEW; // This is the page of the TAB-PAGE structure.
+$formparams->tabpage = SURVEYPRO_LAYOUT_PREVIEW; // This is the page of the TAB-PAGE structure.
 $formparams->readonly = false;
 $formparams->preview = true;
 // End of: prepare params for the form.

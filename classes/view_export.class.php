@@ -115,10 +115,9 @@ class mod_surveypro_exportmanager {
         $whereparams['surveyproid'] = $this->surveypro->id;
         $whereparams['verified'] = 1;
 
-        // For IN PROGRESS submission where no fields were filled.
-        // I need the LEFT JOIN {surveypro_item}.
+        // For IN PROGRESS submissions where no fields were filled I need the LEFT JOIN {surveypro_item}.
         // In this case,
-        // If I add a clause for fields of UNEXISTING {surveypro_item} (because no fields was filled).
+        // If I add a clause for fields of UNEXISTING {surveypro_item} (because no fields was filled)
         // I will miss the record if I do not further add OR ISNULL(si.xxxx)
         if (!isset($this->formdata->includehidden)) {
             $sql .= ' AND (si.hidden = 0 OR ISNULL(si.hidden))';
@@ -161,7 +160,7 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * Surveypro_export.
+     * Fetch submissions and send them to output in xls or csv.
      *
      * @return $exporterror
      */
@@ -186,9 +185,6 @@ class mod_surveypro_exportmanager {
         }
 
         list($richsubmissionssql, $whereparams) = $this->get_export_sql(false);
-        // echo '$richsubmissionssql = '.$richsubmissionssql.'<br />';
-        // echo '$whereparams:';
-        // var_dump($whereparams);
         $richsubmissions = $DB->get_recordset_sql($richsubmissionssql, $whereparams);
 
         if ($richsubmissions->valid()) {
@@ -203,7 +199,7 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * output_to_csv.
+     * Print given submissions to csv file and make it available.
      *
      * @param array $richsubmissions
      * @return void
@@ -257,9 +253,6 @@ class mod_surveypro_exportmanager {
         // Define once and forever $placeholders.
         $placeholders = array_fill_keys($itemseedskeys, $answermissingindb);
 
-        // echo '$placeholders:';
-        // var_dump($placeholders);
-
         // Get user groups (to filter surveypro to download) ???? TODO: NEVER USED ????
         // $mygroups = groups_get_all_groups($course->id, $USER->id, $this->cm->groupingid);
 
@@ -267,10 +260,6 @@ class mod_surveypro_exportmanager {
         foreach ($richsubmissions as $richsubmission) {
             if ($oldsubmissionid != $richsubmission->submissionid) {
                 if (!empty($oldsubmissionid)) { // New richsubmissionid, stop managing old record.
-                    // echo 'Record ready for the save<br />';
-                    // echo '$recordtoexport:';
-                    // var_dump($recordtoexport);
-
                     // Write old record.
                     $csvexport->add_data($recordtoexport);
                 }
@@ -284,9 +273,6 @@ class mod_surveypro_exportmanager {
                 $recordtoexport += $this->export_add_names($richsubmission);
                 $recordtoexport += $placeholders;
                 $recordtoexport += $this->export_add_dates($richsubmission);
-                // echo 'Just created empty record<br />';
-                // echo '$recordtoexport:';
-                // var_dump($recordtoexport);
             }
 
             if ($this->formdata->outputstyle == SURVEYPRO_VERBOSE) {
@@ -303,7 +289,7 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * output_to_xls.
+     * Print given submissions to xls file and make it available.
      *
      * @param array $richsubmissions
      * @return void
@@ -388,15 +374,13 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * Export_get_field_list
-     * get the list of the fields of this surveypro
+     * Get seeds of fields (items) of data going to be exporeted.
      *
      * @return void
      */
     public function export_get_field_list() {
         global $DB;
 
-        // Begin of: get the field list.
         // No matter for the page.
         $where = array();
         $where['surveyproid'] = $this->surveypro->id;
@@ -404,7 +388,7 @@ class mod_surveypro_exportmanager {
         if (!isset($this->formdata->includereserved)) {
             $where['reserved'] = 0;
         }
-        if (!isset($this->formdata->includehide)) {
+        if (!isset($this->formdata->includehidden)) {
             $where['hidden'] = 0;
         }
         if (($this->formdata->downloadtype == SURVEYPRO_FILESBYUSER) ||
@@ -416,13 +400,12 @@ class mod_surveypro_exportmanager {
             return SURVEYPRO_NOFIELDSSELECTED;
             die(); // <-- never reached
         }
-        // End of: get the field list.
 
         return $itemseeds;
     }
 
     /**
-     * Export_add_ownerid.
+     * Add the ownerid to the structure of the table to export.
      *
      * @param array $richsubmission
      * @return $owner
@@ -436,7 +419,7 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * Export_add_names.
+     * Add first and last name of the owner to the structure of the table to export.
      *
      * @param array $richsubmission
      * @return array $names
@@ -452,7 +435,7 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * Export_add_dates.
+     * Add timecreated and/or timemodified to the structure of the table to export.
      *
      * @param array $richsubmission
      * @return array $dates
@@ -481,7 +464,7 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * Export_close_record.
+     * Write to xls file the passed record.
      *
      * @param array $recordtoexport
      * @param object $worksheet
@@ -499,7 +482,7 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * Decode_content.
+     * If it was required SURVEYPRO_VERBOSE output, change numbers to verbose explanations.
      *
      * @param array $richsubmission
      * @return void
@@ -520,7 +503,7 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * Attachments_downloadbyuser.
+     * Craft each uploaded attachment by user and compress the package.
      *
      * @return void
      */
@@ -629,7 +612,7 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * Attachments_downloadbyitem.
+     * Craft each uploaded attachment by item and compress the package.
      *
      * @return void
      */
@@ -743,7 +726,7 @@ class mod_surveypro_exportmanager {
     }
 
     /**
-     * Makezip_available.
+     * Make the zip file available.
      *
      * @param string $exportfile File to make available
      * @return void

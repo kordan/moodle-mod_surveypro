@@ -78,6 +78,6 @@ class mod_surveypro_generator_testcase extends advanced_testcase {
         $this->assertEquals(0, $DB->count_records('surveypro_item', array('surveyproid' => $surveypro->id)));
         $surveyprogenerator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
         // Commented for now, till we are able to apply mastertemplates from generator.
-        //$surveyprogenerator->apply_mastertemplate();
+        // $surveyprogenerator->apply_mastertemplate();
     }
 }

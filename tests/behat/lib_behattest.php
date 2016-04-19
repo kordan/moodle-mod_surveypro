@@ -22,7 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+// NOTE: no MOODLE_INTERNAL test here, this file may be required by behat before including /config.php.
 
 /**
  * Provide mandatory dummy contents for each plugin item

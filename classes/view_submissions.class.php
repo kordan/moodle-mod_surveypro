@@ -526,33 +526,6 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * User_sent_submissions.
-     *
-     * @param bool $status
-     * @return void
-     */
-    public function user_sent_submissions($status=SURVEYPRO_STATUSALL) {
-        global $USER, $DB;
-
-        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
-
-        $whereparams = array('surveyproid' => $this->surveypro->id);
-        if (!$canseeotherssubmissions) {
-            $whereparams['userid'] = $USER->id;
-        }
-        if ($status != SURVEYPRO_STATUSALL) {
-            $statuslist = array(SURVEYPRO_STATUSCLOSED, SURVEYPRO_STATUSINPROGRESS);
-            if (!in_array($status, $statuslist)) {
-                $a = 'user_sent_submissions';
-                print_error('invalid_status', 'mod_surveypro', null, $a);
-            }
-            $whereparams['status'] = $status;
-        }
-
-        return $DB->count_records('surveypro_submission', $whereparams);
-    }
-
-    /**
      * Get_submissions_info_sql.
      *
      * @param string $sql
@@ -785,7 +758,7 @@ class mod_surveypro_submissionmanager {
         $readonlyaccess = get_string('readonlyaccess', 'mod_surveypro');
 
         $nonhistoryedittitle = get_string('edit');
-        $historyedittitle = get_string('duplicate');
+        $historyedittitle = get_string('editclone', 'mod_surveypro');
         if ($this->surveypro->history) {
             $edittitle = $historyedittitle;
             $linkidprefix = 'duplicate_submission_';
@@ -982,17 +955,20 @@ class mod_surveypro_submissionmanager {
      * @return void
      */
     public function show_action_buttons() {
-        global $OUTPUT;
+        global $OUTPUT, $USER;
 
         $cansubmit = has_capability('mod/surveypro:submit', $this->context, null, true);
         $canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context, null, true);
         $candeleteownsubmissions = has_capability('mod/surveypro:deleteownsubmissions', $this->context, null, true);
         $candeleteotherssubmissions = has_capability('mod/surveypro:deleteotherssubmissions', $this->context, null, true);
+        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
 
         // Begin of: is the button to add one more response going to be the page?
         $timenow = time();
-        $countclosed = $this->user_sent_submissions(SURVEYPRO_STATUSCLOSED);
-        $inprogress = $this->user_sent_submissions(SURVEYPRO_STATUSINPROGRESS);
+        $userid = ($canseeotherssubmissions) ? null : $USER->id;
+        $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+        $countclosed = $utilityman->has_submissions(true, SURVEYPRO_STATUSCLOSED, $userid);
+        $inprogress = $utilityman->has_submissions(true, SURVEYPRO_STATUSINPROGRESS, $userid);
         $next = $countclosed + $inprogress + 1;
 
         $roles = get_roles_used_in_context($this->context);

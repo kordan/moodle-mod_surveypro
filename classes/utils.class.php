@@ -39,6 +39,11 @@ class mod_surveypro_utility {
     protected $cm;
 
     /**
+     * @var object Context object
+     */
+    protected $context;
+
+    /**
      * @var object Surveypro object
      */
     protected $surveypro;
@@ -53,6 +58,7 @@ class mod_surveypro_utility {
         global $DB;
 
         $this->cm = $cm;
+        $this->context = context_module::instance($cm->id);
         if (empty($surveypro)) {
             $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
         }
@@ -152,7 +158,7 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Return if the survey has submissions.
+     * Return the number (or the availability) of required submissions.
      *
      * @param bool $returncount
      * @param int $status
@@ -639,5 +645,19 @@ class mod_surveypro_utility {
         $pluginlist = $DB->get_fieldset_sql($sql, $whereparams);
 
         return $pluginlist;
+    }
+
+    /**
+     * Assign to the user outform the custom css provided for the instance.
+     *
+     * @return void
+     */
+    public function add_custom_css() {
+        global $PAGE;
+
+        $fs = get_file_storage();
+        if ($fs->get_area_files($this->context->id, 'mod_surveypro', SURVEYPRO_STYLEFILEAREA, 0, 'sortorder', false)) {
+            $PAGE->requires->css('/mod/surveypro/userstyle.php?id='.$this->surveypro->id.'&amp;cmid='.$this->cm->id); // Not overridable via themes!
+        }
     }
 }

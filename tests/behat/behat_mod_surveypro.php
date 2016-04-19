@@ -112,7 +112,6 @@ class behat_mod_surveypro extends behat_base {
             $type = clean_param($surveyprodata['type'], PARAM_TEXT);
             $plugin = clean_param($surveyprodata['plugin'], PARAM_TEXT);
             // Get dummy contents based on type and plugin.
-            // $record = $this->get_dummy_contents($type, $plugin);
             $record = get_dummy_contents($type, $plugin);
 
             // Add the item.

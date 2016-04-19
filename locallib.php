@@ -30,7 +30,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/surveypro/lib.php');
 
 /**
- * surveypro_get_item
+ * Load the class of the specified item
  *
  * @param object $cm
  * @param object $surveypro

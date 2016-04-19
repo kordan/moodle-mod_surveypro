@@ -52,7 +52,7 @@ class mod_surveypro_outform extends moodleform {
         $maxassignedpage = $this->_customdata->maxassignedpage;
         $canaccessreserveditems = $this->_customdata->canaccessreserveditems;
         $formpage = $this->_customdata->formpage;
-        $modulepage = $this->_customdata->modulepage;
+        $tabpage = $this->_customdata->tabpage;
         $readonly = $this->_customdata->readonly; // I see a form (record) that is not mine.
         $preview = $this->_customdata->preview; // Are we in preview mode?
 
@@ -101,7 +101,7 @@ class mod_surveypro_outform extends moodleform {
             $mform->addElement('static', 'beginning_extrarow', '', '');
 
             foreach ($itemseeds as $itemseed) {
-                if ($modulepage == SURVEYPRO_LAYOUT_PREVIEW) {
+                if ($tabpage == SURVEYPRO_LAYOUT_PREVIEW) {
                     $itemaschildisallowed = true;
                 } else {
                     // Is the current item allowed to be displayed in this page?
@@ -185,7 +185,7 @@ class mod_surveypro_outform extends moodleform {
             }
             $itemseeds->close();
 
-            if ($modulepage != SURVEYPRO_LAYOUT_PREVIEW) {
+            if ($tabpage != SURVEYPRO_LAYOUT_PREVIEW) {
                 if (!empty($surveypro->captcha)) {
                     $mform->addElement('recaptcha', 'captcha_form_footer');
                 }
@@ -198,7 +198,7 @@ class mod_surveypro_outform extends moodleform {
         if ( ($formpage == SURVEYPRO_RIGHT_OVERFLOW) || ($formpage > 1) ) {
             $buttonlist['prevbutton'] = get_string('previousformpage', 'mod_surveypro');
         }
-        if ($modulepage != SURVEYPRO_LAYOUT_PREVIEW) {
+        if ($tabpage != SURVEYPRO_LAYOUT_PREVIEW) {
             if ($surveypro->saveresume) {
                 if ($maxassignedpage > 1) {
                     $buttonlist['pausebutton'] = get_string('pause', 'mod_surveypro');
@@ -259,7 +259,7 @@ class mod_surveypro_outform extends moodleform {
 
         // Get _customdata.
         $cm = $this->_customdata->cm;
-        // $modulepage = $this->_customdata->modulepage;
+        // $tabpage = $this->_customdata->tabpage;
         $surveypro = $this->_customdata->surveypro;
         // $submissionid = $this->_customdata->submissionid;
         // $formpage = $this->_customdata->formpage;

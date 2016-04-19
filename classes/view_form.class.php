@@ -53,12 +53,12 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     /**
      * @var int Tab of the module where the page will be shown
      */
-    protected $moduletab;
+    protected $tabtab;
 
     /**
      * @var int This is the page of the module. Nothing to share with $formpage
      */
-    protected $modulepage;
+    protected $tabpage;
 
     /**
      * @var int Final validation of the submitted response
@@ -160,23 +160,23 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Set module tab.
+     * Set TAB tab.
      *
-     * @param int $moduletab
+     * @param int $tabtab
      * @return void
      */
-    public function set_moduletab($moduletab) {
-        $this->moduletab = $moduletab;
+    public function set_tabtab($tabtab) {
+        $this->tabtab = $tabtab;
     }
 
     /**
-     * Set modulepage.
+     * Set TAB page.
      *
-     * @param int $modulepage
+     * @param int $tabpage
      * @return void
      */
-    public function set_modulepage($modulepage) {
-        $this->modulepage = $modulepage;
+    public function set_tabpage($tabpage) {
+        $this->tabpage = $tabpage;
     }
 
     /**
@@ -198,21 +198,21 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Get module tab.
+     * Get TAB tab.
      *
-     * @return the content of the $moduletab property
+     * @return the content of the $tabtab property
      */
-    public function get_moduletab() {
-        return $this->moduletab;
+    public function get_tabtab() {
+        return $this->tabtab;
     }
 
     /**
-     * Get module page.
+     * Get TAB page.
      *
-     * @return the content of the $modulepage property
+     * @return the content of the $tabpage property
      */
-    public function get_modulepage() {
-        return $this->modulepage;
+    public function get_tabpage() {
+        return $this->tabpage;
     }
 
     /**
@@ -282,17 +282,17 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Page_has_items.
+     * Declares if the passed page of the survey is going to hold at least one item.
      *
-     * In this method, I am not ONLY going to check if the page $formpage has item
-     * but I am also verifying that those items are supposed to be displayed
-     * on the basis of the answers provided to their parents
+     * In this method, I am not ONLY going to check if the page $formpage has items
+     * but I also verify that those items are going to be displayed
+     * on the basis of the answers provided to their parent
      *
      * @param int $formpage
-     * @return void
+     * @return bool
      */
     private function page_has_items($formpage) {
-        global $CFG, $DB;
+        global $DB;
 
         $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context, null, true);
 
@@ -328,20 +328,20 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     private function set_tabs_params() {
         switch ($this->view) {
             case SURVEYPRO_NOVIEW:
-                $this->set_moduletab(SURVEYPRO_TABSUBMISSIONS); // Needed by tabs.class.php.
-                $this->set_modulepage(SURVEYPRO_SUBMISSION_CPANEL); // Needed by tabs.class.php.
+                $this->set_tabtab(SURVEYPRO_TABSUBMISSIONS); // Needed by tabs.class.php.
+                $this->set_tabpage(SURVEYPRO_SUBMISSION_CPANEL); // Needed by tabs.class.php.
                 break;
             case SURVEYPRO_NEWRESPONSE:
-                $this->set_moduletab(SURVEYPRO_TABSUBMISSIONS); // Needed by tabs.class.php.
-                $this->set_modulepage(SURVEYPRO_SUBMISSION_INSERT); // Needed by tabs.class.php.
+                $this->set_tabtab(SURVEYPRO_TABSUBMISSIONS); // Needed by tabs.class.php.
+                $this->set_tabpage(SURVEYPRO_SUBMISSION_INSERT); // Needed by tabs.class.php.
                 break;
             case SURVEYPRO_EDITRESPONSE:
-                $this->set_moduletab(SURVEYPRO_TABSUBMISSIONS); // Needed by tabs.class.php.
-                $this->set_modulepage(SURVEYPRO_SUBMISSION_EDIT); // Needed by tabs.class.php.
+                $this->set_tabtab(SURVEYPRO_TABSUBMISSIONS); // Needed by tabs.class.php.
+                $this->set_tabpage(SURVEYPRO_SUBMISSION_EDIT); // Needed by tabs.class.php.
                 break;
             case SURVEYPRO_READONLYRESPONSE:
-                $this->set_moduletab(SURVEYPRO_TABSUBMISSIONS); // Needed by tabs.class.php.
-                $this->set_modulepage(SURVEYPRO_SUBMISSION_READONLY); // Needed by tabs.class.php.
+                $this->set_tabtab(SURVEYPRO_TABSUBMISSIONS); // Needed by tabs.class.php.
+                $this->set_tabpage(SURVEYPRO_SUBMISSION_READONLY); // Needed by tabs.class.php.
                 break;
             default:
                 $message = 'Unexpected $this->view = '.$this->view;
@@ -350,23 +350,9 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Surveypro_add_custom_css.
+     * Save user submission.
      *
      * @return void
-     */
-    public function surveypro_add_custom_css() {
-        global $PAGE;
-
-        $fs = get_file_storage();
-        if ($fs->get_area_files($this->context->id, 'mod_surveypro', SURVEYPRO_STYLEFILEAREA, 0, 'sortorder', false)) {
-            $PAGE->requires->css('/mod/surveypro/userstyle.php?id='.$this->surveypro->id.'&amp;cmid='.$this->cm->id); // Not overridable via themes!
-        }
-    }
-
-    /**
-     * Save_surveypro_submission.
-     *
-     * @return surveypro_submission record
      */
     private function save_surveypro_submission() {
         global $USER, $DB;
@@ -701,7 +687,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Check_mandatories_are_in.
+     * Check mandatory item were filled.
      *
      * @return void
      */
@@ -744,24 +730,6 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
             }
         }
 
-        // $requireditems = array (size=3)
-        // ->  7521 =>
-        // ->    object(stdClass)[1108]
-        // ->      public 'id' => string '7521' (length=4)
-        // ->      public 'parentid' => string '0' (length=1)
-        // ->      public 'parentvalue' => null
-        // ->  7527 =>
-        // ->    object(stdClass)[889]
-        // ->      public 'id' => string '7527' (length=4)
-        // ->      public 'parentid' => string '0' (length=1)
-        // ->      public 'parentvalue' => null
-        // ->  7528 =>
-        // ->    object(stdClass)[1107]
-        // ->      public 'id' => string '7528' (length=4)
-        // ->      public 'parentid' => string '0' (length=1)
-        // ->      public 'parentvalue' => null
-        // End of: get the list of all mandatory fields.
-
         // Make only ONE query taking ALL the answer provided in the frame of this submission.
         // (and, implicitally, for this surveypro).
         $whereparams = array('submissionid' => $this->get_submissionid());
@@ -787,7 +755,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Check_all_verified.
+     * Check that each answer of the passed submission was actually verified at submission time.
      *
      * @return void
      */
@@ -803,7 +771,15 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Drop_jumped_saved_data.
+     * Drop old answers into pages no longer valid.
+     *
+     * Ok, I am moving from $userformman->formpage to page $userformman->firstpageright.
+     * I need to delete all the answer that were (maybe) written during last input session in this surveypro.
+     * Answers to each item in a page between ($this->formpage + 1) and ($this->firstpageright - 1) included, must be deleted.
+     *
+     * Example: I am leaving page 3. On the basis of current input (in this page), I have $userformman->firstpageright = 10.
+     * Maybe yesterday I had different data in $userformman->formpage = 3 and on that basis I was redirected to page 4.
+     * Now that data of $userformman->formpage = 3 redirects me to page 10, for sure answers to items in page 4 must be deleted.
      *
      * @return void
      */
@@ -934,63 +910,48 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Submissions_allowed.
+     * Is $USER->id allowed to fill one more response?
      *
-     * @return void
+     * @return bool
      */
-    public function submissions_allowed() {
-        // If $this->formdata is available, this means that the form was already displayed and submitted.
-        // So it is not the time to say the user is not allowed to submit one more surveypro.
-        if ($this->formdata) {
+    public function can_submit_more() {
+        if (empty($this->surveypro->maxentries)) {
             return true;
-        }
-        // If submissionid is already defined I am not going to create one more new submission.
-        if ($this->get_submissionid()) {
-            return true;
-        }
-        if (!$this->surveypro->maxentries) {
-            return true;
-        }
-        if (has_capability('mod/surveypro:ignoremaxentries', $this->context, null, true)) {
-            return true;
-        }
-
-        return ($this->user_sent_submissions(SURVEYPRO_STATUSALL) < $this->surveypro->maxentries);
-    }
-
-    /**
-     * User_sent_submissions.
-     *
-     * @param bool $status
-     * @return void
-     */
-    private function user_sent_submissions($status=SURVEYPRO_STATUSALL) {
-        global $USER, $DB;
-
-        $whereparams = array('surveyproid' => $this->surveypro->id, 'userid' => $USER->id);
-        if ($status != SURVEYPRO_STATUSALL) {
-            $statuslist = array(SURVEYPRO_STATUSCLOSED, SURVEYPRO_STATUSINPROGRESS);
-            if (!in_array($status, $statuslist)) {
-                $a = 'user_sent_submissions';
-                print_error('invalid_status', 'mod_surveypro', null, $a);
+        } else {
+            if (has_capability('mod/surveypro:ignoremaxentries', $this->context, null, true)) {
+                return true;
             }
-            $whereparams['status'] = $status;
-        }
 
-        return $DB->count_records('surveypro_submission', $whereparams);
+            $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+            $usersubmissions = $utilityman->has_submissions(true, SURVEYPRO_STATUSALL, $USER->id);
+
+            return ($usersubmissions < $this->surveypro->maxentries);
+        }
     }
 
+
     /**
-     * Nomoresubmissions_stopexecution.
+     * Stop the page load with a warning because no submission is available.
      *
      * @return void
      */
     public function nomoresubmissions_stopexecution() {
         global $OUTPUT;
 
-        $modulepage = $this->get_modulepage();
-        if ($modulepage != SURVEYPRO_SUBMISSION_READONLY) {
-            if (!$this->submissions_allowed()) {
+        $tabpage = $this->get_tabpage();
+        if ($tabpage != SURVEYPRO_SUBMISSION_READONLY) {
+            // If $this->formdata is available, this means that the form was already displayed and submitted.
+            // So it is not the time to verify the user is allowed to submit one more surveypro.
+            if ($this->formdata) {
+                return;
+            }
+
+            // If submissionid is already defined I am not going to create one more new submission so the problem does not exist.
+            if ($this->get_submissionid()) {
+                return;
+            }
+
+            if (!$this->can_submit_more()) {
                 $message = get_string('nomoresubmissionsallowed', 'mod_surveypro', $this->surveypro->maxentries);
                 echo $OUTPUT->notification($message, 'notifyproblem');
 
@@ -1005,7 +966,9 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Manage_thanks_page.
+     * Verify if the thanks page has to be displayed.
+     *
+     * Stop execution if thanks page is shown
      *
      * @return void
      */
@@ -1022,7 +985,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Surveypro_show_thanks_page.
+     * Actually display the thanks page.
      *
      * @return void
      */
@@ -1054,15 +1017,10 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
             }
         }
 
-        if (empty($this->surveypro->maxentries) || $canignoremaxentries) {
-            $cansubmitmore = true;
-        } else {
-            $alreadysubmitted = $DB->count_records('surveypro_submission', array('surveyproid' => $this->surveypro->id, 'userid' => $USER->id));
-            $cansubmitmore = ($alreadysubmitted < $this->surveypro->maxentries);
-        }
+        $cansubmitmore = $this->can_submit_more();
 
         $paramurl = array('id' => $this->cm->id);
-        if ($cansubmitmore) { // If the user is allowed to submit one more surveypro.
+        if ($cansubmitmore) { // If the user is allowed to submit one more response.
             $buttonurl = new moodle_url('/mod/surveypro/view_form.php', array('id' => $this->cm->id, 'view' => SURVEYPRO_NEWRESPONSE));
             $onemore = new single_button($buttonurl, get_string('addnewsubmission', 'mod_surveypro'));
 
@@ -1081,7 +1039,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Add_browsing_buttons.
+     * Add browsing buttons to the read only outform that does not display them by design.
      *
      * @return void
      */
@@ -1093,8 +1051,8 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
         $params['submissionid'] = $this->get_submissionid();
         $params['view'] = SURVEYPRO_READONLYRESPONSE;
 
-        $modulepage = $this->get_modulepage();
-        if ($modulepage == SURVEYPRO_SUBMISSION_READONLY) {
+        $tabpage = $this->get_tabpage();
+        if ($tabpage == SURVEYPRO_SUBMISSION_READONLY) {
             $maxassignedpage = $this->get_maxassignedpage();
             if ($maxassignedpage > 1) {
                 $formpage = $this->get_formpage();
@@ -1127,12 +1085,15 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Drop_unexpected_values.
+     * Drop all the values returned by disabled items.
+     *
+     * If a child item is deisabled by the parent that is in the same child page,
+     * the child answer is useless and must be deleted.
      *
      * @return void
      */
     private function drop_unexpected_values() {
-        // Begin of: delete all the bloody values that were NOT supposed to be returned: MDL-34815
+        // Begin of: delete all the values returned by disabled items (that were NOT supposed to be returned: MDL-34815)
         $dirtydata = (array)$this->formdata;
         $indexes = array_keys($dirtydata);
 
@@ -1188,7 +1149,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
                 }
             }
         } // Check next item.
-        // End of: delete all the bloody values that were supposed to NOT be returned: MDL-34815
+        // End of: delete all the values returned by disabled items (that were NOT supposed to be returned: MDL-34815)
 
         // If not expected items are here...
         if (count($disposelist)) {
@@ -1242,22 +1203,6 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
         switch ($this->view) {
             case SURVEYPRO_NEWRESPONSE:
                 $timenow = time();
-                // Take care! Let's suppose this scenario:
-                // $this->surveypro->maxentries = N
-                // $this->user_sent_submissions(SURVEYPRO_STATUSALL) = N - 1
-                // When I fill the FIRST page of a survey, I get $next = N
-                // But when I go to fill the SECOND page of a survey I have one more "in progress" survey
-                // that is the one that I created when I saved the FIRST page, so...
-                // $this->user_sent_submissions(SURVEYPRO_STATUSALL) = N
-                // $next = N + 1
-                // I am wrongly stopped here!
-                // Because of this:
-                if ($this->get_submissionid()) {
-                    $next = $this->user_sent_submissions(SURVEYPRO_STATUSALL);
-                } else {
-                    $next = 1 + $this->user_sent_submissions(SURVEYPRO_STATUSALL);
-                }
-
                 $allowed = $cansubmit;
                 if ($this->surveypro->timeopen) {
                     $allowed = $allowed && ($this->surveypro->timeopen < $timenow);
@@ -1265,7 +1210,24 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
                 if ($this->surveypro->timeclose) {
                     $allowed = $allowed && ($this->surveypro->timeclose > $timenow);
                 }
+
                 if (!$canignoremaxentries) {
+                    // Take care! Let's suppose this scenario:
+                    // $this->surveypro->maxentries = N
+                    // $utilityman->has_submissions(true, SURVEYPRO_STATUSALL, $USER->id) = N - 1
+                    // When I fill the FIRST page of a survey, I get $next = N
+                    // But when I go to fill the SECOND page of a survey I have one more "in progress" survey
+                    // that is the one that I created when I saved the FIRST page, so...
+                    // when $this->user_sent_submissions(SURVEYPRO_STATUSALL) = N, I get
+                    // $next = N + 1
+                    // and I am wrongly stopped here!
+                    // Because of this, I increase $next only if submissionid == 0
+                    $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+                    $next = $utilityman->has_submissions(true, SURVEYPRO_STATUSALL, $USER->id);
+                    if (!$this->get_submissionid()) {
+                        $next += 1;
+                    }
+
                     $allowed = $allowed && (($this->surveypro->maxentries == 0) || ($next <= $this->surveypro->maxentries));
                 }
                 break;
@@ -1301,27 +1263,28 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Duplicate_submission.
+     * Duplicate a submission.
      *
      * @return void
      */
     private function duplicate_submission() {
         global $DB;
 
-        $submissions = $DB->get_record('surveypro_submission', array('id' => $this->get_submissionid()));
-        $submissions->timecreated = time();
-        $submissions->status = SURVEYPRO_STATUSINPROGRESS;
-        unset($submissions->timemodified);
-        $submissionid = $DB->insert_record('surveypro_submission', $submissions);
+        $originalsubmissionid = $this->get_submissionid();
+        $submission = $DB->get_record('surveypro_submission', array('id' => $originalsubmissionid));
+        $submission->timecreated = time();
+        $submission->status = SURVEYPRO_STATUSINPROGRESS;
+        unset($submission->timemodified);
+        $newsubmissionid = $DB->insert_record('surveypro_submission', $submission);
 
-        $surveyprouserdata = $DB->get_recordset('surveypro_answer', array('submissionid' => $this->get_submissionid()));
-        foreach ($surveyprouserdata as $userdatum) {
-            unset($userdatum->id);
-            $userdatum->set_submissionid($submissionid);
-            $DB->insert_record('surveypro_answer', $userdatum);
+        $useranswers = $DB->get_recordset('surveypro_answer', array('submissionid' => $originalsubmissionid));
+        foreach ($useranswers as $useranswer) {
+            unset($useranswer->id);
+            $useranswer->submissionid = $newsubmissionid;
+            $DB->insert_record('surveypro_answer', $useranswer);
         }
-        $surveyprouserdata->close();
-        $this->set_submissionid($submissionid);
+        $useranswers->close();
+        $this->set_submissionid($newsubmissionid);
     }
 
     /**
