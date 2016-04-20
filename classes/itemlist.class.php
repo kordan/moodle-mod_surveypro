@@ -1306,7 +1306,7 @@ class mod_surveypro_itemlist {
             $a = new stdClass();
             $a->content = $item->get_content();
             $a->pluginname = strtolower(get_string('pluginname', 'surveypro'.$this->type.'_'.$this->plugin));
-            $message = get_string('askdeleteoneitem', 'mod_surveypro', $a);
+            $message = get_string('askdeleteitem', 'mod_surveypro', $a);
 
             // Is there any child item link to break.
             if ($childitems = $DB->get_records('surveypro_item', array('parentid' => $this->itemid), 'sortindex', 'sortindex')) { // Sortindex is suposed to be a valid key.

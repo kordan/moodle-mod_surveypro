@@ -307,301 +307,6 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * Noitem_redirect.
-     *
-     * I HATE software thinking for me
-     * Because of this I ALWAYS want to go where I ask, even if the place I ask is not supposed to be accessed by me
-     * In this particular case, I want a message explaining WHY the place I asked is not supposed to be accessed by me
-     * I NEVER want to be silently redirected
-     *
-     * By default accessing a surveypro from a course (/view.php?id=xxx), the "predefined" landing page should be:
-     *     -> for admin/editing teacher:
-     *         -> if no items were created: layout_manage.php
-     *         -> if items were already created: view.php with the submission list
-     *     -> for students: ALWAYS view.php with the submission list
-     *
-     * So the software HAS TO decide where to send the admin/editing teacher when he arrives from a course
-     * So in the view.php I MUST add a code snippet TAKING THE DECISION for the user
-     *
-     * The problem rises up when the admin/editing teacher decides to go where he should not go, alias in:
-     *     -> layout_manage.php even if items were already created
-     *     -> view.php with the submission list even if no items were created
-     *
-     * The first request is a false problem, because the admin/editing teacher is always allowed to go there
-     * The second request is allowed by the introduction of the parameter &force=1 in the URL of the TAB
-     *     When the admin/editing teacher asks for view.php by clicking the corresponding TAB he asks for view.php?id=xxx&force=1
-     *     and the software decision is omitted
-     *     As opposite:
-     *     When the admin/editing teacher arrives from a course, he is sent to land in view.php?id=xxx and the decision is taken
-     *
-     * @return void
-     */
-    public function noitem_redirect() {
-        if (!$this->hasitems) {
-            $paramurl = array('s' => $this->surveypro->id);
-            $redirecturl = new moodle_url('/mod/surveypro/layout_manage.php', $paramurl);
-            redirect($redirecturl);
-            die();
-        }
-    }
-
-    /**
-     * Trigger the all_submissions_viewed event.
-     *
-     * @return void
-     */
-    public function trigger_event() {
-        // Event: all_submissions_viewed.
-        $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
-        $event = \mod_surveypro\event\all_submissions_viewed::create($eventdata);
-        $event->trigger();
-    }
-
-    /**
-     * Manage_actions.
-     *
-     * @return void
-     */
-    public function actions_execution() {
-        switch ($this->action) {
-            case SURVEYPRO_NOACTION:
-                break;
-            case SURVEYPRO_DELETERESPONSE:
-                if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
-                    $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-                    $utilityman->delete_submissions(array('surveyproid' => $this->surveypro->id, 'id' => $this->submissionid));
-                    // $this->one_submission_deletion_execute();
-
-                    // redirect
-                    $paramurl = array();
-                    $paramurl['id'] = $this->cm->id;
-                    $paramurl['act'] = SURVEYPRO_DELETERESPONSE;
-                    $paramurl['cnf'] = SURVEYPRO_ACTION_EXECUTED;
-                    $paramurl['sesskey'] = sesskey();
-                    $redirecturl = new moodle_url('/mod/surveypro/view.php', $paramurl);
-                    redirect($redirecturl);
-                }
-                break;
-            case SURVEYPRO_DELETEALLRESPONSES:
-                if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
-                    $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-                    $utilityman->delete_submissions(array('surveyproid' => $this->surveypro->id));
-                    // $this->all_submission_deletion_execute();
-
-                    // redirect
-                    $paramurl = array();
-                    $paramurl['id'] = $this->cm->id;
-                    $paramurl['act'] = SURVEYPRO_DELETEALLRESPONSES;
-                    $paramurl['cnf'] = SURVEYPRO_ACTION_EXECUTED;
-                    $paramurl['sesskey'] = sesskey();
-                    $redirecturl = new moodle_url('/mod/surveypro/view.php', $paramurl);
-                    redirect($redirecturl);
-                }
-                break;
-            default:
-                $message = 'Unexpected $this->action = '.$this->action;
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-        }
-    }
-
-    /**
-     * Manage_actions.
-     *
-     * @return void
-     */
-    public function actions_feedback() {
-        switch ($this->action) {
-            case SURVEYPRO_NOACTION:
-                break;
-            case SURVEYPRO_DELETERESPONSE:
-                $this->one_submission_deletion_feedback();
-                break;
-            case SURVEYPRO_DELETEALLRESPONSES:
-                $this->all_submission_deletion_feedback();
-                break;
-            default:
-                $message = 'Unexpected $this->action = '.$this->action;
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-        }
-    }
-
-    /**
-     * One_submission_deletion_feedback.
-     *
-     * @return void
-     */
-    public function one_submission_deletion_feedback() {
-        global $USER, $DB, $OUTPUT;
-
-        switch ($this->confirm) {
-            case SURVEYPRO_UNCONFIRMED:
-                // Ask for confirmation.
-                $submission = $DB->get_record('surveypro_submission', array('id' => $this->submissionid));
-
-                $a = new stdClass();
-                $a->timecreated = userdate($submission->timecreated);
-                $a->timemodified = userdate($submission->timemodified);
-                if ($submission->userid != $USER->id) {
-                    $user = $DB->get_record('user', array('id' => $submission->userid), user_picture::fields());
-                    $a->fullname = fullname($user);
-                    if ($a->timemodified == 0) {
-                        $message = get_string('askdeleteonesurveypronevermodified', 'mod_surveypro', $a);
-                    } else {
-                        $message = get_string('askdeleteonesurveypro', 'mod_surveypro', $a);
-                    }
-                } else {
-                    if ($a->timemodified == 0) {
-                        $message = get_string('askdeletemysubmissionsnevermodified', 'mod_surveypro', $a);
-                    } else {
-                        $message = get_string('askdeletemysubmissions', 'mod_surveypro', $a);
-                    }
-                }
-
-                $optionbase = array('id' => $this->cm->id, 'act' => SURVEYPRO_DELETERESPONSE);
-
-                $optionsyes = $optionbase;
-                $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
-                $optionsyes['submissionid'] = $this->submissionid;
-                $urlyes = new moodle_url('/mod/surveypro/view.php', $optionsyes);
-                $buttonyes = new single_button($urlyes, get_string('continue'));
-
-                $optionsno = $optionbase;
-                $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-                $urlno = new moodle_url('/mod/surveypro/view.php', $optionsno);
-                $buttonno = new single_button($urlno, get_string('no'));
-
-                echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
-                echo $OUTPUT->footer();
-                die();
-            case SURVEYPRO_ACTION_EXECUTED:
-                echo $OUTPUT->notification(get_string('responsedeleted', 'mod_surveypro'), 'notifysuccess');
-                break;
-            case SURVEYPRO_CONFIRMED_NO:
-                $message = get_string('usercanceled', 'mod_surveypro');
-                echo $OUTPUT->notification($message, 'notifymessage');
-                break;
-            default:
-                $message = 'Unexpected $this->confirm = '.$this->confirm;
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-        }
-    }
-
-    /**
-     * All_submission_deletion_feedback.
-     *
-     * @return void
-     */
-    public function all_submission_deletion_feedback() {
-        global $OUTPUT;
-
-        switch ($this->confirm) {
-            case SURVEYPRO_UNCONFIRMED:
-                // Ask for confirmation.
-                $message = get_string('askdeleteallsubmissions', 'mod_surveypro');
-                $optionbase = array('id' => $this->cm->id, 'act' => SURVEYPRO_DELETEALLRESPONSES);
-
-                $optionsyes = $optionbase;
-                $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
-                $urlyes = new moodle_url('/mod/surveypro/view.php', $optionsyes);
-                $buttonyes = new single_button($urlyes, get_string('continue'));
-
-                $optionsno = $optionbase;
-                $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-                $urlno = new moodle_url('/mod/surveypro/view.php', $optionsno);
-                $buttonno = new single_button($urlno, get_string('no'));
-                echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
-                echo $OUTPUT->footer();
-                die();
-            case SURVEYPRO_ACTION_EXECUTED:
-                echo $OUTPUT->notification(get_string('allsubmissionsdeleted', 'mod_surveypro'), 'notifymessage');
-                break;
-            case SURVEYPRO_CONFIRMED_NO:
-                $message = get_string('usercanceled', 'mod_surveypro');
-                echo $OUTPUT->notification($message, 'notifymessage');
-                break;
-            default:
-                $message = 'Unexpected $this->confirm = '.$this->confirm;
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-        }
-    }
-
-    /**
-     * Display submissions overview.
-     *
-     * The output is supposed to look like:
-     *     17 responses submitted by 2 user
-     *     3 'in progress' responses submitted by 1 user
-     *     14 'closed' responses submitted by 2 user
-     *
-     * and finally, if a query is filtering the output, a button to get all the submissions.
-     *
-     * @param int $distinctusers
-     * @param int $countclosed
-     * @param int $closedusers
-     * @param int $countinprogress
-     * @param int $inprogressusers
-     * @return void
-     */
-    public function display_submissions_overview($distinctusers, $countclosed, $closedusers, $countinprogress, $inprogressusers) {
-        global $OUTPUT;
-
-        $strstatusinprogress = get_string('statusinprogress', 'mod_surveypro');
-        $strstatusclosed = get_string('statusclosed', 'mod_surveypro');
-        $struser = get_string('loweruser', 'mod_surveypro');
-        $strusers = get_string('lowerusers', 'mod_surveypro');
-        $strresponse = get_string('response', 'mod_surveypro');
-        $strresponses = get_string('responses', 'mod_surveypro');
-
-        echo html_writer::start_tag('fieldset', array('class' => 'generalbox', 'style' => 'padding-bottom: 15px;'));
-        echo html_writer::start_tag('legend', array('class' => 'coverinfolegend'));
-        echo get_string('submissions_welcome', 'mod_surveypro');
-        echo html_writer::end_tag('legend');
-
-        $allsubmissions = $countinprogress + $countclosed;
-        if ($allsubmissions) {
-            if (!empty($countinprogress) && !empty($countclosed)) {
-                $a = new stdClass();
-                $a->submissions = $allsubmissions;
-                $a->usercount = $distinctusers;
-                $a->responses = ($a->submissions == 1) ? $strresponse : $strresponses;
-                $a->users = ($a->usercount == 1) ? $struser : $strusers;
-                $message = get_string('submissions_all', 'mod_surveypro', $a);
-                echo $OUTPUT->container($message, 'mdl-left');
-            }
-
-            if (!empty($countinprogress)) {
-                $a = new stdClass();
-                $a->submissions = $countinprogress;
-                $a->usercount = $inprogressusers;
-                $a->status = $strstatusinprogress;
-                $a->responses = ($a->submissions == 1) ? $strresponse : $strresponses;
-                $a->users = ($a->usercount == 1) ? $struser : $strusers;
-                $message = get_string('submissions_detail', 'mod_surveypro', $a);
-                echo $OUTPUT->container($message, 'mdl-left');
-            }
-
-            if (!empty($countclosed)) {
-                $a = new stdClass();
-                $a->submissions = $countclosed;
-                $a->usercount = $closedusers;
-                $a->status = $strstatusclosed;
-                $a->responses = ($a->submissions == 1) ? $strresponse : $strresponses;
-                $a->users = ($a->usercount == 1) ? $struser : $strusers;
-                $message = get_string('submissions_detail', 'mod_surveypro', $a);
-                echo $OUTPUT->container($message, 'mdl-left');
-            }
-        }
-
-        if ($this->searchquery) {
-            $findallurl = new moodle_url('/mod/surveypro/view.php', array('id' => $this->cm->id));
-            $label = get_string('showallsubmissions', 'mod_surveypro');
-
-            echo $OUTPUT->single_button($findallurl, $label, 'get', array('class' => 'box clearfix mdl-align'));
-        }
-        echo html_writer::end_tag('fieldset');
-    }
-
-    /**
      * Display the submissions table.
      *
      * @return void
@@ -613,6 +318,8 @@ class mod_surveypro_submissionmanager {
         $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
         $caneditownsubmissions = has_capability('mod/surveypro:editownsubmissions', $this->context, null, true);
         $caneditotherssubmissions = has_capability('mod/surveypro:editotherssubmissions', $this->context, null, true);
+        $canduplicateownsubmissions = has_capability('mod/surveypro:duplicateownsubmissions', $this->context, null, true);
+        $canduplicateotherssubmissions = has_capability('mod/surveypro:duplicateotherssubmissions', $this->context, null, true);
         $candeleteownsubmissions = has_capability('mod/surveypro:deleteownsubmissions', $this->context, null, true);
         $candeleteotherssubmissions = has_capability('mod/surveypro:deleteotherssubmissions', $this->context, null, true);
         $cansavesubmissiontopdf = has_capability('mod/surveypro:savesubmissiontopdf', $this->context, null, true);
@@ -693,21 +400,19 @@ class mod_surveypro_submissionmanager {
         $status[SURVEYPRO_STATUSINPROGRESS] = get_string('statusinprogress', 'mod_surveypro');
         $status[SURVEYPRO_STATUSCLOSED] = get_string('statusclosed', 'mod_surveypro');
 
-        $downloadpdftitle = get_string('downloadpdf', 'mod_surveypro');
-        $deletetitle = get_string('delete');
-        $neverstring = get_string('never');
-        $readonlyaccess = get_string('readonlyaccess', 'mod_surveypro');
+        $downloadpdfstr = get_string('downloadpdf', 'mod_surveypro');
+        $deletestr = get_string('delete');
+        $neverstr = get_string('never');
+        $readonlyaccessstr = get_string('readonlyaccess', 'mod_surveypro');
 
-        $nonhistoryedittitle = get_string('edit');
-        $historyedittitle = get_string('editclone', 'mod_surveypro');
+        $nonhistoryeditstr = get_string('edit');
+        $duplicatestr = get_string('duplicate');
         if ($this->surveypro->history) {
-            $edittitle = $historyedittitle;
-            $linkidprefix = 'duplicate_submission_';
-            $editiconpath = 't/copy';
+            $attributestr = get_string('editcopy', 'mod_surveypro');
+            $linkidprefix = 'editcopy_submission_';
         } else {
-            $edittitle = $nonhistoryedittitle;
+            $attributestr = $nonhistoryeditstr;
             $linkidprefix = 'edit_submission_';
-            $editiconpath = 't/edit';
         }
 
         // initialize variables to gather information for the "Submission overview".
@@ -744,6 +449,8 @@ class mod_surveypro_submissionmanager {
                         } else {
                             $groupuser = in_array($submission->userid, $mygroupmates);
                         }
+                    } else {
+                        $groupuser = true;
                     }
                 }
 
@@ -771,7 +478,7 @@ class mod_surveypro_submissionmanager {
                     if ($submission->timemodified) {
                         $tablerow[] = userdate($submission->timemodified);
                     } else {
-                        $tablerow[] = $neverstring;
+                        $tablerow[] = $neverstr;
                     }
                 }
 
@@ -796,19 +503,45 @@ class mod_surveypro_submissionmanager {
                 if ($displayediticon) {
                     $paramurl['view'] = SURVEYPRO_EDITRESPONSE;
                     if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
+                        // Here title and alt are ALWAYS $nonhistoryeditstr
                         $icons = $OUTPUT->action_icon(new moodle_url('/mod/surveypro/view_form.php', $paramurl),
-                            new pix_icon('t/edit', $nonhistoryedittitle, 'moodle', array('title' => $nonhistoryedittitle)),
-                            null, array('id' => 'edit_submission_'.$submissionsuffix, 'title' => $nonhistoryedittitle));
+                            new pix_icon('t/edit', $nonhistoryeditstr, 'moodle', array('title' => $nonhistoryeditstr)),
+                            null, array('id' => 'edit_submission_'.$submissionsuffix, 'title' => $nonhistoryeditstr));
                     } else {
+                        // Here title and alt depend from $this->surveypro->history
                         $icons = $OUTPUT->action_icon(new moodle_url('/mod/surveypro/view_form.php', $paramurl),
-                            new pix_icon($editiconpath, $edittitle, 'moodle', array('title' => $edittitle)),
-                            null, array('id' => $linkidprefix.$submissionsuffix, 'title' => $edittitle));
+                            new pix_icon('t/edit', $attributestr, 'moodle', array('title' => $attributestr)),
+                            null, array('id' => $linkidprefix.$submissionsuffix, 'title' => $attributestr));
                     }
                 } else {
                     $paramurl['view'] = SURVEYPRO_READONLYRESPONSE;
                     $icons = $OUTPUT->action_icon(new moodle_url('/mod/surveypro/view_form.php', $paramurl),
-                        new pix_icon('readonly', $readonlyaccess, 'surveypro', array('title' => $readonlyaccess)),
-                        null, array('id' => 'view_submission_'.$submissionsuffix, 'title' => $readonlyaccess));
+                        new pix_icon('readonly', $readonlyaccessstr, 'surveypro', array('title' => $readonlyaccessstr)),
+                        null, array('id' => 'view_submission_'.$submissionsuffix, 'title' => $readonlyaccessstr));
+                }
+
+                // Duplicate.
+                if ($ismine) { // I am the owner.
+                    $displayduplicateicon = $canduplicateownsubmissions;
+                } else { // I am not the owner.
+                    if ($groupmode == SEPARATEGROUPS) {
+                        $displayduplicateicon = $groupuser && $canduplicateotherssubmissions;
+                    } else { // NOGROUPS || VISIBLEGROUPS.
+                        $displayduplicateicon = $canduplicateotherssubmissions;
+                    }
+                }
+                if ($displayduplicateicon) { // I am the owner or a groupmate
+                    $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+                    $cansubmitmore = $utilityman->can_submit_more($submission->userid); // The copy will be assigned to the same owner.
+                    if ($cansubmitmore) {
+                        $paramurl = $paramurlbase;
+                        $paramurl['submissionid'] = $submission->submissionid;
+                        $paramurl['sesskey'] = sesskey();
+                        $paramurl['act'] = SURVEYPRO_DUPLICATERESPONSE;
+                        $icons .= $OUTPUT->action_icon(new moodle_url('/mod/surveypro/view.php', $paramurl),
+                            new pix_icon('t/copy', $duplicatestr, 'moodle', array('title' => $duplicatestr)),
+                            null, array('id' => 'duplicate_submission_'.$submissionsuffix, 'title' => $duplicatestr));
+                    }
                 }
 
                 // Delete.
@@ -824,11 +557,11 @@ class mod_surveypro_submissionmanager {
                     }
                 }
                 if ($displaydeleteicon) {
-                    $paramurl['act'] = SURVEYPRO_DELETERESPONSE;
                     $paramurl['sesskey'] = sesskey();
+                    $paramurl['act'] = SURVEYPRO_DELETERESPONSE;
                     $icons .= $OUTPUT->action_icon(new moodle_url('/mod/surveypro/view.php', $paramurl),
-                        new pix_icon('t/delete', $deletetitle, 'moodle', array('title' => $deletetitle)),
-                        null, array('id' => 'delete_submission_'.$submissionsuffix, 'title' => $deletetitle));
+                        new pix_icon('t/delete', $deletestr, 'moodle', array('title' => $deletestr)),
+                        null, array('id' => 'delete_submission_'.$submissionsuffix, 'title' => $deletestr));
                 }
 
                 // Download to pdf.
@@ -837,14 +570,15 @@ class mod_surveypro_submissionmanager {
                     $paramurl['submissionid'] = $submission->submissionid;
                     $paramurl['view'] = SURVEYPRO_RESPONSETOPDF;
                     $icons .= $OUTPUT->action_icon(new moodle_url('/mod/surveypro/view.php', $paramurl),
-                        new pix_icon('i/export', $downloadpdftitle, 'moodle', array('title' => $downloadpdftitle)),
-                        null, array('id' => 'pdf_submission_'.$submissionsuffix, 'title' => $downloadpdftitle));
+                        new pix_icon('i/export', $downloadpdfstr, 'moodle', array('title' => $downloadpdfstr)),
+                        null, array('id' => 'pdfdownload_submission_'.$submissionsuffix, 'title' => $downloadpdfstr));
                 }
 
                 $tablerow[] = $icons;
 
                 // Add row to the table.
                 $table->add_data($tablerow);
+
 
                 // Before looping, gather information for the "Submission overview".
                 if ($submission->status == SURVEYPRO_STATUSCLOSED) {
@@ -957,6 +691,378 @@ class mod_surveypro_submissionmanager {
             echo html_writer::tag('div', $OUTPUT->render($addbutton).$OUTPUT->render($deleteallbutton), array('class' => 'buttons'));
             echo $OUTPUT->box_end();
         }
+    }
+
+    /**
+     * Noitem_redirect.
+     *
+     * I HATE software thinking for me
+     * Because of this I ALWAYS want to go where I ask, even if the place I ask is not supposed to be accessed by me
+     * In this particular case, I want a message explaining WHY the place I asked is not supposed to be accessed by me
+     * I NEVER want to be silently redirected
+     *
+     * By default accessing a surveypro from a course (/view.php?id=xxx), the "predefined" landing page should be:
+     *     -> for admin/editing teacher:
+     *         -> if no items were created: layout_manage.php
+     *         -> if items were already created: view.php with the submission list
+     *     -> for students: ALWAYS view.php with the submission list
+     *
+     * So the software HAS TO decide where to send the admin/editing teacher when he arrives from a course
+     * So in the view.php I MUST add a code snippet TAKING THE DECISION for the user
+     *
+     * The problem rises up when the admin/editing teacher decides to go where he should not go, alias in:
+     *     -> layout_manage.php even if items were already created
+     *     -> view.php with the submission list even if no items were created
+     *
+     * The first request is a false problem, because the admin/editing teacher is always allowed to go there
+     * The second request is allowed by the introduction of the parameter &force=1 in the URL of the TAB
+     *     When the admin/editing teacher asks for view.php by clicking the corresponding TAB he asks for view.php?id=xxx&force=1
+     *     and the software decision is omitted
+     *     As opposite:
+     *     When the admin/editing teacher arrives from a course, he is sent to land in view.php?id=xxx and the decision is taken
+     *
+     * @return void
+     */
+    public function noitem_redirect() {
+        if (!$this->hasitems) {
+            $paramurl = array('s' => $this->surveypro->id);
+            $redirecturl = new moodle_url('/mod/surveypro/layout_manage.php', $paramurl);
+            redirect($redirecturl);
+            die();
+        }
+    }
+
+    /**
+     * Trigger the all_submissions_viewed event.
+     *
+     * @return void
+     */
+    public function trigger_event() {
+        // Event: all_submissions_viewed.
+        $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
+        $event = \mod_surveypro\event\all_submissions_viewed::create($eventdata);
+        $event->trigger();
+    }
+
+    /**
+     * Manage_actions.
+     *
+     * @return void
+     */
+    public function actions_execution() {
+        switch ($this->action) {
+            case SURVEYPRO_NOACTION:
+                break;
+            case SURVEYPRO_DUPLICATERESPONSE:
+                if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
+                    $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+                    $utilityman->duplicate_submissions(array('id' => $this->submissionid));
+
+                    // redirect
+                    $paramurl = array();
+                    $paramurl['id'] = $this->cm->id;
+                    $paramurl['act'] = SURVEYPRO_DUPLICATERESPONSE;
+                    $paramurl['cnf'] = SURVEYPRO_ACTION_EXECUTED;
+                    $paramurl['sesskey'] = sesskey();
+                    $redirecturl = new moodle_url('/mod/surveypro/view.php', $paramurl);
+                    redirect($redirecturl);
+                }
+                break;
+            case SURVEYPRO_DELETERESPONSE:
+                if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
+                    $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+                    $utilityman->delete_submissions(array('id' => $this->submissionid));
+
+                    // redirect
+                    $paramurl = array();
+                    $paramurl['id'] = $this->cm->id;
+                    $paramurl['act'] = SURVEYPRO_DELETERESPONSE;
+                    $paramurl['cnf'] = SURVEYPRO_ACTION_EXECUTED;
+                    $paramurl['sesskey'] = sesskey();
+                    $redirecturl = new moodle_url('/mod/surveypro/view.php', $paramurl);
+                    redirect($redirecturl);
+                }
+                break;
+            case SURVEYPRO_DELETEALLRESPONSES:
+                if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
+                    $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+                    $utilityman->delete_submissions(array('surveyproid' => $this->surveypro->id));
+
+                    // redirect
+                    $paramurl = array();
+                    $paramurl['id'] = $this->cm->id;
+                    $paramurl['act'] = SURVEYPRO_DELETEALLRESPONSES;
+                    $paramurl['cnf'] = SURVEYPRO_ACTION_EXECUTED;
+                    $paramurl['sesskey'] = sesskey();
+                    $redirecturl = new moodle_url('/mod/surveypro/view.php', $paramurl);
+                    redirect($redirecturl);
+                }
+                break;
+            default:
+                $message = 'Unexpected $this->action = '.$this->action;
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+        }
+    }
+
+    /**
+     * Manage_actions.
+     *
+     * @return void
+     */
+    public function actions_feedback() {
+        switch ($this->action) {
+            case SURVEYPRO_NOACTION:
+                break;
+            case SURVEYPRO_DUPLICATERESPONSE:
+                $this->one_submission_duplication_feedback();
+                break;
+            case SURVEYPRO_DELETERESPONSE:
+                $this->one_submission_deletion_feedback();
+                break;
+            case SURVEYPRO_DELETEALLRESPONSES:
+                $this->all_submission_deletion_feedback();
+                break;
+            default:
+                $message = 'Unexpected $this->action = '.$this->action;
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+        }
+    }
+
+    /**
+     * One_submission_duplicate_feedback.
+     *
+     * @return void
+     */
+    public function one_submission_duplication_feedback() {
+        global $USER, $DB, $OUTPUT;
+
+        switch ($this->confirm) {
+            case SURVEYPRO_UNCONFIRMED:
+                // Ask for confirmation.
+                $submission = $DB->get_record('surveypro_submission', array('id' => $this->submissionid));
+
+                $a = new stdClass();
+                $a->timecreated = userdate($submission->timecreated);
+                $a->timemodified = userdate($submission->timemodified);
+                if ($submission->userid != $USER->id) {
+                    $user = $DB->get_record('user', array('id' => $submission->userid), user_picture::fields());
+                    $a->fullname = fullname($user);
+                    if ($a->timemodified == 0) {
+                        $message = get_string('askduplicateresponsenevermodified', 'mod_surveypro', $a);
+                    } else {
+                        $message = get_string('askduplicateresponse', 'mod_surveypro', $a);
+                    }
+                } else {
+                    if ($a->timemodified == 0) {
+                        $message = get_string('askduplicatemyresponsenevermodified', 'mod_surveypro', $a);
+                    } else {
+                        $message = get_string('askduplicatemyresponse', 'mod_surveypro', $a);
+                    }
+                }
+
+                $optionbase = array('id' => $this->cm->id, 'act' => SURVEYPRO_DUPLICATERESPONSE);
+
+                $optionsyes = $optionbase;
+                $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
+                $optionsyes['submissionid'] = $this->submissionid;
+                $urlyes = new moodle_url('/mod/surveypro/view.php', $optionsyes);
+                $buttonyes = new single_button($urlyes, get_string('continue'));
+
+                $optionsno = $optionbase;
+                $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
+                $urlno = new moodle_url('/mod/surveypro/view.php', $optionsno);
+                $buttonno = new single_button($urlno, get_string('no'));
+
+                echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
+                echo $OUTPUT->footer();
+                die();
+            case SURVEYPRO_ACTION_EXECUTED:
+                echo $OUTPUT->notification(get_string('responseduplicated', 'mod_surveypro'), 'notifysuccess');
+                break;
+            case SURVEYPRO_CONFIRMED_NO:
+                $message = get_string('usercanceled', 'mod_surveypro');
+                echo $OUTPUT->notification($message, 'notifymessage');
+                break;
+            default:
+                $message = 'Unexpected $this->confirm = '.$this->confirm;
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+        }
+    }
+
+    /**
+     * One_submission_deletion_feedback.
+     *
+     * @return void
+     */
+    public function one_submission_deletion_feedback() {
+        global $USER, $DB, $OUTPUT;
+
+        switch ($this->confirm) {
+            case SURVEYPRO_UNCONFIRMED:
+                // Ask for confirmation.
+                $submission = $DB->get_record('surveypro_submission', array('id' => $this->submissionid));
+
+                $a = new stdClass();
+                $a->timecreated = userdate($submission->timecreated);
+                $a->timemodified = userdate($submission->timemodified);
+                if ($submission->userid != $USER->id) {
+                    $user = $DB->get_record('user', array('id' => $submission->userid), user_picture::fields());
+                    $a->fullname = fullname($user);
+                    if ($a->timemodified == 0) {
+                        $message = get_string('askdeleteresponsenevermodified', 'mod_surveypro', $a);
+                    } else {
+                        $message = get_string('askdeleteresponse', 'mod_surveypro', $a);
+                    }
+                } else {
+                    if ($a->timemodified == 0) {
+                        $message = get_string('askdeletemyresponsenevermodified', 'mod_surveypro', $a);
+                    } else {
+                        $message = get_string('askdeletemyresponse', 'mod_surveypro', $a);
+                    }
+                }
+
+                $optionbase = array('id' => $this->cm->id, 'act' => SURVEYPRO_DELETERESPONSE);
+
+                $optionsyes = $optionbase;
+                $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
+                $optionsyes['submissionid'] = $this->submissionid;
+                $urlyes = new moodle_url('/mod/surveypro/view.php', $optionsyes);
+                $buttonyes = new single_button($urlyes, get_string('continue'));
+
+                $optionsno = $optionbase;
+                $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
+                $urlno = new moodle_url('/mod/surveypro/view.php', $optionsno);
+                $buttonno = new single_button($urlno, get_string('no'));
+
+                echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
+                echo $OUTPUT->footer();
+                die();
+            case SURVEYPRO_ACTION_EXECUTED:
+                echo $OUTPUT->notification(get_string('responsedeleted', 'mod_surveypro'), 'notifysuccess');
+                break;
+            case SURVEYPRO_CONFIRMED_NO:
+                $message = get_string('usercanceled', 'mod_surveypro');
+                echo $OUTPUT->notification($message, 'notifymessage');
+                break;
+            default:
+                $message = 'Unexpected $this->confirm = '.$this->confirm;
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+        }
+    }
+
+    /**
+     * All_submission_deletion_feedback.
+     *
+     * @return void
+     */
+    public function all_submission_deletion_feedback() {
+        global $OUTPUT;
+
+        switch ($this->confirm) {
+            case SURVEYPRO_UNCONFIRMED:
+                // Ask for confirmation.
+                $message = get_string('askdeleteallresponses', 'mod_surveypro');
+                $optionbase = array('id' => $this->cm->id, 'act' => SURVEYPRO_DELETEALLRESPONSES);
+
+                $optionsyes = $optionbase;
+                $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
+                $urlyes = new moodle_url('/mod/surveypro/view.php', $optionsyes);
+                $buttonyes = new single_button($urlyes, get_string('continue'));
+
+                $optionsno = $optionbase;
+                $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
+                $urlno = new moodle_url('/mod/surveypro/view.php', $optionsno);
+                $buttonno = new single_button($urlno, get_string('no'));
+                echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
+                echo $OUTPUT->footer();
+                die();
+            case SURVEYPRO_ACTION_EXECUTED:
+                echo $OUTPUT->notification(get_string('allsubmissionsdeleted', 'mod_surveypro'), 'notifymessage');
+                break;
+            case SURVEYPRO_CONFIRMED_NO:
+                $message = get_string('usercanceled', 'mod_surveypro');
+                echo $OUTPUT->notification($message, 'notifymessage');
+                break;
+            default:
+                $message = 'Unexpected $this->confirm = '.$this->confirm;
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+        }
+    }
+
+    /**
+     * Display submissions overview.
+     *
+     * The output is supposed to look like:
+     *     17 responses submitted by 2 user
+     *     3 'in progress' responses submitted by 1 user
+     *     14 'closed' responses submitted by 2 user
+     *
+     * and finally, if a query is filtering the output, a button to get all the submissions.
+     *
+     * @param int $distinctusers
+     * @param int $countclosed
+     * @param int $closedusers
+     * @param int $countinprogress
+     * @param int $inprogressusers
+     * @return void
+     */
+    public function display_submissions_overview($distinctusers, $countclosed, $closedusers, $countinprogress, $inprogressusers) {
+        global $OUTPUT;
+
+        $strstatusinprogress = get_string('statusinprogress', 'mod_surveypro');
+        $strstatusclosed = get_string('statusclosed', 'mod_surveypro');
+        $struser = get_string('loweruser', 'mod_surveypro');
+        $strusers = get_string('lowerusers', 'mod_surveypro');
+        $strresponse = get_string('response', 'mod_surveypro');
+        $strresponses = get_string('responses', 'mod_surveypro');
+
+        echo html_writer::start_tag('fieldset', array('class' => 'generalbox', 'style' => 'padding-bottom: 15px;'));
+        echo html_writer::start_tag('legend', array('class' => 'coverinfolegend'));
+        echo get_string('submissions_welcome', 'mod_surveypro');
+        echo html_writer::end_tag('legend');
+
+        $allsubmissions = $countinprogress + $countclosed;
+        if ($allsubmissions) {
+            if (!empty($countinprogress) && !empty($countclosed)) {
+                $a = new stdClass();
+                $a->submissions = $allsubmissions;
+                $a->usercount = $distinctusers;
+                $a->responses = ($a->submissions == 1) ? $strresponse : $strresponses;
+                $a->users = ($a->usercount == 1) ? $struser : $strusers;
+                $message = get_string('submissions_all', 'mod_surveypro', $a);
+                echo $OUTPUT->container($message, 'mdl-left');
+            }
+
+            if (!empty($countinprogress)) {
+                $a = new stdClass();
+                $a->submissions = $countinprogress;
+                $a->usercount = $inprogressusers;
+                $a->status = $strstatusinprogress;
+                $a->responses = ($a->submissions == 1) ? $strresponse : $strresponses;
+                $a->users = ($a->usercount == 1) ? $struser : $strusers;
+                $message = get_string('submissions_detail', 'mod_surveypro', $a);
+                echo $OUTPUT->container($message, 'mdl-left');
+            }
+
+            if (!empty($countclosed)) {
+                $a = new stdClass();
+                $a->submissions = $countclosed;
+                $a->usercount = $closedusers;
+                $a->status = $strstatusclosed;
+                $a->responses = ($a->submissions == 1) ? $strresponse : $strresponses;
+                $a->users = ($a->usercount == 1) ? $struser : $strusers;
+                $message = get_string('submissions_detail', 'mod_surveypro', $a);
+                echo $OUTPUT->container($message, 'mdl-left');
+            }
+        }
+
+        if ($this->searchquery) {
+            $findallurl = new moodle_url('/mod/surveypro/view.php', array('id' => $this->cm->id));
+            $label = get_string('showallsubmissions', 'mod_surveypro');
+
+            echo $OUTPUT->single_button($findallurl, $label, 'get', array('class' => 'box clearfix mdl-align'));
+        }
+        echo html_writer::end_tag('fieldset');
     }
 
     /**

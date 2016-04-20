@@ -146,6 +146,7 @@ new mod_surveypro_tabs($cm, $context, $surveypro, $userformman->get_tabtab(), $u
 $userformman->noitem_stopexecution();
 $userformman->nomoresubmissions_stopexecution();
 $userformman->manage_thanks_page();
+$userformman->warning_submission_copy();
 $userformman->display_page_x_of_y();
 
 // Begin of: calculate prefill for fields and prepare standard editors and filemanager.

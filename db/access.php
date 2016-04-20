@@ -56,7 +56,7 @@
  *  mod/surveypro:view
  *
  *  -------------------------------------------
- *  TAB ELEMENTS
+ *  TAB LAYOUT
  *  -------------------------------------------
  *  SUB-TAB == SURVEYPRO_LAYOUT_PREVIEW
  *      $elementurl = new moodle_url('/mod/surveypro/layout_preview.php', $localparamurl);
@@ -95,6 +95,9 @@
  *
  *      mod/surveypro:editownsubmissions
  *      mod/surveypro:editotherssubmissions
+ *
+ *      mod/surveypro:duplicateownsubmissions
+ *      mod/surveypro:duplicateotherssubmissions
  *
  *      mod/surveypro:deleteownsubmissions
  *      mod/surveypro:deleteotherssubmissions
@@ -260,6 +263,28 @@ $capabilities = array(
     ),
 
     'mod/surveypro:editotherssubmissions' => array(
+        'riskbitmask' => RISK_CONFIG | RISK_PERSONAL,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => array(
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
+        )
+    ),
+
+    'mod/surveypro:duplicateownsubmissions' => array(
+        'riskbitmask' => RISK_CONFIG | RISK_PERSONAL,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => array(
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
+        )
+    ),
+
+    'mod/surveypro:duplicateotherssubmissions' => array(
         'riskbitmask' => RISK_CONFIG | RISK_PERSONAL,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
