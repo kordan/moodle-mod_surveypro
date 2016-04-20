@@ -526,84 +526,23 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * Get_submissions_info_sql.
+     * Display submissions overview.
      *
-     * @param string $sql
-     * @param array $whereparams
-     * @return void
-     */
-    public function get_submissions_info_sql($sql, $whereparams) {
-        global $DB, $OUTPUT;
-
-        $strstatusinprogress = get_string('statusinprogress', 'mod_surveypro');
-        $strstatusclosed = get_string('statusclosed', 'mod_surveypro');
-        $struser = get_string('loweruser', 'mod_surveypro');
-        $strusers = get_string('lowerusers', 'mod_surveypro');
-        $strresponse = get_string('response', 'mod_surveypro');
-        $strresponses = get_string('responses', 'mod_surveypro');
-
-        // Get $sqlall.
-        $pattern = '~SELECT(.*)FROM~';
-        if ($this->searchquery) {
-            $replacement = 'SELECT selection.status, COUNT(selection.submissionid) as submissions, COUNT(DISTINCT(selection.userid)) as distinctusers ';
-            $replacement .= 'FROM (SELECT DISTINCT s.id as submissionid, s.surveyproid, s.status, COUNT(a.submissionid) as matchcount, u.id as userid ';
-            $replacement .= 'FROM';
-        } else {
-            $replacement = 'SELECT COUNT(DISTINCT(s.id)) as submissions, COUNT(DISTINCT(s.userid)) as distinctusers FROM';
-        }
-        $sqlall = preg_replace($pattern, $replacement, $sql);
-
-        if ($this->searchquery) {
-            $sqlall .= ') selection';
-        }
-
-        $all = $DB->get_records_sql($sqlall, $whereparams);
-        $all = reset($all);
-
-        // Get $sqlstatus.
-        $pattern = '~SELECT(.*)FROM~';
-        if ($this->searchquery) {
-            $replacement = 'SELECT selection.status, COUNT(selection.submissionid) as submissions, COUNT(DISTINCT(selection.userid)) as distinctusers ';
-            $replacement .= 'FROM (SELECT DISTINCT s.id as submissionid, s.surveyproid, s.status, COUNT(a.submissionid) as matchcount, u.id as userid ';
-            $replacement .= 'FROM';
-        } else {
-            $replacement = 'SELECT s.id, s.status, COUNT(DISTINCT(s.id)) as submissions, COUNT(DISTINCT(s.userid)) as distinctusers FROM';
-        }
-        $sqlstatus = preg_replace($pattern, $replacement, $sql);
-
-        if ($this->searchquery) {
-            $sqlstatus .= ') selection GROUP BY selection.status';
-        } else {
-            $pattern = '~ORDER BY~';
-            $replacement = 'GROUP BY status ORDER BY';
-            $sqlstatus = preg_replace($pattern, $replacement, $sqlstatus);
-        }
-
-        $perstatus = $DB->get_records_sql($sqlstatus, $whereparams);
-
-        foreach ($perstatus as $status => $detail) {
-            if ($detail->status == SURVEYPRO_STATUSCLOSED) {
-                $closedsubmission = $detail->submissions;
-                $closedusers = $detail->distinctusers;
-            }
-            if ($detail->status == SURVEYPRO_STATUSINPROGRESS) {
-                $inprogresssubmission = $detail->submissions;
-                $inprogressuser = $detail->distinctusers;
-            }
-        }
-        $this->display_submissions_info($inprogresssubmission, $inprogressusers, $closedsubmission, $closedusers);
-    }
-
-    /**
-     * Display_submissions_info.
+     * The output is supposed to look like:
+     *     17 responses submitted by 2 user
+     *     3 'in progress' responses submitted by 1 user
+     *     14 'closed' responses submitted by 2 user
      *
-     * @param int $inprogresssubmission
-     * @param int $inprogressusers
-     * @param int $closedsubmission
+     * and finally, if a query is filtering the output, a button to get all the submissions.
+     *
+     * @param int $distinctusers
+     * @param int $countclosed
      * @param int $closedusers
+     * @param int $countinprogress
+     * @param int $inprogressusers
      * @return void
      */
-    public function display_submissions_info($inprogresssubmission, $inprogressusers, $closedsubmission, $closedusers) {
+    public function display_submissions_overview($distinctusers, $countclosed, $closedusers, $countinprogress, $inprogressusers) {
         global $OUTPUT;
 
         $strstatusinprogress = get_string('statusinprogress', 'mod_surveypro');
@@ -613,40 +552,41 @@ class mod_surveypro_submissionmanager {
         $strresponse = get_string('response', 'mod_surveypro');
         $strresponses = get_string('responses', 'mod_surveypro');
 
-        echo html_writer::start_tag('fieldset', array('class' => 'generalbox'));
+        echo html_writer::start_tag('fieldset', array('class' => 'generalbox', 'style' => 'padding-bottom: 15px;'));
         echo html_writer::start_tag('legend', array('class' => 'coverinfolegend'));
         echo get_string('submissions_welcome', 'mod_surveypro');
         echo html_writer::end_tag('legend');
 
-        if ($submissions = $inprogresssubmission + $closedsubmission) {
-            if (!empty($inprogresssubmission) && !empty($closedsubmission)) {
+        $allsubmissions = $countinprogress + $countclosed;
+        if ($allsubmissions) {
+            if (!empty($countinprogress) && !empty($countclosed)) {
                 $a = new stdClass();
-                $a->submissions = $submissions;
-                $a->distinctusers = count(array_unique($inprogressusers)) + count(array_unique($closedusers));
-                $a->oneormanyresponses = ($a->submissions == 1) ? $strresponse : $strresponses;
-                $a->oneormanyusers = ($a->distinctusers == 1) ? $struser : $strusers;
+                $a->submissions = $allsubmissions;
+                $a->usercount = $distinctusers;
+                $a->responses = ($a->submissions == 1) ? $strresponse : $strresponses;
+                $a->users = ($a->usercount == 1) ? $struser : $strusers;
                 $message = get_string('submissions_all', 'mod_surveypro', $a);
                 echo $OUTPUT->container($message, 'mdl-left');
             }
 
-            if (!empty($inprogresssubmission)) {
+            if (!empty($countinprogress)) {
                 $a = new stdClass();
-                $a->submissions = $inprogresssubmission;
-                $a->distinctusers = count(array_unique($inprogressusers));
+                $a->submissions = $countinprogress;
+                $a->usercount = $inprogressusers;
                 $a->status = $strstatusinprogress;
-                $a->oneormanyresponses = ($a->submissions == 1) ? $strresponse : $strresponses;
-                $a->oneormanyusers = ($a->distinctusers == 1) ? $struser : $strusers;
+                $a->responses = ($a->submissions == 1) ? $strresponse : $strresponses;
+                $a->users = ($a->usercount == 1) ? $struser : $strusers;
                 $message = get_string('submissions_detail', 'mod_surveypro', $a);
                 echo $OUTPUT->container($message, 'mdl-left');
             }
 
-            if (!empty($closedsubmission)) {
+            if (!empty($countclosed)) {
                 $a = new stdClass();
-                $a->submissions = $closedsubmission;
-                $a->distinctusers = count(array_unique($closedusers));
+                $a->submissions = $countclosed;
+                $a->usercount = $closedusers;
                 $a->status = $strstatusclosed;
-                $a->oneormanyresponses = ($a->submissions == 1) ? $strresponse : $strresponses;
-                $a->oneormanyusers = ($a->distinctusers == 1) ? $struser : $strusers;
+                $a->responses = ($a->submissions == 1) ? $strresponse : $strresponses;
+                $a->users = ($a->usercount == 1) ? $struser : $strusers;
                 $message = get_string('submissions_detail', 'mod_surveypro', $a);
                 echo $OUTPUT->container($message, 'mdl-left');
             }
@@ -660,6 +600,7 @@ class mod_surveypro_submissionmanager {
         }
         echo html_writer::end_tag('fieldset');
     }
+
     /**
      * Display the submissions table.
      *
@@ -769,14 +710,13 @@ class mod_surveypro_submissionmanager {
             $editiconpath = 't/edit';
         }
 
+        // initialize variables to gather information for the "Submission overview".
+        $countclosed = 0;
+        $closeduserarray = array();
+        $countinprogress = 0;
+        $inprogressuserarray = array();
+
         list($sql, $whereparams) = $this->get_submissions_sql($table);
-        $useshowsubmissionsinfosql = false;
-        if ($useshowsubmissionsinfosql) {
-            // $this->get_submissions_info_sql works fine (AFAIK) but makes 2 big queries.
-            // Until the table is not divided into pages (20 record per page or so),
-            // a count of the records before they are added to the table is less resource expensive.
-            $this->get_submissions_info_sql($sql, $whereparams);
-        }
         $submissions = $DB->get_recordset_sql($sql, $whereparams);
         if ($submissions->valid()) {
             if ($groupmode = groups_get_activity_groupmode($this->cm, $COURSE)) {
@@ -785,38 +725,8 @@ class mod_surveypro_submissionmanager {
                 }
             }
 
-            $paramurlbase = array('id' => $this->cm->id);
-            $inprogresssubmission = 0;
-            $inprogressusers = array();
-            $closedsubmission = 0;
-            $closedusers = array();
             $tablerowcounter = 0;
-            if (!$useshowsubmissionsinfosql) {
-                foreach ($submissions as $submission) {
-                    // Get:
-                    // -> Count of 'in progress' submissions.
-                    // -> Count of user with 'in progress' submissions.
-                    //
-                    // -> Count of 'closed' submissions.
-                    // -> Count of user with 'closed' submissions.
-                    switch ($submission->status) {
-                        case SURVEYPRO_STATUSINPROGRESS:
-                            $inprogresssubmission++;
-                            $inprogressusers[] = $submission->userid;
-                            break;
-                        case SURVEYPRO_STATUSCLOSED:
-                            $closedsubmission++;
-                            $closedusers[] = $submission->userid;
-                            break;
-                        default:
-                            $message = 'Unexpected $submission->status = '.$submission->status;
-                            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-                    }
-                }
-                $this->display_submissions_info($inprogresssubmission, $inprogressusers, $closedsubmission, $closedusers);
-            }
-
-            $submissions = $DB->get_recordset_sql($sql, $whereparams);
+            $paramurlbase = array('id' => $this->cm->id);
             foreach ($submissions as $submission) {
                 // Count submissions per each user.
                 $tablerowcounter++;
@@ -935,9 +845,24 @@ class mod_surveypro_submissionmanager {
 
                 // Add row to the table.
                 $table->add_data($tablerow);
+
+                // Before looping, gather information for the "Submission overview".
+                if ($submission->status == SURVEYPRO_STATUSCLOSED) {
+                    $countclosed++;
+                    $closeduserarray[(int)$submission->userid] = 1;
+                }
+                if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
+                    $countinprogress++;
+                    $inprogressuserarray[(int)$submission->userid] = 1;
+                }
             }
         }
         $submissions->close();
+
+        $distinctusers = count($closeduserarray + $inprogressuserarray);
+        $closeduser = count($closeduserarray);
+        $inprogressuser = count($inprogressuserarray);
+        $this->display_submissions_overview($distinctusers, $countclosed, $closeduser, $countinprogress, $inprogressuser);
 
         $table->summary = get_string('submissionslist', 'mod_surveypro');
         $table->print_html();
