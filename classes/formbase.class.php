@@ -79,7 +79,7 @@ class mod_surveypro_formbase {
     }
 
     /**
-     * Stop of the page display procedure because no item is available.
+     * Stop the page load with a warning because no item is available.
      *
      * @return void
      */

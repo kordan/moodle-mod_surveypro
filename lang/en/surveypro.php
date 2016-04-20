@@ -162,6 +162,7 @@ $string['downloadtoxls'] = 'xls';
 $string['downloadtozipbysubmission'] = 'download attachments by item to zip';
 $string['downloadtozipbyuser'] = 'download attachments by user to zip';
 $string['downloadtype'] = 'Download file type';
+$string['editclone'] = 'Edit clone';
 $string['emptyanswer'] = 'Empty answer';
 $string['emptydownload'] = 'No responses to export were found';
 $string['enteruniquename'] = 'Please choose a unique name or tick the option "{$a->overwrite}" since "{$a->filename}" already exists in the choosen context';

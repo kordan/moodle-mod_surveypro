@@ -53,12 +53,12 @@ class mod_surveypro_tabs {
     /**
      * @var int Current tab requested by the user
      */
-    protected $modulettab;
+    protected $tabtab;
 
     /**
      * @var int Current page requested by the user
      */
-    protected $modulepage;
+    protected $tabpage;
 
     /**
      * @var bool True if risky editing is on, false otherwise
@@ -81,15 +81,15 @@ class mod_surveypro_tabs {
      * @param object $cm
      * @param object $context
      * @param object $surveypro
-     * @param int $moduletab
-     * @param int $modulepage
+     * @param int $tabtab
+     * @param int $tabpage
      */
-    public function __construct($cm, $context, $surveypro, $moduletab, $modulepage) {
+    public function __construct($cm, $context, $surveypro, $tabtab, $tabpage) {
         $this->cm = $cm;
         $this->context = $context;
         $this->surveypro = $surveypro;
-        $this->moduletab = $moduletab;
-        $this->modulepage = $modulepage;
+        $this->tabtab = $tabtab;
+        $this->tabpage = $tabpage;
 
         $this->riskyediting = ($this->surveypro->riskyeditdeadline > time());
 
@@ -131,7 +131,7 @@ class mod_surveypro_tabs {
 
         // TAB USER TEMPLATES.
         $tabutemplatename = get_string('tabutemplatename', 'mod_surveypro');
-        if ($this->moduletab == SURVEYPRO_TABUTEMPLATES) {
+        if ($this->tabtab == SURVEYPRO_TABUTEMPLATES) {
             if (empty($this->surveypro->template)) {
                 $canmanageusertemplates = has_capability('mod/surveypro:manageusertemplates', $this->context, null, true);
                 if ($canmanageusertemplates) {
@@ -143,7 +143,7 @@ class mod_surveypro_tabs {
 
         // TAB MASTER TEMPLATES.
         $tabmtemplatename = get_string('tabmtemplatename', 'mod_surveypro');
-        if ($this->moduletab == SURVEYPRO_TABMTEMPLATES) {
+        if ($this->tabtab == SURVEYPRO_TABMTEMPLATES) {
             $cansavemastertemplates = has_capability('mod/surveypro:savemastertemplates', $this->context, null, true);
             $canapplymastertemplates = has_capability('mod/surveypro:applymastertemplates', $this->context, null, true);
             if ($cansavemastertemplates || ((!$this->hassubmissions || $this->riskyediting) && $canapplymastertemplates)) {
@@ -167,16 +167,16 @@ class mod_surveypro_tabs {
         $inactive = null;
         $activetwo = null;
 
-        // echo '$modulepage = '.$modulepage.'<br />';
-        $pageid = 'idpage'.$this->modulepage;
+        // echo '$tabpage = '.$tabpage.'<br />';
+        $pageid = 'idpage'.$this->tabpage;
         // $pageid is here because I leave the door open to override it during next switch
 
         // **********************************************
         // PAGES
         // **********************************************
-        // echo '$this->moduletab = '.$this->moduletab.'<br />';
-        // echo '$modulepage = '.$modulepage.'<br />';
-        switch ($this->moduletab) {
+        // echo '$this->tabtab = '.$this->tabtab.'<br />';
+        // echo '$tabpage = '.$tabpage.'<br />';
+        switch ($this->tabtab) {
             case SURVEYPRO_TABLAYOUT:
                 $tablayoutname = get_string('tablayoutname', 'mod_surveypro');
 
@@ -203,7 +203,7 @@ class mod_surveypro_tabs {
 
                     if (empty($this->surveypro->template)) {
                         // Setup.
-                        if ($this->modulepage == SURVEYPRO_LAYOUT_SETUP) {
+                        if ($this->tabpage == SURVEYPRO_LAYOUT_SETUP) {
                             $elementurl = new moodle_url('/mod/surveypro/layout_itemsetup.php', $paramurl);
                             $strlabel = get_string('tabitemspage3', 'mod_surveypro');
                             $row[] = new tabobject('idpage3', $elementurl->out(), $strlabel);
@@ -253,7 +253,7 @@ class mod_surveypro_tabs {
                     $row[] = new tabobject('idpage2', $elementurl->out(), $strlabel);
                 }
 
-                if ($this->modulepage == SURVEYPRO_SUBMISSION_INSERT) {
+                if ($this->tabpage == SURVEYPRO_SUBMISSION_INSERT) {
                     // Insert.
                     $localparamurl = array('id' => $this->cm->id, 'view' => SURVEYPRO_NEWRESPONSE);
                     $elementurl = new moodle_url('/mod/surveypro/view_form.php', $localparamurl);
@@ -261,7 +261,7 @@ class mod_surveypro_tabs {
                     $row[] = new tabobject('idpage3', $elementurl->out(), $strlabel);
                 }
 
-                if ($this->modulepage == SURVEYPRO_SUBMISSION_EDIT) {
+                if ($this->tabpage == SURVEYPRO_SUBMISSION_EDIT) {
                     // Edit.
                     $localparamurl = array('id' => $this->cm->id, 'view' => SURVEYPRO_EDITRESPONSE);
                     $elementurl = new moodle_url('/mod/surveypro/view_form.php', $localparamurl);
@@ -269,7 +269,7 @@ class mod_surveypro_tabs {
                     $row[] = new tabobject('idpage4', $elementurl->out(), $strlabel);
                 }
 
-                if ($this->modulepage == SURVEYPRO_SUBMISSION_READONLY) {
+                if ($this->tabpage == SURVEYPRO_SUBMISSION_READONLY) {
                     // Read only.
                     $localparamurl = array('id' => $this->cm->id, 'view' => SURVEYPRO_READONLYRESPONSE);
                     $elementurl = new moodle_url('/mod/surveypro/view_form.php', $localparamurl);
@@ -284,7 +284,7 @@ class mod_surveypro_tabs {
                     $row[] = new tabobject('idpage6', $elementurl->out(), $strlabel);
                 }
 
-                if ($this->modulepage == SURVEYPRO_SUBMISSION_REPORT) {
+                if ($this->tabpage == SURVEYPRO_SUBMISSION_REPORT) {
                     // Report.
                     if ($canaccessreports) {
                         $elementurl = new moodle_url('/mod/surveypro/view_report.php', $paramurl);
@@ -293,7 +293,7 @@ class mod_surveypro_tabs {
                     }
                 }
 
-                if ($this->modulepage == SURVEYPRO_SUBMISSION_IMPORT) {
+                if ($this->tabpage == SURVEYPRO_SUBMISSION_IMPORT) {
                     // Import.
                     if ($canimportdata) {
                         $elementurl = new moodle_url('/mod/surveypro/view_import.php', $paramurl);
@@ -302,7 +302,7 @@ class mod_surveypro_tabs {
                     }
                 }
 
-                if ($this->modulepage == SURVEYPRO_SUBMISSION_EXPORT) {
+                if ($this->tabpage == SURVEYPRO_SUBMISSION_EXPORT) {
                     // Export.
                     if ($canexportdata) {
                         $elementurl = new moodle_url('/mod/surveypro/view_export.php', $paramurl);
