@@ -205,11 +205,10 @@ EOS;
      *
      * @param array $data
      * @param array $errors
-     * @param array $surveypro
      * @param bool $searchform
      * @return void
      */
-    public function userform_mform_validation($data, &$errors, $surveypro, $searchform) {
+    public function userform_mform_validation($data, &$errors, $searchform) {
         // Nothing to do here.
     }
 

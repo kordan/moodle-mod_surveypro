@@ -37,11 +37,6 @@ require_once($CFG->dirroot.'/mod/surveypro/field/shortdate/lib.php');
 class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
 
     /**
-     * @var object $surveypro
-     */
-    public $surveypro = null;
-
-    /**
      * @var string $content
      */
     public $content = '';
@@ -179,8 +174,6 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
         // No properties here.
 
         // Override properties depending from $surveypro settings.
-        // Override properties depending from $surveypro settings.
-        $this->surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
         $this->lowerbound = $this->item_shortdate_to_unix_time(1, $this->surveypro->startyear);
         $this->upperbound = $this->item_shortdate_to_unix_time(12, $this->surveypro->stopyear);
         $this->defaultvalue = $this->lowerbound;
@@ -549,11 +542,10 @@ EOS;
      *
      * @param array $data
      * @param array $errors
-     * @param array $surveypro
      * @param bool $searchform
      * @return void
      */
-    public function userform_mform_validation($data, &$errors, $surveypro, $searchform) {
+    public function userform_mform_validation($data, &$errors, $searchform) {
         // This plugin displays as dropdown menu. It will never return empty values.
         // If ($this->required) { if (empty($data[$this->itemname])) { is useless
 
@@ -594,8 +586,8 @@ EOS;
             return;
         }
 
-        $haslowerbound = ($this->lowerbound != $this->item_shortdate_to_unix_time(1, $surveypro->startyear));
-        $hasupperbound = ($this->upperbound != $this->item_shortdate_to_unix_time(12, $surveypro->stopyear));
+        $haslowerbound = ($this->lowerbound != $this->item_shortdate_to_unix_time(1, $this->surveypro->startyear));
+        $hasupperbound = ($this->upperbound != $this->item_shortdate_to_unix_time(12, $this->surveypro->stopyear));
 
         $userinput = $this->item_shortdate_to_unix_time($data[$this->itemname.'_month'], $data[$this->itemname.'_year']);
 

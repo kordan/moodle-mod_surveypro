@@ -314,7 +314,7 @@ class mod_surveypro_outform extends moodleform {
                 }
 
                 if ($itemisenabled) {
-                    $item->userform_mform_validation($data, $errors, $surveypro, false);
+                    $item->userform_mform_validation($data, $errors, false);
                     // } else {
                     // echo 'parent item doesn\'t allow the validation of the child item '.$item->itemid.', plugin = '.$item->plugin.'('.$item->content.')<br />';
                 }

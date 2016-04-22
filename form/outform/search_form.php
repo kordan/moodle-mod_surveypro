@@ -153,7 +153,7 @@ class mod_surveypro_searchform extends moodleform {
                 $olditemid = $itemid;
 
                 $item = surveypro_get_item($cm, $surveypro, $itemid, $type, $plugin);
-                $item->userform_mform_validation($data, $errors, $surveypro, true);
+                $item->userform_mform_validation($data, $errors, true);
             }
         }
 
