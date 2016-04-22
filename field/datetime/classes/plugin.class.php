@@ -212,12 +212,12 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
      * @param stdClass $cm
      * @param object $surveypro
      * @param int $itemid Optional item ID
-     * @param bool $evaluateparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise
+     * @param bool $getparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise
      */
-    public function __construct($cm, $surveypro, $itemid=0, $evaluateparentcontent) {
+    public function __construct($cm, $surveypro, $itemid=0, $getparentcontent) {
         global $DB;
 
-        parent::__construct($cm, $surveypro, $itemid, $evaluateparentcontent);
+        parent::__construct($cm, $surveypro, $itemid, $getparentcontent);
 
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
@@ -238,7 +238,7 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
         // Empty list.
 
         if (!empty($itemid)) {
-            $this->item_load($itemid, $evaluateparentcontent);
+            $this->item_load($itemid, $getparentcontent);
         }
     }
 
@@ -246,12 +246,11 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
      * Item load.
      *
      * @param int $itemid
-     * @param bool $evaluateparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise
+     * @param bool $getparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise
      * @return void
      */
-    public function item_load($itemid, $evaluateparentcontent) {
-        // Do parent item loading stuff here (mod_surveypro_itembase::item_load($itemid, $evaluateparentcontent)))
-        parent::item_load($itemid, $evaluateparentcontent);
+    public function item_load($itemid, $getparentcontent) {
+        parent::item_load($itemid, $getparentcontent);
 
         // Multilang load support for builtin surveypro.
         // Whether executed, the 'content' field is ALWAYS handled.
