@@ -1436,10 +1436,9 @@ class mod_surveypro_itembase {
      * In the frame of this method the parent item is calculated and is requested to provide the disabledif conditions to disable its child item
      *
      * @param moodleform $mform
-     * @param bool $canaccessreserveditems
      * @return void
      */
-    public function userform_add_disabledif($mform, $canaccessreserveditems) {
+    public function userform_add_disabledif($mform) {
         global $DB;
 
         if (!$this->parentid || ($this->type == SURVEYPRO_TYPEFORMAT)) {
@@ -1465,8 +1464,7 @@ class mod_surveypro_itembase {
             $parentpage = $parentitem->formpage;
             if ($parentpage == $mypage) {
                 $parentid = $currentitem->parentid;
-                $parentvalue = $currentitem->parentvalue;
-                $parentrestrictions[$parentid] = $parentvalue; // The element with ID == $parentid requires, as constain, $parentvalue.
+                $parentrestrictions[$parentid] = $currentitem->parentvalue; // The element with ID == $parentid forces, as constrain, $parentvalue.
             } else {
                 // My parent is in a page before mine.
                 // No need to investigate more for older ancestors.
@@ -1475,8 +1473,8 @@ class mod_surveypro_itembase {
 
             $currentitem = $parentitem;
         } while (!empty($parentitem->parentid));
-        // $parentrecord is an associative array
-        // The array key is the ID of the parent item, the corresponding value is the constrain that $this has to be submitted to.
+        // $parentrestrictions is an associative array
+        // The array key is the ID of the parent item, the corresponding value is the constrain that the parent imposes to the child.
 
         $displaydebuginfo = false;
         foreach ($parentrestrictions as $parentid => $childparentvalue) {
@@ -1512,7 +1510,6 @@ class mod_surveypro_itembase {
                     }
                 }
             }
-            // $mform->disabledIf('surveypro_field_select_2491', 'surveypro_field_multiselect_2490[]', 'neq', array(0,4));
         }
     }
 

@@ -184,9 +184,9 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
      * Get child reports.
      *
      * @param bool $canaccessreports
-     * @return void
+     * @return mixed array if child reports are available, void otherwise
      */
-    public function get_childreports($canaccessreports) {
+    public function has_childreports($canaccessreports) {
         if ($canaccessreports) {
             $childreports = array();
             $childreports['summary'] = array('type' => 'summary');

@@ -99,7 +99,7 @@ class mod_surveypro_searchform extends moodleform {
             }
 
             // Element.
-            $item->userform_mform_element($mform, true);
+            $item->userform_mform_element($mform, true, false);
 
             // Note.
             if ($fullinfo = $item->userform_get_full_info(true)) {

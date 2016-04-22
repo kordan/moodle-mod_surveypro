@@ -535,10 +535,9 @@ EOS;
      * @param moodleform $mform
      * @param bool $searchform
      * @param bool $readonly
-     * @param int $submissionid
      * @return void
      */
-    public function userform_mform_element($mform, $searchform, $readonly=false, $submissionid=0) {
+    public function userform_mform_element($mform, $searchform, $readonly) {
         global $DB, $USER;
 
         $labelsep = get_string('labelsep', 'langconfig'); // ': '

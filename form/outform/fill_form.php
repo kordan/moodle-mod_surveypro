@@ -167,7 +167,7 @@ class mod_surveypro_outform extends moodleform {
                     }
 
                     // Element.
-                    $item->userform_mform_element($mform, false, $readonly, $submissionid);
+                    $item->userform_mform_element($mform, false, $readonly);
 
                     // Note.
                     if ($fullinfo = $item->userform_get_full_info(false)) {
@@ -179,7 +179,7 @@ class mod_surveypro_outform extends moodleform {
                     }
 
                     if (!$surveypro->newpageforchild) {
-                        $item->userform_add_disabledif($mform, $canaccessreserveditems);
+                        $item->userform_add_disabledif($mform);
                     }
                 }
             }

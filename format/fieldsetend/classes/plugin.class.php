@@ -186,10 +186,9 @@ EOS;
      * @param moodleform $mform
      * @param bool $searchform
      * @param bool $readonly
-     * @param int $submissionid
      * @return void
      */
-    public function userform_mform_element($mform, $searchform, $readonly=false, $submissionid=0) {
+    public function userform_mform_element($mform, $searchform, $readonly) {
         // This plugin has $this->insetupform['insearchform'] = false; so it will never be part of a search form.
 
         // Workaround suggested by Marina Glancy in MDL-42946.
