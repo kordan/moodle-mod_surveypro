@@ -217,7 +217,7 @@ class mod_surveypro_covermanager {
             if ((!$allowedtemplates) || in_array($this->surveypro->template, $allowedtemplates)) {
                 if ($canaccessreports || ($reportman->has_student_report() && $canaccessownreports)) {
                     if ($reportman->report_apply()) {
-                        if ($childreports = $reportman->get_childreports($canaccessreports)) {
+                        if ($childreports = $reportman->has_childreports($canaccessreports)) {
                             foreach ($childreports as $childname => $childparams) {
                                 $childparams['s'] = $this->cm->instance;
                                 $url = new moodle_url('/mod/surveypro/report/'.$pluginname.'/view.php', $childparams);

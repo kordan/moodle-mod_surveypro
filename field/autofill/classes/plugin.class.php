@@ -405,23 +405,27 @@ EOS;
      * @param moodleform $mform
      * @param bool $searchform
      * @param bool $readonly
-     * @param int $submissionid
      * @return void
      */
-    public function userform_mform_element($mform, $searchform, $readonly=false, $submissionid=0) {
+    public function userform_mform_element($mform, $searchform, $readonly) {
         $labelsep = get_string('labelsep', 'langconfig'); // ': '
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
         if (!$searchform) {
-            $value = $this->userform_get_content($submissionid);
+            // At this level I ALWAYS write the content as if the record is new
+            // If the record is not new, this value will be overwritten later at default apply time.
+            $value = $this->userform_get_content(0);
+
             $mform->addElement('hidden', $this->itemname, $value);
             $mform->setType($this->itemname, PARAM_RAW);
+            $mform->setDefault($this->itemname, $value);
 
             if (!$this->hiddenfield) {
-                // Workaround suggested by Marina Glancy in MDL-42946.
-                $option = array('class' => 'indent-'.$this->indent);
-                $mform->addElement('mod_surveypro_static', $this->itemname.'_static', $elementlabel, $value, $option);
+                $attributes = array('class' => 'indent-'.$this->indent, 'disabled' => 'disabled');
+                $mform->addElement('text', $this->itemname.'_static', $elementlabel, $attributes);
+                $mform->setType($this->itemname.'_static', PARAM_RAW);
+                $mform->setDefault($this->itemname.'_static', $value);
             }
         } else {
             $elementgroup = array();
@@ -494,10 +498,14 @@ EOS;
 
         if (isset($fromdb->content)) {
             $prefill[$this->itemname] = $fromdb->content;
+            if (!$this->hiddenfield) {
+                $prefill[$this->itemname.'_static'] = $fromdb->content;
+            }
         }
 
         return $prefill;
     }
+
 
     /**
      * Userform_get_content.

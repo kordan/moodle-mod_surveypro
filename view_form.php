@@ -74,16 +74,16 @@ $formparams->preview = false;
 // End of: prepare params for the form.
 
 // if ($view == SURVEYPRO_READONLYRESPONSE) {$editable = false} else {$editable = true}
-$userform = new mod_surveypro_outform($formurl, $formparams, 'post', '', array('id' => 'userentry'), ($view != SURVEYPRO_READONLYRESPONSE));
+$outform = new mod_surveypro_outform($formurl, $formparams, 'post', '', array('id' => 'userentry'), ($view != SURVEYPRO_READONLYRESPONSE));
 
 // Begin of: manage form submission.
-if ($userform->is_cancelled()) {
+if ($outform->is_cancelled()) {
     $localparamurl = array('id' => $cm->id, 'view' => $view);
     $redirecturl = new moodle_url('/mod/surveypro/view.php', $localparamurl);
     redirect($redirecturl, get_string('usercanceled', 'mod_surveypro'));
 }
 
-if ($userformman->formdata = $userform->get_data()) {
+if ($userformman->formdata = $outform->get_data()) {
     $userformman->save_user_data(); // <-- SAVE SAVE SAVE SAVE.
     $userformman->notifypeople();
 
@@ -155,8 +155,8 @@ $prefill = $userformman->get_prefill_data();
 $prefill['formpage'] = $userformman->get_formpage();
 // End of: calculate prefill for fields and prepare standard editors and filemanager.
 
-$userform->set_data($prefill);
-$userform->display();
+$outform->set_data($prefill);
+$outform->display();
 
 // If surveypro is multipage and $userformman->tabpage == SURVEYPRO_READONLYRESPONSE.
 // I need to add navigation buttons manually

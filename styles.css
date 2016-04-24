@@ -406,6 +406,16 @@
 }
 /* End of: vertical distance between select in rate is too much */
 
+/* make up to autofill input to let it look like a static text */
+#page-mod-surveypro-layout_preview .mform input[id*=autofill],
+#page-mod-surveypro-view_form .mform input[id*=autofill],
+#page-mod-surveypro-view_search .mform input[id*=autofill] {
+	background-color: Transparent;
+	border: 0 Transparent none;
+	box-shadow: none;
+}
+/* End: make up to autofill input to let it look like a static text */
+
 /* padding bottom for Noanswer checkbox of rate elements */
 #page-mod-surveypro-layout_preview .mform div[id*=noanswer],
 #page-mod-surveypro-view_form .mform div[id*=noanswer],

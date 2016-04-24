@@ -979,7 +979,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
                             $nodelabel = get_string('report');
                             $reportnode = $navref->add($nodelabel, null, navigation_node::TYPE_CONTAINER);
                         }
-                        if ($childreports = $reportman->get_childreports($canaccessreports)) {
+                        if ($childreports = $reportman->has_childreports($canaccessreports)) {
                             $nodelabel = get_string('pluginname', 'surveyproreport_'.$pluginname);
                             $childnode = $reportnode->add($nodelabel, null, navigation_node::TYPE_CONTAINER);
                             foreach ($childreports as $childname => $childparams) {
