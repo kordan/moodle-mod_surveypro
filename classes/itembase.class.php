@@ -149,9 +149,9 @@ class mod_surveypro_itembase {
      * @param object $cm
      * @param object $surveypro
      * @param int $itemid
-     * @param bool $evaluateparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise
+     * @param bool $getparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise
      */
-    public function __construct($cm, $surveypro, $itemid, $evaluateparentcontent) {
+    public function __construct($cm, $surveypro, $itemid, $getparentcontent) {
         $this->cm = $cm;
         $this->surveypro = $surveypro;
     }
@@ -163,10 +163,10 @@ class mod_surveypro_itembase {
      * If evaluateparentcontent is true, load the parentitem parentcontent property too
      *
      * @param integer $itemid
-     * @param boolean $evaluateparentcontent To include among item elements the 'parentcontent' too
+     * @param boolean $getparentcontent To include among item elements the 'parentcontent' too
      * @return void
      */
-    protected function item_load($itemid, $evaluateparentcontent) {
+    protected function item_load($itemid, $getparentcontent) {
         global $DB;
 
         if (!$itemid) {
@@ -185,7 +185,7 @@ class mod_surveypro_itembase {
             }
             unset($this->id); // I do not care it. I already heave: itemid and pluginid.
             $this->itemname = SURVEYPRO_ITEMPREFIX.'_'.$this->type.'_'.$this->plugin.'_'.$this->itemid;
-            if ($evaluateparentcontent && $this->parentid) {
+            if ($getparentcontent && $this->parentid) {
                 $parentitem = surveypro_get_item($this->cm, $this->surveypro, $this->parentid);
                 $this->parentcontent = $parentitem->parent_decode_child_parentvalue($this->parentvalue);
             }

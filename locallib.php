@@ -37,10 +37,10 @@ require_once($CFG->dirroot.'/mod/surveypro/lib.php');
  * @param int $itemid
  * @param string $type
  * @param string $plugin
- * @param bool $evaluateparentcontent
+ * @param bool $getparentcontent
  * @return $item object
  */
-function surveypro_get_item($cm, $surveypro, $itemid=0, $type='', $plugin='', $evaluateparentcontent=false) {
+function surveypro_get_item($cm, $surveypro, $itemid=0, $type='', $plugin='', $getparentcontent=false) {
     global $CFG, $DB;
 
     if (!empty($itemid)) {
@@ -74,7 +74,7 @@ function surveypro_get_item($cm, $surveypro, $itemid=0, $type='', $plugin='', $e
 
     require_once($CFG->dirroot.'/mod/surveypro/'.$type.'/'.$plugin.'/classes/plugin.class.php');
     $itemclassname = 'mod_surveypro_'.$type.'_'.$plugin;
-    $item = new $itemclassname($cm, $surveypro, $itemid, $evaluateparentcontent);
+    $item = new $itemclassname($cm, $surveypro, $itemid, $getparentcontent);
 
     return $item;
 }
