@@ -980,7 +980,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             // Ask for confirmation.
             $a = $this->get_utemplate_name();
-            $message = get_string('askdeleteonetemplate', 'mod_surveypro', $a);
+            $message = get_string('askdeletetemplate', 'mod_surveypro', $a);
             $optionsbase = array('s' => $this->surveypro->id, 'act' => SURVEYPRO_DELETEUTEMPLATE);
 
             $optionsyes = $optionsbase;

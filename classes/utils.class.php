@@ -214,7 +214,7 @@ class mod_surveypro_utility {
             $transaction = $DB->start_delegated_transaction();
 
             $items = $DB->get_records('surveypro_item', $whereparams, '', 'id, type, plugin');
-            if (count($whereparams) == 1) { // Delete all items this surveypro.
+            if (count($whereparams) == 1) { // Delete all the items of this surveypro.
                 foreach ($items as $item) {
                     $DB->delete_records('surveypro'.$item->type.'_'.$item->plugin, array('itemid' => $item->id));
                 }
@@ -253,7 +253,7 @@ class mod_surveypro_utility {
         // $whereparams is supposed to hold constrains for the submissions table
 
         // go to delete corresponding submissions
-        if (count($whereparams) == 1) { // Delete all items in this surveypro.
+        if (count($whereparams) == 1) { // Delete all the items of this surveypro.
             $this->delete_submissions($whereparams, false);
         }
 
@@ -321,11 +321,12 @@ class mod_surveypro_utility {
         try {
             $transaction = $DB->start_delegated_transaction();
 
-            $submissions = $DB->get_records('surveypro_submission', $whereparams, '', 'id');
-            if (count($whereparams) == 1) { // Delete all submission for this surveypro.
+            $submissions = $DB->get_recordset('surveypro_submission', $whereparams, '', 'id');
+            if (count($whereparams) == 1) { // Delete all the submissions of this surveypro.
                 foreach ($submissions as $submission) {
                     $DB->delete_records('surveypro_answer', array('submissionid' => $submission->id));
                 }
+                $submissions->close();
                 $DB->delete_records('surveypro_submission', $whereparams);
 
                 // Event: all_submissions_deleted.
@@ -343,6 +344,7 @@ class mod_surveypro_utility {
                     $event = \mod_surveypro\event\submission_deleted::create($eventdata);
                     $event->trigger();
                 }
+                $submissions->close();
                 $DB->delete_records('surveypro_submission', $whereparams);
             }
 
@@ -353,7 +355,7 @@ class mod_surveypro_utility {
         }
 
         if ($updatecompletion) {
-            if (count($whereparams) == 1) { // Delete all submission for this surveypro.
+            if (count($whereparams) == 1) { // Delete all submission of this surveypro.
                 // Update completion state.
                 $possibleusers = surveypro_get_participants($this->surveypro->id);
 
@@ -443,6 +445,133 @@ class mod_surveypro_utility {
             $count = $DB->count_records('surveypro_answer', array('submissionid' => $answer->submissionid));
             if (empty($count)) {
                 $this->delete_submissions(array('id' => $answer->submissionid));
+            }
+        }
+    }
+
+    /**
+     * Duplicate submission.
+     *
+     * surveypro_submission           surveypro_answer
+     *   id  <-----------------|        id
+     *   surveyproid           |------- submissionid
+     *   userid                         itemid
+     *   status                         verified
+     *   timecreated                    content
+     *   timemodified                   contentformat
+     *
+     * @param array $whereparams
+     * @param bool $updatecompletion
+     * @return void
+     */
+    public function duplicate_submissions($whereparams=null, $updatecompletion=true) {
+        global $DB, $COURSE;
+        // global $USER;
+
+        if (empty($whereparams)) {
+            $whereparams = array();
+        }
+        // Just in case the call is missing the surveypro id, I add it.
+        if (!array_key_exists('surveyproid', $whereparams)) {
+            $whereparams['surveyproid'] = $this->surveypro->id;
+        }
+
+        $context = context_module::instance($this->cm->id);
+        try {
+            $transaction = $DB->start_delegated_transaction();
+
+            $submissions = $DB->get_recordset('surveypro_submission', $whereparams, '');
+
+            if (count($whereparams) == 1) { // Duplicate all the submissions of this surveypro.
+                foreach ($submissions as $submission) {
+                    $submissionid = $submission->id;
+
+                    unset($submission->id);
+                    // $submission->userid = $USER->id; // Assign the duplicate to the user performing the action.
+                    $submission->timecreated = time();
+                    unset($submission->timemodified);
+                    $newsubmissionid = $DB->insert_record('surveypro_submission', $submission);
+
+                    $useranswers = $DB->get_recordset('surveypro_answer', array('submissionid' => $submissionid));
+                    foreach ($useranswers as $useranswer) {
+                        unset($useranswer->id);
+                        $useranswer->submissionid = $newsubmissionid;
+                        $DB->insert_record('surveypro_answer', $useranswer);
+                    }
+                    $useranswers->close();
+                }
+                $submissions->close();
+
+                // Event: all_submissions_duplicated.
+                $eventdata = array('context' => $context, 'objectid' => $this->surveypro->id);
+                $event = \mod_surveypro\event\all_submissions_duplicated::create($eventdata);
+                $event->trigger();
+            }
+
+            if (count($whereparams) > 1) { // $whereparams has some more detail about submissions.
+                foreach ($submissions as $submission) {
+                    $submissionid = $submission->id;
+
+                    unset($submission->id);
+                    // $submission->userid = $USER->id; // Assign the duplicate to the user performing the action.
+                    $submission->timecreated = time();
+                    unset($submission->timemodified);
+                    $newsubmissionid = $DB->insert_record('surveypro_submission', $submission);
+
+                    $useranswers = $DB->get_recordset('surveypro_answer', array('submissionid' => $submissionid));
+                    foreach ($useranswers as $useranswer) {
+                        unset($useranswer->id);
+                        $useranswer->submissionid = $newsubmissionid;
+                        $DB->insert_record('surveypro_answer', $useranswer);
+                    }
+                    $useranswers->close();
+
+                    // Event: submission_duplicated.
+                    $eventdata = array('context' => $context, 'objectid' => $submissionid);
+                    $event = \mod_surveypro\event\submission_duplicated::create($eventdata);
+                    $event->trigger();
+                }
+                $submissions->close();
+            }
+
+            $transaction->allow_commit();
+        } catch (Exception $e) {
+            // Extra cleanup steps.
+            $transaction->rollback($e); // Rethrows exception.
+        }
+
+        if ($updatecompletion) {
+            if (count($whereparams) == 1) { // Duplicate all the submissions of this surveypro.
+                // Update completion state.
+                $possibleusers = surveypro_get_participants($this->surveypro->id);
+
+                $completion = new completion_info($COURSE);
+                if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
+                    foreach ($possibleusers as $user) {
+                        $completion->update_state($this->cm, COMPLETION_COMPLETE, $user->id);
+                    }
+                }
+            }
+
+            if (count($whereparams) > 1) { // $whereparams has some more detail about submissions.
+                $sql = 'SELECT DISTINCT s.userid
+                        FROM {surveypro_submission} s
+                        WHERE surveyproid = :surveyproid';
+                foreach ($whereparams as $k => $unused) {
+                    if ($k == 'surveyproid') {
+                        continue;
+                    }
+                    $sql .= ' AND s.'.$k.' = :'.$k;
+                }
+                $possibleusers = $DB->get_records_sql($sql, $whereparams);
+
+                // Update completion state.
+                $completion = new completion_info($COURSE);
+                if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
+                    foreach ($possibleusers as $user) {
+                        $completion->update_state($this->cm, COMPLETION_COMPLETE, $user->userid);
+                    }
+                }
             }
         }
     }
@@ -658,6 +787,31 @@ class mod_surveypro_utility {
         $fs = get_file_storage();
         if ($fs->get_area_files($this->context->id, 'mod_surveypro', SURVEYPRO_STYLEFILEAREA, 0, 'sortorder', false)) {
             $PAGE->requires->css('/mod/surveypro/userstyle.php?id='.$this->surveypro->id.'&amp;cmid='.$this->cm->id); // Not overridable via themes!
+        }
+    }
+
+    /**
+     * Is a user allowed to fill one more response?
+     *
+     * @return bool
+     */
+    public function can_submit_more($userid=null) {
+        global $USER;
+
+        if (empty($userid)) {
+            $userid = $USER->id;
+        }
+
+        if (empty($this->surveypro->maxentries)) {
+            return true;
+        } else {
+            if (has_capability('mod/surveypro:ignoremaxentries', $this->context, null, true)) {
+                return true;
+            }
+
+            $usersubmissions = $this->has_submissions(true, SURVEYPRO_STATUSALL, $userid);
+
+            return ($usersubmissions < $this->surveypro->maxentries);
         }
     }
 }

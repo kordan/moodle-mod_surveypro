@@ -163,6 +163,19 @@ class mod_surveypro_formbase {
         }
     }
 
+    /**
+     * Warn this submission is a copy.
+     *
+     * @return void
+     */
+    public function warning_submission_copy() {
+        global $OUTPUT;
+
+        if (!empty($this->surveypro->history)) {
+            echo $OUTPUT->notification('editingcopy', 'notifyproblem');
+        }
+    }
+
     // MARK set
 
     /**

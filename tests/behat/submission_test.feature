@@ -5,7 +5,7 @@ Feature: make a submission test for each available item
   I fill a surveypro and go to see responses
 
   @javascript
-  Scenario: test a submission works fine for each available item
+  Scenario: test a submission works fine for each available core item
     Given the following "courses" exist:
       | fullname                                | shortname       | category | groupmode |
       | Test submission for each available item | Submission test | 0        | 0         |
@@ -20,6 +20,10 @@ Feature: make a submission test for each available item
     And the following "activities" exist:
       | activity  | name                 | intro                                      | course          | idnumber   |
       | surveypro | Each item submission | To test submission for each available item | Submission test | surveypro1 |
+    And the following "permission overrides" exist:
+      | capability                            | permission | role    | contextlevel | reference       |
+      | mod/surveypro:duplicateownsubmissions | Allow      | student | Course       | Submission test |
+      | mod/surveypro:deleteownsubmissions    | Allow      | student | Course       | Submission test |
     And I log in as "teacher1"
     And I follow "Test submission for each available item"
     And I follow "Each item submission"
@@ -435,6 +439,16 @@ Feature: make a submission test for each available item
     And I press "Next page >>"
     And I press "<< Previous page"
     And I follow "Responses"
+    And I should see "1" submissions displayed
+
+    And I follow "duplicate_submission_row_1"
+    And I press "Continue"
+    And I should see "2" submissions displayed
+
+    And I follow "delete_submission_row_2"
+    And I press "Continue"
+    And I should see "1" submissions displayed
+
     And I log out
 
     When I log in as "teacher1"

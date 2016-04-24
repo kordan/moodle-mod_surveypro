@@ -910,27 +910,6 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
     }
 
     /**
-     * Is $USER->id allowed to fill one more response?
-     *
-     * @return bool
-     */
-    public function can_submit_more() {
-        if (empty($this->surveypro->maxentries)) {
-            return true;
-        } else {
-            if (has_capability('mod/surveypro:ignoremaxentries', $this->context, null, true)) {
-                return true;
-            }
-
-            $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-            $usersubmissions = $utilityman->has_submissions(true, SURVEYPRO_STATUSALL, $USER->id);
-
-            return ($usersubmissions < $this->surveypro->maxentries);
-        }
-    }
-
-
-    /**
      * Stop the page load with a warning because no submission is available.
      *
      * @return void
@@ -951,7 +930,8 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
                 return;
             }
 
-            if (!$this->can_submit_more()) {
+            $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+            if (!$utilityman->can_submit_more()) {
                 $message = get_string('nomoresubmissionsallowed', 'mod_surveypro', $this->surveypro->maxentries);
                 echo $OUTPUT->notification($message, 'notifyproblem');
 
@@ -1017,7 +997,8 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
             }
         }
 
-        $cansubmitmore = $this->can_submit_more();
+        $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+        $cansubmitmore = $utilityman->can_submit_more();
 
         $paramurl = array('id' => $this->cm->id);
         if ($cansubmitmore) { // If the user is allowed to submit one more response.
@@ -1260,31 +1241,6 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
         if (!$allowed) {
             print_error('incorrectaccessdetected', 'mod_surveypro');
         }
-    }
-
-    /**
-     * Duplicate a submission.
-     *
-     * @return void
-     */
-    private function duplicate_submission() {
-        global $DB;
-
-        $originalsubmissionid = $this->get_submissionid();
-        $submission = $DB->get_record('surveypro_submission', array('id' => $originalsubmissionid));
-        $submission->timecreated = time();
-        $submission->status = SURVEYPRO_STATUSINPROGRESS;
-        unset($submission->timemodified);
-        $newsubmissionid = $DB->insert_record('surveypro_submission', $submission);
-
-        $useranswers = $DB->get_recordset('surveypro_answer', array('submissionid' => $originalsubmissionid));
-        foreach ($useranswers as $useranswer) {
-            unset($useranswer->id);
-            $useranswer->submissionid = $newsubmissionid;
-            $DB->insert_record('surveypro_answer', $useranswer);
-        }
-        $useranswers->close();
-        $this->set_submissionid($newsubmissionid);
     }
 
     /**
