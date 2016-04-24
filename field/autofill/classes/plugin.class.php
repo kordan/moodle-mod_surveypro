@@ -443,11 +443,10 @@ EOS;
      *
      * @param array $data
      * @param array $errors
-     * @param array $surveypro
      * @param bool $searchform
      * @return void
      */
-    public function userform_mform_validation($data, &$errors, $surveypro, $searchform) {
+    public function userform_mform_validation($data, &$errors, $searchform) {
         // Nothing to do here.
     }
 
@@ -518,10 +517,8 @@ EOS;
 
         if ($submissionid) {
             $submission = $DB->get_record('surveypro_submission', array('id' => $submissionid), '*', MUST_EXIST);
-            $surveypro = $DB->get_record('surveypro', array('id' => $submission->surveyproid), '*', MUST_EXIST);
             $user = $DB->get_record('user', array('id' => $submission->userid));
         } else {
-            $surveypro = $DB->get_record('surveypro', array('id' => $this->cm->instance), '*', MUST_EXIST);
             $user = $USER;
         }
 
@@ -600,10 +597,10 @@ EOS;
                         $label .= implode(', ', $names);
                         break;
                     case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT11: // Surveyproid.
-                        $label .= $surveypro->id;
+                        $label .= $this->surveypro->id;
                         break;
                     case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT12: // Surveyproname.
-                        $label .= $surveypro->name;
+                        $label .= $this->surveypro->name;
                         break;
                     case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT13: // Courseid.
                         $label .= $COURSE->id;

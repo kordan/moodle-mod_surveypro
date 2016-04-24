@@ -46,6 +46,11 @@ class mod_surveypro_itembase {
     protected $context;
 
     /**
+     * @var object $surveypro
+     */
+    public $surveypro;
+
+    /**
      * @var int Unique itemid of the surveyproitem in surveypro_item table
      */
     protected $itemid;

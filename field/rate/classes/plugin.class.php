@@ -461,11 +461,10 @@ EOS;
      *
      * @param array $data
      * @param array $errors
-     * @param array $surveypro
      * @param bool $searchform
      * @return void
      */
-    public function userform_mform_validation($data, &$errors, $surveypro, $searchform) {
+    public function userform_mform_validation($data, &$errors, $searchform) {
         // This plugin displays as a set of dropdown menu or radio buttons. It will never return empty values.
         // If ($this->required) { if (empty($data[$this->itemname])) { is useless
 

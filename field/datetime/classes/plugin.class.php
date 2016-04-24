@@ -37,11 +37,6 @@ require_once($CFG->dirroot.'/mod/surveypro/field/datetime/lib.php');
 class mod_surveypro_field_datetime extends mod_surveypro_itembase {
 
     /**
-     * @var object $surveypro
-     */
-    public $surveypro = null;
-
-    /**
      * @var string $content
      */
     public $content = '';
@@ -229,7 +224,6 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
         // No properties here.
 
         // Override properties depending from $surveypro settings.
-        $this->surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
         $this->lowerbound = $this->item_datetime_to_unix_time($this->surveypro->startyear, 1, 1, 0, 0);
         $this->upperbound = $this->item_datetime_to_unix_time($this->surveypro->stopyear, 12, 31, 23, 59);
         $this->defaultvalue = $this->lowerbound;
@@ -667,11 +661,10 @@ EOS;
      *
      * @param array $data
      * @param array $errors
-     * @param array $surveypro
      * @param bool $searchform
      * @return void
      */
-    public function userform_mform_validation($data, &$errors, $surveypro, $searchform) {
+    public function userform_mform_validation($data, &$errors, $searchform) {
         // This plugin displays as dropdown menu. It will never return empty values.
         // If ($this->required) { if (empty($data[$this->itemname])) { is useless.
 
@@ -721,8 +714,8 @@ EOS;
             return;
         }
 
-        $haslowerbound = ($this->lowerbound != $this->item_datetime_to_unix_time($surveypro->startyear, 1, 1, 0, 0));
-        $hasupperbound = ($this->upperbound != $this->item_datetime_to_unix_time($surveypro->stopyear, 12, 31, 23, 59));
+        $haslowerbound = ($this->lowerbound != $this->item_datetime_to_unix_time($this->surveypro->startyear, 1, 1, 0, 0));
+        $hasupperbound = ($this->upperbound != $this->item_datetime_to_unix_time($this->surveypro->stopyear, 12, 31, 23, 59));
 
         $userinput = $this->item_datetime_to_unix_time($data[$this->itemname.'_year'], $data[$this->itemname.'_month'],
                 $data[$this->itemname.'_day'], $data[$this->itemname.'_hour'], $data[$this->itemname.'_minute']);
