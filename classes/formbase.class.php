@@ -171,8 +171,8 @@ class mod_surveypro_formbase {
     public function warning_submission_copy() {
         global $OUTPUT;
 
-        if (!empty($this->surveypro->history)) {
-            echo $OUTPUT->notification('editingcopy', 'notifyproblem');
+        if ( (!empty($this->surveypro->history)) && (!empty($this->submissionid)) ) {
+            echo $OUTPUT->notification(get_string('editingcopy', 'mod_surveypro'), 'notifyproblem');
         }
     }
 

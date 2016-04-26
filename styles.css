@@ -392,34 +392,56 @@
 }
 /* End of: to correct vertical alignment in read only mode */
 
-/* vertical distance between select in rate is too much */
+/* vertical distance between top margin of a row and input elements is too small */
 #page-mod-surveypro-layout_preview .mform .fitem,
 #page-mod-surveypro-view_form .mform .fitem,
 #page-mod-surveypro-view_search .mform .fitem {
     padding-top:0.7em;
 }
-
-#page-mod-surveypro-layout_preview .mform div[id*=rate],
-#page-mod-surveypro-view_form .mform div[id*=rate],
-#page-mod-surveypro-view_search .mform div[id*=rate] {
-    padding-top:0;
-}
-/* End of: vertical distance between select in rate is too much */
+/* End of: vertical distance between top margin of a row and input elements is too small */
 
 /* make up to autofill input to let it look like a static text */
-#page-mod-surveypro-layout_preview .mform input[id*=autofill],
-#page-mod-surveypro-view_form .mform input[id*=autofill],
-#page-mod-surveypro-view_search .mform input[id*=autofill] {
-	background-color: Transparent;
-	border: 0 Transparent none;
-	box-shadow: none;
+#page-mod-surveypro-layout_preview .mform input.autofill_text,
+#page-mod-surveypro-view_form .mform input.autofill_text,
+#page-mod-surveypro-view_search .mform input.autofill_text {
+    background-color: transparent;
+    border: 0 transparent none;
+    box-shadow: none;
 }
 /* End: make up to autofill input to let it look like a static text */
 
-/* padding bottom for Noanswer checkbox of rate elements */
-#page-mod-surveypro-layout_preview .mform div[id*=noanswer],
-#page-mod-surveypro-view_form .mform div[id*=noanswer],
-#page-mod-surveypro-view_search .mform div[id*=noanswer] {
-    padding-bottom:0.7em;
+/* vertical distance between select in rate is too much */
+#page-mod-surveypro-layout_preview .mform select.rate_select,
+#page-mod-surveypro-view_form .mform select.rate_select,
+#page-mod-surveypro-view_search .mform select.rate_select {
+    margin-top:0.2em;
+    margin-bottom:0.2em;
 }
-/* End of: padding bottom for Noanswer checkbox of rate elements */
+/* End of: vertical distance between select in rate is too much */
+
+/* these are a div selector */
+/* padding top for div opening to rate elements */
+#page-mod-surveypro-layout_preview .mform div.rate_select,
+#page-mod-surveypro-view_form .mform div.rate_select,
+#page-mod-surveypro-view_search .mform div.rate_select {
+    padding-top:0;
+}
+/* End of: padding top for div opening to rate elements */
+
+/* padding bottom for noanswer checkbox in a dedicated row, like, for instence, in rate elements */
+#page-mod-surveypro-layout_preview .mform div.rate_check,
+#page-mod-surveypro-view_form .mform div.rate_check,
+#page-mod-surveypro-view_search .mform div.rate_check {
+    padding-top:0;
+    padding-bottom:0.5em;
+}
+/* End of: padding bottom for noanswer checkbox in a dedicated row, like, for instence, in rate elements */
+
+/* padding bottom for noanswer checkbox in a dedicated row, like, for instence, in rate elements */
+#page-mod-surveypro-layout_preview .mform div.fitem_fstatic,
+#page-mod-surveypro-view_form .mform div.fitem_fstatic,
+#page-mod-surveypro-view_search .mform div.fitem_fstatic {
+    padding-top:0;
+}
+/* End of: padding bottom for noanswer checkbox in a dedicated row, like, for instence, in rate elements */
+/* End of: these are a div selector */

@@ -474,7 +474,9 @@ EOS;
 
         $idprefix = 'id_surveypro_field_radiobutton_'.$this->sortindex;
 
-        $attributes = array('class' => 'indent-'.$this->indent);
+        $attributes = array();
+        $attributes['class'] = 'indent-'.$this->indent.' radiobutton_radio';
+
         $elementgroup = array();
 
         // Begin of: mform element.
@@ -483,24 +485,24 @@ EOS;
                 $attributes['id'] = $idprefix.'_invite';
                 $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('choosedots'), SURVEYPRO_INVITEVALUE, $attributes);
                 if ($this->adjustment == SURVEYPRO_HORIZONTAL) {
-                    unset($attributes['class']);
+                    $attributes['class'] = 'radiobutton_radio';
                 }
             }
         } else {
             $attributes['id'] = $idprefix.'_ignoreme';
             $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('star', 'mod_surveypro'), SURVEYPRO_IGNOREMEVALUE, $attributes);
             if ($this->adjustment == SURVEYPRO_HORIZONTAL) {
-                unset($attributes['class']);
+                $attributes['class'] = 'radiobutton_radio';
             }
         }
 
         $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
         $labelcount = count($labels);
         foreach ($labels as $k => $label) {
-            $attributes['id'] = $idprefix.'_'."$k";
+            $attributes['id'] = $idprefix.'_'.$k;
             $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', $label, "$k", $attributes);
             if ($this->adjustment == SURVEYPRO_HORIZONTAL) {
-                unset($attributes['class']);
+                $attributes['class'] = 'radiobutton_radio';
             }
         }
 

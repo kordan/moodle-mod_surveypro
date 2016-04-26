@@ -486,7 +486,9 @@ EOS;
         $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
         $defaults = surveypro_multilinetext_to_array($this->defaultvalue);
 
-        $attributes = array('class' => 'indent-'.$this->indent, 'group' => 1);
+        $attributes = array();
+        $attributes['class'] = 'indent-'.$this->indent.' checkbox_check';
+        $attributes['group'] = 1;
 
         $elementgroup = array();
         $i = 0;
@@ -496,7 +498,7 @@ EOS;
             $elementgroup[] = $mform->createElement('mod_surveypro_advcheckbox', $uniqueid, '', $label, $attributes, array('0', '1'));
 
             if ($this->adjustment == SURVEYPRO_HORIZONTAL) {
-                unset($attributes['class']);
+                $attributes['class'] = 'checkbox_check';
             }
 
             if (!$searchform) {
@@ -527,7 +529,6 @@ EOS;
         }
 
         if (!$this->required) {
-            $attributes['group'] = 1;
             $attributes['id'] = $idprefix.'_noanswer';
             $options = array('0', '1');
             $elementgroup[] = $mform->createElement('mod_surveypro_advcheckbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'surveypro'), $attributes, $options);

@@ -479,9 +479,16 @@ EOS;
         // End of: element values
 
         // Begin of: mform element.
+        $attributes = array();
         $elementgroup = array();
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_hour', '', $hours, array('class' => 'indent-'.$this->indent, 'id' => $idprefix.'_hour'));
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_minute', '', $minutes, array('id' => $idprefix.'_minute'));
+
+        $attributes['id'] = $idprefix.'_hour';
+        $attributes['class'] = 'indent-'.$this->indent.' time_select';
+        $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_hour', '', $hours, $attributes);
+
+        $attributes['id'] = $idprefix.'_minute';
+        $attributes['class'] = 'time_select';
+        $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_minute', '', $minutes, $attributes);
 
         $separator = array(':');
         if ($this->required) {
@@ -496,7 +503,8 @@ EOS;
                 $mform->_required[] = $starplace;
             }
         } else {
-            $attributes = array('id' => $idprefix.'_noanswer');
+            $attributes['id'] = $idprefix.'_noanswer';
+            $attributes['class'] = 'time_check';
             $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'mod_surveypro'), $attributes);
             $separator[] = ' ';
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, $separator, false);

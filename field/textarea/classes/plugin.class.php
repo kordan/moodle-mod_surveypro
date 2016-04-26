@@ -354,10 +354,10 @@ EOS;
         $idprefix = 'id_surveypro_field_textarea_'.$this->sortindex;
 
         $attributes = array();
-        $attributes['class'] = 'indent-'.$this->indent;
         $attributes['id'] = $idprefix;
         if (empty($this->useeditor)) {
             $fieldname = $this->itemname;
+            $attributes['class'] = 'indent-'.$this->indent.' textarea_textarea';
             $attributes['wrap'] = 'virtual';
             $attributes['rows'] = $this->arearows;
             $attributes['cols'] = $this->areacols;
@@ -365,6 +365,7 @@ EOS;
             $mform->setType($fieldname, PARAM_TEXT);
         } else {
             // $attributes['class'] and $attributes['id'] do not work: MDL_28194
+            $attributes['class'] = 'indent-'.$this->indent.' textarea_editor';
             $fieldname = $this->itemname.'_editor';
             $editoroptions = array('trusttext' => true, 'subdirs' => true, 'maxfiles' => EDITOR_UNLIMITED_FILES);
             $mform->addElement('mod_surveypro_editor', $fieldname, $elementlabel, $attributes, $editoroptions);

@@ -376,15 +376,16 @@ EOS;
             }
         }
 
+        $attributes = array();
         if ($this->style == SURVEYPROFIELD_RATE_USERADIO) {
             foreach ($options as $row => $option) {
-                $attributes = array('class' => 'indent-'.$this->indent);
+                $attributes['class'] = 'indent-'.$this->indent.' rate_radio';
                 $uniquename = $this->itemname.'_'.$row;
                 $elementgroup = array();
                 foreach ($rates as $col => $rate) {
                     $attributes['id'] = $idprefix.'_'.$row.'_'.$col;
                     $elementgroup[] = $mform->createElement('mod_surveypro_radio', $uniquename, '', $rate, $col, $attributes);
-                    unset($attributes['class']);
+                    $attributes['class'] = 'rate_radio';
                 }
                 $mform->addGroup($elementgroup, $uniquename.'_group', $option, ' ', false);
 
@@ -395,18 +396,19 @@ EOS;
             }
         }
 
-        $attributes = array('class' => 'indent-'.$this->indent);
         if ($this->style == SURVEYPROFIELD_RATE_USESELECT) {
-            foreach ($options as $k => $option) {
-                $uniquename = $this->itemname.'_'.$k;
-                $attributes['id'] = $idprefix.'_'.$k;
+            $attributes['class'] = 'indent-'.$this->indent.' rate_select';
+            foreach ($options as $row => $option) {
+                $uniquename = $this->itemname.'_'.$row;
+                $attributes['id'] = $idprefix.'_'.$row;
                 $mform->addElement('mod_surveypro_select', $uniquename, $option, $rates, $attributes);
-                $this->item_add_color_unifier($mform, $k, $optioncount);
+                $this->item_add_color_unifier($mform, $row, $optioncount);
             }
         }
 
         if (!$this->required) { // This is the last if it exists
             $attributes['id'] = $idprefix.'_noanswer';
+            $attributes['class'] = 'indent-'.$this->indent.' rate_check';
             $mform->addElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'mod_surveypro'), $attributes);
         }
 
@@ -436,15 +438,15 @@ EOS;
 
         switch ($this->defaultoption) {
             case SURVEYPRO_CUSTOMDEFAULT:
-                foreach ($options as $k => $option) {
-                    $uniquename = $this->itemname.'_'.$k;
-                    $defaultindex = array_search($defaultvalues[$k], $rates);
+                foreach ($options as $row => $option) {
+                    $uniquename = $this->itemname.'_'.$row;
+                    $defaultindex = array_search($defaultvalues[$row], $rates);
                     $mform->setDefault($uniquename, "$defaultindex");
                 }
                 break;
             case SURVEYPRO_INVITEDEFAULT:
-                foreach ($options as $k => $option) {
-                    $uniquename = $this->itemname.'_'.$k;
+                foreach ($options as $row => $option) {
+                    $uniquename = $this->itemname.'_'.$row;
                     $mform->setDefault($uniquename, SURVEYPRO_INVITEVALUE);
                 }
                 break;
@@ -508,11 +510,11 @@ EOS;
             $uniquerates = array_unique($rates);
             $duplicaterates = array_diff_assoc($rates, $uniquerates);
 
-            foreach ($duplicaterates as $k => $unused) {
+            foreach ($duplicaterates as $row => $unused) {
                 if ($this->style == SURVEYPROFIELD_RATE_USERADIO) {
-                    $elementname = $this->itemname.'_'.$k.'_group';
+                    $elementname = $this->itemname.'_'.$row.'_group';
                 } else {
-                    $elementname = $this->itemname.'_'.$k;
+                    $elementname = $this->itemname.'_'.$row;
                 }
                 $errors[$elementname] = get_string('uerr_duplicaterate', 'surveyprofield_rate');
             }
@@ -619,8 +621,8 @@ EOS;
                 $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
 
                 $rates = $this->item_get_content_array(SURVEYPRO_VALUES, 'rates');
-                foreach ($labels as $k => $label) {
-                    $index = $answers[$k];
+                foreach ($labels as $col => $label) {
+                    $index = $answers[$col];
                     $output[] = $label.SURVEYPROFIELD_RATE_VALUERATESEPARATOR.$rates[$index];
                 }
                 $return = implode(SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR, $output);
@@ -631,8 +633,8 @@ EOS;
                 $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
 
                 $rates = $this->item_get_content_array(SURVEYPRO_LABELS, 'rates');
-                foreach ($labels as $k => $label) {
-                    $index = $answers[$k];
+                foreach ($labels as $col => $label) {
+                    $index = $answers[$col];
                     $output[] = $label.SURVEYPROFIELD_RATE_VALUERATESEPARATOR.$rates[$index];
                 }
                 $return = implode(SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR, $output);
@@ -660,14 +662,14 @@ EOS;
 
         $options = surveypro_multilinetext_to_array($this->options);
         if ($this->style == SURVEYPROFIELD_RATE_USERADIO) {
-            foreach ($options as $k => $option) {
-                $elementnames[] = $this->itemname.'_'.$k.'_group';
+            foreach ($options as $row => $option) {
+                $elementnames[] = $this->itemname.'_'.$row.'_group';
             }
         }
 
         if ($this->style == SURVEYPROFIELD_RATE_USESELECT) {
-            foreach ($options as $k => $option) {
-                $elementnames[] = $this->itemname.'_'.$k;
+            foreach ($options as $row => $option) {
+                $elementnames[] = $this->itemname.'_'.$row;
             }
         }
 

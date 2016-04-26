@@ -381,7 +381,9 @@ EOS;
 
         $idprefix = 'id_surveypro_field_numeric_'.$this->sortindex;
 
-        $attributes = array('class' => 'indent-'.$this->indent, 'id' => $idprefix);
+        $attributes = array();
+        $attributes['id'] = $idprefix;
+        $attributes['class'] = 'indent-'.$this->indent.' numeric_text';
 
         // Cool for browsers supporting html 5.
         // $attributes['type'] = 'number';
@@ -405,9 +407,12 @@ EOS;
         } else {
             $elementgroup = array();
             $elementgroup[] = $mform->createElement('text', $this->itemname, '', $attributes);
-            $attributes = array('id' => $idprefix.'_ignoreme');
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'mod_surveypro'), $attributes);
             $mform->setType($this->itemname, PARAM_RAW);
+
+            $attributes['id'] = $idprefix.'_ignoreme';
+            $attributes['class'] = 'numeric_text';
+            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'mod_surveypro'), $attributes);
+
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_ignoreme', 'checked');
             $mform->setDefault($this->itemname.'_ignoreme', '1');

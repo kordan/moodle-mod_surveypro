@@ -471,6 +471,9 @@ EOS;
         $yeslabel = get_string('yes');
         $nolabel = get_string('no');
 
+        $attributes = array();
+        $attributes['class'] = 'indent-'.$this->indent.' boolean_radio';
+
         if ($this->style == SURVEYPROFIELD_BOOLEAN_USESELECT) {
             // Begin of: element values.
             $options = array();
@@ -499,28 +502,27 @@ EOS;
                     $mform->_required[] = $starplace;
                 }
             }
-            $mform->addElement('mod_surveypro_select', $this->itemname, $elementlabel, $options, array('class' => 'indent-'.$this->indent, 'id' => $idprefix));
+            $attributes['id'] = $idprefix;
+            $mform->addElement('mod_surveypro_select', $this->itemname, $elementlabel, $options, $attributes);
             // End of: mform element.
         } else { // SURVEYPROFIELD_BOOLEAN_USERADIOV or SURVEYPROFIELD_BOOLEAN_USERADIOH.
             $separator = ($this->style == SURVEYPROFIELD_BOOLEAN_USERADIOV) ? '<br />' : ' ';
             $elementgroup = array();
 
             // Begin of: mform element.
-            $attributes = array('class' => 'indent-'.$this->indent);
-
             if (!$searchform) {
                 if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
                     $attributes['id'] = $idprefix.'_invite';
                     $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('choosedots'), SURVEYPRO_INVITEVALUE, $attributes);
                     if ($this->style == SURVEYPROFIELD_BOOLEAN_USERADIOH) {
-                        unset($attributes['class']);
+                        $attributes['class'] = 'boolean_radio';
                     }
                 }
             } else {
                 $attributes['id'] = $idprefix.'_ignoreme';
                 $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('star', 'mod_surveypro'), SURVEYPRO_IGNOREMEVALUE, $attributes);
                 if ($this->style == SURVEYPROFIELD_BOOLEAN_USERADIOH) {
-                    unset($attributes['class']);
+                    $attributes['class'] = 'boolean_radio';
                 }
             }
 
@@ -528,7 +530,7 @@ EOS;
             $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', $yeslabel, '1', $attributes);
 
             if ($this->style == SURVEYPROFIELD_BOOLEAN_USERADIOH) {
-                unset($attributes['class']);
+                $attributes['class'] = 'boolean_radio';
             }
 
             $attributes['id'] = $idprefix.'_0';
