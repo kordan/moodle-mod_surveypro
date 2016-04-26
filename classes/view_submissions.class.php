@@ -579,7 +579,6 @@ class mod_surveypro_submissionmanager {
                 // Add row to the table.
                 $table->add_data($tablerow);
 
-
                 // Before looping, gather information for the "Submission overview".
                 if ($submission->status == SURVEYPRO_STATUSCLOSED) {
                     $countclosed++;
