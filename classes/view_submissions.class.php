@@ -1010,10 +1010,6 @@ class mod_surveypro_submissionmanager {
 
         $strstatusinprogress = get_string('statusinprogress', 'mod_surveypro');
         $strstatusclosed = get_string('statusclosed', 'mod_surveypro');
-        $struser = get_string('loweruser', 'mod_surveypro');
-        $strusers = get_string('lowerusers', 'mod_surveypro');
-        $strresponse = get_string('response', 'mod_surveypro');
-        $strresponses = get_string('responses', 'mod_surveypro');
 
         echo html_writer::start_tag('fieldset', array('class' => 'generalbox', 'style' => 'padding-bottom: 15px;'));
         echo html_writer::start_tag('legend', array('class' => 'coverinfolegend'));
@@ -1026,9 +1022,19 @@ class mod_surveypro_submissionmanager {
                 $a = new stdClass();
                 $a->submissions = $allsubmissions;
                 $a->usercount = $distinctusers;
-                $a->responses = ($a->submissions == 1) ? $strresponse : $strresponses;
-                $a->users = ($a->usercount == 1) ? $struser : $strusers;
-                $message = get_string('submissions_all', 'mod_surveypro', $a);
+                if ($allsubmissions == 1) {
+                    if ($distinctusers == 1) {
+                        $message = get_string('submissions_all_1_1', 'mod_surveypro', $a);
+                    } else {
+                        $message = get_string('submissions_all_1_many', 'mod_surveypro', $a);
+                    }
+                } else {
+                    if ($distinctusers == 1) {
+                        $message = get_string('submissions_all_many_1', 'mod_surveypro', $a);
+                    } else {
+                        $message = get_string('submissions_all_many_many', 'mod_surveypro', $a);
+                    }
+                }
                 echo $OUTPUT->container($message, 'mdl-left');
             }
 
@@ -1037,9 +1043,19 @@ class mod_surveypro_submissionmanager {
                 $a->submissions = $countinprogress;
                 $a->usercount = $inprogressusers;
                 $a->status = $strstatusinprogress;
-                $a->responses = ($a->submissions == 1) ? $strresponse : $strresponses;
-                $a->users = ($a->usercount == 1) ? $struser : $strusers;
-                $message = get_string('submissions_detail', 'mod_surveypro', $a);
+                if ($countinprogress == 1) {
+                    if ($inprogressusers == 1) {
+                        $message = get_string('submissions_detail_1_1', 'mod_surveypro', $a);
+                    } else {
+                        $message = get_string('submissions_detail_1_many', 'mod_surveypro', $a);
+                    }
+                } else {
+                    if ($inprogressusers == 1) {
+                        $message = get_string('submissions_detail_many_1', 'mod_surveypro', $a);
+                    } else {
+                        $message = get_string('submissions_detail_many_many', 'mod_surveypro', $a);
+                    }
+                }
                 echo $OUTPUT->container($message, 'mdl-left');
             }
 
@@ -1048,9 +1064,19 @@ class mod_surveypro_submissionmanager {
                 $a->submissions = $countclosed;
                 $a->usercount = $closedusers;
                 $a->status = $strstatusclosed;
-                $a->responses = ($a->submissions == 1) ? $strresponse : $strresponses;
-                $a->users = ($a->usercount == 1) ? $struser : $strusers;
-                $message = get_string('submissions_detail', 'mod_surveypro', $a);
+                if ($countclosed == 1) {
+                    if ($closedusers == 1) {
+                        $message = get_string('submissions_detail_1_1', 'mod_surveypro', $a);
+                    } else {
+                        $message = get_string('submissions_detail_1_many', 'mod_surveypro', $a);
+                    }
+                } else {
+                    if ($closedusers == 1) {
+                        $message = get_string('submissions_detail_many_1', 'mod_surveypro', $a);
+                    } else {
+                        $message = get_string('submissions_detail_many_many', 'mod_surveypro', $a);
+                    }
+                }
                 echo $OUTPUT->container($message, 'mdl-left');
             }
         }
