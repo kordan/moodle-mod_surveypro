@@ -152,8 +152,9 @@ class mod_surveypro_tabs {
             }
         }
 
-        $this->tabs[] = $row; // Array of tabs. Closes the tab row element definition
-                              // next tabs element is going to define the pages row
+        // Array of tabs. Closes the tab row element definition.
+        // Next tabs element is going to define the pages row.
+        $this->tabs[] = $row;
     }
 
     /**
@@ -169,13 +170,9 @@ class mod_surveypro_tabs {
 
         // echo '$tabpage = '.$tabpage.'<br />';
         $pageid = 'idpage'.$this->tabpage;
-        // $pageid is here because I leave the door open to override it during next switch
+        // $pageid is here because I leave the door open to override it during next switch.
 
-        // **********************************************
-        // PAGES
-        // **********************************************
-        // echo '$this->tabtab = '.$this->tabtab.'<br />';
-        // echo '$tabpage = '.$tabpage.'<br />';
+        // PAGES-
         switch ($this->tabtab) {
             case SURVEYPRO_TABLAYOUT:
                 $tablayoutname = get_string('tablayoutname', 'mod_surveypro');
@@ -265,7 +262,7 @@ class mod_surveypro_tabs {
                     // Edit.
                     $localparamurl = array('id' => $this->cm->id, 'view' => SURVEYPRO_EDITRESPONSE);
                     $elementurl = new moodle_url('/mod/surveypro/view_form.php', $localparamurl);
-                    $strlabel = get_string('tabsubmissionspage4', 'mod_surveypro'); // edit
+                    $strlabel = get_string('tabsubmissionspage4', 'mod_surveypro');
                     $row[] = new tabobject('idpage4', $elementurl->out(), $strlabel);
                 }
 
@@ -273,7 +270,7 @@ class mod_surveypro_tabs {
                     // Read only.
                     $localparamurl = array('id' => $this->cm->id, 'view' => SURVEYPRO_READONLYRESPONSE);
                     $elementurl = new moodle_url('/mod/surveypro/view_form.php', $localparamurl);
-                    $strlabel = get_string('tabsubmissionspage5', 'mod_surveypro'); // read only
+                    $strlabel = get_string('tabsubmissionspage5', 'mod_surveypro');
                     $row[] = new tabobject('idpage5', $elementurl->out(), $strlabel);
                 }
 
@@ -391,18 +388,6 @@ class mod_surveypro_tabs {
             default:
                 print_error('incorrectaccessdetected', 'mod_surveypro');
         }
-
-        // echo '$tabs:';
-        // var_dump($tabs);
-        //
-        // echo '$pageid:';
-        // var_dump($pageid);
-        //
-        // echo '$inactive:';
-        // var_dump($inactive);
-        //
-        // echo '$activetwo:';
-        // var_dump($activetwo);
 
         print_tabs($this->tabs, $pageid, $inactive, $activetwo);
     }

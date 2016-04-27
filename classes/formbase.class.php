@@ -176,7 +176,7 @@ class mod_surveypro_formbase {
         }
     }
 
-    // MARK set
+    // MARK set.
 
     /**
      * Set submissionid.
@@ -208,7 +208,7 @@ class mod_surveypro_formbase {
         $this->formpage = ($formpage == 0) ? 1 : $formpage;
     }
 
-    // MARK get
+    // MARK get.
 
     /**
      * Get submissionid.

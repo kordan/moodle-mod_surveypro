@@ -316,12 +316,11 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
      * @return int unixtime
      */
     public function item_datetime_to_unix_time($year, $month, $day, $hour, $minute) {
-        return (gmmktime($hour, $minute, 0, $month, $day, $year)); // This is GMT
+        return (gmmktime($hour, $minute, 0, $month, $day, $year)); // This is GMT.
     }
 
     /**
-     * Item_force_coherence
-     * verify the validity of contents of the record
+     * Verify the validity of contents of the record
      * for instance: datetime not greater than maximum datetime
      *
      * @param stdClass $record
@@ -402,7 +401,7 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
         // Nothing to do: no need to overwrite variables.
 
         // 3. Set values corresponding to checkboxes.
-        // Take care: 'required', 'hideinstructions' were already considered in item_get_common_settings
+        // Take care: 'required', 'hideinstructions' were already considered in item_get_common_settings.
         // Nothing to do: no checkboxes in this plugin item form.
 
         // 4. Other.
@@ -418,7 +417,7 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
     }
 
     /**
-     * Item_get_downloadformats.
+     * Get the content of the downloadformats menu of the item setup form.
      *
      * @return void
      */
@@ -431,26 +430,25 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
             $option[$strname] = userdate($timenow, get_string($strname, 'surveyprofield_datetime')); // Monday 17 June, 05.15
         }
         $option['unixtime'] = get_string('unixtime', 'mod_surveypro');
-        // Friday, 21 June 2013, 08:14
-        // Friday, 21 June 2013, 8:14 am
-        // Fri, 21 Jun 2013, 8:14 am
-        // Fri, 21 Jun 2013, 08:14
-        // 21 June 2013, 08:14
-        // 21 June 2013, 8:14 am
-        // 21 Jun, 08:14
-        // 21 Jun, 8:14 am
-        // 21/06/13, 08:14
-        // 21/06/13, 8:14 am
-        // 21/06/2013, 08:14
-        // 21/06/2013, 8:14 am
+        // Friday, 21 June 2013, 08:14.
+        // Friday, 21 June 2013, 8:14 am.
+        // Fri, 21 Jun 2013, 8:14 am.
+        // Fri, 21 Jun 2013, 08:14.
+        // 21 June 2013, 08:14.
+        // 21 June 2013, 8:14 am.
+        // 21 Jun, 08:14.
+        // 21 Jun, 8:14 am.
+        // 21/06/13, 08:14.
+        // 21/06/13, 8:14 am.
+        // 21/06/2013, 08:14.
+        // 21/06/2013, 8:14 am.
         // Unix time.
 
         return $option;
     }
 
     /**
-     * Item_get_multilang_fields
-     * make the list of multilang plugin fields
+     * Make the list of the fields using multilang
      *
      * @return array of felds
      */
@@ -461,9 +459,9 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
     }
 
     /**
-     * Item_get_friendlyformat.
+     * Get the format recognized (without any really good reason) as friendly.
      *
-     * @return void
+     * @return the friendly format
      */
     public function item_get_friendlyformat() {
         return 'strftime01';
@@ -520,7 +518,7 @@ EOS;
         return $schema;
     }
 
-    // MARK userform
+    // MARK userform.
 
     /**
      * Define the mform element for the outform and the searchform.
@@ -533,7 +531,7 @@ EOS;
     public function userform_mform_element($mform, $searchform, $readonly) {
         global $DB, $USER;
 
-        $labelsep = get_string('labelsep', 'langconfig'); // ': '
+        $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
@@ -571,7 +569,7 @@ EOS;
         for ($i = 0; $i <= 59; $i += $this->step) {
             $minutes[$i] = sprintf("%02d", $i);
         }
-        // End of: element values
+        // End of: element values.
 
         // Begin of: mform element.
         $elementgroup = array();
@@ -587,9 +585,9 @@ EOS;
 
             if (!$searchform) {
                 // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
-                // -> I do not want JS form validation if the page is submitted through the "previous" button.
-                // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
-                // Simply add a dummy star to the item and the footer note about mandatory fields.
+                // I do not want JS form validation if the page is submitted through the "previous" button.
+                // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
+                // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
                 $starplace = ($this->position != SURVEYPRO_POSITIONLEFT) ? $this->itemname.'_extrarow' : $this->itemname.'_group';
                 $mform->_required[] = $starplace;
             }
@@ -652,7 +650,7 @@ EOS;
                 $mform->setDefault($this->itemname.'_noanswer', '0');
             }
         }
-        // End of: default section
+        // End of: default section.
     }
 
     /**
@@ -706,7 +704,7 @@ EOS;
             }
             return;
         }
-        // End of: verify the content of each drop down menu
+        // End of: verify the content of each drop down menu.
 
         if ($searchform) {
             // Stop here your investigation. I don't need further validations.
@@ -814,7 +812,7 @@ EOS;
     public function userform_set_prefill($fromdb) {
         $prefill = array();
 
-        if (!$fromdb) { // $fromdb may be boolean false for not existing data
+        if (!$fromdb) { // $fromdb may be boolean false for not existing data.
             return $prefill;
         }
 

@@ -185,7 +185,6 @@ class mod_surveypro_itemlist {
         $tableheaders[] = get_string('actions');
         $table->define_headers($tableheaders);
 
-        // $table->collapsible(true);
         $table->sortable(true, 'sortindex'); // Sorted by sortindex by default.
         $table->no_sorting('content');
         $table->no_sorting('variable');
@@ -201,12 +200,6 @@ class mod_surveypro_itemlist {
         $table->column_class('content', 'content');
         $table->column_class('customnumber', 'customnumber');
         $table->column_class('actions', 'actions');
-
-        // $table->initialbars(true);
-
-        // Hide the same info whether in two consecutive rows.
-        // $table->column_suppress('picture');
-        // $table->column_suppress('fullname');
 
         // General properties for the whole table.
         // $table->set_attribute('cellpadding', '5');
@@ -397,9 +390,10 @@ class mod_surveypro_itemlist {
                 }
             } else {
                 $message = get_string('hidden', 'mod_surveypro');
+                // First icon: reserved vs standard (generally available).
                 $icons = $OUTPUT->pix_icon('absent', $message, 'surveypro', array('title' => $message, 'class' => 'smallicon'));
 
-                // $message = get_string('hidden', 'mod_surveypro');
+                // Second icon: insearchform vs not insearchform.
                 $icons .= $OUTPUT->pix_icon('absent', $message, 'surveypro', array('title' => $message, 'class' => 'smallicon'));
             }
 
@@ -534,8 +528,8 @@ class mod_surveypro_itemlist {
             $table->add_data($tablerow, $rowclass);
 
             if ($this->view == SURVEYPRO_CHANGEORDERASK) {
-                // It was asked to move the item with: $this->itemid and $this->parentid
-                if ($this->parentid) { // <-- this is the parentid of the item that I am going to move
+                // It was asked to move the item with: $this->itemid and $this->parentid.
+                if ($this->parentid) { // This is the parentid of the item that I am going to move.
                     // If a parentid is foreseen.
                     // Draw the moveherebox only if the current (already displayed) item has: $item->itemid == $this->parentid.
                     // Once you start to draw the moveherebox, you will never stop.
@@ -610,7 +604,6 @@ class mod_surveypro_itemlist {
         $tableheaders[] = get_string('actions');
         $table->define_headers($tableheaders);
 
-        // $table->collapsible(true);
         $table->sortable(true, 'sortindex', 'ASC'); // Sorted by sortindex by default.
         $table->no_sorting('content');
         $table->no_sorting('parentitem');
@@ -627,17 +620,9 @@ class mod_surveypro_itemlist {
         $table->column_class('status', 'status');
         $table->column_class('actions', 'actions');
 
-        // $table->initialbars(true);
-
-        // Hide the same info whether in two consecutive rows.
-        // $table->column_suppress('picture');
-        // $table->column_suppress('fullname');
-
         // General properties for the whole table.
-        // $table->set_attribute('cellpadding', '5');
         $table->set_attribute('id', 'validaterelations');
         $table->set_attribute('class', 'generaltable');
-        // $table->set_attribute('width', '90%');
         $table->setup();
 
         $edittitle = get_string('edit');
@@ -858,8 +843,7 @@ class mod_surveypro_itemlist {
             $DB->set_field('surveypro_item', 'sortindex', $replaceitem, array('id' => $itemid));
         }
 
-        // You changed item order
-        // so, do not forget to reset items per page.
+        // You changed item order. Don't forget to reset items per page.
         $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
         $utilityman->reset_items_pages();
     }
@@ -934,7 +918,7 @@ class mod_surveypro_itemlist {
     public function item_identitycard() {
         global $OUTPUT;
 
-        $labelsep = get_string('labelsep', 'langconfig'); // ': '
+        $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '..
         $plugintitle = get_string('userfriendlypluginname', 'surveypro'.$this->type.'_'.$this->plugin);
 
         $message = $OUTPUT->pix_icon('icon', $plugintitle, 'surveypro'.$this->type.'_'.$this->plugin,
@@ -955,7 +939,7 @@ class mod_surveypro_itemlist {
         }
     }
 
-    // MARK item action execution
+    // MARK item action execution.
 
     /**
      * Perform the actions required through icon click into items table.
@@ -1103,7 +1087,7 @@ class mod_surveypro_itemlist {
         die();
     }
 
-    // MARK item hide
+    // MARK item hide.
 
     /**
      * Hide an item and (maybe) all its descendants.
@@ -1180,7 +1164,7 @@ class mod_surveypro_itemlist {
         }
     }
 
-    // MARK item show
+    // MARK item show.
 
     /**
      * Show an item and (maybe) all its ascendants.
@@ -1249,7 +1233,7 @@ class mod_surveypro_itemlist {
         }
     }
 
-    // MARK item delete
+    // MARK item delete.
 
     /**
      * Delete an item and (maybe) all its descendants.
@@ -1357,7 +1341,7 @@ class mod_surveypro_itemlist {
 
     }
 
-    // MARK drop multilang
+    // MARK drop multilang.
 
     /**
      * Drop multilang from all the item.
@@ -1457,7 +1441,7 @@ class mod_surveypro_itemlist {
         }
     }
 
-    // MARK item make required
+    // MARK item make required.
 
     /**
      * Set the item as required.
@@ -1475,7 +1459,7 @@ class mod_surveypro_itemlist {
         $DB->set_field('surveypro'.$this->type.'_'.$this->plugin, 'required', $value, array('itemid' => $this->itemid));
     }
 
-    // MARK item make reserved
+    // MARK item make reserved.
 
     /**
      * Set the item as reserved.
@@ -1559,7 +1543,7 @@ class mod_surveypro_itemlist {
         }
     }
 
-    // MARK item make standard
+    // MARK item make standard.
 
     /**
      * Set the item as standard (free).
@@ -1630,7 +1614,7 @@ class mod_surveypro_itemlist {
         }
     }
 
-    // MARK all hide
+    // MARK all hide.
 
     /**
      * Hide all items.
@@ -1676,7 +1660,7 @@ class mod_surveypro_itemlist {
         }
     }
 
-    // MARK all show
+    // MARK all show.
 
     /**
      * Show all items.
@@ -1723,7 +1707,7 @@ class mod_surveypro_itemlist {
         }
     }
 
-    // MARK all delete
+    // MARK all delete.
 
     /**
      * Delete all items.
@@ -1774,7 +1758,7 @@ class mod_surveypro_itemlist {
         }
     }
 
-    // MARK visible delete
+    // MARK visible delete.
 
     /**
      * Delete visible items.
@@ -1828,7 +1812,7 @@ class mod_surveypro_itemlist {
         }
     }
 
-    // MARK hidden delete
+    // MARK hidden delete.
 
     /**
      * Delete hidden items.
@@ -1882,7 +1866,7 @@ class mod_surveypro_itemlist {
         }
     }
 
-    // MARK get
+    // MARK get.
 
     /**
      * Get item id.
@@ -1929,7 +1913,7 @@ class mod_surveypro_itemlist {
         return $this->itemcount;
     }
 
-    // MARK set
+    // MARK set.
 
     /**
      * Set typeplugin.

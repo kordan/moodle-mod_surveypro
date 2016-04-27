@@ -62,7 +62,8 @@ if (empty($force)) {
     $submissionman->noitem_redirect();
 }
 
-$submissionman->actions_execution(); // Perform action before PAGE. (Items in admin block depends on this).
+// Perform action before PAGE. (The content of the admin block depends on the output of these actions).
+$submissionman->actions_execution();
 
 // Output starts here.
 $PAGE->set_url('/mod/surveypro/view.php', array('s' => $surveypro->id));
@@ -79,7 +80,7 @@ $submissionman->actions_feedback(); // Action feedback after PAGE.
 
 $submissionman->show_action_buttons();
 $submissionman->display_submissions_table();
-$submissionman->trigger_event(); // Event: all_submissions_viewed
+$submissionman->trigger_event(); // Event: all_submissions_viewed.
 
 // Finish the page.
 echo $OUTPUT->footer();

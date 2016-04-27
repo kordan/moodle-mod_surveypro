@@ -250,9 +250,9 @@ class mod_surveypro_utility {
 
         // Take care: in this method $whereparams is a constrain for the item table
         // so, you can not pass it as is to the delete_submissions method because there
-        // $whereparams is supposed to hold constrains for the submissions table
+        // $whereparams is supposed to hold constrains for the submissions table.
 
-        // go to delete corresponding submissions
+        // Delete corresponding submissions.
         if (count($whereparams) == 1) { // Delete all the items of this surveypro.
             $this->delete_submissions($whereparams, false);
         }
@@ -266,7 +266,7 @@ class mod_surveypro_utility {
         }
 
         // Update completion state.
-        // Item deletion lead to COMPLETION_COMPLETE
+        // Item deletion lead to COMPLETION_COMPLETE.
         // All the students with an "in progress" submission that was missing ONLY the just deleted item,
         // maybe now reached the activity completion.
         $sql = 'SELECT DISTINCT s.userid
@@ -428,7 +428,7 @@ class mod_surveypro_utility {
             }
             $answers = $DB->get_records_sql($sql, $whereparams);
 
-            // delete answers
+            // Delete answers.
             $sql = 'DELETE FROM {surveypro_answer}
                     WHERE content = '.$DB->sql_compare_text($whereparams['content']);
             unset($whereparams['content']);
@@ -466,7 +466,6 @@ class mod_surveypro_utility {
      */
     public function duplicate_submissions($whereparams=null, $updatecompletion=true) {
         global $DB, $COURSE;
-        // global $USER;
 
         if (empty($whereparams)) {
             $whereparams = array();
@@ -599,7 +598,7 @@ class mod_surveypro_utility {
         }
 
         $whereparams['hidden'] = $visibility;
-        // If I ask for visibility == 1, I want hidden = 0
+        // If I ask for visibility == 1, I want hidden = 0.
         $DB->set_field('surveypro_item', 'hidden', 1 - $visibility, $whereparams);
     }
 
@@ -716,13 +715,13 @@ class mod_surveypro_utility {
         $whereparams = array('itemid' => $itemid, 'content' => SURVEYPRO_NOANSWERVALUE);
         $submissions = $this->get_submissionsid_from_answers($whereparams);
         foreach ($submissions as $submission) {
-            // Change to SURVEYPRO_STATUSINPROGRESS the status of submissions where was answered SURVEYPRO_NOANSWERVALUE
+            // Change to SURVEYPRO_STATUSINPROGRESS the status of submissions where was answered SURVEYPRO_NOANSWERVALUE.
             $whereparams = array();
             $whereparams['surveyproid'] = $this->surveypro->id;
             $whereparams['id'] = $submission->id;
             $this->submissions_set_status($whereparams, SURVEYPRO_STATUSINPROGRESS);
 
-            // Delete answers where content == SURVEYPRO_NOANSWERVALUE
+            // Delete answers where content == SURVEYPRO_NOANSWERVALUE.
             $whereparams = array();
             $whereparams['submissionid'] = $submission->id;
             $whereparams['content'] = SURVEYPRO_NOANSWERVALUE;

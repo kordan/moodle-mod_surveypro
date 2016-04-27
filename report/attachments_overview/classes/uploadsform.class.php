@@ -73,7 +73,7 @@ class mod_surveypro_report_uploadformmanager {
         $this->surveypro = $surveypro;
     }
 
-    // MARK set
+    // MARK set.
 
     /**
      * Set user id.

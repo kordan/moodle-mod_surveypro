@@ -121,7 +121,7 @@ class mod_surveypro_submissionmanager {
 
     }
 
-    // MARK set
+    // MARK set.
 
     /**
      * Set submission id.
@@ -173,7 +173,7 @@ class mod_surveypro_submissionmanager {
         $this->searchquery = $searchquery;
     }
 
-    // MARK get
+    // MARK get.
 
     /**
      * Get submissions sql.
@@ -299,10 +299,6 @@ class mod_surveypro_submissionmanager {
             $sql .= ' ORDER BY s.timecreated';
         }
 
-        // echo '$sql = '.$sql.'<br />';
-        // echo '$whereparams:';
-        // var_dump($whereparams);
-
         return array($sql, $whereparams);
     }
 
@@ -366,12 +362,9 @@ class mod_surveypro_submissionmanager {
         $tableheaders[] = get_string('actions');
         $table->define_headers($tableheaders);
 
-        // $table->collapsible(true);
         $table->sortable(true, 'sortindex', 'ASC'); // Sorted by sortindex by default.
         $table->no_sorting('actions');
 
-        // $table->column_style('actions', 'width', '60px');
-        // $table->column_style('actions', 'align', 'center');
         $table->column_class('picture', 'picture');
         $table->column_class('fullname', 'fullname');
         $table->column_class('status', 'status');
@@ -388,12 +381,10 @@ class mod_surveypro_submissionmanager {
         }
 
         // General properties for the whole table.
-        // $table->set_attribute('name', 'submissions');
         $table->set_attribute('cellpadding', 5);
         $table->set_attribute('id', 'submissions');
         $table->set_attribute('class', 'generaltable');
         $table->set_attribute('align', 'center');
-        // $table->set_attribute('width', '90%');
         $table->setup();
 
         $status = array();
@@ -503,12 +494,12 @@ class mod_surveypro_submissionmanager {
                 if ($displayediticon) {
                     $paramurl['view'] = SURVEYPRO_EDITRESPONSE;
                     if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
-                        // Here title and alt are ALWAYS $nonhistoryeditstr
+                        // Here title and alt are ALWAYS $nonhistoryeditstr.
                         $icons = $OUTPUT->action_icon(new moodle_url('/mod/surveypro/view_form.php', $paramurl),
                             new pix_icon('t/edit', $nonhistoryeditstr, 'moodle', array('title' => $nonhistoryeditstr)),
                             null, array('id' => 'edit_submission_'.$submissionsuffix, 'title' => $nonhistoryeditstr));
                     } else {
-                        // Here title and alt depend from $this->surveypro->history
+                        // Here title and alt depend from $this->surveypro->history.
                         $icons = $OUTPUT->action_icon(new moodle_url('/mod/surveypro/view_form.php', $paramurl),
                             new pix_icon('t/edit', $attributestr, 'moodle', array('title' => $attributestr)),
                             null, array('id' => $linkidprefix.$submissionsuffix, 'title' => $attributestr));
@@ -530,7 +521,7 @@ class mod_surveypro_submissionmanager {
                         $displayduplicateicon = $canduplicateotherssubmissions;
                     }
                 }
-                if ($displayduplicateicon) { // I am the owner or a groupmate
+                if ($displayduplicateicon) { // I am the owner or a groupmate.
                     $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
                     $cansubmitmore = $utilityman->can_submit_more($submission->userid); // The copy will be assigned to the same owner.
                     if ($cansubmitmore) {
@@ -608,7 +599,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * Show_action_buttons.
+     * Display buttons in the "view submissions" page according to capabilities and already sent submissions.
      *
      * @return void
      */
@@ -693,14 +684,14 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * Noitem_redirect.
+     * Redirect to layout_manage.php?s=xxx the user asking to go to /view.php?id=yyy if the survey has no items.
      *
      * I HATE software thinking for me
      * Because of this I ALWAYS want to go where I ask, even if the place I ask is not supposed to be accessed by me
      * In this particular case, I want a message explaining WHY the place I asked is not supposed to be accessed by me
-     * I NEVER want to be silently redirected
+     * I NEVER want to be silently redirected.
      *
-     * By default accessing a surveypro from a course (/view.php?id=xxx), the "predefined" landing page should be:
+     * By default accessing a surveypro from a course (/view.php?id=yyy), the "predefined" landing page should be:
      *     -> for admin/editing teacher:
      *         -> if no items were created: layout_manage.php
      *         -> if items were already created: view.php with the submission list
@@ -715,10 +706,11 @@ class mod_surveypro_submissionmanager {
      *
      * The first request is a false problem, because the admin/editing teacher is always allowed to go there
      * The second request is allowed by the introduction of the parameter &force=1 in the URL of the TAB
-     *     When the admin/editing teacher asks for view.php by clicking the corresponding TAB he asks for view.php?id=xxx&force=1
-     *     and the software decision is omitted
+     *     When the admin/editing teacher asks for view.php by clicking the corresponding TAB he asks for view.php?id=yyy&force=1
+     *         and the software decision is omitted
      *     As opposite:
-     *     When the admin/editing teacher arrives from a course, he is sent to land in view.php?id=xxx and the decision is taken
+     *     When the admin/editing teacher arrives from a course (so he doesn't ask for a specific page), he is sent to land in view.php?id=yyy
+     *         and the decision is taken here
      *
      * @return void
      */
@@ -727,7 +719,6 @@ class mod_surveypro_submissionmanager {
             $paramurl = array('s' => $this->surveypro->id);
             $redirecturl = new moodle_url('/mod/surveypro/layout_manage.php', $paramurl);
             redirect($redirecturl);
-            die();
         }
     }
 
@@ -744,7 +735,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * Manage_actions.
+     * Execute actions requested using icons in the submission table.
      *
      * @return void
      */
@@ -757,7 +748,7 @@ class mod_surveypro_submissionmanager {
                     $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
                     $utilityman->duplicate_submissions(array('id' => $this->submissionid));
 
-                    // redirect
+                    // Redirect.
                     $paramurl = array();
                     $paramurl['id'] = $this->cm->id;
                     $paramurl['act'] = SURVEYPRO_DUPLICATERESPONSE;
@@ -772,7 +763,7 @@ class mod_surveypro_submissionmanager {
                     $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
                     $utilityman->delete_submissions(array('id' => $this->submissionid));
 
-                    // redirect
+                    // Redirect.
                     $paramurl = array();
                     $paramurl['id'] = $this->cm->id;
                     $paramurl['act'] = SURVEYPRO_DELETERESPONSE;
@@ -787,7 +778,7 @@ class mod_surveypro_submissionmanager {
                     $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
                     $utilityman->delete_submissions(array('surveyproid' => $this->surveypro->id));
 
-                    // redirect
+                    // Redirect.
                     $paramurl = array();
                     $paramurl['id'] = $this->cm->id;
                     $paramurl['act'] = SURVEYPRO_DELETEALLRESPONSES;
@@ -804,7 +795,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * Manage_actions.
+     * Fork the user interaction on the basis of the action required.
      *
      * @return void
      */
@@ -828,7 +819,11 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * One_submission_duplicate_feedback.
+     * User interaction for single submission duplication.
+     *
+     * If the action is missing confirmation: ask.
+     * If the action was not confirmed: notify it.
+     * If the action was executed: notify it.
      *
      * @return void
      */
@@ -879,8 +874,7 @@ class mod_surveypro_submissionmanager {
                 echo $OUTPUT->notification(get_string('responseduplicated', 'mod_surveypro'), 'notifysuccess');
                 break;
             case SURVEYPRO_CONFIRMED_NO:
-                $message = get_string('usercanceled', 'mod_surveypro');
-                echo $OUTPUT->notification($message, 'notifymessage');
+                echo $OUTPUT->notification(get_string('usercanceled', 'mod_surveypro'), 'notifymessage');
                 break;
             default:
                 $message = 'Unexpected $this->confirm = '.$this->confirm;
@@ -889,7 +883,11 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * One_submission_deletion_feedback.
+     * User interaction for single submission deletion.
+     *
+     * If the action is missing confirmation: ask.
+     * If the action was not confirmed: notify it.
+     * If the action was executed: notify it.
      *
      * @return void
      */
@@ -940,8 +938,7 @@ class mod_surveypro_submissionmanager {
                 echo $OUTPUT->notification(get_string('responsedeleted', 'mod_surveypro'), 'notifysuccess');
                 break;
             case SURVEYPRO_CONFIRMED_NO:
-                $message = get_string('usercanceled', 'mod_surveypro');
-                echo $OUTPUT->notification($message, 'notifymessage');
+                echo $OUTPUT->notification(get_string('usercanceled', 'mod_surveypro'), 'notifymessage');
                 break;
             default:
                 $message = 'Unexpected $this->confirm = '.$this->confirm;
@@ -950,7 +947,11 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * All_submission_deletion_feedback.
+     * User interaction for all submissions deletion.
+     *
+     * If the action is missing confirmation: ask.
+     * If the action was not confirmed: notify it.
+     * If the action was executed: notify it.
      *
      * @return void
      */
@@ -979,8 +980,7 @@ class mod_surveypro_submissionmanager {
                 echo $OUTPUT->notification(get_string('allsubmissionsdeleted', 'mod_surveypro'), 'notifymessage');
                 break;
             case SURVEYPRO_CONFIRMED_NO:
-                $message = get_string('usercanceled', 'mod_surveypro');
-                echo $OUTPUT->notification($message, 'notifymessage');
+                echo $OUTPUT->notification(get_string('usercanceled', 'mod_surveypro'), 'notifymessage');
                 break;
             default:
                 $message = 'Unexpected $this->confirm = '.$this->confirm;
@@ -1193,7 +1193,7 @@ class mod_surveypro_submissionmanager {
     }
 
     /**
-     * Submission_to_pdf.
+     * Make one submission available in PDF.
      *
      * @return void
      */
@@ -1274,10 +1274,6 @@ class mod_surveypro_submissionmanager {
         $thirdcolwidth = number_format($col3nunit * 100 / $unitsum, 2);
         $lasttwocolumns = $secondcolwidth + $thirdcolwidth;
 
-        // 0: to the right (or left for RTL language)
-        // 1: to the beginning of the next line
-        // 2: below
-
         $htmllabeltemplate = '<table style="width:100%;"><tr><td style="width:'.$firstcolwidth.'%;text-align:left;">@@col1@@</td>';
         $htmllabeltemplate .= '<td style="width:'.$lasttwocolumns.'%;text-align:left;">@@col2@@</td></tr></table>';
 
@@ -1288,7 +1284,7 @@ class mod_surveypro_submissionmanager {
         $border = array('T' => array('width' => 0.2, 'cap' => 'butt', 'join' => 'miter', 'dash' => 1, 'color' => array(179, 219, 181)));
         foreach ($itemseeds as $itemseed) {
             $item = surveypro_get_item($this->cm, $this->surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);
-            // ($itemseed->plugin == 'pagebreak') is not selected by surveypro_fetch_items_seeds
+            // Pagebreaks are not selected by surveypro_fetch_items_seeds.
             $template = $item::item_get_pdf_template();
             if ($template == SURVEYPRO_2COLUMNSTEMPLATE) {
                 // First column.
@@ -1298,9 +1294,9 @@ class mod_surveypro_submissionmanager {
                 $html = str_replace('@@col1@@', $content, $html);
 
                 // Second column: colspan 2.
-                // $content = trim(strip_tags($item->get_content()), " \t\n\r"); <-- I want images in the PDF
+                // I can't use $content = trim(strip_tags($item->get_content()), " \t\n\r"); because I want images in the PDF.
                 $content = $item->get_content();
-                // Why does $content here is already html encoded so that I do not have to apply htmlspecialchars?.
+                // Why does $content here is already html encoded so that I do not have to apply htmlspecialchars?
                 // $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
                 $html = str_replace('@@col2@@', $content, $html);
                 $pdf->writeHTMLCell(0, 0, '', '', $html, $border, 1, 0, true, '', true); // This is like span 2.
@@ -1314,9 +1310,9 @@ class mod_surveypro_submissionmanager {
                 $html = str_replace('@@col1@@', $content, $html);
 
                 // Second column.
-                // $content = trim(strip_tags($item->get_content()), " \t\n\r"); <-- I want images in the PDF
+                // I can't use $content = trim(strip_tags($item->get_content()), " \t\n\r"); because I want images in the PDF.
                 $content = $item->get_content();
-                // Why does $content here is already html encoded so that I do not have to apply htmlspecialchars?.
+                // Why does $content here is already html encoded so that I do not have to apply htmlspecialchars?
                 // Because it comes from an editor?
                 // $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
                 $html = str_replace('@@col2@@', $content, $html);

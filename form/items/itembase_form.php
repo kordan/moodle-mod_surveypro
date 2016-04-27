@@ -49,7 +49,8 @@ class mod_surveypro_itembaseform extends moodleform {
         // Get _customdata.
         $item = $this->_customdata->item;
         $surveypro = $this->_customdata->surveypro;
-        $cm = $this->_customdata->item->get_cm();
+
+        $cm = $item->get_cm();
 
         // Itembase: itemid.
         $fieldname = 'itemid';
@@ -296,7 +297,8 @@ class mod_surveypro_itembaseform extends moodleform {
         // Get _customdata.
         $item = $this->_customdata->item;
         $surveypro = $this->_customdata->surveypro;
-        $cm = $this->_customdata->item->get_cm();
+
+        $cm = $item->get_cm();
 
         $utilityman = new mod_surveypro_utility($cm, $surveypro);
         $hassubmissions = $utilityman->has_submissions();
@@ -328,9 +330,8 @@ class mod_surveypro_itembaseform extends moodleform {
      */
     public function validation($data, $files) {
         // Get _customdata.
-        // $item = $this->_customdata->item;
-        // $surveypro = $this->_customdata->surveypro;
-        // $cm = $this->_customdata->item->get_cm();
+        // Useless: $item = $this->_customdata->item;.
+        // Useless: $surveypro = $this->_customdata->surveypro;.
 
         $errors = array();
 

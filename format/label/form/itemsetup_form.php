@@ -17,7 +17,7 @@
 /**
  * Surveypro pluginform class.
  *
- * @package   surveyproformat_pagebreak
+ * @package   surveyproformat_label
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,16 +26,16 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/items/itembase_form.php');
-require_once($CFG->dirroot.'/mod/surveypro/format/pagebreak/lib.php');
+require_once($CFG->dirroot.'/mod/surveypro/format/label/lib.php');
 
 /**
  * The class representing the plugin form
  *
- * @package   surveyproformat_pagebreak
+ * @package   surveyproformat_label
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
+class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
     /**
      * Definition.
@@ -46,11 +46,28 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // I close with the common section of the form
         parent::definition();
 
-        // $mform = $this->_form;
+        $mform = $this->_form;
 
         // Get _customdata.
-        // $item = $this->_customdata->item;
-        // $surveypro = $this->_customdata->surveypro;
+        $item = $this->_customdata->item;
+        // Useless: $surveypro = $this->_customdata->surveypro;.
+
+        // Here I open a new fieldset.
+        $fieldname = 'specializations';
+        $typename = get_string('pluginname', 'surveyproformat_'.$item->get_plugin());
+        $mform->addElement('header', $fieldname, get_string($fieldname, 'mod_surveypro', $typename));
+
+        // Item: fullwidth.
+        $fieldname = 'fullwidth';
+        $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveyproformat_label'));
+        $mform->addHelpButton($fieldname, $fieldname, 'surveyproformat_label');
+        $mform->setType($fieldname, PARAM_INT);
+
+        // Item: leftlabel.
+        $fieldname = 'leftlabel';
+        $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyproformat_label'));
+        $mform->addHelpButton($fieldname, $fieldname, 'surveyproformat_label');
+        $mform->setType($fieldname, PARAM_TEXT);
 
         $this->add_item_buttons();
     }

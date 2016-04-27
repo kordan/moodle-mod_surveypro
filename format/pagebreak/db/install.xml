@@ -22,8 +22,8 @@
         <!-- <FIELD NAME="indent"           TYPE="int"  LENGTH="4"      NOTNULL="false"                             SEQUENCE="false"/> -->
         <!-- end of fields belonging to itembase_form.php -->
 
-        <!-- begin of fields belonging to plugin_form.php of this specific plugin -->
-        <!-- end of fields belonging to plugin_form.php of this specific plugin -->
+        <!-- begin of fields belonging to itemsetup_form.php of this specific plugin -->
+        <!-- end of fields belonging to itemsetup_form.php of this specific plugin -->
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

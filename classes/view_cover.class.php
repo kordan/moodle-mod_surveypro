@@ -73,7 +73,7 @@ class mod_surveypro_covermanager {
 
         $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
 
-        $labelsep = get_string('labelsep', 'langconfig'); // ': '
+        $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '..
         $cansubmit = has_capability('mod/surveypro:submit', $this->context, null, true);
         $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
         $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context, null, true);

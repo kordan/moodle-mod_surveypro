@@ -17,7 +17,7 @@
 /**
  * Surveypro pluginform class.
  *
- * @package   surveyproformat_label
+ * @package   surveyproformat_fieldset
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,16 +26,16 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/items/itembase_form.php');
-require_once($CFG->dirroot.'/mod/surveypro/format/label/lib.php');
+require_once($CFG->dirroot.'/mod/surveypro/format/fieldset/lib.php');
 
 /**
  * The class representing the plugin form
  *
- * @package   surveyproformat_label
+ * @package   surveyproformat_fieldset
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
+class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
     /**
      * Definition.
@@ -46,29 +46,31 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // I close with the common section of the form
         parent::definition();
 
-        $mform = $this->_form;
+        // $mform = $this->_form;
 
         // Get _customdata.
-        $item = $this->_customdata->item;
-        // $surveypro = $this->_customdata->surveypro;
-
-        // Here I open a new fieldset.
-        $fieldname = 'specializations';
-        $typename = get_string('pluginname', 'surveyproformat_'.$item->get_plugin());
-        $mform->addElement('header', $fieldname, get_string($fieldname, 'mod_surveypro', $typename));
-
-        // Item: fullwidth.
-        $fieldname = 'fullwidth';
-        $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveyproformat_label'));
-        $mform->addHelpButton($fieldname, $fieldname, 'surveyproformat_label');
-        $mform->setType($fieldname, PARAM_INT);
-
-        // Item: leftlabel.
-        $fieldname = 'leftlabel';
-        $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyproformat_label'));
-        $mform->addHelpButton($fieldname, $fieldname, 'surveyproformat_label');
-        $mform->setType($fieldname, PARAM_TEXT);
+        // Useless: $item = $this->_customdata->item;.
+        // Useless: $surveypro = $this->_customdata->surveypro;.
 
         $this->add_item_buttons();
+    }
+
+    /**
+     * Validation.
+     *
+     * @param array $data
+     * @param array $files
+     * @return array $errors
+     */
+    public function validation($data, $files) {
+        // Get _customdata.
+        // Useless: $item = $this->_customdata->item;.
+        // Useless: $surveypro = $this->_customdata->surveypro;.
+
+        $errors = parent::validation($data, $files);
+
+        if (strlen($data['content']) > 128) {
+            $errors['content'] = get_string('ierr_contenttoolong', 'surveyproformat_fieldset');
+        }
     }
 }

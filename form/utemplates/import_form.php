@@ -85,7 +85,7 @@ class mod_surveypro_importutemplateform extends moodleform {
 
         // Get _customdata.
         $utemplateman = $this->_customdata->utemplateman;
-        // $filemanageroptions = $this->_customdata->filemanager_options;
+        // Useless: $filemanageroptions = $this->_customdata->filemanager_options;.
 
         $errors = parent::validation($data, $files);
 

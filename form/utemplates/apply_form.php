@@ -44,8 +44,8 @@ class mod_surveypro_applyutemplateform extends moodleform {
         $mform = $this->_form;
 
         // Get _customdata.
-        // $cmid = $this->_customdata->cmid;
-        // $surveypro = $this->_customdata->surveypro;
+        // Useless: $cmid = $this->_customdata->cmid;.
+        // Useless: $surveypro = $this->_customdata->surveypro;.
         $utemplateman = $this->_customdata->utemplateman;
 
         $options = $utemplateman->get_sharinglevel_options();
@@ -103,9 +103,9 @@ class mod_surveypro_applyutemplateform extends moodleform {
         // $mform = $this->_form;
 
         // Get _customdata.
-        // $cmid = $this->_customdata->cmid;
-        // $surveypro = $this->_customdata->surveypro;
-        // $utemplateman = $this->_customdata->utemplateman;
+        // Useless: $cmid = $this->_customdata->cmid;.
+        // Useless: $surveypro = $this->_customdata->surveypro;.
+        // Useless: $utemplateman = $this->_customdata->utemplateman;.
 
         $errors = parent::validation($data, $files);
 

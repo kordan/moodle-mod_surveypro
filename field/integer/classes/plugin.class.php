@@ -201,7 +201,7 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
         // Nothing to do: no need to overwrite variables.
 
         // 3. Set values corresponding to checkboxes.
-        // Take care: 'required', 'hideinstructions' were already considered in item_get_common_settings
+        // Take care: 'required', 'hideinstructions' were already considered in item_get_common_settings.
         // Nothing to do: no checkboxes in this plugin item form.
 
         // 4. Other.
@@ -228,8 +228,7 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
     }
 
     /**
-     * Item_force_coherence
-     * verify the validity of contents of the record
+     * Verify the validity of contents of the record
      * for instance: integer not greater than maximum integer
      *
      * @param stdClass $record
@@ -245,15 +244,14 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
     }
 
     /**
-     * Item_list_constraints
-     * this method prepare the list of constraints the child has to respect in order to create a valid relation
+     * Make the list of constraints the child has to respect in order to create a valid relation
      *
      * @return list of contraints of the plugin (as parent) in text format
      */
     public function item_list_constraints() {
         $constraints = array();
 
-        $labelsep = get_string('labelsep', 'langconfig'); // ': '
+        $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
         $constraints[] = get_string('lowerbound', 'surveyprofield_integer').$labelsep.$this->lowerbound;
         $constraints[] = get_string('upperbound', 'surveyprofield_integer').$labelsep.$this->upperbound;
 
@@ -261,8 +259,7 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
     }
 
     /**
-     * Item_get_multilang_fields
-     * make the list of multilang plugin fields
+     * Make the list of the fields using multilang
      *
      * @return array of felds
      */
@@ -315,7 +312,7 @@ EOS;
         return $schema;
     }
 
-    // MARK parent
+    // MARK parent.
 
     /**
      * Translate the parentcontent of the child item to the corresponding parentvalue.
@@ -419,7 +416,7 @@ EOS;
         return ($return);
     }
 
-    // MARK userform
+    // MARK userform.
 
     /**
      * Define the mform element for the outform and the searchform.
@@ -430,7 +427,7 @@ EOS;
      * @return void
      */
     public function userform_mform_element($mform, $searchform, $readonly) {
-        $labelsep = get_string('labelsep', 'langconfig'); // ': '
+        $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
@@ -456,9 +453,9 @@ EOS;
         if (!$searchform) {
             if ($this->required) {
                 // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
-                // -> I do not want JS form validation if the page is submitted through the "previous" button.
-                // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
-                // Simply add a dummy star to the item and the footer note about mandatory fields.
+                // I do not want JS form validation if the page is submitted through the "previous" button.
+                // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
+                // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
                 $starplace = ($this->position != SURVEYPRO_POSITIONLEFT) ? $this->itemname.'_extrarow' : $this->itemname;
                 $mform->_required[] = $starplace;
             }
@@ -498,14 +495,14 @@ EOS;
         }
 
         // This plugin displays as dropdown menu. It will never return empty values.
-        // If ($this->required) { if (empty($data[$this->itemname])) { is useless
+        // If ($this->required) { if (empty($data[$this->itemname])) { is useless.
         $userinput = $data[$this->itemname];
 
         $errorkey = $this->itemname;
 
         $maximuminteger = get_config('surveyprofield_integer', 'maximuminteger');
 
-        // I need to check value is different from SURVEYPRO_INVITEVALUE even if it is not required
+        // I need to check value is different from SURVEYPRO_INVITEVALUE even if it is not required.
         if ($userinput == SURVEYPRO_INVITEVALUE) {
             if ($this->required) {
                 $errors[$errorkey] = get_string('uerr_integernotsetrequired', 'surveyprofield_integer');
@@ -576,7 +573,7 @@ EOS;
     public function userform_get_parent_disabilitation_info($childparentvalue) {
         $disabilitationinfo = array();
 
-        $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 1;1;0;
+        $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 1;1;0;.
 
         $indexsubset = array();
         $labelsubset = array();
@@ -614,13 +611,14 @@ EOS;
     }
 
     /**
-     * Userform_child_item_allowed_dynamic
-     * this method is called if (and only if) parent item and child item live in the same form page
-     * this method has two purposes:
+     * Dynamically decide if my child (living in my same page) is allowed or not.
+     *
+     * This method is called if (and only if) parent item and child item live in the same form page.
+     * This method has two purposes:
      * - stop userpageform item validation
      * - drop unexpected returned values from $userpageform->formdata
      *
-     * as parentitem declare whether my child item is allowed to return a value (is enabled) or is not (is disabled)
+     * As parentitem declare whether my child item is allowed to return a value (is enabled) or is not (is disabled)
      *
      * @param string $childparentvalue
      * @param array $data

@@ -22,14 +22,14 @@
         <FIELD NAME="indent"           TYPE="int"  LENGTH="4"     NOTNULL="false"                              SEQUENCE="false"/>
         <!-- end of fields belonging to itembase_form.php -->
 
-        <!-- begin of fields belonging to plugin_form.php of this specific plugin -->
+        <!-- begin of fields belonging to itemsetup_form.php of this specific plugin -->
         <FIELD NAME="defaultoption"    TYPE="int"  LENGTH="2"     NOTNULL="true"  UNSIGNED="true"  DEFAULT="2" SEQUENCE="false"/>
         <FIELD NAME="defaultvalue"     TYPE="int"  LENGTH="10"    NOTNULL="false" UNSIGNED="false"             SEQUENCE="false"/>
         <FIELD NAME="downloadformat"   TYPE="char" LENGTH="32"    NOTNULL="false"                              SEQUENCE="false"/>
 
         <FIELD NAME="lowerbound"       TYPE="int"  LENGTH="10"    NOTNULL="false" UNSIGNED="false"             SEQUENCE="false"/>
         <FIELD NAME="upperbound"       TYPE="int"  LENGTH="10"    NOTNULL="false" UNSIGNED="false"             SEQUENCE="false"/>
-        <!-- end of fields belonging to plugin_form.php of this specific plugin -->
+        <!-- end of fields belonging to itemsetup_form.php of this specific plugin -->
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

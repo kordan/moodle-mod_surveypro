@@ -17,7 +17,7 @@
 /**
  * Surveypro pluginform class.
  *
- * @package   surveyproformat_fieldset
+ * @package   surveyproformat_pagebreak
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,16 +26,16 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/items/itembase_form.php');
-require_once($CFG->dirroot.'/mod/surveypro/format/fieldset/lib.php');
+require_once($CFG->dirroot.'/mod/surveypro/format/pagebreak/lib.php');
 
 /**
  * The class representing the plugin form
  *
- * @package   surveyproformat_fieldset
+ * @package   surveyproformat_pagebreak
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
+class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
     /**
      * Definition.
@@ -49,28 +49,9 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         // $mform = $this->_form;
 
         // Get _customdata.
-        // $item = $this->_customdata->item;
-        // $surveypro = $this->_customdata->surveypro;
+        // Useless: $item = $this->_customdata->item;.
+        // Useless: $surveypro = $this->_customdata->surveypro;.
 
         $this->add_item_buttons();
-    }
-
-    /**
-     * Validation.
-     *
-     * @param array $data
-     * @param array $files
-     * @return array $errors
-     */
-    public function validation($data, $files) {
-        // Get _customdata.
-        // $item = $this->_customdata->item;
-        // $surveypro = $this->_customdata->surveypro;
-
-        $errors = parent::validation($data, $files);
-
-        if (strlen($data['content']) > 128) {
-            $errors['content'] = get_string('ierr_contenttoolong', 'surveyproformat_fieldset');
-        }
     }
 }

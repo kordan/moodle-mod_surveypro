@@ -22,6 +22,7 @@
  * @copyright  2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 defined('MOODLE_INTERNAL') || die();
 
 /**
@@ -87,15 +88,16 @@ class restore_surveyprofield_fileupload_subplugin extends restore_subplugin {
     /**
      * Process an answer restore.
      *
+     * Nothing really expected here to process, because the subplugin
+     * does not contain own XML structures, but we need at least this
+     * process of empty XML path defined in order to get the following
+     * after_execute at answer level executed, leading to the restoration
+     * of answer files.
+     *
      * @param object $data Data in object form
      * Processes the surveyprofield_fileupload element at answer level
      */
     protected function process_surveyprofield_fileupload_answer($data) {
-        // Nothing really expected here to process, because the subplugin
-        // does not contain own XML structures, but we need at least this
-        // process of empty XML path defined in order to get the following
-        // after_execute at answer level executed, leading to the restoration
-        // of answer files.
     }
 
     /**

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- *  This file contains the backup code for the surveyproformat_label plugin.
+ * This file contains the backup code for the surveyproformat_label plugin.
  *
  * @package   surveyproformat_label
  * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}

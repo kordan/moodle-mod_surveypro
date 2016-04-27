@@ -262,7 +262,7 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
         $record->position = SURVEYPRO_POSITIONTOP;
 
         // 3. Set values corresponding to checkboxes.
-        // Take care: 'required', 'hideinstructions' were already considered in item_get_common_settings
+        // Take care: 'required', 'hideinstructions' were already considered in item_get_common_settings.
         $checkboxes = array('hideinstructions', 'differentrates');
         foreach ($checkboxes as $checkbox) {
             $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
@@ -281,17 +281,16 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
     }
 
     /**
-     * Item_get_friendlyformat.
+     * Get the format recognized (without any really good reason) as friendly.
      *
-     * @return void
+     * @return the friendly format
      */
     public function item_get_friendlyformat() {
         return SURVEYPRO_ITEMRETURNSLABELS;
     }
 
     /**
-     * Item_get_multilang_fields
-     * make the list of multilang plugin fields
+     * Make the list of the fields using multilang
      *
      * @return array of felds
      */
@@ -349,7 +348,7 @@ EOS;
         return $schema;
     }
 
-    // MARK userform
+    // MARK userform.
 
     /**
      * Define the mform element for the outform and the searchform.
@@ -378,17 +377,21 @@ EOS;
         }
 
         if ($this->style == SURVEYPROFIELD_RATE_USERADIO) {
-            foreach ($options as $k => $option) {
+            foreach ($options as $row => $option) {
                 $attributes = array('class' => 'indent-'.$this->indent);
-                $uniquename = $this->itemname.'_'.$k;
+                $uniquename = $this->itemname.'_'.$row;
                 $elementgroup = array();
-                foreach ($rates as $j => $rate) {
-                    $attributes['id'] = $idprefix.'_'.$k.'_'.$j;
-                    $elementgroup[] = $mform->createElement('mod_surveypro_radio', $uniquename, '', $rate, $j, $attributes);
+                foreach ($rates as $col => $rate) {
+                    $attributes['id'] = $idprefix.'_'.$row.'_'.$col;
+                    $elementgroup[] = $mform->createElement('mod_surveypro_radio', $uniquename, '', $rate, $col, $attributes);
                     unset($attributes['class']);
                 }
                 $mform->addGroup($elementgroup, $uniquename.'_group', $option, ' ', false);
-                $this->item_add_color_unifier($mform, $k, $optioncount);
+
+                // Don' add a colorunifier div after the last rate element.
+                if ($row < $optioncount) {
+                    $this->item_add_color_unifier($mform);
+                }
             }
         }
 
@@ -409,9 +412,9 @@ EOS;
 
         if ($this->required) {
             // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
-            // -> I do not want JS form validation if the page is submitted through the "previous" button.
-            // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
-            // Simply add a dummy star to the item and the footer note about mandatory fields.
+            // I do not want JS form validation if the page is submitted through the "previous" button.
+            // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
+            // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
             $mform->_required[] = $this->itemname.'_extrarow';
         } else {
             // Disable if $this->itemname.'_noanswer' is selected.

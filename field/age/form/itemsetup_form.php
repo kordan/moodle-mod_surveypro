@@ -35,7 +35,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/age/lib.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
+class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
     /**
      * Definition.
@@ -49,8 +49,8 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform = $this->_form;
 
         // Get _customdata.
-        // $item = $this->_customdata->item;
-        // $surveypro = $this->_customdata->surveypro;
+        // Useless: $item = $this->_customdata->item;.
+        // Useless: $surveypro = $this->_customdata->surveypro;.
 
         $maximumage = get_config('surveyprofield_age', 'maximumage');
 
@@ -113,11 +113,11 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
     public function validation($data, $files) {
         // Get _customdata.
         $item = $this->_customdata->item;
-        // $surveypro = $this->_customdata->surveypro;
+        // Useless: $surveypro = $this->_customdata->surveypro;.
 
         $errors = parent::validation($data, $files);
 
-        // "noanswer" default option is not allowed when the item is mandator
+        // "noanswer" default option is not allowed when the item is mandatory.
         if ( ($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required']) ) {
             $a = get_string('noanswer', 'mod_surveypro');
             $errors['defaultoption_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);

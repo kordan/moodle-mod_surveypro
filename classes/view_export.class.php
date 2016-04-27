@@ -100,7 +100,7 @@ class mod_surveypro_exportmanager {
                    LEFT JOIN {surveypro_answer} a ON a.submissionid = s.id
                    LEFT JOIN {surveypro_item} si ON si.id = a.itemid';
 
-        // !$canseeotherssubmissions do not overload the query with useless conditions
+        // If !$canseeotherssubmissions do not overload the query with useless conditions.
         if ($canseeotherssubmissions) {
             if ($groupmode) { // Activity is divided into groups.
                 if (!empty($this->formdata->groupid)) {
@@ -118,7 +118,7 @@ class mod_surveypro_exportmanager {
         // For IN PROGRESS submissions where no fields were filled I need the LEFT JOIN {surveypro_item}.
         // In this case,
         // If I add a clause for fields of UNEXISTING {surveypro_item} (because no fields was filled)
-        // I will miss the record if I do not further add OR ISNULL(si.xxxx)
+        // I will miss the record if I do not further add OR ISNULL(si.xxxx).
         if (!isset($this->formdata->includehidden)) {
             $sql .= ' AND (si.hidden = 0 OR ISNULL(si.hidden))';
         }
@@ -135,7 +135,7 @@ class mod_surveypro_exportmanager {
             $whereparams['plugin'] = 'fileupload';
         }
 
-        // !$canseeotherssubmissions do not overload the query with useless conditions
+        // If !$canseeotherssubmissions do not overload the query with useless conditions.
         if ($canseeotherssubmissions) {
             if ($groupmode) { // Activity is divided into groups.
                 if (!empty($this->formdata->groupid)) {
@@ -190,7 +190,7 @@ class mod_surveypro_exportmanager {
         if ($richsubmissions->valid()) {
             if ($this->formdata->downloadtype == SURVEYPRO_DOWNLOADXLS) {
                 $this->output_to_xls($richsubmissions);
-            } else { // SURVEYPRO_DOWNLOADCSV or SURVEYPRO_DOWNLOADTSV
+            } else { // SURVEYPRO_DOWNLOADCSV or SURVEYPRO_DOWNLOADTSV.
                 $this->output_to_csv($richsubmissions);
             }
         } else {
@@ -337,9 +337,6 @@ class mod_surveypro_exportmanager {
         $placeholders = array_fill_keys($itemseedskeys, $answermissingindb);
         unset($itemseeds);
 
-        // echo '$placeholders:';
-        // var_dump($placeholders);
-
         // Get user groups (to filter surveypro to download) ???? TODO: NEVER USED ????
         // $mygroups = groups_get_all_groups($course->id, $USER->id, $this->cm->groupingid);
 
@@ -398,7 +395,7 @@ class mod_surveypro_exportmanager {
 
         if (!$itemseeds = $DB->get_records('surveypro_item', $where, 'sortindex', 'id, plugin')) {
             return SURVEYPRO_NOFIELDSSELECTED;
-            die(); // <-- never reached
+            die(); // Never reached.
         }
 
         return $itemseeds;
@@ -708,7 +705,6 @@ class mod_surveypro_exportmanager {
             $fp = get_file_packer('application/zip');
             $fp->archive_to_pathname($filelist, $exportfile);
 
-            // if (false) {
             foreach ($filelist as $file) {
                 unlink($file);
             }
@@ -717,7 +713,6 @@ class mod_surveypro_exportmanager {
                 rmdir($CFG->tempdir.$dir);
             }
             rmdir($tempbasedir);
-            // }
 
             $this->makezip_available($exportfile);
         } else {

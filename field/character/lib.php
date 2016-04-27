@@ -33,13 +33,13 @@ define('SURVEYPROFIELD_CHARACTER_EMAILPATTERN' , 'PATTERN_EMAIL');
 define('SURVEYPROFIELD_CHARACTER_URLPATTERN'   , 'PATTERN_URL');
 
 /**
- * surveyprofield_character_validate_pattern
+ * Validate the passed text against the known pattern
  *
  * @param string $text
  * @param string $pattern
  * @return bool, True if the text matches the pattern; false otherwise.
  */
-function surveyprofield_character_validate_pattern($text, $pattern) {
+function surveypro_character_validate_pattern($text, $pattern) {
     // Replace free characters.
     $pos = -1;
     while ($pos = strpos($pattern, '*', $pos + 1)) {
@@ -55,11 +55,19 @@ function surveyprofield_character_validate_pattern($text, $pattern) {
 }
 
 /**
- * surveypro_character_is_valid_url
+ * Validate the passed url
  *
  * @param string $url
  * @return bool, True if the string hold a correct url; false otherwise.
  */
-function surveypro_character_is_valid_url($url) {
-    return (filter_var($url, FILTER_VALIDATE_URL) !== false);
+function surveypro_character_validate_url($url) {
+    // Which one is better here?
+    // First option: return (filter_var($url, FILTER_VALIDATE_URL) !== false);
+
+    // Secondo option: $regex = '~^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$~i';
+
+    // Third option.
+    $regex = '~^(http(s?)\:\/\/)?[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\‌​-‌​\.\?\,\'\/\\\+&amp;%\$#_]*)?$~i';
+    // Function preg_match() returns 1 if the pattern matches given subject, 0 if it does not, or false if an error occurred.
+    return preg_match($regex, $url);
 }

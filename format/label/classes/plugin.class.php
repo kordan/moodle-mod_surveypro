@@ -168,7 +168,7 @@ class mod_surveypro_format_label extends mod_surveypro_itembase {
         // Nothing to do: no need to overwrite variables.
 
         // 3. Set values corresponding to checkboxes.
-        // Take care: 'required', 'hideinstructions' were already considered in item_get_common_settings
+        // Take care: 'required', 'hideinstructions' were already considered in item_get_common_settings.
         $checkboxes = array('fullwidth');
         foreach ($checkboxes as $checkbox) {
             $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
@@ -201,8 +201,7 @@ class mod_surveypro_format_label extends mod_surveypro_itembase {
     }
 
     /**
-     * Item_get_multilang_fields
-     * make the list of multilang plugin fields
+     * Make the list of the fields using multilang
      *
      * @return array of felds
      */
@@ -250,7 +249,7 @@ EOS;
         return $schema;
     }
 
-    // MARK userform
+    // MARK userform.
 
     /**
      * Define the mform element for the outform and the searchform.
@@ -278,7 +277,7 @@ EOS;
             // $content .= html_writer::end_tag('fieldset');
             $mform->addElement('html', $content);
         } else {
-            $labelsep = get_string('labelsep', 'langconfig'); // ': '
+            $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
             $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
             $elementlabel = $elementnumber.$this->leftlabel;
             $option = array('class' => 'indent-'.$this->indent);

@@ -22,10 +22,10 @@
         <FIELD NAME="indent"           TYPE="int"  LENGTH="4"      NOTNULL="false"                             SEQUENCE="false"/>
         <!-- end of fields belonging to itembase_form.php -->
 
-        <!-- begin of fields belonging to plugin_form.php of this specific plugin -->
+        <!-- begin of fields belonging to itemsetup_form.php of this specific plugin -->
         <FIELD NAME="fullwidth"        TYPE="int"  LENGTH="4"      NOTNULL="true"  UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="leftlabel"        TYPE="text" LENGTH="small"  NOTNULL="false"                             SEQUENCE="false"/>
-        <!-- end of fields belonging to plugin_form.php of this specific plugin -->
+        <!-- end of fields belonging to itemsetup_form.php of this specific plugin -->
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

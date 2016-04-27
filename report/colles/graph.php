@@ -125,7 +125,7 @@ if ($type == 'summary') {
     $allowsingle = !$canaccessreports && $canaccessownreports;
     if ($allowsingle) { // If the user hasn't general right but only canaccessownreports.
         if ($reportman->studenttrend1) { // If the user submitted at least one response.
-            $labelsep = get_string('labelsep', 'langconfig'); // ': '
+            $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
 
             // $graph5params (the same as $graph1params except for...)
             $graph1params['colour'] = 'blue';
