@@ -985,13 +985,13 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
         }
 
         if ($this->view == SURVEYPRO_EDITRESPONSE) {
-            $message = get_string('defaulteditingthanksmessage', 'mod_surveypro');
+            $message = get_string('basic_editthanks', 'mod_surveypro');
         } else {
             if (!empty($this->surveypro->thankshtml)) {
                 $htmlbody = $this->surveypro->thankshtml;
                 $message = file_rewrite_pluginfile_urls($htmlbody, 'pluginfile.php', $this->context->id, 'mod_surveypro', SURVEYPRO_THANKSHTMLFILEAREA, $this->surveypro->id);
             } else {
-                $message = get_string('defaultcreationthanksmessage', 'mod_surveypro');
+                $message = get_string('basic_submitthanks', 'mod_surveypro');
             }
         }
 

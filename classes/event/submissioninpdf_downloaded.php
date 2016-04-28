@@ -59,7 +59,7 @@ class submissioninpdf_downloaded extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "User with id '{$this->userid}' downloaded to pdf the submission with id '{$this->objectid}'.";
+        return "User with id '{$this->userid}' has downloaded to pdf the submission with id '{$this->objectid}'.";
     }
 
     /**

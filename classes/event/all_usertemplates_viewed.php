@@ -59,7 +59,7 @@ class all_usertemplates_viewed extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "User with id '{$this->userid}' viewed all the user templates.";
+        return "User with id '{$this->userid}' has viewed all the user templates.";
     }
 
     /**

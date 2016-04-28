@@ -41,7 +41,7 @@ class form_previewed extends \core\event\base {
     protected function init() {
         $this->data['crud'] = 'c'; // One of these: c(reate), r(ead), u(pdate), d(elete).
         $this->data['edulevel'] = self::LEVEL_OTHER;
-        $this->data['objecttable'] = 'surveypro_item';
+        $this->data['objecttable'] = 'surveypro';
     }
 
     /**
@@ -59,7 +59,7 @@ class form_previewed extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "User with id '{$this->userid}' previewed the surveypro.";
+        return "User with id '{$this->userid}' has previewed the surveypro.";
     }
 
     /**

@@ -960,10 +960,11 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         if ($this->action != SURVEYPRO_DELETEUTEMPLATE) {
             return;
         }
+
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             // Ask for confirmation.
             $a = $this->get_utemplate_name();
-            $message = get_string('askdeletetemplate', 'mod_surveypro', $a);
+            $message = get_string('confirm_delete1utemplate', 'mod_surveypro', $a);
             $optionsbase = array('s' => $this->surveypro->id, 'act' => SURVEYPRO_DELETEUTEMPLATE);
 
             $optionsyes = $optionsbase;
@@ -980,26 +981,22 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
             echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
             echo $OUTPUT->footer();
             die();
-        } else {
-            switch ($this->confirm) {
-                case SURVEYPRO_CONFIRMED_YES:
-                    // Put the name in the gobal vaiable, to remember it for the log.
-                    $this->templatename = $this->get_utemplate_name();
+        }
 
-                    $fs = get_file_storage();
-                    $xmlfile = $fs->get_file_by_id($this->utemplateid);
-                    $xmlfile->delete();
+        if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
+            // Put the name in the gobal vaiable, to remember it for the log.
+            $this->templatename = $this->get_utemplate_name();
 
-                    $this->trigger_event('usertemplate_deleted');
-                    break;
-                case SURVEYPRO_CONFIRMED_NO:
-                    $message = get_string('usercanceled', 'mod_surveypro');
-                    echo $OUTPUT->notification($message, 'notifymessage');
-                    break;
-                default:
-                    $message = 'Unexpected $this->confirm = '.$this->confirm;
-                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-            }
+            $fs = get_file_storage();
+            $xmlfile = $fs->get_file_by_id($this->utemplateid);
+            $xmlfile->delete();
+
+            $this->trigger_event('usertemplate_deleted');
+        }
+
+        if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
+            $message = get_string('usercanceled', 'mod_surveypro');
+            echo $OUTPUT->notification($message, 'notifymessage');
         }
     }
 
