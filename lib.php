@@ -585,7 +585,7 @@ function surveypro_print_recent_mod_activity($activity, $courseid, $detail, $mod
  * @todo Finish documenting this function
  */
 function surveypro_cron() {
-    global $DB;
+    global $DB, $CFG;
 
     // Delete too old submissions from surveypro_answer and surveypro_submission.
 
@@ -601,23 +601,27 @@ function surveypro_cron() {
         if (($saveresume == 1) && ($maxinputdelay == 0)) { // Maxinputdelay == 0 means, please don't delete.
             continue;
         }
+
+        // First step: filter surveypro to the subset having 'saveresume' = $saveresume.
         if ($surveypros = $DB->get_records('surveypro', array('saveresume' => $saveresume), null, 'id')) {
             $sofar = ($saveresume == 0) ? (4 * 3600) : ($maxinputdelay * 3600);
             $sofar = time() - $sofar;
-            $where = 'surveyproid IN ('.implode(',', array_keys($surveypros)).') AND status = :status AND timecreated < :sofar';
-            $whereparams = array('status' => SURVEYPRO_STATUSINPROGRESS, 'sofar' => $sofar);
-            if ($submissionidlist = $DB->get_fieldset_select('surveypro_submission', 'id', $where, $whereparams)) {
-                $surveyproidlist = $DB->get_fieldset_select('surveypro_submission', 'DISTINCT(surveyproid)', $where, $whereparams);
+            foreach ($surveypros as $surveypro) {
+                // Second step: for each surveypro,
+                // filter only submissions having 'status' = SURVEYPRO_STATUSINPROGRESS and timecreated < :sofar.
+                $where = 'surveyproid = :surveyproid AND status = :status AND timecreated < :sofar';
+                $whereparams = array('surveyproid' => $surveypro->id, 'status' => SURVEYPRO_STATUSINPROGRESS, 'sofar' => $sofar);
+                if ($submissions = $DB->get_recordset_select('surveypro_submission', $where, $whereparams, 'surveyproid', 'id')) {
 
-                $DB->delete_records_list('surveypro_answer', 'submissionid', $submissionidlist);
-                $DB->delete_records_list('surveypro_submission', 'id', $submissionidlist);
+                    require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
 
-                foreach ($surveyproidlist as $surveyproid) {
-                    $cm = get_coursemodule_from_instance('surveypro', $surveyproid, 0, false, MUST_EXIST);
-                    $context = context_module::instance($cm->id);
-                    $eventdata = array('context' => $context, 'objectid' => $surveyproid);
-                    $event = \mod_surveypro\event\unattended_submissions_deleted::create($eventdata);
-                    $event->trigger();
+                    $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, 0, false, MUST_EXIST);
+                    $utilityman = new mod_surveypro_utility($cm, $surveypro);
+
+                    foreach ($submissions as $submission) {
+                        // Third step: delete each selected submission.
+                        $utilityman->delete_submissions(array('id' => $submission->id));
+                    }
                 }
             }
         }

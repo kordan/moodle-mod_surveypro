@@ -865,19 +865,19 @@ class mod_surveypro_itemlist {
         if ($bit) { // Edit.
             $bit = $this->itemeditingfeedback & 1; // Bitwise logic.
             if ($bit) {
-                $message = get_string('itemeditok', 'mod_surveypro');
+                $message = get_string('feedback_itemediting_ok', 'mod_surveypro');
                 $class = 'notifysuccess';
             } else {
-                $message = get_string('itemeditfail', 'mod_surveypro');
+                $message = get_string('feedback_itemediting_ko', 'mod_surveypro');
                 $class = 'notifyproblem';
             }
         } else {    // Add.
             $bit = $this->itemeditingfeedback & 1; // Bitwise logic.
             if ($bit) {
-                $message = get_string('itemaddok', 'mod_surveypro');
+                $message = get_string('feedback_itemadd_ok', 'mod_surveypro');
                 $class = 'notifysuccess';
             } else {
-                $message = get_string('itemaddfail', 'mod_surveypro');
+                $message = get_string('feedback_itemadd_ko', 'mod_surveypro');
                 $class = 'notifyproblem';
             }
         }
@@ -887,22 +887,22 @@ class mod_surveypro_itemlist {
             switch ($position) {
                 case 2: // A chain of items is now shown.
                     if ($bit) {
-                        $message .= '<br />'.get_string('itemeditshow', 'mod_surveypro');
+                        $message .= '<br />'.get_string('feedback_itemediting_showchainitems', 'mod_surveypro');
                     }
                     break;
                 case 3: // A chain of items is now hided because one item was hided.
                     if ($bit) {
-                        $message .= '<br />'.get_string('itemedithidehide', 'mod_surveypro');
+                        $message .= '<br />'.get_string('feedback_itemediting_hidechainitems', 'mod_surveypro');
                     }
                     break;
                 case 4: // A chain of items was moved in the user entry form.
                     if ($bit) {
-                        $message .= '<br />'.get_string('itemeditshowinbasicform', 'mod_surveypro');
+                        $message .= '<br />'.get_string('feedback_itemediting_freechainitems', 'mod_surveypro');
                     }
                     break;
                 case 5: // A chain of items was removed from the user entry form.
                     if ($bit) {
-                        $message .= '<br />'.get_string('itemeditmakereserved', 'mod_surveypro');
+                        $message .= '<br />'.get_string('feedback_itemediting_reservechainitems', 'mod_surveypro');
                     }
                     break;
             }
@@ -1137,9 +1137,9 @@ class mod_surveypro_itemlist {
                 $a->parentid = $item->get_content();
                 $a->dependencies = implode(', ', $sortindextohidelist);
                 if (count($sortindextohidelist) == 1) {
-                    $message = get_string('askitemtohide', 'mod_surveypro', $a);
+                    $message = get_string('confirm_hide1item', 'mod_surveypro', $a);
                 } else {
-                    $message = get_string('askitemstohide', 'mod_surveypro', $a);
+                    $message = get_string('confirm_hidechainitems', 'mod_surveypro', $a);
                 }
 
                 $optionbase = array('id' => $this->cm->id, 'act' => SURVEYPRO_HIDEITEM, 'sesskey' => sesskey());
@@ -1162,6 +1162,7 @@ class mod_surveypro_itemlist {
                 die();
             }
         }
+
         if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
             $message = get_string('usercanceled', 'mod_surveypro');
             echo $OUTPUT->notification($message, 'notifymessage');
@@ -1212,9 +1213,9 @@ class mod_surveypro_itemlist {
                 $a->lastitem = $item->get_content();
                 $a->ancestors = implode(', ', $sortindextoshowlist);
                 if (count($sortindextoshowlist) == 1) {
-                    $message = get_string('askitemtoshow', 'mod_surveypro', $a);
+                    $message = get_string('confirm_show1item', 'mod_surveypro', $a);
                 } else {
-                    $message = get_string('askitemstoshow', 'mod_surveypro', $a);
+                    $message = get_string('confirm_showchainitems', 'mod_surveypro', $a);
                 }
 
                 $optionbase = array('id' => $this->cm->id, 'act' => SURVEYPRO_SHOWITEM, 'itemid' => $this->itemid, 'sesskey' => sesskey());
@@ -1265,7 +1266,7 @@ class mod_surveypro_itemlist {
                 }
             }
 
-            // Get the content of the item for the closing message.
+            // Get the content of the item for the feedback message.
             $item = surveypro_get_item($this->cm, $this->surveypro, $this->itemid, $this->type, $this->plugin);
 
             $killedsortindex = $item->get_sortindex();
@@ -1300,13 +1301,13 @@ class mod_surveypro_itemlist {
             $a = new stdClass();
             $a->content = $item->get_content();
             $a->pluginname = strtolower(get_string('pluginname', 'surveypro'.$this->type.'_'.$this->plugin));
-            $message = get_string('askdeleteitem', 'mod_surveypro', $a);
+            $message = get_string('confirm_delete1item', 'mod_surveypro', $a);
 
             // Is there any child item link to break.
             if ($childitems = $DB->get_records('surveypro_item', array('parentid' => $this->itemid), 'sortindex', 'sortindex')) { // Sortindex is suposed to be a valid key.
                 $childitems = array_keys($childitems);
                 $nodes = implode(', ', $childitems);
-                $message .= get_string('deletionbreakslinks', 'mod_surveypro', $nodes);
+                $message .= get_string('confirm_deletechainitems', 'mod_surveypro', $nodes);
                 $labelyes = get_string('concontinue');
             } else {
                 $labelyes = get_string('yes');
@@ -1342,9 +1343,9 @@ class mod_surveypro_itemlist {
             $a->content = $this->actionfeedback->content;
             $a->pluginname = $this->actionfeedback->pluginname;
             if ($this->actionfeedback->chain) {
-                $message = get_string('af_chaindeleted', 'mod_surveypro', $a);
+                $message = get_string('feedback_deletechainitems', 'mod_surveypro', $a);
             } else {
-                $message = get_string('af_itemdeleted', 'mod_surveypro', $a);
+                $message = get_string('feedback_delete1item', 'mod_surveypro', $a);
             }
             echo $OUTPUT->notification($message, 'notifysuccess');
         }
@@ -1427,7 +1428,7 @@ class mod_surveypro_itemlist {
 
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             // Ask for confirmation.
-            $message = get_string('mastertemplate_noedit', 'mod_surveypro');
+            $message = get_string('confirm_dropmultilang', 'mod_surveypro');
 
             $optionbase = array('id' => $this->cm->id, 'act' => SURVEYPRO_DROPMULTILANG);
 
@@ -1446,7 +1447,7 @@ class mod_surveypro_itemlist {
             die();
         }
         if ($this->confirm == SURVEYPRO_ACTION_EXECUTED) {
-            $message = get_string('af_multiland_dropped', 'mod_surveypro');
+            $message = get_string('feedback_dropmultilang', 'mod_surveypro');
             echo $OUTPUT->notification($message, 'notifysuccess');
         }
     }
@@ -1525,7 +1526,11 @@ class mod_surveypro_itemlist {
                 $a = new stdClass();
                 $a->parentid = $item->get_content();
                 $a->dependencies = implode(', ', $sortindextoreservedlist);
-                $message = get_string('askitemstoreserved', 'mod_surveypro', $a);
+                if (count($sortindextohidelist) == 1) {
+                    $message = get_string('confirm_reserve1item', 'mod_surveypro', $a);
+                } else {
+                    $message = get_string('confirm_reservechainitems', 'mod_surveypro', $a);
+                }
 
                 $optionbase = array('id' => $this->cm->id, 'act' => SURVEYPRO_MAKEADVANCED, 'sesskey' => sesskey());
 
@@ -1547,6 +1552,7 @@ class mod_surveypro_itemlist {
                 die();
             }
         }
+
         if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
             $message = get_string('usercanceled', 'mod_surveypro');
             echo $OUTPUT->notification($message, 'notifymessage');
@@ -1597,9 +1603,9 @@ class mod_surveypro_itemlist {
                 $a->lastitem = $item->get_content();
                 $a->ancestors = implode(', ', $sortindextostandardlist);
                 if (count($sortindextostandardlist) == 1) {
-                    $message = get_string('askitemtostandard', 'mod_surveypro', $a);
+                    $message = get_string('confirm_free1item', 'mod_surveypro', $a);
                 } else {
-                    $message = get_string('askitemstostandard', 'mod_surveypro', $a);
+                    $message = get_string('confirm_freechainitems', 'mod_surveypro', $a);
                 }
 
                 $optionbase = array('id' => $this->cm->id, 'act' => SURVEYPRO_MAKESTANDARD, 'itemid' => $this->itemid, 'sesskey' => sesskey());
@@ -1643,11 +1649,6 @@ class mod_surveypro_itemlist {
 
             $utilityman->reset_items_pages();
 
-            // Event: all_items_hidden.
-            $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
-            $event = \mod_surveypro\event\all_items_hidden::create($eventdata);
-            $event->trigger();
-
             $this->set_confirm(SURVEYPRO_ACTION_EXECUTED);
         }
     }
@@ -1661,15 +1662,17 @@ class mod_surveypro_itemlist {
         global $OUTPUT;
 
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
-            $message = get_string('confirm_hideall', 'mod_surveypro');
+            $message = get_string('confirm_hideallitems', 'mod_surveypro');
             $this->bulk_action_ask($message);
         }
+
         if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
             $message = get_string('usercanceled', 'mod_surveypro');
             echo $OUTPUT->notification($message, 'notifymessage');
         }
+
         if ($this->confirm == SURVEYPRO_ACTION_EXECUTED) {
-            $message = get_string('af_allitems_hided', 'mod_surveypro');
+            $message = get_string('feedback_hideallitems', 'mod_surveypro');
             echo $OUTPUT->notification($message, 'notifysuccess');
         }
     }
@@ -1690,11 +1693,6 @@ class mod_surveypro_itemlist {
 
             $utilityman->items_reindex();
 
-            // Event: all_items_visible.
-            $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
-            $event = \mod_surveypro\event\all_items_visible::create($eventdata);
-            $event->trigger();
-
             $this->set_confirm(SURVEYPRO_ACTION_EXECUTED);
         }
     }
@@ -1708,15 +1706,17 @@ class mod_surveypro_itemlist {
         global $OUTPUT;
 
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
-            $message = get_string('confirm_showall', 'mod_surveypro');
+            $message = get_string('confirm_showallitems', 'mod_surveypro');
             $this->bulk_action_ask($message);
         }
+
         if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
             $message = get_string('usercanceled', 'mod_surveypro');
             echo $OUTPUT->notification($message, 'notifymessage');
         }
+
         if ($this->confirm == SURVEYPRO_ACTION_EXECUTED) {
-            $message = get_string('af_allitems_visible', 'mod_surveypro');
+            $message = get_string('feedback_showallitems', 'mod_surveypro');
             echo $OUTPUT->notification($message, 'notifysuccess');
         }
     }
@@ -1734,11 +1734,6 @@ class mod_surveypro_itemlist {
 
             $whereparams = array('surveyproid' => $this->surveypro->id);
             $utilityman->delete_items($whereparams);
-
-            // Event: all_items_deleted.
-            $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
-            $event = \mod_surveypro\event\all_items_deleted::create($eventdata);
-            $event->trigger();
 
             $paramurl = array();
             $paramurl['id'] = $this->cm->id;
@@ -1759,7 +1754,7 @@ class mod_surveypro_itemlist {
         global $OUTPUT;
 
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
-            $message = get_string('confirm_deleteall', 'mod_surveypro');
+            $message = get_string('confirm_deleteallitems', 'mod_surveypro');
             $this->bulk_action_ask($message);
         }
         if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
@@ -1767,7 +1762,7 @@ class mod_surveypro_itemlist {
             echo $OUTPUT->notification($message, 'notifymessage');
         }
         if ($this->confirm == SURVEYPRO_ACTION_EXECUTED) {
-            $message = get_string('af_allitems_deleted', 'mod_surveypro');
+            $message = get_string('feedback_deleteallitems', 'mod_surveypro');
             echo $OUTPUT->notification($message, 'notifysuccess');
         }
     }
@@ -1789,11 +1784,6 @@ class mod_surveypro_itemlist {
 
             $utilityman->items_reindex();
 
-            // Event: visible_items_deleted.
-            $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
-            $event = \mod_surveypro\event\visible_items_deleted::create($eventdata);
-            $event->trigger();
-
             $paramurl = array();
             $paramurl['id'] = $this->cm->id;
             $paramurl['act'] = SURVEYPRO_DELETEVISIBLEITEMS;
@@ -1813,7 +1803,7 @@ class mod_surveypro_itemlist {
         global $OUTPUT;
 
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
-            $message = get_string('confirm_deletevisible', 'mod_surveypro');
+            $message = get_string('confirm_deletevisibleitems', 'mod_surveypro');
             $this->bulk_action_ask($message);
         }
         if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
@@ -1821,7 +1811,7 @@ class mod_surveypro_itemlist {
             echo $OUTPUT->notification($message, 'notifymessage');
         }
         if ($this->confirm == SURVEYPRO_ACTION_EXECUTED) {
-            $message = get_string('af_visibleitems_deleted', 'mod_surveypro');
+            $message = get_string('feedback_deletevisibleitems', 'mod_surveypro');
             echo $OUTPUT->notification($message, 'notifysuccess');
         }
     }
@@ -1843,11 +1833,6 @@ class mod_surveypro_itemlist {
 
             $utilityman->items_reindex();
 
-            // Event: hidden_items_deleted.
-            $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
-            $event = \mod_surveypro\event\hidden_items_deleted::create($eventdata);
-            $event->trigger();
-
             $paramurl = array();
             $paramurl['id'] = $this->cm->id;
             $paramurl['act'] = SURVEYPRO_DELETEHIDDENITEMS;
@@ -1867,7 +1852,7 @@ class mod_surveypro_itemlist {
         global $OUTPUT;
 
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
-            $message = get_string('confirm_deletehidden', 'mod_surveypro');
+            $message = get_string('confirm_deletehiddenitems', 'mod_surveypro');
             $this->bulk_action_ask($message);
         }
         if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
@@ -1875,7 +1860,7 @@ class mod_surveypro_itemlist {
             echo $OUTPUT->notification($message, 'notifymessage');
         }
         if ($this->confirm == SURVEYPRO_ACTION_EXECUTED) {
-            $message = get_string('af_hiddenitems_deleted', 'mod_surveypro');
+            $message = get_string('feedback_deletehiddenitems', 'mod_surveypro');
             echo $OUTPUT->notification($message, 'notifysuccess');
         }
     }

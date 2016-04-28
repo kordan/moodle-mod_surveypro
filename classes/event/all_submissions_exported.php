@@ -41,7 +41,7 @@ class all_submissions_exported extends \core\event\base {
     protected function init() {
         $this->data['crud'] = 'r'; // One of these: c(reate), r(ead), u(pdate), d(elete).
         $this->data['edulevel'] = self::LEVEL_TEACHING;
-        $this->data['objecttable'] = 'surveypro_submission';
+        $this->data['objecttable'] = 'surveypro';
     }
 
     /**

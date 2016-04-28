@@ -217,13 +217,14 @@ class mod_surveypro_utility {
             if (count($whereparams) == 1) { // Delete all the items of this surveypro.
                 foreach ($items as $item) {
                     $DB->delete_records('surveypro'.$item->type.'_'.$item->plugin, array('itemid' => $item->id));
+
+                    // Event: item_deleted.
+                    $eventdata = array('context' => $context, 'objectid' => $item->id);
+                    $eventdata['other'] = array('plugin' => $item->plugin);
+                    $event = \mod_surveypro\event\item_deleted::create($eventdata);
+                    $event->trigger();
                 }
                 $DB->delete_records('surveypro_item', array('surveyproid' => $this->surveypro->id));
-
-                // Event: all_items_deleted.
-                $eventdata = array('context' => $context, 'objectid' => $this->surveypro->id);
-                $event = \mod_surveypro\event\all_items_deleted::create($eventdata);
-                $event->trigger();
             }
 
             if (count($whereparams) > 1) { // $whereparams has some more details about items.
@@ -232,7 +233,7 @@ class mod_surveypro_utility {
 
                     $DB->delete_records('surveypro_item', array('id' => $item->id));
 
-                    // Event: submission_deleted.
+                    // Event: item_deleted.
                     $eventdata = array('context' => $context, 'objectid' => $item->id);
                     $eventdata['other'] = array('plugin' => $item->plugin);
                     $event = \mod_surveypro\event\item_deleted::create($eventdata);
@@ -325,14 +326,14 @@ class mod_surveypro_utility {
             if (count($whereparams) == 1) { // Delete all the submissions of this surveypro.
                 foreach ($submissions as $submission) {
                     $DB->delete_records('surveypro_answer', array('submissionid' => $submission->id));
+
+                    // Event: submission_deleted.
+                    $eventdata = array('context' => $context, 'objectid' => $submission->id);
+                    $event = \mod_surveypro\event\submission_deleted::create($eventdata);
+                    $event->trigger();
                 }
                 $submissions->close();
                 $DB->delete_records('surveypro_submission', $whereparams);
-
-                // Event: all_submissions_deleted.
-                $eventdata = array('context' => $context, 'objectid' => $this->surveypro->id);
-                $event = \mod_surveypro\event\all_submissions_deleted::create($eventdata);
-                $event->trigger();
             }
 
             if (count($whereparams) > 1) { // $whereparams has some more detail about submissions.
@@ -498,13 +499,13 @@ class mod_surveypro_utility {
                         $DB->insert_record('surveypro_answer', $useranswer);
                     }
                     $useranswers->close();
+
+                    // Event: submission_duplicated.
+                    $eventdata = array('context' => $context, 'objectid' => $submissionid);
+                    $event = \mod_surveypro\event\submission_duplicated::create($eventdata);
+                    $event->trigger();
                 }
                 $submissions->close();
-
-                // Event: all_submissions_duplicated.
-                $eventdata = array('context' => $context, 'objectid' => $this->surveypro->id);
-                $event = \mod_surveypro\event\all_submissions_duplicated::create($eventdata);
-                $event->trigger();
             }
 
             if (count($whereparams) > 1) { // $whereparams has some more detail about submissions.
@@ -598,6 +599,30 @@ class mod_surveypro_utility {
         }
 
         $whereparams['hidden'] = $visibility;
+
+        $context = context_module::instance($this->cm->id);
+        $items = $DB->get_records('surveypro_item', $whereparams, '', 'id, plugin');
+        if ($visibility == 0) {
+            // I was asked to hide.
+            foreach ($items as $item) {
+                // Event: item_hided.
+                $eventdata = array('context' => $context, 'objectid' => $item->id);
+                $eventdata['other'] = array('plugin' => $item->plugin);
+                $event = \mod_surveypro\event\item_hided::create($eventdata);
+                $event->trigger();
+            }
+        } else {
+            // I was asked to show.
+            foreach ($items as $item) {
+                // Event: item_showed.
+                $eventdata = array('context' => $context, 'objectid' => $item->id);
+                $eventdata['other'] = array('plugin' => $item->plugin);
+                $event = \mod_surveypro\event\item_showed::create($eventdata);
+                $event->trigger();
+            }
+        }
+
+        // If I ask for visibility == 0, I want hidden = 1.
         // If I ask for visibility == 1, I want hidden = 0.
         $DB->set_field('surveypro_item', 'hidden', 1 - $visibility, $whereparams);
     }
