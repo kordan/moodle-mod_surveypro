@@ -1130,15 +1130,17 @@ function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=
  * @param bool $pagebreak
  * @return array($where, $params)
  */
-function surveypro_fetch_items_seeds($surveyproid, $canaccessreserveditems, $searchform=false, $type=false, $formpage=false, $pagebreak=false) {
+function surveypro_fetch_items_seeds($surveyproid, $visibleonly=true, $canaccessreserveditems=false, $searchform=false, $type=false, $formpage=false, $pagebreak=false) {
     $params = array();
     $conditions = array();
 
     $conditions[] = 'surveyproid = :surveyproid';
     $params['surveyproid'] = (int)$surveyproid;
 
-    $conditions[] = 'hidden = :hidden';
-    $params['hidden'] = 0;
+    if ($visibleonly) {
+        $conditions[] = 'hidden = :hidden';
+        $params['hidden'] = 0;
+    }
 
     if (!$pagebreak) {
         $conditions[] = 'plugin <> :plugin';

@@ -50,7 +50,7 @@ class mod_surveypro_searchform extends moodleform {
         $surveypro = $this->_customdata->surveypro;
         $canaccessreserveditems = $this->_customdata->canaccessreserveditems;
 
-        list($where, $params) = surveypro_fetch_items_seeds($surveypro->id, $canaccessreserveditems, true);
+        list($where, $params) = surveypro_fetch_items_seeds($surveypro->id, true, $canaccessreserveditems, true);
         $itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, 'sortindex', 'id, type, plugin');
 
         // This dummy item is needed for the colours alternation.

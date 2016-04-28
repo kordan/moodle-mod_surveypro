@@ -238,7 +238,7 @@ class mod_surveypro_itemlist {
         $paramurlmove['itm'] = $this->itemtomove;
         // End of: $paramurlmove definition.
 
-        list($where, $params) = surveypro_fetch_items_seeds($this->surveypro->id, true, null, null, null, true);
+        list($where, $params) = surveypro_fetch_items_seeds($this->surveypro->id, false, true, null, null, null, true);
         // If you are reordering, force ordering to...
         $orderby = ($this->view == SURVEYPRO_CHANGEORDERASK) ? 'sortindex ASC' : $table->get_sql_sort();
         $itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, $orderby, 'id as itemid, type, plugin');
@@ -1188,6 +1188,8 @@ class mod_surveypro_itemlist {
      * @return void
      */
     public function item_show_execute() {
+        global $DB;
+
         // Build toshowlist.
         list($toshowlist, $sortindextoshowlist) = $this->add_parent_node(array('hidden' => 1));
 

@@ -53,7 +53,7 @@ class mod_surveypro_report_filterform extends moodleform {
 
         $submissionidstring = get_string('submission', 'surveyproreport_attachments_overview');
 
-        list($where, $params) = surveypro_fetch_items_seeds($surveypro->id, $canaccessreserveditems);
+        list($where, $params) = surveypro_fetch_items_seeds($surveypro->id, true, $canaccessreserveditems);
         $itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, 'sortindex', 'id, plugin');
 
         if (!$itemseeds->valid()) {
