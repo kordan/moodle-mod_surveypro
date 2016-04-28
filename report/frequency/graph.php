@@ -27,10 +27,10 @@ require_once($CFG->libdir.'/graphlib.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/frequency/lib.php');
 
-$id = required_param('id', PARAM_INT); // Course Module ID
-$itemid = required_param('itemid', PARAM_INT); // Item ID
-$submissionscount = required_param('submissionscount', PARAM_INT); // Submissions count
-$group = optional_param('group', 0, PARAM_INT); // Group ID
+$id = required_param('id', PARAM_INT); // Course Module ID.
+$itemid = required_param('itemid', PARAM_INT); // Item ID.
+$submissionscount = required_param('submissionscount', PARAM_INT); // Submissions count.
+// $group = optional_param('group', 0, PARAM_INT); // Group ID.
 
 $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
@@ -41,7 +41,7 @@ $context = context_module::instance($cm->id);
 require_login($course, false, $cm);
 require_capability('mod/surveypro:accessreports', $context);
 
-$groupmode = groups_get_activity_groupmode($cm, $course);   // Groups are being used
+// $groupmode = groups_get_activity_groupmode($cm, $course); // Groups are being used.
 
 $item = surveypro_get_item($cm, $surveypro, $itemid);
 
@@ -73,7 +73,12 @@ $graph->parameter['title'] = '';
 
 $graph->x_data = $content;
 $graph->y_data['answers1'] = $absolute;
-$graph->y_format['answers1'] = array('colour' => 'ltblue', 'bar' => 'fill', 'legend' => strip_tags($item->get_content()), 'bar_size' => 0.4);
+$answer1format = array();
+$answer1format['colour'] = 'ltblue';
+$answer1format['bar'] = 'fill';
+$answer1format['legend'] = strip_tags($item->get_content());
+$answer1format['bar_size'] = 0.4;
+$graph->y_format['answers1'] = $answer1format;
 
 $graph->parameter['legend'] = 'outside-left';
 $graph->parameter['inner_padding'] = 20;
@@ -83,7 +88,7 @@ $graph->parameter['legend_offset'] = 4;
 
 $graph->y_order = array('answers1');
 
-// $graph->parameter['x_axis_gridlines'] can not be set to a number because X axis is not numeric
+// $graph->parameter['x_axis_gridlines'] can not be set to a number because X axis is not numeric.
 $graph->parameter['y_axis_gridlines'] = 2 + max($absolute);
 $graph->parameter['y_resolution_left'] = 1;
 $graph->parameter['y_decimal_left'] = 0;

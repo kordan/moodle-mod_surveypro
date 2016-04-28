@@ -54,10 +54,10 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
         // Item: style.
         $fieldname = 'style';
-        $options = array(SURVEYPROFIELD_BOOLEAN_USERADIOH => get_string('useradioh', 'surveyprofield_boolean'),
-                         SURVEYPROFIELD_BOOLEAN_USERADIOV => get_string('useradiov', 'surveyprofield_boolean'),
-                         SURVEYPROFIELD_BOOLEAN_USESELECT => get_string('usemenu', 'surveyprofield_boolean')
-                   );
+        $options = array();
+        $options[SURVEYPROFIELD_BOOLEAN_USERADIOH] = get_string('useradioh', 'surveyprofield_boolean');
+        $options[SURVEYPROFIELD_BOOLEAN_USERADIOV] = get_string('useradiov', 'surveyprofield_boolean');
+        $options[SURVEYPROFIELD_BOOLEAN_USESELECT] = get_string('usemenu', 'surveyprofield_boolean');
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_boolean'), $options);
         $mform->setDefault($fieldname, SURVEYPROFIELD_BOOLEAN_USERADIOH);
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_boolean');
@@ -65,10 +65,13 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
         // Item: defaultoption.
         $fieldname = 'defaultoption';
+        $customdefaultstr = get_string('customdefault', 'surveyprofield_boolean');
+        $invitedefaultstr = get_string('invitedefault', 'mod_surveypro');
+        $noanswerstr = get_string('noanswer', 'mod_surveypro');
         $elementgroup = array();
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('customdefault', 'surveyprofield_boolean'), SURVEYPRO_CUSTOMDEFAULT);
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('invitedefault', 'mod_surveypro'), SURVEYPRO_INVITEDEFAULT);
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('noanswer', 'mod_surveypro'), SURVEYPRO_NOANSWERDEFAULT);
+        $elementgroup[] = $mform->createElement('radio', $fieldname, '', $customdefaultstr, SURVEYPRO_CUSTOMDEFAULT);
+        $elementgroup[] = $mform->createElement('radio', $fieldname, '', $invitedefaultstr, SURVEYPRO_INVITEDEFAULT);
+        $elementgroup[] = $mform->createElement('radio', $fieldname, '', $noanswerstr, SURVEYPRO_NOANSWERDEFAULT);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_boolean'), ' ', false);
         $mform->setDefault($fieldname, SURVEYPRO_INVITEDEFAULT);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_boolean');
@@ -103,7 +106,7 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
         $errors = parent::validation($data, $files);
 
-        // The "noanswer" default option is not allowed when the item is mandatory.
+        // Editing teacher can not set "noanswer" as default option if the item is mandatory.
         if ( ($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required']) ) {
             $a = get_string('noanswer', 'mod_surveypro');
             $errors['defaultoption_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);

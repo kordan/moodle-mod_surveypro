@@ -98,7 +98,6 @@ class mod_surveypro_utility {
                             }
                         }
                     }
-                    // echo 'Assigning pages: $DB->set_field(\'surveypro_item\', \'formpage\', '.$pagenumber.', array(\'id\' => '.$item->id.'));<br />';
                     $DB->set_field('surveypro_item', 'formpage', $pagenumber, array('id' => $item->id));
                 }
             }
@@ -148,7 +147,11 @@ class mod_surveypro_utility {
     public function has_search_items($returncount=false) {
         global $DB;
 
-        $whereparams = array('surveyproid' => $this->surveypro->id, 'type' => SURVEYPRO_TYPEFIELD, 'hidden' => 0, 'insearchform' => 1);
+        $whereparams = array();
+        $whereparams['surveyproid'] = $this->surveypro->id;
+        $whereparams['type'] = SURVEYPRO_TYPEFIELD;
+        $whereparams['hidden'] = 0;
+        $whereparams['insearchform'] = 1;
 
         if ($returncount) {
             return $DB->count_records('surveypro_item', $whereparams);
@@ -227,7 +230,7 @@ class mod_surveypro_utility {
                 $DB->delete_records('surveypro_item', array('surveyproid' => $this->surveypro->id));
             }
 
-            if (count($whereparams) > 1) { // $whereparams has some more details about items.
+            if (count($whereparams) > 1) { // Some more detail about items were provided in $whereparams.
                 foreach ($items as $item) {
                     $DB->delete_records('surveypro'.$item->type.'_'.$item->plugin, array('itemid' => $item->id));
 
@@ -258,7 +261,7 @@ class mod_surveypro_utility {
             $this->delete_submissions($whereparams, false);
         }
 
-        if (count($whereparams) > 1) { // $whereparams has some more details about items.
+        if (count($whereparams) > 1) { // Some more detail about items were provided in $whereparams.
             $whereanswerparams = array();
             foreach ($items as $item) {
                 $whereanswerparams['itemid'] = $item->id;
@@ -336,7 +339,7 @@ class mod_surveypro_utility {
                 $DB->delete_records('surveypro_submission', $whereparams);
             }
 
-            if (count($whereparams) > 1) { // $whereparams has some more detail about submissions.
+            if (count($whereparams) > 1) { // Some more detail about submissions were provided in $whereparams.
                 foreach ($submissions as $submission) {
                     $DB->delete_records('surveypro_answer', array('submissionid' => $submission->id));
 
@@ -368,7 +371,7 @@ class mod_surveypro_utility {
                 }
             }
 
-            if (count($whereparams) > 1) { // $whereparams has some more detail about submissions.
+            if (count($whereparams) > 1) { // Some more detail about submissions were provided in $whereparams.
                 $sql = 'SELECT DISTINCT s.userid
                         FROM {surveypro_submission} s
                         WHERE surveyproid = :surveyproid';
@@ -508,7 +511,7 @@ class mod_surveypro_utility {
                 $submissions->close();
             }
 
-            if (count($whereparams) > 1) { // $whereparams has some more detail about submissions.
+            if (count($whereparams) > 1) { // Some more detail about submissions were provided in $whereparams.
                 foreach ($submissions as $submission) {
                     $submissionid = $submission->id;
 
@@ -553,7 +556,7 @@ class mod_surveypro_utility {
                 }
             }
 
-            if (count($whereparams) > 1) { // $whereparams has some more detail about submissions.
+            if (count($whereparams) > 1) { // Some more detail about submissions were provided in $whereparams.
                 $sql = 'SELECT DISTINCT s.userid
                         FROM {surveypro_submission} s
                         WHERE surveyproid = :surveyproid';
@@ -810,13 +813,14 @@ class mod_surveypro_utility {
 
         $fs = get_file_storage();
         if ($fs->get_area_files($this->context->id, 'mod_surveypro', SURVEYPRO_STYLEFILEAREA, 0, 'sortorder', false)) {
-            $PAGE->requires->css('/mod/surveypro/userstyle.php?id='.$this->surveypro->id.'&amp;cmid='.$this->cm->id); // Not overridable via themes!
+            $PAGE->requires->css('/mod/surveypro/userstyle.php?id='.$this->surveypro->id.'&amp;cmid='.$this->cm->id);
         }
     }
 
     /**
      * Is a user allowed to fill one more response?
      *
+     * @param int $userid Optional userid
      * @return bool
      */
     public function can_submit_more($userid=null) {

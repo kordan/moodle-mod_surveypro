@@ -56,7 +56,7 @@ class mod_surveypro_searchform extends moodleform {
         // This dummy item is needed for the colours alternation.
         // Because 'label' or ($position == SURVEYPRO_POSITIONFULLWIDTH).
         // as first item are out from the a fieldset
-        // so they and are not selected by the css3 selector: fieldset div.fitem:nth-of-type(even) {
+        // so they and are not selected by the css3 selector: fieldset div.fitem:nth-of-type(even) {.
         $mform->addElement('static', 'beginning_extrarow', '', '');
         foreach ($itemseeds as $itemseed) {
             $item = surveypro_get_item($cm, $surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);
@@ -75,7 +75,7 @@ class mod_surveypro_searchform extends moodleform {
             if ($position == SURVEYPRO_POSITIONFULLWIDTH) {
                 $questioncontent = $item->get_content();
                 if ($elementnumber) {
-                    // I want to change "4.2:<p>Do you live in NY?</p>" to "<p>4.2: Do you live in NY?</p>"
+                    // I want to change "4.2:<p>Do you live in NY?</p>" to "<p>4.2: Do you live in NY?</p>".
                     if (preg_match('~^<p>(.*)$~', $questioncontent, $match)) {
                         // print_object($match);
                         $questioncontent = '<p>'.$elementnumber.' '.$match[1];
@@ -136,15 +136,28 @@ class mod_surveypro_searchform extends moodleform {
 
         $errors = array();
 
-        // TODO: verify item per item whether they provide a coherent requests
-        $regexp = '~('.SURVEYPRO_ITEMPREFIX.'|'.SURVEYPRO_DONTSAVEMEPREFIX.')_('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_([a-z]+)_([0-9]+)_?([a-z0-9]+)?~';
+        // Replaced on May 13, 2016
+        // $regexp = '~('.SURVEYPRO_ITEMPREFIX.'|'.SURVEYPRO_DONTSAVEMEPREFIX.')_('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_([a-z]+)_([0-9]+)_?([a-z0-9]+)?~';
+        $regexp = '~';
+        $regexp .= '(?:'.SURVEYPRO_ITEMPREFIX.'|'.SURVEYPRO_DONTSAVEMEPREFIX.')';
+        $regexp .= '_';
+        $regexp .= '(?P<type>'.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')';
+        $regexp .= '_';
+        $regexp .= '(?P<plugin>[^_]+)';
+        $regexp .= '_';
+        $regexp .= '(?P<itemid>\d+)';
+        $regexp .= '_?';
+        $regexp .= '(?:[\d\w]+)?';
+        $regexp .= '~';
+
         $olditemid = 0;
         foreach ($data as $itemname => $unused) {
             if (preg_match($regexp, $itemname, $matches)) {
-                $type = $matches[2]; // Item type.
-                $plugin = $matches[3]; // Item plugin.
-                $itemid = $matches[4]; // Item id.
-                // $option = $matches[5]; // _text or _noanswer or...
+                // The prefix (_text or _noanswer or...) is not extracted.
+                $type = $matches['type']; // Item type.
+                $plugin = $matches[2]; // Item plugin.
+                $itemid = $matches[3]; // Item id.
+                // The last optional word (_text or _noanswer or...) is not extracted.
 
                 if ($itemid == $olditemid) {
                     continue;

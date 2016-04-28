@@ -170,7 +170,6 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'time';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // Already set in parent class.
         $this->savepositiontodb = false;
 
         // Other element specific properties.
@@ -350,14 +349,16 @@ class mod_surveypro_field_time extends mod_surveypro_itembase {
     /**
      * Get the content of the downloadformats menu of the item setup form.
      *
-     * @return void
+     * @return array of downloadformats
      */
     public function item_get_downloadformats() {
         $option = array();
         $timenow = time();
 
-        $option['strftime1'] = userdate($timenow, get_string('strftime1', 'surveyprofield_time')); // 05:15
-        $option['strftime2'] = userdate($timenow, get_string('strftime2', 'surveyprofield_time')); // 5:15 am
+        for ($i = 1; $i < 3; $i++) {
+            $strname = 'strftime'.str_pad($i, 2, '0', STR_PAD_LEFT);
+            $option[$strname] = userdate($timenow, get_string($strname, 'surveyprofield_time'));
+        }
         $option['unixtime'] = get_string('unixtime', 'mod_surveypro');
 
         return $option;
@@ -443,6 +444,7 @@ EOS;
         global $DB, $USER;
 
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
+        $noanswerstr = get_string('noanswer', 'mod_surveypro');
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
@@ -476,19 +478,21 @@ EOS;
         for ($i = 0; $i <= 59; $i += $this->step) {
             $minutes[$i] = sprintf("%02d", $i);
         }
-        // End of: element values
+        // End of: element values.
 
         // Begin of: mform element.
         $attributes = array();
         $elementgroup = array();
 
+        $itemname = $this->itemname.'_hour';
         $attributes['id'] = $idprefix.'_hour';
         $attributes['class'] = 'indent-'.$this->indent.' time_select';
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_hour', '', $hours, $attributes);
+        $elementgroup[] = $mform->createElement('mod_surveypro_select', $itemname, '', $hours, $attributes);
 
+        $itemname = $this->itemname.'_minute';
         $attributes['id'] = $idprefix.'_minute';
         $attributes['class'] = 'time_select';
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_minute', '', $minutes, $attributes);
+        $elementgroup[] = $mform->createElement('mod_surveypro_select', $itemname, '', $minutes, $attributes);
 
         $separator = array(':');
         if ($this->required) {
@@ -503,9 +507,10 @@ EOS;
                 $mform->_required[] = $starplace;
             }
         } else {
+            $itemname = $this->itemname.'_noanswer';
             $attributes['id'] = $idprefix.'_noanswer';
             $attributes['class'] = 'time_check';
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'mod_surveypro'), $attributes);
+            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $noanswerstr, $attributes);
             $separator[] = ' ';
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, $separator, false);
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
@@ -532,8 +537,10 @@ EOS;
                     case SURVEYPRO_LIKELASTDEFAULT:
                         // Look for the last submission I made.
                         $sql = 'userid = :userid ORDER BY timecreated DESC LIMIT 1';
-                        $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, array('userid' => $USER->id), IGNORE_MISSING);
-                        if ($time = $DB->get_field('surveypro_answer', 'content', array('itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid), IGNORE_MISSING)) {
+                        $where = array('userid' => $USER->id);
+                        $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, $where, IGNORE_MISSING);
+                        $where = array('itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid);
+                        if ($time = $DB->get_field('surveypro_answer', 'content', $where, IGNORE_MISSING)) {
                             $timearray = $this->item_split_unix_time($time, false);
                         } else { // As in standard default.
                             $timearray = $this->item_split_unix_time(time(), true);
@@ -565,7 +572,7 @@ EOS;
      */
     public function userform_mform_validation($data, &$errors, $searchform) {
         // This plugin displays as dropdown menu. It will never return empty values.
-        // If ($this->required) { if (empty($data[$this->itemname])) { is useless
+        // If ($this->required) { if (empty($data[$this->itemname])) { is useless.
 
         if (isset($data[$this->itemname.'_noanswer'])) {
             return; // Nothing to validate.
@@ -597,7 +604,7 @@ EOS;
             }
             return;
         }
-        // End of: verify the content of each drop down menu
+        // End of: verify the content of each drop down menu.
 
         if ($searchform) {
             // Stop here your investigation. I don't need further validations.
@@ -712,12 +719,12 @@ EOS;
      * This method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time.
      *
      * @param object $fromdb
-     * @return void
+     * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
         $prefill = array();
 
-        if (!$fromdb) { // $fromdb may be boolean false for not existing data
+        if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
             return $prefill;
         }
 

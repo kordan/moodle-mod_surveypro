@@ -231,7 +231,9 @@ class mod_surveypro_exportmanager {
         }
 
         foreach ($itemseeds as $itemseed) {
-            $headerlabels[] = $DB->get_field('surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemseed->plugin, 'variable', array('itemid' => $itemseed->id));
+            $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemseed->plugin;
+            $where = array('itemid' => $itemseed->id);
+            $headerlabels[] = $DB->get_field($tablename, 'variable', $where);
         }
 
         if (isset($this->formdata->includedates)) {
@@ -316,7 +318,9 @@ class mod_surveypro_exportmanager {
         }
         // Variables.
         foreach ($itemseeds as $itemseed) {
-            $headerlabels[] = $DB->get_field('surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemseed->plugin, 'variable', array('itemid' => $itemseed->id));
+            $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemseed->plugin;
+            $where = array('itemid' => $itemseed->id);
+            $headerlabels[] = $DB->get_field($tablename, 'variable', $where);
         }
         if (isset($this->formdata->includedates)) {
             $headerlabels[] = get_string('timecreated', 'mod_surveypro');
@@ -518,7 +522,6 @@ class mod_surveypro_exportmanager {
 
         $fs = get_file_storage();
         list($richsubmissionssql, $whereparams) = $this->get_export_sql(true);
-        // ORDER BY s.userid, submissionid, ud.itemid
 
         $richsubmissions = $DB->get_recordset_sql($richsubmissionssql, $whereparams);
 
@@ -537,7 +540,7 @@ class mod_surveypro_exportmanager {
                     // New submissionid.
                     if ($olduserid != $richsubmission->userid) {
                         // New user.
-                        // Add a new folder named fullname($richsubmission).'_'.$richsubmission->userid;
+                        // Add a new folder named fullname($richsubmission).'_'.$richsubmission->userid.
                         if ($this->surveypro->anonymous) {
                             $dummyuserid++;
                             $tempuserdir = $anonymousstr.'_'.$dummyuserid;
@@ -572,7 +575,10 @@ class mod_surveypro_exportmanager {
 
                 $tempfullpath = $CFG->tempdir.'/'.$temppath;
                 // Finally add the attachment.
-                if ($files = $fs->get_area_files($this->context->id, 'surveyprofield_fileupload', SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $richsubmission->id, "timemodified", false)) {
+                $component = 'surveyprofield_fileupload';
+                $filearea = SURVEYPROFIELD_FILEUPLOAD_FILEAREA;
+                $itemid = $richsubmission->id;
+                if ($files = $fs->get_area_files($this->context->id, $component, $filearea, $itemid, 'timemodified', false)) {
                     foreach ($files as $file) {
                         $filename = $file->get_filename();
                         if ($filename == '.') {
@@ -627,7 +633,6 @@ class mod_surveypro_exportmanager {
 
         $fs = get_file_storage();
         list($richsubmissionssql, $whereparams) = $this->get_export_sql(true);
-        // ORDER BY ud.itemid, s.userid, submissionid
 
         $richsubmissions = $DB->get_recordset_sql($richsubmissionssql, $whereparams);
 
@@ -684,7 +689,10 @@ class mod_surveypro_exportmanager {
 
                 $tempfullpath = $CFG->tempdir.'/'.$temppath;
                 // Finally add the attachment.
-                if ($files = $fs->get_area_files($this->context->id, 'surveyprofield_fileupload', SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $richsubmission->id, "timemodified", false)) {
+                $component = 'surveyprofield_fileupload';
+                $filearea = SURVEYPROFIELD_FILEUPLOAD_FILEAREA;
+                $itemid = $richsubmission->id;
+                if ($files = $fs->get_area_files($this->context->id, $component, $filearea, $itemid, 'timemodified', false)) {
                     foreach ($files as $file) {
                         $filename = $file->get_filename();
                         if ($filename == '.') {

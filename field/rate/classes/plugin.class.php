@@ -145,7 +145,6 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'rate';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // Already set in parent class.
         $this->savepositiontodb = false;
 
         // Other element specific properties.
@@ -281,6 +280,21 @@ class mod_surveypro_field_rate extends mod_surveypro_itembase {
     }
 
     /**
+     * Get the content of the downloadformats menu of the item setup form.
+     *
+     * @return array of downloadformats
+     */
+    public function item_get_downloadformats() {
+        $option = array();
+
+        $options[SURVEYPRO_ITEMSRETURNSVALUES] = get_string('returnvalues', 'surveyprofield_rate');
+        $options[SURVEYPRO_ITEMRETURNSLABELS] = get_string('returnlabels', 'surveyprofield_rate');
+        $options[SURVEYPRO_ITEMRETURNSPOSITION] = get_string('returnposition', 'surveyprofield_rate');
+
+        return $option;
+    }
+
+    /**
      * Get the format recognized (without any really good reason) as friendly.
      *
      * @return the friendly format
@@ -406,10 +420,11 @@ EOS;
             }
         }
 
-        if (!$this->required) { // This is the last if it exists
+        if (!$this->required) { // This is the last if it exists.
+            $noanswerstr = get_string('noanswer', 'mod_surveypro');
             $attributes['id'] = $idprefix.'_noanswer';
             $attributes['class'] = 'indent-'.$this->indent.' rate_check';
-            $mform->addElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'mod_surveypro'), $attributes);
+            $mform->addElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', $noanswerstr, $attributes);
         }
 
         if ($this->required) {
@@ -470,7 +485,7 @@ EOS;
      */
     public function userform_mform_validation($data, &$errors, $searchform) {
         // This plugin displays as a set of dropdown menu or radio buttons. It will never return empty values.
-        // If ($this->required) { if (empty($data[$this->itemname])) { is useless
+        // If ($this->required) { if (empty($data[$this->itemname])) { is useless.
 
         if ($searchform) {
             return;
@@ -563,12 +578,12 @@ EOS;
      * This method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time.
      *
      * @param object $fromdb
-     * @return void
+     * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
         $prefill = array();
 
-        if (!$fromdb) { // $fromdb may be boolean false for not existing data
+        if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
             return $prefill;
         }
 
@@ -613,7 +628,7 @@ EOS;
             $format = $this->downloadformat;
         }
 
-        // $answers is an array like: array(1,1,0,0)
+        // Here $answers is an array like: array(1,1,0,0).
         switch ($format) {
             case SURVEYPRO_ITEMSRETURNSVALUES:
                 $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $content);

@@ -58,7 +58,7 @@ new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURV
 
 $reportman = new mod_surveypro_report_attachments_overview($cm, $context, $surveypro);
 $reportman->setup_outputtable();
-// $reportman->prevent_direct_user_input(); // Useless?
+$reportman->prevent_direct_user_input();
 $reportman->check_attachmentitems();
 $reportman->nosubmissions_stop();
 $reportman->fetch_data();

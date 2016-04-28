@@ -221,11 +221,13 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      * Depending on answers provided by the user, the previous or next page may have no items to display
      * The purpose of this function is to get the first page WITH items
      *
-     * If $rightdirection == true, this method sets..
-     *     the page number of the lower non empty page (according to user answers) greater than $startingpage in $this->firstpageright;
+     * If $rightdirection == true, this method sets...
+     *     the page number of the lower non empty page (according to user answers)
+     *     greater than $startingpage in $this->firstpageright;
      *     returns $nextpage or SURVEYPRO_RIGHT_OVERFLOW if no more empty pages are found on the right
-     * If $rightdirection == false, this method sets..
-     *     the page number of the greater non empty page (according to user answers) lower than $startingpage in $this->firstpageleft;
+     * If $rightdirection == false, this method sets...
+     *     the page number of the greater non empty page (according to user answers)
+     *     lower than $startingpage in $this->firstpageleft;
      *     returns $nextpage or SURVEYPRO_LEFT_OVERFLOW if no more empty pages are found on the left
      *
      * @param bool $rightdirection
@@ -259,10 +261,12 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
 
         if ($rightdirection) {
             $nextpage = ++$startingpage;
-            $overflowpage = $this->get_maxassignedpage() + 1; // Maxpage = $maxformpage, but I have to add      1 because of ($i != $overflowpage).
+            // Here maxpage should be $maxformpage, but I have to add 1 because of ($i != $overflowpage).
+            $overflowpage = $this->get_maxassignedpage() + 1;
         } else {
             $nextpage = --$startingpage;
-            $overflowpage = 0;                                // Minpage = 1,            but I have to subtract 1 because of ($i != $overflowpage).
+            // Here minpage should be 1, but I have to take 1 out because of ($i != $overflowpage).
+            $overflowpage = 0;
         }
 
         do {
@@ -581,7 +585,18 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
         // End of: let's start by saving one record in surveypro_submission.
 
         // Save now all the answers provided by the user.
-        $regexp = '~('.SURVEYPRO_ITEMPREFIX.'|'.SURVEYPRO_DONTSAVEMEPREFIX.')_('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_([a-z]+)_([0-9]+)_?([a-z0-9]+)?~';
+        // Replaced on May 13, 2016
+        // $regexp = '~'.SURVEYPRO_ITEMPREFIX.'_('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_([a-z]+)_([0-9]+)_?([a-z0-9]+)?~';
+        $regexp = '~';
+        $regexp .= SURVEYPRO_ITEMPREFIX.'_';
+        $regexp .= '(?P<type>'.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')';
+        $regexp .= '_';
+        $regexp .= '(?P<plugin>[^_]+)';
+        $regexp .= '_';
+        $regexp .= '(?P<itemid>\d+)';
+        $regexp .= '_?';
+        $regexp .= '(?P<optional>[\d\w]+)?';
+        $regexp .= '~';
 
         $itemhelperinfo = array();
         foreach ($this->formdata as $itemname => $content) {
@@ -597,19 +612,19 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
                 continue; // To next foreach.
             }
 
-            $itemid = $matches[4]; // Itemid of the mform element (or of the group of mform elements referring to the same item).
+            $itemid = $matches['itemid'];
             if (!isset($itemhelperinfo[$itemid])) {
                 $itemhelperinfo[$itemid] = new stdClass();
                 $itemhelperinfo[$itemid]->surveyproid = $surveyproid;
                 $itemhelperinfo[$itemid]->submissionid = $this->get_submissionid();
-                $itemhelperinfo[$itemid]->type = $matches[2];
-                $itemhelperinfo[$itemid]->plugin = $matches[3];
+                $itemhelperinfo[$itemid]->type = $matches['type'];
+                $itemhelperinfo[$itemid]->plugin = $matches['plugin'];
                 $itemhelperinfo[$itemid]->itemid = $itemid;
             }
-            if (!isset($matches[5])) {
+            if (!isset($matches['optional'])) {
                 $itemhelperinfo[$itemid]->contentperelement['mainelement'] = $content;
             } else {
-                $itemhelperinfo[$itemid]->contentperelement[$matches[5]] = $content;
+                $itemhelperinfo[$itemid]->contentperelement[$matches[4]] = $content;
             }
         }
 
@@ -617,7 +632,8 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
         // ->   I update/create the corresponding record asking to each item class to manage its informations.
 
         foreach ($itemhelperinfo as $iteminfo) {
-            if (!$useranswer = $DB->get_record('surveypro_answer', array('submissionid' => $iteminfo->submissionid, 'itemid' => $iteminfo->itemid))) {
+            $where = array('submissionid' => $iteminfo->submissionid, 'itemid' => $iteminfo->itemid);
+            if (!$useranswer = $DB->get_record('surveypro_answer', $where)) {
                 // Quickly make one new!
                 $useranswer = new stdClass();
                 $useranswer->surveyproid = $iteminfo->surveyproid;
@@ -668,7 +684,8 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
         if ($savebutton || $saveasnewbutton) {
             // Let's start with the lightest check (lightest in terms of query).
             $this->check_all_was_verified();
-            if ($this->finalresponseevaluation == SURVEYPRO_VALIDRESPONSE) { // If this answer is still considered valid, check more.
+            if ($this->finalresponseevaluation == SURVEYPRO_VALIDRESPONSE) { // If this answer is still considered valid...
+                // ...check more.
                 $this->check_mandatories_are_in();
             }
 
@@ -746,7 +763,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
                     $parentitem = surveypro_get_item($this->cm, $this->surveypro, $itemseed->parentid);
                     if ($parentitem->userform_child_item_allowed_static($this->get_submissionid(), $itemseed)) {
                         // Parent is here but it allows this item as child in this submission. Answer was jumped.
-                        // TAKE CARE: this check is valid for chains of parent-child relations too.
+                        // Take care: this check is valid for chains of parent-child relations too.
                         // If the parent item was not allowed by its parent,
                         // it was not answered and userform_child_item_allowed_static returns false.
                         $this->finalresponseevaluation = SURVEYPRO_MISSINGMANDATORY;
@@ -828,7 +845,8 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
                 $roles = explode(',', $this->surveypro->notifyrole);
                 $recipients = array();
                 foreach ($mygroups as $mygroup) {
-                    $groupmemberroles = groups_get_members_by_role($mygroup, $COURSE->id, user_picture::fields('u').', u.maildisplay, u.mailformat');
+                    $fields = user_picture::fields('u').', u.maildisplay, u.mailformat';
+                    $groupmemberroles = groups_get_members_by_role($mygroup, $COURSE->id, $fields);
 
                     foreach ($roles as $role) {
                         if (isset($groupmemberroles[$role])) {
@@ -843,7 +861,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
                 }
             } else {
                 // get_enrolled_users($courseid, $options = array()) <-- role is missing.
-                // get_users_from_role_on_context($role, $context);  <-- this is ok but I need to call it once per $role, below I make the query once all together.
+                // get_users_from_role_on_context($role, $context);  <-- this is ok but I need to call it once per $role.
                 $whereparams = array('contextid' => $context->id);
                 $sql = 'SELECT DISTINCT '.user_picture::fields('u').', u.maildisplay, u.mailformat
                         FROM {user} u
@@ -989,7 +1007,9 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
         } else {
             if (!empty($this->surveypro->thankshtml)) {
                 $htmlbody = $this->surveypro->thankshtml;
-                $message = file_rewrite_pluginfile_urls($htmlbody, 'pluginfile.php', $this->context->id, 'mod_surveypro', SURVEYPRO_THANKSHTMLFILEAREA, $this->surveypro->id);
+                $component = 'mod_surveypro';
+                $filearea = SURVEYPRO_THANKSHTMLFILEAREA;
+                $message = file_rewrite_pluginfile_urls($htmlbody, 'pluginfile.php', $this->context->id, $component, $filearea, $this->surveypro->id);
             } else {
                 $message = get_string('basic_submitthanks', 'mod_surveypro');
             }
@@ -998,12 +1018,13 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
         $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
         $cansubmitmore = $utilityman->can_submit_more();
 
-        $paramurl = array('id' => $this->cm->id);
+        $paramurlbase = array('id' => $this->cm->id);
         if ($cansubmitmore) { // If the user is allowed to submit one more response.
-            $buttonurl = new moodle_url('/mod/surveypro/view_form.php', array('id' => $this->cm->id, 'view' => SURVEYPRO_NEWRESPONSE));
+            $paramurl = $paramurlbase + array('view' => SURVEYPRO_NEWRESPONSE);
+            $buttonurl = new moodle_url('/mod/surveypro/view_form.php', $paramurl);
             $onemore = new single_button($buttonurl, get_string('addnewsubmission', 'mod_surveypro'));
 
-            $buttonurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
+            $buttonurl = new moodle_url('/mod/surveypro/view.php', $paramurlbase);
             $gotolist = new single_button($buttonurl, get_string('gotolist', 'mod_surveypro'));
 
             echo $OUTPUT->box_start('generalbox centerpara', 'notice');
@@ -1012,8 +1033,9 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
             echo $OUTPUT->box_end();
         } else {
             echo $OUTPUT->box($message, 'notice centerpara');
-            $buttonurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
-            echo $OUTPUT->box($OUTPUT->single_button($buttonurl, get_string('gotolist', 'mod_surveypro'), 'get'), 'generalbox centerpara');
+            $buttonurl = new moodle_url('/mod/surveypro/view.php', $paramurlbase);
+            $buttonlabel = get_string('gotolist', 'mod_surveypro');
+            echo $OUTPUT->box($OUTPUT->single_button($buttonurl, $buttonlabel, 'get'), 'generalbox centerpara');
         }
     }
 
@@ -1047,16 +1069,17 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
                     $forwardbutton = new single_button($url, get_string('nextformpage', 'mod_surveypro'), 'get');
                 }
 
+                $params = array('class' => 'buttons');
                 if (isset($backwardbutton) && isset($forwardbutton)) {
                     // This code comes from "public function confirm(" around line 1711 in outputrenderers.php.
                     // It is not wrong. The misalign comes from bootstrapbase theme and is present in clean theme too.
-                    echo html_writer::tag('div', $OUTPUT->render($backwardbutton).$OUTPUT->render($forwardbutton), array('class' => 'buttons'));
+                    echo html_writer::tag('div', $OUTPUT->render($backwardbutton).$OUTPUT->render($forwardbutton), $params);
                 } else {
                     if (isset($backwardbutton)) {
-                        echo html_writer::tag('div', $OUTPUT->render($backwardbutton), array('class' => 'buttons'));
+                        echo html_writer::tag('div', $OUTPUT->render($backwardbutton), $params);
                     }
                     if (isset($forwardbutton)) {
-                        echo html_writer::tag('div', $OUTPUT->render($forwardbutton), array('class' => 'buttons'));
+                        echo html_writer::tag('div', $OUTPUT->render($forwardbutton), $params);
                     }
                 }
             }
@@ -1078,14 +1101,25 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
 
         $disposelist = array();
         $olditemid = 0;
-        $regexp = '~'.SURVEYPRO_ITEMPREFIX.'_('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_([a-z]+)_([0-9]+)_?([a-z0-9]+)?~';
+        // Replaced on May 13, 2016
+        // $regexp = '~'.SURVEYPRO_ITEMPREFIX.'_('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_([a-z]+)_([0-9]+)_?([a-z0-9]+)?~';
+        $regexp = '~';
+        $regexp .= SURVEYPRO_ITEMPREFIX.'_';
+        $regexp .= '(?P<type>'.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')';
+        $regexp .= '_';
+        $regexp .= '(?P<plugin>[^_]+)';
+        $regexp .= '_';
+        $regexp .= '(?P<itemid>\d+)';
+        $regexp .= '_?';
+        $regexp .= '(?:[\d\w]+)?';
+        $regexp .= '~';
         foreach ($indexes as $itemname) {
-            if (!preg_match($regexp, $itemname, $matches)) { // If it starts with SURVEYPRO_ITEMPREFIX_.
+            if (!preg_match($regexp, $itemname, $matches)) { // If it NOT starts with SURVEYPRO_ITEMPREFIX_.
                 continue;
             }
-            $type = $matches[1]; // Item type.
-            $plugin = $matches[2]; // Item plugin.
-            $itemid = $matches[3]; // Item id.
+            $type = $matches['type']; // Item type.
+            $plugin = $matches['plugin']; // Item plugin.
+            $itemid = $matches['itemid']; // Item id.
 
             if ($itemid == $olditemid) {
                 continue;
@@ -1119,9 +1153,10 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
             }
 
             if ($parentinsamepage) { // If parent is in this same page.
-                // Tell parentitem what child needs in order to be displayed and compare it with what was answered to parentitem ($dirtydata).
+                // Tell parentitem what child needs in order to be displayed
+                // and compare it with what was answered to parentitem ($dirtydata).
                 $expectedvalue = $parentitem->userform_child_item_allowed_dynamic($childitem->get_parentvalue(), $dirtydata);
-                // Parentitem, knowing itself, compare what is needed and provide an answer.
+                // Parentitem, knowing itself, compare what is needed and provides an answer.
 
                 if (!$expectedvalue) {
                     $disposelist[] = $childitem->get_itemid();
@@ -1132,13 +1167,25 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
 
         // If not expected items are here...
         if (count($disposelist)) {
-            $regexp = '~'.SURVEYPRO_ITEMPREFIX.'_('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_([a-z]+)_([0-9]+)_?([a-z0-9]+)?~';
+            // Replaced on May 13, 2016
+            // $regexp = '~'.SURVEYPRO_ITEMPREFIX.'_('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_(\w+)_(\d+)_?([a-z0-9]+)?~';
+            $regexp = '~';
+            $regexp .= SURVEYPRO_ITEMPREFIX.'_';
+            $regexp .= '(?:'.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')';
+            $regexp .= '_';
+            $regexp .= '(?:[^_]+)';
+            $regexp .= '_';
+            $regexp .= '(?P<itemid>\d+)';
+            $regexp .= '_?';
+            $regexp .= '(?:[\d\w]+)?';
+            $regexp .= '~';
+
             foreach ($indexes as $itemname) {
                 if (preg_match($regexp, $itemname, $matches)) {
-                    // $type = $matches[1]; // Item type.
-                    // $plugin = $matches[2]; // Item plugin.
-                    $itemid = $matches[3]; // Item id.
-                    // $option = $matches[4]; // _text or _noanswer or...
+                    // The item type is not extracted.
+                    // The item plugin is not extracted.
+                    $itemid = $matches['itemid']; // The item id.
+                    // The last optional word (_text or _noanswer or...) is not extracted.
                     if (in_array($itemid, $disposelist)) {
                         unset($this->formdata->$itemname);
                     }
@@ -1162,7 +1209,8 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
         $caneditownsubmissions = has_capability('mod/surveypro:editownsubmissions', $this->context, null, true);
 
         if (($this->view == SURVEYPRO_READONLYRESPONSE) || ($this->view == SURVEYPRO_EDITRESPONSE)) {
-            if (!$submission = $DB->get_record('surveypro_submission', array('id' => $this->get_submissionid()), '*', IGNORE_MISSING)) {
+            $where = array('id' => $this->get_submissionid());
+            if (!$submission = $DB->get_record('surveypro_submission', $where, '*', IGNORE_MISSING)) {
                 print_error('incorrectaccessdetected', 'mod_surveypro');
             }
             if ($submission->userid != $USER->id) {

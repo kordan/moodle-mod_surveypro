@@ -60,6 +60,8 @@ class mod_surveypro_outform extends moodleform {
             $mform->disable_form_change_checker();
         }
 
+        $notestr = get_string('note', 'mod_surveypro');
+
         // Userform: s.
         $mform->addElement('hidden', 's', $surveypro->id);
         $mform->setType('s', PARAM_INT);
@@ -69,18 +71,18 @@ class mod_surveypro_outform extends moodleform {
         $mform->setType('submissionid', PARAM_INT);
 
         // Userform: formpage.
-        $mform->addElement('hidden', 'formpage', 0); // <-- this value comes from default as set just before $mform->display(); in view_form.php
+        $mform->addElement('hidden', 'formpage', 0); // Value is provided by $outform->set_data($prefill); from view_form.php
         $mform->setType('formpage', PARAM_INT);
 
         if ($formpage == SURVEYPRO_LEFT_OVERFLOW) {
-            $mform->addElement('static', 'nomoreitems', get_string('note', 'mod_surveypro'), get_string('onlyreserveditemhere', 'mod_surveypro'));
-            // $mform->addElement('static', 'nomoreitems', get_string('note', 'mod_surveypro'), 'SURVEYPRO_LEFT_OVERFLOW');
+            $mform->addElement('static', 'nomoreitems', $notestr, get_string('onlyreserveditemhere', 'mod_surveypro'));
+            // $mform->addElement('static', 'nomoreitems', $notestr, 'SURVEYPRO_LEFT_OVERFLOW');
         }
 
         if ($formpage == SURVEYPRO_RIGHT_OVERFLOW) {
             $a = $surveypro->saveresume ? get_string('revieworpause', 'mod_surveypro') : get_string('onlyreview', 'mod_surveypro');
-            $mform->addElement('static', 'nomoreitems', get_string('note', 'mod_surveypro'), get_string('nomoreitems', 'mod_surveypro', $a));
-            // $mform->addElement('static', 'nomoreitems', get_string('note', 'mod_surveypro'), 'SURVEYPRO_RIGHT_OVERFLOW');
+            $mform->addElement('static', 'nomoreitems', $notestr, get_string('nomoreitems', 'mod_surveypro', $a));
+            // $mform->addElement('static', 'nomoreitems', $notestr, 'SURVEYPRO_RIGHT_OVERFLOW');
         }
 
         if ($formpage >= 0) {
@@ -91,7 +93,7 @@ class mod_surveypro_outform extends moodleform {
             if (!$itemseeds->valid()) {
                 // No items are in this page.
                 // Display an error message.
-                $mform->addElement('static', 'noitemshere', get_string('note', 'mod_surveypro'), 'ERROR: How can I be here if ($formpage > 0) ?');
+                $mform->addElement('static', 'noitemshere', $notestr, 'ERROR: How can I be here if ($formpage > 0) ?');
             }
 
             // This dummy item is needed for the colours alternation.
@@ -104,7 +106,7 @@ class mod_surveypro_outform extends moodleform {
                 if ($tabpage == SURVEYPRO_LAYOUT_PREVIEW) {
                     $itemaschildisallowed = true;
                 } else {
-                    // Is the current item allowed to be displayed in this page?
+                    // Is the current item allowed in this page?
                     if ($itemseed->parentid) {
                         // Get it now AND NEVER MORE.
                         $parentitem = surveypro_get_item($cm, $surveypro, $itemseed->parentid);
@@ -175,7 +177,7 @@ class mod_surveypro_outform extends moodleform {
 
                         $itemname = $item->get_itemname().'_note';
                         $attributes = array('class' => 'indent-'.$item->get_indent().' label_static');
-                        $mform->addElement('mod_surveypro_static', $itemname, get_string('note', 'mod_surveypro'), $fullinfo, $attributes);
+                        $mform->addElement('mod_surveypro_static', $itemname, $notestr, $fullinfo, $attributes);
                     }
 
                     if (!$surveypro->newpageforchild) {
@@ -206,7 +208,8 @@ class mod_surveypro_outform extends moodleform {
             }
             if (($formpage == $maxassignedpage) || ($formpage == SURVEYPRO_RIGHT_OVERFLOW)) {
                 if ($surveypro->history) {
-                    $submissionstatus = $DB->get_field('surveypro_submission', 'status', array('id' => $submissionid), IGNORE_MISSING);
+                    $where = array('id' => $submissionid);
+                    $submissionstatus = $DB->get_field('surveypro_submission', 'status', $where, IGNORE_MISSING);
                     if ($submissionstatus === false) { // Submissions still does not exist.
                         $usesimplesavebutton = true;
                     } else {
@@ -235,7 +238,7 @@ class mod_surveypro_outform extends moodleform {
             $mform->setType('buttonar', PARAM_RAW);
             $mform->closeHeaderBefore('buttonar');
         } else { // Only one button here.
-            foreach ($buttonlist as $name => $label) { // $buttonlist is a one element only array
+            foreach ($buttonlist as $name => $label) { // $buttonlist is a one element only array.
                 $mform->closeHeaderBefore($name);
                 $mform->addElement('submit', $name, $label);
             }
@@ -276,15 +279,28 @@ class mod_surveypro_outform extends moodleform {
         $errors = parent::validation($data, $files);
 
         // Validate an item only if is enabled, alias: only if it matches the parent value
-        $regexp = '~('.SURVEYPRO_ITEMPREFIX.'|'.SURVEYPRO_DONTSAVEMEPREFIX.')_('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_([a-z]+)_([0-9]+)_?([a-z0-9]+)?~';
+        // Replaced on May 13, 2016
+        // $regexp = '~('.SURVEYPRO_ITEMPREFIX.'|'.SURVEYPRO_DONTSAVEMEPREFIX.')_('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_([a-z]+)_([0-9]+)_?([a-z0-9]+)?~';
+        $regexp = '~';
+        $regexp .= '(?:'.SURVEYPRO_ITEMPREFIX.'|'.SURVEYPRO_DONTSAVEMEPREFIX.')';
+        $regexp .= '_';
+        $regexp .= '(?P<type>'.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')';
+        $regexp .= '_';
+        $regexp .= '(?P<plugin>[^_]+)';
+        $regexp .= '_';
+        $regexp .= '(?P<itemid>\d+)';
+        $regexp .= '_?';
+        $regexp .= '(?:[\d\w]+)?';
+        $regexp .= '~';
+
         $olditemid = 0;
         foreach ($data as $itemname => $unused) {
             if (preg_match($regexp, $itemname, $matches)) {
-                $type = $matches[2]; // Item type.
-                $plugin = $matches[3]; // Item plugin.
-                $itemid = $matches[4]; // Item id.
-                // $option = $matches[5]; // _text or _noanswer or...
-
+                // The prefix (_text or _noanswer or...) is not extracted.
+                $type = $matches['type']; // Item type.
+                $plugin = $matches['plugin']; // Item plugin.
+                $itemid = $matches['itemid']; // Item id.
+                // The last optional word (_text or _noanswer or...) is not extracted.
                 if ($itemid == $olditemid) {
                     continue;
                 }
@@ -316,7 +332,9 @@ class mod_surveypro_outform extends moodleform {
                 if ($itemisenabled) {
                     $item->userform_mform_validation($data, $errors, false);
                 }
-                // Otherwise... echo 'parent item doesn\'t allow the validation of the child item '.$item->itemid.', plugin = '.$item->plugin.'('.$item->content.')<br />';
+                // Otherwise...
+                // echo 'parent item doesn\'t allow the validation of the child item '.$item->itemid;
+                // echo ', plugin = '.$item->plugin.'('.$item->content.')<br />';
             }
         }
 

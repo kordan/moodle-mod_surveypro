@@ -80,11 +80,16 @@ class mod_surveypro_applyutemplateform extends moodleform {
 
         // Applyutemplate: otheritems.
         $fieldname = 'action';
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('ignoreitems', 'mod_surveypro'), SURVEYPRO_IGNOREITEMS);
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('hideitems', 'mod_surveypro'), SURVEYPRO_HIDEALLITEMS);
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('deleteallitems', 'mod_surveypro'), SURVEYPRO_DELETEALLITEMS);
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('deletevisibleitems', 'mod_surveypro'), SURVEYPRO_DELETEVISIBLEITEMS);
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('deletehiddenitems', 'mod_surveypro'), SURVEYPRO_DELETEHIDDENITEMS);
+        $ignoreitemsstr = get_string('ignoreitems', 'mod_surveypro');
+        $hideitemsstr = get_string('hideitems', 'mod_surveypro');
+        $deleteallitemsstr = get_string('deleteallitems', 'mod_surveypro');
+        $deletevisibleitemsstr = get_string('deletevisibleitems', 'mod_surveypro');
+        $deletehiddenitemsstr = get_string('deletehiddenitems', 'mod_surveypro');
+        $elementgroup[] = $mform->createElement('radio', $fieldname, '', $ignoreitemsstr, SURVEYPRO_IGNOREITEMS);
+        $elementgroup[] = $mform->createElement('radio', $fieldname, '', $hideitemsstr, SURVEYPRO_HIDEALLITEMS);
+        $elementgroup[] = $mform->createElement('radio', $fieldname, '', $deleteallitemsstr, SURVEYPRO_DELETEALLITEMS);
+        $elementgroup[] = $mform->createElement('radio', $fieldname, '', $deletevisibleitemsstr, SURVEYPRO_DELETEVISIBLEITEMS);
+        $elementgroup[] = $mform->createElement('radio', $fieldname, '', $deletehiddenitemsstr, SURVEYPRO_DELETEHIDDENITEMS);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'mod_surveypro'), '<br />', false);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveypro');
         $mform->setDefault($fieldname, SURVEYPRO_IGNOREITEMS);

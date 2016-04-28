@@ -76,7 +76,8 @@ class mod_surveypro_applymtemplateform extends moodleform {
             }
         } else {
             $fieldname = 'nomtemplates';
-            $mform->addElement('static', $fieldname, get_string('mastertemplate', 'mod_surveypro'), get_string('nomtemplates_message', 'mod_surveypro'));
+            $message = get_string('nomtemplates_message', 'mod_surveypro');
+            $mform->addElement('static', $fieldname, get_string('mastertemplate', 'mod_surveypro'), $message);
             $mform->addHelpButton($fieldname, 'nomtemplates', 'surveypro');
         }
     }

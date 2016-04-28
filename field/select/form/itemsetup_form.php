@@ -52,25 +52,31 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         $item = $this->_customdata->item;
         // Useless: $surveypro = $this->_customdata->surveypro;.
 
+        $textareaoptions = array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65');
+
         // Item: options.
         $fieldname = 'options';
-        $mform->addElement('textarea', $fieldname, get_string($fieldname, 'surveyprofield_select'), array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65'));
+        $mform->addElement('textarea', $fieldname, get_string($fieldname, 'surveyprofield_select'), $textareaoptions);
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_select');
         $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
-        $mform->setType($fieldname, PARAM_RAW); // PARAM_RAW and not PARAM_TEXT otherwise '<' is not accepted
+        $mform->setType($fieldname, PARAM_RAW); // PARAM_RAW and not PARAM_TEXT otherwise '<' is not accepted.
 
         // Item: labelother.
         $fieldname = 'labelother';
-        $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_select'), array('maxlength' => '64', 'size' => '50'));
+        $attributes = array('maxlength' => '64', 'size' => '50');
+        $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_select'), $attributes);
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_select');
         $mform->setType($fieldname, PARAM_TEXT);
 
         // Item: defaultoption.
         $fieldname = 'defaultoption';
+        $customdefaultstr = get_string('customdefault', 'surveyprofield_select');
+        $invitedefaultstr = get_string('invitedefault', 'mod_surveypro');
+        $noanswerstr = get_string('noanswer', 'mod_surveypro');
         $elementgroup = array();
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('customdefault', 'surveyprofield_select'), SURVEYPRO_CUSTOMDEFAULT);
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('invitedefault', 'mod_surveypro'), SURVEYPRO_INVITEDEFAULT);
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('noanswer', 'mod_surveypro'), SURVEYPRO_NOANSWERDEFAULT);
+        $elementgroup[] = $mform->createElement('radio', $fieldname, '', $customdefaultstr, SURVEYPRO_CUSTOMDEFAULT);
+        $elementgroup[] = $mform->createElement('radio', $fieldname, '', $invitedefaultstr, SURVEYPRO_INVITEDEFAULT);
+        $elementgroup[] = $mform->createElement('radio', $fieldname, '', $noanswerstr, SURVEYPRO_NOANSWERDEFAULT);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_select'), ' ', false);
         $mform->setDefault($fieldname, SURVEYPRO_INVITEDEFAULT);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_select');
@@ -84,9 +90,7 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
         // Item: downloadformat.
         $fieldname = 'downloadformat';
-        $options = array(SURVEYPRO_ITEMSRETURNSVALUES => get_string('returnvalues', 'surveyprofield_select'),
-                         SURVEYPRO_ITEMRETURNSLABELS => get_string('returnlabels', 'surveyprofield_select'),
-                         SURVEYPRO_ITEMRETURNSPOSITION => get_string('returnposition', 'surveyprofield_select'));
+        $options = $item->item_get_downloadformats();
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_select'), $options);
         $mform->setDefault($fieldname, $item->item_get_friendlyformat());
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_select');
@@ -139,7 +143,7 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
             }
         }
 
-        // If (default == noanswer but the item is mandatory) then => error.
+        // Editing teacher can not set "noanswer" as default option if the item is mandatory.
         if ( ($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required']) ) {
             $a = get_string('noanswer', 'mod_surveypro');
             $errors['defaultoption_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);

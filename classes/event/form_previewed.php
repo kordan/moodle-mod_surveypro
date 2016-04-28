@@ -91,17 +91,4 @@ class form_previewed extends \core\event\base {
      */
     public static function get_legacy_eventname() {
     }
-
-    /**
-     * Legacy event data if get_legacy_eventname() is not empty.
-     *
-     * @return stdClass
-     */
-    protected function get_legacy_eventdata() {
-        // Override if you migrating events_trigger() call.
-        /* $data = new \stdClass();
-        $data->id = $this->objectid;
-        $data->userid = $this->relateduserid;
-        return $data; */
-    }
 }

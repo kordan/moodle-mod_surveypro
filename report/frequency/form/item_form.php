@@ -67,7 +67,8 @@ class mod_surveypro_chooseitemform extends moodleform {
             if (($itemseed->plugin == 'textarea') || ($itemseed->plugin == 'fileupload')) {
                 continue;
             }
-            $thiscontent = $DB->get_field('surveypro'.$itemseed->type.'_'.$itemseed->plugin, 'content', array('itemid' => $itemseed->id));
+            $where = array('itemid' => $itemseed->id);
+            $thiscontent = $DB->get_field('surveypro'.$itemseed->type.'_'.$itemseed->plugin, 'content', $where);
             if (!empty($surveypro->template)) {
                 $thiscontent = get_string($thiscontent, 'surveyprotemplate_'.$surveypro->template);
             }
@@ -95,7 +96,6 @@ class mod_surveypro_chooseitemform extends moodleform {
         // Get _customdata.
         // Useless: $surveypro = $this->_customdata->surveypro;.
 
-        // "noanswer" default option is not allowed when the item is mandatory
         $errors = array();
 
         if (!$data['itemid']) {

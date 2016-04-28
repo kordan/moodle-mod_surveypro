@@ -155,7 +155,6 @@ class mod_surveypro_field_age extends mod_surveypro_itembase {
         // List of properties set to static values..
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'age';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // Already set in parent class.
         $this->savepositiontodb = false;
 
         // Other element specific properties.
@@ -438,6 +437,10 @@ EOS;
      * @return void
      */
     public function userform_mform_element($mform, $searchform, $readonly) {
+        $stryears = get_string('years');
+        $strmonths = get_string('months', 'surveyprofield_age');
+        $strnoanswer = get_string('noanswer', 'mod_surveypro');
+
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
@@ -456,32 +459,38 @@ EOS;
             $years[SURVEYPRO_IGNOREMEVALUE] = '';
             $months[SURVEYPRO_IGNOREMEVALUE] = '';
         }
-        $years += array_combine(range($this->lowerboundyear, $this->upperboundyear), range($this->lowerboundyear, $this->upperboundyear));
-        $months += array_combine(range(0, 11), range(0, 11));
+        $yearsrange = range($this->lowerboundyear, $this->upperboundyear);
+        $years += array_combine($yearsrange, $yearsrange);
+        $monthsrange = range(0, 11);
+        $months += array_combine($monthsrange, $monthsrange);
         // End of: element values.
 
         // Begin of: mform element.
         $elementgroup = array();
         $attributes = array();
 
+        $itemname = $this->itemname.'_year';
         $attributes['id'] = $idprefix.'_year';
         $attributes['class'] = 'indent-'.$this->indent.' age_select';
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_year', '', $years, $attributes);
+        $elementgroup[] = $mform->createElement('mod_surveypro_select', $itemname, '', $years, $attributes);
 
         if ($readonly) {
+            $itemname = 'yearlabel_'.$this->itemid;
             $attributes['id'] = $idprefix.'_yearseparator';
             $attributes['class'] = 'inline age_static';
-            $elementgroup[] = $mform->createElement('mod_surveypro_static', 'yearlabel_'.$this->itemid, null, get_string('years'), $attributes);
+            $elementgroup[] = $mform->createElement('mod_surveypro_static', $itemname, '', $stryears, $attributes);
         }
 
+        $itemname = $this->itemname.'_month';
         $attributes['id'] = $idprefix.'_month';
         $attributes['class'] = 'age_select';
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_month', '', $months, $attributes);
+        $elementgroup[] = $mform->createElement('mod_surveypro_select', $itemname, '', $months, $attributes);
 
         if ($readonly) {
+            $itemname = 'monthlabel_'.$this->itemid;
             $attributes['id'] = $idprefix.'_monthseparator';
             $attributes['class'] = 'inline age_static';
-            $elementgroup[] = $mform->createElement('mod_surveypro_static', 'monthlabel_'.$this->itemid, null, get_string('months', 'mod_surveypro'), $attributes);
+            $elementgroup[] = $mform->createElement('mod_surveypro_static', $itemname, '', $strmonths, $attributes);
         }
 
         if ($this->required) {
@@ -496,9 +505,10 @@ EOS;
                 $mform->_required[] = $starplace;
             }
         } else {
+            $itemname = $this->itemname.'_noanswer';
             $attributes['id'] = $idprefix.'_noanswer';
             $attributes['class'] = 'age_check';
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'mod_surveypro'), $attributes);
+            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $strnoanswer, $attributes);
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
         }
@@ -673,12 +683,12 @@ EOS;
      * This method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time.
      *
      * @param object $fromdb
-     * @return void
+     * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
         $prefill = array();
 
-        if (!$fromdb) { // $fromdb may be boolean false for not existing data.
+        if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
             return $prefill;
         }
 

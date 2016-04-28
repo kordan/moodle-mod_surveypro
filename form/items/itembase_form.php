@@ -90,7 +90,8 @@ class mod_surveypro_itembaseform extends moodleform {
                 $mform->setType($fieldname, PARAM_CLEANHTML);
             } else {
                 $fieldname = 'content';
-                $mform->addElement('text', $fieldname, get_string($fieldname, 'mod_surveypro'), array('maxlength' => '128', 'size' => '50'));
+                $attributes = array('maxlength' => '128', 'size' => '50');
+                $mform->addElement('text', $fieldname, get_string($fieldname, 'mod_surveypro'), $attributes);
                 $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
                 $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
                 $mform->setType($fieldname, PARAM_TEXT);
@@ -108,7 +109,8 @@ class mod_surveypro_itembaseform extends moodleform {
         // Itembase: indent.
         $fieldname = 'indent';
         if ($item->get_insetupform($fieldname)) {
-            $options = array_combine(range(0, 9), range(0, 9));
+            $indentrange = range(0, 9);
+            $options = array_combine($indentrange, $indentrange);
             $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $options);
             $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
             $mform->setDefault($fieldname, '0');
@@ -204,7 +206,8 @@ class mod_surveypro_itembaseform extends moodleform {
             // Create the list of each item with:
             // sortindex lower than mine (whether already exists);
             // $classname::item_get_canbeparent() == true;
-            // reserved == my one <-- I omit this verification because the surveypro creator can, at every time, change the availability of the current item
+            // I also should include the clause "reserved = my one" but I omit this verification
+            // because the surveypro creator can, at every time, change the availability of the current item.
             // So I move the verification of the holding form at the form verification time.
 
             // Build the list only for searchable plugins.
@@ -236,7 +239,8 @@ class mod_surveypro_itembaseform extends moodleform {
                 $parentitem = surveypro_get_item($cm, $surveypro, $parentsseed->id, $parentsseed->type, $parentsseed->plugin);
                 $star = ($parentitem->get_reserved()) ? '(*) ' : '';
 
-                // I do not need to take care of contents of items of master templates because if I am here, $parent is a standard item and not a multilang one
+                // I do not need to take care of contents of items of master templates
+                // because if I am here, $parent is a standard item and not a multilang one.
                 $content = $star;
                 $content .= get_string('pluginname', 'surveyprofield_'.$parentitem->get_plugin());
                 $content .= ' ['.$parentitem->get_sortindex().']: '.strip_tags($parentitem->get_content());
@@ -255,8 +259,8 @@ class mod_surveypro_itembaseform extends moodleform {
 
             // Itembase::parentcontent.
             $fieldname = 'parentcontent';
-            $params = array('wrap' => 'virtual', 'rows' => '5', 'cols' => '45');
-            $mform->addElement('textarea', $fieldname, get_string($fieldname, 'mod_surveypro'), $params);
+            $textareaoptions = array('wrap' => 'virtual', 'rows' => '5', 'cols' => '45');
+            $mform->addElement('textarea', $fieldname, get_string($fieldname, 'mod_surveypro'), $textareaoptions);
             $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
             $mform->setType($fieldname, PARAM_RAW);
 
@@ -266,16 +270,19 @@ class mod_surveypro_itembaseform extends moodleform {
             $a->fieldname = get_string('parentcontent', 'mod_surveypro');
             $a->examples = html_writer::start_tag('ul');
             foreach ($pluginlist as $plugin) {
+                $pluginnamestr = get_string('pluginname', 'surveyprofield_'.$plugin);
+                $parentformatstr = get_string('parentformat', 'surveyprofield_'.$plugin);
                 $a->examples .= html_writer::start_tag('li');
                 $a->examples .= html_writer::start_tag('div');
-                $a->examples .= html_writer::tag('div', get_string('pluginname', 'surveyprofield_'.$plugin), array('class' => 'pluginname'));
-                $a->examples .= html_writer::tag('div', get_string('parentformat', 'surveyprofield_'.$plugin), array('class' => 'inputformat'));
+                $a->examples .= html_writer::tag('div', $pluginnamestr, array('class' => 'pluginname'));
+                $a->examples .= html_writer::tag('div', $parentformatstr, array('class' => 'inputformat'));
                 $a->examples .= html_writer::end_tag('div');
                 $a->examples .= html_writer::end_tag('li');
                 $a->examples .= "\n";
             }
+            $notestr = get_string('note', 'mod_surveypro');
             $a->examples .= html_writer::end_tag('ul');
-            $mform->addElement('static', $fieldname, get_string('note', 'mod_surveypro'), get_string($fieldname, 'mod_surveypro', $a));
+            $mform->addElement('static', $fieldname, $notestr, get_string($fieldname, 'mod_surveypro', $a));
         }
 
         if ($item->get_type() == SURVEYPRO_TYPEFIELD) {
@@ -335,7 +342,7 @@ class mod_surveypro_itembaseform extends moodleform {
 
         $errors = array();
 
-        // If (default == noanswer) but item is required => error.
+        // Editing teacher can not set "noanswer" as default option if the item is mandatory.
         if ( isset($data['defaultvalue_check']) && isset($data['required']) ) {
             $a = get_string('noanswer', 'mod_surveypro');
             $errors['defaultvalue_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
@@ -347,13 +354,13 @@ class mod_surveypro_itembaseform extends moodleform {
         }
 
         // You choosed a parentid but you are missing the parentcontent.
-        if (empty($data['parentid']) && (strlen($data['parentcontent']) > 0)) { // $data['parentcontent'] can be = '0'
+        if (empty($data['parentid']) && (strlen($data['parentcontent']) > 0)) { // $data['parentcontent'] can be = '0'.
             $a = get_string('parentcontent', 'mod_surveypro');
             $errors['parentid'] = get_string('ierr_missingparentid', 'mod_surveypro', $a);
         }
 
         // You did not choose a parent item but you entered an answer.
-        if ( !empty($data['parentid']) && (strlen($data['parentcontent']) == 0) ) { // $data['parentcontent'] can be = '0'
+        if ( !empty($data['parentid']) && (strlen($data['parentcontent']) == 0) ) { // $data['parentcontent'] can be = '0'.
             $a = get_string('parentid', 'mod_surveypro');
             $errors['parentcontent'] = get_string('ierr_missingparentcontent', 'mod_surveypro', $a);
         }

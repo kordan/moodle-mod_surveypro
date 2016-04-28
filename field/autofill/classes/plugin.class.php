@@ -185,7 +185,6 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'autofill';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // Already set in parent class.
         $this->savepositiontodb = false;
 
         // Other element specific properties.
@@ -276,7 +275,7 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
         // Nothing to do: they don't exist in this plugin.
 
         // 3. special management for autofill contents
-        $referencearray = array(''); // <-- take care, the first element is already on board
+        $referencearray = array(''); // Take care: the first element is already on board.
         for ($i = 1; $i <= SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT_COUNT; $i++) {
             $referencearray[] = constant('SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT'.sprintf('%02d', $i));
         }
@@ -316,7 +315,7 @@ class mod_surveypro_field_autofill extends mod_surveypro_itembase {
             $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
         }
 
-        // 4. Other: special management for autofill contents
+        // 4. Other: special management for autofill contents.
         for ($i = 1; $i < 6; $i++) {
             $index = sprintf('%02d', $i);
             if (!empty($record->{'element'.$index.'_select'})) {
@@ -406,6 +405,7 @@ EOS;
      * @return void
      */
     public function userform_mform_element($mform, $searchform, $readonly) {
+        $starstr = get_string('star', 'mod_surveypro');
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
@@ -434,13 +434,15 @@ EOS;
             $attributes = array();
             $elementgroup = array();
 
+            $itemname = $this->itemname;
             $attributes['id'] = $idprefix;
             $attributes['class'] = 'indent-'.$this->indent.' autofill_text';
-            $elementgroup[] = $mform->createElement('text', $this->itemname, '', $attributes);
+            $elementgroup[] = $mform->createElement('text', $itemname, '', $attributes);
 
+            $itemname = $this->itemname.'_ignoreme';
             $attributes['id'] = $idprefix.'_ignoreme';
             $attributes['class'] = 'autofill_check';
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'mod_surveypro'), $attributes);
+            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $starstr, $attributes);
 
             $mform->setType($this->itemname, PARAM_RAW);
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
@@ -493,12 +495,12 @@ EOS;
      * This method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time.
      *
      * @param object $fromdb
-     * @return void
+     * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
         $prefill = array();
 
-        if (!$fromdb) { // $fromdb may be boolean false for not existing data
+        if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
             return $prefill;
         }
 
@@ -511,7 +513,6 @@ EOS;
 
         return $prefill;
     }
-
 
     /**
      * Get the content for the autofill element.

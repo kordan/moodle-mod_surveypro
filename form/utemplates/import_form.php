@@ -45,12 +45,12 @@ class mod_surveypro_importutemplateform extends moodleform {
 
         // Get _customdata.
         $utemplateman = $this->_customdata->utemplateman;
-        $filemanageroptions = $this->_customdata->filemanageroptions;
+        $attributes = $this->_customdata->filemanageroptions;
 
         // Templateimport: importfile.
         // Here I use filemanager because I can even upload more than one usertemplate at once.
         $fieldname = 'importfile';
-        $mform->addElement('filemanager', $fieldname.'_filemanager', get_string($fieldname, 'mod_surveypro'), null, $filemanageroptions);
+        $mform->addElement('filemanager', $fieldname.'_filemanager', get_string($fieldname, 'mod_surveypro'), null, $attributes);
         $mform->addRule($fieldname.'_filemanager', null, 'required');
 
         // Templateimport: overwrite.
@@ -85,7 +85,7 @@ class mod_surveypro_importutemplateform extends moodleform {
 
         // Get _customdata.
         $utemplateman = $this->_customdata->utemplateman;
-        // Useless: $filemanageroptions = $this->_customdata->filemanager_options;.
+        // Useless: $attributes = $this->_customdata->filemanager_options;.
 
         $errors = parent::validation($data, $files);
 

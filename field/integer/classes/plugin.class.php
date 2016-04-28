@@ -125,7 +125,6 @@ class mod_surveypro_field_integer extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'integer';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // Already set in parent class.
         $this->savepositiontodb = false;
 
         // Other element specific properties.
@@ -442,11 +441,12 @@ EOS;
         } else {
             $integers[SURVEYPRO_IGNOREMEVALUE] = '';
         }
-        $integers += array_combine(range($this->lowerbound, $this->upperbound), range($this->lowerbound, $this->upperbound));
+        $integersrange = range($this->lowerbound, $this->upperbound);
+        $integers += array_combine($integersrange, $integersrange);
         if (!$this->required) {
             $integers += array(SURVEYPRO_NOANSWERVALUE => get_string('noanswer', 'mod_surveypro'));
         }
-        // End of: element values
+        // End of: element values.
 
         $attributes = array();
         $attributes['id'] = $idprefix;
@@ -628,8 +628,7 @@ EOS;
      * @return boolean: true: if the item is welcome; false: if the item must be dropped out
      */
     public function userform_child_item_allowed_dynamic($childparentvalue, $data) {
-        // 1) I am a boolean item
-        // 2) in $data I can ONLY find $this->itemname
+        // In $data I can ONLY find $this->itemname.
         return ($data[$this->itemname] == $childparentvalue);
     }
 
@@ -655,12 +654,12 @@ EOS;
      * This method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time.
      *
      * @param object $fromdb
-     * @return void
+     * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
         $prefill = array();
 
-        if (!$fromdb) { // $fromdb may be boolean false for not existing data
+        if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
             return $prefill;
         }
 

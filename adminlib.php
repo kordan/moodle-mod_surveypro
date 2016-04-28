@@ -319,7 +319,8 @@ class mod_surveypro_plugin_manager {
         if ($confirm) {
             // Delete any configuration records.
             if (!unset_all_config_for_plugin($this->subtype.'_'.$plugin)) {
-                $this->error = $OUTPUT->notification(get_string('errordeletingconfig', 'admin', $this->subtype.'_'.$plugin), 'notifyproblem');
+                $message = get_string('errordeletingconfig', 'admin', $this->subtype.'_'.$plugin);
+                $this->error = $OUTPUT->notification($message, 'notifyproblem');
             }
 
             // Should be covered by the previous function - but just in case.
@@ -332,9 +333,7 @@ class mod_surveypro_plugin_manager {
             // Then the tables themselves.
             $shortsubtype = substr($this->subtype, strlen('surveypro'));
             $installxml = $CFG->dirroot.'/mod/surveypro/'.$shortsubtype.'/'.$plugin.'/db/install.xml';
-            drop_plugin_tables($this->subtype.'_'.$plugin,
-                               $installxml,
-                               false);
+            drop_plugin_tables($this->subtype.'_'.$plugin, $installxml, false);
 
             // Remove event handlers and dequeue pending events.
             events_uninstall($this->subtype.'_'.$plugin);

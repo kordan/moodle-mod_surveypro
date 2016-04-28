@@ -130,7 +130,6 @@ class mod_surveypro_field_multiselect extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'multiselect';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // Already set in parent class.
         $this->savepositiontodb = true;
 
         // Other element specific properties.
@@ -252,6 +251,21 @@ class mod_surveypro_field_multiselect extends mod_surveypro_itembase {
         }
 
         return implode($constraints, '<br />');
+    }
+
+    /**
+     * Get the content of the downloadformats menu of the item setup form.
+     *
+     * @return array of downloadformats
+     */
+    public function item_get_downloadformats() {
+        $option = array();
+
+        $options[SURVEYPRO_ITEMSRETURNSVALUES] = get_string('returnvalues', 'surveyprofield_multiselect');
+        $options[SURVEYPRO_ITEMRETURNSLABELS] = get_string('returnlabels', 'surveyprofield_multiselect');
+        $options[SURVEYPRO_ITEMRETURNSPOSITION] = get_string('returnposition', 'surveyprofield_multiselect');
+
+        return $option;
     }
 
     /**
@@ -451,6 +465,8 @@ EOS;
      */
     public function userform_mform_element($mform, $searchform, $readonly) {
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
+        $noanswerstr = get_string('noanswer', 'mod_surveypro');
+        $starstr = get_string('star', 'mod_surveypro');
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
@@ -471,13 +487,15 @@ EOS;
                 $select->setMultiple(true);
                 $elementgroup[] = $select;
 
+                $itemname = $this->itemname.'_noanswer';
                 $attributes['id'] = $idprefix.'_noanswer';
                 $attributes['class'] = 'multiselect_check';
                 unset($attributes['size']);
-                $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'mod_surveypro'), $attributes);
+                $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $noanswerstr, $attributes);
 
                 $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, '', false);
-                // Multiselect uses a special syntax that is different from the syntax of all the other mform groups with disabilitation chechbox.
+                // Multiselect uses a special syntax
+                // that is different from the syntax of all the other mform groups with disabilitation chechbox.
                 // $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
                 $mform->disabledIf($this->itemname.'[]', $this->itemname.'_noanswer', 'checked');
             }
@@ -491,17 +509,20 @@ EOS;
             unset($attributes['size']);
 
             if (!$this->required) {
+                $itemname = $this->itemname.'_noanswer';
                 $attributes['id'] = $idprefix.'_noanswer';
-                $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'mod_surveypro'), $attributes);
+                $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $noanswerstr, $attributes);
             }
 
+            $itemname = $this->itemname.'_ignoreme';
             $attributes['id'] = $idprefix.'_ignoreme';
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'mod_surveypro'), $attributes);
+            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $starstr, $attributes);
 
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, '<br />', false);
             if (!$this->required) {
-                // Multiselect uses a special syntax that is different from the syntax of all the other mform groups with disabilitation chechbox.
-                // $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
+                // Multiselect uses a special syntax
+                // that is different from the syntax of all the other mform groups with disabilitation chechbox.
+                // $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');.
                 $mform->disabledIf($this->itemname.'[]', $this->itemname.'_noanswer', 'checked');
             }
             $mform->disabledIf($this->itemname.'[]', $this->itemname.'_ignoreme', 'checked');
@@ -526,7 +547,7 @@ EOS;
         // so, if the user neglects the mandatory multiselect AT ALL, it is not submitted and, as conseguence, not validated.
         // TO ALWAYS SUBMIT A MULTISELECT I add a dummy hidden item.
         //
-        // TAKE CARE: I choose a name for this item that IS UNIQUE BUT is missing the SURVEYPRO_ITEMPREFIX.'_'.
+        // Take care: I choose a name for this item that IS UNIQUE BUT is missing the SURVEYPRO_ITEMPREFIX.'_'.
         // In this way I am sure the item will never be saved to the database.
         $placeholderitemname = SURVEYPRO_DONTSAVEMEPREFIX.'_'.$this->type.'_'.$this->plugin.'_'.$this->itemid.'_placeholder';
         $mform->addElement('hidden', $placeholderitemname, 1);
@@ -583,7 +604,7 @@ EOS;
     public function userform_get_parent_disabilitation_info($childparentvalue) {
         $disabilitationinfo = array();
 
-        $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 1;1;0;
+        $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 1;1;0;.
 
         $indexsubset = array();
         $labelsubset = array();
@@ -632,12 +653,11 @@ EOS;
      * @return boolean: true: if the item is welcome; false: if the item must be dropped out
      */
     public function userform_child_item_allowed_dynamic($childparentvalue, $data) {
-        // 1) I am a multiselect item
-        // 2) in $data I can ONLY find $this->itemname
+        // In $data I can ONLY find $this->itemname.
 
-        // I need to verify (checkbox per checkbox) if they hold the same value the user entered
+        // I need to verify (checkbox per checkbox) if they hold the same value the user entered.
         $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
-        $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 2;3
+        $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 2;3.
 
         $status = true;
         foreach ($labels as $k => $unused) {
@@ -692,7 +712,7 @@ EOS;
             $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
             $olduseranswer->content = implode(SURVEYPRO_DBMULTICONTENTSEPARATOR, array_fill(1, count($labels), '0'));
         } else {
-            // $answer is an array with the keys of the selected elements
+            // Here $answer is an array with the keys of the selected elements.
             $olduseranswer->content = implode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $answer['mainelement']);
         }
     }
@@ -701,12 +721,12 @@ EOS;
      * This method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time.
      *
      * @param object $fromdb
-     * @return void
+     * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
         $prefill = array();
 
-        if (!$fromdb) { // $fromdb may be boolean false for not existing data
+        if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
             return $prefill;
         }
 
@@ -745,7 +765,7 @@ EOS;
             $format = $this->downloadformat;
         }
 
-        // $answers is an array like: array(1,1,0,0)
+        // Here $answers is an array like: array(1,1,0,0).
         switch ($format) {
             case SURVEYPRO_ITEMSRETURNSVALUES:
                 $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $content);

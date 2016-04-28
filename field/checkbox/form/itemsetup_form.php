@@ -52,22 +52,25 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         $item = $this->_customdata->item;
         // Useless: $surveypro = $this->_customdata->surveypro;.
 
+        $textareaoptions = array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65');
+
         // Item: options.
         $fieldname = 'options';
-        $mform->addElement('textarea', $fieldname, get_string($fieldname, 'surveyprofield_checkbox'), array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65'));
+        $mform->addElement('textarea', $fieldname, get_string($fieldname, 'surveyprofield_checkbox'), $textareaoptions);
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_checkbox');
         $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
         $mform->setType($fieldname, PARAM_RAW); // PARAM_RAW and not PARAM_TEXT otherwise '<' is not accepted.
 
         // Item: labelother.
         $fieldname = 'labelother';
-        $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_checkbox'), array('maxlength' => '64', 'size' => '50'));
+        $attributes = array('maxlength' => '64', 'size' => '50');
+        $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_checkbox'), $attributes);
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_checkbox');
         $mform->setType($fieldname, PARAM_TEXT);
 
         // Item: defaultvalue.
         $fieldname = 'defaultvalue';
-        $mform->addElement('textarea', $fieldname, get_string($fieldname, 'surveyprofield_checkbox'), array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65'));
+        $mform->addElement('textarea', $fieldname, get_string($fieldname, 'surveyprofield_checkbox'), $textareaoptions);
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_checkbox');
         $mform->setType($fieldname, PARAM_TEXT);
 
@@ -79,7 +82,9 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
         // Item: adjustment.
         $fieldname = 'adjustment';
-        $options = array(SURVEYPRO_HORIZONTAL => get_string('horizontal', 'surveyprofield_checkbox'), SURVEYPRO_VERTICAL => get_string('vertical', 'surveyprofield_checkbox'));
+        $options = array();
+        $options[SURVEYPRO_HORIZONTAL] = get_string('horizontal', 'surveyprofield_checkbox');
+        $options[SURVEYPRO_VERTICAL] = get_string('vertical', 'surveyprofield_checkbox');
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_checkbox'), $options);
         $mform->setDefault($fieldname, SURVEYPRO_VERTICAL);
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_checkbox');
@@ -87,9 +92,7 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
         // Item: downloadformat.
         $fieldname = 'downloadformat';
-        $options = array(SURVEYPRO_ITEMSRETURNSVALUES => get_string('returnvalues', 'surveyprofield_checkbox'),
-                         SURVEYPRO_ITEMRETURNSLABELS => get_string('returnlabels', 'surveyprofield_checkbox'),
-                         SURVEYPRO_ITEMRETURNSPOSITION => get_string('returnposition', 'surveyprofield_checkbox'));
+        $options = $item->item_get_downloadformats();
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_checkbox'), $options);
         $mform->setDefault($fieldname, $item->item_get_friendlyformat());
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_checkbox');
@@ -101,7 +104,8 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
         // Item: minimumrequired.
         $fieldname = 'minimumrequired';
-        $options = array_combine(range(0, 9), range(0, 9));
+        $countrange = range(0, 9);
+        $options = array_combine($countrange, $countrange);
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_checkbox'), $options);
         $mform->setDefault($fieldname, 0);
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_checkbox');

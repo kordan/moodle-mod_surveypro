@@ -70,7 +70,8 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
         // Item: decimals.
         $fieldname = 'decimals';
-        $options = array_combine(range(0, 8), range(0, 8));
+        $decimalsrange = range(0, 8);
+        $options = array_combine($decimalsrange, $decimalsrange);
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_numeric'), $options);
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_numeric');
 

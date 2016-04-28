@@ -28,11 +28,11 @@ require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/colles/classes/report.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/colles/lib.php');
 
-$id = required_param('id', PARAM_INT); // Course Module ID
-$type = required_param('type', PARAM_ALPHA); // Report type
-$group = optional_param('group', 0, PARAM_INT); // Group ID
-$area = optional_param('area', false, PARAM_INT);  // Report area
-$qid = optional_param('qid', 0, PARAM_INT);  // Question ID
+$id = required_param('id', PARAM_INT); // Course Module ID.
+$type = required_param('type', PARAM_ALPHA); // Report type.
+$group = optional_param('group', 0, PARAM_INT); // Group ID.
+$area = optional_param('area', false, PARAM_INT);  // Report area.
+$qid = optional_param('qid', 0, PARAM_INT);  // Question ID.
 
 $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
@@ -42,7 +42,7 @@ $context = context_module::instance($cm->id);
 
 require_login($course, false, $cm);
 
-$groupmode = groups_get_activity_groupmode($cm, $course);   // Groups are being used
+// $groupmode = groups_get_activity_groupmode($cm, $course);   // Groups are being used.
 
 if ($type == 'summary') {
     if (!has_capability('mod/surveypro:accessreports', $context)) {
@@ -76,7 +76,7 @@ if ($type == 'summary') {
     $graph->x_data = $reportman->xlabels;
     $graph->y_tick_labels = $reportman->ylabels;
 
-    // $graph1params
+    // $graph1params.
     $graph1params = array();
     $graph1params['colour'] = 'ltblue';
     $graph1params['line'] = 'line';
@@ -84,11 +84,11 @@ if ($type == 'summary') {
     $graph1params['shadow_offset'] = 4;
     $graph1params['legend'] = $legendgraph1;
 
-    // 1st graph
+    // 1st graph.
     $graph->y_data['answers1'] = $reportman->trend1;
     $graph->y_format['answers1'] = $graph1params;
 
-    // $graph2params
+    // $graph2params.
     $graph2params = array();
     $graph2params['colour'] = 'ltltblue';
     $graph2params['bar'] = 'fill';
@@ -96,26 +96,26 @@ if ($type == 'summary') {
     $graph2params['legend'] = 'none';
     $graph2params['bar_size'] = 0.3;
 
-    // 2nd graph
+    // 2nd graph.
     $graph->y_data['stdev1'] = $reportman->trend1stdev;
     $graph->y_format['stdev1'] = $graph2params;
 
     $graph->offset_relation['stdev1'] = 'answers1';
 
     if ($reportman->template == 'collesactualpreferred') {
-        // $graph3params (the same as $graph1params except for...)
+        // $graph3params (the same as $graph1params except for...).
         $graph1params['colour'] = 'ltorange';
         $graph1params['legend'] = $legendgraph2;
 
-        // 3rd graph
+        // 3rd graph.
         $graph->y_data['answers2']   = $reportman->trend2;
         $graph->y_format['answers2'] = $graph1params;
 
-        // $graph4params (the same as $graph2params except for...)
+        // $graph4params (the same as $graph2params except for...).
         $graph2params['colour'] = 'ltltorange';
         $graph2params['bar_size'] = 0.2;
 
-        // 4th graph
+        // 4th graph.
         $graph->y_data['stdev2']   = $reportman->trend2stdev;
         $graph->y_format['stdev2'] = $graph2params;
 
@@ -127,20 +127,20 @@ if ($type == 'summary') {
         if ($reportman->studenttrend1) { // If the user submitted at least one response.
             $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
 
-            // $graph5params (the same as $graph1params except for...)
+            // $graph5params (the same as $graph1params except for...).
             $graph1params['colour'] = 'blue';
             $graph1params['legend'] = fullname($USER).$labelsep.$legendgraph1;
 
-            // 5rd graph
+            // 5rd graph.
             $graph->y_data['answers3'] = $reportman->studenttrend1;
             $graph->y_format['answers3'] = $graph1params;
 
             if ($reportman->template == 'collesactualpreferred') {
-                // $graph6params (the same as $graph1params except for...)
+                // $graph6params (the same as $graph1params except for...).
                 $graph1params['colour'] = 'orange';
                 $graph1params['legend'] = fullname($USER).$labelsep.$legendgraph2;
 
-                // 6th graph
+                // 6th graph.
                 $graph->y_data['answers4'] = $reportman->studenttrend2;
                 $graph->y_format['answers4'] = $graph1params;
             }
@@ -149,13 +149,15 @@ if ($type == 'summary') {
 
     // Order of graphics.
     if ($reportman->template == 'collesactualpreferred') {
-        if ($allowsingle && ($reportman->studenttrend1)) { // If the user hasn't general right but only canaccessownreports && submitted at least one response.
+        if ($allowsingle && ($reportman->studenttrend1)) {
+            // If the user hasn't general right but only canaccessownreports && submitted at least one response.
             $graph->y_order = array('stdev1', 'answers1', 'stdev2', 'answers2', 'answers3', 'answers4');
         } else {
             $graph->y_order = array('stdev1', 'answers1', 'stdev2', 'answers2');
         }
     } else {
-        if ($allowsingle && ($reportman->studenttrend1)) { // If the user hasn't general right but only canaccessownreports && submitted at least one response.
+        if ($allowsingle && ($reportman->studenttrend1)) {
+            // If the user hasn't general right but only canaccessownreports && submitted at least one response.
             $graph->y_order = array('stdev1', 'answers1', 'answers3');
         } else {
             $graph->y_order = array('stdev1', 'answers1');
@@ -189,13 +191,13 @@ if ($type == 'scales') {
         $legendgraph1 = get_string($reportman->template, 'surveyproreport_colles');
     }
 
-    $graph->parameter['title'] = $reportman->graphtitle; // 'Relevance'
+    $graph->parameter['title'] = $reportman->graphtitle; // 'Relevance'.
 
     // X axis labels.
     $graph->x_data = $reportman->xlabels; // array('focus on interesting issues', 'important to my practice'...
     $graph->y_tick_labels = $reportman->ylabels;
 
-    // $graph1params
+    // $graph1params.
     $graph1params = array();
     $graph1params['colour'] = 'ltblue';
     $graph1params['line'] = 'line';
@@ -203,11 +205,11 @@ if ($type == 'scales') {
     $graph1params['shadow_offset'] = 4;
     $graph1params['legend'] = $legendgraph1;
 
-    // 1st graph
+    // 1st graph.
     $graph->y_data['answers1'] = $reportman->trend1; // array(1.5, 2.5...
     $graph->y_format['answers1'] = $graph1params;
 
-    // $graph2params
+    // $graph2params.
     $graph2params = array();
     $graph2params['colour'] = 'ltltblue';
     $graph2params['bar'] = 'fill';
@@ -215,26 +217,26 @@ if ($type == 'scales') {
     $graph2params['legend'] = 'none';
     $graph2params['bar_size'] = 0.3;
 
-    // 2nd graph
+    // 2nd graph.
     $graph->y_data['stdev1'] = $reportman->trend1stdev; // array(1.1180339887499, 1.1180339887499...
     $graph->y_format['stdev1'] = $graph2params;
 
     $graph->offset_relation['stdev1'] = 'answers1';
 
     if ($reportman->template == 'collesactualpreferred') {
-        // $graph3params (the same as $graph1params except for...)
+        // $graph3params (the same as $graph1params except for...).
         $graph1params['colour'] = 'ltorange';
         $graph1params['legend'] = $legendgraph2;
 
-        // 3rd graph
+        // 3rd graph.
         $graph->y_data['answers2']   = $reportman->trend2;
         $graph->y_format['answers2'] = $graph1params;
 
-        // $graph4params (the same as $graph2params except for...)
+        // $graph4params (the same as $graph2params except for...).
         $graph2params['colour'] = 'ltltorange';
         $graph2params['bar_size'] = 0.2;
 
-        // 4th graph
+        // 4th graph.
         $graph->y_data['stdev2']   = $reportman->trend2stdev;
         $graph->y_format['stdev2'] = $graph2params;
 
@@ -273,7 +275,7 @@ if ($type == 'questions') {
         $legendgraph1 = get_string($reportman->template, 'surveyproreport_colles');
     }
 
-    $graph->parameter['title'] = $reportman->graphtitle; // $item->content
+    $graph->parameter['title'] = $reportman->graphtitle; // $item->content.
 
     $graph->x_data = $reportman->xlabels; // array('focus on interesting issues', 'important to my practice'...
 

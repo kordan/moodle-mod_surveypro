@@ -79,7 +79,6 @@ class backup_surveypro_activity_structure_step extends backup_activity_structure
 
         // Apply for 'surveypro' subplugins stuff at answer level.
         $this->add_subplugin_structure('surveyprofield', $answer, false);
-        // $this->add_subplugin_structure('surveyproformat', $answer, false); // Useless??
 
         $surveypro->add_child($submissions);
         $submissions->add_child($submission);

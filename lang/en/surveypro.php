@@ -40,7 +40,7 @@ $string['tablayoutname'] = 'Layout';
     $string['tabitemspage3'] = 'Element setup';
     $string['tabitemspage4'] = 'Branching validation';
 $string['tabsubmissionsname'] = 'Survey';
-    $string['tabsubmissionspage1'] = 'Dashboard'; // 'Overview';
+    $string['tabsubmissionspage1'] = 'Dashboard'; // Maybe 'Overview' is better?
     $string['tabsubmissionspage2'] = 'Responses';
     $string['tabsubmissionspage3'] = 'Insert';
     $string['tabsubmissionspage4'] = 'Edit';
@@ -195,6 +195,7 @@ $string['extranoteinsearch_descr'] = 'Are user notes needed in the search form?'
 $string['extranoteinsearch'] = 'Extra note in search form';
 $string['feedback_delete1item'] = 'The \'{$a->pluginname}\' element: {$a->content} has been successfully deleted';
 $string['feedback_delete1response'] = 'User response has been successfully deleted';
+$string['feedback_delete1utemplate'] = 'Usertemplate "{$a}" was successfully deleted';
 $string['feedback_deleteallitems'] = 'All the elements were successfully deleted';
 $string['feedback_deleteallresponses'] = 'All the responses of this survey have been successfully deleted';
 $string['feedback_deletechainitems'] = 'The \'{$a->pluginname}\' element: {$a->content} and descending element(s) have been successfully deleted';
@@ -282,7 +283,7 @@ $string['itemdrivensemantic'] = 'as in the "{$a}" of each item';
 $string['itemlist'] = 'Elements list';
 $string['left'] = 'left';
 $string['likelast'] = 'Like last response';
-$string['malformedchildparentvalue'] = 'Malformed condition: "{$a}".<br />It might never be verified.';
+$string['badchildparentvalue'] = 'Malformed condition: "{$a}".<br />It might never be verified.';
 $string['managesurveyprofieldplugins'] = 'Manage field plugins';
 $string['managesurveyproformatplugins'] = 'Manage format plugins';
 $string['managesurveyproreportplugins'] = 'Manage report plugins';
@@ -309,7 +310,6 @@ $string['missingsortindex'] = 'Sortindex is missing in the template';
 $string['missingvalidation'] = 'Some answers of this response have been found as unverified. Because of this, the overall response has been marked as "{$a}".<br />Your data is not necessarily incorrect but needs verification before definitive storage.<br />To fix this issue, please edit the response and review item contents page per page.';
 $string['module'] = 'This instance of survey';
 $string['modulesettinghdr'] = 'Surveypro settings';
-$string['months'] = 'months';
 $string['mtemplatessection'] = 'Master templates section';
 $string['namenotset'] = 'not set';
 $string['needrole'] = 'Reserved element: only users with specific capability will see it';
@@ -511,7 +511,7 @@ It is allowed the importation of csv files missing required elements but, whethe
 Import files missing required elements are allowed and the imported responses will be marked as "in progress".<br />
 Semantic defines the meaning of the content of the csv file for some specific elements. For instance, for a "select" plugin element, the csv file can provide the label of the answer such as its value or its position in the drop down user interface<br />
 Elements currently using semantic are: <ul>{$a->items}</ul>
-It is possible to choose a single semantic that will apply to EACH element to import or to choose `{$a->customsemantic}` option to provide a custom semantic for each element.<br />
+It is possible to choose a single semantic that will apply to EACH element to import or to choose "{$a->customsemantic}" option to provide a custom semantic for each element.<br />
 The import process breaks if it lead to exceed the maximum number of responses allowed to users (if set).';
 $string['willclose'] = 'Closure time';
 $string['willopen'] = 'This survey will open at';

@@ -99,8 +99,9 @@ if ($fromform = $mform->get_data()) {
     $paramurl['itemid'] = $fromform->itemid;
     $paramurl['submissionscount'] = $hassubmissions;
     $url = new moodle_url('/mod/surveypro/report/frequency/graph.php', $paramurl);
-    // To troubleshoot graph, open a new window in the broser and directly call.
-    // For instance: http://localhost/head/mod/surveypro/report/frequency/graph.php?id=xx&group=0&itemid=yyy&submissionscount=1
+    // To troubleshoot graph, open a new window in the broser and directly call
+    // http://localhost/head/mod/surveypro/report/frequency/graph.php?id=xx&group=0&itemid=yyy&submissionscount=1
+    // address.
 
     $reportman->output_data($url);
 }

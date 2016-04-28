@@ -120,7 +120,6 @@ class mod_surveypro_field_fileupload extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'fileupload';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // Already set in parent class.
         $this->savepositiontodb = false;
 
         // Other element specific properties.
@@ -347,8 +346,7 @@ EOS;
     public function userform_get_filling_instructions() {
 
         if ($this->filetypes != '*') {
-            // $filetypelist = preg_replace('/([a-zA-Z0-9]+,)([^\s])/', "$1 $2", $this->filetypes);
-            $filetypelist = preg_replace('~,(?! )~', ', ', $this->filetypes); // Credits to Sam Marshall
+            $filetypelist = preg_replace('~,(?! )~', ', ', $this->filetypes); // Credits to Sam Marshall.
 
             $fillinginstruction = get_string('fileextensions', 'surveyprofield_fileupload').$filetypelist;
         } else {
@@ -387,12 +385,12 @@ EOS;
      * This method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time.
      *
      * @param object $fromdb
-     * @return void
+     * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
         $prefill = array();
 
-        if (!$fromdb) { // $fromdb may be boolean false for not existing data.
+        if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
             return $prefill;
         }
 
@@ -405,7 +403,9 @@ EOS;
         $attributes['accepted_types'] = $this->filetypes;
         $attributes['subdirs'] = false;
         $attributes['maxfiles'] = $this->maxfiles;
-        file_prepare_draft_area($draftitemid, $context->id, 'surveyprofield_fileupload', SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $fromdb->id, $attributes);
+
+        $filearea = SURVEYPROFIELD_FILEUPLOAD_FILEAREA;
+        file_prepare_draft_area($draftitemid, $context->id, 'surveyprofield_fileupload', $filearea, $fromdb->id, $attributes);
 
         $prefill[$fieldname] = $draftitemid;
 

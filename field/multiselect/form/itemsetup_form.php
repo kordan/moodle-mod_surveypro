@@ -52,22 +52,25 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         $item = $this->_customdata->item;
         // Useless: $surveypro = $this->_customdata->surveypro;.
 
+        $textareaoptions = array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65');
+
         // Item: options.
         $fieldname = 'options';
-        $mform->addElement('textarea', $fieldname, get_string($fieldname, 'surveyprofield_multiselect'), array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65'));
+        $mform->addElement('textarea', $fieldname, get_string($fieldname, 'surveyprofield_multiselect'), $textareaoptions);
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_multiselect');
         $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
-        $mform->setType($fieldname, PARAM_RAW); // PARAM_RAW and not PARAM_TEXT otherwise '<' is not accepted
+        $mform->setType($fieldname, PARAM_RAW); // PARAM_RAW and not PARAM_TEXT otherwise '<' is not accepted.
 
         // Item: defaultvalue.
         $fieldname = 'defaultvalue';
-        $mform->addElement('textarea', $fieldname, get_string($fieldname, 'surveyprofield_multiselect'), array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65'));
+        $mform->addElement('textarea', $fieldname, get_string($fieldname, 'surveyprofield_multiselect'), $textareaoptions);
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_multiselect');
         $mform->setType($fieldname, PARAM_TEXT);
 
         // Item: heightinrows.
         $fieldname = 'heightinrows';
-        $options = array_combine(range(3, 12), range(3, 12));
+        $rowsrange = range(3, 12);
+        $options = array_combine($rowsrange, $rowsrange);
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_multiselect'), $options);
         $mform->setDefault($fieldname, '4');
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_multiselect');
@@ -75,9 +78,7 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
         // Item: downloadformat.
         $fieldname = 'downloadformat';
-        $options = array(SURVEYPRO_ITEMSRETURNSVALUES => get_string('returnvalues', 'surveyprofield_multiselect'),
-                         SURVEYPRO_ITEMRETURNSLABELS => get_string('returnlabels', 'surveyprofield_multiselect'),
-                         SURVEYPRO_ITEMRETURNSPOSITION => get_string('returnposition', 'surveyprofield_multiselect'));
+        $options = $item->item_get_downloadformats();
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_multiselect'), $options);
         $mform->setDefault($fieldname, $item->item_get_friendlyformat());
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_multiselect');
@@ -89,7 +90,8 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
         // Item: minimumrequired.
         $fieldname = 'minimumrequired';
-        $options = array_combine(range(0, 9), range(0, 9));
+        $countrange = range(0, 9);
+        $options = array_combine($countrange, $countrange);
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_multiselect'), $options);
         $mform->setDefault($fieldname, 0);
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_multiselect');

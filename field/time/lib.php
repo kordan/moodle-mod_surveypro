@@ -26,7 +26,6 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 
-// Some constants
 define('SURVEYPROFIELD_TIME_YEAROFFSET', 1970);
 define('SURVEYPROFIELD_TIME_DAYOFFSET', 1);
 define('SURVEYPROFIELD_TIME_MONTHOFFSET', 1);

@@ -54,7 +54,8 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
         // Item: maxfiles.
         $fieldname = 'maxfiles';
-        $options = array_combine(range(1, 5), range(1, 5));
+        $countrange = range(1, 5);
+        $options = array_combine($countrange, $countrange);
         $options[EDITOR_UNLIMITED_FILES] = get_string('unlimited', 'mod_surveypro');
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_fileupload'), $options);
         $mform->setDefault($fieldname, '1048576');

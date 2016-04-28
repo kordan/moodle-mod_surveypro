@@ -91,19 +91,6 @@ class usertemplate_saved extends \core\event\base {
     }
 
     /**
-     * Legacy event data if get_legacy_eventname() is not empty.
-     *
-     * @return stdClass
-     */
-    protected function get_legacy_eventdata() {
-        // Override if you migrating events_trigger() call.
-        /* $data = new \stdClass();
-        $data->id = $this->objectid;
-        $data->userid = $this->relateduserid;
-        return $data; */
-    }
-
-    /**
      * Custom validation.
      *
      * @throws \coding_exception

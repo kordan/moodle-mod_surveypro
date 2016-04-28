@@ -96,7 +96,7 @@ $basecondition = true;
 $basecondition = $basecondition && empty($surveypro->template);
 $basecondition = $basecondition && (!$hassubmissions || $riskyediting);
 
-// master template form
+// Master template form.
 $mtemplatecondition = true;
 $mtemplatecondition = $mtemplatecondition && (!$itemcount);
 if ($mtemplatecondition) {
@@ -118,7 +118,7 @@ if ($mtemplatecondition) {
     // Management is in mtemplates_apply.
 }
 
-// new item form
+// New item form.
 $newitemcondition = $basecondition && has_capability('mod/surveypro:additems', $context);
 if ($newitemcondition) {
     $paramurl = array('id' => $cm->id);
@@ -130,7 +130,7 @@ if ($newitemcondition) {
     // Management is in layout_itemsetup.
 }
 
-// bulk action form
+// Bulk action form.
 $bulkactioncondition = $basecondition && ($itemcount);
 $bulkactioncondition = $bulkactioncondition && has_capability('mod/surveypro:manageitems', $context);
 if ($bulkactioncondition) {
@@ -167,7 +167,7 @@ $itemlistman->actions_feedback();
 $itemlistman->display_item_editing_feedback();
 
 if ($mtemplatecondition) {
-    // display mtemplate form
+    // Display mtemplate form.
     $message = get_string('beginfromscratch', 'mod_surveypro');
     echo $OUTPUT->box($message, 'generaltable generalbox boxaligncenter boxwidthnormal');
 

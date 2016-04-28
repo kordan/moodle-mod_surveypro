@@ -135,7 +135,6 @@ class mod_surveypro_field_textarea extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'textarea';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // Already set in parent class.
         $this->savepositiontodb = false;
 
         // Other element specific properties.
@@ -345,7 +344,7 @@ EOS;
      */
     public function userform_mform_element($mform, $searchform, $readonly) {
         // This plugin has $this->insetupform['insearchform'] = false; so it will never be part of a search form.
-        // TODO: make $this->insetupform['insearchform'] = true;
+        // TODO: make $this->insetupform['insearchform'] = true;.
 
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
@@ -482,12 +481,12 @@ EOS;
      * This method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time.
      *
      * @param object $fromdb
-     * @return void
+     * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
         $prefill = array();
 
-        if (!$fromdb) { // $fromdb may be boolean false for not existing data
+        if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
             return $prefill;
         }
 
@@ -495,7 +494,11 @@ EOS;
             if (!empty($this->useeditor)) {
                 $context = context_module::instance($this->cm->id);
 
-                $editoroptions = array('trusttext' => true, 'subdirs' => true, 'maxfiles' => EDITOR_UNLIMITED_FILES, 'context' => $context);
+                $editoroptions = array();
+                $editoroptions['trusttext'] = true;
+                $editoroptions['subdirs'] = true;
+                $editoroptions['maxfiles'] = EDITOR_UNLIMITED_FILES;
+                $editoroptions['context'] = $context;
                 $fromdb->contentformat = FORMAT_HTML;
                 $fromdb = file_prepare_standard_editor($fromdb, 'content', $editoroptions, $context, 'mod_surveypro', SURVEYPROFIELD_TEXTAREA_FILEAREA, $fromdb->id);
 

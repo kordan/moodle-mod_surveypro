@@ -167,7 +167,6 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'shortdate';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // Already set in parent class.
         $this->savepositiontodb = false;
 
         // Other element specific properties.
@@ -336,7 +335,7 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
     /**
      * Get the content of the downloadformats menu of the item setup form.
      *
-     * @return void
+     * @return array of downloadformats
      */
     public function item_get_downloadformats() {
         $option = array();
@@ -347,13 +346,6 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
             $option[$strname] = userdate($timenow, get_string($strname, 'surveyprofield_shortdate'));
         }
         $option['unixtime'] = get_string('unixtime', 'mod_surveypro');
-        // June 2013
-        // June '13
-        // Jun 2013
-        // Jun '13
-        // 06/2013
-        // 06/13
-        // Unix time.
 
         return $option;
     }
@@ -442,6 +434,7 @@ EOS;
         global $DB, $USER;
 
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
+        $noanswerstr = get_string('noanswer', 'mod_surveypro');
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
@@ -462,20 +455,23 @@ EOS;
         for ($i = 1; $i <= 12; $i++) {
             $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
         }
-        $years += array_combine(range($this->lowerboundyear, $this->upperboundyear), range($this->lowerboundyear, $this->upperboundyear));
-        // End of: element values
+        $yearsrange = range($this->lowerboundyear, $this->upperboundyear);
+        $years += array_combine($yearsrange, $yearsrange);
+        // End of: element values.
 
         // Begin of: mform element.
         $attributes = array();
         $elementgroup = array();
 
+        $itemname = $this->itemname.'_month';
         $attributes['id'] = $idprefix.'_month';
         $attributes['class'] = 'indent-'.$this->indent.' shortdate_select';
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_month', '', $months, $attributes);
+        $elementgroup[] = $mform->createElement('mod_surveypro_select', $itemname, '', $months, $attributes);
 
+        $itemname = $this->itemname.'_year';
         $attributes['id'] = $idprefix.'_year';
         $attributes['class'] = 'shortdate_select';
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_year', '', $years, $attributes);
+        $elementgroup[] = $mform->createElement('mod_surveypro_select', $itemname, '', $years, $attributes);
 
         if ($this->required) {
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
@@ -489,9 +485,10 @@ EOS;
                 $mform->_required[] = $starplace;
             }
         } else {
+            $itemname = $this->itemname.'_noanswer';
             $attributes['id'] = $idprefix.'_noanswer';
             $attributes['class'] = 'shortdate_check';
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'mod_surveypro'), $attributes);
+            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $noanswerstr, $attributes);
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
         }
@@ -517,8 +514,10 @@ EOS;
                     case SURVEYPRO_LIKELASTDEFAULT:
                         // Look for the last submission I made.
                         $sql = 'userid = :userid ORDER BY timecreated DESC LIMIT 1';
-                        $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, array('userid' => $USER->id), IGNORE_MISSING);
-                        if ($time = $DB->get_field('surveypro_answer', 'content', array('itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid), IGNORE_MISSING)) {
+                        $where = array('userid' => $USER->id);
+                        $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, $where, IGNORE_MISSING);
+                        $where = array('itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid);
+                        if ($time = $DB->get_field('surveypro_answer', 'content', $where, IGNORE_MISSING)) {
                             $shortdatearray = $this->item_split_unix_time($time, false);
                         } else { // As in standard default.
                             $shortdatearray = $this->item_split_unix_time(time(), true);
@@ -550,7 +549,7 @@ EOS;
      */
     public function userform_mform_validation($data, &$errors, $searchform) {
         // This plugin displays as dropdown menu. It will never return empty values.
-        // If ($this->required) { if (empty($data[$this->itemname])) { is useless
+        // If ($this->required) { if (empty($data[$this->itemname])) { is useless.
 
         if (isset($data[$this->itemname.'_noanswer'])) {
             return; // Nothing to validate.
@@ -582,7 +581,7 @@ EOS;
             }
             return;
         }
-        // End of: verify the content of each drop down menu
+        // End of: verify the content of each drop down menu.
 
         if ($searchform) {
             // Stop here your investigation. I don't need further validations.
@@ -675,12 +674,12 @@ EOS;
      * This method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time.
      *
      * @param object $fromdb
-     * @return void
+     * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
         $prefill = array();
 
-        if (!$fromdb) { // $fromdb may be boolean false for not existing data
+        if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
             return $prefill;
         }
 

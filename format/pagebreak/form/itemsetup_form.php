@@ -43,7 +43,7 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
      * @return void
      */
     public function definition() {
-        // I close with the common section of the form
+        // Start with common section of the form.
         parent::definition();
 
         // $mform = $this->_form;
