@@ -58,7 +58,6 @@ Feature: editing a submission, autofill userID is not overwritten
     And I expand all fieldsets
     And I set the following fields to these values:
       | Content             | Your first name |
-      | Indent              | 0               |
       | Question position   | left            |
       | Element number      | 2               |
       | id_element01_select | user first name |
@@ -70,7 +69,6 @@ Feature: editing a submission, autofill userID is not overwritten
     And I expand all fieldsets
     And I set the following fields to these values:
       | Content             | Your last name |
-      | Indent              | 0              |
       | Question position   | left           |
       | Element number      | 3              |
       | id_element01_select | user last name |
@@ -83,7 +81,6 @@ Feature: editing a submission, autofill userID is not overwritten
     And I set the following fields to these values:
       | Content           | Is this true? |
       | Required          | 1             |
-      | Indent            | 0             |
       | Question position | left          |
       | Element number    | 4             |
       | Element style     | dropdown menu |
@@ -117,10 +114,9 @@ Feature: editing a submission, autofill userID is not overwritten
 
     And I follow "Responses"
     And I follow "edit_submission_row_1"
-    Then I should see "4"
-    Then I should see "student1"
-    Then I should see "user1"
-    Then I should see "Yes"
+    Then the field "Your first name" matches value "student1"
+    Then the field "Your last name" matches value "user1"
+    Then the field "4: Is this true?" matches value "Yes"
 
     And I set the field "4: Is this true?" to "No"
     And I press "Submit"
@@ -134,10 +130,9 @@ Feature: editing a submission, autofill userID is not overwritten
 
     And I follow "Responses"
     And I follow "edit_submission_row_1"
-    Then I should see "4"
-    Then I should see "student1"
-    Then I should see "user1"
-    Then I should see "No"
+    Then the field "Your first name" matches value "student1"
+    Then the field "Your last name" matches value "user1"
+    Then the field "4: Is this true?" matches value "No"
 
     And I log out
 
@@ -147,10 +142,9 @@ Feature: editing a submission, autofill userID is not overwritten
     And I follow "Preserve autofill"
 
     And I follow "edit_submission_row_1"
-    Then I should see "4"
-    Then I should see "student1"
-    Then I should see "user1"
-    Then I should see "No"
+    Then the field "Your first name" matches value "student1"
+    Then the field "Your last name" matches value "user1"
+    Then the field "4: Is this true?" matches value "No"
     And I set the field "4: Is this true?" to "Yes"
     And I press "Submit"
 
@@ -163,9 +157,8 @@ Feature: editing a submission, autofill userID is not overwritten
 
     And I follow "Responses"
     And I follow "edit_submission_row_1"
-    Then I should see "4"
-    Then I should see "student1"
-    Then I should see "user1"
-    Then I should see "Yes"
+    Then the field "Your first name" matches value "student1"
+    Then the field "Your last name" matches value "user1"
+    Then the field "4: Is this true?" matches value "Yes"
 
     And I log out

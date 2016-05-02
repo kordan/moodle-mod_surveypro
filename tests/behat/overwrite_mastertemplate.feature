@@ -1,4 +1,4 @@
-@mod @mod_surveypro @aaa
+@mod @mod_surveypro
 Feature: verify the deletion of old items works as expected during master templates replacement
   In order to verify the overwrite of master templates
   As a teacher
