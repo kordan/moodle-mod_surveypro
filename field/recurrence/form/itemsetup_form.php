@@ -35,7 +35,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/recurrence/lib.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
+class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
     /**
      * Definition.
@@ -50,7 +50,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
 
         // Get _customdata.
         $item = $this->_customdata->item;
-        // $surveypro = $this->_customdata->surveypro;
+        // Useless: $surveypro = $this->_customdata->surveypro;.
 
         $startyear = $this->_customdata->surveypro->startyear;
         $stopyear = $this->_customdata->surveypro->stopyear;
@@ -125,7 +125,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
     public function validation($data, $files) {
         // Get _customdata.
         $item = $this->_customdata->item;
-        // $surveypro = $this->_customdata->surveypro;
+        // Useless: $surveypro = $this->_customdata->surveypro;.
 
         $errors = parent::validation($data, $files);
 

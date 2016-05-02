@@ -60,7 +60,7 @@ function surveypro_autofill_get_elements($surveyproid) {
 
     // Submission date and time.
     $begin = 1;
-    $end = $begin + 3; // 3 == ('number of cycles' - 1)
+    $end = $begin + 3; // 3 == ('number of cycles' - 1).
     $subelements = array();
     for ($i = $begin; $i <= $end; $i++) {
         $value = constant('SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT'.sprintf('%02d', $i));
@@ -71,9 +71,9 @@ function surveypro_autofill_get_elements($surveyproid) {
 
     // User.
     $begin = $end + 1;
-    $menuelements = 3; // 3 == ('number of cycles' - 1)
+    $menuelements = 3; // 3 == ('number of cycles' - 1).
     if ($usegroups) {
-        $menuelements += 2; // 'group ID' and 'group name'
+        $menuelements += 2; // 'group ID' and 'group name'.
     }
     $end = $begin + $menuelements;
     $subelements = array();
@@ -89,7 +89,7 @@ function surveypro_autofill_get_elements($surveyproid) {
     if (!$usegroups) { // Jump last two menu items.
         $begin += 2;
     }
-    $end = $begin + 1; // 1 == ('number of cycles' - 1)
+    $end = $begin + 1; // 1 == ('number of cycles' - 1).
 
     $subelements = array();
     for ($i = $begin; $i <= $end; $i++) {
@@ -101,7 +101,7 @@ function surveypro_autofill_get_elements($surveyproid) {
 
     // Course.
     $begin = $end + 1;
-    $end = $begin + 1; // 1 == ('number of cycles' - 1)
+    $end = $begin + 1; // 1 == ('number of cycles' - 1).
     $subelements = array();
     for ($i = $begin; $i <= $end; $i++) {
         $value = constant('SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT'.sprintf('%02d', $i));
@@ -114,7 +114,7 @@ function surveypro_autofill_get_elements($surveyproid) {
 
     // Custom info.
     $begin = $end + 1;
-    $end = $begin; // 0 == ('number of cycles' - 1)
+    $end = $begin; // 0 == ('number of cycles' - 1).
     $subelements = array();
     for ($i = $begin; $i <= $end; $i++) {
         $value = constant('SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT'.sprintf('%02d', $i));

@@ -85,7 +85,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             // Create the structure of the temporary folder.
             // The folder has to be created WITHOUT $CFG->tempdir/.
             $temppath = $tempsubdir.'/'.dirname($masterfile);
-            make_temp_directory($temppath); // <-- just created the folder for the current plugin
+            make_temp_directory($temppath); // I just created the folder for the current plugin.
 
             $tempfullpath = $CFG->tempdir.'/'.$temppath;
 
@@ -217,7 +217,6 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         }
         $dirnames[] = 'lang/';
 
-        // if (false) {
         foreach ($filelist as $file) {
             unlink($file);
         }
@@ -225,7 +224,6 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             rmdir($tempbasedir.'/'.$dir);
         }
         rmdir($tempbasedir);
-        // }
 
         // Return the full path to the exported template file.
         return $exportfile;
@@ -292,9 +290,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
                         // I store sortindex instead of parentid, because at restore time parent id will change.
                         $val = $DB->get_field('surveypro_item', 'sortindex', $whereparams);
                         $xmlfield = $xmltable->addChild($field, $val);
-                        // } else {
-                        // It is empty, do not evaluate: jump.
-                    }
+                    } // Otherwise: It is empty, do not evaluate: jump.
                     continue;
                 }
 
@@ -302,9 +298,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
 
                 if (strlen($val)) {
                     $xmlfield = $xmltable->addChild($field, $val);
-                    // } else {
-                    // It is empty, do not evaluate: jump.
-                }
+                } // Otherwise: It is empty, do not evaluate: jump.
             }
 
             // Child table.
@@ -320,8 +314,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
 
                 if (strlen($val)) {
                     $xmlfield = $xmltable->addChild($field, htmlspecialchars($val));
-                    // } else {
-                    // It is empty, do not evaluate: jump.
+                    // Otherwise: It is empty, do not evaluate: jump.
                 }
 
                 if ($field == 'content') {
@@ -340,8 +333,8 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             }
         }
 
-        // $option == false if 100% waste of time BUT BUT BUT
-        // The output in the file is well written.
+        // $option == false if 100% waste of time BUT BUT BUT...
+        // the output in the file is well written.
         // I prefer a more readable xml file instead of few nanoseconds saved.
         $option = false;
         if ($option) {
@@ -478,9 +471,9 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         $naturalsortindex = 0;
         foreach ($simplexml->children() as $xmlitem) {
 
-            // Read the attributes of the item node:
+            // Read the attributes of the item node.
             foreach ($xmlitem->attributes() as $attribute => $value) {
-                // <item type="format" plugin="label" version="2014030201">
+                // The $xmlitem looks like: <item type="format" plugin="label" version="2014030201">.
                 if ($attribute == 'type') {
                     $currenttype = (string)$value;
                 }
@@ -640,7 +633,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         $event->trigger();
     }
 
-    // MARK get
+    // MARK get.
 
     /**
      * Get translated strings.

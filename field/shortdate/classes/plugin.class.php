@@ -261,7 +261,7 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
      * @return int unixtime
      */
     public function item_shortdate_to_unix_time($month, $year) {
-        return (gmmktime(12, 0, 0, $month, 1, $year)); // This is GMT
+        return (gmmktime(12, 0, 0, $month, 1, $year)); // This is GMT.
     }
 
     /**
@@ -334,7 +334,7 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
     }
 
     /**
-     * Item_get_downloadformats.
+     * Get the content of the downloadformats menu of the item setup form.
      *
      * @return void
      */
@@ -359,17 +359,16 @@ class mod_surveypro_field_shortdate extends mod_surveypro_itembase {
     }
 
     /**
-     * Item_get_friendlyformat.
+     * Get the format recognized (without any really good reason) as friendly.
      *
-     * @return void
+     * @return the friendly format
      */
     public function item_get_friendlyformat() {
         return 'strftime01';
     }
 
     /**
-     * Item_get_multilang_fields
-     * make the list of multilang plugin fields
+     * Make the list of the fields using multilang
      *
      * @return array of felds
      */
@@ -429,7 +428,7 @@ EOS;
         return $schema;
     }
 
-    // MARK userform
+    // MARK userform.
 
     /**
      * Define the mform element for the outform and the searchform.
@@ -442,7 +441,7 @@ EOS;
     public function userform_mform_element($mform, $searchform, $readonly) {
         global $DB, $USER;
 
-        $labelsep = get_string('labelsep', 'langconfig'); // ': '
+        $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
@@ -478,9 +477,9 @@ EOS;
 
             if (!$searchform) {
                 // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
-                // -> I do not want JS form validation if the page is submitted through the "previous" button.
-                // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
-                // Simply add a dummy star to the item and the footer note about mandatory fields.
+                // I do not want JS form validation if the page is submitted through the "previous" button.
+                // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
+                // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
                 $starplace = ($this->position != SURVEYPRO_POSITIONLEFT) ? $this->itemname.'_extrarow' : $this->itemname.'_group';
                 $mform->_required[] = $starplace;
             }

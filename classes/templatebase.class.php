@@ -160,9 +160,9 @@ class mod_surveypro_templatebase {
                     // but, I need the right class name for the next table, so I choose to load the correct class from the beginning.
                     require_once($CFG->dirroot.'/mod/surveypro/'.$currenttype.'/'.$currentplugin.'/classes/plugin.class.php');
                     $classname = 'mod_surveypro_'.$currenttype.'_'.$currentplugin;
-                    $xsd = $classname::item_get_item_schema(); // <- itembase schema
+                    $xsd = $classname::item_get_item_schema(); // Itembase schema.
                 } else {
-                    // $classname is already onboard because of the previous loop over surveypro_item fields
+                    // Classname is already onboard because of the previous loop over surveypro_item fields.
                     if (!isset($classname)) {
                         $error = new stdClass();
                         $error->key = 'badtablenamefound';
@@ -170,7 +170,7 @@ class mod_surveypro_templatebase {
 
                         return $error;
                     }
-                    $xsd = $classname::item_get_plugin_schema(); // <- plugin schema
+                    $xsd = $classname::item_get_plugin_schema(); // Plugin schema.
                 }
 
                 if (empty($xsd)) {
@@ -186,8 +186,7 @@ class mod_surveypro_templatebase {
                 // Let's capture errors.
                 $olderrormode = libxml_use_internal_errors(true);
 
-                // Clear XML error flag so that we don't incorrectly report failure
-                // when a previous xml parse failed.
+                // Clear XML error flag so that we don't incorrectly report failure when a previous xml parse failed.
                 libxml_clear_errors();
 
                 if ($debug) {
@@ -205,7 +204,6 @@ class mod_surveypro_templatebase {
                 if (!empty($errors)) {
                     $firsterror = array_shift($errors);
                     $atemplate = get_string('reportederrortemplate', 'mod_surveypro');
-                    // $atemplate = '%s as required by the xsd of the "%s" plugin'
                     $a = sprintf($atemplate, trim($firsterror->message, "\n\r\t ."), $currentplugin);
 
                     $error = new stdClass();
@@ -233,7 +231,7 @@ class mod_surveypro_templatebase {
         return false;
     }
 
-    // MARK get
+    // MARK get.
 
     /**
      * Get table structure.

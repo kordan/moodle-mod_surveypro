@@ -257,7 +257,7 @@ class mod_surveypro_field_numeric extends mod_surveypro_itembase {
         // Nothing to do: no need to overwrite variables.
 
         // 3. Set values corresponding to checkboxes.
-        // Take care: 'required', 'hideinstructions' were already considered in item_get_common_settings
+        // Take care: 'required', 'hideinstructions' were already considered in item_get_common_settings.
         // Nothing to do: no checkboxes in this plugin item form.
 
         // 4. Other: float numbers need more attention because I can write them using , or .
@@ -309,8 +309,7 @@ class mod_surveypro_field_numeric extends mod_surveypro_itembase {
     }
 
     /**
-     * Item_get_multilang_fields
-     * make the list of multilang plugin fields
+     * Make the list of the fields using multilang
      *
      * @return array of felds
      */
@@ -365,7 +364,7 @@ EOS;
         return $schema;
     }
 
-    // MARK userform
+    // MARK userform.
 
     /**
      * Define the mform element for the outform and the searchform.
@@ -376,7 +375,7 @@ EOS;
      * @return void
      */
     public function userform_mform_element($mform, $searchform, $readonly) {
-        $labelsep = get_string('labelsep', 'langconfig'); // ': '
+        $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
@@ -397,9 +396,9 @@ EOS;
 
             if ($this->required) {
                 // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
-                // -> I do not want JS form validation if the page is submitted through the "previous" button.
-                // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
-                // Simply add a dummy star to the item and the footer note about mandatory fields.
+                // I do not want JS form validation if the page is submitted through the "previous" button.
+                // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
+                // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
                 $starplace = ($this->position != SURVEYPRO_POSITIONLEFT) ? $this->itemname.'_extrarow' : $this->itemname;
                 $mform->_required[] = $starplace;
             }

@@ -259,13 +259,13 @@ class mod_surveypro_outform extends moodleform {
 
         // Get _customdata.
         $cm = $this->_customdata->cm;
-        // $tabpage = $this->_customdata->tabpage;
+        // Useless: $tabpage = $this->_customdata->tabpage;.
         $surveypro = $this->_customdata->surveypro;
-        // $submissionid = $this->_customdata->submissionid;
-        // $formpage = $this->_customdata->formpage;
-        // $maxassignedpage = $this->_customdata->maxassignedpage;
-        // $canaccessreserveditems = $this->_customdata->canaccessreserveditems;
-        // $readonly = $this->_customdata->readonly; // I see a form (record) that is not mine
+        // Useless: $submissionid = $this->_customdata->submissionid;.
+        // Useless: $formpage = $this->_customdata->formpage;.
+        // Useless: $maxassignedpage = $this->_customdata->maxassignedpage;.
+        // Useless: $canaccessreserveditems = $this->_customdata->canaccessreserveditems;.
+        // Useless: $readonly = $this->_customdata->readonly; // I see a form (record) that is not mine.
         $preview = $this->_customdata->preview; // Are we in preview mode?
 
         if ($preview) {
@@ -315,9 +315,8 @@ class mod_surveypro_outform extends moodleform {
 
                 if ($itemisenabled) {
                     $item->userform_mform_validation($data, $errors, false);
-                    // } else {
-                    // echo 'parent item doesn\'t allow the validation of the child item '.$item->itemid.', plugin = '.$item->plugin.'('.$item->content.')<br />';
                 }
+                // Otherwise... echo 'parent item doesn\'t allow the validation of the child item '.$item->itemid.', plugin = '.$item->plugin.'('.$item->content.')<br />';
             }
         }
 

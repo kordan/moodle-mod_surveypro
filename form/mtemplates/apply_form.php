@@ -44,7 +44,7 @@ class mod_surveypro_applymtemplateform extends moodleform {
         $mform = $this->_form;
 
         // Get _customdata.
-        // $mtemplateman = $this->_customdata->mtemplateman;
+        // Useless: $mtemplateman = $this->_customdata->mtemplateman;.
         $inline = $this->_customdata->inline;
 
         if ($mtemplatepluginlist = get_plugin_list('surveyprotemplate')) {
@@ -95,7 +95,7 @@ class mod_surveypro_applymtemplateform extends moodleform {
 
         // Get _customdata.
         $mtemplateman = $this->_customdata->mtemplateman;
-        // $inline = $this->_customdata->inline;
+        // Useless: $inline = $this->_customdata->inline;.
 
         $errors = parent::validation($data, $files);
 

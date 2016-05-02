@@ -61,7 +61,7 @@ class mod_surveypro_chooseitemform extends moodleform {
         $itemseeds = $DB->get_recordset('surveypro_item', $where, 'sortindex');
 
         // Build options array.
-        $labelsep = get_string('labelsep', 'langconfig'); // ': '
+        $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
         $options = array(get_string('choosedots'));
         foreach ($itemseeds as $itemseed) {
             if (($itemseed->plugin == 'textarea') || ($itemseed->plugin == 'fileupload')) {
@@ -93,7 +93,7 @@ class mod_surveypro_chooseitemform extends moodleform {
      */
     public function validation($data, $files) {
         // Get _customdata.
-        // $surveypro = $this->_customdata->surveypro;
+        // Useless: $surveypro = $this->_customdata->surveypro;.
 
         // "noanswer" default option is not allowed when the item is mandatory
         $errors = array();

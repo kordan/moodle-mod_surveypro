@@ -266,7 +266,7 @@ class mod_surveypro_field_character extends mod_surveypro_itembase {
         }
 
         // 3. Set values corresponding to checkboxes.
-        // Take care: 'required', 'hideinstructions' were already considered in item_get_common_settings
+        // Take care: 'required', 'hideinstructions' were already considered in item_get_common_settings.
         // Nothing to do: no checkboxes in this plugin item form.
 
         // 4. Other.
@@ -362,7 +362,7 @@ EOS;
         return $schema;
     }
 
-    // MARK userform
+    // MARK userform.
 
     /**
      * Define the mform element for the outform and the searchform.
@@ -382,7 +382,7 @@ EOS;
      * @return void
      */
     public function userform_mform_element($mform, $searchform, $readonly) {
-        $labelsep = get_string('labelsep', 'langconfig'); // ': '
+        $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
@@ -408,9 +408,9 @@ EOS;
 
             if ($this->required) {
                 // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
-                // -> I do not want JS form validation if the page is submitted through the "previous" button.
-                // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
-                // Simply add a dummy star to the item and the footer note about mandatory fields.
+                // I do not want JS form validation if the page is submitted through the "previous" button.
+                // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
+                // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
                 $starplace = ($this->position != SURVEYPRO_POSITIONLEFT) ? $this->itemname.'_extrarow' : $this->itemname;
                 $mform->_required[] = $starplace;
             }
@@ -472,24 +472,21 @@ EOS;
                         }
                         break;
                     case SURVEYPROFIELD_CHARACTER_URLPATTERN:
-                        // $regex = '~^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$~i';
-                        $regex = '~^(http(s?)\:\/\/)?[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\‌​-‌​\.\?\,\'\/\\\+&amp;%\$#_]*)?$~i';
-                        // if (!surveypro_character_is_valid_url($data[$this->itemname])) {
-                        if (!preg_match($regex, $data[$this->itemname])) {
+                        if (!surveypro_character_validate_url($data[$this->itemname])) {
                             $errors[$errorkey] = get_string('uerr_invalidurl', 'surveyprofield_character');
                         }
                         break;
                     case SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN: // It is a custom pattern done with "A", "a", "*" and "0".
-                        // "A" UPPER CASE CHARACTERS.
-                        // "a" lower case characters.
-                        // "*" UPPER case, LOWER case or any special characters like '@', ',', '%', '5', ' ' or whatever.
-                        // "0" numbers.
+                        // Where: "A" UPPER CASE CHARACTERS.
+                        // Where: "a" lower case characters.
+                        // Where: "*" UPPER case, LOWER case or any special characters like '@', ',', '%', '5', ' ' or whatever.
+                        // Where: "0" numbers.
 
                         if ($answerlength != strlen($this->patterntext)) {
                             $errors[$errorkey] = get_string('uerr_badlength', 'surveyprofield_character');
                         }
 
-                        if (!surveyprofield_character_validate_pattern($data[$this->itemname], $this->patterntext)) {
+                        if (!surveypro_character_validate_pattern($data[$this->itemname], $this->patterntext)) {
                             $errors[$errorkey] = get_string('uerr_nopatternmatch', 'surveyprofield_character');
                         }
                         break;
@@ -591,7 +588,7 @@ EOS;
     public function userform_set_prefill($fromdb) {
         $prefill = array();
 
-        if (!$fromdb) { // $fromdb may be boolean false for not existing data
+        if (!$fromdb) { // $fromdb may be boolean false for not existing data.
             return $prefill;
         }
 
@@ -616,7 +613,7 @@ EOS;
     public function userform_db_to_export($answer, $format='') {
         // Content.
         $content = trim($answer->content);
-        // SURVEYPRO_NOANSWERVALUE does not exist here
+        // SURVEYPRO_NOANSWERVALUE does not exist here.
         if ($content == SURVEYPRO_NOANSWERVALUE) { // Answer was "no answer".
             return get_string('answerisnoanswer', 'mod_surveypro');
         }

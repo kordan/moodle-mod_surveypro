@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- *  This file contains the backup code for the surveyprofield_shortdate plugin.
+ * This file contains the backup code for the surveyprofield_shortdate plugin.
  *
  * @package   surveyprofield_shortdate
  * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}

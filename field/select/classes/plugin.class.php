@@ -241,20 +241,19 @@ class mod_surveypro_field_select extends mod_surveypro_itembase {
         $record->hideinstructions = 1;
 
         // 3. Set values corresponding to checkboxes.
-        // Take care: 'required', 'hideinstructions' were already considered in item_get_common_settings
+        // Take care: 'required', 'hideinstructions' were already considered in item_get_common_settings.
         // Nothing to do: no checkboxes in this plugin item form.
 
         // 4. Other.
     }
 
     /**
-     * Item_list_constraints
-     * this method prepare the list of constraints the child has to respect in order to create a valid relation
+     * Make the list of constraints the child has to respect in order to create a valid relation
      *
      * @return list of contraints of the plugin (as parent) in text format
      */
     public function item_list_constraints() {
-        $labelsep = get_string('labelsep', 'langconfig'); // ': '
+        $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
         $constraints = array();
 
         $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
@@ -270,17 +269,16 @@ class mod_surveypro_field_select extends mod_surveypro_itembase {
     }
 
     /**
-     * Item_get_friendlyformat.
+     * Get the format recognized (without any really good reason) as friendly.
      *
-     * @return void
+     * @return the friendly format
      */
     public function item_get_friendlyformat() {
         return SURVEYPRO_ITEMRETURNSLABELS;
     }
 
     /**
-     * Item_get_multilang_fields
-     * make the list of multilang plugin fields
+     * Make the list of the fields using multilang
      *
      * @return array of felds
      */
@@ -335,7 +333,7 @@ EOS;
         return $schema;
     }
 
-    // MARK parent
+    // MARK parent.
 
     /**
      * Translate the parentcontent of the child item to the corresponding parentvalue.
@@ -452,7 +450,7 @@ EOS;
         return ($return);
     }
 
-    // MARK userform
+    // MARK userform.
 
     /**
      * Define the mform element for the outform and the searchform.
@@ -463,7 +461,7 @@ EOS;
      * @return void
      */
     public function userform_mform_element($mform, $searchform, $readonly) {
-        $labelsep = get_string('labelsep', 'langconfig'); // ': '
+        $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
@@ -501,9 +499,9 @@ EOS;
         if (!$searchform) {
             if ($this->required) {
                 // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
-                // -> I do not want JS form validation if the page is submitted through the "previous" button.
-                // -> I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
-                // Simply add a dummy star to the item and the footer note about mandatory fields.
+                // I do not want JS form validation if the page is submitted through the "previous" button.
+                // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
+                // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
                 if ($this->position != SURVEYPRO_POSITIONLEFT) {
                     $starplace = $this->itemname.'_extrarow';
                 } else {
@@ -628,13 +626,14 @@ EOS;
     }
 
     /**
-     * Userform_child_item_allowed_dynamic
-     * this method is called if (and only if) parent item and child item live in the same form page
-     * this method has two purposes:
+     * Dynamically decide if my child (living in my same page) is allowed or not.
+     * 
+     * This method is called if (and only if) parent item and child item live in the same form page.
+     * This method has two purposes:
      * - stop userpageform item validation
      * - drop unexpected returned values from $userpageform->formdata
      *
-     * as parentitem declare whether my child item is allowed to return a value (is enabled) or is not (is disabled)
+     * As parentitem declare whether my child item is allowed to return a value (is enabled) or is not (is disabled)
      *
      * @param string $childparentvalue
      * @param array $data

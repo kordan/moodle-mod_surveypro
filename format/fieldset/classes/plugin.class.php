@@ -149,8 +149,7 @@ class mod_surveypro_format_fieldset extends mod_surveypro_itembase {
     }
 
     /**
-     * Item_get_multilang_fields
-     * make the list of multilang plugin fields
+     * Make the list of the fields using multilang
      *
      * @return array of felds
      */
@@ -182,7 +181,7 @@ EOS;
         return $schema;
     }
 
-    // MARK userform
+    // MARK userform.
 
     /**
      * Define the mform element for the outform and the searchform.

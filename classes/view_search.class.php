@@ -67,16 +67,17 @@ class mod_surveypro_searchmanager {
     }
 
     /**
-     * Get_searchparamurl.
+     * Get the searchparamurl.
      *
-     * @return void
+     * At the submission time of the seach form, define the $searchparamurl to send to view.php
+     *
+     * @return mixed $searchquery if a search was requested, void otherwise
      */
     public function get_searchparamurl() {
         $regexp = '~('.SURVEYPRO_ITEMPREFIX.'|'.SURVEYPRO_DONTSAVEMEPREFIX.')_('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_([a-z]+)_([0-9]+)_?([a-z0-9]+)?~';
 
         $itemhelperinfo = array();
         foreach ($this->formdata as $elementname => $content) {
-
             if (preg_match($regexp, $elementname, $matches)) {
                 $itemid = $matches[4]; // Itemid of the search_form element (or of the search_form family element).
                 if (!isset($itemhelperinfo[$itemid])) {

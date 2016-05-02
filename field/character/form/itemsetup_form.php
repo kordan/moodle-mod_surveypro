@@ -35,7 +35,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/character/lib.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
+class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
     /**
      * Definition.
@@ -49,8 +49,8 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         $mform = $this->_form;
 
         // Get _customdata.
-        // $item = $this->_customdata->item;
-        // $surveypro = $this->_customdata->surveypro;
+        // Useless: $item = $this->_customdata->item;.
+        // Useless: $surveypro = $this->_customdata->surveypro;.
 
         // Item: defaultvalue.
         $fieldname = 'defaultvalue';
@@ -105,12 +105,12 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
      */
     public function validation($data, $files) {
         // Get _customdata.
-        // $item = $this->_customdata->item;
-        // $surveypro = $this->_customdata->surveypro;
+        // Useless: $item = $this->_customdata->item;.
+        // Useless: $surveypro = $this->_customdata->surveypro;.
 
         $errors = parent::validation($data, $files);
 
-        // Minimum characters <= Maximum characters
+        // Minimum characters <= Maximum characters.
         if (!empty($data['minlength'])) {
             if (!empty($data['maxlength'])) {
                 if ($data['minlength'] > $data['maxlength']) {
@@ -118,7 +118,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
                     $errors['maxlength'] = get_string('ierr_maxltmin', 'surveyprofield_character');
                 }
             } else {
-                // Minimum characters > 0
+                // Minimum characters > 0.
                 if ($data['minlength'] < 0) {
                     $errors['minlength'] = get_string('ierr_minexceeds', 'surveyprofield_character');
                 }
@@ -126,7 +126,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
         }
 
         if (!empty($data['defaultvalue'])) {
-            // Maximum characters > length of default
+            // Maximum characters > length of default.
             $defaultvaluelength = strlen($data['defaultvalue']);
             if (!empty($data['maxlength'])) {
                 if ($defaultvaluelength > $data['maxlength']) {
@@ -134,7 +134,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
                 }
             }
 
-            // Minimum characters < length of default
+            // Minimum characters < length of default.
             if ($defaultvaluelength < $data['minlength']) {
                 $errors['defaultvalue'] = get_string('ierr_tooshortdefault', 'surveyprofield_character');
             }
@@ -149,7 +149,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
                     }
                     break;
                 case SURVEYPROFIELD_CHARACTER_URLPATTERN:
-                    if (!surveypro_character_is_valid_url($data['defaultvalue'])) {
+                    if (!surveypro_character_validate_url($data['defaultvalue'])) {
                         $errors['defaultvalue'] = get_string('ierr_defaultisnoturl', 'surveyprofield_character');
                     }
                     break;
@@ -157,7 +157,7 @@ class mod_surveypro_pluginform extends mod_surveypro_itembaseform {
                     $patternlength = strlen($data['pattern_text']);
                     if ($defaultvaluelength != $patternlength) {
                         $errors['defaultvalue'] = get_string('ierr_defaultbadlength', 'surveyprofield_character', $patternlength);
-                    } else if (!surveyprofield_character_validate_pattern($data['defaultvalue'], $data['pattern_text'])) {
+                    } else if (!surveypro_character_validate_pattern($data['defaultvalue'], $data['pattern_text'])) {
                         $errors['defaultvalue'] = get_string('ierr_nopatternmatch', 'surveyprofield_character');
                     }
                     break;

@@ -78,7 +78,7 @@ class mod_surveypro_importmanager {
     }
 
     /**
-     * Welcome_message.
+     * Display the welcome message of the import page.
      *
      * @return void
      */
@@ -179,7 +179,7 @@ class mod_surveypro_importmanager {
     }
 
     /**
-     * Verify_required.
+     * Verify each required item is included among survey headers.
      *
      * @param array $requireditems
      * @param int $columntoitemid
@@ -198,15 +198,15 @@ class mod_surveypro_importmanager {
     }
 
     /**
-     * Verify_attachments_import.
+     * Verify whether attachments were included in the import file.
      *
      * @param array $foundheaders
-     * @return either array extraheadres or bool false
+     * @return mixed array extraheadres or bool false
      */
     public function verify_attachments_import($foundheaders) {
         global $DB;
 
-        // First step: make the list of each variablename of fileupload items of this surveypro.
+        // First step: make the list of each fileupload items of this surveypro.
         $where = array('surveyproid' => $this->surveypro->id);
         $sql = 'SELECT p.itemid, p.variable
                 FROM {surveypro_item} i
@@ -218,16 +218,16 @@ class mod_surveypro_importmanager {
             return false;
         }
 
-        $foundheaders = array();
+        $extraheadres = array();
         foreach ($foundheaders as $foundheader) {
             $key = in_array($foundheader, $variablenames);
             if ($key) {
-                $foundheaders[] = $foundheader;
+                $extraheadres[] = $foundheader;
             }
         }
 
-        if (count($foundheaders)) {
-            return $foundheaders;
+        if (count($extraheadres)) {
+            return $extraheadres;
         } else {
             return false;
         }
@@ -364,7 +364,9 @@ class mod_surveypro_importmanager {
     }
 
     /**
-     * Validate_csv.
+     * Import csv.
+     *
+     * Make a long list of test and, if all goes fine, import.
      *
      * @return void
      */
@@ -402,7 +404,7 @@ class mod_surveypro_importmanager {
         unset($csvcontent);
 
         // Start here 3 tests against general file configuration.
-        // 1) is the number of field of each line homogeneous with all the others?
+        // First) is the number of field of each line homogeneous with all the others?
         $csvfileerror = $cir->get_error();
         if (!is_null($csvfileerror)) {
             $cir->close();
@@ -413,7 +415,7 @@ class mod_surveypro_importmanager {
             return $error;
         }
 
-        // 2) is each column unique?
+        // Second) is each column unique?
         $foundheaders = $cir->get_columns();
         if ($debug) {
             echo '$foundheaders:';
@@ -429,7 +431,7 @@ class mod_surveypro_importmanager {
             return $error;
         }
 
-        // 3) is the user trying to import an attachment?
+        // Third) is the user trying to import an attachment?
         if ($attachments = $this->verify_attachments_import($foundheaders)) { // Error.
             $cir->close();
             $cir->cleanup();
@@ -459,7 +461,7 @@ class mod_surveypro_importmanager {
         //
         // TO MAKE THIS CLEAR ONCE AND FOR EVER:
         // -> Teacher IS NOT allowed to enter a invalid content
-        // -> But IS allowed to partially import records even jumping mandatory values
+        // -> But IS allowed to partially import records even jumping mandatory values.
 
         // Make a relation between each column header and the corresponding itemid.
         list($columntoitemid, $nonmatchingheaders, $environmentheaders) = $this->get_columntoitemid($foundheaders, $surveyheaders);
@@ -795,7 +797,7 @@ class mod_surveypro_importmanager {
             echo 'I start the import<br />';
         }
 
-        // F I N A L L Y   I M P O R T
+        // F I N A L L Y   I M P O R T .
         // Init csv import helper.
         $debug = false;
 
@@ -903,7 +905,6 @@ class mod_surveypro_importmanager {
             }
 
             if ($status != $defaultstatus) {
-                // $record = $DB->get_record('surveypro_submission', array('id' => $submissionid));
                 $record = new StdClass();
                 $record->id = $submissionid;
                 $record->status = $status;

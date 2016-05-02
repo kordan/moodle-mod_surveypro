@@ -132,7 +132,7 @@ class mod_surveypro_searchform extends moodleform {
         // Get _customdata.
         $cm = $this->_customdata->cm;
         $surveypro = $this->_customdata->surveypro;
-        // $canaccessreserveditems = $this->_customdata->canaccessreserveditems;
+        // Useless: $canaccessreserveditems = $this->_customdata->canaccessreserveditems;.
 
         $errors = array();
 

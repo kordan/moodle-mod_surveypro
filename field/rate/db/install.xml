@@ -22,7 +22,7 @@
         <FIELD NAME="indent"           TYPE="int"  LENGTH="4"      NOTNULL="false"                             SEQUENCE="false"/>
         <!-- end of fields belonging to itembase_form.php -->
 
-        <!-- begin of fields belonging to plugin_form.php of this specific plugin -->
+        <!-- begin of fields belonging to itemsetup_form.php of this specific plugin -->
         <FIELD NAME="options"          TYPE="text" LENGTH="medium" NOTNULL="true"                              SEQUENCE="false"/>
         <FIELD NAME="rates"            TYPE="char" LENGTH="255"    NOTNULL="true"                              SEQUENCE="false"/>
         <FIELD NAME="defaultoption"    TYPE="int"  LENGTH="2"      NOTNULL="true"  UNSIGNED="true" DEFAULT="2" SEQUENCE="false"/>
@@ -31,7 +31,7 @@
 
         <FIELD NAME="style"            TYPE="int"  LENGTH="4"      NOTNULL="true"  UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="differentrates"   TYPE="int"  LENGTH="4"      NOTNULL="true"  UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
-        <!-- end of fields belonging to plugin_form.php of this specific plugin -->
+        <!-- end of fields belonging to itemsetup_form.php of this specific plugin -->
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

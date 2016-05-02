@@ -73,7 +73,6 @@ $formparams->readonly = ($userformman->get_tabpage() == SURVEYPRO_SUBMISSION_REA
 $formparams->preview = false;
 // End of: prepare params for the form.
 
-// if ($view == SURVEYPRO_READONLYRESPONSE) {$editable = false} else {$editable = true}
 $outform = new mod_surveypro_outform($formurl, $formparams, 'post', '', array('id' => 'userentry'), ($view != SURVEYPRO_READONLYRESPONSE));
 
 // Begin of: manage form submission.
@@ -84,7 +83,7 @@ if ($outform->is_cancelled()) {
 }
 
 if ($userformman->formdata = $outform->get_data()) {
-    $userformman->save_user_data(); // <-- SAVE SAVE SAVE SAVE.
+    $userformman->save_user_data(); // SAVE SAVE SAVE SAVE.
     $userformman->notifypeople();
 
     // If "pause" button has been pressed, redirect.
@@ -103,7 +102,7 @@ if ($userformman->formdata = $outform->get_data()) {
         $userformman->next_not_empty_page(false);
         $paramurl['formpage'] = $userformman->get_firstpageleft();
         $redirecturl = new moodle_url('/mod/surveypro/view_form.php', $paramurl);
-        redirect($redirecturl); // -> go to the first non empty previous page of the form
+        redirect($redirecturl); // Redirect to the first non empty page.
     }
 
     // If "next" button has been pressed, redirect.
@@ -122,7 +121,7 @@ if ($userformman->formdata = $outform->get_data()) {
 
         $paramurl['formpage'] = $userformman->get_firstpageright();
         $redirecturl = new moodle_url('/mod/surveypro/view_form.php', $paramurl);
-        redirect($redirecturl); // -> go to the first non empty next page of the form
+        redirect($redirecturl); // Redirect to the first non empty page.
     }
 }
 // End of: manage form submission.

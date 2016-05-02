@@ -60,7 +60,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $this->set_confirm($confirm);
     }
 
-    // MARK set
+    // MARK set.
 
     /**
      * Set utemplateid.
@@ -92,7 +92,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $this->confirm = $confirm;
     }
 
-    // MARK get
+    // MARK get.
 
     /**
      * Get filemanager options.
@@ -174,7 +174,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      */
     public function get_contextstring_from_sharinglevel($contextlevel) {
         // Depending on the context level the component can be:
-        // -> system, -> category, -> course, -> module, -> user
+        // -> system, -> category, -> course, -> module, -> user.
         switch ($contextlevel) {
             case CONTEXT_SYSTEM:
                 $contextstring = 'system';
@@ -207,7 +207,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     public function get_sharinglevel_options() {
         global $USER;
 
-        $labelsep = get_string('labelsep', 'langconfig'); // ': '
+        $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '..
 
         $options = array();
         $options[CONTEXT_USER.'_'.$USER->id] = get_string('user').$labelsep.fullname($USER);
@@ -335,9 +335,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                         // I store sortindex instead of parentid, because at restore time parent id will change.
                         $val = $DB->get_field('surveypro_item', 'sortindex', $whereparams);
                         $xmlfield = $xmltable->addChild($field, $val);
-                        // } else {
-                        // It is empty, do not evaluate: jump.
-                    }
+                    } // Otherwise: It is empty, do not evaluate: jump.
                     continue;
                 }
 
@@ -345,9 +343,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
                 if (strlen($val)) {
                     $xmlfield = $xmltable->addChild($field, $val);
-                    // } else {
-                    // It is empty, do not evaluate: jump.
-                }
+                } // Otherwise: It is empty, do not evaluate: jump.
             }
 
             // Child table.
@@ -363,9 +359,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
                 if (strlen($val)) {
                     $xmlfield = $xmltable->addChild($field, htmlspecialchars($val));
-                    // } else {
-                    // It is empty, do not evaluate: jump.
-                }
+                } // Otherwise: It is empty, do not evaluate: jump.
 
                 if ($field == 'content') {
                     if ($files = $fs->get_area_files($context->id, 'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $item->get_itemid())) {
@@ -383,8 +377,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
             }
         }
 
-        // $option == false if 100% waste of time BUT BUT BUT
-        // The output in the file is well written.
+        // $option == false if 100% waste of time BUT BUT BUT the output in the file is well written.
         // I prefer a more readable xml file instead of few nanoseconds saved.
         $option = false;
         if ($option) {
@@ -523,7 +516,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         foreach ($simplexml->children() as $xmlitem) {
 
             // Read the attributes of the item node:
-            // <item type="field" plugin="character" version="2015123000">
+            // The xmlitem looks like: <item type="field" plugin="character" version="2015123000">.
             foreach ($xmlitem->attributes() as $attribute => $value) {
                 if ($attribute == 'type') {
                     $currenttype = (string)$value;
@@ -559,7 +552,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                 foreach ($xmltable->children() as $xmlfield) {
                     $fieldname = $xmlfield->getName();
 
-                    // Tag <embedded> always belong to surveypro(field|format)_<<plugin>> table,
+                    // Tag <embedded> always belong to surveypro(field|format)_<<plugin>> table
                     // so: ($fieldname == 'embedded') only when surveypro_item has already been saved...
                     // so: $itemid is known.
                     if ($fieldname == 'embedded') {
@@ -593,7 +586,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                         // Because of this, I can not SIMPLY add $fieldname to $record but I need to make some more investigation.
                         // I neglect no longer used fields, here.
                         // I will add mandatory (but missing because the usertemplate may be old) fields,
-                        // before saving in the frame of the $item->item_force_coherence
+                        // before saving in the frame of the $item->item_force_coherence.
                         $fieldexists = in_array($fieldname, $currenttablestructure);
                         if ($fieldexists) {
                             $record->{$fieldname} = (string)$xmlfield;
@@ -824,7 +817,6 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $tableheaders[] = get_string('actions');
         $table->define_headers($tableheaders);
 
-        // $table->collapsible(true);
         $table->sortable(true, 'templatename'); // Sorted by sortindex by default.
         $table->no_sorting('actions');
 
@@ -833,11 +825,8 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $table->column_class('timecreated', 'timecreated');
         $table->column_class('actions', 'actions');
 
-        // General properties for the whole table.
-        // $table->set_attribute('cellpadding', '5');
         $table->set_attribute('id', 'managetemplates');
         $table->set_attribute('class', 'generaltable');
-        // $table->set_attribute('width', '90%');
         $table->setup();
 
         $deletetitle = get_string('delete');
@@ -860,17 +849,11 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $row = 0;
         foreach ($templates as $contextstring => $contextfiles) {
             foreach ($contextfiles as $xmlfile) {
-                // echo '$xmlfile:';
-                // var_dump($xmlfile);
                 $tablerow = array();
-                // $tablerow[] = $xmlfile->get_filename();
                 $tablerow[] = $dummysort[$row]['templatename'];
-                // $tablerow[] = get_string($contextstring, 'mod_surveypro');
                 $tablerow[] = $dummysort[$row]['sharinglevel'];
-                // $tablerow[] = userdate($xmlfile->get_timecreated());
                 $tablerow[] = userdate($dummysort[$row]['creationdate']);
 
-                // $paramurlbase['fid'] = $xmlfile->get_id();
                 $paramurlbase['fid'] = $dummysort[$row]['xmlfileid'];
                 $row++;
 
@@ -944,13 +927,13 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
             $originaltableperrows[] = $tablerow;
         }
 
-        // $usersort
+        // Add orderpart.
         $orderparts = explode(', ', $usersort);
         $orderparts = str_replace('templatename', '0', $orderparts);
         $orderparts = str_replace('sharinglevel', '1', $orderparts);
         $orderparts = str_replace('timecreated', '2', $orderparts);
 
-        // $fieldindex and $sortflag
+        // Include $fieldindex and $sortflag.
         $fieldindex = array(0, 0, 0);
         $sortflag = array(SORT_ASC, SORT_ASC, SORT_ASC);
         foreach ($orderparts as $k => $orderpart) {

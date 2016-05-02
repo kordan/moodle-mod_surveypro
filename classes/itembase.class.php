@@ -346,14 +346,14 @@ class mod_surveypro_itembase {
                 $transaction = $DB->start_delegated_transaction();
 
                 if ($itemid = $DB->insert_record('surveypro_item', $record)) { // First surveypro_item save.
-                    // Now think to $tablename
+                    // Now think to $tablename.
 
                     // Before saving to the the plugin table, validate the variable name.
                     $this->item_validate_variablename($record, $itemid);
 
                     $record->itemid = $itemid;
-                    if ($pluginid = $DB->insert_record($tablename, $record)) { // First $tablename save.
-                        $this->itemeditingfeedback += 1; // 0*2^1+1*2^0
+                    if ($pluginid = $DB->insert_record($tablename, $record)) { // First save of $tablename.
+                        $this->itemeditingfeedback += 1; // 0*2^1+1*2^0.
                     }
                 }
 
@@ -369,9 +369,9 @@ class mod_surveypro_itembase {
                     // Tablename.
                     $record->id = $pluginid;
 
-                    if (!$DB->update_record($tablename, $record)) { // <-- $tablename update
+                    if (!$DB->update_record($tablename, $record)) { // Update of $tablename.
                         $this->itemeditingfeedback -= ($this->itemeditingfeedback % 2); // Whatever it was, now it is a fail.
-                        // } else {
+                        // Otherwise...
                         // Leave the previous $this->itemeditingfeedback.
                         // If it was a success, leave it as now you got one more success.
                         // If it was a fail, leave it as you can not cover the previous fail.
@@ -392,7 +392,7 @@ class mod_surveypro_itembase {
             }
 
             if ($hassubmission) {
-                // Set to SURVEYPRO_STATUSINPROGRESS each already sent submission
+                // Set to SURVEYPRO_STATUSINPROGRESS each already sent submission.
                 $whereparams = array('surveyproid' => $this->surveypro->id);
                 $utilityman->submissions_set_status($whereparams, SURVEYPRO_STATUSINPROGRESS);
             }
@@ -406,8 +406,6 @@ class mod_surveypro_itembase {
                     $record = file_postupdate_standard_editor($record, $fieldname, $editoroptions, $context, 'mod_surveypro', $filearea, $record->itemid);
                     $record->{$fieldname.'format'} = FORMAT_HTML;
                 }
-                // } else {
-                // Record->content follows standard flow and will be evaluated in the standard way.
             }
 
             // Begin of: Hide/unhide part 1.
@@ -428,19 +426,17 @@ class mod_surveypro_itembase {
                 $transaction = $DB->start_delegated_transaction();
 
                 if ($DB->update_record('surveypro_item', $record)) {
-                    // $tablename
-
                     // Before saving to the the plugin table, I validate the variable name.
                     $this->item_validate_variablename($record, $record->itemid);
 
                     $record->id = $record->pluginid;
                     if ($DB->update_record($tablename, $record)) {
-                        $this->itemeditingfeedback += 3; // 1*2^1+1*2^0 alias: editing + success
+                        $this->itemeditingfeedback += 3; // 1*2^1+1*2^0 alias: editing + success.
                     } else {
-                        $this->itemeditingfeedback += 2; // 1*2^1+0*2^0 alias: editing + fail
+                        $this->itemeditingfeedback += 2; // 1*2^1+0*2^0 alias: editing + fail.
                     }
                 } else {
-                    $this->itemeditingfeedback += 2; // 1*2^1+0*2^0 alias: editing + fail
+                    $this->itemeditingfeedback += 2; // 1*2^1+0*2^0 alias: editing + fail.
                 }
 
                 $transaction->allow_commit();
@@ -462,10 +458,10 @@ class mod_surveypro_itembase {
             // where the answer to this item was SURVEYPRO_NOANSWERVALUE
             // needs to be switched to SURVEYPRO_STATUSINPROGRESS.
             if ($hassubmission) {
-                if (isset($this->required)) { // this plugin uses required
+                if (isset($this->required)) { // This plugin uses required.
                     $oldrequired = $this->get_required(); // This is the value of required for this item as it was when it was loaded.
-                    if ($oldrequired == 0) { // This item was not required
-                        if (isset($record->required) && ($record->required == 1)) { // This item is now required
+                    if ($oldrequired == 0) { // This item was not required.
+                        if (isset($record->required) && ($record->required == 1)) { // This item is now required.
                             // This item that was not mandatory is NOW mandatory.
                             $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
                             $utilityman->optional_to_required_followup($record->itemid);
@@ -487,7 +483,7 @@ class mod_surveypro_itembase {
             }
         }
 
-        // $this->itemeditingfeedback is going to be part of $returnurl in layout_itemsetup.php and to be send to layout_manage.php
+        // Property $this->itemeditingfeedback is going to be part of $returnurl in layout_itemsetup.php and to be send to layout_manage.php.
         return $record->itemid;
     }
 
@@ -606,7 +602,7 @@ class mod_surveypro_itembase {
                 if ( ($oldreserved == 0) && ($newreserved == 1) ) {
                     if ($itemlistman->item_makereserved_execute()) {
                         // A chain of child items got a limited access.
-                        $this->itemeditingfeedback += 32; // 1*2^5
+                        $this->itemeditingfeedback += 32; // 1*2^5.
                     }
                 }
                 // End of: limit/unlimit access part 2.
@@ -692,7 +688,7 @@ class mod_surveypro_itembase {
         } else {
             $datestring = gmstrftime('%B_%A_%j_%Y_%m_%w_%d_%H_%M_%S', $time);
         }
-        // May_Tuesday_193_2012_07_3_11_16_03_59
+        // May_Tuesday_193_2012_07_3_11_16_03_59.
 
         list(
             $getdate['month'],
@@ -707,7 +703,6 @@ class mod_surveypro_itembase {
             $getdate['seconds']
         ) = explode('_', $datestring);
 
-        // Print_object($getdate);.
         return $getdate;
     }
 
@@ -799,9 +794,8 @@ class mod_surveypro_itembase {
      */
     protected function item_clean_textarea_fields($record, $fieldlist) {
         foreach ($fieldlist as $field) {
-            // Some item may be undefined causing:
-            // Notice: Undefined property: stdClass::$defaultvalue
-            // As, for instance, disabled $defaultvalue field when $delaultoption == invite.
+            // Some item may be undefined causing: "Notice: Undefined property: stdClass::$defaultvalue"
+            // as, for instance, disabled field when $defaultoption == invite.
             if (isset($record->{$field})) {
                 $temparray = surveypro_multilinetext_to_array($record->{$field});
                 $record->{$field} = implode("\n", $temparray);
@@ -888,12 +882,12 @@ class mod_surveypro_itembase {
         $schema .= '            <xs:sequence>'."\n";
         $schema .= '                <xs:element type="xs:int" name="hidden"/>'."\n";
         $schema .= '                <xs:element type="xs:int" name="insearchform"/>'."\n";
-        // "advanced" has been replaced by "reserved" on March 21, 2016. Next lines guarantee backword compatibility.
+        // Field "advanced" has been replaced by "reserved" on March 21, 2016. Next lines guarantee backword compatibility.
         $schema .= '                <xs:choice>'."\n";
         $schema .= '                  <xs:element name="advanced" type="xs:int" minOccurs="0" maxOccurs="1" />'."\n";
         $schema .= '                  <xs:element name="reserved" type="xs:int" minOccurs="0" maxOccurs="1" />'."\n";
         $schema .= '                </xs:choice>'."\n";
-        // "sortindex" has been dropped on December 30, 2015. Next line only for backword compatibility.
+        // Field "sortindex" has been dropped on December 30, 2015. Next line only for backword compatibility.
         $schema .= '                <xs:element type="xs:int" name="sortindex" minOccurs="0"/>'."\n";
         $schema .= '                <xs:element type="xs:int" name="parentid" minOccurs="0"/>'."\n";
         $schema .= '                <xs:element type="xs:string" name="parentvalue" minOccurs="0"/>'."\n";
@@ -908,33 +902,15 @@ class mod_surveypro_itembase {
     /**
      * Add a dummy row to the mform in order to preserve the colour alternation also for items using more than a single mform element.
      *
-     * Credits for this amazing solution to the great Eloy Lafuente! He is a genius
+     * Credits for this amazing solution to the great Eloy Lafuente! He is a genius.
      * Add a dummy useless row (with height = 0) to the form in order to preserve the color alternation
-     * mainly used for rate items, but not only
+     * mainly used for rate items, but not only.
      *
      * @param moodleform $mform Form to which add the row
-     * @param integer $currentposition Counter to decide whether add the row
-     * @param integer $allpositions One more counter to decide whether add the row
      * @return void
      */
-    public function item_add_color_unifier($mform, $currentposition=null, $allpositions=null) {
-        if (is_null($currentposition) && is_null($allpositions)) {
-            $addcolorunifier = true;
-        } else {
-            if ( (!is_null($currentposition) && is_null($allpositions)) ||
-                 (is_null($currentposition) && !is_null($allpositions)) ) {
-                debugging('Bad parameters passed to item_add_color_unifier', DEBUG_DEVELOPER);
-            }
-            if ($currentposition < $allpositions) {
-                $addcolorunifier = true;
-            } else {
-                $addcolorunifier = !$this->required; // ????
-            }
-        }
-
-        if ($addcolorunifier) {
-            $mform->addElement('html', '<div class="hidden fitem fitem_fgroup colorunifier"></div>');
-        }
+    public function item_add_color_unifier($mform) {
+        $mform->addElement('html', '<div class="hidden fitem fitem_fgroup colorunifier"></div>');
     }
 
     /**
@@ -971,7 +947,7 @@ class mod_surveypro_itembase {
         return SURVEYPRO_3COLUMNSTEMPLATE;
     }
 
-    // MARK get
+    // MARK get.
 
     /**
      * Get course module.
@@ -1308,7 +1284,7 @@ class mod_surveypro_itembase {
         return $this->itemeditingfeedback;
     }
 
-    // MARK set
+    // MARK set.
 
     /**
      * Set contentformat.
@@ -1330,7 +1306,7 @@ class mod_surveypro_itembase {
         $this->contenttrust = $contenttrust;
     }
 
-    // MARK parent
+    // MARK parent.
 
     /**
      * I can not make ANY assumption about $childparentvalue because of the following explanation:
@@ -1351,7 +1327,7 @@ class mod_surveypro_itembase {
         // Read introduction.
     }
 
-    // MARK userform
+    // MARK userform.
 
     /**
      * Get full info == extranote + fillinginstruction
@@ -1462,7 +1438,7 @@ class mod_surveypro_itembase {
         $currentitem->parentvalue = $this->get_parentvalue();
         $mypage = $this->get_formpage(); // Once and forever.
         do {
-            // Take care.
+            // Take care!
             // Even if (!$surveypro->newpageforchild) I can have all my ancestors into previous pages by adding pagebreaks manually.
             // Because of this, I need to chech page numbers.
             $parentitem = $DB->get_record('surveypro_item', array('id' => $currentitem->parentid), 'parentid, parentvalue, formpage');
@@ -1478,7 +1454,7 @@ class mod_surveypro_itembase {
 
             $currentitem = $parentitem;
         } while (!empty($parentitem->parentid));
-        // $parentrestrictions is an associative array
+        // $parentrestrictions is an associative array.
         // The array key is the ID of the parent item, the corresponding value is the constrain that the parent imposes to the child.
 
         $displaydebuginfo = false;

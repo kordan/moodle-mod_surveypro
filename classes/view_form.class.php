@@ -100,7 +100,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
         $this->trigger_event();
     }
 
-    // MARK set
+    // MARK set.
 
     /**
      * Set view.
@@ -450,7 +450,43 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      * 1. groups informations (eventually distributed over more mform elements)
      *    by itemid in the array $itemhelperinfo
      *
-     *    i.e.:
+     * To do this, I start from:
+     *    preg_match($regexp, $itemname, $matches)
+     *    var_dump($matches);
+     *    $matches = array{
+     *        0 => string 'surveypro_field_radiobutton_1452' (length=27)
+     *        1 => string 'surveypro' (length=6)
+     *        2 => string 'field' (length=5)
+     *        3 => string 'radiobutton' (length=11)
+     *        4 => string '1452' (length=4)
+     *    }
+     *    $matches = array{
+     *        0 => string 'surveypro_field_radiobutton_1452_check' (length=33)
+     *        1 => string 'surveypro' (length=6)
+     *        2 => string 'field' (length=5)
+     *        3 => string 'radiobutton' (length=11)
+     *        4 => string '1452' (length=4)
+     *        5 => string 'check' (length=5)
+     *    }
+     *    $matches = array{
+     *        0 => string 'surveypro_field_checkbox_1452_73' (length=30)
+     *        1 => string 'surveypro' (length=6)
+     *        2 => string 'field' (length=5)
+     *        3 => string 'checkbox' (length=8)
+     *        4 => string '1452' (length=4)
+     *        5 => string '73' (length=2)
+     *    }
+     *    $matches = array{
+     *        0 => string 'placeholder_field_multiselect_199_placeholder' (length=45)
+     *        1 => string 'placeholder' (length=11)
+     *        2 => string 'field' (length=5)
+     *        3 => string 'multiselect' (length=11)
+     *        4 => string '199' (length=3)
+     *        5 => string 'placeholder' (length=11)
+     *    }
+     *
+     *    and I arrive to define:
+     *
      *    $itemhelperinfo = Array (
      *        [148] => stdClass Object (
      *            [surveyproid] => 1
@@ -523,10 +559,11 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      *                [noanswer] => 1
      *            )
      *        )
+     *
      * 2. once $itemhelperinfo is onboard..
-     *    I update or I create the corresponding record
+     *    I create or update the corresponding record
      *    asking to the parent class to manage its own data
-     *    passing it $iteminfo->contentperelement
+     *    passing it $iteminfo->contentperelement.
      */
     public function save_user_data() {
         global $DB, $COURSE;
@@ -552,47 +589,13 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
                 // Button or something not relevant.
                 if ($itemname == 's') {
                     $surveyproid = $content;
-                    // } else {
-                    // This is the black hole where is thrown each useless info like:
-                    // - formpage
-                    // - nextbutton
-                    // and some more.
                 }
+                // This is the black hole where is thrown each useless info like:
+                // - formpage
+                // - nextbutton
+                // and some more.
                 continue; // To next foreach.
             }
-
-            // var_dump($matches);
-            // $matches = array{
-            // ->    0 => string 'surveypro_field_radiobutton_1452' (length=27)
-            // ->    1 => string 'surveypro' (length=6)
-            // ->    2 => string 'field' (length=5)
-            // ->    3 => string 'radiobutton' (length=11)
-            // ->    4 => string '1452' (length=4)
-            // }
-            // $matches = array{
-            // ->    0 => string 'surveypro_field_radiobutton_1452_check' (length=33)
-            // ->    1 => string 'surveypro' (length=6)
-            // ->    2 => string 'field' (length=5)
-            // ->    3 => string 'radiobutton' (length=11)
-            // ->    4 => string '1452' (length=4)
-            // ->    5 => string 'check' (length=5)
-            // }
-            // $matches = array{
-            // ->    0 => string 'surveypro_field_checkbox_1452_73' (length=30)
-            // ->    1 => string 'surveypro' (length=6)
-            // ->    2 => string 'field' (length=5)
-            // ->    3 => string 'checkbox' (length=8)
-            // ->    4 => string '1452' (length=4)
-            // ->    5 => string '73' (length=2)
-            // }
-            // $matches = array{
-            // ->    0 => string 'placeholder_field_multiselect_199_placeholder' (length=45)
-            // ->    1 => string 'placeholder' (length=11)
-            // ->    2 => string 'field' (length=5)
-            // ->    3 => string 'multiselect' (length=11)
-            // ->    4 => string '199' (length=3)
-            // ->    5 => string 'placeholder' (length=11)
-            // }
 
             $itemid = $matches[4]; // Itemid of the mform element (or of the group of mform elements referring to the same item).
             if (!isset($itemhelperinfo[$itemid])) {
@@ -610,9 +613,8 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
             }
         }
 
-        // once $itemhelperinfo is onboard...
-        // ->   I update/create the corresponding record
-        // ->   asking to each item class to manage its informations
+        // Once $itemhelperinfo is onboard...
+        // ->   I update/create the corresponding record asking to each item class to manage its informations.
 
         foreach ($itemhelperinfo as $iteminfo) {
             if (!$useranswer = $DB->get_record('surveypro_answer', array('submissionid' => $iteminfo->submissionid, 'itemid' => $iteminfo->itemid))) {
@@ -644,24 +646,24 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
 
         // Before closing the save session I need two more verifications.
 
-        // FIRST VERIFICATION
+        // FIRST VERIFICATION.
         // Let's suppose the following scenario.
         // 1) User is filling a surveypro divided into 4 pages.
         // 2) User fill all the fields of first page and moves to page 2.
         // 3) User reads the url and understands that the formapge is passed in GET (visible in the url).
         // 4) At page 3 (the page the user still does not see) of the surveypro there is mandatory field.
         // 5) Because of 3) user jumps to page 4 and make the final submit.
-        // This check is needed to verify that EACH mandatory surveypro field was actually saved
+        // This check is needed to verify that EACH mandatory surveypro field was actually saved.
 
-        // SECOND VERIFICATION
+        // SECOND VERIFICATION.
         // 1) User is filling a surveypro divided into 3 pages.
         // 2) User fill all the fields of first page and moves to page 2.
         // 3) User reads the url and understands that the formapge is passed in GET (visible in the url).
         // 4) At page 2 of the surveypro there is a mandatory field.
         // 5) User return back to page 1 without filling the mandatory field.
-        // 6) Page 2 is saved WITHOUT the mandatory field because when the user moves back, the form validation is not executed.
+        // 6) Page 2 is saved WITHOUT the mandatory field because when the user moves back, the form VALIDATION is not executed.
         // 7) Because of 3) user jumps to page 3 and make the final submit.
-        // This check is needed to verify that EACH surveypro field was actually saved as VERIFIED
+        // This check is needed to verify that EACH surveypro field was actually saved as VERIFIED.
 
         if ($savebutton || $saveasnewbutton) {
             // Let's start with the lightest check (lightest in terms of query).
@@ -766,8 +768,6 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
         if ($DB->get_record('surveypro_answer', $conditions, 'id', IGNORE_MULTIPLE)) {
             $this->finalresponseevaluation = SURVEYPRO_MISSINGVALIDATION;
         }
-        // echo '$this->finalresponseevaluation:';
-        // var_dump($this->finalresponseevaluation);
     }
 
     /**
@@ -970,9 +970,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      * @return void
      */
     private function show_thanks_page() {
-        global $DB, $OUTPUT, $USER;
-
-        $canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context, null, true);
+        global $OUTPUT;
 
         if ($this->finalresponseevaluation == SURVEYPRO_MISSINGMANDATORY) {
             $a = get_string('statusinprogress', 'mod_surveypro');
@@ -1074,7 +1072,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      * @return void
      */
     private function drop_unexpected_values() {
-        // Begin of: delete all the values returned by disabled items (that were NOT supposed to be returned: MDL-34815)
+        // Begin of: delete all the values returned by disabled items (that were NOT supposed to be returned: MDL-34815).
         $dirtydata = (array)$this->formdata;
         $indexes = array_keys($dirtydata);
 
@@ -1130,7 +1128,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
                 }
             }
         } // Check next item.
-        // End of: delete all the values returned by disabled items (that were NOT supposed to be returned: MDL-34815)
+        // End of: delete all the values returned by disabled items (that were NOT supposed to be returned: MDL-34815).
 
         // If not expected items are here...
         if (count($disposelist)) {
@@ -1195,14 +1193,14 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
                 if (!$canignoremaxentries) {
                     // Take care! Let's suppose this scenario:
                     // $this->surveypro->maxentries = N
-                    // $utilityman->has_submissions(true, SURVEYPRO_STATUSALL, $USER->id) = N - 1
+                    // $utilityman->has_submissions(true, SURVEYPRO_STATUSALL, $USER->id) = N - 1.
                     // When I fill the FIRST page of a survey, I get $next = N
-                    // But when I go to fill the SECOND page of a survey I have one more "in progress" survey
+                    // but when I go to fill the SECOND page of a survey I have one more "in progress" survey
                     // that is the one that I created when I saved the FIRST page, so...
                     // when $this->user_sent_submissions(SURVEYPRO_STATUSALL) = N, I get
                     // $next = N + 1
                     // and I am wrongly stopped here!
-                    // Because of this, I increase $next only if submissionid == 0
+                    // Because of this, I increase $next only if submissionid == 0.
                     $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
                     $next = $utilityman->has_submissions(true, SURVEYPRO_STATUSALL, $USER->id);
                     if (!$this->get_submissionid()) {
@@ -1219,7 +1217,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
                 } else {
                     if ($groupmode == SEPARATEGROUPS) {
                         $allowed = $groupuser && $caneditotherssubmissions;
-                    } else { // NOGROUPS || VISIBLEGROUPS
+                    } else { // NOGROUPS || VISIBLEGROUPS.
                         $allowed = $caneditotherssubmissions;
                     }
                 }
@@ -1230,7 +1228,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
                 } else {
                     if ($groupmode == SEPARATEGROUPS) {
                         $allowed = $groupuser && $canseeotherssubmissions;
-                    } else { // NOGROUPS || VISIBLEGROUPS
+                    } else { // NOGROUPS || VISIBLEGROUPS.
                         $allowed = $canseeotherssubmissions;
                     }
                 }
