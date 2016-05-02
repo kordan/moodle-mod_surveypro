@@ -1136,7 +1136,11 @@ class mod_surveypro_itemlist {
                 $a = new stdClass();
                 $a->parentid = $item->get_content();
                 $a->dependencies = implode(', ', $sortindextohidelist);
-                $message = get_string('askitemstohide', 'mod_surveypro', $a);
+                if (count($sortindextohidelist) == 1) {
+                    $message = get_string('askitemtohide', 'mod_surveypro', $a);
+                } else {
+                    $message = get_string('askitemstohide', 'mod_surveypro', $a);
+                }
 
                 $optionbase = array('id' => $this->cm->id, 'act' => SURVEYPRO_HIDEITEM, 'sesskey' => sesskey());
 
@@ -1205,7 +1209,11 @@ class mod_surveypro_itemlist {
                 $a = new stdClass();
                 $a->lastitem = $item->get_content();
                 $a->ancestors = implode(', ', $sortindextoshowlist);
-                $message = get_string('askitemstoshow', 'mod_surveypro', $a);
+                if (count($sortindextoshowlist) == 1) {
+                    $message = get_string('askitemtoshow', 'mod_surveypro', $a);
+                } else {
+                    $message = get_string('askitemstoshow', 'mod_surveypro', $a);
+                }
 
                 $optionbase = array('id' => $this->cm->id, 'act' => SURVEYPRO_SHOWITEM, 'itemid' => $this->itemid, 'sesskey' => sesskey());
 
@@ -1586,7 +1594,11 @@ class mod_surveypro_itemlist {
                 $a = new stdClass();
                 $a->lastitem = $item->get_content();
                 $a->ancestors = implode(', ', $sortindextostandardlist);
-                $message = get_string('askitemstostandard', 'mod_surveypro', $a);
+                if (count($sortindextostandardlist) == 1) {
+                    $message = get_string('askitemtostandard', 'mod_surveypro', $a);
+                } else {
+                    $message = get_string('askitemstostandard', 'mod_surveypro', $a);
+                }
 
                 $optionbase = array('id' => $this->cm->id, 'act' => SURVEYPRO_MAKESTANDARD, 'itemid' => $this->itemid, 'sesskey' => sesskey());
 
