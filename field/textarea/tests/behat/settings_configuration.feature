@@ -56,7 +56,7 @@ Feature: Validate creation and submit for textarea elements using the principal 
     And I press "New response"
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "1" submissions displayed
+    Then I should see "1" submissions
     # End of test number 2
 
     # Test number 3: student tries to submit an too short answer
@@ -72,7 +72,7 @@ Feature: Validate creation and submit for textarea elements using the principal 
       | Write a short description of yourself | Ok! Now I submit a correct answer. |
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "2" submissions displayed
+    Then I should see "2" submissions
     # End of test number 4
 
   @javascript
@@ -111,7 +111,7 @@ Feature: Validate creation and submit for textarea elements using the principal 
       | Write a short description of yourself | Ok! Now I submit a correct answer. |
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "1" submissions displayed
+    Then I should see "1" submissions
     # End of test number 7
 
   @javascript
@@ -143,7 +143,7 @@ Feature: Validate creation and submit for textarea elements using the principal 
     And I press "New response"
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "1" submissions displayed
+    Then I should see "1" submissions
     # End of test number 9
 
     # Test number 10: student tries to submit an too short answer
@@ -159,7 +159,7 @@ Feature: Validate creation and submit for textarea elements using the principal 
       | Write a short description of yourself | Ok! Now I submit a correct answer. |
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "2" submissions displayed
+    Then I should see "2" submissions
     # End of test number 11
 
   @javascript
@@ -198,5 +198,5 @@ Feature: Validate creation and submit for textarea elements using the principal 
       | Write a short description of yourself | Ok! Now I submit a correct answer. |
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "1" submissions displayed
+    Then I should see "1" submissions
     # End of test number 14

@@ -96,7 +96,7 @@ Feature: test students can see submissions from their groups only
     And I press "Submit"
 
     And I press "Continue to responses list"
-    Then I should see "2" submissions displayed
+    Then I should see "2" submissions
 
     And I log out
 
@@ -107,7 +107,7 @@ Feature: test students can see submissions from their groups only
 
     And I follow "Responses"
     And I should see "Never" in the "student1 user1" "table_row"
-    Then I should see "2" submissions displayed
+    Then I should see "2" submissions
 
     And I press "New response"
 
@@ -120,7 +120,7 @@ Feature: test students can see submissions from their groups only
     And I press "Continue to responses list"
     And I should see "Never" in the "student1 user1" "table_row"
     And I should see "Never" in the "student2 user2" "table_row"
-    Then I should see "3" submissions displayed
+    Then I should see "3" submissions
 
     And I log out
 
@@ -144,7 +144,7 @@ Feature: test students can see submissions from their groups only
     And I should not see "student1" in the "submissions" "table"
     And I should not see "student2" in the "submissions" "table"
     And I should see "Never" in the "student3 user3" "table_row"
-    Then I should see "1" submissions displayed
+    Then I should see "1" submissions
 
     And I log out
 
@@ -157,4 +157,4 @@ Feature: test students can see submissions from their groups only
     Then I should see "Never" in the "student1 user1" "table_row"
     Then I should see "Never" in the "student2 user2" "table_row"
     Then I should not see "student3" in the "submissions" "table"
-    Then I should see "3" submissions displayed
+    Then I should see "3" submissions

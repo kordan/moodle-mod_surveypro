@@ -52,7 +52,7 @@ Feature: Validate creation and submit for "checkbox" elements using the principa
     And I press "New response"
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "1" submissions displayed
+    Then I should see "1" submissions
     # End of test number 1
 
     # Test number 2: Student submits a standard answer
@@ -62,7 +62,7 @@ Feature: Validate creation and submit for "checkbox" elements using the principa
       | id_surveypro_field_checkbox_1_3 | 1 |
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "2" submissions displayed
+    Then I should see "2" submissions
     # End of test number 2
 
     # Test number 3: Student chooses "No answer"
@@ -72,7 +72,7 @@ Feature: Validate creation and submit for "checkbox" elements using the principa
       | id_surveypro_field_checkbox_1_noanswer | 1 |
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "3" submissions displayed
+    Then I should see "3" submissions
     # End of test number 3
 
   @javascript
@@ -108,7 +108,7 @@ Feature: Validate creation and submit for "checkbox" elements using the principa
       | id_surveypro_field_checkbox_1_3 | 1 |
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "1" submissions displayed
+    Then I should see "1" submissions
     # End of test number 4
 
     # Test number 5: Student submits a standard answer
@@ -119,7 +119,7 @@ Feature: Validate creation and submit for "checkbox" elements using the principa
       | id_surveypro_field_checkbox_1_3 | 1 |
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "2" submissions displayed
+    Then I should see "2" submissions
     # End of test number 5
 
     # Test number 6: Student chooses "No answer"
@@ -130,5 +130,5 @@ Feature: Validate creation and submit for "checkbox" elements using the principa
       | id_surveypro_field_checkbox_1_noanswer | 1 |
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "3" submissions displayed
+    Then I should see "3" submissions
     # End of test number 6

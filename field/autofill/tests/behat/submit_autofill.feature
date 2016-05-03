@@ -48,4 +48,4 @@ Feature: make a submission test for "autofill" item
     And I press "Submit"
 
     And I press "Continue to responses list"
-    Then I should see "1" submissions displayed
+    Then I should see "1" submissions

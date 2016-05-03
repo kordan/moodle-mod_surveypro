@@ -53,7 +53,7 @@ Feature: Validate creation and submit for "checkbox" elements using the principa
     Then I should not see "No answer"
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "1" submissions displayed
+    Then I should see "1" submissions
     # End of test number 1
 
     # Test number 2: Student submits a standard answer
@@ -63,7 +63,7 @@ Feature: Validate creation and submit for "checkbox" elements using the principa
       | id_surveypro_field_checkbox_1_3        | 1 |
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "2" submissions displayed
+    Then I should see "2" submissions
     # End of test number 2
 
   @javascript
@@ -96,7 +96,7 @@ Feature: Validate creation and submit for "checkbox" elements using the principa
       | id_surveypro_field_checkbox_1_0        | 1 |
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "1" submissions displayed
+    Then I should see "1" submissions
     # End of test number 3
 
     # Test number 4: Student submits a standard answer
@@ -106,6 +106,6 @@ Feature: Validate creation and submit for "checkbox" elements using the principa
       | id_surveypro_field_checkbox_1_0        | 1 |
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "2" submissions displayed
+    Then I should see "2" submissions
     # End of test number 4
 

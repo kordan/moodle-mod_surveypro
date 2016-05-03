@@ -348,7 +348,7 @@ class mod_surveypro_itemlist {
 
                         $icons = $OUTPUT->action_icon(new moodle_url('/mod/surveypro/layout_manage.php#sortindex_'.$sortindex, $paramurl),
                             new pix_icon('all', $message, 'surveypro', array('title' => $message)),
-                            null, array('id' => 'limitaccess_item_'.$item->get_sortindex(), 'title' => $message));
+                            null, array('id' => 'makereserved_item_'.$item->get_sortindex(), 'title' => $message));
                     } else {
                         $icons = $OUTPUT->pix_icon('all', $message, 'surveypro', array('title' => $message, 'class' => 'smallicon'));
                     }
@@ -361,7 +361,7 @@ class mod_surveypro_itemlist {
 
                     $icons = $OUTPUT->action_icon(new moodle_url('/mod/surveypro/layout_manage.php#sortindex_'.$sortindex, $paramurl),
                         new pix_icon('limited', $message, 'surveypro', array('title' => $message)),
-                        null, array('id' => 'increaseaccess_item_'.$item->get_sortindex(), 'title' => $message));
+                        null, array('id' => 'makefree_item_'.$item->get_sortindex(), 'title' => $message));
                 }
 
                 // Second icon: insearchform vs not insearchform.
@@ -1176,6 +1176,8 @@ class mod_surveypro_itemlist {
      * @return void
      */
     public function item_show_execute() {
+        global $DB;
+
         // Build toshowlist.
         list($toshowlist, $sortindextoshowlist) = $this->add_parent_node(array('hidden' => 1));
 

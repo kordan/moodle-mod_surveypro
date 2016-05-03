@@ -627,7 +627,7 @@ EOS;
 
     /**
      * Dynamically decide if my child (living in my same page) is allowed or not.
-     * 
+     *
      * This method is called if (and only if) parent item and child item live in the same form page.
      * This method has two purposes:
      * - stop userpageform item validation

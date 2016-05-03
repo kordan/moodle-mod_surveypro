@@ -433,21 +433,21 @@ Feature: make a submission test for each available item
     And I press "Submit"
 
     And I press "Continue to responses list"
-    Then I should see "1" submissions displayed
+    Then I should see "1" submissions
 
     And I follow "view_submission_row_1"
     And I press "Next page >>"
     And I press "<< Previous page"
     And I follow "Responses"
-    And I should see "1" submissions displayed
+    And I should see "1" submissions
 
     And I follow "duplicate_submission_row_1"
     And I press "Continue"
-    And I should see "2" submissions displayed
+    And I should see "2" submissions
 
     And I follow "delete_submission_row_2"
     And I press "Continue"
-    And I should see "1" submissions displayed
+    And I should see "1" submissions
 
     And I log out
 

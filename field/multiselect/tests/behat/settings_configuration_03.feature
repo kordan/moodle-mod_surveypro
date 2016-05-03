@@ -53,7 +53,7 @@ Feature: Validate creation and submit for "multiselect" elements using the princ
     Then I should not see "No answer"
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "1" submissions displayed
+    Then I should see "1" submissions
     # End of test number 1
 
     # Test number 2: Student submits a standard answer
@@ -61,7 +61,7 @@ Feature: Validate creation and submit for "multiselect" elements using the princ
     And I set the field "id_surveypro_field_multiselect_1" to "milk, coffee"
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "2" submissions displayed
+    Then I should see "2" submissions
     # End of test number 2
 
   @javascript
@@ -96,7 +96,7 @@ Feature: Validate creation and submit for "multiselect" elements using the princ
     And I set the field "id_surveypro_field_multiselect_1" to "milk, bread"
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "1" submissions displayed
+    Then I should see "1" submissions
     # End of test number 3
 
     # Test number 4: Student submits a standard answer
@@ -104,5 +104,5 @@ Feature: Validate creation and submit for "multiselect" elements using the princ
     And I set the field "id_surveypro_field_multiselect_1" to "milk, bread"
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "2" submissions displayed
+    Then I should see "2" submissions
     # End of test number 4

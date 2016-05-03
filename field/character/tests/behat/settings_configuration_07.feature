@@ -53,7 +53,7 @@ Feature: Validate creation and submit for "character" elements using the princip
     And I set the field "Type a web address" to "www.moodle.org"
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "1" submissions displayed
+    Then I should see "1" submissions
     # End of test number 1
 
   @javascript
@@ -86,5 +86,5 @@ Feature: Validate creation and submit for "character" elements using the princip
     And I set the field "Type a web address" to "http://www.moodle.org"
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "1" submissions displayed
+    Then I should see "1" submissions
     # End of test number 2

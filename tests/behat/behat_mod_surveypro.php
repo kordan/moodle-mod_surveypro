@@ -45,7 +45,6 @@ class behat_mod_surveypro extends behat_base {
      * Fill a textarea with a multiline content.
      *
      * @Given /^I fill the textarea "(?P<textarea_name>(?:[^"]|\\")*)" with multiline content "(?P<multiline_content>(?:[^"]|\\")*)"$/
-     *
      * @param string $textareafield
      * @param string $multilinevalue
      * @return void
@@ -62,12 +61,12 @@ class behat_mod_surveypro extends behat_base {
     /**
      * Check the number of displayed submissions.
      *
-     * @Then /^I should see "(?P<given_number>\d+)" submissions displayed$/
-     *
+     * @throws ExpectationException
+     * @Then /^I should see "(?P<given_number>\d+)" submissions$/
      * @param integer $givennumber
-     * @return void
+     * @return void|ExpectationException
      */
-    public function i_should_see_submissions($givennumber) {
+    public function i_should_see_submission($givennumber) {
         // Getting the container where the text should be found.
         $container = $this->get_selected_node('table', 'submissions');
 
@@ -75,9 +74,71 @@ class behat_mod_surveypro extends behat_base {
         $tablerows = count($nodes);
 
         if (intval($givennumber) !== $tablerows) {
-            $message = sprintf('%d rows found in the "submission" table, but should be %d.', $tablerows, $givennumber);
+            $message = sprintf('%d submissions found in the "submission" table, but should be %d.', $tablerows, $givennumber);
             throw new ExpectationException($message, $this->getsession());
         }
+    }
+
+    /**
+     * Check the number of items with specified status.
+     *
+     * @throws ExpectationException
+     * @Then /^I should see "(?P<given_number>\d+)" (?P<status>hidden|visible|reserved|free|searchable|not searchable) items$/
+     * @param integer $givennumber
+     * @param string $status
+     * @return void|ExpectationException
+     */
+    public function i_should_see_items($givennumber, $status) {
+        // Getting the container where the text should be found.
+        $container = $this->get_selected_node('table', 'manageitems');
+
+        switch ($status) {
+            case 'visible':
+                $nodes = $container->findAll('xpath', "//tr[contains(@id, 'itemslist') and not(contains(@class, 'emptyrow')) and not(contains(@class, 'dimmed'))]");
+                break;
+            case 'hidden':
+                $nodes = $container->findAll('xpath', "//tr[contains(@id, 'itemslist') and not(contains(@class, 'emptyrow')) and contains(@class, 'dimmed')]");
+                break;
+            case 'reserved':
+                $nodes = $container->findAll('xpath', "//a[contains(@id, 'makefree')]");
+                break;
+            case 'free':
+                $nodes = $container->findAll('xpath', "//a[contains(@id, 'makereserved')]");
+                break;
+            case 'searchable':
+                $nodes = $container->findAll('xpath', "//a[contains(@id, 'removesearch')]");
+                break;
+            case 'not searchable':
+                $nodes = $container->findAll('xpath', "//a[contains(@id, 'addtosearch')]");
+                break;
+        }
+        $tablerows = count($nodes);
+
+        if (intval($givennumber) == $tablerows) {
+            return;
+        }
+
+        switch ($status) {
+            case 'visible':
+                $message = sprintf('%d visible items found in the "item" table, but should be %d.', $tablerows, $givennumber);
+                break;
+            case 'hidden':
+                $message = sprintf('%d hidden items found in the "item" table, but should be %d.', $tablerows, $givennumber);
+                break;
+            case 'reserved':
+                $message = sprintf('%d reserved items found in the "item" table, but should be %d.', $tablerows, $givennumber);
+                break;
+            case 'free':
+                $message = sprintf('%d free items found in the "item" table, but should be %d.', $tablerows, $givennumber);
+                break;
+            case 'searchable':
+                $message = sprintf('%d searchable items found in the "item" table, but should be %d.', $tablerows, $givennumber);
+                break;
+            case 'not searchable':
+                $message = sprintf('%d unsearchable items found in the "item" table, but should be %d.', $tablerows, $givennumber);
+                break;
+        }
+        throw new ExpectationException($message, $this->getsession());
     }
 
     /**
@@ -87,10 +148,9 @@ class behat_mod_surveypro extends behat_base {
      * | type | plugin |
      * that are required
      *
+     * @Given /^surveypro "([^"]*)" contains the following items:$/
      * @param string $surveyproname Name of the surveypro to add items to
      * @param TableNode $data information about the items to add
-     *
-     * @Given /^surveypro "([^"]*)" contains the following items:$/
      */
     public function surveypro_has_the_following_items($surveyproname, TableNode $data) {
         global $DB;
@@ -122,8 +182,8 @@ class behat_mod_surveypro extends behat_base {
 
     /**
      * Click on an entry in the language menu
-     * @Given /^I follow "(?P<nodetext_string>(?:[^"]|\\")*)" in the language menu$/
      *
+     * @Given /^I follow "(?P<nodetext_string>(?:[^"]|\\")*)" in the language menu$/
      * @param string $nodetext
      * @return bool|void
      */
