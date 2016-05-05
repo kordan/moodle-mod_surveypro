@@ -296,7 +296,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
 
         $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context, null, true);
 
-        list($where, $params) = surveypro_fetch_items_seeds($this->surveypro->id, $canaccessreserveditems, null, null, $formpage);
+        list($where, $params) = surveypro_fetch_items_seeds($this->surveypro->id, true, $canaccessreserveditems, null, null, $formpage);
         // Here I can not use get_recordset_select because I could browse returned records twice.
         $itemseeds = $DB->get_records_select('surveypro_item', $where, $params, 'sortindex', 'id, parentid, parentvalue');
 

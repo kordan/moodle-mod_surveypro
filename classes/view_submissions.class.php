@@ -1244,7 +1244,7 @@ class mod_surveypro_submissionmanager {
         $userdatarecord = $DB->get_records('surveypro_answer', array('submissionid' => $this->submissionid), '', 'itemid, id, content');
 
         $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context, $user->id, true);
-        list($where, $params) = surveypro_fetch_items_seeds($this->surveypro->id, $canaccessreserveditems);
+        list($where, $params) = surveypro_fetch_items_seeds($this->surveypro->id, true, $canaccessreserveditems);
 
         // I am not allowed to get ONLY answers from surveypro_answer
         // because I also need to gather info about fieldsets and labels.
