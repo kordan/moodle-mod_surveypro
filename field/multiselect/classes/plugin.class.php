@@ -457,7 +457,10 @@ EOS;
         $idprefix = 'id_surveypro_field_multiselect_'.$this->sortindex;
 
         $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
-        $attributes = array('size' => $this->heightinrows, 'class' => 'indent-'.$this->indent, 'id' => $idprefix);
+        $attributes = array();
+        $attributes['id'] = $idprefix;
+        $attributes['class'] = 'indent-'.$this->indent.' multiselect_select';
+        $attributes['size'] = $this->heightinrows;
         if (!$searchform) {
             if ($this->required) {
                 $select = $mform->addElement('mod_surveypro_select', $this->itemname, $elementlabel, $labels, $attributes);
@@ -468,8 +471,9 @@ EOS;
                 $select->setMultiple(true);
                 $elementgroup[] = $select;
 
-                unset($attributes['size']);
                 $attributes['id'] = $idprefix.'_noanswer';
+                $attributes['class'] = 'multiselect_check';
+                unset($attributes['size']);
                 $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'mod_surveypro'), $attributes);
 
                 $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, '', false);
@@ -483,8 +487,10 @@ EOS;
             $select->setMultiple(true);
             $elementgroup[] = $select;
 
+            $attributes['class'] = 'multiselect_check';
+            unset($attributes['size']);
+
             if (!$this->required) {
-                unset($attributes['size']);
                 $attributes['id'] = $idprefix.'_noanswer';
                 $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'mod_surveypro'), $attributes);
             }

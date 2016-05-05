@@ -410,6 +410,8 @@ EOS;
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
+        $idprefix = 'id_surveypro_field_autofill_'.$this->sortindex;
+
         if (!$searchform) {
             // At this level I ALWAYS write the content as if the record is new.
             // If the record is not new, this value will be overwritten later at default apply time.
@@ -420,15 +422,26 @@ EOS;
             $mform->setDefault($this->itemname, $value);
 
             if (!$this->hiddenfield) {
-                $attributes = array('class' => 'indent-'.$this->indent, 'disabled' => 'disabled');
+                $attributes = array();
+                $attributes['id'] = $idprefix;
+                $attributes['class'] = 'indent-'.$this->indent.' autofill_text';
+                $attributes['disabled'] = 'disabled';
                 $mform->addElement('text', $this->itemname.'_static', $elementlabel, $attributes);
                 $mform->setType($this->itemname.'_static', PARAM_RAW);
                 $mform->setDefault($this->itemname.'_static', $value);
             }
         } else {
+            $attributes = array();
             $elementgroup = array();
-            $elementgroup[] = $mform->createElement('text', $this->itemname, '', array('class' => 'indent-'.$this->indent));
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'mod_surveypro'));
+
+            $attributes['id'] = $idprefix;
+            $attributes['class'] = 'indent-'.$this->indent.' autofill_text';
+            $elementgroup[] = $mform->createElement('text', $this->itemname, '', $attributes);
+
+            $attributes['id'] = $idprefix.'_ignoreme';
+            $attributes['class'] = 'autofill_check';
+            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'mod_surveypro'), $attributes);
+
             $mform->setType($this->itemname, PARAM_RAW);
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_ignoreme', 'checked');

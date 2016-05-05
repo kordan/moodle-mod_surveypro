@@ -513,10 +513,19 @@ EOS;
         // End of: element values.
 
         // Begin of: mform element.
+        $attributes = array();
         $elementgroup = array();
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_day', '', $days, array('class' => 'indent-'.$this->indent, 'id' => $idprefix.'_day'));
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_month', '', $months, array('id' => $idprefix.'_month'));
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_year', '', $years, array('id' => $idprefix.'_year'));
+
+        $attributes['id'] = $idprefix.'_day';
+        $attributes['class'] = 'indent-'.$this->indent.' date_select';
+        $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_day', '', $days, $attributes);
+
+        $attributes['id'] = $idprefix.'_month';
+        $attributes['class'] = 'date_select';
+        $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_month', '', $months, $attributes);
+
+        $attributes['id'] = $idprefix.'_year';
+        $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_year', '', $years, $attributes);
 
         if ($this->required) {
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
@@ -530,7 +539,8 @@ EOS;
                 $mform->_required[] = $starplace;
             }
         } else {
-            $attributes = array('id' => $idprefix.'_noanswer');
+            $attributes['id'] = $idprefix.'_noanswer';
+            $attributes['class'] = 'date_check';
             $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'mod_surveypro'), $attributes);
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');

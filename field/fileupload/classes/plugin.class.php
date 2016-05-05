@@ -297,12 +297,12 @@ EOS;
         $filetypes = array_map('trim', explode(',', $this->filetypes));
 
         $attributes = array();
+        $attributes['id'] = $idprefix;
+        $attributes['class'] = 'indent-'.$this->indent.' fileupload_filemanager'; // Does not work: MDL-28194.
         $attributes['maxbytes'] = $this->maxbytes;
         $attributes['accepted_types'] = $filetypes;
         $attributes['subdirs'] = false;
         $attributes['maxfiles'] = $this->maxfiles;
-        $attributes['id'] = $idprefix;
-        $attributes['class'] = 'indent-'.$this->indent; // Does not work: MDL-28194.
         $mform->addElement('mod_surveypro_filemanager', $fieldname, $elementlabel, null, $attributes);
 
         if ($this->required) {

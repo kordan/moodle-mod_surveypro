@@ -267,7 +267,7 @@ EOS;
             // $content .= html_writer::start_tag('fieldset', array('class' => 'hidden'));
             // $content .= html_writer::start_tag('div', array('class' => 'centerpara'));
             $content .= html_writer::start_tag('div', array('class' => 'fitem'));
-            $content .= html_writer::start_tag('div', array('class' => 'fstatic fullwidth'));
+            $content .= html_writer::start_tag('div', array('class' => 'fstatic fullwidth label_static'));
             // $content .= html_writer::start_tag('div', array('class' => 'indent-'.$this->indent));
             $content .= $this->get_content();
             // $content .= html_writer::end_tag('div');
@@ -280,8 +280,9 @@ EOS;
             $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
             $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
             $elementlabel = $elementnumber.$this->leftlabel;
-            $option = array('class' => 'indent-'.$this->indent);
-            $mform->addElement('mod_surveypro_static', $this->itemname, $elementlabel, $this->get_content(), $option);
+            $attributes = array();
+            $attributes['class'] = 'indent-'.$this->indent.' label_static';
+            $mform->addElement('mod_surveypro_static', $this->itemname, $elementlabel, $this->get_content(), $attributes);
         }
     }
 

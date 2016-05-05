@@ -390,7 +390,9 @@ EOS;
 
         $thresholdsize = 37;
         $lengthtochar = 1.3;
-        $attributes = array('class' => 'indent-'.$this->indent, 'id' => $idprefix);
+        $attributes = array();
+        $attributes['id'] = $idprefix;
+        $attributes['class'] = 'indent-'.$this->indent.' character_text';
         if (!empty($this->maxlength)) {
             $attributes['maxlength'] = $this->maxlength;
             if ($this->maxlength < $thresholdsize) {
@@ -416,11 +418,10 @@ EOS;
             }
         } else {
             $elementgroup = array();
-            $attributes['id'] = $idprefix.'_text';
             $elementgroup[] = $mform->createElement('text', $this->itemname, '', $attributes);
 
-            unset($attributes['class']);
             $attributes['id'] = $idprefix.'_ignoreme';
+            $attributes['class'] = 'character_text';
             $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'mod_surveypro'), $attributes);
             $mform->setType($this->itemname, PARAM_RAW);
 

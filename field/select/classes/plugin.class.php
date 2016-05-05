@@ -485,12 +485,18 @@ EOS;
         }
         // End of: element values
 
+        $attributes = array();
+        $attributes['id'] = $idprefix;
+        $attributes['class'] = 'indent-'.$this->indent.' select_select';
         if (!$this->labelother) {
-            $mform->addElement('mod_surveypro_select', $this->itemname, $elementlabel, $labels, array('class' => 'indent-'.$this->indent, 'id' => $idprefix));
+            $mform->addElement('mod_surveypro_select', $this->itemname, $elementlabel, $labels, $attributes);
         } else {
             $elementgroup = array();
-            $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname, '', $labels, array('class' => 'indent-'.$this->indent, 'id' => $idprefix));
-            $elementgroup[] = $mform->createElement('text', $this->itemname.'_text', '', array('id' => $idprefix.'_text'));
+            $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname, '', $labels, $attributes);
+
+            $attributes['id'] = $idprefix.'_text';
+            $attributes['class'] = 'select_select';
+            $elementgroup[] = $mform->createElement('text', $this->itemname.'_text', '', $attributes);
             $mform->setType($this->itemname.'_text', PARAM_RAW);
             $mform->disabledIf($this->itemname.'_text', $this->itemname, 'neq', 'other');
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);

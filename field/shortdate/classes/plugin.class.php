@@ -466,10 +466,15 @@ EOS;
         // End of: element values
 
         // Begin of: mform element.
+        $attributes = array();
         $elementgroup = array();
-        $attributes = array('id' => $idprefix.'_month', 'class' => 'indent-'.$this->indent);
+
+        $attributes['id'] = $idprefix.'_month';
+        $attributes['class'] = 'indent-'.$this->indent.' shortdate_select';
         $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_month', '', $months, $attributes);
-        $attributes = array('id' => $idprefix.'_year');
+
+        $attributes['id'] = $idprefix.'_year';
+        $attributes['class'] = 'shortdate_select';
         $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_year', '', $years, $attributes);
 
         if ($this->required) {
@@ -484,7 +489,8 @@ EOS;
                 $mform->_required[] = $starplace;
             }
         } else {
-            $attributes = array('id' => $idprefix.'_noanswer');
+            $attributes['id'] = $idprefix.'_noanswer';
+            $attributes['class'] = 'shortdate_check';
             $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'mod_surveypro'), $attributes);
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
