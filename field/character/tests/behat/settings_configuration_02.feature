@@ -47,7 +47,7 @@ Feature: Validate creation and submit for "character" elements using the princip
     And I press "New response"
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "1" submissions displayed
+    Then I should see "1" submissions
     # End of test number 1
 
     # Test number 2: Student submits a standard answer
@@ -58,7 +58,7 @@ Feature: Validate creation and submit for "character" elements using the princip
     And I set the field "Write down your email" to "me@myserver.net"
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "2" submissions displayed
+    Then I should see "2" submissions
     # End of test number 2
 
   @javascript
@@ -83,7 +83,7 @@ Feature: Validate creation and submit for "character" elements using the princip
     Then I should see "Text is supposed to be longer-equal than 20 characters"
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "1" submissions displayed
+    Then I should see "1" submissions
     # End of test number 3
 
     # Test number 4: Student submits a standard answer
@@ -95,5 +95,5 @@ Feature: Validate creation and submit for "character" elements using the princip
     And I set the field "Write down your email" to "myname.myfamilyname@myserver.net"
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "2" submissions displayed
+    Then I should see "2" submissions
     # End of test number 4

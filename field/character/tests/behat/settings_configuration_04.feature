@@ -49,7 +49,7 @@ Feature: Validate creation and submit for "character" elements using the princip
     Then I should see "Text is supposed to be exactly 5 characters long; Text is supposed to match the following pattern: \"00000\""
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "1" submissions displayed
+    Then I should see "1" submissions
     # End of test number 1
 
     # Test number 2: Student submits a standard answer
@@ -61,7 +61,7 @@ Feature: Validate creation and submit for "character" elements using the princip
     And I set the field "Enter a zip code" to "00123"
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "2" submissions displayed
+    Then I should see "2" submissions
     # End of test number 2
 
   @javascript
@@ -92,5 +92,5 @@ Feature: Validate creation and submit for "character" elements using the princip
     And I set the field "Enter a zip code" to "00123"
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "1" submissions displayed
+    Then I should see "1" submissions
     # End of test number 3

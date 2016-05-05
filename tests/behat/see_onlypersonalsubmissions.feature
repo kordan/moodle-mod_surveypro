@@ -93,7 +93,7 @@ Feature: test each student sees only personal submissions
     And I press "Continue to responses list"
     And I should see "Never" in the "Student2 user2" "table_row"
     And I should not see "Student1" in the "submissions" "table"
-    Then I should see "1" submissions displayed
+    Then I should see "1" submissions
 
     And I log out
 
@@ -105,4 +105,4 @@ Feature: test each student sees only personal submissions
     And I follow "Responses"
     Then I should see "Never" in the "Student1 user1" "table_row"
     Then I should not see "Student2" in the "submissions" "table"
-    Then I should see "2" submissions displayed
+    Then I should see "2" submissions

@@ -50,7 +50,7 @@ Feature: Validate creation and submit for "character" elements using the princip
     And I set the field "This is a free text" to "Nice to know!"
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "1" submissions displayed
+    Then I should see "1" submissions
     # End of test number 1
 
   @javascript
@@ -81,5 +81,5 @@ Feature: Validate creation and submit for "character" elements using the princip
     And I set the field "This is a free text" to "Ok! Now I enter a correct text."
     And I press "Submit"
     And I press "Continue to responses list"
-    Then I should see "1" submissions displayed
+    Then I should see "1" submissions
     # End of test number 2
