@@ -1238,6 +1238,7 @@ class mod_surveypro_itemlist {
                 die();
             }
         }
+
         if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
             $message = get_string('usercanceled', 'mod_surveypro');
             echo $OUTPUT->notification($message, 'notifymessage');
@@ -1334,10 +1335,12 @@ class mod_surveypro_itemlist {
             echo $OUTPUT->footer();
             die();
         }
+
         if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
             $message = get_string('usercanceled', 'mod_surveypro');
             echo $OUTPUT->notification($message, 'notifymessage');
         }
+
         if ($this->confirm == SURVEYPRO_ACTION_EXECUTED) {
             $a = new stdClass();
             $a->content = $this->actionfeedback->content;
@@ -1446,6 +1449,7 @@ class mod_surveypro_itemlist {
             echo $OUTPUT->footer();
             die();
         }
+
         if ($this->confirm == SURVEYPRO_ACTION_EXECUTED) {
             $message = get_string('feedback_dropmultilang', 'mod_surveypro');
             echo $OUTPUT->notification($message, 'notifysuccess');
@@ -1559,7 +1563,7 @@ class mod_surveypro_itemlist {
         }
     }
 
-    // MARK item make standard.
+    // MARK item make free.
 
     /**
      * Set the item as standard (free).
@@ -1628,6 +1632,7 @@ class mod_surveypro_itemlist {
                 die();
             }
         }
+
         if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
             $message = get_string('usercanceled', 'mod_surveypro');
             echo $OUTPUT->notification($message, 'notifymessage');
@@ -1757,10 +1762,12 @@ class mod_surveypro_itemlist {
             $message = get_string('confirm_deleteallitems', 'mod_surveypro');
             $this->bulk_action_ask($message);
         }
+
         if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
             $message = get_string('usercanceled', 'mod_surveypro');
             echo $OUTPUT->notification($message, 'notifymessage');
         }
+
         if ($this->confirm == SURVEYPRO_ACTION_EXECUTED) {
             $message = get_string('feedback_deleteallitems', 'mod_surveypro');
             echo $OUTPUT->notification($message, 'notifysuccess');
@@ -1806,10 +1813,12 @@ class mod_surveypro_itemlist {
             $message = get_string('confirm_deletevisibleitems', 'mod_surveypro');
             $this->bulk_action_ask($message);
         }
+
         if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
             $message = get_string('usercanceled', 'mod_surveypro');
             echo $OUTPUT->notification($message, 'notifymessage');
         }
+
         if ($this->confirm == SURVEYPRO_ACTION_EXECUTED) {
             $message = get_string('feedback_deletevisibleitems', 'mod_surveypro');
             echo $OUTPUT->notification($message, 'notifysuccess');
@@ -1855,10 +1864,12 @@ class mod_surveypro_itemlist {
             $message = get_string('confirm_deletehiddenitems', 'mod_surveypro');
             $this->bulk_action_ask($message);
         }
+
         if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
             $message = get_string('usercanceled', 'mod_surveypro');
             echo $OUTPUT->notification($message, 'notifymessage');
         }
+
         if ($this->confirm == SURVEYPRO_ACTION_EXECUTED) {
             $message = get_string('feedback_deletehiddenitems', 'mod_surveypro');
             echo $OUTPUT->notification($message, 'notifysuccess');

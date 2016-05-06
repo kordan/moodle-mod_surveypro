@@ -195,6 +195,7 @@ $string['extranoteinsearch_descr'] = 'Are user notes needed in the search form?'
 $string['extranoteinsearch'] = 'Extra note in search form';
 $string['feedback_delete1item'] = 'The \'{$a->pluginname}\' element: {$a->content} has been successfully deleted';
 $string['feedback_delete1response'] = 'User response has been successfully deleted';
+$string['feedback_delete1utemplate'] = 'Usertemplate "{$a}" was successfully deleted';
 $string['feedback_deleteallitems'] = 'All the elements were successfully deleted';
 $string['feedback_deleteallresponses'] = 'All the responses of this survey have been successfully deleted';
 $string['feedback_deletechainitems'] = 'The \'{$a->pluginname}\' element: {$a->content} and descending element(s) have been successfully deleted';
