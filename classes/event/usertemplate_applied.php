@@ -59,7 +59,7 @@ class usertemplate_applied extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "User with id '{$this->userid}' applied the user template '{$this->other['templatename']}' with action: '{$this->other['action']}'.";
+        return "User with id '{$this->userid}' has applied the user template '{$this->other['templatename']}' with action: '{$this->other['action']}'.";
     }
 
     /**

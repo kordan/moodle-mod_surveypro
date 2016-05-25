@@ -59,7 +59,7 @@ class submission_modified extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "User with id '{$this->userid}' modified the submission with id '{$this->objectid}'.";
+        return "User with id '{$this->userid}' has modified the submission with id '{$this->objectid}'.";
     }
 
     /**

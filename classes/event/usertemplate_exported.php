@@ -59,7 +59,7 @@ class usertemplate_exported extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "User with id '{$this->userid}' exported the user template '{$this->other['templatename']}'.";
+        return "User with id '{$this->userid}' has exported the user template '{$this->other['templatename']}'.";
     }
 
     /**

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * mod_surveypro all items showed event.
+ * mod_surveypro all items shown event.
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
@@ -27,13 +27,13 @@ namespace mod_surveypro\event;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * The mod_surveypro all items made visible event class.
+ * The mod_surveypro all items shown event class.
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class all_items_visible extends \core\event\base {
+class item_shown extends \core\event\base {
 
     /**
      * Set basic properties for the event
@@ -41,7 +41,7 @@ class all_items_visible extends \core\event\base {
     protected function init() {
         $this->data['crud'] = 'r'; // One of these: c(reate), r(ead), u(pdate), d(elete).
         $this->data['edulevel'] = self::LEVEL_TEACHING;
-        $this->data['objecttable'] = 'surveypro';
+        $this->data['objecttable'] = 'surveypro_item';
     }
 
     /**
@@ -50,7 +50,7 @@ class all_items_visible extends \core\event\base {
      * @return string
      */
     public static function get_name() {
-        return get_string('event_all_items_visible', 'mod_surveypro');
+        return get_string('event_item_shown', 'mod_surveypro');
     }
 
     /**
@@ -59,7 +59,7 @@ class all_items_visible extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "User with id '{$this->userid}' made visible all the items'.";
+        return "User with id '{$this->userid}' has shown the '{$this->other['plugin']}' item with id '{$this->objectid}.";
     }
 
     /**
@@ -78,7 +78,7 @@ class all_items_visible extends \core\event\base {
      */
     public function get_legacy_logdata() {
         // Override if you are migrating an add_to_log() call.
-        return array($this->courseid, 'surveypro', 'all items shown',
+        return array($this->courseid, 'surveypro', 'item shown',
             $this->get_url(), $this->objectid, $this->contextinstanceid);
     }
 
@@ -101,5 +101,17 @@ class all_items_visible extends \core\event\base {
         $data->id = $this->objectid;
         $data->userid = $this->relateduserid;
         return $data; */
+    }
+
+    /**
+     * Custom validation.
+     *
+     * @throws \coding_exception
+     * @return void
+     */
+    protected function validate_data() {
+        if (!isset($this->other['plugin'])) {
+            throw new \coding_exception('plugin is a mandatory property.');
+        }
     }
 }
