@@ -18,7 +18,8 @@ env:
   - MOODLE_BRANCH=master           DB=pgsql
   - MOODLE_BRANCH=master           DB=mysqli
   - MOODLE_BRANCH=MOODLE_30_STABLE DB=pgsql
-  - MOODLE_BRANCH=MOODLE_30_STABLE DB=mysqli
+  - MOODLE_BRANCH=MOODLE_31_STABLE DB=pgsql
+  - MOODLE_BRANCH=MOODLE_31_STABLE DB=mysqli
 # global:
 # This line determines which version of Moodle to test against.
 #  - MOODLE_BRANCH=MOODLE_30_STABLE
