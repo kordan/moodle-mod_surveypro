@@ -245,22 +245,22 @@ class mod_surveypro_covermanager {
 
         // Begin of: user templates section.
         if ($canmanageusertemplates) {
-            $url = new moodle_url('/mod/surveypro/utemplates_manage.php', $paramurlbase);
+            $url = new moodle_url('/mod/surveypro/utemplate_manage.php', $paramurlbase);
             $messages[] = get_string('manageusertemplates', 'mod_surveypro', $url->out());
         }
 
         if ($cansaveusertemplate) {
-            $url = new moodle_url('/mod/surveypro/utemplates_create.php', $paramurlbase);
+            $url = new moodle_url('/mod/surveypro/utemplate_save.php', $paramurlbase);
             $messages[] = get_string('saveusertemplates', 'mod_surveypro', $url->out());
         }
 
         if ($canimportusertemplates) {
-            $url = new moodle_url('/mod/surveypro/utemplates_import.php', $paramurlbase);
+            $url = new moodle_url('/mod/surveypro/utemplate_import.php', $paramurlbase);
             $messages[] = get_string('importusertemplates', 'mod_surveypro', $url->out());
         }
 
         if ($canapplyusertemplates && (!$hassubmissions || $riskyediting)) {
-            $url = new moodle_url('/mod/surveypro/utemplates_apply.php', $paramurlbase);
+            $url = new moodle_url('/mod/surveypro/utemplate_apply.php', $paramurlbase);
             $messages[] = get_string('applyusertemplates', 'mod_surveypro', $url->out());
         }
 
@@ -270,12 +270,12 @@ class mod_surveypro_covermanager {
 
         // Begin of: master templates section.
         if ($cansavemastertemplates) {
-            $url = new moodle_url('/mod/surveypro/mtemplates_create.php', $paramurlbase);
+            $url = new moodle_url('/mod/surveypro/mtemplate_save.php', $paramurlbase);
             $messages[] = get_string('savemastertemplates', 'mod_surveypro', $url->out());
         }
 
         if ($canapplymastertemplates) {
-            $url = new moodle_url('/mod/surveypro/mtemplates_apply.php', $paramurlbase);
+            $url = new moodle_url('/mod/surveypro/mtemplate_apply.php', $paramurlbase);
             $messages[] = get_string('applymastertemplates', 'mod_surveypro', $url->out());
         }
 

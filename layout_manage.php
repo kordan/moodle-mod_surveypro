@@ -106,7 +106,7 @@ if ($mtemplatecondition) {
     $mtemplateman = new mod_surveypro_mastertemplate($cm, $context, $surveypro);
 
     $paramurl = array('id' => $cm->id);
-    $formurl = new moodle_url('/mod/surveypro/mtemplates_apply.php', $paramurl);
+    $formurl = new moodle_url('/mod/surveypro/mtemplate_apply.php', $paramurl);
 
     $formparams = new stdClass();
     $formparams->mtemplateman = $mtemplateman;
@@ -115,7 +115,7 @@ if ($mtemplatecondition) {
     // Init mtemplateform form.
     $mtemplateform = new mod_surveypro_applymtemplateform($formurl, $formparams);
 
-    // Management is in mtemplates_apply.
+    // Management is in mtemplate_apply.
 }
 
 // New item form.

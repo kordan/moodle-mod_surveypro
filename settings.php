@@ -51,22 +51,22 @@ $settings = null;
 
 // Folder 'surveypro field'.
 $ADMIN->add('modsurveyprofolder', new admin_category('surveyprofieldplugins',
-                new lang_string('fieldplugins', 'surveypro'), !$module->is_enabled()));
+                new lang_string('fieldplugin', 'surveypro'), !$module->is_enabled()));
 $ADMIN->add('surveyprofieldplugins', new mod_surveypro_admin_page_manage_surveypro_plugins('surveyprofield'));
 
 // Folder 'surveypro format'.
 $ADMIN->add('modsurveyprofolder', new admin_category('surveyproformatplugins',
-                new lang_string('formatplugins', 'surveypro'), !$module->is_enabled()));
+                new lang_string('formatplugin', 'surveypro'), !$module->is_enabled()));
 $ADMIN->add('surveyproformatplugins', new mod_surveypro_admin_page_manage_surveypro_plugins('surveyproformat'));
 
 // Folder 'surveypro (master) templates'.
 $ADMIN->add('modsurveyprofolder', new admin_category('surveyprotemplateplugins',
-                new lang_string('mastertemplateplugins', 'surveypro'), !$module->is_enabled()));
+                new lang_string('mastertemplateplugin', 'surveypro'), !$module->is_enabled()));
 $ADMIN->add('surveyprotemplateplugins', new mod_surveypro_admin_page_manage_surveypro_plugins('surveyprotemplate'));
 
 // Folder 'surveypro reports'.
 $ADMIN->add('modsurveyprofolder', new admin_category('surveyproreportplugins',
-                new lang_string('reportplugins', 'surveypro'), !$module->is_enabled()));
+                new lang_string('reportplugin', 'surveypro'), !$module->is_enabled()));
 $ADMIN->add('surveyproreportplugins', new mod_surveypro_admin_page_manage_surveypro_plugins('surveyproreport'));
 
 foreach (core_plugin_manager::instance()->get_plugins_of_type('surveyprofield') as $plugin) {

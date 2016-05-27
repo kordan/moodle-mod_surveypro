@@ -79,7 +79,7 @@
 /* Begin of: #manageitems, #sortitems, #managetemplates and #validaterelations tables*/
 #page-mod-surveypro-layout_manage table#manageitems,
 #page-mod-surveypro-layout_manage table#sortitems,
-#page-mod-surveypro-utemplates_manage table#managetemplates,
+#page-mod-surveypro-utemplate_manage table#managetemplates,
 #page-mod-surveypro-layout_validation table#validaterelations {
     width:100%;
 }
@@ -154,7 +154,7 @@
 #page-mod-surveypro-layout_manage table#sortitems .actions,
 #page-mod-surveypro-layout_validation table#validaterelations .actions,
 #page-mod-surveypro-view table#submissions .actions,
-#page-mod-surveypro-utemplates_manage table#managetemplates .actions {
+#page-mod-surveypro-utemplate_manage table#managetemplates .actions {
     padding:0.5em;
     white-space:nowrap;
 }

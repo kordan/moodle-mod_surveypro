@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Starting page to apply a mastertemplate.
+ * Starting page to manage user templates.
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
@@ -24,10 +24,8 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
-require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
-require_once($CFG->dirroot.'/mod/surveypro/classes/mtemplate.class.php');
-require_once($CFG->dirroot.'/mod/surveypro/form/mtemplates/apply_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/utemplate.class.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
@@ -44,40 +42,26 @@ if (!empty($id)) {
 
 require_course_login($course, true, $cm);
 
+$utemplateid = optional_param('fid', 0, PARAM_INT);
+$action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
+$confirm = optional_param('cnf', SURVEYPRO_UNCONFIRMED, PARAM_INT);
+
 $context = context_module::instance($cm->id);
-require_capability('mod/surveypro:applymastertemplates', $context);
+require_capability('mod/surveypro:manageusertemplates', $context);
 
 // Calculations.
-$mtemplateman = new mod_surveypro_mastertemplate($cm, $context, $surveypro);
+$utemplateman = new mod_surveypro_usertemplate($cm, $context, $surveypro);
+$utemplateman->setup($utemplateid, $action, $confirm);
 
-// Begin of: define $applymtemplate return url.
-$paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('/mod/surveypro/mtemplates_apply.php', $paramurl);
-// End of: define $applymtemplate return url.
+$utemplateman->prevent_direct_user_input();
 
-// Begin of: prepare params for the form.
-$formparams = new stdClass();
-$formparams->cmid = $cm->id;
-$formparams->surveypro = $surveypro;
-$formparams->mtemplateman = $mtemplateman;
-$formparams->inline = false;
-
-$applymtemplate = new mod_surveypro_applymtemplateform($formurl, $formparams);
-// End of: prepare params for the form.
-
-// Begin of: manage form submission.
-if ($applymtemplate->is_cancelled()) {
-    $returnurl = new moodle_url('/mod/surveypro/utemplates_add.php', $paramurl);
-    redirect($returnurl);
+if ($action == SURVEYPRO_EXPORTUTEMPLATE) {
+    $utemplateman->export_utemplate();
+    die();
 }
-
-if ($mtemplateman->formdata = $applymtemplate->get_data()) {
-    $mtemplateman->apply_template();
-}
-// End of: manage form submission.
 
 // Output starts here.
-$url = new moodle_url('/mod/surveypro/mtemplates_apply.php', array('s' => $surveypro->id));
+$url = new moodle_url('/mod/surveypro/utemplate_manage.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -86,21 +70,12 @@ $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
 
-new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABMTEMPLATES, SURVEYPRO_MTEMPLATES_APPLY);
+new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABUTEMPLATES, SURVEYPRO_UTEMPLATES_MANAGE);
 
-$mtemplateman->friendly_stop();
+$utemplateman->delete_utemplate();
 
-$riskyediting = ($surveypro->riskyeditdeadline > time());
-$utilityman = new mod_surveypro_utility($cm, $surveypro);
-if ($utilityman->has_submissions() && $riskyediting) {
-    $message = $utilityman->has_submissions_warning();
-    echo $OUTPUT->notification($message, 'notifyproblem');
-}
-
-$message = get_string('applymtemplateinfo', 'mod_surveypro');
-echo $OUTPUT->box($message, 'generaltable generalbox boxaligncenter boxwidthnormal');
-
-$applymtemplate->display();
+$utemplateman->display_usertemplates_table();
+$utemplateman->trigger_event('all_usertemplates_viewed'); // Event: all_usertemplates_viewed.
 
 // Finish the page.
 echo $OUTPUT->footer();

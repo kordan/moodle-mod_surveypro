@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Starting page to apply a user template.
+ * Starting page to import a user template.
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
@@ -24,10 +24,9 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
-require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/utemplate.class.php');
-require_once($CFG->dirroot.'/mod/surveypro/form/utemplates/apply_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/form/utemplates/import_form.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
@@ -45,43 +44,45 @@ if (!empty($id)) {
 require_course_login($course, true, $cm);
 
 $utemplateid = optional_param('fid', 0, PARAM_INT);
-$action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
-$confirm = optional_param('cnf', SURVEYPRO_UNCONFIRMED, PARAM_INT);
+
+// Params never passed but needed by called class.
+$action = SURVEYPRO_NOACTION;
+$confirm = SURVEYPRO_UNCONFIRMED;
 
 $context = context_module::instance($cm->id);
-require_capability('mod/surveypro:applyusertemplates', $context);
+require_capability('mod/surveypro:importusertemplates', $context);
 
 // Calculations.
 $utemplateman = new mod_surveypro_usertemplate($cm, $context, $surveypro);
 $utemplateman->setup($utemplateid, $action, $confirm);
 
-$utemplateman->prevent_direct_user_input();
+// $utemplateman->prevent_direct_user_input();
+// is not needed because the check has already been done here with: require_capability('mod/surveypro:importusertemplates', $context);
 
-// Begin of: define $applyutemplate return url.
+// Begin of: define $importutemplate return url.
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('/mod/surveypro/utemplates_apply.php', $paramurl);
-// End of: define $applyutemplate return url.
+$formurl = new moodle_url('/mod/surveypro/utemplate_import.php', $paramurl);
+// End of: define $importutemplate return url.
 
 // Begin of: prepare params for the form.
 $formparams = new stdClass();
-$formparams->cmid = $cm->id;
-$formparams->surveypro = $surveypro;
 $formparams->utemplateman = $utemplateman;
-$applyutemplate = new mod_surveypro_applyutemplateform($formurl, $formparams);
+$formparams->filemanageroptions = $utemplateman->get_filemanager_options();
+$importutemplate = new mod_surveypro_importutemplateform($formurl, $formparams);
 // End of: prepare params for the form.
 
 // Begin of: manage form submission.
-$utemplateman->formdata = $applyutemplate->get_data();
-if ($utemplateman->formdata) {
-    // Here I don't need to execute validate_xml because xml was validated at upload time
-    // Here I only need to verfy that plugin versions still match
-    // $utemplateman->check_items_versions();
-    $utemplateman->apply_template();
+if ($utemplateman->formdata = $importutemplate->get_data()) {
+    $utemplateman->upload_utemplate();
+    $utemplateman->trigger_event('usertemplate_imported');
+
+    $redirecturl = new moodle_url('/mod/surveypro/utemplate_manage.php', array('s' => $surveypro->id));
+    redirect($redirecturl);
 }
 // End of: manage form submission.
 
 // Output starts here.
-$url = new moodle_url('/mod/surveypro/utemplates_apply.php', array('s' => $surveypro->id));
+$url = new moodle_url('/mod/surveypro/utemplate_import.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -90,18 +91,10 @@ $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
 
-new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABUTEMPLATES, SURVEYPRO_UTEMPLATES_APPLY);
+new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABUTEMPLATES, SURVEYPRO_UTEMPLATES_IMPORT);
 
-$utemplateman->friendly_stop();
-
-$riskyediting = ($surveypro->riskyeditdeadline > time());
-$utilityman = new mod_surveypro_utility($cm, $surveypro);
-if ($utilityman->has_submissions() && $riskyediting) {
-    $message = $utilityman->has_submissions_warning();
-    echo $OUTPUT->notification($message, 'notifyproblem');
-}
-
-$applyutemplate->display();
+$utemplateman->welcome_import_message();
+$importutemplate->display();
 
 // Finish the page.
 echo $OUTPUT->footer();

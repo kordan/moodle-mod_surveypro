@@ -67,6 +67,19 @@ class mod_surveypro_exportmanager {
     }
 
     /**
+     * Display the welcome message of the export page.
+     *
+     * @return void
+     */
+    public function welcome_message() {
+        global $OUTPUT;
+
+        $a = get_string('downloadformat', 'mod_surveypro');
+        $message = get_string('welcome_dataexport', 'mod_surveypro', $a);
+        echo $OUTPUT->notification($message, 'notifymessage');
+    }
+
+    /**
      * Trigger the all_submissions_exported event.
      *
      * @return void

@@ -68,7 +68,7 @@ class all_usertemplates_viewed extends \core\event\base {
      * @return \moodle_url
      */
     public function get_url() {
-        return new \moodle_url('/mod/surveypro/utemplates_manage.php', array('id' => $this->contextinstanceid));
+        return new \moodle_url('/mod/surveypro/utemplate_manage.php', array('id' => $this->contextinstanceid));
     }
 
     /**

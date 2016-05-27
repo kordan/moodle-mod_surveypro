@@ -128,32 +128,32 @@
  *  TAB USER TEMPLATES
  *  -------------------------------------------
  *  SUB-TAB == SURVEYPRO_UTEMPLATES_MANAGE
- *      $elementurl = new moodle_url('/mod/surveypro/utemplates_manage.php', $localparamurl);
+ *      $elementurl = new moodle_url('/mod/surveypro/utemplate_manage.php', $localparamurl);
  *      mod/surveypro:manageusertemplates
  *      mod/surveypro:deleteusertemplates
  *      mod/surveypro:downloadusertemplates
  *
  *  SUB-TAB == SURVEYPRO_UTEMPLATES_BUILD
- *      $elementurl = new moodle_url('/mod/surveypro/utemplates_create.php', $localparamurl);
+ *      $elementurl = new moodle_url('/mod/surveypro/utemplate_save.php', $localparamurl);
  *      mod/surveypro:saveusertemplates @ CONTEXT_COURSE
  *
  *  SUB-TAB == SURVEYPRO_UTEMPLATES_IMPORT
- *      $elementurl = new moodle_url('/mod/surveypro/utemplates_import.php', $localparamurl);
+ *      $elementurl = new moodle_url('/mod/surveypro/utemplate_import.php', $localparamurl);
  *      mod/surveypro:importusertemplates
  *
  *  SUB-TAB == SURVEYPRO_UTEMPLATES_APPLY
- *      $elementurl = new moodle_url('/mod/surveypro/utemplates_apply.php', $localparamurl);
+ *      $elementurl = new moodle_url('/mod/surveypro/utemplate_apply.php', $localparamurl);
  *      mod/surveypro:applyusertemplates
  *
  *  -------------------------------------------
  *  TAB MASTER TEMPLATES
  *  -------------------------------------------
  *  SUB-TAB == SURVEYPRO_MTEMPLATES_BUILD
- *      $elementurl = new moodle_url('/mod/surveypro/mtemplates_create.php', $localparamurl);
+ *      $elementurl = new moodle_url('/mod/surveypro/mtemplate_save.php', $localparamurl);
  *      mod/surveypro:savemastertemplates
  *
  *  SUB-TAB == SURVEYPRO_MTEMPLATES_APPLY
- *      $elementurl = new moodle_url('/mod/surveypro/mtemplates_apply.php', $localparamurl);
+ *      $elementurl = new moodle_url('/mod/surveypro/mtemplate_apply.php', $localparamurl);
  *      mod/surveypro:applymastertemplates
  *
  */

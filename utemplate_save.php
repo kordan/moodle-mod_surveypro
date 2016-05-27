@@ -61,7 +61,7 @@ $utemplateman->setup($utemplateid, $action, $confirm);
 
 // Begin of: define $createutemplate return url.
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('/mod/surveypro/utemplates_create.php', $paramurl);
+$formurl = new moodle_url('/mod/surveypro/utemplate_save.php', $paramurl);
 // End of: define $createutemplate return url.
 
 // Begin of: prepare params for the form.
@@ -75,13 +75,13 @@ if ($utemplateman->formdata = $createutemplate->get_data()) {
     $utemplateman->generate_utemplate();
     $utemplateman->trigger_event('usertemplate_saved');
 
-    $redirecturl = new moodle_url('/mod/surveypro/utemplates_manage.php', array('s' => $surveypro->id));
+    $redirecturl = new moodle_url('/mod/surveypro/utemplate_manage.php', array('s' => $surveypro->id));
     redirect($redirecturl);
 }
 // End of: manage form submission.
 
 // Output starts here.
-$url = new moodle_url('/mod/surveypro/utemplates_create.php', array('s' => $surveypro->id));
+$url = new moodle_url('/mod/surveypro/utemplate_save.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -92,9 +92,7 @@ echo $OUTPUT->header();
 
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABUTEMPLATES, SURVEYPRO_UTEMPLATES_BUILD);
 
-$a = get_string('sharinglevel', 'mod_surveypro');
-$message = get_string('templatecreateinfo', 'mod_surveypro', $a);
-echo $OUTPUT->box($message, 'generaltable generalbox boxaligncenter boxwidthnormal');
+$utemplateman->welcome_save_message();
 
 $record = new stdClass();
 $record->surveyproid = $surveypro->id;

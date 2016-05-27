@@ -278,6 +278,47 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     }
 
     /**
+     * Display the welcome message of the save page.
+     *
+     * @return void
+     */
+    public function welcome_save_message() {
+        global $OUTPUT;
+
+        $a = get_string('sharinglevel', 'mod_surveypro');
+        $message = get_string('welcomeutemplatesave', 'mod_surveypro', $a);
+        echo $OUTPUT->notification($message, 'notifymessage');
+    }
+
+    /**
+     * Display the welcome message of the import page.
+     *
+     * @return void
+     */
+    public function welcome_import_message() {
+        global $OUTPUT;
+
+        $a = get_string('tabutemplatepage2', 'mod_surveypro');
+        $message = get_string('welcome_utemplateimport', 'mod_surveypro', $a);
+        echo $OUTPUT->notification($message, 'notifymessage');
+    }
+
+    /**
+     * Display the welcome message of the apply page.
+     *
+     * @return void
+     */
+    public function welcome_apply_message() {
+        global $OUTPUT;
+
+        $a = new stdClass();
+        $a->uploadpage = get_string('tabutemplatepage3', 'mod_surveypro');
+        $a->savepage = get_string('tabutemplatepage2', 'mod_surveypro');
+        $message = get_string('welcome_utemplateapply', 'mod_surveypro', $a);
+        echo $OUTPUT->notification($message, 'notifymessage');
+    }
+
+    /**
      * Write template content.
      *
      * @param boolean $visiblesonly
@@ -804,7 +845,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $table = new flexible_table('templatelist');
 
         $paramurl = array('id' => $this->cm->id);
-        $baseurl = new moodle_url('/mod/surveypro/utemplates_manage.php', $paramurl);
+        $baseurl = new moodle_url('/mod/surveypro/utemplate_manage.php', $paramurl);
         $table->define_baseurl($baseurl);
 
         $tablecolumns = array();
@@ -976,12 +1017,12 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
             $optionsyes = $optionsbase;
             $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
             $optionsyes['fid'] = $this->utemplateid;
-            $urlyes = new moodle_url('/mod/surveypro/utemplates_manage.php', $optionsyes);
+            $urlyes = new moodle_url('/mod/surveypro/utemplate_manage.php', $optionsyes);
             $buttonyes = new single_button($urlyes, get_string('yes'));
 
             $optionsno = $optionsbase;
             $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-            $urlno = new moodle_url('/mod/surveypro/utemplates_manage.php', $optionsno);
+            $urlno = new moodle_url('/mod/surveypro/utemplate_manage.php', $optionsno);
             $buttonno = new single_button($urlno, get_string('no'));
 
             echo $OUTPUT->confirm($message, $buttonyes, $buttonno);

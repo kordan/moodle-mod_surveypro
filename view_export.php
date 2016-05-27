@@ -98,6 +98,7 @@ if ($exporterror == SURVEYPRO_NOATTACHMENTFOUND) {
     echo $OUTPUT->notification(get_string('noattachmentfound', 'mod_surveypro'), 'notifyproblem');
 }
 
+$exportman->welcome_message();
 $exportform->display();
 
 // Finish the page.
