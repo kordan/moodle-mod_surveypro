@@ -989,9 +989,14 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
             $fs = get_file_storage();
             $xmlfile = $fs->get_file_by_id($this->utemplateid);
+            $a = $xmlfile->get_filename();
             $xmlfile->delete();
 
             $this->trigger_event('usertemplate_deleted');
+
+            // Feedback.
+            $message = get_string('feedback_delete1utemplate', 'mod_surveypro', $a);
+            echo $OUTPUT->notification($message, 'notifymessage');
         }
 
         if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
