@@ -83,7 +83,7 @@ class mod_surveypro_importmanager {
      * @return void
      */
     public function welcome_message() {
-        global $CFG, $OUTPUT;
+        global $OUTPUT;
 
         $semanticitem = array();
         $plugins = surveypro_get_plugin_list(SURVEYPRO_TYPEFIELD);
@@ -97,7 +97,7 @@ class mod_surveypro_importmanager {
         $a = new stdClass();
         $a->customsemantic = get_string('itemdrivensemantic', 'mod_surveypro', get_string('downloadformat', 'mod_surveypro'));
         $a->items = '<li>'.implode(';</li><li>', $semanticitem).'.</li>';
-        $message = get_string('welcomeimport', 'mod_surveypro', $a);
+        $message = get_string('welcome_dataimport', 'mod_surveypro', $a);
         echo $OUTPUT->notification($message, 'notifymessage');
     }
 

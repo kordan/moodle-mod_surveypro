@@ -28,11 +28,12 @@ $string['modulename'] = 'Surveypro';
 $string['modulename_help'] = 'Surveypro allows the creation of custom surveys as far as built in surveys like ATTLS, COLLES and CRITICAL INCIDENTS. You can also save and reuse parts or whole of your own custom survey.';
 $string['modulename_link'] = 'mod/surveypro/view';
 $string['modulenameplural'] = 'surveys';
+$string['pluginname'] = 'Surveypro';
+$string['pluginadministration'] = 'Surveypro administration';
+
 $string['surveyproname'] = 'Surveypro name';
 $string['surveyproname_help'] = 'Choose the name of this surveypro.';
 $string['surveypro'] = 'survey';
-$string['pluginadministration'] = 'Surveypro administration';
-$string['pluginname'] = 'Surveypro';
 
 $string['tablayoutname'] = 'Layout';
     $string['tabitemspage1'] = 'Preview';
@@ -72,8 +73,6 @@ $string['answerposition'] = 'position';
 $string['answervalue'] = 'value';
 $string['apply'] = 'Apply';
 $string['applymastertemplates'] = '<a href="{$a}">Apply master templates</a>';
-$string['applymtemplateinfo'] = 'You can build your survey applying set of elements taken from a master template plugin<br />Take care: all other preexisting elements (if any) will be definitely deleted WITH ALL THE DATA ALREADY GATHERED.';
-$string['applytemplate'] = 'Apply template';
 $string['applyusertemplatedenied01'] = 'You are not allowed to apply a user template because the current survey has already been responded';
 $string['applyusertemplatedenied02'] = 'You are not allowed to apply a user template over a master template';
 $string['applyusertemplates'] = '<a href="{$a}">Apply user templates</a>';
@@ -215,20 +214,11 @@ $string['feedback_itemediting_showchainitems'] = 'Showing this element, some asc
 $string['feedback_showallitems'] = 'All the elements were successfully shown';
 $string['field'] = 'field element';
 $string['fieldplugin'] = 'Element plugin';
-$string['fieldplugins'] = 'Field plugin';
 $string['fillinginstructioninsearch_descr'] = 'Are filling instructions needed in the search form?';
 $string['fillinginstructioninsearch'] = 'Filling instruction in search form';
 $string['format'] = 'format element';
 $string['formatplugin'] = 'Format plugin';
-$string['formatplugins'] = 'Format plugin';
 $string['free'] = 'free';
-$string['frendlyversionmismatchuser'] = 'The choosen usertemplate has a version mismatch for the following plugins: <ul{$a->plugins}</ul>
-Applying it may lead to an unexpected behaviour. Please:<ul>
-<li>Go to {$a->tab}->{$a->page1};</li>
-<li>Download {$a->templatename};</li>
-<li>Delete it from the list in the page;</li>
-<li>Go to {$a->tab}->{$a->page3} and try to import it again. You will get warnings</li>;
-<li>Modify your usertemplate according to the suggestions displayed during upload.</li>';
 $string['fullwidth'] = 'top left (full width)';
 $string['gotolist'] = 'Continue to responses list';
 $string['hassubmissions_alert'] = 'This survey has already been answered at least once.<br />Please proceed with extreme caution and make only neutral changes to not compromise the validity of the whole survey.';
@@ -274,8 +264,6 @@ $string['indent'] = 'Indent';
 $string['inprogresssubmissions'] = 'In progress responses';
 $string['insearchform_help'] = 'Is this element going to be used in the search form?';
 $string['insearchform'] = 'Search form';
-$string['invalid_status'] = 'Invalid $status passed to {$a}';
-$string['invalidcsvfile'] = 'File {$a} is an invalid csv file. Please verify it.';
 $string['invalidtypeorplugin'] = 'Invalid type or plugin were provided as item properties in the template';
 $string['invitedefault'] = 'Invite';
 $string['item'] = 'Element';
@@ -294,8 +282,7 @@ $string['mastertemplate'] = 'Master templates';
 $string['mastertemplateaddendum'] = '<br />You can not apply this mastertemplate until you uninstall it, fix all the issues and reinstall it.';
 $string['mastertemplatename_help'] = 'Choose the name of the master template name that is going to be downloaded in zip format.';
 $string['mastertemplatename'] = 'Master template name';
-$string['mastertemplateplugins'] = 'Master template plugin';
-$string['mastertemplates'] = 'master templates';
+$string['mastertemplateplugin'] = 'Master template plugin';
 $string['maxentries_help'] = 'The maximum number of responses a student is allowed to submit for this activity.';
 $string['maxentries'] = 'Maximum allowed attempts';
 $string['maxinputdelay_descr'] = 'The maximum allowed delay in hours for users to submit a survey. Even if the user is allowed to pause the data entry and restart it later, after the time defined here partial responses will be deleted. Default of 168 hours is equivalent to a week. Set this to 0 (zero) if you really want to allow partial responses (not recommended).';
@@ -305,8 +292,6 @@ $string['missingitemplugin'] = 'One or more items of the template are missing th
 $string['missingitemtype'] = 'One or more items of the template are missing the type';
 $string['missingitemversion'] = 'One or more items of the template is missing the version';
 $string['missingmandatory'] = 'Some mandatory answer of this response has not been found. Because of this, the overall response has been marked as "{$a}".<br />To fix this issue, please edit the response and review item contents page per page.';
-$string['missingplugin'] = 'Each plugin has undefined version in the template file';
-$string['missingsortindex'] = 'Sortindex is missing in the template';
 $string['missingvalidation'] = 'Some answers of this response have been found as unverified. Because of this, the overall response has been marked as "{$a}".<br />Your data is not necessarily incorrect but needs verification before definitive storage.<br />To fix this issue, please edit the response and review item contents page per page.';
 $string['module'] = 'This instance of survey';
 $string['modulesettinghdr'] = 'Surveypro settings';
@@ -330,10 +315,6 @@ $string['nomtemplates_message'] = 'Sorry. Not any master template seems availabl
 $string['nomtemplates'] = 'Missing master templates';
 $string['nosubmissionfound'] = 'No responses were found in this survey.';
 $string['notanswereditem'] = 'Answer not submitted';
-$string['notdeleted_item'] = 'Unable to delete record id = {$a} from surveypro_item';
-$string['notdeleted_plugin'] = 'Unable to delete record id = {$a->pluginid} from surveypro{$a->type}_{$a->plugin}';
-$string['notdeleted_submission'] = 'Unable to delete record with id IN ({$a}) from surveypro_submission';
-$string['notdeleted_userdata'] = 'Unable to delete record id = {$a} from surveypro_answer';
 $string['note'] = 'Note:';
 $string['nothingtodownload'] = 'Nothing to download';
 $string['notifymore_help'] = 'Some additional email addresses to notify about new responses. Addresses are supposed to be one per row.';
@@ -374,7 +355,6 @@ $string['relation_status'] = 'Status';
 $string['reportederror'] = '{$a}';
 $string['reportederrortemplate'] = '%s as required by the xsd of the "%s" plugin';
 $string['reportplugin'] = 'Report plugin';
-$string['reportplugins'] = 'Report plugin';
 $string['reportsection'] = 'Reports section';
 $string['required_help'] = 'Will the user be forced to answer this element?';
 $string['required'] = 'Required';
@@ -456,17 +436,16 @@ $string['surveypro:submit'] = 'Submit responses';
 $string['surveypro:view'] = 'View surveys';
 $string['surveyprofieldpluginname'] = 'Field element plugin';
 $string['surveyproformatpluginname'] = 'Item element plugin';
-$string['surveyproplugins'] = 'Survey plugins';
 $string['surveyproreportpluginname'] = 'Report plugin';
 $string['surveyprotemplatepluginname'] = 'Master template plugin';
 $string['switchoptional'] = 'Set the question tye element as optional';
 $string['switchrequired'] = 'Set the question tye element as required';
 $string['system'] = 'Site';
-$string['templatecreateinfo'] = 'Save a user template with the current survey. User templates are useful to quickly add to your surveys static sets of predefined items. At any time you can download and share it with other moodle users or reuse it into your own surveys. Be careful to "{$a}" if you want to reuse your templates without downloading and uploading them again.';
+$string['welcomeutemplatesave'] = 'Save a user template with the structure of the current survey.<br />
+User templates are useful to quickly add to your surveys static sets of predefined items. At any time you can download and share it with other moodle users or reuse it into your own surveys. Be careful to "{$a}" if you want to reuse your templates without downloading and uploading them again.';
 $string['templatelist'] = 'list of available templates';
 $string['templatename_help'] = 'Write here the name of the template you are going to save.';
 $string['templatename'] = 'Template name';
-$string['templateplugin'] = 'Master template plugin';
 $string['thankshtml_help'] = 'The html code of the web page the user get at each response closing time.';
 $string['thankshtml'] = 'Thanks web page';
 $string['timeclose_help'] = 'The last date available for students to fill a survey.';
@@ -491,17 +470,17 @@ $string['userstyle_help'] = 'Add here one or more cascade style sheet (css) you 
 $string['userstyle'] = 'Custom style sheet';
 $string['usertemplateinfo_help'] = 'Choose the user template you want to add to your survey.';
 $string['usertemplateinfo'] = 'User templates';
-// $string['usertemplates'] = 'user templates';
 $string['utemplatessection'] = 'User templates section';
 $string['validation'] = 'Validation options';
-$string['validationinfo'] = 'This report let you verify the reliability of the current survey. This tool checks the validity of each relation identifying the bad ones that will never allow child element to be included in the survey.';
 $string['variable_help'] = 'The name of the variable once downloaded.';
 $string['variable'] = 'Variable';
 $string['verbose'] = 'Verbose (for human reading)';
 $string['versionmismatch'] = 'Version mismatch for {$a->plugin} {$a->type} plugin. Template uses version: {$a->currentversion} while your surveypro plugin uses version {$a->versiondisk}';
 $string['visiblesonly_help'] = 'Include in this template only visibles elements.';
 $string['visiblesonly'] = 'Visibles elements only';
-$string['welcomeimport'] = 'Use this page to import responses into this survey. <br />
+$string['welcome_dataexport'] = 'Use this page to export responses of this survey. <br />
+A statistic software format is available such as a more human readable one. Export content depends on the "{$a}" choosen for each element (whether available).';
+$string['welcome_dataimport'] = 'Use this page to import responses into this survey. <br />
 The headers of the csv file to import are supposed to match the "variable names" of the elements of the survey.<br />
 Currently it is not allowed the import of attachment elements.<br />
 Unknown headers will break the import process.<br />
@@ -513,13 +492,19 @@ Semantic defines the meaning of the content of the csv file for some specific el
 Elements currently using semantic are: <ul>{$a->items}</ul>
 It is possible to choose a single semantic that will apply to EACH element to import or to choose "{$a->customsemantic}" option to provide a custom semantic for each element.<br />
 The import process breaks if it lead to exceed the maximum number of responses allowed to users (if set).';
+$string['welcome_mtemplateapply'] = 'You can build your survey applying set of elements taken from a master template.<br />
+Take care: all other preexisting elements (if any) will be definitely deleted WITH ALL THE DATA ALREADY GATHERED.';
+$string['welcome_utemplateapply'] = 'You can build your surveys applying set of elements taken from a user template.<br />
+User templates should already be uploaded from "{$a->uploadpage}" page or saved from the "{$a->savepage}" one.';
+$string['welcome_utemplateimport'] = 'You can import user templates to apply them later.<br />
+User templates are XML files as the ones you can save from "{$a}" page.';
+$string['welcome_relationvalidation'] = 'This report let you verify the reliability of the current survey. It checks the validity of each parent-child relation marking bad relations, that will never allow child element to be part of the survey, with a message in the "{$a}" column.';
 $string['willclose'] = 'Closure time';
 $string['willopen'] = 'This survey will open at';
 $string['wrong_direction_found'] = 'Invalid $direction provided to {$a->methodname} in conjunction with $startingpage == {$a->methodname}';
 $string['wrong_sharinglevel_found'] = 'Invalid $sharinglevel = "{$a->sharinglevel}" provided to {$a->methodname}';
 $string['wrong_userdatarec_found'] = 'Invalid $userdatarec = \'{$a}\' has not been replaced';
 $string['wrongrelation'] = '"{$a}" will never match';
-$string['wrongsortindex'] = 'The sortindex of the items in the template does not grow uniformly';
 $string['xmltemplate_help'] = 'Choose the template you want to download as zip file to share it with other moodle users.';
 $string['xsdnotfound'] = 'xsd validation schema for your xml template was not found.<br />Your code must be fixed by a developer.';
 $string['yoursubmissions'] = 'Your \'{$a->status}\' responses: {$a->responsescount}';

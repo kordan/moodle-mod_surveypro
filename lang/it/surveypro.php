@@ -25,14 +25,15 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['modulename'] = 'Surveypro';
-$string['modulename_help'] = 'Surveypro allows the creation of custom surveys as far as built in surveys like ATTLS, COLLES and CRITICAL INCIDENTS. You can also save and reuse parts or whole of your own custom surveypro.';
+$string['modulename_help'] = 'Surveypro consente la realizzazione di indagini personalizzate così come di indagini classiche quali ATTLS, COLLES and CRITICAL INCIDENTS. E\' possibile anche riutilizzare parti di indagini già costruite per integrarle in altre.';
 $string['modulename_link'] = 'mod/surveypro/view';
 $string['modulenameplural'] = 'surveypro';
+$string['pluginname'] = 'Surveypro';
+$string['pluginadministration'] = 'Gestione surveypro';
+
 $string['surveyproname'] = 'Surveypro name';
 $string['surveyproname_help'] = 'Choose the name of this surveypro.';
 $string['surveypro'] = 'surveypro';
-$string['pluginadministration'] = 'Gestione surveypro';
-$string['pluginname'] = 'Surveypro';
 
 $string['tablayoutname'] = 'Scheda';
     $string['tabitemspage1'] = 'Anteprima';
@@ -51,7 +52,7 @@ $string['tabsubmissionsname'] = 'Indagine';
     $string['tabsubmissionspage9'] = 'Esportazione';
 $string['tabutemplatename'] = 'Template utente';
     $string['tabutemplatepage1'] = 'Gestione';
-    $string['tabutemplatepage2'] = 'Genera';
+    $string['tabutemplatepage2'] = 'Salva';
     $string['tabutemplatepage3'] = 'Importa';
     $string['tabutemplatepage4'] = 'Applica';
 $string['tabmtemplatename'] = 'Template sistema';

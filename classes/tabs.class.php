@@ -135,7 +135,7 @@ class mod_surveypro_tabs {
             if (empty($this->surveypro->template)) {
                 $canmanageusertemplates = has_capability('mod/surveypro:manageusertemplates', $this->context, null, true);
                 if ($canmanageusertemplates) {
-                    $elementurl = new moodle_url('/mod/surveypro/utemplates_create.php', $paramurl);
+                    $elementurl = new moodle_url('/mod/surveypro/utemplate_save.php', $paramurl);
                     $row[] = new tabobject($tabutemplatename, $elementurl->out(), $tabutemplatename);
                 }
             }
@@ -147,7 +147,7 @@ class mod_surveypro_tabs {
             $cansavemastertemplates = has_capability('mod/surveypro:savemastertemplates', $this->context, null, true);
             $canapplymastertemplates = has_capability('mod/surveypro:applymastertemplates', $this->context, null, true);
             if ($cansavemastertemplates || ((!$this->hassubmissions || $this->riskyediting) && $canapplymastertemplates)) {
-                $elementurl = new moodle_url('/mod/surveypro/mtemplates_create.php', $paramurl);
+                $elementurl = new moodle_url('/mod/surveypro/mtemplate_save.php', $paramurl);
                 $row[] = new tabobject($tabmtemplatename, $elementurl->out(), $tabmtemplatename);
             }
         }
@@ -330,27 +330,27 @@ class mod_surveypro_tabs {
 
                 if ($canmanageusertemplates) {
                     // Manage.
-                    $elementurl = new moodle_url('/mod/surveypro/utemplates_manage.php', $paramurl);
+                    $elementurl = new moodle_url('/mod/surveypro/utemplate_manage.php', $paramurl);
                     $strlabel = get_string('tabutemplatepage1', 'mod_surveypro');
                     $row[] = new tabobject('idpage1', $elementurl->out(), $strlabel);
 
                     // Create.
                     if ($cansaveusertemplates) {
-                        $elementurl = new moodle_url('/mod/surveypro/utemplates_create.php', $paramurl);
+                        $elementurl = new moodle_url('/mod/surveypro/utemplate_save.php', $paramurl);
                         $strlabel = get_string('tabutemplatepage2', 'mod_surveypro');
                         $row[] = new tabobject('idpage2', $elementurl->out(), $strlabel);
                     }
 
                     // Import.
                     if ($canimportusertemplates) {
-                        $elementurl = new moodle_url('/mod/surveypro/utemplates_import.php', $paramurl);
+                        $elementurl = new moodle_url('/mod/surveypro/utemplate_import.php', $paramurl);
                         $strlabel = get_string('tabutemplatepage3', 'mod_surveypro');
                         $row[] = new tabobject('idpage3', $elementurl->out(), $strlabel);
                     }
 
                     // Apply.
                     if ( (!$this->hassubmissions || $this->riskyediting) && $canapplyusertemplates ) {
-                        $elementurl = new moodle_url('/mod/surveypro/utemplates_apply.php', $paramurl);
+                        $elementurl = new moodle_url('/mod/surveypro/utemplate_apply.php', $paramurl);
                         $strlabel = get_string('tabutemplatepage4', 'mod_surveypro');
                         $row[] = new tabobject('idpage4', $elementurl->out(), $strlabel);
                     }
@@ -370,7 +370,7 @@ class mod_surveypro_tabs {
 
                 // Create.
                 if ($cansavemastertemplates) {
-                    $elementurl = new moodle_url('/mod/surveypro/mtemplates_create.php', $paramurl);
+                    $elementurl = new moodle_url('/mod/surveypro/mtemplate_save.php', $paramurl);
                     $strlabel = get_string('tabmtemplatepage1', 'mod_surveypro');
                     $row[] = new tabobject('idpage1', $elementurl->out(), $strlabel);
                 }
@@ -378,7 +378,7 @@ class mod_surveypro_tabs {
                 // Apply.
                 // If there are submissions, do not allow the modification of the surveypro.
                 if ( (!$this->hassubmissions || $this->riskyediting) && $canapplymastertemplates ) {
-                    $elementurl = new moodle_url('/mod/surveypro/mtemplates_apply.php', $paramurl);
+                    $elementurl = new moodle_url('/mod/surveypro/mtemplate_apply.php', $paramurl);
                     $strlabel = get_string('tabmtemplatepage2', 'mod_surveypro');
                     $row[] = new tabobject('idpage2', $elementurl->out(), $strlabel);
                 }

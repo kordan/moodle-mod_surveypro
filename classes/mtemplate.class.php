@@ -43,6 +43,18 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     protected $langtree = array();
 
     /**
+     * Display the welcome message of the apply page.
+     *
+     * @return void
+     */
+    public function welcome_apply_message() {
+        global $OUTPUT;
+
+        $message = get_string('welcome_mtemplateapply', 'mod_surveypro');
+        echo $OUTPUT->notification($message, 'notifymessage');
+    }
+
+    /**
      * Download master template.
      *
      * @return void

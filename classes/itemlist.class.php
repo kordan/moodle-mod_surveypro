@@ -592,6 +592,7 @@ class mod_surveypro_itemlist {
 
         require_once($CFG->libdir.'/tablelib.php');
 
+        $statusstr = get_string('relation_status', 'mod_surveypro');
         $table = new flexible_table('itemslist');
 
         $paramurl = array('id' => $this->cm->id);
@@ -616,7 +617,7 @@ class mod_surveypro_itemlist {
         $tableheaders[] = get_string('customnumber_header', 'mod_surveypro');
         $tableheaders[] = get_string('content', 'mod_surveypro');
         $tableheaders[] = get_string('parentconstraints', 'mod_surveypro');
-        $tableheaders[] = get_string('relation_status', 'mod_surveypro');
+        $tableheaders[] = $statusstr;
         $tableheaders[] = get_string('actions');
         $table->define_headers($tableheaders);
 
@@ -648,7 +649,7 @@ class mod_surveypro_itemlist {
         $sortfield = ($table->get_sql_sort()) ? $table->get_sql_sort() : 'sortindex';
         $itemseeds = $DB->get_recordset('surveypro_item', $whereparams, $sortfield, 'id as itemid, plugin, type');
 
-        $message = get_string('validationinfo', 'mod_surveypro');
+        $message = get_string('welcome_relationvalidation', 'mod_surveypro', $statusstr);
         echo $OUTPUT->notification($message, 'notifymessage');
 
         foreach ($itemseeds as $itemseed) {

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Starting page to import a user template.
+ * Starting page to create a mastertemplate
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
@@ -25,8 +25,8 @@
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
-require_once($CFG->dirroot.'/mod/surveypro/classes/utemplate.class.php');
-require_once($CFG->dirroot.'/mod/surveypro/form/utemplates/import_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/classes/mtemplate.class.php');
+require_once($CFG->dirroot.'/mod/surveypro/form/mtemplates/create_form.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
@@ -43,46 +43,28 @@ if (!empty($id)) {
 
 require_course_login($course, true, $cm);
 
-$utemplateid = optional_param('fid', 0, PARAM_INT);
-
-// Params never passed but needed by called class.
-$action = SURVEYPRO_NOACTION;
-$confirm = SURVEYPRO_UNCONFIRMED;
-
 $context = context_module::instance($cm->id);
-require_capability('mod/surveypro:importusertemplates', $context);
+require_capability('mod/surveypro:savemastertemplates', $context);
 
 // Calculations.
-$utemplateman = new mod_surveypro_usertemplate($cm, $context, $surveypro);
-$utemplateman->setup($utemplateid, $action, $confirm);
+$mtemplateman = new mod_surveypro_mastertemplate($cm, $context, $surveypro);
 
-// $utemplateman->prevent_direct_user_input();
-// is not needed because the check has already been done here with: require_capability('mod/surveypro:importusertemplates', $context);
-
-// Begin of: define $importutemplate return url.
+// Start of: define $createmtemplate return url.
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('/mod/surveypro/utemplates_import.php', $paramurl);
-// End of: define $importutemplate return url.
+$formurl = new moodle_url('/mod/surveypro/mtemplate_save.php', $paramurl);
+$createmtemplate = new mod_surveypro_createmtemplateform($formurl);
+// End of: define $createmtemplate return url.
 
-// Begin of: prepare params for the form.
-$formparams = new stdClass();
-$formparams->utemplateman = $utemplateman;
-$formparams->filemanageroptions = $utemplateman->get_filemanager_options();
-$importutemplate = new mod_surveypro_importutemplateform($formurl, $formparams);
-// End of: prepare params for the form.
-
-// Begin of: manage form submission.
-if ($utemplateman->formdata = $importutemplate->get_data()) {
-    $utemplateman->upload_utemplate();
-    $utemplateman->trigger_event('usertemplate_imported');
-
-    $redirecturl = new moodle_url('/mod/surveypro/utemplates_manage.php', array('s' => $surveypro->id));
-    redirect($redirecturl);
+// Start of: manage form submission.
+if ($mtemplateman->formdata = $createmtemplate->get_data()) {
+    $mtemplateman->download_mtemplate();
+    $mtemplateman->trigger_event('mastertemplate_saved');
+    exit(0);
 }
 // End of: manage form submission.
 
 // Output starts here.
-$url = new moodle_url('/mod/surveypro/utemplates_import.php', array('s' => $surveypro->id));
+$url = new moodle_url('/mod/surveypro/mtemplate_save.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -91,9 +73,16 @@ $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
 
-new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABUTEMPLATES, SURVEYPRO_UTEMPLATES_IMPORT);
+new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABMTEMPLATES, SURVEYPRO_MTEMPLATES_BUILD);
 
-$importutemplate->display();
+echo $OUTPUT->notification(get_string('currenttotemplate', 'mod_surveypro'), 'notifymessage');
+
+$record = new stdClass();
+$record->surveyproid = $surveypro->id;
+
+$createmtemplate->set_data($record);
+$createmtemplate->display();
 
 // Finish the page.
 echo $OUTPUT->footer();
+
