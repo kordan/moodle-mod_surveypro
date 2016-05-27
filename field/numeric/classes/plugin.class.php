@@ -140,7 +140,6 @@ class mod_surveypro_field_numeric extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'numeric';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // Already set in parent class.
         $this->savepositiontodb = false;
 
         // Other element specific properties.
@@ -376,6 +375,7 @@ EOS;
      */
     public function userform_mform_element($mform, $searchform, $readonly) {
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
+        $starstr = get_string('star', 'mod_surveypro');
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
@@ -409,9 +409,10 @@ EOS;
             $elementgroup[] = $mform->createElement('text', $this->itemname, '', $attributes);
             $mform->setType($this->itemname, PARAM_RAW);
 
+            $itemname = $this->itemname.'_ignoreme';
             $attributes['id'] = $idprefix.'_ignoreme';
             $attributes['class'] = 'numeric_text';
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_ignoreme', '', get_string('star', 'mod_surveypro'), $attributes);
+            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $starstr, $attributes);
 
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_ignoreme', 'checked');
@@ -591,12 +592,12 @@ EOS;
      * This method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time.
      *
      * @param object $fromdb
-     * @return void
+     * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
         $prefill = array();
 
-        if (!$fromdb) { // $fromdb may be boolean false for not existing data
+        if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
             return $prefill;
         }
 

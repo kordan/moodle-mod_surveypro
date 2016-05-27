@@ -74,10 +74,12 @@ class mod_surveypro_exportform extends moodleform {
 
         // Submissionexport: status.
         $fieldname = 'status';
-        if ($DB->get_records('surveypro_submission', array('surveyproid' => $surveypro->id, 'status' => SURVEYPRO_STATUSINPROGRESS))) {
-            $options = array(SURVEYPRO_STATUSCLOSED => get_string('statusclosed', 'mod_surveypro'),
-                             SURVEYPRO_STATUSINPROGRESS => get_string('statusinprogress', 'mod_surveypro'),
-                             SURVEYPRO_STATUSALL => get_string('statusboth', 'mod_surveypro'));
+        $where = array('surveyproid' => $surveypro->id, 'status' => SURVEYPRO_STATUSINPROGRESS);
+        if ($DB->get_records('surveypro_submission', $where)) {
+            $options = array();
+            $options[SURVEYPRO_STATUSCLOSED] = get_string('statusclosed', 'mod_surveypro');
+            $options[SURVEYPRO_STATUSINPROGRESS] = get_string('statusinprogress', 'mod_surveypro');
+            $options[SURVEYPRO_STATUSALL] = get_string('statusboth', 'mod_surveypro');
             $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $options);
         } else {
             $mform->addElement('hidden', $fieldname, SURVEYPRO_STATUSCLOSED);
@@ -114,18 +116,21 @@ class mod_surveypro_exportform extends moodleform {
 
         // Submissionexport: downloadtype.
         $fieldname = 'downloadtype';
-        $pluginlist = array(SURVEYPRO_DOWNLOADCSV => get_string('downloadtocsv', 'mod_surveypro'),
-                            SURVEYPRO_DOWNLOADTSV => get_string('downloadtotsv', 'mod_surveypro'),
-                            SURVEYPRO_DOWNLOADXLS => get_string('downloadtoxls', 'mod_surveypro'),
-                            SURVEYPRO_FILESBYUSER => get_string('downloadtozipbyuser', 'mod_surveypro'),
-                            SURVEYPRO_FILESBYITEM => get_string('downloadtozipbysubmission', 'mod_surveypro'));
+        $pluginlist = array();
+        $pluginlist[SURVEYPRO_DOWNLOADCSV] = get_string('downloadtocsv', 'mod_surveypro');
+        $pluginlist[SURVEYPRO_DOWNLOADTSV] = get_string('downloadtotsv', 'mod_surveypro');
+        $pluginlist[SURVEYPRO_DOWNLOADXLS] = get_string('downloadtoxls', 'mod_surveypro');
+        $pluginlist[SURVEYPRO_FILESBYUSER] = get_string('downloadtozipbyuser', 'mod_surveypro');
+        $pluginlist[SURVEYPRO_FILESBYITEM] = get_string('downloadtozipbysubmission', 'mod_surveypro');
         $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $pluginlist);
 
         // Submissionexport: outputstyle.
         $fieldname = 'outputstyle';
         $elementgroup = array();
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('verbose', 'mod_surveypro'), SURVEYPRO_VERBOSE);
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('raw', 'mod_surveypro'), SURVEYPRO_RAW);
+        $verbosestr = get_string('verbose', 'mod_surveypro');
+        $rawstr = get_string('raw', 'mod_surveypro');
+        $elementgroup[] = $mform->createElement('radio', $fieldname, '', $verbosestr, SURVEYPRO_VERBOSE);
+        $elementgroup[] = $mform->createElement('radio', $fieldname, '', $rawstr, SURVEYPRO_RAW);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'mod_surveypro'), '<br />', false);
         $mform->setDefault($fieldname, SURVEYPRO_VERBOSE);
         $mform->disabledIf($fieldname.'_group', 'downloadtype', 'eq', SURVEYPRO_FILESBYUSER);

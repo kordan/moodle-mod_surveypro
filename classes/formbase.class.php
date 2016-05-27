@@ -118,24 +118,28 @@ class mod_surveypro_formbase {
     public function get_prefill_data() {
         global $DB;
 
-        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context, null, true);
         $prefill = array();
-
-        if (!empty($this->submissionid)) {
-            list($where, $params) = surveypro_fetch_items_seeds($this->surveypro->id, true, $canaccessreserveditems, null, SURVEYPRO_TYPEFIELD, $this->formpage);
-            if ($itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, 'sortindex', 'id, type, plugin')) {
-                foreach ($itemseeds as $itemseed) {
-                    $item = surveypro_get_item($this->cm, $this->surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);
-
-                    $olduserdata = $DB->get_record('surveypro_answer', array('submissionid' => $this->submissionid, 'itemid' => $item->get_itemid()));
-                    $singleprefill = $item->userform_set_prefill($olduserdata);
-                    $prefill = array_merge($prefill, $singleprefill);
-                }
-                $itemseeds->close();
-            }
-
-            $prefill['submissionid'] = $this->submissionid;
+        if (empty($this->submissionid)) {
+            return $prefill;
         }
+
+        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context, null, true);
+        $id = $this->surveypro->id;
+        $page = $this->formpage;
+        list($where, $params) = surveypro_fetch_items_seeds($id, true, $canaccessreserveditems, null, SURVEYPRO_TYPEFIELD, $page);
+        if ($itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, 'sortindex', 'id, type, plugin')) {
+            foreach ($itemseeds as $itemseed) {
+                $item = surveypro_get_item($this->cm, $this->surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);
+
+                $where = array('submissionid' => $this->submissionid, 'itemid' => $item->get_itemid());
+                $olduserdata = $DB->get_record('surveypro_answer', $where);
+                $singleprefill = $item->userform_set_prefill($olduserdata);
+                $prefill = array_merge($prefill, $singleprefill);
+            }
+            $itemseeds->close();
+        }
+
+        $prefill['submissionid'] = $this->submissionid;
 
         return $prefill;
     }

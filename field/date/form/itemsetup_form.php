@@ -57,19 +57,26 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
         // Item: defaultoption.
         $fieldname = 'defaultoption';
-        $days = array_combine(range(1, 31), range(1, 31));
+        $daysrange = range(1, 31);
+        $days = array_combine($daysrange, $daysrange);
         $months = array();
         for ($i = 1; $i <= 12; $i++) {
             $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
         }
-        $years = array_combine(range($startyear, $stopyear), range($startyear, $stopyear));
+        $yearsrange = range($startyear, $stopyear);
+        $years = array_combine($yearsrange, $yearsrange);
 
+        $customdefaultstr = get_string('customdefault', 'surveyprofield_date');
+        $currentdatedefaultstr = get_string('currentdatedefault', 'surveyprofield_date');
+        $invitedefaultstr = get_string('invitedefault', 'mod_surveypro');
+        $likelaststr = get_string('likelast', 'mod_surveypro');
+        $noanswerstr = get_string('noanswer', 'mod_surveypro');
         $elementgroup = array();
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('customdefault', 'surveyprofield_date'), SURVEYPRO_CUSTOMDEFAULT);
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('currentdatedefault', 'surveyprofield_date'), SURVEYPRO_TIMENOWDEFAULT);
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('invitedefault', 'mod_surveypro'), SURVEYPRO_INVITEDEFAULT);
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('likelast', 'mod_surveypro'), SURVEYPRO_LIKELASTDEFAULT);
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('noanswer', 'mod_surveypro'), SURVEYPRO_NOANSWERDEFAULT);
+        $elementgroup[] = $mform->createElement('radio', $fieldname, '', $customdefaultstr, SURVEYPRO_CUSTOMDEFAULT);
+        $elementgroup[] = $mform->createElement('radio', $fieldname, '', $currentdatedefaultstr, SURVEYPRO_TIMENOWDEFAULT);
+        $elementgroup[] = $mform->createElement('radio', $fieldname, '', $invitedefaultstr, SURVEYPRO_INVITEDEFAULT);
+        $elementgroup[] = $mform->createElement('radio', $fieldname, '', $likelaststr, SURVEYPRO_LIKELASTDEFAULT);
+        $elementgroup[] = $mform->createElement('radio', $fieldname, '', $noanswerstr, SURVEYPRO_NOANSWERDEFAULT);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_date'), ' ', false);
         $mform->setDefault($fieldname, SURVEYPRO_INVITEDEFAULT);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_date');
@@ -154,7 +161,7 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
             }
         }
 
-        // If (default == noanswer && the field is mandatory) => error.
+        // Editing teacher can not set "noanswer" as default option if the item is mandatory.
         if ( ($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required']) ) {
             $a = get_string('noanswer', 'mod_surveypro');
             $errors['defaultoption_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);

@@ -83,7 +83,7 @@ if ($data = $userform->get_data()) {
     if ($prevbutton) {
         $paramurl['formpage'] = --$formpage;
         $redirecturl = new moodle_url('/mod/surveypro/layout_preview.php', $paramurl);
-        redirect($redirecturl); // -> go to the previous page of the form
+        redirect($redirecturl); // Go to the previous page of the form.
     }
 
     // If "next" button has been pressed, redirect.
@@ -91,7 +91,7 @@ if ($data = $userform->get_data()) {
     if ($nextbutton) {
         $paramurl['formpage'] = ++$formpage;
         $redirecturl = new moodle_url('/mod/surveypro/layout_preview.php', $paramurl);
-        redirect($redirecturl); // -> go to the next page of the form
+        redirect($redirecturl); // Go to the next page of the form.
     }
 }
 // End of: manage form submission.

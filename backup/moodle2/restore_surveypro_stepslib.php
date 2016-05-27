@@ -109,7 +109,8 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         $data->timemodified = $this->apply_date_offset($data->timemodified);
 
         $newitemid = $DB->insert_record('surveypro_item', $data);
-        $this->set_mapping('surveypro_item', $oldid, $newitemid, true); // We need the mapping to be able to restore files from filearea 'itemcontent'.
+        // We need the mapping to be able to restore files from filearea 'itemcontent'.
+        $this->set_mapping('surveypro_item', $oldid, $newitemid, true);
     }
 
     /**
@@ -170,7 +171,8 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
 
         // 1) get all the item->parentids belonging to the surveypro you are restoring.
         // 2) iterate over them, and when a parentid is found, look in item mappings and perform the set_field.
-        $itemrecords = $DB->get_recordset('surveypro_item', array('surveyproid' => $this->get_new_parentid('surveypro')), '', 'id, parentid');
+        $where = array('surveyproid' => $this->get_new_parentid('surveypro'));
+        $itemrecords = $DB->get_recordset('surveypro_item', $where, '', 'id, parentid');
         if ($itemrecords->valid()) {
             foreach ($itemrecords as $itemrecord) {
                 if ($itemrecord->parentid) {

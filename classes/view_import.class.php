@@ -301,17 +301,23 @@ class mod_surveypro_importmanager {
         $itemhelperinfo = array(); // One element per each item.
         $itemoptions = array(); // One element only for items saving position to db.
         foreach ($columntoitemid as $col => $itemid) {
-            if (isset($environmentheaders[SURVEYPRO_OWNERIDLABEL]) && ($col == $environmentheaders[SURVEYPRO_OWNERIDLABEL])) {
-                // The column for userid.
-                continue;
+            if (isset($environmentheaders[SURVEYPRO_OWNERIDLABEL])) {
+                if ($col == $environmentheaders[SURVEYPRO_OWNERIDLABEL]) {
+                    // The column for userid.
+                    continue;
+                }
             }
-            if (isset($environmentheaders[SURVEYPRO_TIMECREATEDLABEL]) && ($col == $environmentheaders[SURVEYPRO_TIMECREATEDLABEL])) {
-                // The column for timecreated.
-                continue;
+            if (isset($environmentheaders[SURVEYPRO_TIMECREATEDLABEL])) {
+                if ($col == $environmentheaders[SURVEYPRO_TIMECREATEDLABEL]) {
+                    // The column for timecreated.
+                    continue;
+                }
             }
-            if (isset($environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL]) && ($col == $environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL])) {
-                // The column for timemodified.
-                continue;
+            if (isset($environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL])) {
+                if ($col == $environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL]) {
+                    // The column for timemodified.
+                    continue;
+                }
             }
             $item = surveypro_get_item($this->cm, $this->surveypro, $itemid);
 
@@ -398,7 +404,7 @@ class mod_surveypro_importmanager {
             $csvusesolddata = true;
         }
 
-        // load_csv_content is needed to define properties in the class.
+        // Method load_csv_content is needed to define properties in the class.
         $recordcount = $cir->load_csv_content($csvcontent, $this->formdata->encoding, $this->formdata->csvdelimiter);
 
         unset($csvcontent);
@@ -561,37 +567,41 @@ class mod_surveypro_importmanager {
                     continue;
                 }
 
-                if (isset($environmentheaders[SURVEYPRO_TIMECREATEDLABEL]) && ($col == $environmentheaders[SURVEYPRO_TIMECREATEDLABEL])) {
-                    // The column for timecreated.
-                    if (empty($value)) {
-                        $cir->close();
-                        $cir->cleanup();
+                if (isset($environmentheaders[SURVEYPRO_TIMECREATEDLABEL])) {
+                    if ($col == $environmentheaders[SURVEYPRO_TIMECREATEDLABEL]) {
+                        // The column for timecreated.
+                        if (empty($value)) {
+                            $cir->close();
+                            $cir->cleanup();
 
-                        $error = new stdClass();
-                        $error->key = 'import_missingtimecreated';
-                        return $error;
-                    }
-                    if (!is_number($value)) {
-                        $cir->close();
-                        $cir->cleanup();
+                            $error = new stdClass();
+                            $error->key = 'import_missingtimecreated';
+                            return $error;
+                        }
+                        if (!is_number($value)) {
+                            $cir->close();
+                            $cir->cleanup();
 
-                        $error = new stdClass();
-                        $error->key = 'import_invalidtimecreated';
-                        $error->a = $value;
-                        return $error;
+                            $error = new stdClass();
+                            $error->key = 'import_invalidtimecreated';
+                            $error->a = $value;
+                            return $error;
+                        }
+                        continue;
                     }
-                    continue;
                 }
 
-                if (isset($environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL]) && ($col == $environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL])) {
-                    if (!empty($value) && !is_number($value)) {
-                        $cir->close();
-                        $cir->cleanup();
+                if (isset($environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL])) {
+                    if ($col == $environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL]) {
+                        if (!empty($value) && !is_number($value)) {
+                            $cir->close();
+                            $cir->cleanup();
 
-                        $error = new stdClass();
-                        $error->key = 'import_invalidtimemodified';
-                        $error->a = $value;
-                        return $error;
+                            $error = new stdClass();
+                            $error->key = 'import_invalidtimemodified';
+                            $error->a = $value;
+                            return $error;
+                        }
                     }
                     continue;
                 }
@@ -689,10 +699,10 @@ class mod_surveypro_importmanager {
 
                         foreach ($contents as $k => $content) {
                             $key = array_search($content, $options);
-                            if ($key !== false) { // $content was found, carry on!
+                            if ($key !== false) { // ...$content was found, carry on!
                                 continue;
                             }
-                            if (in_array($content, $reservedwords)) { // $content is a reserved word. Good. Carry on!
+                            if (in_array($content, $reservedwords)) { // ...$content is a reserved word. Good. Carry on!
                                 continue;
                             }
                             if ($k == $contentscount - 1) { // It is not an error, accept it.
@@ -860,23 +870,29 @@ class mod_surveypro_importmanager {
             // Add many records to surveypro_answer.
             $status = $defaultstatus;
             foreach ($csvrow as $col => $value) {
-                if (isset($environmentheaders[SURVEYPRO_OWNERIDLABEL]) && ($col == $environmentheaders[SURVEYPRO_OWNERIDLABEL])) {
-                    // The column for userid.
-                    continue;
+                if (isset($environmentheaders[SURVEYPRO_OWNERIDLABEL])) {
+                    if ($col == $environmentheaders[SURVEYPRO_OWNERIDLABEL]) {
+                        // The column for userid.
+                        continue;
+                    }
                 }
-                if (isset($environmentheaders[SURVEYPRO_TIMECREATEDLABEL]) && ($col == $environmentheaders[SURVEYPRO_TIMECREATEDLABEL])) {
-                    // The column for userid.
-                    continue;
+                if (isset($environmentheaders[SURVEYPRO_TIMECREATEDLABEL])) {
+                    if ($col == $environmentheaders[SURVEYPRO_TIMECREATEDLABEL]) {
+                        // The column for userid.
+                        continue;
+                    }
                 }
-                if (isset($environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL]) && ($col == $environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL])) {
-                    // The column for userid.
-                    continue;
+                if (isset($environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL])) {
+                    if ($col == $environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL]) {
+                        // The column for userid.
+                        continue;
+                    }
                 }
                 if ($debug) {
                     echo '$col = '.$col.'<br />';
                     echo '$value = '.$value.'<br />';
                 }
-                // Take care. Even if each required header is present I need to check that the current content for each item is not empty!
+                // Even if each required header is present I need to check that the current content for each item is not empty!
                 if (!strlen($value)) {
                     if ($debug) {
                         echo 'value returned by csv file is empty<br />';

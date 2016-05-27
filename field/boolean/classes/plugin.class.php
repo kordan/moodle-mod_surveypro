@@ -125,7 +125,6 @@ class mod_surveypro_field_boolean extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'boolean';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // Already set in parent class.
         $this->savepositiontodb = false;
 
         // Other element specific properties.
@@ -257,20 +256,15 @@ class mod_surveypro_field_boolean extends mod_surveypro_itembase {
     /**
      * Get the content of the downloadformats menu of the item setup form.
      *
-     * @return void
+     * @return array of downloadformats
      */
     public function item_get_downloadformats() {
         $option = array();
-        $option['strfbool01'] = get_string('strfbool01', 'surveyprofield_boolean'); // yes/no.
-        $option['strfbool02'] = get_string('strfbool02', 'surveyprofield_boolean'); // Yes/No.
-        $option['strfbool03'] = get_string('strfbool03', 'surveyprofield_boolean'); // y/n.
-        $option['strfbool04'] = get_string('strfbool04', 'surveyprofield_boolean'); // Y/N.
-        $option['strfbool05'] = get_string('strfbool05', 'surveyprofield_boolean'); // up/down.
-        $option['strfbool06'] = get_string('strfbool06', 'surveyprofield_boolean'); // true/false.
-        $option['strfbool07'] = get_string('strfbool07', 'surveyprofield_boolean'); // True/False.
-        $option['strfbool08'] = get_string('strfbool08', 'surveyprofield_boolean'); // T/F.
-        $option['strfbool09'] = get_string('strfbool09', 'surveyprofield_boolean'); // 1/0.
-        $option['strfbool10'] = get_string('strfbool10', 'surveyprofield_boolean'); // +/-.
+
+        for ($i = 1; $i < 11; $i++) {
+            $strname = 'strfbool'.str_pad($i, 2, '0', STR_PAD_LEFT);
+            $option[$strname] = get_string($strname, 'surveyprofield_boolean');
+        }
 
         return $option;
     }
@@ -470,6 +464,7 @@ EOS;
 
         $yeslabel = get_string('yes');
         $nolabel = get_string('no');
+        $noanswerstr = get_string('noanswer', 'mod_surveypro');
 
         $attributes = array();
         $attributes['class'] = 'indent-'.$this->indent.' boolean_radio';
@@ -487,7 +482,7 @@ EOS;
             $options['1'] = $yeslabel;
             $options['0'] = $nolabel;
             if (!$this->required) {
-                $options += array(SURVEYPRO_NOANSWERVALUE => get_string('noanswer', 'mod_surveypro'));
+                $options += array(SURVEYPRO_NOANSWERVALUE => $noanswerstr);
             }
             // End of: element values.
 
@@ -512,15 +507,17 @@ EOS;
             // Begin of: mform element.
             if (!$searchform) {
                 if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
+                    $choosedotsstr = get_string('choosedots');
                     $attributes['id'] = $idprefix.'_invite';
-                    $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('choosedots'), SURVEYPRO_INVITEVALUE, $attributes);
+                    $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', $choosedotsstr, SURVEYPRO_INVITEVALUE, $attributes);
                     if ($this->style == SURVEYPROFIELD_BOOLEAN_USERADIOH) {
                         $attributes['class'] = 'boolean_radio';
                     }
                 }
             } else {
+                $starstr = get_string('star', 'mod_surveypro');
                 $attributes['id'] = $idprefix.'_ignoreme';
-                $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('star', 'mod_surveypro'), SURVEYPRO_IGNOREMEVALUE, $attributes);
+                $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', $starstr, SURVEYPRO_IGNOREMEVALUE, $attributes);
                 if ($this->style == SURVEYPROFIELD_BOOLEAN_USERADIOH) {
                     $attributes['class'] = 'boolean_radio';
                 }
@@ -538,7 +535,7 @@ EOS;
 
             if (!$this->required) {
                 $attributes['id'] = $idprefix.'_noanswer';
-                $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('noanswer', 'mod_surveypro'), SURVEYPRO_NOANSWERVALUE, $attributes);
+                $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', $noanswerstr, SURVEYPRO_NOANSWERVALUE, $attributes);
             }
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, $separator, false);
             // End of: mform element.
@@ -668,7 +665,7 @@ EOS;
      * @return boolean: true: if the item is welcome; false: if the item must be dropped out
      */
     public function userform_child_item_allowed_dynamic($childparentvalue, $data) {
-        // I am a boolean item so in $data I can ONLY find $this->itemname.
+        // In $data I can ONLY find $this->itemname.
         return ($data[$this->itemname] == $childparentvalue);
     }
 
@@ -698,12 +695,12 @@ EOS;
      * This method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time.
      *
      * @param object $fromdb
-     * @return void
+     * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
         $prefill = array();
 
-        if (!$fromdb) { // Param $fromdb may be boolean false for not existing data
+        if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
             return $prefill;
         }
 

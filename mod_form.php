@@ -106,7 +106,8 @@ class mod_surveypro_mod_form extends moodleform_mod {
         }
 
         // Startyear.
-        $boundaryyear = array_combine(range(1902, 2038), range(1902, 2038));
+        $yearsrange = range(1902, 2038);
+        $boundaryyear = array_combine($yearsrange, $yearsrange);
 
         $fieldname = 'startyear';
         $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $boundaryyear);
@@ -121,14 +122,15 @@ class mod_surveypro_mod_form extends moodleform_mod {
 
         // Userstyle.
         $fieldname = 'userstyle';
-        $filemanageroptions = surveypro_get_user_style_options();
-        $mform->addElement('filemanager', $fieldname.'_filemanager', get_string($fieldname, 'mod_surveypro'), null, $filemanageroptions);
+        $attributes = surveypro_get_user_style_options();
+        $mform->addElement('filemanager', $fieldname.'_filemanager', get_string($fieldname, 'mod_surveypro'), null, $attributes);
         $mform->addHelpButton($fieldname.'_filemanager', $fieldname, 'surveypro');
 
         // Maxentries.
         $fieldname = 'maxentries';
         $maxentries = 50;
-        $countoptions = array_combine(range(1, $maxentries), range(1, $maxentries));
+        $entriesrange = range(1, $maxentries);
+        $countoptions = array_combine($entriesrange, $entriesrange);
         array_unshift($countoptions, get_string('unlimited', 'mod_surveypro'));
 
         $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $countoptions);
@@ -149,12 +151,12 @@ class mod_surveypro_mod_form extends moodleform_mod {
 
         // Notifymore.
         $fieldname = 'notifymore';
-        $mform->addElement('textarea', $fieldname, get_string($fieldname, 'mod_surveypro'), array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65'));
+        $textareaoptions = array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65');
+        $mform->addElement('textarea', $fieldname, get_string($fieldname, 'mod_surveypro'), $textareaoptions);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // Define thanks page.
         $fieldname = 'thankshtml';
-        // $context = context_course::instance($COURSE->id); <-- just defined 20 rows above
         $editoroptions = surveypro_get_editor_options();
         $mform->addElement('editor', $fieldname.'_editor', get_string($fieldname, 'mod_surveypro'), null, $editoroptions);
         $mform->addHelpButton($fieldname.'_editor', $fieldname, 'surveypro');
@@ -193,7 +195,7 @@ class mod_surveypro_mod_form extends moodleform_mod {
             $data->notifyrole = '';
         }
 
-        // Turn off completion settings if the checkboxes aren't ticked
+        // Turn off completion settings if the checkboxes aren't ticked.
         if (!empty($data->completionunlocked)) {
             $autocompletion = !empty($data->completion) && ($data->completion == COMPLETION_TRACKING_AUTOMATIC);
             if (empty($data->completionsubmit_check) || !$autocompletion) {
@@ -219,7 +221,8 @@ class mod_surveypro_mod_form extends moodleform_mod {
             $filemanageroptions = surveypro_get_user_style_options();
             $draftitemid = file_get_submitted_draft_itemid($filename.'_filemanager');
 
-            file_prepare_draft_area($draftitemid, $this->context->id, 'mod_surveypro', SURVEYPRO_STYLEFILEAREA, 0, $filemanageroptions);
+            $filearea = SURVEYPRO_STYLEFILEAREA;
+            file_prepare_draft_area($draftitemid, $this->context->id, 'mod_surveypro', $filearea, 0, $filemanageroptions);
             $defaults[$filename.'_filemanager'] = $draftitemid;
 
             // Manage thankshtml editor.
@@ -273,7 +276,8 @@ class mod_surveypro_mod_form extends moodleform_mod {
         // See data_preprocessing method just few lines above.
         $fieldname = 'completionsubmit';
         $elementgroup = array();
-        $elementgroup[] = $mform->createElement('checkbox', $fieldname.'_check', '', get_string($fieldname.'_check', 'mod_surveypro'));
+        $checklabel = get_string($fieldname.'_check', 'mod_surveypro');
+        $elementgroup[] = $mform->createElement('checkbox', $fieldname.'_check', '', $checklabel);
         $elementgroup[] = $mform->createElement('text', $fieldname, '', array('size' => 3));
         $mform->setType($fieldname, PARAM_INT);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname.'_group', 'mod_surveypro'), ' ', false);

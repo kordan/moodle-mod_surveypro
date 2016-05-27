@@ -406,7 +406,7 @@ class mod_surveypro_submissionmanager {
             $linkidprefix = 'edit_submission_';
         }
 
-        // initialize variables to gather information for the "Submission overview".
+        // Initialize variables to gather information for the "Submission overview".
         $countclosed = 0;
         $closeduserarray = array();
         $countinprogress = 0;
@@ -495,20 +495,24 @@ class mod_surveypro_submissionmanager {
                     $paramurl['view'] = SURVEYPRO_EDITRESPONSE;
                     if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
                         // Here title and alt are ALWAYS $nonhistoryeditstr.
-                        $icons = $OUTPUT->action_icon(new moodle_url('/mod/surveypro/view_form.php', $paramurl),
-                            new pix_icon('t/edit', $nonhistoryeditstr, 'moodle', array('title' => $nonhistoryeditstr)),
-                            null, array('id' => 'edit_submission_'.$submissionsuffix, 'title' => $nonhistoryeditstr));
+                        $link = new moodle_url('/mod/surveypro/view_form.php', $paramurl);
+                        $icon = new pix_icon('t/edit', $nonhistoryeditstr, 'moodle', array('title' => $nonhistoryeditstr));
+                        $paramlink = array('id' => 'edit_submission_'.$submissionsuffix, 'title' => $nonhistoryeditstr);
+                        $icons = $OUTPUT->action_icon($link, $icon, null, $paramlink);
                     } else {
                         // Here title and alt depend from $this->surveypro->history.
-                        $icons = $OUTPUT->action_icon(new moodle_url('/mod/surveypro/view_form.php', $paramurl),
-                            new pix_icon('t/edit', $attributestr, 'moodle', array('title' => $attributestr)),
-                            null, array('id' => $linkidprefix.$submissionsuffix, 'title' => $attributestr));
+                        $link = new moodle_url('/mod/surveypro/view_form.php', $paramurl);
+                        $icon = new pix_icon('t/edit', $attributestr, 'moodle', array('title' => $attributestr));
+                        $paramlink = array('id' => $linkidprefix.$submissionsuffix, 'title' => $attributestr);
+                        $icons = $OUTPUT->action_icon($link, $icon, null, $paramlink);
                     }
                 } else {
                     $paramurl['view'] = SURVEYPRO_READONLYRESPONSE;
-                    $icons = $OUTPUT->action_icon(new moodle_url('/mod/surveypro/view_form.php', $paramurl),
-                        new pix_icon('readonly', $readonlyaccessstr, 'surveypro', array('title' => $readonlyaccessstr)),
-                        null, array('id' => 'view_submission_'.$submissionsuffix, 'title' => $readonlyaccessstr));
+
+                    $link = new moodle_url('/mod/surveypro/view_form.php', $paramurl);
+                    $icon = new pix_icon('readonly', $readonlyaccessstr, 'surveypro', array('title' => $readonlyaccessstr));
+                    $paramlink = array('id' => 'view_submission_'.$submissionsuffix, 'title' => $readonlyaccessstr);
+                    $icons = $OUTPUT->action_icon($link, $icon, null, $paramlink);
                 }
 
                 // Duplicate.
@@ -523,15 +527,17 @@ class mod_surveypro_submissionmanager {
                 }
                 if ($displayduplicateicon) { // I am the owner or a groupmate.
                     $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-                    $cansubmitmore = $utilityman->can_submit_more($submission->userid); // The copy will be assigned to the same owner.
-                    if ($cansubmitmore) {
+                    $cansubmitmore = $utilityman->can_submit_more($submission->userid);
+                    if ($cansubmitmore) { // The copy will be assigned to the same owner.
                         $paramurl = $paramurlbase;
                         $paramurl['submissionid'] = $submission->submissionid;
                         $paramurl['sesskey'] = sesskey();
                         $paramurl['act'] = SURVEYPRO_DUPLICATERESPONSE;
-                        $icons .= $OUTPUT->action_icon(new moodle_url('/mod/surveypro/view.php', $paramurl),
-                            new pix_icon('t/copy', $duplicatestr, 'moodle', array('title' => $duplicatestr)),
-                            null, array('id' => 'duplicate_submission_'.$submissionsuffix, 'title' => $duplicatestr));
+
+                        $link = new moodle_url('/mod/surveypro/view.php', $paramurl);
+                        $icon = new pix_icon('t/copy', $duplicatestr, 'moodle', array('title' => $duplicatestr));
+                        $paramlink = array('id' => 'duplicate_submission_'.$submissionsuffix, 'title' => $duplicatestr);
+                        $icons .= $OUTPUT->action_icon($link, $icon, null, $paramlink);
                     }
                 }
 
@@ -550,9 +556,11 @@ class mod_surveypro_submissionmanager {
                 if ($displaydeleteicon) {
                     $paramurl['sesskey'] = sesskey();
                     $paramurl['act'] = SURVEYPRO_DELETERESPONSE;
-                    $icons .= $OUTPUT->action_icon(new moodle_url('/mod/surveypro/view.php', $paramurl),
-                        new pix_icon('t/delete', $deletestr, 'moodle', array('title' => $deletestr)),
-                        null, array('id' => 'delete_submission_'.$submissionsuffix, 'title' => $deletestr));
+
+                    $link = new moodle_url('/mod/surveypro/view.php', $paramurl);
+                    $icon = new pix_icon('t/delete', $deletestr, 'moodle', array('title' => $deletestr));
+                    $paramlink = array('id' => 'delete_submission_'.$submissionsuffix, 'title' => $deletestr);
+                    $icons .= $OUTPUT->action_icon($link, $icon, null, $paramlink);
                 }
 
                 // Download to pdf.
@@ -560,9 +568,11 @@ class mod_surveypro_submissionmanager {
                     $paramurl = $paramurlbase;
                     $paramurl['submissionid'] = $submission->submissionid;
                     $paramurl['view'] = SURVEYPRO_RESPONSETOPDF;
-                    $icons .= $OUTPUT->action_icon(new moodle_url('/mod/surveypro/view.php', $paramurl),
-                        new pix_icon('i/export', $downloadpdfstr, 'moodle', array('title' => $downloadpdfstr)),
-                        null, array('id' => 'pdfdownload_submission_'.$submissionsuffix, 'title' => $downloadpdfstr));
+
+                    $link = new moodle_url('/mod/surveypro/view.php', $paramurl);
+                    $icon = new pix_icon('i/export', $downloadpdfstr, 'moodle', array('title' => $downloadpdfstr));
+                    $paramlink = array('id' => 'pdfdownload_submission_'.$submissionsuffix, 'title' => $downloadpdfstr);
+                    $icons .= $OUTPUT->action_icon($link, $icon, null, $paramlink);
                 }
 
                 $tablerow[] = $icons;
@@ -594,7 +604,8 @@ class mod_surveypro_submissionmanager {
         // If this is the output of a search and nothing has been found add a way to show all submissions.
         if (!isset($tablerow) && ($this->searchquery)) {
             $url = new moodle_url('/mod/surveypro/view.php', array('id' => $this->cm->id));
-            echo $OUTPUT->box($OUTPUT->single_button($url, get_string('showallsubmissions', 'mod_surveypro'), 'get'), 'clearfix mdl-align');
+            $label = get_string('showallsubmissions', 'mod_surveypro');
+            echo $OUTPUT->box($OUTPUT->single_button($url, $label, 'get'), 'clearfix mdl-align');
         }
     }
 
@@ -665,20 +676,23 @@ class mod_surveypro_submissionmanager {
 
         if ($buttoncount == 1) {
             if ($addnew) {
-                echo $OUTPUT->box($OUTPUT->single_button($addurl, get_string('addnewsubmission', 'mod_surveypro'), 'get'), 'clearfix mdl-align');
+                $label = get_string('addnewsubmission', 'mod_surveypro');
+                echo $OUTPUT->box($OUTPUT->single_button($addurl, $label, 'get'), 'clearfix mdl-align');
             }
 
             if ($deleteall) {
-                echo $OUTPUT->box($OUTPUT->single_button($deleteurl, get_string('deleteallsubmissions', 'mod_surveypro'), 'get'), 'clearfix mdl-align');
+                $label = get_string('deleteallsubmissions', 'mod_surveypro');
+                echo $OUTPUT->box($OUTPUT->single_button($deleteurl, $label, 'get'), 'clearfix mdl-align');
             }
         } else {
-            $addbutton = new single_button($addurl, get_string('addnewsubmission', 'mod_surveypro'), 'get', array('class' => 'buttons'));
-            $deleteallbutton = new single_button($deleteurl, get_string('deleteallsubmissions', 'mod_surveypro'), 'get', array('class' => 'buttons'));
+            $class = array('class' => 'buttons');
+            $addbutton = new single_button($addurl, get_string('addnewsubmission', 'mod_surveypro'), 'get', $class);
+            $deleteallbutton = new single_button($deleteurl, get_string('deleteallsubmissions', 'mod_surveypro'), 'get', $class);
 
             // This code comes from "public function confirm(" around line 1711 in outputrenderers.php.
             // It is not wrong. The misalign comes from bootstrapbase theme and is present in clean theme too.
             echo $OUTPUT->box_start('generalbox centerpara', 'notice');
-            echo html_writer::tag('div', $OUTPUT->render($addbutton).$OUTPUT->render($deleteallbutton), array('class' => 'buttons'));
+            echo html_writer::tag('div', $OUTPUT->render($addbutton).$OUTPUT->render($deleteallbutton), $class);
             echo $OUTPUT->box_end();
         }
     }
@@ -706,10 +720,12 @@ class mod_surveypro_submissionmanager {
      *
      * The first request is a false problem, because the admin/editing teacher is always allowed to go there
      * The second request is allowed by the introduction of the parameter &force=1 in the URL of the TAB
-     *     When the admin/editing teacher asks for view.php by clicking the corresponding TAB he asks for view.php?id=yyy&force=1
+     *     When the admin/editing teacher asks for view.php by clicking the corresponding TAB
+     *         he asks for view.php?id=yyy&force=1
      *         and the software decision is omitted
      *     As opposite:
-     *     When the admin/editing teacher arrives from a course (so he doesn't ask for a specific page), he is sent to land in view.php?id=yyy
+     *     When the admin/editing teacher arrives from a course (so he doesn't ask for a specific page)
+     *         he is sent to view.php?id=yyy
      *         and the decision is taken here
      *
      * @return void
@@ -872,11 +888,13 @@ class mod_surveypro_submissionmanager {
         }
 
         if ($this->confirm == SURVEYPRO_ACTION_EXECUTED) {
-            echo $OUTPUT->notification(get_string('feedback_duplicateresponse', 'mod_surveypro'), 'notifysuccess');
+            $message = get_string('feedback_duplicateresponse', 'mod_surveypro');
+            echo $OUTPUT->notification($message, 'notifysuccess');
         }
 
         if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
-            echo $OUTPUT->notification(get_string('usercanceled', 'mod_surveypro'), 'notifymessage');
+            $message = get_string('usercanceled', 'mod_surveypro');
+            echo $OUTPUT->notification($message, 'notifymessage');
         }
     }
 
@@ -934,11 +952,13 @@ class mod_surveypro_submissionmanager {
         }
 
         if ($this->confirm == SURVEYPRO_ACTION_EXECUTED) {
-            echo $OUTPUT->notification(get_string('feedback_delete1response', 'mod_surveypro'), 'notifysuccess');
+            $message = get_string('feedback_delete1response', 'mod_surveypro');
+            echo $OUTPUT->notification($message, 'notifysuccess');
         }
 
         if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
-            echo $OUTPUT->notification(get_string('usercanceled', 'mod_surveypro'), 'notifymessage');
+            $message = get_string('usercanceled', 'mod_surveypro');
+            echo $OUTPUT->notification($message, 'notifymessage');
         }
     }
 
@@ -974,11 +994,13 @@ class mod_surveypro_submissionmanager {
         }
 
         if ($this->confirm == SURVEYPRO_ACTION_EXECUTED) {
-            echo $OUTPUT->notification(get_string('feedback_deleteallresponses', 'mod_surveypro'), 'notifymessage');
+            $message = get_string('feedback_deleteallresponses', 'mod_surveypro');
+            echo $OUTPUT->notification($message, 'notifymessage');
         }
 
         if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
-            echo $OUTPUT->notification(get_string('usercanceled', 'mod_surveypro'), 'notifymessage');
+            $message = get_string('usercanceled', 'mod_surveypro');
+            echo $OUTPUT->notification($message, 'notifymessage');
         }
     }
 
@@ -1235,7 +1257,8 @@ class mod_surveypro_submissionmanager {
 
         $submission = $DB->get_record('surveypro_submission', array('id' => $this->submissionid));
         $user = $DB->get_record('user', array('id' => $submission->userid));
-        $userdatarecord = $DB->get_records('surveypro_answer', array('submissionid' => $this->submissionid), '', 'itemid, id, content');
+        $where = array('submissionid' => $this->submissionid);
+        $userdatarecord = $DB->get_records('surveypro_answer', $where, '', 'itemid, id, content');
 
         $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context, $user->id, true);
         list($where, $params) = surveypro_fetch_items_seeds($this->surveypro->id, true, $canaccessreserveditems);
@@ -1294,14 +1317,25 @@ class mod_surveypro_submissionmanager {
         $thirdcolwidth = number_format($col3nunit * 100 / $unitsum, 2);
         $lasttwocolumns = $secondcolwidth + $thirdcolwidth;
 
-        $htmllabeltemplate = '<table style="width:100%;"><tr><td style="width:'.$firstcolwidth.'%;text-align:left;">@@col1@@</td>';
-        $htmllabeltemplate .= '<td style="width:'.$lasttwocolumns.'%;text-align:left;">@@col2@@</td></tr></table>';
+        $htmllabeltemplate = '<table style="width:100%;"><tr>';
+        $htmllabeltemplate .= '<td style="width:'.$firstcolwidth.'%;text-align:left;">@@col1@@</td>';
+        $htmllabeltemplate .= '<td style="width:'.$lasttwocolumns.'%;text-align:left;">@@col2@@</td>';
+        $htmllabeltemplate .= '</tr></table>';
 
-        $htmlstandardtemplate = '<table style="width:100%;"><tr><td style="width:'.$firstcolwidth.'%;text-align:left;">@@col1@@</td>';
+        $htmlstandardtemplate = '<table style="width:100%;"><tr>';
+        $htmlstandardtemplate .= '<td style="width:'.$firstcolwidth.'%;text-align:left;">@@col1@@</td>';
         $htmlstandardtemplate .= '<td style="width:'.$secondcolwidth.'%;text-align:left;">@@col2@@</td>';
-        $htmlstandardtemplate .= '<td style="width:'.$thirdcolwidth.'%;text-align:left;">@@col3@@</td></tr></table>';
+        $htmlstandardtemplate .= '<td style="width:'.$thirdcolwidth.'%;text-align:left;">@@col3@@</td>';
+        $htmlstandardtemplate .= '</tr></table>';
 
-        $border = array('T' => array('width' => 0.2, 'cap' => 'butt', 'join' => 'miter', 'dash' => 1, 'color' => array(179, 219, 181)));
+        // $border = array('T' => array('width' => 0.2, 'cap' => 'butt', 'join' => 'miter', 'dash' => 1, 'color' => array(179, 219, 181)));
+        $border = array();
+        $border['T'] = array();
+        $border['T']['width'] = 0.2;
+        $border['T']['cap'] = 'butt';
+        $border['T']['join'] = 'miter';
+        $border['T']['dash'] = 1;
+        $border['T']['color'] = array(179, 219, 181);
         foreach ($itemseeds as $itemseed) {
             $item = surveypro_get_item($this->cm, $this->surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);
             // Pagebreaks are not selected by surveypro_fetch_items_seeds.

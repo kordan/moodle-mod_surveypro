@@ -45,7 +45,7 @@ class mod_surveypro_itemtypeform extends moodleform {
 
         // Selectitem: plugin.
         $fieldname = 'typeplugin';
-        // TAKE CARE! Here the plugin holds type and plugin both
+        // Take care! Here the plugin holds type and plugin both.
         $fieldplugins = surveypro_get_plugin_list(SURVEYPRO_TYPEFIELD, true);
         foreach ($fieldplugins as $k => $v) {
             $fieldplugins[$k] = get_string('userfriendlypluginname', 'surveyprofield_'.$v);
@@ -63,7 +63,8 @@ class mod_surveypro_itemtypeform extends moodleform {
 
         $elementgroup = array();
         $elementgroup[] = $mform->createElement('selectgroups', $fieldname, '', $pluginlist);
-        // $elementgroup[] = $mform->createElement('selectgroups', $fieldname, '', $pluginlist, array('id' => 'type_plugin', 'class' => 'autosubmit ignoredirty'));
+        // $attributes = array('id' => 'type_plugin', 'class' => 'autosubmit ignoredirty');
+        // $elementgroup[] = $mform->createElement('selectgroups', $fieldname, '', $pluginlist, $attributes);
         $elementgroup[] = $mform->createElement('submit', $fieldname.'_button', get_string('add'));
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'mod_surveypro'), array(' '), false);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveypro');

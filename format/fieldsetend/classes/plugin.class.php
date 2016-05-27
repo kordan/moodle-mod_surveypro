@@ -84,17 +84,6 @@ class mod_surveypro_format_fieldsetend extends mod_surveypro_itembase {
     }
 
     /**
-     * Item load.
-     *
-     * @param int $itemid
-     * @param bool $getparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise
-     * @return void
-     */
-    public function item_load($itemid, $getparentcontent) {
-        parent::item_load($itemid, $getparentcontent);
-    }
-
-    /**
      * Item save.
      *
      * @param object $record
@@ -212,7 +201,7 @@ EOS;
      * This method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time.
      *
      * @param object $fromdb
-     * @return void
+     * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
         $prefill = array();

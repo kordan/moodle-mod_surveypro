@@ -304,18 +304,26 @@ class mod_surveypro_itembase {
      *   |     |     |     |     +--- new|edit
      *   |     |     |     |     |     +--- success|fail
      * [0|1] [0|1] [0|1] [0|1] [0|1] [0|1]
-     * Last digit (on the right, of course) == 1 means that the process was globally successfull
-     * Last digit (on the right, of course) == 0 means that the process was globally NOT successfull
      *
-     * Beforelast digit == 0 means NEW
-     * Beforelast digit == 1 means EDIT
+     * (digit 0) == 1 means that the process was globally successfull
+     * (digit 0) == 0 means that the process was globally NOT successfull
      *
-     * (digit in place 2) == 1 means other items were shown because this (as child) was shown
-     * (digit in place 3) == 1 means other items were hided because this (as parent) was hided
-     * (digit in place 4) == 1 means other items reamin as they are because making this item (as parent) not reserved, does not force any change to children
-     * (digit in place 5) == 1 means other items inherited reserved access because making this item (as parent) reserved, forces reservations to children
+     * (digit 1) == 0 means NEW
+     * (digit 1) == 1 means EDIT
      *
-     * @param stdClass $record
+     * (digit 2) == 0: no chain of parent items was shown because this item (as child) was shown
+     * (digit 2) == 1: a chain of parent items was shown because this item (as child) was shown
+     *
+     * (digit 3) == 0: no chain of children items was hided because this item (as parent) was hided
+     * (digit 3) == 1: a chain of children items was hided because this item (as parent) was hided
+     *
+     * (digit 4) == 0: no chain of parents items inherited free access because this item (as child) was changed to free
+     * (digit 4) == 1: a chain of parents items inherited free access because this item (as child) was changed to free
+     *
+     * (digit 5) == 0: no chain of children items inherited reserved access because this item (as parent) was changed to reserved
+     * (digit 5) == 1: a chain of children items inherited reserved access because this item (as parent) was changed to reserved
+     *
+     * @param object $record
      * @return void
      */
     public function item_save($record) {
@@ -412,9 +420,9 @@ class mod_surveypro_itembase {
             $oldhidden = $this->get_hidden(); // Used later.
             // End of: hide/unhide 1.
 
-            // Begin of: Limit/unlimit access part 1.
+            // Begin of: Make reserved/free part 1.
             $oldreserved = $this->get_reserved(); // Used later.
-            // End of: limit/unlimit access part 1.
+            // End of: make reserved/free part 1.
 
             // Sortindex.
             // Doesn't change at item editing time.
@@ -459,7 +467,7 @@ class mod_surveypro_itembase {
             // needs to be switched to SURVEYPRO_STATUSINPROGRESS.
             if ($hassubmission) {
                 if (isset($this->required)) { // This plugin uses required.
-                    $oldrequired = $this->get_required(); // This is the value of required for this item as it was when it was loaded.
+                    $oldrequired = $this->get_required(); // This is the value of required as it was when it was loaded.
                     if ($oldrequired == 0) { // This item was not required.
                         if (isset($record->required) && ($record->required == 1)) { // This item is now required.
                             // This item that was not mandatory is NOW mandatory.
@@ -483,12 +491,13 @@ class mod_surveypro_itembase {
             }
         }
 
-        // Property $this->itemeditingfeedback is going to be part of $returnurl in layout_itemsetup.php and to be send to layout_manage.php.
+        // Property $this->itemeditingfeedback is going to be part of $returnurl in layout_itemsetup.php
+        // and there it will be send to layout_manage.php.
         return $record->itemid;
     }
 
     /**
-     * Validate the name of the variable in order to make sure it is unique.
+     * Validate the name of the variable to make sure it is unique.
      *
      * @param stdobject $record
      * @param integer $itemid
@@ -554,7 +563,8 @@ class mod_surveypro_itembase {
 
         // Now hide or unhide (whether needed) chain of ancestors or descendents.
         if ($this->itemeditingfeedback & 1) { // Bitwise logic, alias: if the item was successfully saved.
-            // Manage ($oldhidden != $newhidden).
+
+            // Management of ($oldhidden != $newhidden).
             if ($oldhidden != $newhidden) {
                 $action = ($oldhidden) ? SURVEYPRO_SHOWITEM : SURVEYPRO_HIDEITEM;
 
@@ -569,18 +579,18 @@ class mod_surveypro_itembase {
                 // Begin of: Hide/unhide part 2.
                 if ( ($oldhidden == 1) && ($newhidden == 0) ) {
                     $itemlistman->item_show_execute();
-                    // A chain of parent items has been shown.
+                    // A chain of parent items was shown.
                     $this->itemeditingfeedback += 4; // 1*2^2.
                 }
                 if ( ($oldhidden == 0) && ($newhidden == 1) ) {
                     $itemlistman->item_hide_execute();
-                    // A chain of child items has been hided.
+                    // Chain of children items was hided.
                     $this->itemeditingfeedback += 8; // 1*2^3.
                 }
                 // End of: hide/unhide part 2.
             }
 
-            // Manage ($oldreserved != $newreserved).
+            // Management of ($oldreserved != $newreserved).
             if ($oldreserved != $newreserved) {
                 $action = ($oldreserved) ? SURVEYPRO_MAKESTANDARD : SURVEYPRO_MAKEADVANCED;
 
@@ -592,20 +602,20 @@ class mod_surveypro_itembase {
                 $itemlistman->set_view(SURVEYPRO_NOVIEW);
                 $itemlistman->set_confirm(SURVEYPRO_CONFIRMED_YES);
 
-                // Begin of: Limit/unlimit access part 2.
+                // Begin of: Make reserved/free part 2.
                 if ( ($oldreserved == 1) && ($newreserved == 0) ) {
                     if ($itemlistman->item_makestandard_execute()) {
-                        // A chain of parent items has been made available for all.
+                        // A chain of parents items inherited free access.
                         $this->itemeditingfeedback += 16; // 1*2^4.
                     }
                 }
                 if ( ($oldreserved == 0) && ($newreserved == 1) ) {
                     if ($itemlistman->item_makereserved_execute()) {
-                        // A chain of child items got a limited access.
+                        // A chain of children items inherited reserved access.
                         $this->itemeditingfeedback += 32; // 1*2^5.
                     }
                 }
-                // End of: limit/unlimit access part 2.
+                // End of: make reserved/free part 2.
             }
         }
     }
@@ -659,7 +669,7 @@ class mod_surveypro_itembase {
             return;
         }
 
-        // Take care: I verify the existence of the english folder even if, maybe, I will ask for the string in a different language.
+        // Take care: I verify the existence of the english folder even if, maybe, I will ask for strings in a different language.
         if (!file_exists($CFG->dirroot.'/mod/surveypro/template/'.$template.'/lang/en/surveyprotemplate_'.$template.'.php')) {
             // This template does not support multilang.
             return;
@@ -810,7 +820,7 @@ class mod_surveypro_itembase {
      * @return $label
      */
     protected function item_get_other() {
-        if (preg_match('~^(.*)'.SURVEYPRO_OTHERSEPARATOR.'(.*)$~', $this->labelother, $match)) { // Do not warn: it can never be equal to zero.
+        if (preg_match('~^(.*)'.SURVEYPRO_OTHERSEPARATOR.'(.*)$~', $this->labelother, $match)) {
             $label = trim($match[1]);
             $value = trim($match[2]);
         } else {
@@ -900,7 +910,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Add a dummy row to the mform in order to preserve the colour alternation also for items using more than a single mform element.
+     * Add a dummy row to the mform to preserve colour alternation also for items using more than a single mform element.
      *
      * Credits for this amazing solution to the great Eloy Lafuente! He is a genius.
      * Add a dummy useless row (with height = 0) to the form in order to preserve the color alternation
@@ -1414,7 +1424,7 @@ class mod_surveypro_itembase {
      * This function is used ONLY if $surveypro->newpageforchild == false
      * it adds as much as needed $mform->disabledIf to disable items when parent condition does not match
      * This method is used by the child item
-     * In the frame of this method the parent item is calculated and is requested to provide the disabledif conditions to disable its child item
+     * In the frame of this method the parent item is loaded and is requested to provide the disabledif conditions for its child
      *
      * @param moodleform $mform
      * @return void
@@ -1441,11 +1451,12 @@ class mod_surveypro_itembase {
             // Take care!
             // Even if (!$surveypro->newpageforchild) I can have all my ancestors into previous pages by adding pagebreaks manually.
             // Because of this, I need to chech page numbers.
-            $parentitem = $DB->get_record('surveypro_item', array('id' => $currentitem->parentid), 'parentid, parentvalue, formpage');
+            $where = array('id' => $currentitem->parentid);
+            $parentitem = $DB->get_record('surveypro_item', $where, 'parentid, parentvalue, formpage');
             $parentpage = $parentitem->formpage;
             if ($parentpage == $mypage) {
                 $parentid = $currentitem->parentid;
-                $parentrestrictions[$parentid] = $currentitem->parentvalue; // The element with ID == $parentid forces, as constrain, $parentvalue.
+                $parentrestrictions[$parentid] = $currentitem->parentvalue;
             } else {
                 // My parent is in a page before mine.
                 // No need to investigate more for older ancestors.
@@ -1454,8 +1465,8 @@ class mod_surveypro_itembase {
 
             $currentitem = $parentitem;
         } while (!empty($parentitem->parentid));
-        // $parentrestrictions is an associative array.
-        // The array key is the ID of the parent item, the corresponding value is the constrain that the parent imposes to the child.
+        // Array $parentrestrictions is an associative array.
+        // The array key is the the parent item ID, the corresponding value is the constrain that the parent imposes to the child.
 
         $displaydebuginfo = false;
         foreach ($parentrestrictions as $parentid => $childparentvalue) {
@@ -1470,18 +1481,19 @@ class mod_surveypro_itembase {
                         $contentdisplayed = '\''.$parentinfo->content.'\'';
                     }
                     foreach ($fieldnames as $fieldname) {
+                        echo '<span style="color:green;">';
+                        echo '$mform->disabledIf(\''.$fieldname.'\', ';
+                        echo '\''.$parentinfo->parentname.'\', ';
                         if (isset($parentinfo->operator)) {
-                            echo '<span style="color:green;">$mform->disabledIf(\''.$fieldname.'\', \''.
-                                    $parentinfo->parentname.'\', \''.$parentinfo->operator.'\', '.$contentdisplayed.');</span><br />';
-                        } else {
-                            echo '<span style="color:green;">$mform->disabledIf(\''.$fieldname.'\', \''.
-                                    $parentinfo->parentname.'\', '.$contentdisplayed.');</span><br />';
+                            echo '\''.$parentinfo->operator.'\', ';
                         }
+                        echo $contentdisplayed.');';
+                        echo '</span><br />';
                     }
                 }
             }
 
-            // Write disabledIf.
+            // Add disabledIf.
             foreach ($disabilitationinfo as $parentinfo) {
                 foreach ($fieldnames as $fieldname) {
                     if (isset($parentinfo->operator)) {

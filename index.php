@@ -25,13 +25,13 @@
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once(dirname(__FILE__).'/lib.php');
 
-$id = required_param('id', PARAM_INT); // Course ID
+$id = required_param('id', PARAM_INT); // Course ID.
 
 $course = $DB->get_record('course', array('id' => $id), '*', MUST_EXIST);
 
 require_course_login($course, true);
 
-// Get all required strings
+// Get all required strings.
 $strname = get_string('name');
 $strsurveypro = get_string('modulename', 'mod_surveypro');
 $strintro = get_string('moduleintro');
@@ -50,7 +50,7 @@ echo $OUTPUT->heading($strdataplural, 2);
 
 \mod_surveypro\event\course_module_instance_list_viewed::create_from_course($course)->trigger();
 
-// / Get all the appropriate data
+// Get all the appropriate data.
 if (!$surveypros = get_all_instances_in_course('surveypro', $course)) {
     $url = new moodle_url('/course/view.php', array('id' => $course->id));
     notice(get_string('thereareno', 'moodle', $strdataplural), $url);

@@ -318,7 +318,8 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
                 }
 
                 if ($field == 'content') {
-                    if ($files = $fs->get_area_files($context->id, 'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $item->get_itemid())) {
+                    $itemid = $item->get_itemid();
+                    if ($files = $fs->get_area_files($context->id, 'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $itemid)) {
                         foreach ($files as $file) {
                             $filename = $file->get_filename();
                             if ($filename == '.') {
@@ -333,7 +334,8 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             }
         }
 
-        // $option == false if 100% waste of time BUT BUT BUT...
+        // The case: $option == false if 100% waste of time
+        // BUT BUT BUT...
         // the output in the file is well written.
         // I prefer a more readable xml file instead of few nanoseconds saved.
         $option = false;
@@ -365,9 +367,10 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
      * @return void
      */
     public function xml_get_field_content($item, $dummyplugin, $field, $multilangfields) {
-        // 1st: which fields are multilang for the current item?
-        if (isset($multilangfields[$dummyplugin])) { // Has the plugin $dummyplugin multilang fields?.
-            if (in_array($field, $multilangfields[$dummyplugin])) { // If the field that is going to be assigned belongs to your multilang fields.
+        // 1a: Has the plugin $dummyplugin multilang fields?.
+        if (isset($multilangfields[$dummyplugin])) {
+            // 1b: If the field that is going to be assigned belongs to your multilang fields.
+            if (in_array($field, $multilangfields[$dummyplugin])) {
                 $component = $dummyplugin.'_'.$field;
 
                 if (isset($this->langtree[$component])) {
@@ -551,14 +554,14 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
                     $naturalsortindex++;
                     $record->sortindex = $naturalsortindex + $sortindexoffset;
                     if (!empty($record->parentid)) {
-                        $whereparams = array('surveyproid' => $this->surveypro->id, 'sortindex' => ($record->parentid + $sortindexoffset));
+                        $whereparams = array();
+                        $whereparams['surveyproid'] = $this->surveypro->id;
+                        $whereparams['sortindex'] = $record->parentid + $sortindexoffset;
                         $record->parentid = $DB->get_field('surveypro_item', 'id', $whereparams, MUST_EXIST);
                     }
 
                     $itemid = $DB->insert_record($tablename, $record);
                 } else {
-                    // $item has already been defined few lines before $tablename was == 'surveypro_item'.
-
                     // Take care to details.
                     $item->item_force_coherence($record);
                     $item->item_validate_variablename($record, $itemid);
@@ -587,7 +590,8 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
                     $index = 0;
                 }
                 $stringindex = sprintf('%02d', 1 + $index);
-                $this->langtree[$component][$component.'_'.$stringindex] = str_replace("\r", '', $item->item_get_generic_property($fieldname));
+                $content = str_replace("\r", '', $item->item_get_generic_property($fieldname));
+                $this->langtree[$component][$component.'_'.$stringindex] = $content;
             }
         }
     }

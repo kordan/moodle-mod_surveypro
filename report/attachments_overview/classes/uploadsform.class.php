@@ -188,13 +188,15 @@ EOS;
 
         $fs = get_file_storage();
         foreach ($items as $item) {
-            if ($files = $fs->get_area_files($this->context->id, 'surveyprofield_fileupload', SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $item->answerid, "timemodified", false)) {
+            $component = 'surveyprofield_fileupload';
+            $filearea = SURVEYPROFIELD_FILEUPLOAD_FILEAREA;
+            if ($files = $fs->get_area_files($this->context->id, $component, $filearea, $item->answerid, 'timemodified', false)) {
                 foreach ($files as $file) {
                     $filename = $file->get_filename();
                     // $mimetype = $file->get_mimetype();
                     $iconimage = $OUTPUT->pix_icon(file_file_icon($file, 80), get_mimetype_description($file));
 
-                    $path = '/'.$this->context->id.'/surveyprofield_fileupload/'.SURVEYPROFIELD_FILEUPLOAD_FILEAREA.'/'.$item->answerid.'/'.$filename;
+                    $path = '/'.$this->context->id.'/surveyprofield_fileupload/'.$filearea.'/'.$item->answerid.'/'.$filename;
                     $url = file_encode_url($CFG->wwwroot.'/pluginfile.php', $path);
 
                     $left = $item->content;

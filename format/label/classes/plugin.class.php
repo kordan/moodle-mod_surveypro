@@ -90,7 +90,6 @@ class mod_surveypro_format_label extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFORMAT;
         $this->plugin = 'label';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // Already set in parent class.
         $this->savepositiontodb = false;
 
         // Other element specific properties.
@@ -302,7 +301,7 @@ EOS;
      * This method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time.
      *
      * @param object $fromdb
-     * @return void
+     * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
         $prefill = array();

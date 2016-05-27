@@ -130,7 +130,6 @@ class mod_surveypro_field_select extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'select';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // Already set in parent class.
         $this->savepositiontodb = true;
 
         // Other element specific properties.
@@ -262,10 +261,27 @@ class mod_surveypro_field_select extends mod_surveypro_itembase {
             $constraints[] = $optionstr.$labelsep.$value;
         }
         if (!empty($this->labelother)) {
-            $constraints[] = get_string('labelother', 'surveyprofield_select').$labelsep.get_string('allowed', 'surveyprofield_select');
+            $labelotherstr = get_string('labelother', 'surveyprofield_select');
+            $allowedstr = get_string('allowed', 'surveyprofield_select');
+            $constraints[] = $labelotherstr.$labelsep.$allowedstr;
         }
 
         return implode($constraints, '<br />');
+    }
+
+    /**
+     * Get the content of the downloadformats menu of the item setup form.
+     *
+     * @return array of downloadformats
+     */
+    public function item_get_downloadformats() {
+        $option = array();
+
+        $options[SURVEYPRO_ITEMSRETURNSVALUES] = get_string('returnvalues', 'surveyprofield_select');
+        $options[SURVEYPRO_ITEMRETURNSLABELS] = get_string('returnlabels', 'surveyprofield_select');
+        $options[SURVEYPRO_ITEMRETURNSPOSITION] = get_string('returnposition', 'surveyprofield_select');
+
+        return $option;
     }
 
     /**
@@ -483,7 +499,7 @@ EOS;
         if (!$this->required) {
             $labels[SURVEYPRO_NOANSWERVALUE] = get_string('noanswer', 'mod_surveypro');
         }
-        // End of: element values
+        // End of: element values.
 
         $attributes = array();
         $attributes['id'] = $idprefix;
@@ -539,7 +555,7 @@ EOS;
         } else {
             $mform->setDefault($this->itemname, SURVEYPRO_IGNOREMEVALUE);
         }
-        // $this->itemname.'_text' has to ALWAYS get a default (if required) even if it is not selected
+        // $this->itemname.'_text' has to ALWAYS get a default (if required) even if it is not selected.
         if (!empty($this->labelother)) {
             $mform->setDefault($this->itemname.'_text', $othervalue);
         }
@@ -555,7 +571,7 @@ EOS;
      */
     public function userform_mform_validation($data, &$errors, $searchform) {
         // This plugin displays as dropdown menu. It will never return empty values.
-        // If ($this->required) { if (empty($data[$this->itemname])) { is useless
+        // If ($this->required) { if (empty($data[$this->itemname])) { is useless.
 
         if ($searchform) {
             return;
@@ -577,7 +593,7 @@ EOS;
     public function userform_get_parent_disabilitation_info($childparentvalue) {
         $disabilitationinfo = array();
 
-        $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 1;1;0;
+        $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 1;1;0;.
 
         $indexsubset = array();
         $labelsubset = array();
@@ -619,7 +635,7 @@ EOS;
             }
         } else {
             // Even if no labels were provided.
-            // I have to add one more $disabilitationinfo if $this->other is not empty
+            // I have to add one more $disabilitationinfo if $this->other is not empty.
             if (!empty($this->labelother)) {
                 $mformelementinfo = new stdClass();
                 $mformelementinfo->parentname = $this->itemname.'_other';
@@ -646,12 +662,11 @@ EOS;
      * @return boolean: true: if the item is welcome; false: if the item must be dropped out
      */
     public function userform_child_item_allowed_dynamic($childparentvalue, $data) {
-        // 1) I am a select item
-        // 2) in $data I can ONLY find $this->itemname, $this->itemname.'_text'
+        // In $data I can ONLY find $this->itemname, $this->itemname.'_text'.
 
-        // I need to verify (checkbox per checkbox) if they hold the same value the user entered
+        // I need to verify (checkbox per checkbox) if they hold the same value the user entered.
         $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
-        // $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 2 OR shark
+        // $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 2 OR shark.
 
         if ( ($this->labelother) && ($data[$this->itemname] == count($labels)) ) {
             return ($data[$this->itemname.'_text'] = $childparentvalue);
@@ -692,12 +707,12 @@ EOS;
      * This method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time.
      *
      * @param object $fromdb
-     * @return void
+     * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
         $prefill = array();
 
-        if (!$fromdb) { // $fromdb may be boolean false for not existing data
+        if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
             return $prefill;
         }
 

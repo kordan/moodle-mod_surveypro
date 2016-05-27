@@ -59,6 +59,7 @@ if (count($parts) == 2) {
 
 // Calculations.
 $context = context_module::instance($cm->id);
+$canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context, null, true);
 $uploadsformman = new mod_surveypro_report_uploadformmanager($cm, $context, $surveypro);
 $uploadsformman->prevent_direct_user_input();
 $uploadsformman->set_userid($userid);
@@ -76,7 +77,7 @@ $formparams->surveypro = $surveypro;
 $formparams->itemid = $itemid;
 $formparams->userid = $userid;
 $formparams->submissionid = $submissionid;
-$formparams->canaccessreserveditems = $uploadsformman->canaccessreserveditems;
+$formparams->canaccessreserveditems = $canaccessreserveditems;
 // End of: prepare params for the form.
 
 $filterform = new mod_surveypro_report_filterform($formurl, $formparams, 'post', '', array('id' => 'userentry'));

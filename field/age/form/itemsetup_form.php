@@ -54,15 +54,20 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
         $maximumage = get_config('surveyprofield_age', 'maximumage');
 
-        $years = array_combine(range(0, $maximumage), range(0, $maximumage));
-        $months = array_combine(range(0, 11), range(0, 11));
+        $yearsrange = range(0, $maximumage);
+        $years = array_combine($yearsrange, $yearsrange);
+        $monthsrange = range(0, 11);
+        $months = array_combine($monthsrange, $monthsrange);
 
         // Item: defaultoption.
         $fieldname = 'defaultoption';
+        $strcustomdefault = get_string('customdefault', 'surveyprofield_age');
+        $strinvitedefault = get_string('invitedefault', 'mod_surveypro');
+        $strnoanswer = get_string('noanswer', 'mod_surveypro');
         $elementgroup = array();
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('customdefault', 'surveyprofield_age'), SURVEYPRO_CUSTOMDEFAULT);
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('invitedefault', 'mod_surveypro'), SURVEYPRO_INVITEDEFAULT);
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', get_string('noanswer', 'mod_surveypro'), SURVEYPRO_NOANSWERDEFAULT);
+        $elementgroup[] = $mform->createElement('radio', $fieldname, '', $strcustomdefault, SURVEYPRO_CUSTOMDEFAULT);
+        $elementgroup[] = $mform->createElement('radio', $fieldname, '', $strinvitedefault, SURVEYPRO_INVITEDEFAULT);
+        $elementgroup[] = $mform->createElement('radio', $fieldname, '', $strnoanswer, SURVEYPRO_NOANSWERDEFAULT);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_age'), ' ', false);
         $mform->setDefault($fieldname, SURVEYPRO_INVITEDEFAULT);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_age');
@@ -88,7 +93,6 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_age');
         $mform->setDefault($fieldname.'_year', '0');
         $mform->setDefault($fieldname.'_month', '0');
-        // $mform->disabledIf($fieldname.'_group', $fieldname.'_select', 'neq', constant($constantname));
 
         // Item: upperbound.
         $fieldname = 'upperbound';
@@ -117,7 +121,7 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
         $errors = parent::validation($data, $files);
 
-        // "noanswer" default option is not allowed when the item is mandatory.
+        // Editing teacher can not set "noanswer" as default option if the item is mandatory.
         if ( ($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required']) ) {
             $a = get_string('noanswer', 'mod_surveypro');
             $errors['defaultoption_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);

@@ -59,7 +59,8 @@ class mod_surveypro_report_filterform extends moodleform {
         if (!$itemseeds->valid()) {
             // No items are in this page.
             // Display an error message.
-            $mform->addElement('static', 'noitemshere', get_string('note', 'mod_surveypro'), 'ERROR: How can I be here if ($formpage > 0) ?');
+            $notestr = get_string('note', 'mod_surveypro');
+            $mform->addElement('static', 'noitemshere', $notestr, 'ERROR: How can I be here if ($formpage > 0) ?');
         }
 
         // Fieldset.
@@ -110,7 +111,10 @@ class mod_surveypro_report_filterform extends moodleform {
                 $i = 0;
                 foreach ($submissions as $submission) {
                     $i++;
-                    $options[$user->userid.'_'.$submission->id] = fullname($user).' - '.$submissionidstring.': '.$i.' [id: '.$submission->id.']';
+                    $itemcontent = fullname($user).' - '.$submissionidstring;
+                    $itemcontent .= ': ';
+                    $itemcontent .= $i.' [id: '.$submission->id.']';
+                    $options[$user->userid.'_'.$submission->id] = $itemcontent;
                 }
             } else {
                 $options[$user->userid] = fullname($user);

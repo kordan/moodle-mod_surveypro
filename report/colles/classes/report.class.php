@@ -208,7 +208,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
      * @return void
      */
     public function output_html($nexturl, $graphurl, $altkey) {
-        static $strseemoredetail; // Cache the string for the next future
+        static $strseemoredetail; // Cache the string for the next future.
 
         if (empty($strseemoredetail)) {
             $strseemoredetail = get_string('seemoredetail', 'surveyproreport_colles');
@@ -249,8 +249,8 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
                   AND si.plugin = :plugin
                 ORDER BY si.sortindex';
 
-        $whereparams = array('surveyproid' => $this->surveypro->id, 'plugin' => $this->templateuseritem); // Was static 'radiobutton'.
-        $itemseeds = $DB->get_recordset_sql($sql, $whereparams);
+        $where = array('surveyproid' => $this->surveypro->id, 'plugin' => $this->templateuseritem);
+        $itemseeds = $DB->get_recordset_sql($sql, $where);
 
         if ($this->template == 'collesactualpreferred') {
             $id1 = array(); // Id of items referring to preferred trend.
@@ -341,7 +341,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
 
         // Begin of: options (label of answers).
         $itemid = $qid1area[0][0]; // One of the itemid of the surveypro (the first).
-        $item = surveypro_get_item($this->cm, $this->surveypro, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem); // Was static 'radiobutton'.
+        $item = surveypro_get_item($this->cm, $this->surveypro, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem);
         $this->ylabels = $item->item_get_content_array(SURVEYPRO_LABELS, 'options');
         // End of: options (label of answers).
 
@@ -353,11 +353,11 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
         }
         foreach ($toevaluate as $k => $qidarea) {
             foreach ($qidarea as $areaidlist) {
-                $sql = 'SELECT COUNT(ud.id) as countofanswers, SUM(ud.content) as sumofanswers
+                $sql = 'SELECT COUNT(ud.id) as answerscount, SUM(ud.content) as sumofanswers
                         FROM {surveypro_answer} ud
                         WHERE ud.itemid IN ('.implode(',', $areaidlist).')';
                 $aggregate = $DB->get_record_sql($sql);
-                $m = $aggregate->sumofanswers / $aggregate->countofanswers;
+                $m = $aggregate->sumofanswers / $aggregate->answerscount;
                 if ($k == 0) {
                     $this->trend1[] = $m;
                 }
@@ -376,7 +376,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
                 }
                 $answers->close();
 
-                $bigsum /= $aggregate->countofanswers;
+                $bigsum /= $aggregate->answerscount;
                 if ($k == 0) {
                     $this->trend1stdev[] = sqrt($bigsum);
                 }
@@ -387,19 +387,19 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
         }
 
         if (!$canaccessreports && $canaccessownreports) { // If the user hasn't general right but only canaccessownreports.
-            $whereparams = array('userid' => $USER->id);
+            $where = array('userid' => $USER->id);
 
             foreach ($toevaluate as $k => $qidarea) {
                 foreach ($qidarea as $areaidlist) {
-                    $sql = 'SELECT COUNT(ud.id) as countofanswers, SUM(ud.content) as sumofanswers
+                    $sql = 'SELECT COUNT(ud.id) as answerscount, SUM(ud.content) as sumofanswers
                             FROM {surveypro_answer} ud
                               JOIN {surveypro_submission} ss ON ss.id = ud.submissionid
                             WHERE ud.itemid IN ('.implode(',', $areaidlist).')
                               AND ss.userid = :userid';
-                    $aggregate = $DB->get_record_sql($sql, $whereparams);
+                    $aggregate = $DB->get_record_sql($sql, $where);
 
-                    if ($aggregate->countofanswers) {
-                        $m = $aggregate->sumofanswers / $aggregate->countofanswers;
+                    if ($aggregate->answerscount) {
+                        $m = $aggregate->sumofanswers / $aggregate->answerscount;
                         if ($k == 0) {
                             $this->studenttrend1[] = $m;
                         }
@@ -437,7 +437,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
         $paramurl['group'] = 0;
         $paramurl['type'] = 'scales';
 
-        for ($area = 0; $area < 6; $area++) { // 0..5
+        for ($area = 0; $area < 6; $area++) { // 0..5.
             $paramnexturl['area'] = $area;
             $nexturl = new moodle_url('/mod/surveypro/report/colles/view.php', $paramnexturl);
 
@@ -457,7 +457,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     public function fetch_scalesdata($area=false) {
         global $DB;
 
-        if ($area === false) { // $area MUST BE provided
+        if ($area === false) { // Here, $area MUST BE provided.
             $message = 'Unexpected $area === false';
             debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
@@ -479,7 +479,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
 
         // Begin of: options (label of answers).
         $itemid = $qid1area[0][0]; // One of the itemid of the surveypro (the first).
-        $item = surveypro_get_item($this->cm, $this->surveypro, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem); // Was static 'radiobutton'.
+        $item = surveypro_get_item($this->cm, $this->surveypro, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem);
         $this->ylabels = $item->item_get_content_array(SURVEYPRO_LABELS, 'options');
         // End of: options (label of answers).
 
@@ -491,9 +491,9 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
         }
         foreach ($toevaluate as $k => $areaidlist) {
             foreach ($areaidlist as $itemid) {
-                $whereparams = array('itemid' => $itemid);
-                $aggregate = $DB->get_record('surveypro_answer', $whereparams, 'COUNT(id) as countofanswers, SUM(content) as sumofanswers');
-                $m = $aggregate->sumofanswers / $aggregate->countofanswers;
+                $where = array('itemid' => $itemid);
+                $aggregate = $DB->get_record('surveypro_answer', $where, 'COUNT(id) as answerscount, SUM(content) as sumofanswers');
+                $m = $aggregate->sumofanswers / $aggregate->answerscount;
                 if ($k == 0) {
                     $this->trend1[] = $m;
                 }
@@ -501,13 +501,13 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
                     $this->trend2[] = $m;
                 }
 
-                $answers = $DB->get_recordset('surveypro_answer', $whereparams, '', 'content');
+                $answers = $DB->get_recordset('surveypro_answer', $where, '', 'content');
                 $bigsum = 0;
                 foreach ($answers as $answer) {
                     $xi = (double)$answer->content;
                     $bigsum += ($xi - $m) * ($xi - $m);
                 }
-                $bigsum /= $aggregate->countofanswers;
+                $bigsum /= $aggregate->answerscount;
                 if ($k == 0) {
                     $this->trend1stdev[] = sqrt($bigsum);
                 }
@@ -546,7 +546,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
 
         foreach ($areas as $area) {
             $paramurl['area'] = $area;
-            for ($qid = 0; $qid < 4; $qid++) { // 0..3
+            for ($qid = 0; $qid < 4; $qid++) { // 0..3.
                 $paramurl['qid'] = $qid;
                 $graphurl = new moodle_url('/mod/surveypro/report/colles/graph.php', $paramurl);
                 $this->output_html($nexturl, $graphurl, 'questionsreport');
@@ -564,11 +564,11 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
     public function fetch_questionsdata($area=false, $qid=false) {
         global $DB;
 
-        if ($area === false) { // $area MUST BE provided
+        if ($area === false) { // $area MUST BE provided.
             $message = 'Unexpected $area === false';
             debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
-        if ($qid === false) { // $area MUST BE provided
+        if ($qid === false) { // $area MUST BE provided.
             $message = 'Unexpected $qid === false';
             debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
@@ -579,7 +579,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
 
         // Begin of: options (label of answers).
         $itemid = $qid1area[$area][$qid]; // One of the itemid of the surveypro (the first).
-        $item = surveypro_get_item($this->cm, $this->surveypro, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem); // Was static 'radiobutton'.
+        $item = surveypro_get_item($this->cm, $this->surveypro, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem);
         $this->xlabels = $item->item_get_content_array(SURVEYPRO_LABELS, 'options');
         // End of: options (label of answers).
 
@@ -589,7 +589,7 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
 
         // Begin of: calculate trend1 and, maybe, trend2.
         // Starts with empty defaults.
-        for ($i = 0; $i < 5; $i++) { // 0..4
+        for ($i = 0; $i < 5; $i++) { // 0..4.
             $this->trend1[] = 0;
             $this->trend2[] = 0;
         }
@@ -600,12 +600,12 @@ class mod_surveypro_report_colles extends mod_surveypro_reportbase {
             $toevaluate = array($qid1area[$area]);
         }
         foreach ($toevaluate as $k => $areaidlist) {
-            $whereparams = array('itemid' => $areaidlist[$qid]);
+            $where = array('itemid' => $areaidlist[$qid]);
             $sql = 'SELECT content, count(id) as absolute
                     FROM {surveypro_answer}
                     WHERE itemid = :itemid
                     GROUP BY content';
-            $aggregates = $DB->get_records_sql($sql, $whereparams);
+            $aggregates = $DB->get_records_sql($sql, $where);
 
             if ($k == 0) {
                 foreach ($aggregates as $aggregate) {

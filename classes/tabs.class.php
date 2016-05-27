@@ -172,7 +172,7 @@ class mod_surveypro_tabs {
         $pageid = 'idpage'.$this->tabpage;
         // $pageid is here because I leave the door open to override it during next switch.
 
-        // PAGES-
+        // PAGES.
         switch ($this->tabtab) {
             case SURVEYPRO_TABLAYOUT:
                 $tablayoutname = get_string('tablayoutname', 'mod_surveypro');
@@ -207,8 +207,9 @@ class mod_surveypro_tabs {
                         }
 
                         // Verify parent child relations.
+                        $where = 'surveyproid = :surveyproid AND parentid <> 0';
                         $whereparams = array('surveyproid' => $this->surveypro->id);
-                        $parentscount = $DB->count_records_select('surveypro_item', 'surveyproid = :surveyproid AND parentid <> 0', $whereparams);
+                        $parentscount = $DB->count_records_select('surveypro_item', $where, $whereparams);
                         if ($parentscount) {
                             $elementurl = new moodle_url('/mod/surveypro/layout_validation.php', $paramurl);
                             $strlabel = get_string('tabitemspage4', 'mod_surveypro');

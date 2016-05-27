@@ -112,9 +112,9 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
             return;
         }
 
-        $displayuploads = get_string('display_uploads', 'surveyproreport_attachments_overview');
-        $missinguploads = get_string('missing_uploads', 'surveyproreport_attachments_overview');
-        $submissionidstring = get_string('submissionid', 'surveyproreport_attachments_overview');
+        $displayuploadsstr = get_string('display_uploads', 'surveyproreport_attachments_overview');
+        $missinguploadsstr = get_string('missing_uploads', 'surveyproreport_attachments_overview');
+        $submissionidstr = get_string('submissionid', 'surveyproreport_attachments_overview');
 
         $sql = 'SELECT '.user_picture::fields('u').', s.id as submissionid
                 FROM {user} u
@@ -159,9 +159,13 @@ class mod_surveypro_report_attachments_overview extends mod_surveypro_reportbase
                 $paramurl['userid'] = $usersubmission->id;
                 $paramurl['submissionid'] = $usersubmission->submissionid;
                 $url = new moodle_url('/mod/surveypro/report/attachments_overview/uploads.php', $paramurl);
-                $tablerow[] = '('.$submissionidstring.': '.$usersubmission->submissionid.') <a href="'.$url->out().'">'.$displayuploads.'</a>';
+                $cellcontent = '('.$submissionidstr.': '.$usersubmission->submissionid.')&nbsp;';
+                $cellcontent .= html_writer::start_tag('a', array('title' => $displayuploadsstr, 'href' => $url));
+                $cellcontent .= s($displayuploadsstr);
+                $cellcontent .= html_writer::end_tag('a');
+                $tablerow[] = $cellcontent;
             } else {
-                $tablerow[] = $missinguploads;
+                $tablerow[] = $missinguploadsstr;
             }
 
             // Add row to the table.

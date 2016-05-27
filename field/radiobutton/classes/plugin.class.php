@@ -135,7 +135,6 @@ class mod_surveypro_field_radiobutton extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'radiobutton';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // Already set in parent class.
         $this->savepositiontodb = true;
 
         // Other element specific properties.
@@ -268,10 +267,27 @@ class mod_surveypro_field_radiobutton extends mod_surveypro_itembase {
             $constraints[] = $optionstr.$labelsep.$value;
         }
         if (!empty($this->labelother)) {
-            $constraints[] = get_string('labelother', 'mod_surveyprofield_radiobutton').$labelsep.get_string('allowed', 'surveyprofield_radiobutton');
+            $labelotherstr = get_string('labelother', 'surveyprofield_radiobutton');
+            $allowedstr = get_string('allowed', 'surveyprofield_radiobutton');
+            $constraints[] = $labelotherstr.$labelsep.$allowedstr;
         }
 
         return implode($constraints, '<br />');
+    }
+
+    /**
+     * Get the content of the downloadformats menu of the item setup form.
+     *
+     * @return array of downloadformats
+     */
+    public function item_get_downloadformats() {
+        $option = array();
+
+        $options[SURVEYPRO_ITEMSRETURNSVALUES] = get_string('returnvalues', 'surveyprofield_radiobutton');
+        $options[SURVEYPRO_ITEMRETURNSLABELS] = get_string('returnlabels', 'surveyprofield_radiobutton');
+        $options[SURVEYPRO_ITEMRETURNSPOSITION] = get_string('returnposition', 'surveyprofield_radiobutton');
+
+        return $option;
     }
 
     /**
@@ -469,6 +485,9 @@ EOS;
      */
     public function userform_mform_element($mform, $searchform, $readonly) {
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
+        $choosedotsstr = get_string('choosedots');
+        $starsstr = get_string('star', 'mod_surveypro');
+        $noanswerstr = get_string('noanswer', 'mod_surveypro');
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
@@ -483,14 +502,14 @@ EOS;
         if (!$searchform) {
             if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
                 $attributes['id'] = $idprefix.'_invite';
-                $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('choosedots'), SURVEYPRO_INVITEVALUE, $attributes);
+                $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', $choosedotsstr, SURVEYPRO_INVITEVALUE, $attributes);
                 if ($this->adjustment == SURVEYPRO_HORIZONTAL) {
                     $attributes['class'] = 'radiobutton_radio';
                 }
             }
         } else {
             $attributes['id'] = $idprefix.'_ignoreme';
-            $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('star', 'mod_surveypro'), SURVEYPRO_IGNOREMEVALUE, $attributes);
+            $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', $starsstr, SURVEYPRO_IGNOREMEVALUE, $attributes);
             if ($this->adjustment == SURVEYPRO_HORIZONTAL) {
                 $attributes['class'] = 'radiobutton_radio';
             }
@@ -521,7 +540,7 @@ EOS;
 
         if (!$this->required) {
             $attributes['id'] = $idprefix.'_noanswer';
-            $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', get_string('noanswer', 'mod_surveypro'), SURVEYPRO_NOANSWERVALUE, $attributes);
+            $elementgroup[] = $mform->createElement('mod_surveypro_radio', $this->itemname, '', $noanswerstr, SURVEYPRO_NOANSWERVALUE, $attributes);
         }
         // End of: mform element.
 
@@ -538,10 +557,11 @@ EOS;
             if (!$this->required) {
                 $separator[] = '<br />';
             }
-        } else { // SURVEYPRO_HORIZONTAL
+        } else { // SURVEYPRO_HORIZONTAL.
             $separator = ' ';
         }
-        // End of: definition of separator
+        // End of: definition of separator.
+
         $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, $separator, false);
 
         // Begin of: default section.
@@ -575,11 +595,11 @@ EOS;
         } else {
             $mform->setDefault($this->itemname, SURVEYPRO_IGNOREMEVALUE);
         }
-        // $this->itemname.'_text' has to ALWAYS get a default (if it exists) even if it is not selected
+        // $this->itemname.'_text' has to ALWAYS get a default (if it exists) even if it is not selected.
         if (!empty($this->labelother)) {
             $mform->setDefault($this->itemname.'_text', $othervalue);
         }
-        // End of: default section
+        // End of: default section.
     }
 
     /**
@@ -592,7 +612,7 @@ EOS;
      */
     public function userform_mform_validation($data, &$errors, $searchform) {
         // This plugin displays as a set of radio buttons. It will never return empty values.
-        // If ($this->required) { if (empty($data[$this->itemname])) { is useless
+        // If ($this->required) { if (empty($data[$this->itemname])) { is useless.
 
         if ($searchform) {
             return;
@@ -605,7 +625,7 @@ EOS;
             return;
         }
 
-        // I need to check value is different from SURVEYPRO_INVITEVALUE even if it is not required
+        // I need to check value is different from SURVEYPRO_INVITEVALUE even if it is not required.
         if ($data[$this->itemname] == SURVEYPRO_INVITEVALUE) {
             $errors[$errorkey] = get_string('uerr_optionnotset', 'surveyprofield_radiobutton');
             return;
@@ -621,7 +641,7 @@ EOS;
     public function userform_get_parent_disabilitation_info($childparentvalue) {
         $disabilitationinfo = array();
 
-        $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 1;1;0;
+        $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 1;1;0;.
 
         $indexsubset = array();
         $labelsubset = array();
@@ -663,7 +683,7 @@ EOS;
             }
         } else {
             // Even if no labels were provided.
-            // I have to add one more $disabilitationinfo if $this->other is not empty
+            // I have to add one more $disabilitationinfo if $this->other is not empty.
             if (!empty($this->labelother)) {
                 $mformelementinfo = new stdClass();
                 $mformelementinfo->parentname = $this->itemname.'_other';
@@ -690,12 +710,10 @@ EOS;
      * @return boolean: true: if the item is welcome; false: if the item must be dropped out
      */
     public function userform_child_item_allowed_dynamic($childparentvalue, $data) {
-        // 1) I am a radiobutton item
-        // 2) in $data I can ONLY find $this->itemname, $this->itemname.'_text'
+        // In $data I can ONLY find $this->itemname, $this->itemname.'_text'.
 
-        // I need to verify (checkbox per checkbox) if they hold the same value the user entered
+        // I need to verify (checkbox per checkbox) if they hold the same value the user entered.
         $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
-        // $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 2 OR shark
 
         if ( ($this->labelother) && ($data[$this->itemname] == count($labels)) ) {
             return ($data[$this->itemname.'_text'] = $childparentvalue);
@@ -738,12 +756,12 @@ EOS;
      * This method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time.
      *
      * @param object $fromdb
-     * @return void
+     * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
         $prefill = array();
 
-        if (!$fromdb) { // $fromdb may be boolean false for not existing data
+        if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
             return $prefill;
         }
 

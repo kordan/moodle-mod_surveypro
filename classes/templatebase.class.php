@@ -86,8 +86,7 @@ class mod_surveypro_templatebase {
     public function validate_xml($xml) {
         global $CFG;
 
-        $debug = false;
-        // $debug = true; // if you want to stop anyway to see where the xml template is buggy.
+        $debug = false; // Set $debug = true if you want to stop anyway to debug the xml template.
 
         $versiondisk = $this->get_plugin_versiondisk();
         if ($CFG->debug == DEBUG_DEVELOPER) {
@@ -97,7 +96,7 @@ class mod_surveypro_templatebase {
         }
         foreach ($simplexml->children() as $xmlitem) {
             foreach ($xmlitem->attributes() as $attribute => $value) {
-                // <item type="format" plugin="label" version="2014030201">
+                // Example: <item type="format" plugin="label" version="2014030201">
                 // echo 'Found: '.$attribute.' = '.$value.'<br />';
                 if ($attribute == 'type') {
                     $currenttype = (string)$value;
@@ -157,12 +156,13 @@ class mod_surveypro_templatebase {
                 // I am assuming that surveypro_item table is ALWAYS before the surveypro_<<plugin>> table.
                 if ($tablename == 'surveypro_item') {
                     // I could use a random class here because they all share the same parent item_get_item_schema
-                    // but, I need the right class name for the next table, so I choose to load the correct class from the beginning.
+                    // but, in spite of this, I need the right class name for the next table
+                    // so I choose to load the correct class from the beginning.
                     require_once($CFG->dirroot.'/mod/surveypro/'.$currenttype.'/'.$currentplugin.'/classes/plugin.class.php');
                     $classname = 'mod_surveypro_'.$currenttype.'_'.$currentplugin;
                     $xsd = $classname::item_get_item_schema(); // Itembase schema.
                 } else {
-                    // Classname is already onboard because of the previous loop over surveypro_item fields.
+                    // Classname has already been defined because of the previous loop over surveypro_item fields.
                     if (!isset($classname)) {
                         $error = new stdClass();
                         $error->key = 'badtablenamefound';

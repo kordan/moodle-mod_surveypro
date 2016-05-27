@@ -153,10 +153,10 @@ class mod_surveypro_covermanager {
         }
 
         if ($cansubmit) {
-            if (!$canignoremaxentries) {
-                $maxentries = ($this->surveypro->maxentries) ? $this->surveypro->maxentries : get_string('unlimited', 'mod_surveypro');
-            } else {
+            if (empty($this->surveypro->maxentries) || $canignoremaxentries) {
                 $maxentries = get_string('unlimited', 'mod_surveypro');
+            } else {
+                $maxentries = $this->surveypro->maxentries;
             }
             $messages[] = get_string('maxentries', 'mod_surveypro').$labelsep.$maxentries;
 
@@ -179,7 +179,8 @@ class mod_surveypro_covermanager {
 
         if ($displaybutton) {
             $url = new moodle_url('/mod/surveypro/view_form.php', array('id' => $this->cm->id, 'view' => SURVEYPRO_NEWRESPONSE));
-            echo $OUTPUT->box($OUTPUT->single_button($url, get_string('addnewsubmission', 'mod_surveypro'), 'get'), 'clearfix mdl-align');
+            $message = get_string('addnewsubmission', 'mod_surveypro');
+            echo $OUTPUT->box($OUTPUT->single_button($url, $message, 'get'), 'clearfix mdl-align');
         } else {
             if (!$cansubmit) {
                 $message = get_string('canneversubmit', 'mod_surveypro');
@@ -294,7 +295,6 @@ class mod_surveypro_covermanager {
         global $OUTPUT;
 
         if (count($messages)) {
-            // echo $OUTPUT->box_start('box generalbox description', 'intro');
             echo html_writer::start_tag('fieldset', array('class' => 'generalbox'));
             echo html_writer::start_tag('legend', array('class' => 'coverinfolegend'));
             echo $strlegend;
@@ -303,7 +303,6 @@ class mod_surveypro_covermanager {
                 echo $OUTPUT->container($message, 'mdl-left');
             }
             echo html_writer::end_tag('fieldset');
-            // echo $OUTPUT->box_end();
         }
     }
 }

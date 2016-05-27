@@ -74,35 +74,50 @@ class mod_surveypro_searchmanager {
      * @return mixed $searchquery if a search was requested, void otherwise
      */
     public function get_searchparamurl() {
-        $regexp = '~('.SURVEYPRO_ITEMPREFIX.'|'.SURVEYPRO_DONTSAVEMEPREFIX.')_('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_([a-z]+)_([0-9]+)_?([a-z0-9]+)?~';
+        // Replaced on May 13, 2016
+        // $regexp = '~('.SURVEYPRO_ITEMPREFIX.'|'.SURVEYPRO_DONTSAVEMEPREFIX.')_('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_([a-z]+)_([0-9]+)_?([a-z0-9]+)?~';
+        $regexp = '~';
+        $regexp .= SURVEYPRO_ITEMPREFIX.'_';
+        $regexp .= '(?P<type>'.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')';
+        $regexp .= '_';
+        $regexp .= '(?P<plugin>[^_]+)';
+        $regexp .= '_';
+        $regexp .= '(?P<itemid>\d+)';
+        $regexp .= '_?';
+        $regexp .= '(?P<optional>[\d\w]+)?';
+        $regexp .= '~';
 
         $itemhelperinfo = array();
         foreach ($this->formdata as $elementname => $content) {
             if (preg_match($regexp, $elementname, $matches)) {
-                $itemid = $matches[4]; // Itemid of the search_form element (or of the search_form family element).
+                $itemid = $matches['itemid']; // Itemid of the search_form element (or of the search_form family element).
                 if (!isset($itemhelperinfo[$itemid])) {
                     $itemhelperinfo[$itemid] = new stdClass();
-                    $itemhelperinfo[$itemid]->type = $matches[2];
-                    $itemhelperinfo[$itemid]->plugin = $matches[3];
+                    $itemhelperinfo[$itemid]->type = $matches['type'];
+                    $itemhelperinfo[$itemid]->plugin = $matches['plugin'];
                     $itemhelperinfo[$itemid]->itemid = $itemid;
                 }
-                if (!isset($matches[5])) {
+                if (!isset($matches['optional'])) {
                     $itemhelperinfo[$itemid]->contentperelement['mainelement'] = $content;
                 } else {
-                    $itemhelperinfo[$itemid]->contentperelement[$matches[5]] = $content;
+                    $itemhelperinfo[$itemid]->contentperelement[$matches['optional']] = $content;
                 }
             }
         }
 
         $searchfields = array();
         foreach ($itemhelperinfo as $iteminfo) {
-            if ( isset($iteminfo->contentperelement['ignoreme']) && $iteminfo->contentperelement['ignoreme'] ) {
-                // Do not waste your time.
-                continue;
+            if (isset($iteminfo->contentperelement['ignoreme'])) {
+                if ($iteminfo->contentperelement['ignoreme']) {
+                    // Do not waste your time.
+                    continue;
+                }
             }
-            if ( isset($iteminfo->contentperelement['mainelement']) && ($iteminfo->contentperelement['mainelement'] == SURVEYPRO_IGNOREMEVALUE)) {
-                // Do not waste your time.
-                continue;
+            if (isset($iteminfo->contentperelement['mainelement'])) {
+                if ($iteminfo->contentperelement['mainelement'] == SURVEYPRO_IGNOREMEVALUE) {
+                    // Do not waste your time.
+                    continue;
+                }
             }
             $item = surveypro_get_item($this->cm, $this->surveypro, $iteminfo->itemid, $iteminfo->type, $iteminfo->plugin);
 

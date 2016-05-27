@@ -73,7 +73,7 @@ function surveypro_autofill_get_elements($surveyproid) {
     $begin = $end + 1;
     $menuelements = 3; // 3 == ('number of cycles' - 1).
     if ($usegroups) {
-        $menuelements += 2; // 'group ID' and 'group name'.
+        $menuelements += 2; // Add 'group ID' and 'group name'.
     }
     $end = $begin + $menuelements;
     $subelements = array();

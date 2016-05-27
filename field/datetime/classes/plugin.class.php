@@ -217,7 +217,6 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'datetime';
-        // $this->editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA); // Already set in parent class.
         $this->savepositiontodb = false;
 
         // Other element specific properties.
@@ -419,7 +418,7 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
     /**
      * Get the content of the downloadformats menu of the item setup form.
      *
-     * @return void
+     * @return array of downloadformats
      */
     public function item_get_downloadformats() {
         $option = array();
@@ -427,22 +426,9 @@ class mod_surveypro_field_datetime extends mod_surveypro_itembase {
 
         for ($i = 1; $i < 13; $i++) {
             $strname = 'strftime'.str_pad($i, 2, '0', STR_PAD_LEFT);
-            $option[$strname] = userdate($timenow, get_string($strname, 'surveyprofield_datetime')); // Monday 17 June, 05.15
+            $option[$strname] = userdate($timenow, get_string($strname, 'surveyprofield_datetime'));
         }
         $option['unixtime'] = get_string('unixtime', 'mod_surveypro');
-        // Friday, 21 June 2013, 08:14.
-        // Friday, 21 June 2013, 8:14 am.
-        // Fri, 21 Jun 2013, 8:14 am.
-        // Fri, 21 Jun 2013, 08:14.
-        // 21 June 2013, 08:14.
-        // 21 June 2013, 8:14 am.
-        // 21 Jun, 08:14.
-        // 21 Jun, 8:14 am.
-        // 21/06/13, 08:14.
-        // 21/06/13, 8:14 am.
-        // 21/06/2013, 08:14.
-        // 21/06/2013, 8:14 am.
-        // Unix time.
 
         return $option;
     }
@@ -558,11 +544,13 @@ EOS;
             $hours[SURVEYPRO_IGNOREMEVALUE] = '';
             $minutes[SURVEYPRO_IGNOREMEVALUE] = '';
         }
-        $days += array_combine(range(1, 31), range(1, 31));
+        $daysrange = range(1, 31);
+        $days += array_combine($daysrange, $daysrange);
         for ($i = 1; $i <= 12; $i++) {
             $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B"); // January, February, March...
         }
-        $years += array_combine(range($this->lowerboundyear, $this->upperboundyear), range($this->lowerboundyear, $this->upperboundyear));
+        $yearsrange = range($this->lowerboundyear, $this->upperboundyear);
+        $years += array_combine($yearsrange, $yearsrange);
         for ($i = 0; $i < 24; $i++) {
             $hours[$i] = sprintf("%02d", $i);
         }
@@ -575,22 +563,27 @@ EOS;
         $attributes = array();
         $elementgroup = array();
 
+        $itemname = $this->itemname.'_day';
         $attributes['id'] = $idprefix.'_day';
         $attributes['class'] = 'indent-'.$this->indent.' datetime_select';
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_day', '', $days, $attributes);
+        $elementgroup[] = $mform->createElement('mod_surveypro_select', $itemname, '', $days, $attributes);
 
+        $itemname = $this->itemname.'_month';
         $attributes['id'] = $idprefix.'_month';
         $attributes['class'] = 'datetime_select';
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_month', '', $months, $attributes);
+        $elementgroup[] = $mform->createElement('mod_surveypro_select', $itemname, '', $months, $attributes);
 
+        $itemname = $this->itemname.'_year';
         $attributes['id'] = $idprefix.'_year';
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_year', '', $years, $attributes);
+        $elementgroup[] = $mform->createElement('mod_surveypro_select', $itemname, '', $years, $attributes);
 
+        $itemname = $this->itemname.'_hour';
         $attributes['id'] = $idprefix.'_hour';
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_hour', '', $hours, $attributes);
+        $elementgroup[] = $mform->createElement('mod_surveypro_select', $itemname, '', $hours, $attributes);
 
+        $itemname = $this->itemname.'_minute';
         $attributes['id'] = $idprefix.'_minute';
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname.'_minute', '', $minutes, $attributes);
+        $elementgroup[] = $mform->createElement('mod_surveypro_select', $itemname, '', $minutes, $attributes);
 
         $separator = array(' ', ' ', ', ', ':');
         if ($this->required) {
@@ -605,9 +598,11 @@ EOS;
                 $mform->_required[] = $starplace;
             }
         } else {
+            $itemname = $this->itemname.'_noanswer';
+            $noanswerstr = get_string('noanswer', 'mod_surveypro');
             $attributes['id'] = $idprefix.'_noanswer';
             $attributes['class'] = 'datetime_check';
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', get_string('noanswer', 'mod_surveypro'), $attributes);
+            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $noanswerstr, $attributes);
             $separator[] = ' ';
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, $separator, false);
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
@@ -637,8 +632,10 @@ EOS;
                     case SURVEYPRO_LIKELASTDEFAULT:
                         // Look for my last submission.
                         $sql = 'userid = :userid ORDER BY timecreated DESC LIMIT 1';
-                        $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, array('userid' => $USER->id), IGNORE_MISSING);
-                        if ($time = $DB->get_field('surveypro_answer', 'content', array('itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid), IGNORE_MISSING)) {
+                        $where = array('userid' => $USER->id);
+                        $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, $where, IGNORE_MISSING);
+                        $where = array('itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid);
+                        if ($time = $DB->get_field('surveypro_answer', 'content', $where, IGNORE_MISSING)) {
                             $datetimearray = $this->item_split_unix_time($time, false);
                         } else { // As in standard default.
                             $datetimearray = $this->item_split_unix_time(time(), true);
@@ -821,12 +818,12 @@ EOS;
      * This method is called from get_prefill_data (in formbase.class.php) to set $prefill at user form display time.
      *
      * @param object $fromdb
-     * @return void
+     * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
         $prefill = array();
 
-        if (!$fromdb) { // $fromdb may be boolean false for not existing data.
+        if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
             return $prefill;
         }
 

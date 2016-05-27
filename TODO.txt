@@ -13,7 +13,6 @@
 -> allow upperbound date/datetime == to now
 -> the option "not answered" is missing in the search form even if a "Answer not provided" is part of an item
 -> the workaround suggested by Marina Glancy in MDL-42946 doesn't work if the label is crafted into the tag <p>.
--> I need a regex to validate an url
 -> mform elements in MMM have different sizes probably because of /theme/yui_combo.php?3.13.0/cssreset/cssreset.css&3.13.0/cssfonts/cssfonts.css&3.13.0/cssgrids/cssgrids.css&3.13.0/cssbase/cssbase.css
 
 1) Still it seems to be something strange when handling fileareas. I just grepped by get_area_files and found a bunch of them new/strange for me. ELOY has to review this!

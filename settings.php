@@ -33,7 +33,7 @@ $settings = new admin_settingpage($section, get_string('settings', 'mod_surveypr
 if ($ADMIN->fulltree) {
     $name = new lang_string('maxinputdelay', 'mod_surveypro');
     $description = new lang_string('maxinputdelay_descr', 'mod_surveypro');
-    $settings->add(new admin_setting_configtext('mod_surveypro/maxinputdelay', $name, $description, 168, PARAM_INT)); // Alias: 7*24 hours == 1 week.
+    $settings->add(new admin_setting_configtext('mod_surveypro/maxinputdelay', $name, $description, 168, PARAM_INT)); // 1 week in hours.
 
     $name = new lang_string('extranoteinsearch', 'mod_surveypro');
     $description = new lang_string('extranoteinsearch_descr', 'mod_surveypro');

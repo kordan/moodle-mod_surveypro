@@ -211,7 +211,6 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
         $options = array();
         $options[CONTEXT_USER.'_'.$USER->id] = get_string('user').$labelsep.fullname($USER);
-        // $options[CONTEXT_MODULE.'_'.$this->cm->id] = get_string('module', 'mod_surveypro').$labelsep.$this->surveypro->name;
 
         $parentcontexts = $this->context->get_parent_contexts();
         foreach ($parentcontexts as $context) {
@@ -362,7 +361,8 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                 } // Otherwise: It is empty, do not evaluate: jump.
 
                 if ($field == 'content') {
-                    if ($files = $fs->get_area_files($context->id, 'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $item->get_itemid())) {
+                    $itemid = $item->get_itemid();
+                    if ($files = $fs->get_area_files($context->id, 'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $itemid)) {
                         foreach ($files as $file) {
                             $filename = $file->get_filename();
                             if ($filename == '.') {
@@ -377,7 +377,9 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
             }
         }
 
-        // $option == false if 100% waste of time BUT BUT BUT the output in the file is well written.
+        // The case: $option == false if 100% waste of time
+        // BUT BUT BUT...
+        // the output in the file is well written.
         // I prefer a more readable xml file instead of few nanoseconds saved.
         $option = false;
         if ($option) {
@@ -600,14 +602,14 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                     $naturalsortindex++;
                     $record->sortindex = $naturalsortindex + $sortindexoffset;
                     if (!empty($record->parentid)) {
-                        $whereparams = array('surveyproid' => $this->surveypro->id, 'sortindex' => ($record->parentid + $sortindexoffset));
+                        $whereparams = array();
+                        $whereparams['surveyproid'] = $this->surveypro->id;
+                        $whereparams['sortindex'] = $record->parentid + $sortindexoffset;
                         $record->parentid = $DB->get_field('surveypro_item', 'id', $whereparams, MUST_EXIST);
                     }
 
                     $itemid = $DB->insert_record($tablename, $record);
                 } else {
-                    // $item has already been defined few lines before $tablename was == 'surveypro_item'.
-
                     // Take care to details.
                     $item->item_force_coherence($record);
                     $item->item_validate_variablename($record, $itemid);
@@ -682,7 +684,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
             if (isset($templateoptions['return_types']) && !($templateoptions['return_types'] & FILE_REFERENCE)) {
                 // We assume that if $options['return_types'] is NOT specified, we DO allow references.
                 // This is not exactly right. BUT there are many places in code where filemanager options...
-                // ...are not passed to file_save_draft_area_files()
+                // ...are not passed to file_save_draft_area_files().
                 $allowreferences = false;
             }
 
@@ -736,7 +738,9 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
             if (count($files) == 1) {
                 // Only one file attached, set it as main file automatically.
                 $file = array_shift($files);
-                file_set_sortorder($contextid, 'mod_surveypro', SURVEYPRO_TEMPLATEFILEAREA, 0, $file->get_filepath(), $file->get_filename(), 1);
+                $filepath = $file->get_filepath();
+                $filename = $file->get_filename();
+                file_set_sortorder($contextid, 'mod_surveypro', SURVEYPRO_TEMPLATEFILEAREA, 0, $filepath, $filename, 1);
             }
         }
 
@@ -865,9 +869,10 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                         $paramurl['act'] = SURVEYPRO_DELETEUTEMPLATE;
                         $paramurl['sesskey'] = sesskey();
 
-                        $icons .= $OUTPUT->action_icon(new moodle_url('/mod/surveypro/utemplates_manage.php', $paramurl),
-                            new pix_icon('t/delete', $deletetitle, 'moodle', array('title' => $deletetitle)),
-                            null, array('title' => $deletetitle));
+                        $link = new moodle_url('/mod/surveypro/utemplates_manage.php', $paramurl);
+                        $icon = new pix_icon('t/delete', $deletetitle, 'moodle', array('title' => $deletetitle));
+                        $paramlink = array('title' => $deletetitle);
+                        $icons .= $OUTPUT->action_icon($link, $icon, null, $paramlink);
                     }
                 }
 
@@ -877,9 +882,10 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                     $paramurl['act'] = SURVEYPRO_EXPORTUTEMPLATE;
                     $paramurl['sesskey'] = sesskey();
 
-                    $icons .= $OUTPUT->action_icon(new moodle_url('/mod/surveypro/utemplates_manage.php', $paramurl),
-                        new pix_icon('i/export', $exporttitle, 'moodle', array('title' => $exporttitle)),
-                        null, array('title' => $exporttitle));
+                    $link = new moodle_url('/mod/surveypro/utemplates_manage.php', $paramurl);
+                    $icon = new pix_icon('i/export', $exporttitle, 'moodle', array('title' => $exporttitle));
+                    $paramlink = array('title' => $exporttitle);
+                    $icons .= $OUTPUT->action_icon($link, $icon, null, $paramlink);
                 }
 
                 $tablerow[] = $icons;
