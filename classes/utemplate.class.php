@@ -286,7 +286,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         global $OUTPUT;
 
         $a = get_string('sharinglevel', 'mod_surveypro');
-        $message = get_string('welcomeutemplatesave', 'mod_surveypro', $a);
+        $message = get_string('welcome_utemplatesave', 'mod_surveypro', $a);
         echo $OUTPUT->notification($message, 'notifymessage');
     }
 

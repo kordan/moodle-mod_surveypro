@@ -228,7 +228,7 @@
 /* taken from: http://www.techrepublic.com/blog/web-designer/customize-horizontal-rules-to-add-some-flair/ */
 #page-mod-surveypro-layout_manage hr.pagebreakcontent,
 #page-mod-surveypro-layout_validation hr.pagebreakcontent {
-    height: 20px;
+    height: 18px;
     border-style: ridge;
     border-width: 3px 0 0 0;
     border-radius: 45px;

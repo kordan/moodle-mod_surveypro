@@ -99,7 +99,7 @@ define('SURVEYPRO_CHANGEINDENT'      , '8');
 define('SURVEYPRO_ADDTOSEARCH'       , '9');
 define('SURVEYPRO_REMOVEFROMSEARCH'  , '10');
 define('SURVEYPRO_MAKESTANDARD'      , '11');
-define('SURVEYPRO_MAKEADVANCED'      , '12');
+define('SURVEYPRO_MAKERESERVED'      , '12');
 
 /**
  * BULK ACTIONS in LAYOUT MANAGEMENT and in APPLY UTEMPLATE page
@@ -994,10 +994,16 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
  * @return void
  */
 function surveypro_extend_navigation(navigation_node $navref, stdClass $course, stdClass $surveypro, cm_info $cm) {
-    // $context = context_system::instance();
+    global $CFG;
+
+    require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
+
+    $utilityman = new mod_surveypro_utility($cm, $surveypro);
+
     $context = context_module::instance($cm->id);
 
     $cansearch = has_capability('mod/surveypro:searchsubmissions', $context, null, true);
+    $cansearch = $cansearch && $utilityman->has_search_items();
 
     // $currentgroup = groups_get_activity_group($cm);
     // $groupmode = groups_get_activity_groupmode($cm, $COURSE);
