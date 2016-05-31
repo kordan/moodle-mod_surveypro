@@ -136,32 +136,16 @@ class mod_surveypro_searchform extends moodleform {
 
         $errors = array();
 
-        // Replaced on May 13, 2016
-        // $regexp = '~('.SURVEYPRO_ITEMPREFIX.'|'.SURVEYPRO_DONTSAVEMEPREFIX.')_('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_([a-z]+)_([0-9]+)_?([a-z0-9]+)?~';
-        $regexp = '~';
-        $regexp .= '(?:'.SURVEYPRO_ITEMPREFIX.'|'.SURVEYPRO_DONTSAVEMEPREFIX.')';
-        $regexp .= '_';
-        $regexp .= '(?P<type>'.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')';
-        $regexp .= '_';
-        $regexp .= '(?P<plugin>[^_]+)';
-        $regexp .= '_';
-        $regexp .= '(?P<itemid>\d+)';
-        $regexp .= '_?';
-        $regexp .= '(?:[\d\w]+)?';
-        $regexp .= '~';
-
         $olditemid = 0;
-        foreach ($data as $itemname => $unused) {
-            if (preg_match($regexp, $itemname, $matches)) {
-                // The prefix (_text or _noanswer or...) is not extracted.
-                $type = $matches['type']; // Item type.
-                $plugin = $matches[2]; // Item plugin.
-                $itemid = $matches[3]; // Item id.
-                // The last optional word (_text or _noanswer or...) is not extracted.
-
-                if ($itemid == $olditemid) {
+        foreach ($data as $elementname => $unused) {
+            if ($matches = mod_surveypro_utility::get_item_parts($elementname)) {
+                if ($matches['itemid'] == $olditemid) {
                     continue;
                 }
+
+                $type = $matches['type'];
+                $plugin = $matches['plugin'];
+                $itemid = $matches['itemid'];
 
                 $olditemid = $itemid;
 

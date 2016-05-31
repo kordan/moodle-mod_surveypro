@@ -74,33 +74,25 @@ class mod_surveypro_searchmanager {
      * @return mixed $searchquery if a search was requested, void otherwise
      */
     public function get_searchparamurl() {
-        // Replaced on May 13, 2016
-        // $regexp = '~('.SURVEYPRO_ITEMPREFIX.'|'.SURVEYPRO_DONTSAVEMEPREFIX.')_('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_([a-z]+)_([0-9]+)_?([a-z0-9]+)?~';
-        $regexp = '~';
-        $regexp .= SURVEYPRO_ITEMPREFIX.'_';
-        $regexp .= '(?P<type>'.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')';
-        $regexp .= '_';
-        $regexp .= '(?P<plugin>[^_]+)';
-        $regexp .= '_';
-        $regexp .= '(?P<itemid>\d+)';
-        $regexp .= '_?';
-        $regexp .= '(?P<optional>[\d\w]+)?';
-        $regexp .= '~';
-
         $itemhelperinfo = array();
         foreach ($this->formdata as $elementname => $content) {
-            if (preg_match($regexp, $elementname, $matches)) {
-                $itemid = $matches['itemid']; // Itemid of the search_form element (or of the search_form family element).
+            if ($matches = mod_surveypro_utility::get_item_parts($elementname)) {
+                if ($matches['prefix'] == SURVEYPRO_DONTSAVEMEPREFIX) {
+                    // Multiselect are always submitted because, at least, they have SURVEYPRO_IGNOREMEVALUE
+                    continue;
+                }
+
+                $itemid = $matches['itemid'];
                 if (!isset($itemhelperinfo[$itemid])) {
                     $itemhelperinfo[$itemid] = new stdClass();
                     $itemhelperinfo[$itemid]->type = $matches['type'];
                     $itemhelperinfo[$itemid]->plugin = $matches['plugin'];
                     $itemhelperinfo[$itemid]->itemid = $itemid;
                 }
-                if (!isset($matches['optional'])) {
+                if (!isset($matches['option'])) {
                     $itemhelperinfo[$itemid]->contentperelement['mainelement'] = $content;
                 } else {
-                    $itemhelperinfo[$itemid]->contentperelement[$matches['optional']] = $content;
+                    $itemhelperinfo[$itemid]->contentperelement[$matches['option']] = $content;
                 }
             }
         }

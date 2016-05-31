@@ -64,7 +64,7 @@ function surveypro_character_validate_url($url) {
     // Which one is better here?
     // First option: return (filter_var($url, FILTER_VALIDATE_URL) !== false);
 
-    // Secondo option: $regex = '~^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$~i';
+    // Second option: $regex = '~^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$~i';
 
     // Third option.
     $regex = '~^(http(s?)\:\/\/)?[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\‌​-‌​\.\?\,\'\/\\\+&amp;%\$#_]*)?$~i';
