@@ -297,7 +297,7 @@ class mod_surveypro_itembase {
      *
      * Here is the explanation of $this->itemeditingfeedback
      * $this->itemeditingfeedback
-     *   +--- children inherited limited access
+     *   +--- children inherited reserved access
      *   |     +--- parents were made available for all
      *   |     |     +--- children were hided because this item was hided
      *   |     |     |     +--- parents were shown because this item was shown
@@ -592,7 +592,7 @@ class mod_surveypro_itembase {
 
             // Management of ($oldreserved != $newreserved).
             if ($oldreserved != $newreserved) {
-                $action = ($oldreserved) ? SURVEYPRO_MAKESTANDARD : SURVEYPRO_MAKEADVANCED;
+                $action = ($oldreserved) ? SURVEYPRO_MAKESTANDARD : SURVEYPRO_MAKERESERVED;
 
                 $itemlistman = new mod_surveypro_itemlist($this->cm, $context, $this->surveypro);
                 $itemlistman->set_type($this->type);
