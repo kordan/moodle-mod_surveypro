@@ -842,4 +842,87 @@ class mod_surveypro_utility {
             return ($usersubmissions < $this->surveypro->maxentries);
         }
     }
+
+    /**
+     * What is allowed to go in the admin menu and in the module tree?
+     *
+     * @param int $caller of this routine. It can be: SURVEYPRO_TAB, SURVEYPRO_BLOCK.
+     * @return array of boolean permissions to show link in the admin blook or pages in the module tree
+     */
+    public function get_admin_elements_visibility($caller) {
+        global $DB;
+
+        $callers = array(SURVEYPRO_TAB, SURVEYPRO_BLOCK);
+        if (!in_array($caller, $callers)) {
+            $message = 'Wrong caller passed to in get_admin_elements_visibility';
+            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+        }
+
+        $riskyediting = ($this->surveypro->riskyeditdeadline > time());
+
+        $canview = has_capability('mod/surveypro:view', $this->context, null, true);
+        $canpreview = has_capability('mod/surveypro:preview', $this->context, null, true);
+        $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
+        $cansearch = has_capability('mod/surveypro:searchsubmissions', $this->context, null, true);
+        $canimportdata = has_capability('mod/surveypro:importdata', $this->context, null, true);
+        $canmanageusertemplates = has_capability('mod/surveypro:manageusertemplates', $this->context, null, true);
+        $cansaveusertemplates = has_capability('mod/surveypro:saveusertemplates', $this->context, null, true);
+        $canimportusertemplates = has_capability('mod/surveypro:importusertemplates', $this->context, null, true);
+        $canapplyusertemplates = has_capability('mod/surveypro:applyusertemplates', $this->context, null, true);
+        $cansavemastertemplates = has_capability('mod/surveypro:savemastertemplates', $this->context, null, true);
+        $canapplymastertemplates = has_capability('mod/surveypro:applymastertemplates', $this->context, null, true);
+        $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context, null, true);
+
+        $hassubmissions = $this->has_submissions();
+
+        $whereparams = array('surveyproid' => $this->surveypro->id);
+        $countparents = $DB->count_records_select('surveypro_item', 'surveyproid = :surveyproid AND parentid <> 0', $whereparams);
+
+        $isallowed = array();
+
+        // Tab layout.
+        $elements = array();
+        $elements['preview'] = $canpreview;
+        $elements['manage'] = $canmanageitems;
+        $elements['validate'] = $canmanageitems && empty($this->surveypro->template) && $countparents;
+        $elements['root'] = $elements['preview'] || $elements['validate'];
+        // Needed only when called from tabmanager.
+        $elements['itemsetup'] = empty($this->surveypro->template);
+        $isallowed['tab_layout'] = $elements;
+
+        // Tab submissions.
+        $elements = array();
+        $elements['import'] = $canimportdata;
+        $elements['export'] = $canmanageitems;
+        // Needed only when called from tabmanager.
+        $elements['cover'] = $canview;
+        $elements['responses'] = !is_guest($this->context);
+        $elements['search'] = $cansearch && $this->has_search_items();
+        $elements['report'] = $canaccessreports;
+        if ($caller == SURVEYPRO_TAB) {
+            $elements['root'] = $elements['cover'] || $elements['responses'] || $elements['search'] || $elements['report'];
+        }
+        if ($caller == SURVEYPRO_BLOCK) {
+            $elements['root'] = $elements['import'] || $elements['export'];
+        }
+        $isallowed['tab_submissions'] = $elements;
+
+        // Tab user template.
+        $elements = array();
+        $elements['root'] = $canmanageusertemplates && empty($this->surveypro->template);
+        $elements['manage'] = $elements['root'];
+        $elements['save'] = $elements['root'] && $cansaveusertemplates;
+        $elements['import'] = $elements['root'] && $canimportusertemplates;
+        $elements['apply'] = $elements['root'] && (!$hassubmissions || $riskyediting) && $canapplyusertemplates;
+        $isallowed['tab_utemplate'] = $elements;
+
+        // Tab master template.
+        $elements = array();
+        $elements['save'] = $cansavemastertemplates && empty($this->surveypro->template);
+        $elements['apply'] = (!$hassubmissions || $riskyediting) && $canapplymastertemplates;
+        $elements['root'] = $elements['save'] || $elements['apply'];
+        $isallowed['tab_mtemplate'] = $elements;
+
+        return $isallowed;
+    }
 }
