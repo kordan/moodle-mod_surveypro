@@ -391,20 +391,7 @@ class mod_surveypro_submissionmanager {
         $status[SURVEYPRO_STATUSINPROGRESS] = get_string('statusinprogress', 'mod_surveypro');
         $status[SURVEYPRO_STATUSCLOSED] = get_string('statusclosed', 'mod_surveypro');
 
-        $downloadpdfstr = get_string('downloadpdf', 'mod_surveypro');
-        $deletestr = get_string('delete');
         $neverstr = get_string('never');
-        $readonlyaccessstr = get_string('readonlyaccess', 'mod_surveypro');
-
-        $nonhistoryeditstr = get_string('edit');
-        $duplicatestr = get_string('duplicate');
-        if ($this->surveypro->history) {
-            $attributestr = get_string('editcopy', 'mod_surveypro');
-            $linkidprefix = 'editcopy_submission_';
-        } else {
-            $attributestr = $nonhistoryeditstr;
-            $linkidprefix = 'edit_submission_';
-        }
 
         // Initialize variables to gather information for the "Submission overview".
         $countclosed = 0;
@@ -415,6 +402,39 @@ class mod_surveypro_submissionmanager {
         list($sql, $whereparams) = $this->get_submissions_sql($table);
         $submissions = $DB->get_recordset_sql($sql, $whereparams);
         if ($submissions->valid()) {
+
+            $iconparams = array('class' => 'iconsmall');
+
+            $nonhistoryeditstr = get_string('edit');
+            $iconparams['title'] = $nonhistoryeditstr;
+            $nonhistoryediticn = new pix_icon('t/edit', $nonhistoryeditstr, 'moodle', $iconparams);
+
+            $readonlyaccessstr = get_string('readonlyaccess', 'mod_surveypro');
+            $iconparams['title'] = $readonlyaccessstr;
+            $readonlyicn = new pix_icon('readonly', $readonlyaccessstr, 'surveypro', $iconparams);
+
+            $duplicatestr = get_string('duplicate');
+            $iconparams['title'] = $duplicatestr;
+            $duplicateicn = new pix_icon('t/copy', $duplicatestr, 'moodle', $iconparams);
+
+            if ($this->surveypro->history) {
+                $attributestr = get_string('editcopy', 'mod_surveypro');
+                $linkidprefix = 'editcopy_submission_';
+            } else {
+                $attributestr = $nonhistoryeditstr;
+                $linkidprefix = 'edit_submission_';
+            }
+            $iconparams['title'] = $attributestr;
+            $attributeicn = new pix_icon('t/edit', $attributestr, 'moodle', $iconparams);
+
+            $deletestr = get_string('delete');
+            $iconparams['title'] = $deletestr;
+            $deleteicn = new pix_icon('t/delete', $deletestr, 'moodle', $iconparams);
+
+            $downloadpdfstr = get_string('downloadpdf', 'mod_surveypro');
+            $iconparams['title'] = $downloadpdfstr;
+            $downloadpdficn = new pix_icon('i/export', $downloadpdfstr, 'moodle', $iconparams);
+
             if ($groupmode = groups_get_activity_groupmode($this->cm, $COURSE)) {
                 if ($groupmode == SEPARATEGROUPS) {
                     $mygroupmates = surveypro_groupmates($this->cm);
@@ -496,23 +516,20 @@ class mod_surveypro_submissionmanager {
                     if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
                         // Here title and alt are ALWAYS $nonhistoryeditstr.
                         $link = new moodle_url('/mod/surveypro/view_form.php', $paramurl);
-                        $icon = new pix_icon('t/edit', $nonhistoryeditstr, 'moodle', array('title' => $nonhistoryeditstr));
                         $paramlink = array('id' => 'edit_submission_'.$submissionsuffix, 'title' => $nonhistoryeditstr);
-                        $icons = $OUTPUT->action_icon($link, $icon, null, $paramlink);
+                        $icons = $OUTPUT->action_icon($link, $nonhistoryediticn, null, $paramlink);
                     } else {
                         // Here title and alt depend from $this->surveypro->history.
                         $link = new moodle_url('/mod/surveypro/view_form.php', $paramurl);
-                        $icon = new pix_icon('t/edit', $attributestr, 'moodle', array('title' => $attributestr));
                         $paramlink = array('id' => $linkidprefix.$submissionsuffix, 'title' => $attributestr);
-                        $icons = $OUTPUT->action_icon($link, $icon, null, $paramlink);
+                        $icons = $OUTPUT->action_icon($link, $attributeicn, null, $paramlink);
                     }
                 } else {
                     $paramurl['view'] = SURVEYPRO_READONLYRESPONSE;
 
                     $link = new moodle_url('/mod/surveypro/view_form.php', $paramurl);
-                    $icon = new pix_icon('readonly', $readonlyaccessstr, 'surveypro', array('title' => $readonlyaccessstr));
                     $paramlink = array('id' => 'view_submission_'.$submissionsuffix, 'title' => $readonlyaccessstr);
-                    $icons = $OUTPUT->action_icon($link, $icon, null, $paramlink);
+                    $icons = $OUTPUT->action_icon($link, $readonlyicn, null, $paramlink);
                 }
 
                 // Duplicate.
@@ -535,9 +552,8 @@ class mod_surveypro_submissionmanager {
                         $paramurl['act'] = SURVEYPRO_DUPLICATERESPONSE;
 
                         $link = new moodle_url('/mod/surveypro/view.php', $paramurl);
-                        $icon = new pix_icon('t/copy', $duplicatestr, 'moodle', array('title' => $duplicatestr));
                         $paramlink = array('id' => 'duplicate_submission_'.$submissionsuffix, 'title' => $duplicatestr);
-                        $icons .= $OUTPUT->action_icon($link, $icon, null, $paramlink);
+                        $icons .= $OUTPUT->action_icon($link, $duplicateicn, null, $paramlink);
                     }
                 }
 
@@ -558,9 +574,8 @@ class mod_surveypro_submissionmanager {
                     $paramurl['act'] = SURVEYPRO_DELETERESPONSE;
 
                     $link = new moodle_url('/mod/surveypro/view.php', $paramurl);
-                    $icon = new pix_icon('t/delete', $deletestr, 'moodle', array('title' => $deletestr));
                     $paramlink = array('id' => 'delete_submission_'.$submissionsuffix, 'title' => $deletestr);
-                    $icons .= $OUTPUT->action_icon($link, $icon, null, $paramlink);
+                    $icons .= $OUTPUT->action_icon($link, $deleteicn, null, $paramlink);
                 }
 
                 // Download to pdf.
@@ -570,9 +585,8 @@ class mod_surveypro_submissionmanager {
                     $paramurl['view'] = SURVEYPRO_RESPONSETOPDF;
 
                     $link = new moodle_url('/mod/surveypro/view.php', $paramurl);
-                    $icon = new pix_icon('i/export', $downloadpdfstr, 'moodle', array('title' => $downloadpdfstr));
                     $paramlink = array('id' => 'pdfdownload_submission_'.$submissionsuffix, 'title' => $downloadpdfstr);
-                    $icons .= $OUTPUT->action_icon($link, $icon, null, $paramlink);
+                    $icons .= $OUTPUT->action_icon($link, $downloadpdficn, null, $paramlink);
                 }
 
                 $tablerow[] = $icons;

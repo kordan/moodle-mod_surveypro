@@ -129,13 +129,13 @@
     text-align:center;
 }
 
-#page-mod-surveypro-layout_manage table#manageitems .parentitem .smallicon,
-#page-mod-surveypro-layout_manage table#manageitems .availability .smallicon,
-#page-mod-surveypro-layout_manage table#manageitems .parentitem .smallicon,
-#page-mod-surveypro-layout_manage table#sortitems .availability .smallicon,
-#page-mod-surveypro-layout_validation table#validaterelations .parentitem .smallicon {
-    vertical-align: text-bottom;
-    margin: 0 0.3em 0 0.3em;
+#page-mod-surveypro-layout_manage table#manageitems .parentitem .iconsmall,
+#page-mod-surveypro-layout_manage table#manageitems .availability .iconsmall,
+#page-mod-surveypro-layout_manage table#manageitems .parentitem .iconsmall,
+#page-mod-surveypro-layout_manage table#sortitems .availability .iconsmall,
+#page-mod-surveypro-layout_validation table#validaterelations .parentitem .iconsmall {
+    vertical-align: middle;
+    margin: 0;
 }
 
 #page-mod-surveypro-layout_manage table#manageitems .content,
@@ -144,7 +144,7 @@
     padding:0.5em;
 }
 
-#page-mod-surveypro-layout_manage table#manageitems .customnumber ,
+#page-mod-surveypro-layout_manage table#manageitems .customnumber,
 #page-mod-surveypro-layout_manage table#sortitems .customnumber {
     padding:0.5em;
     white-space:nowrap;
@@ -164,7 +164,7 @@
     height: 16px;
     width: 16px;
     margin-left: 0.45em;
-    vertical-align: text-bottom;
+    vertical-align: middle;
     padding-right:0;
 }
 
@@ -215,7 +215,7 @@
 }
 
 #page-mod-surveypro-view table#submissions .cell {
-    vertical-align:middle;
+    vertical-align: middle;
 }
 
 #page-mod-surveypro-view table#submissions .picture {
