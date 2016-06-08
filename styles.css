@@ -210,6 +210,10 @@
 /* End of: #manageitems, #sortitems, #managetemplates and #validaterelations tables*/
 
 /* Begin of: submissions table */
+#page-mod-surveypro-view .initialbar {
+    text-align: center;
+}
+
 #page-mod-surveypro-view table#submissions {
     width:100%;
 }
