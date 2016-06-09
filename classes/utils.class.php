@@ -854,7 +854,7 @@ class mod_surveypro_utility {
 
         $callers = array(SURVEYPRO_TAB, SURVEYPRO_BLOCK);
         if (!in_array($caller, $callers)) {
-            $message = 'Wrong caller passed to in get_admin_elements_visibility';
+            $message = 'Wrong caller passed to get_admin_elements_visibility';
             debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
 
@@ -924,5 +924,40 @@ class mod_surveypro_utility {
         $isallowed['tab_mtemplate'] = $elements;
 
         return $isallowed;
+    }
+
+    /**
+     * Convert an mform element name to type, plugin, item id and optional info
+     *
+     * @param bool $prefixfilter Does regex need to filter prefixes?
+     * @param string $elementname The string to parse
+     * @return array $match
+     */
+    static function get_item_parts($elementname) {
+        preg_match(self::get_regexp(), $elementname, $match);
+
+        return $match;
+    }
+
+    /**
+     * Provide the regex to convert an mform element name to type, plugin, item id and optional info
+     *
+     * @param bool $prefixfilter Does regex need to filter prefixes?
+     * @return string $regex
+     */
+    static function get_regexp() {
+        $regex = '~';
+        $regex .= '(?P<prefix>'.SURVEYPRO_ITEMPREFIX.'|'.SURVEYPRO_DONTSAVEMEPREFIX.')';
+        $regex .= '_';
+        $regex .= '(?P<type>'.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')';
+        $regex .= '_';
+        $regex .= '(?P<plugin>[^_]+)';
+        $regex .= '_';
+        $regex .= '(?P<itemid>\d+)';
+        $regex .= '_?';
+        $regex .= '(?P<option>[\d\w]+)?';
+        $regex .= '~';
+
+        return $regex;
     }
 }

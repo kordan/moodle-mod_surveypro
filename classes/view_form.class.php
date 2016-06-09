@@ -432,44 +432,44 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
      * There are items spreading out their value over more than one single field
      * so you may have more than one $this->formdata element referring to the same item
      * Es.:
-     *   $fieldname = surveypro_datetime_1452_day
-     *   $fieldname = surveypro_datetime_1452_year
-     *   $fieldname = surveypro_datetime_1452_month
-     *   $fieldname = surveypro_datetime_1452_hour
-     *   $fieldname = surveypro_datetime_1452_minute
+     *   $fieldname = surveypro_field_datetime_1452_day
+     *   $fieldname = surveypro_field_datetime_1452_year
+     *   $fieldname = surveypro_field_datetime_1452_month
+     *   $fieldname = surveypro_field_datetime_1452_hour
+     *   $fieldname = surveypro_field_datetime_1452_minute
      *
-     *   $fieldname = surveypro_select_1452_select
+     *   $fieldname = surveypro_field_select_1453_select
      *
-     *   $fieldname = surveypro_age_1452_check
+     *   $fieldname = surveypro_field_age_1454_check
      *
-     *   $fieldname = surveypro_rate_1452_group
-     *   $fieldname = surveypro_rate_1452_1
-     *   $fieldname = surveypro_rate_1452_2
-     *   $fieldname = surveypro_rate_1452_3
+     *   $fieldname = surveypro_field_rate_1455_group
+     *   $fieldname = surveypro_field_rate_1455_1
+     *   $fieldname = surveypro_field_rate_1455_2
+     *   $fieldname = surveypro_field_rate_1455_3
      *
-     *   $fieldname = surveypro_radio_1452_noanswer
-     *   $fieldname = surveypro_radio_1452_text
+     *   $fieldname = surveypro_field_radiobutton_1456_noanswer
+     *   $fieldname = surveypro_field_radiobutton_1456_text
      *
      * This method performs the following task:
      * 1. groups informations (eventually distributed over more mform elements)
      *    by itemid in the array $itemhelperinfo
      *
      * To do this, I start from:
-     *    preg_match($regexp, $itemname, $matches)
+     *    preg_match($regex, $elementname, $matches)
      *    var_dump($matches);
      *    $matches = array{
-     *        0 => string 'surveypro_field_radiobutton_1452' (length=27)
+     *        0 => string 'surveypro_field_radiobutton_1456' (length=27)
      *        1 => string 'surveypro' (length=6)
      *        2 => string 'field' (length=5)
      *        3 => string 'radiobutton' (length=11)
-     *        4 => string '1452' (length=4)
+     *        4 => string '1456' (length=4)
      *    }
      *    $matches = array{
-     *        0 => string 'surveypro_field_radiobutton_1452_check' (length=33)
+     *        0 => string 'surveypro_field_radiobutton_1456_check' (length=33)
      *        1 => string 'surveypro' (length=6)
      *        2 => string 'field' (length=5)
      *        3 => string 'radiobutton' (length=11)
-     *        4 => string '1452' (length=4)
+     *        4 => string '1456' (length=4)
      *        5 => string 'check' (length=5)
      *    }
      *    $matches = array{
@@ -584,25 +584,11 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
         $this->save_surveypro_submission();
         // End of: let's start by saving one record in surveypro_submission.
 
-        // Save now all the answers provided by the user.
-        // Replaced on May 13, 2016
-        // $regexp = '~'.SURVEYPRO_ITEMPREFIX.'_('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_([a-z]+)_([0-9]+)_?([a-z0-9]+)?~';
-        $regexp = '~';
-        $regexp .= SURVEYPRO_ITEMPREFIX.'_';
-        $regexp .= '(?P<type>'.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')';
-        $regexp .= '_';
-        $regexp .= '(?P<plugin>[^_]+)';
-        $regexp .= '_';
-        $regexp .= '(?P<itemid>\d+)';
-        $regexp .= '_?';
-        $regexp .= '(?P<optional>[\d\w]+)?';
-        $regexp .= '~';
-
         $itemhelperinfo = array();
-        foreach ($this->formdata as $itemname => $content) {
-            if (!preg_match($regexp, $itemname, $matches)) {
+        foreach ($this->formdata as $elementname => $content) {
+            if (!$matches = mod_surveypro_utility::get_item_parts($elementname)) {
                 // Button or something not relevant.
-                if ($itemname == 's') {
+                if ($elementname == 's') {
                     $surveyproid = $content;
                 }
                 // This is the black hole where is thrown each useless info like:
@@ -610,6 +596,10 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
                 // - nextbutton
                 // and some more.
                 continue; // To next foreach.
+            } else {
+                if ($matches['prefix'] == SURVEYPRO_DONTSAVEMEPREFIX) {
+                    continue; // To next foreach.
+                }
             }
 
             $itemid = $matches['itemid'];
@@ -621,10 +611,10 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
                 $itemhelperinfo[$itemid]->plugin = $matches['plugin'];
                 $itemhelperinfo[$itemid]->itemid = $itemid;
             }
-            if (!isset($matches['optional'])) {
+            if (!isset($matches['option'])) {
                 $itemhelperinfo[$itemid]->contentperelement['mainelement'] = $content;
             } else {
-                $itemhelperinfo[$itemid]->contentperelement[$matches[4]] = $content;
+                $itemhelperinfo[$itemid]->contentperelement[$matches['option']] = $content;
             }
         }
 
@@ -1101,25 +1091,18 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
 
         $disposelist = array();
         $olditemid = 0;
-        // Replaced on May 13, 2016
-        // $regexp = '~'.SURVEYPRO_ITEMPREFIX.'_('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_([a-z]+)_([0-9]+)_?([a-z0-9]+)?~';
-        $regexp = '~';
-        $regexp .= SURVEYPRO_ITEMPREFIX.'_';
-        $regexp .= '(?P<type>'.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')';
-        $regexp .= '_';
-        $regexp .= '(?P<plugin>[^_]+)';
-        $regexp .= '_';
-        $regexp .= '(?P<itemid>\d+)';
-        $regexp .= '_?';
-        $regexp .= '(?:[\d\w]+)?';
-        $regexp .= '~';
-        foreach ($indexes as $itemname) {
-            if (!preg_match($regexp, $itemname, $matches)) { // If it NOT starts with SURVEYPRO_ITEMPREFIX_.
+
+        foreach ($indexes as $elementname) {
+            if (!$matches = mod_surveypro_utility::get_item_parts($elementname)) {
                 continue;
+            } else {
+                if ($matches['prefix'] == SURVEYPRO_DONTSAVEMEPREFIX) {
+                    continue; // To next foreach.
+                }
             }
-            $type = $matches['type']; // Item type.
-            $plugin = $matches['plugin']; // Item plugin.
-            $itemid = $matches['itemid']; // Item id.
+            $type = $matches['type'];
+            $plugin = $matches['plugin'];
+            $itemid = $matches['itemid'];
 
             if ($itemid == $olditemid) {
                 continue;
@@ -1145,8 +1128,8 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
             $parentitem = surveypro_get_item($this->cm, $this->surveypro, $childitem->get_parentid());
 
             $parentinsamepage = false;
-            foreach ($indexes as $itemname) {
-                if (strpos($itemname, $parentitem->get_itemid())) {
+            foreach ($indexes as $elementname) {
+                if (strpos($elementname, $parentitem->get_itemid())) {
                     $parentinsamepage = true;
                     break;
                 }
@@ -1167,27 +1150,14 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
 
         // If not expected items are here...
         if (count($disposelist)) {
-            // Replaced on May 13, 2016
-            // $regexp = '~'.SURVEYPRO_ITEMPREFIX.'_('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_(\w+)_(\d+)_?([a-z0-9]+)?~';
-            $regexp = '~';
-            $regexp .= SURVEYPRO_ITEMPREFIX.'_';
-            $regexp .= '(?:'.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')';
-            $regexp .= '_';
-            $regexp .= '(?:[^_]+)';
-            $regexp .= '_';
-            $regexp .= '(?P<itemid>\d+)';
-            $regexp .= '_?';
-            $regexp .= '(?:[\d\w]+)?';
-            $regexp .= '~';
-
-            foreach ($indexes as $itemname) {
-                if (preg_match($regexp, $itemname, $matches)) {
-                    // The item type is not extracted.
-                    // The item plugin is not extracted.
-                    $itemid = $matches['itemid']; // The item id.
-                    // The last optional word (_text or _noanswer or...) is not extracted.
+            foreach ($indexes as $elementname) {
+                if ($matches = mod_surveypro_utility::get_item_parts($elementname)) {
+                    if ($matches['prefix'] == SURVEYPRO_DONTSAVEMEPREFIX) {
+                        continue; // To next foreach.
+                    }
+                    $itemid = $matches['itemid'];
                     if (in_array($itemid, $disposelist)) {
-                        unset($this->formdata->$itemname);
+                        unset($this->formdata->$elementname);
                     }
                 }
             }
