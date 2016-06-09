@@ -211,53 +211,82 @@ class mod_surveypro_itemlist {
         $table->setup();
 
         // Strings.
-        $forcedoptionalitemstr = get_string('forcedoptionalitem', 'mod_surveypro');
         $namenotsetstr = get_string('namenotset', 'mod_surveypro');
-        $unsearchablestr = get_string('unsearchable', 'mod_surveypro');
-        $parentelementstr = get_string('parentelement', 'mod_surveypro');
-        $unreservablestr = get_string('unreservable', 'mod_surveypro');
-        $hiddenstr = get_string('hidden', 'mod_surveypro');
 
+        $iconparams = array('class' => 'iconsmall');
         // Icons for further use.
         $editstr = get_string('edit');
-        $editicn = new pix_icon('t/edit', $editstr, 'moodle', array('title' => $editstr));
+        $iconparams['title'] = $editstr;
+        $editicn = new pix_icon('t/edit', $editstr, 'moodle', $iconparams);
+
+        $parentelementstr = get_string('parentelement', 'mod_surveypro');
+        $iconparams['title'] = $parentelementstr;
+        $branchicn = new pix_icon('branch', $parentelementstr, 'surveypro', $iconparams);
 
         $requiredstr = get_string('requireditem', 'mod_surveypro');
-        $redicn = new pix_icon('red', $requiredstr, 'surveypro', array('title' => $requiredstr));
+        $iconparams['title'] = $requiredstr;
+        $redicn = new pix_icon('red', $requiredstr, 'surveypro', $iconparams);
 
         $optionalstr = get_string('optionalitem', 'mod_surveypro');
-        $greenicn = new pix_icon('green', $optionalstr, 'surveypro', array('title' => $optionalstr));
+        $iconparams['title'] = $optionalstr;
+        $greenicn = new pix_icon('green', $optionalstr, 'surveypro', $iconparams);
 
         $reorderstr = get_string('changeorder', 'mod_surveypro');
-        $moveicn = new pix_icon('t/move', $editstr, 'moodle', array('title' => $reorderstr));
+        $iconparams['title'] = $reorderstr;
+        $moveicn = new pix_icon('t/move', $editstr, 'moodle', $iconparams);
 
         $hidestr = get_string('hidefield', 'mod_surveypro');
-        $hideicn = new pix_icon('t/hide', $hidestr, 'moodle', array('title' => $hidestr));
+        $iconparams['title'] = $hidestr;
+        $hideicn = new pix_icon('t/hide', $hidestr, 'moodle', $iconparams);
 
         $showstr = get_string('showfield', 'mod_surveypro');
-        $showicn = new pix_icon('t/show', $showstr, 'moodle', array('title' => $showstr));
+        $iconparams['title'] = $showstr;
+        $showicn = new pix_icon('t/show', $showstr, 'moodle', $iconparams);
 
         $deletestr = get_string('delete');
-        $deleteicn = new pix_icon('t/delete', $deletestr, 'moodle', array('title' => $deletestr));
+        $iconparams['title'] = $deletestr;
+        $deleteicn = new pix_icon('t/delete', $deletestr, 'moodle', $iconparams);
 
         $indentstr = get_string('indent', 'mod_surveypro');
-        $lefticn = new pix_icon('t/left', $indentstr, 'moodle', array('title' => $indentstr));
-        $righticn = new pix_icon('t/right', $indentstr, 'moodle', array('title' => $indentstr));
+        $iconparams['title'] = $indentstr;
+        $lefticn = new pix_icon('t/left', $indentstr, 'moodle', $iconparams);
+        $righticn = new pix_icon('t/right', $indentstr, 'moodle', $iconparams);
 
         $moveherestr = get_string('movehere');
-        $movehereicn = new pix_icon('movehere', $moveherestr, 'moodle', array('title' => $moveherestr));
+        $iconparams['title'] = $moveherestr;
+        $movehereicn = new pix_icon('movehere', $moveherestr, 'moodle', $iconparams);
 
         $availablestr = get_string('available', 'mod_surveypro');
-        $freeicn = new pix_icon('free', $availablestr, 'surveypro', array('title' => $availablestr));
+        $iconparams['title'] = $availablestr;
+        $freeicn = new pix_icon('free', $availablestr, 'surveypro', $iconparams);
 
         $needrolestr = get_string('needrole', 'mod_surveypro');
-        $reservedicn = new pix_icon('reserved', $needrolestr, 'surveypro', array('title' => $needrolestr));
+        $iconparams['title'] = $needrolestr;
+        $reservedicn = new pix_icon('reserved', $needrolestr, 'surveypro', $iconparams);
 
         $searchablestr = get_string('searchable', 'mod_surveypro');
-        $insearchicn = new pix_icon('insearch', $searchablestr, 'surveypro', array('title' => $searchablestr));
+        $iconparams['title'] = $searchablestr;
+        $insearchicn = new pix_icon('insearch', $searchablestr, 'surveypro', $iconparams);
 
         $notinsearchformstr = get_string('notinsearchform', 'mod_surveypro');
-        $absenticn = new pix_icon('absent', $notinsearchformstr, 'surveypro', array('title' => $notinsearchformstr));
+        $iconparams['title'] = $notinsearchformstr;
+        $notinsearchformicn = new pix_icon('unavailable', $notinsearchformstr, 'surveypro', $iconparams);
+
+        $unreservablestr = get_string('unreservable', 'mod_surveypro');
+        $iconparams['title'] = $unreservablestr;
+        $unreservableicn = new pix_icon('unreservable', $unreservablestr, 'surveypro', $iconparams);
+
+        $unsearchablestr = get_string('unsearchable', 'mod_surveypro');
+        $iconparams['title'] = $unsearchablestr;
+        $unsearchableicn = new pix_icon('unsearchable', $unsearchablestr, 'surveypro', $iconparams);
+
+        $hiddenstr = get_string('hidden', 'mod_surveypro');
+        $iconparams['title'] = $hiddenstr;
+        $unavailableicn = new pix_icon('unavailable', $hiddenstr, 'surveypro', $iconparams);
+
+        $forcedoptionalitemstr = get_string('forcedoptionalitem', 'mod_surveypro');
+        $iconparams['title'] = $forcedoptionalitemstr;
+        $greenlockicn = new pix_icon('greenlock', $forcedoptionalitemstr, 'surveypro', $iconparams);
 
         // Begin of: $paramurlmove definition.
         $paramurlmove = array();
@@ -316,7 +345,8 @@ class mod_surveypro_itemlist {
             $component = 'surveypro'.$item->get_type().'_'.$item->get_plugin();
             $alt = get_string('userfriendlypluginname', $component);
             $content = html_writer::tag('a', '', array('name' => 'sortindex_'.$sortindex));
-            $content .= $OUTPUT->pix_icon('icon', $alt, $component, array('title' => $alt, 'class' => 'icon'));
+            $iconparams = array('title' => $alt, 'class' => 'icon');
+            $content .= $OUTPUT->pix_icon('icon', $alt, $component, $iconparams);
 
             $tablerow[] = $content;
 
@@ -327,7 +357,7 @@ class mod_surveypro_itemlist {
             if ($item->get_parentid()) {
                 $parentsortindex = $DB->get_field('surveypro_item', 'sortindex', array('id' => $item->get_parentid()));
                 $content = $parentsortindex;
-                $content .= $OUTPUT->pix_icon('branch', $parentelementstr, 'surveypro', array('title' => $parentelementstr));
+                $content .= $OUTPUT->render($branchicn);
                 $content .= $item->get_parentcontent('; ');
             } else {
                 $content = '';
@@ -384,8 +414,7 @@ class mod_surveypro_itemlist {
                         $icons = $OUTPUT->action_icon($link, $freeicn, null, $paramlink);
                     } else {
                         // Icon only, not a link!
-                        $icons = $OUTPUT->pix_icon('unreservable', $unreservablestr, 'surveypro', array('title' => $unreservablestr));
-                        // $icons = $OUTPUT->pix_icon('free', $unreservablestr, 'surveypro', array('title' => $unreservablestr));
+                        $icons = $OUTPUT->render($unreservableicn);
                     }
                 } else {
                     $paramurl = $paramurlbase;
@@ -415,19 +444,19 @@ class mod_surveypro_itemlist {
 
                         $link = new moodle_url('/mod/surveypro/layout_manage.php#sortindex_'.$sortindex, $paramurl);
                         $paramlink = array('id' => 'addtosearch_item_'.$item->get_sortindex(), 'title' => $notinsearchformstr);
-                        $icons .= $OUTPUT->action_icon($link, $absenticn, null, $paramlink);
+                        $icons .= $OUTPUT->action_icon($link, $notinsearchformicn, null, $paramlink);
                     } else {
                         // Icon only, not a link!
-                        $icons .= $OUTPUT->pix_icon('unsearchable', $unsearchablestr, 'surveypro', array('title' => $unsearchablestr));
+                        $icons .= $OUTPUT->render($unsearchableicn);
                     }
                 }
             } else {
                 // Icons only, not links!
                 // First icon: reserved vs free (public).
-                $icons = $OUTPUT->pix_icon('absent', $hiddenstr, 'surveypro', array('title' => $hiddenstr));
+                $icons = $OUTPUT->render($unavailableicn);
 
                 // Second icon: insearchform vs not insearchform.
-                $icons .= $OUTPUT->pix_icon('absent', $hiddenstr, 'surveypro', array('title' => $hiddenstr));
+                $icons .= $OUTPUT->render($unavailableicn);
             }
 
             // Third icon: hide vs show.
@@ -516,12 +545,11 @@ class mod_surveypro_itemlist {
                         if ($item->item_mandatory_is_allowed()) {
                             $paramurl['act'] = SURVEYPRO_REQUIREDON;
                             $linkidprefix = 'makemandatory_item_';
-                            $icon = new pix_icon('green', $requiredstr, 'surveypro', array('title' => $requiredstr));
                             $link = new moodle_url('/mod/surveypro/layout_manage.php#sortindex_'.$sortindex, $paramurl);
                             $paramlink = array('id' => $linkidprefix.$item->get_sortindex(), 'title' => $requiredstr);
                             $icons .= $OUTPUT->action_icon($link, $greenicn, null, $paramlink);
                         } else {
-                            $icons .= $OUTPUT->pix_icon('greenlock', $forcedoptionalitemstr, 'surveypro', array('title' => $forcedoptionalitemstr, 'class' => 'icon'));
+                            $icons .= $OUTPUT->render($greenlockicn);
                         }
                     }
                 }
@@ -604,7 +632,7 @@ class mod_surveypro_itemlist {
      *
      * @return void
      */
-    public function display_validate_relations_table() {
+    public function display_relations_table() {
         global $CFG, $DB, $OUTPUT;
 
         require_once($CFG->libdir.'/tablelib.php');
@@ -662,8 +690,15 @@ class mod_surveypro_itemlist {
         $okstr = get_string('ok');
         $parentelementstr = get_string('parentelement', 'mod_surveypro');
 
+        $iconparams = array('class' => 'iconsmall');
+
         $editstr = get_string('edit');
-        $editicn = new pix_icon('t/edit', $editstr, 'moodle', array('title' => $editstr));
+        $iconparams['title'] = $editstr;
+        $editicn = new pix_icon('t/edit', $editstr, 'moodle', $iconparams);
+
+        $parentelementstr = get_string('parentelement', 'mod_surveypro');
+        $iconparams['title'] = $parentelementstr;
+        $branchicn = new pix_icon('branch', $parentelementstr, 'surveypro', $iconparams);
 
         $whereparams = array('surveyproid' => $this->surveypro->id);
         $sortfield = ($table->get_sql_sort()) ? $table->get_sql_sort() : 'sortindex';
@@ -686,7 +721,8 @@ class mod_surveypro_itemlist {
             // Plugin.
             $component = 'surveypro'.$item->get_type().'_'.$item->get_plugin();
             $alt = get_string('pluginname', $component);
-            $content = $OUTPUT->pix_icon('icon', $alt, $component, array('title' => $alt));
+            $iconparams = array('title' => $alt, 'class' => 'icon');
+            $content = $OUTPUT->pix_icon('icon', $alt, $component, $iconparams);
             $tablerow[] = $content;
 
             // Sortindex.
@@ -695,7 +731,7 @@ class mod_surveypro_itemlist {
             // Parentid.
             if ($item->get_parentid()) {
                 $content = $parentitem->get_sortindex();
-                $content .= $OUTPUT->pix_icon('branch', $parentelementstr, 'surveypro', array('title' => $parentelementstr));
+                $content .= $OUTPUT->render($branchicn);
                 $content .= $item->get_parentcontent('; ');
             } else {
                 $content = '';
