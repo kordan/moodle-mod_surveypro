@@ -1405,13 +1405,18 @@ class mod_surveypro_itembase {
     public function userform_child_item_allowed_static($submissionid, $childitemrecord) {
         global $DB;
 
-        if (!$childitemrecord->parentid) {
-            return true;
+        if (!isset($childitemrecord->parentid)) {
+            $message = 'Unexpected $childitemrecord->parentid not set';
+            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
 
         if (!isset($childitemrecord->parentvalue)) {
             $message = 'Unexpected $childitemrecord->parentvalue not set';
             debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+        }
+
+        if (!$childitemrecord->parentid) {
+            return true;
         }
 
         $where = array('submissionid' => $submissionid, 'itemid' => $this->itemid);
