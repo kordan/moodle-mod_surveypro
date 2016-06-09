@@ -23,10 +23,8 @@
  */
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
 require_once($CFG->libdir.'/tablelib.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/colles/lib.php');
-require_once($CFG->dirroot.'/mod/surveypro/report/colles/classes/report.class.php');
 
 $id = optional_param('id', 0, PARAM_INT);
 $s = optional_param('s', 0, PARAM_INT);
@@ -79,7 +77,7 @@ echo $OUTPUT->header();
 
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_REPORT);
 
-$reportman = new mod_surveypro_report_colles($cm, $context, $surveypro);
+$reportman = new surveyproreport_colles_class($cm, $context, $surveypro);
 $reportman->nosubmissions_stop();
 
 $reportman->set_group($group);

@@ -24,8 +24,6 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
-require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
-require_once($CFG->dirroot.'/mod/surveypro/classes/view_cover.class.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
@@ -45,7 +43,7 @@ require_course_login($course, true, $cm);
 $context = context_module::instance($cm->id);
 
 // Calculations.
-$coverman = new mod_surveypro_covermanager($cm, $context, $surveypro);
+$coverman = new mod_surveypro_view_cover($cm, $context, $surveypro);
 
 // Output starts here.
 $url = new moodle_url('/mod/surveypro/view_cover.php', array('s' => $surveypro->id));

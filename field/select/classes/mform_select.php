@@ -41,7 +41,7 @@ require_once($CFG->libdir.'/form/select.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_mform_select extends MoodleQuickForm_select {
+class MoodleQuickForm_mform_select extends MoodleQuickForm_select {
 
     /**
      * Class constructor.

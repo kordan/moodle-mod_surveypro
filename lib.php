@@ -610,8 +610,6 @@ function surveypro_cron() {
 
         // First step: filter surveypro to the subset having 'saveresume' = $saveresume.
         if ($surveypros = $DB->get_records('surveypro', array('saveresume' => $saveresume), null, 'id')) {
-            require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
-
             $sofar = ($saveresume == 0) ? (4 * 3600) : ($maxinputdelay * 3600);
             $sofar = time() - $sofar;
             foreach ($surveypros as $surveypro) {
@@ -827,7 +825,6 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
 
     $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
 
-    require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
     $utilityman = new mod_surveypro_utility($cm, $surveypro);
     $isallowed = $utilityman->get_admin_elements_visibility(SURVEYPRO_BLOCK);
 
@@ -933,8 +930,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
 
         $icon = new pix_icon('i/report', '', 'moodle', array('class' => 'iconsmall'));
         foreach ($surveyproreportlist as $pluginname => $pluginpath) {
-            require_once($CFG->dirroot.'/mod/surveypro/report/'.$pluginname.'/classes/report.class.php');
-            $classname = 'mod_surveypro_report_'.$pluginname;
+            $classname = 'surveyproreport_'.$pluginname.'_class';
             $reportman = new $classname($cm, $context, $surveypro);
 
             $allowedtemplates = $reportman->allowed_templates();
@@ -980,7 +976,6 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
 function surveypro_extend_navigation(navigation_node $navref, stdClass $course, stdClass $surveypro, cm_info $cm) {
     global $CFG;
 
-    require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
     $utilityman = new mod_surveypro_utility($cm, $surveypro);
     $isallowed = $utilityman->get_admin_elements_visibility(SURVEYPRO_BLOCK);
 

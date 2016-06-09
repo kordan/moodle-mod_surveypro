@@ -39,7 +39,7 @@ require_once($CFG->libdir.'/form/radio.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_mform_radio extends MoodleQuickForm_radio {
+class MoodleQuickForm_mform_radio extends MoodleQuickForm_radio {
 
     /**
      * Class constructor.

@@ -23,9 +23,6 @@
  */
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
-require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
-require_once($CFG->dirroot.'/mod/surveypro/report/frequency/classes/report.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/frequency/form/item_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/frequency/lib.php');
 require_once($CFG->libdir.'/tablelib.php');
@@ -50,7 +47,7 @@ require_capability('mod/surveypro:accessreports', $context);
 // Calculations.
 $utilityman = new mod_surveypro_utility($cm, $surveypro);
 $hassubmissions = $utilityman->has_submissions();
-$reportman = new mod_surveypro_report_frequency($cm, $context, $surveypro);
+$reportman = new surveyproreport_frequency_class($cm, $context, $surveypro);
 $reportman->setup_outputtable();
 
 // Begin of: define $mform return url.

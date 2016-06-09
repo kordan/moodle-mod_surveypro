@@ -24,8 +24,6 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
-require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
-require_once($CFG->dirroot.'/mod/surveypro/classes/view_submissions.class.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
@@ -55,7 +53,7 @@ if ($action != SURVEYPRO_NOACTION) {
 
 // Calculations.
 $context = context_module::instance($cm->id);
-$submissionman = new mod_surveypro_submissionmanager($cm, $context, $surveypro);
+$submissionman = new mod_surveypro_submission($cm, $context, $surveypro);
 $submissionman->setup($submissionid, $action, $view, $confirm, $searchquery);
 
 if (empty($force)) {
