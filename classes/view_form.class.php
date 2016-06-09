@@ -726,24 +726,23 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
             $itemclass = 'mod_surveypro_'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
             $itemcanbemandatory = $itemclass::item_uses_mandatory_dbfield();
             if ($itemcanbemandatory) {
-                $sql = 'SELECT i.id, i.parentid, i.parentvalue, i.reserved, p.required
+                $sql = 'SELECT i.id, i.parentid, i.parentvalue, i.reserved
                         FROM {surveypro_item} i
                           JOIN {surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'} p ON i.id = p.itemid
                         WHERE i.surveyproid = :surveyproid
+                            AND i.hidden = :hidden
+                            AND p.required > :required
                         ORDER BY p.itemid';
 
-                $whereparams = array('surveyproid' => $this->surveypro->id);
+                $whereparams = array('surveyproid' => $this->surveypro->id, 'hidden' => 0, 'required' => 0);
                 $pluginitems = $DB->get_records_sql($sql, $whereparams);
 
                 foreach ($pluginitems as $pluginitem) {
-                    if ($pluginitem->required > 0) {
-                        if ( (!$pluginitem->reserved) || $canaccessreserveditems ) {
-                            // Just to save few bits of RAM.
-                            unset ($pluginitem->required);
-                            unset ($pluginitem->reserved);
+                    if ( (!$pluginitem->reserved) || $canaccessreserveditems ) {
+                        // Just to save few bits of RAM.
+                        unset ($pluginitem->reserved);
 
-                            $requireditems[$pluginitem->id] = $pluginitem;
-                        }
+                        $requireditems[] = $pluginitem;
                     }
                 }
             }
@@ -755,7 +754,7 @@ class mod_surveypro_userform extends mod_surveypro_formbase {
         $providedanswers = $DB->get_records_menu('surveypro_answer', $whereparams, 'itemid', 'itemid, 1');
 
         foreach ($requireditems as $itemseed) {
-            if (!isset($providedanswers[$itemseed->id])) { // Required item was not answered.
+            if (!isset($providedanswers[$itemseed->id])) { // Answer was not provided for the required item.
                 if (empty($itemseed->parentid)) { // There is no parent item!!! Answer was jumped.
                     $this->finalresponseevaluation = SURVEYPRO_MISSINGMANDATORY;
                     break;
