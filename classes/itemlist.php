@@ -266,9 +266,9 @@ class mod_surveypro_itemlist {
         $iconparams['title'] = $searchablestr;
         $insearchicn = new pix_icon('insearch', $searchablestr, 'surveypro', $iconparams);
 
-        $notinsearchformstr = get_string('notinsearchform', 'mod_surveypro');
-        $iconparams['title'] = $notinsearchformstr;
-        $notinsearchformicn = new pix_icon('unavailable', $notinsearchformstr, 'surveypro', $iconparams);
+        $notsearchablestr = get_string('notsearchable', 'mod_surveypro');
+        $iconparams['title'] = $notsearchablestr;
+        $notinsearchicn = new pix_icon('notinsearch', $notsearchablestr, 'surveypro', $iconparams);
 
         $unreservablestr = get_string('unreservable', 'mod_surveypro');
         $iconparams['title'] = $unreservablestr;
@@ -441,8 +441,8 @@ class mod_surveypro_itemlist {
                         $paramurl['sesskey'] = sesskey();
 
                         $link = new moodle_url('/mod/surveypro/layout_manage.php#sortindex_'.$sortindex, $paramurl);
-                        $paramlink = array('id' => 'addtosearch_item_'.$item->get_sortindex(), 'title' => $notinsearchformstr);
-                        $icons .= $OUTPUT->action_icon($link, $notinsearchformicn, null, $paramlink);
+                        $paramlink = array('id' => 'addtosearch_item_'.$item->get_sortindex(), 'title' => $notsearchablestr);
+                        $icons .= $OUTPUT->action_icon($link, $notinsearchicn, null, $paramlink);
                     } else {
                         // Icon only, not a link!
                         $icons .= $OUTPUT->render($unsearchableicn);
