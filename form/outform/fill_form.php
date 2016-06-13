@@ -137,7 +137,7 @@ class mod_surveypro_outform extends moodleform {
                         $itemname = $item->get_itemname().'_extrarow';
                         $content = $item->get_content();
                         $option = array('class' => 'indent-'.$item->get_indent());
-                        $mform->addElement('mod_surveypro_static', $itemname, $elementnumber, $content, $option);
+                        $mform->addElement('mod_surveypro_label', $itemname, $elementnumber, $content, $option);
 
                         $item->item_add_color_unifier($mform);
                     }
@@ -176,7 +176,7 @@ class mod_surveypro_outform extends moodleform {
 
                         $itemname = $item->get_itemname().'_note';
                         $attributes = array('class' => 'indent-'.$item->get_indent().' label_static');
-                        $mform->addElement('mod_surveypro_static', $itemname, $notestr, $fullinfo, $attributes);
+                        $mform->addElement('mod_surveypro_label', $itemname, $notestr, $fullinfo, $attributes);
                     }
 
                     if (!$surveypro->newpageforchild) {

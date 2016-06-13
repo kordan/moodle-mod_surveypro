@@ -367,7 +367,7 @@ EOS;
             $attributes['class'] = 'indent-'.$this->indent.' textarea_editor';
             $fieldname = $this->itemname.'_editor';
             $editoroptions = array('trusttext' => true, 'subdirs' => true, 'maxfiles' => EDITOR_UNLIMITED_FILES);
-            $mform->addElement('mod_surveypro_editor', $fieldname, $elementlabel, $attributes, $editoroptions);
+            $mform->addElement('mod_surveypro_textarea', $fieldname, $elementlabel, $attributes, $editoroptions);
             $mform->setType($fieldname, PARAM_CLEANHTML);
         }
 

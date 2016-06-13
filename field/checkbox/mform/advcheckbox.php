@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * checkbox mform element
+ * advcheckbox mform element
  *
- * Extends the core mform class for checkbox element
+ * Extends the core mform class for advcheckbox element
  *
  * @package   surveyprofield_checkbox
  * @copyright 2013 onwards kordan <kordan@mclink.it>
@@ -28,32 +28,33 @@ defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 
-require_once($CFG->libdir.'/form/checkbox.php');
+require_once($CFG->libdir.'/form/advcheckbox.php');
 
 // @codingStandardsIgnoreFile
 
 /**
- * checkbox mform element
+ * advcheckbox mform element
  *
- * Extends the core mform class for checkbox element
+ * Extends the core mform class for advcheckbox element
  *
  * @package   surveyprofield_checkbox
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class MoodleQuickForm_mform_checkbox extends MoodleQuickForm_checkbox {
+class surveypromform_advcheckbox extends MoodleQuickForm_advcheckbox {
 
     /**
-     * Constructor.
+     * Class constructor.
      *
      * @param string $elementName Optional name of the checkbox
      * @param string $elementLabel Optional checkbox label
      * @param string $text Optional text to put after the checkbox
-     * @param mixed $attributes Optional either a typical HTML attribute string
+     * @param mixed $attributes optional either a typical HTML attribute string
      *              or an associative array
+     * @param mixed $options Optional values to pass if checked or not checked
      */
-    public function __construct($elementName=null, $elementLabel=null, $text=null, $attributes=null) {
-        parent::__construct($elementName, $elementLabel, $text, $attributes);
+    public function __construct($elementName=null, $elementLabel=null, $text=null, $attributes=null, $options=null) {
+        parent::__construct($elementName, $elementLabel, $text, $attributes, $options);
     }
 
     /**
