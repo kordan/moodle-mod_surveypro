@@ -400,10 +400,10 @@
 }
 /* End of: vertical distance between top margin of a row and input elements is too small */
 
-/* make up to autofill input to let it look like a static text */
+/* makeup to autofill input to make it look like a label */
+/* DON'T INCLUDE THE SEARCH FORM because at search time autofill has to look like a regular field */
 #page-mod-surveypro-layout_preview .mform input.autofill_text,
-#page-mod-surveypro-view_form .mform input.autofill_text,
-#page-mod-surveypro-view_search .mform input.autofill_text {
+#page-mod-surveypro-view_form .mform input.autofill_text {
     background-color: transparent;
     border: 0 transparent none;
     box-shadow: none;
