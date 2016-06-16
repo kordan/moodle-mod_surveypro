@@ -105,19 +105,25 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             // echo $masterfileinfo["extension"] . "<br />";
             // echo dirname($masterfile) . "<br />";
 
-            if ($masterfileinfo['basename'] == 'icon.gif') {
-                // Simply copy icon.gif.
+            if ($masterfileinfo['basename'] == 'icon.png') {
+                // Simply copy icon.png.
                 copy($masterbasepath.'/'.$masterfile, $tempfullpath.'/'.$masterfileinfo['basename']);
                 continue;
             }
 
-            if ($masterfileinfo['basename'] == 'template.class.php') {
+            if ($masterfileinfo['basename'] == 'icon.svg') {
+                // Simply copy icon.svg.
+                copy($masterbasepath.'/'.$masterfile, $tempfullpath.'/'.$masterfileinfo['basename']);
+                continue;
+            }
+
+            if ($masterfileinfo['basename'] == 'class.php') {
                 $templateclass = file_get_contents($masterbasepath.'/'.$masterfile);
 
                 // Replace surveyproTemplatePluginMaster with the name of the current surveypro.
                 $templateclass = str_replace(SURVEYPROTEMPLATE_NAMEPLACEHOLDER, $pluginname, $templateclass);
 
-                $temppath = $CFG->tempdir.'/'.$tempsubdir.'/'.$masterfileinfo['basename'];
+                $temppath = $CFG->tempdir.'/'.$tempsubdir.'/classes/'.$masterfileinfo['basename'];
 
                 // Create $temppath.
                 $filehandler = fopen($temppath, 'w');
@@ -201,10 +207,11 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
 
         $filenames = array(
             'template.xml',
-            'pix/icon.gif',
-            'template.class.php',
             'version.php',
+            'classes/class.php',
             'lang/en/surveyprotemplate_'.$pluginname.'.php',
+            'pix/icon.png',
+            'pix/icon.svg'
         );
         if ($userlang != 'en') {
             $filenames[] = 'lang/'.$userlang.'/surveyprotemplate_'.$pluginname.'.php';
@@ -221,7 +228,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         $fp = get_file_packer('application/zip');
         $fp->archive_to_pathname($filelist, $exportfile);
 
-        $dirnames = array('pix/', 'lang/en/');
+        $dirnames = array('classes', 'lang/en/', 'pix/', );
         if ($userlang != 'en') {
             $dirnames[] = 'lang/'.$userlang.'/';
         }
