@@ -41,7 +41,7 @@ require_once($CFG->libdir.'/form/advcheckbox.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_mform_advcheckbox extends MoodleQuickForm_advcheckbox {
+class MoodleQuickForm_mform_advcheckbox extends MoodleQuickForm_advcheckbox {
 
     /**
      * Class constructor.

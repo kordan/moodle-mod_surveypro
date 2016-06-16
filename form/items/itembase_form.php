@@ -25,8 +25,6 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
-require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
-
 /**
  * The class representing the base form shared by all the items of the module
  *
@@ -213,8 +211,7 @@ class mod_surveypro_itembaseform extends moodleform {
             // Build the list only for searchable plugins.
             $pluginlist = surveypro_get_plugin_list(SURVEYPRO_TYPEFIELD);
             foreach ($pluginlist as $plugin) {
-                require_once($CFG->dirroot.'/mod/surveypro/'.SURVEYPRO_TYPEFIELD.'/'.$plugin.'/classes/plugin.class.php');
-                $classname = 'mod_surveypro_'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
+                $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'_class';
                 if (!$classname::item_get_canbeparent()) {
                     unset($pluginlist[$plugin]);
                 }

@@ -54,7 +54,7 @@ do
 done
 
 surveyprosubplugin='report'
-surveypropluginlist=( attachments_overview colles count frequency missing )
+surveypropluginlist=( attachments colles count frequency missing )
 for surveypropluginname in "${surveypropluginlist[@]}"
 do
     # echo surveyprosubplugin = $surveyprosubplugin

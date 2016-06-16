@@ -24,8 +24,6 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
-require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
-require_once($CFG->dirroot.'/mod/surveypro/classes/view_export.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/data/export_form.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
@@ -47,7 +45,7 @@ $context = context_module::instance($cm->id);
 require_capability('mod/surveypro:exportdata', $context);
 
 // Calculations.
-$exportman = new mod_surveypro_exportmanager($cm, $context, $surveypro);
+$exportman = new mod_surveypro_view_export($cm, $context, $surveypro);
 
 // Begin of: define exportform return url.
 $paramurl = array('id' => $cm->id);

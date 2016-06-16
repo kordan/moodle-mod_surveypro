@@ -24,9 +24,6 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
-require_once($CFG->dirroot.'/mod/surveypro/classes/utils.class.php');
-require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
-require_once($CFG->dirroot.'/mod/surveypro/classes/utemplate.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/utemplates/apply_form.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.

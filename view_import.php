@@ -24,8 +24,6 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
-require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
-require_once($CFG->dirroot.'/mod/surveypro/classes/view_import.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/data/import_form.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
@@ -47,7 +45,7 @@ $context = context_module::instance($cm->id);
 require_capability('mod/surveypro:importdata', $context);
 
 // Calculations.
-$importman = new mod_surveypro_importmanager($cm, $context, $surveypro);
+$importman = new mod_surveypro_view_import($cm, $context, $surveypro);
 
 // Begin of: define $mform return url.
 $paramurl = array('id' => $cm->id);

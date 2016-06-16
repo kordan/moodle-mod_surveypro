@@ -24,8 +24,6 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
-require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
-require_once($CFG->dirroot.'/mod/surveypro/classes/view_form.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/outform/fill_form.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
@@ -49,7 +47,7 @@ $formpage = optional_param('formpage', 0, PARAM_INT); // Form page number.
 $view = optional_param('view', SURVEYPRO_NOVIEW, PARAM_INT);
 
 // Calculations.
-$userformman = new mod_surveypro_userform($cm, $context, $surveypro);
+$userformman = new mod_surveypro_view_form($cm, $context, $surveypro);
 $userformman->setup($submissionid, $formpage, $view);
 
 $utilityman = new mod_surveypro_utility($cm, $surveypro);

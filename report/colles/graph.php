@@ -25,7 +25,6 @@
 require_once('../../../../config.php');
 require_once($CFG->libdir.'/graphlib.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
-require_once($CFG->dirroot.'/mod/surveypro/report/colles/classes/report.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/colles/lib.php');
 
 $id = required_param('id', PARAM_INT); // Course Module ID.
@@ -52,7 +51,7 @@ if ($type == 'summary') {
     require_capability('mod/surveypro:accessreports', $context);
 }
 
-$reportman = new mod_surveypro_report_colles($cm, $context, $surveypro);
+$reportman = new surveyproreport_colles_class($cm, $context, $surveypro);
 $reportman->set_group($group);
 $reportman->set_area($area);
 $reportman->set_qid($qid);

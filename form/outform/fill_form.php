@@ -115,7 +115,6 @@ class mod_surveypro_outform extends moodleform {
                         // otherwise
                         // display the current item.
                         if ($parentitem->get_formpage() < $formpage) {
-                            require_once($CFG->dirroot.'/mod/surveypro/'.$itemseed->type.'/'.$itemseed->plugin.'/classes/plugin.class.php');
 
                             $itemaschildisallowed = $parentitem->userform_child_item_allowed_static($submissionid, $itemseed);
                         } else {

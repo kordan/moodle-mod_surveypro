@@ -24,8 +24,6 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
-require_once($CFG->dirroot.'/mod/surveypro/classes/tabs.class.php');
-require_once($CFG->dirroot.'/mod/surveypro/classes/itemlist.class.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/items/selectitem_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/items/bulk_action_form.php');
 
@@ -100,7 +98,6 @@ $basecondition = $basecondition && (!$hassubmissions || $riskyediting);
 $mtemplatecondition = true;
 $mtemplatecondition = $mtemplatecondition && (!$itemcount);
 if ($mtemplatecondition) {
-    require_once($CFG->dirroot.'/mod/surveypro/classes/mtemplate.class.php');
     require_once($CFG->dirroot.'/mod/surveypro/form/mtemplates/apply_form.php');
 
     $mtemplateman = new mod_surveypro_mastertemplate($cm, $context, $surveypro);
