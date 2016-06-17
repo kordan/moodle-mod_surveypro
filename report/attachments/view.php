@@ -54,7 +54,7 @@ echo $OUTPUT->header();
 
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_REPORT);
 
-$reportman = new surveyproreport_attachments_class($cm, $context, $surveypro);
+$reportman = new surveyproreport_attachments_report($cm, $context, $surveypro);
 $reportman->setup_outputtable();
 $reportman->prevent_direct_user_input();
 $reportman->check_attachmentitems();

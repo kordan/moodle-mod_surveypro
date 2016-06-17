@@ -54,7 +54,7 @@ echo $OUTPUT->header();
 
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_REPORT);
 
-$reportman = new surveyproreport_missing_class($cm, $context, $surveypro);
+$reportman = new surveyproreport_missing_report($cm, $context, $surveypro);
 $reportman->nosubmissions_stop();
 
 $reportman->setup_outputtable();

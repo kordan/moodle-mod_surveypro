@@ -207,7 +207,7 @@ class mod_surveypro_view_cover {
         $surveyproreportlist = get_plugin_list('surveyproreport');
         $paramurlbase = array('id' => $this->cm->id);
         foreach ($surveyproreportlist as $pluginname => $pluginpath) {
-            $classname = 'surveyproreport_'.$pluginname.'_class';
+            $classname = 'surveyproreport_'.$pluginname.'_report';
             $reportman = new $classname($this->cm, $this->context, $this->surveypro);
 
             $allowedtemplates = $reportman->allowed_templates();

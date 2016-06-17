@@ -930,7 +930,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
 
         $icon = new pix_icon('i/report', '', 'moodle', array('class' => 'iconsmall'));
         foreach ($surveyproreportlist as $pluginname => $pluginpath) {
-            $classname = 'surveyproreport_'.$pluginname.'_class';
+            $classname = 'surveyproreport_'.$pluginname.'_report';
             $reportman = new $classname($cm, $context, $surveypro);
 
             $allowedtemplates = $reportman->allowed_templates();

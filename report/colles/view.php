@@ -77,7 +77,7 @@ echo $OUTPUT->header();
 
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_REPORT);
 
-$reportman = new surveyproreport_colles_class($cm, $context, $surveypro);
+$reportman = new surveyproreport_colles_report($cm, $context, $surveypro);
 $reportman->nosubmissions_stop();
 
 $reportman->set_group($group);

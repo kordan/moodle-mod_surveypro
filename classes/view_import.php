@@ -140,7 +140,7 @@ class mod_surveypro_view_import {
 
         $whereparams = array('surveyproid' => $this->surveypro->id);
         foreach ($pluginlist as $plugin) {
-            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'_class';
+            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'_'.SURVEYPRO_TYPEFIELD;
             $canbemandatory = $classname::item_uses_mandatory_dbfield();
 
             $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;

@@ -710,7 +710,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         // Begin of: get the list of all mandatory fields.
         $requireditems = array();
         foreach ($pluginlist as $plugin) {
-            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'_class';
+            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'_'.SURVEYPRO_TYPEFIELD;
             $itemcanbemandatory = $classname::item_uses_mandatory_dbfield();
             if ($itemcanbemandatory) {
                 $sql = 'SELECT i.id, i.parentid, i.parentvalue, i.reserved

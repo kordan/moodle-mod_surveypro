@@ -47,7 +47,7 @@ require_capability('mod/surveypro:accessreports', $context);
 // Calculations.
 $utilityman = new mod_surveypro_utility($cm, $surveypro);
 $hassubmissions = $utilityman->has_submissions();
-$reportman = new surveyproreport_frequency_class($cm, $context, $surveypro);
+$reportman = new surveyproreport_frequency_report($cm, $context, $surveypro);
 $reportman->setup_outputtable();
 
 // Begin of: define $mform return url.
