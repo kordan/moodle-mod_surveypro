@@ -15,16 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines the version of surveypro surveyproTemplate_00templateNamePlaceholder00 subplugin
+ * Defines the version of surveypro surveyproTemplate_templatemasternameamepleasedontguess subplugin
  *
- * @package   surveyprotemplate_00templateNamePlaceholder00
+ * @package   surveyprotemplate_templatemasternameamepleasedontguess
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2014111000;
+$plugin->version = 1965100401;
 $plugin->release = '1.0';
-$plugin->requires = 2013111800; // Requires this Moodle version.
-$plugin->component = 'surveyprotemplate_00templateNamePlaceholder00'; // Full name of the plugin (used for diagnostics).
+$plugin->requires = 1965100401; // Requires this Moodle version.
+$plugin->component = 'surveyprotemplate_templatemasternameamepleasedontguess'; // Full name of the plugin (used for diagnostics).

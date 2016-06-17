@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-define('SURVEYPROTEMPLATE_NAMEPLACEHOLDER', '00templateNamePlaceholder00');
+define('SURVEYPROTEMPLATE_NAMEPLACEHOLDER', 'templatemasternameamepleasedontguess');
 
 /**
  * The class representing a master tempalete
@@ -80,15 +80,38 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         global $CFG;
 
         $pluginname = clean_filename($this->formdata->mastertemplatename);
-        $pluginname = str_replace(' ', '_', $pluginname);
-        $tempsubdir = "mod_surveypro/surveyproplugins/$pluginname";
+        $pluginname = strtolower(preg_replace('~[\d ]*~', '', $pluginname));
+
+        // Before starting, clean the destination folder
+        // just in case it is not empty as expected.
+        $tempsubdir = 'mod_surveypro/surveyproplugins/'.$pluginname;
         $tempbasedir = $CFG->tempdir.'/'.$tempsubdir;
+        fulldelete($tempbasedir);
 
         $masterbasepath = "$CFG->dirroot/mod/surveypro/templatemaster";
         $masterfilelist = get_directory_list($masterbasepath);
 
         // I need to get xml content now because, to save time, I get xml AND $this->langtree contemporary.
         $xmlcontent = $this->write_template_content();
+
+        // Before starting, verify that the current structure of templatemaster folder === structure expected here.
+        $templatemastercontent = array(
+            'classes/class.php',
+            'lang/en/surveyprotemplate_pluginname.php',
+            'pix/icon.png',
+            'pix/icon.svg',
+            'template.xml',
+            'version.php'
+        );
+        if ($masterfilelist !== $templatemastercontent) {
+            $message = 'The "templatemaster" folder does not match the expected one. This is a ecurity issue. I must stop.';
+            debugging($message, DEBUG_DEVELOPER);
+
+            $paramurl = array();
+            $paramurl['id'] = $this->cm->id;
+            $returnurl = new moodle_url('/mod/surveypro/layout_manage.php', $paramurl);
+            redirect($returnurl);
+        }
 
         foreach ($masterfilelist as $masterfile) {
             $masterfileinfo = pathinfo($masterfile);
@@ -117,7 +140,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
                 continue;
             }
 
-            if ($masterfileinfo['basename'] == 'class.php') {
+            if ($masterfileinfo['dirname'] == 'classes') {
                 $templateclass = file_get_contents($masterbasepath.'/'.$masterfile);
 
                 // Replace surveyproTemplatePluginMaster with the name of the current surveypro.
@@ -188,15 +211,24 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
                 continue;
             }
 
-            // For all the other files: version.php.
+            // For all the other files... like, for instance, version.php.
+
             // Read the master.
             $filecontent = file_get_contents($masterbasepath.'/'.$masterfile);
             // Replace surveyproTemplatePluginMaster with the name of the current surveypro.
             $filecontent = str_replace(SURVEYPROTEMPLATE_NAMEPLACEHOLDER, $pluginname, $filecontent);
+
             if ($masterfileinfo['basename'] == 'version.php') {
-                $currentdate = gmdate("Ymd").'01';
-                $filecontent = str_replace('1965100401', $currentdate, $filecontent);
+                $defaultversion = '$plugin->version = 1965100401;';
+                $currentversion = '$plugin->version = '.gmdate("Ymd").'01;';
+                $filecontent = str_replace($defaultversion, $currentversion, $filecontent);
+
+                $requires = get_config('moodle', 'version');
+                $defaultrequires = '$plugin->requires = 1965100401;';
+                $currentrequires = '$plugin->requires = '.$requires.';';
+                $filecontent = str_replace($defaultrequires, $currentrequires, $filecontent);
             }
+
             // Open.
             $filehandler = fopen($tempbasedir.'/'.$masterfile, 'w');
             // Write.
