@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Surveypro class to manage surveyprotemplate_00templateNamePlaceholder00 template
+ * Surveypro class to manage surveyprotemplate_templatemasternameamepleasedontguess template
  *
- * @package   surveyprotemplate_00templateNamePlaceholder00
+ * @package   surveyprotemplate_templatemasternameamepleasedontguess
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -25,13 +25,13 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * The class to manage surveyprotemplate_00templateNamePlaceholder00 template
+ * The class to manage surveyprotemplate_templatemasternameamepleasedontguess template
  *
- * @package   surveyprotemplate_00templateNamePlaceholder00
+ * @package   surveyprotemplate_templatemasternameamepleasedontguess
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyprotemplate_00templateNamePlaceholder00 {
+class surveyprotemplate_templatemasternameamepleasedontguess_class {
 
     /**
      * Apply template settings.
