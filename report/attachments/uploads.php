@@ -58,7 +58,7 @@ if (count($parts) == 2) {
 // Calculations.
 $context = context_module::instance($cm->id);
 $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context, null, true);
-$uploadsformman = new surveyproreport_attachments_uploadsform_class($cm, $context, $surveypro);
+$uploadsformman = new surveyproreport_attachments_form($cm, $context, $surveypro);
 $uploadsformman->prevent_direct_user_input();
 $uploadsformman->set_userid($userid);
 $uploadsformman->set_itemid($itemid);

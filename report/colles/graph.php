@@ -51,7 +51,7 @@ if ($type == 'summary') {
     require_capability('mod/surveypro:accessreports', $context);
 }
 
-$reportman = new surveyproreport_colles_class($cm, $context, $surveypro);
+$reportman = new surveyproreport_colles_report($cm, $context, $surveypro);
 $reportman->set_group($group);
 $reportman->set_area($area);
 $reportman->set_qid($qid);

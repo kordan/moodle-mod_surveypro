@@ -96,7 +96,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
 
         // Before starting, verify that the current structure of templatemaster folder === structure expected here.
         $templatemastercontent = array(
-            'classes/class.php',
+            'classes/template.php',
             'lang/en/surveyprotemplate_pluginname.php',
             'pix/icon.png',
             'pix/icon.svg',
@@ -104,7 +104,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             'version.php'
         );
         if ($masterfilelist !== $templatemastercontent) {
-            $message = 'The "templatemaster" folder does not match the expected one. This is a ecurity issue. I must stop.';
+            $message = 'The "templatemaster" folder does not match the expected one. This is a security issue. I must stop.';
             debugging($message, DEBUG_DEVELOPER);
 
             $paramurl = array();
@@ -501,7 +501,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         global $CFG, $DB;
 
         // Create the class to apply mastertemplate settings.
-        $classname = 'surveyprotemplate_'.$this->templatename.'_class';
+        $classname = 'surveyprotemplate_'.$this->templatename.'_template';
         $mastertemplate = new $classname();
 
         $fs = get_file_storage();
