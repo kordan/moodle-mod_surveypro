@@ -47,6 +47,8 @@ $formpage = optional_param('formpage', 0, PARAM_INT); // Form page number.
 $view = optional_param('view', SURVEYPRO_NOVIEW, PARAM_INT);
 
 // Calculations.
+mod_surveypro_mform_utils::register_form_elements();
+
 $userformman = new mod_surveypro_view_form($cm, $context, $surveypro);
 $userformman->setup($submissionid, $formpage, $view);
 

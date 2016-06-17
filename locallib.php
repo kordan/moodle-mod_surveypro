@@ -171,19 +171,3 @@ function surveypro_groupmates($cm, $userid=0) {
 
     return array_keys($groupusers);
 }
-
-$parentpath = "$CFG->dirroot/mod/surveypro/field/textarea/classes/mform_editor.php";
-MoodleQuickForm::registerElementType('mod_surveypro_editor', $parentpath, 'MoodleQuickForm_mform_editor');
-$parentpath = "$CFG->dirroot/mod/surveypro/field/fileupload/classes/mform_filemanager.php";
-MoodleQuickForm::registerElementType('mod_surveypro_filemanager', $parentpath, 'MoodleQuickForm_mform_filemanager');
-$parentpath = "$CFG->dirroot/mod/surveypro/field/select/classes/mform_select.php";
-MoodleQuickForm::registerElementType('mod_surveypro_select', $parentpath, 'MoodleQuickForm_mform_select');
-$parentpath = "$CFG->dirroot/mod/surveypro/field/radiobutton/classes/mform_radio.php";
-MoodleQuickForm::registerElementType('mod_surveypro_radio', $parentpath, 'MoodleQuickForm_mform_radio');
-$parentpath = "$CFG->dirroot/mod/surveypro/field/checkbox/classes/mform_checkbox.php";
-MoodleQuickForm::registerElementType('mod_surveypro_checkbox', $parentpath, 'MoodleQuickForm_mform_checkbox');
-$parentpath = "$CFG->dirroot/mod/surveypro/field/checkbox/classes/mform_advcheckbox.php";
-MoodleQuickForm::registerElementType('mod_surveypro_advcheckbox', $parentpath, 'MoodleQuickForm_mform_advcheckbox');
-
-$parentpath = "$CFG->dirroot/mod/surveypro/format/label/classes/mform_static.php";
-MoodleQuickForm::registerElementType('mod_surveypro_static', $parentpath, 'MoodleQuickForm_mform_static');

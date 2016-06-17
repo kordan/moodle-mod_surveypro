@@ -398,7 +398,7 @@ EOS;
                 $elementgroup = array();
                 foreach ($rates as $col => $rate) {
                     $attributes['id'] = $idprefix.'_'.$row.'_'.$col;
-                    $elementgroup[] = $mform->createElement('mod_surveypro_radio', $uniquename, '', $rate, $col, $attributes);
+                    $elementgroup[] = $mform->createElement('mod_surveypro_radiobutton', $uniquename, '', $rate, $col, $attributes);
                     $attributes['class'] = 'rate_radio';
                 }
                 $mform->addGroup($elementgroup, $uniquename.'_group', $option, ' ', false);

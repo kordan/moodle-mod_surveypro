@@ -477,7 +477,7 @@ EOS;
             $itemname = 'yearlabel_'.$this->itemid;
             $attributes['id'] = $idprefix.'_yearseparator';
             $attributes['class'] = 'inline age_static';
-            $elementgroup[] = $mform->createElement('mod_surveypro_static', $itemname, '', $stryears, $attributes);
+            $elementgroup[] = $mform->createElement('mod_surveypro_label', $itemname, '', $stryears, $attributes);
         }
 
         $itemname = $this->itemname.'_month';
@@ -489,7 +489,7 @@ EOS;
             $itemname = 'monthlabel_'.$this->itemid;
             $attributes['id'] = $idprefix.'_monthseparator';
             $attributes['class'] = 'inline age_static';
-            $elementgroup[] = $mform->createElement('mod_surveypro_static', $itemname, '', $strmonths, $attributes);
+            $elementgroup[] = $mform->createElement('mod_surveypro_label', $itemname, '', $strmonths, $attributes);
         }
 
         if ($this->required) {

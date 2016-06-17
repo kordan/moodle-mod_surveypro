@@ -15,60 +15,51 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * radio mform element
+ * checkbox mform element
  *
- * Extends the core mform class for a radio type element
+ * Extends the core mform class for checkbox element
  *
- * @package   surveyprofield_radiobutton
+ * @package   surveyprofield_checkbox
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 global $CFG;
 
-require_once($CFG->libdir.'/form/radio.php');
+require_once($CFG->libdir.'/form/checkbox.php');
 
 // @codingStandardsIgnoreFile
 
 /**
- * radio form element
+ * checkbox mform element
  *
- * HTML class for a radio type element
+ * Extends the core mform class for checkbox element
  *
- * @package   surveyprofield_radiobutton
+ * @package   surveyprofield_checkbox
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class MoodleQuickForm_mform_radio extends MoodleQuickForm_radio {
+class surveypromform_checkbox extends MoodleQuickForm_checkbox {
 
     /**
-     * Class constructor.
+     * Constructor.
      *
-     * @param string $elementName Optional name of the radio element
-     * @param string $elementLabel Optional label for radio element
-     * @param string $text Optional Text to put after the radio element
-     * @param string $value Optional default value
-     * @param mixed $attributes Optional Either a typical HTML attribute string
+     * @param string $elementName Optional name of the checkbox
+     * @param string $elementLabel Optional checkbox label
+     * @param string $text Optional text to put after the checkbox
+     * @param mixed $attributes Optional either a typical HTML attribute string
      *              or an associative array
      */
-    public function __construct($elementName=null, $elementLabel=null, $text=null, $value=null, $attributes=null) {
-        parent::__construct($elementName, $elementLabel, $text, $value, $attributes);
+    public function __construct($elementName=null, $elementLabel=null, $text=null, $attributes=null) {
+        parent::__construct($elementName, $elementLabel, $text, $attributes);
     }
 
     /**
-     * Slightly different container template when frozen.
+     * What to display when element is frozen.
      *
-     * @return string
-     */
-    public function getElementTemplateType() {
-        return 'default';
-    }
-
-    /**
-     * Returns the disabled field. Accessibility: the return "( )" from parent
-     * class is not acceptable for screenreader users, and we DO want a label
-     *
-     * @return string
+     * @return empty string
      */
     public function getFrozenHtml() {
         $output = parent::getFrozenHtml();

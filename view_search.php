@@ -47,6 +47,8 @@ $context = context_module::instance($cm->id);
 require_capability('mod/surveypro:searchsubmissions', $context);
 
 // Calculations.
+mod_surveypro_mform_utils::register_form_elements();
+
 $searchman = new mod_surveypro_view_search($cm, $context, $surveypro);
 
 // Begin of: define $searchform return url.
