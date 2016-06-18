@@ -1,4 +1,19 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * This script implements some useful svg manipulation tricks.
  *
@@ -13,8 +28,13 @@
 define('CLI_SCRIPT', true);
 
 // Now get cli options.
-list($options, $unrecognized) = cli_get_params(array('help'=>false, 'ie9fix'=>false, 'noaspectratio'=>false, 'path'=>dirname(__FILE__).'/gitmirror'),
-    array('h'=>'help'));
+$longoptions = array();
+$longoptions['help'] = false;
+$longoptions['ie9fix'] = false;
+$longoptions['noaspectratio'] = false;
+$longoptions['path'] = dirname(__FILE__).'/gitmirror';
+    
+list($options, $unrecognized) = cli_get_params($longoptions, array('h' => 'help'));
 
 if ($unrecognized) {
     $unrecognized = implode("\n  ", $unrecognized);
@@ -156,9 +176,9 @@ function theme_base_recurse_svgs($base, $sub, $filecallback, $blacklist) {
  *
  * Copied from lib/clilib.php 20/09/2013
  *
- * @param array $longoptions array of --style options ex:('verbose'=>false)
- * @param array $shortmapping array describing mapping of short to long style options ex:('h'=>'help', 'v'=>'verbose')
- * @return array array of arrays, options, unrecognised as optionlongname=>value
+ * @param array $longoptions array of --style options ex:('verbose' => false)
+ * @param array $shortmapping array describing mapping of short to long style options ex:('h' => 'help', 'v' => 'verbose')
+ * @return array array of arrays, options, unrecognised as optionlongname => value
  */
 function cli_get_params(array $longoptions, array $shortmapping=null) {
     $shortmapping = (array)$shortmapping;
@@ -216,7 +236,7 @@ function cli_get_params(array $longoptions, array $shortmapping=null) {
         }
     }
     //apply defaults
-    foreach ($longoptions as $key=>$default) {
+    foreach ($longoptions as $key => $default) {
         if (!array_key_exists($key, $options)) {
             $options[$key] = $default;
         }
