@@ -933,7 +933,7 @@ class mod_surveypro_utility {
      * @param string $elementname The string to parse
      * @return array $match
      */
-    static function get_item_parts($elementname) {
+    public static function get_item_parts($elementname) {
         preg_match(self::get_regexp(), $elementname, $match);
 
         return $match;
@@ -945,7 +945,7 @@ class mod_surveypro_utility {
      * @param bool $prefixfilter Does regex need to filter prefixes?
      * @return string $regex
      */
-    static function get_regexp() {
+    public static function get_regexp() {
         $regex = '~';
         $regex .= '(?P<prefix>'.SURVEYPRO_ITEMPREFIX.'|'.SURVEYPRO_DONTSAVEMEPREFIX.')';
         $regex .= '_';

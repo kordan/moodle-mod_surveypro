@@ -137,5 +137,15 @@ function xmldb_surveypro_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2016031501, 'surveypro');
     }
 
+    // Moodle v3.1.0 release upgrade line.
+    // Put any upgrade step following this.
+
+    if ($oldversion < 2016061705) {
+        uninstall_plugin('surveyproreport', 'attachments_overview');
+        
+        // Surveypro savepoint reached.
+        upgrade_mod_savepoint(true, 2016061705, 'surveypro');
+    }
+
     return true;
 }
