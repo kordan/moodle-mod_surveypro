@@ -46,7 +46,6 @@ require_capability('mod/surveypro:accessreports', $context);
 
 // Calculations.
 $utilityman = new mod_surveypro_utility($cm, $surveypro);
-$hassubmissions = $utilityman->has_submissions();
 $reportman = new surveyproreport_frequency_report($cm, $context, $surveypro);
 $reportman->setup_outputtable();
 
@@ -78,7 +77,6 @@ $reportman->nosubmissions_stop();
 // Begin of: prepare params for the form.
 $formparams = new stdClass();
 $formparams->surveypro = $surveypro;
-$formparams->answercount = $hassubmissions;
 $mform = new mod_surveypro_chooseitemform($formurl, $formparams);
 // End of: prepare params for the form.
 
@@ -88,13 +86,12 @@ $mform->display();
 
 // Begin of: manage form submission.
 if ($fromform = $mform->get_data()) {
-    $reportman->fetch_data($fromform->itemid, $hassubmissions);
+    $reportman->fetch_data($fromform->itemid);
 
     $paramurl = array();
     $paramurl['id'] = $cm->id;
     $paramurl['group'] = 0;
     $paramurl['itemid'] = $fromform->itemid;
-    $paramurl['submissionscount'] = $hassubmissions;
     $url = new moodle_url('/mod/surveypro/report/frequency/graph.php', $paramurl);
     // To troubleshoot graph, open a new window in the broser and directly call
     // http://localhost/head/mod/surveypro/report/frequency/graph.php?id=xx&group=0&itemid=yyy&submissionscount=1

@@ -117,21 +117,20 @@ class surveyproreport_frequency_report extends mod_surveypro_reportbase {
      * @param int $submissionscount
      * @return void
      */
-    public function fetch_data($itemid, $submissionscount) {
+    public function fetch_data($itemid) {
         global $DB;
+
+        // TAKE CARE: this is the answer count, not the submissions count! They may be different.
+        $whereparams = array('itemid' => $itemid);
+        $answercount = $DB->count_records('surveypro_answer', $whereparams);
 
         list($where, $whereparams) = $this->outputtable->get_sql_where();
 
         $sql = 'SELECT *, count(ud.id) as absolute
                 FROM {surveypro_answer} ud
                 WHERE ud.itemid = :itemid
-                GROUP BY ud.content ';
-
-        if ($this->outputtable->get_sql_sort()) {
-            $sql .= 'ORDER BY '.$this->outputtable->get_sql_sort();
-        } else {
-            $sql .= 'ORDER BY ud.content';
-        }
+                GROUP BY ud.content
+                ORDER BY ud.content';
 
         $whereparams['itemid'] = $itemid;
 
@@ -140,7 +139,6 @@ class surveyproreport_frequency_report extends mod_surveypro_reportbase {
         $dummyitem = surveypro_get_item($this->cm, $this->surveypro, $itemid);
 
         $decimalseparator = get_string('decsep', 'langconfig');
-        $counted = 0;
         foreach ($answers as $answer) {
             $tablerow = array();
 
@@ -152,27 +150,9 @@ class surveyproreport_frequency_report extends mod_surveypro_reportbase {
 
             // Absolute.
             $tablerow[] = $answer->absolute;
-            $counted += $answer->absolute;
 
             // Percentage.
-            $tablerow[] = number_format(100 * $answer->absolute / $submissionscount, 2, $decimalseparator, ' ').'%';
-
-            // Add row to the table.
-            $this->outputtable->add_data($tablerow);
-        }
-
-        // Each item may be unanswered because it was not allowed by its ancestors.
-        if ($counted < $submissionscount) {
-            $tablerow = array();
-
-            // Answer.
-            $tablerow[] = get_string('answernotpresent', 'surveyproreport_frequency');
-
-            // Absolute.
-            $tablerow[] = ($submissionscount - $counted);
-
-            // Percentage.
-            $tablerow[] = number_format(100 * ($submissionscount - $counted) / $submissionscount, 2, $decimalseparator, ' ').'%';
+            $tablerow[] = number_format(100 * $answer->absolute / $answercount, 2, $decimalseparator, ' ').'%';
 
             // Add row to the table.
             $this->outputtable->add_data($tablerow);
