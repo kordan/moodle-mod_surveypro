@@ -39,5 +39,4 @@ do
             echo '    '$langstring
         fi
     fi
-
 done < $langfile_path

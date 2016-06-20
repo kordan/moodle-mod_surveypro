@@ -26,40 +26,40 @@ langfilepath=()
 # il file di lingua del modulo
 langfilepath+=("lang/en/$excludefilename.php")
 
-surveyprosubplugin='field'
-surveypropluginlist=( age autofill boolean character checkbox date datetime fileupload integer multiselect numeric radiobutton rate recurrence select shortdate textarea time )
-for surveypropluginname in "${surveypropluginlist[@]}"
+type='field'
+plugins=( age autofill boolean character checkbox date datetime fileupload integer multiselect numeric radiobutton rate recurrence select shortdate textarea time )
+for plugin in "${plugins[@]}"
 do
-    # echo surveyprosubplugin = $surveyprosubplugin
-    # echo surveypropluginname = $surveypropluginname
-    langfilepath+=($surveyprosubplugin/$surveypropluginname/lang/en/surveypro"$surveyprosubplugin"_"$surveypropluginname".php)
+    # echo type = $type
+    # echo plugin = $plugin
+    langfilepath+=($type/$plugin/lang/en/surveypro"$type"_"$plugin".php)
 done
 
-surveyprosubplugin='format'
-surveypropluginlist=( fieldset fieldsetend label pagebreak )
-for surveypropluginname in "${surveypropluginlist[@]}"
+type='format'
+plugins=( fieldset fieldsetend label pagebreak )
+for plugin in "${plugins[@]}"
 do
-    # echo surveyprosubplugin = $surveyprosubplugin
-    # echo surveypropluginname = $surveypropluginname
-    langfilepath+=($surveyprosubplugin/$surveypropluginname/lang/en/surveypro"$surveyprosubplugin"_"$surveypropluginname".php)
+    # echo type = $type
+    # echo plugin = $plugin
+    langfilepath+=($type/$plugin/lang/en/surveypro"$type"_"$plugin".php)
 done
 
-surveyprosubplugin='template'
-surveypropluginlist=( attls collespreferred collesactual collesactualpreferred criticalincidents )
-for surveypropluginname in "${surveypropluginlist[@]}"
+type='template'
+plugins=( attls collespreferred collesactual collesactualpreferred criticalincidents )
+for plugin in "${plugins[@]}"
 do
-    # echo surveyprosubplugin = $surveyprosubplugin
-    # echo surveypropluginname = $surveypropluginname
-    langfilepath+=($surveyprosubplugin/$surveypropluginname/lang/en/surveypro"$surveyprosubplugin"_"$surveypropluginname".php)
+    # echo type = $type
+    # echo plugin = $plugin
+    langfilepath+=($type/$plugin/lang/en/surveypro"$type"_"$plugin".php)
 done
 
-surveyprosubplugin='report'
-surveypropluginlist=( attachments colles count frequency missing )
-for surveypropluginname in "${surveypropluginlist[@]}"
+type='report'
+plugins=( attachments colles count frequency missing )
+for plugin in "${plugins[@]}"
 do
-    # echo surveyprosubplugin = $surveyprosubplugin
-    # echo surveypropluginname = $surveypropluginname
-    langfilepath+=($surveyprosubplugin/$surveypropluginname/lang/en/surveypro"$surveyprosubplugin"_"$surveypropluginname".php)
+    # echo type = $type
+    # echo plugin = $plugin
+    langfilepath+=($type/$plugin/lang/en/surveypro"$type"_"$plugin".php)
 done
 
 # routine di controllo
