@@ -1520,6 +1520,9 @@ class mod_surveypro_itembase {
         if ($content == SURVEYPRO_NOANSWERVALUE) { // Answer was "no answer".
             return get_string('answerisnoanswer', 'mod_surveypro');
         }
+        if ($content == SURVEYPRO_ANSWERNOTINDBVALUE) { // Item was disabled. (Used by frequenct report).
+            return get_string('notanswereditem', 'mod_surveypro');
+        }
         if ($content === null) { // Item was disabled.
             return get_string('notanswereditem', 'mod_surveypro');
         }

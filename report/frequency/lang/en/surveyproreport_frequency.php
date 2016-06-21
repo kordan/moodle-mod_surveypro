@@ -23,7 +23,6 @@
  */
 
 $string['absolute'] = 'absolute';
-$string['answernotpresent'] = 'missing';
 $string['content'] = 'answer';
 $string['itemid_help'] = 'Choose the survey question to calculate its distribution';
 $string['itemid'] = 'Survey question';
