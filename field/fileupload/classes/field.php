@@ -419,12 +419,7 @@ EOS;
      * @param string $format
      * @return string - the string for the export file
      */
-    public function userform_db_to_export($answer, $format='') {
-        if ($content == SURVEYPRO_ANSWERNOTINDBVALUE) { // Item was disabled. (Used by frequenct report).
-            return get_string('notanswereditem', 'mod_surveypro');
-        }
-
-        // SURVEYPRO_NOANSWERVALUE does not exist here.
+    public static function userform_db_to_export($answer, $format='') {
         $context = context_module::instance($this->cm->id);
 
         $fs = get_file_storage();
@@ -446,7 +441,8 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = array($this->itemname.'_filemanager');
+        $elementnames = array();
+        $elementnames[] = $this->itemname.'_filemanager';
 
         return $elementnames;
     }

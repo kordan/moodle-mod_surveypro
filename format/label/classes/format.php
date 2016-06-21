@@ -316,7 +316,7 @@ EOS;
      * @param string $format
      * @return string - the string for the export file
      */
-    public function userform_db_to_export($answer, $format='') {
+    public static function userform_db_to_export($answer, $format='') {
         return '';
     }
 
@@ -326,11 +326,13 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        if ($this->fullwidth) {
-            return array();
-        } else {
-            return array($this->itemname);
+        $elementnames = array();
+
+        if (empty($this->fullwidth)) {
+            $elementnames[] = $this->itemname;
         }
+
+        return $elementnames;
     }
 
     /**

@@ -288,7 +288,7 @@ class surveyprofield_time_field extends mod_surveypro_itembase {
                 }
             }
             if (!empty($this->{$field})) {
-                $timearray = $this->item_split_unix_time($this->{$field});
+                $timearray = self::item_split_unix_time($this->{$field});
                 $this->{$field.'hour'} = $timearray['hours'];
                 $this->{$field.'minute'} = $timearray['minutes'];
             }
@@ -316,7 +316,7 @@ class surveyprofield_time_field extends mod_surveypro_itembase {
 
         // 2. Override few values.
         // Begin of: round defaultvalue according to step.
-        $timearray = $this->item_split_unix_time($record->defaultvalue);
+        $timearray = self::item_split_unix_time($record->defaultvalue);
         $defaultvaluehour = $timearray['hours'];
         $defaultvalueminute = $timearray['minutes'];
 
@@ -525,13 +525,13 @@ EOS;
             } else {
                 switch ($this->defaultoption) {
                     case SURVEYPRO_CUSTOMDEFAULT:
-                        $timearray = $this->item_split_unix_time($this->defaultvalue, true);
+                        $timearray = self::item_split_unix_time($this->defaultvalue, true);
                         break;
                     case SURVEYPRO_TIMENOWDEFAULT:
-                        $timearray = $this->item_split_unix_time(time(), true);
+                        $timearray = self::item_split_unix_time(time(), true);
                         break;
                     case SURVEYPRO_NOANSWERDEFAULT:
-                        $timearray = $this->item_split_unix_time($this->lowerbound, true);
+                        $timearray = self::item_split_unix_time($this->lowerbound, true);
                         $mform->setDefault($this->itemname.'_noanswer', '1');
                         break;
                     case SURVEYPRO_LIKELASTDEFAULT:
@@ -541,9 +541,9 @@ EOS;
                         $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, $where, IGNORE_MISSING);
                         $where = array('itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid);
                         if ($time = $DB->get_field('surveypro_answer', 'content', $where, IGNORE_MISSING)) {
-                            $timearray = $this->item_split_unix_time($time, false);
+                            $timearray = self::item_split_unix_time($time, false);
                         } else { // As in standard default.
-                            $timearray = $this->item_split_unix_time(time(), true);
+                            $timearray = self::item_split_unix_time(time(), true);
                         }
                         break;
                     default:
@@ -732,7 +732,7 @@ EOS;
             if ($fromdb->content == SURVEYPRO_NOANSWERVALUE) {
                 $prefill[$this->itemname.'_noanswer'] = 1;
             } else {
-                $datearray = $this->item_split_unix_time($fromdb->content);
+                $datearray = self::item_split_unix_time($fromdb->content);
                 $prefill[$this->itemname.'_hour'] = $datearray['hours'];
                 $prefill[$this->itemname.'_minute'] = $datearray['minutes'];
             }
@@ -748,17 +748,12 @@ EOS;
      * @param string $format
      * @return string - the string for the export file
      */
-    public function userform_db_to_export($answer, $format='') {
-        // Content.
+    public static function userform_db_to_export($answer, $format='') {
+        // The content of the provided answer.
         $content = $answer->content;
-        if ($content == SURVEYPRO_NOANSWERVALUE) { // Answer was "no answer".
-            return get_string('answerisnoanswer', 'mod_surveypro');
-        }
-        if ($content == SURVEYPRO_ANSWERNOTINDBVALUE) { // Item was disabled. (Used by frequenct report).
-            return get_string('notanswereditem', 'mod_surveypro');
-        }
-        if ($content === null) { // Item was disabled.
-            return get_string('notanswereditem', 'mod_surveypro');
+        $parentcontent = parent::userform_db_to_export($answer, $format);
+        if ($parentcontent != $content) {
+            return $parentcontent;
         }
 
         // Format.
@@ -783,7 +778,8 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = array($this->itemname.'_group');
+        $elementnames = array();
+        $elementnames[] = $this->itemname.'_group';
 
         return $elementnames;
     }

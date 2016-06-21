@@ -285,7 +285,7 @@ class surveyprofield_shortdate_field extends mod_surveypro_itembase {
                 }
             }
             if (!empty($this->{$field})) {
-                $shortdatearray = $this->item_split_unix_time($this->{$field});
+                $shortdatearray = self::item_split_unix_time($this->{$field});
                 $this->{$field.'month'} = $shortdatearray['mon'];
                 $this->{$field.'year'} = $shortdatearray['year'];
             }
@@ -502,13 +502,13 @@ EOS;
             } else {
                 switch ($this->defaultoption) {
                     case SURVEYPRO_CUSTOMDEFAULT:
-                        $shortdatearray = $this->item_split_unix_time($this->defaultvalue, true);
+                        $shortdatearray = self::item_split_unix_time($this->defaultvalue, true);
                         break;
                     case SURVEYPRO_TIMENOWDEFAULT:
-                        $shortdatearray = $this->item_split_unix_time(time(), true);
+                        $shortdatearray = self::item_split_unix_time(time(), true);
                         break;
                     case SURVEYPRO_NOANSWERDEFAULT:
-                        $shortdatearray = $this->item_split_unix_time($this->lowerbound, true);
+                        $shortdatearray = self::item_split_unix_time($this->lowerbound, true);
                         $mform->setDefault($this->itemname.'_noanswer', '1');
                         break;
                     case SURVEYPRO_LIKELASTDEFAULT:
@@ -518,9 +518,9 @@ EOS;
                         $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, $where, IGNORE_MISSING);
                         $where = array('itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid);
                         if ($time = $DB->get_field('surveypro_answer', 'content', $where, IGNORE_MISSING)) {
-                            $shortdatearray = $this->item_split_unix_time($time, false);
+                            $shortdatearray = self::item_split_unix_time($time, false);
                         } else { // As in standard default.
-                            $shortdatearray = $this->item_split_unix_time(time(), true);
+                            $shortdatearray = self::item_split_unix_time(time(), true);
                         }
                         break;
                     default:
@@ -687,7 +687,7 @@ EOS;
             if ($fromdb->content == SURVEYPRO_NOANSWERVALUE) {
                 $prefill[$this->itemname.'_noanswer'] = 1;
             } else {
-                $shortdatearray = $this->item_split_unix_time($fromdb->content);
+                $shortdatearray = self::item_split_unix_time($fromdb->content);
                 $prefill[$this->itemname.'_month'] = $shortdatearray['mon'];
                 $prefill[$this->itemname.'_year'] = $shortdatearray['year'];
             }
@@ -703,17 +703,12 @@ EOS;
      * @param string $format
      * @return string - the string for the export file
      */
-    public function userform_db_to_export($answer, $format='') {
-        // Content.
+    public static function userform_db_to_export($answer, $format='') {
+        // The content of the provided answer.
         $content = $answer->content;
-        if ($content == SURVEYPRO_NOANSWERVALUE) { // Answer was "no answer".
-            return get_string('answerisnoanswer', 'mod_surveypro');
-        }
-        if ($content == SURVEYPRO_ANSWERNOTINDBVALUE) { // Item was disabled. (Used by frequenct report).
-            return get_string('notanswereditem', 'mod_surveypro');
-        }
-        if ($content === null) { // Item was disabled.
-            return get_string('notanswereditem', 'mod_surveypro');
+        $parentcontent = parent::userform_db_to_export($answer, $format);
+        if ($parentcontent != $content) {
+            return $parentcontent;
         }
 
         // Format.
@@ -738,7 +733,8 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = array($this->itemname.'_group');
+        $elementnames = array();
+        $elementnames[] = $this->itemname.'_group';
 
         return $elementnames;
     }

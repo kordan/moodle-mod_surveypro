@@ -503,14 +503,11 @@ class mod_surveypro_view_export {
      */
     public function decode_content($richsubmission) {
         $content = $richsubmission->content;
-        if (isset($content)) {
-            $plugin = $richsubmission->plugin;
-            $itemid = $richsubmission->itemid;
-            $item = surveypro_get_item($this->cm, $this->surveypro, $itemid, SURVEYPRO_TYPEFIELD, $plugin);
-
-            $return = $item->userform_db_to_export($richsubmission);
-        } else {
+        if (empty($content)) {
             $return = '';
+        } else {
+            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$richsubmission->plugin.'_'.SURVEYPRO_TYPEFIELD;
+            $return = $classname::userform_db_to_export($richsubmission);
         }
 
         return $return;
