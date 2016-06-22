@@ -24,7 +24,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-
 require_once($CFG->dirroot.'/mod/surveypro/field/character/lib.php');
 
 /**
@@ -612,14 +611,16 @@ EOS;
      * @param string $format
      * @return string - the string for the export file
      */
-    public static function userform_db_to_export($answer, $format='') {
-        // The content of the provided answer.
-        $content = trim($answer->content);
-        $parentcontent = parent::userform_db_to_export($answer, $format);
-        if ($parentcontent != $content) {
-            return $parentcontent;
+    public function userform_db_to_export($answer, $format='') {
+        $quickresponse = parent::userform_db_to_export($answer, $format);
+        if ($quickresponse !== null) { // Parent method provided the response.
+            return $quickresponse;
         }
 
+        // The content of the provided answer.
+        $content = $answer->content;
+
+        // Output.
         if (strlen($content)) {
             $return = $content;
         } else {

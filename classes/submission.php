@@ -1349,10 +1349,9 @@ class mod_surveypro_submission {
         $border['T']['dash'] = 1;
         $border['T']['color'] = array(179, 219, 181);
         foreach ($itemseeds as $itemseed) {
-            $classname = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin.'_'.$itemseed->type;
             $item = surveypro_get_item($this->cm, $this->surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);
             // Pagebreaks are not selected by surveypro_fetch_items_seeds.
-            $template = $classname::item_get_pdf_template();
+            $template = $item::item_get_pdf_template();
             if ($template == SURVEYPRO_2COLUMNSTEMPLATE) {
                 // First column.
                 $html = $htmllabeltemplate;
@@ -1386,7 +1385,7 @@ class mod_surveypro_submission {
 
                 // Third column.
                 if (isset($userdatarecord[$item->get_itemid()])) {
-                    $content = $classname::userform_db_to_export($userdatarecord[$item->get_itemid()], SURVEYPRO_FIRENDLYFORMAT);
+                    $content = $item->userform_db_to_export($userdatarecord[$item->get_itemid()], SURVEYPRO_FIRENDLYFORMAT);
                     if ($item->get_plugin() != 'textarea') { // Content does not come from an html editor.
                         $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
                         $content = str_replace(SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR, '<br />', $content);

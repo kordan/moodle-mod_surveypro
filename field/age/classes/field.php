@@ -711,17 +711,20 @@ EOS;
      * @param string $format
      * @return string - the string for the export file
      */
-    public static function userform_db_to_export($answer, $format='') {
-        // The content of the provided answer.
-        $content = $answer->content;
-        $parentcontent = parent::userform_db_to_export($answer, $format);
-        if ($parentcontent != $content) {
-            return $parentcontent;
+    public function userform_db_to_export($answer, $format='') {
+        $quickresponse = parent::userform_db_to_export($answer, $format);
+        if ($quickresponse !== null) { // Parent method provided the response.
+            return $quickresponse;
         }
 
-        // Parent method was useless
+        // The content of the provided answer.
+        $content = $answer->content;
+
+        // Output.
         $agearray = self::item_split_unix_time($content);
-        return self::item_age_to_text($agearray);
+        $return = self::item_age_to_text($agearray);
+
+        return $return;
     }
 
     /**

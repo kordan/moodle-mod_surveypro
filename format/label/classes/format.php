@@ -24,7 +24,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-
 require_once($CFG->dirroot.'/mod/surveypro/format/label/lib.php');
 
 /**
@@ -316,7 +315,7 @@ EOS;
      * @param string $format
      * @return string - the string for the export file
      */
-    public static function userform_db_to_export($answer, $format='') {
+    public function userform_db_to_export($answer, $format='') {
         return '';
     }
 

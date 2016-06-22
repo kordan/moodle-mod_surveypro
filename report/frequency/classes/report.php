@@ -26,7 +26,6 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir.'/tablelib.php');
 
-
 /**
  * The class to manage frequency report
  *
@@ -140,10 +139,11 @@ class surveyproreport_frequency_report extends mod_surveypro_reportbase {
         }
 
         $itemseed = $DB->get_record('surveypro_item', array('id' => $itemid), 'type, plugin', MUST_EXIST);
-        $classname = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin.'_'.$itemseed->type;
 
         $whereparams['itemid'] = $itemid;
         $answers = $DB->get_recordset_sql($sql, $whereparams);
+
+        $item = surveypro_get_item($this->cm, $this->surveypro, $itemid);
 
         $decimalseparator = get_string('decsep', 'langconfig');
         foreach ($answers as $answer) {
@@ -153,7 +153,7 @@ class surveyproreport_frequency_report extends mod_surveypro_reportbase {
             $itemvalue = new stdClass();
             $itemvalue->id = $answer->id;
             $itemvalue->content = $answer->content;
-            $tablerow[] = $classname::userform_db_to_export($itemvalue);
+            $tablerow[] = $item->userform_db_to_export($itemvalue);
 
             // Absolute.
             $tablerow[] = $answer->absolute;

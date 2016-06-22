@@ -1515,19 +1515,19 @@ class mod_surveypro_itembase {
      * @param string $format
      * @return string - the string for the export file
      */
-    public static function userform_db_to_export($answer, $format='') {
+    public function userform_db_to_export($answer, $format='') {
+        $response = null;
+
         // The content of the provided answer.
         $content = trim($answer->content);
         if ($content == SURVEYPRO_NOANSWERVALUE) { // Answer was "no answer".
-            return get_string('answerisnoanswer', 'mod_surveypro');
-        }
-        if ($content == SURVEYPRO_ANSWERNOTINDBVALUE) { // Item was disabled. (Used by frequenct report).
-            return get_string('notanswereditem', 'mod_surveypro');
-        }
-        if ($content === null) { // Item was disabled.
-            return get_string('notanswereditem', 'mod_surveypro');
+            $response = get_string('answerisnoanswer', 'mod_surveypro');
+        } else if ($content == SURVEYPRO_ANSWERNOTINDBVALUE) { // Item was disabled. (Used by frequenct report).
+            $response = get_string('notanswereditem', 'mod_surveypro');
+        } else if ($content === null) { // Item was disabled.
+            $response = get_string('notanswereditem', 'mod_surveypro');
         }
 
-        return $content;
+        return $response;
     }
 }

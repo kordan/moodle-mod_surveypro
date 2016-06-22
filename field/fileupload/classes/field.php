@@ -24,7 +24,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-
 require_once($CFG->dirroot.'/mod/surveypro/field/fileupload/lib.php');
 
 /**
@@ -419,7 +418,7 @@ EOS;
      * @param string $format
      * @return string - the string for the export file
      */
-    public static function userform_db_to_export($answer, $format='') {
+    public function userform_db_to_export($answer, $format='') {
         $context = context_module::instance($this->cm->id);
 
         $fs = get_file_storage();
