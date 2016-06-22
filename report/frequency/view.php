@@ -29,6 +29,7 @@ require_once($CFG->libdir.'/tablelib.php');
 
 $id = optional_param('id', 0, PARAM_INT);
 $s = optional_param('s', 0, PARAM_INT);
+$itemid = optional_param('itemid', 0, PARAM_INT);
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
     $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
@@ -47,7 +48,7 @@ require_capability('mod/surveypro:accessreports', $context);
 // Calculations.
 $utilityman = new mod_surveypro_utility($cm, $surveypro);
 $reportman = new surveyproreport_frequency_report($cm, $context, $surveypro);
-$reportman->setup_outputtable();
+// $reportman->setup_outputtable();
 
 // Begin of: define $mform return url.
 $paramurl = array('id' => $cm->id, 'rname' => 'frequency');
@@ -85,13 +86,17 @@ $mform->display();
 // End of: display the form.
 
 // Begin of: manage form submission.
-if ($fromform = $mform->get_data()) {
-    $reportman->fetch_data($fromform->itemid);
+if ( ($fromform = $mform->get_data()) || (!empty($itemid)) ) {
+    if (empty($itemid)) {
+        $itemid = $fromform->itemid;
+    }
+    $reportman->setup_outputtable($itemid);
+    $reportman->fetch_data($itemid);
 
     $paramurl = array();
     $paramurl['id'] = $cm->id;
     $paramurl['group'] = 0;
-    $paramurl['itemid'] = $fromform->itemid;
+    $paramurl['itemid'] = $itemid;
     $url = new moodle_url('/mod/surveypro/report/frequency/graph.php', $paramurl);
     // To troubleshoot graph, open a new window in the broser and directly call
     // http://localhost/head/mod/surveypro/report/frequency/graph.php?id=xx&group=0&itemid=yyy&submissionscount=1

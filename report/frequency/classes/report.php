@@ -44,15 +44,16 @@ class surveyproreport_frequency_report extends mod_surveypro_reportbase {
     /**
      * Setup_outputtable
      */
-    public function setup_outputtable() {
+    public function setup_outputtable($itemid) {
         $this->outputtable = new flexible_table('submissionslist');
 
         $paramurl = array('id' => $this->cm->id, 'rname' => 'frequency');
+        $paramurl['itemid'] = $itemid;
         $baseurl = new moodle_url('/mod/surveypro/report/frequency/view.php', $paramurl);
         $this->outputtable->define_baseurl($baseurl);
 
         $tablecolumns = array();
-        $tablecolumns[] = 'answer';
+        $tablecolumns[] = 'content';
         $tablecolumns[] = 'absolute';
         $tablecolumns[] = 'percentage';
         $this->outputtable->define_columns($tablecolumns);
@@ -63,7 +64,8 @@ class surveyproreport_frequency_report extends mod_surveypro_reportbase {
         $tableheaders[] = get_string('percentage', 'surveyproreport_frequency');
         $this->outputtable->define_headers($tableheaders);
 
-        $this->outputtable->sortable(false, 'content', 'ASC'); // Sorted by content by default.
+        $this->outputtable->sortable(true, 'content', 'ASC'); // Sorted by content by default.
+        $this->outputtable->no_sorting('percentage');
 
         $this->outputtable->column_class('content', 'content');
         $this->outputtable->column_class('absolute', 'absolute');
@@ -129,8 +131,13 @@ class surveyproreport_frequency_report extends mod_surveypro_reportbase {
         $sql = 'SELECT *, count(ud.id) as absolute
                 FROM {surveypro_answer} ud
                 WHERE ud.itemid = :itemid
-                GROUP BY ud.content
-                ORDER BY ud.content';
+                GROUP BY ud.content ';
+
+        if ($this->outputtable->get_sql_sort()) {
+            $sql .= 'ORDER BY '.$this->outputtable->get_sql_sort();
+        } else {
+            $sql .= 'ORDER BY ud.content';
+        }
 
         $whereparams['itemid'] = $itemid;
 
