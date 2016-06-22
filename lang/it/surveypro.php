@@ -59,14 +59,15 @@ $string['tabmtemplatename'] = 'Template sistema';
     $string['tabmtemplatepage1'] = 'Genera';
     $string['tabmtemplatepage2'] = 'Applica';
 
-$string['noanswer'] = 'Nessuna risposta';
-$string['note'] = 'Nota:';
-$string['previewmode'] = 'Sei in \'{$a}\'. I bottoni per il salvataggio dei dati non saranno visualizzati';
 $string['addnewsubmission'] = 'Nuova risposta';
 $string['answerisnoanswer'] = 'Risposta non fornita';
 $string['emptyanswer'] = 'Risposta vuota';
-$string['nextformpage'] = 'Pagina successiva >>';
-$string['previousformpage'] = '<< Pagina precedente';
-$string['nomoresubmissionsallowed'] = 'Il massimo numero di {$a} invii è già stato raggiunto.<br />Non sono consentiti ulteriori invii.';
 $string['gotolist'] = 'Mostra la lista';
-
+$string['nextformpage'] = 'Pagina successiva >>';
+$string['noanswer'] = 'Nessuna risposta';
+$string['nomoresubmissionsallowed'] = 'Il massimo numero di {$a} invii è già stato raggiunto.<br />Non sono consentiti ulteriori invii.';
+$string['note'] = 'Nota:';
+$string['previewmode'] = 'Sei in \'{$a}\'. I bottoni per il salvataggio dei dati non saranno visualizzati';
+$string['previousformpage'] = '<< Pagina precedente';
+$string['timecreated'] = 'Creato';
+$string['timemodified'] = 'Modificato';

@@ -81,7 +81,8 @@ $formparams->canaccessreserveditems = $canaccessreserveditems;
 $filterform = new surveyproreport_filterform($formurl, $formparams, 'post', '', array('id' => 'userentry'));
 
 // Output starts here.
-$url = new moodle_url('/mod/surveypro/report/attachments/upload.php', array('s' => $surveypro->id));
+$paramurl = array('s' => $surveypro->id, 'userid' => $userid, 'submissionid' => $submissionid);
+$url = new moodle_url('/mod/surveypro/report/attachments/uploads.php', $paramurl);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
