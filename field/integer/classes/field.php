@@ -671,35 +671,13 @@ EOS;
     }
 
     /**
-     * Starting from the info stored into $answer, this function returns the corresponding content for the export file.
-     *
-     * @param object $answer
-     * @param string $format
-     * @return string - the string for the export file
-     */
-    public function userform_db_to_export($answer, $format='') {
-        $content = $answer->content;
-
-        if ($content == SURVEYPRO_NOANSWERVALUE) { // Answer was "no answer".
-            return get_string('answerisnoanswer', 'mod_surveypro');
-        }
-        if ($content == SURVEYPRO_ANSWERNOTINDBVALUE) { // Item was disabled. (Used by frequenct report).
-            return get_string('notanswereditem', 'mod_surveypro');
-        }
-        if ($content === null) { // Item was disabled.
-            return get_string('notanswereditem', 'mod_surveypro');
-        }
-
-        return $content;
-    }
-
-    /**
      * Returns an array with the names of the mform element added using $mform->addElement or $mform->addGroup.
      *
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = array($this->itemname);
+        $elementnames = array();
+        $elementnames[] = $this->itemname;
 
         return $elementnames;
     }

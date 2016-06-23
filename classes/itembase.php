@@ -689,7 +689,7 @@ class mod_surveypro_itembase {
      * @param boolean $applyusersettings
      * @return void
      */
-    protected function item_split_unix_time($time, $applyusersettings=false) {
+    protected static function item_split_unix_time($time, $applyusersettings=false) {
         if ($applyusersettings) {
             $datestring = userdate($time, '%B_%A_%j_%Y_%m_%w_%d_%H_%M_%S', 0);
         } else {
@@ -1515,7 +1515,8 @@ class mod_surveypro_itembase {
      * @param string $format
      * @return string - the string for the export file
      */
-    public function userform_db_to_export($answer, $format='') {
+    public static function userform_db_to_export($answer, $format='') {
+        // The content of the provided answer.
         $content = trim($answer->content);
         if ($content == SURVEYPRO_NOANSWERVALUE) { // Answer was "no answer".
             return get_string('answerisnoanswer', 'mod_surveypro');

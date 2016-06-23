@@ -139,11 +139,11 @@ class surveyproreport_frequency_report extends mod_surveypro_reportbase {
             $sql .= 'ORDER BY ud.content';
         }
 
+        $itemseed = $DB->get_record('surveypro_item', array('id' => $itemid), 'type, plugin', MUST_EXIST);
+        $classname = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin.'_'.$itemseed->type;
+
         $whereparams['itemid'] = $itemid;
-
         $answers = $DB->get_recordset_sql($sql, $whereparams);
-
-        $dummyitem = surveypro_get_item($this->cm, $this->surveypro, $itemid);
 
         $decimalseparator = get_string('decsep', 'langconfig');
         foreach ($answers as $answer) {
@@ -153,7 +153,7 @@ class surveyproreport_frequency_report extends mod_surveypro_reportbase {
             $itemvalue = new stdClass();
             $itemvalue->id = $answer->id;
             $itemvalue->content = $answer->content;
-            $tablerow[] = $dummyitem->userform_db_to_export($itemvalue);
+            $tablerow[] = $classname::userform_db_to_export($itemvalue);
 
             // Absolute.
             $tablerow[] = $answer->absolute;

@@ -216,7 +216,7 @@ EOS;
      * @param string $format
      * @return string - the string for the export file
      */
-    public function userform_db_to_export($answer, $format='') {
+    public static function userform_db_to_export($answer, $format='') {
         return '';
     }
 

@@ -749,15 +749,12 @@ EOS;
      * @param string $format
      * @return string - the string for the export file
      */
-    public function userform_db_to_export($answer, $format='') {
-        // Content.
+    public static function userform_db_to_export($answer, $format='') {
+        // The content of the provided answer.
         $content = $answer->content;
-        // SURVEYPRO_NOANSWERVALUE does not exist here
-        if ($content == SURVEYPRO_ANSWERNOTINDBVALUE) { // Item was disabled. (Used by frequenct report).
-            return get_string('notanswereditem', 'mod_surveypro');
-        }
-        if ($content === null) { // Item was disabled.
-            return get_string('notanswereditem', 'mod_surveypro');
+        $parentcontent = parent::userform_db_to_export($answer, $format);
+        if ($parentcontent != $content) {
+            return $parentcontent;
         }
 
         // Format.

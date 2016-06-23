@@ -43,6 +43,9 @@ require_capability('mod/surveypro:accessreports', $context);
 // $groupmode = groups_get_activity_groupmode($cm, $course); // Groups are being used.
 
 $item = surveypro_get_item($cm, $surveypro, $itemid);
+$type = $item->get_type();
+$plugin = $item->get_plugin();
+$classname = 'surveypro'.$type.'_'.$plugin.'_'.$type;
 
 $whereparams = array('itemid' => $itemid);
 $sql = 'SELECT content, count(id) as absolute
@@ -55,7 +58,7 @@ $answers = $DB->get_recordset_sql($sql, $whereparams);
 $content = array();
 $absolute = array();
 foreach ($answers as $answer) {
-    $content[] = $item->userform_db_to_export($answer);
+    $content[] = $classname::userform_db_to_export($answer);
     $absolute[] = $answer->absolute;
 }
 
