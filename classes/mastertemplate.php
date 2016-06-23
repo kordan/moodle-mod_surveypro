@@ -240,7 +240,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         $filenames = array(
             'template.xml',
             'version.php',
-            'classes/class.php',
+            'classes/template.php',
             'lang/en/surveyprotemplate_'.$pluginname.'.php',
             'pix/icon.png',
             'pix/icon.svg'
