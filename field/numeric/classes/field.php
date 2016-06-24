@@ -149,7 +149,7 @@ class surveyprofield_numeric_field extends mod_surveypro_itembase {
         // No properties here.
 
         // List of fields I do not want to have in the item definition form.
-        // Empty list.
+        $this->insetupform['trimonsave'] = false;
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $getparentcontent);
@@ -194,7 +194,7 @@ class surveyprofield_numeric_field extends mod_surveypro_itembase {
     }
 
     /**
-     * Item get can be parent.
+     * Is this item available as a parent?
      *
      * @return the content of the static property "canbeparent"
      */
@@ -256,7 +256,7 @@ class surveyprofield_numeric_field extends mod_surveypro_itembase {
         // Nothing to do: no need to overwrite variables.
 
         // 3. Set values corresponding to checkboxes.
-        // Take care: 'required', 'hideinstructions' were already considered in item_get_common_settings.
+        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in item_get_common_settings.
         // Nothing to do: no checkboxes in this plugin item form.
 
         // 4. Other: float numbers need more attention because I can write them using , or .
@@ -573,18 +573,12 @@ EOS;
             return;
         }
 
-        if (!$searchform) {
-            if (strlen($answer['mainelement']) == 0) {
-                $olduseranswer->content = null;
-            } else {
-                $userinput = unformat_float($answer['mainelement'], true);
-                $olduseranswer->content = round($userinput, $this->decimals);
-            }
+        $content = trim($answer['mainelement']);
+        if (strlen($content) == 0) {
+            $olduseranswer->content = null;
         } else {
-            // In the SEARCH form the remote user entered something very wrong.
-            // Remember: in the search form NO VALIDATION IS PERFORMED.
-            // User is free to waste his/her time as he/she likes.
-            $olduseranswer->content = $answer['mainelement'];
+            $content = unformat_float($content, true);
+            $olduseranswer->content = round($content, $this->decimals);
         }
     }
 
@@ -647,5 +641,14 @@ EOS;
         $elementnames = array($this->itemname);
 
         return $elementnames;
+    }
+
+    /**
+     * Does the user input need trim?
+     *
+     * @return if this plugin requires a user input trim
+     */
+    public static function userform_input_needs_trim() {
+        return true;
     }
 }

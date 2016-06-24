@@ -193,7 +193,7 @@ class surveyprofield_date_field extends mod_surveypro_itembase {
         $this->defaultvalue = $this->lowerbound;
 
         // List of fields I do not want to have in the item definition form.
-        // Empty list.
+        $this->insetupform['trimonsave'] = false;
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $getparentcontent);
@@ -238,7 +238,7 @@ class surveyprofield_date_field extends mod_surveypro_itembase {
     }
 
     /**
-     * Item get can be parent.
+     * Is this item available as a parent?
      *
      * @return the content of the static property "canbeparent"
      */
@@ -356,7 +356,7 @@ class surveyprofield_date_field extends mod_surveypro_itembase {
         // Nothing to do: no need to overwrite variables.
 
         // 3. Set values corresponding to checkboxes.
-        // Take care: 'required', 'hideinstructions' were already considered in item_get_common_settings.
+        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in item_get_common_settings.
         // Nothing to do: no checkboxes in this plugin item form.
 
         // 4. Other.

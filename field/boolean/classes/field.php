@@ -134,6 +134,7 @@ class surveyprofield_boolean_field extends mod_surveypro_itembase {
         // No properties here.
 
         // List of fields I do not want to have in the item definition form.
+        $this->insetupform['trimonsave'] = false;
         $this->insetupform['hideinstructions'] = false;
 
         if (!empty($itemid)) {
@@ -179,7 +180,7 @@ class surveyprofield_boolean_field extends mod_surveypro_itembase {
     }
 
     /**
-     * Item get can be parent.
+     * Is this item available as a parent?
      *
      * @return the content of the static property "canbeparent"
      */
@@ -232,7 +233,7 @@ class surveyprofield_boolean_field extends mod_surveypro_itembase {
         $record->hideinstructions = 1;
 
         // 3. Set values corresponding to checkboxes.
-        // Take care: 'required', 'hideinstructions' were already considered in item_get_common_settings.
+        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in item_get_common_settings.
         // Nothing to do: no checkboxes in this plugin item form.
 
         // 4. Other.
@@ -595,7 +596,7 @@ EOS;
             return;
         }
 
-        $errorkey = ($this->style != SURVEYPROFIELD_BOOLEAN_USESELECT) ? $this->itemname.'_group' : $this->itemname;
+        $errorkey = ($this->style == SURVEYPROFIELD_BOOLEAN_USESELECT) ? $this->itemname : $this->itemname.'_group';
 
         // I need to check value is different from SURVEYPRO_INVITEVALUE even if it is not required.
         if ($data[$this->itemname] == SURVEYPRO_INVITEVALUE) {

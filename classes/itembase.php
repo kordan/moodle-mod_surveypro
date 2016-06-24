@@ -130,6 +130,7 @@ class mod_surveypro_itembase {
         'content' => true,
         'customnumber' => true,
         'position' => true,
+        'trimonsave' => true,
         'extranote' => true,
         'hideinstructions' => true,
         'required' => true,
@@ -253,7 +254,7 @@ class mod_surveypro_itembase {
         // Plugin and type are already onboard.
 
         // Checkboxes content.
-        $checkboxessettings = array('hidden', 'insearchform', 'reserved', 'hideinstructions', 'required');
+        $checkboxessettings = array('hidden', 'insearchform', 'reserved', 'hideinstructions', 'required', 'trimonsave');
         foreach ($checkboxessettings as $checkboxessetting) {
             if ($this->insetupform[$checkboxessetting]) {
                 $record->{$checkboxessetting} = isset($record->{$checkboxessetting}) ? 1 : 0;
@@ -1289,6 +1290,15 @@ class mod_surveypro_itembase {
      */
     public function get_itemeditingfeedback() {
         return $this->itemeditingfeedback;
+    }
+
+    /**
+     * Was the user input marked as "to trim"?
+     *
+     * @return if the calling plugin requires a user input trim
+     */
+    public function item_get_trimonsave() {
+        return false;
     }
 
     // MARK set.

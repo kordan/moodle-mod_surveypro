@@ -154,6 +154,7 @@ class surveyprofield_rate_field extends mod_surveypro_itembase {
         // No properties here.
 
         // List of fields I do not want to have in the item definition form.
+        $this->insetupform['trimonsave'] = false;
         $this->insetupform['insearchform'] = false;
         $this->insetupform['position'] = SURVEYPRO_POSITIONLEFT;
 
@@ -205,7 +206,7 @@ class surveyprofield_rate_field extends mod_surveypro_itembase {
     }
 
     /**
-     * Item get can be parent.
+     * Is this item available as a parent?
      *
      * @return the content of the static property "canbeparent"
      */
@@ -261,7 +262,7 @@ class surveyprofield_rate_field extends mod_surveypro_itembase {
         $record->position = SURVEYPRO_POSITIONTOP;
 
         // 3. Set values corresponding to checkboxes.
-        // Take care: 'required', 'hideinstructions' were already considered in item_get_common_settings.
+        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in item_get_common_settings.
         $checkboxes = array('hideinstructions', 'differentrates');
         foreach ($checkboxes as $checkbox) {
             $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
@@ -501,12 +502,8 @@ EOS;
         $return = false;
         foreach ($options as $optionindex => $unused) {
             $uniquename = $this->itemname.'_'.$optionindex;
+            $elementname = ($this->style == SURVEYPROFIELD_RATE_USERADIO) ? $uniquename.'_group' : $uniquename;
             if ($data[$uniquename] == SURVEYPRO_INVITEVALUE) {
-                if ($this->style == SURVEYPROFIELD_RATE_USERADIO) {
-                    $elementname = $uniquename.'_group';
-                } else {
-                    $elementname = $uniquename;
-                }
                 $errors[$elementname] = get_string('uerr_optionnotset', 'surveyprofield_rate');
                 $return = true;
             }

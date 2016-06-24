@@ -74,6 +74,11 @@ class surveyprofield_character_field extends mod_surveypro_itembase {
     protected $required;
 
     /**
+     * @var boolean True if the user input will be trimmed at save time
+     */
+    protected $trimonsave;
+
+    /**
      * @var boolean True if the instructions are going to be shown in the form; false otherwise
      */
     protected $hideinstructions;
@@ -195,7 +200,7 @@ class surveyprofield_character_field extends mod_surveypro_itembase {
     }
 
     /**
-     * Item get can be parent.
+     * Is this item available as a parent?
      *
      * @return the content of the static property "canbeparent"
      */
@@ -265,7 +270,7 @@ class surveyprofield_character_field extends mod_surveypro_itembase {
         }
 
         // 3. Set values corresponding to checkboxes.
-        // Take care: 'required', 'hideinstructions' were already considered in item_get_common_settings.
+        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in item_get_common_settings.
         // Nothing to do: no checkboxes in this plugin item form.
 
         // 4. Other.
@@ -285,6 +290,15 @@ class surveyprofield_character_field extends mod_surveypro_itembase {
                 $record->{$fieldbase.'_text'} = null;
             }
         }
+    }
+
+    /**
+     * Does the user input need trim?
+     *
+     * @return if this plugin requires a user input trim
+     */
+    public function item_get_trimonsave() {
+        return $this->trimonsave;
     }
 
     /**
@@ -446,58 +460,57 @@ EOS;
         }
 
         $errorkey = $this->itemname;
+        $userinput = empty($this->trimonsave) ? $data[$this->itemname] : trim($data[$this->itemname]);
 
-        if (empty($data[$this->itemname])) {
+        if (empty($userinput)) {
             if ($this->required) {
                 $errors[$errorkey] = get_string('required');
             }
             return;
         }
 
-        if (!empty($data[$this->itemname])) {
-            $answerlength = strlen($data[$this->itemname]);
-            if (!empty($this->minlength)) {
-                if ($answerlength < $this->minlength) {
-                    $errors[$errorkey] = get_string('uerr_texttooshort', 'surveyprofield_character');
-                }
+        $answerlength = strlen($userinput);
+        if (!empty($this->minlength)) {
+            if ($answerlength < $this->minlength) {
+                $errors[$errorkey] = get_string('uerr_texttooshort', 'surveyprofield_character');
             }
-            if (!empty($this->maxlength)) {
-                if ($answerlength > $this->maxlength) {
-                    $errors[$errorkey] = get_string('uerr_texttoolong', 'surveyprofield_character');
-                }
+        }
+        if (!empty($this->maxlength)) {
+            if ($answerlength > $this->maxlength) {
+                $errors[$errorkey] = get_string('uerr_texttoolong', 'surveyprofield_character');
             }
-            if (!empty($data[$this->itemname]) && !empty($this->pattern)) {
-                switch ($this->pattern) {
-                    case SURVEYPROFIELD_CHARACTER_EMAILPATTERN:
-                        if (!validate_email($data[$this->itemname])) {
-                            $errors[$errorkey] = get_string('uerr_invalidemail', 'surveyprofield_character');
-                        }
-                        break;
-                    case SURVEYPROFIELD_CHARACTER_URLPATTERN:
-                        if (!surveypro_character_validate_url($data[$this->itemname])) {
-                            $errors[$errorkey] = get_string('uerr_invalidurl', 'surveyprofield_character');
-                        }
-                        break;
-                    case SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN: // It is a custom pattern done with "A", "a", "*" and "0".
-                        // Where: "A" UPPER CASE CHARACTERS.
-                        // Where: "a" lower case characters.
-                        // Where: "*" UPPER case, LOWER case or any special characters like '@', ',', '%', '5', ' ' or whatever.
-                        // Where: "0" numbers.
+        }
+        if (!empty($userinput) && !empty($this->pattern)) {
+            switch ($this->pattern) {
+                case SURVEYPROFIELD_CHARACTER_EMAILPATTERN:
+                    if (!validate_email($userinput)) {
+                        $errors[$errorkey] = get_string('uerr_invalidemail', 'surveyprofield_character');
+                    }
+                    break;
+                case SURVEYPROFIELD_CHARACTER_URLPATTERN:
+                    if (!surveypro_character_validate_url($userinput)) {
+                        $errors[$errorkey] = get_string('uerr_invalidurl', 'surveyprofield_character');
+                    }
+                    break;
+                case SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN: // It is a custom pattern done with "A", "a", "*" and "0".
+                    // Where: "A" UPPER CASE CHARACTERS.
+                    // Where: "a" lower case characters.
+                    // Where: "*" UPPER case, LOWER case or any special characters like '@', ',', '%', '5', ' ' or whatever.
+                    // Where: "0" numbers.
 
-                        if ($answerlength != strlen($this->patterntext)) {
-                            $errors[$errorkey] = get_string('uerr_badlength', 'surveyprofield_character');
-                        }
+                    if ($answerlength != strlen($this->patterntext)) {
+                        $errors[$errorkey] = get_string('uerr_badlength', 'surveyprofield_character');
+                    }
 
-                        if (!surveypro_character_validate_pattern($data[$this->itemname], $this->patterntext)) {
-                            $errors[$errorkey] = get_string('uerr_nopatternmatch', 'surveyprofield_character');
-                        }
-                        break;
-                    case SURVEYPROFIELD_CHARACTER_FREEPATTERN:
-                        break;
-                    default:
-                        $message = 'Unexpected $this->pattern = '.$this->pattern;
-                        debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-                }
+                    if (!surveypro_character_validate_pattern($userinput, $this->patterntext)) {
+                        $errors[$errorkey] = get_string('uerr_nopatternmatch', 'surveyprofield_character');
+                    }
+                    break;
+                case SURVEYPROFIELD_CHARACTER_FREEPATTERN:
+                    break;
+                default:
+                    $message = 'Unexpected $this->pattern = '.$this->pattern;
+                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
             }
         }
         // Return $errors; is not needed because $errors is passed by reference.
@@ -549,6 +562,10 @@ EOS;
             default:
         }
 
+        if ($this->trimonsave) {
+            $arrayinstruction[] = get_string('inputclean', 'surveypro');
+        }
+
         if (count($arrayinstruction)) {
             $fillinginstruction = implode('; ', $arrayinstruction);
         } else {
@@ -574,10 +591,12 @@ EOS;
             return;
         }
 
-        if (strlen($answer['mainelement']) == 0) {
+        $userinput = empty($this->trimonsave) ? $answer['mainelement'] : trim($answer['mainelement']);
+
+        if (strlen($userinput) == 0) {
             $olduseranswer->content = null;
         } else {
-            $olduseranswer->content = $answer['mainelement'];
+            $olduseranswer->content = $userinput;
         }
     }
 

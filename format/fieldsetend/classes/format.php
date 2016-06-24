@@ -68,6 +68,7 @@ class surveyproformat_fieldsetend_format extends mod_surveypro_itembase {
         // No properties here.
 
         // List of fields I do not want to have in the item definition form.
+        $this->insetupform['trimonsave'] = false;
         $this->insetupform['common_fs'] = false;
         $this->insetupform['content'] = false;
         $this->insetupform['customnumber'] = false;
@@ -113,7 +114,7 @@ class surveyproformat_fieldsetend_format extends mod_surveypro_itembase {
     }
 
     /**
-     * Item get can be parent.
+     * Is this item available as a parent?
      *
      * @return the content of the static property "canbeparent"
      */
