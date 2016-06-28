@@ -300,7 +300,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         $uselesspluginfields[] = 'surveyproid';
         $uselesspluginfields[] = 'itemid';
 
-        $versiondisk = $this->get_plugin_versiondisk();
+        $pluginversion = $this->get_plugin_version();
 
         $where = array('surveyproid' => $this->surveypro->id);
         if ($visiblesonly) {
@@ -318,7 +318,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             $xmlitem = $xmltemplate->addChild('item');
             $xmlitem->addAttribute('type', $itemseed->type);
             $xmlitem->addAttribute('plugin', $itemseed->plugin);
-            $xmlitem->addAttribute('version', $versiondisk["$itemseed->plugin"]);
+            $xmlitem->addAttribute('version', $pluginversion["$itemseed->type"]["$itemseed->plugin"]);
 
             // Surveypro_item.
             $xmltable = $xmlitem->addChild('surveypro_item');
