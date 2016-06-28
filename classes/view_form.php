@@ -711,8 +711,8 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         $requireditems = array();
         foreach ($pluginlist as $plugin) {
             $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'_'.SURVEYPRO_TYPEFIELD;
-            $itemcanbemandatory = $classname::item_uses_mandatory_dbfield();
-            if ($itemcanbemandatory) {
+            $canbemandatory = $classname::item_uses_mandatory_dbfield();
+            if ($canbemandatory) {
                 $sql = 'SELECT i.id, i.parentid, i.parentvalue, i.reserved
                         FROM {surveypro_item} i
                           JOIN {surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'} p ON i.id = p.itemid
