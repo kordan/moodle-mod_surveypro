@@ -106,7 +106,7 @@ function xmldb_surveyprofield_checkbox_upgrade($oldversion) {
         $table = new xmldb_table('surveyprofield_checkbox');
         $field = new xmldb_field('required', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '2', 'extranote');
 
-        // Conditionally launch add field noanswerdefault.
+        // Conditionally launch add field required.
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
