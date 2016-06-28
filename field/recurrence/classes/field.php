@@ -337,15 +337,15 @@ class surveyprofield_recurrence_field extends mod_surveypro_itembase {
      * @return array of downloadformats
      */
     public function item_get_downloadformats() {
-        $option = array();
+        $options = array();
 
         for ($i = 1; $i < 4; $i++) {
             $strname = 'strftime'.str_pad($i, 2, '0', STR_PAD_LEFT);
-            $option[$strname] = get_string($strname, 'surveyprofield_recurrence');
+            $options[$strname] = get_string($strname, 'surveyprofield_recurrence');
         }
-        $option['unixtime'] = get_string('unixtime', 'mod_surveypro');
+        $options['unixtime'] = get_string('unixtime', 'mod_surveypro');
 
-        return $option;
+        return $options;
     }
 
     /**
