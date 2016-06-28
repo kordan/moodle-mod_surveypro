@@ -67,8 +67,7 @@ class mod_surveypro_admin_page_manage_surveypro_plugins extends admin_externalpa
         $found = false;
 
         foreach (core_component::get_plugin_list($this->subtype) as $name => $unused) {
-            if (strpos(core_text::strtolower(get_string('pluginname', $this->subtype.'_'.$name)),
-                    $query) !== false) {
+            if (strpos(core_text::strtolower(get_string('pluginname', $this->subtype.'_'.$name)), $query) !== false) {
                 $found = true;
                 break;
             }
