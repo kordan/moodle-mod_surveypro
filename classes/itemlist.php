@@ -636,7 +636,7 @@ class mod_surveypro_itemlist {
         require_once($CFG->libdir.'/tablelib.php');
 
         $statusstr = get_string('relation_status', 'mod_surveypro');
-        $table = new flexible_table('itemslist');
+        $table = new flexible_table('relations');
 
         $paramurl = array('id' => $this->cm->id);
         $baseurl = new moodle_url('/mod/surveypro/layout_validation.php', $paramurl);

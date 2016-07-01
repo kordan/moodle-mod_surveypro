@@ -15,16 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines the version of surveypro missing report subplugin
+ * Strings for component 'report_responses', language 'en'
  *
- * @package   surveyproreport_missing
+ * @package   surveyproreport_responses
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->version = 2016061701;
-$plugin->release = '1.0';
-$plugin->requires = 2015111600; // Requires this Moodle version.
-$plugin->component = 'surveyproreport_missing'; // Full name of the plugin (used for diagnostics).
+$string['pluginname'] = 'Responses per user';
