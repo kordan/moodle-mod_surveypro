@@ -90,7 +90,7 @@ class surveyproreport_attachments_report extends mod_surveypro_reportbase {
         // General properties for the whole table.
         $this->outputtable->summary = get_string('submissionslist', 'mod_surveypro');
         $this->outputtable->set_attribute('cellpadding', '5');
-        $this->outputtable->set_attribute('id', 'userattempts');
+        $this->outputtable->set_attribute('id', 'attachments');
         $this->outputtable->set_attribute('class', 'generaltable');
         // $this->outputtable->set_attribute('width', '90%');
         $this->outputtable->setup();

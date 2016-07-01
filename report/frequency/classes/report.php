@@ -45,7 +45,7 @@ class surveyproreport_frequency_report extends mod_surveypro_reportbase {
      * Setup_outputtable
      */
     public function setup_outputtable($itemid) {
-        $this->outputtable = new flexible_table('submissionslist');
+        $this->outputtable = new flexible_table('frequency');
 
         $paramurl = array('id' => $this->cm->id, 'rname' => 'frequency');
         $paramurl['itemid'] = $itemid;
@@ -80,7 +80,7 @@ class surveyproreport_frequency_report extends mod_surveypro_reportbase {
         // General properties for the whole table.
         $this->outputtable->summary = get_string('submissionslist', 'mod_surveypro');
         $this->outputtable->set_attribute('cellpadding', '5');
-        $this->outputtable->set_attribute('id', 'submissions');
+        $this->outputtable->set_attribute('id', 'frequencies');
         $this->outputtable->set_attribute('class', 'generaltable');
         $this->outputtable->set_attribute('align', 'center');
         // $this->outputtable->set_attribute('width', '90%');
@@ -177,7 +177,7 @@ class surveyproreport_frequency_report extends mod_surveypro_reportbase {
     public function output_data($url) {
         global $OUTPUT;
 
-        echo $OUTPUT->heading(get_string('pluginname', 'surveyproreport_count'));
+        echo $OUTPUT->heading(get_string('pluginname', 'surveyproreport_frequency'));
         $this->outputtable->print_html();
         if ($this->outputtable->started_output) {
             $this->print_graph($url);

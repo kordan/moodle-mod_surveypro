@@ -15,11 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'field_autofill', language 'en'
+ * Defines the version of surveypro delayedusers report subplugin
  *
- * @package   surveyproreport_submitting
+ * @package   surveyproreport_delayedusers
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Submitting users';
+defined('MOODLE_INTERNAL') || die();
+
+$plugin->version = 2016061701;
+$plugin->release = '1.0';
+$plugin->requires = 2015111600; // Requires this Moodle version.
+$plugin->component = 'surveyproreport_delayedusers'; // Full name of the plugin (used for diagnostics).

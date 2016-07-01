@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Surveypro class to manage count report
+ * Surveypro class to manage userspercount report
  *
- * @package   surveyproreport_count
+ * @package   surveyproreport_userspercount
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -28,13 +28,13 @@ require_once($CFG->libdir.'/tablelib.php');
 
 
 /**
- * The class to manage count report
+ * The class to manage userspercount report
  *
- * @package   surveyproreport_count
+ * @package   surveyproreport_userspercount
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyproreport_count_report extends mod_surveypro_reportbase {
+class surveyproreport_userspercount_report extends mod_surveypro_reportbase {
 
     /**
      * @var flexible_table $outputtable
@@ -45,29 +45,26 @@ class surveyproreport_count_report extends mod_surveypro_reportbase {
      * Setup_outputtable
      */
     public function setup_outputtable() {
-        $this->outputtable = new flexible_table('userattempts');
+        $this->outputtable = new flexible_table('userspercount');
 
-        $paramurl = array('id' => $this->cm->id, 'rname' => 'count');
-        $baseurl = new moodle_url('/mod/surveypro/report/count/view.php', $paramurl);
+        $paramurl = array('id' => $this->cm->id, 'rname' => 'users');
+        $baseurl = new moodle_url('/mod/surveypro/report/userspercount/view.php', $paramurl);
         $this->outputtable->define_baseurl($baseurl);
 
         $tablecolumns = array();
-        $tablecolumns[] = 'picture';
-        $tablecolumns[] = 'fullname';
-        $tablecolumns[] = 'attempts';
+        $tablecolumns[] = 'userresponses';
+        $tablecolumns[] = 'userscount';
         $this->outputtable->define_columns($tablecolumns);
 
         $tableheaders = array();
-        $tableheaders[] = '';
-        $tableheaders[] = get_string('fullname');
-        $tableheaders[] = get_string('submissions', 'mod_surveypro');
+        $tableheaders[] = get_string('userresponses', 'surveyproreport_userspercount');
+        $tableheaders[] = get_string('users');
         $this->outputtable->define_headers($tableheaders);
 
-        $this->outputtable->sortable(true, 'lastname', 'ASC'); // Sorted by lastname by default.
+        $this->outputtable->sortable(true, 'userresponses', 'ASC'); // Sorted by lastname by default.
 
-        $this->outputtable->column_class('picture', 'picture');
-        $this->outputtable->column_class('fullname', 'fullname');
-        $this->outputtable->column_class('attempts', 'attempts');
+        $this->outputtable->column_class('userresponses', 'userresponses');
+        $this->outputtable->column_class('userscount', 'userscount');
 
         $this->outputtable->initialbars(true);
 
@@ -96,16 +93,12 @@ class surveyproreport_count_report extends mod_surveypro_reportbase {
             // Return nothing.
             return;
         }
-        $sql = 'SELECT '.user_picture::fields('u').', s.attempts
-                FROM {user} u
-                  JOIN (SELECT id, userid
-                        FROM {role_assignments}
-                        WHERE contextid = '.$coursecontext->id.'
-                          AND roleid IN ('.implode(',', $role).')) ra ON u.id = ra.userid
-                  RIGHT JOIN (SELECT userid, count(id) as attempts
-                              FROM {surveypro_submission}
-                              WHERE surveyproid = :surveyproid
-                              GROUP BY userid) s ON s.userid = u.id';
+        $sql = 'SELECT s.userresponses, count(s.userresponses) as userscount
+                FROM (SELECT userid, count(userid) as userresponses
+	                  FROM head_surveypro_submission
+	                  WHERE surveyproid = :surveyproid
+	                  GROUP BY userid) s
+                GROUP BY userresponses';
         $whereparams = array('surveyproid' => $this->surveypro->id);
 
         list($where, $filterparams) = $this->outputtable->get_sql_where();
@@ -117,29 +110,24 @@ class surveyproreport_count_report extends mod_surveypro_reportbase {
         if ($this->outputtable->get_sql_sort()) {
             $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort();
         } else {
-            $sql .= ' ORDER BY s.lastname ASC';
+            $sql .= ' ORDER BY s.userresponses ASC';
         }
-        $usersubmissions = $DB->get_recordset_sql($sql, $whereparams);
+        $userspercounts = $DB->get_recordset_sql($sql, $whereparams);
 
-        foreach ($usersubmissions as $usersubmission) {
+        foreach ($userspercounts as $userspercount) {
             $tablerow = array();
 
-            // Picture.
-            $tablerow[] = $OUTPUT->user_picture($usersubmission, array('courseid' => $COURSE->id));
+             // Count of responses.
+            $tablerow[] = $userspercount->userresponses;
 
-            // User fullname.
-            $paramurl = array('id' => $usersubmission->id, 'course' => $COURSE->id);
-            $url = new moodle_url('/user/view.php', $paramurl);
-            $tablerow[] = '<a href="'.$url->out().'">'.fullname($usersubmission).'</a>';
-
-            // User attempts.
-            $tablerow[] = isset($usersubmission->attempts) ? $usersubmission->attempts : '--';
+            // Number of users who submittet such count of responses.
+            $tablerow[] = $userspercount->userscount;
 
             // Add row to the table.
             $this->outputtable->add_data($tablerow);
         }
 
-        $usersubmissions->close();
+        $userspercounts->close();
     }
 
     /**
@@ -148,7 +136,7 @@ class surveyproreport_count_report extends mod_surveypro_reportbase {
     public function output_data() {
         global $OUTPUT;
 
-        echo $OUTPUT->heading(get_string('pluginname', 'surveyproreport_count'));
+        echo $OUTPUT->heading(get_string('pluginname', 'surveyproreport_userspercount'));
         $this->outputtable->print_html();
     }
 }
