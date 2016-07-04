@@ -324,9 +324,9 @@ class surveyprofield_date_field extends mod_surveypro_itembase {
             }
             if (!empty($this->{$field})) {
                 $datearray = self::item_split_unix_time($this->{$field});
-                $this->{$field.'year'} = $datearray['year'];
-                $this->{$field.'month'} = $datearray['mon'];
-                $this->{$field.'day'} = $datearray['mday'];
+                $this->{$field.'_year'} = $datearray['year'];
+                $this->{$field.'_month'} = $datearray['mon'];
+                $this->{$field.'_day'} = $datearray['mday'];
             }
         }
     }

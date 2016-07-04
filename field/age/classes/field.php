@@ -298,8 +298,8 @@ class surveyprofield_age_field extends mod_surveypro_itembase {
         foreach ($fieldlist as $field) {
             if (!empty($this->{$field})) {
                 $agearray = self::item_split_unix_time($this->{$field});
-                $this->{$field.'year'} = $agearray['year'];
-                $this->{$field.'month'} = $agearray['mon'];
+                $this->{$field.'_year'} = $agearray['year'];
+                $this->{$field.'_month'} = $agearray['mon'];
             }
         }
     }

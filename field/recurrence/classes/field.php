@@ -286,8 +286,8 @@ class surveyprofield_recurrence_field extends mod_surveypro_itembase {
             }
             if (!empty($this->{$field})) {
                 $recurrencearray = self::item_split_unix_time($this->{$field});
-                $this->{$field.'month'} = $recurrencearray['mon'];
-                $this->{$field.'day'} = $recurrencearray['mday'];
+                $this->{$field.'_month'} = $recurrencearray['mon'];
+                $this->{$field.'_day'} = $recurrencearray['mday'];
             }
         }
     }
