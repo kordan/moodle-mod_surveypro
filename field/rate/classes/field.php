@@ -284,13 +284,13 @@ class surveyprofield_rate_field extends mod_surveypro_itembase {
      * @return array of downloadformats
      */
     public function item_get_downloadformats() {
-        $option = array();
+        $options = array();
 
         $options[SURVEYPRO_ITEMSRETURNSVALUES] = get_string('returnvalues', 'surveyprofield_rate');
         $options[SURVEYPRO_ITEMRETURNSLABELS] = get_string('returnlabels', 'surveyprofield_rate');
         $options[SURVEYPRO_ITEMRETURNSPOSITION] = get_string('returnposition', 'surveyprofield_rate');
 
-        return $option;
+        return $options;
     }
 
     /**

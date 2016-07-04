@@ -289,13 +289,13 @@ class surveyprofield_checkbox_field extends mod_surveypro_itembase {
      * @return array of downloadformats
      */
     public function item_get_downloadformats() {
-        $option = array();
+        $options = array();
 
         $options[SURVEYPRO_ITEMSRETURNSVALUES] = get_string('returnvalues', 'surveyprofield_checkbox');
         $options[SURVEYPRO_ITEMRETURNSLABELS] = get_string('returnlabels', 'surveyprofield_checkbox');
         $options[SURVEYPRO_ITEMRETURNSPOSITION] = get_string('returnposition', 'surveyprofield_checkbox');
 
-        return $option;
+        return $options;
     }
 
     /**

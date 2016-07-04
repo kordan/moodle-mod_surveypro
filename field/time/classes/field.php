@@ -351,16 +351,16 @@ class surveyprofield_time_field extends mod_surveypro_itembase {
      * @return array of downloadformats
      */
     public function item_get_downloadformats() {
-        $option = array();
+        $options = array();
         $timenow = time();
 
         for ($i = 1; $i < 3; $i++) {
             $strname = 'strftime'.str_pad($i, 2, '0', STR_PAD_LEFT);
-            $option[$strname] = userdate($timenow, get_string($strname, 'surveyprofield_time'));
+            $options[$strname] = userdate($timenow, get_string($strname, 'surveyprofield_time'));
         }
-        $option['unixtime'] = get_string('unixtime', 'mod_surveypro');
+        $options['unixtime'] = get_string('unixtime', 'mod_surveypro');
 
-        return $option;
+        return $options;
     }
 
     /**
