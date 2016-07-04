@@ -906,7 +906,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                         $paramurl['act'] = SURVEYPRO_DELETEUTEMPLATE;
                         $paramurl['sesskey'] = sesskey();
 
-                        $link = new moodle_url('/mod/surveypro/utemplates_manage.php', $paramurl);
+                        $link = new moodle_url('/mod/surveypro/utemplate_manage.php', $paramurl);
                         $iconparams = array('title' => $deletetitle, 'class' => 'iconsmall');
                         $icon = new pix_icon('t/delete', $deletetitle, 'moodle', $iconparams);
                         $paramlink = array('title' => $deletetitle);
@@ -920,7 +920,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                     $paramurl['act'] = SURVEYPRO_EXPORTUTEMPLATE;
                     $paramurl['sesskey'] = sesskey();
 
-                    $link = new moodle_url('/mod/surveypro/utemplates_manage.php', $paramurl);
+                    $link = new moodle_url('/mod/surveypro/utemplate_manage.php', $paramurl);
                     $iconparams = array('title' => $exporttitle, 'class' => 'iconsmall');
                     $icon = new pix_icon('i/export', $exporttitle, 'moodle', $iconparams);
                     $paramlink = array('title' => $exporttitle);
