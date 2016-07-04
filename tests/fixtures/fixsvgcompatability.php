@@ -33,7 +33,7 @@ $longoptions['help'] = false;
 $longoptions['ie9fix'] = false;
 $longoptions['noaspectratio'] = false;
 $longoptions['path'] = dirname(__FILE__).'/gitmirror';
-    
+
 list($options, $unrecognized) = cli_get_params($longoptions, array('h' => 'help'));
 
 if ($unrecognized) {
@@ -79,7 +79,6 @@ Examples:
 }
 
 exit(0);
-
 
 function theme_base_svgtool_ie9fix($file) {
     global $CFG;

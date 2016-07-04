@@ -24,7 +24,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-
 require_once($CFG->dirroot.'/mod/surveypro/format/fieldsetend/lib.php');
 
 /**

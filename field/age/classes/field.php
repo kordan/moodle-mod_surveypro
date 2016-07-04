@@ -261,7 +261,7 @@ class surveyprofield_age_field extends mod_surveypro_itembase {
      * @param bool $applyusersettings
      * @return void
      */
-    public function item_split_unix_time($time, $applyusersettings=false) {
+    public static function item_split_unix_time($time, $applyusersettings=false) {
         $getdate = parent::item_split_unix_time($time, $applyusersettings);
 
         $getdate['year'] -= SURVEYPROFIELD_AGE_YEAROFFSET;
@@ -297,7 +297,7 @@ class surveyprofield_age_field extends mod_surveypro_itembase {
         $fieldlist = $this->item_get_composite_fields();
         foreach ($fieldlist as $field) {
             if (!empty($this->{$field})) {
-                $agearray = $this->item_split_unix_time($this->{$field});
+                $agearray = self::item_split_unix_time($this->{$field});
                 $this->{$field.'year'} = $agearray['year'];
                 $this->{$field.'month'} = $agearray['mon'];
             }
@@ -339,7 +339,7 @@ class surveyprofield_age_field extends mod_surveypro_itembase {
      * @param array $agearray
      * @return void
      */
-    public function item_age_to_text($agearray) {
+    public static function item_age_to_text($agearray) {
         $stryears = get_string('years');
         $strmonths = get_string('months', 'surveyprofield_age');
 
@@ -521,10 +521,10 @@ EOS;
             } else {
                 switch ($this->defaultoption) {
                     case SURVEYPRO_CUSTOMDEFAULT:
-                        $agearray = $this->item_split_unix_time($this->defaultvalue);
+                        $agearray = self::item_split_unix_time($this->defaultvalue);
                         break;
                     case SURVEYPRO_NOANSWERDEFAULT:
-                        $agearray = $this->item_split_unix_time($this->lowerbound);
+                        $agearray = self::item_split_unix_time($this->lowerbound);
                         $mform->setDefault($this->itemname.'_noanswer', '1');
                         break;
                 }
@@ -623,24 +623,24 @@ EOS;
         $hasupperbound = ($this->upperbound != $this->item_age_to_unix_time($maximumage, 11));
 
         $a = '';
-        $lowerbound = $this->item_split_unix_time($this->lowerbound);
-        $upperbound = $this->item_split_unix_time($this->upperbound);
+        $lowerbound = self::item_split_unix_time($this->lowerbound);
+        $upperbound = self::item_split_unix_time($this->upperbound);
 
         $fillinginstruction = '';
         if ($haslowerbound && $hasupperbound) {
             $a = new stdClass();
-            $a->lowerbound = $this->item_age_to_text($lowerbound);
-            $a->upperbound = $this->item_age_to_text($upperbound);
+            $a->lowerbound = self::item_age_to_text($lowerbound);
+            $a->upperbound = self::item_age_to_text($upperbound);
 
             $fillinginstruction .= get_string('restriction_lowerupper', 'surveyprofield_age', $a);
         } else {
             if ($haslowerbound) {
-                $a = $this->item_age_to_text($lowerbound);
+                $a = self::item_age_to_text($lowerbound);
                 $fillinginstruction .= get_string('restriction_lower', 'surveyprofield_age', $a);
             }
 
             if ($hasupperbound) {
-                $a = $this->item_age_to_text($upperbound);
+                $a = self::item_age_to_text($upperbound);
                 $fillinginstruction .= get_string('restriction_upper', 'surveyprofield_age', $a);
             }
         }
@@ -695,7 +695,7 @@ EOS;
             if ($fromdb->content == SURVEYPRO_NOANSWERVALUE) {
                 $prefill[$this->itemname.'_noanswer'] = 1;
             } else {
-                $datearray = $this->item_split_unix_time($fromdb->content);
+                $datearray = self::item_split_unix_time($fromdb->content);
                 $prefill[$this->itemname.'_month'] = $datearray['mon'];
                 $prefill[$this->itemname.'_year'] = $datearray['year'];
             }
@@ -712,19 +712,19 @@ EOS;
      * @return string - the string for the export file
      */
     public function userform_db_to_export($answer, $format='') {
-        $content = $answer->content;
-        if ($content == SURVEYPRO_NOANSWERVALUE) { // Answer was "no answer".
-            return get_string('answerisnoanswer', 'mod_surveypro');
-        }
-        if ($content == SURVEYPRO_ANSWERNOTINDBVALUE) { // Item was disabled. (Used by frequenct report).
-            return get_string('notanswereditem', 'mod_surveypro');
-        }
-        if ($content === null) { // Item was disabled.
-            return get_string('notanswereditem', 'mod_surveypro');
+        $quickresponse = parent::userform_db_to_export($answer, $format);
+        if ($quickresponse !== null) { // Parent method provided the response.
+            return $quickresponse;
         }
 
-        $agearray = $this->item_split_unix_time($content);
-        return $this->item_age_to_text($agearray);
+        // The content of the provided answer.
+        $content = $answer->content;
+
+        // Output.
+        $agearray = self::item_split_unix_time($content);
+        $return = self::item_age_to_text($agearray);
+
+        return $return;
     }
 
     /**

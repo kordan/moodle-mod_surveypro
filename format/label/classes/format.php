@@ -24,7 +24,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-
 require_once($CFG->dirroot.'/mod/surveypro/format/label/lib.php');
 
 /**
@@ -326,11 +325,13 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        if ($this->fullwidth) {
-            return array();
-        } else {
-            return array($this->itemname);
+        $elementnames = array();
+
+        if (empty($this->fullwidth)) {
+            $elementnames[] = $this->itemname;
         }
+
+        return $elementnames;
     }
 
     /**

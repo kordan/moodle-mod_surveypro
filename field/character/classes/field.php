@@ -24,7 +24,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-
 require_once($CFG->dirroot.'/mod/surveypro/field/character/lib.php');
 
 /**
@@ -613,15 +612,13 @@ EOS;
      * @return string - the string for the export file
      */
     public function userform_db_to_export($answer, $format='') {
-        // Content.
-        $content = trim($answer->content);
-        // SURVEYPRO_NOANSWERVALUE does not exist here.
-        if ($content == SURVEYPRO_ANSWERNOTINDBVALUE) { // Item was disabled. (Used by frequenct report).
-            return get_string('notanswereditem', 'mod_surveypro');
+        $quickresponse = parent::userform_db_to_export($answer, $format);
+        if ($quickresponse !== null) { // Parent method provided the response.
+            return $quickresponse;
         }
-        if ($content === null) { // Item was disabled.
-            return get_string('notanswereditem', 'mod_surveypro');
-        }
+
+        // The content of the provided answer.
+        $content = $answer->content;
 
         // Output.
         if (strlen($content)) {
@@ -643,7 +640,8 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = array($this->itemname);
+        $elementnames = array();
+        $elementnames[] = $this->itemname;
 
         return $elementnames;
     }

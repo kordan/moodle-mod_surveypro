@@ -24,7 +24,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-
 require_once($CFG->dirroot.'/mod/surveypro/format/fieldset/lib.php');
 
 /**
@@ -238,7 +237,8 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = array($this->itemname);
+        $elementnames = array();
+        $elementnames[] = $this->itemname;
 
         return $elementnames;
     }

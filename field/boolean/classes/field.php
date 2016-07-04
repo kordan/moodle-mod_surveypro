@@ -24,7 +24,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-
 require_once($CFG->dirroot.'/mod/surveypro/field/boolean/lib.php');
 
 /**
@@ -719,17 +718,13 @@ EOS;
      * @return string - the string for the export file
      */
     public function userform_db_to_export($answer, $format='') {
-        // Content.
+        $quickresponse = parent::userform_db_to_export($answer, $format);
+        if ($quickresponse !== null) { // Parent method provided the response.
+            return $quickresponse;
+        }
+
+        // The content of the provided answer.
         $content = $answer->content;
-        if ($content == SURVEYPRO_NOANSWERVALUE) { // Answer was "no answer".
-            return get_string('answerisnoanswer', 'mod_surveypro');
-        }
-        if ($content == SURVEYPRO_ANSWERNOTINDBVALUE) { // Item was disabled. (Used by frequenct report).
-            return get_string('notanswereditem', 'mod_surveypro');
-        }
-        if ($content === null) { // Item was disabled.
-            return get_string('notanswereditem', 'mod_surveypro');
-        }
 
         // Format.
         if ($format == SURVEYPRO_FIRENDLYFORMAT) {

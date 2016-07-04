@@ -689,7 +689,7 @@ class mod_surveypro_itembase {
      * @param boolean $applyusersettings
      * @return void
      */
-    protected function item_split_unix_time($time, $applyusersettings=false) {
+    protected static function item_split_unix_time($time, $applyusersettings=false) {
         if ($applyusersettings) {
             $datestring = userdate($time, '%B_%A_%j_%Y_%m_%w_%d_%H_%M_%S', 0);
         } else {
@@ -1516,17 +1516,18 @@ class mod_surveypro_itembase {
      * @return string - the string for the export file
      */
     public function userform_db_to_export($answer, $format='') {
+        $response = null;
+
+        // The content of the provided answer.
         $content = trim($answer->content);
         if ($content == SURVEYPRO_NOANSWERVALUE) { // Answer was "no answer".
-            return get_string('answerisnoanswer', 'mod_surveypro');
-        }
-        if ($content == SURVEYPRO_ANSWERNOTINDBVALUE) { // Item was disabled. (Used by frequenct report).
-            return get_string('notanswereditem', 'mod_surveypro');
-        }
-        if ($content === null) { // Item was disabled.
-            return get_string('notanswereditem', 'mod_surveypro');
+            $response = get_string('answerisnoanswer', 'mod_surveypro');
+        } else if ($content == SURVEYPRO_ANSWERNOTINDBVALUE) { // Item was disabled. (Used by frequenct report).
+            $response = get_string('notanswereditem', 'mod_surveypro');
+        } else if ($content === null) { // Item was disabled.
+            $response = get_string('notanswereditem', 'mod_surveypro');
         }
 
-        return $content;
+        return $response;
     }
 }
