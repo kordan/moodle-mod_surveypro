@@ -125,10 +125,10 @@ class mod_surveypro_utility {
             $whereparams['formpage'] = $formpage;
         }
         if (!$includehidden) {
-            $whereclause['hidden'] = 0;
+            $whereparams['hidden'] = 0;
         }
         if (!$includereserved) {
-            $whereclause['reserved'] = 0;
+            $whereparams['reserved'] = 0;
         }
 
         if ($returncount) {
