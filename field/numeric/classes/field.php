@@ -231,13 +231,13 @@ class surveyprofield_numeric_field extends mod_surveypro_itembase {
 
         // 2. float numbers need more attention because I can write them using , or .
         if (strlen($this->defaultvalue)) {
-            $this->defaultvalue = format_float($this->defaultvalue, $this->decimals);
+            $this->defaultvalue = (float)format_float($this->defaultvalue, $this->decimals);
         }
         if (strlen($this->lowerbound)) {
-            $this->lowerbound = format_float($this->lowerbound, $this->decimals);
+            $this->lowerbound = (float)format_float($this->lowerbound, $this->decimals);
         }
         if (strlen($this->upperbound)) {
-            $this->upperbound = format_float($this->upperbound, $this->decimals);
+            $this->upperbound = (float)format_float($this->upperbound, $this->decimals);
         }
     }
 
