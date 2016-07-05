@@ -935,7 +935,7 @@ class mod_surveypro_itembase {
     }
 
     /**
-     * Uses mandatory database field?.
+     * Uses mandatory database field?
      *
      * Each item uses teh "mandatory" database field but not the autofill
      *
@@ -952,6 +952,21 @@ class mod_surveypro_itembase {
      */
     public static function item_get_pdf_template() {
         return SURVEYPRO_3COLUMNSTEMPLATE;
+    }
+
+    // MARK response.
+
+    /**
+     * Report how the sql query does fit for this plugin
+     *
+     * @param string $searchrestriction
+     * @return the specific where clause for this plugin
+     */
+    public static function response_get_whereclause($itemid, $searchrestriction) {
+        $whereclause = 'a.content = \''.$searchrestriction.'\'';
+        $whereparam = $searchrestriction;
+
+        return array($whereclause, $whereparam);
     }
 
     // MARK get.

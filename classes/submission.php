@@ -180,7 +180,7 @@ class mod_surveypro_submission {
      * @return void
      */
     public function get_submissions_sql($table) {
-        global $COURSE, $USER;
+        global $DB, $COURSE, $USER;
 
         $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
 
@@ -190,11 +190,6 @@ class mod_surveypro_submission {
                      WHERE u.id = :userid';
 
         $coursecontext = context_course::instance($COURSE->id);
-        $roles = get_roles_used_in_context($coursecontext);
-        if (!$role = array_keys($roles)) {
-            // Return nothing.
-            return array($emptysql, array('userid' => -1));
-        }
 
         if ($groupmode = groups_get_activity_groupmode($this->cm, $COURSE)) {
             if ($groupmode == SEPARATEGROUPS) {
@@ -228,20 +223,16 @@ class mod_surveypro_submission {
         $sql .= user_picture::fields('u');
         $sql .= ' FROM {surveypro_submission} s';
         $sql .= '   JOIN {user} u ON s.userid = u.id';
-        $sql .= '   JOIN {role_assignments} ra ON u.id = ra.userid ';
         if ($this->searchquery) {
-            $sql .= '   JOIN {surveypro_answer} a ON s.id = a.submissionid ';
+            $sql .= '   JOIN {surveypro_answer} a ON s.id = a.submissionid';
         }
 
         if (($groupmode == SEPARATEGROUPS) && (!$manageallsubmissions)) {
-            $sql .= '   JOIN {groups_members} gm ON gm.userid = s.userid ';
+            $sql .= '   JOIN {groups_members} gm ON gm.userid = s.userid';
         }
 
         // Now finalise $sql.
-        $sql .= 'WHERE ra.contextid = :contextid ';
-        $whereparams['contextid'] = $coursecontext->id;
-        $sql .= '  AND roleid IN ('.implode(',', $role).')';
-        $sql .= '  AND s.surveyproid = :surveyproid';
+        $sql .= ' WHERE s.surveyproid = :surveyproid';
         $whereparams['surveyproid'] = $this->surveypro->id;
 
         // Manage table alphabetical filter.
@@ -279,10 +270,16 @@ class mod_surveypro_submission {
 
             $searchrestrictions = unserialize($this->searchquery);
 
-            // ((a.itemid = 7720 AND a.content = 0) OR (a.itemid = 7722 AND a.content = 1))
+            // (a.itemid = 7720 AND a.content = 0) OR (a.itemid = 7722 AND a.content = 1))
+            // (a.itemid = 1219 AND $DB->sql_like('a.content', ':content_1219', false));
             $userquery = array();
             foreach ($searchrestrictions as $itemid => $searchrestriction) {
-                $userquery[] = '(a.itemid = '.$itemid.' AND a.content = \''.$searchrestriction.'\')';
+                $itemseed = $DB->get_record('surveypro_item', array('id' => $itemid), 'type, plugin', MUST_EXIST);
+                $classname = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin.'_'.$itemseed->type;
+                // Ask to the item class how to write the query
+                list($whereclause, $whereparam) = $classname::response_get_whereclause($itemid, $searchrestriction);
+                $userquery[] = '(a.itemid = '.$itemid.' AND '.$whereclause.')';
+                $whereparams['content_'.$itemid] = $whereparam;
             }
             $sql .= '  AND ('.implode(' OR ', $userquery).') ';
             $sql .= 'GROUP BY s.id ';
