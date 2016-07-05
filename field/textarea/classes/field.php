@@ -387,8 +387,24 @@ EOS;
             $attributes['wrap'] = 'virtual';
             $attributes['rows'] = $this->arearows;
             $attributes['cols'] = $this->areacols;
-            $mform->addElement('textarea', $fieldname, $elementlabel, $attributes);
-            $mform->setType($fieldname, PARAM_TEXT);
+            if (!$searchform) {
+                $mform->addElement('textarea', $fieldname, $elementlabel, $attributes);
+                $mform->setType($fieldname, PARAM_TEXT);
+            } else {
+                $elementgroup = array();
+                $elementgroup[] = $mform->createElement('textarea', $fieldname, $elementlabel, $attributes);
+
+                $itemname = $this->itemname.'_ignoreme';
+                $starstr = get_string('star', 'mod_surveypro');
+                $attributes['id'] = $idprefix.'_ignoreme';
+                $attributes['class'] = 'textarea_check';
+                $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $starstr, $attributes);
+                $mform->setType($this->itemname, PARAM_RAW);
+
+                $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
+                $mform->disabledIf($this->itemname.'_group', $this->itemname.'_ignoreme', 'checked');
+                $mform->setDefault($this->itemname.'_ignoreme', '1');
+            }
         } else {
             // $attributes['class'] and $attributes['id'] do not work: MDL_28194
             $attributes['class'] = 'indent-'.$this->indent.' textarea_editor';
@@ -501,7 +517,7 @@ EOS;
      * @return void
      */
     public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
-        if (!empty($this->useeditor)) {
+        if (!empty($this->useeditor) && (!$searchform)) {
             $context = context_module::instance($this->cm->id);
             $olduseranswer->{$this->itemname.'_editor'} = empty($this->trimonsave) ? $answer['editor'] : trim($answer['editor']);
 
