@@ -87,7 +87,7 @@ class mod_surveypro_templatebase {
 
         $debug = false; // Set $debug = true if you want to stop anyway to debug the xml template.
 
-        $versiondisk = $this->get_plugin_versiondisk();
+        $pluginversion = $this->get_plugin_version();
         if ($CFG->debug == DEBUG_DEVELOPER) {
             $simplexml = new SimpleXMLElement($xml);
         } else {
@@ -135,12 +135,12 @@ class mod_surveypro_templatebase {
                 return $error;
             }
 
-            if (($versiondisk["$currentplugin"] < $currentversion)) {
+            if ($pluginversion["$currenttype"]["$currentplugin"] < $currentversion) {
                 $a = new stdClass();
                 $a->type = $currenttype;
                 $a->plugin = $currentplugin;
                 $a->currentversion = $currentversion;
-                $a->versiondisk = $versiondisk["$currentplugin"];
+                $a->versiondisk = $pluginversion["$currenttype"]["$currentplugin"];
 
                 $error = new stdClass();
                 $error->a = $a;
@@ -253,23 +253,22 @@ class mod_surveypro_templatebase {
     }
 
     /**
-     * Get plugin version on disk.
+     * Get plugin versions.
      *
-     * @return versions of each field|format item plugin
+     * @return versions of each field and format plugin
      */
-    public function get_plugin_versiondisk() {
-        // Get plugins versiondisk.
-        $pluginman = core_plugin_manager::instance();
-        $subplugins = $pluginman->get_subplugins_of_plugin('surveypro');
-        $versions = array();
-        foreach ($subplugins as $plugin) {
-            if (($plugin->type != 'surveypro'.SURVEYPRO_TYPEFIELD) &&
-                ($plugin->type != 'surveypro'.SURVEYPRO_TYPEFORMAT)) {
-                continue;
+    public function get_plugin_version() {
+        $version = array();
+        $types = array(SURVEYPRO_TYPEFIELD, SURVEYPRO_TYPEFORMAT);
+
+        foreach ($types as $type) {
+            $version[$type] = array();
+            $plugins = surveypro_get_plugin_list($type, true);
+            foreach ($plugins as $plugin => $unused) {
+                $version[$type][$plugin] = get_config('surveypro'.$type.'_'.$currentplugin, 'version');
             }
-            $versions["$plugin->name"] = $plugin->versiondisk;
         }
 
-        return $versions;
+        return $version;
     }
 }
