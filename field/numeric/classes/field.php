@@ -410,7 +410,7 @@ EOS;
 
             $itemname = $this->itemname.'_ignoreme';
             $attributes['id'] = $idprefix.'_ignoreme';
-            $attributes['class'] = 'numeric_text';
+            $attributes['class'] = 'numeric_check';
             $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $starstr, $attributes);
 
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
