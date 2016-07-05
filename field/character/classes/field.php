@@ -643,7 +643,7 @@ EOS;
         if (strlen($content)) {
             $return = $content;
         } else {
-            if ($format == SURVEYPRO_FIRENDLYFORMAT) {
+            if ($format == SURVEYPRO_FRIENDLYFORMAT) {
                 $return = get_string('emptyanswer', 'mod_surveypro');
             } else {
                 $return = '';

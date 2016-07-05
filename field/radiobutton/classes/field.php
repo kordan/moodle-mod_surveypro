@@ -800,7 +800,7 @@ EOS;
         $content = $answer->content;
 
         // Format.
-        if ($format == SURVEYPRO_FIRENDLYFORMAT) {
+        if ($format == SURVEYPRO_FRIENDLYFORMAT) {
             $format = $this->item_get_friendlyformat();
         }
         if (empty($format)) {

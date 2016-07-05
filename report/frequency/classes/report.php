@@ -153,7 +153,7 @@ class surveyproreport_frequency_report extends mod_surveypro_reportbase {
             $itemvalue = new stdClass();
             $itemvalue->id = $answer->id;
             $itemvalue->content = $answer->content;
-            $tablerow[] = $item->userform_db_to_export($itemvalue, SURVEYPRO_FIRENDLYFORMAT);
+            $tablerow[] = $item->userform_db_to_export($itemvalue, SURVEYPRO_FRIENDLYFORMAT);
 
             // Absolute.
             $tablerow[] = $answer->absolute;
