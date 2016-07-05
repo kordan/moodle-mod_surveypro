@@ -143,7 +143,7 @@ class surveyprofield_textarea_field extends mod_surveypro_itembase {
         // No properties here.
 
         // List of fields I do not want to have in the item definition form.
-        $this->insetupform['insearchform'] = false;
+        // Empty list.
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $getparentcontent);
@@ -331,6 +331,23 @@ EOS;
         return $this->useeditor;
     }
 
+    // MARK response.
+
+    /**
+     * Report how the sql query does fit for this plugin
+     *
+     * @param string $searchrestriction
+     * @return the specific where clause for this plugin
+     */
+    public static function response_get_whereclause($itemid, $searchrestriction) {
+        global $DB;
+
+        $whereclause = $DB->sql_like('a.content', ':content_'.$itemid, false);
+        $whereparam = '%'.$searchrestriction.'%';
+
+        return array($whereclause, $whereparam);
+    }
+
     // MARK userform.
 
     /**
@@ -342,9 +359,6 @@ EOS;
      * @return void
      */
     public function userform_mform_element($mform, $searchform, $readonly) {
-        // This plugin has $this->insetupform['insearchform'] = false; so it will never be part of a search form.
-        // TODO: make $this->insetupform['insearchform'] = true;.
-
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
@@ -353,7 +367,7 @@ EOS;
 
         $attributes = array();
         $attributes['id'] = $idprefix;
-        if (empty($this->useeditor)) {
+        if (empty($this->useeditor) || (!$searchform)) {
             $fieldname = $this->itemname;
             $attributes['class'] = 'indent-'.$this->indent.' textarea_textarea';
             $attributes['wrap'] = 'virtual';
