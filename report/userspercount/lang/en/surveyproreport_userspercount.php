@@ -15,11 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'field_autofill', language 'en'
+ * Strings for component 'report_userspercount', language 'en'
  *
- * @package   surveyproreport_missing
+ * @package   surveyproreport_userspercount
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Missing users';
+$string['pluginname'] = 'Users per count of responses';
+$string['userresponses'] = 'Count of submitted responses';

@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines the version of surveypro count report subplugin
+ * Defines the version of surveypro userspercount report subplugin
  *
- * @package   surveyproreport_count
+ * @package   surveyproreport_userspercount
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -27,4 +27,4 @@ defined('MOODLE_INTERNAL') || die();
 $plugin->version = 2016061701;
 $plugin->release = '1.0';
 $plugin->requires = 2015111600; // Requires this Moodle version.
-$plugin->component = 'surveyproreport_count'; // Full name of the plugin (used for diagnostics).
+$plugin->component = 'surveyproreport_userspercount'; // Full name of the plugin (used for diagnostics).

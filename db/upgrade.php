@@ -147,5 +147,14 @@ function xmldb_surveypro_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2016061705, 'surveypro');
     }
 
+    if ($oldversion < 2016070101) {
+        uninstall_plugin('surveyproreport', 'attachments_count');
+        uninstall_plugin('surveyproreport', 'attachments_submitting');
+        uninstall_plugin('surveyproreport', 'attachments_missing');
+
+        // Surveypro savepoint reached.
+        upgrade_mod_savepoint(true, 2016070101, 'surveypro');
+    }
+
     return true;
 }
