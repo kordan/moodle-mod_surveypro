@@ -73,6 +73,11 @@ class surveyprofield_textarea_field extends mod_surveypro_itembase {
     protected $required;
 
     /**
+     * @var boolean True if the user input will be trimmed at save time
+     */
+    protected $trimonsave;
+
+    /**
      * @var boolean True if the instructions are going to be shown in the form; false otherwise
      */
     protected $hideinstructions;
@@ -188,7 +193,7 @@ class surveyprofield_textarea_field extends mod_surveypro_itembase {
     }
 
     /**
-     * Item get can be parent.
+     * Is this item available as a parent?
      *
      * @return the content of the static property "canbeparent"
      */
@@ -255,13 +260,22 @@ class surveyprofield_textarea_field extends mod_surveypro_itembase {
         }
 
         // 3. Set values corresponding to checkboxes.
-        // Take care: 'required', 'hideinstructions' were already considered in item_get_common_settings.
+        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in item_get_common_settings.
         $checkboxes = array('useeditor');
         foreach ($checkboxes as $checkbox) {
             $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
         }
 
         // 4. Other.
+    }
+
+    /**
+     * Does the user input need trim?
+     *
+     * @return if this plugin requires a user input trim
+     */
+    public function item_get_trimonsave() {
+        return $this->trimonsave;
     }
 
     /**
@@ -405,6 +419,10 @@ EOS;
             $itemcontent = $data[$fieldname];
         }
 
+        if ($this->trimonsave) {
+            $itemcontent = trim($itemcontent);
+        }
+
         if (empty($itemcontent)) {
             if ($this->required) {
                 $errors[$errorkey] = get_string('required');
@@ -429,24 +447,31 @@ EOS;
      */
     public function userform_get_filling_instructions() {
 
+        $arrayinstruction = array();
+
         if ($this->minlength > 0) {
             if (isset($this->maxlength) && ($this->maxlength > 0)) {
                 $a = new StadClass();
                 $a->minlength = $this->minlength;
                 $a->maxlength = $this->maxlength;
-                $fillinginstruction = get_string('hasminmaxlength', 'surveyprofield_textarea', $a);
+                $arrayinstruction[] = get_string('hasminmaxlength', 'surveyprofield_textarea', $a);
             } else {
                 $a = $this->minlength;
-                $fillinginstruction = get_string('hasminlength', 'surveyprofield_textarea', $a);
+                $arrayinstruction[] = get_string('hasminlength', 'surveyprofield_textarea', $a);
             }
         } else {
             if (isset($this->maxlength) && ($this->maxlength > 0)) {
                 $a = $this->maxlength;
-                $fillinginstruction = get_string('hasmaxlength', 'surveyprofield_textarea', $a);
+                $arrayinstruction[] = get_string('hasmaxlength', 'surveyprofield_textarea', $a);
             } else {
-                $fillinginstruction = '';
+                $arrayinstruction[] = '';
             }
         }
+        if ($this->trimonsave) {
+            $arrayinstruction[] = get_string('inputclean', 'surveypro');
+        }
+
+        $fillinginstruction = implode('; ', $arrayinstruction);
 
         return $fillinginstruction;
     }
@@ -464,7 +489,7 @@ EOS;
     public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
         if (!empty($this->useeditor)) {
             $context = context_module::instance($this->cm->id);
-            $olduseranswer->{$this->itemname.'_editor'} = $answer['editor'];
+            $olduseranswer->{$this->itemname.'_editor'} = empty($this->trimonsave) ? $answer['editor'] : trim($answer['editor']);
 
             $editoroptions = array('trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $context);
             $olduseranswer = file_postupdate_standard_editor($olduseranswer, $this->itemname, $editoroptions, $context,
@@ -472,7 +497,7 @@ EOS;
             $olduseranswer->content = $olduseranswer->{$this->itemname};
             $olduseranswer->contentformat = FORMAT_HTML;
         } else {
-            $olduseranswer->content = $answer['mainelement'];
+            $olduseranswer->content = empty($this->trimonsave) ? $answer['mainelement'] : trim($answer['mainelement']);
         }
     }
 
@@ -524,5 +549,14 @@ EOS;
         }
 
         return $elementnames;
+    }
+
+    /**
+     * Does the user input need trim?
+     *
+     * @return if this plugin requires a user input trim
+     */
+    public static function userform_input_needs_trim() {
+        return true;
     }
 }

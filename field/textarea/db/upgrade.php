@@ -55,5 +55,23 @@ function xmldb_surveyprofield_textarea_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2014051701, 'surveyprofield', 'textarea');
     }
 
+    // Moodle v3.1.0 release upgrade line.
+    // Put any upgrade step following this.
+
+    if ($oldversion < 2016062401) {
+
+        // Define field trimonsave to be added to surveyprofield_textarea.
+        $table = new xmldb_table('surveyprofield_textarea');
+        $field = new xmldb_field('trimonsave', XMLDB_TYPE_INTEGER, '4', null, null, null, null, 'required');
+
+        // Conditionally launch add field trimonsave.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Textarea savepoint reached.
+        upgrade_plugin_savepoint(true, 2016062401, 'surveyprofield', 'textarea');
+    }
+
     return true;
 }

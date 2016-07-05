@@ -177,7 +177,7 @@ class surveyprofield_shortdate_field extends mod_surveypro_itembase {
         $this->defaultvalue = $this->lowerbound;
 
         // List of fields I do not want to have in the item definition form.
-        // Empty list.
+        $this->insetupform['trimonsave'] = false;
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $getparentcontent);
@@ -222,7 +222,7 @@ class surveyprofield_shortdate_field extends mod_surveypro_itembase {
     }
 
     /**
-     * Item get can be parent.
+     * Is this item available as a parent?
      *
      * @return the content of the static property "canbeparent"
      */

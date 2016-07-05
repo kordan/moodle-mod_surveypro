@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2016061701;
+$plugin->version = 2016062401;
 $plugin->release = '1.0';
 $plugin->requires = 2015111600; // Requires this Moodle version.
 $plugin->component = 'surveyprofield_textarea'; // Full name of the plugin (used for diagnostics).
