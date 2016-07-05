@@ -180,42 +180,26 @@ class mod_surveypro_submission {
      * @return void
      */
     public function get_submissions_sql($table) {
-        global $COURSE, $USER;
+        global $DB, $COURSE, $USER;
 
         $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
+        $canaccessallgroups = has_capability('moodle/site:accessallgroups', $this->context);
 
         $emptysql = 'SELECT DISTINCT s.*, s.id as submissionid, '.user_picture::fields('u').'
                      FROM {surveypro_submission} s
                        JOIN {user} u ON s.userid = u.id
                      WHERE u.id = :userid';
 
-        $coursecontext = context_course::instance($COURSE->id);
-        $roles = get_roles_used_in_context($coursecontext);
-        if (!$role = array_keys($roles)) {
-            // Return nothing.
-            return array($emptysql, array('userid' => -1));
-        }
-
         if ($groupmode = groups_get_activity_groupmode($this->cm, $COURSE)) {
             if ($groupmode == SEPARATEGROUPS) {
-                $mygroupmates = surveypro_groupmates($this->cm);
-                if (!count($mygroupmates)) { // User is not in any group.
-                    if (has_capability('mod/surveypro:manageitems', $this->context)) {
-                        // This is a teacher.
-                        // Has to see each submission.
-                        $manageallsubmissions = true;
-                    } else {
+                if (!$canaccessallgroups) {
+                    $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $this->cm->groupingid);
+                    $mygroups = array_keys($mygroups);
+                    if (!count($mygroups)) { // User is not in any group.
                         // This is a student that has not been added to any group.
                         // The sql needs to return an empty set.
                         return array($emptysql, array('userid' => -1));
                     }
-                } else {
-                    // I don'care if the user is a teacher or a student.
-                    // He/she was assigned to a group.
-                    // I allow him/her only to submissions of his/her groupmates.
-                    $manageallsubmissions = false;
-                    $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $this->cm->groupingid);
-                    $mygroups = array_keys($mygroups);
                 }
             }
         }
@@ -228,20 +212,16 @@ class mod_surveypro_submission {
         $sql .= user_picture::fields('u');
         $sql .= ' FROM {surveypro_submission} s';
         $sql .= '   JOIN {user} u ON s.userid = u.id';
-        $sql .= '   JOIN {role_assignments} ra ON u.id = ra.userid ';
         if ($this->searchquery) {
-            $sql .= '   JOIN {surveypro_answer} a ON s.id = a.submissionid ';
+            $sql .= '   JOIN {surveypro_answer} a ON s.id = a.submissionid';
         }
 
-        if (($groupmode == SEPARATEGROUPS) && (!$manageallsubmissions)) {
-            $sql .= '   JOIN {groups_members} gm ON gm.userid = s.userid ';
+        if (($groupmode == SEPARATEGROUPS) && (!$canaccessallgroups)) {
+            $sql .= '   JOIN {groups_members} gm ON gm.userid = s.userid';
         }
 
         // Now finalise $sql.
-        $sql .= 'WHERE ra.contextid = :contextid ';
-        $whereparams['contextid'] = $coursecontext->id;
-        $sql .= '  AND roleid IN ('.implode(',', $role).')';
-        $sql .= '  AND s.surveyproid = :surveyproid';
+        $sql .= ' WHERE s.surveyproid = :surveyproid';
         $whereparams['surveyproid'] = $this->surveypro->id;
 
         // Manage table alphabetical filter.
@@ -251,7 +231,7 @@ class mod_surveypro_submission {
             $whereparams = $whereparams + $wherefilterparams;
         }
 
-        if (($groupmode == SEPARATEGROUPS) && (!$manageallsubmissions)) {
+        if (($groupmode == SEPARATEGROUPS) && (!$canaccessallgroups)) {
             if (count($mygroups)) {
                 // Restrict to your groups only.
                 $sql .= '  AND gm.groupid IN ('.implode(',', $mygroups).')';
@@ -279,10 +259,16 @@ class mod_surveypro_submission {
 
             $searchrestrictions = unserialize($this->searchquery);
 
-            // ((a.itemid = 7720 AND a.content = 0) OR (a.itemid = 7722 AND a.content = 1))
+            // (a.itemid = 7720 AND a.content = 0) OR (a.itemid = 7722 AND a.content = 1))
+            // (a.itemid = 1219 AND $DB->sql_like('a.content', ':content_1219', false));
             $userquery = array();
             foreach ($searchrestrictions as $itemid => $searchrestriction) {
-                $userquery[] = '(a.itemid = '.$itemid.' AND a.content = \''.$searchrestriction.'\')';
+                $itemseed = $DB->get_record('surveypro_item', array('id' => $itemid), 'type, plugin', MUST_EXIST);
+                $classname = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin.'_'.$itemseed->type;
+                // Ask to the item class how to write the query
+                list($whereclause, $whereparam) = $classname::response_get_whereclause($itemid, $searchrestriction);
+                $userquery[] = '(a.itemid = '.$itemid.' AND '.$whereclause.')';
+                $whereparams['content_'.$itemid] = $whereparam;
             }
             $sql .= '  AND ('.implode(' OR ', $userquery).') ';
             $sql .= 'GROUP BY s.id ';
@@ -317,6 +303,7 @@ class mod_surveypro_submission {
         $candeleteownsubmissions = has_capability('mod/surveypro:deleteownsubmissions', $this->context, null, true);
         $candeleteotherssubmissions = has_capability('mod/surveypro:deleteotherssubmissions', $this->context, null, true);
         $cansavesubmissiontopdf = has_capability('mod/surveypro:savesubmissiontopdf', $this->context, null, true);
+        $canaccessallgroups = has_capability('moodle/site:accessallgroups', $this->context);
 
         require_once($CFG->libdir.'/tablelib.php');
 
@@ -452,8 +439,7 @@ class mod_surveypro_submission {
                         continue;
                     }
                     if ($groupmode == SEPARATEGROUPS) {
-                        // If I am a teacher, $mygroupmates is empty but I still have the right to see all my students.
-                        if (!$mygroupmates) { // I have no $mygroupmates. I am a teacher. I am active part of each group.
+                        if ($canaccessallgroups) {
                             $groupuser = true;
                         } else {
                             $groupuser = in_array($submission->userid, $mygroupmates);
