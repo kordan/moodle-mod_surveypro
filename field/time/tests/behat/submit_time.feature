@@ -31,7 +31,6 @@ Feature: make a submission test for "time" item
     And I set the following fields to these values:
       | Content                  | At what time do you usually get up in the morning in the working days? |
       | Required                 | 1                                                                      |
-      | Indent                   | 0                                                                      |
       | Element number           | 18                                                                     |
       | Hide filling instruction | 1                                                                      |
     And I press "Add"
