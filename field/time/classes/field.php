@@ -474,8 +474,14 @@ EOS;
                 $hours[$i] = sprintf("%02d", $i);
             }
         }
-        for ($i = 0; $i <= 59; $i += $this->step) {
-            $minutes[$i] = sprintf("%02d", $i);
+        if ($this->lowerboundhour == $this->upperboundhour) {
+            for ($i = $this->lowerboundminute; $i <= $this->upperboundminute; $i += $this->step) {
+                $minutes[$i] = sprintf("%02d", $i);
+            }
+        } else {
+            for ($i = 0; $i <= 59; $i += $this->step) {
+                $minutes[$i] = sprintf("%02d", $i);
+            }
         }
         // End of: element values.
 
