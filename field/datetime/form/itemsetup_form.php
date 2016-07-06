@@ -102,11 +102,11 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         // Item: defaultvalue.
         $fieldname = 'defaultvalue';
         $elementgroup = array();
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_day', '', $days);
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_month', '', $months);
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_year', '', $years);
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_hour', '', $hours);
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_minute', '', $minutes);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'day', '', $days);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'month', '', $months);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'year', '', $years);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'hour', '', $hours);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'minute', '', $minutes);
         $mform->addGroup($elementgroup, $fieldname.'_group', null, $separator, false);
         $mform->disabledIf($fieldname.'_group', 'defaultoption', 'neq', SURVEYPRO_CUSTOMDEFAULT);
 
@@ -124,34 +124,34 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         // Item: lowerbound.
         $fieldname = 'lowerbound';
         $elementgroup = array();
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_day', '', $days);
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_month', '', $months);
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_year', '', $years);
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_hour', '', $hours);
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_minute', '', $minutes);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'day', '', $days);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'month', '', $months);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'year', '', $years);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'hour', '', $hours);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'minute', '', $minutes);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_datetime'), $separator, false);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_datetime');
-        $mform->setDefault($fieldname.'_year', $startyear);
-        $mform->setDefault($fieldname.'_month', '1');
-        $mform->setDefault($fieldname.'_day', '1');
-        $mform->setDefault($fieldname.'_hour', '0');
-        $mform->setDefault($fieldname.'_minute', '0');
+        $mform->setDefault($fieldname.'day', '1');
+        $mform->setDefault($fieldname.'month', '1');
+        $mform->setDefault($fieldname.'year', $startyear);
+        $mform->setDefault($fieldname.'hour', '0');
+        $mform->setDefault($fieldname.'minute', '0');
 
         // Item: upperbound.
         $fieldname = 'upperbound';
         $elementgroup = array();
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_day', '', $days);
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_month', '', $months);
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_year', '', $years);
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_hour', '', $hours);
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_minute', '', $minutes);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'day', '', $days);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'month', '', $months);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'year', '', $years);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'hour', '', $hours);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'minute', '', $minutes);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_datetime'), $separator, false);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_datetime');
-        $mform->setDefault($fieldname.'_year', $stopyear);
-        $mform->setDefault($fieldname.'_month', '12');
-        $mform->setDefault($fieldname.'_day', '31');
-        $mform->setDefault($fieldname.'_hour', '23');
-        $mform->setDefault($fieldname.'_minute', '59');
+        $mform->setDefault($fieldname.'day', '31');
+        $mform->setDefault($fieldname.'month', '12');
+        $mform->setDefault($fieldname.'year', $stopyear);
+        $mform->setDefault($fieldname.'hour', '23');
+        $mform->setDefault($fieldname.'minute', '59');
 
         $this->add_item_buttons();
     }
@@ -170,10 +170,10 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
         $errors = parent::validation($data, $files);
 
-        $lowerbound = $item->item_datetime_to_unix_time($data['lowerbound_year'], $data['lowerbound_month'],
-                $data['lowerbound_day'], $data['lowerbound_hour'], $data['lowerbound_minute']);
-        $upperbound = $item->item_datetime_to_unix_time($data['upperbound_year'], $data['upperbound_month'],
-                $data['upperbound_day'], $data['upperbound_hour'], $data['upperbound_minute']);
+        $lowerbound = $item->item_datetime_to_unix_time($data['lowerboundyear'], $data['lowerboundmonth'],
+                $data['lowerboundday'], $data['lowerboundhour'], $data['lowerboundminute']);
+        $upperbound = $item->item_datetime_to_unix_time($data['upperboundyear'], $data['upperboundmonth'],
+                $data['upperboundday'], $data['upperboundhour'], $data['upperboundminute']);
         if ($lowerbound == $upperbound) {
             $errors['lowerbound_group'] = get_string('ierr_lowerequaltoupper', 'surveyprofield_datetime');
         }
@@ -183,8 +183,8 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
         // Constraint default between boundaries.
         if ($data['defaultoption'] == SURVEYPRO_CUSTOMDEFAULT) {
-            $defaultvalue = $item->item_datetime_to_unix_time($data['defaultvalue_year'], $data['defaultvalue_month'],
-                    $data['defaultvalue_day'], $data['defaultvalue_hour'], $data['defaultvalue_minute']);
+            $defaultvalue = $item->item_datetime_to_unix_time($data['defaultvalueyear'], $data['defaultvaluemonth'],
+                    $data['defaultvalueday'], $data['defaultvaluehour'], $data['defaultvalueminute']);
 
             // Internal range.
             if ( ($defaultvalue < $lowerbound) || ($defaultvalue > $upperbound) ) {
