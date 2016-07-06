@@ -45,6 +45,7 @@ $string['strftime01'] = '%d %B';
 $string['strftime02'] = '%d %b';
 $string['strftime03'] = '%d/%m';
 $string['uerr_incorrectrecurrence'] = 'Provided value does not exist';
+$string['uerr_outofexternalrange'] = 'Provided value is supposed to be lower-equal than {$a->lowerbound} or greater-equal than {$a->upperbound}';
 $string['uerr_outofinternalrange'] = 'Provided value does not fall within the specified range';
 $string['uerr_recurrencenotset'] = 'Please choose a recurrence or select the "{$a}" checkbox';
 $string['uerr_recurrencenotsetrequired'] = 'Recurrence is not correctly defined';
