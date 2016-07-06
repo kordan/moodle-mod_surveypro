@@ -117,8 +117,8 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         $elementgroup[] = $mform->createElement('select', $fieldname.'minute', '', $moptions);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_time'), ' ', false);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_time');
-        $mform->setDefault($fieldname.'_hour', '0');
-        $mform->setDefault($fieldname.'_minute', '0');
+        $mform->setDefault($fieldname.'hour', '0');
+        $mform->setDefault($fieldname.'minute', '0');
 
         // Item: upperbound.
         $fieldname = 'upperbound';
@@ -127,8 +127,8 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         $elementgroup[] = $mform->createElement('select', $fieldname.'minute', '', $moptions);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_time'), ' ', false);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_time');
-        $mform->setDefault($fieldname.'_hour', '23');
-        $mform->setDefault($fieldname.'_minute', '59');
+        $mform->setDefault($fieldname.'hour', '23');
+        $mform->setDefault($fieldname.'minute', '59');
 
         $this->add_item_buttons();
     }
