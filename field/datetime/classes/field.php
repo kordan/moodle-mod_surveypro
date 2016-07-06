@@ -362,11 +362,11 @@ class surveyprofield_datetime_field extends mod_surveypro_itembase {
             }
             if (!empty($this->{$field})) {
                 $datetimearray = self::item_split_unix_time($this->{$field});
-                $this->{$field.'_year'} = $datetimearray['year'];
-                $this->{$field.'_month'} = $datetimearray['mon'];
-                $this->{$field.'_day'} = $datetimearray['mday'];
-                $this->{$field.'_hour'} = $datetimearray['hours'];
-                $this->{$field.'_minute'} = $datetimearray['minutes'];
+                $this->{$field.'year'} = $datetimearray['year'];
+                $this->{$field.'month'} = $datetimearray['mon'];
+                $this->{$field.'day'} = $datetimearray['mday'];
+                $this->{$field.'hour'} = $datetimearray['hours'];
+                $this->{$field.'minute'} = $datetimearray['minutes'];
             }
         }
     }
@@ -381,15 +381,15 @@ class surveyprofield_datetime_field extends mod_surveypro_itembase {
         // 1. Special management for composite fields.
         $fieldlist = $this->item_get_composite_fields();
         foreach ($fieldlist as $field) {
-            if (isset($record->{$field.'_year'}) && isset($record->{$field.'_month'}) && isset($record->{$field.'_day'}) &&
-                isset($record->{$field.'_hour'}) && isset($record->{$field.'_minute'})) {
-                $record->{$field} = $this->item_datetime_to_unix_time($record->{$field.'_year'}, $record->{$field.'_month'},
-                        $record->{$field.'_day'}, $record->{$field.'_hour'}, $record->{$field.'_minute'});
-                unset($record->{$field.'_year'});
-                unset($record->{$field.'_month'});
-                unset($record->{$field.'_day'});
-                unset($record->{$field.'_hour'});
-                unset($record->{$field.'_minute'});
+            if (isset($record->{$field.'year'}) && isset($record->{$field.'month'}) && isset($record->{$field.'day'}) &&
+                isset($record->{$field.'hour'}) && isset($record->{$field.'minute'})) {
+                $record->{$field} = $this->item_datetime_to_unix_time($record->{$field.'year'}, $record->{$field.'month'},
+                        $record->{$field.'day'}, $record->{$field.'hour'}, $record->{$field.'minute'});
+                unset($record->{$field.'year'});
+                unset($record->{$field.'month'});
+                unset($record->{$field.'day'});
+                unset($record->{$field.'hour'});
+                unset($record->{$field.'minute'});
             } else {
                 $record->{$field} = null;
             }
@@ -543,18 +543,57 @@ EOS;
             $hours[SURVEYPRO_IGNOREMEVALUE] = '';
             $minutes[SURVEYPRO_IGNOREMEVALUE] = '';
         }
-        $daysrange = range(1, 31);
-        $days += array_combine($daysrange, $daysrange);
-        for ($i = 1; $i <= 12; $i++) {
-            $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B"); // January, February, March...
+        // Condition limiting days.
+        $condition = true;
+        $condition = $condition && ($this->lowerboundyear == $this->upperboundyear);
+        $condition = $condition && ($this->lowerboundmonth == $this->upperboundmonth);
+        if ($condition) {
+            $daysrange = range($this->lowerboundday, $this->upperboundday);
+        } else {
+            $daysrange = range(1, 31);
         }
+        $days += array_combine($daysrange, $daysrange);
+        // Condition limiting months.
+        if ($this->lowerboundyear == $this->upperboundyear) {
+            for ($i = $this->lowerboundmonth; $i <= $this->upperboundmonth; $i++) {
+                $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B"); // January, February, March...
+            }
+        } else {
+            for ($i = 1; $i <= 12; $i++) {
+                $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B"); // January, February, March...
+            }
+        }
+        // No condition limiting years.
         $yearsrange = range($this->lowerboundyear, $this->upperboundyear);
         $years += array_combine($yearsrange, $yearsrange);
-        for ($i = 0; $i < 24; $i++) {
-            $hours[$i] = sprintf("%02d", $i);
+        // Condition limiting hours.
+        $condition = true;
+        $condition = $condition && ($this->lowerboundyear == $this->upperboundyear);
+        $condition = $condition && ($this->lowerboundmonth == $this->upperboundmonth);
+        $condition = $condition && ($this->lowerboundday == $this->upperboundday);
+        if ($condition) {
+            for ($i = $this->lowerboundhour; $i < $this->upperboundhour; $i++) {
+                $hours[$i] = sprintf("%02d", $i);
+            }
+        } else {
+            for ($i = 0; $i < 24; $i++) {
+                $hours[$i] = sprintf("%02d", $i);
+            }
         }
-        for ($i = 0; $i <= 59; $i += $this->step) {
-            $minutes[$i] = sprintf("%02d", $i);
+        // Condition limiting minutes.
+        $condition = true;
+        $condition = $condition && ($this->lowerboundyear == $this->upperboundyear);
+        $condition = $condition && ($this->lowerboundmonth == $this->upperboundmonth);
+        $condition = $condition && ($this->lowerboundday == $this->upperboundday);
+        $condition = $condition && ($this->lowerboundhour == $this->upperboundhour);
+        if ($condition) {
+            for ($i = $this->lowerboundminute; $i <= $this->upperboundminute; $i += $this->step) {
+                $minutes[$i] = sprintf("%02d", $i);
+            }
+        } else {
+            for ($i = 0; $i <= 59; $i += $this->step) {
+                $minutes[$i] = sprintf("%02d", $i);
+            }
         }
         // End of: element values.
 
