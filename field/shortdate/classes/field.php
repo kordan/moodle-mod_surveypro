@@ -283,11 +283,9 @@ class surveyprofield_shortdate_field extends mod_surveypro_itembase {
                         break;
                 }
             }
-            if (!empty($this->{$field})) {
-                $shortdatearray = self::item_split_unix_time($this->{$field});
-                $this->{$field.'_month'} = $shortdatearray['mon'];
-                $this->{$field.'_year'} = $shortdatearray['year'];
-            }
+            $shortdatearray = self::item_split_unix_time($this->{$field});
+            $this->{$field.'month'} = $shortdatearray['mon'];
+            $this->{$field.'year'} = $shortdatearray['year'];
         }
     }
 
@@ -301,10 +299,10 @@ class surveyprofield_shortdate_field extends mod_surveypro_itembase {
         // 1. Special management for composite fields.
         $fieldlist = $this->item_get_composite_fields();
         foreach ($fieldlist as $field) {
-            if (isset($record->{$field.'_month'}) && isset($record->{$field.'_year'})) {
-                $record->{$field} = $this->item_shortdate_to_unix_time($record->{$field.'_month'}, $record->{$field.'_year'});
-                unset($record->{$field.'_month'});
-                unset($record->{$field.'_year'});
+            if (isset($record->{$field.'month'}) && isset($record->{$field.'year'})) {
+                $record->{$field} = $this->item_shortdate_to_unix_time($record->{$field.'month'}, $record->{$field.'year'});
+                unset($record->{$field.'month'});
+                unset($record->{$field.'year'});
             } else {
                 $record->{$field} = null;
             }
@@ -451,8 +449,14 @@ EOS;
             $months[SURVEYPRO_IGNOREMEVALUE] = '';
             $years[SURVEYPRO_IGNOREMEVALUE] = '';
         }
-        for ($i = 1; $i <= 12; $i++) {
-            $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+        if ($this->lowerboundyear == $this->upperboundyear) {
+            for ($i = $this->lowerboundmonth; $i <= $this->upperboundmonth; $i++) {
+                $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+            }
+        } else {
+            for ($i = 1; $i <= 12; $i++) {
+                $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+            }
         }
         $yearsrange = range($this->lowerboundyear, $this->upperboundyear);
         $years += array_combine($yearsrange, $yearsrange);
