@@ -476,8 +476,17 @@ EOS;
             $daysrange = range(1, 31);
         }
         $days += array_combine($daysrange, $daysrange);
-        for ($i = $this->lowerboundmonth; $i <= $this->upperboundmonth; $i++) {
-            $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+        if ($this->lowerboundmonth <= $this->upperboundmonth) {
+            for ($i = $this->lowerboundmonth; $i <= $this->upperboundmonth; $i++) {
+                $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+            }
+        } else {
+            for ($i = $this->lowerboundmonth; $i <= 12; $i++) {
+                $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+            }
+            for ($i = 1; $i <= $this->upperboundmonth; $i++) {
+                $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+            }
         }
         // End of: element values.
 
@@ -621,10 +630,23 @@ EOS;
         $userinput = $this->item_recurrence_to_unix_time($data[$this->itemname.'_month'], $data[$this->itemname.'_day']);
 
         if ($haslowerbound && $hasupperbound) {
-            // Internal range.
-            if ( ($userinput < $this->lowerbound) || ($userinput > $this->upperbound) ) {
-                $errors[$errorkey] = get_string('uerr_outofinternalrange', 'surveyprofield_recurrence');
+            if ($this->lowerbound < $this->upperbound) {
+                // Internal range.
+                if ( ($userinput < $this->lowerbound) || ($userinput > $this->upperbound) ) {
+                    $errors[$errorkey] = get_string('uerr_outofinternalrange', 'surveyprofield_recurrence');
+                }
             }
+
+            if ($this->lowerbound > $this->upperbound) {
+                // External range.
+                if ( ($userinput > $this->lowerbound) && ($userinput < $this->upperbound) ) {
+                    $format = $this->item_get_friendlyformat();
+                    $a = new stdClass();
+                    $a->lowerbound = userdate($this->lowerbound, get_string($format, 'surveyprofield_recurrence'), 0);
+                    $a->upperbound = userdate($this->upperbound, get_string($format, 'surveyprofield_recurrence'), 0);
+                    $errors[$errorkey] = get_string('uerr_outofexternalrange', 'surveyprofield_recurrence', $a);
+                }
+             }
         } else {
             if ($haslowerbound && ($userinput < $this->lowerbound)) {
                 $errors[$errorkey] = get_string('uerr_lowerthanminimum', 'surveyprofield_recurrence');

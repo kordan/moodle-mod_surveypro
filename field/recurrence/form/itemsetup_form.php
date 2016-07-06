@@ -140,27 +140,34 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         if ($lowerbound == $upperbound) {
             $errors['lowerbound_group'] = get_string('ierr_lowerequaltoupper', 'surveyprofield_recurrence');
         }
-        if ($lowerbound > $upperbound) {
-            $errors['lowerbound_group'] = get_string('ierr_lowergreaterthanupper', 'surveyprofield_recurrence');
-        }
 
         // Constrain default between boundaries.
         if ($data['defaultoption'] == SURVEYPRO_CUSTOMDEFAULT) {
             $defaultvalue = $item->item_recurrence_to_unix_time($data['defaultvaluemonth'], $data['defaultvalueday']);
 
             if (!$item->item_check_monthday($data['defaultvalueday'], $data['defaultvaluemonth'])) {
-                $errors['defaultvalue_group'] = get_string('ierr_invaliddefault', 'surveyprofield_recurrence');
+                $errors['defaultvalue_group'] = get_string('ierr_invalidrecurrence', 'surveyprofield_recurrence');
             }
             if (!$item->item_check_monthday($data['lowerboundday'], $data['lowerboundmonth'])) {
-                $errors['lowerbound_group'] = get_string('ierr_invalidlowerbound', 'surveyprofield_recurrence');
+                $errors['lowerbound_group'] = get_string('ierr_invalidrecurrence', 'surveyprofield_recurrence');
             }
             if (!$item->item_check_monthday($data['upperboundday'], $data['upperboundmonth'])) {
-                $errors['upperbound_group'] = get_string('ierr_invalidupperbound', 'surveyprofield_recurrence');
+                $errors['upperbound_group'] = get_string('ierr_invalidrecurrence', 'surveyprofield_recurrence');
             }
 
-            // Internal range.
-            if (($defaultvalue < $lowerbound) || ($defaultvalue > $upperbound)) {
-                $errors['defaultvalue_group'] = get_string('ierr_outofrangedefault', 'surveyprofield_recurrence');
+            if ($lowerbound < $upperbound) {
+                // Internal range.
+                if (($defaultvalue < $lowerbound) || ($defaultvalue > $upperbound)) {
+                    $errors['defaultvalue_group'] = get_string('ierr_outofrangedefault', 'surveyprofield_recurrence');
+                }
+            }
+
+            if ($lowerbound > $upperbound) {
+                // External range.
+                if (($defaultvalue > $upperbound) && ($defaultvalue < $lowerbound)) {
+                    $a = get_string('upperbound', 'surveyprofield_recurrence');
+                    $errors['defaultvalue_group'] = get_string('ierr_outofexternalrangedefault', 'surveyprofield_recurrence', $a);
+                }
             }
         }
 
