@@ -741,8 +741,14 @@ class mod_surveypro_submission {
      */
     public function noitem_redirect() {
         if (!$this->hasitems) {
+            $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
+
             $paramurl = array('s' => $this->surveypro->id);
-            $redirecturl = new moodle_url('/mod/surveypro/layout_manage.php', $paramurl);
+            if ($canmanageitems) {
+                $redirecturl = new moodle_url('/mod/surveypro/layout_manage.php', $paramurl);
+            } else {
+                $redirecturl = new moodle_url('/mod/surveypro/view_cover.php', $paramurl);
+            }
             redirect($redirecturl);
         }
     }
