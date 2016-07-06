@@ -324,9 +324,9 @@ class surveyprofield_date_field extends mod_surveypro_itembase {
             }
             if (!empty($this->{$field})) {
                 $datearray = self::item_split_unix_time($this->{$field});
-                $this->{$field.'_year'} = $datearray['year'];
-                $this->{$field.'_month'} = $datearray['mon'];
-                $this->{$field.'_day'} = $datearray['mday'];
+                $this->{$field.'year'} = $datearray['year'];
+                $this->{$field.'month'} = $datearray['mon'];
+                $this->{$field.'day'} = $datearray['mday'];
             }
         }
     }
@@ -341,11 +341,11 @@ class surveyprofield_date_field extends mod_surveypro_itembase {
         // 1. Special management for composite fields.
         $fieldlist = $this->item_get_composite_fields();
         foreach ($fieldlist as $field) {
-            if (isset($record->{$field.'_year'}) && isset($record->{$field.'_month'}) && isset($record->{$field.'_day'})) {
-                $record->{$field} = $this->item_date_to_unix_time($record->{$field.'_year'}, $record->{$field.'_month'}, $record->{$field.'_day'});
-                unset($record->{$field.'_year'});
-                unset($record->{$field.'_month'});
-                unset($record->{$field.'_day'});
+            if (isset($record->{$field.'year'}) && isset($record->{$field.'month'}) && isset($record->{$field.'day'})) {
+                $record->{$field} = $this->item_date_to_unix_time($record->{$field.'year'}, $record->{$field.'month'}, $record->{$field.'day'});
+                unset($record->{$field.'year'});
+                unset($record->{$field.'month'});
+                unset($record->{$field.'day'});
             } else {
                 $record->{$field} = null;
             }
@@ -492,11 +492,27 @@ EOS;
             $months[SURVEYPRO_IGNOREMEVALUE] = '';
             $years[SURVEYPRO_IGNOREMEVALUE] = '';
         }
-        $daysrange = range(1, 31);
-        $days += array_combine($daysrange, $daysrange);
-        for ($i = 1; $i <= 12; $i++) {
-            $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+        // Condition limiting days.
+        $condition = true;
+        $condition = $condition && ($this->lowerboundyear == $this->upperboundyear);
+        $condition = $condition && ($this->lowerboundmonth == $this->upperboundmonth);
+        if ($condition) {
+            $daysrange = range($this->lowerboundday, $this->upperboundday);
+        } else {
+            $daysrange = range(1, 31);
         }
+        $days += array_combine($daysrange, $daysrange);
+        // Condition limiting months.
+        if ($this->lowerboundyear == $this->upperboundyear) {
+            for ($i = $this->lowerboundmonth; $i <= $this->upperboundmonth; $i++) {
+                $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+            }
+        } else {
+            for ($i = 1; $i <= 12; $i++) {
+                $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+            }
+        }
+        // No condition limiting years.
         $yearsrange = range($this->lowerboundyear, $this->upperboundyear);
         $years += array_combine($yearsrange, $yearsrange);
         // End of: element values.
