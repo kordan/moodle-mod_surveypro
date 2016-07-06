@@ -469,9 +469,14 @@ EOS;
             $days[SURVEYPRO_IGNOREMEVALUE] = '';
             $months[SURVEYPRO_IGNOREMEVALUE] = '';
         }
-        $daysrange = range(1, 31);
+
+        if ($this->lowerboundmonth == $this->upperboundmonth) {
+            $daysrange = range($this->lowerboundday, $this->upperboundday);
+        } else {
+            $daysrange = range(1, 31);
+        }
         $days += array_combine($daysrange, $daysrange);
-        for ($i = 1; $i <= 12; $i++) {
+        for ($i = $this->lowerboundmonth; $i <= $this->upperboundmonth; $i++) {
             $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
         }
         // End of: element values.
