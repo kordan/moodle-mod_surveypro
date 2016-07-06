@@ -451,8 +451,14 @@ EOS;
             $months[SURVEYPRO_IGNOREMEVALUE] = '';
             $years[SURVEYPRO_IGNOREMEVALUE] = '';
         }
-        for ($i = 1; $i <= 12; $i++) {
-            $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+        if ($this->lowerboundyear == $this->upperboundyear) {
+            for ($i = $this->lowerboundmonth; $i <= $this->upperboundmonth; $i++) {
+                $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+            }
+        } else {
+            for ($i = 1; $i <= 12; $i++) {
+                $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+            }
         }
         $yearsrange = range($this->lowerboundyear, $this->upperboundyear);
         $years += array_combine($yearsrange, $yearsrange);
