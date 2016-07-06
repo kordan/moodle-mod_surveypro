@@ -286,8 +286,8 @@ class surveyprofield_recurrence_field extends mod_surveypro_itembase {
             }
             if (!empty($this->{$field})) {
                 $recurrencearray = self::item_split_unix_time($this->{$field});
-                $this->{$field.'_month'} = $recurrencearray['mon'];
-                $this->{$field.'_day'} = $recurrencearray['mday'];
+                $this->{$field.'month'} = $recurrencearray['mon'];
+                $this->{$field.'day'} = $recurrencearray['mday'];
             }
         }
     }
@@ -302,10 +302,10 @@ class surveyprofield_recurrence_field extends mod_surveypro_itembase {
         // 1. Special management for composite fields.
         $fieldlist = $this->item_get_composite_fields();
         foreach ($fieldlist as $field) {
-            if (isset($record->{$field.'_month'}) && isset($record->{$field.'_day'})) {
-                $record->{$field} = $this->item_recurrence_to_unix_time($record->{$field.'_month'}, $record->{$field.'_day'});
-                unset($record->{$field.'_month'});
-                unset($record->{$field.'_day'});
+            if (isset($record->{$field.'month'}) && isset($record->{$field.'day'})) {
+                $record->{$field} = $this->item_recurrence_to_unix_time($record->{$field.'month'}, $record->{$field.'day'});
+                unset($record->{$field.'month'});
+                unset($record->{$field.'day'});
             } else {
                 $record->{$field} = null;
             }
@@ -469,9 +469,14 @@ EOS;
             $days[SURVEYPRO_IGNOREMEVALUE] = '';
             $months[SURVEYPRO_IGNOREMEVALUE] = '';
         }
-        $daysrange = range(1, 31);
+
+        if ($this->lowerboundmonth == $this->upperboundmonth) {
+            $daysrange = range($this->lowerboundday, $this->upperboundday);
+        } else {
+            $daysrange = range(1, 31);
+        }
         $days += array_combine($daysrange, $daysrange);
-        for ($i = 1; $i <= 12; $i++) {
+        for ($i = $this->lowerboundmonth; $i <= $this->upperboundmonth; $i++) {
             $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
         }
         // End of: element values.

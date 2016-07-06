@@ -82,8 +82,8 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         // Item: defaultvalue.
         $fieldname = 'defaultvalue';
         $elementgroup = array();
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_day', '', $days);
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_month', '', $months);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'day', '', $days);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'month', '', $months);
         $mform->addGroup($elementgroup, $fieldname.'_group', null, ' ', false);
         $mform->disabledIf($fieldname.'_group', 'defaultoption', 'neq', SURVEYPRO_CUSTOMDEFAULT);
 
@@ -101,22 +101,22 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         // Item: lowerbound.
         $fieldname = 'lowerbound';
         $elementgroup = array();
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_day', '', $days);
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_month', '', $months);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'day', '', $days);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'month', '', $months);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_recurrence'), ' ', false);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_recurrence');
-        $mform->setDefault($fieldname.'_day', '1');
-        $mform->setDefault($fieldname.'_month', '1');
+        $mform->setDefault($fieldname.'day', '1');
+        $mform->setDefault($fieldname.'month', '1');
 
         // Item: upperbound.
         $fieldname = 'upperbound';
         $elementgroup = array();
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_day', '', $days);
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_month', '', $months);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'day', '', $days);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'month', '', $months);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_recurrence'), ' ', false);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_recurrence');
-        $mform->setDefault($fieldname.'_day', '31');
-        $mform->setDefault($fieldname.'_month', '12');
+        $mform->setDefault($fieldname.'day', '31');
+        $mform->setDefault($fieldname.'month', '12');
 
         $this->add_item_buttons();
     }
@@ -135,8 +135,8 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
         $errors = parent::validation($data, $files);
 
-        $lowerbound = $item->item_recurrence_to_unix_time($data['lowerbound_month'], $data['lowerbound_day']);
-        $upperbound = $item->item_recurrence_to_unix_time($data['upperbound_month'], $data['upperbound_day']);
+        $lowerbound = $item->item_recurrence_to_unix_time($data['lowerboundmonth'], $data['lowerboundday']);
+        $upperbound = $item->item_recurrence_to_unix_time($data['upperboundmonth'], $data['upperboundday']);
         if ($lowerbound == $upperbound) {
             $errors['lowerbound_group'] = get_string('ierr_lowerequaltoupper', 'surveyprofield_recurrence');
         }
@@ -146,15 +146,15 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
         // Constrain default between boundaries.
         if ($data['defaultoption'] == SURVEYPRO_CUSTOMDEFAULT) {
-            $defaultvalue = $item->item_recurrence_to_unix_time($data['defaultvalue_month'], $data['defaultvalue_day']);
+            $defaultvalue = $item->item_recurrence_to_unix_time($data['defaultvaluemonth'], $data['defaultvalueday']);
 
-            if (!$item->item_check_monthday($data['defaultvalue_day'], $data['defaultvalue_month'])) {
+            if (!$item->item_check_monthday($data['defaultvalueday'], $data['defaultvaluemonth'])) {
                 $errors['defaultvalue_group'] = get_string('ierr_invaliddefault', 'surveyprofield_recurrence');
             }
-            if (!$item->item_check_monthday($data['lowerbound_day'], $data['lowerbound_month'])) {
+            if (!$item->item_check_monthday($data['lowerboundday'], $data['lowerboundmonth'])) {
                 $errors['lowerbound_group'] = get_string('ierr_invalidlowerbound', 'surveyprofield_recurrence');
             }
-            if (!$item->item_check_monthday($data['upperbound_day'], $data['upperbound_month'])) {
+            if (!$item->item_check_monthday($data['upperboundday'], $data['upperboundmonth'])) {
                 $errors['upperbound_group'] = get_string('ierr_invalidupperbound', 'surveyprofield_recurrence');
             }
 
