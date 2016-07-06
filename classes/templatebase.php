@@ -265,7 +265,7 @@ class mod_surveypro_templatebase {
             $version[$type] = array();
             $plugins = surveypro_get_plugin_list($type, true);
             foreach ($plugins as $plugin => $unused) {
-                $version[$type][$plugin] = get_config('surveypro'.$type.'_'.$currentplugin, 'version');
+                $version[$type][$plugin] = get_config('surveypro'.$type.'_'.$plugin, 'version');
             }
         }
 
