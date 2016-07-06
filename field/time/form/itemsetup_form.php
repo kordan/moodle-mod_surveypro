@@ -94,8 +94,8 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         // Item: defaultvalue.
         $fieldname = 'defaultvalue';
         $elementgroup = array();
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_hour', '', $hoptions);
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_minute', '', $moptions);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'hour', '', $hoptions);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'minute', '', $moptions);
         $mform->addGroup($elementgroup, $fieldname.'_group', null, ' ', false);
         $mform->disabledIf($fieldname.'_group', 'defaultoption', 'neq', SURVEYPRO_CUSTOMDEFAULT);
 
@@ -113,8 +113,8 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         // Item: lowerbound.
         $fieldname = 'lowerbound';
         $elementgroup = array();
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_hour', '', $hoptions);
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_minute', '', $moptions);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'hour', '', $hoptions);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'minute', '', $moptions);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_time'), ' ', false);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_time');
         $mform->setDefault($fieldname.'_hour', '0');
@@ -123,8 +123,8 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         // Item: upperbound.
         $fieldname = 'upperbound';
         $elementgroup = array();
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_hour', '', $hoptions);
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_minute', '', $moptions);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'hour', '', $hoptions);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'minute', '', $moptions);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_time'), ' ', false);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_time');
         $mform->setDefault($fieldname.'_hour', '23');
@@ -147,15 +147,15 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
         $errors = parent::validation($data, $files);
 
-        $lowerbound = $item->item_time_to_unix_time($data['lowerbound_hour'], $data['lowerbound_minute']);
-        $upperbound = $item->item_time_to_unix_time($data['upperbound_hour'], $data['upperbound_minute']);
+        $lowerbound = $item->item_time_to_unix_time($data['lowerboundhour'], $data['lowerboundminute']);
+        $upperbound = $item->item_time_to_unix_time($data['upperboundhour'], $data['upperboundminute']);
         if ($lowerbound == $upperbound) {
             $errors['lowerbound_group'] = get_string('ierr_lowerequaltoupper', 'surveyprofield_time');
         }
 
         // Constrain default between boundaries.
         if ($data['defaultoption'] == SURVEYPRO_CUSTOMDEFAULT) {
-            $defaultvalue = $item->item_time_to_unix_time($data['defaultvalue_hour'], $data['defaultvalue_minute']);
+            $defaultvalue = $item->item_time_to_unix_time($data['defaultvaluehour'], $data['defaultvalueminute']);
 
             if ($lowerbound < $upperbound) {
                 // Internal range.
