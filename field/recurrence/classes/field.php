@@ -476,8 +476,17 @@ EOS;
             $daysrange = range(1, 31);
         }
         $days += array_combine($daysrange, $daysrange);
-        for ($i = $this->lowerboundmonth; $i <= $this->upperboundmonth; $i++) {
-            $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+        if ($this->lowerboundmonth <= $this->upperboundmonth) {
+            for ($i = $this->lowerboundmonth; $i <= $this->upperboundmonth; $i++) {
+                $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+            }
+        } else {
+            for ($i = $this->lowerboundmonth; $i <= 12; $i++) {
+                $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+            }
+            for ($i = 1; $i <= $this->upperboundmonth; $i++) {
+                $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+            }
         }
         // End of: element values.
 

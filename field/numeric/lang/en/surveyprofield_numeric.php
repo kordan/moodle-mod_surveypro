@@ -59,6 +59,6 @@ $string['uerr_notanumber'] = 'Entered value is not a number';
 $string['uerr_notinteger'] = 'Entered value is not an integer';
 $string['uerr_outofexternalrange'] = 'Provided value is supposed to be lower-equal than {$a->lowerbound} or greater-equal than {$a->upperbound}';
 $string['uerr_outofinternalrange'] = 'Provided value does not fall within the specified range';
-$string['upperbound_help'] = 'The biggest value the user is allowed to enter.<br /><br />Maximum and minimum values define a range.<br />If "minimum value" is lower than "maximum value" the user is forced to enter a value falling into the range.<br />If "minimum value" is greater than "maximum value" the user input is forced out from the range. i.e. the user input is supposed to be lower-equal than the minimum value OR grater-equal than the maximum value.';
+$string['upperbound_help'] = 'The biggest number the user is allowed to enter.<br /><br />Maximum and minimum values define a range.<br />If "minimum value" is lower than "maximum value" the user is forced to enter a value falling into the range.<br />If "minimum value" is greater than "maximum value" the user input is forced out from the range. i.e. the user input is supposed to be lower-equal than the minimum value OR grater-equal than the maximum value.';
 $string['upperbound'] = 'Maximum value';
 $string['userfriendlypluginname'] = 'Numeric';
