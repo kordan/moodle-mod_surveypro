@@ -288,8 +288,8 @@ class surveyprofield_time_field extends mod_surveypro_itembase {
             }
             if (!empty($this->{$field})) {
                 $timearray = self::item_split_unix_time($this->{$field});
-                $this->{$field.'_hour'} = $timearray['hours'];
-                $this->{$field.'_minute'} = $timearray['minutes'];
+                $this->{$field.'hour'} = $timearray['hours'];
+                $this->{$field.'minute'} = $timearray['minutes'];
             }
         }
     }
@@ -304,10 +304,10 @@ class surveyprofield_time_field extends mod_surveypro_itembase {
         // 1. Special management for composite fields.
         $fieldlist = $this->item_get_composite_fields();
         foreach ($fieldlist as $field) {
-            if (isset($record->{$field.'_hour'}) && isset($record->{$field.'_minute'})) {
-                $record->{$field} = $this->item_time_to_unix_time($record->{$field.'_hour'}, $record->{$field.'_minute'});
-                unset($record->{$field.'_hour'});
-                unset($record->{$field.'_minute'});
+            if (isset($record->{$field.'hour'}) && isset($record->{$field.'minute'})) {
+                $record->{$field} = $this->item_time_to_unix_time($record->{$field.'hour'}, $record->{$field.'minute'});
+                unset($record->{$field.'hour'});
+                unset($record->{$field.'minute'});
             } else {
                 $record->{$field} = null;
             }
@@ -474,8 +474,14 @@ EOS;
                 $hours[$i] = sprintf("%02d", $i);
             }
         }
-        for ($i = 0; $i <= 59; $i += $this->step) {
-            $minutes[$i] = sprintf("%02d", $i);
+        if ($this->lowerboundhour == $this->upperboundhour) {
+            for ($i = $this->lowerboundminute; $i <= $this->upperboundminute; $i += $this->step) {
+                $minutes[$i] = sprintf("%02d", $i);
+            }
+        } else {
+            for ($i = 0; $i <= 59; $i += $this->step) {
+                $minutes[$i] = sprintf("%02d", $i);
+            }
         }
         // End of: element values.
 
