@@ -360,14 +360,12 @@ class surveyprofield_datetime_field extends mod_surveypro_itembase {
                         break;
                 }
             }
-            if (!empty($this->{$field})) {
-                $datetimearray = self::item_split_unix_time($this->{$field});
-                $this->{$field.'_year'} = $datetimearray['year'];
-                $this->{$field.'_month'} = $datetimearray['mon'];
-                $this->{$field.'_day'} = $datetimearray['mday'];
-                $this->{$field.'_hour'} = $datetimearray['hours'];
-                $this->{$field.'_minute'} = $datetimearray['minutes'];
-            }
+            $datetimearray = self::item_split_unix_time($this->{$field});
+            $this->{$field.'_year'} = $datetimearray['year'];
+            $this->{$field.'_month'} = $datetimearray['mon'];
+            $this->{$field.'_day'} = $datetimearray['mday'];
+            $this->{$field.'_hour'} = $datetimearray['hours'];
+            $this->{$field.'_minute'} = $datetimearray['minutes'];
         }
     }
 

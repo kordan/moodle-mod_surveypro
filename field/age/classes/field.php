@@ -297,6 +297,17 @@ class surveyprofield_age_field extends mod_surveypro_itembase {
         $fieldlist = $this->item_get_composite_fields();
         foreach ($fieldlist as $field) {
             if (!empty($this->{$field})) {
+                switch ($field) {
+                    case 'defaultvalue':
+                        continue 2; // It may be; continues switch and foreach too.
+                    case 'lowerbound':
+                        $this->{$field} = $this->item_age_to_unix_time(0, 0);
+                        break;
+                    case 'upperbound':
+                        $maximumage = get_config('surveyprofield_age', 'maximumage');
+                        $this->{$field} = $this->item_age_to_unix_time($maximumage, 0);
+                        break;
+                }
                 $agearray = self::item_split_unix_time($this->{$field});
                 $this->{$field.'_year'} = $agearray['year'];
                 $this->{$field.'_month'} = $agearray['mon'];

@@ -286,11 +286,9 @@ class surveyprofield_time_field extends mod_surveypro_itembase {
                         break;
                 }
             }
-            if (!empty($this->{$field})) {
-                $timearray = self::item_split_unix_time($this->{$field});
-                $this->{$field.'_hour'} = $timearray['hours'];
-                $this->{$field.'_minute'} = $timearray['minutes'];
-            }
+            $timearray = self::item_split_unix_time($this->{$field});
+            $this->{$field.'_hour'} = $timearray['hours'];
+            $this->{$field.'_minute'} = $timearray['minutes'];
         }
     }
 
