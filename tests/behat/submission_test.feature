@@ -41,8 +41,8 @@ Feature: make a submission test for each available item
       | Element number           | 1                                                 |
       | Hide filling instruction | 1                                                 |
       | id_defaultoption_2       | Custom                                            |
-      | id_defaultvalue_year     | 14                                                |
-      | id_defaultvalue_month    | 4                                                 |
+      | id_defaultvalueyear      | 14                                                |
+      | id_defaultvaluemonth     | 4                                                 |
     And I press "Add"
 
     # add an item using the 2nd plugin

@@ -75,8 +75,8 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         // Item: defaultvalue.
         $fieldname = 'defaultvalue';
         $elementgroup = array();
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_year', '', $years);
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_month', '', $months);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'year', '', $years);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'month', '', $months);
         $mform->addGroup($elementgroup, $fieldname.'_group', null, ' ', false);
         $mform->disabledIf($fieldname.'_group', 'defaultoption', 'neq', SURVEYPRO_CUSTOMDEFAULT);
 
@@ -87,22 +87,22 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         // Item: lowerbound.
         $fieldname = 'lowerbound';
         $elementgroup = array();
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_year', '', $years);
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_month', '', $months);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'year', '', $years);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'month', '', $months);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_age'), ' ', false);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_age');
-        $mform->setDefault($fieldname.'_year', '0');
-        $mform->setDefault($fieldname.'_month', '0');
+        $mform->setDefault($fieldname.'year', '0');
+        $mform->setDefault($fieldname.'month', '0');
 
         // Item: upperbound.
         $fieldname = 'upperbound';
         $elementgroup = array();
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_year', '', $years);
-        $elementgroup[] = $mform->createElement('select', $fieldname.'_month', '', $months);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'year', '', $years);
+        $elementgroup[] = $mform->createElement('select', $fieldname.'month', '', $months);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_age'), ' ', false);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_age');
-        $mform->setDefault($fieldname.'_year', $maximumage);
-        $mform->setDefault($fieldname.'_month', '11');
+        $mform->setDefault($fieldname.'year', $maximumage);
+        $mform->setDefault($fieldname.'month', '11');
 
         $this->add_item_buttons();
     }
@@ -127,8 +127,8 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
             $errors['defaultoption_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
         }
 
-        $lowerbound = $item->item_age_to_unix_time($data['lowerbound_year'], $data['lowerbound_month']);
-        $upperbound = $item->item_age_to_unix_time($data['upperbound_year'], $data['upperbound_month']);
+        $lowerbound = $item->item_age_to_unix_time($data['lowerboundyear'], $data['lowerboundmonth']);
+        $upperbound = $item->item_age_to_unix_time($data['upperboundyear'], $data['upperboundmonth']);
         if ($lowerbound == $upperbound) {
             $errors['lowerbound_group'] = get_string('ierr_lowerequaltoupper', 'surveyprofield_age');
         }
@@ -138,7 +138,7 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
         // Constrain default between boundaries.
         if ($data['defaultoption'] == SURVEYPRO_CUSTOMDEFAULT) {
-            $defaultvalue = $item->item_age_to_unix_time($data['defaultvalue_year'], $data['defaultvalue_month']);
+            $defaultvalue = $item->item_age_to_unix_time($data['defaultvalueyear'], $data['defaultvaluemonth']);
 
             // Internal range.
             if ( ($defaultvalue < $lowerbound) || ($defaultvalue > $upperbound) ) {
