@@ -135,12 +135,13 @@ class mod_surveypro_templatebase {
                 return $error;
             }
 
-            if ($pluginversion["$currenttype"]["$currentplugin"] < $currentversion) {
+            $index = $currenttype.'_'.$currentplugin;
+            if ($pluginversion["$index"] < $currentversion) {
                 $a = new stdClass();
                 $a->type = $currenttype;
                 $a->plugin = $currentplugin;
                 $a->currentversion = $currentversion;
-                $a->versiondisk = $pluginversion["$currenttype"]["$currentplugin"];
+                $a->versiondisk = $pluginversion["$index"];
 
                 $error = new stdClass();
                 $error->a = $a;
@@ -262,10 +263,9 @@ class mod_surveypro_templatebase {
         $types = array(SURVEYPRO_TYPEFIELD, SURVEYPRO_TYPEFORMAT);
 
         foreach ($types as $type) {
-            $version[$type] = array();
             $plugins = surveypro_get_plugin_list($type, true);
             foreach ($plugins as $plugin => $unused) {
-                $version[$type][$plugin] = get_config('surveypro'.$type.'_'.$plugin, 'version');
+                $version[$plugin] = get_config('surveypro'.$plugin, 'version');
             }
         }
 

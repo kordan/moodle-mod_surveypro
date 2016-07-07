@@ -318,7 +318,8 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             $xmlitem = $xmltemplate->addChild('item');
             $xmlitem->addAttribute('type', $itemseed->type);
             $xmlitem->addAttribute('plugin', $itemseed->plugin);
-            $xmlitem->addAttribute('version', $pluginversion["$itemseed->type"]["$itemseed->plugin"]);
+            $index = $itemseed->type.'_'.$itemseed->plugin;
+            $xmlitem->addAttribute('version', $pluginversion["$index"]);
 
             // Surveypro_item.
             $xmltable = $xmlitem->addChild('surveypro_item');
