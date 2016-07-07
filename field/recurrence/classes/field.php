@@ -673,8 +673,15 @@ EOS;
             $a->lowerbound = userdate($this->lowerbound, $format, 0);
             $a->upperbound = userdate($this->upperbound, $format, 0);
 
-            // Internal range.
-            $fillinginstruction = get_string('restriction_lowerupper', 'surveyprofield_recurrence', $a);
+            if ($this->lowerbound < $this->upperbound) {
+                // Internal range.
+                $fillinginstruction = get_string('restriction_lowerupper', 'surveyprofield_recurrence', $a);
+            }
+
+            if ($this->lowerbound > $this->upperbound) {
+                // External range.
+                $fillinginstruction = get_string('restriction_upperlower', 'surveyprofield_recurrence', $a);
+            }
         } else {
             $fillinginstruction = '';
             if ($haslowerbound) {

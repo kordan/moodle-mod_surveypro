@@ -41,6 +41,7 @@ $string['pluginname'] = 'Recurrence';
 $string['restriction_lower'] = 'Answer is supposed to be greater-equal than {$a}';
 $string['restriction_lowerupper'] = 'Answer is supposed to fit between {$a->lowerbound} and {$a->upperbound}';
 $string['restriction_upper'] = 'Answer is supposed be lower-equal than {$a}';
+$string['restriction_upperlower'] = 'Answer is supposed to be lower-equal than {$a->lowerbound} or greater-equal than {$a->upperbound}';
 $string['strftime01'] = '%d %B';
 $string['strftime02'] = '%d %b';
 $string['strftime03'] = '%d/%m';
