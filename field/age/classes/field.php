@@ -298,8 +298,8 @@ class surveyprofield_age_field extends mod_surveypro_itembase {
         foreach ($fieldlist as $field) {
             if (!empty($this->{$field})) {
                 $agearray = self::item_split_unix_time($this->{$field});
-                $this->{$field.'_year'} = $agearray['year'];
-                $this->{$field.'_month'} = $agearray['mon'];
+                $this->{$field.'year'} = $agearray['year'];
+                $this->{$field.'month'} = $agearray['mon'];
             }
         }
     }
@@ -314,10 +314,10 @@ class surveyprofield_age_field extends mod_surveypro_itembase {
         // 1. Special management for composite fields.
         $fieldlist = $this->item_get_composite_fields();
         foreach ($fieldlist as $field) {
-            if (isset($record->{$field.'_year'}) && isset($record->{$field.'_month'})) {
-                $record->{$field} = $this->item_age_to_unix_time($record->{$field.'_year'}, $record->{$field.'_month'});
-                unset($record->{$field.'_year'});
-                unset($record->{$field.'_month'});
+            if (isset($record->{$field.'year'}) && isset($record->{$field.'month'})) {
+                $record->{$field} = $this->item_age_to_unix_time($record->{$field.'year'}, $record->{$field.'month'});
+                unset($record->{$field.'year'});
+                unset($record->{$field.'month'});
             } else {
                 $record->{$field} = null;
             }
