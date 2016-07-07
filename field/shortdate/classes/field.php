@@ -283,11 +283,9 @@ class surveyprofield_shortdate_field extends mod_surveypro_itembase {
                         break;
                 }
             }
-            if (!empty($this->{$field})) {
-                $shortdatearray = self::item_split_unix_time($this->{$field});
-                $this->{$field.'month'} = $shortdatearray['mon'];
-                $this->{$field.'year'} = $shortdatearray['year'];
-            }
+            $shortdatearray = self::item_split_unix_time($this->{$field});
+            $this->{$field.'month'} = $shortdatearray['mon'];
+            $this->{$field.'year'} = $shortdatearray['year'];
         }
     }
 
