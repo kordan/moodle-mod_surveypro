@@ -28,7 +28,6 @@ $string['defaultoption_help'] = 'This is the recurrence the remote user will fin
 $string['defaultoption'] = 'Default';
 $string['downloadformat_help'] = 'Choose the format of the answer as it appear once user attempts are downloaded';
 $string['downloadformat'] = 'Download format';
-$string['ierr_invalidrecurrence'] = 'Incorrect value entered';
 $string['ierr_lowerequaltoupper'] = 'Lower and upper bounds must be different';
 $string['ierr_outofrangedefault'] = 'Default does not fall within the specified range';
 $string['ierr_outofexternalrangedefault'] = 'Default does not fall within the specified range (see "{$a}" help)';

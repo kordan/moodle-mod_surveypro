@@ -142,8 +142,17 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
         $errors = parent::validation($data, $files);
 
+        if (!mod_surveypro_utility_useritem::date_is_valid($data['lowerboundday'], $data['lowerboundmonth'], $data['lowerboundyear'])) {
+            $errors['lowerbound_group'] = get_string('ierr_invalidinput', 'mod_surveypro');
+            return $errors;
+        }
+        if (!mod_surveypro_utility_useritem::date_is_valid($data['upperboundday'], $data['upperboundmonth'], $data['upperboundyear'])) {
+            $errors['upperbound_group'] = get_string('ierr_invalidinput', 'mod_surveypro');
+            return $errors;
+        }
         $lowerbound = $item->item_date_to_unix_time($data['lowerboundyear'], $data['lowerboundmonth'], $data['lowerboundday']);
         $upperbound = $item->item_date_to_unix_time($data['upperboundyear'], $data['upperboundmonth'], $data['upperboundday']);
+
         if ($lowerbound == $upperbound) {
             $errors['lowerbound_group'] = get_string('ierr_lowerequaltoupper', 'surveyprofield_date');
         }
@@ -153,10 +162,14 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
         // Constrain default between boundaries.
         if ($data['defaultoption'] == SURVEYPRO_CUSTOMDEFAULT) {
+            if (!mod_surveypro_utility_useritem::date_is_valid($data['defaultvalueday'], $data['defaultvaluemonth'], $data['defaultvalueyear'])) {
+                $errors['defaultvalue_group'] = get_string('ierr_invalidinput', 'mod_surveypro');
+                return $errors;
+            }
             $defaultvalue = $item->item_date_to_unix_time($data['defaultvalueyear'], $data['defaultvaluemonth'], $data['defaultvalueday']);
 
-            // Internal range.
             if ( ($defaultvalue < $lowerbound) || ($defaultvalue > $upperbound) ) {
+                // Internal range.
                 $errors['defaultvalue_group'] = get_string('ierr_outofrangedefault', 'surveyprofield_date');
             }
         }

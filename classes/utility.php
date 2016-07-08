@@ -929,7 +929,6 @@ class mod_surveypro_utility {
     /**
      * Convert an mform element name to type, plugin, item id and optional info
      *
-     * @param bool $prefixfilter Does regex need to filter prefixes?
      * @param string $elementname The string to parse
      * @return array $match
      */
@@ -942,7 +941,6 @@ class mod_surveypro_utility {
     /**
      * Provide the regex to convert an mform element name to type, plugin, item id and optional info
      *
-     * @param bool $prefixfilter Does regex need to filter prefixes?
      * @return string $regex
      */
     public static function get_regexp() {

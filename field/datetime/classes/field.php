@@ -753,6 +753,11 @@ EOS;
         }
         // End of: verify the content of each drop down menu.
 
+        if (!mod_surveypro_utility_useritem::date_is_valid($data[$this->itemname.'_day'], $data[$this->itemname.'_month'], $data[$this->itemname.'_year'])) {
+            $errors[$errorkey] = get_string('ierr_invalidinput', 'mod_surveypro');
+            return;
+        }
+
         if ($searchform) {
             // Stop here your investigation. I don't need further validations.
             return;

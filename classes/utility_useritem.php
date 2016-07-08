@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version information
+ * Surveypro user item utility class.
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
@@ -24,9 +24,24 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'mod_surveypro'; // Full name of the plugin (used for diagnostics).
-$plugin->maturity = MATURITY_ALPHA; // MATURITY_RC.
-$plugin->version = 2016070801; // The current module version (Date: YYYYMMDDXX).
-$plugin->release = '1.0'; // The current release.
-$plugin->requires = 2015111600; // Requires this Moodle version.
-$plugin->cron = 3600; // Period for cron to check this module (in seconds).
+/**
+ * The utility_useritem class
+ *
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class mod_surveypro_utility_useritem {
+
+    /**
+     * Verify that the passed date (in terms of $day, $month and $year) is valid
+     *
+     * @param int $day
+     * @param int $month
+     * @param int $year
+     * @return boolean true if the date is valid, false otherwise.
+     */
+    public static function date_is_valid($day, $month, $year=2001) {
+        return checkdate($month, $day, $year);
+    }
+}
