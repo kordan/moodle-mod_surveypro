@@ -250,9 +250,9 @@ class mod_surveypro_itemlist {
         $lefticn = new pix_icon('t/left', $indentstr, 'moodle', $iconparams);
         $righticn = new pix_icon('t/right', $indentstr, 'moodle', $iconparams);
 
+        // No iconsmall css class here.
         $moveherestr = get_string('movehere');
-        $iconparams['title'] = $moveherestr;
-        $movehereicn = new pix_icon('movehere', $moveherestr, 'moodle', $iconparams);
+        $movehereicn = new pix_icon('movehere', $moveherestr, 'moodle', array('title' => $moveherestr));
 
         $availablestr = get_string('available', 'mod_surveypro');
         $iconparams['title'] = $availablestr;
@@ -297,7 +297,9 @@ class mod_surveypro_itemlist {
         // If you are reordering, force ordering to...
         $orderby = ($this->view == SURVEYPRO_CHANGEORDERASK) ? 'sortindex ASC' : $table->get_sql_sort();
         $itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, $orderby, 'id as itemid, type, plugin');
-        $drawmovearrow = (count($itemseeds) > 1);
+        $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+        $itemcount = $utilityman->has_input_items(0, true, true, true);
+        $drawmovearrow = ($itemcount > 1);
 
         // This is the very first position, so if the item has a parent, no "moveherebox" must appear.
         if (($this->view == SURVEYPRO_CHANGEORDERASK) && (!$this->parentid)) {
