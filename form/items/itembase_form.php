@@ -158,6 +158,13 @@ class mod_surveypro_itembaseform extends moodleform {
             $mform->setType($fieldname, PARAM_TEXT);
         }
 
+        $fieldname = 'trimonsave';
+        if ($item->get_insetupform($fieldname)) {
+            $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'));
+            $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
+            $mform->setType($fieldname, PARAM_INT);
+        }
+
         // Itembase: extranote.
         $fieldname = 'extranote';
         if ($item->get_insetupform($fieldname)) {

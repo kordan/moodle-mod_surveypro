@@ -58,8 +58,7 @@ if ($options['ie9fix']) {
     theme_base_recurse_svgs($path, '', 'theme_base_svgtool_noaspectratio', $blacklist);
 
 } else {
-    $help =
-        "Some svg image tweaks for icon designers.
+    $help = "Some svg image tweaks for icon designers.
 
 Options:
 
@@ -185,17 +184,17 @@ function cli_get_params(array $longoptions, array $shortmapping=null) {
     $unrecognized = array();
 
     if (empty($_SERVER['argv'])) {
-        // bad luck, we can continue in interactive mode ;-)
+        // Bad luck, we can continue in interactive mode ;-).
         return array($options, $unrecognized);
     }
     $rawoptions = $_SERVER['argv'];
 
-    //remove anything after '--', options can not be there
+    // Remove anything after '--', options can not be there.
     if (($key = array_search('--', $rawoptions)) !== false) {
         $rawoptions = array_slice($rawoptions, 0, $key);
     }
 
-    //remove script
+    // Remove script.
     unset($rawoptions[0]);
     foreach ($rawoptions as $raw) {
         if (substr($raw, 0, 2) === '--') {
@@ -234,13 +233,13 @@ function cli_get_params(array $longoptions, array $shortmapping=null) {
             continue;
         }
     }
-    //apply defaults
+    // Apply defaults.
     foreach ($longoptions as $key => $default) {
         if (!array_key_exists($key, $options)) {
             $options[$key] = $default;
         }
     }
-    // finished
+    // Finished.
     return array($options, $unrecognized);
 }
 

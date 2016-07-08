@@ -276,10 +276,11 @@ class mod_surveypro_outform extends moodleform {
         }
 
         $errors = parent::validation($data, $files);
+        $warnings = array();
 
         // Validate an item only if is enabled, alias: only if its content matches the parent-child constrain
         $olditemid = 0;
-        foreach ($data as $elementname => $unused) {
+        foreach ($data as $elementname => $content) {
             if ($matches = mod_surveypro_utility::get_item_parts($elementname)) {
                 if ($matches['itemid'] == $olditemid) {
                     continue; // To next foreach.
@@ -314,12 +315,22 @@ class mod_surveypro_outform extends moodleform {
                 }
 
                 if ($itemisenabled) {
+                    if ($item->item_get_trimonsave()) {
+                        if (trim($content) != $content) {
+                            $warnings[$elementname] = get_string('uerr_willbetrimmed', 'mod_surveypro');
+                        }
+                    }
                     $item->userform_mform_validation($data, $errors, false);
                 }
                 // Otherwise...
                 // echo 'parent item doesn\'t allow the validation of the child item '.$item->itemid;
                 // echo ', plugin = '.$item->plugin.'('.$item->content.')<br />';
             }
+        }
+
+        if ($errors) {
+            // Always sum $warnings to $errors so if an element has a warning and an error too, the error it will be preferred.
+            $errors += $warnings;
         }
 
         return $errors;
