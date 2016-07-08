@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Starting page of the count report.
+ * Starting page of the delayedusers report.
  *
- * @package   surveyproreport_count
+ * @package   surveyproreport_delayedusers
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -43,7 +43,7 @@ $context = context_module::instance($cm->id);
 require_capability('mod/surveypro:accessreports', $context);
 
 // Output starts here.
-$url = new moodle_url('/mod/surveypro/report/count/view.php', array('s' => $surveypro->id));
+$url = new moodle_url('/mod/surveypro/report/delayedusers/view.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -54,7 +54,7 @@ echo $OUTPUT->header();
 
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_REPORT);
 
-$reportman = new surveyproreport_count_report($cm, $context, $surveypro);
+$reportman = new surveyproreport_delayedusers_report($cm, $context, $surveypro);
 $reportman->nosubmissions_stop();
 
 $reportman->setup_outputtable();

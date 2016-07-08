@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Surveypro class to missing count report
+ * Surveypro class to manage delayedusers report
  *
- * @package   surveyproreport_missing
+ * @package   surveyproreport_delayedusers
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -27,13 +27,13 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir.'/tablelib.php');
 
 /**
- * The class to missing count report
+ * The class to manage delayedusers report
  *
- * @package   surveyproreport_missing
+ * @package   surveyproreport_delayedusers
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyproreport_missing_report extends mod_surveypro_reportbase {
+class surveyproreport_delayedusers_report extends mod_surveypro_reportbase {
 
     /**
      * @var flexible_table $outputtable
@@ -44,10 +44,10 @@ class surveyproreport_missing_report extends mod_surveypro_reportbase {
      * Setup_outputtable
      */
     public function setup_outputtable() {
-        $this->outputtable = new flexible_table('missingusers');
+        $this->outputtable = new flexible_table('delayedusers');
 
-        $paramurl = array('id' => $this->cm->id, 'rname' => 'missing');
-        $baseurl = new moodle_url('/mod/surveypro/report/missing/view.php', $paramurl);
+        $paramurl = array('id' => $this->cm->id, 'rname' => 'delayedusers');
+        $baseurl = new moodle_url('/mod/surveypro/report/delayedusers/view.php', $paramurl);
         $this->outputtable->define_baseurl($baseurl);
 
         $tablecolumns = array();
@@ -74,7 +74,7 @@ class surveyproreport_missing_report extends mod_surveypro_reportbase {
         // General properties for the whole table.
         $this->outputtable->summary = get_string('submissionslist', 'mod_surveypro');
         $this->outputtable->set_attribute('cellpadding', '5');
-        $this->outputtable->set_attribute('id', 'userattempts');
+        $this->outputtable->set_attribute('id', 'delayedusers');
         $this->outputtable->set_attribute('class', 'generaltable');
         // $this->outputtable->set_attribute('width', '90%');
         $this->outputtable->setup();
@@ -142,7 +142,7 @@ class surveyproreport_missing_report extends mod_surveypro_reportbase {
     public function output_data() {
         global $OUTPUT;
 
-        echo $OUTPUT->heading(get_string('pluginname', 'surveyproreport_missing'));
+        echo $OUTPUT->heading(get_string('pluginname', 'surveyproreport_delayedusers'));
         $this->outputtable->print_html();
     }
 }
