@@ -69,6 +69,27 @@ class surveyprofield_checkbox_field extends mod_surveypro_itembase {
 
     /**
      * @var bool 0 => optional item; 1 => mandatory item;
+     *
+     * Take in mind that "required" (for checkbox item) means only: "The 'No answer' checkbox is not displayed".
+     * Each checkbox element is intrinsically required.
+     * There is noy for a student to jump a standard checkbox element.
+     *
+     * Example: "What do you take for breakfast?" milk, bread, jam.
+     * If the user jumps this element HE/SHE IS STATING THAT HE/SHE DOES NOT TAKE milk AND NOT bread AND NOT jam.
+     *
+     * If the editing teacher choose to allow the student to jump this question, he HAS TO leave unchecked the "required" propery.
+     * In that way the element will be equipped with an additional exclusive "No answer" checkbox.
+     * This last checkbox privides to the student the possibility to say "I don't tell you what I take for breakfast!"
+     *
+     * Note that a checkbox can have $minimumrequired irrespectively of being required or no.
+     * Alias: a checkbox element can be not $required and have, at the same time, $minimumrequired > 0.
+     * This is perfectly valid.
+     *
+     * Example: "What do you take for breakfast?" milk, bread, jam.
+     * With: $required = 0 and $minimumrequired = 2
+     *
+     * This means that the student is allowed to select the exclusive "No answer" checkbox and run away BUT
+     * IF he/she decides to provide an answer THEN he/she has to select at least 2 checkboxes.
      */
     protected $required;
 
