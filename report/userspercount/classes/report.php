@@ -94,9 +94,9 @@ class surveyproreport_userspercount_report extends mod_surveypro_reportbase {
         }
         $sql = 'SELECT s.userresponses, count(s.userresponses) as userscount
                 FROM (SELECT userid, count(userid) as userresponses
-	                  FROM head_surveypro_submission
-	                  WHERE surveyproid = :surveyproid
-	                  GROUP BY userid) s
+                    FROM {surveypro_submission}
+                    WHERE surveyproid = :surveyproid
+                    GROUP BY userid) s
                 GROUP BY userresponses';
         $whereparams = array('surveyproid' => $this->surveypro->id);
 
