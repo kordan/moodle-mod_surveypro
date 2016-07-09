@@ -335,10 +335,11 @@ class surveyprofield_recurrence_field extends mod_surveypro_itembase {
      */
     public function item_get_downloadformats() {
         $options = array();
+        $timenow = time();
 
         for ($i = 1; $i < 4; $i++) {
             $strname = 'strftime'.str_pad($i, 2, '0', STR_PAD_LEFT);
-            $options[$strname] = get_string($strname, 'surveyprofield_recurrence');
+            $options[$strname] = userdate($timenow, get_string($strname, 'surveyprofield_recurrence'));
         }
         $options['unixtime'] = get_string('unixtime', 'mod_surveypro');
 
