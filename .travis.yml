@@ -9,23 +9,35 @@ cache:
   directories:
     - $HOME/.composer/cache
 
+# For 3.2 and up, these are the default php supported, let's
+# handle older versions via manual include/exclude below.
 php:
- - 5.4
  - 7.0
+ - 5.6
 
 # This section sets up the environment variables for the build.
 env:
   - MOODLE_BRANCH=master           DB=pgsql
   - MOODLE_BRANCH=master           DB=mysqli
-  - MOODLE_BRANCH=MOODLE_30_STABLE DB=pgsql
   - MOODLE_BRANCH=MOODLE_31_STABLE DB=pgsql
   - MOODLE_BRANCH=MOODLE_31_STABLE DB=mysqli
-# global:
-# This line determines which version of Moodle to test against.
-#  - MOODLE_BRANCH=MOODLE_30_STABLE
-# matrix:
-#  - DB=pgsql
-#  - DB=mysqli
+  - MOODLE_BRANCH=MOODLE_30_STABLE DB=pgsql
+
+matrix:
+  include:
+    - php: 5.4
+      env: MOODLE_BRANCH=MOODLE_31_STABLE DB=pgsql
+    - php: 5.4
+      env: MOODLE_BRANCH=MOODLE_31_STABLE DB=mysqli
+    - php: 5.4
+      env: MOODLE_BRANCH=MOODLE_30_STABLE DB=pgsql
+  exclude:
+    - php: 5.6
+      env: MOODLE_BRANCH=MOODLE_31_STABLE DB=pgsql
+    - php: 5.6
+      env: MOODLE_BRANCH=MOODLE_31_STABLE DB=mysqli
+    - php: 5.6
+      env: MOODLE_BRANCH=MOODLE_30_STABLE DB=pgsql
 
 # This lists steps that are run before the installation step.
 before_install:
