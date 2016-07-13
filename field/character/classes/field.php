@@ -452,7 +452,7 @@ EOS;
             $itemname = $this->itemname.'_ignoreme';
             $starstr = get_string('star', 'mod_surveypro');
             $attributes['id'] = $idprefix.'_ignoreme';
-            $attributes['class'] = 'character_text';
+            $attributes['class'] = 'character_check';
             $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $starstr, $attributes);
             $mform->setType($this->itemname, PARAM_RAW);
 
