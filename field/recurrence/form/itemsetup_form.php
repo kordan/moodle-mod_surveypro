@@ -135,25 +135,29 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
         $errors = parent::validation($data, $files);
 
+        if (!mod_surveypro_utility_useritem::date_is_valid($data['lowerboundday'], $data['lowerboundmonth'])) {
+            $errors['lowerbound_group'] = get_string('ierr_invalidinput', 'mod_surveypro');
+            return $errors;
+        }
+        if (!mod_surveypro_utility_useritem::date_is_valid($data['upperboundday'], $data['upperboundmonth'])) {
+            $errors['upperbound_group'] = get_string('ierr_invalidinput', 'mod_surveypro');
+            return $errors;
+        }
+
         $lowerbound = $item->item_recurrence_to_unix_time($data['lowerboundmonth'], $data['lowerboundday']);
         $upperbound = $item->item_recurrence_to_unix_time($data['upperboundmonth'], $data['upperboundday']);
+
         if ($lowerbound == $upperbound) {
             $errors['lowerbound_group'] = get_string('ierr_lowerequaltoupper', 'surveyprofield_recurrence');
         }
 
         // Constrain default between boundaries.
         if ($data['defaultoption'] == SURVEYPRO_CUSTOMDEFAULT) {
+            if (!mod_surveypro_utility_useritem::date_is_valid($data['defaultvalueday'], $data['defaultvaluemonth'])) {
+                $errors['defaultvalue_group'] = get_string('ierr_invalidinput', 'mod_surveypro');
+                return $errors;
+            }
             $defaultvalue = $item->item_recurrence_to_unix_time($data['defaultvaluemonth'], $data['defaultvalueday']);
-
-            if (!$item->item_check_monthday($data['defaultvalueday'], $data['defaultvaluemonth'])) {
-                $errors['defaultvalue_group'] = get_string('ierr_invalidrecurrence', 'surveyprofield_recurrence');
-            }
-            if (!$item->item_check_monthday($data['lowerboundday'], $data['lowerboundmonth'])) {
-                $errors['lowerbound_group'] = get_string('ierr_invalidrecurrence', 'surveyprofield_recurrence');
-            }
-            if (!$item->item_check_monthday($data['upperboundday'], $data['upperboundmonth'])) {
-                $errors['upperbound_group'] = get_string('ierr_invalidrecurrence', 'surveyprofield_recurrence');
-            }
 
             if ($lowerbound < $upperbound) {
                 // Internal range.

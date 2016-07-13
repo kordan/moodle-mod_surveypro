@@ -232,6 +232,7 @@ $string['hideitems'] = 'Hide';
 $string['hideshow'] = 'Hide/Show';
 $string['history_help'] = 'Preserving history, users will no longer be able to directly modify a closed response. Modification to closed responses will be saved as a new copy, leaving the original one untouched and the history preserved.';
 $string['history'] = 'Preserve history';
+$string['ierr_invalidinput'] = 'Incorrect value entered';
 $string['ierr_missingparentcontent'] = 'You need to specify a parent content otherwise clear the "{$a}" field';
 $string['ierr_missingparentid'] = 'You need to select a element to branch the survey. Otherwise clear the "{$a}" field';
 $string['ierr_notalloweddefault'] = '"{$a}" is not an allowed default for "required" elements';

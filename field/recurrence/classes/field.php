@@ -347,26 +347,6 @@ class surveyprofield_recurrence_field extends mod_surveypro_itembase {
     }
 
     /**
-     * Item_check_monthday.
-     *
-     * @param int $day
-     * @param int $month
-     * @return void
-     */
-    public function item_check_monthday($day, $month) {
-        if ($month == 2) {
-            return ($day <= 29);
-        }
-
-        $longmonths = array(1, 3, 5, 7, 8, 10, 12);
-        if (in_array($month, $longmonths)) {
-            return ($day <= 31);
-        } else {
-            return ($day <= 30);
-        }
-    }
-
-    /**
      * Get the format recognized (without any really good reason) as friendly.
      *
      * @return the friendly format
@@ -614,13 +594,14 @@ EOS;
         }
         // End of: verify the content of each drop down menu.
 
-        if ($searchform) {
-            // Stop here your investigation. I don't need further validations.
+        if (!mod_surveypro_utility_useritem::date_is_valid($data[$this->itemname.'_day'], $data[$this->itemname.'_month'])) {
+            $errors[$errorkey] = get_string('ierr_invalidinput', 'mod_surveypro');
             return;
         }
 
-        if (!$this->item_check_monthday($data[$this->itemname.'_day'], $data[$this->itemname.'_month'])) {
-            $errors[$errorkey] = get_string('uerr_incorrectrecurrence', 'surveyprofield_recurrence');
+        if ($searchform) {
+            // Stop here your investigation. I don't need further validations.
+            return;
         }
 
         $haslowerbound = ($this->lowerbound != $this->item_recurrence_to_unix_time(1, 1));
