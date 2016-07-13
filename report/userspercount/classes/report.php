@@ -60,7 +60,7 @@ class surveyproreport_userspercount_report extends mod_surveypro_reportbase {
         $tableheaders[] = get_string('users');
         $this->outputtable->define_headers($tableheaders);
 
-        $this->outputtable->sortable(true, 'userresponses', 'ASC'); // Sorted by lastname by default.
+        $this->outputtable->sortable(true, 'userresponses', 'ASC'); // Sorted by userresponses by default.
 
         $this->outputtable->column_class('userresponses', 'userresponses');
         $this->outputtable->column_class('userscount', 'userscount');

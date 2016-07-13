@@ -858,7 +858,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $tableheaders[] = get_string('actions');
         $table->define_headers($tableheaders);
 
-        $table->sortable(true, 'templatename'); // Sorted by sortindex by default.
+        $table->sortable(true, 'templatename'); // Sorted by templatename by default.
         $table->no_sorting('actions');
 
         $table->column_class('templatename', 'templatename');
