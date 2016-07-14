@@ -130,10 +130,10 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         $lowerbound = $item->item_age_to_unix_time($data['lowerboundyear'], $data['lowerboundmonth']);
         $upperbound = $item->item_age_to_unix_time($data['upperboundyear'], $data['upperboundmonth']);
         if ($lowerbound == $upperbound) {
-            $errors['lowerbound_group'] = get_string('ierr_lowerequaltoupper', 'surveyprofield_age');
+            $errors['upperbound_group'] = get_string('ierr_lowerequaltoupper', 'surveyprofield_age');
         }
         if ($lowerbound > $upperbound) {
-            $errors['lowerbound_group'] = get_string('ierr_lowergreaterthanupper', 'surveyprofield_age');
+            $errors['upperbound_group'] = get_string('ierr_lowergreaterthanupper', 'surveyprofield_age');
         }
 
         // Constrain default between boundaries.
