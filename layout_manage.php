@@ -166,7 +166,7 @@ $itemlistman->display_item_editing_feedback();
 if ($mtemplatecondition) {
     // Display mtemplate form.
     $message = get_string('beginfromscratch', 'mod_surveypro');
-    echo $OUTPUT->box($message, 'generaltable generalbox boxaligncenter boxwidthnormal');
+    echo $OUTPUT->notification($message, 'notifymessage');
 
     // Display addnewitem form.
     $mtemplateform->display();
