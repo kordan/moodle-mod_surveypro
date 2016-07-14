@@ -25,7 +25,7 @@
 $string['customdefault'] = 'Custom';
 $string['defaultoption_help'] = 'This is the integer the remote user will find answered by default. The default for this type of question is mandatory.';
 $string['defaultoption'] = 'Default';
-$string['ierr_lowerequaltoupper'] = 'Lower and upper bounds need to be different';
+$string['ierr_lowerequaltoupper'] = 'Lower and upper bounds must be different';
 $string['ierr_lowergreaterthanupper'] = 'Lower bound must be lower than upper bound';
 $string['ierr_outofrangedefault'] = 'Default does not fall within the specified range';
 $string['lowerbound_help'] = 'The lowest integer the user is allowed to enter';

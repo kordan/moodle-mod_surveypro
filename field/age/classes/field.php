@@ -296,22 +296,9 @@ class surveyprofield_age_field extends mod_surveypro_itembase {
         // 1. Special management for composite fields.
         $fieldlist = $this->item_get_composite_fields();
         foreach ($fieldlist as $field) {
-            if (!empty($this->{$field})) {
-                switch ($field) {
-                    case 'defaultvalue':
-                        continue 2; // It may be; continues switch and foreach too.
-                    case 'lowerbound':
-                        $this->{$field} = $this->item_age_to_unix_time(0, 0);
-                        break;
-                    case 'upperbound':
-                        $maximumage = get_config('surveyprofield_age', 'maximumage');
-                        $this->{$field} = $this->item_age_to_unix_time($maximumage, 0);
-                        break;
-                }
-                $agearray = self::item_split_unix_time($this->{$field});
-                $this->{$field.'year'} = $agearray['year'];
-                $this->{$field.'month'} = $agearray['mon'];
-            }
+            $agearray = self::item_split_unix_time($this->{$field});
+            $this->{$field.'year'} = $agearray['year'];
+            $this->{$field.'month'} = $agearray['mon'];
         }
     }
 
@@ -471,7 +458,11 @@ EOS;
         }
         $yearsrange = range($this->lowerboundyear, $this->upperboundyear);
         $years += array_combine($yearsrange, $yearsrange);
-        $monthsrange = range(0, 11);
+        if ($this->lowerboundyear == $this->upperboundyear) {
+            $monthsrange = range($this->lowerboundmonth, $this->upperboundmonth);
+        } else {
+            $monthsrange = range(0, 11);
+        }
         $months += array_combine($monthsrange, $monthsrange);
         // End of: element values.
 
