@@ -271,17 +271,8 @@ class surveyprofield_shortdate_field extends mod_surveypro_itembase {
         // 1. Special management for composite fields.
         $fieldlist = $this->item_get_composite_fields();
         foreach ($fieldlist as $field) {
-            if (!isset($this->{$field})) {
-                switch ($field) {
-                    case 'defaultvalue':
-                        continue 2; // It may be; continues switch and foreach too.
-                    case 'lowerbound':
-                        $this->{$field} = $this->item_shortdate_to_unix_time(1, $this->surveypro->startyear);
-                        break;
-                    case 'upperbound':
-                        $this->{$field} = $this->item_shortdate_to_unix_time(1, $this->surveypro->stopyear);
-                        break;
-                }
+            if (is_null($this->{$field})) {
+                continue;
             }
             $shortdatearray = self::item_split_unix_time($this->{$field});
             $this->{$field.'month'} = $shortdatearray['mon'];
