@@ -279,9 +279,9 @@ class mod_surveypro_itemlist {
         $iconparams['title'] = $unsearchablestr;
         $unsearchableicn = new pix_icon('unsearchable', $unsearchablestr, 'surveypro', $iconparams);
 
-        $hiddenstr = get_string('hidden', 'mod_surveypro');
-        $iconparams['title'] = $hiddenstr;
-        $unavailableicn = new pix_icon('unavailable', $hiddenstr, 'surveypro', $iconparams);
+        $unavailablestr = get_string('unavailableelement', 'mod_surveypro');
+        $iconparams['title'] = $unavailablestr;
+        $unavailableicn = new pix_icon('unavailable', $unavailablestr, 'surveypro', $iconparams);
 
         $forcedoptionalitemstr = get_string('forcedoptionalitem', 'mod_surveypro');
         $iconparams['title'] = $forcedoptionalitemstr;
