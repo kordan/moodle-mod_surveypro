@@ -86,6 +86,8 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         $elementgroup[] = $mform->createElement('select', $fieldname.'month', '', $months);
         $mform->addGroup($elementgroup, $fieldname.'_group', null, ' ', false);
         $mform->disabledIf($fieldname.'_group', 'defaultoption', 'neq', SURVEYPRO_CUSTOMDEFAULT);
+        $mform->setDefault($fieldname.'day', '1');
+        $mform->setDefault($fieldname.'month', '1');
 
         // Item: downloadformat.
         $fieldname = 'downloadformat';
