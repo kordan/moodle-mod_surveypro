@@ -347,6 +347,7 @@ class surveyprofield_datetime_field extends mod_surveypro_itembase {
     public function item_custom_fields_to_form() {
         // 1. Special management for composite fields.
         $fieldlist = $this->item_get_composite_fields();
+        foreach ($fieldlist as $field) {
         	if (is_null($this->{$field})) {
         		continue;
         	}
