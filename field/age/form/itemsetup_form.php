@@ -79,6 +79,8 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         $elementgroup[] = $mform->createElement('select', $fieldname.'month', '', $months);
         $mform->addGroup($elementgroup, $fieldname.'_group', null, ' ', false);
         $mform->disabledIf($fieldname.'_group', 'defaultoption', 'neq', SURVEYPRO_CUSTOMDEFAULT);
+        $mform->setDefault($fieldname.'year', '0');
+        $mform->setDefault($fieldname.'month', '0');
 
         // Here I open a new fieldset.
         $fieldname = 'validation';
