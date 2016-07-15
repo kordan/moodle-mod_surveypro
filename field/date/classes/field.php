@@ -310,18 +310,9 @@ class surveyprofield_date_field extends mod_surveypro_itembase {
         // 1. Special management for composite fields.
         $fieldlist = $this->item_get_composite_fields();
         foreach ($fieldlist as $field) {
-            if (!isset($this->{$field})) {
-                switch ($field) {
-                    case 'defaultvalue':
-                        continue 2; // It may be; continues switch and foreach too.
-                    case 'lowerbound':
-                        $this->{$field} = $this->item_date_to_unix_time($this->surveypro->startyear, 1, 1);
-                        break;
-                    case 'upperbound':
-                        $this->{$field} = $this->item_date_to_unix_time($this->surveypro->stopyear, 1, 1);
-                        break;
-                }
-            }
+        	if (is_null($this->{$field})) {
+        		continue;
+        	}
             $datearray = self::item_split_unix_time($this->{$field});
             $this->{$field.'year'} = $datearray['year'];
             $this->{$field.'month'} = $datearray['mon'];
