@@ -272,17 +272,8 @@ class surveyprofield_recurrence_field extends mod_surveypro_itembase {
         // 1. Special management for composite fields.
         $fieldlist = $this->item_get_composite_fields();
         foreach ($fieldlist as $field) {
-            if (!isset($this->{$field})) {
-                switch ($field) {
-                    case 'defaultvalue':
-                        continue 2; // It may be; continues switch and foreach too.
-                    case 'lowerbound':
-                        $this->{$field} = $this->item_recurrence_to_unix_time(1, 1);
-                        break;
-                    case 'upperbound':
-                        $this->{$field} = $this->item_recurrence_to_unix_time(1, 1);
-                        break;
-                }
+            if (is_null($this->{$field})) {
+                continue;
             }
             $recurrencearray = self::item_split_unix_time($this->{$field});
             $this->{$field.'month'} = $recurrencearray['mon'];
