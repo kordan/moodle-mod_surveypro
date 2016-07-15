@@ -626,7 +626,7 @@ EOS;
                     $a->upperbound = userdate($this->upperbound, get_string($format, 'surveyprofield_recurrence'), 0);
                     $errors[$errorkey] = get_string('uerr_outofexternalrange', 'surveyprofield_recurrence', $a);
                 }
-             }
+            }
         } else {
             if ($haslowerbound && ($userinput < $this->lowerbound)) {
                 $errors[$errorkey] = get_string('uerr_lowerthanminimum', 'surveyprofield_recurrence');
