@@ -184,6 +184,7 @@ class mod_surveypro_itemlist {
         $table->define_headers($tableheaders);
 
         $table->sortable(true, 'sortindex'); // Sorted by sortindex by default.
+        $table->no_sorting('customnumber');
         $table->no_sorting('content');
         $table->no_sorting('variable');
         $table->no_sorting('availability');
