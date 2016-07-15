@@ -668,6 +668,7 @@ class mod_surveypro_itemlist {
 
         $table->sortable(true, 'sortindex', 'ASC'); // Sorted by sortindex by default.
         $table->no_sorting('content');
+        $table->no_sorting('customnumber');
         $table->no_sorting('parentitem');
         $table->no_sorting('parentconstraints');
         $table->no_sorting('status');
