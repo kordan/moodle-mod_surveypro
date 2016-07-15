@@ -45,7 +45,7 @@ Feature: test the use of age setup form
       | Reserved                 | 1                                                 |
       | Parent element           | Boolean [1]: Is this true?                        |
       | Parent content           | 1                                                 |
-      | id_defaultoption_1       | Custom                                            |
+      | Custom                   | 1                                                 |
       | id_defaultvalueyear      | 14                                                |
       | id_defaultvaluemonth     | 7                                                 |
       | id_lowerboundyear        | 14                                                |
@@ -81,7 +81,9 @@ Feature: test the use of age setup form
     Then the field "Reserved" matches value "1"
     Then the field "Parent element" matches value "Boolean [1]: Is this true?"
     Then the field "Parent content" matches value "1"
-    Then the field "id_defaultoption_1" matches value "Custom"
+    Then the field "Custom" matches value "1"
+    Then the field "Invite" matches value ""
+    Then the field "No answer" matches value ""
     Then the field "id_defaultvalueyear" matches value "14"
     Then the field "id_defaultvaluemonth" matches value "7"
     Then the field "id_lowerboundyear" matches value "14"

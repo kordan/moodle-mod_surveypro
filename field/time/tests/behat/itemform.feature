@@ -46,7 +46,7 @@ Feature: test the use of time setup form
       | Parent element           | Boolean [1]: Is this true?                                             |
       | Parent content           | 1                                                                      |
       | Step                     | five minutes                                                           |
-      | id_defaultoption_1       | Custom                                                                 |
+      | Custom                   | 1                                                                      |
       | id_defaultvaluehour      | 7                                                                      |
       | id_defaultvalueminute    | 40                                                                     |
       | id_lowerboundhour        | 6                                                                      |
@@ -86,7 +86,11 @@ Feature: test the use of time setup form
     Then the field "Parent element" matches value "Boolean [1]: Is this true?"
     Then the field "Parent content" matches value "1"
     Then the field "Step" matches value "five minutes"
-    Then the field "id_defaultoption_1" matches value "Custom"
+    Then the field "Custom" matches value "1"
+    Then the field "Current time" matches value ""
+    Then the field "Invite" matches value ""
+    Then the field "Like last response" matches value ""
+    Then the field "No answer" matches value ""
     Then the field "id_defaultvaluehour" matches value "7"
     Then the field "id_defaultvalueminute" matches value "40"
     Then the field "id_lowerboundhour" matches value "7"

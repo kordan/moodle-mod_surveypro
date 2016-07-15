@@ -46,7 +46,7 @@ Feature: test the use of datetime setup form
       | Parent element           | Boolean [1]: Is this true?                                           |
       | Parent content           | 1                                                                    |
       | Step                     | five minutes                                                         |
-      | id_defaultoption_1       | Custom                                                               |
+      | Custom                   | 1                                                                    |
       | id_defaultvalueday       | 30                                                                   |
       | id_defaultvaluemonth     | February                                                             |
       | id_defaultvalueyear      | 1980                                                                 |
@@ -114,7 +114,11 @@ Feature: test the use of datetime setup form
     Then the field "Parent element" matches value "Boolean [1]: Is this true?"
     Then the field "Parent content" matches value "1"
     Then the field "Step" matches value "five minutes"
-    Then the field "id_defaultoption_1" matches value "Custom"
+    Then the field "Custom" matches value "1"
+    Then the field "Current date and time" matches value ""
+    Then the field "Invite" matches value ""
+    Then the field "Like last response" matches value ""
+    Then the field "No answer" matches value ""
     Then the field "id_defaultvalueday" matches value "1"
     Then the field "id_defaultvaluemonth" matches value "January"
     Then the field "id_defaultvalueyear" matches value "1980"
