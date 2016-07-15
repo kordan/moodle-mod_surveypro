@@ -98,6 +98,8 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         $elementgroup[] = $mform->createElement('select', $fieldname.'minute', '', $moptions);
         $mform->addGroup($elementgroup, $fieldname.'_group', null, ' ', false);
         $mform->disabledIf($fieldname.'_group', 'defaultoption', 'neq', SURVEYPRO_CUSTOMDEFAULT);
+        $mform->setDefault($fieldname.'hour', '0');
+        $mform->setDefault($fieldname.'minute', '0');
 
         // Item: downloadformat.
         $fieldname = 'downloadformat';

@@ -274,18 +274,9 @@ class surveyprofield_time_field extends mod_surveypro_itembase {
         // 1. Special management for composite fields.
         $fieldlist = $this->item_get_composite_fields();
         foreach ($fieldlist as $field) {
-            if (!isset($this->{$field})) {
-                switch ($field) {
-                    case 'defaultvalue':
-                        continue 2; // It may be; continues switch and foreach too.
-                    case 'lowerbound':
-                        $this->{$field} = 0;
-                        break;
-                    case 'upperbound':
-                        $this->{$field} = 86340;
-                        break;
-                }
-            }
+        	if (is_null($this->{$field})) {
+        		continue;
+        	}
             $timearray = self::item_split_unix_time($this->{$field});
             $this->{$field.'hour'} = $timearray['hours'];
             $this->{$field.'minute'} = $timearray['minutes'];
