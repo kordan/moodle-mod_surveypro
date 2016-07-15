@@ -86,6 +86,8 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         $elementgroup[] = $mform->createElement('select', $fieldname.'year', '', $years);
         $mform->addGroup($elementgroup, $fieldname.'_group', null, ' ', false);
         $mform->disabledIf($fieldname.'_group', 'defaultoption', 'neq', SURVEYPRO_CUSTOMDEFAULT);
+        $mform->setDefault($fieldname.'month', '1');
+        $mform->setDefault($fieldname.'year', $startyear);
 
         // Item: downloadformat.
         $fieldname = 'downloadformat';
@@ -141,7 +143,7 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
             $errors['lowerbound_group'] = get_string('ierr_lowerequaltoupper', 'surveyprofield_shortdate');
         }
         if ($lowerbound > $upperbound) {
-            $errors['lowerbound'] = get_string('ierr_lowergreaterthanupper', 'surveyprofield_shortdate');
+            $errors['lowerbound_group'] = get_string('ierr_lowergreaterthanupper', 'surveyprofield_shortdate');
         }
 
         // Constrain default between boundaries.
