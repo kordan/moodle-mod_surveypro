@@ -102,9 +102,9 @@
 #page-mod-surveypro-layout_manage table#manageitems .sortindex,
 #page-mod-surveypro-layout_manage table#sortitems .sortindex,
 #page-mod-surveypro-layout_validation table#validaterelations .sortindex {
+    min-width:2.5em;
     padding:0.5em;
     text-align:right;
-    min-width:2.5em;
 }
 
 #page-mod-surveypro-layout_manage table#manageitems .parentitem,
@@ -125,8 +125,8 @@
 #page-mod-surveypro-layout_manage table#manageitems .formpage,
 #page-mod-surveypro-layout_manage table#sortitems .formpage {
     padding:0.5em;
-    white-space:nowrap;
     text-align:center;
+    white-space:nowrap;
 }
 
 #page-mod-surveypro-layout_manage table#manageitems .parentitem .iconsmall,
@@ -134,8 +134,8 @@
 #page-mod-surveypro-layout_manage table#manageitems .parentitem .iconsmall,
 #page-mod-surveypro-layout_manage table#sortitems .availability .iconsmall,
 #page-mod-surveypro-layout_validation table#validaterelations .parentitem .iconsmall {
-    vertical-align: middle;
     margin: 0;
+    vertical-align: middle;
 }
 
 #page-mod-surveypro-layout_manage table#manageitems .content,
@@ -162,10 +162,10 @@
 #page-mod-surveypro-layout_manage table#manageitems .actions img.icon,
 #page-mod-surveypro-layout_manage table#sortitems .actions img.icon {
     height: 16px;
-    width: 16px;
     margin-left: 0.45em;
-    vertical-align: middle;
     padding-right:0;
+    vertical-align: middle;
+    width: 16px;
 }
 
 #page-mod-surveypro-layout_manage table#manageitems img.movetarget,
@@ -228,28 +228,28 @@
 /* taken from: http://www.techrepublic.com/blog/web-designer/customize-horizontal-rules-to-add-some-flair/ */
 #page-mod-surveypro-layout_manage hr.pagebreakcontent,
 #page-mod-surveypro-layout_validation hr.pagebreakcontent {
-    height: 18px;
+    border-radius: 45px;
     border-style: ridge;
     border-width: 3px 0 0 0;
-    border-radius: 45px;
+    height: 18px;
     margin: 10px 10px -10px 10px;
 }
 
 #page-mod-surveypro-layout_manage .dimmed hr.pagebreakcontent,
 #page-mod-surveypro-layout_validation .dimmed hr.pagebreakcontent {
-    color: white;
     border-width: 2px 0 0 0;
+    color: white;
 }
 
 #page-mod-surveypro-layout_manage hr.pagebreakcontent:before,
 #page-mod-surveypro-layout_validation hr.pagebreakcontent:before {
-    display: block;
-    content: "";
-    height: 20px;
-    margin-top: -25px;
+    border-radius: 45px;
     border-style: ridge;
     border-width: 0 0 2px 0;
-    border-radius: 45px;
+    content: "";
+    display: block;
+    height: 20px;
+    margin-top: -25px;
 }
 
 #page-mod-surveypro-layout_manage hr.fieldsetendcontent,
@@ -262,17 +262,17 @@
 
 /* Begin of: selectors for the static field explaining the format needed by each plugin in parentcontent field */
 #page-mod-surveypro-layout_itemsetup .pluginname {
+    /* border:1px green solid; */
+    float:left;
     left:0;
     width:25%;
-    float:left;
-    /*border:1px green solid;*/
 }
 
 #page-mod-surveypro-layout_itemsetup .inputformat {
-    position:relative;
-    padding-left:26%;
+    /* border:1px blue solid; */
     margin-left:26%;
-    /*border:1px blue solid;*/
+    padding-left:26%;
+    position:relative;
 }
 
 #page-mod-surveypro-layout_itemsetup .felement.fstatic ul {
@@ -359,8 +359,8 @@
 
 /* Begin of: fix to owful alignment of fielset legends in the cover */
 #page-mod-surveypro-view_cover .coverinfolegend {
-    margin-top:20px;
     margin-bottom:0;
+    margin-top:20px;
 }
 /* End of: fix to owful alignment of fielset legends in the cover */
 
@@ -414,8 +414,8 @@
 #page-mod-surveypro-layout_preview .mform select.rate_select,
 #page-mod-surveypro-view_form .mform select.rate_select,
 #page-mod-surveypro-view_search .mform select.rate_select {
-    margin-top:0.2em;
     margin-bottom:0.2em;
+    margin-top:0.2em;
 }
 /* End of: vertical distance between select in rate is too much */
 
@@ -432,8 +432,8 @@
 #page-mod-surveypro-layout_preview .mform div.rate_check,
 #page-mod-surveypro-view_form .mform div.rate_check,
 #page-mod-surveypro-view_search .mform div.rate_check {
-    padding-top:0;
     padding-bottom:0.5em;
+    padding-top:0;
 }
 /* End of: padding bottom for noanswer checkbox in a dedicated row, like, for instence, in rate elements */
 
