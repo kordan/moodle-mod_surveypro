@@ -102,5 +102,5 @@ Feature: test the use of recurrence setup form
     And I follow "layout_preview"
     Then I should see "II.a: When do you usually celebrate your name-day?"
     Then the field "id_surveypro_field_recurrence_2_day" matches value "1"
-    Then the field "id_surveypro_field_recurrence_2_month" matches value "January"
+    Then the field "id_surveypro_field_recurrence_2_month" matches value "February"
     Then I should see "Additional note"
