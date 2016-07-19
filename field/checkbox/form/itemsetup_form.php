@@ -159,6 +159,23 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         }
 
         // First check.
+        // Each single value has to be unique.
+        $arrayunique = array_unique($values);
+        if (count($values) != count($arrayunique)) {
+            $errors['options'] = get_string('ierr_valuesduplicated', 'surveyprofield_checkbox');
+        }
+        // Each single label has to be unique.
+        $arrayunique = array_unique($labels);
+        if (count($labels) != count($arrayunique)) {
+            $errors['options'] = get_string('ierr_labelduplicated', 'surveyprofield_checkbox');
+        }
+        // Each single default has to be unique.
+        $arrayunique = array_unique($cleandefaultvalue);
+        if (count($cleandefaultvalue) != count($arrayunique)) {
+            $errors['defaultvalue'] = get_string('ierr_defaultsduplicated', 'surveyprofield_checkbox');
+        }
+
+        // Second check.
         // Each item of default has to be among options OR has to be == to otherlabel value.
         // This also verify (helped by the third check) that the number of default is not greater than the number of options.
         if (!empty($data['defaultvalue'])) {
@@ -170,23 +187,11 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
             }
         }
 
-        // Second check.
+        // Third check.
         // No answer is not allowed if the item is mandatory.
         if ( isset($data['noanswerdefault']) && (isset($data['required'])) ) {
             $a = get_string('noanswer', 'mod_surveypro');
             $errors['noanswerdefault'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
-        }
-
-        // Third check.
-        // Each single option item has to be unique.
-        // Each single default item has to be unique.
-        $arrayunique = array_unique($cleanoptions);
-        if (count($cleanoptions) != count($arrayunique)) {
-            $errors['options'] = get_string('ierr_optionsduplicated', 'surveyprofield_checkbox');
-        }
-        $arrayunique = array_unique($cleandefaultvalue);
-        if (count($cleandefaultvalue) != count($arrayunique)) {
-            $errors['defaultvalue'] = get_string('ierr_defaultsduplicated', 'surveyprofield_checkbox');
         }
 
         // Fourth check.
