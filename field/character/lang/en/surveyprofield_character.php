@@ -30,7 +30,6 @@ $string['ierr_defaultbadlength'] = 'Default is not {$a} character long as implic
 $string['ierr_defaultisnotemail'] = 'Default does not math email pattern';
 $string['ierr_defaultisnoturl'] = 'Default does not appear a valid URL';
 $string['ierr_extracharfound'] = '{$a} characters are not allowed. Please, use only "A", "a", "*" and "0"';
-$string['ierr_maxltmin'] = 'Maximum length has be greater than minimum length';
 $string['ierr_minexceeds'] = 'Minimum length has to be positive';
 $string['ierr_mingtmax'] = 'Minimum length has be lower than maximum length';
 $string['ierr_nopatternmatch'] = 'Default does not match the required pattern';

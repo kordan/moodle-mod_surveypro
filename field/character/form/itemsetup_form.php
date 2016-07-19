@@ -115,7 +115,6 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
             if (!empty($data['maxlength'])) {
                 if ($data['minlength'] > $data['maxlength']) {
                     $errors['minlength'] = get_string('ierr_mingtmax', 'surveyprofield_character');
-                    $errors['maxlength'] = get_string('ierr_maxltmin', 'surveyprofield_character');
                 }
             } else {
                 // Minimum characters > 0.
