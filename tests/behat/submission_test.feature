@@ -65,11 +65,11 @@ Feature: make a submission test for each available item
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content             | Your user ID |
-      | Indent              | 0            |
-      | Question position   | left         |
-      | Element number      | 3            |
-      | id_element01_select | user ID      |
+      | Content            | Your user ID |
+      | Indent             | 0            |
+      | Question position  | left         |
+      | Element number     | 3            |
+      | id_element01select | user ID      |
     And I press "Add"
 
     # add two items using the 4th plugin

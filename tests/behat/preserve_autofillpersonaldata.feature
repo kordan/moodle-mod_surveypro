@@ -45,11 +45,11 @@ Feature: editing a submission, autofill userID is not overwritten
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content             | Your user ID |
-      | Indent              | 0            |
-      | Question position   | left         |
-      | Element number      | 1            |
-      | id_element01_select | user ID      |
+      | Content            | Your user ID |
+      | Indent             | 0            |
+      | Question position  | left         |
+      | Element number     | 1            |
+      | id_element01select | user ID      |
     And I press "Add"
 
     And I set the field "typeplugin" to "Autofill"
@@ -57,10 +57,10 @@ Feature: editing a submission, autofill userID is not overwritten
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content             | Your first name |
-      | Question position   | left            |
-      | Element number      | 2               |
-      | id_element01_select | user first name |
+      | Content            | Your first name |
+      | Question position  | left            |
+      | Element number     | 2               |
+      | id_element01select | user first name |
     And I press "Add"
 
     And I set the field "typeplugin" to "Autofill"
@@ -68,10 +68,10 @@ Feature: editing a submission, autofill userID is not overwritten
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content             | Your last name |
-      | Question position   | left           |
-      | Element number      | 3              |
-      | id_element01_select | user last name |
+      | Content            | Your last name |
+      | Question position  | left           |
+      | Element number     | 3              |
+      | id_element01select | user last name |
     And I press "Add"
 
     And I set the field "typeplugin" to "Boolean"

@@ -59,15 +59,15 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
             $fieldname = 'element'.$index;
 
             $elementgroup = array();
-            $elementgroup[] = $mform->createElement('selectgroups', $fieldname.'_select', '', $options);
-            $elementgroup[] = $mform->createElement('text', $fieldname.'_text', '');
+            $elementgroup[] = $mform->createElement('selectgroups', $fieldname.'select', '', $options);
+            $elementgroup[] = $mform->createElement('text', $fieldname.'text', '');
             $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_autofill'), ' ', false);
             $constantname = 'SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT'.SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT_COUNT;
 
-            $mform->disabledIf($fieldname.'_text', $fieldname.'_select', 'neq', constant($constantname));
+            $mform->disabledIf($fieldname.'text', $fieldname.'select', 'neq', constant($constantname));
 
             $mform->addHelpButton($fieldname.'_group', 'contentelement_group', 'surveyprofield_autofill');
-            $mform->setType($fieldname.'_text', PARAM_TEXT);
+            $mform->setType($fieldname.'text', PARAM_TEXT);
         }
         $mform->addRule('element01_group', get_string('required'), 'required', null, 'client');
 
@@ -98,7 +98,7 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         for ($i = 1; $i < 6; $i++) {
             $index = sprintf('%02d', $i);
             $fieldname = 'element'.$index;
-            if ( ($data[$fieldname.'_select'] == constant($constantname)) && (!$data[$fieldname.'_text']) ) {
+            if ( ($data[$fieldname.'select'] == constant($constantname)) && (!$data[$fieldname.'text']) ) {
                 $errors[$fieldname.'_group'] = get_string('ierr_contenttext', 'surveyprofield_autofill');
             }
         }
