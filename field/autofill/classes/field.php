@@ -318,13 +318,13 @@ class surveyprofield_autofill_field extends mod_surveypro_itembase {
         // 4. Other: special management for autofill contents.
         for ($i = 1; $i < 6; $i++) {
             $index = sprintf('%02d', $i);
-            if (!empty($record->{'element'.$index.'_select'})) {
+            if (!empty($record->{'element'.$index.'select'})) {
                 $constantname = 'SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT'.SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT_COUNT;
                 // In the meantime, update variables linked to fields of table surveypro_autofill.
-                if ($record->{'element'.$index.'_select'} == constant($constantname)) {
-                    $record->{'element'.$index} = $record->{'element'.$index.'_text'};
+                if ($record->{'element'.$index.'select'} == constant($constantname)) {
+                    $record->{'element'.$index} = $record->{'element'.$index.'text'};
                 } else {
-                    $record->{'element'.$index} = $record->{'element'.$index.'_select'};
+                    $record->{'element'.$index} = $record->{'element'.$index.'select'};
                 }
             }
         }
