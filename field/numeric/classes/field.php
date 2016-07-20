@@ -260,17 +260,17 @@ class surveyprofield_numeric_field extends mod_surveypro_itembase {
 
         // 4. Other: float numbers need more attention because I can write them using , or .
         if (strlen($record->defaultvalue)) {
-            $record->defaultvalue = unformat_float($record->defaultvalue, true);
+            $record->defaultvalue = $this->item_get_correct_number($record->defaultvalue);
         } else {
             unset($record->defaultvalue);
         }
         if (strlen($record->lowerbound)) {
-            $record->lowerbound = unformat_float($record->lowerbound, true);
+            $record->lowerbound = $this->item_get_correct_number($record->lowerbound);
         } else {
             unset($record->lowerbound);
         }
         if (strlen($record->upperbound)) {
-            $record->upperbound = unformat_float($record->upperbound, true);
+            $record->upperbound = $this->item_get_correct_number($record->upperbound);
         } else {
             unset($record->upperbound);
         }
@@ -283,26 +283,16 @@ class surveyprofield_numeric_field extends mod_surveypro_itembase {
      * @param double $justanumber
      * @return void
      */
-    public function item_atomize_number($justanumber) {
-        $pattern = '~^\s*(-?)([0-9]+)'.get_string('decsep', 'langconfig').'?([0-9]*)\s*$~';
-        preg_match($pattern, $justanumber, $matches);
-
-        return $matches;
-    }
-
-    /**
-     * Get the requested property.
-     *
-     * @param string $field
-     * @return the content of the field
-     */
-    public function item_get_generic_property($field) {
-        $doublefields = array('lowerbound', 'upperbound', 'defaultvalue');
-        if (in_array($field, $doublefields)) {
-            $value = parent::item_get_generic_property($field);
-            return unformat_float($value, true);
+    public function item_get_correct_number($justanumber) {
+        $pattern = '~^\s*(-?)([0-9]+)['.get_string('decsep', 'langconfig').']?([0-9]*)\s*$~';
+        if (preg_match($pattern, $justanumber, $matches)) {
+            if (empty($matches[3])) {
+                return $matches[1].$matches[2];
+            } else {
+                return $matches[1].$matches[2].'.'.$matches[3];
+            }
         } else {
-            return parent::item_get_generic_property($field);
+            return false;
         }
     }
 
@@ -442,27 +432,23 @@ EOS;
             }
         }
 
-        if (empty($draftuserinput)) {
+        if (!strlen($draftuserinput)) {
             return;
         }
 
-        if (strlen($draftuserinput)) {
-            $matches = $this->item_atomize_number($draftuserinput);
-            if (empty($matches)) {
-                // It is not a number, shouts.
-                $errors[$errorkey] = get_string('uerr_notanumber', 'surveyprofield_numeric');
-                return;
-            } else {
-                $userinput = unformat_float($draftuserinput, true);
-                // If it is < 0 but has been defined as unsigned, shouts.
-                if (!$this->signed && ($userinput < 0)) {
-                    $errors[$errorkey] = get_string('uerr_negative', 'surveyprofield_numeric');
-                }
-                // If it has decimal but has been defined as integer, shouts.
-                $isinteger = (bool)(strval(intval($userinput)) == strval($userinput));
-                if (($this->decimals == 0) && (!$isinteger)) {
-                    $errors[$errorkey] = get_string('uerr_notinteger', 'surveyprofield_numeric');
-                }
+        if (!$userinput = $this->item_get_correct_number($draftuserinput)) {
+            // It is not a number, shouts.
+            $errors[$errorkey] = get_string('uerr_notanumber', 'surveyprofield_numeric');
+            return;
+        } else {
+            // If it is < 0 but has been defined as unsigned, shouts.
+            if (!$this->signed && ($userinput < 0)) {
+                $errors[$errorkey] = get_string('uerr_negative', 'surveyprofield_numeric');
+            }
+            // If it has decimal but has been defined as integer, shouts.
+            $isinteger = (bool)(strval(intval($userinput)) == strval($userinput));
+            if (($this->decimals == 0) && (!$isinteger)) {
+                $errors[$errorkey] = get_string('uerr_notinteger', 'surveyprofield_numeric');
             }
         }
 
@@ -470,11 +456,9 @@ EOS;
         $hasupperbound = (strlen($this->upperbound));
 
         if ($haslowerbound && $hasupperbound) {
-            if ($this->lowerbound < $this->upperbound) {
-                // Internal range.
-                if ( ($userinput < $this->lowerbound) || ($userinput > $this->upperbound) ) {
-                    $errors[$errorkey] = get_string('uerr_outofinternalrange', 'surveyprofield_numeric');
-                }
+            // Internal range.
+            if ( ($userinput < $this->lowerbound) || ($userinput > $this->upperbound) ) {
+                $errors[$errorkey] = get_string('uerr_outofinternalrange', 'surveyprofield_numeric');
             }
 
             if ($this->lowerbound > $this->upperbound) {
@@ -517,13 +501,7 @@ EOS;
             $a->lowerbound = $this->lowerbound;
             $a->upperbound = $this->upperbound;
 
-            if ($this->lowerbound < $this->upperbound) {
-                $arrayinstruction[] = get_string('restriction_lowerupper', 'surveyprofield_numeric', $a);
-            }
-
-            if ($this->lowerbound > $this->upperbound) {
-                $arrayinstruction[] = get_string('restriction_upperlower', 'surveyprofield_numeric', $a);
-            }
+            $arrayinstruction[] = get_string('restriction_lowerupper', 'surveyprofield_numeric', $a);
         } else {
             if ($haslowerbound) {
                 $a = $this->lowerbound;
@@ -576,7 +554,7 @@ EOS;
         if (strlen($content) == 0) {
             $olduseranswer->content = null;
         } else {
-            $content = unformat_float($content, true);
+            $content = $this->item_get_correct_number($content);
             $olduseranswer->content = round($content, $this->decimals);
         }
     }
@@ -596,7 +574,7 @@ EOS;
 
         if (isset($fromdb->content)) {
             // If it is a number, write it using number_format otherwise simply write it.
-            $matches = $this->item_atomize_number($fromdb->content);
+            $matches = $this->item_get_correct_number($fromdb->content);
             if (empty($matches)) {
                 // It is not a number.
                 $prefill[$this->itemname] = $fromdb->content;

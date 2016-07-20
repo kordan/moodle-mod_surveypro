@@ -107,24 +107,18 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         $draftnumber = $data['lowerbound'];
         // Get lowerbound.
         if (strlen($draftnumber)) {
-            $matches = $item->item_atomize_number($draftnumber);
-            if (empty($matches)) {
+            if (!$lowerbound = $item->item_get_correct_number($draftnumber)) {
                 $errors['lowerbound'] = get_string('ierr_notanumber', 'surveyprofield_numeric');
                 return $errors;
-            } else {
-                $lowerbound = unformat_float($draftnumber, true);
             }
         }
 
         $draftnumber = $data['upperbound'];
         // Get upperbound.
         if (strlen($draftnumber)) {
-            $matches = $item->item_atomize_number($draftnumber);
-            if (empty($matches)) {
+            if (!$upperbound = $item->item_get_correct_number($draftnumber)) {
                 $errors['upperbound'] = get_string('ierr_notanumber', 'surveyprofield_numeric');
                 return $errors;
-            } else {
-                $upperbound = unformat_float($draftnumber, true);
             }
         }
 
@@ -141,7 +135,6 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
             if (isset($lowerbound) && ($lowerbound < 0)) {
                 $errors['lowerbound'] = get_string('ierr_lowernegative', 'surveyprofield_numeric');
             }
-
             if (isset($upperbound) && ($upperbound < 0)) {
                 $errors['upperbound'] = get_string('ierr_uppernegative', 'surveyprofield_numeric');
             }
@@ -150,12 +143,9 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         $draftnumber = $data['defaultvalue'];
         // Get defaultvalue.
         if (strlen($draftnumber)) {
-            $matches = $item->item_atomize_number($draftnumber);
-            if (empty($matches)) {
+            if (!$defaultvalue = $item->item_get_correct_number($draftnumber)) {
                 $errors['defaultvalue'] = get_string('ierr_notanumber', 'surveyprofield_numeric');
             } else {
-                $defaultvalue = unformat_float($draftnumber, true);
-
                 // Constrain default between boundaries.
                 // If it is < 0 but has been defined as unsigned, shouts.
                 if ((!isset($data['signed'])) && ($defaultvalue < 0)) {
@@ -169,19 +159,9 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
                 }
 
                 if (isset($lowerbound) && isset($upperbound)) {
-                    if ($lowerbound < $upperbound) {
-                        // Internal range.
-                        if ( ($defaultvalue < $lowerbound) || ($defaultvalue > $upperbound) ) {
-                            $errors['defaultvalue'] = get_string('ierr_outofrangedefault', 'surveyprofield_numeric');
-                        }
-                    }
-
-                    if ($lowerbound > $upperbound) {
-                        // External range.
-                        if (($defaultvalue > $upperbound) && ($defaultvalue < $lowerbound)) {
-                            $a = get_string('upperbound', 'surveyprofield_numeric');
-                            $errors['defaultvalue'] = get_string('ierr_outofexternalrangedefault', 'surveyprofield_numeric', $a);
-                        }
+                    // Internal range.
+                    if ( ($defaultvalue < $lowerbound) || ($defaultvalue > $upperbound) ) {
+                        $errors['defaultvalue'] = get_string('ierr_outofrangedefault', 'surveyprofield_numeric');
                     }
                 } else {
                     if (isset($lowerbound)) {
