@@ -94,19 +94,30 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
         $errors = parent::validation($data, $files);
 
+        if ($data['filetypes'] == '*') {
+            return $errors;
+        }
+
         $filetypes = array_map('trim', explode(',', $data['filetypes']));
         foreach ($filetypes as $filetype) {
             if (!$filetype) {
                 $errors['filetypes'] = get_string('ierr_extensionisempty', 'surveyprofield_fileupload');
                 break;
             }
-            if ($filetype != '*') {
+            if ($filetype == '*') {
+                $errors['filetypes'] = get_string('ierr_staramongextensions', 'surveyprofield_fileupload');
+                break;
+            } else {
                 if ($filetype[0] != '.') {
                     $errors['filetypes'] = get_string('ierr_extensionmissingdot', 'surveyprofield_fileupload');
                     break;
                 }
-                if ($count > 1) {
+                if (strpos($filetype, '.', 1) !== false) {
                     $errors['filetypes'] = get_string('ierr_extensiononlyonedot', 'surveyprofield_fileupload');
+                    break;
+                }
+                if (preg_match('~[^a-z0-9]~', substr($filetype, 1))) {
+                    $errors['filetypes'] = get_string('ierr_dirtyextension', 'surveyprofield_fileupload');
                     break;
                 }
             }

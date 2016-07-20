@@ -25,9 +25,11 @@
 $string['filetypes_help'] = 'The comma separated list of allowed file extension';
 $string['filetypes'] = 'Allowed file types (comma separated)';
 $string['fileextensions'] = 'Allowed file extensions: ';
-$string['ierr_extensionisempty'] = 'Extension can not be empty. Probabily you typed a comma twice';
-$string['ierr_extensionmissingdot'] = 'Extension/s start with a dot';
-$string['ierr_extensiononlyonedot'] = 'Only one dot is allowed per each extension';
+$string['ierr_extensionisempty'] = 'File extensions can not be empty. Probabily you typed a comma twice.';
+$string['ierr_extensionmissingdot'] = 'File extensions must start with a dot';
+$string['ierr_extensiononlyonedot'] = 'Only one dot is allowed per each file extensions';
+$string['ierr_dirtyextension'] = 'Only lower case letters and numbers are allowed into file extensions';
+$string['ierr_staramongextensions'] = '\'*\' is meaningful only if used individually';
 $string['maxbytes_help'] = 'Maximum size of the file to upload';
 $string['maxbytes'] = 'Maximum file size';
 $string['maxfiles_help'] = 'Maximum uploadable attachments';

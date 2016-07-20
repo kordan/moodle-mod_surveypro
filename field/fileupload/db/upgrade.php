@@ -55,5 +55,20 @@ function xmldb_surveyprofield_fileupload_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2014051701, 'surveyprofield', 'fileupload');
     }
 
+    if ($oldversion < 2016072001) {
+
+        // Define field hideinstructions to be added to surveyprofield_fileupload.
+        $table = new xmldb_table('surveyprofield_fileupload');
+        $field = new xmldb_field('hideinstructions', XMLDB_TYPE_INTEGER, '4', null, null, null, null, 'required');
+
+        // Conditionally launch add field hideinstructions.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Fileupload savepoint reached.
+        upgrade_plugin_savepoint(true, 2016072001, 'surveyprofield', 'fileupload');
+    }
+
     return true;
 }
