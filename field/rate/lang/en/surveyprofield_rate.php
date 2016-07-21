@@ -51,3 +51,6 @@ $string['uerr_optionnotset'] = 'Please choose an option';
 $string['usemenu'] = 'dropdown menu';
 $string['useradio'] = 'radio buttons';
 $string['userfriendlypluginname'] = 'Rate';
+$string['ierr_labelsduplicated'] = 'Rates must be different each other';
+$string['ierr_valuesduplicated'] = 'Values must be different each other';
+$string['ierr_optionsduplicated'] = 'Options must be different each other';
