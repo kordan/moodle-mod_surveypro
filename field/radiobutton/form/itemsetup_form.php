@@ -154,6 +154,19 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
             }
         }
 
+        // First check.
+        // Each single value has to be unique.
+        $arrayunique = array_unique($values);
+        if (count($values) != count($arrayunique)) {
+            $errors['options'] = get_string('ierr_valuesduplicated', 'surveyprofield_radiobutton');
+        }
+        // Each single label has to be unique.
+        $arrayunique = array_unique($labels);
+        if (count($labels) != count($arrayunique)) {
+            $errors['options'] = get_string('ierr_labelsduplicated', 'surveyprofield_radiobutton');
+        }
+
+        // Second check.
         // Editing teacher can not set "noanswer" as default option if the item is mandatory.
         if ( ($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required']) ) {
             $a = get_string('noanswer', 'mod_surveypro');
@@ -162,22 +175,15 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
 
         if ($data['defaultoption'] == SURVEYPRO_CUSTOMDEFAULT) {
             if (empty($data['defaultvalue'])) {
-                // First check.
+                // Third check.
                 // User asks for SURVEYPRO_CUSTOMDEFAULT but doesn't provide it.
                 $a = get_string('invitedefault', 'mod_surveypro');
                 $errors['defaultoption_group'] = get_string('ierr_missingdefault', 'surveyprofield_radiobutton', $a);
             } else {
-                // Second check.
+                // Fourth check.
                 // Each item of default has to also be among options OR has to be == to otherlabel value.
                 if (!in_array($cleandefaultvalue, $labels)) {
                     $errors['defaultvalue'] = get_string('ierr_foreigndefaultvalue', 'surveyprofield_radiobutton', $cleandefaultvalue);
-                }
-
-                // Third check.
-                // Each single option item has to be unique.
-                $arrayunique = array_unique($cleanoptions);
-                if (count($cleanoptions) != count($arrayunique)) {
-                    $errors['options'] = get_string('ierr_optionsduplicated', 'surveyprofield_radiobutton');
                 }
             }
         }
