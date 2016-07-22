@@ -344,7 +344,7 @@ class mod_surveypro_itembaseform extends moodleform {
         // Useless: $item = $this->_customdata->item;.
         // Useless: $surveypro = $this->_customdata->surveypro;.
 
-        $errors = array();
+        $errors = parent::validation($data, $files);
 
         // Editing teacher can not set "noanswer" as default option if the item is mandatory.
         if ( isset($data['defaultvalue_check']) && isset($data['required']) ) {

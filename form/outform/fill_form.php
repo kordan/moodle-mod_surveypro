@@ -276,9 +276,9 @@ class mod_surveypro_outform extends moodleform {
         }
 
         $errors = parent::validation($data, $files);
-        $warnings = array();
 
         // Validate an item only if is enabled, alias: only if its content matches the parent-child constrain
+        $warnings = array();
         $olditemid = 0;
         foreach ($data as $elementname => $content) {
             if ($matches = mod_surveypro_utility::get_item_parts($elementname)) {

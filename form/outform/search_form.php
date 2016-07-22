@@ -134,7 +134,7 @@ class mod_surveypro_searchform extends moodleform {
         $surveypro = $this->_customdata->surveypro;
         // Useless: $canaccessreserveditems = $this->_customdata->canaccessreserveditems;.
 
-        $errors = array();
+        $errors = parent::validation($data, $files);
 
         $olditemid = 0;
         foreach ($data as $elementname => $unused) {
