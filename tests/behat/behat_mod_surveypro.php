@@ -59,6 +59,32 @@ class behat_mod_surveypro extends behat_base {
     }
 
     /**
+     * Checks, the multiline field matches the value. More info in http://docs.moodle.org/dev/Acceptance_testing#Providing_values_to_steps.
+     *
+     * @Then /^the multiline field "(?P<field_string>(?:[^"]|\\")*)" matches value "(?P<field_value_string>(?:[^"]|\\")*)"$/
+     * @throws ElementNotFoundException Thrown by behat_base::find
+     * @param string $textareafield
+     * @param string $value
+     * @return void
+     */
+    public function the_multiline_field_matches_value($textareafield, $multilinevalue) {
+
+        // Get the field.
+        $formfield = behat_field_manager::get_form_field_from_label($textareafield, $this);
+
+        $multilinevalue = implode("\n", explode('\n', $multilinevalue));
+
+        // Checks if the provided value matches the current field value.
+        if (!$formfield->matches($multilinevalue)) {
+            $fieldvalue = $formfield->get_value();
+            throw new ExpectationException(
+                'The \'' . $textareafield . '\' value is \'' . $fieldvalue . '\', \'' . $multilinevalue . '\' expected' ,
+                $this->getSession()
+            );
+        }
+    }
+
+    /**
      * Check the number of displayed submissions.
      *
      * @throws ExpectationException
