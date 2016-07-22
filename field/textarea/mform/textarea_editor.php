@@ -41,7 +41,7 @@ require_once($CFG->libdir.'/form/editor.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveypromform_textarea extends MoodleQuickForm_editor {
+class surveypromform_textarea_editor extends MoodleQuickForm_editor {
 
     /**
      * Constructor.
@@ -85,7 +85,6 @@ class surveypromform_textarea extends MoodleQuickForm_editor {
         $class = empty($this->_attributes['class']) ? 'indent-0' : $this->_attributes['class'];
         $replacement = $tabs.'<div class="'.$class.'">';
         $output = preg_replace($pattern, $replacement, $output);
-
         return $output;
     }
 
@@ -95,18 +94,24 @@ class surveypromform_textarea extends MoodleQuickForm_editor {
      * @return empty string
      */
     public function getFrozenHtml() {
-        $value = strlen($this->_values['text']) ? $this->_values['text'] : '&nbsp;';
+        $complexvalue = $this->getValue();
+        $value = strlen($complexvalue['text']) ? $complexvalue['text'] : '&nbsp;';
 
+        $class = array();
+        $class['id'] = $this->getAttribute('id');
+        $class['name'] = $this->getAttribute('name');
         if (empty($this->_attributes['class'])) {
-            $class = array('class' => 'indent-0');
+            $class['class'] = 'indent-0 ';
         } else {
-            $class = array('class' => $this->_attributes['class']);
+            $class['class'] = $this->_attributes['class'];
         }
+        $class['readonly'] = 'true';
 
         $output = $this->_getTabs();
-        $output .= html_writer::tag('div', $value, $class);
+        $output .= html_writer::start_tag('textarea', $class);
+        $output .= $value;
+        $output .= html_writer::end_tag('textarea');
         $output .= $this->_getPersistantData();
-
         return $output;
     }
 }
