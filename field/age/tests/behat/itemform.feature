@@ -2,7 +2,7 @@
 Feature: test the use of age setup form
   In order to test age setup form
   As a teacher
-  I fill each its field and I returnback to verify all is where I wrote it
+  I fill each its field and I return back to verify all is where I wrote it
 
   @javascript
   Scenario: use reserved elements
