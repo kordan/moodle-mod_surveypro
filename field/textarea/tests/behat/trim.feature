@@ -1,0 +1,79 @@
+@mod @mod_surveypro @surveyprofield @surveyprofield_textarea
+Feature: test the use of textarea setup form
+  In order to test textarea trim feature
+  As a student
+  I fill a field and I verify what is in it
+
+  @javascript
+  Scenario: use reserved elements
+    Given the following "courses" exist:
+      | fullname           | shortname          | category | groupmode |
+      | Textarea trim test | Textarea trim test | 0        | 0         |
+    And the following "users" exist:
+      | username | firstname | lastname | email                |
+      | teacher1 | Teacher   | 1        | teacher1@nowhere.net |
+      | student1 | Student1  | user1    | student1@nowhere.net |
+    And the following "course enrolments" exist:
+      | user     | course         | role           |
+      | teacher1 | Textarea trim test | editingteacher |
+      | student1 | Textarea trim test | student        |
+    And the following "activities" exist:
+      | activity  | name               | intro              | course             | idnumber   |
+      | surveypro | Test textarea trim | Test textarea trim | Textarea trim test | surveypro1 |
+    And I log in as "teacher1"
+    And I follow "Textarea trim test"
+    And I follow "Test textarea trim"
+
+    # add an textarea item
+    And I set the field "typeplugin" to "Text (long)"
+    And I press "Add"
+
+    And I expand all fieldsets
+    And I set the following fields to these values:
+      | Content                        | This is a standard text  |
+      | Required                       | 1                        |
+      | Clean answer at save time      | 0                        |
+      | Additional note                | This will not be trimmed |
+      | Minimum length (in characters) | 20                       |
+      | Maximum length (in characters) | 30                       |
+    And I press "Add"
+
+    # add one more textarea item
+    And I set the field "typeplugin" to "Text (long)"
+    And I press "Add"
+
+    And I expand all fieldsets
+    And I set the following fields to these values:
+      | Content                        | Text to trim         |
+      | Required                       | 1                    |
+      | Clean answer at save time      | 1                    |
+      | Additional note                | This will be trimmed |
+      | Minimum length (in characters) | 20                   |
+      | Maximum length (in characters) | 30                   |
+    And I press "Add"
+
+    And I log out
+    When I log in as "student1"
+    And I follow "Textarea trim test"
+    And I follow "Test textarea trim"
+
+    # Test number 1: Student insert a record
+    And I press "New response"
+    And I set the field "This is a standard text" to "   false long text   "
+    And I set the field "Text to trim" to "   false long text   "
+    And I press "Submit"
+
+    Then I should see "Text is too short"
+    And I set the field "This is a standard text" to ""
+    And I set the field "Text to trim" to "   text correctly stretched   "
+    And I press "Submit"
+
+    Then I should see "Required"
+    Then I should see "Answer will be cleaned by trailing spaces"
+    And I set the field "This is a standard text" to "   false long text   "
+    And I press "Submit"
+
+    And I press "Continue to responses list"
+    And I follow "view_submission_row_1"
+    Then the field "id_surveypro_field_textarea_1" matches value "   false long text   "
+    Then the field "id_surveypro_field_textarea_2" matches value "text correctly stretched"

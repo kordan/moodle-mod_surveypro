@@ -388,11 +388,11 @@ EOS;
             $attributes['rows'] = $this->arearows;
             $attributes['cols'] = $this->areacols;
             if (!$searchform) {
-                $mform->addElement('textarea', $fieldname, $elementlabel, $attributes);
+                $mform->addElement('mod_surveypro_textarea_plain', $fieldname, $elementlabel, $attributes);
                 $mform->setType($fieldname, PARAM_TEXT);
             } else {
                 $elementgroup = array();
-                $elementgroup[] = $mform->createElement('textarea', $fieldname, $elementlabel, $attributes);
+                $elementgroup[] = $mform->createElement('mod_surveypro_textarea_plain', $fieldname, $elementlabel, $attributes);
 
                 $itemname = $this->itemname.'_ignoreme';
                 $starstr = get_string('star', 'mod_surveypro');
@@ -410,7 +410,7 @@ EOS;
             $attributes['class'] = 'indent-'.$this->indent.' textarea_editor';
             $fieldname = $this->itemname.'_editor';
             $editoroptions = array('trusttext' => true, 'subdirs' => true, 'maxfiles' => EDITOR_UNLIMITED_FILES);
-            $mform->addElement('mod_surveypro_textarea', $fieldname, $elementlabel, $attributes, $editoroptions);
+            $mform->addElement('mod_surveypro_textarea_editor', $fieldname, $elementlabel, $attributes, $editoroptions);
             $mform->setType($fieldname, PARAM_CLEANHTML);
         }
 
@@ -481,7 +481,7 @@ EOS;
 
         if ($this->minlength > 0) {
             if (isset($this->maxlength) && ($this->maxlength > 0)) {
-                $a = new StadClass();
+                $a = new StdClass();
                 $a->minlength = $this->minlength;
                 $a->maxlength = $this->maxlength;
                 $arrayinstruction[] = get_string('hasminmaxlength', 'surveyprofield_textarea', $a);
