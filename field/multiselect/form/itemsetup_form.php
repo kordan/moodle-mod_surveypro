@@ -146,12 +146,17 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         }
 
         // Second check.
-        // Each single option item has to be unique.
-        // Each single default item has to be unique.
-        $arrayunique = array_unique($cleanoptions);
-        if (count($cleanoptions) != count($arrayunique)) {
-            $errors['options'] = get_string('ierr_optionsduplicated', 'surveyprofield_multiselect');
+        // Each single value has to be unique.
+        $arrayunique = array_unique($values);
+        if (count($values) != count($arrayunique)) {
+            $errors['options'] = get_string('ierr_valuesduplicated', 'surveyprofield_multiselect');
         }
+        // Each single label has to be unique.
+        $arrayunique = array_unique($labels);
+        if (count($labels) != count($arrayunique)) {
+            $errors['options'] = get_string('ierr_labelsduplicated', 'surveyprofield_multiselect');
+        }
+        // Each single default has to be unique.
         $arrayunique = array_unique($cleandefaultvalue);
         if (count($cleandefaultvalue) != count($arrayunique)) {
             $errors['defaultvalue'] = get_string('ierr_defaultsduplicated', 'surveyprofield_multiselect');

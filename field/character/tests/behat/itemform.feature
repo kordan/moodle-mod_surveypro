@@ -1,7 +1,7 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_character
 Feature: test the use of character setup form
   In order to test character setup form
-  As a teacher and student
+  As a teacher
   I fill each its field and I returnback to verify all is where I wrote it
 
   @javascript

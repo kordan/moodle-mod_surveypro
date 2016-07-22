@@ -1,7 +1,7 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_time
 Feature: test the use of time setup form
   In order to test time setup form
-  As a teacher and student
+  As a teacher
   I fill each its field and I returnback to verify all is where I wrote it
 
   @javascript

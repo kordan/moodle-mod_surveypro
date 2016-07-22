@@ -1,7 +1,7 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_shortdate
 Feature: test the use of shortdate setup form
   In order to test shortdate setup form
-  As a teacher and student
+  As a teacher
   I fill each its field and I returnback to verify all is where I wrote it
 
   @javascript

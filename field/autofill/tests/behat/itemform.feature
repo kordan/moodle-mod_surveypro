@@ -1,7 +1,7 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_autofill
 Feature: test the use of autofill setup form
   In order to test autofill setup form
-  As a teacher and student
+  As a teacher
   I fill each its field and I returnback to verify all is where I wrote it
 
   @javascript
