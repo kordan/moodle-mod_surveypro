@@ -1375,7 +1375,7 @@ class mod_surveypro_itembase {
             if (!$this->get_hideinstructions()) {
                 $fillinginstruction = $this->userform_get_filling_instructions();
             }
-            if (isset($this->extranote)) {
+            if (!empty($this->extranote)) {
                 $extranote = strip_tags($this->extranote);
             }
         } else {
