@@ -96,7 +96,7 @@ class mod_surveypro_chooseitemform extends moodleform {
         // Get _customdata.
         // Useless: $surveypro = $this->_customdata->surveypro;.
 
-        $errors = array();
+        $errors = parent::validation($data, $files);
 
         if (!$data['itemid']) {
             $errors['itemid'] = get_string('pleasechooseavalue', 'surveyproreport_frequency');

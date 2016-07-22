@@ -108,6 +108,7 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         // Useless: $surveypro = $this->_customdata->surveypro;.
 
         $errors = parent::validation($data, $files);
+
         if (strlen($data['maxlength'])) {
             $isinteger = (bool)(strval(intval($data['maxlength'])) == strval($data['maxlength']));
             if (!$isinteger) {
