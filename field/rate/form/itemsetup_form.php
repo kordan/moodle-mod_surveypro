@@ -138,30 +138,46 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         $cleanrates = surveypro_multilinetext_to_array($data['rates']);
         $cleandefaultvalue = isset($data['defaultvalue']) ? surveypro_multilinetext_to_array($data['defaultvalue']) : '';
 
+        $values = array();
+        $labels = array();
+        foreach ($cleanrates as $rate) {
+            if (strpos($rate, SURVEYPRO_VALUELABELSEPARATOR) === false) {
+                $values[] = $rate;
+                $labels[] = $rate;
+            } else {
+                $pair = explode(SURVEYPRO_VALUELABELSEPARATOR, $rate);
+                $values[] = $pair[0];
+                $labels[] = $pair[1];
+            }
+        }
+
+        // Each single label has to be unique.
+        $arrayunique = array_unique($labels);
+        if (count($labels) != count($arrayunique)) {
+            $errors['rates'] = get_string('ierr_labelsduplicated', 'surveyprofield_rate');
+        }
+        // Each single value has to be unique.
+        $arrayunique = array_unique($values);
+        if (count($values) != count($arrayunique)) {
+            $errors['rates'] = get_string('ierr_valuesduplicated', 'surveyprofield_rate');
+        }
+        // Each single option has to be unique.
+        $arrayunique = array_unique($labels);
+        if (count($labels) != count($arrayunique)) {
+            $errors['options'] = get_string('ierr_optionsduplicated', 'surveyprofield_rate');
+        }
+
         // If a default is required.
         if ($data['defaultoption'] == SURVEYPRO_CUSTOMDEFAULT) {
             // Defaults count has to be equal to the number of the options.
             if (count($cleandefaultvalue) != count($cleanoptions)) {
-                $errors['defaultvalue_group'] = get_string('ierr_invaliddefaultscount', 'surveyprofield_rate');
-            }
-
-            $values = array();
-            $labels = array();
-            foreach ($cleanrates as $rate) {
-                if (strpos($rate, SURVEYPRO_VALUELABELSEPARATOR) === false) {
-                    $values[] = $rate;
-                    $labels[] = $rate;
-                } else {
-                    $pair = explode(SURVEYPRO_VALUELABELSEPARATOR, $rate);
-                    $values[] = $pair[0];
-                    $labels[] = $pair[1];
-                }
+                $errors['defaultvalue'] = get_string('ierr_invaliddefaultscount', 'surveyprofield_rate');
             }
 
             // Values in the default field must all be hold among rates ($labels).
             foreach ($cleandefaultvalue as $default) {
                 if (!in_array($default, $labels)) {
-                    $errors['defaultvalue_group'] = get_string('ierr_foreigndefaultvalue', 'surveyprofield_rate', $default);
+                    $errors['defaultvalue'] = get_string('ierr_foreigndefaultvalue', 'surveyprofield_rate', $default);
                     break;
                 }
             }
@@ -184,7 +200,7 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
             if ($data['defaultoption'] == SURVEYPRO_CUSTOMDEFAULT) {
                 // If I claim for different rates, I have to respect the constraint in the default.
                 if (count($cleandefaultvalue) > count(array_unique($cleandefaultvalue))) {
-                    $errors['defaultvalue_group'] = get_string('ierr_defaultsduplicated', 'surveyprofield_rate');
+                    $errors['defaultvalue'] = get_string('ierr_defaultsduplicated', 'surveyprofield_rate');
                 }
             }
         }
