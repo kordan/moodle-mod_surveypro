@@ -2,7 +2,7 @@
 Feature: test the use of date setup form
   In order to test date setup form
   As a teacher
-  I fill each its field and I returnback to verify all is where I wrote it
+  I fill each its field and I return back to verify all is where I wrote it
 
   @javascript
   Scenario: use reserved elements
