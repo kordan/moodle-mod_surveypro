@@ -28,6 +28,7 @@
 require_once(__DIR__ . '/../../../../lib/behat/behat_base.php');
 
 use Behat\Behat\Context\Step\Given as Given,
+    Behat\Gherkin\Node\PyStringNode as PyStringNode,
     Behat\Gherkin\Node\TableNode as TableNode,
     Behat\Mink\Exception\ExpectationException as ExpectationException;
 
@@ -42,46 +43,17 @@ use Behat\Behat\Context\Step\Given as Given,
 class behat_mod_surveypro extends behat_base {
 
     /**
-     * Fill a textarea with a multiline content.
+     * Checks, the field matches the multiline value.
      *
-     * @Given /^I fill the textarea "(?P<textarea_name>(?:[^"]|\\")*)" with multiline content "(?P<multiline_content>(?:[^"]|\\")*)"$/
-     * @param string $textareafield
-     * @param string $multilinevalue
-     * @return void
-     */
-    public function i_fill_the_textarea_with_multiline_content($textareafield, $multilinevalue) {
-        $textareafield = $this->escape($textareafield);
-        $multilinevalue = implode("\n", explode('\n', $multilinevalue));
-
-        return array(
-            new Given("I set the field \"$textareafield\" to \"$multilinevalue\"")
-        );
-    }
-
-    /**
-     * Checks, the multiline field matches the value. More info in http://docs.moodle.org/dev/Acceptance_testing#Providing_values_to_steps.
-     *
-     * @Then /^the multiline field "(?P<field_string>(?:[^"]|\\")*)" matches value "(?P<field_value_string>(?:[^"]|\\")*)"$/
+     * @Then /^the field "(?P<field_string>(?:[^"]|\\")*)" matches multiline:$/
      * @throws ElementNotFoundException Thrown by behat_base::find
-     * @param string $textareafield
+     * @param string $field
      * @param string $value
      * @return void
      */
-    public function the_multiline_field_matches_value($textareafield, $multilinevalue) {
-
-        // Get the field.
-        $formfield = behat_field_manager::get_form_field_from_label($textareafield, $this);
-
-        $multilinevalue = implode("\n", explode('\n', $multilinevalue));
-
-        // Checks if the provided value matches the current field value.
-        if (!$formfield->matches($multilinevalue)) {
-            $fieldvalue = $formfield->get_value();
-            throw new ExpectationException(
-                'The \'' . $textareafield . '\' value is \'' . $fieldvalue . '\', \'' . $multilinevalue . '\' expected' ,
-                $this->getSession()
-            );
-        }
+    public function the_field_matches_multiline($field, PyStringNode $value) {
+        $this->execute('behat_forms::the_field_matches_value', array($field, (string)$value));
+        // $this->the_field_matches_value($field, (string)$value);
     }
 
     /**

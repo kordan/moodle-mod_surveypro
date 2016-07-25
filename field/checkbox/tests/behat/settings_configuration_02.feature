@@ -37,7 +37,18 @@ Feature: Validate creation and submit for "checkbox" elements using the principa
     Given I set the following fields to these values:
       | Content                  | What do you usually get for breakfast? |
       | Required                 | 0                                      |
-    And I fill the textarea "Options" with multiline content "milk\ncoffee\nbutter\nbread"
+    And I set the field "Options" to multiline:
+      """
+      milk
+
+
+      coffee
+           butter
+
+      bread
+
+
+      """
     And I set the following fields to these values:
       | Default                  | coffee                                 |
       | Minimum required options | 0                                      |
@@ -84,7 +95,18 @@ Feature: Validate creation and submit for "checkbox" elements using the principa
     Given I set the following fields to these values:
       | Content                  | What do you usually get for breakfast? |
       | Required                 | 0                                      |
-    And I fill the textarea "Options" with multiline content "milk\ncoffee\nbutter\nbread"
+    And I set the field "Options" to multiline:
+      """
+      milk
+
+
+      coffee
+           butter
+
+      bread
+
+
+      """
     And I set the following fields to these values:
       | Default                  | coffee                                 |
       | Minimum required options | 2                                      |

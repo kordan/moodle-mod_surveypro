@@ -108,7 +108,16 @@ Feature: make a submission test for each available item
       | Indent            | 0                                      |
       | Question position | left                                   |
       | Element number    | 5                                      |
-    And I fill the textarea "Options" with multiline content "milk\nsugar\njam\nchocolate"
+    And I set the field "Options" to multiline:
+      """
+          milk
+      sugar
+
+
+          jam
+      chocolate
+
+      """
     And I press "Add"
 
     # add an item using the 6th plugin
@@ -182,7 +191,16 @@ Feature: make a submission test for each available item
       | Indent                 | 0                                      |
       | Question position      | left                                   |
       | Element number         | 10                                     |
-    And I fill the textarea "Options" with multiline content "milk\nsugar\njam\nchocolate"
+    And I set the field "Options" to multiline:
+      """
+          milk
+      sugar
+
+
+          jam
+      chocolate
+
+      """
     And I press "Add"
 
     # add an item using the 11th plugin
@@ -213,7 +231,21 @@ Feature: make a submission test for each available item
       | Indent            | 0                                          |
       | Question position | left                                       |
       | Element number    | 12                                         |
-    And I fill the textarea "Options" with multiline content "sea\nmountain\nlake\nhills\ndesert"
+    And I set the field "Options" to multiline:
+      """
+
+
+      sea
+           mountain
+      lake
+
+      hills
+
+
+
+      desert
+
+      """
     And I press "Add"
 
     # add an item using the 19th plugin
@@ -235,8 +267,31 @@ Feature: make a submission test for each available item
       | Required       | 1                                                   |
       | Indent         | 0                                                   |
       | Element number | 13a                                                 |
-    And I fill the textarea "Options" with multiline content "Italian\nSpanish\nEnglish\nFrench\nGerman"
-    And I fill the textarea "Rates" with multiline content "Mother tongue\nVery confident\nNot enought\nCompletely unknown"
+    And I set the field "Options" to multiline:
+      """
+         Italian
+      Spanish
+
+
+                  English
+
+
+      French
+
+      German
+
+
+      """
+    And I set the field "Options" to multiline:
+      """
+
+
+               Mother tongue
+         Very confident
+      Not enought
+
+        Completely unknown
+      """
     And I press "Add"
 
     And I set the field "typeplugin" to "Rate"
@@ -249,8 +304,32 @@ Feature: make a submission test for each available item
       | Indent         | 0                                                   |
       | Element number | 13b                                                 |
       | Element style  | dropdown menu                                       |
-    And I fill the textarea "Options" with multiline content "Italian\nSpanish\nEnglish\nFrench\nGerman"
-    And I fill the textarea "Rates" with multiline content "Mother tongue\nVery confident\nNot enought\nCompletely unknown"
+    And I set the field "Options" to multiline:
+      """
+         Italian
+      Spanish
+
+
+                  English
+
+
+      French
+
+      German
+
+
+      """
+    And I set the field "Options" to multiline:
+      """
+
+
+               Mother tongue
+         Very confident
+      Not enought
+
+        Completely unknown
+
+      """
     And I press "Add"
 
     # add an item using the 20th plugin
@@ -284,7 +363,19 @@ Feature: make a submission test for each available item
       | Indent            | 0                                          |
       | Question position | left                                       |
       | Element number    | 15                                         |
-    And I fill the textarea "Options" with multiline content "sea\nmountain\nlake\nhills\ndesert"
+    And I set the field "Options" to multiline:
+      """
+
+         sea
+      mountain
+
+
+      lake
+hills
+                  desert
+
+
+      """
     And I press "Add"
 
     # add an item using the 16th plugin

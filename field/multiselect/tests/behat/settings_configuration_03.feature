@@ -37,7 +37,18 @@ Feature: Validate creation and submit for "multiselect" elements using the princ
     Given I set the following fields to these values:
       | Content                | What do you usually get for breakfast? |
       | Required               | 1                                      |
-    And I fill the textarea "Options" with multiline content "milk\ncoffee\nbutter\nbread"
+    And I set the field "Options" to multiline:
+      """
+      milk
+
+
+      coffee
+           butter
+
+      bread
+
+
+      """
     And I set the following fields to these values:
       | Default                |                                        |
       | Minimum required items | 0                                      |
@@ -73,7 +84,18 @@ Feature: Validate creation and submit for "multiselect" elements using the princ
     Given I set the following fields to these values:
       | Content                | What do you usually get for breakfast? |
       | Required               | 1                                      |
-    And I fill the textarea "Options" with multiline content "milk\ncoffee\nbutter\nbread"
+    And I set the field "Options" to multiline:
+      """
+      milk
+
+
+      coffee
+           butter
+
+      bread
+
+
+      """
     And I set the following fields to these values:
       | Default                |                                        |
       | Minimum required items | 2                                      |

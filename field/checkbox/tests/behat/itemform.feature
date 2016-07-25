@@ -45,10 +45,29 @@ Feature: test the use of checkbox setup form
       | Reserved                 | 1                                      |
       | Parent element           | Boolean [1]: Is this true?             |
       | Parent content           | 1                                      |
-    And I fill the textarea "Options" with multiline content "milk\ncoffee\nbutter\nbread"
+    And I set the field "Options" to multiline:
+      """
+      milk
+
+
+      coffee
+           butter
+
+      bread
+
+
+      """
     And I set the following fields to these values:
-      | Option "other"           | other->please specify                  |
-    And I fill the textarea "Default" with multiline content "coffee\nbread\nother"
+      | Option "other"           | other->specify                         |
+    And I set the field "Options" to multiline:
+      """
+
+
+      coffee
+          bread
+      other
+
+      """
     And I set the following fields to these values:
       | "No answer" as defaults  | 0                                      |
       | Adjustment               | vertical                               |
@@ -70,9 +89,20 @@ Feature: test the use of checkbox setup form
     Then the field "Reserved" matches value "1"
     Then the field "Parent element" matches value "Boolean [1]: Is this true?"
     Then the field "Parent content" matches value "1"
-    Then the multiline field "Options" matches value "milk\ncoffee\nbutter\nbread"
-    Then the field "Option \"other\"" matches value "other->please specify"
-    Then the multiline field "Default" matches value "coffee\nbread\nother"
+    Then the field "Options" matches multiline:
+      """
+      milk
+      coffee
+      butter
+      bread
+      """
+    Then the field "Option \"other\"" matches value "other->specify"
+    Then the field "Default" matches multiline:
+      """
+      coffee
+      bread
+      other
+      """
     Then the field "\"No answer\" as defaults" matches value "0"
     Then the field "Adjustment" matches value "vertical"
     Then the field "Download format" matches value "label of selected items"
@@ -88,5 +118,5 @@ Feature: test the use of checkbox setup form
     Then the field "id_surveypro_field_checkbox_2_2" matches value "0"
     Then the field "id_surveypro_field_checkbox_2_3" matches value "1"
     Then the field "id_surveypro_field_checkbox_2_other" matches value "1"
-    Then the field "id_surveypro_field_checkbox_2_text" matches value "please specify"
+    Then the field "id_surveypro_field_checkbox_2_text" matches value "specify"
     Then I should see "Additional note"

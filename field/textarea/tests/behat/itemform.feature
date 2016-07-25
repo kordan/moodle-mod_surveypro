@@ -1,4 +1,4 @@
-@mod @mod_surveypro @surveyprofield @surveyprofield_textarea @current
+@mod @mod_surveypro @surveyprofield @surveyprofield_textarea
 Feature: test the use of textarea setup form
   In order to test textarea setup form
   As a teacher
