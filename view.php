@@ -40,6 +40,12 @@ if (!empty($id)) {
 
 require_course_login($course, true, $cm);
 
+// A response was submitted.
+$justsubmitted = optional_param('justsubmitted', 0, PARAM_INT);
+$formview = optional_param('formview', 0, PARAM_INT);
+$responsestatus = optional_param('responsestatus', 0, PARAM_INT);
+
+// The list is managed.
 $submissionid = optional_param('submissionid', 0, PARAM_INT);
 $action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
 $view = optional_param('view', SURVEYPRO_NOVIEW, PARAM_INT);
@@ -74,11 +80,15 @@ echo $OUTPUT->header();
 
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_MANAGE);
 
-$submissionman->actions_feedback(); // Action feedback after PAGE.
+if (!empty($justsubmitted)) {
+    $submissionman->show_thanks_page($responsestatus, $formview);
+} else {
+    $submissionman->actions_feedback(); // Action feedback after PAGE.
 
-$submissionman->show_action_buttons();
-$submissionman->display_submissions_table();
-$submissionman->trigger_event(); // Event: all_submissions_viewed.
+    $submissionman->show_action_buttons();
+    $submissionman->display_submissions_table();
+    $submissionman->trigger_event(); // Event: all_submissions_viewed.
+}
 
 // Finish the page.
 echo $OUTPUT->footer();
