@@ -84,6 +84,7 @@ Feature: test the use of textarea setup form
     And I follow "layout_preview"
     Then I should see "II.a: Write a short description of yourself"
     Then I should see "Additional note"
+    Then "//div[contains(@id, 'id_surveypro_field_textarea_2editable')]" "xpath_element" should exist
 
     And I follow "layout_elements"
     And I follow "edit_item_2"
@@ -98,4 +99,5 @@ Feature: test the use of textarea setup form
     And I follow "layout_preview"
     Then I should see "II.b: Write a short description of yourself"
     Then I should see "One more additional note"
+    Then "//textarea[contains(@id, 'id_surveypro_field_textarea_3')]" "xpath_element" should exist
 
