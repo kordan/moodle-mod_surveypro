@@ -89,8 +89,8 @@ class mod_surveypro_generator extends testing_module_generator {
 
             'userstyle_filemanager' => file_get_unused_draft_itemid(),
             'thankshtml_editor' => array(
-                'text' => 'Thank you very much for your commitment on this survey',
-                'format' => FORMAT_MOODLE,
+                'text' => 'Thank you very much for your commitment on this survey.',
+                'format' => FORMAT_HTML,
                 'itemid' => file_get_unused_draft_itemid()
             )
         );
