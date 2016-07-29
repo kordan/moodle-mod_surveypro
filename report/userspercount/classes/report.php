@@ -81,24 +81,53 @@ class surveyproreport_userspercount_report extends mod_surveypro_reportbase {
     }
 
     /**
-     * Fetch_data
+     * Fetch_data.
+     *
+     * This is the idea supporting the code.
+     *
+     * Teachers is the role of users usually accessing reports.
+     * They are "teachers" so they care about "students" and nothing more.
+     * If, at import time, some records go under the admin ownership
+     * the teacher is not supposed to see them because admin is not a student.
+     * In this case, if the teacher wants to see submissions owned by admin, HE HAS TO ENROLL ADMIN with some role.
+     *
+     * Different is the story for the admin.
+     * If an admin wants to make a report, he will see EACH RESPONSE SUBMITTED
+     * without care to the role of the owner of the submission.
+     *
+     * @return void
      */
     public function fetch_data() {
         global $DB, $COURSE, $OUTPUT;
 
+        $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $this->context);
+
         $coursecontext = context_course::instance($COURSE->id);
         $roles = get_roles_used_in_context($coursecontext);
         if (!$role = array_keys($roles)) {
-            // Return nothing.
-            return;
+            if (!$canviewhiddenactivities) {
+                // Return nothing.
+                return;
+            }
         }
+
+        $whereparams = array();
+        $whereparams['surveyproid'] = $this->surveypro->id;
+        $subquery = 'SELECT ss.userid, count(ss.userid) as userresponses
+                     FROM {surveypro_submission} ss';
+        if (!$canviewhiddenactivities) {
+            $subquery .= ' JOIN (SELECT sra.id, sra.userid
+                                 FROM {role_assignments} sra
+                                 WHERE contextid = :contextid
+                                     AND roleid IN ('.implode(',', $role).')) ra ON ss.userid = ra.userid';
+            $whereparams['contextid'] = $coursecontext->id;
+        }
+        $subquery .= ' WHERE surveyproid = :surveyproid
+                       GROUP BY userid';
+
         $sql = 'SELECT s.userresponses, count(s.userresponses) as userscount
-                FROM (SELECT userid, count(userid) as userresponses
-                    FROM {surveypro_submission}
-                    WHERE surveyproid = :surveyproid
-                    GROUP BY userid) s
+                FROM ('.$subquery.') s
                 GROUP BY userresponses';
-        $whereparams = array('surveyproid' => $this->surveypro->id);
 
         list($where, $filterparams) = $this->outputtable->get_sql_where();
         if ($where) {

@@ -99,34 +99,53 @@ class surveyproreport_attachments_report extends mod_surveypro_reportbase {
     /**
      * Fetch_data.
      *
+     * This is the idea supporting the code.
+     *
+     * Teachers is the role of users usually accessing reports.
+     * They are "teachers" so they care about "students" and nothing more.
+     * If, at import time, some records go under the admin ownership
+     * the teacher is not supposed to see them because admin is not a student.
+     * In this case, if the teacher wants to see submissions owned by admin, HE HAS TO ENROLL ADMIN with some role.
+     *
+     * Different is the story for the admin.
+     * If an admin wants to make a report, he will see EACH RESPONSE SUBMITTED
+     * without care to the role of the owner of the submission.
+     *
      * @return void
      */
     public function fetch_data() {
         global $DB, $COURSE, $OUTPUT;
 
+        $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $this->context);
+
         $coursecontext = context_course::instance($COURSE->id);
         $roles = get_roles_used_in_context($coursecontext);
         if (!$role = array_keys($roles)) {
-            // Return nothing.
-            return;
+            if (!$canviewhiddenactivities) {
+                // Return nothing.
+                return;
+            }
         }
 
         $displayuploadsstr = get_string('display_uploads', 'surveyproreport_attachments');
         $missinguploadsstr = get_string('missing_uploads', 'surveyproreport_attachments');
         $submissionidstr = get_string('submissionid', 'surveyproreport_attachments');
 
-        $sql = 'SELECT '.user_picture::fields('u').', s.id as submissionid
-                FROM {user} u
-                  JOIN (SELECT id, userid
-                        FROM {role_assignments}
-                        WHERE contextid = :contextid
-                          AND roleid IN ('.implode(',', $role).')) ra ON u.id = ra.userid
-                  LEFT JOIN (SELECT id, userid
-                             FROM {surveypro_submission}
-                             WHERE surveyproid = :surveyproid) s ON u.id = s.userid';
         $whereparams = array();
         $whereparams['surveyproid'] = $this->surveypro->id;
-        $whereparams['contextid'] = $coursecontext->id;
+        $sql = 'SELECT '.user_picture::fields('u').', s.id as submissionid
+                FROM {user} u
+                    LEFT JOIN (SELECT id, userid
+                               FROM {surveypro_submission}
+                               WHERE surveyproid = :surveyproid) s ON u.id = s.userid';
+        if (!$canviewhiddenactivities) {
+            $sql .= ' JOIN (SELECT id, userid
+                            FROM {role_assignments}
+                            WHERE contextid = :contextid
+                                AND roleid IN ('.implode(',', $role).')) ra ON u.id = ra.userid';
+            $whereparams['contextid'] = $coursecontext->id;
+        }
+
         list($where, $filterparams) = $this->outputtable->get_sql_where();
         if ($where) {
             $sql .= ' WHERE '.$where;
@@ -184,6 +203,7 @@ class surveyproreport_attachments_report extends mod_surveypro_reportbase {
 
         echo $OUTPUT->heading(get_string('pluginname', 'surveyproreport_attachments'));
         $this->outputtable->print_html();
+
     }
 
     /**

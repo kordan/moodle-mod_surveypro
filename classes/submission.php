@@ -176,12 +176,23 @@ class mod_surveypro_submission {
     /**
      * Get submissions sql.
      *
+     * Teachers is the role of users usually accessing reports.
+     * They are "teachers" so they care about "students" and nothing more.
+     * If, at import time, some records go under the admin ownership
+     * the teacher is not supposed to see them because admin is not a student.
+     * In this case, if the teacher wants to see submissions owned by admin, HE HAS TO ENROLL ADMIN with some role.
+     *
+     * Different is the story for the admin.
+     * If an admin wants to make a report, he will see EACH RESPONSE SUBMITTED
+     * without care to the role of the owner of the submission.
+     *
      * @param flexible_table $table
      * @return void
      */
     public function get_submissions_sql($table) {
         global $DB, $COURSE, $USER;
 
+        $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $this->context);
         $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
         $canaccessallgroups = has_capability('moodle/site:accessallgroups', $this->context);
 
@@ -189,6 +200,15 @@ class mod_surveypro_submission {
                      FROM {surveypro_submission} s
                        JOIN {user} u ON s.userid = u.id
                      WHERE u.id = :userid';
+
+        $coursecontext = context_course::instance($COURSE->id);
+        $roles = get_roles_used_in_context($coursecontext);
+        if (!$role = array_keys($roles)) {
+            if (!$canviewhiddenactivities) {
+                // Return nothing.
+                return array($emptysql, array('userid' => -1));
+            }
+        }
 
         if ($groupmode = groups_get_activity_groupmode($this->cm, $COURSE)) {
             if ($groupmode == SEPARATEGROUPS) {
@@ -212,6 +232,13 @@ class mod_surveypro_submission {
         $sql .= user_picture::fields('u');
         $sql .= ' FROM {surveypro_submission} s';
         $sql .= '   JOIN {user} u ON s.userid = u.id';
+        if (!$canviewhiddenactivities) {
+            $sql .= ' JOIN (SELECT id, userid
+                            FROM {role_assignments}
+                            WHERE contextid = :contextid
+                                AND roleid IN ('.implode(',', $role).')) ra ON u.id = ra.userid';
+            $whereparams['contextid'] = $coursecontext->id;
+        }
         if ($this->searchquery) {
             $sql .= '   JOIN {surveypro_answer} a ON s.id = a.submissionid';
         }

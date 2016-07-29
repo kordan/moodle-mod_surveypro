@@ -114,34 +114,72 @@ class surveyproreport_frequency_report extends mod_surveypro_reportbase {
     /**
      * Fetch_data.
      *
+     * This is the idea supporting the code.
+     *
+     * Teachers is the role of users usually accessing reports.
+     * They are "teachers" so they care about "students" and nothing more.
+     * If, at import time, some records go under the admin ownership
+     * the teacher is not supposed to see them because admin is not a student.
+     * In this case, if the teacher wants to see submissions owned by admin, HE HAS TO ENROLL ADMIN with some role.
+     *
+     * Different is the story for the admin.
+     * If an admin wants to make a report, he will see EACH RESPONSE SUBMITTED
+     * without care to the role of the owner of the submission.
+     *
      * @param int $itemid
-     * @param int $submissionscount
      * @return void
      */
     public function fetch_data($itemid) {
-        global $DB;
+        global $COURSE, $DB;
 
-        // TAKE CARE: this is the answer count, not the submissions count! They may be different.
-        $whereparams = array('itemid' => $itemid);
-        $answercount = $DB->count_records('surveypro_answer', $whereparams);
+        $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $this->context);
 
-        list($where, $whereparams) = $this->outputtable->get_sql_where();
-
-        $sql = 'SELECT *, count(ud.id) as absolute
-                FROM {surveypro_answer} ud
-                WHERE ud.itemid = :itemid
-                GROUP BY ud.content ';
-
-        if ($this->outputtable->get_sql_sort()) {
-            $sql .= 'ORDER BY '.$this->outputtable->get_sql_sort();
-        } else {
-            $sql .= 'ORDER BY ud.content';
+        $coursecontext = context_course::instance($COURSE->id);
+        $roles = get_roles_used_in_context($coursecontext);
+        if (!$role = array_keys($roles)) {
+            if (!$canviewhiddenactivities) {
+                // Return nothing.
+                return;
+            }
         }
 
         $itemseed = $DB->get_record('surveypro_item', array('id' => $itemid), 'type, plugin', MUST_EXIST);
 
+        // TAKE CARE: this is the answer count, not the submissions count! They may be different.
+        $whereparams = array('itemid' => $itemid);
+        list($where, $whereparams) = $this->outputtable->get_sql_where();
+
+        $whereparams = array();
+        $whereparams['surveyproid'] = $this->surveypro->id;
         $whereparams['itemid'] = $itemid;
+
+        $sqlfrom = ' FROM {surveypro_answer} a
+                     JOIN (SELECT id, userid
+                           FROM {surveypro_submission}
+                           WHERE surveyproid = :surveyproid) s ON s.id = a.submissionid';
+        if (!$canviewhiddenactivities) {
+            $sqlfrom .= ' JOIN (SELECT id, userid
+                                FROM {role_assignments}
+                                WHERE contextid = :contextid
+                                    AND roleid IN ('.implode(',', $role).')) ra ON s.userid = ra.userid';
+            $whereparams['contextid'] = $coursecontext->id;
+        }
+        $sqlwhere = ' WHERE a.itemid = :itemid';
+        $sqlgroup = ' GROUP BY a.content';
+
+        if ($this->outputtable->get_sql_sort()) {
+            $sqlorder = ' ORDER BY '.$this->outputtable->get_sql_sort();
+        } else {
+            $sqlorder = ' ORDER BY ud.content';
+        }
+
+        // Get answers.
+        $sql = 'SELECT *, count(a.id) as absolute'.$sqlfrom.$sqlwhere.$sqlgroup.$sqlorder;
         $answers = $DB->get_recordset_sql($sql, $whereparams);
+
+        // Get count of answers.
+        $sql = 'SELECT COUNT(\'x\')'.$sqlfrom.$sqlwhere;
+        $answercount = $DB->count_records_sql($sql, $whereparams);
 
         $item = surveypro_get_item($this->cm, $this->surveypro, $itemid);
 

@@ -85,35 +85,56 @@ class surveyproreport_responsesperuser_report extends mod_surveypro_reportbase {
 
     /**
      * Fetch_data
+     *
+     * This is the idea supporting the code.
+     *
+     * Teachers is the role of users usually accessing reports.
+     * They are "teachers" so they care about "students" and nothing more.
+     * If, at import time, some records go under the admin ownership
+     * the teacher is not supposed to see them because admin is not a student.
+     * In this case, if the teacher wants to see submissions owned by admin, HE HAS TO ENROLL ADMIN with some role.
+     *
+     * Different is the story for the admin.
+     * If an admin wants to make a report, he will see EACH RESPONSE SUBMITTED
+     * without care to the role of the owner of the submission.
+     *
+     * @return void
      */
     public function fetch_data() {
         global $DB, $COURSE, $OUTPUT;
 
+        $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $this->context);
+
         $coursecontext = context_course::instance($COURSE->id);
         $roles = get_roles_used_in_context($coursecontext);
         if (!$role = array_keys($roles)) {
-            // Return nothing.
-            return;
+            if (!$canviewhiddenactivities) {
+                // Return nothing.
+                return;
+            }
         }
+        $whereparams = array();
+        $whereparams['surveyproid'] = $this->surveypro->id;
         $sql = 'SELECT '.user_picture::fields('u').', s.attempts
                 FROM {user} u
-                  JOIN (SELECT id, userid
-                        FROM {role_assignments}
-                        WHERE contextid = '.$coursecontext->id.'
-                          AND roleid IN ('.implode(',', $role).')) ra ON u.id = ra.userid
                   RIGHT JOIN (SELECT userid, count(id) as attempts
                               FROM {surveypro_submission}
                               WHERE surveyproid = :surveyproid
-                              GROUP BY userid) s ON s.userid = u.id
-                WHERE attempts > 0';
-        $whereparams = array('surveyproid' => $this->surveypro->id);
+                              GROUP BY userid) s ON s.userid = u.id';
+        if (!$canviewhiddenactivities) {
+            $sql .= ' JOIN (SELECT id, userid
+                            FROM {role_assignments}
+                            WHERE contextid = :contextid
+                                AND roleid IN ('.implode(',', $role).')) ra ON u.id = ra.userid';
+            $whereparams['contextid'] = $coursecontext->id;
+        }
 
         list($where, $filterparams) = $this->outputtable->get_sql_where();
         if ($where) {
             $sql .= ' AND '.$where;
             $whereparams = array_merge($whereparams,  $filterparams);
         }
-
+        $sql .= ' WHERE attempts > 0';
         if ($this->outputtable->get_sql_sort()) {
             $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort();
         } else {

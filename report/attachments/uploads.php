@@ -58,6 +58,7 @@ if (count($parts) == 2) {
 // Calculations.
 $context = context_module::instance($cm->id);
 $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context, null, true);
+$canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $context);
 $uploadsformman = new surveyproreport_attachments_form($cm, $context, $surveypro);
 $uploadsformman->prevent_direct_user_input();
 $uploadsformman->set_userid($userid);
@@ -76,6 +77,7 @@ $formparams->itemid = $itemid;
 $formparams->userid = $userid;
 $formparams->submissionid = $submissionid;
 $formparams->canaccessreserveditems = $canaccessreserveditems;
+$formparams->canviewhiddenactivities = $canviewhiddenactivities;
 // End of: prepare params for the form.
 
 $filterform = new surveyproreport_filterform($formurl, $formparams, 'post', '', array('id' => 'userentry'));
