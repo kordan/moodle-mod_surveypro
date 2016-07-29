@@ -122,7 +122,7 @@ class mod_surveypro_tabs {
         // TAB LAYOUT.
         if ($this->isallowed['tab_layout']['root']) {
             $tablayoutname = get_string('tablayoutname', 'mod_surveypro');
-            $elementurl = new moodle_url('/mod/surveypro/layout_manage.php', $paramurl);
+            $elementurl = new moodle_url('/mod/surveypro/layout_items.php', $paramurl);
             $row[] = new tabobject($tablayoutname, $elementurl->out(), $tablayoutname);
         }
 
@@ -190,13 +190,13 @@ class mod_surveypro_tabs {
 
                 // Manage.
                 if ($this->isallowed['tab_layout']['manage']) {
-                    $elementurl = new moodle_url('/mod/surveypro/layout_manage.php', $paramurl);
+                    $elementurl = new moodle_url('/mod/surveypro/layout_items.php', $paramurl);
                     $strlabel = get_string('tabitemspage2', 'mod_surveypro');
                     $row[] = new tabobject('idpage2', $elementurl->out(), $strlabel, 'layout_elements');
                 }
 
                 // Setup.
-                if ($this->tabpage == SURVEYPRO_LAYOUT_SETUP) {
+                if ($this->tabpage == SURVEYPRO_LAYOUT_ITEMSETUP) {
                     if ($this->isallowed['tab_layout']['itemsetup']) {
                         $elementurl = new moodle_url('/mod/surveypro/layout_itemsetup.php', $paramurl);
                         $strlabel = get_string('tabitemspage3', 'mod_surveypro');

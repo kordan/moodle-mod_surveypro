@@ -294,6 +294,8 @@ class mod_surveypro_submission {
     public function display_submissions_table() {
         global $CFG, $OUTPUT, $DB, $COURSE, $USER;
 
+        require_once($CFG->libdir.'/tablelib.php');
+
         $canalwaysseeowner = has_capability('mod/surveypro:alwaysseeowner', $this->context, null, true);
         $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
         $caneditownsubmissions = has_capability('mod/surveypro:editownsubmissions', $this->context, null, true);
@@ -304,8 +306,6 @@ class mod_surveypro_submission {
         $candeleteotherssubmissions = has_capability('mod/surveypro:deleteotherssubmissions', $this->context, null, true);
         $cansavesubmissiontopdf = has_capability('mod/surveypro:savesubmissiontopdf', $this->context, null, true);
         $canaccessallgroups = has_capability('moodle/site:accessallgroups', $this->context);
-
-        require_once($CFG->libdir.'/tablelib.php');
 
         $table = new flexible_table('submissionslist');
 
@@ -696,7 +696,7 @@ class mod_surveypro_submission {
     }
 
     /**
-     * Redirect to layout_manage.php?s=xxx the user asking to go to /view.php?id=yyy if the survey has no items.
+     * Redirect to layout_items.php?s=xxx the user asking to go to /view.php?id=yyy if the survey has no items.
      *
      * I HATE software thinking for me
      * Because of this I ALWAYS want to go where I ask, even if the place I ask is not supposed to be accessed by me
@@ -705,7 +705,7 @@ class mod_surveypro_submission {
      *
      * By default accessing a surveypro from a course (/view.php?id=yyy), the "predefined" landing page should be:
      *     -> for admin/editing teacher:
-     *         -> if no items were created: layout_manage.php
+     *         -> if no items were created: layout_items.php
      *         -> if items were already created: view.php with the submission list
      *     -> for students: ALWAYS view.php with the submission list
      *
@@ -713,7 +713,7 @@ class mod_surveypro_submission {
      * So in the view.php I MUST add a code snippet TAKING THE DECISION for the user
      *
      * The problem rises up when the admin/editing teacher decides to go where he should not go, alias in:
-     *     -> layout_manage.php even if items were already created
+     *     -> layout_items.php even if items were already created
      *     -> view.php with the submission list even if no items were created
      *
      * The first request is a false problem, because the admin/editing teacher is always allowed to go there
@@ -734,7 +734,7 @@ class mod_surveypro_submission {
 
             $paramurl = array('s' => $this->surveypro->id);
             if ($canmanageitems) {
-                $redirecturl = new moodle_url('/mod/surveypro/layout_manage.php', $paramurl);
+                $redirecturl = new moodle_url('/mod/surveypro/layout_items.php', $paramurl);
             } else {
                 $redirecturl = new moodle_url('/mod/surveypro/view_cover.php', $paramurl);
             }
