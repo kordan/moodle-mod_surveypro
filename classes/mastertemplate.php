@@ -24,10 +24,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-define('SURVEYPROTEMPLATE_NAMEPLACEHOLDER', 'templatemasternameamepleasedontguess');
+define('SURVEYPROTEMPLATE_NAMEPLACEHOLDER', 'templatemaster');
 
 /**
- * The class representing a master tempalete
+ * The class representing a master template
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>

@@ -42,6 +42,9 @@ class surveyproreport_frequency_report extends mod_surveypro_reportbase {
 
     /**
      * Setup_outputtable
+     *
+     * @param int $itemid
+     * @return void
      */
     public function setup_outputtable($itemid) {
         $this->outputtable = new flexible_table('frequency');
@@ -87,7 +90,7 @@ class surveyproreport_frequency_report extends mod_surveypro_reportbase {
     }
 
     /**
-     * Stop_if_textareas_only
+     * Stop the execution if only textarea elements are in the survey
      */
     public function stop_if_textareas_only() {
         global $DB, $OUTPUT;
@@ -115,7 +118,6 @@ class surveyproreport_frequency_report extends mod_surveypro_reportbase {
      * Fetch_data.
      *
      * @param int $itemid
-     * @param int $submissionscount
      * @return void
      */
     public function fetch_data($itemid) {

@@ -15,11 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'surveyprotemplate_templatemasternameamepleasedontguess', language 'en'
+ * Strings for component 'surveyprotemplate_templatemaster', language 'en'
  *
- * @package   surveyprotemplate_templatemasternameamepleasedontguess
+ * @package   surveyprotemplate_templatemaster
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'templatemasternameamepleasedontguess';
+$string['pluginname'] = 'templatemaster';

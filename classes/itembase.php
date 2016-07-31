@@ -960,6 +960,7 @@ class mod_surveypro_itembase {
     /**
      * Report how the sql query does fit for this plugin
      *
+     * @param int $itemid
      * @param string $searchrestriction
      * @return the specific where clause for this plugin
      */
