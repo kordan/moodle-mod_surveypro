@@ -45,7 +45,7 @@ Feature: test the use of recurrence setup form
       | Reserved                 | 1                                            |
       | Parent element           | Boolean [1]: Is this true?                   |
       | Parent content           | 1                                            |
-      | id_defaultoption_1       | Custom                                       |
+      | Custom                   | 1                                            |
       | id_defaultvalueday       | 30                                           |
       | id_defaultvaluemonth     | February                                     |
       | id_lowerboundday         | 31                                           |
@@ -89,7 +89,11 @@ Feature: test the use of recurrence setup form
     Then the field "Reserved" matches value "1"
     Then the field "Parent element" matches value "Boolean [1]: Is this true?"
     Then the field "Parent content" matches value "1"
-    Then the field "id_defaultoption_1" matches value "Custom"
+    Then the field "Custom" matches value "1"
+    Then the field "Current date" matches value ""
+    Then the field "Invite" matches value ""
+    Then the field "Like last response" matches value ""
+    Then the field "No answer" matches value ""
     Then the field "id_defaultvalueday" matches value "1"
     Then the field "id_defaultvaluemonth" matches value "February"
     Then the field "id_lowerboundday" matches value "1"
