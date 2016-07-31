@@ -61,7 +61,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
     /**
      * @var int Final validation of the submitted response
      */
-    protected $finalresponseevaluation;
+    protected $responsestatus;
 
     /**
      * @var object Form content as submitted by the user
@@ -178,6 +178,15 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
     }
 
     /**
+     * Get view.
+     *
+     * @return the content of the $view property
+     */
+    public function get_view() {
+        return $this->view;
+    }
+
+    /**
      * Get first page left.
      *
      * @return the content of the $firstpageleft property
@@ -211,6 +220,15 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
      */
     public function get_tabpage() {
         return $this->tabpage;
+    }
+
+    /**
+     * Get responsestatus.
+     *
+     * @return the content of the $responsestatus property
+     */
+    public function get_responsestatus() {
+        return $this->responsestatus;
     }
 
     /**
@@ -328,21 +346,18 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
      * @return void
      */
     private function set_tabs_params() {
+        $this->set_tabtab(SURVEYPRO_TABSUBMISSIONS); // Needed by tabs.class.php.
         switch ($this->view) {
             case SURVEYPRO_NOVIEW:
-                $this->set_tabtab(SURVEYPRO_TABSUBMISSIONS); // Needed by tabs.class.php.
                 $this->set_tabpage(SURVEYPRO_SUBMISSION_CPANEL); // Needed by tabs.class.php.
                 break;
             case SURVEYPRO_NEWRESPONSE:
-                $this->set_tabtab(SURVEYPRO_TABSUBMISSIONS); // Needed by tabs.class.php.
                 $this->set_tabpage(SURVEYPRO_SUBMISSION_INSERT); // Needed by tabs.class.php.
                 break;
             case SURVEYPRO_EDITRESPONSE:
-                $this->set_tabtab(SURVEYPRO_TABSUBMISSIONS); // Needed by tabs.class.php.
                 $this->set_tabpage(SURVEYPRO_SUBMISSION_EDIT); // Needed by tabs.class.php.
                 break;
             case SURVEYPRO_READONLYRESPONSE:
-                $this->set_tabtab(SURVEYPRO_TABSUBMISSIONS); // Needed by tabs.class.php.
                 $this->set_tabpage(SURVEYPRO_SUBMISSION_READONLY); // Needed by tabs.class.php.
                 break;
             default:
@@ -672,13 +687,13 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         if ($savebutton || $saveasnewbutton) {
             // Let's start with the lightest check (lightest in terms of query).
             $this->check_all_was_verified();
-            if ($this->finalresponseevaluation == SURVEYPRO_VALIDRESPONSE) { // If this answer is still considered valid...
+            if ($this->responsestatus == SURVEYPRO_VALIDRESPONSE) { // If this answer is still considered valid...
                 // ...check more.
                 $this->check_mandatories_are_in();
             }
 
             // If this answer is not valid for some reason.
-            if ($this->finalresponseevaluation != SURVEYPRO_VALIDRESPONSE) {
+            if ($this->responsestatus != SURVEYPRO_VALIDRESPONSE) {
                 // User jumped pages using direct input (or something more dangerous).
                 // Set this submission as SURVEYPRO_STATUSINPROGRESS.
                 $conditions = array('id' => $this->get_submissionid());
@@ -743,7 +758,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         foreach ($requireditems as $itemseed) {
             if (!isset($providedanswers[$itemseed->id])) { // Answer was not provided for the required item.
                 if (empty($itemseed->parentid)) { // There is no parent item!!! Answer was jumped.
-                    $this->finalresponseevaluation = SURVEYPRO_MISSINGMANDATORY;
+                    $this->responsestatus = SURVEYPRO_MISSINGMANDATORY;
                     break;
                 } else {
                     $parentitem = surveypro_get_item($this->cm, $this->surveypro, $itemseed->parentid);
@@ -752,7 +767,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
                         // Take care: this check is valid for chains of parent-child relations too.
                         // If the parent item was not allowed by its parent,
                         // it was not answered and userform_child_item_allowed_static returns false.
-                        $this->finalresponseevaluation = SURVEYPRO_MISSINGMANDATORY;
+                        $this->responsestatus = SURVEYPRO_MISSINGMANDATORY;
                     }
                 }
             }
@@ -769,7 +784,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
 
         $conditions = array('submissionid' => $this->get_submissionid(), 'verified' => 0);
         if ($DB->get_record('surveypro_answer', $conditions, 'id', IGNORE_MULTIPLE)) {
-            $this->finalresponseevaluation = SURVEYPRO_MISSINGVALIDATION;
+            $this->responsestatus = SURVEYPRO_MISSINGVALIDATION;
         }
     }
 
@@ -946,82 +961,6 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
                 echo $OUTPUT->footer();
                 die();
             }
-        }
-    }
-
-    /**
-     * Verify if the thanks page has to be displayed.
-     *
-     * Stop execution if thanks page is shown
-     *
-     * @return void
-     */
-    public function manage_thanks_page() {
-        global $OUTPUT;
-
-        $savebutton = isset($this->formdata->savebutton);
-        $saveasnewbutton = isset($this->formdata->saveasnewbutton);
-        if ($savebutton || $saveasnewbutton) {
-            $this->show_thanks_page();
-            echo $OUTPUT->footer();
-            die();
-        }
-    }
-
-    /**
-     * Actually display the thanks page.
-     *
-     * @return void
-     */
-    private function show_thanks_page() {
-        global $OUTPUT;
-
-        if ($this->finalresponseevaluation == SURVEYPRO_MISSINGMANDATORY) {
-            $a = get_string('statusinprogress', 'mod_surveypro');
-            $message = get_string('missingmandatory', 'mod_surveypro', $a);
-            echo $OUTPUT->notification($message, 'notifyproblem');
-        }
-
-        if ($this->finalresponseevaluation == SURVEYPRO_MISSINGVALIDATION) {
-            $a = get_string('statusinprogress', 'mod_surveypro');
-            $message = get_string('missingvalidation', 'mod_surveypro', $a);
-            echo $OUTPUT->notification($message, 'notifyproblem');
-        }
-
-        if ($this->view == SURVEYPRO_EDITRESPONSE) {
-            $message = get_string('basic_editthanks', 'mod_surveypro');
-        } else {
-            if (!empty($this->surveypro->thankshtml)) {
-                $htmlbody = $this->surveypro->thankshtml;
-                $component = 'mod_surveypro';
-                $filearea = SURVEYPRO_THANKSHTMLFILEAREA;
-                $message = file_rewrite_pluginfile_urls($htmlbody, 'pluginfile.php', $this->context->id, $component, $filearea, $this->surveypro->id);
-            } else {
-                $message = get_string('basic_submitthanks', 'mod_surveypro');
-            }
-        }
-
-        $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-        $cansubmitmore = $utilityman->can_submit_more();
-
-        $paramurlbase = array('id' => $this->cm->id);
-        if ($cansubmitmore) { // If the user is allowed to submit one more response.
-            $paramurl = $paramurlbase + array('view' => SURVEYPRO_NEWRESPONSE);
-            $buttonurl = new moodle_url('/mod/surveypro/view_form.php', $paramurl);
-            $onemore = new single_button($buttonurl, get_string('addnewsubmission', 'mod_surveypro'));
-
-            $buttonurl = new moodle_url('/mod/surveypro/view.php', $paramurlbase);
-            $gotolist = new single_button($buttonurl, get_string('gotolist', 'mod_surveypro'));
-
-            echo $OUTPUT->box_start('generalbox centerpara', 'notice');
-            echo html_writer::tag('p', $message);
-            echo html_writer::tag('div', $OUTPUT->render($onemore).$OUTPUT->render($gotolist), array('class' => 'buttons'));
-            echo $OUTPUT->box_end();
-        } else {
-            echo $OUTPUT->box($message, 'notice centerpara');
-            $buttonurl = new moodle_url('/mod/surveypro/view.php', $paramurlbase);
-            $buttonlabel = get_string('gotolist', 'mod_surveypro');
-            echo $OUTPUT->box($OUTPUT->single_button($buttonurl, $buttonlabel, 'get'), 'generalbox centerpara');
         }
     }
 

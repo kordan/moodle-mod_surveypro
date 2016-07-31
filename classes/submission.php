@@ -839,6 +839,63 @@ class mod_surveypro_submission {
     }
 
     /**
+     * Actually display the thanks page.
+     *
+     * @return void
+     */
+    public function show_thanks_page($responsestatus, $formview) {
+        global $OUTPUT;
+
+        if ($responsestatus == SURVEYPRO_MISSINGMANDATORY) {
+            $a = get_string('statusinprogress', 'mod_surveypro');
+            $message = get_string('missingmandatory', 'mod_surveypro', $a);
+            echo $OUTPUT->notification($message, 'notifyproblem');
+        }
+
+        if ($responsestatus == SURVEYPRO_MISSINGVALIDATION) {
+            $a = get_string('statusinprogress', 'mod_surveypro');
+            $message = get_string('missingvalidation', 'mod_surveypro', $a);
+            echo $OUTPUT->notification($message, 'notifyproblem');
+        }
+
+        if ($formview == SURVEYPRO_EDITRESPONSE) {
+            $message = get_string('basic_editthanks', 'mod_surveypro');
+        } else {
+            if (!empty($this->surveypro->thankshtml)) {
+                $htmlbody = $this->surveypro->thankshtml;
+                $component = 'mod_surveypro';
+                $filearea = SURVEYPRO_THANKSHTMLFILEAREA;
+                $message = file_rewrite_pluginfile_urls($htmlbody, 'pluginfile.php', $this->context->id, $component, $filearea, $this->surveypro->id);
+            } else {
+                $message = get_string('basic_submitthanks', 'mod_surveypro');
+            }
+        }
+
+        $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+        $cansubmitmore = $utilityman->can_submit_more();
+
+        $paramurlbase = array('id' => $this->cm->id);
+        if ($cansubmitmore) { // If the user is allowed to submit one more response.
+            $paramurl = $paramurlbase + array('view' => SURVEYPRO_NEWRESPONSE);
+            $buttonurl = new moodle_url('/mod/surveypro/view_form.php', $paramurl);
+            $onemore = new single_button($buttonurl, get_string('addnewsubmission', 'mod_surveypro'));
+
+            $buttonurl = new moodle_url('/mod/surveypro/view.php', $paramurlbase);
+            $gotolist = new single_button($buttonurl, get_string('gotolist', 'mod_surveypro'));
+
+            echo $OUTPUT->box_start('generalbox centerpara', 'notice');
+            echo html_writer::tag('p', $message);
+            echo html_writer::tag('div', $OUTPUT->render($onemore).$OUTPUT->render($gotolist), array('class' => 'buttons'));
+            echo $OUTPUT->box_end();
+        } else {
+            echo $OUTPUT->box($message, 'notice centerpara');
+            $buttonurl = new moodle_url('/mod/surveypro/view.php', $paramurlbase);
+            $buttonlabel = get_string('gotolist', 'mod_surveypro');
+            echo $OUTPUT->box($OUTPUT->single_button($buttonurl, $buttonlabel, 'get'), 'generalbox centerpara');
+        }
+    }
+
+    /**
      * User interaction for single submission duplication.
      *
      * If the action is missing confirmation: ask.

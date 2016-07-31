@@ -123,6 +123,21 @@ if ($userformman->formdata = $outform->get_data()) {
         $redirecturl = new moodle_url('/mod/surveypro/view_form.php', $paramurl);
         redirect($redirecturl); // Redirect to the first non empty page.
     }
+
+    // If none redirect you, reload THE RIGHT page WITHOUT $paramurl['view'].
+    // This is necessary otherwise if the user switches language using the corresponding menu
+    // just after a new response is submitted
+    // the browser redirects to http://localhost/head_behat/mod/surveypro/view_form.php?s=xxx&view=1&lang=it
+    // and not               to http://localhost/head_behat/mod/surveypro/view.php?s=xxx&lang=it
+    // alias it goes to the page to get one more response
+    // instead of remaining in the view submissions page.
+    $paramurl = array();
+    $paramurl['s'] = $surveypro->id;
+    $paramurl['responsestatus'] = $userformman->get_responsestatus();
+    $paramurl['justsubmitted'] = 1;
+    $paramurl['formview'] = $userformman->get_view(); // What was I viewing in the form?
+    $redirecturl = new moodle_url('/mod/surveypro/view.php', $paramurl);
+    redirect($redirecturl); // Redirect to the first non empty page.
 }
 // End of: manage form submission.
 
@@ -144,7 +159,6 @@ new mod_surveypro_tabs($cm, $context, $surveypro, $userformman->get_tabtab(), $u
 
 $userformman->noitem_stopexecution();
 $userformman->nomoresubmissions_stopexecution();
-$userformman->manage_thanks_page();
 $userformman->warning_submission_copy();
 $userformman->display_page_x_of_y();
 
