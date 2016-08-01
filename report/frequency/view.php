@@ -55,6 +55,12 @@ $paramurl = array('id' => $cm->id, 'rname' => 'frequency');
 $formurl = new moodle_url('/mod/surveypro/report/frequency/view.php', $paramurl);
 // End of: define $mform return url.
 
+// Begin of: prepare params for the form.
+$formparams = new stdClass();
+$formparams->surveypro = $surveypro;
+$mform = new mod_surveypro_chooseitemform($formurl, $formparams);
+// End of: prepare params for the form.
+
 // Output starts here.
 $url = new moodle_url('/mod/surveypro/report/frequency/view.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
@@ -75,13 +81,8 @@ $reportman->stop_if_textareas_only();
 $reportman->nosubmissions_stop();
 // End of: stop here if no submissions are available.
 
-// Begin of: prepare params for the form.
-$formparams = new stdClass();
-$formparams->surveypro = $surveypro;
-$mform = new mod_surveypro_chooseitemform($formurl, $formparams);
-// End of: prepare params for the form.
-
 // Begin of: display the form.
+$mform->set_data(array('itemid' => $itemid));
 $mform->display();
 // End of: display the form.
 

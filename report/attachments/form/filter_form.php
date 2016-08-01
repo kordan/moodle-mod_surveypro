@@ -50,6 +50,7 @@ class surveyproreport_filterform extends moodleform {
         $userid = $this->_customdata->userid;
         $submissionid = $this->_customdata->submissionid;
         $canaccessreserveditems = $this->_customdata->canaccessreserveditems;
+        $canviewhiddenactivities = $this->_customdata->canviewhiddenactivities;
 
         $submissionidstring = get_string('submission', 'surveyproreport_attachments');
 
@@ -89,20 +90,27 @@ class surveyproreport_filterform extends moodleform {
         $coursecontext = context_course::instance($COURSE->id);
         $roles = get_roles_used_in_context($coursecontext);
         if (!$role = array_keys($roles)) {
-            // Return nothing.
-            return;
+            if (!$canviewhiddenactivities) {
+                // Return nothing.
+                return;
+            }
         }
+
+        $whereparams = array();
+        $whereparams['surveyproid'] = $surveypro->id;
         $sql = 'SELECT u.id as userid, '.user_picture::fields('u').'
                 FROM {user} u
-                  JOIN (SELECT id, userid
-                        FROM {role_assignments}
-                        WHERE contextid = '.$coursecontext->id.'
-                          AND roleid IN ('.implode(',', $role).')) ra ON u.id = ra.userid
-                  JOIN (SELECT DISTINCT userid
-                        FROM {surveypro_submission}
-                        WHERE surveyproid = :surveyproid) s ON u.id = s.userid
-                ORDER BY u.lastname ASC';
-        $whereparams = array('surveyproid' => $surveypro->id);
+                    JOIN (SELECT DISTINCT userid
+                          FROM {surveypro_submission}
+                          WHERE surveyproid = :surveyproid) s ON u.id = s.userid';
+        if (!$canviewhiddenactivities) {
+            $sql .= ' JOIN (SELECT id, userid
+                            FROM {role_assignments}
+                            WHERE contextid = :contextid
+                                AND roleid IN ('.implode(',', $role).')) ra ON u.id = ra.userid';
+            $whereparams['contextid'] = $coursecontext->id;
+        }
+        $sql .= ' ORDER BY u.lastname ASC';
         $users = $DB->get_recordset_sql($sql, $whereparams);
 
         $options = array();
