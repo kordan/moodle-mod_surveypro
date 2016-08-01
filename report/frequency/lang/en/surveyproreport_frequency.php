@@ -24,9 +24,9 @@
 
 $string['absolute'] = 'absolute';
 $string['content'] = 'answer';
-$string['itemid_help'] = 'Choose the survey question to calculate its distribution';
+$string['itemid_help'] = 'The variable to calculate its distribution';
 $string['itemid'] = 'Survey question';
 $string['percentage'] = 'percentage';
-$string['pleasechooseavalue'] = 'Please choose an item for the distribution';
+$string['pleasechooseavalue'] = 'Please choose a variable to make its distribution';
 $string['pluginname'] = 'Frequency distribution';
 $string['textareasarenotallowed'] = 'This survey has no fields or uses only fields, among visible and not reserved, that are not suitable for this report.';

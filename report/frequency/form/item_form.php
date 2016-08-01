@@ -96,8 +96,6 @@ class mod_surveypro_chooseitemform extends moodleform {
         // Get _customdata.
         // Useless: $surveypro = $this->_customdata->surveypro;.
 
-        // TODO: why it does not show the message in the form even when $data['itemid'] == 0?
-
         $errors = parent::validation($data, $files);
 
         if (!$data['itemid']) {
