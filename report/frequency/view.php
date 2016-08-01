@@ -81,11 +81,6 @@ $reportman->stop_if_textareas_only();
 $reportman->nosubmissions_stop();
 // End of: stop here if no submissions are available.
 
-// Begin of: display the form.
-$mform->set_data(array('itemid' => $itemid));
-$mform->display();
-// End of: display the form.
-
 // Begin of: manage form submission.
 if ( ($fromform = $mform->get_data()) || (!empty($itemid)) ) {
     if (empty($itemid)) {
@@ -106,6 +101,11 @@ if ( ($fromform = $mform->get_data()) || (!empty($itemid)) ) {
     $reportman->output_data($url);
 }
 // End of: manage form submission.
+
+// Begin of: display the form.
+$mform->set_data(array('itemid' => $itemid));
+$mform->display();
+// End of: display the form.
 
 // Finish the page.
 echo $OUTPUT->footer();
