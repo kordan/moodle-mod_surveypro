@@ -44,7 +44,21 @@ Feature: test the use of select setup form
       | Reserved                 | 1                                          |
       | Parent element           | Boolean [1]: Is this true?                 |
       | Parent content           | 1                                          |
-    And I fill the textarea "Options" with multiline content "sea\nmountain\nlake\nhills\ndesert"
+    And I set the field "Options" to multiline:
+      """
+
+
+      sea
+           mountain
+      lake
+
+      hills
+
+
+
+      desert
+
+      """
     And I set the following fields to these values:
       | Option "other"           | other->specify                             |
       | id_defaultoption_1       | Custom                                     |
@@ -70,7 +84,14 @@ Feature: test the use of select setup form
     Then the field "Reserved" matches value "1"
     Then the field "Parent element" matches value "Boolean [1]: Is this true?"
     Then the field "Parent content" matches value "1"
-    Then the multiline field "Options" matches value "sea\nmountain\nlake\nhills\ndesert"
+    Then the field "Options" matches multiline:
+      """
+      sea
+      mountain
+      lake
+      hills
+      desert
+      """
     Then the field "Option \"other\"" matches value "other->specify"
     Then the field "id_defaultoption_1" matches value "Custom"
     Then the field "id_defaultvalue" matches value "other"

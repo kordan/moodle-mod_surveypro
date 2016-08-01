@@ -79,31 +79,37 @@ function surveypro_get_item($cm, $surveypro, $itemid=0, $type='', $plugin='', $g
 }
 
 /**
- * surveypro_non_empty_only
- *
- * @param string $arrayelement
- * @return int Length of the array element
- */
-function surveypro_non_empty_only($arrayelement) {
-    return strlen(trim($arrayelement)); // Returns 0 if the array element is empty.
-}
-
-/**
  * Copy the content of multiline textarea to an array line by line
  *
  * @param string $textareacontent
  * @return array
  */
 function surveypro_multilinetext_to_array($textareacontent) {
-
+    // begin with a simple trim to drop each starting and closing empty row and spaces.
     $textareacontent = trim($textareacontent);
+
+    // \r are not welcome.
     $textareacontent = str_replace("\r", '', $textareacontent);
 
+    // Use preg_replace (and not str_replace) because of eventual multiple instances of "\n\n".
+    $textareacontent = preg_replace('~\n\n+~', "\n", $textareacontent);
+
+    // Build the array.
     $rows = explode("\n", $textareacontent);
 
-    $arraytextarea = array_filter($rows, 'surveypro_non_empty_only');
+    // Trim each its line.
+    $rows = array_map('trim', $rows);
 
-    return $arraytextarea;
+    // Trim each part whether exists.
+    foreach ($rows as $k => $row) {
+        if (preg_match('~^(.*)'.SURVEYPRO_VALUELABELSEPARATOR.'(.*)$~', $row, $match)) {
+            $value = $match[1];
+            $label = $match[2];
+            $rows[$k] = trim($value).SURVEYPRO_VALUELABELSEPARATOR.trim($label);
+        }
+    }
+
+    return $rows;
 }
 
 /**

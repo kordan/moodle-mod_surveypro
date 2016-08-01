@@ -35,7 +35,19 @@ Feature: make a submission test for "radiobutton" item
       | Question position | left                                       |
       | Element number    | 12a                                        |
       | Adjustment        | vertical                                   |
-    And I fill the textarea "Options" with multiline content "sea\nmountain\nlake\nhills\ndesert"
+    And I set the field "Options" to multiline:
+      """
+
+         sea
+      mountain
+
+
+      lake
+hills
+                  desert
+
+
+      """
     And I press "Add"
 
     And I set the field "typeplugin" to "Radio buttons"
@@ -49,7 +61,19 @@ Feature: make a submission test for "radiobutton" item
       | Question position | left                                       |
       | Element number    | 12b                                        |
       | Adjustment        | horizontal                                 |
-    And I fill the textarea "Options" with multiline content "sea\nmountain\nlake\nhills\ndesert"
+    And I set the field "Options" to multiline:
+      """
+
+         sea
+      mountain
+
+
+      lake
+hills
+                  desert
+
+
+      """
     And I press "Add"
 
     And I log out

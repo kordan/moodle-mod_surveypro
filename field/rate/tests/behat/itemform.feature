@@ -44,11 +44,51 @@ Feature: test the use of rate setup form
       | Parent element           | Boolean [1]: Is this true?                          |
       | Parent content           | 1                                                   |
       | Element style            | dropdown menu                                       |
-    And I fill the textarea "Options" with multiline content "Italian\nSpanish\nEnglish\nFrench\nGerman\nDeutch"
-    And I fill the textarea "Rates" with multiline content "Mother tongue\nVery confident\nNot enought\nCompletely unknown"
+    And I set the field "Options" to multiline:
+      """
+
+      Italian
+
+
+        Spanish
+English
+      French
+
+
+      German
+
+      Deutch
+
+      """
+    And I set the field "Options" to multiline:
+      """
+         Mother tongue
+      Very confident
+
+Not enought
+
+
+
+
+      Completely unknown
+
+      """
     And I set the following fields to these values:
       | id_defaultoption_1       | Custom                                              |
-    And I fill the textarea "defaultvalue" with multiline content "Not enought\nNot enought\nNot enought\nNot enought"
+    And I set the field "Options" to multiline:
+      """
+      Not enought
+
+
+          Not enought
+
+
+
+      Not enought
+      Not enought
+
+
+      """
     And I set the following fields to these values:
       | Download format          | list of options with corresponding values of rates  |
       | Force different rates    | 1                                                   |
@@ -56,16 +96,71 @@ Feature: test the use of rate setup form
 
     Then I should see "Number of rates is not enough to force different rates"
     Then I should see "Defaults have to be different when different rates is required"
-    And I fill the textarea "Rates" with multiline content "Mother tongue\nVery confident\n100 words vocabulary\nNot enought\nReally ridicolous\nCompletely unknown"
-    And I fill the textarea "defaultvalue" with multiline content "Completely unknown\nAbsolutely ridicolous\nNot enought\n100 words vocabulary"
+    And I set the field "Options" to multiline:
+      """
+
+
+          Mother tongue
+      Very confident
+
+
+      100 words vocabulary
+
+      Not enought
+      Really ridicolous
+
+            Completely unknown
+
+
+      """
+    And I set the field "Options" to multiline:
+      """
+
+
+      Completely unknown
+
+             Absolutely ridicolous
+      Not enought
+
+
+      100 words vocabulary
+      """
     And I press "Add"
 
     Then I should see "The default item \"Absolutely ridicolous\" was not found among rates"
-    And I fill the textarea "defaultvalue" with multiline content "Completely unknown\nReally ridicolous\nNot enought\n100 words vocabulary"
+    And I set the field "Options" to multiline:
+      """
+
+         Completely unknown
+      Really ridicolous
+
+
+      Not enought
+
+
+100 words vocabulary
+      """
     And I press "Add"
 
     Then I should see "Number of defaults has to be equal to the number of options"
-    And I fill the textarea "defaultvalue" with multiline content "Completely unknown\nReally ridicolous\nNot enought\n100 words vocabulary\nVery confident\nMother tongue"
+    And I set the field "Options" to multiline:
+      """
+
+         Completely unknown
+      Really ridicolous
+
+
+      Not enought
+
+
+100 words vocabulary
+      Very confident
+      Mother tongue
+
+
+
+
+      """
     And I press "Add"
 
     And I follow "edit_item_2"
@@ -81,10 +176,34 @@ Feature: test the use of rate setup form
     Then the field "Parent element" matches value "Boolean [1]: Is this true?"
     Then the field "Parent content" matches value "1"
     Then the field "Element style" matches value "dropdown menu"
-    Then the multiline field "Options" matches value "Italian\nSpanish\nEnglish\nFrench\nGerman\nDeutch"
-    Then the multiline field "Rates" matches value "Mother tongue\nVery confident\n100 words vocabulary\nNot enought\nReally ridicolous\nCompletely unknown"
+    Then the field "Options" matches multiline:
+      """
+      Italian
+      Spanish
+      English
+      French
+      German
+      Deutch
+      """
+    Then the field "Rates" matches multiline:
+      """
+      Mother tongue
+      Very confident
+      100 words vocabulary
+      Not enought
+      Really ridicolous
+      Completely unknown
+      """
     Then the field "id_defaultoption_1" matches value "1"
-    Then the multiline field "defaultvalue" matches value "Completely unknown\nReally ridicolous\nNot enought\n100 words vocabulary\nVery confident\nMother tongue"
+    Then the field "defaultvalue" matches multiline:
+      """
+      Completely unknown
+      Really ridicolous
+      Not enought
+      100 words vocabulary
+      Very confident
+      Mother tongue
+      """
     Then the field "Download format" matches value "list of options with corresponding values of rates"
     Then the field "Force different rates" matches value "1"
     And I press "Cancel"

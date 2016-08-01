@@ -34,7 +34,21 @@ Feature: make a submission test for "select" item
       | Indent            | 0                                          |
       | Question position | left                                       |
       | Element number    | 15                                         |
-    And I fill the textarea "Options" with multiline content "sea\nmountain\nlake\nhills\ndesert"
+    And I set the field "Options" to multiline:
+      """
+
+
+      sea
+           mountain
+      lake
+
+      hills
+
+
+
+      desert
+
+      """
     And I press "Add"
 
     And I log out

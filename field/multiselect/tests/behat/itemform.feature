@@ -45,8 +45,27 @@ Feature: test the use of multiselect setup form
       | Reserved                 | 1                                      |
       | Parent element           | Boolean [1]: Is this true?             |
       | Parent content           | 1                                      |
-    And I fill the textarea "Options" with multiline content "milk\ncoffee\nbutter\nbread"
-    And I fill the textarea "Default" with multiline content "coffee\nbread"
+    And I set the field "Options" to multiline:
+      """
+      milk
+
+
+      coffee
+           butter
+
+      bread
+
+
+      """
+    And I set the field "Options" to multiline:
+      """
+
+
+      coffee
+          bread
+
+
+      """
     And I set the following fields to these values:
       | Height in rows           | 4                                       |
       | Download format          | value of selected items                 |
@@ -72,8 +91,18 @@ Feature: test the use of multiselect setup form
     Then the field "Reserved" matches value "1"
     Then the field "Parent element" matches value "Boolean [1]: Is this true?"
     Then the field "Parent content" matches value "1"
-    Then the multiline field "Options" matches value "milk\ncoffee\nbutter\nbread"
-    Then the multiline field "Default" matches value "coffee\nbread"
+    Then the field "Options" matches multiline:
+      """
+      milk
+      coffee
+      butter
+      bread
+      """
+    Then the field "Default" matches multiline:
+      """
+      coffee
+      bread
+      """
     Then the field "Height in rows" matches value "4"
     Then the field "Download format" matches value "value of selected items"
     Then the field "Minimum required items" matches value "3"
