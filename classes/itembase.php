@@ -491,7 +491,7 @@ class mod_surveypro_itembase {
         }
 
         // Property $this->itemeditingfeedback is going to be part of $returnurl in layout_itemsetup.php
-        // and there it will be send to layout_manage.php.
+        // and there it will be send to layout_items.php.
         return $record->itemid;
     }
 

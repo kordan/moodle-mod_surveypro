@@ -132,7 +132,7 @@ $bulkactioncondition = $basecondition && ($itemcount);
 $bulkactioncondition = $bulkactioncondition && has_capability('mod/surveypro:manageitems', $context);
 if ($bulkactioncondition) {
     $paramurl = array('id' => $cm->id);
-    $formurl = new moodle_url('/mod/surveypro/layout_manage.php', $paramurl);
+    $formurl = new moodle_url('/mod/surveypro/layout_items.php', $paramurl);
 
     // Init bulkaction form.
     $bulkactionform = new mod_surveypro_bulkactionform($formurl);
@@ -144,7 +144,7 @@ if ($bulkactioncondition) {
 }
 
 // Output starts here.
-$url = new moodle_url('/mod/surveypro/layout_manage.php', array('s' => $surveypro->id));
+$url = new moodle_url('/mod/surveypro/layout_items.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -153,7 +153,7 @@ $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
 
-new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABLAYOUT, SURVEYPRO_LAYOUT_MANAGE);
+new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABLAYOUT, SURVEYPRO_LAYOUT_ITEMS);
 
 if ($hassubmissions) {
     $message = $utilityman->has_submissions_warning();
@@ -168,7 +168,6 @@ if ($mtemplatecondition) {
     $message = get_string('beginfromscratch', 'mod_surveypro');
     echo $OUTPUT->notification($message, 'notifymessage');
 
-    // Display addnewitem form.
     $mtemplateform->display();
 }
 

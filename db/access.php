@@ -62,12 +62,12 @@
  *      $elementurl = new moodle_url('/mod/surveypro/layout_preview.php', $localparamurl);
  *      mod/surveypro:preview
  *
- *  SUB-TAB == SURVEYPRO_LAYOUT_MANAGE
- *      $elementurl = new moodle_url('/mod/surveypro/layout_manage.php', $localparamurl);
+ *  SUB-TAB == SURVEYPRO_LAYOUT_ITEMS
+ *      $elementurl = new moodle_url('/mod/surveypro/layout_items.php', $localparamurl);
  *      mod/surveypro:manageitems
  *      mod/surveypro:additems
  *
- *  SUB-TAB == SURVEYPRO_LAYOUT_SETUP
+ *  SUB-TAB == SURVEYPRO_LAYOUT_ITEMSETUP
  *      $elementurl = new moodle_url('/mod/surveypro/layout_itemsetup.php', $localparamurl);
  *
  *  SUB-TAB == SURVEYPRO_LAYOUT_VALIDATE

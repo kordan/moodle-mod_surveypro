@@ -499,7 +499,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $this->add_items_from_template();
 
         $paramurl = array('s' => $this->surveypro->id);
-        $redirecturl = new moodle_url('/mod/surveypro/layout_manage.php', $paramurl);
+        $redirecturl = new moodle_url('/mod/surveypro/layout_items.php', $paramurl);
         redirect($redirecturl);
     }
 
@@ -828,10 +828,10 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     public function display_usertemplates_table() {
         global $CFG, $USER, $OUTPUT;
 
+        require_once($CFG->libdir.'/tablelib.php');
+
         $candownloadutemplates = has_capability('mod/surveypro:downloadusertemplates', $this->context, null, true);
         $candeleteutemplates = has_capability('mod/surveypro:deleteusertemplates', $this->context, null, true);
-
-        require_once($CFG->libdir.'/tablelib.php');
 
         // Begin of: $paramurlbase definition.
         $paramurlbase = array();

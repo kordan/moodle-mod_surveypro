@@ -48,10 +48,10 @@ define('SURVEYPRO_TABMTEMPLATES' , 4);
  * PAGES
  */
 // PAGES in tab LAYOUT.
-define('SURVEYPRO_LAYOUT_PREVIEW' , 1);
-define('SURVEYPRO_LAYOUT_MANAGE'  , 2);
-define('SURVEYPRO_LAYOUT_SETUP'   , 3);
-define('SURVEYPRO_LAYOUT_VALIDATE', 4);
+define('SURVEYPRO_LAYOUT_PREVIEW'  , 1);
+define('SURVEYPRO_LAYOUT_ITEMS'    , 2);
+define('SURVEYPRO_LAYOUT_ITEMSETUP', 3);
+define('SURVEYPRO_LAYOUT_VALIDATE' , 4);
 
 // PAGES in tab SUBMISSION.
 define('SURVEYPRO_SUBMISSION_CPANEL'  , 1);
@@ -845,7 +845,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
         }
         if ($isallowed['tab_layout']['manage']) {
             $nodelabel = get_string('tabitemspage2', 'mod_surveypro');
-            $nodeurl = new moodle_url('/mod/surveypro/layout_manage.php', $paramurlbase);
+            $nodeurl = new moodle_url('/mod/surveypro/layout_items.php', $paramurlbase);
             $navnode->add($nodelabel, $nodeurl, navigation_node::TYPE_SETTING);
         }
         if ($isallowed['tab_layout']['validate']) {

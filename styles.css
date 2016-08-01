@@ -77,81 +77,81 @@
 /* End of: move horizontal checkbox and radio label closer to corresponding checkboes */
 
 /* Begin of: #manageitems, #sortitems, #managetemplates and #validaterelations tables*/
-#page-mod-surveypro-layout_manage table#manageitems,
-#page-mod-surveypro-layout_manage table#sortitems,
+#page-mod-surveypro-layout_items table#manageitems,
+#page-mod-surveypro-layout_items table#sortitems,
 #page-mod-surveypro-utemplate_manage table#managetemplates,
 #page-mod-surveypro-layout_validation table#validaterelations {
     width:100%;
 }
 
-#page-mod-surveypro-layout_manage table#manageitems .plugin,
-#page-mod-surveypro-layout_manage table#sortitems .plugin,
+#page-mod-surveypro-layout_items table#manageitems .plugin,
+#page-mod-surveypro-layout_items table#sortitems .plugin,
 #page-mod-surveypro-layout_validation table#validaterelations .plugin {
     padding:0.5em;
     text-align:center;
 }
 
-#page-mod-surveypro-layout_manage table#sortitems .plugin {
+#page-mod-surveypro-layout_items table#sortitems .plugin {
     width:90px;
 }
 
-#page-mod-surveypro-layout_manage table#manageitems .hide {
+#page-mod-surveypro-layout_items table#manageitems .hide {
     display: none;
 }
 
-#page-mod-surveypro-layout_manage table#manageitems .sortindex,
-#page-mod-surveypro-layout_manage table#sortitems .sortindex,
+#page-mod-surveypro-layout_items table#manageitems .sortindex,
+#page-mod-surveypro-layout_items table#sortitems .sortindex,
 #page-mod-surveypro-layout_validation table#validaterelations .sortindex {
     min-width:2.5em;
     padding:0.5em;
     text-align:right;
 }
 
-#page-mod-surveypro-layout_manage table#manageitems .parentitem,
-#page-mod-surveypro-layout_manage table#sortitems .parentitem,
+#page-mod-surveypro-layout_items table#manageitems .parentitem,
+#page-mod-surveypro-layout_items table#sortitems .parentitem,
 #page-mod-surveypro-layout_validation table#validaterelations .parentitem {
     padding:0.5em;
     text-align:left;
     white-space:nowrap;
 }
 
-#page-mod-surveypro-layout_manage table#manageitems .availability,
-#page-mod-surveypro-layout_manage table#sortitems .availability {
+#page-mod-surveypro-layout_items table#manageitems .availability,
+#page-mod-surveypro-layout_items table#sortitems .availability {
     padding:0.5em;
     text-align:center;
     white-space:nowrap;
 }
 
-#page-mod-surveypro-layout_manage table#manageitems .formpage,
-#page-mod-surveypro-layout_manage table#sortitems .formpage {
+#page-mod-surveypro-layout_items table#manageitems .formpage,
+#page-mod-surveypro-layout_items table#sortitems .formpage {
     padding:0.5em;
     text-align:center;
     white-space:nowrap;
 }
 
-#page-mod-surveypro-layout_manage table#manageitems .parentitem .iconsmall,
-#page-mod-surveypro-layout_manage table#manageitems .availability .iconsmall,
-#page-mod-surveypro-layout_manage table#manageitems .parentitem .iconsmall,
-#page-mod-surveypro-layout_manage table#sortitems .availability .iconsmall,
+#page-mod-surveypro-layout_items table#manageitems .parentitem .iconsmall,
+#page-mod-surveypro-layout_items table#manageitems .availability .iconsmall,
+#page-mod-surveypro-layout_items table#manageitems .parentitem .iconsmall,
+#page-mod-surveypro-layout_items table#sortitems .availability .iconsmall,
 #page-mod-surveypro-layout_validation table#validaterelations .parentitem .iconsmall {
     margin: 0;
     vertical-align: middle;
 }
 
-#page-mod-surveypro-layout_manage table#manageitems .content,
-#page-mod-surveypro-layout_manage table#sortitems .content,
+#page-mod-surveypro-layout_items table#manageitems .content,
+#page-mod-surveypro-layout_items table#sortitems .content,
 #page-mod-surveypro-layout_validation table#validaterelations .content {
     padding:0.5em;
 }
 
-#page-mod-surveypro-layout_manage table#manageitems .customnumber,
-#page-mod-surveypro-layout_manage table#sortitems .customnumber {
+#page-mod-surveypro-layout_items table#manageitems .customnumber,
+#page-mod-surveypro-layout_items table#sortitems .customnumber {
     padding:0.5em;
     white-space:nowrap;
 }
 
-#page-mod-surveypro-layout_manage table#manageitems .actions,
-#page-mod-surveypro-layout_manage table#sortitems .actions,
+#page-mod-surveypro-layout_items table#manageitems .actions,
+#page-mod-surveypro-layout_items table#sortitems .actions,
 #page-mod-surveypro-layout_validation table#validaterelations .actions,
 #page-mod-surveypro-view table#submissions .actions,
 #page-mod-surveypro-utemplate_manage table#managetemplates .actions {
@@ -159,8 +159,8 @@
     white-space:nowrap;
 }
 
-#page-mod-surveypro-layout_manage table#manageitems .actions img.icon,
-#page-mod-surveypro-layout_manage table#sortitems .actions img.icon {
+#page-mod-surveypro-layout_items table#manageitems .actions img.icon,
+#page-mod-surveypro-layout_items table#sortitems .actions img.icon {
     height: 16px;
     margin-left: 0.45em;
     padding-right:0;
@@ -168,19 +168,19 @@
     width: 16px;
 }
 
-#page-mod-surveypro-layout_manage table#manageitems img.movetarget,
-#page-mod-surveypro-layout_manage table#sortitems img.movetarget {
+#page-mod-surveypro-layout_items table#manageitems img.movetarget,
+#page-mod-surveypro-layout_items table#sortitems img.movetarget {
     height:16px;
     width:80px;
 }
 
-#page-mod-surveypro-layout_manage table#manageitems .header,
-#page-mod-surveypro-layout_manage table#sortitems .header {
+#page-mod-surveypro-layout_items table#manageitems .header,
+#page-mod-surveypro-layout_items table#sortitems .header {
     text-align:center;
 }
 
-#page-mod-surveypro-layout_manage table#manageitems .dimmed,
-#page-mod-surveypro-layout_manage table#sortitems .dimmed,
+#page-mod-surveypro-layout_items table#manageitems .dimmed,
+#page-mod-surveypro-layout_items table#sortitems .dimmed,
 #page-mod-surveypro-layout_validation table#validaterelations .dimmed {
     color:#CDCDCD;
 }
@@ -226,7 +226,7 @@
 
 /* Begin of: Page break and fieldset presentation in the items table and during deletion confirmation */
 /* taken from: http://www.techrepublic.com/blog/web-designer/customize-horizontal-rules-to-add-some-flair/ */
-#page-mod-surveypro-layout_manage hr.pagebreakcontent,
+#page-mod-surveypro-layout_items hr.pagebreakcontent,
 #page-mod-surveypro-layout_validation hr.pagebreakcontent {
     border-radius: 45px;
     border-style: ridge;
@@ -235,13 +235,13 @@
     margin: 10px 10px -10px 10px;
 }
 
-#page-mod-surveypro-layout_manage .dimmed hr.pagebreakcontent,
+#page-mod-surveypro-layout_items .dimmed hr.pagebreakcontent,
 #page-mod-surveypro-layout_validation .dimmed hr.pagebreakcontent {
     border-width: 2px 0 0 0;
     color: white;
 }
 
-#page-mod-surveypro-layout_manage hr.pagebreakcontent:before,
+#page-mod-surveypro-layout_items hr.pagebreakcontent:before,
 #page-mod-surveypro-layout_validation hr.pagebreakcontent:before {
     border-radius: 45px;
     border-style: ridge;
@@ -252,7 +252,7 @@
     margin-top: -25px;
 }
 
-#page-mod-surveypro-layout_manage hr.fieldsetendcontent,
+#page-mod-surveypro-layout_items hr.fieldsetendcontent,
 #page-mod-surveypro-layout_validation hr.fieldsetendcontent {
     border: 2px dotted #000;
     border-style: none none dotted;
