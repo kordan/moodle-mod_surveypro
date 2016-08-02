@@ -120,4 +120,158 @@ class mod_surveypro_reportbase {
             die();
         }
     }
+
+    /**
+     * Is groupjumper drop down menu needed?
+     *
+     * @return boolean
+     */
+    public function is_groupjumper_needed() {
+        global $COURSE, $USER;
+
+        $canaccessallgroups = has_capability('moodle/site:accessallgroups', $this->context);
+
+        if (!groups_get_activity_groupmode($this->cm, $COURSE)) {
+            return false;
+        }
+
+        if ($canaccessallgroups) { // You can see only your groups.
+            $allgroups = groups_get_all_groups($COURSE->id);
+        } else {
+            $allgroups = groups_get_all_groups($COURSE->id, $USER->id);
+        }
+
+        return (count($allgroups) > 1);
+    }
+
+    /**
+     * Get the list of groups the user is allowed to browse
+     *
+     * @return array of expected groups
+     */
+    public function get_groupjumper_content() {
+        global $COURSE, $USER;
+
+        $canaccessallgroups = has_capability('moodle/site:accessallgroups', $this->context);
+
+        if ($canaccessallgroups) { // You can see only your groups.
+            $allgroups = groups_get_all_groups($COURSE->id);
+        } else {
+            $allgroups = groups_get_all_groups($COURSE->id, $USER->id);
+        }
+
+        return $allgroups;
+    }
+
+    /**
+     * Does the item "Not in any group" must be added?
+     *
+     * @return boolean
+     */
+    public function add_notinanygroup() {
+        $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $this->context);
+
+        if ($canviewhiddenactivities) {
+            $noroleusers = $this->count_unenrolled_users();
+
+            return ($noroleusers > 0);
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Count the number of users...
+     * WITH submission in the current surveypro
+     * AND WITHOUT ANY ROLE in the course.
+     *
+     * @return int;
+     */
+    private function count_unenrolled_users() {
+        global $DB;
+
+        $sql = 'SELECT COUNT(\'x\')
+                FROM {user} u
+                    JOIN {surveypro_submission} s ON u.id = s.userid
+                    LEFT JOIN {role_assignments} ra ON u.id = ra.userid
+                WHERE surveyproid = :surveyproid
+                    AND contextid IS NULL';
+
+        $whereparams = array();
+        $whereparams['surveyproid'] = $this->surveypro->id;
+
+        return $DB->count_records_sql($sql, $whereparams);
+    }
+
+    /**
+     * Get_submissions_sql
+     *
+     * @var int $groupid
+     * @var int $canviewhiddenactivities
+     * @return array($sql, $whereparams);
+     */
+    public function get_submissions_sql($groupid, $canviewhiddenactivities) {
+        global $COURSE, $DB;
+
+        $coursecontext = context_course::instance($COURSE->id);
+
+        $whereparams = array();
+        $sql = 'SELECT '.user_picture::fields('u').', s.id as submissionid
+                FROM {user} u
+                JOIN {surveypro_submission} s ON u.id = s.userid';
+        $whereparams['surveyproid'] = $this->surveypro->id;
+        if ($canviewhiddenactivities) { // You are an admin.
+            switch ($groupid) {
+                case -1: // You want to see people with no role in this course.
+                    $sql .= ' LEFT JOIN {role_assignments} ra ON u.id = ra.userid';
+                    $whereparams['contextid'] = null;
+                    break;
+                case 0: // Each user with submissions.
+                    break;
+                default:
+                    $sql .= ' JOIN {groups_members} gm ON u.id = gm.userid';
+                    $whereparams['groupid'] = $groupid;
+            }
+        } else { // You are a teacher.
+            switch ($groupid) {
+                case -1: // IMPOSSIBLE. If !$canviewhiddenactivities, $groupid can't be -1.
+                    break;
+                case 0: // Each user with a role in the course and submissions.
+                    $sql .= ' JOIN {role_assignments} ra ON u.id = ra.userid';
+                    $whereparams['contextid'] = $coursecontext->id;
+                    break;
+                default:
+                    $sql .= ' JOIN {role_assignments} ra ON u.id = ra.userid';
+                    $whereparams['contextid'] = $coursecontext->id;
+
+                    $sql .= ' JOIN {groups_members} gm ON u.id = gm.userid';
+                    $whereparams['groupid'] = $groupid;
+            }
+        }
+
+        $conditions = array();
+        foreach ($whereparams as $k => $v) {
+            if ($v === null) {
+                $conditions[] .= $k.' IS NULL';
+                // unset($whereparams[$k]);
+            } else {
+                $conditions[] .= $k.' = :'.$k;
+            }
+        }
+        $sql .= ' WHERE '.implode(' AND ', $conditions);
+
+        list($where, $filterparams) = $this->outputtable->get_sql_where();
+        if ($where) {
+            $sql .= ' AND '.$where;
+            $whereparams = array_merge($whereparams,  $filterparams);
+        }
+
+        if ($this->outputtable->get_sql_sort()) {
+            $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort().', submissionid ASC';
+        } else {
+            $sql .= ' ORDER BY u.lastname ASC, submissionid ASC';
+        }
+
+        return array($sql, $whereparams);
+    }
 }

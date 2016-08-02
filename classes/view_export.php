@@ -99,7 +99,7 @@ class mod_surveypro_view_export {
     public function get_export_sql($forceuserid=false) {
         global $USER, $COURSE;
 
-        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
+        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
         $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
 
         $sql = 'SELECT s.id as submissionid, s.status, s.timecreated, s.timemodified, ';

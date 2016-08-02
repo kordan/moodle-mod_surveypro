@@ -291,7 +291,7 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
      * @return void
      */
     public function output_summarydata() {
-        $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context, null, true);
+        $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context);
 
         if ($canaccessreports) {
             $paramnexturl = array();
@@ -323,8 +323,8 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
     public function fetch_summarydata() {
         global $DB, $USER;
 
-        $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context, null, true);
-        $canaccessownreports = has_capability('mod/surveypro:accessownreports', $this->context, null, true);
+        $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context);
+        $canaccessownreports = has_capability('mod/surveypro:accessownreports', $this->context);
         $this->graphtitle = get_string('summary', 'surveyproreport_colles');
 
         // Begin of: names of areas of investigation.

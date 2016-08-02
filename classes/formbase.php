@@ -84,11 +84,11 @@ class mod_surveypro_formbase {
     public function noitem_stopexecution() {
         global $COURSE, $OUTPUT;
 
-        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context, null, true);
+        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
 
         $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
         if (!$utilityman->has_input_items(0, false, false, $canaccessreserveditems)) {
-            $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
+            $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
 
             if ($canmanageitems) {
                 $a = get_string('tabitemspage2', 'mod_surveypro');
@@ -121,7 +121,7 @@ class mod_surveypro_formbase {
             return $prefill;
         }
 
-        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context, null, true);
+        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
         $id = $this->surveypro->id;
         $page = $this->formpage;
         list($where, $params) = surveypro_fetch_items_seeds($id, true, $canaccessreserveditems, null, SURVEYPRO_TYPEFIELD, $page);

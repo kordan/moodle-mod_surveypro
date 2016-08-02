@@ -860,18 +860,18 @@ class mod_surveypro_utility {
 
         $riskyediting = ($this->surveypro->riskyeditdeadline > time());
 
-        $canview = has_capability('mod/surveypro:view', $this->context, null, true);
-        $canpreview = has_capability('mod/surveypro:preview', $this->context, null, true);
-        $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
-        $cansearch = has_capability('mod/surveypro:searchsubmissions', $this->context, null, true);
-        $canimportdata = has_capability('mod/surveypro:importdata', $this->context, null, true);
-        $canmanageusertemplates = has_capability('mod/surveypro:manageusertemplates', $this->context, null, true);
-        $cansaveusertemplates = has_capability('mod/surveypro:saveusertemplates', $this->context, null, true);
-        $canimportusertemplates = has_capability('mod/surveypro:importusertemplates', $this->context, null, true);
-        $canapplyusertemplates = has_capability('mod/surveypro:applyusertemplates', $this->context, null, true);
-        $cansavemastertemplates = has_capability('mod/surveypro:savemastertemplates', $this->context, null, true);
-        $canapplymastertemplates = has_capability('mod/surveypro:applymastertemplates', $this->context, null, true);
-        $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context, null, true);
+        $canview = has_capability('mod/surveypro:view', $this->context);
+        $canpreview = has_capability('mod/surveypro:preview', $this->context);
+        $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
+        $cansearch = has_capability('mod/surveypro:searchsubmissions', $this->context);
+        $canimportdata = has_capability('mod/surveypro:importdata', $this->context);
+        $canmanageusertemplates = has_capability('mod/surveypro:manageusertemplates', $this->context);
+        $cansaveusertemplates = has_capability('mod/surveypro:saveusertemplates', $this->context);
+        $canimportusertemplates = has_capability('mod/surveypro:importusertemplates', $this->context);
+        $canapplyusertemplates = has_capability('mod/surveypro:applyusertemplates', $this->context);
+        $cansavemastertemplates = has_capability('mod/surveypro:savemastertemplates', $this->context);
+        $canapplymastertemplates = has_capability('mod/surveypro:applymastertemplates', $this->context);
+        $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context);
 
         $hassubmissions = $this->has_submissions();
 
