@@ -830,8 +830,8 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
         require_once($CFG->libdir.'/tablelib.php');
 
-        $candownloadutemplates = has_capability('mod/surveypro:downloadusertemplates', $this->context, null, true);
-        $candeleteutemplates = has_capability('mod/surveypro:deleteusertemplates', $this->context, null, true);
+        $candownloadutemplates = has_capability('mod/surveypro:downloadusertemplates', $this->context);
+        $candeleteutemplates = has_capability('mod/surveypro:deleteusertemplates', $this->context);
 
         // Begin of: $paramurlbase definition.
         $paramurlbase = array();

@@ -122,7 +122,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
             debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
 
-        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context, null, true);
+        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
 
         if ($canaccessreserveditems) {
             $this->firstpageright = 1;
@@ -314,7 +314,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
     private function page_has_items($formpage) {
         global $DB;
 
-        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context, null, true);
+        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
 
         list($where, $params) = surveypro_fetch_items_seeds($this->surveypro->id, true, $canaccessreserveditems, null, null, $formpage);
         // Here I can not use get_recordset_select because I could browse returned records twice.
@@ -716,7 +716,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
     private function check_mandatories_are_in() {
         global $CFG, $DB;
 
-        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context, null, true);
+        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
 
         // Get the list of used plugin.
         $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
@@ -1107,11 +1107,11 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
     private function prevent_direct_user_input() {
         global $DB, $USER, $COURSE;
 
-        $cansubmit = has_capability('mod/surveypro:submit', $this->context, null, true);
-        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
-        $canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context, null, true);
-        $caneditotherssubmissions = has_capability('mod/surveypro:editotherssubmissions', $this->context, null, true);
-        $caneditownsubmissions = has_capability('mod/surveypro:editownsubmissions', $this->context, null, true);
+        $cansubmit = has_capability('mod/surveypro:submit', $this->context);
+        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
+        $canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context);
+        $caneditotherssubmissions = has_capability('mod/surveypro:editotherssubmissions', $this->context);
+        $caneditownsubmissions = has_capability('mod/surveypro:editownsubmissions', $this->context);
 
         if (($this->view == SURVEYPRO_READONLYRESPONSE) || ($this->view == SURVEYPRO_EDITRESPONSE)) {
             $where = array('id' => $this->get_submissionid());
