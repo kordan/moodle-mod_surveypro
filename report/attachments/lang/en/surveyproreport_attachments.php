@@ -33,3 +33,4 @@ $string['submissionid'] = 'Response id';
 $string['submissioninfo'] = 'Response info';
 $string['submissions'] = 'Responses';
 $string['uploads'] = 'Uploads';
+$string['notinanygroup'] = 'Not in any group';

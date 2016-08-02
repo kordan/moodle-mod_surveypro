@@ -41,6 +41,20 @@ class surveyproreport_attachments_report extends mod_surveypro_reportbase {
     public $outputtable = null;
 
     /**
+     * @var int $groupid
+     */
+    public $groupid = 0;
+
+    /**
+     * Set the groupid.
+     *
+     * @var int $groupid
+     */
+    public function set_groupid($groupid) {
+        $this->groupid = $groupid;
+    }
+
+    /**
      * Return if this report applies.
      *
      * true means: the report apply
@@ -58,7 +72,7 @@ class surveyproreport_attachments_report extends mod_surveypro_reportbase {
     public function setup_outputtable() {
         $this->outputtable = new flexible_table('attachmentslist');
 
-        $paramurl = array('id' => $this->cm->id);
+        $paramurl = array('id' => $this->cm->id, 'groupid' => $this->groupid);
         $baseurl = new moodle_url('/mod/surveypro/report/attachments/view.php', $paramurl);
         $this->outputtable->define_baseurl($baseurl);
 
@@ -111,52 +125,19 @@ class surveyproreport_attachments_report extends mod_surveypro_reportbase {
      * If an admin wants to make a report, he will see EACH RESPONSE SUBMITTED
      * without care to the role of the owner of the submission.
      *
+     * @var int $groupid
      * @return void
      */
-    public function fetch_data() {
+    public function fetch_data($groupid) {
         global $DB, $COURSE, $OUTPUT;
 
         $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $this->context);
-
-        $coursecontext = context_course::instance($COURSE->id);
-        $roles = get_roles_used_in_context($coursecontext);
-        if (!$role = array_keys($roles)) {
-            if (!$canviewhiddenactivities) {
-                // Return nothing.
-                return;
-            }
-        }
 
         $displayuploadsstr = get_string('display_uploads', 'surveyproreport_attachments');
         $missinguploadsstr = get_string('missing_uploads', 'surveyproreport_attachments');
         $submissionidstr = get_string('submissionid', 'surveyproreport_attachments');
 
-        $whereparams = array();
-        $whereparams['surveyproid'] = $this->surveypro->id;
-        $sql = 'SELECT '.user_picture::fields('u').', s.id as submissionid
-                FROM {user} u
-                    LEFT JOIN (SELECT id, userid
-                               FROM {surveypro_submission}
-                               WHERE surveyproid = :surveyproid) s ON u.id = s.userid';
-        if (!$canviewhiddenactivities) {
-            $sql .= ' JOIN (SELECT id, userid
-                            FROM {role_assignments}
-                            WHERE contextid = :contextid
-                                AND roleid IN ('.implode(',', $role).')) ra ON u.id = ra.userid';
-            $whereparams['contextid'] = $coursecontext->id;
-        }
-
-        list($where, $filterparams) = $this->outputtable->get_sql_where();
-        if ($where) {
-            $sql .= ' WHERE '.$where;
-            $whereparams = array_merge($whereparams,  $filterparams);
-        }
-
-        if ($this->outputtable->get_sql_sort()) {
-            $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort().', submissionid ASC';
-        } else {
-            $sql .= ' ORDER BY u.lastname ASC, submissionid ASC';
-        }
+        list($sql, $whereparams) = $this->get_submissions_sql($groupid, $canviewhiddenactivities);
         $usersubmissions = $DB->get_recordset_sql($sql, $whereparams);
 
         foreach ($usersubmissions as $usersubmission) {

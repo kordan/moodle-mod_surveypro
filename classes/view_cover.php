@@ -72,18 +72,18 @@ class mod_surveypro_view_cover {
         $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
 
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '..
-        $cansubmit = has_capability('mod/surveypro:submit', $this->context, null, true);
-        $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
-        $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context, null, true);
-        $canaccessownreports = has_capability('mod/surveypro:accessownreports', $this->context, null, true);
-        $canmanageusertemplates = has_capability('mod/surveypro:manageusertemplates', $this->context, null, true);
-        $cansaveusertemplate = has_capability('mod/surveypro:saveusertemplates', context_course::instance($COURSE->id), null, true);
-        $canimportusertemplates = has_capability('mod/surveypro:importusertemplates', $this->context, null, true);
-        $canapplyusertemplates = has_capability('mod/surveypro:applyusertemplates', $this->context, null, true);
-        $cansavemastertemplates = has_capability('mod/surveypro:savemastertemplates', $this->context, null, true);
-        $canapplymastertemplates = has_capability('mod/surveypro:applymastertemplates', $this->context, null, true);
-        $canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context, null, true);
-        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context, null, true);
+        $cansubmit = has_capability('mod/surveypro:submit', $this->context);
+        $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
+        $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context);
+        $canaccessownreports = has_capability('mod/surveypro:accessownreports', $this->context);
+        $canmanageusertemplates = has_capability('mod/surveypro:manageusertemplates', $this->context);
+        $cansaveusertemplate = has_capability('mod/surveypro:saveusertemplates', context_course::instance($COURSE->id));
+        $canimportusertemplates = has_capability('mod/surveypro:importusertemplates', $this->context);
+        $canapplyusertemplates = has_capability('mod/surveypro:applyusertemplates', $this->context);
+        $cansavemastertemplates = has_capability('mod/surveypro:savemastertemplates', $this->context);
+        $canapplymastertemplates = has_capability('mod/surveypro:applymastertemplates', $this->context);
+        $canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context);
+        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
 
         $riskyediting = ($this->surveypro->riskyeditdeadline > time());
         $hassubmissions = $utilityman->has_submissions();
