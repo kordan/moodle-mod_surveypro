@@ -442,8 +442,10 @@ function surveypro_delete_instance($id) {
 
             if ($deletelist = $DB->get_records('surveypro_item', $whereparams, 'id', 'id')) {
                 $deletelist = array_keys($deletelist);
-                $select = 'itemid IN ('.implode(',', $deletelist).')';
-                $DB->delete_records_select($tablename, $select);
+                list($insql, $whereparams) = $DB->get_in_or_equal($deletelist, SQL_PARAMS_NAMED, 'delete');
+                $select = 'itemid '.$insql;
+
+                $DB->delete_records_select($tablename, $select, $whereparams);
             }
         }
     }

@@ -351,10 +351,12 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
         }
         foreach ($toevaluate as $k => $qidarea) {
             foreach ($qidarea as $areaidlist) {
+                list($insql, $whereparams) = $DB->get_in_or_equal($areaidlist, SQL_PARAMS_NAMED, 'areaid');
                 $sql = 'SELECT COUNT(ud.id) as answerscount, SUM(ud.content) as sumofanswers
                         FROM {surveypro_answer} ud
-                        WHERE ud.itemid IN ('.implode(',', $areaidlist).')';
-                $aggregate = $DB->get_record_sql($sql);
+                        WHERE ud.itemid '.$insql;
+
+                $aggregate = $DB->get_record_sql($sql, $whereparams);
                 $m = $aggregate->sumofanswers / $aggregate->answerscount;
                 if ($k == 0) {
                     $this->trend1[] = $m;
@@ -365,8 +367,8 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
 
                 $sql = 'SELECT ud.content
                         FROM {surveypro_answer} ud
-                        WHERE ud.itemid IN ('.implode(',', $areaidlist).')';
-                $answers = $DB->get_recordset_sql($sql);
+                        WHERE ud.itemid '.$insql;
+                $answers = $DB->get_recordset_sql($sql, $whereparams);
                 $bigsum = 0;
                 foreach ($answers as $answer) {
                     $xi = (double)$answer->content;
@@ -385,16 +387,16 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
         }
 
         if (!$canaccessreports && $canaccessownreports) { // If the user hasn't general right but only canaccessownreports.
-            $where = array('userid' => $USER->id);
-
             foreach ($toevaluate as $k => $qidarea) {
                 foreach ($qidarea as $areaidlist) {
+                    list($insql, $whereparams) = $DB->get_in_or_equal($areaidlist, SQL_PARAMS_NAMED, 'areaid');
+                    $whereparams['userid'] = $USER->id;
                     $sql = 'SELECT COUNT(ud.id) as answerscount, SUM(ud.content) as sumofanswers
                             FROM {surveypro_answer} ud
-                              JOIN {surveypro_submission} ss ON ss.id = ud.submissionid
+                                JOIN {surveypro_submission} ss ON ss.id = ud.submissionid
                             WHERE ud.itemid IN ('.implode(',', $areaidlist).')
-                              AND ss.userid = :userid';
-                    $aggregate = $DB->get_record_sql($sql, $where);
+                                AND ss.userid = :userid';
+                    $aggregate = $DB->get_record_sql($sql, $whereparams);
 
                     if ($aggregate->answerscount) {
                         $m = $aggregate->sumofanswers / $aggregate->answerscount;
