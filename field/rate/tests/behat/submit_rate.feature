@@ -49,7 +49,7 @@ Feature: make a submission test for "rate" item
 
 
       """
-    And I set the field "Options" to multiline:
+    And I set the field "Rates" to multiline:
       """
 
 
