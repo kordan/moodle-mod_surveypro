@@ -198,31 +198,33 @@ class mod_surveypro_submission {
 
         $emptysql = 'SELECT DISTINCT s.*, s.id as submissionid, '.user_picture::fields('u').'
                      FROM {surveypro_submission} s
-                       JOIN {user} u ON s.userid = u.id
+                         JOIN {user} u ON s.userid = u.id
                      WHERE u.id = :userid';
 
         $coursecontext = context_course::instance($COURSE->id);
-        $roles = get_roles_used_in_context($coursecontext);
-        if (!$role = array_keys($roles)) {
+        list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);
+
+        $sql = 'SELECT COUNT(eu.id)
+                FROM ('.$enrolsql.') eu';
+        if ($DB->count_records_sql($sql, $eparams)) {
             if (!$canviewhiddenactivities) {
-                // Return nothing.
                 return array($emptysql, array('userid' => -1));
             }
         }
 
-        if ($groupmode = groups_get_activity_groupmode($this->cm, $COURSE)) {
-            if ($groupmode == SEPARATEGROUPS) {
-                if (!$canaccessallgroups) {
-                    $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $this->cm->groupingid);
-                    $mygroups = array_keys($mygroups);
-                    if (!count($mygroups)) { // User is not in any group.
-                        // This is a student that has not been added to any group.
-                        // The sql needs to return an empty set.
-                        return array($emptysql, array('userid' => -1));
-                    }
-                }
+        $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
+        if (($groupmode == SEPARATEGROUPS) && (!$canaccessallgroups)) {
+            $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $this->cm->groupingid);
+            $mygroups = array_keys($mygroups);
+            if (!count($mygroups)) { // User is not in any group.
+                // This is a student that has not been added to any group.
+                // The sql needs to return an empty set.
+                return array($emptysql, array('userid' => -1));
             }
         }
+
+        $whereparams = array();
+        $whereparams['surveyproid'] = $this->surveypro->id;
 
         // DISTINCT is needed when a user belongs to more than a single group.
         $sql = 'SELECT DISTINCT s.id as submissionid, s.surveyproid, s.status, s.userid, s.timecreated, s.timemodified, ';
@@ -231,55 +233,46 @@ class mod_surveypro_submission {
         }
         $sql .= user_picture::fields('u');
         $sql .= ' FROM {surveypro_submission} s';
-        $sql .= '   JOIN {user} u ON s.userid = u.id';
+        $sql .= ' JOIN {user} u ON s.userid = u.id';
+
         if (!$canviewhiddenactivities) {
-            $sql .= ' JOIN (SELECT id, userid
-                            FROM {role_assignments}
-                            WHERE contextid = :contextid
-                                AND roleid IN ('.implode(',', $role).')) ra ON u.id = ra.userid';
-            $whereparams['contextid'] = $coursecontext->id;
+            $sql .= ' JOIN ('.$enrolsql.') eu ON eu.id = u.id';
         }
         if ($this->searchquery) {
-            $sql .= '   JOIN {surveypro_answer} a ON s.id = a.submissionid';
+            $sql .= ' JOIN {surveypro_answer} a ON s.id = a.submissionid';
         }
 
         if (($groupmode == SEPARATEGROUPS) && (!$canaccessallgroups)) {
-            $sql .= '   JOIN {groups_members} gm ON gm.userid = s.userid';
-        }
-
-        // Now finalise $sql.
-        $sql .= ' WHERE s.surveyproid = :surveyproid';
-        $whereparams['surveyproid'] = $this->surveypro->id;
-
-        // Manage table alphabetical filter.
-        list($wherefilter, $wherefilterparams) = $table->get_sql_where();
-        if ($wherefilter) {
-            $sql .= '  AND '.$wherefilter;
-            $whereparams = $whereparams + $wherefilterparams;
-        }
-
-        if (($groupmode == SEPARATEGROUPS) && (!$canaccessallgroups)) {
-            if (count($mygroups)) {
-                // Restrict to your groups only.
-                $sql .= '  AND gm.groupid IN ('.implode(',', $mygroups).')';
-            } else {
-                $sql .= '  AND s.userid = :userid';
-                $whereparams['userid'] = $USER->id;
-
-                $message = 'Activity is divided into SEPARATE groups BUT you do not belong to anyone of them';
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-
-                return array($sql, $whereparams);
-            }
+            $sql .= ' JOIN {groups_members} gm ON gm.userid = s.userid';
         }
 
         if (!$canseeotherssubmissions) {
             // Restrict to your submissions only.
-            $sql .= '  AND s.userid = :userid';
             $whereparams['userid'] = $USER->id;
         }
 
-        // Manage user selection.
+        // Now finalise $sql.
+        $conditions = array();
+        foreach ($whereparams as $k => $v) {
+            $conditions[] .= $k.' = :'.$k;
+        }
+        $sql .= ' WHERE '.implode(' AND ', $conditions);
+
+        // Manage table alphabetical filter.
+        list($wherefilter, $wherefilterparams) = $table->get_sql_where();
+        if ($wherefilter) {
+            $sql .= ' AND '.$wherefilter;
+            $whereparams = $whereparams + $wherefilterparams;
+        }
+
+        if (($groupmode == SEPARATEGROUPS) && (!$canaccessallgroups)) {
+            // Restrict to your groups only.
+            list($subsql, $subparams) = $DB->get_in_or_equal($mygroups, SQL_PARAMS_NAMED, 'groupid');
+            $whereparams = array_merge($whereparams, $subparams);
+            $sql .= ' AND gm.groupid '.$subsql;
+        }
+
+        // Manage user search query.
         if ($this->searchquery) {
             // This will be re-send to URL for next page reload, whether requested with a sort, for instance.
             $whereparams['searchquery'] = $this->searchquery;
@@ -297,9 +290,9 @@ class mod_surveypro_submission {
                 $userquery[] = '(a.itemid = '.$itemid.' AND '.$whereclause.')';
                 $whereparams['content_'.$itemid] = $whereparam;
             }
-            $sql .= '  AND ('.implode(' OR ', $userquery).') ';
-            $sql .= 'GROUP BY s.id ';
-            $sql .= 'HAVING matchcount = :matchcount ';
+            $sql .= ' AND ('.implode(' OR ', $userquery).')';
+            $sql .= ' GROUP BY s.id';
+            $sql .= ' HAVING matchcount = :matchcount';
             $whereparams['matchcount'] = count($userquery);
         }
 
@@ -308,6 +301,10 @@ class mod_surveypro_submission {
             $sql .= ' ORDER BY '.$table->get_sql_sort();
         } else {
             $sql .= ' ORDER BY s.timecreated';
+        }
+
+        if (!$canviewhiddenactivities) {
+            $whereparams = array_merge($whereparams, $eparams);
         }
 
         return array($sql, $whereparams);
@@ -648,7 +645,7 @@ class mod_surveypro_submission {
         $candeleteotherssubmissions = has_capability('mod/surveypro:deleteotherssubmissions', $this->context);
         $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
 
-        // Begin of: is the button to add one more response going to be the page?
+        // Begin of: is the button to add one more response going to be in the page?
         $timenow = time();
         $userid = ($canseeotherssubmissions) ? null : $USER->id;
         $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
