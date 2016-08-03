@@ -33,7 +33,7 @@ require_once($CFG->dirroot.'/lib/formslib.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyproreport_filterform extends moodleform {
+class surveyproreport_attachmentfilterform extends moodleform {
 
     /**
      * Definition.
@@ -88,28 +88,26 @@ class surveyproreport_filterform extends moodleform {
 
         // Userid.
         $coursecontext = context_course::instance($COURSE->id);
-        $roles = get_roles_used_in_context($coursecontext);
-        if (!$role = array_keys($roles)) {
-            if (!$canviewhiddenactivities) {
-                // Return nothing.
-                return;
-            }
-        }
 
         $whereparams = array();
         $whereparams['surveyproid'] = $surveypro->id;
         $sql = 'SELECT u.id as userid, '.user_picture::fields('u').'
                 FROM {user} u
-                    JOIN (SELECT DISTINCT userid
-                          FROM {surveypro_submission}
-                          WHERE surveyproid = :surveyproid) s ON u.id = s.userid';
+                    JOIN {surveypro_submission} s ON u.id = s.userid';
         if (!$canviewhiddenactivities) {
-            $sql .= ' JOIN (SELECT id, userid
-                            FROM {role_assignments}
-                            WHERE contextid = :contextid
-                                AND roleid IN ('.implode(',', $role).')) ra ON u.id = ra.userid';
+            list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);
+            $whereparams = array_merge($whereparams, $eparams);
+
+            $sql .= ' JOIN ('.$enrolsql.') eu ON eu.id = u.id
+                      JOIN {role_assignments} ra ON u.id = ra.userid';
             $whereparams['contextid'] = $coursecontext->id;
         }
+
+        $conditions = array();
+        foreach ($whereparams as $k => $v) {
+            $conditions[] = $k.' = :'.$k;
+        }
+        $sql .= ' WHERE '.implode(' AND ', $conditions);
         $sql .= ' ORDER BY u.lastname ASC';
         $users = $DB->get_recordset_sql($sql, $whereparams);
 

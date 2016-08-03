@@ -90,8 +90,8 @@ class mod_surveypro_submission {
         $this->context = $context;
         $this->surveypro = $surveypro;
 
-        $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
-        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context, null, true);
+        $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
+        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
 
         $utilityman = new mod_surveypro_utility($cm, $surveypro);
         $this->hasitems = $utilityman->has_input_items(0, false, $canmanageitems, $canaccessreserveditems);
@@ -187,13 +187,13 @@ class mod_surveypro_submission {
      * without care to the role of the owner of the submission.
      *
      * @param flexible_table $table
-     * @return void
+     * @return array($sql, $whereparams);
      */
     public function get_submissions_sql($table) {
         global $DB, $COURSE, $USER;
 
         $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $this->context);
-        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
+        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
         $canaccessallgroups = has_capability('moodle/site:accessallgroups', $this->context);
 
         $emptysql = 'SELECT DISTINCT s.*, s.id as submissionid, '.user_picture::fields('u').'
@@ -323,15 +323,15 @@ class mod_surveypro_submission {
 
         require_once($CFG->libdir.'/tablelib.php');
 
-        $canalwaysseeowner = has_capability('mod/surveypro:alwaysseeowner', $this->context, null, true);
-        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
-        $caneditownsubmissions = has_capability('mod/surveypro:editownsubmissions', $this->context, null, true);
-        $caneditotherssubmissions = has_capability('mod/surveypro:editotherssubmissions', $this->context, null, true);
-        $canduplicateownsubmissions = has_capability('mod/surveypro:duplicateownsubmissions', $this->context, null, true);
-        $canduplicateotherssubmissions = has_capability('mod/surveypro:duplicateotherssubmissions', $this->context, null, true);
-        $candeleteownsubmissions = has_capability('mod/surveypro:deleteownsubmissions', $this->context, null, true);
-        $candeleteotherssubmissions = has_capability('mod/surveypro:deleteotherssubmissions', $this->context, null, true);
-        $cansavesubmissiontopdf = has_capability('mod/surveypro:savesubmissiontopdf', $this->context, null, true);
+        $canalwaysseeowner = has_capability('mod/surveypro:alwaysseeowner', $this->context);
+        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
+        $caneditownsubmissions = has_capability('mod/surveypro:editownsubmissions', $this->context);
+        $caneditotherssubmissions = has_capability('mod/surveypro:editotherssubmissions', $this->context);
+        $canduplicateownsubmissions = has_capability('mod/surveypro:duplicateownsubmissions', $this->context);
+        $canduplicateotherssubmissions = has_capability('mod/surveypro:duplicateotherssubmissions', $this->context);
+        $candeleteownsubmissions = has_capability('mod/surveypro:deleteownsubmissions', $this->context);
+        $candeleteotherssubmissions = has_capability('mod/surveypro:deleteotherssubmissions', $this->context);
+        $cansavesubmissiontopdf = has_capability('mod/surveypro:savesubmissiontopdf', $this->context);
         $canaccessallgroups = has_capability('moodle/site:accessallgroups', $this->context);
 
         $table = new flexible_table('submissionslist');
@@ -642,11 +642,11 @@ class mod_surveypro_submission {
     public function show_action_buttons() {
         global $OUTPUT, $USER;
 
-        $cansubmit = has_capability('mod/surveypro:submit', $this->context, null, true);
-        $canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context, null, true);
-        $candeleteownsubmissions = has_capability('mod/surveypro:deleteownsubmissions', $this->context, null, true);
-        $candeleteotherssubmissions = has_capability('mod/surveypro:deleteotherssubmissions', $this->context, null, true);
-        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
+        $cansubmit = has_capability('mod/surveypro:submit', $this->context);
+        $canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context);
+        $candeleteownsubmissions = has_capability('mod/surveypro:deleteownsubmissions', $this->context);
+        $candeleteotherssubmissions = has_capability('mod/surveypro:deleteotherssubmissions', $this->context);
+        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
 
         // Begin of: is the button to add one more response going to be the page?
         $timenow = time();
@@ -757,7 +757,7 @@ class mod_surveypro_submission {
      */
     public function noitem_redirect() {
         if (!$this->hasitems) {
-            $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context, null, true);
+            $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
 
             $paramurl = array('s' => $this->surveypro->id);
             if ($canmanageitems) {
@@ -1213,12 +1213,12 @@ class mod_surveypro_submission {
             return true;
         }
 
-        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
-        $caneditownsubmissions = has_capability('mod/surveypro:editownsubmissions', $this->context, null, true);
-        $caneditotherssubmissions = has_capability('mod/surveypro:editotherssubmissions', $this->context, null, true);
-        $candeleteownsubmissions = has_capability('mod/surveypro:deleteownsubmissions', $this->context, null, true);
-        $candeleteotherssubmissions = has_capability('mod/surveypro:deleteotherssubmissions', $this->context, null, true);
-        $cansavesubmissiontopdf = has_capability('mod/surveypro:savesubmissiontopdf', $this->context, null, true);
+        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
+        $caneditownsubmissions = has_capability('mod/surveypro:editownsubmissions', $this->context);
+        $caneditotherssubmissions = has_capability('mod/surveypro:editotherssubmissions', $this->context);
+        $candeleteownsubmissions = has_capability('mod/surveypro:deleteownsubmissions', $this->context);
+        $candeleteotherssubmissions = has_capability('mod/surveypro:deleteotherssubmissions', $this->context);
+        $cansavesubmissiontopdf = has_capability('mod/surveypro:savesubmissiontopdf', $this->context);
 
         if ($this->action == SURVEYPRO_NOACTION) {
             return true;
@@ -1230,12 +1230,12 @@ class mod_surveypro_submission {
             return true;
         }
 
-        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context, null, true);
-        $caneditownsubmissions = has_capability('mod/surveypro:editownsubmissions', $this->context, null, true);
-        $caneditotherssubmissions = has_capability('mod/surveypro:editotherssubmissions', $this->context, null, true);
-        $candeleteownsubmissions = has_capability('mod/surveypro:deleteownsubmissions', $this->context, null, true);
-        $candeleteotherssubmissions = has_capability('mod/surveypro:deleteotherssubmissions', $this->context, null, true);
-        $cansavesubmissiontopdf = has_capability('mod/surveypro:savesubmissiontopdf', $this->context, null, true);
+        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
+        $caneditownsubmissions = has_capability('mod/surveypro:editownsubmissions', $this->context);
+        $caneditotherssubmissions = has_capability('mod/surveypro:editotherssubmissions', $this->context);
+        $candeleteownsubmissions = has_capability('mod/surveypro:deleteownsubmissions', $this->context);
+        $candeleteotherssubmissions = has_capability('mod/surveypro:deleteotherssubmissions', $this->context);
+        $cansavesubmissiontopdf = has_capability('mod/surveypro:savesubmissiontopdf', $this->context);
 
         if ($this->action != SURVEYPRO_DELETEALLRESPONSES) { // If a specific submission is involved.
             $ownerid = $DB->get_field('surveypro_submission', 'userid', array('id' => $this->submissionid), IGNORE_MISSING);

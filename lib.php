@@ -925,8 +925,8 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
     // SURVEYPRO REPORTS.
     $context = context_module::instance($cm->id);
     if ($surveyproreportlist = get_plugin_list('surveyproreport')) {
-        $canaccessownreports = has_capability('mod/surveypro:accessownreports', $context, null, true);
-        $canaccessreports = has_capability('mod/surveypro:accessreports', $context, null, true);
+        $canaccessownreports = has_capability('mod/surveypro:accessownreports', $context);
+        $canaccessreports = has_capability('mod/surveypro:accessreports', $context);
 
         $icon = new pix_icon('i/report', '', 'moodle', array('class' => 'iconsmall'));
         foreach ($surveyproreportlist as $pluginname => $pluginpath) {

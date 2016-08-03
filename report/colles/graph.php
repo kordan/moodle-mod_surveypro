@@ -58,8 +58,8 @@ $reportman->set_qid($qid);
 
 $graph = new graph(SURVEYPROREPORT_COLLES_GWIDTH, SURVEYPROREPORT_COLLES_GHEIGHT);
 if ($type == 'summary') {
-    $canaccessreports = has_capability('mod/surveypro:accessreports', $context, null, true);
-    $canaccessownreports = has_capability('mod/surveypro:accessownreports', $context, null, true);
+    $canaccessreports = has_capability('mod/surveypro:accessreports', $context);
+    $canaccessownreports = has_capability('mod/surveypro:accessownreports', $context);
 
     $reportman->fetch_summarydata();
 

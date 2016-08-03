@@ -111,7 +111,7 @@ class surveyproreport_attachments_form {
      * @return void
      */
     public function prevent_direct_user_input() {
-        $allowed = has_capability('mod/surveypro:accessreports', $this->context, null, true);
+        $allowed = has_capability('mod/surveypro:accessreports', $this->context);
 
         if (!$allowed) {
             print_error('incorrectaccessdetected', 'mod_surveypro');
