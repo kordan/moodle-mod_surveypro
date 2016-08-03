@@ -1,4 +1,4 @@
-@mod @mod_surveypro @surveyprofield @surveyprofield_numeric @current
+@mod @mod_surveypro @surveyprofield @surveyprofield_numeric
 Feature: verify the input with different number format
   In order to verify numbers are correctly handled in different languages // Why this feature is useful
   As student1                                                             // It can be 'an admin', 'a teacher', 'a student', 'a guest', 'a user', 'a tests writer' and 'a developer'
