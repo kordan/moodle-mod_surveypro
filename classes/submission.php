@@ -634,10 +634,14 @@ class mod_surveypro_submission {
     /**
      * Display buttons in the "view submissions" page according to capabilities and already sent submissions.
      *
+     * @param string $tifirst
+     * @param string $tilast
      * @return void
      */
-    public function show_action_buttons() {
+    public function show_action_buttons($tifirst, $tilast) {
         global $OUTPUT, $USER;
+
+        $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
 
         $cansubmit = has_capability('mod/surveypro:submit', $this->context);
         $canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context);
@@ -645,35 +649,23 @@ class mod_surveypro_submission {
         $candeleteotherssubmissions = has_capability('mod/surveypro:deleteotherssubmissions', $this->context);
         $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
 
-        // Begin of: is the button to add one more response going to be in the page?
         $timenow = time();
         $userid = ($canseeotherssubmissions) ? null : $USER->id;
-        $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+
         $countclosed = $utilityman->has_submissions(true, SURVEYPRO_STATUSCLOSED, $userid);
         $inprogress = $utilityman->has_submissions(true, SURVEYPRO_STATUSINPROGRESS, $userid);
         $next = $countclosed + $inprogress + 1;
 
-        $roles = get_roles_used_in_context($this->context);
-        $addnew = count(array_keys($roles));
-        $addnew = $addnew && $cansubmit;
-        $addnew = $addnew && $this->hasitems;
-        if ($this->surveypro->timeopen) {
-            $addnew = $addnew && ($this->surveypro->timeopen < $timenow);
-        }
-        if ($this->surveypro->timeclose) {
-            $addnew = $addnew && ($this->surveypro->timeclose > $timenow);
-        }
-        if (!$canignoremaxentries) {
-            $addnew = $addnew && (($this->surveypro->maxentries == 0) || ($next <= $this->surveypro->maxentries));
-        }
+        // Begin of: is the button to add one more response going to be in the page?
+        $addnew = $utilityman->is_newresponse_allowed($next);
         // End of: is the button to add one more response going to be the page?
 
         // Begin of: is the button to delete all responses going to be the page?
         $deleteall = $candeleteownsubmissions;
         $deleteall = $deleteall && $candeleteotherssubmissions;
         $deleteall = $deleteall && empty($this->searchquery);
-        $deleteall = $deleteall && empty($_GET['tifirst']); // Hide the deleteall button if only partial responses are shown.
-        $deleteall = $deleteall && empty($_GET['tilast']);  // Hide the deleteall button if only partial responses are shown.
+        $deleteall = $deleteall && empty($tifirst); // Hide the deleteall button if only partial responses are shown.
+        $deleteall = $deleteall && empty($tilast);  // Hide the deleteall button if only partial responses are shown.
         $deleteall = $deleteall && ($next > 2);
         // End of: is the button to delete all responses going to be the page?
 

@@ -72,6 +72,7 @@ class mod_surveypro_view_cover {
         $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
 
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '..
+
         $cansubmit = has_capability('mod/surveypro:submit', $this->context);
         $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
         $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context);
@@ -97,22 +98,9 @@ class mod_surveypro_view_cover {
         $inprogress = $utilityman->has_submissions(true, SURVEYPRO_STATUSINPROGRESS, $USER->id);
         $next = $countclosed + $inprogress + 1;
 
-        // Begin of: the button to add one more surveypro.
-        // Begin of: is the button to add one more surveypro going to be displayed?
-        $roles = get_roles_used_in_context($this->context);
-        $displaybutton = count(array_keys($roles));
-        $displaybutton = $displaybutton && $cansubmit;
-        $displaybutton = $displaybutton && $itemcount;
-        if ($this->surveypro->timeopen) {
-            $displaybutton = $displaybutton && ($this->surveypro->timeopen < $timenow);
-        }
-        if ($this->surveypro->timeclose) {
-            $displaybutton = $displaybutton && ($this->surveypro->timeclose > $timenow);
-        }
-        if (!$canignoremaxentries) {
-            $displaybutton = $displaybutton && (($this->surveypro->maxentries == 0) || ($next <= $this->surveypro->maxentries));
-        }
-        // End of: is the button to add one more surveypro going to be displayed?
+        // Begin of: is the button to add one more response going to be displayed?
+        $addnew = $utilityman->is_newresponse_allowed($next);
+        // End of: is the button to add one more response going to be displayed?
 
         echo $OUTPUT->heading(get_string('coverpage_welcome', 'mod_surveypro', $this->surveypro->name));
         if ($this->surveypro->intro) {
@@ -175,7 +163,7 @@ class mod_surveypro_view_cover {
         $messages = array();
         // End of: general info.
 
-        if ($displaybutton) {
+        if ($addnew) {
             $url = new moodle_url('/mod/surveypro/view_form.php', array('id' => $this->cm->id, 'view' => SURVEYPRO_NEWRESPONSE));
             $message = get_string('addnewsubmission', 'mod_surveypro');
             echo $OUTPUT->box($OUTPUT->single_button($url, $message, 'get'), 'clearfix mdl-align');
