@@ -730,7 +730,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
             if ($canbemandatory) {
                 $sql = 'SELECT i.id, i.parentid, i.parentvalue, i.reserved
                         FROM {surveypro_item} i
-                          JOIN {surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'} p ON i.id = p.itemid
+                            JOIN {surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'} p ON i.id = p.itemid
                         WHERE i.surveyproid = :surveyproid
                             AND i.hidden = :hidden
                             AND p.required > :required
@@ -837,13 +837,13 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         }
 
         // Course context used locally to get groups.
-        $context = context_course::instance($COURSE->id);
+        $coursecontext = context_course::instance($COURSE->id);
 
         $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $this->cm->groupingid);
         $mygroups = array_keys($mygroups);
         if ($this->surveypro->notifyrole) {
+            $roles = explode(',', $this->surveypro->notifyrole);
             if (count($mygroups)) {
-                $roles = explode(',', $this->surveypro->notifyrole);
                 $recipients = array();
                 foreach ($mygroups as $mygroup) {
                     $fields = user_picture::fields('u').', u.maildisplay, u.mailformat';
@@ -862,13 +862,24 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
                 }
             } else {
                 // get_enrolled_users($courseid, $options = array()) <-- role is missing.
-                // get_users_from_role_on_context($role, $context);  <-- this is ok but I need to call it once per $role.
-                $whereparams = array('contextid' => $context->id);
+                // get_users_from_role_on_context($role, $coursecontext);  <-- this is ok but I need to call it once per $role.
+                $whereparams = array();
+
+                list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);
+                $whereparams = array_merge($whereparams, $eparams);
+
+                list($subsql, $subparams) = $DB->get_in_or_equal($roles, SQL_PARAMS_NAMED, 'roles');
+                $whereparams = array_merge($whereparams, $subparams);
+
+                $whereparams['contextid'] = $coursecontext->id;
                 $sql = 'SELECT DISTINCT '.user_picture::fields('u').', u.maildisplay, u.mailformat
                         FROM {user} u
-                          JOIN {role_assignments} ra ON u.id = ra.userid
-                        WHERE contextid = :contextid
-                          AND roleid IN ('.$this->surveypro->notifyrole.')';
+                            JOIN ('.$enrolsql.') eu ON eu.id = u.id
+                            JOIN {role_assignments} ra ON u.id = ra.userid
+                        WHERE ra.contextid = :contextid
+                            AND ra.roleid '.$subsql;
+
+                $whereparams = array_merge($whereparams, $eparams);
                 $recipients = $DB->get_records_sql($sql, $whereparams);
             }
         } else {
@@ -899,7 +910,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
     <body id="email"><div>';
         $mailfooter = '</div></body>';
 
-        $from = new object;
+        $from = new stdClass();
         $from->firstname = $COURSE->shortname;
         $from->lastname = $this->surveypro->name;
         $from->email = $CFG->noreplyaddress;
