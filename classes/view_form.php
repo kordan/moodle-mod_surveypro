@@ -809,14 +809,18 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         }
 
         $pages = range($this->get_formpage() + 1, $this->firstpageright - 1);
+        list($insql, $whereparams) = $DB->get_in_or_equal($pages, SQL_PARAMS_NAMED, 'pages');
+        $whereparams['surveyproid'] = $this->surveypro->id;
         $where = 'surveyproid = :surveyproid
-                AND formpage IN ('.implode(',', $pages).')';
-        $itemlistid = $DB->get_records_select('surveypro_item', $where, array('surveyproid' => $this->surveypro->id), 'id', 'id');
+                AND formpage '.$insql;
+        $itemlistid = $DB->get_records_select('surveypro_item', $where, $whereparams, 'id', 'id');
         $itemlistid = array_keys($itemlistid);
 
+        list($insql, $whereparams) = $DB->get_in_or_equal($itemlistid, SQL_PARAMS_NAMED, 'itemid');
+        $whereparams['submissionid'] = $this->formdata->submissionid;
         $where = 'submissionid = :submissionid
-            AND itemid IN ('.implode(',', $itemlistid).')';
-        $DB->delete_records_select('surveypro_answer', $where, array('submissionid' => $this->formdata->submissionid));
+            AND itemid '.$insql;
+        $DB->delete_records_select('surveypro_answer', $where, $whereparams);
     }
 
     /**
