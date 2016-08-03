@@ -59,7 +59,7 @@ Feature: test the use of checkbox setup form
       """
     And I set the following fields to these values:
       | Option "other"           | other->specify                         |
-    And I set the field "Options" to multiline:
+    And I set the field "Default" to multiline:
       """
 
 
