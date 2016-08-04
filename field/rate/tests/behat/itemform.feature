@@ -60,7 +60,7 @@ English
       Deutch
 
       """
-    And I set the field "Options" to multiline:
+    And I set the field "Rates" to multiline:
       """
          Mother tongue
       Very confident

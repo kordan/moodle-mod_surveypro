@@ -282,7 +282,7 @@ Feature: make a submission test for each available item
 
 
       """
-    And I set the field "Options" to multiline:
+    And I set the field "Rates" to multiline:
       """
 
 
@@ -319,7 +319,7 @@ Feature: make a submission test for each available item
 
 
       """
-    And I set the field "Options" to multiline:
+    And I set the field "Rates" to multiline:
       """
 
 

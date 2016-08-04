@@ -57,7 +57,7 @@ Feature: test the use of multiselect setup form
 
 
       """
-    And I set the field "Options" to multiline:
+    And I set the field "Default" to multiline:
       """
 
 
