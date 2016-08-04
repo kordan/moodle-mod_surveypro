@@ -206,7 +206,7 @@ class mod_surveypro_submission {
 
         $sql = 'SELECT COUNT(eu.id)
                 FROM ('.$enrolsql.') eu';
-        if ($DB->count_records_sql($sql, $eparams)) {
+        if (!$DB->count_records_sql($sql, $eparams)) {
             if (!$canviewhiddenactivities) {
                 return array($emptysql, array('userid' => -1));
             }
