@@ -41,20 +41,6 @@ class surveyproreport_attachments_report extends mod_surveypro_reportbase {
     public $outputtable = null;
 
     /**
-     * @var int $groupid
-     */
-    public $groupid = 0;
-
-    /**
-     * Set the groupid.
-     *
-     * @var int $groupid
-     */
-    public function set_groupid($groupid) {
-        $this->groupid = $groupid;
-    }
-
-    /**
      * Return if this report applies.
      *
      * true means: the report apply
@@ -125,19 +111,16 @@ class surveyproreport_attachments_report extends mod_surveypro_reportbase {
      * If an admin wants to make a report, he will see EACH RESPONSE SUBMITTED
      * without care to the role of the owner of the submission.
      *
-     * @var int $groupid
      * @return void
      */
-    public function fetch_data($groupid) {
+    public function fetch_data() {
         global $DB, $COURSE, $OUTPUT;
-
-        $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $this->context);
 
         $displayuploadsstr = get_string('display_uploads', 'surveyproreport_attachments');
         $missinguploadsstr = get_string('missing_uploads', 'surveyproreport_attachments');
         $submissionidstr = get_string('submissionid', 'surveyproreport_attachments');
 
-        list($sql, $whereparams) = $this->get_submissions_sql($groupid, $canviewhiddenactivities);
+        list($sql, $whereparams) = $this->get_submissions_sql();
         $usersubmissions = $DB->get_recordset_sql($sql, $whereparams);
 
         foreach ($usersubmissions as $usersubmission) {
@@ -172,6 +155,36 @@ class surveyproreport_attachments_report extends mod_surveypro_reportbase {
         }
 
         $usersubmissions->close();
+    }
+
+    /**
+     * Get_submissions_sql
+     *
+     * @return array($sql, $whereparams);
+     */
+    public function get_submissions_sql() {
+        global $COURSE, $DB;
+
+        $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $this->context);
+
+        $coursecontext = context_course::instance($COURSE->id);
+        list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);
+
+        $whereparams = array();
+        $sql = 'SELECT '.user_picture::fields('u').', s.id as submissionid
+                FROM {user} u
+                JOIN {surveypro_submission} s ON u.id = s.userid';
+
+        list($middlesql, $whereparams) = $this->get_middle_sql();
+        $sql .= $middlesql;
+
+        if ($this->outputtable->get_sql_sort()) {
+            $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort().', submissionid ASC';
+        } else {
+            $sql .= ' ORDER BY u.lastname ASC, submissionid ASC';
+        }
+
+        return array($sql, $whereparams);
     }
 
     /**

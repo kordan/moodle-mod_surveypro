@@ -49,6 +49,11 @@ class mod_surveypro_reportbase {
     protected $surveypro;
 
     /**
+     * @var int $groupid
+     */
+    public $groupid = 0;
+
+    /**
      * Class constructor.
      *
      * @param object $cm
@@ -74,15 +79,6 @@ class mod_surveypro_reportbase {
     }
 
     /**
-     * Returns if this report was created for student too.
-     *
-     * @return boolean false
-     */
-    public function has_student_report() {
-        return false;
-    }
-
-    /**
      * Return if this report applies.
      *
      * true means: the report apply
@@ -92,6 +88,15 @@ class mod_surveypro_reportbase {
      */
     public function report_apply() {
         return true;
+    }
+
+    /**
+     * Returns if this report was created for student too.
+     *
+     * @return boolean false
+     */
+    public function has_student_report() {
+        return false;
     }
 
     /**
@@ -145,25 +150,6 @@ class mod_surveypro_reportbase {
     }
 
     /**
-     * Get the list of groups the user is allowed to browse
-     *
-     * @return array of expected groups
-     */
-    public function get_groupjumper_content() {
-        global $COURSE, $USER;
-
-        $canaccessallgroups = has_capability('moodle/site:accessallgroups', $this->context);
-
-        if ($canaccessallgroups) { // You can see only your groups.
-            $allgroups = groups_get_all_groups($COURSE->id);
-        } else {
-            $allgroups = groups_get_all_groups($COURSE->id, $USER->id);
-        }
-
-        return $allgroups;
-    }
-
-    /**
      * Does the item "Not in any group" must be added?
      *
      * @return boolean
@@ -204,19 +190,50 @@ class mod_surveypro_reportbase {
         return $DB->count_records_sql($sql, $whereparams);
     }
 
+    // MARK set.
+
+    /**
+     * Set the groupid.
+     *
+     * @var int $groupid
+     */
+    public function set_groupid($groupid) {
+        $this->groupid = $groupid;
+    }
+
+    // MARK get.
+
+    /**
+     * Get the list of groups the user is allowed to browse
+     *
+     * @return array of expected groups
+     */
+    public function get_groupjumper_content() {
+        global $COURSE, $USER;
+
+        $canaccessallgroups = has_capability('moodle/site:accessallgroups', $this->context);
+
+        if ($canaccessallgroups) { // You can see only your groups.
+            $allgroups = groups_get_all_groups($COURSE->id);
+        } else {
+            $allgroups = groups_get_all_groups($COURSE->id, $USER->id);
+        }
+
+        return $allgroups;
+    }
+
     /**
      * Get_submissions_sql
      *
-     * @var int $groupid
-     * @var int $canviewhiddenactivities
      * @return array($sql, $whereparams);
      */
-    public function get_submissions_sql($groupid, $canviewhiddenactivities) {
+    public function get_submissions_sql() {
         global $COURSE, $DB;
 
-        list($enrolsql, $eparams) = get_enrolled_sql($this->context);
+        $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $this->context);
 
         $coursecontext = context_course::instance($COURSE->id);
+        list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);
 
         $whereparams = array();
         $sql = 'SELECT '.user_picture::fields('u').', s.id as submissionid
@@ -224,7 +241,7 @@ class mod_surveypro_reportbase {
                 JOIN {surveypro_submission} s ON u.id = s.userid';
         $whereparams['surveyproid'] = $this->surveypro->id;
         if ($canviewhiddenactivities) { // You are an admin.
-            switch ($groupid) {
+            switch ($this->groupid) {
                 case -1: // Users not enrolled in this course.
                     $sql .= ' LEFT JOIN ('.$enrolsql.') eu ON eu.id = u.id';
                     $whereparams['eu.id'] = null;
@@ -233,15 +250,15 @@ class mod_surveypro_reportbase {
                     break;
                 default: // Each user of group xx with submissions.
                     $sql .= ' JOIN {groups_members} gm ON u.id = gm.userid';
-                    $whereparams['groupid'] = $groupid;
+                    $whereparams['groupid'] = $this->groupid;
             }
         } else { // You are a teacher.
             $sql .= ' JOIN ('.$enrolsql.') eu ON eu.id = u.id';
 
-            // $groupid == -1 is IMPOSSIBLE. If !$canviewhiddenactivities, $groupid can't be -1.
-            if ($groupid > 0) {
+            // $this->groupid == -1 is IMPOSSIBLE. If !$canviewhiddenactivities, $groupid can't be -1.
+            if ($this->groupid > 0) {
                 $sql .= ' JOIN {groups_members} gm ON u.id = gm.userid';
-                $whereparams['groupid'] = $groupid;
+                $whereparams['groupid'] = $this->groupid;
             }
         }
 
@@ -266,6 +283,63 @@ class mod_surveypro_reportbase {
             $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort().', submissionid ASC';
         } else {
             $sql .= ' ORDER BY u.lastname ASC, submissionid ASC';
+        }
+
+        $whereparams = array_merge($whereparams, $eparams);
+        return array($sql, $whereparams);
+    }
+
+    /**
+     * get_middle_sql
+     */
+    public function get_middle_sql() {
+        global $COURSE;
+
+        $coursecontext = context_course::instance($COURSE->id);
+        $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $coursecontext);
+
+        $whereparams = array();
+        $whereparams['surveyproid'] = $this->surveypro->id;
+
+        list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);
+
+        $sql = '';
+        if ($canviewhiddenactivities) { // You are an admin.
+             switch ($this->groupid) {
+                 case -1: // Users not enrolled in this course.
+                     $sql .= ' LEFT JOIN ('.$enrolsql.') eu ON eu.id = u.id';
+                     $whereparams['eu.id'] = null;
+                     break;
+                 case 0: // Each user with submissions.
+                     break;
+                 default: // Each user of group xx with submissions.
+                     $sql .= ' JOIN {groups_members} gm ON u.id = gm.userid';
+                     $whereparams['groupid'] = $this->groupid;
+             }
+         } else { // You are a teacher.
+             $sql .= ' JOIN ('.$enrolsql.') eu ON eu.id = u.id';
+
+             // $this->groupid == -1 is IMPOSSIBLE. If !$canviewhiddenactivities, $groupid can't be -1.
+             if ($this->groupid > 0) {
+                 $sql .= ' JOIN {groups_members} gm ON u.id = gm.userid';
+                 $whereparams['groupid'] = $this->groupid;
+             }
+         }
+
+        $conditions = array();
+        foreach ($whereparams as $k => $v) {
+            if ($v === null) {
+                $conditions[] .= $k.' IS NULL';
+            } else {
+                $conditions[] .= $k.' = :'.$k;
+            }
+        }
+        $sql .= ' WHERE '.implode(' AND ', $conditions);
+
+        list($where, $filterparams) = $this->outputtable->get_sql_where();
+        if ($where) {
+            $sql .= ' AND '.$where;
+            $whereparams = array_merge($whereparams,  $filterparams);
         }
 
         $whereparams = array_merge($whereparams, $eparams);
