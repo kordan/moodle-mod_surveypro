@@ -711,7 +711,7 @@ class mod_surveypro_utility {
         // Get submissions from constrains on surveypro_answer.
         $sql = 'SELECT s.id
                 FROM {surveypro_submission} s
-                  JOIN {surveypro_answer} a ON s.id = a.submissionid
+                  JOIN {surveypro_answer} a ON a.submissionid = s.id
                 WHERE (s.surveyproid = :surveyproid)';
         if (array_key_exists('content', $whereparams)) {
             $sql .= ' AND a.content = '.$DB->sql_compare_text(':content');

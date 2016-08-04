@@ -173,10 +173,10 @@ class mod_surveypro_itembase {
             debugging($message, DEBUG_DEVELOPER);
         }
 
-        $sql = 'SELECT *, si.id as itemid, plg.id as pluginid
-                FROM {surveypro_item} si
-                  JOIN {surveypro'.$this->type.'_'.$this->plugin.'} plg ON si.id = plg.itemid
-                WHERE si.id = :itemid';
+        $sql = 'SELECT *, i.id as itemid, p.id as pluginid
+                FROM {surveypro_item} i
+                  JOIN {surveypro'.$this->type.'_'.$this->plugin.'} p ON p.itemid = i.id
+                WHERE i.id = :itemid';
 
         if ($record = $DB->get_record_sql($sql, array('itemid' => $itemid))) {
             foreach ($record as $option => $value) {
@@ -529,7 +529,7 @@ class mod_surveypro_itembase {
             $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
             $sql = 'SELECT p.id, p.variable
                     FROM {surveypro_item} i
-                      JOIN {'.$tablename.'} p ON i.id = p.itemid
+                      JOIN {'.$tablename.'} p ON p.itemid = i.id
                     WHERE ((i.surveyproid = :surveyproid)
                       AND (p.itemid <> :itemid))';
             $whereparams = array('surveyproid' => (int)$record->surveyproid, 'itemid' => $itemid);

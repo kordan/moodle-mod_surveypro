@@ -730,7 +730,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
             if ($canbemandatory) {
                 $sql = 'SELECT i.id, i.parentid, i.parentvalue, i.reserved
                         FROM {surveypro_item} i
-                            JOIN {surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'} p ON i.id = p.itemid
+                            JOIN {surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'} p ON p.itemid = i.id
                         WHERE i.surveyproid = :surveyproid
                             AND i.hidden = :hidden
                             AND p.required > :required
@@ -812,14 +812,14 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         list($insql, $whereparams) = $DB->get_in_or_equal($pages, SQL_PARAMS_NAMED, 'pages');
         $whereparams['surveyproid'] = $this->surveypro->id;
         $where = 'surveyproid = :surveyproid
-                AND formpage '.$insql;
+              AND formpage '.$insql;
         $itemlistid = $DB->get_records_select('surveypro_item', $where, $whereparams, 'id', 'id');
         $itemlistid = array_keys($itemlistid);
 
         list($insql, $whereparams) = $DB->get_in_or_equal($itemlistid, SQL_PARAMS_NAMED, 'itemid');
         $whereparams['submissionid'] = $this->formdata->submissionid;
         $where = 'submissionid = :submissionid
-            AND itemid '.$insql;
+              AND itemid '.$insql;
         $DB->delete_records_select('surveypro_answer', $where, $whereparams);
     }
 
@@ -872,16 +872,16 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
                 list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);
                 $whereparams = array_merge($whereparams, $eparams);
 
-                list($subsql, $subparams) = $DB->get_in_or_equal($roles, SQL_PARAMS_NAMED, 'roles');
+                list($insql, $subparams) = $DB->get_in_or_equal($roles, SQL_PARAMS_NAMED, 'roles');
                 $whereparams = array_merge($whereparams, $subparams);
 
                 $whereparams['contextid'] = $coursecontext->id;
                 $sql = 'SELECT DISTINCT '.user_picture::fields('u').', u.maildisplay, u.mailformat
                         FROM {user} u
                             JOIN ('.$enrolsql.') eu ON eu.id = u.id
-                            JOIN {role_assignments} ra ON u.id = ra.userid
+                            JOIN {role_assignments} ra ON ra.userid = u.id
                         WHERE ra.contextid = :contextid
-                            AND ra.roleid '.$subsql;
+                            AND ra.roleid '.$insql;
 
                 $whereparams = array_merge($whereparams, $eparams);
                 $recipients = $DB->get_records_sql($sql, $whereparams);

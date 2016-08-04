@@ -198,7 +198,7 @@ class mod_surveypro_submission {
 
         $emptysql = 'SELECT DISTINCT s.*, s.id as submissionid, '.user_picture::fields('u').'
                      FROM {surveypro_submission} s
-                         JOIN {user} u ON s.userid = u.id
+                         JOIN {user} u ON u.id = s.userid
                      WHERE u.id = :userid';
 
         $coursecontext = context_course::instance($COURSE->id);
@@ -233,13 +233,13 @@ class mod_surveypro_submission {
         }
         $sql .= user_picture::fields('u');
         $sql .= ' FROM {surveypro_submission} s';
-        $sql .= ' JOIN {user} u ON s.userid = u.id';
+        $sql .= ' JOIN {user} u ON u.id = s.userid';
 
         if (!$canviewhiddenactivities) {
             $sql .= ' JOIN ('.$enrolsql.') eu ON eu.id = u.id';
         }
         if ($this->searchquery) {
-            $sql .= ' JOIN {surveypro_answer} a ON s.id = a.submissionid';
+            $sql .= ' JOIN {surveypro_answer} a ON a.submissionid = s.id';
         }
 
         if (($groupmode == SEPARATEGROUPS) && (!$canaccessallgroups)) {
@@ -267,9 +267,9 @@ class mod_surveypro_submission {
 
         if (($groupmode == SEPARATEGROUPS) && (!$canaccessallgroups)) {
             // Restrict to your groups only.
-            list($subsql, $subparams) = $DB->get_in_or_equal($mygroups, SQL_PARAMS_NAMED, 'groupid');
+            list($insql, $subparams) = $DB->get_in_or_equal($mygroups, SQL_PARAMS_NAMED, 'groupid');
             $whereparams = array_merge($whereparams, $subparams);
-            $sql .= ' AND gm.groupid '.$subsql;
+            $sql .= ' AND gm.groupid '.$insql;
         }
 
         // Manage user search query.

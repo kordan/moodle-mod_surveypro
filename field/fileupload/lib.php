@@ -53,9 +53,9 @@ function surveyprofield_fileupload_pluginfile($course, $cm, $context, $filearea,
 
     $answerid = (int)array_shift($args);
     // From $answerid to $answer.
-    $sql = 'SELECT plugin, surveyproid
-            FROM {surveypro_item} si
-              JOIN {surveypro_answer} a ON a.itemid = si.id
+    $sql = 'SELECT i.plugin, i.surveyproid
+            FROM {surveypro_item} i
+              JOIN {surveypro_answer} a ON a.itemid = i.id
             WHERE a.id = :answerid';
     $whereparams = array('answerid' => $answerid);
     $answer = $DB->get_record_sql($sql, $whereparams, MUST_EXIST);

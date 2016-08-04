@@ -93,13 +93,13 @@ class surveyproreport_attachmentfilterform extends moodleform {
         $whereparams['surveyproid'] = $surveypro->id;
         $sql = 'SELECT u.id as userid, '.user_picture::fields('u').'
                 FROM {user} u
-                    JOIN {surveypro_submission} s ON u.id = s.userid';
+                    JOIN {surveypro_submission} s ON s.userid = u.id';
         if (!$canviewhiddenactivities) {
             list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);
             $whereparams = array_merge($whereparams, $eparams);
 
             $sql .= ' JOIN ('.$enrolsql.') eu ON eu.id = u.id
-                      JOIN {role_assignments} ra ON u.id = ra.userid';
+                      JOIN {role_assignments} ra ON ra.userid = u.id';
             $whereparams['contextid'] = $coursecontext->id;
         }
 

@@ -172,17 +172,17 @@ EOS;
         $output = str_replace('@@right@@', $right, $output);
 
         $whereparams = array('submissionid' => $submissionid, 'plugin' => 'fileupload');
-        $sql = 'SELECT si.id, a.id as answerid, fu.content
-                FROM {surveypro_item} si
-                  JOIN {surveypro_answer} a ON a.itemid = si.id
+        $sql = 'SELECT i.id, a.id as answerid, fu.content
+                FROM {surveypro_item} i
+                  JOIN {surveypro_answer} a ON a.itemid = i.id
                   JOIN {surveyprofield_fileupload} fu ON fu.itemid = a.itemid
-                WHERE si.plugin = :plugin
+                WHERE i.plugin = :plugin
                   AND a.submissionid = :submissionid';
         if ($itemid) {
-            $sql .= ' AND si.id = :itemid ';
+            $sql .= ' AND i.id = :itemid ';
             $whereparams['itemid'] = $itemid;
         }
-        $sql .= ' ORDER BY si.sortindex';
+        $sql .= ' ORDER BY i.sortindex';
 
         $items = $DB->get_records_sql($sql, $whereparams);
 

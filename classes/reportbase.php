@@ -180,9 +180,9 @@ class mod_surveypro_reportbase {
 
         $sql = 'SELECT COUNT(\'x\')
                 FROM {user} u
-                    JOIN {surveypro_submission} s ON u.id = s.userid
+                    JOIN {surveypro_submission} s ON s.userid = u.id
                     LEFT JOIN ('.$enrolsql.') eu ON eu.id = u.id
-                WHERE surveyproid = :surveyproid
+                WHERE s.surveyproid = :surveyproid
                     AND eu.id IS NULL';
 
         $whereparams['surveyproid'] = $this->surveypro->id;
@@ -238,7 +238,7 @@ class mod_surveypro_reportbase {
         $whereparams = array();
         $sql = 'SELECT '.user_picture::fields('u').', s.id as submissionid
                 FROM {user} u
-                JOIN {surveypro_submission} s ON u.id = s.userid';
+                JOIN {surveypro_submission} s ON s.userid = u.id';
         $whereparams['surveyproid'] = $this->surveypro->id;
         if ($canviewhiddenactivities) { // You are an admin.
             switch ($this->groupid) {
@@ -249,7 +249,7 @@ class mod_surveypro_reportbase {
                 case 0: // Each user with submissions.
                     break;
                 default: // Each user of group xx with submissions.
-                    $sql .= ' JOIN {groups_members} gm ON u.id = gm.userid';
+                    $sql .= ' JOIN {groups_members} gm ON gm.userid = u.id';
                     $whereparams['groupid'] = $this->groupid;
             }
         } else { // You are a teacher.
@@ -257,7 +257,7 @@ class mod_surveypro_reportbase {
 
             // $this->groupid == -1 is IMPOSSIBLE. If !$canviewhiddenactivities, $groupid can't be -1.
             if ($this->groupid > 0) {
-                $sql .= ' JOIN {groups_members} gm ON u.id = gm.userid';
+                $sql .= ' JOIN {groups_members} gm ON gm.userid = u.id';
                 $whereparams['groupid'] = $this->groupid;
             }
         }
