@@ -165,11 +165,6 @@ class surveyproreport_attachments_report extends mod_surveypro_reportbase {
     public function get_submissions_sql() {
         global $COURSE, $DB;
 
-        $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $this->context);
-
-        $coursecontext = context_course::instance($COURSE->id);
-        list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);
-
         $whereparams = array();
         $sql = 'SELECT '.user_picture::fields('u').', s.id as submissionid
                 FROM {user} u

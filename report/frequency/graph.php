@@ -29,7 +29,8 @@ require_once($CFG->dirroot.'/mod/surveypro/report/frequency/lib.php');
 
 $id = required_param('id', PARAM_INT); // Course Module ID.
 $itemid = required_param('itemid', PARAM_INT); // Item ID.
-// $group = optional_param('group', 0, PARAM_INT); // Group ID.
+$groupid = optional_param('groupid', 0, PARAM_INT); // Group ID.
+// TODO enforce the query here too. Daniele
 
 $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
@@ -40,17 +41,12 @@ $context = context_module::instance($cm->id);
 require_login($course, false, $cm);
 require_capability('mod/surveypro:accessreports', $context);
 
-// $groupmode = groups_get_activity_groupmode($cm, $course); // Groups are being used.
+$reportman = new surveyproreport_frequency_report($cm, $context, $surveypro);
+$reportman->set_groupid($groupid);
 
-$item = surveypro_get_item($cm, $surveypro, $itemid);
-
-$whereparams = array('itemid' => $itemid);
-$sql = 'SELECT content, count(id) as absolute
-        FROM {surveypro_answer}
-        WHERE itemid = :itemid
-        GROUP BY content
-        ORDER BY content';
+list($sql, $whereparams) = $reportman->get_submissions_sql($itemid);
 $answers = $DB->get_recordset_sql($sql, $whereparams);
+$item = surveypro_get_item($cm, $surveypro, $itemid);
 
 $content = array();
 $absolute = array();
@@ -82,7 +78,7 @@ $graph->parameter['legend_offset'] = 4;
 $graph->y_order = array('answers1');
 
 // $graph->parameter['x_axis_gridlines'] can not be set to a number because X axis is not numeric.
-$graph->parameter['y_axis_gridlines'] = 2 + max($absolute);
+$graph->parameter['y_axis_gridlines'] = min(20, 2 + max($absolute));
 $graph->parameter['y_resolution_left'] = 1;
 $graph->parameter['y_decimal_left'] = 0;
 $graph->parameter['y_max_left'] = 1 + max($absolute);

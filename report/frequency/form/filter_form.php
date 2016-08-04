@@ -34,7 +34,7 @@ require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_chooseitemform extends moodleform {
+class mod_surveypro_filterform extends moodleform {
 
     /**
      * Definition.
@@ -48,6 +48,12 @@ class mod_surveypro_chooseitemform extends moodleform {
 
         // Get _customdata.
         $surveypro = $this->_customdata->surveypro;
+        $showjumper = $this->_customdata->showjumper;
+        if ($showjumper) {
+            $canaccessallgroups = $this->_customdata->canaccessallgroups;
+            $addnotinanygroup = $this->_customdata->addnotinanygroup;
+            $jumpercontent = $this->_customdata->jumpercontent;
+        }
 
         // Only fields.
         // No matter for the page.
@@ -81,6 +87,22 @@ class mod_surveypro_chooseitemform extends moodleform {
         $fieldname = 'itemid';
         $mform->addElement('select', $fieldname, get_string('variable', 'mod_surveypro'), $options);
         $mform->addHelpButton($fieldname, $fieldname, 'surveyproreport_frequency');
+
+        if ($showjumper) {
+            $fieldname = 'groupid';
+            $options = array();
+            if ($canaccessallgroups) {
+                $options[] = get_string('allgroups');
+            }
+            if ($addnotinanygroup) {
+                $options['-1'] = get_string('notinanygroup', 'surveyproreport_attachments');
+            }
+            foreach ($jumpercontent as $group) {
+                $options[$group->id] = $group->name;
+            }
+        }
+
+        $mform->addElement('select', $fieldname, get_string('group', 'group'), $options);
 
         $this->add_action_buttons(false, get_string('continue'));
     }

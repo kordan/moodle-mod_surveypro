@@ -46,7 +46,6 @@ $context = context_module::instance($cm->id);
 require_capability('mod/surveypro:accessreports', $context);
 
 $reportman = new surveyproreport_delayedusers_report($cm, $context, $surveypro);
-$reportman->set_groupid($groupid);
 $reportman->setup_outputtable();
 
 // Begin of: define $mform return url.
@@ -83,12 +82,11 @@ $reportman->nosubmissions_stop();
 
 // Begin of: manage form submission.
 if ( $showjumper && ($fromform = $groupfilterform->get_data()) ) {
-    $groupid = $fromform->groupid;
+    $reportman->set_groupid($fromform->groupid);
 }
 // End of: manage form submission.
 
 if ($showjumper) {
-    $groupfilterform->set_data(array('groupid' => $groupid));
     $groupfilterform->display();
 }
 

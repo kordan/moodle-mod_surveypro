@@ -133,57 +133,14 @@ class surveyproreport_frequency_report extends mod_surveypro_reportbase {
      * @return void
      */
     public function fetch_data($itemid) {
-        global $COURSE, $DB;
+        global $DB, $COURSE;
 
-        $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $this->context);
-
-        $coursecontext = context_course::instance($COURSE->id);
-        $roles = get_roles_used_in_context($coursecontext);
-        if (!$role = array_keys($roles)) {
-            if (!$canviewhiddenactivities) {
-                // Return nothing.
-                return;
-            }
-        }
-
-        $itemseed = $DB->get_record('surveypro_item', array('id' => $itemid), 'type, plugin', MUST_EXIST);
-
-        // TAKE CARE: this is the answer count, not the submissions count! They may be different.
-        $whereparams = array('itemid' => $itemid);
-        list($where, $whereparams) = $this->outputtable->get_sql_where();
-
-        $whereparams = array();
-        $whereparams['surveyproid'] = $this->surveypro->id;
-        $whereparams['itemid'] = $itemid;
-
-        $sqlfrom = ' FROM {surveypro_answer} a
-                     JOIN (SELECT id, userid
-                           FROM {surveypro_submission}
-                           WHERE surveyproid = :surveyproid) s ON s.id = a.submissionid';
-        if (!$canviewhiddenactivities) {
-            $sqlfrom .= ' JOIN (SELECT id, userid
-                                FROM {role_assignments}
-                                WHERE contextid = :contextid
-                                    AND roleid IN ('.implode(',', $role).')) ra ON s.userid = ra.userid';
-            $whereparams['contextid'] = $coursecontext->id;
-        }
-        $sqlwhere = ' WHERE a.itemid = :itemid';
-        $sqlgroup = ' GROUP BY a.content';
-
-        if ($this->outputtable->get_sql_sort()) {
-            $sqlorder = ' ORDER BY '.$this->outputtable->get_sql_sort();
-        } else {
-            $sqlorder = ' ORDER BY ud.content';
-        }
-
-        // Get answers.
-        $sql = 'SELECT *, count(a.id) as absolute'.$sqlfrom.$sqlwhere.$sqlgroup.$sqlorder;
+        list($sql, $whereparams) = $this->get_submissions_sql($itemid);
         $answers = $DB->get_recordset_sql($sql, $whereparams);
 
-        // Get count of answers.
-        $sql = 'SELECT COUNT(\'x\')'.$sqlfrom.$sqlwhere;
+        // TAKE CARE: this is the answer count, not the submissions count! They may be different.
+        list($sql, $whereparams) = $this->get_answercount_sql($itemid);
         $answercount = $DB->count_records_sql($sql, $whereparams);
-
         $item = surveypro_get_item($this->cm, $this->surveypro, $itemid);
 
         $decimalseparator = get_string('decsep', 'langconfig');
@@ -207,6 +164,60 @@ class surveyproreport_frequency_report extends mod_surveypro_reportbase {
         }
 
         $answers->close();
+    }
+
+    /**
+     * Get_submissions_sql
+     *
+     * @return array($sql, $whereparams);
+     */
+    public function get_submissions_sql($itemid) {
+        global $COURSE, $DB;
+
+        $whereparams = array();
+        $sql = 'SELECT a.*, count(a.id) as absolute, s.id, s.userid
+                FROM {user} u
+                    JOIN {surveypro_submission} s ON s.userid = u.id
+                    JOIN {surveypro_answer} a ON a.submissionid = s.id';
+
+        list($middlesql, $whereparams) = $this->get_middle_sql();
+        $sql .= $middlesql;
+
+        $sql .= ' AND a.itemid = :itemid';
+        $whereparams['itemid'] = $itemid;
+
+        $sql .= ' GROUP BY a.content';
+
+        // The query for the graph doesn't make use of $this->outputtable.
+        if (isset($this->outputtable) && $this->outputtable->get_sql_sort()) {
+            $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort();
+        } else {
+            $sql .= ' ORDER BY a.content';
+        }
+
+        return array($sql, $whereparams);
+    }
+
+    /**
+     * Get_answercount_sql
+     *
+     * @return array($sql, $whereparams);
+     */
+    public function get_answercount_sql($itemid) {
+        global $COURSE, $DB;
+
+        $sql = 'SELECT COUNT(\'x\')
+                FROM {user} u
+                    JOIN {surveypro_submission} s ON s.userid = u.id
+                    JOIN {surveypro_answer} a ON a.submissionid = s.id';
+
+        list($middlesql, $whereparams) = $this->get_middle_sql();
+        $sql .= $middlesql;
+
+        $sql .= ' AND a.itemid = :itemid';
+        $whereparams['itemid'] = $itemid;
+
+        return array($sql, $whereparams);
     }
 
     /**

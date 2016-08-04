@@ -38,18 +38,15 @@ if (!empty($id)) {
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
 
-$groupid = optional_param('groupid', 0, PARAM_INT);
-
 require_course_login($course, true, $cm);
 
 $context = context_module::instance($cm->id);
 require_capability('mod/surveypro:accessreports', $context);
 
 $reportman = new surveyproreport_attachments_report($cm, $context, $surveypro);
-$reportman->set_groupid($groupid);
 $reportman->setup_outputtable();
 
-// Begin of: define $mform return url.
+// Begin of: instance groupfilterform.
 $showjumper = $reportman->is_groupjumper_needed();
 if ($showjumper) {
     $canaccessallgroups = has_capability('moodle/site:accessallgroups', $context);
@@ -65,7 +62,7 @@ if ($showjumper) {
     $formparams->jumpercontent = $jumpercontent;
     $groupfilterform = new mod_surveypro_groupfilterform($formurl, $formparams);
 }
-// End of: prepare params for the form.
+// End of: instance groupfilterform.
 
 // Output starts here.
 $url = new moodle_url('/mod/surveypro/report/attachments/view.php', array('s' => $surveypro->id));
@@ -85,12 +82,11 @@ $reportman->nosubmissions_stop();
 
 // Begin of: manage form submission.
 if ( $showjumper && ($fromform = $groupfilterform->get_data()) ) {
-    $groupid = $fromform->groupid;
+    $reportman->set_groupid($fromform->groupid);
 }
 // End of: manage form submission.
 
 if ($showjumper) {
-    $groupfilterform->set_data(array('groupid' => $groupid));
     $groupfilterform->display();
 }
 
