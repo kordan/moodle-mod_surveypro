@@ -214,6 +214,8 @@ class surveyproreport_attachments_report extends mod_surveypro_reportbase {
      * @return void
      */
     public function prevent_direct_user_input() {
+        parent::prevent_direct_user_input();
+
         if ($this->surveypro->anonymous) {
             print_error('incorrectaccessdetected', 'mod_surveypro');
         }
