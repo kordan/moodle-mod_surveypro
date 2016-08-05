@@ -100,45 +100,7 @@ class surveyproreport_delayedusers_report extends mod_surveypro_reportbase {
     public function fetch_data() {
         global $DB, $COURSE, $OUTPUT;
 
-        $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $this->context);
-
-        $coursecontext = context_course::instance($COURSE->id);
-        $roles = get_roles_used_in_context($coursecontext);
-        if (!$role = array_keys($roles)) {
-            if (!$canviewhiddenactivities) {
-                // Return nothing.
-                return;
-            }
-        }
-
-        $whereparams = array();
-        $whereparams['surveyproid'] = $this->surveypro->id;
-        $sql = 'SELECT DISTINCT '.user_picture::fields('u').'
-                FROM {user} u
-                    LEFT JOIN (SELECT id, userid
-                               FROM {surveypro_submission}
-                               WHERE surveyproid = :surveyproid
-                               GROUP BY userid) s ON s.userid = u.id';
-        if (!$canviewhiddenactivities) {
-            $sql .= ' JOIN (SELECT id, userid
-                            FROM {role_assignments}
-                            WHERE contextid = :contextid
-                                AND roleid IN ('.implode(',', $role).')) ra ON u.id = ra.userid';
-            $whereparams['contextid'] = $coursecontext->id;
-        }
-        $sql .= ' WHERE ISNULL(s.id)';
-
-        list($where, $filterparams) = $this->outputtable->get_sql_where();
-        if ($where) {
-            $sql .= ' AND '.$where;
-            $whereparams = array_merge($whereparams,  $filterparams);
-        }
-
-        if ($this->outputtable->get_sql_sort()) {
-            $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort();
-        } else {
-            $sql .= ' ORDER BY s.lastname ASC';
-        }
+        list($sql, $whereparams) = $this->get_submissions_sql();
         $usersubmissions = $DB->get_recordset_sql($sql, $whereparams);
 
         foreach ($usersubmissions as $usersubmission) {
@@ -157,6 +119,31 @@ class surveyproreport_delayedusers_report extends mod_surveypro_reportbase {
         }
 
         $usersubmissions->close();
+    }
+
+    /**
+     * Get_submissions_sql
+     *
+     * @return array($sql, $whereparams);
+     */
+    public function get_submissions_sql() {
+        $submissiontable = 'SELECT userid, surveyproid
+                            FROM {surveypro_submission}
+                            GROUP BY userid';
+        $sql = 'SELECT '.user_picture::fields('u').', s.surveyproid
+                FROM {user} u
+                JOIN ('.$submissiontable.') s ON u.id = s.userid';
+
+        list($middlesql, $whereparams) = $this->get_middle_sql();
+        $sql .= $middlesql;
+
+        if ($this->outputtable->get_sql_sort()) {
+            $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort();
+        } else {
+            $sql .= ' ORDER BY u.lastname ASC';
+        }
+
+        return array($sql, $whereparams);
     }
 
     /**

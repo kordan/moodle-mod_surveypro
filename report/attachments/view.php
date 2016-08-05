@@ -93,7 +93,8 @@ if ($showjumper) {
     $groupfilterform->set_data(array('groupid' => $groupid));
     $groupfilterform->display();
 }
-$reportman->fetch_data($groupid);
+
+$reportman->fetch_data();
 $reportman->output_data();
 
 // Finish the page.
