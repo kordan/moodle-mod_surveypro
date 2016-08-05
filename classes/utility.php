@@ -958,4 +958,36 @@ class mod_surveypro_utility {
 
         return $regex;
     }
+
+    /**
+     * Is the button to add one more response supposed to appear in the page?
+     *
+     * @param int $next
+     * @return bool $addnew
+     */
+    public function is_newresponse_allowed($next) {
+        $timenow = time();
+
+        $cansubmit = has_capability('mod/surveypro:submit', $this->context);
+        $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
+        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
+        $canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context);
+
+        $itemcount = $this->has_input_items(0, true, $canmanageitems, $canaccessreserveditems);
+
+        $addnew = true;
+        $addnew = $addnew && $cansubmit;
+        $addnew = $addnew && $itemcount;
+        if ($this->surveypro->timeopen) {
+            $addnew = $addnew && ($this->surveypro->timeopen < $timenow);
+        }
+        if ($this->surveypro->timeclose) {
+            $addnew = $addnew && ($this->surveypro->timeclose > $timenow);
+        }
+        if (!$canignoremaxentries) {
+            $addnew = $addnew && (($this->surveypro->maxentries == 0) || ($next <= $this->surveypro->maxentries));
+        }
+
+        return $addnew;
+    }
 }

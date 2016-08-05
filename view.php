@@ -27,6 +27,8 @@ require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
+$tifirst = optional_param('tifirst', '', PARAM_ALPHA);   // First letter of the name.
+$tilast = optional_param('tilast', '', PARAM_ALPHA);   // First letter of the surname.
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
@@ -85,7 +87,7 @@ if (!empty($justsubmitted)) {
 } else {
     $submissionman->actions_feedback(); // Action feedback after PAGE.
 
-    $submissionman->show_action_buttons();
+    $submissionman->show_action_buttons($tifirst, $tilast);
     $submissionman->display_submissions_table();
     $submissionman->trigger_event(); // Event: all_submissions_viewed.
 }
