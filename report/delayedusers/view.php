@@ -38,8 +38,6 @@ if (!empty($id)) {
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
 
-$groupid = optional_param('groupid', 0, PARAM_INT);
-
 require_course_login($course, true, $cm);
 
 $context = context_module::instance($cm->id);

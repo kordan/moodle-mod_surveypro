@@ -168,7 +168,7 @@ class surveyproreport_attachments_report extends mod_surveypro_reportbase {
         $whereparams = array();
         $sql = 'SELECT '.user_picture::fields('u').', s.id as submissionid
                 FROM {user} u
-                JOIN {surveypro_submission} s ON u.id = s.userid';
+                JOIN {surveypro_submission} s ON s.userid = u.id';
 
         list($middlesql, $whereparams) = $this->get_middle_sql();
         $sql .= $middlesql;
