@@ -144,21 +144,13 @@ class mod_surveypro_view_import {
             $canbemandatory = $classname::item_uses_mandatory_dbfield();
 
             $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
-            if ($canbemandatory) {
-                $sql = 'SELECT p.itemid, p.variable, p.required
-                        FROM {surveypro_item} i
-                          JOIN {'.$tablename.'} p ON i.id = p.itemid
-                        WHERE i.surveyproid = :surveyproid
-                        ORDER BY p.itemid';
-                $itemvariables = $DB->get_records_sql($sql, $whereparams);
-            } else {
-                $sql = 'SELECT p.itemid, p.variable
-                        FROM {surveypro_item} i
-                          JOIN {'.$tablename.'} p ON i.id = p.itemid
-                        WHERE i.surveyproid = :surveyproid
-                        ORDER BY p.itemid';
-                $itemvariables = $DB->get_records_sql($sql, $whereparams);
-            }
+            $fieldname = ($canbemandatory) ? ', p.required' : '';
+            $sql = 'SELECT p.itemid, p.variable'.$fieldname.'
+                    FROM {surveypro_item} i
+                      JOIN {'.$tablename.'} p ON p.itemid = i.id
+                    WHERE i.surveyproid = :surveyproid
+                    ORDER BY p.itemid';
+            $itemvariables = $DB->get_records_sql($sql, $whereparams);
 
             foreach ($itemvariables as $itemvariable) {
                 $surveyheaders[$itemvariable->itemid] = $itemvariable->variable;
@@ -208,7 +200,7 @@ class mod_surveypro_view_import {
         $where = array('surveyproid' => $this->surveypro->id);
         $sql = 'SELECT p.itemid, p.variable
                 FROM {surveypro_item} i
-                  JOIN {surveyprofield_fileupload} p ON i.id = p.itemid
+                  JOIN {surveyprofield_fileupload} p ON p.itemid = i.id
                 WHERE i.surveyproid = :surveyproid
                 ORDER BY p.itemid';
         $variablenames = $DB->get_records_sql_menu($sql, $where);

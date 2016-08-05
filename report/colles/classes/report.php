@@ -241,11 +241,11 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
 
         $qid1area = array(); // Array of id of items referring to the trend 1.
         $qid2area = array(); // Array of id of items referring to the trend 2.
-        $sql = 'SELECT si.id, si.sortindex, si.plugin
-                FROM {surveypro_item} si
-                WHERE si.surveyproid = :surveyproid
-                  AND si.plugin = :plugin
-                ORDER BY si.sortindex';
+        $sql = 'SELECT i.id, i.sortindex, i.plugin
+                FROM {surveypro_item} i
+                WHERE i.surveyproid = :surveyproid
+                    AND i.plugin = :plugin
+                ORDER BY i.sortindex';
 
         $where = array('surveyproid' => $this->surveypro->id, 'plugin' => $this->templateuseritem);
         $itemseeds = $DB->get_recordset_sql($sql, $where);
@@ -391,11 +391,11 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
                 foreach ($qidarea as $areaidlist) {
                     list($insql, $whereparams) = $DB->get_in_or_equal($areaidlist, SQL_PARAMS_NAMED, 'areaid');
                     $whereparams['userid'] = $USER->id;
-                    $sql = 'SELECT COUNT(ud.id) as answerscount, SUM(ud.content) as sumofanswers
-                            FROM {surveypro_answer} ud
-                                JOIN {surveypro_submission} ss ON ss.id = ud.submissionid
-                            WHERE ud.itemid IN ('.implode(',', $areaidlist).')
-                                AND ss.userid = :userid';
+                    $sql = 'SELECT COUNT(a.id) as answerscount, SUM(a.content) as sumofanswers
+                            FROM {surveypro_answer} a
+                                JOIN {surveypro_submission} s ON s.id = a.submissionid
+                            WHERE a.itemid '.$insql.'
+                                AND s.userid = :userid';
                     $aggregate = $DB->get_record_sql($sql, $whereparams);
 
                     if ($aggregate->answerscount) {
