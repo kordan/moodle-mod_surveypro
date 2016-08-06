@@ -132,7 +132,7 @@ class surveyproreport_delayedusers_report extends mod_surveypro_reportbase {
                             GROUP BY userid';
         $sql = 'SELECT '.user_picture::fields('u').', s.surveyproid
                 FROM {user} u
-                JOIN ('.$submissiontable.') s ON u.id = s.userid';
+                JOIN ('.$submissiontable.') s ON s.userid = u.id';
 
         list($middlesql, $whereparams) = $this->get_middle_sql();
         $sql .= $middlesql;

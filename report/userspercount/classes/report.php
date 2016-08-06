@@ -100,46 +100,7 @@ class surveyproreport_userspercount_report extends mod_surveypro_reportbase {
     public function fetch_data() {
         global $DB, $COURSE, $OUTPUT;
 
-        $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $this->context);
-
-        $coursecontext = context_course::instance($COURSE->id);
-        $roles = get_roles_used_in_context($coursecontext);
-        if (!$role = array_keys($roles)) {
-            if (!$canviewhiddenactivities) {
-                // Return nothing.
-                return;
-            }
-        }
-
-        $whereparams = array();
-        $whereparams['surveyproid'] = $this->surveypro->id;
-        $subquery = 'SELECT ss.userid, count(ss.userid) as userresponses
-                     FROM {surveypro_submission} ss';
-        if (!$canviewhiddenactivities) {
-            $subquery .= ' JOIN (SELECT sra.id, sra.userid
-                                 FROM {role_assignments} sra
-                                 WHERE contextid = :contextid
-                                     AND roleid IN ('.implode(',', $role).')) ra ON ss.userid = ra.userid';
-            $whereparams['contextid'] = $coursecontext->id;
-        }
-        $subquery .= ' WHERE surveyproid = :surveyproid
-                       GROUP BY userid';
-
-        $sql = 'SELECT s.userresponses, count(s.userresponses) as userscount
-                FROM ('.$subquery.') s
-                GROUP BY userresponses';
-
-        list($where, $filterparams) = $this->outputtable->get_sql_where();
-        if ($where) {
-            $sql .= ' WHERE '.$where;
-            $whereparams = array_merge($whereparams,  $filterparams);
-        }
-
-        if ($this->outputtable->get_sql_sort()) {
-            $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort();
-        } else {
-            $sql .= ' ORDER BY s.userresponses ASC';
-        }
+        list($sql, $whereparams) = $this->get_submissions_sql();
         $userspercounts = $DB->get_recordset_sql($sql, $whereparams);
 
         foreach ($userspercounts as $userspercount) {
@@ -156,6 +117,33 @@ class surveyproreport_userspercount_report extends mod_surveypro_reportbase {
         }
 
         $userspercounts->close();
+    }
+
+    /**
+     * Get_submissions_sql
+     *
+     * @return array($sql, $whereparams);
+     */
+    public function get_submissions_sql() {
+        $subquery = 'SELECT '.user_picture::fields('u').', COUNT(s.userid) as userresponses
+                FROM {user} u
+                JOIN {surveypro_submission} s ON s.userid = u.id';
+
+        list($middlesql, $whereparams) = $this->get_middle_sql();
+        $subquery .= $middlesql;
+        $subquery .= ' GROUP BY s.userid, surveyproid';
+
+        $sql = 'SELECT s.userresponses, count(s.userresponses) as userscount
+                FROM ('.$subquery.') s
+                GROUP BY userresponses';
+
+        if ($this->outputtable->get_sql_sort()) {
+            $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort();
+        } else {
+            $sql .= ' ORDER BY u.lastname ASC';
+        }
+
+        return array($sql, $whereparams);
     }
 
     /**

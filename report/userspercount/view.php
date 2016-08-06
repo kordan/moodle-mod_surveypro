@@ -23,6 +23,7 @@
  */
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
+require_once($CFG->dirroot.'/mod/surveypro/report/userspercount/form/groupfilter_form.php');
 require_once($CFG->libdir.'/tablelib.php');
 
 $id = optional_param('id', 0, PARAM_INT);
@@ -42,6 +43,27 @@ require_course_login($course, true, $cm);
 $context = context_module::instance($cm->id);
 require_capability('mod/surveypro:accessreports', $context);
 
+$reportman = new surveyproreport_userspercount_report($cm, $context, $surveypro);
+$reportman->setup_outputtable();
+
+// Begin of: define $mform return url.
+$showjumper = $reportman->is_groupjumper_needed();
+if ($showjumper) {
+    $canaccessallgroups = has_capability('moodle/site:accessallgroups', $context);
+
+    $jumpercontent = $reportman->get_groupjumper_content();
+
+    $paramurl = array('id' => $cm->id, 'rname' => 'attachments');
+    $formurl = new moodle_url('/mod/surveypro/report/userspercount/view.php', $paramurl);
+
+    $formparams = new stdClass();
+    $formparams->canaccessallgroups = $canaccessallgroups;
+    $formparams->addnotinanygroup = $reportman->add_notinanygroup();
+    $formparams->jumpercontent = $jumpercontent;
+    $groupfilterform = new mod_surveypro_groupfilterform($formurl, $formparams);
+}
+// End of: prepare params for the form.
+
 // Output starts here.
 $url = new moodle_url('/mod/surveypro/report/userspercount/view.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
@@ -54,10 +76,18 @@ echo $OUTPUT->header();
 
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_REPORT);
 
-$reportman = new surveyproreport_userspercount_report($cm, $context, $surveypro);
 $reportman->nosubmissions_stop();
 
-$reportman->setup_outputtable();
+// Begin of: manage form submission.
+if ( $showjumper && ($fromform = $groupfilterform->get_data()) ) {
+    $reportman->set_groupid($fromform->groupid);
+}
+// End of: manage form submission.
+
+if ($showjumper) {
+    $groupfilterform->display();
+}
+
 $reportman->fetch_data();
 $reportman->output_data();
 
