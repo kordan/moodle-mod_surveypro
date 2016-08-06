@@ -223,23 +223,19 @@ class mod_surveypro_reportbase {
     }
 
     /**
-     * Get_submissions_sql
-     *
-     * @return array($sql, $whereparams);
+     * get_middle_sql
      */
-    public function get_submissions_sql() {
-        global $COURSE, $DB;
-
-        $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $this->context);
+    public function get_middle_sql() {
+        global $COURSE;
 
         $coursecontext = context_course::instance($COURSE->id);
+        $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $coursecontext);
+        $whereparams = array();
+        $whereparams['surveyproid'] = $this->surveypro->id;
+
         list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);
 
-        $whereparams = array();
-        $sql = 'SELECT '.user_picture::fields('u').', s.id as submissionid
-                FROM {user} u
-                JOIN {surveypro_submission} s ON s.userid = u.id';
-        $whereparams['surveyproid'] = $this->surveypro->id;
+        $sql = '';
         if ($canviewhiddenactivities) { // You are an admin.
             switch ($this->groupid) {
                 case -1: // Users not enrolled in this course.
@@ -266,23 +262,19 @@ class mod_surveypro_reportbase {
         foreach ($whereparams as $k => $v) {
             if ($v === null) {
                 $conditions[] .= $k.' IS NULL';
-                // unset($whereparams[$k]);
             } else {
                 $conditions[] .= $k.' = :'.$k;
             }
         }
         $sql .= ' WHERE '.implode(' AND ', $conditions);
 
-        list($where, $filterparams) = $this->outputtable->get_sql_where();
-        if ($where) {
-            $sql .= ' AND '.$where;
-            $whereparams = array_merge($whereparams,  $filterparams);
-        }
-
-        if ($this->outputtable->get_sql_sort()) {
-            $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort().', submissionid ASC';
-        } else {
-            $sql .= ' ORDER BY u.lastname ASC, submissionid ASC';
+        // The query for graphs don't make use of $this->outputtable.
+        if (isset($this->outputtable)) {
+            list($where, $filterparams) = $this->outputtable->get_sql_where();
+            if ($where) {
+                $sql .= ' AND '.$where;
+                $whereparams = array_merge($whereparams,  $filterparams);
+            }
         }
 
         $whereparams = array_merge($whereparams, $eparams);

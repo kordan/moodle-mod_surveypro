@@ -23,13 +23,12 @@
  */
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/report/frequency/form/item_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/report/frequency/form/filter_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/frequency/lib.php');
 require_once($CFG->libdir.'/tablelib.php');
 
 $id = optional_param('id', 0, PARAM_INT);
 $s = optional_param('s', 0, PARAM_INT);
-$itemid = optional_param('itemid', 0, PARAM_INT);
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
     $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
@@ -45,21 +44,28 @@ require_course_login($course, true, $cm);
 $context = context_module::instance($cm->id);
 require_capability('mod/surveypro:accessreports', $context);
 
-// Calculations.
 $utilityman = new mod_surveypro_utility($cm, $surveypro);
 $reportman = new surveyproreport_frequency_report($cm, $context, $surveypro);
-// $reportman->setup_outputtable();
 
-// Begin of: define $mform return url.
+// Begin of: instance filterform.
+$showjumper = $reportman->is_groupjumper_needed();
+
 $paramurl = array('id' => $cm->id, 'rname' => 'frequency');
 $formurl = new moodle_url('/mod/surveypro/report/frequency/view.php', $paramurl);
-// End of: define $mform return url.
 
-// Begin of: prepare params for the form.
 $formparams = new stdClass();
 $formparams->surveypro = $surveypro;
-$mform = new mod_surveypro_chooseitemform($formurl, $formparams);
-// End of: prepare params for the form.
+$formparams->showjumper = $showjumper;
+if ($showjumper) {
+    $canaccessallgroups = has_capability('moodle/site:accessallgroups', $context);
+    $jumpercontent = $reportman->get_groupjumper_content();
+
+    $formparams->canaccessallgroups = $canaccessallgroups;
+    $formparams->addnotinanygroup = $reportman->add_notinanygroup();
+    $formparams->jumpercontent = $jumpercontent;
+}
+$filterform = new mod_surveypro_filterform($formurl, $formparams);
+// End of: instance filterform.
 
 // Output starts here.
 $url = new moodle_url('/mod/surveypro/report/frequency/view.php', array('s' => $surveypro->id));
@@ -73,39 +79,35 @@ echo $OUTPUT->header();
 
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_REPORT);
 
-// Begin of: stop here if only textareas are in the surveypro.
 $reportman->stop_if_textareas_only();
-// End of: stop here if only textareas are in the surveypro.
-
-// Begin of: stop here if no submissions are available.
 $reportman->nosubmissions_stop();
-// End of: stop here if no submissions are available.
 
 // Begin of: manage form submission.
-if ( ($fromform = $mform->get_data()) || (!empty($itemid)) ) {
-    if (empty($itemid)) {
-        $itemid = $fromform->itemid;
-    }
+if ($fromform = $filterform->get_data()) {
+    $itemid = $fromform->itemid;
+    $groupid = $fromform->groupid;
+    $reportman->set_groupid($groupid);
+}
+// End of: manage form submission.
+
+$filterform->display();
+
+if (!empty($itemid)) {
     $reportman->setup_outputtable($itemid);
     $reportman->fetch_data($itemid);
 
     $paramurl = array();
     $paramurl['id'] = $cm->id;
-    $paramurl['group'] = 0;
+    $paramurl['groupid'] = $groupid;
     $paramurl['itemid'] = $itemid;
     $url = new moodle_url('/mod/surveypro/report/frequency/graph.php', $paramurl);
     // To troubleshoot graph, open a new window in the broser and directly call
-    // http://localhost/head/mod/surveypro/report/frequency/graph.php?id=xx&group=0&itemid=yyy&submissionscount=1
+    // http://localhost/head/mod/surveypro/report/frequency/graph.php?id=xx&groupid=0&itemid=yyy
     // address.
 
     $reportman->output_data($url);
 }
-// End of: manage form submission.
 
-// Begin of: display the form.
-$mform->set_data(array('itemid' => $itemid));
-$mform->display();
-// End of: display the form.
 
 // Finish the page.
 echo $OUTPUT->footer();
