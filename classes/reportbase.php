@@ -230,6 +230,7 @@ class mod_surveypro_reportbase {
 
         $coursecontext = context_course::instance($COURSE->id);
         $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $coursecontext);
+
         $whereparams = array();
         $whereparams['surveyproid'] = $this->surveypro->id;
 
@@ -275,63 +276,6 @@ class mod_surveypro_reportbase {
                 $sql .= ' AND '.$where;
                 $whereparams = array_merge($whereparams,  $filterparams);
             }
-        }
-
-        $whereparams = array_merge($whereparams, $eparams);
-        return array($sql, $whereparams);
-    }
-
-    /**
-     * get_middle_sql
-     */
-    public function get_middle_sql() {
-        global $COURSE;
-
-        $coursecontext = context_course::instance($COURSE->id);
-        $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $coursecontext);
-
-        $whereparams = array();
-        $whereparams['surveyproid'] = $this->surveypro->id;
-
-        list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);
-
-        $sql = '';
-        if ($canviewhiddenactivities) { // You are an admin.
-             switch ($this->groupid) {
-                 case -1: // Users not enrolled in this course.
-                     $sql .= ' LEFT JOIN ('.$enrolsql.') eu ON eu.id = u.id';
-                     $whereparams['eu.id'] = null;
-                     break;
-                 case 0: // Each user with submissions.
-                     break;
-                 default: // Each user of group xx with submissions.
-                     $sql .= ' JOIN {groups_members} gm ON u.id = gm.userid';
-                     $whereparams['groupid'] = $this->groupid;
-             }
-         } else { // You are a teacher.
-             $sql .= ' JOIN ('.$enrolsql.') eu ON eu.id = u.id';
-
-             // $this->groupid == -1 is IMPOSSIBLE. If !$canviewhiddenactivities, $groupid can't be -1.
-             if ($this->groupid > 0) {
-                 $sql .= ' JOIN {groups_members} gm ON u.id = gm.userid';
-                 $whereparams['groupid'] = $this->groupid;
-             }
-         }
-
-        $conditions = array();
-        foreach ($whereparams as $k => $v) {
-            if ($v === null) {
-                $conditions[] .= $k.' IS NULL';
-            } else {
-                $conditions[] .= $k.' = :'.$k;
-            }
-        }
-        $sql .= ' WHERE '.implode(' AND ', $conditions);
-
-        list($where, $filterparams) = $this->outputtable->get_sql_where();
-        if ($where) {
-            $sql .= ' AND '.$where;
-            $whereparams = array_merge($whereparams,  $filterparams);
         }
 
         $whereparams = array_merge($whereparams, $eparams);
