@@ -74,8 +74,8 @@ Not enought
 
       """
     And I set the following fields to these values:
-      | id_defaultoption_1       | Custom                                              |
-    And I set the field "Options" to multiline:
+      | id_defaultoption_1       | 1                                                   |
+    And I set the field "id_defaultvalue" to multiline:
       """
       Not enought
 
@@ -96,7 +96,7 @@ Not enought
 
     Then I should see "Number of rates is not enough to force different rates"
     Then I should see "Defaults have to be different when different rates is required"
-    And I set the field "Options" to multiline:
+    And I set the field "Rates" to multiline:
       """
 
 
@@ -113,7 +113,7 @@ Not enought
 
 
       """
-    And I set the field "Options" to multiline:
+    And I set the field "id_defaultvalue" to multiline:
       """
 
 
@@ -128,7 +128,7 @@ Not enought
     And I press "Add"
 
     Then I should see "The default item \"Absolutely ridicolous\" was not found among rates"
-    And I set the field "Options" to multiline:
+    And I set the field "id_defaultvalue" to multiline:
       """
 
          Completely unknown
@@ -143,7 +143,7 @@ Not enought
     And I press "Add"
 
     Then I should see "Number of defaults has to be equal to the number of options"
-    And I set the field "Options" to multiline:
+    And I set the field "id_defaultvalue" to multiline:
       """
 
          Completely unknown

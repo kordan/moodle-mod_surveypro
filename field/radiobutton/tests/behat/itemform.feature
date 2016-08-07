@@ -59,7 +59,7 @@ hills
       """
     And I set the following fields to these values:
       | Option "other"           | other->specify                             |
-      | id_defaultoption_1       | Custom                                     |
+      | id_defaultoption_1       | 1                                          |
       | id_defaultvalue          | hill                                       |
       | Download format          | value of selected items                    |
       | Adjustment               | horizontal                                 |

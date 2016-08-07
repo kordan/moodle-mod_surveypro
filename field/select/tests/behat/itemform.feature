@@ -61,7 +61,7 @@ Feature: test the use of select setup form
       """
     And I set the following fields to these values:
       | Option "other"           | other->specify                             |
-      | id_defaultoption_1       | Custom                                     |
+      | id_defaultoption_1       | 1                                          |
       | id_defaultvalue          | Surfing                                    |
       | Download format          | value of selected item                     |
     And I press "Add"

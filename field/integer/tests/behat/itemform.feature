@@ -45,7 +45,7 @@ Feature: test the use of integer setup form
       | Reserved                 | 1                                      |
       | Parent element           | Boolean [1]: Is this true?             |
       | Parent content           | 1                                      |
-      | id_defaultoption_1       | Custom                                 |
+      | id_defaultoption_1       | 1                                      |
       | id_defaultvalue          | 1                                      |
       | id_lowerbound            | 21                                     |
       | id_upperbound            | 3                                      |
