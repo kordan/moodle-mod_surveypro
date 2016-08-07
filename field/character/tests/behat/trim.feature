@@ -5,7 +5,7 @@ Feature: test the use of character setup form
   I fill a field and I verify what is in it
 
   @javascript
-  Scenario: use reserved elements
+  Scenario: test character trim
     Given the following "courses" exist:
       | fullname            | shortname           | category | groupmode |
       | Character trim test | Character trim test | 0        | 0         |

@@ -5,7 +5,7 @@ Feature: test the use of integer setup form
   I fill each its field and I return back to verify all is where I wrote it
 
   @javascript
-  Scenario: use reserved elements
+  Scenario: test integer setup form
     Given the following "courses" exist:
       | fullname           | shortname          | category | groupmode |
       | Integer setup form | Integer setup form | 0        | 0         |

@@ -5,7 +5,7 @@ Feature: test the use of date setup form
   I fill each its field and I return back to verify all is where I wrote it
 
   @javascript
-  Scenario: use reserved elements
+  Scenario: test date setup form
     Given the following "courses" exist:
       | fullname        | shortname       | category | groupmode |
       | Date setup form | Date setup form | 0        | 0         |
