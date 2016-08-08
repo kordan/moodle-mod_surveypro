@@ -49,6 +49,7 @@ class mod_surveypro_filterform extends moodleform {
         // Get _customdata.
         $surveypro = $this->_customdata->surveypro;
         $showjumper = $this->_customdata->showjumper;
+
         if ($showjumper) {
             $canaccessallgroups = $this->_customdata->canaccessallgroups;
             $addnotinanygroup = $this->_customdata->addnotinanygroup;
@@ -100,9 +101,9 @@ class mod_surveypro_filterform extends moodleform {
             foreach ($jumpercontent as $group) {
                 $options[$group->id] = $group->name;
             }
-        }
 
-        $mform->addElement('select', $fieldname, get_string('group', 'group'), $options);
+            $mform->addElement('select', $fieldname, get_string('group', 'group'), $options);
+        }
 
         $this->add_action_buttons(false, get_string('continue'));
     }
