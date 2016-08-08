@@ -127,15 +127,21 @@ class surveyproreport_delayedusers_report extends mod_surveypro_reportbase {
      * @return array($sql, $whereparams);
      */
     public function get_submissions_sql() {
+        $whereparams = array();
         $submissiontable = 'SELECT userid, surveyproid
                             FROM {surveypro_submission}
-                            GROUP BY userid';
+                            WHERE surveyproid = :subsurveyproid
+                            GROUP BY userid, surveyproid';
+        $whereparams['subsurveyproid'] = $this->surveypro->id;
+
         $sql = 'SELECT '.user_picture::fields('u').', s.surveyproid
                 FROM {user} u
-                JOIN ('.$submissiontable.') s ON s.userid = u.id';
+                LEFT JOIN ('.$submissiontable.') s ON s.userid = u.id';
 
-        list($middlesql, $whereparams) = $this->get_middle_sql();
+        list($middlesql, $middleparams) = $this->get_middle_sql(false);
         $sql .= $middlesql;
+        $whereparams = array_merge($whereparams, $middleparams);
+        unset($whereparams['surveyproid']);
 
         if ($this->outputtable->get_sql_sort()) {
             $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort();

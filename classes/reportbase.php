@@ -224,15 +224,22 @@ class mod_surveypro_reportbase {
 
     /**
      * get_middle_sql
+     *
+     * @param bool $actualrelation the kind of relation I need in the query
+     * @return array($sql, $whereparams);
      */
-    public function get_middle_sql() {
+    public function get_middle_sql($actualrelation=true) {
         global $COURSE;
 
         $coursecontext = context_course::instance($COURSE->id);
         $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $coursecontext);
 
         $whereparams = array();
-        $whereparams['surveyproid'] = $this->surveypro->id;
+        if ($actualrelation) {
+            $whereparams['surveyproid'] = $this->surveypro->id;
+        } else {
+            $whereparams['surveyproid'] = null;
+        }
 
         list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);
 
@@ -244,6 +251,8 @@ class mod_surveypro_reportbase {
                     $whereparams['eu.id'] = null;
                     break;
                 case 0: // Each user with submissions.
+                    // JOIN $enrolsql is needed to take guest out!
+                    $sql .= ' JOIN ('.$enrolsql.') eu ON eu.id = u.id';
                     break;
                 default: // Each user of group xx with submissions.
                     $sql .= ' JOIN {groups_members} gm ON gm.userid = u.id';
