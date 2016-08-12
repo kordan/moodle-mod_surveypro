@@ -23,6 +23,9 @@
  */
 
 $string['pluginname'] = 'COLLES (Ideale)';
+$string['summary'] = 'Riepilogo';
+$string['scales'] = 'Valutazioni';
+$string['areas'] = 'Aree';
 
 $string['useritem'] = 'Tipo di selettore';
 $string['useritem_desc'] = 'Questa opzione consente di scegliere il tipo di selettore per rispondere al sondaggio. "Bottoni radio" è lo standard, "Menu a tendina" è consigliato per i monitor di modeste dimensioni.<br />Le modifiche avranno effetto sui prossimi nuovi somdaggi.';
@@ -50,7 +53,7 @@ $string['radiobutton_content_04'] = '<p>quello che imparo è importante per la m
 $string['radiobutton_content_05'] = '<p>imparo come migliorare la mia pratica professionale.</p>';
 $string['radiobutton_content_06'] = '<p>quello che imparo si collega bene con la mia pratica professionale.</p>';
 
-$string['fieldset_content_02'] = 'Reflective thinking';
+$string['fieldset_content_02'] = 'Senso critico';
 
 // $string['label_content_02'] = '<p>In questa unità online...</p>';
 
