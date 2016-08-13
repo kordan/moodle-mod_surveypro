@@ -50,7 +50,7 @@ $reportman = new surveyproreport_frequency_report($cm, $context, $surveypro);
 // Begin of: instance filterform.
 $showjumper = $reportman->is_groupjumper_needed();
 
-$paramurl = array('id' => $cm->id, 'rname' => 'frequency');
+$paramurl = array('id' => $cm->id);
 $formurl = new moodle_url('/mod/surveypro/report/frequency/view.php', $paramurl);
 
 $formparams = new stdClass();

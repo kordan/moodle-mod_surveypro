@@ -46,7 +46,7 @@ class surveyproreport_responsesperuser_report extends mod_surveypro_reportbase {
     public function setup_outputtable() {
         $this->outputtable = new flexible_table('responsesperuser');
 
-        $paramurl = array('id' => $this->cm->id, 'rname' => 'count');
+        $paramurl = array('id' => $this->cm->id);
         $baseurl = new moodle_url('/mod/surveypro/report/responsesperuser/view.php', $paramurl);
         $this->outputtable->define_baseurl($baseurl);
 

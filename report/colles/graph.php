@@ -29,8 +29,8 @@ require_once($CFG->dirroot.'/mod/surveypro/report/colles/lib.php');
 
 $id = required_param('id', PARAM_INT); // Course Module ID.
 $type = required_param('type', PARAM_ALPHA); // Report type.
-$group = optional_param('group', 0, PARAM_INT); // Group ID.
-$area = optional_param('area', false, PARAM_INT);  // Report area.
+$groupid = optional_param('groupid', 0, PARAM_INT); // Group ID.
+$area = optional_param('area', 0, PARAM_INT);  // Report area.
 $qid = optional_param('qid', 0, PARAM_INT);  // Question ID.
 
 $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
@@ -41,8 +41,6 @@ $context = context_module::instance($cm->id);
 
 require_login($course, false, $cm);
 
-// $groupmode = groups_get_activity_groupmode($cm, $course);   // Groups are being used.
-
 if ($type == 'summary') {
     if (!has_capability('mod/surveypro:accessreports', $context)) {
         require_capability('mod/surveypro:accessownreports', $context);
@@ -52,9 +50,8 @@ if ($type == 'summary') {
 }
 
 $reportman = new surveyproreport_colles_report($cm, $context, $surveypro);
-$reportman->set_group($group);
 $reportman->set_area($area);
-$reportman->set_qid($qid);
+$reportman->set_groupid($groupid);
 
 $graph = new graph(SURVEYPROREPORT_COLLES_GWIDTH, SURVEYPROREPORT_COLLES_GHEIGHT);
 if ($type == 'summary') {
@@ -309,7 +306,9 @@ if ($type == 'questions') {
     $graph->parameter['legend_offset'] = 4;
 
     $countoptions = 1 + max(max($reportman->trend1), max($reportman->trend2));
-    $graph->parameter['y_axis_gridlines'] = $countoptions;
+    $graph->parameter['y_axis_gridlines'] = min(20, 2 + $countoptions);
+    $graph->parameter['y_max_left'] = 1 + $countoptions;
+    $graph->parameter['y_max_right'] = 1 + $countoptions;
     $graph->parameter['y_resolution_left'] = 1;
     $graph->parameter['y_decimal_left'] = 0;
     $graph->parameter['x_axis_angle'] = 20;

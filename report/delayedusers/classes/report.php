@@ -46,7 +46,7 @@ class surveyproreport_delayedusers_report extends mod_surveypro_reportbase {
     public function setup_outputtable() {
         $this->outputtable = new flexible_table('delayedusers');
 
-        $paramurl = array('id' => $this->cm->id, 'rname' => 'delayedusers');
+        $paramurl = array('id' => $this->cm->id);
         $baseurl = new moodle_url('/mod/surveypro/report/delayedusers/view.php', $paramurl);
         $this->outputtable->define_baseurl($baseurl);
 
