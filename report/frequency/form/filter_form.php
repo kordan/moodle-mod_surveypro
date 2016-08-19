@@ -28,7 +28,7 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 
 /**
- * The class to filter the item to get its frequency in the answers
+ * Class to filter output by group
  *
  * @package   surveyproreport_frequency
  * @copyright 2013 onwards kordan <kordan@mclink.it>

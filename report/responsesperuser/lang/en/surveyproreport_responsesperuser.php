@@ -17,7 +17,7 @@
 /**
  * Strings for component 'report_responses', language 'en'
  *
- * @package   surveyproreport_responses
+ * @package   surveyproreport_responsesperuser
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

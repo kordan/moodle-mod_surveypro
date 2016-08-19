@@ -169,6 +169,7 @@ class surveyproreport_frequency_report extends mod_surveypro_reportbase {
     /**
      * Get_submissions_sql
      *
+     * @param int $itemid
      * @return array($sql, $whereparams);
      */
     public function get_submissions_sql($itemid) {
@@ -201,6 +202,7 @@ class surveyproreport_frequency_report extends mod_surveypro_reportbase {
     /**
      * Get_answercount_sql
      *
+     * @param int $itemid
      * @return array($sql, $whereparams);
      */
     public function get_answercount_sql($itemid) {
