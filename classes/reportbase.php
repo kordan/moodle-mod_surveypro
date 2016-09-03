@@ -195,7 +195,7 @@ class mod_surveypro_reportbase {
     /**
      * Set the groupid.
      *
-     * @var int $groupid
+     * @param int $groupid
      */
     public function set_groupid($groupid) {
         $this->groupid = $groupid;

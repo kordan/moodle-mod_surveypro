@@ -25,6 +25,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// @codingStandardsIgnoreFile
+
 define('CLI_SCRIPT', true);
 
 // Now get cli options.

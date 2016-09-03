@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/lib/formslib.php');
 
 /**
- * The class to filter the attachment item to overview
+ * Class to filter output by group
  *
  * @package   surveyproreport_attachments
  * @copyright 2013 onwards kordan <kordan@mclink.it>

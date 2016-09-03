@@ -48,7 +48,7 @@ class behat_mod_surveypro extends behat_base {
      * @Then /^the field "(?P<field_string>(?:[^"]|\\")*)" matches multiline:$/
      * @throws ElementNotFoundException Thrown by behat_base::find
      * @param string $field
-     * @param string $value
+     * @param PyStringNode $value
      * @return void
      */
     public function the_field_matches_multiline($field, PyStringNode $value) {

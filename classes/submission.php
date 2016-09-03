@@ -857,6 +857,8 @@ class mod_surveypro_submission {
     /**
      * Actually display the thanks page.
      *
+     * @param int $responsestatus
+     * @param int $formview
      * @return void
      */
     public function show_thanks_page($responsestatus, $formview) {
