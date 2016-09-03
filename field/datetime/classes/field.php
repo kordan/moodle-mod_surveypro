@@ -348,9 +348,9 @@ class surveyprofield_datetime_field extends mod_surveypro_itembase {
         // 1. Special management for composite fields.
         $fieldlist = $this->item_get_composite_fields();
         foreach ($fieldlist as $field) {
-        	if (is_null($this->{$field})) {
-        		continue;
-        	}
+            if (is_null($this->{$field})) {
+                continue;
+            }
             $datetimearray = self::item_split_unix_time($this->{$field});
             $this->{$field.'year'} = $datetimearray['year'];
             $this->{$field.'month'} = $datetimearray['mon'];
