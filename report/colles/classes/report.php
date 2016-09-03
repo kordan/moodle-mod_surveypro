@@ -39,11 +39,6 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
     public $template;
 
     /**
-     * @var int $group
-     */
-    public $group = 0;
-
-    /**
      * @var int $id
      */
     public $area = 0;
@@ -52,11 +47,6 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
      * @var string $templateuseritem
      */
     public $templateuseritem = '';
-
-    /**
-     * @var int $qid
-     */
-    public $qid = 0;
 
     /**
      * @var string $graphtitle
@@ -145,16 +135,6 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
      */
     public function set_area($area) {
         $this->area = $area;
-    }
-
-    /**
-     * Set q id.
-     *
-     * @param int $qid
-     * @return void
-     */
-    public function set_qid($qid) {
-        $this->qid = $qid;
     }
 
     /**
@@ -297,8 +277,6 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
             $paramnexturl = array();
             $paramnexturl['s'] = $this->surveypro->id;
             $paramnexturl['type'] = 'scales';
-            // $paramnexturl['group'] = 0;
-            // $paramnexturl['area'] = 0;
             $nexturl = new moodle_url('/mod/surveypro/report/colles/view.php', $paramnexturl);
         } else {
             $nexturl = null;
@@ -306,8 +284,8 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
 
         $paramurl = array();
         $paramurl['id'] = $this->cm->id;
-        $paramurl['group'] = 0;
         $paramurl['type'] = 'summary';
+        $paramurl['groupid'] = $this->groupid;
         $graphurl = new moodle_url('/mod/surveypro/report/colles/graph.php', $paramurl);
 
         $this->output_html($nexturl, $graphurl, 'summaryreport');
@@ -351,10 +329,17 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
         }
         foreach ($toevaluate as $k => $qidarea) {
             foreach ($qidarea as $areaidlist) {
-                list($insql, $whereparams) = $DB->get_in_or_equal($areaidlist, SQL_PARAMS_NAMED, 'areaid');
-                $sql = 'SELECT COUNT(ud.id) as answerscount, SUM(ud.content) as sumofanswers
-                        FROM {surveypro_answer} ud
-                        WHERE ud.itemid '.$insql;
+                list($insql, $inparams) = $DB->get_in_or_equal($areaidlist, SQL_PARAMS_NAMED, 'areaid');
+                $sql = 'SELECT COUNT(a.id) as answerscount, SUM(a.content) as sumofanswers
+                        FROM {user} u
+                            JOIN {surveypro_submission} s ON s.userid = u.id
+                            JOIN {surveypro_answer} a ON a.submissionid = s.id';
+
+                list($middlesql, $whereparams) = $this->get_middle_sql();
+                $sql .= $middlesql;
+
+                $whereparams = array_merge($whereparams, $inparams);
+                $sql .= ' AND a.itemid '.$insql;
 
                 $aggregate = $DB->get_record_sql($sql, $whereparams);
                 $m = $aggregate->sumofanswers / $aggregate->answerscount;
@@ -365,9 +350,17 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
                     $this->trend2[] = $m;
                 }
 
-                $sql = 'SELECT ud.content
-                        FROM {surveypro_answer} ud
-                        WHERE ud.itemid '.$insql;
+                $sql = 'SELECT a.content
+                        FROM {user} u
+                            JOIN {surveypro_submission} s ON s.userid = u.id
+                            JOIN {surveypro_answer} a ON a.submissionid = s.id';
+
+                list($middlesql, $whereparams) = $this->get_middle_sql();
+                $sql .= $middlesql;
+
+                $whereparams = array_merge($whereparams, $inparams);
+                $sql .= ' AND a.itemid '.$insql;
+
                 $answers = $DB->get_recordset_sql($sql, $whereparams);
                 $bigsum = 0;
                 foreach ($answers as $answer) {
@@ -429,12 +422,10 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
         $paramnexturl = array();
         $paramnexturl['s'] = $this->surveypro->id;
         $paramnexturl['type'] = 'questions';
-        // $paramnexturl['group'] = 0;
-        // $paramnexturl['area'] = 0;
 
         $paramurl = array();
         $paramurl['id'] = $this->cm->id;
-        $paramurl['group'] = 0;
+        $paramurl['groupid'] = $this->groupid;
         $paramurl['type'] = 'scales';
 
         for ($area = 0; $area < 6; $area++) { // 0..5.
@@ -454,13 +445,8 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
      * @param int $area
      * @return void
      */
-    public function fetch_scalesdata($area=false) {
+    public function fetch_scalesdata($area=0) {
         global $DB;
-
-        if ($area === false) { // Here, $area MUST BE provided.
-            $message = 'Unexpected $area === false';
-            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-        }
 
         $this->graphtitle = get_string('fieldset_content_0'.($area + 1), 'surveyprotemplate_'.$this->template);
 
@@ -491,8 +477,16 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
         }
         foreach ($toevaluate as $k => $areaidlist) {
             foreach ($areaidlist as $itemid) {
-                $where = array('itemid' => $itemid);
-                $aggregate = $DB->get_record('surveypro_answer', $where, 'COUNT(id) as answerscount, SUM(content) as sumofanswers');
+                $sql = 'SELECT COUNT(a.id) as answerscount, SUM(a.content) as sumofanswers
+                        FROM {user} u
+                            JOIN {surveypro_submission} s ON s.userid = u.id
+                            JOIN {surveypro_answer} a ON a.submissionid = s.id';
+
+                list($middlesql, $whereparams) = $this->get_middle_sql();
+                $sql .= $middlesql.' AND a.itemid = :itemid';
+                $whereparams['itemid'] = $itemid;
+
+                $aggregate = $DB->get_record_sql($sql, $whereparams);
                 $m = $aggregate->sumofanswers / $aggregate->answerscount;
                 if ($k == 0) {
                     $this->trend1[] = $m;
@@ -501,7 +495,16 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
                     $this->trend2[] = $m;
                 }
 
-                $answers = $DB->get_recordset('surveypro_answer', $where, '', 'content');
+                $sql = 'SELECT a.content
+                        FROM {user} u
+                            JOIN {surveypro_submission} s ON s.userid = u.id
+                            JOIN {surveypro_answer} a ON a.submissionid = s.id';
+
+                list($middlesql, $whereparams) = $this->get_middle_sql();
+                $sql .= $middlesql.' AND a.itemid = :itemid';
+                $whereparams['itemid'] = $itemid;
+
+                $answers = $DB->get_recordset_sql($sql, $whereparams);
                 $bigsum = 0;
                 foreach ($answers as $answer) {
                     $xi = (double)$answer->content;
@@ -526,27 +529,22 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
      * @param int $area
      * @return void
      */
-    public function output_questionsdata($area=false) {
+    public function output_questionsdata($area) {
         $paramnexturl = array();
         $paramnexturl['s'] = $this->surveypro->id;
         $paramnexturl['type'] = 'summary';
-        // $paramnexturl['group'] = 0;
         $nexturl = new moodle_url('/mod/surveypro/report/colles/view.php', $paramnexturl);
 
         $paramurl = array();
         $paramurl['id'] = $this->cm->id;
-        $paramurl['group'] = 0;
+        $paramurl['groupid'] = $this->groupid;
         $paramurl['type'] = 'questions';
 
-        if ($area === false) {
-            $areas = array(0, 1, 2, 3, 4, 5);
-        } else {
-            $areas = array($area);
-        }
+        $areas = array($area);
 
         foreach ($areas as $area) {
             $paramurl['area'] = $area;
-            for ($qid = 0; $qid < 4; $qid++) { // 0..3.
+            for ($qid = 0; $qid < 4; $qid++) { // The question ID: 0..3.
                 $paramurl['qid'] = $qid;
                 $graphurl = new moodle_url('/mod/surveypro/report/colles/graph.php', $paramurl);
                 $this->output_html($nexturl, $graphurl, 'questionsreport');
@@ -555,23 +553,14 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
     }
 
     /**
-     * Fetch_questionsdata.
+     * Fetch questions data.
      *
      * @param int $area
      * @param int $qid
      * @return void
      */
-    public function fetch_questionsdata($area=false, $qid=false) {
+    public function fetch_questionsdata($area, $qid) {
         global $DB;
-
-        if ($area === false) { // $area MUST BE provided.
-            $message = 'Unexpected $area === false';
-            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-        }
-        if ($qid === false) { // $area MUST BE provided.
-            $message = 'Unexpected $qid === false';
-            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-        }
 
         // Begin of: group question id per area of investigation.
         list($qid1area, $qid2area) = $this->get_qid_per_area();
@@ -600,12 +589,16 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
             $toevaluate = array($qid1area[$area]);
         }
         foreach ($toevaluate as $k => $areaidlist) {
-            $where = array('itemid' => $areaidlist[$qid]);
-            $sql = 'SELECT content, count(id) as absolute
-                    FROM {surveypro_answer}
-                    WHERE itemid = :itemid
-                    GROUP BY content';
-            $aggregates = $DB->get_records_sql($sql, $where);
+            $sql = 'SELECT content, count(a.id) as absolute
+                    FROM {user} u
+                        JOIN {surveypro_submission} s ON s.userid = u.id
+                        JOIN {surveypro_answer} a ON a.submissionid = s.id';
+
+            list($middlesql, $whereparams) = $this->get_middle_sql();
+            $sql .= $middlesql.' AND a.itemid = :itemid GROUP BY content';
+            $whereparams['itemid'] = $areaidlist[$qid];
+
+            $aggregates = $DB->get_records_sql($sql, $whereparams);
 
             if ($k == 0) {
                 foreach ($aggregates as $aggregate) {

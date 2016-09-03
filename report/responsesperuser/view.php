@@ -53,7 +53,7 @@ if ($showjumper) {
 
     $jumpercontent = $reportman->get_groupjumper_content();
 
-    $paramurl = array('id' => $cm->id, 'rname' => 'responsesperuser');
+    $paramurl = array('id' => $cm->id);
     $formurl = new moodle_url('/mod/surveypro/report/responsesperuser/view.php', $paramurl);
 
     $formparams = new stdClass();

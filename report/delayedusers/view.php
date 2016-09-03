@@ -53,7 +53,7 @@ if ($showjumper) {
 
     $jumpercontent = $reportman->get_groupjumper_content();
 
-    $paramurl = array('id' => $cm->id, 'rname' => 'attachments');
+    $paramurl = array('id' => $cm->id);
     $formurl = new moodle_url('/mod/surveypro/report/delayedusers/view.php', $paramurl);
 
     $formparams = new stdClass();

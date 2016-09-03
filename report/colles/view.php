@@ -23,8 +23,9 @@
  */
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
-require_once($CFG->libdir.'/tablelib.php');
+require_once($CFG->dirroot.'/mod/surveypro/report/delayedusers/form/groupfilter_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/colles/lib.php');
+require_once($CFG->libdir.'/tablelib.php');
 
 $id = optional_param('id', 0, PARAM_INT);
 $s = optional_param('s', 0, PARAM_INT);
@@ -39,9 +40,7 @@ if (!empty($id)) {
 }
 
 $type = optional_param('type', 'summary', PARAM_ALPHA);  // Type of graph.
-$group = optional_param('group', 0, PARAM_INT);  // Group ID.
-$area = optional_param('area', false, PARAM_INT);  // Student ID.
-$qid = optional_param('qid', 0, PARAM_INT);  // 0..3 the question in the area.
+$area = optional_param('area', false, PARAM_INT);  // Area ID.
 
 require_course_login($course, true, $cm);
 
@@ -54,18 +53,35 @@ if ($type == 'summary') {
     require_capability('mod/surveypro:accessreports', $context);
 }
 
-$paramurl = array('type' => $type, 's' => $surveypro->id);
-if (!empty($group)) {
-    $paramurl['group'] = $group;
-}
-if ($area) {
+$reportman = new surveyproreport_colles_report($cm, $context, $surveypro);
+$reportman->set_area($area);
+
+// Begin of: define $mform return url.
+$showjumper = $reportman->is_groupjumper_needed();
+if ($showjumper) {
+    $canaccessallgroups = has_capability('moodle/site:accessallgroups', $context);
+
+    $jumpercontent = $reportman->get_groupjumper_content();
+
+    $paramurl = array('id' => $cm->id);
+    $paramurl['type'] = $type;
     $paramurl['area'] = $area;
+    $formurl = new moodle_url('/mod/surveypro/report/colles/view.php', $paramurl);
+
+    $formparams = new stdClass();
+    $formparams->canaccessallgroups = $canaccessallgroups;
+    $formparams->addnotinanygroup = $reportman->add_notinanygroup();
+    $formparams->jumpercontent = $jumpercontent;
+    $groupfilterform = new mod_surveypro_groupfilterform($formurl, $formparams);
 }
-if (!empty($qid)) {
-    $paramurl['qid'] = $qid;
-}
+// End of: prepare params for the form.
 
 // Output starts here.
+$paramurl = array('s' => $surveypro->id, 'type' => $type);
+if ( ($type == 'questions') && ($area !== false) ) { // Area can be zero.
+    $paramurl['area'] = $area;
+}
+
 $url = new moodle_url('/mod/surveypro/report/colles/view.php', $paramurl);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
@@ -77,12 +93,18 @@ echo $OUTPUT->header();
 
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_REPORT);
 
-$reportman = new surveyproreport_colles_report($cm, $context, $surveypro);
 $reportman->nosubmissions_stop();
 
-$reportman->set_group($group);
-$reportman->set_area($area);
-$reportman->set_qid($qid);
+// Begin of: manage form submission.
+if ( $showjumper && ($fromform = $groupfilterform->get_data()) ) {
+    $reportman->set_groupid($fromform->groupid);
+}
+// End of: manage form submission.
+
+if ($showjumper) {
+    $groupfilterform->display();
+}
+
 switch ($type) {
     case 'summary':
         $reportman->output_summarydata();
