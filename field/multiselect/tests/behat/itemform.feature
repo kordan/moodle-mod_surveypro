@@ -5,7 +5,7 @@ Feature: test the use of multiselect setup form
   I fill each its field and I return back to verify all is where I wrote it
 
   @javascript
-  Scenario: use reserved elements
+  Scenario: test multiselect setup form
     Given the following "courses" exist:
       | fullname               | shortname              | category | groupmode |
       | Multiselect setup form | Multiselect setup form | 0        | 0         |

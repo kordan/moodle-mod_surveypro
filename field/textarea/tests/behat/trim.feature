@@ -5,7 +5,7 @@ Feature: test the use of textarea setup form
   I fill a field and I verify what is in it
 
   @javascript
-  Scenario: use reserved elements
+  Scenario: test textarea trim
     Given the following "courses" exist:
       | fullname           | shortname          | category | groupmode |
       | Textarea trim test | Textarea trim test | 0        | 0         |

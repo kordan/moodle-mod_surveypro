@@ -5,7 +5,7 @@ Feature: test the use of character setup form
   I fill each its field and I return back to verify all is where I wrote it
 
   @javascript
-  Scenario: use reserved elements
+  Scenario: test character setup form
     Given the following "courses" exist:
       | fullname             | shortname            | category | groupmode |
       | Character setup form | Character setup form | 0        | 0         |

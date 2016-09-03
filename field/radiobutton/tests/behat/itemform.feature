@@ -5,7 +5,7 @@ Feature: test the use of radiobutton setup form
   I fill each its field and I return back to verify all is where I wrote it
 
   @javascript
-  Scenario: use reserved elements
+  Scenario: test radiobutton setup form
     Given the following "courses" exist:
       | fullname               | shortname              | category | groupmode |
       | Radiobutton setup form | Radiobutton setup form | 0        | 0         |

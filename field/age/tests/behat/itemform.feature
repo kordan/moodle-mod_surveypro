@@ -5,7 +5,7 @@ Feature: test the use of age setup form
   I fill each its field and I return back to verify all is where I wrote it
 
   @javascript
-  Scenario: use reserved elements
+  Scenario: test age setup form
     Given the following "courses" exist:
       | fullname       | shortname      | category | groupmode |
       | Age setup form | Age setup form | 0        | 0         |
