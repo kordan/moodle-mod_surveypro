@@ -418,67 +418,67 @@ function surveypro_delete_instance($id) {
         return false;
     }
 
+    $status = true;
+
+    // Now get rid of all files
+    $fs = get_file_storage();
+    if ($cm = get_coursemodule_from_instance('surveypro', $surveypro->id)) {
+        $context = context_module::instance($cm->id);
+        $fs->delete_area_files($context->id);
+    }
+
     $whereparams = array('surveyproid' => $surveypro->id);
 
     // Delete any dependent records here.
-    $submissions = $DB->get_records('surveypro_submission', $whereparams, '', 'id');
-    $submissions = array_keys($submissions);
+    if ($submissions = $DB->get_records('surveypro_submission', $whereparams, '', 'id')) {
+        $submissions = array_keys($submissions);
 
-    // Delete all associated surveypro_answer.
-    $DB->delete_records_list('surveypro_answer', 'submissionid', $submissions);
+        // Delete all associated surveypro_answer.
+        if (!$DB->delete_records_list('surveypro_answer', 'submissionid', $submissions)) {
+            $status = false;
+        }
 
-    // Delete all associated surveypro_submission.
-    $DB->delete_records('surveypro_submission', $whereparams);
+        // Delete all associated surveypro_submission.
+        if (!$DB->delete_records('surveypro_submission', $whereparams)) {
+            $status = false;
+        }
+    }
 
     // Get all item_<<plugin>> and format_<<plugin>>.
-    $surveyprotypes = array(SURVEYPRO_TYPEFIELD, SURVEYPRO_TYPEFORMAT);
-    foreach ($surveyprotypes as $surveyprotype) {
-        $pluginlist = surveypro_get_plugin_list($surveyprotype);
+    $types = array(SURVEYPRO_TYPEFIELD, SURVEYPRO_TYPEFORMAT);
+    foreach ($types as $type) {
+        $pluginlist = surveypro_get_plugin_list($type);
 
-        // Delete all associated item<<$surveyprotype>>_<<plugin>>.
+        // Delete all associated item<<$type>>_<<plugin>>.
         foreach ($pluginlist as $plugin) {
-            $tablename = 'surveypro'.$surveyprotype.'_'.$plugin;
+            $tablename = 'surveypro'.$type.'_'.$plugin;
             $whereparams['plugin'] = $plugin;
 
             if ($deletelist = $DB->get_records('surveypro_item', $whereparams, 'id', 'id')) {
                 $deletelist = array_keys($deletelist);
-                list($insql, $whereparams) = $DB->get_in_or_equal($deletelist, SQL_PARAMS_NAMED, 'delete');
+                list($insql, $inparams) = $DB->get_in_or_equal($deletelist, SQL_PARAMS_NAMED, 'delete');
                 $select = 'itemid '.$insql;
 
-                $DB->delete_records_select($tablename, $select, $whereparams);
+                if (!$DB->delete_records_select($tablename, $select, $inparams)) {
+                    $status = false;
+                }
+
             }
         }
     }
 
     // Delete all associated surveypro_items.
-    $DB->delete_records('surveypro_item', array('surveyproid' => $surveypro->id));
+    if (!$DB->delete_records('surveypro_item', array('surveyproid' => $surveypro->id))) {
+        $status = false;
+    }
+
 
     // Finally, delete the surveypro record.
-    $DB->delete_records('surveypro', array('id' => $surveypro->id));
+    if (!$DB->delete_records('surveypro', array('id' => $surveypro->id))) {
+        $status = false;
+    }
 
-    // TODO: Am I supposed to delete files too?
-    // SURVEYPRO_STYLEFILEAREA?
-    // SURVEYPRO_TEMPLATEFILEAREA?
-    // SURVEYPRO_THANKSHTMLFILEAREA?
-
-    // SURVEYPRO_ITEMCONTENTFILEAREA <-- is this supposed to go to its delete_instance plugin?
-    // SURVEYPROFIELD_FILEUPLOAD_FILEAREA <-- is this supposed to go to its delete_instance plugin?
-    // SURVEYPROFIELD_TEXTAREAFILEAREA <-- is this supposed to go to its delete_instance plugin?
-
-    // Never delete mod_surveypro files in each AREA in $context = context_user::instance($userid);.
-
-    // Always delete mod_surveypro files in each AREA in $context = context_module::instance($contextid);.
-
-    // If this is the last surveypro of this course, delete also:
-    // Delete mod_surveypro files in each AREA in $context = context_course::instance($contextid);.
-
-    // If this is the last surveypro of the category, delete also:
-    // Delete mod_surveypro files in each AREA in $context = context_coursecat::instance($contextid);.
-
-    // If this is the very last surveypro, delete also:
-    // Delete mod_surveypro files in each AREA in $context = context_system::instance();.
-
-    return true;
+    return $status;
 }
 
 /**
