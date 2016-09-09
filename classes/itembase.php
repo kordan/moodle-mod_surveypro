@@ -1535,6 +1535,27 @@ class mod_surveypro_itembase {
     }
 
     /**
+     * Manage standard content used by all items.
+     *
+     * @param string $content
+     * @return string - the string for the export file
+     */
+    public static function userform_standardcontent_to_string($content) {
+        $quickresponse = null;
+
+        // The content of the provided answer.
+        if ($content == SURVEYPRO_NOANSWERVALUE) { // Answer was "no answer".
+            $quickresponse = get_string('answerisnoanswer', 'mod_surveypro');
+        } else if ($content == SURVEYPRO_ANSWERNOTINDBVALUE) { // Item was disabled. (used by frequency report).
+            $quickresponse = get_string('notanswereditem', 'mod_surveypro');
+        } else if ($content === null) { // Item was disabled.
+            $quickresponse = get_string('notanswereditem', 'mod_surveypro');
+        }
+
+        return $quickresponse;
+    }
+
+    /**
      * Starting from the info stored into $answer, this function returns the corresponding content for the export file.
      *
      * @param object $answer
@@ -1542,18 +1563,25 @@ class mod_surveypro_itembase {
      * @return string - the string for the export file
      */
     public function userform_db_to_export($answer, $format='') {
-        $response = null;
-
         // The content of the provided answer.
-        $content = trim($answer->content);
-        if ($content == SURVEYPRO_NOANSWERVALUE) { // Answer was "no answer".
-            $response = get_string('answerisnoanswer', 'mod_surveypro');
-        } else if ($content == SURVEYPRO_ANSWERNOTINDBVALUE) { // Item was disabled. (Used by frequenct report).
-            $response = get_string('notanswereditem', 'mod_surveypro');
-        } else if ($content === null) { // Item was disabled.
-            $response = get_string('notanswereditem', 'mod_surveypro');
+        $content = $answer->content;
+
+        $quickresponse = self::userform_standardcontent_to_string($content);
+        if ($quickresponse !== null) { // Parent method provided the response.
+            return $quickresponse;
         }
 
-        return $response;
+        // Output.
+        if (strlen($content)) {
+            $return = $content;
+        } else {
+            if ($format == SURVEYPRO_FRIENDLYFORMAT) {
+                $return = get_string('emptyanswer', 'mod_surveypro');
+            } else {
+                $return = '';
+            }
+        }
+
+        return $return;
     }
 }

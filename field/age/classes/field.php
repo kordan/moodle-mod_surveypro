@@ -717,13 +717,13 @@ EOS;
      * @return string - the string for the export file
      */
     public function userform_db_to_export($answer, $format='') {
-        $quickresponse = parent::userform_db_to_export($answer, $format);
+        // The content of the provided answer.
+        $content = $answer->content;
+
+        $quickresponse = self::userform_standardcontent_to_string($content);
         if ($quickresponse !== null) { // Parent method provided the response.
             return $quickresponse;
         }
-
-        // The content of the provided answer.
-        $content = $answer->content;
 
         // Output.
         $agearray = self::item_split_unix_time($content);
