@@ -415,9 +415,9 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
             }
         }
 
-        // The case: $option == false if 100% waste of time
+        // In the coming code, "$option == false;" if 100% waste of time and should be changed to "$option == true;"
         // BUT BUT BUT...
-        // the output in the file is well written.
+        // the output in $dom->saveXML() is well written.
         // I prefer a more readable xml file instead of few nanoseconds saved.
         $option = false;
         if ($option) {

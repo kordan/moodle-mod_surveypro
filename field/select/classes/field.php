@@ -669,9 +669,9 @@ EOS;
         // $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 2 OR shark.
 
         if ( ($this->labelother) && ($data[$this->itemname] == count($labels)) ) {
-            return ($data[$this->itemname.'_text'] = $childparentvalue);
+            return ($data[$this->itemname.'_text'] == $childparentvalue);
         } else {
-            return ($data[$this->itemname] = $childparentvalue);
+            return ($data[$this->itemname] == $childparentvalue);
         }
     }
 

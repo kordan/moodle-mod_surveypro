@@ -374,10 +374,6 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
     private function save_surveypro_submission() {
         global $USER, $DB;
 
-        if (!$this->surveypro->newpageforchild) {
-            $this->drop_unexpected_values();
-        }
-
         $timenow = time();
         $savebutton = isset($this->formdata->savebutton);
         $saveasnewbutton = isset($this->formdata->saveasnewbutton);
@@ -589,6 +585,11 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         $saveasnewbutton = isset($this->formdata->saveasnewbutton);
         $pausebutton = isset($this->formdata->pausebutton);
         $prevbutton = isset($this->formdata->prevbutton);
+
+        // Drop out unwanted answers from the submission.
+        if (!$this->surveypro->newpageforchild) {
+            $this->drop_unwanted_answers();
+        }
 
         // At each submission I need to save one 'surveypro_submission' and some 'surveypro_answer'.
 
@@ -1027,22 +1028,29 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
     }
 
     /**
-     * Drop all the values returned by disabled items.
+     * Drop all the answers returned by disabled items.
      *
-     * If a child item is deisabled by the parent that is in the same child page,
-     * the child answer is useless and must be deleted.
+     * If a child item is deisabled by the parent in its same page,
+     * the child answer (whether set) is unwanted and must be deleted.
+     *
+     * Let's suppose parent and child element in the same page.
+     * I provide the right parent answer so that the child becomes enabled.
+     * Now I enter some input in the child element.
+     * Then I return to parent element and change its answer.
+     * Child is now disabled BUT equipped with an answer.
+     * This is the answer I want to drop out.
      *
      * @return void
      */
-    private function drop_unexpected_values() {
+    private function drop_unwanted_answers() {
         // Begin of: delete all the values returned by disabled items (that were NOT supposed to be returned: MDL-34815).
         $dirtydata = (array)$this->formdata;
-        $indexes = array_keys($dirtydata);
+        $elementnames = array_keys($dirtydata);
 
         $disposelist = array();
         $olditemid = 0;
 
-        foreach ($indexes as $elementname) {
+        foreach ($elementnames as $elementname) {
             if (!$matches = mod_surveypro_utility::get_item_parts($elementname)) {
                 continue;
             } else {
@@ -1077,21 +1085,13 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
             // Call parentitem.
             $parentitem = surveypro_get_item($this->cm, $this->surveypro, $childitem->get_parentid());
 
-            $parentinsamepage = false;
-            foreach ($indexes as $elementname) {
-                if (strpos($elementname, $parentitem->get_itemid())) {
-                    $parentinsamepage = true;
-                    break;
-                }
-            }
-
-            if ($parentinsamepage) { // If parent is in this same page.
-                // Tell parentitem what child needs in order to be displayed
+            $parentpage = $parentitem->get_formpage();
+            $childpage = $childitem->get_formpage();
+            if ($parentpage == $childpage) { // If parent and child share the same page.
+                // Pass to parentitem what the child needs to be displayed ($childitem->get_parentvalue())
                 // and compare it with what was answered to parentitem ($dirtydata).
-                $expectedvalue = $parentitem->userform_child_item_allowed_dynamic($childitem->get_parentvalue(), $dirtydata);
-                // Parentitem, knowing itself, compare what is needed and provides an answer.
-
-                if (!$expectedvalue) {
+                if (!$parentitem->userform_child_item_allowed_dynamic($childitem->get_parentvalue(), $dirtydata)) {
+                    // Parentitem, knowing itself, compares the anwer it received with child needs and provides an answer.
                     $disposelist[] = $childitem->get_itemid();
                 }
             }
@@ -1100,7 +1100,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
 
         // If not expected items are here...
         if (count($disposelist)) {
-            foreach ($indexes as $elementname) {
+            foreach ($elementnames as $elementname) {
                 if ($matches = mod_surveypro_utility::get_item_parts($elementname)) {
                     if ($matches['prefix'] == SURVEYPRO_DONTSAVEMEPREFIX) {
                         continue; // To next foreach.

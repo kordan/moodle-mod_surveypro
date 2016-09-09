@@ -716,9 +716,9 @@ EOS;
         $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
 
         if ( ($this->labelother) && ($data[$this->itemname] == count($labels)) ) {
-            return ($data[$this->itemname.'_text'] = $childparentvalue);
+            return ($data[$this->itemname.'_text'] == $childparentvalue);
         } else {
-            return ($data[$this->itemname] = $childparentvalue);
+            return ($data[$this->itemname] == $childparentvalue);
         }
     }
 
