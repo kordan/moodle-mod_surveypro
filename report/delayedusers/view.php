@@ -58,7 +58,20 @@ if ($showjumper) {
 
     $formparams = new stdClass();
     $formparams->canaccessallgroups = $canaccessallgroups;
-    $formparams->addnotinanygroup = $reportman->add_notinanygroup();
+    // Bloody tricky trap!
+    // ALWAYS set $formparams->addnotinanygroup to false, here!
+    // Don't set it to $reportman->add_notinanygroup();!
+
+    // It is a logical fail. You can not ask for users...
+    // "not in any group" (alias: "not enrolled") && "still not submitting"
+    // because guest user will ALWAYS be counted.
+    // If a user is "not enrolled", of course he still didn't submit.
+
+    // The "not in any group" item, here, IS A NONSENSE
+    // it is needed when users...
+    // ACTUALLY HAVE submissions EVEN IF they are not enrolled
+    // but in this report I look for users WITHOUT submissions.
+    $formparams->addnotinanygroup = false;
     $formparams->jumpercontent = $jumpercontent;
     $groupfilterform = new mod_surveypro_groupfilterform($formurl, $formparams);
 }
