@@ -108,11 +108,26 @@ Feature: apply a COLLES (actual and preferred) mastertemplate to test graphs
     And I follow "To test COLLES graphs"
     And I follow "Run COLLES report"
 
-    And I navigate to "summary" node in "Surveypro administration > Report > Colles report"
+    And I navigate to "Summary" node in "Surveypro administration > Report > Colles report"
     Then I should not see "Summary report"
 
-    And I navigate to "scales" node in "Surveypro administration > Report > Colles report"
+    And I navigate to "Scales" node in "Surveypro administration > Report > Colles report"
     Then I should not see "Scales report"
 
-    And I navigate to "questions" node in "Surveypro administration > Report > Colles report"
+    And I navigate to "Relevance" node in "Surveypro administration > Report > Colles report > Questions"
+    Then I should not see "Questions report"
+
+    And I navigate to "Reflective thinking" node in "Surveypro administration > Report > Colles report > Questions"
+    Then I should not see "Questions report"
+
+    And I navigate to "Interactivity" node in "Surveypro administration > Report > Colles report > Questions"
+    Then I should not see "Questions report"
+
+    And I navigate to "Tutor support" node in "Surveypro administration > Report > Colles report > Questions"
+    Then I should not see "Questions report"
+
+    And I navigate to "Peer support" node in "Surveypro administration > Report > Colles report > Questions"
+    Then I should not see "Questions report"
+
+    And I navigate to "Interpretation" node in "Surveypro administration > Report > Colles report > Questions"
     Then I should not see "Questions report"

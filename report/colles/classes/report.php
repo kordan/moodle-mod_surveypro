@@ -162,19 +162,41 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
      * Get child reports.
      *
      * @param bool $canaccessreports
-     * @return mixed array if child reports are available, void otherwise
+     * @return $childreports
      */
     public function has_childreports($canaccessreports) {
-        if ($canaccessreports) {
-            $childreports = array();
-            $childreports['summary'] = array('type' => 'summary');
-            $childreports['scales'] = array('type' => 'scales');
-            $childreports['questions'] = array('type' => 'questions');
-
-            return $childreports;
-        } else {
+        if (!$canaccessreports) {
             return false;
         }
+
+        $questionreports = array();
+        $questionreports['fieldset_content_01'] = array('type' => 'questions', 'area' => 0);
+        $questionreports['fieldset_content_02'] = array('type' => 'questions', 'area' => 1);
+        $questionreports['fieldset_content_03'] = array('type' => 'questions', 'area' => 2);
+        $questionreports['fieldset_content_04'] = array('type' => 'questions', 'area' => 3);
+        $questionreports['fieldset_content_05'] = array('type' => 'questions', 'area' => 4);
+        $questionreports['fieldset_content_06'] = array('type' => 'questions', 'area' => 5);
+
+        $childreports = array();
+        $childreports['summary'] = array('type' => 'summary');
+        $childreports['scales'] = array('type' => 'scales');
+        $childreports['areas'] = $questionreports;
+
+        // To uncomment the next code to get examples of nested navigation into admin > report block,
+        // you have to add strings corresponding to keys to $this->surveypro->template lang file.
+        // $subfourtharray = array();
+        // $subfourtharray['4.3.1'] = array('type' => 'fourth', 'foo' => 3, 'bar' => 1);
+        // $subfourtharray['4.3.2'] = array('type' => 'fourth', 'foo' => 3, 'bar' => 2);
+        // $subfourtharray['4.3.3'] = array('type' => 'fourth', 'foo' => 3, 'bar' => 3);
+
+        // $fourtharray = array();
+        // $fourtharray['4.1'] = array('type' => 'fourth', 'foo' => 1);
+        // $fourtharray['4.2'] = array('type' => 'fourth', 'foo' => 2);
+        // $fourtharray['4.3'] = $subfourtharray;
+
+        // $childreports['fourth'] = $fourtharray;
+
+        return $childreports;
     }
 
     /**
