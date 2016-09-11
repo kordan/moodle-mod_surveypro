@@ -116,7 +116,6 @@ class mod_surveypro_submission {
 
         $this->prevent_direct_user_input($confirm);
         $this->submission_to_pdf();
-
     }
 
     // MARK set.
@@ -1451,8 +1450,8 @@ class mod_surveypro_submission {
                 $html = str_replace('@@col2@@', $content, $html);
 
                 // Third column.
-                if (isset($userdatarecord[$item->get_itemid()])) {
-                    $content = $item->userform_db_to_export($userdatarecord[$item->get_itemid()], SURVEYPRO_FRIENDLYFORMAT);
+                if (isset($userdatarecord[$itemseed->id])) {
+                    $content = $item->userform_db_to_export($userdatarecord[$itemseed->id], SURVEYPRO_FRIENDLYFORMAT);
                     if ($item->get_plugin() != 'textarea') { // Content does not come from an html editor.
                         $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
                         $content = str_replace(SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR, '<br />', $content);

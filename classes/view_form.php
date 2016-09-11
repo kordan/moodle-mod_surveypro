@@ -598,9 +598,14 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         $this->save_surveypro_submission();
         // End of: let's start by saving one record in surveypro_submission.
 
+        // Generate $itemhelperinfo.
         $itemhelperinfo = array();
         foreach ($this->formdata as $elementname => $content) {
-            if (!$matches = mod_surveypro_utility::get_item_parts($elementname)) {
+            if ($matches = mod_surveypro_utility::get_item_parts($elementname)) {
+                if ($matches['prefix'] == SURVEYPRO_DONTSAVEMEPREFIX) {
+                    continue; // To next foreach.
+                }
+            } else {
                 // Button or something not relevant.
                 if ($elementname == 's') {
                     $surveyproid = $content;
@@ -610,10 +615,6 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
                 // - nextbutton
                 // and some more.
                 continue; // To next foreach.
-            } else {
-                if ($matches['prefix'] == SURVEYPRO_DONTSAVEMEPREFIX) {
-                    continue; // To next foreach.
-                }
             }
 
             $itemid = $matches['itemid'];

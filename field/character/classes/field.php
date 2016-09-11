@@ -642,36 +642,6 @@ EOS;
     }
 
     /**
-     * Starting from the info stored into $answer, this function returns the corresponding content for the export file.
-     *
-     * @param object $answer
-     * @param string $format
-     * @return string - the string for the export file
-     */
-    public function userform_db_to_export($answer, $format='') {
-        $quickresponse = parent::userform_db_to_export($answer, $format);
-        if ($quickresponse !== null) { // Parent method provided the response.
-            return $quickresponse;
-        }
-
-        // The content of the provided answer.
-        $content = $answer->content;
-
-        // Output.
-        if (strlen($content)) {
-            $return = $content;
-        } else {
-            if ($format == SURVEYPRO_FRIENDLYFORMAT) {
-                $return = get_string('emptyanswer', 'mod_surveypro');
-            } else {
-                $return = '';
-            }
-        }
-
-        return $return;
-    }
-
-    /**
      * Returns an array with the names of the mform element added using $mform->addElement or $mform->addGroup.
      *
      * @return array
