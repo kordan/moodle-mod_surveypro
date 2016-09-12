@@ -285,7 +285,7 @@ class mod_surveypro_itemlist {
 
         $forcedoptionalitemstr = get_string('forcedoptionalitem', 'mod_surveypro');
         $iconparams['title'] = $forcedoptionalitemstr;
-        $greenlockicn = new pix_icon('greenlock', $forcedoptionalitemstr, 'surveypro', $iconparams);
+        $lockedgreenicn = new pix_icon('lockedgreen', $forcedoptionalitemstr, 'surveypro', $iconparams);
 
         // Begin of: $paramurlmove definition.
         $paramurlmove = array();
@@ -543,14 +543,14 @@ class mod_surveypro_itemlist {
                         $paramlink = array('id' => $linkidprefix.$item->get_sortindex(), 'title' => $optionalstr);
                         $icons .= $OUTPUT->action_icon($link, $redicn, null, $paramlink);
                     } else {
-                        if ($item->item_mandatory_is_allowed()) {
+                        if ($item->item_canbemandatory()) {
                             $paramurl['act'] = SURVEYPRO_REQUIREDON;
                             $linkidprefix = 'makemandatory_item_';
                             $link = new moodle_url('/mod/surveypro/layout_items.php#sortindex_'.$sortindex, $paramurl);
                             $paramlink = array('id' => $linkidprefix.$item->get_sortindex(), 'title' => $requiredstr);
                             $icons .= $OUTPUT->action_icon($link, $greenicn, null, $paramlink);
                         } else {
-                            $icons .= $OUTPUT->render($greenlockicn);
+                            $icons .= $OUTPUT->render($lockedgreenicn);
                         }
                     }
                 }
