@@ -658,7 +658,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
             // I do not really save to database.
             $item->userform_save_preprocessing($iteminfo->contentperelement, $useranswer, false);
 
-            if ($useranswer->content == SURVEYPRO_DUMMYCONTENT) {
+            if ($useranswer->content === SURVEYPRO_DUMMYCONTENT) {
                 print_error('wrong_userdatarec_found', 'mod_surveypro', null, SURVEYPRO_DUMMYCONTENT);
             } else {
                 $DB->update_record('surveypro_answer', $useranswer);

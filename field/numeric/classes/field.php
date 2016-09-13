@@ -436,7 +436,8 @@ EOS;
             return;
         }
 
-        if (!$userinput = $this->item_get_correct_number($draftuserinput)) {
+        $userinput = $this->item_get_correct_number($draftuserinput);
+        if ($userinput === false) {
             // It is not a number, shouts.
             $errors[$errorkey] = get_string('uerr_notanumber', 'surveyprofield_numeric');
             return;
