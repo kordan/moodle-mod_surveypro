@@ -95,9 +95,7 @@ $basecondition = $basecondition && empty($surveypro->template);
 $basecondition = $basecondition && (!$hassubmissions || $riskyediting);
 
 // Master template form.
-$mtemplatecondition = true;
-$mtemplatecondition = $mtemplatecondition && (!$itemcount);
-if ($mtemplatecondition) {
+if (!$itemcount) { // The surveypro is empty.
     require_once($CFG->dirroot.'/mod/surveypro/form/mtemplates/apply_form.php');
 
     $mtemplateman = new mod_surveypro_mastertemplate($cm, $context, $surveypro);
@@ -163,12 +161,10 @@ if ($hassubmissions) {
 $itemlistman->actions_feedback();
 $itemlistman->display_item_editing_feedback();
 
-if ($mtemplatecondition) {
-    // Display mtemplate form.
-    $message = get_string('beginfromscratch', 'mod_surveypro');
+if (!$itemcount) {
+    // Display welcome message.
+    $message = get_string('welcome_emptysurvey', 'mod_surveypro');
     echo $OUTPUT->notification($message, 'notifymessage');
-
-    $mtemplateform->display();
 }
 
 if ($newitemcondition) {
@@ -179,6 +175,11 @@ if ($newitemcondition) {
 if ($bulkactioncondition) {
     // Display bulkaction form.
     $bulkactionform->display();
+}
+
+if (!$itemcount) {
+    // Display mtemplate form.
+    $mtemplateform->display();
 }
 
 $itemlistman->display_items_table();
