@@ -517,7 +517,7 @@ EOS;
      * @param bool $searchform
      * @return void
      */
-    public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
+    public function userform_save_preprocessing($answer, &$olduseranswer, $searchform) {
         if (!empty($this->useeditor) && (!$searchform)) {
             $context = context_module::instance($this->cm->id);
             $olduseranswer->{$this->itemname.'_editor'} = empty($this->trimonsave) ? $answer['editor'] : trim($answer['editor']);

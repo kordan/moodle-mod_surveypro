@@ -366,7 +366,7 @@ EOS;
      * @param bool $searchform
      * @return void
      */
-    public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
+    public function userform_save_preprocessing($answer, &$olduseranswer, $searchform) {
         if (!empty($answer)) {
             $context = context_module::instance($this->cm->id);
 
