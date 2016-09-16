@@ -838,6 +838,14 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $paramurlbase['id'] = $this->cm->id;
         // End of $paramurlbase definition.
 
+        $deletetitle = get_string('delete');
+        $iconparams = array('title' => $deletetitle, 'class' => 'iconsmall');
+        $deleteicn = new pix_icon('t/delete', $deletetitle, 'moodle', $iconparams);
+
+        $importtitle = get_string('exporttemplate', 'mod_surveypro');
+        $iconparams = array('title' => $importtitle, 'class' => 'iconsmall');
+        $importicn = new pix_icon('i/import', $importtitle, 'moodle', $iconparams);
+
         $table = new flexible_table('templatelist');
 
         $paramurl = array('id' => $this->cm->id);
@@ -869,9 +877,6 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $table->set_attribute('id', 'managetemplates');
         $table->set_attribute('class', 'generaltable');
         $table->setup();
-
-        $deletetitle = get_string('delete');
-        $exporttitle = get_string('exporttemplate', 'mod_surveypro');
 
         $options = $this->get_sharinglevel_options();
 
@@ -907,10 +912,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                         $paramurl['sesskey'] = sesskey();
 
                         $link = new moodle_url('/mod/surveypro/utemplate_manage.php', $paramurl);
-                        $iconparams = array('title' => $deletetitle, 'class' => 'iconsmall');
-                        $icon = new pix_icon('t/delete', $deletetitle, 'moodle', $iconparams);
-                        $paramlink = array('title' => $deletetitle);
-                        $icons .= $OUTPUT->action_icon($link, $icon, null, $paramlink);
+                        $icons .= $OUTPUT->action_icon($link, $deleteicn, null, array('title' => $deletetitle));
                     }
                 }
 
@@ -921,10 +923,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                     $paramurl['sesskey'] = sesskey();
 
                     $link = new moodle_url('/mod/surveypro/utemplate_manage.php', $paramurl);
-                    $iconparams = array('title' => $exporttitle, 'class' => 'iconsmall');
-                    $icon = new pix_icon('i/export', $exporttitle, 'moodle', $iconparams);
-                    $paramlink = array('title' => $exporttitle);
-                    $icons .= $OUTPUT->action_icon($link, $icon, null, $paramlink);
+                    $icons .= $OUTPUT->action_icon($link, $importicn, null, array('title' => $importtitle));
                 }
 
                 $tablerow[] = $icons;
