@@ -204,14 +204,8 @@ class mod_surveypro_view_cover {
                 if ($canaccessreports || ($reportman->has_student_report() && $canaccessownreports)) {
                     if ($reportman->report_apply()) {
                         if ($childreports = $reportman->has_childreports($canaccessreports)) {
-                            foreach ($childreports as $childname => $childparams) {
-                                $childparams['s'] = $this->cm->instance;
-                                $url = new moodle_url('/mod/surveypro/report/'.$pluginname.'/view.php', $childparams);
-                                $a = new stdClass();
-                                $a->href = $url->out();
-                                $a->reportname = get_string('pluginname', 'surveyproreport_'.$pluginname).$labelsep.$childname;
-                                $messages[] = get_string('runreport', 'mod_surveypro', $a);
-                            }
+                            $reportname = get_string('pluginname', 'surveyproreport_'.$pluginname);
+                            $this->add_report_link($childreports, $pluginname, $messages, $reportname);
                         } else {
                             $url = new moodle_url('/mod/surveypro/report/'.$pluginname.'/view.php', $paramurlbase);
                             $a = new stdClass();
@@ -267,6 +261,36 @@ class mod_surveypro_view_cover {
         $this->display_messages($messages, get_string('mtemplatessection', 'mod_surveypro'));
         $messages = array();
         // End of: master templates section.
+    }
+
+/**
+ * Recursive function to populate the $messages array for reports nested as much times as wanted
+ *
+ * Uncomment lines of has_childreports method in the surveyproreport_colles_report class of report/colles/classes/report.php file
+ * to see this function in action.
+ *
+ * @param string $childreports
+ * @param string $pluginname
+ * @param array $messages
+ * @return void
+ */
+    public function add_report_link($childreports, $pluginname, &$messages, $categoryname) {
+        global $PAGE;
+
+        foreach ($childreports as $reportkey => $childparams) {
+            $subreport = get_string($reportkey, 'surveyprotemplate_'.$this->surveypro->template);
+            if (is_array(reset($childparams))) { // If the first element of $childparams is an array.
+                $categoryname .= ' > '.$subreport;
+                $this->add_report_link($childparams, $pluginname, $messages, $categoryname);
+            } else {
+                $childparams = array('s' => $this->cm->instance) + $childparams;
+                $url = new moodle_url('/mod/surveypro/report/'.$pluginname.'/view.php', $childparams);
+                $a = new stdClass();
+                $a->href = $url->out();
+                $a->reportname = $categoryname.' > '.$subreport;
+                $messages[] = get_string('runreport', 'mod_surveypro', $a);
+            }
+        }
     }
 
     /**
