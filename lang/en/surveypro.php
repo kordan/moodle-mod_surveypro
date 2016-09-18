@@ -83,7 +83,6 @@ $string['badchildparentvalue'] = 'Malformed condition: "{$a}".<br />It might nev
 $string['badtablenamefound'] = 'Parse error reading xml. "{$a}" has been found as table name and, most probably, is invalid.';
 $string['basic_editthanks'] = 'Thank you. Your response has been successfully modified!';
 $string['basic_submitthanks'] = 'Thank you. Your response has been successfully submitted!';
-$string['beginfromscratch'] = 'To create a new survey you can apply a master template to get the survey all at once<br />or add elements one by one to create the survey that best suits your needs.';
 $string['branching'] = 'Branching';
 $string['canneversubmit'] = 'You are not allowed to submit a response';
 $string['cannotsubmittooearly'] = 'The survey is still not open. You have to wait until {$a}';
@@ -483,6 +482,7 @@ $string['verbose'] = 'Verbose (for human reading)';
 $string['versionmismatch'] = 'Version mismatch for {$a->plugin} {$a->type} plugin. Template uses version: {$a->currentversion} while your surveypro plugin uses version {$a->versiondisk}';
 $string['visiblesonly_help'] = 'Include in this template only visibles elements.';
 $string['visiblesonly'] = 'Visibles elements only';
+$string['welcome_emptysurvey'] = 'To create a new survey you can add elements one by one to build the survey that best suits your needs<br />or apply a master template to get a standard survey all at once.';
 $string['welcome_dataexport'] = 'Use this page to export responses of this survey. <br />
 A statistic software format is available such as a more human readable one. Export content depends on the "{$a}" choosen for each element (whether available).';
 $string['welcome_dataimport'] = 'Use this page to import responses into this survey. <br />
