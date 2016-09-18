@@ -834,19 +834,20 @@ class mod_surveypro_itembase {
      *
      * Used by mod_surveypro_itemlist->display_items_table() to define the icon to show
      *
-     * A field can be changed to mandatory ONLY if:
-     *     -> !isset($this->defaultoption)
-     *         OR
-     *     -> $this->defaultoption != SURVEYPRO_NOANSWERDEFAULT
-     *
      * @return boolean
      */
-    public function item_mandatory_is_allowed() {
-        if (isset($this->defaultoption)) {
-            return ($this->defaultoption != SURVEYPRO_NOANSWERDEFAULT);
+    public function item_canbemandatory() {
+        if (property_exists($this, 'defaultoption')) {
+            if ($this->defaultoption == SURVEYPRO_NOANSWERDEFAULT) {
+                $return = false;
+            } else {
+                $return = true;
+            }
         } else {
-            return true;
+            $return = true;
         }
+
+        return $return;
     }
 
     /**

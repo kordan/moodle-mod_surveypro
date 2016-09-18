@@ -96,6 +96,7 @@ class mod_surveypro_importutemplateform extends moodleform {
 
         if (!count($draftfiles)) {
             $errors['importfile_filemanager'] = get_string('missingfile', 'mod_surveypro');
+            return $errors;
         }
 
         $importedfiles = array();
