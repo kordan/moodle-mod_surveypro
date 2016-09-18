@@ -94,6 +94,10 @@ function surveypro_multilinetext_to_array($textareacontent) {
     // Use preg_replace (and not str_replace) because of eventual multiple instances of "\n\n".
     $textareacontent = preg_replace('~\n\n+~', "\n", $textareacontent);
 
+    if (empty($textareacontent)) {
+        return array();
+    }
+
     // Build the array.
     $rows = explode("\n", $textareacontent);
 
