@@ -686,21 +686,16 @@ EOS;
      * @return void
      */
     public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
-        if (isset($answer['mainelement'])) {
-            if ($answer['mainelement'] == SURVEYPRO_INVITEVALUE) {
-                $olduseranswer->content = null;
-                return;
-            }
-            if ($answer['mainelement'] == 'other') {
-                $olduseranswer->content = $answer['text'];
-            } else {
-                $olduseranswer->content = $answer['mainelement'];
-            }
+        if ($answer['mainelement'] == SURVEYPRO_INVITEVALUE) {
+            $olduseranswer->content = null;
             return;
         }
 
-        $a = '$answer = '.$answer;
-        print_error('unhandledvalue', 'mod_surveypro', null, $a);
+        if ($answer['mainelement'] == 'other') {
+            $olduseranswer->content = $answer['text'];
+        } else {
+            $olduseranswer->content = $answer['mainelement'];
+        }
     }
 
     /**
