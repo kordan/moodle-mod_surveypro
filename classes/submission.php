@@ -1335,7 +1335,7 @@ class mod_surveypro_submission {
 
         $submission = $DB->get_record('surveypro_submission', array('id' => $this->submissionid));
         $user = $DB->get_record('user', array('id' => $submission->userid));
-        $where = array('submissionid' => $this->submissionid);
+        $where = array('submissionid' => $this->submissionid, 'verified' => 1);
         $userdatarecord = $DB->get_records('surveypro_answer', $where, '', 'itemid, id, content');
 
         $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context, $user->id, true);
