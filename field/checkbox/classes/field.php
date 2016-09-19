@@ -818,7 +818,12 @@ EOS;
      * @return void
      */
     public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
-        if (isset($answer['ignoreme']) && ($answer['ignoreme'] == 1)) { // It ia an advcheckbox.
+        if (isset($answer['noanswer'])) { // This is correct for input and search form both.
+            $olduseranswer->content = SURVEYPRO_NOANSWERVALUE;
+            return;
+        }
+
+        if (isset($answer['ignoreme']) && ($answer['ignoreme'] == 1)) { // It is an advcheckbox.
             $olduseranswer->content = null;
             return;
         }
@@ -851,6 +856,11 @@ EOS;
         if (isset($fromdb->content)) {
             // Count of answers is == count of checkboxes.
             $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $fromdb->content);
+
+            if ($fromdb->content == SURVEYPRO_NOANSWERVALUE) {
+                $prefill[$this->itemname.'_noanswer'] = 1;
+                return $prefill;
+            }
 
             // Here $answers is an array like: array(1,1,0,0,'dummytext').
             foreach ($answers as $k => $checkboxvalue) {
