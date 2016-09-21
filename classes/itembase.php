@@ -282,7 +282,7 @@ class mod_surveypro_itembase {
         // so I can not save labels to parentvalue as they may change.
         // Because of this, even if the user writes, for instance, "bread\nmilk" to parentvalue
         // I have to encode it to key(bread);key(milk).
-        if (isset($record->parentid) && $record->parentid) {
+        if (!empty($record->parentid)) {
             $parentitem = surveypro_get_item($this->cm, $this->surveypro, $record->parentid);
             $record->parentvalue = $parentitem->parent_encode_child_parentcontent($record->parentcontent);
             unset($record->parentcontent);

@@ -352,19 +352,19 @@ class mod_surveypro_itembaseform extends moodleform {
             $errors['defaultvalue_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
         }
 
-        if (empty($data['parentid']) && empty($data['parentcontent'])) {
+        if ( empty($data['parentid']) && (!strlen($data['parentcontent'])) ) {
             // Stop validation here.
             return $errors;
         }
 
         // You choosed a parentid but you are missing the parentcontent.
-        if (empty($data['parentid']) && (strlen($data['parentcontent']) > 0)) { // $data['parentcontent'] can be = '0'.
+        if ( empty($data['parentid']) && (strlen($data['parentcontent'])) ) { // $data['parentcontent'] can be = '0'.
             $a = get_string('parentcontent', 'mod_surveypro');
             $errors['parentid'] = get_string('ierr_missingparentid', 'mod_surveypro', $a);
         }
 
         // You did not choose a parent item but you entered an answer.
-        if ( !empty($data['parentid']) && (strlen($data['parentcontent']) == 0) ) { // $data['parentcontent'] can be = '0'.
+        if ( !empty($data['parentid']) && (!strlen($data['parentcontent'])) ) { // $data['parentcontent'] can be = '0'.
             $a = get_string('parentid', 'mod_surveypro');
             $errors['parentcontent'] = get_string('ierr_missingparentcontent', 'mod_surveypro', $a);
         }
