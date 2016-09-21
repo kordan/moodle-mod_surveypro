@@ -19,8 +19,8 @@ Feature: test the use of age setup form
       | activity  | name                | intro               | course         | idnumber   |
       | surveypro | Test age setup form | Test age setup form | Age setup form | surveypro1 |
     And surveypro "Test age setup form" contains the following items:
-      | type   | plugin  |
-      | field  | boolean |
+      | type  | plugin  |
+      | field | boolean |
     And I log in as "teacher1"
     And I follow "Age setup form"
     And I follow "Test age setup form"

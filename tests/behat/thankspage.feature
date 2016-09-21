@@ -23,8 +23,8 @@ Feature: test the use of boolean setup form
       | activity  | name             | intro            | course | idnumber   |
       | surveypro | Thanks surveypro | Test thanks page | Thanks | surveypro1 |
     And surveypro "Thanks surveypro" contains the following items:
-      | type   | plugin  |
-      | field  | boolean |
+      | type  | plugin  |
+      | field | boolean |
 
   @javascript
   Scenario: test the empty thanks page

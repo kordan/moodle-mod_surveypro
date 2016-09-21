@@ -537,7 +537,7 @@ class mod_surveypro_itembase {
         }
 
         // Verify the given name is unique. If not, change it.
-        $i = 0; // If name is duplicate, restart verification from 1.
+        $i = 0; // If name is duplicate, restart validation from 1.
         while (in_array($testname, $usednames)) {
             $i++;
             $testname = $record->plugin.'_'.str_pad($i, 3, '0', STR_PAD_LEFT);

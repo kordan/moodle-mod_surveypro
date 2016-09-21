@@ -19,8 +19,8 @@ Feature: test the use of checkbox setup form
       | activity  | name                     | intro                    | course              | idnumber   |
       | surveypro | Test checkbox setup form | Test checkbox setup form | Checkbox setup form | surveypro1 |
     And surveypro "Test checkbox setup form" contains the following items:
-      | type   | plugin  |
-      | field  | boolean |
+      | type  | plugin  |
+      | field | boolean |
     And I log in as "teacher1"
     And I follow "Checkbox setup form"
     And I follow "Test checkbox setup form"

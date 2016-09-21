@@ -19,8 +19,8 @@ Feature: test the use of boolean setup form
       | activity  | name                    | intro                   | course             | idnumber   |
       | surveypro | Test boolean setup form | Test boolean setup form | Boolean setup form | surveypro1 |
     And surveypro "Test boolean setup form" contains the following items:
-      | type   | plugin  |
-      | field  | boolean |
+      | type  | plugin  |
+      | field | boolean |
     And I log in as "teacher1"
     And I follow "Boolean setup form"
     And I follow "Test boolean setup form"
@@ -32,22 +32,22 @@ Feature: test the use of boolean setup form
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content                  | Is this true?              |
-      | Required                 | 1                          |
-      | Indent                   | 1                          |
-      | Question position        | left                       |
-      | Element number           | II.a                       |
-      | Variable                 | B1                         |
-      | Additional note          | Additional note            |
-      | Hidden                   | 1                          |
-      | Search form              | 1                          |
-      | Reserved                 | 1                          |
-      | Parent element           | Boolean [1]: Is this true? |
-      | Parent content           | 1                          |
-      | Element style            | horizontal radio buttons   |
-      | id_defaultoption_1       | 1                          |
-      | id_defaultvalue          | Yes                        |
-      | Download format          | yes/no                     |
+      | Content            | Is this true?              |
+      | Required           | 1                          |
+      | Indent             | 1                          |
+      | Question position  | left                       |
+      | Element number     | II.a                       |
+      | Variable           | B1                         |
+      | Additional note    | Additional note            |
+      | Hidden             | 1                          |
+      | Search form        | 1                          |
+      | Reserved           | 1                          |
+      | Parent element     | Boolean [1]: Is this true? |
+      | Parent content     | 1                          |
+      | Element style      | horizontal radio buttons   |
+      | id_defaultoption_1 | 1                          |
+      | id_defaultvalue    | Yes                        |
+      | Download format    | yes/no                     |
     And I press "Add"
 
     And I follow "edit_item_2"

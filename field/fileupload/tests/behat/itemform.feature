@@ -19,8 +19,8 @@ Feature: test the use of fileupload setup form
       | activity  | name                       | intro                      | course                | idnumber   |
       | surveypro | Test fileupload setup form | Test fileupload setup form | Fileupload setup form | surveypro1 |
     And surveypro "Test fileupload setup form" contains the following items:
-      | type   | plugin  |
-      | field  | boolean |
+      | type  | plugin  |
+      | field | boolean |
     And I log in as "teacher1"
     And I follow "Fileupload setup form"
     And I follow "Test fileupload setup form"

@@ -19,8 +19,8 @@ Feature: test the use of character setup form
       | activity  | name                      | intro                     | course               | idnumber   |
       | surveypro | Test character setup form | Test character setup form | Character setup form | surveypro1 |
     And surveypro "Test character setup form" contains the following items:
-      | type   | plugin  |
-      | field  | boolean |
+      | type  | plugin  |
+      | field | boolean |
     And I log in as "teacher1"
     And I follow "Character setup form"
     And I follow "Test character setup form"

@@ -19,8 +19,8 @@ Feature: test the use of shortdate setup form
       | activity  | name                      | intro                     | course               | idnumber   |
       | surveypro | Test shortdate setup form | Test shortdate setup form | Shortdate setup form | surveypro1 |
     And surveypro "Test shortdate setup form" contains the following items:
-      | type   | plugin  |
-      | field  | boolean |
+      | type  | plugin  |
+      | field | boolean |
     And I log in as "teacher1"
     And I follow "Shortdate setup form"
     And I follow "Test shortdate setup form"

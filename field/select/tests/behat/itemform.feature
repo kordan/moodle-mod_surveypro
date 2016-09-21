@@ -19,8 +19,8 @@ Feature: test the use of select setup form
       | activity  | name                   | intro                  | course            | idnumber   |
       | surveypro | Test select setup form | Test select setup form | Select setup form | surveypro1 |
     And surveypro "Test select setup form" contains the following items:
-      | type   | plugin  |
-      | field  | boolean |
+      | type  | plugin  |
+      | field | boolean |
     And I log in as "teacher1"
     And I follow "Select setup form"
     And I follow "Test select setup form"
