@@ -818,7 +818,7 @@ EOS;
      * @return void
      */
     public function userform_save_preprocessing($answer, &$olduseranswer, $searchform) {
-        if (isset($answer['noanswer'])) { // This is correct for input and search form both.
+        if ( isset($answer['noanswer']) && ($answer['noanswer'] == 1) ) { // This is correct for input and search form both.
             $olduseranswer->content = SURVEYPRO_NOANSWERVALUE;
             return;
         }
