@@ -702,7 +702,7 @@ EOS;
      * @param bool $searchform
      * @return void
      */
-    public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
+    public function userform_save_preprocessing($answer, &$olduseranswer, $searchform) {
         if (isset($answer['noanswer'])) {
             $olduseranswer->content = SURVEYPRO_NOANSWERVALUE;
             return;

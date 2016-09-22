@@ -685,7 +685,7 @@ EOS;
      * @param bool $searchform
      * @return void
      */
-    public function userform_save_preprocessing($answer, $olduseranswer, $searchform) {
+    public function userform_save_preprocessing($answer, &$olduseranswer, $searchform) {
         if ($answer['mainelement'] == SURVEYPRO_INVITEVALUE) {
             $olduseranswer->content = null;
             return;
