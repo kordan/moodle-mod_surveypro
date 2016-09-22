@@ -20,8 +20,8 @@ Feature: verify urls really redirect to existing pages
       | activity  | name            | intro           | course    | idnumber   |
       | surveypro | sPro test links | To verify links | Tl course | surveypro1 |
     And surveypro "sPro test links" contains the following items:
-      | type   | plugin  |
-      | field  | boolean |
+      | type  | plugin  |
+      | field | boolean |
 
   @javascript
   Scenario: select each available link as a teacher

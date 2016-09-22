@@ -19,8 +19,8 @@ Feature: test the use of datetime setup form
       | activity  | name                     | intro                    | course              | idnumber   |
       | surveypro | Test datetime setup form | Test datetime setup form | Datetime setup form | surveypro1 |
     And surveypro "Test datetime setup form" contains the following items:
-      | type   | plugin  |
-      | field  | boolean |
+      | type  | plugin  |
+      | field | boolean |
     And I log in as "teacher1"
     And I follow "Datetime setup form"
     And I follow "Test datetime setup form"

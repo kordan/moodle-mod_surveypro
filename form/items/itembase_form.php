@@ -211,9 +211,9 @@ class mod_surveypro_itembaseform extends moodleform {
             // Create the list of each item with:
             // sortindex lower than mine (whether already exists);
             // $classname::item_get_canbeparent() == true;
-            // I also should include the clause "reserved = my one" but I omit this verification
+            // I also should include the clause "reserved = my one" but I omit this validation
             // because the surveypro creator can, at every time, change the availability of the current item.
-            // So I move the verification of the holding form at the form verification time.
+            // So I move the validation of the holding form at the form validation time.
 
             // Build the list only for searchable plugins.
             $pluginlist = surveypro_get_plugin_list(SURVEYPRO_TYPEFIELD);
@@ -353,7 +353,7 @@ class mod_surveypro_itembaseform extends moodleform {
         }
 
         if (empty($data['parentid']) && empty($data['parentcontent'])) {
-            // Stop verification here.
+            // Stop validation here.
             return $errors;
         }
 

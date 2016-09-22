@@ -19,8 +19,8 @@ Feature: test the use of integer setup form
       | activity  | name                    | intro                   | course             | idnumber   |
       | surveypro | Test integer setup form | Test integer setup form | Integer setup form | surveypro1 |
     And surveypro "Test integer setup form" contains the following items:
-      | type   | plugin  |
-      | field  | boolean |
+      | type  | plugin  |
+      | field | boolean |
     And I log in as "teacher1"
     And I follow "Integer setup form"
     And I follow "Test integer setup form"

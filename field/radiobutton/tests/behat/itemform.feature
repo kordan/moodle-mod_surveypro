@@ -19,8 +19,8 @@ Feature: test the use of radiobutton setup form
       | activity  | name                        | intro                       | course                 | idnumber   |
       | surveypro | Test radiobutton setup form | Test radiobutton setup form | Radiobutton setup form | surveypro1 |
     And surveypro "Test radiobutton setup form" contains the following items:
-      | type   | plugin  |
-      | field  | boolean |
+      | type  | plugin  |
+      | field | boolean |
     And I log in as "teacher1"
     And I follow "Radiobutton setup form"
     And I follow "Test radiobutton setup form"

@@ -19,8 +19,8 @@ Feature: test the use of time setup form
       | activity  | name                 | intro                | course              | idnumber   |
       | surveypro | Test time setup form | Test time setup form | Datetime setup form | surveypro1 |
     And surveypro "Test time setup form" contains the following items:
-      | type   | plugin  |
-      | field  | boolean |
+      | type  | plugin  |
+      | field | boolean |
     And I log in as "teacher1"
     And I follow "Datetime setup form"
     And I follow "Test time setup form"
@@ -57,7 +57,7 @@ Feature: test the use of time setup form
 
     Then I should see "Lower and upper bounds must be different"
     And I set the following fields to these values:
-      | id_lowerboundhour        | 10                                                                      |
+      | id_lowerboundhour        | 10                                                                     |
       | id_lowerboundminute      | 0                                                                      |
       | id_upperboundhour        | 7                                                                      |
       | id_upperboundminute      | 0                                                                      |

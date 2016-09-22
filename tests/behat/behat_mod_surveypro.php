@@ -43,7 +43,7 @@ use Behat\Behat\Context\Step\Given as Given,
 class behat_mod_surveypro extends behat_base {
 
     /**
-     * Checks, the field matches the multiline value.
+     * Checks the field matches the multiline value.
      *
      * @Then /^the field "(?P<field_string>(?:[^"]|\\")*)" matches multiline:$/
      * @throws ElementNotFoundException Thrown by behat_base::find

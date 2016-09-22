@@ -508,7 +508,7 @@ class mod_surveypro_view_import {
         }
 
         // Begin of: DOES EACH RECORD provide a valid value?
-        // Start here a looooooooong list of verifications against founded values record per record.
+        // Start here a looooooooong list of validations against founded values record per record.
         $reservedwords = array();
         if ($csvusesolddata) {
             $reservedwords[] = '__invItat10n__';

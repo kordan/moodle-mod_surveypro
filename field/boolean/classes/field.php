@@ -415,7 +415,7 @@ EOS;
     }
 
     /**
-     * This method, starting from child parentvalue (index/es), declare if the child could be include in the surveypro.
+     * This method, starting from child parentvalue (index/es), declares if the child could be included in the surveypro.
      *
      * @param string $childparentvalue
      * @return status of child relation

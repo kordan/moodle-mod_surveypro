@@ -19,8 +19,8 @@ Feature: test the use of rate setup form
       | activity  | name                 | intro                | course          | idnumber   |
       | surveypro | Test rate setup form | Test rate setup form | Rate setup form | surveypro1 |
     And surveypro "Test rate setup form" contains the following items:
-      | type   | plugin  |
-      | field  | boolean |
+      | type  | plugin  |
+      | field | boolean |
     And I log in as "teacher1"
     And I follow "Rate setup form"
     And I follow "Test rate setup form"

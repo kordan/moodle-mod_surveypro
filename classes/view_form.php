@@ -665,9 +665,9 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
             }
         }
 
-        // Before closing the save session I need two more verifications.
+        // Before closing the save session I need two more validations.
 
-        // FIRST VERIFICATION.
+        // FIRST VALIDATION.
         // Let's suppose the following scenario.
         // 1) User is filling a surveypro divided into 4 pages.
         // 2) User fill all the fields of first page and moves to page 2.
@@ -676,7 +676,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         // 5) Because of 3) user jumps to page 4 and make the final submit.
         // This check is needed to verify that EACH mandatory surveypro field was actually saved.
 
-        // SECOND VERIFICATION.
+        // SECOND VALIDATION.
         // 1) User is filling a surveypro divided into 3 pages.
         // 2) User fill all the fields of first page and moves to page 2.
         // 3) User reads the url and understands that the formapge is passed in GET (visible in the url).

@@ -19,8 +19,8 @@ Feature: test the use of autofill setup form
       | activity  | name                     | intro                    | course              | idnumber   |
       | surveypro | Test autofill setup form | Test autofill setup form | Autofill setup form | surveypro1 |
     And surveypro "Test autofill setup form" contains the following items:
-      | type   | plugin  |
-      | field  | boolean |
+      | type  | plugin  |
+      | field | boolean |
     And I log in as "teacher1"
     And I follow "Autofill setup form"
     And I follow "Test autofill setup form"
@@ -32,18 +32,18 @@ Feature: test the use of autofill setup form
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content                  | Your user ID               |
-      | Indent                   | 1                          |
-      | Question position        | left                       |
-      | Element number           | II.a                       |
-      | Variable                 | A1                         |
-      | Additional note          | Additional note            |
-      | Hidden                   | 1                          |
-      | Search form              | 1                          |
-      | Reserved                 | 1                          |
-      | Parent element           | Boolean [1]: Is this true? |
-      | Parent content           | 1                          |
-      | id_element01select       | user ID                    |
+      | Content            | Your user ID               |
+      | Indent             | 1                          |
+      | Question position  | left                       |
+      | Element number     | II.a                       |
+      | Variable           | A1                         |
+      | Additional note    | Additional note            |
+      | Hidden             | 1                          |
+      | Search form        | 1                          |
+      | Reserved           | 1                          |
+      | Parent element     | Boolean [1]: Is this true? |
+      | Parent content     | 1                          |
+      | id_element01select | user ID                    |
     And I press "Add"
 
     And I follow "edit_item_2"
