@@ -100,7 +100,7 @@ if ($userformman->formdata = $outform->get_data()) {
     $prevbutton = isset($userformman->formdata->prevbutton);
     if ($prevbutton) {
         $userformman->next_not_empty_page(false);
-        $paramurl['formpage'] = $userformman->get_firstpageleft();
+        $paramurl['formpage'] = $userformman->get_nextpageleft();
         $redirecturl = new moodle_url('/mod/surveypro/view_form.php', $paramurl);
         redirect($redirecturl); // Redirect to the first non empty page.
     }
@@ -110,16 +110,16 @@ if ($userformman->formdata = $outform->get_data()) {
     if ($nextbutton) {
         $userformman->next_not_empty_page(true);
 
-        // Ok, I am moving from $userformman->formpage to page $userformman->firstpageright.
+        // Ok, I am moving from $userformman->formpage to page $userformman->nextpageright.
         // I need to delete all the answer that were (maybe) written during a previous walk along the surveypro.
-        // Answers to each item in a page between ($this->formpage + 1) and ($this->firstpageright - 1) included, must be deleted.
+        // Answers to each item in a page between ($this->formpage + 1) and ($this->nextpageright - 1) included, must be deleted.
         //
-        // Example: I am leaving page 3. On the basis of current input $userformman->firstpageright is 10.
+        // Example: I am leaving page 3. On the basis of current input $userformman->nextpageright is 10.
         // Maybe yesterday I had different data in $userformman->formpage = 3 and on that basis I was redirected to page 4.
         // Now that data of $userformman->formpage = 3 redirects me to page 10, for sure answers to items in page 4 must be deleted.
         $userformman->drop_jumped_saved_data();
 
-        $paramurl['formpage'] = $userformman->get_firstpageright();
+        $paramurl['formpage'] = $userformman->get_nextpageright();
         $redirecturl = new moodle_url('/mod/surveypro/view_form.php', $paramurl);
         redirect($redirecturl); // Redirect to the first non empty page.
     }

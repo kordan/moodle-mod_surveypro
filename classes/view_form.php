@@ -36,12 +36,12 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
     /**
      * @var int Next non empty page
      */
-    protected $firstpageright;
+    protected $nextpageright;
 
     /**
      * @var int First non empty page
      */
-    protected $firstpageleft;
+    protected $nextpageleft;
 
     /**
      * @var int $view
@@ -125,13 +125,13 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
 
         if ($canaccessreserveditems) {
-            $this->firstpageright = 1;
+            $this->nextpageright = 1;
         } else {
             $this->next_not_empty_page(true, 0); // This sets $this->firstformpage.
         }
 
         if ($formpage == 0) { // You are viewing the surveypro for the first time.
-            $this->formpage = $this->firstpageright;
+            $this->formpage = $this->nextpageright;
         } else {
             $this->formpage = $formpage;
         }
@@ -140,21 +140,21 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
     /**
      * Set first page left.
      *
-     * @param int $firstpageleft
+     * @param int $nextpageleft
      * @return void
      */
-    public function set_firstpageleft($firstpageleft) {
-        $this->firstpageleft = $firstpageleft;
+    public function set_nextpageleft($nextpageleft) {
+        $this->nextpageleft = $nextpageleft;
     }
 
     /**
      * Set first page right.
      *
-     * @param int $firstpageright
+     * @param int $nextpageright
      * @return void
      */
-    public function set_firstpageright($firstpageright) {
-        $this->firstpageright = $firstpageright;
+    public function set_nextpageright($nextpageright) {
+        $this->nextpageright = $nextpageright;
     }
 
     /**
@@ -189,19 +189,19 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
     /**
      * Get first page left.
      *
-     * @return the content of the $firstpageleft property
+     * @return the content of the $nextpageleft property
      */
-    public function get_firstpageleft() {
-        return $this->firstpageleft;
+    public function get_nextpageleft() {
+        return $this->nextpageleft;
     }
 
     /**
      * Get first page right.
      *
-     * @return the content of the $firstpageright property
+     * @return the content of the $nextpageright property
      */
-    public function get_firstpageright() {
-        return $this->firstpageright;
+    public function get_nextpageright() {
+        return $this->nextpageright;
     }
 
     /**
@@ -239,11 +239,11 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
      *
      * If $rightdirection == true, this method sets...
      *     the page number of the lower non empty page (according to user answers)
-     *     greater than $startingpage in $this->firstpageright;
+     *     greater than $startingpage in $this->nextpageright;
      *     returns $nextpage or SURVEYPRO_RIGHT_OVERFLOW if no more empty pages are found on the right
      * If $rightdirection == false, this method sets...
      *     the page number of the greater non empty page (according to user answers)
-     *     lower than $startingpage in $this->firstpageleft;
+     *     lower than $startingpage in $this->nextpageleft;
      *     returns $nextpage or SURVEYPRO_LEFT_OVERFLOW if no more empty pages are found on the left
      *
      * @param bool $rightdirection
@@ -293,11 +293,11 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         } while ($nextpage != $overflowpage);
 
         if ($rightdirection) {
-            $firstpageright = ($nextpage == $overflowpage) ? SURVEYPRO_RIGHT_OVERFLOW : $nextpage;
-            $this->set_firstpageright($firstpageright);
+            $nextpageright = ($nextpage == $overflowpage) ? SURVEYPRO_RIGHT_OVERFLOW : $nextpage;
+            $this->set_nextpageright($nextpageright);
         } else {
-            $firstpageleft = ($nextpage == $overflowpage) ? SURVEYPRO_LEFT_OVERFLOW : $nextpage;
-            $this->set_firstpageleft($firstpageleft);
+            $nextpageleft = ($nextpage == $overflowpage) ? SURVEYPRO_LEFT_OVERFLOW : $nextpage;
+            $this->set_nextpageleft($nextpageleft);
         }
     }
 
@@ -793,11 +793,11 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
     /**
      * Drop old answers into pages no longer valid.
      *
-     * Ok, I am moving from $userformman->formpage to page $userformman->firstpageright.
+     * Ok, I am moving from $userformman->formpage to page $userformman->nextpageright.
      * I need to delete all the answer that were (maybe) written during last input session in this surveypro.
-     * Answers to each item in a page between ($this->formpage + 1) and ($this->firstpageright - 1) included, must be deleted.
+     * Answers to each item in a page between ($this->formpage + 1) and ($this->nextpageright - 1) included, must be deleted.
      *
-     * Example: I am leaving page 3. On the basis of current input (in this page), I have $userformman->firstpageright = 10.
+     * Example: I am leaving page 3. On the basis of current input (in this page), I have $userformman->nextpageright = 10.
      * Maybe yesterday I had different data in $userformman->formpage = 3 and on that basis I was redirected to page 4.
      * Now that data of $userformman->formpage = 3 redirects me to page 10, for sure answers to items in page 4 must be deleted.
      *
@@ -806,7 +806,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
     public function drop_jumped_saved_data() {
         global $DB;
 
-        if ($this->firstpageright == ($this->get_formpage() + 1)) {
+        if ($this->nextpageright == ($this->get_formpage() + 1)) {
             return;
         }
         if ($this->firstpageright == SURVEYPRO_RIGHT_OVERFLOW) {
