@@ -653,20 +653,23 @@ EOS;
      * @return boolean: true: if the item is welcome; false: if the item must be dropped out
      */
     public function userform_child_item_allowed_dynamic($childparentvalue, $data) {
-        // In $data I can ONLY find $this->itemname.
-
         // I need to verify (checkbox per checkbox) if they hold the same value the user entered.
         $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 2;3.
 
-        $status = true;
-        foreach ($labels as $k => $unused) {
-            $key = array_search($k, $parentvalues);
-            if ($key !== false) {
-                $status = $status && (isset($data[$this->itemname.'_'.$k]));
+        if (isset($data[$this->itemname])) {
+            if (count(array_diff($data[$this->itemname], $parentvalues))) {
+                $status = false;
             } else {
-                $status = $status && (!isset($data[$this->itemname.'_'.$k]));
+                $status = true;
             }
+        } else {
+            // If $data[$this->itemname] is not set
+            // this means that either:
+            // 1. User answered "No answer".
+            // 2. User submitted the multiselect without selecting any item.
+            // In both cases, $status = false.
+            $status = false;
         }
 
         return $status;

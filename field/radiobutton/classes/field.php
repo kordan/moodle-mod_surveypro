@@ -710,16 +710,19 @@ EOS;
      * @return boolean: true: if the item is welcome; false: if the item must be dropped out
      */
     public function userform_child_item_allowed_dynamic($childparentvalue, $data) {
-        // In $data I can ONLY find $this->itemname, $this->itemname.'_text'.
+        $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // For instance: shark.
 
-        // I need to verify (checkbox per checkbox) if they hold the same value the user entered.
-        $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
-
-        if ( ($this->labelother) && ($data[$this->itemname] == count($labels)) ) {
-            return ($data[$this->itemname.'_text'] == $childparentvalue);
+        // This is a radio button element. Only one answer is allowed.
+        if ($parentvalues[0] == '>' ) {
+            // The expected answer is a custom text.
+            $status = ($data[$this->itemname] == 'other');
+            $status = $status && ($data[$this->itemname.'_text'] == $parentvalues[1]);
         } else {
-            return ($data[$this->itemname] == $childparentvalue);
+            // $childparentvalue === $parentvalues[0] of course!
+            $status = ($data[$this->itemname] == $childparentvalue);
         }
+
+        return $status;
     }
 
     /**
@@ -745,6 +748,7 @@ EOS;
                     $olduseranswer->content = $answer['mainelement'];
                     break;
             }
+
             return;
         }
 

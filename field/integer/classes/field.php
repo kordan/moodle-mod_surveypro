@@ -627,7 +627,6 @@ EOS;
      * @return boolean: true: if the item is welcome; false: if the item must be dropped out
      */
     public function userform_child_item_allowed_dynamic($childparentvalue, $data) {
-        // In $data I can ONLY find $this->itemname.
         return ($data[$this->itemname] == $childparentvalue);
     }
 
