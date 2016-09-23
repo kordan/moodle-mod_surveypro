@@ -91,7 +91,9 @@ class mod_surveypro_formbase {
             $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
 
             if ($canmanageitems) {
-                $a = get_string('tabitemspage2', 'mod_surveypro');
+                $a = get_string('tablayoutname', 'mod_surveypro');
+                $a .= ' > ';
+                $a .= get_string('tabitemspage2', 'mod_surveypro');
                 $message = get_string('noitemsfoundadmin', 'mod_surveypro', $a);
                 echo $OUTPUT->notification($message, 'notifyproblem');
             } else {

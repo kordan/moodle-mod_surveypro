@@ -658,7 +658,7 @@ EOS;
      * - stop userpageform item validation
      * - drop unexpected returned values from $userpageform->formdata
      *
-     * As parentitem declare whether my child item is allowed to return a value (is enabled) or is not (is disabled)
+     * As parentitem I declare whether my child item is allowed to return a value (is enabled) or is not (is disabled).
      *
      * @param string $childparentvalue
      * @param array $data
