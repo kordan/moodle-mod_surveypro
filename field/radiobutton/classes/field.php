@@ -643,53 +643,24 @@ EOS;
 
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 1;1;0;.
 
-        $indexsubset = array();
-        $labelsubset = array();
-        $key = array_search('>', $parentvalues);
-        if ($key !== false) {
-            $indexsubset = array_slice($parentvalues, 0, $key);
-            $labelsubset = array_slice($parentvalues, $key + 1);
+        if ($parentvalues[0] == '>') {
+            $mformelementinfo = new stdClass();
+            $mformelementinfo->parentname = $this->itemname;
+            $mformelementinfo->operator = 'neq';
+            $mformelementinfo->content = 'other';
+            $disabilitationinfo[] = $mformelementinfo;
+
+            $mformelementinfo = new stdClass();
+            $mformelementinfo->parentname = $this->itemname.'_text';
+            $mformelementinfo->operator = 'neq';
+            $mformelementinfo->content = $parentvalues[1];
+            $disabilitationinfo[] = $mformelementinfo;
         } else {
-            $indexsubset = $parentvalues;
-        }
-
-        if ($indexsubset) {
-            // Only garbage after the first index, but user wrote it.
-            foreach ($indexsubset as $k => $index) {
-                $mformelementinfo = new stdClass();
-                $mformelementinfo->parentname = $this->itemname;
-                $mformelementinfo->operator = 'neq';
-                $mformelementinfo->content = $index;
-                $disabilitationinfo[] = $mformelementinfo;
-            }
-        }
-
-        if ($labelsubset) {
-            foreach ($labelsubset as $k => $label) {
-                // Only garbage after the first label, but user wrote it.
-                if (!empty($this->labelother)) {
-                    $mformelementinfo = new stdClass();
-                    $mformelementinfo->parentname = $this->itemname;
-                    $mformelementinfo->operator = 'neq';
-                    $mformelementinfo->content = 'other';
-                    $disabilitationinfo[] = $mformelementinfo;
-
-                    $mformelementinfo = new stdClass();
-                    $mformelementinfo->parentname = $this->itemname.'_text';
-                    $mformelementinfo->operator = 'neq';
-                    $mformelementinfo->content = $label;
-                    $disabilitationinfo[] = $mformelementinfo;
-                }
-            }
-        } else {
-            // Even if no labels were provided
-            // I have to add one more $disabilitationinfo if $this->other is not empty.
-            if (!empty($this->labelother)) {
-                $mformelementinfo = new stdClass();
-                $mformelementinfo->parentname = $this->itemname.'_other';
-                $mformelementinfo->content = 'checked';
-                $disabilitationinfo[] = $mformelementinfo;
-            }
+            $mformelementinfo = new stdClass();
+            $mformelementinfo->parentname = $this->itemname;
+            $mformelementinfo->operator = 'neq';
+            $mformelementinfo->content = $parentvalues[0];
+            $disabilitationinfo[] = $mformelementinfo;
         }
 
         return $disabilitationinfo;
