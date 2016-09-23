@@ -573,41 +573,14 @@ EOS;
      * @return array
      */
     public function userform_get_parent_disabilitation_info($childparentvalue) {
-        $disabilitationinfo = array();
-
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 1;1;0;.
 
-        $indexsubset = array();
-        $labelsubset = array();
-        $key = array_search('>', $parentvalues);
-        if ($key !== false) {
-            $indexsubset = array_slice($parentvalues, 0, $key);
-            $labelsubset = array_slice($parentvalues, $key + 1);
-        } else {
-            $indexsubset = $parentvalues;
-        }
-
-        if ($indexsubset) {
-            // Only garbage after the first index, but user wrote it.
-            foreach ($indexsubset as $k => $index) {
-                $mformelementinfo = new stdClass();
-                $mformelementinfo->parentname = $this->itemname;
-                $mformelementinfo->operator = 'neq';
-                $mformelementinfo->content = $index;
-                $disabilitationinfo[] = $mformelementinfo;
-            }
-        }
-
-        if ($labelsubset) {
-            // Only garbage, but user wrote it.
-            foreach ($labelsubset as $k => $label) {
-                $mformelementinfo = new stdClass();
-                $mformelementinfo->parentname = $this->itemname;
-                $mformelementinfo->operator = 'neq';
-                $mformelementinfo->content = $label;
-                $disabilitationinfo[] = $mformelementinfo;
-            }
-        }
+        $disabilitationinfo = array();
+        $mformelementinfo = new stdClass();
+        $mformelementinfo->parentname = $this->itemname;
+        $mformelementinfo->operator = 'neq';
+        $mformelementinfo->content = $parentvalues[0];
+        $disabilitationinfo[] = $mformelementinfo;
 
         return $disabilitationinfo;
     }
@@ -627,7 +600,6 @@ EOS;
      * @return boolean: true: if the item is welcome; false: if the item must be dropped out
      */
     public function userform_child_item_allowed_dynamic($childparentvalue, $data) {
-        // In $data I can ONLY find $this->itemname.
         return ($data[$this->itemname] == $childparentvalue);
     }
 

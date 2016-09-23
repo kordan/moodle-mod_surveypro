@@ -767,27 +767,38 @@ EOS;
      * @return boolean: true: if the item is welcome; false: if the item must be dropped out
      */
     public function userform_child_item_allowed_dynamic($childparentvalue, $data) {
-        // In $data I can ONLY find $this->itemname, $this->itemname.'_other', $this->itemname.'_text'.
-
         // I need to verify (checkbox per checkbox) if they hold the same value the user entered.
         $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // For instance: 2;3;shark.
 
-        $status = true;
-        foreach ($labels as $k => $unused) {
-            $key = array_search($k, $parentvalues);
-            if ($key !== false) {
-                $status = $status && (isset($data[$this->itemname.'_'.$k]));
+        // Build the local $parentconstrain variable that will be used to evaluate the status.
+        $parentconstrain = array();
+        if (!empty($this->labelother)) {
+            $parentconstrain[$this->itemname.'_other'] = '0';
+        }
+
+        $nextisother = false;
+        foreach ($parentvalues as $k => $expectedvalue) {
+            if ($expectedvalue == '>') {
+                $nextisother = true;
+                continue;
+            }
+
+            if (!$nextisother) {
+                $parentconstrain[$this->itemname.'_'.$k] = $expectedvalue;
             } else {
-                $status = $status && (!isset($data[$this->itemname.'_'.$k]));
+                $parentconstrain[$this->itemname.'_other'] = '1';
+                $parentconstrain[$this->itemname.'_text'] = $expectedvalue;
             }
         }
-        if (!empty($this->labelother)) {
-            if (array_search($this->itemname.'_text', $parentvalues) !== false) {
-                $status = $status && (isset($data[$this->itemname.'_check']));
-            } else {
-                $status = $status && (!isset($data[$this->itemname.'_check']));
-            }
+        if (empty($this->mandatory)) {
+            $parentconstrain[$this->itemname.'_noanswer'] = '0';
+        }
+        // End of: Build the local $parentconstrain variable that will be used to evaluate the status.
+
+        $status = true;
+        foreach ($parentconstrain as $k => $expectedvalue) {
+            $status = $status && ($data[$k] == $expectedvalue);
         }
 
         return $status;
