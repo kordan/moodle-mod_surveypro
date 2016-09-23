@@ -52,16 +52,19 @@ Feature: test the use of boolean as parent item
     Then I should see "Write down your name?"
 
     And I press "<< Previous page"
+    Then the field "Is this true?" matches value "Yes"
     And I set the field "Is this true?" to "No"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
+    Then the field "Is this true?" matches value "No"
     And I set the field "Is this true?" to "No answer"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
+    Then the field "Is this true?" matches value "No answer"
     And I set the field "Is this true?" to "Choose..."
     And I press "Next page >>"
     Then I should see "Please choose a value"
@@ -90,16 +93,19 @@ Feature: test the use of boolean as parent item
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
+    Then the field "Is this true?" matches value "Yes"
     And I set the field "Is this true?" to "No"
     And I press "Next page >>"
     Then I should see "Write down your name?"
 
     And I press "<< Previous page"
+    Then the field "Is this true?" matches value "No"
     And I set the field "Is this true?" to "No answer"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
+    Then the field "Is this true?" matches value "No answer"
     And I set the field "Is this true?" to "Choose..."
     And I press "Next page >>"
     Then I should see "Please choose a value"
