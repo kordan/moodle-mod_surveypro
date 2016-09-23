@@ -830,17 +830,17 @@ class mod_surveypro_utility {
             $userid = $USER->id;
         }
 
-        if (empty($this->surveypro->maxentries)) {
-            return true;
-        } else {
-            if (has_capability('mod/surveypro:ignoremaxentries', $this->context, null, true)) {
-                return true;
+        $cansubmitmore = has_capability('mod/surveypro:submit', $this->context, null, true);
+        if ($cansubmitmore) {
+            if (!empty($this->surveypro->maxentries)) {
+                if (!has_capability('mod/surveypro:ignoremaxentries', $this->context, null, true)) {
+                    $usersubmissions = $this->has_submissions(true, SURVEYPRO_STATUSALL, $userid);
+                    $cansubmitmore = ($usersubmissions < $this->surveypro->maxentries);
+                }
             }
-
-            $usersubmissions = $this->has_submissions(true, SURVEYPRO_STATUSALL, $userid);
-
-            return ($usersubmissions < $this->surveypro->maxentries);
         }
+
+        return $cansubmitmore;
     }
 
     /**
