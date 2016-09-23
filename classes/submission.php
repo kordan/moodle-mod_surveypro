@@ -665,7 +665,7 @@ class mod_surveypro_submission {
         $deleteall = $deleteall && empty($this->searchquery);
         $deleteall = $deleteall && empty($tifirst); // Hide the deleteall button if only partial responses are shown.
         $deleteall = $deleteall && empty($tilast);  // Hide the deleteall button if only partial responses are shown.
-        $deleteall = $deleteall && ($next > 2);
+        $deleteall = $deleteall && ($next > 1);
         // End of: is the button to delete all responses going to be the page?
 
         $buttoncount = 0;
