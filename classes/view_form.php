@@ -809,10 +809,10 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         if ($this->nextpageright == ($this->get_formpage() + 1)) {
             return;
         }
-        if ($this->firstpageright == SURVEYPRO_RIGHT_OVERFLOW) {
+        if ($this->nextpageright == SURVEYPRO_RIGHT_OVERFLOW) {
             $pages = range($this->get_formpage() + 1, $this->get_maxassignedpage());
         } else {
-            $pages = range($this->get_formpage() + 1, $this->firstpageright - 1);
+            $pages = range($this->get_formpage() + 1, $this->nextpageright - 1);
         }
 
         list($insql, $whereparams) = $DB->get_in_or_equal($pages, SQL_PARAMS_NAMED, 'pages');
