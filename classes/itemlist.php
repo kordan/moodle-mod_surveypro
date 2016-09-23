@@ -667,19 +667,20 @@ class mod_surveypro_itemlist {
         $tableheaders[] = get_string('actions');
         $table->define_headers($tableheaders);
 
-        $table->sortable(true, 'sortindex', 'ASC'); // Sorted by sortindex by default.
-        $table->no_sorting('content');
-        $table->no_sorting('customnumber');
+        $table->sortable(true, 'sortindex'); // Sorted by sortindex by default.
+        $table->no_sorting('plugin');
         $table->no_sorting('parentitem');
+        $table->no_sorting('customnumber');
+        $table->no_sorting('content');
         $table->no_sorting('parentconstraints');
         $table->no_sorting('status');
         $table->no_sorting('actions');
 
         $table->column_class('plugin', 'plugin');
-        $table->column_class('content', 'content');
         $table->column_class('sortindex', 'sortindex');
         $table->column_class('parentitem', 'parentitem');
         $table->column_class('customnumber', 'customnumber');
+        $table->column_class('content', 'content');
         $table->column_class('parentconstraints', 'parentconstraints');
         $table->column_class('status', 'status');
         $table->column_class('actions', 'actions');
