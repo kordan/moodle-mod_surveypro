@@ -706,17 +706,23 @@ EOS;
             $indexsubset = $parentvalues;
         }
 
-        if ($indexsubset) {
-            foreach ($indexsubset as $k => $unused) {
-                $mformelementinfo = new stdClass();
-                $mformelementinfo->parentname = $this->itemname.'_'.$k;
-                if ($indexsubset[$k] == 1) {
-                    $mformelementinfo->content = 'notchecked';
-                } else {
-                    $mformelementinfo->content = 'checked';
-                }
-                $disabilitationinfo[] = $mformelementinfo;
+        foreach ($indexsubset as $k => $unused) {
+            $mformelementinfo = new stdClass();
+            $mformelementinfo->parentname = $this->itemname.'_'.$k;
+            if ($indexsubset[$k] == 1) {
+                $mformelementinfo->content = 'notchecked';
+            } else {
+                $mformelementinfo->content = 'checked';
             }
+            $disabilitationinfo[] = $mformelementinfo;
+        }
+        // If this item foresees the "No answer" checkbox, provide a directive for it too.
+        if (!$this->required) {
+            $mformelementinfo = new stdClass();
+            $mformelementinfo->parentname = $this->itemname.'_noanswer';
+            $mformelementinfo->content = 'checked';
+
+            $disabilitationinfo[] = $mformelementinfo;
         }
 
         if ($labelsubset) {
