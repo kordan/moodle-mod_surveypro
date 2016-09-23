@@ -52,16 +52,19 @@ Feature: test the use of boolean as parent item
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
+    Then the field "Where do you usually spend your summer holidays?" matches value "sea"
     And I set the field "Where do you usually spend your summer holidays?" to "mountain"
     And I press "Next page >>"
     Then I should see "Write down your name?"
 
     And I press "<< Previous page"
+    Then the field "Where do you usually spend your summer holidays?" matches value "mountain"
     And I set the field "Where do you usually spend your summer holidays?" to "No answer"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
+    Then the field "Where do you usually spend your summer holidays?" matches value "No answer"
     And I set the field "Where do you usually spend your summer holidays?" to "Choose..."
     And I press "Next page >>"
     Then I should see "Please choose an option"
@@ -90,16 +93,19 @@ Feature: test the use of boolean as parent item
     Then I should see "Write down your name?"
 
     And I press "<< Previous page"
+    Then the field "Where do you usually spend your summer holidays?" matches value "sea"
     And I set the field "Where do you usually spend your summer holidays?" to "mountain"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
+    Then the field "Where do you usually spend your summer holidays?" matches value "mountain"
     And I set the field "Where do you usually spend your summer holidays?" to "No answer"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
+    Then the field "Where do you usually spend your summer holidays?" matches value "No answer"
     And I set the field "Where do you usually spend your summer holidays?" to "Choose..."
     And I press "Next page >>"
     Then I should see "Please choose an option"
