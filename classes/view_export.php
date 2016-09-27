@@ -503,7 +503,7 @@ class mod_surveypro_view_export {
      */
     public function decode_content($richsubmission) {
         $content = $richsubmission->content;
-        if (empty($content)) {
+        if (!strlen($content)) {
             $return = '';
         } else {
             $itemid = $richsubmission->itemid;
