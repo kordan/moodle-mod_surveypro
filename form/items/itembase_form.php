@@ -341,7 +341,7 @@ class mod_surveypro_itembaseform extends moodleform {
      */
     public function validation($data, $files) {
         // Get _customdata.
-        // Useless: $item = $this->_customdata->item;.
+        $item = $this->_customdata->item;
         // Useless: $surveypro = $this->_customdata->surveypro;.
 
         $errors = parent::validation($data, $files);
@@ -352,21 +352,23 @@ class mod_surveypro_itembaseform extends moodleform {
             $errors['defaultvalue_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
         }
 
-        if ( empty($data['parentid']) && (!strlen($data['parentcontent'])) ) {
-            // Stop validation here.
-            return $errors;
-        }
+        if ($item->get_insetupform('parentid')) { // Some plugin may not have it, like pagebreak.
+            if ( empty($data['parentid']) && (!strlen($data['parentcontent'])) ) {
+                // Stop validation here.
+                return $errors;
+            }
 
-        // You choosed a parentid but you are missing the parentcontent.
-        if ( empty($data['parentid']) && (strlen($data['parentcontent'])) ) { // $data['parentcontent'] can be = '0'.
-            $a = get_string('parentcontent', 'mod_surveypro');
-            $errors['parentid'] = get_string('ierr_missingparentid', 'mod_surveypro', $a);
-        }
+            // You choosed a parentid but you are missing the parentcontent.
+            if ( empty($data['parentid']) && (strlen($data['parentcontent'])) ) { // $data['parentcontent'] can be = '0'.
+                $a = get_string('parentcontent', 'mod_surveypro');
+                $errors['parentid'] = get_string('ierr_missingparentid', 'mod_surveypro', $a);
+            }
 
-        // You did not choose a parent item but you entered an answer.
-        if ( !empty($data['parentid']) && (!strlen($data['parentcontent'])) ) { // $data['parentcontent'] can be = '0'.
-            $a = get_string('parentid', 'mod_surveypro');
-            $errors['parentcontent'] = get_string('ierr_missingparentcontent', 'mod_surveypro', $a);
+            // You did not choose a parent item but you entered an answer.
+            if ( !empty($data['parentid']) && (!strlen($data['parentcontent'])) ) { // $data['parentcontent'] can be = '0'.
+                $a = get_string('parentid', 'mod_surveypro');
+                $errors['parentcontent'] = get_string('ierr_missingparentcontent', 'mod_surveypro', $a);
+            }
         }
 
         return $errors;
