@@ -174,11 +174,11 @@ Feature: make a submission test for each available item
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content                  | How many brothers/sisters do you have? |
-      | Required                 | 1                                      |
-      | Indent                   | 0                                      |
-      | Question position        | left                                   |
-      | Element number           | 9                                      |
+      | Content                  | How many people are in your family without you? |
+      | Required                 | 1                                               |
+      | Indent                   | 0                                               |
+      | Question position        | left                                            |
+      | Element number           | 9                                               |
     And I press "Add"
 
     # add an item using the 10th plugin
@@ -497,7 +497,7 @@ hills
     And I press "Next page >>"
 
     And I set the following fields to these values:
-      | 9: How many brothers/sisters do you have?              | 7                      |
+      | 9: How many people are in your family without you?     | 7                      |
       | id_surveypro_field_multiselect_12                      | milk                   |
       | 11: Write the best approximation of π you can remember | 3.14                   |
       | id_surveypro_field_radiobutton_14_3                    | 1                      |

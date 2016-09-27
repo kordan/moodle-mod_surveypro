@@ -766,7 +766,7 @@ EOS;
      * @param array $data
      * @return boolean: true: if the item is welcome; false: if the item must be dropped out
      */
-    public function userform_child_item_allowed_dynamic($childparentvalue, $data) {
+    public function userform_is_child_allowed_dynamic($childparentvalue, $data) {
         // I need to verify (checkbox per checkbox) if they hold the same value the user entered.
         $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // For instance: 2;3;shark.

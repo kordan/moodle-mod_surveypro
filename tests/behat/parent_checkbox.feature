@@ -1,5 +1,5 @@
 @mod @mod_surveypro @surveyprofield
-Feature: test the use of boolean as parent item
+Feature: test the use of checkbox as parent item
   In order to test checkbox as parent item
   As a teacher
   I create a parent-child relation and I evaluate the outcome when relation is fulfilled and not fulfilled

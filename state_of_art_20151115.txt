@@ -16,7 +16,7 @@ They are:
 ->  6) item type "date" to ask for question like: "When were you born?" A: October 12, 1492
 ->  7) item type "datetime" to ask for question like: "Please, write down date and time of your last flight to Los Angeles." A: October 12, 2008 at 14:45
 ->  8) item type "fileupload" to ask for question like: "Please, upload your CV in PDF format"
-->  9) item type "integer" to ask for question like: "How many brothers/sisters do you have?"
+->  9) item type "integer" to ask for question like: "How many people are in your family without you?"
 -> 10) item type "multiselect" to ask for question like: "What do you usually get for breakfast? milk, sugar, jam, chocolate, other..."
 -> 11) item type "numeric" to ask for question like: "How the mean temperature of the room is supposed to be?"
 -> 12) item type "radiobutton" to ask for question like: "Which summer holidays place do you prefer? sea, mountain, lake, hills, desert..."

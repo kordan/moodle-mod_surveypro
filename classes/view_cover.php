@@ -263,17 +263,17 @@ class mod_surveypro_view_cover {
         // End of: master templates section.
     }
 
-/**
- * Recursive function to populate the $messages array for reports nested as much times as wanted
- *
- * Uncomment lines of has_childreports method in the surveyproreport_colles_report class of report/colles/classes/report.php file
- * to see this function in action.
- *
- * @param string $childreports
- * @param string $pluginname
- * @param array $messages
- * @return void
- */
+    /**
+     * Recursive function to populate the $messages array for reports nested as much times as wanted
+     *
+     * Uncomment lines of has_childreports method in the surveyproreport_colles_report class of report/colles/classes/report.php file
+     * to see this function in action.
+     *
+     * @param string $childreports
+     * @param string $pluginname
+     * @param array $messages
+     * @return void
+     */
     public function add_report_link($childreports, $pluginname, &$messages, $categoryname) {
         global $PAGE;
 

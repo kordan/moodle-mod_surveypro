@@ -1426,7 +1426,7 @@ class mod_surveypro_itembase {
      * @param array $childitemrecord
      * @return true if the item is allowed; false if the item must be dropped out
      */
-    public function userform_child_item_allowed_static($submissionid, $childitemrecord) {
+    public function userform_is_child_allowed_static($submissionid, $childitemrecord) {
         global $DB;
 
         if (!isset($childitemrecord->parentid)) {
