@@ -62,7 +62,7 @@ Feature: Backup and restore a surveypro instance
     And I should see "When were you born?"
     And I should see "Please, write down date and time of your last flight to Los Angeles."
     And I should see "Upload your CV in PDF format"
-    And I should see "How many brothers/sisters do you have?"
+    And I should see "How many people are in your family without you?"
     And I should see "multiselect_001"
     And I should see "Write the best approximation of π you can remember"
     And I should see "Where do you usually spend your summer holidays?"

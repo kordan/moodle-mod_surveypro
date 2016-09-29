@@ -472,7 +472,6 @@ function surveypro_delete_instance($id) {
         $status = false;
     }
 
-
     // Finally, delete the surveypro record.
     if (!$DB->delete_records('surveypro', array('id' => $surveypro->id))) {
         $status = false;

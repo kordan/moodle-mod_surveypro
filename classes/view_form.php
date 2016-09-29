@@ -330,7 +330,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
 
         foreach ($itemseeds as $itemseed) {
             $parentitem = surveypro_get_item($this->cm, $this->surveypro, $itemseed->parentid);
-            if ($parentitem->userform_child_item_allowed_static($this->get_submissionid(), $itemseed)) {
+            if ($parentitem->userform_is_child_allowed_static($this->get_submissionid(), $itemseed)) {
                 // If at least one parent allows its child, I finished. The page is going to display items.
                 return true;
             }
@@ -764,11 +764,11 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
                     break;
                 } else {
                     $parentitem = surveypro_get_item($this->cm, $this->surveypro, $itemseed->parentid);
-                    if ($parentitem->userform_child_item_allowed_static($this->get_submissionid(), $itemseed)) {
+                    if ($parentitem->userform_is_child_allowed_static($this->get_submissionid(), $itemseed)) {
                         // Parent is here but it allows this item as child in this submission. Answer was jumped.
                         // Take care: this check is valid for chains of parent-child relations too.
                         // If the parent item was not allowed by its parent,
-                        // it was not answered and userform_child_item_allowed_static returns false.
+                        // it was not answered and userform_is_child_allowed_static returns false.
                         $this->responsestatus = SURVEYPRO_MISSINGMANDATORY;
                     }
                 }
@@ -1095,7 +1095,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
             if ($parentpage == $childpage) { // If parent and child share the same page.
                 // Pass to parentitem what the child needs to be displayed ($childitem->get_parentvalue())
                 // and compare it with what was answered to parentitem ($dirtydata).
-                if (!$parentitem->userform_child_item_allowed_dynamic($childitem->get_parentvalue(), $dirtydata)) {
+                if (!$parentitem->userform_is_child_allowed_dynamic($childitem->get_parentvalue(), $dirtydata)) {
                     // Parentitem, knowing itself, compares the anwer it received with child needs and provides an answer.
                     $disposelist[] = $childitem->get_itemid();
                 }

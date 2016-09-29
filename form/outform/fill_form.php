@@ -115,7 +115,7 @@ class mod_surveypro_outform extends moodleform {
                         // otherwise
                         // display the current item.
                         if ($parentitem->get_formpage() < $formpage) {
-                            $itemaschildisallowed = $parentitem->userform_child_item_allowed_static($submissionid, $itemseed);
+                            $itemaschildisallowed = $parentitem->userform_is_child_allowed_static($submissionid, $itemseed);
                         } else {
                             $itemaschildisallowed = true;
                         }
@@ -305,7 +305,7 @@ class mod_surveypro_outform extends moodleform {
                         $parentitem = surveypro_get_item($cm, $surveypro, $parentitemid);
                         // Tell parent that his child has parentvalue = 1;3.
                         if ($parentitem->get_formpage() == $item->get_formpage()) {
-                            $itemisenabled = $parentitem->userform_child_item_allowed_dynamic($item->get_parentvalue(), $data);
+                            $itemisenabled = $parentitem->userform_is_child_allowed_dynamic($item->get_parentvalue(), $data);
                         } else {
                             $itemisenabled = true;
                         }

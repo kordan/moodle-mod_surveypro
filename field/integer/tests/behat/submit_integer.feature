@@ -18,7 +18,7 @@ Feature: make a submission test for "integer" item
       | teacher1 | Integer submission test | editingteacher |
       | student1 | Integer submission test | student        |
     And the following "activities" exist:
-      | activity  | name         | intro                           | course                   | idnumber   |
+      | activity  | name         | intro                           | course                  | idnumber   |
       | surveypro | Integer test | To test submission of date item | Integer submission test | surveypro1 |
     And I log in as "teacher1"
     And I follow "Test submission for integer item"
@@ -29,11 +29,11 @@ Feature: make a submission test for "integer" item
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content                  | How many brothers/sisters do you have? |
-      | Required                 | 1                                      |
-      | Indent                   | 0                                      |
-      | Question position        | left                                   |
-      | Element number           | 9                                      |
+      | Content                  | How many people are in your family without you? |
+      | Required                 | 1                                               |
+      | Indent                   | 0                                               |
+      | Question position        | left                                            |
+      | Element number           | 9                                               |
     And I press "Add"
 
     And I log out
@@ -46,7 +46,7 @@ Feature: make a submission test for "integer" item
 
     # student1 submits
     And I set the following fields to these values:
-      | 9: How many brothers/sisters do you have? | 3 |
+      | 9: How many people are in your family without you? | 3 |
 
     And I press "Submit"
 

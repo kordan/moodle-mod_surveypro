@@ -162,7 +162,7 @@ function get_dummy_contents($type, $plugin) {
             return $return;
         }
         if ($plugin == 'integer') {
-            $return->content_editor['text'] = 'How many brothers/sisters do you have?';
+            $return->content_editor['text'] = 'How many people are in your family without you?';
             $return->contentformat = 1;
             $return->defaultoption = '2';
             $return->lowerbound = '0';

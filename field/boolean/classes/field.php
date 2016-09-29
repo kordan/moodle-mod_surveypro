@@ -637,7 +637,7 @@ EOS;
      * @param array $data
      * @return boolean: true: if the item is welcome; false: if the item must be dropped out
      */
-    public function userform_child_item_allowed_dynamic($childparentvalue, $data) {
+    public function userform_is_child_allowed_dynamic($childparentvalue, $data) {
         return ($data[$this->itemname] == $childparentvalue);
     }
 
