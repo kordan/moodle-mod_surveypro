@@ -425,14 +425,10 @@ EOS;
         $errorkey = $this->itemname;
 
         $draftuserinput = $data[$this->itemname];
-        if ($this->required) {
-            if (strlen($draftuserinput) == 0) {
-                $errors[$errorkey] = get_string('required');
-                return;
-            }
-        }
-
         if (!strlen($draftuserinput)) {
+            if (!empty($this->required)) {
+                $errors[$errorkey] = get_string('required');
+            }
             return;
         }
 
