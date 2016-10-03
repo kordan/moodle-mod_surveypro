@@ -258,15 +258,15 @@ class mod_surveypro_view_export {
 
         // Reduce the weight of $itemseeds disposing no longer relevant infos.
         if ($this->formdata->outputstyle == SURVEYPRO_VERBOSE) {
-            $answermissingindb = get_string('answermissingindb', 'mod_surveypro');
+            $answernotindb = get_string('answernotindb', 'mod_surveypro');
         } else {
-            $answermissingindb = SURVEYPRO_ANSWERNOTINDBVALUE;
+            $answernotindb = SURVEYPRO_ANSWERNOTINDBVALUE;
         }
         $itemseedskeys = array_keys($itemseeds);
         unset($itemseeds);
 
         // Define once and forever $placeholders.
-        $placeholders = array_fill_keys($itemseedskeys, $answermissingindb);
+        $placeholders = array_fill_keys($itemseedskeys, $answernotindb);
 
         // Get user groups (to filter surveypro to download) ???? TODO: NEVER USED ????
         // $mygroups = groups_get_all_groups($course->id, $USER->id, $this->cm->groupingid);
@@ -346,12 +346,12 @@ class mod_surveypro_view_export {
 
         // Reduce the weight of $itemseeds disposing no longer relevant infos.
         if ($this->formdata->outputstyle == SURVEYPRO_VERBOSE) {
-            $answermissingindb = get_string('answermissingindb', 'mod_surveypro');
+            $answernotindb = get_string('answernotindb', 'mod_surveypro');
         } else {
-            $answermissingindb = SURVEYPRO_ANSWERNOTINDBVALUE;
+            $answernotindb = SURVEYPRO_ANSWERNOTINDBVALUE;
         }
         $itemseedskeys = array_keys($itemseeds);
-        $placeholders = array_fill_keys($itemseedskeys, $answermissingindb);
+        $placeholders = array_fill_keys($itemseedskeys, $answernotindb);
         unset($itemseeds);
 
         // Get user groups (to filter surveypro to download) ???? TODO: NEVER USED ????
