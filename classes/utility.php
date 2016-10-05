@@ -212,11 +212,15 @@ class mod_surveypro_utility {
             $whereparams['surveyproid'] = $this->surveypro->id;
         }
 
+        $items = $DB->get_records('surveypro_item', $whereparams, '', 'id, type, plugin');
+        if (!count($items)) {
+            return;
+        }
+
         $context = context_module::instance($this->cm->id);
         try {
             $transaction = $DB->start_delegated_transaction();
 
-            $items = $DB->get_records('surveypro_item', $whereparams, '', 'id, type, plugin');
             if (count($whereparams) == 1) { // Delete all the items of this surveypro.
                 foreach ($items as $item) {
                     $DB->delete_records('surveypro'.$item->type.'_'.$item->plugin, array('itemid' => $item->id));
@@ -321,11 +325,15 @@ class mod_surveypro_utility {
             $whereparams['surveyproid'] = $this->surveypro->id;
         }
 
+        $submissions = $DB->get_recordset('surveypro_submission', $whereparams, '', 'id');
+        if (!$submissions->valid()) {
+            return;
+        }
+
         $context = context_module::instance($this->cm->id);
         try {
             $transaction = $DB->start_delegated_transaction();
 
-            $submissions = $DB->get_recordset('surveypro_submission', $whereparams, '', 'id');
             if (count($whereparams) == 1) { // Delete all the submissions of this surveypro.
                 foreach ($submissions as $submission) {
                     $DB->delete_records('surveypro_answer', array('submissionid' => $submission->id));
