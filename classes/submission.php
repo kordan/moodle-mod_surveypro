@@ -253,7 +253,7 @@ class mod_surveypro_submission {
         // Now finalise $sql.
         $conditions = array();
         foreach ($whereparams as $k => $v) {
-            $conditions[] .= $k.' = :'.$k;
+            $conditions[] = $k.' = :'.$k;
         }
         $sql .= ' WHERE '.implode(' AND ', $conditions);
 

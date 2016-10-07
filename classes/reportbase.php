@@ -271,9 +271,9 @@ class mod_surveypro_reportbase {
         $conditions = array();
         foreach ($whereparams as $k => $v) {
             if ($v === null) {
-                $conditions[] .= $k.' IS NULL';
+                $conditions[] = $k.' IS NULL';
             } else {
-                $conditions[] .= $k.' = :'.$k;
+                $conditions[] = $k.' = :'.$k;
             }
         }
         $sql .= ' WHERE '.implode(' AND ', $conditions);
