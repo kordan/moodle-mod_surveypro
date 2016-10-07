@@ -232,7 +232,7 @@ class mod_surveypro_view_export {
 
         $itemseeds = $this->export_get_field_list();
 
-        // Print header.
+        // Print headers.
         $headerlabels = array();
         if (empty($this->surveypro->anonymous)) {
             $headerlabels[] = SURVEYPRO_OWNERIDLABEL;
@@ -255,6 +255,7 @@ class mod_surveypro_view_export {
         }
 
         $csvexport->add_data($headerlabels);
+        // End of: Print headers.
 
         // Reduce the weight of $itemseeds disposing no longer relevant infos.
         if ($this->formdata->outputstyle == SURVEYPRO_VERBOSE) {
@@ -264,6 +265,7 @@ class mod_surveypro_view_export {
         }
         $itemseedskeys = array_keys($itemseeds);
         unset($itemseeds);
+        // End of: Reduce the weight of $itemseeds disposing no longer relevant infos.
 
         // Define once and forever $placeholders.
         $placeholders = array_fill_keys($itemseedskeys, $answernotindb);
@@ -339,6 +341,7 @@ class mod_surveypro_view_export {
             $headerlabels[] = get_string('timecreated', 'mod_surveypro');
             $headerlabels[] = get_string('timemodified', 'mod_surveypro');
         }
+        // End of: Print headers.
 
         foreach ($headerlabels as $k => $label) {
             $worksheet[0]->write(0, $k, $label, '');
@@ -353,6 +356,7 @@ class mod_surveypro_view_export {
         $itemseedskeys = array_keys($itemseeds);
         $placeholders = array_fill_keys($itemseedskeys, $answernotindb);
         unset($itemseeds);
+        // End of: Reduce the weight of $itemseeds disposing no longer relevant infos.
 
         // Get user groups (to filter surveypro to download) ???? TODO: NEVER USED ????
         // $mygroups = groups_get_all_groups($course->id, $USER->id, $this->cm->groupingid);
