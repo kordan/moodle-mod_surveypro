@@ -956,6 +956,15 @@ class mod_surveypro_itembase {
         return SURVEYPRO_3COLUMNSTEMPLATE;
     }
 
+    /**
+     * Was the user input marked as "to trim"?
+     *
+     * @return if the calling plugin requires a user input trim
+     */
+    public function item_get_trimonsave() {
+        return false;
+    }
+
     // MARK response.
 
     /**
@@ -1307,15 +1316,6 @@ class mod_surveypro_itembase {
      */
     public function get_itemeditingfeedback() {
         return $this->itemeditingfeedback;
-    }
-
-    /**
-     * Was the user input marked as "to trim"?
-     *
-     * @return if the calling plugin requires a user input trim
-     */
-    public function item_get_trimonsave() {
-        return false;
     }
 
     // MARK set.
