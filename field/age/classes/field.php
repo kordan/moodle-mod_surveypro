@@ -720,8 +720,9 @@ EOS;
         // The content of the provided answer.
         $content = $answer->content;
 
+        // Trigger 'answernotsubmitted' and 'answerisnoanswer'.
         $quickresponse = self::userform_standardcontent_to_string($content);
-        if ($quickresponse !== null) { // Parent method provided the response.
+        if (isset($quickresponse)) { // Parent method provided the response.
             return $quickresponse;
         }
 
