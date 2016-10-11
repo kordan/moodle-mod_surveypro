@@ -610,11 +610,7 @@ EOS;
 
         $userinput = empty($this->trimonsave) ? $answer['mainelement'] : trim($answer['mainelement']);
 
-        if (strlen($userinput) == 0) {
-            $olduseranswer->content = null;
-        } else {
-            $olduseranswer->content = $userinput;
-        }
+        $olduseranswer->content = $userinput;
     }
 
     /**
