@@ -655,11 +655,7 @@ EOS;
         if (isset($answer['noanswer'])) {
             $olduseranswer->content = SURVEYPRO_NOANSWERVALUE;
         } else {
-            if ($answer['mainelement'] == SURVEYPRO_INVITEVALUE) {
-                $olduseranswer->content = null;
-            } else {
-                $olduseranswer->content = $answer['mainelement'];
-            }
+            $olduseranswer->content = $answer['mainelement'];
         }
     }
 
