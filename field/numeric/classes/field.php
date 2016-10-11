@@ -548,8 +548,8 @@ EOS;
         }
 
         $content = trim($answer['mainelement']);
-        if (strlen($content) == 0) {
-            $olduseranswer->content = null;
+        if (!strlen($content)) {
+            $olduseranswer->content = '';
         } else {
             $content = $this->item_get_correct_number($content);
             $olduseranswer->content = round($content, $this->decimals);
