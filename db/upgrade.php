@@ -156,5 +156,12 @@ function xmldb_surveypro_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2016070101, 'surveypro');
     }
 
+    if ($oldversion < 2016100601) {
+        $DB->delete_records('surveypro_answer', array('content' => '@@_ANINDB_@@'));
+
+        // Surveypro savepoint reached.
+        upgrade_mod_savepoint(true, 2016100601, 'surveypro');
+    }
+
     return true;
 }
