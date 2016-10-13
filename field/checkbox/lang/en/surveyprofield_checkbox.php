@@ -24,10 +24,10 @@
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/lib.php');
 
-$string['adjustment_help'] = 'How this list of items will be shown? In horital or in vertical?';
+$string['adjustment_help'] = 'How this list of items will be shown? In horizontal or in vertical?';
 $string['adjustment'] = 'Adjustment';
 $string['allowed'] = 'allowed';
-$string['defaultvalue_help'] = 'This is the value the remote user will find answered by default. The default for this type of question is mandatory so, whether not specified for required items, it will be the first available option. For not required items, unspecified default will provide "Not answering" as pre-filled answer.';
+$string['defaultvalue_help'] = 'This is the value the remote user will find answered by default.';
 $string['defaultvalue'] = 'Default';
 $string['downloadformat_help'] = 'Use this option to define the format of the value returned by this field.<br />Choosing \'<strong>selection</strong>\' you get a comma separated list of the values corresponding to the selection of the remote user.<br />Choosing \'<strong>positional answer</strong>\' you get an answer made by as much values as the number of the options defined for this field. For each option selected by the remote user you will get a 1 (or the corresponding value whether defined), for each option not selected by the remote user you will get a 0.<br />Example: let us suppose the question: "What do you usually get for breakfast?" with options: "milk, jam, ham, eggs, bread, orange juice". Let us futher suppose that the user selected: "ham" AND "eggs" AND "orange juice".<br />By choosing \'selection\' here, the value returned by this item will be: "ham, eggs, orange juice".<br />By choosing \'positional answer\' here, the value returned by this item will be: "0, 0, 1, 1, 0, 1" because the first and the second options ("milk, jam") were not choosed, the third and the fourth options ("ham, eggs") were selected, the second last ("bread") was not selected and the last one ("orange juice") was choosed by the remote user.';
 $string['downloadformat'] = 'Download format';
