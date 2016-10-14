@@ -212,6 +212,25 @@ class mod_surveypro_view_export {
     }
 
     /**
+     * Provide the base name for the file to export
+     *
+     * @param string $extension
+     * @return void
+     */
+    public function get_export_filename($extension = '') {
+        $filename = $this->surveypro->name;
+        if ($this->formdata->outputstyle == SURVEYPRO_VERBOSE) {
+            $filename .= '_verbose';
+        } else {
+            $filename .= '_raw';
+        }
+        $filename .= '.'.$extension;
+        $filename = clean_filename($filename);
+
+        return $filename;
+    }
+
+    /**
      * Print given submissions to csv file and make it available.
      *
      * @param array $richsubmissions
@@ -222,13 +241,13 @@ class mod_surveypro_view_export {
 
         require_once($CFG->libdir.'/csvlib.class.php');
 
-        $filename = str_replace(' ', '_', $this->surveypro->name).'.csv';
         if ($this->formdata->downloadtype == SURVEYPRO_DOWNLOADCSV) {
             $csvexport = new csv_export_writer('comma');
         } else {
             $csvexport = new csv_export_writer('tab');
         }
-        $csvexport->set_filename($filename);
+
+        $csvexport->filename = $this->get_export_filename('csv');
 
         $itemseeds = $this->export_get_field_list();
 
@@ -316,7 +335,8 @@ class mod_surveypro_view_export {
 
         require_once($CFG->libdir.'/excellib.class.php');
 
-        $filename = str_replace(' ', '_', $this->surveypro->name).'.xls';
+        $filename = $this->get_export_filename('xls');
+
         $workbook = new MoodleExcelWorkbook('-');
         $workbook->send($filename);
 
