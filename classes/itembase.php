@@ -1545,12 +1545,10 @@ class mod_surveypro_itembase {
         $quickresponse = null;
 
         // The content of the provided answer.
-        if ($content == SURVEYPRO_NOANSWERVALUE) { // Answer was "no answer".
+        if (!isset($content)) { // Item was disabled.
+            $quickresponse = get_string('answernotsubmitted', 'mod_surveypro');
+        } else if ($content == SURVEYPRO_NOANSWERVALUE) { // Answer was "no answer".
             $quickresponse = get_string('answerisnoanswer', 'mod_surveypro');
-        } else if ($content == SURVEYPRO_ANSWERNOTINDBVALUE) { // Item was disabled. (used by frequency report).
-            $quickresponse = get_string('notanswereditem', 'mod_surveypro');
-        } else if ($content === null) { // Item was disabled.
-            $quickresponse = get_string('notanswereditem', 'mod_surveypro');
         }
 
         return $quickresponse;
@@ -1567,12 +1565,12 @@ class mod_surveypro_itembase {
         // The content of the provided answer.
         $content = $answer->content;
 
+        // Trigger 'answernotsubmitted' and 'answerisnoanswer'.
         $quickresponse = self::userform_standardcontent_to_string($content);
-        if ($quickresponse !== null) { // Parent method provided the response.
+        if (isset($quickresponse)) { // Parent method provided the response.
             return $quickresponse;
         }
 
-        // Output.
         if (strlen($content)) {
             $return = $content;
         } else {
