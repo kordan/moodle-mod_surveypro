@@ -425,6 +425,7 @@ EOS;
         }
 
         if (!$this->required) { // This is the last if it exists.
+            $this->item_add_color_unifier($mform);
             $noanswerstr = get_string('noanswer', 'mod_surveypro');
             $attributes['id'] = $idprefix.'_noanswer';
             $attributes['class'] = 'indent-'.$this->indent.' rate_check';
