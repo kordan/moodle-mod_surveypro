@@ -345,6 +345,21 @@ EOS;
         return $this->useeditor;
     }
 
+    /**
+     * Returns the content format that has to be saved in surveypro_answer
+     *
+     * @return $return
+     */
+    public function get_answer_contentformat() {
+        if (empty($this->useeditor)) {
+            $return = 0;
+        } else {
+            $return = 1;
+        }
+
+        return $return;
+    }
+
     // MARK response.
 
     /**

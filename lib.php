@@ -171,7 +171,7 @@ define('SURVEYPRO_DONTSAVEMEPREFIX', 'placeholder');
 define('SURVEYPRO_INVITEVALUE',        '@@_INVITE_@@'); // User should never guess it.
 define('SURVEYPRO_NOANSWERVALUE',      '@@_NOANSW_@@'); // User should never guess it.
 define('SURVEYPRO_IGNOREMEVALUE',      '@@_IGNORE_@@'); // User should never guess it.
-define('SURVEYPRO_ANSWERNOTINDBVALUE', '@@_ANINDB_@@'); // User should never guess it.
+define('SURVEYPRO_EXPNULLVALUE',       '@@_NULVAL_@@'); // User should never guess it.
 
 /**
  * ITEM ADJUSTMENTS

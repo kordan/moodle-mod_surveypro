@@ -255,11 +255,10 @@ class mod_surveypro_view_export {
         $headerlabels = array();
         if (empty($this->surveypro->anonymous)) {
             $headerlabels[] = SURVEYPRO_OWNERIDLABEL;
-        }
-
-        if (empty($this->surveypro->anonymous) && isset($this->formdata->includenames)) {
-            $headerlabels[] = get_string('firstname');
-            $headerlabels[] = get_string('lastname');
+            if (isset($this->formdata->includenames)) {
+                $headerlabels[] = get_string('firstname');
+                $headerlabels[] = get_string('lastname');
+            }
         }
 
         foreach ($itemseeds as $itemseed) {
@@ -277,17 +276,18 @@ class mod_surveypro_view_export {
         // End of: Print headers.
 
         // Reduce the weight of $itemseeds disposing no longer relevant infos.
-        if ($this->formdata->outputstyle == SURVEYPRO_VERBOSE) {
-            $answernotindb = get_string('answernotindb', 'mod_surveypro');
-        } else {
-            $answernotindb = SURVEYPRO_ANSWERNOTINDBVALUE;
-        }
         $itemseedskeys = array_keys($itemseeds);
         unset($itemseeds);
         // End of: Reduce the weight of $itemseeds disposing no longer relevant infos.
 
         // Define once and forever $placeholders.
-        $placeholders = array_fill_keys($itemseedskeys, $answernotindb);
+        if ($this->formdata->outputstyle == SURVEYPRO_VERBOSE) {
+            $answernotprovided = get_string('answernotsubmitted', 'mod_surveypro');
+        } else {
+            $answernotprovided = SURVEYPRO_EXPNULLVALUE;
+        }
+        $placeholders = array_fill_keys($itemseedskeys, $answernotprovided);
+        // End of: Define once and forever $placeholders.
 
         // Get user groups (to filter surveypro to download) ???? TODO: NEVER USED ????
         // $mygroups = groups_get_all_groups($course->id, $USER->id, $this->cm->groupingid);
@@ -368,15 +368,18 @@ class mod_surveypro_view_export {
         }
 
         // Reduce the weight of $itemseeds disposing no longer relevant infos.
-        if ($this->formdata->outputstyle == SURVEYPRO_VERBOSE) {
-            $answernotindb = get_string('answernotindb', 'mod_surveypro');
-        } else {
-            $answernotindb = SURVEYPRO_ANSWERNOTINDBVALUE;
-        }
         $itemseedskeys = array_keys($itemseeds);
-        $placeholders = array_fill_keys($itemseedskeys, $answernotindb);
         unset($itemseeds);
         // End of: Reduce the weight of $itemseeds disposing no longer relevant infos.
+
+        // Define once and forever $placeholders.
+        if ($this->formdata->outputstyle == SURVEYPRO_VERBOSE) {
+            $answernotprovided = get_string('answernotsubmitted', 'mod_surveypro');
+        } else {
+            $answernotprovided = SURVEYPRO_EXPNULLVALUE;
+        }
+        $placeholders = array_fill_keys($itemseedskeys, $answernotprovided);
+        // End of: Define once and forever $placeholders.
 
         // Get user groups (to filter surveypro to download) ???? TODO: NEVER USED ????
         // $mygroups = groups_get_all_groups($course->id, $USER->id, $this->cm->groupingid);

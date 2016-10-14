@@ -316,10 +316,11 @@ class mod_surveypro_view_import {
             $info->required = $item->get_required();
             $info->savepositiontodb = $item->get_savepositiontodb();
             if (($this->formdata->csvsemantic == SURVEYPRO_ITEMDRIVEN) && ($info->savepositiontodb)) {
-                $info->contentformat = $item->get_downloadformat();
+                $info->semantic = $item->get_downloadformat();
             } else {
-                $info->contentformat = $item->get_contentformat();
+                $info->semantic = $item->get_contentformat();
             }
+            $info->answer_contentformat = $item->get_answer_contentformat();
             $itemhelperinfo[$col] = $info;
 
             // Itemoption.
@@ -519,7 +520,7 @@ class mod_surveypro_view_import {
             $reservedwords[] = SURVEYPRO_NOANSWERVALUE;
             $reservedwords[] = SURVEYPRO_IGNOREMEVALUE;
         }
-        $reservedwords[] = SURVEYPRO_ANSWERNOTINDBVALUE;
+        $reservedwords[] = SURVEYPRO_EXPNULLVALUE;
 
         $csvusers = array();
         $cir->init();
@@ -727,8 +728,8 @@ class mod_surveypro_view_import {
                                     $error->a->semantic = get_string('answerposition', 'mod_surveypro');
                                     break;
                                 case SURVEYPRO_ITEMDRIVEN:
-                                    $itemdownloadformat = $itemhelperinfo[$col]->contentformat;
-                                    switch ($itemdownloadformat) {
+                                    $semantic = $itemhelperinfo[$col]->semantic;
+                                    switch ($semantic) {
                                         case SURVEYPRO_ITEMRETURNSLABELS:
                                             $error->a->semantic = get_string('answerlabel', 'mod_surveypro');
                                             break;
@@ -739,7 +740,7 @@ class mod_surveypro_view_import {
                                             $error->a->semantic = get_string('answerposition', 'mod_surveypro');
                                             break;
                                         default:
-                                            $message = 'Unexpected $itemdownloadformat = '.$itemdownloadformat;
+                                            $message = 'Unexpected $semantic = '.$semantic;
                                             debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
                                     }
                                     break;
@@ -856,28 +857,34 @@ class mod_surveypro_view_import {
                 var_dump($record);
             }
             $submissionid = $DB->insert_record('surveypro_submission', $record);
+            // End of: Add one record to surveypro_submission.
 
             // Add many records to surveypro_answer.
             $status = $defaultstatus;
             foreach ($csvrow as $col => $value) {
                 if (isset($environmentheaders[SURVEYPRO_OWNERIDLABEL])) {
                     if ($col == $environmentheaders[SURVEYPRO_OWNERIDLABEL]) {
-                        // The column for userid.
+                        // The column for userid. I saved it in the corresponding submission.
                         continue;
                     }
                 }
                 if (isset($environmentheaders[SURVEYPRO_TIMECREATEDLABEL])) {
                     if ($col == $environmentheaders[SURVEYPRO_TIMECREATEDLABEL]) {
-                        // The column for userid.
+                        // The column for creation time. I saved it in the corresponding submission.
                         continue;
                     }
                 }
                 if (isset($environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL])) {
                     if ($col == $environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL]) {
-                        // The column for userid.
+                        // The column for modification time. I saved it in the corresponding submission.
                         continue;
                     }
                 }
+                if ($value == SURVEYPRO_EXPNULLVALUE) {
+                    // The item was NOT supposed to get an answer. The corresponding record must NOT be created.
+                    continue;
+                }
+
                 if ($debug) {
                     echo '$col = '.$col.'<br />';
                     echo '$value = '.$value.'<br />';
@@ -888,10 +895,9 @@ class mod_surveypro_view_import {
                         echo 'value returned by csv file is empty<br />';
                     }
                     if (in_array($col, $requireditems)) {
-                        // I found a raw where the value for a required item IS EMPTY.
+                        // I found a row where the value for a required item IS EMPTY.
                         $status = SURVEYPRO_STATUSINPROGRESS;
                     }
-                    continue;
                 }
 
                 // Finally, save.
@@ -900,7 +906,7 @@ class mod_surveypro_view_import {
                 $record->itemid = $columntoitemid[$col];
                 $record->content = $value;
                 $record->verified = 1;
-                $record->contentformat = $itemhelperinfo[$col]->contentformat;
+                $record->contentformat = $itemhelperinfo[$col]->answer_contentformat;
                 if ($debug) {
                     echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
                     echo 'I am going to save to surveypro_answer:<br />';
