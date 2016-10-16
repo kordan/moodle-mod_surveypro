@@ -26,7 +26,7 @@ require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/lib.php');
 
 $string['allowed'] = 'allowed';
 $string['customdefault'] = 'Custom';
-$string['defaultoption_help'] = 'This is the value the remote user will find answered by default. The default for this type of question is mandatory so, whether not specified for required items, it will be the first available option. For not required items, unspecified default will provide "Not answering" as pre-filled answer.';
+$string['defaultoption_help'] = 'This is the value the remote user will find answered by default. The default for this type of question is mandatory so, whether not specified, it will be "Choose...".';
 $string['defaultoption'] = 'Default';
 $string['downloadformat_help'] = 'Choose the format of the answer as it appear once user attempts are downloaded';
 $string['downloadformat'] = 'Download format';
