@@ -466,7 +466,8 @@ EOS;
     /**
      * Starting from the info set by the user in the form
      * this method calculates what to save in the db
-     * or what to return for the search form
+     * or what to return for the search form.
+     * I don't set $olduseranswer->contentformat in order to accept the default db value.
      *
      * @param array $answer
      * @param object $olduseranswer

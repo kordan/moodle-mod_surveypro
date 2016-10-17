@@ -345,21 +345,6 @@ EOS;
         return $this->useeditor;
     }
 
-    /**
-     * Returns the content format that has to be saved in surveypro_answer
-     *
-     * @return $return
-     */
-    public function get_answer_contentformat() {
-        if (empty($this->useeditor)) {
-            $return = 0;
-        } else {
-            $return = 1;
-        }
-
-        return $return;
-    }
-
     // MARK response.
 
     /**
@@ -525,7 +510,8 @@ EOS;
     /**
      * Starting from the info set by the user in the form
      * this method calculates what to save in the db
-     * or what to return for the search form
+     * or what to return for the search form.
+     * Here I set $olduseranswer->contentformat as needed.
      *
      * @param array $answer
      * @param object $olduseranswer
@@ -541,7 +527,7 @@ EOS;
             $olduseranswer = file_postupdate_standard_editor($olduseranswer, $this->itemname, $editoroptions, $context,
                     'mod_surveypro', SURVEYPROFIELD_TEXTAREA_FILEAREA, $olduseranswer->id);
             $olduseranswer->content = $olduseranswer->{$this->itemname};
-            $olduseranswer->contentformat = FORMAT_HTML;
+            $olduseranswer->contentformat = $answer['editor']['format'];
         } else {
             $olduseranswer->content = empty($this->trimonsave) ? $answer['mainelement'] : trim($answer['mainelement']);
         }

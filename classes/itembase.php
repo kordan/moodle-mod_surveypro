@@ -1318,15 +1318,6 @@ class mod_surveypro_itembase {
         return $this->itemeditingfeedback;
     }
 
-    /**
-     * Returns the content format that has to be saved in surveypro_answer
-     *
-     * @return $return
-     */
-    public function get_answer_contentformat() {
-        return null;
-    }
-
     // MARK set.
 
     /**

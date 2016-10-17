@@ -157,10 +157,31 @@ function xmldb_surveypro_upgrade($oldversion) {
     }
 
     if ($oldversion < 2016100601) {
-        $DB->delete_records('surveypro_answer', array('content' => '@@_ANINDB_@@'));
+        $where = $DB->sql_compare_text('content').' = :content';
+        $DB->delete_records_select('surveypro_answer', $where, array('content' => '@@_ANINDB_@@'));
 
         // Surveypro savepoint reached.
         upgrade_mod_savepoint(true, 2016100601, 'surveypro');
+    }
+
+    if ($oldversion < 2016101700) {
+
+        // Changing the default of field contentformat on table surveypro_answer to null.
+        $table = new xmldb_table('surveypro_answer');
+        $field = new xmldb_field('content', XMLDB_TYPE_TEXT, null, null, null, null, null, 'verified');
+
+        // Launch change of default for field contentformat.
+        $dbman->change_field_default($table, $field);
+
+        // Changing the default of field contentformat on table surveypro_answer to drop it.
+        $table = new xmldb_table('surveypro_answer');
+        $field = new xmldb_field('contentformat', XMLDB_TYPE_INTEGER, '4', null, null, null, null, 'content');
+
+        // Launch change of default for field contentformat.
+        $dbman->change_field_default($table, $field);
+
+        // Surveypro savepoint reached.
+        upgrade_mod_savepoint(true, 2016101700, 'surveypro');
     }
 
     return true;
