@@ -320,7 +320,6 @@ class mod_surveypro_view_import {
             } else {
                 $info->semantic = $item->get_contentformat();
             }
-            $info->answer_contentformat = $item->get_answer_contentformat();
             $itemhelperinfo[$col] = $info;
 
             // Itemoption.

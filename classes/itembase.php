@@ -965,6 +965,15 @@ class mod_surveypro_itembase {
         return false;
     }
 
+    /**
+     * Returns if the field plugin needs contentformat
+     *
+     * @return bool
+     */
+    public static function item_needs_contentformat() {
+        return false;
+    }
+
     // MARK response.
 
     /**
@@ -1316,15 +1325,6 @@ class mod_surveypro_itembase {
      */
     public function get_itemeditingfeedback() {
         return $this->itemeditingfeedback;
-    }
-
-    /**
-     * Returns the content format that has to be saved in surveypro_answer
-     *
-     * @return $return
-     */
-    public function get_answer_contentformat() {
-        return null;
     }
 
     // MARK set.

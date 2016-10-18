@@ -290,6 +290,15 @@ class surveyprofield_textarea_field extends mod_surveypro_itembase {
     }
 
     /**
+     * Returns if the field plugin needs contentformat
+     *
+     * @return bool
+     */
+    public static function item_needs_contentformat() {
+        return true;
+    }
+
+    /**
      * Return the xml schema for surveypro_<<plugin>> table.
      *
      * @return string $schema
@@ -343,21 +352,6 @@ EOS;
      */
     public function get_useeditor() {
         return $this->useeditor;
-    }
-
-    /**
-     * Returns the content format that has to be saved in surveypro_answer
-     *
-     * @return $return
-     */
-    public function get_answer_contentformat() {
-        if (empty($this->useeditor)) {
-            $return = 0;
-        } else {
-            $return = 1;
-        }
-
-        return $return;
     }
 
     // MARK response.
