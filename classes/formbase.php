@@ -240,5 +240,4 @@ class mod_surveypro_formbase {
     public function get_maxassignedpage() {
         return $this->maxassignedpage;
     }
-
 }

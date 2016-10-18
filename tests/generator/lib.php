@@ -119,6 +119,5 @@ class mod_surveypro_generator extends testing_module_generator {
         // Verify template is passed.
         // Verify template exists.
         // Verify there is not any item created with this generator. Cannot apply template if so.
-
     }
 }

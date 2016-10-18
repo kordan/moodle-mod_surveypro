@@ -64,5 +64,4 @@ class restore_surveyprofield_rate_subplugin extends restore_subplugin {
         // Insert the surveyprofield_rate record.
         $newrateid = $DB->insert_record('surveyprofield_rate', $data);
     }
-
 }

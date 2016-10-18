@@ -55,10 +55,8 @@ $CFG->dirroot = $path;
 
 if ($options['ie9fix']) {
     theme_base_recurse_svgs($path, '', 'theme_base_svgtool_ie9fix', $blacklist);
-
 } else if ($options['noaspectratio']) {
     theme_base_recurse_svgs($path, '', 'theme_base_svgtool_noaspectratio', $blacklist);
-
 } else {
     $help = "Some svg image tweaks for icon designers.
 
@@ -158,7 +156,6 @@ function theme_base_recurse_svgs($base, $sub, $filecallback, $blacklist) {
         unset($item);
         unset($items);
         return;
-
     } else if (is_file("$base/$sub")) {
         if (substr($sub, -4) !== '.svg') {
             return;
@@ -214,7 +211,6 @@ function cli_get_params(array $longoptions, array $shortmapping=null) {
             } else {
                 $unrecognized[] = $raw;
             }
-
         } else if (substr($raw, 0, 1) === '-') {
             $value = substr($raw, 1);
             $parts = explode('=', $value);

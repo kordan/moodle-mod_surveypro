@@ -1100,7 +1100,6 @@ class mod_surveypro_itemlist {
             default:
                 $message = 'Unexpected $this->action = '.$this->action;
                 debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-
         }
     }
 
@@ -1446,7 +1445,6 @@ class mod_surveypro_itemlist {
             }
             echo $OUTPUT->notification($message, 'notifysuccess');
         }
-
     }
 
     // MARK drop multilang.
