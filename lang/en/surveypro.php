@@ -275,7 +275,10 @@ $string['managesurveyproformatplugins'] = 'Manage format plugins';
 $string['managesurveyproreportplugins'] = 'Manage report plugins';
 $string['managesurveyprotemplateplugins'] = 'Manage template plugins';
 $string['manageusertemplates'] = '<a href="{$a}">Manage user templates</a>';
-$string['mastertemplate_help'] = 'Choose the master template you want to apply to your survey.';
+$string['mastertemplate_help'] = 'Choose a master template like one of the classical ones provided by default or a custom one added to this instance of surveypro. The classical survey types are:<ul>
+<li>ATTLS: Attitudes To Thinking and Learning Survey.<br />For more details, see the documentation on <a href="https://docs.moodle.org/31/en/Survey_settings#ATTLS_-_Attitudes_to_Thinking_and_Learning_Survey" name="ATTLS" title="ATTLS">ATTLS</a>.</li>
+<li>COLLES: Constructivist On-Line Learning Environment Survey.<br />For more details, see the documentation on <a href="https://docs.moodle.org/31/en/Survey_settings#COLLES_-_Constructivist_On-Line_Learning_Environment_Survey" name="COLLES" title="COLLES">COLLES</a>.</li>
+<li>CRITICAL INCIDENTS.<br />For more details, see the documentation on <a href="https://docs.moodle.org/31/en/Survey_settings#Critical_incidents" name="Critical incidents" title="Critical incidents">Critical incidents</a></li></ul>';
 $string['mastertemplate'] = 'Master templates';
 $string['mastertemplateaddendum'] = '<br />You can not apply this mastertemplate until you uninstall it, fix all the issues and reinstall it.';
 $string['mastertemplatename_help'] = 'Choose the name of the master template name that is going to be downloaded in zip format.';
