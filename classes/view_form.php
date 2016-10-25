@@ -180,7 +180,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
     /**
      * Get view.
      *
-     * @return the content of the $view property
+     * @return the content of $view property
      */
     public function get_view() {
         return $this->view;
@@ -189,7 +189,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
     /**
      * Get first page left.
      *
-     * @return the content of the $nextpageleft property
+     * @return the content of $nextpageleft property
      */
     public function get_nextpageleft() {
         return $this->nextpageleft;
@@ -198,7 +198,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
     /**
      * Get first page right.
      *
-     * @return the content of the $nextpageright property
+     * @return the content of $nextpageright property
      */
     public function get_nextpageright() {
         return $this->nextpageright;
@@ -207,7 +207,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
     /**
      * Get TAB tab.
      *
-     * @return the content of the $tabtab property
+     * @return the content of $tabtab property
      */
     public function get_tabtab() {
         return $this->tabtab;
@@ -216,7 +216,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
     /**
      * Get TAB page.
      *
-     * @return the content of the $tabpage property
+     * @return the content of $tabpage property
      */
     public function get_tabpage() {
         return $this->tabpage;
@@ -225,7 +225,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
     /**
      * Get responsestatus.
      *
-     * @return the content of the $responsestatus property
+     * @return the content of $responsestatus property
      */
     public function get_responsestatus() {
         return $this->responsestatus;
@@ -591,7 +591,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
             $this->drop_unwanted_answers();
         }
 
-        // At each submission I need to save one 'surveypro_submission' and some 'surveypro_answer'.
+        // For each submission I need to save one 'surveypro_submission' and some 'surveypro_answer'.
 
         // Begin of: let's start by saving one record in surveypro_submission.
         // In save_surveypro_submission method I also assign $this->submissionid and $this->status.
@@ -670,15 +670,16 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         // FIRST VALIDATION.
         // Let's suppose the following scenario.
         // 1) User is filling a surveypro divided into 4 pages.
-        // 2) User fill all the fields of first page and moves to page 2.
+        // 2) User fills all the fields of first page and moves to page 2.
         // 3) User reads the url and understands that the formapge is passed in GET (visible in the url).
         // 4) At page 3 (the page the user still does not see) of the surveypro there is mandatory field.
         // 5) Because of 3) user jumps to page 4 and make the final submit.
         // This check is needed to verify that EACH mandatory surveypro field was actually saved.
 
         // SECOND VALIDATION.
+        // Let's suppose the following scenario.
         // 1) User is filling a surveypro divided into 3 pages.
-        // 2) User fill all the fields of first page and moves to page 2.
+        // 2) User fills all the fields of first page and moves to page 2.
         // 3) User reads the url and understands that the formapge is passed in GET (visible in the url).
         // 4) At page 2 of the surveypro there is a mandatory field.
         // 5) User return back to page 1 without filling the mandatory field.

@@ -366,7 +366,6 @@ class mod_surveypro_itembase {
 
                 // Special care to "editors".
                 if ($editors = $this->get_editorlist()) {
-
                     $editoroptions = array('trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $context);
                     foreach ($editors as $fieldname => $filearea) {
                         $record = file_postupdate_standard_editor($record, $fieldname, $editoroptions, $context, 'mod_surveypro', $filearea, $record->itemid);
@@ -986,7 +985,7 @@ class mod_surveypro_itembase {
     /**
      * Get course module.
      *
-     * @return the content of the $cm property
+     * @return the content of $cm property
      */
     public function get_cm() {
         return $this->cm;
@@ -995,7 +994,7 @@ class mod_surveypro_itembase {
     /**
      * Get surveyproid.
      *
-     * @return the content of the $surveyproid property
+     * @return the content of $surveyproid property
      */
     public function get_surveyproid() {
         return $this->cm->instance;
@@ -1004,7 +1003,7 @@ class mod_surveypro_itembase {
     /**
      * Get editorlist.
      *
-     * @return the content of the $editorlist property
+     * @return the content of $editorlist property
      */
     public function get_editorlist() {
         return $this->editorlist;
@@ -1013,7 +1012,7 @@ class mod_surveypro_itembase {
     /**
      * Get savepositiontodb.
      *
-     * @return the content of the $savepositiontodb property
+     * @return the content of $savepositiontodb property
      */
     public function get_savepositiontodb() {
         return $this->savepositiontodb;
@@ -1054,7 +1053,7 @@ class mod_surveypro_itembase {
     /**
      * Get item id.
      *
-     * @return the content of the $itemid property
+     * @return the content of $itemid property
      */
     public function get_itemid() {
         if (isset($this->itemid)) {
@@ -1067,7 +1066,7 @@ class mod_surveypro_itembase {
     /**
      * Get type.
      *
-     * @return the content of the $type property
+     * @return the content of $type property
      */
     public function get_type() {
         return $this->type;
@@ -1076,7 +1075,7 @@ class mod_surveypro_itembase {
     /**
      * Get plugin.
      *
-     * @return the content of the $plugin property
+     * @return the content of $plugin property
      */
     public function get_plugin() {
         return $this->plugin;
@@ -1085,7 +1084,7 @@ class mod_surveypro_itembase {
     /**
      * Get content.
      *
-     * @return the content of the $content property
+     * @return the content of $content property
      */
     public function get_content() {
         $context = context_module::instance($this->cm->id);
@@ -1096,7 +1095,7 @@ class mod_surveypro_itembase {
     /**
      * Get content format.
      *
-     * @return the content of the $contentformat property
+     * @return the content of $contentformat property
      */
     public function get_contentformat() {
         return $this->contentformat;
@@ -1105,7 +1104,7 @@ class mod_surveypro_itembase {
     /**
      * Get plugin id.
      *
-     * @return the content of the $pluginid property
+     * @return the content of $pluginid property
      */
     public function get_pluginid() {
         if (isset($this->pluginid)) {
@@ -1118,7 +1117,7 @@ class mod_surveypro_itembase {
     /**
      * Get item name.
      *
-     * @return the content of the $itemname property
+     * @return the content of $itemname property
      */
     public function get_itemname() {
         return $this->itemname;
@@ -1127,7 +1126,7 @@ class mod_surveypro_itembase {
     /**
      * Get hidden.
      *
-     * @return the content of the $hidden property
+     * @return the content of $hidden property
      */
     public function get_hidden() {
         return $this->hidden;
@@ -1136,7 +1135,7 @@ class mod_surveypro_itembase {
     /**
      * Get in search form.
      *
-     * @return the content of the $insearchform property
+     * @return the content of $insearchform property
      */
     public function get_insearchform() {
         return $this->insearchform;
@@ -1145,7 +1144,7 @@ class mod_surveypro_itembase {
     /**
      * Get reserved.
      *
-     * @return the content of the $reserved property
+     * @return the content of $reserved property
      */
     public function get_reserved() {
         return $this->reserved;
@@ -1154,7 +1153,7 @@ class mod_surveypro_itembase {
     /**
      * Get sortindex.
      *
-     * @return the content of the $sortindex property
+     * @return the content of $sortindex property
      */
     public function get_sortindex() {
         return $this->sortindex;
@@ -1163,7 +1162,7 @@ class mod_surveypro_itembase {
     /**
      * Get form page.
      *
-     * @return the content of the $formpage property
+     * @return the content of $formpage property
      */
     public function get_formpage() {
         return $this->formpage;
@@ -1182,7 +1181,7 @@ class mod_surveypro_itembase {
      * Get parent content.
      *
      * @param string $separator Required separator
-     * @return the content of the $parentcontent property, properly separated
+     * @return the content of $parentcontent property, properly separated
      */
     public function get_parentcontent($separator="\n") {
         if ($separator != "\n") {
@@ -1197,7 +1196,7 @@ class mod_surveypro_itembase {
     /**
      * Get parentvalue.
      *
-     * @return the content of the $parentvalue property
+     * @return the content of $parentvalue property
      */
     public function get_parentvalue() {
         return $this->parentvalue;
@@ -1206,7 +1205,7 @@ class mod_surveypro_itembase {
     /**
      * Get variable.
      *
-     * @return the content of the $variable property
+     * @return the content of $variable property
      */
     public function get_variable() {
         return $this->variable;
@@ -1215,7 +1214,7 @@ class mod_surveypro_itembase {
     /**
      * Get customnumber.
      *
-     * @return the content of the $customnumber property whether defined
+     * @return the content of $customnumber property whether defined
      */
     public function get_customnumber() {
         if (isset($this->customnumber)) {
@@ -1247,7 +1246,7 @@ class mod_surveypro_itembase {
     /**
      * Get indent.
      *
-     * @return the content of the $indent property whether defined
+     * @return the content of $indent property whether defined
      */
     public function get_indent() {
         if (isset($this->indent)) {
@@ -1260,7 +1259,7 @@ class mod_surveypro_itembase {
     /**
      * Get hideinstructions.
      *
-     * @return the content of the $hideinstructions property whether defined
+     * @return the content of $hideinstructions property whether defined
      */
     public function get_hideinstructions() {
         if (isset($this->hideinstructions)) {
@@ -1273,7 +1272,7 @@ class mod_surveypro_itembase {
     /**
      * Get position.
      *
-     * @return the content of the $position property whether defined
+     * @return the content of $position property whether defined
      */
     public function get_position() {
         if (isset($this->position)) {
@@ -1286,7 +1285,7 @@ class mod_surveypro_itembase {
     /**
      * Get extranote.
      *
-     * @return the content of the $extranote property whether defined
+     * @return the content of $extranote property whether defined
      */
     public function get_extranote() {
         if (isset($this->extranote)) {
@@ -1299,7 +1298,7 @@ class mod_surveypro_itembase {
     /**
      * Get downloadformat.
      *
-     * @return the content of the $downloadformat property whether defined
+     * @return the content of $downloadformat property whether defined
      */
     public function get_downloadformat() {
         if (isset($this->downloadformat)) {
@@ -1312,7 +1311,7 @@ class mod_surveypro_itembase {
     /**
      * Get itemeditingfeedback.
      *
-     * @return the content of the $itemeditingfeedback property whether defined
+     * @return the content of $itemeditingfeedback property whether defined
      */
     public function get_itemeditingfeedback() {
         return $this->itemeditingfeedback;

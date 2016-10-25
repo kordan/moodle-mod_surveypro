@@ -339,7 +339,7 @@ EOS;
     /**
      * Get use editor.
      *
-     * @return the content of the $useeditor property
+     * @return the content of $useeditor property
      */
     public function get_useeditor() {
         return $this->useeditor;
