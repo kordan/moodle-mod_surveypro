@@ -131,12 +131,12 @@ class mod_surveypro_view_export {
         // For IN PROGRESS submissions where no fields were filled I need the LEFT JOIN {surveypro_item}.
         // In this case,
         // If I add a clause for fields of UNEXISTING {surveypro_item} (because no fields was filled)
-        // I will miss the record if I do not further add OR ISNULL(si.xxxx).
+        // I will miss the record if I do not further add OR IS NULL(si.xxxx).
         if (!isset($this->formdata->includehidden)) {
-            $sql .= ' AND (si.hidden = 0 OR ISNULL(si.hidden))';
+            $sql .= ' AND (si.hidden = 0 OR IS NULL(si.hidden))';
         }
         if (!isset($this->formdata->includereserved)) {
-            $sql .= ' AND (si.reserved = 0 OR ISNULL(si.reserved))';
+            $sql .= ' AND (si.reserved = 0 OR IS NULL(si.reserved))';
         }
         if ($this->formdata->status != SURVEYPRO_STATUSALL) {
             $sql .= ' AND s.status = :status';
