@@ -53,28 +53,11 @@ class mod_surveypro_importform extends moodleform {
         $mform->addElement('filepicker', $fieldname.'_filepicker', get_string('file'));
         $mform->addRule($fieldname.'_filepicker', null, 'required');
 
-        // Submissionimport: csvcontent.
-        $fieldname = 'csvsemantic';
-        $a = get_string('downloadformat', 'mod_surveypro');
-        $options = array();
-        $options[SURVEYPRO_LABELS] = get_string('answerlabel', 'mod_surveypro');
-        $options[SURVEYPRO_VALUES] = get_string('answervalue', 'mod_surveypro');
-        $options[SURVEYPRO_POSITIONS] = get_string('answerposition', 'mod_surveypro');
-        $options[SURVEYPRO_ITEMDRIVEN] = get_string('itemdrivensemantic', 'mod_surveypro', $a);
-        $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $options);
-        $mform->setDefault($fieldname, 'label');
-
         // Submissionimport: csvdelimiter.
         $fieldname = 'csvdelimiter';
         $options = csv_import_reader::get_delimiter_list();
         $mform->addElement('select', $fieldname, get_string($fieldname, 'tool_uploaduser'), $options);
-        if (array_key_exists('cfg', $options)) {
-            $mform->setDefault($fieldname, 'cfg');
-        } else if (get_string('listsep', 'langconfig') == ';') {
-            $mform->setDefault($fieldname, 'semicolon');
-        } else {
-            $mform->setDefault($fieldname, 'comma');
-        }
+        $mform->setDefault($fieldname, 'comma');
 
         // Submissionimport: encoding.
         $fieldname = 'encoding';

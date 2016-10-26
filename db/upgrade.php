@@ -31,6 +31,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->dirroot.'/mod/surveypro/db/upgradelib.php');
+
 /**
  * xmldb_surveypro_upgrade
  *
@@ -165,7 +167,6 @@ function xmldb_surveypro_upgrade($oldversion) {
     }
 
     if ($oldversion < 2016101700) {
-
         // Changing the default of field contentformat on table surveypro_answer to null.
         $table = new xmldb_table('surveypro_answer');
         $field = new xmldb_field('content', XMLDB_TYPE_TEXT, null, null, null, null, null, 'verified');
@@ -182,6 +183,12 @@ function xmldb_surveypro_upgrade($oldversion) {
 
         // Surveypro savepoint reached.
         upgrade_mod_savepoint(true, 2016101700, 'surveypro');
+    }
+
+    if ($oldversion < 2016102500) {
+        // Delete answers that are not supposed to be in the database
+        // because answers to NOT PERMITTED child items.
+        surveypro_delete_supposed_blank_answers();
     }
 
     return true;

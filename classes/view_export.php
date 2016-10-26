@@ -260,10 +260,10 @@ class mod_surveypro_view_export {
             $headerlabels[] = $currentheader;
             $itemseedskeys[] = $itemseed->id;
             if ($this->formdata->outputstyle == SURVEYPRO_RAW) {
-                $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemseed->plugin.'_field';
+                $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemseed->plugin.'_'.SURVEYPRO_TYPEFIELD;
                 if ($classname::item_needs_contentformat()) {
-                    $headerlabels[] = $currentheader.'@@_FORMAT_@@';
-                    $itemseedskeys[] = $itemseed->id.'@@_FORMAT_@@';
+                    $headerlabels[] = $currentheader.SURVEYPRO_IMPFORMATSUFFIX;
+                    $itemseedskeys[] = $itemseed->id.SURVEYPRO_IMPFORMATSUFFIX;
                 }
             }
         }
@@ -323,7 +323,7 @@ class mod_surveypro_view_export {
                 $recordtoexport = $this->export_begin_newrecord($richsubmission, $placeholders);
             }
 
-            $this->export_fill_newrecord($richsubmission, $recordtoexport);
+            $this->export_current_newrecord($richsubmission, $recordtoexport);
         }
         $richsubmissions->close();
 
@@ -374,7 +374,7 @@ class mod_surveypro_view_export {
                 $recordtoexport = $this->export_begin_newrecord($richsubmission, $placeholders);
             }
 
-            $this->export_fill_newrecord($richsubmission, $recordtoexport);
+            $this->export_current_newrecord($richsubmission, $recordtoexport);
         }
         $richsubmissions->close();
 
@@ -436,8 +436,10 @@ class mod_surveypro_view_export {
      * @return $owner
      */
     public function export_add_ownerid($richsubmission) {
+        $owner = array();
         if (empty($this->surveypro->anonymous)) {
-            $owner = array(SURVEYPRO_OWNERIDLABEL => $richsubmission->userid);
+            // If NOT anonymous.
+            $owner[SURVEYPRO_OWNERIDLABEL] = $richsubmission->userid;
         }
 
         return $owner;
@@ -492,7 +494,7 @@ class mod_surveypro_view_export {
      * Create a new record to export
      *
      * @param array $richsubmission
-     * @param object $worksheet
+     * @param object $placeholders
      * @return void
      */
     public function export_begin_newrecord($richsubmission, $placeholders) {
@@ -506,21 +508,21 @@ class mod_surveypro_view_export {
     }
 
     /**
-     * Create a new record to export
+     * Populate the record to export
      *
      * @param array $richsubmission
-     * @param object $worksheet
+     * @param object $recordtoexport
      * @return void
      */
-    public function export_fill_newrecord($richsubmission, &$recordtoexport) {
+    public function export_current_newrecord($richsubmission, &$recordtoexport) {
         if ($this->formdata->outputstyle == SURVEYPRO_VERBOSE) {
             $recordtoexport[$richsubmission->itemid] = $this->decode_content($richsubmission);
         } else {
             $recordtoexport[$richsubmission->itemid] = $richsubmission->content;
 
-            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$richsubmission->plugin.'_field';
+            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$richsubmission->plugin.'_'.SURVEYPRO_TYPEFIELD;
             if ($classname::item_needs_contentformat()) {
-                $recordtoexport[$richsubmission->itemid.'@@_FORMAT_@@'] = $richsubmission->contentformat;
+                $recordtoexport[$richsubmission->itemid.SURVEYPRO_IMPFORMATSUFFIX] = $richsubmission->contentformat;
             }
         }
     }

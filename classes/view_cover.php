@@ -272,6 +272,7 @@ class mod_surveypro_view_cover {
      * @param string $childreports
      * @param string $pluginname
      * @param array $messages
+     * @param string $categoryname
      * @return void
      */
     public function add_report_link($childreports, $pluginname, &$messages, $categoryname) {
