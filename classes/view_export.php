@@ -131,22 +131,26 @@ class mod_surveypro_view_export {
         // For IN PROGRESS submissions where no fields were filled I need the LEFT JOIN {surveypro_item}.
         // In this case,
         // If I add a clause for fields of UNEXISTING {surveypro_item} (because no fields was filled)
-        // I will miss the record if I do not further add OR ISNULL(si.xxxx).
+        // I will miss the record if I do not further add OR si.xxxx IS NULL.
         if (!isset($this->formdata->includehidden)) {
-            $sql .= ' AND (si.hidden = 0 OR ISNULL(si.hidden))';
+            $sql .= ' AND (si.hidden = :hidden OR si.hidden IS NULL)';
+            $whereparams['hidden'] = 0;
         }
         if (!isset($this->formdata->includereserved)) {
-            $sql .= ' AND (si.reserved = 0 OR ISNULL(si.reserved))';
+            $sql .= ' AND (si.reserved = :reserved OR si.reserved IS NULL)';
+            $whereparams['reserved'] = 0;
         }
         if ($this->formdata->status != SURVEYPRO_STATUSALL) {
             $sql .= ' AND s.status = :status';
             $whereparams['status'] = $this->formdata->status;
         }
-        if (($this->formdata->downloadtype == SURVEYPRO_FILESBYUSER)
-            || ($this->formdata->downloadtype == SURVEYPRO_FILESBYITEM)) {
+        if (($this->formdata->downloadtype == SURVEYPRO_FILESBYUSER) ||
+            ($this->formdata->downloadtype == SURVEYPRO_FILESBYITEM)) {
             $sql .= ' AND si.plugin = :plugin';
-            $whereparams['plugin'] = 'fileupload';
+        } else {
+            $sql .= ' AND si.plugin <> :plugin';
         }
+        $whereparams['plugin'] = 'fileupload';
 
         // If !$canseeotherssubmissions do not overload the query with useless conditions.
         if ($canseeotherssubmissions) {
@@ -435,11 +439,24 @@ class mod_surveypro_view_export {
         if (($this->formdata->downloadtype == SURVEYPRO_FILESBYUSER) ||
             ($this->formdata->downloadtype == SURVEYPRO_FILESBYITEM)) {
             $where['plugin'] = 'fileupload';
-        }
+            if (!$itemseeds = $DB->get_records('surveypro_item', $where, 'sortindex', 'id, plugin')) {
+                return SURVEYPRO_NOFIELDSSELECTED;
+                die(); // Never reached.
+            }
+        } else {
+            $conditions = array();
+            foreach ($where as $field => $value) {
+                $conditions[] = $field.' = :'.$field;
+            }
+            $select = implode(' AND ', $conditions);
 
-        if (!$itemseeds = $DB->get_records('surveypro_item', $where, 'sortindex', 'id, plugin')) {
-            return SURVEYPRO_NOFIELDSSELECTED;
-            die(); // Never reached.
+            $where['plugin'] = 'fileupload';
+            $select .= ' AND plugin <> :plugin';
+
+            if (!$itemseeds = $DB->get_records_select('surveypro_item', $select, $where, 'sortindex', 'id, plugin')) {
+                return SURVEYPRO_NOFIELDSSELECTED;
+                die(); // Never reached.
+            }
         }
 
         return $itemseeds;
