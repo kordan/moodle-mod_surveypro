@@ -650,7 +650,7 @@ function surveypro_cron() {
 function surveypro_get_participants($surveyproid) {
     global $DB;
 
-    $sql = 'SELECT DISTINCT s.userid as id, s.userid as id
+    $sql = 'SELECT DISTINCT s.userid as id
             FROM {surveypro_submission} s
             WHERE s.surveyproid = :surveyproid';
     return $DB->get_records_sql($sql, array('surveyproid' => $surveyproid));

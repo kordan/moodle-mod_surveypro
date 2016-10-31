@@ -1403,7 +1403,7 @@ class mod_surveypro_itemlist {
                 $childitems = array_keys($childitems);
                 $nodes = implode(', ', $childitems);
                 $message .= get_string('confirm_deletechainitems', 'mod_surveypro', $nodes);
-                $labelyes = get_string('concontinue');
+                $labelyes = get_string('continue');
             } else {
                 $labelyes = get_string('yes');
             }

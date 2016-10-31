@@ -217,6 +217,29 @@ class mod_surveypro_utility {
             return;
         }
 
+        // Update completion state: step 1 of 2.
+        // Before deleting items, get the list of involved students as they may get course completion.
+        // After items deletion you will no longer be able to select them with this query.
+        $completion = new completion_info($COURSE);
+        if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
+            $sql = 'SELECT DISTINCT s.userid as id
+                    FROM {surveypro_submission} s';
+            if (count($whereparams) == 1) {
+                $sql .= ' WHERE surveyproid = :surveyproid';
+            }
+
+            if (count($whereparams) > 1) {
+                list($insql, $inparams) = $DB->get_in_or_equal(array_keys($items), SQL_PARAMS_NAMED, 'itemid');
+                $sql .= ' JOIN {surveypro_answer} a ON a.submissionid = s.id
+                        WHERE s.surveyproid = :surveyproid
+                            AND a.itemid '.$insql;
+
+                $whereparams = array_merge($whereparams, $inparams);
+            }
+            $possibleusers = $DB->get_records_sql($sql, $whereparams);
+        }
+        // End of: Update completion state: step 1 of 2.
+
         $context = context_module::instance($this->cm->id);
         try {
             $transaction = $DB->start_delegated_transaction();
@@ -266,37 +289,22 @@ class mod_surveypro_utility {
         }
 
         if (count($whereparams) > 1) { // Some more detail about items were provided in $whereparams.
-            $whereanswerparams = array();
             foreach ($items as $item) {
-                $whereanswerparams['itemid'] = $item->id;
-                $this->delete_answer($whereanswerparams);
+                // In the frame of delete_answer I also delete the corresponding submission when needed.
+                $this->delete_answer(array('itemid' => $item->id));
             }
         }
 
-        // Update completion state.
+        // Update completion state: step 2 of 2.
         // Item deletion lead to COMPLETION_COMPLETE.
         // All the students with an "in progress" submission that was missing ONLY the just deleted item,
-        // maybe now reached the activity completion.
-        $sql = 'SELECT DISTINCT s.userid
-                FROM {surveypro_submission} s';
-        if (count($whereparams) == 1) {
-            $sql .= ' WHERE surveyproid = :surveyproid';
-        }
-        if (count($whereparams) > 1) {
-            $whereparams = array();
-            $sql .= ' JOIN {surveypro_answer} a ON a.submissionid = s.id
-                    WHERE s.surveyproid = :surveyproid
-                        AND a.id IN ('.implode(',', array_keys($items)).')';
-            $whereparams['surveyproid'] = $this->surveypro->id;
-        }
-        $possibleusers = $DB->get_records_sql($sql, $whereparams);
-
-        $completion = new completion_info($COURSE);
+        // maybe now reach the activity completion.
         if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
             foreach ($possibleusers as $user) {
-                $completion->update_state($this->cm, COMPLETION_COMPLETE, $user->userid);
+                $completion->update_state($this->cm, COMPLETION_COMPLETE, $user->id);
             }
         }
+        // End of: Update completion state: step 2 of 2.
     }
 
     /**
@@ -329,6 +337,28 @@ class mod_surveypro_utility {
         if (!$submissions->valid()) {
             return;
         }
+
+        // Update completion state: step 1 of 2.
+        // Before deleting submissions, get the list of involved students as they may get course completion.
+        // After submissions deletion you will no longer be able to select them with this query.
+        if ($updatecompletion) {
+            if (count($whereparams) == 1) { // Delete all submission of this surveypro.
+                // Update completion state.
+                $possibleusers = surveypro_get_participants($this->surveypro->id);
+            }
+
+            if (count($whereparams) > 1) { // Some more detail about submissions were provided in $whereparams.
+                $conditions = array();
+                foreach ($whereparams as $field => $unused) {
+                    $conditions[] = $field.' = :'.$field;
+                }
+                $sql = 'SELECT DISTINCT userid as id
+                        FROM {surveypro_submission}
+                        WHERE '.implode(' AND ', $conditions);
+                $possibleusers = $DB->get_records_sql($sql, $whereparams);
+            }
+        }
+        // End of: Update completion state: step 1 of 2.
 
         $context = context_module::instance($this->cm->id);
         try {
@@ -366,40 +396,19 @@ class mod_surveypro_utility {
             $transaction->rollback($e); // Rethrows exception.
         }
 
+        // Update completion state: step 2 of 2.
+        // Item deletion lead to COMPLETION_COMPLETE.
+        // All the students with an "in progress" submission that was missing ONLY the just deleted item,
+        // maybe now reach the activity completion.
         if ($updatecompletion) {
-            if (count($whereparams) == 1) { // Delete all submission of this surveypro.
-                // Update completion state.
-                $possibleusers = surveypro_get_participants($this->surveypro->id);
-
-                $completion = new completion_info($COURSE);
-                if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
-                    foreach ($possibleusers as $user) {
-                        $completion->update_state($this->cm, COMPLETION_INCOMPLETE, $user->id);
-                    }
-                }
-            }
-
-            if (count($whereparams) > 1) { // Some more detail about submissions were provided in $whereparams.
-                $sql = 'SELECT DISTINCT s.userid
-                        FROM {surveypro_submission} s
-                        WHERE surveyproid = :surveyproid';
-                foreach ($whereparams as $k => $unused) {
-                    if ($k == 'surveyproid') {
-                        continue;
-                    }
-                    $sql .= ' AND s.'.$k.' = :'.$k;
-                }
-                $possibleusers = $DB->get_records_sql($sql, $whereparams);
-
-                // Update completion state.
-                $completion = new completion_info($COURSE);
-                if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
-                    foreach ($possibleusers as $user) {
-                        $completion->update_state($this->cm, COMPLETION_INCOMPLETE, $user->userid);
-                    }
+            $completion = new completion_info($COURSE);
+            if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
+                foreach ($possibleusers as $user) {
+                    $completion->update_state($this->cm, COMPLETION_INCOMPLETE, $user->id);
                 }
             }
         }
+        // End of: Update completion state: step 2 of 2.
     }
 
     /**
@@ -429,14 +438,18 @@ class mod_surveypro_utility {
 
         // This is the list of the id of the submissions involved by the deletion of the answer.
         if (array_key_exists('content', $whereparams)) {
+            // Take note about the submissionid of the answers you are going to delete.
+            $conditions = array();
+            foreach ($whereparams as $field => $unused) {
+                $conditions[$field] = $field.' = :'.$field;
+            }
+            unset($conditions['content']);
+
             $sql = 'SELECT submissionid
                     FROM {surveypro_answer}
-                    WHERE a.content = '.$DB->sql_compare_text(':content');
-            foreach ($whereparams as $k => $unused) {
-                if ($k == 'content') {
-                    continue;
-                }
-                $sql .= ' AND a.'.$k.' = :'.$k;
+                    WHERE content = '.$DB->sql_compare_text(':content');
+            if (count($conditions)) {
+                $sql .= ' AND '.implode(' AND ', $conditions);
             }
             $answers = $DB->get_records_sql($sql, $whereparams);
 
@@ -444,19 +457,24 @@ class mod_surveypro_utility {
             $sql = 'DELETE FROM {surveypro_answer}
                     WHERE content = '.$DB->sql_compare_text($whereparams['content']);
             unset($whereparams['content']);
-            foreach ($whereparams as $k => $v) {
-                $sql .= ' AND '.$k.' = '.$v;
+            foreach ($whereparams as $field => $value) {
+                $sql .= ' AND '.$field.' = '.$value;
             }
             $DB->execute($sql);
         } else {
+            // Take note about the submissionid of the answers you are going to delete.
             $answers = $DB->get_records('surveypro_answer', $whereparams, '', 'submissionid');
+
+            // Delete answers.
             $DB->delete_records('surveypro_answer', $whereparams);
         }
 
         foreach ($answers as $answer) {
+            // Once some answers were deleted, are there any more answers, for the same submission, still present?
             $count = $DB->count_records('surveypro_answer', array('submissionid' => $answer->submissionid));
             if (empty($count)) {
-                $this->delete_submissions(array('id' => $answer->submissionid));
+                // No more answers for the same submission are still present. Delete the parent submission too.
+                $this->delete_submissions(array('id' => $answer->submissionid), true);
             }
         }
     }
@@ -555,33 +573,26 @@ class mod_surveypro_utility {
             if (count($whereparams) == 1) { // Duplicate all the submissions of this surveypro.
                 // Update completion state.
                 $possibleusers = surveypro_get_participants($this->surveypro->id);
-
-                $completion = new completion_info($COURSE);
-                if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
-                    foreach ($possibleusers as $user) {
-                        $completion->update_state($this->cm, COMPLETION_COMPLETE, $user->id);
-                    }
-                }
             }
 
             if (count($whereparams) > 1) { // Some more detail about submissions were provided in $whereparams.
-                $sql = 'SELECT DISTINCT s.userid
-                        FROM {surveypro_submission} s
-                        WHERE surveyproid = :surveyproid';
-                foreach ($whereparams as $k => $unused) {
-                    if ($k == 'surveyproid') {
-                        continue;
-                    }
-                    $sql .= ' AND s.'.$k.' = :'.$k;
+                $conditions = array();
+                foreach ($whereparams as $field => $unused) {
+                    $conditions[$field] = $field.' = :'.$field;
                 }
+
+                $sql = 'SELECT DISTINCT userid as id
+                        FROM {surveypro_submission}
+                        WHERE '.implode(' AND ', $conditions);
                 $possibleusers = $DB->get_records_sql($sql, $whereparams);
 
                 // Update completion state.
-                $completion = new completion_info($COURSE);
-                if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
-                    foreach ($possibleusers as $user) {
-                        $completion->update_state($this->cm, COMPLETION_COMPLETE, $user->userid);
-                    }
+            }
+
+            $completion = new completion_info($COURSE);
+            if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
+                foreach ($possibleusers as $user) {
+                    $completion->update_state($this->cm, COMPLETION_COMPLETE, $user->id);
                 }
             }
         }
@@ -716,26 +727,27 @@ class mod_surveypro_utility {
     public function get_submissionsid_from_answers($whereparams) {
         global $DB;
 
+        if (!array_key_exists('surveyproid', $whereparams)) {
+            $whereparams['surveyproid'] = $this->surveypro->id;
+        }
+
         // Get submissions from constrains on surveypro_answer.
         $sql = 'SELECT s.id
                 FROM {surveypro_submission} s
                   JOIN {surveypro_answer} a ON a.submissionid = s.id
                 WHERE (s.surveyproid = :surveyproid)';
+        $conditions = array();
+        foreach ($whereparams as $field => $unused) {
+            $conditions[$field] = 'a.'.$field.' = :'.$field;
+        }
+        unset($conditions['surveyproid']); // That has s. as prefix.
+
+        if (count($conditions)) {
+            $sql .= ' AND '.implode(' AND ', $conditions);
+        }
         if (array_key_exists('content', $whereparams)) {
             $sql .= ' AND a.content = '.$DB->sql_compare_text(':content');
-        }
-        foreach ($whereparams as $k => $unused) {
-            if ($k == 'surveyproid') {
-                continue;
-            }
-            if ($k == 'content') {
-                continue;
-            }
-            $sql .= ' AND a.'.$k.' = :'.$k;
-        }
-
-        if (!array_key_exists('surveyproid', $whereparams)) {
-            $whereparams['surveyproid'] = $this->surveypro->id;
+            unset($conditions['content']);
         }
 
         return $DB->get_recordset_sql($sql, $whereparams);
