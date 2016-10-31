@@ -320,7 +320,6 @@ class mod_surveypro_view_import {
             } else {
                 $info->semantic = $item->get_contentformat();
             }
-            $info->answer_contentformat = $item->get_answer_contentformat();
             $itemhelperinfo[$col] = $info;
 
             // Itemoption.
@@ -906,7 +905,6 @@ class mod_surveypro_view_import {
                 $record->itemid = $columntoitemid[$col];
                 $record->content = $value;
                 $record->verified = 1;
-                $record->contentformat = $itemhelperinfo[$col]->answer_contentformat;
                 if ($debug) {
                     echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
                     echo 'I am going to save to surveypro_answer:<br />';

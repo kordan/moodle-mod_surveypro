@@ -645,7 +645,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
                 $useranswer->submissionid = $iteminfo->submissionid;
                 $useranswer->itemid = $iteminfo->itemid;
                 $useranswer->content = SURVEYPRO_DUMMYCONTENT;
-                $useranswer->contentformat = null;
+                // $useranswer->contentformat = null; // Useless, as null is the default.
 
                 $useranswer->id = $DB->insert_record('surveypro_answer', $useranswer);
             }
