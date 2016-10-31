@@ -462,7 +462,6 @@ function surveypro_delete_instance($id) {
                 if (!$DB->delete_records_select($tablename, $select, $inparams)) {
                     $status = false;
                 }
-
             }
         }
     }

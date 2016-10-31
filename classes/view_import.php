@@ -458,6 +458,8 @@ class mod_surveypro_view_import {
         // TO MAKE THIS CLEAR ONCE AND FOR EVER:
         // -> Teacher IS NOT allowed to enter a invalid content
         // -> But IS allowed to partially import records even jumping mandatory values.
+        //
+        // Records (submissions) missing required answers will be marked as SURVEYPRO_STATUSINPROGRESS.
 
         // Make a relation between each column header and the corresponding itemid.
         list($columntoitemid, $nonmatchingheaders, $environmentheaders) = $this->get_columntoitemid($foundheaders, $surveyheaders);
@@ -527,34 +529,36 @@ class mod_surveypro_view_import {
             foreach ($foundheaders as $col => $unused) {
                 $value = $csvrow[$col]; // The value reported in the csv file.
 
-                if (isset($environmentheaders[SURVEYPRO_OWNERIDLABEL]) && ($col == $environmentheaders[SURVEYPRO_OWNERIDLABEL])) {
-                    // The column for userid.
-                    if (empty($value)) {
-                        $cir->close();
-                        $cir->cleanup();
-
-                        $error = new stdClass();
-                        $error->key = 'import_missinguserid';
-                        return $error;
-                    } else {
-                        if (!is_number($value)) {
+                if (isset($environmentheaders[SURVEYPRO_OWNERIDLABEL])) {
+                    if ($col == $environmentheaders[SURVEYPRO_OWNERIDLABEL]) {
+                        // The column for userid.
+                        if (empty($value)) {
                             $cir->close();
                             $cir->cleanup();
 
                             $error = new stdClass();
-                            $error->key = 'import_invaliduserid';
-                            $error->a = $value;
+                            $error->key = 'import_missinguserid';
                             return $error;
-                        }
-                        if ($value != $USER->id) {
-                            if (!isset($csvusers[$value])) {
-                                $csvusers[$value] = 1;
-                            } else {
-                                $csvusers[$value]++;
+                        } else {
+                            if (!is_number($value)) {
+                                $cir->close();
+                                $cir->cleanup();
+
+                                $error = new stdClass();
+                                $error->key = 'import_invaliduserid';
+                                $error->a = $value;
+                                return $error;
+                            }
+                            if ($value != $USER->id) {
+                                if (!isset($csvusers[$value])) {
+                                    $csvusers[$value] = 1;
+                                } else {
+                                    $csvusers[$value]++;
+                                }
                             }
                         }
+                        continue;
                     }
-                    continue;
                 }
 
                 if (isset($environmentheaders[SURVEYPRO_TIMECREATEDLABEL])) {

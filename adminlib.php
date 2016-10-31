@@ -249,7 +249,6 @@ class mod_surveypro_plugin_manager {
                     array('action' => 'delete', 'plugin' => $plugin, 'sesskey' => sesskey())),
                     new pix_icon('t/delete', $title, 'moodle', array('title' => $title)),
                     null, array('title' => $title));
-
             }
             $exists = file_exists($CFG->dirroot.'/mod/surveypro/'.$shortsubtype.'/'.$plugin.'/settings.php');
             if ($row[1] != '' && $exists) {
@@ -343,7 +342,6 @@ class mod_surveypro_plugin_manager {
             // The page to display.
             return 'confirmdelete';
         }
-
     }
 
     /**

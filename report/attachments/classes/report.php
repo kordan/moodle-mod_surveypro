@@ -192,7 +192,6 @@ class surveyproreport_attachments_report extends mod_surveypro_reportbase {
 
         echo $OUTPUT->heading(get_string('pluginname', 'surveyproreport_attachments'));
         $this->outputtable->print_html();
-
     }
 
     /**

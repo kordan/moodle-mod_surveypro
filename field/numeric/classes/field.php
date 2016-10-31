@@ -475,7 +475,6 @@ EOS;
                 $errors[$errorkey] = get_string('uerr_greaterthanmaximum', 'surveyprofield_numeric');
             }
         }
-
     }
 
     /**
