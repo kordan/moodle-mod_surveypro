@@ -486,18 +486,15 @@ $string['visiblesonly_help'] = 'Include in this template only visibles elements.
 $string['visiblesonly'] = 'Visibles elements only';
 $string['welcome_emptysurvey'] = 'To create a new survey you can add elements one by one to build the survey that best suits your needs<br />or apply a master template to get a standard survey all at once.';
 $string['welcome_dataexport'] = 'Use this page to export responses of this survey. <br />
-A statistic software format is available such as a more human readable one. Export content depends on the "{$a}" choosen for each element (whether available).';
+A statistic software format is available such as a human readable one. Export content depends on the "{$a}" choosen for each element (whether available).';
 $string['welcome_dataimport'] = 'Use this page to import responses into this survey. <br />
 The headers of the csv file to import are supposed to match the "variable names" of the elements of the survey.<br />
 Currently it is not allowed the import of attachment elements.<br />
 Unknown headers will break the import process.<br />
 "Ownerid" can be included among headers. It will assign the ownership of each imported response (even if the survey is anonymous).<br />
 If the "Ownerid" column is missing from the csv file, the imported responses will be assigned to the user executing the import.<br />
-It is allowed the importation of csv files missing required elements but, whether included, they must hold valid and non empty values.<br />
+It is allowed to import csv files missing required elements but, whether included, they must provide valid and non empty values.<br />
 Import files missing required elements are allowed and the imported responses will be marked as "in progress".<br />
-Semantic defines the meaning of the content of the csv file for some specific elements. For instance, for a "select" plugin element, the csv file can provide the label of the answer such as its value or its position in the drop down user interface<br />
-Elements currently using semantic are: <ul>{$a->items}</ul>
-It is possible to choose a single semantic that will apply to EACH element to import or to choose "{$a->customsemantic}" option to provide a custom semantic for each element.<br />
 The import process breaks if it lead to exceed the maximum number of responses allowed to users (if set).';
 $string['welcome_mtemplateapply'] = 'You can build your survey applying set of elements taken from a master template.<br />
 Take care: all other preexisting elements (if any) will be definitely deleted WITH ALL THE DATA ALREADY GATHERED.';
