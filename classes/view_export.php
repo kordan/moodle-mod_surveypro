@@ -106,7 +106,7 @@ class mod_surveypro_view_export {
         if (empty($this->surveypro->anonymous) || ($forceuserid)) {
             $sql .= 'u.id as userid, '.user_picture::fields('u').', ';
         }
-        $sql .= 'a.id as id, a.itemid, a.content,
+        $sql .= 'a.id as id, a.itemid, a.content, a.contentformat,
                  si.sortindex, si.plugin
                  FROM {surveypro_submission} s
                    JOIN {user} u ON u.id = s.userid
@@ -235,6 +235,57 @@ class mod_surveypro_view_export {
     }
 
     /**
+     * Get headers and placeholders for the output.
+     *
+     * @return void
+     */
+    public function export_get_output_headers() {
+        global $DB;
+
+        $itemseeds = $this->export_get_field_list();
+        $headerlabels = array();
+        if (empty($this->surveypro->anonymous)) {
+            $headerlabels[] = SURVEYPRO_OWNERIDLABEL;
+            if (isset($this->formdata->includenames)) {
+                $headerlabels[] = get_string('firstname');
+                $headerlabels[] = get_string('lastname');
+            }
+        }
+
+        $itemseedskeys = array();
+        foreach ($itemseeds as $itemseed) {
+            $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemseed->plugin;
+            $where = array('itemid' => $itemseed->id);
+            $currentheader = $DB->get_field($tablename, 'variable', $where);
+            $headerlabels[] = $currentheader;
+            $itemseedskeys[] = $itemseed->id;
+            if ($this->formdata->outputstyle == SURVEYPRO_RAW) {
+                $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemseed->plugin.'_field';
+                if ($classname::item_needs_contentformat()) {
+                    $headerlabels[] = $currentheader.'@@_FORMAT_@@';
+                    $itemseedskeys[] = $itemseed->id.'@@_FORMAT_@@';
+                }
+            }
+        }
+
+        if (isset($this->formdata->includedates)) {
+            $headerlabels[] = SURVEYPRO_TIMECREATEDLABEL;
+            $headerlabels[] = SURVEYPRO_TIMEMODIFIEDLABEL;
+        }
+
+        // Define once and forever $placeholders.
+        if ($this->formdata->outputstyle == SURVEYPRO_VERBOSE) {
+            $answernotprovided = get_string('answernotsubmitted', 'mod_surveypro');
+        } else {
+            $answernotprovided = SURVEYPRO_EXPNULLVALUE;
+        }
+        $placeholders = array_fill_keys($itemseedskeys, $answernotprovided);
+        // End of: Define once and forever $placeholders.
+
+        return array($headerlabels, $placeholders);
+    }
+
+    /**
      * Print given submissions to csv file and make it available.
      *
      * @param array $richsubmissions
@@ -253,73 +304,26 @@ class mod_surveypro_view_export {
 
         $csvexport->filename = $this->get_export_filename('csv');
 
-        $itemseeds = $this->export_get_field_list();
-
-        // Print headers.
-        $headerlabels = array();
-        if (empty($this->surveypro->anonymous)) {
-            $headerlabels[] = SURVEYPRO_OWNERIDLABEL;
-            if (isset($this->formdata->includenames)) {
-                $headerlabels[] = get_string('firstname');
-                $headerlabels[] = get_string('lastname');
-            }
-        }
-
-        foreach ($itemseeds as $itemseed) {
-            $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemseed->plugin;
-            $where = array('itemid' => $itemseed->id);
-            $headerlabels[] = $DB->get_field($tablename, 'variable', $where);
-        }
-
-        if (isset($this->formdata->includedates)) {
-            $headerlabels[] = SURVEYPRO_TIMECREATEDLABEL;
-            $headerlabels[] = SURVEYPRO_TIMEMODIFIEDLABEL;
-        }
-
+        // Get headers and placeholders.
+        list($headerlabels, $placeholders) = $this->export_get_output_headers();
         $csvexport->add_data($headerlabels);
-        // End of: Print headers.
 
-        // Reduce the weight of $itemseeds disposing no longer relevant infos.
-        $itemseedskeys = array_keys($itemseeds);
-        unset($itemseeds);
-        // End of: Reduce the weight of $itemseeds disposing no longer relevant infos.
-
-        // Define once and forever $placeholders.
-        if ($this->formdata->outputstyle == SURVEYPRO_VERBOSE) {
-            $answernotprovided = get_string('answernotsubmitted', 'mod_surveypro');
-        } else {
-            $answernotprovided = SURVEYPRO_EXPNULLVALUE;
-        }
-        $placeholders = array_fill_keys($itemseedskeys, $answernotprovided);
-        // End of: Define once and forever $placeholders.
-
-        // Get user groups (to filter surveypro to download) ???? TODO: NEVER USED ????
-        // $mygroups = groups_get_all_groups($course->id, $USER->id, $this->cm->groupingid);
-
-        $oldsubmissionid = 0;
+        $currentsubmissionid = 0;
         foreach ($richsubmissions as $richsubmission) {
-            if ($oldsubmissionid != $richsubmission->submissionid) {
-                if (!empty($oldsubmissionid)) { // New richsubmissionid, stop managing old record.
+            if ($currentsubmissionid != $richsubmission->submissionid) {
+                if (!empty($currentsubmissionid)) { // New richsubmissionid, stop managing old record.
                     // Write old record.
                     $csvexport->add_data($recordtoexport);
                 }
 
                 // Update the reference.
-                $oldsubmissionid = $richsubmission->submissionid;
+                $currentsubmissionid = $richsubmission->submissionid;
 
                 // Begin a new record.
-                $recordtoexport = array();
-                $recordtoexport += $this->export_add_ownerid($richsubmission);
-                $recordtoexport += $this->export_add_names($richsubmission);
-                $recordtoexport += $placeholders;
-                $recordtoexport += $this->export_add_dates($richsubmission);
+                $recordtoexport = $this->export_begin_newrecord($richsubmission, $placeholders);
             }
 
-            if ($this->formdata->outputstyle == SURVEYPRO_VERBOSE) {
-                $recordtoexport[$richsubmission->itemid] = $this->decode_content($richsubmission);
-            } else {
-                $recordtoexport[$richsubmission->itemid] = $richsubmission->content;
-            }
+            $this->export_fill_newrecord($richsubmission, $recordtoexport);
         }
         $richsubmissions->close();
 
@@ -349,73 +353,36 @@ class mod_surveypro_view_export {
 
         $itemseeds = $this->export_get_field_list();
 
-        // Print header.
-        $headerlabels = array();
-        if (empty($this->surveypro->anonymous) && isset($this->formdata->includenames)) {
-            $headerlabels[] = get_string('firstname');
-            $headerlabels[] = get_string('lastname');
-        }
-        // Variables.
-        foreach ($itemseeds as $itemseed) {
-            $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemseed->plugin;
-            $where = array('itemid' => $itemseed->id);
-            $headerlabels[] = $DB->get_field($tablename, 'variable', $where);
-        }
-        if (isset($this->formdata->includedates)) {
-            $headerlabels[] = get_string('timecreated', 'mod_surveypro');
-            $headerlabels[] = get_string('timemodified', 'mod_surveypro');
-        }
-        // End of: Print headers.
+        // Get headers and placeholders.
+        list($headerlabels, $placeholders) = $this->export_get_output_headers();
+        $rowcounter = 0;
+        $this->export_write_xlsrecord($rowcounter, $headerlabels, $worksheet);
 
-        foreach ($headerlabels as $k => $label) {
-            $worksheet[0]->write(0, $k, $label, '');
-        }
-
-        // Reduce the weight of $itemseeds disposing no longer relevant infos.
-        $itemseedskeys = array_keys($itemseeds);
-        unset($itemseeds);
-        // End of: Reduce the weight of $itemseeds disposing no longer relevant infos.
-
-        // Define once and forever $placeholders.
-        if ($this->formdata->outputstyle == SURVEYPRO_VERBOSE) {
-            $answernotprovided = get_string('answernotsubmitted', 'mod_surveypro');
-        } else {
-            $answernotprovided = SURVEYPRO_EXPNULLVALUE;
-        }
-        $placeholders = array_fill_keys($itemseedskeys, $answernotprovided);
-        // End of: Define once and forever $placeholders.
-
-        // Get user groups (to filter surveypro to download) ???? TODO: NEVER USED ????
-        // $mygroups = groups_get_all_groups($course->id, $USER->id, $this->cm->groupingid);
-
-        $oldsubmissionid = 0;
+        $currentsubmissionid = 0;
         foreach ($richsubmissions as $richsubmission) {
-            if ($oldsubmissionid != $richsubmission->submissionid) {
-                if (!empty($oldsubmissionid)) { // New richsubmissionid, stop managing old record.
-                    // Write old record.
-                    $this->export_close_record($recordtoexport, $worksheet);
+            if ($currentsubmissionid != $richsubmission->submissionid) {
+                if (!empty($currentsubmissionid)) { // New richsubmissionid, stop managing old record.
+                    // Write current record.
+                    $rowcounter++;
+                    $this->export_write_xlsrecord($rowcounter, $recordtoexport, $worksheet);
                 }
 
                 // Update the reference.
-                $oldsubmissionid = $richsubmission->submissionid;
+                $currentsubmissionid = $richsubmission->submissionid;
 
                 // Begin a new record.
-                $recordtoexport = array();
-                $recordtoexport += $this->export_add_names($richsubmission);
-                $recordtoexport += $placeholders;
-                $recordtoexport += $this->export_add_dates($richsubmission);
+                $recordtoexport = $this->export_begin_newrecord($richsubmission, $placeholders);
             }
 
-            if ($this->formdata->outputstyle == SURVEYPRO_VERBOSE) {
-                $recordtoexport[$richsubmission->itemid] = $this->decode_content($richsubmission);
-            } else {
-                $recordtoexport[$richsubmission->itemid] = $richsubmission->content;
-            }
+            $this->export_fill_newrecord($richsubmission, $recordtoexport);
         }
         $richsubmissions->close();
-        $this->export_close_record($recordtoexport, $worksheet);
+
+        $rowcounter++;
+        $this->export_write_xlsrecord($rowcounter, $recordtoexport, $worksheet);
 
         $workbook->close();
+        return true;
     }
 
     /**
@@ -522,19 +489,58 @@ class mod_surveypro_view_export {
     }
 
     /**
+     * Create a new record to export
+     *
+     * @param array $richsubmission
+     * @param object $worksheet
+     * @return void
+     */
+    public function export_begin_newrecord($richsubmission, $placeholders) {
+        $recordtoexport = array();
+        $recordtoexport += $this->export_add_ownerid($richsubmission);
+        $recordtoexport += $this->export_add_names($richsubmission);
+        $recordtoexport += $placeholders;
+        $recordtoexport += $this->export_add_dates($richsubmission);
+
+        return $recordtoexport;
+    }
+
+    /**
+     * Create a new record to export
+     *
+     * @param array $richsubmission
+     * @param object $worksheet
+     * @return void
+     */
+    public function export_fill_newrecord($richsubmission, &$recordtoexport) {
+        if ($this->formdata->outputstyle == SURVEYPRO_VERBOSE) {
+            $recordtoexport[$richsubmission->itemid] = $this->decode_content($richsubmission);
+        } else {
+            $recordtoexport[$richsubmission->itemid] = $richsubmission->content;
+
+            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$richsubmission->plugin.'_field';
+            if ($classname::item_needs_contentformat()) {
+                $recordtoexport[$richsubmission->itemid.'@@_FORMAT_@@'] = $richsubmission->contentformat;
+            }
+        }
+    }
+
+    /**
      * Write to xls file the passed record.
      *
+     * @param int $row
      * @param array $recordtoexport
      * @param object $worksheet
      * @return void
      */
-    public function export_close_record($recordtoexport, $worksheet) {
-        static $row = 0;
-
-        $row++;
+    public function export_write_xlsrecord($row, $recordtoexport, &$worksheet) {
         $col = 0;
         foreach ($recordtoexport as $value) {
-            $worksheet[0]->write($row, $col, $value, '');
+            if ($value == SURVEYPRO_EXPNULLVALUE) {
+                $worksheet[0]->write_string($row, $col, $value);
+            } else {
+                $worksheet[0]->write($row, $col, $value, '');
+            }
             $col++;
         }
     }
@@ -588,11 +594,11 @@ class mod_surveypro_view_export {
             $tempsubdir = '/mod_surveypro/attachmentsexport/'.$packagename;
             $tempbasedir = $CFG->tempdir.$tempsubdir;
 
-            $oldsubmissionid = 0;
+            $currentsubmissionid = 0;
             $olduserid = 0;
             foreach ($richsubmissions as $richsubmission) {
                 // Itemid always changes so, I look at submissionid.
-                if ($oldsubmissionid != $richsubmission->submissionid) {
+                if ($currentsubmissionid != $richsubmission->submissionid) {
                     // New submissionid.
                     if ($olduserid != $richsubmission->userid) {
                         // New user.
@@ -618,7 +624,7 @@ class mod_surveypro_view_export {
                     make_temp_directory($temppath);
                     $dirnames[] = $temppath;
 
-                    $oldsubmissionid = $richsubmission->submissionid;
+                    $currentsubmissionid = $richsubmission->submissionid;
                 }
 
                 // Add a new folder named $itemid.

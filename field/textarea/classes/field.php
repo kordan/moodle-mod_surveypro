@@ -290,6 +290,15 @@ class surveyprofield_textarea_field extends mod_surveypro_itembase {
     }
 
     /**
+     * Returns if the field plugin needs contentformat
+     *
+     * @return bool
+     */
+    public static function item_needs_contentformat() {
+        return true;
+    }
+
+    /**
      * Return the xml schema for surveypro_<<plugin>> table.
      *
      * @return string $schema

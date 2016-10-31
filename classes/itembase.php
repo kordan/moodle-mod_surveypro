@@ -965,6 +965,15 @@ class mod_surveypro_itembase {
         return false;
     }
 
+    /**
+     * Returns if the field plugin needs contentformat
+     *
+     * @return bool
+     */
+    public static function item_needs_contentformat() {
+        return false;
+    }
+
     // MARK response.
 
     /**
