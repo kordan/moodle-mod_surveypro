@@ -217,7 +217,7 @@ class mod_surveypro_formbase {
     /**
      * Get submissionid.
      *
-     * @return the content of the $submissionid property
+     * @return the content of $submissionid property
      */
     public function get_submissionid() {
         return $this->submissionid;
@@ -226,7 +226,7 @@ class mod_surveypro_formbase {
     /**
      * Get submissionid.
      *
-     * @return the content of the $formpage property
+     * @return the content of $formpage property
      */
     public function get_formpage() {
         return $this->formpage;
@@ -235,7 +235,7 @@ class mod_surveypro_formbase {
     /**
      * Get max assigned page.
      *
-     * @return the content of the $maxassignedpage property
+     * @return the content of $maxassignedpage property
      */
     public function get_maxassignedpage() {
         return $this->maxassignedpage;

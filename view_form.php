@@ -114,9 +114,16 @@ if ($userformman->formdata = $outform->get_data()) {
         // I need to delete all the answer that were (maybe) written during a previous walk along the surveypro.
         // Answers to each item in a page between ($this->formpage + 1) and ($this->nextpageright - 1) included, must be deleted.
         //
-        // Example: I am leaving page 3. On the basis of current input $userformman->nextpageright is 10.
-        // Maybe yesterday I had different data in $userformman->formpage = 3 and on that basis I was redirected to page 4.
-        // Now that data of $userformman->formpage = 3 redirects me to page 10, for sure answers to items in page 4 must be deleted.
+        // Let's suppose the following scenario.
+        // 1) User is filling a surveypro divided into 15 pages.
+        // 2) User fills all the fields of page 3 and push next to move to the next page.
+        // 3) On the basis of current input, $userformman->nextpageright is 4 so page 4 is displayed.
+        // 4) User fills all the fields of page 4 and push next to move to the next page.
+        // 5) On the basis of current input, $userformman->nextpageright is 5 so page 5 is displayed.
+        // 6) Once arrived in page 5 user returns back up to page 3.
+        // 7) User changes the answers in page 3 and push next to move to the next page.
+        // 8) On the basis of current input, $userformman->nextpageright is 10 so page 10 is displayed.
+        // 9) Now that the answers to items in page 3 move me to page 10, for sure answers to items in page 4 must be deleted.
         $userformman->drop_jumped_saved_data();
 
         $paramurl['formpage'] = $userformman->get_nextpageright();
