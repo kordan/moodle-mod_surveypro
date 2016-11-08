@@ -1180,7 +1180,20 @@ class mod_surveypro_itembase {
     /**
      * Get parent id.
      *
-     * @return the content of the $parentid property
+     * @return the content of $parentid property
+     */
+    public function get_usesoptionother() {
+        if (property_exists($this, 'labelother')) {
+            return !empty($this->labelother);
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Get parent id.
+     *
+     * @return the content of $parentid property
      */
     public function get_parentid() {
         return $this->parentid;

@@ -58,9 +58,9 @@ $importform = new mod_surveypro_importform($formurl);
 
 // Begin of: manage form submission.
 if ($importman->formdata = $importform->get_data()) {
-    $errormessage = $importman->import_csv();
-
-    if (empty($errormessage)) {
+    $err = $importman->validate_csvcontent();
+    if (empty($err)) {
+        $importman->import_csv();
         $redirecturl = new moodle_url('/mod/surveypro/view.php', array('s' => $surveypro->id));
         redirect($redirecturl);
     }
@@ -78,11 +78,11 @@ echo $OUTPUT->header();
 
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_IMPORT);
 
-if (!empty($errormessage)) {
-    if (isset($errormessage->a)) {
-        $message = get_string($errormessage->key, 'mod_surveypro', $errormessage->a);
+if (!empty($err)) {
+    if (isset($err->a)) {
+        $message = get_string($err->key, 'mod_surveypro', $err->a);
     } else {
-        $message = get_string($errormessage->key, 'mod_surveypro');
+        $message = get_string($err->key, 'mod_surveypro');
     }
     echo $OUTPUT->notification($message, 'notifyproblem');
 

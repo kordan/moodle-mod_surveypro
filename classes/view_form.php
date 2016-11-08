@@ -1055,7 +1055,6 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
 
         $disposelist = array();
         $olditemid = 0;
-
         foreach ($elementnames as $elementname) {
             if (!$matches = mod_surveypro_utility::get_item_parts($elementname)) {
                 continue;
