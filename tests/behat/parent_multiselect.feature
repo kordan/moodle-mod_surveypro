@@ -34,7 +34,7 @@ Feature: test the use of multiselect as parent item
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content        | Write down your name?                                        |
+      | Content        | Write down your name                                         |
       | Parent element | Multiple selection [1]: What do you usually get for break... |
       | Parent content | milk                                                         |
     And I press "Add"
@@ -55,7 +55,7 @@ Feature: test the use of multiselect as parent item
     Then the field "id_surveypro_field_multiselect_1_noanswer" matches value "0"
     And I set the field "id_surveypro_field_multiselect_1" to "milk"
     And I press "Next page >>"
-    Then I should see "Write down your name?"
+    Then I should see "Write down your name"
 
     And I press "<< Previous page"
     Then the field "id_surveypro_field_multiselect_1" matches value "milk"
@@ -176,7 +176,7 @@ Feature: test the use of multiselect as parent item
     Then the field "id_surveypro_field_multiselect_1_noanswer" matches value "0"
     And I set the field "id_surveypro_field_multiselect_1" to "milk, chocolate"
     And I press "Next page >>"
-    Then I should see "Write down your name?"
+    Then I should see "Write down your name"
 
     And I press "<< Previous page"
     Then the field "id_surveypro_field_multiselect_1" matches value "milk, chocolate"
@@ -214,31 +214,31 @@ Feature: test the use of multiselect as parent item
     And I follow "Test multiselect as parent"
 
     And I press "New response"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and contains(@disabled, 'disabled')]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be disabled
 
     And I set the field "id_surveypro_field_multiselect_1" to "milk"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and contains(@disabled, 'disabled')]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be disabled
 
     And I set the field "id_surveypro_field_multiselect_1" to "sugar"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and contains(@disabled, 'disabled')]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be disabled
 
     And I set the field "id_surveypro_field_multiselect_1" to "jam"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and contains(@disabled, 'disabled')]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be disabled
 
     And I set the field "id_surveypro_field_multiselect_1" to "milk, sugar"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and contains(@disabled, 'disabled')]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be disabled
 
     And I set the field "id_surveypro_field_multiselect_1" to "milk, jam"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and contains(@disabled, 'disabled')]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be disabled
 
     And I set the field "id_surveypro_field_multiselect_1" to "milk, chocolate"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and not(contains(@disabled, 'disabled'))]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be enabled
 
     And I set the field "id_surveypro_field_multiselect_1" to "milk, sugar, jam"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and contains(@disabled, 'disabled')]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be disabled
 
     And I set the field "id_surveypro_field_multiselect_1_noanswer" to "1"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and contains(@disabled, 'disabled')]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be disabled
 
     And I log out
 
@@ -259,25 +259,25 @@ Feature: test the use of multiselect as parent item
     And I follow "Test multiselect as parent"
 
     And I press "New response"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and contains(@disabled, 'disabled')]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be disabled
 
     And I set the field "id_surveypro_field_multiselect_1" to "milk"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and not(contains(@disabled, 'disabled'))]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be enabled
 
     And I set the field "id_surveypro_field_multiselect_1" to "sugar"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and contains(@disabled, 'disabled')]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be disabled
 
     And I set the field "id_surveypro_field_multiselect_1" to "jam"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and contains(@disabled, 'disabled')]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be disabled
 
     And I set the field "id_surveypro_field_multiselect_1" to "milk, sugar"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and contains(@disabled, 'disabled')]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be disabled
 
     And I set the field "id_surveypro_field_multiselect_1" to "milk, jam"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and contains(@disabled, 'disabled')]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be disabled
 
-   And I set the field "id_surveypro_field_multiselect_1" to "milk, sugar, jam"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and contains(@disabled, 'disabled')]" "xpath_element" should exist
+    And I set the field "id_surveypro_field_multiselect_1" to "milk, sugar, jam"
+    Then the "Write down your name" "field" should be disabled
 
     And I set the field "id_surveypro_field_multiselect_1_noanswer" to "1"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and contains(@disabled, 'disabled')]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be disabled

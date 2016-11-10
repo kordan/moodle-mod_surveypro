@@ -34,7 +34,7 @@ Feature: test the use of boolean as parent item
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content        | Write down your name?      |
+      | Content        | Write down your name       |
       | Parent element | Boolean [1]: Is this true? |
       | Parent content | 1                          |
     And I press "Add"
@@ -52,7 +52,7 @@ Feature: test the use of boolean as parent item
 
     And I set the field "Is this true?" to "Yes"
     And I press "Next page >>"
-    Then I should see "Write down your name?"
+    Then I should see "Write down your name"
 
     And I press "<< Previous page"
     Then the field "Is this true?" matches value "Yes"
@@ -99,7 +99,7 @@ Feature: test the use of boolean as parent item
     Then the field "Is this true?" matches value "Yes"
     And I set the field "Is this true?" to "No"
     And I press "Next page >>"
-    Then I should see "Write down your name?"
+    Then I should see "Write down your name"
 
     And I press "<< Previous page"
     Then the field "Is this true?" matches value "No"
@@ -128,16 +128,16 @@ Feature: test the use of boolean as parent item
     And I follow "Test boolean as parent"
 
     And I press "New response"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and contains(@disabled, 'disabled')]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be disabled
 
     And I set the field "Is this true?" to "Yes"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and contains(@disabled, 'disabled')]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be disabled
 
     And I set the field "Is this true?" to "No"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and not(contains(@disabled, 'disabled'))]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be enabled
 
     And I set the field "Is this true?" to "No answer"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and contains(@disabled, 'disabled')]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be disabled
 
     And I log out
 
@@ -158,13 +158,13 @@ Feature: test the use of boolean as parent item
     And I follow "Test boolean as parent"
 
     And I press "New response"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and contains(@disabled, 'disabled')]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be disabled
 
     And I set the field "Is this true?" to "Yes"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and not(contains(@disabled, 'disabled'))]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be enabled
 
     And I set the field "Is this true?" to "No"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and contains(@disabled, 'disabled')]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be disabled
 
     And I set the field "Is this true?" to "No answer"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and contains(@disabled, 'disabled')]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be disabled
