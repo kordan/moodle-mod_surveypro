@@ -34,7 +34,7 @@ Feature: test the use of radiobutton as parent item
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content        | Write down your name?                                        |
+      | Content        | Write down your name                                         |
       | Parent element | Radio button [1]: Where do you usually spend your summer ... |
       | Parent content | mountain                                                     |
     And I press "Add"
@@ -58,7 +58,7 @@ Feature: test the use of radiobutton as parent item
     Then the field "id_surveypro_field_radiobutton_1_0" matches value "1"
     And I set the field "id_surveypro_field_radiobutton_1_1" to "1"
     And I press "Next page >>"
-    Then I should see "Write down your name?"
+    Then I should see "Write down your name"
 
     And I press "<< Previous page"
     Then the field "id_surveypro_field_radiobutton_1_1" matches value "1"
@@ -99,7 +99,7 @@ Feature: test the use of radiobutton as parent item
 
     And I set the field "id_surveypro_field_radiobutton_1_0" to "1"
     And I press "Next page >>"
-    Then I should see "Write down your name?"
+    Then I should see "Write down your name"
 
     And I press "<< Previous page"
     Then the field "id_surveypro_field_radiobutton_1_0" matches value "1"
@@ -140,19 +140,19 @@ Feature: test the use of radiobutton as parent item
     And I follow "Test radiobutton as parent"
 
     And I press "New response"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and contains(@disabled, 'disabled')]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be disabled
 
     And I set the field "id_surveypro_field_radiobutton_1_0" to "1"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and not(contains(@disabled, 'disabled'))]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be enabled
 
     And I set the field "id_surveypro_field_radiobutton_1_1" to "1"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and contains(@disabled, 'disabled')]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be disabled
 
     And I set the field "id_surveypro_field_radiobutton_1_2" to "1"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and contains(@disabled, 'disabled')]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be disabled
 
     And I set the field "id_surveypro_field_radiobutton_1_noanswer" to "1"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and contains(@disabled, 'disabled')]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be disabled
 
     And I log out
 
@@ -173,16 +173,16 @@ Feature: test the use of radiobutton as parent item
     And I follow "Test radiobutton as parent"
 
     And I press "New response"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and contains(@disabled, 'disabled')]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be disabled
 
     And I set the field "id_surveypro_field_radiobutton_1_0" to "1"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and contains(@disabled, 'disabled')]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be disabled
 
     And I set the field "id_surveypro_field_radiobutton_1_1" to "1"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and not(contains(@disabled, 'disabled'))]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be enabled
 
     And I set the field "id_surveypro_field_radiobutton_1_2" to "1"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and contains(@disabled, 'disabled')]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be disabled
 
     And I set the field "id_surveypro_field_radiobutton_1_noanswer" to "1"
-    Then "//input[contains(@id, 'id_surveypro_field_character_2') and contains(@disabled, 'disabled')]" "xpath_element" should exist
+    Then the "Write down your name" "field" should be disabled
