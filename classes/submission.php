@@ -411,7 +411,8 @@ class mod_surveypro_submission {
         $submissions = $DB->get_recordset_sql($sql, $whereparams);
         if ($submissions->valid()) {
 
-            $iconparams = array('class' => 'iconsmall');
+            $iconparams = array();
+            $iconparams['class'] = 'iconsmall';
 
             $nonhistoryeditstr = get_string('edit');
             $iconparams['title'] = $nonhistoryeditstr;

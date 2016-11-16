@@ -10,23 +10,13 @@
 }
 /* End of: to eliminate display problems of firefox for mac */
 
-/* Begin of: colours alternation for #layout_preview, #view_form, #view_search forms and read-only table*/
-#page-mod-surveypro-layout_preview fieldset div.fitem:nth-of-type(even),
-#page-mod-surveypro-view_form fieldset div.fitem:nth-of-type(even),
-#page-mod-surveypro-view_search fieldset div.fitem:nth-of-type(even) {
+/* Begin of: colours alternation for #layout_preview, #view_form, #view_search forms and read-only table */
+#page-mod-surveypro-layout_preview div.fitem:nth-of-type(even),
+#page-mod-surveypro-view_form div.fitem:nth-of-type(even),
+#page-mod-surveypro-view_search div.fitem:nth-of-type(even) {
     background-color:#EDEDED;
 }
-/* End of: colours alternation for #userentry, #usersearch forms and read-only table*/
-
-/* Begin of: hacky coluorunifier html element */
-#page-mod-surveypro-layout_preview fieldset div.colorunifier,
-#page-mod-surveypro-view_form .mform fieldset div.colorunifier,
-#page-mod-surveypro-view_search .mform fieldset div.colorunifier {
-    line-height:0;
-    margin-bottom:0;
-    padding:0;
-}
-/* End of: hacky coluorunifier html element */
+/* End of: colours alternation for #layout_preview, #view_form, #view_search forms and read-only table */
 
 /* Begin of: connect fullwidth question and graphic user items */
 #page-mod-surveypro-view_form .mform fieldset.hidden,
@@ -84,105 +74,71 @@
     width:100%;
 }
 
-#page-mod-surveypro-layout_items table#manageitems .plugin,
-#page-mod-surveypro-layout_items table#sortitems .plugin,
-#page-mod-surveypro-layout_validation table#validaterelations .plugin {
+div.colorunifier {
+    display:none;
+}
+
+tr.header {
+    text-align:center;
+}
+
+tr.dimmed {
+    opacity:0.5;
+}
+
+td.plugin {
     padding:0.5em;
     text-align:center;
 }
 
-#page-mod-surveypro-layout_items table#sortitems .plugin {
-    width:90px;
-}
-
-#page-mod-surveypro-layout_items table#manageitems .hide {
-    display: none;
-}
-
-#page-mod-surveypro-layout_items table#manageitems .sortindex,
-#page-mod-surveypro-layout_items table#sortitems .sortindex,
-#page-mod-surveypro-layout_validation table#validaterelations .sortindex {
-    min-width:2.5em;
+td.sortindex {
     padding:0.5em;
+    min-width:2.5em;
     text-align:right;
 }
 
-#page-mod-surveypro-layout_items table#manageitems .parentitem,
-#page-mod-surveypro-layout_items table#sortitems .parentitem,
-#page-mod-surveypro-layout_validation table#validaterelations .parentitem {
+td.parentitem {
     padding:0.5em;
     text-align:left;
     white-space:nowrap;
 }
 
-#page-mod-surveypro-layout_items table#manageitems .availability,
-#page-mod-surveypro-layout_items table#sortitems .availability {
+td.parentitem > .icon {
+    margin:0px 0.5rem;
+}
+
+td.customnumber {
+    padding:0.5em;
+    white-space:nowrap;
+}
+
+td.formpage {
     padding:0.5em;
     text-align:center;
     white-space:nowrap;
 }
 
-#page-mod-surveypro-layout_items table#manageitems .formpage,
-#page-mod-surveypro-layout_items table#sortitems .formpage {
+td.content {
     padding:0.5em;
+}
+
+td.availability {
     text-align:center;
     white-space:nowrap;
 }
 
-#page-mod-surveypro-layout_items table#manageitems .parentitem .iconsmall,
-#page-mod-surveypro-layout_items table#manageitems .availability .iconsmall,
-#page-mod-surveypro-layout_items table#manageitems .parentitem .iconsmall,
-#page-mod-surveypro-layout_items table#sortitems .availability .iconsmall,
-#page-mod-surveypro-layout_validation table#validaterelations .parentitem .iconsmall {
-    margin: 0;
-    vertical-align: middle;
-}
-
-#page-mod-surveypro-layout_items table#manageitems .content,
-#page-mod-surveypro-layout_items table#sortitems .content,
-#page-mod-surveypro-layout_validation table#validaterelations .content {
-    padding:0.5em;
-}
-
-#page-mod-surveypro-layout_items table#manageitems .customnumber,
-#page-mod-surveypro-layout_items table#sortitems .customnumber {
-    padding:0.5em;
+td.actions {
     white-space:nowrap;
 }
 
-#page-mod-surveypro-layout_items table#manageitems .actions,
-#page-mod-surveypro-layout_items table#sortitems .actions,
-#page-mod-surveypro-layout_validation table#validaterelations .actions,
-#page-mod-surveypro-view table#submissions .actions,
-#page-mod-surveypro-utemplate_manage table#managetemplates .actions {
-    padding:0.5em;
-    white-space:nowrap;
-}
-
-#page-mod-surveypro-layout_items table#manageitems .actions img.icon,
-#page-mod-surveypro-layout_items table#sortitems .actions img.icon {
-    height: 16px;
-    margin-left: 0.45em;
-    padding-right:0;
-    vertical-align: middle;
-    width: 16px;
+td.actions .indentarrow {
+    margin:0px;
 }
 
 #page-mod-surveypro-layout_items table#manageitems img.movetarget,
 #page-mod-surveypro-layout_items table#sortitems img.movetarget {
     height:16px;
     width:80px;
-}
-
-#page-mod-surveypro-layout_items table#manageitems .header,
-#page-mod-surveypro-layout_items table#sortitems .header {
-    text-align:center;
-}
-
-#page-mod-surveypro-layout_items table#manageitems .dimmed,
-#page-mod-surveypro-layout_items table#sortitems .dimmed,
-#page-mod-surveypro-layout_validation table#validaterelations .dimmed {
-    color:#CDCDCD;
 }
 
 #page-mod-surveypro-layout_validation table#validaterelations .parentconstraints {
