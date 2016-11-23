@@ -1271,10 +1271,10 @@ class mod_surveypro_itembase {
      * @return the content of $indent property whether defined
      */
     public function get_indent() {
-        if (isset($this->indent)) {
+        if (property_exists($this, 'indent')) { // It may not exist as in page_break, fieldset and some more.
             return $this->indent;
         } else {
-            return 0;
+            return false;
         }
     }
 
