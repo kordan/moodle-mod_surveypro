@@ -502,9 +502,9 @@ EOS;
         // End of: element values.
 
         $attributes = array();
-        $attributes['id'] = $idprefix;
-        $attributes['class'] = 'indent-'.$this->indent.' select_select';
         if (!$this->labelother) {
+            $attributes['id'] = $idprefix;
+            $attributes['class'] = 'indent-'.$this->indent.' select_select';
             $mform->addElement('mod_surveypro_select', $this->itemname, $elementlabel, $labels, $attributes);
         } else {
             $elementgroup = array();
@@ -531,9 +531,7 @@ EOS;
                 }
                 $mform->_required[] = $starplace;
             }
-        }
 
-        if (!$searchform) {
             switch ($this->defaultoption) {
                 case SURVEYPRO_CUSTOMDEFAULT:
                     if ($key = array_search($this->defaultvalue, $labels)) {
