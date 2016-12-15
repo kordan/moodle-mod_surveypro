@@ -51,7 +51,7 @@ $showjumper = $reportman->is_groupjumper_needed();
 if ($showjumper) {
     $canaccessallgroups = has_capability('moodle/site:accessallgroups', $context);
 
-    $jumpercontent = $reportman->get_groupjumper_content();
+    $jumpercontent = $reportman->get_groupjumper_items();
 
     $paramurl = array('id' => $cm->id);
     $formurl = new moodle_url('/mod/surveypro/report/userspercount/view.php', $paramurl);

@@ -58,7 +58,7 @@ $formparams->surveypro = $surveypro;
 $formparams->showjumper = $showjumper;
 if ($showjumper) {
     $canaccessallgroups = has_capability('moodle/site:accessallgroups', $context);
-    $jumpercontent = $reportman->get_groupjumper_content();
+    $jumpercontent = $reportman->get_groupjumper_items();
 
     $formparams->canaccessallgroups = $canaccessallgroups;
     $formparams->addnotinanygroup = $reportman->add_notinanygroup();

@@ -208,7 +208,7 @@ class mod_surveypro_reportbase {
      *
      * @return array of expected groups
      */
-    public function get_groupjumper_content() {
+    public function get_groupjumper_items() {
         global $COURSE, $USER;
 
         $canaccessallgroups = has_capability('moodle/site:accessallgroups', $this->context);

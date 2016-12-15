@@ -323,7 +323,7 @@ class mod_surveypro_view_export {
                 $recordtoexport = $this->export_begin_newrecord($richsubmission, $placeholders);
             }
 
-            $this->export_current_newrecord($richsubmission, $recordtoexport);
+            $this->export_populate_currentrecord($richsubmission, $recordtoexport);
         }
         $richsubmissions->close();
 
@@ -374,7 +374,7 @@ class mod_surveypro_view_export {
                 $recordtoexport = $this->export_begin_newrecord($richsubmission, $placeholders);
             }
 
-            $this->export_current_newrecord($richsubmission, $recordtoexport);
+            $this->export_populate_currentrecord($richsubmission, $recordtoexport);
         }
         $richsubmissions->close();
 
@@ -514,7 +514,7 @@ class mod_surveypro_view_export {
      * @param object $recordtoexport
      * @return void
      */
-    public function export_current_newrecord($richsubmission, &$recordtoexport) {
+    public function export_populate_currentrecord($richsubmission, &$recordtoexport) {
         if ($this->formdata->outputstyle == SURVEYPRO_VERBOSE) {
             $recordtoexport[$richsubmission->itemid] = $this->decode_content($richsubmission);
         } else {
