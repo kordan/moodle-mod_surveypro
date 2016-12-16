@@ -176,7 +176,7 @@ class surveyproreport_frequency_report extends mod_surveypro_reportbase {
         global $COURSE, $DB;
 
         $whereparams = array();
-        $sql = 'SELECT a.*, count(a.id) as absolute, s.id, s.userid
+        $sql = 'SELECT '.$DB->sql_compare_text('a.content', 255).', MIN(a.id) as id, COUNT(a.id) as absolute
                 FROM {user} u
                     JOIN {surveypro_submission} s ON s.userid = u.id
                     JOIN {surveypro_answer} a ON a.submissionid = s.id';
@@ -187,13 +187,13 @@ class surveyproreport_frequency_report extends mod_surveypro_reportbase {
         $sql .= ' AND a.itemid = :itemid';
         $whereparams['itemid'] = $itemid;
 
-        $sql .= ' GROUP BY a.content';
+        $sql .= ' GROUP BY '.$DB->sql_compare_text('a.content', 255);
 
         // The query for the graph doesn't make use of $this->outputtable.
         if (isset($this->outputtable) && $this->outputtable->get_sql_sort()) {
             $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort();
         } else {
-            $sql .= ' ORDER BY a.content';
+            $sql .= ' ORDER BY '.$DB->sql_compare_text('a.content', 255);
         }
 
         return array($sql, $whereparams);
