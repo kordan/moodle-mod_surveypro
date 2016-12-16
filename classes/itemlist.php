@@ -556,23 +556,23 @@ class mod_surveypro_itemlist {
                 }
 
                 // SURVEYPRO_CHANGEINDENT.
-                $currentindent = $item->get_indent();
-                if ($currentindent !== false) { // It may not be set as in page_break, autofill and some more.
+                if ($item->get_insetupform('indent')) { // It may not be set as in page_break, fieldset and some more.
+                    $currentindent = $item->get_indent();
                     $paramurl = $paramurlbase;
                     $paramurl['act'] = SURVEYPRO_CHANGEINDENT;
                     $paramurl['sesskey'] = sesskey();
 
-                    if ($item->get_indent() > 0) {
-                        $indentvalue = $item->get_indent() - 1;
+                    if ($currentindent > 0) {
+                        $indentvalue = $currentindent - 1;
                         $paramurl['ind'] = $indentvalue;
 
                         $link = new moodle_url('/mod/surveypro/layout_items.php#sortindex_'.$sortindex, $paramurl);
                         $paramlink = array('id' => 'reduceindent_item_'.$item->get_sortindex(), 'title' => $indentstr);
                         $icons .= $OUTPUT->action_icon($link, $lefticn, null, $paramlink);
                     }
-                    $icons .= '&nbsp;['.$item->get_indent().']';
-                    if ($item->get_indent() < 9) {
-                        $indentvalue = $item->get_indent() + 1;
+                    $icons .= '&nbsp;['.$currentindent.']';
+                    if ($currentindent < 9) {
+                        $indentvalue = $currentindent + 1;
                         $paramurl['ind'] = $indentvalue;
 
                         $link = new moodle_url('/mod/surveypro/layout_items.php#sortindex_'.$sortindex, $paramurl);
