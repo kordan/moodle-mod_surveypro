@@ -205,6 +205,7 @@ class mod_surveypro_submission {
 
         $sql = 'SELECT COUNT(eu.id)
                 FROM ('.$enrolsql.') eu';
+        // If there are no enrolled people, give up!
         if (!$DB->count_records_sql($sql, $eparams)) {
             if (!$canviewhiddenactivities) {
                 return array($emptysql, array('userid' => -1));
@@ -223,39 +224,58 @@ class mod_surveypro_submission {
         }
 
         $whereparams = array();
-        $whereparams['surveyproid'] = $this->surveypro->id;
 
-        // DISTINCT is needed when a user belongs to more than a single group.
-        $sql = 'SELECT DISTINCT s.id as submissionid, s.surveyproid, s.status, s.userid, s.timecreated, s.timemodified, ';
-        if ($this->searchquery) {
-            $sql .= 'COUNT(a.submissionid) as matchcount, ';
-        }
+        $sql = 'SELECT s.id as submissionid, s.surveyproid, s.status, s.userid, s.timecreated, s.timemodified, ';
         $sql .= user_picture::fields('u');
-        $sql .= ' FROM {surveypro_submission} s';
-        $sql .= ' JOIN {user} u ON u.id = s.userid';
+        $sql .= ' FROM {surveypro_submission} s
+                  JOIN {user} u ON u.id = s.userid';
 
         if (!$canviewhiddenactivities) {
             $sql .= ' JOIN ('.$enrolsql.') eu ON eu.id = u.id';
         }
+
         if ($this->searchquery) {
-            $sql .= ' JOIN {surveypro_answer} a ON a.submissionid = s.id';
+            // This will be re-send to URL for next page reload, whether requested with a sort, for instance.
+            $whereparams['searchquery'] = $this->searchquery;
+
+            $searchrestrictions = unserialize($this->searchquery);
+
+            $sqlanswer = 'SELECT a.submissionid, COUNT(a.submissionid) as matchcount
+              FROM {surveypro_answer} a';
+
+            // (a.itemid = 7720 AND a.content = 0) OR (a.itemid = 7722 AND a.content = 1))
+            // (a.itemid = 1219 AND $DB->sql_like('a.content', ':content_1219', false));
+            $userquery = array();
+            foreach ($searchrestrictions as $itemid => $searchrestriction) {
+                $itemseed = $DB->get_record('surveypro_item', array('id' => $itemid), 'type, plugin', MUST_EXIST);
+                $classname = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin.'_'.$itemseed->type;
+                // Ask to the item class how to write the query
+                list($whereclause, $whereparam) = $classname::response_get_whereclause($itemid, $searchrestriction);
+                $userquery[] = '(a.itemid = '.$itemid.' AND '.$whereclause.')';
+                $whereparams['content_'.$itemid] = $whereparam;
+            }
+            $sqlanswer .= ' WHERE ('.implode(' OR ', $userquery).')';
+
+            $sqlanswer .= ' GROUP BY a.submissionid';
+            $sqlanswer .= ' HAVING matchcount = :matchcount';
+            $whereparams['matchcount'] = count($userquery);
+
+            // Finally, continue writing $sql.
+            $sql .= ' JOIN ('.$sqlanswer.') a ON a.submissionid = s.id';
         }
 
         if (($groupmode == SEPARATEGROUPS) && (!$canaccessallgroups)) {
             $sql .= ' JOIN {groups_members} gm ON gm.userid = s.userid';
         }
 
+        $sql .= ' WHERE s.surveyproid = :surveyproid';
+        $whereparams['surveyproid'] = $this->surveypro->id;
+
         if (!$canseeotherssubmissions) {
             // Restrict to your submissions only.
+            $sql .= ' AND s.userid = :userid';
             $whereparams['userid'] = $USER->id;
         }
-
-        // Now finalise $sql.
-        $conditions = array();
-        foreach ($whereparams as $k => $v) {
-            $conditions[] = $k.' = :'.$k;
-        }
-        $sql .= ' WHERE '.implode(' AND ', $conditions);
 
         // Manage table alphabetical filter.
         list($wherefilter, $wherefilterparams) = $table->get_sql_where();
@@ -269,30 +289,6 @@ class mod_surveypro_submission {
             list($insql, $subparams) = $DB->get_in_or_equal($mygroups, SQL_PARAMS_NAMED, 'groupid');
             $whereparams = array_merge($whereparams, $subparams);
             $sql .= ' AND gm.groupid '.$insql;
-        }
-
-        // Manage user search query.
-        if ($this->searchquery) {
-            // This will be re-send to URL for next page reload, whether requested with a sort, for instance.
-            $whereparams['searchquery'] = $this->searchquery;
-
-            $searchrestrictions = unserialize($this->searchquery);
-
-            // (a.itemid = 7720 AND a.content = 0) OR (a.itemid = 7722 AND a.content = 1))
-            // (a.itemid = 1219 AND $DB->sql_like('a.content', ':content_1219', false));
-            $userquery = array();
-            foreach ($searchrestrictions as $itemid => $searchrestriction) {
-                $itemseed = $DB->get_record('surveypro_item', array('id' => $itemid), 'type, plugin', MUST_EXIST);
-                $classname = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin.'_'.$itemseed->type;
-                // Ask to the item class how to write the query
-                list($whereclause, $whereparam) = $classname::response_get_whereclause($itemid, $searchrestriction);
-                $userquery[] = '(a.itemid = '.$itemid.' AND '.$whereclause.')';
-                $whereparams['content_'.$itemid] = $whereparam;
-            }
-            $sql .= ' AND ('.implode(' OR ', $userquery).')';
-            $sql .= ' GROUP BY s.id';
-            $sql .= ' HAVING matchcount = :matchcount';
-            $whereparams['matchcount'] = count($userquery);
         }
 
         if ($table->get_sql_sort()) {
