@@ -306,6 +306,145 @@ class mod_surveypro_submission {
     }
 
     /**
+     * Get counters.
+     *
+     * @return array of cunters
+     */
+    public function get_counter($table) {
+        global $DB, $COURSE, $USER;
+
+        $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $this->context);
+        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
+        $canaccessallgroups = has_capability('moodle/site:accessallgroups', $this->context);
+
+        $emptysql = 'SELECT DISTINCT s.*, s.id as submissionid, '.user_picture::fields('u').'
+                     FROM {surveypro_submission} s
+                         JOIN {user} u ON u.id = s.userid
+                     WHERE u.id = :userid';
+
+        $coursecontext = context_course::instance($COURSE->id);
+        list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);
+
+        $sql = 'SELECT COUNT(eu.id)
+                FROM ('.$enrolsql.') eu';
+        // If there are no enrolled people, give up!
+        if (!$DB->count_records_sql($sql, $eparams)) {
+            if (!$canviewhiddenactivities) {
+                return 0;
+            }
+        }
+
+        $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
+        if (($groupmode == SEPARATEGROUPS) && (!$canaccessallgroups)) {
+            $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $this->cm->groupingid);
+            $mygroups = array_keys($mygroups);
+            if (!count($mygroups)) { // User is not in any group.
+                // This is a student that has not been added to any group.
+                // The sql needs to return an empty set.
+                return 0;
+            }
+        }
+
+        $whereparams = array();
+
+        $sql = 'SELECT s.status, COUNT(s.id) submissions, COUNT(DISTINCT(u.id)) users';
+        $sql .= ' FROM {surveypro_submission} s
+                  JOIN {user} u ON u.id = s.userid';
+
+        if (!$canviewhiddenactivities) {
+            $sql .= ' JOIN ('.$enrolsql.') eu ON eu.id = u.id';
+        }
+
+        if ($this->searchquery) {
+            // This will be re-send to URL for next page reload, whether requested with a sort, for instance.
+            $whereparams['searchquery'] = $this->searchquery;
+
+            $searchrestrictions = unserialize($this->searchquery);
+
+            $sqlanswer = 'SELECT a.submissionid, COUNT(a.submissionid) as matchcount
+              FROM {surveypro_answer} a';
+
+            // (a.itemid = 7720 AND a.content = 0) OR (a.itemid = 7722 AND a.content = 1))
+            // (a.itemid = 1219 AND $DB->sql_like('a.content', ':content_1219', false));
+            $userquery = array();
+            foreach ($searchrestrictions as $itemid => $searchrestriction) {
+                $itemseed = $DB->get_record('surveypro_item', array('id' => $itemid), 'type, plugin', MUST_EXIST);
+                $classname = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin.'_'.$itemseed->type;
+                // Ask to the item class how to write the query
+                list($whereclause, $whereparam) = $classname::response_get_whereclause($itemid, $searchrestriction);
+                $userquery[] = '(a.itemid = '.$itemid.' AND '.$whereclause.')';
+                $whereparams['content_'.$itemid] = $whereparam;
+            }
+            $sqlanswer .= ' WHERE ('.implode(' OR ', $userquery).')';
+
+            $sqlanswer .= ' GROUP BY a.submissionid';
+            $sqlanswer .= ' HAVING matchcount = :matchcount';
+            $whereparams['matchcount'] = count($userquery);
+
+            // Finally, continue writing $sql.
+            $sql .= ' JOIN ('.$sqlanswer.') a ON a.submissionid = s.id';
+        }
+
+        if (($groupmode == SEPARATEGROUPS) && (!$canaccessallgroups)) {
+            $sql .= ' JOIN {groups_members} gm ON gm.userid = s.userid';
+        }
+
+        $sql .= ' WHERE s.surveyproid = :surveyproid';
+        $whereparams['surveyproid'] = $this->surveypro->id;
+
+        if (!$canseeotherssubmissions) {
+            // Restrict to your submissions only.
+            $sql .= ' AND s.userid = :userid';
+            $whereparams['userid'] = $USER->id;
+        }
+
+        // Manage table alphabetical filter.
+        list($wherefilter, $wherefilterparams) = $table->get_sql_where();
+        if ($wherefilter) {
+            $sql .= ' AND '.$wherefilter;
+            $whereparams = $whereparams + $wherefilterparams;
+        }
+
+        if (($groupmode == SEPARATEGROUPS) && (!$canaccessallgroups)) {
+            // Restrict to your groups only.
+            list($insql, $subparams) = $DB->get_in_or_equal($mygroups, SQL_PARAMS_NAMED, 'groupid');
+            $whereparams = array_merge($whereparams, $subparams);
+            $sql .= ' AND gm.groupid '.$insql;
+        }
+
+        $sql .= ' GROUP BY s.status';
+
+        if (!$canviewhiddenactivities) {
+            $whereparams = array_merge($whereparams, $eparams);
+        }
+
+        $counters = $DB->get_records_sql($sql, $whereparams);
+
+        $counter = array();
+        if (isset($counters[SURVEYPRO_STATUSINPROGRESS])) {
+            $counter['inprogresssubmissions'] = $counters[SURVEYPRO_STATUSINPROGRESS]->submissions;
+            $counter['inprogressusers'] = $counters[SURVEYPRO_STATUSINPROGRESS]->users;
+        } else {
+            $counter['inprogresssubmissions'] = 0;
+            $counter['inprogressusers'] = 0;
+        }
+        if (isset($counters[SURVEYPRO_STATUSCLOSED])) {
+            $counter['closedsubmissions'] = $counters[SURVEYPRO_STATUSCLOSED]->submissions;
+            $counter['closedusers'] = $counters[SURVEYPRO_STATUSCLOSED]->users;
+        } else {
+            $counter['closedsubmissions'] = 0;
+            $counter['closedusers'] = 0;
+        }
+
+        $sql = str_replace('s.status, COUNT(s.id) submissions, ', '', $sql);
+        $sql = str_replace(' GROUP BY s.status', '', $sql);
+        $counters = $DB->get_record_sql($sql, $whereparams);
+        $counter['allusers'] = $counters->users;
+
+        return $counter;
+    }
+
+    /**
      * Display the submissions table.
      *
      * @return void
@@ -397,14 +536,16 @@ class mod_surveypro_submission {
 
         $neverstr = get_string('never');
 
-        // Initialize variables to gather information for the "Submission overview".
-        $countclosed = 0;
-        $closeduserarray = array();
-        $countinprogress = 0;
-        $inprogressuserarray = array();
+        $counter = $this->get_counter($table);
+        $table->pagesize(20, $counter['closedsubmissions'] + $counter['inprogresssubmissions']);
+
+        $this->display_submissions_overview($counter['allusers'],
+                                            $counter['closedsubmissions'], $counter['closedusers'],
+                                            $counter['inprogresssubmissions'], $counter['inprogressusers']);
 
         list($sql, $whereparams) = $this->get_submissions_sql($table);
-        $submissions = $DB->get_recordset_sql($sql, $whereparams);
+
+        $submissions = $DB->get_recordset_sql($sql, $whereparams, $table->get_page_start(), $table->get_page_size());
         if ($submissions->valid()) {
 
             $iconparams = array('class' => 'iconsmall');
@@ -596,24 +737,9 @@ class mod_surveypro_submission {
 
                 // Add row to the table.
                 $table->add_data($tablerow);
-
-                // Before looping, gather information for the "Submission overview".
-                if ($submission->status == SURVEYPRO_STATUSCLOSED) {
-                    $countclosed++;
-                    $closeduserarray[(int)$submission->userid] = 1;
-                }
-                if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
-                    $countinprogress++;
-                    $inprogressuserarray[(int)$submission->userid] = 1;
-                }
             }
         }
         $submissions->close();
-
-        $distinctusers = count($closeduserarray + $inprogressuserarray);
-        $closeduser = count($closeduserarray);
-        $inprogressuser = count($inprogressuserarray);
-        $this->display_submissions_overview($distinctusers, $countclosed, $closeduser, $countinprogress, $inprogressuser);
 
         $table->summary = get_string('submissionslist', 'mod_surveypro');
         $table->print_html();
