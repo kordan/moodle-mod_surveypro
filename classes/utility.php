@@ -741,6 +741,9 @@ class mod_surveypro_utility {
             $conditions[$field] = 'a.'.$field.' = :'.$field;
         }
         unset($conditions['surveyproid']); // That has s. as prefix.
+        if (isset($conditions['content'])) {
+            unset($conditions['content']); // This is going to be set in next 5 lines.
+        }
 
         if (count($conditions)) {
             $sql .= ' AND '.implode(' AND ', $conditions);
