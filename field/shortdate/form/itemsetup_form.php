@@ -76,7 +76,7 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $likelaststr, SURVEYPRO_LIKELASTDEFAULT);
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $noanswerstr, SURVEYPRO_NOANSWERDEFAULT);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_shortdate'), ' ', false);
-        $mform->setDefault($fieldname, SURVEYPRO_TIMENOWDEFAULT);
+        $mform->setDefault($fieldname, SURVEYPRO_INVITEDEFAULT);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_shortdate');
 
         // Item: defaultvalue.
