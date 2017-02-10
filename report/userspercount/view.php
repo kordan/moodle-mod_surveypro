@@ -79,6 +79,7 @@ echo $OUTPUT->header();
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_REPORT);
 
 if ($showjumper) {
+    $groupfilterform->set_data(array('groupid' => $groupid));
     $groupfilterform->display();
 }
 

@@ -312,7 +312,7 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
 
         $this->output_html($nexturl, $graphurl, 'summaryreport');
         // To debug a graph, open o new broser window and go to:
-        // http://localhost/head/mod/surveypro/report/colles/graph.php?id=xxx&type=yyy
+        // http://localhost/head/mod/surveypro/report/colles/graph.php?id=xxx&type=yyy&groupid=zzz
     }
 
     /**
