@@ -93,7 +93,7 @@ Feature: test the use of age setup form
     And I press "Cancel"
 
     And I follow "show_item_2"
-    And I follow "layout_preview"
+    And I follow "Preview"
     Then I should see "II.a: How old were you when you learned to ride a bike?"
     Then the field "id_surveypro_field_age_2_year" matches value "14"
     Then the field "id_surveypro_field_age_2_month" matches value "7"

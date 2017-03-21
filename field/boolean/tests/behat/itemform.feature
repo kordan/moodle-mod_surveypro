@@ -70,7 +70,7 @@ Feature: test the use of boolean setup form
     And I press "Cancel"
 
     And I follow "show_item_2"
-    And I follow "layout_preview"
+    And I follow "Preview"
     Then I should see "II.a: Is this true?"
     Then the field "id_surveypro_field_boolean_2_1" matches value "1"
     Then I should see "Additional note"
@@ -86,7 +86,7 @@ Feature: test the use of boolean setup form
       | id_defaultoption_2 | 1                        |
     And I press "Save as new"
 
-    And I follow "layout_preview"
+    And I follow "Preview"
     Then I should see "II.b: Is this true?"
     Then the field "id_surveypro_field_boolean_3" matches value "Choose..."
     Then I should see "One more additional note"
