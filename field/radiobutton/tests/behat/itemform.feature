@@ -99,7 +99,7 @@ hills
     And I press "Cancel"
 
     And I follow "show_item_2"
-    And I follow "layout_preview"
+    And I follow "Preview"
     Then I should see "II.a: Which summer holidays place do you prefer?"
     Then the field "id_surveypro_field_radiobutton_2_0" matches value "0"
     Then the field "id_surveypro_field_radiobutton_2_1" matches value "0"

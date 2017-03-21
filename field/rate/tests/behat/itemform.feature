@@ -209,7 +209,7 @@ Not enought
     And I press "Cancel"
 
     And I follow "show_item_2"
-    And I follow "layout_preview"
+    And I follow "Preview"
     Then I should see "II.a:"
     Then I should see "How confident are you with the following languages?"
     Then the field "id_surveypro_field_rate_2_0" matches value "Completely unknown"
@@ -234,7 +234,7 @@ Not enought
       | Element style            | radio buttons                                       |
     And I press "Save as new"
 
-    And I follow "layout_preview"
+    And I follow "Preview"
     Then I should see "II.b:"
     Then the field "id_surveypro_field_rate_3_0_0" matches value "0"
     Then the field "id_surveypro_field_rate_3_0_1" matches value "0"
