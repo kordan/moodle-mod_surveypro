@@ -23,7 +23,7 @@
  */
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/report/frequency/form/filter_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/report/frequency/form/itemfilter_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/frequency/lib.php');
 require_once($CFG->libdir.'/tablelib.php');
 
@@ -64,7 +64,7 @@ if ($showjumper) {
     $formparams->addnotinanygroup = $reportman->add_notinanygroup();
     $formparams->jumpercontent = $jumpercontent;
 }
-$filterform = new mod_surveypro_filterform($formurl, $formparams);
+$filterform = new mod_surveypro_itemfilterform($formurl, $formparams); // No autosubmit, here.
 // End of: instance filterform.
 
 // Output starts here.
