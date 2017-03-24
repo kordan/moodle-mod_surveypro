@@ -69,25 +69,32 @@ function surveypro_delete_supposed_blank_answers() {
     // Parent items without a saved answer must be considered as parent NOT allowing children.
     // Delete all the answers to children items that have parent without saved answers.
     // Alias: if the parent was not allowed in the userform, its children will not be allowed even more.
-    $sql = 'SELECT id as childid, parentid, surveyproid
+    $sql = 'SELECT parentid, MAX(surveyproid) as surveyproid
             FROM {surveypro_item}
             WHERE type = :type
                 AND parentid <> :parentid
             GROUP BY parentid
-            ORDER BY surveyproid, sortindex';
+            ORDER BY MAX(surveyproid)';
     $whereparams = array('type' => SURVEYPRO_TYPEFIELD, 'parentid' => 0);
     $parentitems = $DB->get_records_sql($sql, $whereparams);
 
+    $oldsurveyproid = 0;
     foreach ($parentitems as $parentitem) {
         // Get all submissions for this surveyproid.
-        $whereparams = array();
-        $whereparams['surveyproid'] = $parentitem->surveyproid;
-        $submissions = $DB->get_recordset('surveypro_submission', $whereparams, 'id', 'id');
+        if ($parentitem->surveyproid != $oldsurveyproid) {
+            $whereparams = array();
+            $whereparams['surveyproid'] = $parentitem->surveyproid;
+            $submissions = $DB->get_recordset('surveypro_submission', $whereparams, 'id', 'id');
+
+            $oldsurveyproid = $parentitem->surveyproid;
+        }
         foreach ($submissions as $submission) {
+            // Get all the answers given to the parent item.
             $whereparams = array();
             $whereparams['submissionid'] = $submission->id;
             $whereparams['itemid'] = $parentitem->parentid;
             if (!$DB->count_records('surveypro_answer', $whereparams)) {
+                // OK, parent item was not answered so its children were not allowed!
                 // Get the list of children of $parentitem->parentid.
                 $children = $DB->get_records('surveypro_item', array('parentid' => $parentitem->parentid), 'id', 'id');
                 // Delete its childldren.
