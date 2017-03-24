@@ -74,6 +74,11 @@ class mod_surveypro_view_import {
     public $cir;
 
     /**
+     * @var array itemhelperinfo
+     */
+    private $itemhelperinfo = array();
+
+    /**
      * @var int The dafault status of the submission to import
      */
     public $defaultstatus;
@@ -189,14 +194,13 @@ class mod_surveypro_view_import {
     /**
      * Validate the content of the userid column found in csv.
      *
-     * @param array $itemhelperinfo
      * @param array $surveyheaders
      * @return mixed error object or bool false
      */
-    public function are_children_orphans($itemhelperinfo, $surveyheaders) {
+    public function are_children_orphans($surveyheaders) {
         $orphansheader = array();
         $missingheader = array();
-        foreach ($itemhelperinfo as $k => $itemhelper) {
+        foreach ($this->itemhelperinfo as $k => $itemhelper) {
             // Is this item a child?
             if (!empty($itemhelper->parentid)) {
                 // Verify the parent is imported too.
@@ -611,13 +615,11 @@ class mod_surveypro_view_import {
     }
 
     /**
-     * Get items helper info.
+     * Get item helper.
      *
-     * @return $itemhelperinfo (one $itemhelperinfo per each item)
      * @return $optionscountpercol ($optionscountpercol is available only for items with $item->get_savepositiontodb() = 1)
      */
-    public function get_items_helperinfo() {
-        $itemhelperinfo = array(); // One element per each item.
+    public function buil_item_helpers() {
         $optionscountpercol = array(); // Elements only for items saving position to db.
         foreach ($this->columntoitemid as $col => $itemid) {
             $suffixlength = strlen(SURVEYPRO_IMPFORMATSUFFIX);
@@ -654,9 +656,10 @@ class mod_surveypro_view_import {
             $itemhelper->usesoptionother = $item->get_usesoptionother();
             $itemhelper->parentid = $item->get_parentid();
             $itemhelper->parentvalue = $item->get_parentvalue();
-            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'_'.SURVEYPRO_TYPEFIELD;
+
+            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemhelper->plugin.'_'.SURVEYPRO_TYPEFIELD;
             $itemhelper->usescontentformat = $classname::item_needs_contentformat();
-            $itemhelperinfo[$col] = $itemhelper;
+            $this->itemhelperinfo[$col] = $itemhelper;
 
             if ($itemhelper->savepositiontodb) {
                 // The count of the options is enough.
@@ -664,7 +667,7 @@ class mod_surveypro_view_import {
             }
         }
 
-        return array($itemhelperinfo, $optionscountpercol);
+        return $optionscountpercol;
     }
 
     /**
@@ -773,13 +776,13 @@ class mod_surveypro_view_import {
         // To save time during all validations to carry out, save to $itemhelperinfo some information.
         // In this way I no longer will need to load item hundreds times.
         // Begin of: get now, once and for ever, each item helperinfo.
-        list($itemhelperinfo, $optionscountpercol) = $this->get_items_helperinfo();
+        $optionscountpercol = $this->buil_item_helpers();
         // End of: get now, once and for ever, each item option (where applicable).
 
         if ($debug) {
             echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
-            echo '$itemhelperinfo:';
-            var_dump($itemhelperinfo);
+            echo '$this->itemhelperinfo:';
+            var_dump($this->itemhelperinfo);
 
             echo '$optionscountpercol:';
             var_dump($optionscountpercol);
@@ -787,22 +790,73 @@ class mod_surveypro_view_import {
 
         // Make one more test against general file configuration.
         // 4th) Has each child its parent imported too?
-        if ($err = $this->are_children_orphans($itemhelperinfo, $surveyheaders)) {
+        if ($err = $this->are_children_orphans($surveyheaders)) {
             return $err;
         }
 
         // Begin of: DOES EACH RECORD provide a valid value?
         // Start here a looooooooong list of validations against founded values, record per record.
+        $suffixlength = strlen(SURVEYPRO_IMPFORMATSUFFIX);
         $submissionsperuser = array();
         $this->cir->init();
         while ($csvrow = $this->cir->next()) {
             foreach ($foundheaders as $col => $unused) {
                 $value = $csvrow[$col]; // The header reported in the csv file.
-                $itemhelper = $itemhelperinfo[$col]; // The itemhelperinfo of the item in column = $col.
-                if ($debug) {
-                    echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
-                    echo '$itemhelper:';
-                    var_dump($itemhelper);
+
+                if (!isset($this->itemhelperinfo[$col])) {
+                    if (isset($this->environmentheaders[SURVEYPRO_OWNERIDLABEL])) {
+                        if ($col == $this->environmentheaders[SURVEYPRO_OWNERIDLABEL]) {
+                            // The column for userid.
+                            if ($err = $this->is_valid_userid($value)) {
+                                return $err;
+                            } else {
+                                if ($value != $USER->id) {
+                                    if (!isset($submissionsperuser[$value])) {
+                                        $submissionsperuser[$value] = 1;
+                                    } else {
+                                        $submissionsperuser[$value]++;
+                                    }
+                                }
+                                continue;
+                            }
+                        }
+                    }
+
+                    if (isset($this->environmentheaders[SURVEYPRO_TIMECREATEDLABEL])) {
+                        if ($col == $this->environmentheaders[SURVEYPRO_TIMECREATEDLABEL]) {
+                            // The column for timecreated.
+                            if ($err = $this->is_valid_creationtime($value)) {
+                                return $err;
+                            }
+                            continue;
+                        }
+                    }
+
+                    if (isset($this->environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL])) {
+                        if ($col == $this->environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL]) {
+                            // The column for timemodified.
+                            if ($err = $this->is_valid_modificationtime($value)) {
+                                return $err;
+                            }
+                            continue;
+                        }
+                    }
+
+                    $itemid = $this->columntoitemid[$col];
+                    if (substr($itemid, -$suffixlength) == SURVEYPRO_IMPFORMATSUFFIX) {
+                        // TODO: format should be verified too.
+                        continue;
+                    }
+
+                    $message = 'I can not find required itemhelper for item ID = '.$this->columntoitemid[$col].' found in column: '.$col;
+                    debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                } else {
+                    $itemhelper = $this->itemhelperinfo[$col]; // The itemhelperinfo of the item in column = $col.
+                    if ($debug) {
+                        echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
+                        echo '$itemhelper:';
+                        var_dump($itemhelper);
+                    }
                 }
 
                 if ($value == SURVEYPRO_EXPNULLVALUE) {
@@ -814,43 +868,6 @@ class mod_surveypro_view_import {
                     continue;
                 }
 
-                if (isset($this->environmentheaders[SURVEYPRO_OWNERIDLABEL])) {
-                    if ($col == $this->environmentheaders[SURVEYPRO_OWNERIDLABEL]) {
-                        // The column for userid.
-                        if ($err = $this->is_valid_userid($value)) {
-                            return $err;
-                        } else {
-                            if ($value != $USER->id) {
-                                if (!isset($submissionsperuser[$value])) {
-                                    $submissionsperuser[$value] = 1;
-                                } else {
-                                    $submissionsperuser[$value]++;
-                                }
-                            }
-                            continue;
-                        }
-                    }
-                }
-
-                if (isset($this->environmentheaders[SURVEYPRO_TIMECREATEDLABEL])) {
-                    if ($col == $this->environmentheaders[SURVEYPRO_TIMECREATEDLABEL]) {
-                        // The column for timecreated.
-                        if ($err = $this->is_valid_creationtime($value)) {
-                            return $err;
-                        }
-                        continue;
-                    }
-                }
-
-                if (isset($this->environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL])) {
-                    if ($col == $this->environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL]) {
-                        // The column for timemodified.
-                        if ($err = $this->is_valid_modificationtime($value)) {
-                            return $err;
-                        }
-                        continue;
-                    }
-                }
 
                 // I import files even if mandatory columns (fields) are missing.
                 // But, if the column of the mandatory element is provided in the csv file then it has to be not empty.
@@ -887,10 +904,9 @@ class mod_surveypro_view_import {
     /**
      * Import csv.
      *
-     * @param array $itemhelperinfo
      * @return void
      */
-    public function import_csv($itemhelperinfo) {
+    public function import_csv() {
         global $DB, $COURSE, $USER;
 
         // I am now safe to import each value without arguing about its validity.
@@ -1005,7 +1021,7 @@ class mod_surveypro_view_import {
                 $record->submissionid = $submissionid;
                 $record->itemid = $itemid;
                 $record->content = $content;
-                $itemhelper = $itemhelperinfo[$col];
+                $itemhelper = $this->itemhelperinfo[$col];
                 if ($itemhelper->usescontentformat) {
                     if (isset($contentformattocol[$itemid.SURVEYPRO_IMPFORMATSUFFIX])) {
                         $formatcol = $contentformattocol[$itemid.SURVEYPRO_IMPFORMATSUFFIX];
