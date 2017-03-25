@@ -85,8 +85,10 @@ $reportman->nosubmissions_stop();
 // Begin of: manage form submission.
 if ($fromform = $filterform->get_data()) {
     $itemid = $fromform->itemid;
-    $groupid = $fromform->groupid;
-    $reportman->set_groupid($groupid);
+    if ($showjumper) {
+        $groupid = $fromform->groupid;
+        $reportman->set_groupid($groupid);
+    }
 }
 // End of: manage form submission.
 
@@ -98,7 +100,9 @@ if (!empty($itemid)) {
 
     $paramurl = array();
     $paramurl['id'] = $cm->id;
-    $paramurl['groupid'] = $groupid;
+    if ($showjumper) {
+        $paramurl['groupid'] = $groupid;
+    }
     $paramurl['itemid'] = $itemid;
     $url = new moodle_url('/mod/surveypro/report/frequency/graph.php', $paramurl);
     // To troubleshoot graph, open a new window in the broser and directly call
