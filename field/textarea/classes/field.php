@@ -503,8 +503,6 @@ EOS;
             if (isset($this->maxlength) && ($this->maxlength > 0)) {
                 $a = $this->maxlength;
                 $arrayinstruction[] = get_string('hasmaxlength', 'surveyprofield_textarea', $a);
-            } else {
-                $arrayinstruction[] = '';
             }
         }
         if ($this->trimonsave) {
