@@ -110,7 +110,7 @@ class surveyproreport_userspercount_report extends mod_surveypro_reportbase {
             $tablerow[] = $userspercount->userresponses;
 
             // Number of users who submittet such count of responses.
-            $tablerow[] = $userspercount->userscount;
+            $tablerow[] = $userspercount->usercount;
 
             // Add row to the table.
             $this->outputtable->add_data($tablerow);
@@ -125,16 +125,17 @@ class surveyproreport_userspercount_report extends mod_surveypro_reportbase {
      * @return array($sql, $whereparams);
      */
     public function get_submissions_sql() {
-        $subquery = 'SELECT '.user_picture::fields('u').', COUNT(s.userid) as userresponses
-                FROM {user} u
-                JOIN {surveypro_submission} s ON s.userid = u.id';
 
         list($middlesql, $whereparams) = $this->get_middle_sql();
-        $subquery .= $middlesql;
-        $subquery .= ' GROUP BY s.userid, surveyproid';
 
-        $sql = 'SELECT s.userresponses, count(s.userresponses) as userscount
-                FROM ('.$subquery.') s
+        $subquery = 'SELECT s.userid, COUNT(s.userid) as userresponses
+                FROM {surveypro_submission} s
+                    JOIN {user} u ON u.id = s.userid
+                    '.$middlesql.'
+                GROUP BY s.userid';
+
+        $sql = 'SELECT userresponses, count(userresponses) as usercount
+                FROM ('.$subquery.') as rpu
                 GROUP BY userresponses';
 
         if ($this->outputtable->get_sql_sort()) {
