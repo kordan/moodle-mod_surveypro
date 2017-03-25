@@ -983,7 +983,7 @@ class mod_surveypro_itembase {
      * @return the specific where clause for this plugin
      */
     public static function response_get_whereclause($itemid, $searchrestriction) {
-        $whereclause = 'a.content = \''.$searchrestriction.'\'';
+        $whereclause = 'a.content = :content_'.$itemid;
         $whereparam = $searchrestriction;
 
         return array($whereclause, $whereparam);
