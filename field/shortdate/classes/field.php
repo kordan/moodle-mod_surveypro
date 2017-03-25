@@ -300,10 +300,7 @@ class surveyprofield_shortdate_field extends mod_surveypro_itembase {
         }
 
         // 2. Override few values.
-        $checkboxes = array('required', 'hideinstructions');
-        foreach ($checkboxes as $checkbox) {
-            $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
-        }
+        // Nothing to do: no need to overwrite variables.
 
         // 3. Set values corresponding to checkboxes.
         // Nothing to do: no checkboxes in this plugin item form.
@@ -422,7 +419,6 @@ EOS;
         global $DB, $USER;
 
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
-        $noanswerstr = get_string('noanswer', 'mod_surveypro');
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
         $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
 
@@ -436,9 +432,6 @@ EOS;
                 $months[SURVEYPRO_INVITEVALUE] = get_string('invitemonth', 'surveyprofield_shortdate');
                 $years[SURVEYPRO_INVITEVALUE] = get_string('inviteyear', 'surveyprofield_shortdate');
             }
-        } else {
-            $months[SURVEYPRO_IGNOREMEVALUE] = '';
-            $years[SURVEYPRO_IGNOREMEVALUE] = '';
         }
         if ($this->lowerboundyear == $this->upperboundyear) {
             for ($i = $this->lowerboundmonth; $i <= $this->upperboundmonth; $i++) {
@@ -468,69 +461,92 @@ EOS;
         $elementgroup[] = $mform->createElement('mod_surveypro_select', $itemname, '', $years, $attributes);
 
         if ($this->required) {
-            $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
-
             if (!$searchform) {
+                $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
+
                 // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
                 // I do not want JS form validation if the page is submitted through the "previous" button.
                 // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
                 // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
                 $starplace = ($this->position != SURVEYPRO_POSITIONLEFT) ? $this->itemname.'_extrarow' : $this->itemname.'_group';
                 $mform->_required[] = $starplace;
+            } else {
+                $itemname = $this->itemname.'_ignoreme';
+                $starstr = get_string('star', 'mod_surveypro');
+                $attributes['id'] = $idprefix.'_ignoreme';
+                $attributes['class'] = 'character_check';
+                $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $starstr, $attributes);
+                $mform->setType($this->itemname, PARAM_RAW);
+
+                $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
+                $mform->disabledIf($this->itemname.'_group', $this->itemname.'_ignoreme', 'checked');
+                $mform->setDefault($this->itemname.'_ignoreme', '1');
             }
         } else {
             $itemname = $this->itemname.'_noanswer';
             $attributes['id'] = $idprefix.'_noanswer';
             $attributes['class'] = 'shortdate_check';
+            $noanswerstr = get_string('noanswer', 'mod_surveypro');
             $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $noanswerstr, $attributes);
-            $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
-            $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
+
+            if (!$searchform) {
+                $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
+                $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
+            } else {
+                $itemname = $this->itemname.'_ignoreme';
+                $starstr = get_string('star', 'mod_surveypro');
+                $attributes['id'] = $idprefix.'_ignoreme';
+                $attributes['class'] = 'character_check';
+                $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $starstr, $attributes);
+                $mform->setType($this->itemname, PARAM_RAW);
+
+                $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
+                $mform->disabledIf($this->itemname.'_group', $this->itemname.'_ignoreme', 'checked');
+                $mform->setDefault($this->itemname.'_ignoreme', '1');
+            }
         }
         // End of: mform element.
 
         // Default section.
-        if (!$searchform) {
-            if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
-                $mform->setDefault($this->itemname.'_month', SURVEYPRO_INVITEVALUE);
-                $mform->setDefault($this->itemname.'_year', SURVEYPRO_INVITEVALUE);
-            } else {
-                switch ($this->defaultoption) {
-                    case SURVEYPRO_CUSTOMDEFAULT:
-                        $shortdatearray = self::item_split_unix_time($this->defaultvalue, true);
-                        break;
-                    case SURVEYPRO_TIMENOWDEFAULT:
-                        $shortdatearray = self::item_split_unix_time(time(), true);
-                        break;
-                    case SURVEYPRO_NOANSWERDEFAULT:
-                        $shortdatearray = self::item_split_unix_time($this->lowerbound, true);
-                        $mform->setDefault($this->itemname.'_noanswer', '1');
-                        break;
-                    case SURVEYPRO_LIKELASTDEFAULT:
-                        // Look for the last submission I made.
-                        $sql = 'userid = :userid ORDER BY timecreated DESC LIMIT 1';
-                        $where = array('userid' => $USER->id);
-                        $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, $where, IGNORE_MISSING);
-                        $where = array('itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid);
-                        if ($time = $DB->get_field('surveypro_answer', 'content', $where, IGNORE_MISSING)) {
-                            $shortdatearray = self::item_split_unix_time($time, false);
-                        } else { // As in standard default.
-                            $shortdatearray = self::item_split_unix_time(time(), true);
-                        }
-                        break;
-                    default:
-                        $message = 'Unexpected $this->defaultoption = '.$this->defaultoption;
-                        debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+        switch ($this->defaultoption) {
+            case SURVEYPRO_CUSTOMDEFAULT:
+                $shortdatearray = self::item_split_unix_time($this->defaultvalue, true);
+                break;
+            case SURVEYPRO_TIMENOWDEFAULT:
+                $shortdatearray = self::item_split_unix_time(time(), true);
+                break;
+            case SURVEYPRO_NOANSWERDEFAULT:
+                $shortdatearray = self::item_split_unix_time($this->lowerbound, true);
+                $mform->setDefault($this->itemname.'_noanswer', '1');
+                break;
+            case SURVEYPRO_LIKELASTDEFAULT:
+                // Look for the last submission I made.
+                $sql = 'userid = :userid ORDER BY timecreated DESC LIMIT 1';
+                $where = array('userid' => $USER->id);
+                $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, $where, IGNORE_MISSING);
+                $where = array('itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid);
+                if ($time = $DB->get_field('surveypro_answer', 'content', $where, IGNORE_MISSING)) {
+                    $shortdatearray = self::item_split_unix_time($time, false);
+                } else { // As in standard default.
+                    $shortdatearray = self::item_split_unix_time(time(), true);
                 }
-                $mform->setDefault($this->itemname.'_month', $shortdatearray['mon']);
-                $mform->setDefault($this->itemname.'_year', $shortdatearray['year']);
-            }
-        } else {
-            $mform->setDefault($this->itemname.'_month', SURVEYPRO_IGNOREMEVALUE);
-            $mform->setDefault($this->itemname.'_year', SURVEYPRO_IGNOREMEVALUE);
+                break;
+            case SURVEYPRO_INVITEDEFAULT:
+                $shortdatearray['mon'] = SURVEYPRO_INVITEVALUE;
+                $shortdatearray['year'] = SURVEYPRO_INVITEVALUE;
+                break;
+            default:
+                $message = 'Unexpected $this->defaultoption = '.$this->defaultoption;
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+        }
+        $mform->setDefault($this->itemname.'_month', $shortdatearray['mon']);
+        $mform->setDefault($this->itemname.'_year', $shortdatearray['year']);
+        if ($searchform) {
             if (!$this->required) {
                 $mform->setDefault($this->itemname.'_noanswer', '0');
             }
         }
+        // End of: default section.
     }
 
     /**
@@ -546,6 +562,12 @@ EOS;
         // If ($this->required) { if (empty($data[$this->itemname])) { is useless.
 
         if (isset($data[$this->itemname.'_noanswer'])) {
+            return; // Nothing to validate.
+        }
+
+        // Make validation in the search form too.
+        // I can not use if ($searchform) { return; because I still need to validate the correcteness of the date.
+        if (isset($data[$this->itemname.'_ignoreme'])) {
             return; // Nothing to validate.
         }
 
