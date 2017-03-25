@@ -37,6 +37,7 @@ if (!empty($id)) {
     $course = $DB->get_record('course', array('id' => $surveypro->course), '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
+$groupid = optional_param('groupid', 0, PARAM_INT);
 
 require_course_login($course, true, $cm);
 
@@ -44,6 +45,7 @@ $context = context_module::instance($cm->id);
 require_capability('mod/surveypro:accessreports', $context);
 
 $reportman = new surveyproreport_attachments_report($cm, $context, $surveypro);
+$reportman->set_groupid($groupid);
 $reportman->setup_outputtable();
 
 // Begin of: instance groupfilterform.
@@ -78,15 +80,9 @@ new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURV
 
 $reportman->prevent_direct_user_input();
 $reportman->check_attachmentitems();
-$reportman->nosubmissions_stop();
-
-// Begin of: manage form submission.
-if ( $showjumper && ($fromform = $groupfilterform->get_data()) ) {
-    $reportman->set_groupid($fromform->groupid);
-}
-// End of: manage form submission.
 
 if ($showjumper) {
+    $groupfilterform->set_data(array('groupid' => $groupid));
     $groupfilterform->display();
 }
 
