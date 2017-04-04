@@ -48,59 +48,61 @@ Feature: verify urls really redirect to existing pages
     #
     And I follow "Survey"
     # Survey -> Dashboard
-    And I follow "Dashboard"
+    # This step used to be 'And I follow "Dashboard"', but "Dashboard" is found 4 times in the page
+    # so I use a custom "home made" behat call.
+    And I follow "Dashboard" page in tab bar
         # Survey -> Dashboard: Reports section
         And I follow "Run Attachments overview report"
         # return home
-        And I follow "Dashboard"
+        And I follow "Dashboard" page in tab bar
 
         And I follow "Run Delayed users report"
         # return home
-        And I follow "Dashboard"
+        And I follow "Dashboard" page in tab bar
 
         And I follow "Run Frequency distribution report"
         # return home
-        And I follow "Dashboard"
+        And I follow "Dashboard" page in tab bar
 
         And I follow "Run Responses per user report"
         # return home
-        And I follow "Dashboard"
+        And I follow "Dashboard" page in tab bar
 
         And I follow "Run Users per count of responses report"
         # return home
-        And I follow "Dashboard"
+        And I follow "Dashboard" page in tab bar
 
         # Survey -> Dashboard: User templates section
         And I follow "Manage user templates"
         # return home
         And I follow "Survey"
-        And I follow "Dashboard"
+        And I follow "Dashboard" page in tab bar
 
         And I follow "Save user templates"
         # return home
         And I follow "Survey"
-        And I follow "Dashboard"
+        And I follow "Dashboard" page in tab bar
 
         And I follow "Import user templates"
         # return home
         And I follow "Survey"
-        And I follow "Dashboard"
+        And I follow "Dashboard" page in tab bar
 
         And I follow "Apply user templates"
         # return home
         And I follow "Survey"
-        And I follow "Dashboard"
+        And I follow "Dashboard" page in tab bar
 
         # Survey -> Dashboard: Master templates section
         And I follow "Save master templates"
         # return home
         And I follow "Survey"
-        And I follow "Dashboard"
+        And I follow "Dashboard" page in tab bar
 
         And I follow "Apply master templates"
         # return home
         And I follow "Survey"
-        And I follow "Dashboard"
+        And I follow "Dashboard" page in tab bar
     # Survey -> Responses
     And I follow "Responses"
     # Survey -> Import
@@ -152,5 +154,5 @@ Feature: verify urls really redirect to existing pages
     Given I log in as "student1"
     And I follow "Test links course"
     And I follow "sPro test links"
-    And I follow "Dashboard"
+    And I follow "Dashboard" page in tab bar
     And I follow "Responses"

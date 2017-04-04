@@ -75,7 +75,7 @@ Feature: test the use of boolean setup form
     Then the field "id_surveypro_field_boolean_2_1" matches value "1"
     Then I should see "Additional note"
 
-    And I follow "layout_elements"
+    And I follow "Elements"
     And I follow "edit_item_2"
     And I expand all fieldsets
     And I set the following fields to these values:

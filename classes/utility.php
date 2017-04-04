@@ -985,6 +985,7 @@ class mod_surveypro_utility {
         $elements['report'] = $canaccessreports;
 
         // Submissions -> container.
+        $elements['container'] = false;
         if ($caller == SURVEYPRO_TAB) {
             if ($elements['cover'] || $elements['responses'] || $elements['search'] || $elements['report']) {
                 $elementurl = new moodle_url('/mod/surveypro/view.php', $paramurlbase);

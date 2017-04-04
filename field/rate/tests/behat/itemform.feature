@@ -220,7 +220,7 @@ Not enought
     Then the field "id_surveypro_field_rate_2_5" matches value "Mother tongue"
     Then I should see "Additional note"
 
-    And I follow "layout_elements"
+    And I follow "Elements"
     And I follow "edit_item_2"
     And I set the following fields to these values:
       | Content                  | How confident are you with the following languages? |
