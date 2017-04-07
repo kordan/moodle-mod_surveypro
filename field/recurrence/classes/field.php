@@ -661,6 +661,7 @@ EOS;
         $haslowerbound = ($this->lowerbound != $this->item_recurrence_to_unix_time(1, 1));
         $hasupperbound = ($this->upperbound != $this->item_recurrence_to_unix_time(12, 31));
 
+        $fillinginstruction = '';
         $format = get_string('strftimedateshort', 'langconfig');
         if ($haslowerbound && $hasupperbound) {
             $a = new stdClass();
@@ -677,7 +678,6 @@ EOS;
                 $fillinginstruction = get_string('restriction_upperlower', 'surveyprofield_recurrence', $a);
             }
         } else {
-            $fillinginstruction = '';
             if ($haslowerbound) {
                 $a = userdate($this->lowerbound, $format, 0);
                 $fillinginstruction = get_string('restriction_lower', 'surveyprofield_recurrence', $a);
