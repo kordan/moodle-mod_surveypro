@@ -55,10 +55,10 @@ function get_dummy_contents($type, $plugin) {
             $return->parentid = 0;
             $return->parentcontent = '';
             $return->defaultoption = '2';
-            $return->lowerbound_year = '0';
-            $return->lowerbound_month = '0';
-            $return->upperbound_year = '105';
-            $return->upperbound_month = '11';
+            $return->lowerboundyear = '0';
+            $return->lowerboundmonth = '0';
+            $return->upperboundyear = '105';
+            $return->upperboundmonth = '11';
 
             return $return;
         }
@@ -70,11 +70,11 @@ function get_dummy_contents($type, $plugin) {
             $return->customnumber = '';
             $return->variable = '';
             $return->extranote = '';
-            $return->element01_select = 'userid';
-            $return->element02_select = '';
-            $return->element03_select = '';
-            $return->element04_select = '';
-            $return->element05_select = '';
+            $return->element01select = 'userid';
+            $return->element02select = '';
+            $return->element03select = '';
+            $return->element04select = '';
+            $return->element05select = '';
 
             return $return;
         }
@@ -117,12 +117,12 @@ function get_dummy_contents($type, $plugin) {
             $return->contentformat = 1;
             $return->defaultoption = 2;
             $return->downloadformat = 'strftime05';
-            $return->lowerbound_day = '1';
-            $return->lowerbound_month = '1';
-            $return->lowerbound_year = '1970';
-            $return->upperbound_day = '31';
-            $return->upperbound_month = '12';
-            $return->upperbound_year = '2020';
+            $return->lowerboundday = '1';
+            $return->lowerboundmonth = '1';
+            $return->lowerboundyear = '1970';
+            $return->upperboundday = '31';
+            $return->upperboundmonth = '12';
+            $return->upperboundyear = '2020';
 
             return $return;
         }
@@ -132,16 +132,16 @@ function get_dummy_contents($type, $plugin) {
             $return->step = '1';
             $return->defaultoption = '2';
             $return->downloadformat = 'strftime01';
-            $return->lowerbound_day = '1';
-            $return->lowerbound_month = '1';
-            $return->lowerbound_year = '1970';
-            $return->lowerbound_hour = '0';
-            $return->lowerbound_minute = '0';
-            $return->upperbound_day = '31';
-            $return->upperbound_month = '12';
-            $return->upperbound_year = '2020';
-            $return->upperbound_hour = '23';
-            $return->upperbound_minute = '59';
+            $return->lowerboundday = '1';
+            $return->lowerboundmonth = '1';
+            $return->lowerboundyear = '1970';
+            $return->lowerboundhour = '0';
+            $return->lowerboundminute = '0';
+            $return->upperboundday = '31';
+            $return->upperboundmonth = '12';
+            $return->upperboundyear = '2020';
+            $return->upperboundhour = '23';
+            $return->upperboundminute = '59';
 
             return $return;
         }
@@ -205,8 +205,8 @@ function get_dummy_contents($type, $plugin) {
         if ($plugin == 'rate') {
             $return->content_editor['text'] = 'How confident are you with the following languages?';
             $return->contentformat = 1;
-            $return->options = 'EN\nES\nIT\nFR';
-            $return->rates = 'Mother tongue\nVery confident\nNot enought\nCompletely unknown';
+            $return->options = "EN\nES\nIT\nFR";
+            $return->rates = "Mother tongue\nVery confident\nNot enought\nCompletely unknown";
             $return->style = '0';
             $return->defaultoption = '2';
             $return->downloadformat = '1';
@@ -218,10 +218,10 @@ function get_dummy_contents($type, $plugin) {
             $return->contentformat = 1;
             $return->defaultoption = 2;
             $return->downloadformat = 'strftime2';
-            $return->lowerbound_day = '1';
-            $return->lowerbound_month = '1';
-            $return->upperbound_day = '31';
-            $return->upperbound_month = '12';
+            $return->lowerboundday = '1';
+            $return->lowerboundmonth = '1';
+            $return->upperboundday = '31';
+            $return->upperboundmonth = '12';
 
             return $return;
         }
@@ -240,10 +240,10 @@ function get_dummy_contents($type, $plugin) {
             $return->contentformat = 1;
             $return->defaultoption = '2';
             $return->downloadformat = 'strftime01';
-            $return->lowerbound_month = '1';
-            $return->lowerbound_year = '1970';
-            $return->upperbound_month = '12';
-            $return->upperbound_year = '2020';
+            $return->lowerboundmonth = '1';
+            $return->lowerboundyear = '1970';
+            $return->upperboundmonth = '12';
+            $return->upperboundyear = '2020';
 
             return $return;
         }
@@ -264,10 +264,10 @@ function get_dummy_contents($type, $plugin) {
             $return->step = '1';
             $return->defaultoption = '2';
             $return->downloadformat = 'strftime1';
-            $return->lowerbound_hour = '0';
-            $return->lowerbound_minute = '0';
-            $return->upperbound_hour = '23';
-            $return->upperbound_minute = '59';
+            $return->lowerboundhour = '0';
+            $return->lowerboundminute = '0';
+            $return->upperboundhour = '23';
+            $return->upperboundminute = '59';
 
             return $return;
         }
