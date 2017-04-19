@@ -110,6 +110,19 @@ class mod_surveypro_reportbase {
     }
 
     /**
+     * Prevent direct user input.
+     *
+     * @return void
+     */
+    public function prevent_direct_user_input() {
+        $allowed = has_capability('mod/surveypro:accessreports', $this->context, null, true);
+
+        if (!$allowed) {
+            print_error('incorrectaccessdetected', 'mod_surveypro');
+        }
+    }
+
+    /**
      * Display a message if no submissions were provided
      */
     public function nosubmissions_stop() {
