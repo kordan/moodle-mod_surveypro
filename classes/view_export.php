@@ -554,8 +554,7 @@ class mod_surveypro_view_export {
      * @return void
      */
     public function decode_content($richsubmission) {
-        $content = $richsubmission->content;
-        if (!strlen($content)) {
+        if (!isset($richsubmission->content)) { // Because it is NULL.
             $return = '';
         } else {
             $itemid = $richsubmission->itemid;
