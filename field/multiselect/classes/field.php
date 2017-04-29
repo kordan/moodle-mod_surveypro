@@ -772,18 +772,15 @@ EOS;
         }
 
         // Output.
-        // Here $answers is an array like: array(1,1,0,0).
+        // Here $answers is an array like: array(2,4).
         switch ($format) {
             case SURVEYPRO_ITEMSRETURNSVALUES:
                 $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $content);
                 $output = array();
                 $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
 
-                $standardanswerscount = count($values);
-                foreach ($values as $k => $value) {
-                    if (isset($answers[$k])) {
-                        $output[] = $value;
-                    }
+                foreach ($answers as $answer) {
+                    $output[] = $values[$answer];
                 }
                 $return = implode(SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR, $output);
                 break;
@@ -792,11 +789,8 @@ EOS;
                 $output = array();
                 $values = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
 
-                $standardanswerscount = count($values);
-                foreach ($values as $k => $value) {
-                    if (isset($answers[$k])) {
-                        $output[] = $value;
-                    }
+                foreach ($answers as $answer) {
+                    $output[] = $values[$answer];
                 }
                 $return = implode(SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR, $output);
                 break;
