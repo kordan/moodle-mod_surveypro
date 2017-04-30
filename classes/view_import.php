@@ -868,7 +868,6 @@ class mod_surveypro_view_import {
                     continue;
                 }
 
-
                 // I import files even if mandatory columns (fields) are missing.
                 // But, if the column of the mandatory element is provided in the csv file then it has to be not empty.
                 if ($itemhelper->required) {

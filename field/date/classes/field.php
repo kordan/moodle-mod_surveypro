@@ -608,7 +608,7 @@ EOS;
                 $mform->setDefault($this->itemname.'_noanswer', '0');
             }
         }
-       // End of: default section.
+        // End of: default section.
     }
 
     /**
