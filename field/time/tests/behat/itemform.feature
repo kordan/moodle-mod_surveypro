@@ -100,7 +100,7 @@ Feature: test the use of time setup form
     And I press "Cancel"
 
     And I follow "show_item_2"
-    And I follow "layout_preview"
+    And I follow "Preview"
     Then I should see "II.a: At what time do you usually get up in the morning in the working days?"
     Then the field "id_surveypro_field_time_2_hour" matches value "7"
     Then the field "id_surveypro_field_time_2_minute" matches value "40"

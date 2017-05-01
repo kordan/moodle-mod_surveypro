@@ -81,12 +81,12 @@ Feature: test the use of textarea setup form
     And I press "Cancel"
 
     And I follow "show_item_2"
-    And I follow "layout_preview"
+    And I follow "Preview"
     Then I should see "II.a: Write a short description of yourself"
     Then I should see "Additional note"
     Then "//div[contains(@id, 'id_surveypro_field_textarea_2editable')]" "xpath_element" should exist
 
-    And I follow "layout_elements"
+    And I follow "Elements"
     And I follow "edit_item_2"
     And I expand all fieldsets
     And I set the following fields to these values:
@@ -96,7 +96,7 @@ Feature: test the use of textarea setup form
       | Use html editor                | 0                                     |
       | Additional note                | One more additional note              |
     And I press "Save as new"
-    And I follow "layout_preview"
+    And I follow "Preview"
     Then I should see "II.b: Write a short description of yourself"
     Then I should see "One more additional note"
     Then "//textarea[contains(@id, 'id_surveypro_field_textarea_3')]" "xpath_element" should exist

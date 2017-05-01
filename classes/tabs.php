@@ -49,9 +49,9 @@ class mod_surveypro_tabs {
     protected $surveypro;
 
     /**
-     * @var array of boolean permissions to show in the module tree
+     * @var array of boolean permissions to show in the module tab/pages tree
      */
-    protected $isallowed;
+    protected $tabpagesurl;
 
     /**
      * @var int Current tab requested by the user
@@ -91,12 +91,12 @@ class mod_surveypro_tabs {
 
         $utilityman = new mod_surveypro_utility($cm, $surveypro);
         $this->hassubmissions = $utilityman->has_submissions();
-        $this->isallowed = $utilityman->get_admin_elements_visibility(SURVEYPRO_TAB);
+        $this->tabpagesurl = $utilityman->get_common_links_url(SURVEYPRO_TAB);
 
         // Get the count of TABS.
         $tabcount = 0;
-        foreach ($this->isallowed as $area) {
-            if ($area['root']) {
+        foreach ($this->tabpagesurl as $area) {
+            if ($area['container']) {
                 $tabcount++;
             }
         }
@@ -120,35 +120,30 @@ class mod_surveypro_tabs {
         $row = array();
 
         // TAB LAYOUT.
-        if ($this->isallowed['tab_layout']['root']) {
+        if ($elementurl = $this->tabpagesurl['tab_layout']['container']) {
             $tablayoutname = get_string('tablayoutname', 'mod_surveypro');
-            $elementurl = new moodle_url('/mod/surveypro/layout_items.php', $paramurl);
             $row[] = new tabobject($tablayoutname, $elementurl->out(), $tablayoutname);
         }
 
         // TAB SUBMISSIONS.
-        if ($this->isallowed['tab_submissions']['root']) {
+        if ($elementurl = $this->tabpagesurl['tab_submissions']['container']) {
             $tabsubmissionsname = get_string('tabsubmissionsname', 'mod_surveypro');
-            $localparamurl = array('id' => $this->cm->id, 'force' => 1);
-            $elementurl = new moodle_url('/mod/surveypro/view.php', $localparamurl);
             $row[] = new tabobject($tabsubmissionsname, $elementurl->out(), $tabsubmissionsname);
         }
 
         // TAB USER TEMPLATES.
         if ($this->tabtab == SURVEYPRO_TABUTEMPLATES) {
-            if ($this->isallowed['tab_utemplate']['root']) {
+            if ($this->tabpagesurl['tab_utemplate']['container']) {
                 $tabutemplatename = get_string('tabutemplatename', 'mod_surveypro');
-                $elementurl = new moodle_url('/mod/surveypro/utemplate_save.php', $paramurl);
-                $row[] = new tabobject($tabutemplatename, $elementurl->out(), $tabutemplatename);
+                $row[] = new tabobject($tabutemplatename, null, $tabutemplatename);
             }
         }
 
         // TAB MASTER TEMPLATES.
         if ($this->tabtab == SURVEYPRO_TABMTEMPLATES) {
-            if ($this->isallowed['tab_mtemplate']['root']) {
+            if ($this->tabpagesurl['tab_mtemplate']['container']) {
                 $tabmtemplatename = get_string('tabmtemplatename', 'mod_surveypro');
-                $elementurl = new moodle_url('/mod/surveypro/mtemplate_save.php', $paramurl);
-                $row[] = new tabobject($tabmtemplatename, $elementurl->out(), $tabmtemplatename);
+                $row[] = new tabobject($tabmtemplatename, null, $tabmtemplatename);
             }
         }
 
@@ -163,7 +158,6 @@ class mod_surveypro_tabs {
     private function get_pages_structure() {
         global $DB;
 
-        $paramurl = array('id' => $this->cm->id);
         $row = array();
         $inactive = null;
         $activetwo = null;
@@ -181,34 +175,27 @@ class mod_surveypro_tabs {
                 $activetwo = array($tablayoutname);
 
                 // Preview.
-                if ($this->isallowed['tab_layout']['preview']) {
-                    $localparamurl = array('id' => $this->cm->id);
-                    $elementurl = new moodle_url('/mod/surveypro/layout_preview.php', $localparamurl);
+                if ($elementurl = $this->tabpagesurl['tab_layout']['preview']) {
                     $strlabel = get_string('tabitemspage1', 'mod_surveypro');
-                    $row[] = new tabobject('idpage1', $elementurl->out(), $strlabel, 'layout_preview');
+                    $row[] = new tabobject('idpage1', $elementurl->out(), $strlabel);
                 }
 
-                // Manage.
-                if ($this->isallowed['tab_layout']['manage']) {
-                    $elementurl = new moodle_url('/mod/surveypro/layout_items.php', $paramurl);
+                // Element management.
+                if ($elementurl = $this->tabpagesurl['tab_layout']['manage']) {
                     $strlabel = get_string('tabitemspage2', 'mod_surveypro');
-                    $row[] = new tabobject('idpage2', $elementurl->out(), $strlabel, 'layout_elements');
+                    $row[] = new tabobject('idpage2', $elementurl->out(), $strlabel);
                 }
 
                 // Setup.
                 if ($this->tabpage == SURVEYPRO_LAYOUT_ITEMSETUP) {
-                    if ($this->isallowed['tab_layout']['itemsetup']) {
-                        $elementurl = new moodle_url('/mod/surveypro/layout_itemsetup.php', $paramurl);
-                        $strlabel = get_string('tabitemspage3', 'mod_surveypro');
-                        $row[] = new tabobject('idpage3', $elementurl->out(), $strlabel, 'layout_setup');
-                    }
+                    $strlabel = get_string('tabitemspage3', 'mod_surveypro');
+                    $row[] = new tabobject('idpage3', null, $strlabel);
                 }
 
-                // Verify parent child relations.
-                if ($this->isallowed['tab_layout']['validate']) {
-                    $elementurl = new moodle_url('/mod/surveypro/layout_validation.php', $paramurl);
+                // Validate.
+                if ($elementurl = $this->tabpagesurl['tab_layout']['validate']) {
                     $strlabel = get_string('tabitemspage4', 'mod_surveypro');
-                    $row[] = new tabobject('idpage4', $elementurl->out(), $strlabel, 'layout_relations');
+                    $row[] = new tabobject('idpage4', $elementurl->out(), $strlabel);
                 }
 
                 $this->tabs[] = $row;
@@ -221,75 +208,62 @@ class mod_surveypro_tabs {
                 $activetwo = array($tabsubmissionsname);
 
                 // Dashboard.
-                if ($this->isallowed['tab_submissions']['cover']) {
-                    $elementurl = new moodle_url('/mod/surveypro/view_cover.php', $paramurl);
+                if ($elementurl = $this->tabpagesurl['tab_submissions']['cover']) {
                     $strlabel = get_string('tabsubmissionspage1', 'mod_surveypro');
-                    $row[] = new tabobject('idpage1', $elementurl->out(), $strlabel, 'survey_dashboard');
+                    $row[] = new tabobject('idpage1', $elementurl->out(), $strlabel);
                 }
 
                 // Responses.
-                if ($this->isallowed['tab_submissions']['responses']) {
-                    $localparamurl = array('id' => $this->cm->id, 'force' => 1);
-                    $elementurl = new moodle_url('/mod/surveypro/view.php', $localparamurl);
+                if ($elementurl = $this->tabpagesurl['tab_submissions']['responses']) {
                     $strlabel = get_string('tabsubmissionspage2', 'mod_surveypro');
-                    $row[] = new tabobject('idpage2', $elementurl->out(), $strlabel, 'survey_responses');
+                    $row[] = new tabobject('idpage2', $elementurl->out(), $strlabel);
                 }
 
                 // Insert.
                 if ($this->tabpage == SURVEYPRO_SUBMISSION_INSERT) {
-                    $localparamurl = array('id' => $this->cm->id, 'view' => SURVEYPRO_NEWRESPONSE);
-                    $elementurl = new moodle_url('/mod/surveypro/view_form.php', $localparamurl);
                     $strlabel = get_string('tabsubmissionspage3', 'mod_surveypro');
-                    $row[] = new tabobject('idpage3', $elementurl->out(), $strlabel, 'survey_insert');
+                    $row[] = new tabobject('idpage3', null, $strlabel);
                 }
 
                 // Edit.
                 if ($this->tabpage == SURVEYPRO_SUBMISSION_EDIT) {
-                    $localparamurl = array('id' => $this->cm->id, 'view' => SURVEYPRO_EDITRESPONSE);
-                    $elementurl = new moodle_url('/mod/surveypro/view_form.php', $localparamurl);
                     $strlabel = get_string('tabsubmissionspage4', 'mod_surveypro');
-                    $row[] = new tabobject('idpage4', $elementurl->out(), $strlabel, 'survey_edit');
+                    $row[] = new tabobject('idpage4', null, $strlabel);
                 }
 
                 // Read only.
                 if ($this->tabpage == SURVEYPRO_SUBMISSION_READONLY) {
-                    $localparamurl = array('id' => $this->cm->id, 'view' => SURVEYPRO_READONLYRESPONSE);
-                    $elementurl = new moodle_url('/mod/surveypro/view_form.php', $localparamurl);
-                    $strlabel = get_string('tabsubmissionspage5', 'mod_surveypro', 'survey_readonly');
-                    $row[] = new tabobject('idpage5', $elementurl->out(), $strlabel);
+                    $strlabel = get_string('tabsubmissionspage5', 'mod_surveypro');
+                    $row[] = new tabobject('idpage5', null, $strlabel);
                 }
 
                 // Search.
-                if ($this->isallowed['tab_submissions']['search']) {
-                    $elementurl = new moodle_url('/mod/surveypro/view_search.php', $paramurl);
+                if ($elementurl = $this->tabpagesurl['tab_submissions']['search']) {
                     $strlabel = get_string('tabsubmissionspage6', 'mod_surveypro');
-                    $row[] = new tabobject('idpage6', $elementurl->out(), $strlabel, 'survey_search');
+                    $row[] = new tabobject('idpage6', $elementurl->out(), $strlabel);
                 }
 
                 // Report.
                 if ($this->tabpage == SURVEYPRO_SUBMISSION_REPORT) {
-                    if ($this->isallowed['tab_submissions']['report']) {
-                        $elementurl = new moodle_url('/mod/surveypro/view_report.php', $paramurl);
+                    if ($this->tabpagesurl['tab_submissions']['report']) {
                         $strlabel = get_string('tabsubmissionspage7', 'mod_surveypro');
-                        $row[] = new tabobject('idpage7', $elementurl->out(), $strlabel, 'survey_report');
+                        $row[] = new tabobject('idpage7', null, $strlabel);
                     }
                 }
 
                 // Import.
                 if ($this->tabpage == SURVEYPRO_SUBMISSION_IMPORT) {
-                    if ($this->isallowed['tab_submissions']['import']) {
-                        $elementurl = new moodle_url('/mod/surveypro/view_import.php', $paramurl);
+                    if ($this->tabpagesurl['tab_submissions']['import']) {
                         $strlabel = get_string('tabsubmissionspage8', 'mod_surveypro');
-                        $row[] = new tabobject('idpage8', $elementurl->out(), $strlabel, 'survey_import');
+                        $row[] = new tabobject('idpage8', null, $strlabel);
                     }
                 }
 
                 // Export.
                 if ($this->tabpage == SURVEYPRO_SUBMISSION_EXPORT) {
-                    if ($this->isallowed['tab_submissions']['export']) {
-                        $elementurl = new moodle_url('/mod/surveypro/view_export.php', $paramurl);
+                    if ($this->tabpagesurl['tab_submissions']['export']) {
                         $strlabel = get_string('tabsubmissionspage9', 'mod_surveypro');
-                        $row[] = new tabobject('idpage9', $elementurl->out(), $strlabel, 'survey_export');
+                        $row[] = new tabobject('idpage9', null, $strlabel);
                     }
                 }
 
@@ -303,31 +277,27 @@ class mod_surveypro_tabs {
                 $activetwo = array($tabutemplatename);
 
                 // Manage.
-                if ($this->isallowed['tab_utemplate']['manage']) {
-                    $elementurl = new moodle_url('/mod/surveypro/utemplate_manage.php', $paramurl);
+                if ($elementurl = $this->tabpagesurl['tab_utemplate']['manage']) {
                     $strlabel = get_string('tabutemplatepage1', 'mod_surveypro');
-                    $row[] = new tabobject('idpage1', $elementurl->out(), $strlabel, 'utemplate_export');
+                    $row[] = new tabobject('idpage1', $elementurl->out(), $strlabel);
                 }
 
-                // Create.
-                if ($this->isallowed['tab_utemplate']['save']) {
-                    $elementurl = new moodle_url('/mod/surveypro/utemplate_save.php', $paramurl);
+                // Save.
+                if ($elementurl = $this->tabpagesurl['tab_utemplate']['save']) {
                     $strlabel = get_string('tabutemplatepage2', 'mod_surveypro');
-                    $row[] = new tabobject('idpage2', $elementurl->out(), $strlabel, 'utemplate_save');
+                    $row[] = new tabobject('idpage2', $elementurl->out(), $strlabel);
                 }
 
                 // Import.
-                if ($this->isallowed['tab_utemplate']['import']) {
-                    $elementurl = new moodle_url('/mod/surveypro/utemplate_import.php', $paramurl);
+                if ($elementurl = $this->tabpagesurl['tab_utemplate']['import']) {
                     $strlabel = get_string('tabutemplatepage3', 'mod_surveypro');
-                    $row[] = new tabobject('idpage3', $elementurl->out(), $strlabel, 'utemplate_import');
+                    $row[] = new tabobject('idpage3', $elementurl->out(), $strlabel);
                 }
 
                 // Apply.
-                if ($this->isallowed['tab_utemplate']['apply']) {
-                    $elementurl = new moodle_url('/mod/surveypro/utemplate_apply.php', $paramurl);
+                if ($elementurl = $this->tabpagesurl['tab_utemplate']['apply']) {
                     $strlabel = get_string('tabutemplatepage4', 'mod_surveypro');
-                    $row[] = new tabobject('idpage4', $elementurl->out(), $strlabel, 'utemplate_apply');
+                    $row[] = new tabobject('idpage4', $elementurl->out(), $strlabel);
                 }
 
                 $this->tabs[] = $row;
@@ -340,17 +310,15 @@ class mod_surveypro_tabs {
                 $activetwo = array($tabmtemplatename);
 
                 // Create.
-                if ($this->isallowed['tab_mtemplate']['save']) {
-                    $elementurl = new moodle_url('/mod/surveypro/mtemplate_save.php', $paramurl);
+                if ($elementurl = $this->tabpagesurl['tab_mtemplate']['save']) {
                     $strlabel = get_string('tabmtemplatepage1', 'mod_surveypro');
-                    $row[] = new tabobject('idpage1', $elementurl->out(), $strlabel, 'mtemplate_save');
+                    $row[] = new tabobject('idpage1', $elementurl->out(), $strlabel);
                 }
 
                 // Apply.
-                if ($this->isallowed['tab_mtemplate']['apply']) {
-                    $elementurl = new moodle_url('/mod/surveypro/mtemplate_apply.php', $paramurl);
+                if ($elementurl = $this->tabpagesurl['tab_mtemplate']['apply']) {
                     $strlabel = get_string('tabmtemplatepage2', 'mod_surveypro');
-                    $row[] = new tabobject('idpage2', $elementurl->out(), $strlabel, 'mtemplate_apply');
+                    $row[] = new tabobject('idpage2', $elementurl->out(), $strlabel);
                 }
 
                 $this->tabs[] = $row;
