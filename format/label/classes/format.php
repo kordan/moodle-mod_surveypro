@@ -98,6 +98,7 @@ class surveyproformat_label_format extends mod_surveypro_itembase {
         // No properties here.
 
         // List of fields I do not want to have in the item definition form.
+        $this->insetupform['trimonsave'] = false;
         $this->insetupform['position'] = false;
         $this->insetupform['extranote'] = false;
         $this->insetupform['required'] = false;
