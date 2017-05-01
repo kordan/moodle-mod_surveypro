@@ -1398,7 +1398,7 @@ class mod_surveypro_itembase {
             if (!$this->get_hideinstructions()) {
                 $fillinginstruction = $this->userform_get_filling_instructions();
             }
-            if (!empty($this->extranote)) {
+            if (isset($this->extranote)) {
                 $extranote = strip_tags($this->extranote);
             }
         } else {
@@ -1408,7 +1408,9 @@ class mod_surveypro_itembase {
                 }
             }
             if ($config->extranoteinsearch) {
-                $extranote = strip_tags($this->extranote);
+                if (isset($this->extranote)) {
+                    $extranote = strip_tags($this->extranote);
+                }
             }
         }
         if (isset($fillinginstruction) && $fillinginstruction && isset($extranote) && $extranote) {
