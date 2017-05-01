@@ -183,15 +183,12 @@ class behat_mod_surveypro extends behat_base {
      *
      * @Given /^I follow "(?P<nodetext_string>(?:[^"]|\\")*)" in the language menu$/
      * @param string $nodetext
-     * @return bool|void
      */
     public function i_follow_in_the_language_menu($nodetext) {
-        $steps = array();
-
         if ($this->running_javascript()) {
             // The language menu must be expanded when JS is enabled.
             $xpath = "//li[contains(concat(' ', @class, ' '), ' langmenu ')]//a[contains(concat(' ', @class, ' '), ' dropdown-toggle ')]";
-            $steps[] = new Given('I click on "'.$xpath.'" "xpath_element"');
+            $this->execute('behat_general::i_click_on', array($xpath, 'xpath_element'));
         }
 
         // Now select the link.
@@ -203,9 +200,7 @@ class behat_mod_surveypro extends behat_base {
             array('(', ')'),
             array(json_decode('"\u200E"') . '(', ')' . json_decode('"\u200E"')),
             $nodetext);
-        $steps[] = new Given('I click on "'.$nodetext.'" "link" in the "'.$csspath.'" "css_element"');
-
-        return $steps;
+        $this->execute('behat_general::i_click_on_in_the', array($nodetext, 'link', $csspath, 'css_element'));
     }
 
     /**
