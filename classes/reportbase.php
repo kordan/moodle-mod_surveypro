@@ -113,12 +113,28 @@ class mod_surveypro_reportbase {
      * Display a message if no submissions were provided
      */
     public function nosubmissions_stop() {
-        global $OUTPUT;
+        global $DB, $OUTPUT;
 
-        $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-        $hassubmissions = $utilityman->has_submissions();
-        if (!$hassubmissions) {
-            $message = get_string('nosubmissionfound', 'mod_surveypro');
+        // You need to count submissions OF ENROLLED PEOPLE, otherwise colles report may crash,
+        // in $m = $aggregate->sumofanswers / $aggregate->answerscount dividing by 0.
+        // Because of this, $utilityman->has_submissions(); can't be used
+        // because it simply counts ALL the submissions found
+        // without care to the actual enrolment of the submitters
+        // while colles report actually selects submissions of enrolled users ONLY.
+
+        // Other reports handle no submissions locally because they display an empty table or alphabet.
+
+        $sql = 'SELECT COUNT(a.id) as answerscount
+                FROM {user} u
+                    JOIN {surveypro_submission} s ON s.userid = u.id
+                    JOIN {surveypro_answer} a ON a.submissionid = s.id';
+
+        list($middlesql, $whereparams) = $this->get_middle_sql();
+        $sql .= $middlesql;
+
+        $aggregate = $DB->get_record_sql($sql, $whereparams);
+        if (!$aggregate->answerscount) {
+            $message = get_string('nosubmissionsforenrolled', 'mod_surveypro');
             echo $OUTPUT->box($message, 'notice centerpara');
             echo $OUTPUT->footer();
 
@@ -248,7 +264,6 @@ class mod_surveypro_reportbase {
             switch ($this->groupid) {
                 case -1: // Users not enrolled in this course.
                     $sql .= ' LEFT JOIN ('.$enrolsql.') eu ON eu.id = u.id';
-                    $whereparams['eu.id'] = null;
                     break;
                 case 0: // Each user with submissions.
                     // JOIN $enrolsql is needed to take guest out!
