@@ -55,6 +55,7 @@ class mod_surveypro_bulkactionform extends moodleform {
         $elementgroup = array();
         $elementgroup[] = $mform->createElement('select', $fieldname, null, $options);
         $elementgroup[] = $mform->createElement('submit', 'button', get_string('go'));
-        $mform->addElement('group', $fieldname.'_group', get_string('bulkactions'), $elementgroup, ' ', false);
+        $mform->addElement('group', $fieldname.'_group', get_string($fieldname, 'surveypro'), $elementgroup, ' ', false);
+        $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveypro');
     }
 }
