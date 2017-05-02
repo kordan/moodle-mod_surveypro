@@ -28,5 +28,5 @@ $plugin->component = 'mod_surveypro'; // Full name of the plugin (used for diagn
 $plugin->maturity = MATURITY_ALPHA; // MATURITY_RC.
 $plugin->version = 2016102500; // The current module version (Date: YYYYMMDDXX).
 $plugin->release = '1.0'; // The current release.
-$plugin->requires = 2015111600; // Requires this Moodle version.
+$plugin->requires = 2016120500; // Requires Moodle v3.2.0.
 $plugin->cron = 3600; // Period for cron to check this module (in seconds).
