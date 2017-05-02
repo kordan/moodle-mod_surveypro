@@ -943,7 +943,6 @@ EOS;
                 $output = array();
                 $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
 
-                $standardanswerscount = count($values);
                 foreach ($values as $k => $value) {
                     if ($answers[$k] == 1) {
                         $output[] = $value;
@@ -967,7 +966,6 @@ EOS;
                 $output = array();
                 $values = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
 
-                $standardanswerscount = count($values);
                 foreach ($values as $k => $value) {
                     if ($answers[$k] == 1) {
                         $output[] = $value;
