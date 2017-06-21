@@ -872,13 +872,12 @@ EOS;
         }
 
         if (isset($fromdb->content)) {
-            // Count of answers is == count of checkboxes.
-            $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $fromdb->content);
-
             if ($fromdb->content == SURVEYPRO_NOANSWERVALUE) {
                 $prefill[$this->itemname.'_noanswer'] = 1;
                 return $prefill;
             }
+
+            $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $fromdb->content);
 
             // Here $answers is an array like: array(1,1,0,0,'dummytext').
             foreach ($answers as $k => $checkboxvalue) {
@@ -905,6 +904,12 @@ EOS;
                     }
                 }
             }
+
+        }
+
+        // If the "No answer" checkbox is part of the element GUI...
+        if ($this->noanswerdefault) {
+            $prefill[$this->itemname.'_noanswer'] = 0;
         }
 
         return $prefill;
