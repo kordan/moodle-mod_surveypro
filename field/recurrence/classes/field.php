@@ -738,11 +738,17 @@ EOS;
         if (isset($fromdb->content)) {
             if ($fromdb->content == SURVEYPRO_NOANSWERVALUE) {
                 $prefill[$this->itemname.'_noanswer'] = 1;
-            } else {
-                $recurrencearray = self::item_split_unix_time($fromdb->content);
-                $prefill[$this->itemname.'_day'] = $recurrencearray['mday'];
-                $prefill[$this->itemname.'_month'] = $recurrencearray['mon'];
+                return $prefill;
             }
+
+            $recurrencearray = self::item_split_unix_time($fromdb->content);
+            $prefill[$this->itemname.'_day'] = $recurrencearray['mday'];
+            $prefill[$this->itemname.'_month'] = $recurrencearray['mon'];
+        }
+
+        // If the "No answer" checkbox is part of the element GUI...
+        if ($this->defaultoption = SURVEYPRO_NOANSWERDEFAULT) {
+            $prefill[$this->itemname.'_noanswer'] = 0;
         }
 
         return $prefill;
