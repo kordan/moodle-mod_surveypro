@@ -67,6 +67,12 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_multiselect');
         $mform->setType($fieldname, PARAM_TEXT);
 
+        // Item: noanswerdefault.
+        $fieldname = 'noanswerdefault';
+        $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveyprofield_multiselect'));
+        $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_multiselect');
+        $mform->setType($fieldname, PARAM_INT);
+
         // Item: heightinrows.
         $fieldname = 'heightinrows';
         $rowsrange = range(3, 12);
@@ -163,6 +169,13 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         }
 
         // Third check.
+        // No answer is not allowed if the item is mandatory.
+        if ( isset($data['noanswerdefault']) && (isset($data['required'])) ) {
+            $a = get_string('noanswer', 'mod_surveypro');
+            $errors['noanswerdefault'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
+        }
+
+        // Fourth check.
         // SURVEYPRO_DBMULTICONTENTSEPARATOR can not be contained into values.
         foreach ($values as $value) {
             if (strpos($value, SURVEYPRO_DBMULTICONTENTSEPARATOR) !== false) {
@@ -171,7 +184,7 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
             }
         }
 
-        // Fourth check.
+        // Fifth check.
         // Minimumrequired has to be lower than count($cleanoptions).
         if ($data['minimumrequired'] > count($cleanoptions) - 1) {
             $errors['minimumrequired'] = get_string('ierr_minimumrequired', 'surveyprofield_multiselect', count($cleanoptions));

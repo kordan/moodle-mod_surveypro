@@ -103,5 +103,20 @@ function xmldb_surveyprofield_multiselect_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2015123000, 'surveyprofield', 'multiselect');
     }
 
+    if ($oldversion < 2017062301) {
+
+        // Define field noanswerdefault to be added to surveyprofield_checkbox.
+        $table = new xmldb_table('surveyprofield_multiselect');
+        $field = new xmldb_field('noanswerdefault', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '2', 'defaultvalue');
+
+        // Conditionally launch add field noanswerdefault.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Surveypro savepoint reached.
+        upgrade_plugin_savepoint(true, 2017062301, 'surveyprofield', 'multiselect');
+    }
+
     return true;
 }
