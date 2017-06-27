@@ -39,6 +39,7 @@ $string['ierr_valuesduplicated'] = 'Values must be different each other';
 $string['ierr_optionswithseparator'] = 'Options can not contain "{$a}"';
 $string['minimumrequired_help'] = 'The minimum number of items the user is forced to choose in his/her answer';
 $string['minimumrequired'] = 'Minimum required items';
+$string['noanswerdefault'] = '"No answer" as defaults';
 $string['option'] = 'Option';
 $string['options_help'] = 'The list of the options for this item. You are allowed to write them as: value'.SURVEYPRO_VALUELABELSEPARATOR.'label in order to define value and label both. The label will be displayed in the element list, the value will be stored in the survey field. If you only specify one word per line (without separator), value and label will both be valued to that word.';
 $string['options'] = 'Options';

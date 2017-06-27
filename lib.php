@@ -157,6 +157,7 @@ define('SURVEYPRO_NOFEEDBACK', 0);
  * ITEMPREFIX
  */
 define('SURVEYPRO_ITEMPREFIX', 'surveypro');
+define('SURVEYPRO_PLACEHOLDERPREFIX', 'placeholder');
 define('SURVEYPRO_DONTSAVEMEPREFIX', 'placeholder');
 
 /**

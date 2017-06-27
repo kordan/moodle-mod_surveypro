@@ -1087,7 +1087,7 @@ class mod_surveypro_utility {
      */
     public static function get_regexp() {
         $regex = '~';
-        $regex .= '(?P<prefix>'.SURVEYPRO_ITEMPREFIX.'|'.SURVEYPRO_DONTSAVEMEPREFIX.')';
+        $regex .= '(?P<prefix>'.SURVEYPRO_ITEMPREFIX.'|'.SURVEYPRO_PLACEHOLDERPREFIX.'|'.SURVEYPRO_DONTSAVEMEPREFIX.')';
         $regex .= '_';
         $regex .= '(?P<type>'.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')';
         $regex .= '_';

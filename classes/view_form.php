@@ -599,6 +599,18 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         // End of: let's start by saving one record in surveypro_submission.
 
         // Generate $itemhelperinfo.
+        foreach ($this->formdata as $elementname => $content) {
+            if ($matches = mod_surveypro_utility::get_item_parts($elementname)) {
+                if ($matches['prefix'] == SURVEYPRO_PLACEHOLDERPREFIX) {
+                    $newelement = SURVEYPRO_ITEMPREFIX.'_'.$matches['type'].'_'.$matches['plugin'].'_'.$matches['itemid'];
+                    if (!isset($this->formdata->$newelement)) {
+                        $this->formdata->$newelement = null;
+                    }
+                    unset($this->formdata->$elementname);
+                }
+            }
+        }
+
         $itemhelperinfo = array();
         foreach ($this->formdata as $elementname => $content) {
             if ($matches = mod_surveypro_utility::get_item_parts($elementname)) {

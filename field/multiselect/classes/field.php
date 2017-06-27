@@ -321,6 +321,7 @@ class surveyprofield_multiselect_field extends mod_surveypro_itembase {
 
                 <xs:element type="xs:string" name="options"/>
                 <xs:element type="xs:string" name="defaultvalue" minOccurs="0"/>
+                <xs:element type="xs:int" name="noanswerdefault"/>
                 <xs:element type="xs:string" name="downloadformat"/>
                 <xs:element type="xs:int" name="minimumrequired"/>
                 <xs:element type="xs:int" name="heightinrows"/>
@@ -539,6 +540,10 @@ EOS;
                 }
                 $mform->setDefault($this->itemname, $defaultkeys);
             }
+            $itemname = $this->itemname.'_noanswer';
+            if (!empty($this->noanswerdefault)) {
+                $mform->setDefault($itemname, '1');
+            }
         }
         // End of: defaults.
 
@@ -548,8 +553,8 @@ EOS;
         // TO ALWAYS SUBMIT A MULTISELECT I add a dummy hidden item.
         //
         // Take care: I choose a name for this item that IS UNIQUE BUT is missing the SURVEYPRO_ITEMPREFIX.'_'.
-        // In this way I am sure the item will never be saved to the database.
-        $placeholderitemname = SURVEYPRO_DONTSAVEMEPREFIX.'_'.$this->type.'_'.$this->plugin.'_'.$this->itemid.'_placeholder';
+        // In this way I am sure it will be used as indicator that something has to be done on the element.
+        $placeholderitemname = SURVEYPRO_PLACEHOLDERPREFIX.'_'.$this->type.'_'.$this->plugin.'_'.$this->itemid;
         $mform->addElement('hidden', $placeholderitemname, 1);
         $mform->setType($placeholderitemname, PARAM_INT);
 
@@ -718,6 +723,15 @@ EOS;
         } else {
             // Here $answer is an array with the keys of the selected elements.
             $olduseranswer->content = implode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $answer['mainelement']);
+
+            $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
+            $itemcount = count($labels);
+            $contentarray = array_fill(0, $itemcount, 0);
+            foreach ($answer['mainelement'] as $k) {
+                $contentarray[$k] = 1;
+            }
+
+            $olduseranswer->content = implode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $contentarray);
         }
     }
 
@@ -737,10 +751,23 @@ EOS;
         if (isset($fromdb->content)) {
             if ($fromdb->content == SURVEYPRO_NOANSWERVALUE) {
                 $prefill[$this->itemname.'_noanswer'] = '1';
-            } else {
-                $preset = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $fromdb->content);
-                $prefill[$this->itemname] = $preset;
+                return $prefill;
             }
+
+            $contentarray = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $fromdb->content);
+            $preset = array();
+            foreach ($contentarray as $k => $v) {
+                if ($v == 1) {
+                    $preset[] = $k;
+                }
+            }
+            $preset = implode(',', $preset);
+            $prefill[$this->itemname] = $preset;
+        }
+
+        // If the "No answer" checkbox is part of the element GUI...
+        if ($this->noanswerdefault) {
+            $prefill[$this->itemname.'_noanswer'] = 0;
         }
 
         return $prefill;
@@ -778,9 +805,10 @@ EOS;
                 $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $content);
                 $output = array();
                 $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
-
-                foreach ($answers as $answer) {
-                    $output[] = $values[$answer];
+                foreach ($answers as $k => $answer) {
+                    if ($answer == 1) {
+                        $output[] = $values[$k];
+                    }
                 }
                 $return = implode(SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR, $output);
                 break;
@@ -789,8 +817,10 @@ EOS;
                 $output = array();
                 $values = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
 
-                foreach ($answers as $answer) {
-                    $output[] = $values[$answer];
+                foreach ($answers as $k => $answer) {
+                    if ($answer == 1) {
+                        $output[] = $values[$k];
+                    }
                 }
                 $return = implode(SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR, $output);
                 break;
