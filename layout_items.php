@@ -142,7 +142,15 @@ if ($bulkactioncondition) {
 }
 
 // Output starts here.
-$url = new moodle_url('/mod/surveypro/layout_items.php', array('s' => $surveypro->id));
+$paramurl = array('s' => $surveypro->id);
+if ($itemtomove) {
+    $paramurl['itemid'] = $itemid;
+    $paramurl['type'] = $type;
+    $paramurl['plugin'] = $plugin;
+    $paramurl['view'] = $view;
+    $paramurl['itm'] = $itemtomove;
+}
+$url = new moodle_url('/mod/surveypro/layout_items.php', $paramurl);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
