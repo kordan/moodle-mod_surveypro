@@ -881,14 +881,20 @@ EOS;
         if (isset($fromdb->content)) {
             if ($fromdb->content == SURVEYPRO_NOANSWERVALUE) {
                 $prefill[$this->itemname.'_noanswer'] = 1;
-            } else {
-                $datetimearray = self::item_split_unix_time($fromdb->content);
-                $prefill[$this->itemname.'_day'] = $datetimearray['mday'];
-                $prefill[$this->itemname.'_month'] = $datetimearray['mon'];
-                $prefill[$this->itemname.'_year'] = $datetimearray['year'];
-                $prefill[$this->itemname.'_hour'] = $datetimearray['hours'];
-                $prefill[$this->itemname.'_minute'] = $datetimearray['minutes'];
+                return $prefill;
             }
+
+            $datetimearray = self::item_split_unix_time($fromdb->content);
+            $prefill[$this->itemname.'_day'] = $datetimearray['mday'];
+            $prefill[$this->itemname.'_month'] = $datetimearray['mon'];
+            $prefill[$this->itemname.'_year'] = $datetimearray['year'];
+            $prefill[$this->itemname.'_hour'] = $datetimearray['hours'];
+            $prefill[$this->itemname.'_minute'] = $datetimearray['minutes'];
+        }
+
+        // If the "No answer" checkbox is part of the element GUI...
+        if ($this->defaultoption = SURVEYPRO_NOANSWERDEFAULT) {
+            $prefill[$this->itemname.'_noanswer'] = 0;
         }
 
         return $prefill;
