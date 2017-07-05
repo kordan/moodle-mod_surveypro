@@ -391,12 +391,12 @@ EOS;
 
         $attributes = array();
         $attributes['id'] = $idprefix;
+        $attributes['rows'] = $this->arearows;
+        $attributes['cols'] = $this->areacols;
         if (empty($this->useeditor) || ($searchform)) {
             $fieldname = $this->itemname;
             $attributes['class'] = 'indent-'.$this->indent.' textarea_textarea';
             $attributes['wrap'] = 'virtual';
-            $attributes['rows'] = $this->arearows;
-            $attributes['cols'] = $this->areacols;
             if (!$searchform) {
                 $mform->addElement('mod_surveypro_textarea_plain', $fieldname, $elementlabel, $attributes);
                 $mform->setType($fieldname, PARAM_TEXT);

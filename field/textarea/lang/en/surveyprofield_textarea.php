@@ -22,10 +22,10 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['areacols_help'] = 'Define a custom width for the text area';
+$string['areacols_help'] = 'Define a custom width for the text area (This option is not applied in conjunction with "Use html editor")';
 $string['areacols'] = 'Area width in columns';
-$string['arearows_help'] = 'Define a custom width for the text area';
-$string['arearows'] = 'Area heigh in rows';
+$string['arearows_help'] = 'Define a custom height for the text area';
+$string['arearows'] = 'Area height in rows';
 $string['hasmaxlength'] = 'Text is supposed to be shorter or equal than {$a} characters';
 $string['hasminlength'] = 'Text is supposed to be longer or equal than {$a} characters';
 $string['hasminmaxlength'] = 'Text is supposed to fit between {$a->minlength} and {$a->maxlength} characters';
