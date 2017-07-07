@@ -253,7 +253,7 @@ class mod_surveypro_itemlist {
 
         // No iconsmall css class here.
         $moveherestr = get_string('movehere');
-        $movehereicn = new pix_icon('movehere', $moveherestr, 'moodle', array('title' => $moveherestr));
+        $movehereicn = new pix_icon('movehere', $moveherestr, 'moodle', array('title' => $moveherestr, 'class' => 'placeholder'));
 
         $availablestr = get_string('available', 'mod_surveypro');
         $iconparams['title'] = $availablestr;

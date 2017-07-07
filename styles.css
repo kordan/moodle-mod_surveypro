@@ -160,16 +160,17 @@
 }
 
 #page-mod-surveypro-layout_items table#manageitems .actions img.icon,
-#page-mod-surveypro-layout_items table#sortitems .actions img.icon {
+#page-mod-surveypro-layout_items table#manageitems .availability img.icon,
+#page-mod-surveypro-layout_items table#sortitems .actions img.icon,
+#page-mod-surveypro-layout_items table#sortitems .availability img.icon {
+    width: 16px;
     height: 16px;
     margin-left: 0.45em;
     padding-right:0;
     vertical-align: middle;
-    width: 16px;
 }
 
-#page-mod-surveypro-layout_items table#manageitems img.movetarget,
-#page-mod-surveypro-layout_items table#sortitems img.movetarget {
+#page-mod-surveypro-layout_items table#sortitems .plugin img.placeholder {
     height:16px;
     width:80px;
 }
