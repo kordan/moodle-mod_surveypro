@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Class to filter the attachment item to overview
+ * Class to filter output by group
  *
- * @package   surveyproreport_attachments
+ * @package   surveyproreport_userspercount
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -27,13 +27,13 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/lib/formslib.php');
 
 /**
- * Class to filter output by group
+ * The class to filter the attachment item to overview
  *
- * @package   surveyproreport_attachments
+ * @package   surveyproreport_userspercount
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_groupfilterform extends moodleform {
+class mod_surveypro_groupjumper extends moodleform {
 
     /**
      * Definition.

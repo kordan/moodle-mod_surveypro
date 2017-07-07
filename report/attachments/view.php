@@ -23,7 +23,7 @@
  */
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/report/attachments/form/groupfilter_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/report/attachments/form/groupjumper_form.php');
 require_once($CFG->libdir.'/tablelib.php');
 
 $id = optional_param('id', 0, PARAM_INT);
@@ -62,7 +62,14 @@ if ($showjumper) {
     $formparams->canaccessallgroups = $canaccessallgroups;
     $formparams->addnotinanygroup = $reportman->add_notinanygroup();
     $formparams->jumpercontent = $jumpercontent;
-    $groupfilterform = new mod_surveypro_groupfilterform($formurl, $formparams);
+    $groupfilterform = new mod_surveypro_groupjumper($formurl, $formparams, null, null, array('id' => 'surveypro_jumperform'));
+
+    $PAGE->requires->js_amd_inline("
+    require(['jquery'], function($) {
+        $('#id_groupid').change(function() {
+            $('#surveypro_jumperform').submit();
+        });
+    });");
 }
 // End of: instance groupfilterform.
 
