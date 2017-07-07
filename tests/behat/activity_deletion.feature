@@ -8,7 +8,7 @@ Feature: verify instance deletion
   Scenario: Delete a surveypro activity
     Given the following "courses" exist:
       | fullname               | shortname         | category | groupmode |
-      | Test deleting activity | Activity deletion | 0        | 0         |
+      | Test activity deletion | Activity deletion | 0        | 0         |
     And the following "users" exist:
       | username | firstname | lastname | email                |
       | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
@@ -46,6 +46,6 @@ Feature: verify instance deletion
     And I log in as "teacher1"
     And I follow "Activity deletion"
     Then I should see "Activity delenda est" in the "#region-main" "css_element"
-    And I press "Turn editing on"
+    And I navigate to "Turn editing on" in current page administration
     And I delete "Activity delenda est" activity
     Then I should not see "Activity delenda est" in the "#region-main" "css_element"
