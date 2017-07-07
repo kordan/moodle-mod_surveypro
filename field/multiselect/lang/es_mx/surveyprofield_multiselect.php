@@ -38,6 +38,7 @@ $string['ierr_optionswithseparator'] = 'Las opciones no pueden contener "{$a}"';
 $string['ierr_valuesduplicated'] = 'Los valores deben de ser diferentes entre sí';
 $string['minimumrequired'] = 'Mínimo de ítems requeridos';
 $string['minimumrequired_help'] = 'El número máximo de ítems que el usuario es forzado a elegir en su contestación';
+$string['noanswerdefault'] = '"sin contestación" como valor por defecto';
 $string['option'] = 'Opción';
 $string['options'] = 'Opciones';
 $string['options_help'] = 'La lista de las opciones para este ítem. Usted tiene permitido escribirlas como: valor::etiqueta para definir ambos valor y etiqueta. La etiqueta será mostrada en el menú desplegable, el valor será almacenado en el campo. Si Usted solamente especifica una palabra por línea (sin separador), ambos el valor y la etiqueta serán valorados para esa palabra.';

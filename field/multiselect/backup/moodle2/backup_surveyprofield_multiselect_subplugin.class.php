@@ -44,7 +44,7 @@ class backup_surveyprofield_multiselect_subplugin extends backup_subplugin {
         $subpluginmultiselect = new backup_nested_element('surveyprofield_multiselect', array('id'), array(
             'content', 'contentformat', 'customnumber', 'position', 'extranote',
             'required', 'hideinstructions', 'variable', 'indent', 'options',
-            'defaultvalue', 'downloadformat', 'minimumrequired', 'heightinrows'));
+            'defaultvalue', 'noanswerdefault', 'downloadformat', 'minimumrequired', 'heightinrows'));
 
         // Connect XML elements into the tree.
         $subplugin->add_child($wrapper);
