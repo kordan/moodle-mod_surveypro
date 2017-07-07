@@ -68,7 +68,6 @@ Feature: test the use of boolean setup form
     And I set the field "Is this true?" to "No"
     And I press "Submit"
     Then I should see "Thank you. Your response has been successfully modified!"
-# I pause scenario execution
 
   @javascript
   Scenario: test the thanks page with images
@@ -88,9 +87,9 @@ Feature: test the use of boolean setup form
 
     # Atto needs focus to add image, select empty p tag to do so.
     And I select the text in the "id_thankshtml_editor" Atto editor
-    And I click on "Image" "button" in the "#fitem_id_thankshtml_editor" "css_element"
+    And I click on "Image" "button"
     And I click on "Browse repositories..." "button"
-    And I click on "Private files" "link"
+    And I click on "Private files" "link" in the ".fp-repo-area" "css_element"
     And I click on "thankyou.png" "link"
     And I click on "Select this file" "button"
     And I set the field "Describe this image for someone who cannot see it" to "Thank you!"
