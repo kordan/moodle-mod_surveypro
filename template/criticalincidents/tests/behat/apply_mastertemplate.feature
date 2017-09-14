@@ -18,7 +18,7 @@ Feature: apply CI mastertemplate
       | activity  | name                        | intro                      | course               | idnumber   |
       | surveypro | To apply Critical Incidents | To test Critical Incidents | Apply mastertemplate | surveypro1 |
     And I log in as "teacher1"
-    And I follow "To apply mastertemplate"
+    And I am on "To apply mastertemplate" course homepage
 
   @javascript
   Scenario: apply Critical Incidents master template

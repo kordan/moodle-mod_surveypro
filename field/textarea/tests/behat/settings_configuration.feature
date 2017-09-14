@@ -22,7 +22,7 @@ Feature: Validate creation and submit for textarea elements using the principal 
       | activity  | name           | intro              | course        | idnumber   |
       | surveypro | Surveypro test | For testing backup | Textarea item | surveypro1 |
     And I log in as "teacher1"
-    And I follow "Test submission for textarea item"
+    And I am on "Test submission for textarea item" course homepage
     And I follow "Surveypro test"
     And I set the field "typeplugin" to "Text (long)"
     And I press "Add"
@@ -49,7 +49,7 @@ Feature: Validate creation and submit for textarea elements using the principal 
 
     And I log out
     When I log in as "student1"
-    And I follow "Test submission for textarea item"
+    And I am on "Test submission for textarea item" course homepage
     And I follow "Surveypro test"
 
     # Test number 2: Student flies over the answer
@@ -90,7 +90,7 @@ Feature: Validate creation and submit for textarea elements using the principal 
 
     And I log out
     When I log in as "student1"
-    And I follow "Test submission for textarea item"
+    And I am on "Test submission for textarea item" course homepage
     And I follow "Surveypro test"
 
     # Test number 5: student submits an empty answer
@@ -136,7 +136,7 @@ Feature: Validate creation and submit for textarea elements using the principal 
 
     And I log out
     When I log in as "student1"
-    And I follow "Test submission for textarea item"
+    And I am on "Test submission for textarea item" course homepage
     And I follow "Surveypro test"
 
     # Test number 9: Student flies over the answer
@@ -177,7 +177,7 @@ Feature: Validate creation and submit for textarea elements using the principal 
 
     And I log out
     When I log in as "student1"
-    And I follow "Test submission for textarea item"
+    And I am on "Test submission for textarea item" course homepage
     And I follow "Surveypro test"
 
     # Test number 12: student submits an empty answer

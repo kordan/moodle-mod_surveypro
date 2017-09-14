@@ -22,7 +22,7 @@ Feature: test the use of textarea setup form
       | type  | plugin  |
       | field | boolean |
     And I log in as "teacher1"
-    And I follow "Textarea setup form"
+    And I am on "Textarea setup form" course homepage
     And I follow "Test textarea setup form"
     And I follow "Layout"
 

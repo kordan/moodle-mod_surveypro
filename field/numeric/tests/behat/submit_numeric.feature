@@ -21,7 +21,7 @@ Feature: make a submission test for "numeric" item
       | activity  | name         | intro                         | course                  | idnumber   |
       | surveypro | Numeric test | To test submission of numeric | Numeric submission test | surveypro1 |
     And I log in as "teacher1"
-    And I follow "Test submission for numeric item"
+    And I am on "Test submission for numeric item" course homepage
     And I follow "Numeric test"
 
     And I set the field "typeplugin" to "Numeric"
@@ -42,7 +42,7 @@ Feature: make a submission test for "numeric" item
 
     # student1 logs in
     When I log in as "student1"
-    And I follow "Test submission for numeric item"
+    And I am on "Test submission for numeric item" course homepage
     And I follow "Numeric test"
     And I press "New response"
 

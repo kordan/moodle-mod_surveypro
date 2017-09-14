@@ -22,7 +22,7 @@ Feature: test the use of checkbox setup form
       | type  | plugin  |
       | field | boolean |
     And I log in as "teacher1"
-    And I follow "Checkbox setup form"
+    And I am on "Checkbox setup form" course homepage
     And I follow "Test checkbox setup form"
     And I follow "Layout"
 

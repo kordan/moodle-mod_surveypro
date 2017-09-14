@@ -35,7 +35,7 @@ Feature: test students can see submissions from their groups only
       | student3 | G2    |
 
     And I log in as "teacher1"
-    And I follow "Course divided into groups"
+    And I am on "Course divided into groups" course homepage
     And I turn editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
       | Name        | Get only my group submission                                  |
@@ -73,7 +73,7 @@ Feature: test students can see submissions from their groups only
 
     # student1 logs in
     When I log in as "student1"
-    And I follow "Course divided into groups"
+    And I am on "Course divided into groups" course homepage
     And I follow "Get only my group submission"
 
     And I follow "Responses"
@@ -102,7 +102,7 @@ Feature: test students can see submissions from their groups only
 
     # student2 logs in
     When I log in as "student2"
-    And I follow "Course divided into groups"
+    And I am on "Course divided into groups" course homepage
     And I follow "Get only my group submission"
 
     And I follow "Responses"
@@ -126,7 +126,7 @@ Feature: test students can see submissions from their groups only
 
     # student3 logs in
     When I log in as "student3"
-    And I follow "Course divided into groups"
+    And I am on "Course divided into groups" course homepage
     And I follow "Get only my group submission"
 
     And I follow "Responses"
@@ -150,7 +150,7 @@ Feature: test students can see submissions from their groups only
 
     # student1 goes to check for his personal submissions
     When I log in as "student1"
-    And I follow "Course divided into groups"
+    And I am on "Course divided into groups" course homepage
     And I follow "Get only my group submission"
 
     And I follow "Responses"

@@ -22,7 +22,7 @@ Feature: test the use of radiobutton setup form
       | type  | plugin  |
       | field | boolean |
     And I log in as "teacher1"
-    And I follow "Radiobutton setup form"
+    And I am on "Radiobutton setup form" course homepage
     And I follow "Test radiobutton setup form"
     And I follow "Layout"
 

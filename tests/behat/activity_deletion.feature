@@ -44,7 +44,7 @@ Feature: verify instance deletion
       | field  | time        |
 
     And I log in as "teacher1"
-    And I follow "Activity deletion"
+    And I am on "Test activity deletion" course homepage
     Then I should see "Activity delenda est" in the "#region-main" "css_element"
     And I navigate to "Turn editing on" in current page administration
     And I delete "Activity delenda est" activity

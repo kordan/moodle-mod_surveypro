@@ -21,7 +21,7 @@ Feature: make a submission test for "time" item
       | activity  | name      | intro                           | course               | idnumber   |
       | surveypro | Time test | To test submission of time item | Time submission test | surveypro1 |
     And I log in as "teacher1"
-    And I follow "Test submission for time item"
+    And I am on "Test submission for time item" course homepage
     And I follow "Time test"
 
     And I set the field "typeplugin" to "Time"
@@ -38,7 +38,7 @@ Feature: make a submission test for "time" item
     And I log out
 
     When I log in as "student1"
-    And I follow "Test submission for time item"
+    And I am on "Test submission for time item" course homepage
     And I follow "Time test"
 
     # student1 submits

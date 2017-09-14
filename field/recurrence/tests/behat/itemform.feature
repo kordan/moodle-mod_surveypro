@@ -22,7 +22,7 @@ Feature: test the use of recurrence setup form
       | type  | plugin  |
       | field | boolean |
     And I log in as "teacher1"
-    And I follow "Recurrence setup form"
+    And I am on "Recurrence setup form" course homepage
     And I follow "Test recurrence setup form"
     And I follow "Layout"
 

@@ -22,7 +22,7 @@ Feature: test the use of integer setup form
       | type  | plugin  |
       | field | boolean |
     And I log in as "teacher1"
-    And I follow "Integer setup form"
+    And I am on "Integer setup form" course homepage
     And I follow "Test integer setup form"
     And I follow "Layout"
 

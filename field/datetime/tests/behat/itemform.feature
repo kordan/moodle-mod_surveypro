@@ -22,7 +22,7 @@ Feature: test the use of datetime setup form
       | type  | plugin  |
       | field | boolean |
     And I log in as "teacher1"
-    And I follow "Datetime setup form"
+    And I am on "Datetime setup form" course homepage
     And I follow "Test datetime setup form"
     And I follow "Layout"
 

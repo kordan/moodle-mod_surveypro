@@ -22,7 +22,7 @@ Feature: test the use of fileupload setup form
       | type  | plugin  |
       | field | boolean |
     And I log in as "teacher1"
-    And I follow "Fileupload setup form"
+    And I am on "Fileupload setup form" course homepage
     And I follow "Test fileupload setup form"
     And I follow "Layout"
 

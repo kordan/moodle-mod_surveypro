@@ -18,7 +18,7 @@ Feature: apply ATTLS (20 item version) mastertemplate
       | activity  | name           | intro         | course               | idnumber   |
       | surveypro | To apply ATTLS | To test ATTLS | Apply mastertemplate | surveypro1 |
     And I log in as "teacher1"
-    And I follow "To apply mastertemplate"
+    And I am on "To apply mastertemplate" course homepage
 
   @javascript
   Scenario: apply ATTLS (20 item version) master template

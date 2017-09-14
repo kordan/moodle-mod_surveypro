@@ -22,7 +22,7 @@ Feature: test the use of autofill setup form
       | type  | plugin  |
       | field | boolean |
     And I log in as "teacher1"
-    And I follow "Autofill setup form"
+    And I am on "Autofill setup form" course homepage
     And I follow "Test autofill setup form"
     And I follow "Layout"
 

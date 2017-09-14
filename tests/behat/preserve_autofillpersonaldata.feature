@@ -37,7 +37,7 @@ Feature: editing a submission, autofill userID is not overwritten
       | surveypro | Preserve autofill | Test that editing a submission, autofill userID is not overwritten | Course grouped | surveypro1 | Separate groups |
 
     And I log in as "teacher1"
-    And I follow "Course divided into groups"
+    And I am on "Course divided into groups" course homepage
     And I follow "Preserve autofill"
 
     And I set the field "typeplugin" to "Autofill"
@@ -90,7 +90,7 @@ Feature: editing a submission, autofill userID is not overwritten
 
     # student1 logs in
     When I log in as "student1"
-    And I follow "Course divided into groups"
+    And I am on "Course divided into groups" course homepage
     And I follow "Preserve autofill"
 
     And I press "New response"
@@ -109,7 +109,7 @@ Feature: editing a submission, autofill userID is not overwritten
 
     # student2 logs in
     When I log in as "student2"
-    And I follow "Course divided into groups"
+    And I am on "Course divided into groups" course homepage
     And I follow "Preserve autofill"
 
     And I follow "Responses"
@@ -125,7 +125,7 @@ Feature: editing a submission, autofill userID is not overwritten
 
     # student1 logs in
     When I log in as "student1"
-    And I follow "Course divided into groups"
+    And I am on "Course divided into groups" course homepage
     And I follow "Preserve autofill"
 
     And I follow "Responses"
@@ -138,7 +138,7 @@ Feature: editing a submission, autofill userID is not overwritten
 
     # teacher1 logs in
     When I log in as "teacher1"
-    And I follow "Course divided into groups"
+    And I am on "Course divided into groups" course homepage
     And I follow "Preserve autofill"
 
     And I follow "edit_submission_row_1"
@@ -152,7 +152,7 @@ Feature: editing a submission, autofill userID is not overwritten
 
     # student1 logs in
     When I log in as "student1"
-    And I follow "Course divided into groups"
+    And I am on "Course divided into groups" course homepage
     And I follow "Preserve autofill"
 
     And I follow "Responses"

@@ -21,7 +21,7 @@ Feature: make a submission test for "rate" item
       | activity  | name      | intro                           | course               | idnumber   |
       | surveypro | Rate test | To test submission of date item | Rate submission test | surveypro1 |
     And I log in as "teacher1"
-    And I follow "Test submission for rate item"
+    And I am on "Test submission for rate item" course homepage
     And I follow "Rate test"
 
     And I set the field "typeplugin" to "Rate"
@@ -102,7 +102,7 @@ Feature: make a submission test for "rate" item
 
     # student1 logs in
     When I log in as "student1"
-    And I follow "Test submission for rate item"
+    And I am on "Test submission for rate item" course homepage
     And I follow "Rate test"
     And I press "New response"
 

@@ -19,7 +19,7 @@ Feature: verify a fieldsetend item can be added to a survey
       | activity  | name          | intro                                | course          | idnumber   |
       | surveypro | Fieldset test | To test addition of fieldsetend item | Add fieldsetend | surveypro1 |
     And I log in as "teacher1"
-    And I follow "Add fieldsetend item"
+    And I am on "Add fieldsetend item" course homepage
     And I follow "Fieldset test"
 
     And I set the field "typeplugin" to "Fieldset closure"

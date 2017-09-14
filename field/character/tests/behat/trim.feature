@@ -21,7 +21,7 @@ Feature: test the use of character setup form
       | activity  | name                | intro               | course              | idnumber   |
       | surveypro | Test character trim | Test character trim | Character trim test | surveypro1 |
     And I log in as "teacher1"
-    And I follow "Character trim test"
+    And I am on "Character trim test" course homepage
     And I follow "Test character trim"
 
     # add an character item
@@ -56,7 +56,7 @@ Feature: test the use of character setup form
 
     And I log out
     When I log in as "student1"
-    And I follow "Character trim test"
+    And I am on "Character trim test" course homepage
     And I follow "Test character trim"
 
     # Test number 1: Student insert a record
