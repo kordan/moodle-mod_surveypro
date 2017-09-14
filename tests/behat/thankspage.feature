@@ -72,14 +72,12 @@ Feature: test the use of boolean setup form
   @javascript
   Scenario: test the thanks page with images
     When I log in as "teacher1"
-    And I am on "Manage private files" course homepage
+    And I follow "Manage private files"
     # And I upload "mod/lesson/tests/fixtures/moodle_logo.jpg" file to "Files" filemanager
     And I upload "mod/surveypro/tests/fixtures/thankyou.png" file to "Files" filemanager
     And I click on "Save changes" "button"
 
-    When I am on homepage
-
-    And I follow "Thank you"
+    And I am on "Thank you" course homepage
     And I follow "Thanks surveypro"
 
     And I navigate to "Edit settings" node in "Surveypro administration"

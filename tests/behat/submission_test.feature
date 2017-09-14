@@ -125,7 +125,7 @@ Feature: make a submission test for each available item
 
     When I log in as "teacher1"
 
-    And I follow "Test submission for each available item"
+    And I am on "Test submission for each available item" course homepage
     And I follow "Each item submission"
     And I follow "edit_submission_row_1"
     And I press "Next page >>"

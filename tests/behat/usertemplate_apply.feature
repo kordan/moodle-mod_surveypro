@@ -31,6 +31,7 @@ Feature: Load and apply usertemplates in order to test, among others, partial it
 
     # now I am in the "Manage" page
     And I navigate to "Apply" node in "Surveypro administration > User templates"
+    And I pause
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
