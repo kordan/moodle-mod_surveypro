@@ -612,6 +612,7 @@ jam
 chocolate</options>
       <defaultvalue>jam
 chocolate</defaultvalue>
+      <noanswerdefault>0</noanswerdefault>
       <downloadformat>0</downloadformat>
       <minimumrequired>0</minimumrequired>
       <heightinrows>4</heightinrows>
