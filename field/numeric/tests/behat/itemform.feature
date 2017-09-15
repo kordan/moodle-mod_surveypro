@@ -22,7 +22,7 @@ Feature: test the use of numeric setup form
       | type  | plugin  |
       | field | boolean |
     And I log in as "teacher1"
-    And I follow "Numeric setup form"
+    And I am on "Numeric setup form" course homepage
     And I follow "Test numeric setup form"
     And I follow "Layout"
 

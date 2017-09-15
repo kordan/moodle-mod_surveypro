@@ -22,7 +22,7 @@ Feature: test the use of date setup form
       | type  | plugin  |
       | field | boolean |
     And I log in as "teacher1"
-    And I follow "Date setup form"
+    And I am on "Date setup form" course homepage
     And I follow "Test date setup form"
     And I follow "Layout"
 

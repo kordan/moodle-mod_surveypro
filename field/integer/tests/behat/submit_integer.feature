@@ -21,7 +21,7 @@ Feature: make a submission test for "integer" item
       | activity  | name         | intro                           | course                  | idnumber   |
       | surveypro | Integer test | To test submission of date item | Integer submission test | surveypro1 |
     And I log in as "teacher1"
-    And I follow "Test submission for integer item"
+    And I am on "Test submission for integer item" course homepage
     And I follow "Integer test"
 
     And I set the field "typeplugin" to "Integer (small)"
@@ -40,7 +40,7 @@ Feature: make a submission test for "integer" item
 
     # student1 logs in
     When I log in as "student1"
-    And I follow "Test submission for integer item"
+    And I am on "Test submission for integer item" course homepage
     And I follow "Integer test"
     And I press "New response"
 

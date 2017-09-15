@@ -21,7 +21,7 @@ Feature: test the use of textarea setup form
       | activity  | name               | intro              | course             | idnumber   |
       | surveypro | Test textarea trim | Test textarea trim | Textarea trim test | surveypro1 |
     And I log in as "teacher1"
-    And I follow "Textarea trim test"
+    And I am on "Textarea trim test" course homepage
     And I follow "Test textarea trim"
 
     # add an textarea item
@@ -54,7 +54,7 @@ Feature: test the use of textarea setup form
 
     And I log out
     When I log in as "student1"
-    And I follow "Textarea trim test"
+    And I am on "Textarea trim test" course homepage
     And I follow "Test textarea trim"
 
     # Test number 1: Student insert a record

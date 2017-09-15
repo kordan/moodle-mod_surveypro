@@ -22,7 +22,7 @@ Feature: test the use of rate setup form
       | type  | plugin  |
       | field | boolean |
     And I log in as "teacher1"
-    And I follow "Rate setup form"
+    And I am on "Rate setup form" course homepage
     And I follow "Test rate setup form"
     And I follow "Layout"
 

@@ -22,7 +22,7 @@ Feature: test the use of select setup form
       | type  | plugin  |
       | field | boolean |
     And I log in as "teacher1"
-    And I follow "Select setup form"
+    And I am on "Select setup form" course homepage
     And I follow "Test select setup form"
     And I follow "Layout"
 

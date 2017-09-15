@@ -21,7 +21,7 @@ Feature: make a submission test for "fileupload" item
       | activity  | name            | intro                                 | course                     | idnumber   |
       | surveypro | Attachment test | To test submission of attachment item | Attachment submission test | surveypro1 |
     And I log in as "teacher1"
-    And I follow "Test submission for attachment item"
+    And I am on "Test submission for attachment item" course homepage
     And I follow "Attachment test"
 
     And I set the field "typeplugin" to "Attachment"
@@ -41,7 +41,7 @@ Feature: make a submission test for "fileupload" item
 
     # student1 logs in
     When I log in as "student1"
-    And I follow "Test submission for attachment item"
+    And I am on "Test submission for attachment item" course homepage
     And I follow "Attachment test"
     And I press "New response"
 

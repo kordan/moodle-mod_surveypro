@@ -21,7 +21,7 @@ Feature: test the use of reserved elements
       | activity  | name                  | intro                    | course            | idnumber   |
       | surveypro | Reserved element test | To test reserved element | Reserved elements | surveypro1 |
     And I log in as "teacher1"
-    And I follow "Reserved elements"
+    And I am on "Reserved elements" course homepage
     And I follow "Reserved element test"
 
     # add the first age item generally available
@@ -63,7 +63,7 @@ Feature: test the use of reserved elements
 
     # test the user sees only the first age item
     When I log in as "student1"
-    And I follow "Reserved elements"
+    And I am on "Reserved elements" course homepage
     And I follow "Reserved element test"
     And I press "New response"
     Then I should see "1: First age item"
@@ -79,7 +79,7 @@ Feature: test the use of reserved elements
 
     # test the teacher sees the first and the second age items both
     When I log in as "teacher1"
-    And I follow "Reserved elements"
+    And I am on "Reserved elements" course homepage
     And I follow "Reserved element test"
     And I follow "edit_submission_row_1"
     Then I should see "1: First age item"

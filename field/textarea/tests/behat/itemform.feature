@@ -22,7 +22,7 @@ Feature: test the use of textarea setup form
       | type  | plugin  |
       | field | boolean |
     And I log in as "teacher1"
-    And I follow "Textarea setup form"
+    And I am on "Textarea setup form" course homepage
     And I follow "Test textarea setup form"
     And I follow "Layout"
 
@@ -47,7 +47,7 @@ Feature: test the use of textarea setup form
       | Parent element                 | Boolean [1]: Is this true?            |
       | Parent content                 | 1                                     |
       | Use html editor                | 1                                     |
-      | Area heigh in rows             | 7                                     |
+      | Area height in rows            | 7                                     |
       | Area width in columns          | 40                                    |
       | Minimum length (in characters) | 14                                    |
       | Maximum length (in characters) | 4                                     |
@@ -74,7 +74,7 @@ Feature: test the use of textarea setup form
     Then the field "Parent element" matches value "Boolean [1]: Is this true?"
     Then the field "Parent content" matches value "1"
     Then the field "Use html editor" matches value "1"
-    Then the field "Area heigh in rows" matches value "7"
+    Then the field "Area height in rows" matches value "7"
     Then the field "Area width in columns" matches value "40"
     Then the field "Minimum length (in characters)" matches value "14"
     Then the field "Maximum length (in characters)" matches value "40"

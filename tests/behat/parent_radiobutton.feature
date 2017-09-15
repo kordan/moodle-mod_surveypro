@@ -24,7 +24,7 @@ Feature: test the use of radiobutton as parent item
       | type   | plugin      |
       | field  | radiobutton |
     And I log in as "teacher1"
-    And I follow "Radiobutton as parent"
+    And I am on "Radiobutton as parent" course homepage
     And I follow "Test radiobutton as parent"
     And I follow "Layout"
 
@@ -43,7 +43,7 @@ Feature: test the use of radiobutton as parent item
 
     # test the the child item correctly appear or not appear
     When I log in as "student1"
-    And I follow "Radiobutton as parent"
+    And I am on "Radiobutton as parent" course homepage
     And I follow "Test radiobutton as parent"
 
     And I press "New response"
@@ -78,7 +78,7 @@ Feature: test the use of radiobutton as parent item
     And I log out
 
     And I log in as "teacher1"
-    And I follow "Radiobutton as parent"
+    And I am on "Radiobutton as parent" course homepage
     And I follow "Test radiobutton as parent"
     And I follow "Layout"
     And I follow "edit_item_2"
@@ -90,7 +90,7 @@ Feature: test the use of radiobutton as parent item
 
     # test the the child item correctly appear or not appear
     When I log in as "student1"
-    And I follow "Radiobutton as parent"
+    And I am on "Radiobutton as parent" course homepage
     And I follow "Test radiobutton as parent"
 
     And I press "New response"
@@ -125,7 +125,7 @@ Feature: test the use of radiobutton as parent item
     And I log out
 
     And I log in as "teacher1"
-    And I follow "Radiobutton as parent"
+    And I am on "Radiobutton as parent" course homepage
     And I follow "Test radiobutton as parent"
     And I navigate to "Edit settings" node in "Surveypro administration"
     And I expand all fieldsets
@@ -136,7 +136,7 @@ Feature: test the use of radiobutton as parent item
 
     # test the the child item is correctly enabled or disabled
     When I log in as "student1"
-    And I follow "Radiobutton as parent"
+    And I am on "Radiobutton as parent" course homepage
     And I follow "Test radiobutton as parent"
 
     And I press "New response"
@@ -157,7 +157,7 @@ Feature: test the use of radiobutton as parent item
     And I log out
 
     And I log in as "teacher1"
-    And I follow "Radiobutton as parent"
+    And I am on "Radiobutton as parent" course homepage
     And I follow "Test radiobutton as parent"
     And I follow "Layout"
     And I follow "edit_item_2"
@@ -169,7 +169,7 @@ Feature: test the use of radiobutton as parent item
 
     # test the the child item is correctly enabled or disabled
     When I log in as "student1"
-    And I follow "Radiobutton as parent"
+    And I am on "Radiobutton as parent" course homepage
     And I follow "Test radiobutton as parent"
 
     And I press "New response"

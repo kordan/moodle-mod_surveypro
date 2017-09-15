@@ -22,7 +22,7 @@ Feature: test the use of age setup form
       | type  | plugin  |
       | field | boolean |
     And I log in as "teacher1"
-    And I follow "Age setup form"
+    And I am on "Age setup form" course homepage
     And I follow "Test age setup form"
     And I follow "Layout"
 

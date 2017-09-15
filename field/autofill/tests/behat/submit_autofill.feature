@@ -21,7 +21,7 @@ Feature: make a submission test for "autofill" item
       | activity  | name          | intro                               | course                   | idnumber   |
       | surveypro | Autofill test | To test submission of autofill item | Autofill submission test | surveypro1 |
     And I log in as "teacher1"
-    And I follow "Test submission for autofill item"
+    And I am on "Test submission for autofill item" course homepage
     And I follow "Autofill test"
 
     And I set the field "typeplugin" to "Autofill"
@@ -40,7 +40,7 @@ Feature: make a submission test for "autofill" item
 
     # student1 logs in
     When I log in as "student1"
-    And I follow "Test submission for autofill item"
+    And I am on "Test submission for autofill item" course homepage
     And I follow "Autofill test"
     And I press "New response"
 

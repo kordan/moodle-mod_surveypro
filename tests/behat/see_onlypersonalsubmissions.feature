@@ -23,7 +23,7 @@ Feature: test each student sees only personal submissions
       | activity  | name                        | intro                                                  | course                    | idnumber   |
       | surveypro | Get only my own submissions | Test each student can only see his/her own submissions | Only personal submissions | surveypro1 |
     And I log in as "teacher1"
-    And I follow "See only personal submissions"
+    And I am on "See only personal submissions" course homepage
     And I follow "Get only my own submissions"
 
     And I set the field "typeplugin" to "Text (short)"
@@ -56,7 +56,7 @@ Feature: test each student sees only personal submissions
 
     # student1 logs in
     When I log in as "student1"
-    And I follow "See only personal submissions"
+    And I am on "See only personal submissions" course homepage
     And I follow "Get only my own submissions"
     And I press "New response"
 
@@ -78,7 +78,7 @@ Feature: test each student sees only personal submissions
 
     # student2 logs in
     When I log in as "student2"
-    And I follow "See only personal submissions"
+    And I am on "See only personal submissions" course homepage
     And I follow "Get only my own submissions"
     And I follow "Responses"
     Then I should see "Nothing to display"
@@ -99,7 +99,7 @@ Feature: test each student sees only personal submissions
 
     # student1 goes to check for his personal submissions
     When I log in as "student1"
-    And I follow "See only personal submissions"
+    And I am on "See only personal submissions" course homepage
     And I follow "Get only my own submissions"
 
     And I follow "Responses"

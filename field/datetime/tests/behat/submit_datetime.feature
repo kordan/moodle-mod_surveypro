@@ -21,7 +21,7 @@ Feature: make a submission test for "datetime" item
       | activity  | name          | intro                           | course                   | idnumber   |
       | surveypro | Datetime test | To test submission of date item | Datetime submission test | surveypro1 |
     And I log in as "teacher1"
-    And I follow "Test submission for datetime item"
+    And I am on "Test submission for datetime item" course homepage
     And I follow "Datetime test"
 
     And I set the field "typeplugin" to "Date and time [dd/mm/yyyy;hh:mm]"
@@ -41,7 +41,7 @@ Feature: make a submission test for "datetime" item
 
     # student1 logs in
     When I log in as "student1"
-    And I follow "Test submission for datetime item"
+    And I am on "Test submission for datetime item" course homepage
     And I follow "Datetime test"
     And I press "New response"
 

@@ -21,7 +21,7 @@ Feature: make a submission test for "select" item
       | activity  | name        | intro                             | course                 | idnumber   |
       | surveypro | Select test | To test submission of select item | Select submission test | surveypro1 |
     And I log in as "teacher1"
-    And I follow "Test submission for select item"
+    And I am on "Test submission for select item" course homepage
     And I follow "Select test"
 
     And I set the field "typeplugin" to "Select"
@@ -55,7 +55,7 @@ Feature: make a submission test for "select" item
 
     # student1 logs in
     When I log in as "student1"
-    And I follow "Test submission for select item"
+    And I am on "Test submission for select item" course homepage
     And I follow "Select test"
     And I press "New response"
 

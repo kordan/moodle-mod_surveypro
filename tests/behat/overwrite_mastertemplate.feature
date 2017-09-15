@@ -19,7 +19,7 @@ Feature: verify the deletion of old items works as expected during master templa
       | activity  | name                          | intro                                | course                   | idnumber   |
       | surveypro | To overwrite master templates | To test overwrite of master template | Overwrite mastertemplate | surveypro1 |
     And I log in as "teacher1"
-    And I follow "Overwrite mastertemplate"
+    And I am on "Overwrite mastertemplate" course homepage
     And I follow "To overwrite master templates"
 
     And I set the field "mastertemplate" to "ATTLS (20 item version)"

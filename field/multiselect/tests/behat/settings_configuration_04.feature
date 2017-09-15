@@ -22,7 +22,7 @@ Feature: Validate creation and submit for "multiselect" elements using the princ
       | activity  | name           | intro              | course           | idnumber   |
       | surveypro | Surveypro test | For testing backup | Multiselect item | surveypro1 |
     And I log in as "teacher1"
-    And I follow "Test submission for multiselect item"
+    And I am on "Test submission for multiselect item" course homepage
     And I follow "Surveypro test"
     And I set the field "typeplugin" to "Multiple selection"
     And I press "Add"
@@ -56,7 +56,7 @@ Feature: Validate creation and submit for "multiselect" elements using the princ
 
     And I log out
     When I log in as "student1"
-    And I follow "Test submission for multiselect item"
+    And I am on "Test submission for multiselect item" course homepage
     And I follow "Surveypro test"
 
     # Test number 1: Student flies over the answer
@@ -103,7 +103,7 @@ Feature: Validate creation and submit for "multiselect" elements using the princ
 
     And I log out
     When I log in as "student1"
-    And I follow "Test submission for multiselect item"
+    And I am on "Test submission for multiselect item" course homepage
     And I follow "Surveypro test"
 
     # Test number 3: Student flies over the answer

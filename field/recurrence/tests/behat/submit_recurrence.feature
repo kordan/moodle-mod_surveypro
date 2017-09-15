@@ -21,7 +21,7 @@ Feature: make a submission test for "recurrence" item
       | activity  | name            | intro                           | course                     | idnumber   |
       | surveypro | Recurrence test | To test submission of date item | Recurrence submission test | surveypro1 |
     And I log in as "teacher1"
-    And I follow "Test submission for recurrence item"
+    And I am on "Test submission for recurrence item" course homepage
     And I follow "Recurrence test"
 
     And I set the field "typeplugin" to "Recurrence [dd/mm]"
@@ -41,7 +41,7 @@ Feature: make a submission test for "recurrence" item
 
     # student1 logs in
     When I log in as "student1"
-    And I follow "Test submission for recurrence item"
+    And I am on "Test submission for recurrence item" course homepage
     And I follow "Recurrence test"
     And I press "New response"
 

@@ -18,7 +18,7 @@ Feature: apply COLLES (Preferred) mastertemplate
       | activity  | name                        | intro                      | course               | idnumber   |
       | surveypro | To apply COLLES (Preferred) | To test COLLES (Preferred) | Apply mastertemplate | surveypro1 |
     And I log in as "teacher1"
-    And I follow "To apply mastertemplate"
+    And I am on "To apply mastertemplate" course homepage
 
   @javascript
   Scenario: apply COLLES (Preferred) master template

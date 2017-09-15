@@ -22,7 +22,7 @@ Feature: test the use of character setup form
       | type  | plugin  |
       | field | boolean |
     And I log in as "teacher1"
-    And I follow "Character setup form"
+    And I am on "Character setup form" course homepage
     And I follow "Test character setup form"
     And I follow "Layout"
 

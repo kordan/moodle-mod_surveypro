@@ -19,7 +19,7 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
       | activity  | name      | intro                                | course                  | idnumber   |
       | surveypro | Apply all | Surveypro to apply all usertemplates | Apply each usertemplate | surveypro1 |
     And I log in as "teacher1"
-    And I follow "To apply all usertemplates"
+    And I am on "To apply all usertemplates" course homepage
     And I follow "Apply all"
 
     And I navigate to "Import" node in "Surveypro administration > User templates"

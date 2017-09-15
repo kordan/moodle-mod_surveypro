@@ -20,7 +20,7 @@ Feature: apply a COLLES (preferred) mastertemplate to test graphs
       | activity  | name              | intro                         | course      | idnumber   |
       | surveypro | Run COLLES report | This is to test COLLES graphs | Test graphs | surveypro1 |
     And I log in as "teacher1"
-    And I follow "To test COLLES graphs"
+    And I am on "To test COLLES graphs" course homepage
 
   @javascript
   Scenario: apply COLLES (Preferred) master template, add a record and call reports
@@ -34,7 +34,7 @@ Feature: apply a COLLES (preferred) mastertemplate to test graphs
 
     # student1 logs in
     When I log in as "student1"
-    And I follow "To test COLLES graphs"
+    And I am on "To test COLLES graphs" course homepage
     And I follow "Run COLLES report"
     And I press "New response"
 
@@ -75,7 +75,7 @@ Feature: apply a COLLES (preferred) mastertemplate to test graphs
     And I log out
 
     When I log in as "teacher1"
-    And I follow "To test COLLES graphs"
+    And I am on "To test COLLES graphs" course homepage
     And I follow "Run COLLES report"
 
     And I navigate to "Summary" node in "Surveypro administration > Report > Colles report"

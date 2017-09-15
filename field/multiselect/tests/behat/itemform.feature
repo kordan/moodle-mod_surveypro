@@ -22,7 +22,7 @@ Feature: test the use of multiselect setup form
       | type  | plugin  |
       | field | boolean |
     And I log in as "teacher1"
-    And I follow "Multiselect setup form"
+    And I am on "Multiselect setup form" course homepage
     And I follow "Test multiselect setup form"
     And I follow "Layout"
 

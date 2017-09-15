@@ -49,7 +49,7 @@ Feature: make a submission test for each available item
       | field  | time        |
       | format | label       |
     And I log in as "teacher1"
-    And I follow "Test submission for each available item"
+    And I am on "Test submission for each available item" course homepage
     And I follow "Each item submission"
     And I follow "Layout"
     And I follow "Preview"
@@ -60,7 +60,7 @@ Feature: make a submission test for each available item
 
     # student1 logs in
     When I log in as "student1"
-    And I follow "Test submission for each available item"
+    And I am on "Test submission for each available item" course homepage
     And I follow "Each item submission"
     And I press "New response"
 
@@ -125,7 +125,7 @@ Feature: make a submission test for each available item
 
     When I log in as "teacher1"
 
-    And I follow "Test submission for each available item"
+    And I am on "Test submission for each available item" course homepage
     And I follow "Each item submission"
     And I follow "edit_submission_row_1"
     And I press "Next page >>"

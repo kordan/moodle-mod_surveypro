@@ -21,7 +21,7 @@ Feature: make a submission test for "age" item
       | activity  | name     | intro                          | course              | idnumber   |
       | surveypro | Age test | To test submission of age item | Age submission test | surveypro1 |
     And I log in as "teacher1"
-    And I follow "Test submission for age item"
+    And I am on "Test submission for age item" course homepage
     And I follow "Age test"
 
     And I set the field "typeplugin" to "Age"
@@ -44,7 +44,7 @@ Feature: make a submission test for "age" item
 
     # student1 logs in
     When I log in as "student1"
-    And I follow "Test submission for age item"
+    And I am on "Test submission for age item" course homepage
     And I follow "Age test"
     And I press "New response"
 
