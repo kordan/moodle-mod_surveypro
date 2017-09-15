@@ -1,112 +1,59 @@
-# This is the language of our project.
 language: php
 
-# This tells Travis CI to use its new architecture.  Everything is better!
 sudo: false
 
-# This tells Travis CI to cache Composer's cache.  Speeds up build times.
+addons:
+  firefox: "47.0.1"
+  postgresql: "9.3"
+  apt:
+    packages:
+      - oracle-java8-installer
+      - oracle-java8-set-default
+
 cache:
   directories:
     - $HOME/.composer/cache
+    - $HOME/.npm
 
-# For 3.2 and up, these are the default php supported, let's
-# handle older versions via manual include/exclude below.
 php:
+ - 7.1
  - 7.0
- - 5.6
 
 # This section sets up the environment variables for the build.
 env:
   - MOODLE_BRANCH=master           DB=pgsql
   - MOODLE_BRANCH=master           DB=mysqli
-  - MOODLE_BRANCH=MOODLE_31_STABLE DB=pgsql
-  - MOODLE_BRANCH=MOODLE_31_STABLE DB=mysqli
-  - MOODLE_BRANCH=MOODLE_30_STABLE DB=pgsql
+  - MOODLE_BRANCH=MOODLE_33_STABLE DB=pgsql
+  - MOODLE_BRANCH=MOODLE_33_STABLE DB=mysqli
+  - MOODLE_BRANCH=MOODLE_32_STABLE DB=pgsql
 
 matrix:
   include:
-    - php: 5.4
-      env: MOODLE_BRANCH=MOODLE_31_STABLE DB=pgsql
-    - php: 5.4
-      env: MOODLE_BRANCH=MOODLE_31_STABLE DB=mysqli
-    - php: 5.4
-      env: MOODLE_BRANCH=MOODLE_30_STABLE DB=pgsql
-  exclude:
     - php: 5.6
-      env: MOODLE_BRANCH=MOODLE_31_STABLE DB=pgsql
+      env: MOODLE_BRANCH=MOODLE_33_STABLE DB=pgsql
     - php: 5.6
-      env: MOODLE_BRANCH=MOODLE_31_STABLE DB=mysqli
+      env: MOODLE_BRANCH=MOODLE_33_STABLE DB=mysqli
     - php: 5.6
-      env: MOODLE_BRANCH=MOODLE_30_STABLE DB=pgsql
+      env: MOODLE_BRANCH=MOODLE_32_STABLE DB=pgsql
 
-# This lists steps that are run before the installation step.
 before_install:
-
-# This disables XDebug which should speed up the build.  One reason to remove this
-# line is if you are trying to generate code coverage with PHPUnit.
   - phpenv config-rm xdebug.ini
-
-# Currently we are inside of the clone of your repository.  We move up two
-# directories to build the project.
+  - nvm install node
   - cd ../..
-
-# Update Composer.
-  - composer selfupdate
-
-# Install this project into a directory called "ci".
-  - composer create-project -n --no-dev --prefer-dist moodlerooms/moodle-plugin-ci ci ^1
-
-# Update the $PATH so scripts from this project can be called easily.
+  - composer create-project -n --no-dev --prefer-dist moodlerooms/moodle-plugin-ci ci ^2
   - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
 
-# This lists steps that are run for installation and setup.
 install:
-# Run the default install.  The overview of what this does:
-#    - Clone the Moodle project into a directory called moodle.
-#    - Create Moodle config.php, database, data directories, etc.
-#    - Copy your plugin into Moodle.
-#    - If your plugin has Behat features, then Behat will be setup.
-#    - If your plugin has unit tests, then PHPUnit will be setup.
   - moodle-plugin-ci install
-# To allow the execution of multilang_mastertemplate.feature test in travis-ci too.
-  - moodle-plugin-ci add-config 'define("TOOL_LANGIMPORT_REMOTE_TESTS", true);'
 
-# This lists steps that are run for the purposes of testing.  Any of
-# these steps can be re-ordered or removed to your liking.  And of
-# course, you can add any of your own custom steps.
 script:
-# This step lints your PHP files to check for syntax errors.
   - moodle-plugin-ci phplint
-
-# This step runs the PHP Copy/Paste Detector on your plugin. This helps to find
-# code duplication.
-#  - moodle-plugin-ci phpcpd
-
-# This step runs the PHP Mess Detector on your plugin. This helps to find potential
-# problems with your code which can result in refactoring opportunities.
+# - moodle-plugin-ci phpcpd
   - moodle-plugin-ci phpmd
-
-# This step runs the Moodle Code Checker to make sure that your plugin conforms to the
-# Moodle coding standards.  It is highly recommended that you keep this step.
   - moodle-plugin-ci codechecker
-
-# This step runs CSS Lint on the CSS files in your plugin.
-  - moodle-plugin-ci csslint
-
-# This step runs YUI Shifter on the YUI modules in your plugin.  This also checks to make
-# sure that the YUI modules have been shifted.
-  - moodle-plugin-ci shifter
-
-# This step runs JSHint on the Javascript files in your plugin.
-  - moodle-plugin-ci jshint
-
-# This step runs some light validation on the plugin file structure and code.  Validation can be plugin specific.
   - moodle-plugin-ci validate
-
-# This step runs the PHPUnit tests of your plugin.  If your plugin has PHPUnit tests,
-# then it is highly recommended that you keep this step.
+  - moodle-plugin-ci savepoints
+  - moodle-plugin-ci mustache
+  - moodle-plugin-ci grunt
   - moodle-plugin-ci phpunit
-
-# This step runs the Behat tests of your plugin.  If your plugin has Behat tests, then
-# it is highly recommended that you keep this step.
   - moodle-plugin-ci behat
