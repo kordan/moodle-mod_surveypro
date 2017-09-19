@@ -208,7 +208,10 @@ class surveyprofield_multiselect_field extends mod_surveypro_itembase {
 
         // 3. Set values corresponding to checkboxes.
         // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in item_get_common_settings.
-        // Nothing to do: no checkboxes in this plugin item form.
+        $checkboxes = array('noanswerdefault');
+        foreach ($checkboxes as $checkbox) {
+            $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
+        }
 
         // 4. Other.
     }
