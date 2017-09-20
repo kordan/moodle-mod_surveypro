@@ -208,7 +208,10 @@ class surveyprofield_multiselect_field extends mod_surveypro_itembase {
 
         // 3. Set values corresponding to checkboxes.
         // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in item_get_common_settings.
-        // Nothing to do: no checkboxes in this plugin item form.
+        $checkboxes = array('noanswerdefault');
+        foreach ($checkboxes as $checkbox) {
+            $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
+        }
 
         // 4. Other.
     }
@@ -346,12 +349,12 @@ EOS;
         $parentcontents = array_unique(surveypro_multilinetext_to_array($childparentcontent));
         $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
 
-        $childparentvalue = array();
+        $childparentvalue = array_fill(0, count($values), 0);
         $labels = array();
         foreach ($parentcontents as $parentcontent) {
             $key = array_search($parentcontent, $values);
             if ($key !== false) {
-                $childparentvalue[] = $key;
+                $childparentvalue[$key] = 1;
             } else {
                 // Only garbage, but user wrote it.
                 $labels[] = $parentcontent;
@@ -367,9 +370,9 @@ EOS;
 
     /**
      * I can not make ANY assumption about $childparentvalue because of the following explanation:
-     * At child save time, I encode its $parentcontent to $parentvalue
-     * The encoding is done through a parent method according to parent values
-     * Once the child is saved, I can return to parent and I can change it as much as I want
+     * At child save time, I encode its $parentcontent to $parentvalue.
+     * The encoding is done through a parent method according to parent values.
+     * Once the child is saved, I can return to parent and I can change it as much as I want.
      * For instance by changing the number and the content of its options
      * At parent save time, the child parentvalue is rewritten
      * -> but it may result in a too short or too long list of keys
@@ -390,11 +393,12 @@ EOS;
         $key = array_search('>', $parentvalues);
         if ($key !== false) {
             for ($i = 0; $i < $key; $i++) {
-                $k = $parentvalues[$i];
-                if (isset($values[$k])) {
-                    $childparentcontent[] = $values[$k];
-                } else {
-                    $childparentcontent[] = $k;
+                if ($parentvalues[$i] == '1') {
+                    if (isset($values[$i])) {
+                        $childparentcontent[] = $values[$i];
+                    } else {
+                        $childparentcontent[] = 1;
+                    }
                 }
             }
 
@@ -404,11 +408,13 @@ EOS;
                 $childparentcontent[] = $parentvalues[$i];
             }
         } else {
-            foreach ($parentvalues as $parentvalue) {
-                if (isset($values[$parentvalue])) {
-                    $childparentcontent[] = $values[$parentvalue];
-                } else {
-                    $childparentcontent[] = $parentvalue;
+            foreach ($parentvalues as $k => $parentvalue) {
+                if ($parentvalue == '1') {
+                    if (isset($values[$k])) {
+                        $childparentcontent[] = $values[$k];
+                    } else {
+                        $childparentcontent[] = $k;
+                    }
                 }
             }
         }
@@ -609,7 +615,7 @@ EOS;
     public function userform_get_parent_disabilitation_info($childparentvalue) {
         $disabilitationinfo = array();
 
-        $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 1;1;0;.
+        $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 1;0;1;0.
 
         $indexsubset = array();
         $labelsubset = array();
@@ -618,7 +624,7 @@ EOS;
             $indexsubset = array_slice($parentvalues, 0, $key);
             $labelsubset = array_slice($parentvalues, $key + 1);
         } else {
-            $indexsubset = $parentvalues;
+            $indexsubset = array_keys($parentvalues, '1');
         }
 
         if ($indexsubset) {
@@ -627,7 +633,16 @@ EOS;
             $mformelementinfo->operator = 'neq';
             $mformelementinfo->content = $indexsubset;
             $disabilitationinfo[] = $mformelementinfo;
-            // $mform->disabledIf('surveypro_field_select_2491', 'surveypro_field_multiselect_2490[]', 'neq', array(0, 4));
+            // $mform->disabledIf('surveypro_field_select_2491', 'surveypro_field_multiselect_2490[]', 'neq', array(0, 2));
+        }
+
+        // If this item foresees the "No answer" checkbox, provide a directive for it too.
+        if (!$this->required) {
+            $mformelementinfo = new stdClass();
+            $mformelementinfo->parentname = $this->itemname.'_noanswer';
+            $mformelementinfo->content = 'checked';
+
+            $disabilitationinfo[] = $mformelementinfo;
         }
 
         if ($labelsubset) {
@@ -658,7 +673,7 @@ EOS;
      * @return boolean: true: if the item is welcome; false: if the item must be dropped out
      */
     public function userform_is_child_allowed_dynamic($childparentvalue, $data) {
-        // I need to verify (checkbox per checkbox) if they hold the same value the user entered.
+        // I need to verify (item per item) if they hold the same value the user entered.
         $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 2;3.
 
