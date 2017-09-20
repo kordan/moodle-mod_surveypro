@@ -365,9 +365,9 @@ EOS;
 
     /**
      * I can not make ANY assumption about $childparentvalue because of the following explanation:
-     * At child save time, I encode its $parentcontent to $parentvalue
-     * The encoding is done through a parent method according to parent values
-     * Once the child is saved, I can return to parent and I can change it as much as I want
+     * At child save time, I encode its $parentcontent to $parentvalue.
+     * The encoding is done through a parent method according to parent values.
+     * Once the child is saved, I can return to parent and I can change it as much as I want.
      * For instance by changing the number and the content of its options
      * At parent save time, the child parentvalue is rewritten
      * -> but it may result in a too short or too long list of keys
