@@ -46,6 +46,7 @@
 sugar
 jam
 chocolate</options>
+      <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>1</minimumrequired>
       <heightinrows>3</heightinrows>
@@ -86,6 +87,7 @@ jam
 chocolate</options>
       <defaultvalue>sugar
 jam</defaultvalue>
+      <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>1</minimumrequired>
       <heightinrows>3</heightinrows>
@@ -124,6 +126,7 @@ jam</defaultvalue>
 sugar
 jam
 chocolate</options>
+      <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>1</minimumrequired>
       <heightinrows>3</heightinrows>
@@ -163,6 +166,7 @@ sugar
 jam
 chocolate</options>
       <defaultvalue>jam</defaultvalue>
+      <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>1</minimumrequired>
       <heightinrows>3</heightinrows>
@@ -201,6 +205,7 @@ chocolate</options>
 sugar
 jam
 chocolate</options>
+      <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>2</minimumrequired>
       <heightinrows>3</heightinrows>
@@ -242,6 +247,7 @@ jam
 chocolate</options>
       <defaultvalue>sugar
 jam</defaultvalue>
+      <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>2</minimumrequired>
       <heightinrows>3</heightinrows>
@@ -280,6 +286,7 @@ jam</defaultvalue>
 sugar
 jam
 chocolate</options>
+      <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>2</minimumrequired>
       <heightinrows>3</heightinrows>
@@ -319,6 +326,7 @@ sugar
 jam
 chocolate</options>
       <defaultvalue>jam</defaultvalue>
+      <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>2</minimumrequired>
       <heightinrows>3</heightinrows>
