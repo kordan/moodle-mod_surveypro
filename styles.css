@@ -223,6 +223,14 @@
     padding:0.5em;
     width:1.2em;
 }
+
+#page-mod-surveypro-view table#submissions .actions img.icon {
+    width: 16px;
+    height: 16px;
+    margin-left: 0.45em;
+    padding-right:0;
+    vertical-align: middle;
+}
 /* End of: submissions table */
 
 /* Begin of: Page break and fieldset presentation in the items table and during deletion confirmation */
