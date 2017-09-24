@@ -160,12 +160,16 @@
 }
 
 #page-mod-surveypro-layout_items table#manageitems .actions img.icon,
+#page-mod-surveypro-layout_items table#manageitems .actions i.icon,
 #page-mod-surveypro-layout_items table#manageitems .availability img.icon,
+#page-mod-surveypro-layout_items table#manageitems .availability i.icon,
 #page-mod-surveypro-layout_items table#sortitems .actions img.icon,
-#page-mod-surveypro-layout_items table#sortitems .availability img.icon {
+#page-mod-surveypro-layout_items table#sortitems .actions i.icon,
+#page-mod-surveypro-layout_items table#sortitems .availability img.icon,
+#page-mod-surveypro-layout_items table#sortitems .availability i.icon {
     width: 16px;
     height: 16px;
-    margin-left: 0.45em;
+    margin: 0 0 0 0.45em;
     padding-right:0;
     vertical-align: middle;
 }
@@ -224,10 +228,11 @@
     width:1.2em;
 }
 
-#page-mod-surveypro-view table#submissions .actions img.icon {
+#page-mod-surveypro-view table#submissions .actions img.icon,
+#page-mod-surveypro-view table#submissions .actions i.icon {
     width: 16px;
     height: 16px;
-    margin-left: 0.45em;
+    margin: 0 0 0 0.45em;
     padding-right:0;
     vertical-align: middle;
 }
