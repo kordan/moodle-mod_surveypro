@@ -554,7 +554,12 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
     public function output_questionsdata($area) {
         $paramnexturl = array();
         $paramnexturl['s'] = $this->surveypro->id;
-        $paramnexturl['type'] = 'summary';
+        if ($area == 5) {
+            $paramnexturl['type'] = 'summary';
+        } else {
+            $paramnexturl['type'] = 'questions';
+            $paramnexturl['area'] = 1 + $area%5;
+        }
         $nexturl = new moodle_url('/mod/surveypro/report/colles/view.php', $paramnexturl);
 
         $paramurl = array();
