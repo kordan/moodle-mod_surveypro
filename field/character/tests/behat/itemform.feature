@@ -83,7 +83,7 @@ Feature: test the use of character setup form
     And I press "Cancel"
 
     And I follow "show_item_2"
-    And I follow "Preview"
+    And I follow "Preview" page in tab bar
     Then I should see "II.a: This is a free text"
     Then the field "id_surveypro_field_character_2" matches value "simple, but longer, default"
     Then I should see "Additional note"

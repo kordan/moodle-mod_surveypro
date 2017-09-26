@@ -26,7 +26,7 @@ Feature: verify the deletion of old items works as expected during master templa
     And I press "Apply"
     Then I should see "Attitudes Towards Thinking and Learning"
 
-    And I follow "Elements"
+    And I follow "Elements" page in tab bar
     And I press "Yes"
 
     And I navigate to "Apply" node in "Surveypro administration > Master templates"
@@ -35,7 +35,7 @@ Feature: verify the deletion of old items works as expected during master templa
     Then I should see "I prefer that my learning focuses on issues that interest me."
     Then I should see "I found that my learning focuses on issues that interest me."
 
-    And I follow "Elements"
+    And I follow "Elements" page in tab bar
     And I press "Yes"
 
     And I navigate to "Apply" node in "Surveypro administration > Master templates"
@@ -44,7 +44,7 @@ Feature: verify the deletion of old items works as expected during master templa
     Then I should see "In this online unit"
     Then I should see "my learning focuses on issues that interest me"
 
-    And I follow "Elements"
+    And I follow "Elements" page in tab bar
     And I press "Yes"
 
     And I navigate to "Apply" node in "Surveypro administration > Master templates"
@@ -53,7 +53,7 @@ Feature: verify the deletion of old items works as expected during master templa
     Then I should see "In this online unit"
     Then I should see "my learning focuses on issues that interest me"
 
-    And I follow "Elements"
+    And I follow "Elements" page in tab bar
     And I press "Yes"
 
     And I navigate to "Apply" node in "Surveypro administration > Master templates"

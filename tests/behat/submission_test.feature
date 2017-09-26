@@ -52,7 +52,7 @@ Feature: make a submission test for each available item
     And I am on "Test submission for each available item" course homepage
     And I follow "Each item submission"
     And I follow "Layout"
-    And I follow "Preview"
+    And I follow "Preview" page in tab bar
     And I press "Next page >>"
     And I press "<< Previous page"
 

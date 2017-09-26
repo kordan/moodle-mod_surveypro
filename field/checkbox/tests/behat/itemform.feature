@@ -111,7 +111,7 @@ Feature: test the use of checkbox setup form
     And I press "Cancel"
 
     And I follow "show_item_2"
-    And I follow "Preview"
+    And I follow "Preview" page in tab bar
     Then I should see "II.a: What do you usually get for breakfast?"
     Then the field "id_surveypro_field_checkbox_2_0" matches value "0"
     Then the field "id_surveypro_field_checkbox_2_1" matches value "1"
