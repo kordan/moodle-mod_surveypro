@@ -54,8 +54,7 @@ Feature: test the use of textarea setup form
     And I press "Add"
 
     Then I should see "Maximum length can not be lowwer-equal than minimum length"
-    And I set the following fields to these values:
-      | Maximum length (in characters) | 40                                    |
+    And I set the field "Maximum length (in characters)" to "40"
     And I press "Add"
 
     And I follow "edit_item_2"

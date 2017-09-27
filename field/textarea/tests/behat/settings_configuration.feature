@@ -61,15 +61,13 @@ Feature: Validate creation and submit for textarea elements using the principal 
 
     # Test number 3: student tries to submit an too short answer
     And I press "New response"
-    And I set the following fields to these values:
-      | Write a short description of yourself | Super! |
+    And I set the field "Write a short description of yourself" to "Super!"
     And I press "Submit"
     Then I should see "Text is too short"
     # End of test number 3
 
     # Test number 4: student submits a correct answer
-    And I set the following fields to these values:
-      | Write a short description of yourself | Ok! Now I submit a correct answer. |
+    And I set the field "Write a short description of yourself" to "Ok! Now I submit a correct answer."
     And I press "Submit"
     And I press "Continue to responses list"
     Then I should see "2" submissions
@@ -100,15 +98,13 @@ Feature: Validate creation and submit for textarea elements using the principal 
     # End of test number 5
 
     # Test number 6: student submits a too short answer
-    And I set the following fields to these values:
-      | Write a short description of yourself | Super! |
+    And I set the field "Write a short description of yourself" to "Super!"
     And I press "Submit"
     Then I should see "Text is too short"
     # End of test number 6
 
     # Test number 7: student submits a correct answer
-    And I set the following fields to these values:
-      | Write a short description of yourself | Ok! Now I submit a correct answer. |
+    And I set the field "Write a short description of yourself" to "Ok! Now I submit a correct answer."
     And I press "Submit"
     And I press "Continue to responses list"
     Then I should see "1" submissions
@@ -148,15 +144,13 @@ Feature: Validate creation and submit for textarea elements using the principal 
 
     # Test number 10: student tries to submit an too short answer
     And I press "New response"
-    And I set the following fields to these values:
-      | Write a short description of yourself | Super! |
+    And I set the field "Write a short description of yourself" to "Super!"
     And I press "Submit"
     Then I should see "Text is too short"
     # End of test number 10
 
     # Test number 11: student submits a correct answer
-    And I set the following fields to these values:
-      | Write a short description of yourself | Ok! Now I submit a correct answer. |
+    And I set the field "Write a short description of yourself" to "Ok! Now I submit a correct answer."
     And I press "Submit"
     And I press "Continue to responses list"
     Then I should see "2" submissions
@@ -187,15 +181,13 @@ Feature: Validate creation and submit for textarea elements using the principal 
     # End of test number 12
 
     # Test number 13: student submits a too short answer
-    And I set the following fields to these values:
-      | Write a short description of yourself | Super! |
+    And I set the field "Write a short description of yourself" to "Super!"
     And I press "Submit"
     Then I should see "Text is too short"
     # End of test number 13
 
     # Test number 14: student submits a correct answer
-    And I set the following fields to these values:
-      | Write a short description of yourself | Ok! Now I submit a correct answer. |
+    And I set the field "Write a short description of yourself" to "Ok! Now I submit a correct answer."
     And I press "Submit"
     And I press "Continue to responses list"
     Then I should see "1" submissions

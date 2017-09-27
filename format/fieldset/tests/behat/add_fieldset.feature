@@ -26,6 +26,5 @@ Feature: verify a fieldset item can be added to a survey
     And I press "Add"
 
     And I expand all fieldsets
-    And I set the following fields to these values:
-      | Content | A bunch of items |
+    And I set the field "Content" to "A bunch of items"
     And I press "Add"

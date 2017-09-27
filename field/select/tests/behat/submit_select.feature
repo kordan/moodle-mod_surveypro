@@ -60,8 +60,7 @@ Feature: make a submission test for "select" item
     And I press "New response"
 
     # student1 submits
-    And I set the following fields to these values:
-      | 15: Which summer holidays place do you prefer? | hills |
+    And I set the field "15: Which summer holidays place do you prefer?" to "hills"
 
     And I press "Submit"
 

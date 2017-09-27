@@ -45,8 +45,7 @@ Feature: make a submission test for "integer" item
     And I press "New response"
 
     # student1 submits
-    And I set the following fields to these values:
-      | 9: How many people are in your family without you? | 3 |
+    And I set the field "9: How many people are in your family without you?" to "3"
 
     And I press "Submit"
 

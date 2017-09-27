@@ -73,8 +73,7 @@ Feature: test the use of multiselect setup form
     And I press "Add"
 
     Then I should see "The minimum number of items to select must be lower than 4 (options count)"
-    And I set the following fields to these values:
-      | Minimum required items   | 3                                       |
+    And I set the field "Minimum required items" to "3"
     And I press "Add"
 
     And I follow "edit_item_2"

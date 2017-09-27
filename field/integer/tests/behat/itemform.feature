@@ -53,8 +53,7 @@ Feature: test the use of integer setup form
 
     Then I should see "Default does not fall within the specified range"
     Then I should see "Lower bound must be lower than upper bound"
-    And I set the following fields to these values:
-      | id_upperbound            | 21                                              |
+    And I set the field "id_upperbound" to "21"
     And I press "Add"
 
     Then I should see "Default does not fall within the specified range"
@@ -65,8 +64,7 @@ Feature: test the use of integer setup form
     And I press "Add"
 
     Then I should see "Default does not fall within the specified range"
-    And I set the following fields to these values:
-      | id_defaultvalue          | 5                                               |
+    And I set the field "id_defaultvalue" to "5"
     And I press "Add"
 
     And I follow "edit_item_2"

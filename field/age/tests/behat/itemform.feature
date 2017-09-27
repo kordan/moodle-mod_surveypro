@@ -56,8 +56,7 @@ Feature: test the use of age setup form
 
     Then I should see "Default does not fall within the specified range"
     Then I should see "Lower and upper bounds must be different"
-    And I set the following fields to these values:
-      | id_lowerboundmonth       | 7 |
+    And I set the field "id_lowerboundmonth" to "7"
     And I press "Add"
 
     Then I should see "Default does not fall within the specified range"

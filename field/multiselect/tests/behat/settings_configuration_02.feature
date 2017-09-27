@@ -138,8 +138,7 @@ Feature: Validate creation and submit for "multiselect" elements using the princ
     # Test number 6: Student chooses "No answer"
     And I press "New response"
     Then I should see "At least 2 items have to be selected"
-    And I set the following fields to these values:
-      | No answer | 1 |
+    And I set the field "No answer" to "1"
     And I press "Submit"
     And I press "Continue to responses list"
     Then I should see "3" submissions
