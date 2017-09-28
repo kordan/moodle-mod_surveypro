@@ -109,7 +109,7 @@ Feature: test the use of multiselect setup form
     And I press "Cancel"
 
     And I follow "show_item_2"
-    And I follow "Preview"
+    And I follow "Preview" page in tab bar
     Then I should see "II.a: What do you usually get for breakfast?"
     Then the field "id_surveypro_field_multiselect_2" matches value "coffee, bread"
     Then I should see "Additional note"

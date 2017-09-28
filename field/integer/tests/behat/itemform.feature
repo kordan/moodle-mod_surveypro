@@ -90,7 +90,7 @@ Feature: test the use of integer setup form
     And I press "Cancel"
 
     And I follow "show_item_2"
-    And I follow "Preview"
+    And I follow "Preview" page in tab bar
     Then I should see "II.a: How many people are in your family without you?"
     Then the field "id_surveypro_field_integer_2" matches value "5"
     Then I should see "Additional note"

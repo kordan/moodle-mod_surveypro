@@ -99,7 +99,7 @@ Feature: test the use of select setup form
     And I press "Cancel"
 
     And I follow "show_item_2"
-    And I follow "Preview"
+    And I follow "Preview" page in tab bar
     Then I should see "II.a: Which summer holidays place do you prefer?"
     Then the field "id_surveypro_field_select_2" matches value "other"
     Then the field "id_surveypro_field_select_2_text" matches value "specify"

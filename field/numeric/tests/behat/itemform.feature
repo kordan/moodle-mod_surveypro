@@ -88,7 +88,7 @@ Feature: test the use of numeric setup form
     And I press "Cancel"
 
     And I follow "show_item_2"
-    And I follow "Preview"
+    And I follow "Preview" page in tab bar
     Then I should see "II.a: Write the best approximation of π you can remember"
     Then the field "id_surveypro_field_numeric_2" matches value "3.14"
     Then I should see "Additional note"

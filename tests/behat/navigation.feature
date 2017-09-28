@@ -34,7 +34,7 @@ Feature: verify urls really redirect to existing pages
     # Layout -> Preview
     And I navigate to "Preview" node in "Surveypro administration > Layout"
     # Layout -> Elements
-    And I follow "Elements"
+    And I follow "Elements" page in tab bar
         # Layout -> Elements: table headers
         And I follow "Element"
         And I follow "Order"

@@ -62,6 +62,6 @@ Feature: test the use of autofill setup form
     And I press "Cancel"
 
     And I follow "show_item_2"
-    And I follow "Preview"
+    And I follow "Preview" page in tab bar
     Then I should see "II.a: Your user ID"
     Then I should see "Additional note"

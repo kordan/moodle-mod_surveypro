@@ -93,6 +93,6 @@ Feature: test the use of fileupload setup form
     And I press "Cancel"
 
     And I follow "show_item_2"
-    And I follow "Preview"
+    And I follow "Preview" page in tab bar
     Then I should see "II.a: Please upload your profile image"
     Then I should see "Additional note"
