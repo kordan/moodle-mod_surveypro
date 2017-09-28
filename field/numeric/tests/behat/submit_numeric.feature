@@ -47,8 +47,7 @@ Feature: make a submission test for "numeric" item
     And I press "New response"
 
     # student1 submits
-    And I set the following fields to these values:
-      | 11: Write the best approximation of π you can remember | 3.14 |
+    And I set the field "11: Write the best approximation of π you can remember" to "3.14"
 
     And I press "Submit"
 

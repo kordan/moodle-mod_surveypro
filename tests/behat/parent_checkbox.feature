@@ -56,8 +56,7 @@ Feature: test the use of checkbox as parent item
     Then the field "id_surveypro_field_checkbox_1_2" matches value "0"
     Then the field "id_surveypro_field_checkbox_1_3" matches value "0"
     Then the field "id_surveypro_field_checkbox_1_noanswer" matches value "0"
-    And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_0 | 1 |
+    And I set the field "id_surveypro_field_checkbox_1_0" to "1"
     And I press "Next page >>"
     Then I should see "Write down your name"
 
@@ -130,8 +129,7 @@ Feature: test the use of checkbox as parent item
     Then the field "id_surveypro_field_checkbox_1_2" matches value "0"
     Then the field "id_surveypro_field_checkbox_1_3" matches value "1"
     Then the field "id_surveypro_field_checkbox_1_noanswer" matches value "0"
-    And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_noanswer | 1 |
+    And I set the field "id_surveypro_field_checkbox_1_noanswer" to "1"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
@@ -174,8 +172,7 @@ Feature: test the use of checkbox as parent item
     Then the field "id_surveypro_field_checkbox_1_2" matches value "0"
     Then the field "id_surveypro_field_checkbox_1_3" matches value "0"
     Then the field "id_surveypro_field_checkbox_1_noanswer" matches value "0"
-    And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_0 | 1 |
+    And I set the field "id_surveypro_field_checkbox_1_0" to "1"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
@@ -248,8 +245,7 @@ Feature: test the use of checkbox as parent item
     Then the field "id_surveypro_field_checkbox_1_2" matches value "0"
     Then the field "id_surveypro_field_checkbox_1_3" matches value "1"
     Then the field "id_surveypro_field_checkbox_1_noanswer" matches value "0"
-    And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_noanswer | 1 |
+    And I set the field "id_surveypro_field_checkbox_1_noanswer" to "1"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
@@ -280,8 +276,7 @@ Feature: test the use of checkbox as parent item
     And I press "New response"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_0 | 1 |
+    And I set the field "id_surveypro_field_checkbox_1_0" to "1"
     Then the "Write down your name" "field" should be disabled
 
     And I set the following fields to these values:
@@ -312,8 +307,7 @@ Feature: test the use of checkbox as parent item
       | id_surveypro_field_checkbox_1_3 | 1 |
     Then the "Write down your name" "field" should be enabled
 
-    And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_noanswer | 1 |
+    And I set the field "id_surveypro_field_checkbox_1_noanswer" to "1"
     Then the "Write down your name" "field" should be disabled
 
     And I log out
@@ -337,8 +331,7 @@ Feature: test the use of checkbox as parent item
     And I press "New response"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_0 | 1 |
+    And I set the field "id_surveypro_field_checkbox_1_0" to "1"
     Then the "Write down your name" "field" should be enabled
 
     And I set the following fields to these values:
@@ -369,6 +362,5 @@ Feature: test the use of checkbox as parent item
       | id_surveypro_field_checkbox_1_3 | 1 |
     Then the "Write down your name" "field" should be disabled
 
-    And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_noanswer | 1 |
+    And I set the field "id_surveypro_field_checkbox_1_noanswer" to "1"
     Then the "Write down your name" "field" should be disabled

@@ -50,28 +50,23 @@ Feature: test the use of fileupload setup form
     And I press "Add"
 
     Then I should see "File extensions must start with a dot"
-    And I set the following fields to these values:
-      | Allowed file types (comma separated) | .jpg, , ..png, *, .GIF           |
+    And I set the field "Allowed file types (comma separated)" to ".jpg, , ..png, *, .GIF"
     And I press "Add"
 
     Then I should see "File extensions can not be empty. Probabily you typed a comma twice."
-    And I set the following fields to these values:
-      | Allowed file types (comma separated) | .jpg, ..png, *, .GIF             |
+    And I set the field "Allowed file types (comma separated)" to ".jpg, ..png, *, .GIF"
     And I press "Add"
 
     Then I should see "Only one dot is allowed per each file extensions"
-    And I set the following fields to these values:
-      | Allowed file types (comma separated) | .jpg, .png, *, .GIF              |
+    And I set the field "Allowed file types (comma separated)" to ".jpg, .png, *, .GIF"
     And I press "Add"
 
     Then I should see "'*' is meaningful only if used individually"
-    And I set the following fields to these values:
-      | Allowed file types (comma separated) | .jpg, .png, .GIF                 |
+    And I set the field "Allowed file types (comma separated)" to ".jpg, .png, .GIF"
     And I press "Add"
 
     Then I should see "Only lower case letters and numbers are allowed into file extensions"
-    And I set the following fields to these values:
-      | Allowed file types (comma separated) | .jpg, .png, .gif                 |
+    And I set the field "Allowed file types (comma separated)" to ".jpg, .png, .gif"
     And I press "Add"
 
     And I follow "edit_item_2"

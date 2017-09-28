@@ -53,13 +53,11 @@ Feature: test the use of character setup form
 
     Then I should see "Minimum length has be lower than maximum length"
     Then I should see "Default has to be longer-equal than minimum allowed length"
-    And I set the following fields to these values:
-      | Maximum length (in characters) | 40 |
+    And I set the field "Maximum length (in characters)" to "40"
     And I press "Add"
 
     Then I should see "Default has to be longer-equal than minimum allowed length"
-    And I set the following fields to these values:
-      | Default                        | simple, but longer, default |
+    And I set the field "Default" to "simple, but longer, default"
     And I press "Add"
 
     And I follow "edit_item_2"

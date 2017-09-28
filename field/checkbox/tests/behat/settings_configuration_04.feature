@@ -114,8 +114,7 @@ Feature: Validate creation and submit for "checkbox" elements using the principa
     Then I should see "At least 2 checkboxes have to be selected"
     And I press "Submit"
     Then I should see "Please tick at least 2 options"
-    And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_0        | 1 |
+    And I set the field "id_surveypro_field_checkbox_1_0" to "1"
     And I press "Submit"
     And I press "Continue to responses list"
     Then I should see "1" submissions
@@ -124,8 +123,7 @@ Feature: Validate creation and submit for "checkbox" elements using the principa
     # Test number 4: Student submits a standard answer
     And I press "New response"
     Then I should see "At least 2 checkboxes have to be selected"
-    And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_0        | 1 |
+    And I set the field "id_surveypro_field_checkbox_1_0" to "1"
     And I press "Submit"
     And I press "Continue to responses list"
     Then I should see "2" submissions

@@ -73,8 +73,7 @@ Not enought
       Completely unknown
 
       """
-    And I set the following fields to these values:
-      | id_defaultoption_1       | 1                                                   |
+    And I set the field "id_defaultoption_1" to "1"
     And I set the field "id_defaultvalue" to multiline:
       """
       Not enought

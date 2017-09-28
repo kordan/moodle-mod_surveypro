@@ -26,6 +26,5 @@ Feature: verify a label item can be added to a survey
     And I press "Add"
 
     And I expand all fieldsets
-    And I set the following fields to these values:
-      | Content | This is just a comment |
+    And I set the field "Content" to "This is just a comment"
     And I press "Add"

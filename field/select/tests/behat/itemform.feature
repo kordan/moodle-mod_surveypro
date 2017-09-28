@@ -67,8 +67,7 @@ Feature: test the use of select setup form
     And I press "Add"
 
     Then I should see "The default item \"Surfing\" was not found among options"
-    And I set the following fields to these values:
-      | id_defaultvalue          | other                                      |
+    And I set the field "id_defaultvalue" to "other"
     And I press "Add"
 
     And I follow "edit_item_2"
