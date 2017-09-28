@@ -78,26 +78,77 @@ Feature: apply a COLLES (preferred) mastertemplate to test graphs
     And I am on "To test COLLES graphs" course homepage
     And I follow "Run COLLES report"
 
+    # now test links provided by img's
+
     And I navigate to "Summary" node in "Surveypro administration > Report > Colles report"
+    # now I should be in front of "Colles report > Summary"
     Then I should not see "Summary report"
 
-    And I navigate to "Scales" node in "Surveypro administration > Report > Colles report"
+    And I click on "div.centerpara a" "css_element"
+    # now I should be in front of "Colles report > Scales"
     Then I should not see "Scales report"
 
+    And I click on "div.centerpara a" "css_element"
+    # now I should be in front of "Colles report > Questions > Relevance"
+    Then I should not see "Questions report"
+
+    And I click on "div.centerpara a" "css_element"
+    # now I should be in front of "Colles report > Questions > Reflective thinking"
+    Then I should not see "Questions report"
+
+    And I click on "div.centerpara a" "css_element"
+    # now I should be in front of "Colles report > Questions > Interactivity"
+    Then I should not see "Questions report"
+
+    And I click on "div.centerpara a" "css_element"
+    # now I should be in front of "Colles report > Questions > Tutor support"
+    Then I should not see "Questions report"
+
+    And I click on "div.centerpara a" "css_element"
+    # now I should be in front of "Colles report > Questions > Peer support"
+    Then I should not see "Questions report"
+
+    And I click on "div.centerpara a" "css_element"
+    # now I should be in front of "Colles report > Questions > Interpretation"
+    Then I should not see "Questions report"
+
+    And I click on "div.centerpara a" "css_element"
+    # now I should be in front of "Colles report > Summary"
+    Then I should not see "Summary report"
+
+    # now test links provided by Admin menu
+
+    And I follow "Run COLLES report"
+    And I navigate to "Scales" node in "Surveypro administration > Report > Colles report"
+    # now I should be in front of "Colles report > Scales"
+    Then I should not see "Scales report"
+
+    And I follow "Run COLLES report"
     And I navigate to "Relevance" node in "Surveypro administration > Report > Colles report > Questions"
+    # now I should be in front of "Colles report > Questions > Relevance"
     Then I should not see "Questions report"
 
+    And I follow "Run COLLES report"
     And I navigate to "Reflective thinking" node in "Surveypro administration > Report > Colles report > Questions"
+    # now I should be in front of "Colles report > Questions > Reflective thinking"
     Then I should not see "Questions report"
 
+    And I follow "Run COLLES report"
     And I navigate to "Interactivity" node in "Surveypro administration > Report > Colles report > Questions"
+    # now I should be in front of "Colles report > Questions > Interactivity"
     Then I should not see "Questions report"
 
+    And I follow "Run COLLES report"
     And I navigate to "Tutor support" node in "Surveypro administration > Report > Colles report > Questions"
+    # now I should be in front of "Colles report > Questions > Tutor support"
     Then I should not see "Questions report"
 
+    And I follow "Run COLLES report"
     And I navigate to "Peer support" node in "Surveypro administration > Report > Colles report > Questions"
+    # now I should be in front of "Colles report > Questions > Peer support"
     Then I should not see "Questions report"
 
+    And I follow "Run COLLES report"
     And I navigate to "Interpretation" node in "Surveypro administration > Report > Colles report > Questions"
+    # now I should be in front of "Colles report > Questions > Interpretation"
     Then I should not see "Questions report"
