@@ -21,7 +21,28 @@ Feature: verify urls really redirect to existing pages
       | surveypro | sPro test links | To verify links | Tl course | surveypro1 |
     And surveypro "sPro test links" contains the following items:
       | type  | plugin  |
-      | field | boolean |
+      | format | label       |
+      | format | fieldset    |
+      | field  | age         |
+      | field  | autofill    |
+      | field  | boolean     |
+      | field  | character   |
+      | field  | checkbox    |
+      | field  | date        |
+      | field  | datetime    |
+      | field  | fileupload  |
+      | field  | integer     |
+      | field  | multiselect |
+      | field  | numeric     |
+      | format | fieldsetend |
+      | field  | radiobutton |
+      | format | pagebreak   |
+      | field  | rate        |
+      | field  | recurrence  |
+      | field  | select      |
+      | field  | shortdate   |
+      | field  | textarea    |
+      | field  | time        |
 
   @javascript
   Scenario: select each available link as a teacher
@@ -33,13 +54,15 @@ Feature: verify urls really redirect to existing pages
     #
     # Layout -> Preview
     And I navigate to "Preview" node in "Surveypro administration > Layout"
+
     # Layout -> Elements
     And I follow "Elements" page in tab bar
         # Layout -> Elements: table headers
-        And I follow "Element"
-        And I follow "Order"
-        And I follow "Branching"
-        And I follow "Page"
+        And I click on "Element" "link" in the ".plugin" "css_element"
+        And I click on "Order" "link" in the ".sortindex" "css_element"
+        And I click on "Branching" "link" in the ".parentitem" "css_element"
+        And I click on "Page" "link" in the ".formpage" "css_element"
+
     # Layout -> Elements
     And I navigate to "Elements" node in "Surveypro administration > Layout"
 
@@ -103,10 +126,13 @@ Feature: verify urls really redirect to existing pages
         # return home
         And I follow "Survey"
         And I follow "Dashboard" page in tab bar
+
     # Survey -> Responses
-    And I follow "Responses"
+    And I follow "Responses" page in tab bar
+
     # Survey -> Import
     And I navigate to "Import" node in "Surveypro administration > Survey"
+
     # Survey -> Export
     And I navigate to "Export" node in "Surveypro administration > Survey"
 
@@ -116,9 +142,9 @@ Feature: verify urls really redirect to existing pages
     # User templates -> Manage
     And I navigate to "Manage" node in "Surveypro administration > User templates"
         # User templates: pages
-        And I follow "Save"
-        And I follow "Import"
-        And I follow "Apply"
+        And I follow "Save" page in tab bar
+        And I follow "Import" page in tab bar
+        And I follow "Apply" page in tab bar
     # User templates -> Save
     And I navigate to "Save" node in "Surveypro administration > User templates"
     # User templates -> Import
@@ -132,7 +158,7 @@ Feature: verify urls really redirect to existing pages
     # Master templates -> Save
     And I navigate to "Save" node in "Surveypro administration > Master templates"
         # Master templates: pages
-        And I follow "Apply"
+        And I follow "Apply" page in tab bar
     And I navigate to "Apply" node in "Surveypro administration > Master templates"
 
     #
@@ -140,13 +166,21 @@ Feature: verify urls really redirect to existing pages
     #
     # Report -> Attachments overview
     And I navigate to "Attachments overview" node in "Surveypro administration > Report"
+
     # Report -> Delayed users
+    And I follow "sPro test links"
     And I navigate to "Delayed users" node in "Surveypro administration > Report"
+
     # Report -> Frequency distribution
+    And I follow "sPro test links"
     And I navigate to "Frequency distribution" node in "Surveypro administration > Report"
+
     # Report -> Responses per user
+    And I follow "sPro test links"
     And I navigate to "Responses per user" node in "Surveypro administration > Report"
+
     # Report -> Users per count of responses
+    And I follow "sPro test links"
     And I navigate to "Users per count of responses" node in "Surveypro administration > Report"
 
   @javascript
