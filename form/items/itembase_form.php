@@ -272,20 +272,22 @@ class mod_surveypro_itembaseform extends moodleform {
             $fieldname = 'parentformat';
             $a = new stdClass();
             $a->fieldname = get_string('parentcontent', 'mod_surveypro');
-            $a->examples = html_writer::start_tag('ul');
+            $rowparity = 0;
+            $a->examples = html_writer::start_tag('table', array('class' => 'generaltable exampletable'));
             foreach ($pluginlist as $plugin) {
-                $pluginnamestr = get_string('pluginname', 'surveyprofield_'.$plugin);
-                $parentformatstr = get_string('parentformat', 'surveyprofield_'.$plugin);
-                $a->examples .= html_writer::start_tag('li');
-                $a->examples .= html_writer::start_tag('div');
-                $a->examples .= html_writer::tag('div', $pluginnamestr, array('class' => 'pluginname'));
-                $a->examples .= html_writer::tag('div', $parentformatstr, array('class' => 'inputformat'));
-                $a->examples .= html_writer::end_tag('div');
-                $a->examples .= html_writer::end_tag('li');
-                $a->examples .= "\n";
+                $rowparity = 1 - $rowparity;
+                $a->examples .= html_writer::start_tag('tr', array('class' => 'r' . $rowparity));
+                $a->examples .= html_writer::start_tag('td', array('class' => 'pluginname'));
+                $a->examples .= get_string('pluginname', 'surveyprofield_'.$plugin);
+                $a->examples .= html_writer::end_tag('td');
+
+                $a->examples .= html_writer::start_tag('td', array('class' => 'inputformat'));
+                $a->examples .= get_string('parentformat', 'surveyprofield_'.$plugin);
+                $a->examples .= html_writer::end_tag('td');
+                $a->examples .= html_writer::end_tag('tr');
             }
+            $a->examples .= html_writer::end_tag('table');
             $notestr = get_string('note', 'mod_surveypro');
-            $a->examples .= html_writer::end_tag('ul');
             $mform->addElement('static', $fieldname, $notestr, get_string($fieldname, 'mod_surveypro', $a));
         }
 
