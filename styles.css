@@ -275,18 +275,22 @@
 /* End of: Page break and fieldset presentation in the items table and during deletion confirmation */
 
 /* Begin of: selectors for the static field explaining the format needed by each plugin in parentcontent field */
-#page-mod-surveypro-layout_itemsetup .pluginname {
-    /* border:1px green solid; */
-    float:left;
-    left:0;
-    width:25%;
+#page-mod-surveypro-layout_itemsetup table.exampletable {
+    padding:0;
+    margin: 0 0 0 20px;
+    width:auto;
 }
 
-#page-mod-surveypro-layout_itemsetup .inputformat {
-    /* border:1px blue solid; */
-    margin-left:26%;
-    padding-left:26%;
-    position:relative;
+#page-mod-surveypro-layout_itemsetup td.pluginname {
+    padding:0 20px 0 0;
+    vertical-align: top;
+    /* width:60%; */
+}
+
+#page-mod-surveypro-layout_itemsetup td.inputformat {
+    padding:0;
+    vertical-align: top;
+    /* width:40%; */
 }
 
 #page-mod-surveypro-layout_itemsetup .felement.fstatic ul {
