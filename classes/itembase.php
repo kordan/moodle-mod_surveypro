@@ -526,7 +526,7 @@ class mod_surveypro_itembase {
         $usednames = array();
         foreach ($pluginlist as $plugin) {
             $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
-            $sql = 'SELECT p.id, p.variable
+            $sql = 'SELECT p.itemid, p.variable
                     FROM {surveypro_item} i
                       JOIN {'.$tablename.'} p ON p.itemid = i.id
                     WHERE ((i.surveyproid = :surveyproid)
