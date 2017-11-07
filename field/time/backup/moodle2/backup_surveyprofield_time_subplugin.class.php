@@ -44,7 +44,7 @@ class backup_surveyprofield_time_subplugin extends backup_subplugin {
         $subplugintime = new backup_nested_element('surveyprofield_time', array('id'), array(
             'content', 'contentformat', 'customnumber', 'position',
             'extranote', 'required', 'hideinstructions', 'variable', 'indent',
-            'defaultoption', 'defaultvalue', 'downloadformat', 'lowerbound', 'upperbound'));
+            'step', 'defaultoption', 'defaultvalue', 'downloadformat', 'lowerbound', 'upperbound'));
 
         // Connect XML elements into the tree.
         $subplugin->add_child($wrapper);

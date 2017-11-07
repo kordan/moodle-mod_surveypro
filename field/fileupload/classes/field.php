@@ -257,6 +257,7 @@ class surveyprofield_fileupload_field extends mod_surveypro_itembase {
                 <xs:element type="xs:int" name="position"/>
                 <xs:element type="xs:string" name="extranote" minOccurs="0"/>
                 <xs:element type="xs:int" name="required"/>
+                <xs:element type="xs:int" name="hideinstructions"/>
                 <xs:element type="xs:string" name="variable"/>
                 <xs:element type="xs:int" name="indent"/>
 
