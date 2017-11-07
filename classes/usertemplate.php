@@ -463,7 +463,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                 break;
             case SURVEYPRO_HIDEALLITEMS:
                 $whereparams = array('surveyproid' => $this->surveypro->id);
-                $utilityman->hide_items($whereparams, 0);
+                $utilityman->items_set_visibility($whereparams, 0);
 
                 $utilityman->reset_items_pages();
 
