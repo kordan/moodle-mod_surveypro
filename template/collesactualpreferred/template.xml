@@ -1260,6 +1260,7 @@
       <contentformat>1</contentformat>
       <position>0</position>
       <required>0</required>
+      <trimonsave>0</trimonsave>
       <hideinstructions>0</hideinstructions>
       <variable>cap_textarea</variable>
       <indent>0</indent>

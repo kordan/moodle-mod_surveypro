@@ -191,6 +191,7 @@ A4 paper</options>
       <position>0</position>
       <extranote>This item should be enabled if the answer to the parent item is "pen" ONLY but this is a missing funtionality as described in MDL-25067</extranote>
       <required>0</required>
+      <trimonsave>0</trimonsave>
       <hideinstructions>0</hideinstructions>
       <variable>textarea_001</variable>
       <indent>1</indent>
