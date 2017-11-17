@@ -684,16 +684,21 @@ class mod_surveypro_view_import {
 
         $iid = csv_import_reader::get_new_iid('surveyprouserdata');
         $this->cir = new csv_import_reader($iid, 'surveyprouserdata');
-        if ($debug) {
-            echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
-            echo '$iid = '.$iid.'<br />';
-            echo '$this->cir:';
-            var_dump($this->cir);
-        }
-
         $csvcontent = $this->get_csv_content();
         if ($debug) {
-            echo '$csvcontent = '.$csvcontent.'<br />';
+            echo html_writer::opentag('pre');
+            echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
+            echo '$iid = '.$iid;
+            echo html_writer::closetag('pre');
+
+            echo html_writer::opentag('pre');
+            echo '$this->cir:';
+            var_dump($this->cir);
+            echo html_writer::closetag('pre');
+
+            echo html_writer::opentag('pre');
+            echo '$csvcontent = '.$csvcontent;
+            echo html_writer::closetag('pre');
         }
 
         // Method load_csv_content is needed to define properties in the class.
@@ -714,8 +719,10 @@ class mod_surveypro_view_import {
 
         // 2nd) is each column unique?
         if ($debug) {
+            echo html_writer::opentag('pre');
             echo '$foundheaders:';
             var_dump($foundheaders);
+            echo html_writer::closetag('pre');
         }
         if ($err = $this->are_headers_unique($foundheaders)) {
             return $err;
@@ -730,12 +737,16 @@ class mod_surveypro_view_import {
         // And the list of the id of the required items.
         list($surveyheaders, $requireditems) = $this->get_survey_infos();
         if ($debug) {
+            echo html_writer::opentag('pre');
             echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
             echo '$surveyheaders:';
             var_dump($surveyheaders);
+            echo html_writer::closetag('pre');
 
+            echo html_writer::opentag('pre');
             echo '$requireditems:';
             var_dump($requireditems);
+            echo html_writer::closetag('pre');
         }
 
         // Rationale: teacher is importing.
@@ -753,15 +764,21 @@ class mod_surveypro_view_import {
         // Make a relation between each column header and the corresponding itemid.
         $nonmatchingheaders = $this->get_columntoitemid($foundheaders, $surveyheaders);
         if ($debug) {
+            echo html_writer::opentag('pre');
             echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
             echo '$this->columntoitemid:';
             var_dump($this->columntoitemid);
+            echo html_writer::closetag('pre');
 
+            echo html_writer::opentag('pre');
             echo '$this->environmentheaders:';
             var_dump($this->environmentheaders);
+            echo html_writer::closetag('pre');
 
+            echo html_writer::opentag('pre');
             echo '$nonmatchingheaders:';
             var_dump($nonmatchingheaders);
+            echo html_writer::closetag('pre');
         }
 
         if ($err = $this->are_headers_matching($nonmatchingheaders)) {
@@ -780,12 +797,16 @@ class mod_surveypro_view_import {
         // End of: get now, once and for ever, each item option (where applicable).
 
         if ($debug) {
+            echo html_writer::opentag('pre');
             echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
             echo '$this->itemhelperinfo:';
             var_dump($this->itemhelperinfo);
+            echo html_writer::closetag('pre');
 
+            echo html_writer::opentag('pre');
             echo '$optionscountpercol:';
             var_dump($optionscountpercol);
+            echo html_writer::closetag('pre');
         }
 
         // Make one more test against general file configuration.
@@ -853,9 +874,11 @@ class mod_surveypro_view_import {
                 } else {
                     $itemhelper = $this->itemhelperinfo[$col]; // The itemhelperinfo of the item in column = $col.
                     if ($debug) {
+                        echo html_writer::opentag('pre');
                         echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
                         echo '$itemhelper:';
                         var_dump($itemhelper);
+                        echo html_writer::closetag('pre');
                     }
                 }
 
@@ -913,8 +936,10 @@ class mod_surveypro_view_import {
 
         $debug = false;
         if ($debug) {
+            echo html_writer::opentag('pre');
             echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
-            echo 'I start the import<br />';
+            echo 'I start the import';
+            echo html_writer::closetag('pre');
         }
 
         // Create helper $contentformattocol.
@@ -956,8 +981,10 @@ class mod_surveypro_view_import {
         $this->cir->init();
         while ($csvrow = $this->cir->next()) {
             if ($debug) {
+                echo html_writer::opentag('pre');
                 echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
-                echo '$csvrow = '.implode(', ', $csvrow).'<br />';
+                echo '$csvrow = '.implode(', ', $csvrow);
+                echo html_writer::closetag('pre');
             }
 
             // Add one record to surveypro_submission.
@@ -1000,9 +1027,11 @@ class mod_surveypro_view_import {
             }
 
             if ($debug) {
+                echo html_writer::opentag('pre');
                 echo 'I am going to save to surveypro_submission:<br />';
                 echo '$record:';
                 var_dump($record);
+                echo html_writer::closetag('pre');
             }
             $submissionid = $DB->insert_record('surveypro_submission', $record);
             // End of: Add one record to surveypro_submission.
@@ -1034,10 +1063,12 @@ class mod_surveypro_view_import {
                 }
                 $record->verified = 1;
                 if ($debug) {
+                    echo html_writer::opentag('pre');
                     echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
                     echo 'I am going to save to surveypro_answer:<br />';
                     echo '$record:';
                     var_dump($record);
+                    echo html_writer::closetag('pre');
                 }
                 $DB->insert_record('surveypro_answer', $record);
             }

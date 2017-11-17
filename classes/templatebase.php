@@ -88,7 +88,7 @@ class mod_surveypro_templatebase {
         $debug = false; // Set $debug = true if you want to stop anyway to debug the xml template.
 
         $pluginversion = self::get_subplugin_versions();
-        if ($CFG->debug == DEBUG_DEVELOPER) {
+        if ($debug) {
             $simplexml = new SimpleXMLElement($xml);
         } else {
             $simplexml = @new SimpleXMLElement($xml);
@@ -155,11 +155,11 @@ class mod_surveypro_templatebase {
 
                 // I am assuming that surveypro_item table is ALWAYS before the surveypro_<<plugin>> table.
                 if ($tablename == 'surveypro_item') {
-                    // I could use a random class here because they all share the same parent item_get_item_schema
+                    // I could use a random class here because they all share the same parent item_get_itembase_schema
                     // but, in spite of this, I need the right class name for the next table
                     // so I choose to load the correct class from the beginning.
                     $classname = 'surveypro'.$currenttype.'_'.$currentplugin.'_'.$currenttype;
-                    $xsd = $classname::item_get_item_schema(); // Itembase schema.
+                    $xsd = $classname::item_get_itembase_schema(); // Itembase schema.
                 } else {
                     // Classname has already been defined because of the previous loop over surveypro_item fields.
                     if (!isset($classname)) {
@@ -190,6 +190,10 @@ class mod_surveypro_templatebase {
 
                 if ($debug) {
                     $status = $status && $mdom->schemaValidateSource($xsd);
+                    if (!$status) {
+                        echo html_writer::tag('pre', s($xsd));
+                        echo html_writer::tag('pre', s($mdom->saveXML()));
+                    }
                 } else {
                     $status = $status && @$mdom->schemaValidateSource($xsd);
                 }
@@ -202,8 +206,12 @@ class mod_surveypro_templatebase {
 
                 if (!empty($errors)) {
                     $firsterror = array_shift($errors);
-                    $atemplate = get_string('reportederrortemplate', 'mod_surveypro');
-                    $a = sprintf($atemplate, trim($firsterror->message, "\n\r\t ."), $currentplugin);
+                    if ($tablename == 'surveypro_item') {
+                        $messagetemplate = get_string('reportederroritembase', 'mod_surveypro');
+                    } else {
+                        $messagetemplate = get_string('reportederrorplugin', 'mod_surveypro');
+                    }
+                    $a = sprintf($messagetemplate, trim($firsterror->message, "\n\r\t ."), $currentplugin);
 
                     $error = new stdClass();
                     $error->a = $a;
@@ -233,24 +241,54 @@ class mod_surveypro_templatebase {
     // MARK get.
 
     /**
-     * Get table structure.
+     * Get teh ordered list of fields for the itembase (or the plugin) table.
      *
      * @param string $tablename
      * @return void
      */
-    public function get_table_structure($tablename) {
-        global $DB;
+    public function get_table_structure($type=null, $plugin=null) {
+        global $CFG;
 
-        $dbman = $DB->get_manager();
-
-        $table = new xmldb_table($tablename);
-        if ($dbman->table_exists($table)) {
-            $dbstructure = array_keys($DB->get_columns($tablename));
-            return $dbstructure;
-        } else {
-            $message = 'Database table "'.$tablename.'" doesn\'t exist';
+        if ((empty($type) && !empty($plugin)) || (!empty($type) && empty($plugin))) {
+            $message = '$type and $plugin must be provided both or none.';
             debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
+
+        $fieldlist = array();
+        if (empty($type) && empty($plugin)) {
+            $installxml = $CFG->dirroot.'/mod/surveypro/db/install.xml';
+            $targettable = 'surveypro_item';
+            $uselessfields = array('id', 'surveyproid', 'type', 'plugin', 'sortindex', 'formpage', 'timecreated', 'timemodified');
+        } else {
+            $installxml = $CFG->dirroot.'/mod/surveypro/'.$type.'/'.$plugin.'/db/install.xml';
+            $targettable = 'surveypro'.$type.'_'.$plugin;
+            $uselessfields = array('id', 'itemid');
+        }
+
+        $xmlall = simplexml_load_file($installxml);
+        foreach ($xmlall->children() as $xmltables) { // TABLES opening tag.
+            foreach ($xmltables->children() as $xmltable) { // TABLE opening tag.
+                $attributes = $xmltable->attributes();
+                $tablename = $attributes['NAME'];
+                if ($tablename != $targettable) {
+                    continue;
+                }
+                foreach ($xmltable->children() as $xmlfields) { // FIELDS opening tag.
+                    foreach ($xmlfields->children() as $xmlfield) { // FIELD opening tag.
+                        $attributes = $xmlfield->attributes();
+                        $fieldname = $attributes['NAME'];
+                        if (in_array($fieldname, $uselessfields) === false) {
+                            $fieldlist[] = (string)$attributes['NAME'];
+                        }
+                    }
+                    break;
+                }
+                break;
+            }
+            break;
+        }
+
+        return $fieldlist;
     }
 
     /**
