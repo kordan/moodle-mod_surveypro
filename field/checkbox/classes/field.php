@@ -218,17 +218,6 @@ class surveyprofield_checkbox_field extends mod_surveypro_itembase {
     }
 
     /**
-     * Can this item be switched to mandatory?
-     *
-     * Used by mod_surveypro_itemlist->display_items_table() to define the icon to show
-     *
-     * @return boolean
-     */
-    public function item_canbemandatory() {
-        return !$this->noanswerdefault;
-    }
-
-    /**
      * Is this item available as a parent?
      *
      * @return the content of the static property "canbeparent"

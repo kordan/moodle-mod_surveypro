@@ -919,7 +919,7 @@ class mod_surveypro_utility {
         // Layout -> elements.
         $elements['manage'] = false;
         if ($canmanageitems) {
-            $elementurl = new moodle_url('/mod/surveypro/layout_items.php', $paramurlbase);
+            $elementurl = new moodle_url('/mod/surveypro/layout_itemlist.php', $paramurlbase);
             $elements['manage'] = $elementurl;
         }
 
@@ -939,7 +939,7 @@ class mod_surveypro_utility {
         // Layout -> container.
         $elements['container'] = false;
         if ($elements['preview'] || $elements['manage'] || $elements['validate'] || $elements['itemsetup']) {
-            $elementurl = new moodle_url('/mod/surveypro/layout_items.php', $paramurlbase);
+            $elementurl = new moodle_url('/mod/surveypro/layout_itemlist.php', $paramurlbase);
             $elements['container'] = $elementurl;
         }
 

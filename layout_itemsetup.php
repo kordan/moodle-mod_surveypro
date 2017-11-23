@@ -116,7 +116,7 @@ $itemform = new mod_surveypro_itemsetupform($formurl, $formparams);
 
 // Begin of: manage form submission.
 if ($itemform->is_cancelled()) {
-    $returnurl = new moodle_url('/mod/surveypro/layout_items.php', $paramurl);
+    $returnurl = new moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
     redirect($returnurl);
 }
 
@@ -134,7 +134,7 @@ if ($fromform = $itemform->get_data()) {
     $item->item_update_childrenparentvalue();
 
     $paramurl = array('id' => $cm->id, 'iefeedback' => $feedback);
-    $returnurl = new moodle_url('/mod/surveypro/layout_items.php', $paramurl);
+    $returnurl = new moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
     redirect($returnurl);
 }
 // End of: manage form submission.

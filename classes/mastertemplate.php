@@ -109,7 +109,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
 
             $paramurl = array();
             $paramurl['id'] = $this->cm->id;
-            $returnurl = new moodle_url('/mod/surveypro/layout_items.php', $paramurl);
+            $returnurl = new moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
             redirect($returnurl);
         }
 

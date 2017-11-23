@@ -73,9 +73,9 @@ class surveyproformat_fieldset_format extends mod_surveypro_itembase {
 
         // List of fields I do not want to have in the item definition form.
         $this->insetupform['trimonsave'] = false;
-        $this->insetupform['extranote'] = false;
         $this->insetupform['customnumber'] = false;
         $this->insetupform['position'] = false;
+        $this->insetupform['extranote'] = false;
         $this->insetupform['required'] = false;
         $this->insetupform['variable'] = false;
         $this->insetupform['indent'] = false;

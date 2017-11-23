@@ -63,7 +63,7 @@
  *      mod/surveypro:preview
  *
  *  SUB-TAB == SURVEYPRO_LAYOUT_ITEMS
- *      $elementurl = new moodle_url('/mod/surveypro/layout_items.php', $localparamurl);
+ *      $elementurl = new moodle_url('/mod/surveypro/layout_itemlist.php', $localparamurl);
  *      mod/surveypro:manageitems
  *      mod/surveypro:additems
  *

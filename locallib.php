@@ -30,55 +30,6 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/surveypro/lib.php');
 
 /**
- * Load the class of the specified item
- *
- * @param object $cm
- * @param object $surveypro
- * @param int $itemid
- * @param string $type
- * @param string $plugin
- * @param bool $getparentcontent
- * @return $item object
- */
-function surveypro_get_item($cm, $surveypro, $itemid=0, $type='', $plugin='', $getparentcontent=false) {
-    global $CFG, $DB;
-
-    if (!empty($itemid)) {
-        $itemseed = $DB->get_record('surveypro_item', array('id' => $itemid), 'surveyproid, type, plugin', MUST_EXIST);
-        if ($cm->instance != $itemseed->surveyproid) {
-            $message = 'Mismatch between passed itemid ('.$itemid.') and corresponding cm->instance ('.$cm->instance.')';
-            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-        }
-    }
-
-    if (empty($type) || empty($plugin)) {
-        if (empty($itemid)) {
-            $message = 'Unexpected empty($itemid)';
-            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-        }
-
-        $type = $itemseed->type;
-        $plugin = $itemseed->plugin;
-    } else {
-        if (isset($itemseed)) {
-            if ($type != $itemseed->type) {
-                $message = 'Mismatch between passed type ('.$type.') and found type ('.$itemseed->type.')';
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-            }
-            if ($plugin != $itemseed->plugin) {
-                $message = 'Mismatch between passed plugin ('.$plugin.') and found plugin ('.$itemseed->plugin.')';
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-            }
-        }
-    }
-
-    $classname = 'surveypro'.$type.'_'.$plugin.'_'.$type;
-    $item = new $classname($cm, $surveypro, $itemid, $getparentcontent);
-
-    return $item;
-}
-
-/**
  * Copy the content of multiline textarea to an array line by line
  *
  * @param string $textareacontent

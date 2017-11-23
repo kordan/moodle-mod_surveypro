@@ -96,10 +96,10 @@ function surveypro_delete_supposed_blank_answers() {
             if (!$DB->count_records('surveypro_answer', $whereparams)) {
                 // OK, parent item was not answered so its children were not allowed!
                 // Get the list of children of $parentitem->parentid.
-                $children = $DB->get_records('surveypro_item', array('parentid' => $parentitem->parentid), 'id', 'id');
+                $childrenitems = $DB->get_records('surveypro_item', array('parentid' => $parentitem->parentid), 'id', 'id');
                 // Delete its childldren.
-                foreach ($children as $child) {
-                    $whereparams['itemid'] = $child->id;
+                foreach ($childrenitems as $childitem) {
+                    $whereparams['itemid'] = $childitem->id;
                     $DB->delete_records('surveypro_answer', $whereparams);
                 }
             }
