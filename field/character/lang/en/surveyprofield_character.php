@@ -22,7 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['custompattern'] = 'custom';
+$string['custompattern'] = 'custom pattern';
+$string['regex'] = 'regular expression';
 $string['defaultvalue_help'] = 'This is the value the remote user will find answered by default';
 $string['defaultvalue'] = 'Default';
 $string['free'] = 'free pattern';
@@ -33,6 +34,7 @@ $string['ierr_extracharfound'] = '{$a} characters are not allowed. Please, use o
 $string['ierr_minexceeds'] = 'Minimum length has to be positive';
 $string['ierr_mingtmax'] = 'Minimum length has be lower than maximum length';
 $string['ierr_nopatternmatch'] = 'Default does not match the required pattern';
+$string['ierr_noregexmatch'] = 'Default does not match the required regular expression';
 $string['ierr_patternisempty'] = 'pattern is missing';
 $string['ierr_toolongdefault'] = 'Default has to be shorter-equal than maximum allowed length';
 $string['ierr_tooshortdefault'] = 'Default has to be longer-equal than minimum allowed length';
@@ -52,11 +54,13 @@ $string['restrictions_exact'] = 'Text is supposed to be exactly {$a} characters 
 $string['restrictions_max'] = 'Text is supposed to be shorter-equal than {$a} characters';
 $string['restrictions_min'] = 'Text is supposed to be longer-equal than {$a} characters';
 $string['restrictions_minmax'] = 'Text length is supposed to range between {$a->minlength} and {$a->maxlength} characters';
+$string['restrictions_regex'] = 'Text is supposed to match the following regular expression: "{$a}"';
 $string['restrictions_url'] = 'URL is expected here';
-$string['uerr_badlength'] = 'Text entered has bad length';
 $string['uerr_invalidemail'] = 'Text is not a valid email';
 $string['uerr_invalidurl'] = 'Text is not a valid URL';
+$string['uerr_invalidregex'] = 'Regular expression \'{$a}\' is not valid.';
 $string['uerr_nopatternmatch'] = 'Text does not match the required pattern';
+$string['uerr_noregexmatch'] = 'Text does not match the required regular expression';
 $string['uerr_texttoolong'] = 'Text is too long';
 $string['uerr_texttooshort'] = 'Text is too short';
 $string['url'] = 'web page URL';

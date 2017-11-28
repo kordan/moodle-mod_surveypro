@@ -55,7 +55,6 @@ $string['restrictions_max'] = 'El texto se supone que es menor o igual a {$a} ca
 $string['restrictions_min'] = 'La respuesta se supone que es más larga o  igual a {$a} caracteres';
 $string['restrictions_minmax'] = 'El rango de la longitud del texto se supone que esté entre {$a->minlength} y {$a->maxlength} caracteres';
 $string['restrictions_url'] = 'Aquí se espera una URL';
-$string['uerr_badlength'] = 'El texto ingresado tiene mala longitud';
 $string['uerr_invalidemail'] = 'El texto no es un Email válido';
 $string['uerr_invalidurl'] = 'El texto no es una URL válida';
 $string['uerr_nopatternmatch'] = 'El texto no coincide con el patrón requerido';
