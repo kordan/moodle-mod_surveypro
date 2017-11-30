@@ -130,6 +130,7 @@ class surveyprofield_fileupload_field extends mod_surveypro_itembase {
         // List of fields I do not want to have in the item definition form.
         $this->insetupform['trimonsave'] = false;
         $this->insetupform['insearchform'] = false;
+        $this->insetupform['hideinstructions'] = false;
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $getparentcontent);
@@ -257,7 +258,6 @@ class surveyprofield_fileupload_field extends mod_surveypro_itembase {
                 <xs:element type="xs:int" name="position"/>
                 <xs:element type="xs:string" name="extranote" minOccurs="0"/>
                 <xs:element type="xs:int" name="required"/>
-                <xs:element type="xs:int" name="hideinstructions"/>
                 <xs:element type="xs:string" name="variable"/>
                 <xs:element type="xs:int" name="indent"/>
 
@@ -337,24 +337,6 @@ EOS;
                 return;
             }
         }
-    }
-
-    /**
-     * Prepare the string with the filling instruction.
-     *
-     * @return string $fillinginstruction
-     */
-    public function userform_get_filling_instructions() {
-
-        if ($this->filetypes != '*') {
-            $filetypelist = preg_replace('~,(?! )~', ', ', $this->filetypes); // Credits to Sam Marshall.
-
-            $fillinginstruction = get_string('fileextensions', 'surveyprofield_fileupload').$filetypelist;
-        } else {
-            $fillinginstruction = '';
-        }
-
-        return $fillinginstruction;
     }
 
     /**
