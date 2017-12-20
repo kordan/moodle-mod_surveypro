@@ -590,7 +590,7 @@ class mod_surveypro_itembase {
 
             // Management of ($oldreserved != $newreserved).
             if ($oldreserved != $newreserved) {
-                $action = ($oldreserved) ? SURVEYPRO_MAKESTANDARD : SURVEYPRO_MAKERESERVED;
+                $action = ($oldreserved) ? SURVEYPRO_MAKEAVAILABLE : SURVEYPRO_MAKERESERVED;
 
                 $itemlistman = new mod_surveypro_itemlist($this->cm, $context, $this->surveypro);
                 $itemlistman->set_type($this->type);
@@ -602,7 +602,7 @@ class mod_surveypro_itembase {
 
                 // Begin of: Make reserved/free part 2.
                 if ( ($oldreserved == 1) && ($newreserved == 0) ) {
-                    if ($itemlistman->item_makestandard_execute()) {
+                    if ($itemlistman->item_makeavailable_execute()) {
                         // A chain of parents items inherited free access.
                         $this->itemeditingfeedback += 16; // 1*2^4.
                     }
