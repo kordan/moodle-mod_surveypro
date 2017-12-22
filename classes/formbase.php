@@ -176,7 +176,7 @@ class mod_surveypro_formbase {
         global $OUTPUT;
 
         if ( (!empty($this->surveypro->history)) && (!empty($this->submissionid)) ) {
-            echo $OUTPUT->notification(get_string('editingcopy', 'mod_surveypro'), 'notifyproblem');
+            echo $OUTPUT->notification(get_string('editingcopy', 'mod_surveypro'), 'notifysuccess');
         }
     }
 

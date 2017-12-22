@@ -70,15 +70,18 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
         $options[SURVEYPROFIELD_CHARACTER_EMAILPATTERN] = get_string('mail', 'surveyprofield_character');
         $options[SURVEYPROFIELD_CHARACTER_URLPATTERN] = get_string('url', 'surveyprofield_character');
         $options[SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN] = get_string('custompattern', 'surveyprofield_character');
+        $options[SURVEYPROFIELD_CHARACTER_REGEXPATTERN] = get_string('regex', 'surveyprofield_character');
         $elementgroup = array();
         $elementgroup[] = $mform->createElement('select', $fieldname, '', $options);
-        $elementgroup[] = $mform->createElement('text', $fieldname.'_text', '');
+        $elementgroup[] = $mform->createElement('text', $fieldname.'text', '', array('size' => 55));
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_character'), ' ', false);
         // $mform->setDefault($fieldname, SURVEYPROFIELD_CHARACTER_FREEPATTERN);
-        $mform->disabledIf($fieldname.'_text', $fieldname, 'neq', SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN);
+        $mform->disabledIf($fieldname.'text', $fieldname, 'eq', SURVEYPROFIELD_CHARACTER_FREEPATTERN);
+        $mform->disabledIf($fieldname.'text', $fieldname, 'eq', SURVEYPROFIELD_CHARACTER_EMAILPATTERN);
+        $mform->disabledIf($fieldname.'text', $fieldname, 'eq', SURVEYPROFIELD_CHARACTER_URLPATTERN);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_character');
         $mform->setType($fieldname, PARAM_RAW);
-        $mform->setType($fieldname.'_text', PARAM_TEXT);
+        $mform->setType($fieldname.'text', PARAM_TEXT);
 
         // Item: minlength.
         $fieldname = 'minlength';
@@ -148,16 +151,17 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
                     }
                     break;
                 case SURVEYPROFIELD_CHARACTER_URLPATTERN:
-                    if (!surveypro_character_validate_url($data['defaultvalue'])) {
+                    if (!surveypro_character_validate_against_url($data['defaultvalue'])) {
                         $errors['defaultvalue'] = get_string('ierr_defaultisnoturl', 'surveyprofield_character');
                     }
                     break;
                 case SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN:
-                    $patternlength = strlen($data['pattern_text']);
-                    if ($defaultvaluelength != $patternlength) {
-                        $errors['defaultvalue'] = get_string('ierr_defaultbadlength', 'surveyprofield_character', $patternlength);
-                    } else if (!surveypro_character_validate_pattern($data['defaultvalue'], $data['pattern_text'])) {
-                        $errors['defaultvalue'] = get_string('ierr_nopatternmatch', 'surveyprofield_character');
+                    if (!surveypro_character_validate_against_pattern($data['defaultvalue'], $this->patterntext)) {
+                        $errors['defaultvalue'] = get_string('ierr_nopatternmatch', 'surveyprofield_character');;
+                    }
+                case SURVEYPROFIELD_CHARACTER_REGEXPATTERN:
+                    if (!surveypro_character_validate_against_regex($data['defaultvalue'], $data['patterntext'])) {
+                        $errors['defaultvalue'] = get_string('ierr_noregexmatch', 'surveyprofield_character');
                     }
                     break;
                 default:
@@ -166,18 +170,15 @@ class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
             }
         }
 
-        // If pattern == SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN, its length has to fall between minlength and maxlength.
         if ($data['pattern'] == SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN) {
-            $patternlength = strlen($data['pattern_text']);
-            // Pattern can not be empty.
-            if (!$patternlength) {
-                $errors['pattern_group'] = get_string('ierr_patternisempty', 'surveyprofield_character');
+            if ($message = surveypro_character_validate_pattern_integrity($data['patterntext'])) {
+                $errors['pattern_group'] = $message;
             }
-            // Pattern can be done only from A, a, * and 0.
-            if (preg_match_all('~[^Aa\*0]~', $data['pattern_text'], $matches)) {
-                $denied = array_unique($matches[0]);
-                $a = '"'.implode('", "', $denied).'"';
-                $errors['pattern_group'] = get_string('ierr_extracharfound', 'surveyprofield_character', $a);
+        }
+        if ($data['pattern'] == SURVEYPROFIELD_CHARACTER_REGEXPATTERN) {
+            // Pattern is supposed to be a valid regular expression.
+            if ($message = surveypro_character_validate_regex_integrity($data['patterntext'])) {
+                $errors['pattern_group'] = $message;
             }
         }
 

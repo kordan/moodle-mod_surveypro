@@ -105,6 +105,7 @@ class surveyprofield_character_field extends mod_surveypro_itembase {
      *     SURVEYPROFIELD_CHARACTER_EMAILPATTERN
      *     SURVEYPROFIELD_CHARACTER_URLPATTERN
      *     SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN
+     *     SURVEYPROFIELD_CHARACTER_REGEXPATTERN
      */
     protected $pattern;
 
@@ -240,7 +241,12 @@ class surveyprofield_character_field extends mod_surveypro_itembase {
                 break;
             default:
                 $this->patterntext = $this->pattern;
-                $this->pattern = SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN;
+                if (!surveypro_character_validate_pattern_integrity($this->pattern)) {
+                    // If there is no error message from validate_pattern_integrity...
+                    $this->pattern = SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN;
+                } else {
+                    $this->pattern = SURVEYPROFIELD_CHARACTER_REGEXPATTERN;
+                }
         }
     }
 
@@ -253,10 +259,15 @@ class surveyprofield_character_field extends mod_surveypro_itembase {
     public function item_custom_fields_to_db($record) {
         // 1. Special management for composite fields.
         if ($record->pattern == SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN) {
-            $record->pattern = $record->pattern_text;
+            $record->pattern = $record->patterntext;
 
-            $record->minlength = strlen($record->pattern_text);
+            $record->minlength = strlen($record->patterntext);
             $record->maxlength = $record->minlength;
+            unset($record->patterntext);
+        }
+        if ($record->pattern == SURVEYPROFIELD_CHARACTER_REGEXPATTERN) {
+            $record->pattern = $record->patterntext;
+            unset($record->patterntext);
         }
 
         // 2. Override few values.
@@ -273,23 +284,7 @@ class surveyprofield_character_field extends mod_surveypro_itembase {
         // Nothing to do: no checkboxes in this plugin item form.
 
         // 4. Other.
-    }
-
-    /**
-     * This function is called to empty fields when $record->{$field.'_check'} == 1.
-     *
-     * @param object $record
-     * @param array $fieldlist
-     * @return void
-     */
-    public function item_fields_with_checkbox_todb($record, $fieldlist) {
-        foreach ($fieldlist as $fieldbase) {
-            if (isset($record->{$fieldbase.'_check'})) {
-                $record->{$fieldbase} = null;
-                $record->{$fieldbase.'_text'} = null;
-            }
-        }
-    }
+}
 
     /**
      * Does the user input need trim?
@@ -498,38 +493,36 @@ EOS;
                 $errors[$errorkey] = get_string('uerr_texttoolong', 'surveyprofield_character');
             }
         }
-        if (!empty($userinput) && !empty($this->pattern)) {
-            switch ($this->pattern) {
-                case SURVEYPROFIELD_CHARACTER_EMAILPATTERN:
-                    if (!validate_email($userinput)) {
-                        $errors[$errorkey] = get_string('uerr_invalidemail', 'surveyprofield_character');
-                    }
-                    break;
-                case SURVEYPROFIELD_CHARACTER_URLPATTERN:
-                    if (!surveypro_character_validate_url($userinput)) {
-                        $errors[$errorkey] = get_string('uerr_invalidurl', 'surveyprofield_character');
-                    }
-                    break;
-                case SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN: // It is a custom pattern done with "A", "a", "*" and "0".
-                    // Where: "A" UPPER CASE CHARACTERS.
-                    // Where: "a" lower case characters.
-                    // Where: "*" UPPER case, LOWER case or any special characters like '@', ',', '%', '5', ' ' or whatever.
-                    // Where: "0" numbers.
-
-                    if ($answerlength != strlen($this->patterntext)) {
-                        $errors[$errorkey] = get_string('uerr_badlength', 'surveyprofield_character');
-                    }
-
-                    if (!surveypro_character_validate_pattern($userinput, $this->patterntext)) {
-                        $errors[$errorkey] = get_string('uerr_nopatternmatch', 'surveyprofield_character');
-                    }
-                    break;
-                case SURVEYPROFIELD_CHARACTER_FREEPATTERN:
-                    break;
-                default:
-                    $message = 'Unexpected $this->pattern = '.$this->pattern;
-                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-            }
+        switch ($this->pattern) {
+            case SURVEYPROFIELD_CHARACTER_FREEPATTERN:
+                break;
+            case SURVEYPROFIELD_CHARACTER_EMAILPATTERN:
+                if (!validate_email($userinput)) {
+                    $errors[$errorkey] = get_string('uerr_invalidemail', 'surveyprofield_character');
+                }
+                break;
+            case SURVEYPROFIELD_CHARACTER_URLPATTERN:
+                if (!surveypro_character_validate_url($userinput)) {
+                    $errors[$errorkey] = get_string('uerr_invalidurl', 'surveyprofield_character');
+                }
+                break;
+            case SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN:
+                // Where: "A" UPPER CASE CHARACTERS.
+                // Where: "a" lower case characters.
+                // Where: "*" UPPER case, LOWER case or any special characters like '@', ',', '%', '5', ' ' or whatever.
+                // Where: "0" numbers.
+                if (!surveypro_character_validate_against_pattern($userinput, $this->patterntext)) {
+                    $errors[$errorkey] = get_string('uerr_nopatternmatch', 'surveyprofield_character');
+                }
+                break;
+            case SURVEYPROFIELD_CHARACTER_REGEXPATTERN:
+                if (!surveypro_character_validate_against_regex($userinput, $this->patterntext)) {
+                    $errors[$errorkey] = get_string('uerr_noregexmatch', 'surveyprofield_character');
+                }
+                break;
+            default:
+                $message = 'Unexpected $this->pattern = '.$this->pattern;
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
         // Return $errors; is not needed because $errors is passed by reference.
     }
@@ -566,6 +559,8 @@ EOS;
         }
 
         switch ($this->pattern) {
+            case SURVEYPROFIELD_CHARACTER_FREEPATTERN:
+                break;
             case SURVEYPROFIELD_CHARACTER_EMAILPATTERN:
                 $arrayinstruction[] = get_string('restrictions_email', 'surveyprofield_character');
                 break;
@@ -575,9 +570,12 @@ EOS;
             case SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN:
                 $arrayinstruction[] = get_string('restrictions_custom', 'surveyprofield_character', $this->patterntext);
                 break;
-            case SURVEYPROFIELD_CHARACTER_FREEPATTERN:
+            case SURVEYPROFIELD_CHARACTER_REGEXPATTERN:
+                $arrayinstruction[] = get_string('restrictions_regex', 'surveyprofield_character', $this->patterntext);
                 break;
             default:
+                $message = 'Unexpected $this->pattern = '.$this->pattern;
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
 
         if ($this->trimonsave) {

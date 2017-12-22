@@ -28,39 +28,59 @@ require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 
 // Patterns.
 define('SURVEYPROFIELD_CHARACTER_FREEPATTERN'  , 'PATTERN_FREE');
-define('SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN', 'PATTERN_CUSTOM');
 define('SURVEYPROFIELD_CHARACTER_EMAILPATTERN' , 'PATTERN_EMAIL');
 define('SURVEYPROFIELD_CHARACTER_URLPATTERN'   , 'PATTERN_URL');
+define('SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN', 'PATTERN_CUSTOM');
+define('SURVEYPROFIELD_CHARACTER_REGEXPATTERN' , 'PATTERN_REGEX');
 
 /**
  * Validate the passed text against the known pattern
  *
- * @param string $text
  * @param string $pattern
- * @return bool, True if the text matches the pattern; false otherwise.
+ * @return bool, false if the validation passes, the error message otherwise.
  */
-function surveypro_character_validate_pattern($text, $pattern) {
-    // Replace free characters.
-    $pos = -1;
-    while ($pos = strpos($pattern, '*', $pos + 1)) {
-        $text = substr_replace($text, '*', $pos, 1);
+function surveypro_character_validate_pattern_integrity($pattern) {
+    $message = false;
+
+    // Pattern can not be empty.
+    if (!strlen($pattern)) {
+        $message = get_string('ierr_patternisempty', 'surveyprofield_character');
+    }
+    // Pattern can be done only using 'A', 'a', '*' and '0'.
+    if (preg_match_all('~[^Aa\*0]~', $pattern, $matches)) {
+        $denied = array_unique($matches[0]);
+        $a = '"'.implode('", "', $denied).'"';
+        $message = get_string('ierr_extracharfound', 'surveyprofield_character', $a);
     }
 
-    // Build the pattern matching the text provided.
-    $regex = array('~[A-Z]~', '~[a-z]~', '~[0-9]~');
-    $replacement = array('A', 'a', '0');
-    $text = preg_replace($regex, $replacement, $text);
-
-    return ($text == $pattern);
+    return $message;
 }
 
 /**
- * Validate the passed url
+ * Validate the passed text against the known regex
+ *
+ * @param string $regex
+ * @return bool|string, false if the validation passes, the error message otherwise.
+ */
+function surveypro_character_validate_regex_integrity($regex) {
+    $test = @preg_match($regex, null);
+
+    if ($test === false) {
+        $message = get_string('uerr_invalidregex', 'surveyprofield_character', $regex);
+    } else {
+        $message = false;
+    }
+
+    return $message;
+}
+
+/**
+ * Validate the passed text as an url
  *
  * @param string $url
  * @return bool, True if the string hold a correct url; false otherwise.
  */
-function surveypro_character_validate_url($url) {
+function surveypro_character_validate_against_url($url) {
     // Which one is better here?
     // First option: return (filter_var($url, FILTER_VALIDATE_URL) !== false);
 
@@ -70,4 +90,51 @@ function surveypro_character_validate_url($url) {
     $regex = '~^(http(s?)\:\/\/)?[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\‌​-‌​\.\?\,\'\/\\\+&amp;%\$#_]*)?$~i';
     // Function preg_match() returns 1 if the pattern matches given subject, 0 if it does not, or false if an error occurred.
     return preg_match($regex, $url);
+}
+
+/**
+ * Validate the passed text against the known pattern
+ *
+ * @param string $userinput
+ * @param string $pattern
+ * @return bool, True if the text matches the pattern; false otherwise.
+ */
+function surveypro_character_validate_against_pattern($userinput, $pattern) {
+    // Replace free characters.
+    $pos = -1;
+    while ($pos = strpos($pattern, '*', $pos + 1)) {
+        $text = substr_replace($text, '*', $pos, 1);
+    }
+
+    // Build the pattern matching the text provided.
+    $regex = array('~[A-Z]~', '~[a-z]~', '~[0-9]~');
+    $replacement = array('A', 'a', '0');
+    $reconstructed = preg_replace($regex, $replacement, $userinput);
+
+    if (strcmp($reconstructed, $pattern) === 0) {
+        $return = true;
+    } else {
+        $return = false;
+    }
+
+    return $return;
+}
+
+/**
+ * Validate the passed text against the known regex
+ *
+ * @param string $userinput
+ * @param string $regex
+ * @return bool, True if the text matches the pattern; false otherwise.
+ */
+function surveypro_character_validate_against_regex($userinput, $regex) {
+    preg_match($regex, $userinput, $matches);
+
+    if ( $matches && (strcmp(reset($matches), $userinput) === 0) ) {
+        $return = true;
+    } else {
+        $return = false;
+    }
+
+    return $return;
 }
