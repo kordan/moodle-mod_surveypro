@@ -43,7 +43,7 @@ class backup_surveyprofield_integer_subplugin extends backup_subplugin {
         $wrapper = new backup_nested_element($this->get_recommended_name());
         $subplugininteger = new backup_nested_element('surveyprofield_integer', array('id'), array(
             'content', 'contentformat', 'customnumber', 'position',
-            'extranote', 'required', 'variable', 'indent',
+            'extranote', 'required', 'hideinstructions', 'variable', 'indent',
             'defaultoption', 'defaultvalue', 'lowerbound', 'upperbound'));
 
         // Connect XML elements into the tree.
