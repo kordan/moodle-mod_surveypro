@@ -27,6 +27,7 @@
       <contentformat>1</contentformat>
       <position>0</position>
       <required>1</required>
+      <trimonsave>0</trimonsave>
       <hideinstructions>0</hideinstructions>
       <variable>ci_textarea_01</variable>
       <indent>0</indent>
@@ -49,6 +50,7 @@
       <contentformat>1</contentformat>
       <position>0</position>
       <required>1</required>
+      <trimonsave>0</trimonsave>
       <hideinstructions>0</hideinstructions>
       <variable>ci_textarea_02</variable>
       <indent>0</indent>
@@ -71,6 +73,7 @@
       <contentformat>1</contentformat>
       <position>0</position>
       <required>1</required>
+      <trimonsave>0</trimonsave>
       <hideinstructions>0</hideinstructions>
       <variable>ci_textarea_03</variable>
       <indent>0</indent>
@@ -93,6 +96,7 @@
       <contentformat>1</contentformat>
       <position>0</position>
       <required>1</required>
+      <trimonsave>0</trimonsave>
       <hideinstructions>0</hideinstructions>
       <variable>ci_textarea_04</variable>
       <indent>0</indent>
@@ -115,6 +119,7 @@
       <contentformat>1</contentformat>
       <position>0</position>
       <required>1</required>
+      <trimonsave>0</trimonsave>
       <hideinstructions>0</hideinstructions>
       <variable>ci_textarea_05</variable>
       <indent>0</indent>

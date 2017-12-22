@@ -39,6 +39,7 @@
       <customnumber>1</customnumber>
       <position>0</position>
       <required>1</required>
+      <trimonsave>0</trimonsave>
       <hideinstructions>0</hideinstructions>
       <variable>textarea_001</variable>
       <indent>0</indent>
@@ -74,6 +75,7 @@
       <customnumber>2</customnumber>
       <position>0</position>
       <required>0</required>
+      <trimonsave>0</trimonsave>
       <hideinstructions>0</hideinstructions>
       <variable>textarea_002</variable>
       <indent>0</indent>
@@ -109,6 +111,7 @@
       <customnumber>3</customnumber>
       <position>0</position>
       <required>1</required>
+      <trimonsave>0</trimonsave>
       <hideinstructions>0</hideinstructions>
       <variable>textarea_003</variable>
       <indent>0</indent>
@@ -144,6 +147,7 @@
       <customnumber>4</customnumber>
       <position>0</position>
       <required>0</required>
+      <trimonsave>0</trimonsave>
       <hideinstructions>0</hideinstructions>
       <variable>textarea_004</variable>
       <indent>0</indent>
