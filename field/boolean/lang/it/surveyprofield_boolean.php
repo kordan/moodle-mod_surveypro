@@ -15,15 +15,20 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'surveyprofield_integer', language 'en'
+ * Strings for component 'field_boolean', language 'en'
  *
- * @package   surveyprofield_integer
+ * @package   surveyprofield_boolean
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['uerr_integernotsetrequired'] = 'Si selezioni un valore';
-$string['uerr_integernotset'] = 'Si selezioni un valore oppure l\'ultima voce: "{$a}"';
-$string['restriction_lower'] = 'La risposta deve essere maggiore o uguale a {$a}';
-$string['restriction_lowerupper'] = 'La risposta deve essere compresa fra {$a->lowerbound} e {$a->upperbound}';
-$string['restriction_upper'] = 'La risposta deve essere minore o uguale a {$a}';
+$string['strfbool01'] = 'si/no';
+$string['strfbool02'] = 'Si/No';
+$string['strfbool03'] = 's/n';
+$string['strfbool04'] = 'S/N';
+$string['strfbool05'] = 'Accolto/Respinto';
+$string['strfbool06'] = 'vero/falso';
+$string['strfbool07'] = 'Vero/Falso';
+$string['strfbool08'] = 'V/F';
+$string['strfbool09'] = '1/0';
+$string['strfbool10'] = '+/-';
