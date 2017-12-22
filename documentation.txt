@@ -50,8 +50,8 @@ They are:
 • Allow Save/Resume: allow to pause a survey in order to resume and submit it in a second data entry session.
 • Preserve history: Preserves saved response denying any modification to DEFINITELY submitted answers. Until the response is "in progress" (whether used in conjunction with "Allow Save/Resume" setting) you will be allowed to continue its compilation. Once it is submitted as "closed" if you go to edit it again, you will be forced to edit and save a copy of it in order to preserve the history of your original response.
 • Anonymous responses: the responses management table does not show the owner of the responses and reports are anonymous.
-• Minimum allowed year: the minimum number of responses a student is allowed to submit for this activity. This value can be further restricted at element level.
-• Maximum allowed year: the maximum number of responses a student is allowed to submit for this activity. This value can be further restricted at element level.
+• Minimum allowed year: the minimum year the module will take into account. This value can be further restricted at element level.
+• Maximum allowed year: the maximum year the module will take into account. This value can be further restricted at element level.
 • Custom style sheet: a personal cascade style sheet (css) for the current surveypro only
 • Maximum allowed attempts: The maximum number of responses a student is allowed to submit for this activity.
 • Notify role: The role whose members will receive a notification email at each user response. The email will only advise about response from the user, not about its content and without sender details.
