@@ -319,30 +319,31 @@ class surveyprofield_numeric_field extends mod_surveypro_itembase {
     <xs:element name="surveyprofield_numeric">
         <xs:complexType>
             <xs:sequence>
-                <xs:element type="xs:string" name="content"/>
+                <xs:element name="content" type="xs:string"/>
                 <xs:element name="embedded" minOccurs="0" maxOccurs="unbounded">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element type="xs:string" name="filename"/>
-                            <xs:element type="xs:base64Binary" name="filecontent"/>
+                            <xs:element name="filename" type="xs:string"/>
+                            <xs:element name="filecontent" type="xs:base64Binary"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
-                <xs:element type="xs:int" name="contentformat"/>
+                <xs:element name="contentformat" type="xs:int"/>
 
-                <xs:element type="xs:string" name="customnumber" minOccurs="0"/>
-                <xs:element type="xs:int" name="position"/>
-                <xs:element type="xs:string" name="extranote" minOccurs="0"/>
-                <xs:element type="xs:int" name="required"/>
-                <xs:element type="xs:int" name="hideinstructions"/>
-                <xs:element type="xs:string" name="variable"/>
-                <xs:element type="xs:int" name="indent"/>
+                <xs:element name="required" type="xs:int"/>
+                <xs:element name="indent" type="xs:int"/>
+                <xs:element name="position" type="xs:int"/>
+                <xs:element name="customnumber" type="xs:string" minOccurs="0"/>
+                <xs:element name="hideinstructions" type="xs:int"/>
+                <xs:element name="variable" type="xs:string"/>
+                <!-- <xs:element name="trimonsave" type="xs:int"/> -->
+                <xs:element name="extranote" type="xs:string" minOccurs="0"/>
 
-                <xs:element type="xs:decimal" name="defaultvalue" minOccurs="0"/>
-                <xs:element type="xs:int" name="signed"/>
-                <xs:element type="xs:decimal" name="lowerbound" minOccurs="0"/>
-                <xs:element type="xs:decimal" name="upperbound" minOccurs="0"/>
-                <xs:element type="xs:int" name="decimals"/>
+                <xs:element name="defaultvalue" type="xs:decimal" minOccurs="0"/>
+                <xs:element name="signed" type="xs:int"/>
+                <xs:element name="lowerbound" type="xs:decimal" minOccurs="0"/>
+                <xs:element name="upperbound" type="xs:decimal" minOccurs="0"/>
+                <xs:element name="decimals" type="xs:int"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

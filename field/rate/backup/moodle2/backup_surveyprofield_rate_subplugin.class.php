@@ -42,8 +42,8 @@ class backup_surveyprofield_rate_subplugin extends backup_subplugin {
         $subplugin = $this->get_subplugin_element(null, '../../plugin', 'rate'); // Virtual optigroup element.
         $wrapper = new backup_nested_element($this->get_recommended_name());
         $subpluginrate = new backup_nested_element('surveyprofield_rate', array('id'), array(
-            'content', 'contentformat', 'customnumber', 'position',
-            'extranote', 'required', 'hideinstructions', 'variable', 'indent',
+            'content', 'contentformat',
+            'required', 'indent', 'position', 'customnumber', 'hideinstructions', 'variable', 'extranote',
             'options', 'rates', 'defaultoption', 'defaultvalue', 'downloadformat', 'style', 'differentrates'));
 
         // Connect XML elements into the tree.

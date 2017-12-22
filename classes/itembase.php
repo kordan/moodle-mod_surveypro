@@ -881,28 +881,24 @@ class mod_surveypro_itembase {
      *
      * @return string $schema
      */
-    public static function item_get_item_schema() {
+    public static function item_get_itembase_schema() {
         // Fields: surveyproid, formpage, timecreated and timemodified are not supposed to be part of the file!
-        $schema = '<?xml version="1.0" encoding="UTF-8"?>'."\n";
-        $schema .= '<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">'."\n";
-        $schema .= '    <xs:element name="surveypro_item">'."\n";
-        $schema .= '        <xs:complexType>'."\n";
-        $schema .= '            <xs:sequence>'."\n";
-        $schema .= '                <xs:element type="xs:int" name="hidden"/>'."\n";
-        $schema .= '                <xs:element type="xs:int" name="insearchform"/>'."\n";
-        // Field "advanced" has been replaced by "reserved" on March 21, 2016. Next lines guarantee backword compatibility.
-        $schema .= '                <xs:choice>'."\n";
-        $schema .= '                  <xs:element name="advanced" type="xs:int" minOccurs="0" maxOccurs="1" />'."\n";
-        $schema .= '                  <xs:element name="reserved" type="xs:int" minOccurs="0" maxOccurs="1" />'."\n";
-        $schema .= '                </xs:choice>'."\n";
-        // Field "sortindex" has been dropped on December 30, 2015. Next line only for backword compatibility.
-        $schema .= '                <xs:element type="xs:int" name="sortindex" minOccurs="0"/>'."\n";
-        $schema .= '                <xs:element type="xs:int" name="parentid" minOccurs="0"/>'."\n";
-        $schema .= '                <xs:element type="xs:string" name="parentvalue" minOccurs="0"/>'."\n";
-        $schema .= '            </xs:sequence>'."\n";
-        $schema .= '        </xs:complexType>'."\n";
-        $schema .= '    </xs:element>'."\n";
-        $schema .= '</xs:schema>';
+        $schema = <<<EOS
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:element name="surveypro_item">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="hidden" type="xs:int"/>
+                <xs:element name="insearchform" type="xs:int"/>
+                <xs:element name="reserved" type="xs:int" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="parentid" type="xs:int" minOccurs="0"/>
+                <xs:element name="parentvalue" type="xs:string" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
+EOS;
 
         return $schema;
     }

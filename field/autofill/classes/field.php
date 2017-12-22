@@ -353,29 +353,32 @@ class surveyprofield_autofill_field extends mod_surveypro_itembase {
     <xs:element name="surveyprofield_autofill">
         <xs:complexType>
             <xs:sequence>
-                <xs:element type="xs:string" name="content"/>
+                <xs:element name="content" type="xs:string"/>
                 <xs:element name="embedded" minOccurs="0" maxOccurs="unbounded">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element type="xs:string" name="filename"/>
-                            <xs:element type="xs:base64Binary" name="filecontent"/>
+                            <xs:element name="filename" type="xs:string"/>
+                            <xs:element name="filecontent" type="xs:base64Binary"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
-                <xs:element type="xs:int" name="contentformat"/>
+                <xs:element name="contentformat" type="xs:int"/>
 
-                <xs:element type="xs:string" name="customnumber" minOccurs="0"/>
-                <xs:element type="xs:int" name="position"/>
-                <xs:element type="xs:string" name="extranote" minOccurs="0"/>
-                <xs:element type="xs:string" name="variable"/>
-                <xs:element type="xs:int" name="indent"/>
+                <!-- <xs:element name="required" type="xs:int"/> -->
+                <xs:element name="indent" type="xs:int"/>
+                <xs:element name="position" type="xs:int"/>
+                <xs:element name="customnumber" type="xs:string" minOccurs="0"/>
+                <!-- <xs:element name="hideinstructions" type="xs:int"/> -->
+                <xs:element name="variable" type="xs:string"/>
+                <!-- <xs:element name="trimonsave" type="xs:int"/> -->
+                <xs:element name="extranote" type="xs:string" minOccurs="0"/>
 
-                <xs:element type="xs:int" name="hiddenfield"/>
-                <xs:element type="xs:string" name="element01" minOccurs="0"/>
-                <xs:element type="xs:string" name="element02" minOccurs="0"/>
-                <xs:element type="xs:string" name="element03" minOccurs="0"/>
-                <xs:element type="xs:string" name="element04" minOccurs="0"/>
-                <xs:element type="xs:string" name="element05" minOccurs="0"/>
+                <xs:element name="hiddenfield" type="xs:int"/>
+                <xs:element name="element01" type="xs:string" minOccurs="0"/>
+                <xs:element name="element02" type="xs:string" minOccurs="0"/>
+                <xs:element name="element03" type="xs:string" minOccurs="0"/>
+                <xs:element name="element04" type="xs:string" minOccurs="0"/>
+                <xs:element name="element05" type="xs:string" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

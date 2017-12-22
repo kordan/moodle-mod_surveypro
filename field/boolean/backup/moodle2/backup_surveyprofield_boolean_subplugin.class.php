@@ -42,8 +42,8 @@ class backup_surveyprofield_boolean_subplugin extends backup_subplugin {
         $subplugin = $this->get_subplugin_element(null, '../../plugin', 'boolean'); // Virtual optigroup element.
         $wrapper = new backup_nested_element($this->get_recommended_name());
         $subpluginboolean = new backup_nested_element('surveyprofield_boolean', array('id'), array(
-            'content', 'contentformat', 'customnumber', 'position',
-            'extranote', 'required', 'variable', 'indent',
+            'content', 'contentformat',
+            'required', 'indent', 'position', 'customnumber', 'variable', 'extranote',
             'defaultoption', 'defaultvalue', 'downloadformat', 'style'));
 
         // Connect XML elements into the tree.

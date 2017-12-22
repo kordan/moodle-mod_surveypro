@@ -171,7 +171,7 @@ class surveyproformat_fieldset_format extends mod_surveypro_itembase {
     <xs:element name="surveyproformat_fieldset">
         <xs:complexType>
             <xs:sequence>
-                <xs:element type="xs:string" name="content"/>
+                <xs:element name="content" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

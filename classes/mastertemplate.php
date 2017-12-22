@@ -287,19 +287,6 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
     public function write_template_content($visiblesonly=true) {
         global $DB;
 
-        $uselessitemfields = array();
-        $uselessitemfields[] = 'type';
-        $uselessitemfields[] = 'plugin';
-        $uselessitemfields[] = 'surveyproid';
-        $uselessitemfields[] = 'sortindex';
-        $uselessitemfields[] = 'formpage';
-        $uselessitemfields[] = 'timecreated';
-        $uselessitemfields[] = 'timemodified';
-
-        $uselesspluginfields = array();
-        $uselesspluginfields[] = 'surveyproid';
-        $uselesspluginfields[] = 'itemid';
-
         $pluginversion = self::get_subplugin_versions();
 
         $where = array('surveyproid' => $this->surveypro->id);
@@ -328,11 +315,8 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
                 $this->build_langtree($multilangfields, $item);
             }
 
-            $structure = $this->get_table_structure('surveypro_item');
+            $structure = $this->get_table_structure();
             foreach ($structure as $field) {
-                if (in_array($field, $uselessitemfields) !== false) {
-                    continue;
-                }
                 if ($field == 'parentid') {
                     $parentid = $item->get_parentid();
                     if ($parentid) {
@@ -354,12 +338,8 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             // Child table.
             $xmltable = $xmlitem->addChild('surveypro'.$itemseed->type.'_'.$itemseed->plugin);
 
-            $structure = $this->get_table_structure('surveypro'.$itemseed->type.'_'.$itemseed->plugin);
+            $structure = $this->get_table_structure($itemseed->type, $itemseed->plugin);
             foreach ($structure as $field) {
-                if (in_array($field, $uselesspluginfields)) {
-                    continue;
-                }
-
                 $val = $this->xml_get_field_content($item, $itemseed->plugin, $field, $multilangfields);
 
                 if (strlen($val)) {
@@ -539,8 +519,11 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
 
             foreach ($xmlitem->children() as $xmltable) { // Surveypro_item and surveypro_<<plugin>>.
                 $tablename = $xmltable->getName();
-
-                $currenttablestructure = $this->get_table_structure($tablename);
+                if ($tablename == 'surveypro_item') {
+                    $currenttablestructure = $this->get_table_structure();
+                } else {
+                    $currenttablestructure = $this->get_table_structure($currenttype, $currentplugin);
+                }
 
                 $record = new stdClass();
 
