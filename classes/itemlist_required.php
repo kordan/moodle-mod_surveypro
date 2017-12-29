@@ -41,7 +41,9 @@ class mod_surveypro_itemlist_required extends \core\output\inplace_editable {
     /**
      * Constructor.
      *
-     * @param stdClass $itemattributes
+     * @param int $itemid
+     * @param bool $required
+     * @param int $sortindex
      */
     public function __construct($itemid, $required, $sortindex) {
         $this->sortindex = $sortindex;
@@ -77,7 +79,7 @@ class mod_surveypro_itemlist_required extends \core\output\inplace_editable {
      * Updates usertemplate name and returns instance of this object
      *
      * @param int $itemid
-     * @param string $newvisibility
+     * @param string $newrequired
      * @return static
      */
     public static function update($itemid, $newrequired) {

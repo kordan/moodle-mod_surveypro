@@ -41,7 +41,9 @@ class mod_surveypro_itemlist_reserved extends \core\output\inplace_editable {
     /**
      * Constructor.
      *
-     * @param stdClass $itemattributes
+     * @param int $itemid
+     * @param bool $reserved
+     * @param int $sortindex
      */
     public function __construct($itemid, $reserved, $sortindex) {
         $this->sortindex = $sortindex;

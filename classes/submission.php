@@ -308,6 +308,7 @@ class mod_surveypro_submission {
     /**
      * Get counters.
      *
+     * @param flexible_table $table
      * @return array of cunters
      */
     public function get_counter($table) {
