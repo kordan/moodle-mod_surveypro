@@ -548,7 +548,7 @@ class mod_surveypro_submission {
         $submissions = $DB->get_recordset_sql($sql, $whereparams, $table->get_page_start(), $table->get_page_size());
         if ($submissions->valid()) {
 
-            $iconparams = array('class' => 'iconsmall');
+            $iconparams = array();
 
             $nonhistoryeditstr = get_string('edit');
             $iconparams['title'] = $nonhistoryeditstr;
@@ -833,7 +833,7 @@ class mod_surveypro_submission {
     }
 
     /**
-     * Redirect to layout_items.php?s=xxx the user asking to go to /view.php?id=yyy if the survey has no items.
+     * Redirect to layout_itemlist.php?s=xxx the user asking to go to /view.php?id=yyy if the survey has no items.
      *
      * I HATE software thinking for me
      * Because of this I ALWAYS want to go where I ask, even if the place I ask is not supposed to be accessed by me
@@ -842,7 +842,7 @@ class mod_surveypro_submission {
      *
      * By default accessing a surveypro from a course (/view.php?id=yyy), the "predefined" landing page should be:
      *     -> for admin/editing teacher:
-     *         -> if no items were created: layout_items.php
+     *         -> if no items were created: layout_itemlist.php
      *         -> if items were already created: view.php with the submission list
      *     -> for students: ALWAYS view.php with the submission list
      *
@@ -850,7 +850,7 @@ class mod_surveypro_submission {
      * So in the view.php I MUST add a code snippet TAKING THE DECISION for the user
      *
      * The problem rises up when the admin/editing teacher decides to go where he should not go, alias in:
-     *     -> layout_items.php even if items were already created
+     *     -> layout_itemlist.php even if items were already created
      *     -> view.php with the submission list even if no items were created
      *
      * The first request is a false problem, because the admin/editing teacher is always allowed to go there
@@ -871,7 +871,7 @@ class mod_surveypro_submission {
 
             $paramurl = array('s' => $this->surveypro->id);
             if ($canmanageitems) {
-                $redirecturl = new moodle_url('/mod/surveypro/layout_items.php', $paramurl);
+                $redirecturl = new moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
             } else {
                 $redirecturl = new moodle_url('/mod/surveypro/view_cover.php', $paramurl);
             }

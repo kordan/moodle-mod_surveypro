@@ -81,7 +81,7 @@ class behat_mod_surveypro extends behat_base {
      * Check the number of items with specified status.
      *
      * @throws ExpectationException
-     * @Then /^I should see "(?P<given_number>\d+)" (?P<status>hidden|visible|reserved|free|searchable|not searchable) items$/
+     * @Then /^I should see "(?P<given_number>\d+)" (?P<status>reserved|available|searchable|not searchable|visible|hidden) items$/
      * @param integer $givennumber
      * @param string $status
      * @return void|ExpectationException
@@ -91,23 +91,23 @@ class behat_mod_surveypro extends behat_base {
         $container = $this->get_selected_node('table', 'manageitems');
 
         switch ($status) {
+            case 'reserved':
+                $nodes = $container->findAll('xpath', "//img[contains(@id, 'makeavailable')]");
+                break;
+            case 'available':
+                $nodes = $container->findAll('xpath', "//img[contains(@id, 'makereserved')]");
+                break;
+            case 'searchable':
+                $nodes = $container->findAll('xpath', "//img[contains(@id, 'removefromsearch')]");
+                break;
+            case 'not searchable':
+                $nodes = $container->findAll('xpath', "//img[contains(@id, 'addtosearch')]");
+                break;
             case 'visible':
                 $nodes = $container->findAll('xpath', "//tr[contains(@id, 'itemslist') and not(contains(@class, 'emptyrow')) and not(contains(@class, 'dimmed'))]");
                 break;
             case 'hidden':
                 $nodes = $container->findAll('xpath', "//tr[contains(@id, 'itemslist') and not(contains(@class, 'emptyrow')) and contains(@class, 'dimmed')]");
-                break;
-            case 'reserved':
-                $nodes = $container->findAll('xpath', "//a[contains(@id, 'makefree')]");
-                break;
-            case 'free':
-                $nodes = $container->findAll('xpath', "//a[contains(@id, 'makereserved')]");
-                break;
-            case 'searchable':
-                $nodes = $container->findAll('xpath', "//a[contains(@id, 'removesearch')]");
-                break;
-            case 'not searchable':
-                $nodes = $container->findAll('xpath', "//a[contains(@id, 'addtosearch')]");
                 break;
         }
         $tablerows = count($nodes);
@@ -117,23 +117,23 @@ class behat_mod_surveypro extends behat_base {
         }
 
         switch ($status) {
-            case 'visible':
-                $message = sprintf('%d visible items found in the "item" table, but should be %d.', $tablerows, $givennumber);
-                break;
-            case 'hidden':
-                $message = sprintf('%d hidden items found in the "item" table, but should be %d.', $tablerows, $givennumber);
-                break;
             case 'reserved':
                 $message = sprintf('%d reserved items found in the "item" table, but should be %d.', $tablerows, $givennumber);
                 break;
-            case 'free':
-                $message = sprintf('%d free items found in the "item" table, but should be %d.', $tablerows, $givennumber);
+            case 'available':
+                $message = sprintf('%d available items found in the "item" table, but should be %d.', $tablerows, $givennumber);
                 break;
             case 'searchable':
                 $message = sprintf('%d searchable items found in the "item" table, but should be %d.', $tablerows, $givennumber);
                 break;
             case 'not searchable':
                 $message = sprintf('%d unsearchable items found in the "item" table, but should be %d.', $tablerows, $givennumber);
+                break;
+            case 'visible':
+                $message = sprintf('%d visible items found in the "item" table, but should be %d.', $tablerows, $givennumber);
+                break;
+            case 'hidden':
+                $message = sprintf('%d hidden items found in the "item" table, but should be %d.', $tablerows, $givennumber);
                 break;
         }
         throw new ExpectationException($message, $this->getsession());

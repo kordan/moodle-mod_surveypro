@@ -110,7 +110,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     /**
      * Get context id from sharing level.
      *
-     * It follow how $sharinglevel is formed:
+     * It follows how $sharinglevel is formed:
      *
      *       $parts[0]    |   $parts[1]
      *  ----------------------------------
@@ -401,18 +401,12 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         // I prefer a more readable xml file instead of few nanoseconds saved.
         $option = false;
         if ($option) {
-            // echo '$xmltemplate->asXML() = <br />';
-            // print_object($xmltemplate->asXML());
-
             return $xmltemplate->asXML();
         } else {
             $dom = new DOMDocument('1.0');
             $dom->preserveWhiteSpace = false;
             $dom->formatOutput = true;
             $dom->loadXML($xmltemplate->asXML());
-
-            // echo '$xmltemplate = <br />';
-            // print_object($xmltemplate);
 
             return $dom->saveXML();
         }
@@ -479,7 +473,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $this->add_items_from_template();
 
         $paramurl = array('s' => $this->surveypro->id);
-        $redirecturl = new moodle_url('/mod/surveypro/layout_items.php', $paramurl);
+        $redirecturl = new moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
         redirect($redirecturl);
     }
 
@@ -822,11 +816,11 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         // End of $paramurlbase definition.
 
         $deletetitle = get_string('delete');
-        $iconparams = array('title' => $deletetitle, 'class' => 'iconsmall');
+        $iconparams = array('title' => $deletetitle);
         $deleteicn = new pix_icon('t/delete', $deletetitle, 'moodle', $iconparams);
 
         $importtitle = get_string('exporttemplate', 'mod_surveypro');
-        $iconparams = array('title' => $importtitle, 'class' => 'iconsmall');
+        $iconparams = array('title' => $importtitle);
         $importicn = new pix_icon('i/import', $importtitle, 'moodle', $iconparams);
 
         $table = new flexible_table('templatelist');
@@ -873,17 +867,22 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
             $templates->{$contextstring} = $this->get_available_templates($contextid);
         }
 
-        $dummysort = $this->create_fictitious_table($templates, $table->get_sql_sort());
+        $virtualtable = $this->get_virtual_table($templates, $table->get_sql_sort());
 
         $row = 0;
         foreach ($templates as $contextstring => $contextfiles) {
             foreach ($contextfiles as $xmlfile) {
                 $tablerow = array();
-                $tablerow[] = $dummysort[$row]['templatename'];
-                $tablerow[] = $dummysort[$row]['sharinglevel'];
-                $tablerow[] = userdate($dummysort[$row]['creationdate']);
 
-                $paramurlbase['fid'] = $dummysort[$row]['xmlfileid'];
+                $xmlfileid = $virtualtable[$row]['xmlfileid'];
+                $templatename = $virtualtable[$row]['templatename'];
+                $tmpl = new mod_surveypro_usertemplate_name($xmlfileid, $templatename);
+
+                $tablerow[] = $OUTPUT->render_from_template('core/inplace_editable', $tmpl->export_for_template($OUTPUT));
+                $tablerow[] = $virtualtable[$row]['sharinglevel'];
+                $tablerow[] = userdate($virtualtable[$row]['creationdate']);
+
+                $paramurlbase['fid'] = $virtualtable[$row]['xmlfileid'];
                 $row++;
 
                 $icons = '';
@@ -926,7 +925,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
      * @param string $usersort
      * @return void
      */
-    private function create_fictitious_table($templates, $usersort) {
+    private function get_virtual_table($templates, $usersort) {
         // Original table per columns: originaltablepercols.
         $templatenamecol = array();
         $sharinglevelcol = array();

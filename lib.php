@@ -89,17 +89,13 @@ define('SURVEYPRO_NOACTION'          , '0');
  * ACTIONS in LAYOUT MANAGEMENT page
  */
 define('SURVEYPRO_CHANGEORDER'       , '1');
-define('SURVEYPRO_HIDEITEM'          , '2');
-define('SURVEYPRO_SHOWITEM'          , '3');
-define('SURVEYPRO_DELETEITEM'        , '4');
-define('SURVEYPRO_DROPMULTILANG'     , '5');
-define('SURVEYPRO_REQUIREDOFF'       , '6');
-define('SURVEYPRO_REQUIREDON'        , '7');
-define('SURVEYPRO_CHANGEINDENT'      , '8');
-define('SURVEYPRO_ADDTOSEARCH'       , '9');
-define('SURVEYPRO_REMOVEFROMSEARCH'  , '10');
-define('SURVEYPRO_MAKESTANDARD'      , '11');
-define('SURVEYPRO_MAKERESERVED'      , '12');
+define('SURVEYPRO_DELETEITEM'        , '2');
+define('SURVEYPRO_DROPMULTILANG'     , '3');
+define('SURVEYPRO_CHANGEINDENT'      , '4');
+define('SURVEYPRO_HIDEITEM'          , '5');
+define('SURVEYPRO_SHOWITEM'          , '6');
+define('SURVEYPRO_MAKERESERVED'      , '7');
+define('SURVEYPRO_MAKESTANDARD'      , '8');
 
 /**
  * BULK ACTIONS in LAYOUT MANAGEMENT and in APPLY UTEMPLATE page
@@ -748,7 +744,7 @@ function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
         $debugfile = $CFG->dataroot.'/debug_'.date("m.d.y_H:i:s").'.txt';
 
         $debughandle = fopen($debugfile, 'w');
-        fwrite($debughandle, 'Scrivo dalla riga '.__LINE__.' di '.__FILE__."\n");
+        fwrite($debughandle, 'Executing code in line '.__LINE__.' of '.__FILE__."\n");
         fwrite($debughandle, '$course'."\n");
         foreach ($course as $k => $v) {
             fwrite($debughandle, '$args['.$k.'] = '.$v."\n");
@@ -793,7 +789,7 @@ function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
 
     if (!$file = $fs->get_file_by_hash(sha1($fullpath)) or $file->is_directory()) {
         if ($debug) {
-            fwrite($debughandle, "\n".'$file da problemi: riporterei false'."\n");
+            fwrite($debughandle, "\n".'$file has problems: I would return false'."\n");
         } else {
             return false;
         }
@@ -1222,3 +1218,67 @@ function surveypro_get_completion_state($course, $cm, $userid, $type) {
         return $type;
     }
 }
+
+/**
+ * Implements callback inplace_editable() allowing to edit values in-place
+ *
+ * @param string $itemtype The type of item
+ * @param int $id The ID of the file/item to modify
+ * @param mixed $newvalue The new value to set
+ * @return \core\output\inplace_editable
+ */
+function surveypro_inplace_editable($itemtype, $id, $newvalue) {
+    $classname = 'mod_surveypro_'.$itemtype;
+
+    return $classname::update($id, $newvalue);
+}
+
+/**
+ * Load the class of the specified item
+ *
+ * @param object $cm
+ * @param object $surveypro
+ * @param int $itemid
+ * @param string $type
+ * @param string $plugin
+ * @param bool $getparentcontent
+ * @return $item object
+ */
+function surveypro_get_item($cm, $surveypro, $itemid=0, $type='', $plugin='', $getparentcontent=false) {
+    global $CFG, $DB;
+
+    if (!empty($itemid)) {
+        $itemseed = $DB->get_record('surveypro_item', array('id' => $itemid), 'surveyproid, type, plugin', MUST_EXIST);
+        if ($cm->instance != $itemseed->surveyproid) {
+            $message = 'Mismatch between passed itemid ('.$itemid.') and corresponding cm->instance ('.$cm->instance.')';
+            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+        }
+    }
+
+    if (empty($type) || empty($plugin)) {
+        if (empty($itemid)) {
+            $message = 'Unexpected empty($itemid)';
+            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+        }
+
+        $type = $itemseed->type;
+        $plugin = $itemseed->plugin;
+    } else {
+        if (isset($itemseed)) {
+            if ($type != $itemseed->type) {
+                $message = 'Mismatch between passed type ('.$type.') and found type ('.$itemseed->type.')';
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+            }
+            if ($plugin != $itemseed->plugin) {
+                $message = 'Mismatch between passed plugin ('.$plugin.') and found plugin ('.$itemseed->plugin.')';
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+            }
+        }
+    }
+
+    $classname = 'surveypro'.$type.'_'.$plugin.'_'.$type;
+    $item = new $classname($cm, $surveypro, $itemid, $getparentcontent);
+
+    return $item;
+}
+

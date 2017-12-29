@@ -490,7 +490,7 @@ class mod_surveypro_itembase {
         }
 
         // Property $this->itemeditingfeedback is going to be part of $returnurl in layout_itemsetup.php
-        // and there it will be send to layout_items.php.
+        // and there it will be send to layout_itemlist.php.
         return $record->itemid;
     }
 
@@ -636,18 +636,18 @@ class mod_surveypro_itembase {
             // because $item was loaded before last save, so $this->item_get_content_array(SURVEYPRO_VALUES, 'options')
             // will still return the previous values.
 
-            $children = $DB->get_records('surveypro_item', array('parentid' => $this->itemid), 'id', 'id, parentvalue');
-            foreach ($children as $child) {
-                $childparentvalue = $child->parentvalue;
+            $childrenitems = $DB->get_records('surveypro_item', array('parentid' => $this->itemid), 'id', 'id, parentvalue');
+            foreach ($childrenitems as $childitem) {
+                $childparentvalue = $childitem->parentvalue;
 
                 // Decode $childparentvalue to $childparentcontent.
                 $childparentcontent = $this->parent_decode_child_parentvalue($childparentvalue);
 
                 // Encode $childparentcontent to $childparentvalue, once again.
-                $child->parentvalue = $this->parent_encode_child_parentcontent($childparentcontent);
+                $childitem->parentvalue = $this->parent_encode_child_parentcontent($childparentcontent);
 
                 // Save the child.
-                $DB->update_record('surveypro_item', $child);
+                $DB->update_record('surveypro_item', $childitem);
             }
         }
     }
@@ -967,6 +967,36 @@ EOS;
      */
     public static function item_needs_contentformat() {
         return false;
+    }
+
+    /**
+     * Returns if the item has children
+     *
+     * @return bool
+     */
+    public function item_has_children() {
+        global $DB;
+
+        $itemid = $this->itemid;
+        $childrenitemscount = $DB->count_records('surveypro_item', array('parentid' => $itemid));
+
+        return ($childrenitemscount > 0);
+    }
+
+    /**
+     * Returns if the item is a child
+     *
+     * @return bool
+     */
+    public function item_is_child() {
+
+        if ($this->get_parentid()) {
+            $return = true;
+        } else {
+            $return = false;
+        }
+
+        return $return;
     }
 
     // MARK response.
@@ -1355,6 +1385,17 @@ EOS;
      */
     public function set_contenttrust($contenttrust) {
         $this->contenttrust = $contenttrust;
+    }
+
+    /**
+     * Set variable.
+     *
+     * @param string $variable
+     * @return the content of $variable property
+     */
+    public function set_variable($variable) {
+        $variable = format_string($variable);
+        $this->variable = $variable;
     }
 
     // MARK parent.

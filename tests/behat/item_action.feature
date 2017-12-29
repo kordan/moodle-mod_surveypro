@@ -1,4 +1,4 @@
-@mod @mod_surveypro
+@mod @mod_surveypro @current
 Feature: Test item actions
   In order to validate each action issues through inline icons
   As a teacher
@@ -45,68 +45,62 @@ Feature: Test item actions
     And I follow "Surveypro test"
     And I follow "Layout"
 
-    Then I should see "22" visible items
-    Then I should see "0" hidden items
     Then I should see "0" reserved items
     # 21 and not 22 because pagebreak doesn't have <a class"makereserved"...
-    Then I should see "21" free items
+    Then I should see "21" available items
+    Then I should see "22" visible items
+    Then I should see "0" hidden items
     Then I should see "0" searchable items
     # Not 22 but...
     # -1 because fielupload can't be searchable so doesn't have <a class"addtosearch"...
     # -1 because rate can't be searchable so doesn't have <a class"addtosearch"...
     # -1 because pagebreak can't be searchable so doesn't have <a class"addtosearch"...
-    Then I should see "19" not searchable items
+    Then I should see "16" not searchable items
+    # 16 and not 22 because...
+    # -1 because fielupload can't be searchable so doesn't have <a class"addtosearch"...
+    # -1 because rate can't be searchable so doesn't have <a class"addtosearch"...
+    # -1 because pagebreak can't be searchable so doesn't have <a class"addtosearch"...
+    # -1 because label can't be searchable so doesn't have <a class"addtosearch"...
+    # -1 because fieldset can't be searchable so doesn't have <a class"addtosearch"...
+    # -1 because fieldsetend can't be searchable so doesn't have <a class"addtosearch"...
 
-    And I follow "addtosearch_item_3"
-    And I follow "addtosearch_item_4"
+    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'addtosearch_item_3')]" "xpath_element"
+    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'addtosearch_item_4')]" "xpath_element"
 
     Then I should see "22" visible items
     Then I should see "0" hidden items
     Then I should see "0" reserved items
+    Then I should see "21" available items
     # 21 and not 22 because pagebreak doesn't have <a class"makereserved"...
-    Then I should see "21" free items
+    Then I should see "14" not searchable items
     Then I should see "2" searchable items
-    # Not 20 but...
-    # -1 because fielupload can't be searchable so doesn't have <a class"addtosearch"...
-    # -1 because rate can't be searchable so doesn't have <a class"addtosearch"...
-    # -1 because pagebreak can't be searchable so doesn't have <a class"addtosearch"...
-    Then I should see "17" not searchable items
 
-    And I follow "removesearch_item_3"
+    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'removefromsearch_item_3')]" "xpath_element"
 
     Then I should see "22" visible items
     Then I should see "0" hidden items
     Then I should see "0" reserved items
+    Then I should see "21" available items
     # 21 and not 22 because pagebreak doesn't have <a class"makereserved"...
-    Then I should see "21" free items
+    Then I should see "15" not searchable items
     Then I should see "1" searchable items
-    # Not 21 but...
-    # -1 because fielupload can't be searchable so doesn't have <a class"addtosearch"...
-    # -1 because rate can't be searchable so doesn't have <a class"addtosearch"...
-    # -1 because pagebreak can't be searchable so doesn't have <a class"addtosearch"...
-    Then I should see "18" not searchable items
 
-    And I follow "makereserved_item_1"
-    And I follow "makereserved_item_2"
-    And I follow "makereserved_item_3"
-    And I follow "makereserved_item_4"
-    And I follow "makereserved_item_5"
-    And I follow "makereserved_item_6"
-    And I follow "makereserved_item_7"
-    And I follow "makereserved_item_8"
-    And I follow "makereserved_item_9"
+    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_1')]" "xpath_element"
+    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_2')]" "xpath_element"
+    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_3')]" "xpath_element"
+    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_4')]" "xpath_element"
+    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_5')]" "xpath_element"
+    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_6')]" "xpath_element"
+    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_7')]" "xpath_element"
+    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_8')]" "xpath_element"
+    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_9')]" "xpath_element"
 
     Then I should see "22" visible items
     Then I should see "0" hidden items
     Then I should see "9" reserved items
-    # 12 and not 13 because pagebreak doesn't have <a class"makereserved"...
-    Then I should see "12" free items
+    Then I should see "12" available items
+    Then I should see "15" not searchable items
     Then I should see "1" searchable items
-    # Not 21 but...
-    # -1 because fielupload can't be searchable so doesn't have <a class"addtosearch"...
-    # -1 because rate can't be searchable so doesn't have <a class"addtosearch"...
-    # -1 because pagebreak can't be searchable so doesn't have <a class"addtosearch"...
-    Then I should see "18" not searchable items
 
     And I follow "delete_item_5"
     And I press "Yes"
@@ -125,12 +119,12 @@ Feature: Test item actions
     Then I should see "0" hidden items
     Then I should see "6" reserved items
     # 9 and not 10 because pagebreak doesn't have <a class"makereserved"...
-    Then I should see "9" free items
+    Then I should see "9" available items
     Then I should see "1" searchable items
     # Not 15 but...
     # -1 because fielupload can't be searchable so doesn't have <a class"addtosearch"...
     # -1 because pagebreak can't be searchable so doesn't have <a class"addtosearch"...
-    Then I should see "13" not searchable items
+    Then I should see "10" not searchable items
 
     And I follow "hide_item_2"
     And I follow "hide_item_3"
@@ -146,7 +140,7 @@ Feature: Test item actions
     Then I should see "9" hidden items
     # (reserved + free) must be == # of visibles
     Then I should see "3" reserved items
-    Then I should see "4" free items
+    Then I should see "4" available items
     # (searchable + not searchable) must be == # of visibles
     Then I should see "0" searchable items
     # Not 7 but...
