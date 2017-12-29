@@ -189,6 +189,9 @@ function xmldb_surveypro_upgrade($oldversion) {
         // Delete answers that are not supposed to be in the database
         // because answers to NOT PERMITTED child items.
         surveypro_delete_supposed_blank_answers();
+
+        // Surveypro savepoint reached.
+        upgrade_mod_savepoint(true, 2016102500, 'surveypro');
     }
 
     return true;
