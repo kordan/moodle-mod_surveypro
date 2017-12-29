@@ -95,7 +95,7 @@ define('SURVEYPRO_CHANGEINDENT'      , '4');
 define('SURVEYPRO_HIDEITEM'          , '5');
 define('SURVEYPRO_SHOWITEM'          , '6');
 define('SURVEYPRO_MAKERESERVED'      , '7');
-define('SURVEYPRO_MAKESTANDARD'      , '8');
+define('SURVEYPRO_MAKEAVAILABLE'     , '8');
 
 /**
  * BULK ACTIONS in LAYOUT MANAGEMENT and in APPLY UTEMPLATE page

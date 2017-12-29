@@ -236,7 +236,7 @@ class mod_surveypro_itemlist {
         $iconparams['title'] = $deletestr;
         $deleteicn = new pix_icon('t/delete', $deletestr, 'moodle', $iconparams);
 
-        $indentstr = get_string('indent_title', 'mod_surveypro');
+        $indentstr = get_string('indent', 'mod_surveypro');
         $iconparams['title'] = $indentstr;
         $lefticn = new pix_icon('t/left', $indentstr, 'moodle', $iconparams);
         $righticn = new pix_icon('t/right', $indentstr, 'moodle', $iconparams);
@@ -416,7 +416,7 @@ class mod_surveypro_itemlist {
                     }
                 } else {
                     // Icon only, not a link!
-                    $icons .= html_writer::tag('span', $OUTPUT->render($unreservableicn));
+                    $icons .= html_writer::tag('span', $OUTPUT->render($unreservableicn), array('class' => 'noactionicon'));
                 }
 
                 // Second icon: insearchform vs notinsearchform.
@@ -428,15 +428,15 @@ class mod_surveypro_itemlist {
                     $icons .= $OUTPUT->render_from_template('core/inplace_editable', $tmpl->export_for_template($OUTPUT));
                 } else {
                     // Icon only, not a link!
-                    $icons .= html_writer::tag('span', $OUTPUT->render($unsearchableicn));
+                    $icons .= html_writer::tag('span', $OUTPUT->render($unsearchableicn), array('class' => 'noactionicon'));
                 }
             } else {
                 // Icons only, not links!
                 // First icon: reserved vs free availability.
-                $icons .= html_writer::tag('span', $OUTPUT->render($unavailableicn));
+                $icons .= html_writer::tag('span', $OUTPUT->render($unavailableicn), array('class' => 'noactionicon'));
 
                 // Second icon: insearchform vs notinsearchform.
-                $icons .= html_writer::tag('span', $OUTPUT->render($unavailableicn));
+                $icons .= html_writer::tag('span', $OUTPUT->render($unavailableicn), array('class' => 'noactionicon'));
             }
 
             // Third icon: hide vs show.
@@ -519,33 +519,35 @@ class mod_surveypro_itemlist {
                         $tmpl->set_type_toggle();
                         $icons .= $OUTPUT->render_from_template('core/inplace_editable', $tmpl->export_for_template($OUTPUT));
                     } else {
-                        $icons .= html_writer::tag('span', $OUTPUT->render($lockedgreenicn));
+                        $icons .= html_writer::tag('span', $OUTPUT->render($lockedgreenicn), array('class' => 'noactionicon'));
                     }
                 }
 
                 // SURVEYPRO_CHANGEINDENT.
                 if ($item->get_insetupform('indent')) { // It may not be set as in page_break, fieldset and some more.
                     $currentindent = $item->get_indent();
-                    $paramurl = $paramurlbase;
-                    $paramurl['act'] = SURVEYPRO_CHANGEINDENT;
-                    $paramurl['sesskey'] = sesskey();
+                    if ($currentindent !== false) { // It may be false like for labels with fullwidth == 1.
+                        $paramurl = $paramurlbase;
+                        $paramurl['act'] = SURVEYPRO_CHANGEINDENT;
+                        $paramurl['sesskey'] = sesskey();
 
-                    if ($currentindent > 0) {
-                        $indentvalue = $currentindent - 1;
-                        $paramurl['ind'] = $indentvalue;
+                        if ($currentindent > 0) {
+                            $indentvalue = $currentindent - 1;
+                            $paramurl['ind'] = $indentvalue;
 
-                        $link = new moodle_url('/mod/surveypro/layout_itemlist.php#sortindex_'.$sortindex, $paramurl);
-                        $paramlink = array('id' => 'reduceindent_item_'.$sortindex, 'title' => $indentstr);
-                        $icons .= html_writer::tag('span', $OUTPUT->action_icon($link, $lefticn, null, $paramlink));
-                    }
-                    $icons .= '['.$currentindent.']';
-                    if ($currentindent < 9) {
-                        $indentvalue = $currentindent + 1;
-                        $paramurl['ind'] = $indentvalue;
+                            $link = new moodle_url('/mod/surveypro/layout_itemlist.php#sortindex_'.$sortindex, $paramurl);
+                            $paramlink = array('id' => 'reduceindent_item_'.$sortindex, 'title' => $indentstr);
+                            $icons .= html_writer::tag('span', $OUTPUT->action_icon($link, $lefticn, null, $paramlink));
+                        }
+                        $icons .= '['.$currentindent.']';
+                        if ($currentindent < 9) {
+                            $indentvalue = $currentindent + 1;
+                            $paramurl['ind'] = $indentvalue;
 
-                        $link = new moodle_url('/mod/surveypro/layout_itemlist.php#sortindex_'.$sortindex, $paramurl);
-                        $paramlink = array('id' => 'increaseindent_item_'.$sortindex, 'title' => $indentstr);
-                        $icons .= html_writer::tag('span', $OUTPUT->action_icon($link, $righticn, null, $paramlink));
+                            $link = new moodle_url('/mod/surveypro/layout_itemlist.php#sortindex_'.$sortindex, $paramurl);
+                            $paramlink = array('id' => 'increaseindent_item_'.$sortindex, 'title' => $indentstr);
+                            $icons .= html_writer::tag('span', $OUTPUT->action_icon($link, $righticn, null, $paramlink));
+                        }
                     }
                 }
             }
@@ -793,11 +795,10 @@ class mod_surveypro_itemlist {
      * Add to $nodelist all the children that will inherit the parent condition
      *
      * @param integer $nodelist
-     * @param integer $sortindexnodelist
      * @param array $additionalcondition
      * @return void
      */
-    public function add_child_node(&$nodelist, &$sortindexnodelist, $additionalcondition) {
+    public function add_child_node(&$nodelist, $additionalcondition) {
         global $DB;
 
         if (!is_array($additionalcondition)) {
@@ -809,9 +810,8 @@ class mod_surveypro_itemlist {
         $where = array('parentid' => $itemid) + $additionalcondition;
         if ($childrenitems = $DB->get_records('surveypro_item', $where, 'sortindex', 'id, sortindex')) {
             foreach ($childrenitems as $childitem) {
-                $nodelist[] = (int)$childitem->id;
-                $sortindexnodelist[] = $childitem->sortindex;
-                $this->add_child_node($nodelist, $sortindexnodelist, $additionalcondition);
+                $nodelist[$childitem->sortindex] = (int)$childitem->id;
+                $this->add_child_node($nodelist, $additionalcondition);
             }
         }
     }
@@ -834,7 +834,6 @@ class mod_surveypro_itemlist {
         }
 
         $nodelist = array($this->itemid);
-        $sortindexnodelist = array();
 
         // Get the first parentid.
         $parentitem = new stdClass();
@@ -843,12 +842,11 @@ class mod_surveypro_itemlist {
         $where = array('id' => $parentitem->parentid) + $additionalcondition;
 
         while ($parentitem = $DB->get_record('surveypro_item', $where, 'id, parentid, sortindex')) {
-            $nodelist[] = (int)$parentitem->id;
-            $sortindexnodelist[] = $parentitem->sortindex;
+            $nodelist[$parentitem->sortindex] = (int)$parentitem->id;
             $where = array('id' => $parentitem->parentid) + $additionalcondition;
         }
 
-        return array($nodelist, $sortindexnodelist);
+        return $nodelist;
     }
 
     /**
@@ -1025,8 +1023,8 @@ class mod_surveypro_itemlist {
             case SURVEYPRO_MAKERESERVED:
                 $this->item_makereserved_execute();
                 break;
-            case SURVEYPRO_MAKESTANDARD:
-                $this->item_makestandard_execute();
+            case SURVEYPRO_MAKEAVAILABLE:
+                $this->item_makeavailable_execute();
                 break;
             case SURVEYPRO_HIDEALLITEMS:
                 $this->hide_all_execute();
@@ -1073,8 +1071,8 @@ class mod_surveypro_itemlist {
             case SURVEYPRO_MAKERESERVED:
                 $this->item_makereserved_feedback();
                 break;
-            case SURVEYPRO_MAKESTANDARD:
-                $this->item_makestandard_feedback();
+            case SURVEYPRO_MAKEAVAILABLE:
+                $this->item_makeavailable_feedback();
                 break;
             case SURVEYPRO_HIDEALLITEMS:
                 $this->hide_all_feedback();
@@ -1134,9 +1132,8 @@ class mod_surveypro_itemlist {
 
         // Build tohidelist.
         // Here I must select the whole tree down.
-        $tohidelist = array($this->itemid);
-        $sortindextohidelist = array();
-        $this->add_child_node($tohidelist, $sortindextohidelist, array('hidden' => 0));
+        $tohidelist = array('clicked' => $this->itemid);
+        $this->add_child_node($tohidelist, array('hidden' => 0));
 
         $itemstoprocess = count($tohidelist);
         if ( ($this->confirm == SURVEYPRO_CONFIRMED_YES) || ($itemstoprocess == 1) ) {
@@ -1159,9 +1156,8 @@ class mod_surveypro_itemlist {
 
         // Build tohidelist.
         // Here I must select the whole tree down.
-        $tohidelist = array($this->itemid);
-        $sortindextohidelist = array();
-        $this->add_child_node($tohidelist, $sortindextohidelist, array('hidden' => 0));
+        $tohidelist = array('clicked' => $this->itemid);
+        $this->add_child_node($tohidelist, array('hidden' => 0));
 
         $itemstoprocess = count($tohidelist);
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
@@ -1170,8 +1166,10 @@ class mod_surveypro_itemlist {
 
                 $a = new stdClass();
                 $a->parentid = $item->get_content();
-                $a->dependencies = implode(', ', $sortindextohidelist);
-                if (count($sortindextohidelist) == 1) {
+                $dependencies = array_keys($toreservelist);
+                array_shift($dependencies);
+                $a->dependencies = implode(', ', $dependencies);
+                if (count($dependencies) == 1) {
                     $message = get_string('confirm_hide1item', 'mod_surveypro', $a);
                 } else {
                     $message = get_string('confirm_hidechainitems', 'mod_surveypro', $a);
@@ -1215,7 +1213,7 @@ class mod_surveypro_itemlist {
         global $DB;
 
         // Build toshowlist.
-        list($toshowlist, $sortindextoshowlist) = $this->add_parent_node(array('hidden' => 1));
+        $toshowlist = $this->add_parent_node(array('hidden' => 1));
 
         $itemstoprocess = count($toshowlist); // This is the list of ancestors.
         if ( ($this->confirm == SURVEYPRO_CONFIRMED_YES) || ($itemstoprocess == 1) ) {
@@ -1237,7 +1235,7 @@ class mod_surveypro_itemlist {
         global $OUTPUT;
 
         // Build toshowlist.
-        list($toshowlist, $sortindextoshowlist) = $this->add_parent_node(array('hidden' => 1));
+        $toshowlist = $this->add_parent_node(array('hidden' => 1));
 
         $itemstoprocess = count($toshowlist); // This is the list of ancestors.
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
@@ -1246,8 +1244,9 @@ class mod_surveypro_itemlist {
 
                 $a = new stdClass();
                 $a->lastitem = $item->get_content();
-                $a->ancestors = implode(', ', $sortindextoshowlist);
-                if (count($sortindextoshowlist) == 1) {
+                $ancestors = array_keys($toshowlist);
+                $a->ancestors = implode(', ', $ancestors);
+                if (count($ancestors) == 1) {
                     $message = get_string('confirm_show1item', 'mod_surveypro', $a);
                 } else {
                     $message = get_string('confirm_showchainitems', 'mod_surveypro', $a);
@@ -1500,19 +1499,27 @@ class mod_surveypro_itemlist {
      * Set the item as reserved.
      *
      * the idea is this: in a chain of parent-child items,
-     *     -> public/available items (not reserved) can be parent of public/free item such as reserved item
-     *     -> reserved item can ONLY BE parent of reserved item
+     *     -> reserved items can be parent of reserved items only
+     *     -> reserved items can be child of reserved items only
      *
      * @return void
      */
     public function item_makereserved_execute() {
         global $DB;
 
-        // Build toreservelist.
+        if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
+            return;
+        }
+
         // Here I must select the whole tree down.
-        $toreservelist = array($this->itemid);
-        $sortindextoreservelist = array();
-        $this->add_child_node($toreservelist, $sortindextoreservelist, array('reserved' => 0));
+        $toreservelist = $this->add_parent_node(array('reserved' => 0));
+
+        // I am interested to oldest parent only.
+        $oldestparentid = end($toreservelist);
+
+        // Build toreservelist starting from the oldest parent.
+        $toreservelist = array('clicked' => $oldestparentid);
+        $this->add_child_node($toreservelist, array('reserved' => 0));
 
         $itemstoprocess = count($toreservelist);
         if ( ($this->confirm == SURVEYPRO_CONFIRMED_YES) || ($itemstoprocess == 1) ) {
@@ -1529,31 +1536,52 @@ class mod_surveypro_itemlist {
      * Provide a feedback after item_makereserved_execute.
      *
      * the idea is this: in a chain of parent-child items,
-     *     -> public/available items (not reserved) can be parent of public/free item such as reserved item
-     *     -> reserved item can ONLY BE parent of reserved item
+     *     -> reserved items can be parent of reserved items only
+     *     -> reserved items can be child of reserved items only
      *
      * @return void
      */
     public function item_makereserved_feedback() {
         global $OUTPUT;
 
-        // Build toreservelist.
-        // Here I must select the whole tree down.
-        $toreservelist = array($this->itemid);
-        $sortindextoreservelist = array();
-        $this->add_child_node($toreservelist, $sortindextoreservelist, array('reserved' => 0));
+        if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
+            $message = get_string('usercanceled', 'mod_surveypro');
+            echo $OUTPUT->notification($message, 'notifymessage');
+            return;
+        }
 
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
-            if (count($toreservelist) > 1) { // Ask for confirmation.
-                $item = surveypro_get_item($this->cm, $this->surveypro, $this->itemid, $this->type, $this->plugin);
+            // Here I must select the whole tree down.
+            $toreservelist = $this->add_parent_node(array('reserved' => 0));
 
+            // I am interested to oldest parent only.
+            $oldestparentid = end($toreservelist);
+
+            // Build toreservelist starting from the oldest parent.
+            $toreservelist = array('clicked' => $oldestparentid);
+            $this->add_child_node($toreservelist, array('reserved' => 0));
+
+            $itemstoprocess = count($toreservelist); // This is the list of ancestors.
+            if ($itemstoprocess > 1) { // Ask for confirmation.
+                // If the clicked element has not parents.
                 $a = new stdClass();
-                $a->parentid = $item->get_content();
-                $a->dependencies = implode(', ', $sortindextoreservelist);
-                if (count($sortindextoreservelist) == 1) {
-                    $message = get_string('confirm_reserve1item', 'mod_surveypro', $a);
+                $item = surveypro_get_item($this->cm, $this->surveypro, $this->itemid, $this->type, $this->plugin);
+                $a->itemcontent = $item->get_content();
+                $dependencies = array_keys($toreservelist);
+                array_shift($dependencies);
+                $a->dependencies = implode(', ', $dependencies);
+
+                if ($oldestparentid != $this->itemid) {
+                    $parentid = reset($toreservelist);
+                    $parentitem = surveypro_get_item($this->cm, $this->surveypro, $parentid);
+                    $a->parentcontent = $parentitem->get_content();
+                    $message = get_string('confirm_reservechainitems_newparent', 'mod_surveypro', $a);
                 } else {
-                    $message = get_string('confirm_reservechainitems', 'mod_surveypro', $a);
+                    if (count($dependencies) == 1) {
+                        $message = get_string('confirm_reserve1item', 'mod_surveypro', $a);
+                    } else {
+                        $message = get_string('confirm_reservechainitems', 'mod_surveypro', $a);
+                    }
                 }
 
                 $optionbase = array('id' => $this->cm->id, 'act' => SURVEYPRO_MAKERESERVED, 'sesskey' => sesskey());
@@ -1576,11 +1604,6 @@ class mod_surveypro_itemlist {
                 die();
             }
         }
-
-        if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
-            $message = get_string('usercanceled', 'mod_surveypro');
-            echo $OUTPUT->notification($message, 'notifymessage');
-        }
     }
 
     // MARK item make free.
@@ -1588,19 +1611,34 @@ class mod_surveypro_itemlist {
     /**
      * Set the item as standard (free).
      *
+     * the idea is this: in a chain of parent-child items,
+     *     -> available items (not reserved) can be parent of available items only
+     *     -> available items (not reserved) can be child of available items only
+     *
      * @return void
      */
-    public function item_makestandard_execute() {
+    public function item_makeavailable_execute() {
         global $DB;
 
-        // Build tostandardlist.
-        list($tostandardlist, $sortindextostandardlist) = $this->add_parent_node(array('reserved' => 1));
+        if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
+            return;
+        }
 
-        $itemstoprocess = count($tostandardlist); // This is the list of ancestors.
+        // Build toavailablelist.
+        $toavailablelist = $this->add_parent_node(array('reserved' => 1));
+
+        // I am interested to oldest parent only
+        $oldestparentid = end($toavailablelist);
+
+        // Build toreservelist starting from the oldest parent.
+        $toavailablelist = array('clicked' => $oldestparentid);
+        $this->add_child_node($toavailablelist, array('reserved' => 1));
+
+        $itemstoprocess = count($toavailablelist); // This is the list of ancestors.
         if ( ($this->confirm == SURVEYPRO_CONFIRMED_YES) || ($itemstoprocess == 1) ) {
-            // Make items standard.
-            foreach ($tostandardlist as $toshowitemid) {
-                $DB->set_field('surveypro_item', 'reserved', 0, array('id' => $toshowitemid));
+            // Make items available.
+            foreach ($toavailablelist as $toavailableitemid) {
+                $DB->set_field('surveypro_item', 'reserved', 0, array('id' => $toavailableitemid));
             }
             $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
             $utilityman->reset_items_pages();
@@ -1608,33 +1646,60 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * Provide a feedback after item_makestandard_execute.
+     * Provide a feedback after item_makeavailable_execute.
+     *
+     * the idea is this: in a chain of parent-child items,
+     *     -> available items (not reserved) can be parent of available items only
+     *     -> available items (not reserved) can be child of available items only
      *
      * @return void
      */
-    public function item_makestandard_feedback() {
+    public function item_makeavailable_feedback() {
         global $OUTPUT;
 
-        // Build tostandardlist.
-        list($tostandardlist, $sortindextostandardlist) = $this->add_parent_node(array('reserved' => 1));
+        if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
+            $message = get_string('usercanceled', 'mod_surveypro');
+            echo $OUTPUT->notification($message, 'notifymessage');
+            return;
+        }
 
-        $itemstoprocess = count($tostandardlist); // This is the list of ancestors.
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
-            if ($itemstoprocess > 1) { // Ask for confirmation.
-                $item = surveypro_get_item($this->cm, $this->surveypro, $this->itemid, $this->type, $this->plugin);
+            // Build toavailablelist.
+            $toavailablelist = $this->add_parent_node(array('reserved' => 1));
 
+            // I am interested to oldest parent only.
+            $oldestparentid = end($toavailablelist);
+
+            // Build toreservelist starting from the oldest parent.
+            $toavailablelist = array('clicked' => $oldestparentid);
+            $this->add_child_node($toavailablelist, array('reserved' => 1));
+
+            $itemstoprocess = count($toavailablelist); // This is the list of ancestors.
+            if ($itemstoprocess > 1) { // Ask for confirmation.
+                // If the clicked element has not parents.
                 $a = new stdClass();
-                $a->lastitem = $item->get_content();
-                $a->ancestors = implode(', ', $sortindextostandardlist);
-                if (count($sortindextostandardlist) == 1) {
-                    $message = get_string('confirm_free1item', 'mod_surveypro', $a);
+                $item = surveypro_get_item($this->cm, $this->surveypro, $this->itemid, $this->type, $this->plugin);
+                $a->itemcontent = $item->get_content();
+                $dependencies = array_keys($toavailablelist);
+                array_shift($dependencies);
+                $a->dependencies = implode(', ', $dependencies);
+
+                if ($oldestparentid != $this->itemid) {
+                    $parentid = reset($toavailablelist);
+                    $parentitem = surveypro_get_item($this->cm, $this->surveypro, $parentid);
+                    $a->parentcontent = $parentitem->get_content();
+                    $message = get_string('confirm_freechainitems_newparent', 'mod_surveypro', $a);
                 } else {
-                    $message = get_string('confirm_freechainitems', 'mod_surveypro', $a);
+                    if (count($dependencies) == 1) {
+                        $message = get_string('confirm_free1item', 'mod_surveypro', $a);
+                    } else {
+                        $message = get_string('confirm_freechainitems', 'mod_surveypro', $a);
+                    }
                 }
 
                 $optionbase = array();
                 $optionbase['id'] = $this->cm->id;
-                $optionbase['act'] = SURVEYPRO_MAKESTANDARD;
+                $optionbase['act'] = SURVEYPRO_MAKEAVAILABLE;
                 $optionbase['itemid'] = $this->itemid;
                 $optionbase['sesskey'] = sesskey();
 
@@ -1655,11 +1720,6 @@ class mod_surveypro_itemlist {
                 echo $OUTPUT->footer();
                 die();
             }
-        }
-
-        if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
-            $message = get_string('usercanceled', 'mod_surveypro');
-            echo $OUTPUT->notification($message, 'notifymessage');
         }
     }
 

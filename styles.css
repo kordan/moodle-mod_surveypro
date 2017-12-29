@@ -198,6 +198,11 @@
     padding:.2em;
 }
 
+#page-mod-surveypro-layout_itemlist table#manageitems span.noactionicon,
+#page-mod-surveypro-layout_itemlist table#sortitems span.noactionicon {
+    padding:.2em;
+}
+
 #page-mod-surveypro-layout_itemlist table#sortitems td.plugin img.placeholder {
     height:16px;
     width:80px;
