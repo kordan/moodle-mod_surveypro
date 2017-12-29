@@ -1,12 +1,12 @@
 .xdebug-error {
-    font-size:large;
+    font-size: large;
 }
 
 /* Begin of: to correct display problems of firefox for mac */
 #page-mod-surveypro-view_form .mform .fitem .felement,
 #page-mod-surveypro-view_search .mform .fitem .felement {
     /* min-height: 2em; */ /* too much horintal room */
-    padding-top:8px;
+    padding-top: 8px;
 }
 /* End of: to eliminate display problems of firefox for mac */
 
@@ -14,7 +14,7 @@
 #page-mod-surveypro-layout_preview fieldset div.fitem:nth-of-type(even),
 #page-mod-surveypro-view_form fieldset div.fitem:nth-of-type(even),
 #page-mod-surveypro-view_search fieldset div.fitem:nth-of-type(even) {
-    background-color:#EDEDED;
+    background-color: #ededed;
 }
 /* End of: colours alternation for #userentry, #usersearch forms and read-only table*/
 
@@ -22,9 +22,9 @@
 #page-mod-surveypro-layout_preview fieldset div.colorunifier,
 #page-mod-surveypro-view_form .mform fieldset div.colorunifier,
 #page-mod-surveypro-view_search .mform fieldset div.colorunifier {
-    line-height:0;
-    margin-bottom:0;
-    padding:0;
+    line-height: 0;
+    margin-bottom: 0;
+    padding: 0;
 }
 /* End of: hacky coluorunifier html element */
 
@@ -41,7 +41,7 @@
 #page-mod-surveypro-layout_preview .mform .fitem,
 #page-mod-surveypro-view_form .mform .fitem,
 #page-mod-surveypro-view_search .mform .fitem {
-    margin:0;
+    margin: 0;
 }
 /* End of: connect note to question */
 
@@ -50,7 +50,7 @@
 #page-mod-surveypro-view_form .mform .fitem .fullwidth p,
 #page-mod-surveypro-view_search .mform .fitem .felement div p,
 #page-mod-surveypro-view_search .mform .fitem .fullwidth p {
-    margin:0;
+    margin: 0;
 }
 /* End of: no margin bottom to p inside .fullwidth */
 
@@ -68,7 +68,7 @@
 #page-mod-surveypro-view_form #userentry .fitem .felement input[type="radio"],
 #page-mod-surveypro-view_form #usersearch .fitem .felement input[type="checkbox"],
 #page-mod-surveypro-view_form #usersearch .fitem .felement input[type="radio"] {
-    margin-right:0;
+    margin-right: 0;
 }
 
 #page-mod-surveypro-view_form .mform .fitem .felement label {
@@ -81,14 +81,14 @@
 #page-mod-surveypro-layout_itemlist table#sortitems,
 #page-mod-surveypro-utemplate_manage table#managetemplates,
 #page-mod-surveypro-layout_validation table#validaterelations {
-    width:100%;
+    width: 100%;
 }
 
 #page-mod-surveypro-layout_itemlist table#manageitems .plugin,
 #page-mod-surveypro-layout_itemlist table#sortitems .plugin,
 #page-mod-surveypro-layout_validation table#validaterelations .plugin {
-    padding:0.5em;
-    text-align:center;
+    padding: 0.5em;
+    text-align: center;
 }
 
 #page-mod-surveypro-layout_itemlist table#manageitems .hide {
@@ -97,23 +97,23 @@
 
 #page-mod-surveypro-layout_itemlist table#manageitems td.plugin,
 #page-mod-surveypro-layout_itemlist table#sortitems td.plugin {
-    width:90px;
-    white-space:nowrap;
+    width: 90px;
+    white-space: nowrap;
     vertical-align: middle;
 }
 
 #page-mod-surveypro-layout_itemlist table#manageitems td.plugin span.pluginicon,
 #page-mod-surveypro-layout_itemlist table#sortitems td.plugin span.pluginicon {
-    padding:.2em;
+    padding: .2em;
 }
 
 #page-mod-surveypro-layout_itemlist table#manageitems td.sortindex,
 #page-mod-surveypro-layout_itemlist table#sortitems td.sortindex,
 #page-mod-surveypro-layout_validation table#validaterelations td.sortindex {
-    min-width:2.5em;
-    padding:0.5em;
-    text-align:right;
-    white-space:nowrap;
+    min-width: 2.5em;
+    padding: 0.5em;
+    text-align: right;
+    white-space: nowrap;
     vertical-align: middle;
 }
 
@@ -121,45 +121,45 @@
 #page-mod-surveypro-layout_itemlist table#sortitems td.parentitem,
 #page-mod-surveypro-layout_validation table#validaterelations td.parentitem {
     margin: 0;
-    padding:0.5em;
-    text-align:left;
-    white-space:nowrap;
-    vertical-align:middle;
+    padding: 0.5em;
+    text-align: left;
+    white-space: nowrap;
+    vertical-align: middle;
 }
 
 #page-mod-surveypro-layout_itemlist table#manageitems td.parentitem span.branch .icon,
 #page-mod-surveypro-layout_itemlist table#sortitems td.parentitem span.branch .icon {
-    padding-left:.2em;
-    padding-right:.2em;
+    padding-left: .2em;
+    padding-right: .2em;
 }
 
 #page-mod-surveypro-layout_itemlist table#manageitems td.customnumber,
 #page-mod-surveypro-layout_itemlist table#sortitems td.customnumber {
-    padding:0.5em;
-    white-space:nowrap;
+    padding: 0.5em;
+    white-space: nowrap;
     vertical-align: middle;
 }
 
 #page-mod-surveypro-layout_itemlist table#manageitems td.content,
 #page-mod-surveypro-layout_itemlist table#sortitems td.content,
 #page-mod-surveypro-layout_validation table#validaterelations td.content {
-    padding:0.5em;
+    padding: 0.5em;
     vertical-align: middle;
 }
 
 #page-mod-surveypro-layout_itemlist table#manageitems td.formpage,
 #page-mod-surveypro-layout_itemlist table#sortitems td.formpage {
-    padding:0.5em;
-    text-align:center;
-    white-space:nowrap;
+    padding: 0.5em;
+    text-align: center;
+    white-space: nowrap;
     vertical-align: middle;
 }
 
 #page-mod-surveypro-layout_itemlist table#manageitems td.availability,
 #page-mod-surveypro-layout_itemlist table#sortitems td.availability {
-    padding:0.5em;
-    text-align:center;
-    white-space:nowrap;
+    padding: 0.5em;
+    text-align: center;
+    white-space: nowrap;
     vertical-align: middle;
 }
 
@@ -170,7 +170,7 @@
     width: 16px;
     height: 16px;
     /*margin: 0 0 0 0.45em;*/
-    padding:0;
+    padding: 0;
     vertical-align: middle;
 }
 
@@ -179,8 +179,8 @@
 #page-mod-surveypro-layout_validation table#validaterelations td.actions,
 #page-mod-surveypro-view table#submissions td.actions,
 #page-mod-surveypro-utemplate_manage table#managetemplates td.actions {
-    padding:0.5em;
-    white-space:nowrap;
+    padding: 0.5em;
+    white-space: nowrap;
     vertical-align: middle;
 }
 
@@ -190,62 +190,62 @@
 #page-mod-surveypro-layout_itemlist table#sortitems td.actions i.icon {
     width: 16px;
     height: 16px;
-    padding:0;
+    padding: 0;
 }
 
 #page-mod-surveypro-layout_itemlist table#manageitems td.actions span.reorder,
 #page-mod-surveypro-layout_itemlist table#sortitems td.actions span.reorder {
-    padding:.2em;
+    padding: .2em;
 }
 
 #page-mod-surveypro-layout_itemlist table#manageitems span.noactionicon,
 #page-mod-surveypro-layout_itemlist table#sortitems span.noactionicon {
-    padding:.2em;
+    padding: .2em;
 }
 
 #page-mod-surveypro-layout_itemlist table#sortitems td.plugin img.placeholder {
-    height:16px;
-    width:80px;
+    height: 16px;
+    width: 80px;
 }
 
 #page-mod-surveypro-layout_itemlist table#manageitems .header,
 #page-mod-surveypro-layout_itemlist table#sortitems .header {
-    text-align:center;
+    text-align: center;
 }
 
 #page-mod-surveypro-layout_itemlist table#manageitems .dimmed,
 #page-mod-surveypro-layout_itemlist table#sortitems .dimmed,
 #page-mod-surveypro-layout_validation table#validaterelations .dimmed {
-    color:#CDCDCD;
+    color: #cdcdcd;
 }
 
 #page-mod-surveypro-layout_validation table#validaterelations td.parentconstraints {
-    padding:0.5em;
-    text-align:left;
-    white-space:nowrap;
+    padding: 0.5em;
+    text-align: left;
+    white-space: nowrap;
 }
 
 #page-mod-surveypro-layout_validation table#validaterelations td.status {
-    padding:0.5em;
-    white-space:nowrap;
+    padding: 0.5em;
+    white-space: nowrap;
 }
 
 #page-mod-surveypro-layout_validation table#validaterelations td.status .warningmessage {
-    color:yellow;
+    color: yellow;
 }
 
 #page-mod-surveypro-layout_validation table#validaterelations td.status .errormessage {
-    color:red;
+    color: red;
 }
 
 #page-mod-surveypro-layout_validation table#validaterelations .header {
-    text-align:center;
+    text-align: center;
 }
 /* End of: #manageitems, #sortitems, #managetemplates and #validaterelations tables*/
 
 /* Begin of: submissions table */
 #page-mod-surveypro-view table#submissions {
-    width:100%;
+    width: 100%;
 }
 
 #page-mod-surveypro-view table#submissions .cell {
@@ -253,8 +253,8 @@
 }
 
 #page-mod-surveypro-view table#submissions .picture {
-    padding:0.5em;
-    width:1.2em;
+    padding: 0.5em;
+    width: 1.2em;
 }
 
 #page-mod-surveypro-view table#submissions .actions img.icon,
@@ -262,7 +262,7 @@
     width: 16px;
     height: 16px;
     margin: 0 0 0 0.45em;
-    padding-right:0;
+    padding-right: 0;
     vertical-align: middle;
 }
 /* End of: submissions table */
@@ -305,25 +305,25 @@
 
 /* Begin of: selectors for the static field explaining the format needed by each plugin in parentcontent field */
 #page-mod-surveypro-layout_itemsetup table.exampletable {
-    padding:0;
+    padding: 0;
     margin: 0 0 0 20px;
-    width:auto;
+    width: auto;
 }
 
 #page-mod-surveypro-layout_itemsetup td.pluginname {
-    padding:0 20px 0 0;
+    padding: 0 20px 0 0;
     vertical-align: top;
-    /* width:60%; */
+    /* width: 60%; */
 }
 
 #page-mod-surveypro-layout_itemsetup td.inputformat {
-    padding:0;
+    padding: 0;
     vertical-align: top;
-    /* width:40%; */
+    /* width: 40%; */
 }
 
 #page-mod-surveypro-layout_itemsetup .felement.fstatic ul {
-    line-height:1.2em;
+    line-height: 1.2em;
 }
 /* End of: selectors for the static field explaining the format needed by each plugin in parentcontent field */
 
@@ -332,14 +332,14 @@
 #page-mod-surveypro-layout_preview .mform .fitem .felement .indent-0,
 #page-mod-surveypro-view_form #userentry .fitem .felement .indent-0,
 #page-mod-surveypro-view_form .mform .fitem .felement .indent-0 {
-     margin-left: 0;
+    margin-left: 0;
 }
 
 #page-mod-surveypro-layout_preview #userentry .fitem .felement .indent-1,
 #page-mod-surveypro-layout_preview .mform .fitem .felement .indent-1,
 #page-mod-surveypro-view_form #userentry .fitem .felement .indent-1,
 #page-mod-surveypro-view_form .mform .fitem .felement .indent-1 {
-     margin-left: 1.5em;
+    margin-left: 1.5em;
 }
 
 #page-mod-surveypro-layout_preview #userentry .fitem .felement .indent-2,
@@ -400,14 +400,14 @@
 
 /* Begin of: for long edit fields in itemsetup form */
 #page-mod-surveypro-layout_itemsetup .mform .fitem .felement .longfield {
-    width:25em;
+    width: 25em;
 }
 /* End of: for long edit fields in itemsetup form */
 
 /* Begin of: fix to owful alignment of fielset legends in the cover */
 #page-mod-surveypro-view_cover .coverinfolegend {
-    margin-bottom:0;
-    margin-top:20px;
+    margin-bottom: 0;
+    margin-top: 20px;
 }
 /* End of: fix to owful alignment of fielset legends in the cover */
 
@@ -443,7 +443,7 @@
 #page-mod-surveypro-layout_preview .mform .fitem,
 #page-mod-surveypro-view_form .mform .fitem,
 #page-mod-surveypro-view_search .mform .fitem {
-    padding-top:0.7em;
+    padding-top: 0.7em;
 }
 /* End of: vertical distance between top margin of a row and input elements is too small */
 
@@ -461,8 +461,8 @@
 #page-mod-surveypro-layout_preview .mform select.rate_select,
 #page-mod-surveypro-view_form .mform select.rate_select,
 #page-mod-surveypro-view_search .mform select.rate_select {
-    margin-bottom:0.2em;
-    margin-top:0.2em;
+    margin-bottom: 0.2em;
+    margin-top: 0.2em;
 }
 /* End of: vertical distance between select in rate is too much */
 
@@ -471,7 +471,7 @@
 #page-mod-surveypro-layout_preview .mform div.rate_select,
 #page-mod-surveypro-view_form .mform div.rate_select,
 #page-mod-surveypro-view_search .mform div.rate_select {
-    padding-top:0;
+    padding-top: 0;
 }
 /* End of: padding top for div opening to rate elements */
 
@@ -479,8 +479,8 @@
 #page-mod-surveypro-layout_preview .mform div.rate_check,
 #page-mod-surveypro-view_form .mform div.rate_check,
 #page-mod-surveypro-view_search .mform div.rate_check {
-    padding-bottom:0.5em;
-    padding-top:0;
+    padding-bottom: 0.5em;
+    padding-top: 0;
 }
 /* End of: padding bottom for noanswer checkbox in a dedicated row, like, for instence, in rate elements */
 
@@ -488,7 +488,7 @@
 #page-mod-surveypro-layout_preview .mform div.fitem_fstatic,
 #page-mod-surveypro-view_form .mform div.fitem_fstatic,
 #page-mod-surveypro-view_search .mform div.fitem_fstatic {
-    padding-top:0;
+    padding-top: 0;
 }
 /* End of: padding bottom for noanswer checkbox in a dedicated row, like, for instence, in rate elements */
 /* End of: these are a div selector */
