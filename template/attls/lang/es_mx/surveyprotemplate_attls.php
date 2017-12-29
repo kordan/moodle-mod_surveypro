@@ -14,11 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Local language pack from http://localhost
+w/**
+ * Strings for component 'surveyprotemplate_attls', language 'es_mx'
  *
- * @package    surveyprotemplate
+ * @package    surveyprotemplate_attls
  * @subpackage attls
+ * @copyright  2013 onwards German Valero <gvalero@unam.mx >
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

@@ -18,6 +18,7 @@
  * Strings for component 'surveyprofield_integer', language 'en'
  *
  * @package   surveyprofield_integer
+ * @subpackage integer
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

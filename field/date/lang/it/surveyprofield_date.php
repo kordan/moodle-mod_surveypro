@@ -18,6 +18,7 @@
  * Strings for component 'surveyprofield_date', language 'en'
  *
  * @package   surveyprofield_date
+ * @subpackage date
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
