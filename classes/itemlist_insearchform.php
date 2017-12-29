@@ -41,7 +41,9 @@ class mod_surveypro_itemlist_insearchform extends \core\output\inplace_editable 
     /**
      * Constructor.
      *
-     * @param stdClass $itemattributes
+     * @param int $itemid
+     * @param bool $insearchform
+     * @param int $sortindex
      */
     public function __construct($itemid, $insearchform, $sortindex) {
         $this->sortindex = $sortindex;
@@ -77,7 +79,7 @@ class mod_surveypro_itemlist_insearchform extends \core\output\inplace_editable 
      * Updates usertemplate name and returns instance of this object
      *
      * @param int $itemid
-     * @param string $newvisibility
+     * @param string $newinsearchform
      * @return static
      */
     public static function update($itemid, $newinsearchform) {

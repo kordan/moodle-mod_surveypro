@@ -33,7 +33,8 @@ class mod_surveypro_itemlist_customnumber extends \core\output\inplace_editable 
     /**
      * Constructor.
      *
-     * @param stdClass $itemattributes
+     * @param int $itemid
+     * @param string $customnumber
      */
     public function __construct($itemid, $customnumber) {
         $custnumber = format_string($customnumber);
