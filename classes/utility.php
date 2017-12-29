@@ -925,7 +925,7 @@ class mod_surveypro_utility {
 
         // Layout -> validate.
         $elements['validate'] = false;
-        if($canmanageitems && empty($this->surveypro->template) && $countparents) {
+        if ($canmanageitems && empty($this->surveypro->template) && $countparents) {
             $elementurl = new moodle_url('/mod/surveypro/layout_validation.php', $paramurlbase);
             $elements['validate'] = $elementurl;
         }

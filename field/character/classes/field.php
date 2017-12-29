@@ -284,7 +284,7 @@ class surveyprofield_character_field extends mod_surveypro_itembase {
         // Nothing to do: no checkboxes in this plugin item form.
 
         // 4. Other.
-}
+    }
 
     /**
      * Does the user input need trim?

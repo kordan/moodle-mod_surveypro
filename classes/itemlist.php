@@ -393,7 +393,7 @@ class mod_surveypro_itemlist {
                     if ($item->item_has_children() || $item->item_is_child()) {
                         $paramurl = $paramurlbase;
                         if ($reserved) {
-                            $paramurl['act'] = SURVEYPRO_MAKESTANDARD;
+                            $paramurl['act'] = SURVEYPRO_MAKEAVAILABLE;
                             $paramurl['sortindex'] = $sortindex;
                             $paramurl['sesskey'] = sesskey();
 
