@@ -57,11 +57,11 @@ Feature: verify urls really redirect to existing pages
 
     # Layout -> Elements
     And I follow "Elements" page in tab bar
-        # Layout -> Elements: table headers
-        And I click on "Element" "link" in the ".plugin" "css_element"
-        And I click on "Order" "link" in the ".sortindex" "css_element"
-        And I click on "Branching" "link" in the ".parentitem" "css_element"
-        And I click on "Page" "link" in the ".formpage" "css_element"
+    # Layout -> Elements: table headers
+    And I click on "Element" "link" in the ".plugin" "css_element"
+    And I click on "Order" "link" in the ".sortindex" "css_element"
+    And I click on "Branching" "link" in the ".parentitem" "css_element"
+    And I click on "Page" "link" in the ".formpage" "css_element"
 
     # Layout -> Elements
     And I navigate to "Elements" node in "Surveypro administration > Layout"
@@ -74,58 +74,58 @@ Feature: verify urls really redirect to existing pages
     # This step used to be 'And I follow "Dashboard"', but "Dashboard" is found 4 times in the page
     # so I use a custom "home made" behat call.
     And I follow "Dashboard" page in tab bar
-        # Survey -> Dashboard: Reports section
-        And I follow "Run Attachments overview report"
-        # return home
-        And I follow "Dashboard" page in tab bar
+    # Survey -> Dashboard: Reports section
+    And I follow "Run Attachments overview report"
+    # return home
+    And I follow "Dashboard" page in tab bar
 
-        And I follow "Run Delayed users report"
-        # return home
-        And I follow "Dashboard" page in tab bar
+    And I follow "Run Delayed users report"
+    # return home
+    And I follow "Dashboard" page in tab bar
 
-        And I follow "Run Frequency distribution report"
-        # return home
-        And I follow "Dashboard" page in tab bar
+    And I follow "Run Frequency distribution report"
+    # return home
+    And I follow "Dashboard" page in tab bar
 
-        And I follow "Run Responses per user report"
-        # return home
-        And I follow "Dashboard" page in tab bar
+    And I follow "Run Responses per user report"
+    # return home
+    And I follow "Dashboard" page in tab bar
 
-        And I follow "Run Users per count of responses report"
-        # return home
-        And I follow "Dashboard" page in tab bar
+    And I follow "Run Users per count of responses report"
+    # return home
+    And I follow "Dashboard" page in tab bar
 
-        # Survey -> Dashboard: User templates section
-        And I follow "Manage user templates"
-        # return home
-        And I follow "Survey"
-        And I follow "Dashboard" page in tab bar
+    # Survey -> Dashboard: User templates section
+    And I follow "Manage user templates"
+    # return home
+    And I follow "Survey"
+    And I follow "Dashboard" page in tab bar
 
-        And I follow "Save user templates"
-        # return home
-        And I follow "Survey"
-        And I follow "Dashboard" page in tab bar
+    And I follow "Save user templates"
+    # return home
+    And I follow "Survey"
+    And I follow "Dashboard" page in tab bar
 
-        And I follow "Import user templates"
-        # return home
-        And I follow "Survey"
-        And I follow "Dashboard" page in tab bar
+    And I follow "Import user templates"
+    # return home
+    And I follow "Survey"
+    And I follow "Dashboard" page in tab bar
 
-        And I follow "Apply user templates"
-        # return home
-        And I follow "Survey"
-        And I follow "Dashboard" page in tab bar
+    And I follow "Apply user templates"
+    # return home
+    And I follow "Survey"
+    And I follow "Dashboard" page in tab bar
 
-        # Survey -> Dashboard: Master templates section
-        And I follow "Save master templates"
-        # return home
-        And I follow "Survey"
-        And I follow "Dashboard" page in tab bar
+    # Survey -> Dashboard: Master templates section
+    And I follow "Save master templates"
+    # return home
+    And I follow "Survey"
+    And I follow "Dashboard" page in tab bar
 
-        And I follow "Apply master templates"
-        # return home
-        And I follow "Survey"
-        And I follow "Dashboard" page in tab bar
+    And I follow "Apply master templates"
+    # return home
+    And I follow "Survey"
+    And I follow "Dashboard" page in tab bar
 
     # Survey -> Responses
     And I follow "Responses" page in tab bar
@@ -141,10 +141,10 @@ Feature: verify urls really redirect to existing pages
     #
     # User templates -> Manage
     And I navigate to "Manage" node in "Surveypro administration > User templates"
-        # User templates: pages
-        And I follow "Save" page in tab bar
-        And I follow "Import" page in tab bar
-        And I follow "Apply" page in tab bar
+    # User templates: pages
+    And I follow "Save" page in tab bar
+    And I follow "Import" page in tab bar
+    And I follow "Apply" page in tab bar
     # User templates -> Save
     And I navigate to "Save" node in "Surveypro administration > User templates"
     # User templates -> Import
@@ -157,8 +157,8 @@ Feature: verify urls really redirect to existing pages
     #
     # Master templates -> Save
     And I navigate to "Save" node in "Surveypro administration > Master templates"
-        # Master templates: pages
-        And I follow "Apply" page in tab bar
+    # Master templates: pages
+    And I follow "Apply" page in tab bar
     And I navigate to "Apply" node in "Surveypro administration > Master templates"
 
     #

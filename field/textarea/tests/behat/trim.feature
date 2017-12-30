@@ -1,5 +1,5 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_textarea
-Feature: test the use of textarea setup form
+Feature: test the use of textarea trim
   In order to test textarea trim feature
   As a student
   I fill a field and I verify what is in it

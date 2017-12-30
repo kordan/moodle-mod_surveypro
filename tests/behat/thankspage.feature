@@ -1,8 +1,8 @@
 @mod @mod_surveypro
-Feature: test the use of boolean setup form
+Feature: verify the thanks page is shown properly
   In order to test the thankspgae
   As a teacher and as a student
-  I fill a surveypro in order to get the thnaks page
+  I fill a surveypro in order to get the thanks page
 
   Background:
     Given the following "courses" exist:
