@@ -243,8 +243,8 @@ class mod_surveypro_templatebase {
     /**
      * Get teh ordered list of fields for the itembase (or the plugin) table.
      *
-     * @param string optional $type
-     * @param string optional $plugin
+     * @param string $type (optional)
+     * @param string $plugin (optional)
      * @return void
      */
     public function get_table_structure($type=null, $plugin=null) {

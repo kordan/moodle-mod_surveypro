@@ -15,10 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://localhost
+ * Strings for component 'surveyprofield_age', language 'es_mx'
  *
- * @package    surveyprofield
+ * @package    surveyprofield_age
  * @subpackage age
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

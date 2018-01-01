@@ -15,10 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://localhost
+ * Strings for component 'field_date', language 'es_mx'
  *
- * @package    surveyprofield
+ * @package    surveyprofield_date
  * @subpackage date
+ * @copyright  2013 onwards German Valero <gvalero@unam.mx >
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

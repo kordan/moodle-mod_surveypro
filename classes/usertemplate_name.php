@@ -33,7 +33,8 @@ class mod_surveypro_usertemplate_name extends \core\output\inplace_editable {
     /**
      * Constructor.
      *
-     * @param stdClass $virtualtablerow
+     * @param int $xmlfileid
+     * @param string $templatename
      */
     public function __construct($xmlfileid, $templatename) {
         $templatename = format_string($templatename);
@@ -43,7 +44,7 @@ class mod_surveypro_usertemplate_name extends \core\output\inplace_editable {
     /**
      * Updates usertemplate name and returns instance of this object
      *
-     * @param int $templateid
+     * @param int $xmlfileid
      * @param string $newtemplatename
      * @return static
      */

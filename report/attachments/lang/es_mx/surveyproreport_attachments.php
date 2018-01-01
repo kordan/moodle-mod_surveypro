@@ -15,10 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Local language pack from http://localhost
+ * Strings for component 'surveyproreport_attachments', language 'es_mx'
  *
- * @package    surveyproreport
+ * @package   surveyproreport_attachments
  * @subpackage attachments
+ * @copyright  2013 onwards German Valero <gvalero@unam.mx >
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

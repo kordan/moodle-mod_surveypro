@@ -111,6 +111,5 @@ if (!empty($itemid)) {
     $reportman->output_data($url);
 }
 
-
 // Finish the page.
 echo $OUTPUT->footer();
