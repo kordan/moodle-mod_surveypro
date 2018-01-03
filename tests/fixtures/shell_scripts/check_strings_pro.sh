@@ -54,7 +54,7 @@ do
 done
 
 type='report'
-plugins=( attachments colles count frequency missing )
+plugins=( attachments colles delayedusers frequency responsesperuser userspercount )
 for plugin in "${plugins[@]}"
 do
     # echo type = $type
@@ -101,7 +101,7 @@ do
 
             # I look for the extracted word into surveypro folder
             if [[ $excludefilename = 'surveypro.php' ]]; then
-                myoutput=`grep -rP "(get_string|print_error|lang_string)\(['\"]$langkey['\"], ['\"](mod_)?surveypro['\"]" *`
+                myoutput=`egrep -Rp "(get_string|print_error|lang_string)\(['\"]$langkey['\"], ['\"](mod_)?surveypro['\"]" *`
             else
                 # get type and plugin from the path
                 # langfilepath: /Applications/MAMP/htdocs/head/mod/surveypro/field/select/lang/en/surveyprofield_select.php
@@ -109,15 +109,15 @@ do
                 if [[ $langfilepath =~ $typepluginregex ]]; then
                     mytype=${BASH_REMATCH[1]}
                     myplugin=${BASH_REMATCH[2]}
-                    myoutput=`grep -rP "(get_string|print_error|lang_string)\(['\"]$langkey['\"], *['\"](mod_)?surveypro$mytype(_)$myplugin['\"]" *`
+                    myoutput=`egrep -Rp "(get_string|print_error|lang_string)\(['\"]$langkey['\"], *['\"](mod_)?surveypro$mytype(_)$myplugin['\"]" *`
                 else
                     # something was wrong. I use the standard grep
-                    myoutput=`grep -rP "(get_string|print_error|lang_string)\(['\"]$langkey['\"], *['\"](mod_)?surveypro" *`
+                    myoutput=`egrep -Rp "(get_string|print_error|lang_string)\(['\"]$langkey['\"], *['\"](mod_)?surveypro" *`
                 fi
             fi
             if [[ -z "$myoutput" ]]; then
                 # try to exclude get_string($fieldname
-                myoutput=`grep -rP "[\$fieldname = ['\"]$langkey['\"];" *`
+                myoutput=`egrep -Rp "[\$fieldname = ['\"]$langkey['\"];" *`
                 if [[ -z "$myoutput" ]]; then
 
                     langkeyinuse=0
