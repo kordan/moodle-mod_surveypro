@@ -69,7 +69,7 @@ do
 done
 
 type='report'
-plugins=( attachments colles count frequency missing )
+plugins=( attachments colles delayedusers frequency responsesperuser userspercount )
 for plugin in "${plugins[@]}"
 do
     # echo type = $type
