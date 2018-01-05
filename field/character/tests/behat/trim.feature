@@ -1,5 +1,5 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_character
-Feature: test the use of character setup form
+Feature: test the use of character trim
   In order to test character trim feature
   As a student
   I fill a field and I verify what is in it

@@ -99,4 +99,3 @@ Feature: test the use of textarea setup form
     Then I should see "II.b: Write a short description of yourself"
     Then I should see "One more additional note"
     Then "//textarea[contains(@id, 'id_surveypro_field_textarea_3')]" "xpath_element" should exist
-
