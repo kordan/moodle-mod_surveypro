@@ -605,7 +605,7 @@ class mod_surveypro_view_export {
                     if ($olduserid != $richsubmission->userid) {
                         // New user.
                         // Add a new folder named fullname($richsubmission).'_'.$richsubmission->userid.
-                        if ($this->surveypro->anonymous) {
+                        if (!empty($this->surveypro->anonymous)) {
                             $dummyuserid++;
                             $tempuserdir = $anonymousstr.'_'.$dummyuserid;
                         } else {
@@ -729,7 +729,7 @@ class mod_surveypro_view_export {
 
                     // New user or forced by new item.
                     // Add a new folder named $richsubmission->userid.
-                    if ($this->surveypro->anonymous) {
+                    if (!empty($this->surveypro->anonymous)) {
                         $dummyuserid++;
                         $tempuserdir = $anonymousstr.'_'.$dummyuserid;
                     } else {
