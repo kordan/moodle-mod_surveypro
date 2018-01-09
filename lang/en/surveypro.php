@@ -354,7 +354,7 @@ Note: The left position forces the element contents to plain text without images
 The two \'top\' positions are usually needed for contents longer than few words and are required for questions containing images!';
 $string['previewmode'] = 'You are in \'{$a}\': buttons to save data are not supposed to display';
 $string['previousformpage'] = '<< Previous page';
-$string['raw'] = 'Raw (for further import into different instances of surveypro)';
+$string['raw'] = 'Raw (for further import; download formats may not be respected;)';
 $string['readonlyaccess'] = 'Read only access';
 $string['relation_status'] = 'Status';
 $string['reportederror'] = '{$a}';
