@@ -207,7 +207,7 @@ class behat_mod_surveypro extends behat_base {
      * Click on the link in the TAB/page bar on top of the page.
      *
      * @When /^I follow "(?P<element_string>(?:[^"]|\\")*)" page in tab bar$/
-     * @param string $element Element we look for
+     * @param string $nodetext Element we look for
      */
     public function i_follow_page_in_tab_bar($nodetext) {
         $xpath = "//ul[contains(@class,'nav-tabs')]//li//a[contains(@title, '".$nodetext."')]";
