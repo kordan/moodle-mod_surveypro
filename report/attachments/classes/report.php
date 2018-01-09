@@ -43,13 +43,13 @@ class surveyproreport_attachments_report extends mod_surveypro_reportbase {
     /**
      * Return if this report applies.
      *
-     * true means: the report apply
-     * (!$this->surveypro->anonymous) means that reports applies ONLY IF user is not anonymous
+     * true means: the report applies
+     * empty($this->surveypro->anonymous) means that reports applies ONLY IF the survey is not anonymous
      *
      * @return boolean
      */
     public function report_apply() {
-        return (!$this->surveypro->anonymous);
+        return (empty($this->surveypro->anonymous));
     }
 
     /**
@@ -224,7 +224,7 @@ class surveyproreport_attachments_report extends mod_surveypro_reportbase {
      * @return void
      */
     public function prevent_direct_user_input() {
-        if ($this->surveypro->anonymous) {
+        if (!empty($this->surveypro->anonymous)) {
             print_error('incorrectaccessdetected', 'mod_surveypro');
         }
     }
