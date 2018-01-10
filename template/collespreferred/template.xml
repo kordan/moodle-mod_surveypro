@@ -5,7 +5,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyproformat_label>
       <content>label_content_01</content>
@@ -20,7 +19,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyproformat_fieldset>
       <content>fieldset_content_01</content>
@@ -31,7 +29,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyproformat_label>
       <content>label_content_02</content>
@@ -46,7 +43,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>radiobutton_content_03</content>
@@ -68,7 +64,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>radiobutton_content_04</content>
@@ -90,7 +85,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>radiobutton_content_05</content>
@@ -112,7 +106,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>radiobutton_content_06</content>
@@ -134,7 +127,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyproformat_fieldset>
       <content>fieldset_content_02</content>
@@ -145,7 +137,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyproformat_label>
       <content>label_content_02</content>
@@ -160,7 +151,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>radiobutton_content_07</content>
@@ -182,7 +172,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>radiobutton_content_08</content>
@@ -204,7 +193,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>radiobutton_content_09</content>
@@ -226,7 +214,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>radiobutton_content_10</content>
@@ -248,7 +235,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyproformat_fieldset>
       <content>fieldset_content_03</content>
@@ -259,7 +245,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyproformat_label>
       <content>label_content_02</content>
@@ -274,7 +259,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>radiobutton_content_11</content>
@@ -296,7 +280,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>radiobutton_content_12</content>
@@ -318,7 +301,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>radiobutton_content_13</content>
@@ -340,7 +322,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>radiobutton_content_14</content>
@@ -362,7 +343,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyproformat_fieldset>
       <content>fieldset_content_04</content>
@@ -373,7 +353,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyproformat_label>
       <content>label_content_02</content>
@@ -388,7 +367,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>radiobutton_content_15</content>
@@ -410,7 +388,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>radiobutton_content_16</content>
@@ -432,7 +409,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>radiobutton_content_17</content>
@@ -454,7 +430,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>radiobutton_content_18</content>
@@ -476,7 +451,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyproformat_fieldset>
       <content>fieldset_content_05</content>
@@ -487,7 +461,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyproformat_label>
       <content>label_content_02</content>
@@ -502,7 +475,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>radiobutton_content_19</content>
@@ -524,7 +496,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>radiobutton_content_20</content>
@@ -546,7 +517,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>radiobutton_content_21</content>
@@ -568,7 +538,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>radiobutton_content_22</content>
@@ -590,7 +559,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyproformat_fieldset>
       <content>fieldset_content_06</content>
@@ -601,7 +569,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyproformat_label>
       <content>label_content_02</content>
@@ -616,7 +583,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>radiobutton_content_23</content>
@@ -638,7 +604,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>radiobutton_content_24</content>
@@ -660,7 +625,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>radiobutton_content_25</content>
@@ -682,7 +646,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_radiobutton>
       <content>radiobutton_content_26</content>
@@ -704,7 +667,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_select>
       <content>select_content_27</content>
@@ -725,7 +687,6 @@
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
-      <parentvalue>item_parentvalue_01</parentvalue>
     </surveypro_item>
     <surveyprofield_textarea>
       <content>textarea_content_28</content>
