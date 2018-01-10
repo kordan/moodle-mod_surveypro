@@ -51,10 +51,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_03</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_11</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_11</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -73,10 +73,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_04</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_12</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_12</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -95,10 +95,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_05</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_13</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_13</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -117,10 +117,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_06</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_14</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_14</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -139,10 +139,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_07</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_15</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_15</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -161,10 +161,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_08</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_16</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_16</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -183,10 +183,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_09</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_17</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_17</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -205,10 +205,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_10</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_18</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_18</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -253,10 +253,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_11</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_21</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_21</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -275,10 +275,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_12</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_22</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_22</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -297,10 +297,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_13</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_23</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_23</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -319,10 +319,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_14</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_24</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_24</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -341,10 +341,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_15</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_25</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_25</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -363,10 +363,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_16</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_26</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_26</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -385,10 +385,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_17</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_27</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_27</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -407,10 +407,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_18</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_28</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_28</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -455,10 +455,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_19</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_31</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_31</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -477,10 +477,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_20</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_32</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_32</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -499,10 +499,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_21</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_33</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_33</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -521,10 +521,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_22</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_34</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_34</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -543,10 +543,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_23</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_35</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_35</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -565,10 +565,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_24</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_36</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_36</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -587,10 +587,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_25</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_37</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_37</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -609,10 +609,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_26</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_38</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_38</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -657,10 +657,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_27</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_41</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_41</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -679,10 +679,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_28</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_42</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_42</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -701,10 +701,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_29</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_43</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_43</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -723,10 +723,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_30</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_44</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_44</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -745,10 +745,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_31</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_45</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_45</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -767,10 +767,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_32</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_46</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_46</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -789,10 +789,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_33</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_47</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_47</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -811,10 +811,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_34</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_48</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_48</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -859,10 +859,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_35</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_51</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_51</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -881,10 +881,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_36</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_52</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_52</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -903,10 +903,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_37</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_53</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_53</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -925,10 +925,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_38</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_54</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_54</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -947,10 +947,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_39</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_55</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_55</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -969,10 +969,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_40</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_56</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_56</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -991,10 +991,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_41</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_57</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_57</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -1013,10 +1013,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_42</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_58</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_58</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -1061,10 +1061,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_43</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_61</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_61</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -1083,10 +1083,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_44</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_61</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_61</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -1105,10 +1105,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_45</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_63</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_63</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -1127,10 +1127,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_46</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_64</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_64</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -1149,10 +1149,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_47</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_65</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_65</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -1171,10 +1171,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_48</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_66</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_66</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -1193,10 +1193,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_49</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_67</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_67</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -1215,10 +1215,10 @@
     <surveyprofield_radiobutton>
       <content>radiobutton_content_50</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_radiobutton_68</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_radiobutton_68</variable>
       <options>radiobutton_options_01</options>
       <labelother>radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -1237,10 +1237,10 @@
     <surveyprofield_select>
       <content>select_content_51</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <variable>cap_select</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>cap_select</variable>
       <options>select_options_01</options>
       <labelother>select_labelother_01</labelother>
       <defaultoption>2</defaultoption>
@@ -1258,12 +1258,12 @@
     <surveyprofield_textarea>
       <content>textarea_content_52</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>0</required>
-      <trimonsave>0</trimonsave>
+      <indent>0</indent>
+      <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>cap_textarea</variable>
-      <indent>0</indent>
+      <trimonsave>0</trimonsave>
       <useeditor>0</useeditor>
       <arearows>12</arearows>
       <areacols>60</areacols>

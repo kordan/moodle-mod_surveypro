@@ -25,12 +25,12 @@
     <surveyprofield_textarea>
       <content>textarea_content_02</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <trimonsave>0</trimonsave>
+      <indent>0</indent>
+      <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>ci_textarea_01</variable>
-      <indent>0</indent>
+      <trimonsave>0</trimonsave>
       <useeditor>0</useeditor>
       <arearows>12</arearows>
       <areacols>60</areacols>
@@ -48,12 +48,12 @@
     <surveyprofield_textarea>
       <content>textarea_content_03</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <trimonsave>0</trimonsave>
+      <indent>0</indent>
+      <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>ci_textarea_02</variable>
-      <indent>0</indent>
+      <trimonsave>0</trimonsave>
       <useeditor>0</useeditor>
       <arearows>12</arearows>
       <areacols>60</areacols>
@@ -71,12 +71,12 @@
     <surveyprofield_textarea>
       <content>textarea_content_04</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <trimonsave>0</trimonsave>
+      <indent>0</indent>
+      <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>ci_textarea_03</variable>
-      <indent>0</indent>
+      <trimonsave>0</trimonsave>
       <useeditor>0</useeditor>
       <arearows>12</arearows>
       <areacols>60</areacols>
@@ -94,12 +94,12 @@
     <surveyprofield_textarea>
       <content>textarea_content_05</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <trimonsave>0</trimonsave>
+      <indent>0</indent>
+      <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>ci_textarea_04</variable>
-      <indent>0</indent>
+      <trimonsave>0</trimonsave>
       <useeditor>0</useeditor>
       <arearows>12</arearows>
       <areacols>60</areacols>
@@ -117,12 +117,12 @@
     <surveyprofield_textarea>
       <content>textarea_content_06</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>1</required>
-      <trimonsave>0</trimonsave>
+      <indent>0</indent>
+      <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>ci_textarea_05</variable>
-      <indent>0</indent>
+      <trimonsave>0</trimonsave>
       <useeditor>0</useeditor>
       <arearows>12</arearows>
       <areacols>60</areacols>
