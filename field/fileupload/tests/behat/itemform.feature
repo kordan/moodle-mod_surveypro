@@ -37,7 +37,6 @@ Feature: test the use of fileupload setup form
       | Indent                               | 1                                |
       | Question position                    | left                             |
       | Element number                       | II.a                             |
-      | Hide filling instruction             | 1                                |
       | Variable                             | F1                               |
       | Additional note                      | Additional note                  |
       | Hidden                               | 1                                |
@@ -75,7 +74,6 @@ Feature: test the use of fileupload setup form
     Then the field "Indent" matches value "1"
     Then the field "Question position" matches value "left"
     Then the field "Element number" matches value "II.a"
-    Then the field "Hide filling instruction" matches value "1"
     Then the field "Variable" matches value "F1"
     Then the field "Additional note" matches value "Additional note"
     Then the field "Hidden" matches value "1"

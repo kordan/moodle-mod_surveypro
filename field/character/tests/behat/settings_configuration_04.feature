@@ -33,10 +33,10 @@ Feature: Validate creation and submit for "character" elements using the princip
       # Text pattern:                   custom
       # Minimum length (in characters): empty
     Given I set the following fields to these values:
-      | Content         | Enter a zip code |
-      | Required        | 0                |
-      | id_pattern      | custom           |
-      | id_pattern_text | 00000            |
+      | Content        | Enter a zip code |
+      | Required       | 0                |
+      | id_pattern     | custom pattern   |
+      | id_patterntext | 00000            |
     And I press "Add"
 
     And I log out
@@ -70,10 +70,10 @@ Feature: Validate creation and submit for "character" elements using the princip
       # Text pattern:                   custom
       # Minimum length (in characters): empty
     Given I set the following fields to these values:
-      | Content                        | Enter a zip code |
-      | Required                       | 1                |
-      | id_pattern                     | custom           |
-      | id_pattern_text                | 00000            |
+      | Content        | Enter a zip code |
+      | Required       | 1                |
+      | id_pattern     | custom pattern   |
+      | id_patterntext | 00000            |
     And I press "Add"
 
     And I log out

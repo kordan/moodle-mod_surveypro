@@ -34,7 +34,6 @@ Feature: make a submission test for "fileupload" item
       | Indent                   | 0                                   |
       | Question position        | left                                |
       | Element number           | 2                                   |
-      | Hide filling instruction | 1                                   |
     And I press "Add"
 
     And I log out
