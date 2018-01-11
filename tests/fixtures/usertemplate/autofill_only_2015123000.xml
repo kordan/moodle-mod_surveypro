@@ -22,8 +22,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;the User ID (probably for future relationship between exported tables)&lt;/li&gt;&lt;li&gt;field is visible&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The element is supposed to display the ID of the owner of the record and that ID is going to be visible in the surveypro page.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>1 intro</customnumber>
       <indent>0</indent>
+      <customnumber>1 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -36,9 +36,9 @@
     <surveyprofield_autofill>
       <content>&lt;p&gt;Your user ID&lt;/p&gt;</content>
       <contentformat>1</contentformat>
+      <indent>0</indent>
       <position>0</position>
       <variable>autofill_001</variable>
-      <indent>0</indent>
       <hiddenfield>0</hiddenfield>
       <element01>userid</element01>
     </surveyprofield_autofill>
@@ -52,8 +52,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;the User ID (probably for future relationship between exported tables)&lt;/li&gt;&lt;li&gt;field is not visible&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The element is supposed to display the ID of the owner of the record and that ID is not going to be visible in the surveypro page. This is the reason why you can not see that element in the surveypro preview page.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>2 intro</customnumber>
       <indent>0</indent>
+      <customnumber>2 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -66,9 +66,9 @@
     <surveyprofield_autofill>
       <content>&lt;p&gt;Your user ID&lt;/p&gt;</content>
       <contentformat>1</contentformat>
+      <indent>0</indent>
       <position>0</position>
       <variable>autofill_002</variable>
-      <indent>0</indent>
       <hiddenfield>1</hiddenfield>
       <element01>userid</element01>
     </surveyprofield_autofill>

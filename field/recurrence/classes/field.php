@@ -386,8 +386,8 @@ class surveyprofield_recurrence_field extends mod_surveypro_itembase {
                 <xs:element name="customnumber" type="xs:string" minOccurs="0"/>
                 <xs:element name="hideinstructions" type="xs:int"/>
                 <xs:element name="variable" type="xs:string"/>
-                <!-- <xs:element name="trimonsave" type="xs:int"/> -->
                 <xs:element name="extranote" type="xs:string" minOccurs="0"/>
+                <!-- <xs:element name="trimonsave" type="xs:int"/> -->
 
                 <xs:element name="defaultoption" type="xs:int"/>
                 <xs:element name="defaultvalue" type="unixtime" minOccurs="0"/>

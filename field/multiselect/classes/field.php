@@ -320,8 +320,8 @@ class surveyprofield_multiselect_field extends mod_surveypro_itembase {
                 <xs:element name="customnumber" type="xs:string" minOccurs="0"/>
                 <xs:element name="hideinstructions" type="xs:int"/>
                 <xs:element name="variable" type="xs:string"/>
-                <!-- <xs:element name="trimonsave" type="xs:int"/> -->
                 <xs:element name="extranote" type="xs:string" minOccurs="0"/>
+                <!-- <xs:element name="trimonsave" type="xs:int"/> -->
 
                 <xs:element name="options" type="xs:string"/>
                 <xs:element name="defaultvalue" type="xs:string" minOccurs="0"/>

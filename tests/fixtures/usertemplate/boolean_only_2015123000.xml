@@ -22,8 +22,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;drop down&lt;/li&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;"yes" is the default (so: "Choose..." is not expected)&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory so the user is theoretically forced to choose a value. In spite of this, the default is set to a valid value so the user will be allowed to "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>1 intro</customnumber>
       <indent>0</indent>
+      <customnumber>1 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -36,11 +36,11 @@
     <surveyprofield_boolean>
       <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>1</customnumber>
-      <position>0</position>
       <required>1</required>
-      <variable>boolean_001</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>1</customnumber>
+      <variable>boolean_001</variable>
       <defaultoption>1</defaultoption>
       <defaultvalue>1</defaultvalue>
       <downloadformat>strfbool01</downloadformat>
@@ -56,8 +56,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;drop down&lt;/li&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to an invalid value so the user is forced to choose a valid option.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>2 Intro</customnumber>
       <indent>0</indent>
+      <customnumber>2 Intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -70,11 +70,11 @@
     <surveyprofield_boolean>
       <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>2</customnumber>
-      <position>0</position>
       <required>1</required>
-      <variable>boolean_002</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>2</customnumber>
+      <variable>boolean_002</variable>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
       <downloadformat>strfbool01</downloadformat>
@@ -90,8 +90,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;drop down&lt;/li&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;Yes&quot; is the default&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can &quot;fly&quot; over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>3 intro</customnumber>
       <indent>0</indent>
+      <customnumber>3 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -104,11 +104,11 @@
     <surveyprofield_boolean>
       <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>3</customnumber>
-      <position>0</position>
       <required>0</required>
-      <variable>boolean_003</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>3</customnumber>
+      <variable>boolean_003</variable>
       <defaultoption>1</defaultoption>
       <defaultvalue>1</defaultvalue>
       <downloadformat>strfbool01</downloadformat>
@@ -124,8 +124,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;drop down&lt;/li&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;Choose...&quot; is the default&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory but the default is set to an invalid value so the user will be forced to select the item corresponding to his/her answer. Being the item not required, the user can choose as answer the item: &quot;No answer&quot;.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>4 intro</customnumber>
       <indent>0</indent>
+      <customnumber>4 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -138,11 +138,11 @@
     <surveyprofield_boolean>
       <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>4</customnumber>
-      <position>0</position>
       <required>0</required>
-      <variable>boolean_004</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>4</customnumber>
+      <variable>boolean_004</variable>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
       <downloadformat>strfbool01</downloadformat>
@@ -158,8 +158,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;drop down&lt;/li&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;No answer&quot; is the default&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can &quot;fly&quot; over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>5 intro</customnumber>
       <indent>0</indent>
+      <customnumber>5 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -172,11 +172,11 @@
     <surveyprofield_boolean>
       <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>5</customnumber>
-      <position>0</position>
       <required>0</required>
-      <variable>boolean_005</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>5</customnumber>
+      <variable>boolean_005</variable>
       <defaultoption>3</defaultoption>
       <downloadformat>strfbool01</downloadformat>
       <style>0</style>
@@ -191,8 +191,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;horizontal radio buttons&lt;/li&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;"yes" is the default (so: "Choose..." is not expected)&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory so the user is theoretically forced to choose a value. In spite of this, the default is set to a valid value so the user will be allowed to "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>6 intro</customnumber>
       <indent>0</indent>
+      <customnumber>6 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -205,11 +205,11 @@
     <surveyprofield_boolean>
       <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>6</customnumber>
-      <position>0</position>
       <required>1</required>
-      <variable>boolean_006</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>6</customnumber>
+      <variable>boolean_006</variable>
       <defaultoption>1</defaultoption>
       <defaultvalue>1</defaultvalue>
       <downloadformat>strfbool01</downloadformat>
@@ -225,8 +225,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;horizontal radio buttons&lt;/li&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to an invalid value so the user is forced to choose a valid option.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>7 Intro</customnumber>
       <indent>0</indent>
+      <customnumber>7 Intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -239,11 +239,11 @@
     <surveyprofield_boolean>
       <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>7</customnumber>
-      <position>0</position>
       <required>1</required>
-      <variable>boolean_007</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>7</customnumber>
+      <variable>boolean_007</variable>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
       <downloadformat>strfbool01</downloadformat>
@@ -259,8 +259,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;horizontal radio buttons&lt;/li&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;Yes&quot; is the default&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can &quot;fly&quot; over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>8 intro</customnumber>
       <indent>0</indent>
+      <customnumber>8 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -273,11 +273,11 @@
     <surveyprofield_boolean>
       <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>8</customnumber>
-      <position>0</position>
       <required>0</required>
-      <variable>boolean_008</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>8</customnumber>
+      <variable>boolean_008</variable>
       <defaultoption>1</defaultoption>
       <defaultvalue>1</defaultvalue>
       <downloadformat>strfbool01</downloadformat>
@@ -293,8 +293,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;horizontal radio buttons&lt;/li&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;Choose...&quot; is the default&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory but the default is set to an invalid value so the user will be forced to select the item corresponding to his/her answer. Being the item not required, the user can choose as answer the item: &quot;No answer&quot;.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>9 intro</customnumber>
       <indent>0</indent>
+      <customnumber>9 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -307,11 +307,11 @@
     <surveyprofield_boolean>
       <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>9</customnumber>
-      <position>0</position>
       <required>0</required>
-      <variable>boolean_009</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>9</customnumber>
+      <variable>boolean_009</variable>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
       <downloadformat>strfbool01</downloadformat>
@@ -327,8 +327,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;horizontal radio buttons&lt;/li&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;No answer&quot; is the default&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can &quot;fly&quot; over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>10 intro</customnumber>
       <indent>0</indent>
+      <customnumber>10 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -341,11 +341,11 @@
     <surveyprofield_boolean>
       <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>10</customnumber>
-      <position>0</position>
       <required>0</required>
-      <variable>boolean_010</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>10</customnumber>
+      <variable>boolean_010</variable>
       <defaultoption>3</defaultoption>
       <downloadformat>strfbool01</downloadformat>
       <style>2</style>
@@ -360,8 +360,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;vertical radio buttons&lt;/li&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;"yes" is the default (so: "Choose..." is not expected)&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory so the user is theoretically forced to choose a value. In spite of this, the default is set to a valid value so the user will be allowed to "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>11 intro</customnumber>
       <indent>0</indent>
+      <customnumber>11 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -374,11 +374,11 @@
     <surveyprofield_boolean>
       <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>11</customnumber>
-      <position>0</position>
       <required>1</required>
-      <variable>boolean_011</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>11</customnumber>
+      <variable>boolean_011</variable>
       <defaultoption>1</defaultoption>
       <defaultvalue>1</defaultvalue>
       <downloadformat>strfbool01</downloadformat>
@@ -394,8 +394,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;vertical radio buttons&lt;/li&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to an invalid value so the user is forced to choose a valid option.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>12 Intro</customnumber>
       <indent>0</indent>
+      <customnumber>12 Intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -408,11 +408,11 @@
     <surveyprofield_boolean>
       <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>12</customnumber>
-      <position>0</position>
       <required>1</required>
-      <variable>boolean_012</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>12</customnumber>
+      <variable>boolean_012</variable>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
       <downloadformat>strfbool01</downloadformat>
@@ -428,8 +428,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;vertical radio buttons&lt;/li&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;Yes&quot; is the default&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can &quot;fly&quot; over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>13 intro</customnumber>
       <indent>0</indent>
+      <customnumber>13 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -442,11 +442,11 @@
     <surveyprofield_boolean>
       <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>13</customnumber>
-      <position>0</position>
       <required>0</required>
-      <variable>boolean_013</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>13</customnumber>
+      <variable>boolean_013</variable>
       <defaultoption>1</defaultoption>
       <defaultvalue>1</defaultvalue>
       <downloadformat>strfbool01</downloadformat>
@@ -462,8 +462,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;vertical radio buttons&lt;/li&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;Choose...&quot; is the default&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory but the default is set to an invalid value so the user will be forced to select the item corresponding to his/her answer. Being the item not required, the user can choose as answer the item: &quot;No answer&quot;.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>14 intro</customnumber>
       <indent>0</indent>
+      <customnumber>14 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -476,11 +476,11 @@
     <surveyprofield_boolean>
       <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>14</customnumber>
-      <position>0</position>
       <required>0</required>
-      <variable>boolean_014</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>14</customnumber>
+      <variable>boolean_014</variable>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
       <downloadformat>strfbool01</downloadformat>
@@ -496,8 +496,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;vertical radio buttons&lt;/li&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;No answer&quot; is the default&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can &quot;fly&quot; over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>15 intro</customnumber>
       <indent>0</indent>
+      <customnumber>15 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -510,11 +510,11 @@
     <surveyprofield_boolean>
       <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>15</customnumber>
-      <position>0</position>
       <required>0</required>
-      <variable>boolean_015</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>15</customnumber>
+      <variable>boolean_015</variable>
       <defaultoption>3</defaultoption>
       <downloadformat>strfbool01</downloadformat>
       <style>1</style>

@@ -352,16 +352,22 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                 if ($field == 'parentid') {
                     $parentid = $item->get_parentid();
                     if ($parentid) {
+                        // Store the sortindex of the parent instead of its id, because at restore time parentid will change.
                         $whereparams = array('id' => $parentid);
-                        // I store sortindex instead of parentid, because at restore time parent id will change.
-                        $val = $DB->get_field('surveypro_item', 'sortindex', $whereparams);
-                        $xmlfield = $xmltable->addChild($field, $val);
+                        $sortindex = $DB->get_field('surveypro_item', 'sortindex', $whereparams, MUST_EXIST);
+                        $val = $item->get_parentvalue();
+
+                        $xmlparent = $xmltable->addChild('parent');
+                        $xmlfield = $xmlparent->addChild('parentid', $sortindex);
+                        $xmlfield = $xmlparent->addChild('parentvalue', $val);
                     } // Otherwise: It is empty, do not evaluate: jump.
+                    continue;
+                }
+                if ($field == 'parentvalue') {
                     continue;
                 }
 
                 $val = $item->item_get_generic_property($field);
-
                 if (strlen($val)) {
                     $xmlfield = $xmltable->addChild($field, $val);
                 } // Otherwise: It is empty, do not evaluate: jump.
@@ -555,7 +561,6 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                 $record = new stdClass();
 
                 // Add to $record mandatory fields that will be overwritten, hopefully, with the content of the usertemplate.
-
                 $record->surveyproid = (int)$this->surveypro->id;
                 $record->type = $currenttype;
                 $record->plugin = $currentplugin;
@@ -567,6 +572,19 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
                 foreach ($xmltable->children() as $xmlfield) {
                     $fieldname = $xmlfield->getName();
+
+                    // Tag <parent> always belong to surveypro_item table
+                    if ($fieldname == 'parent') {
+                        // echo '<h5>Count of attributes of the field '.$fieldname.': '.count($xmlfield->children()).'</h5>';
+                        foreach ($xmlfield->children() as $xmlparentattribute) {
+                            $fieldname = $xmlparentattribute->getName();
+                            $fieldexists = in_array($fieldname, $currenttablestructure);
+                            if ($fieldexists) {
+                                $record->{$fieldname} = (string)$xmlparentattribute;
+                            }
+                        }
+                        continue;
+                    }
 
                     // Tag <embedded> always belong to surveypro(field|format)_<<plugin>> table
                     // so: ($fieldname == 'embedded') only when surveypro_item has already been saved...
@@ -595,18 +613,19 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                         $filerecord->filepath = '/';
                         $filerecord->filename = $filename;
                         $fileinfo = $fs->create_file_from_string($filerecord, $filecontent);
-                    } else {
-                        // The method xml_validation checks only the formal schema validity.
-                        // It does not know whether the xml is old and holds no longer needed fields
-                        // or does not hold fields that are now mandatory.
-                        // Because of this, I can not SIMPLY add $fieldname to $record but I need to make some more investigation.
-                        // I neglect no longer used fields, here.
-                        // I will add mandatory (but missing because the usertemplate may be old) fields,
-                        // before saving in the frame of the $item->item_force_coherence.
-                        $fieldexists = in_array($fieldname, $currenttablestructure);
-                        if ($fieldexists) {
-                            $record->{$fieldname} = (string)$xmlfield;
-                        }
+                        continue;
+                    }
+
+                    // The method xml_validation checks only the formal schema validity.
+                    // It does not know whether the xml is old and holds no longer needed fields
+                    // or does not hold fields that are now mandatory.
+                    // Because of this, I can not SIMPLY add $fieldname to $record but I need to make some more investigation.
+                    // I neglect no longer used fields, here.
+                    // I will add mandatory (but missing because the usertemplate may be old) fields,
+                    // before saving in the frame of the $item->item_force_coherence.
+                    $fieldexists = in_array($fieldname, $currenttablestructure);
+                    if ($fieldexists) {
+                        $record->{$fieldname} = (string)$xmlfield;
                     }
                 }
 

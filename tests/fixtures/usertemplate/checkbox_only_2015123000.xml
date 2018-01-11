@@ -22,8 +22,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;"butter" is the default&lt;/li&gt;&lt;li&gt;minimum required options set to 1&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are horizzontally displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to a valid value so the user is forced to tick at least one checkbox.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>1 intro</customnumber>
       <indent>0</indent>
+      <customnumber>1 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -36,12 +36,12 @@
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>1</customnumber>
-      <position>0</position>
       <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>1</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>checkbox_001</variable>
-      <indent>0</indent>
       <options>milk
 coffee
 butter
@@ -62,8 +62,8 @@ bread</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;"butter" is the default&lt;/li&gt;&lt;li&gt;minimum required options set to 1&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to a valid value so the user is forced to tick at least one checkbox.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>2 intro</customnumber>
       <indent>0</indent>
+      <customnumber>2 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -76,12 +76,12 @@ bread</options>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>2</customnumber>
-      <position>0</position>
       <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>2</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>checkbox_002</variable>
-      <indent>0</indent>
       <options>milk
 coffee
 butter
@@ -102,8 +102,8 @@ bread</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;"butter" is the default&lt;/li&gt;&lt;li&gt;minimum required options set to 2&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are horizzontally displayed&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory and the default is set to a valid value but the user can not "fly" over this element because the minimum required options is set to 2. So he/she is forced to or select al least two checkboxes.&lt;br /&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>3 intro</customnumber>
       <indent>0</indent>
+      <customnumber>3 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -116,12 +116,12 @@ bread</options>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>3</customnumber>
-      <position>0</position>
       <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>3</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>checkbox_003</variable>
-      <indent>0</indent>
       <options>milk
 coffee
 butter
@@ -143,8 +143,8 @@ bread</options>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;"butter" is the default&lt;/li&gt;&lt;li&gt;minimum required options set to 2&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to a valid value but the user can not "fly" over this element because the minimum &#13;
 required options is set to 2. So he/she is forced to or select al least two checkboxes.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>4 intro</customnumber>
       <indent>0</indent>
+      <customnumber>4 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -157,12 +157,12 @@ required options is set to 2. So he/she is forced to or select al least two chec
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>4</customnumber>
-      <position>0</position>
       <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>4</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>checkbox_004</variable>
-      <indent>0</indent>
       <options>milk
 coffee
 butter
@@ -183,8 +183,8 @@ bread</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;default is not set&lt;br /&gt;&lt;/li&gt;&lt;li&gt;minimum required options set to 1&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are horizzontally displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is not set so the user is forced to tick at least one checkbox.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>5 intro</customnumber>
       <indent>0</indent>
+      <customnumber>5 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -197,12 +197,12 @@ bread</options>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>5</customnumber>
-      <position>0</position>
       <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>5</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>checkbox_005</variable>
-      <indent>0</indent>
       <options>milk
 coffee
 butter
@@ -222,8 +222,8 @@ bread</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;default is not set&lt;br /&gt;&lt;/li&gt;&lt;li&gt;minimum required options set to 1&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is not set so the user is forced to tick at least one checkbox.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>6 intro</customnumber>
       <indent>0</indent>
+      <customnumber>6 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -236,12 +236,12 @@ bread</options>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>6</customnumber>
-      <position>0</position>
       <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>6</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>checkbox_006</variable>
-      <indent>0</indent>
       <options>milk
 coffee
 butter
@@ -261,8 +261,8 @@ bread</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;default is not set&lt;br /&gt;&lt;/li&gt;&lt;li&gt;minimum required options set to 2&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are horizzontally displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is not set so the user is forced to tick at least two checkboxes.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>7 intro</customnumber>
       <indent>0</indent>
+      <customnumber>7 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -275,12 +275,12 @@ bread</options>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>7</customnumber>
-      <position>0</position>
       <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>7</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>checkbox_007</variable>
-      <indent>0</indent>
       <options>milk
 coffee
 butter
@@ -300,8 +300,8 @@ bread</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;default is not set&lt;br /&gt;&lt;/li&gt;&lt;li&gt;minimum required options set to 2&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is not set so the user is forced to tick at least two checkboxes.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>8 intro</customnumber>
       <indent>0</indent>
+      <customnumber>8 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -314,12 +314,12 @@ bread</options>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>8</customnumber>
-      <position>0</position>
       <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>8</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>checkbox_008</variable>
-      <indent>0</indent>
       <options>milk
 coffee
 butter
@@ -339,8 +339,8 @@ bread</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;"butter" is the default&lt;/li&gt;&lt;li&gt;minimum required options set to 1&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are horizzontally displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read) or tick the "No answer".&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>9 intro</customnumber>
       <indent>0</indent>
+      <customnumber>9 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -353,12 +353,12 @@ bread</options>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>9</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>9</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>checkbox_009</variable>
-      <indent>0</indent>
       <options>milk
 coffee
 butter
@@ -379,8 +379,8 @@ bread</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;br /&gt;&lt;/li&gt;&lt;li&gt;"butter" is the default&lt;/li&gt;&lt;li&gt;minimum required options set to 1&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read) or tick the "No answer".&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>10 intro</customnumber>
       <indent>0</indent>
+      <customnumber>10 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -393,12 +393,12 @@ bread</options>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>10</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>10</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>checkbox_010</variable>
-      <indent>0</indent>
       <options>milk
 coffee
 butter
@@ -422,8 +422,8 @@ value but the user can not "fly" over this element because the minimum &#13;
 required options is set to 2. So he/she is forced to or select two &#13;
 options or to tick the "No answer" checkbox.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>11 intro</customnumber>
       <indent>0</indent>
+      <customnumber>11 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -436,12 +436,12 @@ options or to tick the "No answer" checkbox.&lt;/p&gt;</content>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>11</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>11</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>checkbox_011</variable>
-      <indent>0</indent>
       <options>milk
 coffee
 butter
@@ -462,8 +462,8 @@ bread</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;"butter" is the default&lt;/li&gt;&lt;li&gt;minimum required options set to 2&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value but the user can not "fly" over this element because the minimum required options is set to 2. So he/she is forced to or select two options or to tick the "No answer" checkbox.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>12 intro</customnumber>
       <indent>0</indent>
+      <customnumber>12 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -476,12 +476,12 @@ bread</options>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>12</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>12</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>checkbox_013</variable>
-      <indent>0</indent>
       <options>milk
 coffee
 butter
@@ -502,8 +502,8 @@ bread</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;"No answer" is the default&lt;/li&gt;&lt;li&gt;minimum required options set to 1&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are horizzontally displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a not valid value so the user is forced to tick at least one checkbox.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>13 intro</customnumber>
       <indent>0</indent>
+      <customnumber>13 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -516,12 +516,12 @@ bread</options>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>13</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>13</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>checkbox_012</variable>
-      <indent>0</indent>
       <options>milk
 coffee
 butter
@@ -542,8 +542,8 @@ bread</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;"No answer" is the default&lt;/li&gt;&lt;li&gt;minimum required options set to 1&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to an invalid value so the user is forced to tick at least one checkbox.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>14 intro</customnumber>
       <indent>0</indent>
+      <customnumber>14 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -556,12 +556,12 @@ bread</options>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>14</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>14</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>checkbox_014</variable>
-      <indent>0</indent>
       <options>milk
 coffee
 butter
@@ -582,8 +582,8 @@ bread</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;"No answer" is the default&lt;/li&gt;&lt;li&gt;minimum required options set to 2&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are horizzontally displayed&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is set to a valid value &lt;span class="rangySelectionBoundary" style="line-height:0;"&gt;﻿&lt;/span&gt;so the user can "fly" over this element leaving the proposed default untouched (and the question not read).&lt;br /&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>15 intro</customnumber>
       <indent>0</indent>
+      <customnumber>15 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -596,12 +596,12 @@ bread</options>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>15</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>15</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>checkbox_015</variable>
-      <indent>0</indent>
       <options>milk
 coffee
 butter
@@ -623,8 +623,8 @@ bread</options>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;"No answer" is the default&lt;/li&gt;&lt;li&gt;minimum required options set to 2&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value but the user can not "fly" over this element because the minimum required options is set to 2. So he/she is forced to or select two &#13;
 options or to tick the "No answer" checkbox.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>16 intro</customnumber>
       <indent>0</indent>
+      <customnumber>16 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -637,12 +637,12 @@ options or to tick the "No answer" checkbox.&lt;/p&gt;</content>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>16</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>16</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>checkbox_016</variable>
-      <indent>0</indent>
       <options>milk
 coffee
 butter
@@ -663,8 +663,8 @@ bread</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;default is not set&lt;br /&gt;&lt;/li&gt;&lt;li&gt;minimum required options set to 1&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are horizzontally displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is not set so the user is forced to tick at least one checkbox or to select the "No answer" checkbox.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>17 intro</customnumber>
       <indent>0</indent>
+      <customnumber>17 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -677,12 +677,12 @@ bread</options>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>17</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>17</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>checkbox_017</variable>
-      <indent>0</indent>
       <options>milk
 coffee
 butter
@@ -702,8 +702,8 @@ bread</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;default is not set&lt;br /&gt;&lt;/li&gt;&lt;li&gt;minimum required options set to 1&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is not set so the user is forced to tick at least one checkbox or to select the "No answer" checkbox.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>18 intro</customnumber>
       <indent>0</indent>
+      <customnumber>18 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -716,12 +716,12 @@ bread</options>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>18</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>18</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>checkbox_018</variable>
-      <indent>0</indent>
       <options>milk
 coffee
 butter
@@ -741,8 +741,8 @@ bread</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;default is not set&lt;br /&gt;&lt;/li&gt;&lt;li&gt;minimum required options set to 2&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are horizzontally displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is not set so the user is forced to tick at least two checkboxes or to select the "No answer" chackbox.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>19 intro</customnumber>
       <indent>0</indent>
+      <customnumber>19 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -755,12 +755,12 @@ bread</options>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>19</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>19</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>checkbox_019</variable>
-      <indent>0</indent>
       <options>milk
 coffee
 butter
@@ -780,8 +780,8 @@ bread</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;default is not set&lt;br /&gt;&lt;/li&gt;&lt;li&gt;minimum required options set to 2&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is not set so the user is forced to tick at least two checkboxes or to select the "No answer" checkbox.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>20 intro</customnumber>
       <indent>0</indent>
+      <customnumber>20 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -794,12 +794,12 @@ bread</options>
     <surveyprofield_checkbox>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>20</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>20</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>checkbox_020</variable>
-      <indent>0</indent>
       <options>milk
 coffee
 butter

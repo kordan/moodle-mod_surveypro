@@ -22,8 +22,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;a default is not set&lt;/li&gt;&lt;li&gt;minimum required is (automatically) set to 1&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory and the default is not set so the user is forced to select at least one item.</content>
       <contentformat>1</contentformat>
-      <customnumber>1 info</customnumber>
       <indent>0</indent>
+      <customnumber>1 info</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -36,12 +36,12 @@
     <surveyprofield_multiselect>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>1</customnumber>
-      <position>0</position>
       <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>1</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>multiselect_001</variable>
-      <indent>0</indent>
       <options>milk
 sugar
 jam
@@ -61,8 +61,8 @@ chocolate</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;a default is set&lt;/li&gt;&lt;li&gt;minimum required is (automatically) set to 1&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory and the default is set so to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read).</content>
       <contentformat>1</contentformat>
-      <customnumber>2 info</customnumber>
       <indent>0</indent>
+      <customnumber>2 info</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -75,12 +75,12 @@ chocolate</options>
     <surveyprofield_multiselect>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>2</customnumber>
-      <position>0</position>
       <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>2</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>multiselect_002</variable>
-      <indent>0</indent>
       <options>milk
 sugar
 jam
@@ -102,8 +102,8 @@ jam</defaultvalue>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;a default is not set&lt;/li&gt;&lt;li&gt;minimum required is set to 1&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is not set so the user is forced to select at least one item or to select the "No answer" checkbox.</content>
       <contentformat>1</contentformat>
-      <customnumber>3 info</customnumber>
       <indent>0</indent>
+      <customnumber>3 info</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -116,12 +116,12 @@ jam</defaultvalue>
     <surveyprofield_multiselect>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>3</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>3</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>multiselect_003</variable>
-      <indent>0</indent>
       <options>milk
 sugar
 jam
@@ -141,8 +141,8 @@ chocolate</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;a default is set&lt;/li&gt;&lt;li&gt;minimum required is (automatically) set to 1&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is set but so the user is forced to select at least one item.</content>
       <contentformat>1</contentformat>
-      <customnumber>4 info</customnumber>
       <indent>0</indent>
+      <customnumber>4 info</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -155,12 +155,12 @@ chocolate</options>
     <surveyprofield_multiselect>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>4</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>4</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>multiselect_004</variable>
-      <indent>0</indent>
       <options>milk
 sugar
 jam
@@ -181,8 +181,8 @@ chocolate</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;a default is not set&lt;/li&gt;&lt;li&gt;minimum required is set to 2&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory and the default is not set so the user is forced to select at least two items.</content>
       <contentformat>1</contentformat>
-      <customnumber>5 info</customnumber>
       <indent>0</indent>
+      <customnumber>5 info</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -195,12 +195,12 @@ chocolate</options>
     <surveyprofield_multiselect>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>5</customnumber>
-      <position>0</position>
       <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>5</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>multiselect_005</variable>
-      <indent>0</indent>
       <options>milk
 sugar
 jam
@@ -221,8 +221,8 @@ chocolate</options>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;a default is set&lt;/li&gt;&lt;li&gt;minimum required is set to 2&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory and the default is set so to a valid value but the user can not "fly" over this element because the minimum &#13;
 required options is set to 2.&lt;br /&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>6 info</customnumber>
       <indent>0</indent>
+      <customnumber>6 info</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -235,12 +235,12 @@ required options is set to 2.&lt;br /&gt;</content>
     <surveyprofield_multiselect>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>6</customnumber>
-      <position>0</position>
       <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>6</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>multiselect_006</variable>
-      <indent>0</indent>
       <options>milk
 sugar
 jam
@@ -262,8 +262,8 @@ jam</defaultvalue>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;a default is not set&lt;/li&gt;&lt;li&gt;minimum required is set to 2&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is not set so the user is forced to select at least two items or to select the "No answer" checkbox.</content>
       <contentformat>1</contentformat>
-      <customnumber>7 info</customnumber>
       <indent>0</indent>
+      <customnumber>7 info</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -276,12 +276,12 @@ jam</defaultvalue>
     <surveyprofield_multiselect>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>7</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>7</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>multiselect_007</variable>
-      <indent>0</indent>
       <options>milk
 sugar
 jam
@@ -301,8 +301,8 @@ chocolate</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;a default is set&lt;/li&gt;&lt;li&gt;minimum required is (automatically) set to 1&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is set but so the user is forced to select at least one item.</content>
       <contentformat>1</contentformat>
-      <customnumber>8 info</customnumber>
       <indent>0</indent>
+      <customnumber>8 info</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -315,12 +315,12 @@ chocolate</options>
     <surveyprofield_multiselect>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>8</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>8</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>multiselect_008</variable>
-      <indent>0</indent>
       <options>milk
 sugar
 jam

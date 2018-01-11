@@ -239,8 +239,8 @@ class surveyproformat_label_format extends mod_surveypro_itembase {
                 <xs:element name="customnumber" type="xs:string" minOccurs="0"/>
                 <!-- <xs:element name="hideinstructions" type="xs:int"/> -->
                 <!-- <xs:element name="variable" type="xs:string"/> -->
-                <!-- <xs:element name="trimonsave" type="xs:int"/> -->
                 <!-- <xs:element name="extranote" type="xs:string" minOccurs="0"/> -->
+                <!-- <xs:element name="trimonsave" type="xs:int"/> -->
 
                 <xs:element name="fullwidth" type="xs:int"/>
                 <xs:element name="leftlabel" type="xs:string" minOccurs="0"/>

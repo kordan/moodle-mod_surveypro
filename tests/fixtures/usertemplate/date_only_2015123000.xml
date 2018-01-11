@@ -22,8 +22,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;input is limited to academic year 2014/2015, i.e. November 1st, 2014 - October 31, 2015&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is set to a not valid value so the user is forced to choose a different date or tick the "No answer" checkbox.</content>
       <contentformat>1</contentformat>
-      <customnumber>1 intro</customnumber>
       <indent>0</indent>
+      <customnumber>1 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -36,12 +36,12 @@
     <surveyprofield_date>
       <content>&lt;p&gt;When did you get your degree?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>1</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>1</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>date_001</variable>
-      <indent>0</indent>
       <defaultoption>2</defaultoption>
       <downloadformat>strftime09</downloadformat>
       <lowerbound>1414843200</lowerbound>
@@ -57,8 +57,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;input is limited to academic year 2014/2015, i.e. November 1st, 2014 - October 31, 2015&lt;/li&gt;&lt;li&gt;the default is set to a valid value&lt;/li&gt;&lt;/ul&gt;Behaviour: the user can "fly" over this element leaving the proposed default untouched (and the question not read) or tick the "No answer" checkbox.</content>
       <contentformat>1</contentformat>
-      <customnumber>2 intro</customnumber>
       <indent>0</indent>
+      <customnumber>2 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -71,12 +71,12 @@
     <surveyprofield_date>
       <content>&lt;p&gt;When did you get your degree?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>2</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>2</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>date_002</variable>
-      <indent>0</indent>
       <defaultoption>1</defaultoption>
       <defaultvalue>-599659200</defaultvalue>
       <downloadformat>strftime09</downloadformat>
@@ -93,8 +93,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;input is limited to academic year 2014/2015, i.e. November 1st, 2014 - October 31, 2015&lt;/li&gt;&lt;li&gt;the default is set to the last input&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is probably set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read) or tick the "No answer" checkbox or tick the "No answer" checkbox.</content>
       <contentformat>1</contentformat>
-      <customnumber>3 intro</customnumber>
       <indent>0</indent>
+      <customnumber>3 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -107,12 +107,12 @@
     <surveyprofield_date>
       <content>&lt;p&gt;When did you get your degree?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>3</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>3</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>date_003</variable>
-      <indent>0</indent>
       <defaultoption>4</defaultoption>
       <downloadformat>strftime09</downloadformat>
       <lowerbound>1414843200</lowerbound>
@@ -128,8 +128,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;input is limited to academic year 2014/2015, i.e. November 1st, 2014 - October 31, 2015&lt;/li&gt;&lt;li&gt;the default is set to the current date&lt;/li&gt;&lt;/ul&gt;Behaviour: If the default is valid the user can "fly" over this element leaving the proposed default untouched (and the question not read) otherwise he/she is forced to choose a different date or to tick the "No answer" checkbox.</content>
       <contentformat>1</contentformat>
-      <customnumber>4 intro</customnumber>
       <indent>0</indent>
+      <customnumber>4 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -142,12 +142,12 @@
     <surveyprofield_date>
       <content>&lt;p&gt;When did you get your degree?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>4</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>4</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>date_004</variable>
-      <indent>0</indent>
       <defaultoption>5</defaultoption>
       <downloadformat>strftime09</downloadformat>
       <lowerbound>1414843200</lowerbound>
@@ -163,8 +163,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;input is limited to academic year 2014/2015, i.e. November 1st, 2014 - October 31, 2015&lt;/li&gt;&lt;li&gt;the default is set to "No answer"&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read) or tick the "No answer" checkbox or tick the "No answer" checkbox and setting a different date.</content>
       <contentformat>1</contentformat>
-      <customnumber>5 intro</customnumber>
       <indent>0</indent>
+      <customnumber>5 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -177,12 +177,12 @@
     <surveyprofield_date>
       <content>&lt;p&gt;When did you get your degree?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>5</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>5</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>date_005</variable>
-      <indent>0</indent>
       <defaultoption>3</defaultoption>
       <downloadformat>strftime09</downloadformat>
       <lowerbound>1414843200</lowerbound>
@@ -198,8 +198,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;input is limited to academic year 2014/2015, i.e. November 1st, 2014 - October 31, 2015&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory and the default is set to a not valid value so the user is forced to choose a different date.</content>
       <contentformat>1</contentformat>
-      <customnumber>6 intro</customnumber>
       <indent>0</indent>
+      <customnumber>6 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -212,12 +212,12 @@
     <surveyprofield_date>
       <content>&lt;p&gt;When did you get your degree?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>6</customnumber>
-      <position>0</position>
       <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>6</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>date_006</variable>
-      <indent>0</indent>
       <defaultoption>2</defaultoption>
       <downloadformat>strftime09</downloadformat>
       <lowerbound>1414843200</lowerbound>
@@ -233,8 +233,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;input is limited to academic year 2014/2015, i.e. November 1st, 2014 - October 31, 2015&lt;/li&gt;&lt;li&gt;the default is set to a valid value&lt;/li&gt;&lt;/ul&gt;Behaviour: the user can "fly" over this element leaving the proposed default untouched (and the question not read).</content>
       <contentformat>1</contentformat>
-      <customnumber>7 intro</customnumber>
       <indent>0</indent>
+      <customnumber>7 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -247,12 +247,12 @@
     <surveyprofield_date>
       <content>&lt;p&gt;When did you get your degree?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>7</customnumber>
-      <position>0</position>
       <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>7</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>date_007</variable>
-      <indent>0</indent>
       <defaultoption>1</defaultoption>
       <defaultvalue>-599659200</defaultvalue>
       <downloadformat>strftime09</downloadformat>
@@ -269,8 +269,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;input is limited to academic year 2014/2015, i.e. November 1st, 2014 - October 31, 2015&lt;/li&gt;&lt;li&gt;the default is set to the last input&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory and the default is probably set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read)</content>
       <contentformat>1</contentformat>
-      <customnumber>8 intro</customnumber>
       <indent>0</indent>
+      <customnumber>8 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -283,12 +283,12 @@
     <surveyprofield_date>
       <content>&lt;p&gt;When did you get your degree?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>8</customnumber>
-      <position>0</position>
       <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>8</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>date_008</variable>
-      <indent>0</indent>
       <defaultoption>4</defaultoption>
       <downloadformat>strftime09</downloadformat>
       <lowerbound>1414843200</lowerbound>
@@ -304,8 +304,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;input is limited to academic year 2014/2015, i.e. November 1st, 2014 - October 31, 2015&lt;/li&gt;&lt;li&gt;the default is set to the current date&lt;/li&gt;&lt;/ul&gt;Behaviour: If the default is valid the user can "fly" over this element leaving the proposed default untouched (and the question not read) otherwise he/she is forced to choose a different date.</content>
       <contentformat>1</contentformat>
-      <customnumber>9 intro</customnumber>
       <indent>0</indent>
+      <customnumber>9 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -318,12 +318,12 @@
     <surveyprofield_date>
       <content>&lt;p&gt;When did you get your degree?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>9</customnumber>
-      <position>0</position>
       <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>9</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>date_009</variable>
-      <indent>0</indent>
       <defaultoption>5</defaultoption>
       <downloadformat>strftime09</downloadformat>
       <lowerbound>1414843200</lowerbound>

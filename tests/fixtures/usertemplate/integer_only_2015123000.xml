@@ -22,8 +22,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory&lt;/li&gt;&lt;li&gt;input is lower limited to 1&lt;/li&gt;&lt;li&gt;input is upper limited to at least 19&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value.&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory and the default is set to a not valid value so the user is forced to choose a different value or select the "No answer" item.</content>
       <contentformat>1</contentformat>
-      <customnumber>1 info</customnumber>
       <indent>0</indent>
+      <customnumber>1 info</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -36,12 +36,13 @@
     <surveyprofield_integer>
       <content>&lt;p&gt;How many children do your parents have?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>1</customnumber>
-      <position>0</position>
-      <extranote>Include yourself in the count</extranote>
       <required>1</required>
-      <variable>integer_001</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>1</customnumber>
+      <hideinstructions>0</hideinstructions>
+      <variable>integer_001</variable>
+      <extranote>Include yourself in the count</extranote>
       <defaultoption>2</defaultoption>
       <lowerbound>1</lowerbound>
       <upperbound>19</upperbound>
@@ -56,8 +57,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory&lt;/li&gt;&lt;li&gt;input is lower limited to 1&lt;/li&gt;&lt;li&gt;input is upper limited to at least 19&lt;/li&gt;&lt;li&gt;the default is set to 1 (to count the person filling the survey)&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory and the default is set to a not valid value so the user is forced to choose a different value or select the "No answer" item.</content>
       <contentformat>1</contentformat>
-      <customnumber>2 info</customnumber>
       <indent>0</indent>
+      <customnumber>2 info</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -70,12 +71,13 @@
     <surveyprofield_integer>
       <content>&lt;p&gt;How many children do your parents have?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>2</customnumber>
-      <position>0</position>
-      <extranote>Include yourself in the count</extranote>
       <required>1</required>
-      <variable>integer_002b</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>2</customnumber>
+      <hideinstructions>0</hideinstructions>
+      <variable>integer_002b</variable>
+      <extranote>Include yourself in the count</extranote>
       <defaultoption>1</defaultoption>
       <lowerbound>1</lowerbound>
       <upperbound>19</upperbound>
@@ -90,8 +92,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;input is lower limited to 1&lt;/li&gt;&lt;li&gt;input is upper limited to 19&lt;/li&gt;&lt;li&gt;the default is set to 1 (to count the person filling the survey)&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can "fly" over this item leaving the proposed default untouched (and the question not read) or select the "No answer" item.</content>
       <contentformat>1</contentformat>
-      <customnumber>3 info</customnumber>
       <indent>0</indent>
+      <customnumber>3 info</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -104,12 +106,13 @@
     <surveyprofield_integer>
       <content>&lt;p&gt;How many children do your parents have?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>3</customnumber>
-      <position>0</position>
-      <extranote>Include yourself in the count</extranote>
       <required>0</required>
-      <variable>integer_003</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>3</customnumber>
+      <hideinstructions>0</hideinstructions>
+      <variable>integer_003</variable>
+      <extranote>Include yourself in the count</extranote>
       <defaultoption>1</defaultoption>
       <defaultvalue>1</defaultvalue>
       <lowerbound>1</lowerbound>
@@ -125,8 +128,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;input is lower limited to 1&lt;/li&gt;&lt;li&gt;input is limited to at least 19&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value.&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is set to a not valid value so the user is forced to choose a different date or tick the "No answer" checkbox.</content>
       <contentformat>1</contentformat>
-      <customnumber>4 info</customnumber>
       <indent>0</indent>
+      <customnumber>4 info</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -139,12 +142,13 @@
     <surveyprofield_integer>
       <content>&lt;p&gt;How many children do your parents have?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>4</customnumber>
-      <position>0</position>
-      <extranote>Include yourself in the count</extranote>
       <required>0</required>
-      <variable>integer_004</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>4</customnumber>
+      <hideinstructions>0</hideinstructions>
+      <variable>integer_004</variable>
+      <extranote>Include yourself in the count</extranote>
       <defaultoption>2</defaultoption>
       <lowerbound>1</lowerbound>
       <upperbound>19</upperbound>
