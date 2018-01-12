@@ -502,7 +502,7 @@ EOS;
                 }
                 break;
             case SURVEYPROFIELD_CHARACTER_URLPATTERN:
-                if (!surveypro_character_validate_url($userinput)) {
+                if (!surveypro_character_validate_against_url($userinput)) {
                     $errors[$errorkey] = get_string('uerr_invalidurl', 'surveyprofield_character');
                 }
                 break;

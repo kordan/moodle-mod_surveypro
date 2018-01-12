@@ -1166,7 +1166,7 @@ class mod_surveypro_itemlist {
 
                 $a = new stdClass();
                 $a->parentid = $item->get_content();
-                $dependencies = array_keys($toreservelist);
+                $dependencies = array_keys($tohidelist);
                 array_shift($dependencies);
                 $a->dependencies = implode(', ', $dependencies);
                 if (count($dependencies) == 1) {
