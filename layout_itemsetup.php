@@ -98,7 +98,9 @@ $itemlistman->prevent_direct_user_input();
 require_once($CFG->dirroot.'/mod/surveypro/'.$itemlistman->get_type().'/'.$itemlistman->get_plugin().'/form/itemsetup_form.php');
 
 // Begin of: get item.
-$item = surveypro_get_item($cm, $surveypro, $itemid, $itemlistman->get_type(), $itemlistman->get_plugin(), true);
+$itemtype = $itemlistman->get_type();
+$itemplugin = $itemlistman->get_plugin();
+$item = surveypro_get_item($cm, $surveypro, $itemid, $itemtype, $itemplugin, true);
 $item->item_set_editor();
 // End of: get item.
 
@@ -111,7 +113,9 @@ $formurl = new moodle_url('/mod/surveypro/layout_itemsetup.php', $paramurl);
 $formparams = new stdClass();
 $formparams->item = $item; // Needed in many situations.
 $formparams->surveypro = $surveypro; // Needed to setup date boundaries in date fields.
-$itemform = new mod_surveypro_itemsetupform($formurl, $formparams);
+
+$classname = 'mod_surveypro_'.$itemplugin.'_setupform';
+$itemform = new $classname($formurl, $formparams);
 // End of: prepare params for the form.
 
 // Begin of: manage form submission.

@@ -35,7 +35,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/checkbox/lib.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_itemsetupform extends mod_surveypro_itembaseform {
+class mod_surveypro_checkbox_setupform extends mod_surveypro_itembaseform {
 
     /**
      * Definition.
