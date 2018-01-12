@@ -891,7 +891,7 @@ class mod_surveypro_itembase {
             <xs:sequence>
                 <xs:element name="hidden" type="xs:int"/>
                 <xs:element name="insearchform" type="xs:int"/>
-                <xs:element name="reserved" type="xs:int" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="reserved" type="xs:int"/>
                 <xs:element name="parentid" type="xs:int" minOccurs="0"/>
                 <xs:element name="parentvalue" type="xs:string" minOccurs="0"/>
             </xs:sequence>
