@@ -39,11 +39,11 @@
     <surveyprofield_boolean>
       <content>&lt;p&gt;Example with boolean item: Is this true or false?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>1</customnumber>
-      <position>0</position>
       <required>0</required>
-      <variable>boolean_001</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>1</customnumber>
+      <variable>boolean_001</variable>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
       <downloadformat>strfbool01</downloadformat>
@@ -65,20 +65,23 @@
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
-      <parentid>2</parentid>
-      <parentvalue>1</parentvalue>
+      <parent>
+        <parentid>2</parentid>
+        <parentvalue>1</parentvalue>
+      </parent>
     </surveypro_item>
     <surveyprofield_character>
       <content>&lt;p&gt;Enter you name&lt;/p&gt;&#13;
 &lt;p&gt;(Just a detail: I marked this question as mandatory question. The attribute is actually considered ONLY if the parent item allows his child otherwise the attribute is neglected).&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>1.a</customnumber>
-      <position>0</position>
-      <extranote>This item is allowed if the answer to its parent is TRUE</extranote>
       <required>0</required>
+      <indent>1</indent>
+      <position>0</position>
+      <customnumber>1.a</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>character_001</variable>
-      <indent>1</indent>
+      <extranote>This item is allowed if the answer to its parent is TRUE</extranote>
+      <trimonsave>1</trimonsave>
       <pattern>PATTERN_FREE</pattern>
       <minlength>0</minlength>
     </surveyprofield_character>
@@ -88,18 +91,21 @@
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
-      <parentid>2</parentid>
-      <parentvalue>0</parentvalue>
+      <parent>
+        <parentid>2</parentid>
+        <parentvalue>0</parentvalue>
+      </parent>
     </surveypro_item>
     <surveyprofield_integer>
       <content>&lt;p&gt;Number of friends you would like to invite to your next birthday party.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>1.b</customnumber>
-      <position>0</position>
-      <extranote>This item is allowed if the answer to its parent is FALSE</extranote>
       <required>0</required>
-      <variable>integer_001</variable>
       <indent>1</indent>
+      <position>0</position>
+      <customnumber>1.b</customnumber>
+      <hideinstructions>0</hideinstructions>
+      <variable>integer_001</variable>
+      <extranote>This item is allowed if the answer to its parent is FALSE</extranote>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
       <lowerbound>0</lowerbound>
@@ -128,12 +134,12 @@
     <surveyprofield_checkbox>
       <content>&lt;p&gt;Example with checkbox item: What do you always want to find on your desk in the office?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>2</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>2</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>checkbox_001</variable>
-      <indent>0</indent>
       <options>rubber
 pen
 pencil
@@ -159,19 +165,22 @@ A4 paper</options>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
-      <parentid>7</parentid>
-      <parentvalue>1;1;1;0</parentvalue>
+      <parent>
+        <parentid>7</parentid>
+        <parentvalue>1;1;1;0</parentvalue>
+      </parent>
     </surveypro_item>
     <surveyprofield_character>
       <content>&lt;p&gt;Write something.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>2.a</customnumber>
-      <position>0</position>
-      <extranote>child item displayed only if 'rubber &amp; pen &amp; pencil' is answered to the parent item</extranote>
       <required>0</required>
+      <indent>1</indent>
+      <position>0</position>
+      <customnumber>2.a</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>character_002</variable>
-      <indent>1</indent>
+      <extranote>child item displayed only if 'rubber &amp; pen &amp; pencil' is answered to the parent item</extranote>
+      <trimonsave>1</trimonsave>
       <pattern>PATTERN_FREE</pattern>
       <minlength>0</minlength>
     </surveyprofield_character>
@@ -181,20 +190,22 @@ A4 paper</options>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
-      <parentid>7</parentid>
-      <parentvalue>0;1;0;0</parentvalue>
+      <parent>
+        <parentid>7</parentid>
+        <parentvalue>0;1;0;0</parentvalue>
+      </parent>
     </surveypro_item>
     <surveyprofield_textarea>
       <content>&lt;p&gt;Please describe the best pen you have ever seen&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>2.b</customnumber>
-      <position>0</position>
-      <extranote>This item should be enabled if the answer to the parent item is "pen" ONLY but this is a missing funtionality as described in MDL-25067</extranote>
       <required>0</required>
-      <trimonsave>0</trimonsave>
+      <indent>1</indent>
+      <position>0</position>
+      <customnumber>2.b</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>textarea_001</variable>
-      <indent>1</indent>
+      <extranote>This item should be enabled if the answer to the parent item is "pen" ONLY but this is a missing funtionality as described in MDL-25067</extranote>
+      <trimonsave>0</trimonsave>
       <useeditor>1</useeditor>
       <arearows>10</arearows>
       <areacols>60</areacols>
@@ -210,11 +221,12 @@ A4 paper</options>
     <surveyprofield_integer>
       <content>&lt;p&gt;Example with numeric (small integer) item: Enter an integer value.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>3</customnumber>
-      <position>0</position>
       <required>0</required>
-      <variable>integer_002</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>3</customnumber>
+      <hideinstructions>0</hideinstructions>
+      <variable>integer_002</variable>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
       <lowerbound>0</lowerbound>
@@ -236,19 +248,22 @@ A4 paper</options>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
-      <parentid>11</parentid>
-      <parentvalue>11</parentvalue>
+      <parent>
+        <parentid>11</parentid>
+        <parentvalue>11</parentvalue>
+      </parent>
     </surveypro_item>
     <surveyprofield_character>
       <content>&lt;p&gt;Enter you name.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>3.a</customnumber>
-      <position>0</position>
-      <extranote>This item is enabled if the answer to the parent item is 11</extranote>
       <required>0</required>
+      <indent>1</indent>
+      <position>0</position>
+      <customnumber>3.a</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>character_003</variable>
-      <indent>1</indent>
+      <extranote>This item is enabled if the answer to the parent item is 11</extranote>
+      <trimonsave>1</trimonsave>
       <pattern>PATTERN_FREE</pattern>
       <minlength>0</minlength>
     </surveyprofield_character>
@@ -258,18 +273,21 @@ A4 paper</options>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
-      <parentid>11</parentid>
-      <parentvalue>22</parentvalue>
+      <parent>
+        <parentid>11</parentid>
+        <parentvalue>22</parentvalue>
+      </parent>
     </surveypro_item>
     <surveyprofield_integer>
       <content>&lt;p&gt;Number of friends you would like to invite to your next birthday party.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>3.b</customnumber>
-      <position>0</position>
-      <extranote>This item is enabled if the answer to the parent item is 22</extranote>
       <required>0</required>
-      <variable>integer_003</variable>
       <indent>1</indent>
+      <position>0</position>
+      <customnumber>3.b</customnumber>
+      <hideinstructions>0</hideinstructions>
+      <variable>integer_003</variable>
+      <extranote>This item is enabled if the answer to the parent item is 22</extranote>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
       <lowerbound>0</lowerbound>
@@ -285,12 +303,12 @@ A4 paper</options>
     <surveyprofield_multiselect>
       <content>&lt;p&gt;Example with multiselect item: What do you eat for breakfast? (click or shift-click to change the selection).&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>4</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>4</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>multiselect_001</variable>
-      <indent>0</indent>
       <options>b::bread
 m::milk
 j::jam
@@ -319,19 +337,21 @@ ham</defaultvalue>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
-      <parentid>15</parentid>
-      <parentvalue>3;0</parentvalue>
+      <parent>
+        <parentid>15</parentid>
+        <parentvalue>3;0</parentvalue>
+      </parent>
     </surveypro_item>
     <surveyprofield_numeric>
       <content>&lt;p&gt;You preferred room temperature?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>4.a</customnumber>
-      <position>0</position>
-      <extranote>This item is allowed when the answer to its parent is "ham bread"</extranote>
       <required>0</required>
+      <indent>1</indent>
+      <position>0</position>
+      <customnumber>4.a</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>numeric_001</variable>
-      <indent>1</indent>
+      <extranote>This item is allowed when the answer to its parent is "ham bread"</extranote>
       <defaultvalue>27.45</defaultvalue>
       <signed>0</signed>
       <decimals>2</decimals>
@@ -342,19 +362,21 @@ ham</defaultvalue>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
-      <parentid>15</parentid>
-      <parentvalue>2;3;4</parentvalue>
+      <parent>
+        <parentid>15</parentid>
+        <parentvalue>2;3;4</parentvalue>
+      </parent>
     </surveypro_item>
     <surveyprofield_date>
       <content>&lt;p&gt;Enter a full date.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>4.b</customnumber>
-      <position>0</position>
-      <extranote>This item is allowed when the answer to its parent is "jam ham tomatoes"</extranote>
       <required>0</required>
+      <indent>1</indent>
+      <position>0</position>
+      <customnumber>4.b</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>date_001</variable>
-      <indent>1</indent>
+      <extranote>This item is allowed when the answer to its parent is "jam ham tomatoes"</extranote>
       <defaultoption>2</defaultoption>
       <downloadformat>strftime01</downloadformat>
       <lowerbound>43200</lowerbound>
@@ -370,11 +392,11 @@ ham</defaultvalue>
     <surveyprofield_radiobutton>
       <content>&lt;p&gt;Example with radio button item: which countryside do you like more for your summer holidays?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>5</customnumber>
-      <position>0</position>
       <required>0</required>
-      <variable>radiobutton_001</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>5</customnumber>
+      <variable>radiobutton_001</variable>
       <options>Mountain
 Hill
 Sea
@@ -401,19 +423,21 @@ City</options>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
-      <parentid>19</parentid>
-      <parentvalue>3</parentvalue>
+      <parent>
+        <parentid>19</parentid>
+        <parentvalue>3</parentvalue>
+      </parent>
     </surveypro_item>
     <surveyprofield_shortdate>
       <content>&lt;p&gt;When did you buy your last car?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>5.a</customnumber>
-      <position>0</position>
-      <extranote>This item is allowed when the answer to its parent is "Lake" </extranote>
       <required>0</required>
+      <indent>1</indent>
+      <position>0</position>
+      <customnumber>5.a</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>shortdate_001</variable>
-      <indent>1</indent>
+      <extranote>This item is allowed when the answer to its parent is "Lake" </extranote>
       <defaultoption>2</defaultoption>
       <downloadformat>strftime01</downloadformat>
       <lowerbound>43200</lowerbound>
@@ -425,19 +449,21 @@ City</options>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
-      <parentid>19</parentid>
-      <parentvalue>0</parentvalue>
+      <parent>
+        <parentid>19</parentid>
+        <parentvalue>0</parentvalue>
+      </parent>
     </surveypro_item>
     <surveyprofield_rate>
       <content>&lt;p&gt;Order the following languages as you better can make use of them.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>5.b</customnumber>
-      <position>1</position>
-      <extranote>This item is allowed when the answer to its parent is "Mountain" </extranote>
       <required>0</required>
+      <indent>1</indent>
+      <position>1</position>
+      <customnumber>5.b</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>rate_001</variable>
-      <indent>1</indent>
+      <extranote>This item is allowed when the answer to its parent is "Mountain" </extranote>
       <options>English
 Greek
 Spanish
@@ -467,11 +493,11 @@ bad</defaultvalue>
     <surveyprofield_select>
       <content>&lt;p&gt;Example with select item: Indicate your preferred direction.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>6</customnumber>
-      <position>0</position>
       <required>0</required>
-      <variable>select_001</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>6</customnumber>
+      <variable>select_001</variable>
       <options>top
 bottom
 right
@@ -495,19 +521,21 @@ left</options>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
-      <parentid>23</parentid>
-      <parentvalue>1</parentvalue>
+      <parent>
+        <parentid>23</parentid>
+        <parentvalue>1</parentvalue>
+      </parent>
     </surveypro_item>
     <surveyprofield_age>
       <content>&lt;p&gt;How old were you when you first travelled alone?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>6.a</customnumber>
-      <position>0</position>
-      <extranote>This item is allowed If your answer to previous question was "bottom"</extranote>
       <required>0</required>
+      <indent>1</indent>
+      <position>0</position>
+      <customnumber>6.a</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>age_001</variable>
-      <indent>1</indent>
+      <extranote>This item is allowed If your answer to previous question was "bottom"</extranote>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
       <lowerbound>-2635200</lowerbound>
@@ -519,18 +547,20 @@ left</options>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
-      <parentid>23</parentid>
-      <parentvalue>0</parentvalue>
+      <parent>
+        <parentid>23</parentid>
+        <parentvalue>0</parentvalue>
+      </parent>
     </surveypro_item>
     <surveyprofield_fileupload>
       <content>&lt;p&gt;Please attach your curriculum vitae.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>6.b</customnumber>
-      <position>0</position>
-      <extranote>This item is allowed only by answering "Top" to its parent. I asked for the option to disable it in MDL-28194. That issue is still open but, in spite of this, the item can be disabled.</extranote>
       <required>0</required>
-      <variable>fileupload_001</variable>
       <indent>1</indent>
+      <position>0</position>
+      <customnumber>6.b</customnumber>
+      <variable>fileupload_001</variable>
+      <extranote>This item is allowed only by answering "Top" to its parent. I asked for the option to disable it in MDL-28194. That issue is still open but, in spite of this, the item can be disabled.</extranote>
       <maxfiles>1</maxfiles>
       <maxbytes>0</maxbytes>
       <filetypes>*</filetypes>

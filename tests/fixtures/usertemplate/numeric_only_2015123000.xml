@@ -22,8 +22,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory&lt;/li&gt;&lt;li&gt;default is set to 3.1&lt;/li&gt;&lt;li&gt;decimal positions set to 4&lt;/li&gt;&lt;li&gt;minimum value set to 3.1&lt;/li&gt;&lt;li&gt;maximum value set to 3.2&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read). </content>
       <contentformat>1</contentformat>
-      <customnumber>1 info</customnumber>
       <indent>0</indent>
+      <customnumber>1 info</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -36,12 +36,12 @@
     <surveyprofield_numeric>
       <content>&lt;p&gt;Write the best approximation of π you can remember.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>1</customnumber>
-      <position>0</position>
       <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>1</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>numeric_001</variable>
-      <indent>0</indent>
       <defaultvalue>3.1</defaultvalue>
       <signed>0</signed>
       <lowerbound>3.1</lowerbound>
@@ -58,8 +58,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory&lt;/li&gt;&lt;li&gt;default is set to 3.1&lt;/li&gt;&lt;li&gt;decimal positions set to 4&lt;/li&gt;&lt;li&gt;minimum value set to 3.1&lt;/li&gt;&lt;li&gt;maximum value set to 3.2&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read) or blank the field.</content>
       <contentformat>1</contentformat>
-      <customnumber>2 info</customnumber>
       <indent>0</indent>
+      <customnumber>2 info</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -72,12 +72,12 @@
     <surveyprofield_numeric>
       <content>&lt;p&gt;Write the best approximation of π you can remember.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>2</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>2</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>numeric_002</variable>
-      <indent>0</indent>
       <defaultvalue>3.1</defaultvalue>
       <signed>0</signed>
       <lowerbound>3.1</lowerbound>
@@ -94,8 +94,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory&lt;/li&gt;&lt;li&gt;default is not set&lt;/li&gt;&lt;li&gt;decimal positions set to 4&lt;/li&gt;&lt;li&gt;minimum value set to 3.1&lt;/li&gt;&lt;li&gt;maximum value set to 3.2&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory but the default is unset. The user will be forced to choose a value.</content>
       <contentformat>1</contentformat>
-      <customnumber>3 info</customnumber>
       <indent>0</indent>
+      <customnumber>3 info</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -108,12 +108,12 @@
     <surveyprofield_numeric>
       <content>&lt;p&gt;Write the best approximation of π you can remember.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>3</customnumber>
-      <position>0</position>
       <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>3</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>numeric_003</variable>
-      <indent>0</indent>
       <signed>0</signed>
       <lowerbound>3.1</lowerbound>
       <upperbound>3.2</upperbound>
@@ -129,8 +129,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory&lt;/li&gt;&lt;li&gt;default is not set&lt;/li&gt;&lt;li&gt;decimal positions set to 4&lt;/li&gt;&lt;li&gt;minimum value set to 3.1&lt;/li&gt;&lt;li&gt;maximum value set to 3.2&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read).</content>
       <contentformat>1</contentformat>
-      <customnumber>4 info</customnumber>
       <indent>0</indent>
+      <customnumber>4 info</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -143,12 +143,12 @@
     <surveyprofield_numeric>
       <content>&lt;p&gt;Write the best approximation of π you can remember.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>4</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>4</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>numeric_004</variable>
-      <indent>0</indent>
       <signed>0</signed>
       <lowerbound>3.1</lowerbound>
       <upperbound>3.2</upperbound>

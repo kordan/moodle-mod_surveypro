@@ -22,8 +22,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value&lt;/li&gt;&lt;li&gt;"option other" is not set&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a not valid value so the user is forced to choose a valid option or to select the "No answer" value.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>1 intro</customnumber>
       <indent>0</indent>
+      <customnumber>1 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -36,11 +36,11 @@
     <surveyprofield_select>
       <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>1</customnumber>
-      <position>0</position>
       <required>0</required>
-      <variable>select_001</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>1</customnumber>
+      <variable>select_001</variable>
       <options>sea
 mountain
 lake
@@ -59,8 +59,8 @@ desert</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value&lt;/li&gt;&lt;li&gt;"option other" is not set&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a not valid value so the user is forced to choose a valid option or to select the "No answer" value.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>2 intro</customnumber>
       <indent>0</indent>
+      <customnumber>2 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -73,11 +73,11 @@ desert</options>
     <surveyprofield_select>
       <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>2</customnumber>
-      <position>0</position>
       <required>1</required>
-      <variable>select_002</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>2</customnumber>
+      <variable>select_002</variable>
       <options>sea
 mountain
 lake
@@ -96,8 +96,8 @@ desert</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;the default is set to "No answer"&lt;/li&gt;&lt;li&gt;"option other" is not set&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a not valid value so the user is forced to choose a valid option or to select the "No answer" value.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>3 intro</customnumber>
       <indent>0</indent>
+      <customnumber>3 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -110,11 +110,11 @@ desert</options>
     <surveyprofield_select>
       <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>3</customnumber>
-      <position>0</position>
       <required>0</required>
-      <variable>select_003</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>3</customnumber>
+      <variable>select_003</variable>
       <options>sea
 mountain
 lake
@@ -133,8 +133,8 @@ desert</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;the default is set to a valid value&lt;/li&gt;&lt;li&gt;"option other" is not set&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>4 intro</customnumber>
       <indent>0</indent>
+      <customnumber>4 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -147,11 +147,11 @@ desert</options>
     <surveyprofield_select>
       <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>4</customnumber>
-      <position>0</position>
       <required>0</required>
-      <variable>select_004</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>4</customnumber>
+      <variable>select_004</variable>
       <options>sea
 mountain
 lake
@@ -171,8 +171,8 @@ desert</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default is set to a valid value&lt;/li&gt;&lt;li&gt;"option other" is not set&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>5 intro</customnumber>
       <indent>0</indent>
+      <customnumber>5 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -185,11 +185,11 @@ desert</options>
     <surveyprofield_select>
       <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>5</customnumber>
-      <position>0</position>
       <required>1</required>
-      <variable>select_005</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>5</customnumber>
+      <variable>select_005</variable>
       <options>sea
 mountain
 lake
@@ -209,8 +209,8 @@ desert</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value&lt;/li&gt;&lt;li&gt;"option other" is set to "other, please specify"&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a not valid value so the user is forced to choose a valid option or to select the "No answer" value.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>6 intro</customnumber>
       <indent>0</indent>
+      <customnumber>6 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -223,11 +223,11 @@ desert</options>
     <surveyprofield_select>
       <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>6</customnumber>
-      <position>0</position>
       <required>0</required>
-      <variable>select_006</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>6</customnumber>
+      <variable>select_006</variable>
       <options>sea
 mountain
 lake
@@ -247,8 +247,8 @@ desert</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value&lt;/li&gt;&lt;li&gt;"option other" is set to "other, please specify"&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to a not valid value so the user is forced to choose a valid option.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>7 intro</customnumber>
       <indent>0</indent>
+      <customnumber>7 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -261,11 +261,11 @@ desert</options>
     <surveyprofield_select>
       <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>7</customnumber>
-      <position>0</position>
       <required>1</required>
-      <variable>select_007</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>7</customnumber>
+      <variable>select_007</variable>
       <options>sea
 mountain
 lake
@@ -285,8 +285,8 @@ desert</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;the default is set to "No answer"&lt;/li&gt;&lt;li&gt;"option other" is set to "other, please specify"&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>8 intro</customnumber>
       <indent>0</indent>
+      <customnumber>8 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -299,11 +299,11 @@ desert</options>
     <surveyprofield_select>
       <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>8</customnumber>
-      <position>0</position>
       <required>0</required>
-      <variable>select_008</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>8</customnumber>
+      <variable>select_008</variable>
       <options>sea
 mountain
 lake
@@ -323,8 +323,8 @@ desert</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;the default is set to a valid value&lt;/li&gt;&lt;li&gt;"option other" is set to "other, please specify"&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>9 intro</customnumber>
       <indent>0</indent>
+      <customnumber>9 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -337,11 +337,11 @@ desert</options>
     <surveyprofield_select>
       <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>9</customnumber>
-      <position>0</position>
       <required>0</required>
-      <variable>select_009</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>9</customnumber>
+      <variable>select_009</variable>
       <options>sea
 mountain
 lake
@@ -362,8 +362,8 @@ desert</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default is set to a valid value&lt;/li&gt;&lt;li&gt;"option other" is set to "other, please specify"&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>10 intro</customnumber>
       <indent>0</indent>
+      <customnumber>10 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -376,11 +376,11 @@ desert</options>
     <surveyprofield_select>
       <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>10</customnumber>
-      <position>0</position>
       <required>1</required>
-      <variable>select_010</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>10</customnumber>
+      <variable>select_010</variable>
       <options>sea
 mountain
 lake
@@ -401,8 +401,8 @@ desert</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default is set to a valid value&lt;/li&gt;&lt;li&gt;"option other" is set to "other, please specify" and has a default&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>11 intro</customnumber>
       <indent>0</indent>
+      <customnumber>11 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -415,11 +415,11 @@ desert</options>
     <surveyprofield_select>
       <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>11</customnumber>
-      <position>0</position>
       <required>1</required>
-      <variable>select_011</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>11</customnumber>
+      <variable>select_011</variable>
       <options>sea
 mountain
 lake
@@ -440,8 +440,8 @@ desert</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default is set to the label of the "option other"&lt;/li&gt;&lt;li&gt;"option other" is set to "other, please specify"&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>12 intro</customnumber>
       <indent>0</indent>
+      <customnumber>12 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -454,11 +454,11 @@ desert</options>
     <surveyprofield_select>
       <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>12</customnumber>
-      <position>0</position>
       <required>1</required>
-      <variable>select_012</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>12</customnumber>
+      <variable>select_012</variable>
       <options>sea
 mountain
 lake
@@ -479,8 +479,8 @@ desert</options>
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default is set to the label of "option other"&lt;/li&gt;&lt;li&gt;custom value is not set&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to an invalid value so the user is forced to choose a valid option or to write a custom value.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>13 intro</customnumber>
       <indent>0</indent>
+      <customnumber>13 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -493,11 +493,11 @@ desert</options>
     <surveyprofield_select>
       <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>13</customnumber>
-      <position>0</position>
       <required>1</required>
-      <variable>select_013</variable>
       <indent>0</indent>
+      <position>0</position>
+      <customnumber>13</customnumber>
+      <variable>select_013</variable>
       <options>sea
 mountain
 lake

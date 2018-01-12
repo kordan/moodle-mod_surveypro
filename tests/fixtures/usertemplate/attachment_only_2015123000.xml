@@ -22,10 +22,10 @@
     <surveyprofield_fileupload>
       <content>&lt;p&gt;Upload your CV, please.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>0</required>
-      <variable>fileupload_001</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>fileupload_001</variable>
       <maxfiles>1</maxfiles>
       <maxbytes>0</maxbytes>
       <filetypes>.pdf, .docx</filetypes>
@@ -40,10 +40,10 @@
     <surveyprofield_fileupload>
       <content>&lt;p&gt;Please, upload the menu of the next week using a specific file per each working day.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <position>0</position>
       <required>0</required>
-      <variable>fileupload_002</variable>
       <indent>0</indent>
+      <position>0</position>
+      <variable>fileupload_002</variable>
       <maxfiles>5</maxfiles>
       <maxbytes>512000</maxbytes>
       <filetypes>.pdf</filetypes>

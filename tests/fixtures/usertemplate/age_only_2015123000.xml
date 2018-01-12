@@ -22,8 +22,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;an age has been defined as default&lt;/li&gt;&lt;li&gt;user answer is limited only by module level age limit&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read) or tick the "No answer" checkbox.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>1 intro</customnumber>
       <indent>0</indent>
+      <customnumber>1 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -36,12 +36,12 @@
     <surveyprofield_age>
       <content>&lt;p&gt;How old are you?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>1</customnumber>
-      <position>0</position>
       <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>1</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>age_001</variable>
-      <indent>0</indent>
       <defaultoption>1</defaultoption>
       <defaultvalue>-1186056000</defaultvalue>
       <lowerbound>-2148552000</lowerbound>
@@ -57,8 +57,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value&lt;/li&gt;&lt;li&gt;user answer is limited only by module level age limit&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to an invalid value so the user is forced to choose a valid option.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>2 intro</customnumber>
       <indent>0</indent>
+      <customnumber>2 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -71,12 +71,12 @@
     <surveyprofield_age>
       <content>&lt;p&gt;How old are you?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>2</customnumber>
-      <position>0</position>
       <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>2</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>age_002</variable>
-      <indent>0</indent>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
       <lowerbound>-2148552000</lowerbound>
@@ -92,8 +92,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;"Yes" is the default&lt;/li&gt;&lt;li&gt;user answer is limited only by module level age limit&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>3 intro</customnumber>
       <indent>0</indent>
+      <customnumber>3 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -106,12 +106,12 @@
     <surveyprofield_age>
       <content>&lt;p&gt;How old are you?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>3</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>3</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>age_003</variable>
-      <indent>0</indent>
       <defaultoption>1</defaultoption>
       <defaultvalue>-1033560000</defaultvalue>
       <lowerbound>-2148552000</lowerbound>
@@ -127,8 +127,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;Choose...&quot; is the default&lt;/li&gt;&lt;li&gt;user answer is limited only by module level age limit&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory but the default is set to an invalid value so the user will be forced to select an age corresponding to his/her answer. Being the item not required, the user can choose as answer: &quot;No answer&quot;.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>4 intro</customnumber>
       <indent>0</indent>
+      <customnumber>4 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -141,12 +141,12 @@
     <surveyprofield_age>
       <content>&lt;p&gt;How old are you?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>4</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>4</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>age_004</variable>
-      <indent>0</indent>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
       <lowerbound>-2148552000</lowerbound>
@@ -162,8 +162,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;No answer&quot; is the default&lt;/li&gt;&lt;li&gt;user answer is limited only by module level age limit&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can &quot;fly&quot; over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>5 intro</customnumber>
       <indent>0</indent>
+      <customnumber>5 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -176,12 +176,12 @@
     <surveyprofield_age>
       <content>&lt;p&gt;How old are you?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>5</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>5</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>age_005</variable>
-      <indent>0</indent>
       <defaultoption>3</defaultoption>
       <lowerbound>-2148552000</lowerbound>
       <upperbound>1193918400</upperbound>
@@ -196,8 +196,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default is set to a valid value&lt;/li&gt;&lt;li&gt;user answer is limited between 20 and 40&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>6 intro</customnumber>
       <indent>0</indent>
+      <customnumber>6 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -210,12 +210,12 @@
     <surveyprofield_age>
       <content>&lt;p&gt;How old are you?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>6</customnumber>
-      <position>0</position>
       <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>6</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>age_006</variable>
-      <indent>0</indent>
       <defaultoption>1</defaultoption>
       <defaultvalue>-1186056000</defaultvalue>
       <lowerbound>-1517400000</lowerbound>
@@ -231,8 +231,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value&lt;/li&gt;&lt;li&gt;user answer is limited between 12 years and half and 18&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to an invalid value so the user is forced to choose a valid option.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>7 intro</customnumber>
       <indent>0</indent>
+      <customnumber>7 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -245,12 +245,12 @@
     <surveyprofield_age>
       <content>&lt;p&gt;How old are you?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>7</customnumber>
-      <position>0</position>
       <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>7</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>age_007</variable>
-      <indent>0</indent>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
       <lowerbound>-1754136000</lowerbound>
@@ -266,8 +266,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;"Yes" is the default&lt;/li&gt;&lt;li&gt;user answer is limited over 18&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>8 intro</customnumber>
       <indent>0</indent>
+      <customnumber>8 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -280,12 +280,12 @@
     <surveyprofield_age>
       <content>&lt;p&gt;How old are you?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>8</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>8</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>age_008</variable>
-      <indent>0</indent>
       <defaultoption>1</defaultoption>
       <defaultvalue>-1033560000</defaultvalue>
       <lowerbound>-1580558400</lowerbound>
@@ -301,8 +301,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;Choose...&quot; is the default&lt;/li&gt;&lt;li&gt;user answer is limited between 0 and 3 months&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory but the default is set to an invalid value so the user will be forced to select an age corresponding to his/her answer. Being the item not required, the user can choose as answer: &quot;No answer&quot;.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>9 intro</customnumber>
       <indent>0</indent>
+      <customnumber>9 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -315,12 +315,12 @@
     <surveyprofield_age>
       <content>&lt;p&gt;How old are you?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>9</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>9</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>age_009</variable>
-      <indent>0</indent>
       <defaultoption>2</defaultoption>
       <defaultvalue>-1</defaultvalue>
       <lowerbound>-2148552000</lowerbound>
@@ -336,8 +336,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;No answer&quot; is the default&lt;/li&gt;&lt;li&gt;user answer is limited between 18 and 65&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can &quot;fly&quot; over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>10 intro</customnumber>
       <indent>0</indent>
+      <customnumber>10 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -350,12 +350,12 @@
     <surveyprofield_age>
       <content>&lt;p&gt;How old are you?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>10</customnumber>
-      <position>0</position>
       <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>10</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>age_010</variable>
-      <indent>0</indent>
       <defaultoption>3</defaultoption>
       <lowerbound>-1580558400</lowerbound>
       <upperbound>-97329600</upperbound>

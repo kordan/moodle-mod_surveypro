@@ -320,11 +320,18 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
                 if ($field == 'parentid') {
                     $parentid = $item->get_parentid();
                     if ($parentid) {
+                        // Store the sortindex of the parent instead of its id, because at restore time parentid will change.
                         $whereparams = array('id' => $parentid);
-                        // I store sortindex instead of parentid, because at restore time parent id will change.
-                        $val = $DB->get_field('surveypro_item', 'sortindex', $whereparams);
-                        $xmlfield = $xmltable->addChild($field, $val);
+                        $sortindex = $DB->get_field('surveypro_item', 'sortindex', $whereparams, MUST_EXIST);
+                        $val = $item->get_parentvalue();
+
+                        $xmlparent = $xmltable->addChild('parent');
+                        $xmlfield = $xmlparent->addChild('parentid', $sortindex);
+                        $xmlfield = $xmlparent->addChild('parentvalue', $val);
                     } // Otherwise: It is empty, do not evaluate: jump.
+                    continue;
+                }
+                if ($field == 'parentvalue') {
                     continue;
                 }
 
@@ -540,6 +547,19 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
                 foreach ($xmltable->children() as $xmlfield) {
                     $fieldname = $xmlfield->getName();
 
+                    // Tag <parent> always belong to surveypro_item table
+                    if ($fieldname == 'parent') {
+                        // echo '<h5>Count of attributes of the field '.$fieldname.': '.count($xmlfield->children()).'</h5>';
+                        foreach ($xmlfield->children() as $xmlparentattribute) {
+                            $fieldname = $xmlparentattribute->getName();
+                            $fieldexists = in_array($fieldname, $currenttablestructure);
+                            if ($fieldexists) {
+                                $record->{$fieldname} = (string)$xmlparentattribute;
+                            }
+                        }
+                        continue;
+                    }
+
                     // Tag <embedded> always belong to surveypro(field|format)_<<plugin>> table.
                     // So: ($fieldname == 'embedded') only when surveypro_item has already been saved.
                     // So: $itemid is known.
@@ -567,11 +587,12 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
                         $filerecord->filepath = '/';
                         $filerecord->filename = $filename;
                         $fileinfo = $fs->create_file_from_string($filerecord, $filecontent);
-                    } else {
-                        $fieldexists = in_array($fieldname, $currenttablestructure);
-                        if ($fieldexists) {
-                            $record->{$fieldname} = (string)$xmlfield;
-                        }
+                        continue;
+                    }
+
+                    $fieldexists = in_array($fieldname, $currenttablestructure);
+                    if ($fieldexists) {
+                        $record->{$fieldname} = (string)$xmlfield;
                     }
                 }
 

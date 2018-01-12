@@ -22,8 +22,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory&lt;br /&gt;&lt;/li&gt;&lt;li&gt;use html editor&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the user is supposed to enter a text.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>1 intro</customnumber>
       <indent>0</indent>
+      <customnumber>1 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -36,13 +36,13 @@
     <surveyprofield_textarea>
       <content>Write a short description of yourself</content>
       <contentformat>1</contentformat>
-      <customnumber>1</customnumber>
-      <position>0</position>
       <required>1</required>
-      <trimonsave>0</trimonsave>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>1</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>textarea_001</variable>
-      <indent>0</indent>
+      <trimonsave>0</trimonsave>
       <useeditor>1</useeditor>
       <arearows>10</arearows>
       <areacols>60</areacols>
@@ -58,8 +58,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory&lt;br /&gt;&lt;/li&gt;&lt;li&gt;use html editor&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the user is supposed to enter a text or to leave the textarea blank.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>2 intro</customnumber>
       <indent>0</indent>
+      <customnumber>2 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -72,13 +72,13 @@
     <surveyprofield_textarea>
       <content>Write a short description of yourself</content>
       <contentformat>1</contentformat>
-      <customnumber>2</customnumber>
-      <position>0</position>
       <required>0</required>
-      <trimonsave>0</trimonsave>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>2</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>textarea_002</variable>
-      <indent>0</indent>
+      <trimonsave>0</trimonsave>
       <useeditor>1</useeditor>
       <arearows>10</arearows>
       <areacols>60</areacols>
@@ -94,8 +94,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;mandatory&lt;br /&gt;&lt;/li&gt;&lt;li&gt;use simple text area&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the user is supposed to enter a text.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>3 intro</customnumber>
       <indent>0</indent>
+      <customnumber>3 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -108,13 +108,13 @@
     <surveyprofield_textarea>
       <content>Write a short description of yourself</content>
       <contentformat>1</contentformat>
-      <customnumber>3</customnumber>
-      <position>0</position>
       <required>1</required>
-      <trimonsave>0</trimonsave>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>3</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>textarea_003</variable>
-      <indent>0</indent>
+      <trimonsave>0</trimonsave>
       <useeditor>0</useeditor>
       <arearows>10</arearows>
       <areacols>60</areacols>
@@ -130,8 +130,8 @@
     <surveyproformat_label>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory&lt;br /&gt;&lt;/li&gt;&lt;li&gt;use simple text area&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the user is supposed to enter a text or to leave the textarea blank.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
-      <customnumber>4 intro</customnumber>
       <indent>0</indent>
+      <customnumber>4 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
@@ -144,13 +144,13 @@
     <surveyprofield_textarea>
       <content>Write a short description of yourself</content>
       <contentformat>1</contentformat>
-      <customnumber>4</customnumber>
-      <position>0</position>
       <required>0</required>
-      <trimonsave>0</trimonsave>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>4</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>textarea_004</variable>
-      <indent>0</indent>
+      <trimonsave>0</trimonsave>
       <useeditor>0</useeditor>
       <arearows>10</arearows>
       <areacols>60</areacols>
