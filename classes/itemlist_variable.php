@@ -67,7 +67,9 @@ class mod_surveypro_itemlist_variable extends \core\output\inplace_editable {
         $record->plugin = $itemrecord->plugin;
 
         $item->item_validate_variablename($record, $itemid);
+
         $tablename = 'surveypro'.$itemrecord->type.'_'.$itemrecord->plugin;
+        $newvarname = $record->variable;
         $DB->set_field($tablename, 'variable', $newvarname, array('itemid' => $itemid));
 
         return new static($itemid, $newvarname);
