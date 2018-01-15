@@ -509,15 +509,17 @@ class mod_surveypro_itembase {
             return;
         }
 
-        // Verify variable was set. If not, set it.
+        // Verify variable was set. If not, set $testname starting from the plugin name.
         if (!isset($record->variable) || empty($record->variable)) {
-            $testname = $this->plugin.'_001';
+            $basename = $this->plugin.'_001';
         } else {
-            $testname = $record->variable;
+            $basename = $record->variable;
         }
-        // Bloody Editing Teachers were creating a boolean element naming it 'age_001'
+        $testname = $basename;
+
+        // Bloody Editing Teachers can create a boolean element, for instance, naming it 'age_001'
         // having an age element named 'age_001' already onboard!
-        // Before paying a killer, I need to make as much queries as the number of used plugins in my surveypro!
+        // Because of this I need to make as much queries as the number of used plugins in my surveypro!
 
         // Get the list of used plugin.
         $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
@@ -539,7 +541,7 @@ class mod_surveypro_itembase {
         $i = 0; // If name is duplicate, restart validation from 1.
         while (in_array($testname, $usednames)) {
             $i++;
-            $testname = $record->plugin.'_'.str_pad($i, 3, '0', STR_PAD_LEFT);
+            $testname = $basename.'_'.str_pad($i, 3, '0', STR_PAD_LEFT);
         }
 
         $record->variable = $testname;
