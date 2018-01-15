@@ -51,18 +51,32 @@ class mod_surveypro_usertemplate_name extends \core\output\inplace_editable {
     public static function update($xmlfileid, $newtemplatename) {
         global $DB;
 
-        $fs = get_file_storage();
-        $xmlfile = $fs->get_file_by_id($xmlfileid);
-        $filepath = $xmlfile->get_filepath();
-        $oldtemplatename = $xmlfile->get_filename();
-        if ( ($newtemplatename != $oldtemplatename) && (strlen($newtemplatename) > 0) ) {
-            $xmlfile->rename($filepath, $newtemplatename);
+        $newtemplatename = clean_param($newtemplatename, PARAM_FILE);
+
+        if (strlen($newtemplatename) > 0) {
+            $fs = get_file_storage();
+            $xmlfile = $fs->get_file_by_id($xmlfileid);
+
+            $contextid = $xmlfile->get_contextid();
+            $component = 'mod_surveypro';
+            $filearea = SURVEYPRO_TEMPLATEFILEAREA;
+            $filepath = $xmlfile->get_filepath();
+
+            if (!$fs->file_exists($contextid, $component, $filearea, 0, $filepath, $newtemplatename)) {
+                $xmlfile->rename($filepath, $newtemplatename);
+                $givenname = $newtemplatename;
+            } else {
+                // A file with $newtemplatename already exists.
+                // Give up.
+                $oldtemplatename = $xmlfile->get_filename();
+                $givenname = $oldtemplatename;
+            }
         }
 
         $filerecord = $DB->get_record('files', array('id' => $xmlfileid), 'id, contextid', MUST_EXIST);
         $context = \context::instance_by_id($filerecord->contextid);
         \external_api::validate_context($context);
 
-        return new static($xmlfileid, $newtemplatename);
+        return new static($xmlfileid, $givenname);
     }
 }
