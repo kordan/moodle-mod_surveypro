@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * Class to prepare an item variable for display and in-place editing
  *
@@ -85,7 +87,8 @@ class mod_surveypro_itemlist_reserved extends \core\output\inplace_editable {
     public static function update($itemid, $newreserved) {
         global $DB;
 
-        $itemrecord = $DB->get_record('surveypro_item', array('id' => $itemid), 'id, surveyproid, type, plugin, sortindex', MUST_EXIST);
+        $fields = 'id, surveyproid, type, plugin, sortindex';
+        $itemrecord = $DB->get_record('surveypro_item', array('id' => $itemid), $fields, MUST_EXIST);
         $surveypro = $DB->get_record('surveypro', array('id' => $itemrecord->surveyproid), '*', MUST_EXIST);
         $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
         $context = context_module::instance($cm->id);

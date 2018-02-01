@@ -331,7 +331,10 @@ class surveyprofield_date_field extends mod_surveypro_itembase {
         $fieldlist = $this->item_get_composite_fields();
         foreach ($fieldlist as $field) {
             if (isset($record->{$field.'year'}) && isset($record->{$field.'month'}) && isset($record->{$field.'day'})) {
-                $record->{$field} = $this->item_date_to_unix_time($record->{$field.'year'}, $record->{$field.'month'}, $record->{$field.'day'});
+                $year = $record->{$field.'year'};
+                $month = $record->{$field.'month'};
+                $day = $record->{$field.'day'};
+                $record->{$field} = $this->item_date_to_unix_time($year, $month, $day);
                 unset($record->{$field.'year'});
                 unset($record->{$field.'month'});
                 unset($record->{$field.'day'});
@@ -636,22 +639,25 @@ EOS;
 
         $errorkey = $this->itemname.'_group';
 
+        $userday = $data[$this->itemname.'_day'];
+        $usermonth = $data[$this->itemname.'_month'];
+        $useryear = $data[$this->itemname.'_year'];
+
         // Begin of: verify the content of each drop down menu.
+        $testpassed = true;
         if (!$searchform) {
-            $testpassed = true;
-            $testpassed = $testpassed && ($data[$this->itemname.'_day'] != SURVEYPRO_INVITEVALUE);
-            $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_INVITEVALUE);
-            $testpassed = $testpassed && ($data[$this->itemname.'_year'] != SURVEYPRO_INVITEVALUE);
+            $testpassed = $testpassed && ($userday != SURVEYPRO_INVITEVALUE);
+            $testpassed = $testpassed && ($usermonth != SURVEYPRO_INVITEVALUE);
+            $testpassed = $testpassed && ($useryear != SURVEYPRO_INVITEVALUE);
         } else {
             // All three drop down menues are allowed to be == SURVEYPRO_IGNOREMEVALUE.
             // But not only 2 or 1.
-            $testpassed = true;
-            if ($data[$this->itemname.'_day'] == SURVEYPRO_IGNOREMEVALUE) {
-                $testpassed = $testpassed && ($data[$this->itemname.'_month'] == SURVEYPRO_IGNOREMEVALUE);
-                $testpassed = $testpassed && ($data[$this->itemname.'_year'] == SURVEYPRO_IGNOREMEVALUE);
+            if ($userday == SURVEYPRO_IGNOREMEVALUE) {
+                $testpassed = $testpassed && ($usermonth == SURVEYPRO_IGNOREMEVALUE);
+                $testpassed = $testpassed && ($useryear == SURVEYPRO_IGNOREMEVALUE);
             } else {
-                $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_IGNOREMEVALUE);
-                $testpassed = $testpassed && ($data[$this->itemname.'_year'] != SURVEYPRO_IGNOREMEVALUE);
+                $testpassed = $testpassed && ($usermonth != SURVEYPRO_IGNOREMEVALUE);
+                $testpassed = $testpassed && ($useryear != SURVEYPRO_IGNOREMEVALUE);
             }
         }
         if (!$testpassed) {
@@ -665,7 +671,7 @@ EOS;
         }
         // End of: verify the content of each drop down menu.
 
-        if (!mod_surveypro_utility_useritem::date_is_valid($data[$this->itemname.'_day'], $data[$this->itemname.'_month'], $data[$this->itemname.'_year'])) {
+        if (!mod_surveypro_utility_useritem::date_is_valid($userday, $usermonth, $useryear)) {
             $errors[$errorkey] = get_string('ierr_invalidinput', 'mod_surveypro');
             return;
         }
@@ -678,7 +684,7 @@ EOS;
         $haslowerbound = ($this->lowerbound != $this->item_date_to_unix_time($this->surveypro->startyear, 1, 1));
         $hasupperbound = ($this->upperbound != $this->item_date_to_unix_time($this->surveypro->stopyear, 12, 31));
 
-        $userinput = $this->item_date_to_unix_time($data[$this->itemname.'_year'], $data[$this->itemname.'_month'], $data[$this->itemname.'_day']);
+        $userinput = $this->item_date_to_unix_time($useryear, $usermonth, userday);
 
         if ($haslowerbound && $hasupperbound) {
             // Internal range.
