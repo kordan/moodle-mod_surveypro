@@ -49,6 +49,7 @@ class mod_surveypro_exportform extends moodleform {
         $surveypro = $this->_customdata->surveypro;
         $activityisgrouped = $this->_customdata->activityisgrouped;
         $context = $this->_customdata->context;
+        $attachmentshere = $this->_customdata->attachmentshere;
 
         // Submissionexport: settingsheader.
         $mform->addElement('header', 'settingsheader', get_string('download'));
@@ -120,8 +121,10 @@ class mod_surveypro_exportform extends moodleform {
         $pluginlist[SURVEYPRO_DOWNLOADCSV] = get_string('downloadtocsv', 'mod_surveypro');
         $pluginlist[SURVEYPRO_DOWNLOADTSV] = get_string('downloadtotsv', 'mod_surveypro');
         $pluginlist[SURVEYPRO_DOWNLOADXLS] = get_string('downloadtoxls', 'mod_surveypro');
-        $pluginlist[SURVEYPRO_FILESBYUSER] = get_string('downloadtozipbyuser', 'mod_surveypro');
-        $pluginlist[SURVEYPRO_FILESBYITEM] = get_string('downloadtozipbysubmission', 'mod_surveypro');
+        if ($attachmentshere) {
+            $pluginlist[SURVEYPRO_FILESBYUSER] = get_string('downloadtozipbyuser', 'mod_surveypro');
+            $pluginlist[SURVEYPRO_FILESBYITEM] = get_string('downloadtozipbysubmission', 'mod_surveypro');
+        }
         $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $pluginlist);
 
         // Submissionexport: outputstyle.
