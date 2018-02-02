@@ -325,7 +325,7 @@ function surveypro_add_instance($surveypro, $mform) {
     $editoroptions = surveypro_get_editor_options();
     if ($draftitemid = $surveypro->thankshtml_editor['itemid']) {
         $surveypro->thankshtml = file_save_draft_area_files($draftitemid, $context->id, 'mod_surveypro',
-                SURVEYPRO_THANKSHTMLFILEAREA, $surveypro->id, $editoroptions, $surveypro->thankshtml_editor['text']);
+                SURVEYPRO_THANKSHTMLFILEAREA, 0, $editoroptions, $surveypro->thankshtml_editor['text']);
         $surveypro->thankshtmlformat = $surveypro->thankshtml_editor['format'];
         $DB->update_record('surveypro', $surveypro);
     }
@@ -373,7 +373,7 @@ function surveypro_update_instance($surveypro, $mform) {
     $editoroptions = surveypro_get_editor_options();
     if ($draftitemid = $surveypro->thankshtml_editor['itemid']) {
         $surveypro->thankshtml = file_save_draft_area_files($draftitemid, $context->id, 'mod_surveypro',
-                SURVEYPRO_THANKSHTMLFILEAREA, $surveypro->id, $editoroptions, $surveypro->thankshtml_editor['text']);
+                SURVEYPRO_THANKSHTMLFILEAREA, 0, $editoroptions, $surveypro->thankshtml_editor['text']);
         $surveypro->thankshtmlformat = $surveypro->thankshtml_editor['format'];
         $DB->update_record('surveypro', $surveypro);
     }
@@ -737,66 +737,26 @@ function surveypro_get_file_areas($course, $cm, $context) {
  * @return void this should never return to the caller
  */
 function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload) {
-    global $CFG;
+    global $DB;
 
-    $debug = false;
-    if ($debug) {
-        $debugfile = $CFG->dataroot.'/debug_'.date("m.d.y_H:i:s").'.txt';
-
-        $debughandle = fopen($debugfile, 'w');
-        fwrite($debughandle, 'Executing code in line '.__LINE__.' of '.__FILE__."\n");
-        fwrite($debughandle, '$course'."\n");
-        foreach ($course as $k => $v) {
-            fwrite($debughandle, '$args['.$k.'] = '.$v."\n");
-        }
-
-        fwrite($debughandle, "\n".'$cm'."\n");
-        foreach ($cm as $k => $v) {
-            fwrite($debughandle, '$args['.$k.'] = '.$v."\n");
-        }
-
-        fwrite($debughandle, "\n".'$context'."\n");
-        foreach ($context as $k => $v) {
-            fwrite($debughandle, '$args['.$k.'] = '.$v."\n");
-        }
-
-        fwrite($debughandle, "\n".'$filearea = '.$filearea."\n");
-
-        fwrite($debughandle, "\n".'$args'."\n");
-        foreach ($args as $k => $v) {
-            fwrite($debughandle, '$args['.$k.'] = '.$v."\n");
-        }
-
-        fwrite($debughandle, "\n".'$forcedownload = '.$forcedownload."\n");
-    }
-
-    $itemid = (int)array_shift($args);
-    if ($debug) {
-        fwrite($debughandle, "\n".'$itemid = '.$itemid."\n");
-    }
-
-    $relativepath = implode('/', $args);
-    if ($debug) {
-        fwrite($debughandle, "\n".'$relativepath = '.$relativepath."\n");
+    require_login($course, true, $cm);
+    if (!$surveypro = $DB->get_record('surveypro', array('id' => $cm->instance))) {
+        send_file_not_found();
     }
 
     $fs = get_file_storage();
 
+    // For toplevelfileareas $args come without itemid, just the path.
+    // Other fileareas come with both itemid and path.
+    $toplevelfilearea = ($filearea == SURVEYPRO_THANKSHTMLFILEAREA);
+    $toplevelfilearea = $toplevelfilearea || ($filearea == SURVEYPRO_STYLEFILEAREA);
+    $toplevelfilearea = $toplevelfilearea || ($filearea == SURVEYPRO_TEMPLATEFILEAREA);
+    $itemid = ($toplevelfilearea) ? 0 : (int)array_shift($args);
+    $relativepath = implode('/', $args);
     $fullpath = "/$context->id/mod_surveypro/$filearea/$itemid/$relativepath";
-    if ($debug) {
-        fwrite($debughandle, "\n".'$fullpath = '.$fullpath."\n");
-    }
 
     if (!$file = $fs->get_file_by_hash(sha1($fullpath)) or $file->is_directory()) {
-        if ($debug) {
-            fwrite($debughandle, "\n".'$file has problems: I would return false'."\n");
-        } else {
-            return false;
-        }
-    }
-
-    if ($debug) {
-        fclose($debughandle);
+        send_file_not_found();
     }
 
     // Finally send the file.
@@ -815,7 +775,7 @@ function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
  * @return void
  */
 function surveypro_extend_settings_navigation(settings_navigation $settings, navigation_node $navref) {
-    global $CFG, $PAGE, $DB;
+    global $PAGE, $DB;
 
     if (!$cm = $PAGE->cm) {
         return;
@@ -985,8 +945,6 @@ function surveypro_add_report_link($templatename, $childreports, $childnode, $re
  * @return void
  */
 function surveypro_extend_navigation(navigation_node $navref, stdClass $course, stdClass $surveypro, cm_info $cm) {
-    global $CFG;
-
     $utilityman = new mod_surveypro_utility($cm, $surveypro);
     $nodeurl = $utilityman->get_common_links_url(SURVEYPRO_BLOCK);
 
