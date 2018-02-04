@@ -168,9 +168,10 @@ class mod_surveypro_view_export {
 
         if ($this->formdata->downloadtype == SURVEYPRO_FILESBYUSER) {
             $sql .= ' ORDER BY s.userid, submissionid, a.itemid';
-        }
-        if ($this->formdata->downloadtype == SURVEYPRO_FILESBYITEM) {
+        } else if ($this->formdata->downloadtype == SURVEYPRO_FILESBYITEM) {
             $sql .= ' ORDER BY a.itemid, s.userid, submissionid';
+        } else {
+            $sql .= ' ORDER BY submissionid';
         }
 
         return array($sql, $whereparams);
