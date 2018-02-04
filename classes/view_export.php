@@ -569,6 +569,26 @@ class mod_surveypro_view_export {
     }
 
     /**
+     * Check if attachments were added to the current surveypro
+     *
+     * @return boolean
+     */
+    public function are_attachments_onboard() {
+        global $DB;
+
+        $checkattachmentssql = 'SELECT s.id, si.plugin
+            FROM {surveypro} s
+	            JOIN {surveypro_item} si ON si.id = s.id
+            WHERE s.id = :surveyproid
+	            AND si.plugin = :plugin';
+	    $whereparams = array('surveyproid' => $this->surveypro->id, 'plugin' => 'fileupload');
+
+        $attachments = $DB->get_recordset_sql($checkattachmentssql, $whereparams);
+
+        return ($attachments->valid());
+    }
+
+    /**
      * Craft each uploaded attachment by user and compress the package.
      *
      * @return void
@@ -587,7 +607,6 @@ class mod_surveypro_view_export {
 
         $fs = get_file_storage();
         list($richsubmissionssql, $whereparams) = $this->get_export_sql(true);
-
         $richsubmissions = $DB->get_recordset_sql($richsubmissionssql, $whereparams);
 
         if ($richsubmissions->valid()) {
