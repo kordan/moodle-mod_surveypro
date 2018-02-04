@@ -368,7 +368,10 @@ class mod_surveypro_itembase {
                 if ($editors = $this->get_editorlist()) {
                     $editoroptions = array('trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $context);
                     foreach ($editors as $fieldname => $filearea) {
-                        $record = file_postupdate_standard_editor($record, $fieldname, $editoroptions, $context, 'mod_surveypro', $filearea, $record->itemid);
+                        $record = file_postupdate_standard_editor(
+                                      $record, $fieldname, $editoroptions,
+                                      $context, 'mod_surveypro', filearea, $record->itemid
+                                  );
                         $record->{$fieldname.'format'} = FORMAT_HTML;
                     }
 
@@ -409,7 +412,10 @@ class mod_surveypro_itembase {
             if ($editors = $this->get_editorlist()) {
                 $editoroptions = array('trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $context);
                 foreach ($editors as $fieldname => $filearea) {
-                    $record = file_postupdate_standard_editor($record, $fieldname, $editoroptions, $context, 'mod_surveypro', $filearea, $record->itemid);
+                    $record = file_postupdate_standard_editor(
+                                  $record,  $fieldname,  $editoroptions,
+                                  $context, 'mod_surveypro', $filearea, $record->itemid
+                              );
                     $record->{$fieldname.'format'} = FORMAT_HTML;
                 }
             }
@@ -1132,7 +1138,9 @@ EOS;
     public function get_content() {
         $context = context_module::instance($this->cm->id);
 
-        return file_rewrite_pluginfile_urls($this->content, 'pluginfile.php', $context->id, 'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $this->itemid);
+        return file_rewrite_pluginfile_urls(
+                   $this->content, 'pluginfile.php', $context->id,
+                   'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $this->itemid);
     }
 
     /**

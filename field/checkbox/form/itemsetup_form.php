@@ -198,10 +198,11 @@ class mod_surveypro_checkbox_setupform extends mod_surveypro_itembaseform {
         // SURVEYPRO_DBMULTICONTENTSEPARATOR can not be contained into values.
         foreach ($values as $value) {
             if (strpos($value, SURVEYPRO_DBMULTICONTENTSEPARATOR) !== false) {
+                $message = get_string('ierr_optionswithseparator', 'surveyprofield_checkbox', SURVEYPRO_DBMULTICONTENTSEPARATOR);
                 if (!empty($cleanlabelother) && ($value == end($values))) { // If $value is the last.
-                    $errors['labelother'] = get_string('ierr_optionswithseparator', 'surveyprofield_checkbox', SURVEYPRO_DBMULTICONTENTSEPARATOR);
+                    $errors['labelother'] = $message;
                 } else {
-                    $errors['options'] = get_string('ierr_optionswithseparator', 'surveyprofield_checkbox', SURVEYPRO_DBMULTICONTENTSEPARATOR);
+                    $errors['options'] = $message;
                 }
                 break;
             }

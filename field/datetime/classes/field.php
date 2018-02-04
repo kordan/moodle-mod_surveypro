@@ -372,8 +372,12 @@ class surveyprofield_datetime_field extends mod_surveypro_itembase {
         foreach ($fieldlist as $field) {
             if (isset($record->{$field.'year'}) && isset($record->{$field.'month'}) && isset($record->{$field.'day'}) &&
                 isset($record->{$field.'hour'}) && isset($record->{$field.'minute'})) {
-                $record->{$field} = $this->item_datetime_to_unix_time($record->{$field.'year'}, $record->{$field.'month'},
-                        $record->{$field.'day'}, $record->{$field.'hour'}, $record->{$field.'minute'});
+                $year = $record->{$field.'year'};
+                $month = $record->{$field.'month'};
+                $day = $record->{$field.'day'};
+                $hour = $record->{$field.'hour'};
+                $minute = $record->{$field.'minute'};
+                $record->{$field} = $this->item_datetime_to_unix_time($year, $month, $day, $hour, $minute);
                 unset($record->{$field.'year'});
                 unset($record->{$field.'month'});
                 unset($record->{$field.'day'});
@@ -728,28 +732,34 @@ EOS;
 
         $errorkey = $this->itemname.'_group';
 
+        $userday = $data[$this->itemname.'_day'];
+        $usermonth = $data[$this->itemname.'_month'];
+        $useryear = $data[$this->itemname.'_year'];
+        $userhour = $data[$this->itemname.'_hour'];
+        $userminute = $data[$this->itemname.'_minute'];
+
         // Begin of: verify the content of each drop down menu.
         if (!$searchform) {
             $testpassed = true;
-            $testpassed = $testpassed && ($data[$this->itemname.'_day'] != SURVEYPRO_INVITEVALUE);
-            $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_INVITEVALUE);
-            $testpassed = $testpassed && ($data[$this->itemname.'_year'] != SURVEYPRO_INVITEVALUE);
-            $testpassed = $testpassed && ($data[$this->itemname.'_hour'] != SURVEYPRO_INVITEVALUE);
-            $testpassed = $testpassed && ($data[$this->itemname.'_minute'] != SURVEYPRO_INVITEVALUE);
+            $testpassed = $testpassed && ($userday != SURVEYPRO_INVITEVALUE);
+            $testpassed = $testpassed && ($usermonth != SURVEYPRO_INVITEVALUE);
+            $testpassed = $testpassed && ($useryear != SURVEYPRO_INVITEVALUE);
+            $testpassed = $testpassed && ($userhour != SURVEYPRO_INVITEVALUE);
+            $testpassed = $testpassed && ($userminute != SURVEYPRO_INVITEVALUE);
         } else {
             // All five drop down menues are allowed to be == SURVEYPRO_IGNOREMEVALUE.
             // But not only 4, 3, 2 or 1.
             $testpassed = true;
-            if ($data[$this->itemname.'_day'] == SURVEYPRO_IGNOREMEVALUE) {
-                $testpassed = $testpassed && ($data[$this->itemname.'_month'] == SURVEYPRO_IGNOREMEVALUE);
-                $testpassed = $testpassed && ($data[$this->itemname.'_year'] == SURVEYPRO_IGNOREMEVALUE);
-                $testpassed = $testpassed && ($data[$this->itemname.'_hour'] == SURVEYPRO_IGNOREMEVALUE);
-                $testpassed = $testpassed && ($data[$this->itemname.'_minute'] == SURVEYPRO_IGNOREMEVALUE);
+            if ($userday == SURVEYPRO_IGNOREMEVALUE) {
+                $testpassed = $testpassed && ($usermonth == SURVEYPRO_IGNOREMEVALUE);
+                $testpassed = $testpassed && ($useryear == SURVEYPRO_IGNOREMEVALUE);
+                $testpassed = $testpassed && ($userhour == SURVEYPRO_IGNOREMEVALUE);
+                $testpassed = $testpassed && ($userminute == SURVEYPRO_IGNOREMEVALUE);
             } else {
-                $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_IGNOREMEVALUE);
-                $testpassed = $testpassed && ($data[$this->itemname.'_year'] != SURVEYPRO_IGNOREMEVALUE);
-                $testpassed = $testpassed && ($data[$this->itemname.'_hour'] != SURVEYPRO_IGNOREMEVALUE);
-                $testpassed = $testpassed && ($data[$this->itemname.'_minute'] != SURVEYPRO_IGNOREMEVALUE);
+                $testpassed = $testpassed && ($usermonth != SURVEYPRO_IGNOREMEVALUE);
+                $testpassed = $testpassed && ($useryear != SURVEYPRO_IGNOREMEVALUE);
+                $testpassed = $testpassed && ($userhour != SURVEYPRO_IGNOREMEVALUE);
+                $testpassed = $testpassed && ($userminute != SURVEYPRO_IGNOREMEVALUE);
             }
         }
         if (!$testpassed) {
@@ -763,7 +773,7 @@ EOS;
         }
         // End of: verify the content of each drop down menu.
 
-        if (!mod_surveypro_utility_useritem::date_is_valid($data[$this->itemname.'_day'], $data[$this->itemname.'_month'], $data[$this->itemname.'_year'])) {
+        if (!mod_surveypro_utility_useritem::date_is_valid($userday, $usermonth, $useryear)) {
             $errors[$errorkey] = get_string('ierr_invalidinput', 'mod_surveypro');
             return;
         }
@@ -776,8 +786,7 @@ EOS;
         $haslowerbound = ($this->lowerbound != $this->item_datetime_to_unix_time($this->surveypro->startyear, 1, 1, 0, 0));
         $hasupperbound = ($this->upperbound != $this->item_datetime_to_unix_time($this->surveypro->stopyear, 12, 31, 23, 59));
 
-        $userinput = $this->item_datetime_to_unix_time($data[$this->itemname.'_year'], $data[$this->itemname.'_month'],
-                $data[$this->itemname.'_day'], $data[$this->itemname.'_hour'], $data[$this->itemname.'_minute']);
+        $userinput = $this->item_datetime_to_unix_time($useryear, $usermonth, $userday, $userhour, $userminute);
 
         if ($haslowerbound && $hasupperbound) {
             // Internal range.
@@ -840,27 +849,32 @@ EOS;
         if (isset($answer['noanswer'])) { // This is correct for input and search form both.
             $olduseranswer->content = SURVEYPRO_NOANSWERVALUE;
         } else {
+            $year = $answer['year'];
+            $month = $answer['month'];
+            $day = $answer['day'];
+            $hour = $answer['hour'];
+            $minute = $answer['minute'];
             if (!$searchform) {
-                $condition = ($answer['year'] == SURVEYPRO_INVITEVALUE);
-                $condition = $condition || ($answer['month'] == SURVEYPRO_INVITEVALUE);
-                $condition = $condition || ($answer['day'] == SURVEYPRO_INVITEVALUE);
-                $condition = $condition || ($answer['hour'] == SURVEYPRO_INVITEVALUE);
-                $condition = $condition || ($answer['minute'] == SURVEYPRO_INVITEVALUE);
+                $condition = ($year == SURVEYPRO_INVITEVALUE);
+                $condition = $condition || ($month == SURVEYPRO_INVITEVALUE);
+                $condition = $condition || ($day == SURVEYPRO_INVITEVALUE);
+                $condition = $condition || ($hour == SURVEYPRO_INVITEVALUE);
+                $condition = $condition || ($minute == SURVEYPRO_INVITEVALUE);
                 if ($condition) {
                     $olduseranswer->content = null;
                 } else {
-                    $olduseranswer->content = $this->item_datetime_to_unix_time($answer['year'], $answer['month'], $answer['day'], $answer['hour'], $answer['minute']);
+                    $olduseranswer->content = $this->item_datetime_to_unix_time($year, $month, $day, $hour, $minute);
                 }
             } else {
-                $condition = ($answer['year'] == SURVEYPRO_IGNOREMEVALUE);
-                $condition = $condition || ($answer['month'] == SURVEYPRO_IGNOREMEVALUE);
-                $condition = $condition || ($answer['day'] == SURVEYPRO_IGNOREMEVALUE);
-                $condition = $condition || ($answer['hour'] == SURVEYPRO_IGNOREMEVALUE);
-                $condition = $condition || ($answer['minute'] == SURVEYPRO_IGNOREMEVALUE);
+                $condition = ($year == SURVEYPRO_IGNOREMEVALUE);
+                $condition = $condition || ($month == SURVEYPRO_IGNOREMEVALUE);
+                $condition = $condition || ($day == SURVEYPRO_IGNOREMEVALUE);
+                $condition = $condition || ($hour == SURVEYPRO_IGNOREMEVALUE);
+                $condition = $condition || ($minute == SURVEYPRO_IGNOREMEVALUE);
                 if ($condition) {
                     $olduseranswer->content = null;
                 } else {
-                    $olduseranswer->content = $this->item_datetime_to_unix_time($answer['year'], $answer['month'], $answer['day'], $answer['hour'], $answer['minute']);
+                    $olduseranswer->content = $this->item_datetime_to_unix_time($year, $month, $day, $hour, $minute);
                 }
             }
         }

@@ -78,7 +78,7 @@ class mod_surveypro_view_search {
         foreach ($this->formdata as $elementname => $content) {
             if ($matches = mod_surveypro_utility::get_item_parts($elementname)) {
                 if ($matches['prefix'] == SURVEYPRO_DONTSAVEMEPREFIX) {
-                    // Multiselect are always submitted because, at least, they have SURVEYPRO_IGNOREMEVALUE
+                    // Multiselect are always submitted because, at least, they have SURVEYPRO_IGNOREMEVALUE.
                     continue;
                 }
 

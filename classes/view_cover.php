@@ -266,7 +266,7 @@ class mod_surveypro_view_cover {
     /**
      * Recursive function to populate the $messages array for reports nested as much times as wanted
      *
-     * Uncomment lines of has_childreports method in the surveyproreport_colles_report class of report/colles/classes/report.php file
+     * Uncomment lines of has_childreports method in surveyproreport_colles_report class of report/colles/classes/report.php file
      * to see this function in action.
      *
      * @param string $childreports

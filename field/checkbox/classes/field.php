@@ -805,7 +805,8 @@ EOS;
             if ($this->minimumrequired == 1) {
                 $fillinginstruction = get_string('restrictions_minimumrequired_one', 'surveyprofield_checkbox');
             } else {
-                $fillinginstruction = get_string('restrictions_minimumrequired_more', 'surveyprofield_checkbox', $this->minimumrequired);
+                $a = $this->minimumrequired;
+                $fillinginstruction = get_string('restrictions_minimumrequired_more', 'surveyprofield_checkbox', $a);
             }
         } else {
             $fillinginstruction = '';

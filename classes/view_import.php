@@ -869,7 +869,7 @@ class mod_surveypro_view_import {
                         continue;
                     }
 
-                    $message = 'I can not find required itemhelper for item ID = '.$this->columntoitemid[$col].' found in column: '.$col;
+                    $message = 'Missing itemhelper for item ID = '.$this->columntoitemid[$col].' found in column: '.$col;
                     debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
                 } else {
                     $itemhelper = $this->itemhelperinfo[$col]; // The itemhelperinfo of the item in column = $col.
@@ -958,17 +958,17 @@ class mod_surveypro_view_import {
             $key = $this->environmentheaders[SURVEYPRO_OWNERIDLABEL];
             unset($this->columntoitemid[$key]);
         }
-        // Drop out the element corresponding to timecreated
+        // Drop out the element corresponding to timecreated.
         if (isset($this->environmentheaders[SURVEYPRO_TIMECREATEDLABEL])) {
             $key = $this->environmentheaders[SURVEYPRO_TIMECREATEDLABEL];
             unset($this->columntoitemid[$key]);
         }
-        // Drop out the element corresponding to timemodified
+        // Drop out the element corresponding to timemodified.
         if (isset($this->environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL])) {
             $key = $this->environmentheaders[SURVEYPRO_TIMEMODIFIEDLABEL];
             unset($this->columntoitemid[$key]);
         }
-        // Drop out all the elements corresponding to format
+        // Drop out all the elements corresponding to format.
         foreach ($contentformattocol as $key) {
             unset($this->columntoitemid[$key]);
         }

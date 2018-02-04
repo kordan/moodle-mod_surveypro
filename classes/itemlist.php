@@ -329,7 +329,8 @@ class mod_surveypro_itemlist {
             $alt = get_string('userfriendlypluginname', $component);
             $content = html_writer::tag('a', '', array('name' => 'sortindex_'.$sortindex));
             $iconparams = array('title' => $alt);
-            $content .= html_writer::tag('span', $OUTPUT->pix_icon('icon', $alt, $component, $iconparams), array('class' => 'pluginicon'));
+            $icon = $OUTPUT->pix_icon('icon', $alt, $component, $iconparams);
+            $content .= html_writer::tag('span', $icon, array('class' => 'pluginicon'));
 
             $tablerow[] = $content;
 
@@ -492,7 +493,8 @@ class mod_surveypro_itemlist {
 
                     $link = new moodle_url('/mod/surveypro/layout_itemlist.php#sortindex_'.($sortindex - 1), $paramurl);
                     $paramlink = array('id' => 'move_item_'.$sortindex, 'class' => 'icon', 'title' => $reorderstr);
-                    $icons .= html_writer::tag('span', $OUTPUT->action_icon($link, $moveicn, null, $paramlink), array('class' => 'reorder'));
+                    $actionicon = $OUTPUT->action_icon($link, $moveicn, null, $paramlink);
+                    $icons .= html_writer::tag('span', $actionicon, array('class' => 'reorder'));
                 }
 
                 // SURVEYPRO_DELETEITEM.

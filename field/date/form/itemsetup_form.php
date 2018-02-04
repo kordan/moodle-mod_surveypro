@@ -145,16 +145,22 @@ class mod_surveypro_date_setupform extends mod_surveypro_itembaseform {
 
         $errors = parent::validation($data, $files);
 
-        if (!mod_surveypro_utility_useritem::date_is_valid($data['lowerboundday'], $data['lowerboundmonth'], $data['lowerboundyear'])) {
+        $lowerday = $data['lowerboundday'];
+        $lowermonth = $data['lowerboundmonth'];
+        $loweryear = $data['lowerboundyear'];
+        if (!mod_surveypro_utility_useritem::date_is_valid($lowerday, $lowermonth, $loweryear)) {
             $errors['lowerbound_group'] = get_string('ierr_invalidinput', 'mod_surveypro');
             return $errors;
         }
-        if (!mod_surveypro_utility_useritem::date_is_valid($data['upperboundday'], $data['upperboundmonth'], $data['upperboundyear'])) {
+        $upperday = $data['upperboundday'];
+        $uppermonth = $data['upperboundmonth'];
+        $upperyear = $data['upperboundyear'];
+        if (!mod_surveypro_utility_useritem::date_is_valid($upperday, $uppermonth, $upperyear)) {
             $errors['upperbound_group'] = get_string('ierr_invalidinput', 'mod_surveypro');
             return $errors;
         }
-        $lowerbound = $item->item_date_to_unix_time($data['lowerboundyear'], $data['lowerboundmonth'], $data['lowerboundday']);
-        $upperbound = $item->item_date_to_unix_time($data['upperboundyear'], $data['upperboundmonth'], $data['upperboundday']);
+        $lowerbound = $item->item_date_to_unix_time($loweryear, $lowermonth, $lowerday);
+        $upperbound = $item->item_date_to_unix_time($upperyear, $uppermonth, $upperday);
 
         if ($lowerbound == $upperbound) {
             $errors['lowerbound_group'] = get_string('ierr_lowerequaltoupper', 'surveyprofield_date');
@@ -165,11 +171,14 @@ class mod_surveypro_date_setupform extends mod_surveypro_itembaseform {
 
         // Constrain default between boundaries.
         if ($data['defaultoption'] == SURVEYPRO_CUSTOMDEFAULT) {
-            if (!mod_surveypro_utility_useritem::date_is_valid($data['defaultvalueday'], $data['defaultvaluemonth'], $data['defaultvalueyear'])) {
+            $defaultday = $data['defaultvalueday'];
+            $defaultmonth = $data['defaultvaluemonth'];
+            $defaultyear = $data['defaultvalueyear'];
+            if (!mod_surveypro_utility_useritem::date_is_valid($defaultday, $defaultmonth, $defaultyear)) {
                 $errors['defaultvalue_group'] = get_string('ierr_invalidinput', 'mod_surveypro');
                 return $errors;
             }
-            $defaultvalue = $item->item_date_to_unix_time($data['defaultvalueyear'], $data['defaultvaluemonth'], $data['defaultvalueday']);
+            $defaultvalue = $item->item_date_to_unix_time($defaultyear, $defaultmonth, $defaultday);
 
             if ( ($defaultvalue < $lowerbound) || ($defaultvalue > $upperbound) ) {
                 // Internal range.
