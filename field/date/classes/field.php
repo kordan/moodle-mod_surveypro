@@ -684,7 +684,7 @@ EOS;
         $haslowerbound = ($this->lowerbound != $this->item_date_to_unix_time($this->surveypro->startyear, 1, 1));
         $hasupperbound = ($this->upperbound != $this->item_date_to_unix_time($this->surveypro->stopyear, 12, 31));
 
-        $userinput = $this->item_date_to_unix_time($useryear, $usermonth, userday);
+        $userinput = $this->item_date_to_unix_time($useryear, $usermonth, $userday);
 
         if ($haslowerbound && $hasupperbound) {
             // Internal range.

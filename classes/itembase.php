@@ -413,7 +413,7 @@ class mod_surveypro_itembase {
                 $editoroptions = array('trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $context);
                 foreach ($editors as $fieldname => $filearea) {
                     $record = file_postupdate_standard_editor(
-                                  $record,  $fieldname,  $editoroptions,
+                                  $record, $fieldname, $editoroptions,
                                   $context, 'mod_surveypro', $filearea, $record->itemid
                               );
                     $record->{$fieldname.'format'} = FORMAT_HTML;
