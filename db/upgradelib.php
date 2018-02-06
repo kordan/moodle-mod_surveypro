@@ -107,3 +107,38 @@ function surveypro_delete_supposed_blank_answers() {
         $submissions->close();
     }
 }
+
+/**
+ * Images of thankshtml area were saved to db with wrong itemid before version 2018020200.
+ * The purpose of this routine is to correct them.
+ * Even backups of courses created with surveypro older than the same version were buggy
+ * and they restored (and still restore) wrong itemid to databases.
+ * Because of this, this routine is also called by function after_restore (in restore_surveypro_stepslib.php)
+ * to correct itemid just after they are wrongly restored.
+ */
+function surveypro_old_restore_fix($surveypro) {
+    global $DB;
+
+    $course = $DB->get_record('course', array('id' => $surveypro->course), '*', MUST_EXIST);
+    $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
+    $context = context_module::instance($cm->id);
+
+    $areas = array(SURVEYPRO_THANKSHTMLFILEAREA, SURVEYPRO_STYLEFILEAREA, SURVEYPRO_TEMPLATEFILEAREA);
+
+    $fs = get_file_storage();
+
+    foreach ($areas as $area) {
+        $files = $fs->get_area_files($context->id, 'mod_surveypro', $area);
+        foreach ($files as $file) {
+            $filerecord = array();
+            $filerecord['contextid'] = $file->get_contextid();
+            $filerecord['component'] = 'mod_surveypro';
+            $filerecord['filearea'] = $area;
+            $filerecord['itemid'] = 0;
+
+            $fs->create_file_from_storedfile($filerecord, $file);
+
+            $file->delete();
+        }
+    }
+}

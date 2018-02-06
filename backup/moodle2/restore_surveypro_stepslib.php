@@ -25,6 +25,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+// Include the required mod surveypro upgrade code.
+require_once(dirname(__FILE__).'/../../../../config.php');
+require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
+require_once($CFG->dirroot.'/mod/surveypro/db/upgradelib.php');
+
 /**
  * Define all the restore steps that will be used by the restore_surveypro_activity_task
  *
@@ -163,8 +168,9 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
 
         // Add surveypro related files, no need to match by itemname (just internally handled context).
         $this->add_related_files('mod_surveypro', 'intro', null);
-        $this->add_related_files('mod_surveypro', 'thankshtml', null);
-        $this->add_related_files('mod_surveypro', 'userstyle', null);
+        $this->add_related_files('mod_surveypro', SURVEYPRO_THANKSHTMLFILEAREA, null);
+        $this->add_related_files('mod_surveypro', SURVEYPRO_STYLEFILEAREA, null);
+        $this->add_related_files('mod_surveypro', SURVEYPRO_TEMPLATEFILEAREA, null);
 
         // Add item content files, matching by item itemname.
         $this->add_related_files('mod_surveypro', 'itemcontent', 'surveypro_item');
@@ -182,5 +188,18 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
             }
         }
         $itemrecords->close();
+    }
+
+    /**
+     * Hook to execute assignment upgrade after restore.
+     */
+    protected function after_restore() {
+        global $DB;
+
+        // Get the id of this surveypro.
+        $surveyproid = $this->task->get_activityid();
+
+        $surveypro = $DB->get_record('surveypro', array('id' => $surveyproid), '*', MUST_EXIST);
+        surveypro_old_restore_fix($surveypro);
     }
 }
