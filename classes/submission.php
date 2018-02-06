@@ -1005,7 +1005,7 @@ class mod_surveypro_submission {
                 $htmlbody = $this->surveypro->thankshtml;
                 $component = 'mod_surveypro';
                 $filearea = SURVEYPRO_THANKSHTMLFILEAREA;
-                $message = file_rewrite_pluginfile_urls($htmlbody, 'pluginfile.php', $this->context->id, $component, $filearea, $this->surveypro->id);
+                $message = file_rewrite_pluginfile_urls($htmlbody, 'pluginfile.php', $this->context->id, $component, $filearea, null);
             } else {
                 $message = get_string('basic_submitthanks', 'mod_surveypro');
             }
