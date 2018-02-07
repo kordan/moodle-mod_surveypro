@@ -197,28 +197,9 @@ function xmldb_surveypro_upgrade($oldversion) {
     if ($oldversion < 2018020200) {
         global $DB;
 
-        $fs = get_file_storage();
-
-        $areas = array(SURVEYPRO_THANKSHTMLFILEAREA, SURVEYPRO_STYLEFILEAREA, SURVEYPRO_TEMPLATEFILEAREA);
         if ($surveypros = $DB->get_records('surveypro', null, 'id', 'id, course')) {
             foreach ($surveypros as $surveypro) {
-                $course = $DB->get_record('course', array('id' => $surveypro->course), '*', MUST_EXIST);
-                $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
-                $context = context_module::instance($cm->id);
-                foreach ($areas as $area) {
-                    $files = $fs->get_area_files($context->id, 'mod_surveypro', $area);
-                    foreach ($files as $file) {
-                        $filerecord = array();
-                        $filerecord['contextid'] = $file->get_contextid();
-                        $filerecord['component'] = 'mod_surveypro';
-                        $filerecord['filearea'] = $area;
-                        $filerecord['itemid'] = 0;
-
-                        $fs->create_file_from_storedfile($filerecord, $file);
-
-                        $file->delete();
-                    }
-                }
+                surveypro_old_restore_fix($surveypro);
             }
         }
 
