@@ -15,17 +15,34 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version information
+ * A scheduled task for surveypro cron.
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+namespace mod_surveypro\task;
 
-defined('MOODLE_INTERNAL') || die();
+class cron_task extends \core\task\scheduled_task {
 
-$plugin->component = 'mod_surveypro'; // Full name of the plugin (used for diagnostics).
-$plugin->maturity = MATURITY_ALPHA; // MATURITY_RC.
-$plugin->version = 2018020900; // The current module version (Date: YYYYMMDDXX).
-$plugin->release = '1.0'; // The current release.
-$plugin->requires = 2016120500; // Requires Moodle v3.2.0.
+    /**
+     * Get a descriptive name for this task (shown to admins).
+     *
+     * @return string
+     */
+    public function get_name() {
+        return get_string('crontask', 'mod_surveypro');
+    }
+
+    /**
+     * Run surveypro cron.
+     */
+    public function execute() {
+        global $CFG;
+
+        require_once($CFG->dirroot.'/mod/surveypro/lib.php');
+
+        surveypro_cron_scheduled_task();
+    }
+
+}

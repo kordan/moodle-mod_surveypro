@@ -138,6 +138,7 @@ $string['count_hiddenitems'] = '({$a} hidden)';
 $string['count_pages'] = 'Divided into {$a} pages.';
 $string['course'] = 'Course';
 $string['coverpage_welcome'] = 'Welcome to {$a}';
+$string['crontask'] = 'Surveypro maintenance jobs';
 $string['currenttotemplate'] = 'Save current survey as master template in zip format.<br />To install a master template, unzip it to mod/surveypro/template/ and visit the notification page.';
 $string['customnumber_header'] = '#';
 $string['customnumber_help'] = 'Use this field to give a custom number to the element. It may be a natural number like 1 or whatever you may need: 1a, A, 1.1.a, #1, A, A.1... Take in mind that you are responsible for the coherence of that numbers. Because of this take care if you plan to change the order of the elements.';

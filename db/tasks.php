@@ -15,17 +15,24 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version information
+ * Definition of surveypro scheduled tasks.
  *
  * @package   mod_surveypro
+ * @category  task
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'mod_surveypro'; // Full name of the plugin (used for diagnostics).
-$plugin->maturity = MATURITY_ALPHA; // MATURITY_RC.
-$plugin->version = 2018020900; // The current module version (Date: YYYYMMDDXX).
-$plugin->release = '1.0'; // The current release.
-$plugin->requires = 2016120500; // Requires Moodle v3.2.0.
+$tasks = array(
+    array(
+        'classname' => 'mod_surveypro\task\cron_task',
+        'blocking' => 0,
+        'minute' => '0',
+        'hour' => '*',
+        'day' => '*',
+        'month' => '*',
+        'dayofweek' => '*'
+    )
+);
