@@ -30,3 +30,6 @@ $string['lowerthanminimum_more'] = 'Si selezionino almeno {$a} opzioni';
 $string['restrictions_minimumrequired_one'] = 'Almeno 1 casella di spunta deve essere selezionata nella risposta';
 $string['restrictions_minimumrequired_more'] = 'Almeno {$a} caselle di spunta devono essere selezionate nella risposta';
 $string['missingothertext'] = 'Si riporti il testo corrispondente alla scelta selezionata';
+$string['uerr_lowerthanminimum_more'] = 'Si spuntino almeno {$a} opzioni';
+$string['uerr_lowerthanminimum_one'] = 'Si spunti almeno 1 opzione';
+$string['uerr_missingothertext'] = 'Si aggiunga un contenuto al campo corrispondente alla selezione';

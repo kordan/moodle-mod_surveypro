@@ -611,7 +611,7 @@ function surveypro_cron_scheduled_task() {
             $sofar = ($saveresume == 0) ? (4 * 3600) : ($maxinputdelay * 3600);
             $sofar = time() - $sofar;
             foreach ($surveypros as $surveypro) {
-                // Second step: for each surveypro,
+                // Second step: for each surveypro
                 // filter only submissions having 'status' = SURVEYPRO_STATUSINPROGRESS and timecreated < :sofar.
                 $where = 'surveyproid = :surveyproid AND status = :status AND timecreated < :sofar';
                 $whereparams = array('surveyproid' => $surveypro->id, 'status' => SURVEYPRO_STATUSINPROGRESS, 'sofar' => $sofar);

@@ -32,3 +32,4 @@ $string['strfbool07'] = 'Vero/Falso';
 $string['strfbool08'] = 'V/F';
 $string['strfbool09'] = '1/0';
 $string['strfbool10'] = '+/-';
+$string['uerr_booleannotset'] = 'Si selezioni una opzione';
