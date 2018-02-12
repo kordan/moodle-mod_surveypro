@@ -588,7 +588,7 @@ function surveypro_print_recent_mod_activity($activity, $courseid, $detail, $mod
  * @return boolean
  * @todo Finish documenting this function
  */
-function surveypro_cron() {
+function surveypro_cron_scheduled_task() {
     global $DB;
 
     // Delete too old submissions from surveypro_answer and surveypro_submission.
