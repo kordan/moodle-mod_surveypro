@@ -88,6 +88,11 @@ class mod_surveypro_mod_form extends moodleform_mod {
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
+        // Keep in progress.
+        $fieldname = 'keepinprogress';
+        $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'));
+        $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
+
         // History.
         $fieldname = 'history';
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'));

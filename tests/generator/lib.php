@@ -67,6 +67,7 @@ class mod_surveypro_generator extends testing_module_generator {
         $record = (array)$record + array(
             'newpageforchild' => 0,
             'saveresume' => 0,
+            'keepinprogress' => 0,
             'captcha' => 0,
             'history' => 0,
             'anonymous' => 0,
