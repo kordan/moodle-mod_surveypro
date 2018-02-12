@@ -573,7 +573,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                 foreach ($xmltable->children() as $xmlfield) {
                     $fieldname = $xmlfield->getName();
 
-                    // Tag <parent> always belong to surveypro_item table
+                    // Tag <parent> always belong to surveypro_item table.
                     if ($fieldname == 'parent') {
                         // echo '<h5>Count of attributes of the field '.$fieldname.': '.count($xmlfield->children()).'</h5>';
                         foreach ($xmlfield->children() as $xmlparentattribute) {
@@ -603,8 +603,8 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
                         // echo 'I need to add: "'.$filename.'" to the filearea<br />';
 
-                        // Add the file described by $filename and $filecontent to filearea.
-                        // Alias, add pictures found in the utemplate to filearea.
+                        // Add the file described by $filename and $filecontent to filearea,
+                        // alias, add pictures found in the utemplate to filearea.
                         $filerecord = new stdClass();
                         $filerecord->contextid = $this->context->id;
                         $filerecord->component = 'mod_surveypro';

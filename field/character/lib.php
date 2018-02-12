@@ -83,11 +83,10 @@ function surveypro_character_validate_regex_integrity($regex) {
 function surveypro_character_validate_against_url($url) {
     // Which one is better here?
     // First option: return (filter_var($url, FILTER_VALIDATE_URL) !== false);
-
     // Second option: $regex = '~^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$~i';
-
     // Third option.
     $regex = '~^(http(s?)\:\/\/)?[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\‌​-‌​\.\?\,\'\/\\\+&amp;%\$#_]*)?$~i';
+
     // Function preg_match() returns 1 if the pattern matches given subject, 0 if it does not, or false if an error occurred.
     return preg_match($regex, $url);
 }

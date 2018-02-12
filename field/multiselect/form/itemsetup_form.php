@@ -179,7 +179,8 @@ class mod_surveypro_multiselect_setupform extends mod_surveypro_itembaseform {
         // SURVEYPRO_DBMULTICONTENTSEPARATOR can not be contained into values.
         foreach ($values as $value) {
             if (strpos($value, SURVEYPRO_DBMULTICONTENTSEPARATOR) !== false) {
-                $errors['options'] = get_string('ierr_optionswithseparator', 'surveyprofield_multiselect', SURVEYPRO_DBMULTICONTENTSEPARATOR);
+                $a = SURVEYPRO_DBMULTICONTENTSEPARATOR;
+                $errors['options'] = get_string('ierr_optionswithseparator', 'surveyprofield_multiselect', $a);
                 break;
             }
         }

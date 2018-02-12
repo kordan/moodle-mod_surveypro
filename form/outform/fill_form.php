@@ -71,7 +71,7 @@ class mod_surveypro_outform extends moodleform {
         $mform->setType('submissionid', PARAM_INT);
 
         // Userform: formpage.
-        $mform->addElement('hidden', 'formpage', 0); // Value is provided by $outform->set_data($prefill); from view_form.php
+        $mform->addElement('hidden', 'formpage', 0); // Value is provided by $outform->set_data($prefill); from view_form.php.
         $mform->setType('formpage', PARAM_INT);
 
         if ($formpage == SURVEYPRO_LEFT_OVERFLOW) {
@@ -88,7 +88,8 @@ class mod_surveypro_outform extends moodleform {
         if ($formpage >= 0) {
             // $canaccessreserveditems, $searchform=false, $type=false, $formpage
             list($where, $params) = surveypro_fetch_items_seeds($surveypro->id, true, $canaccessreserveditems, null, null, $formpage);
-            $itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, 'sortindex', 'id, type, plugin, parentid, parentvalue');
+            $fields = 'id, type, plugin, parentid, parentvalue';
+            $itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, 'sortindex', $fields);
 
             if (!$itemseeds->valid()) {
                 // No items are in this page.
@@ -96,8 +97,8 @@ class mod_surveypro_outform extends moodleform {
                 $mform->addElement('static', 'noitemshere', $notestr, 'ERROR: How can I be here if ($formpage > 0) ?');
             }
 
-            // This dummy item is needed for the colours alternation.
-            // Because 'label' or ($position == SURVEYPRO_POSITIONFULLWIDTH)
+            // This dummy item is needed for the colours alternation
+            // because 'label' or ($position == SURVEYPRO_POSITIONFULLWIDTH)
             // as first item are out from the a fieldset
             // so they are not selected by the css3 selector: fieldset div.fitem:nth-of-type(even) {.
             $mform->addElement('static', 'beginning_extrarow', '', '');
@@ -143,24 +144,18 @@ class mod_surveypro_outform extends moodleform {
                     if ($position == SURVEYPRO_POSITIONFULLWIDTH) {
                         $questioncontent = $item->get_content();
                         if ($elementnumber) {
-                            // I want to change "4.2:<p>Do you live in NY?</p>" to "<p>4.2: Do you live in NY?</p>"
+                            // I want to change "4.2:<p>Do you live in NY?</p>" to "<p>4.2: Do you live in NY?</p>".
                             if (preg_match('~^<p>(.*)$~', $questioncontent, $match)) {
                                 // print_object($match);
                                 $questioncontent = '<p>'.$elementnumber.' '.$match[1];
                             }
                         }
                         $content = '';
-                        // $content .= html_writer::start_tag('fieldset', array('class' => 'hidden'));
-                        // $content .= html_writer::start_tag('div');
                         $content .= html_writer::start_tag('div', array('class' => 'fitem'));
                         $content .= html_writer::start_tag('div', array('class' => 'fstatic fullwidth'));
-                        // $content .= html_writer::start_tag('div', array('class' => 'indent-'.$this->indent));
                         $content .= $questioncontent;
-                        // $content .= html_writer::end_tag('div');
                         $content .= html_writer::end_tag('div');
                         $content .= html_writer::end_tag('div');
-                        // $content .= html_writer::end_tag('div');
-                        // $content .= html_writer::end_tag('fieldset');
                         $mform->addElement('html', $content);
 
                         $item->item_add_color_unifier($mform);
@@ -276,7 +271,7 @@ class mod_surveypro_outform extends moodleform {
 
         $errors = parent::validation($data, $files);
 
-        // Validate an item only if is enabled, alias: only if its content matches the parent-child constrain
+        // Validate an item only if it is enabled, alias: only if its content matches the parent-child constrain.
         $warnings = array();
         $olditemid = 0;
         foreach ($data as $elementname => $content) {

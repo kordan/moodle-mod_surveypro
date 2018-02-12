@@ -418,7 +418,7 @@ function surveypro_delete_instance($id) {
 
     $status = true;
 
-    // Now get rid of all files
+    // Now get rid of all files.
     $fs = get_file_storage();
     if ($cm = get_coursemodule_from_instance('surveypro', $surveypro->id)) {
         $context = context_module::instance($cm->id);
@@ -1070,7 +1070,8 @@ function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=
  * @param bool $pagebreak
  * @return array($where, $params)
  */
-function surveypro_fetch_items_seeds($surveyproid, $visibleonly=true, $canaccessreserveditems=false, $searchform=false, $type=false, $formpage=false, $pagebreak=false) {
+function surveypro_fetch_items_seeds($surveyproid, $visibleonly=true, $canaccessreserveditems=false,
+                                     $searchform=false, $type=false, $formpage=false, $pagebreak=false) {
     $params = array();
     $conditions = array();
 

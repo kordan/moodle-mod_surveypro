@@ -36,7 +36,7 @@ require_once($CFG->dirroot.'/mod/surveypro/lib.php');
  * @return array
  */
 function surveypro_multilinetext_to_array($textareacontent) {
-    // begin with a simple trim to drop each starting and closing empty row and spaces.
+    // Begin with a simple trim to drop each starting and closing empty row and spaces.
     $textareacontent = trim($textareacontent);
 
     // \r are not welcome.

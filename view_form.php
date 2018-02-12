@@ -73,7 +73,8 @@ $formparams->readonly = ($userformman->get_tabpage() == SURVEYPRO_SUBMISSION_REA
 $formparams->preview = false;
 // End of: prepare params for the form.
 
-$outform = new mod_surveypro_outform($formurl, $formparams, 'post', '', array('id' => 'userentry'), ($view != SURVEYPRO_READONLYRESPONSE));
+$editable = ($view == SURVEYPRO_READONLYRESPONSE) ? false : true;
+$outform = new mod_surveypro_outform($formurl, $formparams, 'post', '', array('id' => 'userentry'), $editable);
 
 // Begin of: manage form submission.
 if ($outform->is_cancelled()) {

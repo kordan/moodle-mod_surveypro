@@ -90,7 +90,8 @@ class mod_surveypro_exportform extends moodleform {
         // Submissionexport: includenames.
         if (empty($surveypro->anonymous)) {
             $fieldname = 'includenames';
-            $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'), get_string('import_rawwarning', 'mod_surveypro'));
+            $warningtxt = get_string('import_rawwarning', 'mod_surveypro');
+            $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'), $warningtxt);
             $mform->setDefault($fieldname, 1);
             $mform->setType($fieldname, PARAM_INT);
         }
