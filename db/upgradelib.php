@@ -115,6 +115,9 @@ function surveypro_delete_supposed_blank_answers() {
  * and they restored (and still restore) wrong itemid to databases.
  * Because of this, this routine is also called by function after_restore (in restore_surveypro_stepslib.php)
  * to correct itemid just after they are wrongly restored.
+ *
+ * @param object $surveypro
+ * @return void
  */
 function surveypro_old_restore_fix($surveypro) {
     global $DB;

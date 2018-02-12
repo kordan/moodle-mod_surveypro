@@ -26,4 +26,4 @@
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/lib.php');
 
 $string['missingothertext'] = 'Si riporti il testo corrispondente alla scelta selezionata';
-$string['uerr_optionnotset'] = 'Si selezioni 1 opzione';
+$string['uerr_optionnotset'] = 'Si selezioni una opzione';
