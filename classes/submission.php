@@ -244,12 +244,12 @@ class mod_surveypro_submission {
               FROM {surveypro_answer} a';
 
             // (a.itemid = 7720 AND a.content = 0) OR (a.itemid = 7722 AND a.content = 1))
-            // (a.itemid = 1219 AND $DB->sql_like('a.content', ':content_1219', false));
+            // (a.itemid = 1219 AND $DB->sql_like('a.content', ':content_1219', false)).
             $userquery = array();
             foreach ($searchrestrictions as $itemid => $searchrestriction) {
                 $itemseed = $DB->get_record('surveypro_item', array('id' => $itemid), 'type, plugin', MUST_EXIST);
                 $classname = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin.'_'.$itemseed->type;
-                // Ask to the item class how to write the query
+                // Ask to the item class how to write the query.
                 list($whereclause, $whereparam) = $classname::response_get_whereclause($itemid, $searchrestriction);
                 $userquery[] = '(a.itemid = '.$itemid.' AND '.$whereclause.')';
                 $whereparams['content_'.$itemid] = $whereparam;
@@ -371,7 +371,7 @@ class mod_surveypro_submission {
             foreach ($searchrestrictions as $itemid => $searchrestriction) {
                 $itemseed = $DB->get_record('surveypro_item', array('id' => $itemid), 'type, plugin', MUST_EXIST);
                 $classname = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin.'_'.$itemseed->type;
-                // Ask to the item class how to write the query
+                // Ask to the item class how to write the query.
                 list($whereclause, $whereparam) = $classname::response_get_whereclause($itemid, $searchrestriction);
                 $userquery[] = '(a.itemid = '.$itemid.' AND '.$whereclause.')';
                 $whereparams['content_'.$itemid] = $whereparam;
@@ -1003,9 +1003,10 @@ class mod_surveypro_submission {
         } else {
             if (!empty($this->surveypro->thankshtml)) {
                 $htmlbody = $this->surveypro->thankshtml;
+                $contextid = $this->context->id;
                 $component = 'mod_surveypro';
                 $filearea = SURVEYPRO_THANKSHTMLFILEAREA;
-                $message = file_rewrite_pluginfile_urls($htmlbody, 'pluginfile.php', $this->context->id, $component, $filearea, null);
+                $message = file_rewrite_pluginfile_urls($htmlbody, 'pluginfile.php', $contextid, $component, $filearea, null);
             } else {
                 $message = get_string('basic_submitthanks', 'mod_surveypro');
             }
@@ -1529,7 +1530,6 @@ class mod_surveypro_submission {
         $htmlstandardtemplate .= '<td style="width:'.$thirdcolwidth.'%;text-align:left;">@@col3@@</td>';
         $htmlstandardtemplate .= '</tr></table>';
 
-        // $border = array('T' => array('width' => 0.2, 'cap' => 'butt', 'join' => 'miter', 'dash' => 1, 'color' => array(179, 219, 181)));
         $border = array();
         $border['T'] = array();
         $border['T']['width'] = 0.2;
@@ -1584,7 +1584,6 @@ class mod_surveypro_submission {
                         }
                     }
                 } else {
-                    // $content = $emptyanswer;
                     $content = '';
                 }
                 $html = str_replace('@@col3@@', $content, $html);

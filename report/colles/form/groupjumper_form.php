@@ -33,7 +33,7 @@ require_once($CFG->dirroot.'/lib/formslib.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_groupjumper extends moodleform {
+class mod_surveypro_colles_groupjumper extends moodleform {
 
     /**
      * Definition.
@@ -62,7 +62,8 @@ class mod_surveypro_groupjumper extends moodleform {
             $options[$group->id] = $group->name;
         }
 
-        $mform->addElement('select', $fieldname, get_string('group', 'group'), $options, array('class' => 'autosubmit ignoredirty'));
+        $attributes = array('class' => 'autosubmit ignoredirty');
+        $mform->addElement('select', $fieldname, get_string('group', 'group'), $options, $attributes);
 
         // Legacy standard.
         // $elementgroup[] = $mform->createElement('select', $fieldname, get_string('group', 'group'), $options);

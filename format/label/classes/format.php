@@ -269,17 +269,11 @@ EOS;
 
         if ($this->fullwidth) {
             $content = '';
-            // $content .= html_writer::start_tag('fieldset', array('class' => 'hidden'));
-            // $content .= html_writer::start_tag('div', array('class' => 'centerpara'));
             $content .= html_writer::start_tag('div', array('class' => 'fitem'));
             $content .= html_writer::start_tag('div', array('class' => 'fstatic fullwidth label_static'));
-            // $content .= html_writer::start_tag('div', array('class' => 'indent-'.$this->indent));
             $content .= $this->get_content();
-            // $content .= html_writer::end_tag('div');
             $content .= html_writer::end_tag('div');
             $content .= html_writer::end_tag('div');
-            // $content .= html_writer::end_tag('div');
-            // $content .= html_writer::end_tag('fieldset');
             $mform->addElement('html', $content);
         } else {
             $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.

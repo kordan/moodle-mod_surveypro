@@ -193,7 +193,6 @@ EOS;
             if ($files = $fs->get_area_files($this->context->id, $component, $filearea, $item->answerid, 'timemodified', false)) {
                 foreach ($files as $file) {
                     $filename = $file->get_filename();
-                    // $mimetype = $file->get_mimetype();
                     $iconimage = $OUTPUT->pix_icon(file_file_icon($file, 80), get_mimetype_description($file));
 
                     $path = '/'.$this->context->id.'/surveyprofield_fileupload/'.$filearea.'/'.$item->answerid.'/'.$filename;

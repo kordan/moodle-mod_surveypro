@@ -450,9 +450,9 @@ class mod_surveypro_plugin_manager {
      * @return void
      */
     public static function add_admin_surveypro_plugin_settings($subtype,
-                                                            part_of_admin_tree $admin,
-                                                            admin_settingpage $settings,
-                                                            $module) {
+                                                               part_of_admin_tree $admin,
+                                                               admin_settingpage $settings,
+                                                               $module) {
         global $CFG;
 
         $plugins = core_component::get_plugin_list_with_file($subtype, 'settings.php', false);

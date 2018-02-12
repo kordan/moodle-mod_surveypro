@@ -50,7 +50,8 @@ class mod_surveypro_importform extends moodleform {
         // Submissionimport: csvfile.
         // Here I use filepicker because I want ONE, and only ONE, file to import.
         $fieldname = 'csvfile';
-        $mform->addElement('filepicker', $fieldname.'_filepicker', get_string('file'), null, array('accepted_types' => array('.csv')));
+        $attributes = array('accepted_types' => array('.csv'));
+        $mform->addElement('filepicker', $fieldname.'_filepicker', get_string('file'), null, $attributes);
         $mform->addRule($fieldname.'_filepicker', null, 'required');
 
         // Submissionimport: csvdelimiter.

@@ -72,7 +72,8 @@ if ($showjumper) {
     $formparams->canaccessallgroups = $canaccessallgroups;
     $formparams->addnotinanygroup = $reportman->add_notinanygroup();
     $formparams->jumpercontent = $jumpercontent;
-    $groupfilterform = new mod_surveypro_groupjumper($formurl, $formparams, null, null, array('id' => 'surveypro_jumperform'));
+    $attributes = array('id' => 'surveypro_jumperform');
+    $groupfilterform = new mod_surveypro_colles_groupjumper($formurl, $formparams, null, null, $attributes);
 
     $PAGE->requires->js_amd_inline("
     require(['jquery'], function($) {

@@ -361,7 +361,8 @@ EOS;
             $attributes['accepted_types'] = $this->filetypes;
             $attributes['subdirs'] = false;
             $attributes['maxfiles'] = $this->maxfiles;
-            file_save_draft_area_files($answer['filemanager'], $context->id, 'surveyprofield_fileupload', SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $olduseranswer->id, $attributes);
+            file_save_draft_area_files($answer['filemanager'], $context->id, 'surveyprofield_fileupload',
+                SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $olduseranswer->id, $attributes);
 
             $olduseranswer->content = ''; // Nothing is expected here.
         }
