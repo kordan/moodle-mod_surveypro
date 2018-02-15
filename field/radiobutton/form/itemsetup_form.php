@@ -183,7 +183,8 @@ class mod_surveypro_radiobutton_setupform extends mod_surveypro_itembaseform {
                 // Fourth check.
                 // Each item of default has to also be among options OR has to be == to otherlabel value.
                 if (!in_array($cleandefaultvalue, $labels)) {
-                    $errors['defaultvalue'] = get_string('ierr_foreigndefaultvalue', 'surveyprofield_radiobutton', $cleandefaultvalue);
+                    $a = $cleandefaultvalue;
+                    $errors['defaultvalue'] = get_string('ierr_foreigndefaultvalue', 'surveyprofield_radiobutton', $a);
                 }
             }
         }

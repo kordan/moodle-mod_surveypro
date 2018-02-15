@@ -391,7 +391,7 @@ function surveypro_update_instance($surveypro, $mform) {
  * @return void
  */
 function surveypro_pre_process_checkboxes($surveypro) {
-    $checkboxes = array('newpageforchild', 'history', 'saveresume', 'anonymous', 'notifyteachers');
+    $checkboxes = array('newpageforchild', 'history', 'saveresume', 'keepinprogress', 'anonymous', 'notifyteachers');
     foreach ($checkboxes as $checkbox) {
         if (!isset($surveypro->{$checkbox})) {
             $surveypro->{$checkbox} = 0;
@@ -418,7 +418,7 @@ function surveypro_delete_instance($id) {
 
     $status = true;
 
-    // Now get rid of all files
+    // Now get rid of all files.
     $fs = get_file_storage();
     if ($cm = get_coursemodule_from_instance('surveypro', $surveypro->id)) {
         $context = context_module::instance($cm->id);
@@ -607,11 +607,16 @@ function surveypro_cron_scheduled_task() {
         }
 
         // First step: filter surveypro to the subset having 'saveresume' = $saveresume.
-        if ($surveypros = $DB->get_records('surveypro', array('saveresume' => $saveresume), null, 'id')) {
+        if ($surveypros = $DB->get_records('surveypro', array('saveresume' => $saveresume), null, 'id, keepinprogress')) {
             $sofar = ($saveresume == 0) ? (4 * 3600) : ($maxinputdelay * 3600);
             $sofar = time() - $sofar;
             foreach ($surveypros as $surveypro) {
-                // Second step: for each surveypro
+                $keepinprogress = $surveypro->keepinprogress;
+                if (!empty($keepinprogress)) {
+                    continue;
+                }
+
+                // Second step: if you are here, for each surveypro
                 // filter only submissions having 'status' = SURVEYPRO_STATUSINPROGRESS and timecreated < :sofar.
                 $where = 'surveyproid = :surveyproid AND status = :status AND timecreated < :sofar';
                 $whereparams = array('surveyproid' => $surveypro->id, 'status' => SURVEYPRO_STATUSINPROGRESS, 'sofar' => $sofar);
@@ -1065,7 +1070,8 @@ function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=
  * @param bool $pagebreak
  * @return array($where, $params)
  */
-function surveypro_fetch_items_seeds($surveyproid, $visibleonly=true, $canaccessreserveditems=false, $searchform=false, $type=false, $formpage=false, $pagebreak=false) {
+function surveypro_fetch_items_seeds($surveyproid, $visibleonly=true, $canaccessreserveditems=false,
+                                     $searchform=false, $type=false, $formpage=false, $pagebreak=false) {
     $params = array();
     $conditions = array();
 

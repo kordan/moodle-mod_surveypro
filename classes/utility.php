@@ -790,11 +790,16 @@ class mod_surveypro_utility {
         global $COURSE;
 
         $message = get_string('hassubmissions_alert', 'mod_surveypro');
+
+        $keepinprogress = $this->surveypro->keepinprogress;
+        if (empty($keepinprogress)) {
+            $message .= get_string('hassubmissions_danger', 'mod_surveypro');
+        }
+
         $completion = new completion_info($COURSE);
         if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
             $message .= get_string('hassubmissions_alert_activitycompletion', 'mod_surveypro');
         }
-
         return $message;
     }
 

@@ -417,7 +417,7 @@ EOS;
                 $mform->setDefault($this->itemname.'_ignoreme', '1');
             }
         } else {
-            // $attributes['class'] and $attributes['id'] do not work: MDL_28194
+            // $attributes['class'] and $attributes['id'] do not work: MDL_28194.
             $attributes['class'] = 'indent-'.$this->indent.' textarea_editor';
             $fieldname = $this->itemname.'_editor';
             $editoroptions = array('trusttext' => true, 'subdirs' => true, 'maxfiles' => EDITOR_UNLIMITED_FILES);
@@ -564,7 +564,8 @@ EOS;
                 $editoroptions['maxfiles'] = EDITOR_UNLIMITED_FILES;
                 $editoroptions['context'] = $context;
                 $fromdb->contentformat = FORMAT_HTML;
-                $fromdb = file_prepare_standard_editor($fromdb, 'content', $editoroptions, $context, 'mod_surveypro', SURVEYPROFIELD_TEXTAREA_FILEAREA, $fromdb->id);
+                $fromdb = file_prepare_standard_editor($fromdb, 'content', $editoroptions, $context,
+                                                       'mod_surveypro', SURVEYPROFIELD_TEXTAREA_FILEAREA, $fromdb->id);
 
                 $prefill[$this->itemname.'_editor'] = $fromdb->content_editor;
             } else {

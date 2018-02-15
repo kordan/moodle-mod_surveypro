@@ -1629,7 +1629,7 @@ class mod_surveypro_itemlist {
         // Build toavailablelist.
         $toavailablelist = $this->add_parent_node(array('reserved' => 1));
 
-        // I am interested to oldest parent only
+        // I am interested to oldest parent only.
         $oldestparentid = end($toavailablelist);
 
         // Build toreservelist starting from the oldest parent.

@@ -182,7 +182,7 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
         $childreports['scales'] = array('type' => 'scales');
         $childreports['areas'] = $questionreports;
 
-        // To uncomment the next code to get examples of nested navigation into admin > report block,
+        // In order to uncomment the next code to get examples of nested navigation into admin > report block,
         // you have to add strings corresponding to keys to $this->surveypro->template lang file.
         // $subfourtharray = array();
         // $subfourtharray['4.3.1'] = array('type' => 'fourth', 'foo' => 3, 'bar' => 1);
@@ -311,7 +311,7 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
         $graphurl = new moodle_url('/mod/surveypro/report/colles/graph.php', $paramurl);
 
         $this->output_html($nexturl, $graphurl, 'summaryreport');
-        // To debug a graph, open o new broser window and go to:
+        // To debug a graph, open a new broser window and go to:
         // http://localhost/head/mod/surveypro/report/colles/graph.php?id=xxx&type=yyy&groupid=zzz
     }
 
@@ -450,7 +450,7 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
         $paramurl['groupid'] = $this->groupid;
         $paramurl['type'] = 'scales';
 
-        for ($area = 0; $area < 6; $area++) { // 0..5.
+        for ($area = 0; $area < 6; $area++) {
             $paramnexturl['area'] = $area;
             $nexturl = new moodle_url('/mod/surveypro/report/colles/view.php', $paramnexturl);
 
@@ -605,7 +605,7 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
 
         // Begin of: calculate trend1 and, maybe, trend2.
         // Starts with empty defaults.
-        for ($i = 0; $i < 5; $i++) { // 0..4.
+        for ($i = 0; $i < 5; $i++) {
             $this->trend1[] = 0;
             $this->trend2[] = 0;
         }
