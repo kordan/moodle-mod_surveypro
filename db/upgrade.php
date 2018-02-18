@@ -207,5 +207,20 @@ function xmldb_surveypro_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2018020200, 'surveypro');
     }
 
+    if ($oldversion < 2018021200) {
+
+        // Define field keepinprogress to be added to surveypro.
+        $table = new xmldb_table('surveypro');
+        $field = new xmldb_field('keepinprogress', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0', 'saveresume');
+
+        // Conditionally launch add field keepinprogress.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Surveypro savepoint reached.
+        upgrade_mod_savepoint(true, 2018021200, 'surveypro');
+    }
+
     return true;
 }
