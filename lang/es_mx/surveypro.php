@@ -266,7 +266,7 @@ $string['modulesettinghdr'] = 'Configuraciones de Encuestapro (Surveypro)';
 $string['mtemplatessection'] = 'Sección de plantillas maestras';
 $string['newpageforchild'] = 'Las ramas aumentan las páginas';
 $string['newpageforchild_help'] = 'Use esta opción para forzar una página nueva después de cada elemento que ramifica.';
-$string['newsubmissionbody'] = '{$a->username} envió un nuevo registro en {$a->surveyproname} Usted puede revisarlo <a title="{$a->title}" href="{$a->href}">aquí</a>';
+$string['newsubmissionbody'] = '{$a->username} envió un nuevo registro en "{$a->surveyproname}" Usted puede revisarlo <a title="{$a->title}" href="{$a->href}">aquí</a>';
 $string['newsubmissionsubject'] = 'Nueva respuesta';
 $string['nextformpage'] = 'Página siguiente >>';
 $string['noanswer'] = 'Sin contestación';
