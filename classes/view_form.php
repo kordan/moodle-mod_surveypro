@@ -928,30 +928,46 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
             }
         }
 
-        $mailheader = '<head></head>
-    <body id="email"><div>';
-        $mailfooter = '</div></body>';
-
-        // $noreplyuser = \core_user::get_noreply_user();
         $supportuser = \core_user::get_support_user();
-
-        $a = new stdClass();
-        $a->username = fullname($USER);
-        $a->surveyproname = $this->surveypro->name;
-        $a->title = get_string('reviewsubmissions', 'mod_surveypro');
-        $a->href = $CFG->wwwroot.'/mod/surveypro/view.php?s='.$this->surveypro->id;
-
-        $htmlbody = $mailheader;
-        $htmlbody .= get_string('newsubmissionbody', 'mod_surveypro', $a);
-        $htmlbody .= $mailfooter;
-
-        $body = strip_tags($htmlbody);
-
         $subject = get_string('newsubmissionsubject', 'mod_surveypro');
+        $body = $this->get_message();
+        $htmlbody = text_to_html($body, false, false, true);
 
         foreach ($recipients as $recipient) {
             email_to_user($recipient, $supportuser, $subject, $body, $htmlbody);
         }
+    }
+
+    /**
+     * Proccess message method
+     * @param String $message the raw message
+     * @param stdClass $user user instance
+     * @param stdClass $course course instance
+     * @return String the processed message
+     */
+    public function get_message() {
+        global $CFG, $USER, $COURSE;
+
+        if (!empty($this->surveypro->notifycontent)) {
+            $fullname = fullname($USER);
+            $surveyproname = $this->surveypro->name;
+            $url = $CFG->wwwroot.'/mod/surveypro/view.php?s='.$this->surveypro->id;
+
+            $content = $this->surveypro->notifycontent;
+            $original = array('{FIRSTNAME}', '{LASTNAME}', '{FULLNAME}', '{COURSENAME}', '{SURVEYPRONAME}', '{SURVEYPROURL}');
+            $replacements = array($USER->firstname, $USER->lastname, $fullname, $COURSE->fullname, $surveyproname, $url);
+            $content = str_replace($original, $replacements, $content);
+        } else {
+            $a = new stdClass();
+            $a->username = fullname($USER);
+            $a->surveyproname = $this->surveypro->name;
+            $a->title = get_string('reviewsubmissions', 'mod_surveypro');
+            $a->href = $CFG->wwwroot.'/mod/surveypro/view.php?s='.$this->surveypro->id;
+
+            $content = get_string('newsubmissionbody', 'mod_surveypro', $a);
+        }
+
+        return $content;
     }
 
     /**

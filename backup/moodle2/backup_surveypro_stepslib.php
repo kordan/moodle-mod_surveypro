@@ -49,8 +49,8 @@ class backup_surveypro_activity_structure_step extends backup_activity_structure
                     'name', 'intro', 'introformat', 'newpageforchild',
                     'saveresume', 'keepinprogress', 'captcha', 'history', 'anonymous',
                     'timeopen', 'timeclose', 'startyear', 'stopyear',
-                    'maxentries', 'notifyrole', 'notifymore', 'thankshtml',
-                    'thankshtmlformat', 'riskyeditdeadline', 'template',
+                    'maxentries', 'notifyrole', 'notifymore', 'notifycontent',
+                    'thankshtml', 'thankshtmlformat', 'riskyeditdeadline', 'template',
                     'timecreated', 'timemodified'));
 
         $items = new backup_nested_element('items');

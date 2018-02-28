@@ -315,7 +315,6 @@ function surveypro_add_instance($surveypro, $mform) {
     $surveypro->timemodified = time();
 
     $surveypro->id = $DB->insert_record('surveypro', $surveypro);
-    // Stop working with the surveypro table (unless $surveypro->thankshtml_editor['itemid'] != 0).
 
     // Manage userstyle filemanager.
     $draftitemid = $surveypro->userstyle_filemanager;
@@ -362,7 +361,6 @@ function surveypro_update_instance($surveypro, $mform) {
     $DB->set_field('surveypro_item', 'formpage', 0, $whereparams);
 
     $DB->update_record('surveypro', $surveypro);
-    // Stop working with the surveypro table (unless $surveypro->thankshtml_editor['itemid'] != 0).
 
     // Manage userstyle filemanager.
     if ($draftitemid = file_get_submitted_draft_itemid('userstyle_filemanager')) {

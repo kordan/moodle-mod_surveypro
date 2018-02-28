@@ -78,6 +78,7 @@ class mod_surveypro_generator extends testing_module_generator {
             'maxentries' => 0,
             'notifyrole' => null,
             'notifymore' => null,
+            'notifycontent' => null,
             'thankshtml' => null,
             'thankshtmlformat' => FORMAT_MOODLE,
             'riskyeditdeadline' => 0,

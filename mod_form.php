@@ -154,16 +154,24 @@ class mod_surveypro_mod_form extends moodleform_mod {
         $select->setMultiple(true);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
+        // Helper.
+        $textareaoptions = array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65');
+
         // Notifymore.
         $fieldname = 'notifymore';
-        $textareaoptions = array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65');
+        $mform->addElement('textarea', $fieldname, get_string($fieldname, 'mod_surveypro'), $textareaoptions);
+        $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
+
+        // Custom message of outgoing email at submission time.
+        $fieldname = 'notifycontent';
         $mform->addElement('textarea', $fieldname, get_string($fieldname, 'mod_surveypro'), $textareaoptions);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // Define thanks page.
         $fieldname = 'thankshtml';
+        $attributes = array('rows' => 10, 'cols' => 60);
         $editoroptions = surveypro_get_editor_options();
-        $mform->addElement('editor', $fieldname.'_editor', get_string($fieldname, 'mod_surveypro'), null, $editoroptions);
+        $mform->addElement('editor', $fieldname.'_editor', get_string($fieldname, 'mod_surveypro'), $attributes, $editoroptions);
         $mform->addHelpButton($fieldname.'_editor', $fieldname, 'surveypro');
         $mform->setType($fieldname.'_editor', PARAM_RAW); // No XSS prevention here, users must be trusted.
 
