@@ -309,8 +309,7 @@ $string['modulesettinghdr'] = 'Surveypro settings';
 $string['mtemplatessection'] = 'Master templates section';
 $string['newpageforchild_help'] = 'Use this option to force a new page after each branching element.';
 $string['newpageforchild'] = 'Branches increase pages';
-$string['newsubmissionbody'] = '{$a->username} submitted a new record in {$a->surveyproname}
-You can review it <a title="{$a->title}" href="{$a->href}">here</a>';
+$string['newsubmissionbody'] = '{$a->username} submitted a new record in "{$a->surveyproname}". You can review it <a title="{$a->title}" href="{$a->href}">here</a>';
 $string['newsubmissionsubject'] = 'New response';
 $string['nextformpage'] = 'Next page >>';
 $string['noanswer'] = 'No answer';

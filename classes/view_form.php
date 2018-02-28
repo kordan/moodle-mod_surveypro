@@ -911,19 +911,18 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         }
 
         if (!empty($this->surveypro->notifymore)) {
-            $singleuser = new stdClass();
-            $singleuser->id = -1;
-            $singleuser->firstname = '';
-            $singleuser->lastname = '';
-            $singleuser->firstnamephonetic = '';
-            $singleuser->lastnamephonetic = '';
-            $singleuser->middlename = '';
-            $singleuser->alternatename = '';
-            $singleuser->maildisplay = 2;
-            $singleuser->mailformat = 1;
-
             $morerecipients = surveypro_multilinetext_to_array($this->surveypro->notifymore);
             foreach ($morerecipients as $moreemail) {
+                $singleuser = new stdClass();
+                $singleuser->id = -1;
+                $singleuser->firstname = '';
+                $singleuser->lastname = '';
+                $singleuser->firstnamephonetic = '';
+                $singleuser->lastnamephonetic = '';
+                $singleuser->middlename = '';
+                $singleuser->alternatename = '';
+                $singleuser->maildisplay = core_user::MAILDISPLAY_COURSE_MEMBERS_ONLY;
+                $singleuser->mailformat = 1; // Always send HTML version as well.
                 $singleuser->email = $moreemail;
                 $recipients[] = $singleuser;
             }
@@ -933,15 +932,8 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
     <body id="email"><div>';
         $mailfooter = '</div></body>';
 
-        $from = new stdClass();
-        $from->firstname = $COURSE->shortname;
-        $from->lastname = $this->surveypro->name;
-        $from->email = $CFG->noreplyaddress;
-        $from->firstnamephonetic = '';
-        $from->lastnamephonetic = '';
-        $from->middlename = '';
-        $from->alternatename = '';
-        $from->maildisplay = 2;
+        // $noreplyuser = \core_user::get_noreply_user();
+        $supportuser = \core_user::get_support_user();
 
         $a = new stdClass();
         $a->username = fullname($USER);
@@ -958,7 +950,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         $subject = get_string('newsubmissionsubject', 'mod_surveypro');
 
         foreach ($recipients as $recipient) {
-            email_to_user($recipient, $from, $subject, $body, $htmlbody);
+            email_to_user($recipient, $supportuser, $subject, $body, $htmlbody);
         }
     }
 
