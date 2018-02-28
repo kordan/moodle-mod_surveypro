@@ -225,9 +225,10 @@ define('SURVEYPRO_TIMENOWDEFAULT' , 5);
 /**
  * FILEAREAS
  */
-define('SURVEYPRO_STYLEFILEAREA'      , 'userstyle');
-define('SURVEYPRO_TEMPLATEFILEAREA'   , 'templatefilearea');
-define('SURVEYPRO_THANKSHTMLFILEAREA' , 'thankshtml');
+define('SURVEYPRO_STYLEFILEAREA',       'userstyle');
+define('SURVEYPRO_TEMPLATEFILEAREA',    'templatefilearea');
+define('SURVEYPRO_MAILCONTENTAREA',     'mailcontent');
+define('SURVEYPRO_THANKSHTMLFILEAREA',  'thankshtml');
 define('SURVEYPRO_ITEMCONTENTFILEAREA', 'itemcontent');
 
 /**
@@ -315,11 +316,19 @@ function surveypro_add_instance($surveypro, $mform) {
     $surveypro->timemodified = time();
 
     $surveypro->id = $DB->insert_record('surveypro', $surveypro);
-    // Stop working with the surveypro table (unless $surveypro->thankshtml_editor['itemid'] != 0).
 
     // Manage userstyle filemanager.
     $draftitemid = $surveypro->userstyle_filemanager;
     file_save_draft_area_files($draftitemid, $context->id, 'mod_surveypro', SURVEYPRO_STYLEFILEAREA, 0);
+
+    // Manage notifycontent editor.
+    $editoroptions = surveypro_get_editor_options();
+    if ($draftitemid = $surveypro->notifycontent_editor['itemid']) {
+        $surveypro->notifycontent = file_save_draft_area_files($draftitemid, $context->id, 'mod_surveypro',
+                SURVEYPRO_MAILCONTENTAREA, 0, $editoroptions, $surveypro->notifycontent_editor['text']);
+        $surveypro->notifycontentformat = $surveypro->notifycontent_editor['format'];
+        $DB->update_record('surveypro', $surveypro);
+    }
 
     // Manage thankshtml editor.
     $editoroptions = surveypro_get_editor_options();
@@ -362,11 +371,19 @@ function surveypro_update_instance($surveypro, $mform) {
     $DB->set_field('surveypro_item', 'formpage', 0, $whereparams);
 
     $DB->update_record('surveypro', $surveypro);
-    // Stop working with the surveypro table (unless $surveypro->thankshtml_editor['itemid'] != 0).
 
     // Manage userstyle filemanager.
     if ($draftitemid = file_get_submitted_draft_itemid('userstyle_filemanager')) {
         file_save_draft_area_files($draftitemid, $context->id, 'mod_surveypro', SURVEYPRO_STYLEFILEAREA, 0);
+    }
+
+    // Manage notifycontent editor.
+    $editoroptions = surveypro_get_editor_options();
+    if ($draftitemid = $surveypro->notifycontent_editor['itemid']) {
+        $surveypro->notifycontent = file_save_draft_area_files($draftitemid, $context->id, 'mod_surveypro',
+                SURVEYPRO_MAILCONTENTAREA, 0, $editoroptions, $surveypro->notifycontent_editor['text']);
+        $surveypro->notifycontentformat = $surveypro->notifycontent_editor['format'];
+        $DB->update_record('surveypro', $surveypro);
     }
 
     // Manage thankshtml editor.
@@ -753,7 +770,8 @@ function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
 
     // For toplevelfileareas $args come without itemid, just the path.
     // Other fileareas come with both itemid and path.
-    $toplevelfilearea = ($filearea == SURVEYPRO_THANKSHTMLFILEAREA);
+    $toplevelfilearea = ($filearea == SURVEYPRO_MAILCONTENTAREA);
+    $toplevelfilearea = $toplevelfilearea || ($filearea == SURVEYPRO_THANKSHTMLFILEAREA);
     $toplevelfilearea = $toplevelfilearea || ($filearea == SURVEYPRO_STYLEFILEAREA);
     $toplevelfilearea = $toplevelfilearea || ($filearea == SURVEYPRO_TEMPLATEFILEAREA);
     $itemid = ($toplevelfilearea) ? 0 : (int)array_shift($args);

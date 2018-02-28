@@ -59,7 +59,6 @@ class restore_surveypro_activity_task extends restore_activity_task {
         $contents = array();
 
         $contents[] = new restore_decode_content('surveypro', array('intro'), 'surveypro');
-        // $contents[] = new restore_decode_content('surveypro', array('thankspage'), 'surveypro');
 
         return $contents;
     }

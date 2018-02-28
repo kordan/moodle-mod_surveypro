@@ -160,10 +160,19 @@ class mod_surveypro_mod_form extends moodleform_mod {
         $mform->addElement('textarea', $fieldname, get_string($fieldname, 'mod_surveypro'), $textareaoptions);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
+        // Helper variables.
+        $attributes = array('rows' => 10, 'cols' => 60);
+        $editoroptions = surveypro_get_editor_options();
+
+        // Custom mail message for notifications.
+        $fieldname = 'notifycontent';
+        $mform->addElement('editor', $fieldname.'_editor', get_string($fieldname, 'mod_surveypro'), $attributes, $editoroptions);
+        $mform->addHelpButton($fieldname.'_editor', $fieldname, 'surveypro');
+        $mform->setType($fieldname.'_editor', PARAM_RAW); // No XSS prevention here, users must be trusted.
+
         // Define thanks page.
         $fieldname = 'thankshtml';
-        $editoroptions = surveypro_get_editor_options();
-        $mform->addElement('editor', $fieldname.'_editor', get_string($fieldname, 'mod_surveypro'), null, $editoroptions);
+        $mform->addElement('editor', $fieldname.'_editor', get_string($fieldname, 'mod_surveypro'), $attributes, $editoroptions);
         $mform->addHelpButton($fieldname.'_editor', $fieldname, 'surveypro');
         $mform->setType($fieldname.'_editor', PARAM_RAW); // No XSS prevention here, users must be trusted.
 
@@ -189,6 +198,9 @@ class mod_surveypro_mod_form extends moodleform_mod {
         if (!$data) {
             return false;
         }
+
+        $data->notifycontentformat = $data->notifycontent_editor['format'];
+        $data->notifycontent = $data->notifycontent_editor['text'];
 
         $data->thankshtmlformat = $data->thankshtml_editor['format'];
         $data->thankshtml = $data->thankshtml_editor['text'];
@@ -229,6 +241,16 @@ class mod_surveypro_mod_form extends moodleform_mod {
             $filearea = SURVEYPRO_STYLEFILEAREA;
             file_prepare_draft_area($draftitemid, $this->context->id, 'mod_surveypro', $filearea, 0, $filemanageroptions);
             $defaults[$filename.'_filemanager'] = $draftitemid;
+
+            // Manage notifycontent editor.
+            $filename = 'notifycontent';
+            $editoroptions = surveypro_get_editor_options();
+            // Editing an existing surveypro - let us prepare the added editor elements (intro done automatically).
+            $draftitemid = file_get_submitted_draft_itemid($filename);
+            $defaults[$filename.'_editor']['text'] = file_prepare_draft_area($draftitemid, $this->context->id,
+                'mod_surveypro', SURVEYPRO_MAILCONTENTAREA, false, $editoroptions, $defaults[$filename]);
+            $defaults[$filename.'_editor']['format'] = $defaults['notifycontentformat'];
+            $defaults[$filename.'_editor']['itemid'] = $draftitemid;
 
             // Manage thankshtml editor.
             $filename = 'thankshtml';

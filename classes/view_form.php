@@ -943,14 +943,8 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         $from->alternatename = '';
         $from->maildisplay = 2;
 
-        $a = new stdClass();
-        $a->username = fullname($USER);
-        $a->surveyproname = $this->surveypro->name;
-        $a->title = get_string('reviewsubmissions', 'mod_surveypro');
-        $a->href = $CFG->wwwroot.'/mod/surveypro/view.php?s='.$this->surveypro->id;
-
         $htmlbody = $mailheader;
-        $htmlbody .= get_string('newsubmissionbody', 'mod_surveypro', $a);
+        $htmlbody .= $this->get_message();
         $htmlbody .= $mailfooter;
 
         $body = strip_tags($htmlbody);
@@ -960,6 +954,46 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         foreach ($recipients as $recipient) {
             email_to_user($recipient, $from, $subject, $body, $htmlbody);
         }
+    }
+
+    /**
+     * Proccess message method
+     * @param String $message the raw message
+     * @param stdClass $user user instance
+     * @param stdClass $course course instance
+     * @return String the processed message
+     */
+    public function get_message() {
+        global $CFG, $USER, $COURSE;
+
+        if (!empty($this->surveypro->notifycontent)) {
+            $fullname = fullname($USER);
+            $surveyproname = $this->surveypro->name;
+            $url = $CFG->wwwroot.'/mod/surveypro/view.php?s='.$this->surveypro->id;
+
+            $message = $this->surveypro->notifycontent;
+            $message = str_replace('{FIRSTNAME}', $USER->firstname, $message);
+            $message = str_replace('{LASTNAME}', $USER->lastname, $message);
+            $message = str_replace('{FULLNAME}', $fullname, $message);
+            $message = str_replace('{COURSENAME}', $COURSE->fullname, $message);
+            $message = str_replace('{SURVEYPRONAME}', $surveyproname, $message);
+            $message = str_replace('{SURVEYPROURL}', $url, $message);
+
+            $contextid = $this->context->id;
+            $component = 'mod_surveypro';
+            $filearea = SURVEYPRO_MAILCONTENTAREA;
+            $content = file_rewrite_pluginfile_urls($message, 'pluginfile.php', $contextid, $component, $filearea, null);
+        } else {
+            $a = new stdClass();
+            $a->username = fullname($USER);
+            $a->surveyproname = $this->surveypro->name;
+            $a->title = get_string('reviewsubmissions', 'mod_surveypro');
+            $a->href = $CFG->wwwroot.'/mod/surveypro/view.php?s='.$this->surveypro->id;
+
+            $content = get_string('newsubmissionbody', 'mod_surveypro', $a);
+        }
+
+        return $content;
     }
 
     /**
