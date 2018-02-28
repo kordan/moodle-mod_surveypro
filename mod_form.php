@@ -141,6 +141,16 @@ class mod_surveypro_mod_form extends moodleform_mod {
         $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $countoptions);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
+        // Helper variables.
+        $attributes = array('wrap' => 'virtual', 'rows' => 10, 'cols' => 60);
+
+        // Define thanks page.
+        $fieldname = 'thankshtml';
+        $editoroptions = surveypro_get_editor_options();
+        $mform->addElement('editor', $fieldname.'_editor', get_string($fieldname, 'mod_surveypro'), $attributes, $editoroptions);
+        $mform->addHelpButton($fieldname.'_editor', $fieldname, 'surveypro');
+        $mform->setType($fieldname.'_editor', PARAM_RAW); // No XSS prevention here, users must be trusted.
+
         // Notifyrole.
         $fieldname = 'notifyrole';
         $options = array();
@@ -156,14 +166,12 @@ class mod_surveypro_mod_form extends moodleform_mod {
 
         // Notifymore.
         $fieldname = 'notifymore';
-        $textareaoptions = array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65');
-        $mform->addElement('textarea', $fieldname, get_string($fieldname, 'mod_surveypro'), $textareaoptions);
+        $mform->addElement('textarea', $fieldname, get_string($fieldname, 'mod_surveypro'), $attributes);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
-        // Define thanks page.
-        $fieldname = 'thankshtml';
-        $editoroptions = surveypro_get_editor_options();
-        $mform->addElement('editor', $fieldname.'_editor', get_string($fieldname, 'mod_surveypro'), null, $editoroptions);
+        // Custom mail message for notifications. No embedded pictures to handle.
+        $fieldname = 'notifycontent';
+        $mform->addElement('editor', $fieldname.'_editor', get_string($fieldname, 'mod_surveypro'), $attributes);
         $mform->addHelpButton($fieldname.'_editor', $fieldname, 'surveypro');
         $mform->setType($fieldname.'_editor', PARAM_RAW); // No XSS prevention here, users must be trusted.
 
@@ -190,8 +198,9 @@ class mod_surveypro_mod_form extends moodleform_mod {
             return false;
         }
 
-        $data->thankshtmlformat = $data->thankshtml_editor['format'];
+        // Thankshtml.
         $data->thankshtml = $data->thankshtml_editor['text'];
+        $data->thankshtmlformat = $data->thankshtml_editor['format'];
 
         // Notifyrole.
         if (isset($data->notifyrole)) {
@@ -199,6 +208,10 @@ class mod_surveypro_mod_form extends moodleform_mod {
         } else {
             $data->notifyrole = '';
         }
+
+        // Notifycontent.
+        $data->notifycontent = $data->notifycontent_editor['text'];
+        $data->notifycontentformat = $data->notifycontent_editor['format'];
 
         // Turn off completion settings if the checkboxes aren't ticked.
         if (!empty($data->completionunlocked)) {
@@ -225,9 +238,8 @@ class mod_surveypro_mod_form extends moodleform_mod {
             $filename = 'userstyle';
             $filemanageroptions = surveypro_get_user_style_options();
             $draftitemid = file_get_submitted_draft_itemid($filename.'_filemanager');
-
-            $filearea = SURVEYPRO_STYLEFILEAREA;
-            file_prepare_draft_area($draftitemid, $this->context->id, 'mod_surveypro', $filearea, 0, $filemanageroptions);
+            file_prepare_draft_area($draftitemid, $this->context->id, 'mod_surveypro',
+                SURVEYPRO_STYLEFILEAREA, 0, $filemanageroptions);
             $defaults[$filename.'_filemanager'] = $draftitemid;
 
             // Manage thankshtml editor.
@@ -246,6 +258,12 @@ class mod_surveypro_mod_form extends moodleform_mod {
                 $values[] = $roleid;
             }
             $defaults['notifyrole'] = $values;
+
+            // Manage notifycontent editor. No embedded pictures to handle.
+            $filename = 'notifycontent';
+            // Editing an existing surveypro - let us prepare the added editor elements (intro done automatically).
+            $defaults[$filename.'_editor']['text'] = $defaults[$filename];
+            $defaults[$filename.'_editor']['format'] = $defaults['notifycontentformat'];
         }
 
         $fieldname = 'completionsubmit';

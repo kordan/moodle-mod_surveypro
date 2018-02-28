@@ -78,6 +78,8 @@ class mod_surveypro_generator extends testing_module_generator {
             'maxentries' => 0,
             'notifyrole' => null,
             'notifymore' => null,
+            'notifycontent' => null,
+            'notifycontentformat' => FORMAT_MOODLE,
             'thankshtml' => null,
             'thankshtmlformat' => FORMAT_MOODLE,
             'riskyeditdeadline' => 0,
@@ -89,6 +91,10 @@ class mod_surveypro_generator extends testing_module_generator {
             'groupmode' => 0,
 
             'userstyle_filemanager' => file_get_unused_draft_itemid(),
+            'notifycontent_editor' => array(
+                'text' => 'User {FULLNAME} added a response to "{SURVEYPRONAME}".',
+                'format' => FORMAT_HTML,
+            ),
             'thankshtml_editor' => array(
                 'text' => 'Thank you very much for your commitment on this survey.',
                 'format' => FORMAT_HTML,
