@@ -515,13 +515,19 @@ class mod_surveypro_itembase {
             return;
         }
 
-        // Verify variable was set. If not, set $testname starting from the plugin name.
+        // Verify variable was set. If not, set $userchoosedname and $basename starting from the plugin name.
         if (!isset($record->variable) || empty($record->variable)) {
-            $basename = $this->plugin.'_001';
+            $userchoosedname = $this->plugin.'_001';
+            $basename = $this->plugin;
         } else {
-            $basename = $record->variable;
+            $userchoosedname = $record->variable;
+            if (preg_match('~^(.*)_[0-9]{3}$~', $record->variable, $matches)) {
+                $basename = $matches[1];
+            } else {
+                $basename = $record->variable;
+            }
         }
-        $testname = $basename;
+        $testname = $userchoosedname;
 
         // Bloody Editing Teachers can create a boolean element, for instance, naming it 'age_001'
         // having an age element named 'age_001' already onboard!
@@ -543,8 +549,8 @@ class mod_surveypro_itembase {
             $usednames += $DB->get_records_sql_menu($sql, $whereparams);
         }
 
-        // Verify the given name is unique. If not, change it.
-        $i = 0; // If name is duplicate, restart validation from 1.
+        // Verify the $userchoosedname name is unique. If not, change it.
+        $i = 0; // If the name is a duplicate, concatenate a suffix starting from 1.
         while (in_array($testname, $usednames)) {
             $i++;
             $testname = $basename.'_'.str_pad($i, 3, '0', STR_PAD_LEFT);
