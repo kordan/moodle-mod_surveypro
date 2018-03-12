@@ -61,6 +61,8 @@ $string['tabmtemplatename'] = 'Template sistema';
 
 $string['addnewsubmission'] = 'Nuova risposta';
 $string['answerisnoanswer'] = 'Risposta non fornita';
+$string['attemptinfo'] = 'Informazioni sull\'indagine e le risposte acquisite';
+$string['coverpage_welcome'] = 'Benvenuto in: {$a}';
 $string['customnumber_help'] = 'Definisce un numero personalizzato per l\'elemento. Può essere un numero intero come "1" o una qualunque altra scelta come, per esempio: 1a, A, 1.1.a, #1, A, A.1... Si consideri la coerenza della numerazione è lasciata alla tua responsabilità. Per questo, si faccia sempre una doppia verifica qualora si scegliesse di modificare l\'ordine delle domande.';
 $string['customnumber'] = 'Numero dell\'elemento';
 $string['emptyanswer'] = 'Risposta vuota';
