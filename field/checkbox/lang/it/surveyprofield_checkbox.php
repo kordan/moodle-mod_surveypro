@@ -27,8 +27,8 @@ require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/lib.php');
 
 $string['lowerthanminimum_one'] = 'Si selezioni almeno 1 opzione';
 $string['lowerthanminimum_more'] = 'Si selezionino almeno {$a} opzioni';
-$string['restrictions_minimumrequired_one'] = 'Almeno 1 casella di spunta deve essere selezionata nella risposta';
-$string['restrictions_minimumrequired_more'] = 'Almeno {$a} caselle di spunta devono essere selezionate nella risposta';
+$string['restrictions_minimumrequired_one'] = 'Selezionare almeno 1 casella';
+$string['restrictions_minimumrequired_more'] = 'Selezionare almeno {$a} caselle';
 $string['missingothertext'] = 'Si riporti il testo corrispondente alla scelta selezionata';
 $string['uerr_lowerthanminimum_more'] = 'Si spuntino almeno {$a} opzioni';
 $string['uerr_lowerthanminimum_one'] = 'Si spunti almeno 1 opzione';
