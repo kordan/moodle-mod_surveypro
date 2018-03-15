@@ -211,7 +211,7 @@ $capabilities = array(
     ),
 
     'mod/surveypro:submit' => array(
-        'riskbitmask' => RISK_XSS,
+        'riskbitmask' => RISK_SPAM,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
