@@ -171,9 +171,11 @@ class mod_surveypro_mod_form extends moodleform_mod {
 
         // Custom mail message for notifications. No embedded pictures to handle.
         $fieldname = 'notifycontent';
-        $mform->addElement('editor', $fieldname.'_editor', get_string($fieldname, 'mod_surveypro'), $attributes);
-        $mform->addHelpButton($fieldname.'_editor', $fieldname, 'surveypro');
-        $mform->setType($fieldname.'_editor', PARAM_RAW); // No XSS prevention here, users must be trusted.
+        $mform->addElement('editor', $fieldname, get_string($fieldname, 'mod_surveypro'), $attributes);
+        $notifycontentdefault = array('text' => get_string('notifycontentdefault', 'surveypro'), 'format' => FORMAT_HTML);
+        $mform->setDefault($fieldname, $notifycontentdefault);
+        $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
+        $mform->setType($fieldname, PARAM_RAW); // No XSS prevention here, users must be trusted.
 
         // Riskyeditdeadline.
         $fieldname = 'riskyeditdeadline';
@@ -210,8 +212,8 @@ class mod_surveypro_mod_form extends moodleform_mod {
         }
 
         // Notifycontent.
-        $data->notifycontent = $data->notifycontent_editor['text'];
-        $data->notifycontentformat = $data->notifycontent_editor['format'];
+        $data->notifycontentformat = $data->notifycontent['format'];
+        $data->notifycontent = $data->notifycontent['text'];
 
         // Turn off completion settings if the checkboxes aren't ticked.
         if (!empty($data->completionunlocked)) {
@@ -261,9 +263,7 @@ class mod_surveypro_mod_form extends moodleform_mod {
 
             // Manage notifycontent editor. No embedded pictures to handle.
             $filename = 'notifycontent';
-            // Editing an existing surveypro - let us prepare the added editor elements (intro done automatically).
-            $defaults[$filename.'_editor']['text'] = $defaults[$filename];
-            $defaults[$filename.'_editor']['format'] = $defaults['notifycontentformat'];
+            $defaults[$filename] = array('text' => $defaults[$filename], 'format' => $defaults['notifycontentformat']);
         }
 
         $fieldname = 'completionsubmit';

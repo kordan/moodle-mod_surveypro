@@ -329,8 +329,8 @@ function surveypro_add_instance($surveypro, $mform) {
     }
 
     // Manage notifycontent editor. No embedded pictures to handle.
-    $surveypro->notifycontent = $surveypro->notifycontent_editor['text'];
-    $surveypro->notifycontentformat = $surveypro->notifycontent_editor['format'];
+    // $surveypro->notifycontentformat = $surveypro->notifycontent['format'];
+    // $surveypro->notifycontent = $surveypro->notifycontent['text'];
 
     $DB->update_record('surveypro', $surveypro);
 
@@ -379,8 +379,8 @@ function surveypro_update_instance($surveypro, $mform) {
     }
 
     // Manage notifycontent editor. No embedded pictures to handle.
-    $surveypro->notifycontent = $surveypro->notifycontent_editor['text'];
-    $surveypro->notifycontentformat = $surveypro->notifycontent_editor['format'];
+    // $surveypro->notifycontentformat = $surveypro->notifycontent['format'];
+    // $surveypro->notifycontent = $surveypro->notifycontent['text'];
 
     $DB->update_record('surveypro', $surveypro);
 

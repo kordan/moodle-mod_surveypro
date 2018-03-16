@@ -91,7 +91,7 @@ class mod_surveypro_generator extends testing_module_generator {
             'groupmode' => 0,
 
             'userstyle_filemanager' => file_get_unused_draft_itemid(),
-            'notifycontent_editor' => array(
+            'notifycontent' => array(
                 'text' => 'User {FULLNAME} added a response to "{SURVEYPRONAME}".',
                 'format' => FORMAT_HTML,
             ),
