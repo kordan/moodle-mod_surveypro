@@ -326,12 +326,12 @@ function surveypro_add_instance($surveypro, $mform) {
         $surveypro->thankshtml = file_save_draft_area_files($draftitemid, $context->id, 'mod_surveypro',
                 SURVEYPRO_THANKSHTMLFILEAREA, 0, $editoroptions, $surveypro->thankshtml_editor['text']);
         $surveypro->thankshtmlformat = $surveypro->thankshtml_editor['format'];
-        $DB->update_record('surveypro', $surveypro);
     }
 
     // Manage notifycontent editor. No embedded pictures to handle.
     $surveypro->notifycontent = $surveypro->notifycontent_editor['text'];
     $surveypro->notifycontentformat = $surveypro->notifycontent_editor['format'];
+
     $DB->update_record('surveypro', $surveypro);
 
     return $surveypro->id;
@@ -365,8 +365,6 @@ function surveypro_update_instance($surveypro, $mform) {
     $whereparams = array('surveyproid' => $surveypro->id);
     $DB->set_field('surveypro_item', 'formpage', 0, $whereparams);
 
-    $DB->update_record('surveypro', $surveypro);
-
     // Manage userstyle filemanager.
     if ($draftitemid = file_get_submitted_draft_itemid('userstyle_filemanager')) {
         file_save_draft_area_files($draftitemid, $context->id, 'mod_surveypro', SURVEYPRO_STYLEFILEAREA, 0);
@@ -378,12 +376,12 @@ function surveypro_update_instance($surveypro, $mform) {
         $surveypro->thankshtml = file_save_draft_area_files($draftitemid, $context->id, 'mod_surveypro',
                 SURVEYPRO_THANKSHTMLFILEAREA, 0, $editoroptions, $surveypro->thankshtml_editor['text']);
         $surveypro->thankshtmlformat = $surveypro->thankshtml_editor['format'];
-        $DB->update_record('surveypro', $surveypro);
     }
 
     // Manage notifycontent editor. No embedded pictures to handle.
     $surveypro->notifycontent = $surveypro->notifycontent_editor['text'];
     $surveypro->notifycontentformat = $surveypro->notifycontent_editor['format'];
+
     $DB->update_record('surveypro', $surveypro);
 
     return true;
