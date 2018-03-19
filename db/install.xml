@@ -22,12 +22,12 @@
         <FIELD NAME="startyear" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="stopyear" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="maxentries" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
-        <FIELD NAME="notifyrole" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
-        <FIELD NAME="notifymore" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
-        <FIELD NAME="notifycontent" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
-        <FIELD NAME="notifycontentformat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
-        <FIELD NAME="thankshtml" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
-        <FIELD NAME="thankshtmlformat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="mailroles" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="mailextraaddresses" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="mailcontent" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="mailcontentformat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="thankspage" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="thankspageformat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="riskyeditdeadline" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="template" TYPE="char" LENGTH="64" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="completionsubmit" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>

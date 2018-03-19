@@ -87,6 +87,24 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         if (isset($data->advanced)) {
             $data->reserved = $data->advanced;
         }
+        if (isset($data->thankshtml)) {
+            $data->thankspage = $data->thankshtml;
+        }
+        if (isset($data->thankshtmlformat)) {
+            $data->thankspageformat = $data->thankshtmlformat;
+        }
+        if (isset($data->notifycontent)) {
+            $data->mailcontent = $data->notifycontent;
+        }
+        if (isset($data->notifycontentformat)) {
+            $data->mailcontentformat = $data->notifycontentformat;
+        }
+        if (isset($data->notifymore)) {
+            $data->mailextraaddresses = $data->notifymore;
+        }
+        if (isset($data->notifyrole)) {
+            $data->mailroles = $data->notifyrole;
+        }
         $data->timeopen = $this->apply_date_offset($data->timeopen);
         $data->timeclose = $this->apply_date_offset($data->timeclose);
         $data->timemodified = $this->apply_date_offset($data->timemodified);
@@ -168,7 +186,7 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
 
         // Add surveypro related files, no need to match by itemname (just internally handled context).
         $this->add_related_files('mod_surveypro', 'intro', null);
-        $this->add_related_files('mod_surveypro', SURVEYPRO_THANKSHTMLFILEAREA, null);
+        $this->add_related_files('mod_surveypro', SURVEYPRO_THANKSPAGEFILEAREA, null);
         $this->add_related_files('mod_surveypro', SURVEYPRO_STYLEFILEAREA, null);
         $this->add_related_files('mod_surveypro', SURVEYPRO_TEMPLATEFILEAREA, null);
 

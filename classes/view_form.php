@@ -855,7 +855,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         if ($this->status != SURVEYPRO_STATUSCLOSED) {
             return;
         }
-        if (empty($this->surveypro->notifyrole) && empty($this->surveypro->notifymore)) {
+        if (empty($this->surveypro->mailroles) && empty($this->surveypro->mailextraaddresses)) {
             return;
         }
 
@@ -864,8 +864,8 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
 
         $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $this->cm->groupingid);
         $mygroups = array_keys($mygroups);
-        if ($this->surveypro->notifyrole) {
-            $roles = explode(',', $this->surveypro->notifyrole);
+        if ($this->surveypro->mailroles) {
+            $roles = explode(',', $this->surveypro->mailroles);
             if (count($mygroups)) {
                 $recipients = array();
                 foreach ($mygroups as $mygroup) {
@@ -910,8 +910,8 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
             $recipients = array();
         }
 
-        if (!empty($this->surveypro->notifymore)) {
-            $morerecipients = surveypro_multilinetext_to_array($this->surveypro->notifymore);
+        if (!empty($this->surveypro->mailextraaddresses)) {
+            $morerecipients = surveypro_multilinetext_to_array($this->surveypro->mailextraaddresses);
             foreach ($morerecipients as $moreemail) {
                 $singleuser = new stdClass();
                 $singleuser->id = -1;
@@ -952,12 +952,12 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
     public function get_message() {
         global $CFG, $USER, $COURSE;
 
-        if (!empty($this->surveypro->notifycontent)) {
+        if (!empty($this->surveypro->mailcontent)) {
             $fullname = fullname($USER);
             $surveyproname = $this->surveypro->name;
             $url = $CFG->wwwroot.'/mod/surveypro/view.php?s='.$this->surveypro->id;
 
-            $content = $this->surveypro->notifycontent;
+            $content = $this->surveypro->mailcontent;
             $originals = array('{FIRSTNAME}', '{LASTNAME}', '{FULLNAME}', '{COURSENAME}', '{SURVEYPRONAME}', '{SURVEYPROURL}');
             $replacements = array($USER->firstname, $USER->lastname, $fullname, $COURSE->fullname, $surveyproname, $url);
 
