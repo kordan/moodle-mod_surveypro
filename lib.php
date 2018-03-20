@@ -391,7 +391,8 @@ function surveypro_update_instance($surveypro, $mform) {
  * @return void
  */
 function surveypro_pre_process_checkboxes($surveypro) {
-    $checkboxes = array('newpageforchild', 'history', 'saveresume', 'keepinprogress', 'anonymous', 'notifyteachers');
+    $checkboxes = array('newpageforchild', 'saveresume', 'keepinprogress', 'history', 'anonymous', 'captcha');
+
     foreach ($checkboxes as $checkbox) {
         if (!isset($surveypro->{$checkbox})) {
             $surveypro->{$checkbox} = 0;
