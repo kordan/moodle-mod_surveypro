@@ -152,9 +152,9 @@ define('SURVEYPRO_NOFEEDBACK', 0);
 /**
  * ITEMPREFIX
  */
-define('SURVEYPRO_ITEMPREFIX', 'surveypro');
+define('SURVEYPRO_ITEMPREFIX'       , 'surveypro');
 define('SURVEYPRO_PLACEHOLDERPREFIX', 'placeholder');
-define('SURVEYPRO_DONTSAVEMEPREFIX', 'placeholder');
+define('SURVEYPRO_DONTSAVEMEPREFIX' , 'placeholder');
 
 /**
  * INVITE, NO-ANSWER AND IGNOREME VALUE
@@ -165,16 +165,16 @@ define('SURVEYPRO_DONTSAVEMEPREFIX', 'placeholder');
 // define('SURVEYPRO_IGNOREMEVALUE',   '__1gn0rE__me__'); // User should never guess it.
 
 // Starting from version 2015090901.
-define('SURVEYPRO_INVITEVALUE',        '@@_INVITE_@@'); // User should never guess it.
-define('SURVEYPRO_NOANSWERVALUE',      '@@_NOANSW_@@'); // User should never guess it.
-define('SURVEYPRO_IGNOREMEVALUE',      '@@_IGNORE_@@'); // User should never guess it.
-define('SURVEYPRO_EXPNULLVALUE',       '@@_NULVAL_@@'); // User should never guess it.
-define('SURVEYPRO_IMPFORMATSUFFIX',    '@@_FORMAT_@@'); // User should never guess it.
+define('SURVEYPRO_INVITEVALUE'    , '@@_INVITE_@@'); // User should never guess it.
+define('SURVEYPRO_NOANSWERVALUE'  , '@@_NOANSW_@@'); // User should never guess it.
+define('SURVEYPRO_IGNOREMEVALUE'  , '@@_IGNORE_@@'); // User should never guess it.
+define('SURVEYPRO_EXPNULLVALUE'   , '@@_NULVAL_@@'); // User should never guess it.
+define('SURVEYPRO_IMPFORMATSUFFIX', '@@_FORMAT_@@'); // User should never guess it.
 
 /**
  * ITEM ADJUSTMENTS
  */
-define('SURVEYPRO_VERTICAL',   0);
+define('SURVEYPRO_VERTICAL'  , 0);
 define('SURVEYPRO_HORIZONTAL', 1);
 
 /**
@@ -227,7 +227,7 @@ define('SURVEYPRO_TIMENOWDEFAULT' , 5);
  */
 define('SURVEYPRO_STYLEFILEAREA'      , 'userstyle');
 define('SURVEYPRO_TEMPLATEFILEAREA'   , 'templatefilearea');
-define('SURVEYPRO_THANKSHTMLFILEAREA' , 'thankshtml');
+define('SURVEYPRO_THANKSPAGEFILEAREA' , 'thankshtml');
 define('SURVEYPRO_ITEMCONTENTFILEAREA', 'itemcontent');
 
 /**
@@ -238,30 +238,30 @@ define('SURVEYPRO_FRIENDLYFORMAT', -1);
 /**
  * POSITION OF THE QUESTION CONTENT IN THE ITEM
  */
-define('SURVEYPRO_POSITIONLEFT',      0);
-define('SURVEYPRO_POSITIONTOP',       1);
+define('SURVEYPRO_POSITIONLEFT'     , 0);
+define('SURVEYPRO_POSITIONTOP'      , 1);
 define('SURVEYPRO_POSITIONFULLWIDTH', 2);
 
 /**
  * STATUS OF CONDITIONS OF RELATIONS
  */
-define('SURVEYPRO_CONDITIONOK',         0);
+define('SURVEYPRO_CONDITIONOK'        , 0);
 define('SURVEYPRO_CONDITIONNEVERMATCH', 1);
-define('SURVEYPRO_CONDITIONMALFORMED',  2);
+define('SURVEYPRO_CONDITIONMALFORMED' , 2);
 
 /**
  * SEMANTIC OF CONTENT RETURNED BY ITEMS
  */
-define('SURVEYPRO_ITEMSRETURNSVALUES',  0);
-define('SURVEYPRO_ITEMRETURNSLABELS',   1);
+define('SURVEYPRO_ITEMSRETURNSVALUES' , 0);
+define('SURVEYPRO_ITEMRETURNSLABELS'  , 1);
 define('SURVEYPRO_ITEMRETURNSPOSITION', 2);
 
 /**
  * OUTPUT CONTENT
  */
-define('SURVEYPRO_LABELS', 'labels');
-define('SURVEYPRO_VALUES', 'values');
-define('SURVEYPRO_POSITIONS', 'positions');
+define('SURVEYPRO_LABELS'    , 'labels');
+define('SURVEYPRO_VALUES'    , 'values');
+define('SURVEYPRO_POSITIONS' , 'positions');
 define('SURVEYPRO_ITEMDRIVEN', 'itemdriven');
 
 /**
@@ -272,8 +272,8 @@ define('SURVEYPRO_DUMMYCONTENT', '__my_dummy_content@@');
 /**
  * OUTPUT OF FINAL SUBMISSION EVALUATION
  */
-define('SURVEYPRO_VALIDRESPONSE',     0);
-define('SURVEYPRO_MISSINGMANDATORY',  1);
+define('SURVEYPRO_VALIDRESPONSE'    , 0);
+define('SURVEYPRO_MISSINGMANDATORY' , 1);
 define('SURVEYPRO_MISSINGVALIDATION', 2);
 
 /**
@@ -315,20 +315,24 @@ function surveypro_add_instance($surveypro, $mform) {
     $surveypro->timemodified = time();
 
     $surveypro->id = $DB->insert_record('surveypro', $surveypro);
-    // Stop working with the surveypro table (unless $surveypro->thankshtml_editor['itemid'] != 0).
 
     // Manage userstyle filemanager.
     $draftitemid = $surveypro->userstyle_filemanager;
     file_save_draft_area_files($draftitemid, $context->id, 'mod_surveypro', SURVEYPRO_STYLEFILEAREA, 0);
 
-    // Manage thankshtml editor.
+    // Manage thankspage editor.
     $editoroptions = surveypro_get_editor_options();
-    if ($draftitemid = $surveypro->thankshtml_editor['itemid']) {
-        $surveypro->thankshtml = file_save_draft_area_files($draftitemid, $context->id, 'mod_surveypro',
-                SURVEYPRO_THANKSHTMLFILEAREA, 0, $editoroptions, $surveypro->thankshtml_editor['text']);
-        $surveypro->thankshtmlformat = $surveypro->thankshtml_editor['format'];
-        $DB->update_record('surveypro', $surveypro);
+    if ($draftitemid = $surveypro->thankspageeditor['itemid']) {
+        $surveypro->thankspage = file_save_draft_area_files($draftitemid, $context->id, 'mod_surveypro',
+                SURVEYPRO_THANKSPAGEFILEAREA, 0, $editoroptions, $surveypro->thankspageeditor['text']);
+        $surveypro->thankspageformat = $surveypro->thankspageeditor['format'];
     }
+
+    // Manage mailcontent editor. No embedded pictures to handle.
+    $surveypro->mailcontent = $surveypro->mailcontenteditor['text'];
+    $surveypro->mailcontentformat = $surveypro->mailcontenteditor['format'];
+
+    $DB->update_record('surveypro', $surveypro);
 
     return $surveypro->id;
 }
@@ -361,22 +365,24 @@ function surveypro_update_instance($surveypro, $mform) {
     $whereparams = array('surveyproid' => $surveypro->id);
     $DB->set_field('surveypro_item', 'formpage', 0, $whereparams);
 
-    $DB->update_record('surveypro', $surveypro);
-    // Stop working with the surveypro table (unless $surveypro->thankshtml_editor['itemid'] != 0).
-
     // Manage userstyle filemanager.
     if ($draftitemid = file_get_submitted_draft_itemid('userstyle_filemanager')) {
         file_save_draft_area_files($draftitemid, $context->id, 'mod_surveypro', SURVEYPRO_STYLEFILEAREA, 0);
     }
 
-    // Manage thankshtml editor.
+    // Manage thankspage editor.
     $editoroptions = surveypro_get_editor_options();
-    if ($draftitemid = $surveypro->thankshtml_editor['itemid']) {
-        $surveypro->thankshtml = file_save_draft_area_files($draftitemid, $context->id, 'mod_surveypro',
-                SURVEYPRO_THANKSHTMLFILEAREA, 0, $editoroptions, $surveypro->thankshtml_editor['text']);
-        $surveypro->thankshtmlformat = $surveypro->thankshtml_editor['format'];
-        $DB->update_record('surveypro', $surveypro);
+    if ($draftitemid = $surveypro->thankspageeditor['itemid']) {
+        $surveypro->thankspage = file_save_draft_area_files($draftitemid, $context->id, 'mod_surveypro',
+                SURVEYPRO_THANKSPAGEFILEAREA, 0, $editoroptions, $surveypro->thankspageeditor['text']);
+        $surveypro->thankspageformat = $surveypro->thankspageeditor['format'];
     }
+
+    // Manage mailcontent editor. No embedded pictures to handle.
+    $surveypro->mailcontentformat = $surveypro->mailcontenteditor['format'];
+    $surveypro->mailcontent = $surveypro->mailcontenteditor['text'];
+
+    $DB->update_record('surveypro', $surveypro);
 
     return true;
 }
@@ -754,7 +760,7 @@ function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
 
     // For toplevelfileareas $args come without itemid, just the path.
     // Other fileareas come with both itemid and path.
-    $toplevelfilearea = ($filearea == SURVEYPRO_THANKSHTMLFILEAREA);
+    $toplevelfilearea = ($filearea == SURVEYPRO_THANKSPAGEFILEAREA);
     $toplevelfilearea = $toplevelfilearea || ($filearea == SURVEYPRO_STYLEFILEAREA);
     $toplevelfilearea = $toplevelfilearea || ($filearea == SURVEYPRO_TEMPLATEFILEAREA);
     $itemid = ($toplevelfilearea) ? 0 : (int)array_shift($args);

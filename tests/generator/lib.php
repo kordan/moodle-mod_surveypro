@@ -76,10 +76,12 @@ class mod_surveypro_generator extends testing_module_generator {
             'startyear' => 1970,
             'stopyear' => 2020,
             'maxentries' => 0,
-            'notifyrole' => null,
-            'notifymore' => null,
-            'thankshtml' => null,
-            'thankshtmlformat' => FORMAT_MOODLE,
+            'thankspage' => '',
+            'thankspageformat' => '',
+            'mailroles' => null,
+            'mailextraaddresses' => null,
+            'mailcontent' => 'User {FULLNAME} added a response to "{SURVEYPRONAME}".',
+            'mailcontentformat' => FORMAT_HTML,
             'riskyeditdeadline' => 0,
             'template' => null,
             'completionsubmit' => 0,
@@ -89,7 +91,11 @@ class mod_surveypro_generator extends testing_module_generator {
             'groupmode' => 0,
 
             'userstyle_filemanager' => file_get_unused_draft_itemid(),
-            'thankshtml_editor' => array(
+            'mailcontenteditor' => array(
+                'text' => 'User {FULLNAME} added a response to "{SURVEYPRONAME}".',
+                'format' => FORMAT_HTML,
+            ),
+            'thankspageeditor' => array(
                 'text' => 'Thank you very much for your commitment on this survey.',
                 'format' => FORMAT_HTML,
                 'itemid' => file_get_unused_draft_itemid()

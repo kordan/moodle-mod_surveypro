@@ -855,7 +855,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         if ($this->status != SURVEYPRO_STATUSCLOSED) {
             return;
         }
-        if (empty($this->surveypro->notifyrole) && empty($this->surveypro->notifymore)) {
+        if (empty($this->surveypro->mailroles) && empty($this->surveypro->mailextraaddresses)) {
             return;
         }
 
@@ -864,8 +864,8 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
 
         $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $this->cm->groupingid);
         $mygroups = array_keys($mygroups);
-        if ($this->surveypro->notifyrole) {
-            $roles = explode(',', $this->surveypro->notifyrole);
+        if ($this->surveypro->mailroles) {
+            $roles = explode(',', $this->surveypro->mailroles);
             if (count($mygroups)) {
                 $recipients = array();
                 foreach ($mygroups as $mygroup) {
@@ -910,8 +910,8 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
             $recipients = array();
         }
 
-        if (!empty($this->surveypro->notifymore)) {
-            $morerecipients = surveypro_multilinetext_to_array($this->surveypro->notifymore);
+        if (!empty($this->surveypro->mailextraaddresses)) {
+            $morerecipients = surveypro_multilinetext_to_array($this->surveypro->mailextraaddresses);
             foreach ($morerecipients as $moreemail) {
                 $singleuser = new stdClass();
                 $singleuser->id = -1;
@@ -928,30 +928,51 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
             }
         }
 
-        $mailheader = '<head></head>
-    <body id="email"><div>';
-        $mailfooter = '</div></body>';
-
         // $noreplyuser = \core_user::get_noreply_user();
         $supportuser = \core_user::get_support_user();
 
-        $a = new stdClass();
-        $a->username = fullname($USER);
-        $a->surveyproname = $this->surveypro->name;
-        $a->title = get_string('reviewsubmissions', 'mod_surveypro');
-        $a->href = $CFG->wwwroot.'/mod/surveypro/view.php?s='.$this->surveypro->id;
-
-        $htmlbody = $mailheader;
-        $htmlbody .= get_string('newsubmissionbody', 'mod_surveypro', $a);
-        $htmlbody .= $mailfooter;
-
-        $body = strip_tags($htmlbody);
+        $body = $this->get_message();
+        $htmlbody = text_to_html($body, false, false, true);
 
         $subject = get_string('newsubmissionsubject', 'mod_surveypro');
 
         foreach ($recipients as $recipient) {
             email_to_user($recipient, $supportuser, $subject, $body, $htmlbody);
         }
+    }
+
+    /**
+     * Proccess message method
+     *
+     * @param String $message the raw message
+     * @param stdClass $user user instance
+     * @param stdClass $course course instance
+     * @return String the processed message
+     */
+    public function get_message() {
+        global $CFG, $USER, $COURSE;
+
+        if (!empty($this->surveypro->mailcontent)) {
+            $fullname = fullname($USER);
+            $surveyproname = $this->surveypro->name;
+            $url = $CFG->wwwroot.'/mod/surveypro/view.php?s='.$this->surveypro->id;
+
+            $content = $this->surveypro->mailcontent;
+            $originals = array('{FIRSTNAME}', '{LASTNAME}', '{FULLNAME}', '{COURSENAME}', '{SURVEYPRONAME}', '{SURVEYPROURL}');
+            $replacements = array($USER->firstname, $USER->lastname, $fullname, $COURSE->fullname, $surveyproname, $url);
+
+            $content = str_replace($originals, $replacements, $content);
+        } else {
+            $a = new stdClass();
+            $a->username = fullname($USER);
+            $a->surveyproname = $this->surveypro->name;
+            $a->title = get_string('reviewsubmissions', 'mod_surveypro');
+            $a->href = $CFG->wwwroot.'/mod/surveypro/view.php?s='.$this->surveypro->id;
+
+            $content = get_string('newsubmissionbody', 'mod_surveypro', $a);
+        }
+
+        return $content;
     }
 
     /**

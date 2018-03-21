@@ -141,8 +141,18 @@ class mod_surveypro_mod_form extends moodleform_mod {
         $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $countoptions);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
-        // Notifyrole.
-        $fieldname = 'notifyrole';
+        // Helper variables.
+        $attributes = array('wrap' => 'virtual', 'rows' => 10, 'cols' => 60);
+
+        // Define thanks page.
+        $fieldname = 'thankspageeditor';
+        $editoroptions = surveypro_get_editor_options();
+        $mform->addElement('editor', $fieldname, get_string($fieldname, 'mod_surveypro'), $attributes, $editoroptions);
+        $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
+        $mform->setType($fieldname, PARAM_RAW); // No XSS prevention here, users must be trusted.
+
+        // Mailroles.
+        $fieldname = 'mailroles';
         $options = array();
         $context = context_course::instance($COURSE->id);
         $roleoptions = get_role_names_with_caps_in_context($context, array('mod/surveypro:submit'));
@@ -154,18 +164,18 @@ class mod_surveypro_mod_form extends moodleform_mod {
         $select->setMultiple(true);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
-        // Notifymore.
-        $fieldname = 'notifymore';
-        $textareaoptions = array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65');
-        $mform->addElement('textarea', $fieldname, get_string($fieldname, 'mod_surveypro'), $textareaoptions);
+        // Mailextraaddresses.
+        $fieldname = 'mailextraaddresses';
+        $mform->addElement('textarea', $fieldname, get_string($fieldname, 'mod_surveypro'), $attributes);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
-        // Define thanks page.
-        $fieldname = 'thankshtml';
-        $editoroptions = surveypro_get_editor_options();
-        $mform->addElement('editor', $fieldname.'_editor', get_string($fieldname, 'mod_surveypro'), null, $editoroptions);
-        $mform->addHelpButton($fieldname.'_editor', $fieldname, 'surveypro');
-        $mform->setType($fieldname.'_editor', PARAM_RAW); // No XSS prevention here, users must be trusted.
+        // Custom mail message for notifications. No embedded pictures to handle.
+        $fieldname = 'mailcontenteditor';
+        $mform->addElement('editor', $fieldname, get_string($fieldname, 'mod_surveypro'), $attributes);
+        $mailcontentdefault = array('text' => get_string('mailcontentdefault', 'surveypro'), 'format' => FORMAT_HTML);
+        $mform->setDefault($fieldname, $mailcontentdefault);
+        $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
+        $mform->setType($fieldname, PARAM_RAW); // No XSS prevention here, users must be trusted.
 
         // Riskyeditdeadline.
         $fieldname = 'riskyeditdeadline';
@@ -190,15 +200,20 @@ class mod_surveypro_mod_form extends moodleform_mod {
             return false;
         }
 
-        $data->thankshtmlformat = $data->thankshtml_editor['format'];
-        $data->thankshtml = $data->thankshtml_editor['text'];
+        // Thankspage.
+        $data->thankspageformat = $data->thankspageeditor['format'];
+        $data->thankspage = $data->thankspageeditor['text'];
 
-        // Notifyrole.
-        if (isset($data->notifyrole)) {
-            $data->notifyrole = implode($data->notifyrole, ',');
+        // Mailroles.
+        if (isset($data->mailroles)) {
+            $data->mailroles = implode($data->mailroles, ',');
         } else {
-            $data->notifyrole = '';
+            $data->mailroles = '';
         }
+
+        // Mailcontent.
+        $data->mailcontentformat = $data->mailcontenteditor['format'];
+        $data->mailcontent = $data->mailcontenteditor['text'];
 
         // Turn off completion settings if the checkboxes aren't ticked.
         if (!empty($data->completionunlocked)) {
@@ -225,27 +240,54 @@ class mod_surveypro_mod_form extends moodleform_mod {
             $filename = 'userstyle';
             $filemanageroptions = surveypro_get_user_style_options();
             $draftitemid = file_get_submitted_draft_itemid($filename.'_filemanager');
-
-            $filearea = SURVEYPRO_STYLEFILEAREA;
-            file_prepare_draft_area($draftitemid, $this->context->id, 'mod_surveypro', $filearea, 0, $filemanageroptions);
+            file_prepare_draft_area($draftitemid, $this->context->id, 'mod_surveypro',
+                SURVEYPRO_STYLEFILEAREA, 0, $filemanageroptions);
             $defaults[$filename.'_filemanager'] = $draftitemid;
 
-            // Manage thankshtml editor.
-            $filename = 'thankshtml';
+            // Manage thankspage editor.
+            $filename = 'thankspageeditor';
             $editoroptions = surveypro_get_editor_options();
             // Editing an existing surveypro - let us prepare the added editor elements (intro done automatically).
-            $draftitemid = file_get_submitted_draft_itemid($filename);
-            $defaults[$filename.'_editor']['text'] = file_prepare_draft_area($draftitemid, $this->context->id,
-                'mod_surveypro', SURVEYPRO_THANKSHTMLFILEAREA, false, $editoroptions, $defaults[$filename]);
-            $defaults[$filename.'_editor']['format'] = $defaults['thankshtmlformat'];
-            $defaults[$filename.'_editor']['itemid'] = $draftitemid;
+            $draftitemid = file_get_submitted_draft_itemid('thankspage');
+            $defaults[$filename]['text'] = file_prepare_draft_area($draftitemid, $this->context->id,
+                                           'mod_surveypro', SURVEYPRO_THANKSPAGEFILEAREA, 0, $editoroptions, $defaults['thankspage']);
+            $defaults[$filename]['format'] = $defaults['thankspageformat'];
+            $defaults[$filename]['itemid'] = $draftitemid;
 
-            // Notifyrole.
-            $presetroles = explode(',', $defaults['notifyrole']);
+            // Mailroles.
+            $filename = 'mailroles';
+            $presetroles = explode(',', $defaults['mailroles']);
             foreach ($presetroles as $roleid) {
                 $values[] = $roleid;
             }
-            $defaults['notifyrole'] = $values;
+            $defaults[$filename] = $values;
+
+            // Manage mailcontent editor. No embedded pictures to handle.
+            $filename = 'mailcontenteditor';
+            $defaults[$filename]['text'] = $defaults['mailcontent'];
+            $defaults[$filename]['format'] = $defaults['mailcontentformat'];
+        } else {
+            // Manage userstyle filemanager.
+            $filename = 'userstyle';
+            $filemanageroptions = surveypro_get_user_style_options();
+            $draftitemid = file_get_submitted_draft_itemid($filename.'_filemanager');
+            file_prepare_draft_area($draftitemid, $this->context->id, 'mod_surveypro',
+                                    SURVEYPRO_STYLEFILEAREA, 0, $filemanageroptions);
+            $defaults[$filename.'_filemanager'] = $draftitemid;
+
+            // Manage thankspage editor.
+            $filename = 'thankspageeditor';
+            $draftitemid = file_get_submitted_draft_itemid('thankspage');
+            file_prepare_draft_area($draftitemid, null, 'mod_surveypro', SURVEYPRO_THANKSPAGEFILEAREA, 0);
+            $defaults[$filename]['text'] = '';
+            $defaults[$filename]['format'] = editors_get_preferred_format();
+            $defaults[$filename]['itemid'] = $draftitemid;
+
+            // Mailroles.
+            // Nothing to do.
+
+            // Manage mailcontent editor. No embedded pictures to handle.
+            // Nothing to do.
         }
 
         $fieldname = 'completionsubmit';

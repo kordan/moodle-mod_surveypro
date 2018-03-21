@@ -1001,11 +1001,11 @@ class mod_surveypro_submission {
         if ($formview == SURVEYPRO_EDITRESPONSE) {
             $message = get_string('basic_editthanks', 'mod_surveypro');
         } else {
-            if (!empty($this->surveypro->thankshtml)) {
-                $htmlbody = $this->surveypro->thankshtml;
+            if (!empty($this->surveypro->thankspage)) {
+                $htmlbody = $this->surveypro->thankspage;
                 $contextid = $this->context->id;
                 $component = 'mod_surveypro';
-                $filearea = SURVEYPRO_THANKSHTMLFILEAREA;
+                $filearea = SURVEYPRO_THANKSPAGEFILEAREA;
                 $message = file_rewrite_pluginfile_urls($htmlbody, 'pluginfile.php', $contextid, $component, $filearea, null);
             } else {
                 $message = get_string('basic_submitthanks', 'mod_surveypro');

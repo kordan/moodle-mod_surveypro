@@ -49,8 +49,8 @@ class backup_surveypro_activity_structure_step extends backup_activity_structure
                     'name', 'intro', 'introformat', 'newpageforchild',
                     'saveresume', 'keepinprogress', 'captcha', 'history', 'anonymous',
                     'timeopen', 'timeclose', 'startyear', 'stopyear',
-                    'maxentries', 'notifyrole', 'notifymore', 'thankshtml',
-                    'thankshtmlformat', 'riskyeditdeadline', 'template',
+                    'maxentries', 'mailroles', 'mailextraaddresses', 'mailcontent', 'mailcontentformat',
+                    'thankspage', 'thankspageformat', 'riskyeditdeadline', 'template',
                     'timecreated', 'timemodified'));
 
         $items = new backup_nested_element('items');
@@ -106,7 +106,7 @@ class backup_surveypro_activity_structure_step extends backup_activity_structure
         $surveypro->annotate_files('mod_surveypro', 'intro', null); // This file area does not have an itemid.
         $surveypro->annotate_files('mod_surveypro', 'userstyle', null); // This file area does not have an itemid.
         $surveypro->annotate_files('mod_surveypro', 'templatefilearea', null); // This file area does not have an itemid.
-        $surveypro->annotate_files('mod_surveypro', 'thankshtml', null); // This file area does not have an itemid.
+        $surveypro->annotate_files('mod_surveypro', 'thankspage', null); // This file area does not have an itemid.
         $item->annotate_files('mod_surveypro', 'itemcontent', 'id'); // By id (being strict this should be under subplugins.
                                                                      // Control, but as far as it's common to all types...).
 

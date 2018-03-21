@@ -33,7 +33,7 @@ Feature: verify the thanks page is shown properly
     And I follow "Thanks surveypro"
     And I navigate to "Edit settings" node in "Surveypro administration"
     And I expand all fieldsets
-    And I set the field "Thanks web page" to ""
+    And I set the field "Inline thanks page" to ""
     And I press "Save and display"
     And I log out
 
@@ -84,7 +84,7 @@ Feature: verify the thanks page is shown properly
     And I expand all fieldsets
 
     # Atto needs focus to add image, select empty p tag to do so.
-    And I select the text in the "id_thankshtml_editor" Atto editor
+    And I select the text in the "id_thankspageeditor" Atto editor
     And I click on "Image" "button"
     And I click on "Browse repositories..." "button"
     And I click on "Private files" "link" in the ".fp-repo-area" "css_element"
