@@ -45,29 +45,10 @@ Feature: test the use of checkbox setup form
       | Reserved                 | 1                                      |
       | Parent element           | Boolean [1]: Is this true?             |
       | Parent content           | 1                                      |
-    And I set the field "Options" to multiline:
-      """
-      milk
-
-
-      coffee
-           butter
-
-      bread
-
-
-      """
+    And I set the multiline field "Options" to "milk\n\n\ncoffee\n     butter\n\nbread\n\n\n      "
     And I set the following fields to these values:
       | Option "other"           | other->specify                         |
-    And I set the field "Default" to multiline:
-      """
-
-
-      coffee
-          bread
-      other
-
-      """
+    And I set the multiline field "Default" to "\n\n\ncoffee\n    bread\nother\n\n      "
     And I set the following fields to these values:
       | "No answer" as defaults  | 0                                      |
       | Adjustment               | vertical                               |

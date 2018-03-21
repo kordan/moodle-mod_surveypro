@@ -34,21 +34,7 @@ Feature: make a submission test for "select" item
       | Indent            | 0                                          |
       | Question position | left                                       |
       | Element number    | 15                                         |
-    And I set the field "Options" to multiline:
-      """
-
-
-      sea
-           mountain
-      lake
-
-      hills
-
-
-
-      desert
-
-      """
+    And I set the multiline field "Options" to "\n\nsea\n     mountain\nlake\n\nhills\n\n\n\ndesert\n\n"
     And I press "Add"
 
     And I log out

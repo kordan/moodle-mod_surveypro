@@ -213,4 +213,18 @@ class behat_mod_surveypro extends behat_base {
         $xpath = "//ul[contains(@class,'nav-tabs')]//li//a[contains(@title, '".$nodetext."')]";
         $this->execute('behat_general::i_click_on', array($xpath, 'xpath_element'));
     }
+
+    /**
+     * Sets the specified value to the a multiline field.
+     *
+     * @Given /^I set the multiline field "(?P<field_string>(?:[^"]|\\")*)" to "(?P<field_value_string>(?:[^"]|\\")*)"$/
+     * @throws ElementNotFoundException Thrown by behat_base::find
+     * @param string $field
+     * @param string $value
+     * @return void
+     */
+    public function i_set_the_multiline_field_to($field, $value) {
+        $string = str_replace('\n', "\n", $value);
+        $this->execute('behat_forms::set_field_value', [$field, (string)$string]);
+    }
 }

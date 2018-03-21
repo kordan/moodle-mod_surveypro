@@ -148,11 +148,7 @@ Feature: test the use of checkbox as parent item
     And I follow "Layout"
     And I follow "edit_item_2"
     And I expand all fieldsets
-    And I set the field "Parent content" to multiline:
-      """
-      milk
-      chocolate
-      """
+    And I set the multiline field "Parent content" to "milk\nchocolate"
     And I press "Save changes"
 
     And I log out
