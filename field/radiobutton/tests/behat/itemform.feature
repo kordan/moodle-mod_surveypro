@@ -44,19 +44,7 @@ Feature: test the use of radiobutton setup form
       | Reserved                 | 1                                          |
       | Parent element           | Boolean [1]: Is this true?                 |
       | Parent content           | 1                                          |
-    And I set the field "Options" to multiline:
-      """
-
-         sea
-      mountain
-
-
-      lake
-hills
-                  desert
-
-
-      """
+    And I set the multiline field "Options" to "\n\n   sea\nmountain\n\n\nlake\nhills\n            desert\n\n\n"
     And I set the following fields to these values:
       | Option "other"           | other->specify                             |
       | id_defaultoption_1       | 1                                          |

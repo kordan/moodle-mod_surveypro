@@ -37,18 +37,7 @@ Feature: Validate creation and submit for "checkbox" elements using the principa
     Given I set the following fields to these values:
       | Content                  | What do you usually get for breakfast? |
       | Required                 | 1                                      |
-    And I set the field "Options" to multiline:
-      """
-      milk
-
-
-      coffee
-           butter
-
-      bread
-
-
-      """
+    And I set the multiline field "Options" to "milk\n\n\ncoffee\n     butter\n\nbread\n\n\n      "
     And I set the following fields to these values:
       | Default                  | coffee                                 |
       | Minimum required options | 0                                      |
@@ -86,18 +75,7 @@ Feature: Validate creation and submit for "checkbox" elements using the principa
     Given I set the following fields to these values:
       | Content                  | What do you usually get for breakfast? |
       | Required                 | 1                                      |
-    And I set the field "Options" to multiline:
-      """
-      milk
-
-
-      coffee
-           butter
-
-      bread
-
-
-      """
+    And I set the multiline field "Options" to "milk\n\n\ncoffee\n     butter\n\nbread\n\n\n      "
     And I set the following fields to these values:
       | Default                  | coffee                                 |
       | Minimum required options | 2                                      |
@@ -128,4 +106,3 @@ Feature: Validate creation and submit for "checkbox" elements using the principa
     And I press "Continue to responses list"
     Then I should see "2" submissions
     # End of test number 4
-

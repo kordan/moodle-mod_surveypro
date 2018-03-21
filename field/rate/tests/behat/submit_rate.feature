@@ -34,31 +34,8 @@ Feature: make a submission test for "rate" item
       | Indent         | 0                                                   |
       | Element number | 13a                                                 |
       | Element style  | radio buttons                                       |
-    And I set the field "Options" to multiline:
-      """
-         Italian
-      Spanish
-
-
-                  English
-
-
-      French
-
-      German
-
-
-      """
-    And I set the field "Rates" to multiline:
-      """
-
-
-               Mother tongue
-         Very confident
-      Not enought
-
-      Completely unknown
-      """
+    And I set the multiline field "Options" to "   Italian\nSpanish\n\n\n            English\n\n\nFrench\n\nGerman\n\n\n"
+    And I set the multiline field "Rates" to "\n\n         Mother tongue\n   Very confident\nNot enought\n\nCompletely unknown\n"
     And I press "Add"
 
     And I set the field "typeplugin" to "Rate"
@@ -71,31 +48,8 @@ Feature: make a submission test for "rate" item
       | Indent         | 0                                                   |
       | Element number | 13b                                                 |
       | Element style  | dropdown menu                                       |
-    And I set the field "Options" to multiline:
-      """
-         Italian
-      Spanish
-
-
-                  English
-
-
-      French
-
-      German
-
-
-      """
-    And I set the field "Rates" to multiline:
-      """
-
-
-               Mother tongue
-         Very confident
-      Not enought
-
-        Completely unknown
-      """
+    And I set the multiline field "Options" to "   Italian\nSpanish\n\n\n            English\n\n\nFrench\n\nGerman\n\n\n"
+    And I set the multiline field "Rates" to "\n\n         Mother tongue\n   Very confident\nNot enought\n\nCompletely unknown\n"
     And I press "Add"
 
     And I log out
