@@ -309,8 +309,8 @@ class surveyprofield_rate_field extends mod_surveypro_itembase {
      * @return array of felds
      */
     public function item_get_multilang_fields() {
-        $fieldlist = parent::item_get_multilang_fields();
-        $fieldlist['rate'] = array('content', 'options', 'rates', 'defaultvalue');
+        $fieldlist = array();
+        $fieldlist[$this->plugin] = array('content', 'extranote', 'options', 'rates', 'defaultvalue');
 
         return $fieldlist;
     }

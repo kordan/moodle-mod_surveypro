@@ -686,9 +686,9 @@ class mod_surveypro_itembase {
             return;
         }
 
-        if ($multilangfields = $this->item_get_multilang_fields()) {
-            foreach ($multilangfields as $fieldnames) {
-                foreach ($fieldnames as $fieldname) {
+        if ($multilangfields = $this->item_get_multilang_fields()) { // Pagebreak and fieldsetend have no multilang_fields.
+            foreach ($multilangfields as $plugin) {
+                foreach ($plugin as $fieldname) {
                     $stringkey = $this->{$fieldname};
                     $this->{$fieldname} = get_string($stringkey, 'surveyprotemplate_'.$template);
                 }
@@ -876,18 +876,6 @@ class mod_surveypro_itembase {
         $record->reserved = 0;
         $record->formpage = 0;
         $record->timecreated = time();
-    }
-
-    /**
-     * Make the list of multilang plugin fields.
-     *
-     * @return array of felds
-     */
-    public function item_get_multilang_fields() {
-        $fieldlist = array();
-        $fieldlist[$this->plugin] = array('content');
-
-        return $fieldlist;
     }
 
     /**

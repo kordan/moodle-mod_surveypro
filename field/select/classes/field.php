@@ -299,8 +299,8 @@ class surveyprofield_select_field extends mod_surveypro_itembase {
      * @return array of felds
      */
     public function item_get_multilang_fields() {
-        $fieldlist = parent::item_get_multilang_fields();
-        $fieldlist['select'] = array('content', 'options', 'labelother', 'defaultvalue');
+        $fieldlist = array();
+        $fieldlist[$this->plugin] = array('content', 'extranote', 'options', 'labelother', 'defaultvalue');
 
         return $fieldlist;
     }

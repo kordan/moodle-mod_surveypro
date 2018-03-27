@@ -350,7 +350,8 @@ class surveyprofield_shortdate_field extends mod_surveypro_itembase {
      * @return array of felds
      */
     public function item_get_multilang_fields() {
-        $fieldlist = parent::item_get_multilang_fields();
+        $fieldlist = array();
+        $fieldlist[$this->plugin] = array('content', 'extranote');
 
         return $fieldlist;
     }

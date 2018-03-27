@@ -319,8 +319,8 @@ class surveyprofield_character_field extends mod_surveypro_itembase {
      * @return array of fields
      */
     public function item_get_multilang_fields() {
-        $fieldlist = parent::item_get_multilang_fields();
-        $fieldlist['character'] = array('defaultvalue');
+        $fieldlist = array();
+        $fieldlist[$this->plugin] = array('content', 'extranote', 'defaultvalue');
 
         return $fieldlist;
     }
