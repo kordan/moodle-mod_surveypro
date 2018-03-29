@@ -689,8 +689,18 @@ class mod_surveypro_itembase {
         if ($multilangfields = $this->item_get_multilang_fields()) { // Pagebreak and fieldsetend have no multilang_fields.
             foreach ($multilangfields as $plugin) {
                 foreach ($plugin as $fieldname) {
-                    $stringkey = $this->{$fieldname};
-                    $this->{$fieldname} = get_string($stringkey, 'surveyprotemplate_'.$template);
+                    // Backward compatibility.
+                    // In the frame of https://github.com/kordan/moodle-mod_surveypro/pull/447 few multilang fields were added.
+                    // This was really a mandatory addition but,
+                    // opening surveypros created (from mastertemplates) before this addition,
+                    // I may find that they don't have new added fields filled in the database
+                    // so the corresponding property $this->{$fieldname} does not exist.
+                    if (isset($this->{$fieldname})) {
+                        $stringkey = $this->{$fieldname};
+                        $this->{$fieldname} = get_string($stringkey, 'surveyprotemplate_'.$template);
+                    } else {
+                        $this->{$fieldname} = '';
+                    }
                 }
             }
         }
