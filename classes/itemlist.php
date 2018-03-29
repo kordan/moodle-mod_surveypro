@@ -1413,8 +1413,8 @@ class mod_surveypro_itemlist {
                 $type = $itemseed->type;
                 $plugin = $itemseed->plugin;
                 $item = surveypro_get_item($this->cm, $this->surveypro, $id, $type, $plugin);
-                if ($multilangfields = $item->item_get_multilang_fields()) {
-                    foreach ($multilangfields as $plugin => $fieldnames) {
+                if ($multilangfields = $item->item_get_multilang_fields()) { // Pagebreak and fieldsetend have no multilang_fields.
+                    foreach ($multilangfields as $mlplugin) { // Take in mind that $mlplugin is an array of fields.
                         $record = new stdClass();
                         if ($plugin == 'item') {
                             $record->id = $item->get_itemid();
@@ -1423,10 +1423,10 @@ class mod_surveypro_itemlist {
                         }
 
                         $where = array('id' => $record->id);
-                        $fieldlist = implode(',', $multilangfields[$plugin]);
+                        $fieldlist = implode(',', $mlplugin);
                         $reference = $DB->get_record('surveypro'.$type.'_'.$plugin, $where, $fieldlist, MUST_EXIST);
 
-                        foreach ($fieldnames as $fieldname) {
+                        foreach ($mlplugin as $fieldname) {
                             $stringkey = $reference->{$fieldname};
                             if (strlen($stringkey)) {
                                 $record->{$fieldname} = get_string($stringkey, 'surveyprotemplate_'.$template);

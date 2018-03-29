@@ -43,7 +43,7 @@ class backup_surveyprofield_character_subplugin extends backup_subplugin {
         $wrapper = new backup_nested_element($this->get_recommended_name());
         $subplugincharacter = new backup_nested_element('surveyprofield_character', array('id'), array(
             'content', 'contentformat',
-            'required', 'indent', 'position', 'customnumber', 'hideinstructions', 'variable', 'trimonsave', 'extranote',
+            'required', 'indent', 'position', 'customnumber', 'hideinstructions', 'variable', 'extranote', 'trimonsave',
             'defaultvalue', 'pattern', 'minlength', 'maxlength'));
 
         // Connect XML elements into the tree.

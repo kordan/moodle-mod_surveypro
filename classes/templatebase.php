@@ -241,7 +241,7 @@ class mod_surveypro_templatebase {
     // MARK get.
 
     /**
-     * Get teh ordered list of fields for the itembase (or the plugin) table.
+     * Get the ordered list of fields for the itembase (or the plugin) table.
      *
      * @param string $type (optional)
      * @param string $plugin (optional)

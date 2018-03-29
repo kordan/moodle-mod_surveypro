@@ -43,7 +43,7 @@ class backup_surveyprofield_textarea_subplugin extends backup_subplugin {
         $wrapper = new backup_nested_element($this->get_recommended_name());
         $subplugintextarea = new backup_nested_element('surveyprofield_textarea', array('id'), array(
             'content', 'contentformat',
-            'required', 'indent', 'position', 'customnumber', 'hideinstructions', 'variable', 'trimonsave', 'extranote',
+            'required', 'indent', 'position', 'customnumber', 'hideinstructions', 'variable', 'extranote', 'trimonsave',
             'useeditor', 'arearows', 'areacols', 'minlength', 'maxlength'));
 
         // Connect XML elements into the tree.

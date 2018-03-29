@@ -19,8 +19,8 @@
         <FIELD NAME="customnumber"     TYPE="char" LENGTH="64"     NOTNULL="false"                             SEQUENCE="false"/>
         <FIELD NAME="hideinstructions" TYPE="int"  LENGTH="4"      NOTNULL="false"                             SEQUENCE="false"/>
         <FIELD NAME="variable"         TYPE="char" LENGTH="64"     NOTNULL="false"                             SEQUENCE="false"/>
-        <FIELD NAME="trimonsave"       TYPE="int"  LENGTH="4"      NOTNULL="false"                             SEQUENCE="false"/>
         <FIELD NAME="extranote"        TYPE="char" LENGTH="255"    NOTNULL="false"                             SEQUENCE="false"/>
+        <FIELD NAME="trimonsave"       TYPE="int"  LENGTH="4"      NOTNULL="false"                             SEQUENCE="false"/>
         <!-- end of fields belonging to itembase_form.php -->
 
         <!-- begin of fields belonging to itemsetup_form.php of this specific plugin -->

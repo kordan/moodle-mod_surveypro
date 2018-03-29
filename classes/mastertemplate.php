@@ -311,7 +311,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             // Surveypro_item.
             $xmltable = $xmlitem->addChild('surveypro_item');
 
-            if ($multilangfields = $item->item_get_multilang_fields()) { // Pagebreak and fieldset have not multilang_fields.
+            if ($multilangfields = $item->item_get_multilang_fields()) { // Pagebreak and fieldsetend have no multilang_fields.
                 $this->build_langtree($multilangfields, $item);
             }
 
@@ -398,17 +398,17 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
      * Get the content of a field for the XML file.
      *
      * @param object $item
-     * @param string $dummyplugin
+     * @param string $plugin
      * @param string $field
      * @param array $multilangfields
      * @return void
      */
-    public function xml_get_field_content($item, $dummyplugin, $field, $multilangfields) {
-        // 1a: Has the plugin $dummyplugin multilang fields?.
-        if (isset($multilangfields[$dummyplugin])) {
+    public function xml_get_field_content($item, $plugin, $field, $multilangfields) {
+        // 1a: Has the plugin $plugin multilang fields?.
+        if (isset($multilangfields[$plugin])) {
             // 1b: If the field that is going to be assigned belongs to your multilang fields.
-            if (in_array($field, $multilangfields[$dummyplugin])) {
-                $component = $dummyplugin.'_'.$field;
+            if (in_array($field, $multilangfields[$plugin])) {
+                $component = $plugin.'_'.$field;
 
                 if (isset($this->langtree[$component])) {
                     end($this->langtree[$component]);
@@ -632,9 +632,9 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
      * @return void
      */
     public function build_langtree($multilangfields, $item) {
-        foreach ($multilangfields as $dummyplugin => $fieldnames) {
+        foreach ($multilangfields as $plugin => $fieldnames) {
             foreach ($fieldnames as $fieldname) {
-                $component = $dummyplugin.'_'.$fieldname;
+                $component = $plugin.'_'.$fieldname;
                 if (isset($this->langtree[$component])) {
                     $index = count($this->langtree[$component]);
                 } else {
@@ -642,7 +642,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
                 }
                 $stringindex = sprintf('%02d', 1 + $index);
                 $content = str_replace("\r", '', $item->item_get_generic_property($fieldname));
-                $this->langtree[$component][$component.'_'.$stringindex] = $content;
+                $this->langtree[$component][$plugin.'_'.$stringindex.'_'.$fieldname] = $content;
             }
         }
     }
@@ -701,12 +701,16 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         $a = new stdClass();
         $a->userlang = $userlang;
         foreach ($this->langtree as $langbranch) {
-            foreach ($langbranch as $k => $unused) {
-                $a->stringkey = $k;
-                $stringsastext[] = get_string('translatedstring', 'mod_surveypro', $a);
+            foreach ($langbranch as $k => $originalstring) {
+                if (empty($originalstring)) {
+                    $stringsastext[] = '$string[\''.$k.'\'] = \'\';';
+                } else {
+                    $a->stringkey = $k;
+                    $stringsastext[] = get_string('translatedstring', 'mod_surveypro', $a);
+                }
             }
         }
 
-        return "\n".implode("\n", $stringsastext);
+        return PHP_EOL.implode(PHP_EOL, $stringsastext);
     }
 }
