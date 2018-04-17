@@ -49,11 +49,12 @@ class mod_surveypro_autofill_setupform extends mod_surveypro_itembaseform {
         $mform = $this->_form;
 
         // Get _customdata.
-        // Useless: $item = $this->_customdata->item;.
-        $surveypro = $this->_customdata->surveypro;
+        // Useless: $item = $this->_customdata['item'];.
+
+        $surveyproid = $this->_customdata['item']->surveypro->id;
 
         // Item: contentelement$i.
-        $options = surveypro_autofill_get_elements($surveypro->id);
+        $options = surveypro_autofill_get_elements($surveyproid);
         for ($i = 1; $i < 6; $i++) {
             $index = sprintf('%02d', $i);
             $fieldname = 'element'.$index;
@@ -89,8 +90,7 @@ class mod_surveypro_autofill_setupform extends mod_surveypro_itembaseform {
      */
     public function validation($data, $files) {
         // Get _customdata.
-        // Useless: $item = $this->_customdata->item;.
-        // Useless: $surveypro = $this->_customdata->surveypro;.
+        // Useless: $item = $this->_customdata['item'];.
 
         $errors = parent::validation($data, $files);
 

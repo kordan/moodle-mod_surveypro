@@ -45,8 +45,8 @@ class mod_surveypro_itembaseform extends moodleform {
         $mform = $this->_form;
 
         // Get _customdata.
-        $item = $this->_customdata->item;
-        $surveypro = $this->_customdata->surveypro;
+        $item = $this->_customdata['item'];
+        $surveypro = $item->surveypro;
 
         $cm = $item->get_cm();
 
@@ -308,8 +308,8 @@ class mod_surveypro_itembaseform extends moodleform {
         $mform = $this->_form;
 
         // Get _customdata.
-        $item = $this->_customdata->item;
-        $surveypro = $this->_customdata->surveypro;
+        $item = $this->_customdata['item'];
+        $surveypro = $item->surveypro;
 
         $cm = $item->get_cm();
 
@@ -343,8 +343,7 @@ class mod_surveypro_itembaseform extends moodleform {
      */
     public function validation($data, $files) {
         // Get _customdata.
-        $item = $this->_customdata->item;
-        // Useless: $surveypro = $this->_customdata->surveypro;.
+        $item = $this->_customdata['item'];
 
         $errors = parent::validation($data, $files);
 

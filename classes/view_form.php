@@ -885,7 +885,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
                 }
             } else {
                 // get_enrolled_users($courseid, $options = array()) <-- role is missing.
-                // get_users_from_role_on_context($role, $coursecontext);  <-- this is ok but I need to call it once per $role.
+                // get_users_from_role_on_context($role, $coursecontext); <-- this is ok but I need to call it once per $role.
                 $whereparams = array();
 
                 list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);

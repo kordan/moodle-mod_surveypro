@@ -49,8 +49,7 @@ class mod_surveypro_fieldsetend_setupform extends mod_surveypro_itembaseform {
         // $mform = $this->_form;
 
         // Get _customdata.
-        // Useless: $item = $this->_customdata->item;.
-        // Useless: $surveypro = $this->_customdata->surveypro;.
+        // Useless: $item = $this->_customdata['item'];.
 
         $this->add_item_buttons();
     }
