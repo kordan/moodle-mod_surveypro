@@ -95,7 +95,7 @@ class mod_surveypro_itemlist_reserved extends \core\output\inplace_editable {
         \external_api::validate_context($context);
 
         $newreserved = clean_param($newreserved, PARAM_INT);
-        $DB->update_record('surveypro_item', array('id' => $itemid, 'reserved' => $newreserved));
+        $DB->set_field('surveypro_item', 'reserved', $newreserved, array('id' => $itemid));
 
         return new static($itemid, $newreserved, $itemrecord->sortindex);
     }

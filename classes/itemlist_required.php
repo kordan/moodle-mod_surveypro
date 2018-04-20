@@ -94,10 +94,9 @@ class mod_surveypro_itemlist_required extends \core\output\inplace_editable {
         $context = context_module::instance($cm->id);
         \external_api::validate_context($context);
 
-        $newrequired = clean_param($newrequired, PARAM_INT);
         $tablename = 'surveypro'.$itemrecord->type.'_'.$itemrecord->plugin;
-        $pluginid = $DB->get_field($tablename, 'id', array('itemid' => $itemid), MUST_EXIST);
-        $DB->update_record($tablename, array('id' => $pluginid, 'required' => $newrequired));
+        $newrequired = clean_param($newrequired, PARAM_INT);
+        $DB->set_field($tablename, 'required', $newrequired, array('itemid' => $itemid));
 
         if (!empty($newrequired)) {
             // This item that WAS NOT mandatory IS NOW mandatory.

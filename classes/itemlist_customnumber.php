@@ -59,9 +59,9 @@ class mod_surveypro_itemlist_customnumber extends \core\output\inplace_editable 
         $context = context_module::instance($cm->id);
         \external_api::validate_context($context);
 
-        $newreserved = clean_param($newcnumber, PARAM_TEXT);
         $tablename = 'surveypro'.$itemrecord->type.'_'.$itemrecord->plugin;
-        $DB->update_record($tablename, array('id' => $itemid, 'customnumber' => $newcnumber));
+        $newreserved = clean_param($newcnumber, PARAM_TEXT);
+        $DB->set_field($tablename, 'customnumber', $newcnumber, array('itemid' => $itemid));
 
         return new static($itemid, $newcnumber);
     }

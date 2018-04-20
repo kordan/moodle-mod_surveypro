@@ -520,11 +520,11 @@ class mod_surveypro_itembase {
             $userchoosedname = $this->plugin.'_001';
             $basename = $this->plugin;
         } else {
-            $userchoosedname = $record->variable;
-            if (preg_match('~^(.*)_[0-9]{3}$~', $record->variable, $matches)) {
+            $userchoosedname = clean_param($record->variable, PARAM_TEXT);
+            if (preg_match('~^(.*)_[0-9]{3}$~', $userchoosedname, $matches)) {
                 $basename = $matches[1];
             } else {
-                $basename = $record->variable;
+                $basename = $userchoosedname;
             }
         }
         $testname = $userchoosedname;
