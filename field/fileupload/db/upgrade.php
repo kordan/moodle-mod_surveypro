@@ -73,7 +73,7 @@ function xmldb_surveyprofield_fileupload_upgrade($oldversion) {
     }
 
     // Moodle core added the list of allowed extensions to fileupload elements, so my instructions are no longer needed.
-    if ($oldversion < 2017110701) {
+    if ($oldversion < 2018042401) {
 
         // Define field hideinstructions to be dropped from surveyprofield_fileupload.
         $table = new xmldb_table('surveyprofield_fileupload');
@@ -85,7 +85,7 @@ function xmldb_surveyprofield_fileupload_upgrade($oldversion) {
         }
 
         // Surveypro savepoint reached.
-        upgrade_plugin_savepoint(true, 2017110701, 'surveyprofield', 'fileupload');
+        upgrade_plugin_savepoint(true, 2018042401, 'surveyprofield', 'fileupload');
     }
 
     return true;
