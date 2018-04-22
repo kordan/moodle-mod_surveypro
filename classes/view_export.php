@@ -576,16 +576,10 @@ class mod_surveypro_view_export {
     public function are_attachments_onboard() {
         global $DB;
 
-        $checkattachmentssql = 'SELECT s.id, si.plugin
-            FROM {surveypro} s
-                JOIN {surveypro_item} si ON si.id = s.id
-            WHERE s.id = :surveyproid
-                AND si.plugin = :plugin';
         $whereparams = array('surveyproid' => $this->surveypro->id, 'plugin' => 'fileupload');
+        $counter = $DB->count_records('surveypro_item', $whereparams);
 
-        $attachments = $DB->get_recordset_sql($checkattachmentssql, $whereparams);
-
-        return ($attachments->valid());
+        return ($counter > 0);
     }
 
     /**
