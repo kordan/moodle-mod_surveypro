@@ -49,8 +49,7 @@ class mod_surveypro_textarea_setupform extends mod_surveypro_itembaseform {
         $mform = $this->_form;
 
         // Get _customdata.
-        // Useless: $item = $this->_customdata->item;.
-        // Useless: $surveypro = $this->_customdata->surveypro;.
+        // Useless: $item = $this->_customdata['item'];.
 
         // Item: useeditor.
         $fieldname = 'useeditor';
@@ -104,8 +103,7 @@ class mod_surveypro_textarea_setupform extends mod_surveypro_itembaseform {
      */
     public function validation($data, $files) {
         // Get _customdata.
-        // Useless: $item = $this->_customdata->item;.
-        // Useless: $surveypro = $this->_customdata->surveypro;.
+        // Useless: $item = $this->_customdata['item'];.
 
         $errors = parent::validation($data, $files);
 

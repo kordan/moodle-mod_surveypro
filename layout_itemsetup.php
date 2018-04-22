@@ -110,12 +110,8 @@ $formurl = new moodle_url('/mod/surveypro/layout_itemsetup.php', $paramurl);
 // End of: define $itemform return url.
 
 // Begin of: prepare params for the form.
-$formparams = new stdClass();
-$formparams->item = $item; // Needed in many situations.
-$formparams->surveypro = $surveypro; // Needed to setup date boundaries in date fields.
-
 $classname = 'mod_surveypro_'.$itemplugin.'_setupform';
-$itemform = new $classname($formurl, $formparams);
+$itemform = new $classname($formurl, array('item' => $item));
 // End of: prepare params for the form.
 
 // Begin of: manage form submission.

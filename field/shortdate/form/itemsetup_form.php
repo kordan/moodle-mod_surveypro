@@ -49,11 +49,10 @@ class mod_surveypro_shortdate_setupform extends mod_surveypro_itembaseform {
         $mform = $this->_form;
 
         // Get _customdata.
-        $item = $this->_customdata->item;
-        // Useless: $surveypro = $this->_customdata->surveypro;.
+        $item = $this->_customdata['item'];
 
-        $startyear = $this->_customdata->surveypro->startyear;
-        $stopyear = $this->_customdata->surveypro->stopyear;
+        $startyear = $item->surveypro->startyear;
+        $stopyear = $item->surveypro->stopyear;
 
         // Item: defaultoption.
         $fieldname = 'defaultoption';
@@ -132,8 +131,7 @@ class mod_surveypro_shortdate_setupform extends mod_surveypro_itembaseform {
      */
     public function validation($data, $files) {
         // Get _customdata.
-        $item = $this->_customdata->item;
-        // Useless: $surveypro = $this->_customdata->surveypro;.
+        $item = $this->_customdata['item'];
 
         $errors = parent::validation($data, $files);
 

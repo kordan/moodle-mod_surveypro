@@ -49,8 +49,7 @@ class mod_surveypro_time_setupform extends mod_surveypro_itembaseform {
         $mform = $this->_form;
 
         // Get _customdata.
-        $item = $this->_customdata->item;
-        // Useless: $surveypro = $this->_customdata->surveypro;.
+        $item = $this->_customdata['item'];
 
         $hoptions = array();
         for ($i = 0; $i <= 23; $i++) {
@@ -144,8 +143,7 @@ class mod_surveypro_time_setupform extends mod_surveypro_itembaseform {
      */
     public function validation($data, $files) {
         // Get _customdata.
-        $item = $this->_customdata->item;
-        // Useless: $surveypro = $this->_customdata->surveypro;.
+        $item = $this->_customdata['item'];
 
         $errors = parent::validation($data, $files);
 

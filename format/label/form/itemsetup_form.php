@@ -49,8 +49,7 @@ class mod_surveypro_label_setupform extends mod_surveypro_itembaseform {
         $mform = $this->_form;
 
         // Get _customdata.
-        $item = $this->_customdata->item;
-        // Useless: $surveypro = $this->_customdata->surveypro;.
+        $item = $this->_customdata['item'];
 
         // Here I open a new fieldset.
         $fieldname = 'specializations';
