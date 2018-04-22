@@ -55,10 +55,9 @@ class mod_surveypro_usertemplate_name extends \core\output\inplace_editable {
 
         $newtemplatename = clean_param($newtemplatename, PARAM_FILE);
 
+        $fs = get_file_storage();
+        $xmlfile = $fs->get_file_by_id($xmlfileid);
         if (strlen($newtemplatename) > 0) {
-            $fs = get_file_storage();
-            $xmlfile = $fs->get_file_by_id($xmlfileid);
-
             $contextid = $xmlfile->get_contextid();
             $component = 'mod_surveypro';
             $filearea = SURVEYPRO_TEMPLATEFILEAREA;
@@ -73,6 +72,10 @@ class mod_surveypro_usertemplate_name extends \core\output\inplace_editable {
                 $oldtemplatename = $xmlfile->get_filename();
                 $givenname = $oldtemplatename;
             }
+        } else {
+            // An empty name was provided. Ignore it and leave xml untouched.
+            $oldtemplatename = $xmlfile->get_filename();
+            $givenname = $oldtemplatename;
         }
 
         $filerecord = $DB->get_record('files', array('id' => $xmlfileid), 'id, contextid', MUST_EXIST);

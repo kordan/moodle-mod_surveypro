@@ -587,7 +587,6 @@ class mod_surveypro_view_import {
         $nonmatchingheaders = array();
         $this->environmentheaders = array();
 
-        $suffixlength = strlen(SURVEYPRO_IMPFORMATSUFFIX);
         foreach ($foundheaders as $k => $foundheader) {
             $key = array_search($foundheader, $surveyheaders);
             if ($key !== false) {
@@ -605,7 +604,7 @@ class mod_surveypro_view_import {
                     continue;
                 }
             } else {
-                if (substr($foundheader, -$suffixlength) != SURVEYPRO_IMPFORMATSUFFIX) {
+                if (!preg_match('/'.SURVEYPRO_IMPFORMATSUFFIX.'$/', $foundheader)) {
                     $nonmatchingheaders[] = (string)$foundheader;
                 }
             }
@@ -622,8 +621,7 @@ class mod_surveypro_view_import {
     public function buil_item_helpers() {
         $optionscountpercol = array(); // Elements only for items saving position to db.
         foreach ($this->columntoitemid as $col => $itemid) {
-            $suffixlength = strlen(SURVEYPRO_IMPFORMATSUFFIX);
-            if (substr($itemid, -$suffixlength) == SURVEYPRO_IMPFORMATSUFFIX) {
+            if (preg_match('/'.SURVEYPRO_IMPFORMATSUFFIX.'$/', $itemid)) {
                 continue;
             }
 
@@ -790,7 +788,7 @@ class mod_surveypro_view_import {
         // Even if status == SURVEYPRO_STATUSCLOSED, it may still change according to validation during line by line, scan.
         $this->defaultstatus = $this->get_default_status($requireditems);
 
-        // To save time during all validations to carry out, save to $itemhelperinfo some information.
+        // To save time during all validations process, save to $itemhelperinfo some information.
         // In this way I no longer will need to load item hundreds times.
         // Begin of: get now, once and for ever, each item helperinfo.
         $optionscountpercol = $this->buil_item_helpers();
@@ -817,7 +815,6 @@ class mod_surveypro_view_import {
 
         // Begin of: DOES EACH RECORD provide a valid value?
         // Start here a looooooooong list of validations against founded values, record per record.
-        $suffixlength = strlen(SURVEYPRO_IMPFORMATSUFFIX);
         $submissionsperuser = array();
         $this->cir->init();
         while ($csvrow = $this->cir->next()) {
@@ -864,7 +861,7 @@ class mod_surveypro_view_import {
                     }
 
                     $itemid = $this->columntoitemid[$col];
-                    if (substr($itemid, -$suffixlength) == SURVEYPRO_IMPFORMATSUFFIX) {
+                    if (preg_match('/'.SURVEYPRO_IMPFORMATSUFFIX.'$/', $itemid)) {
                         // TODO: format should be verified too.
                         continue;
                     }
@@ -943,10 +940,9 @@ class mod_surveypro_view_import {
         }
 
         // Create helper $contentformattocol.
-        $suffixlength = strlen(SURVEYPRO_IMPFORMATSUFFIX);
         $contentformattocol = array();
         foreach ($this->columntoitemid as $col => $itemid) {
-            if (substr($itemid, -$suffixlength) == SURVEYPRO_IMPFORMATSUFFIX) {
+            if (preg_match('/'.SURVEYPRO_IMPFORMATSUFFIX.'$/', $itemid)) {
                 $contentformattocol[$itemid] = $col;
             }
         }
@@ -1037,7 +1033,6 @@ class mod_surveypro_view_import {
             // End of: Add one record to surveypro_submission.
 
             // Add as many records to surveypro_answer as the number of elements in the surveypro (if answered).
-            $suffixlength = strlen(SURVEYPRO_IMPFORMATSUFFIX);
             foreach ($this->columntoitemid as $col => $itemid) {
                 $content = $csvrow[$col];
                 if ($content == SURVEYPRO_EXPNULLVALUE) {
