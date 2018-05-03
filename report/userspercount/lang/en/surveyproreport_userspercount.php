@@ -24,3 +24,4 @@
 
 $string['pluginname'] = 'Users per count of responses';
 $string['userresponses'] = 'Count of submitted responses';
+$string['privacy:metadata'] = 'The "Users per count" report plugin does not store any personal data.';

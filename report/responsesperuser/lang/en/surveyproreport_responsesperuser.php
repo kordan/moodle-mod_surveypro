@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'report_responses', language 'en'
+ * Strings for component 'report_responsesperuser', language 'en'
  *
  * @package   surveyproreport_responsesperuser
  * @copyright 2013 onwards kordan <kordan@mclink.it>
@@ -23,3 +23,4 @@
  */
 
 $string['pluginname'] = 'Responses per user';
+$string['privacy:metadata'] = 'The "Responses per user" report plugin does not store any personal data.';

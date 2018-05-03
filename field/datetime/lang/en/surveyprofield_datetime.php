@@ -71,3 +71,4 @@ $string['uerr_outofinternalrange'] = 'Provided value does not fall within the sp
 $string['upperbound_help'] = 'The biggest date and time the user is allowed to enter';
 $string['upperbound'] = 'Upper bound';
 $string['userfriendlypluginname'] = 'Date and time [dd/mm/yyyy;hh:mm]';
+$string['privacy:metadata'] = 'The "Date and time" field plugin does not store any personal data.';

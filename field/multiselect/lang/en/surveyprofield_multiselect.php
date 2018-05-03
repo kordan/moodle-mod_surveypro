@@ -55,3 +55,4 @@ $string['returnvalues'] = 'value of selected items';
 $string['uerr_lowerthanminimum_more'] = 'Please select at least {$a} options';
 $string['uerr_lowerthanminimum_one'] = 'Please select at least 1 option';
 $string['userfriendlypluginname'] = 'Multiple selection';
+$string['privacy:metadata'] = 'The "Multiselect" field plugin does not store any personal data.';

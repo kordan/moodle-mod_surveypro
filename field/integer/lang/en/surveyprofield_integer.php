@@ -46,3 +46,4 @@ $string['uerr_outofinternalrange'] = 'Provided value does not fall within the sp
 $string['upperbound_help'] = 'The biggest integer the user is allowed to enter';
 $string['upperbound'] = 'Upper bound';
 $string['userfriendlypluginname'] = 'Integer (small)';
+$string['privacy:metadata'] = 'The "Integer" field plugin does not store any personal data.';

@@ -63,3 +63,5 @@ $string['question21short'] = 'I understand other students';
 $string['question22short'] = 'students understand me';
 $string['question23short'] = 'I understand the tutor';
 $string['question24short'] = 'tutor understands me';
+
+$string['privacy:metadata'] = 'The "Colles" report plugin does not store any personal data.';

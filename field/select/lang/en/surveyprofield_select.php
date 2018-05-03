@@ -48,3 +48,4 @@ $string['returnvalues'] = 'value of selected item';
 $string['uerr_missingothertext'] = 'Please add the text required by your selection';
 $string['uerr_optionnotset'] = 'Please choose an option';
 $string['userfriendlypluginname'] = 'Select';
+$string['privacy:metadata'] = 'The "Select" field plugin does not store any personal data.';

@@ -28,3 +28,4 @@ $string['leftlabel_help'] = 'The text that will be shown on the left of the labe
 $string['leftlabel'] = 'Label';
 $string['pluginname'] = 'Label';
 $string['userfriendlypluginname'] = 'Label';
+$string['privacy:metadata'] = 'The "Label" format plugin does not store any personal data.';

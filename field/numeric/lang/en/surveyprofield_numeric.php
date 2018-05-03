@@ -60,3 +60,4 @@ $string['uerr_outofinternalrange'] = 'Provided value does not fall within the sp
 $string['upperbound_help'] = 'The biggest number the user is allowed to enter.';
 $string['upperbound'] = 'Maximum value';
 $string['userfriendlypluginname'] = 'Numeric';
+$string['privacy:metadata'] = 'The "Numeric" field plugin does not store any personal data.';

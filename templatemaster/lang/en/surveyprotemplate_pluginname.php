@@ -23,3 +23,4 @@
  */
 
 $string['pluginname'] = 'templatemaster';
+$string['privacy:metadata'] = 'The "templatemaster" template plugin does not store any personal data.';

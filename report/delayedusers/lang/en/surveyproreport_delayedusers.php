@@ -23,3 +23,5 @@
  */
 
 $string['pluginname'] = 'Delayed users';
+
+$string['privacy:metadata'] = 'The "Delayed users" report plugin does not store any personal data.';

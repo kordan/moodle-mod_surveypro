@@ -60,3 +60,4 @@ $string['uerr_lowerthanminimum_one'] = 'Please tick at least 1 option';
 $string['uerr_missingothertext'] = 'Please add the text required by your selection';
 $string['userfriendlypluginname'] = 'Checkbox';
 $string['vertical'] = 'vertical';
+$string['privacy:metadata'] = 'The "Checkbox" field plugin does not store any personal data.';

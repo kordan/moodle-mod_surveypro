@@ -390,6 +390,8 @@ class mod_surveypro_utility {
                 $DB->delete_records('surveypro_submission', $whereparams);
             }
 
+            // TODO: Am I forgetting submitted files?
+
             $transaction->allow_commit();
         } catch (Exception $e) {
             // Extra cleanup steps.
@@ -477,6 +479,8 @@ class mod_surveypro_utility {
                 $this->delete_submissions(array('id' => $answer->submissionid), true);
             }
         }
+
+        // TODO: Am I forgetting submitted files?
     }
 
     /**

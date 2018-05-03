@@ -42,3 +42,4 @@ $string['uerr_texttooshort'] = 'Text is too short';
 $string['useeditor_help'] = 'Is the answer supposed to be in plain text or in html?';
 $string['useeditor'] = 'Use html editor';
 $string['userfriendlypluginname'] = 'Text (long)';
+$string['privacy:metadata'] = 'The "Textarea" field plugin does not store any personal data.';

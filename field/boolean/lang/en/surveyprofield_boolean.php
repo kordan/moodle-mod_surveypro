@@ -47,3 +47,4 @@ $string['usemenu'] = 'dropdown menu';
 $string['useradioh'] = 'horizontal radio buttons';
 $string['useradiov'] = 'vertical radio buttons';
 $string['userfriendlypluginname'] = 'Boolean';
+$string['privacy:metadata'] = 'The "Boolean" field plugin does not store any personal data.';

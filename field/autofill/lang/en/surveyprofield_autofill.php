@@ -54,3 +54,4 @@ $string['usergroupid'] = 'user group ID';
 $string['usergroupname'] = 'user group name';
 $string['userid'] = 'user ID';
 $string['userlastname'] = 'user last name';
+$string['privacy:metadata'] = 'The "Autofill" field plugin does not store any personal data.';
