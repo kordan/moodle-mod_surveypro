@@ -45,5 +45,6 @@ $string['pluginname'] = 'Seleccionar';
 $string['returnlabels'] = 'etiqueta del ítem seleccionado';
 $string['returnposition'] = 'contestación posicional';
 $string['returnvalues'] = 'valor del ítem seleccionado';
+$string['uerr_missingothertext'] = 'Por favor añada el texto requerido por su selección';
 $string['uerr_optionnotset'] = 'Por favor elija una opción';
 $string['userfriendlypluginname'] = 'Seleccionar';

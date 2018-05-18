@@ -45,5 +45,6 @@ $string['pluginname'] = 'Select';
 $string['returnlabels'] = 'label of selected item';
 $string['returnposition'] = 'positional answer';
 $string['returnvalues'] = 'value of selected item';
+$string['uerr_missingothertext'] = 'Please add the text required by your selection';
 $string['uerr_optionnotset'] = 'Please choose an option';
 $string['userfriendlypluginname'] = 'Select';

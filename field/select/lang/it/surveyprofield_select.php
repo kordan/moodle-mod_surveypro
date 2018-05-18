@@ -26,3 +26,4 @@
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/lib.php');
 
 $string['uerr_optionnotset'] = 'Si selezioni una opzione';
+$string['uerr_missingothertext'] = 'Si aggiunga un contenuto al campo corrispondente alla selezione';
