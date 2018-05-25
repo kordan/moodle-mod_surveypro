@@ -31,9 +31,7 @@ Feature: make a submission test for "select" item
     And I set the following fields to these values:
       | Content           | Which summer holidays place do you prefer? |
       | Required          | 1                                          |
-      | Indent            | 0                                          |
-      | Question position | left                                       |
-      | Element number    | 15                                         |
+      | Option "other"    | other (specify)                            |
     And I set the multiline field "Options" to "\n\nsea\n     mountain\nlake\n\nhills\n\n\n\ndesert\n\n"
     And I press "Add"
 
@@ -46,9 +44,18 @@ Feature: make a submission test for "select" item
     And I press "New response"
 
     # student1 submits
-    And I set the field "15: Which summer holidays place do you prefer?" to "hills"
+    And I set the field "id_surveypro_field_select_1" to "hills"
+    And I press "Submit"
+    And I press "Continue to responses list"
+    Then I should see "1" submissions
 
+    # student1 submits
+    And I press "New response"
+    And I set the field "id_surveypro_field_select_1" to "other (specify)"
+    And I press "Submit"
+    Then I should see "Please add the text required by your selection"
+    And I set the field "id_surveypro_field_select_1_text" to "flying in the sky"
     And I press "Submit"
 
     And I press "Continue to responses list"
-    Then I should see "1" submissions
+    Then I should see "2" submissions
