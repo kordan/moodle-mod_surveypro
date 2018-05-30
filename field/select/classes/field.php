@@ -581,6 +581,13 @@ EOS;
 
         if ($data[$this->itemname] == SURVEYPRO_INVITEVALUE) {
             $errors[$errorkey] = get_string('uerr_optionnotset', 'surveyprofield_select');
+            return;
+        }
+
+        if (!empty($this->labelother)) {
+            if (($data[$this->itemname] == 'other') && empty($data[$this->itemname.'_text']) ) {
+                $errors[$errorkey] = get_string('uerr_missingothertext', 'surveyprofield_select');
+            }
         }
     }
 
