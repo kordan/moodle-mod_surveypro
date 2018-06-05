@@ -88,5 +88,18 @@ function xmldb_surveyprofield_fileupload_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018042401, 'surveyprofield', 'fileupload');
     }
 
+    if ($oldversion < 2018060501) {
+
+        // Changing precision of field filetypes on table surveyprofield_fileupload to (64).
+        $table = new xmldb_table('surveyprofield_fileupload');
+        $field = new xmldb_field('filetypes', XMLDB_TYPE_CHAR, '64', null, null, null, null, 'maxbytes');
+
+        // Launch change of precision for field filetypes.
+        $dbman->change_field_precision($table, $field);
+
+        // Fileupload savepoint reached.
+        upgrade_plugin_savepoint(true, 2018060501, 'surveyprofield', 'fileupload');
+    }
+
     return true;
 }
