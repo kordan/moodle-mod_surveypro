@@ -1017,6 +1017,9 @@ class mod_surveypro_itemlist {
                 break;
             case SURVEYPRO_CHANGEORDER:
                 $this->reorder_items();
+                // After item reorder, if you reload the page whithout cleaning the url, the reorder action is performed again.
+                $returnurl = new moodle_url('/mod/surveypro/layout_itemlist.php', array('id' => $this->cm->id));
+                redirect($returnurl);
                 break;
             case SURVEYPRO_CHANGEINDENT:
                 $where = array('itemid' => $this->itemid);
