@@ -593,24 +593,24 @@ EOS;
         $itemname = $this->itemname.'_day';
         $attributes['id'] = $idprefix.'_day';
         $attributes['class'] = 'indent-'.$this->indent.' datetime_select';
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $itemname, '', $days, $attributes);
+        $elementgroup[] = $mform->createElement('select', $itemname, '', $days, $attributes);
 
         $itemname = $this->itemname.'_month';
         $attributes['id'] = $idprefix.'_month';
         $attributes['class'] = 'datetime_select';
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $itemname, '', $months, $attributes);
+        $elementgroup[] = $mform->createElement('select', $itemname, '', $months, $attributes);
 
         $itemname = $this->itemname.'_year';
         $attributes['id'] = $idprefix.'_year';
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $itemname, '', $years, $attributes);
+        $elementgroup[] = $mform->createElement('select', $itemname, '', $years, $attributes);
 
         $itemname = $this->itemname.'_hour';
         $attributes['id'] = $idprefix.'_hour';
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $itemname, '', $hours, $attributes);
+        $elementgroup[] = $mform->createElement('select', $itemname, '', $hours, $attributes);
 
         $itemname = $this->itemname.'_minute';
         $attributes['id'] = $idprefix.'_minute';
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $itemname, '', $minutes, $attributes);
+        $elementgroup[] = $mform->createElement('select', $itemname, '', $minutes, $attributes);
 
         $separator = array(' ', ' ', ', ', ':');
         if ($this->required) {

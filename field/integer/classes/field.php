@@ -453,7 +453,7 @@ EOS;
         $attributes = array();
         $attributes['id'] = $idprefix;
         $attributes['class'] = 'indent-'.$this->indent.' integer_select';
-        $mform->addElement('mod_surveypro_select', $this->itemname, $elementlabel, $integers, $attributes);
+        $mform->addElement('select', $this->itemname, $elementlabel, $integers, $attributes);
 
         if (!$searchform) {
             if ($this->required) {

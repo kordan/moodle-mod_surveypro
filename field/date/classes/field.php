@@ -514,16 +514,16 @@ EOS;
         $itemname = $this->itemname.'_day';
         $attributes['id'] = $idprefix.'_day';
         $attributes['class'] = 'indent-'.$this->indent.' date_select';
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $itemname, '', $days, $attributes);
+        $elementgroup[] = $mform->createElement('select', $itemname, '', $days, $attributes);
 
         $itemname = $this->itemname.'_month';
         $attributes['id'] = $idprefix.'_month';
         $attributes['class'] = 'date_select';
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $itemname, '', $months, $attributes);
+        $elementgroup[] = $mform->createElement('select', $itemname, '', $months, $attributes);
 
         $itemname = $this->itemname.'_year';
         $attributes['id'] = $idprefix.'_year';
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $itemname, '', $years, $attributes);
+        $elementgroup[] = $mform->createElement('select', $itemname, '', $years, $attributes);
 
         if ($this->required) {
             if (!$searchform) {

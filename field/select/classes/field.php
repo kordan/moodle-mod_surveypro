@@ -507,10 +507,10 @@ EOS;
         $attributes['id'] = $idprefix;
         $attributes['class'] = 'indent-'.$this->indent.' select_select';
         if (!$this->labelother) {
-            $mform->addElement('mod_surveypro_select', $this->itemname, $elementlabel, $labels, $attributes);
+            $mform->addElement('select', $this->itemname, $elementlabel, $labels, $attributes);
         } else {
             $elementgroup = array();
-            $elementgroup[] = $mform->createElement('mod_surveypro_select', $this->itemname, '', $labels, $attributes);
+            $elementgroup[] = $mform->createElement('select', $this->itemname, '', $labels, $attributes);
 
             $attributes['id'] = $idprefix.'_text';
             $attributes['class'] = 'select_select';

@@ -11,6 +11,13 @@
 /* End of: to eliminate display problems of firefox for mac */
 
 /* Begin of: colours alternation for #layout_preview, #view_form, #view_search forms and read-only table*/
+/* For Boost based themes */
+#page-mod-surveypro-layout_preview div.row:nth-of-type(odd),
+#page-mod-surveypro-view_form div.row:nth-of-type(odd),
+#page-mod-surveypro-view_search div.row:nth-of-type(odd) {
+    background-color: #ededed;
+}
+/* For Clean based themes */
 #page-mod-surveypro-layout_preview fieldset div.fitem:nth-of-type(even),
 #page-mod-surveypro-view_form fieldset div.fitem:nth-of-type(even),
 #page-mod-surveypro-view_search fieldset div.fitem:nth-of-type(even) {
@@ -327,75 +334,225 @@
 }
 /* End of: selectors for the static field explaining the format needed by each plugin in parentcontent field */
 
-/* the first class selector is for the form in R/W mode, the second is for the RO mode */
-#page-mod-surveypro-layout_preview #userentry .fitem .felement .indent-0,
-#page-mod-surveypro-layout_preview .mform .fitem .felement .indent-0,
-#page-mod-surveypro-view_form #userentry .fitem .felement .indent-0,
-#page-mod-surveypro-view_form .mform .fitem .felement .indent-0 {
-    margin-left: 0;
-}
+/* classes = indent-n */
+/* #page-mod-surveypro-layout_preview form#userentry is for preview that is ALWAYS in R/W mode */
+/* #page-mod-surveypro-view_form form#userentry      is for end user form in R/W mode */
+/* #page-mod-surveypro-view_form div#userentry       is for end user form in R/O mode */
 
-#page-mod-surveypro-layout_preview #userentry .fitem .felement .indent-1,
-#page-mod-surveypro-layout_preview .mform .fitem .felement .indent-1,
-#page-mod-surveypro-view_form #userentry .fitem .felement .indent-1,
-#page-mod-surveypro-view_form .mform .fitem .felement .indent-1 {
+/* class = indent-1 */
+/* For Clean based themes */
+#page-mod-surveypro-layout_preview form#userentry .fitem .felement .indent-1,
+#page-mod-surveypro-view_form form#userentry .fitem .felement .indent-1,
+#page-mod-surveypro-view_form div#userentry .fitem .felement .indent-1 {
     margin-left: 1.5em;
 }
+/* For Boost based themes */
+#page-mod-surveypro-layout_preview form#userentry div.indent-1>div>select,
+#page-mod-surveypro-layout_preview form#userentry div.indent-1>div>textarea,
+#page-mod-surveypro-layout_preview form#userentry div.indent-1>div>input[type="text"],
+#page-mod-surveypro-view_form form#userentry div.indent-1>div>select,
+#page-mod-surveypro-view_form form#userentry div.indent-1>div>textarea,
+#page-mod-surveypro-view_form form#userentry div.indent-1>div>input[type="text"],
+#page-mod-surveypro-view_form div#userentry div.indent-1>div>select,
+#page-mod-surveypro-view_form div#userentry div.indent-1>div>textarea,
+#page-mod-surveypro-view_form div#userentry div.indent-1>div>input[type="text"] {
+    margin-left: 1.5em;
+}
+#page-mod-surveypro-view_form div#userentry div.indent-1>div[data-fieldtype="select"],
+#page-mod-surveypro-view_form div#userentry div.indent-1>div[data-fieldtype="textarea"] {
+    padding-left: 2.6em;
+}
 
-#page-mod-surveypro-layout_preview #userentry .fitem .felement .indent-2,
-#page-mod-surveypro-layout_preview .mform .fitem .felement .indent-2,
-#page-mod-surveypro-view_form #userentry .fitem .felement .indent-2,
-#page-mod-surveypro-view_form .mform .fitem .felement .indent-2 {
+/* class = indent-2 */
+/* For Clean based themes */
+#page-mod-surveypro-layout_preview form#userentry .fitem .felement .indent-2,
+#page-mod-surveypro-view_form form#userentry .fitem .felement .indent-2,
+#page-mod-surveypro-view_form div#userentry .fitem .felement .indent-2 {
     margin-left: 3em;
 }
+/* For Boost based themes */
+#page-mod-surveypro-layout_preview form#userentry div.indent-2>div>select,
+#page-mod-surveypro-layout_preview form#userentry div.indent-2>div>textarea,
+#page-mod-surveypro-layout_preview form#userentry div.indent-2>div>input[type="text"],
+#page-mod-surveypro-view_form form#userentry div.indent-2>div>select,
+#page-mod-surveypro-view_form form#userentry div.indent-2>div>textarea,
+#page-mod-surveypro-view_form form#userentry div.indent-2>div>input[type="text"],
+#page-mod-surveypro-view_form div#userentry div.indent-2>div>select,
+#page-mod-surveypro-view_form div#userentry div.indent-2>div>textarea,
+#page-mod-surveypro-view_form div#userentry div.indent-2>div>input[type="text"] {
+    margin-left: 3em;
+}
+#page-mod-surveypro-view_form div#userentry div.indent-2>div[data-fieldtype="select"],
+#page-mod-surveypro-view_form div#userentry div.indent-2>div[data-fieldtype="textarea"] {
+    padding-left: 4.1em;
+}
 
-#page-mod-surveypro-layout_preview #userentry .fitem .felement .indent-3,
-#page-mod-surveypro-layout_preview .mform .fitem .felement .indent-3,
-#page-mod-surveypro-view_form #userentry .fitem .felement .indent-3,
-#page-mod-surveypro-view_form .mform .fitem .felement .indent-3 {
+/* class = indent-3 */
+/* For Clean based themes */
+#page-mod-surveypro-layout_preview form#userentry .fitem .felement .indent-3,
+#page-mod-surveypro-view_form form#userentry .fitem .felement .indent-3,
+#page-mod-surveypro-view_form div#userentry .fitem .felement .indent-3 {
     margin-left: 4.5em;
 }
+/* For Boost based themes */
+#page-mod-surveypro-layout_preview form#userentry div.indent-3>div>select,
+#page-mod-surveypro-layout_preview form#userentry div.indent-3>div>textarea,
+#page-mod-surveypro-layout_preview form#userentry div.indent-3>div>input[type="text"],
+#page-mod-surveypro-view_form form#userentry div.indent-3>div>select,
+#page-mod-surveypro-view_form form#userentry div.indent-3>div>textarea,
+#page-mod-surveypro-view_form form#userentry div.indent-3>div>input[type="text"],
+#page-mod-surveypro-view_form div#userentry div.indent-3>div>select,
+#page-mod-surveypro-view_form div#userentry div.indent-3>div>textarea,
+#page-mod-surveypro-view_form div#userentry div.indent-3>div>input[type="text"] {
+    margin-left: 4.5em;
+}
+#page-mod-surveypro-view_form div#userentry div.indent-3>div[data-fieldtype="select"],
+#page-mod-surveypro-view_form div#userentry div.indent-3>div[data-fieldtype="textarea"] {
+    padding-left: 5.6em;
+}
 
-#page-mod-surveypro-layout_preview #userentry .fitem .felement .indent-4,
-#page-mod-surveypro-layout_preview .mform .fitem .felement .indent-4,
-#page-mod-surveypro-view_form #userentry .fitem .felement .indent-4,
-#page-mod-surveypro-view_form .mform .fitem .felement .indent-4 {
+/* class = indent-4 */
+/* For Clean based themes */
+#page-mod-surveypro-layout_preview form#userentry .fitem .felement .indent-4,
+#page-mod-surveypro-view_form form#userentry .fitem .felement .indent-4,
+#page-mod-surveypro-view_form div#userentry .fitem .felement .indent-4 {
     margin-left: 6em;
 }
+/* For Boost based themes */
+#page-mod-surveypro-layout_preview form#userentry div.indent-4>div>select,
+#page-mod-surveypro-layout_preview form#userentry div.indent-4>div>textarea,
+#page-mod-surveypro-layout_preview form#userentry div.indent-4>div>input[type="text"],
+#page-mod-surveypro-view_form form#userentry div.indent-4>div>select,
+#page-mod-surveypro-view_form form#userentry div.indent-4>div>textarea,
+#page-mod-surveypro-view_form form#userentry div.indent-4>div>input[type="text"],
+#page-mod-surveypro-view_form div#userentry div.indent-4>div>select,
+#page-mod-surveypro-view_form div#userentry div.indent-4>div>textarea,
+#page-mod-surveypro-view_form div#userentry div.indent-4>div>input[type="text"] {
+    margin-left: 6em;
+}
+#page-mod-surveypro-view_form div#userentry div.indent-4>div[data-fieldtype="select"],
+#page-mod-surveypro-view_form div#userentry div.indent-4>div[data-fieldtype="textarea"] {
+    padding-left: 7.1em;
+}
 
-#page-mod-surveypro-layout_preview #userentry .fitem .felement .indent-5,
-#page-mod-surveypro-layout_preview .mform .fitem .felement .indent-5,
-#page-mod-surveypro-view_form #userentry .fitem .felement .indent-5,
-#page-mod-surveypro-view_form .mform .fitem .felement .indent-5 {
+/* class = indent-5 */
+/* For Clean based themes */
+#page-mod-surveypro-layout_preview form#userentry .fitem .felement .indent-5,
+#page-mod-surveypro-view_form form#userentry .fitem .felement .indent-5,
+#page-mod-surveypro-view_form div#userentry .fitem .felement .indent-5 {
     margin-left: 7.5em;
 }
+/* For Boost based themes */
+#page-mod-surveypro-layout_preview form#userentry div.indent-5>div>select,
+#page-mod-surveypro-layout_preview form#userentry div.indent-5>div>textarea,
+#page-mod-surveypro-layout_preview form#userentry div.indent-5>div>input[type="text"],
+#page-mod-surveypro-view_form form#userentry div.indent-5>div>select,
+#page-mod-surveypro-view_form form#userentry div.indent-5>div>textarea,
+#page-mod-surveypro-view_form form#userentry div.indent-5>div>input[type="text"],
+#page-mod-surveypro-view_form div#userentry div.indent-5>div>select,
+#page-mod-surveypro-view_form div#userentry div.indent-5>div>textarea,
+#page-mod-surveypro-view_form div#userentry div.indent-5>div>input[type="text"] {
+    margin-left: 7.5em;
+}
+#page-mod-surveypro-view_form div#userentry div.indent-5>div[data-fieldtype="select"],
+#page-mod-surveypro-view_form div#userentry div.indent-5>div[data-fieldtype="textarea"] {
+    padding-left: 8.6em;
+}
 
-#page-mod-surveypro-layout_preview #userentry .fitem .felement .indent-6,
-#page-mod-surveypro-layout_preview .mform .fitem .felement .indent-6,
-#page-mod-surveypro-view_form #userentry .fitem .felement .indent-6,
-#page-mod-surveypro-view_form .mform .fitem .felement .indent-6 {
+/* class = indent-6 */
+/* For Clean based themes */
+#page-mod-surveypro-layout_preview form#userentry .fitem .felement .indent-6,
+#page-mod-surveypro-view_form form#userentry .fitem .felement .indent-6,
+#page-mod-surveypro-view_form div#userentry .fitem .felement .indent-6 {
     margin-left: 9em;
 }
+/* For Boost based themes */
+#page-mod-surveypro-layout_preview form#userentry div.indent-6>div>select,
+#page-mod-surveypro-layout_preview form#userentry div.indent-6>div>textarea,
+#page-mod-surveypro-layout_preview form#userentry div.indent-6>div>input[type="text"],
+#page-mod-surveypro-view_form form#userentry div.indent-6>div>select,
+#page-mod-surveypro-view_form form#userentry div.indent-6>div>textarea,
+#page-mod-surveypro-view_form form#userentry div.indent-6>div>input[type="text"],
+#page-mod-surveypro-view_form div#userentry div.indent-6>div>select,
+#page-mod-surveypro-view_form div#userentry div.indent-6>div>textarea,
+#page-mod-surveypro-view_form div#userentry div.indent-6>div>input[type="text"] {
+    margin-left: 9em;
+}
+#page-mod-surveypro-view_form div#userentry div.indent-6>div[data-fieldtype="select"],
+#page-mod-surveypro-view_form div#userentry div.indent-6>div[data-fieldtype="textarea"] {
+    padding-left: 10.1em;
+}
 
-#page-mod-surveypro-layout_preview #userentry .fitem .felement .indent-7,
-#page-mod-surveypro-layout_preview .mform .fitem .felement .indent-7,
-#page-mod-surveypro-view_form #userentry .fitem .felement .indent-7,
-#page-mod-surveypro-view_form .mform .fitem .felement .indent-7 {
+/* class = indent-7 */
+/* For Clean based themes */
+#page-mod-surveypro-layout_preview form#userentry .fitem .felement .indent-7,
+#page-mod-surveypro-view_form form#userentry .fitem .felement .indent-7,
+#page-mod-surveypro-view_form div#userentry .fitem .felement .indent-7 {
     margin-left: 10.5em;
 }
-
-#page-mod-surveypro-layout_preview #userentry .fitem .felement .indent-8,
-#page-mod-surveypro-layout_preview .mform .fitem .felement .indent-8,
-#page-mod-surveypro-view_form #userentry .fitem .felement .indent-8,
-#page-mod-surveypro-view_form .mform .fitem .felement .indent-8 {
-    margin-left: 12em;
+/* For Boost based themes */
+#page-mod-surveypro-layout_preview form#userentry div.indent-7>div>select,
+#page-mod-surveypro-layout_preview form#userentry div.indent-7>div>textarea,
+#page-mod-surveypro-layout_preview form#userentry div.indent-7>div>input[type="text"],
+#page-mod-surveypro-view_form form#userentry div.indent-7>div>select,
+#page-mod-surveypro-view_form form#userentry div.indent-7>div>textarea,
+#page-mod-surveypro-view_form form#userentry div.indent-7>div>input[type="text"],
+#page-mod-surveypro-view_form div#userentry div.indent-7>div>select,
+#page-mod-surveypro-view_form div#userentry div.indent-7>div>textarea,
+#page-mod-surveypro-view_form div#userentry div.indent-7>div>input[type="text"] {
+    margin-left: 10.5em;
+}
+#page-mod-surveypro-view_form div#userentry div.indent-7>div[data-fieldtype="select"],
+#page-mod-surveypro-view_form div#userentry div.indent-7>div[data-fieldtype="textarea"] {
+    padding-left: 11.6em;
 }
 
-#page-mod-surveypro-layout_preview #userentry .fitem .felement .indent-9,
-#page-mod-surveypro-layout_preview .mform .fitem .felement .indent-9,
-#page-mod-surveypro-view_form #userentry .fitem .felement .indent-9,
-#page-mod-surveypro-view_form .mform .fitem .felement .indent-9 {
+/* class = indent-8 */
+/* For Clean based themes */
+#page-mod-surveypro-layout_preview form#userentry .fitem .felement .indent-8,
+#page-mod-surveypro-view_form form#userentry .fitem .felement .indent-8,
+#page-mod-surveypro-view_form div#userentry .fitem .felement .indent-8 {
+    margin-left: 12em;
+}
+/* For Boost based themes */
+#page-mod-surveypro-layout_preview form#userentry div.indent-8>div>select,
+#page-mod-surveypro-layout_preview form#userentry div.indent-8>div>textarea,
+#page-mod-surveypro-layout_preview form#userentry div.indent-8>div>input[type="text"],
+#page-mod-surveypro-view_form form#userentry div.indent-8>div>select,
+#page-mod-surveypro-view_form form#userentry div.indent-8>div>textarea,
+#page-mod-surveypro-view_form form#userentry div.indent-8>div>input[type="text"],
+#page-mod-surveypro-view_form div#userentry div.indent-8>div>select,
+#page-mod-surveypro-view_form div#userentry div.indent-8>div>textarea,
+#page-mod-surveypro-view_form div#userentry div.indent-8>div>input[type="text"] {
+    margin-left: 12em;
+}
+#page-mod-surveypro-view_form div#userentry div.indent-8>div[data-fieldtype="select"],
+#page-mod-surveypro-view_form div#userentry div.indent-8>div[data-fieldtype="textarea"] {
+    padding-left: 13.1em;
+}
+
+/* class = indent-9 */
+/* For Clean based themes */
+#page-mod-surveypro-layout_preview form#userentry .fitem .felement .indent-9,
+#page-mod-surveypro-view_form form#userentry .fitem .felement .indent-9,
+#page-mod-surveypro-view_form div#userentry .fitem .felement .indent-9 {
     margin-left: 13.5em;
+}
+/* For Boost based themes */
+#page-mod-surveypro-layout_preview form#userentry div.indent-9>div>select,
+#page-mod-surveypro-layout_preview form#userentry div.indent-9>div>textarea,
+#page-mod-surveypro-layout_preview form#userentry div.indent-9>div>input[type="text"],
+#page-mod-surveypro-view_form form#userentry div.indent-9>div>select,
+#page-mod-surveypro-view_form form#userentry div.indent-9>div>textarea,
+#page-mod-surveypro-view_form form#userentry div.indent-9>div>input[type="text"],
+#page-mod-surveypro-view_form div#userentry div.indent-9>div>select,
+#page-mod-surveypro-view_form div#userentry div.indent-9>div>textarea,
+#page-mod-surveypro-view_form div#userentry div.indent-9>div>input[type="text"] {
+    margin-left: 13.5em;
+}
+#page-mod-surveypro-view_form div#userentry div.indent-9>div[data-fieldtype="select"],
+#page-mod-surveypro-view_form div#userentry div.indent-9>div[data-fieldtype="textarea"] {
+    padding-left: 14.6em;
 }
 
 /* Begin of: for long edit fields in itemsetup form */

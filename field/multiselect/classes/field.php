@@ -486,11 +486,11 @@ EOS;
         $attributes['size'] = $this->heightinrows;
         if (!$searchform) {
             if ($this->required) {
-                $select = $mform->addElement('mod_surveypro_select', $this->itemname, $elementlabel, $labels, $attributes);
+                $select = $mform->addElement('select', $this->itemname, $elementlabel, $labels, $attributes);
                 $select->setMultiple(true);
             } else {
                 $elementgroup = array();
-                $select = $mform->createElement('mod_surveypro_select', $this->itemname, '', $labels, $attributes);
+                $select = $mform->createElement('select', $this->itemname, '', $labels, $attributes);
                 $select->setMultiple(true);
                 $elementgroup[] = $select;
 
@@ -508,7 +508,7 @@ EOS;
             }
         } else {
             $elementgroup = array();
-            $select = $mform->createElement('mod_surveypro_select', $this->itemname, '', $labels, $attributes);
+            $select = $mform->createElement('select', $this->itemname, '', $labels, $attributes);
             $select->setMultiple(true);
             $elementgroup[] = $select;
 

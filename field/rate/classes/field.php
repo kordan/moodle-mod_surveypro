@@ -416,7 +416,7 @@ EOS;
             foreach ($options as $row => $option) {
                 $uniquename = $this->itemname.'_'.$row;
                 $attributes['id'] = $idprefix.'_'.$row;
-                $mform->addElement('mod_surveypro_select', $uniquename, $option, $rates, $attributes);
+                $mform->addElement('select', $uniquename, $option, $rates, $attributes);
 
                 // Don' add a colorunifier div after the last rate element.
                 if ($row < $optioncount) {

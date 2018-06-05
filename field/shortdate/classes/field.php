@@ -455,12 +455,12 @@ EOS;
         $itemname = $this->itemname.'_month';
         $attributes['id'] = $idprefix.'_month';
         $attributes['class'] = 'indent-'.$this->indent.' shortdate_select';
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $itemname, '', $months, $attributes);
+        $elementgroup[] = $mform->createElement('select', $itemname, '', $months, $attributes);
 
         $itemname = $this->itemname.'_year';
         $attributes['id'] = $idprefix.'_year';
         $attributes['class'] = 'shortdate_select';
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $itemname, '', $years, $attributes);
+        $elementgroup[] = $mform->createElement('select', $itemname, '', $years, $attributes);
 
         if ($this->required) {
             if (!$searchform) {
