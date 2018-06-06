@@ -59,9 +59,9 @@ class mod_surveypro_itemlist {
     protected $plugin;
 
     /**
-     * @var int Itemid of the leading item
+     * @var int Id of the leading item
      */
-    protected $itemid;
+    protected $rootitemid;
 
     /**
      * @var int Sortindex of the leading item
@@ -319,7 +319,7 @@ class mod_surveypro_itemlist {
 
             $tablerow = array();
 
-            if (($this->view == SURVEYPRO_CHANGEORDERASK) && ($item->get_itemid() == $this->itemid)) {
+            if (($this->view == SURVEYPRO_CHANGEORDERASK) && ($item->get_itemid() == $this->rootitemid)) {
                 // Do not draw the item you are going to move.
                 continue;
             }
@@ -559,7 +559,7 @@ class mod_surveypro_itemlist {
             $table->add_data($tablerow, $rowclass);
 
             if ($this->view == SURVEYPRO_CHANGEORDERASK) {
-                // It was asked to move the item with: $this->itemid and $this->parentid.
+                // It was asked to move the item with: $this->rootitemid and $this->parentid.
                 if ($this->parentid) { // This is the parentid of the item that I am going to move.
                     // If a parentid is foreseen.
                     // Draw the moveherebox only if the current (already displayed) item has: $item->itemid == $this->parentid.
@@ -567,11 +567,11 @@ class mod_surveypro_itemlist {
                     $drawmoveherebox = $drawmoveherebox || ($item->get_itemid() == $this->parentid);
 
                     // If you just passed an item with $item->get_parentid == $itemid, stop forever.
-                    if ($item->get_parentid() == $this->itemid) {
+                    if ($item->get_parentid() == $this->rootitemid) {
                         $drawmoveherebox = false;
                     }
                 } else {
-                    $drawmoveherebox = $drawmoveherebox && ($item->get_parentid() != $this->itemid);
+                    $drawmoveherebox = $drawmoveherebox && ($item->get_parentid() != $this->rootitemid);
                 }
 
                 if (!empty($drawmoveherebox)) {
@@ -791,41 +791,58 @@ class mod_surveypro_itemlist {
     }
 
     /**
-     * Adds elements to an array starting from initial conditions.
+     * Get the recursive list of children of a specific item.
+     * This list counts children and children of children for as much generation as it is.
      *
-     * Conditions are array('hidden' => 0) OR array('reserved' => 0)
-     * Add to $nodelist all the children that will inherit the parent condition
-     *
-     * @param integer $nodelist
-     * @param array $additionalcondition
-     * @return void
+     * @param int $baseitemid: the id of the root item for the tree of children to get
+     * @param array $where: permanent condition needed to filter target items
+     * @return object $childrenitems
      */
-    public function add_child_node(&$nodelist, $additionalcondition) {
+    public function item_get_children($baseitemid=null, $where=null) {
         global $DB;
 
-        if (!is_array($additionalcondition)) {
-            $a = 'add_child_node';
+        if (empty($baseitemid)) {
+            $baseitemid = $this->rootitemid;
+        }
+
+        if (empty($where)) {
+            $where = array();
+        }
+
+        if (!is_array($where)) {
+            $a = 'item_get_children';
             print_error('arrayexpected', 'mod_surveypro', null, $a);
         }
 
-        $itemid = end($nodelist);
-        $where = array('parentid' => $itemid) + $additionalcondition;
-        if ($childrenitems = $DB->get_records('surveypro_item', $where, 'sortindex', 'id, sortindex')) {
-            foreach ($childrenitems as $childitem) {
-                $nodelist[$childitem->sortindex] = (int)$childitem->id;
-                $this->add_child_node($nodelist, $additionalcondition);
+        $idscontainer = array($baseitemid);
+
+        // Lets start populating the list of items to return.
+        $childrenitems = $DB->get_records('surveypro_item', array('id' => $baseitemid), 'sortindex', 'id, parentid, sortindex');
+
+        $childid = $baseitemid;
+        $i = 1;
+        do {
+            $where['parentid'] = $childid;
+            if ($morechildren = $DB->get_records('surveypro_item', $where, 'sortindex', 'id, parentid, sortindex')) {
+                foreach ($morechildren as $k => $unused) {
+                    $idscontainer[] = $k;
+                }
+                $childrenitems += $morechildren;
             }
-        }
+            $childid = next($idscontainer);
+            $i++;
+        } while ($i <= count($idscontainer));
+
+        return $childrenitems;
     }
 
     /**
      * Adds elements to an array starting from initial conditions.
      *
-     * Conditions are array('hidden' => 1) OR array('reserved' => 1)
-     * Add to $nodelist all the parent that will inherit the child condition
+     * $additionalcondition is array('hidden' => 1) OR array('reserved' => 1)
      *
      * @param array $additionalcondition
-     * @return void
+     * @return array $nodelist
      */
     public function add_parent_node($additionalcondition) {
         global $DB;
@@ -835,11 +852,11 @@ class mod_surveypro_itemlist {
             print_error('arrayexpected', 'mod_surveypro', null, $a);
         }
 
-        $nodelist = array($this->itemid);
+        $nodelist = array($this->sortindex => $this->rootitemid);
 
         // Get the first parentid.
         $parentitem = new stdClass();
-        $parentitem->parentid = $DB->get_field('surveypro_item', 'parentid', array('id' => $this->itemid));
+        $parentitem->parentid = $DB->get_field('surveypro_item', 'parentid', array('id' => $this->rootitemid));
 
         $where = array('id' => $parentitem->parentid) + $additionalcondition;
 
@@ -1019,7 +1036,7 @@ class mod_surveypro_itemlist {
                 $this->reorder_items();
                 break;
             case SURVEYPRO_CHANGEINDENT:
-                $where = array('itemid' => $this->itemid);
+                $where = array('itemid' => $this->rootitemid);
                 $DB->set_field('surveypro'.$this->type.'_'.$this->plugin, 'indent', $this->nextindent, $where);
                 break;
             case SURVEYPRO_MAKERESERVED:
@@ -1134,14 +1151,13 @@ class mod_surveypro_itemlist {
 
         // Build tohidelist.
         // Here I must select the whole tree down.
-        $tohidelist = array('clicked' => $this->itemid);
-        $this->add_child_node($tohidelist, array('hidden' => 0));
+        $itemstohide = $this->item_get_children(null, array('hidden' => 0));
 
-        $itemstoprocess = count($tohidelist);
+        $itemstoprocess = count($itemstohide);
         if ( ($this->confirm == SURVEYPRO_CONFIRMED_YES) || ($itemstoprocess == 1) ) {
             // Hide items.
-            foreach ($tohidelist as $tohideitemid) {
-                $DB->set_field('surveypro_item', 'hidden', 1, array('id' => $tohideitemid));
+            foreach ($itemstohide as $itemtohide) {
+                $DB->set_field('surveypro_item', 'hidden', 1, array('id' => $itemtohide->id));
             }
             $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
             $utilityman->reset_items_pages();
@@ -1158,18 +1174,24 @@ class mod_surveypro_itemlist {
 
         // Build tohidelist.
         // Here I must select the whole tree down.
-        $tohidelist = array('clicked' => $this->itemid);
-        $this->add_child_node($tohidelist, array('hidden' => 0));
+        $itemstohide = $this->item_get_children(null, array('hidden' => 0));
 
-        $itemstoprocess = count($tohidelist);
+        $itemstoprocess = count($itemstohide);
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             if ($itemstoprocess > 1) { // Ask for confirmation.
-                $item = surveypro_get_item($this->cm, $this->surveypro, $this->itemid, $this->type, $this->plugin);
+                $dependencies = array();
+                $item = surveypro_get_item($this->cm, $this->surveypro, $this->rootitemid, $this->type, $this->plugin);
 
                 $a = new stdClass();
-                $a->parentid = $item->get_content();
-                $dependencies = array_keys($tohidelist);
-                array_shift($dependencies);
+                $a->itemcontent = $item->get_content();
+                foreach ($itemstohide as $itemtohide) {
+                    $dependencies[] = $itemtohide->sortindex;
+                }
+                // Drop the original item because it doesn't go in the message.
+                $key = array_search($this->sortindex, $dependencies);
+                if ($key !== false) { // Should always happen.
+                    unset($dependencies[$key]);
+                }
                 $a->dependencies = implode(', ', $dependencies);
                 if (count($dependencies) == 1) {
                     $message = get_string('confirm_hide1item', 'mod_surveypro', $a);
@@ -1181,7 +1203,7 @@ class mod_surveypro_itemlist {
 
                 $optionsyes = $optionbase;
                 $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
-                $optionsyes['itemid'] = $this->itemid;
+                $optionsyes['itemid'] = $this->rootitemid;
                 $optionsyes['plugin'] = $this->plugin;
                 $optionsyes['type'] = $this->type;
                 $urlyes = new moodle_url('/mod/surveypro/layout_itemlist.php#sortindex_'.$this->sortindex, $optionsyes);
@@ -1242,11 +1264,16 @@ class mod_surveypro_itemlist {
         $itemstoprocess = count($toshowlist); // This is the list of ancestors.
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             if ($itemstoprocess > 1) { // Ask for confirmation.
-                $item = surveypro_get_item($this->cm, $this->surveypro, $this->itemid, $this->type, $this->plugin);
+                $item = surveypro_get_item($this->cm, $this->surveypro, $this->rootitemid, $this->type, $this->plugin);
 
                 $a = new stdClass();
                 $a->lastitem = $item->get_content();
                 $ancestors = array_keys($toshowlist);
+                // Drop the original item because it doesn't go in the message.
+                $key = array_search($this->sortindex, $ancestors);
+                if ($key !== false) { // Should always happen.
+                    unset($ancestors[$key]);
+                }
                 $a->ancestors = implode(', ', $ancestors);
                 if (count($ancestors) == 1) {
                     $message = get_string('confirm_show1item', 'mod_surveypro', $a);
@@ -1257,12 +1284,12 @@ class mod_surveypro_itemlist {
                 $optionbase = array();
                 $optionbase['id'] = $this->cm->id;
                 $optionbase['act'] = SURVEYPRO_SHOWITEM;
-                $optionbase['itemid'] = $this->itemid;
+                $optionbase['itemid'] = $this->rootitemid;
                 $optionbase['sesskey'] = sesskey();
 
                 $optionsyes = $optionbase;
                 $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
-                $optionsyes['itemid'] = $this->itemid;
+                $optionsyes['itemid'] = $this->rootitemid;
                 $optionsyes['plugin'] = $this->plugin;
                 $optionsyes['type'] = $this->type;
                 $urlyes = new moodle_url('/mod/surveypro/layout_itemlist.php#sortindex_'.$this->sortindex, $optionsyes);
@@ -1300,18 +1327,22 @@ class mod_surveypro_itemlist {
             $utilityman->reset_items_pages();
             $whereparams = array('surveyproid' => $this->surveypro->id);
 
-            if ($childrenitems = $DB->get_records('surveypro_item', array('parentid' => $this->itemid), 'id', 'id, type, plugin')) {
-                foreach ($childrenitems as $childitem) {
-                    $whereparams['id'] = $childitem->id;
+            $childrenids = array();
+
+            $itemstodelete = $this->item_get_children();
+            array_shift($itemstodelete);
+            if ($itemstodelete) {
+                foreach ($itemstodelete as $itemtodelete) {
+                    $whereparams['id'] = $itemtodelete->id;
                     $utilityman->delete_items($whereparams);
                 }
             }
 
             // Get the content of the item for the feedback message.
-            $item = surveypro_get_item($this->cm, $this->surveypro, $this->itemid, $this->type, $this->plugin);
+            $item = surveypro_get_item($this->cm, $this->surveypro, $this->rootitemid, $this->type, $this->plugin);
 
             $killedsortindex = $item->get_sortindex();
-            $whereparams = array('id' => $this->itemid);
+            $whereparams = array('id' => $this->rootitemid);
             $utilityman->delete_items($whereparams);
 
             $this->itemcount -= 1;
@@ -1320,7 +1351,7 @@ class mod_surveypro_itemlist {
             $this->confirm = SURVEYPRO_ACTION_EXECUTED;
 
             $this->actionfeedback = new stdClass();
-            $this->actionfeedback->chain = !empty($childrenitems);
+            $this->actionfeedback->chain = !empty($itemstodelete);
             $this->actionfeedback->content = $item->get_content();
             $this->actionfeedback->pluginname = strtolower(get_string('pluginname', 'surveypro'.$this->type.'_'.$this->plugin));
         }
@@ -1337,7 +1368,7 @@ class mod_surveypro_itemlist {
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             // Ask for confirmation.
             // In the frame of the confirmation I need to declare whether some child will break the link.
-            $item = surveypro_get_item($this->cm, $this->surveypro, $this->itemid, $this->type, $this->plugin);
+            $item = surveypro_get_item($this->cm, $this->surveypro, $this->rootitemid, $this->type, $this->plugin);
 
             $a = new stdClass();
             $a->content = $item->get_content();
@@ -1345,10 +1376,14 @@ class mod_surveypro_itemlist {
             $message = get_string('confirm_delete1item', 'mod_surveypro', $a);
 
             // Is there any child item chain to break? (Sortindex is supposed to be a valid key in the next query).
-            if ($childrenitems = $DB->get_records('surveypro_item', array('parentid' => $this->itemid), 'sortindex', 'sortindex')) {
-                $childrenitems = array_keys($childrenitems);
-                $nodes = implode(', ', $childrenitems);
-                $message .= get_string('confirm_deletechainitems', 'mod_surveypro', $nodes);
+            $itemstodelete = $this->item_get_children();
+            array_shift($itemstodelete);
+            if ($itemstodelete) {
+                foreach ($itemstodelete as $itemtodelete) {
+                    $childrenids[] = $itemtodelete->sortindex;
+                }
+                $nodes = implode(', ', $childrenids);
+                $message .= ' '.get_string('confirm_deletechainitems', 'mod_surveypro', $nodes);
                 $labelyes = get_string('continue');
             } else {
                 $labelyes = get_string('yes');
@@ -1358,7 +1393,7 @@ class mod_surveypro_itemlist {
 
             $optionsyes = $optionbase;
             $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
-            $optionsyes['itemid'] = $this->itemid;
+            $optionsyes['itemid'] = $this->rootitemid;
             $optionsyes['plugin'] = $this->plugin;
             $optionsyes['type'] = $this->type;
 
@@ -1514,20 +1549,19 @@ class mod_surveypro_itemlist {
         }
 
         // Here I must select the whole tree down.
-        $toreservelist = $this->add_parent_node(array('reserved' => 0));
+        $itemstoreserve = $this->add_parent_node(array('reserved' => 0));
 
         // I am interested to oldest parent only.
-        $oldestparentid = end($toreservelist);
+        $baseitemid = end($itemstoreserve);
 
-        // Build toreservelist starting from the oldest parent.
-        $toreservelist = array('clicked' => $oldestparentid);
-        $this->add_child_node($toreservelist, array('reserved' => 0));
+        // Build itemstoreserve starting from the oldest parent.
+        $itemstoreserve = $this->item_get_children($baseitemid, array('reserved' => 0));
 
-        $itemstoprocess = count($toreservelist);
+        $itemstoprocess = count($itemstoreserve);
         if ( ($this->confirm == SURVEYPRO_CONFIRMED_YES) || ($itemstoprocess == 1) ) {
             // Make items reserved.
-            foreach ($toreservelist as $toreserveitemid) {
-                $DB->set_field('surveypro_item', 'reserved', 1, array('id' => $toreserveitemid));
+            foreach ($itemstoreserve as $itemtoreserve) {
+                $DB->set_field('surveypro_item', 'reserved', 1, array('id' => $itemtoreserve->id));
             }
             $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
             $utilityman->reset_items_pages();
@@ -1554,28 +1588,33 @@ class mod_surveypro_itemlist {
 
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             // Here I must select the whole tree down.
-            $toreservelist = $this->add_parent_node(array('reserved' => 0));
+            $itemstoreserve = $this->add_parent_node(array('reserved' => 0));
 
             // I am interested to oldest parent only.
-            $oldestparentid = end($toreservelist);
+            $baseitemid = end($itemstoreserve);
 
-            // Build toreservelist starting from the oldest parent.
-            $toreservelist = array('clicked' => $oldestparentid);
-            $this->add_child_node($toreservelist, array('reserved' => 0));
+            // Build itemstoreserve starting from the oldest parent.
+            $itemstoreserve = $this->item_get_children($baseitemid, array('reserved' => 0));
 
-            $itemstoprocess = count($toreservelist); // This is the list of ancestors.
+            $itemstoprocess = count($itemstoreserve); // This is the list of ancestors.
             if ($itemstoprocess > 1) { // Ask for confirmation.
                 // If the clicked element has not parents.
                 $a = new stdClass();
-                $item = surveypro_get_item($this->cm, $this->surveypro, $this->itemid, $this->type, $this->plugin);
+                $item = surveypro_get_item($this->cm, $this->surveypro, $this->rootitemid, $this->type, $this->plugin);
                 $a->itemcontent = $item->get_content();
-                $dependencies = array_keys($toreservelist);
-                array_shift($dependencies);
+                foreach ($itemstoreserve as $itemtoreserve) {
+                    $dependencies[] = $itemtoreserve->sortindex;
+                }
+                // Drop the original item because it doesn't go in the message.
+                $key = array_search($this->sortindex, $dependencies);
+                if ($key !== false) { // Should always happen.
+                    unset($dependencies[$key]);
+                }
                 $a->dependencies = implode(', ', $dependencies);
 
-                if ($oldestparentid != $this->itemid) {
-                    $parentid = reset($toreservelist);
-                    $parentitem = surveypro_get_item($this->cm, $this->surveypro, $parentid);
+                if ($baseitemid != $this->rootitemid) {
+                    $firstparentitem = reset($itemstoreserve);
+                    $parentitem = surveypro_get_item($this->cm, $this->surveypro, $firstparentitem->id);
                     $a->parentcontent = $parentitem->get_content();
                     $message = get_string('confirm_reservechainitems_newparent', 'mod_surveypro', $a);
                 } else {
@@ -1590,7 +1629,7 @@ class mod_surveypro_itemlist {
 
                 $optionsyes = $optionbase;
                 $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
-                $optionsyes['itemid'] = $this->itemid;
+                $optionsyes['itemid'] = $this->rootitemid;
                 $optionsyes['plugin'] = $this->plugin;
                 $optionsyes['type'] = $this->type;
                 $urlyes = new moodle_url('/mod/surveypro/layout_itemlist.php#sortindex_'.$this->sortindex, $optionsyes);
@@ -1626,21 +1665,20 @@ class mod_surveypro_itemlist {
             return;
         }
 
-        // Build toavailablelist.
-        $toavailablelist = $this->add_parent_node(array('reserved' => 1));
+        // Build itemstoavailable.
+        $itemstoavailable = $this->add_parent_node(array('reserved' => 1));
 
         // I am interested to oldest parent only.
-        $oldestparentid = end($toavailablelist);
+        $baseitemid = end($itemstoavailable);
 
-        // Build toreservelist starting from the oldest parent.
-        $toavailablelist = array('clicked' => $oldestparentid);
-        $this->add_child_node($toavailablelist, array('reserved' => 1));
+        // Build itemstoavailable starting from the oldest parent.
+        $itemstoavailable = $this->item_get_children($baseitemid, array('reserved' => 1));
 
-        $itemstoprocess = count($toavailablelist); // This is the list of ancestors.
+        $itemstoprocess = count($itemstoavailable); // This is the list of ancestors.
         if ( ($this->confirm == SURVEYPRO_CONFIRMED_YES) || ($itemstoprocess == 1) ) {
             // Make items available.
-            foreach ($toavailablelist as $toavailableitemid) {
-                $DB->set_field('surveypro_item', 'reserved', 0, array('id' => $toavailableitemid));
+            foreach ($itemstoavailable as $itemtoavailable) {
+                $DB->set_field('surveypro_item', 'reserved', 0, array('id' => $itemtoavailable->id));
             }
             $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
             $utilityman->reset_items_pages();
@@ -1666,29 +1704,34 @@ class mod_surveypro_itemlist {
         }
 
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
-            // Build toavailablelist.
-            $toavailablelist = $this->add_parent_node(array('reserved' => 1));
+            // Build itemstoavailable.
+            $itemstoavailable = $this->add_parent_node(array('reserved' => 1));
 
             // I am interested to oldest parent only.
-            $oldestparentid = end($toavailablelist);
+            $baseitemid = end($itemstoavailable);
 
-            // Build toreservelist starting from the oldest parent.
-            $toavailablelist = array('clicked' => $oldestparentid);
-            $this->add_child_node($toavailablelist, array('reserved' => 1));
+            // Build itemstoavailable starting from the oldest parent.
+            $itemstoavailable = $this->item_get_children($baseitemid, array('reserved' => 1));
 
-            $itemstoprocess = count($toavailablelist); // This is the list of ancestors.
+            $itemstoprocess = count($itemstoavailable); // This is the list of ancestors.
             if ($itemstoprocess > 1) { // Ask for confirmation.
                 // If the clicked element has not parents.
                 $a = new stdClass();
-                $item = surveypro_get_item($this->cm, $this->surveypro, $this->itemid, $this->type, $this->plugin);
+                $item = surveypro_get_item($this->cm, $this->surveypro, $this->rootitemid, $this->type, $this->plugin);
                 $a->itemcontent = $item->get_content();
-                $dependencies = array_keys($toavailablelist);
-                array_shift($dependencies);
+                foreach ($itemstoavailable as $itemtoavailable) {
+                    $dependencies[] = $itemtoavailable->sortindex;
+                }
+                // Drop the original item because it doesn't go in the message.
+                $key = array_search($this->sortindex, $dependencies);
+                if ($key !== false) { // Should always happen.
+                    unset($dependencies[$key]);
+                }
                 $a->dependencies = implode(', ', $dependencies);
 
-                if ($oldestparentid != $this->itemid) {
-                    $parentid = reset($toavailablelist);
-                    $parentitem = surveypro_get_item($this->cm, $this->surveypro, $parentid);
+                if ($baseitemid != $this->rootitemid) {
+                    $firstparentitem = reset($itemstoavailable);
+                    $parentitem = surveypro_get_item($this->cm, $this->surveypro, $firstparentitem->id);
                     $a->parentcontent = $parentitem->get_content();
                     $message = get_string('confirm_freechainitems_newparent', 'mod_surveypro', $a);
                 } else {
@@ -1702,12 +1745,12 @@ class mod_surveypro_itemlist {
                 $optionbase = array();
                 $optionbase['id'] = $this->cm->id;
                 $optionbase['act'] = SURVEYPRO_MAKEAVAILABLE;
-                $optionbase['itemid'] = $this->itemid;
+                $optionbase['itemid'] = $this->rootitemid;
                 $optionbase['sesskey'] = sesskey();
 
                 $optionsyes = $optionbase;
                 $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
-                $optionsyes['itemid'] = $this->itemid;
+                $optionsyes['itemid'] = $this->rootitemid;
                 $optionsyes['plugin'] = $this->plugin;
                 $optionsyes['type'] = $this->type;
                 $urlyes = new moodle_url('/mod/surveypro/layout_itemlist.php#sortindex_'.$this->sortindex, $optionsyes);
@@ -1970,7 +2013,7 @@ class mod_surveypro_itemlist {
      * @return void
      */
     public function get_itemid() {
-        return $this->itemid;
+        return $this->rootitemid;
     }
 
     /**
@@ -2055,7 +2098,7 @@ class mod_surveypro_itemlist {
      * @return void
      */
     public function set_itemid($itemid) {
-        $this->itemid = $itemid;
+        $this->rootitemid = $itemid;
     }
 
     /**

@@ -63,7 +63,7 @@ class mod_surveypro_itemlist_variable extends \core\output\inplace_editable {
         $item = surveypro_get_item($cm, $surveypro, $itemid, $itemrecord->type, $itemrecord->plugin);
 
         // Before saving to the the plugin table, validate the variable name.
-        $record = new StdClass();
+        $record = new stdClass();
         $record->surveyproid = $surveypro->id;
         $record->variable = $newvarname;
         $record->plugin = $itemrecord->plugin;

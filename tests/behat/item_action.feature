@@ -1,21 +1,21 @@
-@mod @mod_surveypro
+@mod @mod_surveypro @current
 Feature: Test item actions
   In order to validate each action issues through inline icons
-  As a teacher
+  As teacher1
   I issue them and verify the outcome.
 
   Background:
     Given the following "courses" exist:
-      | fullname | shortname | category | numsections |
-      | Course 1 | C1        | 0        | 3           |
+      | fullname          | shortname | category | numsections |
+      | Test item actions | Test IA   | 0        | 3           |
     And I log in as "admin"
 
   @javascript
-  Scenario: test item actions
+  Scenario: test simple item actions
     Given the following "activities" exist:
-      | activity  | name           | intro              | course | idnumber   |
-      | surveypro | Surveypro test | For testing backup | C1     | surveypro1 |
-    And surveypro "Surveypro test" contains the following items:
+      | activity  | name                     | intro                | course  | idnumber   |
+      | surveypro | Test simple item actions | To test item actions | Test IA | surveypro1 |
+    And surveypro "Test simple item actions" contains the following items:
       | type   | plugin      |
       | field  | age         |
       | field  | autofill    |
@@ -40,9 +40,8 @@ Feature: Test item actions
       | format | fieldset    |
       | format | fieldsetend |
 
-    And I am on site homepage
-    When I follow "Course 1"
-    And I follow "Surveypro test"
+    And I am on "Test item actions" course homepage
+    And I follow "Test simple item actions"
     And I follow "Layout"
 
     Then I should see "0" reserved items
@@ -130,3 +129,238 @@ Feature: Test item actions
     Then I should see "9" hidden items
     Then I should see "0" searchable items
     Then I should see "6" not searchable items
+
+  @javascript
+  Scenario: test complex item actions
+    Given the following "activities" exist:
+      | activity  | name                      | intro       | course  | idnumber   |
+      | surveypro | Test complex item actions | To test CIA | Test IA | surveypro1 |
+    And I am on "Test item actions" course homepage
+    And I follow "Test complex item actions"
+
+    And I navigate to "Import" node in "Surveypro administration > User templates"
+    And I upload "mod/surveypro/tests/fixtures/usertemplate/item_action_test.xml" file to "Choose files to import" filemanager
+
+    And I set the field "Sharing level" to "Course: Test item actions"
+    And I press "Import"
+
+    # now I am in the "Manage" page
+    And I navigate to "Apply" node in "Surveypro administration > User templates"
+
+    # now I am in the "Apply" page
+    And I set the following fields to these values:
+      | User templates       | (Course) item_action_test.xml |
+      | id_action_0          | 1                             |
+    And I press "Apply"
+
+    And I follow "makereserved_item_2"
+    Then I should see "Reserving the element"
+    Then I should see "Very first parent"
+    Then I should see "Dependencies are the elements in position: 3, 7, 4, 8, 5, 6, 9."
+    And I press "Continue"
+
+    Then I should see "8" reserved items
+    Then I should see "6" available items
+    Then I should see "14" visible items
+    Then I should see "0" hidden items
+    Then I should see "0" searchable items
+    Then I should see "14" not searchable items
+
+    And I follow "makeavailable_item_7"
+    Then I should see "Making available the element"
+    Then I should see "Second generation, second parent question"
+    Then I should see "Very first parent"
+    Then I should see "So, in addition to the chosen element, you are going to make available the elements in position: 2, 3, 4, 8, 5, 6, 9."
+    And I press "Continue"
+
+    Then I should see "0" reserved items
+    Then I should see "14" available items
+    Then I should see "14" visible items
+    Then I should see "0" hidden items
+    Then I should see "0" searchable items
+    Then I should see "14" not searchable items
+
+    And I follow "hide_item_2"
+    Then I should see "Hiding the element"
+    Then I should see "Very first parent"
+    Then I should see "Dependencies are the elements in position: 3, 7, 4, 8, 5, 6, 9."
+    And I press "Continue"
+
+    Then I should see "0" reserved items
+    Then I should see "6" available items
+    Then I should see "6" visible items
+    Then I should see "8" hidden items
+    Then I should see "0" searchable items
+    Then I should see "6" not searchable items
+
+    And I follow "show_item_9"
+    Then I should see "Showing the element"
+    Then I should see "Fourth generation unique question"
+    Then I should see "Ancestors are the elements in position: 8, 7, 2."
+    And I press "Continue"
+
+    Then I should see "0" reserved items
+    Then I should see "10" available items
+    Then I should see "10" visible items
+    Then I should see "4" hidden items
+    Then I should see "0" searchable items
+    Then I should see "10" not searchable items
+
+    And I follow "delete_item_9"
+    Then I should see "Are you sure you want delete the 'select' element:"
+    Then I should see "Fourth generation unique question"
+    And I press "No"
+
+    Then I should see "0" reserved items
+    Then I should see "10" available items
+    Then I should see "10" visible items
+    Then I should see "4" hidden items
+    Then I should see "0" searchable items
+    Then I should see "10" not searchable items
+
+    And I follow "delete_item_1"
+    Then I should see "Are you sure you want delete the 'label' element:"
+    Then I should see "First part of the test"
+    And I press "Yes"
+
+    Then I should see "0" reserved items
+    Then I should see "9" available items
+    Then I should see "9" visible items
+    Then I should see "4" hidden items
+    Then I should see "0" searchable items
+    Then I should see "9" not searchable items
+
+    And I follow "hide_item_1"
+    Then I should see "Hiding the element"
+    Then I should see "Very first parent"
+    Then I should see "Dependencies are the elements in position: 6, 7, 8."
+    And I press "No"
+
+    Then I should see "0" reserved items
+    Then I should see "9" available items
+    Then I should see "9" visible items
+    Then I should see "4" hidden items
+    Then I should see "0" searchable items
+    Then I should see "9" not searchable items
+
+    And I follow "delete_item_1"
+    Then I should see "Are you sure you want delete the 'radio button' element:"
+    Then I should see "Very first parent"
+    Then I should see "The current element has child element(s) that are going to be deleted too."
+    Then I should see "The child element(s) position is: 2, 6, 3, 7, 4, 5, 8."
+    And I press "Continue"
+
+    Then I should see "0" reserved items
+    Then I should see "5" available items
+    Then I should see "5" visible items
+    Then I should see "0" hidden items
+    Then I should see "0" searchable items
+    Then I should see "5" not searchable items
+
+    And I follow "makereserved_item_5"
+    Then I should see "Reserving the element"
+    Then I should see "Second generation, third question"
+    Then I should see "So, in addition to the chosen element, you are going to reserve the elements in position: 2, 3, 4."
+    And I press "Continue"
+
+    Then I should see "4" reserved items
+    Then I should see "1" available items
+    Then I should see "5" visible items
+    Then I should see "0" hidden items
+    Then I should see "0" searchable items
+    Then I should see "5" not searchable items
+
+    And I follow "makeavailable_item_5"
+    Then I should see "Making available the element"
+    Then I should see "Second generation, third question"
+    Then I should see "So, in addition to the chosen element, you are going to make available the elements in position: 2, 3, 4."
+    And I press "Continue"
+
+    Then I should see "0" reserved items
+    Then I should see "5" available items
+    Then I should see "5" visible items
+    Then I should see "0" hidden items
+    Then I should see "0" searchable items
+    Then I should see "5" not searchable items
+
+    And I follow "makereserved_item_2"
+    Then I should see "Reserving the element"
+    Then I should see "Simple parent"
+    Then I should see "Dependencies are the elements in position: 3, 4, 5."
+    And I press "Continue"
+
+    Then I should see "4" reserved items
+    Then I should see "1" available items
+    Then I should see "5" visible items
+    Then I should see "0" hidden items
+    Then I should see "0" searchable items
+    Then I should see "5" not searchable items
+
+    And I follow "makeavailable_item_2"
+    Then I should see "Making available the element"
+    Then I should see "Simple parent"
+    Then I should see "Dependencies are the elements in position: 3, 4, 5."
+    And I press "Continue"
+
+    Then I should see "0" reserved items
+    Then I should see "5" available items
+    Then I should see "5" visible items
+    Then I should see "0" hidden items
+    Then I should see "0" searchable items
+    Then I should see "5" not searchable items
+
+    And I follow "makereserved_item_3"
+    Then I should see "Reserving the element"
+    Then I should see "Second generation, first question"
+    Then I should see "So, in addition to the chosen element, you are going to reserve the elements in position: 2, 4, 5."
+    And I press "Continue"
+
+    Then I should see "4" reserved items
+    Then I should see "1" available items
+    Then I should see "5" visible items
+    Then I should see "0" hidden items
+    Then I should see "0" searchable items
+    Then I should see "5" not searchable items
+
+    And I follow "makeavailable_item_3"
+    Then I should see "Making available the element"
+    Then I should see "Second generation, first question"
+    Then I should see "So, in addition to the chosen element, you are going to make available the elements in position: 2, 4, 5."
+    And I press "Continue"
+
+    Then I should see "0" reserved items
+    Then I should see "5" available items
+    Then I should see "5" visible items
+    Then I should see "0" hidden items
+    Then I should see "0" searchable items
+    Then I should see "5" not searchable items
+
+    And I follow "delete_item_5"
+    Then I should see "Are you sure you want delete the 'select' element:"
+    Then I should see "Second generation, third question"
+    And I press "Yes"
+
+    Then I should see "0" reserved items
+    Then I should see "4" available items
+    Then I should see "4" visible items
+    Then I should see "0" hidden items
+    Then I should see "0" searchable items
+    Then I should see "4" not searchable items
+
+    And I follow "delete_item_2"
+    Then I should see "Are you sure you want delete the 'radio button' element:"
+    Then I should see "Simple parent"
+    Then I should see "The child element(s) position is: 3, 4."
+    And I press "Continue"
+
+    Then I should see "0" reserved items
+    Then I should see "1" available items
+    Then I should see "1" visible items
+    Then I should see "0" hidden items
+    Then I should see "0" searchable items
+    Then I should see "1" not searchable items
+
+    And I follow "delete_item_1"
+    Then I should see "Are you sure you want delete the 'label' element:"
+    Then I should see "Second part of the test"
+    And I press "Yes"
