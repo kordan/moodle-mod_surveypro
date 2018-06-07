@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2018042401;
+$plugin->version = 2018060501;
 $plugin->release = '1.0';
 $plugin->requires = 2015111600; // Requires this Moodle version.
 $plugin->component = 'surveyprofield_fileupload'; // Full name of the plugin (used for diagnostics).

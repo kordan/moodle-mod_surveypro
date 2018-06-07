@@ -25,7 +25,7 @@
         <!-- begin of fields belonging to itemsetup_form.php of this specific plugin -->
         <FIELD NAME="maxfiles"         TYPE="int"  LENGTH="10"    NOTNULL="false" UNSIGNED="true"             SEQUENCE="false"/>
         <FIELD NAME="maxbytes"         TYPE="int"  LENGTH="10"    NOTNULL="false" UNSIGNED="true"             SEQUENCE="false"/>
-        <FIELD NAME="filetypes"        TYPE="char" LENGTH="32"    NOTNULL="false"                             SEQUENCE="false"/>
+        <FIELD NAME="filetypes"        TYPE="char" LENGTH="64"    NOTNULL="false"                             SEQUENCE="false"/>
         <!-- end of fields belonging to itemsetup_form.php of this specific plugin -->
       </FIELDS>
       <KEYS>
