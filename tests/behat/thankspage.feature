@@ -85,7 +85,7 @@ Feature: verify the thanks page is shown properly
 
     # Atto needs focus to add image, select empty p tag to do so.
     And I select the text in the "id_thankspageeditor" Atto editor
-    And I click on "Image" "button"
+    And I click on "Insert or edit image" "button"
     And I click on "Browse repositories..." "button"
     And I click on "Private files" "link" in the ".fp-repo-area" "css_element"
     And I click on "thankyou.png" "link"
