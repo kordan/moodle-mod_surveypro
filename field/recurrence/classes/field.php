@@ -465,12 +465,12 @@ EOS;
         $itemname = $this->itemname.'_day';
         $attributes['id'] = $idprefix.'_day';
         $attributes['class'] = 'indent-'.$this->indent.' recurrence_select';
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $itemname, '', $days, $attributes);
+        $elementgroup[] = $mform->createElement('select', $itemname, '', $days, $attributes);
 
         $itemname = $this->itemname.'_month';
         $attributes['id'] = $idprefix.'_month';
         $attributes['class'] = 'recurrence_select';
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $itemname, '', $months, $attributes);
+        $elementgroup[] = $mform->createElement('select', $itemname, '', $months, $attributes);
 
         if ($this->required) {
             if (!$searchform) {

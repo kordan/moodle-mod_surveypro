@@ -501,7 +501,7 @@ EOS;
                 }
             }
             $attributes['id'] = $idprefix;
-            $mform->addElement('mod_surveypro_select', $this->itemname, $elementlabel, $options, $attributes);
+            $mform->addElement('select', $this->itemname, $elementlabel, $options, $attributes);
             // End of: mform element.
         } else { // SURVEYPROFIELD_BOOLEAN_USERADIOV or SURVEYPROFIELD_BOOLEAN_USERADIOH.
             $separator = ($this->style == SURVEYPROFIELD_BOOLEAN_USERADIOV) ? '<br />' : ' ';

@@ -478,7 +478,7 @@ EOS;
         $itemname = $this->itemname.'_year';
         $attributes['id'] = $idprefix.'_year';
         $attributes['class'] = 'indent-'.$this->indent.' age_select';
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $itemname, '', $years, $attributes);
+        $elementgroup[] = $mform->createElement('select', $itemname, '', $years, $attributes);
 
         if ($readonly) {
             $itemname = 'yearlabel_'.$this->itemid;
@@ -490,7 +490,7 @@ EOS;
         $itemname = $this->itemname.'_month';
         $attributes['id'] = $idprefix.'_month';
         $attributes['class'] = 'age_select';
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $itemname, '', $months, $attributes);
+        $elementgroup[] = $mform->createElement('select', $itemname, '', $months, $attributes);
 
         if ($readonly) {
             $itemname = 'monthlabel_'.$this->itemid;

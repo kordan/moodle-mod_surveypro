@@ -479,12 +479,12 @@ EOS;
         $itemname = $this->itemname.'_hour';
         $attributes['id'] = $idprefix.'_hour';
         $attributes['class'] = 'indent-'.$this->indent.' time_select';
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $itemname, '', $hours, $attributes);
+        $elementgroup[] = $mform->createElement('select', $itemname, '', $hours, $attributes);
 
         $itemname = $this->itemname.'_minute';
         $attributes['id'] = $idprefix.'_minute';
         $attributes['class'] = 'time_select';
-        $elementgroup[] = $mform->createElement('mod_surveypro_select', $itemname, '', $minutes, $attributes);
+        $elementgroup[] = $mform->createElement('select', $itemname, '', $minutes, $attributes);
 
         $separator = array(':');
         if ($this->required) {
