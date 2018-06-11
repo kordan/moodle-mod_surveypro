@@ -94,6 +94,7 @@ function get_dummy_contents($type, $plugin) {
         if ($plugin == 'character') {
             $return->content_editor['text'] = 'Write down your email';
             $return->contentformat = 1;
+            $return->indent = 0;
             $return->pattern = 'PATTERN_EMAIL';
             $return->defaultvalue = '';
             $return->minlength = 0;
@@ -103,6 +104,7 @@ function get_dummy_contents($type, $plugin) {
         if ($plugin == 'checkbox') {
             $return->content_editor['text'] = 'What do you usually get for breakfast?';
             $return->contentformat = 1;
+            $return->indent = 0;
             $return->options = "milk\nsugar\njam\nchocolate";
             $return->labelother = '';
             $return->defaultvalue = '';
@@ -115,6 +117,7 @@ function get_dummy_contents($type, $plugin) {
         if ($plugin == 'date') {
             $return->content_editor['text'] = 'When were you born?';
             $return->contentformat = 1;
+            $return->indent = 0;
             $return->defaultoption = 2;
             $return->downloadformat = 'strftime05';
             $return->lowerboundday = '1';
@@ -129,6 +132,7 @@ function get_dummy_contents($type, $plugin) {
         if ($plugin == 'datetime') {
             $return->content_editor['text'] = 'Please, write down date and time of your last flight to Los Angeles.';
             $return->contentformat = 1;
+            $return->indent = 0;
             $return->step = '1';
             $return->defaultoption = '2';
             $return->downloadformat = 'strftime01';
@@ -164,6 +168,7 @@ function get_dummy_contents($type, $plugin) {
         if ($plugin == 'integer') {
             $return->content_editor['text'] = 'How many people are in your family without you?';
             $return->contentformat = 1;
+            $return->indent = 0;
             $return->defaultoption = '2';
             $return->lowerbound = '0';
             $return->upperbound = '255';
@@ -173,6 +178,7 @@ function get_dummy_contents($type, $plugin) {
         if ($plugin == 'multiselect') {
             $return->content_editor['text'] = 'What do you usually get for breakfast?';
             $return->contentformat = 1;
+            $return->indent = 0;
             $return->options = "milk\nsugar\njam\nchocolate";
             $return->defaultvalue = '';
             $return->heightinrows = '4';
@@ -184,6 +190,7 @@ function get_dummy_contents($type, $plugin) {
         if ($plugin == 'numeric') {
             $return->content_editor['text'] = 'Write the best approximation of π you can remember';
             $return->contentformat = 1;
+            $return->indent = 0;
             $return->defaultvalue = '';
             $return->decimals = 2;
             $return->lowerbound = '';
@@ -194,6 +201,7 @@ function get_dummy_contents($type, $plugin) {
         if ($plugin == 'radiobutton') {
             $return->content_editor['text'] = 'Where do you usually spend your summer holidays?';
             $return->contentformat = 1;
+            $return->indent = 0;
             $return->options = "sea\nmountain\nlake\nhills";
             $return->labelother = '';
             $return->defaultoption = '2';
@@ -205,6 +213,7 @@ function get_dummy_contents($type, $plugin) {
         if ($plugin == 'rate') {
             $return->content_editor['text'] = 'How confident are you with the following languages?';
             $return->contentformat = 1;
+            $return->indent = 0;
             $return->options = "EN\nES\nIT\nFR";
             $return->rates = "Mother tongue\nVery confident\nNot enought\nCompletely unknown";
             $return->style = '0';
@@ -216,6 +225,7 @@ function get_dummy_contents($type, $plugin) {
         if ($plugin == 'recurrence') {
             $return->content_editor['text'] = 'When do you usually celebrate your name-day?';
             $return->contentformat = 1;
+            $return->indent = 0;
             $return->defaultoption = 2;
             $return->downloadformat = 'strftime2';
             $return->lowerboundday = '1';
@@ -228,6 +238,7 @@ function get_dummy_contents($type, $plugin) {
         if ($plugin == 'select') {
             $return->content_editor['text'] = 'Where do you usually spend your summer holidays?';
             $return->contentformat = 1;
+            $return->indent = 0;
             $return->options = "sea\nmountain\nlake\nhills";
             $return->labelother = '';
             $return->defaultoption = '2';
@@ -238,6 +249,7 @@ function get_dummy_contents($type, $plugin) {
         if ($plugin == 'shortdate') {
             $return->content_editor['text'] = 'When did you buy your current car?';
             $return->contentformat = 1;
+            $return->indent = 0;
             $return->defaultoption = '2';
             $return->downloadformat = 'strftime01';
             $return->lowerboundmonth = '1';
@@ -250,6 +262,7 @@ function get_dummy_contents($type, $plugin) {
         if ($plugin == 'textarea') {
             $return->content_editor['text'] = 'Write a short description of yourself';
             $return->contentformat = 1;
+            $return->indent = 0;
             $return->useeditor = 1;
             $return->arearows = 10;
             $return->areacols = 60;
@@ -261,6 +274,7 @@ function get_dummy_contents($type, $plugin) {
         if ($plugin == 'time') {
             $return->content_editor['text'] = 'At what time do you usually get up in the morning in the working days?';
             $return->contentformat = 1;
+            $return->indent = 0;
             $return->step = '1';
             $return->defaultoption = '2';
             $return->downloadformat = 'strftime1';
