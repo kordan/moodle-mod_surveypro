@@ -583,6 +583,27 @@ class mod_surveypro_view_export {
     }
 
     /**
+     * Define the name of the file to download starting from the name of this surveypro instance.
+     *
+     * @param string $type, either 'user' or 'item'
+     * @return string $packagename
+     */
+    public function attachments_define_packagename($type) {
+        if (($type != 'user') && ($type != 'item')) {
+            $message = 'Wrong param passed to attachments_define_packagename';
+            debugging($message, DEBUG_DEVELOPER);
+        }
+
+        $packagename = clean_filename($this->surveypro->name);
+        $packagename = clean_param($packagename, PARAM_ALPHAEXT);
+        $packagename .= '_attachments_by_'.$type;
+        // In MS Azure files with a name longer than 80 characters give problems.
+        $packagename = substr($packagename, 0, 80);
+
+        return $packagename;
+    }
+
+    /**
      * Craft each uploaded attachment by user and compress the package.
      *
      * @return void
@@ -604,8 +625,7 @@ class mod_surveypro_view_export {
         $richsubmissions = $DB->get_recordset_sql($richsubmissionssql, $whereparams);
 
         if ($richsubmissions->valid()) {
-            $packagename = clean_filename($this->surveypro->name).'_attachments_by_user';
-            $packagename = str_replace(' ', '_', $packagename);
+            $packagename = $this->attachments_define_packagename('user');
 
             $tempsubdir = '/mod_surveypro/attachmentsexport/'.$packagename;
             $tempbasedir = $CFG->tempdir.$tempsubdir;
@@ -715,8 +735,7 @@ class mod_surveypro_view_export {
         $richsubmissions = $DB->get_recordset_sql($richsubmissionssql, $whereparams);
 
         if ($richsubmissions->valid()) {
-            $packagename = clean_filename($this->surveypro->name).'_attachments_by_item';
-            $packagename = str_replace(' ', '_', $packagename);
+            $packagename = $this->attachments_define_packagename('item');
 
             $tempsubdir = '/mod_surveypro/attachmentsexport/'.$packagename;
             $tempbasedir = $CFG->tempdir.$tempsubdir;
