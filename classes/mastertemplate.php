@@ -93,6 +93,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
 
         // I need to get xml content now because, to save time, I get xml AND $this->langtree contemporary.
         $xmlcontent = $this->write_template_content();
+        $xmlcontent = str_replace("\r\n", "\n", $xmlcontent); // Fix line ending.
 
         // Before starting, verify that the current structure of templatemaster folder === structure expected here.
         $templatemastercontent = array(
@@ -103,6 +104,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             'template.xml',
             'version.php'
         );
+
         if ($masterfilelist !== $templatemastercontent) {
             $message = 'The "templatemaster" folder does not match the expected one. This is a security issue. I must stop.';
             debugging($message, DEBUG_DEVELOPER);
@@ -142,7 +144,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
 
             if ($masterfileinfo['dirname'] == 'classes') {
                 $templateclass = file_get_contents($masterbasepath.'/'.$masterfile);
-
+                $templateclass = str_replace("\r\n", "\n", $templateclass); // Fix line ending.
                 // Replace surveyproTemplatePluginMaster with the name of the current surveypro.
                 $templateclass = str_replace(SURVEYPROTEMPLATE_NAMEPLACEHOLDER, $pluginname, $templateclass);
 
@@ -188,6 +190,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
                 $filecopyright = str_replace(SURVEYPROTEMPLATE_NAMEPLACEHOLDER, $pluginname, $filecopyright);
 
                 $savedstrings = $filecopyright.$this->get_lang_file_content();
+                $savedstrings = str_replace("\r\n", "\n", $savedstrings); // Fix line ending.
 
                 // Create - this could be 'en' such as 'it'.
                 $filehandler = fopen($temppath.'/surveyprotemplate_'.$pluginname.'.php', 'w');
@@ -198,11 +201,13 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
 
                 // This is the folder of the language en in case the user language is different from en.
                 if ($userlang != 'en') {
+                    // Write inside all the strings in teh form: 'english translation of $string[stringxx]'.
+                    $savedstrings = $filecopyright.$this->get_translated_strings($userlang);
+                    $savedstrings = str_replace("\r\n", "\n", $savedstrings); // Fix line ending.
+
                     $temppath = $CFG->tempdir.'/'.$tempsubdir.'/lang/en';
                     // Create.
                     $filehandler = fopen($temppath.'/surveyprotemplate_'.$pluginname.'.php', 'w');
-                    // Write inside all the strings in teh form: 'english translation of $string[stringxx]'.
-                    $savedstrings = $filecopyright.$this->get_translated_strings($userlang);
                     // Save into surveyprotemplate_<<$pluginname>>.php.
                     fwrite($filehandler, $savedstrings);
                     // Close.
@@ -215,6 +220,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
 
             // Read the master.
             $filecontent = file_get_contents($masterbasepath.'/'.$masterfile);
+            $filecontent = str_replace("\r\n", "\n", $filecontent); // Fix line ending.
             // Replace surveyproTemplatePluginMaster with the name of the current surveypro.
             $filecontent = str_replace(SURVEYPROTEMPLATE_NAMEPLACEHOLDER, $pluginname, $filecontent);
 
@@ -711,6 +717,6 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             }
         }
 
-        return PHP_EOL.implode(PHP_EOL, $stringsastext);
+        return "\n".implode("\n", $stringsastext);
     }
 }
