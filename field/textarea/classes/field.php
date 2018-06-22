@@ -493,7 +493,7 @@ EOS;
 
         if ($this->minlength > 0) {
             if (isset($this->maxlength) && ($this->maxlength > 0)) {
-                $a = new StdClass();
+                $a = new stdClass();
                 $a->minlength = $this->minlength;
                 $a->maxlength = $this->maxlength;
                 $arrayinstruction[] = get_string('hasminmaxlength', 'surveyprofield_textarea', $a);

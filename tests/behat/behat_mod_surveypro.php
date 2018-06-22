@@ -92,10 +92,12 @@ class behat_mod_surveypro extends behat_base {
 
         switch ($status) {
             case 'reserved':
-                $nodes = $container->findAll('xpath', "//img[contains(@id, 'makeavailable')]");
+                $xpath = "//a[contains(@id,'makeavailable')] | //img[contains(@id, 'makeavailable')]";
+                $nodes = $container->findAll('xpath', $xpath);
                 break;
             case 'available':
-                $nodes = $container->findAll('xpath', "//img[contains(@id, 'makereserved')]");
+                $xpath = "//a[contains(@id,'makereserved')] | //img[contains(@id, 'makereserved')]";
+                $nodes = $container->findAll('xpath', $xpath);
                 break;
             case 'searchable':
                 $nodes = $container->findAll('xpath', "//img[contains(@id, 'removefromsearch')]");
