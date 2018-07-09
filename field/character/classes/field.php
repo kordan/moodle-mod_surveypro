@@ -303,7 +303,9 @@ class surveyprofield_character_field extends mod_surveypro_itembase {
      */
     public function item_get_generic_property($field) {
         if ($field == 'pattern') {
-            if ($this->pattern == SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN) {
+            $condition = ($this->pattern == SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN);
+            $condition = $condition || ($this->pattern == SURVEYPROFIELD_CHARACTER_REGEXPATTERN);
+            if ($condition) {
                 return $this->patterntext;
             } else {
                 return $this->pattern;
