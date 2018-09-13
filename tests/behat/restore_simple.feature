@@ -8,7 +8,7 @@ Feature: Simple restore of a surveypro
   Scenario: Restore the demo course provided in fixtures
     When I log in as "admin"
     And I am on site homepage
-    And I navigate to "Restore" node in "Front page settings"
+    And I navigate to "Restore" in current page administration
     And I press "Manage backup files"
     And I upload "mod/surveypro/tests/fixtures/demo_course-20160108.mbz" file to "Files" filemanager
     And I press "Save changes"

@@ -21,14 +21,14 @@ Feature: verify multilang in mastertemplates
       | activity  | name                                     | intro         | course       | idnumber   | section |
       | surveypro | Multilang in ATTLS                       | To test ATTLS | ML Mtemplate | surveypro1 | 1       |
       | surveypro | Multilang in Colles Actual               | To test CA    | ML Mtemplate | surveypro2 | 2       |
-      | surveypro | Multilang in Colles Preferred and Actual | To test CPA   | ML Mtemplate | surveypro3 | 3       |
-      | surveypro | Multilang in Colles Preferred            | To test CP    | ML Mtemplate | surveypro4 | 4       |
+      | surveypro | Multilang in Colles Preferred            | To test CP    | ML Mtemplate | surveypro3 | 3       |
+      | surveypro | Multilang in Colles Preferred and Actual | To test CPA   | ML Mtemplate | surveypro4 | 4       |
       | surveypro | Multilang in Critical Incidents          | To test CI    | ML Mtemplate | surveypro5 | 5       |
 
   @javascript
   Scenario: display each mastertemplate in 2 different languages
     And I log in as "admin"
-    And I navigate to "Language packs" node in "Site administration > Language"
+    And I navigate to "Language > Language packs" in site administration
     And I set the field "menupack" to "Italiano"
     And I press "Install selected language pack(s)"
     Then I should see "Language pack 'it' was successfully installed"
@@ -44,25 +44,29 @@ Feature: verify multilang in mastertemplates
     And I press "Apply"
     Then I should see "Attitudes Towards Thinking and Learning"
 
-    And I navigate to "Multilang in Colles Actual" node in "My courses > ML Mtemplate > Topic 2"
+    And I expand "Topic 2" node
+    And I click on "Multilang in Colles Actual" "link" in the "Navigation" "block"
     And I set the field "Master templates" to "COLLES (Actual)"
     And I press "Apply"
     Then I should see "In this online unit"
     Then I should see "my learning focuses on issues that interest me"
 
-    And I navigate to "Multilang in Colles Preferred and Actual" node in "My courses > ML Mtemplate > Topic 3"
-    And I set the field "Master templates" to "COLLES (Preferred and Actual)"
-    And I press "Apply"
-    Then I should see "I prefer that my learning focuses on issues that interest me."
-    Then I should see "I found that my learning focuses on issues that interest me."
-
-    And I navigate to "Multilang in Colles Preferred" node in "My courses > ML Mtemplate > Topic 4"
+    And I expand "Topic 3" node
+    And I click on "Multilang in Colles Preferred" "link" in the "Navigation" "block"
     And I set the field "Master templates" to "COLLES (Preferred)"
     And I press "Apply"
     Then I should see "In this online unit"
     Then I should see "my learning focuses on issues that interest me"
 
-    And I navigate to "Multilang in Critical Incidents" node in "My courses > ML Mtemplate > Topic 5"
+    And I expand "Topic 4" node
+    And I click on "Multilang in Colles Preferred and Actual" "link" in the "Navigation" "block"
+    And I set the field "Master templates" to "COLLES (Preferred and Actual)"
+    And I press "Apply"
+    Then I should see "I prefer that my learning focuses on issues that interest me."
+    Then I should see "I found that my learning focuses on issues that interest me."
+
+    And I expand "Topic 5" node
+    And I click on "Multilang in Critical Incidents" "link" in the "Navigation" "block"
     And I set the field "Master templates" to "Critical Incidents"
     And I press "Apply"
     Then I should see "While thinking about recent events in this class, answer the questions below."
@@ -84,22 +88,30 @@ Feature: verify multilang in mastertemplates
     And I press "Nuova risposta"
     Then I should see "Atteggiamenti nei Confronti del Pensare e dell'Imparare"
 
-    And I navigate to "Multilang in Colles Actual" node in "I miei corsi > ML Mtemplate > Argomento 2"
+    And I expand "Argomento 2" node
+    And I click on "Multilang in Colles Actual" "link" in the "Navigazione" "block"
+    # And I navigate to "Multilang in Colles Actual" node in "I miei corsi > ML Mtemplate > Argomento 2"
     And I press "Nuova risposta"
     Then I should see "In questa unità online"
     Then I should see "il mio apprendimento si concentra sulle cose che mi interessano."
 
-    And I navigate to "Multilang in Colles Preferred and Actual" node in "I miei corsi > ML Mtemplate > Argomento 3"
+    And I expand "Argomento 3" node
+    And I click on "Multilang in Colles Preferred" "link" in the "Navigazione" "block"
+    # And I navigate to "Multilang in Colles Preferred and Actual" node in "I miei corsi > ML Mtemplate > Argomento 3"
+    And I press "Nuova risposta"
+    Then I should see "In questa unità online"
+    Then I should see "il mio apprendimento si concentra sulle cose che mi interessano."
+
+    And I expand "Argomento 4" node
+    And I click on "Multilang in Colles Preferred and Actual" "link" in the "Navigazione" "block"
+    # And I navigate to "Multilang in Colles Preferred" node in "I miei corsi > ML Mtemplate > Argomento 4"
     And I press "Nuova risposta"
     Then I should see "In questa unità online"
     Then I should see "Idealmente il mio apprendimento si concentra sulle cose che mi interessano."
 
-    And I navigate to "Multilang in Colles Preferred" node in "I miei corsi > ML Mtemplate > Argomento 4"
-    And I press "Nuova risposta"
-    Then I should see "In questa unità online"
-    Then I should see "il mio apprendimento si concentra sulle cose che mi interessano."
-
-    And I navigate to "Multilang in Critical Incidents" node in "I miei corsi > ML Mtemplate > Argomento 5"
+    And I expand "Argomento 5" node
+    And I click on "Multilang in Critical Incidents" "link" in the "Navigazione" "block"
+    # And I navigate to "Multilang in Critical Incidents" node in "I miei corsi > ML Mtemplate > Argomento 5"
     And I press "Nuova risposta"
     Then I should see "In classe in quale momento sei più partecipe come studente?"
 

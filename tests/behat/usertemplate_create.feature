@@ -22,7 +22,7 @@ Feature: Load, apply and save a usertemplate in order to test, among others, use
     And I am on "To create usertemplate" course homepage
     And I follow "Create a usertemplate"
 
-    And I navigate to "Import" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Import" in current page administration
     And I upload "mod/surveypro/tests/fixtures/usertemplate/parent-child_2015123000.xml" file to "Choose files to import" filemanager
     And I upload "mod/surveypro/tests/fixtures/usertemplate/MMM_2015123000.xml" file to "Choose files to import" filemanager
 
@@ -30,7 +30,7 @@ Feature: Load, apply and save a usertemplate in order to test, among others, use
     And I press "Import"
 
     # now I am in the "Manage" page
-    And I navigate to "Apply" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Apply" in current page administration
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -40,7 +40,7 @@ Feature: Load, apply and save a usertemplate in order to test, among others, use
 
     Then I should see "This is a demo survey to quickly see"
 
-    And I navigate to "Save" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Save" in current page administration
 
     # now I am in the "Create" page
     And I set the following fields to these values:

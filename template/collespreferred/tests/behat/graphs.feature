@@ -69,7 +69,7 @@ Feature: apply a COLLES (preferred) mastertemplate to test graphs
       | Do you have any other comments?                | Am I sexy? |
     And I press "Submit"
 
-    And I navigate to "Colles report" node in "Surveypro administration > Report"
+    And I navigate to "Report > Colles report" in current page administration
     Then I should not see "Summary report"
 
     And I log out
@@ -80,7 +80,7 @@ Feature: apply a COLLES (preferred) mastertemplate to test graphs
 
     # now test links provided by img's
 
-    And I navigate to "Summary" node in "Surveypro administration > Report > Colles report"
+    And I navigate to "Report > Colles report > Summary" in current page administration
     # now I should be in front of "Colles report > Summary"
     Then I should not see "Summary report"
 
@@ -119,36 +119,36 @@ Feature: apply a COLLES (preferred) mastertemplate to test graphs
     # now test links provided by Admin menu
 
     And I follow "Run COLLES report"
-    And I navigate to "Scales" node in "Surveypro administration > Report > Colles report"
+    And I navigate to "Report > Colles report > Scales" in current page administration
     # now I should be in front of "Colles report > Scales"
     Then I should not see "Scales report"
 
     And I follow "Run COLLES report"
-    And I navigate to "Relevance" node in "Surveypro administration > Report > Colles report > Questions"
+    And I navigate to "Report > Colles report > Questions > Relevance" in current page administration
     # now I should be in front of "Colles report > Questions > Relevance"
     Then I should not see "Questions report"
 
     And I follow "Run COLLES report"
-    And I navigate to "Reflective thinking" node in "Surveypro administration > Report > Colles report > Questions"
+    And I navigate to "Report > Colles report > Questions > Reflective thinking" in current page administration
     # now I should be in front of "Colles report > Questions > Reflective thinking"
     Then I should not see "Questions report"
 
     And I follow "Run COLLES report"
-    And I navigate to "Interactivity" node in "Surveypro administration > Report > Colles report > Questions"
+    And I navigate to "Report > Colles report > Questions > Interactivity" in current page administration
     # now I should be in front of "Colles report > Questions > Interactivity"
     Then I should not see "Questions report"
 
     And I follow "Run COLLES report"
-    And I navigate to "Tutor support" node in "Surveypro administration > Report > Colles report > Questions"
+    And I navigate to "Report > Colles report > Questions > Tutor support" in current page administration
     # now I should be in front of "Colles report > Questions > Tutor support"
     Then I should not see "Questions report"
 
     And I follow "Run COLLES report"
-    And I navigate to "Peer support" node in "Surveypro administration > Report > Colles report > Questions"
+    And I navigate to "Report > Colles report > Questions > Peer support" in current page administration
     # now I should be in front of "Colles report > Questions > Peer support"
     Then I should not see "Questions report"
 
     And I follow "Run COLLES report"
-    And I navigate to "Interpretation" node in "Surveypro administration > Report > Colles report > Questions"
+    And I navigate to "Report > Colles report > Questions > Interpretation" in current page administration
     # now I should be in front of "Colles report > Questions > Interpretation"
     Then I should not see "Questions report"

@@ -257,7 +257,7 @@ Feature: test the use of checkbox as parent item
     And I log in as "teacher1"
     And I am on "Checkbox as parent" course homepage
     And I follow "Test checkbox as parent"
-    And I navigate to "Edit settings" node in "Surveypro administration"
+    And I navigate to "Edit settings" in current page administration
     And I expand all fieldsets
     And I set the field "Branches increase pages" to "0"
     And I press "Save and display"
