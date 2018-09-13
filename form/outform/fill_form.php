@@ -195,9 +195,7 @@ class mod_surveypro_outform extends moodleform {
         }
         if ($tabpage != SURVEYPRO_LAYOUT_PREVIEW) {
             if ($surveypro->saveresume) {
-                if ($maxassignedpage > 1) {
-                    $buttonlist['pausebutton'] = get_string('pause', 'mod_surveypro');
-                }
+                $buttonlist['pausebutton'] = get_string('pause', 'mod_surveypro');
             }
             if (($formpage == $maxassignedpage) || ($formpage == SURVEYPRO_RIGHT_OVERFLOW)) {
                 if ($surveypro->history) {
@@ -228,8 +226,8 @@ class mod_surveypro_outform extends moodleform {
                 $buttonarray[] = $mform->createElement('submit', $name, $label);
             }
             $mform->addGroup($buttonarray, 'buttonsrow', '', ' ', false);
-            $mform->setType('buttonar', PARAM_RAW);
-            $mform->closeHeaderBefore('buttonar');
+            $mform->setType('buttonsrow', PARAM_RAW);
+            $mform->closeHeaderBefore('buttonsrow');
         } else { // Only one button here.
             foreach ($buttonlist as $name => $label) { // $buttonlist is a one element only array.
                 $mform->closeHeaderBefore($name);
