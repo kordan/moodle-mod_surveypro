@@ -173,6 +173,7 @@ class surveyproformat_fieldset_format extends mod_surveypro_itembase {
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="content" type="xs:string"/>
+                <xs:element name="defaultstatus" type="xs:int" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -196,6 +197,9 @@ EOS;
         // This plugin has $this->insetupform['insearchform'] = false; so it will never be part of a search form.
 
         $mform->addElement('header', $this->itemname, $this->get_content());
+        if ($this->defaultstatus != 2) {
+            $mform->setExpanded($this->itemname, $this->defaultstatus);
+        }
     }
 
     /**

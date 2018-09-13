@@ -6,11 +6,11 @@
   <TABLES>
     <TABLE NAME="surveyproformat_fieldset" COMMENT="fieldset type">
       <FIELDS>
-        <FIELD NAME="id"               TYPE="int"  LENGTH="10"     NOTNULL="true"  UNSIGNED="true"             SEQUENCE="true"/>
-        <FIELD NAME="itemid"           TYPE="int"  LENGTH="10"     NOTNULL="true"  UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="id"               TYPE="int"  LENGTH="10"    NOTNULL="true"  UNSIGNED="true"             SEQUENCE="true"/>
+        <FIELD NAME="itemid"           TYPE="int"  LENGTH="10"    NOTNULL="true"  UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
 
         <!-- begin of fields belonging to itembase_form.php -->
-        <FIELD NAME="content"          TYPE="text" LENGTH="small"  NOTNULL="false"                             SEQUENCE="false"/>
+        <FIELD NAME="content"          TYPE="text" LENGTH="small" NOTNULL="false"                             SEQUENCE="false"/>
         <!-- <FIELD NAME="contentformat"    TYPE="int"  LENGTH="4"      NOTNULL="false"                             SEQUENCE="false"/> -->
 
         <!-- <FIELD NAME="required"         TYPE="int"  LENGTH="4"      NOTNULL="false"                             SEQUENCE="false"/> -->
@@ -23,6 +23,7 @@
         <!-- end of fields belonging to itembase_form.php -->
 
         <!-- begin of fields belonging to itemsetup_form.php of this specific plugin -->
+        <FIELD NAME="defaultstatus"    TYPE="int"  LENGTH="2"     NOTNULL="true"  UNSIGNED="true"  DEFAULT="2" SEQUENCE="false"/>
         <!-- end of fields belonging to itemsetup_form.php of this specific plugin -->
       </FIELDS>
       <KEYS>
