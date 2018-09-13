@@ -1,4 +1,4 @@
-@mod @mod_surveypro @current
+@mod @mod_surveypro
 Feature: Test bulk actions
   In order to validate each action issues through inline icons
   As teacher1

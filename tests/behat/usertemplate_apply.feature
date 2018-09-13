@@ -22,7 +22,7 @@ Feature: Load and apply usertemplates in order to test, among others, partial it
     And I am on "To apply usertemplate" course homepage
     And I follow "Apply a usertemplate"
 
-    And I navigate to "Import" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Import" in current page administration
     And I upload "mod/surveypro/tests/fixtures/usertemplate/parent-child_2015123000.xml" file to "Choose files to import" filemanager
     And I upload "mod/surveypro/tests/fixtures/usertemplate/MMM_2015123000.xml" file to "Choose files to import" filemanager
 
@@ -30,7 +30,7 @@ Feature: Load and apply usertemplates in order to test, among others, partial it
     And I press "Import"
 
     # now I am in the "Manage" page
-    And I navigate to "Apply" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Apply" in current page administration
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -46,7 +46,7 @@ Feature: Load and apply usertemplates in order to test, among others, partial it
     And I follow "hide_item_60"
     And I press "Continue"
 
-    And I navigate to "Apply" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Apply" in current page administration
     And I set the following fields to these values:
       | User templates       | (Course) parent-child_2015123000.xml |
       | id_action_17         | 1                                    |

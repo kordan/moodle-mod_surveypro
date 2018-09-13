@@ -1,4 +1,4 @@
-@mod @mod_surveypro @current
+@mod @mod_surveypro
 Feature: Test item actions
   In order to validate each action issues through inline icons
   As teacher1
@@ -138,14 +138,14 @@ Feature: Test item actions
     And I am on "Test item actions" course homepage
     And I follow "Test complex item actions"
 
-    And I navigate to "Import" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Import" in current page administration
     And I upload "mod/surveypro/tests/fixtures/usertemplate/item_action_test.xml" file to "Choose files to import" filemanager
 
     And I set the field "Sharing level" to "Course: Test item actions"
     And I press "Import"
 
     # now I am in the "Manage" page
-    And I navigate to "Apply" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Apply" in current page administration
 
     # now I am in the "Apply" page
     And I set the following fields to these values:

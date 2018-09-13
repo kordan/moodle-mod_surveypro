@@ -53,7 +53,7 @@ Feature: verify urls really redirect to existing pages
     # Layout TAB
     #
     # Layout -> Preview
-    And I navigate to "Preview" node in "Surveypro administration > Layout"
+    And I navigate to "Layout > Preview" in current page administration
 
     # Layout -> Elements
     And I follow "Elements" page in tab bar
@@ -64,7 +64,7 @@ Feature: verify urls really redirect to existing pages
     And I click on "Page" "link" in the ".formpage" "css_element"
 
     # Layout -> Elements
-    And I navigate to "Elements" node in "Surveypro administration > Layout"
+    And I navigate to "Layout > Elements" in current page administration
 
     #
     # Survey TAB
@@ -131,57 +131,57 @@ Feature: verify urls really redirect to existing pages
     And I follow "Responses" page in tab bar
 
     # Survey -> Import
-    And I navigate to "Import" node in "Surveypro administration > Survey"
+    And I navigate to "Survey > Import" in current page administration
 
     # Survey -> Export
-    And I navigate to "Export" node in "Surveypro administration > Survey"
+    And I navigate to "Survey > Export" in current page administration
 
     #
     # User templates TAB
     #
     # User templates -> Manage
-    And I navigate to "Manage" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Manage" in current page administration
     # User templates: pages
     And I follow "Save" page in tab bar
     And I follow "Import" page in tab bar
     And I follow "Apply" page in tab bar
     # User templates -> Save
-    And I navigate to "Save" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Save" in current page administration
     # User templates -> Import
-    And I navigate to "Import" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Import" in current page administration
     # User templates -> Apply
-    And I navigate to "Apply" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Apply" in current page administration
 
     #
     # Master templates TAB
     #
     # Master templates -> Save
-    And I navigate to "Save" node in "Surveypro administration > Master templates"
+    And I navigate to "Master templates > Save" in current page administration
     # Master templates: pages
     And I follow "Apply" page in tab bar
-    And I navigate to "Apply" node in "Surveypro administration > Master templates"
+    And I navigate to "Master templates > Apply" in current page administration
 
     #
     # Report TAB
     #
     # Report -> Attachments overview
-    And I navigate to "Attachments overview" node in "Surveypro administration > Report"
+    And I navigate to "Report > Attachments overview" in current page administration
 
     # Report -> Delayed users
     And I follow "sPro test links"
-    And I navigate to "Delayed users" node in "Surveypro administration > Report"
+    And I navigate to "Report > Delayed users" in current page administration
 
     # Report -> Frequency distribution
     And I follow "sPro test links"
-    And I navigate to "Frequency distribution" node in "Surveypro administration > Report"
+    And I navigate to "Report > Frequency distribution" in current page administration
 
     # Report -> Responses per user
     And I follow "sPro test links"
-    And I navigate to "Responses per user" node in "Surveypro administration > Report"
+    And I navigate to "Report > Responses per user" in current page administration
 
     # Report -> Users per count of responses
     And I follow "sPro test links"
-    And I navigate to "Users per count of responses" node in "Surveypro administration > Report"
+    And I navigate to "Report > Users per count of responses" in current page administration
 
   @javascript
   Scenario: select each available link as a student

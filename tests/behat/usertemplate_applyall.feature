@@ -22,7 +22,7 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
     And I am on "To apply all usertemplates" course homepage
     And I follow "Apply all"
 
-    And I navigate to "Import" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Import" in current page administration
     And I upload "mod/surveypro/tests/fixtures/usertemplate/age_only_2015123000.xml" file to "Choose files to import" filemanager
     And I upload "mod/surveypro/tests/fixtures/usertemplate/attachment_only_2015123000.xml" file to "Choose files to import" filemanager
     And I upload "mod/surveypro/tests/fixtures/usertemplate/autofill_only_2015123000.xml" file to "Choose files to import" filemanager
@@ -46,7 +46,7 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
     And I press "Import"
 
     # now I am in the "Manage" page
-    And I navigate to "Apply" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Apply" in current page administration
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -55,7 +55,7 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I navigate to "Apply" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Apply" in current page administration
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -64,7 +64,7 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I navigate to "Apply" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Apply" in current page administration
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -73,7 +73,7 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I navigate to "Apply" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Apply" in current page administration
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -82,7 +82,7 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I navigate to "Apply" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Apply" in current page administration
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -91,7 +91,7 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I navigate to "Apply" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Apply" in current page administration
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -100,7 +100,7 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I navigate to "Apply" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Apply" in current page administration
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -109,7 +109,7 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I navigate to "Apply" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Apply" in current page administration
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -118,7 +118,7 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I navigate to "Apply" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Apply" in current page administration
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -127,7 +127,7 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I navigate to "Apply" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Apply" in current page administration
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -136,7 +136,7 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I navigate to "Apply" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Apply" in current page administration
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -145,7 +145,7 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I navigate to "Apply" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Apply" in current page administration
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -154,7 +154,7 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I navigate to "Apply" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Apply" in current page administration
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -163,7 +163,7 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I navigate to "Apply" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Apply" in current page administration
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -172,7 +172,7 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I navigate to "Apply" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Apply" in current page administration
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -181,7 +181,7 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I navigate to "Apply" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Apply" in current page administration
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -190,7 +190,7 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I navigate to "Apply" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Apply" in current page administration
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -199,7 +199,7 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I navigate to "Apply" node in "Surveypro administration > User templates"
+    And I navigate to "User templates > Apply" in current page administration
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
