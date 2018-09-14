@@ -25,3 +25,8 @@
 $string['ierr_contenttoolong'] = 'The fieldset label is supposed to be shorter than 128 characters';
 $string['pluginname'] = 'Fieldset';
 $string['userfriendlypluginname'] = 'Fieldset';
+$string['forceclosed'] = 'Force closed';
+$string['forceopened'] = 'Force opened';
+$string['moodledefault'] = 'Follow factory settings';
+$string['defaultstatus'] = 'Status at page load';
+$string['defaultstatus_help'] = 'The status of this fieldset at page load time.';

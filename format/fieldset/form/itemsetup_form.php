@@ -46,10 +46,25 @@ class mod_surveypro_fieldset_setupform extends mod_surveypro_itembaseform {
         // Start with common section of the form.
         parent::definition();
 
-        // $mform = $this->_form;
+        $mform = $this->_form;
 
         // Get _customdata.
-        // Useless: $item = $this->_customdata['item'];.
+        $item = $this->_customdata['item'];
+
+        // Here I open a new fieldset.
+        $fieldname = 'specializations';
+        $typename = get_string('pluginname', 'surveyproformat_'.$item->get_plugin());
+        $mform->addElement('header', $fieldname, get_string($fieldname, 'mod_surveypro', $typename));
+
+        // Item: defaultstatus.
+        $fieldname = 'defaultstatus';
+        $options = array();
+        $options[] = get_string('forceclosed', 'surveyproformat_fieldset');
+        $options[] = get_string('forceopened', 'surveyproformat_fieldset');
+        $options[] = get_string('moodledefault', 'surveyproformat_fieldset');
+        $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyproformat_fieldset'), $options);
+        $mform->addHelpButton($fieldname, $fieldname, 'surveyproformat_fieldset');
+        $mform->setDefault($fieldname, 2);
 
         $this->add_item_buttons();
     }

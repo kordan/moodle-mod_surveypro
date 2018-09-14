@@ -57,6 +57,21 @@ function xmldb_surveyproformat_fieldset_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2014051701, 'surveyproformat', 'fieldset');
     }
 
+    if ($oldversion < 2018091301) {
+
+        // Define field defaultstatus to be added to surveyproformat_fieldset.
+        $table = new xmldb_table('surveyproformat_fieldset');
+        $field = new xmldb_field('defaultstatus', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '2', 'content');
+
+        // Conditionally launch add field defaultstatus.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Fieldset savepoint reached.
+        upgrade_plugin_savepoint(true, 2018091301, 'surveyproformat', 'fieldset');
+    }
+
     return true;
 }
 
