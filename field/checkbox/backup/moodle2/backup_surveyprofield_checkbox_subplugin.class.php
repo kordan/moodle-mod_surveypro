@@ -44,7 +44,8 @@ class backup_surveyprofield_checkbox_subplugin extends backup_subplugin {
         $subplugincheckbox = new backup_nested_element('surveyprofield_checkbox', array('id'), array(
             'content', 'contentformat',
             'required', 'indent', 'position', 'customnumber', 'hideinstructions', 'variable', 'extranote',
-            'options', 'labelother', 'defaultvalue', 'noanswerdefault', 'downloadformat', 'minimumrequired', 'adjustment'));
+            'options', 'labelother', 'defaultvalue', 'noanswerdefault', 'downloadformat',
+            'minimumrequired', 'maximumrequired', 'adjustment'));
 
         // Connect XML elements into the tree.
         $subplugin->add_child($wrapper);

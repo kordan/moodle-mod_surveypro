@@ -29,6 +29,7 @@
         <FIELD NAME="noanswerdefault"  TYPE="int"  LENGTH="2"      NOTNULL="true"  UNSIGNED="true" DEFAULT="2" SEQUENCE="false"/>
         <FIELD NAME="downloadformat"   TYPE="int"  LENGTH="4"      NOTNULL="false" UNSIGNED="true"             SEQUENCE="false"/>
         <FIELD NAME="minimumrequired"  TYPE="int"  LENGTH="4"      NOTNULL="true"  UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="maximumrequired"  TYPE="int"  LENGTH="4"      NOTNULL="true"  UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="adjustment"       TYPE="int"  LENGTH="4"      NOTNULL="true"  UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
         <!-- end of fields belonging to itemsetup_form.php of this specific plugin -->
       </FIELDS>

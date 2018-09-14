@@ -1,4 +1,4 @@
-@mod @mod_surveypro @current
+@mod @mod_surveypro
 Feature: verify the thanks page is shown properly
   In order to test the thankspgae
   As a teacher and as a student
