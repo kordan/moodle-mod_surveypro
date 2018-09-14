@@ -134,6 +134,11 @@ class surveyprofield_checkbox_field extends mod_surveypro_itembase {
     protected $minimumrequired;
 
     /**
+     * @var int Maximum number of checkboxes the user is forced to choose in his/her answer
+     */
+    protected $maximumrequired;
+
+    /**
      * @var int Orientation of the list of bottons. Either: SURVEYPRO_VERTICAL or SURVEYPRO_HORIZONTAL
      */
     protected $adjustment;

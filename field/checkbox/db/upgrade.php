@@ -117,5 +117,20 @@ function xmldb_surveyprofield_checkbox_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2015123000, 'surveyprofield', 'checkbox');
     }
 
+    if ($oldversion < 2018091301) {
+
+        // Define field maximumrequired to be added to surveyprofield_checkbox.
+        $table = new xmldb_table('surveyprofield_checkbox');
+        $field = new xmldb_field('maximumrequired', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0', 'minimumrequired');
+
+        // Conditionally launch add field maximumrequired.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Checkbox savepoint reached.
+        upgrade_plugin_savepoint(true, 2018091301, 'surveyprofield', 'checkbox');
+    }
+
     return true;
 }
