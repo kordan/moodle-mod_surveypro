@@ -103,9 +103,14 @@ class surveyprofield_multiselect_field extends mod_surveypro_itembase {
     protected $heightinrows;
 
     /**
-     * @var int Minimum number of checkboxes the user is forced to choose in his/her answer
+     * @var int Minimum number of items the user is allowed to choose in his/her answer
      */
     protected $minimumrequired;
+
+    /**
+     * @var int Maximum number of items the user is forced to choose in his/her answer
+     */
+    protected $maximumrequired;
 
     /**
      * @var bool Can this item be parent?
@@ -328,6 +333,7 @@ class surveyprofield_multiselect_field extends mod_surveypro_itembase {
                 <xs:element name="noanswerdefault" type="xs:int"/>
                 <xs:element name="downloadformat" type="xs:string"/>
                 <xs:element name="minimumrequired" type="xs:int"/>
+                <xs:element name="maximumrequired" type="xs:int" minOccurs="0"/>
                 <xs:element name="heightinrows" type="xs:int"/>
             </xs:sequence>
         </xs:complexType>
@@ -605,6 +611,13 @@ EOS;
                 $errors[$errorkey] = get_string('uerr_lowerthanminimum_more', 'surveyprofield_multiselect', $this->minimumrequired);
             }
         }
+        if (($this->maximumrequired) && ($answercount > $this->maximumrequired)) {
+            if ($this->maximumrequired == 1) {
+                $errors[$errorkey] = get_string('uerr_greaterthanmaximum_one', 'surveyprofield_multiselect');
+            } else {
+                $errors[$errorkey] = get_string('uerr_greaterthanmaximum_more', 'surveyprofield_multiselect', $this->maximumrequired);
+            }
+        }
     }
 
     /**
@@ -703,12 +716,26 @@ EOS;
      */
     public function userform_get_filling_instructions() {
 
+        $arrayinstruction = array();
+
         if ($this->minimumrequired) {
             if ($this->minimumrequired == 1) {
-                $fillinginstruction = get_string('restrictions_minimumrequired_one', 'surveyprofield_multiselect');
+                $arrayinstruction[] = get_string('restrictions_minimumrequired_one', 'surveyprofield_multiselect');
             } else {
-                $fillinginstruction = get_string('restrictions_minimumrequired_more', 'surveyprofield_multiselect', $this->minimumrequired);
+                $arrayinstruction[] = get_string('restrictions_minimumrequired_more', 'surveyprofield_multiselect', $this->minimumrequired);
             }
+        }
+        if ($this->maximumrequired) {
+            if ($this->maximumrequired == 1) {
+                $arrayinstruction[] = get_string('restrictions_maximumrequired_one', 'surveyprofield_multiselect');
+            } else {
+                $a = $this->maximumrequired;
+                $arrayinstruction[] = get_string('restrictions_maximumrequired_more', 'surveyprofield_multiselect', $a);
+            }
+        }
+
+        if (count($arrayinstruction)) {
+            $fillinginstruction = implode('; ', $arrayinstruction);
         } else {
             $fillinginstruction = '';
         }

@@ -53,7 +53,7 @@ function xmldb_surveyprofield_multiselect_upgrade($oldversion) {
             $dbman->drop_field($table, $field);
         }
 
-        // Surveypro savepoint reached.
+        // Multiselect savepoint reached.
         upgrade_plugin_savepoint(true, 2014051701, 'surveyprofield', 'multiselect');
     }
 
@@ -86,7 +86,7 @@ function xmldb_surveyprofield_multiselect_upgrade($oldversion) {
             $dbman->drop_field($table, $field);
         }
 
-        // Surveypro savepoint reached.
+        // Multiselect savepoint reached.
         upgrade_plugin_savepoint(true, 2014090502, 'surveyprofield', 'multiselect');
     }
 
@@ -101,13 +101,13 @@ function xmldb_surveyprofield_multiselect_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
 
-        // Surveypro savepoint reached.
+        // Multiselect savepoint reached.
         upgrade_plugin_savepoint(true, 2015123000, 'surveyprofield', 'multiselect');
     }
 
     if ($oldversion < 2017062301) {
 
-        // Define field noanswerdefault to be added to surveyprofield_checkbox.
+        // Define field noanswerdefault to be added to surveyprofield_multiselect.
         $table = new xmldb_table('surveyprofield_multiselect');
         $field = new xmldb_field('noanswerdefault', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '2', 'defaultvalue');
 
@@ -116,8 +116,23 @@ function xmldb_surveyprofield_multiselect_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
 
-        // Surveypro savepoint reached.
+        // Multiselect savepoint reached.
         upgrade_plugin_savepoint(true, 2017062301, 'surveyprofield', 'multiselect');
+    }
+
+    if ($oldversion < 2018091301) {
+
+        // Define field maximumrequired to be added to surveyprofield_multiselect.
+        $table = new xmldb_table('surveyprofield_multiselect');
+        $field = new xmldb_field('maximumrequired', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0', 'minimumrequired');
+
+        // Conditionally launch add field maximumrequired.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Multiselect savepoint reached.
+        upgrade_plugin_savepoint(true, 2018091301, 'surveyprofield', 'multiselect');
     }
 
     return true;
