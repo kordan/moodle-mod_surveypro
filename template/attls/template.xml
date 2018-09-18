@@ -14,7 +14,7 @@
       <leftlabel>label_leftlabel_01</leftlabel>
     </surveyproformat_label>
   </item>
-  <item type="format" plugin="fieldset" version="2015123000">
+  <item type="format" plugin="fieldset" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
@@ -22,6 +22,7 @@
     </surveypro_item>
     <surveyproformat_fieldset>
       <content>fieldset_content_01</content>
+      <defaultstatus>2</defaultstatus>
     </surveyproformat_fieldset>
   </item>
   <item type="field" plugin="radiobutton" version="2015123000">

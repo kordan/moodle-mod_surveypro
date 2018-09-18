@@ -125,7 +125,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2015123000">
+  <item type="field" plugin="checkbox" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -147,6 +147,7 @@ A4 paper</options>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>0</downloadformat>
       <minimumrequired>0</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
@@ -294,7 +295,7 @@ A4 paper</options>
       <upperbound>105</upperbound>
     </surveyprofield_integer>
   </item>
-  <item type="field" plugin="multiselect" version="2015123000">
+  <item type="field" plugin="multiselect" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -319,6 +320,7 @@ ham</defaultvalue>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>0</downloadformat>
       <minimumrequired>0</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <heightinrows>4</heightinrows>
     </surveyprofield_multiselect>
   </item>

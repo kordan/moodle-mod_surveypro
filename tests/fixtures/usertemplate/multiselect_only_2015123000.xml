@@ -27,7 +27,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="multiselect" version="2015123000">
+  <item type="field" plugin="multiselect" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -49,6 +49,7 @@ chocolate</options>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>1</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <heightinrows>3</heightinrows>
     </surveyprofield_multiselect>
   </item>
@@ -66,7 +67,7 @@ chocolate</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="multiselect" version="2015123000">
+  <item type="field" plugin="multiselect" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -90,6 +91,7 @@ jam</defaultvalue>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>1</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <heightinrows>3</heightinrows>
     </surveyprofield_multiselect>
   </item>
@@ -107,7 +109,7 @@ jam</defaultvalue>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="multiselect" version="2015123000">
+  <item type="field" plugin="multiselect" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -129,6 +131,7 @@ chocolate</options>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>1</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <heightinrows>3</heightinrows>
     </surveyprofield_multiselect>
   </item>
@@ -146,7 +149,7 @@ chocolate</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="multiselect" version="2015123000">
+  <item type="field" plugin="multiselect" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -169,6 +172,7 @@ chocolate</options>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>1</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <heightinrows>3</heightinrows>
     </surveyprofield_multiselect>
   </item>
@@ -186,7 +190,7 @@ chocolate</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="multiselect" version="2015123000">
+  <item type="field" plugin="multiselect" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -208,6 +212,7 @@ chocolate</options>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>2</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <heightinrows>3</heightinrows>
     </surveyprofield_multiselect>
   </item>
@@ -226,7 +231,7 @@ required options is set to 2.&lt;br /&gt;</content>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="multiselect" version="2015123000">
+  <item type="field" plugin="multiselect" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -250,6 +255,7 @@ jam</defaultvalue>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>2</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <heightinrows>3</heightinrows>
     </surveyprofield_multiselect>
   </item>
@@ -267,7 +273,7 @@ jam</defaultvalue>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="multiselect" version="2015123000">
+  <item type="field" plugin="multiselect" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -289,6 +295,7 @@ chocolate</options>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>2</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <heightinrows>3</heightinrows>
     </surveyprofield_multiselect>
   </item>
@@ -306,7 +313,7 @@ chocolate</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="multiselect" version="2015123000">
+  <item type="field" plugin="multiselect" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -329,6 +336,7 @@ chocolate</options>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>2</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <heightinrows>3</heightinrows>
     </surveyprofield_multiselect>
   </item>
