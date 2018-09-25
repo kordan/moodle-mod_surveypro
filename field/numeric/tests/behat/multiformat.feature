@@ -53,3 +53,21 @@ Feature: verify the input with different number format
 
     And I set the field "Write the best approximation of π you can remember" to "3,14"
     And I press "Invia"
+
+    And I press "Mostra la lista"
+    And I follow "view_submission_row_1"
+    Then the field "Write the best approximation of π you can remember" matches value "3,14"
+
+    And I follow "Dati raccolti"
+    And I follow "view_submission_row_2"
+    Then the field "Write the best approximation of π you can remember" matches value "3,14"
+
+    And I follow "English" in the language menu
+
+    And I follow "Responses"
+    And I follow "view_submission_row_1"
+    Then the field "Write the best approximation of π you can remember" matches value "3.14"
+
+    And I follow "Responses"
+    And I follow "view_submission_row_2"
+    Then the field "Write the best approximation of π you can remember" matches value "3.14"
