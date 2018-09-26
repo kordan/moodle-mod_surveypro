@@ -64,6 +64,11 @@ $context = context_module::instance($cm->id);
 $submissionman = new mod_surveypro_submission($cm, $context, $surveypro);
 $submissionman->setup($submissionid, $action, $view, $confirm, $searchquery);
 
+if ($view == SURVEYPRO_RESPONSETOPDF) {
+    $submissionman->submission_to_pdf();
+    die();
+}
+
 if (empty($force)) {
     $submissionman->noitem_redirect();
 }

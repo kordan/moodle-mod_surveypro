@@ -740,18 +740,23 @@ function surveypro_get_file_areas($course, $cm, $context) {
 /**
  * Serves the files from the surveypro file areas
  *
- * @param stdClass $course
- * @param stdClass $cm
- * @param stdClass $context
- * @param string $filearea
- * @param array $args
- * @param bool $forcedownload
- * @return void this should never return to the caller
+ * @param stdClass $course the course object
+ * @param stdClass $cm the course module object
+ * @param stdClass $context context object
+ * @param string $filearea the name of the file area
+ * @param array $args extra arguments
+ * @param bool $forcedownload whether or not force download
+ * @param array $options additional options affecting the file serving
+ * @return bool false if the file not found, just send the file otherwise and do not return anything
  */
-function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload) {
+function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=array()) {
     global $DB;
 
-    require_login($course, true, $cm);
+    // TODO!
+    // Why does this require_login stops the "Download to pdf" process?
+    // Because $USER is no longer set and in require_login the execution is redirected. WHY?
+    // At the moment, I am forced to take require_login($course, true, $cm) out.
+    // require_login($course, true, $cm); <-- This causes the issue downloading to PDF responses with pictures.
     if (!$surveypro = $DB->get_record('surveypro', array('id' => $cm->instance))) {
         send_file_not_found();
     }
@@ -769,12 +774,12 @@ function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
 
     if (!$file = $fs->get_file_by_hash(sha1($fullpath)) or $file->is_directory()) {
         send_file_not_found();
+
+        return false;
     }
 
     // Finally send the file.
-    send_stored_file($file, 0, 0, true); // Download MUST be forced - security!
-
-    return false;
+    send_stored_file($file, 0, 0, true, $options); // Download MUST be forced - security!
 }
 
 // Navigation API.

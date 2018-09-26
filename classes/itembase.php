@@ -99,9 +99,14 @@ class mod_surveypro_itembase {
     protected $parentid;
 
     /**
-     * @var string Answer the parent item has to have in order to show this item as child
+     * @var string The answer (as saved to db) that the parent item has to have in order to show this item as child
      */
     protected $parentvalue;
+
+    /**
+     * @var string The user friendly answer that the parent item has to have in order to show this item as child
+     */
+    protected $parentcontent;
 
     /**
      * @var int Feedback mask for the user to define the feedback once the item is edited

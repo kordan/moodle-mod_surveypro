@@ -115,7 +115,6 @@ class mod_surveypro_submission {
         $this->set_searchquery($searchquery);
 
         $this->prevent_direct_user_input($confirm);
-        $this->submission_to_pdf();
     }
 
     // MARK set.
@@ -1441,12 +1440,8 @@ class mod_surveypro_submission {
      *
      * @return void
      */
-    private function submission_to_pdf() {
+    public function submission_to_pdf() {
         global $CFG, $DB;
-
-        if ($this->view != SURVEYPRO_RESPONSETOPDF) {
-            return;
-        }
 
         // Event: submissioninpdf_downloaded.
         $eventdata = array('context' => $this->context, 'objectid' => $this->submissionid);
