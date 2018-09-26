@@ -151,7 +151,7 @@ class mod_surveypro_outform extends moodleform {
                             }
                         }
                         $content = '';
-                        $content .= html_writer::start_tag('div', array('class' => 'fitem'));
+                        $content .= html_writer::start_tag('div', array('class' => 'fitem row'));
                         $content .= html_writer::start_tag('div', array('class' => 'fstatic fullwidth'));
                         $content .= $questioncontent;
                         $content .= html_writer::end_tag('div');

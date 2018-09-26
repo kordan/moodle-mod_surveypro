@@ -82,17 +82,11 @@ class mod_surveypro_searchform extends moodleform {
                     }
                 }
                 $content = '';
-                // $content .= html_writer::start_tag('fieldset', array('class' => 'hidden'));
-                // $content .= html_writer::start_tag('div');
-                $content .= html_writer::start_tag('div', array('class' => 'fitem'));
+                $content .= html_writer::start_tag('div', array('class' => 'fitem row'));
                 $content .= html_writer::start_tag('div', array('class' => 'fstatic fullwidth'));
-                // $content .= html_writer::start_tag('div', array('class' => 'indent-'.$this->indent));
                 $content .= $questioncontent;
-                // $content .= html_writer::end_tag('div');
                 $content .= html_writer::end_tag('div');
                 $content .= html_writer::end_tag('div');
-                // $content .= html_writer::end_tag('div');
-                // $content .= html_writer::end_tag('fieldset');
                 $mform->addElement('html', $content);
 
                 $item->item_add_color_unifier($mform);

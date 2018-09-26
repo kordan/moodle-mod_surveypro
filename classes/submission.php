@@ -1519,16 +1519,16 @@ class mod_surveypro_submission {
         $thirdcolwidth = number_format($col3nunit * 100 / $unitsum, 2);
         $lasttwocolumns = $secondcolwidth + $thirdcolwidth;
 
-        $htmllabeltemplate = '<table style="width:100%;"><tr>';
-        $htmllabeltemplate .= '<td style="width:'.$firstcolwidth.'%;text-align:left;">@@col1@@</td>';
-        $htmllabeltemplate .= '<td style="width:'.$lasttwocolumns.'%;text-align:left;">@@col2@@</td>';
-        $htmllabeltemplate .= '</tr></table>';
+        $twocolstemplate = '<table style="width:100%;"><tr>';
+        $twocolstemplate .= '<td style="width:'.$firstcolwidth.'%;text-align:left;">@@col1@@</td>';
+        $twocolstemplate .= '<td style="width:'.$lasttwocolumns.'%;text-align:left;">@@col2@@</td>';
+        $twocolstemplate .= '</tr></table>';
 
-        $htmlstandardtemplate = '<table style="width:100%;"><tr>';
-        $htmlstandardtemplate .= '<td style="width:'.$firstcolwidth.'%;text-align:left;">@@col1@@</td>';
-        $htmlstandardtemplate .= '<td style="width:'.$secondcolwidth.'%;text-align:left;">@@col2@@</td>';
-        $htmlstandardtemplate .= '<td style="width:'.$thirdcolwidth.'%;text-align:left;">@@col3@@</td>';
-        $htmlstandardtemplate .= '</tr></table>';
+        $threecolstemplate = '<table style="width:100%;"><tr>';
+        $threecolstemplate .= '<td style="width:'.$firstcolwidth.'%;text-align:left;">@@col1@@</td>';
+        $threecolstemplate .= '<td style="width:'.$secondcolwidth.'%;text-align:left;">@@col2@@</td>';
+        $threecolstemplate .= '<td style="width:'.$thirdcolwidth.'%;text-align:left;">@@col3@@</td>';
+        $threecolstemplate .= '</tr></table>';
 
         $border = array();
         $border['T'] = array();
@@ -1543,7 +1543,7 @@ class mod_surveypro_submission {
             $template = $item::item_get_pdf_template();
             if ($template == SURVEYPRO_2COLUMNSTEMPLATE) {
                 // First column.
-                $html = $htmllabeltemplate;
+                $html = $twocolstemplate;
                 $content = ($item->get_customnumber()) ? $item->get_customnumber().':' : '';
                 $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
                 $html = str_replace('@@col1@@', $content, $html);
@@ -1559,7 +1559,7 @@ class mod_surveypro_submission {
 
             if ($template == SURVEYPRO_3COLUMNSTEMPLATE) {
                 // First column.
-                $html = $htmlstandardtemplate;
+                $html = $threecolstemplate;
                 $content = ($item->get_customnumber()) ? $item->get_customnumber().':' : '';
                 $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
                 $html = str_replace('@@col1@@', $content, $html);
