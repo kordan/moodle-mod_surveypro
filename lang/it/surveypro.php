@@ -64,6 +64,8 @@ $string['answerisnoanswer'] = 'Risposta non fornita';
 $string['applymastertemplates'] = '<a href="{$a}">Applica un master template</a>';
 $string['applyusertemplates'] = '<a href="{$a}">Applica un template utente</a>';
 $string['attemptinfo'] = 'Informazioni sull\'indagine e le risposte acquisite';
+$string['basic_editthanks'] = 'La modifica apportata è stata registrata! Grazie';
+$string['basic_submitthanks'] = 'La tua risposta è inviata correttamente. Grazie per aver partecipato all\'indagine.';
 $string['count_allitems'] = 'Questionario costituito da {$a} elementi.';
 $string['count_hiddenitems'] = '({$a} nascosti)';
 $string['coverpage_welcome'] = 'Benvenuto in: {$a}';

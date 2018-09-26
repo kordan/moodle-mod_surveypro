@@ -26,3 +26,8 @@
 $string['inviteday'] = 'Seleziona un giorno';
 $string['invitemonth'] = 'Seleziona un mese';
 $string['inviteyear'] = 'Seleziona un anno';
+$string['uerr_datenotset'] = 'Scegliere una data o selezionare "{$a}"';
+$string['uerr_datenotsetrequired'] = 'La data non è definita correttamente';
+$string['uerr_greaterthanmaximum'] = 'Data posteriore alla massima consentita';
+$string['uerr_lowerthanminimum'] = 'Data precedente alla minima consentita';
+$string['uerr_outofinternalrange'] = 'Data indicata non cade nell\'intervallo richiesto';
