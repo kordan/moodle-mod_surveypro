@@ -88,33 +88,30 @@ Feature: verify multilang in mastertemplates
     And I press "Nuova risposta"
     Then I should see "Atteggiamenti nei Confronti del Pensare e dell'Imparare"
 
-    And I expand "Argomento 2" node
-    And I click on "Multilang in Colles Actual" "link" in the "Navigazione" "block"
-    # And I navigate to "Multilang in Colles Actual" node in "I miei corsi > ML Mtemplate > Argomento 2"
+    And I follow "ML Mtemplate"
+    And I follow "Multilang in Colles Actual"
     And I press "Nuova risposta"
     Then I should see "In questa unità online"
     Then I should see "il mio apprendimento si concentra sulle cose che mi interessano."
 
-    And I expand "Argomento 3" node
-    And I click on "Multilang in Colles Preferred" "link" in the "Navigazione" "block"
-    # And I navigate to "Multilang in Colles Preferred and Actual" node in "I miei corsi > ML Mtemplate > Argomento 3"
+    And I follow "ML Mtemplate"
+    And I follow "Multilang in Colles Preferred"
     And I press "Nuova risposta"
     Then I should see "In questa unità online"
     Then I should see "il mio apprendimento si concentra sulle cose che mi interessano."
 
-    And I expand "Argomento 4" node
-    And I click on "Multilang in Colles Preferred and Actual" "link" in the "Navigazione" "block"
-    # And I navigate to "Multilang in Colles Preferred" node in "I miei corsi > ML Mtemplate > Argomento 4"
+    And I follow "ML Mtemplate"
+    And I follow "Multilang in Colles Preferred and Actual"
     And I press "Nuova risposta"
     Then I should see "In questa unità online"
     Then I should see "Idealmente il mio apprendimento si concentra sulle cose che mi interessano."
 
-    And I expand "Argomento 5" node
-    And I click on "Multilang in Critical Incidents" "link" in the "Navigazione" "block"
-    # And I navigate to "Multilang in Critical Incidents" node in "I miei corsi > ML Mtemplate > Argomento 5"
+    And I follow "ML Mtemplate"
+    And I follow "Multilang in Critical Incidents"
     And I press "Nuova risposta"
     Then I should see "In classe in quale momento sei più partecipe come studente?"
 
-    # Force English for UI (at the end).
+    # Set again language to English to make "I log out" successfull.
     And I follow "English (en)" in the language menu
+
     And I log out
