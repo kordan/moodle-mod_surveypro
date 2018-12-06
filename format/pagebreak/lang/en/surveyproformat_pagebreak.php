@@ -24,3 +24,4 @@
 
 $string['pluginname'] = 'Page break';
 $string['userfriendlypluginname'] = 'Page break';
+$string['privacy:metadata'] = 'The "Page break" format plugin does not store any personal data.';

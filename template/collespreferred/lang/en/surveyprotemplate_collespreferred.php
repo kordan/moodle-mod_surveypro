@@ -23,6 +23,8 @@
  */
 
 $string['pluginname'] = 'COLLES (Preferred)';
+$string['privacy:metadata'] = 'The "COLLES (Preferred)" template plugin does not store any personal data.';
+
 $string['summary'] = 'Summary';
 $string['scales'] = 'Scales';
 $string['areas'] = 'Questions';

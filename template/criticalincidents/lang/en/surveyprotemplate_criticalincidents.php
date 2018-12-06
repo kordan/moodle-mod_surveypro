@@ -23,6 +23,7 @@
  */
 
 $string['pluginname'] = 'Critical Incidents';
+$string['privacy:metadata'] = 'The "Critical Incidents" template plugin does not store any personal data.';
 
 $string['label_content_01'] = '<p>While thinking about recent events in this class, answer the questions below.</p>';
 

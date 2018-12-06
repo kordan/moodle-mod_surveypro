@@ -526,3 +526,19 @@ $string['wrongrelation'] = '"{$a}" will never match';
 $string['xmltemplate_help'] = 'Choose the template you want to download as zip file to share it with other moodle users.';
 $string['xsdnotfound'] = 'xsd validation schema for your xml template was not found.<br />Your code must be fixed by a developer.';
 $string['yoursubmissions'] = 'Your \'{$a->status}\' responses: {$a->responsescount}';
+
+$string['privacy:metadata:submission'] = 'Responses to surveypros.';
+$string['privacy:metadata:submission:userid'] = 'The ID of the user who submitted his/her answer.';
+$string['privacy:metadata:submission:status'] = 'The overall status of the response provided by the user.';
+$string['privacy:metadata:submission:timecreated'] = 'The time when the response was posted.';
+$string['privacy:metadata:submission:timemodified'] = 'The time when the response was modified.';
+$string['privacy:metadata:answer'] = 'Answers to items of surveypros.';
+$string['privacy:metadata:answer:content'] = 'Field where the answers to items are stored.';
+$string['privacy:metadata:answer:contentformat'] = 'Field storing the format of the answers to items.';
+$string['privacy:metadata:uploadedfiles'] = 'Files uploaded in the frame of responses.';
+$string['privacy:path:fileupload'] = 'Response {$a}';
+$string['privacy:metadata:surveyprofieldpluginsummary'] = 'Field data for the surveypro.';
+$string['privacy:metadata:surveyproformatpluginsummary'] = 'Format data for the surveypro.';
+$string['privacy:metadata:surveyprotemplatepluginsummary'] = 'Template data for the surveypro.';
+$string['privacy:metadata:surveyproreportpluginsummary'] = 'Report data for the surveypro.';
+

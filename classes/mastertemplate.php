@@ -84,9 +84,9 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
 
         // Before starting, clean the destination folder
         // just in case it is not empty as expected.
-        $tempsubdir = 'mod_surveypro/surveyproplugins/'.$pluginname;
-        $tempbasedir = $CFG->tempdir.'/'.$tempsubdir;
-        fulldelete($tempbasedir);
+        $datarelativedir = 'mod_surveypro/surveyproplugins/'.$pluginname;
+        $dataabsolutedir = $CFG->tempdir.'/'.$datarelativedir;
+        fulldelete($dataabsolutedir);
 
         $masterbasepath = "$CFG->dirroot/mod/surveypro/templatemaster";
         $masterfilelist = get_directory_list($masterbasepath);
@@ -97,6 +97,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
 
         // Before starting, verify that the current structure of templatemaster folder === structure expected here.
         $templatemastercontent = array(
+            'classes/privacy/provider.php',
             'classes/template.php',
             'lang/en/surveyprotemplate_pluginname.php',
             'pix/icon.png',
@@ -119,10 +120,10 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             $masterfileinfo = pathinfo($masterfile);
             // Create the structure of the temporary folder.
             // The folder has to be created WITHOUT $CFG->tempdir/.
-            $temppath = $tempsubdir.'/'.dirname($masterfile);
+            $temppath = $datarelativedir.'/'.dirname($masterfile);
             make_temp_directory($temppath); // I just created the folder for the current plugin.
 
-            $tempfullpath = $CFG->tempdir.'/'.$temppath;
+            $dataabsolutepath = $CFG->tempdir.'/'.$temppath;
 
             // echo '<hr />Operate on the file: '.$masterfile.'<br />';
             // echo $masterfileinfo["dirname"] . "<br />";
@@ -132,35 +133,38 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
 
             if ($masterfileinfo['basename'] == 'icon.png') {
                 // Simply copy icon.png.
-                copy($masterbasepath.'/'.$masterfile, $tempfullpath.'/'.$masterfileinfo['basename']);
+                copy($masterbasepath.'/'.$masterfile, $dataabsolutepath.'/'.$masterfileinfo['basename']);
                 continue;
             }
 
             if ($masterfileinfo['basename'] == 'icon.svg') {
                 // Simply copy icon.svg.
-                copy($masterbasepath.'/'.$masterfile, $tempfullpath.'/'.$masterfileinfo['basename']);
+                copy($masterbasepath.'/'.$masterfile, $dataabsolutepath.'/'.$masterfileinfo['basename']);
                 continue;
             }
 
-            if ($masterfileinfo['dirname'] == 'classes') {
-                $templateclass = file_get_contents($masterbasepath.'/'.$masterfile);
-                $templateclass = str_replace("\r\n", "\n", $templateclass); // Fix line ending.
-                // Replace surveyproTemplatePluginMaster with the name of the current surveypro.
-                $templateclass = str_replace(SURVEYPROTEMPLATE_NAMEPLACEHOLDER, $pluginname, $templateclass);
+            if (preg_match('~^classes~', $masterfileinfo['dirname'])) {
+                // It does not matter if $masterfile is 'classes/privacy/provider.php' or 'classes/template.php'.
+                // The process does not change.
+                $currentfile = file_get_contents($masterbasepath.'/'.$masterfile);
+                $currentfile = str_replace("\r\n", "\n", $currentfile); // Fix line ending.
 
-                $temppath = $CFG->tempdir.'/'.$tempsubdir.'/classes/'.$masterfileinfo['basename'];
+                // Replace surveyproTemplatePluginMaster with the name of the current surveypro.
+                $currentfile = str_replace(SURVEYPROTEMPLATE_NAMEPLACEHOLDER, $pluginname, $currentfile);
+
+                $temppath = $CFG->tempdir.'/'.$datarelativedir.'/'.$masterfile;
 
                 // Create $temppath.
                 $filehandler = fopen($temppath, 'w');
                 // Write inside all the strings.
-                fwrite($filehandler, $templateclass);
+                fwrite($filehandler, $currentfile);
                 // Close.
                 fclose($filehandler);
                 continue;
             }
 
             if ($masterfileinfo['basename'] == 'template.xml') {
-                $temppath = $CFG->tempdir.'/'.$tempsubdir.'/'.$masterfileinfo['basename'];
+                $temppath = $CFG->tempdir.'/'.$datarelativedir.'/'.$masterfileinfo['basename'];
 
                 // Create $temppath.
                 $filehandler = fopen($temppath, 'w');
@@ -174,13 +178,13 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             if ($masterfileinfo['dirname'] == 'lang/en') {
                 // In which language the user is using Moodle?.
                 $userlang = current_language();
-                $temppath = $CFG->tempdir.'/'.$tempsubdir.'/lang/'.$userlang;
+                $temppath = $CFG->tempdir.'/'.$datarelativedir.'/lang/'.$userlang;
 
                 // This is the language folder of the strings hardcoded in the surveypro.
                 // The folder lang/en already exist.
                 if ($userlang != 'en') {
                     // I need to create the folder lang/it.
-                    make_temp_directory($tempsubdir.'/lang/'.$userlang);
+                    make_temp_directory($datarelativedir.'/lang/'.$userlang);
                 }
 
                 // echo '$masterbasepath = '.$masterbasepath.'<br />';
@@ -205,7 +209,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
                     $savedstrings = $filecopyright.$this->get_translated_strings($userlang);
                     $savedstrings = str_replace("\r\n", "\n", $savedstrings); // Fix line ending.
 
-                    $temppath = $CFG->tempdir.'/'.$tempsubdir.'/lang/en';
+                    $temppath = $CFG->tempdir.'/'.$datarelativedir.'/lang/en';
                     // Create.
                     $filehandler = fopen($temppath.'/surveyprotemplate_'.$pluginname.'.php', 'w');
                     // Save into surveyprotemplate_<<$pluginname>>.php.
@@ -236,7 +240,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             }
 
             // Open.
-            $filehandler = fopen($tempbasedir.'/'.$masterfile, 'w');
+            $filehandler = fopen($dataabsolutedir.'/'.$masterfile, 'w');
             // Write.
             fwrite($filehandler, $filecontent);
             // Close.
@@ -247,6 +251,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             'template.xml',
             'version.php',
             'classes/template.php',
+            'classes/privacy/provider.php',
             'lang/en/surveyprotemplate_'.$pluginname.'.php',
             'pix/icon.png',
             'pix/icon.svg'
@@ -257,16 +262,17 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
 
         $filelist = array();
         foreach ($filenames as $filename) {
-            $filelist[$filename] = $tempbasedir.'/'.$filename;
+            $filelist[$filename] = $dataabsolutedir.'/'.$filename;
         }
 
-        $exportfile = $tempbasedir.'.zip';
+        $exportfile = $dataabsolutedir.'.zip';
         file_exists($exportfile) && unlink($exportfile);
 
         $fp = get_file_packer('application/zip');
         $fp->archive_to_pathname($filelist, $exportfile);
 
-        $dirnames = array('classes', 'lang/en/', 'pix/', );
+        // Zip file has been created. Now clean the temporary folder.
+        $dirnames = array('classes/privacy/', 'classes/', 'lang/en/', 'pix/', );
         if ($userlang != 'en') {
             $dirnames[] = 'lang/'.$userlang.'/';
         }
@@ -276,9 +282,9 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             unlink($file);
         }
         foreach ($dirnames as $dir) {
-            rmdir($tempbasedir.'/'.$dir);
+            rmdir($dataabsolutedir.'/'.$dir);
         }
-        rmdir($tempbasedir);
+        rmdir($dataabsolutedir);
 
         // Return the full path to the exported template file.
         return $exportfile;

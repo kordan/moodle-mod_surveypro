@@ -54,3 +54,4 @@ $string['uerr_shortdatenotsetrequired'] = 'Short date is not correctly defined';
 $string['upperbound_help'] = 'The biggest date the user is allowed to enter';
 $string['upperbound'] = 'Upper bound';
 $string['userfriendlypluginname'] = 'Date (short) [mm/yyyy]';
+$string['privacy:metadata'] = 'The "Short date" field plugin does not store any personal data.';

@@ -37,3 +37,4 @@ $string['maxfiles_help'] = 'Maximum uploadable attachments';
 $string['maxfiles'] = 'Maximum files';
 $string['pluginname'] = 'File upload';
 $string['userfriendlypluginname'] = 'Attachment';
+$string['privacy:metadata'] = 'The "Fileupload" field plugin does not store any personal data.';

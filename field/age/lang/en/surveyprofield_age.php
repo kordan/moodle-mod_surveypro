@@ -49,3 +49,4 @@ $string['uerr_outofinternalrange'] = 'Provided value does not fall within the sp
 $string['upperbound_help'] = 'The biggest age the user is allowed to enter';
 $string['upperbound'] = 'Upper bound';
 $string['userfriendlypluginname'] = 'Age [yy/mm]';
+$string['privacy:metadata'] = 'The "Age" field plugin does not store any personal data.';

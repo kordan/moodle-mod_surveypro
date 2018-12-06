@@ -34,3 +34,4 @@ $string['submissioninfo'] = 'Response info';
 $string['submissions'] = 'Responses';
 $string['uploads'] = 'Uploads';
 $string['notinanygroup'] = 'Not in any group';
+$string['privacy:metadata'] = 'The "Attachments" report plugin does not store any personal data.';

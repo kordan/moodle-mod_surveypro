@@ -30,3 +30,4 @@ $string['percentage'] = 'percentage';
 $string['pleasechooseavalue'] = 'Please choose a variable to make its distribution';
 $string['pluginname'] = 'Frequency distribution';
 $string['textareasarenotallowed'] = 'This survey has no fields or uses only fields, among visible and not reserved, that are not suitable for this report.';
+$string['privacy:metadata'] = 'The "Frequency" report plugin does not store any personal data.';

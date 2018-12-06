@@ -24,3 +24,4 @@
 
 $string['pluginname'] = 'Fieldsetend';
 $string['userfriendlypluginname'] = 'Fieldset closure';
+$string['privacy:metadata'] = 'The "Fieldset end" format plugin does not store any personal data.';

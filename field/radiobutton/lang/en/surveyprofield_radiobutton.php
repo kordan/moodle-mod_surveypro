@@ -52,3 +52,4 @@ $string['uerr_missingothertext'] = 'Please add the text required by your selecti
 $string['uerr_optionnotset'] = 'Please choose an option';
 $string['userfriendlypluginname'] = 'Radio buttons';
 $string['vertical'] = 'vertical';
+$string['privacy:metadata'] = 'The "Radio button" field plugin does not store any personal data.';

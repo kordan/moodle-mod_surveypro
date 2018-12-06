@@ -55,3 +55,4 @@ $string['userfriendlypluginname'] = 'Rate';
 $string['ierr_labelsduplicated'] = 'Rates must be different each other';
 $string['ierr_valuesduplicated'] = 'Values must be different each other';
 $string['ierr_optionsduplicated'] = 'Options must be different each other';
+$string['privacy:metadata'] = 'The "Rate" field plugin does not store any personal data.';

@@ -22,11 +22,12 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['ierr_contenttoolong'] = 'The fieldset label is supposed to be shorter than 128 characters';
-$string['pluginname'] = 'Fieldset';
-$string['userfriendlypluginname'] = 'Fieldset';
+$string['defaultstatus_help'] = 'The status of this fieldset at page load time.';
+$string['defaultstatus'] = 'Status at page load';
 $string['forceclosed'] = 'Force closed';
 $string['forceopened'] = 'Force opened';
+$string['ierr_contenttoolong'] = 'The fieldset label is supposed to be shorter than 128 characters';
 $string['moodledefault'] = 'Follow factory settings';
-$string['defaultstatus'] = 'Status at page load';
-$string['defaultstatus_help'] = 'The status of this fieldset at page load time.';
+$string['pluginname'] = 'Fieldset';
+$string['privacy:metadata'] = 'The "Fieldset" format plugin does not store any personal data.';
+$string['userfriendlypluginname'] = 'Fieldset';

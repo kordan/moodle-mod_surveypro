@@ -65,3 +65,4 @@ $string['uerr_texttoolong'] = 'Text is too long';
 $string['uerr_texttooshort'] = 'Text is too short';
 $string['url'] = 'web page URL';
 $string['userfriendlypluginname'] = 'Text (short)';
+$string['privacy:metadata'] = 'The "Character" field plugin does not store any personal data.';

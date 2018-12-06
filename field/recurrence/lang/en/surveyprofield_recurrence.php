@@ -53,3 +53,4 @@ $string['uerr_recurrencenotsetrequired'] = 'Recurrence is not correctly defined'
 $string['upperbound_help'] = 'The biggest recurrence the user is allowed to enter.<br /><br />Maximum and minimum values define a range.<br />If "minimum value" is lower than "maximum value" the user is forced to enter a value falling into the range.<br />If "minimum value" is greater than "maximum value" the user input is forced out from the range. i.e. the user input is supposed to be lower-equal than the minimum value OR grater-equal than the maximum value.';
 $string['upperbound'] = 'Upper bound';
 $string['userfriendlypluginname'] = 'Recurrence [dd/mm]';
+$string['privacy:metadata'] = 'The "Recurrence" field plugin does not store any personal data.';
