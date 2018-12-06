@@ -102,6 +102,16 @@ class mod_surveypro_multiselect_setupform extends mod_surveypro_itembaseform {
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_multiselect');
         $mform->setType($fieldname, PARAM_INT);
 
+        // Item: maximumrequired.
+        $fieldname = 'maximumrequired';
+        $countrange = range(0, 9);
+        $options = array_combine($countrange, $countrange);
+        $options[0] = get_string('unlimited', 'mod_surveypro');
+        $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_multiselect'), $options);
+        $mform->setDefault($fieldname, 0);
+        $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_multiselect');
+        $mform->setType($fieldname, PARAM_INT);
+
         $this->add_item_buttons();
     }
 
@@ -187,6 +197,21 @@ class mod_surveypro_multiselect_setupform extends mod_surveypro_itembaseform {
         // Minimumrequired has to be lower than count($cleanoptions).
         if ($data['minimumrequired'] > count($cleanoptions) - 1) {
             $errors['minimumrequired'] = get_string('ierr_minimumrequired', 'surveyprofield_multiselect', count($cleanoptions));
+        }
+
+        // Sixth check.
+        // Maximumrequired has to be lower than count($cleanoptions).
+        if ($data['maximumrequired'] > count($cleanoptions) - 1) {
+            $errors['maximumrequired'] = get_string('ierr_maximumrequired', 'surveyprofield_multiselect', count($cleanoptions));
+        }
+
+        // Seventh check.
+        // Minimumrequired has to be lower than maximumrequired.
+        if (!empty($data['maximumrequired'])) {
+            if ($data['minimumrequired'] > $data['maximumrequired']) {
+                $message = get_string('ierr_maxrequiredlowerthanminrequired', 'surveyprofield_multiselect', count($cleanoptions));
+                $errors['maximumrequired'] = $message;
+            }
         }
 
         return $errors;
