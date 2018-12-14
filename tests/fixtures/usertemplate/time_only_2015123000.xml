@@ -45,7 +45,7 @@
       <step>15</step>
       <defaultoption>2</defaultoption>
       <defaultvalue>0</defaultvalue>
-      <downloadformat>strftime1</downloadformat>
+      <downloadformat>strftime01</downloadformat>
       <lowerbound>14400</lowerbound>
       <upperbound>32340</upperbound>
     </surveyprofield_time>
@@ -82,7 +82,7 @@
       <step>15</step>
       <defaultoption>1</defaultoption>
       <defaultvalue>26100</defaultvalue>
-      <downloadformat>strftime1</downloadformat>
+      <downloadformat>strftime01</downloadformat>
       <lowerbound>14400</lowerbound>
       <upperbound>32340</upperbound>
     </surveyprofield_time>
@@ -119,7 +119,7 @@
       <step>15</step>
       <defaultoption>4</defaultoption>
       <defaultvalue>0</defaultvalue>
-      <downloadformat>strftime1</downloadformat>
+      <downloadformat>strftime01</downloadformat>
       <lowerbound>14400</lowerbound>
       <upperbound>32340</upperbound>
     </surveyprofield_time>
@@ -156,7 +156,7 @@
       <step>15</step>
       <defaultoption>5</defaultoption>
       <defaultvalue>0</defaultvalue>
-      <downloadformat>strftime1</downloadformat>
+      <downloadformat>strftime01</downloadformat>
       <lowerbound>14400</lowerbound>
       <upperbound>32340</upperbound>
     </surveyprofield_time>
@@ -193,7 +193,7 @@
       <step>15</step>
       <defaultoption>3</defaultoption>
       <defaultvalue>0</defaultvalue>
-      <downloadformat>strftime1</downloadformat>
+      <downloadformat>strftime01</downloadformat>
       <lowerbound>14400</lowerbound>
       <upperbound>32340</upperbound>
     </surveyprofield_time>
@@ -230,7 +230,7 @@
       <step>15</step>
       <defaultoption>2</defaultoption>
       <defaultvalue>0</defaultvalue>
-      <downloadformat>strftime1</downloadformat>
+      <downloadformat>strftime01</downloadformat>
       <lowerbound>14400</lowerbound>
       <upperbound>32340</upperbound>
     </surveyprofield_time>
@@ -267,7 +267,7 @@
       <step>15</step>
       <defaultoption>1</defaultoption>
       <defaultvalue>26100</defaultvalue>
-      <downloadformat>strftime1</downloadformat>
+      <downloadformat>strftime01</downloadformat>
       <lowerbound>14400</lowerbound>
       <upperbound>32340</upperbound>
     </surveyprofield_time>
@@ -304,7 +304,7 @@
       <step>15</step>
       <defaultoption>4</defaultoption>
       <defaultvalue>0</defaultvalue>
-      <downloadformat>strftime1</downloadformat>
+      <downloadformat>strftime01</downloadformat>
       <lowerbound>14400</lowerbound>
       <upperbound>32340</upperbound>
     </surveyprofield_time>
@@ -341,7 +341,7 @@
       <step>15</step>
       <defaultoption>5</defaultoption>
       <defaultvalue>0</defaultvalue>
-      <downloadformat>strftime1</downloadformat>
+      <downloadformat>strftime01</downloadformat>
       <lowerbound>14400</lowerbound>
       <upperbound>32340</upperbound>
     </surveyprofield_time>

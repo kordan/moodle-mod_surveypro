@@ -865,7 +865,7 @@ Optimum</rates>
       <hideinstructions>0</hideinstructions>
       <variable>recurrence_001</variable>
       <defaultoption>2</defaultoption>
-      <downloadformat>strftime1</downloadformat>
+      <downloadformat>strftime01</downloadformat>
       <lowerbound>43200</lowerbound>
       <upperbound>31492800</upperbound>
     </surveyprofield_recurrence>
@@ -983,7 +983,7 @@ hill</options>
       <step>1</step>
       <defaultoption>2</defaultoption>
       <defaultvalue>0</defaultvalue>
-      <downloadformat>strftime1</downloadformat>
+      <downloadformat>strftime01</downloadformat>
       <lowerbound>18000</lowerbound>
       <upperbound>35940</upperbound>
     </surveyprofield_time>
@@ -1005,7 +1005,7 @@ hill</options>
       <step>1</step>
       <defaultoption>2</defaultoption>
       <defaultvalue>0</defaultvalue>
-      <downloadformat>strftime1</downloadformat>
+      <downloadformat>strftime01</downloadformat>
       <lowerbound>75600</lowerbound>
       <upperbound>14340</upperbound>
     </surveyprofield_time>

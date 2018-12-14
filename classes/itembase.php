@@ -1661,6 +1661,9 @@ EOS;
             }
         }
 
+        $return = htmlspecialchars($return, ENT_NOQUOTES, 'UTF-8');
+        $return = str_replace(SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR, '<br />', $return);
+
         return $return;
     }
 }

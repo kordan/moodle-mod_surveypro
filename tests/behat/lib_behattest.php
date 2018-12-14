@@ -227,7 +227,7 @@ function get_dummy_contents($type, $plugin) {
             $return->contentformat = 1;
             $return->indent = 0;
             $return->defaultoption = 2;
-            $return->downloadformat = 'strftime2';
+            $return->downloadformat = 'strftime02';
             $return->lowerboundday = '1';
             $return->lowerboundmonth = '1';
             $return->upperboundday = '31';
@@ -277,7 +277,7 @@ function get_dummy_contents($type, $plugin) {
             $return->indent = 0;
             $return->step = '1';
             $return->defaultoption = '2';
-            $return->downloadformat = 'strftime1';
+            $return->downloadformat = 'strftime01';
             $return->lowerboundhour = '0';
             $return->lowerboundminute = '0';
             $return->upperboundhour = '23';

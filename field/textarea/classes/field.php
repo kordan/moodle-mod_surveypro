@@ -578,6 +578,43 @@ EOS;
     }
 
     /**
+     * Starting from the info stored into $answer, this function returns the corresponding content for the export file.
+     *
+     * @param object $answer
+     * @param string $format
+     * @return string - the string for the export file
+     */
+    public function userform_db_to_export($answer, $format='') {
+        // The content of the provided answer.
+        $content = $answer->content;
+
+        // Trigger 'answernotsubmitted' and 'answerisnoanswer'.
+        $quickresponse = self::userform_standardcontent_to_string($content);
+        if (isset($quickresponse)) { // Parent method provided the response.
+            return $quickresponse;
+        }
+
+        if (strlen($content)) {
+            if ($this->get_useeditor()) { // Content does not come from an html editor.
+                $context = context_module::instance($this->cm->id);
+                $return = file_rewrite_pluginfile_urls($content, 'pluginfile.php', $context->id,
+                                                        'mod_surveypro', SURVEYPROFIELD_TEXTAREA_FILEAREA, $answer->id);
+            } else {
+                $return = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
+            }
+        } else {
+            if ($format == SURVEYPRO_FRIENDLYFORMAT) {
+                $return = get_string('emptyanswer', 'mod_surveypro');
+            } else {
+                $return = '';
+            }
+        }
+
+        return $return;
+    }
+
+
+    /**
      * Returns an array with the names of the mform element added using $mform->addElement or $mform->addGroup.
      *
      * @return array
