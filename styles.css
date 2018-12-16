@@ -205,6 +205,17 @@
     padding: .2em;
 }
 
+#page-mod-surveypro-layout_itemlist #manageitems td.actions span.fatspan,
+#page-mod-surveypro-layout_itemlist #sortitems td.actions span.fatspan {
+    display: inline;
+    border-collapse: collapse;
+    border-spacing: 0px 0px;
+    line-height: 20px;
+    text-align: left;
+    white-space: nowrap;
+    float: none;
+}
+
 #page-mod-surveypro-layout_itemlist #manageitems span.noactionicon,
 #page-mod-surveypro-layout_itemlist #sortitems span.noactionicon {
     padding: .2em;

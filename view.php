@@ -27,8 +27,9 @@ require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
-$tifirst = optional_param('tifirst', '', PARAM_ALPHA);   // First letter of the name.
+$tifirst = optional_param('tifirst', '', PARAM_ALPHA); // First letter of the name.
 $tilast = optional_param('tilast', '', PARAM_ALPHA);   // First letter of the surname.
+// $tsort = optional_param('tsort', '', PARAM_ALPHA);     // Field asked to sort the table for.
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
