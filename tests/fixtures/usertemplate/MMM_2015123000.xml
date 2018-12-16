@@ -298,7 +298,7 @@
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item type="field" plugin="checkbox" version="2015123000">
+  <item type="field" plugin="checkbox" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -322,10 +322,11 @@ milk</defaultvalue>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>0</downloadformat>
       <minimumrequired>0</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="field" plugin="checkbox" version="2015123000">
+  <item type="field" plugin="checkbox" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -351,6 +352,7 @@ Apple juice</defaultvalue>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>0</downloadformat>
       <minimumrequired>0</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
@@ -594,7 +596,7 @@ Apple juice</defaultvalue>
       <content>&lt;hr class="pagebreakcontent" /&gt;</content>
     </surveyproformat_pagebreak>
   </item>
-  <item type="field" plugin="multiselect" version="2015123000">
+  <item type="field" plugin="multiselect" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -617,6 +619,7 @@ chocolate</defaultvalue>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>0</downloadformat>
       <minimumrequired>0</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <heightinrows>4</heightinrows>
     </surveyprofield_multiselect>
   </item>
@@ -1107,7 +1110,7 @@ hill</options>
       <style>0</style>
     </surveyprofield_boolean>
   </item>
-  <item type="format" plugin="fieldset" version="2015123000">
+  <item type="format" plugin="fieldset" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -1119,6 +1122,7 @@ hill</options>
     </surveypro_item>
     <surveyproformat_fieldset>
       <content>With driving licence</content>
+      <defaultstatus>2</defaultstatus>
     </surveyproformat_fieldset>
   </item>
   <item type="field" plugin="select" version="2015123000">
@@ -1145,7 +1149,7 @@ C::for tracks</options>
       <downloadformat>0</downloadformat>
     </surveyprofield_select>
   </item>
-  <item type="format" plugin="fieldset" version="2015123000">
+  <item type="format" plugin="fieldset" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -1157,6 +1161,7 @@ C::for tracks</options>
     </surveypro_item>
     <surveyproformat_fieldset>
       <content>Without driving licence</content>
+      <defaultstatus>2</defaultstatus>
     </surveyproformat_fieldset>
   </item>
   <item type="field" plugin="select" version="2015123000">

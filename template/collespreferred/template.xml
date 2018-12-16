@@ -14,7 +14,7 @@
       <leftlabel>label_leftlabel_01</leftlabel>
     </surveyproformat_label>
   </item>
-  <item type="format" plugin="fieldset" version="2015123000">
+  <item type="format" plugin="fieldset" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
@@ -22,6 +22,7 @@
     </surveypro_item>
     <surveyproformat_fieldset>
       <content>fieldset_content_01</content>
+      <defaultstatus>2</defaultstatus>
     </surveyproformat_fieldset>
   </item>
   <item type="format" plugin="label" version="2015123000">
@@ -122,7 +123,7 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="format" plugin="fieldset" version="2015123000">
+  <item type="format" plugin="fieldset" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
@@ -130,6 +131,7 @@
     </surveypro_item>
     <surveyproformat_fieldset>
       <content>fieldset_content_02</content>
+      <defaultstatus>2</defaultstatus>
     </surveyproformat_fieldset>
   </item>
   <item type="format" plugin="label" version="2015123000">
@@ -230,7 +232,7 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="format" plugin="fieldset" version="2015123000">
+  <item type="format" plugin="fieldset" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
@@ -238,6 +240,7 @@
     </surveypro_item>
     <surveyproformat_fieldset>
       <content>fieldset_content_03</content>
+      <defaultstatus>2</defaultstatus>
     </surveyproformat_fieldset>
   </item>
   <item type="format" plugin="label" version="2015123000">
@@ -338,7 +341,7 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="format" plugin="fieldset" version="2015123000">
+  <item type="format" plugin="fieldset" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
@@ -346,6 +349,7 @@
     </surveypro_item>
     <surveyproformat_fieldset>
       <content>fieldset_content_04</content>
+      <defaultstatus>2</defaultstatus>
     </surveyproformat_fieldset>
   </item>
   <item type="format" plugin="label" version="2015123000">
@@ -446,7 +450,7 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="format" plugin="fieldset" version="2015123000">
+  <item type="format" plugin="fieldset" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
@@ -454,6 +458,7 @@
     </surveypro_item>
     <surveyproformat_fieldset>
       <content>fieldset_content_05</content>
+      <defaultstatus>2</defaultstatus>
     </surveyproformat_fieldset>
   </item>
   <item type="format" plugin="label" version="2015123000">
@@ -554,7 +559,7 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="format" plugin="fieldset" version="2015123000">
+  <item type="format" plugin="fieldset" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
@@ -562,6 +567,7 @@
     </surveypro_item>
     <surveyproformat_fieldset>
       <content>fieldset_content_06</content>
+      <defaultstatus>2</defaultstatus>
     </surveyproformat_fieldset>
   </item>
   <item type="format" plugin="label" version="2015123000">

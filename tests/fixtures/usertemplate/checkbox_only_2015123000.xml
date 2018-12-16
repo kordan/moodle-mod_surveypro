@@ -27,7 +27,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2015123000">
+  <item type="field" plugin="checkbox" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -50,6 +50,7 @@ bread</options>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>1</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
@@ -67,7 +68,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2015123000">
+  <item type="field" plugin="checkbox" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -90,6 +91,7 @@ bread</options>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>1</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
@@ -107,7 +109,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2015123000">
+  <item type="field" plugin="checkbox" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -130,6 +132,7 @@ bread</options>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>2</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
@@ -148,7 +151,7 @@ required options is set to 2. So he/she is forced to or select al least two chec
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2015123000">
+  <item type="field" plugin="checkbox" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -171,6 +174,7 @@ bread</options>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>2</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
@@ -188,7 +192,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2015123000">
+  <item type="field" plugin="checkbox" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -210,6 +214,7 @@ bread</options>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>1</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
@@ -227,7 +232,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2015123000">
+  <item type="field" plugin="checkbox" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -249,6 +254,7 @@ bread</options>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>1</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
@@ -266,7 +272,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2015123000">
+  <item type="field" plugin="checkbox" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -288,6 +294,7 @@ bread</options>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>2</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
@@ -305,7 +312,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2015123000">
+  <item type="field" plugin="checkbox" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -327,6 +334,7 @@ bread</options>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>2</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
@@ -344,7 +352,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2015123000">
+  <item type="field" plugin="checkbox" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -367,6 +375,7 @@ bread</options>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>1</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
@@ -384,7 +393,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2015123000">
+  <item type="field" plugin="checkbox" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -407,6 +416,7 @@ bread</options>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>1</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
@@ -427,7 +437,7 @@ options or to tick the "No answer" checkbox.&lt;/p&gt;</content>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2015123000">
+  <item type="field" plugin="checkbox" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -450,6 +460,7 @@ bread</options>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>2</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
@@ -467,7 +478,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2015123000">
+  <item type="field" plugin="checkbox" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -490,6 +501,7 @@ bread</options>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>2</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
@@ -507,7 +519,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2015123000">
+  <item type="field" plugin="checkbox" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -530,6 +542,7 @@ bread</options>
       <noanswerdefault>1</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>1</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
@@ -547,7 +560,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2015123000">
+  <item type="field" plugin="checkbox" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -570,6 +583,7 @@ bread</options>
       <noanswerdefault>1</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>1</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
@@ -587,7 +601,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2015123000">
+  <item type="field" plugin="checkbox" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -610,6 +624,7 @@ bread</options>
       <noanswerdefault>1</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>2</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
@@ -628,7 +643,7 @@ options or to tick the "No answer" checkbox.&lt;/p&gt;</content>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2015123000">
+  <item type="field" plugin="checkbox" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -651,6 +666,7 @@ bread</options>
       <noanswerdefault>1</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>2</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
@@ -668,7 +684,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2015123000">
+  <item type="field" plugin="checkbox" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -690,6 +706,7 @@ bread</options>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>1</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
@@ -707,7 +724,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2015123000">
+  <item type="field" plugin="checkbox" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -729,6 +746,7 @@ bread</options>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>1</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
@@ -746,7 +764,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2015123000">
+  <item type="field" plugin="checkbox" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -768,6 +786,7 @@ bread</options>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>2</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
@@ -785,7 +804,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2015123000">
+  <item type="field" plugin="checkbox" version="2018091301">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -807,6 +826,7 @@ bread</options>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>2</minimumrequired>
+      <maximumrequired>0</maximumrequired>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
