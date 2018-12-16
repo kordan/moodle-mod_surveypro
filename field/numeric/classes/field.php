@@ -284,7 +284,7 @@ class surveyprofield_numeric_field extends mod_surveypro_itembase {
      * @return void
      */
     public function item_get_correct_number($justanumber) {
-        $pattern = '~^\s*(-?)([0-9]+)['.get_string('decsep', 'langconfig').']?([0-9]*)\s*$~';
+        $pattern = '~^\s*(-?)([0-9]+)'.preg_quote($this->decimalseparator).'?([0-9]*)\s*$~';
         if (preg_match($pattern, $justanumber, $matches)) {
             if (empty($matches[3])) {
                 return $matches[1].$matches[2];
@@ -571,15 +571,9 @@ EOS;
             return $prefill;
         }
 
-        if (isset($fromdb->content)) {
-            // If it is a number, write it using number_format otherwise simply write it.
-            $matches = $this->item_get_correct_number($fromdb->content);
-            if (empty($matches)) {
-                // It is not a number.
-                $prefill[$this->itemname] = $fromdb->content;
-            } else {
-                $prefill[$this->itemname] = number_format((double)$fromdb->content, $this->decimals, $this->decimalseparator, '');
-            }
+        // This number comes from the db so it can ONLY have '.' as decimal separator.
+        if (isset($fromdb->content) && !empty($fromdb->content)) {
+            $prefill[$this->itemname] = number_format((double)$fromdb->content, $this->decimals, $this->decimalseparator, '');
         }
 
         return $prefill;
