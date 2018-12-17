@@ -579,7 +579,7 @@ class mod_surveypro_submission {
 
             $downloadpdfstr = get_string('downloadpdf', 'mod_surveypro');
             $iconparams['title'] = $downloadpdfstr;
-            $downloadpdficn = new pix_icon('i/export', $downloadpdfstr, 'moodle', $iconparams);
+            $downloadpdficn = new pix_icon('t/download', $downloadpdfstr, 'moodle', $iconparams);
 
             if ($groupmode = groups_get_activity_groupmode($this->cm, $COURSE)) {
                 if ($groupmode == SEPARATEGROUPS) {

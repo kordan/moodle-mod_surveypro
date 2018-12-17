@@ -840,7 +840,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
         $importtitle = get_string('exporttemplate', 'mod_surveypro');
         $iconparams = array('title' => $importtitle);
-        $importicn = new pix_icon('i/import', $importtitle, 'moodle', $iconparams);
+        $importicn = new pix_icon('t/download', $importtitle, 'moodle', $iconparams);
 
         $table = new flexible_table('templatelist');
 
