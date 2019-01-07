@@ -23,17 +23,15 @@
  */
 
 namespace mod_surveypro\privacy;
+defined('MOODLE_INTERNAL') || die();
 
 use \core_privacy\local\metadata\collection;
-use \core_privacy\local\metadata\provider as metadataprovider;
-use \core_privacy\local\request\plugin\provider as pluginprovider;
-use \core_privacy\local\request\writer;
-use \core_privacy\local\request\approved_contextlist;
-use \core_privacy\local\request\contextlist;
-use \core_privacy\local\request\deletion_criteria;
-use \core_privacy\local\request\helper;
-
-defined('MOODLE_INTERNAL') || die();
+use core_privacy\local\request\approved_contextlist;
+use core_privacy\local\request\approved_userlist;
+use core_privacy\local\request\helper;
+use core_privacy\local\request\transform;
+use core_privacy\local\request\userlist;
+use core_privacy\local\request\writer;
 
 /**
  * Implementation of the privacy subsystem plugin provider for the surveypro activity module.
@@ -41,10 +39,10 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  2018 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class provider implements metadataprovider, pluginprovider {
-
-    // To provide php 5.6 (33_STABLE) and up support.
-    use \core_privacy\local\legacy_polyfill;
+class provider implements
+    \core_privacy\local\metadata\provider,
+    \core_privacy\local\request\core_userlist_provider,
+    \core_privacy\local\request\plugin\provider {
 
     /**
      * Return the fields which contain personal data.
@@ -52,17 +50,21 @@ class provider implements metadataprovider, pluginprovider {
      * @param collection $collection a reference to the collection to use to store the metadata.
      * @return collection the updated collection of metadata items.
      */
-    public static function _get_metadata($collection) {
+    public static function get_metadata(collection $collection) : collection {
         // Table: surveypro_submission.
-        $data = ['userid' => 'privacy:metadata:submission:userid',
-                'status' => 'privacy:metadata:submission:status',
-                'timecreated' => 'privacy:metadata:submission:timecreated',
-                'timemodified' => 'privacy:metadata:submission:timemodified'];
+        $data = [
+            'userid' => 'privacy:metadata:submission:userid',
+            'status' => 'privacy:metadata:submission:status',
+            'timecreated' => 'privacy:metadata:submission:timecreated',
+            'timemodified' => 'privacy:metadata:submission:timemodified'
+        ];
         $collection->add_database_table('surveypro_submission', $data, 'privacy:metadata:submission');
 
         // Table: surveypro_answer.
-        $data = ['content' => 'privacy:metadata:answer:content',
-                'contentformat' => 'privacy:metadata:answer:contentformat'];
+        $data = [
+            'content' => 'privacy:metadata:answer:content',
+            'contentformat' => 'privacy:metadata:answer:contentformat'
+        ];
         $collection->add_database_table('surveypro_answer', $data, 'privacy:metadata:answer');
 
         // Link to subplugins.
@@ -79,11 +81,12 @@ class provider implements metadataprovider, pluginprovider {
 
     /**
      * Get the list of contexts that contain user information for the specified user.
+     * This is for individual delete requests and is supposed to be used by delete_data_for_user().
      *
      * @param int $userid the userid.
      * @return contextlist the list of contexts containing user info for the user.
      */
-    public static function _get_contexts_for_userid($userid) {
+    public static function get_contexts_for_userid(int $userid) : \core_privacy\local\request\contextlist {
         // Fetch all surveypro answers.
         $sql = "SELECT c.id
                 FROM {context} c
@@ -107,7 +110,7 @@ class provider implements metadataprovider, pluginprovider {
      *
      * @param approved_contextlist $contextlist a list of contexts approved for export.
      */
-    public static function _export_user_data($contextlist) {
+    public static function export_user_data(approved_contextlist $contextlist) {
         global $DB;
 
         if (empty($contextlist->count())) {
@@ -290,7 +293,7 @@ class provider implements metadataprovider, pluginprovider {
      *
      * @param \context $context the context to delete in.
      */
-    public static function _delete_data_for_all_users_in_context($context) {
+    public static function delete_data_for_all_users_in_context(\context $context) {
         global $DB;
 
         if (!$context instanceof \context_module) {
@@ -311,7 +314,7 @@ class provider implements metadataprovider, pluginprovider {
             $DB->delete_records('surveypro_answer', ['submissionid' => $submission->id]);
 
             // Delete related files (if any).
-            $fs->delete_area_files($context->id, 'surveyprofield_fileupload', SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $ubmission->id);
+            $fs->delete_area_files($context->id, 'surveyprofield_fileupload', 'fileuploadfiles', $ubmission->id);
         }
         $submissions->close();
         $DB->delete_records('surveypro_submission', $whereparams);
@@ -322,7 +325,7 @@ class provider implements metadataprovider, pluginprovider {
      *
      * @param approved_contextlist $contextlist a list of contexts approved for deletion.
      */
-    public static function _delete_data_for_user($contextlist) {
+    public static function delete_data_for_user(approved_contextlist $contextlist) {
         global $DB;
 
         if (empty($contextlist->count())) {
@@ -336,34 +339,122 @@ class provider implements metadataprovider, pluginprovider {
             if (!$context instanceof \context_module) {
                 return;
             }
-            $surveyproid = $DB->get_field('course_modules', 'instance', ['id' => $context->instanceid], MUST_EXIST);
+            $instanceid = $DB->get_field('course_modules', 'instance', ['id' => $context->instanceid], MUST_EXIST);
 
-            $sql = 'SELECT ss.id AS submissionid, sa.id AS answerid, si.plugin
-                    FROM {surveypro_submission} ss
-                        INNER JOIN {surveypro_item} si ON si.surveyproid = ss.surveyproid
-                        INNER JOIN {surveypro_answer} sa ON sa.submissionid = ss.id AND sa.itemid = si.id
-                    WHERE ss.surveyproid = :surveyproid
-                        AND ss.userid = :userid
-                    ORDER BY submissionid, answerid';
-            $whereparams = ['surveyproid' => $surveyproid, 'userid' => $userid];
-            $responses = $DB->get_recordset_sql($sql, $whereparams);
-
-            // I need a loop over $response->answerid in oder to delete files identified by unique $response->answerid.
-            $lastsubmissionid = null;
-            foreach ($responses as $response) {
-                if ($response->submissionid != $lastsubmissionid) {
-                    if (!empty($lastsubmissionid)) {
-                        $DB->delete_records('surveypro_answer', ['submissionid' => $lastsubmissionid]);
-                    }
-                    $lastsubmissionid = $response->submissionid;
-                }
-                // Delete attachments of userid for answerid.
-                if ($response->plugin == 'fileupload') {
-                    $fs->delete_area_files($context->id, 'surveyprofield_fileupload', 'fileuploadfiles', $response->answerid);
-                }
+            $where = ['surveyproid' => $instanceid, 'userid' => $userid];
+            $submissionsobject = $DB->get_recordset('surveypro_submission', $where, '', 'id');
+            $submissions = [];
+            foreach ($submissionsobject as $submission) {
+                $submissions[] = $submission->id;
             }
-            $DB->delete_records('surveypro_answer', ['submissionid' => $lastsubmissionid]);
+            $submissionsobject->close();
+
+            // $submissions is the list of the submissions ID of the users found.
+            if (!$submissions) {
+                return;
+            }
+
+            // Delete answers for the submissions listed in $submissions.
+            $DB->delete_records_list('surveypro_answers', 'submissionid', $submissions);
+
+            // Delete submissions listed in $submissions.
+            $DB->delete_records_list('surveypro_submission', 'id', $submissions);
+
+            // Delete attachments uploaded within the answers to the submissions listed in $submissions.
+            // Get the list of ID of answers related to $submissions.
+            list($insql, $inparams) = $DB->get_in_or_equal($submissions, SQL_PARAMS_NAMED);
+
+            $answersobject = $DB->get_recordset_select('surveypro_answer', "submissionid {$insql}", $inparams, 'id', 'id');
+            $answers = [];
+            foreach ($answersobject as $answer) {
+                $answers[] = $answer->id;
+            }
+            $answersobject->close();
+
+            list($insql, $inparams) = $DB->get_in_or_equal($answers, SQL_PARAMS_NAMED);
+            $fs = get_file_storage();
+            $fs->delete_area_files_select($context->id, 'surveyprofield_fileupload', 'fileuploadfiles', $insql, $inparams);
+    }
+
+    /**
+     * Delete multiple users within a single context.
+     *
+     * @param approved_userlist $userlist The approved context and user information to delete information for.
+     */
+    public static function delete_data_for_users(approved_userlist $userlist) {
+        global $DB;
+
+        $context = $userlist->get_context();
+        $userids = $userlist->get_userids();
+
+        $instanceid = $DB->get_field('course_modules', 'instance', ['id' => $context->instanceid], MUST_EXIST);
+        list($insql, $inparams) = $DB->get_in_or_equal($userids, SQL_PARAMS_NAMED);
+
+        $where = "surveyproid = :instanceid AND userid {$insql}";
+        $sqlparams = $inparams + ['instanceid' => (int)$instanceid];
+
+        $submissionsobject = $DB->get_recordset_select('surveypro_submission', $where, $sqlparams, 'id', 'id');
+        $submissions = [];
+        foreach ($submissionsobject as $submission) {
+            $submissions[] = $submission->id;
         }
-        $DB->delete_records('surveypro_submission', ['userid' => $userid]);
+        $submissionsobject->close();
+
+        // $submissions is the list of the submissions ID of the users found.
+        if (!$submissions) {
+            return;
+        }
+
+        // Delete answers for the submissions listed in $submissions.
+        $DB->delete_records_list('surveypro_answers', 'submissionid', $submissions);
+
+        // Delete submissions listed in $submissions.
+        $DB->delete_records_list('surveypro_submission', 'id', $submissions);
+
+        // Delete attachments uploaded within the answers to the submissions listed in $submissions.
+        // Get the list of ID of answers related to $submissions.
+        list($insql, $inparams) = $DB->get_in_or_equal($submissions, SQL_PARAMS_NAMED);
+
+        $answersobject = $DB->get_recordset_select('surveypro_answer', "submissionid {$insql}", $inparams, 'id', 'id');
+        $answers = [];
+        foreach ($answersobject as $answer) {
+            $answers[] = $answer->id;
+        }
+        $answersobject->close();
+
+        list($insql, $inparams) = $DB->get_in_or_equal($answers, SQL_PARAMS_NAMED);
+        $fs = get_file_storage();
+        $fs->delete_area_files_select($context->id, 'surveyprofield_fileupload', 'fileuploadfiles', $insql, $inparams);
+    }
+
+    /**
+     * Get the list of users who have data within a context.
+     * This is for expiring contexts and is supposed to be used by delete_data_for_users()
+     *
+     * @param userlist $userlist The userlist containing the list of users who have data in this context/plugin combination.
+     */
+    public static function get_users_in_context(userlist $userlist) {
+        $context = $userlist->get_context();
+
+        if (!is_a($context, \context_module::class)) {
+            return;
+        }
+
+        // Find users with surveypro submissions.
+        $sql = 'SELECT ss.userid
+                FROM {context} c
+                    INNER JOIN {course_modules} cm ON cm.id = c.instanceid AND c.contextlevel = :contextlevel
+                    INNER JOIN {modules} m ON m.id = cm.module AND m.name = :modname
+                    INNER JOIN {surveypro} s ON s.id = cm.instance
+                    INNER JOIN {surveypro_submission} ss ON ss.surveyproid = s.id
+                WHERE c.id = :contextid';
+
+        $params = [
+            'modname'       => 'surveypro',
+            'contextid'     => $context->id,
+            'contextlevel'  => CONTEXT_MODULE,
+        ];
+
+        $userlist->add_from_sql('userid', $sql, $params);
     }
 }
