@@ -342,38 +342,39 @@ class provider implements
             $instanceid = $DB->get_field('course_modules', 'instance', ['id' => $context->instanceid], MUST_EXIST);
 
             $where = ['surveyproid' => $instanceid, 'userid' => $userid];
-            $submissionsobject = $DB->get_recordset('surveypro_submission', $where, '', 'id');
+            $rs = $DB->get_recordset('surveypro_submission', $where, '', 'id');
             $submissions = [];
-            foreach ($submissionsobject as $submission) {
+            foreach ($rs as $submission) {
                 $submissions[] = $submission->id;
             }
-            $submissionsobject->close();
+            $rs->close();
 
             // $submissions is the list of the submissions ID of the users found.
             if (!$submissions) {
                 return;
             }
 
-            // Delete answers for the submissions listed in $submissions.
-            $DB->delete_records_list('surveypro_answers', 'submissionid', $submissions);
-
-            // Delete submissions listed in $submissions.
-            $DB->delete_records_list('surveypro_submission', 'id', $submissions);
-
             // Delete attachments uploaded within the answers to the submissions listed in $submissions.
             // Get the list of ID of answers related to $submissions.
             list($insql, $inparams) = $DB->get_in_or_equal($submissions, SQL_PARAMS_NAMED);
 
-            $answersobject = $DB->get_recordset_select('surveypro_answer', "submissionid {$insql}", $inparams, 'id', 'id');
+            $rs = $DB->get_recordset_select('surveypro_answer', "submissionid {$insql}", $inparams, 'id', 'id');
             $answers = [];
-            foreach ($answersobject as $answer) {
+            foreach ($rs as $answer) {
                 $answers[] = $answer->id;
             }
-            $answersobject->close();
+            $rs->close();
 
             list($insql, $inparams) = $DB->get_in_or_equal($answers, SQL_PARAMS_NAMED);
             $fs = get_file_storage();
             $fs->delete_area_files_select($context->id, 'surveyprofield_fileupload', 'fileuploadfiles', $insql, $inparams);
+
+            // Delete answers for the submissions listed in $submissions.
+            $DB->delete_records_list('surveypro_answer', 'submissionid', $submissions);
+
+            // Delete submissions listed in $submissions.
+            $DB->delete_records_list('surveypro_submission', 'id', $submissions);
+        }
     }
 
     /**
@@ -393,38 +394,39 @@ class provider implements
         $where = "surveyproid = :instanceid AND userid {$insql}";
         $sqlparams = $inparams + ['instanceid' => (int)$instanceid];
 
-        $submissionsobject = $DB->get_recordset_select('surveypro_submission', $where, $sqlparams, 'id', 'id');
+        $rs = $DB->get_recordset_select('surveypro_submission', $where, $sqlparams, 'id', 'id');
         $submissions = [];
-        foreach ($submissionsobject as $submission) {
+        foreach ($rs as $submission) {
             $submissions[] = $submission->id;
         }
-        $submissionsobject->close();
+        $rs->close();
 
         // $submissions is the list of the submissions ID of the users found.
         if (!$submissions) {
             return;
         }
 
-        // Delete answers for the submissions listed in $submissions.
-        $DB->delete_records_list('surveypro_answers', 'submissionid', $submissions);
-
-        // Delete submissions listed in $submissions.
-        $DB->delete_records_list('surveypro_submission', 'id', $submissions);
-
         // Delete attachments uploaded within the answers to the submissions listed in $submissions.
         // Get the list of ID of answers related to $submissions.
         list($insql, $inparams) = $DB->get_in_or_equal($submissions, SQL_PARAMS_NAMED);
 
-        $answersobject = $DB->get_recordset_select('surveypro_answer', "submissionid {$insql}", $inparams, 'id', 'id');
+        $rs = $DB->get_recordset_select('surveypro_answer', "submissionid {$insql}", $inparams, 'id', 'id');
         $answers = [];
-        foreach ($answersobject as $answer) {
+        foreach ($rs as $answer) {
             $answers[] = $answer->id;
         }
-        $answersobject->close();
+        $rs->close();
 
         list($insql, $inparams) = $DB->get_in_or_equal($answers, SQL_PARAMS_NAMED);
         $fs = get_file_storage();
         $fs->delete_area_files_select($context->id, 'surveyprofield_fileupload', 'fileuploadfiles', $insql, $inparams);
+
+        // Delete answers for the submissions listed in $submissions.
+        $DB->delete_records_list('surveypro_answer', 'submissionid', $submissions);
+
+        // Delete submissions listed in $submissions.
+        $DB->delete_records_list('surveypro_submission', 'id', $submissions);
+
     }
 
     /**
