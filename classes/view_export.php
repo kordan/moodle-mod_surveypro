@@ -674,7 +674,7 @@ class mod_surveypro_view_export {
                 $tempfullpath = $CFG->tempdir.'/'.$temppath;
                 // Finally add the attachment.
                 $component = 'surveyprofield_fileupload';
-                $filearea = SURVEYPROFIELD_FILEUPLOAD_FILEAREA;
+                $filearea = 'fileuploadfiles';
                 $itemid = $richsubmission->id;
                 if ($files = $fs->get_area_files($this->context->id, $component, $filearea, $itemid, 'timemodified', false)) {
                     foreach ($files as $file) {
@@ -787,7 +787,7 @@ class mod_surveypro_view_export {
                 $tempfullpath = $CFG->tempdir.'/'.$temppath;
                 // Finally add the attachment.
                 $component = 'surveyprofield_fileupload';
-                $filearea = SURVEYPROFIELD_FILEUPLOAD_FILEAREA;
+                $filearea = 'fileuploadfiles';
                 $itemid = $richsubmission->id;
                 if ($files = $fs->get_area_files($this->context->id, $component, $filearea, $itemid, 'timemodified', false)) {
                     foreach ($files as $file) {
