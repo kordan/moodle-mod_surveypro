@@ -244,31 +244,16 @@ class mod_surveypro_utility {
         try {
             $transaction = $DB->start_delegated_transaction();
 
-            if (count($whereparams) == 1) { // Delete all the items of this surveypro.
-                foreach ($items as $item) {
-                    $DB->delete_records('surveypro'.$item->type.'_'.$item->plugin, array('itemid' => $item->id));
+            foreach ($items as $item) {
+                $DB->delete_records('surveypro'.$item->type.'_'.$item->plugin, array('itemid' => $item->id));
 
-                    // Event: item_deleted.
-                    $eventdata = array('context' => $context, 'objectid' => $item->id);
-                    $eventdata['other'] = array('plugin' => $item->plugin);
-                    $event = \mod_surveypro\event\item_deleted::create($eventdata);
-                    $event->trigger();
-                }
-                $DB->delete_records('surveypro_item', array('surveyproid' => $this->surveypro->id));
-            }
+                $DB->delete_records('surveypro_item', array('id' => $item->id));
 
-            if (count($whereparams) > 1) { // Some more detail about items were provided in $whereparams.
-                foreach ($items as $item) {
-                    $DB->delete_records('surveypro'.$item->type.'_'.$item->plugin, array('itemid' => $item->id));
-
-                    $DB->delete_records('surveypro_item', array('id' => $item->id));
-
-                    // Event: item_deleted.
-                    $eventdata = array('context' => $context, 'objectid' => $item->id);
-                    $eventdata['other'] = array('plugin' => $item->plugin);
-                    $event = \mod_surveypro\event\item_deleted::create($eventdata);
-                    $event->trigger();
-                }
+                // Event: item_deleted.
+                $eventdata = array('context' => $context, 'objectid' => $item->id);
+                $eventdata['other'] = array('plugin' => $item->plugin);
+                $event = \mod_surveypro\event\item_deleted::create($eventdata);
+                $event->trigger();
             }
 
             $transaction->allow_commit();
@@ -364,31 +349,16 @@ class mod_surveypro_utility {
         try {
             $transaction = $DB->start_delegated_transaction();
 
-            if (count($whereparams) == 1) { // Delete all the submissions of this surveypro.
-                foreach ($submissions as $submission) {
-                    $DB->delete_records('surveypro_answer', array('submissionid' => $submission->id));
+            foreach ($submissions as $submission) {
+                $DB->delete_records('surveypro_answer', array('submissionid' => $submission->id));
 
-                    // Event: submission_deleted.
-                    $eventdata = array('context' => $context, 'objectid' => $submission->id);
-                    $event = \mod_surveypro\event\submission_deleted::create($eventdata);
-                    $event->trigger();
-                }
-                $submissions->close();
-                $DB->delete_records('surveypro_submission', $whereparams);
+                // Event: submission_deleted.
+                $eventdata = array('context' => $context, 'objectid' => $submission->id);
+                $event = \mod_surveypro\event\submission_deleted::create($eventdata);
+                $event->trigger();
             }
-
-            if (count($whereparams) > 1) { // Some more detail about submissions were provided in $whereparams.
-                foreach ($submissions as $submission) {
-                    $DB->delete_records('surveypro_answer', array('submissionid' => $submission->id));
-
-                    // Event: submission_deleted.
-                    $eventdata = array('context' => $context, 'objectid' => $submission->id);
-                    $event = \mod_surveypro\event\submission_deleted::create($eventdata);
-                    $event->trigger();
-                }
-                $submissions->close();
-                $DB->delete_records('surveypro_submission', $whereparams);
-            }
+            $submissions->close();
+            $DB->delete_records('surveypro_submission', $whereparams);
 
             // TODO: Am I forgetting submitted files?
 
