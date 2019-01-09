@@ -311,7 +311,7 @@ class provider implements metadataprovider, pluginprovider {
             $DB->delete_records('surveypro_answer', ['submissionid' => $submission->id]);
 
             // Delete related files (if any).
-            $fs->delete_area_files($context->id, 'surveyprofield_fileupload', SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $ubmission->id);
+            $fs->delete_area_files($context->id, 'surveyprofield_fileupload', 'fileuploadfiles', $ubmission->id);
         }
         $submissions->close();
         $DB->delete_records('surveypro_submission', $whereparams);
