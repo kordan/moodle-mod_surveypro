@@ -740,15 +740,16 @@ function surveypro_get_file_areas($course, $cm, $context) {
 /**
  * Serves the files from the surveypro file areas
  *
- * @param stdClass $course
- * @param stdClass $cm
- * @param stdClass $context
- * @param string $filearea
- * @param array $args
- * @param bool $forcedownload
- * @return void this should never return to the caller
+ * @param stdClass $course the course object
+ * @param stdClass $cm the course module object
+ * @param stdClass $context context object
+ * @param string $filearea the name of the file area
+ * @param array $args extra arguments
+ * @param bool $forcedownload whether or not force download
+ * @param array $options additional options affecting the file serving
+ * @return bool false if the file is not found, just send the file otherwise returning nothing
  */
-function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload) {
+function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=array()) {
     global $DB;
 
     require_login($course, true, $cm);
@@ -773,8 +774,6 @@ function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
 
     // Finally send the file.
     send_stored_file($file, 0, 0, true); // Download MUST be forced - security!
-
-    return false;
 }
 
 // Navigation API.
@@ -1252,4 +1251,3 @@ function surveypro_get_item($cm, $surveypro, $itemid=0, $type='', $plugin='', $g
 
     return $item;
 }
-

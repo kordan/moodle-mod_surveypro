@@ -99,9 +99,14 @@ class mod_surveypro_itembase {
     protected $parentid;
 
     /**
-     * @var string Answer the parent item has to have in order to show this item as child
+     * @var string The answer (as saved to db) that the parent item has to have in order to show this item as child
      */
     protected $parentvalue;
+
+    /**
+     * @var string The user friendly answer that the parent item has to have in order to show this item as child
+     */
+    protected $parentcontent;
 
     /**
      * @var int Feedback mask for the user to define the feedback once the item is edited
@@ -1142,9 +1147,11 @@ EOS;
     public function get_content() {
         $context = context_module::instance($this->cm->id);
 
-        return file_rewrite_pluginfile_urls(
+        $content = file_rewrite_pluginfile_urls(
                    $this->content, 'pluginfile.php', $context->id,
                    'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $this->itemid);
+
+        return format_text($content, FORMAT_MOODLE, array('overflowdiv' => false, 'allowid' => true, 'para' => false));
     }
 
     /**

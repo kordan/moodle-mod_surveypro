@@ -601,4 +601,46 @@ EOS;
     public static function userform_input_needs_trim() {
         return true;
     }
+
+    /**
+     * Starting from the info stored into $answer, this function returns the corresponding content for the export file.
+     *
+     * @param object $answer
+     * @param string $format
+     * @return string - the string for the export file
+     */
+    public function userform_db_to_export($answer, $format='') {
+        $context = context_module::instance($this->cm->id);
+
+        // The content of the provided answer.
+        $content = $answer->content;
+
+        // Trigger 'answernotsubmitted' and 'answerisnoanswer'.
+        $quickresponse = self::userform_standardcontent_to_string($content);
+        if (isset($quickresponse)) { // Parent method provided the response.
+            return $quickresponse;
+        }
+
+        // Output.
+        if (strlen($content)) {
+            if ($this->useeditor) {
+                $content = file_rewrite_pluginfile_urls(
+                           $content, 'pluginfile.php', $context->id,
+                           'mod_surveypro', SURVEYPROFIELD_TEXTAREA_FILEAREA, $answer->id);
+
+                $return = format_text($content, FORMAT_MOODLE, array('overflowdiv' => false, 'allowid' => true, 'para' => false));
+            } else {
+                $return = $content;
+            }
+        } else {
+            // User is allowed to provide an empty answer.
+            if ($format == SURVEYPRO_FRIENDLYFORMAT) {
+                $return = get_string('emptyanswer', 'mod_surveypro');
+            } else {
+                $return = '';
+            }
+        }
+
+        return $return;
+    }
 }
