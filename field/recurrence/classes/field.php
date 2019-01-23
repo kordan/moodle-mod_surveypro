@@ -245,7 +245,7 @@ class surveyprofield_recurrence_field extends mod_surveypro_itembase {
         $record->indent = 0;
         $record->defaultoption = SURVEYPRO_INVITEDEFAULT;
         $record->defaultvalue = 43200;
-        $record->downloadformat = 'strftime3';
+        $record->downloadformat = 'strftime03';
         $record->lowerbound = 43200;
         $record->upperbound = 31492800;
     }
@@ -343,7 +343,7 @@ class surveyprofield_recurrence_field extends mod_surveypro_itembase {
      * @return the friendly format
      */
     public function item_get_friendlyformat() {
-        return 'strftime3';
+        return 'strftime03';
     }
 
     /**

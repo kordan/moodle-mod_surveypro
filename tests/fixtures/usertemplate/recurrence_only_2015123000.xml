@@ -43,7 +43,7 @@
       <hideinstructions>0</hideinstructions>
       <variable>recurrence_001</variable>
       <defaultoption>2</defaultoption>
-      <downloadformat>strftime3</downloadformat>
+      <downloadformat>strftime03</downloadformat>
       <lowerbound>43200</lowerbound>
       <upperbound>31492800</upperbound>
     </surveyprofield_recurrence>
@@ -79,7 +79,7 @@
       <variable>recurrence_002</variable>
       <defaultoption>1</defaultoption>
       <defaultvalue>13608000</defaultvalue>
-      <downloadformat>strftime3</downloadformat>
+      <downloadformat>strftime03</downloadformat>
       <lowerbound>43200</lowerbound>
       <upperbound>31492800</upperbound>
     </surveyprofield_recurrence>
@@ -114,7 +114,7 @@
       <hideinstructions>0</hideinstructions>
       <variable>recurrence_003</variable>
       <defaultoption>4</defaultoption>
-      <downloadformat>strftime3</downloadformat>
+      <downloadformat>strftime03</downloadformat>
       <lowerbound>43200</lowerbound>
       <upperbound>31492800</upperbound>
     </surveyprofield_recurrence>
@@ -149,7 +149,7 @@
       <hideinstructions>0</hideinstructions>
       <variable>recurrence_004</variable>
       <defaultoption>5</defaultoption>
-      <downloadformat>strftime3</downloadformat>
+      <downloadformat>strftime03</downloadformat>
       <lowerbound>43200</lowerbound>
       <upperbound>31492800</upperbound>
     </surveyprofield_recurrence>
@@ -184,7 +184,7 @@
       <hideinstructions>0</hideinstructions>
       <variable>recurrence_005</variable>
       <defaultoption>3</defaultoption>
-      <downloadformat>strftime3</downloadformat>
+      <downloadformat>strftime03</downloadformat>
       <lowerbound>43200</lowerbound>
       <upperbound>31492800</upperbound>
     </surveyprofield_recurrence>
@@ -219,7 +219,7 @@
       <hideinstructions>0</hideinstructions>
       <variable>recurrence_006</variable>
       <defaultoption>2</defaultoption>
-      <downloadformat>strftime3</downloadformat>
+      <downloadformat>strftime03</downloadformat>
       <lowerbound>43200</lowerbound>
       <upperbound>31492800</upperbound>
     </surveyprofield_recurrence>
@@ -255,7 +255,7 @@
       <variable>recurrence_007</variable>
       <defaultoption>1</defaultoption>
       <defaultvalue>13608000</defaultvalue>
-      <downloadformat>strftime3</downloadformat>
+      <downloadformat>strftime03</downloadformat>
       <lowerbound>43200</lowerbound>
       <upperbound>31492800</upperbound>
     </surveyprofield_recurrence>
@@ -290,7 +290,7 @@
       <hideinstructions>0</hideinstructions>
       <variable>recurrence_008</variable>
       <defaultoption>4</defaultoption>
-      <downloadformat>strftime3</downloadformat>
+      <downloadformat>strftime03</downloadformat>
       <lowerbound>43200</lowerbound>
       <upperbound>31492800</upperbound>
     </surveyprofield_recurrence>
@@ -325,7 +325,7 @@
       <hideinstructions>0</hideinstructions>
       <variable>recurrence_009</variable>
       <defaultoption>5</defaultoption>
-      <downloadformat>strftime3</downloadformat>
+      <downloadformat>strftime03</downloadformat>
       <lowerbound>43200</lowerbound>
       <upperbound>31492800</upperbound>
     </surveyprofield_recurrence>
