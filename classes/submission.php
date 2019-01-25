@@ -1470,76 +1470,14 @@ class mod_surveypro_submission {
         $itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, 'sortindex', 'id, type, plugin');
 
         $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+        $this->add_pdf_details($pdf, $user, $submission->timecreated, $submission->timemodified);
+        list($twocolstemplate, $threecolstemplate) = $this->get_columns_html();
+        $border = $this->get_border_style();
 
-        // Set document information.
-        $pdf->SetCreator(PDF_CREATOR);
-        $pdf->SetAuthor('moodle-mod_surveypro');
-        $pdf->SetTitle('User response');
-        $pdf->SetSubject('Single response in PDF');
-
-        // Set default header data.
-        $textheader = get_string('responseauthor', 'mod_surveypro');
-        $textheader .= fullname($user);
-        $textheader .= "\n";
-        $textheader .= get_string('responsetimecreated', 'mod_surveypro');
-        $textheader .= userdate($submission->timecreated);
-        if ($submission->timemodified) {
-            $textheader .= get_string('responsetimemodified', 'mod_surveypro');
-            $textheader .= userdate($submission->timemodified);
-        }
-
-        $pdf->SetHeaderData('', 0, $this->surveypro->name, $textheader, array(0, 64, 255), array(0, 64, 128));
-        $pdf->setFooterData(array(0, 64, 0), array(0, 64, 128));
-
-        // Set header and footer fonts.
-        $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-        $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
-
-        // Set margins.
-        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-
-        $pdf->SetDrawColorArray(array(0, 64, 128));
-        // Set auto page breaks.
-        $pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
-
-        $pdf->AddPage();
-
-        $col1nunit = 1;
-        $col2nunit = 6;
-        $col3nunit = 3;
-        $firstcolwidth = $pdf->getPageWidth();
-        $firstcolwidth -= PDF_MARGIN_LEFT;
-        $firstcolwidth -= PDF_MARGIN_RIGHT;
-        $unitsum = $col1nunit + $col2nunit + $col3nunit;
-
-        $firstcolwidth = number_format($col1nunit * 100 / $unitsum, 2);
-        $secondcolwidth = number_format($col2nunit * 100 / $unitsum, 2);
-        $thirdcolwidth = number_format($col3nunit * 100 / $unitsum, 2);
-        $lasttwocolumns = $secondcolwidth + $thirdcolwidth;
-
-        $twocolstemplate = '<table style="width:100%;"><tr>';
-        $twocolstemplate .= '<td style="width:'.$firstcolwidth.'%;text-align:left;">@@col1@@</td>';
-        $twocolstemplate .= '<td style="width:'.$lasttwocolumns.'%;text-align:left;">@@col2@@</td>';
-        $twocolstemplate .= '</tr></table>';
-
-        $threecolstemplate = '<table style="width:100%;"><tr>';
-        $threecolstemplate .= '<td style="width:'.$firstcolwidth.'%;text-align:left;">@@col1@@</td>';
-        $threecolstemplate .= '<td style="width:'.$secondcolwidth.'%;text-align:left;">@@col2@@</td>';
-        $threecolstemplate .= '<td style="width:'.$thirdcolwidth.'%;text-align:left;">@@col3@@</td>';
-        $threecolstemplate .= '</tr></table>';
-
-        $border = array();
-        $border['T'] = array();
-        $border['T']['width'] = 0.2;
-        $border['T']['cap'] = 'butt';
-        $border['T']['join'] = 'miter';
-        $border['T']['dash'] = 1;
-        $border['T']['color'] = array(179, 219, 181);
+        $answernotprovided = get_string('answernotsubmitted', 'mod_surveypro');
         foreach ($itemseeds as $itemseed) {
-            $item = surveypro_get_item($this->cm, $this->surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);
             // Pagebreaks are not selected by surveypro_fetch_items_seeds.
+            $item = surveypro_get_item($this->cm, $this->surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);
             $template = $item::item_get_pdf_template();
             if ($template == SURVEYPRO_2COLUMNSTEMPLATE) {
                 // First column.
@@ -1584,7 +1522,7 @@ class mod_surveypro_submission {
                         }
                     }
                 } else {
-                    $content = '';
+                    $content = $answernotprovided;
                 }
                 $html = str_replace('@@col3@@', $content, $html);
                 $pdf->writeHTMLCell(0, 0, '', '', $html, $border, 1, 0, true, '', true);
@@ -1594,5 +1532,123 @@ class mod_surveypro_submission {
         $filename = $this->surveypro->name.'_'.$this->submissionid.'.pdf';
         $pdf->Output($filename, 'D');
         die();
+    }
+
+    /**
+     * Add details to PDF
+     *
+     * @param object $pdf
+     * @param object $user
+     * @param int $timecreated
+     * @param int $timemodified
+     * @return void
+     */
+    private function add_pdf_details($pdf, $user, $timecreated, $timemodified) {
+        $pdf->SetFont('helvetica', '', 12);
+
+        // Set document information.
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor('moodle-mod_surveypro');
+        $pdf->SetTitle('User response');
+        $pdf->SetSubject('Single response in PDF');
+
+        $textheader = $this->get_header_text($user, $timecreated, $timemodified);
+        $pdf->SetHeaderData('', 0, $this->surveypro->name, $textheader, array(0, 64, 255), array(0, 64, 128));
+        $pdf->setFooterData(array(0, 64, 0), array(0, 64, 128));
+
+        // Set header and footer fonts.
+        $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+        $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+        // Set margins.
+        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+        $pdf->SetDrawColorArray(array(0, 64, 128));
+        // Set auto page breaks.
+        $pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
+
+        $pdf->AddPage();
+    }
+
+    /**
+     * Define default header text
+     *
+     * @param string $user
+     * @param int $timecreated
+     * @param int $timemodified
+     * @return string $headertext
+     */
+    private function get_header_text($user, $timecreated, $timemodified) {
+        $textheader = get_string('responseauthor', 'mod_surveypro');
+        $textheader .= fullname($user);
+        $textheader .= "\n";
+        $textheader .= get_string('responsetimecreated', 'mod_surveypro');
+        $textheader .= userdate($timecreated);
+        if ($timemodified) {
+            $textheader .= get_string('responsetimemodified', 'mod_surveypro');
+            $textheader .= userdate($timemodified);
+        }
+
+        return $textheader;
+    }
+
+    /**
+     * Define the widths of each column into PDF
+     *
+     * @return list() of html for each template
+     */
+    private function get_columns_html() {
+        list($col1width, $col2width, $col3width) = $this->get_columns_width();
+        $col23width = $col2width + $col3width;
+
+        $twocolstemplate = '<table style="width:100%;"><tr>';
+        $twocolstemplate .= '<td style="width:'.$col1width.'%;text-align:left;">@@col1@@</td>';
+        $twocolstemplate .= '<td style="width:'.$col23width.'%;text-align:left;">@@col2@@</td>';
+        $twocolstemplate .= '</tr></table>';
+
+        $threecolstemplate = '<table style="width:100%;"><tr>';
+        $threecolstemplate .= '<td style="width:'.$col1width.'%;text-align:left;">@@col1@@</td>';
+        $threecolstemplate .= '<td style="width:'.$col2width.'%;text-align:left;">@@col2@@</td>';
+        $threecolstemplate .= '<td style="width:'.$col3width.'%;text-align:left;">@@col3@@</td>';
+        $threecolstemplate .= '</tr></table>';
+
+        return array($twocolstemplate, $threecolstemplate);
+    }
+
+    /**
+     * Define the widths of each column into PDF
+     *
+     * @return list() of width of each column
+     */
+    private function get_columns_width() {
+        $col1unit = 1;
+        $col2unit = 6;
+        $col3unit = 3;
+        $unitsum = $col1unit + $col2unit + $col3unit;
+
+        $col1width = number_format($col1unit * 100 / $unitsum, 2);
+        $col2width = number_format($col2unit * 100 / $unitsum, 2);
+        $col3width = number_format($col3unit * 100 / $unitsum, 2);
+
+        return array($col1width, $col2width, $col3width);
+    }
+
+    /**
+     * Define the style of the border used sometimes in the PDF
+     *
+     * @return list() of width of each column
+     */
+    private function get_border_style() {
+        $border = array();
+        $border['T'] = array();
+        $border['T']['width'] = 0.2;
+        $border['T']['cap'] = 'butt';
+        $border['T']['join'] = 'miter';
+        $border['T']['dash'] = 1;
+        $border['T']['color'] = array(179, 219, 181);
+
+        return $border;
     }
 }

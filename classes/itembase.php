@@ -1625,7 +1625,7 @@ EOS;
         $quickresponse = null;
 
         // The content of the provided answer.
-        if (!isset($content)) { // Item was disabled.
+        if (!strlen($content)) { // Item was disabled.
             $quickresponse = get_string('answernotsubmitted', 'mod_surveypro');
         } else if ($content == SURVEYPRO_NOANSWERVALUE) { // Answer was "no answer".
             $quickresponse = get_string('answerisnoanswer', 'mod_surveypro');
