@@ -249,7 +249,7 @@ class surveyprofield_time_field extends mod_surveypro_itembase {
         $record->step = 1;
         $record->defaultoption = SURVEYPRO_INVITEDEFAULT;
         $record->defaultvalue = 0;
-        $record->downloadformat = 'strftime1';
+        $record->downloadformat = 'strftime01';
         $record->lowerbound = 0;
         $record->upperbound = 86340;
     }
@@ -358,7 +358,7 @@ class surveyprofield_time_field extends mod_surveypro_itembase {
      * @return the friendly format
      */
     public function item_get_friendlyformat() {
-        return 'strftime1';
+        return 'strftime01';
     }
 
     /**
