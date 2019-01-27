@@ -588,7 +588,11 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
 
         // Drop out unwanted answers from the submission.
         if (!$this->surveypro->newpageforchild) {
-            $this->drop_unwanted_answers();
+            // TAKE CARE: It is not enough to drop out unexpected answers
+            // If the response is new, dropping an answer from $this->formdata make you sure the related value will not be saved
+            // but if the response is not new you may have the answer already in the database
+            // and you need to actually delete the old datum from DB! Ignoring it is not enough.
+            $this->drop_unexpected_answers();
         }
 
         // For each submission I need to save one 'surveypro_submission' and some 'surveypro_answer'.
@@ -1073,7 +1077,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
      *
      * @return void
      */
-    private function drop_unwanted_answers() {
+    private function drop_unexpected_answers() {
         // Begin of: delete all the values returned by disabled items (that were NOT supposed to be returned: MDL-34815).
         $dirtydata = (array)$this->formdata;
         $elementnames = array_keys($dirtydata);
@@ -1130,6 +1134,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
 
         // If not expected items are here...
         if (count($disposelist)) {
+            $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
             foreach ($elementnames as $elementname) {
                 if ($matches = mod_surveypro_utility::get_item_parts($elementname)) {
                     if ($matches['prefix'] == SURVEYPRO_DONTSAVEMEPREFIX) {
@@ -1138,6 +1143,9 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
                     $itemid = $matches['itemid'];
                     if (in_array($itemid, $disposelist)) {
                         unset($this->formdata->$elementname);
+                        // If this datum was previously saved (when the item was not disabled)
+                        // now I have to delete from database.
+                        $utilityman->delete_answer(array('submissionid' => $this->formdata->submissionid, 'itemid' => $itemid));
                     }
                 }
             }
