@@ -26,7 +26,7 @@ Feature: Validate creation and submit for "multiselect" elements using the princ
     And I expand all fieldsets
 
   @javascript
-  Scenario: test checkbox element having maximumrequired = 0
+  Scenario: test multiselect element having maximumrequired = 0
     Given I set the following fields to these values:
       | Content                  | What do you usually get for breakfast? |
       | Maximum allowed options  | Unlimited                              |
@@ -48,7 +48,7 @@ Feature: Validate creation and submit for "multiselect" elements using the princ
     # End of test number 1
 
   @javascript
-  Scenario: test checkbox element having maximumrequired = 3
+  Scenario: test multiselect element having maximumrequired = 3
     Given I set the following fields to these values:
       | Content                  | What do you usually get for breakfast? |
       | Maximum allowed options  | 3                                      |
