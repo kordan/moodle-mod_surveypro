@@ -188,7 +188,7 @@ EOS;
 
         $fs = get_file_storage();
         $component = 'surveyprofield_fileupload';
-        $filearea = SURVEYPROFIELD_FILEUPLOAD_FILEAREA;
+        $filearea = 'fileuploadfiles';
         foreach ($items as $item) {
             if ($files = $fs->get_area_files($this->context->id, $component, $filearea, $item->answerid, 'timemodified', false)) {
                 foreach ($files as $file) {

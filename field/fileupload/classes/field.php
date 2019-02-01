@@ -363,7 +363,7 @@ EOS;
             $attributes['subdirs'] = false;
             $attributes['maxfiles'] = $this->maxfiles;
             file_save_draft_area_files($answer['filemanager'], $context->id, 'surveyprofield_fileupload',
-                SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $olduseranswer->id, $attributes);
+                'fileuploadfiles', $olduseranswer->id, $attributes);
 
             $olduseranswer->content = ''; // Nothing is expected here.
         }
@@ -392,7 +392,7 @@ EOS;
         $attributes['subdirs'] = false;
         $attributes['maxfiles'] = $this->maxfiles;
 
-        $filearea = SURVEYPROFIELD_FILEUPLOAD_FILEAREA;
+        $filearea = 'fileuploadfiles';
         file_prepare_draft_area($draftitemid, $context->id, 'surveyprofield_fileupload', $filearea, $fromdb->id, $attributes);
 
         $prefill[$fieldname] = $draftitemid;
@@ -411,7 +411,7 @@ EOS;
         $context = context_module::instance($this->cm->id);
 
         $fs = get_file_storage();
-        $files = $fs->get_area_files($context->id, 'surveyprofield_fileupload', SURVEYPROFIELD_FILEUPLOAD_FILEAREA, $answer->id);
+        $files = $fs->get_area_files($context->id, 'surveyprofield_fileupload', 'fileuploadfiles', $answer->id);
         $filename = array();
         foreach ($files as $file) {
             if ($file->is_directory()) {

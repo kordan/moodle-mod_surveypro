@@ -189,6 +189,17 @@ class mod_surveypro_utility {
     /**
      * Delete items.
      *
+     * I can ask to delete a single item or a set of items, for instance, with bulk actions
+     * or, at usertemplate apply time, choosing the option: "Delete all elements" or "Delete hidden elements" or ...
+     * In the first case here I receive:
+     * $whereparams = array('surveyproid' => $this->surveypro->id, 'id' => $itemtodelete->id);
+     * In case of "Delete all elements" here I receive:
+     * $whereparams = array('surveyproid' => $this->surveypro->id);
+     * In case of "Delete visible elements" here I receive:
+     * $whereparams = array('surveyproid' => $this->surveypro->id, 'hidden' => 0);
+     * In case of "Delete hidden elements" here I receive:
+     * $whereparams = array('surveyproid' => $this->surveypro->id, 'hidden' => 1);
+     *
      * surveypro_item                 surveypro(field|format)_<<plugin>>
      *   id  <-----------------|        id
      *   surveyproid           |------- itemid
@@ -201,99 +212,44 @@ class mod_surveypro_utility {
      * @param array $whereparams
      * @return void
      */
-    public function delete_items($whereparams=null) {
-        global $DB, $COURSE;
+    public function delete_items($whereparams) {
+        global $DB;
 
-        if (empty($whereparams)) {
-            $whereparams = array();
+        // Verify input params integrity.
+        $validanswerparams = array('id', 'surveyproid', 'type ', 'plugin', 'hidden', 'insearchform', 'reserved', 'parentid');
+        $startingparams = array_keys($whereparams);
+        foreach ($startingparams as $startingparam) {
+            if (!in_array($startingparam, $validanswerparams)) {
+                $message = 'I can not delete answers using '.$startingparam.'. It is not an answer attribute.';
+                debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+            }
         }
-        // Just in case the call is missing the surveypro id, I add it.
-        if (!array_key_exists('surveyproid', $whereparams)) {
-            $whereparams['surveyproid'] = $this->surveypro->id;
-        }
+        // End of: Verify input params integrity.
 
         $items = $DB->get_records('surveypro_item', $whereparams, '', 'id, type, plugin');
         if (!count($items)) {
             return;
         }
 
-        // Update completion state: step 1 of 2.
-        // Before deleting items, get the list of involved students as they may get course completion.
-        // After items deletion you will no longer be able to select them with this query.
-        $completion = new completion_info($COURSE);
-        if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
-            $sql = 'SELECT DISTINCT s.userid as id
-                    FROM {surveypro_submission} s';
-            if (count($whereparams) == 1) {
-                $sql .= ' WHERE surveyproid = :surveyproid';
-            }
-
-            if (count($whereparams) > 1) {
-                list($insql, $inparams) = $DB->get_in_or_equal(array_keys($items), SQL_PARAMS_NAMED, 'itemid');
-                $sql .= ' JOIN {surveypro_answer} a ON a.submissionid = s.id
-                        WHERE s.surveyproid = :surveyproid
-                            AND a.itemid '.$insql;
-
-                $whereparams = array_merge($whereparams, $inparams);
-            }
-            $possibleusers = $DB->get_records_sql($sql, $whereparams);
-        }
-        // End of: Update completion state: step 1 of 2.
-
         $context = context_module::instance($this->cm->id);
-        try {
-            $transaction = $DB->start_delegated_transaction();
-
-            foreach ($items as $item) {
-                $DB->delete_records('surveypro'.$item->type.'_'.$item->plugin, array('itemid' => $item->id));
-
-                $DB->delete_records('surveypro_item', array('id' => $item->id));
-
-                // Event: item_deleted.
-                $eventdata = array('context' => $context, 'objectid' => $item->id);
-                $eventdata['other'] = array('plugin' => $item->plugin);
-                $event = \mod_surveypro\event\item_deleted::create($eventdata);
-                $event->trigger();
-            }
-
-            $transaction->allow_commit();
-        } catch (Exception $e) {
-            // Extra cleanup steps.
-            $transaction->rollback($e); // Rethrows exception.
+        // Delete answers to this/these item/s.
+        foreach ($items as $item) {
+            $this->delete_answers(array('itemid' => $item->id), $item);
         }
 
         $this->reset_items_pages();
-
-        // Take care: in this method $whereparams is a constrain for the item table
-        // so, you can not pass it as is to the delete_submissions method because there
-        // $whereparams is supposed to hold constrains for the submissions table.
-
-        // Delete corresponding submissions.
-        if (count($whereparams) == 1) { // Delete all the items of this surveypro.
-            $this->delete_submissions($whereparams, false);
-        }
-
-        if (count($whereparams) > 1) { // Some more detail about items were provided in $whereparams.
-            foreach ($items as $item) {
-                // In the frame of delete_answer I also delete the corresponding submission when needed.
-                $this->delete_answer(array('itemid' => $item->id));
-            }
-        }
-
-        // Update completion state: step 2 of 2.
-        // Item deletion lead to COMPLETION_COMPLETE.
-        // All the students with an "in progress" submission that was missing ONLY the just deleted item,
-        // maybe now reach the activity completion.
-        if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
-            foreach ($possibleusers as $user) {
-                $completion->update_state($this->cm, COMPLETION_COMPLETE, $user->id);
-            }
-        }
-        // End of: Update completion state: step 2 of 2.
     }
 
     /**
      * Delete submissions.
+     *
+     * I am free to choose to delete a submission (or set of submissions)
+     * or, to delete, a single answer of a submission (or set of answers).
+     * If I delete a submission this function (delete_submissions) will call the delete_answers function.
+     * If I directly call delete_answers, this function (delete_submissions) will never be called.
+     * Because of this, without care to which function I call, once an answer is deleted
+     * the deletion of the parent submission is actually executed into the function delete_answers and not here.
+     * All of this to say that it may appear strange but the function "delete_submissions" does not delete anything.
      *
      * surveypro_submission           surveypro_answer
      *   id  <-----------------|        id
@@ -303,17 +259,26 @@ class mod_surveypro_utility {
      *   timecreated                    content
      *   timemodified                   contentformat
      *
+     * $whereparams could be...
+     * array('id' => $submission->id);
+     * array('surveyproid' => $surveypro->id)
+     *
      * @param array $whereparams
-     * @param bool $updatecompletion
      * @return void
      */
-    public function delete_submissions($whereparams=null, $updatecompletion=true) {
-        global $DB, $COURSE;
+    public function delete_submissions($whereparams) {
+        global $DB;
 
-        if (empty($whereparams)) {
-            $whereparams = array();
+        // Verify input params integrity.
+        $condition = array_key_exists('surveyproid', $whereparams);
+        $condition = $condition || array_key_exists('id', $whereparams);
+        if (!$condition) {
+            $message = 'I can not delete submissions without id, surveyproid';
+            debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
-        // Just in case the call is missing the surveypro id, I add it.
+        // End of: Verify input params integrity.
+
+        // Just in case the call is missing the surveypro id, add it.
         if (!array_key_exists('surveyproid', $whereparams)) {
             $whereparams['surveyproid'] = $this->surveypro->id;
         }
@@ -323,72 +288,30 @@ class mod_surveypro_utility {
             return;
         }
 
-        // Update completion state: step 1 of 2.
-        // Before deleting submissions, get the list of involved students as they may get course completion.
-        // After submissions deletion you will no longer be able to select them with this query.
-        if ($updatecompletion) {
-            if (count($whereparams) == 1) { // Delete all submission of this surveypro.
-                // Update completion state.
-                $possibleusers = surveypro_get_participants($this->surveypro->id);
-            }
-
-            if (count($whereparams) > 1) { // Some more detail about submissions were provided in $whereparams.
-                $conditions = array();
-                foreach ($whereparams as $field => $unused) {
-                    $conditions[] = $field.' = :'.$field;
-                }
-                $sql = 'SELECT DISTINCT userid as id
-                        FROM {surveypro_submission}
-                        WHERE '.implode(' AND ', $conditions);
-                $possibleusers = $DB->get_records_sql($sql, $whereparams);
-            }
+        $whereparams = array();
+        foreach ($submissions as $submission) {
+            $whereparams['submissionid'] = $submission->id;
+            $this->delete_answers($whereparams);
         }
-        // End of: Update completion state: step 1 of 2.
-
-        $context = context_module::instance($this->cm->id);
-        try {
-            $transaction = $DB->start_delegated_transaction();
-
-            foreach ($submissions as $submission) {
-                $DB->delete_records('surveypro_answer', array('submissionid' => $submission->id));
-
-                // Event: submission_deleted.
-                $eventdata = array('context' => $context, 'objectid' => $submission->id);
-                $event = \mod_surveypro\event\submission_deleted::create($eventdata);
-                $event->trigger();
-            }
-            $submissions->close();
-            $DB->delete_records('surveypro_submission', $whereparams);
-
-            // TODO: Am I forgetting submitted files?
-
-            $transaction->allow_commit();
-        } catch (Exception $e) {
-            // Extra cleanup steps.
-            $transaction->rollback($e); // Rethrows exception.
-        }
-
-        // Update completion state: step 2 of 2.
-        // Item deletion lead to COMPLETION_COMPLETE.
-        // All the students with an "in progress" submission that was missing ONLY the just deleted item,
-        // maybe now reach the activity completion.
-        if ($updatecompletion) {
-            $completion = new completion_info($COURSE);
-            if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
-                foreach ($possibleusers as $user) {
-                    $completion->update_state($this->cm, COMPLETION_INCOMPLETE, $user->id);
-                }
-            }
-        }
-        // End of: Update completion state: step 2 of 2.
+        $submissions->close();
     }
 
     /**
      * Delete answer.
      *
-     * This is the rationale: an item was deleted
-     * This method drops from EACH submission of the surveypro that had the deleted item
-     * the answer to that item
+     * Here I actually drop answers.
+     *
+     * I am free to choose to delete a submission (or set of submissions)
+     * or to delete a single answer of a submission (or set of answers).
+     * If I delete a submission the function delete_submissions will call this function (delete_answers).
+     * Without care to which function I call, only this function (delete_answers) will delete answers.
+     * This is the reason why the deletion of the parent submission is always executed here, too.
+     *
+     * $whereparams could be...
+     * array('id' => $answer->id);
+     * array('itemid' => $answer->itemid);
+     * array('submissionid' => $submission->id);
+     * array('submissionid' => $submission->id, 'content' => 'something');
      *
      * surveypro_submission           surveypro_answer
      *   id  <-----------------|        id
@@ -401,56 +324,116 @@ class mod_surveypro_utility {
      * @param array $whereparams
      * @return void
      */
-    public function delete_answer($whereparams=null) {
-        global $DB;
+    public function delete_answers($whereparams, $item=null) {
+        global $DB, $COURSE;
 
-        if (empty($whereparams)) {
-            $whereparams = array();
+        // Verify input params integrity.
+        $condition1 = array_key_exists('content', $whereparams);
+        $condition2 = array_key_exists('submissionid', $whereparams);
+        if ($condition1 && !$condition2) {
+            $message = 'I refuse to delete answers by content witout submissionid. Too dangerous.';
+            debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
 
-        // This is the list of the id of the submissions involved by the deletion of the answer.
-        if (array_key_exists('content', $whereparams)) {
-            // Take note about the submissionid of the answers you are going to delete.
-            $conditions = array();
-            foreach ($whereparams as $field => $unused) {
-                $conditions[$field] = $field.' = :'.$field;
+        $validanswerparams = array('id', 'submissionid', 'itemid', 'content');
+        $startingparams = array_keys($whereparams);
+        foreach ($startingparams as $startingparam) {
+            if (!in_array($startingparam, $validanswerparams)) {
+                $message = 'I can not delete answers using '.$startingparam.'. It is not an answer attribute.';
+                debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
             }
-            unset($conditions['content']);
+        }
+        // End of: Verify input params integrity.
 
-            $sql = 'SELECT submissionid
-                    FROM {surveypro_answer}
-                    WHERE content = '.$DB->sql_compare_text(':content');
-            if (count($conditions)) {
-                $sql .= ' AND '.implode(' AND ', $conditions);
-            }
-            $answers = $DB->get_records_sql($sql, $whereparams);
-
-            // Delete answers.
-            $sql = 'DELETE FROM {surveypro_answer}
-                    WHERE content = '.$DB->sql_compare_text($whereparams['content']);
-            unset($whereparams['content']);
-            foreach ($whereparams as $field => $value) {
-                $sql .= ' AND '.$field.' = '.$value;
-            }
-            $DB->execute($sql);
+        // Build the list of ids of the answers to delete.
+        if (array_key_exists('id', $whereparams)) {
+            $answersidlist = array($whereparams['id']);
         } else {
-            // Take note about the submissionid of the answers you are going to delete.
-            $answers = $DB->get_records('surveypro_answer', $whereparams, '', 'submissionid');
-
-            // Delete answers.
-            $DB->delete_records('surveypro_answer', $whereparams);
+            $answersidlist = $this->get_answers_idlist_from_answers($whereparams);
         }
 
-        foreach ($answers as $answer) {
-            // Once some answers were deleted, are there any more answers, for the same submission, still present?
-            $count = $DB->count_records('surveypro_answer', array('submissionid' => $answer->submissionid));
-            if (empty($count)) {
-                // No more answers for the same submission are still present. Delete the parent submission too.
-                $this->delete_submissions(array('id' => $answer->submissionid), true);
+        // Before deleting answers, get the list of involved user to recalculate their completion state.
+        $completionusers = $this->get_user_from_answersid($answersidlist);
+
+        // Before deleting answers, get the list of corresponding submissions.
+        $submissionsid = $this->get_submissions_idlist_from_answersid($answersidlist);
+
+        try {
+            $transaction = $DB->start_delegated_transaction();
+
+            // Before deleting answers, delete their attachments, if they exist.
+            $this->drop_uploadfile_attachments($answersidlist);
+
+            // Now, finally, delete answers.
+            if (array_key_exists('content', $whereparams)) {
+                $sql = 'DELETE FROM {surveypro_answer}
+                        WHERE content = '.$DB->sql_compare_text($whereparams['content']);
+                unset($whereparams['content']);
+                foreach ($whereparams as $field => $value) {
+                    $sql .= ' AND '.$field.' = '.$value;
+                }
+                // Here I actually delete a set of answers.
+                $DB->execute($sql);
+            } else {
+                // Here I actually delete a set of answers.
+                $DB->delete_records('surveypro_answer', $whereparams);
+            }
+            // End of: Now, finally, delete answers.
+
+            // Now that $answers were deleted, kill parent submissions if they have no more children.
+            foreach ($submissionsid as $submissionid) {
+                // Now that few answers were deleted, are there any more answers, for the same submission, still present?
+                $count = $DB->count_records('surveypro_answer', array('submissionid' => $submissionid));
+                if (empty($count)) {
+                    // No more answers for this submission are still present. Delete this submission too.
+                    // Here I actually delete a submissions.
+                    $DB->delete_records('surveypro_submission', array('id' => $submissionid));
+                }
+            }
+            // End of: Now that $answers were deleted, kill parent submissions if they have no more children.
+
+            // If this method was called from delete_items, you are supposed to delete related item too.
+            if ($item) {
+                // Here I actually delete items.
+                $DB->delete_records('surveypro'.$item->type.'_'.$item->plugin, array('itemid' => $item->id));
+                $DB->delete_records('surveypro_item', array('id' => $item->id));
+            }
+            // End of: If this method was called from delete_items, you are supposed to delete related items too.
+
+            // If no error rise up, execution continue and I can log events.
+            $context = context_module::instance($this->cm->id);
+            foreach ($submissionsid as $submissionid) {
+                // Event: submission_deleted.
+                $eventdata = array('context' => $context, 'objectid' => $submissionid);
+                $event = \mod_surveypro\event\submission_deleted::create($eventdata);
+                $event->trigger();
+            }
+
+            if ($item) {
+                // Event: item_deleted.
+                $eventdata = array('context' => $context, 'objectid' => $item->id);
+                $eventdata['other'] = array('plugin' => $item->plugin);
+                $event = \mod_surveypro\event\item_deleted::create($eventdata);
+                $event->trigger();
+            }
+            // End of: If no error rise up, execution continue and I can log events.
+
+            $transaction->allow_commit();
+        } catch (Exception $e) {
+            // Extra cleanup steps.
+            $transaction->rollback($e); // Rethrows exception.
+        }
+
+        // Now that $answers were deleted, update completion state
+        // Item deletion lead to COMPLETION_COMPLETE.
+        // All the students with an "in progress" submission that were missing ONLY the deleted items,
+        // now may get the activity completion.
+        $completion = new completion_info($COURSE);
+        if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
+            foreach ($completionusers as $user) {
+                $completion->update_state($this->cm, COMPLETION_COMPLETE, $user->id);
             }
         }
-
-        // TODO: Am I forgetting submitted files?
     }
 
     /**
@@ -465,19 +448,17 @@ class mod_surveypro_utility {
      *   timemodified                   contentformat
      *
      * @param array $whereparams
-     * @param bool $updatecompletion
      * @return void
      */
-    public function duplicate_submissions($whereparams=null, $updatecompletion=true) {
+    public function duplicate_submissions($whereparams) {
         global $DB, $COURSE;
 
-        if (empty($whereparams)) {
-            $whereparams = array();
-        }
         // Just in case the call is missing the surveypro id, I add it.
         if (!array_key_exists('surveyproid', $whereparams)) {
             $whereparams['surveyproid'] = $this->surveypro->id;
         }
+
+        $fs = get_file_storage();
 
         $context = context_module::instance($this->cm->id);
         try {
@@ -485,57 +466,47 @@ class mod_surveypro_utility {
 
             $submissions = $DB->get_recordset('surveypro_submission', $whereparams, '');
 
-            if (count($whereparams) == 1) { // Duplicate all the submissions of this surveypro.
-                foreach ($submissions as $submission) {
-                    $submissionid = $submission->id;
+            foreach ($submissions as $submission) {
+                $submissionid = $submission->id;
 
-                    unset($submission->id);
-                    // $submission->userid = $USER->id; // Assign the duplicate to the user performing the action.
-                    $submission->timecreated = time();
-                    unset($submission->timemodified);
-                    $newsubmissionid = $DB->insert_record('surveypro_submission', $submission);
+                unset($submission->id);
+                // $submission->userid = $USER->id; // Assign the duplicate to the user performing the action.
+                $submission->timecreated = time();
+                unset($submission->timemodified);
+                $newsubmissionid = $DB->insert_record('surveypro_submission', $submission);
 
-                    $useranswers = $DB->get_recordset('surveypro_answer', array('submissionid' => $submissionid));
-                    foreach ($useranswers as $useranswer) {
-                        unset($useranswer->id);
-                        $useranswer->submissionid = $newsubmissionid;
-                        $DB->insert_record('surveypro_answer', $useranswer);
+                $useranswers = $DB->get_recordset('surveypro_answer', array('submissionid' => $submissionid));
+                foreach ($useranswers as $useranswer) {
+                    $originalanswerid = $useranswer->id;
+
+                    unset($useranswer->id);
+                    $useranswer->submissionid = $newsubmissionid;
+                    $newanswerid = $DB->insert_record('surveypro_answer', $useranswer);
+
+                    // Make a copy of the attachments if they esist.
+                    $files = $fs->get_area_files($context->id, 'surveyprofield_fileupload', 'fileuploadfiles', $originalanswerid);
+                    foreach ($files as $file) {
+                        $filename = $file->get_filename();
+                        if ($filename == '.') {
+                            continue;
+                        } else {
+                            $filerecord = array();
+                            $filerecord['contextid'] = $context->id;
+                            $filerecord['component'] = 'surveyprofield_fileupload';
+                            $filerecord['filearea'] = 'fileuploadfiles';
+                            $filerecord['itemid'] = $newanswerid;
+                            $fs->create_file_from_storedfile($filerecord, $file);
+                        }
                     }
-                    $useranswers->close();
-
-                    // Event: submission_duplicated.
-                    $eventdata = array('context' => $context, 'objectid' => $submissionid);
-                    $event = \mod_surveypro\event\submission_duplicated::create($eventdata);
-                    $event->trigger();
                 }
-                $submissions->close();
+                $useranswers->close();
+
+                // Event: submission_duplicated.
+                $eventdata = array('context' => $context, 'objectid' => $submissionid);
+                $event = \mod_surveypro\event\submission_duplicated::create($eventdata);
+                $event->trigger();
             }
-
-            if (count($whereparams) > 1) { // Some more detail about submissions were provided in $whereparams.
-                foreach ($submissions as $submission) {
-                    $submissionid = $submission->id;
-
-                    unset($submission->id);
-                    // $submission->userid = $USER->id; // Assign the duplicate to the user performing the action.
-                    $submission->timecreated = time();
-                    unset($submission->timemodified);
-                    $newsubmissionid = $DB->insert_record('surveypro_submission', $submission);
-
-                    $useranswers = $DB->get_recordset('surveypro_answer', array('submissionid' => $submissionid));
-                    foreach ($useranswers as $useranswer) {
-                        unset($useranswer->id);
-                        $useranswer->submissionid = $newsubmissionid;
-                        $DB->insert_record('surveypro_answer', $useranswer);
-                    }
-                    $useranswers->close();
-
-                    // Event: submission_duplicated.
-                    $eventdata = array('context' => $context, 'objectid' => $submissionid);
-                    $event = \mod_surveypro\event\submission_duplicated::create($eventdata);
-                    $event->trigger();
-                }
-                $submissions->close();
-            }
+            $submissions->close();
 
             $transaction->allow_commit();
         } catch (Exception $e) {
@@ -543,33 +514,213 @@ class mod_surveypro_utility {
             $transaction->rollback($e); // Rethrows exception.
         }
 
-        if ($updatecompletion) {
-            if (count($whereparams) == 1) { // Duplicate all the submissions of this surveypro.
-                // Update completion state.
-                $possibleusers = surveypro_get_participants($this->surveypro->id);
+        if (count($whereparams) == 1) { // Duplicate all the submissions of this surveypro.
+            // Update completion state.
+            $possibleusers = surveypro_get_participants($this->surveypro->id);
+        }
+
+        if (count($whereparams) > 1) { // Some more detail about submissions were provided in $whereparams.
+            $conditions = array();
+            foreach ($whereparams as $field => $unused) {
+                $conditions[$field] = $field.' = :'.$field;
             }
 
-            if (count($whereparams) > 1) { // Some more detail about submissions were provided in $whereparams.
-                $conditions = array();
-                foreach ($whereparams as $field => $unused) {
-                    $conditions[$field] = $field.' = :'.$field;
-                }
+            $sql = 'SELECT DISTINCT userid as id
+                    FROM {surveypro_submission}
+                    WHERE '.implode(' AND ', $conditions);
+            $possibleusers = $DB->get_records_sql($sql, $whereparams);
 
-                $sql = 'SELECT DISTINCT userid as id
-                        FROM {surveypro_submission}
-                        WHERE '.implode(' AND ', $conditions);
-                $possibleusers = $DB->get_records_sql($sql, $whereparams);
+            // Update completion state.
+        }
 
-                // Update completion state.
-            }
-
-            $completion = new completion_info($COURSE);
-            if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
-                foreach ($possibleusers as $user) {
-                    $completion->update_state($this->cm, COMPLETION_COMPLETE, $user->id);
-                }
+        $completion = new completion_info($COURSE);
+        if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
+            foreach ($possibleusers as $user) {
+                $completion->update_state($this->cm, COMPLETION_COMPLETE, $user->id);
             }
         }
+    }
+
+    /**
+     * Get the list of users involved in the passed answersid
+     *
+     * @param array $answersid
+     * @return recordset of users id
+     */
+    public function get_user_from_answersid($answersid) {
+        global $DB;
+
+        if (empty($answersid)) {
+            return;
+        }
+
+        list($insql, $inparams) = $DB->get_in_or_equal($answersid, SQL_PARAMS_NAMED);
+        $sql = 'SELECT s.userid as id
+                FROM {surveypro_submission} s
+                    JOIN {surveypro_answer} a ON s.id = a.submissionid
+                WHERE s.surveyproid = :surveyproid
+                    AND a.itemid '.$insql.'
+                GROUP BY s.id';
+        $whereparams = $inparams;
+        $whereparams['surveyproid'] = $this->surveypro->id;
+        $users = $DB->get_recordset_sql($sql, $whereparams);
+
+        return $users;
+    }
+
+    /**
+     * Get the list of answer going to be deleted
+     *
+     * @param array $whereparams
+     * @return recordset of answers id
+     */
+    public function get_answers_idlist_from_answers($whereparams) {
+        global $DB;
+
+        // Verify input params integrity.
+        $validanswerparams = array('id', 'submissionid', 'itemid', 'content');
+        $startingparams = array_keys($whereparams);
+        foreach ($startingparams as $startingparam) {
+            if (!in_array($startingparam, $validanswerparams)) {
+                $message = 'I can not delete answers using '.$startingparam.'. It is not an answer attribute.';
+                debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+            }
+        }
+
+        $condition1 = array_key_exists('content', $whereparams);
+        $condition2 = array_key_exists('submissionid', $whereparams);
+        if ($condition1 && !$condition2) {
+            $message = 'I refuse to delete answers by content witout submissionid. Too dangerous.';
+            debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+        }
+        // End of: Verify input params integrity.
+
+        if (array_key_exists('content', $whereparams)) {
+            $conditions = array();
+            foreach ($whereparams as $field => $unused) {
+                $conditions[$field] = $field.' = :'.$field;
+            }
+            unset($conditions['content']);
+
+            $sql = 'SELECT id
+                    FROM {surveypro_answer}
+                    WHERE content = '.$DB->sql_compare_text(':content');
+            // $whereparams['content'] is never alone.
+            $sql .= ' AND '.implode(' AND ', $conditions);
+            $answers = $DB->get_records_sql($sql, $whereparams);
+        } else {
+            // Take note about the submissionid of the answers you are going to delete.
+            $answers = $DB->get_records('surveypro_answer', $whereparams, '', 'id');
+        }
+        $answers = array_keys($answers);
+
+        return $answers;
+    }
+
+    /**
+     * Get the list of id of submissions parents of $answersid
+     *
+     * @param array $answersid
+     * @return recordset of submissions id
+     */
+    public function get_submissions_idlist_from_answersid($answersid) {
+        global $DB;
+
+        if (!is_array($answersid)) {
+            $message = 'Answer ids must be an array';
+            debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+        }
+        if (empty($answersid)) {
+            return array();
+        }
+
+        list($insql, $inparams) = $DB->get_in_or_equal($answersid, SQL_PARAMS_NAMED, 'answerid');
+        $sql = 'SELECT submissionid
+                FROM {surveypro_answer}
+                WHERE id '.$insql.'
+                GROUP BY submissionid
+                ORDER BY submissionid';
+        // $submissionsid = $DB->get_records_select('surveypro_answer', "id {$insql}", $inparams, 'submissionid', 'id, submissionid');
+        $submissionsid = $DB->get_records_sql_menu($sql, $inparams);
+        $submissionsid = array_keys($submissionsid);
+
+        return $submissionsid;
+    }
+
+    /**
+     * Get submissions id from answers.
+     *
+     * @param array $whereparams
+     * @return recordset of submissions id
+     */
+    public function get_submissionsid_from_answers($whereparams) {
+        global $DB;
+
+        // Verify input params integrity.
+        $validanswerparams = array('id', 'submissionid', 'itemid', 'content');
+        $startingparams = array_keys($whereparams);
+        foreach ($startingparams as $startingparam) {
+            if (!in_array($startingparam, $validanswerparams)) {
+                $message = 'I can not get answers using '.$startingparam.'. It is not an answer attribute.';
+                debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+            }
+        }
+        // End of: Verify input params integrity.
+
+        if (!array_key_exists('surveyproid', $whereparams)) {
+            $whereparams['surveyproid'] = $this->surveypro->id;
+        }
+
+        // Get submissions from constrains on surveypro_answer.
+        $sql = 'SELECT s.id
+                FROM {surveypro_submission} s
+                  JOIN {surveypro_answer} a ON a.submissionid = s.id
+                WHERE (s.surveyproid = :surveyproid)';
+        $conditions = array();
+        foreach ($whereparams as $field => $unused) {
+            $conditions[$field] = 'a.'.$field.' = :'.$field;
+        }
+        unset($conditions['surveyproid']); // That has s. as prefix.
+        if (isset($conditions['content'])) {
+            unset($conditions['content']); // This is going to be set in next 5 lines.
+        }
+
+        if (count($conditions)) {
+            $sql .= ' AND '.implode(' AND ', $conditions);
+        }
+        if (array_key_exists('content', $whereparams)) {
+            $sql .= ' AND a.content = '.$DB->sql_compare_text(':content');
+            unset($conditions['content']);
+        }
+
+        return $DB->get_recordset_sql($sql, $whereparams);
+    }
+
+    /**
+     * Drop answer related uploadfile attachments.
+     *
+     * Here I actually drop files related to answers.
+     *
+     * @param array $submissions List of the id's of the submissions
+     * @return void
+     */
+    public function drop_uploadfile_attachments($answersid) {
+        global $DB;
+
+        if (!is_array($answersid)) {
+            $message = 'Answer ids must be an array';
+            debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+        }
+        if (empty($answersid)) {
+            return;
+        }
+
+        $context = context_module::instance($this->cm->id);
+
+        list($insql, $inparams) = $DB->get_in_or_equal($answersid, SQL_PARAMS_NAMED);
+
+        $fs = get_file_storage();
+        $fs->delete_area_files_select($context->id, 'surveyprofield_fileupload', 'fileuploadfiles', $insql, $inparams);
     }
 
     /**
@@ -693,44 +844,6 @@ class mod_surveypro_utility {
     }
 
     /**
-     * Get submissions id from answers.
-     *
-     * @param array $whereparams
-     * @return recordset
-     */
-    public function get_submissionsid_from_answers($whereparams) {
-        global $DB;
-
-        if (!array_key_exists('surveyproid', $whereparams)) {
-            $whereparams['surveyproid'] = $this->surveypro->id;
-        }
-
-        // Get submissions from constrains on surveypro_answer.
-        $sql = 'SELECT s.id
-                FROM {surveypro_submission} s
-                  JOIN {surveypro_answer} a ON a.submissionid = s.id
-                WHERE (s.surveyproid = :surveyproid)';
-        $conditions = array();
-        foreach ($whereparams as $field => $unused) {
-            $conditions[$field] = 'a.'.$field.' = :'.$field;
-        }
-        unset($conditions['surveyproid']); // That has s. as prefix.
-        if (isset($conditions['content'])) {
-            unset($conditions['content']); // This is going to be set in next 5 lines.
-        }
-
-        if (count($conditions)) {
-            $sql .= ' AND '.implode(' AND ', $conditions);
-        }
-        if (array_key_exists('content', $whereparams)) {
-            $sql .= ' AND a.content = '.$DB->sql_compare_text(':content');
-            unset($conditions['content']);
-        }
-
-        return $DB->get_recordset_sql($sql, $whereparams);
-    }
-
-    /**
      * Perform necessary followup to the change of obligatoriness.
      *
      * @param int $itemid
@@ -750,7 +863,7 @@ class mod_surveypro_utility {
             $whereparams = array();
             $whereparams['submissionid'] = $submission->id;
             $whereparams['content'] = SURVEYPRO_NOANSWERVALUE;
-            $this->delete_answer($whereparams);
+            $this->delete_answers($whereparams);
         }
         $submissions->close();
     }
@@ -774,6 +887,7 @@ class mod_surveypro_utility {
         if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
             $message .= get_string('hassubmissions_alert_activitycompletion', 'mod_surveypro');
         }
+
         return $message;
     }
 
