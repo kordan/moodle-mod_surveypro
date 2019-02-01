@@ -115,7 +115,6 @@ class mod_surveypro_submission {
         $this->set_searchquery($searchquery);
 
         $this->prevent_direct_user_input($confirm);
-        $this->submission_to_pdf();
     }
 
     // MARK set.
@@ -1441,12 +1440,8 @@ class mod_surveypro_submission {
      *
      * @return void
      */
-    private function submission_to_pdf() {
+    public function submission_to_pdf() {
         global $CFG, $DB;
-
-        if ($this->view != SURVEYPRO_RESPONSETOPDF) {
-            return;
-        }
 
         // Event: submissioninpdf_downloaded.
         $eventdata = array('context' => $this->context, 'objectid' => $this->submissionid);
@@ -1478,60 +1473,164 @@ class mod_surveypro_submission {
         foreach ($itemseeds as $itemseed) {
             // Pagebreaks are not selected by surveypro_fetch_items_seeds.
             $item = surveypro_get_item($this->cm, $this->surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);
-            $template = $item::item_get_pdf_template();
-            if ($template == SURVEYPRO_2COLUMNSTEMPLATE) {
-                // First column.
-                $html = $twocolstemplate;
-                $content = ($item->get_customnumber()) ? $item->get_customnumber().':' : '';
-                $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
-                $html = str_replace('@@col1@@', $content, $html);
 
-                // Second column: colspan 2.
-                // I can't use $content = trim(strip_tags($item->get_content()), " \t\n\r"); because I want images in the PDF.
-                $content = $item->get_content();
-                // Why does $content here is already html encoded so that I do not have to apply htmlspecialchars?
-                // $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
-                $html = str_replace('@@col2@@', $content, $html);
-                $pdf->writeHTMLCell(0, 0, '', '', $html, $border, 1, 0, true, '', true); // This is like span 2.
-            }
+            $template = $item::item_get_pdf_template();
+            $html = ($template == SURVEYPRO_2COLUMNSTEMPLATE) ? $twocolstemplate : $threecolstemplate;
+
+            // First column.
+            $content = ($item->get_customnumber()) ? $item->get_customnumber().':' : '';
+            // $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
+            $html = str_replace('@@col1@@', $content, $html);
+
+            // Second column.
+            $content = $item->get_content();
+            $content = $this->replace_http_url($content);
+            // $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
+            $html = str_replace('@@col2@@', $content, $html);
 
             if ($template == SURVEYPRO_3COLUMNSTEMPLATE) {
-                // First column.
-                $html = $threecolstemplate;
-                $content = ($item->get_customnumber()) ? $item->get_customnumber().':' : '';
-                $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
-                $html = str_replace('@@col1@@', $content, $html);
-
-                // Second column.
-                // I can't use $content = trim(strip_tags($item->get_content()), " \t\n\r"); because I want images in the PDF.
-                $content = $item->get_content();
-                // Why does $content here is already html encoded so that I do not have to apply htmlspecialchars?
-                // Because it comes from an editor?
-                // $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
-                $html = str_replace('@@col2@@', $content, $html);
-
                 // Third column.
                 if (isset($userdatarecord[$itemseed->id])) {
                     $content = $item->userform_db_to_export($userdatarecord[$itemseed->id], SURVEYPRO_FRIENDLYFORMAT);
-                    if ($item->get_plugin() != 'textarea') { // Content does not come from an html editor.
-                        $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
-                        $content = str_replace(SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR, '<br />', $content);
-                    } else { // Content comes from a textarea item.
-                        if (!$item->get_useeditor()) { // Content does not come from an html editor.
-                            $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
-                        }
-                    }
+                    // $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
+                    $content = str_replace(SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR, '<br />', $content);
                 } else {
                     $content = $answernotprovided;
                 }
+                $content = $this->replace_http_url($content);
                 $html = str_replace('@@col3@@', $content, $html);
-                $pdf->writeHTMLCell(0, 0, '', '', $html, $border, 1, 0, true, '', true);
             }
+
+            $pdf->writeHTMLCell(0, 0, '', '', $html, $border, 1, 0, true, '', true);
         }
 
         $filename = $this->surveypro->name.'_'.$this->submissionid.'.pdf';
         $pdf->Output($filename, 'D');
+
+        // Remember to empty $CFG->tempdir.'/mod_surveypro/PDF_temp/ folder.
+        $tempsubdir = $CFG->tempdir.'/mod_surveypro/PDF_temp';
+        $files = scandir($tempsubdir);
+        foreach ($files as $file) {
+            if (($file != '.') && ($file != '..')) {
+                unlink($tempsubdir.'/'.$file);
+            }
+        }
         die();
+    }
+
+    /**
+     * Is there any image into the content?
+     * If a file (usually picture) is found in $item->content replace its http address with its phisical address.
+     * The reason is due to surveypro_pluginfile that deny the file (returning null).
+     * The user calling surveypro_pluginfile is the PDF agent (and not the logged user) and surveypro_pluginfile stops it.
+     * To avoid the call to surveypro_pluginfile I need to use the phisical file address.
+     * This behaviour of surveypro_pluginfile is correct and due to file security: not logged users are not allowed to get my files.
+     *
+     * stored in DB:
+     * '<p><img src="@@PLUGINFILE@@/apple.jpg" alt="apple" class="..." width="212" height="160" /></p>';
+     * Returned by $item->get_content():
+     * '<p><img src="http://localhost/master/pluginfile.php/150/mod_surveypro/itemcontent/1458/apple.jpg" alt="apple" class="..." width="212" height="160" /></p>';
+     * What I am supposed to rewrite:
+     * '<p><img src="$CFG->tempdir.'/mod_surveypro/PDF_temp/apple.jpg" alt="apple" class="..." width="212" height="160" /></p>';
+     *
+     * :: Example ::
+     * If I find:
+     *     <img src="http://localhost/master/pluginfile.php/150/mod_surveypro/itemcontent/1458/apple.jpg" alt="apple"...
+     * I have to replace it with:
+     *     <img src="$CFG->tempdir.'/mod_surveypro/PDF_temp/apple.jpg" alt="apple"...
+     *
+     * @param string $content
+     * @return $content with each http url replaced by a direct link
+     */
+    private function replace_http_url($content) {
+        global $CFG;
+
+        $regex = '~"('.$CFG->wwwroot.'/pluginfile.php/[^"]*)"~';
+        $regex = addslashes($regex);
+        preg_match_all($regex, $content, $httpurls, PREG_SET_ORDER);
+
+        $tempsubdir = $CFG->tempdir.'/mod_surveypro/PDF_temp/';
+        make_temp_directory('mod_surveypro/PDF_temp');
+        foreach ($httpurls as $httpurl) {
+            $fileurl = $httpurl[0];
+            if ($file = $this->get_image_file($fileurl)) {
+                // make a copy of the file in the moodledata temp folder
+                // and replace the web address with the phisical address to the moodledata temp file
+
+                $filename = $file->get_filename();
+                $directlink = $tempsubdir.$filename;
+                $filehandler = fopen($directlink, 'w');
+                fwrite($filehandler, $file->get_content());
+                fclose($filehandler);
+            }
+            $content = str_replace($httpurl[1], $directlink, $content);
+        }
+
+        return $content;
+    }
+
+    /**
+     * Get the file content starting from its URL
+     *
+     * @param string $fileurl
+     * @return $content with each http url replaced by a direct link
+     */
+    private function get_image_file($fileurl) {
+        global $CFG;
+
+        if (strpos($fileurl, $CFG->wwwroot.'/pluginfile.php') === false) {
+            return null;
+        }
+
+        $fs = get_file_storage();
+
+        $params = substr($fileurl, strlen($CFG->wwwroot.'/pluginfile.php'));
+        if (substr($params, 0, 1) == '?') { // Slasharguments off.
+            $pos = strpos($params, 'file=');
+            $params = substr($params, $pos + 5);
+        } else { // Slasharguments on.
+            if (($pos = strpos($params, '?')) !== false) {
+                $params = substr($params, 0, $pos);
+            }
+        }
+        $params = urldecode($params);
+        $params = explode('/', $params);
+        array_shift($params); // Remove empty first param.
+        $contextid = (int)array_shift($params);
+        $component = clean_param(array_shift($params), PARAM_COMPONENT);
+        $filearea  = clean_param(array_shift($params), PARAM_AREA);
+        $itemid = array_shift($params);
+
+        if (empty($params)) {
+            $filename = $itemid;
+            $itemid = 0;
+        } else {
+            $filename = array_pop($params);
+        }
+
+        if (empty($params)) {
+            $filepath = '/';
+        } else {
+            $filepath = '/'.implode('/', $params).'/';
+        }
+
+        if ($component != 'mod_surveypro') {
+            return null; // Only allowed to include files directly from this surveypro.
+        }
+
+        if (!$file = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $filename)) {
+            if ($itemid) {
+                $filepath = '/'.$itemid.$filepath; // See if there was no itemid in the originalPath URL.
+                $itemid = 0;
+                $file = $fs->get_file($contextid, $component, $filename, $itemid, $filepath, $filename);
+            }
+        }
+
+        if (!$file) {
+            return null;
+        }
+
+        return $file;
     }
 
     /**
