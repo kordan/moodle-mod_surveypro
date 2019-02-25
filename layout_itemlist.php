@@ -68,25 +68,24 @@ $hassubmissions = $utilityman->has_submissions();
 $itemcount = $utilityman->has_input_items(0, true, true, true);
 
 // Define the manager.
-$itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro);
-$itemlistman->set_type($type);
-$itemlistman->set_plugin($plugin);
-$itemlistman->set_itemid($itemid);
-$itemlistman->set_sortindex($sortindex);
-$itemlistman->set_action($action);
-$itemlistman->set_view($view);
-$itemlistman->set_itemtomove($itemtomove);
-$itemlistman->set_lastitembefore($lastitembefore);
-$itemlistman->set_confirm($confirm);
-$itemlistman->set_nextindent($nextindent);
-$itemlistman->set_parentid($parentid);
-$itemlistman->set_itemeditingfeedback($itemeditingfeedback);
-$itemlistman->set_hassubmissions($hassubmissions);
-$itemlistman->set_itemcount($itemcount);
+$layoutman = new mod_surveypro_layout($cm, $context, $surveypro);
+$layoutman->set_type($type);
+$layoutman->set_plugin($plugin);
+$layoutman->set_itemid($itemid);
+$layoutman->set_sortindex($sortindex);
+$layoutman->set_action($action);
+$layoutman->set_view($view);
+$layoutman->set_itemtomove($itemtomove);
+$layoutman->set_lastitembefore($lastitembefore);
+$layoutman->set_confirm($confirm);
+$layoutman->set_nextindent($nextindent);
+$layoutman->set_parentid($parentid);
+$layoutman->set_itemeditingfeedback($itemeditingfeedback);
+$layoutman->set_hassubmissions($hassubmissions);
 
-$itemlistman->actions_execution();
+$layoutman->actions_execution();
 $hassubmissions = $utilityman->has_submissions();
-$itemlistman->set_hassubmissions($hassubmissions);
+$layoutman->set_hassubmissions($hassubmissions);
 
 $riskyediting = ($surveypro->riskyeditdeadline > time());
 
@@ -137,7 +136,7 @@ if ($bulkactioncondition) {
 
     // Manage bulkaction form.
     if ($formdata = $bulkactionform->get_data()) {
-        $itemlistman->set_action($formdata->bulkaction);
+        $layoutman->set_action($formdata->bulkaction);
     }
 }
 
@@ -166,8 +165,8 @@ if ($hassubmissions) {
     echo $OUTPUT->notification($message, 'notifyproblem');
 }
 
-$itemlistman->actions_feedback();
-$itemlistman->display_item_editing_feedback();
+$layoutman->actions_feedback();
+$layoutman->display_item_editing_feedback();
 
 if (!$itemcount) {
     // Display welcome message.
@@ -190,7 +189,7 @@ if (!$itemcount) {
     $mtemplateform->display();
 }
 
-$itemlistman->display_items_table();
+$layoutman->display_items_table();
 
 // Finish the page.
 echo $OUTPUT->footer();

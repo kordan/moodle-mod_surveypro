@@ -585,22 +585,22 @@ class mod_surveypro_itembase {
             if ($oldhidden != $newhidden) {
                 $action = ($oldhidden) ? SURVEYPRO_SHOWITEM : SURVEYPRO_HIDEITEM;
 
-                $itemlistman = new mod_surveypro_itemlist($this->cm, $context, $this->surveypro);
-                $itemlistman->set_type($this->type);
-                $itemlistman->set_plugin($this->plugin);
-                $itemlistman->set_itemid($itemid);
-                $itemlistman->set_action($action);
-                $itemlistman->set_view(SURVEYPRO_NOVIEW);
-                $itemlistman->set_confirm(SURVEYPRO_CONFIRMED_YES);
+                $layoutman = new mod_surveypro_layout($this->cm, $context, $this->surveypro);
+                $layoutman->set_type($this->type);
+                $layoutman->set_plugin($this->plugin);
+                $layoutman->set_itemid($itemid);
+                $layoutman->set_action($action);
+                $layoutman->set_view(SURVEYPRO_NOVIEW);
+                $layoutman->set_confirm(SURVEYPRO_CONFIRMED_YES);
 
                 // Begin of: Hide/unhide part 2.
                 if ( ($oldhidden == 1) && ($newhidden == 0) ) {
-                    $itemlistman->item_show_execute();
+                    $layoutman->item_show_execute();
                     // A chain of parent items was shown.
                     $this->itemeditingfeedback += 4; // 1*2^2.
                 }
                 if ( ($oldhidden == 0) && ($newhidden == 1) ) {
-                    $itemlistman->item_hide_execute();
+                    $layoutman->item_hide_execute();
                     // Chain of children items was hided.
                     $this->itemeditingfeedback += 8; // 1*2^3.
                 }
@@ -611,23 +611,23 @@ class mod_surveypro_itembase {
             if ($oldreserved != $newreserved) {
                 $action = ($oldreserved) ? SURVEYPRO_MAKEAVAILABLE : SURVEYPRO_MAKERESERVED;
 
-                $itemlistman = new mod_surveypro_itemlist($this->cm, $context, $this->surveypro);
-                $itemlistman->set_type($this->type);
-                $itemlistman->set_plugin($this->plugin);
-                $itemlistman->set_itemid($itemid);
-                $itemlistman->set_action($action);
-                $itemlistman->set_view(SURVEYPRO_NOVIEW);
-                $itemlistman->set_confirm(SURVEYPRO_CONFIRMED_YES);
+                $layoutman = new mod_surveypro_layout($this->cm, $context, $this->surveypro);
+                $layoutman->set_type($this->type);
+                $layoutman->set_plugin($this->plugin);
+                $layoutman->set_itemid($itemid);
+                $layoutman->set_action($action);
+                $layoutman->set_view(SURVEYPRO_NOVIEW);
+                $layoutman->set_confirm(SURVEYPRO_CONFIRMED_YES);
 
                 // Begin of: Make reserved/free part 2.
                 if ( ($oldreserved == 1) && ($newreserved == 0) ) {
-                    if ($itemlistman->item_makeavailable_execute()) {
+                    if ($layoutman->item_makeavailable_execute()) {
                         // A chain of parents items inherited free access.
                         $this->itemeditingfeedback += 16; // 1*2^4.
                     }
                 }
                 if ( ($oldreserved == 0) && ($newreserved == 1) ) {
-                    if ($itemlistman->item_makereserved_execute()) {
+                    if ($layoutman->item_makereserved_execute()) {
                         // A chain of children items inherited reserved access.
                         $this->itemeditingfeedback += 32; // 1*2^5.
                     }
@@ -860,7 +860,7 @@ class mod_surveypro_itembase {
     /**
      * This method defines if an item can be switched to mandatory or not.
      *
-     * Used by mod_surveypro_itemlist->display_items_table() to define the icon to show
+     * Used by mod_surveypro_layout->display_items_table() to define the icon to show
      *
      * @return boolean
      */

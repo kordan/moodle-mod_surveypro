@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Contains class mod_surveypro\mod_surveypro_itemlist_customnumber
+ * Contains class mod_surveypro\mod_surveypro_layout_customnumber
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_itemlist_customnumber extends \core\output\inplace_editable {
+class mod_surveypro_layout_customnumber extends \core\output\inplace_editable {
     /**
      * Constructor.
      *
@@ -40,7 +40,7 @@ class mod_surveypro_itemlist_customnumber extends \core\output\inplace_editable 
      */
     public function __construct($itemid, $customnumber) {
         $custnumber = format_string($customnumber);
-        parent::__construct('mod_surveypro', 'itemlist_customnumber', $itemid, true, $custnumber, $custnumber);
+        parent::__construct('mod_surveypro', 'layout_customnumber', $itemid, true, $custnumber, $custnumber);
     }
 
     /**
