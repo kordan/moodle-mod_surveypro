@@ -1330,6 +1330,13 @@ class mod_surveypro_layout {
         global $DB;
 
         if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
+            // After the item deletion action, if the user reload the page, the deletion is performed again rising up an error.
+            // If the item to drop is not in the db, this means that the user already deleted it and is reloading the page.
+            // In this case, stop the deletion execution.
+            if (!$DB->record_exists('surveypro_item', array('id' => $this->rootitemid))) {
+                return;
+            }
+
             $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
             $utilityman->reset_items_pages();
             $whereparams = array('surveyproid' => $this->surveypro->id);
