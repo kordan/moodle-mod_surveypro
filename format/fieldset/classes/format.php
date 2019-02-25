@@ -78,6 +78,7 @@ class surveyproformat_fieldset_format extends mod_surveypro_itembase {
         $this->insetupform['extranote'] = false;
         $this->insetupform['required'] = false;
         $this->insetupform['variable'] = false;
+        $this->insetupform['insearchform'] = false;
         $this->insetupform['indent'] = false;
         $this->insetupform['hideinstructions'] = false;
 
