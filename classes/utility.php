@@ -112,15 +112,27 @@ class mod_surveypro_utility {
      * Return if the survey has input items.
      *
      * @param int $formpage
-     * @param int $returncount
+     * @param string $type
      * @param bool $includehidden
      * @param bool $includereserved
+     * @param int $returncount
      * @return bool|int as required by $returncount
      */
-    public function has_input_items($formpage=0, $returncount=false, $includehidden=false, $includereserved=false) {
+    public function layout_has_items($formpage=0, $type=null, $includehidden=false, $includereserved=false, $returncount=false) {
         global $DB;
 
-        $whereparams = array('surveyproid' => $this->surveypro->id, 'type' => SURVEYPRO_TYPEFIELD);
+        if (!empty($type)) {
+            if (($type != SURVEYPRO_TYPEFIELD) && ($type != SURVEYPRO_TYPEFORMAT)) {
+                $message = 'Unexpected value for $type found.';
+                $message .= 'Valid values are only: '.SURVEYPRO_TYPEFIELD.' or '.SURVEYPRO_TYPEFORMAT.'.';
+                debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+            }
+        }
+
+        $whereparams = array('surveyproid' => $this->surveypro->id);
+        if (!empty($type)) {
+            $whereparams['type'] = $type;
+        }
         if (!empty($formpage)) {
             $whereparams['formpage'] = $formpage;
         }
@@ -1208,7 +1220,7 @@ class mod_surveypro_utility {
         $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
         $canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context);
 
-        $itemcount = $this->has_input_items(0, true, $canmanageitems, $canaccessreserveditems);
+        $itemcount = $this->layout_has_items(0, SURVEYPRO_TYPEFIELD, $canmanageitems, $canaccessreserveditems, true);
 
         $addnew = true;
         $addnew = $addnew && $cansubmit;
