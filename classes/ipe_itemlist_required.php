@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Contains class mod_surveypro\mod_surveypro_itemlist_insearchform
+ * Contains class mod_surveypro\mod_surveypro_ipe_itemlist_required
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_itemlist_insearchform extends \core\output\inplace_editable {
+class mod_surveypro_ipe_itemlist_required extends \core\output\inplace_editable {
 
     /**
      * @var sortindex
@@ -44,14 +44,14 @@ class mod_surveypro_itemlist_insearchform extends \core\output\inplace_editable 
      * Constructor.
      *
      * @param int $itemid
-     * @param bool $insearchform
+     * @param bool $required
      * @param int $sortindex
      */
-    public function __construct($itemid, $insearchform, $sortindex) {
+    public function __construct($itemid, $required, $sortindex) {
         $this->sortindex = $sortindex;
 
-        $insearchform = clean_param($insearchform, PARAM_INT);
-        parent::__construct('mod_surveypro', 'itemlist_insearchform', $itemid, true, '', $insearchform);
+        $required = clean_param($required, PARAM_INT);
+        parent::__construct('mod_surveypro', 'itemlist_required', $itemid, true, '', $required);
         $this->set_type_toggle();
     }
 
@@ -63,15 +63,15 @@ class mod_surveypro_itemlist_insearchform extends \core\output\inplace_editable 
      */
     public function export_for_template(\renderer_base $output) {
         if ($this->value) {
-            $insearchformstr = get_string('insearchform_title', 'mod_surveypro');
-            $iconparams = array('id' => 'removefromsearch_item_'.$this->sortindex);
-            $this->edithint = $insearchformstr;
-            $this->displayvalue = $output->pix_icon('insearch', $insearchformstr, 'mod_surveypro', $iconparams);
+            $requiredstr = get_string('requireditem_title', 'mod_surveypro');
+            $iconparams = array('id' => 'makeoptional_item_'.$this->sortindex);
+            $this->edithint = $requiredstr;
+            $this->displayvalue = $output->pix_icon('red', $requiredstr, 'mod_surveypro', $iconparams);
         } else {
-            $notinsearchformstr = get_string('notinsearchform_title', 'mod_surveypro');
-            $iconparams = array('id' => 'addtosearch_item_'.$this->sortindex);
-            $this->edithint = $notinsearchformstr;
-            $this->displayvalue = $output->pix_icon('notinsearch', $notinsearchformstr, 'mod_surveypro', $iconparams);
+            $optionalstr = get_string('optionalitem_title', 'mod_surveypro');
+            $iconparams = array('id' => 'makerequired_item_'.$this->sortindex);
+            $this->edithint = $optionalstr;
+            $this->displayvalue = $output->pix_icon('green', $optionalstr, 'mod_surveypro', $iconparams);
         }
 
         return parent::export_for_template($output);
@@ -81,22 +81,29 @@ class mod_surveypro_itemlist_insearchform extends \core\output\inplace_editable 
      * Updates usertemplate name and returns instance of this object
      *
      * @param int $itemid
-     * @param string $newinsearchform
+     * @param string $newrequired
      * @return static
      */
-    public static function update($itemid, $newinsearchform) {
+    public static function update($itemid, $newrequired) {
         global $DB;
 
         $fields = 'id, surveyproid, type, plugin, sortindex';
         $itemrecord = $DB->get_record('surveypro_item', array('id' => $itemid), $fields, MUST_EXIST);
-        $surveypro = $DB->get_record('surveypro', array('id' => $itemrecord->surveyproid), '*', MUST_EXIST);
+        $surveypro = $DB->get_record('surveypro', array('id' => $itemrecord->surveyproid), 'id, course', MUST_EXIST);
         $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
         $context = context_module::instance($cm->id);
         \external_api::validate_context($context);
 
-        $newinsearchform = clean_param($newinsearchform, PARAM_INT);
-        $DB->set_field('surveypro_item', 'insearchform', $newinsearchform, array('id' => $itemid));
+        $tablename = 'surveypro'.$itemrecord->type.'_'.$itemrecord->plugin;
+        $newrequired = clean_param($newrequired, PARAM_INT);
+        $DB->set_field($tablename, 'required', $newrequired, array('itemid' => $itemid));
 
-        return new static($itemid, $newinsearchform, $itemrecord->sortindex);
+        if (!empty($newrequired)) {
+            // This item that WAS NOT mandatory IS NOW mandatory.
+            $utilityman = new mod_surveypro_utility($cm, $surveypro);
+            $utilityman->optional_to_required_followup($itemid);
+        }
+
+        return new static($itemid, $newrequired, $itemrecord->sortindex);
     }
 }

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Contains class mod_surveypro\mod_surveypro_itemlist_variable
+ * Contains class mod_surveypro\mod_surveypro_ipe_itemlist_customnumber
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
@@ -25,32 +25,32 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Class to prepare an item variable for display and in-place editing
+ * Class to prepare an item custom number for display and in-place editing
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_itemlist_variable extends \core\output\inplace_editable {
+class mod_surveypro_ipe_itemlist_customnumber extends \core\output\inplace_editable {
     /**
      * Constructor.
      *
      * @param int $itemid
-     * @param string $variablename
+     * @param string $customnumber
      */
-    public function __construct($itemid, $variablename) {
-        $variablename = format_string($variablename);
-        parent::__construct('mod_surveypro', 'itemlist_variable', $itemid, true, $variablename, $variablename);
+    public function __construct($itemid, $customnumber) {
+        $custnumber = format_string($customnumber);
+        parent::__construct('mod_surveypro', 'itemlist_customnumber', $itemid, true, $custnumber, $custnumber);
     }
 
     /**
      * Updates usertemplate name and returns instance of this object
      *
      * @param int $itemid
-     * @param string $newvarname
+     * @param string $newcnumber
      * @return static
      */
-    public static function update($itemid, $newvarname) {
+    public static function update($itemid, $newcnumber) {
         global $DB;
 
         $itemrecord = $DB->get_record('surveypro_item', array('id' => $itemid), 'id, surveyproid, type, plugin', MUST_EXIST);
@@ -59,21 +59,10 @@ class mod_surveypro_itemlist_variable extends \core\output\inplace_editable {
         $context = context_module::instance($cm->id);
         \external_api::validate_context($context);
 
-        // Why was I required to move surveypro_get_item from locallib.php to lib.php?
-        $item = surveypro_get_item($cm, $surveypro, $itemid, $itemrecord->type, $itemrecord->plugin);
-
-        // Before saving to the the plugin table, validate the variable name.
-        $record = new stdClass();
-        $record->surveyproid = $surveypro->id;
-        $record->variable = $newvarname;
-        $record->plugin = $itemrecord->plugin;
-
-        $item->item_validate_variablename($record, $itemid);
-
         $tablename = 'surveypro'.$itemrecord->type.'_'.$itemrecord->plugin;
-        $newvarname = $record->variable;
-        $DB->set_field($tablename, 'variable', $newvarname, array('itemid' => $itemid));
+        $newreserved = clean_param($newcnumber, PARAM_TEXT);
+        $DB->set_field($tablename, 'customnumber', $newcnumber, array('itemid' => $itemid));
 
-        return new static($itemid, $newvarname);
+        return new static($itemid, $newcnumber);
     }
 }

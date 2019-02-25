@@ -1198,7 +1198,7 @@ function surveypro_get_completion_state($course, $cm, $userid, $type) {
  * @return \core\output\inplace_editable
  */
 function surveypro_inplace_editable($itemtype, $id, $newvalue) {
-    $classname = 'mod_surveypro_'.$itemtype;
+    $classname = 'mod_surveypro_ipe_'.$itemtype;
 
     return $classname::update($id, $newvalue);
 }
