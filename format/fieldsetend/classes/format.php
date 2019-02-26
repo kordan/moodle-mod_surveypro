@@ -95,12 +95,21 @@ class surveyproformat_fieldsetend_format extends mod_surveypro_itembase {
         // Now execute very specific plugin level actions.
 
         // Begin of: plugin specific settings (eventually overriding general ones).
-        // Override few values.
-        $record->content = SURVEYPROFORMAT_FIELDSETEND_CONTENT;
         // End of: plugin specific settings (eventually overriding general ones).
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
+    }
+
+    /**
+     * Get content.
+     *
+     * @return the content of $content property
+     */
+    public function get_content() {
+        $content = SURVEYPROFORMAT_FIELDSETEND_CONTENT;
+
+        return $content;
     }
 
     /**
