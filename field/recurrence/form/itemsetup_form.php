@@ -135,11 +135,11 @@ class mod_surveypro_recurrence_setupform extends mod_surveypro_itembaseform {
 
         $errors = parent::validation($data, $files);
 
-        if (!mod_surveypro_utility_useritem::date_is_valid($data['lowerboundday'], $data['lowerboundmonth'])) {
+        if (!mod_surveypro_utility_item::date_is_valid($data['lowerboundday'], $data['lowerboundmonth'])) {
             $errors['lowerbound_group'] = get_string('ierr_invalidinput', 'mod_surveypro');
             return $errors;
         }
-        if (!mod_surveypro_utility_useritem::date_is_valid($data['upperboundday'], $data['upperboundmonth'])) {
+        if (!mod_surveypro_utility_item::date_is_valid($data['upperboundday'], $data['upperboundmonth'])) {
             $errors['upperbound_group'] = get_string('ierr_invalidinput', 'mod_surveypro');
             return $errors;
         }
@@ -153,7 +153,7 @@ class mod_surveypro_recurrence_setupform extends mod_surveypro_itembaseform {
 
         // Constrain default between boundaries.
         if ($data['defaultoption'] == SURVEYPRO_CUSTOMDEFAULT) {
-            if (!mod_surveypro_utility_useritem::date_is_valid($data['defaultvalueday'], $data['defaultvaluemonth'])) {
+            if (!mod_surveypro_utility_item::date_is_valid($data['defaultvalueday'], $data['defaultvaluemonth'])) {
                 $errors['defaultvalue_group'] = get_string('ierr_invalidinput', 'mod_surveypro');
                 return $errors;
             }

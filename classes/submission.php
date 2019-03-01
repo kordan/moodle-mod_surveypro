@@ -93,8 +93,8 @@ class mod_surveypro_submission {
         $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
         $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
 
-        $utilityman = new mod_surveypro_utility($cm, $surveypro);
-        $this->hasitems = $utilityman->layout_has_items(0, SURVEYPRO_TYPEFIELD, $canmanageitems, $canaccessreserveditems);
+        $utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+        $this->hasitems = $utilitylayoutman->layout_has_items(0, SURVEYPRO_TYPEFIELD, $canmanageitems, $canaccessreserveditems);
     }
 
     /**
@@ -582,7 +582,8 @@ class mod_surveypro_submission {
 
             if ($groupmode = groups_get_activity_groupmode($this->cm, $COURSE)) {
                 if ($groupmode == SEPARATEGROUPS) {
-                    $mygroupmates = surveypro_groupmates($this->cm);
+                    $utilitysubmissionman = new mod_surveypro_utility_submission($this->cm, $this->surveypro);
+                    $mygroupmates = $utilitysubmissionman->get_groupmates($this->cm);
                 }
             }
 
@@ -687,8 +688,8 @@ class mod_surveypro_submission {
                     }
                 }
                 if ($displayduplicateicon) { // I am the owner or a groupmate.
-                    $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-                    $cansubmitmore = $utilityman->can_submit_more($submission->userid);
+                    $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+                    $cansubmitmore = $utilitylayoutman->can_submit_more($submission->userid);
                     if ($cansubmitmore) { // The copy will be assigned to the same owner.
                         $paramurl = $paramurlbase;
                         $paramurl['submissionid'] = $submission->submissionid;
@@ -762,7 +763,7 @@ class mod_surveypro_submission {
     public function show_action_buttons($tifirst, $tilast) {
         global $OUTPUT, $USER;
 
-        $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+        $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
 
         $cansubmit = has_capability('mod/surveypro:submit', $this->context);
         $canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context);
@@ -773,12 +774,12 @@ class mod_surveypro_submission {
         $timenow = time();
         $userid = ($canseeotherssubmissions) ? null : $USER->id;
 
-        $countclosed = $utilityman->has_submissions(true, SURVEYPRO_STATUSCLOSED, $userid);
-        $inprogress = $utilityman->has_submissions(true, SURVEYPRO_STATUSINPROGRESS, $userid);
+        $countclosed = $utilitylayoutman->has_submissions(true, SURVEYPRO_STATUSCLOSED, $userid);
+        $inprogress = $utilitylayoutman->has_submissions(true, SURVEYPRO_STATUSINPROGRESS, $userid);
         $next = $countclosed + $inprogress + 1;
 
         // Begin of: is the button to add one more response going to be in the page?
-        $addnew = $utilityman->is_newresponse_allowed($next);
+        $addnew = $utilitylayoutman->is_newresponse_allowed($next);
         // End of: is the button to add one more response going to be the page?
 
         // Begin of: is the button to delete all responses going to be the page?
@@ -902,8 +903,8 @@ class mod_surveypro_submission {
                 break;
             case SURVEYPRO_DUPLICATERESPONSE:
                 if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
-                    $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-                    $utilityman->duplicate_submissions(array('id' => $this->submissionid));
+                    $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+                    $utilitylayoutman->duplicate_submissions(array('id' => $this->submissionid));
 
                     // Redirect.
                     $paramurl = array();
@@ -917,8 +918,8 @@ class mod_surveypro_submission {
                 break;
             case SURVEYPRO_DELETERESPONSE:
                 if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
-                    $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-                    $utilityman->delete_submissions(array('id' => $this->submissionid));
+                    $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+                    $utilitylayoutman->delete_submissions(array('id' => $this->submissionid));
 
                     // Redirect.
                     $paramurl = array();
@@ -932,8 +933,8 @@ class mod_surveypro_submission {
                 break;
             case SURVEYPRO_DELETEALLRESPONSES:
                 if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
-                    $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-                    $utilityman->delete_submissions(array('surveyproid' => $this->surveypro->id));
+                    $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+                    $utilitylayoutman->delete_submissions(array('surveyproid' => $this->surveypro->id));
 
                     // Redirect.
                     $paramurl = array();
@@ -1011,8 +1012,8 @@ class mod_surveypro_submission {
             }
         }
 
-        $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-        $cansubmitmore = $utilityman->can_submit_more();
+        $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+        $cansubmitmore = $utilitylayoutman->can_submit_more();
 
         $paramurlbase = array('id' => $this->cm->id);
         if ($cansubmitmore) { // If the user is allowed to submit one more response.
@@ -1360,7 +1361,8 @@ class mod_surveypro_submission {
             if (!$ismine) {
                 $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
                 if ($groupmode == SEPARATEGROUPS) {
-                    $mygroupmates = surveypro_groupmates($this->cm);
+                    $utilitysubmissionman = new mod_surveypro_utility_submission($cm, $surveypro);
+                    $mygroupmates = $utilitysubmissionman->get_groupmates($this->cm);
                     $groupuser = in_array($ownerid, $mygroupmates);
                 }
             }

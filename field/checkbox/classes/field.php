@@ -403,7 +403,8 @@ EOS;
      * return string childparentvalue
      */
     public function parent_encode_child_parentcontent($childparentcontent) {
-        $parentcontents = array_unique(surveypro_multilinetext_to_array($childparentcontent));
+        $utilityitemman = new mod_surveypro_utility_item($this->cm, $this->surveypro);
+        $parentcontents = array_unique($utilityitemman->multilinetext_to_array($childparentcontent));
         $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
 
         $childparentvalue = array_fill(0, count($values), 0);
@@ -527,7 +528,8 @@ EOS;
         $idprefix = 'id_surveypro_field_checkbox_'.$this->sortindex;
 
         $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
-        $defaults = surveypro_multilinetext_to_array($this->defaultvalue);
+        $utilityitemman = new mod_surveypro_utility_item($this->cm, $this->surveypro);
+        $defaults = $utilityitemman->multilinetext_to_array($this->defaultvalue);
 
         $attributes = array();
         $attributes['class'] = 'indent-'.$this->indent.' checkbox_check';

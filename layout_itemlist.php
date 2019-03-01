@@ -22,9 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
-require_once($CFG->dirroot.'/mod/surveypro/form/items/selectitem_form.php');
+require_once(dirname(dirname(dirname(__FILE__))).'/config.php');require_once($CFG->dirroot.'/mod/surveypro/form/items/selectitem_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/items/bulk_action_form.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
@@ -63,9 +61,10 @@ $context = context_module::instance($cm->id);
 require_capability('mod/surveypro:manageitems', $context);
 
 // Calculations.
-$utilityman = new mod_surveypro_utility($cm, $surveypro);
-$hassubmissions = $utilityman->has_submissions();
-$itemcount = $utilityman->layout_has_items(0, SURVEYPRO_TYPEFIELD, true, true, true);
+$utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+$utilitysubmissionman = new mod_surveypro_utility_submission($cm, $surveypro);
+$hassubmissions = $utilitylayoutman->has_submissions();
+$itemcount = $utilitylayoutman->layout_has_items(0, SURVEYPRO_TYPEFIELD, true, true, true);
 
 // Define the manager.
 $layoutman = new mod_surveypro_layout($cm, $context, $surveypro);
@@ -82,9 +81,9 @@ $layoutman->set_nextindent($nextindent);
 $layoutman->set_parentid($parentid);
 $layoutman->set_itemeditingfeedback($itemeditingfeedback);
 $layoutman->set_hassubmissions($hassubmissions);
-
 $layoutman->actions_execution();
-$hassubmissions = $utilityman->has_submissions();
+
+$hassubmissions = $utilitylayoutman->has_submissions();
 $layoutman->set_hassubmissions($hassubmissions);
 
 $riskyediting = ($surveypro->riskyeditdeadline > time());
@@ -161,7 +160,7 @@ echo $OUTPUT->header();
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABLAYOUT, SURVEYPRO_LAYOUT_ITEMS);
 
 if ($hassubmissions) {
-    $message = $utilityman->has_submissions_warning();
+    $message = $utilitysubmissionman->get_submissions_warning();
     echo $OUTPUT->notification($message, 'notifyproblem');
 }
 

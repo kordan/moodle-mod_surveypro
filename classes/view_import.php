@@ -498,8 +498,8 @@ class mod_surveypro_view_import {
         global $CFG, $DB;
 
         // Get the list of used plugin.
-        $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-        $pluginlist = $utilityman->get_used_plugin_list(SURVEYPRO_TYPEFIELD);
+        $utilitysubmissionman = new mod_surveypro_utility_submission($this->cm, $this->surveypro);
+        $pluginlist = $utilitysubmissionman->get_used_plugin_list(SURVEYPRO_TYPEFIELD);
 
         $requireditems = array();
         $surveyheaders = array();

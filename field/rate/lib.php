@@ -24,8 +24,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
-
 // Rates STYLES.
 define('SURVEYPROFIELD_RATE_USERADIO' , 0);
 define('SURVEYPROFIELD_RATE_USESELECT', 1);

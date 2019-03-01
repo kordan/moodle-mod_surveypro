@@ -22,9 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
-require_once($CFG->dirroot.'/mod/surveypro/form/outform/fill_form.php');
+require_once(dirname(dirname(dirname(__FILE__))).'/config.php');require_once($CFG->dirroot.'/mod/surveypro/form/outform/fill_form.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
@@ -47,13 +45,13 @@ $formpage = optional_param('formpage', 0, PARAM_INT); // Form page number.
 $view = optional_param('view', SURVEYPRO_NOVIEW, PARAM_INT);
 
 // Calculations.
-mod_surveypro_mform_utils::register_form_elements();
+mod_surveypro_utility_mform::register_form_elements();
 
 $userformman = new mod_surveypro_view_form($cm, $context, $surveypro);
 $userformman->setup($submissionid, $formpage, $view);
 
-$utilityman = new mod_surveypro_utility($cm, $surveypro);
-$utilityman->add_custom_css();
+$utilitysubmissionman = new mod_surveypro_utility_submission($cm, $surveypro);
+$utilitysubmissionman->add_custom_css();
 
 // Begin of: define $user_form return url.
 $paramurl = array('id' => $cm->id, 'view' => $view);

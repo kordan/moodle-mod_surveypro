@@ -107,12 +107,16 @@ class mod_surveypro_select_setupform extends mod_surveypro_itembaseform {
      */
     public function validation($data, $files) {
         // Get _customdata.
-        // Useless: $item = $this->_customdata['item'];.
+        $item = $this->_customdata['item'];
+        $surveypro = $item->surveypro;
+
+        $cm = $item->get_cm();
 
         $errors = parent::validation($data, $files);
 
         // Clean inputs.
-        $cleanoptions = surveypro_multilinetext_to_array($data['options']);
+        $utilityitemman = new mod_surveypro_utility_item($cm, $surveypro);
+        $cleanoptions = $utilityitemman->multilinetext_to_array($data['options']);
         $cleanlabelother = trim($data['labelother']);
         $cleandefaultvalue = isset($data['defaultvalue']) ? trim($data['defaultvalue']) : '';
 

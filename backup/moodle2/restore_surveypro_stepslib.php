@@ -27,7 +27,6 @@ defined('MOODLE_INTERNAL') || die();
 
 // Include the required mod surveypro upgrade code.
 require_once(dirname(__FILE__).'/../../../../config.php');
-require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
 require_once($CFG->dirroot.'/mod/surveypro/db/upgradelib.php');
 
 /**

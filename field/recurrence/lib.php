@@ -24,7 +24,5 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
-
 define('SURVEYPROFIELD_RECURRENCE_FORMAT', '[dd/mm]');
 define('SURVEYPROFIELD_RECURRENCE_YEAROFFSET', 1970);

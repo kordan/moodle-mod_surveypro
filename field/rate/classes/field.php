@@ -376,10 +376,11 @@ EOS;
     public function userform_mform_element($mform, $searchform, $readonly) {
         // This plugin has $this->insetupform['insearchform'] = false; so it will never be part of a search form.
 
-        $options = surveypro_multilinetext_to_array($this->options);
+        $utilityitemman = new mod_surveypro_utility_item($this->cm, $this->surveypro);
+        $options = $utilityitemman->multilinetext_to_array($this->options);
         $optioncount = count($options) - 1;
         $rates = $this->item_get_content_array(SURVEYPRO_LABELS, 'rates');
-        $defaultvalues = surveypro_multilinetext_to_array($this->defaultvalue);
+        $defaultvalues = $utilityitemman->multilinetext_to_array($this->defaultvalue);
 
         $idprefix = 'id_surveypro_field_rate_'.$this->sortindex;
 
@@ -498,7 +499,8 @@ EOS;
         }
 
         // If different rates were requested, it is time to verify this.
-        $options = surveypro_multilinetext_to_array($this->options);
+        $utilityitemman = new mod_surveypro_utility_item($this->cm, $this->surveypro);
+        $options = $utilityitemman->multilinetext_to_array($this->options);
 
         if (isset($data[$this->itemname.'_noanswer'])) {
             return; // Nothing to validate.
@@ -679,7 +681,8 @@ EOS;
     public function userform_get_root_elements_name() {
         $elementnames = array();
 
-        $options = surveypro_multilinetext_to_array($this->options);
+        $utilityitemman = new mod_surveypro_utility_item($this->cm, $this->surveypro);
+        $options = $utilityitemman->multilinetext_to_array($this->options);
         if ($this->style == SURVEYPROFIELD_RATE_USERADIO) {
             foreach ($options as $row => $option) {
                 $elementnames[] = $this->itemname.'_'.$row.'_group';

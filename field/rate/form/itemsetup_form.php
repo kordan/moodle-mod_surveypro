@@ -127,14 +127,18 @@ class mod_surveypro_rate_setupform extends mod_surveypro_itembaseform {
      */
     public function validation($data, $files) {
         // Get _customdata.
-        // Useless: $item = $this->_customdata['item'];.
+        $item = $this->_customdata['item'];
+        $surveypro = $item->surveypro;
+
+        $cm = $item->get_cm();
 
         $errors = parent::validation($data, $files);
 
         // Clean inputs.
-        $cleanoptions = surveypro_multilinetext_to_array($data['options']);
-        $cleanrates = surveypro_multilinetext_to_array($data['rates']);
-        $cleandefaultvalue = isset($data['defaultvalue']) ? surveypro_multilinetext_to_array($data['defaultvalue']) : '';
+        $utilityitemman = new mod_surveypro_utility_item($cm, $surveypro);
+        $cleanoptions = $utilityitemman->multilinetext_to_array($data['options']);
+        $cleanrates = $utilityitemman->multilinetext_to_array($data['rates']);
+        $cleandefaultvalue = isset($data['defaultvalue']) ? $utilityitemman->multilinetext_to_array($data['defaultvalue']) : '';
 
         $values = array();
         $labels = array();

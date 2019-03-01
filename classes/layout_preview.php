@@ -50,8 +50,8 @@ class mod_surveypro_layout_preview extends mod_surveypro_formbase {
         // Assign pages to items.
         $maxassignedpage = $DB->get_field('surveypro_item', 'MAX(formpage)', array('surveyproid' => $this->surveypro->id));
         if (!$maxassignedpage) {
-            $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-            $maxassignedpage = $utilityman->assign_pages();
+            $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+            $maxassignedpage = $utilitylayoutman->assign_pages();
             $this->set_maxassignedpage($maxassignedpage);
         } else {
             $this->set_maxassignedpage($maxassignedpage);

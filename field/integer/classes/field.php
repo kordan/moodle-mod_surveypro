@@ -322,7 +322,8 @@ EOS;
      * return string childparentvalue
      */
     public function parent_encode_child_parentcontent($childparentcontent) {
-        $parentcontents = array_unique(surveypro_multilinetext_to_array($childparentcontent));
+        $utilityitemman = new mod_surveypro_utility_item($this->cm, $this->surveypro);
+        $parentcontents = array_unique($utilityitemman->multilinetext_to_array($childparentcontent));
 
         $childparentvalue = array();
         $labels = array();

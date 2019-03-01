@@ -24,8 +24,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
-
 // Rates styles.
 define('SURVEYPROFIELD_BOOLEAN_USESELECT', 0);
 define('SURVEYPROFIELD_BOOLEAN_USERADIOV', 1);

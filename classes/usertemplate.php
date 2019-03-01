@@ -431,8 +431,8 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         // Before continuing.
         if ($action != SURVEYPRO_DELETEALLITEMS) {
             // Dispose assignemnt of pages.
-            $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-            $utilityman->reset_items_pages();
+            $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+            $utilitylayoutman->reset_items_pages();
         }
 
         $this->trigger_event('usertemplate_applied', $action);
@@ -443,30 +443,30 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                 break;
             case SURVEYPRO_HIDEALLITEMS:
                 $whereparams = array('surveyproid' => $this->surveypro->id);
-                $utilityman->items_set_visibility($whereparams, 0);
+                $utilitylayoutman->items_set_visibility($whereparams, 0);
 
-                $utilityman->reset_items_pages();
+                $utilitylayoutman->reset_items_pages();
 
                 break;
             case SURVEYPRO_DELETEALLITEMS:
-                $utilityman = new mod_surveypro_utility($this->cm);
+                $utilitylayoutman = new mod_surveypro_utility_layout($this->cm);
                 $whereparams = array('surveyproid' => $this->surveypro->id);
-                $utilityman->delete_items($whereparams);
+                $utilitylayoutman->delete_items($whereparams);
                 break;
             case SURVEYPRO_DELETEVISIBLEITEMS:
                 $whereparams = array('surveyproid' => $this->surveypro->id);
                 $whereparams['hidden'] = 0;
-                $utilityman->delete_items($whereparams);
+                $utilitylayoutman->delete_items($whereparams);
 
-                $utilityman->items_reindex();
+                $utilitylayoutman->items_reindex();
 
                 break;
             case SURVEYPRO_DELETEHIDDENITEMS:
                 $whereparams = array('surveyproid' => $this->surveypro->id);
                 $whereparams['hidden'] = 1;
-                $utilityman->delete_items($whereparams);
+                $utilitylayoutman->delete_items($whereparams);
 
-                $utilityman->items_reindex();
+                $utilitylayoutman->items_reindex();
 
                 break;
                 break;
@@ -492,8 +492,8 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         global $OUTPUT;
 
         $riskyediting = ($this->surveypro->riskyeditdeadline > time());
-        $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-        $hassubmissions = $utilityman->has_submissions();
+        $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+        $hassubmissions = $utilitylayoutman->has_submissions();
 
         if ($hassubmissions && (!$riskyediting)) {
             echo $OUTPUT->notification(get_string('applyusertemplatedenied01', 'mod_surveypro'), 'notifyproblem');

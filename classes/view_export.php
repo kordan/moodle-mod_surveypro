@@ -186,7 +186,8 @@ class mod_surveypro_view_export {
         global $DB;
 
         // Do I need to filter groups?
-        // $filtergroups = surveypro_need_group_filtering($this->cm, $this->context);
+        // $utilityitemman = new mod_surveypro_utility_item($this->cm, $this->surveypro);
+        // $filtergroups = $utilityitemman->need_group_filtering($this->cm, $this->context);
 
         if ($this->formdata->downloadtype == SURVEYPRO_FILESBYUSER) {
             if ($errorreturned = $this->attachments_downloadbyuser()) {

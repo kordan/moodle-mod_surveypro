@@ -60,7 +60,6 @@ class mod_surveypro_generator extends testing_module_generator {
     public function create_instance($record = null, array $options = null) {
         global $CFG;
 
-        require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
         require_once($CFG->dirroot.'/mod/surveypro/tests/behat/lib_behattest.php');
 
         // Add default values for surveypro.
