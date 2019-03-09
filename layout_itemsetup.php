@@ -58,48 +58,48 @@ require_capability('mod/surveypro:additems', $context);
 $utilityman = new mod_surveypro_utility($cm, $surveypro);
 $hassubmissions = $utilityman->has_submissions();
 
-$itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro);
+$layoutman = new mod_surveypro_layout($cm, $context, $surveypro);
 if (!empty($typeplugin)) {
-    $itemlistman->set_typeplugin($typeplugin);
+    $layoutman->set_typeplugin($typeplugin);
 } else {
-    $itemlistman->set_type($type);
-    $itemlistman->set_plugin($plugin);
+    $layoutman->set_type($type);
+    $layoutman->set_plugin($plugin);
 }
-$itemlistman->set_itemid($itemid);
-$itemlistman->set_action($action);
-$itemlistman->set_view($view);
-$itemlistman->set_hassubmissions($hassubmissions);
+$layoutman->set_itemid($itemid);
+$layoutman->set_action($action);
+$layoutman->set_view($view);
+$layoutman->set_hassubmissions($hassubmissions);
 // Property itemtomove is useless (it is set to its default), do not set it.
-// $itemlistman->set_itemtomove(0);
+// $layoutman->set_itemtomove(0);
 
 // Property lastitembefore is useless (it is set to its default), do not set it.
-// $itemlistman->set_lastitembefore(0);
+// $layoutman->set_lastitembefore(0);
 
 // Property confirm is useless (it is set to its default), do not set it.
-// $itemlistman->set_confirm(SURVEYPRO_UNCONFIRMED);
+// $layoutman->set_confirm(SURVEYPRO_UNCONFIRMED);
 
 // Property nextindent is useless (it is set to its default), do not set it.
-// $itemlistman->set_nextindent(0);
+// $layoutman->set_nextindent(0);
 
 // Property parentid is useless (it is set to its default), do not set it.
-// $itemlistman->set_parentid(0);
+// $layoutman->set_parentid(0);
 
 // Property itemeditingfeedback is useless (it is set to its default), do not set it.
-// $itemlistman->set_itemeditingfeedback(SURVEYPRO_NOFEEDBACK);
+// $layoutman->set_itemeditingfeedback(SURVEYPRO_NOFEEDBACK);
 
 // Property hassubmissions is useless (it is set to its default), do not set it.
-// $itemlistman->set_hassubmissions($hassubmissions);
+// $layoutman->set_hassubmissions($hassubmissions);
 
 // Property itemcount is useless (it is set to its default), do not set it.
-// $itemlistman->set_itemcount($itemcount);
+// $layoutman->set_itemcount($itemcount);
 
-$itemlistman->prevent_direct_user_input();
+$layoutman->prevent_direct_user_input();
 
-require_once($CFG->dirroot.'/mod/surveypro/'.$itemlistman->get_type().'/'.$itemlistman->get_plugin().'/form/itemsetup_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/'.$layoutman->get_type().'/'.$layoutman->get_plugin().'/form/itemsetup_form.php');
 
 // Begin of: get item.
-$itemtype = $itemlistman->get_type();
-$itemplugin = $itemlistman->get_plugin();
+$itemtype = $layoutman->get_type();
+$itemplugin = $layoutman->get_plugin();
 $item = surveypro_get_item($cm, $surveypro, $itemid, $itemtype, $itemplugin, true);
 $item->item_set_editor();
 // End of: get item.
@@ -142,8 +142,8 @@ if ($fromform = $itemform->get_data()) {
 // Output starts here.
 $paramurl = array('id' => $cm->id);
 $paramurl['itemid'] = $itemid;
-$paramurl['type'] = $itemlistman->get_type();
-$paramurl['plugin'] = $itemlistman->get_plugin();
+$paramurl['type'] = $layoutman->get_type();
+$paramurl['plugin'] = $layoutman->get_plugin();
 $paramurl['view'] = $view;
 $url = new moodle_url('/mod/surveypro/layout_itemsetup.php', $paramurl);
 $PAGE->set_url($url);
@@ -161,7 +161,7 @@ if ($hassubmissions) {
     $message = $utilityman->has_submissions_warning();
     echo $OUTPUT->notification($message, 'notifyproblem');
 }
-$itemlistman->item_identitycard();
+$layoutman->item_identitycard();
 
 $data = $item->get_itemform_preset();
 $itemform->set_data($data);

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Contains class mod_surveypro\mod_surveypro_itemlist_insearchform
+ * Contains class mod_surveypro\mod_surveypro_layout_insearchform
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_itemlist_insearchform extends \core\output\inplace_editable {
+class mod_surveypro_layout_insearchform extends \core\output\inplace_editable {
 
     /**
      * @var sortindex
@@ -51,7 +51,7 @@ class mod_surveypro_itemlist_insearchform extends \core\output\inplace_editable 
         $this->sortindex = $sortindex;
 
         $insearchform = clean_param($insearchform, PARAM_INT);
-        parent::__construct('mod_surveypro', 'itemlist_insearchform', $itemid, true, '', $insearchform);
+        parent::__construct('mod_surveypro', 'layout_insearchform', $itemid, true, '', $insearchform);
         $this->set_type_toggle();
     }
 

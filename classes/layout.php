@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Surveypro itemlist class.
+ * Surveypro layout class.
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_itemlist {
+class mod_surveypro_layout {
 
     /**
      * @var object Course module object
@@ -353,7 +353,7 @@ class mod_surveypro_itemlist {
             if (($item->get_type() == SURVEYPRO_TYPEFIELD) || ($item->get_plugin() == 'label')) {
                 $itemid = $item->get_itemid();
                 $customnumber = $item->get_customnumber();
-                $tmpl = new mod_surveypro_itemlist_customnumber($itemid, $customnumber);
+                $tmpl = new mod_surveypro_layout_customnumber($itemid, $customnumber);
 
                 $tablerow[] = $OUTPUT->render_from_template('core/inplace_editable', $tmpl->export_for_template($OUTPUT));
             } else {
@@ -371,7 +371,7 @@ class mod_surveypro_itemlist {
             if ($item->get_type() == SURVEYPRO_TYPEFIELD) {
                 $itemid = $item->get_itemid();
                 $variablename = $item->get_variable();
-                $tmpl = new mod_surveypro_itemlist_variable($itemid, $variablename);
+                $tmpl = new mod_surveypro_layout_variable($itemid, $variablename);
 
                 $tablerow[] = $OUTPUT->render_from_template('core/inplace_editable', $tmpl->export_for_template($OUTPUT));
             } else {
@@ -414,7 +414,7 @@ class mod_surveypro_itemlist {
                             $icons .= html_writer::tag('span', $actionicon, array('class' => 'freeitem'));
                         }
                     } else {
-                        $tmpl = new mod_surveypro_itemlist_reserved($itemid, $reserved, $sortindex);
+                        $tmpl = new mod_surveypro_layout_reserved($itemid, $reserved, $sortindex);
                         $tmpl->set_type_toggle();
                         $icons .= $OUTPUT->render_from_template('core/inplace_editable', $tmpl->export_for_template($OUTPUT));
                     }
@@ -432,7 +432,7 @@ class mod_surveypro_itemlist {
                 if ($item->get_insetupform('insearchform')) {
                     // Second icon: insearchform vs not insearchform.
                     $insearchform = $item->get_insearchform();
-                    $tmpl = new mod_surveypro_itemlist_insearchform($itemid, $insearchform, $sortindex);
+                    $tmpl = new mod_surveypro_layout_insearchform($itemid, $insearchform, $sortindex);
                     $tmpl->set_type_toggle();
                     $icons .= $OUTPUT->render_from_template('core/inplace_editable', $tmpl->export_for_template($OUTPUT));
                 } else {
@@ -525,7 +525,7 @@ class mod_surveypro_itemlist {
 
                     if ($item->item_canbemandatory()) {
                         $required = $item->get_required();
-                        $tmpl = new mod_surveypro_itemlist_required($itemid, $required, $sortindex);
+                        $tmpl = new mod_surveypro_layout_required($itemid, $required, $sortindex);
                         $tmpl->set_type_toggle();
                         $icons .= $OUTPUT->render_from_template('core/inplace_editable', $tmpl->export_for_template($OUTPUT));
                     } else {

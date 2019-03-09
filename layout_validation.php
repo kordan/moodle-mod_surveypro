@@ -45,46 +45,46 @@ require_capability('mod/surveypro:additems', $context);
 
 // Calculations.
 
-$itemlistman = new mod_surveypro_itemlist($cm, $context, $surveypro);
+$layoutman = new mod_surveypro_layout($cm, $context, $surveypro);
 
 // Property type is useless, do not set it.
-// $itemlistman->set_type('');
+// $layoutman->set_type('');
 
 // Property plugin is useless, do not set it
-// $itemlistman->set_plugin('');
+// $layoutman->set_plugin('');
 
 // Property itemid is useless (it is set to its default), do not set it
-// $itemlistman->set_itemid(0);
+// $layoutman->set_itemid(0);
 
 // Property action is useless (it is set to its default), do not set it
-// $itemlistman->set_action(SURVEYPRO_NOACTION);
+// $layoutman->set_action(SURVEYPRO_NOACTION);
 
 // Property view is useless (it is set to its default), do not set it
-// $itemlistman->set_view(SURVEYPRO_NEWRESPONSE);
+// $layoutman->set_view(SURVEYPRO_NEWRESPONSE);
 
 // Property itemtomove is useless (it is set to its default), do not set it
-// $itemlistman->set_itemtomove(0);
+// $layoutman->set_itemtomove(0);
 
 // Property lastitembefore is useless (it is set to its default), do not set it
-// $itemlistman->set_lastitembefore(0);
+// $layoutman->set_lastitembefore(0);
 
 // Property confirm is useless (it is set to its default), do not set it
-// $itemlistman->set_confirm(SURVEYPRO_UNCONFIRMED);
+// $layoutman->set_confirm(SURVEYPRO_UNCONFIRMED);
 
 // Property nextindent is useless (it is set to its default), do not set it
-// $itemlistman->set_nextindent(0);
+// $layoutman->set_nextindent(0);
 
 // Property parentid is useless (it is set to its default), do not set it
-// $itemlistman->set_parentid(0);
+// $layoutman->set_parentid(0);
 
 // Property itemeditingfeedback is useless (it is set to its default), do not set it
-// $itemlistman->set_itemeditingfeedback(SURVEYPRO_NOFEEDBACK);
+// $layoutman->set_itemeditingfeedback(SURVEYPRO_NOFEEDBACK);
 
 // Property hassubmissions is useless (it is set to its default), do not set it.
-// $itemlistman->set_hassubmissions($hassubmissions);
+// $layoutman->set_hassubmissions($hassubmissions);
 
 // Property itemcount is useless (it is set to its default), do not set it.
-// $itemlistman->set_itemcount($itemcount);
+// $layoutman->set_itemcount($itemcount);
 
 // Output starts here.
 $url = new moodle_url('/mod/surveypro/layout_validation.php', array('s' => $surveypro->id));
@@ -98,7 +98,7 @@ echo $OUTPUT->header();
 
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABLAYOUT, SURVEYPRO_LAYOUT_VALIDATE);
 
-$itemlistman->display_relations_table();
+$layoutman->display_relations_table();
 
 // Finish the page.
 echo $OUTPUT->footer();
