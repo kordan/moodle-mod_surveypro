@@ -78,8 +78,8 @@ class mod_surveypro_itembaseform extends moodleform {
 
         // Itembase: content & contentformat.
         if ($item->get_insetupform('content')) {
-            $editors = $item->get_editorlist();
-            if (array_key_exists('content', $editors)) {
+            $fieldsusingformat = $item->get_fieldsusingformat();
+            if (array_key_exists('content', $fieldsusingformat)) {
                 $fieldname = 'content_editor';
                 $editoroptions = array('trusttext' => true, 'subdirs' => true, 'maxfiles' => EDITOR_UNLIMITED_FILES);
                 $mform->addElement('editor', $fieldname, get_string($fieldname, 'mod_surveypro'), null, $editoroptions);

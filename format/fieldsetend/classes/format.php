@@ -57,7 +57,7 @@ class surveyproformat_fieldsetend_format extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFORMAT;
         $this->plugin = 'fieldsetend';
-        $this->editorlist = array();
+        $this->fieldsusingformat = array();
         $this->savepositiontodb = false;
 
         // Other element specific properties.
