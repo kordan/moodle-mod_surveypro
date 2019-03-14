@@ -377,7 +377,6 @@ class mod_surveypro_itembase {
                                       $record, $fieldname, $editoroptions,
                                       $context, 'mod_surveypro', $filearea, $record->itemid
                                   );
-                        $record->{$fieldname.'format'} = FORMAT_HTML;
                     }
 
                     // Tablename.
@@ -421,7 +420,6 @@ class mod_surveypro_itembase {
                                   $record, $fieldname, $editoroptions,
                                   $context, 'mod_surveypro', $filearea, $record->itemid
                               );
-                    $record->{$fieldname.'format'} = FORMAT_HTML;
                 }
             }
 
