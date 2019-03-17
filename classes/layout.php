@@ -361,11 +361,7 @@ class mod_surveypro_layout {
             }
 
             // Content.
-            $item->set_contentformat(FORMAT_HTML);
-            $item->set_contenttrust(1);
-
-            $output = $item->get_content();
-            $tablerow[] = $output;
+            $tablerow[] = $item->get_content();
 
             // Variable.
             if ($item->get_type() == SURVEYPRO_TYPEFIELD) {
@@ -729,11 +725,7 @@ class mod_surveypro_layout {
             }
 
             // Content.
-            $item->set_contentformat(FORMAT_HTML);
-            $item->set_contenttrust(1);
-
-            $output = $item->get_content();
-            $tablerow[] = $output;
+            $tablerow[] = $item->get_content();
 
             // Parentconstraints.
             if ($item->get_parentid()) {

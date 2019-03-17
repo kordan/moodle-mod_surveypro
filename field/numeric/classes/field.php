@@ -368,7 +368,7 @@ EOS;
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
         $starstr = get_string('star', 'mod_surveypro');
         $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
-        $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.strip_tags($this->get_content()) : '&nbsp;';
+        $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.$this->get_content() : '&nbsp;';
 
         $idprefix = 'id_surveypro_field_numeric_'.$this->sortindex;
 
