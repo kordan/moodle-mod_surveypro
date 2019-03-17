@@ -92,24 +92,6 @@ function surveypro_need_group_filtering($cm, $context) {
 }
 
 /**
- * cut down a string and close it with ellipsis
- *
- * @param string $plainstring
- * @param int $maxlength
- *
- * @return void
- */
-function surveypro_cutdownstring($plainstring, $maxlength=60) {
-    if (strlen($plainstring) > $maxlength) {
-        $ellipsis = '...';
-        $cutlength = $maxlength - strlen($ellipsis);
-        $plainstring = substr($plainstring, 0, $cutlength).$ellipsis;
-    }
-
-    return $plainstring;
-}
-
-/**
  * surveypro_groupmates
  *
  * @param object $cm

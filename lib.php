@@ -1190,6 +1190,24 @@ function surveypro_get_completion_state($course, $cm, $userid, $type) {
 }
 
 /**
+ * cut down a string and close it with ellipsis
+ *
+ * @param string $plainstring
+ * @param int $maxlength
+ *
+ * @return void
+ */
+function surveypro_cutdownstring($plainstring, $maxlength=60) {
+    if (strlen($plainstring) > $maxlength) {
+        $ellipsis = '...';
+        $cutlength = $maxlength - strlen($ellipsis);
+        $plainstring = substr($plainstring, 0, $cutlength).$ellipsis;
+    }
+
+    return $plainstring;
+}
+
+/**
  * Implements callback inplace_editable() allowing to edit values in-place
  *
  * @param string $itemtype The type of item
