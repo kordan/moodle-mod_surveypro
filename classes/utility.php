@@ -563,7 +563,7 @@ class mod_surveypro_utility {
         global $DB;
 
         if (empty($answersid)) {
-            return;
+            return array();
         }
 
         list($insql, $inparams) = $DB->get_in_or_equal($answersid, SQL_PARAMS_NAMED);
