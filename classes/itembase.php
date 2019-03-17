@@ -116,7 +116,7 @@ class mod_surveypro_itembase {
     /**
      * @var array
      */
-    protected $editorlist = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA);
+    protected $fieldsusingformat = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA);
 
     /**
      * @var bool Possibility for this plugin to save, as user answer, the position of the user interface elements in the out form
@@ -370,9 +370,9 @@ class mod_surveypro_itembase {
                 }
 
                 // Special care to "editors".
-                if ($editors = $this->get_editorlist()) {
+                if ($fieldsusingformat = $this->get_fieldsusingformat()) {
                     $editoroptions = array('trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $context);
-                    foreach ($editors as $fieldname => $filearea) {
+                    foreach ($fieldsusingformat as $fieldname => $filearea) {
                         $record = file_postupdate_standard_editor(
                                       $record, $fieldname, $editoroptions,
                                       $context, 'mod_surveypro', $filearea, $record->itemid
@@ -414,9 +414,9 @@ class mod_surveypro_itembase {
             // Item already exists.
 
             // Special care to "editors".
-            if ($editors = $this->get_editorlist()) {
+            if ($fieldsusingformat = $this->get_fieldsusingformat()) {
                 $editoroptions = array('trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $context);
-                foreach ($editors as $fieldname => $filearea) {
+                foreach ($fieldsusingformat as $fieldname => $filearea) {
                     $record = file_postupdate_standard_editor(
                                   $record, $fieldname, $editoroptions,
                                   $context, 'mod_surveypro', $filearea, $record->itemid
@@ -770,20 +770,20 @@ class mod_surveypro_itembase {
      * (copied from moodle20/cohort/edit.php)
      *
      * Some examples:
-     * Each SURVEYPRO_ITEMFIELD has: $this->insetupform['content'] == true  and $editors == array('content')
-     * Fieldset plugin          has: $this->insetupform['content'] == true  and $editors == null
-     * Pagebreak plugin         has: $this->insetupform['content'] == false and $editors == null
+     * Each SURVEYPRO_ITEMFIELD has: $this->insetupform['content'] == true  and $fieldsusingformat == array('content')
+     * Fieldset plugin          has: $this->insetupform['content'] == true  and $fieldsusingformat == null
+     * Pagebreak plugin         has: $this->insetupform['content'] == false and $fieldsusingformat == null
      *
      * @return void
      */
     public function item_set_editor() {
-        if (!$editors = $this->get_editorlist()) {
+        if (!$fieldsusingformat = $this->get_fieldsusingformat()) {
             return;
         }
 
         $context = context_module::instance($this->cm->id);
         $editoroptions = array('trusttext' => true, 'subdirs' => true, 'maxfiles' => -1, 'context' => $context);
-        foreach ($editors as $fieldname => $filearea) {
+        foreach ($fieldsusingformat as $fieldname => $filearea) {
             $this->{$fieldname.'format'} = FORMAT_HTML;
             $this->{$fieldname.'trust'} = 1;
             file_prepare_standard_editor($this, $fieldname, $editoroptions, $context, 'mod_surveypro', $filearea, $this->itemid);
@@ -1059,12 +1059,12 @@ EOS;
     }
 
     /**
-     * Get editorlist.
+     * Get the list of fields using format.
      *
-     * @return the content of $editorlist property
+     * @return the content of $fieldsusingformat property
      */
-    public function get_editorlist() {
-        return $this->editorlist;
+    public function get_fieldsusingformat() {
+        return $this->fieldsusingformat;
     }
 
     /**
