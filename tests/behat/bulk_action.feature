@@ -7,15 +7,15 @@ Feature: Test bulk actions
   Background:
     Given the following "courses" exist:
       | fullname          | shortname | category | numsections |
-      | Test item actions | Test IA   | 0        | 3           |
+      | Bulk item actions | Test IA   | 0        | 3           |
     And I log in as "admin"
 
   @javascript
   Scenario: test bulk actions
     Given the following "activities" exist:
-      | activity  | name                     | intro                | course  | idnumber   |
-      | surveypro | Test simple item actions | To test item actions | Test IA | surveypro1 |
-    And surveypro "Test simple item actions" contains the following items:
+      | activity  | name                   | intro                     | course  | idnumber   |
+      | surveypro | Test bulk item actions | To test bulk item actions | Test IA | surveypro1 |
+    And surveypro "Test bulk item actions" contains the following items:
       | type   | plugin      |
       | field  | age         |
       | field  | autofill    |
@@ -40,8 +40,8 @@ Feature: Test bulk actions
       | format | fieldset    |
       | format | fieldsetend |
 
-    And I am on "Test item actions" course homepage
-    And I follow "Test simple item actions"
+    And I am on "Bulk item actions" course homepage
+    And I follow "Test bulk item actions"
     And I follow "Layout"
 
     Then I should see "22" visible items
