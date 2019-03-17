@@ -94,7 +94,7 @@ class mod_surveypro_submission {
         $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
 
         $utilityman = new mod_surveypro_utility($cm, $surveypro);
-        $this->hasitems = $utilityman->has_input_items(0, false, $canmanageitems, $canaccessreserveditems);
+        $this->hasitems = $utilityman->layout_has_items(0, SURVEYPRO_TYPEFIELD, $canmanageitems, $canaccessreserveditems);
     }
 
     /**

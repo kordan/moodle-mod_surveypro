@@ -88,7 +88,7 @@ class mod_surveypro_view_cover {
 
         $riskyediting = ($this->surveypro->riskyeditdeadline > time());
         $hassubmissions = $utilityman->has_submissions();
-        $itemcount = $utilityman->has_input_items(0, true, $canmanageitems, $canaccessreserveditems);
+        $itemcount = $utilityman->layout_has_items(0, SURVEYPRO_TYPEFIELD, $canmanageitems, $canaccessreserveditems, true);
 
         $messages = array();
         $timenow = time();
@@ -125,7 +125,7 @@ class mod_surveypro_view_cover {
             if ($canmanageitems) {
                 // If I $canmanageitems in $itemcount items counted were: visible + hidden.
                 $message .= ' ';
-                $visibleonly = $utilityman->has_input_items(0, true, false, $canaccessreserveditems);
+                $visibleonly = $utilityman->layout_has_items(0, SURVEYPRO_TYPEFIELD, false, $canaccessreserveditems, true);
                 $a = $itemcount - $visibleonly;
                 $message .= get_string('count_hiddenitems', 'mod_surveypro', $a);
             }

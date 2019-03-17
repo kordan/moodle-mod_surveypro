@@ -141,7 +141,7 @@ class mod_surveypro_layout {
         $this->surveypro = $surveypro;
 
         $utilityman = new mod_surveypro_utility($cm, $surveypro);
-        $itemcount = $utilityman->has_input_items(0, true, true, true);
+        $itemcount = $utilityman->layout_has_items(0, null, true, true, true);
         $this->set_itemcount($itemcount);
     }
 
@@ -1363,7 +1363,7 @@ class mod_surveypro_layout {
             $utilityman->items_reindex($killedsortindex);
             $this->confirm = SURVEYPRO_ACTION_EXECUTED;
 
-            $itemcount = $utilityman->has_input_items(0, true, true, true);
+            $itemcount = $utilityman->layout_has_items(0, SURVEYPRO_TYPEFIELD, true, true, true);
             $this->set_itemcount($itemcount);
 
             $this->actionfeedback = new stdClass();
