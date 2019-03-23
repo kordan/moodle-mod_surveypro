@@ -22,7 +22,7 @@ Feature: apply COLLES (Preferred) mastertemplate
 
   @javascript
   Scenario: apply COLLES (Preferred) master template
-    When I follow "To apply COLLES (Preferred)"
+    Given I follow "To apply COLLES (Preferred)"
     And I set the field "Master templates" to "COLLES (Preferred)"
     And I press "Apply"
     Then I should see "In this online unit"

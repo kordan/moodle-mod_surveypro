@@ -27,7 +27,7 @@ Feature: verify multilang in mastertemplates
 
   @javascript
   Scenario: display each mastertemplate in 2 different languages
-    And I log in as "admin"
+    Given I log in as "admin"
     And I navigate to "Language > Language packs" in site administration
     And I set the field "menupack" to "Italiano"
     And I press "Install selected language pack(s)"

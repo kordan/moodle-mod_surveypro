@@ -29,7 +29,8 @@ Feature: Validate creation and submit for textarea elements using the principal 
     And I expand all fieldsets
 
   @javascript
-  Scenario: test textarea element with the following settings: 0; 1; 20; 1 and then empty
+  Scenario: test textarea element using configuration 01
+    # Configuration 01 consists in:
       # required:                       0
       # Use html editor:                1
       # Minimum length (in characters): 20
@@ -74,7 +75,8 @@ Feature: Validate creation and submit for textarea elements using the principal 
     # End of test number 4
 
   @javascript
-  Scenario: test textarea element with the following settings: 1; 1; 20; empty
+  Scenario: test textarea element using configuration 02
+    # Configuration 02 consists in:
       # required:                       1
       # Use html editor:                1
       # Minimum length (in characters): 20
@@ -111,7 +113,8 @@ Feature: Validate creation and submit for textarea elements using the principal 
     # End of test number 7
 
   @javascript
-  Scenario: test textarea element with the following settings: 0; 0; 20; 1 and then empty
+  Scenario: test textarea element using configuration 03
+    # Configuration 03 consists in:
       # required:                       0
       # Use html editor:                0
       # Minimum length (in characters): 20
@@ -157,7 +160,8 @@ Feature: Validate creation and submit for textarea elements using the principal 
     # End of test number 11
 
   @javascript
-  Scenario: test textarea element with the following settings: 1; 0; 20; empty
+  Scenario: test textarea element using configuration 04
+    # Configuration 04 consists in:
       # required:                       1
       # Use html editor:                0
       # Minimum length (in characters): 20

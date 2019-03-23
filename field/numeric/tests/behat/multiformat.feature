@@ -24,7 +24,7 @@ Feature: verify the input with different number format
 
   @javascript
   Scenario: submit the numeric field using two different formats
-    And I log in as "admin"
+    Given I log in as "admin"
     And I navigate to "Language > Language packs" in site administration
     And I set the field "menupack" to "Italiano"
     And I press "Install selected language pack(s)"

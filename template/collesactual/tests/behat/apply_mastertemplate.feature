@@ -22,7 +22,7 @@ Feature: apply COLLES (Actual) mastertemplate
 
   @javascript
   Scenario: apply COLLES (Actual) master template
-    When I follow "To apply COLLES (Actual)"
+    Given I follow "To apply COLLES (Actual)"
     And I set the field "Master templates" to "COLLES (Actual)"
     And I press "Apply"
     Then I should see "In this online unit"

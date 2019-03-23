@@ -22,7 +22,7 @@ Feature: apply COLLES (Preferred and Actual) mastertemplate
 
   @javascript
   Scenario: apply COLLES (Preferred and Actual) master template
-    When I follow "To apply COLLES (Preferred and Actual)"
+    Given I follow "To apply COLLES (Preferred and Actual)"
     And I set the field "Master templates" to "COLLES (Preferred and Actual)"
     And I press "Apply"
     Then I should see "I prefer that my learning focuses on issues that interest me."

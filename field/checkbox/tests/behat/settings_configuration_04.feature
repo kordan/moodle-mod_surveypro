@@ -29,7 +29,8 @@ Feature: Validate creation and submit for "checkbox" elements using the principa
     And I expand all fieldsets
 
   @javascript
-  Scenario: test checkbox element with the following settings: 1; milk\ncoffee\nbutter\nbread; coffee; 0
+  Scenario: test checkbox element using configuration 07
+    # Configuration 07 consists in:
       # required:                 1
       # Options (fixed):          milk\ncoffee\nbutter\nbread
       # Default:                  coffee
@@ -67,7 +68,8 @@ Feature: Validate creation and submit for "checkbox" elements using the principa
     # End of test number 2
 
   @javascript
-  Scenario: test checkbox element with the following settings: 1; milk\ncoffee\nbutter\nbread; coffee; 2
+  Scenario: test checkbox element using configuration 08
+    # Configuration 08 consists in:
       # required:                 1
       # Options (fixed):          milk\ncoffee\nbutter\nbread
       # Default:                  coffee

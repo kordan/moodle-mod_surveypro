@@ -28,7 +28,7 @@ Feature: verify the thanks page is shown properly
 
   @javascript
   Scenario: test the empty thanks page
-    When I log in as "teacher1"
+    Given I log in as "teacher1"
     And I am on "Thank you" course homepage
     And I follow "Thanks surveypro"
     And I navigate to "Edit settings" in current page administration
@@ -54,8 +54,7 @@ Feature: verify the thanks page is shown properly
 
   @javascript
   Scenario: test the thanks page with plain text
-    # student1 logs in
-    When I log in as "student1"
+    Given I log in as "student1"
     And I am on "Thank you" course homepage
     And I follow "Thanks surveypro"
     And I press "New response"
@@ -71,7 +70,7 @@ Feature: verify the thanks page is shown properly
 
   @javascript
   Scenario: test the thanks page with images
-    When I log in as "teacher1"
+    Given I log in as "teacher1"
     And I follow "Manage private files"
     # And I upload "mod/lesson/tests/fixtures/moodle_logo.jpg" file to "Files" filemanager
     And I upload "mod/surveypro/tests/fixtures/thankyou.png" file to "Files" filemanager
