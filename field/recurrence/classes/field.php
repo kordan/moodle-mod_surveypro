@@ -206,7 +206,7 @@ class surveyprofield_recurrence_field extends mod_surveypro_itembase {
      * @return void
      */
     public function item_save($record) {
-        $this->item_get_common_settings($record);
+        $this->get_common_settings($record);
 
         // Now execute very specific plugin level actions.
 
@@ -217,15 +217,6 @@ class surveyprofield_recurrence_field extends mod_surveypro_itembase {
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
-    }
-
-    /**
-     * Is this item available as a parent?
-     *
-     * @return the content of the static property "canbeparent"
-     */
-    public static function item_get_canbeparent() {
-        return self::$canbeparent;
     }
 
     /**
@@ -270,7 +261,7 @@ class surveyprofield_recurrence_field extends mod_surveypro_itembase {
      */
     public function item_custom_fields_to_form() {
         // 1. Special management for composite fields.
-        $fieldlist = $this->item_get_composite_fields();
+        $fieldlist = $this->get_composite_fields();
         foreach ($fieldlist as $field) {
             if (is_null($this->{$field})) {
                 continue;
@@ -289,7 +280,7 @@ class surveyprofield_recurrence_field extends mod_surveypro_itembase {
      */
     public function item_custom_fields_to_db($record) {
         // 1. Special management for composite fields.
-        $fieldlist = $this->item_get_composite_fields();
+        $fieldlist = $this->get_composite_fields();
         foreach ($fieldlist as $field) {
             if (isset($record->{$field.'month'}) && isset($record->{$field.'day'})) {
                 $record->{$field} = $this->item_recurrence_to_unix_time($record->{$field.'month'}, $record->{$field.'day'});
@@ -304,10 +295,21 @@ class surveyprofield_recurrence_field extends mod_surveypro_itembase {
         // Nothing to do: no need to overwrite variables.
 
         // 3. Set values corresponding to checkboxes.
-        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in item_get_common_settings.
+        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in get_common_settings.
         // Nothing to do: no checkboxes in this plugin item form.
 
         // 4. Other.
+    }
+
+    // MARK get.
+
+    /**
+     * Is this item available as a parent?
+     *
+     * @return the content of the static property "canbeparent"
+     */
+    public static function get_canbeparent() {
+        return self::$canbeparent;
     }
 
     /**
@@ -315,7 +317,7 @@ class surveyprofield_recurrence_field extends mod_surveypro_itembase {
      *
      * @return void
      */
-    public function item_get_composite_fields() {
+    public function get_composite_fields() {
         return array('defaultvalue', 'lowerbound', 'upperbound');
     }
 
@@ -324,7 +326,7 @@ class surveyprofield_recurrence_field extends mod_surveypro_itembase {
      *
      * @return array of downloadformats
      */
-    public function item_get_downloadformats() {
+    public function get_downloadformats() {
         $options = array();
         $timenow = time();
 
@@ -342,7 +344,7 @@ class surveyprofield_recurrence_field extends mod_surveypro_itembase {
      *
      * @return the friendly format
      */
-    public function item_get_friendlyformat() {
+    public function get_friendlyformat() {
         return 'strftime03';
     }
 
@@ -351,7 +353,7 @@ class surveyprofield_recurrence_field extends mod_surveypro_itembase {
      *
      * @return array of felds
      */
-    public function item_get_multilang_fields() {
+    public function get_multilang_fields() {
         $fieldlist = array();
         $fieldlist[$this->plugin] = array('content', 'extranote');
 
@@ -363,7 +365,7 @@ class surveyprofield_recurrence_field extends mod_surveypro_itembase {
      *
      * @return string $schema
      */
-    public static function item_get_plugin_schema() {
+    public static function get_plugin_schema() {
         $schema = <<<EOS
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
@@ -611,7 +613,7 @@ EOS;
         }
         // End of: verify the content of each drop down menu.
 
-        if (!mod_surveypro_utility_useritem::date_is_valid($data[$this->itemname.'_day'], $data[$this->itemname.'_month'])) {
+        if (!mod_surveypro_utility_item::date_is_valid($data[$this->itemname.'_day'], $data[$this->itemname.'_month'])) {
             $errors[$errorkey] = get_string('ierr_invalidinput', 'mod_surveypro');
             return;
         }
@@ -637,7 +639,7 @@ EOS;
             if ($this->lowerbound > $this->upperbound) {
                 // External range.
                 if ( ($userinput > $this->lowerbound) && ($userinput < $this->upperbound) ) {
-                    $format = $this->item_get_friendlyformat();
+                    $format = $this->get_friendlyformat();
                     $a = new stdClass();
                     $a->lowerbound = userdate($this->lowerbound, get_string($format, 'surveyprofield_recurrence'), 0);
                     $a->upperbound = userdate($this->upperbound, get_string($format, 'surveyprofield_recurrence'), 0);
@@ -775,7 +777,7 @@ EOS;
 
         // Format.
         if ($format == SURVEYPRO_FRIENDLYFORMAT) {
-            $format = $this->item_get_friendlyformat();
+            $format = $this->get_friendlyformat();
         }
         if (empty($format)) {
             $format = $this->downloadformat;

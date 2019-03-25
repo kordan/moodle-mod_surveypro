@@ -361,7 +361,7 @@ function surveypro_update_instance($surveypro, $mform) {
     surveypro_pre_process_checkboxes($surveypro);
 
     // I don't think classes are available here!
-    // So, I can't use $utilityman->reset_items_pages();
+    // So, I can't use $utilitylayoutman->reset_items_pages();
     $whereparams = array('surveyproid' => $surveypro->id);
     $DB->set_field('surveypro_item', 'formpage', 0, $whereparams);
 
@@ -630,11 +630,11 @@ function surveypro_cron_scheduled_task() {
                 if ($submissions = $DB->get_recordset_select('surveypro_submission', $where, $whereparams, 'surveyproid', 'id')) {
 
                     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, 0, false, MUST_EXIST);
-                    $utilityman = new mod_surveypro_utility($cm, $surveypro);
+                    $utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
 
                     foreach ($submissions as $submission) {
                         // Third step: delete each selected submission.
-                        $utilityman->delete_submissions(array('id' => $submission->id));
+                        $utilitylayoutman->delete_submissions(array('id' => $submission->id));
                     }
                 }
             }
@@ -794,8 +794,8 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
 
     $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
 
-    $utilityman = new mod_surveypro_utility($cm, $surveypro);
-    $nodeurl = $utilityman->get_common_links_url(SURVEYPRO_BLOCK);
+    $utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+    $nodeurl = $utilitylayoutman->get_common_links_url(SURVEYPRO_BLOCK);
 
     $paramurlbase = array('s' => $cm->instance);
 
@@ -956,8 +956,8 @@ function surveypro_add_report_link($templatename, $childreports, $childnode, $re
  * @return void
  */
 function surveypro_extend_navigation(navigation_node $navref, stdClass $course, stdClass $surveypro, cm_info $cm) {
-    $utilityman = new mod_surveypro_utility($cm, $surveypro);
-    $nodeurl = $utilityman->get_common_links_url(SURVEYPRO_BLOCK);
+    $utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+    $nodeurl = $utilitylayoutman->get_common_links_url(SURVEYPRO_BLOCK);
 
     // $currentgroup = groups_get_activity_group($cm);
     // $groupmode = groups_get_activity_groupmode($cm, $COURSE);

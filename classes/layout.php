@@ -140,8 +140,8 @@ class mod_surveypro_layout {
         $this->context = $context;
         $this->surveypro = $surveypro;
 
-        $utilityman = new mod_surveypro_utility($cm, $surveypro);
-        $itemcount = $utilityman->layout_has_items(0, null, true, true, true);
+        $utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+        $itemcount = $utilitylayoutman->layout_has_items(0, null, true, true, true);
         $this->set_itemcount($itemcount);
     }
 
@@ -802,7 +802,7 @@ class mod_surveypro_layout {
      * @param array $where: permanent condition needed to filter target items
      * @return object $childrenitems
      */
-    public function item_get_children($baseitemid=null, $where=null) {
+    public function get_children($baseitemid=null, $where=null) {
         global $DB;
 
         if (empty($baseitemid)) {
@@ -814,7 +814,7 @@ class mod_surveypro_layout {
         }
 
         if (!is_array($where)) {
-            $a = 'item_get_children';
+            $a = 'get_children';
             print_error('arrayexpected', 'mod_surveypro', null, $a);
         }
 
@@ -916,8 +916,8 @@ class mod_surveypro_layout {
         }
 
         // You changed item order. Don't forget to reset items per page.
-        $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-        $utilityman->reset_items_pages();
+        $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+        $utilitylayoutman->reset_items_pages();
     }
 
     /**
@@ -1158,7 +1158,7 @@ class mod_surveypro_layout {
 
         // Build tohidelist.
         // Here I must select the whole tree down.
-        $itemstohide = $this->item_get_children(null, array('hidden' => 0));
+        $itemstohide = $this->get_children(null, array('hidden' => 0));
 
         $itemstoprocess = count($itemstohide);
         if ( ($this->confirm == SURVEYPRO_CONFIRMED_YES) || ($itemstoprocess == 1) ) {
@@ -1166,8 +1166,8 @@ class mod_surveypro_layout {
             foreach ($itemstohide as $itemtohide) {
                 $DB->set_field('surveypro_item', 'hidden', 1, array('id' => $itemtohide->id));
             }
-            $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-            $utilityman->reset_items_pages();
+            $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+            $utilitylayoutman->reset_items_pages();
         }
     }
 
@@ -1181,7 +1181,7 @@ class mod_surveypro_layout {
 
         // Build tohidelist.
         // Here I must select the whole tree down.
-        $itemstohide = $this->item_get_children(null, array('hidden' => 0));
+        $itemstohide = $this->get_children(null, array('hidden' => 0));
 
         $itemstoprocess = count($itemstohide);
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
@@ -1252,8 +1252,8 @@ class mod_surveypro_layout {
             foreach ($toshowlist as $toshowitemid) {
                 $DB->set_field('surveypro_item', 'hidden', 0, array('id' => $toshowitemid));
             }
-            $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-            $utilityman->reset_items_pages();
+            $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+            $utilitylayoutman->reset_items_pages();
         }
     }
 
@@ -1337,18 +1337,18 @@ class mod_surveypro_layout {
                 return;
             }
 
-            $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-            $utilityman->reset_items_pages();
-            $whereparams = array('surveyproid' => $this->surveypro->id);
+            $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+            $utilitylayoutman->reset_items_pages();
 
+            $whereparams = array('surveyproid' => $this->surveypro->id);
             $childrenids = array();
 
-            $itemstodelete = $this->item_get_children();
+            $itemstodelete = $this->get_children();
             array_shift($itemstodelete);
             if ($itemstodelete) {
                 foreach ($itemstodelete as $itemtodelete) {
                     $whereparams['id'] = $itemtodelete->id;
-                    $utilityman->delete_items($whereparams);
+                    $utilitylayoutman->delete_items($whereparams);
                 }
             }
 
@@ -1357,12 +1357,12 @@ class mod_surveypro_layout {
 
             $killedsortindex = $item->get_sortindex();
             $whereparams = array('id' => $this->rootitemid);
-            $utilityman->delete_items($whereparams);
+            $utilitylayoutman->delete_items($whereparams);
 
-            $utilityman->items_reindex($killedsortindex);
+            $utilitylayoutman->items_reindex($killedsortindex);
             $this->confirm = SURVEYPRO_ACTION_EXECUTED;
 
-            $itemcount = $utilityman->layout_has_items(0, SURVEYPRO_TYPEFIELD, true, true, true);
+            $itemcount = $utilitylayoutman->layout_has_items(0, SURVEYPRO_TYPEFIELD, true, true, true);
             $this->set_itemcount($itemcount);
 
             $this->actionfeedback = new stdClass();
@@ -1391,7 +1391,7 @@ class mod_surveypro_layout {
             $message = get_string('confirm_delete1item', 'mod_surveypro', $a);
 
             // Is there any child item chain to break? (Sortindex is supposed to be a valid key in the next query).
-            $itemstodelete = $this->item_get_children();
+            $itemstodelete = $this->get_children();
             array_shift($itemstodelete);
             if ($itemstodelete) {
                 foreach ($itemstodelete as $itemtodelete) {
@@ -1463,7 +1463,7 @@ class mod_surveypro_layout {
                 $type = $itemseed->type;
                 $plugin = $itemseed->plugin;
                 $item = surveypro_get_item($this->cm, $this->surveypro, $id, $type, $plugin);
-                if ($multilangfields = $item->item_get_multilang_fields()) { // Pagebreak and fieldsetend have no multilang_fields.
+                if ($multilangfields = $item->get_multilang_fields()) { // Pagebreak and fieldsetend have no multilang_fields.
                     foreach ($multilangfields as $mlplugin) { // Take in mind that $mlplugin is an array of fields.
                         $record = new stdClass();
                         if ($plugin == 'item') {
@@ -1570,7 +1570,7 @@ class mod_surveypro_layout {
         $baseitemid = end($itemstoreserve);
 
         // Build itemstoreserve starting from the oldest parent.
-        $itemstoreserve = $this->item_get_children($baseitemid, array('reserved' => 0));
+        $itemstoreserve = $this->get_children($baseitemid, array('reserved' => 0));
 
         $itemstoprocess = count($itemstoreserve);
         if ( ($this->confirm == SURVEYPRO_CONFIRMED_YES) || ($itemstoprocess == 1) ) {
@@ -1578,8 +1578,8 @@ class mod_surveypro_layout {
             foreach ($itemstoreserve as $itemtoreserve) {
                 $DB->set_field('surveypro_item', 'reserved', 1, array('id' => $itemtoreserve->id));
             }
-            $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-            $utilityman->reset_items_pages();
+            $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+            $utilitylayoutman->reset_items_pages();
         }
     }
 
@@ -1609,7 +1609,7 @@ class mod_surveypro_layout {
             $baseitemid = end($itemstoreserve);
 
             // Build itemstoreserve starting from the oldest parent.
-            $itemstoreserve = $this->item_get_children($baseitemid, array('reserved' => 0));
+            $itemstoreserve = $this->get_children($baseitemid, array('reserved' => 0));
 
             $itemstoprocess = count($itemstoreserve); // This is the list of ancestors.
             if ($itemstoprocess > 1) { // Ask for confirmation.
@@ -1687,7 +1687,7 @@ class mod_surveypro_layout {
         $baseitemid = end($itemstoavailable);
 
         // Build itemstoavailable starting from the oldest parent.
-        $itemstoavailable = $this->item_get_children($baseitemid, array('reserved' => 1));
+        $itemstoavailable = $this->get_children($baseitemid, array('reserved' => 1));
 
         $itemstoprocess = count($itemstoavailable); // This is the list of ancestors.
         if ( ($this->confirm == SURVEYPRO_CONFIRMED_YES) || ($itemstoprocess == 1) ) {
@@ -1695,8 +1695,8 @@ class mod_surveypro_layout {
             foreach ($itemstoavailable as $itemtoavailable) {
                 $DB->set_field('surveypro_item', 'reserved', 0, array('id' => $itemtoavailable->id));
             }
-            $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-            $utilityman->reset_items_pages();
+            $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+            $utilitylayoutman->reset_items_pages();
         }
     }
 
@@ -1726,7 +1726,7 @@ class mod_surveypro_layout {
             $baseitemid = end($itemstoavailable);
 
             // Build itemstoavailable starting from the oldest parent.
-            $itemstoavailable = $this->item_get_children($baseitemid, array('reserved' => 1));
+            $itemstoavailable = $this->get_children($baseitemid, array('reserved' => 1));
 
             $itemstoprocess = count($itemstoavailable); // This is the list of ancestors.
             if ($itemstoprocess > 1) { // Ask for confirmation.
@@ -1792,11 +1792,11 @@ class mod_surveypro_layout {
      */
     public function hide_all_execute() {
         if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
-            $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+            $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
             $whereparams = array('surveyproid' => $this->surveypro->id);
-            $utilityman->items_set_visibility($whereparams, 0);
+            $utilitylayoutman->items_set_visibility($whereparams, 0);
 
-            $utilityman->reset_items_pages();
+            $utilitylayoutman->reset_items_pages();
 
             $this->set_confirm(SURVEYPRO_ACTION_EXECUTED);
         }
@@ -1835,12 +1835,12 @@ class mod_surveypro_layout {
      */
     public function show_all_execute() {
         if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
-            $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+            $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
 
             $whereparams = array('surveyproid' => $this->surveypro->id);
-            $utilityman->items_set_visibility($whereparams, 1);
+            $utilitylayoutman->items_set_visibility($whereparams, 1);
 
-            $utilityman->items_reindex();
+            $utilitylayoutman->items_reindex();
 
             $this->set_confirm(SURVEYPRO_ACTION_EXECUTED);
         }
@@ -1879,10 +1879,10 @@ class mod_surveypro_layout {
      */
     public function delete_all_execute() {
         if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
-            $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+            $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
 
             $whereparams = array('surveyproid' => $this->surveypro->id);
-            $utilityman->delete_items($whereparams);
+            $utilitylayoutman->delete_items($whereparams);
 
             $paramurl = array();
             $paramurl['id'] = $this->cm->id;
@@ -1927,13 +1927,13 @@ class mod_surveypro_layout {
      */
     public function delete_visible_execute() {
         if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
-            $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+            $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
 
             $whereparams = array('surveyproid' => $this->surveypro->id);
             $whereparams['hidden'] = 0;
-            $utilityman->delete_items($whereparams);
+            $utilitylayoutman->delete_items($whereparams);
 
-            $utilityman->items_reindex();
+            $utilitylayoutman->items_reindex();
 
             $paramurl = array();
             $paramurl['id'] = $this->cm->id;
@@ -1978,13 +1978,13 @@ class mod_surveypro_layout {
      */
     public function delete_hidden_execute() {
         if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
-            $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+            $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
 
             $whereparams = array('surveyproid' => $this->surveypro->id);
             $whereparams['hidden'] = 1;
-            $utilityman->delete_items($whereparams);
+            $utilitylayoutman->delete_items($whereparams);
 
-            $utilityman->items_reindex();
+            $utilitylayoutman->items_reindex();
 
             $paramurl = array();
             $paramurl['id'] = $this->cm->id;

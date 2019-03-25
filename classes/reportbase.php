@@ -117,7 +117,7 @@ class mod_surveypro_reportbase {
 
         // You need to count submissions OF ENROLLED PEOPLE, otherwise colles report may crash,
         // in $m = $aggregate->sumofanswers / $aggregate->answerscount dividing by 0.
-        // Because of this, $utilityman->has_submissions(); can't be used
+        // Because of this, $utilitylayoutman->has_submissions(); can't be used
         // because it simply counts ALL the submissions found
         // without care to the actual enrolment of the submitters
         // while colles report actually selects submissions of enrolled users ONLY.

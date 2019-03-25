@@ -44,7 +44,7 @@ require_course_login($course, true, $cm);
 $context = context_module::instance($cm->id);
 require_capability('mod/surveypro:accessreports', $context);
 
-$utilityman = new mod_surveypro_utility($cm, $surveypro);
+$utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
 $reportman = new surveyproreport_frequency_report($cm, $context, $surveypro);
 
 // Begin of: instance filterform.

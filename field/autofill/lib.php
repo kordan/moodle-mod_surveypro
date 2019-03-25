@@ -24,8 +24,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
-
 define('SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT_COUNT', 15);
 define('SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT01', 'submissionid');
 define('SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT02', 'submissiontime');

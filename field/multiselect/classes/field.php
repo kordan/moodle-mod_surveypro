@@ -172,7 +172,7 @@ class surveyprofield_multiselect_field extends mod_surveypro_itembase {
      * @return void
      */
     public function item_save($record) {
-        $this->item_get_common_settings($record);
+        $this->get_common_settings($record);
 
         // Now execute very specific plugin level actions.
 
@@ -190,15 +190,6 @@ class surveyprofield_multiselect_field extends mod_surveypro_itembase {
     }
 
     /**
-     * Is this item available as a parent?
-     *
-     * @return the content of the static property "canbeparent"
-     */
-    public static function item_get_canbeparent() {
-        return self::$canbeparent;
-    }
-
-    /**
      * Traslate values from the mform of this item to values for corresponding properties.
      *
      * @param object $record
@@ -212,7 +203,7 @@ class surveyprofield_multiselect_field extends mod_surveypro_itembase {
         // Nothing to do: no need to overwrite variables.
 
         // 3. Set values corresponding to checkboxes.
-        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in item_get_common_settings.
+        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in get_common_settings.
         $checkboxes = array('noanswerdefault');
         foreach ($checkboxes as $checkbox) {
             $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
@@ -251,7 +242,7 @@ class surveyprofield_multiselect_field extends mod_surveypro_itembase {
         $constraints = array();
 
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
-        $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
+        $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
         $optionstr = get_string('option', 'surveyprofield_multiselect');
         foreach ($values as $value) {
             $constraints[] = $optionstr.$labelsep.$value;
@@ -260,12 +251,23 @@ class surveyprofield_multiselect_field extends mod_surveypro_itembase {
         return implode($constraints, '<br />');
     }
 
+    // MARK get.
+
+    /**
+     * Is this item available as a parent?
+     *
+     * @return the content of the static property "canbeparent"
+     */
+    public static function get_canbeparent() {
+        return self::$canbeparent;
+    }
+
     /**
      * Get the content of the downloadformats menu of the item setup form.
      *
      * @return array of downloadformats
      */
-    public function item_get_downloadformats() {
+    public function get_downloadformats() {
         $options = array();
 
         $options[SURVEYPRO_ITEMSRETURNSVALUES] = get_string('returnvalues', 'surveyprofield_multiselect');
@@ -280,7 +282,7 @@ class surveyprofield_multiselect_field extends mod_surveypro_itembase {
      *
      * @return the friendly format
      */
-    public function item_get_friendlyformat() {
+    public function get_friendlyformat() {
         return SURVEYPRO_ITEMRETURNSLABELS;
     }
 
@@ -289,7 +291,7 @@ class surveyprofield_multiselect_field extends mod_surveypro_itembase {
      *
      * @return array of felds
      */
-    public function item_get_multilang_fields() {
+    public function get_multilang_fields() {
         $fieldlist = array();
         $fieldlist[$this->plugin] = array('content', 'extranote', 'options', 'defaultvalue');
 
@@ -301,7 +303,7 @@ class surveyprofield_multiselect_field extends mod_surveypro_itembase {
      *
      * @return string $schema
      */
-    public static function item_get_plugin_schema() {
+    public static function get_plugin_schema() {
         $schema = <<<EOS
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
@@ -353,8 +355,9 @@ EOS;
      * return string childparentvalue
      */
     public function parent_encode_child_parentcontent($childparentcontent) {
-        $parentcontents = array_unique(surveypro_multilinetext_to_array($childparentcontent));
-        $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
+        $utilityitemman = new mod_surveypro_utility_item($this->cm, $this->surveypro);
+        $parentcontents = array_unique($utilityitemman->multilinetext_to_array($childparentcontent));
+        $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
 
         $childparentvalue = array_fill(0, count($values), 0);
         $labels = array();
@@ -392,7 +395,7 @@ EOS;
      * return string $childparentcontent
      */
     public function parent_decode_child_parentvalue($childparentvalue) {
-        $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
+        $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue);
         $actualcount = count($parentvalues);
 
@@ -441,7 +444,7 @@ EOS;
     public function parent_validate_child_constraints($childparentvalue) {
         // See parent method for explanation.
 
-        $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
+        $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
         $optioncount = count($values);
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue);
         $actualcount = count($parentvalues);
@@ -477,6 +480,7 @@ EOS;
      * @return void
      */
     public function userform_mform_element($mform, $searchform, $readonly) {
+        $utilityitemman = new mod_surveypro_utility_item($this->cm, $this->surveypro);
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
         $noanswerstr = get_string('noanswer', 'mod_surveypro');
         $starstr = get_string('star', 'mod_surveypro');
@@ -485,7 +489,7 @@ EOS;
 
         $idprefix = 'id_surveypro_field_multiselect_'.$this->sortindex;
 
-        $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
+        $labels = $this->get_content_array(SURVEYPRO_LABELS, 'options');
         $attributes = array();
         $attributes['id'] = $idprefix;
         $attributes['class'] = 'indent-'.$this->indent.' multiselect_select';
@@ -546,7 +550,7 @@ EOS;
 
         // Begin of: defaults.
         if (!$searchform) {
-            if ($defaults = surveypro_multilinetext_to_array($this->defaultvalue)) {
+            if ($defaults = $utilityitemman->multilinetext_to_array($this->defaultvalue)) {
                 $defaultkeys = array();
                 foreach ($defaults as $default) {
                     $defaultkeys[] = array_search($default, $labels);
@@ -688,7 +692,7 @@ EOS;
      */
     public function userform_is_child_allowed_dynamic($childparentvalue, $data) {
         // I need to verify (item per item) if they hold the same value the user entered.
-        $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
+        $labels = $this->get_content_array(SURVEYPRO_LABELS, 'options');
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 2;3.
 
         if (isset($data[$this->itemname])) {
@@ -761,13 +765,13 @@ EOS;
         }
 
         if (!isset($answer['mainelement'])) { // Only placeholder arrived here.
-            $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
+            $labels = $this->get_content_array(SURVEYPRO_LABELS, 'options');
             $olduseranswer->content = implode(SURVEYPRO_DBMULTICONTENTSEPARATOR, array_fill(1, count($labels), '0'));
         } else {
             // Here $answer is an array with the keys of the selected elements.
             $olduseranswer->content = implode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $answer['mainelement']);
 
-            $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
+            $labels = $this->get_content_array(SURVEYPRO_LABELS, 'options');
             $itemcount = count($labels);
             $contentarray = array_fill(0, $itemcount, 0);
             foreach ($answer['mainelement'] as $k) {
@@ -835,7 +839,7 @@ EOS;
 
         // Format.
         if ($format == SURVEYPRO_FRIENDLYFORMAT) {
-            $format = $this->item_get_friendlyformat();
+            $format = $this->get_friendlyformat();
         }
         if (empty($format)) {
             $format = $this->downloadformat;
@@ -847,7 +851,7 @@ EOS;
             case SURVEYPRO_ITEMSRETURNSVALUES:
                 $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $content);
                 $output = array();
-                $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
+                $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
                 foreach ($answers as $k => $answer) {
                     if ($answer == 1) {
                         $output[] = $values[$k];
@@ -858,7 +862,7 @@ EOS;
             case SURVEYPRO_ITEMRETURNSLABELS:
                 $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $content);
                 $output = array();
-                $values = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
+                $values = $this->get_content_array(SURVEYPRO_LABELS, 'options');
 
                 foreach ($answers as $k => $answer) {
                     if ($answer == 1) {

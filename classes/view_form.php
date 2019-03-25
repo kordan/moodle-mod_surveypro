@@ -82,8 +82,8 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         // Assign pages to items.
         $maxassignedpage = $DB->get_field('surveypro_item', 'MAX(formpage)', array('surveyproid' => $this->surveypro->id));
         if (!$maxassignedpage) {
-            $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-            $maxassignedpage = $utilityman->assign_pages();
+            $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+            $maxassignedpage = $utilitylayoutman->assign_pages();
             $this->set_maxassignedpage($maxassignedpage);
         } else {
             $this->set_maxassignedpage($maxassignedpage);
@@ -604,7 +604,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
 
         // Generate $itemhelperinfo.
         foreach ($this->formdata as $elementname => $content) {
-            if ($matches = mod_surveypro_utility::get_item_parts($elementname)) {
+            if ($matches = mod_surveypro_utility_item::get_item_parts($elementname)) {
                 if ($matches['prefix'] == SURVEYPRO_PLACEHOLDERPREFIX) {
                     $newelement = SURVEYPRO_ITEMPREFIX.'_'.$matches['type'].'_'.$matches['plugin'].'_'.$matches['itemid'];
                     if (!isset($this->formdata->$newelement)) {
@@ -617,7 +617,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
 
         $itemhelperinfo = array();
         foreach ($this->formdata as $elementname => $content) {
-            if ($matches = mod_surveypro_utility::get_item_parts($elementname)) {
+            if ($matches = mod_surveypro_utility_item::get_item_parts($elementname)) {
                 if ($matches['prefix'] == SURVEYPRO_DONTSAVEMEPREFIX) {
                     continue; // To next foreach.
                 }
@@ -738,8 +738,8 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
 
         // Get the list of used plugin.
-        $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-        $pluginlist = $utilityman->get_used_plugin_list(SURVEYPRO_TYPEFIELD);
+        $utilitysubmissionman = new mod_surveypro_utility_submission($this->cm, $this->surveypro);
+        $pluginlist = $utilitysubmissionman->get_used_plugin_list(SURVEYPRO_TYPEFIELD);
 
         // Begin of: get the list of all mandatory fields.
         $requireditems = array();
@@ -915,7 +915,8 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         }
 
         if (!empty($this->surveypro->mailextraaddresses)) {
-            $morerecipients = surveypro_multilinetext_to_array($this->surveypro->mailextraaddresses);
+            $utilityitemman = new mod_surveypro_utility_item($this->cm, $this->surveypro);
+            $morerecipients = $utilityitemman->multilinetext_to_array($this->surveypro->mailextraaddresses);
             foreach ($morerecipients as $moreemail) {
                 $singleuser = new stdClass();
                 $singleuser->id = -1;
@@ -1000,8 +1001,8 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
                 return;
             }
 
-            $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-            if (!$utilityman->can_submit_more()) {
+            $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+            if (!$utilitylayoutman->can_submit_more()) {
                 $message = get_string('nomoresubmissionsallowed', 'mod_surveypro', $this->surveypro->maxentries);
                 echo $OUTPUT->notification($message, 'notifyproblem');
 
@@ -1085,7 +1086,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         $disposelist = array();
         $olditemid = 0;
         foreach ($elementnames as $elementname) {
-            if (!$matches = mod_surveypro_utility::get_item_parts($elementname)) {
+            if (!$matches = mod_surveypro_utility_item::get_item_parts($elementname)) {
                 continue;
             } else {
                 if ($matches['prefix'] == SURVEYPRO_DONTSAVEMEPREFIX) {
@@ -1134,9 +1135,9 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
 
         // If not expected items are here...
         if (count($disposelist)) {
-            $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+            $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
             foreach ($elementnames as $elementname) {
-                if ($matches = mod_surveypro_utility::get_item_parts($elementname)) {
+                if ($matches = mod_surveypro_utility_item::get_item_parts($elementname)) {
                     if ($matches['prefix'] == SURVEYPRO_DONTSAVEMEPREFIX) {
                         continue; // To next foreach.
                     }
@@ -1145,7 +1146,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
                         unset($this->formdata->$elementname);
                         // If this datum was previously saved (when the item was not disabled)
                         // now I have to delete from database.
-                        $utilityman->delete_answer(array('submissionid' => $this->formdata->submissionid, 'itemid' => $itemid));
+                        $utilitylayoutman->delete_answer(array('submissionid' => $this->formdata->submissionid, 'itemid' => $itemid));
                     }
                 }
             }
@@ -1174,7 +1175,8 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
             if ($submission->userid != $USER->id) {
                 $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
                 if ($groupmode == SEPARATEGROUPS) {
-                    $mygroupmates = surveypro_groupmates($this->cm);
+                    $utilitysubmissionman = new mod_surveypro_utility_submission($cm, $surveypro);
+                    $mygroupmates = $utilitysubmissionman->get_groupmates($this->cm);
                     // If I am a teacher, $mygroupmates is empty but I still have the right to see all my students.
                     if (!$mygroupmates) { // I have no $mygroupmates. I am a teacher. I am active part of each group.
                         $groupuser = true;
@@ -1199,7 +1201,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
                 if (!$canignoremaxentries) {
                     // Take care! Let's suppose this scenario:
                     // $this->surveypro->maxentries = N
-                    // $utilityman->has_submissions(true, SURVEYPRO_STATUSALL, $USER->id) = N - 1.
+                    // $utilitylayoutman->has_submissions(true, SURVEYPRO_STATUSALL, $USER->id) = N - 1.
                     // When I fill the FIRST page of a survey, I get $next = N
                     // but when I go to fill the SECOND page of a survey I have one more "in progress" survey
                     // that is the one that I created when I saved the FIRST page, so...
@@ -1207,8 +1209,8 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
                     // $next = N + 1
                     // and I am wrongly stopped here!
                     // Because of this, I increase $next only if submissionid == 0.
-                    $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-                    $next = $utilityman->has_submissions(true, SURVEYPRO_STATUSALL, $USER->id);
+                    $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+                    $next = $utilitylayoutman->has_submissions(true, SURVEYPRO_STATUSALL, $USER->id);
                     if (!$this->get_submissionid()) {
                         $next += 1;
                     }

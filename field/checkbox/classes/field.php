@@ -205,7 +205,7 @@ class surveyprofield_checkbox_field extends mod_surveypro_itembase {
      * @return void
      */
     public function item_save($record) {
-        $this->item_get_common_settings($record);
+        $this->get_common_settings($record);
 
         // Now execute very specific plugin level actions.
 
@@ -220,15 +220,6 @@ class surveyprofield_checkbox_field extends mod_surveypro_itembase {
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
-    }
-
-    /**
-     * Is this item available as a parent?
-     *
-     * @return the content of the static property "canbeparent"
-     */
-    public static function item_get_canbeparent() {
-        return self::$canbeparent;
     }
 
     /**
@@ -267,7 +258,7 @@ class surveyprofield_checkbox_field extends mod_surveypro_itembase {
         // Nothing to do: no need to overwrite variables.
 
         // 3. Set values corresponding to checkboxes.
-        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in item_get_common_settings.
+        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in get_common_settings.
         $checkboxes = array('noanswerdefault');
         foreach ($checkboxes as $checkbox) {
             $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
@@ -295,7 +286,7 @@ class surveyprofield_checkbox_field extends mod_surveypro_itembase {
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
         $constraints = array();
 
-        $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
+        $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
         $optionstr = get_string('option', 'surveyprofield_checkbox');
         foreach ($values as $value) {
             $constraints[] = $optionstr.$labelsep.$value;
@@ -309,12 +300,23 @@ class surveyprofield_checkbox_field extends mod_surveypro_itembase {
         return implode($constraints, '<br />');
     }
 
+    // MARK get.
+
+    /**
+     * Is this item available as a parent?
+     *
+     * @return the content of the static property "canbeparent"
+     */
+    public static function get_canbeparent() {
+        return self::$canbeparent;
+    }
+
     /**
      * Get the content of the downloadformats menu of the item setup form.
      *
      * @return array of downloadformats
      */
-    public function item_get_downloadformats() {
+    public function get_downloadformats() {
         $options = array();
 
         $options[SURVEYPRO_ITEMSRETURNSVALUES] = get_string('returnvalues', 'surveyprofield_checkbox');
@@ -329,7 +331,7 @@ class surveyprofield_checkbox_field extends mod_surveypro_itembase {
      *
      * @return the friendly format
      */
-    public function item_get_friendlyformat() {
+    public function get_friendlyformat() {
         return SURVEYPRO_ITEMRETURNSLABELS;
     }
 
@@ -338,7 +340,7 @@ class surveyprofield_checkbox_field extends mod_surveypro_itembase {
      *
      * @return array of felds
      */
-    public function item_get_multilang_fields() {
+    public function get_multilang_fields() {
         $fieldlist = array();
         $fieldlist[$this->plugin] = array('content', 'extranote', 'options', 'labelother', 'defaultvalue');
 
@@ -350,7 +352,7 @@ class surveyprofield_checkbox_field extends mod_surveypro_itembase {
      *
      * @return string $schema
      */
-    public static function item_get_plugin_schema() {
+    public static function get_plugin_schema() {
         $schema = <<<EOS
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
@@ -403,8 +405,9 @@ EOS;
      * return string childparentvalue
      */
     public function parent_encode_child_parentcontent($childparentcontent) {
-        $parentcontents = array_unique(surveypro_multilinetext_to_array($childparentcontent));
-        $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
+        $utilityitemman = new mod_surveypro_utility_item($this->cm, $this->surveypro);
+        $parentcontents = array_unique($utilityitemman->multilinetext_to_array($childparentcontent));
+        $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
 
         $childparentvalue = array_fill(0, count($values), 0);
         $labels = array();
@@ -442,7 +445,7 @@ EOS;
      * return string $childparentcontent
      */
     public function parent_decode_child_parentvalue($childparentvalue) {
-        $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
+        $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue);
         $actualcount = count($parentvalues);
 
@@ -491,7 +494,7 @@ EOS;
     public function parent_validate_child_constraints($childparentvalue) {
         // See parent method for explanation.
 
-        $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
+        $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
         $expectedcount = count($values);
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue);
         $actualcount = count($parentvalues);
@@ -526,8 +529,9 @@ EOS;
 
         $idprefix = 'id_surveypro_field_checkbox_'.$this->sortindex;
 
-        $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
-        $defaults = surveypro_multilinetext_to_array($this->defaultvalue);
+        $labels = $this->get_content_array(SURVEYPRO_LABELS, 'options');
+        $utilityitemman = new mod_surveypro_utility_item($this->cm, $this->surveypro);
+        $defaults = $utilityitemman->multilinetext_to_array($this->defaultvalue);
 
         $attributes = array();
         $attributes['class'] = 'indent-'.$this->indent.' checkbox_check';
@@ -553,7 +557,7 @@ EOS;
             $i++;
         }
         if (!empty($this->labelother)) {
-            list($othervalue, $otherlabel) = $this->item_get_other();
+            list($othervalue, $otherlabel) = $this->get_other();
 
             $itemname = $this->itemname.'_other';
             $attributes['id'] = $idprefix.'_other';
@@ -654,7 +658,7 @@ EOS;
         }
 
         // Begin of: get answercount.
-        $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
+        $labels = $this->get_content_array(SURVEYPRO_LABELS, 'options');
 
         $answercount = 0;
         foreach ($labels as $k => $unused) {
@@ -771,7 +775,7 @@ EOS;
      */
     public function userform_is_child_allowed_dynamic($childparentvalue, $data) {
         // I need to verify (checkbox per checkbox) if they hold the same value the user entered.
-        $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
+        $labels = $this->get_content_array(SURVEYPRO_LABELS, 'options');
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // For instance: 2;3;shark.
 
         // Build the local $parentconstrain variable that will be used to evaluate the status.
@@ -917,7 +921,7 @@ EOS;
                     if ($fromdb->verified) { // If the answer was validated.
                         $prefill[$this->itemname.'_text'] = '';
                     } else {
-                        list($othervalue, $otherlabel) = $this->item_get_other();
+                        list($othervalue, $otherlabel) = $this->get_other();
                         $prefill[$this->itemname.'_text'] = $othervalue;
                     }
                 }
@@ -952,7 +956,7 @@ EOS;
 
         // Format.
         if ($format == SURVEYPRO_FRIENDLYFORMAT) {
-            $format = $this->item_get_friendlyformat();
+            $format = $this->get_friendlyformat();
         }
         if (empty($format)) {
             $format = $this->downloadformat;
@@ -964,7 +968,7 @@ EOS;
             case SURVEYPRO_ITEMSRETURNSVALUES:
                 $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $content);
                 $output = array();
-                $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
+                $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
 
                 foreach ($values as $k => $value) {
                     if ($answers[$k] == 1) {
@@ -987,7 +991,7 @@ EOS;
             case SURVEYPRO_ITEMRETURNSLABELS:
                 $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $content);
                 $output = array();
-                $values = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
+                $values = $this->get_content_array(SURVEYPRO_LABELS, 'options');
 
                 foreach ($values as $k => $value) {
                     if ($answers[$k] == 1) {

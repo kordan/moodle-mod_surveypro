@@ -323,7 +323,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             // Surveypro_item.
             $xmltable = $xmlitem->addChild('surveypro_item');
 
-            if ($multilangfields = $item->item_get_multilang_fields()) { // Pagebreak and fieldsetend have no multilang_fields.
+            if ($multilangfields = $item->get_multilang_fields()) { // Pagebreak and fieldsetend have no multilang_fields.
                 $this->build_langtree($multilangfields, $item);
             }
 
@@ -430,7 +430,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             }
         }
 
-        $content = $item->item_get_generic_property($field);
+        $content = $item->get_generic_property($field);
         if (strlen($content)) {
             $val = $content;
         } else {
@@ -452,9 +452,9 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         $this->trigger_event('mastertemplate_applied');
 
         // Begin of: delete all existing items.
-        $utilityman = new mod_surveypro_utility($this->cm);
+        $utilitylayoutman = new mod_surveypro_utility_layout($this->cm);
         $whereparams = array('surveyproid' => $this->surveypro->id);
-        $utilityman->delete_items($whereparams);
+        $utilitylayoutman->delete_items($whereparams);
         // End of: delete all existing items.
 
         $this->templatename = $this->formdata->mastertemplate;
@@ -480,8 +480,8 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         global $OUTPUT;
 
         $riskyediting = ($this->surveypro->riskyeditdeadline > time());
-        $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-        $hassubmissions = $utilityman->has_submissions();
+        $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+        $hassubmissions = $utilitylayoutman->has_submissions();
 
         if ($hassubmissions && (!$riskyediting)) {
             echo $OUTPUT->notification(get_string('applyusertemplatedenied01', 'mod_surveypro'), 'notifyproblem');
@@ -653,7 +653,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
                     $index = 0;
                 }
                 $stringindex = sprintf('%02d', 1 + $index);
-                $content = str_replace("\r", '', $item->item_get_generic_property($fieldname));
+                $content = str_replace("\r", '', $item->get_generic_property($fieldname));
                 $this->langtree[$component][$component.'_'.$stringindex] = $content;
             }
         }

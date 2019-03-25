@@ -210,7 +210,7 @@ class mod_surveypro_itembaseform extends moodleform {
             $fieldname = 'parentid';
             // Create the list of each item with:
             // sortindex lower than mine (whether already exists);
-            // $classname::item_get_canbeparent() == true;
+            // $classname::get_canbeparent() == true;
             // I also should include the clause "reserved = my one" but I omit this validation
             // because the surveypro creator can, at every time, change the availability of the current item.
             // So I move the validation of the holding form at the form validation time.
@@ -219,7 +219,7 @@ class mod_surveypro_itembaseform extends moodleform {
             $pluginlist = surveypro_get_plugin_list(SURVEYPRO_TYPEFIELD);
             foreach ($pluginlist as $plugin) {
                 $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'_'.SURVEYPRO_TYPEFIELD;
-                if (!$classname::item_get_canbeparent()) {
+                if (!$classname::get_canbeparent()) {
                     unset($pluginlist[$plugin]);
                 }
             }
@@ -248,7 +248,7 @@ class mod_surveypro_itembaseform extends moodleform {
                 $content = $star;
                 $content .= get_string('pluginname', 'surveyprofield_'.$parentitem->get_plugin());
                 $content .= ' ['.$parentitem->get_sortindex().']: '.strip_tags($parentitem->get_content());
-                $content = surveypro_cutdownstring($content);
+                $content = mb_strimwidth($content, 0, 60, '...');
 
                 $condition = ($parentitem->get_hidden() == 1);
                 $condition = $condition && ($item->get_parentid() != $parentitem->get_itemid());
@@ -313,8 +313,8 @@ class mod_surveypro_itembaseform extends moodleform {
 
         $cm = $item->get_cm();
 
-        $utilityman = new mod_surveypro_utility($cm, $surveypro);
-        $hassubmissions = $utilityman->has_submissions();
+        $utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+        $hassubmissions = $utilitylayoutman->has_submissions();
         $riskyediting = ($surveypro->riskyeditdeadline > time());
 
         // Buttons.

@@ -94,9 +94,9 @@ class mod_surveypro_date_setupform extends mod_surveypro_itembaseform {
 
         // Item: downloadformat.
         $fieldname = 'downloadformat';
-        $options = $item->item_get_downloadformats();
+        $options = $item->get_downloadformats();
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_date'), $options);
-        $mform->setDefault($fieldname, $item->item_get_friendlyformat());
+        $mform->setDefault($fieldname, $item->get_friendlyformat());
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_date');
 
         // Here I open a new fieldset.
@@ -146,14 +146,14 @@ class mod_surveypro_date_setupform extends mod_surveypro_itembaseform {
         $lowerday = $data['lowerboundday'];
         $lowermonth = $data['lowerboundmonth'];
         $loweryear = $data['lowerboundyear'];
-        if (!mod_surveypro_utility_useritem::date_is_valid($lowerday, $lowermonth, $loweryear)) {
+        if (!mod_surveypro_utility_item::date_is_valid($lowerday, $lowermonth, $loweryear)) {
             $errors['lowerbound_group'] = get_string('ierr_invalidinput', 'mod_surveypro');
             return $errors;
         }
         $upperday = $data['upperboundday'];
         $uppermonth = $data['upperboundmonth'];
         $upperyear = $data['upperboundyear'];
-        if (!mod_surveypro_utility_useritem::date_is_valid($upperday, $uppermonth, $upperyear)) {
+        if (!mod_surveypro_utility_item::date_is_valid($upperday, $uppermonth, $upperyear)) {
             $errors['upperbound_group'] = get_string('ierr_invalidinput', 'mod_surveypro');
             return $errors;
         }
@@ -172,7 +172,7 @@ class mod_surveypro_date_setupform extends mod_surveypro_itembaseform {
             $defaultday = $data['defaultvalueday'];
             $defaultmonth = $data['defaultvaluemonth'];
             $defaultyear = $data['defaultvalueyear'];
-            if (!mod_surveypro_utility_useritem::date_is_valid($defaultday, $defaultmonth, $defaultyear)) {
+            if (!mod_surveypro_utility_item::date_is_valid($defaultday, $defaultmonth, $defaultyear)) {
                 $errors['defaultvalue_group'] = get_string('ierr_invalidinput', 'mod_surveypro');
                 return $errors;
             }

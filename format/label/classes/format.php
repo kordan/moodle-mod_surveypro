@@ -132,7 +132,7 @@ class surveyproformat_label_format extends mod_surveypro_itembase {
      * @return void
      */
     public function item_save($record) {
-        $this->item_get_common_settings($record);
+        $this->get_common_settings($record);
 
         // Now execute very specific plugin level actions.
 
@@ -142,15 +142,6 @@ class surveyproformat_label_format extends mod_surveypro_itembase {
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
-    }
-
-    /**
-     * Item_get_pdf_template.
-     *
-     * @return the template to use at response report creation
-     */
-    public static function item_get_pdf_template() {
-        return SURVEYPRO_2COLUMNSTEMPLATE;
     }
 
     /**
@@ -167,22 +158,13 @@ class surveyproformat_label_format extends mod_surveypro_itembase {
         // Nothing to do: no need to overwrite variables.
 
         // 3. Set values corresponding to checkboxes.
-        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in item_get_common_settings.
+        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in get_common_settings.
         $checkboxes = array('fullwidth');
         foreach ($checkboxes as $checkbox) {
             $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
         }
 
         // 4. Other.
-    }
-
-    /**
-     * Is this item available as a parent?
-     *
-     * @return the content of the static property "canbeparent"
-     */
-    public static function item_get_canbeparent() {
-        return self::$canbeparent;
     }
 
     /**
@@ -199,12 +181,36 @@ class surveyproformat_label_format extends mod_surveypro_itembase {
         $record->fullwidth = 0;
     }
 
+    // MARK get.
+
+    /**
+     * Is this item available as a parent?
+     *
+     * @return the content of the static property "canbeparent"
+     */
+    public static function get_canbeparent() {
+        return self::$canbeparent;
+    }
+
+    /**
+     * Get indent.
+     *
+     * @return void
+     */
+    public function get_indent() {
+        if ($this->fullwidth) {
+            return false;
+        } else {
+            return $this->indent;
+        }
+    }
+
     /**
      * Make the list of the fields using multilang
      *
      * @return array of felds
      */
-    public function item_get_multilang_fields() {
+    public function get_multilang_fields() {
         $fieldlist = array();
         $fieldlist[$this->plugin] = array('content', 'leftlabel');
 
@@ -212,11 +218,20 @@ class surveyproformat_label_format extends mod_surveypro_itembase {
     }
 
     /**
+     * get_pdf_template.
+     *
+     * @return the template to use at response report creation
+     */
+    public static function get_pdf_template() {
+        return SURVEYPRO_2COLUMNSTEMPLATE;
+    }
+
+    /**
      * Return the xml schema for surveypro_<<plugin>> table.
      *
      * @return string $schema
      */
-    public static function item_get_plugin_schema() {
+    public static function get_plugin_schema() {
         $schema = <<<EOS
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
@@ -333,18 +348,5 @@ EOS;
         }
 
         return $elementnames;
-    }
-
-    /**
-     * Get indent.
-     *
-     * @return void
-     */
-    public function get_indent() {
-        if ($this->fullwidth) {
-            return false;
-        } else {
-            return $this->indent;
-        }
     }
 }

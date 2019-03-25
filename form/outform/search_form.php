@@ -132,7 +132,7 @@ class mod_surveypro_searchform extends moodleform {
 
         $olditemid = 0;
         foreach ($data as $elementname => $unused) {
-            if ($matches = mod_surveypro_utility::get_item_parts($elementname)) {
+            if ($matches = mod_surveypro_utility_item::get_item_parts($elementname)) {
                 if ($matches['itemid'] == $olditemid) {
                     continue;
                 }
