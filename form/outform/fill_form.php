@@ -273,7 +273,7 @@ class mod_surveypro_outform extends moodleform {
         $warnings = array();
         $olditemid = 0;
         foreach ($data as $elementname => $content) {
-            if ($matches = mod_surveypro_utility::get_item_parts($elementname)) {
+            if ($matches = mod_surveypro_utility_item::get_item_parts($elementname)) {
                 if ($matches['itemid'] == $olditemid) {
                     continue; // To next foreach.
                 }

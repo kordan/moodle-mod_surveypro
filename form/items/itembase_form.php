@@ -248,7 +248,7 @@ class mod_surveypro_itembaseform extends moodleform {
                 $content = $star;
                 $content .= get_string('pluginname', 'surveyprofield_'.$parentitem->get_plugin());
                 $content .= ' ['.$parentitem->get_sortindex().']: '.strip_tags($parentitem->get_content());
-                $content = surveypro_cutdownstring($content);
+                $content = mb_strimwidth($content, 0, 60, '...');
 
                 $condition = ($parentitem->get_hidden() == 1);
                 $condition = $condition && ($item->get_parentid() != $parentitem->get_itemid());
@@ -313,8 +313,8 @@ class mod_surveypro_itembaseform extends moodleform {
 
         $cm = $item->get_cm();
 
-        $utilityman = new mod_surveypro_utility($cm, $surveypro);
-        $hassubmissions = $utilityman->has_submissions();
+        $utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+        $hassubmissions = $utilitylayoutman->has_submissions();
         $riskyediting = ($surveypro->riskyeditdeadline > time());
 
         // Buttons.

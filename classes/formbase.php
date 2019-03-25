@@ -86,8 +86,8 @@ class mod_surveypro_formbase {
 
         $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
 
-        $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-        if (!$utilityman->layout_has_items(0, SURVEYPRO_TYPEFIELD, false, $canaccessreserveditems)) {
+        $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+        if (!$utilitylayoutman->layout_has_items(0, SURVEYPRO_TYPEFIELD, false, $canaccessreserveditems)) {
             $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
 
             if ($canmanageitems) {

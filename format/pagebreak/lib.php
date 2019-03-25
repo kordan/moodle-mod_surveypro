@@ -24,6 +24,4 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
-
 define('SURVEYPROFORMAT_PAGEBREAK_CONTENT', '<hr class="pagebreakcontent" />');

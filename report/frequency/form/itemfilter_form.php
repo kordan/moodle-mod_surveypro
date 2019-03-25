@@ -25,8 +25,6 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
-require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
-
 /**
  * Class to filter output by group
  *
@@ -81,7 +79,7 @@ class mod_surveypro_itemfilterform extends moodleform {
             }
 
             $content = get_string('pluginname', 'surveyprofield_'.$itemseed->plugin).$labelsep.strip_tags($thiscontent);
-            $content = surveypro_cutdownstring($content);
+            $content = mb_strimwidth($content, 0, 60, '...');
             $options[$itemseed->id] = $content;
         }
 

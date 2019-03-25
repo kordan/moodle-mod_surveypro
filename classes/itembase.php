@@ -248,8 +248,8 @@ class mod_surveypro_itembase {
     protected function item_get_common_settings($record) {
         // You are going to change item content (maybe sortindex, maybe the parentitem)
         // so, do not forget to reset items per page.
-        $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-        $utilityman->reset_items_pages();
+        $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+        $utilitylayoutman->reset_items_pages();
 
         $timenow = time();
 
@@ -335,8 +335,9 @@ class mod_surveypro_itembase {
 
         $context = context_module::instance($this->cm->id);
 
-        $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-        $hassubmission = $utilityman->has_submissions(false);
+        $utilitysubmissionman = new mod_surveypro_utility_submission($this->cm, $this->surveypro);
+        $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+        $hassubmission = $utilitylayoutman->has_submissions(false);
 
         $tablename = 'surveypro'.$this->type.'_'.$this->plugin;
         $this->itemeditingfeedback = SURVEYPRO_NOFEEDBACK;
@@ -407,7 +408,7 @@ class mod_surveypro_itembase {
             if ($hassubmission) {
                 // Set to SURVEYPRO_STATUSINPROGRESS each already sent submission.
                 $whereparams = array('surveyproid' => $this->surveypro->id);
-                $utilityman->submissions_set_status($whereparams, SURVEYPRO_STATUSINPROGRESS);
+                $utilitysubmissionman->submissions_set_status($whereparams, SURVEYPRO_STATUSINPROGRESS);
             }
         } else {
             // Item already exists.
@@ -478,8 +479,8 @@ class mod_surveypro_itembase {
                     if ($oldrequired == 0) { // This item was not required.
                         if (isset($record->required) && ($record->required == 1)) { // This item is now required.
                             // This item that was not mandatory is NOW mandatory.
-                            $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-                            $utilityman->optional_to_required_followup($record->itemid);
+                            $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+                            $utilitylayoutman->optional_to_required_followup($record->itemid);
                         }
                     }
                 }
@@ -537,8 +538,8 @@ class mod_surveypro_itembase {
         // Because of this I need to make as much queries as the number of used plugins in my surveypro!
 
         // Get the list of used plugin.
-        $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
-        $pluginlist = $utilityman->get_used_plugin_list(SURVEYPRO_TYPEFIELD);
+        $utilitysubmissionman = new mod_surveypro_utility_submission($this->cm, $this->surveypro);
+        $pluginlist = $utilitysubmissionman->get_used_plugin_list(SURVEYPRO_TYPEFIELD);
 
         $usednames = array();
         foreach ($pluginlist as $plugin) {
@@ -805,7 +806,8 @@ class mod_surveypro_itembase {
         }
 
         $index = ($content == SURVEYPRO_VALUES) ? 1 : 2;
-        $options = surveypro_multilinetext_to_array($this->{$field});
+        $utilityitemman = new mod_surveypro_utility_item($this->cm, $this->surveypro);
+        $options = $utilityitemman->multilinetext_to_array($this->{$field});
 
         $values = array();
         foreach ($options as $option) {
@@ -827,11 +829,13 @@ class mod_surveypro_itembase {
      * @return void
      */
     protected function item_clean_textarea_fields($record, $fieldlist) {
+        $utilityitemman = new mod_surveypro_utility_item($this->cm, $this->surveypro);
+
         foreach ($fieldlist as $field) {
             // Some item may be undefined causing: "Notice: Undefined property: stdClass::$defaultvalue"
             // as, for instance, disabled field when $defaultoption == invite.
             if (isset($record->{$field})) {
-                $temparray = surveypro_multilinetext_to_array($record->{$field});
+                $temparray = $utilityitemman->multilinetext_to_array($record->{$field});
                 $record->{$field} = implode("\n", $temparray);
             }
         }

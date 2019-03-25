@@ -69,7 +69,7 @@ class mod_surveypro_view_cover {
     public function display_cover() {
         global $CFG, $OUTPUT, $COURSE, $USER;
 
-        $utilityman = new mod_surveypro_utility($this->cm, $this->surveypro);
+        $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
 
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '..
 
@@ -87,19 +87,19 @@ class mod_surveypro_view_cover {
         $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
 
         $riskyediting = ($this->surveypro->riskyeditdeadline > time());
-        $hassubmissions = $utilityman->has_submissions();
-        $itemcount = $utilityman->layout_has_items(0, SURVEYPRO_TYPEFIELD, $canmanageitems, $canaccessreserveditems, true);
+        $hassubmissions = $utilitylayoutman->has_submissions();
+        $itemcount = $utilitylayoutman->layout_has_items(0, SURVEYPRO_TYPEFIELD, $canmanageitems, $canaccessreserveditems, true);
 
         $messages = array();
         $timenow = time();
 
         // User submitted responses.
-        $countclosed = $utilityman->has_submissions(true, SURVEYPRO_STATUSCLOSED, $USER->id);
-        $inprogress = $utilityman->has_submissions(true, SURVEYPRO_STATUSINPROGRESS, $USER->id);
+        $countclosed = $utilitylayoutman->has_submissions(true, SURVEYPRO_STATUSCLOSED, $USER->id);
+        $inprogress = $utilitylayoutman->has_submissions(true, SURVEYPRO_STATUSINPROGRESS, $USER->id);
         $next = $countclosed + $inprogress + 1;
 
         // Begin of: is the button to add one more response going to be displayed?
-        $addnew = $utilityman->is_newresponse_allowed($next);
+        $addnew = $utilitylayoutman->is_newresponse_allowed($next);
         // End of: is the button to add one more response going to be displayed?
 
         echo $OUTPUT->heading(get_string('coverpage_welcome', 'mod_surveypro', $this->surveypro->name));
@@ -125,7 +125,7 @@ class mod_surveypro_view_cover {
             if ($canmanageitems) {
                 // If I $canmanageitems in $itemcount items counted were: visible + hidden.
                 $message .= ' ';
-                $visibleonly = $utilityman->layout_has_items(0, SURVEYPRO_TYPEFIELD, false, $canaccessreserveditems, true);
+                $visibleonly = $utilitylayoutman->layout_has_items(0, SURVEYPRO_TYPEFIELD, false, $canaccessreserveditems, true);
                 $a = $itemcount - $visibleonly;
                 $message .= get_string('count_hiddenitems', 'mod_surveypro', $a);
             }
@@ -133,7 +133,7 @@ class mod_surveypro_view_cover {
         }
 
         // Number of pages.
-        $pagecount = $utilityman->assign_pages();
+        $pagecount = $utilitylayoutman->assign_pages();
         if ($pagecount > 1) {
             $messages[] = get_string('count_pages', 'mod_surveypro', $pagecount);
         }

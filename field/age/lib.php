@@ -24,7 +24,5 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
-
 define('SURVEYPROFIELD_AGE_YEAROFFSET', 1902);
 define('SURVEYPROFIELD_AGE_FORMAT', '[yy/mm]');

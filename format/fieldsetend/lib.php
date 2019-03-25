@@ -24,6 +24,4 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
-
 define('SURVEYPROFORMAT_FIELDSETEND_CONTENT', '<hr class="fieldsetendcontent" />');

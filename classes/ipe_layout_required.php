@@ -100,8 +100,8 @@ class mod_surveypro_ipe_layout_required extends \core\output\inplace_editable {
 
         if (!empty($newrequired)) {
             // This item that WAS NOT mandatory IS NOW mandatory.
-            $utilityman = new mod_surveypro_utility($cm, $surveypro);
-            $utilityman->optional_to_required_followup($itemid);
+            $utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+            $utilitylayoutman->optional_to_required_followup($itemid);
         }
 
         return new static($itemid, $newrequired, $itemrecord->sortindex);

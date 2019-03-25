@@ -22,9 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
-require_once($CFG->dirroot.'/mod/surveypro/form/utemplates/apply_form.php');
+require_once(dirname(dirname(dirname(__FILE__))).'/config.php');require_once($CFG->dirroot.'/mod/surveypro/form/utemplates/apply_form.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
@@ -92,9 +90,10 @@ new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABUTEMPLATES, SURVE
 $utemplateman->friendly_stop();
 
 $riskyediting = ($surveypro->riskyeditdeadline > time());
-$utilityman = new mod_surveypro_utility($cm, $surveypro);
-if ($utilityman->has_submissions() && $riskyediting) {
-    $message = $utilityman->has_submissions_warning();
+$utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+$utilitysubmissionman = new mod_surveypro_utility_submission($cm, $surveypro);
+if ($utilitylayoutman->has_submissions() && $riskyediting) {
+    $message = $utilitysubmissionman->get_submissions_warning();
     echo $OUTPUT->notification($message, 'notifyproblem');
 }
 

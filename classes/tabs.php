@@ -89,9 +89,10 @@ class mod_surveypro_tabs {
         $this->tabtab = $tabtab;
         $this->tabpage = $tabpage;
 
-        $utilityman = new mod_surveypro_utility($cm, $surveypro);
-        $this->hassubmissions = $utilityman->has_submissions();
-        $this->tabpagesurl = $utilityman->get_common_links_url(SURVEYPRO_TAB);
+        $utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+        $utilitysubmissionman = new mod_surveypro_utility_submission($cm, $surveypro);
+        $this->hassubmissions = $utilitylayoutman->has_submissions();
+        $this->tabpagesurl = $utilitysubmissionman->get_common_links_url(SURVEYPRO_TAB);
 
         // Get the count of TABS.
         $tabcount = 0;

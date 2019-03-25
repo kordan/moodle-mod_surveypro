@@ -23,8 +23,6 @@
  */
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
-
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
 
@@ -55,8 +53,8 @@ $context = context_module::instance($cm->id);
 require_capability('mod/surveypro:additems', $context);
 
 // Calculations.
-$utilityman = new mod_surveypro_utility($cm, $surveypro);
-$hassubmissions = $utilityman->has_submissions();
+$utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+$hassubmissions = $utilitylayoutman->has_submissions();
 
 $layoutman = new mod_surveypro_layout($cm, $context, $surveypro);
 if (!empty($typeplugin)) {
@@ -156,9 +154,9 @@ echo $OUTPUT->header();
 
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABLAYOUT, SURVEYPRO_LAYOUT_ITEMSETUP);
 
-$utilityman = new mod_surveypro_utility($cm, $surveypro);
+$utilitysubmissionman = new mod_surveypro_utility_submission($cm, $surveypro);
 if ($hassubmissions) {
-    $message = $utilityman->has_submissions_warning();
+    $message = $utilitysubmissionman->get_submissions_warning();
     echo $OUTPUT->notification($message, 'notifyproblem');
 }
 $layoutman->item_identitycard();

@@ -353,7 +353,8 @@ EOS;
      * return string childparentvalue
      */
     public function parent_encode_child_parentcontent($childparentcontent) {
-        $parentcontents = array_unique(surveypro_multilinetext_to_array($childparentcontent));
+        $utilityitemman = new mod_surveypro_utility_item($this->cm, $this->surveypro);
+        $parentcontents = array_unique($utilityitemman->multilinetext_to_array($childparentcontent));
         $values = $this->item_get_content_array(SURVEYPRO_VALUES, 'options');
 
         $childparentvalue = array_fill(0, count($values), 0);
@@ -477,6 +478,7 @@ EOS;
      * @return void
      */
     public function userform_mform_element($mform, $searchform, $readonly) {
+        $utilityitemman = new mod_surveypro_utility_item($this->cm, $this->surveypro);
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
         $noanswerstr = get_string('noanswer', 'mod_surveypro');
         $starstr = get_string('star', 'mod_surveypro');
@@ -546,7 +548,7 @@ EOS;
 
         // Begin of: defaults.
         if (!$searchform) {
-            if ($defaults = surveypro_multilinetext_to_array($this->defaultvalue)) {
+            if ($defaults = $utilityitemman->multilinetext_to_array($this->defaultvalue)) {
                 $defaultkeys = array();
                 foreach ($defaults as $default) {
                     $defaultkeys[] = array_search($default, $labels);

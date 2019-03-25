@@ -24,8 +24,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
-
 define('SURVEYPROFIELD_TEXTAREA_DEFAULTCOLS', 60);
 define('SURVEYPROFIELD_TEXTAREA_DEFAULTROWS', 10);
 
