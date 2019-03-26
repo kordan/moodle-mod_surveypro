@@ -1478,7 +1478,7 @@ class mod_surveypro_layout {
 
                         foreach ($mlplugin as $fieldname) {
                             $stringkey = $reference->{$fieldname};
-                            if (strlen($stringkey)) {
+                            if (core_text::strlen($stringkey)) {
                                 $record->{$fieldname} = get_string($stringkey, 'surveyprotemplate_'.$template);
                             } else {
                                 $record->{$fieldname} = null;

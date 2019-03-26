@@ -241,15 +241,15 @@ class surveyprofield_textarea_field extends mod_surveypro_itembase {
     public function item_custom_fields_to_db($record) {
         // 1. Special management for composite fields.
         // Nothing to do: they don't exist in this plugin.
-        if (!strlen($record->minlength)) {
+        if (!core_text::strlen($record->minlength)) {
             $record->minlength = 0;
         }
 
         // 2. Override few values.
-        if (!strlen($record->minlength)) {
+        if (!core_text::strlen($record->minlength)) {
             $record->minlength = 0;
         }
-        if (!strlen($record->maxlength)) {
+        if (!core_text::strlen($record->maxlength)) {
             $record->maxlength = null;
         }
         if (empty($record->arearows)) {
@@ -474,10 +474,10 @@ EOS;
 
         // I don't care if this element is required or not.
         // If the user provides an answer, it has to be compliant with the field validation rules.
-        if ( $this->maxlength && (strlen($itemcontent) > $this->maxlength) ) {
+        if ( $this->maxlength && (core_text::strlen($itemcontent) > $this->maxlength) ) {
             $errors[$errorkey] = get_string('uerr_texttoolong', 'surveyprofield_textarea');
         }
-        if (strlen($itemcontent) < $this->minlength) {
+        if (core_text::strlen($itemcontent) < $this->minlength) {
             $errors[$errorkey] = get_string('uerr_texttooshort', 'surveyprofield_textarea');
         }
     }
@@ -622,7 +622,7 @@ EOS;
         }
 
         // Output.
-        if (strlen($content)) {
+        if (core_text::strlen($content)) {
             if ($this->useeditor) {
                 $content = file_rewrite_pluginfile_urls(
                            $content, 'pluginfile.php', $context->id,

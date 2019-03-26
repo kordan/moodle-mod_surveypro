@@ -349,7 +349,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
 
                 $val = $this->xml_get_field_content($item, 'item', $field, $multilangfields);
 
-                if (strlen($val)) {
+                if (core_text::strlen($val)) {
                     $xmlfield = $xmltable->addChild($field, $val);
                 } // Otherwise: It is empty, do not evaluate: jump.
             }
@@ -361,7 +361,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             foreach ($structure as $field) {
                 $val = $this->xml_get_field_content($item, $itemseed->plugin, $field, $multilangfields);
 
-                if (strlen($val)) {
+                if (core_text::strlen($val)) {
                     $xmlfield = $xmltable->addChild($field, htmlspecialchars($val));
                     // Otherwise: It is empty, do not evaluate: jump.
                 }
@@ -431,7 +431,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         }
 
         $content = $item->item_get_generic_property($field);
-        if (strlen($content)) {
+        if (core_text::strlen($content)) {
             $val = $content;
         } else {
             // It is empty, do not evaluate: jump.

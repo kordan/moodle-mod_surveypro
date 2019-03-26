@@ -279,8 +279,8 @@ class mod_surveypro_itembase {
         // Cleanup section.
 
         // Truncate extranote if longer than maximum allowed (255 characters).
-        if (isset($record->extranote) && (strlen($record->extranote) > 255)) {
-            $record->extranote = substr($record->extranote, 0, 255);
+        if (isset($record->extranote) && (core_text::strlen($record->extranote) > 255)) {
+            $record->extranote = core_text::substr($record->extranote, 0, 255);
         }
 
         // Surveypro can be multilang
@@ -1634,7 +1634,7 @@ EOS;
         $quickresponse = null;
 
         // The content of the provided answer.
-        if (!strlen($content)) { // Item was disabled.
+        if (!core_text::strlen($content)) { // Item was disabled.
             $quickresponse = get_string('answernotsubmitted', 'mod_surveypro');
         } else if ($content == SURVEYPRO_NOANSWERVALUE) { // Answer was "no answer".
             $quickresponse = get_string('answerisnoanswer', 'mod_surveypro');
@@ -1660,7 +1660,7 @@ EOS;
             return $quickresponse;
         }
 
-        if (strlen($content)) {
+        if (core_text::strlen($content)) {
             $return = $content;
         } else {
             if ($format == SURVEYPRO_FRIENDLYFORMAT) {

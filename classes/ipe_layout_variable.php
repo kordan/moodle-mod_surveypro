@@ -59,6 +59,7 @@ class mod_surveypro_ipe_layout_variable extends \core\output\inplace_editable {
         $context = context_module::instance($cm->id);
         \external_api::validate_context($context);
 
+        // Why was I required to move surveypro_get_item from locallib.php to lib.php?
         $item = surveypro_get_item($cm, $surveypro, $itemid, $itemrecord->type, $itemrecord->plugin);
 
         // Before saving to the the plugin table, validate the variable name.

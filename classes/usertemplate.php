@@ -368,7 +368,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                 }
 
                 $val = $item->item_get_generic_property($field);
-                if (strlen($val)) {
+                if (core_text::strlen($val)) {
                     $xmlfield = $xmltable->addChild($field, $val);
                 } // Otherwise: It is empty, do not evaluate: jump.
             }
@@ -380,7 +380,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
             foreach ($structure as $field) {
                 $val = $item->item_get_generic_property($field);
 
-                if (strlen($val)) {
+                if (core_text::strlen($val)) {
                     $xmlfield = $xmltable->addChild($field, htmlspecialchars($val));
                 } // Otherwise: It is empty, do not evaluate: jump.
 

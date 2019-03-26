@@ -114,7 +114,7 @@ class mod_surveypro_fileupload_setupform extends mod_surveypro_itembaseform {
                     $errors['filetypes'] = get_string('ierr_extensiononlyonedot', 'surveyprofield_fileupload');
                     break;
                 }
-                if (preg_match('~[^a-z0-9]~', substr($filetype, 1))) {
+                if (preg_match('~[^a-z0-9]~', core_text::substr($filetype, 1))) {
                     $errors['filetypes'] = get_string('ierr_dirtyextension', 'surveyprofield_fileupload');
                     break;
                 }
