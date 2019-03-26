@@ -87,6 +87,32 @@ class surveyproformat_pagebreak_format extends mod_surveypro_itembase {
     }
 
     /**
+     * Item load.
+     *
+     * @param int $itemid
+     * @param bool $getparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise
+     * @return void
+     */
+    public function item_load($itemid, $getparentcontent) {
+        parent::item_load($itemid, $getparentcontent);
+
+        // Add $this->content as it was not found during parent::item_load execution.
+        $this->content = SURVEYPROFORMAT_PAGEBREAK_CONTENT;
+
+        // Multilang load support for builtin surveypro.
+        // Nothing to do.
+    }
+
+    /**
+     * Get content.
+     *
+     * @return the content of $content property
+     */
+    public function get_content() {
+        return $this->content;
+    }
+
+    /**
      * Item save.
      *
      * @param object $record
@@ -98,8 +124,6 @@ class surveyproformat_pagebreak_format extends mod_surveypro_itembase {
         // Now execute very specific plugin level actions.
 
         // Begin of: plugin specific settings (eventually overriding general ones).
-        // Override few values.
-        $record->content = SURVEYPROFORMAT_PAGEBREAK_CONTENT;
         // End of: plugin specific settings (eventually overriding general ones).
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
@@ -153,20 +177,7 @@ class surveyproformat_pagebreak_format extends mod_surveypro_itembase {
      * @return string $schema
      */
     public static function item_get_plugin_schema() {
-        $schema = <<<EOS
-<?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
-    <xs:element name="surveyproformat_pagebreak">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="content" type="xs:string"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-</xs:schema>
-EOS;
-
-        return $schema;
+        return;
     }
 
     // MARK userform.

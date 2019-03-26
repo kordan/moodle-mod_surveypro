@@ -248,7 +248,7 @@ class mod_surveypro_itembaseform extends moodleform {
                 $content = $star;
                 $content .= get_string('pluginname', 'surveyprofield_'.$parentitem->get_plugin());
                 $content .= ' ['.$parentitem->get_sortindex().']: '.strip_tags($parentitem->get_content());
-                $content = mb_strimwidth($content, 0, 60, '...');
+                $content = surveypro_cutdownstring($content);
 
                 $condition = ($parentitem->get_hidden() == 1);
                 $condition = $condition && ($item->get_parentid() != $parentitem->get_itemid());

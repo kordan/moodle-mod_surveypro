@@ -264,6 +264,11 @@ class mod_surveypro_templatebase {
             $installxml = $CFG->dirroot.'/mod/surveypro/'.$type.'/'.$plugin.'/db/install.xml';
             $targettable = 'surveypro'.$type.'_'.$plugin;
             $uselessfields = array('id', 'itemid');
+
+            // Some plugins are missing the install.xml because they havn't attributes.
+            if (!file_exists($installxml)) {
+                return $fieldlist;
+            }
         }
 
         $xmlall = simplexml_load_file($installxml);

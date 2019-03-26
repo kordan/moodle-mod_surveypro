@@ -355,9 +355,13 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             }
 
             // Child table.
-            $xmltable = $xmlitem->addChild('surveypro'.$itemseed->type.'_'.$itemseed->plugin);
-
             $structure = $this->get_table_structure($itemseed->type, $itemseed->plugin);
+            // Take care: some items plugin may be free of their own specific table.
+            if (!count($structure)) {
+                continue;
+            }
+
+            $xmltable = $xmlitem->addChild('surveypro'.$itemseed->type.'_'.$itemseed->plugin);
             foreach ($structure as $field) {
                 $val = $this->xml_get_field_content($item, $itemseed->plugin, $field, $multilangfields);
 

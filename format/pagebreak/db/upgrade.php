@@ -57,5 +57,19 @@ function xmldb_surveyproformat_pagebreak_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2014051701, 'surveyproformat', 'pagebreak');
     }
 
+    if ($oldversion < 2019031901) {
+
+        // Define table surveyproformat_pagebreak to be dropped.
+        $table = new xmldb_table('surveyproformat_pagebreak');
+
+        // Conditionally launch drop table for surveyproformat_pagebreak.
+        if ($dbman->table_exists($table)) {
+            $dbman->drop_table($table);
+        }
+
+        // Pagebreak savepoint reached.
+        upgrade_plugin_savepoint(true, 2019031901, 'surveyproformat', 'pagebreak');
+    }
+
     return true;
 }

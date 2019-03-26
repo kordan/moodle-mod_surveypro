@@ -23,7 +23,8 @@
  */
 
 require_once('../../../../config.php');
-require_once($CFG->libdir.'/graphlib.php');require_once($CFG->dirroot.'/mod/surveypro/report/frequency/lib.php');
+require_once($CFG->libdir.'/graphlib.php');
+require_once($CFG->dirroot.'/mod/surveypro/report/frequency/lib.php');
 
 $id = required_param('id', PARAM_INT); // Course Module ID.
 $itemid = required_param('itemid', PARAM_INT); // Item ID.

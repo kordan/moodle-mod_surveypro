@@ -178,17 +178,42 @@ class mod_surveypro_itembase {
             debugging($message, DEBUG_DEVELOPER);
         }
 
-        $sql = 'SELECT *, i.id as itemid, p.id as pluginid
-                FROM {surveypro_item} i
-                  JOIN {surveypro'.$this->type.'_'.$this->plugin.'} p ON p.itemid = i.id
-                WHERE i.id = :itemid';
+        $context = context_module::instance($this->cm->id);
+
+        $tablename = 'surveypro'.$this->type.'_'.$this->plugin;
+        // Some item, like pagebreak or fieldsetend, may be free of the plugin table.
+        if ($DB->get_manager()->table_exists($tablename)) {
+            $sql = 'SELECT *, i.id as itemid, p.id as pluginid
+                    FROM {surveypro_item} i
+                      JOIN {'.$tablename.'} p ON p.itemid = i.id
+                    WHERE i.id = :itemid';
+        } else {
+            $sql = 'SELECT *, i.id as itemid
+                    FROM {surveypro_item} i
+                    WHERE i.id = :itemid';
+        }
 
         if ($record = $DB->get_record_sql($sql, array('itemid' => $itemid))) {
             foreach ($record as $option => $value) {
                 $this->{$option} = $value;
             }
+            // Plugins not using contentformat (only Fieldset, at the moment) are satisfied.
+            // Pagebreak and fieldsetend are missing content too.
+
+            // Special care to fields with format.
+            if ($fieldsusingformat = $this->get_fieldsusingformat()) {
+                $editoroptions = array('trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $context);
+                foreach ($fieldsusingformat as $fieldname => $filearea) {
+                    $this->{$fieldname} = file_rewrite_pluginfile_urls(
+                       $this->{$fieldname}, 'pluginfile.php', $context->id,
+                       'mod_surveypro', $filearea, $itemid
+                    );
+                }
+            }
+
             unset($this->id); // I do not care it. I already heave: itemid and pluginid.
             $this->itemname = SURVEYPRO_ITEMPREFIX.'_'.$this->type.'_'.$this->plugin.'_'.$this->itemid;
+
             if ($getparentcontent && $this->parentid) {
                 $parentitem = surveypro_get_item($this->cm, $this->surveypro, $this->parentid);
                 $this->parentcontent = $parentitem->parent_decode_child_parentvalue($this->parentvalue);
@@ -360,17 +385,18 @@ class mod_surveypro_itembase {
 
                 if ($itemid = $DB->insert_record('surveypro_item', $record)) { // First surveypro_item save.
                     // Now think to $tablename.
+                    if ($DB->get_manager()->table_exists($tablename)) {
+                        // Before saving to the the plugin table, validate the variable name.
+                        $this->item_validate_variablename($record, $itemid);
 
-                    // Before saving to the the plugin table, validate the variable name.
-                    $this->item_validate_variablename($record, $itemid);
-
-                    $record->itemid = $itemid;
-                    if ($pluginid = $DB->insert_record($tablename, $record)) { // First save of $tablename.
-                        $this->itemeditingfeedback += 1; // 0*2^1+1*2^0.
+                        $record->itemid = $itemid;
+                        if ($pluginid = $DB->insert_record($tablename, $record)) { // First save of $tablename.
+                            $this->itemeditingfeedback += 1; // 0*2^1+1*2^0.
+                        }
                     }
                 }
 
-                // Special care to "editors".
+                // Special care to "editors". Remember that content and contentformat are in plugin table.
                 if ($fieldsusingformat = $this->get_fieldsusingformat()) {
                     $editoroptions = array('trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $context);
                     foreach ($fieldsusingformat as $fieldname => $filearea) {
@@ -380,23 +406,25 @@ class mod_surveypro_itembase {
                                   );
                     }
 
-                    // Tablename.
-                    $record->id = $pluginid;
+                    if ($DB->get_manager()->table_exists($tablename)) {
+                        // Tablename.
+                        $record->id = $pluginid;
 
-                    if (!$DB->update_record($tablename, $record)) { // Update of $tablename.
-                        $this->itemeditingfeedback -= ($this->itemeditingfeedback % 2); // Whatever it was, now it is a fail.
-                        // Otherwise...
-                        // Leave the previous $this->itemeditingfeedback.
-                        // If it was a success, leave it as now you got one more success.
-                        // If it was a fail, leave it as you can not cover the previous fail.
+                        if (!$DB->update_record($tablename, $record)) { // Update of $tablename.
+                            $this->itemeditingfeedback -= ($this->itemeditingfeedback % 2); // Whatever it was, now it is a fail.
+                            // Otherwise...
+                            // Leave the previous $this->itemeditingfeedback.
+                            // If it was a success, leave it as now you got one more success.
+                            // If it was a fail, leave it as you can not cover the previous fail.
+                        }
+                        // Record->content follows standard flow and has already been saved at first save time.
                     }
-                    // Record->content follows standard flow and has already been saved at first save time.
                 }
 
                 $transaction->allow_commit();
 
                 // Event: item_created.
-                $eventdata = array('context' => $context, 'objectid' => $record->itemid);
+                $eventdata = array('context' => $context, 'objectid' => $itemid);
                 $eventdata['other'] = array('type' => $record->type, 'plugin' => $record->plugin, 'view' => SURVEYPRO_EDITITEM);
                 $event = \mod_surveypro\event\item_created::create($eventdata);
                 $event->trigger();
@@ -445,11 +473,15 @@ class mod_surveypro_itembase {
                     // Before saving to the the plugin table, I validate the variable name.
                     $this->item_validate_variablename($record, $record->itemid);
 
-                    $record->id = $record->pluginid;
-                    if ($DB->update_record($tablename, $record)) {
-                        $this->itemeditingfeedback += 3; // 1*2^1+1*2^0 alias: editing + success.
+                    if ($DB->get_manager()->table_exists($tablename)) {
+                        $record->id = $record->pluginid;
+                        if ($DB->update_record($tablename, $record)) {
+                            $this->itemeditingfeedback += 3; // 1*2^1+1*2^0 alias: editing + success.
+                        } else {
+                            $this->itemeditingfeedback += 2; // 1*2^1+0*2^0 alias: editing + fail.
+                        }
                     } else {
-                        $this->itemeditingfeedback += 2; // 1*2^1+0*2^0 alias: editing + fail.
+                        $this->itemeditingfeedback += 3; // 1*2^1+1*2^0 alias: editing + success.
                     }
                 } else {
                     $this->itemeditingfeedback += 2; // 1*2^1+0*2^0 alias: editing + fail.
@@ -783,8 +815,7 @@ class mod_surveypro_itembase {
         $context = context_module::instance($this->cm->id);
         $editoroptions = array('trusttext' => true, 'subdirs' => true, 'maxfiles' => -1, 'context' => $context);
         foreach ($fieldsusingformat as $fieldname => $filearea) {
-            $this->{$fieldname.'format'} = FORMAT_HTML;
-            $this->{$fieldname.'trust'} = 1;
+            $this->{$fieldname.'trust'} = 1; // Is this really neede?
             file_prepare_standard_editor($this, $fieldname, $editoroptions, $context, 'mod_surveypro', $filearea, $this->itemid);
         }
     }
@@ -1147,13 +1178,8 @@ EOS;
      * @return the content of $content property
      */
     public function get_content() {
-        $context = context_module::instance($this->cm->id);
-
-        $content = file_rewrite_pluginfile_urls(
-                   $this->content, 'pluginfile.php', $context->id,
-                   'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $this->itemid);
-
-        return format_text($content, FORMAT_MOODLE, array('overflowdiv' => false, 'allowid' => true, 'para' => false));
+        $options = array('overflowdiv' => false, 'allowid' => true, 'para' => false);
+        return format_text($this->content, $this->contentformat, $options);
     }
 
     /**
