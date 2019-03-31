@@ -198,6 +198,7 @@
     width: 16px;
     height: 16px;
     padding: 0;
+    margin-right: 0;
 }
 
 #page-mod-surveypro-layout_itemlist #manageitems td.actions span.reorder,
