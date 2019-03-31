@@ -407,7 +407,10 @@ class mod_surveypro_utility_layout {
             // If this method was called from delete_items, you are supposed to delete related item too.
             if ($item) {
                 // Here I actually delete items.
-                $DB->delete_records('surveypro'.$item->type.'_'.$item->plugin, array('itemid' => $item->id));
+                $tablename = 'surveypro'.$item->type.'_'.$item->plugin;
+                if ($DB->get_manager()->table_exists($tablename)) {
+                    $DB->delete_records('surveypro'.$item->type.'_'.$item->plugin, array('itemid' => $item->id));
+                }
                 $DB->delete_records('surveypro_item', array('id' => $item->id));
             }
             // End of: If this method was called from delete_items, you are supposed to delete related items too.

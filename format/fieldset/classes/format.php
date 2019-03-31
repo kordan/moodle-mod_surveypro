@@ -120,6 +120,15 @@ class surveyproformat_fieldset_format extends mod_surveypro_itembase {
     }
 
     /**
+     * Get content.
+     *
+     * @return the content of $content property
+     */
+    public function get_content() {
+        return s($this->content);
+    }
+
+    /**
      * Item_get_pdf_template.
      *
      * @return the template to use at response report creation

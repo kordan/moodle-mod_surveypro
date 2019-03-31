@@ -229,7 +229,7 @@ class provider implements
     }
 
     /**
-     * Get cthe content of the current item.
+     * Get the content of the current item.
      * I didn't add this field to the main sql because the table name is $surveyproanswer->plugin dependent
      * and $surveyproanswer->plugin comes from the same query.
      *

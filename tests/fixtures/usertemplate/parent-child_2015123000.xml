@@ -50,15 +50,12 @@
       <style>2</style>
     </surveyprofield_boolean>
   </item>
-  <item type="format" plugin="pagebreak" version="2015123000">
+  <item type="format" plugin="pagebreak" version="2019031901">
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
-    <surveyproformat_pagebreak>
-      <content>&lt;hr class="pagebreakcontent" /&gt;</content>
-    </surveyproformat_pagebreak>
   </item>
   <item type="field" plugin="character" version="2015123000">
     <surveypro_item>
@@ -151,15 +148,12 @@ A4 paper</options>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="pagebreak" version="2015123000">
+  <item type="format" plugin="pagebreak" version="2019031901">
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
-    <surveyproformat_pagebreak>
-      <content>&lt;hr class="pagebreakcontent" /&gt;</content>
-    </surveyproformat_pagebreak>
   </item>
   <item type="field" plugin="character" version="2015123000">
     <surveypro_item>
@@ -234,15 +228,12 @@ A4 paper</options>
       <upperbound>30</upperbound>
     </surveyprofield_integer>
   </item>
-  <item type="format" plugin="pagebreak" version="2015123000">
+  <item type="format" plugin="pagebreak" version="2019031901">
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
-    <surveyproformat_pagebreak>
-      <content>&lt;hr class="pagebreakcontent" /&gt;</content>
-    </surveyproformat_pagebreak>
   </item>
   <item type="field" plugin="character" version="2015123000">
     <surveypro_item>
@@ -324,15 +315,12 @@ ham</defaultvalue>
       <heightinrows>4</heightinrows>
     </surveyprofield_multiselect>
   </item>
-  <item type="format" plugin="pagebreak" version="2015123000">
+  <item type="format" plugin="pagebreak" version="2019031901">
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
-    <surveyproformat_pagebreak>
-      <content>&lt;hr class="pagebreakcontent" /&gt;</content>
-    </surveyproformat_pagebreak>
   </item>
   <item type="field" plugin="numeric" version="2015123000">
     <surveypro_item>
@@ -410,15 +398,12 @@ City</options>
       <adjustment>0</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="format" plugin="pagebreak" version="2015123000">
+  <item type="format" plugin="pagebreak" version="2019031901">
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
-    <surveyproformat_pagebreak>
-      <content>&lt;hr class="pagebreakcontent" /&gt;</content>
-    </surveyproformat_pagebreak>
   </item>
   <item type="field" plugin="shortdate" version="2015123000">
     <surveypro_item>
@@ -508,15 +493,12 @@ left</options>
       <downloadformat>0</downloadformat>
     </surveyprofield_select>
   </item>
-  <item type="format" plugin="pagebreak" version="2015123000">
+  <item type="format" plugin="pagebreak" version="2019031901">
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
-    <surveyproformat_pagebreak>
-      <content>&lt;hr class="pagebreakcontent" /&gt;</content>
-    </surveyproformat_pagebreak>
   </item>
   <item type="field" plugin="age" version="2015123000">
     <surveypro_item>

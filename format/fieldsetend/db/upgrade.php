@@ -57,6 +57,20 @@ function xmldb_surveyproformat_fieldsetend_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2014051701, 'surveyproformat', 'fieldsetend');
     }
 
+    if ($oldversion < 2019031901) {
+
+        // Define table surveyproformat_fieldsetend to be dropped.
+        $table = new xmldb_table('surveyproformat_fieldsetend');
+
+        // Conditionally launch drop table for surveyproformat_fieldsetend.
+        if ($dbman->table_exists($table)) {
+            $dbman->drop_table($table);
+        }
+
+        // Fieldsetend savepoint reached.
+        upgrade_plugin_savepoint(true, 2019031901, 'surveyproformat', 'fieldsetend');
+    }
+
     return true;
 }
 

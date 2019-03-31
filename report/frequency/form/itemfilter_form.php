@@ -79,7 +79,7 @@ class mod_surveypro_itemfilterform extends moodleform {
             }
 
             $content = get_string('pluginname', 'surveyprofield_'.$itemseed->plugin).$labelsep.strip_tags($thiscontent);
-            $content = mb_strimwidth($content, 0, 60, '...');
+            $content = surveypro_cutdownstring($content);
             $options[$itemseed->id] = $content;
         }
 

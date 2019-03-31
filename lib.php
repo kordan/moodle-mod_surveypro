@@ -457,15 +457,17 @@ function surveypro_delete_instance($id) {
         // Delete all associated item<<$type>>_<<plugin>>.
         foreach ($pluginlist as $plugin) {
             $tablename = 'surveypro'.$type.'_'.$plugin;
-            $whereparams['plugin'] = $plugin;
+            if ($DB->get_manager()->table_exists($tablename)) {
+                $whereparams['plugin'] = $plugin;
 
-            if ($deletelist = $DB->get_records('surveypro_item', $whereparams, 'id', 'id')) {
-                $deletelist = array_keys($deletelist);
-                list($insql, $inparams) = $DB->get_in_or_equal($deletelist, SQL_PARAMS_NAMED, 'delete');
-                $select = 'itemid '.$insql;
+                if ($deletelist = $DB->get_records('surveypro_item', $whereparams, 'id', 'id')) {
+                    $deletelist = array_keys($deletelist);
+                    list($insql, $inparams) = $DB->get_in_or_equal($deletelist, SQL_PARAMS_NAMED, 'delete');
+                    $select = 'itemid '.$insql;
 
-                if (!$DB->delete_records_select($tablename, $select, $inparams)) {
-                    $status = false;
+                    if (!$DB->delete_records_select($tablename, $select, $inparams)) {
+                        $status = false;
+                    }
                 }
             }
         }
