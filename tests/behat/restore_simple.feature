@@ -6,7 +6,7 @@ Feature: Simple restore of a surveypro
 
   @javascript
   Scenario: Restore the demo course provided in fixtures
-    When I log in as "admin"
+    Given I log in as "admin"
     And I am on site homepage
     And I navigate to "Restore" in current page administration
     And I press "Manage backup files"

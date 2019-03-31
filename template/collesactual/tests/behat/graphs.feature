@@ -24,7 +24,7 @@ Feature: apply a COLLES (actual) mastertemplate to test graphs
 
   @javascript
   Scenario: apply COLLES (Actual) master template, add a record and call reports
-    When I follow "Run COLLES report"
+    Given I follow "Run COLLES report"
     And I set the field "Master templates" to "COLLES (Actual)"
     And I press "Apply"
     Then I should see "In this online unit"

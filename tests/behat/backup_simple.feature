@@ -15,7 +15,7 @@ Feature: Backup and restore of surveyspro
 
   @javascript
   Scenario: Backup a course providing options
-    When I backup "Course 1" course using this options:
+    Given I backup "Course 1" course using this options:
       | Confirmation | Filename | test_backup.mbz |
     Then I should see "Restore"
     And I click on "Restore" "link" in the "test_backup.mbz" "table_row"

@@ -22,7 +22,7 @@ Feature: apply ATTLS (20 item version) mastertemplate
 
   @javascript
   Scenario: apply ATTLS (20 item version) master template
-    When I follow "To apply ATTLS"
+    Given I follow "To apply ATTLS"
     And I set the field "Master templates" to "ATTLS (20 item version)"
     And I press "Apply"
     Then I should see "Attitudes Towards Thinking and Learning"

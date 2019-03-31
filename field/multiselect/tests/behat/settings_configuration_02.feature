@@ -29,7 +29,8 @@ Feature: Validate creation and submit for "multiselect" elements using the princ
     And I expand all fieldsets
 
   @javascript
-  Scenario: test multiselect element with the following settings: 0; milk\ncoffee\nbutter\nbread; coffee; 0
+  Scenario: test multiselect element using configuration 03
+    # Configuration 03 consists in:
       # required:               0
       # Options (fixed):        milk\ncoffee\nbutter\nbread
       # Default:                coffee
@@ -74,7 +75,8 @@ Feature: Validate creation and submit for "multiselect" elements using the princ
     # End of test number 3
 
   @javascript
-  Scenario: test multiselect element with the following settings: 0; milk\ncoffee\nbutter\nbread; coffee; 2
+  Scenario: test multiselect element using configuration 04
+    # Configuration 04 consists in:
       # required:               0
       # Options (fixed):        milk\ncoffee\nbutter\nbread
       # Default:                coffee

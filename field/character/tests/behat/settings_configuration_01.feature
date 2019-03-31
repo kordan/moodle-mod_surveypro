@@ -28,7 +28,8 @@ Feature: Validate creation and submit for "character" elements using the princip
     And I expand all fieldsets
 
   @javascript
-  Scenario: test character element with the following settings: 0; free pattern; empty
+  Scenario: test character element using configuration 01
+    # Configuration 01 consists in:
       # required:                       0
       # Text pattern:                   free pattern
       # Minimum length (in characters): empty
@@ -59,7 +60,8 @@ Feature: Validate creation and submit for "character" elements using the princip
     # End of test number 2
 
   @javascript
-  Scenario: test character element with the following settings: 0; free pattern; 20
+  Scenario: test character element using configuration 02
+    # Configuration 02 consists in:
       # required:                       0
       # Text pattern:                   free pattern
       # Minimum length (in characters): 20

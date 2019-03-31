@@ -22,7 +22,7 @@ Feature: apply CI mastertemplate
 
   @javascript
   Scenario: apply Critical Incidents master template
-    When I follow "To apply Critical Incidents"
+    Given I follow "To apply Critical Incidents"
     And I set the field "Master templates" to "Critical Incidents"
     And I press "Apply"
     Then I should see "While thinking about recent events in this class, answer the questions below."
