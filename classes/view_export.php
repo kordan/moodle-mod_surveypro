@@ -557,7 +557,7 @@ class mod_surveypro_view_export {
      */
     public function decode_content($richsubmission) {
         $content = $richsubmission->content;
-        if (!strlen($content)) {
+        if (!core_text::strlen($content)) {
             $return = '';
         } else {
             $itemid = $richsubmission->itemid;
@@ -599,7 +599,7 @@ class mod_surveypro_view_export {
         $packagename = clean_param($packagename, PARAM_ALPHAEXT);
         $packagename .= '_attachments_by_'.$type;
         // In MS Azure files with a name longer than 80 characters give problems.
-        $packagename = substr($packagename, 0, 80);
+        $packagename = core_text::substr($packagename, 0, 80);
 
         return $packagename;
     }

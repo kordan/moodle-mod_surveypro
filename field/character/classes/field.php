@@ -261,7 +261,7 @@ class surveyprofield_character_field extends mod_surveypro_itembase {
         if ($record->pattern == SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN) {
             $record->pattern = $record->patterntext;
 
-            $record->minlength = strlen($record->patterntext);
+            $record->minlength = core_text::strlen($record->patterntext);
             $record->maxlength = $record->minlength;
             unset($record->patterntext);
         }
@@ -484,7 +484,7 @@ EOS;
             return;
         }
 
-        $answerlength = strlen($userinput);
+        $answerlength = core_text::strlen($userinput);
         if (!empty($this->minlength)) {
             if ($answerlength < $this->minlength) {
                 $errors[$errorkey] = get_string('uerr_texttooshort', 'surveyprofield_character');

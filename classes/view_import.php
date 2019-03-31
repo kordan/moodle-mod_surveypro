@@ -354,7 +354,7 @@ class mod_surveypro_view_import {
      */
     public function is_string_notempty($csvrow, $col, $itemhelper) {
         $value = $csvrow[$col];
-        if (!strlen($value)) {
+        if (!core_text::strlen($value)) {
             $error = new stdClass();
             $error->key = 'import_emptyrequiredvalue';
             $error->a = new stdClass();

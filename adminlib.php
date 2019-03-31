@@ -181,7 +181,7 @@ class mod_surveypro_plugin_manager {
         $table->setup();
 
         $plugins = $this->get_sorted_plugins_list();
-        $shortsubtype = substr($this->subtype, strlen('surveypro'));
+        $shortsubtype = core_text::substr($this->subtype, core_text::strlen('surveypro'));
 
         if (($this->subtype == 'surveyprofield') || ($this->subtype == 'surveyproformat')) {
             if ($this->subtype == 'surveyprofield') {
@@ -329,7 +329,7 @@ class mod_surveypro_plugin_manager {
             // $DB->delete_records('surveypro_item', array('plugin' => $plugin, 'subtype' => $this->subtype));
 
             // Then the tables themselves.
-            $shortsubtype = substr($this->subtype, strlen('surveypro'));
+            $shortsubtype = core_text::substr($this->subtype, core_text::strlen('surveypro'));
             $installxml = $CFG->dirroot.'/mod/surveypro/'.$shortsubtype.'/'.$plugin.'/db/install.xml';
             drop_plugin_tables($this->subtype.'_'.$plugin, $installxml, false);
 
@@ -357,7 +357,7 @@ class mod_surveypro_plugin_manager {
         $pluginname = get_string('pluginname', $this->subtype.'_'.$plugin);
         echo $OUTPUT->heading(get_string('deletingplugin', 'mod_surveypro', $pluginname));
         echo $this->error;
-        $shortsubtype = substr($this->subtype, strlen('surveypro'));
+        $shortsubtype = core_text::substr($this->subtype, core_text::strlen('surveypro'));
         $messageparams = array('name' => $pluginname,
                                'directory' => ('/mod/surveypro/'.$shortsubtype.'/'.$plugin));
         echo $OUTPUT->notification(get_string('plugindeletefiles', 'moodle', $messageparams), 'notifymessage');
@@ -469,7 +469,7 @@ class mod_surveypro_plugin_manager {
                                               'moodle/site:config',
                                               $module->is_enabled() === false);
             if ($admin->fulltree) {
-                $shortsubtype = substr($subtype, strlen('surveypro'));
+                $shortsubtype = core_text::substr($subtype, core_text::strlen('surveypro'));
                 include($CFG->dirroot."/mod/surveypro/$shortsubtype/$plugin/settings.php");
             }
 

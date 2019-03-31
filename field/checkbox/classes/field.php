@@ -911,7 +911,7 @@ EOS;
                 // Add last element of the $prefill.
                 $lastanswer = end($answers);
 
-                if (strlen($lastanswer)) {
+                if (core_text::strlen($lastanswer)) {
                     $prefill[$this->itemname.'_other'] = 1;
                     $prefill[$this->itemname.'_text'] = $lastanswer;
                 } else {

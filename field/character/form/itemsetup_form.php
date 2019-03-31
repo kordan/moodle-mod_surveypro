@@ -127,7 +127,7 @@ class mod_surveypro_character_setupform extends mod_surveypro_itembaseform {
 
         if (!empty($data['defaultvalue'])) {
             // Maximum characters > length of default.
-            $defaultvaluelength = strlen($data['defaultvalue']);
+            $defaultvaluelength = core_text::strlen($data['defaultvalue']);
             if (!empty($data['maxlength'])) {
                 if ($defaultvaluelength > $data['maxlength']) {
                     $errors['defaultvalue'] = get_string('ierr_toolongdefault', 'surveyprofield_character');
