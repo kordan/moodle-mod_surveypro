@@ -564,7 +564,7 @@ EOS;
                 $editoroptions['subdirs'] = true;
                 $editoroptions['maxfiles'] = EDITOR_UNLIMITED_FILES;
                 $editoroptions['context'] = $context;
-                $fromdb->contentformat = FORMAT_HTML;
+                $fromdb->contentformat = $fromdb->contentformat;
                 $fromdb = file_prepare_standard_editor($fromdb, 'content', $editoroptions, $context,
                                                        'mod_surveypro', SURVEYPROFIELD_TEXTAREA_FILEAREA, $fromdb->id);
 
