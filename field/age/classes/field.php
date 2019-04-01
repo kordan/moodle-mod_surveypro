@@ -155,6 +155,7 @@ class surveyprofield_age_field extends mod_surveypro_itembase {
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'age';
         $this->savepositiontodb = false;
+        $this->pluginusesdbtable = true;
 
         // Other element specific properties.
         $maximumage = get_config('surveyprofield_age', 'maximumage');

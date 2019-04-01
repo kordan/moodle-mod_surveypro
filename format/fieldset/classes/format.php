@@ -64,6 +64,7 @@ class surveyproformat_fieldset_format extends mod_surveypro_itembase {
         $this->plugin = 'fieldset';
         $this->fieldsusingformat = array();
         $this->savepositiontodb = false;
+        $this->pluginusesdbtable = true;
 
         // Other element specific properties.
         // No properties here.

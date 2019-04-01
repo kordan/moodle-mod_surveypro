@@ -135,6 +135,7 @@ class surveyprofield_radiobutton_field extends mod_surveypro_itembase {
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'radiobutton';
         $this->savepositiontodb = true;
+        $this->pluginusesdbtable = true;
 
         // Other element specific properties.
         // No properties here.

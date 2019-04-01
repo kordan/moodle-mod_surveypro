@@ -69,6 +69,11 @@ class mod_surveypro_itembase {
     protected $itemname;
 
     /**
+     * @var bool pluginusesdbtable True if the plugin (item) uses the bd table, false otherwise.
+     */
+    protected $pluginusesdbtable;
+
+    /**
      * @var bool Visibility of this item in the out form
      */
     protected $hidden;
@@ -182,7 +187,7 @@ class mod_surveypro_itembase {
 
         $tablename = 'surveypro'.$this->type.'_'.$this->plugin;
         // Some item, like pagebreak or fieldsetend, may be free of the plugin table.
-        if ($DB->get_manager()->table_exists($tablename)) {
+        if ($this->get_pluginusesdbtable()) {
             $sql = 'SELECT *, i.id as itemid, p.id as pluginid
                     FROM {surveypro_item} i
                       JOIN {'.$tablename.'} p ON p.itemid = i.id
@@ -385,7 +390,7 @@ class mod_surveypro_itembase {
 
                 if ($itemid = $DB->insert_record('surveypro_item', $record)) { // First surveypro_item save.
                     // Now think to $tablename.
-                    if ($DB->get_manager()->table_exists($tablename)) {
+                    if ($this->get_pluginusesdbtable()) {
                         // Before saving to the the plugin table, validate the variable name.
                         $this->item_validate_variablename($record, $itemid);
 
@@ -406,7 +411,7 @@ class mod_surveypro_itembase {
                                   );
                     }
 
-                    if ($DB->get_manager()->table_exists($tablename)) {
+                    if ($this->get_pluginusesdbtable()) {
                         // Tablename.
                         $record->id = $pluginid;
 
@@ -473,7 +478,7 @@ class mod_surveypro_itembase {
                     // Before saving to the the plugin table, I validate the variable name.
                     $this->item_validate_variablename($record, $record->itemid);
 
-                    if ($DB->get_manager()->table_exists($tablename)) {
+                    if ($this->get_pluginusesdbtable()) {
                         $record->id = $record->pluginid;
                         if ($DB->update_record($tablename, $record)) {
                             $this->itemeditingfeedback += 3; // 1*2^1+1*2^0 alias: editing + success.
@@ -1418,6 +1423,15 @@ EOS;
      */
     public function get_itemeditingfeedback() {
         return $this->itemeditingfeedback;
+    }
+
+    /**
+     * Get pluginusesdbtable.
+     *
+     * @return the content of $pluginusesdbtable property
+     */
+    public function get_pluginusesdbtable() {
+        return $this->pluginusesdbtable;
     }
 
     // MARK set.

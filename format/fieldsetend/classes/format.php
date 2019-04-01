@@ -59,6 +59,7 @@ class surveyproformat_fieldsetend_format extends mod_surveypro_itembase {
         $this->plugin = 'fieldsetend';
         $this->fieldsusingformat = array();
         $this->savepositiontodb = false;
+        $this->pluginusesdbtable = false;
 
         // Other element specific properties.
         // No properties here.

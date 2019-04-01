@@ -125,6 +125,7 @@ class surveyprofield_integer_field extends mod_surveypro_itembase {
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'integer';
         $this->savepositiontodb = false;
+        $this->pluginusesdbtable = true;
 
         // Other element specific properties.
         $maximuminteger = get_config('surveyprofield_integer', 'maximuminteger');

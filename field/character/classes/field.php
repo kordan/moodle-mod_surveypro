@@ -147,6 +147,7 @@ class surveyprofield_character_field extends mod_surveypro_itembase {
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'character';
         $this->savepositiontodb = false;
+        $this->pluginusesdbtable = true;
 
         // Other element specific properties.
         // No properties here.

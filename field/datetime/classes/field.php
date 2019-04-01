@@ -217,6 +217,7 @@ class surveyprofield_datetime_field extends mod_surveypro_itembase {
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'datetime';
         $this->savepositiontodb = false;
+        $this->pluginusesdbtable = true;
 
         // Other element specific properties.
         // No properties here.

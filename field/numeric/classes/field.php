@@ -140,6 +140,7 @@ class surveyprofield_numeric_field extends mod_surveypro_itembase {
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'numeric';
         $this->savepositiontodb = false;
+        $this->pluginusesdbtable = true;
 
         // Other element specific properties.
         $this->decimalseparator = get_string('decsep', 'langconfig');
