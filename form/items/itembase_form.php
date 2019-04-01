@@ -210,7 +210,7 @@ class mod_surveypro_itembaseform extends moodleform {
             $fieldname = 'parentid';
             // Create the list of each item with:
             // sortindex lower than mine (whether already exists);
-            // $classname::item_get_canbeparent() == true;
+            // $classname::get_canbeparent() == true;
             // I also should include the clause "reserved = my one" but I omit this validation
             // because the surveypro creator can, at every time, change the availability of the current item.
             // So I move the validation of the holding form at the form validation time.
@@ -219,7 +219,7 @@ class mod_surveypro_itembaseform extends moodleform {
             $pluginlist = surveypro_get_plugin_list(SURVEYPRO_TYPEFIELD);
             foreach ($pluginlist as $plugin) {
                 $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'_'.SURVEYPRO_TYPEFIELD;
-                if (!$classname::item_get_canbeparent()) {
+                if (!$classname::get_canbeparent()) {
                     unset($pluginlist[$plugin]);
                 }
             }

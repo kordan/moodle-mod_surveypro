@@ -367,7 +367,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                     continue;
                 }
 
-                $val = $item->item_get_generic_property($field);
+                $val = $item->get_generic_property($field);
                 if (core_text::strlen($val)) {
                     $xmlfield = $xmltable->addChild($field, $val);
                 } // Otherwise: It is empty, do not evaluate: jump.
@@ -382,7 +382,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
             $xmltable = $xmlitem->addChild('surveypro'.$itemseed->type.'_'.$itemseed->plugin);
             foreach ($structure as $field) {
-                $val = $item->item_get_generic_property($field);
+                $val = $item->get_generic_property($field);
 
                 if (core_text::strlen($val)) {
                     $xmlfield = $xmltable->addChild($field, htmlspecialchars($val));
@@ -899,7 +899,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
                 $xmlfileid = $virtualtable[$row]['xmlfileid'];
                 $templatename = $virtualtable[$row]['templatename'];
-                $tmpl = new mod_surveypro_usertemplate_name($xmlfileid, $templatename);
+                $tmpl = new mod_surveypro_ipe_usertemplate_name($xmlfileid, $templatename);
 
                 $tablerow[] = $OUTPUT->render_from_template('core/inplace_editable', $tmpl->export_for_template($OUTPUT));
                 $tablerow[] = $virtualtable[$row]['sharinglevel'];

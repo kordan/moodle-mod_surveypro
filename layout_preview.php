@@ -50,8 +50,8 @@ mod_surveypro_utility_mform::register_form_elements();
 $previewman = new mod_surveypro_layout_preview($cm, $context, $surveypro);
 $previewman->setup($submissionid, $formpage);
 
-$utilitysubmissionman = new mod_surveypro_utility_submission($cm, $surveypro);
-$utilitysubmissionman->add_custom_css();
+$utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+$utilitylayoutman->add_custom_css();
 
 // Begin of: define $user_form return url.
 $paramurl = array('id' => $cm->id);

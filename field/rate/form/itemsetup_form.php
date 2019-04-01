@@ -98,9 +98,9 @@ class mod_surveypro_rate_setupform extends mod_surveypro_itembaseform {
 
         // Item: downloadformat.
         $fieldname = 'downloadformat';
-        $options = $item->item_get_downloadformats();
+        $options = $item->get_downloadformats();
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_rate'), $options);
-        $mform->setDefault($fieldname, $item->item_get_friendlyformat());
+        $mform->setDefault($fieldname, $item->get_friendlyformat());
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_rate');
         $mform->setType($fieldname, PARAM_INT);
 

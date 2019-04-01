@@ -796,8 +796,8 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
 
     $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
 
-    $utilitysubmissionman = new mod_surveypro_utility_submission($cm, $surveypro);
-    $nodeurl = $utilitysubmissionman->get_common_links_url(SURVEYPRO_BLOCK);
+    $utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+    $nodeurl = $utilitylayoutman->get_common_links_url(SURVEYPRO_BLOCK);
 
     $paramurlbase = array('s' => $cm->instance);
 
@@ -958,8 +958,8 @@ function surveypro_add_report_link($templatename, $childreports, $childnode, $re
  * @return void
  */
 function surveypro_extend_navigation(navigation_node $navref, stdClass $course, stdClass $surveypro, cm_info $cm) {
-    $utilitysubmissionman = new mod_surveypro_utility_submission($cm, $surveypro);
-    $nodeurl = $utilitysubmissionman->get_common_links_url(SURVEYPRO_BLOCK);
+    $utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+    $nodeurl = $utilitylayoutman->get_common_links_url(SURVEYPRO_BLOCK);
 
     // $currentgroup = groups_get_activity_group($cm);
     // $groupmode = groups_get_activity_groupmode($cm, $COURSE);

@@ -195,7 +195,7 @@ class surveyprofield_age_field extends mod_surveypro_itembase {
      * @return void
      */
     public function item_save($record) {
-        $this->item_get_common_settings($record);
+        $this->get_common_settings($record);
 
         // Now execute very specific plugin level actions.
 
@@ -206,15 +206,6 @@ class surveyprofield_age_field extends mod_surveypro_itembase {
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
-    }
-
-    /**
-     * Is this item available as a parent?
-     *
-     * @return the content of the static property "canbeparent"
-     */
-    public static function item_get_canbeparent() {
-        return self::$canbeparent;
     }
 
     /**
@@ -274,67 +265,6 @@ class surveyprofield_age_field extends mod_surveypro_itembase {
     }
 
     /**
-     * Convert an age to unix time.
-     *
-     * @param int $year
-     * @param int $month
-     * @return int unixtime
-     */
-    public function item_age_to_unix_time($year, $month) {
-        $year += SURVEYPROFIELD_AGE_YEAROFFSET;
-        return (gmmktime(12, 0, 0, $month, 1, $year)); // This is GMT.
-    }
-
-    /**
-     * Prepare values for the mform of this item.
-     *
-     * translates the age class property $fieldlist in $field.'year' and $field.'month'
-     *
-     * @return void
-     */
-    public function item_custom_fields_to_form() {
-        // 1. Special management for composite fields.
-        $fieldlist = $this->item_get_composite_fields();
-        foreach ($fieldlist as $field) {
-            if (is_null($this->{$field})) {
-                continue;
-            }
-            $agearray = self::item_split_unix_time($this->{$field});
-            $this->{$field.'year'} = $agearray['year'];
-            $this->{$field.'month'} = $agearray['mon'];
-        }
-    }
-
-    /**
-     * Traslate values from the mform of this item to values for corresponding properties.
-     *
-     * @param object $record
-     * @return void
-     */
-    public function item_custom_fields_to_db($record) {
-        // 1. Special management for composite fields.
-        $fieldlist = $this->item_get_composite_fields();
-        foreach ($fieldlist as $field) {
-            if (isset($record->{$field.'year'}) && isset($record->{$field.'month'})) {
-                $record->{$field} = $this->item_age_to_unix_time($record->{$field.'year'}, $record->{$field.'month'});
-                unset($record->{$field.'year'});
-                unset($record->{$field.'month'});
-            } else {
-                $record->{$field} = null;
-            }
-        }
-
-        // 2. Override few values.
-        // Nothing to do: no need to overwrite variables.
-
-        // 3. Set values corresponding to checkboxes.
-        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in item_get_common_settings.
-        // Nothing to do: no checkboxes in this plugin item form.
-
-        // 4. Other.
-    }
-
-    /**
      * Starting from an age array returns the corresponding age in text format.
      *
      * @param array $agearray
@@ -358,11 +288,83 @@ class surveyprofield_age_field extends mod_surveypro_itembase {
     }
 
     /**
+     * Convert an age to unix time.
+     *
+     * @param int $year
+     * @param int $month
+     * @return int unixtime
+     */
+    public function item_age_to_unix_time($year, $month) {
+        $year += SURVEYPROFIELD_AGE_YEAROFFSET;
+        return (gmmktime(12, 0, 0, $month, 1, $year)); // This is GMT.
+    }
+
+    /**
+     * Prepare values for the mform of this item.
+     *
+     * translates the age class property $fieldlist in $field.'year' and $field.'month'
+     *
+     * @return void
+     */
+    public function item_custom_fields_to_form() {
+        // 1. Special management for composite fields.
+        $fieldlist = $this->get_composite_fields();
+        foreach ($fieldlist as $field) {
+            if (is_null($this->{$field})) {
+                continue;
+            }
+            $agearray = self::item_split_unix_time($this->{$field});
+            $this->{$field.'year'} = $agearray['year'];
+            $this->{$field.'month'} = $agearray['mon'];
+        }
+    }
+
+    /**
+     * Traslate values from the mform of this item to values for corresponding properties.
+     *
+     * @param object $record
+     * @return void
+     */
+    public function item_custom_fields_to_db($record) {
+        // 1. Special management for composite fields.
+        $fieldlist = $this->get_composite_fields();
+        foreach ($fieldlist as $field) {
+            if (isset($record->{$field.'year'}) && isset($record->{$field.'month'})) {
+                $record->{$field} = $this->item_age_to_unix_time($record->{$field.'year'}, $record->{$field.'month'});
+                unset($record->{$field.'year'});
+                unset($record->{$field.'month'});
+            } else {
+                $record->{$field} = null;
+            }
+        }
+
+        // 2. Override few values.
+        // Nothing to do: no need to overwrite variables.
+
+        // 3. Set values corresponding to checkboxes.
+        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in get_common_settings.
+        // Nothing to do: no checkboxes in this plugin item form.
+
+        // 4. Other.
+    }
+
+    // MARK get.
+
+    /**
+     * Is this item available as a parent?
+     *
+     * @return the content of the static property "canbeparent"
+     */
+    public static function get_canbeparent() {
+        return self::$canbeparent;
+    }
+
+    /**
      * Get the list of composite fields.
      *
      * @return void
      */
-    public function item_get_composite_fields() {
+    public function get_composite_fields() {
         return array('defaultvalue', 'lowerbound', 'upperbound');
     }
 
@@ -371,7 +373,7 @@ class surveyprofield_age_field extends mod_surveypro_itembase {
      *
      * @return array of felds
      */
-    public function item_get_multilang_fields() {
+    public function get_multilang_fields() {
         $fieldlist = array();
         $fieldlist[$this->plugin] = array('content', 'extranote');
 
@@ -383,7 +385,7 @@ class surveyprofield_age_field extends mod_surveypro_itembase {
      *
      * @return string $schema
      */
-    public static function item_get_plugin_schema() {
+    public static function get_plugin_schema() {
         $schema = <<<EOS
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">

@@ -119,7 +119,7 @@ class surveyproformat_pagebreak_format extends mod_surveypro_itembase {
      * @return void
      */
     public function item_save($record) {
-        $this->item_get_common_settings($record);
+        $this->get_common_settings($record);
 
         // Now execute very specific plugin level actions.
 
@@ -128,15 +128,6 @@ class surveyproformat_pagebreak_format extends mod_surveypro_itembase {
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
-    }
-
-    /**
-     * Is this item available as a parent?
-     *
-     * @return the content of the static property "canbeparent"
-     */
-    public static function item_get_canbeparent() {
-        return self::$canbeparent;
     }
 
     /**
@@ -151,24 +142,35 @@ class surveyproformat_pagebreak_format extends mod_surveypro_itembase {
     }
 
     /**
-     * Make the list of the fields using multilang
-     *
-     * @return array of felds
-     */
-    public function item_get_multilang_fields() {
-        $fieldlist = array();
-        $fieldlist[$this->plugin] = array();
-
-        return $fieldlist;
-    }
-
-    /**
      * Item_uses_form_page.
      *
      * @return boolean
      */
     public function item_uses_form_page() {
         return false;
+    }
+
+    // MARK get.
+
+    /**
+     * Is this item available as a parent?
+     *
+     * @return the content of the static property "canbeparent"
+     */
+    public static function get_canbeparent() {
+        return self::$canbeparent;
+    }
+
+    /**
+     * Make the list of the fields using multilang
+     *
+     * @return array of felds
+     */
+    public function get_multilang_fields() {
+        $fieldlist = array();
+        $fieldlist[$this->plugin] = array();
+
+        return $fieldlist;
     }
 
     /**

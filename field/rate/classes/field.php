@@ -186,7 +186,7 @@ class surveyprofield_rate_field extends mod_surveypro_itembase {
      * @return void
      */
     public function item_save($record) {
-        $this->item_get_common_settings($record);
+        $this->get_common_settings($record);
 
         // Now execute very specific plugin level actions.
 
@@ -202,15 +202,6 @@ class surveyprofield_rate_field extends mod_surveypro_itembase {
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
-    }
-
-    /**
-     * Is this item available as a parent?
-     *
-     * @return the content of the static property "canbeparent"
-     */
-    public static function item_get_canbeparent() {
-        return self::$canbeparent;
     }
 
     /**
@@ -261,7 +252,7 @@ class surveyprofield_rate_field extends mod_surveypro_itembase {
         $record->position = SURVEYPRO_POSITIONTOP;
 
         // 3. Set values corresponding to checkboxes.
-        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in item_get_common_settings.
+        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in get_common_settings.
         $checkboxes = array('hideinstructions', 'differentrates');
         foreach ($checkboxes as $checkbox) {
             $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
@@ -279,12 +270,23 @@ class surveyprofield_rate_field extends mod_surveypro_itembase {
         return false;
     }
 
+    // MARK get.
+
+    /**
+     * Is this item available as a parent?
+     *
+     * @return the content of the static property "canbeparent"
+     */
+    public static function get_canbeparent() {
+        return self::$canbeparent;
+    }
+
     /**
      * Get the content of the downloadformats menu of the item setup form.
      *
      * @return array of downloadformats
      */
-    public function item_get_downloadformats() {
+    public function get_downloadformats() {
         $options = array();
 
         $options[SURVEYPRO_ITEMSRETURNSVALUES] = get_string('returnvalues', 'surveyprofield_rate');
@@ -299,7 +301,7 @@ class surveyprofield_rate_field extends mod_surveypro_itembase {
      *
      * @return the friendly format
      */
-    public function item_get_friendlyformat() {
+    public function get_friendlyformat() {
         return SURVEYPRO_ITEMRETURNSLABELS;
     }
 
@@ -308,7 +310,7 @@ class surveyprofield_rate_field extends mod_surveypro_itembase {
      *
      * @return array of felds
      */
-    public function item_get_multilang_fields() {
+    public function get_multilang_fields() {
         $fieldlist = array();
         $fieldlist[$this->plugin] = array('content', 'extranote', 'options', 'rates', 'defaultvalue');
 
@@ -320,7 +322,7 @@ class surveyprofield_rate_field extends mod_surveypro_itembase {
      *
      * @return string $schema
      */
-    public static function item_get_plugin_schema() {
+    public static function get_plugin_schema() {
         $schema = <<<EOS
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
@@ -379,7 +381,7 @@ EOS;
         $utilityitemman = new mod_surveypro_utility_item($this->cm, $this->surveypro);
         $options = $utilityitemman->multilinetext_to_array($this->options);
         $optioncount = count($options) - 1;
-        $rates = $this->item_get_content_array(SURVEYPRO_LABELS, 'rates');
+        $rates = $this->get_content_array(SURVEYPRO_LABELS, 'rates');
         $defaultvalues = $utilityitemman->multilinetext_to_array($this->defaultvalue);
 
         $idprefix = 'id_surveypro_field_rate_'.$this->sortindex;
@@ -520,7 +522,7 @@ EOS;
         }
 
         if (!empty($this->differentrates)) {
-            $optionscount = count($this->item_get_content_array(SURVEYPRO_LABELS, 'options'));
+            $optionscount = count($this->get_content_array(SURVEYPRO_LABELS, 'options'));
             $rates = array();
             for ($i = 0; $i < $optionscount; $i++) {
                 $rates[] = $data[$this->itemname.'_'.$i];
@@ -627,7 +629,7 @@ EOS;
 
         // Format.
         if ($format == SURVEYPRO_FRIENDLYFORMAT) {
-            $format = $this->item_get_friendlyformat();
+            $format = $this->get_friendlyformat();
         }
         if (empty($format)) {
             $format = $this->downloadformat;
@@ -639,9 +641,9 @@ EOS;
             case SURVEYPRO_ITEMSRETURNSVALUES:
                 $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $content);
                 $output = array();
-                $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
+                $labels = $this->get_content_array(SURVEYPRO_LABELS, 'options');
 
-                $rates = $this->item_get_content_array(SURVEYPRO_VALUES, 'rates');
+                $rates = $this->get_content_array(SURVEYPRO_VALUES, 'rates');
                 foreach ($labels as $col => $label) {
                     $index = $answers[$col];
                     $output[] = $label.SURVEYPROFIELD_RATE_VALUERATESEPARATOR.$rates[$index];
@@ -651,9 +653,9 @@ EOS;
             case SURVEYPRO_ITEMRETURNSLABELS:
                 $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $content);
                 $output = array();
-                $labels = $this->item_get_content_array(SURVEYPRO_LABELS, 'options');
+                $labels = $this->get_content_array(SURVEYPRO_LABELS, 'options');
 
-                $rates = $this->item_get_content_array(SURVEYPRO_LABELS, 'rates');
+                $rates = $this->get_content_array(SURVEYPRO_LABELS, 'rates');
                 foreach ($labels as $col => $label) {
                     $index = $answers[$col];
                     $output[] = $label.SURVEYPROFIELD_RATE_VALUERATESEPARATOR.$rates[$index];

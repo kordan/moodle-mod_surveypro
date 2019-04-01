@@ -51,8 +51,8 @@ mod_surveypro_utility_mform::register_form_elements();
 $userformman = new mod_surveypro_view_form($cm, $context, $surveypro);
 $userformman->setup($submissionid, $formpage, $view);
 
-$utilitysubmissionman = new mod_surveypro_utility_submission($cm, $surveypro);
-$utilitysubmissionman->add_custom_css();
+$utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+$utilitylayoutman->add_custom_css();
 
 // Begin of: define $user_form return url.
 $paramurl = array('id' => $cm->id, 'view' => $view);

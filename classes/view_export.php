@@ -263,7 +263,7 @@ class mod_surveypro_view_export {
             $itemseedskeys[] = $itemseed->id;
             if ($this->formdata->outputstyle == SURVEYPRO_RAW) {
                 $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemseed->plugin.'_'.SURVEYPRO_TYPEFIELD;
-                if ($classname::item_needs_contentformat()) {
+                if ($classname::response_uses_format()) {
                     $headerlabels[] = $currentheader.SURVEYPRO_IMPFORMATSUFFIX;
                     $itemseedskeys[] = $itemseed->id.SURVEYPRO_IMPFORMATSUFFIX;
                 }
@@ -523,7 +523,7 @@ class mod_surveypro_view_export {
             $recordtoexport[$richsubmission->itemid] = $richsubmission->content;
 
             $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$richsubmission->plugin.'_'.SURVEYPRO_TYPEFIELD;
-            if ($classname::item_needs_contentformat()) {
+            if ($classname::response_uses_format()) {
                 $recordtoexport[$richsubmission->itemid.SURVEYPRO_IMPFORMATSUFFIX] = $richsubmission->contentformat;
             }
         }

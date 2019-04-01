@@ -270,7 +270,7 @@ class mod_surveypro_itembase {
      * @param stdClass $record
      * @return void
      */
-    protected function item_get_common_settings($record) {
+    protected function get_common_settings($record) {
         // You are going to change item content (maybe sortindex, maybe the parentitem)
         // so, do not forget to reset items per page.
         $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
@@ -681,9 +681,9 @@ class mod_surveypro_itembase {
         global $DB, $CFG;
 
         $classname = 'surveypro'.$this->type.'_'.$this->plugin.'_'.$this->type;
-        if ($classname::item_get_canbeparent()) {
-            // Take care: you can not use $this->item_get_content_array(SURVEYPRO_VALUES, 'options') to evaluate values
-            // because $item was loaded before last save, so $this->item_get_content_array(SURVEYPRO_VALUES, 'options')
+        if ($classname::get_canbeparent()) {
+            // Take care: you can not use $this->get_content_array(SURVEYPRO_VALUES, 'options') to evaluate values
+            // because $item was loaded before last save, so $this->get_content_array(SURVEYPRO_VALUES, 'options')
             // will still return the previous values.
 
             $childrenitems = $DB->get_records('surveypro_item', array('parentid' => $this->itemid), 'id', 'id, parentvalue');
@@ -722,7 +722,7 @@ class mod_surveypro_itembase {
             return;
         }
 
-        if ($multilangfields = $this->item_get_multilang_fields()) { // Pagebreak and fieldsetend have no multilang_fields.
+        if ($multilangfields = $this->get_multilang_fields()) { // Pagebreak and fieldsetend have no multilang_fields.
             foreach ($multilangfields as $plugin) {
                 foreach ($plugin as $fieldname) {
                     // Backward compatibility.
@@ -807,7 +807,7 @@ class mod_surveypro_itembase {
      *
      * @return void
      */
-    public function item_set_editor() {
+    public function set_editor() {
         if (!$fieldsusingformat = $this->get_fieldsusingformat()) {
             return;
         }
@@ -831,9 +831,9 @@ class mod_surveypro_itembase {
      * @param string $field Name of the text area field, source of the multiline text
      * @return array $values
      */
-    public function item_get_content_array($content, $field) {
+    public function get_content_array($content, $field) {
         if (($content != SURVEYPRO_VALUES) && ($content != SURVEYPRO_LABELS)) {
-            throw new Exception('Bad parameter passed to item_get_content_array');
+            throw new Exception('Bad parameter passed to get_content_array');
         }
 
         $index = ($content == SURVEYPRO_VALUES) ? 1 : 2;
@@ -878,7 +878,7 @@ class mod_surveypro_itembase {
      * @return $value
      * @return $label
      */
-    protected function item_get_other() {
+    protected function get_other() {
         if (preg_match('~^(.*)'.SURVEYPRO_OTHERSEPARATOR.'(.*)$~', $this->labelother, $match)) {
             $label = trim($match[1]);
             $value = trim($match[2]);
@@ -931,7 +931,7 @@ class mod_surveypro_itembase {
      *
      * @return string $schema
      */
-    public static function item_get_itembase_schema() {
+    public static function get_itembase_schema() {
         // Fields: surveyproid, formpage, timecreated and timemodified are not supposed to be part of the file!
         $schema = <<<EOS
 <?xml version="1.0" encoding="UTF-8"?>
@@ -979,7 +979,7 @@ EOS;
      * @param string $field
      * @return the content of the field whether defined
      */
-    public function item_get_generic_property($field) {
+    public function get_generic_property($field) {
         if (isset($this->{$field})) {
             return $this->{$field};
         } else {
@@ -1003,7 +1003,7 @@ EOS;
      *
      * @return the template to use at response report creation
      */
-    public static function item_get_pdf_template() {
+    public static function get_pdf_template() {
         return SURVEYPRO_3COLUMNSTEMPLATE;
     }
 
@@ -1012,7 +1012,7 @@ EOS;
      *
      * @return if the calling plugin requires a user input trim
      */
-    public function item_get_trimonsave() {
+    public function get_trimonsave() {
         return false;
     }
 
@@ -1021,7 +1021,7 @@ EOS;
      *
      * @return bool
      */
-    public static function item_needs_contentformat() {
+    public static function response_uses_format() {
         return false;
     }
 
