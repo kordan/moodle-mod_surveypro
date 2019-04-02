@@ -169,7 +169,7 @@ class surveyprofield_time_field extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'time';
-        $this->savepositiontodb = false;
+        $this->usespositionalanswer = false;
 
         // Other element specific properties.
         // No properties here.

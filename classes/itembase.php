@@ -121,7 +121,7 @@ class mod_surveypro_itembase {
     /**
      * @var bool Possibility for this plugin to save, as user answer, the position of the user interface elements in the out form
      */
-    protected $savepositiontodb = null;
+    protected $usespositionalanswer = null;
 
     /**
      * List of fields properties the surveypro creator will manage in the item definition form
@@ -1101,12 +1101,12 @@ EOS;
     }
 
     /**
-     * Get savepositiontodb.
+     * Get usespositionalanswer.
      *
-     * @return the content of $savepositiontodb property
+     * @return the content of $usespositionalanswer property
      */
-    public function get_savepositiontodb() {
-        return $this->savepositiontodb;
+    public function get_usespositionalanswer() {
+        return $this->usespositionalanswer;
     }
 
     /**
