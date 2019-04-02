@@ -96,7 +96,7 @@ class surveypromform_textarea_plain extends MoodleQuickForm_textarea {
     public function getFrozenHtml() {
         $value = htmlspecialchars($this->getValue());
         $value = nl2br($value);
-        $value = core_text::strlen($value) ? $value : '&nbsp;';
+        $value = strlen($value) ? $value : '&nbsp;';
 
         $class = array();
         $class['id'] = $this->getAttribute('id');

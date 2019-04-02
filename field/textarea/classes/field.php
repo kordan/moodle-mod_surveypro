@@ -232,15 +232,15 @@ class surveyprofield_textarea_field extends mod_surveypro_itembase {
     public function item_custom_fields_to_db($record) {
         // 1. Special management for composite fields.
         // Nothing to do: they don't exist in this plugin.
-        if (!core_text::strlen($record->minlength)) {
+        if (!strlen($record->minlength)) {
             $record->minlength = 0;
         }
 
         // 2. Override few values.
-        if (!core_text::strlen($record->minlength)) {
+        if (!strlen($record->minlength)) {
             $record->minlength = 0;
         }
-        if (!core_text::strlen($record->maxlength)) {
+        if (!strlen($record->maxlength)) {
             $record->maxlength = null;
         }
         if (empty($record->arearows)) {
@@ -622,7 +622,7 @@ EOS;
         }
 
         // Output.
-        if (core_text::strlen($content)) {
+        if (strlen($content)) {
             if ($this->useeditor) {
                 $content = file_rewrite_pluginfile_urls(
                            $content, 'pluginfile.php', $context->id,
