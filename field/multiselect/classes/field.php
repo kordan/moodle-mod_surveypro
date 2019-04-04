@@ -506,7 +506,6 @@ EOS;
 
                 $itemname = $this->itemname.'_noanswer';
                 $attributes['id'] = $idprefix.'_noanswer';
-                $attributes['class'] = 'multiselect_check';
                 unset($attributes['size']);
                 $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $noanswerstr, $attributes);
 
@@ -522,7 +521,6 @@ EOS;
             $select->setMultiple(true);
             $elementgroup[] = $select;
 
-            $attributes['class'] = 'multiselect_check';
             unset($attributes['size']);
 
             if (!$this->required) {
@@ -533,7 +531,6 @@ EOS;
 
             $itemname = $this->itemname.'_ignoreme';
             $attributes['id'] = $idprefix.'_ignoreme';
-            $attributes['class'] = 'multiselect_check';
             $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $starstr, $attributes);
 
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, '<br />', false);

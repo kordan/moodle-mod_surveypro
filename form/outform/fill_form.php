@@ -101,7 +101,10 @@ class mod_surveypro_outform extends moodleform {
             // because 'label' or ($position == SURVEYPRO_POSITIONFULLWIDTH)
             // as first item are out from the a fieldset
             // so they are not selected by the css3 selector: fieldset div.fitem:nth-of-type(even) {.
-            $mform->addElement('static', 'beginning_extrarow', '', '');
+            // $readonly page is not a form. The alternation is inverted. I need to jump this element.
+            if (!$readonly) {
+                $mform->addElement('static', 'beginning_extrarow', '', '');
+            }
 
             foreach ($itemseeds as $itemseed) {
                 if ($tabpage == SURVEYPRO_LAYOUT_PREVIEW) {
