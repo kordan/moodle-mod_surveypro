@@ -560,8 +560,8 @@ EOS;
                 array_unshift($separator, '<br />');
             }
             if (!empty($this->labelother)) {
-                $separator[] = '<br />';
-                $separator[] = ' ';
+                // $separator[] = '<br />';
+                $separator[] = '';
             }
             if (!$this->required) {
                 $separator[] = '<br />';
