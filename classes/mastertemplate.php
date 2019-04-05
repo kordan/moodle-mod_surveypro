@@ -323,7 +323,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             // Surveypro_item.
             $xmltable = $xmlitem->addChild('surveypro_item');
 
-            if ($multilangfields = $item->item_get_multilang_fields()) { // Pagebreak and fieldsetend have no multilang_fields.
+            if ($multilangfields = $item->get_multilang_fields()) { // Pagebreak and fieldsetend have no multilang_fields.
                 $this->build_langtree($multilangfields, $item);
             }
 
@@ -434,7 +434,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             }
         }
 
-        $content = $item->item_get_generic_property($field);
+        $content = $item->get_generic_property($field);
         if (core_text::strlen($content)) {
             $val = $content;
         } else {
@@ -657,7 +657,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
                     $index = 0;
                 }
                 $stringindex = sprintf('%02d', 1 + $index);
-                $content = str_replace("\r", '', $item->item_get_generic_property($fieldname));
+                $content = str_replace("\r", '', $item->get_generic_property($fieldname));
                 $this->langtree[$component][$component.'_'.$stringindex] = $content;
             }
         }

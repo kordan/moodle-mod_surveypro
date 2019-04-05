@@ -523,7 +523,7 @@ class mod_surveypro_view_import {
 
             foreach ($itemvariables as $itemvariable) {
                 $surveyheaders[$itemvariable->itemid] = $itemvariable->variable;
-                if ($classname::item_needs_contentformat()) {
+                if ($classname::response_uses_format()) {
                     $surveyheaders[$itemvariable->itemid.SURVEYPRO_IMPFORMATSUFFIX] = $itemvariable->variable.SURVEYPRO_IMPFORMATSUFFIX;
                 }
                 if ($canbemandatory) {
@@ -656,12 +656,12 @@ class mod_surveypro_view_import {
             $itemhelper->parentvalue = $item->get_parentvalue();
 
             $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemhelper->plugin.'_'.SURVEYPRO_TYPEFIELD;
-            $itemhelper->usescontentformat = $classname::item_needs_contentformat();
+            $itemhelper->usescontentformat = $classname::response_uses_format();
             $this->itemhelperinfo[$col] = $itemhelper;
 
             if ($itemhelper->savepositiontodb) {
                 // The count of the options is enough.
-                $optionscountpercol[$col] = count($item->item_get_content_array(SURVEYPRO_LABELS, 'options'));
+                $optionscountpercol[$col] = count($item->get_content_array(SURVEYPRO_LABELS, 'options'));
             }
         }
 

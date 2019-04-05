@@ -307,7 +307,7 @@ class mod_surveypro_outform extends moodleform {
                 }
 
                 if ($itemisenabled) {
-                    if ($item->item_get_trimonsave()) {
+                    if ($item->get_trimonsave()) {
                         if (trim($content) != $content) {
                             $warnings[$elementname] = get_string('uerr_willbetrimmed', 'mod_surveypro');
                         }

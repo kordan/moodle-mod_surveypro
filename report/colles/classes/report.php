@@ -340,7 +340,7 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
         // Begin of: options (label of answers).
         $itemid = $qid1area[0][0]; // One of the itemid of the surveypro (the first).
         $item = surveypro_get_item($this->cm, $this->surveypro, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem);
-        $this->ylabels = $item->item_get_content_array(SURVEYPRO_LABELS, 'options');
+        $this->ylabels = $item->get_content_array(SURVEYPRO_LABELS, 'options');
         // End of: options (label of answers).
 
         // Begin of: calculate the mean and the standard deviation of answers.
@@ -488,7 +488,7 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
         // Begin of: options (label of answers).
         $itemid = $qid1area[0][0]; // One of the itemid of the surveypro (the first).
         $item = surveypro_get_item($this->cm, $this->surveypro, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem);
-        $this->ylabels = $item->item_get_content_array(SURVEYPRO_LABELS, 'options');
+        $this->ylabels = $item->get_content_array(SURVEYPRO_LABELS, 'options');
         // End of: options (label of answers).
 
         // Begin of: calculate the mean and the standard deviation of answers.
@@ -596,7 +596,7 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
         // Begin of: options (label of answers).
         $itemid = $qid1area[$area][$qid]; // One of the itemid of the surveypro (the first).
         $item = surveypro_get_item($this->cm, $this->surveypro, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem);
-        $this->xlabels = $item->item_get_content_array(SURVEYPRO_LABELS, 'options');
+        $this->xlabels = $item->get_content_array(SURVEYPRO_LABELS, 'options');
         // End of: options (label of answers).
 
         // Begin of: graph title.

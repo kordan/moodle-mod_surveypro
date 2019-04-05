@@ -99,7 +99,7 @@ require_once($CFG->dirroot.'/mod/surveypro/'.$layoutman->get_type().'/'.$layoutm
 $itemtype = $layoutman->get_type();
 $itemplugin = $layoutman->get_plugin();
 $item = surveypro_get_item($cm, $surveypro, $itemid, $itemtype, $itemplugin, true);
-$item->item_set_editor();
+$item->set_editor();
 // End of: get item.
 
 // Begin of: define $itemform return url.

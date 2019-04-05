@@ -1476,7 +1476,7 @@ class mod_surveypro_submission {
             // Pagebreaks are not selected by surveypro_fetch_items_seeds.
             $item = surveypro_get_item($this->cm, $this->surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);
 
-            $template = $item::item_get_pdf_template();
+            $template = $item::get_pdf_template();
             $html = ($template == SURVEYPRO_2COLUMNSTEMPLATE) ? $twocolstemplate : $threecolstemplate;
 
             // First column.

@@ -802,7 +802,7 @@ class mod_surveypro_layout {
      * @param array $where: permanent condition needed to filter target items
      * @return object $childrenitems
      */
-    public function item_get_children($baseitemid=null, $where=null) {
+    public function get_children($baseitemid=null, $where=null) {
         global $DB;
 
         if (empty($baseitemid)) {
@@ -814,7 +814,7 @@ class mod_surveypro_layout {
         }
 
         if (!is_array($where)) {
-            $a = 'item_get_children';
+            $a = 'get_children';
             print_error('arrayexpected', 'mod_surveypro', null, $a);
         }
 
@@ -1158,7 +1158,7 @@ class mod_surveypro_layout {
 
         // Build tohidelist.
         // Here I must select the whole tree down.
-        $itemstohide = $this->item_get_children(null, array('hidden' => 0));
+        $itemstohide = $this->get_children(null, array('hidden' => 0));
 
         $itemstoprocess = count($itemstohide);
         if ( ($this->confirm == SURVEYPRO_CONFIRMED_YES) || ($itemstoprocess == 1) ) {
@@ -1181,7 +1181,7 @@ class mod_surveypro_layout {
 
         // Build tohidelist.
         // Here I must select the whole tree down.
-        $itemstohide = $this->item_get_children(null, array('hidden' => 0));
+        $itemstohide = $this->get_children(null, array('hidden' => 0));
 
         $itemstoprocess = count($itemstohide);
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
@@ -1343,7 +1343,7 @@ class mod_surveypro_layout {
             $whereparams = array('surveyproid' => $this->surveypro->id);
             $childrenids = array();
 
-            $itemstodelete = $this->item_get_children();
+            $itemstodelete = $this->get_children();
             array_shift($itemstodelete);
             if ($itemstodelete) {
                 foreach ($itemstodelete as $itemtodelete) {
@@ -1391,7 +1391,7 @@ class mod_surveypro_layout {
             $message = get_string('confirm_delete1item', 'mod_surveypro', $a);
 
             // Is there any child item chain to break? (Sortindex is supposed to be a valid key in the next query).
-            $itemstodelete = $this->item_get_children();
+            $itemstodelete = $this->get_children();
             array_shift($itemstodelete);
             if ($itemstodelete) {
                 foreach ($itemstodelete as $itemtodelete) {
@@ -1463,7 +1463,7 @@ class mod_surveypro_layout {
                 $type = $itemseed->type;
                 $plugin = $itemseed->plugin;
                 $item = surveypro_get_item($this->cm, $this->surveypro, $id, $type, $plugin);
-                if ($multilangfields = $item->item_get_multilang_fields()) { // Pagebreak and fieldsetend have no multilang_fields.
+                if ($multilangfields = $item->get_multilang_fields()) { // Pagebreak and fieldsetend have no multilang_fields.
                     foreach ($multilangfields as $mlplugin) { // Take in mind that $mlplugin is an array of fields.
                         $record = new stdClass();
                         if ($plugin == 'item') {
@@ -1570,7 +1570,7 @@ class mod_surveypro_layout {
         $baseitemid = end($itemstoreserve);
 
         // Build itemstoreserve starting from the oldest parent.
-        $itemstoreserve = $this->item_get_children($baseitemid, array('reserved' => 0));
+        $itemstoreserve = $this->get_children($baseitemid, array('reserved' => 0));
 
         $itemstoprocess = count($itemstoreserve);
         if ( ($this->confirm == SURVEYPRO_CONFIRMED_YES) || ($itemstoprocess == 1) ) {
@@ -1609,7 +1609,7 @@ class mod_surveypro_layout {
             $baseitemid = end($itemstoreserve);
 
             // Build itemstoreserve starting from the oldest parent.
-            $itemstoreserve = $this->item_get_children($baseitemid, array('reserved' => 0));
+            $itemstoreserve = $this->get_children($baseitemid, array('reserved' => 0));
 
             $itemstoprocess = count($itemstoreserve); // This is the list of ancestors.
             if ($itemstoprocess > 1) { // Ask for confirmation.
@@ -1687,7 +1687,7 @@ class mod_surveypro_layout {
         $baseitemid = end($itemstoavailable);
 
         // Build itemstoavailable starting from the oldest parent.
-        $itemstoavailable = $this->item_get_children($baseitemid, array('reserved' => 1));
+        $itemstoavailable = $this->get_children($baseitemid, array('reserved' => 1));
 
         $itemstoprocess = count($itemstoavailable); // This is the list of ancestors.
         if ( ($this->confirm == SURVEYPRO_CONFIRMED_YES) || ($itemstoprocess == 1) ) {
@@ -1726,7 +1726,7 @@ class mod_surveypro_layout {
             $baseitemid = end($itemstoavailable);
 
             // Build itemstoavailable starting from the oldest parent.
-            $itemstoavailable = $this->item_get_children($baseitemid, array('reserved' => 1));
+            $itemstoavailable = $this->get_children($baseitemid, array('reserved' => 1));
 
             $itemstoprocess = count($itemstoavailable); // This is the list of ancestors.
             if ($itemstoprocess > 1) { // Ask for confirmation.

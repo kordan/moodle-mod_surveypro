@@ -223,7 +223,7 @@ class surveyprofield_date_field extends mod_surveypro_itembase {
      * @return void
      */
     public function item_save($record) {
-        $this->item_get_common_settings($record);
+        $this->get_common_settings($record);
 
         // Now execute very specific plugin level actions.
 
@@ -241,7 +241,7 @@ class surveyprofield_date_field extends mod_surveypro_itembase {
      *
      * @return the content of the static property "canbeparent"
      */
-    public static function item_get_canbeparent() {
+    public static function get_canbeparent() {
         return self::$canbeparent;
     }
 
@@ -308,7 +308,7 @@ class surveyprofield_date_field extends mod_surveypro_itembase {
      */
     public function item_custom_fields_to_form() {
         // 1. Special management for composite fields.
-        $fieldlist = $this->item_get_composite_fields();
+        $fieldlist = $this->get_composite_fields();
         foreach ($fieldlist as $field) {
             if (is_null($this->{$field})) {
                 continue;
@@ -328,7 +328,7 @@ class surveyprofield_date_field extends mod_surveypro_itembase {
      */
     public function item_custom_fields_to_db($record) {
         // 1. Special management for composite fields.
-        $fieldlist = $this->item_get_composite_fields();
+        $fieldlist = $this->get_composite_fields();
         foreach ($fieldlist as $field) {
             if (isset($record->{$field.'year'}) && isset($record->{$field.'month'}) && isset($record->{$field.'day'})) {
                 $year = $record->{$field.'year'};
@@ -347,18 +347,20 @@ class surveyprofield_date_field extends mod_surveypro_itembase {
         // Nothing to do: no need to overwrite variables.
 
         // 3. Set values corresponding to checkboxes.
-        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in item_get_common_settings.
+        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in get_common_settings.
         // Nothing to do: no checkboxes in this plugin item form.
 
         // 4. Other.
     }
+
+    // MARK get.
 
     /**
      * Get the list of composite fields.
      *
      * @return void
      */
-    public function item_get_composite_fields() {
+    public function get_composite_fields() {
         return array('defaultvalue', 'lowerbound', 'upperbound');
     }
 
@@ -367,7 +369,7 @@ class surveyprofield_date_field extends mod_surveypro_itembase {
      *
      * @return array of downloadformats
      */
-    public function item_get_downloadformats() {
+    public function get_downloadformats() {
         $options = array();
         $timenow = time();
 
@@ -381,11 +383,20 @@ class surveyprofield_date_field extends mod_surveypro_itembase {
     }
 
     /**
+     * Get the format recognized (without any really good reason) as friendly.
+     *
+     * @return the friendly format
+     */
+    public function get_friendlyformat() {
+        return 'strftime05';
+    }
+
+    /**
      * Make the list of the fields using multilang
      *
      * @return array of felds
      */
-    public function item_get_multilang_fields() {
+    public function get_multilang_fields() {
         $fieldlist = array();
         $fieldlist[$this->plugin] = array('content', 'extranote');
 
@@ -393,20 +404,11 @@ class surveyprofield_date_field extends mod_surveypro_itembase {
     }
 
     /**
-     * Get the format recognized (without any really good reason) as friendly.
-     *
-     * @return the friendly format
-     */
-    public function item_get_friendlyformat() {
-        return 'strftime05';
-    }
-
-    /**
      * Return the xml schema for surveypro_<<plugin>> table.
      *
      * @return string $schema
      */
-    public static function item_get_plugin_schema() {
+    public static function get_plugin_schema() {
         $schema = <<<EOS
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
@@ -822,7 +824,7 @@ EOS;
 
         // Format.
         if ($format == SURVEYPRO_FRIENDLYFORMAT) {
-            $format = $this->item_get_friendlyformat();
+            $format = $this->get_friendlyformat();
         }
         if (empty($format)) {
             $format = $this->downloadformat;

@@ -179,7 +179,7 @@ class surveyprofield_numeric_field extends mod_surveypro_itembase {
      * @return void
      */
     public function item_save($record) {
-        $this->item_get_common_settings($record);
+        $this->get_common_settings($record);
 
         // Now execute very specific plugin level actions.
 
@@ -190,15 +190,6 @@ class surveyprofield_numeric_field extends mod_surveypro_itembase {
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
-    }
-
-    /**
-     * Is this item available as a parent?
-     *
-     * @return the content of the static property "canbeparent"
-     */
-    public static function item_get_canbeparent() {
-        return self::$canbeparent;
     }
 
     /**
@@ -255,25 +246,36 @@ class surveyprofield_numeric_field extends mod_surveypro_itembase {
         // Nothing to do: no need to overwrite variables.
 
         // 3. Set values corresponding to checkboxes.
-        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in item_get_common_settings.
+        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in get_common_settings.
         // Nothing to do: no checkboxes in this plugin item form.
 
         // 4. Other: float numbers need more attention because I can write them using , or .
         if (core_text::strlen($record->defaultvalue)) {
-            $record->defaultvalue = $this->item_get_correct_number($record->defaultvalue);
+            $record->defaultvalue = $this->get_correct_number($record->defaultvalue);
         } else {
             unset($record->defaultvalue);
         }
         if (core_text::strlen($record->lowerbound)) {
-            $record->lowerbound = $this->item_get_correct_number($record->lowerbound);
+            $record->lowerbound = $this->get_correct_number($record->lowerbound);
         } else {
             unset($record->lowerbound);
         }
         if (core_text::strlen($record->upperbound)) {
-            $record->upperbound = $this->item_get_correct_number($record->upperbound);
+            $record->upperbound = $this->get_correct_number($record->upperbound);
         } else {
             unset($record->upperbound);
         }
+    }
+
+    // MARK get.
+
+    /**
+     * Is this item available as a parent?
+     *
+     * @return the content of the static property "canbeparent"
+     */
+    public static function get_canbeparent() {
+        return self::$canbeparent;
     }
 
     /**
@@ -283,7 +285,7 @@ class surveyprofield_numeric_field extends mod_surveypro_itembase {
      * @param double $justanumber
      * @return void
      */
-    public function item_get_correct_number($justanumber) {
+    public function get_correct_number($justanumber) {
         $pattern = '~^\s*(-?)([0-9]+)'.preg_quote($this->decimalseparator).'?([0-9]*)\s*$~';
         if (preg_match($pattern, $justanumber, $matches)) {
             if (empty($matches[3])) {
@@ -301,7 +303,7 @@ class surveyprofield_numeric_field extends mod_surveypro_itembase {
      *
      * @return array of felds
      */
-    public function item_get_multilang_fields() {
+    public function get_multilang_fields() {
         $fieldlist = array();
         $fieldlist[$this->plugin] = array('content', 'extranote');
 
@@ -313,7 +315,7 @@ class surveyprofield_numeric_field extends mod_surveypro_itembase {
      *
      * @return string $schema
      */
-    public static function item_get_plugin_schema() {
+    public static function get_plugin_schema() {
         $schema = <<<EOS
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
@@ -434,7 +436,7 @@ EOS;
             return;
         }
 
-        $userinput = $this->item_get_correct_number($draftuserinput);
+        $userinput = $this->get_correct_number($draftuserinput);
         if ($userinput === false) {
             // It is not a number, shouts.
             $errors[$errorkey] = get_string('uerr_notanumber', 'surveyprofield_numeric');
@@ -553,7 +555,7 @@ EOS;
         if (!core_text::strlen($content)) {
             $olduseranswer->content = '';
         } else {
-            $content = $this->item_get_correct_number($content);
+            $content = $this->get_correct_number($content);
             $olduseranswer->content = round($content, $this->decimals);
         }
     }

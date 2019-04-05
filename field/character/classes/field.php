@@ -186,7 +186,7 @@ class surveyprofield_character_field extends mod_surveypro_itembase {
      * @return void
      */
     public function item_save($record) {
-        $this->item_get_common_settings($record);
+        $this->get_common_settings($record);
 
         // Now execute very specific plugin level actions.
 
@@ -197,15 +197,6 @@ class surveyprofield_character_field extends mod_surveypro_itembase {
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
-    }
-
-    /**
-     * Is this item available as a parent?
-     *
-     * @return the content of the static property "canbeparent"
-     */
-    public static function item_get_canbeparent() {
-        return self::$canbeparent;
     }
 
     /**
@@ -280,19 +271,21 @@ class surveyprofield_character_field extends mod_surveypro_itembase {
         }
 
         // 3. Set values corresponding to checkboxes.
-        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in item_get_common_settings.
+        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in get_common_settings.
         // Nothing to do: no checkboxes in this plugin item form.
 
         // 4. Other.
     }
 
+    // MARK get.
+
     /**
-     * Does the user input need trim?
+     * Is this item available as a parent?
      *
-     * @return if this plugin requires a user input trim
+     * @return the content of the static property "canbeparent"
      */
-    public function item_get_trimonsave() {
-        return $this->trimonsave;
+    public static function get_canbeparent() {
+        return self::$canbeparent;
     }
 
     /**
@@ -301,7 +294,7 @@ class surveyprofield_character_field extends mod_surveypro_itembase {
      * @param string $field
      * @return the content of the field
      */
-    public function item_get_generic_property($field) {
+    public function get_generic_property($field) {
         if ($field == 'pattern') {
             $condition = ($this->pattern == SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN);
             $condition = $condition || ($this->pattern == SURVEYPROFIELD_CHARACTER_REGEXPATTERN);
@@ -311,7 +304,7 @@ class surveyprofield_character_field extends mod_surveypro_itembase {
                 return $this->pattern;
             }
         } else {
-            return parent::item_get_generic_property($field);
+            return parent::get_generic_property($field);
         }
     }
 
@@ -320,7 +313,7 @@ class surveyprofield_character_field extends mod_surveypro_itembase {
      *
      * @return array of fields
      */
-    public function item_get_multilang_fields() {
+    public function get_multilang_fields() {
         $fieldlist = array();
         $fieldlist[$this->plugin] = array('content', 'extranote', 'defaultvalue');
 
@@ -328,11 +321,20 @@ class surveyprofield_character_field extends mod_surveypro_itembase {
     }
 
     /**
+     * Does the user input need trim?
+     *
+     * @return if this plugin requires a user input trim
+     */
+    public function get_trimonsave() {
+        return $this->trimonsave;
+    }
+
+    /**
      * Return the xml schema for surveypro_<<plugin>> table.
      *
      * @return string $schema
      */
-    public static function item_get_plugin_schema() {
+    public static function get_plugin_schema() {
         $schema = <<<EOS
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">

@@ -155,11 +155,11 @@ class mod_surveypro_templatebase {
 
                 // I am assuming that surveypro_item table is ALWAYS before the surveypro_<<plugin>> table.
                 if ($tablename == 'surveypro_item') {
-                    // I could use a random class here because they all share the same parent item_get_itembase_schema
+                    // I could use a random class here because they all share the same parent get_itembase_schema
                     // but, in spite of this, I need the right class name for the next table
                     // so I choose to load the correct class from the beginning.
                     $classname = 'surveypro'.$currenttype.'_'.$currentplugin.'_'.$currenttype;
-                    $xsd = $classname::item_get_itembase_schema(); // Itembase schema.
+                    $xsd = $classname::get_itembase_schema(); // Itembase schema.
                 } else {
                     // Classname has already been defined because of the previous loop over surveypro_item fields.
                     if (!isset($classname)) {
@@ -169,7 +169,7 @@ class mod_surveypro_templatebase {
 
                         return $error;
                     }
-                    $xsd = $classname::item_get_plugin_schema(); // Plugin schema.
+                    $xsd = $classname::get_plugin_schema(); // Plugin schema.
                 }
 
                 if (empty($xsd)) {
