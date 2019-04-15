@@ -543,7 +543,7 @@ EOS;
         foreach ($labels as $label) {
             $itemname = $this->itemname.'_'.$i;
             $attributes['id'] = $idprefix.'_'.$i;
-            $elementgroup[] = $mform->createElement('mod_surveypro_advcheckbox', $itemname, '', $label, $attributes, $options);
+            $elementgroup[] = $mform->createElement('advcheckbox', $itemname, '', $label, $attributes, $options);
 
             if ($this->adjustment == SURVEYPRO_HORIZONTAL) {
                 $attributes['class'] = 'checkbox_check';
@@ -561,7 +561,7 @@ EOS;
 
             $itemname = $this->itemname.'_other';
             $attributes['id'] = $idprefix.'_other';
-            $elementgroup[] = $mform->createElement('mod_surveypro_advcheckbox', $itemname, '', $otherlabel, $attributes, $options);
+            $elementgroup[] = $mform->createElement('advcheckbox', $itemname, '', $otherlabel, $attributes, $options);
 
             unset($attributes['group']);
             $attributes['id'] = $idprefix.'_text';
@@ -582,7 +582,7 @@ EOS;
             $attributes['id'] = $idprefix.'_noanswer';
             $noanswerstr = get_string('noanswer', 'surveypro');
             $options = array('0', '1');
-            $elementgroup[] = $mform->createElement('mod_surveypro_advcheckbox', $itemname, '', $noanswerstr, $attributes, $options);
+            $elementgroup[] = $mform->createElement('advcheckbox', $itemname, '', $noanswerstr, $attributes, $options);
             if (!empty($this->noanswerdefault)) {
                 $mform->setDefault($itemname, '1');
             }
@@ -615,7 +615,7 @@ EOS;
             $itemname = $this->itemname.'_ignoreme';
             $this->item_add_color_unifier($mform);
             $attributes['id'] = $idprefix.'_ignoreme';
-            $mform->addElement('mod_surveypro_checkbox', $itemname, '', get_string('star', 'mod_surveypro'), $attributes);
+            $mform->addElement('checkbox', $itemname, '', get_string('star', 'mod_surveypro'), $attributes);
             $mform->setDefault($itemname, '1');
 
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_ignoreme', 'checked');

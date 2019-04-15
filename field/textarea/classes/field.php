@@ -400,17 +400,17 @@ EOS;
             $attributes['class'] = 'indent-'.$this->indent.' textarea_textarea';
             $attributes['wrap'] = 'virtual';
             if (!$searchform) {
-                $mform->addElement('mod_surveypro_textarea_plain', $fieldname, $elementlabel, $attributes);
+                $mform->addElement('textarea', $fieldname, $elementlabel, $attributes);
                 $mform->setType($fieldname, PARAM_TEXT);
             } else {
                 $elementgroup = array();
-                $elementgroup[] = $mform->createElement('mod_surveypro_textarea_plain', $fieldname, $elementlabel, $attributes);
+                $elementgroup[] = $mform->createElement('textarea', $fieldname, $elementlabel, $attributes);
 
                 $itemname = $this->itemname.'_ignoreme';
                 $starstr = get_string('star', 'mod_surveypro');
                 $attributes['id'] = $idprefix.'_ignoreme';
                 $attributes['class'] = 'textarea_check';
-                $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $starstr, $attributes);
+                $elementgroup[] = $mform->createElement('checkbox', $itemname, '', $starstr, $attributes);
                 $mform->setType($this->itemname, PARAM_RAW);
 
                 $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
@@ -422,7 +422,7 @@ EOS;
             $attributes['class'] = 'indent-'.$this->indent.' textarea_editor';
             $fieldname = $this->itemname.'_editor';
             $editoroptions = array('trusttext' => true, 'subdirs' => true, 'maxfiles' => EDITOR_UNLIMITED_FILES);
-            $mform->addElement('mod_surveypro_textarea_editor', $fieldname, $elementlabel, $attributes, $editoroptions);
+            $mform->addElement('editor', $fieldname, $elementlabel, $attributes, $editoroptions);
             $mform->setType($fieldname, PARAM_CLEANHTML);
         }
 

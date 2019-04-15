@@ -402,7 +402,7 @@ EOS;
                 $elementgroup = array();
                 foreach ($rates as $col => $rate) {
                     $attributes['id'] = $idprefix.'_'.$row.'_'.$col;
-                    $elementgroup[] = $mform->createElement('mod_surveypro_radiobutton', $uniquename, '', $rate, $col, $attributes);
+                    $elementgroup[] = $mform->createElement('radio', $uniquename, '', $rate, $col, $attributes);
                     $attributes['class'] = 'rate_radio';
                 }
                 $mform->addGroup($elementgroup, $uniquename.'_group', $option, ' ', false);
@@ -433,7 +433,7 @@ EOS;
             $noanswerstr = get_string('noanswer', 'mod_surveypro');
             $attributes['id'] = $idprefix.'_noanswer';
             $attributes['class'] = 'indent-'.$this->indent.' rate_check';
-            $mform->addElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', $noanswerstr, $attributes);
+            $mform->addElement('checkbox', $this->itemname.'_noanswer', '', $noanswerstr, $attributes);
         }
 
         if ($this->required) {

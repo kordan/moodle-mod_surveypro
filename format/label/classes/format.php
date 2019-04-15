@@ -296,7 +296,7 @@ EOS;
             $elementlabel = $elementnumber.$this->leftlabel;
             $attributes = array();
             $attributes['class'] = 'indent-'.$this->indent.' label_static';
-            $mform->addElement('mod_surveypro_label', $this->itemname, $elementlabel, $this->get_content(), $attributes);
+            $mform->addElement('static', $this->itemname, $elementlabel, $this->get_content(), $attributes);
         }
     }
 

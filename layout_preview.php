@@ -45,8 +45,6 @@ $formpage = optional_param('formpage', 0, PARAM_INT); // Form page number.
 $submissionid = optional_param('submissionid', 0, PARAM_INT);
 
 // Calculations.
-mod_surveypro_utility_mform::register_form_elements();
-
 $previewman = new mod_surveypro_layout_preview($cm, $context, $surveypro);
 $previewman->setup($submissionid, $formpage);
 

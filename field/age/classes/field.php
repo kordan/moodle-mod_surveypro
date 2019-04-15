@@ -486,7 +486,7 @@ EOS;
             $itemname = 'yearlabel_'.$this->itemid;
             $attributes['id'] = $idprefix.'_yearseparator';
             $attributes['class'] = 'inline age_static';
-            $elementgroup[] = $mform->createElement('mod_surveypro_label', $itemname, '', $stryears, $attributes);
+            $elementgroup[] = $mform->createElement('static', $itemname, '', $stryears, $attributes);
         }
 
         $itemname = $this->itemname.'_month';
@@ -498,7 +498,7 @@ EOS;
             $itemname = 'monthlabel_'.$this->itemid;
             $attributes['id'] = $idprefix.'_monthseparator';
             $attributes['class'] = 'inline age_static';
-            $elementgroup[] = $mform->createElement('mod_surveypro_label', $itemname, '', $strmonths, $attributes);
+            $elementgroup[] = $mform->createElement('static', $itemname, '', $strmonths, $attributes);
         }
 
         if ($this->required) {
@@ -516,7 +516,7 @@ EOS;
             $itemname = $this->itemname.'_noanswer';
             $attributes['id'] = $idprefix.'_noanswer';
             $attributes['class'] = 'age_check';
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $strnoanswer, $attributes);
+            $elementgroup[] = $mform->createElement('checkbox', $itemname, '', $strnoanswer, $attributes);
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
             $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
         }

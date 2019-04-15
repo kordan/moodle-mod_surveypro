@@ -507,7 +507,7 @@ EOS;
                 $itemname = $this->itemname.'_noanswer';
                 $attributes['id'] = $idprefix.'_noanswer';
                 unset($attributes['size']);
-                $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $noanswerstr, $attributes);
+                $elementgroup[] = $mform->createElement('checkbox', $itemname, '', $noanswerstr, $attributes);
 
                 $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, '', false);
                 // Multiselect uses a special syntax
@@ -526,12 +526,12 @@ EOS;
             if (!$this->required) {
                 $itemname = $this->itemname.'_noanswer';
                 $attributes['id'] = $idprefix.'_noanswer';
-                $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $noanswerstr, $attributes);
+                $elementgroup[] = $mform->createElement('checkbox', $itemname, '', $noanswerstr, $attributes);
             }
 
             $itemname = $this->itemname.'_ignoreme';
             $attributes['id'] = $idprefix.'_ignoreme';
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $starstr, $attributes);
+            $elementgroup[] = $mform->createElement('checkbox', $itemname, '', $starstr, $attributes);
 
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, '<br />', false);
             if (!$this->required) {

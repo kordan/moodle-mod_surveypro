@@ -308,7 +308,7 @@ EOS;
         $attributes['accepted_types'] = $filetypes;
         $attributes['subdirs'] = false;
         $attributes['maxfiles'] = $this->maxfiles;
-        $mform->addElement('mod_surveypro_fileupload', $fieldname, $elementlabel, null, $attributes);
+        $mform->addElement('filepicker', $fieldname, $elementlabel, null, $attributes);
 
         if ($this->required) {
             // Even if the item is required I CAN NOT ADD ANY RULE HERE because...

@@ -479,7 +479,7 @@ EOS;
                 $starstr = get_string('star', 'mod_surveypro');
                 $attributes['id'] = $idprefix.'_ignoreme';
                 $attributes['class'] = 'character_check';
-                $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $starstr, $attributes);
+                $elementgroup[] = $mform->createElement('checkbox', $itemname, '', $starstr, $attributes);
                 $mform->setType($this->itemname, PARAM_RAW);
 
                 $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
@@ -491,7 +491,7 @@ EOS;
             $attributes['id'] = $idprefix.'_noanswer';
             $attributes['class'] = 'shortdate_check';
             $noanswerstr = get_string('noanswer', 'mod_surveypro');
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $noanswerstr, $attributes);
+            $elementgroup[] = $mform->createElement('checkbox', $itemname, '', $noanswerstr, $attributes);
 
             if (!$searchform) {
                 $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
@@ -501,7 +501,7 @@ EOS;
                 $starstr = get_string('star', 'mod_surveypro');
                 $attributes['id'] = $idprefix.'_ignoreme';
                 $attributes['class'] = 'character_check';
-                $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $starstr, $attributes);
+                $elementgroup[] = $mform->createElement('checkbox', $itemname, '', $starstr, $attributes);
                 $mform->setType($this->itemname, PARAM_RAW);
 
                 $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);

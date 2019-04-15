@@ -466,7 +466,7 @@ EOS;
             $itemname = $this->itemname.'_ignoreme';
             $attributes['id'] = $idprefix.'_ignoreme';
             $attributes['class'] = 'autofill_check';
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $starstr, $attributes);
+            $elementgroup[] = $mform->createElement('checkbox', $itemname, '', $starstr, $attributes);
 
             $mform->setType($this->itemname, PARAM_RAW);
             $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
