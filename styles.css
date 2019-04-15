@@ -136,8 +136,8 @@
 
 #page-mod-surveypro-layout_itemlist #manageitems td.parentitem span.branch .icon,
 #page-mod-surveypro-layout_itemlist #sortitems td.parentitem span.branch .icon {
-    padding-left: .2em;
-    padding-right: .2em;
+    padding: 0 .1em 0 .1em;
+    margin: 0 .1em 0 .1em;
 }
 
 #page-mod-surveypro-layout_itemlist #manageitems td.customnumber,
@@ -176,9 +176,9 @@
 #page-mod-surveypro-layout_itemlist #sortitems td.availability i.icon {
     width: 16px;
     height: 16px;
-    /*margin: 0 0 0 0.45em;*/
     padding: 0;
     vertical-align: middle;
+    margin-right: .2em;
 }
 
 #page-mod-surveypro-layout_itemlist #manageitems td.actions,
@@ -198,6 +198,12 @@
     width: 16px;
     height: 16px;
     padding: 0;
+    vertical-align: middle;
+    margin-right: 0;
+}
+
+#page-mod-surveypro-layout_itemlist #manageitems td.actions a.icon,
+#page-mod-surveypro-layout_itemlist #manageitems td.actions a.icon {
     margin-right: 0;
 }
 
@@ -215,6 +221,19 @@
     text-align: left;
     white-space: nowrap;
     float: none;
+}
+
+#page-mod-surveypro-layout_itemlist #manageitems td.actions span.lastspan,
+#page-mod-surveypro-layout_itemlist #sortitems td.actions span.lastspan {
+    display: inline;
+    border-collapse: collapse;
+    border-spacing: 0px 0px;
+    line-height: 20px;
+    text-align: left;
+    white-space: nowrap;
+    float: none;
+    padding-left: .1em;
+    margin-left: .1em;
 }
 
 #page-mod-surveypro-layout_itemlist #manageitems span.noactionicon,

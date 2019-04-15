@@ -540,12 +540,13 @@ class mod_surveypro_layout {
                         $paramurl['sesskey'] = sesskey();
 
                         $actionicon = '';
+                        $paramlink = array('title' => $indentstr, 'class' => 'lastspan');
                         if ($currentindent > 0) {
                             $indentvalue = $currentindent - 1;
                             $paramurl['ind'] = $indentvalue;
 
                             $link = new moodle_url('/mod/surveypro/layout_itemlist.php#sortindex_'.$sortindex, $paramurl);
-                            $paramlink = array('id' => 'reduceindent_item_'.$sortindex, 'title' => $indentstr);
+                            $paramlink += array('id' => 'reduceindent_item_'.$sortindex);
                             $actionicon .= $OUTPUT->action_icon($link, $lefticn, null, $paramlink);
                         }
                         $actionicon .= '['.$currentindent.']';
@@ -554,10 +555,10 @@ class mod_surveypro_layout {
                             $paramurl['ind'] = $indentvalue;
 
                             $link = new moodle_url('/mod/surveypro/layout_itemlist.php#sortindex_'.$sortindex, $paramurl);
-                            $paramlink = array('id' => 'increaseindent_item_'.$sortindex, 'title' => $indentstr);
+                            $paramlink += array('id' => 'increaseindent_item_'.$sortindex);
                             $actionicon .= $OUTPUT->action_icon($link, $righticn, null, $paramlink);
                         }
-                        $icons .= html_writer::tag('span', $actionicon);
+                        $icons .= html_writer::tag('span', $actionicon, array('class' => 'lastspan'));
                     }
                 }
             }
