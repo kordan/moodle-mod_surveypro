@@ -616,7 +616,7 @@ class mod_surveypro_view_import {
     /**
      * Get item helper.
      *
-     * @return $optionscountpercol ($optionscountpercol is available only for items with $item->get_savepositiontodb() = 1)
+     * @return $optionscountpercol ($optionscountpercol is available only for items with $item->get_usespositionalanswer() = 1)
      */
     public function buil_item_helpers() {
         $optionscountpercol = array(); // Elements only for items saving position to db.
@@ -650,7 +650,7 @@ class mod_surveypro_view_import {
             $itemhelper->plugin = $item->get_plugin();
             $itemhelper->content = $item->get_content();
             $itemhelper->required = $item->get_required();
-            $itemhelper->savepositiontodb = $item->get_savepositiontodb();
+            $itemhelper->usespositionalanswer = $item->get_usespositionalanswer();
             $itemhelper->usesoptionother = $item->get_usesoptionother();
             $itemhelper->parentid = $item->get_parentid();
             $itemhelper->parentvalue = $item->get_parentvalue();
@@ -659,7 +659,7 @@ class mod_surveypro_view_import {
             $itemhelper->usescontentformat = $classname::response_uses_format();
             $this->itemhelperinfo[$col] = $itemhelper;
 
-            if ($itemhelper->savepositiontodb) {
+            if ($itemhelper->usespositionalanswer) {
                 // The count of the options is enough.
                 $optionscountpercol[$col] = count($item->get_content_array(SURVEYPRO_LABELS, 'options'));
             }
@@ -901,7 +901,7 @@ class mod_surveypro_view_import {
                     }
                 }
 
-                if ($itemhelper->savepositiontodb) {
+                if ($itemhelper->usespositionalanswer) {
                     // Verify positions are valid.
                     $itemoptionscount = $optionscountpercol[$col];
 
