@@ -107,7 +107,7 @@ class mod_surveypro_textarea_setupform extends mod_surveypro_itembaseform {
 
         $errors = parent::validation($data, $files);
 
-        if (core_text::strlen($data['maxlength'])) {
+        if (strlen($data['maxlength'])) {
             $isinteger = (bool)(strval(intval($data['maxlength'])) == strval($data['maxlength']));
             if (!$isinteger) {
                 $errors['maxlength'] = get_string('ierr_maxlengthnotinteger', 'surveyprofield_textarea');

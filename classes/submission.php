@@ -1586,13 +1586,13 @@ class mod_surveypro_submission {
 
         $fs = get_file_storage();
 
-        $params = core_text::substr($fileurl, core_text::strlen($CFG->wwwroot.'/pluginfile.php'));
-        if (core_text::substr($params, 0, 1) == '?') { // Slasharguments off.
+        $params = substr($fileurl, strlen($CFG->wwwroot.'/pluginfile.php'));
+        if (substr($params, 0, 1) == '?') { // Slasharguments off.
             $pos = strpos($params, 'file=');
-            $params = core_text::substr($params, $pos + 5);
+            $params = substr($params, $pos + 5);
         } else { // Slasharguments on.
             if (($pos = strpos($params, '?')) !== false) {
-                $params = core_text::substr($params, 0, $pos);
+                $params = substr($params, 0, $pos);
             }
         }
         $params = urldecode($params);

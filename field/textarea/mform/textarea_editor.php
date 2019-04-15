@@ -95,7 +95,7 @@ class surveypromform_textarea_editor extends MoodleQuickForm_editor {
      */
     public function getFrozenHtml() {
         $complexvalue = $this->getValue();
-        $value = core_text::strlen($complexvalue['text']) ? $complexvalue['text'] : '&nbsp;';
+        $value = strlen($complexvalue['text']) ? $complexvalue['text'] : '&nbsp;';
 
         $class = array();
         $class['id'] = $this->getAttribute('id');
