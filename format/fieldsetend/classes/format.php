@@ -171,6 +171,15 @@ class surveyproformat_fieldsetend_format extends mod_surveypro_itembase {
     }
 
     /**
+     * Get if the plugin uses a table into the db.
+     *
+     * @return if the plugin uses a personal table in the db.
+     */
+    public function uses_db_table() {
+        return false;
+    }
+
+    /**
      * Return the xml schema for surveypro_<<plugin>> table.
      *
      * @return string $schema
