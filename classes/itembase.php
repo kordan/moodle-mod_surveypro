@@ -119,11 +119,6 @@ class mod_surveypro_itembase {
     protected $fieldsusingformat = array('content' => SURVEYPRO_ITEMCONTENTFILEAREA);
 
     /**
-     * @var bool Possibility for this plugin to save, as user answer, the position of the user interface elements in the out form
-     */
-    protected $usespositionalanswer = null;
-
-    /**
      * List of fields properties the surveypro creator will manage in the item definition form
      * By default each item property is present in the form
      * so, in each child class, I only need to "deactivate" item property not desired/needed/handled/wanted
@@ -1101,12 +1096,12 @@ EOS;
     }
 
     /**
-     * Get usespositionalanswer.
+     * Get if the plugin uses the position of options to save user answers.
      *
-     * @return the content of $usespositionalanswer property
+     * @return bool The plugin uses the position of options to save user answers.
      */
-    public function get_usespositionalanswer() {
-        return $this->usespositionalanswer;
+    public function get_uses_positional_answer() {
+        return false;
     }
 
     /**

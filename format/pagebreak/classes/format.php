@@ -57,8 +57,9 @@ class surveyproformat_pagebreak_format extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFORMAT;
         $this->plugin = 'pagebreak';
+
+        // Override the list of fields using format, whether needed.
         $this->fieldsusingformat = array();
-        $this->usespositionalanswer = false;
 
         // Other element specific properties.
         // No properties here.

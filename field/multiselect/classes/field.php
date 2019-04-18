@@ -134,7 +134,9 @@ class surveyprofield_multiselect_field extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'multiselect';
-        $this->usespositionalanswer = true;
+
+        // Override the list of fields using format, whether needed.
+        // Nothing to override, here.
 
         // Other element specific properties.
         // No properties here.
@@ -296,6 +298,15 @@ class surveyprofield_multiselect_field extends mod_surveypro_itembase {
         $fieldlist[$this->plugin] = array('content', 'extranote', 'options', 'defaultvalue');
 
         return $fieldlist;
+    }
+
+    /**
+     * Get if the plugin uses the position of options to save user answers.
+     *
+     * @return bool The plugin uses the position of options to save user answers.
+     */
+    public function get_uses_positional_answer() {
+        return true;
     }
 
     /**

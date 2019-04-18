@@ -164,7 +164,9 @@ class surveyprofield_recurrence_field extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'recurrence';
-        $this->usespositionalanswer = false;
+
+        // Override the list of fields using format, whether needed.
+        // Nothing to override, here.
 
         // Other element specific properties.
         $this->lowerbound = $this->item_recurrence_to_unix_time(1, 1);

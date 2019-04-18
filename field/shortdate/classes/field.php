@@ -166,7 +166,9 @@ class surveyprofield_shortdate_field extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'shortdate';
-        $this->usespositionalanswer = false;
+
+        // Override the list of fields using format, whether needed.
+        // Nothing to override, here.
 
         // Other element specific properties.
         // No properties here.
