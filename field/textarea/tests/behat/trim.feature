@@ -20,6 +20,9 @@ Feature: test the use of textarea trim
     And the following "activities" exist:
       | activity  | name               | intro              | course             | idnumber   |
       | surveypro | Test textarea trim | Test textarea trim | Textarea trim test | surveypro1 |
+    And the following "permission overrides" exist:
+      | capability                          | permission | role    | contextlevel | reference          |
+      | mod/surveypro:editownsubmissions    | Allow      | student | Course       | Textarea trim test |
     And I log in as "teacher1"
     And I am on "Textarea trim test" course homepage
     And I follow "Test textarea trim"
@@ -74,6 +77,6 @@ Feature: test the use of textarea trim
     And I press "Submit"
 
     And I press "Continue to responses list"
-    And I follow "view_submission_row_1"
+    And I follow "edit_submission_row_1"
     Then the field "id_surveypro_field_textarea_1" matches value "   false long text   "
     Then the field "id_surveypro_field_textarea_2" matches value "text correctly stretched"
