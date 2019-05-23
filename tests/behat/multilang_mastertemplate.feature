@@ -35,7 +35,7 @@ Feature: verify multilang in mastertemplates
     And I log out
 
     # Force English for UI.
-    And I follow "English" in the language menu
+    And I follow "English (en)" in the language menu
     And I log in as "teacher1"
     And I am on site homepage
     And I follow "Multilang mastertemplate"
@@ -44,29 +44,25 @@ Feature: verify multilang in mastertemplates
     And I press "Apply"
     Then I should see "Attitudes Towards Thinking and Learning"
 
-    And I expand "Topic 2" node
-    And I click on "Multilang in Colles Actual" "link" in the "Navigation" "block"
+    And I follow "Multilang in Colles Actual"
     And I set the field "Master templates" to "COLLES (Actual)"
     And I press "Apply"
     Then I should see "In this online unit"
     Then I should see "my learning focuses on issues that interest me"
 
-    And I expand "Topic 3" node
-    And I click on "Multilang in Colles Preferred" "link" in the "Navigation" "block"
+    And I follow "Multilang in Colles Preferred"
     And I set the field "Master templates" to "COLLES (Preferred)"
     And I press "Apply"
     Then I should see "In this online unit"
     Then I should see "my learning focuses on issues that interest me"
 
-    And I expand "Topic 4" node
-    And I click on "Multilang in Colles Preferred and Actual" "link" in the "Navigation" "block"
+    And I follow "Multilang in Colles Preferred and Actual"
     And I set the field "Master templates" to "COLLES (Preferred and Actual)"
     And I press "Apply"
     Then I should see "I prefer that my learning focuses on issues that interest me."
     Then I should see "I found that my learning focuses on issues that interest me."
 
-    And I expand "Topic 5" node
-    And I click on "Multilang in Critical Incidents" "link" in the "Navigation" "block"
+    And I follow "Multilang in Critical Incidents"
     And I set the field "Master templates" to "Critical Incidents"
     And I press "Apply"
     Then I should see "While thinking about recent events in this class, answer the questions below."
