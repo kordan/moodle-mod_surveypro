@@ -616,7 +616,7 @@ class mod_surveypro_view_import {
     /**
      * Get item helper.
      *
-     * @return $optionscountpercol ($optionscountpercol is available only for items with $item->get_usespositionalanswer() = 1)
+     * @return $optionscountpercol ($optionscountpercol is available only for items using positional answer)
      */
     public function buil_item_helpers() {
         $optionscountpercol = array(); // Elements only for items saving position to db.
@@ -650,7 +650,7 @@ class mod_surveypro_view_import {
             $itemhelper->plugin = $item->get_plugin();
             $itemhelper->content = $item->get_content();
             $itemhelper->required = $item->get_required();
-            $itemhelper->usespositionalanswer = $item->get_usespositionalanswer();
+            $itemhelper->usespositionalanswer = $item->get_uses_positional_answer();
             $itemhelper->usesoptionother = $item->get_usesoptionother();
             $itemhelper->parentid = $item->get_parentid();
             $itemhelper->parentvalue = $item->get_parentvalue();

@@ -139,7 +139,9 @@ class surveyprofield_numeric_field extends mod_surveypro_itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'numeric';
-        $this->usespositionalanswer = false;
+
+        // Override the list of fields using format, whether needed.
+        // Nothing to override, here.
 
         // Other element specific properties.
         $this->decimalseparator = get_string('decsep', 'langconfig');
