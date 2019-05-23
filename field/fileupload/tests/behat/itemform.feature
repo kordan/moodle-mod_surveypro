@@ -56,7 +56,7 @@ Feature: test the use of fileupload setup form
     And I set the field "Allowed file types (comma separated)" to ".jpg, ..png, *, .GIF"
     And I press "Add"
 
-    Then I should see "Only one dot is allowed per each file extensions"
+    Then I should see "Only one dot is allowed per each file extension"
     And I set the field "Allowed file types (comma separated)" to ".jpg, .png, *, .GIF"
     And I press "Add"
 

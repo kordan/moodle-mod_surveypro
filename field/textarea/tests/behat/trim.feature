@@ -72,7 +72,7 @@ Feature: test the use of textarea trim
     And I press "Submit"
 
     Then I should see "Required"
-    Then I should see "Answer will be cleaned by trailing spaces"
+    Then I should see "Answer will be cleaned up from trailing spaces"
     And I set the field "This is a standard text" to "   false long text   "
     And I press "Submit"
 
