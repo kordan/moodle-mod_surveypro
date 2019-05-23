@@ -182,7 +182,7 @@ class mod_surveypro_itembase {
 
         $tablename = 'surveypro'.$this->type.'_'.$this->plugin;
         // Some item, like pagebreak or fieldsetend, may be free of the plugin table.
-        if ($DB->get_manager()->table_exists($tablename)) {
+        if ($this->uses_db_table()) {
             $sql = 'SELECT *, i.id as itemid, p.id as pluginid
                     FROM {surveypro_item} i
                       JOIN {'.$tablename.'} p ON p.itemid = i.id
@@ -385,7 +385,7 @@ class mod_surveypro_itembase {
 
                 if ($itemid = $DB->insert_record('surveypro_item', $record)) { // First surveypro_item save.
                     // Now think to $tablename.
-                    if ($DB->get_manager()->table_exists($tablename)) {
+                    if ($this->uses_db_table()) {
                         // Before saving to the the plugin table, validate the variable name.
                         $this->item_validate_variablename($record, $itemid);
 
@@ -406,7 +406,7 @@ class mod_surveypro_itembase {
                                   );
                     }
 
-                    if ($DB->get_manager()->table_exists($tablename)) {
+                    if ($this->uses_db_table()) {
                         // Tablename.
                         $record->id = $pluginid;
 
@@ -470,10 +470,10 @@ class mod_surveypro_itembase {
                 $transaction = $DB->start_delegated_transaction();
 
                 if ($DB->update_record('surveypro_item', $record)) {
-                    // Before saving to the the plugin table, I validate the variable name.
-                    $this->item_validate_variablename($record, $record->itemid);
+                    if ($this->uses_db_table()) {
+                        // Before saving to the the plugin table, I validate the variable name.
+                        $this->item_validate_variablename($record, $record->itemid);
 
-                    if ($DB->get_manager()->table_exists($tablename)) {
                         $record->id = $record->pluginid;
                         if ($DB->update_record($tablename, $record)) {
                             $this->itemeditingfeedback += 3; // 1*2^1+1*2^0 alias: editing + success.
@@ -1269,6 +1269,15 @@ EOS;
         } else {
             return false;
         }
+    }
+
+    /**
+     * Get if the plugin uses a table into the db.
+     *
+     * @return if the plugin uses a personal table in the db.
+     */
+    public function uses_db_table() {
+        return true;
     }
 
     /**

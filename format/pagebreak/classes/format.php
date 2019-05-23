@@ -162,6 +162,15 @@ class surveyproformat_pagebreak_format extends mod_surveypro_itembase {
     }
 
     /**
+     * Get if the plugin uses a table into the db.
+     *
+     * @return if the plugin uses a personal table in the db.
+     */
+    public function uses_db_table() {
+        return false;
+    }
+
+    /**
      * Make the list of the fields using multilang
      *
      * @return array of felds
