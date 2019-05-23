@@ -32,7 +32,7 @@ Feature: verify the input with different number format
     And I log out
 
     # Force English for UI.
-    And I follow "English" in the language menu
+    And I follow "English (en)" in the language menu
     And I log in as "student1"
     And I am on site homepage
     And I follow "Multiformat numeric input"
@@ -45,7 +45,7 @@ Feature: verify the input with different number format
     And I set the field "Write the best approximation of π you can remember" to "3.14"
     And I press "Submit"
 
-    And I follow "Italiano" in the language menu
+    And I follow "Italiano (it)" in the language menu
     And I press "Nuova risposta"
     And I set the field "Write the best approximation of π you can remember" to "3.14"
     And I press "Invia"
@@ -58,7 +58,7 @@ Feature: verify the input with different number format
     And I follow "view_submission_row_1"
     Then the field "Write the best approximation of π you can remember" matches value "3,14"
 
-    And I follow "Dati raccolti"
+    And I follow "Raccolta dati"
     And I follow "view_submission_row_2"
     Then the field "Write the best approximation of π you can remember" matches value "3,14"
 
