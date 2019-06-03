@@ -68,7 +68,7 @@ class surveypromform_radiobutton extends MoodleQuickForm_radio {
      * Returns the disabled field. Accessibility: the return "( )" from parent
      * class is not acceptable for screenreader users, and we DO want a label
      *
-     * @return string
+     * @return html of the frozen element
      */
     public function getFrozenHtml() {
         $output = parent::getFrozenHtml();

@@ -91,7 +91,7 @@ class surveypromform_textarea_plain extends MoodleQuickForm_textarea {
     /**
      * What to display when element is frozen.
      *
-     * @return empty string
+     * @return html of the frozen element
      */
     public function getFrozenHtml() {
         $value = htmlspecialchars($this->getValue());

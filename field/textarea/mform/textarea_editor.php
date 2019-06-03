@@ -91,7 +91,7 @@ class surveypromform_textarea_editor extends MoodleQuickForm_editor {
     /**
      * What to display when element is frozen.
      *
-     * @return empty string
+     * @return html of the frozen element
      */
     public function getFrozenHtml() {
         $complexvalue = $this->getValue();
