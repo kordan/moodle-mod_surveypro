@@ -949,9 +949,6 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
     /**
      * Proccess message method
      *
-     * @param String $message the raw message
-     * @param stdClass $user user instance
-     * @param stdClass $course course instance
      * @return String the processed message
      */
     public function get_message() {

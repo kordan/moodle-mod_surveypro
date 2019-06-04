@@ -224,7 +224,7 @@ class mod_surveypro_itembase {
      *
      * for instance: age not greater than maximum age
      *
-     * @param stdClass $record
+     * @param \stdClass $record
      * @return void
      */
     public function item_force_coherence($record) {
@@ -262,7 +262,7 @@ class mod_surveypro_itembase {
      *     sortindex
      *     formpage
      *
-     * @param stdClass $record
+     * @param \stdClass $record
      * @return void
      */
     protected function get_common_settings($record) {
@@ -910,7 +910,7 @@ class mod_surveypro_itembase {
      * Add to the item record that is going to be saved, items that can not be omitted with default value
      * They, maybe, will be overwritten
      *
-     * @param stdClass $record
+     * @param \stdClass $record
      * @return void
      */
     public function item_add_mandatory_base_fields(&$record) {

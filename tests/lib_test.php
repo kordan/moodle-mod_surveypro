@@ -48,6 +48,8 @@ class mod_surveypro_lib extends advanced_testcase {
     }
 
     /**
+     * test_surveypro_cutdownstring
+     *
      * @covers ::surveypro_cutdownstring
      * @dataProvider test_surveypro_cutdownstring_provider
      * @param string $plainstring The string being passed

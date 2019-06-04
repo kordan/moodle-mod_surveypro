@@ -168,7 +168,7 @@ class surveyprofield_date_field extends mod_surveypro_itembase {
      * If itemid is provided, load the object (item + base + plugin) from database
      * If evaluateparentcontent is true, load the parentitem parentcontent property too
      *
-     * @param stdClass $cm
+     * @param \stdClass $cm
      * @param object $surveypro
      * @param int $itemid Optional item ID
      * @param bool $getparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise
@@ -251,7 +251,7 @@ class surveyprofield_date_field extends mod_surveypro_itembase {
      * Item add mandatory plugin fields
      * Copy mandatory fields to $record
      *
-     * @param stdClass $record
+     * @param \stdClass $record
      * @return void
      */
     public function item_add_mandatory_plugin_fields(&$record) {
@@ -285,7 +285,7 @@ class surveyprofield_date_field extends mod_surveypro_itembase {
      * Verify the validity of contents of the record
      * for instance: date not greater than maximum date
      *
-     * @param stdClass $record
+     * @param \stdClass $record
      * @return void
      */
     public function item_force_coherence($record) {

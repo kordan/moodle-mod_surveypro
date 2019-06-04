@@ -799,8 +799,8 @@ class mod_surveypro_layout {
      * Get the recursive list of children of a specific item.
      * This list counts children and children of children for as much generation as it is.
      *
-     * @param int $baseitemid: the id of the root item for the tree of children to get
-     * @param array $where: permanent condition needed to filter target items
+     * @param int $baseitemid the id of the root item for the tree of children to get
+     * @param array $where permanent condition needed to filter target items
      * @return object $childrenitems
      */
     public function get_children($baseitemid=null, $where=null) {

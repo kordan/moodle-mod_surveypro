@@ -523,10 +523,10 @@ function surveypro_supports($feature) {
 /**
  * Print the grade information for the surveypro for this user.
  *
- * @param stdClass $course
- * @param stdClass $user
- * @param stdClass $coursemodule
- * @param stdClass $surveypro
+ * @param \stdClass $course
+ * @param \stdClass $user
+ * @param \stdClass $coursemodule
+ * @param \stdClass $surveypro
  */
 function surveypro_user_outline($course, $user, $coursemodule, $surveypro) {
     $return = new stdClass();
@@ -539,10 +539,10 @@ function surveypro_user_outline($course, $user, $coursemodule, $surveypro) {
  * Prints a detailed representation of what a user has done with
  * a given particular instance of this module, for user activity reports.
  *
- * @param stdClass $course the current course record
- * @param stdClass $user the record of the user we are generating report for
+ * @param \stdClass $course the current course record
+ * @param \stdClass $user the record of the user we are generating report for
  * @param cm_info $mod course module info
- * @param stdClass $surveypro the module instance record
+ * @param \stdClass $surveypro the module instance record
  * @return void, is supposed to echp directly
  */
 function surveypro_user_complete($course, $user, $mod, $surveypro) {
@@ -581,7 +581,7 @@ function surveypro_get_recent_mod_activity(&$activities, &$index, $timestart, $c
  * Print recent activity from all assignments in a given course
  *
  * This is used by course/recent.php
- * @param stdClass $activity
+ * @param \stdClass $activity
  * @param int $courseid
  * @param bool $detail
  * @param array $modnames
@@ -704,7 +704,7 @@ function surveypro_scale_used_anywhere($scaleid) {
  *
  * Needed by grade_update_mod_grades() in lib/gradelib.php
  *
- * @param stdClass $surveypro instance object with extra cmidnumber and modname property
+ * @param \stdClass $surveypro instance object with extra cmidnumber and modname property
  * @return void
  */
 function surveypro_grade_item_update(stdClass $surveypro) {
@@ -715,7 +715,7 @@ function surveypro_grade_item_update(stdClass $surveypro) {
  *
  * Needed by grade_update_mod_grades() in lib/gradelib.php
  *
- * @param stdClass $surveypro instance object with extra cmidnumber and modname property
+ * @param \stdClass $surveypro instance object with extra cmidnumber and modname property
  * @param int $userid Update grade of specific user only, 0 means all participants
  * @return void
  */
@@ -730,9 +730,9 @@ function surveypro_update_grades(stdClass $surveypro, $userid = 0) {
  * The file area 'intro' for the activity introduction field is added automatically
  * by {@link file_browser::get_file_info_context_module()}
  *
- * @param stdClass $course
- * @param stdClass $cm
- * @param stdClass $context
+ * @param \stdClass $course
+ * @param \stdClass $cm
+ * @param \stdClass $context
  * @return array of [(string)filearea] => (string)description
  */
 function surveypro_get_file_areas($course, $cm, $context) {
@@ -742,9 +742,9 @@ function surveypro_get_file_areas($course, $cm, $context) {
 /**
  * Serves the files from the surveypro file areas
  *
- * @param stdClass $course the course object
- * @param stdClass $cm the course module object
- * @param stdClass $context context object
+ * @param \stdClass $course the course object
+ * @param \stdClass $cm the course module object
+ * @param \stdClass $context context object
  * @param string $filearea the name of the file area
  * @param array $args extra arguments
  * @param bool $forcedownload whether or not force download
@@ -952,8 +952,8 @@ function surveypro_add_report_link($templatename, $childreports, $childnode, $re
  * This can be called by an AJAX request so do not rely on $PAGE as it might not be set up properly.
  *
  * @param navigation_node $navref An object representing the navigation tree node of the surveypro module instance
- * @param stdClass $course
- * @param stdClass $surveypro
+ * @param \stdClass $course
+ * @param \stdClass $surveypro
  * @param cm_info $cm
  * @return void
  */
