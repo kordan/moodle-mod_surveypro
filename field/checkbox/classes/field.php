@@ -600,14 +600,15 @@ EOS;
         }
 
         if ($this->adjustment == SURVEYPRO_VERTICAL) {
-            if (count($labels) > 1) {
-                $separator = array_fill(0, count($labels) - 1, '<br />');
+            $labelcount = count($labels);
+            if ($labelcount > 1) {
+                $separator = array_fill(0, $labelcount - 1, '<br />');
             } else {
                 $separator = array();
             }
             if (!empty($this->labelother)) {
-                $separator[] = '<br />';
-                $separator[] = ' ';
+                // $separator[] = '<br />';
+                $separator[] = '';
             }
             if (!$this->required) {
                 $separator[] = '<br />';

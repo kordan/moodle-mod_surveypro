@@ -60,7 +60,7 @@ class surveypromform_advcheckbox extends MoodleQuickForm_advcheckbox {
     /**
      * What to display when element is frozen.
      *
-     * @return empty string
+     * @return html of the frozen element
      */
     public function getFrozenHtml() {
         $output = parent::getFrozenHtml();

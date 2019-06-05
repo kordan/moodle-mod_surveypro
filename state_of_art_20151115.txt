@@ -56,6 +56,9 @@ Issues that are still a problem:
 ************
 MDL-25067: mform editor element can not be disabled with mform->disabledIf method
 MDL-45723: uniformize the handling of svgs in resolve_image_location() calls.
+MDL-56944: style problem with file upload window
+MDL-61938: Failing server side mform validation does not scroll to first error using clean
+MDL-62634: theme boost duplicates classes for checkbox mform elements
 
 ************
 Issues that were not fixed but that are no longer a problem:
@@ -70,3 +73,6 @@ MDL-43689: With set of advanced checkboxes, if the set is disabled each single c
 MDL-40418: A missing <label> tag in mform causes wrong display (not blocker)
 MDL-44138: The height (in pixel) of the same mform element changes with the content of the other mform elements
 MDL-42946: It is not possible to provide a css style for a static mform element. [Fixed locally by overriding corresponding class]
+MDL-50739: Allow checkboxes to be styled even when frozen
+MDL-50740: Allow advcheckboxes to be styled even when frozen
+MDL-50741: Allow radiobuttons to be styled even when frozen
