@@ -334,6 +334,7 @@ class mod_surveypro_utility_layout {
      *   timemodified                   contentformat
      *
      * @param array $whereparams
+     * @param \stdClass $item
      * @return void
      */
     public function delete_answers($whereparams, $item=null) {
@@ -916,11 +917,11 @@ class mod_surveypro_utility_layout {
     }
 
     /**
-     * Drop answer related uploadfile attachments.
+     * Drop uploadfile attachments.
      *
      * Here I actually drop files related to answers.
      *
-     * @param array $submissions List of the id's of the submissions
+     * @param array $answersid List of the id's of the submissions
      * @return void
      */
     public function drop_uploadfile_attachments($answersid) {

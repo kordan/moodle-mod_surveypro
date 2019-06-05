@@ -24,6 +24,13 @@
 namespace mod_surveypro\task;
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * The main schedule task for the surveypro module.
+ *
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class cron_task extends \core\task\scheduled_task {
 
     /**

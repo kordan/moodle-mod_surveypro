@@ -586,7 +586,7 @@ class mod_surveypro_view_export {
     /**
      * Define the name of the file to download starting from the name of this surveypro instance.
      *
-     * @param string $type, either 'user' or 'item'
+     * @param string $type either 'user' or 'item'
      * @return string $packagename
      */
     public function attachments_define_packagename($type) {

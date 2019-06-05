@@ -195,12 +195,12 @@ class provider implements
     }
 
     /**
-     * Add the corrent answer (and, maybe, the corresponding uploaded file) to $surveyprodata
+     * Add the current answer (and, maybe, the corresponding uploaded file) to $surveyprodata
      *
-     * @param array $surveyprodata.
-     * @param \stdClas s$surveyproanswer.
-     * @param string $itemcontent.
-     * @param array $attachments.
+     * @param array $surveyprodata
+     * @param \stdClass $surveyproanswer
+     * @param string $itemcontent
+     * @param array $attachments
      */
     protected static function store_current_data(&$surveyprodata, $surveyproanswer, $itemcontent, &$attachments) {
         // Store the current answer in $surveyprodata.

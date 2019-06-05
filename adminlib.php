@@ -446,7 +446,7 @@ class mod_surveypro_plugin_manager {
      * @param string $subtype Type of plugin (submission or feedback)
      * @param part_of_admin_tree $admin Handle to the admin menu
      * @param admin_settingpage $settings Handle to current node in the navigation tree
-     * @param stdClass|plugininfo_mod $module Handle to the current module
+     * @param \stdClass|plugininfo_mod $module Handle to the current module
      * @return void
      */
     public static function add_admin_surveypro_plugin_settings($subtype,
