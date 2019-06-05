@@ -112,7 +112,6 @@ Feature: editing a submission, autofill userID is not overwritten
     And I am on "Course divided into groups" course homepage
     And I follow "Preserve autofill"
 
-    And I follow "Responses"
     And I follow "edit_submission_row_1"
     Then the field "Your first name" matches value "student1"
     Then the field "Your last name" matches value "user1"
@@ -128,7 +127,6 @@ Feature: editing a submission, autofill userID is not overwritten
     And I am on "Course divided into groups" course homepage
     And I follow "Preserve autofill"
 
-    And I follow "Responses"
     And I follow "edit_submission_row_1"
     Then the field "Your first name" matches value "student1"
     Then the field "Your last name" matches value "user1"
@@ -155,7 +153,6 @@ Feature: editing a submission, autofill userID is not overwritten
     And I am on "Course divided into groups" course homepage
     And I follow "Preserve autofill"
 
-    And I follow "Responses"
     And I follow "edit_submission_row_1"
     Then the field "Your first name" matches value "student1"
     Then the field "Your last name" matches value "user1"
