@@ -1,11 +1,11 @@
 @mod @mod_surveypro
-Feature: test students can see submissions from their groups only
-  In order to test that students can only see submissions from their groups
+Feature: test students can see submissions from their groupmates
+  In order to test that students can only see submissions from their groupmates
   As student1 and student2 and student3
   I fill a surveypro and go to see responses
 
   @javascript
-  Scenario: test each student can only see submissions from people of his/her group
+  Scenario: test each student can only see submissions from his/her groupmates
     Given the following "courses" exist:
       | fullname                   | shortname          | category | groupmode |
       | Course divided into groups | Only from my group | 0        | 0         |
@@ -76,7 +76,6 @@ Feature: test students can see submissions from their groups only
     And I am on "Course divided into groups" course homepage
     And I follow "Get only my group submission"
 
-    And I follow "Responses"
     Then I should see "Nothing to display"
 
     And I press "New response"
@@ -105,7 +104,6 @@ Feature: test students can see submissions from their groups only
     And I am on "Course divided into groups" course homepage
     And I follow "Get only my group submission"
 
-    And I follow "Responses"
     And I should see "Never" in the "student1 user1" "table_row"
     Then I should see "2" submissions
 
@@ -129,7 +127,6 @@ Feature: test students can see submissions from their groups only
     And I am on "Course divided into groups" course homepage
     And I follow "Get only my group submission"
 
-    And I follow "Responses"
     Then I should see "Nothing to display"
 
     And I press "New response"
@@ -153,7 +150,6 @@ Feature: test students can see submissions from their groups only
     And I am on "Course divided into groups" course homepage
     And I follow "Get only my group submission"
 
-    And I follow "Responses"
     Then I should see "Never" in the "student1 user1" "table_row"
     Then I should see "Never" in the "student2 user2" "table_row"
     Then I should not see "student3" in the "submissions" "table"
