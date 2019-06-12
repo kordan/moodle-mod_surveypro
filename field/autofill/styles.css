@@ -1,0 +1,8 @@
+/* makeup to autofill input to make it look like a label */
+/* DON'T INCLUDE THE SEARCH FORM because, at search time, autofill has to look like a regular field */
+form#userentry input.autofill_text {
+    background-color: transparent;
+    border: 0 transparent none;
+    box-shadow: none;
+}
+/* End: make up to autofill input to let it look like a static text */

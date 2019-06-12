@@ -58,7 +58,7 @@ if (!$surveypros = get_all_instances_in_course('surveypro', $course)) {
 }
 
 $table = new html_table();
-$table->attributes['class'] = 'generaltable mod_index';
+$table->attributes['class'] = 'generaltable mod_index surveypro_index';
 
 if ($course->format == 'weeks') {
     $strweek = get_string('week');

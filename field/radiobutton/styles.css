@@ -1,0 +1,8 @@
+/* Begin of: move horizontal radiobutton label closer to corresponding radiobutton */
+/* useful in case of radio button horizontally aligned */
+/* NOTE: I have to add #userentry and #usersearch because I want to leave read-only layout untouched */
+#userentry .fitem .felement input[type="radio"],
+#usersearch .fitem .felement input[type="radio"] {
+    margin-right: .2em;
+}
+/* End of: move horizontal checkbox and radio label closer to corresponding checkboes */

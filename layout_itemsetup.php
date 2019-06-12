@@ -109,7 +109,7 @@ $formurl = new moodle_url('/mod/surveypro/layout_itemsetup.php', $paramurl);
 
 // Begin of: prepare params for the form.
 $classname = 'mod_surveypro_'.$itemplugin.'_setupform';
-$itemform = new $classname($formurl, array('item' => $item));
+$itemform = new $classname($formurl, array('item' => $item), null, null, array('id' => 'itemsetup'));
 // End of: prepare params for the form.
 
 // Begin of: manage form submission.

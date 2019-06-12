@@ -1,0 +1,9 @@
+/* Begin of: horizontal align of labels inside age elements in read-only mode */
+.datetime_separator_comma {
+    margin-top: .7em;
+    margin-right: .5em;
+}
+.datetime_separator_colon {
+    margin-top: .7em;
+}
+/* End of: horizontal align of labels inside age elements in read-only mode */

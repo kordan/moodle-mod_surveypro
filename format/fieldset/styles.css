@@ -1,0 +1,9 @@
+/* Begin of: Fieldset presentation in the items table and during deletion confirmation */
+/* taken from: http://www.techrepublic.com/blog/web-designer/customize-horizontal-rules-to-add-some-flair/ */
+table#manageitems hr.fieldsetendcontent,
+table#validaterelations hr.fieldsetendcontent {
+    border: 2px dotted #000;
+    border-style: none none dotted;
+    width: 90%;
+}
+/* End of: Fieldset presentation in the items table and during deletion confirmation */
