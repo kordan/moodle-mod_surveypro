@@ -616,7 +616,12 @@ EOS;
         $attributes['id'] = $idprefix.'_minute';
         $elementgroup[] = $mform->createElement('select', $itemname, '', $minutes, $attributes);
 
-        $separator = array(' ', ' ', ', ', ':');
+        $separator = array(' ', ' ');
+        $nextseparator = html_writer::tag('div', ',', array('class' => 'datetime_separator_comma'));
+        $separator[] = $nextseparator;
+        $nextseparator = html_writer::tag('div', ':', array('class' => 'datetime_separator_colon'));
+        $separator[] = $nextseparator;
+
         if ($this->required) {
             if (!$searchform) {
                 $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, $separator, false);

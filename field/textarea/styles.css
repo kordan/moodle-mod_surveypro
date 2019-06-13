@@ -1,0 +1,21 @@
+/* This is for textarea with format selector */
+div.indent-1 div.indent-1 textarea,
+div.indent-1.textarea_editor > div > select,
+div.indent-2 div.indent-2 textarea,
+div.indent-2.textarea_editor > div > select,
+div.indent-3 div.indent-3 textarea,
+div.indent-3.textarea_editor > div > select,
+div.indent-4 div.indent-4 textarea,
+div.indent-4.textarea_editor > div > select,
+div.indent-5 div.indent-5 textarea,
+div.indent-5.textarea_editor > div > select,
+div.indent-6 div.indent-6 textarea,
+div.indent-6.textarea_editor > div > select,
+div.indent-7 div.indent-7 textarea,
+div.indent-7.textarea_editor > div > select,
+div.indent-8 div.indent-8 textarea,
+div.indent-8.textarea_editor > div > select,
+div.indent-9 div.indent-9 textarea,
+div.indent-9.textarea_editor > div > select {
+    margin-left: 0;
+}

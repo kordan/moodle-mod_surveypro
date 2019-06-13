@@ -1,0 +1,14 @@
+/* reduce vertical distance between selects in rate elements */
+form#userentry select.rate_select,
+form#usersearch select.rate_select {
+    margin-bottom: 0.2em;
+    margin-top: 0.2em;
+}
+/* End of: reduce vertical distance between selects in rate elements */
+
+/* padding top for div opening to rate elements */
+form#userentry div.rate_select,
+form#usersearch div.rate_select {
+    padding-top: 0;
+}
+/* End of: padding top for div opening to rate elements */
