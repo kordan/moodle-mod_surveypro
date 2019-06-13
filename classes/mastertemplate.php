@@ -106,7 +106,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             'version.php'
         );
 
-        if ($masterfilelist !== $templatemastercontent) {
+        if (array_diff($masterfilelist, $templatemastercontent) || array_diff($templatemastercontent, $masterfilelist)) {
             $message = 'The "templatemaster" folder does not match the expected one. This is a security issue. I must stop.';
             debugging($message, DEBUG_DEVELOPER);
 
