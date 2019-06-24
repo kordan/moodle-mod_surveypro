@@ -43,7 +43,7 @@ class mod_surveypro_lib extends advanced_testcase {
             'plain_short_string' => ['Hello world!', 60, 'Hello world!'],
             'utf8_short_string'  => ['Hello 🌍 !',   60, 'Hello 🌍 !'],
             'plain_cut_string'   => ['Hello world!', 10, 'Hello w...'],
-            'utf8_cut_string'    => ['Hello 🌍 !',   10, 'Hello 🌍...']
+            'utf8_cut_string'    => ['Hello 🌍 !',   9, 'Hello 🌍 !']
         ];
     }
 
