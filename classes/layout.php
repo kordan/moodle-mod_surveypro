@@ -217,31 +217,31 @@ class mod_surveypro_layout {
         $iconparams = array();
         // Icons for further use.
         $editstr = get_string('edit');
-        $iconparams['title'] = $editstr;
+        $iconparams = array('title' => $editstr);
         $editicn = new pix_icon('t/edit', $editstr, 'moodle', $iconparams);
 
         $parentelementstr = get_string('parentelement_title', 'mod_surveypro');
-        $iconparams['title'] = $parentelementstr;
+        $iconparams = array('title' => $parentelementstr);
         $branchicn = new pix_icon('branch', $parentelementstr, 'surveypro', $iconparams);
 
         $reorderstr = get_string('changeorder_title', 'mod_surveypro');
-        $iconparams['title'] = $reorderstr;
+        $iconparams = array('title' => $reorderstr);
         $moveicn = new pix_icon('t/move', $editstr, 'moodle', $iconparams);
 
         $hidestr = get_string('hidefield_title', 'mod_surveypro');
-        $iconparams['title'] = $hidestr;
+        $iconparams = array('title' => $hidestr);
         $hideicn = new pix_icon('i/hide', $hidestr, 'moodle', $iconparams);
 
         $showstr = get_string('showfield_title', 'mod_surveypro');
-        $iconparams['title'] = $showstr;
+        $iconparams = array('title' => $showstr);
         $showicn = new pix_icon('i/show', $showstr, 'moodle', $iconparams);
 
         $deletestr = get_string('delete');
-        $iconparams['title'] = $deletestr;
+        $iconparams = array('title' => $deletestr);
         $deleteicn = new pix_icon('t/delete', $deletestr, 'moodle', $iconparams);
 
         $indentstr = get_string('indent', 'mod_surveypro');
-        $iconparams['title'] = $indentstr;
+        $iconparams = array('title' => $indentstr);
         $lefticn = new pix_icon('t/left', $indentstr, 'moodle', $iconparams);
         $righticn = new pix_icon('t/right', $indentstr, 'moodle', $iconparams);
 
@@ -249,27 +249,27 @@ class mod_surveypro_layout {
         $movehereicn = new pix_icon('movehere', $moveherestr, 'moodle', array('title' => $moveherestr, 'class' => 'placeholder'));
 
         $availablestr = get_string('available_title', 'mod_surveypro');
-        $iconparams['title'] = $availablestr;
+        $iconparams = array('title' => $availablestr);
         $freeicn = new pix_icon('free', $availablestr, 'surveypro', $iconparams);
 
         $reservedstr = get_string('reserved_title', 'mod_surveypro');
-        $iconparams['title'] = $reservedstr;
+        $iconparams = array('title' => $reservedstr);
         $reservedicn = new pix_icon('reserved', $reservedstr, 'surveypro', $iconparams);
 
         $unreservablestr = get_string('unreservable_title', 'mod_surveypro');
-        $iconparams['title'] = $unreservablestr;
+        $iconparams = array('title' => $unreservablestr);
         $unreservableicn = new pix_icon('unreservable', $unreservablestr, 'surveypro', $iconparams);
 
         $unsearchablestr = get_string('unsearchable_title', 'mod_surveypro');
-        $iconparams['title'] = $unsearchablestr;
+        $iconparams = array('title' => $unsearchablestr);
         $unsearchableicn = new pix_icon('unsearchable', $unsearchablestr, 'surveypro', $iconparams);
 
         $unavailablestr = get_string('unavailableelement_title', 'mod_surveypro');
-        $iconparams['title'] = $unavailablestr;
+        $iconparams = array('title' => $unavailablestr);
         $unavailableicn = new pix_icon('unavailable', $unavailablestr, 'surveypro', $iconparams);
 
         $forcedoptionalitemstr = get_string('forcedoptionalitem_title', 'mod_surveypro');
-        $iconparams['title'] = $forcedoptionalitemstr;
+        $iconparams = array('title' => $forcedoptionalitemstr);
         $lockedgreenicn = new pix_icon('lockedgreen', $forcedoptionalitemstr, 'surveypro', $iconparams);
 
         // Begin of: $paramurlmove definition.
@@ -515,7 +515,7 @@ class mod_surveypro_layout {
 
                 // SURVEYPRO_REQUIRED ON/OFF.
                 $currentrequired = $item->get_required();
-                if ($currentrequired !== false) { // It may not be set as in page_break, autofill or some more.
+                if ($currentrequired !== false) { // It may be "not set" as in page_break, autofill or some more.
                     $paramurl = $paramurlbase;
                     $paramurl['sesskey'] = sesskey();
 
@@ -528,7 +528,8 @@ class mod_surveypro_layout {
                         $icons .= html_writer::tag('span', $OUTPUT->render($lockedgreenicn), array('class' => 'noactionicon'));
                     }
                 } else {
-                    $icons .= html_writer::tag('span', "&nbsp");
+                    // Icon only, not a link!
+                    $icons .= html_writer::tag('span', $OUTPUT->spacer(), array('class' => 'spacericon'));
                 }
 
                 // SURVEYPRO_CHANGEINDENT.
@@ -548,6 +549,9 @@ class mod_surveypro_layout {
                             $link = new moodle_url('/mod/surveypro/layout_itemlist.php#sortindex_'.$sortindex, $paramurl);
                             $paramlink += array('id' => 'reduceindent_item_'.$sortindex);
                             $actionicon .= $OUTPUT->action_icon($link, $lefticn, null, $paramlink);
+                        } else {
+                            // Icon only, not a link!
+                            $actionicon .= $OUTPUT->spacer(array('class' => 'spacericon'));
                         }
                         $actionicon .= '['.$currentindent.']';
                         if ($currentindent < 9) {
@@ -673,11 +677,11 @@ class mod_surveypro_layout {
         $iconparams = array();
 
         $editstr = get_string('edit');
-        $iconparams['title'] = $editstr;
+        $iconparams = array('title' => $editstr);
         $editicn = new pix_icon('t/edit', $editstr, 'moodle', $iconparams);
 
         $parentelementstr = get_string('parentelement_title', 'mod_surveypro');
-        $iconparams['title'] = $parentelementstr;
+        $iconparams = array('title' => $parentelementstr);
         $branchicn = new pix_icon('branch', $parentelementstr, 'surveypro', $iconparams);
 
         $whereparams = array('surveyproid' => $this->surveypro->id);

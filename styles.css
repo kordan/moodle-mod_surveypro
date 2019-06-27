@@ -104,6 +104,14 @@ table#validaterelations td.content {
     vertical-align: middle;
 }
 
+table#manageitems td.variable,
+table#sortitems td.variable {
+    padding: 0.5em;
+    text-align: left;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
 table#manageitems td.formpage,
 table#sortitems td.formpage {
     padding: 0.5em;
@@ -139,23 +147,6 @@ table#validaterelations td.actions {
     vertical-align: middle;
 }
 
-table#manageitems td.actions img.icon,
-table#manageitems td.actions i.icon,
-table#sortitems td.actions img.icon,
-table#sortitems td.actions i.icon {
-    width: 16px;
-    height: 16px;
-    padding: 0;
-    vertical-align: middle;
-    margin-right: 0;
-}
-
-table#manageitems td.actions a.icon,
-table#sortitems td.actions a.icon,
-table#validaterelations td.actions a.icon {
-    margin-right: 0;
-}
-
 table#manageitems td.actions span.reorder,
 table#sortitems td.actions span.reorder {
     padding: .2em;
@@ -178,7 +169,7 @@ table#sortitems td.actions span.lastspan {
     border-collapse: collapse;
     border-spacing: 0px 0px;
     line-height: 20px;
-    text-align: left;
+    text-align: right;
     white-space: nowrap;
     float: none;
     padding-left: .1em;
@@ -188,11 +179,40 @@ table#sortitems td.actions span.lastspan {
 table#manageitems span.noactionicon,
 table#sortitems span.noactionicon {
     padding: .2em;
+    white-space: nowrap;
+}
+
+table#manageitems span.spacericon,
+table#sortitems span.spacericon {
+    padding-right: .2em;
+    white-space: nowrap;
+}
+
+table#manageitems td.actions span.spacericon img.icon,
+table#sortitems td.actions span.spacericon i.icon {
+    width: 1.3em;
 }
 
 table#sortitems td.plugin img.placeholder {
     height: 16px;
     width: 80px;
+}
+
+table#manageitems td.actions img.icon,
+table#manageitems td.actions i.icon,
+table#sortitems td.actions img.icon,
+table#sortitems td.actions i.icon {
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    vertical-align: middle;
+    margin-right: 0;
+}
+
+table#manageitems td.actions a.icon,
+table#sortitems td.actions a.icon,
+table#validaterelations td.actions a.icon {
+    margin-right: 0;
 }
 
 table#manageitems .header,
