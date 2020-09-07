@@ -292,20 +292,19 @@ $string['managesurveyproformatplugins'] = 'Gestionar plugins de formato';
 $string['managesurveyproreportplugins'] = 'Gestionar plugins de reporte';
 $string['managesurveyprotemplateplugins'] = 'Gestionar plugins de plantilla';
 $string['manageusertemplates'] = '<a href="{$a}">Gestionar plantillas de usuario</a>';
-$string['mastertemplate_help'] = 'Choose a master template like one of the classical ones provided by default or a custom one added to this instance of surveypro. The classical survey types are:<ul>
-<li>ATTLS: Attitudes To Thinking and Learning Survey.<br />For more details, see the documentation on <a href="https://docs.moodle.org/31/en/Survey_settings#ATTLS_-_Attitudes_to_Thinking_and_Learning_Survey" name="ATTLS" title="ATTLS">ATTLS</a>.</li>
-<li>COLLES: Constructivist On-Line Learning Environment Survey.<br />For more details, see the documentation on <a href="https://docs.moodle.org/31/en/Survey_settings#COLLES_-_Constructivist_On-Line_Learning_Environment_Survey" name="COLLES" title="COLLES">COLLES</a>.</li>
-<li>CRITICAL INCIDENTS.<br />For more details, see the documentation on <a href="https://docs.moodle.org/31/en/Survey_settings#Critical_incidents" name="Critical incidents" title="Critical incidents">Critical incidents</a></li></ul>';
+$string['mastertemplate_help'] = 'Elija una plantilla maestra, como por ejemplo una de las clásicas proporcionadas por defecto, o una personalizada añadida a esta instancia de surveypro. Los tipos de encuesta clásicos son:<ul>
+<li>ATTLS: Attitudes To Thinking and Learning Survey (Encuesta de Actitudes Hacia el Pensamiento y Aprendizaje).<br />Para más detalles, vea la documentación en <a href="https://docs.moodle.org/31/en/Survey_settings#ATTLS_-_Attitudes_to_Thinking_and_Learning_Survey" name="ATTLS" title="ATTLS">ATTLS</a>.</li>
+<li>COLLES: Constructivist On-Line Learning Environment Survey (Encuesta Constructivista de Ambiente de Aprendizaje En-Línea).<br />Para más detalles, vea la documentación en <a href="https://docs.moodle.org/31/en/Survey_settings#COLLES_-_Constructivist_On-Line_Learning_Environment_Survey" name="COLLES" title="COLLES">COLLES</a>.</li>
+<li>INCIDENTES CRÍTICOS.<br />ara más detalles, vea la documentación en <a href="https://docs.moodle.org/31/en/Survey_settings#Critical_incidents" name="Critical incidents" title="Critical incidents">Critical incidents</a></li></ul>';
 $string['mastertemplate'] = 'Plantillas maestras';
-$string['mastertemplate_help'] = 'Elija la plantilla maestra , como por ejemplo una de las clásicas proporcionadas por defecto, o una personalizada añadida a esta instancia de surveypro. Los tipos de encuesta clásicos son:<ul> <li>ATTLS: Attitudes To Thinking and Learning Survey (Encuesta de Actitudes Hacia el Pensamiento y Aprendizaje).<br />Para más detalles, vea la documentación en <a href="https://docs.moodle.org/31/en/Survey_settings#ATTLS_-_Attitudes_to_Thinking_and_Learning_Survey" name="ATTLS" title="ATTLS">ATTLS</a>.</li> <li>COLLES: Constructivist On-Line Learning Environment Survey (Encuesta Constructivista de Ambiente de Aprendizaje En-Línea).<br />Para más detalles, vea la documentación en <a href="https://docs.moodle.org/31/en/Survey_settings#COLLES_-_Constructivist_On-Line_Learning_Environment_Survey" name="COLLES" title="COLLES">COLLES</a>.</li> <li>INCIDENTES CRÍTICOS.<br />Para más detalles, vea la documentación en <a href="https://docs.moodle.org/31/en/Survey_settings#Critical_incidents" name="Critical incidents" title="Critical incidents">Critical incidents</a></li></ul>';
 $string['mastertemplateaddendum'] = '<br />Usted no puede aplicar esta plantilla_maestra hasta que la des-instale, le arregle todos los problemas y la re-instale.';
-$string['mastertemplatename'] = 'Nombre de plantilla maestra';
 $string['mastertemplatename_help'] = 'Elija el nombre de la plantilla maestra que será descargada en formato ZIP.';
+$string['mastertemplatename'] = 'Nombre de plantilla maestra';
 $string['mastertemplateplugin'] = 'Plugin de plantilla maestra';
-$string['maxentries'] = 'Máximos intentos permitidos';
 $string['maxentries_help'] = 'El número máximo de respuestas que un estudiante tiene permitido enviar para esta actividad';
-$string['maxinputdelay'] = 'Retraso máximo para contestar';
+$string['maxentries'] = 'Máximos intentos permitidos';
 $string['maxinputdelay_descr'] = 'El retraso en horas máximo permitido para que los usuarios envíen una encuesta. Aun y cuando al usuario se le permita pausar el ingreso de datos y reiniciarlo después; posteriormente a este tiempo definido aquí, las respuestas parciales se eliminarán. El valor por defecto es de 168 horas que equivalen a una semana. Configure esto a cero (0) si realmente Usted desea permitir respuestas parciales (lo que no se recomienda).';
+$string['maxinputdelay'] = 'Retraso máximo para contestar';
 $string['missingfile'] = 'Al parecer no se seleccionó ningun archivo';
 $string['missingitemplugin'] = 'A uno o más ítems de la plantilla les falta el plugin';
 $string['missingitemtype'] = 'A uno o más ítems de la plantilla les falta el tipo';
@@ -313,9 +312,6 @@ $string['missingitemversion'] = 'A uno o más ítems de la plantilla les falta l
 $string['missingmandatory'] = 'No se ha encontrado alguna contestación obligatoria de esta respuesta. Por esto, las respuestas generales se han marcado como "{$a}".<br />Para corregir este problema, por favor edite la respuesta y revise los contenidos de los ítems página por página.';
 $string['missingvalidation'] = 'Algunas contestaciones de esta respuesta han sido encontradas como no-verificadas. Por esto, la respuesta general la sido marcada como "{$a}".<br />Sus datos no son necesariamente incorrectos, pero necesitan validación antes del almacenamiento definitivo.<br />Para corregir este problema, por favor edite la respuesta y revise los contenidos de los ítems página por página.';
 $string['module'] = 'Esta instancia de encuesta';
-$string['modulename'] = 'Encuestapro (Surveypro)';
-$string['modulename_help'] = 'Encuestapro (Surveypro) permite la creación de encuestas personalizadas hasta para construir encuestas de tipos ATTLS, COLLES e INCIDENTES CRÍTICOS. Usted también puede guardar y reutilizar partes de, o toda, su propia encuesta personalizada.';
-$string['modulenameplural'] = 'encuestas';
 $string['modulesettinghdr'] = 'Configuraciones de Encuestapro (Surveypro)';
 $string['mtemplatessection'] = 'Sección de plantillas maestras';
 $string['newpageforchild'] = 'Las ramas aumentan las páginas';
@@ -342,40 +338,42 @@ $string['onlyreview'] = 'o revisar';
 $string['opened'] = 'Hora de apertura';
 $string['optionalitem_title'] = 'Elemento opcional. Haga click para volver obligatorio al elemento.';
 $string['outputstyle'] = 'Estilo de salida';
-$string['overwrite'] = 'Remplazar plantilla más antigua';
 $string['overwrite_help'] = 'Al seleccionar esta casilla Usted sobre-escribirá una plantilla más antigua con el mismo nombre. Si Usted deja esta casilla sin seleccionar, en caso de conflictos se le pedirá un nuevo nombre único.';
+$string['overwrite'] = 'Remplazar plantilla más antigua';
 $string['pagexofy'] = 'Página {$a->formpage} de {$a->maxassignedpage}';
 $string['parentconstraints'] = 'Limitantes paternas';
+$string['parentcontent_help'] = 'Esto es lo que el usuario se supone que deba contestar al elemento paterno para  habilitar/mostrar este elementp.';
 $string['parentcontent'] = 'Contenido paterno';
-$string['parentcontent_help'] = 'Esto es lo que se supone que el usuario debe de ingresar en el elemento paterno para habilitar/mostrar este elemento.';
+$string['parentelement_help'] = 'El elemento cuya respuesta, durante la compilación del questionnaire, determina el acceso al elemento actual.';
 $string['parentelement_title'] = 'Elemento paterno';
 $string['parentformat'] = 'Defina el formato "{$a->fieldname}" tal y como se muestra aquí: {$a->examples}';
-$string['parentid'] = 'Elemento paterno';
 $string['parentid_header'] = 'Relación';
 $string['parentid_help'] = 'Los elementos paternos le permiten a Usted crear ramificación condicional. Los elementos atenuados en la lista identifican elementos paternos ocultos. Muéstrelos para tenerlos disponibles en la lista.<br />Elementos precedidos por un asterisco se supone que pertenecen SOLAMENTE a formato reservado.';
+$string['parentid'] = 'Elemento paterno';
 $string['pause'] = 'Pausa';
 $string['plugin'] = 'Elemento';
-$string['pluginadministration'] = 'Administración de Encuestapro (Surveypro)';
-$string['pluginname'] = 'Encuestapro (Surveypro)';
 $string['pluginname_help'] = 'Escriba aquí el nombre del plugin de encuesta que Usted va a guardar.';
 $string['plugintype'] = 'Tipo de plugin';
 $string['position'] = 'Posición de la pregunta';
-$string['position_help'] = 'Use esta opción para elegir la posición del contenido del elemento. Puede ser hacia la izquierda de la interfaz del usuario, en una fila dedicada justo arriba de la interfaz para ingresar la contestación, o en una fila dedicada justo arriba de la interfaz que abarca a toda la fila. Tome nota de que la posición izquierda fuerza  a los contenidos del elemento a texto plano sin imágenes. ¡Las dos posiciones \'superiores\' usualmente son necesitadas para contenidos que sean más largos de unas cuantas palabras y son necesarias para preguntas que necesiten contener imágenes!';
+$string['position_help'] = 'Use esta opción para elegir la posición del contenido del elemento. Puede ser hacia la izquierda de la interfaz del usuario, en una fila dedicada justo arriba de la interfaz para ingresar la contestación, o en una fila dedicada justo arriba de la interfaz que abarca a toda la fila.
+Tome nota de que la posición izquierda fuerza  a los contenidos del elemento a texto plano sin imágenes. 
+¡Las dos posiciones \'superiores\' usualmente son necesitadas para contenidos que sean más largos de unas cuantas palabras y son necesarias para preguntas que que contienen imágenes!';
 $string['previewmode'] = 'Usted está en \'{$a}\': se supone que no deben de mostrarse los botones para guardar datos';
 $string['previousformpage'] = '<< Página anterior';
 $string['raw'] = 'Crudo (para posterior importación a diferentes instancias de Surveypro)';
 $string['readonlyaccess'] = 'Acceso de solo lectura';
 $string['relation_status'] = 'Estatus';
 $string['reportederror'] = '{$a}';
-$string['reportederrorplugin'] = '%s como se requiere por el xsd del plugin "%s"';
+$string['reportederroritembase'] = '%s realizando la validación xsd del "surveypro_item" para el plugin "%s" ';
+$string['reportederrorplugin'] = '%s realizando la validación xsd del plugin "%s" ';
 $string['reportplugin'] = 'Plugin de reporte';
 $string['reportsection'] = 'Sección de reportes';
-$string['required'] = 'Requerido';
 $string['required_help'] = '¿Será forzado el usuario a contestar este elemento?';
-$string['requireditem_title'] = 'Elemento obligatorio. Haga click para hacer opcional al elemento.';
-$string['reserved'] = 'Reservado';
+$string['required'] = 'Requerido';
+$string['requireditem_title'] = 'Elemento obligatorio. Haga clic para hacer opcional al elemento.';
 $string['reserved_help'] = '¿Este elemento solamente estará disponible para usuarios equipados con un permiso especial, o generalmente estará disponible para cada usuario?';
 $string['reserved_title'] = 'Elemento reservado. Haga click para liberarlo.';
+$string['reserved'] = 'Reservado';
 $string['response'] = 'respuesta';
 $string['responseauthor'] = 'Autor:';
 $string['responses'] = 'respuestas';
@@ -402,16 +400,15 @@ $string['showfield_title'] = 'Elemento oculto. Haga click para mostrar.';
 $string['sortindex'] = 'Orden';
 $string['specializations'] = 'Configuraciones específicas de {$a}';
 $string['star'] = '*';
-$string['startyear'] = 'Año mínimo permitido';
 $string['startyear_help'] = 'Definir el menor año que cada pregunta requerirá.';
+$string['startyear'] = 'Año mínimo permitido';
 $string['status'] = 'Estatus de encuesta';
 $string['statusboth'] = 'ambas cerrada y en progreso';
 $string['statusclosed'] = 'cerrada';
 $string['statusinprogress'] = 'en progreso';
-$string['stopyear'] = 'Año máximo permitido';
 $string['stopyear_help'] = 'Definir el año más alto que cada pregunta requerirá.';
+$string['stopyear'] = 'Año máximo permitido';
 $string['submission'] = 'Intento';
-$string['submissions'] = 'Respuestas';
 $string['submissions_all_1_1'] = '1 respuesta enviada por 1 usuario';
 $string['submissions_all_1_many'] = '1 respuesta enviada por {$a->usercount} usuarios';
 $string['submissions_all_many_1'] = '{$a->submissions} respuestas enviadas por 1 usuario';
@@ -421,8 +418,8 @@ $string['submissions_detail_1_many'] = '1 respuesta \'{$a->status}\' enviada por
 $string['submissions_detail_many_1'] = '{$a->submissions} respuestas  \'{$a->status}\' enviadas por 1 usuario';
 $string['submissions_detail_many_many'] = '{$a->submissions} respuestas  \'{$a->status}\' enviadas por  {$a->usercount} usuarios';
 $string['submissions_welcome'] = 'Vista general de respuestas';
+$string['submissions'] = 'Respuestas';
 $string['submissionslist'] = 'Lista de respuestas';
-$string['surveypro'] = 'encuesta';
 $string['surveypro:accessownreports'] = 'Acceder a reportes propios';
 $string['surveypro:accessreports'] = 'Acceder a reportes';
 $string['surveypro:accessreserveditems'] = 'Acceder a ítems reservados';
@@ -455,45 +452,20 @@ $string['surveypro:submit'] = 'Enviar respuestas';
 $string['surveypro:view'] = 'Ver encuestas';
 $string['surveyprofieldpluginname'] = 'Plugin de elemento Campo';
 $string['surveyproformatpluginname'] = 'Plugin de elemento Ítem';
-$string['surveyproname'] = 'Nombre Encuestapro (Surveypro)';
-$string['surveyproname_help'] = 'Elija el nombre de esta Encuestapro (Surveypro)';
 $string['surveyproreportpluginname'] = 'Plugin de reporte';
 $string['surveyprotemplatepluginname'] = 'Plugin de plantilla maestra';
 $string['system'] = 'Sitio';
-$string['tabitemspage1'] = 'Vista previa';
-$string['tabitemspage2'] = 'Elementos';
-$string['tabitemspage3'] = 'Configuración del elemento';
-$string['tabitemspage4'] = 'Validación de ramificación';
-$string['tablayoutname'] = 'Diseño';
-$string['tabmtemplatename'] = 'Plantillas maestras';
-$string['tabmtemplatepage1'] = 'Guardar';
-$string['tabmtemplatepage2'] = 'Aplicar';
-$string['tabsubmissionsname'] = 'Encuesta';
-$string['tabsubmissionspage1'] = 'Tablero';
-$string['tabsubmissionspage2'] = 'Respuestas';
-$string['tabsubmissionspage3'] = 'Insertar';
-$string['tabsubmissionspage4'] = 'Editar';
-$string['tabsubmissionspage5'] = 'Solo lectura';
-$string['tabsubmissionspage6'] = 'Buscar';
-$string['tabsubmissionspage7'] = 'Reportes';
-$string['tabsubmissionspage8'] = 'Importar';
-$string['tabsubmissionspage9'] = 'Exportar';
-$string['tabutemplatename'] = 'Plantillas de usuario';
-$string['tabutemplatepage1'] = 'Gestionar';
-$string['tabutemplatepage2'] = 'Guardar';
-$string['tabutemplatepage3'] = 'Importar';
-$string['tabutemplatepage4'] = 'Aplicar';
 $string['templatelist'] = 'lista de plantilas disponibles';
-$string['templatename'] = 'Nombre de plantilla';
 $string['templatename_help'] = 'Escriba aquí el nombre de la plantilla que Usted va a guardar.';
-$string['thankspage'] = 'Página web de agradecimiento';
-$string['thankspage_help'] = 'El código HTML de la página web que obtiene el usuario en cada hora de cierre de respuesta.';
-$string['timeclose'] = 'Disponible hasta antes de';
-$string['timeclose_help'] = 'La última fecha disponible para que los estudiantes llenen una encuesta.';
-$string['timecreated'] = 'Creada';
-$string['timemodified'] = 'Modificada';
-$string['timeopen'] = 'Disponible a partir de';
+$string['templatename'] = 'Nombre de plantilla';
+$string['thankspageeditor_help'] = 'El código html de lapágina web que el usuario obtiene en cada momento de cierre de respuesta.';
+$string['thankspageeditor'] = 'Página de agradecimiento en línea';
+$string['timeclose_help'] = 'La última fecha disponible para que que los estudiantes llenen una encuesta.';
+$string['timeclose'] = 'Diaponible hasta';
+$string['timecreated'] = 'Creado';
+$string['timemodified'] = 'Modificado';
 $string['timeopen_help'] = 'La primera fecha disponible para que los estudiantes llenen una encuesta.';
+$string['timeopen'] = 'Disponible a partir de';
 $string['top'] = 'superior';
 $string['translatedstring'] = '$string[\'{$a->stringkey}\'] = \'Traducción al Inglés de la cadena de caracteres correspondiente del archivo de idioma "{$a->userlang}" \';';
 $string['trimonsave'] = 'Contestación limpia al momento de guardar';
@@ -512,26 +484,39 @@ $string['unreservable_title'] = 'elemento de acceso libre.No-reservable.';
 $string['unsearchable_title'] = 'Ítem no buscable. In-buscable';
 $string['user'] = 'Usuario';
 $string['usercanceled'] = 'Acción cancelada por el usuario';
+$string['userstyle_help'] = 'Añada aquí una o más hojas de estilo en cascada (css) que quiera aplicar a esta encuesta.';
 $string['userstyle'] = 'Hoja de estilo personalizada';
-$string['userstyle_help'] = 'Añada aquí una o más hojas de estilo en cascada (CSS) que Usted quiera aplicarle a esta encuesta.';
-$string['usertemplateinfo'] = 'Plantillas de usuario';
 $string['usertemplateinfo_help'] = 'Elija la plantilla de usuario que Usted desea añadir a su encuesta.';
+$string['usertemplateinfo'] = 'Plantillas de usuario';
 $string['utemplatessection'] = 'Sección de plantillas del usuario';
 $string['validation'] = 'Opciones de validación';
+$string['variable_help'] = 'El nombre de la variable una vez descargadas.';
 $string['variable'] = 'Variable';
-$string['variable_help'] = 'El nombre de la variable una vez descargada.';
-$string['verbose'] = 'Verboso (para lectura por humanos)';
+$string['verbose'] = 'Bonito (para lectura por humanos)';
 $string['versionmismatch'] = 'No concuerda versión para plugin {$a->plugin} {$a->type}. La plantilla usa la versión: {$a->currentversion} mientras que su  plugin surveypro usa la versión {$a->versiondisk}';
-$string['visiblesonly'] = 'Solamente elementos visibles';
 $string['visiblesonly_help'] = 'Incluir en la plantilla solamente elementos visibles.';
-$string['welcome_dataexport'] = 'Use esta página para exportar respuestas de esta encuesta. <br /> Están disponibles tanto un formato de software estadístico como uno más legible por humanos. El contenido exportable depende del "{$a}" elegido para cada elemento (si estuviera disponible).';
-$string['welcome_dataimport'] = 'Use esta página para importar respuestas a esta encuesta. <br /> Los encabezados del archivo CSV a importar se supone que coinciden con los  "nombres de variables" de los elementos de la encuesta.<br /> Actualmente no está permitida la importación de elementos anexos.<br /> Los encabezados desconocidos romperán el proceso de importación.<br /> "Ownerid" (ID_del_propietario) puede ser incluido entre los encabezados. Asignará la propiedad de cada respuesta importada (aunque la encuesta fuese anónima).<br /> Si falta la columna de "Ownerid" en el archivo CSV, las respuestas importadas serán automáticamente asignadas al usuario que está ejecutando la importación.<br /> Se permite la importación de archivos CSV a los que les falten elementos requeridos, pero si fueran incluídos, estos deben de poseer valores válidos y no-vacíos.<br /> Los archivos de importación a los que les falten elementos requeridos están permitidos y las respuestas importadas serán marcadas como "in progress" (en progreso).<br /> La semántica define el significado del contenido del archivo CSV para algunos elementos específicos. Por ejemplo, para un elemento de plugin "select" (seleccionar), el archivo CSV puede proporcionar la etiqueta de la respuesta como su valor o su posición dentro del menú desplegable de la interfaz del usuario<br /> Los elementos que actualmente usan semántica son: <ul>{$a->items}</ul> Es posible elegir una única semántica que aplique para TODOS y CADA UNO DE LOS elementos a importar o a elegir "opción {$a->customsemantic}" para proporcionar una semántica personalizada para cada elemento.<br /> El proceso de importación se rompe si condujese a exceder el número máximo de respuestas permitidas a los usuarios (si estuviera configurado)';
+$string['visiblesonly'] = 'Solamente elementos visibles';
 $string['welcome_emptysurvey'] = 'Para crear una encuesta nueva Usted puede añadir elementos de-uno-en-uno para construir la encuesta que mejor se acomode a sus necesidades<br />o aplicar una plantilla maestra para tener una encuesta estandar completa de un jalón.';
-$string['welcome_mtemplateapply'] = 'Usted puede construir su encuesta aplicando un conjunto de elementos tomados de una plantilla maestra.<br /> Tenga cuidadoe: todoslos demás elementos pre-existentes (si hubiera) serán eliminados definitivamente JUNTO CON TODOS LOS DATOS QUE YA HABÍAN COLECTADO.';
+$string['welcome_dataexport'] = 'Use esta página para exportar respuestas de esta encuesta. <br />
+Están disponibles tanto un formato de software estadístico como uno más legible por humanos. El contenido exportable depende del "{$a}" elegido para cada elemento (si estuviera disponible).';
+$string['welcome_dataimport'] = 'Use esta página para importar respuestas a esta encuesta. <br /> 
+Los encabezados del archivo CSV a importar se supone que coinciden con los  "nombres de variables" de los elementos de la encuesta.<br /> 
+Actualmente no está permitida la importación de elementos anexos.<br /> 
+Los encabezados desconocidos romperán el proceso de importación.<br /> 
+"Ownerid" (ID_del_propietario) puede ser incluido entre los encabezados. Asignará la propiedad de cada respuesta importada (aunque la encuesta fuese anónima).<br /> 
+Si falta la columna de "Ownerid" en el archivo CSV, las respuestas importadas serán automáticamente asignadas al usuario que está ejecutando la importación.<br /> 
+Se permite la importación de archivos CSV a los que les falten elementos requeridos, pero si fueran incluídos, estos deben de poseer valores válidos y no-vacíos.<br /> 
+Los archivos de importación a los que les falten elementos requeridos están permitidos y las respuestas importadas serán marcadas como "in progress" (en progreso).<br /> 
+El proceso de importación se rompe si condujese a exceder el número máximo de respuestas permitidas a los usuarios (si estuviera configurado)';
+$string['welcome_mtemplateapply'] = 'Usted puede construir su encuesta aplicando un conjunto de elementos tomados de una plantilla maestra.<br /> 
+Tenga cuidado: todoslos demás elementos pre-existentes (si hubiera) serán eliminados definitivamente JUNTO CON TODOS LOS DATOS QUE YA HABÍAN COLECTADO.';
 $string['welcome_relationvalidation'] = 'Este reporte le permite a Usted verificar la confiabilidad de la encuesta actual. Revisa la validez de cada relación padre-hijo, marcando las malas relaciones, que nunca le permitirían al elemento hijo ser parte de la encuesta, con un mensaje en la columna "{$a}".';
-$string['welcome_utemplateapply'] = 'Usted puede construir sus encuestas aplicando un conjunto de elementos tomados de una plantilla maestra.<br /> Las plantillas de usuario ya deberían de haberse subido desde la página "{$a->uploadpage}" o guardadas desde la página  "{$a->savepage}".';
-$string['welcome_utemplateimport'] = 'Usted puede importar plantillas de usuario para aplicarlas después.<br /> Las plantillas de usuario son archivos  XML como los que Usted puede guardar desde la página "{$a}".';
-$string['welcome_utemplatesave'] = 'Guardar una plantilla de usuario con la estructura de la encuesta actual.<br /> Las plantillas de usuario son útiles para añadir rápidamente a su encuesta conjuntos estáticos de ítems pre-definidos. En cualquier momento Usted puede descargarlas y compartirlas con otros usuarios de Moodle o re-utilizarlas en sus propias encuestas. Sea cuidadoso con el "{$a}" si Usted quiere re-utilizar sus plantillas sin descargarlas y subirlas otra vez.';
+$string['welcome_utemplateapply'] = 'Usted puede construir sus encuestas aplicando un conjunto de elementos tomados de una plantilla maestra.<br /> 
+Las plantillas de usuario ya deberían de haberse subido desde la página "{$a->uploadpage}" o guardadas desde la página  "{$a->savepage}".';
+$string['welcome_utemplateimport'] = 'Usted puede importar plantillas de usuario para aplicarlas después.<br /> 
+Las plantillas de usuario son archivos  XML como los que Usted puede guardar desde la página "{$a}".';
+$string['welcome_utemplatesave'] = 'Guardar una plantilla de usuario con la estructura de la encuesta actual.<br /> 
+Las plantillas de usuario son útiles para añadir rápidamente a su encuesta conjuntos estáticos de ítems pre-definidos. En cualquier momento Usted puede descargarlas y compartirlas con otros usuarios de Moodle o re-utilizarlas en sus propias encuestas. Sea cuidadoso con el "{$a}" si Usted quiere re-utilizar sus plantillas sin descargarlas y subirlas otra vez.';
 $string['willclose'] = 'Hora de cierre';
 $string['willopen'] = 'Esta encuesta se abrirá en';
 $string['wrong_direction_found'] = '$direction inválida proporcionada a {$a->methodname} en conjunto con $startingpage == {$a->methodname}';
@@ -541,3 +526,19 @@ $string['wrongrelation'] = '"{$a}" nunca coincidirá';
 $string['xmltemplate_help'] = 'Elija la plantilla que quiera descargar como archivo ZIP para compartirlo con otros usuarios de Moodle.';
 $string['xsdnotfound'] = 'No se encontró esquema de validación XSD para su plantilla XML<br />Su código necesita ser arreglado por un desarrollador';
 $string['yoursubmissions'] = 'Sus respuestas \'{$a->status}\': {$a->responsescount}';
+
+$string['privacy:metadata:submission'] = 'Responses to surveypros.';
+$string['privacy:metadata:submission:userid'] = 'The ID of the user who submitted his/her answer.';
+$string['privacy:metadata:submission:status'] = 'The overall status of the response provided by the user.';
+$string['privacy:metadata:submission:timecreated'] = 'The time when the response was posted.';
+$string['privacy:metadata:submission:timemodified'] = 'The time when the response was modified.';
+$string['privacy:metadata:answer'] = 'Answers to items of surveypros.';
+$string['privacy:metadata:answer:content'] = 'Field where the answers to items are stored.';
+$string['privacy:metadata:answer:contentformat'] = 'Field storing the format of the answers to items.';
+$string['privacy:metadata:uploadedfiles'] = 'Files uploaded in the frame of responses.';
+$string['privacy:path:fileupload'] = 'Response {$a}';
+$string['privacy:metadata:surveyprofieldpluginsummary'] = 'Field data for the surveypro.';
+$string['privacy:metadata:surveyproformatpluginsummary'] = 'Format data for the surveypro.';
+$string['privacy:metadata:surveyprotemplatepluginsummary'] = 'Template data for the surveypro.';
+$string['privacy:metadata:surveyproreportpluginsummary'] = 'Report data for the surveypro.';
+
