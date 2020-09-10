@@ -541,4 +541,3 @@ $string['privacy:metadata:surveyprofieldpluginsummary'] = 'Datos de campo para e
 $string['privacy:metadata:surveyproformatpluginsummary'] = 'Datos de formato para el surveypro.';
 $string['privacy:metadata:surveyprotemplatepluginsummary'] = 'Datos de plantilla para el surveypro.';
 $string['privacy:metadata:surveyproreportpluginsummary'] = 'Datos de reporte para el surveypro.';
-
