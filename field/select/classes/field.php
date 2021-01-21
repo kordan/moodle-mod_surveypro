@@ -259,7 +259,7 @@ class surveyprofield_select_field extends mod_surveypro_itembase {
             $constraints[] = $labelotherstr.$labelsep.$allowedstr;
         }
 
-        return implode($constraints, '<br />');
+        return implode('<br />', $constraints);
     }
 
     // MARK get.
