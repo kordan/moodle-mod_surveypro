@@ -356,7 +356,7 @@ $string['pluginname_help'] = 'Escriba aquí el nombre del plugin de encuesta que
 $string['plugintype'] = 'Tipo de plugin';
 $string['position'] = 'Posición de la pregunta';
 $string['position_help'] = 'Use esta opción para elegir la posición del contenido del elemento. Puede ser hacia la izquierda de la interfaz del usuario, en una fila dedicada justo arriba de la interfaz para ingresar la contestación, o en una fila dedicada justo arriba de la interfaz que abarca a toda la fila.
-Tome nota de que la posición izquierda fuerza  a los contenidos del elemento a texto plano sin imágenes. 
+Tome nota de que la posición izquierda fuerza  a los contenidos del elemento a texto plano sin imágenes.
 ¡Las dos posiciones \'superiores\' usualmente son necesitadas para contenidos que sean más largos de unas cuantas palabras y son necesarias para preguntas que que contienen imágenes!';
 $string['previewmode'] = 'Usted está en \'{$a}\': se supone que no deben de mostrarse los botones para guardar datos';
 $string['previousformpage'] = '<< Página anterior';
@@ -499,23 +499,23 @@ $string['visiblesonly'] = 'Solamente elementos visibles';
 $string['welcome_emptysurvey'] = 'Para crear una encuesta nueva Usted puede añadir elementos de-uno-en-uno para construir la encuesta que mejor se acomode a sus necesidades<br />o aplicar una plantilla maestra para tener una encuesta estandar completa de un jalón.';
 $string['welcome_dataexport'] = 'Use esta página para exportar respuestas de esta encuesta. <br />
 Están disponibles tanto un formato de software estadístico como uno más legible por humanos. El contenido exportable depende del "{$a}" elegido para cada elemento (si estuviera disponible).';
-$string['welcome_dataimport'] = 'Use esta página para importar respuestas a esta encuesta. <br /> 
+$string['welcome_dataimport'] = 'Use esta página para importar respuestas a esta encuesta. <br />
 Los encabezados del archivo CSV a importar se supone que coinciden con los  "nombres de variables" de los elementos de la encuesta.<br /> 
-Actualmente no está permitida la importación de elementos anexos.<br /> 
-Los encabezados desconocidos romperán el proceso de importación.<br /> 
-"Ownerid" (ID_del_propietario) puede ser incluido entre los encabezados. Asignará la propiedad de cada respuesta importada (aunque la encuesta fuese anónima).<br /> 
-Si falta la columna de "Ownerid" en el archivo CSV, las respuestas importadas serán automáticamente asignadas al usuario que está ejecutando la importación.<br /> 
-Se permite la importación de archivos CSV a los que les falten elementos requeridos, pero si fueran incluídos, estos deben de poseer valores válidos y no-vacíos.<br /> 
-Los archivos de importación a los que les falten elementos requeridos están permitidos y las respuestas importadas serán marcadas como "in progress" (en progreso).<br /> 
+Actualmente no está permitida la importación de elementos anexos.<br />
+Los encabezados desconocidos romperán el proceso de importación.<br />
+"Ownerid" (ID_del_propietario) puede ser incluido entre los encabezados. Asignará la propiedad de cada respuesta importada (aunque la encuesta fuese anónima).<br />
+Si falta la columna de "Ownerid" en el archivo CSV, las respuestas importadas serán automáticamente asignadas al usuario que está ejecutando la importación.<br />
+Se permite la importación de archivos CSV a los que les falten elementos requeridos, pero si fueran incluídos, estos deben de poseer valores válidos y no-vacíos.<br />
+Los archivos de importación a los que les falten elementos requeridos están permitidos y las respuestas importadas serán marcadas como "in progress" (en progreso).<br />
 El proceso de importación se rompe si condujese a exceder el número máximo de respuestas permitidas a los usuarios (si estuviera configurado)';
-$string['welcome_mtemplateapply'] = 'Usted puede construir su encuesta aplicando un conjunto de elementos tomados de una plantilla maestra.<br /> 
+$string['welcome_mtemplateapply'] = 'Usted puede construir su encuesta aplicando un conjunto de elementos tomados de una plantilla maestra.<br />
 Tenga cuidado: todoslos demás elementos pre-existentes (si hubiera) serán eliminados definitivamente JUNTO CON TODOS LOS DATOS QUE YA HABÍAN COLECTADO.';
 $string['welcome_relationvalidation'] = 'Este reporte le permite a Usted verificar la confiabilidad de la encuesta actual. Revisa la validez de cada relación padre-hijo, marcando las malas relaciones, que nunca le permitirían al elemento hijo ser parte de la encuesta, con un mensaje en la columna "{$a}".';
-$string['welcome_utemplateapply'] = 'Usted puede construir sus encuestas aplicando un conjunto de elementos tomados de una plantilla maestra.<br /> 
+$string['welcome_utemplateapply'] = 'Usted puede construir sus encuestas aplicando un conjunto de elementos tomados de una plantilla maestra.<br />
 Las plantillas de usuario ya deberían de haberse subido desde la página "{$a->uploadpage}" o guardadas desde la página  "{$a->savepage}".';
-$string['welcome_utemplateimport'] = 'Usted puede importar plantillas de usuario para aplicarlas después.<br /> 
+$string['welcome_utemplateimport'] = 'Usted puede importar plantillas de usuario para aplicarlas después.<br />
 Las plantillas de usuario son archivos  XML como los que Usted puede guardar desde la página "{$a}".';
-$string['welcome_utemplatesave'] = 'Guardar una plantilla de usuario con la estructura de la encuesta actual.<br /> 
+$string['welcome_utemplatesave'] = 'Guardar una plantilla de usuario con la estructura de la encuesta actual.<br />
 Las plantillas de usuario son útiles para añadir rápidamente a su encuesta conjuntos estáticos de ítems pre-definidos. En cualquier momento Usted puede descargarlas y compartirlas con otros usuarios de Moodle o re-utilizarlas en sus propias encuestas. Sea cuidadoso con el "{$a}" si Usted quiere re-utilizar sus plantillas sin descargarlas y subirlas otra vez.';
 $string['willclose'] = 'Hora de cierre';
 $string['willopen'] = 'Esta encuesta se abrirá en';
