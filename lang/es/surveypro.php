@@ -500,7 +500,7 @@ $string['welcome_emptysurvey'] = 'Para crear una encuesta nueva Usted puede aña
 $string['welcome_dataexport'] = 'Use esta página para exportar respuestas de esta encuesta. <br />
 Están disponibles tanto un formato de software estadístico como uno más legible por humanos. El contenido exportable depende del "{$a}" elegido para cada elemento (si estuviera disponible).';
 $string['welcome_dataimport'] = 'Use esta página para importar respuestas a esta encuesta. <br />
-Los encabezados del archivo CSV a importar se supone que coinciden con los  "nombres de variables" de los elementos de la encuesta.<br /> 
+Los encabezados del archivo CSV a importar se supone que coinciden con los  "nombres de variables" de los elementos de la encuesta.<br />
 Actualmente no está permitida la importación de elementos anexos.<br />
 Los encabezados desconocidos romperán el proceso de importación.<br />
 "Ownerid" (ID_del_propietario) puede ser incluido entre los encabezados. Asignará la propiedad de cada respuesta importada (aunque la encuesta fuese anónima).<br />
