@@ -1,21 +1,28 @@
 -> does it make sense the research per long text?
--> "Manage relation" page has lots of features, but the consequence is that the page is "cluttered" with too many settings. Obviously a Show/Hide advanced button is needed. (thanks to JR)
--> The Autofill question message "Content will be added at submit time" should not be displayed to the Student when taking the Survey, as it does not mean anything to him. That is a message for Teacher, not Student. (thanks to JR)
+-> "Manage relation" page has lots of features, but the consequence is that the page is "cluttered" with too many settings. 
+Obviously a Show/Hide advanced button is needed. (thanks to JR)
+-> The Autofill question message "Content will be added at submit time" should not be displayed to the Student when taking the Survey, 
+as it does not mean anything to him. That is a message for Teacher, not Student. (thanks to JR)
 -> grades?
 -> surveypro_get_view_actions()?
 -> surveypro_get_post_actions()?
 -> surveypro_scale_used($surveyproid, $scaleid)?
 -> surveypro_scale_used_anywhere($scaleid)?
 -> unit test (they are a must)
--> *** Crucial known issue that is not fixable in my opinion. I apply a master template. I make a surveypro with it. Tomorrow I update the master template with a newer version. This new version has one more item in the middle. Surveys built with the old release of the plugin will stop working fine as they will find in the right position string of a different template.
+-> *** Crucial known issue that is not fixable in my opinion. I apply a master template. 
+I make a surveypro with it. Tomorrow I update the master template with a newer version. 
+This new version has one more item in the middle. 
+Surveys built with the old release of the plugin will stop working fine as they will find in the right position string of a different template.
 -> possible better solution: use the first 32 chars of the question escaped
 -> is the autofill field saved to userdata even if it is not shown?
 -> allow upperbound date/datetime == to now
 -> the option "not answered" is missing in the search form even if a "Answer not provided" is part of an item
 -> the workaround suggested by Marina Glancy in MDL-42946 doesn't work if the label is crafted into the tag <p>.
--> mform elements in MMM have different sizes probably because of /theme/yui_combo.php?3.13.0/cssreset/cssreset.css&3.13.0/cssfonts/cssfonts.css&3.13.0/cssgrids/cssgrids.css&3.13.0/cssbase/cssbase.css
+-> mform elements in MMM have different sizes probably because of /theme/yui_combo.php?
+3.13.0/cssreset/cssreset.css&3.13.0/cssfonts/cssfonts.css&3.13.0/cssgrids/cssgrids.css&3.13.0/cssbase/cssbase.css
 
-1) Still it seems to be something strange when handling fileareas. I just grepped by get_area_files and found a bunch of them new/strange for me. ELOY has to review this!
+1) Still it seems to be something strange when handling fileareas. 
+I just grepped by get_area_files and found a bunch of them new/strange for me. ELOY has to review this!
 > Please let me know better what do you mean. I can not understand it.
 
 2)
@@ -24,13 +31,16 @@
 > literals is ok.
 > more yet, if there are groups... then everything (listing, reports, graphs)
 > must be by group.
-things like the "phantom tabs" (sorry for the expression, lol, just joking) or the way "attempts" are performed... are substandard (to name it in some way).
+things like the "phantom tabs" (sorry for the expression, lol, just joking) or the way "attempts" are performed... 
+are substandard (to name it in some way).
 
 2.a) A read me about what's missing (migration from old, usability review and discussion)
 
-2.b) A commit (decided by you) where you want me to cut history. Can be current commit of anything else if you want to preserve your latest commits for any reason.
+2.b) A commit (decided by you) where you want me to cut history. 
+Can be current commit of anything else if you want to preserve your latest commits for any reason.
 
-2.c) A BIG WARNING saying that it must not be used in production sites with existing old surveypros because they will be erased completely (beacuse of 1).
+2.c) A BIG WARNING saying that it must not be used in production sites with existing old surveypros 
+because they will be erased completely (beacuse of 1).
 README.md (so it will display nicely in github) ?
 
 2.d) Delete any other todo and similar.
