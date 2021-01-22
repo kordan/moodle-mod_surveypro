@@ -20,7 +20,8 @@ They are:
 -> 10) item type "multiselect" to ask for question like: "What do you usually get for breakfast? milk, sugar, jam, chocolate, other..."
 -> 11) item type "numeric" to ask for question like: "How the mean temperature of the room is supposed to be?"
 -> 12) item type "radiobutton" to ask for question like: "Which summer holidays place do you prefer? sea, mountain, lake, hills, desert..."
--> 13) item type "rate" to ask for question like: "How confident are you with the following languages? EN, ES, IT, FR. Mother tongue, Very confident, Not enought, Completely unknown."
+-> 13) item type "rate" to ask for question like: "How confident are you with the following languages?
+EN, ES, IT, FR. Mother tongue, Very confident, Not enought, Completely unknown."
 -> 14) item type "recurrence" to ask for question like: "When do you usually celebrate your name-day?" A: July 7
 -> 15) item type "select" to ask for question like: "Which summer holidays place do you prefer? sea, mountain, lake, hills, desert..."
 -> 16) item type "shortdate" to ask for question like: "When did you buy your current car?" A: August 2002
@@ -35,12 +36,15 @@ They are:
 
 User can choose, setup and include them into search forms.
 They all have a long list of features even to verify the content provided by the user.
-Surveypro foreseen conditional branching, sort of fields during export, item indentation, custom number, feature to hide element, groups of users with "extended" permissions, mandatory/optional element, element limited to people with a specific permission
+Surveypro foreseen conditional branching, sort of fields during export, item indentation, custom number, 
+feature to hide element, groups of users with "extended" permissions, mandatory/optional element, 
+element limited to people with a specific permission
 
 ************
 known issues
 ************
-- long text (using html editor) as child is not disabled by the parent even if in the same page: see MDL-25067. I found it is caused by the js of the editor.
+- long text (using html editor) as child is not disabled by the parent even if in the same page: 
+see MDL-25067. I found it is caused by the js of the editor.
 - module icons are missing from head/admin/plugins.php overview report: see MDL-45723
 
 Pending tracker issues:
@@ -64,9 +68,12 @@ MDL-62634: theme boost duplicates classes for checkbox mform elements
 Issues that were not fixed but that are no longer a problem:
 ************
 MDL-29421: Form elements editor and filepicker do not support freezing. [Fixed locally by overriding corresponding class]
-MDL-31796: $mform->disabledIf doesn't work for 'filemanager' mform elements. [Fixed along the years witout any notification in this tracker issue. Today (May 2015) it seems to work as expected]
-MDL-45815: filemanager mform elements are completely discarded in readonly forms. [Fixed locally by overriding corresponding class]
-MDL-43704: mform multiselect element is not disabled by the grouped checkbox (as many of other mform elements do) [Fixed with the workaround described in the tracker]
+MDL-31796: $mform->disabledIf doesn't work for 'filemanager' mform elements. 
+[Fixed along the years witout any notification in this tracker issue. Today (May 2015) it seems to work as expected]
+MDL-45815: filemanager mform elements are completely discarded in readonly forms. 
+[Fixed locally by overriding corresponding class]
+MDL-43704: mform multiselect element is not disabled by the grouped checkbox (as many of other mform elements do) 
+[Fixed with the workaround described in the tracker]
 MDL-28194: I am in trouble assigning syles to some mform element.
 MDL-34815: Disabled mform items need to be skipped during validation (and more).
 MDL-43689: With set of advanced checkboxes, if the set is disabled each single chechbox returns its default value instead of its current value
