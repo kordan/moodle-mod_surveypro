@@ -28,19 +28,28 @@ You can get the first through Administration -> Plugins -> Activity modules -> S
 
 This set of settings includes...
 ... for the surveypro module:
-• Max input delay: the maximum time allowed to finalize a surveypro response once paused. A surveypro can be paused so the user is alloed to stop its compilation and start it again in a second time.
-• Extra note in search form: Sometimes the content of the element question is not enough to exactly describe what an element is really asking. Because of this elements can be equipped with some extra detail. Must these details be displayed in the search form too?
-• Filling instruction in search form: some elements are equipped with a short "Instruction guide". For instance: "An email is expected here" or "Only numbers lower than 50 are expected here". Must these "Instruction guides" be displayed in the search form too?
+• Max input delay: the maximum time allowed to finalize a surveypro response once paused. 
+A surveypro can be paused so the user is alloed to stop its compilation and start it again in a second time.
+• Extra note in search form: Sometimes the content of the element question is not enough to exactly describe 
+what an element is really asking. Because of this elements can be equipped with some extra detail. 
+Must these details be displayed in the search form too?
+• Filling instruction in search form: some elements are equipped with a short "Instruction guide". 
+For instance: "An email is expected here" or "Only numbers lower than 50 are expected here". 
+Must these "Instruction guides" be displayed in the search form too?
 
 ... for "age" surveypro plugin:
-• Maximum age: simply the maximum age allowed all over the site. This value can be further restricted by a similar setting at element level.
+• Maximum age: simply the maximum age allowed all over the site. 
+This value can be further restricted by a similar setting at element level.
 
 ... for "integer" surveypro plugin:
-• Maximum integer: simply the maximum integer allowed all over the site. This value can be further restricted by a similar setting at element level.
+• Maximum integer: simply the maximum integer allowed all over the site. 
+This value can be further restricted by a similar setting at element level.
 
 ... for "ATTLS (20 item version)", "COLLES (Actual)" ,"COLLES (Preferred and Actual)" and "COLLES (Preferred)" surveypro plugin:
-• Position of attls elements question: the place where the question of each element will be located. The position usually depends from the size of the monitor of the foreseen class.
-• Style of the choice elements: Standard surveys like ATTLS, COLLES and CI are mainly made by multichoice questions. They can be realized using radiobuttons or drop down menu both.
+• Position of attls elements question: the place where the question of each element will be located. 
+The position usually depends from the size of the monitor of the foreseen class.
+• Style of the choice elements: Standard surveys like ATTLS, COLLES and CI are mainly made by multichoice questions. 
+They can be realized using radiobuttons or drop down menu both.
 
 In addition to global site settings level, affecting EACH surveypro, surveypro provides a set of instance level settings.
 They are:
@@ -48,13 +57,17 @@ They are:
 • Available to: the last date available for students to fill a survey.
 • Branches increase pagese: a branch in the survey is always followed by an automatic page break in the survey.
 • Allow Save/Resume: allow to pause a survey in order to resume and submit it in a second data entry session.
-• Preserve history: Preserves saved response denying any modification to DEFINITELY submitted answers. Until the response is "in progress" (whether used in conjunction with "Allow Save/Resume" setting) you will be allowed to continue its compilation. Once it is submitted as "closed" if you go to edit it again, you will be forced to edit and save a copy of it in order to preserve the history of your original response.
+• Preserve history: Preserves saved response denying any modification to DEFINITELY submitted answers. 
+Until the response is "in progress" (whether used in conjunction with "Allow Save/Resume" setting) 
+you will be allowed to continue its compilation. Once it is submitted as "closed" if you go to edit it again, 
+you will be forced to edit and save a copy of it in order to preserve the history of your original response.
 • Anonymous responses: the responses management table does not show the owner of the responses and reports are anonymous.
 • Minimum allowed year: the minimum year the module will take into account. This value can be further restricted at element level.
 • Maximum allowed year: the maximum year the module will take into account. This value can be further restricted at element level.
 • Custom style sheet: a personal cascade style sheet (css) for the current surveypro only
 • Maximum allowed attempts: The maximum number of responses a student is allowed to submit for this activity.
-• Notify role: The role whose members will receive a notification email at each user response. The email will only advise about response from the user, not about its content and without sender details.
+• Notify role: The role whose members will receive a notification email at each user response. 
+The email will only advise about response from the user, not about its content and without sender details.
 • More notifications: Some additional email addresses to notify about new responses. Addresses are supposed to be one per row.
 • Thanks web page: The html code of the web page the user get at each response closing time.
 • Deadline of risky modification session: Allow users permitted to manage survey elements to force modifications of this survey even once already answered.
@@ -93,7 +106,8 @@ The 4 format type are:
 • element type "label" to display labels in the surveypro page
 
 Each element (== fields + formats) is hight configurable.
-It has part of its settings shared with all the other fields and formats and, on the opposite side, has a very special set of personal settings.
+It has part of its settings shared with all the other fields and formats and, 
+on the opposite side, has a very special set of personal settings.
 
 The common field settings are usually divided into three fieldset:
 • General settings
@@ -107,14 +121,24 @@ and they are:
 • General settings->Content: the text content of the element as it will be shown to remote user.
 • General settings->Required(*): a flag to make the element mandatory or optional
 • General settings->Indent: the indent of the element alias the left margin the element will respect once drawn.
-• General settings->Question position: the position of the content of the element. It can be to the left of the user interface, in a dedicated row just upper the interface to enter the answer or in a dedicated row just upper the interface spanning all the row. Note: The left position forces element contents to plain text without images. The two 'top' positions are usually needed for contents longer than few words and are required for questions containing images!
-• General settings->Element number: the custom number of the element. It may be a natural number such as 1 or 1.a or whatever you may choose. Take in mind that you are responsible for coherence of that numbers. Because of this take care if you plan to change the order of the elements.
-• General settings->Hide filling instruction(*): elements are equipped with filling instructions explaining what each user is supposed to enter in the field. This flag allow to hide this instructions.
+• General settings->Question position: the position of the content of the element. 
+It can be to the left of the user interface, in a dedicated row just upper the interface to enter the answer 
+or in a dedicated row just upper the interface spanning all the row. 
+Note: The left position forces element contents to plain text without images. 
+The two 'top' positions are usually needed for contents longer than few words and are required for questions containing images!
+• General settings->Element number: the custom number of the element. 
+It may be a natural number such as 1 or 1.a or whatever you may choose. 
+Take in mind that you are responsible for coherence of that numbers. 
+Because of this take care if you plan to change the order of the elements.
+• General settings->Hide filling instruction(*): elements are equipped with filling instructions explaining 
+what each user is supposed to enter in the field. This flag allow to hide this instructions.
 • General settings->Variable: the name of the element once it is downloaded
-• General settings->Additional note: use this option to add a personal comment to your item. It help improving instructions to fill the element.
+• General settings->Additional note: use this option to add a personal comment to your item. 
+It help improving instructions to fill the element.
 (*) few field may miss this setting because not applicable
 
-• Availability->Hidden: to hide the element. Hided elements will not be available at all. You can consider these elements as not part of the survey.
+• Availability->Hidden: to hide the element. Hided elements will not be available at all. 
+You can consider these elements as not part of the survey.
 • Availability->Search form: <<TODO: add the the description>>
 • Availability->Reserved element: <<TODO: add the the description>>
 
