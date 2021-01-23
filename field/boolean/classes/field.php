@@ -243,7 +243,7 @@ class surveyprofield_boolean_field extends mod_surveypro_itembase {
         $constraints[] = $optionstr.': 0';
         $constraints[] = $optionstr.': 1';
 
-        return implode($constraints, '<br />');
+        return implode('<br />', $constraints);
     }
 
     // MARK get.

@@ -250,7 +250,7 @@ class surveyprofield_multiselect_field extends mod_surveypro_itembase {
             $constraints[] = $optionstr.$labelsep.$value;
         }
 
-        return implode($constraints, '<br />');
+        return implode('<br />', $constraints);
     }
 
     // MARK get.

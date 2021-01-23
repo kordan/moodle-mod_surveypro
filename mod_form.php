@@ -206,7 +206,7 @@ class mod_surveypro_mod_form extends moodleform_mod {
 
         // Mailroles.
         if (isset($data->mailroles)) {
-            $data->mailroles = implode($data->mailroles, ',');
+            $data->mailroles = implode(',', $data->mailroles);
         } else {
             $data->mailroles = '';
         }

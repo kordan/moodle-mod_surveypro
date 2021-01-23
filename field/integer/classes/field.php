@@ -246,7 +246,7 @@ class surveyprofield_integer_field extends mod_surveypro_itembase {
         $constraints[] = get_string('lowerbound', 'surveyprofield_integer').$labelsep.$this->lowerbound;
         $constraints[] = get_string('upperbound', 'surveyprofield_integer').$labelsep.$this->upperbound;
 
-        return implode($constraints, '<br />');
+        return implode('<br />', $constraints);
     }
 
     // MARK get.
