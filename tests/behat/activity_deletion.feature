@@ -46,6 +46,6 @@ Feature: verify instance deletion
     And I log in as "teacher1"
     And I am on "Test activity deletion" course homepage
     Then I should see "Activity delenda est" in the "#region-main" "css_element"
-    And I navigate to "Turn editing on" in current page administration
+    When I turn editing mode on
     And I delete "Activity delenda est" activity
     Then I should not see "Activity delenda est" in the "#region-main" "css_element"
