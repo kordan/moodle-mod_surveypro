@@ -4,7 +4,7 @@ Feature: Load and apply usertemplates in order to test, among others, partial it
   As teacher1
   I overwite usertemplates with usertemplates
 
-  @javascript
+  @javascript @_file_upload
   Scenario: load and apply a usertemplate
     Given the following "courses" exist:
       | fullname              | shortname          | category | groupmode |

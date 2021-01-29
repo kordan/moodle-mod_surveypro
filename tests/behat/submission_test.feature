@@ -4,7 +4,7 @@ Feature: make a submission test for each available item
   As student1
   I fill a surveypro and go to see responses
 
-  @javascript
+  @javascript @_file_upload
   Scenario: test a submission works fine for each available core item
     Given the following "courses" exist:
       | fullname                                | shortname       | category | groupmode |

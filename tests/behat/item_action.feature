@@ -130,7 +130,7 @@ Feature: Test item actions
     Then I should see "0" searchable items
     Then I should see "6" not searchable items
 
-  @javascript
+  @javascript @_file_upload
   Scenario: test complex item actions
     Given the following "activities" exist:
       | activity  | name                      | intro       | course  | idnumber   |
