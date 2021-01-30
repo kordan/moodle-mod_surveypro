@@ -51,7 +51,7 @@ class mod_surveypro_utility_mform {
                 if (file_exists($filepath) && is_dir($filepath)) {
                     $classfiles = scandir($filepath);
                     foreach ($classfiles as $classfile) {
-                        if ($classfile{0} == '.') { // Hidden files, '.' and '..'.
+                        if ($classfile[0] == '.') { // Hidden files, '.' and '..'.
                             continue;
                         }
                         $basename = basename($classfile, '.php');
