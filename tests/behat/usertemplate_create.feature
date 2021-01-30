@@ -4,7 +4,7 @@ Feature: Load, apply and save a usertemplate in order to test, among others, use
   As teacher1
   I overwite usertemplates with usertemplates
 
-  @javascript
+  @javascript @_file_upload
   Scenario: load and save a usertemplate
     Given the following "courses" exist:
       | fullname               | shortname           | category | groupmode |

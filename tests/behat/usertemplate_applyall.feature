@@ -4,7 +4,7 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
   As teacher1
   I apply all available usertemplates
 
-  @javascript
+  @javascript @_file_upload
   Scenario: load and apply each usertemplate
     Given the following "courses" exist:
       | fullname                   | shortname               | category | groupmode |

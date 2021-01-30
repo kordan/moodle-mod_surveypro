@@ -4,7 +4,7 @@ Feature: make a submission test for "fileupload" item
   As student1
   I add an attachment item, I fill it and I go to see responses
 
-  @javascript
+  @javascript @_file_upload
   Scenario: test a submission works fine for attachment item
     Given the following "courses" exist:
       | fullname                            | shortname                  | category |
