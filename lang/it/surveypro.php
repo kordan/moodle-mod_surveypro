@@ -68,6 +68,7 @@ $string['basic_editthanks'] = 'La modifica apportata è stata registrata! Grazie
 $string['basic_submitthanks'] = 'La tua risposta è inviata correttamente. Grazie per aver partecipato all\'indagine.';
 $string['count_allitems'] = 'Questionario costituito da {$a} elementi.';
 $string['count_hiddenitems'] = '({$a} nascosti)';
+$string['count_pages'] = 'Distribuito su {$a} pagine.';
 $string['coverpage_welcome'] = 'Benvenuto in: {$a}';
 $string['customnumber_help'] = 'Definisce un numero personalizzato per l\'elemento. Può essere un numero intero come "1" o una qualunque altra scelta come, per esempio: 1a, A, 1.1.a, #1, A, A.1... Si consideri la coerenza della numerazione è lasciata alla tua responsabilità. Per questo, si faccia sempre una doppia verifica qualora si scegliesse di modificare l\'ordine delle domande.';
 $string['customnumber'] = 'Numero dell\'elemento';
@@ -113,6 +114,7 @@ $string['manageusertemplates'] = '<a href="{$a}">Gestisci i template utente</a>'
 $string['maxentries'] = 'Numero massimo di risposte consentite';
 $string['nextformpage'] = 'Pagina successiva >>';
 $string['noanswer'] = 'Nessuna risposta';
+$string['noitemsfoundadmin'] = 'Questa indagine non contiene domande. Si usi il comando "{$a}" per aaggiungerne qualcuna.';
 $string['nomoresubmissionsallowed'] = 'Il massimo numero di {$a} invii è già stato raggiunto.<br />Non sono consentiti ulteriori invii.';
 $string['note'] = 'Nota:';
 $string['opened'] = 'Data di apertura';
@@ -148,6 +150,7 @@ $string['timecreated'] = 'Creato';
 $string['timemodified'] = 'Modificato';
 $string['variable_help'] = 'Il nome della variabile associata all\'informazione richiesta.';
 $string['variable'] = 'Variabile';
+$string['welcome_emptysurvey'] = 'Questa indagine non contiene domande. Per costruire una nuova scheda è possibile aggiungere domande una ad una fino a realizzare uno strumento che aderisca al meglio alle proprie necessità<br />oppure importare un master template per ottenere un scheda predefinita.';
 $string['willclose'] = 'Data di chiusura';
 $string['yoursubmissions'] = 'Le tue risposte \'{$a->status}\': {$a->responsescount}';
 
