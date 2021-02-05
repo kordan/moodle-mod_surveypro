@@ -136,10 +136,12 @@ class surveyproreport_responsesperuser_report extends mod_surveypro_reportbase {
      * @return array($sql, $whereparams);
      */
     public function get_submissions_sql() {
+        $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
+
         $submissiontable = 'SELECT userid, surveyproid, count(userid) as attempts
                             FROM {surveypro_submission}
                             GROUP BY userid, surveyproid';
-        $sql = 'SELECT '.user_picture::fields('u').', s.attempts
+        $sql = 'SELECT s.attempts'.$userfieldsapi->selects.'
                 FROM {user} u
                 JOIN ('.$submissiontable.') s ON s.userid = u.id';
 

@@ -872,8 +872,9 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
             $roles = explode(',', $this->surveypro->mailroles);
             if (count($mygroups)) {
                 $recipients = array();
+                $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
+                $fields = 'u.maildisplay, u.mailformat'.$userfieldsapi->selects;
                 foreach ($mygroups as $mygroup) {
-                    $fields = user_picture::fields('u').', u.maildisplay, u.mailformat';
                     $groupmemberroles = groups_get_members_by_role($mygroup, $COURSE->id, $fields);
 
                     foreach ($roles as $role) {
@@ -890,6 +891,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
             } else {
                 // get_enrolled_users($courseid, $options = array()) <-- role is missing.
                 // get_users_from_role_on_context($role, $coursecontext); <-- this is ok but I need to call it once per $role.
+                $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
                 $whereparams = array();
 
                 list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);
@@ -899,7 +901,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
                 $whereparams = array_merge($whereparams, $subparams);
 
                 $whereparams['contextid'] = $coursecontext->id;
-                $sql = 'SELECT DISTINCT '.user_picture::fields('u').', u.maildisplay, u.mailformat
+                $sql = 'SELECT DISTINCT u.maildisplay, u.mailformat'.$userfieldsapi->selects.'
                         FROM {user} u
                             JOIN ('.$enrolsql.') eu ON eu.id = u.id
                             JOIN {role_assignments} ra ON ra.userid = u.id

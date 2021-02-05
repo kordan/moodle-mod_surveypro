@@ -194,7 +194,9 @@ class mod_surveypro_submission {
         $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
         $canaccessallgroups = has_capability('moodle/site:accessallgroups', $this->context);
 
-        $emptysql = 'SELECT DISTINCT s.*, s.id as submissionid, '.user_picture::fields('u').'
+        $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
+
+        $emptysql = 'SELECT DISTINCT s.*, s.id as submissionid'.$userfieldsapi->selects.'
                      FROM {surveypro_submission} s
                          JOIN {user} u ON u.id = s.userid
                      WHERE u.id = :userid';
@@ -224,8 +226,8 @@ class mod_surveypro_submission {
 
         $whereparams = array();
 
-        $sql = 'SELECT s.id as submissionid, s.surveyproid, s.status, s.userid, s.timecreated, s.timemodified, ';
-        $sql .= user_picture::fields('u');
+        $sql = 'SELECT s.id as submissionid, s.surveyproid, s.status, s.userid, s.timecreated, s.timemodified';
+        $sql .= $userfieldsapi->selects;
         $sql .= ' FROM {surveypro_submission} s
                   JOIN {user} u ON u.id = s.userid';
 
@@ -317,7 +319,9 @@ class mod_surveypro_submission {
         $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
         $canaccessallgroups = has_capability('moodle/site:accessallgroups', $this->context);
 
-        $emptysql = 'SELECT DISTINCT s.*, s.id as submissionid, '.user_picture::fields('u').'
+        $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
+
+        $emptysql = 'SELECT DISTINCT s.*, s.id as submissionid'.$userfieldsapi->selects.'
                      FROM {surveypro_submission} s
                          JOIN {user} u ON u.id = s.userid
                      WHERE u.id = :userid';

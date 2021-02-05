@@ -167,8 +167,9 @@ class surveyproreport_attachments_report extends mod_surveypro_reportbase {
     public function get_submissions_sql() {
         global $COURSE, $DB;
 
+        $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
         $whereparams = array();
-        $sql = 'SELECT '.user_picture::fields('u').', s.id as submissionid
+        $sql = 'SELECT s.id as submissionid'.$userfieldsapi->selects.'
                 FROM {user} u
                 JOIN {surveypro_submission} s ON s.userid = u.id';
 
