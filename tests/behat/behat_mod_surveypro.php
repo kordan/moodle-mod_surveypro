@@ -43,20 +43,6 @@ use Behat\Behat\Context\Step\Given as Given,
 class behat_mod_surveypro extends behat_base {
 
     /**
-     * Checks the field matches the multiline value.
-     *
-     * @Then /^the field "(?P<field_string>(?:[^"]|\\")*)" matches multiline:$/
-     * @throws ElementNotFoundException Thrown by behat_base::find
-     * @param string $field
-     * @param PyStringNode $value
-     * @return void
-     */
-    public function the_field_matches_multiline($field, PyStringNode $value) {
-        $this->execute('behat_forms::the_field_matches_value', array($field, (string)$value));
-        // $this->the_field_matches_value($field, (string)$value);
-    }
-
-    /**
      * Check the number of displayed submissions.
      *
      * @throws ExpectationException
