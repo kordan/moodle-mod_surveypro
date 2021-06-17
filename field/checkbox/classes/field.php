@@ -159,7 +159,7 @@ class surveyprofield_checkbox_field extends mod_surveypro_itembase {
      * @param int $itemid Optional item ID
      * @param bool $getparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise
      */
-    public function __construct($cm, $surveypro, $itemid=0, $getparentcontent) {
+    public function __construct($cm, $surveypro, $itemid, $getparentcontent) {
         parent::__construct($cm, $surveypro, $itemid, $getparentcontent);
 
         // List of properties set to static values.
