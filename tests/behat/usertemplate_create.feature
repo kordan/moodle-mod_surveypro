@@ -18,11 +18,8 @@ Feature: Load, apply and save a usertemplate in order to test, among others, use
     And the following "activities" exist:
       | activity  | name                  | intro                              | course              | idnumber   |
       | surveypro | Create a usertemplate | Surveypro to cretae a usertemplate | Create usertemplate | surveypro1 |
-    And I log in as "teacher1"
-    And I am on "To create usertemplate" course homepage
-    And I follow "Create a usertemplate"
 
-    And I navigate to "User templates > Import" in current page administration
+    When I am on the "Create a usertemplate" "mod_surveypro > User templates Import" page logged in as "teacher1"
     And I upload "mod/surveypro/tests/fixtures/usertemplate/parent-child_2015123000.xml" file to "Choose files to import" filemanager
     And I upload "mod/surveypro/tests/fixtures/usertemplate/MMM_2015123000.xml" file to "Choose files to import" filemanager
 
