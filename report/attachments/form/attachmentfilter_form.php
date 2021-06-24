@@ -88,10 +88,11 @@ class surveyproreport_attachmentfilterform extends moodleform {
 
         // Userid.
         $coursecontext = context_course::instance($COURSE->id);
+        $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
 
         $whereparams = array();
         $whereparams['surveyproid'] = $surveypro->id;
-        $sql = 'SELECT u.id as userid, '.user_picture::fields('u').'
+        $sql = 'SELECT u.id as userid'.$userfieldsapi->selects.'
                 FROM {user} u
                     JOIN {surveypro_submission} s ON s.userid = u.id';
         if (!$canviewhiddenactivities) {

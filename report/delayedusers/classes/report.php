@@ -131,13 +131,15 @@ class surveyproreport_delayedusers_report extends mod_surveypro_reportbase {
      */
     public function get_submissions_sql() {
         $whereparams = array();
+        $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
+
         $submissiontable = 'SELECT userid, surveyproid
                             FROM {surveypro_submission}
                             WHERE surveyproid = :subsurveyproid
                             GROUP BY userid, surveyproid';
         $whereparams['subsurveyproid'] = $this->surveypro->id;
 
-        $sql = 'SELECT '.user_picture::fields('u').', s.surveyproid
+        $sql = 'SELECT s.surveyproid'.$userfieldsapi->selects.'
                 FROM {user} u
                 LEFT JOIN ('.$submissiontable.') s ON s.userid = u.id';
 
