@@ -950,12 +950,8 @@ class mod_surveypro_utility_layout {
      * @param bool $visibility
      * @return void
      */
-    public function items_set_visibility($whereparams=null, $visibility) {
+    public function items_set_visibility($whereparams, $visibility) {
         global $DB;
-
-        if ( ($visibility != 0) && ($visibility != 1) ) {
-            debugging('Bad parameters passed to items_set_visibility', DEBUG_DEVELOPER);
-        }
 
         if (empty($whereparams)) {
             $whereparams = array();
@@ -963,6 +959,10 @@ class mod_surveypro_utility_layout {
         // Just in case the call is missing the surveypro id, I add it.
         if (!array_key_exists('surveyproid', $whereparams)) {
             $whereparams['surveyproid'] = $this->surveypro->id;
+        }
+
+        if ( ($visibility != 0) && ($visibility != 1) ) {
+            debugging('Bad parameters passed to items_set_visibility', DEBUG_DEVELOPER);
         }
 
         $whereparams['hidden'] = $visibility;

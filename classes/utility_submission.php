@@ -72,12 +72,8 @@ class mod_surveypro_utility_submission {
      * @param bool $status
      * @return void
      */
-    public function submissions_set_status($whereparams=null, $status) {
+    public function submissions_set_status($whereparams, $status) {
         global $DB;
-
-        if ( ($status != SURVEYPRO_STATUSCLOSED) && ($status != SURVEYPRO_STATUSINPROGRESS) ) {
-            debugging('Bad parameters passed to submissions_set_status', DEBUG_DEVELOPER);
-        }
 
         if (empty($whereparams)) {
             $whereparams = array();
@@ -85,6 +81,10 @@ class mod_surveypro_utility_submission {
         // Just in case the call is missing the surveypro id, I add it.
         if (!array_key_exists('surveyproid', $whereparams)) {
             $whereparams['surveyproid'] = $this->surveypro->id;
+        }
+
+        if ( ($status != SURVEYPRO_STATUSCLOSED) && ($status != SURVEYPRO_STATUSINPROGRESS) ) {
+            debugging('Bad parameters passed to submissions_set_status', DEBUG_DEVELOPER);
         }
 
         $whereparams['status'] = 1 - $status;
