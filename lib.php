@@ -725,15 +725,12 @@ function surveypro_update_grades(stdClass $surveypro, $userid = 0) {
 // File API.
 
 /**
- * Returns the lists of all browsable file areas within the given module context
+ * Lists all browsable file areas
  *
- * The file area 'intro' for the activity introduction field is added automatically
- * by {@link file_browser::get_file_info_context_module()}
- *
- * @param \stdClass $course
- * @param \stdClass $cm
- * @param \stdClass $context
- * @return array of [(string)filearea] => (string)description
+ * @param stdClass $course course object
+ * @param stdClass $cm course module object
+ * @param stdClass $context context object
+ * @return array
  */
 function surveypro_get_file_areas($course, $cm, $context) {
     return array();
