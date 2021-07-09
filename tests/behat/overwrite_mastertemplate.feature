@@ -5,7 +5,7 @@ Feature: verify the deletion of old items works as expected during master templa
   I need apply mastertemplates one over the previous
 
   @javascript
-  Scenario: test that deletion of old items works as expected when apply master templates
+  Scenario: deletion of old items works as expected when apply master templates
     Given the following "courses" exist:
       | fullname                 | shortname                | category | groupmode |
       | Overwrite mastertemplate | Overwrite mastertemplate | 0        | 0         |
@@ -29,7 +29,7 @@ Feature: verify the deletion of old items works as expected during master templa
     And I follow "Elements" page in tab bar
     And I press "Yes"
 
-    And I navigate to "Master templates > Apply" in current page administration
+    When I am on the "To overwrite master templates" "mod_surveypro > Master templates Apply" page
     And I set the field "mastertemplate" to "COLLES (Preferred and Actual)"
     And I press "Apply"
     Then I should see "I prefer that my learning focuses on issues that interest me."
@@ -38,7 +38,7 @@ Feature: verify the deletion of old items works as expected during master templa
     And I follow "Elements" page in tab bar
     And I press "Yes"
 
-    And I navigate to "Master templates > Apply" in current page administration
+    When I am on the "To overwrite master templates" "mod_surveypro > Master templates Apply" page
     And I set the field "mastertemplate" to "COLLES (Actual)"
     And I press "Apply"
     Then I should see "In this online unit"
@@ -47,7 +47,7 @@ Feature: verify the deletion of old items works as expected during master templa
     And I follow "Elements" page in tab bar
     And I press "Yes"
 
-    And I navigate to "Master templates > Apply" in current page administration
+    When I am on the "To overwrite master templates" "mod_surveypro > Master templates Apply" page
     And I set the field "mastertemplate" to "COLLES (Preferred)"
     And I press "Apply"
     Then I should see "In this online unit"
@@ -56,7 +56,7 @@ Feature: verify the deletion of old items works as expected during master templa
     And I follow "Elements" page in tab bar
     And I press "Yes"
 
-    And I navigate to "Master templates > Apply" in current page administration
+    When I am on the "To overwrite master templates" "mod_surveypro > Master templates Apply" page
     And I set the field "mastertemplate" to "Critical Incidents"
     And I press "Apply"
     Then I should see "While thinking about recent events in this class, answer the questions below."

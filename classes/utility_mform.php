@@ -38,7 +38,7 @@ class mod_surveypro_utility_mform {
      *
      * @return void
      */
-    static public function register_form_elements() {
+    public static function register_form_elements() {
         global $CFG;
 
         $basepath = $CFG->dirroot.'/mod/surveypro';

@@ -43,17 +43,71 @@ use Behat\Behat\Context\Step\Given as Given,
 class behat_mod_surveypro extends behat_base {
 
     /**
-     * Checks the field matches the multiline value.
+     * Convert page names to URLs for steps like 'When I am on the "[page name]" page'.
      *
-     * @Then /^the field "(?P<field_string>(?:[^"]|\\")*)" matches multiline:$/
-     * @throws ElementNotFoundException Thrown by behat_base::find
-     * @param string $field
-     * @param PyStringNode $value
-     * @return void
+     * Recognised page names are:
+     * | None so far!      |                                                              |
+     *
+     * @param string $page name of the page, with the component name removed e.g. 'Admin notification'.
+     * @return moodle_url the corresponding URL.
+     * @throws Exception with a meaningful error message if the specified page cannot be found.
      */
-    public function the_field_matches_multiline($field, PyStringNode $value) {
-        $this->execute('behat_forms::the_field_matches_value', array($field, (string)$value));
-        // $this->the_field_matches_value($field, (string)$value);
+    protected function resolve_surveypro_page_url(string $page): moodle_url {
+        switch ($page) {
+            default:
+                throw new Exception('Unrecognised surveypro page type "' . $page . '."');
+        }
+    }
+
+    /**
+     * Convert page names to URLs for steps like 'When I am on the "[identifier]" "[page type]" page'.
+     *
+     * Recognised page names are:
+     * | pagetype            | name meaning       | description                                            |
+     * | Usertemplate Import | surveypro name     | The page to load user templater (utemplate_import.php) |
+     *
+     * @param string $type identifies which type of page this is, e.g. 'Attempt review'.
+     * @param string $identifier identifies the particular page, e.g. 'Test surveypro > student > Attempt 1'.
+     * @return moodle_url the corresponding URL.
+     * @throws Exception with a meaningful error message if the specified page cannot be found.
+     */
+    protected function resolve_page_instance_url(string $type, string $identifier): moodle_url {
+        global $DB;
+
+        switch ($type) {
+            case 'User templates Import':
+                return new moodle_url('/mod/surveypro/utemplate_import.php',
+                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id]);
+
+            case 'Master templates Apply':
+                return new moodle_url('/mod/surveypro/mtemplate_apply.php',
+                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id]);
+
+            default:
+                throw new Exception('Unrecognised surveypro page type "' . $type . '."');
+        }
+    }
+
+    /**
+     * Get a surveypro cmid from the surveypro name.
+     *
+     * @param string $name surveypro name.
+     * @return stdClass cm from get_coursemodule_from_instance.
+     */
+    protected function get_cm_by_surveypro_name(string $name): stdClass {
+        $surveypro = $this->get_surveypro_by_name($name);
+        return get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course);
+    }
+
+    /**
+     * Get a surveypro by name.
+     *
+     * @param string $name surveypro name.
+     * @return stdClass the corresponding DB row.
+     */
+    protected function get_surveypro_by_name(string $name): stdClass {
+        global $DB;
+        return $DB->get_record('surveypro', array('name' => $name), '*', MUST_EXIST);
     }
 
     /**

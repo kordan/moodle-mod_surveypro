@@ -8,7 +8,6 @@ Feature: Test item actions
     Given the following "courses" exist:
       | fullname          | shortname | category | numsections |
       | Test item actions | Test IA   | 0        | 3           |
-    And I log in as "admin"
 
   @javascript
   Scenario: test simple item actions
@@ -39,6 +38,7 @@ Feature: Test item actions
       | format | label       |
       | format | fieldset    |
       | format | fieldsetend |
+    And I log in as "admin"
 
     And I am on "Test item actions" course homepage
     And I follow "Test simple item actions"
@@ -135,10 +135,7 @@ Feature: Test item actions
     Given the following "activities" exist:
       | activity  | name                      | intro       | course  | idnumber   |
       | surveypro | Test complex item actions | To test CIA | Test IA | surveypro1 |
-    And I am on "Test item actions" course homepage
-    And I follow "Test complex item actions"
-
-    And I navigate to "User templates > Import" in current page administration
+    When I am on the "Test complex item actions" "mod_surveypro > User templates Import" page logged in as "admin"
     And I upload "mod/surveypro/tests/fixtures/usertemplate/item_action_test.xml" file to "Choose files to import" filemanager
 
     And I set the field "Sharing level" to "Course: Test item actions"

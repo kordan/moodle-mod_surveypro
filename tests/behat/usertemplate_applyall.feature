@@ -18,11 +18,8 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
     And the following "activities" exist:
       | activity  | name      | intro                                | course                  | idnumber   |
       | surveypro | Apply all | Surveypro to apply all usertemplates | Apply each usertemplate | surveypro1 |
-    And I log in as "teacher1"
-    And I am on "To apply all usertemplates" course homepage
-    And I follow "Apply all"
 
-    And I navigate to "User templates > Import" in current page administration
+    When I am on the "Apply all" "mod_surveypro > User templates Import" page logged in as "teacher1"
     And I upload "mod/surveypro/tests/fixtures/usertemplate/age_only_2015123000.xml" file to "Choose files to import" filemanager
     And I upload "mod/surveypro/tests/fixtures/usertemplate/attachment_only_2015123000.xml" file to "Choose files to import" filemanager
     And I upload "mod/surveypro/tests/fixtures/usertemplate/autofill_only_2015123000.xml" file to "Choose files to import" filemanager
