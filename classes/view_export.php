@@ -105,7 +105,7 @@ class mod_surveypro_view_export {
         $sql = 'SELECT s.id as submissionid, s.status, s.timecreated, s.timemodified, ';
         if (empty($this->surveypro->anonymous) || ($forceuserid)) {
             $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
-            $sql .= 'u.id as userid, '.$userfieldsapi->selects.', ';
+            $sql .= 'u.id as userid'.$userfieldsapi->selects.', ';
         }
         $sql .= 'a.id as id, a.itemid, a.content, a.contentformat,
                  si.sortindex, si.plugin
