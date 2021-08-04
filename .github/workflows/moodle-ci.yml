@@ -8,7 +8,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:9.6
+        image: postgres:10
         env:
           POSTGRES_USER: 'postgres'
           POSTGRES_HOST_AUTH_METHOD: 'trust'
@@ -16,7 +16,7 @@ jobs:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 3
       mariadb:
-        image: mariadb:10
+        image: mariadb:10.5
         env:
           MYSQL_USER: 'root'
           MYSQL_ALLOW_EMPTY_PASSWORD: "true"
@@ -65,6 +65,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
+          ini-values: max_input_vars=5000
           coverage: none
 
       - name: Initialise moodle-plugin-ci
@@ -80,10 +81,6 @@ jobs:
         env:
           DB: ${{ matrix.database }}
           MOODLE_BRANCH: ${{ matrix.moodle-branch }}
-          # Examples or ignore directives:
-          IGNORE_PATHS: 'ignore'
-          IGNORE_NAMES: 'ignore_name.php'
-          MUSTACHE_IGNORE_NAMES: 'broken.mustache'
 
       - name: PHP Lint
         if: ${{ always() }}
@@ -126,7 +123,7 @@ jobs:
       - name: PHPUnit tests
         if: ${{ always() }}
         run: |
-          moodle-plugin-ci phpunit
+          moodle-plugin-ci phpunit --coverage-text
 
       - name: Behat features
         if: ${{ always() }}
