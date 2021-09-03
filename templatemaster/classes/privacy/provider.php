@@ -26,6 +26,8 @@ namespace surveyprotemplate_templatemaster\privacy;
 
 defined('MOODLE_INTERNAL') || die();
 
+// @codingStandardsIgnoreFile
+
 /**
  * Privacy Subsystem for template_templatemaster implementing null_provider.
  *

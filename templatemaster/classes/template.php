@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+// @codingStandardsIgnoreFile
+
 /**
  * The class to manage templatemaster template
  *

@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+// @codingStandardsIgnoreFile
+
 $plugin->version = 1965100401;
 $plugin->release = '1.0';
 $plugin->requires = 1965100401; // Requires this Moodle version.

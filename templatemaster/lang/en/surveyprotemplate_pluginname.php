@@ -22,5 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// @codingStandardsIgnoreFile
+
 $string['pluginname'] = 'templatemaster';
 $string['privacy:metadata'] = 'The "templatemaster" template plugin does not store any personal data.';
