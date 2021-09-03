@@ -153,8 +153,8 @@ class mod_surveypro_recurrence_setupform extends mod_surveypro_itembaseform {
 
         // Constrain default between boundaries.
         if ($data['defaultoption'] == SURVEYPRO_CUSTOMDEFAULT) {
-            if (!mod_surveypro_utility_item::date_is_valid($data['defaultvalueday'], $data['defaultvaluemonth'])) {
                 $errors['defaultvalue_group'] = get_string('ierr_invalidinput', 'mod_surveypro');
+            if (!mod_surveypro_utility_item::date_is_valid($data['defaultvalueday'], $data['defaultvaluemonth'])) {
                 return $errors;
             }
             $defaultvalue = $item->item_recurrence_to_unix_time($data['defaultvaluemonth'], $data['defaultvalueday']);
