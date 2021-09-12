@@ -104,7 +104,7 @@ if (!$itemcount) { // The surveypro is empty.
 
     $formparams = new stdClass();
     $formparams->mtemplateman = $mtemplateman;
-    $formparams->inline = true;
+    $formparams->subform = true;
 
     // Init mtemplateform form.
     $mtemplateform = new mod_surveypro_applymtemplateform($formurl, $formparams);
