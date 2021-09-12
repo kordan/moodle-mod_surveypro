@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines the version of surveypro templatemaster template subplugin
+ * Defines the version of surveyprotemplate_templatemaster template subplugin
  *
- * @package   surveyprotemplate_templatemaster
+ * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

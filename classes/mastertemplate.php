@@ -24,8 +24,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-define('SURVEYPROTEMPLATE_NAMEPLACEHOLDER', 'templatemaster');
-
 /**
  * The class representing a master template
  *
@@ -144,20 +142,19 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             }
 
             if (preg_match('~^classes~', $masterfileinfo['dirname'])) {
-                // It does not matter if $masterfile is 'classes/privacy/provider.php' or 'classes/template.php'.
-                // The process does not change.
-                $currentfile = file_get_contents($masterbasepath.'/'.$masterfile);
-                $currentfile = str_replace("\r\n", "\n", $currentfile); // Fix line ending.
+                // Here I deal with 'classes/privacy/provider.php' or 'classes/template.php'.
+                $filecontent = file_get_contents($masterbasepath.'/'.$masterfile);
+                $filecontent = str_replace("\r\n", "\n", $filecontent); // Fix line ending.
 
-                // Replace surveyproTemplatePluginMaster with the name of the current surveypro.
-                $currentfile = str_replace(SURVEYPROTEMPLATE_NAMEPLACEHOLDER, $pluginname, $currentfile);
+                // Replace 'package   mod_surveypro' with 'package   surveyprotemplate_'.$pluginname.
+                $filecontent = $this->replace_package($filecontent, $pluginname);
 
                 $temppath = $CFG->tempdir.'/'.$datarelativedir.'/'.$masterfile;
 
                 // Create $temppath.
                 $filehandler = fopen($temppath, 'w');
                 // Write inside all the strings.
-                fwrite($filehandler, $currentfile);
+                fwrite($filehandler, $filecontent);
                 // Close.
                 fclose($filehandler);
                 continue;
@@ -180,7 +177,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
                 $userlang = current_language();
                 $temppath = $CFG->tempdir.'/'.$datarelativedir.'/lang/'.$userlang;
 
-                // This is the language folder of the strings hardcoded in the surveypro.
+                // This is the language folder of the strings hardcoded in surveypro.
                 // The folder lang/en already exist.
                 if ($userlang != 'en') {
                     // I need to create the folder lang/it.
@@ -189,11 +186,12 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
 
                 // echo '$masterbasepath = '.$masterbasepath.'<br />';
 
-                $filecopyright = file_get_contents($masterbasepath.'/lang/en/surveyprotemplate_pluginname.php');
-                // Replace surveyproTemplatePluginMaster with the name of the current surveypro.
-                $filecopyright = str_replace(SURVEYPROTEMPLATE_NAMEPLACEHOLDER, $pluginname, $filecopyright);
+                $filecontent = file_get_contents($masterbasepath.'/lang/en/surveyprotemplate_pluginname.php');
 
-                $savedstrings = $filecopyright.$this->get_lang_file_content();
+                // Replace 'package   mod_surveypro' with 'package   surveyprotemplate_'.$pluginname
+                $filecontent = $this->replace_package($filecontent, $pluginname);
+
+                $savedstrings = $filecontent.$this->get_lang_file_content();
                 $savedstrings = str_replace("\r\n", "\n", $savedstrings); // Fix line ending.
 
                 // Create - this could be 'en' such as 'it'.
@@ -206,7 +204,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
                 // This is the folder of the language en in case the user language is different from en.
                 if ($userlang != 'en') {
                     // Write inside all the strings in teh form: 'english translation of $string[stringxx]'.
-                    $savedstrings = $filecopyright.$this->get_translated_strings($userlang);
+                    $savedstrings = $filecontent.$this->get_translated_strings($userlang);
                     $savedstrings = str_replace("\r\n", "\n", $savedstrings); // Fix line ending.
 
                     $temppath = $CFG->tempdir.'/'.$datarelativedir.'/lang/en';
@@ -220,31 +218,30 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
                 continue;
             }
 
-            // For all the other files... like, for instance, version.php.
-
-            // Read the master.
-            $filecontent = file_get_contents($masterbasepath.'/'.$masterfile);
-            $filecontent = str_replace("\r\n", "\n", $filecontent); // Fix line ending.
-            // Replace surveyproTemplatePluginMaster with the name of the current surveypro.
-            $filecontent = str_replace(SURVEYPROTEMPLATE_NAMEPLACEHOLDER, $pluginname, $filecontent);
-
             if ($masterfileinfo['basename'] == 'version.php') {
-                $defaultversion = '$plugin->version = 1965100401;';
-                $currentversion = '$plugin->version = '.gmdate("Ymd").'01;';
-                $filecontent = str_replace($defaultversion, $currentversion, $filecontent);
+                // Read the master.
+                $filecontent = file_get_contents($masterbasepath.'/'.$masterfile);
+                $filecontent = str_replace("\r\n", "\n", $filecontent); // Fix line ending.
+
+                // Replace 'package   mod_surveypro' with 'package   surveyprotemplate_'.$pluginname
+                $filecontent = $this->replace_package($filecontent, $pluginname);
+
+                $oldstring = '$plugin->version = 1965100401;';
+                $newstring = '$plugin->version = '.gmdate("Ymd").'01;';
+                $filecontent = str_replace($oldstring, $newstring, $filecontent);
 
                 $requires = get_config('moodle', 'version');
-                $defaultrequires = '$plugin->requires = 1965100401;';
-                $currentrequires = '$plugin->requires = '.$requires.';';
-                $filecontent = str_replace($defaultrequires, $currentrequires, $filecontent);
-            }
+                $oldstring = '$plugin->requires = 1965100401;';
+                $newstring = '$plugin->requires = '.$requires.';';
+                $filecontent = str_replace($oldstring, $newstring, $filecontent);
 
-            // Open.
-            $filehandler = fopen($dataabsolutedir.'/'.$masterfile, 'w');
-            // Write.
-            fwrite($filehandler, $filecontent);
-            // Close.
-            fclose($filehandler);
+                // Create.
+                $filehandler = fopen($dataabsolutedir.'/'.$masterfile, 'w');
+                // Write.
+                fwrite($filehandler, $filecontent);
+                // Close.
+                fclose($filehandler);
+            }
         }
 
         $filenames = array(
@@ -443,6 +440,28 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         }
 
         return $val;
+    }
+
+    /**
+     * Replace package.
+     *
+     * // Replace 'package   mod_surveypro' with 'package   surveyprotemplate_'.$pluginname
+     * // Replace ' templatemaster' with $pluginname
+     *
+     * @param string $filecontent
+     * @param string $pluginname
+     * @return string $filecontent
+     */
+    public function replace_package($filecontent, $pluginname) {
+        $oldstring = 'templatemaster';
+        $newstring = $pluginname;
+        $filecontent = str_replace($oldstring, $newstring, $filecontent);
+
+        $oldstring = ' * @package   mod_surveypro';
+        $newstring = ' * @package   surveyprotemplate_'.$pluginname;
+        $filecontent = str_replace($oldstring, $newstring, $filecontent);
+
+        return $filecontent;
     }
 
     /**

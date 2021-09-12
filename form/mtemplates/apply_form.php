@@ -45,7 +45,7 @@ class mod_surveypro_applymtemplateform extends moodleform {
 
         // Get _customdata.
         // Useless: $mtemplateman = $this->_customdata->mtemplateman;.
-        $inline = $this->_customdata->inline;
+        $subform = $this->_customdata->subform;
 
         if ($mtemplatepluginlist = get_plugin_list('surveyprotemplate')) {
             $mtemplates = array();
@@ -61,7 +61,7 @@ class mod_surveypro_applymtemplateform extends moodleform {
         // Applymtemplate: mastertemplate.
         if (count($mtemplates)) {
             $fieldname = 'mastertemplate';
-            if ($inline) {
+            if ($subform) {
                 $elementgroup = array();
                 $elementgroup[] = $mform->createElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $mtemplates);
                 $elementgroup[] = $mform->createElement('submit', $fieldname.'_button', get_string('apply', 'mod_surveypro'));
@@ -96,7 +96,7 @@ class mod_surveypro_applymtemplateform extends moodleform {
 
         // Get _customdata.
         $mtemplateman = $this->_customdata->mtemplateman;
-        // Useless: $inline = $this->_customdata->inline;.
+        // Useless: $subform = $this->_customdata->subform;.
 
         $errors = parent::validation($data, $files);
 

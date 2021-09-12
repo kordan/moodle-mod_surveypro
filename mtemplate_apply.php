@@ -56,7 +56,7 @@ $formparams = new stdClass();
 $formparams->cmid = $cm->id;
 $formparams->surveypro = $surveypro;
 $formparams->mtemplateman = $mtemplateman;
-$formparams->inline = false;
+$formparams->subform = false;
 
 $applymtemplate = new mod_surveypro_applymtemplateform($formurl, $formparams);
 // End of: prepare params for the form.
