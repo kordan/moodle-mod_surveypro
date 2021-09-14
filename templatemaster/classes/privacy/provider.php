@@ -17,7 +17,7 @@
 /**
  * Privacy class for requesting user data.
  *
- * @package   surveyprotemplate_templatemaster
+ * @package   mod_surveypro
  * @copyright 2018 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -29,6 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Privacy Subsystem for template_templatemaster implementing null_provider.
  *
+ * @package   mod_surveypro
  * @copyright 2018 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
