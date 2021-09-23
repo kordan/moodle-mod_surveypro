@@ -23,6 +23,12 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['restriction_isinteger'] = 'deve essere intero';
 $string['number'] = 'Il numero ';
+$string['restriction_isinteger'] = 'deve essere intero';
 $string['restriction_lower'] = 'deve essere maggiore o uguale a {$a}';
+$string['uerr_greaterthanmaximum'] = 'Il valore fornito è maggiore del massimo consentito';
+$string['uerr_lowerthanminimum'] = 'Il valore fornito è inferiore al minimo consentito';
+$string['uerr_negative'] = 'Il valore fornito deve essere senza segno';
+$string['uerr_notanumber'] = 'Il valore fornito non è un numero ';
+$string['uerr_notinteger'] = 'Il valore fornito deve essere intero';
+$string['uerr_outofinternalrange'] = 'Il valore fornito non rientra nell\'intervallo specificato';
