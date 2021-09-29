@@ -1145,7 +1145,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
                         unset($this->formdata->$elementname);
                         // If this datum was previously saved (when the item was not disabled)
                         // now I have to delete from database.
-                        $utilitylayoutman->delete_answer(array('submissionid' => $this->formdata->submissionid, 'itemid' => $itemid));
+                        $utilitylayoutman->delete_answers(array('submissionid' => $this->formdata->submissionid, 'itemid' => $itemid));
                     }
                 }
             }
