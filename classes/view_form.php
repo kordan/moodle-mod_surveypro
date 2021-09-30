@@ -618,7 +618,14 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         $itemhelperinfo = array();
         foreach ($this->formdata as $elementname => $content) {
             if ($matches = mod_surveypro_utility_item::get_item_parts($elementname)) {
-                if ($matches['prefix'] == SURVEYPRO_DONTSAVEMEPREFIX) {
+                // With the introduction of interactive fieldset...
+                // those format elements are now equipped with open/close triangle...
+                // and they submit their own state.
+                // Drop them out.
+                $condition = false;
+                $condition = $condition || ($matches['prefix'] == SURVEYPRO_DONTSAVEMEPREFIX);
+                $condition = $condition || ($matches['type'] == SURVEYPRO_TYPEFORMAT);
+                if ($condition) {
                     continue; // To next foreach.
                 }
             } else {
@@ -1085,12 +1092,19 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         $disposelist = array();
         $olditemid = 0;
         foreach ($elementnames as $elementname) {
-            if (!$matches = mod_surveypro_utility_item::get_item_parts($elementname)) {
-                continue;
-            } else {
-                if ($matches['prefix'] == SURVEYPRO_DONTSAVEMEPREFIX) {
+            if ($matches = mod_surveypro_utility_item::get_item_parts($elementname)) {
+                // With the introduction of interactive fieldset...
+                // those format elements are now equipped with open/close triangle...
+                // and they submit their own state.
+                // Drop them out.
+                $condition = false;
+                $condition = $condition || ($matches['prefix'] == SURVEYPRO_DONTSAVEMEPREFIX);
+                $condition = $condition || ($matches['type'] == SURVEYPRO_TYPEFORMAT);
+                if ($condition) {
                     continue; // To next foreach.
                 }
+            } else {
+                continue;
             }
             $type = $matches['type'];
             $plugin = $matches['plugin'];
@@ -1137,7 +1151,14 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
             $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
             foreach ($elementnames as $elementname) {
                 if ($matches = mod_surveypro_utility_item::get_item_parts($elementname)) {
-                    if ($matches['prefix'] == SURVEYPRO_DONTSAVEMEPREFIX) {
+                    // With the introduction of interactive fieldset...
+                    // those format elements are now equipped with open/close triangle...
+                    // and they submit their own state.
+                    // Drop them out.
+                    $condition = false;
+                    $condition = $condition || ($matches['prefix'] == SURVEYPRO_DONTSAVEMEPREFIX);
+                    $condition = $condition || ($matches['type'] == SURVEYPRO_TYPEFORMAT);
+                    if ($condition) {
                         continue; // To next foreach.
                     }
                     $itemid = $matches['itemid'];

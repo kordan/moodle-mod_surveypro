@@ -77,7 +77,14 @@ class mod_surveypro_view_search {
         $itemhelperinfo = array();
         foreach ($this->formdata as $elementname => $content) {
             if ($matches = mod_surveypro_utility_item::get_item_parts($elementname)) {
-                if ($matches['prefix'] == SURVEYPRO_DONTSAVEMEPREFIX) {
+                // With the introduction of interactive fieldset...
+                // those format elements are now equipped with open/close triangle...
+                // and they submit their own state.
+                // Drop them out.
+                $condition = false;
+                $condition = $condition || ($matches['prefix'] == SURVEYPRO_DONTSAVEMEPREFIX);
+                $condition = $condition || ($matches['type'] == SURVEYPRO_TYPEFORMAT);
+                if ($condition) {
                     // Multiselect are always submitted because, at least, they have SURVEYPRO_IGNOREMEVALUE.
                     continue;
                 }
