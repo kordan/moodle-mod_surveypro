@@ -886,6 +886,16 @@ class mod_surveypro_itembase {
     }
 
     /**
+     * Add the custom number at the beginning of the question content.
+     * Take care that the content may start with "<p>" or "<p dir='ltr'>" or ""
+     *
+     * @return string
+     */
+    public function include_customnumber_in_content() {
+        return preg_replace('~^(<p[^>]*)>~', '\1>'.$this->customnumber.': ', $this->get_content());
+    }
+
+    /**
      * This method defines if an item can be switched to mandatory or not.
      *
      * Used by mod_surveypro_layout->display_items_table() to define the icon to show

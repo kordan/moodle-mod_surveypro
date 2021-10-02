@@ -504,8 +504,15 @@ EOS;
         $choosedotsstr = get_string('choosedots');
         $starsstr = get_string('star', 'mod_surveypro');
         $noanswerstr = get_string('noanswer', 'mod_surveypro');
-        $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
-        $elementlabel = ($this->position == SURVEYPRO_POSITIONLEFT) ? $elementnumber.$this->get_content() : '&nbsp;';
+        if ($this->position == SURVEYPRO_POSITIONLEFT) {
+            if ($this->customnumber) {
+                $elementlabel = $this->include_customnumber_in_content();
+            } else {
+                $elementlabel = $this->get_content();
+            }
+        } else {
+            $elementlabel = '&nbsp;';
+        }
 
         $idprefix = 'id_surveypro_field_radiobutton_'.$this->sortindex;
 
