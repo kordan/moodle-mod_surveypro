@@ -47,7 +47,7 @@ Features
 --------
 A few more features are available at instance level like:
 - Branches increase pages
-- Allow Save/Resume (Take care: Responses paused and abandoned, may be dropped by the system)
+- Allow Pause/Resume (Take care: Responses paused and abandoned, may be dropped by the system)
 - Keep "In progress"
 - Preserve history
 - Anonymous reponses
