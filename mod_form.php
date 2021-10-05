@@ -83,8 +83,8 @@ class mod_surveypro_mod_form extends moodleform_mod {
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
-        // Allow/deny saveresume.
-        $fieldname = 'saveresume';
+        // Allow/deny pauseresume.
+        $fieldname = 'pauseresume';
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 

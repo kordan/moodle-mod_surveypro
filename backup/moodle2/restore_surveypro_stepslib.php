@@ -104,6 +104,9 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         if (isset($data->notifyrole)) {
             $data->mailroles = $data->notifyrole;
         }
+        if (isset($data->saveresume)) {
+            $data->pauseresume = $data->saveresume;
+        }
         $data->timeopen = $this->apply_date_offset($data->timeopen);
         $data->timeclose = $this->apply_date_offset($data->timeclose);
         $data->timemodified = $this->apply_date_offset($data->timemodified);

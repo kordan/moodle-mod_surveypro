@@ -387,8 +387,8 @@ $string['runreport'] = '<a href="{$a->href}">Correr reporte de {$a->reportname}<
 $string['save'] = 'Guardar';
 $string['saveasnew'] = 'Guardar como nuevo';
 $string['savemastertemplates'] = '<a href="{$a}">Guardar plantillas maestras</a>';
-$string['saveresume'] = 'Permitir Guardar/Continuar';
-$string['saveresume_help'] = 'Permitir pausar una encuesta para poder continuarla y enviarla en una segunda sesión de respuesta.';
+$string['pauseresume'] = 'Permitir Guardar/Continuar';
+$string['pauseresume_help'] = 'Permitir pausar una encuesta para poder continuarla y enviarla en una segunda sesión de respuesta.';
 $string['saveusertemplates'] = '<a href="{$a}">Guardar plantillas de usuario</a>';
 $string['schemavalidationfailed'] = 'La plantilla usa un archivo XML inválido. Por favor verifíquelo';
 $string['settings'] = 'Encuestapro (Surveypro)';
