@@ -152,11 +152,13 @@ class mod_surveypro_view_cover {
             $a->responsescount = $countclosed;
             $messages[] = get_string('yoursubmissions', 'mod_surveypro', $a);
 
-            // Your 'in progress' responses.
-            $a = new stdClass();
-            $a->status = get_string('statusinprogress', 'mod_surveypro');
-            $a->responsescount = $inprogress;
-            $messages[] = get_string('yoursubmissions', 'mod_surveypro', $a);
+            if ($this->surveypro->pauseresume) {
+                // Your 'in progress' responses.
+                $a = new stdClass();
+                $a->status = get_string('statusinprogress', 'mod_surveypro');
+                $a->responsescount = $inprogress;
+                $messages[] = get_string('yoursubmissions', 'mod_surveypro', $a);
+            }
         }
 
         $this->display_messages($messages, get_string('attemptinfo', 'mod_surveypro'));
