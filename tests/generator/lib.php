@@ -65,7 +65,7 @@ class mod_surveypro_generator extends testing_module_generator {
         // Add default values for surveypro.
         $record = (array)$record + array(
             'newpageforchild' => 0,
-            'saveresume' => 0,
+            'pauseresume' => 0,
             'keepinprogress' => 0,
             'captcha' => 0,
             'history' => 0,

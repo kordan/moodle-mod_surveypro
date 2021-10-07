@@ -264,28 +264,28 @@ function xmldb_surveypro_upgrade($oldversion) {
         // Launch rename field thankshtml.
         $dbman->rename_field($table, $field, 'thankspage');
 
-        // Rename field notifycontent on table surveypro to NEWNAMEGOESHERE.
+        // Rename field notifycontent on table surveypro to mailcontentformat.
         $table = new xmldb_table('surveypro');
         $field = new xmldb_field('notifycontentformat', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0', 'notifycontent');
 
         // Launch rename field notifycontent.
         $dbman->rename_field($table, $field, 'mailcontentformat');
 
-        // Rename field notifycontent on table surveypro to NEWNAMEGOESHERE.
+        // Rename field notifycontent on table surveypro to mailcontent.
         $table = new xmldb_table('surveypro');
         $field = new xmldb_field('notifycontent', XMLDB_TYPE_TEXT, null, null, null, null, null, 'notifymore');
 
         // Launch rename field notifycontent.
         $dbman->rename_field($table, $field, 'mailcontent');
 
-        // Rename field notifymore on table surveypro to NEWNAMEGOESHERE.
+        // Rename field notifymore on table surveypro to mailextraaddresses.
         $table = new xmldb_table('surveypro');
         $field = new xmldb_field('notifymore', XMLDB_TYPE_TEXT, null, null, null, null, null, 'notifyrole');
 
         // Launch rename field notifymore.
         $dbman->rename_field($table, $field, 'mailextraaddresses');
 
-        // Rename field notifyrole on table surveypro to NEWNAMEGOESHERE.
+        // Rename field notifyrole on table surveypro to mailroles.
         $table = new xmldb_table('surveypro');
         $field = new xmldb_field('notifyrole', XMLDB_TYPE_CHAR, '255', null, null, null, null, 'maxentries');
 
@@ -294,6 +294,18 @@ function xmldb_surveypro_upgrade($oldversion) {
 
         // Surveypro savepoint reached.
         upgrade_mod_savepoint(true, 2018032002, 'surveypro');
+    }
+
+    if ($oldversion < 2021100400) {
+        // Rename field saveresume on table surveypro to pauseresume.
+        $table = new xmldb_table('surveypro');
+        $field = new xmldb_field('saveresume', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0', 'newpageforchild');
+
+        // Launch rename field saveresume.
+        $dbman->rename_field($table, $field, 'pauseresume');
+
+        // Surveypro savepoint reached.
+        upgrade_mod_savepoint(true, 2021100400, 'surveypro');
     }
 
     return true;

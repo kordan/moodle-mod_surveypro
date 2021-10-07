@@ -397,7 +397,7 @@ function surveypro_update_instance($surveypro, $mform) {
  * @return void
  */
 function surveypro_pre_process_checkboxes($surveypro) {
-    $checkboxes = array('newpageforchild', 'saveresume', 'keepinprogress', 'history', 'anonymous', 'captcha');
+    $checkboxes = array('newpageforchild', 'pauseresume', 'keepinprogress', 'history', 'anonymous', 'captcha');
 
     foreach ($checkboxes as $checkbox) {
         if (!isset($surveypro->{$checkbox})) {
@@ -602,22 +602,22 @@ function surveypro_cron_scheduled_task() {
 
     // Delete too old submissions from surveypro_answer and surveypro_submission.
 
-    $saveresumestatus = array(0, 1);
-    // If $saveresumestatus == 0 then saveresume is not allowed.
+    $pauseresumestatus = array(0, 1);
+    // If $pauseresumestatus == 0 then pauseresume is not allowed.
     // Users leaved responses in progress more than four hours ago...
     // I can not believe they are still working on them so I delete thier responses now.
 
-    // If $saveresumestatus == 1 then saveresume is allowed
+    // If $pauseresumestatus == 1 then pauseresume is allowed
     // Users leaved responses in progress more than maximum allowed time delay so I delete thier responses now.
     $maxinputdelay = get_config('mod_surveypro', 'maxinputdelay');
-    foreach ($saveresumestatus as $saveresume) {
-        if (($saveresume == 1) && ($maxinputdelay == 0)) { // Maxinputdelay == 0 means, please don't delete.
+    foreach ($pauseresumestatus as $pauseresume) {
+        if (($pauseresume == 1) && ($maxinputdelay == 0)) { // Maxinputdelay == 0 means, please don't delete.
             continue;
         }
 
-        // First step: filter surveypro to the subset having 'saveresume' = $saveresume.
-        if ($surveypros = $DB->get_records('surveypro', array('saveresume' => $saveresume), null, 'id, keepinprogress')) {
-            $sofar = ($saveresume == 0) ? (4 * 3600) : ($maxinputdelay * 3600);
+        // First step: filter surveypro to the subset having 'pauseresume' = $pauseresume.
+        if ($surveypros = $DB->get_records('surveypro', array('pauseresume' => $pauseresume), null, 'id, keepinprogress')) {
+            $sofar = ($pauseresume == 0) ? (4 * 3600) : ($maxinputdelay * 3600);
             $sofar = time() - $sofar;
             foreach ($surveypros as $surveypro) {
                 $keepinprogress = $surveypro->keepinprogress;

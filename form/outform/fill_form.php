@@ -80,7 +80,7 @@ class mod_surveypro_outform extends moodleform {
         }
 
         if ($formpage == SURVEYPRO_RIGHT_OVERFLOW) {
-            $a = $surveypro->saveresume ? get_string('revieworpause', 'mod_surveypro') : get_string('onlyreview', 'mod_surveypro');
+            $a = $surveypro->pauseresume ? get_string('revieworpause', 'mod_surveypro') : get_string('onlyreview', 'mod_surveypro');
             $mform->addElement('static', 'nomoreitems', $notestr, get_string('nomoreitems', 'mod_surveypro', $a));
             // $mform->addElement('static', 'nomoreitems', $notestr, 'SURVEYPRO_RIGHT_OVERFLOW');
         }
@@ -197,7 +197,7 @@ class mod_surveypro_outform extends moodleform {
             $buttonlist['prevbutton'] = get_string('previousformpage', 'mod_surveypro');
         }
         if ($tabpage != SURVEYPRO_LAYOUT_PREVIEW) {
-            if ($surveypro->saveresume) {
+            if ($surveypro->pauseresume) {
                 $buttonlist['pausebutton'] = get_string('pause', 'mod_surveypro');
             }
             if (($formpage == $maxassignedpage) || ($formpage == SURVEYPRO_RIGHT_OVERFLOW)) {
