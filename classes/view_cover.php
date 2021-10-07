@@ -119,7 +119,8 @@ class mod_surveypro_view_cover {
         }
 
         // Number of elements.
-        if ($itemcount) {
+        // If you can not manage items, you do not want to know their number.
+        if ($itemcount && $canmanageitems) {
             $a = $itemcount;
             $message = get_string('count_allitems', 'mod_surveypro', $a);
             if ($canmanageitems) {
