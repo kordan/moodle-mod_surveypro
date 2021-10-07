@@ -892,7 +892,7 @@ class mod_surveypro_itembase {
      * @return string
      */
     public function include_customnumber_in_content() {
-        return preg_replace('~^(<p[^>]*)>~', '\1>'.$this->customnumber.': ', $this->get_content());
+        return preg_replace('~^(<p[^>]*>)?~', '\1'.$this->customnumber.': ', $this->get_content());
     }
 
     /**
