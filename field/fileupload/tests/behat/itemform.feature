@@ -44,7 +44,7 @@ Feature: test the use of fileupload setup form
       | Parent element                       | Boolean [1]: Is this true?       |
       | Parent content                       | 1                                |
       | Maximum files                        | 2                                |
-      | Maximum file size                    | 5MB                              |
+      | Maximum file size                    | 5242880                          |
       | Allowed file types (comma separated) | jpg, , png, *, GIF               |
     And I press "Add"
 
@@ -81,7 +81,7 @@ Feature: test the use of fileupload setup form
     Then the field "Parent element" matches value "Boolean [1]: Is this true?"
     Then the field "Parent content" matches value "1"
     Then the field "Maximum files" matches value "2"
-    Then the field "Maximum file size" matches value "5MB"
+    Then the field "Maximum file size" matches value "5242880"
     Then the field "Allowed file types (comma separated)" matches value ".jpg, .png, .gif"
     And I press "Cancel"
 
