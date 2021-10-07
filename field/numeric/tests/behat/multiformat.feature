@@ -49,7 +49,7 @@ Feature: verify the input with different number format
     And I press "Nuova risposta"
     And I set the field "Write the best approximation of π you can remember" to "3.14"
     And I press "Invia"
-    Then I should see "Provided value is not a number"
+    Then I should see "Il valore fornito non è un numero"
 
     And I set the field "Write the best approximation of π you can remember" to "3,14"
     And I press "Invia"
