@@ -26,6 +26,7 @@
 $string['number'] = 'Il numero ';
 $string['restriction_isinteger'] = 'deve essere intero';
 $string['restriction_lower'] = 'deve essere maggiore o uguale a {$a}';
+$string['restriction_lowerupper'] = 'La risposta deve essere compresa fra {$a->lowerbound} e {$a->upperbound}';
 $string['uerr_greaterthanmaximum'] = 'Il valore fornito è maggiore del massimo consentito';
 $string['uerr_lowerthanminimum'] = 'Il valore fornito è inferiore al minimo consentito';
 $string['uerr_negative'] = 'Il valore fornito deve essere senza segno';
