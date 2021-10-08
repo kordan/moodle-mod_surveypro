@@ -379,7 +379,6 @@ $string['responseauthor'] = 'Author: ';
 $string['responses'] = 'responses';
 $string['responsetimecreated'] = 'Response submitted on: ';
 $string['responsetimemodified'] = ', Last modified on: ';
-$string['restriction_lowerupper'] = 'Answer is supposed to fit between {$a->lowerbound} and {$a->upperbound}';
 $string['revieworpause'] = ', review or pause';
 $string['reviewsubmissions'] = 'review surveypro submissions';
 $string['riskyeditdeadline_help'] = 'Allow users permitted to manage survey elements to force modifications of this survey even once already answered.';

@@ -132,7 +132,6 @@ $string['required_help'] = 'Rende questa domanda obbligatoria o opzionale per l\
 $string['required'] = 'Obbligatorio';
 $string['reserved_help'] = 'Rendi questo elemento disponibile solo agli utenti con specifico permesso di compilazione o, in alternativa, rendi questo elemento accessibile a chiunque.';
 $string['reserved'] = 'Riservato';
-$string['restriction_lowerupper'] = 'La risposta deve essere compresa fra {$a->lowerbound} e {$a->upperbound}';
 $string['runreport'] = '<a href="{$a->href}">Esegui il report {$a->reportname}</a>';
 $string['savemastertemplates'] = '<a href="{$a}">Salva un master template</a>';
 $string['saveusertemplates'] = '<a href="{$a}">Salva il template utente</a>';
