@@ -31,7 +31,7 @@ Feature: verify the thanks page is shown properly
     Given I log in as "teacher1"
     And I am on "Thank you" course homepage
     And I follow "Thanks surveypro"
-    And I navigate to "Settings" in current page administration
+    And I navigate to "Edit settings" in current page administration
     And I expand all fieldsets
     And I set the field "Inline thanks page" to ""
     And I press "Save and display"
@@ -78,7 +78,7 @@ Feature: verify the thanks page is shown properly
 
     And I am on "Thank you" course homepage
     And I follow "Thanks surveypro"
-    And I navigate to "Settings" in current page administration
+    And I navigate to "Edit settings" in current page administration
     And I expand all fieldsets
 
     # Atto needs focus to add image, select empty p tag to do so.
