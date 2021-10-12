@@ -29,7 +29,7 @@ $string['modulename_help'] = 'Surveypro consente la realizzazione di indagini pe
 $string['modulename_link'] = 'mod/surveypro/view';
 $string['modulenameplural'] = 'surveypro';
 $string['pluginname'] = 'Surveypro';
-$string['pluginadministration'] = 'Gestione surveypro';
+$string['pluginadministration'] = 'Amministrazione surveypro';
 
 $string['surveyproname'] = 'Surveypro name';
 $string['surveyproname_help'] = 'Choose the name of this surveypro.';
