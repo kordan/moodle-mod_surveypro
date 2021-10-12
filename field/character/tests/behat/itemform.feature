@@ -32,23 +32,23 @@ Feature: test the use of character setup form
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content                        | This is a free text        |
-      | Required                       | 1                          |
-      | Indent                         | 1                          |
-      | Question position              | left                       |
-      | Element number                 | II.a                       |
-      | Hide filling instruction       | 1                          |
-      | Variable                       | C1                         |
-      | Additional note                | Additional note            |
-      | Hidden                         | 1                          |
-      | Search form                    | 1                          |
-      | Reserved                       | 1                          |
-      | Parent element                 | Boolean [1]: Is this true? |
-      | Parent content                 | 1                          |
-      | Default                        | simple default             |
-      | pattern                        | free pattern               |
-      | Minimum length (in characters) | 20                         |
-      | Maximum length (in characters) | 4                          |
+      | Content                        | This is a free text      |
+      | Required                       | 1                        |
+      | Indent                         | 1                        |
+      | Question position              | left                     |
+      | Element number                 | II.a                     |
+      | Hide filling instruction       | 1                        |
+      | Variable                       | C1                       |
+      | Additional note                | Additional note          |
+      | Hidden                         | 1                        |
+      | Search form                    | 1                        |
+      | Reserved                       | 1                        |
+      | Parent element                 | Boolean [1]: Is it true? |
+      | Parent content                 | 1                        |
+      | Default                        | simple default           |
+      | pattern                        | free pattern             |
+      | Minimum length (in characters) | 20                       |
+      | Maximum length (in characters) | 4                        |
     And I press "Add"
 
     Then I should see "Minimum length has be lower than maximum length"
@@ -72,7 +72,7 @@ Feature: test the use of character setup form
     Then the field "Hidden" matches value "1"
     Then the field "Search form" matches value "1"
     Then the field "Reserved" matches value "1"
-    Then the field "Parent element" matches value "Boolean [1]: Is this true?"
+    Then the field "Parent element" matches value "Boolean [1]: Is it true?"
     Then the field "Parent content" matches value "1"
     Then the field "Default" matches value "simple, but longer, default"
     Then the field "pattern" matches value "free pattern"

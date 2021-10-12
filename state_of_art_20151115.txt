@@ -10,7 +10,7 @@ They are:
 -- fields --
 ->  1) item type "age" to ask for question like: "How old were you when you learned to ride a bike?" A: 4y and 6 months
 ->  2) item type "autofill" to autofill a field with infos from user, course, time, date or surveypro
-->  3) item type "boolean" to ask for question like: "Is this true?"
+->  3) item type "boolean" to ask for question like: "Is it true?"
 ->  4) item type "character" to ask for question like: "Write down your email" or "Enter your personal web site URL" or "Enter the PIN code of your card"
 ->  5) item type "checkbox" to ask for question like: "What do you usually get for breakfast? milk, sugar, jam, chocolate, other..."
 ->  6) item type "date" to ask for question like: "When were you born?" A: October 12, 1492

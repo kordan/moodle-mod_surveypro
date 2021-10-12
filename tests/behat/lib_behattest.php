@@ -79,7 +79,7 @@ function get_dummy_contents($type, $plugin) {
             return $return;
         }
         if ($plugin == 'boolean') {
-            $return->content_editor['text'] = 'Is this true?';
+            $return->content_editor['text'] = 'Is it true?';
             $return->contentformat = 1;
             $return->indent = 0;
             $return->position = 0;

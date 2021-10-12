@@ -56,7 +56,7 @@ Feature: Backup and restore a surveypro instance
     And I should see "Grouped data inside"
     And I should see "How old were you when you learned to ride a bike?"
     And I should see "Just your userid"
-    And I should see "Is this true?"
+    And I should see "Is it true?"
     And I should see "Write down your email"
     And I should see "What do you usually get for breakfast?"
     And I should see "When were you born?"

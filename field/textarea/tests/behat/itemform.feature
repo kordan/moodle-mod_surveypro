@@ -44,7 +44,7 @@ Feature: test the use of textarea setup form
       | Hidden                         | 1                                     |
       | Search form                    | 1                                     |
       | Reserved                       | 1                                     |
-      | Parent element                 | Boolean [1]: Is this true?            |
+      | Parent element                 | Boolean [1]: Is it true?              |
       | Parent content                 | 1                                     |
       | Use html editor                | 1                                     |
       | Area height in rows            | 7                                     |
@@ -70,7 +70,7 @@ Feature: test the use of textarea setup form
     Then the field "Hidden" matches value "1"
     Then the field "Search form" matches value "1"
     Then the field "Reserved" matches value "1"
-    Then the field "Parent element" matches value "Boolean [1]: Is this true?"
+    Then the field "Parent element" matches value "Boolean [1]: Is it true?"
     Then the field "Parent content" matches value "1"
     Then the field "Use html editor" matches value "1"
     Then the field "Area height in rows" matches value "7"

@@ -82,7 +82,7 @@ In the starting release of surveypro was crafted with:
 The 18 fields type are:
 • element type "age" to ask for question like: "How old were you when you learned to ride a bike?"
 • element type "autofill" to autofill a field with infos from user, course, time, date or surveypro
-• element type "boolean" to ask for question like: "Is this true?"
+• element type "boolean" to ask for question like: "Is it true?"
 • element type "character" to ask for question like: "Write down your email" or "Enter your personal web site URL" or "Enter the PIN code of your card"
 • element type "checkbox" to ask for question like: "What do you usually get for breakfast?" A: "milk, sugar, jam, chocolate, other..."
 • element type "date" to ask for question like: "When were you born?"

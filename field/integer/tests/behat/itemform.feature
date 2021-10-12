@@ -43,7 +43,7 @@ Feature: test the use of integer setup form
       | Hidden                   | 1                                                  |
       | Search form              | 1                                                  |
       | Reserved                 | 1                                                  |
-      | Parent element           | Boolean [1]: Is this true?                         |
+      | Parent element           | Boolean [1]: Is it true?                           |
       | Parent content           | 1                                                  |
       | id_defaultoption_1       | 1                                                  |
       | id_defaultvalue          | 1                                                  |
@@ -79,7 +79,7 @@ Feature: test the use of integer setup form
     Then the field "Hidden" matches value "1"
     Then the field "Search form" matches value "1"
     Then the field "Reserved" matches value "1"
-    Then the field "Parent element" matches value "Boolean [1]: Is this true?"
+    Then the field "Parent element" matches value "Boolean [1]: Is it true?"
     Then the field "Parent content" matches value "1"
     Then the field "id_defaultoption_1" matches value "1"
     Then the field "id_defaultvalue" matches value "5"

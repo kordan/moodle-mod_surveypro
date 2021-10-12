@@ -32,29 +32,29 @@ Feature: test the use of date setup form
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content                  | When were you born?        |
-      | Required                 | 1                          |
-      | Indent                   | 1                          |
-      | Question position        | left                       |
-      | Element number           | II.a                       |
-      | Hide filling instruction | 1                          |
-      | Variable                 | D1                         |
-      | Additional note          | Additional note            |
-      | Hidden                   | 1                          |
-      | Search form              | 1                          |
-      | Reserved                 | 1                          |
-      | Parent element           | Boolean [1]: Is this true? |
-      | Parent content           | 1                          |
-      | Custom                   | 1                          |
-      | id_defaultvalueday       | 30                         |
-      | id_defaultvaluemonth     | February                   |
-      | id_defaultvalueyear      | 1980                       |
-      | id_lowerboundday         | 31                         |
-      | id_lowerboundmonth       | December                   |
-      | id_lowerboundyear        | 2000                       |
-      | id_upperboundday         | 31                         |
-      | id_upperboundmonth       | December                   |
-      | id_upperboundyear        | 2000                       |
+      | Content                  | When were you born?      |
+      | Required                 | 1                        |
+      | Indent                   | 1                        |
+      | Question position        | left                     |
+      | Element number           | II.a                     |
+      | Hide filling instruction | 1                        |
+      | Variable                 | D1                       |
+      | Additional note          | Additional note          |
+      | Hidden                   | 1                        |
+      | Search form              | 1                        |
+      | Reserved                 | 1                        |
+      | Parent element           | Boolean [1]: Is it true? |
+      | Parent content           | 1                        |
+      | Custom                   | 1                        |
+      | id_defaultvalueday       | 30                       |
+      | id_defaultvaluemonth     | February                 |
+      | id_defaultvalueyear      | 1980                     |
+      | id_lowerboundday         | 31                       |
+      | id_lowerboundmonth       | December                 |
+      | id_lowerboundyear        | 2000                     |
+      | id_upperboundday         | 31                       |
+      | id_upperboundmonth       | December                 |
+      | id_upperboundyear        | 2000                     |
     And I press "Add"
 
     Then I should see "Incorrect value entered"
@@ -94,7 +94,7 @@ Feature: test the use of date setup form
     Then the field "Hidden" matches value "1"
     Then the field "Search form" matches value "1"
     Then the field "Reserved" matches value "1"
-    Then the field "Parent element" matches value "Boolean [1]: Is this true?"
+    Then the field "Parent element" matches value "Boolean [1]: Is it true?"
     Then the field "Parent content" matches value "1"
     Then the field "Custom" matches value "1"
     Then the field "Current date" matches value ""

@@ -72,7 +72,7 @@ Feature: make a submission test for each available item
     And I upload "mod/surveypro/tests/fixtures/dummyCV.pdf" file to "Upload your CV in PDF format" filemanager
 
     And I set the following fields to these values:
-      | Is this true?                        | Yes     |
+      | Is it true?                          | Yes     |
       | id_surveypro_field_checkbox_5_0      | 1       |
       | id_surveypro_field_shortdate_6_month | March   |
       | id_surveypro_field_shortdate_6_year  | 1975    |

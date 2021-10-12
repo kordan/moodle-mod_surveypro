@@ -41,7 +41,7 @@ Feature: test the use of fileupload setup form
       | Additional note                      | Additional note                  |
       | Hidden                               | 1                                |
       | Reserved                             | 1                                |
-      | Parent element                       | Boolean [1]: Is this true?       |
+      | Parent element                       | Boolean [1]: Is it true?         |
       | Parent content                       | 1                                |
       | Maximum files                        | 2                                |
       | Maximum file size                    | 5242880                          |
@@ -78,7 +78,7 @@ Feature: test the use of fileupload setup form
     Then the field "Additional note" matches value "Additional note"
     Then the field "Hidden" matches value "1"
     Then the field "Reserved" matches value "1"
-    Then the field "Parent element" matches value "Boolean [1]: Is this true?"
+    Then the field "Parent element" matches value "Boolean [1]: Is it true?"
     Then the field "Parent content" matches value "1"
     Then the field "Maximum files" matches value "2"
     Then the field "Maximum file size" matches value "5242880"

@@ -32,18 +32,18 @@ Feature: test the use of autofill setup form
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content            | Your user ID               |
-      | Indent             | 1                          |
-      | Question position  | left                       |
-      | Element number     | II.a                       |
-      | Variable           | A1                         |
-      | Additional note    | Additional note            |
-      | Hidden             | 1                          |
-      | Search form        | 1                          |
-      | Reserved           | 1                          |
-      | Parent element     | Boolean [1]: Is this true? |
-      | Parent content     | 1                          |
-      | id_element01select | user ID                    |
+      | Content            | Your user ID             |
+      | Indent             | 1                        |
+      | Question position  | left                     |
+      | Element number     | II.a                     |
+      | Variable           | A1                       |
+      | Additional note    | Additional note          |
+      | Hidden             | 1                        |
+      | Search form        | 1                        |
+      | Reserved           | 1                        |
+      | Parent element     | Boolean [1]: Is it true? |
+      | Parent content     | 1                        |
+      | id_element01select | user ID                  |
     And I press "Add"
 
     And I follow "edit_item_2"
@@ -56,7 +56,7 @@ Feature: test the use of autofill setup form
     Then the field "Hidden" matches value "1"
     Then the field "Search form" matches value "1"
     Then the field "Reserved" matches value "1"
-    Then the field "Parent element" matches value "Boolean [1]: Is this true?"
+    Then the field "Parent element" matches value "Boolean [1]: Is it true?"
     Then the field "Parent content" matches value "1"
     Then the field "element01select" matches value "user ID"
     And I press "Cancel"
