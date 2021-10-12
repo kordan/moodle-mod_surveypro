@@ -16,7 +16,7 @@ They are:
 ->  6) item type "date" to ask for question like: "When were you born?" A: October 12, 1492
 ->  7) item type "datetime" to ask for question like: "Please, write down date and time of your last flight to Los Angeles." A: October 12, 2008 at 14:45
 ->  8) item type "fileupload" to ask for question like: "Please, upload your CV in PDF format"
-->  9) item type "integer" to ask for question like: "How many people are in your family without you?"
+->  9) item type "integer" to ask for question like: "How many people does your family have besides you?"
 -> 10) item type "multiselect" to ask for question like: "What do you usually get for breakfast? milk, sugar, jam, chocolate, other..."
 -> 11) item type "numeric" to ask for question like: "How the mean temperature of the room is supposed to be?"
 -> 12) item type "radiobutton" to ask for question like: "Which summer holidays place do you prefer? sea, mountain, lake, hills, desert..."
@@ -36,14 +36,14 @@ EN, ES, IT, FR. Mother tongue, Very confident, Not enought, Completely unknown."
 
 User can choose, setup and include them into search forms.
 They all have a long list of features even to verify the content provided by the user.
-Surveypro foreseen conditional branching, sort of fields during export, item indentation, custom number, 
-feature to hide element, groups of users with "extended" permissions, mandatory/optional element, 
+Surveypro foreseen conditional branching, sort of fields during export, item indentation, custom number,
+feature to hide element, groups of users with "extended" permissions, mandatory/optional element,
 element limited to people with a specific permission
 
 ************
 known issues
 ************
-- long text (using html editor) as child is not disabled by the parent even if in the same page: 
+- long text (using html editor) as child is not disabled by the parent even if in the same page:
 see MDL-25067. I found it is caused by the js of the editor.
 - module icons are missing from head/admin/plugins.php overview report: see MDL-45723
 
@@ -68,11 +68,11 @@ MDL-62634: theme boost duplicates classes for checkbox mform elements
 Issues that were not fixed but that are no longer a problem:
 ************
 MDL-29421: Form elements editor and filepicker do not support freezing. [Fixed locally by overriding corresponding class]
-MDL-31796: $mform->disabledIf doesn't work for 'filemanager' mform elements. 
+MDL-31796: $mform->disabledIf doesn't work for 'filemanager' mform elements.
 [Fixed along the years witout any notification in this tracker issue. Today (May 2015) it seems to work as expected]
-MDL-45815: filemanager mform elements are completely discarded in readonly forms. 
+MDL-45815: filemanager mform elements are completely discarded in readonly forms.
 [Fixed locally by overriding corresponding class]
-MDL-43704: mform multiselect element is not disabled by the grouped checkbox (as many of other mform elements do) 
+MDL-43704: mform multiselect element is not disabled by the grouped checkbox (as many of other mform elements do)
 [Fixed with the workaround described in the tracker]
 MDL-28194: I am in trouble assigning syles to some mform element.
 MDL-34815: Disabled mform items need to be skipped during validation (and more).

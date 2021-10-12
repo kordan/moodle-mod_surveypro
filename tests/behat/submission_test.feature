@@ -87,7 +87,7 @@ Feature: make a submission test for each available item
     And I press "Next page >>"
 
     And I set the following fields to these values:
-      | How many people are in your family without you?    | 7               |
+      | How many people does your family have besides you? | 7               |
       | id_surveypro_field_multiselect_11                  | milk            |
       | Write the best approximation of π you can remember | 3.14            |
       | id_surveypro_field_radiobutton_13_3                | 1               |

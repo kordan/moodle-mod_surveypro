@@ -166,7 +166,7 @@ function get_dummy_contents($type, $plugin) {
             return $return;
         }
         if ($plugin == 'integer') {
-            $return->content_editor['text'] = 'How many people are in your family without you?';
+            $return->content_editor['text'] = 'How many people does your family have besides you?';
             $return->contentformat = 1;
             $return->indent = 0;
             $return->defaultoption = '2';
