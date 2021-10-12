@@ -34,7 +34,7 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -68,7 +68,7 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -102,7 +102,7 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -136,7 +136,7 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -170,7 +170,7 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -203,7 +203,7 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -237,7 +237,7 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -271,7 +271,7 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -305,7 +305,7 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -339,7 +339,7 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -372,7 +372,7 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -406,7 +406,7 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -440,7 +440,7 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -474,7 +474,7 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -508,7 +508,7 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is this true?&lt;/p&gt;</content>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>

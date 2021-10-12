@@ -29,7 +29,7 @@ Feature: make a submission test for "boolean" item
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content           | Is this true? |
+      | Content           | Is it true?   |
       | Required          | 1             |
       | Indent            | 0             |
       | Question position | left          |
@@ -42,7 +42,7 @@ Feature: make a submission test for "boolean" item
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content           | Is this true?          |
+      | Content           | Is it true?            |
       | Required          | 1                      |
       | Indent            | 0                      |
       | Question position | left                   |
@@ -55,7 +55,7 @@ Feature: make a submission test for "boolean" item
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content           | Is this true?            |
+      | Content           | Is it true?              |
       | Required          | 1                        |
       | Indent            | 0                        |
       | Question position | left                     |
@@ -73,7 +73,7 @@ Feature: make a submission test for "boolean" item
 
     # student1 submits
     And I set the following fields to these values:
-      | 4a: Is this true?              | Yes |
+      | 4a: Is it true?                | Yes |
       | id_surveypro_field_boolean_2_0 | 1   |
       | id_surveypro_field_boolean_3_1 | 1   |
 

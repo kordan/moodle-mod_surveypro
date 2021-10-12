@@ -42,13 +42,13 @@ Feature: verify the thanks page is shown properly
     And I am on "Thank you" course homepage
     And I follow "Thanks surveypro"
     And I press "New response"
-    And I set the field "Is this true?" to "Yes"
+    And I set the field "Is it true?" to "Yes"
     And I press "Submit"
     Then I should see "Thank you. Your response has been successfully submitted!"
 
     And I press "Continue to responses list"
     And I follow "edit_submission_row_1"
-    And I set the field "Is this true?" to "No"
+    And I set the field "Is it true?" to "No"
     And I press "Submit"
     Then I should see "Thank you. Your response has been successfully modified!"
 
@@ -58,13 +58,13 @@ Feature: verify the thanks page is shown properly
     And I am on "Thank you" course homepage
     And I follow "Thanks surveypro"
     And I press "New response"
-    And I set the field "Is this true?" to "Yes"
+    And I set the field "Is it true?" to "Yes"
     And I press "Submit"
     Then I should see "Thank you very much for your commitment on this survey."
 
     And I press "Continue to responses list"
     And I follow "edit_submission_row_1"
-    And I set the field "Is this true?" to "No"
+    And I set the field "Is it true?" to "No"
     And I press "Submit"
     Then I should see "Thank you. Your response has been successfully modified!"
 
@@ -98,12 +98,12 @@ Feature: verify the thanks page is shown properly
     And I am on "Thank you" course homepage
     And I follow "Thanks surveypro"
     And I press "New response"
-    And I set the field "Is this true?" to "Yes"
+    And I set the field "Is it true?" to "Yes"
     And I press "Submit"
     Then "//img[contains(@src, 'thankyou.png')]" "xpath_element" should exist
 
     And I press "Continue to responses list"
     And I follow "edit_submission_row_1"
-    And I set the field "Is this true?" to "No"
+    And I set the field "Is it true?" to "No"
     And I press "Submit"
     Then I should see "Thank you. Your response has been successfully modified!"

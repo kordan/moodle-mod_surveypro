@@ -32,26 +32,26 @@ Feature: test the use of boolean setup form
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content            | Is this true?              |
-      | Required           | 1                          |
-      | Indent             | 1                          |
-      | Question position  | left                       |
-      | Element number     | II.a                       |
-      | Variable           | B1                         |
-      | Additional note    | Additional note            |
-      | Hidden             | 1                          |
-      | Search form        | 1                          |
-      | Reserved           | 1                          |
-      | Parent element     | Boolean [1]: Is this true? |
-      | Parent content     | 1                          |
-      | Element style      | horizontal radio buttons   |
-      | id_defaultoption_1 | 1                          |
-      | id_defaultvalue    | Yes                        |
-      | Download format    | yes/no                     |
+      | Content            | Is it true?              |
+      | Required           | 1                        |
+      | Indent             | 1                        |
+      | Question position  | left                     |
+      | Element number     | II.a                     |
+      | Variable           | B1                       |
+      | Additional note    | Additional note          |
+      | Hidden             | 1                        |
+      | Search form        | 1                        |
+      | Reserved           | 1                        |
+      | Parent element     | Boolean [1]: Is it true? |
+      | Parent content     | 1                        |
+      | Element style      | horizontal radio buttons |
+      | id_defaultoption_1 | 1                        |
+      | id_defaultvalue    | Yes                      |
+      | Download format    | yes/no                   |
     And I press "Add"
 
     And I follow "edit_item_2"
-    Then the field "Content" matches value "Is this true?"
+    Then the field "Content" matches value "Is it true?"
     Then the field "Required" matches value "1"
     Then the field "Indent" matches value "1"
     Then the field "Question position" matches value "left"
@@ -61,7 +61,7 @@ Feature: test the use of boolean setup form
     Then the field "Hidden" matches value "1"
     Then the field "Search form" matches value "1"
     Then the field "Reserved" matches value "1"
-    Then the field "Parent element" matches value "Boolean [1]: Is this true?"
+    Then the field "Parent element" matches value "Boolean [1]: Is it true?"
     Then the field "Parent content" matches value "1"
     Then the field "Element style" matches value "horizontal radio buttons"
     Then the field "id_defaultoption_1" matches value "1"
@@ -71,7 +71,7 @@ Feature: test the use of boolean setup form
 
     And I follow "show_item_2"
     And I follow "Preview" page in tab bar
-    Then I should see "II.a: Is this true?"
+    Then I should see "II.a: Is it true?"
     Then the field "id_surveypro_field_boolean_2_1" matches value "1"
     Then I should see "Additional note"
 
@@ -87,6 +87,6 @@ Feature: test the use of boolean setup form
     And I press "Save as new"
 
     And I follow "Preview" page in tab bar
-    Then I should see "II.b: Is this true?"
+    Then I should see "II.b: Is it true?"
     Then the field "id_surveypro_field_boolean_3" matches value "Choose..."
     Then I should see "One more additional note"

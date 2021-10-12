@@ -41,7 +41,7 @@ Feature: test the use of rate setup form
       | Additional note          | Additional note                                     |
       | Hidden                   | 1                                                   |
       | Reserved                 | 1                                                   |
-      | Parent element           | Boolean [1]: Is this true?                          |
+      | Parent element           | Boolean [1]: Is it true?                            |
       | Parent content           | 1                                                   |
       | Element style            | dropdown menu                                       |
     And I set the multiline field "Options" to "\nItalian\n\n\n  Spanish\nEnglish\nFrench\n\n\nGerman\n\nDeutch\n\n"
@@ -77,7 +77,7 @@ Feature: test the use of rate setup form
     Then the field "Additional note" matches value "Additional note"
     Then the field "Hidden" matches value "1"
     Then the field "Reserved" matches value "1"
-    Then the field "Parent element" matches value "Boolean [1]: Is this true?"
+    Then the field "Parent element" matches value "Boolean [1]: Is it true?"
     Then the field "Parent content" matches value "1"
     Then the field "Element style" matches value "dropdown menu"
     Then the field "Options" matches multiline:
@@ -133,7 +133,7 @@ Feature: test the use of rate setup form
       | Hide filling instruction | 0                                                   |
       | Variable                 | R2                                                  |
       | Additional note          | One more additional note                            |
-      | Parent element           | Boolean [1]: Is this true?                          |
+      | Parent element           | Boolean [1]: Is it true?                            |
       | Parent content           | 0                                                   |
       | Element style            | radio buttons                                       |
     And I press "Save as new"

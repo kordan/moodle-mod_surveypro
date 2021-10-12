@@ -44,7 +44,7 @@ Feature: test each student sees only personal submissions
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content           | Is this true? |
+      | Content           | Is it true?   |
       | Required          | 1             |
       | Indent            | 0             |
       | Question position | left          |
@@ -63,7 +63,7 @@ Feature: test each student sees only personal submissions
     # student1 submits his first response
     And I set the following fields to these values:
       | 1: Write down your email | st11email@st11server.net |
-      | 2: Is this true?         | Yes                      |
+      | 2: Is it true?           | Yes                      |
     And I press "Submit"
 
     And I press "New response"
@@ -71,7 +71,7 @@ Feature: test each student sees only personal submissions
     # student1 submits his second response
     And I set the following fields to these values:
       | 1: Write down your email | st12email@st12server.net |
-      | 2: Is this true?         | No                       |
+      | 2: Is it true?           | No                       |
     And I press "Submit"
 
     And I log out
@@ -86,7 +86,7 @@ Feature: test each student sees only personal submissions
     # student2 submits a response
     And I set the following fields to these values:
       | 1: Write down your email | st21email@st21server.net |
-      | 2: Is this true?         | Yes                      |
+      | 2: Is it true?           | Yes                      |
     And I press "Submit"
 
     And I press "Continue to responses list"

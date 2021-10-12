@@ -43,7 +43,7 @@ Feature: test the use of time setup form
       | Hidden                   | 1                                                                      |
       | Search form              | 1                                                                      |
       | Reserved                 | 1                                                                      |
-      | Parent element           | Boolean [1]: Is this true?                                             |
+      | Parent element           | Boolean [1]: Is it true?                                               |
       | Parent content           | 1                                                                      |
       | Step                     | five minutes                                                           |
       | Custom                   | 1                                                                      |
@@ -83,7 +83,7 @@ Feature: test the use of time setup form
     Then the field "Hidden" matches value "1"
     Then the field "Search form" matches value "1"
     Then the field "Reserved" matches value "1"
-    Then the field "Parent element" matches value "Boolean [1]: Is this true?"
+    Then the field "Parent element" matches value "Boolean [1]: Is it true?"
     Then the field "Parent content" matches value "1"
     Then the field "Step" matches value "five minutes"
     Then the field "Custom" matches value "1"

@@ -61,7 +61,7 @@ Feature: test students can see submissions from their groupmates
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content           | Is this true? |
+      | Content           | Is it true?   |
       | Required          | 1             |
       | Indent            | 0             |
       | Question position | left          |
@@ -83,7 +83,7 @@ Feature: test students can see submissions from their groupmates
     # student1 submits his first response
     And I set the following fields to these values:
       | 1: Write down your email | st1grp1ans1@nowhere.net |
-      | 2: Is this true?         | Yes                     |
+      | 2: Is it true?           | Yes                     |
     And I press "Submit"
 
     And I press "New response"
@@ -91,7 +91,7 @@ Feature: test students can see submissions from their groupmates
     # student1 submits his second response
     And I set the following fields to these values:
       | 1: Write down your email | st1grp1ans2@nowhere.net |
-      | 2: Is this true?         | No                      |
+      | 2: Is it true?           | No                      |
     And I press "Submit"
 
     And I press "Continue to responses list"
@@ -112,7 +112,7 @@ Feature: test students can see submissions from their groupmates
     # student2 submits his first response
     And I set the following fields to these values:
       | 1: Write down your email | st2grp1ans1@nowhere.net |
-      | 2: Is this true?         | Yes                     |
+      | 2: Is it true?           | Yes                     |
     And I press "Submit"
 
     And I press "Continue to responses list"
@@ -134,7 +134,7 @@ Feature: test students can see submissions from their groupmates
     # student3 submits his first response
     And I set the following fields to these values:
       | 1: Write down your email | st3grp2ans1@nowhere.net |
-      | 2: Is this true?         | Yes                     |
+      | 2: Is it true?           | Yes                     |
     And I press "Submit"
 
     And I press "Continue to responses list"

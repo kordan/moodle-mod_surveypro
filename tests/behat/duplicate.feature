@@ -37,5 +37,5 @@ Feature: Duplicate a surveypro instance
     And I should see "Grouped data"
     And I should see "What do you usually get for breakfast?"
     And I should see "Write the best approximation of π you can remember"
-    And I should see "Is this true?"
+    And I should see "Is it true?"
     And I should see "Where do you usually spend your summer holidays?"
