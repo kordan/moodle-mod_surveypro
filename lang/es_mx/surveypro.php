@@ -351,6 +351,8 @@ $string['parentid_header'] = 'Relación';
 $string['parentid_help'] = 'Los elementos paternos le permiten a Usted crear ramificación condicional. Los elementos atenuados en la lista identifican elementos paternos ocultos. Muéstrelos para tenerlos disponibles en la lista.<br />Elementos precedidos por un asterisco se supone que pertenecen SOLAMENTE a formato reservado.';
 $string['parentid'] = 'Elemento paterno';
 $string['pause'] = 'Pausa';
+$string['pauseresume'] = 'Permitir Guardar/Continuar';
+$string['pauseresume_help'] = 'Permitir pausar una encuesta para poder continuarla y enviarla en una segunda sesión de respuesta.';
 $string['plugin'] = 'Elemento';
 $string['pluginname_help'] = 'Escriba aquí el nombre del plugin de encuesta que Usted va a guardar.';
 $string['plugintype'] = 'Tipo de plugin';
@@ -387,8 +389,6 @@ $string['runreport'] = '<a href="{$a->href}">Correr reporte de {$a->reportname}<
 $string['save'] = 'Guardar';
 $string['saveasnew'] = 'Guardar como nuevo';
 $string['savemastertemplates'] = '<a href="{$a}">Guardar plantillas maestras</a>';
-$string['pauseresume'] = 'Permitir Guardar/Continuar';
-$string['pauseresume_help'] = 'Permitir pausar una encuesta para poder continuarla y enviarla en una segunda sesión de respuesta.';
 $string['saveusertemplates'] = '<a href="{$a}">Guardar plantillas de usuario</a>';
 $string['schemavalidationfailed'] = 'La plantilla usa un archivo XML inválido. Por favor verifíquelo';
 $string['settings'] = 'Encuestapro (Surveypro)';
