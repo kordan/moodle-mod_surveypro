@@ -28,6 +28,7 @@ $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
 $tifirst = optional_param('tifirst', '', PARAM_ALPHA); // First letter of the name.
 $tilast = optional_param('tilast', '', PARAM_ALPHA);   // First letter of the surname.
 // $tsort = optional_param('tsort', '', PARAM_ALPHA);     // Field asked to sort the table for.
+$edit = optional_param('edit', -1, PARAM_BOOL);
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
@@ -81,6 +82,21 @@ $PAGE->set_context($context);
 $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
+if (($edit != -1) and $PAGE->user_allowed_editing()) {
+    $USER->editing = $edit;
+}
+if ($PAGE->user_allowed_editing()) {
+    // Change URL parameter and block display string value depending on whether editing is enabled or not
+    if ($PAGE->user_is_editing()) {
+        $urlediting = 'off';
+        $strediting = get_string('blockseditoff');
+    } else {
+        $urlediting = 'on';
+        $strediting = get_string('blocksediton');
+    }
+    $url = new moodle_url($CFG->wwwroot.'/mod/surveypro/view.php', array('id' => $id, 'edit' => $urlediting));
+    $PAGE->set_button($OUTPUT->single_button($url, $strediting));
+}
 
 echo $OUTPUT->header();
 

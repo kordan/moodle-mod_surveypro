@@ -27,6 +27,7 @@ require_once($CFG->dirroot.'/mod/surveypro/form/outform/fill_form.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
+$edit = optional_param('edit', -1, PARAM_BOOL);
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
@@ -106,6 +107,21 @@ $PAGE->set_context($context);
 $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
+if (($edit != -1) and $PAGE->user_allowed_editing()) {
+    $USER->editing = $edit;
+}
+if ($PAGE->user_allowed_editing()) {
+    // Change URL parameter and block display string value depending on whether editing is enabled or not
+    if ($PAGE->user_is_editing()) {
+        $urlediting = 'off';
+        $strediting = get_string('blockseditoff');
+    } else {
+        $urlediting = 'on';
+        $strediting = get_string('blocksediton');
+    }
+    $url = new moodle_url($CFG->wwwroot.'/mod/surveypro/layout_preview.php', array('id' => $id, 'edit' => $urlediting));
+    $PAGE->set_button($OUTPUT->single_button($url, $strediting));
+}
 
 echo $OUTPUT->header();
 
