@@ -77,7 +77,9 @@ $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
 
-new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_REPORT);
+$surveyproreportlist = get_plugin_list('surveyproreport');
+$reportkey = array_search('frequency', $surveyproreportlist);
+new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABREPORTS, $reportkey);
 
 $reportman->stop_if_textareas_only();
 

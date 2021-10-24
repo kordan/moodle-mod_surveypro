@@ -77,22 +77,27 @@ Feature: verify urls really redirect to existing pages
     # Survey -> Dashboard: Reports section
     And I follow "Run Attachments overview report"
     # return home
+    And I follow "Survey" page in tab bar
     And I follow "Dashboard" page in tab bar
 
     And I follow "Run Delayed users report"
     # return home
+    And I follow "Survey" page in tab bar
     And I follow "Dashboard" page in tab bar
 
     And I follow "Run Frequency distribution report"
     # return home
+    And I follow "Survey" page in tab bar
     And I follow "Dashboard" page in tab bar
 
     And I follow "Run Responses per user report"
     # return home
+    And I follow "Survey" page in tab bar
     And I follow "Dashboard" page in tab bar
 
     And I follow "Run Users per count of responses report"
     # return home
+    And I follow "Survey" page in tab bar
     And I follow "Dashboard" page in tab bar
 
     # Survey -> Dashboard: User templates section

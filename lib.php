@@ -43,6 +43,7 @@ define('SURVEYPRO_TABLAYOUT'     , 1);
 define('SURVEYPRO_TABSUBMISSIONS', 2);
 define('SURVEYPRO_TABUTEMPLATES' , 3);
 define('SURVEYPRO_TABMTEMPLATES' , 4);
+define('SURVEYPRO_TABREPORTS'    , 5);
 
 /**
  * PAGES
@@ -73,6 +74,9 @@ define('SURVEYPRO_UTEMPLATES_APPLY' , 4);
 // PAGES in tab MASTER TEMPLATES.
 define('SURVEYPRO_MTEMPLATES_BUILD', 1);
 define('SURVEYPRO_MTEMPLATES_APPLY', 2);
+
+// PAGES in tab REPORTS.
+// I can not define constants for report pages because they are a subplugin and can be integrated with additional reports.
 
 /**
  * ITEM TYPES
@@ -889,9 +893,8 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
             $classname = 'surveyproreport_'.$reportname.'_report';
             $reportman = new $classname($cm, $context, $surveypro);
 
-            $allowedtemplates = $reportman->allowed_templates();
-
-            if ((!$allowedtemplates) || in_array($surveypro->template, $allowedtemplates)) {
+            $report_applies_to = $reportman->report_applies_to();
+            if (($report_applies_to == ['each']) || in_array($surveypro->template, $report_applies_to)) {
                 if ($canaccessreports || ($reportman->has_student_report() && $canaccessownreports)) {
                     if ($reportman->report_apply()) {
                         if (!isset($reportnode)) {

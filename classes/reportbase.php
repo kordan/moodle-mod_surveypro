@@ -74,8 +74,8 @@ class mod_surveypro_reportbase {
      *
      * @return array
      */
-    public function allowed_templates() {
-        return array();
+    public function report_applies_to() {
+        return array('each');
     }
 
     /**

@@ -97,7 +97,10 @@ $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
 
-new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_REPORT);
+$surveyproreportlist = get_plugin_list('surveyproreport');
+$reportkey = array_search('delayedusers', $surveyproreportlist);
+new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABREPORTS, $reportkey);
+
 
 if ($showjumper) {
     $groupfilterform->set_data(array('groupid' => $groupid));
