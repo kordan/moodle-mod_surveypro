@@ -25,20 +25,22 @@
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/mtemplates/apply_form.php');
 
-$id = optional_param('id', 0, PARAM_INT); // Course_module id.
-$s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
+$id = required_param('id', PARAM_INT); // Course_module id.
 
-if (!empty($id)) {
-    $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
-} else {
-    $surveypro = $DB->get_record('surveypro', array('id' => $s), '*', MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $surveypro->course), '*', MUST_EXIST);
-    $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
+if (! $cm = get_coursemodule_from_id('surveypro', $id)) {
+    print_error('invalidcoursemodule');
+}
+$cm = cm_info::create($cm);
+
+if (! $course = $DB->get_record("course", array("id" => $cm->course))) {
+    print_error('coursemisconf');
 }
 
-require_course_login($course, true, $cm);
+require_course_login($course, false, $cm);
+
+if (! $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*')) {
+    print_error('invalidcoursemodule');
+}
 
 $context = context_module::instance($cm->id);
 require_capability('mod/surveypro:applymastertemplates', $context);
@@ -73,7 +75,7 @@ if ($mtemplateman->formdata = $applymtemplate->get_data()) {
 // End of: manage form submission.
 
 // Output starts here.
-$url = new moodle_url('/mod/surveypro/mtemplate_apply.php', array('s' => $surveypro->id));
+$url = new moodle_url('/mod/surveypro/mtemplate_apply.php', array('id' => $cm->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -81,6 +83,12 @@ $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
+echo $OUTPUT->heading(format_string($surveypro->name), 2, null);
+
+// Render the activity information.
+$completiondetails = \core_completion\cm_completion_details::get_instance($cm, $USER->id);
+$activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
+echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABMTEMPLATES, SURVEYPRO_MTEMPLATES_APPLY);
 

@@ -630,8 +630,9 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
                 }
             } else {
                 // Button or something not relevant.
-                if ($elementname == 's') {
-                    $surveyproid = $content;
+                // Take care: 'id' is $cm->id.
+                if ($elementname == 'id') {
+                    $surveyproid = $DB->get_field('course_modules', 'instance', array('id' => $content));
                 }
                 // This is the black hole where is thrown each useless info like:
                 // - formpage
@@ -1031,7 +1032,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         global $OUTPUT;
 
         $params = array();
-        $params['s'] = $this->surveypro->id;
+        $params['id'] = $this->cm->id;
         $params['submissionid'] = $this->get_submissionid();
         $params['view'] = SURVEYPRO_READONLYRESPONSE;
 

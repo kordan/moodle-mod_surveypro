@@ -796,7 +796,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
     $utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
     $nodeurl = $utilitylayoutman->get_common_links_url(SURVEYPRO_BLOCK);
 
-    $paramurlbase = array('s' => $cm->instance);
+    $paramurlbase = array('id' => $cm->id);
 
     // SURVEYPRO_TABLAYOUT.
     if ($nodeurl['tab_layout']['container']) {
@@ -936,7 +936,7 @@ function surveypro_add_report_link($templatename, $childreports, $childnode, $re
             $childnode = $childnode->add($label, null, navigation_node::TYPE_CONTAINER);
             surveypro_add_report_link($templatename, $reportparams, $childnode, $reportname, $icon);
         } else {
-            $reportparams['s'] = $PAGE->cm->instance;
+            $reportparams['id'] = $PAGE->cm->id;
             $url = new moodle_url('/mod/surveypro/report/'.$reportname.'/view.php', $reportparams);
             $childnode->add($label, $url, navigation_node::TYPE_SETTING, null, null, $icon);
         }

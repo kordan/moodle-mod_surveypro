@@ -25,20 +25,22 @@
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/outform/fill_form.php');
 
-$id = optional_param('id', 0, PARAM_INT); // Course_module id.
-$s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
+$id = required_param('id', PARAM_INT); // Course_module id.
 
-if (!empty($id)) {
-    $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
-} else {
-    $surveypro = $DB->get_record('surveypro', array('id' => $s), '*', MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $surveypro->course), '*', MUST_EXIST);
-    $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
+if (! $cm = get_coursemodule_from_id('surveypro', $id)) {
+    print_error('invalidcoursemodule');
+}
+$cm = cm_info::create($cm);
+
+if (! $course = $DB->get_record("course", array("id" => $cm->course))) {
+    print_error('coursemisconf');
 }
 
-require_course_login($course, true, $cm);
+require_course_login($course, false, $cm);
+
+if (! $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*')) {
+    print_error('invalidcoursemodule');
+}
 
 $context = context_module::instance($cm->id);
 $submissionid = optional_param('submissionid', 0, PARAM_INT);
@@ -134,12 +136,12 @@ if ($userformman->formdata = $outform->get_data()) {
     // If none redirect you, reload THE RIGHT page WITHOUT $paramurl['view'].
     // This is necessary otherwise if the user switches language using the corresponding menu
     // just after a new response is submitted
-    // the browser redirects to http://localhost/head_behat/mod/surveypro/view_form.php?s=xxx&view=1&lang=it
-    // and not               to http://localhost/head_behat/mod/surveypro/view.php?s=xxx&lang=it
+    // the browser redirects to http://localhost/head_behat/mod/surveypro/view_form.php?id=xxx&view=1&lang=it
+    // and not               to http://localhost/head_behat/mod/surveypro/view.php?id=xxx&lang=it
     // alias it goes to the page to get one more response
     // instead of remaining in the view submissions page.
     $paramurl = array();
-    $paramurl['s'] = $surveypro->id;
+    $paramurl['id'] = $cm->id;
     $paramurl['responsestatus'] = $userformman->get_responsestatus();
     $paramurl['justsubmitted'] = 1;
     $paramurl['formview'] = $userformman->get_view(); // What was I viewing in the form?
@@ -149,7 +151,7 @@ if ($userformman->formdata = $outform->get_data()) {
 // End of: manage form submission.
 
 // Output starts here.
-$paramurl = array('s' => $surveypro->id, 'view' => $view);
+$paramurl = array('id' => $cm->id, 'view' => $view);
 if (!empty($submissionid)) {
     $paramurl['submissionid'] = $submissionid;
 }
@@ -161,6 +163,12 @@ $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
+echo $OUTPUT->heading(format_string($surveypro->name), 2, null);
+
+// Render the activity information.
+$completiondetails = \core_completion\cm_completion_details::get_instance($cm, $USER->id);
+$activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
+echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
 new mod_surveypro_tabs($cm, $context, $surveypro, $userformman->get_tabtab(), $userformman->get_tabpage());
 

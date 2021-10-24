@@ -297,7 +297,7 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
 
         if ($canaccessreports) {
             $paramnexturl = array();
-            $paramnexturl['s'] = $this->surveypro->id;
+            $paramnexturl['id'] = $this->cm->id;
             $paramnexturl['type'] = 'scales';
             $nexturl = new moodle_url('/mod/surveypro/report/colles/view.php', $paramnexturl);
         } else {
@@ -442,7 +442,7 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
      */
     public function output_scalesdata() {
         $paramnexturl = array();
-        $paramnexturl['s'] = $this->surveypro->id;
+        $paramnexturl['id'] = $this->cm->id;
         $paramnexturl['type'] = 'questions';
 
         $paramurl = array();
@@ -553,7 +553,7 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
      */
     public function output_questionsdata($area) {
         $paramnexturl = array();
-        $paramnexturl['s'] = $this->surveypro->id;
+        $paramnexturl['id'] = $this->cm->id;
         if ($area == 5) {
             $paramnexturl['type'] = 'summary';
         } else {

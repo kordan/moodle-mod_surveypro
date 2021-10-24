@@ -27,12 +27,24 @@ require_once($CFG->libdir.'/graphlib.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/frequency/lib.php');
 
 $id = required_param('id', PARAM_INT); // Course Module ID.
+
+if (! $cm = get_coursemodule_from_id('surveypro', $id)) {
+    print_error('invalidcoursemodule');
+}
+$cm = cm_info::create($cm);
+
+if (! $course = $DB->get_record("course", array("id" => $cm->course))) {
+    print_error('coursemisconf');
+}
+
+require_course_login($course, false, $cm);
+
+if (! $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*')) {
+    print_error('invalidcoursemodule');
+}
+
 $itemid = required_param('itemid', PARAM_INT); // Item ID.
 $groupid = optional_param('groupid', 0, PARAM_INT); // Group ID.
-
-$cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
-$course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-$surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
 
 $context = context_module::instance($cm->id);
 

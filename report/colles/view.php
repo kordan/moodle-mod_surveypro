@@ -27,24 +27,28 @@ require_once($CFG->dirroot.'/mod/surveypro/report/delayedusers/form/groupjumper_
 require_once($CFG->dirroot.'/mod/surveypro/report/colles/lib.php');
 require_once($CFG->libdir.'/tablelib.php');
 
-$id = optional_param('id', 0, PARAM_INT);
-$s = optional_param('s', 0, PARAM_INT);
-if (!empty($id)) {
-    $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
-} else {
-    $surveypro = $DB->get_record('surveypro', array('id' => $s), '*', MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $surveypro->course), '*', MUST_EXIST);
-    $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
+$id = required_param('id', PARAM_INT);
+
+if (! $cm = get_coursemodule_from_id('surveypro', $id)) {
+    print_error('invalidcoursemodule');
+}
+$cm = cm_info::create($cm);
+
+if (! $course = $DB->get_record("course", array("id" => $cm->course))) {
+    print_error('coursemisconf');
+}
+
+require_course_login($course, false, $cm);
+
+if (! $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*')) {
+    print_error('invalidcoursemodule');
 }
 
 $type = optional_param('type', 'summary', PARAM_ALPHA);  // Type of graph.
 $area = optional_param('area', false, PARAM_INT);  // Area ID.
 
-require_course_login($course, true, $cm);
-
 $context = context_module::instance($cm->id);
+
 if ($type == 'summary') {
     if (!has_capability('mod/surveypro:accessreports', $context)) {
         require_capability('mod/surveypro:accessownreports', $context);
@@ -85,7 +89,7 @@ if ($showjumper) {
 // End of: prepare params for the form.
 
 // Output starts here.
-$paramurl = array('s' => $surveypro->id, 'type' => $type);
+$paramurl = array('id' => $cm->id, 'type' => $type);
 if ( ($type == 'questions') && ($area !== false) ) { // Area can be zero.
     $paramurl['area'] = $area;
 }
@@ -98,6 +102,7 @@ $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
+echo $OUTPUT->heading(format_string(get_string('pluginname', 'surveyproreport_colles')), 2, null);
 
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_REPORT);
 

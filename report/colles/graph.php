@@ -32,13 +32,22 @@ $groupid = optional_param('groupid', 0, PARAM_INT); // Group ID.
 $area = optional_param('area', 0, PARAM_INT);  // Report area.
 $qid = optional_param('qid', 0, PARAM_INT);  // Question ID.
 
-$cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
-$course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-$surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
+if (! $cm = get_coursemodule_from_id('surveypro', $id)) {
+    print_error('invalidcoursemodule');
+}
+$cm = cm_info::create($cm);
+
+if (! $course = $DB->get_record("course", array("id" => $cm->course))) {
+    print_error('coursemisconf');
+}
+
+require_course_login($course, false, $cm);
+
+if (! $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*')) {
+    print_error('invalidcoursemodule');
+}
 
 $context = context_module::instance($cm->id);
-
-require_login($course, false, $cm);
 
 if ($type == 'summary') {
     if (!has_capability('mod/surveypro:accessreports', $context)) {

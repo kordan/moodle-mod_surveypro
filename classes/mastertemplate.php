@@ -489,7 +489,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
 
         $this->add_items_from_template();
 
-        $paramurl = array('s' => $this->surveypro->id);
+        $paramurl = array('id' => $this->cm->id);
         $redirecturl = new moodle_url('/mod/surveypro/layout_preview.php', $paramurl);
         redirect($redirecturl);
     }
@@ -508,7 +508,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
 
         if ($hassubmissions && (!$riskyediting)) {
             echo $OUTPUT->notification(get_string('applyusertemplatedenied01', 'mod_surveypro'), 'notifyproblem');
-            $url = new moodle_url('/mod/surveypro/view.php', array('s' => $this->surveypro->id));
+            $url = new moodle_url('/mod/surveypro/view.php', array('id' => $this->cm->id));
             echo $OUTPUT->continue_button($url);
             echo $OUTPUT->footer();
             die();

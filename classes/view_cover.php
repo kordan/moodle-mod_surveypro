@@ -287,7 +287,7 @@ class mod_surveypro_view_cover {
                 $categoryname .= ' > '.$subreport;
                 $this->add_report_link($childparams, $pluginname, $messages, $categoryname);
             } else {
-                $childparams = array('s' => $this->cm->instance) + $childparams;
+                $childparams = array('id' => $this->cm->id) + $childparams;
                 $url = new moodle_url('/mod/surveypro/report/'.$pluginname.'/view.php', $childparams);
                 $a = new stdClass();
                 $a->href = $url->out();

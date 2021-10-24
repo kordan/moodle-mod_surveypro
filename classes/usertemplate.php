@@ -482,7 +482,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         // Now actually add items from template.
         $this->add_items_from_template();
 
-        $paramurl = array('s' => $this->surveypro->id);
+        $paramurl = array('id' => $this->cm->id);
         $redirecturl = new moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
         redirect($redirecturl);
     }
@@ -501,7 +501,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
         if ($hassubmissions && (!$riskyediting)) {
             echo $OUTPUT->notification(get_string('applyusertemplatedenied01', 'mod_surveypro'), 'notifyproblem');
-            $url = new moodle_url('/mod/surveypro/view.php', array('s' => $this->surveypro->id));
+            $url = new moodle_url('/mod/surveypro/view.php', array('id' => $this->cm->id));
             echo $OUTPUT->continue_button($url);
             echo $OUTPUT->footer();
             die();
@@ -509,7 +509,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
         if ($this->surveypro->template && (!$riskyediting)) { // This survey comes from a master template so it is multilang.
             echo $OUTPUT->notification(get_string('applyusertemplatedenied02', 'mod_surveypro'), 'notifyproblem');
-            $url = new moodle_url('/mod/surveypro/view_userform.php', array('s' => $this->surveypro->id));
+            $url = new moodle_url('/mod/surveypro/view_userform.php', array('id' => $this->cm->id));
             echo $OUTPUT->continue_button($url);
             echo $OUTPUT->footer();
             die();
@@ -1014,7 +1014,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
             // Ask for confirmation.
             $a = $this->get_utemplate_name();
             $message = get_string('confirm_delete1utemplate', 'mod_surveypro', $a);
-            $optionsbase = array('s' => $this->surveypro->id, 'act' => SURVEYPRO_DELETEUTEMPLATE);
+            $optionsbase = array('id' => $this->cm->id, 'act' => SURVEYPRO_DELETEUTEMPLATE);
 
             $optionsyes = $optionsbase;
             $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;

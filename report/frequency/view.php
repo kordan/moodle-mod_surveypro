@@ -27,19 +27,23 @@ require_once($CFG->dirroot.'/mod/surveypro/report/frequency/form/itemfilter_form
 require_once($CFG->dirroot.'/mod/surveypro/report/frequency/lib.php');
 require_once($CFG->libdir.'/tablelib.php');
 
-$id = optional_param('id', 0, PARAM_INT);
-$s = optional_param('s', 0, PARAM_INT);
-if (!empty($id)) {
-    $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
-} else {
-    $surveypro = $DB->get_record('surveypro', array('id' => $s), '*', MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $surveypro->course), '*', MUST_EXIST);
-    $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
+$id = required_param('id', PARAM_INT);
+
+if (! $cm = get_coursemodule_from_id('surveypro', $id)) {
+    print_error('invalidcoursemodule');
+}
+$cm = cm_info::create($cm);
+
+if (! $course = $DB->get_record("course", array("id" => $cm->course))) {
+    print_error('coursemisconf');
 }
 
-require_course_login($course, true, $cm);
+require_course_login($course, false, $cm);
+
+if (! $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*')) {
+    print_error('invalidcoursemodule');
+}
+
 
 $context = context_module::instance($cm->id);
 require_capability('mod/surveypro:accessreports', $context);
@@ -68,7 +72,7 @@ $filterform = new mod_surveypro_itemfilterform($formurl, $formparams); // No aut
 // End of: instance filterform.
 
 // Output starts here.
-$url = new moodle_url('/mod/surveypro/report/frequency/view.php', array('s' => $surveypro->id));
+$url = new moodle_url('/mod/surveypro/report/frequency/view.php', array('id' => $cm->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -76,6 +80,7 @@ $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
+echo $OUTPUT->heading(format_string(get_string('pluginname', 'surveyproreport_frequency')), 2, null);
 
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_REPORT);
 

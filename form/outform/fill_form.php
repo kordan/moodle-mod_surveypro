@@ -62,9 +62,9 @@ class mod_surveypro_outform extends moodleform {
 
         $notestr = get_string('note', 'mod_surveypro');
 
-        // Userform: s.
-        $mform->addElement('hidden', 's', $surveypro->id);
-        $mform->setType('s', PARAM_INT);
+        // Userform: id.
+        $mform->addElement('hidden', 'id', $cm->id);
+        $mform->setType('id', PARAM_INT);
 
         // Userform: submissionid.
         $mform->addElement('hidden', 'submissionid', 0);

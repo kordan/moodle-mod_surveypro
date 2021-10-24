@@ -874,7 +874,7 @@ class mod_surveypro_submission {
         if (!$this->hasitems) {
             $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
 
-            $paramurl = array('s' => $this->surveypro->id);
+            $paramurl = array('id' => $this->cm->id);
             if ($canmanageitems) {
                 $redirecturl = new moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
             } else {

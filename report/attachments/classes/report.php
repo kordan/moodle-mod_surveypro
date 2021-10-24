@@ -139,7 +139,7 @@ class surveyproreport_attachments_report extends mod_surveypro_reportbase {
             // Users with $usersubmission->submissionid == null have no submissions.
             if (!empty($usersubmission->submissionid)) {
                 $paramurl = array();
-                $paramurl['s'] = $this->surveypro->id;
+                $paramurl['id'] = $this->cm->id;
                 $paramurl['userid'] = $usersubmission->id;
                 $paramurl['submissionid'] = $usersubmission->submissionid;
                 $url = new moodle_url('/mod/surveypro/report/attachments/uploads.php', $paramurl);
