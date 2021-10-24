@@ -34,9 +34,9 @@ Feature: test the use of integer as parent item
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content        | Write down your name                                            |
-      | Parent element | Integer [1]: How many people does your family have besides you? |
-      | Parent content | 5                                                               |
+      | Content        | Write down your name                                         |
+      | Parent element | Integer [1]: How many people does your family have beside... |
+      | Parent content | 5                                                            |
     And I press "Add"
 
     And I log out
