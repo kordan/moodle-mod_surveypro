@@ -17,17 +17,17 @@
 /**
  * Privacy class for requesting user data.
  *
- * @package   surveyproreport_delayedusers
+ * @package   surveyproreport_lateusers
  * @copyright 2018 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace surveyproreport_delayedusers\privacy;
+namespace surveyproreport_lateusers\privacy;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Privacy Subsystem for report_delayedusers implementing null_provider.
+ * Privacy Subsystem for report_lateusers implementing null_provider.
  *
  * @copyright 2018 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

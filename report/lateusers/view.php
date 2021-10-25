@@ -15,15 +15,15 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Starting page of the delayedusers report.
+ * Starting page of the lateusers report.
  *
- * @package   surveyproreport_delayedusers
+ * @package   surveyproreport_lateusers
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/report/delayedusers/form/groupjumper_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/report/lateusers/form/groupjumper_form.php');
 require_once($CFG->libdir.'/tablelib.php');
 
 $id = optional_param('id', 0, PARAM_INT);
@@ -44,7 +44,7 @@ require_course_login($course, true, $cm);
 $context = context_module::instance($cm->id);
 require_capability('mod/surveypro:accessreports', $context);
 
-$reportman = new surveyproreport_delayedusers_report($cm, $context, $surveypro);
+$reportman = new surveyproreport_lateusers_report($cm, $context, $surveypro);
 $reportman->set_groupid($groupid);
 $reportman->setup_outputtable();
 
@@ -56,7 +56,7 @@ if ($showjumper) {
     $jumpercontent = $reportman->get_groupjumper_items();
 
     $paramurl = array('id' => $cm->id);
-    $formurl = new moodle_url('/mod/surveypro/report/delayedusers/view.php', $paramurl);
+    $formurl = new moodle_url('/mod/surveypro/report/lateusers/view.php', $paramurl);
 
     $formparams = new stdClass();
     $formparams->canaccessallgroups = $canaccessallgroups;
@@ -76,7 +76,7 @@ if ($showjumper) {
     $formparams->addnotinanygroup = false;
     $formparams->jumpercontent = $jumpercontent;
     $attributes = array('id' => 'surveypro_jumperform');
-    $groupfilterform = new mod_surveypro_delayedusers_groupjumper($formurl, $formparams, null, null, $attributes);
+    $groupfilterform = new mod_surveypro_lateusers_groupjumper($formurl, $formparams, null, null, $attributes);
 
     $PAGE->requires->js_amd_inline("
     require(['jquery'], function($) {
@@ -88,7 +88,7 @@ if ($showjumper) {
 // End of: prepare params for the form.
 
 // Output starts here.
-$url = new moodle_url('/mod/surveypro/report/delayedusers/view.php', array('s' => $surveypro->id));
+$url = new moodle_url('/mod/surveypro/report/lateusers/view.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);

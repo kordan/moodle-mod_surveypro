@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Surveypro class to manage delayedusers report
+ * Surveypro class to manage lateusers report
  *
- * @package   surveyproreport_delayedusers
+ * @package   surveyproreport_lateusers
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -27,13 +27,13 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir.'/tablelib.php');
 
 /**
- * The class to manage delayedusers report
+ * The class to manage lateusers report
  *
- * @package   surveyproreport_delayedusers
+ * @package   surveyproreport_lateusers
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyproreport_delayedusers_report extends mod_surveypro_reportbase {
+class surveyproreport_lateusers_report extends mod_surveypro_reportbase {
 
     /**
      * @var flexible_table $outputtable
@@ -44,13 +44,13 @@ class surveyproreport_delayedusers_report extends mod_surveypro_reportbase {
      * Setup_outputtable
      */
     public function setup_outputtable() {
-        $this->outputtable = new flexible_table('delayedusers');
+        $this->outputtable = new flexible_table('lateusers');
 
         $paramurl = array('id' => $this->cm->id);
         if ($this->groupid) {
             $paramurl['groupid'] = $this->groupid;
         }
-        $baseurl = new moodle_url('/mod/surveypro/report/delayedusers/view.php', $paramurl);
+        $baseurl = new moodle_url('/mod/surveypro/report/lateusers/view.php', $paramurl);
         $this->outputtable->define_baseurl($baseurl);
 
         $tablecolumns = array();
@@ -77,7 +77,7 @@ class surveyproreport_delayedusers_report extends mod_surveypro_reportbase {
         // General properties for the whole table.
         $this->outputtable->summary = get_string('submissionslist', 'mod_surveypro');
         $this->outputtable->set_attribute('cellpadding', '5');
-        $this->outputtable->set_attribute('id', 'delayedusers');
+        $this->outputtable->set_attribute('id', 'lateusers');
         $this->outputtable->set_attribute('class', 'generaltable');
         // $this->outputtable->set_attribute('width', '90%');
         $this->outputtable->setup();
@@ -163,7 +163,7 @@ class surveyproreport_delayedusers_report extends mod_surveypro_reportbase {
     public function output_data() {
         global $OUTPUT;
 
-        echo $OUTPUT->heading(get_string('pluginname', 'surveyproreport_delayedusers'));
+        echo $OUTPUT->heading(get_string('pluginname', 'surveyproreport_lateusers'));
         $this->outputtable->print_html();
     }
 }

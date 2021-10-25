@@ -15,11 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'report_delayedusers', language 'en'
+ * Strings for component 'surveyproreport_lateusers', language 'es_mx'
  *
- * @package   surveyproreport_delayedusers
- * @copyright 2013 onwards kordan <kordan@mclink.it>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   surveyproreport_lateusers
+ * @subpackage lateusers
+ * @copyright  2013 onwards German Valero <gvalero@unam.mx >
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Ritardatari';
+defined('MOODLE_INTERNAL') || die();
+
+$string['pluginname'] = 'Usuarios retrasados';

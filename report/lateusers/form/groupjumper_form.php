@@ -17,7 +17,7 @@
 /**
  * Class to filter output by group
  *
- * @package   surveyproreport_delayedusers
+ * @package   surveyproreport_lateusers
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -29,11 +29,11 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 /**
  * The class to filter the attachment item to overview
  *
- * @package   surveyproreport_delayedusers
+ * @package   surveyproreport_lateusers
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_delayedusers_groupjumper extends moodleform {
+class mod_surveypro_lateusers_groupjumper extends moodleform {
 
     /**
      * Definition.

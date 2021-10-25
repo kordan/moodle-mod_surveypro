@@ -80,7 +80,7 @@ Feature: verify urls really redirect to existing pages
     And I follow "Survey" page in tab bar
     And I follow "Dashboard" page in tab bar
 
-    And I follow "Run Delayed users report"
+    And I follow "Run Late users report"
     # return home
     And I follow "Survey" page in tab bar
     And I follow "Dashboard" page in tab bar
