@@ -103,7 +103,7 @@ echo $OUTPUT->header();
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_MANAGE);
 
 if (!empty($justsubmitted)) {
-    $submissionman->show_thanks_page($responsestatus, $formview);
+    $submissionman->show_thanks_page($responsestatus, $formview, $justsubmitted);
 } else {
     $submissionman->actions_feedback(); // Action feedback after PAGE.
 
