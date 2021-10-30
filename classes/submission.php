@@ -985,9 +985,10 @@ class mod_surveypro_submission {
      *
      * @param int $responsestatus
      * @param int $formview
+     * @param int $justsubmitted
      * @return void
      */
-    public function show_thanks_page($responsestatus, $formview) {
+    public function show_thanks_page($responsestatus, $formview, $justsubmitted) {
         global $OUTPUT;
 
         if ($responsestatus == SURVEYPRO_MISSINGMANDATORY) {
@@ -1002,9 +1003,10 @@ class mod_surveypro_submission {
             echo $OUTPUT->notification($message, 'notifyproblem');
         }
 
-        if ($formview == SURVEYPRO_EDITRESPONSE) {
+        if ($justsubmitted == 1) {
             $message = get_string('basic_editthanks', 'mod_surveypro');
         } else {
+            // $justsubmitted == 2. User deserves thanks if available.
             if (!empty($this->surveypro->thankspage)) {
                 $htmlbody = $this->surveypro->thankspage;
                 $contextid = $this->context->id;

@@ -141,7 +141,7 @@ if ($userformman->formdata = $outform->get_data()) {
     $paramurl = array();
     $paramurl['s'] = $surveypro->id;
     $paramurl['responsestatus'] = $userformman->get_responsestatus();
-    $paramurl['justsubmitted'] = 1;
+    $paramurl['justsubmitted'] = 1 + $userformman->get_userdeservesthanks();
     $paramurl['formview'] = $userformman->get_view(); // What was I viewing in the form?
     $redirecturl = new moodle_url('/mod/surveypro/view.php', $paramurl);
     redirect($redirecturl); // Redirect to the first non empty page.

@@ -64,6 +64,11 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
     protected $responsestatus;
 
     /**
+     * @var int Final validation of the submitted response
+     */
+    protected $userdeservesthanks;
+
+    /**
      * @var object Form content as submitted by the user
      */
     public $formdata = null;
@@ -232,6 +237,15 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
     }
 
     /**
+     * Get userdeservesthanks.
+     *
+     * @return the content of $userdeservesthanks property
+     */
+    public function get_userdeservesthanks() {
+        return $this->userdeservesthanks;
+    }
+
+    /**
      * Get the first NON EMPTY page on the right or on the left.
      *
      * Depending on answers provided by the user, the previous or next page may have no items to display
@@ -386,6 +400,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
 
         $submission = new stdClass();
         if (empty($this->formdata->submissionid)) {
+            $originalstatus = SURVEYPRO_STATUSINPROGRESS;
             // Add a new record to surveypro_submission.
             $submission->surveyproid = $this->surveypro->id;
             $submission->userid = $USER->id;
@@ -409,13 +424,20 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
             $event->trigger();
         } else {
             // Surveypro_submission already exists.
-            // And user submitted once more.
+            // And user submitted once again.
+            $params = ['id' => $this->formdata->submissionid];
+            $originalstatus = $DB->get_field('surveypro_submission', 'status', $params, MUST_EXIST);
+
             $submission->id = $this->formdata->submissionid;
             $submission->timemodified = $timenow;
 
             // Define $submission->status.
             if ($savebutton || $saveasnewbutton) {
                 $submission->status = SURVEYPRO_STATUSCLOSED;
+            }
+            // For ($nextbutton || $prevbutton) cases, do not change the status. You will change it at save time.
+            if ($pausebutton) {
+                $submission->status = $originalstatus;
             }
             // For ($nextbutton || $prevbutton) cases, do not change the status. You will change it at save time.
             if ($pausebutton) {
@@ -427,6 +449,17 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
             $eventdata['other'] = array('view' => SURVEYPRO_EDITRESPONSE);
             $event = \mod_surveypro\event\submission_modified::create($eventdata);
             $event->trigger();
+        }
+
+        if ($savebutton || $saveasnewbutton) {
+            // Does user deserve thanks?
+            if ($originalstatus == SURVEYPRO_STATUSCLOSED) {
+                // No thanks page. User is only editing and was already thanked at original submission time.
+                $this->userdeservesthanks = 0;
+            } else {
+                 // User desere thanks.
+                $this->userdeservesthanks = 1;
+            }
         }
 
         // Before returning, set two class properties.
