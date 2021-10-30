@@ -894,8 +894,8 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
             $classname = 'surveyproreport_'.$reportname.'_report';
             $reportman = new $classname($cm, $context, $surveypro);
 
-            $report_applies_to = $reportman->report_applies_to();
-            if (($report_applies_to == ['each']) || in_array($surveypro->template, $report_applies_to)) {
+            $reportappliesto = $reportman->report_applies_to();
+            if (($reportappliesto == ['each']) || in_array($surveypro->template, $reportappliesto)) {
                 if ($canaccessreports || ($reportman->has_student_report() && $canaccessownreports)) {
                     if ($reportman->report_apply()) {
                         if (!isset($reportnode)) {
