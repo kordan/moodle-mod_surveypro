@@ -436,10 +436,9 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
                 $submission->status = SURVEYPRO_STATUSCLOSED;
             }
             // For ($nextbutton || $prevbutton) cases, do not change the status. You will change it at save time.
-            if ($pausebutton) {
+            if ($nextbutton || $prevbutton) {
                 $submission->status = $originalstatus;
             }
-            // For ($nextbutton || $prevbutton) cases, do not change the status. You will change it at save time.
             if ($pausebutton) {
                 $submission->status = SURVEYPRO_STATUSINPROGRESS;
             }
