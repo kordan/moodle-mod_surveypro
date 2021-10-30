@@ -23,7 +23,6 @@
  */
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/report/delayedusers/form/groupjumper_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/colles/lib.php');
 require_once($CFG->libdir.'/tablelib.php');
 

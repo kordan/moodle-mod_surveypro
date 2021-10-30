@@ -15,13 +15,13 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'report_delayedusers', language 'en'
+ * Strings for component 'report_lateusers', language 'en'
  *
- * @package   surveyproreport_delayedusers
+ * @package   surveyproreport_lateusers
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Delayed users';
+$string['pluginname'] = 'Late users';
 
-$string['privacy:metadata'] = 'The "Delayed users" report plugin does not store any personal data.';
+$string['privacy:metadata'] = 'The "Late users" report plugin does not store any personal data.';

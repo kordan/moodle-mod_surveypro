@@ -308,5 +308,19 @@ function xmldb_surveypro_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2021100400, 'surveypro');
     }
 
+    if ($oldversion < 2021102600) {
+        $newcontent = 'surveyproreport_lateusers';
+        $oldcontent = 'surveyproreport_delayedusers';
+
+        $sql = 'UPDATE {config_plugins} SET plugin = :newcontent WHERE plugin = :oldcontent';
+        $DB->execute($sql, array('oldcontent' => $oldcontent, 'newcontent' => $newcontent));
+
+        $sql = 'UPDATE {upgrade_log} SET plugin = :newcontent WHERE plugin = :oldcontent';
+        $DB->execute($sql, array('oldcontent' => $oldcontent, 'newcontent' => $newcontent));
+
+        // Surveypro savepoint reached.
+        upgrade_mod_savepoint(true, 2021102600, 'surveypro');
+    }
+
     return true;
 }

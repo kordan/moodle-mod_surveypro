@@ -15,14 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'surveyproreport_delayedusers', language 'es_mx'
+ * Defines the version of surveypro lateusers report subplugin
  *
- * @package   surveyproreport_delayedusers
- * @subpackage delayedusers
- * @copyright  2013 onwards German Valero <gvalero@unam.mx >
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   surveyproreport_lateusers
+ * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['pluginname'] = 'Usuarios retrasados';
+$plugin->version = 2017112201;
+$plugin->release = '1.0';
+$plugin->requires = 2015111600; // Requires this Moodle version.
+$plugin->component = 'surveyproreport_lateusers'; // Full name of the plugin (used for diagnostics).
