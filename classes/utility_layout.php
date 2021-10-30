@@ -742,6 +742,7 @@ class mod_surveypro_utility_layout {
         $cansavemastertemplates = has_capability('mod/surveypro:savemastertemplates', $this->context);
         $canapplymastertemplates = has_capability('mod/surveypro:applymastertemplates', $this->context);
         $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context);
+        $canaccessownreports = has_capability('mod/surveypro:accessownreports', $this->context);
 
         $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
         $hassubmissions = $utilitylayoutman->has_submissions();
@@ -912,6 +913,37 @@ class mod_surveypro_utility_layout {
 
         $availableurllist['tab_mtemplate'] = $elements;
         // End of: Tab/Container master template.
+
+        // Tab/Container report.
+        $elements = array();
+        $counter = 0;
+
+        // Reports -> container.
+        $elements['container'] = false;
+
+        if ($surveyproreportlist = get_plugin_list('surveyproreport')) {
+            foreach ($surveyproreportlist as $reportname => $reportpath) {
+                $classname = 'surveyproreport_'.$reportname.'_report';
+                $reportman = new $classname($this->cm, $this->context, $this->surveypro);
+                $report_applies_to = $reportman->report_applies_to();
+                if (($report_applies_to == ['each']) || in_array($this->surveypro->template, $report_applies_to)) {
+                    if ($canaccessreports || ($reportman->has_student_report() && $canaccessownreports)) {
+                        if ($reportman->report_apply()) {
+                            $counter++;
+                            $elements[$reportname] = false;
+                            $elementurl = new moodle_url('/mod/surveypro/report/'.$reportname.'/view.php', $paramurlbase);
+                            $elements[$reportname] = $elementurl;
+
+                            // Reports -> container.
+                            $elements['container'] = $elements['container'] || $elements[$reportname];
+                        }
+                    }
+                }
+            }
+        }
+
+        $availableurllist['tab_reports'] = $elements;
+        // End of: Tab/Container reports.
 
         return $availableurllist;
     }

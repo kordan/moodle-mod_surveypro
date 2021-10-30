@@ -145,7 +145,7 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
      *
      * @return void
      */
-    public function allowed_templates() {
+    public function report_applies_to() {
         return array('collesactual', 'collespreferred', 'collesactualpreferred');
     }
 

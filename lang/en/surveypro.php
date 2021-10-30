@@ -58,6 +58,7 @@ $string['tabutemplatename'] = 'User templates';
 $string['tabmtemplatename'] = 'Master templates';
     $string['tabmtemplatepage1'] = 'Save';
     $string['tabmtemplatepage2'] = 'Apply';
+$string['tabreportsname'] = 'Reports';
 
 $string['action_help'] = 'Operate on elements already present in the survey with the following action.';
 $string['action'] = 'Preexisting elements';

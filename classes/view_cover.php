@@ -201,9 +201,8 @@ class mod_surveypro_view_cover {
             $classname = 'surveyproreport_'.$pluginname.'_report';
             $reportman = new $classname($this->cm, $this->context, $this->surveypro);
 
-            $allowedtemplates = $reportman->allowed_templates();
-
-            if ((!$allowedtemplates) || in_array($this->surveypro->template, $allowedtemplates)) {
+            $report_applies_to = $reportman->report_applies_to();
+            if (($report_applies_to == ['each']) || in_array($this->surveypro->template, $report_applies_to)) {
                 if ($canaccessreports || ($reportman->has_student_report() && $canaccessownreports)) {
                     if ($reportman->report_apply()) {
                         if ($childreports = $reportman->has_childreports($canaccessreports)) {
