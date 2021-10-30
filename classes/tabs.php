@@ -346,8 +346,8 @@ class mod_surveypro_tabs {
                     foreach ($surveyproreportlist as $reportname => $reportpath) {
                         $classname = 'surveyproreport_'.$reportname.'_report';
                         $reportman = new $classname($this->cm, $this->context, $this->surveypro);
-                        $report_applies_to = $reportman->report_applies_to();
-                        if (($report_applies_to == ['each']) || in_array($this->surveypro->template, $report_applies_to)) {
+                        $reportappliesto = $reportman->report_applies_to();
+                        if (($reportappliesto == ['each']) || in_array($this->surveypro->template, $reportappliesto)) {
                             if ($canaccessreports || ($reportman->has_student_report() && $canaccessownreports)) {
                                 if ($reportman->report_apply()) {
                                     $counter++;
