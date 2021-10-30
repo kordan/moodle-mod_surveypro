@@ -161,9 +161,6 @@ class surveyproreport_lateusers_report extends mod_surveypro_reportbase {
      * Output_data
      */
     public function output_data() {
-        global $OUTPUT;
-
-        echo $OUTPUT->heading(get_string('pluginname', 'surveyproreport_lateusers'));
         $this->outputtable->print_html();
     }
 }

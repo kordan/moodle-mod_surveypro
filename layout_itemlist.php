@@ -28,7 +28,6 @@ require_once($CFG->dirroot.'/mod/surveypro/form/items/bulk_action_form.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
-$edit = optional_param('edit', -1, PARAM_BOOL);
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
@@ -39,8 +38,7 @@ if (!empty($id)) {
     $course = $DB->get_record('course', array('id' => $surveypro->course), '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
-
-require_course_login($course, true, $cm);
+$cm = cm_info::create($cm);
 
 $type = optional_param('type', null, PARAM_TEXT);
 $plugin = optional_param('plugin', null, PARAM_TEXT);
@@ -55,12 +53,17 @@ $nextindent = optional_param('ind', 0, PARAM_INT);
 $parentid = optional_param('pid', 0, PARAM_INT);
 $itemeditingfeedback = optional_param('iefeedback', SURVEYPRO_NOFEEDBACK, PARAM_INT);
 $saveasnew = optional_param('saveasnew', null, PARAM_TEXT);
+$edit = optional_param('edit', -1, PARAM_BOOL);
+
+require_course_login($course, false, $cm);
+$context = context_module::instance($cm->id);
+
+// Required capability.
+require_capability('mod/surveypro:manageitems', $context);
 
 if ($action != SURVEYPRO_NOACTION) {
     require_sesskey();
 }
-$context = context_module::instance($cm->id);
-require_capability('mod/surveypro:manageitems', $context);
 
 // Calculations.
 $utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
@@ -177,6 +180,12 @@ if (!$itemtomove) {
 }
 
 echo $OUTPUT->header();
+echo $OUTPUT->heading(format_string($surveypro->name), 2, null);
+
+// Render the activity information.
+$completiondetails = \core_completion\cm_completion_details::get_instance($cm, $USER->id);
+$activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
+echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABLAYOUT, SURVEYPRO_LAYOUT_ITEMS);
 

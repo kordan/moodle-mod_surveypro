@@ -27,7 +27,6 @@ require_once($CFG->dirroot.'/mod/surveypro/form/outform/fill_form.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
-$edit = optional_param('edit', -1, PARAM_BOOL);
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
@@ -38,12 +37,14 @@ if (!empty($id)) {
     $course = $DB->get_record('course', array('id' => $surveypro->course), '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
+$cm = cm_info::create($cm);
 
-require_course_login($course, true, $cm);
-
-$context = context_module::instance($cm->id);
 $formpage = optional_param('formpage', 0, PARAM_INT); // Form page number.
 $submissionid = optional_param('submissionid', 0, PARAM_INT);
+$edit = optional_param('edit', -1, PARAM_BOOL);
+
+require_course_login($course, false, $cm);
+$context = context_module::instance($cm->id);
 
 // Calculations.
 mod_surveypro_utility_mform::register_form_elements();
@@ -124,6 +125,12 @@ if ($PAGE->user_allowed_editing()) {
 }
 
 echo $OUTPUT->header();
+echo $OUTPUT->heading(format_string($surveypro->name), 2, null);
+
+// Render the activity information.
+$completiondetails = \core_completion\cm_completion_details::get_instance($cm, $USER->id);
+$activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
+echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABLAYOUT, SURVEYPRO_LAYOUT_PREVIEW);
 

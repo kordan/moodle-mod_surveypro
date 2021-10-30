@@ -350,7 +350,6 @@ class mod_surveypro_tabs {
                         if (($reportappliesto == ['each']) || in_array($this->surveypro->template, $reportappliesto)) {
                             if ($canaccessreports || ($reportman->has_student_report() && $canaccessownreports)) {
                                 if ($reportman->report_apply()) {
-                                    $counter++;
                                     if ($elementurl = $this->tabpagesurl['tab_reports'][$reportname]) {
                                         $strlabel = get_string('pluginname', 'surveyproreport_'.$reportname);
                                         $row[] = new tabobject('idpage'.$counter, $elementurl->out(), $strlabel);
@@ -358,6 +357,7 @@ class mod_surveypro_tabs {
                                 }
                             }
                         }
+                        $counter++;
                     }
                 }
 

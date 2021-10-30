@@ -28,6 +28,7 @@ require_once($CFG->libdir.'/tablelib.php');
 
 $id = optional_param('id', 0, PARAM_INT);
 $s = optional_param('s', 0, PARAM_INT);
+
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
     $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
@@ -37,11 +38,14 @@ if (!empty($id)) {
     $course = $DB->get_record('course', array('id' => $surveypro->course), '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
+$cm = cm_info::create($cm);
+
 $groupid = optional_param('groupid', 0, PARAM_INT);
 
-require_course_login($course, true, $cm);
-
+require_course_login($course, false, $cm);
 $context = context_module::instance($cm->id);
+
+// Required capability.
 require_capability('mod/surveypro:accessreports', $context);
 
 $reportman = new surveyproreport_userspercount_report($cm, $context, $surveypro);
@@ -83,9 +87,15 @@ $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
+echo $OUTPUT->heading(format_string($surveypro->name), 2, null);
+
+// Render the activity information.
+$completiondetails = \core_completion\cm_completion_details::get_instance($cm, $USER->id);
+$activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
+echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
 $surveyproreportlist = get_plugin_list('surveyproreport');
-$reportkey = array_search('userspercount', $surveyproreportlist);
+$reportkey = array_search('userspercount', array_keys($surveyproreportlist));
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABREPORTS, $reportkey);
 
 if ($showjumper) {

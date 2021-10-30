@@ -37,13 +37,14 @@ if (!empty($id)) {
     $course = $DB->get_record('course', array('id' => $surveypro->course), '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
+$cm = cm_info::create($cm);
 
-require_course_login($course, true, $cm);
-
-$context = context_module::instance($cm->id);
 $submissionid = optional_param('submissionid', 0, PARAM_INT);
 $formpage = optional_param('formpage', 0, PARAM_INT); // Form page number.
 $view = optional_param('view', SURVEYPRO_NOVIEW, PARAM_INT);
+
+require_course_login($course, false, $cm);
+$context = context_module::instance($cm->id);
 
 // Calculations.
 mod_surveypro_utility_mform::register_form_elements();
@@ -161,6 +162,12 @@ $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
+echo $OUTPUT->heading(format_string($surveypro->name), 2, null);
+
+// Render the activity information.
+$completiondetails = \core_completion\cm_completion_details::get_instance($cm, $USER->id);
+$activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
+echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
 new mod_surveypro_tabs($cm, $context, $surveypro, $userformman->get_tabtab(), $userformman->get_tabpage());
 
