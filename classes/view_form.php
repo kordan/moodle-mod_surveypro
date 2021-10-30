@@ -394,11 +394,11 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
             // The idea is that I ALWAYS save, without care about which button was pressed.
             // Probably if empty($this->formdata->submissionid) then $prevbutton can't be pressed, but I don't care.
             // In the worst hypothesis it is a case that will never be verified.
-            if ($nextbutton || $pausebutton || $prevbutton) {
-                $submission->status = SURVEYPRO_STATUSINPROGRESS;
-            }
             if ($savebutton || $saveasnewbutton) {
                 $submission->status = SURVEYPRO_STATUSCLOSED;
+            }
+            if ($nextbutton || $pausebutton || $prevbutton) {
+                $submission->status = SURVEYPRO_STATUSINPROGRESS;
             }
 
             $submission->id = $DB->insert_record('surveypro_submission', $submission);
@@ -409,22 +409,19 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
             $event->trigger();
         } else {
             // Surveypro_submission already exists.
-            // And I asked to save again.
-            if ($savebutton) {
-                $submission->id = $this->formdata->submissionid;
+            // And user submitted once more.
+            $submission->id = $this->formdata->submissionid;
+            $submission->timemodified = $timenow;
+
+            // Define $submission->status.
+            if ($savebutton || $saveasnewbutton) {
                 $submission->status = SURVEYPRO_STATUSCLOSED;
-                $submission->timemodified = $timenow;
-                $DB->update_record('surveypro_submission', $submission);
-            } else {
-                // I have $this->formdata->submissionid.
-                // Case: "save" was requested, I am not here.
-                // Case: "save as" was requested, I am not here.
-                // Case: "prev" was requested, I am not here because in view_form.php the save_user_data() method is jumped.
-                // Case: "next" was requested, so status = SURVEYPRO_STATUSINPROGRESS.
-                // Case: "pause" was requested, I am not here because in view_form.php the save_user_data() method is jumped.
-                $submission->id = $this->formdata->submissionid;
+            }
+            // For ($nextbutton || $prevbutton) cases, do not change the status. You will change it at save time.
+            if ($pausebutton) {
                 $submission->status = SURVEYPRO_STATUSINPROGRESS;
             }
+            $DB->update_record('surveypro_submission', $submission);
 
             $eventdata = array('context' => $this->context, 'objectid' => $submission->id);
             $eventdata['other'] = array('view' => SURVEYPRO_EDITRESPONSE);
