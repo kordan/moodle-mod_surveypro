@@ -32,7 +32,7 @@ Feature: include custom numbers into element question/content
       | Content        | <content>      |
       | Element number | <customnumber> |
     And I press "Save changes"
-    And I follow "Preview"
+    And I follow "Preview" page in tab bar
     Then I should see "<output>"
 
     Examples:
