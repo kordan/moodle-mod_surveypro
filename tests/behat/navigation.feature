@@ -172,9 +172,9 @@ Feature: verify urls really redirect to existing pages
     # Report -> Attachments overview
     And I navigate to "Report > Attachments overview" in current page administration
 
-    # Report -> Delayed users
+    # Report -> Late users
     And I follow "sPro test links"
-    And I navigate to "Report > Delayed users" in current page administration
+    And I navigate to "Report > Late users" in current page administration
 
     # Report -> Frequency distribution
     And I follow "sPro test links"
