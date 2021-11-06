@@ -68,7 +68,7 @@ $searchform = new mod_surveypro_searchform($formurl, $formparams, 'post', '', ar
 // Begin of: manage form submission.
 if ($searchform->is_cancelled()) {
     $paramurl = array('id' => $cm->id);
-    $returnurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
+    $returnurl = new moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
     redirect($returnurl);
 }
 
@@ -79,7 +79,7 @@ if ($searchman->formdata = $searchform->get_data()) {
     if ($searchquery = $searchman->get_searchparamurl()) {
         $paramurl['searchquery'] = $searchquery;
     }
-    $returnurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
+    $returnurl = new moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
     redirect($returnurl);
 }
 // End of: manage form submission.

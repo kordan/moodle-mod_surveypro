@@ -70,7 +70,7 @@ class all_submissions_viewed extends \core\event\base {
     public function get_url() {
         $paramurl = array();
         $paramurl['id'] = $this->contextinstanceid;
-        return new \moodle_url('/mod/surveypro/view.php', $paramurl);
+        return new \moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
     }
 
     /**

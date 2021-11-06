@@ -72,7 +72,7 @@ $hassubmissions = $utilitylayoutman->has_submissions();
 $itemcount = $utilitylayoutman->layout_has_items(0, SURVEYPRO_TYPEFIELD, true, true, true);
 
 // Define the manager.
-$layoutman = new mod_surveypro_layout($cm, $context, $surveypro);
+$layoutman = new mod_surveypro_layout_itemsetup($cm, $context, $surveypro);
 $layoutman->set_type($type);
 $layoutman->set_plugin($plugin);
 $layoutman->set_itemid($itemid);

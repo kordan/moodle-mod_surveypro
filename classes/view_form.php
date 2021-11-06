@@ -995,7 +995,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         if (!empty($this->surveypro->mailcontent)) {
             $fullname = fullname($USER);
             $surveyproname = $this->surveypro->name;
-            $url = $CFG->wwwroot.'/mod/surveypro/view.php?s='.$this->surveypro->id;
+            $url = $CFG->wwwroot.'/mod/surveypro/view_submissions.php?s='.$this->surveypro->id;
 
             $content = $this->surveypro->mailcontent;
             $originals = array('{FIRSTNAME}', '{LASTNAME}', '{FULLNAME}', '{COURSENAME}', '{SURVEYPRONAME}', '{SURVEYPROURL}');
@@ -1007,7 +1007,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
             $a->username = fullname($USER);
             $a->surveyproname = $this->surveypro->name;
             $a->title = get_string('reviewsubmissions', 'mod_surveypro');
-            $a->href = $CFG->wwwroot.'/mod/surveypro/view.php?s='.$this->surveypro->id;
+            $a->href = $CFG->wwwroot.'/mod/surveypro/view_submissions.php?s='.$this->surveypro->id;
 
             $content = get_string('newsubmissionbody', 'mod_surveypro', $a);
         }
@@ -1042,7 +1042,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
                 echo $OUTPUT->notification($message, 'notifyproblem');
 
                 $whereparams = array('id' => $this->cm->id);
-                $continueurl = new moodle_url('/mod/surveypro/view.php', $whereparams);
+                $continueurl = new moodle_url('/mod/surveypro/view_submissions.php', $whereparams);
 
                 echo $OUTPUT->continue_button($continueurl);
                 echo $OUTPUT->footer();

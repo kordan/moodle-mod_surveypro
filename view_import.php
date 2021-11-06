@@ -62,7 +62,7 @@ if ($importman->formdata = $importform->get_data()) {
     $err = $importman->validate_csvcontent();
     if (empty($err)) {
         $importman->import_csv();
-        $redirecturl = new moodle_url('/mod/surveypro/view.php', array('s' => $surveypro->id));
+        $redirecturl = new moodle_url('/mod/surveypro/view_submissions.php', array('s' => $surveypro->id));
         redirect($redirecturl);
     }
 }

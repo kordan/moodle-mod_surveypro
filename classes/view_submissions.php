@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_submission {
+class mod_surveypro_view_submissions {
 
     /**
      * @var object Course module object
@@ -69,11 +69,6 @@ class mod_surveypro_submission {
     protected $confirm;
 
     /**
-     * @var int Has this surveypro items
-     */
-    protected $hasitems;
-
-    /**
      * @var string $searchquery
      */
     protected $searchquery;
@@ -92,9 +87,6 @@ class mod_surveypro_submission {
 
         $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
         $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
-
-        $utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
-        $this->hasitems = $utilitylayoutman->layout_has_items(0, SURVEYPRO_TYPEFIELD, $canmanageitems, $canaccessreserveditems);
     }
 
     /**
@@ -480,7 +472,7 @@ class mod_surveypro_submission {
         if ($this->searchquery) {
             $paramurl['searchquery'] = $this->searchquery;
         }
-        $baseurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
+        $baseurl = new moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
         $table->define_baseurl($baseurl);
 
         $tablecolumns = array();
@@ -700,7 +692,7 @@ class mod_surveypro_submission {
                         $paramurl['sesskey'] = sesskey();
                         $paramurl['act'] = SURVEYPRO_DUPLICATERESPONSE;
 
-                        $link = new moodle_url('/mod/surveypro/view.php', $paramurl);
+                        $link = new moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
                         $paramlink = array('id' => 'duplicate_submission_'.$submissionsuffix, 'title' => $duplicatestr);
                         $icons .= $OUTPUT->action_icon($link, $duplicateicn, null, $paramlink);
                     }
@@ -722,7 +714,7 @@ class mod_surveypro_submission {
                     $paramurl['sesskey'] = sesskey();
                     $paramurl['act'] = SURVEYPRO_DELETERESPONSE;
 
-                    $link = new moodle_url('/mod/surveypro/view.php', $paramurl);
+                    $link = new moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
                     $paramlink = array('id' => 'delete_submission_'.$submissionsuffix, 'title' => $deletestr);
                     $icons .= $OUTPUT->action_icon($link, $deleteicn, null, $paramlink);
                 }
@@ -733,7 +725,7 @@ class mod_surveypro_submission {
                     $paramurl['submissionid'] = $submission->submissionid;
                     $paramurl['view'] = SURVEYPRO_RESPONSETOPDF;
 
-                    $link = new moodle_url('/mod/surveypro/view.php', $paramurl);
+                    $link = new moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
                     $paramlink = array('id' => 'pdfdownload_submission_'.$submissionsuffix, 'title' => $downloadpdfstr);
                     $icons .= $OUTPUT->action_icon($link, $downloadpdficn, null, $paramlink);
                 }
@@ -751,7 +743,7 @@ class mod_surveypro_submission {
 
         // If this is the output of a search and nothing has been found add a way to show all submissions.
         if (!isset($tablerow) && ($this->searchquery)) {
-            $url = new moodle_url('/mod/surveypro/view.php', array('id' => $this->cm->id));
+            $url = new moodle_url('/mod/surveypro/view_submissions.php', array('id' => $this->cm->id));
             $label = get_string('showallsubmissions', 'mod_surveypro');
             echo $OUTPUT->box($OUTPUT->single_button($url, $label, 'get'), 'clearfix mdl-align');
         }
@@ -806,7 +798,7 @@ class mod_surveypro_submission {
             $paramurl['act'] = SURVEYPRO_DELETEALLRESPONSES;
             $paramurl['sesskey'] = sesskey();
 
-            $deleteurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
+            $deleteurl = new moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
             $buttoncount++;
         }
 
@@ -834,53 +826,6 @@ class mod_surveypro_submission {
             echo $OUTPUT->box_start('generalbox centerpara', 'notice');
             echo html_writer::tag('div', $OUTPUT->render($addbutton).$OUTPUT->render($deleteallbutton), $class);
             echo $OUTPUT->box_end();
-        }
-    }
-
-    /**
-     * Redirect to layout_itemlist.php?s=xxx the user asking to go to /view.php?id=yyy if the survey has no items.
-     *
-     * I HATE software thinking for me
-     * Because of this I ALWAYS want to go where I ask, even if the place I ask is not supposed to be accessed by me
-     * In this particular case, I want a message explaining WHY the place I asked is not supposed to be accessed by me
-     * I NEVER want to be silently redirected.
-     *
-     * By default accessing a surveypro from a course (/view.php?id=yyy), the "predefined" landing page should be:
-     *     -> for admin/editing teacher:
-     *         -> if no items were created: layout_itemlist.php
-     *         -> if items were already created: view.php with the submission list
-     *     -> for students: ALWAYS view.php with the submission list
-     *
-     * So the software HAS TO decide where to send the admin/editing teacher when he arrives from a course
-     * So in the view.php I MUST add a code snippet TAKING THE DECISION for the user
-     *
-     * The problem rises up when the admin/editing teacher decides to go where he should not go, alias in:
-     *     -> layout_itemlist.php even if items were already created
-     *     -> view.php with the submission list even if no items were created
-     *
-     * The first request is a false problem, because the admin/editing teacher is always allowed to go there
-     * The second request is allowed by the introduction of the parameter &force=1 in the URL of the TAB
-     *     When the admin/editing teacher asks for view.php by clicking the corresponding TAB
-     *         he asks for view.php?id=yyy&force=1
-     *         and the software decision is omitted
-     *     As opposite:
-     *     When the admin/editing teacher arrives from a course (so he doesn't ask for a specific page)
-     *         he is sent to view.php?id=yyy
-     *         and the decision is taken here
-     *
-     * @return void
-     */
-    public function noitem_redirect() {
-        if (!$this->hasitems) {
-            $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
-
-            $paramurl = array('s' => $this->surveypro->id);
-            if ($canmanageitems) {
-                $redirecturl = new moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
-            } else {
-                $redirecturl = new moodle_url('/mod/surveypro/view_cover.php', $paramurl);
-            }
-            redirect($redirecturl);
         }
     }
 
@@ -916,7 +861,7 @@ class mod_surveypro_submission {
                     $paramurl['act'] = SURVEYPRO_DUPLICATERESPONSE;
                     $paramurl['cnf'] = SURVEYPRO_ACTION_EXECUTED;
                     $paramurl['sesskey'] = sesskey();
-                    $redirecturl = new moodle_url('/mod/surveypro/view.php', $paramurl);
+                    $redirecturl = new moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
                     redirect($redirecturl);
                 }
                 break;
@@ -931,7 +876,7 @@ class mod_surveypro_submission {
                     $paramurl['act'] = SURVEYPRO_DELETERESPONSE;
                     $paramurl['cnf'] = SURVEYPRO_ACTION_EXECUTED;
                     $paramurl['sesskey'] = sesskey();
-                    $redirecturl = new moodle_url('/mod/surveypro/view.php', $paramurl);
+                    $redirecturl = new moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
                     redirect($redirecturl);
                 }
                 break;
@@ -946,7 +891,7 @@ class mod_surveypro_submission {
                     $paramurl['act'] = SURVEYPRO_DELETEALLRESPONSES;
                     $paramurl['cnf'] = SURVEYPRO_ACTION_EXECUTED;
                     $paramurl['sesskey'] = sesskey();
-                    $redirecturl = new moodle_url('/mod/surveypro/view.php', $paramurl);
+                    $redirecturl = new moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
                     redirect($redirecturl);
                 }
                 break;
@@ -1027,7 +972,7 @@ class mod_surveypro_submission {
             $buttonurl = new moodle_url('/mod/surveypro/view_form.php', $paramurl);
             $onemore = new single_button($buttonurl, get_string('addnewsubmission', 'mod_surveypro'));
 
-            $buttonurl = new moodle_url('/mod/surveypro/view.php', $paramurlbase);
+            $buttonurl = new moodle_url('/mod/surveypro/view_submissions.php', $paramurlbase);
             $gotolist = new single_button($buttonurl, get_string('gotolist', 'mod_surveypro'));
 
             echo $OUTPUT->box_start('generalbox centerpara', 'notice');
@@ -1036,7 +981,7 @@ class mod_surveypro_submission {
             echo $OUTPUT->box_end();
         } else {
             echo $OUTPUT->box($message, 'notice centerpara');
-            $buttonurl = new moodle_url('/mod/surveypro/view.php', $paramurlbase);
+            $buttonurl = new moodle_url('/mod/surveypro/view_submissions.php', $paramurlbase);
             $buttonlabel = get_string('gotolist', 'mod_surveypro');
             echo $OUTPUT->box($OUTPUT->single_button($buttonurl, $buttonlabel, 'get'), 'generalbox centerpara');
         }
@@ -1082,12 +1027,12 @@ class mod_surveypro_submission {
             $optionsyes = $optionbase;
             $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
             $optionsyes['submissionid'] = $this->submissionid;
-            $urlyes = new moodle_url('/mod/surveypro/view.php', $optionsyes);
+            $urlyes = new moodle_url('/mod/surveypro/view_submissions.php', $optionsyes);
             $buttonyes = new single_button($urlyes, get_string('continue'));
 
             $optionsno = $optionbase;
             $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-            $urlno = new moodle_url('/mod/surveypro/view.php', $optionsno);
+            $urlno = new moodle_url('/mod/surveypro/view_submissions.php', $optionsno);
             $buttonno = new single_button($urlno, get_string('no'));
 
             echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
@@ -1146,12 +1091,12 @@ class mod_surveypro_submission {
             $optionsyes = $optionbase;
             $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
             $optionsyes['submissionid'] = $this->submissionid;
-            $urlyes = new moodle_url('/mod/surveypro/view.php', $optionsyes);
+            $urlyes = new moodle_url('/mod/surveypro/view_submissions.php', $optionsyes);
             $buttonyes = new single_button($urlyes, get_string('continue'));
 
             $optionsno = $optionbase;
             $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-            $urlno = new moodle_url('/mod/surveypro/view.php', $optionsno);
+            $urlno = new moodle_url('/mod/surveypro/view_submissions.php', $optionsno);
             $buttonno = new single_button($urlno, get_string('no'));
 
             echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
@@ -1189,12 +1134,12 @@ class mod_surveypro_submission {
 
             $optionsyes = $optionbase;
             $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
-            $urlyes = new moodle_url('/mod/surveypro/view.php', $optionsyes);
+            $urlyes = new moodle_url('/mod/surveypro/view_submissions.php', $optionsyes);
             $buttonyes = new single_button($urlyes, get_string('continue'));
 
             $optionsno = $optionbase;
             $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-            $urlno = new moodle_url('/mod/surveypro/view.php', $optionsno);
+            $urlno = new moodle_url('/mod/surveypro/view_submissions.php', $optionsno);
             $buttonno = new single_button($urlno, get_string('no'));
             echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
             echo $OUTPUT->footer();
@@ -1306,7 +1251,7 @@ class mod_surveypro_submission {
         }
 
         if ($this->searchquery) {
-            $findallurl = new moodle_url('/mod/surveypro/view.php', array('id' => $this->cm->id));
+            $findallurl = new moodle_url('/mod/surveypro/view_submissions.php', array('id' => $this->cm->id));
             $label = get_string('showallsubmissions', 'mod_surveypro');
 
             echo $OUTPUT->single_button($findallurl, $label, 'get', array('class' => 'box clearfix mdl-align'));

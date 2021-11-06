@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Starting page of the module.
+ * Starting page to display the surveypro cover page.
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
@@ -37,49 +37,21 @@ if (!empty($id)) {
 }
 $cm = cm_info::create($cm);
 
-$tifirst = optional_param('tifirst', '', PARAM_ALPHA); // First letter of the name.
-$tilast = optional_param('tilast', '', PARAM_ALPHA);   // First letter of the surname.
-// $tsort = optional_param('tsort', '', PARAM_ALPHA);     // Field asked to sort the table for.
 $edit = optional_param('edit', -1, PARAM_BOOL);
 
-// A response was submitted.
-$justsubmitted = optional_param('justsubmitted', 0, PARAM_INT);
-$formview = optional_param('formview', 0, PARAM_INT);
-$responsestatus = optional_param('responsestatus', 0, PARAM_INT);
-
-// The list is managed.
-$submissionid = optional_param('submissionid', 0, PARAM_INT);
-$action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
-$view = optional_param('view', SURVEYPRO_NOVIEW, PARAM_INT);
-$confirm = optional_param('cnf', SURVEYPRO_UNCONFIRMED, PARAM_INT);
-$searchquery = optional_param('searchquery', '', PARAM_RAW);
-$force = optional_param('force', 0, PARAM_INT);
-
 require_course_login($course, false, $cm);
+
 $context = context_module::instance($cm->id);
 
-if ($action != SURVEYPRO_NOACTION) {
-    require_sesskey();
-}
-
 // Calculations.
-$submissionman = new mod_surveypro_submission($cm, $context, $surveypro);
-$submissionman->setup($submissionid, $action, $view, $confirm, $searchquery);
+$utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+$utilitylayoutman->noitem_redirect();
 
-if ($view == SURVEYPRO_RESPONSETOPDF) {
-    $submissionman->submission_to_pdf();
-    die();
-}
-
-if (empty($force)) {
-    $submissionman->noitem_redirect();
-}
-
-// Perform action before PAGE. (The content of the admin block depends on the output of these actions).
-$submissionman->actions_execution();
+$coverman = new mod_surveypro_view_cover($cm, $context, $surveypro);
 
 // Output starts here.
-$PAGE->set_url('/mod/surveypro/view.php', array('s' => $surveypro->id));
+$url = new moodle_url('/mod/surveypro/view.php', array('s' => $surveypro->id));
+$PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
@@ -108,17 +80,9 @@ $completiondetails = \core_completion\cm_completion_details::get_instance($cm, $
 $activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
 echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
-new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_MANAGE);
+new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_CPANEL);
 
-if (!empty($justsubmitted)) {
-    $submissionman->show_thanks_page($responsestatus, $formview, $justsubmitted);
-} else {
-    $submissionman->actions_feedback(); // Action feedback after PAGE.
-
-    $submissionman->show_action_buttons($tifirst, $tilast);
-    $submissionman->display_submissions_table();
-    $submissionman->trigger_event(); // Event: all_submissions_viewed.
-}
+$coverman->display_cover();
 
 // Finish the page.
 echo $OUTPUT->footer();

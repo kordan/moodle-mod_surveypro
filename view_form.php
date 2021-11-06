@@ -79,7 +79,7 @@ $outform = new mod_surveypro_outform($formurl, $formparams, 'post', '', array('i
 // Begin of: manage form submission.
 if ($outform->is_cancelled()) {
     $localparamurl = array('id' => $cm->id, 'view' => $view);
-    $redirecturl = new moodle_url('/mod/surveypro/view.php', $localparamurl);
+    $redirecturl = new moodle_url('/mod/surveypro/view_submissions.php', $localparamurl);
     redirect($redirecturl, get_string('usercanceled', 'mod_surveypro'));
 }
 
@@ -91,7 +91,7 @@ if ($userformman->formdata = $outform->get_data()) {
     $pausebutton = isset($userformman->formdata->pausebutton);
     if ($pausebutton) {
         $localparamurl = array('id' => $cm->id, 'view' => $view);
-        $redirecturl = new moodle_url('/mod/surveypro/view.php', $localparamurl);
+        $redirecturl = new moodle_url('/mod/surveypro/view_submissions.php', $localparamurl);
         redirect($redirecturl); // Go somewhere.
     }
 
@@ -136,7 +136,7 @@ if ($userformman->formdata = $outform->get_data()) {
     // This is necessary otherwise if the user switches language using the corresponding menu
     // just after a new response is submitted
     // the browser redirects to http://localhost/head_behat/mod/surveypro/view_form.php?s=xxx&view=1&lang=it
-    // and not               to http://localhost/head_behat/mod/surveypro/view.php?s=xxx&lang=it
+    // and not               to http://localhost/head_behat/mod/surveypro/view_submissions.php?s=xxx&lang=it
     // alias it goes to the page to get one more response
     // instead of remaining in the view submissions page.
     $paramurl = array();
@@ -144,7 +144,7 @@ if ($userformman->formdata = $outform->get_data()) {
     $paramurl['responsestatus'] = $userformman->get_responsestatus();
     $paramurl['justsubmitted'] = 1 + $userformman->get_userdeservesthanks();
     $paramurl['formview'] = $userformman->get_view(); // What was I viewing in the form?
-    $redirecturl = new moodle_url('/mod/surveypro/view.php', $paramurl);
+    $redirecturl = new moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
     redirect($redirecturl); // Redirect to the first non empty page.
 }
 // End of: manage form submission.

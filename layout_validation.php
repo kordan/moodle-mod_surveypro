@@ -45,7 +45,7 @@ require_capability('mod/surveypro:additems', $context);
 
 // Calculations.
 
-$layoutman = new mod_surveypro_layout($cm, $context, $surveypro);
+$layoutman = new mod_surveypro_layout_itemsetup($cm, $context, $surveypro);
 
 // Property type is useless, do not set it.
 // $layoutman->set_type('');
