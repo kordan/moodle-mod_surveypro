@@ -24,8 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'mod_surveypro'; // Full name of the plugin (used for diagnostics).
-$plugin->maturity = MATURITY_ALPHA; // MATURITY_RC.
-$plugin->version = 2021102600; // The current module version (Date: YYYYMMDDXX).
-$plugin->release = '1.0'; // The current release.
-$plugin->requires = 2018051700; // Requires Moodle v3.5.0.
+$plugin->component = 'mod_surveypro';
+$plugin->maturity = MATURITY_ALPHA;
+$plugin->version = 2021110700;
+$plugin->release = '1.0';
+$plugin->requires = 2021051700;
