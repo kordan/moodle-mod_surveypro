@@ -107,7 +107,7 @@ class surveyproreport_frequency_report extends mod_surveypro_reportbase {
         $countfields = $DB->count_records_select('surveypro_item', $where, $params);
         if (!$countfields) {
             echo $OUTPUT->box(get_string('textareasarenotallowed', 'surveyproreport_frequency'));
-            $url = new moodle_url('/mod/surveypro/view.php', array('s' => $this->surveypro->id));
+            $url = new moodle_url('/mod/surveypro/view_submissions.php', array('s' => $this->surveypro->id));
             echo $OUTPUT->continue_button($url);
             echo $OUTPUT->footer();
             die();

@@ -86,7 +86,7 @@
  *      mod/surveypro:ignoremaxentries
  *
  *  SUB-TAB == SURVEYPRO_SUBMISSION_MANAGE
- *      $elementurl = new moodle_url('/mod/surveypro/view.php', $paramurl);
+ *      $elementurl = new moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
  *
  *      mod/surveypro:alwaysseeowner
  *

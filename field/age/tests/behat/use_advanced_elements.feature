@@ -65,7 +65,9 @@ Feature: test the use of reserved elements
     When I log in as "student1"
     And I am on "Reserved elements" course homepage
     And I follow "Reserved element test"
+    And I follow "Responses"
     And I press "New response"
+
     Then I should see "1: First age item"
     Then I should not see "2: Second age item"
 
@@ -81,6 +83,7 @@ Feature: test the use of reserved elements
     When I log in as "teacher1"
     And I am on "Reserved elements" course homepage
     And I follow "Reserved element test"
+    And I follow "Responses" page in tab bar
     And I follow "edit_submission_row_1"
     Then I should see "1: First age item"
     Then I should see "2: Second age item"

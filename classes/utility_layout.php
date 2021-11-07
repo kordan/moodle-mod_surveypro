@@ -109,6 +109,53 @@ class mod_surveypro_utility_layout {
     }
 
     /**
+     * Redirect to layout_itemlist.php?s=xxx the user asking to go to /view.php?id=yyy if the survey has no items.
+     *
+     * I HATE software thinking for me
+     * Because of this I ALWAYS want to go where I ask, even if the place I ask is not supposed to be accessed by me
+     * In this particular case, I want a message explaining WHY the place I asked is not supposed to be accessed by me
+     * I NEVER want to be silently redirected.
+     *
+     * By default accessing a surveypro from a course (/view.php?id=yyy), the "predefined" landing page should be:
+     *     -> for admin/editing teacher:
+     *         -> if no items were created: layout_itemlist.php
+     *         -> if items were already created: view_submissions.php with the submission list
+     *     -> for students: ALWAYS view.php with the welcome and the surveypro cover page
+     *
+     * So the software HAS TO decide where to send the admin/editing teacher when he arrives from a course
+     * So in the view.php I MUST add a code snippet TAKING THE DECISION for the user
+     *
+     * The problem rises up when the admin/editing teacher decides to go where he should not go, alias in:
+     *     -> layout_itemlist.php even if items were already created
+     *     -> view_submissions.php with the submission list even if no items were created
+     *
+     * The first request is a false problem, because the admin/editing teacher is always allowed to go there
+     * The second request is allowed by the introduction of the parameter &force=1 in the URL of the TAB
+     *     When the admin/editing teacher asks for view.php by clicking the corresponding TAB
+     *         he asks for view.php?id=yyy&force=1
+     *         and the software decision is omitted
+     *     As opposite:
+     *     When the admin/editing teacher arrives from a course (so he doesn't ask for a specific page)
+     *         he is sent to view.php?id=yyy
+     *         and the decision is taken here
+     *
+     * @return void
+     */
+    public function noitem_redirect() {
+        if (!$this->layout_has_items(0, SURVEYPRO_TYPEFIELD, true, true, true)) {
+            $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
+
+            $paramurl = array('id' => $this->cm->id);
+            if ($canmanageitems) {
+                $redirecturl = new moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
+            } else {
+                $redirecturl = new moodle_url('/mod/surveypro/view.php', $paramurl);
+            }
+            redirect($redirecturl);
+        }
+    }
+
+    /**
      * Return if the survey has input items.
      *
      * @param int $formpage
@@ -800,14 +847,14 @@ class mod_surveypro_utility_layout {
         // Submissions -> cover.
         $elements['cover'] = false;
         if ($canview) {
-            $elementurl = new moodle_url('/mod/surveypro/view_cover.php', $paramurlbase);
+            $elementurl = new moodle_url('/mod/surveypro/view.php', $paramurlbase);
             $elements['cover'] = $elementurl;
         }
 
         // Submissions -> responses.
         $elements['responses'] = false;
         if (!is_guest($this->context)) {
-            $elementurl = new moodle_url('/mod/surveypro/view.php', array('id' => $this->cm->id, 'force' => 1));
+            $elementurl = new moodle_url('/mod/surveypro/view_submissions.php', array('id' => $this->cm->id, 'force' => 1));
             $elements['responses'] = $elementurl;
         }
 
@@ -840,13 +887,13 @@ class mod_surveypro_utility_layout {
         $elements['container'] = false;
         if ($caller == SURVEYPRO_TAB) {
             if ($elements['cover'] || $elements['responses'] || $elements['search'] || $elements['report']) {
-                $elementurl = new moodle_url('/mod/surveypro/view.php', $paramurlbase);
+                $elementurl = new moodle_url('/mod/surveypro/view_submissions.php', $paramurlbase);
                 $elements['container'] = $elementurl;
             }
         }
         if ($caller == SURVEYPRO_BLOCK) {
             if ($elements['import'] || $elements['export']) {
-                $elementurl = new moodle_url('/mod/surveypro/view.php', $paramurlbase);
+                $elementurl = new moodle_url('/mod/surveypro/view_submissions.php', $paramurlbase);
                 $elements['container'] = $elementurl;
             }
         }

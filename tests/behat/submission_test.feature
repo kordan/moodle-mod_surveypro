@@ -62,6 +62,7 @@ Feature: make a submission test for each available item
     When I log in as "student1"
     And I am on "Test submission for each available item" course homepage
     And I follow "Each item submission"
+    And I follow "Responses"
     And I press "New response"
 
     # student1 submits his first response
@@ -127,6 +128,7 @@ Feature: make a submission test for each available item
 
     And I am on "Test submission for each available item" course homepage
     And I follow "Each item submission"
+    And I follow "Responses" page in tab bar
     And I follow "edit_submission_row_1"
     And I press "Next page >>"
     And I set the field "id_surveypro_field_multiselect_11" to "sugar, jam"

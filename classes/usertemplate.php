@@ -501,7 +501,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
         if ($hassubmissions && (!$riskyediting)) {
             echo $OUTPUT->notification(get_string('applyusertemplatedenied01', 'mod_surveypro'), 'notifyproblem');
-            $url = new moodle_url('/mod/surveypro/view.php', array('s' => $this->surveypro->id));
+            $url = new moodle_url('/mod/surveypro/view_submissions.php', array('s' => $this->surveypro->id));
             echo $OUTPUT->continue_button($url);
             echo $OUTPUT->footer();
             die();

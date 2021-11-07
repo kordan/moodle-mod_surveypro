@@ -75,6 +75,7 @@ Feature: test students can see submissions from their groupmates
     When I log in as "student1"
     And I am on "Course divided into groups" course homepage
     And I follow "Get only my group submission"
+    And I follow "Responses"
 
     Then I should see "Nothing to display"
 
@@ -103,6 +104,7 @@ Feature: test students can see submissions from their groupmates
     When I log in as "student2"
     And I am on "Course divided into groups" course homepage
     And I follow "Get only my group submission"
+    And I follow "Responses"
 
     And I should see "Never" in the "student1 user1" "table_row"
     Then I should see "2" submissions
@@ -126,6 +128,7 @@ Feature: test students can see submissions from their groupmates
     When I log in as "student3"
     And I am on "Course divided into groups" course homepage
     And I follow "Get only my group submission"
+    And I follow "Responses"
 
     Then I should see "Nothing to display"
 
@@ -149,6 +152,7 @@ Feature: test students can see submissions from their groupmates
     When I log in as "student1"
     And I am on "Course divided into groups" course homepage
     And I follow "Get only my group submission"
+    And I follow "Responses"
 
     Then I should see "Never" in the "student1 user1" "table_row"
     Then I should see "Never" in the "student2 user2" "table_row"

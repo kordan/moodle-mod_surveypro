@@ -102,7 +102,7 @@ foreach ($surveypros as $surveypro) {
         $cellclass = array('class' => 'dimmed');
     }
 
-    $url = new moodle_url('/mod/surveypro/view.php', array('id' => $surveypro->coursemodule));
+    $url = new moodle_url('/mod/surveypro/view_submissions.php', array('id' => $surveypro->coursemodule));
     $inprogressresp = isset($inprogresssubmissions[$surveypro->id]) ? $inprogresssubmissions[$surveypro->id] : 0;
     $closedresp = isset($closedsubmissions[$surveypro->id]) ? $closedsubmissions[$surveypro->id] : 0;
 

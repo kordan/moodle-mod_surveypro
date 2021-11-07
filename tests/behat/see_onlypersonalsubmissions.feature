@@ -80,7 +80,10 @@ Feature: test each student sees only personal submissions
     When I log in as "student2"
     And I am on "See only personal submissions" course homepage
     And I follow "Get only my own submissions"
+    And I follow "Responses"
+
     Then I should see "Nothing to display"
+
     And I press "New response"
 
     # student2 submits a response
@@ -100,6 +103,7 @@ Feature: test each student sees only personal submissions
     When I log in as "student1"
     And I am on "See only personal submissions" course homepage
     And I follow "Get only my own submissions"
+    And I follow "Responses"
 
     Then I should see "Never" in the "Student1 user1" "table_row"
     Then I should not see "Student2" in the "submissions" "table"

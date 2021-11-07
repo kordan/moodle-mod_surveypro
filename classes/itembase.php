@@ -611,7 +611,7 @@ class mod_surveypro_itembase {
             if ($oldhidden != $newhidden) {
                 $action = ($oldhidden) ? SURVEYPRO_SHOWITEM : SURVEYPRO_HIDEITEM;
 
-                $layoutman = new mod_surveypro_layout($this->cm, $context, $this->surveypro);
+                $layoutman = new mod_surveypro_layout_itemsetup($this->cm, $context, $this->surveypro);
                 $layoutman->set_type($this->type);
                 $layoutman->set_plugin($this->plugin);
                 $layoutman->set_itemid($itemid);
@@ -637,7 +637,7 @@ class mod_surveypro_itembase {
             if ($oldreserved != $newreserved) {
                 $action = ($oldreserved) ? SURVEYPRO_MAKEAVAILABLE : SURVEYPRO_MAKERESERVED;
 
-                $layoutman = new mod_surveypro_layout($this->cm, $context, $this->surveypro);
+                $layoutman = new mod_surveypro_layout_itemsetup($this->cm, $context, $this->surveypro);
                 $layoutman->set_type($this->type);
                 $layoutman->set_plugin($this->plugin);
                 $layoutman->set_itemid($itemid);
@@ -902,7 +902,7 @@ class mod_surveypro_itembase {
     /**
      * This method defines if an item can be switched to mandatory or not.
      *
-     * Used by mod_surveypro_layout->display_items_table() to define the icon to show
+     * Used by mod_surveypro_layout_itemsetup->display_items_table() to define the icon to show
      *
      * @return boolean
      */

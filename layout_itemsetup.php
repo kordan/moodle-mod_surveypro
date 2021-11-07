@@ -58,7 +58,7 @@ if ($action != SURVEYPRO_NOACTION) {
 $utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
 $hassubmissions = $utilitylayoutman->has_submissions();
 
-$layoutman = new mod_surveypro_layout($cm, $context, $surveypro);
+$layoutman = new mod_surveypro_layout_itemsetup($cm, $context, $surveypro);
 if (!empty($typeplugin)) {
     $layoutman->set_typeplugin($typeplugin);
 } else {
