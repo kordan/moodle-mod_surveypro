@@ -85,7 +85,6 @@ if ($outform->is_cancelled()) {
 
 if ($userformman->formdata = $outform->get_data()) {
     $userformman->save_user_data(); // SAVE SAVE SAVE SAVE.
-    $userformman->notifypeople();
 
     // If "pause" button has been pressed, redirect.
     $pausebutton = isset($userformman->formdata->pausebutton);
@@ -132,7 +131,10 @@ if ($userformman->formdata = $outform->get_data()) {
         redirect($redirecturl); // Redirect to the first non empty page.
     }
 
-    // If none redirect you, reload THE RIGHT page WITHOUT $paramurl['view'].
+    // Surveypro has been submitted. Notify people.
+    $userformman->notifypeople();
+
+    // If none redirected you, reload THE RIGHT page WITHOUT $paramurl['view'].
     // This is necessary otherwise if the user switches language using the corresponding menu
     // just after a new response is submitted
     // the browser redirects to http://localhost/head_behat/mod/surveypro/view_form.php?s=xxx&view=1&lang=it

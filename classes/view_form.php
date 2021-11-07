@@ -992,6 +992,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
     public function get_message() {
         global $CFG, $USER, $COURSE;
 
+        $coveredattr = 'xxxxx';
         if (!empty($this->surveypro->mailcontent)) {
             $fullname = fullname($USER);
             $surveyproname = $this->surveypro->name;
@@ -999,12 +1000,16 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
 
             $content = $this->surveypro->mailcontent;
             $originals = array('{FIRSTNAME}', '{LASTNAME}', '{FULLNAME}', '{COURSENAME}', '{SURVEYPRONAME}', '{SURVEYPROURL}');
-            $replacements = array($USER->firstname, $USER->lastname, $fullname, $COURSE->fullname, $surveyproname, $url);
+            if (empty($this->surveypro->anonymous)) {
+                $replacements = array($USER->firstname, $USER->lastname, $fullname, $COURSE->fullname, $surveyproname, $url);
+            } else {
+                $replacements = array($coveredattr, $coveredattr, $coveredattr, $COURSE->fullname, $surveyproname, $url);
+            }
 
             $content = str_replace($originals, $replacements, $content);
         } else {
             $a = new stdClass();
-            $a->username = fullname($USER);
+            $a->username = empty($this->surveypro->anonymous) ? fullname($USER) : $coveredattr;
             $a->surveyproname = $this->surveypro->name;
             $a->title = get_string('reviewsubmissions', 'mod_surveypro');
             $a->href = $CFG->wwwroot.'/mod/surveypro/view_submissions.php?s='.$this->surveypro->id;
