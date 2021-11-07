@@ -37,11 +37,18 @@ if (!empty($id)) {
     $course = $DB->get_record('course', array('id' => $surveypro->course), '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
-
-require_course_login($course, true, $cm);
+$cm = cm_info::create($cm);
 
 $itemid = optional_param('itemid', 0, PARAM_INT);  // Item id.
 $container = optional_param('userid', 0, PARAM_TEXT);  // Userid only OR userid_submissionid.
+
+require_course_login($course, false, $cm);
+$context = context_module::instance($cm->id);
+
+// Required capability.
+$canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context);
+$canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $context);
+
 $parts = explode('_', $container);
 if (count($parts) == 2) {
     $userid = (int)$parts[0];
@@ -55,9 +62,6 @@ if (count($parts) == 2) {
 }
 
 // Calculations.
-$context = context_module::instance($cm->id);
-$canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context);
-$canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $context);
 $uploadsformman = new surveyproreport_attachments_form($cm, $context, $surveypro);
 $uploadsformman->prevent_direct_user_input();
 $uploadsformman->set_userid($userid);
@@ -95,6 +99,12 @@ $url = new moodle_url('/mod/surveypro/report/attachments/view.php', array('s' =>
 navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
+echo $OUTPUT->heading(format_string($surveypro->name), 2, null);
+
+// Render the activity information.
+$completiondetails = \core_completion\cm_completion_details::get_instance($cm, $USER->id);
+$activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
+echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_REPORT);
 

@@ -191,9 +191,6 @@ class surveyproreport_attachments_report extends mod_surveypro_reportbase {
      * @return void
      */
     public function output_data() {
-        global $OUTPUT;
-
-        echo $OUTPUT->heading(get_string('pluginname', 'surveyproreport_attachments'));
         $this->outputtable->print_html();
     }
 

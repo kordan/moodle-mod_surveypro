@@ -28,15 +28,17 @@ require_once($CFG->dirroot.'/mod/surveypro/report/frequency/lib.php');
 
 $id = required_param('id', PARAM_INT); // Course Module ID.
 $itemid = required_param('itemid', PARAM_INT); // Item ID.
-$groupid = optional_param('groupid', 0, PARAM_INT); // Group ID.
 
 $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
 $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
 
-$context = context_module::instance($cm->id);
+$groupid = optional_param('groupid', 0, PARAM_INT); // Group ID.
 
 require_login($course, false, $cm);
+$context = context_module::instance($cm->id);
+
+// Required capability.
 require_capability('mod/surveypro:accessreports', $context);
 
 $reportman = new surveyproreport_frequency_report($cm, $context, $surveypro);

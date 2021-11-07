@@ -25,10 +25,6 @@
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
-$tifirst = optional_param('tifirst', '', PARAM_ALPHA); // First letter of the name.
-$tilast = optional_param('tilast', '', PARAM_ALPHA);   // First letter of the surname.
-// $tsort = optional_param('tsort', '', PARAM_ALPHA);     // Field asked to sort the table for.
-$edit = optional_param('edit', -1, PARAM_BOOL);
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
@@ -39,8 +35,12 @@ if (!empty($id)) {
     $course = $DB->get_record('course', array('id' => $surveypro->course), '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
+$cm = cm_info::create($cm);
 
-require_course_login($course, true, $cm);
+$tifirst = optional_param('tifirst', '', PARAM_ALPHA); // First letter of the name.
+$tilast = optional_param('tilast', '', PARAM_ALPHA);   // First letter of the surname.
+// $tsort = optional_param('tsort', '', PARAM_ALPHA);     // Field asked to sort the table for.
+$edit = optional_param('edit', -1, PARAM_BOOL);
 
 // A response was submitted.
 $justsubmitted = optional_param('justsubmitted', 0, PARAM_INT);
@@ -55,12 +55,14 @@ $confirm = optional_param('cnf', SURVEYPRO_UNCONFIRMED, PARAM_INT);
 $searchquery = optional_param('searchquery', '', PARAM_RAW);
 $force = optional_param('force', 0, PARAM_INT);
 
+require_course_login($course, false, $cm);
+$context = context_module::instance($cm->id);
+
 if ($action != SURVEYPRO_NOACTION) {
     require_sesskey();
 }
 
 // Calculations.
-$context = context_module::instance($cm->id);
 $submissionman = new mod_surveypro_submission($cm, $context, $surveypro);
 $submissionman->setup($submissionid, $action, $view, $confirm, $searchquery);
 
@@ -99,6 +101,12 @@ if ($PAGE->user_allowed_editing()) {
 }
 
 echo $OUTPUT->header();
+echo $OUTPUT->heading(format_string($surveypro->name), 2, null);
+
+// Render the activity information.
+$completiondetails = \core_completion\cm_completion_details::get_instance($cm, $USER->id);
+$activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
+echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_MANAGE);
 

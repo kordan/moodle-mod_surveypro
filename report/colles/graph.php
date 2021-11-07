@@ -28,17 +28,18 @@ require_once($CFG->dirroot.'/mod/surveypro/report/colles/lib.php');
 
 $id = required_param('id', PARAM_INT); // Course Module ID.
 $type = required_param('type', PARAM_ALPHA); // Report type.
-$groupid = optional_param('groupid', 0, PARAM_INT); // Group ID.
-$area = optional_param('area', 0, PARAM_INT);  // Report area.
-$qid = optional_param('qid', 0, PARAM_INT);  // Question ID.
 
 $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
 $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
 
-$context = context_module::instance($cm->id);
+$groupid = optional_param('groupid', 0, PARAM_INT); // Group ID.
+$area = optional_param('area', 0, PARAM_INT);  // Report area.
+$qid = optional_param('qid', 0, PARAM_INT);  // Question ID.
 
 require_login($course, false, $cm);
+
+$context = context_module::instance($cm->id);
 
 if ($type == 'summary') {
     if (!has_capability('mod/surveypro:accessreports', $context)) {
