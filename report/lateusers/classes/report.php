@@ -133,11 +133,17 @@ class surveyproreport_lateusers_report extends mod_surveypro_reportbase {
         $whereparams = array();
         $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
 
-        $submissiontable = 'SELECT userid, surveyproid
+        $submissiontable = 'SELECT userid, surveyproid, count(*) as submissioncount
                             FROM {surveypro_submission}
                             WHERE surveyproid = :subsurveyproid
-                            GROUP BY userid, surveyproid';
+                            AND status = :status
+                            GROUP BY userid, surveyproid
+                            HAVING submissioncount >= :completionsubmit';
+
+        $whereparams = [];
         $whereparams['subsurveyproid'] = $this->surveypro->id;
+        $whereparams['status'] = SURVEYPRO_STATUSCLOSED;
+        $whereparams['completionsubmit'] = $this->surveypro->completionsubmit;
 
         $sql = 'SELECT s.surveyproid'.$userfieldsapi->selects.'
                 FROM {user} u
