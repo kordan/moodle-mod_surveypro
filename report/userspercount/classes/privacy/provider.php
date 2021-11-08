@@ -22,7 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace surveyproreport_userspercount\privacy;
+namespace \surveyproreport_userspercount\privacy;
 
 defined('MOODLE_INTERNAL') || die();
 

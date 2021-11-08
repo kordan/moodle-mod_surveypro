@@ -22,7 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace surveyproreport_attachments\privacy;
+namespace \surveyproreport_attachments\privacy;
 
 defined('MOODLE_INTERNAL') || die();
 

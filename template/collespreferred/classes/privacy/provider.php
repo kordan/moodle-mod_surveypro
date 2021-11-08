@@ -22,7 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace surveyprotemplate_collespreferred\privacy;
+namespace \surveyprotemplate_collespreferred\privacy;
 
 defined('MOODLE_INTERNAL') || die();
 

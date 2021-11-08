@@ -22,7 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace surveyprofield_shortdate\privacy;
+namespace \surveyprofield_shortdate\privacy;
 
 defined('MOODLE_INTERNAL') || die();
 

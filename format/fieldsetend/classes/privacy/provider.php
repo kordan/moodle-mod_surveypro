@@ -22,7 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace surveyproformat_fieldsetend\privacy;
+namespace \surveyproformat_fieldsetend\privacy;
 
 defined('MOODLE_INTERNAL') || die();
 

@@ -21,7 +21,7 @@
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-namespace mod_surveypro\plugininfo;
+namespace \mod_surveypro\plugininfo;
 
 defined('MOODLE_INTERNAL') || die();
 

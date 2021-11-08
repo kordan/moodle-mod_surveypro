@@ -22,7 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace surveyprofield_checkbox\privacy;
+namespace \surveyprofield_checkbox\privacy;
 
 defined('MOODLE_INTERNAL') || die();
 

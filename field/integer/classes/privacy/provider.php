@@ -22,7 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace surveyprofield_integer\privacy;
+namespace \surveyprofield_integer\privacy;
 
 defined('MOODLE_INTERNAL') || die();
 

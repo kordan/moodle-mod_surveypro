@@ -16,7 +16,7 @@
 
 declare(strict_types=1);
 
-namespace mod_surveypro\completion;
+namespace \mod_surveypro\completion;
 
 use core_completion\activity_custom_completion;
 

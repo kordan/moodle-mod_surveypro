@@ -24,7 +24,7 @@
 
 declare(strict_types=1);
 
-namespace mod_surveypro;
+namespace \mod_surveypro;
 
 use core\activity_dates;
 

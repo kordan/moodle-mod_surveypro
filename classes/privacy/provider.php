@@ -22,7 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_surveypro\privacy;
+namespace \mod_surveypro\privacy;
+
 defined('MOODLE_INTERNAL') || die();
 
 use \core_privacy\local\metadata\collection;

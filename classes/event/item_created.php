@@ -22,7 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_surveypro\event;
+namespace \mod_surveypro\event;
 
 defined('MOODLE_INTERNAL') || die();
 

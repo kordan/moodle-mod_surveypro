@@ -22,7 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace surveyprofield_fileupload\privacy;
+namespace \surveyprofield_fileupload\privacy;
 
 defined('MOODLE_INTERNAL') || die();
 
