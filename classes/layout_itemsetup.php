@@ -684,9 +684,31 @@ class mod_surveypro_layout_itemsetup {
         $iconparams = array('title' => $parentelementstr);
         $branchicn = new pix_icon('branch', $parentelementstr, 'surveypro', $iconparams);
 
-        $whereparams = array('surveyproid' => $this->surveypro->id);
-        $sortfield = ($table->get_sql_sort()) ? $table->get_sql_sort() : 'sortindex';
-        $itemseeds = $DB->get_recordset('surveypro_item', $whereparams, $sortfield, 'id as itemid, plugin, type');
+        // Get itemseeds.
+        $sql = 'SELECT DISTINCT id as itemid, plugin, type, sortindex
+                FROM {surveypro_item} parent
+                WHERE EXISTS (
+                    SELECT \'x\'
+                    FROM {surveypro_item} child
+                    WHERE child.parentid = parent.id)
+                AND surveyproid = ?
+
+                UNION
+
+                SELECT DISTINCT id as itemid, plugin, type, sortindex
+                FROM {surveypro_item}
+                WHERE surveyproid = ?
+                    AND parentid > 0
+
+                ORDER BY ';
+        if ($table->get_sql_sort()) {
+            $sql .= $table->get_sql_sort();
+        } else {
+            $sql .= 'sortindex';
+        }
+        $sql .= ';';
+        $whereparams = [$this->surveypro->id, $this->surveypro->id];
+        $itemseeds = $DB->get_recordset_sql($sql, $whereparams);
 
         $message = get_string('welcome_relationvalidation', 'mod_surveypro', $statusstr);
         echo $OUTPUT->notification($message, 'notifymessage');
