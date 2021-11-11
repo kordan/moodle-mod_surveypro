@@ -60,7 +60,8 @@ $string['tabmtemplatename'] = 'Template sistema';
     $string['tabmtemplatepage2'] = 'Applica';
 
 $string['addnewsubmission'] = 'Nuova risposta';
-$string['answerisnoanswer'] = 'Risposta non fornita';
+$string['answerisnoanswer'] = 'Risposta rifiutata';
+$string['answernotsubmitted'] = 'Risposta omessa';
 $string['applymastertemplates'] = '<a href="{$a}">Applica un master template</a>';
 $string['applyusertemplates'] = '<a href="{$a}">Applica un template utente</a>';
 $string['attemptinfo'] = 'Informazioni sull\'indagine e le risposte acquisite';
