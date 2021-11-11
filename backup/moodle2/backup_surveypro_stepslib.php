@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->dirroot.'/mod/surveypro/lib.php');
+
 /**
  * Define the complete surveypro structure for backup, with file and id annotations
  *
@@ -104,11 +106,10 @@ class backup_surveypro_activity_structure_step extends backup_activity_structure
 
         // Define file annotations.
         $surveypro->annotate_files('mod_surveypro', 'intro', null); // This file area does not have an itemid.
-        $surveypro->annotate_files('mod_surveypro', 'userstyle', null); // This file area does not have an itemid.
-        $surveypro->annotate_files('mod_surveypro', 'templatefilearea', null); // This file area does not have an itemid.
-        $surveypro->annotate_files('mod_surveypro', 'thankspage', null); // This file area does not have an itemid.
-        $item->annotate_files('mod_surveypro', 'itemcontent', 'id'); // By id (being strict this should be under subplugins.
-                                                                     // Control, but as far as it's common to all types...).
+        $surveypro->annotate_files('mod_surveypro', SURVEYPRO_STYLEFILEAREA, null); // This file area does not have an itemid.
+        $surveypro->annotate_files('mod_surveypro', SURVEYPRO_TEMPLATEFILEAREA, null); // This file area does not have an itemid.
+        $surveypro->annotate_files('mod_surveypro', SURVEYPRO_THANKSPAGEFILEAREA, null); // This file area does not have an itemid.
+        $item->annotate_files('mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, 'id');
 
         // Return the root element (surveypro), wrapped into standard activity structure.
         return $this->prepare_activity_structure($surveypro);
