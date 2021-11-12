@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+use mod_surveypro\ipe_usertemplate_name;
+
 /**
  * The class representing a user template
  *
@@ -899,7 +901,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
                 $xmlfileid = $virtualtable[$row]['xmlfileid'];
                 $templatename = $virtualtable[$row]['templatename'];
-                $tmpl = new mod_surveypro_ipe_usertemplate_name($xmlfileid, $templatename);
+                $tmpl = new ipe_usertemplate_name($xmlfileid, $templatename);
 
                 $tablerow[] = $OUTPUT->render_from_template('core/inplace_editable', $tmpl->export_for_template($OUTPUT));
                 $tablerow[] = $virtualtable[$row]['sharinglevel'];

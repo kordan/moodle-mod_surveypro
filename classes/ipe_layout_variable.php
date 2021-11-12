@@ -15,12 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Contains class mod_surveypro\mod_surveypro_ipe_layout_variable
+ * Contains class mod_surveypro\ipe_layout_variable
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+namespace mod_surveypro;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -31,7 +33,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_ipe_layout_variable extends \core\output\inplace_editable {
+class ipe_layout_variable extends \core\output\inplace_editable {
     /**
      * Constructor.
      *
