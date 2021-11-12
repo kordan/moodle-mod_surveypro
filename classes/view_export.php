@@ -124,10 +124,8 @@ class mod_surveypro_view_export {
         }
 
         // Now finalise $sql.
-        $sql .= ' WHERE s.surveyproid = :surveyproid
-                      AND a.verified = :verified';
+        $sql .= ' WHERE s.surveyproid = :surveyproid';
         $whereparams['surveyproid'] = $this->surveypro->id;
-        $whereparams['verified'] = 1;
 
         // For IN PROGRESS submissions where no fields were filled I need the LEFT JOIN {surveypro_item}.
         // In this case,
@@ -145,8 +143,11 @@ class mod_surveypro_view_export {
             $sql .= ' AND s.status = :status';
             $whereparams['status'] = $this->formdata->status;
         }
-        if (($this->formdata->downloadtype == SURVEYPRO_FILESBYUSER) ||
-            ($this->formdata->downloadtype == SURVEYPRO_FILESBYITEM)) {
+
+        $condition = false;
+        $condition = $condition || ($this->formdata->downloadtype == SURVEYPRO_FILESBYUSER);
+        $condition = $condition || ($this->formdata->downloadtype == SURVEYPRO_FILESBYITEM);
+        if ($condition) {
             $sql .= ' AND si.plugin = :plugin';
         } else {
             $sql .= ' AND si.plugin <> :plugin';
