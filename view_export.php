@@ -22,6 +22,9 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_surveypro\tabs;
+use mod_surveypro\view_export;
+
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/data/export_form.php');
 
@@ -48,7 +51,7 @@ $context = \context_module::instance($cm->id);
 require_capability('mod/surveypro:exportdata', $context);
 
 // Calculations.
-$exportman = new mod_surveypro_view_export($cm, $context, $surveypro);
+$exportman = new view_export($cm, $context, $surveypro);
 
 // Begin of: define exportform return url.
 $paramurl = array('id' => $cm->id);
@@ -107,7 +110,7 @@ $completiondetails = \core_completion\cm_completion_details::get_instance($cm, $
 $activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
 echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
-new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_EXPORT);
+new tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_EXPORT);
 
 if ($exporterror == SURVEYPRO_NOFIELDSSELECTED) {
     echo $OUTPUT->notification(get_string('nothingtodownload', 'mod_surveypro'), 'notifyproblem');

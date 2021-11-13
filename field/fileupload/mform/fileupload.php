@@ -41,7 +41,7 @@ require_once($CFG->libdir.'/form/filemanager.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveypromform_fileupload extends MoodleQuickForm_filemanager {
+class surveypromform_fileupload extends \MoodleQuickForm_filemanager {
 
     /**
      * Constructor.

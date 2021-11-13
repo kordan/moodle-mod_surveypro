@@ -22,11 +22,14 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\utility_layout;
 use mod_surveypro\utility_item;
 use mod_surveypro\utility_submission;
+use mod_surveypro\formbase;
 
 /**
  * The class managing the form where users are supposed to enter expected data
@@ -35,7 +38,7 @@ use mod_surveypro\utility_submission;
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_view_form extends mod_surveypro_formbase {
+class view_form extends formbase {
 
     /**
      * @var int Next non empty page
@@ -127,7 +130,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
      */
     public function set_formpage($formpage) {
         if ($this->view === null) {
-            $message = 'Please call set_view method of the class mod_surveypro_view_form before calling set_formpage';
+            $message = 'Please call set_view method of the class mod_surveypro/view_form before calling set_formpage';
             debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
 
@@ -534,7 +537,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
      *    and I arrive to define:
      *
      *    $itemhelperinfo = Array (
-     *        [148] => stdClass Object (
+     *        [148] => \stdClass Object (
      *            [surveyproid] => 1
      *            [submissionid] => 60
      *            [type] => field
@@ -545,7 +548,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
      *                [month] => 9
      *            )
      *        )
-     *        [149] => stdClass Object (
+     *        [149] => \stdClass Object (
      *            [surveyproid] => 1
      *            [submissionid] => 63
      *            [type] => field
@@ -555,7 +558,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
      *                [noanswer] => 1
      *            )
      *        )
-     *        [150] => stdClass Object (
+     *        [150] => \stdClass Object (
      *            [surveyproid] => 1
      *            [submissionid] => 63
      *            [type] => field
@@ -565,7 +568,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
      *                [mainelement] => horse
      *            )
      *        )
-     *        [151] => stdClass Object (
+     *        [151] => \stdClass Object (
      *            [surveyproid] => 1
      *            [submissionid] => 63
      *            [type] => field
@@ -575,7 +578,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
      *                [filemanager] => 667420320
      *            )
      *        )
-     *        [185] => stdClass Object (
+     *        [185] => \stdClass Object (
      *            [surveyproid] => 1
      *            [submissionid] => 63
      *            [type] => field
@@ -589,7 +592,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
      *                [noanswer] => 0
      *            )
      *        )
-     *        [186] => stdClass Object (
+     *        [186] => \stdClass Object (
      *            [surveyproid] => 1
      *            [submissionid] => 63
      *            [type] => field
@@ -904,7 +907,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         }
 
         // Course context used locally to get groups.
-        $coursecontext = context_course::instance($COURSE->id);
+        $coursecontext = \context_course::instance($COURSE->id);
 
         $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $this->cm->groupingid);
         $mygroups = array_keys($mygroups);
@@ -1094,13 +1097,13 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
                 if (isset($backwardbutton) && isset($forwardbutton)) {
                     // This code comes from "public function confirm(" around line 1711 in outputrenderers.php.
                     // It is not wrong. The misalign comes from bootstrapbase theme and is present in clean theme too.
-                    echo html_writer::tag('div', $OUTPUT->render($backwardbutton).$OUTPUT->render($forwardbutton), $params);
+                    echo \html_writer::tag('div', $OUTPUT->render($backwardbutton).$OUTPUT->render($forwardbutton), $params);
                 } else {
                     if (isset($backwardbutton)) {
-                        echo html_writer::tag('div', $OUTPUT->render($backwardbutton), $params);
+                        echo \html_writer::tag('div', $OUTPUT->render($backwardbutton), $params);
                     }
                     if (isset($forwardbutton)) {
-                        echo html_writer::tag('div', $OUTPUT->render($forwardbutton), $params);
+                        echo \html_writer::tag('div', $OUTPUT->render($forwardbutton), $params);
                     }
                 }
             }

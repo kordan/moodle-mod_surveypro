@@ -92,9 +92,9 @@ class behat_mod_surveypro extends behat_base {
      * Get a surveypro cmid from the surveypro name.
      *
      * @param string $name surveypro name.
-     * @return stdClass cm from get_coursemodule_from_instance.
+     * @return \stdClass cm from get_coursemodule_from_instance.
      */
-    protected function get_cm_by_surveypro_name(string $name): stdClass {
+    protected function get_cm_by_surveypro_name(string $name): \stdClass {
         $surveypro = $this->get_surveypro_by_name($name);
         return get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course);
     }
@@ -103,9 +103,9 @@ class behat_mod_surveypro extends behat_base {
      * Get a surveypro by name.
      *
      * @param string $name surveypro name.
-     * @return stdClass the corresponding DB row.
+     * @return \stdClass the corresponding DB row.
      */
-    protected function get_surveypro_by_name(string $name): stdClass {
+    protected function get_surveypro_by_name(string $name): \stdClass {
         global $DB;
         return $DB->get_record('surveypro', array('name' => $name), '*', MUST_EXIST);
     }

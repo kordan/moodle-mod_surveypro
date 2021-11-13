@@ -90,7 +90,7 @@ class mod_surveypro_importutemplateform extends moodleform {
         $errors = parent::validation($data, $files);
 
         $fs = get_file_storage();
-        $usercontext = context_user::instance($USER->id);
+        $usercontext = \context_user::instance($USER->id);
         $draftitemid = file_get_submitted_draft_itemid('importfile_filemanager');
         $draftfiles = $fs->get_area_files($usercontext->id, 'user', 'draft', $draftitemid, '', false);
 
@@ -106,7 +106,7 @@ class mod_surveypro_importutemplateform extends moodleform {
 
             $xmlfileid = $file->get_id();
             $xml = $utemplateman->get_utemplate_content($xmlfileid);
-            // $xml = @new SimpleXMLElement($templatecontent);
+            // $xml = @new \SimpleXMLElement($templatecontent);
             $errormessage = $utemplateman->validate_xml($xml);
             if ($errormessage !== false) {
                 if (isset($errormessage->a)) {

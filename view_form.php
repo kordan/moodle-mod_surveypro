@@ -23,6 +23,9 @@
  */
 
 use mod_surveypro\utility_layout;
+use mod_surveypro\tabs;
+use mod_surveypro\utility_mform;
+use mod_surveypro\view_form;
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/outform/fill_form.php');
@@ -49,9 +52,9 @@ require_course_login($course, false, $cm);
 $context = \context_module::instance($cm->id);
 
 // Calculations.
-mod_surveypro_utility_mform::register_form_elements();
+mod_surveypro\utility_mform::register_form_elements();
 
-$userformman = new mod_surveypro_view_form($cm, $context, $surveypro);
+$userformman = new view_form($cm, $context, $surveypro);
 $userformman->setup($submissionid, $formpage, $view);
 
 $utilitylayoutman = new utility_layout($cm, $surveypro);
@@ -173,7 +176,7 @@ $completiondetails = \core_completion\cm_completion_details::get_instance($cm, $
 $activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
 echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
-new mod_surveypro_tabs($cm, $context, $surveypro, $userformman->get_tabtab(), $userformman->get_tabpage());
+new tabs($cm, $context, $surveypro, $userformman->get_tabtab(), $userformman->get_tabpage());
 
 $userformman->noitem_stopexecution();
 $userformman->nomoresubmissions_stopexecution();

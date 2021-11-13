@@ -154,7 +154,7 @@ class mod_surveypro_mod_form extends moodleform_mod {
         // Mailroles.
         $fieldname = 'mailroles';
         $options = array();
-        $context = context_course::instance($COURSE->id);
+        $context = \context_course::instance($COURSE->id);
         $roleoptions = get_role_names_with_caps_in_context($context, array('mod/surveypro:submit'));
         $roleoptions += get_role_names_with_caps_in_context($context, array('mod/surveypro:accessreports'));
         foreach ($roleoptions as $roleid => $rolename) {

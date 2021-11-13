@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_surveypro\tabs;
+
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/attachments/form/groupjumper_form.php');
 require_once($CFG->libdir.'/tablelib.php');
@@ -112,7 +114,7 @@ echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
 $surveyproreportlist = get_plugin_list('surveyproreport');
 $reportkey = array_search('attachments', array_keys($surveyproreportlist));
-new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABREPORTS, $reportkey);
+new tabs($cm, $context, $surveypro, SURVEYPRO_TABREPORTS, $reportkey);
 
 $reportman->prevent_direct_user_input();
 $reportman->check_attachmentitems();

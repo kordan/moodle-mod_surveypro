@@ -22,6 +22,9 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_surveypro\mastertemplate;
+use mod_surveypro\tabs;
+
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/mtemplates/create_form.php');
 
@@ -48,7 +51,7 @@ $context = \context_module::instance($cm->id);
 require_capability('mod/surveypro:savemastertemplates', $context);
 
 // Calculations.
-$mtemplateman = new mod_surveypro_mastertemplate($cm, $context, $surveypro);
+$mtemplateman = new mastertemplate($cm, $context, $surveypro);
 
 // Start of: define $createmtemplate return url.
 $paramurl = array('id' => $cm->id);
@@ -95,7 +98,7 @@ $completiondetails = \core_completion\cm_completion_details::get_instance($cm, $
 $activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
 echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
-new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABMTEMPLATES, SURVEYPRO_MTEMPLATES_BUILD);
+new tabs($cm, $context, $surveypro, SURVEYPRO_TABMTEMPLATES, SURVEYPRO_MTEMPLATES_BUILD);
 
 echo $OUTPUT->notification(get_string('currenttotemplate', 'mod_surveypro'), 'notifymessage');
 

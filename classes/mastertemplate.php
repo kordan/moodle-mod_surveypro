@@ -22,9 +22,12 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\utility_layout;
+use mod_surveypro\templatebase;
 
 /**
  * The class representing a master template
@@ -33,7 +36,7 @@ use mod_surveypro\utility_layout;
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
+class mastertemplate extends templatebase {
 
     /**
      * @var array
@@ -309,7 +312,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         $fs = get_file_storage();
         $context = \context_module::instance($this->cm->id);
 
-        $xmltemplate = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><items></items>');
+        $xmltemplate = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><items></items>');
         foreach ($itemseeds as $itemseed) {
             $item = surveypro_get_item($this->cm, $this->surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);
 
@@ -397,7 +400,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
 
             return $xmltemplate->asXML();
         } else {
-            $dom = new DOMDocument('1.0');
+            $dom = new \DOMDocument('1.0');
             $dom->preserveWhiteSpace = false;
             $dom->formatOutput = true;
             $dom->loadXML($xmltemplate->asXML());
@@ -534,7 +537,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         $templatepath = $CFG->dirroot.'/mod/surveypro/template/'.$this->templatename.'/template.xml';
         $templatecontent = file_get_contents($templatepath);
 
-        $simplexml = new SimpleXMLElement($templatecontent);
+        $simplexml = new \SimpleXMLElement($templatecontent);
 
         if (!$sortindexoffset = $DB->get_field('surveypro_item', 'MAX(sortindex)', array('surveyproid' => $this->surveypro->id))) {
             $sortindexoffset = 0;

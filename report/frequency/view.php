@@ -23,6 +23,7 @@
  */
 
 use mod_surveypro\utility_layout;
+use mod_surveypro\tabs;
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/frequency/form/itemfilter_form.php');
@@ -107,7 +108,7 @@ echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
 $surveyproreportlist = get_plugin_list('surveyproreport');
 $reportkey = array_search('frequency', array_keys($surveyproreportlist));
-new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABREPORTS, $reportkey);
+new tabs($cm, $context, $surveypro, SURVEYPRO_TABREPORTS, $reportkey);
 
 $reportman->stop_if_textareas_only();
 

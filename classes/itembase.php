@@ -865,7 +865,7 @@ class itembase {
         $utilityitemman = new utility_item($this->cm, $this->surveypro);
 
         foreach ($fieldlist as $field) {
-            // Some item may be undefined causing: "Notice: Undefined property: stdClass::$defaultvalue"
+            // Some item may be undefined causing: "Notice: Undefined property: \stdClass::$defaultvalue"
             // as, for instance, disabled field when $defaultoption == invite.
             if (isset($record->{$field})) {
                 $temparray = $utilityitemman->multilinetext_to_array($record->{$field});

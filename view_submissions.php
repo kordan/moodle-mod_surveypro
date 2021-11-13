@@ -23,6 +23,8 @@
  */
 
 use mod_surveypro\utility_layout;
+use mod_surveypro\tabs;
+use mod_surveypro\view_submissions;
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 
@@ -67,7 +69,7 @@ if ($action != SURVEYPRO_NOACTION) {
 
 // Calculations.
 $context = \context_module::instance($cm->id);
-$submissionman = new mod_surveypro_view_submissions($cm, $context, $surveypro);
+$submissionman = new view_submissions($cm, $context, $surveypro);
 $submissionman->setup($submissionid, $action, $view, $confirm, $searchquery);
 
 if ($view == SURVEYPRO_RESPONSETOPDF) {
@@ -113,7 +115,7 @@ $completiondetails = \core_completion\cm_completion_details::get_instance($cm, $
 $activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
 echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
-new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_MANAGE);
+new tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_MANAGE);
 
 if (!empty($justsubmitted)) {
     $submissionman->show_thanks_page($responsestatus, $formview, $justsubmitted);
