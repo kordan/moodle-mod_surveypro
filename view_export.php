@@ -40,7 +40,7 @@ if (!empty($id)) {
 $cm = cm_info::create($cm);
 
 require_course_login($course, false, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 // Required capability.
 require_capability('mod/surveypro:exportdata', $context);
@@ -50,11 +50,11 @@ $exportman = new mod_surveypro_view_export($cm, $context, $surveypro);
 
 // Begin of: define exportform return url.
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('/mod/surveypro/view_export.php', $paramurl);
+$formurl = new \moodle_url('/mod/surveypro/view_export.php', $paramurl);
 // End of: define $mform return url.
 
 // Begin of: prepare params for the form.
-$formparams = new stdClass();
+$formparams = new \stdClass();
 $formparams->surveypro = $surveypro;
 $formparams->activityisgrouped = groups_get_activity_groupmode($cm, $course);
 $formparams->context = $context;

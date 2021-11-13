@@ -22,6 +22,10 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_surveypro\layout_itemsetup;
+use mod_surveypro\utility_layout;
+use mod_surveypro\utility_submission;
+
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/items/selectitem_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/items/bulk_action_form.php');
@@ -56,7 +60,7 @@ $saveasnew = optional_param('saveasnew', null, PARAM_TEXT);
 $edit = optional_param('edit', -1, PARAM_BOOL);
 
 require_course_login($course, false, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 // Required capability.
 require_capability('mod/surveypro:manageitems', $context);
@@ -66,13 +70,13 @@ if ($action != SURVEYPRO_NOACTION) {
 }
 
 // Calculations.
-$utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
-$utilitysubmissionman = new mod_surveypro_utility_submission($cm, $surveypro);
+$utilitylayoutman = new utility_layout($cm, $surveypro);
+$utilitysubmissionman = new utility_submission($cm, $surveypro);
 $hassubmissions = $utilitylayoutman->has_submissions();
 $itemcount = $utilitylayoutman->layout_has_items(0, SURVEYPRO_TYPEFIELD, true, true, true);
 
 // Define the manager.
-$layoutman = new mod_surveypro_layout_itemsetup($cm, $context, $surveypro);
+$layoutman = new layout_itemsetup($cm, $context, $surveypro);
 $layoutman->set_type($type);
 $layoutman->set_plugin($plugin);
 $layoutman->set_itemid($itemid);
@@ -104,9 +108,9 @@ if (!$itemcount) { // The surveypro is empty.
     $mtemplateman = new mod_surveypro_mastertemplate($cm, $context, $surveypro);
 
     $paramurl = array('id' => $cm->id);
-    $formurl = new moodle_url('/mod/surveypro/mtemplate_apply.php', $paramurl);
+    $formurl = new \moodle_url('/mod/surveypro/mtemplate_apply.php', $paramurl);
 
-    $formparams = new stdClass();
+    $formparams = new \stdClass();
     $formparams->mtemplateman = $mtemplateman;
     $formparams->subform = true;
 
@@ -120,7 +124,7 @@ if (!$itemcount) { // The surveypro is empty.
 $newitemcondition = $basecondition && has_capability('mod/surveypro:additems', $context);
 if ($newitemcondition) {
     $paramurl = array('id' => $cm->id);
-    $formurl = new moodle_url('/mod/surveypro/layout_itemsetup.php', $paramurl);
+    $formurl = new \moodle_url('/mod/surveypro/layout_itemsetup.php', $paramurl);
 
     // Init new item form.
     $newitemform = new mod_surveypro_itemtypeform($formurl);
@@ -133,7 +137,7 @@ $bulkactioncondition = $basecondition && ($itemcount);
 $bulkactioncondition = $bulkactioncondition && has_capability('mod/surveypro:manageitems', $context);
 if ($bulkactioncondition) {
     $paramurl = array('id' => $cm->id);
-    $formurl = new moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
+    $formurl = new \moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
 
     // Init bulkaction form.
     $bulkactionform = new mod_surveypro_bulkactionform($formurl);
@@ -153,7 +157,7 @@ if ($itemtomove) {
     $paramurl['view'] = $view;
     $paramurl['itm'] = $itemtomove;
 }
-$url = new moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
+$url = new \moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -174,7 +178,7 @@ if (!$itemtomove) {
             $urlediting = 'on';
             $strediting = get_string('blocksediton');
         }
-        $url = new moodle_url($CFG->wwwroot.'/mod/surveypro/layout_itemlist.php', array('id' => $id, 'edit' => $urlediting));
+        $url = new \moodle_url($CFG->wwwroot.'/mod/surveypro/layout_itemlist.php', array('id' => $id, 'edit' => $urlediting));
         $PAGE->set_button($OUTPUT->single_button($url, $strediting));
     }
 }

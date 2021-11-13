@@ -42,7 +42,7 @@ $cm = cm_info::create($cm);
 $formpage = optional_param('formpage', 1, PARAM_INT); // Form page number.
 
 require_course_login($course, false, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 // Required capability.
 require_capability('mod/surveypro:searchsubmissions', $context);
@@ -54,11 +54,11 @@ $searchman = new mod_surveypro_view_search($cm, $context, $surveypro);
 
 // Begin of: define $searchform return url.
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('/mod/surveypro/view_search.php', $paramurl);
+$formurl = new \moodle_url('/mod/surveypro/view_search.php', $paramurl);
 // End of: define $searchform return url.
 
 // Begin of: prepare params for the search form.
-$formparams = new stdClass();
+$formparams = new \stdClass();
 $formparams->cm = $cm;
 $formparams->surveypro = $surveypro;
 $formparams->canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context);
@@ -68,7 +68,7 @@ $searchform = new mod_surveypro_searchform($formurl, $formparams, 'post', '', ar
 // Begin of: manage form submission.
 if ($searchform->is_cancelled()) {
     $paramurl = array('id' => $cm->id);
-    $returnurl = new moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
+    $returnurl = new \moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
     redirect($returnurl);
 }
 
@@ -79,7 +79,7 @@ if ($searchman->formdata = $searchform->get_data()) {
     if ($searchquery = $searchman->get_searchparamurl()) {
         $paramurl['searchquery'] = $searchquery;
     }
-    $returnurl = new moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
+    $returnurl = new \moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
     redirect($returnurl);
 }
 // End of: manage form submission.

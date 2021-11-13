@@ -131,7 +131,7 @@ class mod_surveypro_createutemplateform extends moodleform {
                 if (isset($data['overwrite'])) {
                     $xmlfile->delete();
                 } else {
-                    $a = new stdClass();
+                    $a = new \stdClass();
                     $a->filename = $comparename;
                     $a->overwrite = get_string('overwrite', 'mod_surveypro');
                     $errors['templatename'] = get_string('enteruniquename', 'mod_surveypro', $a);

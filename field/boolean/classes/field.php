@@ -22,7 +22,12 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
+
+use mod_surveypro\itembase;
+use mod_surveypro\utility_item;
 
 require_once($CFG->dirroot.'/mod/surveypro/field/boolean/lib.php');
 
@@ -33,7 +38,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/boolean/lib.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyprofield_boolean_field extends mod_surveypro_itembase {
+class surveyprofield_boolean_field extends itembase {
 
     /**
      * @var string $content
@@ -176,7 +181,7 @@ class surveyprofield_boolean_field extends mod_surveypro_itembase {
         $this->item_custom_fields_to_db($record);
         // End of: plugin specific settings (eventually overriding general ones).
 
-        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
+        // Do parent item saving stuff here (itembase::item_save($record))).
         return parent::item_save($record);
     }
 
@@ -348,7 +353,7 @@ EOS;
      * return string childparentvalue
      */
     public function parent_encode_child_parentcontent($childparentcontent) {
-        $utilityitemman = new mod_surveypro_utility_item($this->cm, $this->surveypro);
+        $utilityitemman = new utility_item($this->cm, $this->surveypro);
         $parentcontents = array_unique($utilityitemman->multilinetext_to_array($childparentcontent));
         $values = array('0', '1');
 
@@ -632,7 +637,7 @@ EOS;
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 1;1;0;.
 
         $disabilitationinfo = array();
-        $mformelementinfo = new stdClass();
+        $mformelementinfo = new \stdClass();
         $mformelementinfo->parentname = $this->itemname;
         $mformelementinfo->operator = 'neq';
         $mformelementinfo->content = $parentvalues[0];

@@ -22,6 +22,10 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_surveypro\layout_itemsetup;
+use mod_surveypro\utility_layout;
+use mod_surveypro\utility_submission;
+
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
@@ -45,7 +49,7 @@ $action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
 $view = optional_param('view', SURVEYPRO_NEWRESPONSE, PARAM_INT);
 
 require_course_login($course, false, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 // Required capability.
 require_capability('mod/surveypro:additems', $context);
@@ -55,10 +59,10 @@ if ($action != SURVEYPRO_NOACTION) {
 }
 
 // Calculations.
-$utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+$utilitylayoutman = new utility_layout($cm, $surveypro);
 $hassubmissions = $utilitylayoutman->has_submissions();
 
-$layoutman = new mod_surveypro_layout_itemsetup($cm, $context, $surveypro);
+$layoutman = new layout_itemsetup($cm, $context, $surveypro);
 if (!empty($typeplugin)) {
     $layoutman->set_typeplugin($typeplugin);
 } else {
@@ -106,7 +110,7 @@ $item->set_editor();
 
 // Begin of: define $itemform return url.
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('/mod/surveypro/layout_itemsetup.php', $paramurl);
+$formurl = new \moodle_url('/mod/surveypro/layout_itemsetup.php', $paramurl);
 // End of: define $itemform return url.
 
 // Begin of: prepare params for the form.
@@ -116,7 +120,7 @@ $itemform = new $classname($formurl, array('item' => $item), null, null, array('
 
 // Begin of: manage form submission.
 if ($itemform->is_cancelled()) {
-    $returnurl = new moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
+    $returnurl = new \moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
     redirect($returnurl);
 }
 
@@ -134,7 +138,7 @@ if ($fromform = $itemform->get_data()) {
     $item->item_update_childrenparentvalue();
 
     $paramurl = array('id' => $cm->id, 'iefeedback' => $feedback);
-    $returnurl = new moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
+    $returnurl = new \moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
     redirect($returnurl);
 }
 // End of: manage form submission.
@@ -145,7 +149,7 @@ $paramurl['itemid'] = $itemid;
 $paramurl['type'] = $layoutman->get_type();
 $paramurl['plugin'] = $layoutman->get_plugin();
 $paramurl['view'] = $view;
-$url = new moodle_url('/mod/surveypro/layout_itemsetup.php', $paramurl);
+$url = new \moodle_url('/mod/surveypro/layout_itemsetup.php', $paramurl);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -162,7 +166,7 @@ echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
 new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABLAYOUT, SURVEYPRO_LAYOUT_ITEMSETUP);
 
-$utilitysubmissionman = new mod_surveypro_utility_submission($cm, $surveypro);
+$utilitysubmissionman = new utility_submission($cm, $surveypro);
 if ($hassubmissions) {
     $message = $utilitysubmissionman->get_submissions_warning();
     echo $OUTPUT->notification($message, 'notifyproblem');

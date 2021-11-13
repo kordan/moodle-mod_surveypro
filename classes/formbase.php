@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+use mod_surveypro\utility_layout;
+
 /**
  * The base class representing the commom part of the item form
  *
@@ -86,7 +88,7 @@ class mod_surveypro_formbase {
 
         $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
 
-        $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+        $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
         if (!$utilitylayoutman->layout_has_items(0, SURVEYPRO_TYPEFIELD, false, $canaccessreserveditems)) {
             $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
 
@@ -101,7 +103,7 @@ class mod_surveypro_formbase {
                 $message = get_string('noitemsfound', 'mod_surveypro');
                 echo $OUTPUT->container($message, 'notifyproblem');
 
-                $continueurl = new moodle_url('/course/view.php', array('id' => $COURSE->id));
+                $continueurl = new \moodle_url('/course/view.php', array('id' => $COURSE->id));
                 echo $OUTPUT->continue_button($continueurl);
             }
 
@@ -153,7 +155,7 @@ class mod_surveypro_formbase {
         global $OUTPUT;
 
         if ($this->maxassignedpage > 1) {
-            $a = new stdClass();
+            $a = new \stdClass();
             $a->formpage = $this->formpage;
             if ($this->formpage == SURVEYPRO_LEFT_OVERFLOW) {
                 $a->formpage = 1;

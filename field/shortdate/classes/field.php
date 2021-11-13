@@ -22,7 +22,11 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
+
+use mod_surveypro\itembase;
 
 require_once($CFG->dirroot.'/mod/surveypro/field/shortdate/lib.php');
 
@@ -33,7 +37,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/shortdate/lib.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyprofield_shortdate_field extends mod_surveypro_itembase {
+class surveyprofield_shortdate_field extends itembase {
 
     /**
      * @var string $content
@@ -648,7 +652,7 @@ EOS;
 
         $format = get_string('strftimemonthyear', 'langconfig');
         if ($haslowerbound && $hasupperbound) {
-            $a = new stdClass();
+            $a = new \stdClass();
             $a->lowerbound = userdate($this->lowerbound, $format, 0);
             $a->upperbound = userdate($this->upperbound, $format, 0);
 

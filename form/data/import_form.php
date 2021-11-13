@@ -62,7 +62,7 @@ class mod_surveypro_importform extends moodleform {
 
         // Submissionimport: encoding.
         $fieldname = 'encoding';
-        $options = core_text::get_encodings();
+        $options = \core_text::get_encodings();
         $mform->addElement('select', $fieldname, get_string($fieldname, 'tool_uploaduser'), $options);
         $mform->setDefault($fieldname, 'UTF-8');
 

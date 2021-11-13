@@ -42,7 +42,7 @@ $action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
 $confirm = optional_param('cnf', SURVEYPRO_UNCONFIRMED, PARAM_INT);
 
 require_course_login($course, false, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 // Required capability.
 require_capability('mod/surveypro:manageusertemplates', $context);
@@ -59,7 +59,7 @@ if ($action == SURVEYPRO_EXPORTUTEMPLATE) {
 }
 
 // Output starts here.
-$url = new moodle_url('/mod/surveypro/utemplate_manage.php', array('s' => $surveypro->id));
+$url = new \moodle_url('/mod/surveypro/utemplate_manage.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);

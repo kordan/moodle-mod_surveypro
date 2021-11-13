@@ -108,9 +108,9 @@ class surveypromform_textarea_editor extends MoodleQuickForm_editor {
         $class['readonly'] = 'true';
 
         $output = $this->_getTabs();
-        $output .= html_writer::start_tag('textarea', $class);
+        $output .= \html_writer::start_tag('textarea', $class);
         $output .= $value;
-        $output .= html_writer::end_tag('textarea');
+        $output .= \html_writer::end_tag('textarea');
         $output .= $this->_getPersistantData();
         return $output;
     }

@@ -28,6 +28,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_surveypro\utility_layout;
+
 defined('MOODLE_INTERNAL') || die();
 
 /**
@@ -313,7 +315,7 @@ function surveypro_add_instance($surveypro, $mform) {
     global $DB;
 
     $cmid = $surveypro->coursemodule;
-    $context = context_module::instance($cmid);
+    $context = \context_module::instance($cmid);
 
     surveypro_pre_process_checkboxes($surveypro);
     $surveypro->timecreated = time();
@@ -358,7 +360,7 @@ function surveypro_update_instance($surveypro, $mform) {
 
     $cmid = $surveypro->coursemodule;
     $draftitemid = $surveypro->userstyle_filemanager;
-    $context = context_module::instance($cmid);
+    $context = \context_module::instance($cmid);
 
     $surveypro->timemodified = time();
     $surveypro->id = $surveypro->instance;
@@ -433,7 +435,7 @@ function surveypro_delete_instance($id) {
     // Now get rid of all files.
     $fs = get_file_storage();
     if ($cm = get_coursemodule_from_instance('surveypro', $surveypro->id)) {
-        $context = context_module::instance($cm->id);
+        $context = \context_module::instance($cm->id);
         $fs->delete_area_files($context->id);
     }
 
@@ -534,7 +536,7 @@ function surveypro_supports($feature) {
  * @param \stdClass $surveypro
  */
 function surveypro_user_outline($course, $user, $coursemodule, $surveypro) {
-    $return = new stdClass();
+    $return = new \stdClass();
     $return->time = 0;
     $return->info = '';
     return $return;
@@ -637,7 +639,7 @@ function surveypro_cron_scheduled_task() {
                 if ($submissions = $DB->get_recordset_select('surveypro_submission', $where, $whereparams, 'surveyproid', 'id')) {
 
                     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, 0, false, MUST_EXIST);
-                    $utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+                    $utilitylayoutman = new utility_layout($cm, $surveypro);
 
                     foreach ($submissions as $submission) {
                         // Third step: delete each selected submission.
@@ -798,7 +800,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
 
     $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
 
-    $utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+    $utilitylayoutman = new utility_layout($cm, $surveypro);
     $nodeurl = $utilitylayoutman->get_common_links_url(SURVEYPRO_BLOCK);
 
     $paramurlbase = array('s' => $cm->instance);
@@ -884,12 +886,12 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
     }
 
     // SURVEYPRO REPORTS.
-    $context = context_module::instance($cm->id);
+    $context = \context_module::instance($cm->id);
     if ($surveyproreportlist = get_plugin_list('surveyproreport')) {
         $canaccessownreports = has_capability('mod/surveypro:accessownreports', $context);
         $canaccessreports = has_capability('mod/surveypro:accessreports', $context);
 
-        $icon = new pix_icon('i/report', '', 'moodle');
+        $icon = new \pix_icon('i/report', '', 'moodle');
         foreach ($surveyproreportlist as $reportname => $reportpath) {
             $classname = 'surveyproreport_'.$reportname.'_report';
             $reportman = new $classname($cm, $context, $surveypro);
@@ -907,7 +909,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
                             $childnode = $reportnode->add($nodelabel, null, navigation_node::TYPE_CONTAINER);
                             surveypro_add_report_link($surveypro->template, $childreports, $childnode, $reportname, $icon);
                         } else {
-                            $url = new moodle_url('/mod/surveypro/report/'.$reportname.'/view.php', $paramurlbase);
+                            $url = new \moodle_url('/mod/surveypro/report/'.$reportname.'/view.php', $paramurlbase);
                             $nodelabel = get_string('pluginname', 'surveyproreport_'.$reportname);
                             $reportnode->add($nodelabel, $url, navigation_node::TYPE_SETTING, null, null, $icon);
                         }
@@ -941,7 +943,7 @@ function surveypro_add_report_link($templatename, $childreports, $childnode, $re
             surveypro_add_report_link($templatename, $reportparams, $childnode, $reportname, $icon);
         } else {
             $reportparams['s'] = $PAGE->cm->instance;
-            $url = new moodle_url('/mod/surveypro/report/'.$reportname.'/view.php', $reportparams);
+            $url = new \moodle_url('/mod/surveypro/report/'.$reportname.'/view.php', $reportparams);
             $childnode->add($label, $url, navigation_node::TYPE_SETTING, null, null, $icon);
         }
     }
@@ -959,7 +961,7 @@ function surveypro_add_report_link($templatename, $childreports, $childnode, $re
  * @return void
  */
 function surveypro_extend_navigation(navigation_node $navref, stdClass $course, stdClass $surveypro, cm_info $cm) {
-    $utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+    $utilitylayoutman = new utility_layout($cm, $surveypro);
     $nodeurl = $utilitylayoutman->get_common_links_url(SURVEYPRO_BLOCK);
 
     // $currentgroup = groups_get_activity_group($cm);
@@ -1174,10 +1176,10 @@ function surveypro_get_user_style_options() {
  * @return void
  */
 function surveypro_cutdownstring($plainstring, $maxlength=60) {
-    if (core_text::strlen($plainstring) > $maxlength) {
+    if (\core_text::strlen($plainstring) > $maxlength) {
         $ellipsis = '...';
-        $cutlength = $maxlength - core_text::strlen($ellipsis);
-        $plainstring = core_text::substr($plainstring, 0, $cutlength).$ellipsis;
+        $cutlength = $maxlength - \core_text::strlen($ellipsis);
+        $plainstring = \core_text::substr($plainstring, 0, $cutlength).$ellipsis;
     }
 
     return $plainstring;
@@ -1192,7 +1194,7 @@ function surveypro_cutdownstring($plainstring, $maxlength=60) {
  * @return \core\output\inplace_editable
  */
 function surveypro_inplace_editable($itemtype, $id, $newvalue) {
-    $classname = 'ipe_'.$itemtype;
+    $classname = 'mod_surveypro\ipe_'.$itemtype;
 
     return $classname::update($id, $newvalue);
 }

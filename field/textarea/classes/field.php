@@ -22,7 +22,11 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
+
+use mod_surveypro\itembase;
 
 require_once($CFG->dirroot.'/mod/surveypro/field/textarea/lib.php');
 
@@ -33,7 +37,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/textarea/lib.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyprofield_textarea_field extends mod_surveypro_itembase {
+class surveyprofield_textarea_field extends itembase {
 
     /**
      * @var string $content
@@ -483,10 +487,10 @@ EOS;
 
         // I don't care if this element is required or not.
         // If the user provides an answer, it has to be compliant with the field validation rules.
-        if ( $this->maxlength && (core_text::strlen($itemcontent) > $this->maxlength) ) {
+        if ( $this->maxlength && (\core_text::strlen($itemcontent) > $this->maxlength) ) {
             $errors[$errorkey] = get_string('uerr_texttoolong', 'surveyprofield_textarea');
         }
-        if (core_text::strlen($itemcontent) < $this->minlength) {
+        if (\core_text::strlen($itemcontent) < $this->minlength) {
             $errors[$errorkey] = get_string('uerr_texttooshort', 'surveyprofield_textarea');
         }
     }
@@ -502,7 +506,7 @@ EOS;
 
         if ($this->minlength > 0) {
             if (isset($this->maxlength) && ($this->maxlength > 0)) {
-                $a = new stdClass();
+                $a = new \stdClass();
                 $a->minlength = $this->minlength;
                 $a->maxlength = $this->maxlength;
                 $arrayinstruction[] = get_string('hasminmaxlength', 'surveyprofield_textarea', $a);
@@ -538,7 +542,7 @@ EOS;
      */
     public function userform_save_preprocessing($answer, &$olduseranswer, $searchform) {
         if (!empty($this->useeditor) && (!$searchform)) {
-            $context = context_module::instance($this->cm->id);
+            $context = \context_module::instance($this->cm->id);
             $olduseranswer->{$this->itemname.'_editor'} = empty($this->trimonsave) ? $answer['editor'] : trim($answer['editor']);
 
             $editoroptions = array('trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $context);
@@ -566,7 +570,7 @@ EOS;
 
         if (isset($fromdb->content)) {
             if (!empty($this->useeditor)) {
-                $context = context_module::instance($this->cm->id);
+                $context = \context_module::instance($this->cm->id);
 
                 $editoroptions = array();
                 $editoroptions['trusttext'] = true;
@@ -619,7 +623,7 @@ EOS;
      * @return string - the string for the export file
      */
     public function userform_db_to_export($answer, $format='') {
-        $context = context_module::instance($this->cm->id);
+        $context = \context_module::instance($this->cm->id);
 
         // The content of the provided answer.
         $content = $answer->content;

@@ -22,7 +22,11 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
+
+use mod_surveypro\itembase;
 
 require_once($CFG->dirroot.'/mod/surveypro/field/character/lib.php');
 
@@ -33,7 +37,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/character/lib.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyprofield_character_field extends mod_surveypro_itembase {
+class surveyprofield_character_field extends itembase {
 
     /**
      * @var string $content
@@ -254,7 +258,7 @@ class surveyprofield_character_field extends mod_surveypro_itembase {
         if ($record->pattern == SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN) {
             $record->pattern = $record->patterntext;
 
-            $record->minlength = core_text::strlen($record->patterntext);
+            $record->minlength = \core_text::strlen($record->patterntext);
             $record->maxlength = $record->minlength;
             unset($record->patterntext);
         }
@@ -495,7 +499,7 @@ EOS;
             return;
         }
 
-        $answerlength = core_text::strlen($userinput);
+        $answerlength = \core_text::strlen($userinput);
         if (!empty($this->minlength)) {
             if ($answerlength < $this->minlength) {
                 $errors[$errorkey] = get_string('uerr_texttooshort', 'surveyprofield_character');
@@ -555,7 +559,7 @@ EOS;
                     $a = $this->minlength;
                     $arrayinstruction[] = get_string('restrictions_exact', 'surveyprofield_character', $a);
                 } else {
-                    $a = new stdClass();
+                    $a = new \stdClass();
                     $a->minlength = $this->minlength;
                     $a->maxlength = $this->maxlength;
                     $arrayinstruction[] = get_string('restrictions_minmax', 'surveyprofield_character', $a);

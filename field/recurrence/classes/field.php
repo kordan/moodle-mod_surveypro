@@ -22,7 +22,12 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
+
+use mod_surveypro\itembase;
+use mod_surveypro\utility_item;
 
 require_once($CFG->dirroot.'/mod/surveypro/field/recurrence/lib.php');
 
@@ -33,7 +38,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/recurrence/lib.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyprofield_recurrence_field extends mod_surveypro_itembase {
+class surveyprofield_recurrence_field extends itembase {
 
     /**
      * @var string $content
@@ -622,7 +627,7 @@ EOS;
         }
         // End of: verify the content of each drop down menu.
 
-        if (!mod_surveypro_utility_item::date_is_valid($data[$this->itemname.'_day'], $data[$this->itemname.'_month'])) {
+        if (!utility_item::date_is_valid($data[$this->itemname.'_day'], $data[$this->itemname.'_month'])) {
             $errors[$errorkey] = get_string('ierr_invalidinput', 'mod_surveypro');
             return;
         }
@@ -649,7 +654,7 @@ EOS;
                 // External range.
                 if ( ($userinput > $this->lowerbound) && ($userinput < $this->upperbound) ) {
                     $format = $this->get_friendlyformat();
-                    $a = new stdClass();
+                    $a = new \stdClass();
                     $a->lowerbound = userdate($this->lowerbound, get_string($format, 'surveyprofield_recurrence'), 0);
                     $a->upperbound = userdate($this->upperbound, get_string($format, 'surveyprofield_recurrence'), 0);
                     $errors[$errorkey] = get_string('uerr_outofexternalrange', 'surveyprofield_recurrence', $a);
@@ -677,7 +682,7 @@ EOS;
         $fillinginstruction = '';
         $format = get_string('strftimedateshort', 'langconfig');
         if ($haslowerbound && $hasupperbound) {
-            $a = new stdClass();
+            $a = new \stdClass();
             $a->lowerbound = userdate($this->lowerbound, $format, 0);
             $a->upperbound = userdate($this->upperbound, $format, 0);
 

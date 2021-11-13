@@ -108,19 +108,19 @@ class mod_surveypro_templatebase {
                 }
             }
             if (!isset($currenttype)) {
-                $error = new stdClass();
+                $error = new \stdClass();
                 $error->key = 'missingitemtype';
 
                 return $error;
             }
             if (!isset($currentplugin)) {
-                $error = new stdClass();
+                $error = new \stdClass();
                 $error->key = 'missingitemplugin';
 
                 return $error;
             }
             if (!isset($currentversion)) {
-                $error = new stdClass();
+                $error = new \stdClass();
                 $error->key = 'missingitemversion';
 
                 return $error;
@@ -129,7 +129,7 @@ class mod_surveypro_templatebase {
             // Ok, $currenttype and $currentplugin are onboard.
             // Do they define correctly a class?
             if (!file_exists($CFG->dirroot.'/mod/surveypro/'.$currenttype.'/'.$currentplugin.'/version.php')) {
-                $error = new stdClass();
+                $error = new \stdClass();
                 $error->key = 'invalidtypeorplugin';
 
                 return $error;
@@ -137,13 +137,13 @@ class mod_surveypro_templatebase {
 
             $index = $currenttype.'_'.$currentplugin;
             if ($pluginversion[$index] < $currentversion) {
-                $a = new stdClass();
+                $a = new \stdClass();
                 $a->type = $currenttype;
                 $a->plugin = $currentplugin;
                 $a->currentversion = $currentversion;
                 $a->versiondisk = $pluginversion[$index];
 
-                $error = new stdClass();
+                $error = new \stdClass();
                 $error->a = $a;
                 $error->key = 'versionmismatch';
 
@@ -163,7 +163,7 @@ class mod_surveypro_templatebase {
                 } else {
                     // Classname has already been defined because of the previous loop over surveypro_item fields.
                     if (!isset($classname)) {
-                        $error = new stdClass();
+                        $error = new \stdClass();
                         $error->key = 'badtablenamefound';
                         $error->a = $tablename;
 
@@ -173,7 +173,7 @@ class mod_surveypro_templatebase {
                 }
 
                 if (empty($xsd)) {
-                    $error = new stdClass();
+                    $error = new \stdClass();
                     $error->key = 'xsdnotfound';
 
                     return $error;
@@ -213,7 +213,7 @@ class mod_surveypro_templatebase {
                     }
                     $a = sprintf($messagetemplate, trim($firsterror->message, "\n\r\t ."), $currentplugin);
 
-                    $error = new stdClass();
+                    $error = new \stdClass();
                     $error->a = $a;
                     $error->key = 'reportederror';
 
@@ -227,7 +227,7 @@ class mod_surveypro_templatebase {
                         echo '<textarea rows="10" cols="100">'.$xsd.'</textarea>';
                     }
 
-                    $error = new stdClass();
+                    $error = new \stdClass();
                     $error->key = 'schemavalidationfailed';
 
                     return $error;

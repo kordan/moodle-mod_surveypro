@@ -22,7 +22,11 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
+
+use mod_surveypro\itembase;
 
 require_once($CFG->dirroot.'/mod/surveypro/format/label/lib.php');
 
@@ -33,7 +37,7 @@ require_once($CFG->dirroot.'/mod/surveypro/format/label/lib.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyproformat_label_format extends mod_surveypro_itembase {
+class surveyproformat_label_format extends itembase {
 
     /**
      * @var string $content
@@ -286,11 +290,11 @@ EOS;
 
         if ($this->fullwidth) {
             $content = '';
-            $content .= html_writer::start_tag('div', array('class' => 'fitem'));
-            $content .= html_writer::start_tag('div', array('class' => 'fstatic fullwidth label_static'));
+            $content .= \html_writer::start_tag('div', array('class' => 'fitem'));
+            $content .= \html_writer::start_tag('div', array('class' => 'fstatic fullwidth label_static'));
             $content .= $this->get_content();
-            $content .= html_writer::end_tag('div');
-            $content .= html_writer::end_tag('div');
+            $content .= \html_writer::end_tag('div');
+            $content .= \html_writer::end_tag('div');
             $mform->addElement('html', $content);
         } else {
             $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.

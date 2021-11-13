@@ -31,7 +31,7 @@ $lifetime = 600;
 
 if ($surveypro = $DB->get_record('surveypro', array('id' => $id))) {
     $fs = get_file_storage();
-    $context = context_module::instance($cmid);
+    $context = \context_module::instance($cmid);
 
     $files = $fs->get_area_files($context->id, 'mod_surveypro', SURVEYPRO_STYLEFILEAREA, 0, 'sortorder', false);
 

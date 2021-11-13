@@ -42,7 +42,7 @@ $cm = cm_info::create($cm);
 $utemplateid = optional_param('fid', 0, PARAM_INT);
 
 require_course_login($course, false, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 // Required capability.
 require_capability('mod/surveypro:importusertemplates', $context);
@@ -60,11 +60,11 @@ $utemplateman->setup($utemplateid, $action, $confirm);
 
 // Begin of: define $importutemplate return url.
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('/mod/surveypro/utemplate_import.php', $paramurl);
+$formurl = new \moodle_url('/mod/surveypro/utemplate_import.php', $paramurl);
 // End of: define $importutemplate return url.
 
 // Begin of: prepare params for the form.
-$formparams = new stdClass();
+$formparams = new \stdClass();
 $formparams->utemplateman = $utemplateman;
 $formparams->filemanageroptions = $utemplateman->get_filemanager_options();
 $importutemplate = new mod_surveypro_importutemplateform($formurl, $formparams);
@@ -75,13 +75,13 @@ if ($utemplateman->formdata = $importutemplate->get_data()) {
     $utemplateman->upload_utemplate();
     $utemplateman->trigger_event('usertemplate_imported');
 
-    $redirecturl = new moodle_url('/mod/surveypro/utemplate_manage.php', array('s' => $surveypro->id));
+    $redirecturl = new \moodle_url('/mod/surveypro/utemplate_manage.php', array('s' => $surveypro->id));
     redirect($redirecturl);
 }
 // End of: manage form submission.
 
 // Output starts here.
-$url = new moodle_url('/mod/surveypro/utemplate_import.php', array('s' => $surveypro->id));
+$url = new \moodle_url('/mod/surveypro/utemplate_import.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);

@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+use mod_surveypro\utility_submission;
+
 /**
  * The class importing data from CSV
  *
@@ -130,7 +132,7 @@ class mod_surveypro_view_import {
     public function are_headers_unique($foundheaders) {
         $uniqueheaders = array_unique($foundheaders);
         if ($duplicateheader = array_diff_key($foundheaders, $uniqueheaders)) {
-            $error = new stdClass();
+            $error = new \stdClass();
             $error->key = 'import_duplicateheader';
             $error->a = $duplicateheader;
 
@@ -163,7 +165,7 @@ class mod_surveypro_view_import {
         }
 
         if ($intersection = array_intersect($foundheaders, $variablenames)) {
-            $error = new stdClass();
+            $error = new \stdClass();
             $error->key = 'import_attachmentsnotallowed';
             $error->a = '<ul><li>'.implode(';</li><li>', $intersection).'.</li></ul>';
 
@@ -181,7 +183,7 @@ class mod_surveypro_view_import {
      */
     public function are_headers_matching($nonmatchingheaders) {
         if (count($nonmatchingheaders)) {
-            $error = new stdClass();
+            $error = new \stdClass();
             $error->key = 'import_extraheaderfound';
             $error->a = '<ul><li>'.implode(';</li><li>', $nonmatchingheaders).'.</li></ul>';
 
@@ -207,7 +209,7 @@ class mod_surveypro_view_import {
                 // Get the column where is stored the answer given to the parent item.
                 $parentcolumn = array_search($itemhelper->parentid, $this->columntoitemid);
                 if ($parentcolumn === false) {
-                    $a = new stdClass();
+                    $a = new \stdClass();
                     $missingparentid = $this->columntoitemid[$k];
                     $a->childheader = $surveyheaders[$missingparentid];
                     $a->missingparentheader = $surveyheaders[$itemhelper->parentid];
@@ -217,7 +219,7 @@ class mod_surveypro_view_import {
         }
 
         if (!empty($orphansheader)) {
-            $error = new stdClass();
+            $error = new \stdClass();
             $error->key = 'import_orphanchild';
             $error->a  = '<ul><li>'.implode(';</li><li>', $orphansheader).'</li></ul>';
 
@@ -235,14 +237,14 @@ class mod_surveypro_view_import {
      */
     public function is_valid_userid($value) {
         if (empty($value)) {
-            $error = new stdClass();
+            $error = new \stdClass();
             $error->key = 'import_missinguserid';
 
             return $error;
         }
 
         if (!is_number($value)) {
-            $error = new stdClass();
+            $error = new \stdClass();
             $error->key = 'import_invaliduserid';
             $error->a = $value;
 
@@ -260,14 +262,14 @@ class mod_surveypro_view_import {
      */
     public function is_valid_creationtime($value) {
         if (empty($value)) {
-            $error = new stdClass();
+            $error = new \stdClass();
             $error->key = 'import_missingtimecreated';
 
             return $error;
         }
 
         if (!is_number($value)) {
-            $error = new stdClass();
+            $error = new \stdClass();
             $error->key = 'import_invalidtimecreated';
             $error->a = $value;
 
@@ -289,7 +291,7 @@ class mod_surveypro_view_import {
         }
 
         if (!is_number($value)) {
-            $error = new stdClass();
+            $error = new \stdClass();
             $error->key = 'import_invalidtimemodified';
             $error->a = $value;
 
@@ -312,9 +314,9 @@ class mod_surveypro_view_import {
 
         // Has, this element, a parent item?
         if (empty($itemhelper->parentid)) {
-            $error = new stdClass();
+            $error = new \stdClass();
             $error->key = 'import_nullwithoutparent';
-            $error->a = new stdClass();
+            $error->a = new \stdClass();
             $error->a->row = implode(', ', $csvrow);
             $error->a->value = SURVEYPRO_EXPNULLVALUE;
             $error->a->col = $col;
@@ -328,9 +330,9 @@ class mod_surveypro_view_import {
             $parentanswer = $csvrow[$parentcolumn];
             // Did the parent item receive an answer forbidding this child?
             if ($itemhelper->parentvalue == $parentanswer) {
-                $error = new stdClass();
+                $error = new \stdClass();
                 $error->key = 'import_nullnotallowed';
-                $error->a = new stdClass();
+                $error->a = new \stdClass();
                 $error->a->row = implode(', ', $csvrow);
                 $error->a->value = SURVEYPRO_EXPNULLVALUE;
                 $error->a->col = $col;
@@ -354,10 +356,10 @@ class mod_surveypro_view_import {
      */
     public function is_string_notempty($csvrow, $col, $itemhelper) {
         $value = $csvrow[$col];
-        if (!core_text::strlen($value)) {
-            $error = new stdClass();
+        if (!\core_text::strlen($value)) {
+            $error = new \stdClass();
             $error->key = 'import_emptyrequiredvalue';
-            $error->a = new stdClass();
+            $error->a = new \stdClass();
             $error->a->col = $col;
             $error->a->plugin = $itemhelper->plugin;
             $error->a->content = $itemhelper->content;
@@ -367,9 +369,9 @@ class mod_surveypro_view_import {
         }
 
         if ($value == SURVEYPRO_NOANSWERVALUE) {
-            $error = new stdClass();
+            $error = new \stdClass();
             $error->key = 'import_noanswertorequired';
-            $error->a = new stdClass();
+            $error->a = new \stdClass();
             $error->a->value = SURVEYPRO_NOANSWERVALUE;
             $error->a->col = $col;
             $error->a->plugin = $itemhelper->plugin;
@@ -401,9 +403,9 @@ class mod_surveypro_view_import {
             if (is_number($position)) {
                 // If position is out of range...
                 if (($position >= $itemoptionscount) || ($position < 0)) { // For radio buttons.
-                    $error = new stdClass();
+                    $error = new \stdClass();
                     $error->key = 'import_positionoutofbound';
-                    $error->a = new stdClass();
+                    $error->a = new \stdClass();
                     $error->a->position = $position;
                     $error->a->plugin = $itemhelper->plugin;
                     $error->a->content = $itemhelper->content;
@@ -417,9 +419,9 @@ class mod_surveypro_view_import {
                 if ($itemhelper->usesoptionother) {
                     // If $position must be numeric if $k is not is at its last value.
                     if ($k < $countfoundpositions) {
-                        $error = new stdClass();
+                        $error = new \stdClass();
                         $error->key = 'import_positionnotinteger';
-                        $error->a = new stdClass();
+                        $error->a = new \stdClass();
                         $error->a->position = $position;
                         $error->a->plugin = $itemhelper->plugin;
                         $error->a->content = $itemhelper->content;
@@ -430,9 +432,9 @@ class mod_surveypro_view_import {
                         return $error;
                     }
                 } else {
-                    $error = new stdClass();
+                    $error = new \stdClass();
                     $error->key = 'import_positionnotinteger';
-                    $error->a = new stdClass();
+                    $error->a = new \stdClass();
                     $error->a->position = $position;
                     $error->a->plugin = $itemhelper->plugin;
                     $error->a->content = $itemhelper->content;
@@ -471,9 +473,9 @@ class mod_surveypro_view_import {
                 foreach ($oldsubmissionsperuser as $csvuserid => $oldsubmissions) {
                     $totalsubmissions = $oldsubmissions + $submissionsperuser[$csvuserid];
                     if ($totalsubmissions > $this->surveypro->maxentries) { // Error.
-                        $error = new stdClass();
+                        $error = new \stdClass();
                         $error->key = 'import_breakingmaxentries';
-                        $error->a = new stdClass();
+                        $error->a = new \stdClass();
                         $error->a->userid = $csvuserid;
                         $error->a->maxentries = $this->surveypro->maxentries;
                         $error->a->totalentries = $totalsubmissions;
@@ -498,7 +500,7 @@ class mod_surveypro_view_import {
         global $CFG, $DB;
 
         // Get the list of used plugin.
-        $utilitysubmissionman = new mod_surveypro_utility_submission($this->cm, $this->surveypro);
+        $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
         $pluginlist = $utilitysubmissionman->get_used_plugin_list(SURVEYPRO_TYPEFIELD);
 
         $requireditems = array();
@@ -646,7 +648,7 @@ class mod_surveypro_view_import {
             $item = surveypro_get_item($this->cm, $this->surveypro, $itemid);
 
             // Itemhelperinfo.
-            $itemhelper = new stdClass();
+            $itemhelper = new \stdClass();
             $itemhelper->plugin = $item->get_plugin();
             $itemhelper->content = $item->get_content();
             $itemhelper->required = $item->get_required();
@@ -707,7 +709,7 @@ class mod_surveypro_view_import {
         // Start here 3 tests against general file configuration.
         // 1st) Verify each raw has the same column count.
         if ($this->cir->get_error()) {
-            $error = new stdClass();
+            $error = new \stdClass();
             $error->key = 'import_columnscountchanges';
 
             return $error;
@@ -984,7 +986,7 @@ class mod_surveypro_view_import {
             }
 
             // Add one record to surveypro_submission.
-            $record = new stdClass();
+            $record = new \stdClass();
             $record->surveyproid = $this->surveypro->id;
             $record->status = $this->defaultstatus;
             if (isset($this->environmentheaders[SURVEYPRO_OWNERIDLABEL])) {
@@ -1040,7 +1042,7 @@ class mod_surveypro_view_import {
                 }
 
                 // Finally, save.
-                $record = new stdClass();
+                $record = new \stdClass();
                 $record->submissionid = $submissionid;
                 $record->itemid = $itemid;
                 $record->content = $content;
@@ -1071,7 +1073,7 @@ class mod_surveypro_view_import {
         }
 
         // Update completion state.
-        $completion = new completion_info($COURSE);
+        $completion = new \completion_info($COURSE);
         if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
             $completion->update_state($this->cm, COMPLETION_INCOMPLETE);
         }

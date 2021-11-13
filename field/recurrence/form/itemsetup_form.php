@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+use mod_surveypro\utility_item;
+
 require_once($CFG->dirroot.'/lib/formslib.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/items/itembase_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/field/recurrence/lib.php');
@@ -135,11 +137,11 @@ class mod_surveypro_recurrence_setupform extends mod_surveypro_itembaseform {
 
         $errors = parent::validation($data, $files);
 
-        if (!mod_surveypro_utility_item::date_is_valid($data['lowerboundday'], $data['lowerboundmonth'])) {
+        if (!utility_item::date_is_valid($data['lowerboundday'], $data['lowerboundmonth'])) {
             $errors['lowerbound_group'] = get_string('ierr_invalidinput', 'mod_surveypro');
             return $errors;
         }
-        if (!mod_surveypro_utility_item::date_is_valid($data['upperboundday'], $data['upperboundmonth'])) {
+        if (!utility_item::date_is_valid($data['upperboundday'], $data['upperboundmonth'])) {
             $errors['upperbound_group'] = get_string('ierr_invalidinput', 'mod_surveypro');
             return $errors;
         }
@@ -153,7 +155,7 @@ class mod_surveypro_recurrence_setupform extends mod_surveypro_itembaseform {
 
         // Constrain default between boundaries.
         if ($data['defaultoption'] == SURVEYPRO_CUSTOMDEFAULT) {
-            if (!mod_surveypro_utility_item::date_is_valid($data['defaultvalueday'], $data['defaultvaluemonth'])) {
+            if (!utility_item::date_is_valid($data['defaultvalueday'], $data['defaultvaluemonth'])) {
                 $errors['defaultvalue_group'] = get_string('ierr_invalidinput', 'mod_surveypro');
                 return $errors;
             }

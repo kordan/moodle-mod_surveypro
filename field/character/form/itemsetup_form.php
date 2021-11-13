@@ -127,7 +127,7 @@ class mod_surveypro_character_setupform extends mod_surveypro_itembaseform {
 
         if (!empty($data['defaultvalue'])) {
             // Maximum characters > length of default.
-            $defaultvaluelength = core_text::strlen($data['defaultvalue']);
+            $defaultvaluelength = \core_text::strlen($data['defaultvalue']);
             if (!empty($data['maxlength'])) {
                 if ($defaultvaluelength > $data['maxlength']) {
                     $errors['defaultvalue'] = get_string('ierr_toolongdefault', 'surveyprofield_character');
@@ -155,7 +155,7 @@ class mod_surveypro_character_setupform extends mod_surveypro_itembaseform {
                     break;
                 case SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN:
                     if (!surveypro_character_validate_against_pattern($data['defaultvalue'], $this->patterntext)) {
-                        $errors['defaultvalue'] = get_string('ierr_nopatternmatch', 'surveyprofield_character');;
+                        $errors['defaultvalue'] = get_string('ierr_nopatternmatch', 'surveyprofield_character');
                     }
                 case SURVEYPROFIELD_CHARACTER_REGEXPATTERN:
                     if (!surveypro_character_validate_against_regex($data['defaultvalue'], $data['patterntext'])) {

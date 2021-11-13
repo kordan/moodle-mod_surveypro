@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+use mod_surveypro\utility_layout;
+
 /**
  * The class managing the page "cover" of the module
  *
@@ -69,7 +71,7 @@ class mod_surveypro_view_cover {
     public function display_cover() {
         global $CFG, $OUTPUT, $COURSE, $USER;
 
-        $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+        $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
 
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '..
 
@@ -148,14 +150,14 @@ class mod_surveypro_view_cover {
             $messages[] = get_string('maxentries', 'mod_surveypro').$labelsep.$maxentries;
 
             // Your 'closed' responses.
-            $a = new stdClass();
+            $a = new \stdClass();
             $a->status = get_string('statusclosed', 'mod_surveypro');
             $a->responsescount = $countclosed;
             $messages[] = get_string('yoursubmissions', 'mod_surveypro', $a);
 
             if ($this->surveypro->pauseresume) {
                 // Your 'in progress' responses.
-                $a = new stdClass();
+                $a = new \stdClass();
                 $a->status = get_string('statusinprogress', 'mod_surveypro');
                 $a->responsescount = $inprogress;
                 $messages[] = get_string('yoursubmissions', 'mod_surveypro', $a);
@@ -167,7 +169,7 @@ class mod_surveypro_view_cover {
         // End of: general info.
 
         if ($addnew) {
-            $url = new moodle_url('/mod/surveypro/view_form.php', array('id' => $this->cm->id, 'view' => SURVEYPRO_NEWRESPONSE));
+            $url = new \moodle_url('/mod/surveypro/view_form.php', array('id' => $this->cm->id, 'view' => SURVEYPRO_NEWRESPONSE));
             $message = get_string('addnewsubmission', 'mod_surveypro');
             echo $OUTPUT->box($OUTPUT->single_button($url, $message, 'get'), 'clearfix mdl-align');
         } else {
@@ -209,8 +211,8 @@ class mod_surveypro_view_cover {
                             $reportname = get_string('pluginname', 'surveyproreport_'.$pluginname);
                             $this->add_report_link($childreports, $pluginname, $messages, $reportname);
                         } else {
-                            $url = new moodle_url('/mod/surveypro/report/'.$pluginname.'/view.php', $paramurlbase);
-                            $a = new stdClass();
+                            $url = new \moodle_url('/mod/surveypro/report/'.$pluginname.'/view.php', $paramurlbase);
+                            $a = new \stdClass();
                             $a->href = $url->out();
                             $a->reportname = get_string('pluginname', 'surveyproreport_'.$pluginname);
                             $messages[] = get_string('runreport', 'mod_surveypro', $a);
@@ -226,22 +228,22 @@ class mod_surveypro_view_cover {
 
         // Begin of: user templates section.
         if ($canmanageusertemplates) {
-            $url = new moodle_url('/mod/surveypro/utemplate_manage.php', $paramurlbase);
+            $url = new \moodle_url('/mod/surveypro/utemplate_manage.php', $paramurlbase);
             $messages[] = get_string('manageusertemplates', 'mod_surveypro', $url->out());
         }
 
         if ($cansaveusertemplate) {
-            $url = new moodle_url('/mod/surveypro/utemplate_save.php', $paramurlbase);
+            $url = new \moodle_url('/mod/surveypro/utemplate_save.php', $paramurlbase);
             $messages[] = get_string('saveusertemplates', 'mod_surveypro', $url->out());
         }
 
         if ($canimportusertemplates) {
-            $url = new moodle_url('/mod/surveypro/utemplate_import.php', $paramurlbase);
+            $url = new \moodle_url('/mod/surveypro/utemplate_import.php', $paramurlbase);
             $messages[] = get_string('importusertemplates', 'mod_surveypro', $url->out());
         }
 
         if ($canapplyusertemplates && (!$hassubmissions || $riskyediting)) {
-            $url = new moodle_url('/mod/surveypro/utemplate_apply.php', $paramurlbase);
+            $url = new \moodle_url('/mod/surveypro/utemplate_apply.php', $paramurlbase);
             $messages[] = get_string('applyusertemplates', 'mod_surveypro', $url->out());
         }
 
@@ -251,12 +253,12 @@ class mod_surveypro_view_cover {
 
         // Begin of: master templates section.
         if ($cansavemastertemplates) {
-            $url = new moodle_url('/mod/surveypro/mtemplate_save.php', $paramurlbase);
+            $url = new \moodle_url('/mod/surveypro/mtemplate_save.php', $paramurlbase);
             $messages[] = get_string('savemastertemplates', 'mod_surveypro', $url->out());
         }
 
         if ($canapplymastertemplates) {
-            $url = new moodle_url('/mod/surveypro/mtemplate_apply.php', $paramurlbase);
+            $url = new \moodle_url('/mod/surveypro/mtemplate_apply.php', $paramurlbase);
             $messages[] = get_string('applymastertemplates', 'mod_surveypro', $url->out());
         }
 
@@ -287,8 +289,8 @@ class mod_surveypro_view_cover {
                 $this->add_report_link($childparams, $pluginname, $messages, $categoryname);
             } else {
                 $childparams = array('s' => $this->cm->instance) + $childparams;
-                $url = new moodle_url('/mod/surveypro/report/'.$pluginname.'/view.php', $childparams);
-                $a = new stdClass();
+                $url = new \moodle_url('/mod/surveypro/report/'.$pluginname.'/view.php', $childparams);
+                $a = new \stdClass();
                 $a->href = $url->out();
                 $a->reportname = $categoryname.' > '.$subreport;
                 $messages[] = get_string('runreport', 'mod_surveypro', $a);

@@ -22,7 +22,11 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
+
+use mod_surveypro\itembase;
 
 require_once($CFG->dirroot.'/mod/surveypro/format/fieldsetend/lib.php');
 
@@ -33,7 +37,7 @@ require_once($CFG->dirroot.'/mod/surveypro/format/fieldsetend/lib.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyproformat_fieldsetend_format extends mod_surveypro_itembase {
+class surveyproformat_fieldsetend_format extends itembase {
 
     /**
      * @var bool Can this item be parent?
@@ -203,7 +207,7 @@ class surveyproformat_fieldsetend_format extends mod_surveypro_itembase {
         // This plugin has $this->insetupform['insearchform'] = false; so it will never be part of a search form.
 
         // Workaround suggested by Marina Glancy in MDL-42946.
-        $label = html_writer::tag('span', '&nbsp;', array('style' => 'display:none;'));
+        $label = \html_writer::tag('span', '&nbsp;', array('style' => 'display:none;'));
 
         $mform->addElement('static', $this->itemname, '', $label);
         $mform->closeHeaderBefore($this->itemname);

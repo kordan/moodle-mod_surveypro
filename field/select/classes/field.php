@@ -22,7 +22,12 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
+
+use mod_surveypro\itembase;
+use mod_surveypro\utility_item;
 
 require_once($CFG->dirroot.'/mod/surveypro/field/select/lib.php');
 
@@ -33,7 +38,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/select/lib.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyprofield_select_field extends mod_surveypro_itembase {
+class surveyprofield_select_field extends itembase {
 
     /**
      * @var string $content
@@ -373,7 +378,7 @@ EOS;
      * return string childparentvalue
      */
     public function parent_encode_child_parentcontent($childparentcontent) {
-        $utilityitemman = new mod_surveypro_utility_item($this->cm, $this->surveypro);
+        $utilityitemman = new utility_item($this->cm, $this->surveypro);
         $parentcontents = array_unique($utilityitemman->multilinetext_to_array($childparentcontent));
         $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
 
@@ -625,19 +630,19 @@ EOS;
 
         if ($parentvalues[0] == '>') {
             // The condition was set to a custom text.
-            $mformelementinfo = new stdClass();
+            $mformelementinfo = new \stdClass();
             $mformelementinfo->parentname = $this->itemname;
             $mformelementinfo->operator = 'neq';
             $mformelementinfo->content = 'other';
             $disabilitationinfo[] = $mformelementinfo;
 
-            $mformelementinfo = new stdClass();
+            $mformelementinfo = new \stdClass();
             $mformelementinfo->parentname = $this->itemname.'_text';
             $mformelementinfo->operator = 'neq';
             $mformelementinfo->content = $parentvalues[1];
             $disabilitationinfo[] = $mformelementinfo;
         } else {
-            $mformelementinfo = new stdClass();
+            $mformelementinfo = new \stdClass();
             $mformelementinfo->parentname = $this->itemname;
             $mformelementinfo->operator = 'neq';
             $mformelementinfo->content = $parentvalues[0];

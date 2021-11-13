@@ -25,6 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\ipe_usertemplate_name;
+use mod_surveypro\utility_layout;
 
 /**
  * The class representing a user template
@@ -135,7 +136,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $contextid = $parts[1];
 
         if (!isset($parts[0]) || !isset($parts[1])) {
-            $a = new stdClass();
+            $a = new \stdClass();
             $a->sharinglevel = $sharinglevel;
             $a->methodname = 'get_contextid_from_sharinglevel';
             print_error('wrong_sharinglevel_found', 'mod_surveypro', null, $a);
@@ -146,7 +147,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                 $context = context_user::instance($contextid);
                 break;
             case CONTEXT_MODULE:
-                $context = context_module::instance($contextid);
+                $context = \context_module::instance($contextid);
                 break;
             case CONTEXT_COURSE:
                 $context = context_course::instance($contextid);
@@ -310,7 +311,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
     public function welcome_apply_message() {
         global $OUTPUT;
 
-        $a = new stdClass();
+        $a = new \stdClass();
         $a->uploadpage = get_string('tabutemplatepage3', 'mod_surveypro');
         $a->savepage = get_string('tabutemplatepage2', 'mod_surveypro');
         $message = get_string('welcome_utemplateapply', 'mod_surveypro', $a);
@@ -334,7 +335,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $itemseeds = $DB->get_records('surveypro_item', $where, 'sortindex', 'id, type, plugin');
 
         $fs = get_file_storage();
-        $context = context_module::instance($this->cm->id);
+        $context = \context_module::instance($this->cm->id);
 
         $xmltemplate = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><items></items>');
         foreach ($itemseeds as $itemseed) {
@@ -437,7 +438,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         // Before continuing.
         if ($action != SURVEYPRO_DELETEALLITEMS) {
             // Dispose assignemnt of pages.
-            $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+            $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
             $utilitylayoutman->reset_items_pages();
         }
 
@@ -455,7 +456,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
                 break;
             case SURVEYPRO_DELETEALLITEMS:
-                $utilitylayoutman = new mod_surveypro_utility_layout($this->cm);
+                $utilitylayoutman = new utility_layout($this->cm);
                 $whereparams = array('surveyproid' => $this->surveypro->id);
                 $utilitylayoutman->delete_items($whereparams);
                 break;
@@ -485,7 +486,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $this->add_items_from_template();
 
         $paramurl = array('s' => $this->surveypro->id);
-        $redirecturl = new moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
+        $redirecturl = new \moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
         redirect($redirecturl);
     }
 
@@ -498,12 +499,12 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         global $OUTPUT;
 
         $riskyediting = ($this->surveypro->riskyeditdeadline > time());
-        $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+        $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
         $hassubmissions = $utilitylayoutman->has_submissions();
 
         if ($hassubmissions && (!$riskyediting)) {
             echo $OUTPUT->notification(get_string('applyusertemplatedenied01', 'mod_surveypro'), 'notifyproblem');
-            $url = new moodle_url('/mod/surveypro/view_submissions.php', array('s' => $this->surveypro->id));
+            $url = new \moodle_url('/mod/surveypro/view_submissions.php', array('s' => $this->surveypro->id));
             echo $OUTPUT->continue_button($url);
             echo $OUTPUT->footer();
             die();
@@ -511,7 +512,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
         if ($this->surveypro->template && (!$riskyediting)) { // This survey comes from a master template so it is multilang.
             echo $OUTPUT->notification(get_string('applyusertemplatedenied02', 'mod_surveypro'), 'notifyproblem');
-            $url = new moodle_url('/mod/surveypro/view_userform.php', array('s' => $this->surveypro->id));
+            $url = new \moodle_url('/mod/surveypro/view_userform.php', array('s' => $this->surveypro->id));
             echo $OUTPUT->continue_button($url);
             echo $OUTPUT->footer();
             die();
@@ -564,7 +565,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                     $currenttablestructure = $this->get_table_structure($currenttype, $currentplugin);
                 }
 
-                $record = new stdClass();
+                $record = new \stdClass();
 
                 // Add to $record mandatory fields that will be overwritten, hopefully, with the content of the usertemplate.
                 $record->surveyproid = (int)$this->surveypro->id;
@@ -611,7 +612,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
                         // Add the file described by $filename and $filecontent to filearea,
                         // alias, add pictures found in the utemplate to filearea.
-                        $filerecord = new stdClass();
+                        $filerecord = new \stdClass();
                         $filerecord->contextid = $this->context->id;
                         $filerecord->component = 'mod_surveypro';
                         $filerecord->filearea = SURVEYPRO_ITEMCONTENTFILEAREA;
@@ -842,16 +843,16 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
         $deletetitle = get_string('delete');
         $iconparams = array('title' => $deletetitle);
-        $deleteicn = new pix_icon('t/delete', $deletetitle, 'moodle', $iconparams);
+        $deleteicn = new \pix_icon('t/delete', $deletetitle, 'moodle', $iconparams);
 
         $importtitle = get_string('exporttemplate', 'mod_surveypro');
         $iconparams = array('title' => $importtitle);
-        $importicn = new pix_icon('t/download', $importtitle, 'moodle', $iconparams);
+        $importicn = new \pix_icon('t/download', $importtitle, 'moodle', $iconparams);
 
-        $table = new flexible_table('templatelist');
+        $table = new \flexible_table('templatelist');
 
         $paramurl = array('id' => $this->cm->id);
-        $baseurl = new moodle_url('/mod/surveypro/utemplate_manage.php', $paramurl);
+        $baseurl = new \moodle_url('/mod/surveypro/utemplate_manage.php', $paramurl);
         $table->define_baseurl($baseurl);
 
         $tablecolumns = array();
@@ -882,7 +883,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
         $options = $this->get_sharinglevel_options();
 
-        $templates = new stdClass();
+        $templates = new \stdClass();
         foreach ($options as $sharinglevel => $unused) {
             $parts = explode('_', $sharinglevel);
             $contextlevel = $parts[0];
@@ -918,7 +919,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                         $paramurl['act'] = SURVEYPRO_DELETEUTEMPLATE;
                         $paramurl['sesskey'] = sesskey();
 
-                        $link = new moodle_url('/mod/surveypro/utemplate_manage.php', $paramurl);
+                        $link = new \moodle_url('/mod/surveypro/utemplate_manage.php', $paramurl);
                         $icons .= $OUTPUT->action_icon($link, $deleteicn, null, array('title' => $deletetitle));
                     }
                 }
@@ -929,7 +930,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
                     $paramurl['act'] = SURVEYPRO_EXPORTUTEMPLATE;
                     $paramurl['sesskey'] = sesskey();
 
-                    $link = new moodle_url('/mod/surveypro/utemplate_manage.php', $paramurl);
+                    $link = new \moodle_url('/mod/surveypro/utemplate_manage.php', $paramurl);
                     $icons .= $OUTPUT->action_icon($link, $importicn, null, array('title' => $importtitle));
                 }
 
@@ -1021,13 +1022,13 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
             $optionsyes = $optionsbase;
             $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
             $optionsyes['fid'] = $this->utemplateid;
-            $urlyes = new moodle_url('/mod/surveypro/utemplate_manage.php', $optionsyes);
-            $buttonyes = new single_button($urlyes, get_string('yes'));
+            $urlyes = new \moodle_url('/mod/surveypro/utemplate_manage.php', $optionsyes);
+            $buttonyes = new \single_button($urlyes, get_string('yes'));
 
             $optionsno = $optionsbase;
             $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-            $urlno = new moodle_url('/mod/surveypro/utemplate_manage.php', $optionsno);
-            $buttonno = new single_button($urlno, get_string('no'));
+            $urlno = new \moodle_url('/mod/surveypro/utemplate_manage.php', $optionsno);
+            $buttonno = new \single_button($urlno, get_string('no'));
 
             echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
             echo $OUTPUT->footer();
