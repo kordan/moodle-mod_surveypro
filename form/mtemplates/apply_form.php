@@ -103,7 +103,7 @@ class mod_surveypro_applymtemplateform extends moodleform {
         $templatename = $data['mastertemplate'];
         $templatepath = $CFG->dirroot.'/mod/surveypro/template/'.$templatename.'/template.xml';
         $xml = file_get_contents($templatepath);
-        // $xml = @new SimpleXMLElement($templatecontent);
+        // $xml = @new \SimpleXMLElement($templatecontent);
         $errormessage = $mtemplateman->validate_xml($xml);
         if ($errormessage !== false) {
             $addendum = get_string('mastertemplateaddendum', 'mod_surveypro');

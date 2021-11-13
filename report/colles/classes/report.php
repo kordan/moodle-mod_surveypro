@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+use mod_surveypro\reportbase;
+
 /**
  * The class to manage colles report
  *
@@ -31,7 +33,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyproreport_colles_report extends mod_surveypro_reportbase {
+class surveyproreport_colles_report extends reportbase {
 
     /**
      * @var string $template

@@ -28,7 +28,7 @@ require_once($CFG->dirroot.'/mod/surveypro/adminlib.php');
 // Create the class for this controller.
 $pluginmanager = new mod_surveypro_plugin_manager(required_param('subtype', PARAM_PLUGIN));
 
-$PAGE->set_context(context_system::instance());
+$PAGE->set_context(\context_system::instance());
 
 // Execute the controller.
 $pluginmanager->execute(optional_param('action', null, PARAM_PLUGIN),

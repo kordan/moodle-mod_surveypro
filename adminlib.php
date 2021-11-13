@@ -299,7 +299,7 @@ class mod_surveypro_plugin_manager {
     private function check_permissions() {
         // Check permissions.
         require_login();
-        $systemcontext = context_system::instance();
+        $systemcontext = \context_system::instance();
         require_capability('moodle/site:config', $systemcontext);
     }
 

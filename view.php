@@ -23,6 +23,8 @@
  */
 
 use mod_surveypro\utility_layout;
+use mod_surveypro\tabs;
+use mod_surveypro\view_cover;
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 
@@ -50,7 +52,7 @@ $context = \context_module::instance($cm->id);
 $utilitylayoutman = new utility_layout($cm, $surveypro);
 $utilitylayoutman->noitem_redirect();
 
-$coverman = new mod_surveypro_view_cover($cm, $context, $surveypro);
+$coverman = new view_cover($cm, $context, $surveypro);
 
 // Output starts here.
 $url = new \moodle_url('/mod/surveypro/view.php', array('s' => $surveypro->id));
@@ -83,7 +85,7 @@ $completiondetails = \core_completion\cm_completion_details::get_instance($cm, $
 $activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
 echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
-new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_CPANEL);
+new tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_CPANEL);
 
 $coverman->display_cover();
 

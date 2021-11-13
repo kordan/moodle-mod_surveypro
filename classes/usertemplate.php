@@ -22,10 +22,13 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\ipe_usertemplate_name;
 use mod_surveypro\utility_layout;
+use mod_surveypro\templatebase;
 
 /**
  * The class representing a user template
@@ -34,7 +37,7 @@ use mod_surveypro\utility_layout;
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
+class usertemplate extends templatebase {
 
     /**
      * @var int ID of the current user template
@@ -144,19 +147,19 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
 
         switch ($contextlevel) {
             case CONTEXT_USER:
-                $context = context_user::instance($contextid);
+                $context = \context_user::instance($contextid);
                 break;
             case CONTEXT_MODULE:
                 $context = \context_module::instance($contextid);
                 break;
             case CONTEXT_COURSE:
-                $context = context_course::instance($contextid);
+                $context = \context_course::instance($contextid);
                 break;
             case CONTEXT_COURSECAT:
-                $context = context_coursecat::instance($contextid);
+                $context = \context_coursecat::instance($contextid);
                 break;
             case CONTEXT_SYSTEM:
-                $context = context_system::instance();
+                $context = \context_system::instance();
                 break;
             default:
                 $message = 'Unexpected $contextlevel = '.$contextlevel;
@@ -219,7 +222,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
             }
         }
 
-        $context = context_system::instance();
+        $context = \context_system::instance();
         if (has_capability('mod/surveypro:saveusertemplates', $this->context)) {
             $options[CONTEXT_SYSTEM.'_0'] = get_string('site');
         }
@@ -337,7 +340,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $fs = get_file_storage();
         $context = \context_module::instance($this->cm->id);
 
-        $xmltemplate = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><items></items>');
+        $xmltemplate = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><items></items>');
         foreach ($itemseeds as $itemseed) {
             $item = surveypro_get_item($this->cm, $this->surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);
 
@@ -416,7 +419,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         if ($option) {
             return $xmltemplate->asXML();
         } else {
-            $dom = new DOMDocument('1.0');
+            $dom = new \DOMDocument('1.0');
             $dom->preserveWhiteSpace = false;
             $dom->formatOutput = true;
             $dom->loadXML($xmltemplate->asXML());
@@ -532,7 +535,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         $this->templatename = $this->get_utemplate_name();
         $templatecontent = $this->get_utemplate_content();
 
-        $simplexml = new SimpleXMLElement($templatecontent);
+        $simplexml = new \SimpleXMLElement($templatecontent);
         // echo '<h2>Items saved in the file ('.count($simplexml->item).')</h2>';
 
         if (!$sortindexoffset = $DB->get_field('surveypro_item', 'MAX(sortindex)', array('surveyproid' => $this->surveypro->id))) {
@@ -803,7 +806,7 @@ class mod_surveypro_usertemplate extends mod_surveypro_templatebase {
         // echo '<textarea rows="80" cols="100">'.$xmlcontent.'</textarea>';
 
         $fs = get_file_storage();
-        $filerecord = new stdClass;
+        $filerecord = new \stdClass;
 
         $contextid = $this->get_contextid_from_sharinglevel();
         $filerecord->contextid = $contextid;

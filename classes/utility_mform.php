@@ -15,12 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The mod_surveypro_utility_mform class
+ * The utility_mform class
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+namespace mod_surveypro;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -31,7 +33,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_utility_mform {
+class utility_mform {
 
     /**
      * Register classes extending mform classes
@@ -57,7 +59,7 @@ class mod_surveypro_utility_mform {
                         $basename = basename($classfile, '.php');
                         $extendingclass = 'mod_surveypro_'.$basename;
                         $parentpath = $filepath.'/'.$classfile;
-                        MoodleQuickForm::registerElementType($extendingclass, $parentpath, 'surveypromform_'.$basename);
+                        \MoodleQuickForm::registerElementType($extendingclass, $parentpath, 'surveypromform_'.$basename);
                     }
                 }
             }

@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\utility_layout;
@@ -33,7 +35,7 @@ use mod_surveypro\utility_layout;
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_view_cover {
+class view_cover {
 
     /**
      * @var object Course module object
@@ -80,7 +82,7 @@ class mod_surveypro_view_cover {
         $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context);
         $canaccessownreports = has_capability('mod/surveypro:accessownreports', $this->context);
         $canmanageusertemplates = has_capability('mod/surveypro:manageusertemplates', $this->context);
-        $cansaveusertemplate = has_capability('mod/surveypro:saveusertemplates', context_course::instance($COURSE->id));
+        $cansaveusertemplate = has_capability('mod/surveypro:saveusertemplates', \context_course::instance($COURSE->id));
         $canimportusertemplates = has_capability('mod/surveypro:importusertemplates', $this->context);
         $canapplyusertemplates = has_capability('mod/surveypro:applyusertemplates', $this->context);
         $cansavemastertemplates = has_capability('mod/surveypro:savemastertemplates', $this->context);
@@ -309,14 +311,14 @@ class mod_surveypro_view_cover {
         global $OUTPUT;
 
         if (count($messages)) {
-            echo html_writer::start_tag('fieldset', array('class' => 'generalbox'));
-            echo html_writer::start_tag('legend', array('class' => 'coverinfolegend'));
+            echo \html_writer::start_tag('fieldset', array('class' => 'generalbox'));
+            echo \html_writer::start_tag('legend', array('class' => 'coverinfolegend'));
             echo $strlegend;
-            echo html_writer::end_tag('legend');
+            echo \html_writer::end_tag('legend');
             foreach ($messages as $message) {
                 echo $OUTPUT->container($message, 'mdl-left');
             }
-            echo html_writer::end_tag('fieldset');
+            echo \html_writer::end_tag('fieldset');
         }
     }
 }

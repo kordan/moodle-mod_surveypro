@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\utility_layout;
@@ -34,7 +36,7 @@ use mod_surveypro\utility_submission;
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_view_submissions {
+class view_submissions {
 
     /**
      * @var object Course module object
@@ -196,7 +198,7 @@ class mod_surveypro_view_submissions {
                          JOIN {user} u ON u.id = s.userid
                      WHERE u.id = :userid';
 
-        $coursecontext = context_course::instance($COURSE->id);
+        $coursecontext = \context_course::instance($COURSE->id);
         list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);
 
         $sql = 'SELECT COUNT(eu.id)
@@ -321,7 +323,7 @@ class mod_surveypro_view_submissions {
                          JOIN {user} u ON u.id = s.userid
                      WHERE u.id = :userid';
 
-        $coursecontext = context_course::instance($COURSE->id);
+        $coursecontext = \context_course::instance($COURSE->id);
         list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);
 
         $sql = 'SELECT COUNT(eu.id)
@@ -827,7 +829,7 @@ class mod_surveypro_view_submissions {
             // This code comes from "public function confirm(" around line 1711 in outputrenderers.php.
             // It is not wrong. The misalign comes from bootstrapbase theme and is present in clean theme too.
             echo $OUTPUT->box_start('generalbox centerpara', 'notice');
-            echo html_writer::tag('div', $OUTPUT->render($addbutton).$OUTPUT->render($deleteallbutton), $class);
+            echo \html_writer::tag('div', $OUTPUT->render($addbutton).$OUTPUT->render($deleteallbutton), $class);
             echo $OUTPUT->box_end();
         }
     }
@@ -979,8 +981,8 @@ class mod_surveypro_view_submissions {
             $gotolist = new \single_button($buttonurl, get_string('gotolist', 'mod_surveypro'));
 
             echo $OUTPUT->box_start('generalbox centerpara', 'notice');
-            echo html_writer::tag('p', $message);
-            echo html_writer::tag('div', $OUTPUT->render($onemore).$OUTPUT->render($gotolist), array('class' => 'buttons'));
+            echo \html_writer::tag('p', $message);
+            echo \html_writer::tag('div', $OUTPUT->render($onemore).$OUTPUT->render($gotolist), array('class' => 'buttons'));
             echo $OUTPUT->box_end();
         } else {
             echo $OUTPUT->box($message, 'notice centerpara');
@@ -1183,10 +1185,10 @@ class mod_surveypro_view_submissions {
         $strstatusinprogress = get_string('statusinprogress', 'mod_surveypro');
         $strstatusclosed = get_string('statusclosed', 'mod_surveypro');
 
-        echo html_writer::start_tag('fieldset', array('class' => 'generalbox', 'style' => 'padding-bottom: 15px;'));
-        echo html_writer::start_tag('legend', array('class' => 'coverinfolegend'));
+        echo \html_writer::start_tag('fieldset', array('class' => 'generalbox', 'style' => 'padding-bottom: 15px;'));
+        echo \html_writer::start_tag('legend', array('class' => 'coverinfolegend'));
         echo get_string('submissions_welcome', 'mod_surveypro');
-        echo html_writer::end_tag('legend');
+        echo \html_writer::end_tag('legend');
 
         $allsubmissions = $countinprogress + $countclosed;
         if ($allsubmissions) {
@@ -1259,7 +1261,7 @@ class mod_surveypro_view_submissions {
 
             echo $OUTPUT->single_button($findallurl, $label, 'get', array('class' => 'box clearfix mdl-align'));
         }
-        echo html_writer::end_tag('fieldset');
+        echo \html_writer::end_tag('fieldset');
     }
 
     /**

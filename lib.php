@@ -714,7 +714,7 @@ function surveypro_scale_used_anywhere($scaleid) {
  * @param \stdClass $surveypro instance object with extra cmidnumber and modname property
  * @return void
  */
-function surveypro_grade_item_update(stdClass $surveypro) {
+function surveypro_grade_item_update(\stdClass $surveypro) {
 }
 
 /**
@@ -726,7 +726,7 @@ function surveypro_grade_item_update(stdClass $surveypro) {
  * @param int $userid Update grade of specific user only, 0 means all participants
  * @return void
  */
-function surveypro_update_grades(stdClass $surveypro, $userid = 0) {
+function surveypro_update_grades(\stdClass $surveypro, $userid = 0) {
 }
 
 // File API.
@@ -734,9 +734,9 @@ function surveypro_update_grades(stdClass $surveypro, $userid = 0) {
 /**
  * Lists all browsable file areas
  *
- * @param stdClass $course course object
- * @param stdClass $cm course module object
- * @param stdClass $context context object
+ * @param \stdClass $course course object
+ * @param \stdClass $cm course module object
+ * @param \stdClass $context context object
  * @return array
  */
 function surveypro_get_file_areas($course, $cm, $context) {
@@ -960,7 +960,7 @@ function surveypro_add_report_link($templatename, $childreports, $childnode, $re
  * @param cm_info $cm
  * @return void
  */
-function surveypro_extend_navigation(navigation_node $navref, stdClass $course, stdClass $surveypro, cm_info $cm) {
+function surveypro_extend_navigation(navigation_node $navref, \stdClass $course, \stdClass $surveypro, cm_info $cm) {
     $utilitylayoutman = new utility_layout($cm, $surveypro);
     $nodeurl = $utilitylayoutman->get_common_links_url(SURVEYPRO_BLOCK);
 
@@ -1255,7 +1255,7 @@ function surveypro_get_item($cm, $surveypro, $itemid=0, $type='', $plugin='', $g
  * Given a course_module object, this function returns any "extra" information that may be needed
  * when printing this activity in a course listing.  See get_array_of_activities() in course/lib.php.
  *
- * @param stdClass $coursemodule The coursemodule object (record).
+ * @param \stdClass $coursemodule The coursemodule object (record).
  * @return cached_cm_info An object on information that the courses
  *                        will know about (most noticeably, an icon).
  */
@@ -1294,7 +1294,7 @@ function surveypro_get_coursemodule_info($coursemodule) {
 /**
  * Callback which returns human-readable strings describing the active completion custom rules for the module instance.
  *
- * @param cm_info|stdClass $cm object with fields ->completion and ->customdata['customcompletionrules']
+ * @param cm_info|\stdClass $cm object with fields ->completion and ->customdata['customcompletionrules']
  * @return array $descriptions the array of descriptions for the custom rules.
  */
 function mod_surveypro_get_completion_active_rule_descriptions($cm) {

@@ -22,6 +22,9 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_surveypro\tabs;
+use mod_surveypro\usertemplate;
+
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/utemplates/import_form.php');
 
@@ -52,7 +55,7 @@ $action = SURVEYPRO_NOACTION;
 $confirm = SURVEYPRO_UNCONFIRMED;
 
 // Calculations.
-$utemplateman = new mod_surveypro_usertemplate($cm, $context, $surveypro);
+$utemplateman = new usertemplate($cm, $context, $surveypro);
 $utemplateman->setup($utemplateid, $action, $confirm);
 
 // $utemplateman->prevent_direct_user_input();
@@ -96,7 +99,7 @@ $completiondetails = \core_completion\cm_completion_details::get_instance($cm, $
 $activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
 echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
-new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABUTEMPLATES, SURVEYPRO_UTEMPLATES_IMPORT);
+new tabs($cm, $context, $surveypro, SURVEYPRO_TABUTEMPLATES, SURVEYPRO_UTEMPLATES_IMPORT);
 
 $utemplateman->welcome_import_message();
 $importutemplate->display();

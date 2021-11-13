@@ -23,6 +23,7 @@
  */
 
 use mod_surveypro\layout_itemsetup;
+use mod_surveypro\tabs;
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
@@ -104,7 +105,7 @@ $completiondetails = \core_completion\cm_completion_details::get_instance($cm, $
 $activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
 echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
-new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABLAYOUT, SURVEYPRO_LAYOUT_VALIDATE);
+new tabs($cm, $context, $surveypro, SURVEYPRO_TABLAYOUT, SURVEYPRO_LAYOUT_VALIDATE);
 
 $layoutman->display_relations_table();
 

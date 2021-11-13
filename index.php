@@ -107,16 +107,16 @@ foreach ($surveypros as $surveypro) {
     $closedresp = isset($closedsubmissions[$surveypro->id]) ? $closedsubmissions[$surveypro->id] : 0;
 
     $content = array(html_writer::tag('span', $printsection, $sectionclass),
-        html_writer::link($url, format_string($surveypro->name), $cellclass),
-        html_writer::tag('span', format_module_intro('surveypro', $surveypro, $surveypro->coursemodule), $cellclass),
-        html_writer::tag('span', $inprogressresp, $cellclass),
-        html_writer::tag('span', $closedresp, $cellclass)
+        \html_writer::link($url, format_string($surveypro->name), $cellclass),
+        \html_writer::tag('span', format_module_intro('surveypro', $surveypro, $surveypro->coursemodule), $cellclass),
+        \html_writer::tag('span', $inprogressresp, $cellclass),
+        \html_writer::tag('span', $closedresp, $cellclass)
     );
 
     $table->data[] = $content;
 }
 
-echo html_writer::table($table);
+echo \html_writer::table($table);
 
 // Finish the page.
 echo $OUTPUT->footer();

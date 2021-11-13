@@ -87,7 +87,7 @@ class surveyproreport_attachmentfilterform extends moodleform {
         $submissions = $DB->get_records('surveypro_submission', $whereparams);
 
         // Userid.
-        $coursecontext = context_course::instance($COURSE->id);
+        $coursecontext = \context_course::instance($COURSE->id);
         $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
 
         $whereparams = array();

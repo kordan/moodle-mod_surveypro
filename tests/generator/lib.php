@@ -107,9 +107,9 @@ class mod_surveypro_generator extends testing_module_generator {
     /**
      * Apply a template to the surveypro instance.
      *
-     * @param array $record array|stdClass $record containing course, surveypro and valid template
+     * @param array $record array|\stdClass $record containing course, surveypro and valid template
      * @param array $options
-     * @return stdClass[] of created items
+     * @return \stdClass[] of created items
      */
     public function apply_mastertemplate($record = null, array $options = null) {
 

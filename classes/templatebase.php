@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
 
 /**
@@ -31,7 +33,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_templatebase {
+class templatebase {
 
     /**
      * @var object Course module object
@@ -89,9 +91,9 @@ class mod_surveypro_templatebase {
 
         $pluginversion = self::get_subplugin_versions();
         if ($debug) {
-            $simplexml = new SimpleXMLElement($xml);
+            $simplexml = new \SimpleXMLElement($xml);
         } else {
-            $simplexml = @new SimpleXMLElement($xml);
+            $simplexml = @new \SimpleXMLElement($xml);
         }
         foreach ($simplexml->children() as $xmlitem) {
             foreach ($xmlitem->attributes() as $attribute => $value) {
@@ -179,7 +181,7 @@ class mod_surveypro_templatebase {
                     return $error;
                 }
 
-                $mdom = new DOMDocument();
+                $mdom = new \DOMDocument();
                 $status = $mdom->loadXML($xmltable->asXML());
 
                 // Let's capture errors.
@@ -191,8 +193,8 @@ class mod_surveypro_templatebase {
                 if ($debug) {
                     $status = $status && $mdom->schemaValidateSource($xsd);
                     if (!$status) {
-                        echo html_writer::tag('pre', s($xsd));
-                        echo html_writer::tag('pre', s($mdom->saveXML()));
+                        echo \html_writer::tag('pre', s($xsd));
+                        echo \html_writer::tag('pre', s($mdom->saveXML()));
                     }
                 } else {
                     $status = $status && @$mdom->schemaValidateSource($xsd);

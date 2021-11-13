@@ -25,6 +25,8 @@
 use mod_surveypro\layout_itemsetup;
 use mod_surveypro\utility_layout;
 use mod_surveypro\utility_submission;
+use mod_surveypro\mastertemplate;
+use mod_surveypro\tabs;
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/items/selectitem_form.php');
@@ -105,7 +107,7 @@ $basecondition = $basecondition && (!$hassubmissions || $riskyediting);
 if (!$itemcount) { // The surveypro is empty.
     require_once($CFG->dirroot.'/mod/surveypro/form/mtemplates/apply_form.php');
 
-    $mtemplateman = new mod_surveypro_mastertemplate($cm, $context, $surveypro);
+    $mtemplateman = new mastertemplate($cm, $context, $surveypro);
 
     $paramurl = array('id' => $cm->id);
     $formurl = new \moodle_url('/mod/surveypro/mtemplate_apply.php', $paramurl);
@@ -191,7 +193,7 @@ $completiondetails = \core_completion\cm_completion_details::get_instance($cm, $
 $activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
 echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
-new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABLAYOUT, SURVEYPRO_LAYOUT_ITEMS);
+new tabs($cm, $context, $surveypro, SURVEYPRO_TABLAYOUT, SURVEYPRO_LAYOUT_ITEMS);
 
 if ($hassubmissions) {
     $message = $utilitysubmissionman->get_submissions_warning();

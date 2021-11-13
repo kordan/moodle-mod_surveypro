@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\utility_layout;
@@ -33,7 +35,7 @@ use mod_surveypro\utility_layout;
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_tabs {
+class tabs {
 
     /**
      * @var object Course module object
@@ -124,20 +126,20 @@ class mod_surveypro_tabs {
         // TAB LAYOUT.
         if ($elementurl = $this->tabpagesurl['tab_layout']['container']) {
             $tablayoutname = get_string('tablayoutname', 'mod_surveypro');
-            $row[] = new tabobject($tablayoutname, $elementurl->out(), $tablayoutname);
+            $row[] = new \tabobject($tablayoutname, $elementurl->out(), $tablayoutname);
         }
 
         // TAB SUBMISSIONS.
         if ($elementurl = $this->tabpagesurl['tab_submissions']['container']) {
             $tabsubmissionsname = get_string('tabsubmissionsname', 'mod_surveypro');
-            $row[] = new tabobject($tabsubmissionsname, $elementurl->out(), $tabsubmissionsname);
+            $row[] = new \tabobject($tabsubmissionsname, $elementurl->out(), $tabsubmissionsname);
         }
 
         // TAB USER TEMPLATES.
         if ($this->tabtab == SURVEYPRO_TABUTEMPLATES) {
             if ($this->tabpagesurl['tab_utemplate']['container']) {
                 $tabutemplatename = get_string('tabutemplatename', 'mod_surveypro');
-                $row[] = new tabobject($tabutemplatename, null, $tabutemplatename);
+                $row[] = new \tabobject($tabutemplatename, null, $tabutemplatename);
             }
         }
 
@@ -145,7 +147,7 @@ class mod_surveypro_tabs {
         if ($this->tabtab == SURVEYPRO_TABMTEMPLATES) {
             if ($this->tabpagesurl['tab_mtemplate']['container']) {
                 $tabmtemplatename = get_string('tabmtemplatename', 'mod_surveypro');
-                $row[] = new tabobject($tabmtemplatename, null, $tabmtemplatename);
+                $row[] = new \tabobject($tabmtemplatename, null, $tabmtemplatename);
             }
         }
 
@@ -153,7 +155,7 @@ class mod_surveypro_tabs {
         if ($this->tabtab == SURVEYPRO_TABREPORTS) {
             if ($this->tabpagesurl['tab_reports']['container']) {
                 $tabreportsname = get_string('tabreportsname', 'mod_surveypro');
-                $row[] = new tabobject($tabreportsname, null, $tabreportsname);
+                $row[] = new \tabobject($tabreportsname, null, $tabreportsname);
             }
         }
 
@@ -187,25 +189,25 @@ class mod_surveypro_tabs {
                 // Preview.
                 if ($elementurl = $this->tabpagesurl['tab_layout']['preview']) {
                     $strlabel = get_string('tabitemspage1', 'mod_surveypro');
-                    $row[] = new tabobject('idpage1', $elementurl->out(), $strlabel);
+                    $row[] = new \tabobject('idpage1', $elementurl->out(), $strlabel);
                 }
 
                 // Element management.
                 if ($elementurl = $this->tabpagesurl['tab_layout']['manage']) {
                     $strlabel = get_string('tabitemspage2', 'mod_surveypro');
-                    $row[] = new tabobject('idpage2', $elementurl->out(), $strlabel);
+                    $row[] = new \tabobject('idpage2', $elementurl->out(), $strlabel);
                 }
 
                 // Setup.
                 if ($this->tabpage == SURVEYPRO_LAYOUT_ITEMSETUP) {
                     $strlabel = get_string('tabitemspage3', 'mod_surveypro');
-                    $row[] = new tabobject('idpage3', null, $strlabel);
+                    $row[] = new \tabobject('idpage3', null, $strlabel);
                 }
 
                 // Validate.
                 if ($elementurl = $this->tabpagesurl['tab_layout']['validate']) {
                     $strlabel = get_string('tabitemspage4', 'mod_surveypro');
-                    $row[] = new tabobject('idpage4', $elementurl->out(), $strlabel);
+                    $row[] = new \tabobject('idpage4', $elementurl->out(), $strlabel);
                 }
 
                 $this->tabs[] = $row;
@@ -220,44 +222,44 @@ class mod_surveypro_tabs {
                 // Dashboard.
                 if ($elementurl = $this->tabpagesurl['tab_submissions']['cover']) {
                     $strlabel = get_string('tabsubmissionspage1', 'mod_surveypro');
-                    $row[] = new tabobject('idpage1', $elementurl->out(), $strlabel);
+                    $row[] = new \tabobject('idpage1', $elementurl->out(), $strlabel);
                 }
 
                 // Responses.
                 if ($elementurl = $this->tabpagesurl['tab_submissions']['responses']) {
                     $strlabel = get_string('tabsubmissionspage2', 'mod_surveypro');
-                    $row[] = new tabobject('idpage2', $elementurl->out(), $strlabel);
+                    $row[] = new \tabobject('idpage2', $elementurl->out(), $strlabel);
                 }
 
                 // Insert.
                 if ($this->tabpage == SURVEYPRO_SUBMISSION_INSERT) {
                     $strlabel = get_string('tabsubmissionspage3', 'mod_surveypro');
-                    $row[] = new tabobject('idpage3', null, $strlabel);
+                    $row[] = new \tabobject('idpage3', null, $strlabel);
                 }
 
                 // Edit.
                 if ($this->tabpage == SURVEYPRO_SUBMISSION_EDIT) {
                     $strlabel = get_string('tabsubmissionspage4', 'mod_surveypro');
-                    $row[] = new tabobject('idpage4', null, $strlabel);
+                    $row[] = new \tabobject('idpage4', null, $strlabel);
                 }
 
                 // Read only.
                 if ($this->tabpage == SURVEYPRO_SUBMISSION_READONLY) {
                     $strlabel = get_string('tabsubmissionspage5', 'mod_surveypro');
-                    $row[] = new tabobject('idpage5', null, $strlabel);
+                    $row[] = new \tabobject('idpage5', null, $strlabel);
                 }
 
                 // Search.
                 if ($elementurl = $this->tabpagesurl['tab_submissions']['search']) {
                     $strlabel = get_string('tabsubmissionspage6', 'mod_surveypro');
-                    $row[] = new tabobject('idpage6', $elementurl->out(), $strlabel);
+                    $row[] = new \tabobject('idpage6', $elementurl->out(), $strlabel);
                 }
 
                 // Report.
                 if ($this->tabpage == SURVEYPRO_SUBMISSION_REPORT) {
                     if ($this->tabpagesurl['tab_submissions']['report']) {
                         $strlabel = get_string('tabsubmissionspage7', 'mod_surveypro');
-                        $row[] = new tabobject('idpage7', null, $strlabel);
+                        $row[] = new \tabobject('idpage7', null, $strlabel);
                     }
                 }
 
@@ -265,7 +267,7 @@ class mod_surveypro_tabs {
                 if ($this->tabpage == SURVEYPRO_SUBMISSION_IMPORT) {
                     if ($this->tabpagesurl['tab_submissions']['import']) {
                         $strlabel = get_string('tabsubmissionspage8', 'mod_surveypro');
-                        $row[] = new tabobject('idpage8', null, $strlabel);
+                        $row[] = new \tabobject('idpage8', null, $strlabel);
                     }
                 }
 
@@ -273,7 +275,7 @@ class mod_surveypro_tabs {
                 if ($this->tabpage == SURVEYPRO_SUBMISSION_EXPORT) {
                     if ($this->tabpagesurl['tab_submissions']['export']) {
                         $strlabel = get_string('tabsubmissionspage9', 'mod_surveypro');
-                        $row[] = new tabobject('idpage9', null, $strlabel);
+                        $row[] = new \tabobject('idpage9', null, $strlabel);
                     }
                 }
 
@@ -289,25 +291,25 @@ class mod_surveypro_tabs {
                 // Manage.
                 if ($elementurl = $this->tabpagesurl['tab_utemplate']['manage']) {
                     $strlabel = get_string('tabutemplatepage1', 'mod_surveypro');
-                    $row[] = new tabobject('idpage1', $elementurl->out(), $strlabel);
+                    $row[] = new \tabobject('idpage1', $elementurl->out(), $strlabel);
                 }
 
                 // Save.
                 if ($elementurl = $this->tabpagesurl['tab_utemplate']['save']) {
                     $strlabel = get_string('tabutemplatepage2', 'mod_surveypro');
-                    $row[] = new tabobject('idpage2', $elementurl->out(), $strlabel);
+                    $row[] = new \tabobject('idpage2', $elementurl->out(), $strlabel);
                 }
 
                 // Import.
                 if ($elementurl = $this->tabpagesurl['tab_utemplate']['import']) {
                     $strlabel = get_string('tabutemplatepage3', 'mod_surveypro');
-                    $row[] = new tabobject('idpage3', $elementurl->out(), $strlabel);
+                    $row[] = new \tabobject('idpage3', $elementurl->out(), $strlabel);
                 }
 
                 // Apply.
                 if ($elementurl = $this->tabpagesurl['tab_utemplate']['apply']) {
                     $strlabel = get_string('tabutemplatepage4', 'mod_surveypro');
-                    $row[] = new tabobject('idpage4', $elementurl->out(), $strlabel);
+                    $row[] = new \tabobject('idpage4', $elementurl->out(), $strlabel);
                 }
 
                 $this->tabs[] = $row;
@@ -322,13 +324,13 @@ class mod_surveypro_tabs {
                 // Create.
                 if ($elementurl = $this->tabpagesurl['tab_mtemplate']['save']) {
                     $strlabel = get_string('tabmtemplatepage1', 'mod_surveypro');
-                    $row[] = new tabobject('idpage1', $elementurl->out(), $strlabel);
+                    $row[] = new \tabobject('idpage1', $elementurl->out(), $strlabel);
                 }
 
                 // Apply.
                 if ($elementurl = $this->tabpagesurl['tab_mtemplate']['apply']) {
                     $strlabel = get_string('tabmtemplatepage2', 'mod_surveypro');
-                    $row[] = new tabobject('idpage2', $elementurl->out(), $strlabel);
+                    $row[] = new \tabobject('idpage2', $elementurl->out(), $strlabel);
                 }
 
                 $this->tabs[] = $row;
@@ -354,7 +356,7 @@ class mod_surveypro_tabs {
                                 if ($reportman->report_apply()) {
                                     if ($elementurl = $this->tabpagesurl['tab_reports'][$reportname]) {
                                         $strlabel = get_string('pluginname', 'surveyproreport_'.$reportname);
-                                        $row[] = new tabobject('idpage'.$counter, $elementurl->out(), $strlabel);
+                                        $row[] = new \tabobject('idpage'.$counter, $elementurl->out(), $strlabel);
                                     }
                                 }
                             }
