@@ -44,7 +44,7 @@ $groupid = optional_param('groupid', 0, PARAM_INT);
 $edit = optional_param('edit', -1, PARAM_BOOL);
 
 require_course_login($course, false, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 // Required capability.
 require_capability('mod/surveypro:accessreports', $context);
@@ -61,9 +61,9 @@ if ($showjumper) {
     $jumpercontent = $reportman->get_groupjumper_items();
 
     $paramurl = array('id' => $cm->id);
-    $formurl = new moodle_url('/mod/surveypro/report/lateusers/view.php', $paramurl);
+    $formurl = new \moodle_url('/mod/surveypro/report/lateusers/view.php', $paramurl);
 
-    $formparams = new stdClass();
+    $formparams = new \stdClass();
     $formparams->canaccessallgroups = $canaccessallgroups;
     // Bloody tricky trap!
     // ALWAYS set $formparams->addnotinanygroup to false, here!
@@ -93,7 +93,7 @@ if ($showjumper) {
 // End of: prepare params for the form.
 
 // Output starts here.
-$url = new moodle_url('/mod/surveypro/report/lateusers/view.php', array('s' => $surveypro->id));
+$url = new \moodle_url('/mod/surveypro/report/lateusers/view.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);

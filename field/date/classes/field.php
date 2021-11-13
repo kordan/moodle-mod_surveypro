@@ -22,7 +22,12 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
+
+use mod_surveypro\itembase;
+use mod_surveypro\utility_item;
 
 require_once($CFG->dirroot.'/mod/surveypro/field/date/lib.php');
 
@@ -33,7 +38,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/date/lib.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyprofield_date_field extends mod_surveypro_itembase {
+class surveyprofield_date_field extends itembase {
 
     /**
      * @var string $content
@@ -683,7 +688,7 @@ EOS;
         }
         // End of: verify the content of each drop down menu.
 
-        if (!mod_surveypro_utility_item::date_is_valid($userday, $usermonth, $useryear)) {
+        if (!utility_item::date_is_valid($userday, $usermonth, $useryear)) {
             $errors[$errorkey] = get_string('ierr_invalidinput', 'mod_surveypro');
             return;
         }
@@ -724,7 +729,7 @@ EOS;
 
         $format = get_string('strftimedate', 'langconfig');
         if ($haslowerbound && $hasupperbound) {
-            $a = new stdClass();
+            $a = new \stdClass();
             $a->lowerbound = userdate($this->lowerbound, $format, 0);
             $a->upperbound = userdate($this->upperbound, $format, 0);
 

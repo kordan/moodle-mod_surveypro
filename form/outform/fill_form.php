@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+use mod_surveypro\utility_item;
+
 require_once($CFG->dirroot.'/lib/formslib.php');
 
 /**
@@ -154,11 +156,11 @@ class mod_surveypro_outform extends moodleform {
                             }
                         }
                         $content = '';
-                        $content .= html_writer::start_tag('div', array('class' => 'fitem row'));
-                        $content .= html_writer::start_tag('div', array('class' => 'fstatic fullwidth'));
+                        $content .= \html_writer::start_tag('div', array('class' => 'fitem row'));
+                        $content .= \html_writer::start_tag('div', array('class' => 'fstatic fullwidth'));
                         $content .= $questioncontent;
-                        $content .= html_writer::end_tag('div');
-                        $content .= html_writer::end_tag('div');
+                        $content .= \html_writer::end_tag('div');
+                        $content .= \html_writer::end_tag('div');
                         $mform->addElement('html', $content);
 
                         $item->item_add_color_unifier($mform);
@@ -276,7 +278,7 @@ class mod_surveypro_outform extends moodleform {
         $warnings = array();
         $olditemid = 0;
         foreach ($data as $elementname => $content) {
-            if ($matches = mod_surveypro_utility_item::get_item_parts($elementname)) {
+            if ($matches = utility_item::get_item_parts($elementname)) {
                 if ($matches['itemid'] == $olditemid) {
                     continue; // To next foreach.
                 }

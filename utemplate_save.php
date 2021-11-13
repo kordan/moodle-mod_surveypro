@@ -43,7 +43,7 @@ $utemplateid = optional_param('fid', 0, PARAM_INT);
 $edit = optional_param('edit', -1, PARAM_BOOL);
 
 require_course_login($course, false, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 // Required capability.
 require_capability('mod/surveypro:saveusertemplates', $context);
@@ -61,11 +61,11 @@ $utemplateman->setup($utemplateid, $action, $confirm);
 
 // Begin of: define $createutemplate return url.
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('/mod/surveypro/utemplate_save.php', $paramurl);
+$formurl = new \moodle_url('/mod/surveypro/utemplate_save.php', $paramurl);
 // End of: define $createutemplate return url.
 
 // Begin of: prepare params for the form.
-$formparams = new stdClass();
+$formparams = new \stdClass();
 $formparams->utemplateman = $utemplateman;
 $createutemplate = new mod_surveypro_createutemplateform($formurl, $formparams);
 // End of: prepare params for the form.
@@ -75,13 +75,13 @@ if ($utemplateman->formdata = $createutemplate->get_data()) {
     $utemplateman->generate_utemplate();
     $utemplateman->trigger_event('usertemplate_saved');
 
-    $redirecturl = new moodle_url('/mod/surveypro/utemplate_manage.php', array('s' => $surveypro->id));
+    $redirecturl = new \moodle_url('/mod/surveypro/utemplate_manage.php', array('s' => $surveypro->id));
     redirect($redirecturl);
 }
 // End of: manage form submission.
 
 // Output starts here.
-$url = new moodle_url('/mod/surveypro/utemplate_save.php', array('s' => $surveypro->id));
+$url = new \moodle_url('/mod/surveypro/utemplate_save.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -115,7 +115,7 @@ new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABUTEMPLATES, SURVE
 
 $utemplateman->welcome_save_message();
 
-$record = new stdClass();
+$record = new \stdClass();
 $record->surveyproid = $surveypro->id;
 
 $createutemplate->set_data($record);

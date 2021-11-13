@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_surveypro\utility_layout;
+
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/outform/fill_form.php');
 
@@ -44,7 +46,7 @@ $submissionid = optional_param('submissionid', 0, PARAM_INT);
 $edit = optional_param('edit', -1, PARAM_BOOL);
 
 require_course_login($course, false, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 // Calculations.
 mod_surveypro_utility_mform::register_form_elements();
@@ -52,16 +54,16 @@ mod_surveypro_utility_mform::register_form_elements();
 $previewman = new mod_surveypro_layout_preview($cm, $context, $surveypro);
 $previewman->setup($submissionid, $formpage);
 
-$utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+$utilitylayoutman = new utility_layout($cm, $surveypro);
 $utilitylayoutman->add_custom_css();
 
 // Begin of: define $user_form return url.
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('/mod/surveypro/layout_preview.php', $paramurl);
+$formurl = new \moodle_url('/mod/surveypro/layout_preview.php', $paramurl);
 // End of: define $user_form return url.
 
 // Begin of: prepare params for the form.
-$formparams = new stdClass();
+$formparams = new \stdClass();
 $formparams->cm = $cm;
 $formparams->surveypro = $surveypro;
 $formparams->submissionid = $submissionid;
@@ -83,7 +85,7 @@ if ($data = $userform->get_data()) {
     $prevbutton = isset($data->prevbutton);
     if ($prevbutton) {
         $paramurl['formpage'] = --$formpage;
-        $redirecturl = new moodle_url('/mod/surveypro/layout_preview.php', $paramurl);
+        $redirecturl = new \moodle_url('/mod/surveypro/layout_preview.php', $paramurl);
         redirect($redirecturl); // Go to the previous page of the form.
     }
 
@@ -91,7 +93,7 @@ if ($data = $userform->get_data()) {
     $nextbutton = isset($data->nextbutton);
     if ($nextbutton) {
         $paramurl['formpage'] = ++$formpage;
-        $redirecturl = new moodle_url('/mod/surveypro/layout_preview.php', $paramurl);
+        $redirecturl = new \moodle_url('/mod/surveypro/layout_preview.php', $paramurl);
         redirect($redirecturl); // Go to the next page of the form.
     }
 }
@@ -102,7 +104,7 @@ $paramurl = array('s' => $surveypro->id);
 if (!empty($submissionid)) {
     $paramurl['submissionid'] = $submissionid;
 }
-$url = new moodle_url('/mod/surveypro/layout_preview.php', $paramurl);
+$url = new \moodle_url('/mod/surveypro/layout_preview.php', $paramurl);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -120,7 +122,7 @@ if ($PAGE->user_allowed_editing()) {
         $urlediting = 'on';
         $strediting = get_string('blocksediton');
     }
-    $url = new moodle_url($CFG->wwwroot.'/mod/surveypro/layout_preview.php', ['id' => $cm->id, 'edit' => $urlediting]);
+    $url = new \moodle_url($CFG->wwwroot.'/mod/surveypro/layout_preview.php', ['id' => $cm->id, 'edit' => $urlediting]);
     $PAGE->set_button($OUTPUT->single_button($url, $strediting));
 }
 

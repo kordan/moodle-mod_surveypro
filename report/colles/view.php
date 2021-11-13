@@ -45,7 +45,7 @@ $area = optional_param('area', false, PARAM_INT);  // Area ID.
 $edit = optional_param('edit', -1, PARAM_BOOL);
 
 require_course_login($course, false, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 if ($type == 'summary') {
     if (!has_capability('mod/surveypro:accessreports', $context)) {
@@ -68,9 +68,9 @@ if ($showjumper) {
     $paramurl = array('id' => $cm->id);
     $paramurl['type'] = $type;
     $paramurl['area'] = $area;
-    $formurl = new moodle_url('/mod/surveypro/report/colles/view.php', $paramurl);
+    $formurl = new \moodle_url('/mod/surveypro/report/colles/view.php', $paramurl);
 
-    $formparams = new stdClass();
+    $formparams = new \stdClass();
     $formparams->canaccessallgroups = $canaccessallgroups;
     $formparams->addnotinanygroup = $reportman->add_notinanygroup();
     $formparams->jumpercontent = $jumpercontent;
@@ -92,7 +92,7 @@ if ( ($type == 'questions') && ($area !== false) ) { // Area can be zero.
     $paramurl['area'] = $area;
 }
 
-$url = new moodle_url('/mod/surveypro/report/colles/view.php', $paramurl);
+$url = new \moodle_url('/mod/surveypro/report/colles/view.php', $paramurl);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);

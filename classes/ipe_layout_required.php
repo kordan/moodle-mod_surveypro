@@ -26,6 +26,9 @@ namespace mod_surveypro;
 
 defined('MOODLE_INTERNAL') || die();
 
+use mod_surveypro\utility_layout;
+
+
 /**
  * Class to prepare an item variable for display and in-place editing
  *
@@ -93,7 +96,7 @@ class ipe_layout_required extends \core\output\inplace_editable {
         $itemrecord = $DB->get_record('surveypro_item', array('id' => $itemid), $fields, MUST_EXIST);
         $surveypro = $DB->get_record('surveypro', array('id' => $itemrecord->surveyproid), 'id, course', MUST_EXIST);
         $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
-        $context = context_module::instance($cm->id);
+        $context = \context_module::instance($cm->id);
         \external_api::validate_context($context);
 
         $tablename = 'surveypro'.$itemrecord->type.'_'.$itemrecord->plugin;
@@ -102,7 +105,7 @@ class ipe_layout_required extends \core\output\inplace_editable {
 
         if (!empty($newrequired)) {
             // This item that WAS NOT mandatory IS NOW mandatory.
-            $utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+            $utilitylayoutman = new utility_layout($cm, $surveypro);
             $utilitylayoutman->optional_to_required_followup($itemid);
         }
 

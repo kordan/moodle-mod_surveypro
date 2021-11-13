@@ -22,6 +22,9 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_surveypro\utility_layout;
+use mod_surveypro\utility_submission;
+
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/utemplates/apply_form.php');
 
@@ -45,7 +48,7 @@ $confirm = optional_param('cnf', SURVEYPRO_UNCONFIRMED, PARAM_INT);
 $edit = optional_param('edit', -1, PARAM_BOOL);
 
 require_course_login($course, false, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 // Required capability.
 require_capability('mod/surveypro:applyusertemplates', $context);
@@ -58,11 +61,11 @@ $utemplateman->prevent_direct_user_input();
 
 // Begin of: define $applyutemplate return url.
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('/mod/surveypro/utemplate_apply.php', $paramurl);
+$formurl = new \moodle_url('/mod/surveypro/utemplate_apply.php', $paramurl);
 // End of: define $applyutemplate return url.
 
 // Begin of: prepare params for the form.
-$formparams = new stdClass();
+$formparams = new \stdClass();
 $formparams->cmid = $cm->id;
 $formparams->surveypro = $surveypro;
 $formparams->utemplateman = $utemplateman;
@@ -80,7 +83,7 @@ if ($utemplateman->formdata) {
 // End of: manage form submission.
 
 // Output starts here.
-$url = new moodle_url('/mod/surveypro/utemplate_apply.php', array('s' => $surveypro->id));
+$url = new \moodle_url('/mod/surveypro/utemplate_apply.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -115,8 +118,8 @@ new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABUTEMPLATES, SURVE
 $utemplateman->friendly_stop();
 
 $riskyediting = ($surveypro->riskyeditdeadline > time());
-$utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
-$utilitysubmissionman = new mod_surveypro_utility_submission($cm, $surveypro);
+$utilitylayoutman = new utility_layout($cm, $surveypro);
+$utilitysubmissionman = new utility_submission($cm, $surveypro);
 if ($utilitylayoutman->has_submissions() && $riskyediting) {
     $message = $utilitysubmissionman->get_submissions_warning();
     echo $OUTPUT->notification($message, 'notifyproblem');

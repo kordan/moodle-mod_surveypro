@@ -43,7 +43,7 @@ $itemid = optional_param('itemid', 0, PARAM_INT);  // Item id.
 $container = optional_param('userid', 0, PARAM_TEXT);  // Userid only OR userid_submissionid.
 
 require_course_login($course, false, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 // Required capability.
 $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context);
@@ -70,11 +70,11 @@ $uploadsformman->set_submissionid($submissionid);
 
 // Begin of: define $filterform return url.
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('/mod/surveypro/report/attachments/uploads.php', $paramurl);
+$formurl = new \moodle_url('/mod/surveypro/report/attachments/uploads.php', $paramurl);
 // End of: define $user_form return url.
 
 // Begin of: prepare params for the form.
-$formparams = new stdClass();
+$formparams = new \stdClass();
 $formparams->surveypro = $surveypro;
 $formparams->itemid = $itemid;
 $formparams->userid = $userid;
@@ -87,7 +87,7 @@ $filterform = new surveyproreport_attachmentfilterform($formurl, $formparams, 'p
 
 // Output starts here.
 $paramurl = array('s' => $surveypro->id, 'userid' => $userid, 'submissionid' => $submissionid);
-$url = new moodle_url('/mod/surveypro/report/attachments/uploads.php', $paramurl);
+$url = new \moodle_url('/mod/surveypro/report/attachments/uploads.php', $paramurl);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -95,7 +95,7 @@ $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
 // Make bold the navigation menu/link that refers to me.
-$url = new moodle_url('/mod/surveypro/report/attachments/view.php', array('s' => $surveypro->id));
+$url = new \moodle_url('/mod/surveypro/report/attachments/view.php', array('s' => $surveypro->id));
 navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();

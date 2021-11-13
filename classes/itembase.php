@@ -26,6 +26,11 @@ namespace mod_surveypro;
 
 defined('MOODLE_INTERNAL') || die();
 
+use mod_surveypro\layout_itemsetup;
+use mod_surveypro\utility_layout;
+use mod_surveypro\utility_item;
+use mod_surveypro\utility_submission;
+
 /**
  * The base class for items
  *
@@ -33,7 +38,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_itembase {
+class itembase {
 
     /**
      * @var object Course module object
@@ -175,7 +180,7 @@ class mod_surveypro_itembase {
             debugging($message, DEBUG_DEVELOPER);
         }
 
-        $context = context_module::instance($this->cm->id);
+        $context = \context_module::instance($this->cm->id);
 
         $tablename = 'surveypro'.$this->type.'_'.$this->plugin;
         // Some item, like pagebreak or fieldsetend, may be free of the plugin table.
@@ -270,7 +275,7 @@ class mod_surveypro_itembase {
     protected function get_common_settings($record) {
         // You are going to change item content (maybe sortindex, maybe the parentitem)
         // so, do not forget to reset items per page.
-        $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+        $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
         $utilitylayoutman->reset_items_pages();
 
         $timenow = time();
@@ -301,8 +306,8 @@ class mod_surveypro_itembase {
         // Cleanup section.
 
         // Truncate extranote if longer than maximum allowed (255 characters).
-        if (isset($record->extranote) && (core_text::strlen($record->extranote) > 255)) {
-            $record->extranote = core_text::substr($record->extranote, 0, 255);
+        if (isset($record->extranote) && (\core_text::strlen($record->extranote) > 255)) {
+            $record->extranote = \core_text::substr($record->extranote, 0, 255);
         }
 
         // Surveypro can be multilang
@@ -355,10 +360,10 @@ class mod_surveypro_itembase {
     public function item_save($record) {
         global $DB, $COURSE;
 
-        $context = context_module::instance($this->cm->id);
+        $context = \context_module::instance($this->cm->id);
 
-        $utilitysubmissionman = new mod_surveypro_utility_submission($this->cm, $this->surveypro);
-        $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+        $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
+        $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
         $hassubmission = $utilitylayoutman->has_submissions(false);
 
         $tablename = 'surveypro'.$this->type.'_'.$this->plugin;
@@ -508,7 +513,7 @@ class mod_surveypro_itembase {
                     if ($oldrequired == 0) { // This item was not required.
                         if (isset($record->required) && ($record->required == 1)) { // This item is now required.
                             // This item that was not mandatory is NOW mandatory.
-                            $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+                            $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
                             $utilitylayoutman->optional_to_required_followup($record->itemid);
                         }
                     }
@@ -520,7 +525,7 @@ class mod_surveypro_itembase {
         if ($hassubmission) {
             // Update completion state.
             $possibleusers = surveypro_get_participants($this->surveypro->id);
-            $completion = new completion_info($COURSE);
+            $completion = new \completion_info($COURSE);
             if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
                 foreach ($possibleusers as $user) {
                     $completion->update_state($this->cm, COMPLETION_INCOMPLETE, $user->id);
@@ -567,7 +572,7 @@ class mod_surveypro_itembase {
         // Because of this I need to make as much queries as the number of used plugins in my surveypro!
 
         // Get the list of used plugin.
-        $utilitysubmissionman = new mod_surveypro_utility_submission($this->cm, $this->surveypro);
+        $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
         $pluginlist = $utilitysubmissionman->get_used_plugin_list(SURVEYPRO_TYPEFIELD);
 
         $usednames = array();
@@ -604,7 +609,7 @@ class mod_surveypro_itembase {
      * @return void
      */
     private function item_manage_chains($itemid, $oldhidden, $newhidden, $oldreserved, $newreserved) {
-        $context = context_module::instance($this->cm->id);
+        $context = \context_module::instance($this->cm->id);
 
         // Now hide or unhide (whether needed) chain of ancestors or descendents.
         if ($this->itemeditingfeedback & 1) { // Bitwise logic, alias: if the item was successfully saved.
@@ -613,7 +618,7 @@ class mod_surveypro_itembase {
             if ($oldhidden != $newhidden) {
                 $action = ($oldhidden) ? SURVEYPRO_SHOWITEM : SURVEYPRO_HIDEITEM;
 
-                $layoutman = new mod_surveypro_layout_itemsetup($this->cm, $context, $this->surveypro);
+                $layoutman = new layout_itemsetup($this->cm, $context, $this->surveypro);
                 $layoutman->set_type($this->type);
                 $layoutman->set_plugin($this->plugin);
                 $layoutman->set_itemid($itemid);
@@ -639,7 +644,7 @@ class mod_surveypro_itembase {
             if ($oldreserved != $newreserved) {
                 $action = ($oldreserved) ? SURVEYPRO_MAKEAVAILABLE : SURVEYPRO_MAKERESERVED;
 
-                $layoutman = new mod_surveypro_layout_itemsetup($this->cm, $context, $this->surveypro);
+                $layoutman = new layout_itemsetup($this->cm, $context, $this->surveypro);
                 $layoutman->set_type($this->type);
                 $layoutman->set_plugin($this->plugin);
                 $layoutman->set_itemid($itemid);
@@ -809,7 +814,7 @@ class mod_surveypro_itembase {
             return;
         }
 
-        $context = context_module::instance($this->cm->id);
+        $context = \context_module::instance($this->cm->id);
         $editoroptions = array('trusttext' => true, 'subdirs' => true, 'maxfiles' => -1, 'context' => $context);
         foreach ($fieldsusingformat as $fieldname => $filearea) {
             $this->{$fieldname.'trust'} = 1; // Is this really neede?
@@ -834,7 +839,7 @@ class mod_surveypro_itembase {
         }
 
         $index = ($content == SURVEYPRO_VALUES) ? 1 : 2;
-        $utilityitemman = new mod_surveypro_utility_item($this->cm, $this->surveypro);
+        $utilityitemman = new utility_item($this->cm, $this->surveypro);
         $options = $utilityitemman->multilinetext_to_array($this->{$field});
 
         $values = array();
@@ -857,7 +862,7 @@ class mod_surveypro_itembase {
      * @return void
      */
     protected function item_clean_textarea_fields($record, $fieldlist) {
-        $utilityitemman = new mod_surveypro_utility_item($this->cm, $this->surveypro);
+        $utilityitemman = new utility_item($this->cm, $this->surveypro);
 
         foreach ($fieldlist as $field) {
             // Some item may be undefined causing: "Notice: Undefined property: stdClass::$defaultvalue"
@@ -904,7 +909,7 @@ class mod_surveypro_itembase {
     /**
      * This method defines if an item can be switched to mandatory or not.
      *
-     * Used by mod_surveypro_layout_itemsetup->display_items_table() to define the icon to show
+     * Used by layout_itemsetup->display_items_table() to define the icon to show
      *
      * @return boolean
      */
@@ -1607,7 +1612,7 @@ EOS;
         // If I am here this means I have a parent FOR SURE.
         // Instead of making one more query, I assign two variables manually.
         // At the beginning, $currentitem is me.
-        $currentitem = new stdClass();
+        $currentitem = new \stdClass();
         $currentitem->parentid = $this->get_parentid();
         $currentitem->parentvalue = $this->get_parentvalue();
         $mypage = $this->get_formpage(); // Once and forever.

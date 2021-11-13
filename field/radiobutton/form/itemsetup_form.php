@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+use mod_surveypro\utility_item;
+
 require_once($CFG->dirroot.'/lib/formslib.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/items/itembase_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/field/radiobutton/lib.php');
@@ -126,7 +128,7 @@ class mod_surveypro_radiobutton_setupform extends mod_surveypro_itembaseform {
 
         // Clean inputs.
         // First of all get the value from the field.
-        $utilityitemman = new mod_surveypro_utility_item($cm, $surveypro);
+        $utilityitemman = new utility_item($cm, $surveypro);
         $cleanoptions = $utilityitemman->multilinetext_to_array($data['options']);
         $cleanlabelother = trim($data['labelother']);
         $cleandefaultvalue = isset($data['defaultvalue']) ? trim($data['defaultvalue']) : '';

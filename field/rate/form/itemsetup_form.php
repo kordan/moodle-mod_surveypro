@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+use mod_surveypro\utility_item;
+
 require_once($CFG->dirroot.'/lib/formslib.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/items/itembase_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/field/rate/lib.php');
@@ -135,7 +137,7 @@ class mod_surveypro_rate_setupform extends mod_surveypro_itembaseform {
         $errors = parent::validation($data, $files);
 
         // Clean inputs.
-        $utilityitemman = new mod_surveypro_utility_item($cm, $surveypro);
+        $utilityitemman = new utility_item($cm, $surveypro);
         $cleanoptions = $utilityitemman->multilinetext_to_array($data['options']);
         $cleanrates = $utilityitemman->multilinetext_to_array($data['rates']);
         $cleandefaultvalue = isset($data['defaultvalue']) ? $utilityitemman->multilinetext_to_array($data['defaultvalue']) : '';

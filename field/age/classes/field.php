@@ -22,7 +22,11 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
+
+use mod_surveypro\itembase;
 
 require_once($CFG->dirroot.'/mod/surveypro/field/age/lib.php');
 
@@ -33,7 +37,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/age/lib.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyprofield_age_field extends mod_surveypro_itembase {
+class surveyprofield_age_field extends itembase {
 
     /**
      * @var string $content
@@ -206,7 +210,7 @@ class surveyprofield_age_field extends mod_surveypro_itembase {
         $this->item_custom_fields_to_db($record);
         // End of: plugin specific settings (eventually overriding general ones).
 
-        // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
+        // Do parent item saving stuff here (itembase::item_save($record))).
         return parent::item_save($record);
     }
 
@@ -646,7 +650,7 @@ EOS;
 
         $fillinginstruction = '';
         if ($haslowerbound && $hasupperbound) {
-            $a = new stdClass();
+            $a = new \stdClass();
             $a->lowerbound = self::item_age_to_text($lowerbound);
             $a->upperbound = self::item_age_to_text($upperbound);
 

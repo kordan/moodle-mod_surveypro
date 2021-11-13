@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_surveypro\layout_itemsetup;
+
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
@@ -40,14 +42,14 @@ $cm = cm_info::create($cm);
 $edit = optional_param('edit', -1, PARAM_BOOL);
 
 require_course_login($course, false, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 // Required capability.
 require_capability('mod/surveypro:additems', $context);
 
 // Calculations.
 
-$layoutman = new mod_surveypro_layout_itemsetup($cm, $context, $surveypro);
+$layoutman = new layout_itemsetup($cm, $context, $surveypro);
 
 // Property type is useless, do not set it.
 // $layoutman->set_type('');
@@ -89,7 +91,7 @@ $layoutman = new mod_surveypro_layout_itemsetup($cm, $context, $surveypro);
 // $layoutman->set_itemcount($itemcount);
 
 // Output starts here.
-$url = new moodle_url('/mod/surveypro/layout_validation.php', array('s' => $surveypro->id));
+$url = new \moodle_url('/mod/surveypro/layout_validation.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);

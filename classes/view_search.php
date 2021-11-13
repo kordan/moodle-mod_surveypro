@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+use mod_surveypro\utility_item;
+
 /**
  * The class managing the search form for users
  *
@@ -76,7 +78,7 @@ class mod_surveypro_view_search {
     public function get_searchparamurl() {
         $itemhelperinfo = array();
         foreach ($this->formdata as $elementname => $content) {
-            if ($matches = mod_surveypro_utility_item::get_item_parts($elementname)) {
+            if ($matches = utility_item::get_item_parts($elementname)) {
                 // With the introduction of interactive fieldset...
                 // those format elements are now equipped with open/close triangle...
                 // and they submit their own state.
@@ -91,7 +93,7 @@ class mod_surveypro_view_search {
 
                 $itemid = $matches['itemid'];
                 if (!isset($itemhelperinfo[$itemid])) {
-                    $itemhelperinfo[$itemid] = new stdClass();
+                    $itemhelperinfo[$itemid] = new \stdClass();
                     $itemhelperinfo[$itemid]->type = $matches['type'];
                     $itemhelperinfo[$itemid]->plugin = $matches['plugin'];
                     $itemhelperinfo[$itemid]->itemid = $itemid;
@@ -120,7 +122,7 @@ class mod_surveypro_view_search {
             }
             $item = surveypro_get_item($this->cm, $this->surveypro, $iteminfo->itemid, $iteminfo->type, $iteminfo->plugin);
 
-            $userdata = new stdClass();
+            $userdata = new \stdClass();
             $item->userform_save_preprocessing($iteminfo->contentperelement, $userdata, true);
 
             if (!is_null($userdata->content)) {

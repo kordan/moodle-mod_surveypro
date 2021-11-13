@@ -135,7 +135,7 @@ class mod_surveypro_importutemplateform extends moodleform {
                 if (isset($data['overwrite'])) {
                     $xmlfile->delete();
                 } else {
-                    $a = new stdClass();
+                    $a = new \stdClass();
                     $a->filename = $filename;
                     $a->overwrite = get_string('overwrite', 'mod_surveypro');
                     $errors['importfile_filemanager'] = get_string('enteruniquename', 'mod_surveypro', $a);

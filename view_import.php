@@ -42,7 +42,7 @@ $cm = cm_info::create($cm);
 $edit = optional_param('edit', -1, PARAM_BOOL);
 
 require_course_login($course, false, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 // Required capability.
 require_capability('mod/surveypro:importdata', $context);
@@ -52,7 +52,7 @@ $importman = new mod_surveypro_view_import($cm, $context, $surveypro);
 
 // Begin of: define $mform return url.
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('/mod/surveypro/view_import.php', $paramurl);
+$formurl = new \moodle_url('/mod/surveypro/view_import.php', $paramurl);
 // End of: define $mform return url.
 
 // Begin of: prepare params for the form.
@@ -64,7 +64,7 @@ if ($importman->formdata = $importform->get_data()) {
     $err = $importman->validate_csvcontent();
     if (empty($err)) {
         $importman->import_csv();
-        $redirecturl = new moodle_url('/mod/surveypro/view_submissions.php', array('s' => $surveypro->id));
+        $redirecturl = new \moodle_url('/mod/surveypro/view_submissions.php', array('s' => $surveypro->id));
         redirect($redirecturl);
     }
 }
@@ -110,7 +110,7 @@ if (!empty($err)) {
     }
     echo $OUTPUT->notification($message, 'notifyproblem');
 
-    $returnurl = new moodle_url('/mod/surveypro/view_import.php', array('s' => $surveypro->id));
+    $returnurl = new \moodle_url('/mod/surveypro/view_import.php', array('s' => $surveypro->id));
     echo $OUTPUT->continue_button($returnurl);
 } else {
     $importman->welcome_message();

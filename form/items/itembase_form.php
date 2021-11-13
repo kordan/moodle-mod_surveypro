@@ -24,7 +24,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+use mod_surveypro\utility_layout;
+
 require_once($CFG->dirroot.'/lib/formslib.php');
+
 /**
  * The class representing the base form shared by all the items of the module
  *
@@ -270,23 +273,23 @@ class mod_surveypro_itembaseform extends moodleform {
 
             // Itembase::parentformat.
             $fieldname = 'parentformat';
-            $a = new stdClass();
+            $a = new \stdClass();
             $a->fieldname = get_string('parentcontent', 'mod_surveypro');
             $rowparity = 0;
-            $a->examples = html_writer::start_tag('table', array('class' => 'generaltable exampletable'));
+            $a->examples = \html_writer::start_tag('table', array('class' => 'generaltable exampletable'));
             foreach ($pluginlist as $plugin) {
                 $rowparity = 1 - $rowparity;
-                $a->examples .= html_writer::start_tag('tr', array('class' => 'r' . $rowparity));
-                $a->examples .= html_writer::start_tag('td', array('class' => 'pluginname'));
+                $a->examples .= \html_writer::start_tag('tr', array('class' => 'r' . $rowparity));
+                $a->examples .= \html_writer::start_tag('td', array('class' => 'pluginname'));
                 $a->examples .= get_string('pluginname', 'surveyprofield_'.$plugin);
-                $a->examples .= html_writer::end_tag('td');
+                $a->examples .= \html_writer::end_tag('td');
 
-                $a->examples .= html_writer::start_tag('td', array('class' => 'inputformat'));
+                $a->examples .= \html_writer::start_tag('td', array('class' => 'inputformat'));
                 $a->examples .= get_string('parentformat', 'surveyprofield_'.$plugin);
-                $a->examples .= html_writer::end_tag('td');
-                $a->examples .= html_writer::end_tag('tr');
+                $a->examples .= \html_writer::end_tag('td');
+                $a->examples .= \html_writer::end_tag('tr');
             }
-            $a->examples .= html_writer::end_tag('table');
+            $a->examples .= \html_writer::end_tag('table');
             $notestr = get_string('note', 'mod_surveypro');
             $mform->addElement('static', $fieldname, $notestr, get_string($fieldname, 'mod_surveypro', $a));
         }
@@ -313,7 +316,7 @@ class mod_surveypro_itembaseform extends moodleform {
 
         $cm = $item->get_cm();
 
-        $utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+        $utilitylayoutman = new utility_layout($cm, $surveypro);
         $hassubmissions = $utilitylayoutman->has_submissions();
         $riskyediting = ($surveypro->riskyeditdeadline > time());
 

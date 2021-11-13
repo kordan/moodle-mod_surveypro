@@ -22,7 +22,11 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
+
+use mod_surveypro\itembase;
 
 require_once($CFG->dirroot.'/mod/surveypro/format/pagebreak/lib.php');
 
@@ -33,7 +37,7 @@ require_once($CFG->dirroot.'/mod/surveypro/format/pagebreak/lib.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyproformat_pagebreak_format extends mod_surveypro_itembase {
+class surveyproformat_pagebreak_format extends itembase {
 
     /**
      * @var bool Can this item be parent?

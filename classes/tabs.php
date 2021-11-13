@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+use mod_surveypro\utility_layout;
+
 /**
  * The class representing the tab-page structure on top of every page of the module
  *
@@ -89,7 +91,7 @@ class mod_surveypro_tabs {
         $this->tabtab = $tabtab;
         $this->tabpage = $tabpage;
 
-        $utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+        $utilitylayoutman = new utility_layout($cm, $surveypro);
         $this->hassubmissions = $utilitylayoutman->has_submissions();
         $this->tabpagesurl = $utilitylayoutman->get_common_links_url(SURVEYPRO_TAB);
 

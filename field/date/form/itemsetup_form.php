@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+use mod_surveypro\utility_item;
+
 require_once($CFG->dirroot.'/lib/formslib.php');
 require_once($CFG->dirroot.'/mod/surveypro/form/items/itembase_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/field/date/lib.php');
@@ -146,14 +148,14 @@ class mod_surveypro_date_setupform extends mod_surveypro_itembaseform {
         $lowerday = $data['lowerboundday'];
         $lowermonth = $data['lowerboundmonth'];
         $loweryear = $data['lowerboundyear'];
-        if (!mod_surveypro_utility_item::date_is_valid($lowerday, $lowermonth, $loweryear)) {
+        if (!utility_item::date_is_valid($lowerday, $lowermonth, $loweryear)) {
             $errors['lowerbound_group'] = get_string('ierr_invalidinput', 'mod_surveypro');
             return $errors;
         }
         $upperday = $data['upperboundday'];
         $uppermonth = $data['upperboundmonth'];
         $upperyear = $data['upperboundyear'];
-        if (!mod_surveypro_utility_item::date_is_valid($upperday, $uppermonth, $upperyear)) {
+        if (!utility_item::date_is_valid($upperday, $uppermonth, $upperyear)) {
             $errors['upperbound_group'] = get_string('ierr_invalidinput', 'mod_surveypro');
             return $errors;
         }
@@ -172,7 +174,7 @@ class mod_surveypro_date_setupform extends mod_surveypro_itembaseform {
             $defaultday = $data['defaultvalueday'];
             $defaultmonth = $data['defaultvaluemonth'];
             $defaultyear = $data['defaultvalueyear'];
-            if (!mod_surveypro_utility_item::date_is_valid($defaultday, $defaultmonth, $defaultyear)) {
+            if (!utility_item::date_is_valid($defaultday, $defaultmonth, $defaultyear)) {
                 $errors['defaultvalue_group'] = get_string('ierr_invalidinput', 'mod_surveypro');
                 return $errors;
             }

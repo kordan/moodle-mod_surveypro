@@ -22,7 +22,12 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
+
+use mod_surveypro\itembase;
+use mod_surveypro\utility_item;
 
 require_once($CFG->dirroot.'/mod/surveypro/field/rate/lib.php');
 
@@ -33,7 +38,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/rate/lib.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyprofield_rate_field extends mod_surveypro_itembase {
+class surveyprofield_rate_field extends itembase {
 
     /**
      * @var string $content
@@ -222,7 +227,7 @@ class surveyprofield_rate_field extends mod_surveypro_itembase {
         $record->variable = 'rate_001';
         $record->indent = 0;
         $record->options = "first\nsecond";
-        $record->rates = "up\ndown";;
+        $record->rates = "up\ndown";
         $record->defaultoption = SURVEYPRO_INVITEDEFAULT;
         $record->downloadformat = SURVEYPRO_ITEMRETURNSLABELS;
         $record->style = 0;
@@ -380,7 +385,7 @@ EOS;
     public function userform_mform_element($mform, $searchform, $readonly) {
         // This plugin has $this->insetupform['insearchform'] = false; so it will never be part of a search form.
 
-        $utilityitemman = new mod_surveypro_utility_item($this->cm, $this->surveypro);
+        $utilityitemman = new utility_item($this->cm, $this->surveypro);
         $options = $utilityitemman->multilinetext_to_array($this->options);
         $optioncount = count($options) - 1;
         $rates = $this->get_content_array(SURVEYPRO_LABELS, 'rates');
@@ -503,7 +508,7 @@ EOS;
         }
 
         // If different rates were requested, it is time to verify this.
-        $utilityitemman = new mod_surveypro_utility_item($this->cm, $this->surveypro);
+        $utilityitemman = new utility_item($this->cm, $this->surveypro);
         $options = $utilityitemman->multilinetext_to_array($this->options);
 
         if (isset($data[$this->itemname.'_noanswer'])) {
@@ -685,7 +690,7 @@ EOS;
     public function userform_get_root_elements_name() {
         $elementnames = array();
 
-        $utilityitemman = new mod_surveypro_utility_item($this->cm, $this->surveypro);
+        $utilityitemman = new utility_item($this->cm, $this->surveypro);
         $options = $utilityitemman->multilinetext_to_array($this->options);
         if ($this->style == SURVEYPROFIELD_RATE_USERADIO) {
             foreach ($options as $row => $option) {

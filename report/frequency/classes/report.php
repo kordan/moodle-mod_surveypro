@@ -47,11 +47,11 @@ class surveyproreport_frequency_report extends mod_surveypro_reportbase {
      * @return void
      */
     public function setup_outputtable($itemid) {
-        $this->outputtable = new flexible_table('frequency');
+        $this->outputtable = new \flexible_table('frequency');
 
         $paramurl = array('id' => $this->cm->id);
         $paramurl['itemid'] = $itemid;
-        $baseurl = new moodle_url('/mod/surveypro/report/frequency/view.php', $paramurl);
+        $baseurl = new \moodle_url('/mod/surveypro/report/frequency/view.php', $paramurl);
         $this->outputtable->define_baseurl($baseurl);
 
         $tablecolumns = array();
@@ -107,7 +107,7 @@ class surveyproreport_frequency_report extends mod_surveypro_reportbase {
         $countfields = $DB->count_records_select('surveypro_item', $where, $params);
         if (!$countfields) {
             echo $OUTPUT->box(get_string('textareasarenotallowed', 'surveyproreport_frequency'));
-            $url = new moodle_url('/mod/surveypro/view_submissions.php', array('s' => $this->surveypro->id));
+            $url = new \moodle_url('/mod/surveypro/view_submissions.php', array('s' => $this->surveypro->id));
             echo $OUTPUT->continue_button($url);
             echo $OUTPUT->footer();
             die();
@@ -148,7 +148,7 @@ class surveyproreport_frequency_report extends mod_surveypro_reportbase {
             $tablerow = array();
 
             // Answer.
-            $itemvalue = new stdClass();
+            $itemvalue = new \stdClass();
             $itemvalue->id = $answer->id;
             $itemvalue->content = $answer->content;
             $tablerow[] = $item->userform_db_to_export($itemvalue, SURVEYPRO_FRIENDLYFORMAT);
@@ -257,9 +257,9 @@ class surveyproreport_frequency_report extends mod_surveypro_reportbase {
             $imgparams['src'] = $graphurl;
             $imgparams['alt'] = get_string('pluginname', 'surveyproreport_frequency');
 
-            $content = html_writer::start_tag('div', array('class' => 'centerpara'));
-            $content .= html_writer::empty_tag('img', $imgparams);
-            $content .= html_writer::end_tag('div');
+            $content = \html_writer::start_tag('div', array('class' => 'centerpara'));
+            $content .= \html_writer::empty_tag('img', $imgparams);
+            $content .= \html_writer::end_tag('div');
             echo $content;
         }
     }

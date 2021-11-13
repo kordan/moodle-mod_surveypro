@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_surveypro\utility_layout;
+
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/frequency/form/itemfilter_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/frequency/lib.php');
@@ -44,21 +46,21 @@ $cm = cm_info::create($cm);
 $edit = optional_param('edit', -1, PARAM_BOOL);
 
 require_course_login($course, false, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 // Required capability.
 require_capability('mod/surveypro:accessreports', $context);
 
-$utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+$utilitylayoutman = new utility_layout($cm, $surveypro);
 $reportman = new surveyproreport_frequency_report($cm, $context, $surveypro);
 
 // Begin of: instance filterform.
 $showjumper = $reportman->is_groupjumper_needed();
 
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('/mod/surveypro/report/frequency/view.php', $paramurl);
+$formurl = new \moodle_url('/mod/surveypro/report/frequency/view.php', $paramurl);
 
-$formparams = new stdClass();
+$formparams = new \stdClass();
 $formparams->surveypro = $surveypro;
 $formparams->showjumper = $showjumper;
 if ($showjumper) {
@@ -73,7 +75,7 @@ $filterform = new mod_surveypro_itemfilterform($formurl, $formparams); // No aut
 // End of: instance filterform.
 
 // Output starts here.
-$url = new moodle_url('/mod/surveypro/report/frequency/view.php', array('s' => $surveypro->id));
+$url = new \moodle_url('/mod/surveypro/report/frequency/view.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -131,7 +133,7 @@ if (!empty($itemid)) {
         $paramurl['groupid'] = $groupid;
     }
     $paramurl['itemid'] = $itemid;
-    $url = new moodle_url('/mod/surveypro/report/frequency/graph.php', $paramurl);
+    $url = new \moodle_url('/mod/surveypro/report/frequency/graph.php', $paramurl);
     // To troubleshoot graph, open a new window in the broser and directly call
     // http://localhost/head/mod/surveypro/report/frequency/graph.php?id=xx&groupid=0&itemid=yyy
     // address.

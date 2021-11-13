@@ -44,13 +44,13 @@ class surveyproreport_responsesperuser_report extends mod_surveypro_reportbase {
      * Setup_outputtable
      */
     public function setup_outputtable() {
-        $this->outputtable = new flexible_table('responsesperuser');
+        $this->outputtable = new \flexible_table('responsesperuser');
 
         $paramurl = array('id' => $this->cm->id);
         if ($this->groupid) {
             $paramurl['groupid'] = $this->groupid;
         }
-        $baseurl = new moodle_url('/mod/surveypro/report/responsesperuser/view.php', $paramurl);
+        $baseurl = new \moodle_url('/mod/surveypro/report/responsesperuser/view.php', $paramurl);
         $this->outputtable->define_baseurl($baseurl);
 
         $tablecolumns = array();
@@ -117,7 +117,7 @@ class surveyproreport_responsesperuser_report extends mod_surveypro_reportbase {
 
             // User fullname.
             $paramurl = array('id' => $usersubmission->id, 'course' => $COURSE->id);
-            $url = new moodle_url('/user/view.php', $paramurl);
+            $url = new \moodle_url('/user/view.php', $paramurl);
             $tablerow[] = '<a href="'.$url->out().'">'.fullname($usersubmission).'</a>';
 
             // User attempts.

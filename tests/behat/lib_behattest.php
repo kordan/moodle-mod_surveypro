@@ -33,7 +33,7 @@
  */
 function get_dummy_contents($type, $plugin) {
 
-    $return = new stdClass();
+    $return = new \stdClass();
     $return->itemid = 0;
     $return->pluginid = 0;
     $return->type = $type;

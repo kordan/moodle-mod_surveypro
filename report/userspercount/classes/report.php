@@ -44,10 +44,10 @@ class surveyproreport_userspercount_report extends mod_surveypro_reportbase {
      * Setup_outputtable
      */
     public function setup_outputtable() {
-        $this->outputtable = new flexible_table('userspercount');
+        $this->outputtable = new \flexible_table('userspercount');
 
         $paramurl = array('id' => $this->cm->id);
-        $baseurl = new moodle_url('/mod/surveypro/report/userspercount/view.php', $paramurl);
+        $baseurl = new \moodle_url('/mod/surveypro/report/userspercount/view.php', $paramurl);
         $this->outputtable->define_baseurl($baseurl);
 
         $tablecolumns = array();
