@@ -412,7 +412,7 @@ EOS;
      * }
      * But it doesn't work because "type" property is reserved to mform library
      *
-     * @param moodleform $mform
+     * @param \moodleform $mform
      * @param bool $searchform
      * @param bool $readonly
      * @return void

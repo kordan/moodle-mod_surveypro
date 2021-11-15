@@ -25,7 +25,7 @@
 use mod_surveypro\tabs;
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/report/responsesperuser/form/groupjumper_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/report/responsesperuser/classes/groupjumper_form.php');
 require_once($CFG->libdir.'/tablelib.php');
 
 $id = optional_param('id', 0, PARAM_INT);

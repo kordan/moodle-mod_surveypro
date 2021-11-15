@@ -33,7 +33,7 @@ require_once($CFG->dirroot.'/course/moodleform_mod.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_mod_form extends moodleform_mod {
+class mod_surveypro_mod_form extends \moodleform_mod {
 
     /**
      * Definition.
