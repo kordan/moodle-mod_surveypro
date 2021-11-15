@@ -223,7 +223,7 @@ class itemsetupbaseform extends \moodleform {
             // Build the list only for searchable plugins.
             $pluginlist = surveypro_get_plugin_list(SURVEYPRO_TYPEFIELD);
             foreach ($pluginlist as $plugin) {
-                $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'_'.SURVEYPRO_TYPEFIELD;
+                $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'\item';
                 if (!$classname::get_canbeparent()) {
                     unset($pluginlist[$plugin]);
                 }
