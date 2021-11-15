@@ -15,29 +15,29 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file contains the surveyprofield_character
+ * This file contains the surveyprofield_textarea
  *
- * @package   surveyprofield_character
+ * @package   surveyprofield_textarea
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-// namespace mod_surveypro;
+namespace surveyprofield_textarea;
 
 defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\itembase;
 
-require_once($CFG->dirroot.'/mod/surveypro/field/character/lib.php');
+require_once($CFG->dirroot.'/mod/surveypro/field/textarea/lib.php');
 
 /**
- * Class to manage each aspect of the character item
+ * Class to manage each aspect of the textarea item
  *
- * @package   surveyprofield_character
+ * @package   surveyprofield_textarea
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyprofield_character_field extends itembase {
+class item extends itembase {
 
     /**
      * @var string $content
@@ -97,34 +97,27 @@ class surveyprofield_character_field extends itembase {
     protected $indent;
 
     /**
-     * @var string Value of the field when the form is initially displayed
+     * @var bool Does the item use html editor?
      */
-    protected $defaultvalue;
+    protected $useeditor;
 
     /**
-     * @var string Required pattern for the text
-     *
-     * One among:
-     *     SURVEYPROFIELD_CHARACTER_FREEPATTERN
-     *     SURVEYPROFIELD_CHARACTER_EMAILPATTERN
-     *     SURVEYPROFIELD_CHARACTER_URLPATTERN
-     *     SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN
-     *     SURVEYPROFIELD_CHARACTER_REGEXPATTERN
+     * @var int Number or rows of the text area?
      */
-    protected $pattern;
+    protected $arearows;
 
     /**
-     * @var string Required pattern for the text. Mix of: 'A', 'a', '0'
+     * @var int Number or columns of the text area?
      */
-    protected $patterntext;
+    protected $areacols;
 
     /**
-     * @var int Minimum allowed length
+     * @var int Minimum allowed text length
      */
     protected $minlength;
 
     /**
-     * @var int Maximum allowed length
+     * @var int Maximum allowed text length
      */
     protected $maxlength;
 
@@ -149,7 +142,7 @@ class surveyprofield_character_field extends itembase {
 
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
-        $this->plugin = 'character';
+        $this->plugin = 'textarea';
 
         // Override the list of fields using format, whether needed.
         // Nothing to override, here.
@@ -213,14 +206,16 @@ class surveyprofield_character_field extends itembase {
      * @return void
      */
     public function item_add_mandatory_plugin_fields(&$record) {
-        $record->content = 'Character';
+        $record->content = 'Text (long)';
         $record->contentformat = 1;
         $record->position = 0;
         $record->required = 0;
         $record->hideinstructions = 0;
-        $record->variable = 'character_001';
+        $record->variable = 'textarea_001';
         $record->indent = 0;
-        $record->pattern = SURVEYPROFIELD_CHARACTER_FREEPATTERN;
+        $record->useeditor = 0;
+        $record->arearows = 10;
+        $record->areacols = 60;
         $record->minlength = 0;
     }
 
@@ -231,20 +226,7 @@ class surveyprofield_character_field extends itembase {
      */
     public function item_custom_fields_to_form() {
         // 1. Special management for composite fields.
-        switch ($this->pattern) {
-            case SURVEYPROFIELD_CHARACTER_FREEPATTERN:
-            case SURVEYPROFIELD_CHARACTER_EMAILPATTERN:
-            case SURVEYPROFIELD_CHARACTER_URLPATTERN:
-                break;
-            default:
-                $this->patterntext = $this->pattern;
-                if (!surveypro_character_validate_pattern_integrity($this->pattern)) {
-                    // If there is no error message from validate_pattern_integrity...
-                    $this->pattern = SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN;
-                } else {
-                    $this->pattern = SURVEYPROFIELD_CHARACTER_REGEXPATTERN;
-                }
-        }
+        // Nothing to do: they don't exist in this plugin.
     }
 
     /**
@@ -255,30 +237,31 @@ class surveyprofield_character_field extends itembase {
      */
     public function item_custom_fields_to_db($record) {
         // 1. Special management for composite fields.
-        if ($record->pattern == SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN) {
-            $record->pattern = $record->patterntext;
-
-            $record->minlength = \core_text::strlen($record->patterntext);
-            $record->maxlength = $record->minlength;
-            unset($record->patterntext);
-        }
-        if ($record->pattern == SURVEYPROFIELD_CHARACTER_REGEXPATTERN) {
-            $record->pattern = $record->patterntext;
-            unset($record->patterntext);
+        // Nothing to do: they don't exist in this plugin.
+        if (!strlen($record->minlength)) {
+            $record->minlength = 0;
         }
 
         // 2. Override few values.
-        if (!isset($record->minlength)) {
+        if (!strlen($record->minlength)) {
             $record->minlength = 0;
         }
-        // Maxlength is a PARAM_INT. If the user leaves it empty in the form, maxlength becomes = 0.
-        if (empty($record->maxlength)) {
+        if (!strlen($record->maxlength)) {
             $record->maxlength = null;
+        }
+        if (empty($record->arearows)) {
+            $record->arearows = SURVEYPROFIELD_TEXTAREA_DEFAULTROWS;
+        }
+        if (empty($record->areacols)) {
+            $record->areacols = SURVEYPROFIELD_TEXTAREA_DEFAULTCOLS;
         }
 
         // 3. Set values corresponding to checkboxes.
         // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in get_common_settings.
-        // Nothing to do: no checkboxes in this plugin item form.
+        $checkboxes = array('useeditor');
+        foreach ($checkboxes as $checkbox) {
+            $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
+        }
 
         // 4. Other.
     }
@@ -295,33 +278,13 @@ class surveyprofield_character_field extends itembase {
     }
 
     /**
-     * Get the requested property.
+     * Make the list of the fields using multilang
      *
-     * @param string $field
-     * @return the content of the field
-     */
-    public function get_generic_property($field) {
-        if ($field == 'pattern') {
-            $condition = ($this->pattern == SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN);
-            $condition = $condition || ($this->pattern == SURVEYPROFIELD_CHARACTER_REGEXPATTERN);
-            if ($condition) {
-                return $this->patterntext;
-            } else {
-                return $this->pattern;
-            }
-        } else {
-            return parent::get_generic_property($field);
-        }
-    }
-
-    /**
-     * Make the list of multilang plugin fields.
-     *
-     * @return array of fields
+     * @return array of felds
      */
     public function get_multilang_fields() {
         $fieldlist = array();
-        $fieldlist[$this->plugin] = array('content', 'extranote', 'defaultvalue');
+        $fieldlist[$this->plugin] = array('content', 'extranote');
 
         return $fieldlist;
     }
@@ -336,6 +299,15 @@ class surveyprofield_character_field extends itembase {
     }
 
     /**
+     * Get use editor.
+     *
+     * @return the content of $useeditor property
+     */
+    public function get_useseditor() {
+        return $this->useeditor;
+    }
+
+    /**
      * Return the xml schema for surveypro_<<plugin>> table.
      *
      * @return string $schema
@@ -344,7 +316,7 @@ class surveyprofield_character_field extends itembase {
         $schema = <<<EOS
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
-    <xs:element name="surveyprofield_character">
+    <xs:element name="surveyprofield_textarea">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="content" type="xs:string"/>
@@ -367,8 +339,9 @@ class surveyprofield_character_field extends itembase {
                 <xs:element name="extranote" type="xs:string" minOccurs="0"/>
                 <xs:element name="trimonsave" type="xs:int"/>
 
-                <xs:element name="defaultvalue" type="xs:string" minOccurs="0"/>
-                <xs:element name="pattern" type="xs:string"/>
+                <xs:element name="useeditor" type="xs:int"/>
+                <xs:element name="arearows" type="xs:int"/>
+                <xs:element name="areacols" type="xs:int"/>
                 <xs:element name="minlength" type="xs:int" minOccurs="0"/>
                 <xs:element name="maxlength" type="xs:int" minOccurs="0"/>
             </xs:sequence>
@@ -398,19 +371,19 @@ EOS;
         return array($whereclause, $whereparam);
     }
 
+    /**
+     * Returns if the field plugin needs contentformat
+     *
+     * @return bool
+     */
+    public static function response_uses_format() {
+        return true;
+    }
+
     // MARK userform.
 
     /**
      * Define the mform element for the outform and the searchform.
-     *
-     * Cool for browsers supporting html 5
-     * if ($this->pattern == SURVEYPROFIELD_CHARACTER_EMAILPATTERN) {
-     *     $attributes['type'] = 'email';
-     * }
-     * if ($this->pattern == SURVEYPROFIELD_CHARACTER_URLPATTERN) {
-     *     $attributes['type'] = 'url';
-     * }
-     * But it doesn't work because "type" property is reserved to mform library
      *
      * @param \moodleform $mform
      * @param bool $searchform
@@ -429,50 +402,52 @@ EOS;
             $elementlabel = '&nbsp;';
         }
 
-        $idprefix = 'id_surveypro_field_character_'.$this->sortindex;
+        $idprefix = 'id_surveypro_field_textarea_'.$this->sortindex;
 
-        $thresholdsize = 37;
-        $lengthtochar = 1.3;
         $attributes = array();
         $attributes['id'] = $idprefix;
-        $attributes['class'] = 'indent-'.$this->indent.' character_text';
-        if (!empty($this->maxlength)) {
-            $attributes['maxlength'] = $this->maxlength;
-            if ($this->maxlength < $thresholdsize) {
-                $attributes['size'] = $this->maxlength * $lengthtochar;
+        $attributes['rows'] = $this->arearows;
+        $attributes['cols'] = $this->areacols;
+        if (empty($this->useeditor) || ($searchform)) {
+            $fieldname = $this->itemname;
+            $attributes['class'] = 'indent-'.$this->indent.' textarea_textarea';
+            $attributes['wrap'] = 'virtual';
+            if (!$searchform) {
+                $mform->addElement('mod_surveypro_textarea_plain', $fieldname, $elementlabel, $attributes);
+                $mform->setType($fieldname, PARAM_TEXT);
             } else {
-                $attributes['size'] = $thresholdsize * $lengthtochar;
+                $elementgroup = array();
+                $elementgroup[] = $mform->createElement('mod_surveypro_textarea_plain', $fieldname, $elementlabel, $attributes);
+
+                $itemname = $this->itemname.'_ignoreme';
+                $starstr = get_string('star', 'mod_surveypro');
+                $attributes['id'] = $idprefix.'_ignoreme';
+                $attributes['class'] = 'textarea_check';
+                $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $starstr, $attributes);
+                $mform->setType($this->itemname, PARAM_RAW);
+
+                $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
+                $mform->disabledIf($this->itemname.'_group', $this->itemname.'_ignoreme', 'checked');
+                $mform->setDefault($this->itemname.'_ignoreme', '1');
             }
         } else {
-            $attributes['size'] = $thresholdsize * $lengthtochar;
+            // $attributes['class'] and $attributes['id'] do not work: MDL_28194.
+            $attributes['class'] = 'indent-'.$this->indent.' textarea_editor';
+            $fieldname = $this->itemname.'_editor';
+            $editoroptions = array('trusttext' => true, 'subdirs' => true, 'maxfiles' => EDITOR_UNLIMITED_FILES);
+            $mform->addElement('mod_surveypro_textarea_editor', $fieldname, $elementlabel, $attributes, $editoroptions);
+            $mform->setType($fieldname, PARAM_CLEANHTML);
         }
-        if (!$searchform) {
-            $mform->addElement('text', $this->itemname, $elementlabel, $attributes);
-            $mform->setType($this->itemname, PARAM_RAW);
-            $mform->setDefault($this->itemname, $this->defaultvalue);
 
+        if (!$searchform) {
             if ($this->required) {
                 // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
                 // I do not want JS form validation if the page is submitted through the "previous" button.
                 // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
                 // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
-                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $this->itemname.'_extrarow' : $this->itemname;
+                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $this->itemname.'_extrarow' : $fieldname;
                 $mform->_required[] = $starplace;
             }
-        } else {
-            $elementgroup = array();
-            $elementgroup[] = $mform->createElement('text', $this->itemname, '', $attributes);
-
-            $itemname = $this->itemname.'_ignoreme';
-            $starstr = get_string('star', 'mod_surveypro');
-            $attributes['id'] = $idprefix.'_ignoreme';
-            $attributes['class'] = 'character_check';
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $starstr, $attributes);
-            $mform->setType($this->itemname, PARAM_RAW);
-
-            $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
-            $mform->disabledIf($this->itemname.'_group', $this->itemname.'_ignoreme', 'checked');
-            $mform->setDefault($this->itemname.'_ignoreme', '1');
         }
     }
 
@@ -489,59 +464,35 @@ EOS;
             return;
         }
 
-        $errorkey = $this->itemname;
-        $userinput = empty($this->trimonsave) ? $data[$this->itemname] : trim($data[$this->itemname]);
+        if (!empty($this->useeditor)) {
+            $errorkey = $this->itemname.'_editor';
+            $fieldname = $this->itemname.'_editor';
+            $itemcontent = $data[$fieldname]['text'];
+        } else {
+            $errorkey = $this->itemname;
+            $fieldname = $this->itemname;
+            $itemcontent = $data[$fieldname];
+        }
 
-        if (empty($userinput)) {
+        if ($this->trimonsave) {
+            $itemcontent = trim($itemcontent);
+        }
+
+        if (empty($itemcontent)) {
             if ($this->required) {
                 $errors[$errorkey] = get_string('required');
             }
             return;
         }
 
-        $answerlength = \core_text::strlen($userinput);
-        if (!empty($this->minlength)) {
-            if ($answerlength < $this->minlength) {
-                $errors[$errorkey] = get_string('uerr_texttooshort', 'surveyprofield_character');
-            }
+        // I don't care if this element is required or not.
+        // If the user provides an answer, it has to be compliant with the field validation rules.
+        if ( $this->maxlength && (\core_text::strlen($itemcontent) > $this->maxlength) ) {
+            $errors[$errorkey] = get_string('uerr_texttoolong', 'surveyprofield_textarea');
         }
-        if (!empty($this->maxlength)) {
-            if ($answerlength > $this->maxlength) {
-                $errors[$errorkey] = get_string('uerr_texttoolong', 'surveyprofield_character');
-            }
+        if (\core_text::strlen($itemcontent) < $this->minlength) {
+            $errors[$errorkey] = get_string('uerr_texttooshort', 'surveyprofield_textarea');
         }
-        switch ($this->pattern) {
-            case SURVEYPROFIELD_CHARACTER_FREEPATTERN:
-                break;
-            case SURVEYPROFIELD_CHARACTER_EMAILPATTERN:
-                if (!validate_email($userinput)) {
-                    $errors[$errorkey] = get_string('uerr_invalidemail', 'surveyprofield_character');
-                }
-                break;
-            case SURVEYPROFIELD_CHARACTER_URLPATTERN:
-                if (!surveypro_character_validate_against_url($userinput)) {
-                    $errors[$errorkey] = get_string('uerr_invalidurl', 'surveyprofield_character');
-                }
-                break;
-            case SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN:
-                // Where: "A" UPPER CASE CHARACTERS.
-                // Where: "a" lower case characters.
-                // Where: "*" UPPER case, LOWER case or any special characters like '@', ',', '%', '5', ' ' or whatever.
-                // Where: "0" numbers.
-                if (!surveypro_character_validate_against_pattern($userinput, $this->patterntext)) {
-                    $errors[$errorkey] = get_string('uerr_nopatternmatch', 'surveyprofield_character');
-                }
-                break;
-            case SURVEYPROFIELD_CHARACTER_REGEXPATTERN:
-                if (!surveypro_character_validate_against_regex($userinput, $this->patterntext)) {
-                    $errors[$errorkey] = get_string('uerr_noregexmatch', 'surveyprofield_character');
-                }
-                break;
-            default:
-                $message = 'Unexpected $this->pattern = '.$this->pattern;
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-        }
-        // Return $errors; is not needed because $errors is passed by reference.
     }
 
     /**
@@ -553,57 +504,27 @@ EOS;
 
         $arrayinstruction = array();
 
-        if (!empty($this->minlength)) {
-            if (!empty($this->maxlength)) {
-                if ($this->minlength == $this->maxlength) {
-                    $a = $this->minlength;
-                    $arrayinstruction[] = get_string('restrictions_exact', 'surveyprofield_character', $a);
-                } else {
-                    $a = new \stdClass();
-                    $a->minlength = $this->minlength;
-                    $a->maxlength = $this->maxlength;
-                    $arrayinstruction[] = get_string('restrictions_minmax', 'surveyprofield_character', $a);
-                }
+        if ($this->minlength > 0) {
+            if (isset($this->maxlength) && ($this->maxlength > 0)) {
+                $a = new \stdClass();
+                $a->minlength = $this->minlength;
+                $a->maxlength = $this->maxlength;
+                $arrayinstruction[] = get_string('hasminmaxlength', 'surveyprofield_textarea', $a);
             } else {
                 $a = $this->minlength;
-                $arrayinstruction[] = get_string('restrictions_min', 'surveyprofield_character', $a);
+                $arrayinstruction[] = get_string('hasminlength', 'surveyprofield_textarea', $a);
             }
         } else {
-            if (!empty($this->maxlength)) {
+            if (isset($this->maxlength) && ($this->maxlength > 0)) {
                 $a = $this->maxlength;
-                $arrayinstruction[] = get_string('restrictions_max', 'surveyprofield_character', $a);
+                $arrayinstruction[] = get_string('hasmaxlength', 'surveyprofield_textarea', $a);
             }
         }
-
-        switch ($this->pattern) {
-            case SURVEYPROFIELD_CHARACTER_FREEPATTERN:
-                break;
-            case SURVEYPROFIELD_CHARACTER_EMAILPATTERN:
-                $arrayinstruction[] = get_string('restrictions_email', 'surveyprofield_character');
-                break;
-            case SURVEYPROFIELD_CHARACTER_URLPATTERN:
-                $arrayinstruction[] = get_string('restrictions_url', 'surveyprofield_character');
-                break;
-            case SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN:
-                $arrayinstruction[] = get_string('restrictions_custom', 'surveyprofield_character', $this->patterntext);
-                break;
-            case SURVEYPROFIELD_CHARACTER_REGEXPATTERN:
-                $arrayinstruction[] = get_string('restrictions_regex', 'surveyprofield_character', $this->patterntext);
-                break;
-            default:
-                $message = 'Unexpected $this->pattern = '.$this->pattern;
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-        }
-
         if ($this->trimonsave) {
             $arrayinstruction[] = get_string('inputclean', 'surveypro');
         }
 
-        if (count($arrayinstruction)) {
-            $fillinginstruction = implode('; ', $arrayinstruction);
-        } else {
-            $fillinginstruction = '';
-        }
+        $fillinginstruction = implode('; ', $arrayinstruction);
 
         return $fillinginstruction;
     }
@@ -612,7 +533,7 @@ EOS;
      * Starting from the info set by the user in the form
      * this method calculates what to save in the db
      * or what to return for the search form.
-     * I don't set $olduseranswer->contentformat in order to accept the default db value.
+     * Here I set $olduseranswer->contentformat as needed.
      *
      * @param array $answer
      * @param object $olduseranswer
@@ -620,14 +541,18 @@ EOS;
      * @return void
      */
     public function userform_save_preprocessing($answer, &$olduseranswer, $searchform) {
-        if (isset($answer['ignoreme'])) {
-            $olduseranswer->content = null;
-            return;
+        if (!empty($this->useeditor) && (!$searchform)) {
+            $context = \context_module::instance($this->cm->id);
+            $olduseranswer->{$this->itemname.'_editor'} = empty($this->trimonsave) ? $answer['editor'] : trim($answer['editor']);
+
+            $editoroptions = array('trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $context);
+            $olduseranswer = file_postupdate_standard_editor($olduseranswer, $this->itemname, $editoroptions, $context,
+                    'mod_surveypro', SURVEYPROFIELD_TEXTAREA_FILEAREA, $olduseranswer->id);
+            $olduseranswer->content = $olduseranswer->{$this->itemname};
+            $olduseranswer->contentformat = $answer['editor']['format'];
+        } else {
+            $olduseranswer->content = empty($this->trimonsave) ? $answer['mainelement'] : trim($answer['mainelement']);
         }
-
-        $userinput = empty($this->trimonsave) ? $answer['mainelement'] : trim($answer['mainelement']);
-
-        $olduseranswer->content = $userinput;
     }
 
     /**
@@ -644,8 +569,19 @@ EOS;
         }
 
         if (isset($fromdb->content)) {
-            if ($fromdb->content == SURVEYPRO_NOANSWERVALUE) {
-                $prefill[$this->itemname] = '';
+            if (!empty($this->useeditor)) {
+                $context = \context_module::instance($this->cm->id);
+
+                $editoroptions = array();
+                $editoroptions['trusttext'] = true;
+                $editoroptions['subdirs'] = true;
+                $editoroptions['maxfiles'] = EDITOR_UNLIMITED_FILES;
+                $editoroptions['context'] = $context;
+                $fromdb->contentformat = $fromdb->contentformat;
+                $fromdb = file_prepare_standard_editor($fromdb, 'content', $editoroptions, $context,
+                                                       'mod_surveypro', SURVEYPROFIELD_TEXTAREA_FILEAREA, $fromdb->id);
+
+                $prefill[$this->itemname.'_editor'] = $fromdb->content_editor;
             } else {
                 $prefill[$this->itemname] = $fromdb->content;
             }
@@ -661,8 +597,63 @@ EOS;
      */
     public function userform_get_root_elements_name() {
         $elementnames = array();
-        $elementnames[] = $this->itemname;
+        if (!empty($this->useeditor)) {
+            $elementnames[] = $this->itemname.'_editor';
+        } else {
+            $elementnames[] = $this->itemname;
+        }
 
         return $elementnames;
+    }
+
+    /**
+     * Does the user input need trim?
+     *
+     * @return if this plugin requires a user input trim
+     */
+    public static function userform_input_needs_trim() {
+        return true;
+    }
+
+    /**
+     * Starting from the info stored into $answer, this function returns the corresponding content for the export file.
+     *
+     * @param object $answer
+     * @param string $format
+     * @return string - the string for the export file
+     */
+    public function userform_db_to_export($answer, $format='') {
+        $context = \context_module::instance($this->cm->id);
+
+        // The content of the provided answer.
+        $content = $answer->content;
+
+        // Trigger 'answernotsubmitted' and 'answerisnoanswer'.
+        $quickresponse = self::userform_standardcontent_to_string($content);
+        if (isset($quickresponse)) { // Parent method provided the response.
+            return $quickresponse;
+        }
+
+        // Output.
+        if (strlen($content)) {
+            if ($this->useeditor) {
+                $content = file_rewrite_pluginfile_urls(
+                           $content, 'pluginfile.php', $context->id,
+                           'mod_surveypro', SURVEYPROFIELD_TEXTAREA_FILEAREA, $answer->id);
+
+                $return = format_text($content, FORMAT_MOODLE, array('overflowdiv' => false, 'allowid' => true, 'para' => false));
+            } else {
+                $return = $content;
+            }
+        } else {
+            // User is allowed to provide an empty answer.
+            if ($format == SURVEYPRO_FRIENDLYFORMAT) {
+                $return = get_string('emptyanswer', 'mod_surveypro');
+            } else {
+                $return = '';
+            }
+        }
+
+        return $return;
     }
 }

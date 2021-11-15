@@ -15,29 +15,34 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file contains the surveyproformat_fieldsetend
+ * This file contains the surveyproformat_fieldset
  *
- * @package   surveyproformat_fieldsetend
+ * @package   surveyproformat_fieldset
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-// namespace mod_surveypro;
+namespace surveyproformat_fieldset;
 
 defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\itembase;
 
-require_once($CFG->dirroot.'/mod/surveypro/format/fieldsetend/lib.php');
+require_once($CFG->dirroot.'/mod/surveypro/format/fieldset/lib.php');
 
 /**
- * Class to manage each aspect of the fieldsetend item
+ * Class to manage each aspect of the fieldset item
  *
- * @package   surveyproformat_fieldsetend
+ * @package   surveyproformat_fieldset
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyproformat_fieldsetend_format extends itembase {
+class item extends itembase {
+
+    /**
+     * @var string Label of the fieldset
+     */
+    protected $content;
 
     /**
      * @var bool Can this item be parent?
@@ -60,7 +65,7 @@ class surveyproformat_fieldsetend_format extends itembase {
 
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFORMAT;
-        $this->plugin = 'fieldsetend';
+        $this->plugin = 'fieldset';
 
         // Override the list of fields using format, whether needed.
         $this->fieldsusingformat = array();
@@ -73,8 +78,6 @@ class surveyproformat_fieldsetend_format extends itembase {
 
         // List of fields I do not want to have in the item definition form.
         $this->insetupform['trimonsave'] = false;
-        $this->insetupform['common_fs'] = false;
-        $this->insetupform['content'] = false;
         $this->insetupform['customnumber'] = false;
         $this->insetupform['position'] = false;
         $this->insetupform['extranote'] = false;
@@ -98,20 +101,9 @@ class surveyproformat_fieldsetend_format extends itembase {
     public function item_load($itemid, $getparentcontent) {
         parent::item_load($itemid, $getparentcontent);
 
-        // Add $this->content as it was not found during parent::item_load execution.
-        $this->content = SURVEYPROFORMAT_FIELDSETEND_CONTENT;
-
         // Multilang load support for builtin surveypro.
-        // Nothing to do.
-    }
-
-    /**
-     * Get content.
-     *
-     * @return the content of $content property
-     */
-    public function get_content() {
-        return $this->content;
+        // Whether executed, the 'content' field is ALWAYS handled.
+        $this->item_builtin_string_load_support();
     }
 
     /**
@@ -133,6 +125,15 @@ class surveyproformat_fieldsetend_format extends itembase {
     }
 
     /**
+     * Get content.
+     *
+     * @return the content of $content property
+     */
+    public function get_content() {
+        return s($this->content);
+    }
+
+    /**
      * Item add mandatory plugin fields
      * Copy mandatory fields to $record
      *
@@ -140,7 +141,7 @@ class surveyproformat_fieldsetend_format extends itembase {
      * @return void
      */
     public function item_add_mandatory_plugin_fields(&$record) {
-        return;
+        $record->content = 'Fieldset';
     }
 
     // MARK get.
@@ -161,7 +162,7 @@ class surveyproformat_fieldsetend_format extends itembase {
      */
     public function get_multilang_fields() {
         $fieldlist = array();
-        $fieldlist[$this->plugin] = array();
+        $fieldlist[$this->plugin] = array('content');
 
         return $fieldlist;
     }
@@ -176,21 +177,26 @@ class surveyproformat_fieldsetend_format extends itembase {
     }
 
     /**
-     * Get if the plugin uses a table into the db.
-     *
-     * @return if the plugin uses a personal table in the db.
-     */
-    public function uses_db_table() {
-        return false;
-    }
-
-    /**
      * Return the xml schema for surveypro_<<plugin>> table.
      *
      * @return string $schema
      */
-    public static function item_get_plugin_schema() {
-        return;
+    public static function get_plugin_schema() {
+        $schema = <<<EOS
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:element name="surveyproformat_fieldset">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="content" type="xs:string"/>
+                <xs:element name="defaultstatus" type="xs:int" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
+EOS;
+
+        return $schema;
     }
 
     // MARK userform.
@@ -206,11 +212,10 @@ class surveyproformat_fieldsetend_format extends itembase {
     public function userform_mform_element($mform, $searchform, $readonly) {
         // This plugin has $this->insetupform['insearchform'] = false; so it will never be part of a search form.
 
-        // Workaround suggested by Marina Glancy in MDL-42946.
-        $label = \html_writer::tag('span', '&nbsp;', array('style' => 'display:none;'));
-
-        $mform->addElement('static', $this->itemname, '', $label);
-        $mform->closeHeaderBefore($this->itemname);
+        $mform->addElement('header', $this->itemname, $this->get_content());
+        if ($this->defaultstatus != 2) {
+            $mform->setExpanded($this->itemname, $this->defaultstatus);
+        }
     }
 
     /**
@@ -254,6 +259,9 @@ class surveyproformat_fieldsetend_format extends itembase {
      * @return array
      */
     public function userform_get_root_elements_name() {
-        return array();
+        $elementnames = array();
+        $elementnames[] = $this->itemname;
+
+        return $elementnames;
     }
 }

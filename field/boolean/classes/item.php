@@ -22,7 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-// namespace mod_surveypro;
+namespace surveyprofield_boolean;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -38,7 +38,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/boolean/lib.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyprofield_boolean_field extends itembase {
+class item extends itembase {
 
     /**
      * @var string $content

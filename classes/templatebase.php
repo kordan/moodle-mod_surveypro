@@ -160,7 +160,7 @@ class templatebase {
                     // I could use a random class here because they all share the same parent get_itembase_schema
                     // but, in spite of this, I need the right class name for the next table
                     // so I choose to load the correct class from the beginning.
-                    $classname = 'surveypro'.$currenttype.'_'.$currentplugin.'_'.$currenttype;
+                    $classname = 'surveypro'.$currenttype.'_'.$currentplugin.'\item';
                     $xsd = $classname::get_itembase_schema(); // Itembase schema.
                 } else {
                     // Classname has already been defined because of the previous loop over surveypro_item fields.

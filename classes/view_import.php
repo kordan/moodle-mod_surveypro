@@ -513,7 +513,7 @@ class view_import {
 
         $whereparams = array('surveyproid' => $this->surveypro->id);
         foreach ($pluginlist as $plugin) {
-            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'_'.SURVEYPRO_TYPEFIELD;
+            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'\item';
             $canbemandatory = $classname::item_uses_mandatory_dbfield();
 
             $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
@@ -659,7 +659,7 @@ class view_import {
             $itemhelper->parentid = $item->get_parentid();
             $itemhelper->parentvalue = $item->get_parentvalue();
 
-            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemhelper->plugin.'_'.SURVEYPRO_TYPEFIELD;
+            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemhelper->plugin.'\item';
             $itemhelper->usescontentformat = $classname::response_uses_format();
             $this->itemhelperinfo[$col] = $itemhelper;
 

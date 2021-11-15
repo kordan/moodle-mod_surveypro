@@ -15,30 +15,30 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file contains the surveyprofield_select
+ * This file contains the surveyprofield_integer
  *
- * @package   surveyprofield_select
+ * @package   surveyprofield_integer
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-// namespace mod_surveypro;
+namespace surveyprofield_integer;
 
 defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\itembase;
 use mod_surveypro\utility_item;
 
-require_once($CFG->dirroot.'/mod/surveypro/field/select/lib.php');
+require_once($CFG->dirroot.'/mod/surveypro/field/integer/lib.php');
 
 /**
- * Class to manage each aspect of the select item
+ * Class to manage each aspect of the integer item
  *
- * @package   surveyprofield_select
+ * @package   surveyprofield_integer
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyprofield_select_field extends itembase {
+class item extends itembase {
 
     /**
      * @var string $content
@@ -88,16 +88,6 @@ class surveyprofield_select_field extends itembase {
     protected $indent;
 
     /**
-     * @var string List of options in the form of "$value SURVEYPRO_VALUELABELSEPARATOR $label"
-     */
-    protected $options;
-
-    /**
-     * @var string Text label for the optional option "other" in the form of "$value SURVEYPRO_OTHERSEPARATOR $label"
-     */
-    protected $labelother;
-
-    /**
      * @var string Value of the default setting (invite, custom...)
      */
     protected $defaultoption;
@@ -108,9 +98,14 @@ class surveyprofield_select_field extends itembase {
     protected $defaultvalue;
 
     /**
-     * @var string Format of the content once downloaded
+     * @var int Integer lowerbound
      */
-    protected $downloadformat;
+    protected $lowerbound;
+
+    /**
+     * @var int Integer upperbound
+     */
+    protected $upperbound;
 
     /**
      * @var bool Can this item be parent?
@@ -133,20 +128,20 @@ class surveyprofield_select_field extends itembase {
 
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
-        $this->plugin = 'select';
+        $this->plugin = 'integer';
 
         // Override the list of fields using format, whether needed.
         // Nothing to override, here.
 
         // Other element specific properties.
-        // No properties here.
+        $maximuminteger = get_config('surveyprofield_integer', 'maximuminteger');
+        $this->upperbound = $maximuminteger;
 
         // Override properties depending from $surveypro settings.
         // No properties here.
 
         // List of fields I do not want to have in the item definition form.
         $this->insetupform['trimonsave'] = false;
-        $this->insetupform['hideinstructions'] = false;
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $getparentcontent);
@@ -166,8 +161,6 @@ class surveyprofield_select_field extends itembase {
         // Multilang load support for builtin surveypro.
         // Whether executed, the 'content' field is ALWAYS handled.
         $this->item_builtin_string_load_support();
-
-        $this->item_custom_fields_to_form();
     }
 
     /**
@@ -182,45 +175,12 @@ class surveyprofield_select_field extends itembase {
         // Now execute very specific plugin level actions.
 
         // Begin of: plugin specific settings (eventually overriding general ones).
-        // Drop empty rows and trim edging rows spaces from each textarea field.
-        $fieldlist = array('options');
-        $this->item_clean_textarea_fields($record, $fieldlist);
-
         // Set custom fields value as defined for this question plugin.
         $this->item_custom_fields_to_db($record);
         // End of: plugin specific settings (eventually overriding general ones).
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
-    }
-
-    /**
-     * Item add mandatory plugin fields
-     * Copy mandatory fields to $record
-     *
-     * @param \stdClass $record
-     * @return void
-     */
-    public function item_add_mandatory_plugin_fields(&$record) {
-        $record->content = 'Select';
-        $record->contentformat = 1;
-        $record->position = 0;
-        $record->required = 0;
-        $record->variable = 'select_001';
-        $record->indent = 0;
-        $record->options = "first\nsecond";
-        $record->defaultoption = SURVEYPRO_INVITEDEFAULT;
-        $record->downloadformat = SURVEYPRO_ITEMRETURNSLABELS;
-    }
-
-    /**
-     * Prepare values for the mform of this item.
-     *
-     * @return void
-     */
-    public function item_custom_fields_to_form() {
-        // 1. Special management for composite fields.
-        // Nothing to do: they don't exist in this plugin.
     }
 
     /**
@@ -234,8 +194,7 @@ class surveyprofield_select_field extends itembase {
         // Nothing to do: they don't exist in this plugin.
 
         // 2. Override few values.
-        // Hideinstructions is set by design.
-        $record->hideinstructions = 1;
+        // Nothing to do: no need to overwrite variables.
 
         // 3. Set values corresponding to checkboxes.
         // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in get_common_settings.
@@ -245,24 +204,52 @@ class surveyprofield_select_field extends itembase {
     }
 
     /**
+     * Item add mandatory plugin fields
+     * Copy mandatory fields to $record
+     *
+     * @param \stdClass $record
+     * @return void
+     */
+    public function item_add_mandatory_plugin_fields(&$record) {
+        $record->content = 'Integer (small)';
+        $record->contentformat = 1;
+        $record->position = 0;
+        $record->required = 0;
+        $record->variable = 'integer_001';
+        $record->indent = 0;
+        $record->defaultoption = SURVEYPRO_INVITEDEFAULT;
+        $record->defaultvalue = 0;
+        $record->lowerbound = 0;
+        $record->upperbound = 255;
+    }
+
+    /**
+     * Verify the validity of contents of the record
+     * for instance: integer not greater than maximum integer
+     *
+     * @param \stdClass $record
+     * @return void
+     */
+    public function item_force_coherence($record) {
+        if (isset($record->defaultvalue)) {
+            $maximuminteger = get_config('surveyprofield_integer', 'maximuminteger');
+            if ($record->defaultvalue > $maximuminteger) {
+                $record->defaultvalue = $maximuminteger;
+            }
+        }
+    }
+
+    /**
      * Make the list of constraints the child has to respect in order to create a valid relation
      *
      * @return list of contraints of the plugin (as parent) in text format
      */
     public function item_list_constraints() {
-        $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
         $constraints = array();
 
-        $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
-        $optionstr = get_string('option', 'surveyprofield_select');
-        foreach ($values as $value) {
-            $constraints[] = $optionstr.$labelsep.$value;
-        }
-        if (!empty($this->labelother)) {
-            $labelotherstr = get_string('labelother', 'surveyprofield_select');
-            $allowedstr = get_string('allowed', 'surveyprofield_select');
-            $constraints[] = $labelotherstr.$labelsep.$allowedstr;
-        }
+        $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
+        $constraints[] = get_string('lowerbound', 'surveyprofield_integer').$labelsep.$this->lowerbound;
+        $constraints[] = get_string('upperbound', 'surveyprofield_integer').$labelsep.$this->upperbound;
 
         return implode('<br />', $constraints);
     }
@@ -279,48 +266,15 @@ class surveyprofield_select_field extends itembase {
     }
 
     /**
-     * Get the content of the downloadformats menu of the item setup form.
-     *
-     * @return array of downloadformats
-     */
-    public function get_downloadformats() {
-        $options = array();
-
-        $options[SURVEYPRO_ITEMSRETURNSVALUES] = get_string('returnvalues', 'surveyprofield_select');
-        $options[SURVEYPRO_ITEMRETURNSLABELS] = get_string('returnlabels', 'surveyprofield_select');
-        $options[SURVEYPRO_ITEMRETURNSPOSITION] = get_string('returnposition', 'surveyprofield_select');
-
-        return $options;
-    }
-
-    /**
-     * Get the format recognized (without any really good reason) as friendly.
-     *
-     * @return the friendly format
-     */
-    public function get_friendlyformat() {
-        return SURVEYPRO_ITEMRETURNSLABELS;
-    }
-
-    /**
      * Make the list of the fields using multilang
      *
      * @return array of felds
      */
     public function get_multilang_fields() {
         $fieldlist = array();
-        $fieldlist[$this->plugin] = array('content', 'extranote', 'options', 'labelother', 'defaultvalue');
+        $fieldlist[$this->plugin] = array('content', 'extranote');
 
         return $fieldlist;
-    }
-
-    /**
-     * Get if the plugin uses the position of options to save user answers.
-     *
-     * @return bool The plugin uses the position of options to save user answers.
-     */
-    public function get_uses_positional_answer() {
-        return true;
     }
 
     /**
@@ -332,7 +286,7 @@ class surveyprofield_select_field extends itembase {
         $schema = <<<EOS
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
-    <xs:element name="surveyprofield_select">
+    <xs:element name="surveyprofield_integer">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="content" type="xs:string"/>
@@ -350,16 +304,15 @@ class surveyprofield_select_field extends itembase {
                 <xs:element name="indent" type="xs:int"/>
                 <xs:element name="position" type="xs:int"/>
                 <xs:element name="customnumber" type="xs:string" minOccurs="0"/>
-                <!-- <xs:element name="hideinstructions" type="xs:int"/> -->
+                <xs:element name="hideinstructions" type="xs:int"/>
                 <xs:element name="variable" type="xs:string"/>
                 <xs:element name="extranote" type="xs:string" minOccurs="0"/>
                 <!-- <xs:element name="trimonsave" type="xs:int"/> -->
 
-                <xs:element name="options" type="xs:string"/>
-                <xs:element name="labelother" type="xs:string" minOccurs="0"/>
                 <xs:element name="defaultoption" type="xs:int"/>
-                <xs:element name="defaultvalue" type="xs:string" minOccurs="0"/>
-                <xs:element name="downloadformat" type="xs:int"/>
+                <xs:element name="defaultvalue" type="xs:int" minOccurs="0"/>
+                <xs:element name="lowerbound" type="xs:int"/>
+                <xs:element name="upperbound" type="xs:int"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -380,15 +333,17 @@ EOS;
     public function parent_encode_child_parentcontent($childparentcontent) {
         $utilityitemman = new utility_item($this->cm, $this->surveypro);
         $parentcontents = array_unique($utilityitemman->multilinetext_to_array($childparentcontent));
-        $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
 
         $childparentvalue = array();
         $labels = array();
         foreach ($parentcontents as $parentcontent) {
-            $key = array_search($parentcontent, $values);
-            if ($key !== false) {
-                $childparentvalue[] = $key;
+            $condition = is_numeric($parentcontent);
+            $condition = $condition && ($parentcontent >= $this->lowerbound);
+            $condition = $condition && ($parentcontent <= $this->upperbound);
+            if ($condition) {
+                $childparentvalue[] = $parentcontent;
             } else {
+                // Only garbage, but user wrote it.
                 $labels[] = $parentcontent;
             }
         }
@@ -417,8 +372,6 @@ EOS;
      * return string $childparentcontent
      */
     public function parent_decode_child_parentvalue($childparentvalue) {
-
-        $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue);
         $actualcount = count($parentvalues);
 
@@ -426,12 +379,7 @@ EOS;
         $key = array_search('>', $parentvalues);
         if ($key !== false) {
             for ($i = 0; $i < $key; $i++) {
-                $k = $parentvalues[$i];
-                if (isset($values[$k])) {
-                    $childparentcontent[] = $values[$k];
-                } else {
-                    $childparentcontent[] = $k;
-                }
+                $childparentcontent[] = $i;
             }
 
             $key++;
@@ -441,11 +389,7 @@ EOS;
             }
         } else {
             foreach ($parentvalues as $parentvalue) {
-                if (isset($values[$parentvalue])) {
-                    $childparentcontent[] = $values[$parentvalue];
-                } else {
-                    $childparentcontent[] = $parentvalue;
-                }
+                $childparentcontent[] = $parentvalue;
             }
         }
 
@@ -464,21 +408,17 @@ EOS;
     public function parent_validate_child_constraints($childparentvalue) {
         // See parent method for explanation.
 
-        $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue);
         $actualcount = count($parentvalues);
 
         $key = array_search('>', $parentvalues);
         if ($key !== false) {
-            if ($actualcount == 2) {
-                $return = empty($this->labelother) ? SURVEYPRO_CONDITIONNEVERMATCH : SURVEYPRO_CONDITIONOK;
-            } else {
-                $return = SURVEYPRO_CONDITIONMALFORMED;
-            }
+            $return = ($actualcount == 2) ? SURVEYPRO_CONDITIONNEVERMATCH : SURVEYPRO_CONDITIONMALFORMED;
         } else {
             if ($actualcount == 1) {
-                $k = $parentvalues[0];
-                $return = isset($values[$k]) ? SURVEYPRO_CONDITIONOK : SURVEYPRO_CONDITIONNEVERMATCH;
+                $condition = ($parentvalues[0] >= $this->lowerbound);
+                $condition = $condition && ($parentvalues[0] <= $this->upperbound);
+                $return = ($condition) ? SURVEYPRO_CONDITIONOK : SURVEYPRO_CONDITIONNEVERMATCH;
             } else {
                 $return = SURVEYPRO_CONDITIONMALFORMED;
             }
@@ -509,42 +449,28 @@ EOS;
             $elementlabel = '&nbsp;';
         }
 
-        $idprefix = 'id_surveypro_field_select_'.$this->sortindex;
+        $idprefix = 'id_surveypro_field_integer_'.$this->sortindex;
 
         // Begin of: element values.
-        $labels = $this->get_content_array(SURVEYPRO_LABELS, 'options');
+        $integers = array();
         if (!$searchform) {
             if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
-                $labels = array(SURVEYPRO_INVITEVALUE => get_string('choosedots')) + $labels;
+                $integers[SURVEYPRO_INVITEVALUE] = get_string('choosedots');
             }
         } else {
-            $labels = array(SURVEYPRO_IGNOREMEVALUE => '') + $labels;
+            $integers[SURVEYPRO_IGNOREMEVALUE] = '';
         }
-        if (!empty($this->labelother)) {
-            list($othervalue, $otherlabel) = $this->get_other();
-            $labels['other'] = $otherlabel;
-        }
+        $integersrange = range($this->lowerbound, $this->upperbound);
+        $integers += array_combine($integersrange, $integersrange);
         if (!$this->required) {
-            $labels[SURVEYPRO_NOANSWERVALUE] = get_string('noanswer', 'mod_surveypro');
+            $integers += array(SURVEYPRO_NOANSWERVALUE => get_string('noanswer', 'mod_surveypro'));
         }
         // End of: element values.
 
         $attributes = array();
         $attributes['id'] = $idprefix;
-        $attributes['class'] = 'indent-'.$this->indent.' select_select';
-        if (!$this->labelother) {
-            $mform->addElement('select', $this->itemname, $elementlabel, $labels, $attributes);
-        } else {
-            $elementgroup = array();
-            $elementgroup[] = $mform->createElement('select', $this->itemname, '', $labels, $attributes);
-
-            $attributes['id'] = $idprefix.'_text';
-            $attributes['class'] = 'select_select';
-            $elementgroup[] = $mform->createElement('text', $this->itemname.'_text', '', $attributes);
-            $mform->setType($this->itemname.'_text', PARAM_RAW);
-            $mform->disabledIf($this->itemname.'_text', $this->itemname, 'neq', 'other');
-            $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
-        }
+        $attributes['class'] = 'indent-'.$this->indent.' integer_select';
+        $mform->addElement('select', $this->itemname, $elementlabel, $integers, $attributes);
 
         if (!$searchform) {
             if ($this->required) {
@@ -552,38 +478,28 @@ EOS;
                 // I do not want JS form validation if the page is submitted through the "previous" button.
                 // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
                 // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
-                if ($this->position == SURVEYPRO_POSITIONTOP) {
-                    $starplace = $this->itemname.'_extrarow';
-                } else {
-                    $starplace = ($this->labelother) ? $this->itemname.'_group' : $this->itemname;
-                }
+                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $this->itemname.'_extrarow' : $this->itemname;
                 $mform->_required[] = $starplace;
             }
+        }
 
-            switch ($this->defaultoption) {
-                case SURVEYPRO_CUSTOMDEFAULT:
-                    if ($key = array_search($this->defaultvalue, $labels)) {
-                        $mform->setDefault($this->itemname, "$key");
-                    } else {
-                        $mform->setDefault($this->itemname, 'other');
-                    }
-                    break;
-                case SURVEYPRO_INVITEDEFAULT:
-                    $mform->setDefault($this->itemname, SURVEYPRO_INVITEVALUE);
-                    break;
-                case SURVEYPRO_NOANSWERDEFAULT:
-                    $mform->setDefault($this->itemname, SURVEYPRO_NOANSWERVALUE);
-                    break;
-                default:
-                    $message = 'Unexpected $this->defaultoption = '.$this->defaultoption;
-                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+        // Default section.
+        if (!$searchform) {
+            if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
+                $mform->setDefault($this->itemname, SURVEYPRO_INVITEVALUE);
+            } else {
+                switch ($this->defaultoption) {
+                    case SURVEYPRO_CUSTOMDEFAULT:
+                        $defaultinteger = $this->defaultvalue;
+                        break;
+                    case SURVEYPRO_NOANSWERDEFAULT:
+                        $defaultinteger = SURVEYPRO_NOANSWERVALUE;
+                        break;
+                }
+                $mform->setDefault($this->itemname, "$defaultinteger");
             }
         } else {
             $mform->setDefault($this->itemname, SURVEYPRO_IGNOREMEVALUE);
-        }
-        // $this->itemname.'_text' has to ALWAYS get a default (if required) even if it is not selected.
-        if (!empty($this->labelother)) {
-            $mform->setDefault($this->itemname.'_text', $othervalue);
         }
     }
 
@@ -596,25 +512,78 @@ EOS;
      * @return void
      */
     public function userform_mform_validation($data, &$errors, $searchform) {
-        // This plugin displays as dropdown menu. It will never return empty values.
-        // If ($this->required) { if (empty($data[$this->itemname])) { is useless.
-
         if ($searchform) {
             return;
         }
 
-        $errorkey = empty($this->labelother) ? $this->itemname : $this->itemname.'_group';
+        // This plugin displays as dropdown menu. It will never return empty values.
+        // If ($this->required) { if (empty($data[$this->itemname])) { is useless.
+        $userinput = $data[$this->itemname];
 
-        if ($data[$this->itemname] == SURVEYPRO_INVITEVALUE) {
-            $errors[$errorkey] = get_string('uerr_optionnotset', 'surveyprofield_select');
+        $errorkey = $this->itemname;
+
+        $maximuminteger = get_config('surveyprofield_integer', 'maximuminteger');
+
+        // I need to check value is different from SURVEYPRO_INVITEVALUE even if it is not required.
+        if ($userinput == SURVEYPRO_INVITEVALUE) {
+            if ($this->required) {
+                $errors[$errorkey] = get_string('uerr_integernotsetrequired', 'surveyprofield_integer');
+            } else {
+                $a = get_string('noanswer', 'mod_surveypro');
+                $errors[$errorkey] = get_string('uerr_integernotset', 'surveyprofield_integer', $a);
+            }
             return;
         }
 
-        if (!empty($this->labelother)) {
-            if (($data[$this->itemname] == 'other') && empty($data[$this->itemname.'_text']) ) {
-                $errors[$errorkey] = get_string('uerr_missingothertext', 'surveyprofield_select');
+        $haslowerbound = ($this->lowerbound != 0);
+        $hasupperbound = ($this->upperbound != $maximuminteger);
+
+        if ($userinput == SURVEYPRO_NOANSWERVALUE) {
+            return;
+        }
+        if ($haslowerbound && $hasupperbound) {
+            // Internal range.
+            if ( ($userinput < $this->lowerbound) || ($userinput > $this->upperbound) ) {
+                $errors[$errorkey] = get_string('uerr_outofinternalrange', 'surveyprofield_integer');
+            }
+        } else {
+            if ($haslowerbound && ($userinput < $this->lowerbound)) {
+                $errors[$errorkey] = get_string('uerr_lowerthanminimum', 'surveyprofield_integer');
+            }
+            if ($hasupperbound && ($userinput > $this->upperbound)) {
+                $errors[$errorkey] = get_string('uerr_greaterthanmaximum', 'surveyprofield_integer');
             }
         }
+    }
+
+    /**
+     * Prepare the string with the filling instruction.
+     *
+     * @return string $fillinginstruction
+     */
+    public function userform_get_filling_instructions() {
+        $haslowerbound = ($this->lowerbound != 0);
+        $hasupperbound = ($this->upperbound != get_config('surveyprofield_integer', 'maximuminteger'));
+
+        if ($haslowerbound && $hasupperbound) {
+            $a = new \stdClass();
+            $a->lowerbound = $this->lowerbound;
+            $a->upperbound = $this->upperbound;
+
+            $fillinginstruction = get_string('restriction_lowerupper', 'surveyprofield_integer', $a);
+        } else {
+            $fillinginstruction = '';
+            if ($haslowerbound) {
+                $a = $this->lowerbound;
+                $fillinginstruction = get_string('restriction_lower', 'surveyprofield_integer', $a);
+            }
+            if ($hasupperbound) {
+                $a = $this->upperbound;
+                $fillinginstruction = get_string('restriction_upper', 'surveyprofield_integer', $a);
+            }
+        }
+
+        return $fillinginstruction;
     }
 
     /**
@@ -624,30 +593,14 @@ EOS;
      * @return array
      */
     public function userform_get_parent_disabilitation_info($childparentvalue) {
-        $disabilitationinfo = array();
-
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 1;1;0;.
 
-        if ($parentvalues[0] == '>') {
-            // The condition was set to a custom text.
-            $mformelementinfo = new \stdClass();
-            $mformelementinfo->parentname = $this->itemname;
-            $mformelementinfo->operator = 'neq';
-            $mformelementinfo->content = 'other';
-            $disabilitationinfo[] = $mformelementinfo;
-
-            $mformelementinfo = new \stdClass();
-            $mformelementinfo->parentname = $this->itemname.'_text';
-            $mformelementinfo->operator = 'neq';
-            $mformelementinfo->content = $parentvalues[1];
-            $disabilitationinfo[] = $mformelementinfo;
-        } else {
-            $mformelementinfo = new \stdClass();
-            $mformelementinfo->parentname = $this->itemname;
-            $mformelementinfo->operator = 'neq';
-            $mformelementinfo->content = $parentvalues[0];
-            $disabilitationinfo[] = $mformelementinfo;
-        }
+        $disabilitationinfo = array();
+        $mformelementinfo = new \stdClass();
+        $mformelementinfo->parentname = $this->itemname;
+        $mformelementinfo->operator = 'neq';
+        $mformelementinfo->content = $parentvalues[0];
+        $disabilitationinfo[] = $mformelementinfo;
 
         return $disabilitationinfo;
     }
@@ -667,18 +620,7 @@ EOS;
      * @return boolean: true: if the item is welcome; false: if the item must be dropped out
      */
     public function userform_is_child_allowed_dynamic($childparentvalue, $data) {
-        $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // For instance: shark.
-
-        if ($parentvalues[0] == '>' ) {
-            // The expected answer is a custom text.
-            $status = ($data[$this->itemname] == 'other');
-            $status = $status && ($data[$this->itemname.'_text'] == $parentvalues[1]);
-        } else {
-            // $childparentvalue === $parentvalues[0] of course!
-            $status = ($data[$this->itemname] == $childparentvalue);
-        }
-
-        return $status;
+        return ($data[$this->itemname] == $childparentvalue);
     }
 
     /**
@@ -693,16 +635,7 @@ EOS;
      * @return void
      */
     public function userform_save_preprocessing($answer, &$olduseranswer, $searchform) {
-        if ($answer['mainelement'] == SURVEYPRO_INVITEVALUE) {
-            $olduseranswer->content = null;
-            return;
-        }
-
-        if ($answer['mainelement'] == 'other') {
-            $olduseranswer->content = $answer['text'];
-        } else {
-            $olduseranswer->content = $answer['mainelement'];
-        }
+        $olduseranswer->content = $answer['mainelement'];
     }
 
     /**
@@ -719,75 +652,10 @@ EOS;
         }
 
         if (isset($fromdb->content)) {
-            $labels = $this->get_content_array(SURVEYPRO_LABELS, 'options');
-            if (array_key_exists($fromdb->content, $labels)) {
-                $prefill[$this->itemname] = $fromdb->content;
-            } else {
-                if ($fromdb->content == SURVEYPRO_NOANSWERVALUE) {
-                    $prefill[$this->itemname] = SURVEYPRO_NOANSWERVALUE;
-                } else {
-                    // It is, for sure, the content of _text.
-                    $prefill[$this->itemname] = 'other';
-                    $prefill[$this->itemname.'_text'] = $fromdb->content;
-                }
-            }
+            $prefill[$this->itemname] = $fromdb->content;
         }
 
         return $prefill;
-    }
-
-    /**
-     * Starting from the info stored into $answer, this function returns the corresponding content for the export file.
-     *
-     * @param object $answer
-     * @param string $format
-     * @return string - the string for the export file
-     */
-    public function userform_db_to_export($answer, $format='') {
-        // The content of the provided answer.
-        $content = $answer->content;
-
-        // Trigger 'answernotsubmitted' and 'answerisnoanswer'.
-        $quickresponse = self::userform_standardcontent_to_string($content);
-        if (isset($quickresponse)) { // Parent method provided the response.
-            return $quickresponse;
-        }
-
-        // Format.
-        if ($format == SURVEYPRO_FRIENDLYFORMAT) {
-            $format = $this->get_friendlyformat();
-        }
-        if (empty($format)) {
-            $format = $this->downloadformat;
-        }
-
-        // Output.
-        switch ($format) {
-            case SURVEYPRO_ITEMSRETURNSVALUES:
-                $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
-                if (array_key_exists($content, $values)) {
-                    $return = $values[$content];
-                } else {
-                    $return = $content;
-                }
-                break;
-            case SURVEYPRO_ITEMRETURNSLABELS:
-                $values = $this->get_content_array(SURVEYPRO_LABELS, 'options');
-                if (array_key_exists($content, $values)) {
-                    $return = $values[$content];
-                } else {
-                    $return = $content;
-                }
-                break;
-            case SURVEYPRO_ITEMRETURNSPOSITION:
-                $return = $content;
-                break;
-            default:
-                $message = 'Unexpected $format = '.$format;
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-        }
-
-        return $return;
     }
 
     /**
@@ -797,11 +665,7 @@ EOS;
      */
     public function userform_get_root_elements_name() {
         $elementnames = array();
-        if (!$this->labelother) {
-            $elementnames[] = $this->itemname;
-        } else {
-            $elementnames[] = $this->itemname.'_group';
-        }
+        $elementnames[] = $this->itemname;
 
         return $elementnames;
     }

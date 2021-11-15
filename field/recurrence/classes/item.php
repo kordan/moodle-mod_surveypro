@@ -15,30 +15,30 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file contains the surveyprofield_date
+ * This file contains the surveyprofield_recurrence
  *
- * @package   surveyprofield_date
+ * @package   surveyprofield_recurrence
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-// namespace mod_surveypro;
+namespace surveyprofield_recurrence;
 
 defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\itembase;
 use mod_surveypro\utility_item;
 
-require_once($CFG->dirroot.'/mod/surveypro/field/date/lib.php');
+require_once($CFG->dirroot.'/mod/surveypro/field/recurrence/lib.php');
 
 /**
- * Class to manage each aspect of the date item
+ * Class to manage each aspect of the recurrence item
  *
- * @package   surveyprofield_date
+ * @package   surveyprofield_recurrence
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyprofield_date_field extends itembase {
+class item extends itembase {
 
     /**
      * @var string $content
@@ -103,62 +103,47 @@ class surveyprofield_date_field extends itembase {
     protected $downloadformat;
 
     /**
-     * @var int Defaultvalue for the date in unixtime
+     * @var int Defaultvalue for the recurrence in unixtime
      */
     protected $defaultvalue;
 
     /**
-     * @var int Year of the defaultvalue for the date in unixtime
-     */
-    protected $defaultvalueyear;
-
-    /**
-     * @var int Month of the defaultvalue for the date in unixtime
+     * @var int Month of the defaultvalue for the recurrence
      */
     protected $defaultvaluemonth;
 
     /**
-     * @var int Day of the defaultvalue for the date in unixtime
+     * @var int Day of the defaultvalue for the recurrence
      */
     protected $defaultvalueday;
 
     /**
-     * @var int Lowerbound for the date in unixtime
+     * @var int Lowerbound for the recurrence in unixtime
      */
     protected $lowerbound;
 
     /**
-     * @var int Year of the lowerbound for the date in unixtime
-     */
-    protected $lowerboundyear;
-
-    /**
-     * @var int Month of the lowerbound for the date in unixtime
+     * @var int Month of the lowerbound for the recurrence
      */
     protected $lowerboundmonth;
 
     /**
-     * @var int Day of the lowerbound for the date in unixtime
+     * @var int Day of the lowerbound for the recurrence
      */
     protected $lowerboundday;
 
     /**
-     * @var int Upperbound for the date in unixtime
+     * @var int Upperbound for the recurrence in unixtime
      */
     protected $upperbound;
 
     /**
-     * @var int Year of the upperbound for the date in unixtime
-     */
-    protected $upperboundyear;
-
-    /**
-     * @var int Month of the upperbound for the date in unixtime
+     * @var int Month of the upperbound for the recurrence
      */
     protected $upperboundmonth;
 
     /**
-     * @var int Day of the upperbound for the date in unixtime
+     * @var int Day of the upperbound for the recurrence
      */
     protected $upperboundday;
 
@@ -179,24 +164,22 @@ class surveyprofield_date_field extends itembase {
      * @param bool $getparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise
      */
     public function __construct($cm, $surveypro, $itemid, $getparentcontent) {
-        global $DB;
-
         parent::__construct($cm, $surveypro, $itemid, $getparentcontent);
 
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
-        $this->plugin = 'date';
+        $this->plugin = 'recurrence';
 
         // Override the list of fields using format, whether needed.
         // Nothing to override, here.
 
         // Other element specific properties.
-        // No properties here.
+        $this->lowerbound = $this->item_recurrence_to_unix_time(1, 1);
+        $this->upperbound = $this->item_recurrence_to_unix_time(12, 31);
+        $this->defaultvalue = $this->lowerbound;
 
         // Override properties depending from $surveypro settings.
-        $this->lowerbound = $this->item_date_to_unix_time($this->surveypro->startyear, 1, 1);
-        $this->upperbound = $this->item_date_to_unix_time($this->surveypro->stopyear, 12, 31);
-        $this->defaultvalue = $this->lowerbound;
+        // No properties here.
 
         // List of fields I do not want to have in the item definition form.
         $this->insetupform['trimonsave'] = false;
@@ -244,15 +227,6 @@ class surveyprofield_date_field extends itembase {
     }
 
     /**
-     * Is this item available as a parent?
-     *
-     * @return the content of the static property "canbeparent"
-     */
-    public static function get_canbeparent() {
-        return self::$canbeparent;
-    }
-
-    /**
      * Item add mandatory plugin fields
      * Copy mandatory fields to $record
      *
@@ -260,56 +234,35 @@ class surveyprofield_date_field extends itembase {
      * @return void
      */
     public function item_add_mandatory_plugin_fields(&$record) {
-        $record->content = 'Date [dd/mm/yyyy]';
+        $record->content = 'Recurrence [dd/mm]';
         $record->contentformat = 1;
         $record->position = 0;
         $record->required = 0;
         $record->hideinstructions = 0;
-        $record->variable = 'date_001';
+        $record->variable = 'recurrence_001';
         $record->indent = 0;
         $record->defaultoption = SURVEYPRO_INVITEDEFAULT;
         $record->defaultvalue = 43200;
-        $record->downloadformat = 'strftime05';
+        $record->downloadformat = 'strftime03';
         $record->lowerbound = 43200;
-        $record->upperbound = 1609416000;
+        $record->upperbound = 31492800;
     }
 
     /**
-     * Change $year, $month, $day to unixtime.
+     * Change $month, $day to unixtime.
      *
-     * @param int $year
      * @param int $month
      * @param int $day
      * @return int unixtime
      */
-    public function item_date_to_unix_time($year, $month, $day) {
-        return (gmmktime(12, 0, 0, $month, $day, $year)); // This is GMT.
-    }
-
-    /**
-     * Verify the validity of contents of the record
-     * for instance: date not greater than maximum date
-     *
-     * @param \stdClass $record
-     * @return void
-     */
-    public function item_force_coherence($record) {
-        if (isset($record->defaultvalue)) {
-            $mindate = $this->item_date_to_unix_time($this->surveypro->startyear, 1, 1);
-            if ($record->defaultvalue < $mindate) {
-                $record->defaultvalue = $mindate;
-            }
-            $maxdate = $this->item_date_to_unix_time($this->surveypro->startyear, 12, 31);
-            if ($record->defaultvalue > $maxdate) {
-                $record->defaultvalue = $maxdate;
-            }
-        }
+    public function item_recurrence_to_unix_time($month, $day) {
+        return (gmmktime(12, 0, 0, $month, $day, SURVEYPROFIELD_RECURRENCE_YEAROFFSET)); // This is GMT.
     }
 
     /**
      * Prepare values for the mform of this item.
      *
-     * translates the date class property $fieldlist in $field.'year', $field.'month' and $field.'day'
+     * translates the recurrence class property $fieldlist in $field.'month' and $field.'day'
      *
      * @return void
      */
@@ -320,10 +273,9 @@ class surveyprofield_date_field extends itembase {
             if (is_null($this->{$field})) {
                 continue;
             }
-            $datearray = self::item_split_unix_time($this->{$field});
-            $this->{$field.'year'} = $datearray['year'];
-            $this->{$field.'month'} = $datearray['mon'];
-            $this->{$field.'day'} = $datearray['mday'];
+            $recurrencearray = self::item_split_unix_time($this->{$field});
+            $this->{$field.'month'} = $recurrencearray['mon'];
+            $this->{$field.'day'} = $recurrencearray['mday'];
         }
     }
 
@@ -337,12 +289,8 @@ class surveyprofield_date_field extends itembase {
         // 1. Special management for composite fields.
         $fieldlist = $this->get_composite_fields();
         foreach ($fieldlist as $field) {
-            if (isset($record->{$field.'year'}) && isset($record->{$field.'month'}) && isset($record->{$field.'day'})) {
-                $year = $record->{$field.'year'};
-                $month = $record->{$field.'month'};
-                $day = $record->{$field.'day'};
-                $record->{$field} = $this->item_date_to_unix_time($year, $month, $day);
-                unset($record->{$field.'year'});
+            if (isset($record->{$field.'month'}) && isset($record->{$field.'day'})) {
+                $record->{$field} = $this->item_recurrence_to_unix_time($record->{$field.'month'}, $record->{$field.'day'});
                 unset($record->{$field.'month'});
                 unset($record->{$field.'day'});
             } else {
@@ -363,6 +311,15 @@ class surveyprofield_date_field extends itembase {
     // MARK get.
 
     /**
+     * Is this item available as a parent?
+     *
+     * @return the content of the static property "canbeparent"
+     */
+    public static function get_canbeparent() {
+        return self::$canbeparent;
+    }
+
+    /**
      * Get the list of composite fields.
      *
      * @return void
@@ -380,9 +337,9 @@ class surveyprofield_date_field extends itembase {
         $options = array();
         $timenow = time();
 
-        for ($i = 1; $i < 11; $i++) {
+        for ($i = 1; $i < 4; $i++) {
             $strname = 'strftime'.str_pad($i, 2, '0', STR_PAD_LEFT);
-            $options[$strname] = userdate($timenow, get_string($strname, 'surveyprofield_date'));
+            $options[$strname] = userdate($timenow, get_string($strname, 'surveyprofield_recurrence'));
         }
         $options['unixtime'] = get_string('unixtime', 'mod_surveypro');
 
@@ -395,7 +352,7 @@ class surveyprofield_date_field extends itembase {
      * @return the friendly format
      */
     public function get_friendlyformat() {
-        return 'strftime05';
+        return 'strftime03';
     }
 
     /**
@@ -419,7 +376,7 @@ class surveyprofield_date_field extends itembase {
         $schema = <<<EOS
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
-    <xs:element name="surveyprofield_date">
+    <xs:element name="surveyprofield_recurrence">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="content" type="xs:string"/>
@@ -485,42 +442,36 @@ EOS;
             $elementlabel = '&nbsp;';
         }
 
-        $idprefix = 'id_surveypro_field_date_'.$this->sortindex;
+        $idprefix = 'id_surveypro_field_recurrence_'.$this->sortindex;
 
         // Begin of: element values.
         $days = array();
         $months = array();
-        $years = array();
         if (!$searchform) {
             if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
-                $days[SURVEYPRO_INVITEVALUE] = get_string('inviteday', 'surveyprofield_date');
-                $months[SURVEYPRO_INVITEVALUE] = get_string('invitemonth', 'surveyprofield_date');
-                $years[SURVEYPRO_INVITEVALUE] = get_string('inviteyear', 'surveyprofield_date');
+                $days[SURVEYPRO_INVITEVALUE] = get_string('inviteday', 'surveyprofield_recurrence');
+                $months[SURVEYPRO_INVITEVALUE] = get_string('invitemonth', 'surveyprofield_recurrence');
             }
         }
-        // Condition limiting days.
-        $condition = true;
-        $condition = $condition && ($this->lowerboundyear == $this->upperboundyear);
-        $condition = $condition && ($this->lowerboundmonth == $this->upperboundmonth);
-        if ($condition) {
+
+        if ($this->lowerboundmonth == $this->upperboundmonth) {
             $daysrange = range($this->lowerboundday, $this->upperboundday);
         } else {
             $daysrange = range(1, 31);
         }
         $days += array_combine($daysrange, $daysrange);
-        // Condition limiting months.
-        if ($this->lowerboundyear == $this->upperboundyear) {
+        if ($this->lowerboundmonth <= $this->upperboundmonth) {
             for ($i = $this->lowerboundmonth; $i <= $this->upperboundmonth; $i++) {
                 $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
             }
         } else {
-            for ($i = 1; $i <= 12; $i++) {
+            for ($i = $this->lowerboundmonth; $i <= 12; $i++) {
+                $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+            }
+            for ($i = 1; $i <= $this->upperboundmonth; $i++) {
                 $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
             }
         }
-        // No condition limiting years.
-        $yearsrange = range($this->lowerboundyear, $this->upperboundyear);
-        $years += array_combine($yearsrange, $yearsrange);
         // End of: element values.
 
         // Begin of: mform element.
@@ -529,17 +480,13 @@ EOS;
 
         $itemname = $this->itemname.'_day';
         $attributes['id'] = $idprefix.'_day';
-        $attributes['class'] = 'indent-'.$this->indent.' date_select';
+        $attributes['class'] = 'indent-'.$this->indent.' recurrence_select';
         $elementgroup[] = $mform->createElement('select', $itemname, '', $days, $attributes);
 
         $itemname = $this->itemname.'_month';
         $attributes['id'] = $idprefix.'_month';
-        $attributes['class'] = 'date_select';
+        $attributes['class'] = 'recurrence_select';
         $elementgroup[] = $mform->createElement('select', $itemname, '', $months, $attributes);
-
-        $itemname = $this->itemname.'_year';
-        $attributes['id'] = $idprefix.'_year';
-        $elementgroup[] = $mform->createElement('select', $itemname, '', $years, $attributes);
 
         if ($this->required) {
             if (!$searchform) {
@@ -566,7 +513,7 @@ EOS;
         } else {
             $itemname = $this->itemname.'_noanswer';
             $attributes['id'] = $idprefix.'_noanswer';
-            $attributes['class'] = 'date_check';
+            $attributes['class'] = 'recurrence_check';
             $noanswerstr = get_string('noanswer', 'mod_surveypro');
             $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $noanswerstr, $attributes);
 
@@ -588,16 +535,16 @@ EOS;
         }
         // End of: mform element.
 
-        // Default section.
+        // Begin of: default section.
         switch ($this->defaultoption) {
             case SURVEYPRO_CUSTOMDEFAULT:
-                $datearray = self::item_split_unix_time($this->defaultvalue, true);
+                $recurrencearray = self::item_split_unix_time($this->defaultvalue, true);
                 break;
             case SURVEYPRO_TIMENOWDEFAULT:
-                $datearray = self::item_split_unix_time(time(), true);
+                $recurrencearray = self::item_split_unix_time(time(), true);
                 break;
             case SURVEYPRO_NOANSWERDEFAULT:
-                $datearray = self::item_split_unix_time($this->lowerbound, true);
+                $recurrencearray = self::item_split_unix_time($this->lowerbound, true);
                 $mform->setDefault($this->itemname.'_noanswer', '1');
                 break;
             case SURVEYPRO_LIKELASTDEFAULT:
@@ -607,23 +554,21 @@ EOS;
                 $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, $where, IGNORE_MISSING);
                 $where = array('itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid);
                 if ($time = $DB->get_field('surveypro_answer', 'content', $where, IGNORE_MISSING)) {
-                    $datearray = self::item_split_unix_time($time, false);
+                    $recurrencearray = self::item_split_unix_time($time, false);
                 } else { // As in standard default.
-                    $datearray = self::item_split_unix_time(time(), true);
+                    $recurrencearray = self::item_split_unix_time(time(), true);
                 }
                 break;
             case SURVEYPRO_INVITEDEFAULT:
-                $datearray['mday'] = SURVEYPRO_INVITEVALUE;
-                $datearray['mon'] = SURVEYPRO_INVITEVALUE;
-                $datearray['year'] = SURVEYPRO_INVITEVALUE;
+                $recurrencearray['mday'] = SURVEYPRO_INVITEVALUE;
+                $recurrencearray['mon'] = SURVEYPRO_INVITEVALUE;
                 break;
             default:
                 $message = 'Unexpected $this->defaultoption = '.$this->defaultoption;
                 debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
-        $mform->setDefault($this->itemname.'_day', $datearray['mday']);
-        $mform->setDefault($this->itemname.'_month', $datearray['mon']);
-        $mform->setDefault($this->itemname.'_year', $datearray['year']);
+        $mform->setDefault($this->itemname.'_day', $recurrencearray['mday']);
+        $mform->setDefault($this->itemname.'_month', $recurrencearray['mon']);
         if ($searchform) {
             if (!$this->required) {
                 $mform->setDefault($this->itemname.'_noanswer', '0');
@@ -656,39 +601,33 @@ EOS;
 
         $errorkey = $this->itemname.'_group';
 
-        $userday = $data[$this->itemname.'_day'];
-        $usermonth = $data[$this->itemname.'_month'];
-        $useryear = $data[$this->itemname.'_year'];
-
         // Begin of: verify the content of each drop down menu.
-        $testpassed = true;
         if (!$searchform) {
-            $testpassed = $testpassed && ($userday != SURVEYPRO_INVITEVALUE);
-            $testpassed = $testpassed && ($usermonth != SURVEYPRO_INVITEVALUE);
-            $testpassed = $testpassed && ($useryear != SURVEYPRO_INVITEVALUE);
+            $testpassed = true;
+            $testpassed = $testpassed && ($data[$this->itemname.'_day'] != SURVEYPRO_INVITEVALUE);
+            $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_INVITEVALUE);
         } else {
-            // All three drop down menues are allowed to be == SURVEYPRO_IGNOREMEVALUE.
-            // But not only 2 or 1.
-            if ($userday == SURVEYPRO_IGNOREMEVALUE) {
-                $testpassed = $testpassed && ($usermonth == SURVEYPRO_IGNOREMEVALUE);
-                $testpassed = $testpassed && ($useryear == SURVEYPRO_IGNOREMEVALUE);
+            // Both drop down menues are allowed to be == SURVEYPRO_IGNOREMEVALUE.
+            // But not only 1.
+            $testpassed = true;
+            if ($data[$this->itemname.'_day'] == SURVEYPRO_IGNOREMEVALUE) {
+                $testpassed = $testpassed && ($data[$this->itemname.'_month'] == SURVEYPRO_IGNOREMEVALUE);
             } else {
-                $testpassed = $testpassed && ($usermonth != SURVEYPRO_IGNOREMEVALUE);
-                $testpassed = $testpassed && ($useryear != SURVEYPRO_IGNOREMEVALUE);
+                $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_IGNOREMEVALUE);
             }
         }
         if (!$testpassed) {
             if ($this->required) {
-                $errors[$errorkey] = get_string('uerr_datenotsetrequired', 'surveyprofield_date');
+                $errors[$errorkey] = get_string('uerr_recurrencenotsetrequired', 'surveyprofield_recurrence');
             } else {
                 $a = get_string('noanswer', 'mod_surveypro');
-                $errors[$errorkey] = get_string('uerr_datenotset', 'surveyprofield_date', $a);
+                $errors[$errorkey] = get_string('uerr_recurrencenotset', 'surveyprofield_recurrence', $a);
             }
             return;
         }
         // End of: verify the content of each drop down menu.
 
-        if (!utility_item::date_is_valid($userday, $usermonth, $useryear)) {
+        if (!utility_item::date_is_valid($data[$this->itemname.'_day'], $data[$this->itemname.'_month'])) {
             $errors[$errorkey] = get_string('ierr_invalidinput', 'mod_surveypro');
             return;
         }
@@ -698,22 +637,35 @@ EOS;
             return;
         }
 
-        $haslowerbound = ($this->lowerbound != $this->item_date_to_unix_time($this->surveypro->startyear, 1, 1));
-        $hasupperbound = ($this->upperbound != $this->item_date_to_unix_time($this->surveypro->stopyear, 12, 31));
+        $haslowerbound = ($this->lowerbound != $this->item_recurrence_to_unix_time(1, 1));
+        $hasupperbound = ($this->upperbound != $this->item_recurrence_to_unix_time(12, 31));
 
-        $userinput = $this->item_date_to_unix_time($useryear, $usermonth, $userday);
+        $userinput = $this->item_recurrence_to_unix_time($data[$this->itemname.'_month'], $data[$this->itemname.'_day']);
 
         if ($haslowerbound && $hasupperbound) {
-            // Internal range.
-            if ( ($userinput < $this->lowerbound) || ($userinput > $this->upperbound) ) {
-                $errors[$errorkey] = get_string('uerr_outofinternalrange', 'surveyprofield_date');
+            if ($this->lowerbound < $this->upperbound) {
+                // Internal range.
+                if ( ($userinput < $this->lowerbound) || ($userinput > $this->upperbound) ) {
+                    $errors[$errorkey] = get_string('uerr_outofinternalrange', 'surveyprofield_recurrence');
+                }
+            }
+
+            if ($this->lowerbound > $this->upperbound) {
+                // External range.
+                if ( ($userinput > $this->lowerbound) && ($userinput < $this->upperbound) ) {
+                    $format = $this->get_friendlyformat();
+                    $a = new \stdClass();
+                    $a->lowerbound = userdate($this->lowerbound, get_string($format, 'surveyprofield_recurrence'), 0);
+                    $a->upperbound = userdate($this->upperbound, get_string($format, 'surveyprofield_recurrence'), 0);
+                    $errors[$errorkey] = get_string('uerr_outofexternalrange', 'surveyprofield_recurrence', $a);
+                }
             }
         } else {
             if ($haslowerbound && ($userinput < $this->lowerbound)) {
-                $errors[$errorkey] = get_string('uerr_lowerthanminimum', 'surveyprofield_date');
+                $errors[$errorkey] = get_string('uerr_lowerthanminimum', 'surveyprofield_recurrence');
             }
             if ($hasupperbound && ($userinput > $this->upperbound)) {
-                $errors[$errorkey] = get_string('uerr_greaterthanmaximum', 'surveyprofield_date');
+                $errors[$errorkey] = get_string('uerr_greaterthanmaximum', 'surveyprofield_recurrence');
             }
         }
     }
@@ -724,25 +676,33 @@ EOS;
      * @return string $fillinginstruction
      */
     public function userform_get_filling_instructions() {
-        $haslowerbound = ($this->lowerbound != $this->item_date_to_unix_time($this->surveypro->startyear, 1, 1));
-        $hasupperbound = ($this->upperbound != $this->item_date_to_unix_time($this->surveypro->stopyear, 12, 31));
+        $haslowerbound = ($this->lowerbound != $this->item_recurrence_to_unix_time(1, 1));
+        $hasupperbound = ($this->upperbound != $this->item_recurrence_to_unix_time(12, 31));
 
-        $format = get_string('strftimedate', 'langconfig');
+        $fillinginstruction = '';
+        $format = get_string('strftimedateshort', 'langconfig');
         if ($haslowerbound && $hasupperbound) {
             $a = new \stdClass();
             $a->lowerbound = userdate($this->lowerbound, $format, 0);
             $a->upperbound = userdate($this->upperbound, $format, 0);
 
-            $fillinginstruction = get_string('restriction_lowerupper', 'surveyprofield_date', $a);
+            if ($this->lowerbound < $this->upperbound) {
+                // Internal range.
+                $fillinginstruction = get_string('restriction_lowerupper', 'surveyprofield_recurrence', $a);
+            }
+
+            if ($this->lowerbound > $this->upperbound) {
+                // External range.
+                $fillinginstruction = get_string('restriction_upperlower', 'surveyprofield_recurrence', $a);
+            }
         } else {
-            $fillinginstruction = '';
             if ($haslowerbound) {
                 $a = userdate($this->lowerbound, $format, 0);
-                $fillinginstruction = get_string('restriction_lower', 'surveyprofield_date', $a);
+                $fillinginstruction = get_string('restriction_lower', 'surveyprofield_recurrence', $a);
             }
             if ($hasupperbound) {
                 $a = userdate($this->upperbound, $format, 0);
-                $fillinginstruction = get_string('restriction_upper', 'surveyprofield_date', $a);
+                $fillinginstruction = get_string('restriction_upper', 'surveyprofield_recurrence', $a);
             }
         }
 
@@ -765,22 +725,16 @@ EOS;
             $olduseranswer->content = SURVEYPRO_NOANSWERVALUE;
         } else {
             if (!$searchform) {
-                $condition = ($answer['year'] == SURVEYPRO_INVITEVALUE);
-                $condition = $condition || ($answer['month'] == SURVEYPRO_INVITEVALUE);
-                $condition = $condition || ($answer['day'] == SURVEYPRO_INVITEVALUE);
-                if ($condition) {
+                if (($answer['month'] == SURVEYPRO_INVITEVALUE) || ($answer['day'] == SURVEYPRO_INVITEVALUE)) {
                     $olduseranswer->content = null;
                 } else {
-                    $olduseranswer->content = $this->item_date_to_unix_time($answer['year'], $answer['month'], $answer['day']);
+                    $olduseranswer->content = $this->item_recurrence_to_unix_time($answer['month'], $answer['day']);
                 }
             } else {
-                $condition = ($answer['year'] == SURVEYPRO_IGNOREMEVALUE);
-                $condition = $condition || ($answer['month'] == SURVEYPRO_IGNOREMEVALUE);
-                $condition = $condition || ($answer['day'] == SURVEYPRO_IGNOREMEVALUE);
-                if ($condition) {
+                if (($answer['month'] == SURVEYPRO_IGNOREMEVALUE) || ($answer['day'] == SURVEYPRO_IGNOREMEVALUE)) {
                     $olduseranswer->content = null;
                 } else {
-                    $olduseranswer->content = $this->item_date_to_unix_time($answer['year'], $answer['month'], $answer['day']);
+                    $olduseranswer->content = $this->item_recurrence_to_unix_time($answer['month'], $answer['day']);
                 }
             }
         }
@@ -805,10 +759,9 @@ EOS;
                 return $prefill;
             }
 
-            $datearray = self::item_split_unix_time($fromdb->content);
-            $prefill[$this->itemname.'_day'] = $datearray['mday'];
-            $prefill[$this->itemname.'_month'] = $datearray['mon'];
-            $prefill[$this->itemname.'_year'] = $datearray['year'];
+            $recurrencearray = self::item_split_unix_time($fromdb->content);
+            $prefill[$this->itemname.'_day'] = $recurrencearray['mday'];
+            $prefill[$this->itemname.'_month'] = $recurrencearray['mon'];
         }
 
         // If the "No answer" checkbox is part of the element GUI...
@@ -848,7 +801,7 @@ EOS;
         if ($format == 'unixtime') {
             $return = $content;
         } else {
-            $return = userdate($content, get_string($format, 'surveyprofield_date'), 0);
+            $return = userdate($content, get_string($format, 'surveyprofield_recurrence'), 0);
         }
 
         return $return;

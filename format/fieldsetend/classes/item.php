@@ -15,61 +15,29 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file contains the surveyproformat_label
+ * This file contains the surveyproformat_fieldsetend
  *
- * @package   surveyproformat_label
+ * @package   surveyproformat_fieldsetend
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-// namespace mod_surveypro;
+namespace surveyproformat_fieldsetend;
 
 defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\itembase;
 
-require_once($CFG->dirroot.'/mod/surveypro/format/label/lib.php');
+require_once($CFG->dirroot.'/mod/surveypro/format/fieldsetend/lib.php');
 
 /**
- * Class to manage each aspect of the label item
+ * Class to manage each aspect of the fieldsetend item
  *
- * @package   surveyproformat_label
+ * @package   surveyproformat_fieldsetend
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyproformat_label_format extends itembase {
-
-    /**
-     * @var string $content
-     */
-    public $content = '';
-
-    /**
-     * @var int $contenttrust
-     */
-    public $contenttrust = 1;
-
-    /**
-     * @var string $contentformat
-     */
-    public $contentformat = '';
-
-    /**
-     * @var string Custom number of the item
-     *
-     * It usually is 1, 1.1, a, 2.1.a..
-     */
-    protected $customnumber;
-
-    /**
-     * @var int The label has a dedicated row
-     */
-    protected $fullwidth;
-
-    /**
-     * @var string Label on the left of the label content
-     */
-    protected $leftlabel;
+class item extends itembase {
 
     /**
      * @var bool Can this item be parent?
@@ -92,10 +60,10 @@ class surveyproformat_label_format extends itembase {
 
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFORMAT;
-        $this->plugin = 'label';
+        $this->plugin = 'fieldsetend';
 
         // Override the list of fields using format, whether needed.
-        // Nothing to override, here.
+        $this->fieldsusingformat = array();
 
         // Other element specific properties.
         // No properties here.
@@ -104,11 +72,15 @@ class surveyproformat_label_format extends itembase {
         // No properties here.
 
         // List of fields I do not want to have in the item definition form.
-        $this->insetupform['position'] = false;
         $this->insetupform['trimonsave'] = false;
+        $this->insetupform['common_fs'] = false;
+        $this->insetupform['content'] = false;
+        $this->insetupform['customnumber'] = false;
+        $this->insetupform['position'] = false;
         $this->insetupform['extranote'] = false;
         $this->insetupform['required'] = false;
         $this->insetupform['variable'] = false;
+        $this->insetupform['indent'] = false;
         $this->insetupform['hideinstructions'] = false;
 
         if (!empty($itemid)) {
@@ -126,9 +98,20 @@ class surveyproformat_label_format extends itembase {
     public function item_load($itemid, $getparentcontent) {
         parent::item_load($itemid, $getparentcontent);
 
+        // Add $this->content as it was not found during parent::item_load execution.
+        $this->content = SURVEYPROFORMAT_FIELDSETEND_CONTENT;
+
         // Multilang load support for builtin surveypro.
-        // Whether executed, the 'content' field is ALWAYS handled.
-        $this->item_builtin_string_load_support();
+        // Nothing to do.
+    }
+
+    /**
+     * Get content.
+     *
+     * @return the content of $content property
+     */
+    public function get_content() {
+        return $this->content;
     }
 
     /**
@@ -143,34 +126,10 @@ class surveyproformat_label_format extends itembase {
         // Now execute very specific plugin level actions.
 
         // Begin of: plugin specific settings (eventually overriding general ones).
-        $this->item_custom_fields_to_db($record);
         // End of: plugin specific settings (eventually overriding general ones).
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
-    }
-
-    /**
-     * Traslate values from the mform of this item to values for corresponding properties.
-     *
-     * @param object $record
-     * @return void
-     */
-    public function item_custom_fields_to_db($record) {
-        // 1. Special management for composite fields.
-        // Nothing to do: they don't exist in this plugin.
-
-        // 2. Override few values.
-        // Nothing to do: no need to overwrite variables.
-
-        // 3. Set values corresponding to checkboxes.
-        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in get_common_settings.
-        $checkboxes = array('fullwidth');
-        foreach ($checkboxes as $checkbox) {
-            $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
-        }
-
-        // 4. Other.
     }
 
     /**
@@ -181,10 +140,7 @@ class surveyproformat_label_format extends itembase {
      * @return void
      */
     public function item_add_mandatory_plugin_fields(&$record) {
-        $record->content = 'Label';
-        $record->contentformat = 1;
-        $record->indent = 0;
-        $record->fullwidth = 0;
+        return;
     }
 
     // MARK get.
@@ -199,26 +155,13 @@ class surveyproformat_label_format extends itembase {
     }
 
     /**
-     * Get indent.
-     *
-     * @return void
-     */
-    public function get_indent() {
-        if ($this->fullwidth) {
-            return false;
-        } else {
-            return $this->indent;
-        }
-    }
-
-    /**
      * Make the list of the fields using multilang
      *
      * @return array of felds
      */
     public function get_multilang_fields() {
         $fieldlist = array();
-        $fieldlist[$this->plugin] = array('content', 'leftlabel');
+        $fieldlist[$this->plugin] = array();
 
         return $fieldlist;
     }
@@ -229,7 +172,16 @@ class surveyproformat_label_format extends itembase {
      * @return the template to use at response report creation
      */
     public static function get_pdf_template() {
-        return SURVEYPRO_2COLUMNSTEMPLATE;
+        return 0;
+    }
+
+    /**
+     * Get if the plugin uses a table into the db.
+     *
+     * @return if the plugin uses a personal table in the db.
+     */
+    public function uses_db_table() {
+        return false;
     }
 
     /**
@@ -237,42 +189,8 @@ class surveyproformat_label_format extends itembase {
      *
      * @return string $schema
      */
-    public static function get_plugin_schema() {
-        $schema = <<<EOS
-<?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
-    <xs:element name="surveyproformat_label">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="content" type="xs:string"/>
-                <xs:element name="embedded" minOccurs="0" maxOccurs="unbounded">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="filename" type="xs:string"/>
-                            <xs:element name="filecontent" type="xs:base64Binary"/>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element name="contentformat" type="xs:int"/>
-
-                <!-- <xs:element name="required" type="xs:int"/> -->
-                <xs:element name="indent" type="xs:int"/>
-                <!-- <xs:element name="position" type="xs:int"/> -->
-                <xs:element name="customnumber" type="xs:string" minOccurs="0"/>
-                <!-- <xs:element name="hideinstructions" type="xs:int"/> -->
-                <!-- <xs:element name="variable" type="xs:string"/> -->
-                <!-- <xs:element name="extranote" type="xs:string" minOccurs="0"/> -->
-                <!-- <xs:element name="trimonsave" type="xs:int"/> -->
-
-                <xs:element name="fullwidth" type="xs:int"/>
-                <xs:element name="leftlabel" type="xs:string" minOccurs="0"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-</xs:schema>
-EOS;
-
-        return $schema;
+    public static function item_get_plugin_schema() {
+        return;
     }
 
     // MARK userform.
@@ -288,22 +206,11 @@ EOS;
     public function userform_mform_element($mform, $searchform, $readonly) {
         // This plugin has $this->insetupform['insearchform'] = false; so it will never be part of a search form.
 
-        if ($this->fullwidth) {
-            $content = '';
-            $content .= \html_writer::start_tag('div', array('class' => 'fitem'));
-            $content .= \html_writer::start_tag('div', array('class' => 'fstatic fullwidth label_static'));
-            $content .= $this->get_content();
-            $content .= \html_writer::end_tag('div');
-            $content .= \html_writer::end_tag('div');
-            $mform->addElement('html', $content);
-        } else {
-            $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
-            $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
-            $elementlabel = $elementnumber.$this->leftlabel;
-            $attributes = array();
-            $attributes['class'] = 'indent-'.$this->indent.' label_static';
-            $mform->addElement('mod_surveypro_label', $this->itemname, $elementlabel, $this->get_content(), $attributes);
-        }
+        // Workaround suggested by Marina Glancy in MDL-42946.
+        $label = \html_writer::tag('span', '&nbsp;', array('style' => 'display:none;'));
+
+        $mform->addElement('static', $this->itemname, '', $label);
+        $mform->closeHeaderBefore($this->itemname);
     }
 
     /**
@@ -347,12 +254,6 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = array();
-
-        if (empty($this->fullwidth)) {
-            $elementnames[] = $this->itemname;
-        }
-
-        return $elementnames;
+        return array();
     }
 }

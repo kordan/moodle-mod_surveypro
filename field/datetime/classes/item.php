@@ -22,7 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-// namespace mod_surveypro;
+namespace surveyprofield_datetime;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -38,7 +38,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/datetime/lib.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyprofield_datetime_field extends itembase {
+class item extends itembase {
 
     /**
      * @var string $content
