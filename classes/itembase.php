@@ -798,7 +798,7 @@ class itembase {
     }
 
     /**
-     * Defines presets for the editor field of surveyproitem in itembase_form.php.
+     * Defines presets for the editor field of surveyproitem in itembaseform.php.
      *
      * (copied from moodle20/cohort/edit.php)
      *
@@ -982,7 +982,7 @@ EOS;
      * Add a dummy useless row (with height = 0) to the form in order to preserve the color alternation
      * mainly used for rate items, but not only.
      *
-     * @param moodleform $mform Form to which add the row
+     * @param \moodleform $mform Form to which add the row
      * @return void
      */
     public function item_add_color_unifier($mform) {
@@ -1595,7 +1595,7 @@ EOS;
      * This method is used by the child item
      * In the frame of this method the parent item is loaded and is requested to provide the disabledif conditions for its child
      *
-     * @param moodleform $mform
+     * @param \moodleform $mform
      * @return void
      */
     public function userform_add_disabledif($mform) {

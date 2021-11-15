@@ -26,7 +26,7 @@ use mod_surveypro\utility_layout;
 use mod_surveypro\tabs;
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/report/frequency/form/itemfilter_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/report/frequency/classes/itemfilter_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/frequency/lib.php');
 require_once($CFG->libdir.'/tablelib.php');
 

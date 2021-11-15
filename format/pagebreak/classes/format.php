@@ -201,7 +201,7 @@ class surveyproformat_pagebreak_format extends itembase {
     /**
      * Define the mform element for the outform and the searchform.
      *
-     * @param moodleform $mform
+     * @param \moodleform $mform
      * @param bool $searchform
      * @param bool $readonly
      * @return void

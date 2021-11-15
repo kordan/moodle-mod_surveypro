@@ -34,7 +34,7 @@ require_once($CFG->dirroot.'/lib/csvlib.class.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_importform extends moodleform {
+class mod_surveypro_importform extends \moodleform {
 
     /**
      * Definition.
