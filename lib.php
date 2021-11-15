@@ -1242,7 +1242,7 @@ function surveypro_get_item($cm, $surveypro, $itemid=0, $type='', $plugin='', $g
         }
     }
 
-    $classname = 'surveypro'.$type.'_'.$plugin.'_'.$type;
+    $classname = 'surveypro'.$type.'_'.$plugin.'\item';
     $item = new $classname($cm, $surveypro, $itemid, $getparentcontent);
 
     return $item;

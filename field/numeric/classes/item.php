@@ -15,29 +15,29 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file contains the surveyprofield_textarea
+ * This file contains the surveyprofield_numeric
  *
- * @package   surveyprofield_textarea
+ * @package   surveyprofield_numeric
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-// namespace mod_surveypro;
+namespace surveyprofield_numeric;
 
 defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\itembase;
 
-require_once($CFG->dirroot.'/mod/surveypro/field/textarea/lib.php');
+require_once($CFG->dirroot.'/mod/surveypro/field/numeric/lib.php');
 
 /**
- * Class to manage each aspect of the textarea item
+ * Class to manage each aspect of the numeric item
  *
- * @package   surveyprofield_textarea
+ * @package   surveyprofield_numeric
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyprofield_textarea_field extends itembase {
+class item extends itembase {
 
     /**
      * @var string $content
@@ -77,11 +77,6 @@ class surveyprofield_textarea_field extends itembase {
     protected $required;
 
     /**
-     * @var boolean True if the user input will be trimmed at save time
-     */
-    protected $trimonsave;
-
-    /**
      * @var boolean True if the instructions are going to be shown in the form; false otherwise
      */
     protected $hideinstructions;
@@ -97,29 +92,34 @@ class surveyprofield_textarea_field extends itembase {
     protected $indent;
 
     /**
-     * @var bool Does the item use html editor?
+     * @var string Value of the field when the form is initially displayed
      */
-    protected $useeditor;
+    protected $defaultvalue;
 
     /**
-     * @var int Number or rows of the text area?
+     * @var string Decimal separator
      */
-    protected $arearows;
+    protected $decimalseparator;
 
     /**
-     * @var int Number or columns of the text area?
+     * @var bool Is the number signed?
      */
-    protected $areacols;
+    protected $signed;
 
     /**
-     * @var int Minimum allowed text length
+     * @var int Number lowerbound
      */
-    protected $minlength;
+    protected $lowerbound;
 
     /**
-     * @var int Maximum allowed text length
+     * @var int Number upperbound
      */
-    protected $maxlength;
+    protected $upperbound;
+
+    /**
+     * @var int Number of decimals allowed for this number
+     */
+    protected $decimals;
 
     /**
      * @var bool Can this item be parent?
@@ -142,19 +142,19 @@ class surveyprofield_textarea_field extends itembase {
 
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
-        $this->plugin = 'textarea';
+        $this->plugin = 'numeric';
 
         // Override the list of fields using format, whether needed.
         // Nothing to override, here.
 
         // Other element specific properties.
-        // No properties here.
+        $this->decimalseparator = get_string('decsep', 'langconfig');
 
         // Override properties depending from $surveypro settings.
         // No properties here.
 
         // List of fields I do not want to have in the item definition form.
-        // Empty list.
+        $this->insetupform['trimonsave'] = false;
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $getparentcontent);
@@ -206,17 +206,15 @@ class surveyprofield_textarea_field extends itembase {
      * @return void
      */
     public function item_add_mandatory_plugin_fields(&$record) {
-        $record->content = 'Text (long)';
+        $record->content = 'Numeric';
         $record->contentformat = 1;
         $record->position = 0;
         $record->required = 0;
         $record->hideinstructions = 0;
-        $record->variable = 'textarea_001';
+        $record->variable = 'numeric_001';
         $record->indent = 0;
-        $record->useeditor = 0;
-        $record->arearows = 10;
-        $record->areacols = 60;
-        $record->minlength = 0;
+        $record->signed = 0;
+        $record->decimals = 0;
     }
 
     /**
@@ -227,6 +225,17 @@ class surveyprofield_textarea_field extends itembase {
     public function item_custom_fields_to_form() {
         // 1. Special management for composite fields.
         // Nothing to do: they don't exist in this plugin.
+
+        // 2. float numbers need more attention because I can write them using , or .
+        if (strlen($this->defaultvalue)) {
+            $this->defaultvalue = (float)format_float($this->defaultvalue, $this->decimals);
+        }
+        if (strlen($this->lowerbound)) {
+            $this->lowerbound = (float)format_float($this->lowerbound, $this->decimals);
+        }
+        if (strlen($this->upperbound)) {
+            $this->upperbound = (float)format_float($this->upperbound, $this->decimals);
+        }
     }
 
     /**
@@ -238,32 +247,30 @@ class surveyprofield_textarea_field extends itembase {
     public function item_custom_fields_to_db($record) {
         // 1. Special management for composite fields.
         // Nothing to do: they don't exist in this plugin.
-        if (!strlen($record->minlength)) {
-            $record->minlength = 0;
-        }
 
         // 2. Override few values.
-        if (!strlen($record->minlength)) {
-            $record->minlength = 0;
-        }
-        if (!strlen($record->maxlength)) {
-            $record->maxlength = null;
-        }
-        if (empty($record->arearows)) {
-            $record->arearows = SURVEYPROFIELD_TEXTAREA_DEFAULTROWS;
-        }
-        if (empty($record->areacols)) {
-            $record->areacols = SURVEYPROFIELD_TEXTAREA_DEFAULTCOLS;
-        }
+        // Nothing to do: no need to overwrite variables.
 
         // 3. Set values corresponding to checkboxes.
         // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in get_common_settings.
-        $checkboxes = array('useeditor');
-        foreach ($checkboxes as $checkbox) {
-            $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
-        }
+        // Nothing to do: no checkboxes in this plugin item form.
 
-        // 4. Other.
+        // 4. Other: float numbers need more attention because I can write them using , or .
+        if (strlen($record->defaultvalue)) {
+            $record->defaultvalue = $this->get_correct_number($record->defaultvalue);
+        } else {
+            unset($record->defaultvalue);
+        }
+        if (strlen($record->lowerbound)) {
+            $record->lowerbound = $this->get_correct_number($record->lowerbound);
+        } else {
+            unset($record->lowerbound);
+        }
+        if (strlen($record->upperbound)) {
+            $record->upperbound = $this->get_correct_number($record->upperbound);
+        } else {
+            unset($record->upperbound);
+        }
     }
 
     // MARK get.
@@ -275,6 +282,26 @@ class surveyprofield_textarea_field extends itembase {
      */
     public static function get_canbeparent() {
         return self::$canbeparent;
+    }
+
+    /**
+     * Item_atomize_number
+     * starting from justanumber, this function returns it splitted into an array
+     *
+     * @param double $justanumber
+     * @return void
+     */
+    public function get_correct_number($justanumber) {
+        $pattern = '~^\s*(-?)([0-9]+)'.preg_quote($this->decimalseparator).'?([0-9]*)\s*$~';
+        if (preg_match($pattern, $justanumber, $matches)) {
+            if (empty($matches[3])) {
+                return $matches[1].$matches[2];
+            } else {
+                return $matches[1].$matches[2].'.'.$matches[3];
+            }
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -290,24 +317,6 @@ class surveyprofield_textarea_field extends itembase {
     }
 
     /**
-     * Does the user input need trim?
-     *
-     * @return if this plugin requires a user input trim
-     */
-    public function get_trimonsave() {
-        return $this->trimonsave;
-    }
-
-    /**
-     * Get use editor.
-     *
-     * @return the content of $useeditor property
-     */
-    public function get_useseditor() {
-        return $this->useeditor;
-    }
-
-    /**
      * Return the xml schema for surveypro_<<plugin>> table.
      *
      * @return string $schema
@@ -316,7 +325,7 @@ class surveyprofield_textarea_field extends itembase {
         $schema = <<<EOS
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
-    <xs:element name="surveyprofield_textarea">
+    <xs:element name="surveyprofield_numeric">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="content" type="xs:string"/>
@@ -337,13 +346,13 @@ class surveyprofield_textarea_field extends itembase {
                 <xs:element name="hideinstructions" type="xs:int"/>
                 <xs:element name="variable" type="xs:string"/>
                 <xs:element name="extranote" type="xs:string" minOccurs="0"/>
-                <xs:element name="trimonsave" type="xs:int"/>
+                <!-- <xs:element name="trimonsave" type="xs:int"/> -->
 
-                <xs:element name="useeditor" type="xs:int"/>
-                <xs:element name="arearows" type="xs:int"/>
-                <xs:element name="areacols" type="xs:int"/>
-                <xs:element name="minlength" type="xs:int" minOccurs="0"/>
-                <xs:element name="maxlength" type="xs:int" minOccurs="0"/>
+                <xs:element name="defaultvalue" type="xs:decimal" minOccurs="0"/>
+                <xs:element name="signed" type="xs:int"/>
+                <xs:element name="lowerbound" type="xs:decimal" minOccurs="0"/>
+                <xs:element name="upperbound" type="xs:decimal" minOccurs="0"/>
+                <xs:element name="decimals" type="xs:int"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -351,33 +360,6 @@ class surveyprofield_textarea_field extends itembase {
 EOS;
 
         return $schema;
-    }
-
-    // MARK response.
-
-    /**
-     * Report how the sql query does fit for this plugin
-     *
-     * @param int $itemid
-     * @param string $searchrestriction
-     * @return the specific where clause for this plugin
-     */
-    public static function response_get_whereclause($itemid, $searchrestriction) {
-        global $DB;
-
-        $whereclause = $DB->sql_like('a.content', ':content_'.$itemid, false);
-        $whereparam = '%'.$searchrestriction.'%';
-
-        return array($whereclause, $whereparam);
-    }
-
-    /**
-     * Returns if the field plugin needs contentformat
-     *
-     * @return bool
-     */
-    public static function response_uses_format() {
-        return true;
     }
 
     // MARK userform.
@@ -392,6 +374,7 @@ EOS;
      */
     public function userform_mform_element($mform, $searchform, $readonly) {
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
+        $starstr = get_string('star', 'mod_surveypro');
         if ($this->position == SURVEYPRO_POSITIONLEFT) {
             if ($this->customnumber) {
                 $elementlabel = $this->include_customnumber_in_content();
@@ -402,52 +385,44 @@ EOS;
             $elementlabel = '&nbsp;';
         }
 
-        $idprefix = 'id_surveypro_field_textarea_'.$this->sortindex;
+        $idprefix = 'id_surveypro_field_numeric_'.$this->sortindex;
 
         $attributes = array();
         $attributes['id'] = $idprefix;
-        $attributes['rows'] = $this->arearows;
-        $attributes['cols'] = $this->areacols;
-        if (empty($this->useeditor) || ($searchform)) {
-            $fieldname = $this->itemname;
-            $attributes['class'] = 'indent-'.$this->indent.' textarea_textarea';
-            $attributes['wrap'] = 'virtual';
-            if (!$searchform) {
-                $mform->addElement('mod_surveypro_textarea_plain', $fieldname, $elementlabel, $attributes);
-                $mform->setType($fieldname, PARAM_TEXT);
-            } else {
-                $elementgroup = array();
-                $elementgroup[] = $mform->createElement('mod_surveypro_textarea_plain', $fieldname, $elementlabel, $attributes);
+        $attributes['class'] = 'indent-'.$this->indent.' numeric_text';
 
-                $itemname = $this->itemname.'_ignoreme';
-                $starstr = get_string('star', 'mod_surveypro');
-                $attributes['id'] = $idprefix.'_ignoreme';
-                $attributes['class'] = 'textarea_check';
-                $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $starstr, $attributes);
-                $mform->setType($this->itemname, PARAM_RAW);
-
-                $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
-                $mform->disabledIf($this->itemname.'_group', $this->itemname.'_ignoreme', 'checked');
-                $mform->setDefault($this->itemname.'_ignoreme', '1');
-            }
-        } else {
-            // $attributes['class'] and $attributes['id'] do not work: MDL_28194.
-            $attributes['class'] = 'indent-'.$this->indent.' textarea_editor';
-            $fieldname = $this->itemname.'_editor';
-            $editoroptions = array('trusttext' => true, 'subdirs' => true, 'maxfiles' => EDITOR_UNLIMITED_FILES);
-            $mform->addElement('mod_surveypro_textarea_editor', $fieldname, $elementlabel, $attributes, $editoroptions);
-            $mform->setType($fieldname, PARAM_CLEANHTML);
-        }
+        // Cool for browsers supporting html 5.
+        // $attributes['type'] = 'number';
+        // But it doesn't work because "type" property is reserved to mform library
 
         if (!$searchform) {
+            $mform->addElement('text', $this->itemname, $elementlabel, $attributes);
+            $mform->setType($this->itemname, PARAM_RAW); // See: moodlelib.php lines 133+.
+            if (strlen($this->defaultvalue)) {
+                $mform->setDefault($this->itemname, "$this->defaultvalue");
+            }
+
             if ($this->required) {
                 // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
                 // I do not want JS form validation if the page is submitted through the "previous" button.
                 // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
                 // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
-                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $this->itemname.'_extrarow' : $fieldname;
+                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $this->itemname.'_extrarow' : $this->itemname;
                 $mform->_required[] = $starplace;
             }
+        } else {
+            $elementgroup = array();
+            $elementgroup[] = $mform->createElement('text', $this->itemname, '', $attributes);
+            $mform->setType($this->itemname, PARAM_RAW);
+
+            $itemname = $this->itemname.'_ignoreme';
+            $attributes['id'] = $idprefix.'_ignoreme';
+            $attributes['class'] = 'numeric_check';
+            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $starstr, $attributes);
+
+            $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
+            $mform->disabledIf($this->itemname.'_group', $this->itemname.'_ignoreme', 'checked');
+            $mform->setDefault($this->itemname.'_ignoreme', '1');
         }
     }
 
@@ -464,34 +439,58 @@ EOS;
             return;
         }
 
-        if (!empty($this->useeditor)) {
-            $errorkey = $this->itemname.'_editor';
-            $fieldname = $this->itemname.'_editor';
-            $itemcontent = $data[$fieldname]['text'];
-        } else {
-            $errorkey = $this->itemname;
-            $fieldname = $this->itemname;
-            $itemcontent = $data[$fieldname];
-        }
+        $errorkey = $this->itemname;
 
-        if ($this->trimonsave) {
-            $itemcontent = trim($itemcontent);
-        }
-
-        if (empty($itemcontent)) {
-            if ($this->required) {
+        $draftuserinput = $data[$this->itemname];
+        if (!strlen($draftuserinput)) {
+            if (!empty($this->required)) {
                 $errors[$errorkey] = get_string('required');
             }
             return;
         }
 
-        // I don't care if this element is required or not.
-        // If the user provides an answer, it has to be compliant with the field validation rules.
-        if ( $this->maxlength && (\core_text::strlen($itemcontent) > $this->maxlength) ) {
-            $errors[$errorkey] = get_string('uerr_texttoolong', 'surveyprofield_textarea');
+        $userinput = $this->get_correct_number($draftuserinput);
+        if ($userinput === false) {
+            // It is not a number, shouts.
+            $errors[$errorkey] = get_string('uerr_notanumber', 'surveyprofield_numeric');
+            return;
+        } else {
+            // If it is < 0 but has been defined as unsigned, shouts.
+            if (!$this->signed && ($userinput < 0)) {
+                $errors[$errorkey] = get_string('uerr_negative', 'surveyprofield_numeric');
+            }
+            // If it has decimal but has been defined as integer, shouts.
+            $isinteger = (bool)(strval(intval($userinput)) == strval($userinput));
+            if (($this->decimals == 0) && (!$isinteger)) {
+                $errors[$errorkey] = get_string('uerr_notinteger', 'surveyprofield_numeric');
+            }
         }
-        if (\core_text::strlen($itemcontent) < $this->minlength) {
-            $errors[$errorkey] = get_string('uerr_texttooshort', 'surveyprofield_textarea');
+
+        $haslowerbound = (strlen($this->lowerbound));
+        $hasupperbound = (strlen($this->upperbound));
+
+        if ($haslowerbound && $hasupperbound) {
+            // Internal range.
+            if ( ($userinput < $this->lowerbound) || ($userinput > $this->upperbound) ) {
+                $errors[$errorkey] = get_string('uerr_outofinternalrange', 'surveyprofield_numeric');
+            }
+
+            if ($this->lowerbound > $this->upperbound) {
+                // External range.
+                if (($userinput > $this->lowerbound) && ($userinput < $this->upperbound)) {
+                    $a = new \stdClass();
+                    $a->lowerbound = $this->lowerbound;
+                    $a->upperbound = $this->upperbound;
+                    $errors[$errorkey] = get_string('uerr_outofexternalrange', 'surveyprofield_numeric', $a);
+                }
+            }
+        } else {
+            if ($haslowerbound && ($userinput < $this->lowerbound)) {
+                $errors[$errorkey] = get_string('uerr_lowerthanminimum', 'surveyprofield_numeric');
+            }
+            if ($hasupperbound && ($userinput > $this->upperbound)) {
+                $errors[$errorkey] = get_string('uerr_greaterthanmaximum', 'surveyprofield_numeric');
+            }
         }
     }
 
@@ -502,29 +501,48 @@ EOS;
      */
     public function userform_get_filling_instructions() {
 
+        $haslowerbound = (strlen($this->lowerbound));
+        $hasupperbound = (strlen($this->upperbound));
         $arrayinstruction = array();
 
-        if ($this->minlength > 0) {
-            if (isset($this->maxlength) && ($this->maxlength > 0)) {
-                $a = new \stdClass();
-                $a->minlength = $this->minlength;
-                $a->maxlength = $this->maxlength;
-                $arrayinstruction[] = get_string('hasminmaxlength', 'surveyprofield_textarea', $a);
-            } else {
-                $a = $this->minlength;
-                $arrayinstruction[] = get_string('hasminlength', 'surveyprofield_textarea', $a);
-            }
-        } else {
-            if (isset($this->maxlength) && ($this->maxlength > 0)) {
-                $a = $this->maxlength;
-                $arrayinstruction[] = get_string('hasmaxlength', 'surveyprofield_textarea', $a);
-            }
-        }
-        if ($this->trimonsave) {
-            $arrayinstruction[] = get_string('inputclean', 'surveypro');
+        if (!empty($this->signed)) {
+            $arrayinstruction[] = get_string('restriction_hassign', 'surveyprofield_numeric');
         }
 
-        $fillinginstruction = implode('; ', $arrayinstruction);
+        if ($haslowerbound && $hasupperbound) {
+            $a = new \stdClass();
+            $a->lowerbound = $this->lowerbound;
+            $a->upperbound = $this->upperbound;
+
+            $arrayinstruction[] = get_string('restriction_lowerupper', 'surveyprofield_numeric', $a);
+        } else {
+            if ($haslowerbound) {
+                $a = $this->lowerbound;
+                $arrayinstruction[] = get_string('restriction_lower', 'surveyprofield_numeric', $a);
+            }
+
+            if ($hasupperbound) {
+                $a = $this->upperbound;
+                $arrayinstruction[] = get_string('restriction_upper', 'surveyprofield_numeric', $a);
+            }
+        }
+
+        if (!empty($this->decimals)) {
+            $a = $this->decimals;
+            $arrayinstruction[] = get_string('restriction_hasdecimals', 'surveyprofield_numeric', $a);
+            $arrayinstruction[] = get_string('decimalautofix', 'surveyprofield_numeric');
+            // This sentence dials about decimal separator not about the expected value.
+            // So I leave it as last sentence.
+            $arrayinstruction[] = get_string('declaredecimalseparator', 'surveyprofield_numeric', $this->decimalseparator);
+        } else {
+            $arrayinstruction[] = get_string('restriction_isinteger', 'surveyprofield_numeric');
+        }
+
+        if (count($arrayinstruction)) {
+            $fillinginstruction = implode('; ', $arrayinstruction);
+        } else {
+            $fillinginstruction = '';
+        }
 
         return $fillinginstruction;
     }
@@ -533,7 +551,7 @@ EOS;
      * Starting from the info set by the user in the form
      * this method calculates what to save in the db
      * or what to return for the search form.
-     * Here I set $olduseranswer->contentformat as needed.
+     * I don't set $olduseranswer->contentformat in order to accept the default db value.
      *
      * @param array $answer
      * @param object $olduseranswer
@@ -541,17 +559,17 @@ EOS;
      * @return void
      */
     public function userform_save_preprocessing($answer, &$olduseranswer, $searchform) {
-        if (!empty($this->useeditor) && (!$searchform)) {
-            $context = \context_module::instance($this->cm->id);
-            $olduseranswer->{$this->itemname.'_editor'} = empty($this->trimonsave) ? $answer['editor'] : trim($answer['editor']);
+        if (isset($answer['ignoreme'])) {
+            $olduseranswer->content = null;
+            return;
+        }
 
-            $editoroptions = array('trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $context);
-            $olduseranswer = file_postupdate_standard_editor($olduseranswer, $this->itemname, $editoroptions, $context,
-                    'mod_surveypro', SURVEYPROFIELD_TEXTAREA_FILEAREA, $olduseranswer->id);
-            $olduseranswer->content = $olduseranswer->{$this->itemname};
-            $olduseranswer->contentformat = $answer['editor']['format'];
+        $content = trim($answer['mainelement']);
+        if (!strlen($content)) {
+            $olduseranswer->content = '';
         } else {
-            $olduseranswer->content = empty($this->trimonsave) ? $answer['mainelement'] : trim($answer['mainelement']);
+            $content = $this->get_correct_number($content);
+            $olduseranswer->content = round($content, $this->decimals);
         }
     }
 
@@ -568,23 +586,9 @@ EOS;
             return $prefill;
         }
 
-        if (isset($fromdb->content)) {
-            if (!empty($this->useeditor)) {
-                $context = \context_module::instance($this->cm->id);
-
-                $editoroptions = array();
-                $editoroptions['trusttext'] = true;
-                $editoroptions['subdirs'] = true;
-                $editoroptions['maxfiles'] = EDITOR_UNLIMITED_FILES;
-                $editoroptions['context'] = $context;
-                $fromdb->contentformat = $fromdb->contentformat;
-                $fromdb = file_prepare_standard_editor($fromdb, 'content', $editoroptions, $context,
-                                                       'mod_surveypro', SURVEYPROFIELD_TEXTAREA_FILEAREA, $fromdb->id);
-
-                $prefill[$this->itemname.'_editor'] = $fromdb->content_editor;
-            } else {
-                $prefill[$this->itemname] = $fromdb->content;
-            }
+        // This number comes from the db so it can ONLY have '.' as decimal separator.
+        if (isset($fromdb->content) && !empty($fromdb->content)) {
+            $prefill[$this->itemname] = number_format((double)$fromdb->content, $this->decimals, $this->decimalseparator, '');
         }
 
         return $prefill;
@@ -597,11 +601,7 @@ EOS;
      */
     public function userform_get_root_elements_name() {
         $elementnames = array();
-        if (!empty($this->useeditor)) {
-            $elementnames[] = $this->itemname.'_editor';
-        } else {
-            $elementnames[] = $this->itemname;
-        }
+        $elementnames[] = $this->itemname;
 
         return $elementnames;
     }
@@ -613,47 +613,5 @@ EOS;
      */
     public static function userform_input_needs_trim() {
         return true;
-    }
-
-    /**
-     * Starting from the info stored into $answer, this function returns the corresponding content for the export file.
-     *
-     * @param object $answer
-     * @param string $format
-     * @return string - the string for the export file
-     */
-    public function userform_db_to_export($answer, $format='') {
-        $context = \context_module::instance($this->cm->id);
-
-        // The content of the provided answer.
-        $content = $answer->content;
-
-        // Trigger 'answernotsubmitted' and 'answerisnoanswer'.
-        $quickresponse = self::userform_standardcontent_to_string($content);
-        if (isset($quickresponse)) { // Parent method provided the response.
-            return $quickresponse;
-        }
-
-        // Output.
-        if (strlen($content)) {
-            if ($this->useeditor) {
-                $content = file_rewrite_pluginfile_urls(
-                           $content, 'pluginfile.php', $context->id,
-                           'mod_surveypro', SURVEYPROFIELD_TEXTAREA_FILEAREA, $answer->id);
-
-                $return = format_text($content, FORMAT_MOODLE, array('overflowdiv' => false, 'allowid' => true, 'para' => false));
-            } else {
-                $return = $content;
-            }
-        } else {
-            // User is allowed to provide an empty answer.
-            if ($format == SURVEYPRO_FRIENDLYFORMAT) {
-                $return = get_string('emptyanswer', 'mod_surveypro');
-            } else {
-                $return = '';
-            }
-        }
-
-        return $return;
     }
 }

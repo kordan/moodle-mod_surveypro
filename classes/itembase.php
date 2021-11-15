@@ -682,7 +682,7 @@ class itembase {
     public function item_update_childrenparentvalue() {
         global $DB, $CFG;
 
-        $classname = 'surveypro'.$this->type.'_'.$this->plugin.'_'.$this->type;
+        $classname = 'surveypro'.$this->type.'_'.$this->plugin.'\item';
         if ($classname::get_canbeparent()) {
             // Take care: you can not use $this->get_content_array(SURVEYPRO_VALUES, 'options') to evaluate values
             // because $item was loaded before last save, so $this->get_content_array(SURVEYPRO_VALUES, 'options')

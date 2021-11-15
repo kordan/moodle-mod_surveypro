@@ -246,7 +246,7 @@ class view_submissions {
             $userquery = array();
             foreach ($searchrestrictions as $itemid => $searchrestriction) {
                 $itemseed = $DB->get_record('surveypro_item', array('id' => $itemid), 'type, plugin', MUST_EXIST);
-                $classname = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin.'_'.$itemseed->type;
+                $classname = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin.'\item';
                 // Ask to the item class how to write the query.
                 list($whereclause, $whereparam) = $classname::response_get_whereclause($itemid, $searchrestriction);
                 $userquery[] = '(a.itemid = '.$itemid.' AND '.$whereclause.')';
@@ -365,7 +365,7 @@ class view_submissions {
             $userquery = array();
             foreach ($searchrestrictions as $itemid => $searchrestriction) {
                 $itemseed = $DB->get_record('surveypro_item', array('id' => $itemid), 'type, plugin', MUST_EXIST);
-                $classname = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin.'_'.$itemseed->type;
+                $classname = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin.'\item';
                 // Ask to the item class how to write the query.
                 list($whereclause, $whereparam) = $classname::response_get_whereclause($itemid, $searchrestriction);
                 $userquery[] = '(a.itemid = '.$itemid.' AND '.$whereclause.')';
