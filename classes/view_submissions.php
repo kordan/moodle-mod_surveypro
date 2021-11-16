@@ -313,18 +313,13 @@ class mod_surveypro_view_submissions {
 
         $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
 
-        $emptysql = 'SELECT DISTINCT s.*, s.id as submissionid'.$userfieldsapi->selects.'
-                     FROM {surveypro_submission} s
-                         JOIN {user} u ON u.id = s.userid
-                     WHERE u.id = :userid';
-
         $coursecontext = context_course::instance($COURSE->id);
         list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);
 
         $sql = 'SELECT COUNT(eu.id)
                 FROM ('.$enrolsql.') eu';
         // If there are no enrolled people, give up!
-        if (!$DB->count_records_sql($sql, $eparams)) {
+        if (!$enrolledusers = $DB->count_records_sql($sql, $eparams)) {
             if (!$canviewhiddenactivities) {
                 return 0;
             }
@@ -417,6 +412,7 @@ class mod_surveypro_view_submissions {
         $counters = $DB->get_records_sql($sql, $whereparams);
 
         $counter = array();
+        $counter['enrolled'] = $enrolledusers;
         if (isset($counters[SURVEYPRO_STATUSINPROGRESS])) {
             $counter['inprogresssubmissions'] = $counters[SURVEYPRO_STATUSINPROGRESS]->submissions;
             $counter['inprogressusers'] = $counters[SURVEYPRO_STATUSINPROGRESS]->users;
@@ -435,7 +431,7 @@ class mod_surveypro_view_submissions {
         $sql = str_replace('s.status, COUNT(s.id) submissions, ', '', $sql);
         $sql = str_replace(' GROUP BY s.status', '', $sql);
         $counters = $DB->get_record_sql($sql, $whereparams);
-        $counter['allusers'] = $counters->users;
+        $counter['allusers'] = (int) $counters->users;
 
         return $counter;
     }
@@ -535,7 +531,7 @@ class mod_surveypro_view_submissions {
         $counter = $this->get_counter($table);
         $table->pagesize(20, $counter['closedsubmissions'] + $counter['inprogresssubmissions']);
 
-        $this->display_submissions_overview($counter['allusers'],
+        $this->display_submissions_overview($counter['enrolled'], $counter['allusers'],
                                             $counter['closedsubmissions'], $counter['closedusers'],
                                             $counter['inprogresssubmissions'], $counter['inprogressusers']);
 
@@ -1161,12 +1157,14 @@ class mod_surveypro_view_submissions {
      * Display submissions overview.
      *
      * The output is supposed to look like:
+     *     Enrolled users: 3
      *     17 responses submitted by 2 user
      *     3 'in progress' responses submitted by 1 user
      *     14 'closed' responses submitted by 2 user
      *
      * and finally, if a query is filtering the output, a button to get all the submissions.
      *
+     * @param int $enrolledusers
      * @param int $distinctusers
      * @param int $countclosed
      * @param int $closedusers
@@ -1174,8 +1172,12 @@ class mod_surveypro_view_submissions {
      * @param int $inprogressusers
      * @return void
      */
-    public function display_submissions_overview($distinctusers, $countclosed, $closedusers, $countinprogress, $inprogressusers) {
+    public function display_submissions_overview($enrolledusers, $distinctusers,
+                                                 $countclosed, $closedusers,
+                                                 $countinprogress, $inprogressusers) {
         global $OUTPUT;
+
+        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
 
         $strstatusinprogress = get_string('statusinprogress', 'mod_surveypro');
         $strstatusclosed = get_string('statusclosed', 'mod_surveypro');
@@ -1186,28 +1188,37 @@ class mod_surveypro_view_submissions {
         echo html_writer::end_tag('legend');
 
         $allsubmissions = $countinprogress + $countclosed;
-        if ($allsubmissions) {
-            if (!empty($countinprogress) && !empty($countclosed)) {
-                $a = new stdClass();
-                $a->submissions = $allsubmissions;
-                $a->usercount = $distinctusers;
-                if ($allsubmissions == 1) {
-                    if ($distinctusers == 1) {
-                        $message = get_string('submissions_all_1_1', 'mod_surveypro', $a);
-                    } else {
-                        $message = get_string('submissions_all_1_many', 'mod_surveypro', $a);
-                    }
+        if (!empty($allsubmissions)) {
+            if ($canseeotherssubmissions) {
+                // Enrolled users: 3.
+                if ($enrolledusers == 1) {
+                    echo $OUTPUT->container(get_string('userenrolled', 'mod_surveypro'), 'mdl-left');
                 } else {
-                    if ($distinctusers == 1) {
-                        $message = get_string('submissions_all_many_1', 'mod_surveypro', $a);
-                    } else {
-                        $message = get_string('submissions_all_many_many', 'mod_surveypro', $a);
-                    }
+                    echo $OUTPUT->container(get_string('usersenrolled', 'mod_surveypro', $enrolledusers), 'mdl-left');
                 }
-                echo $OUTPUT->container($message, 'mdl-left');
             }
 
+            // 17 responses submitted by 2 user.
+            $a = new stdClass();
+            $a->submissions = $allsubmissions;
+            $a->usercount = $distinctusers;
+            if ($allsubmissions == 1) {
+                if ($distinctusers == 1) {
+                    $message = get_string('submissions_all_1_1', 'mod_surveypro', $a);
+                } else {
+                    $message = get_string('submissions_all_1_many', 'mod_surveypro', $a);
+                }
+            } else {
+                if ($distinctusers == 1) {
+                    $message = get_string('submissions_all_many_1', 'mod_surveypro', $a);
+                } else {
+                    $message = get_string('submissions_all_many_many', 'mod_surveypro', $a);
+                }
+            }
+            echo $OUTPUT->container($message, 'mdl-left');
+
             if (!empty($countinprogress)) {
+                // 3 'in progress' response submitted by 1 user.
                 $a = new stdClass();
                 $a->submissions = $countinprogress;
                 $a->usercount = $inprogressusers;
@@ -1229,6 +1240,7 @@ class mod_surveypro_view_submissions {
             }
 
             if (!empty($countclosed)) {
+                // 14 'closed' response submitted by 1 user.
                 $a = new stdClass();
                 $a->submissions = $countclosed;
                 $a->usercount = $closedusers;
