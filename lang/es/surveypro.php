@@ -137,7 +137,6 @@ $string['count_allitems'] = 'Encuesta construida en {$a} elementos.';
 $string['count_hiddenitems'] = '({$a} ocultos)';
 $string['count_pages'] = 'Dividida en {$a} páginas.';
 $string['course'] = 'Curso';
-$string['coverpage_welcome'] = 'Bienvenido a {$a}';
 $string['crontask'] = 'Trabajos de mantenimiento de Surveypro';
 $string['currenttotemplate'] = 'Guardar encuesta actual como plantilla maestra en formato ZIP.<br />Para instalar una plantilla maestra, descomprímala a mod/surveypro/template/ y visite la página de notificaciones.';
 $string['customnumber_header'] = '#';

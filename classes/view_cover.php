@@ -102,20 +102,8 @@ class mod_surveypro_view_cover {
         $addnew = $utilitylayoutman->is_newresponse_allowed($next);
         // End of: is the button to add one more response going to be displayed?
 
-        echo $OUTPUT->heading(get_string('coverpage_welcome', 'mod_surveypro', $this->surveypro->name));
         if ($this->surveypro->intro) {
             echo $OUTPUT->box(format_module_intro('surveypro', $this->surveypro, $this->cm->id), 'generalbox description', 'intro');
-        }
-
-        // Begin of: general info.
-        if ($this->surveypro->timeopen) { // Opening time.
-            $langkey = ($this->surveypro->timeopen > $timenow) ? 'willopen' : 'opened';
-            $messages[] = get_string($langkey, 'mod_surveypro').$labelsep.userdate($this->surveypro->timeopen);
-        }
-
-        if ($this->surveypro->timeclose) { // Closing time.
-            $langkey = ($this->surveypro->timeclose > $timenow) ? 'willclose' : 'closed';
-            $messages[] = get_string($langkey, 'mod_surveypro').$labelsep.userdate($this->surveypro->timeclose);
         }
 
         // Number of elements.
