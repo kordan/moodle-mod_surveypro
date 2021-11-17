@@ -140,7 +140,6 @@ $string['count_allitems'] = 'Survey built on {$a} elements.';
 $string['count_hiddenitems'] = '({$a} hidden)';
 $string['count_pages'] = 'Divided into {$a} pages.';
 $string['course'] = 'Course';
-$string['coverpage_welcome'] = 'Welcome to {$a}';
 $string['crontask'] = 'Surveypro maintenance jobs';
 $string['currenttotemplate'] = 'Save current survey as master template in zip format.<br />To install a master template, unzip it to mod/surveypro/template/ and visit the notification page.';
 $string['customnumber_header'] = '#';

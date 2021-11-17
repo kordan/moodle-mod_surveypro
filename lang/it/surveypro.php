@@ -71,7 +71,6 @@ $string['completiondetail:entries'] = 'Risposte da inviare: {$a}';
 $string['count_allitems'] = 'Questionario costituito da {$a} elementi.';
 $string['count_hiddenitems'] = '({$a} nascosti)';
 $string['count_pages'] = 'Distribuito su {$a} pagine.';
-$string['coverpage_welcome'] = 'Benvenuto in: {$a}';
 $string['customnumber_help'] = 'Definisce un numero personalizzato per l\'elemento. Può essere un numero intero come "1" o una qualunque altra scelta come, per esempio: 1a, A, 1.1.a, #1, A, A.1... Si consideri la coerenza della numerazione è lasciata alla tua responsabilità. Per questo, si faccia sempre una doppia verifica qualora si scegliesse di modificare l\'ordine delle domande.';
 $string['customnumber'] = 'Numero dell\'elemento';
 $string['deleteallitems'] = 'Elimina tutti gli elementi';
