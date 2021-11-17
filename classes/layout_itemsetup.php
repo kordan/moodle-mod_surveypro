@@ -26,13 +26,12 @@ namespace mod_surveypro;
 
 defined('MOODLE_INTERNAL') || die();
 
-use mod_surveypro\ipe_layout_customnumber;
-use mod_surveypro\ipe_layout_insearchform;
-use mod_surveypro\ipe_layout_required;
-use mod_surveypro\ipe_layout_reserved;
-use mod_surveypro\ipe_layout_variable;
+use mod_surveypro\local\ipe\layout_customnumber;
+use mod_surveypro\local\ipe\layout_insearchform;
+use mod_surveypro\local\ipe\layout_required;
+use mod_surveypro\local\ipe\layout_reserved;
+use mod_surveypro\local\ipe\layout_variable;
 use mod_surveypro\utility_layout;
-
 
 /**
  * The base class representing the list of elements of this surveypro
@@ -363,7 +362,7 @@ class layout_itemsetup {
             if (($item->get_type() == SURVEYPRO_TYPEFIELD) || ($item->get_plugin() == 'label')) {
                 $itemid = $item->get_itemid();
                 $customnumber = $item->get_customnumber();
-                $tmpl = new ipe_layout_customnumber($itemid, $customnumber);
+                $tmpl = new layout_customnumber($itemid, $customnumber);
 
                 $tablerow[] = $OUTPUT->render_from_template('core/inplace_editable', $tmpl->export_for_template($OUTPUT));
             } else {
@@ -377,7 +376,7 @@ class layout_itemsetup {
             if ($item->get_type() == SURVEYPRO_TYPEFIELD) {
                 $itemid = $item->get_itemid();
                 $variablename = $item->get_variable();
-                $tmpl = new ipe_layout_variable($itemid, $variablename);
+                $tmpl = new layout_variable($itemid, $variablename);
 
                 $tablerow[] = $OUTPUT->render_from_template('core/inplace_editable', $tmpl->export_for_template($OUTPUT));
             } else {
@@ -420,7 +419,7 @@ class layout_itemsetup {
                             $icons .= \html_writer::tag('span', $actionicon, array('class' => 'freeitem'));
                         }
                     } else {
-                        $tmpl = new ipe_layout_reserved($itemid, $reserved, $sortindex);
+                        $tmpl = new layout_reserved($itemid, $reserved, $sortindex);
                         $tmpl->set_type_toggle();
                         $icons .= $OUTPUT->render_from_template('core/inplace_editable', $tmpl->export_for_template($OUTPUT));
                     }
@@ -438,7 +437,7 @@ class layout_itemsetup {
                 if ($item->get_insetupform('insearchform')) {
                     // Second icon: insearchform vs not insearchform.
                     $insearchform = $item->get_insearchform();
-                    $tmpl = new ipe_layout_insearchform($itemid, $insearchform, $sortindex);
+                    $tmpl = new layout_insearchform($itemid, $insearchform, $sortindex);
                     $tmpl->set_type_toggle();
                     $icons .= $OUTPUT->render_from_template('core/inplace_editable', $tmpl->export_for_template($OUTPUT));
                 } else {
@@ -531,7 +530,7 @@ class layout_itemsetup {
 
                     if ($item->item_canbemandatory()) {
                         $required = $item->get_required();
-                        $tmpl = new ipe_layout_required($itemid, $required, $sortindex);
+                        $tmpl = new layout_required($itemid, $required, $sortindex);
                         $tmpl->set_type_toggle();
                         $icons .= $OUTPUT->render_from_template('core/inplace_editable', $tmpl->export_for_template($OUTPUT));
                     } else {
@@ -2114,7 +2113,7 @@ class layout_itemsetup {
      */
     public function set_typeplugin($typeplugin) {
         if (preg_match('~^('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_(\w+)$~', $typeplugin, $match)) {
-            // Execution comes from /form/items/selectitem_form.php.
+            // Execution comes from /form/items/selectitemform.php.
             $this->type = $match[1]; // Field or format.
             $this->plugin = $match[2]; // Boolean or char ... or fieldset ...
         } else {

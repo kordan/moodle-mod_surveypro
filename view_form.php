@@ -28,7 +28,7 @@ use mod_surveypro\utility_mform;
 use mod_surveypro\view_form;
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/form/outform/fill_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/form/outform/fillform.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.

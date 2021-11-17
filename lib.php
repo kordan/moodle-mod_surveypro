@@ -1194,7 +1194,7 @@ function surveypro_cutdownstring($plainstring, $maxlength=60) {
  * @return \core\output\inplace_editable
  */
 function surveypro_inplace_editable($itemtype, $id, $newvalue) {
-    $classname = 'mod_surveypro\ipe_'.$itemtype;
+    $classname = 'mod_surveypro\local\ipe\\'.$itemtype;
 
     return $classname::update($id, $newvalue);
 }

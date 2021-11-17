@@ -26,7 +26,7 @@ use mod_surveypro\mastertemplate;
 use mod_surveypro\tabs;
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/form/mtemplates/create_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/form/mtemplates/createform.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.

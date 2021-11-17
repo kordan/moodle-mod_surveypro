@@ -29,8 +29,8 @@ use mod_surveypro\mastertemplate;
 use mod_surveypro\tabs;
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/form/items/selectitem_form.php');
-require_once($CFG->dirroot.'/mod/surveypro/form/items/bulk_action_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/form/items/selectitemform.php');
+require_once($CFG->dirroot.'/mod/surveypro/form/items/bulkactionform.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
@@ -105,7 +105,7 @@ $basecondition = $basecondition && (!$hassubmissions || $riskyediting);
 
 // Master template form.
 if (!$itemcount) { // The surveypro is empty.
-    require_once($CFG->dirroot.'/mod/surveypro/form/mtemplates/apply_form.php');
+    require_once($CFG->dirroot.'/mod/surveypro/form/mtemplates/applyform.php');
 
     $mtemplateman = new mastertemplate($cm, $context, $surveypro);
 
