@@ -120,7 +120,7 @@ if ($PAGE->user_allowed_editing()) {
         $urlediting = 'on';
         $strediting = get_string('blocksediton');
     }
-    $url = new moodle_url($CFG->wwwroot.'/mod/surveypro/layout_preview.php', array('id' => $id, 'edit' => $urlediting));
+    $url = new moodle_url($CFG->wwwroot.'/mod/surveypro/layout_preview.php', ['id' => $cm->id, 'edit' => $urlediting]);
     $PAGE->set_button($OUTPUT->single_button($url, $strediting));
 }
 
