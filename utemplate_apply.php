@@ -29,7 +29,7 @@ use mod_surveypro\templatebase;
 use mod_surveypro\usertemplate;
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/form/utemplates/apply_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/form/utemplates/applyform.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.

@@ -15,14 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Contains class mod_surveypro\ipe_layout_insearchform
+ * Contains class mod_surveypro\local\ipe\layout_reserved
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_surveypro;
+namespace mod_surveypro\local\ipe;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -33,7 +33,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class ipe_layout_insearchform extends \core\output\inplace_editable {
+class layout_reserved extends \core\output\inplace_editable {
 
     /**
      * @var sortindex
@@ -46,14 +46,14 @@ class ipe_layout_insearchform extends \core\output\inplace_editable {
      * Constructor.
      *
      * @param int $itemid
-     * @param bool $insearchform
+     * @param bool $reserved
      * @param int $sortindex
      */
-    public function __construct($itemid, $insearchform, $sortindex) {
+    public function __construct($itemid, $reserved, $sortindex) {
         $this->sortindex = $sortindex;
 
-        $insearchform = clean_param($insearchform, PARAM_INT);
-        parent::__construct('mod_surveypro', 'layout_insearchform', $itemid, true, '', $insearchform);
+        $reserved = clean_param($reserved, PARAM_INT);
+        parent::__construct('mod_surveypro', 'layout_reserved', $itemid, true, '', $reserved);
         $this->set_type_toggle();
     }
 
@@ -65,15 +65,15 @@ class ipe_layout_insearchform extends \core\output\inplace_editable {
      */
     public function export_for_template(\renderer_base $output) {
         if ($this->value) {
-            $insearchformstr = get_string('insearchform_title', 'mod_surveypro');
-            $iconparams = array('id' => 'removefromsearch_item_'.$this->sortindex);
-            $this->edithint = $insearchformstr;
-            $this->displayvalue = $output->pix_icon('insearch', $insearchformstr, 'mod_surveypro', $iconparams);
+            $reservedstr = get_string('reserved_title', 'mod_surveypro');
+            $iconparams = array('id' => 'makeavailable_item_'.$this->sortindex);
+            $this->edithint = $reservedstr;
+            $this->displayvalue = $output->pix_icon('reserved', $reservedstr, 'surveypro', $iconparams);
         } else {
-            $notinsearchformstr = get_string('notinsearchform_title', 'mod_surveypro');
-            $iconparams = array('id' => 'addtosearch_item_'.$this->sortindex);
-            $this->edithint = $notinsearchformstr;
-            $this->displayvalue = $output->pix_icon('notinsearch', $notinsearchformstr, 'mod_surveypro', $iconparams);
+            $availablestr = get_string('available_title', 'mod_surveypro');
+            $iconparams = array('id' => 'makereserved_item_'.$this->sortindex);
+            $this->edithint = $availablestr;
+            $this->displayvalue = $output->pix_icon('free', $availablestr, 'surveypro', $iconparams);
         }
 
         return parent::export_for_template($output);
@@ -83,10 +83,10 @@ class ipe_layout_insearchform extends \core\output\inplace_editable {
      * Updates usertemplate name and returns instance of this object
      *
      * @param int $itemid
-     * @param string $newinsearchform
+     * @param string $newreserved
      * @return static
      */
-    public static function update($itemid, $newinsearchform) {
+    public static function update($itemid, $newreserved) {
         global $DB;
 
         $fields = 'id, surveyproid, type, plugin, sortindex';
@@ -96,9 +96,9 @@ class ipe_layout_insearchform extends \core\output\inplace_editable {
         $context = \context_module::instance($cm->id);
         \external_api::validate_context($context);
 
-        $newinsearchform = clean_param($newinsearchform, PARAM_INT);
-        $DB->set_field('surveypro_item', 'insearchform', $newinsearchform, array('id' => $itemid));
+        $newreserved = clean_param($newreserved, PARAM_INT);
+        $DB->set_field('surveypro_item', 'reserved', $newreserved, array('id' => $itemid));
 
-        return new static($itemid, $newinsearchform, $itemrecord->sortindex);
+        return new static($itemid, $newreserved, $itemrecord->sortindex);
     }
 }
