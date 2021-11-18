@@ -124,7 +124,7 @@ function surveypro_old_restore_fix($surveypro) {
 
     $course = $DB->get_record('course', array('id' => $surveypro->course), '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
-    $context = context_module::instance($cm->id);
+    $context = \context_module::instance($cm->id);
 
     $areas = array(SURVEYPRO_THANKSPAGEFILEAREA, SURVEYPRO_STYLEFILEAREA, SURVEYPRO_TEMPLATEFILEAREA);
 

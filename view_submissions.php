@@ -22,7 +22,12 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_surveypro\utility_layout;
+use mod_surveypro\tabs;
+use mod_surveypro\view_submissions;
+
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
+
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
 
@@ -63,8 +68,8 @@ if ($action != SURVEYPRO_NOACTION) {
 }
 
 // Calculations.
-$context = context_module::instance($cm->id);
-$submissionman = new mod_surveypro_view_submissions($cm, $context, $surveypro);
+$context = \context_module::instance($cm->id);
+$submissionman = new view_submissions($cm, $context, $surveypro);
 $submissionman->setup($submissionid, $action, $view, $confirm, $searchquery);
 
 if ($view == SURVEYPRO_RESPONSETOPDF) {
@@ -73,7 +78,7 @@ if ($view == SURVEYPRO_RESPONSETOPDF) {
 }
 
 if (empty($force)) {
-    $utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+    $utilitylayoutman = new utility_layout($cm, $surveypro);
     $utilitylayoutman->noitem_redirect();
 }
 
@@ -98,7 +103,7 @@ if ($PAGE->user_allowed_editing()) {
         $urlediting = 'on';
         $strediting = get_string('blocksediton');
     }
-    $url = new moodle_url($CFG->wwwroot.'/mod/surveypro/view_submissions.php', ['id' => $cm->id, 'edit' => $urlediting]);
+    $url = new \moodle_url($CFG->wwwroot.'/mod/surveypro/view_submissions.php', ['id' => $cm->id, 'edit' => $urlediting]);
     $PAGE->set_button($OUTPUT->single_button($url, $strediting));
 }
 
@@ -110,7 +115,7 @@ $completiondetails = \core_completion\cm_completion_details::get_instance($cm, $
 $activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
 echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
-new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_MANAGE);
+new tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_MANAGE);
 
 if (!empty($justsubmitted)) {
     $submissionman->show_thanks_page($responsestatus, $formview, $justsubmitted);

@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+use mod_surveypro\reportbase;
+
 require_once($CFG->libdir.'/tablelib.php');
 
 /**
@@ -33,7 +35,7 @@ require_once($CFG->libdir.'/tablelib.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyproreport_userspercount_report extends mod_surveypro_reportbase {
+class surveyproreport_userspercount_report extends reportbase {
 
     /**
      * @var flexible_table $outputtable
@@ -44,10 +46,10 @@ class surveyproreport_userspercount_report extends mod_surveypro_reportbase {
      * Setup_outputtable
      */
     public function setup_outputtable() {
-        $this->outputtable = new flexible_table('userspercount');
+        $this->outputtable = new \flexible_table('userspercount');
 
         $paramurl = array('id' => $this->cm->id);
-        $baseurl = new moodle_url('/mod/surveypro/report/userspercount/view.php', $paramurl);
+        $baseurl = new \moodle_url('/mod/surveypro/report/userspercount/view.php', $paramurl);
         $this->outputtable->define_baseurl($baseurl);
 
         $tablecolumns = array();

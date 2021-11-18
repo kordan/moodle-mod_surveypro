@@ -118,7 +118,7 @@ $string['manageusertemplates'] = '<a href="{$a}">Gestisci i template utente</a>'
 $string['maxentries'] = 'Numero massimo di risposte consentite';
 $string['nextformpage'] = 'Pagina successiva >>';
 $string['noanswer'] = 'Nessuna risposta';
-$string['noitemsfoundadmin'] = 'Questa indagine non contiene domande. Si usi il comando "{$a}" per aaggiungerne qualcuna.';
+$string['noitemsfoundadmin'] = 'Questa indagine non contiene domande. Si usi il comando "{$a}" per aggiungerne qualcuna.';
 $string['nomoresubmissionsallowed'] = 'Il massimo numero di {$a} invii è già stato raggiunto.<br />Non sono consentiti ulteriori invii.';
 $string['note'] = 'Nota:';
 $string['opened'] = 'Data di apertura';

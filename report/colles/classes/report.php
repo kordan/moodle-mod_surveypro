@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+use mod_surveypro\reportbase;
+
 /**
  * The class to manage colles report
  *
@@ -31,7 +33,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyproreport_colles_report extends mod_surveypro_reportbase {
+class surveyproreport_colles_report extends reportbase {
 
     /**
      * @var string $template
@@ -221,15 +223,15 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
         $imgparams['src'] = $graphurl;
         $imgparams['alt'] = get_string($altkey, 'surveyproreport_colles');
 
-        $content = html_writer::start_tag('div', array('class' => 'centerpara'));
+        $content = \html_writer::start_tag('div', array('class' => 'centerpara'));
         if ($nexturl) {
-            $content .= html_writer::start_tag('a', array('title' => $strseemoredetail, 'href' => $nexturl));
+            $content .= \html_writer::start_tag('a', array('title' => $strseemoredetail, 'href' => $nexturl));
         }
-        $content .= html_writer::empty_tag('img', $imgparams);
+        $content .= \html_writer::empty_tag('img', $imgparams);
         if ($nexturl) {
-            $content .= html_writer::end_tag('a');
+            $content .= \html_writer::end_tag('a');
         }
-        $content .= html_writer::end_tag('div');
+        $content .= \html_writer::end_tag('div');
         echo $content;
     }
 
@@ -299,7 +301,7 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
             $paramnexturl = array();
             $paramnexturl['s'] = $this->surveypro->id;
             $paramnexturl['type'] = 'scales';
-            $nexturl = new moodle_url('/mod/surveypro/report/colles/view.php', $paramnexturl);
+            $nexturl = new \moodle_url('/mod/surveypro/report/colles/view.php', $paramnexturl);
         } else {
             $nexturl = null;
         }
@@ -308,7 +310,7 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
         $paramurl['id'] = $this->cm->id;
         $paramurl['type'] = 'summary';
         $paramurl['groupid'] = $this->groupid;
-        $graphurl = new moodle_url('/mod/surveypro/report/colles/graph.php', $paramurl);
+        $graphurl = new \moodle_url('/mod/surveypro/report/colles/graph.php', $paramurl);
 
         $this->output_html($nexturl, $graphurl, 'summaryreport');
         // To debug a graph, open a new broser window and go to:
@@ -452,10 +454,10 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
 
         for ($area = 0; $area < 6; $area++) {
             $paramnexturl['area'] = $area;
-            $nexturl = new moodle_url('/mod/surveypro/report/colles/view.php', $paramnexturl);
+            $nexturl = new \moodle_url('/mod/surveypro/report/colles/view.php', $paramnexturl);
 
             $paramurl['area'] = $area;
-            $graphurl = new moodle_url('/mod/surveypro/report/colles/graph.php', $paramurl);
+            $graphurl = new \moodle_url('/mod/surveypro/report/colles/graph.php', $paramurl);
 
             $this->output_html($nexturl, $graphurl, 'scalesreport');
         }
@@ -560,7 +562,7 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
             $paramnexturl['type'] = 'questions';
             $paramnexturl['area'] = 1 + $area % 5;
         }
-        $nexturl = new moodle_url('/mod/surveypro/report/colles/view.php', $paramnexturl);
+        $nexturl = new \moodle_url('/mod/surveypro/report/colles/view.php', $paramnexturl);
 
         $paramurl = array();
         $paramurl['id'] = $this->cm->id;
@@ -573,7 +575,7 @@ class surveyproreport_colles_report extends mod_surveypro_reportbase {
             $paramurl['area'] = $area;
             for ($qid = 0; $qid < 4; $qid++) { // The question ID: 0..3.
                 $paramurl['qid'] = $qid;
-                $graphurl = new moodle_url('/mod/surveypro/report/colles/graph.php', $paramurl);
+                $graphurl = new \moodle_url('/mod/surveypro/report/colles/graph.php', $paramurl);
                 $this->output_html($nexturl, $graphurl, 'questionsreport');
             }
         }

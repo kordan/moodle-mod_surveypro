@@ -36,7 +36,7 @@ $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUS
 $groupid = optional_param('groupid', 0, PARAM_INT); // Group ID.
 
 require_login($course, false, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 // Required capability.
 require_capability('mod/surveypro:accessreports', $context);

@@ -22,7 +22,11 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_surveypro\tabs;
+use mod_surveypro\usertemplate;
+
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
+
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
 
@@ -43,13 +47,13 @@ $confirm = optional_param('cnf', SURVEYPRO_UNCONFIRMED, PARAM_INT);
 $edit = optional_param('edit', -1, PARAM_BOOL);
 
 require_course_login($course, false, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 // Required capability.
 require_capability('mod/surveypro:manageusertemplates', $context);
 
 // Calculations.
-$utemplateman = new mod_surveypro_usertemplate($cm, $context, $surveypro);
+$utemplateman = new usertemplate($cm, $context, $surveypro);
 $utemplateman->setup($utemplateid, $action, $confirm);
 
 $utemplateman->prevent_direct_user_input();
@@ -60,7 +64,7 @@ if ($action == SURVEYPRO_EXPORTUTEMPLATE) {
 }
 
 // Output starts here.
-$url = new moodle_url('/mod/surveypro/utemplate_manage.php', array('s' => $surveypro->id));
+$url = new \moodle_url('/mod/surveypro/utemplate_manage.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -78,7 +82,7 @@ if ($PAGE->user_allowed_editing()) {
         $urlediting = 'on';
         $strediting = get_string('blocksediton');
     }
-    $url = new moodle_url($CFG->wwwroot.'/mod/surveypro/utemplate_manage.php', ['id' => $cm->id, 'edit' => $urlediting]);
+    $url = new \moodle_url($CFG->wwwroot.'/mod/surveypro/utemplate_manage.php', ['id' => $cm->id, 'edit' => $urlediting]);
     $PAGE->set_button($OUTPUT->single_button($url, $strediting));
 }
 
@@ -90,7 +94,7 @@ $completiondetails = \core_completion\cm_completion_details::get_instance($cm, $
 $activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
 echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
-new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABUTEMPLATES, SURVEYPRO_UTEMPLATES_MANAGE);
+new tabs($cm, $context, $surveypro, SURVEYPRO_TABUTEMPLATES, SURVEYPRO_UTEMPLATES_MANAGE);
 
 $utemplateman->delete_utemplate();
 

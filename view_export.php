@@ -22,8 +22,12 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_surveypro\tabs;
+use mod_surveypro\view_export;
+use mod_surveypro\local\form\submissionexportform;
+
+
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/form/data/export_form.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
@@ -42,26 +46,26 @@ $cm = cm_info::create($cm);
 $edit = optional_param('edit', -1, PARAM_BOOL);
 
 require_course_login($course, false, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 // Required capability.
 require_capability('mod/surveypro:exportdata', $context);
 
 // Calculations.
-$exportman = new mod_surveypro_view_export($cm, $context, $surveypro);
+$exportman = new view_export($cm, $context, $surveypro);
 
 // Begin of: define exportform return url.
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('/mod/surveypro/view_export.php', $paramurl);
+$formurl = new \moodle_url('/mod/surveypro/view_export.php', $paramurl);
 // End of: define $mform return url.
 
 // Begin of: prepare params for the form.
-$formparams = new stdClass();
+$formparams = new \stdClass();
 $formparams->surveypro = $surveypro;
 $formparams->activityisgrouped = groups_get_activity_groupmode($cm, $course);
 $formparams->context = $context;
 $formparams->attachmentshere = $exportman->are_attachments_onboard();
-$exportform = new mod_surveypro_exportform($formurl, $formparams);
+$exportform = new submissionexportform($formurl, $formparams);
 // End of: prepare params for the form.
 
 // Begin of: manage form submission.
@@ -95,7 +99,7 @@ if ($PAGE->user_allowed_editing()) {
         $urlediting = 'on';
         $strediting = get_string('blocksediton');
     }
-    $url = new moodle_url($CFG->wwwroot.'/mod/surveypro/view_export.php', ['id' => $cm->id, 'edit' => $urlediting]);
+    $url = new \moodle_url($CFG->wwwroot.'/mod/surveypro/view_export.php', ['id' => $cm->id, 'edit' => $urlediting]);
     $PAGE->set_button($OUTPUT->single_button($url, $strediting));
 }
 
@@ -107,7 +111,7 @@ $completiondetails = \core_completion\cm_completion_details::get_instance($cm, $
 $activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
 echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
-new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_EXPORT);
+new tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_EXPORT);
 
 if ($exporterror == SURVEYPRO_NOFIELDSSELECTED) {
     echo $OUTPUT->notification(get_string('nothingtodownload', 'mod_surveypro'), 'notifyproblem');

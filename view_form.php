@@ -22,8 +22,13 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_surveypro\utility_layout;
+use mod_surveypro\tabs;
+use mod_surveypro\utility_mform;
+use mod_surveypro\view_form;
+use mod_surveypro\local\form\surveyprofillform;
+
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/form/outform/fill_form.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
@@ -44,24 +49,24 @@ $formpage = optional_param('formpage', 0, PARAM_INT); // Form page number.
 $view = optional_param('view', SURVEYPRO_NOVIEW, PARAM_INT);
 
 require_course_login($course, false, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 // Calculations.
-mod_surveypro_utility_mform::register_form_elements();
+mod_surveypro\utility_mform::register_form_elements();
 
-$userformman = new mod_surveypro_view_form($cm, $context, $surveypro);
+$userformman = new view_form($cm, $context, $surveypro);
 $userformman->setup($submissionid, $formpage, $view);
 
-$utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+$utilitylayoutman = new utility_layout($cm, $surveypro);
 $utilitylayoutman->add_custom_css();
 
 // Begin of: define $user_form return url.
 $paramurl = array('id' => $cm->id, 'view' => $view);
-$formurl = new moodle_url('/mod/surveypro/view_form.php', $paramurl);
+$formurl = new \moodle_url('/mod/surveypro/view_form.php', $paramurl);
 // End of: define $user_form return url.
 
 // Begin of: prepare params for the form.
-$formparams = new stdClass();
+$formparams = new \stdClass();
 $formparams->cm = $cm;
 $formparams->surveypro = $surveypro;
 $formparams->submissionid = $submissionid;
@@ -74,12 +79,12 @@ $formparams->preview = false;
 // End of: prepare params for the form.
 
 $editable = ($view == SURVEYPRO_READONLYRESPONSE) ? false : true;
-$outform = new mod_surveypro_outform($formurl, $formparams, 'post', '', array('id' => 'userentry'), $editable);
+$outform = new surveyprofillform($formurl, $formparams, 'post', '', array('id' => 'userentry'), $editable);
 
 // Begin of: manage form submission.
 if ($outform->is_cancelled()) {
     $localparamurl = array('id' => $cm->id, 'view' => $view);
-    $redirecturl = new moodle_url('/mod/surveypro/view_submissions.php', $localparamurl);
+    $redirecturl = new \moodle_url('/mod/surveypro/view_submissions.php', $localparamurl);
     redirect($redirecturl, get_string('usercanceled', 'mod_surveypro'));
 }
 
@@ -90,7 +95,7 @@ if ($userformman->formdata = $outform->get_data()) {
     $pausebutton = isset($userformman->formdata->pausebutton);
     if ($pausebutton) {
         $localparamurl = array('id' => $cm->id, 'view' => $view);
-        $redirecturl = new moodle_url('/mod/surveypro/view_submissions.php', $localparamurl);
+        $redirecturl = new \moodle_url('/mod/surveypro/view_submissions.php', $localparamurl);
         redirect($redirecturl); // Go somewhere.
     }
 
@@ -101,7 +106,7 @@ if ($userformman->formdata = $outform->get_data()) {
     if ($prevbutton) {
         $userformman->next_not_empty_page(false);
         $paramurl['formpage'] = $userformman->get_nextpageleft();
-        $redirecturl = new moodle_url('/mod/surveypro/view_form.php', $paramurl);
+        $redirecturl = new \moodle_url('/mod/surveypro/view_form.php', $paramurl);
         redirect($redirecturl); // Redirect to the first non empty page.
     }
 
@@ -127,7 +132,7 @@ if ($userformman->formdata = $outform->get_data()) {
         $userformman->drop_jumped_saved_data();
 
         $paramurl['formpage'] = $userformman->get_nextpageright();
-        $redirecturl = new moodle_url('/mod/surveypro/view_form.php', $paramurl);
+        $redirecturl = new \moodle_url('/mod/surveypro/view_form.php', $paramurl);
         redirect($redirecturl); // Redirect to the first non empty page.
     }
 
@@ -146,7 +151,7 @@ if ($userformman->formdata = $outform->get_data()) {
     $paramurl['responsestatus'] = $userformman->get_responsestatus();
     $paramurl['justsubmitted'] = 1 + $userformman->get_userdeservesthanks();
     $paramurl['formview'] = $userformman->get_view(); // What was I viewing in the form?
-    $redirecturl = new moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
+    $redirecturl = new \moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
     redirect($redirecturl); // Redirect to the first non empty page.
 }
 // End of: manage form submission.
@@ -156,7 +161,7 @@ $paramurl = array('s' => $surveypro->id, 'view' => $view);
 if (!empty($submissionid)) {
     $paramurl['submissionid'] = $submissionid;
 }
-$url = new moodle_url('/mod/surveypro/view_form.php', $paramurl);
+$url = new \moodle_url('/mod/surveypro/view_form.php', $paramurl);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -171,7 +176,7 @@ $completiondetails = \core_completion\cm_completion_details::get_instance($cm, $
 $activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
 echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
-new mod_surveypro_tabs($cm, $context, $surveypro, $userformman->get_tabtab(), $userformman->get_tabpage());
+new tabs($cm, $context, $surveypro, $userformman->get_tabtab(), $userformman->get_tabpage());
 
 $userformman->noitem_stopexecution();
 $userformman->nomoresubmissions_stopexecution();

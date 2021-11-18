@@ -41,7 +41,7 @@ require_once($CFG->libdir.'/form/static.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveypromform_label extends MoodleQuickForm_static {
+class surveypromform_label extends \MoodleQuickForm_static {
 
     /**
      * Class constructor.
@@ -75,11 +75,11 @@ class surveypromform_label extends MoodleQuickForm_static {
         $output = parent::toHtml(); // Core code.
 
         // Even if the simpler way to pass the class is:
-        // $output = html_writer::tag('div', $output, $this->_options);
+        // $output = \html_writer::tag('div', $output, $this->_options);
         // I create the array from scratch in order to
         // drop any other potentially dangerous element of the original $this->_options array.
         $class = array('class' => $this->_options['class']);
-        $output = html_writer::tag('div', $output, $class);
+        $output = \html_writer::tag('div', $output, $class);
 
         return $output;
     }

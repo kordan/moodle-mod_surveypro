@@ -22,8 +22,11 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_surveypro\mastertemplate;
+use mod_surveypro\tabs;
+use mod_surveypro\local\form\mtemplatecreateform;
+
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/form/mtemplates/create_form.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
@@ -42,18 +45,18 @@ $cm = cm_info::create($cm);
 $edit = optional_param('edit', -1, PARAM_BOOL);
 
 require_course_login($course, false, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 // Required capability.
 require_capability('mod/surveypro:savemastertemplates', $context);
 
 // Calculations.
-$mtemplateman = new mod_surveypro_mastertemplate($cm, $context, $surveypro);
+$mtemplateman = new mastertemplate($cm, $context, $surveypro);
 
 // Start of: define $createmtemplate return url.
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('/mod/surveypro/mtemplate_save.php', $paramurl);
-$createmtemplate = new mod_surveypro_createmtemplateform($formurl);
+$formurl = new \moodle_url('/mod/surveypro/mtemplate_save.php', $paramurl);
+$createmtemplate = new mtemplatecreateform($formurl);
 // End of: define $createmtemplate return url.
 
 // Start of: manage form submission.
@@ -65,7 +68,7 @@ if ($mtemplateman->formdata = $createmtemplate->get_data()) {
 // End of: manage form submission.
 
 // Output starts here.
-$url = new moodle_url('/mod/surveypro/mtemplate_save.php', array('s' => $surveypro->id));
+$url = new \moodle_url('/mod/surveypro/mtemplate_save.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -83,7 +86,7 @@ if ($PAGE->user_allowed_editing()) {
         $urlediting = 'on';
         $strediting = get_string('blocksediton');
     }
-    $url = new moodle_url($CFG->wwwroot.'/mod/surveypro/mtemplate_save.php', ['id' => $cm->id, 'edit' => $urlediting]);
+    $url = new \moodle_url($CFG->wwwroot.'/mod/surveypro/mtemplate_save.php', ['id' => $cm->id, 'edit' => $urlediting]);
     $PAGE->set_button($OUTPUT->single_button($url, $strediting));
 }
 
@@ -95,11 +98,11 @@ $completiondetails = \core_completion\cm_completion_details::get_instance($cm, $
 $activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
 echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
-new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABMTEMPLATES, SURVEYPRO_MTEMPLATES_BUILD);
+new tabs($cm, $context, $surveypro, SURVEYPRO_TABMTEMPLATES, SURVEYPRO_MTEMPLATES_BUILD);
 
 echo $OUTPUT->notification(get_string('currenttotemplate', 'mod_surveypro'), 'notifymessage');
 
-$record = new stdClass();
+$record = new \stdClass();
 $record->surveyproid = $surveypro->id;
 
 $createmtemplate->set_data($record);

@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_surveypro\tabs;
+
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/colles/lib.php');
 require_once($CFG->libdir.'/tablelib.php');
@@ -45,7 +47,7 @@ $area = optional_param('area', false, PARAM_INT);  // Area ID.
 $edit = optional_param('edit', -1, PARAM_BOOL);
 
 require_course_login($course, false, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 if ($type == 'summary') {
     if (!has_capability('mod/surveypro:accessreports', $context)) {
@@ -68,9 +70,9 @@ if ($showjumper) {
     $paramurl = array('id' => $cm->id);
     $paramurl['type'] = $type;
     $paramurl['area'] = $area;
-    $formurl = new moodle_url('/mod/surveypro/report/colles/view.php', $paramurl);
+    $formurl = new \moodle_url('/mod/surveypro/report/colles/view.php', $paramurl);
 
-    $formparams = new stdClass();
+    $formparams = new \stdClass();
     $formparams->canaccessallgroups = $canaccessallgroups;
     $formparams->addnotinanygroup = $reportman->add_notinanygroup();
     $formparams->jumpercontent = $jumpercontent;
@@ -92,7 +94,7 @@ if ( ($type == 'questions') && ($area !== false) ) { // Area can be zero.
     $paramurl['area'] = $area;
 }
 
-$url = new moodle_url('/mod/surveypro/report/colles/view.php', $paramurl);
+$url = new \moodle_url('/mod/surveypro/report/colles/view.php', $paramurl);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -110,7 +112,7 @@ if ($PAGE->user_allowed_editing()) {
         $urlediting = 'on';
         $strediting = get_string('blocksediton');
     }
-    $url = new moodle_url($CFG->wwwroot.'/mod/surveypro/report/colles/view.php', ['id' => $cm->id, 'edit' => $urlediting]);
+    $url = new \moodle_url($CFG->wwwroot.'/mod/surveypro/report/colles/view.php', ['id' => $cm->id, 'edit' => $urlediting]);
     $PAGE->set_button($OUTPUT->single_button($url, $strediting));
 }
 
@@ -124,7 +126,7 @@ echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
 $surveyproreportlist = get_plugin_list('surveyproreport');
 $reportkey = array_search('colles', array_keys($surveyproreportlist));
-new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABREPORTS, $reportkey);
+new tabs($cm, $context, $surveypro, SURVEYPRO_TABREPORTS, $reportkey);
 
 $reportman->nosubmissions_stop();
 

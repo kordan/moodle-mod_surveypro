@@ -22,7 +22,12 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
+
+use mod_surveypro\utility_layout;
+use mod_surveypro\templatebase;
 
 /**
  * The class representing a master template
@@ -31,7 +36,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
+class mastertemplate extends templatebase {
 
     /**
      * @var array
@@ -110,7 +115,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
 
             $paramurl = array();
             $paramurl['id'] = $this->cm->id;
-            $returnurl = new moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
+            $returnurl = new \moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
             redirect($returnurl);
         }
 
@@ -305,9 +310,9 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         $itemseeds = $DB->get_records('surveypro_item', $where, 'sortindex', 'id, type, plugin');
 
         $fs = get_file_storage();
-        $context = context_module::instance($this->cm->id);
+        $context = \context_module::instance($this->cm->id);
 
-        $xmltemplate = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><items></items>');
+        $xmltemplate = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><items></items>');
         foreach ($itemseeds as $itemseed) {
             $item = surveypro_get_item($this->cm, $this->surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);
 
@@ -346,7 +351,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
 
                 $val = $this->xml_get_field_content($item, 'item', $field, $multilangfields);
 
-                if (core_text::strlen($val)) {
+                if (\core_text::strlen($val)) {
                     $xmlfield = $xmltable->addChild($field, $val);
                 } // Otherwise: It is empty, do not evaluate: jump.
             }
@@ -362,7 +367,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
             foreach ($structure as $field) {
                 $val = $this->xml_get_field_content($item, $itemseed->plugin, $field, $multilangfields);
 
-                if (core_text::strlen($val)) {
+                if (\core_text::strlen($val)) {
                     $xmlfield = $xmltable->addChild($field, htmlspecialchars($val));
                     // Otherwise: It is empty, do not evaluate: jump.
                 }
@@ -395,7 +400,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
 
             return $xmltemplate->asXML();
         } else {
-            $dom = new DOMDocument('1.0');
+            $dom = new \DOMDocument('1.0');
             $dom->preserveWhiteSpace = false;
             $dom->formatOutput = true;
             $dom->loadXML($xmltemplate->asXML());
@@ -432,7 +437,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         }
 
         $content = $item->get_generic_property($field);
-        if (core_text::strlen($content)) {
+        if (\core_text::strlen($content)) {
             $val = $content;
         } else {
             // It is empty, do not evaluate: jump.
@@ -475,13 +480,13 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         $this->trigger_event('mastertemplate_applied');
 
         // Begin of: delete all existing items.
-        $utilitylayoutman = new mod_surveypro_utility_layout($this->cm);
+        $utilitylayoutman = new utility_layout($this->cm);
         $whereparams = array('surveyproid' => $this->surveypro->id);
         $utilitylayoutman->delete_items($whereparams);
         // End of: delete all existing items.
 
         $this->templatename = $this->formdata->mastertemplate;
-        $record = new stdClass();
+        $record = new \stdClass();
 
         $record->id = $this->surveypro->id;
         $record->template = $this->templatename;
@@ -490,7 +495,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         $this->add_items_from_template();
 
         $paramurl = array('s' => $this->surveypro->id);
-        $redirecturl = new moodle_url('/mod/surveypro/layout_preview.php', $paramurl);
+        $redirecturl = new \moodle_url('/mod/surveypro/layout_preview.php', $paramurl);
         redirect($redirecturl);
     }
 
@@ -503,12 +508,12 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         global $OUTPUT;
 
         $riskyediting = ($this->surveypro->riskyeditdeadline > time());
-        $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+        $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
         $hassubmissions = $utilitylayoutman->has_submissions();
 
         if ($hassubmissions && (!$riskyediting)) {
             echo $OUTPUT->notification(get_string('applyusertemplatedenied01', 'mod_surveypro'), 'notifyproblem');
-            $url = new moodle_url('/mod/surveypro/view_submissions.php', array('s' => $this->surveypro->id));
+            $url = new \moodle_url('/mod/surveypro/view_submissions.php', array('s' => $this->surveypro->id));
             echo $OUTPUT->continue_button($url);
             echo $OUTPUT->footer();
             die();
@@ -532,7 +537,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
         $templatepath = $CFG->dirroot.'/mod/surveypro/template/'.$this->templatename.'/template.xml';
         $templatecontent = file_get_contents($templatepath);
 
-        $simplexml = new SimpleXMLElement($templatecontent);
+        $simplexml = new \SimpleXMLElement($templatecontent);
 
         if (!$sortindexoffset = $DB->get_field('surveypro_item', 'MAX(sortindex)', array('surveyproid' => $this->surveypro->id))) {
             $sortindexoffset = 0;
@@ -567,7 +572,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
                     $currenttablestructure = $this->get_table_structure($currenttype, $currentplugin);
                 }
 
-                $record = new stdClass();
+                $record = new \stdClass();
 
                 // Add to $record mandatory fields that will be overwritten, hopefully, with the content of the usertemplate.
                 $record->surveyproid = (int)$this->surveypro->id;
@@ -614,7 +619,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
 
                         // Add the file described by $filename and $filecontent to filearea.
                         // Alias, add pictures found in the utemplate to filearea.
-                        $filerecord = new stdClass();
+                        $filerecord = new \stdClass();
                         $filerecord->contextid = $this->context->id;
                         $filerecord->component = 'mod_surveypro';
                         $filerecord->filearea = SURVEYPRO_ITEMCONTENTFILEAREA;
@@ -733,7 +738,7 @@ class mod_surveypro_mastertemplate extends mod_surveypro_templatebase {
      */
     public function get_translated_strings($userlang) {
         $stringsastext = array();
-        $a = new stdClass();
+        $a = new \stdClass();
         $a->userlang = $userlang;
         foreach ($this->langtree as $langbranch) {
             foreach ($langbranch as $k => $originalstring) {

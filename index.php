@@ -41,7 +41,7 @@ $closed = get_string('closedsubmissions', 'mod_surveypro');
 
 $PAGE->set_pagelayout('incourse');
 $PAGE->set_url('/mod/surveypro/index.php', array('id' => $id));
-$PAGE->navbar->add($strsurveypro, new moodle_url('/mod/data/index.php', array('id' => $id)));
+$PAGE->navbar->add($strsurveypro, new \moodle_url('/mod/data/index.php', array('id' => $id)));
 $PAGE->set_title($strsurveypro);
 $PAGE->set_heading($course->fullname);
 
@@ -52,7 +52,7 @@ echo $OUTPUT->heading($strdataplural, 2);
 
 // Get all the appropriate data.
 if (!$surveypros = get_all_instances_in_course('surveypro', $course)) {
-    $url = new moodle_url('/course/view.php', array('id' => $course->id));
+    $url = new \moodle_url('/course/view.php', array('id' => $course->id));
     notice(get_string('thereareno', 'moodle', $strdataplural), $url);
     die();
 }
@@ -102,21 +102,21 @@ foreach ($surveypros as $surveypro) {
         $cellclass = array('class' => 'dimmed');
     }
 
-    $url = new moodle_url('/mod/surveypro/view_submissions.php', array('id' => $surveypro->coursemodule));
+    $url = new \moodle_url('/mod/surveypro/view_submissions.php', array('id' => $surveypro->coursemodule));
     $inprogressresp = isset($inprogresssubmissions[$surveypro->id]) ? $inprogresssubmissions[$surveypro->id] : 0;
     $closedresp = isset($closedsubmissions[$surveypro->id]) ? $closedsubmissions[$surveypro->id] : 0;
 
     $content = array(html_writer::tag('span', $printsection, $sectionclass),
-        html_writer::link($url, format_string($surveypro->name), $cellclass),
-        html_writer::tag('span', format_module_intro('surveypro', $surveypro, $surveypro->coursemodule), $cellclass),
-        html_writer::tag('span', $inprogressresp, $cellclass),
-        html_writer::tag('span', $closedresp, $cellclass)
+        \html_writer::link($url, format_string($surveypro->name), $cellclass),
+        \html_writer::tag('span', format_module_intro('surveypro', $surveypro, $surveypro->coursemodule), $cellclass),
+        \html_writer::tag('span', $inprogressresp, $cellclass),
+        \html_writer::tag('span', $closedresp, $cellclass)
     );
 
     $table->data[] = $content;
 }
 
-echo html_writer::table($table);
+echo \html_writer::table($table);
 
 // Finish the page.
 echo $OUTPUT->footer();

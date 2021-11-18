@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
 
 /**
@@ -31,7 +33,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_utility_item {
+class utility_item {
 
     /**
      * @var object Course module object
@@ -58,7 +60,7 @@ class mod_surveypro_utility_item {
         global $DB;
 
         $this->cm = $cm;
-        $this->context = context_module::instance($cm->id);
+        $this->context = \context_module::instance($cm->id);
         if (empty($surveypro)) {
             $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
         }

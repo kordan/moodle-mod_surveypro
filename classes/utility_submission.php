@@ -22,7 +22,11 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
+
+use mod_surveypro\utility_submission;
 
 /**
  * The utility class
@@ -31,7 +35,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_utility_submission {
+class utility_submission {
 
     /**
      * @var object Course module object
@@ -58,7 +62,7 @@ class mod_surveypro_utility_submission {
         global $DB;
 
         $this->cm = $cm;
-        $this->context = context_module::instance($cm->id);
+        $this->context = \context_module::instance($cm->id);
         if (empty($surveypro)) {
             $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
         }
@@ -106,7 +110,7 @@ class mod_surveypro_utility_submission {
             $message .= get_string('hassubmissions_danger', 'mod_surveypro');
         }
 
-        $completion = new completion_info($COURSE);
+        $completion = new \completion_info($COURSE);
         if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
             $message .= get_string('hassubmissions_alert_activitycompletion', 'mod_surveypro');
         }

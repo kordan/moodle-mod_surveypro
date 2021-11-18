@@ -22,7 +22,12 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
+
+use mod_surveypro\utility_layout;
+use mod_surveypro\utility_submission;
 
 /**
  * The class managing users submissions
@@ -31,7 +36,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_view_submissions {
+class view_submissions {
 
     /**
      * @var object Course module object
@@ -193,7 +198,7 @@ class mod_surveypro_view_submissions {
                          JOIN {user} u ON u.id = s.userid
                      WHERE u.id = :userid';
 
-        $coursecontext = context_course::instance($COURSE->id);
+        $coursecontext = \context_course::instance($COURSE->id);
         list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);
 
         $sql = 'SELECT COUNT(eu.id)
@@ -241,7 +246,7 @@ class mod_surveypro_view_submissions {
             $userquery = array();
             foreach ($searchrestrictions as $itemid => $searchrestriction) {
                 $itemseed = $DB->get_record('surveypro_item', array('id' => $itemid), 'type, plugin', MUST_EXIST);
-                $classname = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin.'_'.$itemseed->type;
+                $classname = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin.'\item';
                 // Ask to the item class how to write the query.
                 list($whereclause, $whereparam) = $classname::response_get_whereclause($itemid, $searchrestriction);
                 $userquery[] = '(a.itemid = '.$itemid.' AND '.$whereclause.')';
@@ -313,7 +318,7 @@ class mod_surveypro_view_submissions {
 
         $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
 
-        $coursecontext = context_course::instance($COURSE->id);
+        $coursecontext = \context_course::instance($COURSE->id);
         list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);
 
         $sql = 'SELECT COUNT(eu.id)
@@ -360,7 +365,7 @@ class mod_surveypro_view_submissions {
             $userquery = array();
             foreach ($searchrestrictions as $itemid => $searchrestriction) {
                 $itemseed = $DB->get_record('surveypro_item', array('id' => $itemid), 'type, plugin', MUST_EXIST);
-                $classname = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin.'_'.$itemseed->type;
+                $classname = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin.'\item';
                 // Ask to the item class how to write the query.
                 list($whereclause, $whereparam) = $classname::response_get_whereclause($itemid, $searchrestriction);
                 $userquery[] = '(a.itemid = '.$itemid.' AND '.$whereclause.')';
@@ -457,7 +462,7 @@ class mod_surveypro_view_submissions {
         $cansavesubmissiontopdf = has_capability('mod/surveypro:savesubmissiontopdf', $this->context);
         $canaccessallgroups = has_capability('moodle/site:accessallgroups', $this->context);
 
-        $table = new flexible_table('submissionslist');
+        $table = new \flexible_table('submissionslist');
 
         if ($canseeotherssubmissions) {
             $table->initialbars(true);
@@ -468,7 +473,7 @@ class mod_surveypro_view_submissions {
         if ($this->searchquery) {
             $paramurl['searchquery'] = $this->searchquery;
         }
-        $baseurl = new moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
+        $baseurl = new \moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
         $table->define_baseurl($baseurl);
 
         $tablecolumns = array();
@@ -544,15 +549,15 @@ class mod_surveypro_view_submissions {
 
             $nonhistoryeditstr = get_string('edit');
             $iconparams['title'] = $nonhistoryeditstr;
-            $nonhistoryediticn = new pix_icon('t/edit', $nonhistoryeditstr, 'moodle', $iconparams);
+            $nonhistoryediticn = new \pix_icon('t/edit', $nonhistoryeditstr, 'moodle', $iconparams);
 
             $readonlyaccessstr = get_string('readonlyaccess', 'mod_surveypro');
             $iconparams['title'] = $readonlyaccessstr;
-            $readonlyicn = new pix_icon('readonly', $readonlyaccessstr, 'surveypro', $iconparams);
+            $readonlyicn = new \pix_icon('readonly', $readonlyaccessstr, 'surveypro', $iconparams);
 
             $duplicatestr = get_string('duplicate');
             $iconparams['title'] = $duplicatestr;
-            $duplicateicn = new pix_icon('t/copy', $duplicatestr, 'moodle', $iconparams);
+            $duplicateicn = new \pix_icon('t/copy', $duplicatestr, 'moodle', $iconparams);
 
             if ($this->surveypro->history) {
                 $attributestr = get_string('editcopy', 'mod_surveypro');
@@ -562,19 +567,19 @@ class mod_surveypro_view_submissions {
                 $linkidprefix = 'edit_submission_';
             }
             $iconparams['title'] = $attributestr;
-            $attributeicn = new pix_icon('t/edit', $attributestr, 'moodle', $iconparams);
+            $attributeicn = new \pix_icon('t/edit', $attributestr, 'moodle', $iconparams);
 
             $deletestr = get_string('delete');
             $iconparams['title'] = $deletestr;
-            $deleteicn = new pix_icon('t/delete', $deletestr, 'moodle', $iconparams);
+            $deleteicn = new \pix_icon('t/delete', $deletestr, 'moodle', $iconparams);
 
             $downloadpdfstr = get_string('downloadpdf', 'mod_surveypro');
             $iconparams['title'] = $downloadpdfstr;
-            $downloadpdficn = new pix_icon('t/download', $downloadpdfstr, 'moodle', $iconparams);
+            $downloadpdficn = new \pix_icon('t/download', $downloadpdfstr, 'moodle', $iconparams);
 
             if ($groupmode = groups_get_activity_groupmode($this->cm, $COURSE)) {
                 if ($groupmode == SEPARATEGROUPS) {
-                    $utilitysubmissionman = new mod_surveypro_utility_submission($this->cm, $this->surveypro);
+                    $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
                     $mygroupmates = $utilitysubmissionman->get_groupmates($this->cm);
                 }
             }
@@ -610,7 +615,7 @@ class mod_surveypro_view_submissions {
 
                     // User fullname.
                     $paramurl = array('id' => $submission->userid, 'course' => $COURSE->id);
-                    $url = new moodle_url('/user/view.php', $paramurl);
+                    $url = new \moodle_url('/user/view.php', $paramurl);
                     $tablerow[] = '<a href="'.$url->out().'">'.fullname($submission).'</a>';
                 }
 
@@ -652,19 +657,19 @@ class mod_surveypro_view_submissions {
                     $paramurl['view'] = SURVEYPRO_EDITRESPONSE;
                     if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
                         // Here title and alt are ALWAYS $nonhistoryeditstr.
-                        $link = new moodle_url('/mod/surveypro/view_form.php', $paramurl);
+                        $link = new \moodle_url('/mod/surveypro/view_form.php', $paramurl);
                         $paramlink = array('id' => 'edit_submission_'.$submissionsuffix, 'title' => $nonhistoryeditstr);
                         $icons = $OUTPUT->action_icon($link, $nonhistoryediticn, null, $paramlink);
                     } else {
                         // Here title and alt depend from $this->surveypro->history.
-                        $link = new moodle_url('/mod/surveypro/view_form.php', $paramurl);
+                        $link = new \moodle_url('/mod/surveypro/view_form.php', $paramurl);
                         $paramlink = array('id' => $linkidprefix.$submissionsuffix, 'title' => $attributestr);
                         $icons = $OUTPUT->action_icon($link, $attributeicn, null, $paramlink);
                     }
                 } else {
                     $paramurl['view'] = SURVEYPRO_READONLYRESPONSE;
 
-                    $link = new moodle_url('/mod/surveypro/view_form.php', $paramurl);
+                    $link = new \moodle_url('/mod/surveypro/view_form.php', $paramurl);
                     $paramlink = array('id' => 'view_submission_'.$submissionsuffix, 'title' => $readonlyaccessstr);
                     $icons = $OUTPUT->action_icon($link, $readonlyicn, null, $paramlink);
                 }
@@ -680,7 +685,7 @@ class mod_surveypro_view_submissions {
                     }
                 }
                 if ($displayduplicateicon) { // I am the owner or a groupmate.
-                    $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+                    $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
                     $cansubmitmore = $utilitylayoutman->can_submit_more($submission->userid);
                     if ($cansubmitmore) { // The copy will be assigned to the same owner.
                         $paramurl = $paramurlbase;
@@ -688,7 +693,7 @@ class mod_surveypro_view_submissions {
                         $paramurl['sesskey'] = sesskey();
                         $paramurl['act'] = SURVEYPRO_DUPLICATERESPONSE;
 
-                        $link = new moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
+                        $link = new \moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
                         $paramlink = array('id' => 'duplicate_submission_'.$submissionsuffix, 'title' => $duplicatestr);
                         $icons .= $OUTPUT->action_icon($link, $duplicateicn, null, $paramlink);
                     }
@@ -710,7 +715,7 @@ class mod_surveypro_view_submissions {
                     $paramurl['sesskey'] = sesskey();
                     $paramurl['act'] = SURVEYPRO_DELETERESPONSE;
 
-                    $link = new moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
+                    $link = new \moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
                     $paramlink = array('id' => 'delete_submission_'.$submissionsuffix, 'title' => $deletestr);
                     $icons .= $OUTPUT->action_icon($link, $deleteicn, null, $paramlink);
                 }
@@ -721,7 +726,7 @@ class mod_surveypro_view_submissions {
                     $paramurl['submissionid'] = $submission->submissionid;
                     $paramurl['view'] = SURVEYPRO_RESPONSETOPDF;
 
-                    $link = new moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
+                    $link = new \moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
                     $paramlink = array('id' => 'pdfdownload_submission_'.$submissionsuffix, 'title' => $downloadpdfstr);
                     $icons .= $OUTPUT->action_icon($link, $downloadpdficn, null, $paramlink);
                 }
@@ -739,7 +744,7 @@ class mod_surveypro_view_submissions {
 
         // If this is the output of a search and nothing has been found add a way to show all submissions.
         if (!isset($tablerow) && ($this->searchquery)) {
-            $url = new moodle_url('/mod/surveypro/view_submissions.php', array('id' => $this->cm->id));
+            $url = new \moodle_url('/mod/surveypro/view_submissions.php', array('id' => $this->cm->id));
             $label = get_string('showallsubmissions', 'mod_surveypro');
             echo $OUTPUT->box($OUTPUT->single_button($url, $label, 'get'), 'clearfix mdl-align');
         }
@@ -755,7 +760,7 @@ class mod_surveypro_view_submissions {
     public function show_action_buttons($tifirst, $tilast) {
         global $OUTPUT, $USER;
 
-        $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+        $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
 
         $cansubmit = has_capability('mod/surveypro:submit', $this->context);
         $canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context);
@@ -785,7 +790,7 @@ class mod_surveypro_view_submissions {
 
         $buttoncount = 0;
         if ($addnew) {
-            $addurl = new moodle_url('/mod/surveypro/view_form.php', array('id' => $this->cm->id, 'view' => SURVEYPRO_NEWRESPONSE));
+            $addurl = new \moodle_url('/mod/surveypro/view_form.php', array('id' => $this->cm->id, 'view' => SURVEYPRO_NEWRESPONSE));
             $buttoncount = 1;
         }
         if ($deleteall) {
@@ -794,7 +799,7 @@ class mod_surveypro_view_submissions {
             $paramurl['act'] = SURVEYPRO_DELETEALLRESPONSES;
             $paramurl['sesskey'] = sesskey();
 
-            $deleteurl = new moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
+            $deleteurl = new \moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
             $buttoncount++;
         }
 
@@ -814,13 +819,13 @@ class mod_surveypro_view_submissions {
             }
         } else {
             $class = array('class' => 'buttons');
-            $addbutton = new single_button($addurl, get_string('addnewsubmission', 'mod_surveypro'), 'get', $class);
-            $deleteallbutton = new single_button($deleteurl, get_string('deleteallsubmissions', 'mod_surveypro'), 'get', $class);
+            $addbutton = new \single_button($addurl, get_string('addnewsubmission', 'mod_surveypro'), 'get', $class);
+            $deleteallbutton = new \single_button($deleteurl, get_string('deleteallsubmissions', 'mod_surveypro'), 'get', $class);
 
             // This code comes from "public function confirm(" around line 1711 in outputrenderers.php.
             // It is not wrong. The misalign comes from bootstrapbase theme and is present in clean theme too.
             echo $OUTPUT->box_start('generalbox centerpara', 'notice');
-            echo html_writer::tag('div', $OUTPUT->render($addbutton).$OUTPUT->render($deleteallbutton), $class);
+            echo \html_writer::tag('div', $OUTPUT->render($addbutton).$OUTPUT->render($deleteallbutton), $class);
             echo $OUTPUT->box_end();
         }
     }
@@ -848,7 +853,7 @@ class mod_surveypro_view_submissions {
                 break;
             case SURVEYPRO_DUPLICATERESPONSE:
                 if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
-                    $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+                    $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
                     $utilitylayoutman->duplicate_submissions(array('id' => $this->submissionid));
 
                     // Redirect.
@@ -857,13 +862,13 @@ class mod_surveypro_view_submissions {
                     $paramurl['act'] = SURVEYPRO_DUPLICATERESPONSE;
                     $paramurl['cnf'] = SURVEYPRO_ACTION_EXECUTED;
                     $paramurl['sesskey'] = sesskey();
-                    $redirecturl = new moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
+                    $redirecturl = new \moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
                     redirect($redirecturl);
                 }
                 break;
             case SURVEYPRO_DELETERESPONSE:
                 if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
-                    $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+                    $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
                     $utilitylayoutman->delete_submissions(array('id' => $this->submissionid));
 
                     // Redirect.
@@ -872,13 +877,13 @@ class mod_surveypro_view_submissions {
                     $paramurl['act'] = SURVEYPRO_DELETERESPONSE;
                     $paramurl['cnf'] = SURVEYPRO_ACTION_EXECUTED;
                     $paramurl['sesskey'] = sesskey();
-                    $redirecturl = new moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
+                    $redirecturl = new \moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
                     redirect($redirecturl);
                 }
                 break;
             case SURVEYPRO_DELETEALLRESPONSES:
                 if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
-                    $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+                    $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
                     $utilitylayoutman->delete_submissions(array('surveyproid' => $this->surveypro->id));
 
                     // Redirect.
@@ -887,7 +892,7 @@ class mod_surveypro_view_submissions {
                     $paramurl['act'] = SURVEYPRO_DELETEALLRESPONSES;
                     $paramurl['cnf'] = SURVEYPRO_ACTION_EXECUTED;
                     $paramurl['sesskey'] = sesskey();
-                    $redirecturl = new moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
+                    $redirecturl = new \moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
                     redirect($redirecturl);
                 }
                 break;
@@ -959,25 +964,25 @@ class mod_surveypro_view_submissions {
             }
         }
 
-        $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+        $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
         $cansubmitmore = $utilitylayoutman->can_submit_more();
 
         $paramurlbase = array('id' => $this->cm->id);
         if ($cansubmitmore) { // If the user is allowed to submit one more response.
             $paramurl = $paramurlbase + array('view' => SURVEYPRO_NEWRESPONSE);
-            $buttonurl = new moodle_url('/mod/surveypro/view_form.php', $paramurl);
-            $onemore = new single_button($buttonurl, get_string('addnewsubmission', 'mod_surveypro'));
+            $buttonurl = new \moodle_url('/mod/surveypro/view_form.php', $paramurl);
+            $onemore = new \single_button($buttonurl, get_string('addnewsubmission', 'mod_surveypro'));
 
-            $buttonurl = new moodle_url('/mod/surveypro/view_submissions.php', $paramurlbase);
-            $gotolist = new single_button($buttonurl, get_string('gotolist', 'mod_surveypro'));
+            $buttonurl = new \moodle_url('/mod/surveypro/view_submissions.php', $paramurlbase);
+            $gotolist = new \single_button($buttonurl, get_string('gotolist', 'mod_surveypro'));
 
             echo $OUTPUT->box_start('generalbox centerpara', 'notice');
-            echo html_writer::tag('p', $message);
-            echo html_writer::tag('div', $OUTPUT->render($onemore).$OUTPUT->render($gotolist), array('class' => 'buttons'));
+            echo \html_writer::tag('p', $message);
+            echo \html_writer::tag('div', $OUTPUT->render($onemore).$OUTPUT->render($gotolist), array('class' => 'buttons'));
             echo $OUTPUT->box_end();
         } else {
             echo $OUTPUT->box($message, 'notice centerpara');
-            $buttonurl = new moodle_url('/mod/surveypro/view_submissions.php', $paramurlbase);
+            $buttonurl = new \moodle_url('/mod/surveypro/view_submissions.php', $paramurlbase);
             $buttonlabel = get_string('gotolist', 'mod_surveypro');
             echo $OUTPUT->box($OUTPUT->single_button($buttonurl, $buttonlabel, 'get'), 'generalbox centerpara');
         }
@@ -999,7 +1004,7 @@ class mod_surveypro_view_submissions {
             // Ask for confirmation.
             $submission = $DB->get_record('surveypro_submission', array('id' => $this->submissionid));
 
-            $a = new stdClass();
+            $a = new \stdClass();
             $a->timecreated = userdate($submission->timecreated);
             $a->timemodified = userdate($submission->timemodified);
             if ($submission->userid != $USER->id) {
@@ -1023,13 +1028,13 @@ class mod_surveypro_view_submissions {
             $optionsyes = $optionbase;
             $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
             $optionsyes['submissionid'] = $this->submissionid;
-            $urlyes = new moodle_url('/mod/surveypro/view_submissions.php', $optionsyes);
-            $buttonyes = new single_button($urlyes, get_string('continue'));
+            $urlyes = new \moodle_url('/mod/surveypro/view_submissions.php', $optionsyes);
+            $buttonyes = new \single_button($urlyes, get_string('continue'));
 
             $optionsno = $optionbase;
             $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-            $urlno = new moodle_url('/mod/surveypro/view_submissions.php', $optionsno);
-            $buttonno = new single_button($urlno, get_string('no'));
+            $urlno = new \moodle_url('/mod/surveypro/view_submissions.php', $optionsno);
+            $buttonno = new \single_button($urlno, get_string('no'));
 
             echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
             echo $OUTPUT->footer();
@@ -1063,7 +1068,7 @@ class mod_surveypro_view_submissions {
             // Ask for confirmation.
             $submission = $DB->get_record('surveypro_submission', array('id' => $this->submissionid));
 
-            $a = new stdClass();
+            $a = new \stdClass();
             $a->timecreated = userdate($submission->timecreated);
             $a->timemodified = userdate($submission->timemodified);
             if ($submission->userid != $USER->id) {
@@ -1087,13 +1092,13 @@ class mod_surveypro_view_submissions {
             $optionsyes = $optionbase;
             $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
             $optionsyes['submissionid'] = $this->submissionid;
-            $urlyes = new moodle_url('/mod/surveypro/view_submissions.php', $optionsyes);
-            $buttonyes = new single_button($urlyes, get_string('continue'));
+            $urlyes = new \moodle_url('/mod/surveypro/view_submissions.php', $optionsyes);
+            $buttonyes = new \single_button($urlyes, get_string('continue'));
 
             $optionsno = $optionbase;
             $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-            $urlno = new moodle_url('/mod/surveypro/view_submissions.php', $optionsno);
-            $buttonno = new single_button($urlno, get_string('no'));
+            $urlno = new \moodle_url('/mod/surveypro/view_submissions.php', $optionsno);
+            $buttonno = new \single_button($urlno, get_string('no'));
 
             echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
             echo $OUTPUT->footer();
@@ -1130,13 +1135,13 @@ class mod_surveypro_view_submissions {
 
             $optionsyes = $optionbase;
             $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
-            $urlyes = new moodle_url('/mod/surveypro/view_submissions.php', $optionsyes);
-            $buttonyes = new single_button($urlyes, get_string('continue'));
+            $urlyes = new \moodle_url('/mod/surveypro/view_submissions.php', $optionsyes);
+            $buttonyes = new \single_button($urlyes, get_string('continue'));
 
             $optionsno = $optionbase;
             $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-            $urlno = new moodle_url('/mod/surveypro/view_submissions.php', $optionsno);
-            $buttonno = new single_button($urlno, get_string('no'));
+            $urlno = new \moodle_url('/mod/surveypro/view_submissions.php', $optionsno);
+            $buttonno = new \single_button($urlno, get_string('no'));
             echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
             echo $OUTPUT->footer();
             die();
@@ -1182,13 +1187,13 @@ class mod_surveypro_view_submissions {
         $strstatusinprogress = get_string('statusinprogress', 'mod_surveypro');
         $strstatusclosed = get_string('statusclosed', 'mod_surveypro');
 
-        echo html_writer::start_tag('fieldset', array('class' => 'generalbox', 'style' => 'padding-bottom: 15px;'));
-        echo html_writer::start_tag('legend', array('class' => 'coverinfolegend'));
+        echo \html_writer::start_tag('fieldset', array('class' => 'generalbox', 'style' => 'padding-bottom: 15px;'));
+        echo \html_writer::start_tag('legend', array('class' => 'coverinfolegend'));
         echo get_string('submissions_welcome', 'mod_surveypro');
-        echo html_writer::end_tag('legend');
+        echo \html_writer::end_tag('legend');
 
         $allsubmissions = $countinprogress + $countclosed;
-        if (!empty($allsubmissions)) {
+        if ($allsubmissions) {
             if ($canseeotherssubmissions) {
                 // Enrolled users: 3.
                 if ($enrolledusers == 1) {
@@ -1199,7 +1204,7 @@ class mod_surveypro_view_submissions {
             }
 
             // 17 responses submitted by 2 user.
-            $a = new stdClass();
+            $a = new \stdClass();
             $a->submissions = $allsubmissions;
             $a->usercount = $distinctusers;
             if ($allsubmissions == 1) {
@@ -1219,7 +1224,7 @@ class mod_surveypro_view_submissions {
 
             if (!empty($countinprogress)) {
                 // 3 'in progress' response submitted by 1 user.
-                $a = new stdClass();
+                $a = new \stdClass();
                 $a->submissions = $countinprogress;
                 $a->usercount = $inprogressusers;
                 $a->status = $strstatusinprogress;
@@ -1241,7 +1246,7 @@ class mod_surveypro_view_submissions {
 
             if (!empty($countclosed)) {
                 // 14 'closed' response submitted by 1 user.
-                $a = new stdClass();
+                $a = new \stdClass();
                 $a->submissions = $countclosed;
                 $a->usercount = $closedusers;
                 $a->status = $strstatusclosed;
@@ -1263,12 +1268,12 @@ class mod_surveypro_view_submissions {
         }
 
         if ($this->searchquery) {
-            $findallurl = new moodle_url('/mod/surveypro/view_submissions.php', array('id' => $this->cm->id));
+            $findallurl = new \moodle_url('/mod/surveypro/view_submissions.php', array('id' => $this->cm->id));
             $label = get_string('showallsubmissions', 'mod_surveypro');
 
             echo $OUTPUT->single_button($findallurl, $label, 'get', array('class' => 'box clearfix mdl-align'));
         }
-        echo html_writer::end_tag('fieldset');
+        echo \html_writer::end_tag('fieldset');
     }
 
     /**
@@ -1324,7 +1329,7 @@ class mod_surveypro_view_submissions {
             if (!$ismine) {
                 $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
                 if ($groupmode == SEPARATEGROUPS) {
-                    $utilitysubmissionman = new mod_surveypro_utility_submission($cm, $surveypro);
+                    $utilitysubmissionman = new utility_submission($cm, $surveypro);
                     $mygroupmates = $utilitysubmissionman->get_groupmates($this->cm);
                     $groupuser = in_array($ownerid, $mygroupmates);
                 }

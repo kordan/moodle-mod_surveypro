@@ -22,7 +22,12 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_surveypro\utility_layout;
+use mod_surveypro\tabs;
+use mod_surveypro\view_cover;
+
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
+
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
 
@@ -41,16 +46,16 @@ $edit = optional_param('edit', -1, PARAM_BOOL);
 
 require_course_login($course, false, $cm);
 
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 // Calculations.
-$utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+$utilitylayoutman = new utility_layout($cm, $surveypro);
 $utilitylayoutman->noitem_redirect();
 
-$coverman = new mod_surveypro_view_cover($cm, $context, $surveypro);
+$coverman = new view_cover($cm, $context, $surveypro);
 
 // Output starts here.
-$url = new moodle_url('/mod/surveypro/view.php', array('s' => $surveypro->id));
+$url = new \moodle_url('/mod/surveypro/view.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -68,7 +73,7 @@ if ($PAGE->user_allowed_editing()) {
         $urlediting = 'on';
         $strediting = get_string('blocksediton');
     }
-    $url = new moodle_url($CFG->wwwroot.'/mod/surveypro/view.php', ['id' => $cm->id, 'edit' => $urlediting]);
+    $url = new \moodle_url($CFG->wwwroot.'/mod/surveypro/view.php', ['id' => $cm->id, 'edit' => $urlediting]);
     $PAGE->set_button($OUTPUT->single_button($url, $strediting));
 }
 
@@ -80,7 +85,7 @@ $completiondetails = \core_completion\cm_completion_details::get_instance($cm, $
 $activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
 echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
-new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_CPANEL);
+new tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_CPANEL);
 
 $coverman->display_cover();
 

@@ -22,8 +22,11 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_surveypro\utility_layout;
+use mod_surveypro\tabs;
+
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/report/frequency/form/itemfilter_form.php');
+require_once($CFG->dirroot.'/mod/surveypro/report/frequency/classes/itemfilter_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/frequency/lib.php');
 require_once($CFG->libdir.'/tablelib.php');
 
@@ -44,21 +47,21 @@ $cm = cm_info::create($cm);
 $edit = optional_param('edit', -1, PARAM_BOOL);
 
 require_course_login($course, false, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 // Required capability.
 require_capability('mod/surveypro:accessreports', $context);
 
-$utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+$utilitylayoutman = new utility_layout($cm, $surveypro);
 $reportman = new surveyproreport_frequency_report($cm, $context, $surveypro);
 
 // Begin of: instance filterform.
 $showjumper = $reportman->is_groupjumper_needed();
 
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('/mod/surveypro/report/frequency/view.php', $paramurl);
+$formurl = new \moodle_url('/mod/surveypro/report/frequency/view.php', $paramurl);
 
-$formparams = new stdClass();
+$formparams = new \stdClass();
 $formparams->surveypro = $surveypro;
 $formparams->showjumper = $showjumper;
 if ($showjumper) {
@@ -73,7 +76,7 @@ $filterform = new mod_surveypro_itemfilterform($formurl, $formparams); // No aut
 // End of: instance filterform.
 
 // Output starts here.
-$url = new moodle_url('/mod/surveypro/report/frequency/view.php', array('s' => $surveypro->id));
+$url = new \moodle_url('/mod/surveypro/report/frequency/view.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -91,7 +94,7 @@ if ($PAGE->user_allowed_editing()) {
         $urlediting = 'on';
         $strediting = get_string('blocksediton');
     }
-    $url = new moodle_url($CFG->wwwroot.'/mod/surveypro/report/frequency/view.php', ['id' => $cm->id, 'edit' => $urlediting]);
+    $url = new \moodle_url($CFG->wwwroot.'/mod/surveypro/report/frequency/view.php', ['id' => $cm->id, 'edit' => $urlediting]);
     $PAGE->set_button($OUTPUT->single_button($url, $strediting));
 }
 
@@ -105,7 +108,7 @@ echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
 $surveyproreportlist = get_plugin_list('surveyproreport');
 $reportkey = array_search('frequency', array_keys($surveyproreportlist));
-new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABREPORTS, $reportkey);
+new tabs($cm, $context, $surveypro, SURVEYPRO_TABREPORTS, $reportkey);
 
 $reportman->stop_if_textareas_only();
 
@@ -131,7 +134,7 @@ if (!empty($itemid)) {
         $paramurl['groupid'] = $groupid;
     }
     $paramurl['itemid'] = $itemid;
-    $url = new moodle_url('/mod/surveypro/report/frequency/graph.php', $paramurl);
+    $url = new \moodle_url('/mod/surveypro/report/frequency/graph.php', $paramurl);
     // To troubleshoot graph, open a new window in the broser and directly call
     // http://localhost/head/mod/surveypro/report/frequency/graph.php?id=xx&groupid=0&itemid=yyy
     // address.

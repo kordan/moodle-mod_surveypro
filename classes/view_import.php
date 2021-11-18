@@ -22,7 +22,12 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
+
+use mod_surveypro\utility_submission;
+use mod_surveypro\local\form\submissionimportform;
 
 /**
  * The class importing data from CSV
@@ -31,7 +36,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_view_import {
+class view_import {
 
     /**
      * @var object Course module object
@@ -130,7 +135,7 @@ class mod_surveypro_view_import {
     public function are_headers_unique($foundheaders) {
         $uniqueheaders = array_unique($foundheaders);
         if ($duplicateheader = array_diff_key($foundheaders, $uniqueheaders)) {
-            $error = new stdClass();
+            $error = new \stdClass();
             $error->key = 'import_duplicateheader';
             $error->a = $duplicateheader;
 
@@ -163,7 +168,7 @@ class mod_surveypro_view_import {
         }
 
         if ($intersection = array_intersect($foundheaders, $variablenames)) {
-            $error = new stdClass();
+            $error = new \stdClass();
             $error->key = 'import_attachmentsnotallowed';
             $error->a = '<ul><li>'.implode(';</li><li>', $intersection).'.</li></ul>';
 
@@ -181,7 +186,7 @@ class mod_surveypro_view_import {
      */
     public function are_headers_matching($nonmatchingheaders) {
         if (count($nonmatchingheaders)) {
-            $error = new stdClass();
+            $error = new \stdClass();
             $error->key = 'import_extraheaderfound';
             $error->a = '<ul><li>'.implode(';</li><li>', $nonmatchingheaders).'.</li></ul>';
 
@@ -207,7 +212,7 @@ class mod_surveypro_view_import {
                 // Get the column where is stored the answer given to the parent item.
                 $parentcolumn = array_search($itemhelper->parentid, $this->columntoitemid);
                 if ($parentcolumn === false) {
-                    $a = new stdClass();
+                    $a = new \stdClass();
                     $missingparentid = $this->columntoitemid[$k];
                     $a->childheader = $surveyheaders[$missingparentid];
                     $a->missingparentheader = $surveyheaders[$itemhelper->parentid];
@@ -217,7 +222,7 @@ class mod_surveypro_view_import {
         }
 
         if (!empty($orphansheader)) {
-            $error = new stdClass();
+            $error = new \stdClass();
             $error->key = 'import_orphanchild';
             $error->a  = '<ul><li>'.implode(';</li><li>', $orphansheader).'</li></ul>';
 
@@ -235,14 +240,14 @@ class mod_surveypro_view_import {
      */
     public function is_valid_userid($value) {
         if (empty($value)) {
-            $error = new stdClass();
+            $error = new \stdClass();
             $error->key = 'import_missinguserid';
 
             return $error;
         }
 
         if (!is_number($value)) {
-            $error = new stdClass();
+            $error = new \stdClass();
             $error->key = 'import_invaliduserid';
             $error->a = $value;
 
@@ -260,14 +265,14 @@ class mod_surveypro_view_import {
      */
     public function is_valid_creationtime($value) {
         if (empty($value)) {
-            $error = new stdClass();
+            $error = new \stdClass();
             $error->key = 'import_missingtimecreated';
 
             return $error;
         }
 
         if (!is_number($value)) {
-            $error = new stdClass();
+            $error = new \stdClass();
             $error->key = 'import_invalidtimecreated';
             $error->a = $value;
 
@@ -289,7 +294,7 @@ class mod_surveypro_view_import {
         }
 
         if (!is_number($value)) {
-            $error = new stdClass();
+            $error = new \stdClass();
             $error->key = 'import_invalidtimemodified';
             $error->a = $value;
 
@@ -312,9 +317,9 @@ class mod_surveypro_view_import {
 
         // Has, this element, a parent item?
         if (empty($itemhelper->parentid)) {
-            $error = new stdClass();
+            $error = new \stdClass();
             $error->key = 'import_nullwithoutparent';
-            $error->a = new stdClass();
+            $error->a = new \stdClass();
             $error->a->row = implode(', ', $csvrow);
             $error->a->value = SURVEYPRO_EXPNULLVALUE;
             $error->a->col = $col;
@@ -328,9 +333,9 @@ class mod_surveypro_view_import {
             $parentanswer = $csvrow[$parentcolumn];
             // Did the parent item receive an answer forbidding this child?
             if ($itemhelper->parentvalue == $parentanswer) {
-                $error = new stdClass();
+                $error = new \stdClass();
                 $error->key = 'import_nullnotallowed';
-                $error->a = new stdClass();
+                $error->a = new \stdClass();
                 $error->a->row = implode(', ', $csvrow);
                 $error->a->value = SURVEYPRO_EXPNULLVALUE;
                 $error->a->col = $col;
@@ -354,10 +359,10 @@ class mod_surveypro_view_import {
      */
     public function is_string_notempty($csvrow, $col, $itemhelper) {
         $value = $csvrow[$col];
-        if (!core_text::strlen($value)) {
-            $error = new stdClass();
+        if (!\core_text::strlen($value)) {
+            $error = new \stdClass();
             $error->key = 'import_emptyrequiredvalue';
-            $error->a = new stdClass();
+            $error->a = new \stdClass();
             $error->a->col = $col;
             $error->a->plugin = $itemhelper->plugin;
             $error->a->content = $itemhelper->content;
@@ -367,9 +372,9 @@ class mod_surveypro_view_import {
         }
 
         if ($value == SURVEYPRO_NOANSWERVALUE) {
-            $error = new stdClass();
+            $error = new \stdClass();
             $error->key = 'import_noanswertorequired';
-            $error->a = new stdClass();
+            $error->a = new \stdClass();
             $error->a->value = SURVEYPRO_NOANSWERVALUE;
             $error->a->col = $col;
             $error->a->plugin = $itemhelper->plugin;
@@ -401,9 +406,9 @@ class mod_surveypro_view_import {
             if (is_number($position)) {
                 // If position is out of range...
                 if (($position >= $itemoptionscount) || ($position < 0)) { // For radio buttons.
-                    $error = new stdClass();
+                    $error = new \stdClass();
                     $error->key = 'import_positionoutofbound';
-                    $error->a = new stdClass();
+                    $error->a = new \stdClass();
                     $error->a->position = $position;
                     $error->a->plugin = $itemhelper->plugin;
                     $error->a->content = $itemhelper->content;
@@ -417,9 +422,9 @@ class mod_surveypro_view_import {
                 if ($itemhelper->usesoptionother) {
                     // If $position must be numeric if $k is not is at its last value.
                     if ($k < $countfoundpositions) {
-                        $error = new stdClass();
+                        $error = new \stdClass();
                         $error->key = 'import_positionnotinteger';
-                        $error->a = new stdClass();
+                        $error->a = new \stdClass();
                         $error->a->position = $position;
                         $error->a->plugin = $itemhelper->plugin;
                         $error->a->content = $itemhelper->content;
@@ -430,9 +435,9 @@ class mod_surveypro_view_import {
                         return $error;
                     }
                 } else {
-                    $error = new stdClass();
+                    $error = new \stdClass();
                     $error->key = 'import_positionnotinteger';
-                    $error->a = new stdClass();
+                    $error->a = new \stdClass();
                     $error->a->position = $position;
                     $error->a->plugin = $itemhelper->plugin;
                     $error->a->content = $itemhelper->content;
@@ -471,9 +476,9 @@ class mod_surveypro_view_import {
                 foreach ($oldsubmissionsperuser as $csvuserid => $oldsubmissions) {
                     $totalsubmissions = $oldsubmissions + $submissionsperuser[$csvuserid];
                     if ($totalsubmissions > $this->surveypro->maxentries) { // Error.
-                        $error = new stdClass();
+                        $error = new \stdClass();
                         $error->key = 'import_breakingmaxentries';
-                        $error->a = new stdClass();
+                        $error->a = new \stdClass();
                         $error->a->userid = $csvuserid;
                         $error->a->maxentries = $this->surveypro->maxentries;
                         $error->a->totalentries = $totalsubmissions;
@@ -498,7 +503,7 @@ class mod_surveypro_view_import {
         global $CFG, $DB;
 
         // Get the list of used plugin.
-        $utilitysubmissionman = new mod_surveypro_utility_submission($this->cm, $this->surveypro);
+        $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
         $pluginlist = $utilitysubmissionman->get_used_plugin_list(SURVEYPRO_TYPEFIELD);
 
         $requireditems = array();
@@ -509,7 +514,7 @@ class mod_surveypro_view_import {
 
         $whereparams = array('surveyproid' => $this->surveypro->id);
         foreach ($pluginlist as $plugin) {
-            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'_'.SURVEYPRO_TYPEFIELD;
+            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'\item';
             $canbemandatory = $classname::item_uses_mandatory_dbfield();
 
             $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
@@ -565,7 +570,7 @@ class mod_surveypro_view_import {
      * @return csv content
      */
     public function get_csv_content() {
-        $importform = new mod_surveypro_importform();
+        $importform = new submissionimportform();
 
         return $importform->get_file_content('csvfile_filepicker');
     }
@@ -646,7 +651,7 @@ class mod_surveypro_view_import {
             $item = surveypro_get_item($this->cm, $this->surveypro, $itemid);
 
             // Itemhelperinfo.
-            $itemhelper = new stdClass();
+            $itemhelper = new \stdClass();
             $itemhelper->plugin = $item->get_plugin();
             $itemhelper->content = $item->get_content();
             $itemhelper->required = $item->get_required();
@@ -655,7 +660,7 @@ class mod_surveypro_view_import {
             $itemhelper->parentid = $item->get_parentid();
             $itemhelper->parentvalue = $item->get_parentvalue();
 
-            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemhelper->plugin.'_'.SURVEYPRO_TYPEFIELD;
+            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemhelper->plugin.'\item';
             $itemhelper->usescontentformat = $classname::response_uses_format();
             $this->itemhelperinfo[$col] = $itemhelper;
 
@@ -680,23 +685,23 @@ class mod_surveypro_view_import {
 
         $debug = false;
 
-        $iid = csv_import_reader::get_new_iid('surveyprouserdata');
-        $this->cir = new csv_import_reader($iid, 'surveyprouserdata');
+        $iid = \csv_import_reader::get_new_iid('surveyprouserdata');
+        $this->cir = new \csv_import_reader($iid, 'surveyprouserdata');
         $csvcontent = $this->get_csv_content();
         if ($debug) {
-            echo html_writer::start_tag('pre');
+            echo \html_writer::start_tag('pre');
             echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
             echo '$iid = '.$iid;
-            echo html_writer::end_tag('pre');
+            echo \html_writer::end_tag('pre');
 
-            echo html_writer::start_tag('pre');
+            echo \html_writer::start_tag('pre');
             echo '$this->cir:';
             var_dump($this->cir);
-            echo html_writer::end_tag('pre');
+            echo \html_writer::end_tag('pre');
 
-            echo html_writer::start_tag('pre');
+            echo \html_writer::start_tag('pre');
             echo '$csvcontent = '.$csvcontent;
-            echo html_writer::end_tag('pre');
+            echo \html_writer::end_tag('pre');
         }
 
         // Method load_csv_content is needed to define properties in the class.
@@ -707,7 +712,7 @@ class mod_surveypro_view_import {
         // Start here 3 tests against general file configuration.
         // 1st) Verify each raw has the same column count.
         if ($this->cir->get_error()) {
-            $error = new stdClass();
+            $error = new \stdClass();
             $error->key = 'import_columnscountchanges';
 
             return $error;
@@ -717,10 +722,10 @@ class mod_surveypro_view_import {
 
         // 2nd) is each column unique?
         if ($debug) {
-            echo html_writer::start_tag('pre');
+            echo \html_writer::start_tag('pre');
             echo '$foundheaders:';
             var_dump($foundheaders);
-            echo html_writer::end_tag('pre');
+            echo \html_writer::end_tag('pre');
         }
         if ($err = $this->are_headers_unique($foundheaders)) {
             return $err;
@@ -735,16 +740,16 @@ class mod_surveypro_view_import {
         // And the list of the id of the required items.
         list($surveyheaders, $requireditems) = $this->get_survey_infos();
         if ($debug) {
-            echo html_writer::start_tag('pre');
+            echo \html_writer::start_tag('pre');
             echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
             echo '$surveyheaders:';
             var_dump($surveyheaders);
-            echo html_writer::end_tag('pre');
+            echo \html_writer::end_tag('pre');
 
-            echo html_writer::start_tag('pre');
+            echo \html_writer::start_tag('pre');
             echo '$requireditems:';
             var_dump($requireditems);
-            echo html_writer::end_tag('pre');
+            echo \html_writer::end_tag('pre');
         }
 
         // Rationale: teacher is importing.
@@ -762,21 +767,21 @@ class mod_surveypro_view_import {
         // Make a relation between each column header and the corresponding itemid.
         $nonmatchingheaders = $this->get_columntoitemid($foundheaders, $surveyheaders);
         if ($debug) {
-            echo html_writer::start_tag('pre');
+            echo \html_writer::start_tag('pre');
             echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
             echo '$this->columntoitemid:';
             var_dump($this->columntoitemid);
-            echo html_writer::end_tag('pre');
+            echo \html_writer::end_tag('pre');
 
-            echo html_writer::start_tag('pre');
+            echo \html_writer::start_tag('pre');
             echo '$this->environmentheaders:';
             var_dump($this->environmentheaders);
-            echo html_writer::end_tag('pre');
+            echo \html_writer::end_tag('pre');
 
-            echo html_writer::start_tag('pre');
+            echo \html_writer::start_tag('pre');
             echo '$nonmatchingheaders:';
             var_dump($nonmatchingheaders);
-            echo html_writer::end_tag('pre');
+            echo \html_writer::end_tag('pre');
         }
 
         if ($err = $this->are_headers_matching($nonmatchingheaders)) {
@@ -795,16 +800,16 @@ class mod_surveypro_view_import {
         // End of: get now, once and for ever, each item option (where applicable).
 
         if ($debug) {
-            echo html_writer::start_tag('pre');
+            echo \html_writer::start_tag('pre');
             echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
             echo '$this->itemhelperinfo:';
             var_dump($this->itemhelperinfo);
-            echo html_writer::end_tag('pre');
+            echo \html_writer::end_tag('pre');
 
-            echo html_writer::start_tag('pre');
+            echo \html_writer::start_tag('pre');
             echo '$optionscountpercol:';
             var_dump($optionscountpercol);
-            echo html_writer::end_tag('pre');
+            echo \html_writer::end_tag('pre');
         }
 
         // Make one more test against general file configuration.
@@ -871,11 +876,11 @@ class mod_surveypro_view_import {
                 } else {
                     $itemhelper = $this->itemhelperinfo[$col]; // The itemhelperinfo of the item in column = $col.
                     if ($debug) {
-                        echo html_writer::start_tag('pre');
+                        echo \html_writer::start_tag('pre');
                         echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
                         echo '$itemhelper:';
                         var_dump($itemhelper);
-                        echo html_writer::end_tag('pre');
+                        echo \html_writer::end_tag('pre');
                     }
                 }
 
@@ -933,10 +938,10 @@ class mod_surveypro_view_import {
 
         $debug = false;
         if ($debug) {
-            echo html_writer::start_tag('pre');
+            echo \html_writer::start_tag('pre');
             echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
             echo 'I start the import';
-            echo html_writer::end_tag('pre');
+            echo \html_writer::end_tag('pre');
         }
 
         // Create helper $contentformattocol.
@@ -977,14 +982,14 @@ class mod_surveypro_view_import {
         $this->cir->init();
         while ($csvrow = $this->cir->next()) {
             if ($debug) {
-                echo html_writer::start_tag('pre');
+                echo \html_writer::start_tag('pre');
                 echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
                 echo '$csvrow = '.implode(', ', $csvrow);
-                echo html_writer::end_tag('pre');
+                echo \html_writer::end_tag('pre');
             }
 
             // Add one record to surveypro_submission.
-            $record = new stdClass();
+            $record = new \stdClass();
             $record->surveyproid = $this->surveypro->id;
             $record->status = $this->defaultstatus;
             if (isset($this->environmentheaders[SURVEYPRO_OWNERIDLABEL])) {
@@ -1023,11 +1028,11 @@ class mod_surveypro_view_import {
             }
 
             if ($debug) {
-                echo html_writer::start_tag('pre');
+                echo \html_writer::start_tag('pre');
                 echo 'I am going to save to surveypro_submission:<br />';
                 echo '$record:';
                 var_dump($record);
-                echo html_writer::end_tag('pre');
+                echo \html_writer::end_tag('pre');
             }
             $submissionid = $DB->insert_record('surveypro_submission', $record);
             // End of: Add one record to surveypro_submission.
@@ -1040,7 +1045,7 @@ class mod_surveypro_view_import {
                 }
 
                 // Finally, save.
-                $record = new stdClass();
+                $record = new \stdClass();
                 $record->submissionid = $submissionid;
                 $record->itemid = $itemid;
                 $record->content = $content;
@@ -1058,12 +1063,12 @@ class mod_surveypro_view_import {
                 }
                 $record->verified = 1;
                 if ($debug) {
-                    echo html_writer::start_tag('pre');
+                    echo \html_writer::start_tag('pre');
                     echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
                     echo 'I am going to save to surveypro_answer:<br />';
                     echo '$record:';
                     var_dump($record);
-                    echo html_writer::end_tag('pre');
+                    echo \html_writer::end_tag('pre');
                 }
                 $DB->insert_record('surveypro_answer', $record);
             }
@@ -1071,7 +1076,7 @@ class mod_surveypro_view_import {
         }
 
         // Update completion state.
-        $completion = new completion_info($COURSE);
+        $completion = new \completion_info($COURSE);
         if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
             $completion->update_state($this->cm, COMPLETION_INCOMPLETE);
         }

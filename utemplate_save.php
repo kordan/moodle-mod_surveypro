@@ -22,8 +22,11 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_surveypro\tabs;
+use mod_surveypro\usertemplate;
+use mod_surveypro\local\form\utemplatecreateform;
+
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/form/utemplates/create_form.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
@@ -43,7 +46,7 @@ $utemplateid = optional_param('fid', 0, PARAM_INT);
 $edit = optional_param('edit', -1, PARAM_BOOL);
 
 require_course_login($course, false, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 // Required capability.
 require_capability('mod/surveypro:saveusertemplates', $context);
@@ -53,7 +56,7 @@ $action = SURVEYPRO_NOACTION;
 $confirm = SURVEYPRO_UNCONFIRMED;
 
 // Calculations.
-$utemplateman = new mod_surveypro_usertemplate($cm, $context, $surveypro);
+$utemplateman = new usertemplate($cm, $context, $surveypro);
 $utemplateman->setup($utemplateid, $action, $confirm);
 
 // $utemplateman->prevent_direct_user_input();
@@ -61,13 +64,13 @@ $utemplateman->setup($utemplateid, $action, $confirm);
 
 // Begin of: define $createutemplate return url.
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('/mod/surveypro/utemplate_save.php', $paramurl);
+$formurl = new \moodle_url('/mod/surveypro/utemplate_save.php', $paramurl);
 // End of: define $createutemplate return url.
 
 // Begin of: prepare params for the form.
-$formparams = new stdClass();
+$formparams = new \stdClass();
 $formparams->utemplateman = $utemplateman;
-$createutemplate = new mod_surveypro_createutemplateform($formurl, $formparams);
+$createutemplate = new utemplatecreateform($formurl, $formparams);
 // End of: prepare params for the form.
 
 // Begin of: manage form submission.
@@ -75,13 +78,13 @@ if ($utemplateman->formdata = $createutemplate->get_data()) {
     $utemplateman->generate_utemplate();
     $utemplateman->trigger_event('usertemplate_saved');
 
-    $redirecturl = new moodle_url('/mod/surveypro/utemplate_manage.php', array('s' => $surveypro->id));
+    $redirecturl = new \moodle_url('/mod/surveypro/utemplate_manage.php', array('s' => $surveypro->id));
     redirect($redirecturl);
 }
 // End of: manage form submission.
 
 // Output starts here.
-$url = new moodle_url('/mod/surveypro/utemplate_save.php', array('s' => $surveypro->id));
+$url = new \moodle_url('/mod/surveypro/utemplate_save.php', array('s' => $surveypro->id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -99,7 +102,7 @@ if ($PAGE->user_allowed_editing()) {
         $urlediting = 'on';
         $strediting = get_string('blocksediton');
     }
-    $url = new moodle_url($CFG->wwwroot.'/mod/surveypro/utemplate_save.php', ['id' => $cm->id, 'edit' => $urlediting]);
+    $url = new \moodle_url($CFG->wwwroot.'/mod/surveypro/utemplate_save.php', ['id' => $cm->id, 'edit' => $urlediting]);
     $PAGE->set_button($OUTPUT->single_button($url, $strediting));
 }
 
@@ -111,11 +114,11 @@ $completiondetails = \core_completion\cm_completion_details::get_instance($cm, $
 $activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
 echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
-new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABUTEMPLATES, SURVEYPRO_UTEMPLATES_BUILD);
+new tabs($cm, $context, $surveypro, SURVEYPRO_TABUTEMPLATES, SURVEYPRO_UTEMPLATES_BUILD);
 
 $utemplateman->welcome_save_message();
 
-$record = new stdClass();
+$record = new \stdClass();
 $record->surveyproid = $surveypro->id;
 
 $createutemplate->set_data($record);

@@ -22,7 +22,12 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
+
+use mod_surveypro\utility_layout;
+use mod_surveypro\formbase;
 
 /**
  * The base class representing a field
@@ -30,7 +35,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_layout_preview extends mod_surveypro_formbase {
+class layout_preview extends formbase {
 
     /**
      * Do what is needed ONLY AFTER the view parameter is set.
@@ -50,7 +55,7 @@ class mod_surveypro_layout_preview extends mod_surveypro_formbase {
         // Assign pages to items.
         $maxassignedpage = $DB->get_field('surveypro_item', 'MAX(formpage)', array('surveyproid' => $this->surveypro->id));
         if (!$maxassignedpage) {
-            $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+            $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
             $maxassignedpage = $utilitylayoutman->assign_pages();
             $this->set_maxassignedpage($maxassignedpage);
         } else {

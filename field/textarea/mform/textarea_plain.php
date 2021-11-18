@@ -41,7 +41,7 @@ require_once($CFG->libdir.'/form/textarea.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveypromform_textarea_plain extends MoodleQuickForm_textarea {
+class surveypromform_textarea_plain extends \MoodleQuickForm_textarea {
 
     /**
      * Constructor.
@@ -109,10 +109,10 @@ class surveypromform_textarea_plain extends MoodleQuickForm_textarea {
         $class['readonly'] = 'true';
 
         $output = $this->_getTabs();
-        // $output .= html_writer::tag('div', $value, $class);
-        $output .= html_writer::start_tag('textarea', $class);
+        // $output .= \html_writer::tag('div', $value, $class);
+        $output .= \html_writer::start_tag('textarea', $class);
         $output .= $value;
-        $output .= html_writer::end_tag('textarea');
+        $output .= \html_writer::end_tag('textarea');
         $output .= $this->_getPersistantData();
         return $output;
     }

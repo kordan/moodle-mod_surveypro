@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
 
 /**
@@ -31,7 +33,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_templatebase {
+class templatebase {
 
     /**
      * @var object Course module object
@@ -89,9 +91,9 @@ class mod_surveypro_templatebase {
 
         $pluginversion = self::get_subplugin_versions();
         if ($debug) {
-            $simplexml = new SimpleXMLElement($xml);
+            $simplexml = new \SimpleXMLElement($xml);
         } else {
-            $simplexml = @new SimpleXMLElement($xml);
+            $simplexml = @new \SimpleXMLElement($xml);
         }
         foreach ($simplexml->children() as $xmlitem) {
             foreach ($xmlitem->attributes() as $attribute => $value) {
@@ -108,19 +110,19 @@ class mod_surveypro_templatebase {
                 }
             }
             if (!isset($currenttype)) {
-                $error = new stdClass();
+                $error = new \stdClass();
                 $error->key = 'missingitemtype';
 
                 return $error;
             }
             if (!isset($currentplugin)) {
-                $error = new stdClass();
+                $error = new \stdClass();
                 $error->key = 'missingitemplugin';
 
                 return $error;
             }
             if (!isset($currentversion)) {
-                $error = new stdClass();
+                $error = new \stdClass();
                 $error->key = 'missingitemversion';
 
                 return $error;
@@ -129,7 +131,7 @@ class mod_surveypro_templatebase {
             // Ok, $currenttype and $currentplugin are onboard.
             // Do they define correctly a class?
             if (!file_exists($CFG->dirroot.'/mod/surveypro/'.$currenttype.'/'.$currentplugin.'/version.php')) {
-                $error = new stdClass();
+                $error = new \stdClass();
                 $error->key = 'invalidtypeorplugin';
 
                 return $error;
@@ -137,13 +139,13 @@ class mod_surveypro_templatebase {
 
             $index = $currenttype.'_'.$currentplugin;
             if ($pluginversion[$index] < $currentversion) {
-                $a = new stdClass();
+                $a = new \stdClass();
                 $a->type = $currenttype;
                 $a->plugin = $currentplugin;
                 $a->currentversion = $currentversion;
                 $a->versiondisk = $pluginversion[$index];
 
-                $error = new stdClass();
+                $error = new \stdClass();
                 $error->a = $a;
                 $error->key = 'versionmismatch';
 
@@ -158,12 +160,12 @@ class mod_surveypro_templatebase {
                     // I could use a random class here because they all share the same parent get_itembase_schema
                     // but, in spite of this, I need the right class name for the next table
                     // so I choose to load the correct class from the beginning.
-                    $classname = 'surveypro'.$currenttype.'_'.$currentplugin.'_'.$currenttype;
+                    $classname = 'surveypro'.$currenttype.'_'.$currentplugin.'\item';
                     $xsd = $classname::get_itembase_schema(); // Itembase schema.
                 } else {
                     // Classname has already been defined because of the previous loop over surveypro_item fields.
                     if (!isset($classname)) {
-                        $error = new stdClass();
+                        $error = new \stdClass();
                         $error->key = 'badtablenamefound';
                         $error->a = $tablename;
 
@@ -173,13 +175,13 @@ class mod_surveypro_templatebase {
                 }
 
                 if (empty($xsd)) {
-                    $error = new stdClass();
+                    $error = new \stdClass();
                     $error->key = 'xsdnotfound';
 
                     return $error;
                 }
 
-                $mdom = new DOMDocument();
+                $mdom = new \DOMDocument();
                 $status = $mdom->loadXML($xmltable->asXML());
 
                 // Let's capture errors.
@@ -191,8 +193,8 @@ class mod_surveypro_templatebase {
                 if ($debug) {
                     $status = $status && $mdom->schemaValidateSource($xsd);
                     if (!$status) {
-                        echo html_writer::tag('pre', s($xsd));
-                        echo html_writer::tag('pre', s($mdom->saveXML()));
+                        echo \html_writer::tag('pre', s($xsd));
+                        echo \html_writer::tag('pre', s($mdom->saveXML()));
                     }
                 } else {
                     $status = $status && @$mdom->schemaValidateSource($xsd);
@@ -213,7 +215,7 @@ class mod_surveypro_templatebase {
                     }
                     $a = sprintf($messagetemplate, trim($firsterror->message, "\n\r\t ."), $currentplugin);
 
-                    $error = new stdClass();
+                    $error = new \stdClass();
                     $error->a = $a;
                     $error->key = 'reportederror';
 
@@ -227,7 +229,7 @@ class mod_surveypro_templatebase {
                         echo '<textarea rows="10" cols="100">'.$xsd.'</textarea>';
                     }
 
-                    $error = new stdClass();
+                    $error = new \stdClass();
                     $error->key = 'schemavalidationfailed';
 
                     return $error;

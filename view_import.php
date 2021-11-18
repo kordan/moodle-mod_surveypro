@@ -22,8 +22,11 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_surveypro\tabs;
+use mod_surveypro\view_import;
+use mod_surveypro\local\form\submissionimportform;
+
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/form/data/import_form.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
@@ -42,21 +45,21 @@ $cm = cm_info::create($cm);
 $edit = optional_param('edit', -1, PARAM_BOOL);
 
 require_course_login($course, false, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 // Required capability.
 require_capability('mod/surveypro:importdata', $context);
 
 // Calculations.
-$importman = new mod_surveypro_view_import($cm, $context, $surveypro);
+$importman = new view_import($cm, $context, $surveypro);
 
 // Begin of: define $mform return url.
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('/mod/surveypro/view_import.php', $paramurl);
+$formurl = new \moodle_url('/mod/surveypro/view_import.php', $paramurl);
 // End of: define $mform return url.
 
 // Begin of: prepare params for the form.
-$importform = new mod_surveypro_importform($formurl);
+$importform = new submissionimportform($formurl);
 // End of: prepare params for the form.
 
 // Begin of: manage form submission.
@@ -64,7 +67,7 @@ if ($importman->formdata = $importform->get_data()) {
     $err = $importman->validate_csvcontent();
     if (empty($err)) {
         $importman->import_csv();
-        $redirecturl = new moodle_url('/mod/surveypro/view_submissions.php', array('s' => $surveypro->id));
+        $redirecturl = new \moodle_url('/mod/surveypro/view_submissions.php', array('s' => $surveypro->id));
         redirect($redirecturl);
     }
 }
@@ -88,7 +91,7 @@ if ($PAGE->user_allowed_editing()) {
         $urlediting = 'on';
         $strediting = get_string('blocksediton');
     }
-    $url = new moodle_url($CFG->wwwroot.'/mod/surveypro/view_import.php', ['id' => $cm->id, 'edit' => $urlediting]);
+    $url = new \moodle_url($CFG->wwwroot.'/mod/surveypro/view_import.php', ['id' => $cm->id, 'edit' => $urlediting]);
     $PAGE->set_button($OUTPUT->single_button($url, $strediting));
 }
 
@@ -100,7 +103,7 @@ $completiondetails = \core_completion\cm_completion_details::get_instance($cm, $
 $activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
 echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
-new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_IMPORT);
+new tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_IMPORT);
 
 if (!empty($err)) {
     if (isset($err->a)) {
@@ -110,7 +113,7 @@ if (!empty($err)) {
     }
     echo $OUTPUT->notification($message, 'notifyproblem');
 
-    $returnurl = new moodle_url('/mod/surveypro/view_import.php', array('s' => $surveypro->id));
+    $returnurl = new \moodle_url('/mod/surveypro/view_import.php', array('s' => $surveypro->id));
     echo $OUTPUT->continue_button($returnurl);
 } else {
     $importman->welcome_message();

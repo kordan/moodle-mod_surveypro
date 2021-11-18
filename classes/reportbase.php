@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
 
 /**
@@ -31,7 +33,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_reportbase {
+class reportbase {
 
     /**
      * @var object Course module object
@@ -247,7 +249,7 @@ class mod_surveypro_reportbase {
     public function get_middle_sql($actualrelation=true) {
         global $COURSE;
 
-        $coursecontext = context_course::instance($COURSE->id);
+        $coursecontext = \context_course::instance($COURSE->id);
         $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $coursecontext);
 
         $whereparams = array();

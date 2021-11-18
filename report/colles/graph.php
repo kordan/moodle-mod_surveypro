@@ -39,7 +39,7 @@ $qid = optional_param('qid', 0, PARAM_INT);  // Question ID.
 
 require_login($course, false, $cm);
 
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 if ($type == 'summary') {
     if (!has_capability('mod/surveypro:accessreports', $context)) {

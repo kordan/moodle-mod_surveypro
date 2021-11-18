@@ -22,7 +22,14 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
+
+use mod_surveypro\utility_layout;
+use mod_surveypro\utility_item;
+use mod_surveypro\utility_submission;
+use mod_surveypro\formbase;
 
 /**
  * The class managing the form where users are supposed to enter expected data
@@ -31,7 +38,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_view_form extends mod_surveypro_formbase {
+class view_form extends formbase {
 
     /**
      * @var int Next non empty page
@@ -87,7 +94,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         // Assign pages to items.
         $maxassignedpage = $DB->get_field('surveypro_item', 'MAX(formpage)', array('surveyproid' => $this->surveypro->id));
         if (!$maxassignedpage) {
-            $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+            $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
             $maxassignedpage = $utilitylayoutman->assign_pages();
             $this->set_maxassignedpage($maxassignedpage);
         } else {
@@ -123,7 +130,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
      */
     public function set_formpage($formpage) {
         if ($this->view === null) {
-            $message = 'Please call set_view method of the class mod_surveypro_view_form before calling set_formpage';
+            $message = 'Please call set_view method of the class mod_surveypro/view_form before calling set_formpage';
             debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
 
@@ -272,7 +279,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         $condition = ($startingpage == SURVEYPRO_RIGHT_OVERFLOW) && ($rightdirection);
         $condition = $condition || (($startingpage == SURVEYPRO_LEFT_OVERFLOW) && (!$rightdirection));
         if ($condition) {
-            $a = new stdClass();
+            $a = new \stdClass();
             if ($startingpage == SURVEYPRO_RIGHT_OVERFLOW) {
                 $a->startingpage = 'SURVEYPRO_RIGHT_OVERFLOW';
             } else {
@@ -398,7 +405,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
             $this->formdata->submissionid = 0;
         }
 
-        $submission = new stdClass();
+        $submission = new \stdClass();
         if (empty($this->formdata->submissionid)) {
             $originalstatus = SURVEYPRO_STATUSINPROGRESS;
             // Add a new record to surveypro_submission.
@@ -530,7 +537,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
      *    and I arrive to define:
      *
      *    $itemhelperinfo = Array (
-     *        [148] => stdClass Object (
+     *        [148] => \stdClass Object (
      *            [surveyproid] => 1
      *            [submissionid] => 60
      *            [type] => field
@@ -541,7 +548,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
      *                [month] => 9
      *            )
      *        )
-     *        [149] => stdClass Object (
+     *        [149] => \stdClass Object (
      *            [surveyproid] => 1
      *            [submissionid] => 63
      *            [type] => field
@@ -551,7 +558,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
      *                [noanswer] => 1
      *            )
      *        )
-     *        [150] => stdClass Object (
+     *        [150] => \stdClass Object (
      *            [surveyproid] => 1
      *            [submissionid] => 63
      *            [type] => field
@@ -561,7 +568,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
      *                [mainelement] => horse
      *            )
      *        )
-     *        [151] => stdClass Object (
+     *        [151] => \stdClass Object (
      *            [surveyproid] => 1
      *            [submissionid] => 63
      *            [type] => field
@@ -571,7 +578,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
      *                [filemanager] => 667420320
      *            )
      *        )
-     *        [185] => stdClass Object (
+     *        [185] => \stdClass Object (
      *            [surveyproid] => 1
      *            [submissionid] => 63
      *            [type] => field
@@ -585,7 +592,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
      *                [noanswer] => 0
      *            )
      *        )
-     *        [186] => stdClass Object (
+     *        [186] => \stdClass Object (
      *            [surveyproid] => 1
      *            [submissionid] => 63
      *            [type] => field
@@ -633,7 +640,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
 
         // Generate $itemhelperinfo.
         foreach ($this->formdata as $elementname => $content) {
-            if ($matches = mod_surveypro_utility_item::get_item_parts($elementname)) {
+            if ($matches = utility_item::get_item_parts($elementname)) {
                 if ($matches['prefix'] == SURVEYPRO_PLACEHOLDERPREFIX) {
                     $newelement = SURVEYPRO_ITEMPREFIX.'_'.$matches['type'].'_'.$matches['plugin'].'_'.$matches['itemid'];
                     if (!isset($this->formdata->$newelement)) {
@@ -646,7 +653,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
 
         $itemhelperinfo = array();
         foreach ($this->formdata as $elementname => $content) {
-            if ($matches = mod_surveypro_utility_item::get_item_parts($elementname)) {
+            if ($matches = utility_item::get_item_parts($elementname)) {
                 // With the introduction of interactive fieldset...
                 // those format elements are now equipped with open/close triangle...
                 // and they submit their own state.
@@ -671,7 +678,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
 
             $itemid = $matches['itemid'];
             if (!isset($itemhelperinfo[$itemid])) {
-                $itemhelperinfo[$itemid] = new stdClass();
+                $itemhelperinfo[$itemid] = new \stdClass();
                 $itemhelperinfo[$itemid]->surveyproid = $surveyproid;
                 $itemhelperinfo[$itemid]->submissionid = $this->get_submissionid();
                 $itemhelperinfo[$itemid]->type = $matches['type'];
@@ -692,7 +699,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
             $where = array('submissionid' => $iteminfo->submissionid, 'itemid' => $iteminfo->itemid);
             if (!$useranswer = $DB->get_record('surveypro_answer', $where)) {
                 // Quickly make one new!
-                $useranswer = new stdClass();
+                $useranswer = new \stdClass();
                 $useranswer->surveyproid = $iteminfo->surveyproid;
                 $useranswer->submissionid = $iteminfo->submissionid;
                 $useranswer->itemid = $iteminfo->itemid;
@@ -757,7 +764,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         }
 
         // Update completion state.
-        $completion = new completion_info($COURSE);
+        $completion = new \completion_info($COURSE);
         if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
             $completion->update_state($this->cm, COMPLETION_COMPLETE);
         }
@@ -774,13 +781,13 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
 
         // Get the list of used plugin.
-        $utilitysubmissionman = new mod_surveypro_utility_submission($this->cm, $this->surveypro);
+        $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
         $pluginlist = $utilitysubmissionman->get_used_plugin_list(SURVEYPRO_TYPEFIELD);
 
         // Begin of: get the list of all mandatory fields.
         $requireditems = array();
         foreach ($pluginlist as $plugin) {
-            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'_'.SURVEYPRO_TYPEFIELD;
+            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'\item';
             $canbemandatory = $classname::item_uses_mandatory_dbfield();
             if ($canbemandatory) {
                 $sql = 'SELECT i.id, i.parentid, i.parentvalue, i.reserved
@@ -900,7 +907,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         }
 
         // Course context used locally to get groups.
-        $coursecontext = context_course::instance($COURSE->id);
+        $coursecontext = \context_course::instance($COURSE->id);
 
         $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $this->cm->groupingid);
         $mygroups = array_keys($mygroups);
@@ -953,10 +960,10 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         }
 
         if (!empty($this->surveypro->mailextraaddresses)) {
-            $utilityitemman = new mod_surveypro_utility_item($this->cm, $this->surveypro);
+            $utilityitemman = new utility_item($this->cm, $this->surveypro);
             $morerecipients = $utilityitemman->multilinetext_to_array($this->surveypro->mailextraaddresses);
             foreach ($morerecipients as $moreemail) {
-                $singleuser = new stdClass();
+                $singleuser = new \stdClass();
                 $singleuser->id = -1;
                 $singleuser->firstname = '';
                 $singleuser->lastname = '';
@@ -1008,7 +1015,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
 
             $content = str_replace($originals, $replacements, $content);
         } else {
-            $a = new stdClass();
+            $a = new \stdClass();
             $a->username = empty($this->surveypro->anonymous) ? fullname($USER) : $coveredattr;
             $a->surveyproname = $this->surveypro->name;
             $a->title = get_string('reviewsubmissions', 'mod_surveypro');
@@ -1041,13 +1048,13 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
                 return;
             }
 
-            $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+            $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
             if (!$utilitylayoutman->can_submit_more()) {
                 $message = get_string('nomoresubmissionsallowed', 'mod_surveypro', $this->surveypro->maxentries);
                 echo $OUTPUT->notification($message, 'notifyproblem');
 
                 $whereparams = array('id' => $this->cm->id);
-                $continueurl = new moodle_url('/mod/surveypro/view_submissions.php', $whereparams);
+                $continueurl = new \moodle_url('/mod/surveypro/view_submissions.php', $whereparams);
 
                 echo $OUTPUT->continue_button($continueurl);
                 echo $OUTPUT->footer();
@@ -1076,27 +1083,27 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
                 $formpage = $this->get_formpage();
                 if (($formpage != SURVEYPRO_LEFT_OVERFLOW) && ($formpage != 1)) {
                     $params['formpage'] = $formpage - 1;
-                    $url = new moodle_url('/mod/surveypro/view_form.php', $params);
-                    $backwardbutton = new single_button($url, get_string('previousformpage', 'mod_surveypro'), 'get');
+                    $url = new \moodle_url('/mod/surveypro/view_form.php', $params);
+                    $backwardbutton = new \single_button($url, get_string('previousformpage', 'mod_surveypro'), 'get');
                 }
 
                 if (($formpage != SURVEYPRO_RIGHT_OVERFLOW) && ($formpage != $maxassignedpage)) {
                     $params['formpage'] = $formpage + 1;
-                    $url = new moodle_url('/mod/surveypro/view_form.php', $params);
-                    $forwardbutton = new single_button($url, get_string('nextformpage', 'mod_surveypro'), 'get');
+                    $url = new \moodle_url('/mod/surveypro/view_form.php', $params);
+                    $forwardbutton = new \single_button($url, get_string('nextformpage', 'mod_surveypro'), 'get');
                 }
 
                 $params = array('class' => 'buttons');
                 if (isset($backwardbutton) && isset($forwardbutton)) {
                     // This code comes from "public function confirm(" around line 1711 in outputrenderers.php.
                     // It is not wrong. The misalign comes from bootstrapbase theme and is present in clean theme too.
-                    echo html_writer::tag('div', $OUTPUT->render($backwardbutton).$OUTPUT->render($forwardbutton), $params);
+                    echo \html_writer::tag('div', $OUTPUT->render($backwardbutton).$OUTPUT->render($forwardbutton), $params);
                 } else {
                     if (isset($backwardbutton)) {
-                        echo html_writer::tag('div', $OUTPUT->render($backwardbutton), $params);
+                        echo \html_writer::tag('div', $OUTPUT->render($backwardbutton), $params);
                     }
                     if (isset($forwardbutton)) {
-                        echo html_writer::tag('div', $OUTPUT->render($forwardbutton), $params);
+                        echo \html_writer::tag('div', $OUTPUT->render($forwardbutton), $params);
                     }
                 }
             }
@@ -1126,7 +1133,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
         $disposelist = array();
         $olditemid = 0;
         foreach ($elementnames as $elementname) {
-            if ($matches = mod_surveypro_utility_item::get_item_parts($elementname)) {
+            if ($matches = utility_item::get_item_parts($elementname)) {
                 // With the introduction of interactive fieldset...
                 // those format elements are now equipped with open/close triangle...
                 // and they submit their own state.
@@ -1182,9 +1189,9 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
 
         // If not expected items are here...
         if (count($disposelist)) {
-            $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+            $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
             foreach ($elementnames as $elementname) {
-                if ($matches = mod_surveypro_utility_item::get_item_parts($elementname)) {
+                if ($matches = utility_item::get_item_parts($elementname)) {
                     // With the introduction of interactive fieldset...
                     // those format elements are now equipped with open/close triangle...
                     // and they submit their own state.
@@ -1229,7 +1236,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
             if ($submission->userid != $USER->id) {
                 $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
                 if ($groupmode == SEPARATEGROUPS) {
-                    $utilitysubmissionman = new mod_surveypro_utility_submission($cm, $surveypro);
+                    $utilitysubmissionman = new utility_submission($cm, $surveypro);
                     $mygroupmates = $utilitysubmissionman->get_groupmates($this->cm);
                     // If I am a teacher, $mygroupmates is empty but I still have the right to see all my students.
                     if (!$mygroupmates) { // I have no $mygroupmates. I am a teacher. I am active part of each group.
@@ -1263,7 +1270,7 @@ class mod_surveypro_view_form extends mod_surveypro_formbase {
                     // $next = N + 1
                     // and I am wrongly stopped here!
                     // Because of this, I increase $next only if submissionid == 0.
-                    $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+                    $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
                     $next = $utilitylayoutman->has_submissions(true, SURVEYPRO_STATUSALL, $USER->id);
                     if (!$this->get_submissionid()) {
                         $next += 1;

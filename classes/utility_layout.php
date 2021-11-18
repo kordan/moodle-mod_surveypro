@@ -22,7 +22,11 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
+
+use mod_surveypro\utility_submission;
 
 /**
  * The utility class
@@ -31,7 +35,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_utility_layout {
+class utility_layout {
 
     /**
      * @var object Course module object
@@ -58,7 +62,7 @@ class mod_surveypro_utility_layout {
         global $DB;
 
         $this->cm = $cm;
-        $this->context = context_module::instance($cm->id);
+        $this->context = \context_module::instance($cm->id);
         if (empty($surveypro)) {
             $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
         }
@@ -147,9 +151,9 @@ class mod_surveypro_utility_layout {
 
             $paramurl = array('id' => $this->cm->id);
             if ($canmanageitems) {
-                $redirecturl = new moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
+                $redirecturl = new \moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
             } else {
-                $redirecturl = new moodle_url('/mod/surveypro/view.php', $paramurl);
+                $redirecturl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
             }
             redirect($redirecturl);
         }
@@ -290,7 +294,7 @@ class mod_surveypro_utility_layout {
             return;
         }
 
-        $context = context_module::instance($this->cm->id);
+        $context = \context_module::instance($this->cm->id);
         // Delete answers to this/these item/s.
         foreach ($items as $item) {
             $this->delete_answers(array('itemid' => $item->id), $item);
@@ -464,7 +468,7 @@ class mod_surveypro_utility_layout {
             // End of: If this method was called from delete_items, you are supposed to delete related items too.
 
             // If no error rise up, execution continue and I can log events.
-            $context = context_module::instance($this->cm->id);
+            $context = \context_module::instance($this->cm->id);
             foreach ($submissionsid as $submissionid) {
                 // Event: submission_deleted.
                 $eventdata = array('context' => $context, 'objectid' => $submissionid);
@@ -491,7 +495,7 @@ class mod_surveypro_utility_layout {
         // Item deletion lead to COMPLETION_COMPLETE.
         // All the students with an "in progress" submission that were missing ONLY the deleted items,
         // now may get the activity completion.
-        $completion = new completion_info($COURSE);
+        $completion = new \completion_info($COURSE);
         if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
             foreach ($completionusers as $user) {
                 $completion->update_state($this->cm, COMPLETION_COMPLETE, $user->id);
@@ -523,7 +527,7 @@ class mod_surveypro_utility_layout {
 
         $fs = get_file_storage();
 
-        $context = context_module::instance($this->cm->id);
+        $context = \context_module::instance($this->cm->id);
         try {
             $transaction = $DB->start_delegated_transaction();
 
@@ -596,7 +600,7 @@ class mod_surveypro_utility_layout {
             // Update completion state.
         }
 
-        $completion = new completion_info($COURSE);
+        $completion = new \completion_info($COURSE);
         if ($completion->is_enabled($this->cm) && $this->surveypro->completionsubmit) {
             foreach ($possibleusers as $user) {
                 $completion->update_state($this->cm, COMPLETION_COMPLETE, $user->id);
@@ -791,7 +795,7 @@ class mod_surveypro_utility_layout {
         $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context);
         $canaccessownreports = has_capability('mod/surveypro:accessownreports', $this->context);
 
-        $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+        $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
         $hassubmissions = $utilitylayoutman->has_submissions();
 
         $whereparams = array('surveyproid' => $this->surveypro->id);
@@ -807,21 +811,21 @@ class mod_surveypro_utility_layout {
         // Layout -> preview.
         $elements['preview'] = false;
         if ($canpreview) {
-            $elementurl = new moodle_url('/mod/surveypro/layout_preview.php', $paramurlbase);
+            $elementurl = new \moodle_url('/mod/surveypro/layout_preview.php', $paramurlbase);
             $elements['preview'] = $elementurl;
         }
 
         // Layout -> elements.
         $elements['manage'] = false;
         if ($canmanageitems) {
-            $elementurl = new moodle_url('/mod/surveypro/layout_itemlist.php', $paramurlbase);
+            $elementurl = new \moodle_url('/mod/surveypro/layout_itemlist.php', $paramurlbase);
             $elements['manage'] = $elementurl;
         }
 
         // Layout -> validate.
         $elements['validate'] = false;
         if ($canmanageitems && empty($this->surveypro->template) && $countparents) {
-            $elementurl = new moodle_url('/mod/surveypro/layout_validation.php', $paramurlbase);
+            $elementurl = new \moodle_url('/mod/surveypro/layout_validation.php', $paramurlbase);
             $elements['validate'] = $elementurl;
         }
 
@@ -834,7 +838,7 @@ class mod_surveypro_utility_layout {
         // Layout -> container.
         $elements['container'] = false;
         if ($elements['preview'] || $elements['manage'] || $elements['validate'] || $elements['itemsetup']) {
-            $elementurl = new moodle_url('/mod/surveypro/layout_itemlist.php', $paramurlbase);
+            $elementurl = new \moodle_url('/mod/surveypro/layout_itemlist.php', $paramurlbase);
             $elements['container'] = $elementurl;
         }
 
@@ -847,36 +851,36 @@ class mod_surveypro_utility_layout {
         // Submissions -> cover.
         $elements['cover'] = false;
         if ($canview) {
-            $elementurl = new moodle_url('/mod/surveypro/view.php', $paramurlbase);
+            $elementurl = new \moodle_url('/mod/surveypro/view.php', $paramurlbase);
             $elements['cover'] = $elementurl;
         }
 
         // Submissions -> responses.
         $elements['responses'] = false;
         if (!is_guest($this->context)) {
-            $elementurl = new moodle_url('/mod/surveypro/view_submissions.php', array('id' => $this->cm->id, 'force' => 1));
+            $elementurl = new \moodle_url('/mod/surveypro/view_submissions.php', array('id' => $this->cm->id, 'force' => 1));
             $elements['responses'] = $elementurl;
         }
 
         // Submissions -> search.
         $elements['search'] = false;
-        $utilitylayoutman = new mod_surveypro_utility_layout($this->cm, $this->surveypro);
+        $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
         if ($cansearch && $utilitylayoutman->has_search_items()) {
-            $elementurl = new moodle_url('/mod/surveypro/view_search.php', $paramurlbase);
+            $elementurl = new \moodle_url('/mod/surveypro/view_search.php', $paramurlbase);
             $elements['search'] = $elementurl;
         }
 
         // Submissions -> import.
         $elements['import'] = false;
         if ($canimportdata) {
-            $elementurl = new moodle_url('/mod/surveypro/view_import.php', $paramurlbase);
+            $elementurl = new \moodle_url('/mod/surveypro/view_import.php', $paramurlbase);
             $elements['import'] = $elementurl;
         }
 
         // Submissions -> export.
         $elements['export'] = false;
         if ($canexportdata) {
-            $elementurl = new moodle_url('/mod/surveypro/view_export.php', $paramurlbase);
+            $elementurl = new \moodle_url('/mod/surveypro/view_export.php', $paramurlbase);
             $elements['export'] = $elementurl;
         }
 
@@ -887,13 +891,13 @@ class mod_surveypro_utility_layout {
         $elements['container'] = false;
         if ($caller == SURVEYPRO_TAB) {
             if ($elements['cover'] || $elements['responses'] || $elements['search'] || $elements['report']) {
-                $elementurl = new moodle_url('/mod/surveypro/view_submissions.php', $paramurlbase);
+                $elementurl = new \moodle_url('/mod/surveypro/view_submissions.php', $paramurlbase);
                 $elements['container'] = $elementurl;
             }
         }
         if ($caller == SURVEYPRO_BLOCK) {
             if ($elements['import'] || $elements['export']) {
-                $elementurl = new moodle_url('/mod/surveypro/view_submissions.php', $paramurlbase);
+                $elementurl = new \moodle_url('/mod/surveypro/view_submissions.php', $paramurlbase);
                 $elements['container'] = $elementurl;
             }
         }
@@ -910,28 +914,28 @@ class mod_surveypro_utility_layout {
         // User template -> manage.
         $elements['manage'] = false;
         if ($elements['container']) {
-            $elementurl = new moodle_url('/mod/surveypro/utemplate_manage.php', $paramurlbase);
+            $elementurl = new \moodle_url('/mod/surveypro/utemplate_manage.php', $paramurlbase);
             $elements['manage'] = $elementurl;
         }
 
         // User template -> save.
         $elements['save'] = false;
         if ($elements['container'] && $cansaveusertemplates) {
-            $elementurl = new moodle_url('/mod/surveypro/utemplate_save.php', $paramurlbase);
+            $elementurl = new \moodle_url('/mod/surveypro/utemplate_save.php', $paramurlbase);
             $elements['save'] = $elementurl;
         }
 
         // User template -> import.
         $elements['import'] = false;
         if ($elements['container'] && $canimportusertemplates) {
-            $elementurl = new moodle_url('/mod/surveypro/utemplate_import.php', $paramurlbase);
+            $elementurl = new \moodle_url('/mod/surveypro/utemplate_import.php', $paramurlbase);
             $elements['import'] = $elementurl;
         }
 
         // User template -> apply.
         $elements['apply'] = false;
         if ($elements['container'] && (!$hassubmissions || $riskyediting) && $canapplyusertemplates) {
-            $elementurl = new moodle_url('/mod/surveypro/utemplate_apply.php', $paramurlbase);
+            $elementurl = new \moodle_url('/mod/surveypro/utemplate_apply.php', $paramurlbase);
             $elements['apply'] = $elementurl;
         }
 
@@ -944,14 +948,14 @@ class mod_surveypro_utility_layout {
         // Master template -> save.
         $elements['save'] = false;
         if ($cansavemastertemplates && empty($this->surveypro->template)) {
-            $elementurl = new moodle_url('/mod/surveypro/mtemplate_save.php', $paramurlbase);
+            $elementurl = new \moodle_url('/mod/surveypro/mtemplate_save.php', $paramurlbase);
             $elements['save'] = $elementurl;
         }
 
         // Master template -> apply.
         $elements['apply'] = false;
         if ((!$hassubmissions || $riskyediting) && $canapplymastertemplates) {
-            $elementurl = new moodle_url('/mod/surveypro/mtemplate_apply.php', $paramurlbase);
+            $elementurl = new \moodle_url('/mod/surveypro/mtemplate_apply.php', $paramurlbase);
             $elements['apply'] = $elementurl;
         }
 
@@ -978,7 +982,7 @@ class mod_surveypro_utility_layout {
                         if ($reportman->report_apply()) {
                             $counter++;
                             $elements[$reportname] = false;
-                            $elementurl = new moodle_url('/mod/surveypro/report/'.$reportname.'/view.php', $paramurlbase);
+                            $elementurl = new \moodle_url('/mod/surveypro/report/'.$reportname.'/view.php', $paramurlbase);
                             $elements[$reportname] = $elementurl;
 
                             // Reports -> container.
@@ -1014,7 +1018,7 @@ class mod_surveypro_utility_layout {
             return;
         }
 
-        $context = context_module::instance($this->cm->id);
+        $context = \context_module::instance($this->cm->id);
 
         list($insql, $inparams) = $DB->get_in_or_equal($answersid, SQL_PARAMS_NAMED);
 
@@ -1046,7 +1050,7 @@ class mod_surveypro_utility_layout {
 
         $whereparams['hidden'] = $visibility;
 
-        $context = context_module::instance($this->cm->id);
+        $context = \context_module::instance($this->cm->id);
         $items = $DB->get_records('surveypro_item', $whereparams, '', 'id, plugin');
         if ($visibility == 0) {
             // I was asked to hide.
@@ -1123,7 +1127,7 @@ class mod_surveypro_utility_layout {
      * @return void
      */
     public function optional_to_required_followup($itemid) {
-        $utilitysubmissionman = new mod_surveypro_utility_submission($this->cm, $this->surveypro);
+        $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
         $whereparams = array('itemid' => $itemid, 'content' => SURVEYPRO_NOANSWERVALUE);
         $submissions = $this->get_submissionsid_from_answers($whereparams);
         foreach ($submissions as $submission) {

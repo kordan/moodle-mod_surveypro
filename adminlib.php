@@ -47,7 +47,7 @@ class mod_surveypro_admin_page_manage_surveypro_plugins extends admin_externalpa
      */
     public function __construct($subtype) {
         $this->subtype = $subtype;
-        $url = new moodle_url('/mod/surveypro/adminmanageplugins.php', array('subtype' => $subtype));
+        $url = new \moodle_url('/mod/surveypro/adminmanageplugins.php', array('subtype' => $subtype));
         parent::__construct('manage'.$subtype.'plugins',
                             get_string('manage'.$subtype.'plugins', 'mod_surveypro'),
                             $url);
@@ -73,7 +73,7 @@ class mod_surveypro_admin_page_manage_surveypro_plugins extends admin_externalpa
             }
         }
         if ($found) {
-            $result = new stdClass();
+            $result = new \stdClass();
             $result->page = $this;
             $result->settings = array();
             return array($this->name => $result);
@@ -113,7 +113,7 @@ class mod_surveypro_plugin_manager {
      * @param string $subtype Either surveyprofield, surveyproformat, surveyprotemplate or surveyproreport
      */
     public function __construct($subtype) {
-        $this->pageurl = new moodle_url('/mod/surveypro/adminmanageplugins.php', array('subtype' => $subtype));
+        $this->pageurl = new \moodle_url('/mod/surveypro/adminmanageplugins.php', array('subtype' => $subtype));
         $this->subtype = $subtype;
     }
 
@@ -155,7 +155,7 @@ class mod_surveypro_plugin_manager {
 
         // Set up the table.
         $this->view_header();
-        $table = new flexible_table($this->subtype.'pluginsadminttable');
+        $table = new \flexible_table($this->subtype.'pluginsadminttable');
         $table->define_baseurl($this->pageurl);
 
         $tablecolumns = array();
@@ -228,13 +228,13 @@ class mod_surveypro_plugin_manager {
             $visible = !get_config($this->subtype.'_'.$plugin, 'disabled');
             if ($visible) {
                 $title = get_string('disable');
-                $row[] = $OUTPUT->action_icon(new moodle_url($this->pageurl,
+                $row[] = $OUTPUT->action_icon(new \moodle_url($this->pageurl,
                     array('action' => 'hidden', 'plugin' => $plugin, 'sesskey' => sesskey())),
                     new pix_icon('t/hide', $title, 'moodle', array('title' => $title)),
                     null, array('title' => $title));
             } else {
                 $title = get_string('enable');
-                $row[] = $OUTPUT->action_icon(new moodle_url($this->pageurl,
+                $row[] = $OUTPUT->action_icon(new \moodle_url($this->pageurl,
                     array('action' => 'show', 'plugin' => $plugin, 'sesskey' => sesskey())),
                     new pix_icon('t/show', $title, 'moodle', array('title' => $title)),
                     null, array('title' => $title));
@@ -245,14 +245,14 @@ class mod_surveypro_plugin_manager {
                 $row[] = '&nbsp;';
             } else {
                 $title = get_string('delete');
-                $row[] = $OUTPUT->action_icon(new moodle_url($this->pageurl,
+                $row[] = $OUTPUT->action_icon(new \moodle_url($this->pageurl,
                     array('action' => 'delete', 'plugin' => $plugin, 'sesskey' => sesskey())),
                     new pix_icon('t/delete', $title, 'moodle', array('title' => $title)),
                     null, array('title' => $title));
             }
             $exists = file_exists($CFG->dirroot.'/mod/surveypro/'.$shortsubtype.'/'.$plugin.'/settings.php');
             if ($row[1] != '' && $exists) {
-                $row[] = html_writer::link(new moodle_url('/admin/settings.php',
+                $row[] = \html_writer::link(new \moodle_url('/admin/settings.php',
                         array('section' => $this->subtype.'_'.$plugin)), get_string('settings'));
             } else {
                 $row[] = '&nbsp;';
@@ -299,7 +299,7 @@ class mod_surveypro_plugin_manager {
     private function check_permissions() {
         // Check permissions.
         require_login();
-        $systemcontext = context_system::instance();
+        $systemcontext = \context_system::instance();
         require_capability('moodle/site:config', $systemcontext);
     }
 
@@ -378,7 +378,7 @@ class mod_surveypro_plugin_manager {
         $pluginname = get_string('pluginname', $this->subtype.'_'.$plugin);
         echo $OUTPUT->heading(get_string('deletingplugin', 'mod_surveypro', $pluginname));
         $urlparams = array('action' => 'delete', 'plugin' => $plugin, 'confirm' => 1);
-        $confirmurl = new moodle_url($this->pageurl, $urlparams);
+        $confirmurl = new \moodle_url($this->pageurl, $urlparams);
         echo $OUTPUT->confirm(get_string('deletepluginmessage', 'mod_surveypro', $pluginname),
                 $confirmurl,
                 $this->pageurl);

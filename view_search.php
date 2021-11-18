@@ -22,8 +22,12 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_surveypro\tabs;
+use mod_surveypro\utility_mform;
+use mod_surveypro\view_search;
+use mod_surveypro\local\form\surveyprosearchform;
+
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/form/outform/search_form.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
@@ -42,33 +46,33 @@ $cm = cm_info::create($cm);
 $formpage = optional_param('formpage', 1, PARAM_INT); // Form page number.
 
 require_course_login($course, false, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 // Required capability.
 require_capability('mod/surveypro:searchsubmissions', $context);
 
 // Calculations.
-mod_surveypro_utility_mform::register_form_elements();
+mod_surveypro\utility_mform::register_form_elements();
 
-$searchman = new mod_surveypro_view_search($cm, $context, $surveypro);
+$searchman = new view_search($cm, $context, $surveypro);
 
 // Begin of: define $searchform return url.
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('/mod/surveypro/view_search.php', $paramurl);
+$formurl = new \moodle_url('/mod/surveypro/view_search.php', $paramurl);
 // End of: define $searchform return url.
 
 // Begin of: prepare params for the search form.
-$formparams = new stdClass();
+$formparams = new \stdClass();
 $formparams->cm = $cm;
 $formparams->surveypro = $surveypro;
 $formparams->canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context);
-$searchform = new mod_surveypro_searchform($formurl, $formparams, 'post', '', array('id' => 'usersearch'));
+$searchform = new surveyprosearchform($formurl, $formparams, 'post', '', array('id' => 'usersearch'));
 // End of: prepare params for the form.
 
 // Begin of: manage form submission.
 if ($searchform->is_cancelled()) {
     $paramurl = array('id' => $cm->id);
-    $returnurl = new moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
+    $returnurl = new \moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
     redirect($returnurl);
 }
 
@@ -79,7 +83,7 @@ if ($searchman->formdata = $searchform->get_data()) {
     if ($searchquery = $searchman->get_searchparamurl()) {
         $paramurl['searchquery'] = $searchquery;
     }
-    $returnurl = new moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
+    $returnurl = new \moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
     redirect($returnurl);
 }
 // End of: manage form submission.
@@ -99,7 +103,7 @@ $completiondetails = \core_completion\cm_completion_details::get_instance($cm, $
 $activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
 echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
-new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_SEARCH);
+new tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_SEARCH);
 
 $searchform->display();
 

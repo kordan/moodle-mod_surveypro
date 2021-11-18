@@ -22,8 +22,13 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_surveypro\utility_layout;
+use mod_surveypro\layout_preview;
+use mod_surveypro\tabs;
+use mod_surveypro\utility_mform;
+use mod_surveypro\local\form\surveyprofillform;
+
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/form/outform/fill_form.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
@@ -44,24 +49,24 @@ $submissionid = optional_param('submissionid', 0, PARAM_INT);
 $edit = optional_param('edit', -1, PARAM_BOOL);
 
 require_course_login($course, false, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 // Calculations.
-mod_surveypro_utility_mform::register_form_elements();
+mod_surveypro\utility_mform::register_form_elements();
 
-$previewman = new mod_surveypro_layout_preview($cm, $context, $surveypro);
+$previewman = new layout_preview($cm, $context, $surveypro);
 $previewman->setup($submissionid, $formpage);
 
-$utilitylayoutman = new mod_surveypro_utility_layout($cm, $surveypro);
+$utilitylayoutman = new utility_layout($cm, $surveypro);
 $utilitylayoutman->add_custom_css();
 
 // Begin of: define $user_form return url.
 $paramurl = array('id' => $cm->id);
-$formurl = new moodle_url('/mod/surveypro/layout_preview.php', $paramurl);
+$formurl = new \moodle_url('/mod/surveypro/layout_preview.php', $paramurl);
 // End of: define $user_form return url.
 
 // Begin of: prepare params for the form.
-$formparams = new stdClass();
+$formparams = new \stdClass();
 $formparams->cm = $cm;
 $formparams->surveypro = $surveypro;
 $formparams->submissionid = $submissionid;
@@ -73,7 +78,7 @@ $formparams->readonly = false;
 $formparams->preview = true;
 // End of: prepare params for the form.
 
-$userform = new mod_surveypro_outform($formurl, $formparams, 'post', '', array('id' => 'userentry'));
+$userform = new surveyprofillform($formurl, $formparams, 'post', '', array('id' => 'userentry'));
 
 // Begin of: manage form submission.
 if ($data = $userform->get_data()) {
@@ -83,7 +88,7 @@ if ($data = $userform->get_data()) {
     $prevbutton = isset($data->prevbutton);
     if ($prevbutton) {
         $paramurl['formpage'] = --$formpage;
-        $redirecturl = new moodle_url('/mod/surveypro/layout_preview.php', $paramurl);
+        $redirecturl = new \moodle_url('/mod/surveypro/layout_preview.php', $paramurl);
         redirect($redirecturl); // Go to the previous page of the form.
     }
 
@@ -91,7 +96,7 @@ if ($data = $userform->get_data()) {
     $nextbutton = isset($data->nextbutton);
     if ($nextbutton) {
         $paramurl['formpage'] = ++$formpage;
-        $redirecturl = new moodle_url('/mod/surveypro/layout_preview.php', $paramurl);
+        $redirecturl = new \moodle_url('/mod/surveypro/layout_preview.php', $paramurl);
         redirect($redirecturl); // Go to the next page of the form.
     }
 }
@@ -102,7 +107,7 @@ $paramurl = array('s' => $surveypro->id);
 if (!empty($submissionid)) {
     $paramurl['submissionid'] = $submissionid;
 }
-$url = new moodle_url('/mod/surveypro/layout_preview.php', $paramurl);
+$url = new \moodle_url('/mod/surveypro/layout_preview.php', $paramurl);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -120,7 +125,7 @@ if ($PAGE->user_allowed_editing()) {
         $urlediting = 'on';
         $strediting = get_string('blocksediton');
     }
-    $url = new moodle_url($CFG->wwwroot.'/mod/surveypro/layout_preview.php', ['id' => $cm->id, 'edit' => $urlediting]);
+    $url = new \moodle_url($CFG->wwwroot.'/mod/surveypro/layout_preview.php', ['id' => $cm->id, 'edit' => $urlediting]);
     $PAGE->set_button($OUTPUT->single_button($url, $strediting));
 }
 
@@ -132,7 +137,7 @@ $completiondetails = \core_completion\cm_completion_details::get_instance($cm, $
 $activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
 echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
-new mod_surveypro_tabs($cm, $context, $surveypro, SURVEYPRO_TABLAYOUT, SURVEYPRO_LAYOUT_PREVIEW);
+new tabs($cm, $context, $surveypro, SURVEYPRO_TABLAYOUT, SURVEYPRO_LAYOUT_PREVIEW);
 
 $previewman->noitem_stopexecution();
 $previewman->message_preview_mode();

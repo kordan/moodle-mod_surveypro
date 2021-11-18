@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+use mod_surveypro\reportbase;
+
 require_once($CFG->libdir.'/tablelib.php');
 
 /**
@@ -33,7 +35,7 @@ require_once($CFG->libdir.'/tablelib.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyproreport_attachments_report extends mod_surveypro_reportbase {
+class surveyproreport_attachments_report extends reportbase {
 
     /**
      * @var flexible_table $outputtable
@@ -56,13 +58,13 @@ class surveyproreport_attachments_report extends mod_surveypro_reportbase {
      * Setup_outputtable.
      */
     public function setup_outputtable() {
-        $this->outputtable = new flexible_table('attachmentslist');
+        $this->outputtable = new \flexible_table('attachmentslist');
 
         $paramurl = array('id' => $this->cm->id);
         if ($this->groupid) {
             $paramurl['groupid'] = $this->groupid;
         }
-        $baseurl = new moodle_url('/mod/surveypro/report/attachments/view.php', $paramurl);
+        $baseurl = new \moodle_url('/mod/surveypro/report/attachments/view.php', $paramurl);
         $this->outputtable->define_baseurl($baseurl);
 
         $tablecolumns = array();
@@ -133,7 +135,7 @@ class surveyproreport_attachments_report extends mod_surveypro_reportbase {
 
             // User fullname.
             $paramurl = array('id' => $usersubmission->id);
-            $url = new moodle_url('/user/view.php', $paramurl);
+            $url = new \moodle_url('/user/view.php', $paramurl);
             $tablerow[] = '<a href="'.$url->out().'">'.fullname($usersubmission).'</a>';
 
             // Users with $usersubmission->submissionid == null have no submissions.
@@ -142,11 +144,11 @@ class surveyproreport_attachments_report extends mod_surveypro_reportbase {
                 $paramurl['s'] = $this->surveypro->id;
                 $paramurl['userid'] = $usersubmission->id;
                 $paramurl['submissionid'] = $usersubmission->submissionid;
-                $url = new moodle_url('/mod/surveypro/report/attachments/uploads.php', $paramurl);
+                $url = new \moodle_url('/mod/surveypro/report/attachments/uploads.php', $paramurl);
                 $cellcontent = '('.$submissionidstr.': '.$usersubmission->submissionid.')&nbsp;';
-                $cellcontent .= html_writer::start_tag('a', array('title' => $displayuploadsstr, 'href' => $url));
+                $cellcontent .= \html_writer::start_tag('a', array('title' => $displayuploadsstr, 'href' => $url));
                 $cellcontent .= s($displayuploadsstr);
-                $cellcontent .= html_writer::end_tag('a');
+                $cellcontent .= \html_writer::end_tag('a');
                 $tablerow[] = $cellcontent;
             } else {
                 $tablerow[] = $missinguploadsstr;

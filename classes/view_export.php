@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_surveypro;
+
 defined('MOODLE_INTERNAL') || die();
 
 /**
@@ -31,7 +33,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_view_export {
+class view_export {
 
     /**
      * @var object Course module object
@@ -188,7 +190,7 @@ class mod_surveypro_view_export {
         global $DB;
 
         // Do I need to filter groups?
-        // $utilityitemman = new mod_surveypro_utility_item($this->cm, $this->surveypro);
+        // $utilityitemman = new utility_item($this->cm, $this->surveypro);
         // $filtergroups = $utilityitemman->need_group_filtering($this->cm, $this->context);
 
         if ($this->formdata->downloadtype == SURVEYPRO_FILESBYUSER) {
@@ -264,7 +266,7 @@ class mod_surveypro_view_export {
             $headerlabels[] = $currentheader;
             $itemseedskeys[] = $itemseed->id;
             if ($this->formdata->outputstyle == SURVEYPRO_RAW) {
-                $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemseed->plugin.'_'.SURVEYPRO_TYPEFIELD;
+                $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemseed->plugin.'\item';
                 if ($classname::response_uses_format()) {
                     $headerlabels[] = $currentheader.SURVEYPRO_IMPFORMATSUFFIX;
                     $itemseedskeys[] = $itemseed->id.SURVEYPRO_IMPFORMATSUFFIX;
@@ -524,7 +526,7 @@ class mod_surveypro_view_export {
         } else {
             $recordtoexport[$richsubmission->itemid] = $richsubmission->content;
 
-            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$richsubmission->plugin.'_'.SURVEYPRO_TYPEFIELD;
+            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$richsubmission->plugin.'\item';
             if ($classname::response_uses_format()) {
                 $recordtoexport[$richsubmission->itemid.SURVEYPRO_IMPFORMATSUFFIX] = $richsubmission->contentformat;
             }
