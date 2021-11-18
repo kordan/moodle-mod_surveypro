@@ -26,10 +26,9 @@ namespace surveyprofield_fieldsetend;
 
 defined('MOODLE_INTERNAL') || die();
 
-use mod_surveypro\itemsetupbaseform;
+use mod_surveypro\local\form\itemsetupbaseform;
 
 require_once($CFG->dirroot.'/lib/formslib.php');
-require_once($CFG->dirroot.'/mod/surveypro/form/items/itembaseform.php');
 require_once($CFG->dirroot.'/mod/surveypro/format/fieldsetend/lib.php');
 
 /**

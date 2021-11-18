@@ -27,10 +27,11 @@ use mod_surveypro\utility_layout;
 use mod_surveypro\utility_submission;
 use mod_surveypro\mastertemplate;
 use mod_surveypro\tabs;
+use mod_surveypro\local\form\itembulkactionform;
+use mod_surveypro\local\form\itemchooser;
+use mod_surveypro\local\form\mtemplateapplyform;
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/form/items/selectitemform.php');
-require_once($CFG->dirroot.'/mod/surveypro/form/items/bulkactionform.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
@@ -105,8 +106,6 @@ $basecondition = $basecondition && (!$hassubmissions || $riskyediting);
 
 // Master template form.
 if (!$itemcount) { // The surveypro is empty.
-    require_once($CFG->dirroot.'/mod/surveypro/form/mtemplates/applyform.php');
-
     $mtemplateman = new mastertemplate($cm, $context, $surveypro);
 
     $paramurl = array('id' => $cm->id);
@@ -117,7 +116,7 @@ if (!$itemcount) { // The surveypro is empty.
     $formparams->subform = true;
 
     // Init mtemplateform form.
-    $mtemplateform = new mod_surveypro_applymtemplateform($formurl, $formparams);
+    $mtemplateform = new mtemplateapplyform($formurl, $formparams);
 
     // Management is in mtemplate_apply.
 }
@@ -129,7 +128,7 @@ if ($newitemcondition) {
     $formurl = new \moodle_url('/mod/surveypro/layout_itemsetup.php', $paramurl);
 
     // Init new item form.
-    $newitemform = new mod_surveypro_itemtypeform($formurl);
+    $newitemform = new itemchooser($formurl);
 
     // Management is in layout_itemsetup.
 }
@@ -142,7 +141,7 @@ if ($bulkactioncondition) {
     $formurl = new \moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
 
     // Init bulkaction form.
-    $bulkactionform = new mod_surveypro_bulkactionform($formurl);
+    $bulkactionform = new itembulkactionform($formurl);
 
     // Manage bulkaction form.
     if ($formdata = $bulkactionform->get_data()) {

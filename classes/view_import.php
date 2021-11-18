@@ -27,6 +27,7 @@ namespace mod_surveypro;
 defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\utility_submission;
+use mod_surveypro\local\form\submissionimportform;
 
 /**
  * The class importing data from CSV
@@ -569,7 +570,7 @@ class view_import {
      * @return csv content
      */
     public function get_csv_content() {
-        $importform = new mod_surveypro_importform();
+        $importform = new submissionimportform();
 
         return $importform->get_file_content('csvfile_filepicker');
     }
@@ -684,8 +685,8 @@ class view_import {
 
         $debug = false;
 
-        $iid = csv_import_reader::get_new_iid('surveyprouserdata');
-        $this->cir = new csv_import_reader($iid, 'surveyprouserdata');
+        $iid = \csv_import_reader::get_new_iid('surveyprouserdata');
+        $this->cir = new \csv_import_reader($iid, 'surveyprouserdata');
         $csvcontent = $this->get_csv_content();
         if ($debug) {
             echo \html_writer::start_tag('pre');

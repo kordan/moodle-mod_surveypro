@@ -27,9 +27,9 @@ use mod_surveypro\utility_submission;
 use mod_surveypro\tabs;
 use mod_surveypro\templatebase;
 use mod_surveypro\usertemplate;
+use mod_surveypro\local\form\utemplateapplyform;
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/form/utemplates/applyform.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
@@ -72,12 +72,11 @@ $formparams = new \stdClass();
 $formparams->cmid = $cm->id;
 $formparams->surveypro = $surveypro;
 $formparams->utemplateman = $utemplateman;
-$applyutemplate = new mod_surveypro_applyutemplateform($formurl, $formparams);
+$applyutemplate = new utemplateapplyform($formurl, $formparams);
 // End of: prepare params for the form.
 
 // Begin of: manage form submission.
-$utemplateman->formdata = $applyutemplate->get_data();
-if ($utemplateman->formdata) {
+if ($utemplateman->formdata = $applyutemplate->get_data()) {
     // Here I don't need to execute validate_xml because xml was validated at upload time
     // Here I only need to verfy that plugin versions still match
     // $utemplateman->check_items_versions();
@@ -104,7 +103,7 @@ if ($PAGE->user_allowed_editing()) {
         $urlediting = 'on';
         $strediting = get_string('blocksediton');
     }
-    $url = new moodle_url($CFG->wwwroot.'/mod/surveypro/utemplate_apply.php', ['id' => $cm->id, 'edit' => $urlediting]);
+    $url = new \moodle_url($CFG->wwwroot.'/mod/surveypro/utemplate_apply.php', ['id' => $cm->id, 'edit' => $urlediting]);
     $PAGE->set_button($OUTPUT->single_button($url, $strediting));
 }
 

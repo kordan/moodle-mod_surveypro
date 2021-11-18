@@ -24,9 +24,9 @@
 
 use mod_surveypro\mastertemplate;
 use mod_surveypro\tabs;
+use mod_surveypro\local\form\mtemplatecreateform;
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/form/mtemplates/createform.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
@@ -56,7 +56,7 @@ $mtemplateman = new mastertemplate($cm, $context, $surveypro);
 // Start of: define $createmtemplate return url.
 $paramurl = array('id' => $cm->id);
 $formurl = new \moodle_url('/mod/surveypro/mtemplate_save.php', $paramurl);
-$createmtemplate = new mod_surveypro_createmtemplateform($formurl);
+$createmtemplate = new mtemplatecreateform($formurl);
 // End of: define $createmtemplate return url.
 
 // Start of: manage form submission.
@@ -86,7 +86,7 @@ if ($PAGE->user_allowed_editing()) {
         $urlediting = 'on';
         $strediting = get_string('blocksediton');
     }
-    $url = new moodle_url($CFG->wwwroot.'/mod/surveypro/mtemplate_save.php', ['id' => $cm->id, 'edit' => $urlediting]);
+    $url = new \moodle_url($CFG->wwwroot.'/mod/surveypro/mtemplate_save.php', ['id' => $cm->id, 'edit' => $urlediting]);
     $PAGE->set_button($OUTPUT->single_button($url, $strediting));
 }
 

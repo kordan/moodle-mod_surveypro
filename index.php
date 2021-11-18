@@ -41,7 +41,7 @@ $closed = get_string('closedsubmissions', 'mod_surveypro');
 
 $PAGE->set_pagelayout('incourse');
 $PAGE->set_url('/mod/surveypro/index.php', array('id' => $id));
-$PAGE->navbar->add($strsurveypro, new moodle_url('/mod/data/index.php', array('id' => $id)));
+$PAGE->navbar->add($strsurveypro, new \moodle_url('/mod/data/index.php', array('id' => $id)));
 $PAGE->set_title($strsurveypro);
 $PAGE->set_heading($course->fullname);
 

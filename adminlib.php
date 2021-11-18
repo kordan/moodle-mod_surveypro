@@ -228,13 +228,13 @@ class mod_surveypro_plugin_manager {
             $visible = !get_config($this->subtype.'_'.$plugin, 'disabled');
             if ($visible) {
                 $title = get_string('disable');
-                $row[] = $OUTPUT->action_icon(new moodle_url($this->pageurl,
+                $row[] = $OUTPUT->action_icon(new \moodle_url($this->pageurl,
                     array('action' => 'hidden', 'plugin' => $plugin, 'sesskey' => sesskey())),
                     new pix_icon('t/hide', $title, 'moodle', array('title' => $title)),
                     null, array('title' => $title));
             } else {
                 $title = get_string('enable');
-                $row[] = $OUTPUT->action_icon(new moodle_url($this->pageurl,
+                $row[] = $OUTPUT->action_icon(new \moodle_url($this->pageurl,
                     array('action' => 'show', 'plugin' => $plugin, 'sesskey' => sesskey())),
                     new pix_icon('t/show', $title, 'moodle', array('title' => $title)),
                     null, array('title' => $title));
@@ -245,14 +245,14 @@ class mod_surveypro_plugin_manager {
                 $row[] = '&nbsp;';
             } else {
                 $title = get_string('delete');
-                $row[] = $OUTPUT->action_icon(new moodle_url($this->pageurl,
+                $row[] = $OUTPUT->action_icon(new \moodle_url($this->pageurl,
                     array('action' => 'delete', 'plugin' => $plugin, 'sesskey' => sesskey())),
                     new pix_icon('t/delete', $title, 'moodle', array('title' => $title)),
                     null, array('title' => $title));
             }
             $exists = file_exists($CFG->dirroot.'/mod/surveypro/'.$shortsubtype.'/'.$plugin.'/settings.php');
             if ($row[1] != '' && $exists) {
-                $row[] = \html_writer::link(new moodle_url('/admin/settings.php',
+                $row[] = \html_writer::link(new \moodle_url('/admin/settings.php',
                         array('section' => $this->subtype.'_'.$plugin)), get_string('settings'));
             } else {
                 $row[] = '&nbsp;';

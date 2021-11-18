@@ -25,9 +25,9 @@
 use mod_surveypro\tabs;
 use mod_surveypro\utility_mform;
 use mod_surveypro\view_search;
+use mod_surveypro\local\form\surveyprosearchform;
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/form/outform/searchform.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
@@ -66,7 +66,7 @@ $formparams = new \stdClass();
 $formparams->cm = $cm;
 $formparams->surveypro = $surveypro;
 $formparams->canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context);
-$searchform = new mod_surveypro_searchform($formurl, $formparams, 'post', '', array('id' => 'usersearch'));
+$searchform = new surveyprosearchform($formurl, $formparams, 'post', '', array('id' => 'usersearch'));
 // End of: prepare params for the form.
 
 // Begin of: manage form submission.

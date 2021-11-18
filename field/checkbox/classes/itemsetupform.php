@@ -27,10 +27,9 @@ namespace surveyprofield_checkbox;
 defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\utility_item;
-use mod_surveypro\itemsetupbaseform;
+use mod_surveypro\local\form\itemsetupbaseform;
 
 require_once($CFG->dirroot.'/lib/formslib.php');
-require_once($CFG->dirroot.'/mod/surveypro/form/items/itembaseform.php');
 require_once($CFG->dirroot.'/mod/surveypro/field/checkbox/lib.php');
 
 /**

@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_surveypro\local\form;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
@@ -34,7 +36,7 @@ require_once($CFG->dirroot.'/lib/csvlib.class.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_importform extends \moodleform {
+class submissionimportform extends \moodleform {
 
     /**
      * Definition.
@@ -56,7 +58,7 @@ class mod_surveypro_importform extends \moodleform {
 
         // Submissionimport: csvdelimiter.
         $fieldname = 'csvdelimiter';
-        $options = csv_import_reader::get_delimiter_list();
+        $options = \csv_import_reader::get_delimiter_list();
         $mform->addElement('select', $fieldname, get_string($fieldname, 'tool_uploaduser'), $options);
         $mform->setDefault($fieldname, 'comma');
 

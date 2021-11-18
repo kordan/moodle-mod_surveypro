@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_surveypro\local\form;
+
 defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\utility_item;
@@ -35,7 +37,7 @@ require_once($CFG->dirroot.'/lib/formslib.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_outform extends \moodleform {
+class surveyprofillform extends \moodleform {
 
     /**
      * Definition.

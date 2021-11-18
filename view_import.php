@@ -24,9 +24,9 @@
 
 use mod_surveypro\tabs;
 use mod_surveypro\view_import;
+use mod_surveypro\local\form\submissionimportform;
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/form/data/importform.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
@@ -59,7 +59,7 @@ $formurl = new \moodle_url('/mod/surveypro/view_import.php', $paramurl);
 // End of: define $mform return url.
 
 // Begin of: prepare params for the form.
-$importform = new mod_surveypro_importform($formurl);
+$importform = new submissionimportform($formurl);
 // End of: prepare params for the form.
 
 // Begin of: manage form submission.
@@ -91,7 +91,7 @@ if ($PAGE->user_allowed_editing()) {
         $urlediting = 'on';
         $strediting = get_string('blocksediton');
     }
-    $url = new moodle_url($CFG->wwwroot.'/mod/surveypro/view_import.php', ['id' => $cm->id, 'edit' => $urlediting]);
+    $url = new \moodle_url($CFG->wwwroot.'/mod/surveypro/view_import.php', ['id' => $cm->id, 'edit' => $urlediting]);
     $PAGE->set_button($OUTPUT->single_button($url, $strediting));
 }
 

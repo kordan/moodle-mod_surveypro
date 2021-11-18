@@ -26,9 +26,9 @@ use mod_surveypro\utility_layout;
 use mod_surveypro\tabs;
 use mod_surveypro\utility_mform;
 use mod_surveypro\view_form;
+use mod_surveypro\local\form\surveyprofillform;
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/form/outform/fillform.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
@@ -79,7 +79,7 @@ $formparams->preview = false;
 // End of: prepare params for the form.
 
 $editable = ($view == SURVEYPRO_READONLYRESPONSE) ? false : true;
-$outform = new mod_surveypro_outform($formurl, $formparams, 'post', '', array('id' => 'userentry'), $editable);
+$outform = new surveyprofillform($formurl, $formparams, 'post', '', array('id' => 'userentry'), $editable);
 
 // Begin of: manage form submission.
 if ($outform->is_cancelled()) {
