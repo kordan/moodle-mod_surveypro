@@ -24,6 +24,7 @@
 
 use mod_surveypro\tabs;
 use surveyproreport_colles\report;
+use surveyproreport_colles\groupjumperform;
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/colles/lib.php');
@@ -78,7 +79,7 @@ if ($showjumper) {
     $formparams->addnotinanygroup = $reportman->add_notinanygroup();
     $formparams->jumpercontent = $jumpercontent;
     $attributes = array('id' => 'surveypro_jumperform');
-    $groupfilterform = new mod_surveypro_colles_groupjumper($formurl, $formparams, null, null, $attributes);
+    $groupfilterform = new groupjumperform($formurl, $formparams, null, null, $attributes);
 
     $PAGE->requires->js_amd_inline("
     require(['jquery'], function($) {
