@@ -109,7 +109,9 @@ $completiondetails = \core_completion\cm_completion_details::get_instance($cm, $
 $activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
 echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
-new tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_REPORT);
+$surveyproreportlist = get_plugin_list('surveyproreport');
+$reportkey = array_search('attachments', array_keys($surveyproreportlist));
+new tabs($cm, $context, $surveypro, SURVEYPRO_TABREPORTS, $reportkey);
 
 $filterform->display();
 
