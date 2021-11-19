@@ -529,7 +529,7 @@ class mastertemplate extends templatebase {
         global $CFG, $DB;
 
         // Create the class to apply mastertemplate settings.
-        $classname = 'surveyprotemplate_'.$this->templatename.'_template';
+        $classname = 'surveyprotemplate_'.$this->templatename.'\template';
         $mastertemplate = new $classname();
 
         $fs = get_file_storage();

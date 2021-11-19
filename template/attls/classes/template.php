@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace surveyprotemplate_attls;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/surveypro/template/attls/lib.php');
@@ -33,7 +35,7 @@ require_once($CFG->dirroot.'/mod/surveypro/template/attls/lib.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyprotemplate_attls_template {
+class template {
 
     /**
      * Apply template settings.
