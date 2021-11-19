@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace surveyproreport_attachments;
+
 defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\reportbase;
@@ -35,7 +37,7 @@ require_once($CFG->libdir.'/tablelib.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyproreport_attachments_report extends reportbase {
+class report extends reportbase {
 
     /**
      * @var flexible_table $outputtable

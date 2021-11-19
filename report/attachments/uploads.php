@@ -23,9 +23,10 @@
  */
 
 use mod_surveypro\tabs;
+use surveyproreport_attachments\filterform;
+use surveyproreport_attachments\form;
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/report/attachments/form/attachmentfilter_form.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
@@ -64,7 +65,7 @@ if (count($parts) == 2) {
 }
 
 // Calculations.
-$uploadsformman = new surveyproreport_attachments_form($cm, $context, $surveypro);
+$uploadsformman = new form($cm, $context, $surveypro);
 $uploadsformman->prevent_direct_user_input();
 $uploadsformman->set_userid($userid);
 $uploadsformman->set_itemid($itemid);
@@ -85,7 +86,7 @@ $formparams->canaccessreserveditems = $canaccessreserveditems;
 $formparams->canviewhiddenactivities = $canviewhiddenactivities;
 // End of: prepare params for the form.
 
-$filterform = new surveyproreport_attachmentfilterform($formurl, $formparams, 'post', '', array('id' => 'userentry'));
+$filterform = new filterform($formurl, $formparams, 'post', '', array('id' => 'userentry'));
 
 // Output starts here.
 $paramurl = array('s' => $surveypro->id, 'userid' => $userid, 'submissionid' => $submissionid);

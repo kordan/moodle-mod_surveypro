@@ -190,7 +190,7 @@ class view_cover {
         $surveyproreportlist = get_plugin_list('surveyproreport');
         $paramurlbase = array('id' => $this->cm->id);
         foreach ($surveyproreportlist as $pluginname => $pluginpath) {
-            $classname = 'surveyproreport_'.$pluginname.'_report';
+            $classname = 'surveyproreport_'.$pluginname.'\report';
             $reportman = new $classname($this->cm, $this->context, $this->surveypro);
 
             $reportappliesto = $reportman->report_applies_to();
@@ -260,7 +260,7 @@ class view_cover {
     /**
      * Recursive function to populate the $messages array for reports nested as much times as wanted
      *
-     * Uncomment lines of has_childreports method in surveyproreport_colles_report class of report/colles/classes/report.php file
+     * Uncomment lines of has_childreports method in surveyproreport_colles\report class of report/colles/classes/report.php file
      * to see this function in action.
      *
      * @param string $childreports

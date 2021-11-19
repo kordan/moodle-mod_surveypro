@@ -24,9 +24,10 @@
 
 use mod_surveypro\utility_layout;
 use mod_surveypro\tabs;
+use surveyproreport_frequency\filterform;
+use surveyproreport_frequency\report;
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/report/frequency/classes/itemfilter_form.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/frequency/lib.php');
 require_once($CFG->libdir.'/tablelib.php');
 
@@ -53,7 +54,7 @@ $context = \context_module::instance($cm->id);
 require_capability('mod/surveypro:accessreports', $context);
 
 $utilitylayoutman = new utility_layout($cm, $surveypro);
-$reportman = new surveyproreport_frequency_report($cm, $context, $surveypro);
+$reportman = new report($cm, $context, $surveypro);
 
 // Begin of: instance filterform.
 $showjumper = $reportman->is_groupjumper_needed();
@@ -72,7 +73,7 @@ if ($showjumper) {
     $formparams->addnotinanygroup = $reportman->add_notinanygroup();
     $formparams->jumpercontent = $jumpercontent;
 }
-$filterform = new mod_surveypro_itemfilterform($formurl, $formparams); // No autosubmit, here.
+$filterform = new filterform($formurl, $formparams); // No autosubmit, here.
 // End of: instance filterform.
 
 // Output starts here.

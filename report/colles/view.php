@@ -23,6 +23,7 @@
  */
 
 use mod_surveypro\tabs;
+use surveyproreport_colles\report;
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/colles/lib.php');
@@ -57,7 +58,7 @@ if ($type == 'summary') {
     require_capability('mod/surveypro:accessreports', $context);
 }
 
-$reportman = new surveyproreport_colles_report($cm, $context, $surveypro);
+$reportman = new report($cm, $context, $surveypro);
 $reportman->set_area($area);
 
 // Begin of: define $mform return url.
