@@ -40,6 +40,11 @@ Feature: editing a submission, autofill userID is not overwritten
     And I am on "Course divided into groups" course homepage
     And I follow "Preserve autofill"
 
+    And I navigate to "Edit settings" in current page administration
+    And I set the following fields to these values:
+      | Group mode | Visible groups |
+    And I press "Save and display"
+
     And I set the field "typeplugin" to "Autofill"
     And I press "Add"
 

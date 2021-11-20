@@ -46,6 +46,7 @@ $cm = cm_info::create($cm);
 $type = optional_param('type', 'summary', PARAM_ALPHA);  // Type of graph.
 $area = optional_param('area', false, PARAM_INT);  // Area ID.
 $edit = optional_param('edit', -1, PARAM_BOOL);
+$groupid = optional_param('groupid', false, PARAM_INT);  // Group ID.
 
 require_course_login($course, false, $cm);
 $context = \context_module::instance($cm->id);
@@ -60,6 +61,7 @@ if ($type == 'summary') {
 
 $reportman = new report($cm, $context, $surveypro);
 $reportman->set_area($area);
+$reportman->set_groupid($groupid);
 
 // Begin of: define $mform return url.
 $showjumper = $reportman->is_groupjumper_needed();
