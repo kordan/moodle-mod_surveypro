@@ -127,7 +127,8 @@ class reportbase {
         // Other reports handle no submissions locally because they display an empty table or alphabet.
         $sql = 'SELECT COUNT(s.id) as answerscount
                 FROM {user} u
-                    JOIN {surveypro_submission} s ON s.userid = u.id';
+                    JOIN {surveypro_submission} s ON s.userid = u.id
+                    JOIN {surveypro_answer} a ON a.submissionid = s.id';
 
         list($middlesql, $whereparams) = $this->get_middle_sql();
         $sql .= $middlesql;

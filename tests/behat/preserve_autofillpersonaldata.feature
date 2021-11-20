@@ -33,8 +33,8 @@ Feature: editing a submission, autofill userID is not overwritten
       | student1 | G1    |
       | student2 | G1    |
     And the following "activities" exist:
-      | activity  | name              | intro                                                              | course         | idnumber   | Group mode      |
-      | surveypro | Preserve autofill | Test that editing a submission, autofill userID is not overwritten | Course grouped | surveypro1 | Separate groups |
+      | activity  | name              | intro                                                              | course         | idnumber   |
+      | surveypro | Preserve autofill | Test that editing a submission, autofill userID is not overwritten | Course grouped | surveypro1 |
 
     And I log in as "teacher1"
     And I am on "Course divided into groups" course homepage
