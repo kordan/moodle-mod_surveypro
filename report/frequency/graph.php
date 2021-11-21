@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use surveyproreport_frequency\report;
+
 require_once('../../../../config.php');
 require_once($CFG->libdir.'/graphlib.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/frequency/lib.php');
@@ -41,7 +43,7 @@ $context = \context_module::instance($cm->id);
 // Required capability.
 require_capability('mod/surveypro:accessreports', $context);
 
-$reportman = new surveyproreport_frequency_report($cm, $context, $surveypro);
+$reportman = new report($cm, $context, $surveypro);
 $reportman->set_groupid($groupid);
 
 list($sql, $whereparams) = $reportman->get_submissions_sql($itemid);

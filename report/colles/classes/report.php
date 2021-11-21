@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace surveyproreport_colles;
+
 defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\reportbase;
@@ -33,7 +35,7 @@ use mod_surveypro\reportbase;
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyproreport_colles_report extends reportbase {
+class report extends reportbase {
 
     /**
      * @var string $template

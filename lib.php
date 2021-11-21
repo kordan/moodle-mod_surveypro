@@ -893,7 +893,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
 
         $icon = new \pix_icon('i/report', '', 'moodle');
         foreach ($surveyproreportlist as $reportname => $reportpath) {
-            $classname = 'surveyproreport_'.$reportname.'_report';
+            $classname = 'surveyproreport_'.$reportname.'\report';
             $reportman = new $classname($cm, $context, $surveypro);
 
             $reportappliesto = $reportman->report_applies_to();
@@ -923,7 +923,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
 /**
  * Recursive function to add links for reports nested as much times as wanted
  *
- * Uncomment lines of has_childreports method in the surveyproreport_colles_report class of report/colles/classes/report.php file
+ * Uncomment lines of has_childreports method in the surveyproreport_colles\report class of report/colles/classes/report.php file
  * to see this function in action.
  *
  * @param string $templatename

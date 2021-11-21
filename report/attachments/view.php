@@ -23,9 +23,10 @@
  */
 
 use mod_surveypro\tabs;
+use surveyproreport_attachments\groupjumperform;
+use surveyproreport_attachments\report;
 
 require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
-require_once($CFG->dirroot.'/mod/surveypro/report/attachments/classes/groupjumper_form.php');
 require_once($CFG->libdir.'/tablelib.php');
 
 $id = optional_param('id', 0, PARAM_INT);
@@ -51,7 +52,7 @@ $context = \context_module::instance($cm->id);
 // Required capability.
 require_capability('mod/surveypro:accessreports', $context);
 
-$reportman = new surveyproreport_attachments_report($cm, $context, $surveypro);
+$reportman = new report($cm, $context, $surveypro);
 $reportman->set_groupid($groupid);
 $reportman->setup_outputtable();
 
@@ -70,7 +71,7 @@ if ($showjumper) {
     $formparams->addnotinanygroup = $reportman->add_notinanygroup();
     $formparams->jumpercontent = $jumpercontent;
     $attributes = array('id' => 'surveypro_jumperform');
-    $groupfilterform = new mod_surveypro_attachments_groupjumper($formurl, $formparams, null, null, $attributes);
+    $groupfilterform = new groupjumperform($formurl, $formparams, null, null, $attributes);
 
     $PAGE->requires->js_amd_inline("
     require(['jquery'], function($) {

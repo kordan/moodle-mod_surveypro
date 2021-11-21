@@ -348,7 +348,7 @@ class tabs {
                 if ($surveyproreportlist = get_plugin_list('surveyproreport')) {
                     $counter = 0;
                     foreach ($surveyproreportlist as $reportname => $reportpath) {
-                        $classname = 'surveyproreport_'.$reportname.'_report';
+                        $classname = 'surveyproreport_'.$reportname.'\report';
                         $reportman = new $classname($this->cm, $this->context, $this->surveypro);
                         $reportappliesto = $reportman->report_applies_to();
                         if (($reportappliesto == ['each']) || in_array($this->surveypro->template, $reportappliesto)) {
