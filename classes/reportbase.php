@@ -125,8 +125,7 @@ class reportbase {
         // while colles report actually selects submissions of enrolled users ONLY.
 
         // Other reports handle no submissions locally because they display an empty table or alphabet.
-
-        $sql = 'SELECT COUNT(a.id) as answerscount
+        $sql = 'SELECT COUNT(s.id) as answerscount
                 FROM {user} u
                     JOIN {surveypro_submission} s ON s.userid = u.id
                     JOIN {surveypro_answer} a ON a.submissionid = s.id';

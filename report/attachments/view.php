@@ -47,6 +47,7 @@ $groupid = optional_param('groupid', 0, PARAM_INT);
 $edit = optional_param('edit', -1, PARAM_BOOL);
 
 require_course_login($course, false, $cm);
+
 $context = \context_module::instance($cm->id);
 
 // Required capability.
