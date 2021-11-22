@@ -137,12 +137,12 @@ class report extends reportbase {
         $whereparams = array();
         $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
 
-        $submissiontable = 'SELECT userid, surveyproid, count(*) as submissioncount
+        $submissiontable = 'SELECT userid, surveyproid, count(*)
                             FROM {surveypro_submission}
                             WHERE surveyproid = :subsurveyproid
                             AND status = :status
-                            GROUP BY userid, surveyproid
-                            HAVING submissioncount >= :completionsubmit';
+                            GROUP BY userid
+                            HAVING count(*) >= :completionsubmit';
 
         $whereparams = [];
         $whereparams['subsurveyproid'] = $this->surveypro->id;
