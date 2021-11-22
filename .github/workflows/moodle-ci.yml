@@ -31,12 +31,13 @@ jobs:
           - php: '8.0'
             moodle-branch: 'master'
             database: pgsql
-          - php: '7.4'
+            suite: default
+            profile: chrome
+          - php: '7.3'
             moodle-branch: 'master'
-            database: pgsql
-          - php: '7.4'
-            moodle-branch: 'MOODLE_311_STABLE'
             database: mariadb
+            suite: classic
+            profile: default
 
     steps:
       - name: Check out repository code
@@ -115,4 +116,4 @@ jobs:
 
       - name: Behat features
         if: ${{ always() }}
-        run: moodle-plugin-ci behat --profile chrome
+        run: moodle-plugin-ci behat --profile ${{ matrix.profile }} --suite ${{ matrix.suite }}
