@@ -18,8 +18,8 @@ Feature: test the use of multiselect as parent item
       | teacher1 | Multiselect as parent | editingteacher |
       | student1 | Multiselect as parent | student        |
     And the following "activities" exist:
-      | activity  | name                       | intro                      | newpageforchild | course                | idnumber   |
-      | surveypro | Test multiselect as parent | Test multiselect as parent | 1               | Multiselect as parent | surveypro1 |
+      | activity  | name                       | intro                      | newpageforchild | course                |
+      | surveypro | Test multiselect as parent | Test multiselect as parent | 1               | Multiselect as parent |
     And surveypro "Test multiselect as parent" contains the following items:
       | type   | plugin      |
       | field  | multiselect |
@@ -217,10 +217,7 @@ Feature: test the use of multiselect as parent item
 
     And I log out
 
-    And I log in as "teacher1"
-    And I am on "Multiselect as parent" course homepage
-    And I follow "Test multiselect as parent"
-    And I navigate to "Edit settings" in current page administration
+    When I am on the "Test multiselect as parent" "Activity editing" page logged in as teacher1
     And I expand all fieldsets
     And I set the field "Branches increase pages" to "0"
     And I press "Save and display"
