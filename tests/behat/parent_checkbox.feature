@@ -18,8 +18,8 @@ Feature: test the use of checkbox as parent item
       | teacher1 | Checkbox as parent | editingteacher |
       | student1 | Checkbox as parent | student        |
     And the following "activities" exist:
-      | activity  | name                    | intro                   | newpageforchild | course             | idnumber   |
-      | surveypro | Test checkbox as parent | Test checkbox as parent | 1               | Checkbox as parent | surveypro1 |
+      | activity  | name                    | intro                   | newpageforchild | course             |
+      | surveypro | Test checkbox as parent | Test checkbox as parent | 1               | Checkbox as parent |
     And surveypro "Test checkbox as parent" contains the following items:
       | type   | plugin   |
       | field  | checkbox |

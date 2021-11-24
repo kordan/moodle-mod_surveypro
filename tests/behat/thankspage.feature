@@ -20,8 +20,8 @@ Feature: verify the thanks page is shown properly
       | capability                          | permission | role    | contextlevel | reference |
       | mod/surveypro:editownsubmissions    | Allow      | student | Course       | Thanks    |
     And the following "activities" exist:
-      | activity  | name             | intro            | course | idnumber   |
-      | surveypro | Thanks surveypro | Test thanks page | Thanks | surveypro1 |
+      | activity  | name             | intro            | course |
+      | surveypro | Thanks surveypro | Test thanks page | Thanks |
     And surveypro "Thanks surveypro" contains the following items:
       | type  | plugin  |
       | field | boolean |

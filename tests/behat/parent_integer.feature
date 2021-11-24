@@ -18,8 +18,8 @@ Feature: test the use of integer as parent item
       | teacher1 | Integer as parent | editingteacher |
       | student1 | Integer as parent | student        |
     And the following "activities" exist:
-      | activity  | name                   | intro                  | newpageforchild | course            | idnumber   |
-      | surveypro | Test integer as parent | Test integer as parent | 1               | Integer as parent | surveypro1 |
+      | activity  | name                   | intro                  | newpageforchild | course            |
+      | surveypro | Test integer as parent | Test integer as parent | 1               | Integer as parent |
     And surveypro "Test integer as parent" contains the following items:
       | type   | plugin  |
       | field  | integer |

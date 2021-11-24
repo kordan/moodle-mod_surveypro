@@ -16,8 +16,8 @@ Feature: test the use of numeric setup form
       | user     | course             | role           |
       | teacher1 | Numeric setup form | editingteacher |
     And the following "activities" exist:
-      | activity  | name                    | intro                   | course             | idnumber   |
-      | surveypro | Test numeric setup form | Test numeric setup form | Numeric setup form | surveypro1 |
+      | activity  | name                    | intro                   | course             |
+      | surveypro | Test numeric setup form | Test numeric setup form | Numeric setup form |
     And surveypro "Test numeric setup form" contains the following items:
       | type  | plugin  |
       | field | boolean |

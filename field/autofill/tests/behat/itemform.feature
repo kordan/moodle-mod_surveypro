@@ -16,8 +16,8 @@ Feature: test the use of autofill setup form
       | user     | course              | role           |
       | teacher1 | Autofill setup form | editingteacher |
     And the following "activities" exist:
-      | activity  | name                     | intro                    | course              | idnumber   |
-      | surveypro | Test autofill setup form | Test autofill setup form | Autofill setup form | surveypro1 |
+      | activity  | name                     | intro                    | course              |
+      | surveypro | Test autofill setup form | Test autofill setup form | Autofill setup form |
     And surveypro "Test autofill setup form" contains the following items:
       | type  | plugin  |
       | field | boolean |

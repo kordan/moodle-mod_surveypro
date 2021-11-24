@@ -16,8 +16,8 @@ Feature: verify a fieldsetend item can be added to a survey
       | user     | course          | role           |
       | teacher1 | Add fieldsetend | editingteacher |
     And the following "activities" exist:
-      | activity  | name          | intro                                | course          | idnumber   |
-      | surveypro | Fieldset test | To test addition of fieldsetend item | Add fieldsetend | surveypro1 |
+      | activity  | name          | intro                                | course          |
+      | surveypro | Fieldset test | To test addition of fieldsetend item | Add fieldsetend |
     And I log in as "teacher1"
     And I am on "Add fieldsetend item" course homepage
     And I follow "Fieldset test"

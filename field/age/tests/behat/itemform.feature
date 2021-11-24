@@ -16,8 +16,8 @@ Feature: test the use of age setup form
       | user     | course         | role           |
       | teacher1 | Age setup form | editingteacher |
     And the following "activities" exist:
-      | activity  | name                | intro               | course         | idnumber   |
-      | surveypro | Test age setup form | Test age setup form | Age setup form | surveypro1 |
+      | activity  | name                | intro               | course         |
+      | surveypro | Test age setup form | Test age setup form | Age setup form |
     And surveypro "Test age setup form" contains the following items:
       | type  | plugin  |
       | field | boolean |

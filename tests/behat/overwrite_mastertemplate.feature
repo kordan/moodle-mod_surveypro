@@ -16,8 +16,8 @@ Feature: verify the deletion of old items works as expected during master templa
       | user     | course                   | role           |
       | teacher1 | Overwrite mastertemplate | editingteacher |
     And the following "activities" exist:
-      | activity  | name                          | intro                                | course                   | idnumber   |
-      | surveypro | To overwrite master templates | To test overwrite of master template | Overwrite mastertemplate | surveypro1 |
+      | activity  | name                          | intro                                | course                   |
+      | surveypro | To overwrite master templates | To test overwrite of master template | Overwrite mastertemplate |
     And I log in as "teacher1"
     And I am on "Overwrite mastertemplate" course homepage
     And I follow "To overwrite master templates"

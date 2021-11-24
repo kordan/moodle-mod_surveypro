@@ -19,8 +19,8 @@ Feature: Validate creation and submit for textarea elements using the principal 
       | teacher1 | Textarea item | editingteacher |
       | student1 | Textarea item | student        |
     And the following "activities" exist:
-      | activity  | name           | intro              | course        | idnumber   |
-      | surveypro | Surveypro test | For testing backup | Textarea item | surveypro1 |
+      | activity  | name           | intro              | course        |
+      | surveypro | Surveypro test | For testing backup | Textarea item |
     And I log in as "teacher1"
     And I am on "Test submission for textarea item" course homepage
     And I follow "Surveypro test"

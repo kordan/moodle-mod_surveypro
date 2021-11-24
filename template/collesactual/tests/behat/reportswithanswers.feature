@@ -36,8 +36,8 @@ Feature: Test colles report for courses divided into groups and answers provided
       | student12 | G1   |
       | student21 | G2   |
     And the following "activities" exist:
-      | activity  | name           | intro          | course         | idnumber   |
-      | surveypro | Verify reports | Verify reports | Course grouped | surveypro1 |
+      | activity  | name           | intro          | course         |
+      | surveypro | Verify reports | Verify reports | Course grouped |
 
     And I log in as "teacher1"
     And I am on "Course divided into groups" course homepage

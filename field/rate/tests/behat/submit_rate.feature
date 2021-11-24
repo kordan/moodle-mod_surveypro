@@ -18,8 +18,8 @@ Feature: make a submission test for "rate" item
       | teacher1 | Rate submission test | editingteacher |
       | student1 | Rate submission test | student        |
     And the following "activities" exist:
-      | activity  | name      | intro                           | course               | idnumber   |
-      | surveypro | Rate test | To test submission of date item | Rate submission test | surveypro1 |
+      | activity  | name      | intro                           | course               |
+      | surveypro | Rate test | To test submission of date item | Rate submission test |
     And I log in as "teacher1"
     And I am on "Test submission for rate item" course homepage
     And I follow "Rate test"

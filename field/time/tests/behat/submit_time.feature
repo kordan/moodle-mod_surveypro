@@ -18,8 +18,8 @@ Feature: make a submission test for "time" item
       | teacher1 | Time submission test | editingteacher |
       | student1 | Time submission test | student        |
     And the following "activities" exist:
-      | activity  | name      | intro                           | course               | idnumber   |
-      | surveypro | Time test | To test submission of time item | Time submission test | surveypro1 |
+      | activity  | name      | intro                           | course               |
+      | surveypro | Time test | To test submission of time item | Time submission test |
     And I log in as "teacher1"
     And I am on "Test submission for time item" course homepage
     And I follow "Time test"

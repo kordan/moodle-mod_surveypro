@@ -16,8 +16,8 @@ Feature: test the use of textarea setup form
       | user     | course              | role           |
       | teacher1 | Textarea setup form | editingteacher |
     And the following "activities" exist:
-      | activity  | name                     | intro                    | course              | idnumber   |
-      | surveypro | Test textarea setup form | Test textarea setup form | Textarea setup form | surveypro1 |
+      | activity  | name                     | intro                    | course              |
+      | surveypro | Test textarea setup form | Test textarea setup form | Textarea setup form |
     And surveypro "Test textarea setup form" contains the following items:
       | type  | plugin  |
       | field | boolean |

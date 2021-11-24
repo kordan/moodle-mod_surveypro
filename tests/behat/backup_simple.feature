@@ -9,8 +9,8 @@ Feature: Backup and restore of surveyspro
       | fullname | shortname | category | numsections |
       | Course 1 | C1        | 0        | 3           |
     And the following "activities" exist:
-      | activity  | course | idnumber   | name                 | intro                     | section |
-      | surveypro | C1     | surveypro1 | Test surveypro       | Surveypro description     | 1       |
+      | activity  | course | name                 | intro                     | section |
+      | surveypro | C1     | Test surveypro       | Surveypro description     | 1       |
     And I log in as "admin"
 
   @javascript

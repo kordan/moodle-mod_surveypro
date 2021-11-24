@@ -16,8 +16,8 @@ Feature: verify a pagebreak item can be added to a survey
       | user     | course        | role           |
       | teacher1 | Add pagebreak | editingteacher |
     And the following "activities" exist:
-      | activity  | name           | intro                              | course        | idnumber   |
-      | surveypro | Pagebreak test | To test addition of pagebreak item | Add pagebreak | surveypro1 |
+      | activity  | name           | intro                              | course        |
+      | surveypro | Pagebreak test | To test addition of pagebreak item | Add pagebreak |
     And I log in as "teacher1"
     And I am on "Add pagebreak item" course homepage
     And I follow "Pagebreak test"

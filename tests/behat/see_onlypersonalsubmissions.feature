@@ -20,8 +20,8 @@ Feature: test each student sees only personal submissions
       | student1 | Only personal submissions | student        |
       | student2 | Only personal submissions | student        |
     And the following "activities" exist:
-      | activity  | name                        | intro                                                  | course                    | idnumber   |
-      | surveypro | Get only my own submissions | Test each student can only see his/her own submissions | Only personal submissions | surveypro1 |
+      | activity  | name                        | intro                                                  | course                    |
+      | surveypro | Get only my own submissions | Test each student can only see his/her own submissions | Only personal submissions |
     And I log in as "teacher1"
     And I am on "See only personal submissions" course homepage
     And I follow "Get only my own submissions"

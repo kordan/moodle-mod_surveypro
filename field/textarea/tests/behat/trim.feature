@@ -18,8 +18,8 @@ Feature: test the use of textarea trim
       | teacher1 | Textarea trim test | editingteacher |
       | student1 | Textarea trim test | student        |
     And the following "activities" exist:
-      | activity  | name               | intro              | course             | idnumber   |
-      | surveypro | Test textarea trim | Test textarea trim | Textarea trim test | surveypro1 |
+      | activity  | name               | intro              | course             |
+      | surveypro | Test textarea trim | Test textarea trim | Textarea trim test |
     And the following "permission overrides" exist:
       | capability                          | permission | role    | contextlevel | reference          |
       | mod/surveypro:editownsubmissions    | Allow      | student | Course       | Textarea trim test |

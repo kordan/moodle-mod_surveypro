@@ -16,8 +16,8 @@ Feature: Load and apply usertemplates in order to test, among others, partial it
       | user     | course             | role           |
       | teacher1 | Apply usertemplate | editingteacher |
     And the following "activities" exist:
-      | activity  | name                 | intro                             | course             | idnumber   |
-      | surveypro | Apply a usertemplate | Surveypro to apply a usertemplate | Apply usertemplate | surveypro1 |
+      | activity  | name                 | intro                             | course             |
+      | surveypro | Apply a usertemplate | Surveypro to apply a usertemplate | Apply usertemplate |
 
     When I am on the "Apply a usertemplate" "mod_surveypro > User templates Import" page logged in as "teacher1"
     And I upload "mod/surveypro/tests/fixtures/usertemplate/parent-child_2015123000.xml" file to "Choose files to import" filemanager

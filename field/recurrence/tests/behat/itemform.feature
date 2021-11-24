@@ -16,8 +16,8 @@ Feature: test the use of recurrence setup form
       | user     | course                | role           |
       | teacher1 | Recurrence setup form | editingteacher |
     And the following "activities" exist:
-      | activity  | name                       | intro                      | course                | idnumber   |
-      | surveypro | Test recurrence setup form | Test recurrence setup form | Recurrence setup form | surveypro1 |
+      | activity  | name                       | intro                      | course                |
+      | surveypro | Test recurrence setup form | Test recurrence setup form | Recurrence setup form |
     And surveypro "Test recurrence setup form" contains the following items:
       | type  | plugin  |
       | field | boolean |

@@ -18,8 +18,8 @@ Feature: make a submission test for "recurrence" item
       | teacher1 | Recurrence submission test | editingteacher |
       | student1 | Recurrence submission test | student        |
     And the following "activities" exist:
-      | activity  | name            | intro                           | course                     | idnumber   |
-      | surveypro | Recurrence test | To test submission of date item | Recurrence submission test | surveypro1 |
+      | activity  | name            | intro                           | course                     |
+      | surveypro | Recurrence test | To test submission of date item | Recurrence submission test |
     And I log in as "teacher1"
     And I am on "Test submission for recurrence item" course homepage
     And I follow "Recurrence test"

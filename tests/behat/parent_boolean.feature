@@ -18,8 +18,8 @@ Feature: test the use of boolean as parent item
       | teacher1 | Boolean as parent | editingteacher |
       | student1 | Boolean as parent | student        |
     And the following "activities" exist:
-      | activity  | name                   | intro                  | newpageforchild | course            | idnumber   |
-      | surveypro | Test boolean as parent | Test boolean as parent | 1               | Boolean as parent | surveypro1 |
+      | activity  | name                   | intro                  | newpageforchild | course            |
+      | surveypro | Test boolean as parent | Test boolean as parent | 1               | Boolean as parent |
     And surveypro "Test boolean as parent" contains the following items:
       | type   | plugin  |
       | field  | boolean |

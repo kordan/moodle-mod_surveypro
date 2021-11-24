@@ -18,8 +18,8 @@ Feature: test the use of radiobutton as parent item
       | teacher1 | Radiobutton as parent | editingteacher |
       | student1 | Radiobutton as parent | student        |
     And the following "activities" exist:
-      | activity  | name                       | intro                      | newpageforchild | course                | idnumber   |
-      | surveypro | Test radiobutton as parent | Test radiobutton as parent | 1               | Radiobutton as parent | surveypro1 |
+      | activity  | name                       | intro                      | newpageforchild | course                |
+      | surveypro | Test radiobutton as parent | Test radiobutton as parent | 1               | Radiobutton as parent |
     And surveypro "Test radiobutton as parent" contains the following items:
       | type   | plugin      |
       | field  | radiobutton |

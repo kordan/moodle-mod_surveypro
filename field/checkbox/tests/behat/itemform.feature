@@ -16,8 +16,8 @@ Feature: test the use of checkbox setup form
       | user     | course              | role           |
       | teacher1 | Checkbox setup form | editingteacher |
     And the following "activities" exist:
-      | activity  | name                     | intro                    | course              | idnumber   |
-      | surveypro | Test checkbox setup form | Test checkbox setup form | Checkbox setup form | surveypro1 |
+      | activity  | name                     | intro                    | course              |
+      | surveypro | Test checkbox setup form | Test checkbox setup form | Checkbox setup form |
     And surveypro "Test checkbox setup form" contains the following items:
       | type  | plugin  |
       | field | boolean |

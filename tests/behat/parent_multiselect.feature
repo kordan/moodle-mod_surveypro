@@ -18,8 +18,8 @@ Feature: test the use of multiselect as parent item
       | teacher1 | Multiselect as parent | editingteacher |
       | student1 | Multiselect as parent | student        |
     And the following "activities" exist:
-      | activity  | name                       | intro                      | newpageforchild | course                | idnumber   |
-      | surveypro | Test multiselect as parent | Test multiselect as parent | 1               | Multiselect as parent | surveypro1 |
+      | activity  | name                       | intro                      | newpageforchild | course                |
+      | surveypro | Test multiselect as parent | Test multiselect as parent | 1               | Multiselect as parent |
     And surveypro "Test multiselect as parent" contains the following items:
       | type   | plugin      |
       | field  | multiselect |

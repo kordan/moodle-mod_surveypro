@@ -18,8 +18,8 @@ Feature: test the use of select as parent item
       | teacher1 | Select as parent | editingteacher |
       | student1 | Select as parent | student        |
     And the following "activities" exist:
-      | activity  | name                  | intro                 | newpageforchild | course           | idnumber   |
-      | surveypro | Test select as parent | Test select as parent | 1               | Select as parent | surveypro1 |
+      | activity  | name                  | intro                 | newpageforchild | course           |
+      | surveypro | Test select as parent | Test select as parent | 1               | Select as parent |
     And surveypro "Test select as parent" contains the following items:
       | type   | plugin |
       | field  | select |

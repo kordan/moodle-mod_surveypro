@@ -13,8 +13,8 @@ Feature: Backup and restore a surveypro instance
   @javascript
   Scenario: Backup and restore a surveypro with some item
     Given the following "activities" exist:
-      | activity  | name           | intro              | course | idnumber   |
-      | surveypro | Surveypro test | For testing backup | C1     | surveypro1 |
+      | activity  | name           | intro              | course |
+      | surveypro | Surveypro test | For testing backup | C1     |
     And surveypro "Surveypro test" contains the following items:
       | type   | plugin      |
       | format | label       |

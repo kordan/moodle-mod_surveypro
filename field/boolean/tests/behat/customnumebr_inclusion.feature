@@ -16,8 +16,8 @@ Feature: include custom numbers into element question/content
       | user     | course   | role           |
       | teacher1 | VerifyCN | editingteacher |
     And the following "activities" exist:
-      | activity  | name            | intro                        | course   | idnumber   |
-      | surveypro | VerifyCN survey | Verify custom numbers survey | VerifyCN | surveypro1 |
+      | activity  | name            | intro                        | course   |
+      | surveypro | VerifyCN survey | Verify custom numbers survey | VerifyCN |
     And surveypro "VerifyCN survey" contains the following items:
       | type  | plugin  |
       | field | boolean |

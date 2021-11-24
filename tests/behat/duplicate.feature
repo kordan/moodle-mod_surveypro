@@ -13,8 +13,8 @@ Feature: Duplicate a surveypro instance
   @javascript
   Scenario: Duplicate a surveypro with some item
     Given the following "activities" exist:
-      | activity  | name           | intro              | course | idnumber   |
-      | surveypro | surveypro test | For testing backup | C1     | surveypro1 |
+      | activity  | name           | intro              | course |
+      | surveypro | surveypro test | For testing backup | C1     |
     And surveypro "surveypro test" contains the following items:
       | type   | plugin      |
       | format | label       |

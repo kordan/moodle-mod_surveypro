@@ -16,8 +16,8 @@ Feature: test the use of integer setup form
       | user     | course             | role           |
       | teacher1 | Integer setup form | editingteacher |
     And the following "activities" exist:
-      | activity  | name                    | intro                   | course             | idnumber   |
-      | surveypro | Test integer setup form | Test integer setup form | Integer setup form | surveypro1 |
+      | activity  | name                    | intro                   | course             |
+      | surveypro | Test integer setup form | Test integer setup form | Integer setup form |
     And surveypro "Test integer setup form" contains the following items:
       | type  | plugin  |
       | field | boolean |

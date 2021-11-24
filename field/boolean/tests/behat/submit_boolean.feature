@@ -18,8 +18,8 @@ Feature: make a submission test for "boolean" item
       | teacher1 | Boolean submission test | editingteacher |
       | student1 | Boolean submission test | student        |
     And the following "activities" exist:
-      | activity  | name         | intro                              | course                  | idnumber   |
-      | surveypro | Boolean test | To test submission of boolean item | Boolean submission test | surveypro1 |
+      | activity  | name         | intro                              | course                  |
+      | surveypro | Boolean test | To test submission of boolean item | Boolean submission test |
     And I log in as "teacher1"
     And I am on "Test submission for boolean item" course homepage
     And I follow "Boolean test"

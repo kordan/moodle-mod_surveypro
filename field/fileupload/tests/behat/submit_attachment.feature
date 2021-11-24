@@ -18,8 +18,8 @@ Feature: make a submission test for "fileupload" item
       | teacher1 | Attachment submission test | editingteacher |
       | student1 | Attachment submission test | student        |
     And the following "activities" exist:
-      | activity  | name            | intro                                 | course                     | idnumber   |
-      | surveypro | Attachment test | To test submission of attachment item | Attachment submission test | surveypro1 |
+      | activity  | name            | intro                                 | course                     |
+      | surveypro | Attachment test | To test submission of attachment item | Attachment submission test |
     And I log in as "teacher1"
     And I am on "Test submission for attachment item" course homepage
     And I follow "Attachment test"

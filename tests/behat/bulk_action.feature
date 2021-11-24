@@ -13,8 +13,8 @@ Feature: Test bulk actions
   @javascript
   Scenario: test bulk actions
     Given the following "activities" exist:
-      | activity  | name                   | intro                     | course  | idnumber   |
-      | surveypro | Test bulk item actions | To test bulk item actions | Test IA | surveypro1 |
+      | activity  | name                   | intro                     | course  |
+      | surveypro | Test bulk item actions | To test bulk item actions | Test IA |
     And surveypro "Test bulk item actions" contains the following items:
       | type   | plugin      |
       | field  | age         |

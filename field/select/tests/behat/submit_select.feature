@@ -18,8 +18,8 @@ Feature: make a submission test for "select" item
       | teacher1 | Select submission test | editingteacher |
       | student1 | Select submission test | student        |
     And the following "activities" exist:
-      | activity  | name        | intro                             | course                 | idnumber   |
-      | surveypro | Select test | To test submission of select item | Select submission test | surveypro1 |
+      | activity  | name        | intro                             | course                 |
+      | surveypro | Select test | To test submission of select item | Select submission test |
     And I log in as "teacher1"
     And I am on "Test submission for select item" course homepage
     And I follow "Select test"

@@ -18,8 +18,8 @@ Feature: test the use of character trim
       | teacher1 | Character trim test | editingteacher |
       | student1 | Character trim test | student        |
     And the following "activities" exist:
-      | activity  | name                | intro               | course              | idnumber   |
-      | surveypro | Test character trim | Test character trim | Character trim test | surveypro1 |
+      | activity  | name                | intro               | course              |
+      | surveypro | Test character trim | Test character trim | Character trim test |
     And I log in as "teacher1"
     And I am on "Character trim test" course homepage
     And I follow "Test character trim"
