@@ -141,7 +141,7 @@ class report extends reportbase {
                             FROM {surveypro_submission}
                             WHERE surveyproid = :subsurveyproid
                             AND status = :status
-                            GROUP BY userid
+                            GROUP BY userid, surveyproid
                             HAVING count(*) >= :completionsubmit';
 
         $whereparams = [];
