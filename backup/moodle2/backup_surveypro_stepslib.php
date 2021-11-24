@@ -52,7 +52,7 @@ class backup_surveypro_activity_structure_step extends backup_activity_structure
                     'pauseresume', 'keepinprogress', 'captcha', 'history', 'anonymous',
                     'timeopen', 'timeclose', 'startyear', 'stopyear',
                     'maxentries', 'mailroles', 'mailextraaddresses', 'mailcontent', 'mailcontentformat',
-                    'thankspage', 'thankspageformat', 'riskyeditdeadline', 'template',
+                    'thankspage', 'thankspageformat', 'riskyeditdeadline', 'template', 'completionsubmit',
                     'timecreated', 'timemodified'));
 
         $items = new backup_nested_element('items');
