@@ -15,8 +15,8 @@ Feature: apply COLLES (Preferred and Actual) mastertemplate
       | user     | course               | role           |
       | teacher1 | Apply mastertemplate | editingteacher |
     And the following "activities" exist:
-      | activity  | name                                   | intro                                 | course               | idnumber   |
-      | surveypro | To apply COLLES (Preferred and Actual) | To test COLLES (Preferred and Actual) | Apply mastertemplate | surveypro1 |
+      | activity  | name                                   | intro                                 | course               |
+      | surveypro | To apply COLLES (Preferred and Actual) | To test COLLES (Preferred and Actual) | Apply mastertemplate |
     And I log in as "teacher1"
     And I am on "To apply mastertemplate" course homepage
 

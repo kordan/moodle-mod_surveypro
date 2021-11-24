@@ -16,8 +16,8 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
       | user     | course                  | role           |
       | teacher1 | Apply each usertemplate | editingteacher |
     And the following "activities" exist:
-      | activity  | name      | intro                                | course                  | idnumber   |
-      | surveypro | Apply all | Surveypro to apply all usertemplates | Apply each usertemplate | surveypro1 |
+      | activity  | name      | intro                                | course                  |
+      | surveypro | Apply all | Surveypro to apply all usertemplates | Apply each usertemplate |
 
     When I am on the "Apply all" "mod_surveypro > User templates Import" page logged in as "teacher1"
     And I upload "mod/surveypro/tests/fixtures/usertemplate/age_only_2015123000.xml" file to "Choose files to import" filemanager

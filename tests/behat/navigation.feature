@@ -17,8 +17,8 @@ Feature: verify urls really redirect to existing pages
       | teacher1 | Tl course | editingteacher |
       | student1 | Tl course | student        |
     And the following "activities" exist:
-      | activity  | name            | intro           | course    | idnumber   |
-      | surveypro | sPro test links | To verify links | Tl course | surveypro1 |
+      | activity  | name            | intro           | course    |
+      | surveypro | sPro test links | To verify links | Tl course |
     And surveypro "sPro test links" contains the following items:
       | type  | plugin  |
       | format | label       |

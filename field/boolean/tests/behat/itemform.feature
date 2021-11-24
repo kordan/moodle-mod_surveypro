@@ -16,8 +16,8 @@ Feature: test the use of boolean setup form
       | user     | course             | role           |
       | teacher1 | Boolean setup form | editingteacher |
     And the following "activities" exist:
-      | activity  | name                    | intro                   | course             | idnumber   |
-      | surveypro | Test boolean setup form | Test boolean setup form | Boolean setup form | surveypro1 |
+      | activity  | name                    | intro                   | course             |
+      | surveypro | Test boolean setup form | Test boolean setup form | Boolean setup form |
     And surveypro "Test boolean setup form" contains the following items:
       | type  | plugin  |
       | field | boolean |

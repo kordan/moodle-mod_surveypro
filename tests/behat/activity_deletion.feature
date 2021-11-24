@@ -16,8 +16,8 @@ Feature: verify instance deletion
       | user     | course    | role           |
       | teacher1 | Activity deletion | editingteacher |
     And the following "activities" exist:
-      | activity  | name                 | intro    | course            | idnumber   |
-      | surveypro | Activity delenda est | To trash | Activity deletion | surveypro1 |
+      | activity  | name                 | intro    | course            |
+      | surveypro | Activity delenda est | To trash | Activity deletion |
     And surveypro "Activity delenda est" contains the following items:
       | type   | plugin      |
       | format | label       |

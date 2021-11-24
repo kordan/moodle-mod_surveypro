@@ -15,8 +15,8 @@ Feature: apply CI mastertemplate
       | user     | course               | role           |
       | teacher1 | Apply mastertemplate | editingteacher |
     And the following "activities" exist:
-      | activity  | name                        | intro                      | course               | idnumber   |
-      | surveypro | To apply Critical Incidents | To test Critical Incidents | Apply mastertemplate | surveypro1 |
+      | activity  | name                        | intro                      | course               |
+      | surveypro | To apply Critical Incidents | To test Critical Incidents | Apply mastertemplate |
     And I log in as "teacher1"
     And I am on "To apply mastertemplate" course homepage
 

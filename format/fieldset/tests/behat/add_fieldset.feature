@@ -16,8 +16,8 @@ Feature: verify a fieldset item can be added to a survey
       | user     | course       | role           |
       | teacher1 | Add fieldset | editingteacher |
     And the following "activities" exist:
-      | activity  | name          | intro                             | course       | idnumber   |
-      | surveypro | Fieldset test | To test addition of fieldset item | Add fieldset | surveypro1 |
+      | activity  | name          | intro                             | course       |
+      | surveypro | Fieldset test | To test addition of fieldset item | Add fieldset |
     And I log in as "teacher1"
     And I am on "Add fieldset item" course homepage
     And I follow "Fieldset test"

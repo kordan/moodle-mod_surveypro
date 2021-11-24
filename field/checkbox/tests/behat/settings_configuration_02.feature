@@ -19,8 +19,8 @@ Feature: Validate creation and submit for "checkbox" elements using the principa
       | teacher1 | Checkbox item | editingteacher |
       | student1 | Checkbox item | student        |
     And the following "activities" exist:
-      | activity  | name           | intro              | course        | idnumber   |
-      | surveypro | Surveypro test | For testing backup | Checkbox item | surveypro1 |
+      | activity  | name           | intro              | course        |
+      | surveypro | Surveypro test | For testing backup | Checkbox item |
     And I log in as "teacher1"
     And I am on "Test submission for checkbox item" course homepage
     And I follow "Surveypro test"

@@ -16,8 +16,8 @@ Feature: verify a label item can be added to a survey
       | user     | course    | role           |
       | teacher1 | Add label | editingteacher |
     And the following "activities" exist:
-      | activity  | name       | intro                          | course    | idnumber   |
-      | surveypro | Label test | To test addition of label item | Add label | surveypro1 |
+      | activity  | name       | intro                          | course    |
+      | surveypro | Label test | To test addition of label item | Add label |
     And I log in as "teacher1"
     And I am on "Add label item" course homepage
     And I follow "Label test"

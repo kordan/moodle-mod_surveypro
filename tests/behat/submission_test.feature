@@ -18,8 +18,8 @@ Feature: make a submission test for each available item
       | teacher1 | Submission test | editingteacher |
       | student1 | Submission test | student        |
     And the following "activities" exist:
-      | activity  | name                 | intro                                      | course          | idnumber   |
-      | surveypro | Each item submission | To test submission for each available item | Submission test | surveypro1 |
+      | activity  | name                 | intro                                      | course          |
+      | surveypro | Each item submission | To test submission for each available item | Submission test |
     And the following "permission overrides" exist:
       | capability                            | permission | role    | contextlevel | reference       |
       | mod/surveypro:duplicateownsubmissions | Allow      | student | Course       | Submission test |

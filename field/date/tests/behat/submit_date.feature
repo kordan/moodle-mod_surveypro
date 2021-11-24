@@ -18,8 +18,8 @@ Feature: make a submission test for "date" item
       | teacher1 | Date submission test | editingteacher |
       | student1 | Date submission test | student        |
     And the following "activities" exist:
-      | activity  | name         | intro                        | course               | idnumber   |
-      | surveypro | Date test | To test submission of date item | Date submission test | surveypro1 |
+      | activity  | name         | intro                        | course               |
+      | surveypro | Date test | To test submission of date item | Date submission test |
     And I log in as "teacher1"
     And I am on "Test submission for date item" course homepage
     And I follow "Date test"

@@ -18,8 +18,8 @@ Feature: make a submission test for "age" item
       | teacher1 | Age submission test | editingteacher |
       | student1 | Age submission test | student        |
     And the following "activities" exist:
-      | activity  | name     | intro                          | course              | idnumber   |
-      | surveypro | Age test | To test submission of age item | Age submission test | surveypro1 |
+      | activity  | name     | intro                          | course              |
+      | surveypro | Age test | To test submission of age item | Age submission test |
     And I log in as "teacher1"
     And I am on "Test submission for age item" course homepage
     And I follow "Age test"

@@ -12,8 +12,8 @@ Feature: Test item actions
   @javascript
   Scenario: test simple item actions
     Given the following "activities" exist:
-      | activity  | name                     | intro                | course  | idnumber   |
-      | surveypro | Test simple item actions | To test item actions | Test IA | surveypro1 |
+      | activity  | name                     | intro                | course  |
+      | surveypro | Test simple item actions | To test item actions | Test IA |
     And surveypro "Test simple item actions" contains the following items:
       | type   | plugin      |
       | field  | age         |
@@ -133,8 +133,8 @@ Feature: Test item actions
   @javascript @_file_upload
   Scenario: test complex item actions
     Given the following "activities" exist:
-      | activity  | name                      | intro       | course  | idnumber   |
-      | surveypro | Test complex item actions | To test CIA | Test IA | surveypro1 |
+      | activity  | name                      | intro       | course  |
+      | surveypro | Test complex item actions | To test CIA | Test IA |
     When I am on the "Test complex item actions" "mod_surveypro > User templates Import" page logged in as "admin"
     And I upload "mod/surveypro/tests/fixtures/usertemplate/item_action_test.xml" file to "Choose files to import" filemanager
 

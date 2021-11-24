@@ -16,8 +16,8 @@ Feature: test the use of select setup form
       | user     | course            | role           |
       | teacher1 | Select setup form | editingteacher |
     And the following "activities" exist:
-      | activity  | name                   | intro                  | course            | idnumber   |
-      | surveypro | Test select setup form | Test select setup form | Select setup form | surveypro1 |
+      | activity  | name                   | intro                  | course            |
+      | surveypro | Test select setup form | Test select setup form | Select setup form |
     And surveypro "Test select setup form" contains the following items:
       | type  | plugin  |
       | field | boolean |

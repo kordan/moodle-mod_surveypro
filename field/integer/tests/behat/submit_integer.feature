@@ -18,8 +18,8 @@ Feature: make a submission test for "integer" item
       | teacher1 | Integer submission test | editingteacher |
       | student1 | Integer submission test | student        |
     And the following "activities" exist:
-      | activity  | name         | intro                           | course                  | idnumber   |
-      | surveypro | Integer test | To test submission of date item | Integer submission test | surveypro1 |
+      | activity  | name         | intro                           | course                  |
+      | surveypro | Integer test | To test submission of date item | Integer submission test |
     And I log in as "teacher1"
     And I am on "Test submission for integer item" course homepage
     And I follow "Integer test"

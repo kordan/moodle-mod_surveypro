@@ -18,8 +18,8 @@ Feature: make a submission test for "numeric" item
       | teacher1 | Numeric submission test | editingteacher |
       | student1 | Numeric submission test | student        |
     And the following "activities" exist:
-      | activity  | name         | intro                         | course                  | idnumber   |
-      | surveypro | Numeric test | To test submission of numeric | Numeric submission test | surveypro1 |
+      | activity  | name         | intro                         | course                  |
+      | surveypro | Numeric test | To test submission of numeric | Numeric submission test |
     And I log in as "teacher1"
     And I am on "Test submission for numeric item" course homepage
     And I follow "Numeric test"

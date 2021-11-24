@@ -17,8 +17,8 @@ Feature: apply a COLLES (actual) mastertemplate to test graphs
       | teacher1 | Test graphs | editingteacher |
       | student1 | Test graphs | student        |
     And the following "activities" exist:
-      | activity  | name              | intro                         | course      | idnumber   |
-      | surveypro | Run COLLES report | This is to test COLLES graphs | Test graphs | surveypro1 |
+      | activity  | name              | intro                         | course      |
+      | surveypro | Run COLLES report | This is to test COLLES graphs | Test graphs |
     And I log in as "teacher1"
     And I am on "To test COLLES graphs" course homepage
 

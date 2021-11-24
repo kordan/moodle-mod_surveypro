@@ -16,8 +16,8 @@ Feature: test the use of multiselect setup form
       | user     | course                 | role           |
       | teacher1 | Multiselect setup form | editingteacher |
     And the following "activities" exist:
-      | activity  | name                        | intro                       | course                 | idnumber   |
-      | surveypro | Test multiselect setup form | Test multiselect setup form | Multiselect setup form | surveypro1 |
+      | activity  | name                        | intro                       | course                 |
+      | surveypro | Test multiselect setup form | Test multiselect setup form | Multiselect setup form |
     And surveypro "Test multiselect setup form" contains the following items:
       | type  | plugin  |
       | field | boolean |

@@ -18,8 +18,8 @@ Feature: make a submission test for "autofill" item
       | teacher1 | Autofill submission test | editingteacher |
       | student1 | Autofill submission test | student        |
     And the following "activities" exist:
-      | activity  | name          | intro                               | course                   | idnumber   |
-      | surveypro | Autofill test | To test submission of autofill item | Autofill submission test | surveypro1 |
+      | activity  | name          | intro                               | course                   |
+      | surveypro | Autofill test | To test submission of autofill item | Autofill submission test |
     And I log in as "teacher1"
     And I am on "Test submission for autofill item" course homepage
     And I follow "Autofill test"

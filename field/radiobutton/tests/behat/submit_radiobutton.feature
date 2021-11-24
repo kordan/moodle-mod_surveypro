@@ -18,8 +18,8 @@ Feature: make a submission test for "radiobutton" item
       | teacher1 | Radiobutton submission test | editingteacher |
       | student1 | Radiobutton submission test | student        |
     And the following "activities" exist:
-      | activity  | name             | intro                                  | course                      | idnumber   |
-      | surveypro | Radiobutton test | To test submission of radiobutton item | Radiobutton submission test | surveypro1 |
+      | activity  | name             | intro                                  | course                      |
+      | surveypro | Radiobutton test | To test submission of radiobutton item | Radiobutton submission test |
     And I log in as "teacher1"
     And I am on "Test submission for radio buttons item" course homepage
     And I follow "Radiobutton test"

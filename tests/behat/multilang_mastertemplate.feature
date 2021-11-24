@@ -18,12 +18,12 @@ Feature: verify multilang in mastertemplates
       | teacher1 | ML Mtemplate | editingteacher |
       | student1 | ML Mtemplate | student        |
     And the following "activities" exist:
-      | activity  | name                                     | intro         | course       | idnumber   | section |
-      | surveypro | Multilang in ATTLS                       | To test ATTLS | ML Mtemplate | surveypro1 | 1       |
-      | surveypro | Multilang in Colles Actual               | To test CA    | ML Mtemplate | surveypro2 | 2       |
-      | surveypro | Multilang in Colles Preferred            | To test CP    | ML Mtemplate | surveypro3 | 3       |
-      | surveypro | Multilang in Colles Preferred and Actual | To test CPA   | ML Mtemplate | surveypro4 | 4       |
-      | surveypro | Multilang in Critical Incidents          | To test CI    | ML Mtemplate | surveypro5 | 5       |
+      | activity  | name                                     | intro         | course       | section |
+      | surveypro | Multilang in ATTLS                       | To test ATTLS | ML Mtemplate | 1       |
+      | surveypro | Multilang in Colles Actual               | To test CA    | ML Mtemplate | 2       |
+      | surveypro | Multilang in Colles Preferred            | To test CP    | ML Mtemplate | 3       |
+      | surveypro | Multilang in Colles Preferred and Actual | To test CPA   | ML Mtemplate | 4       |
+      | surveypro | Multilang in Critical Incidents          | To test CI    | ML Mtemplate | 5       |
 
   @javascript
   Scenario: display each mastertemplate in 2 different languages

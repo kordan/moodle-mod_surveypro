@@ -16,8 +16,8 @@ Feature: adding a fileupload item, two more item are added to export type menu
       | user     | course           | role           |
       | teacher1 | Count menu items | editingteacher |
     And the following "activities" exist:
-      | activity  | name             | intro                     | course           | idnumber   |
-      | surveypro | Export-item test | To check export type menu | Count menu items | surveypro1 |
+      | activity  | name             | intro                     | course           |
+      | surveypro | Export-item test | To check export type menu | Count menu items |
     And surveypro "Export-item test" contains the following items:
       | type   | plugin      |
       | field  | age         |

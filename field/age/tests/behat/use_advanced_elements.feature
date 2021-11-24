@@ -18,8 +18,8 @@ Feature: test the use of reserved elements
       | teacher1 | Reserved elements | editingteacher |
       | student1 | Reserved elements | student        |
     And the following "activities" exist:
-      | activity  | name                  | intro                    | course            | idnumber   |
-      | surveypro | Reserved element test | To test reserved element | Reserved elements | surveypro1 |
+      | activity  | name                  | intro                    | course            |
+      | surveypro | Reserved element test | To test reserved element | Reserved elements |
     And I log in as "teacher1"
     And I am on "Reserved elements" course homepage
     And I follow "Reserved element test"
