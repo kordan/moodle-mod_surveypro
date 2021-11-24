@@ -165,87 +165,58 @@ Feature: Test colles report for courses divided into groups and answers provided
 
     And I log out
 
-    And I log in as "teacher1"
-    And I am on "Course divided into groups" course homepage
-    And I follow "Verify reports"
-
-    And I follow "Run Colles report > Summary report"
+    And I am on the "Verify reports" "mod_surveypro > Colles Summary report" page logged in as teacher1
     Then I should not see "No responses were found in this survey for enrolled students."
-
     And I set the field "id_groupid" to "Group 1"
     Then I should not see "No responses were found in this survey for enrolled students."
-
     And I set the field "id_groupid" to "Group 2"
     Then I should not see "No responses were found in this survey for enrolled students."
 
-    And I follow "Survey" page in tab bar
-    And I follow "Dashboard" page in tab bar
-    And I follow "Run Colles report > Questions > Relevance report"
-    # And I navigate to "Report > Colles report > Questions > Relevance" in current page administration
+    And I am on the "Verify reports" "mod_surveypro > Colles Scales report" page
     Then I should not see "No responses were found in this survey for enrolled students."
-
     And I set the field "id_groupid" to "Group 1"
     Then I should not see "No responses were found in this survey for enrolled students."
-
     And I set the field "id_groupid" to "Group 2"
     Then I should not see "No responses were found in this survey for enrolled students."
 
-    And I follow "Survey" page in tab bar
-    And I follow "Dashboard" page in tab bar
-    And I follow "Run Colles report > Questions > Reflective thinking report"
-    # And I navigate to "Report > Colles report > Questions > Reflective thinking" in current page administration
+    And I am on the "Verify reports" "mod_surveypro > Colles Questions Relevance report" page
     Then I should not see "No responses were found in this survey for enrolled students."
-
     And I set the field "id_groupid" to "Group 1"
     Then I should not see "No responses were found in this survey for enrolled students."
-
     And I set the field "id_groupid" to "Group 2"
     Then I should not see "No responses were found in this survey for enrolled students."
 
-    And I follow "Survey" page in tab bar
-    And I follow "Dashboard" page in tab bar
-    And I follow "Run Colles report > Questions > Interactivity report"
-    # And I navigate to "Report > Colles report > Questions > Interactivity" in current page administration
+    And I am on the "Verify reports" "mod_surveypro > Colles Questions Reflective thinking report" page
     Then I should not see "No responses were found in this survey for enrolled students."
-
     And I set the field "id_groupid" to "Group 1"
     Then I should not see "No responses were found in this survey for enrolled students."
-
     And I set the field "id_groupid" to "Group 2"
     Then I should not see "No responses were found in this survey for enrolled students."
 
-    And I follow "Survey" page in tab bar
-    And I follow "Dashboard" page in tab bar
-    And I follow "Run Colles report > Questions > Tutor support report"
-    # And I navigate to "Report > Colles report > Questions > Tutor support" in current page administration
+    And I am on the "Verify reports" "mod_surveypro > Colles Questions Interactivity report" page
     Then I should not see "No responses were found in this survey for enrolled students."
-
     And I set the field "id_groupid" to "Group 1"
     Then I should not see "No responses were found in this survey for enrolled students."
-
     And I set the field "id_groupid" to "Group 2"
     Then I should not see "No responses were found in this survey for enrolled students."
 
-    And I follow "Survey" page in tab bar
-    And I follow "Dashboard" page in tab bar
-    And I follow "Run Colles report > Questions > Peer support report"
-    # And I navigate to "Report > Colles report > Questions > Peer support" in current page administration
+    And I am on the "Verify reports" "mod_surveypro > Colles Questions Tutor support report" page
     Then I should not see "No responses were found in this survey for enrolled students."
-
     And I set the field "id_groupid" to "Group 1"
     Then I should not see "No responses were found in this survey for enrolled students."
-
     And I set the field "id_groupid" to "Group 2"
     Then I should not see "No responses were found in this survey for enrolled students."
 
-    And I follow "Survey" page in tab bar
-    And I follow "Dashboard" page in tab bar
-    And I follow "Run Colles report > Questions > Interpretation report"
-    # And I navigate to "Report > Colles report > Questions > Interpretation" in current page administration
+    And I am on the "Verify reports" "mod_surveypro > Colles Questions Peer support report" page
     Then I should not see "No responses were found in this survey for enrolled students."
-
     And I set the field "id_groupid" to "Group 1"
     Then I should not see "No responses were found in this survey for enrolled students."
+    And I set the field "id_groupid" to "Group 2"
+    Then I should not see "No responses were found in this survey for enrolled students."
 
+    And I am on the "Verify reports" "mod_surveypro > Colles Questions Interpretation report" page
+    Then I should not see "No responses were found in this survey for enrolled students."
+    And I set the field "id_groupid" to "Group 1"
+    Then I should not see "No responses were found in this survey for enrolled students."
     And I set the field "id_groupid" to "Group 2"
     Then I should not see "No responses were found in this survey for enrolled students."
