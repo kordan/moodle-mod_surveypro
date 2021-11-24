@@ -83,6 +83,38 @@ class behat_mod_surveypro extends behat_base {
                 return new \moodle_url('/mod/surveypro/mtemplate_apply.php',
                         ['id' => $this->get_cm_by_surveypro_name($identifier)->id]);
 
+            case 'Colles Summary report':
+                return new \moodle_url('/mod/surveypro/report/colles/view.php',
+                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'summary']);
+
+            case 'Colles Scales report':
+                return new \moodle_url('/mod/surveypro/report/colles/view.php',
+                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'scales']);
+
+            case 'Colles Questions Relevance report':
+                return new \moodle_url('/mod/surveypro/report/colles/view.php',
+                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'questions', 'area' => '0']);
+
+            case 'Colles Questions Reflective thinking report':
+                return new \moodle_url('/mod/surveypro/report/colles/view.php',
+                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'questions', 'area' => '1']);
+
+            case 'Colles Questions Interactivity report':
+                return new \moodle_url('/mod/surveypro/report/colles/view.php',
+                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'questions', 'area' => '2']);
+
+            case 'Colles Questions Tutor support report':
+                return new \moodle_url('/mod/surveypro/report/colles/view.php',
+                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'questions', 'area' => '3']);
+
+            case 'Colles Questions Peer support report':
+                return new \moodle_url('/mod/surveypro/report/colles/view.php',
+                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'questions', 'area' => '4']);
+
+            case 'Colles Questions Interpretation report':
+                return new \moodle_url('/mod/surveypro/report/colles/view.php',
+                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'questions', 'area' => '5']);
+
             default:
                 throw new Exception('Unrecognised surveypro page type "' . $type . '."');
         }
