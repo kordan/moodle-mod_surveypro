@@ -38,7 +38,16 @@ jobs:
             database: mariadb
             suite: classic
             profile: default
-
+          - php: '8.0'
+            moodle-branch: 'MOODLE_311_STABLE'
+            database: pgsql
+            suite: default
+            profile: chrome
+          - php: '7.3'
+            moodle-branch: 'MOODLE_311_STABLE'
+            database: mariadb
+            suite: classic
+            profile: default
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
