@@ -1,7 +1,7 @@
 @mod @mod_surveypro @surveyprotemplate @surveyprotemplate_collesactual
 Feature: Test colles report for courses divided into groups not all equipped with answers
   In order to test that reports are displayed even for courses divided into groups
-  As student11 up to student32
+  As student11 up to student21
   I fill a surveypro and ask for colles report
 
   @javascript
@@ -33,14 +33,10 @@ Feature: Test colles report for courses divided into groups not all equipped wit
       | student11 | G1   |
       | student21 | G2   |
     And the following "activities" exist:
-      | activity  | name           | intro          | course         | idnumber   |
-      | surveypro | Verify reports | Verify reports | Course grouped | surveypro1 |
+      | activity  | name           | intro          | course         |
+      | surveypro | Verify reports | Verify reports | Course grouped |
 
-    And I log in as "teacher1"
-    And I am on "Course divided into groups" course homepage
-    And I follow "Verify reports"
-
-    And I navigate to "Edit settings" in current page administration
+    When I am on the "Verify reports" "Activity editing" page logged in as teacher1
     And I set the following fields to these values:
       | Group mode | Visible groups |
     And I press "Save and display"

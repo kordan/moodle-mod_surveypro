@@ -18,8 +18,8 @@ Feature: test the use of boolean as parent item
       | teacher1 | Boolean as parent | editingteacher |
       | student1 | Boolean as parent | student        |
     And the following "activities" exist:
-      | activity  | name                   | intro                  | newpageforchild | course            | idnumber   |
-      | surveypro | Test boolean as parent | Test boolean as parent | 1               | Boolean as parent | surveypro1 |
+      | activity  | name                   | intro                  | newpageforchild | course            |
+      | surveypro | Test boolean as parent | Test boolean as parent | 1               | Boolean as parent |
     And surveypro "Test boolean as parent" contains the following items:
       | type   | plugin  |
       | field  | boolean |
@@ -112,10 +112,7 @@ Feature: test the use of boolean as parent item
 
     And I log out
 
-    And I log in as "teacher1"
-    And I am on "Boolean as parent" course homepage
-    And I follow "Test boolean as parent"
-    And I navigate to "Edit settings" in current page administration
+    When I am on the "Test boolean as parent" "Activity editing" page logged in as teacher1
     And I expand all fieldsets
     And I set the field "Branches increase pages" to "0"
     And I press "Save and display"

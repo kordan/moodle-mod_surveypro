@@ -18,8 +18,8 @@ Feature: test the use of integer as parent item
       | teacher1 | Integer as parent | editingteacher |
       | student1 | Integer as parent | student        |
     And the following "activities" exist:
-      | activity  | name                   | intro                  | newpageforchild | course            | idnumber   |
-      | surveypro | Test integer as parent | Test integer as parent | 1               | Integer as parent | surveypro1 |
+      | activity  | name                   | intro                  | newpageforchild | course            |
+      | surveypro | Test integer as parent | Test integer as parent | 1               | Integer as parent |
     And surveypro "Test integer as parent" contains the following items:
       | type   | plugin  |
       | field  | integer |
@@ -124,10 +124,7 @@ Feature: test the use of integer as parent item
 
     And I log out
 
-    And I log in as "teacher1"
-    And I am on "Integer as parent" course homepage
-    And I follow "Test integer as parent"
-    And I navigate to "Edit settings" in current page administration
+    When I am on the "Test integer as parent" "Activity editing" page logged in as teacher1
     And I expand all fieldsets
     And I set the field "Branches increase pages" to "0"
     And I press "Save and display"

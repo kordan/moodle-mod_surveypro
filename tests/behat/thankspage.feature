@@ -20,18 +20,15 @@ Feature: verify the thanks page is shown properly
       | capability                          | permission | role    | contextlevel | reference |
       | mod/surveypro:editownsubmissions    | Allow      | student | Course       | Thanks    |
     And the following "activities" exist:
-      | activity  | name             | intro            | course | idnumber   |
-      | surveypro | Thanks surveypro | Test thanks page | Thanks | surveypro1 |
+      | activity  | name             | intro            | course |
+      | surveypro | Thanks surveypro | Test thanks page | Thanks |
     And surveypro "Thanks surveypro" contains the following items:
       | type  | plugin  |
       | field | boolean |
 
   @javascript
   Scenario: test the empty thanks page
-    Given I log in as "teacher1"
-    And I am on "Thank you" course homepage
-    And I follow "Thanks surveypro"
-    And I navigate to "Edit settings" in current page administration
+    When I am on the "Thanks surveypro" "Activity editing" page logged in as teacher1
     And I expand all fieldsets
     And I set the field "Inline thanks page" to ""
     And I press "Save and display"
@@ -72,13 +69,10 @@ Feature: verify the thanks page is shown properly
   Scenario: test the thanks page with images
     Given I log in as "teacher1"
     And I follow "Manage private files"
-    # And I upload "mod/lesson/tests/fixtures/moodle_logo.jpg" file to "Files" filemanager
     And I upload "mod/surveypro/tests/fixtures/thankyou.png" file to "Files" filemanager
     And I click on "Save changes" "button"
 
-    And I am on "Thank you" course homepage
-    And I follow "Thanks surveypro"
-    And I navigate to "Edit settings" in current page administration
+    When I am on the "Thanks surveypro" "Activity editing" page logged in as teacher1
     And I expand all fieldsets
 
     # Atto needs focus to add image, select empty p tag to do so.
