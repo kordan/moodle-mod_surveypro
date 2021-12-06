@@ -388,7 +388,6 @@ class view_export {
         $this->export_write_xlsrecord($rowcounter, $recordtoexport, $worksheet);
 
         $workbook->close();
-        return true;
     }
 
     /**
