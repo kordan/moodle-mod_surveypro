@@ -229,12 +229,20 @@ class view_export {
      */
     public function get_export_filename($extension = '') {
         $filename = $this->surveypro->name;
-        if ($this->formdata->outputstyle == SURVEYPRO_VERBOSE) {
-            $filename .= '_verbose';
-        } else {
-            $filename .= '_raw';
+
+        if ($this->formdata->status == SURVEYPRO_STATUSCLOSED) {
+            $filename .= ' '.str_replace(' ', '', get_string('statusclosed', 'surveypro'));
         }
-        $filename .= '.'.$extension;
+        if ($this->formdata->status == SURVEYPRO_STATUSINPROGRESS) {
+            $filename .= ' '.str_replace(' ', '', get_string('statusinprogress', 'surveypro'));
+        }
+        if ($this->formdata->outputstyle == SURVEYPRO_VERBOSE) {
+            $filename .= ' verbose';
+        }
+        $filename .= userdate(time(), ' %Y%m%d%H%M');
+        if ($extension) {
+            $filename .= '.'.$extension;
+        }
         $filename = clean_filename($filename);
 
         return $filename;
