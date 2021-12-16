@@ -303,9 +303,9 @@ class view_export {
         require_once($CFG->libdir.'/csvlib.class.php');
 
         if ($this->formdata->downloadtype == SURVEYPRO_DOWNLOADCSV) {
-            $csvexport = new csv_export_writer('comma');
+            $csvexport = new \csv_export_writer('comma');
         } else {
-            $csvexport = new csv_export_writer('tab');
+            $csvexport = new \csv_export_writer('tab');
         }
 
         $csvexport->filename = $this->get_export_filename('csv');
@@ -351,7 +351,7 @@ class view_export {
 
         $filename = $this->get_export_filename('xls');
 
-        $workbook = new MoodleExcelWorkbook('-');
+        $workbook = new \MoodleExcelWorkbook('-');
         $workbook->send($filename);
 
         $worksheet = array();
