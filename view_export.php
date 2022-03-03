@@ -65,7 +65,7 @@ $formparams->surveypro = $surveypro;
 $formparams->activityisgrouped = groups_get_activity_groupmode($cm, $course);
 $formparams->context = $context;
 $formparams->attachmentshere = $exportman->are_attachments_onboard();
-$exportform = new submissionexportform($formurl, $formparams);
+$exportform = new submissionexportform($formurl, $formparams, 'POST', '', ['data-double-submit-protection' => 'off']);
 // End of: prepare params for the form.
 
 // Begin of: manage form submission.
