@@ -14,15 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * PHPUnit lib.php tests
- *
- * @package   mod_surveypro
- * @copyright 2019 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+namespace mod_surveypro;
 
-defined('MOODLE_INTERNAL') || die();
+use advanced_testcase;
 
 /**
  * The class to verify all the lib.php global functions do work as expected.
@@ -31,14 +25,14 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2015 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_lib extends advanced_testcase {
+class lib_test extends advanced_testcase {
 
     /**
-     * test_surveypro_cutdownstring provider
+     * surveypro_cutdownstring provider
      *
-     * Cases to be tested by test_surveypro_cutdownstring
+     * Cases to be tested by surveypro_cutdownstring
      */
-    public function test_surveypro_cutdownstring_provider() {
+    public function surveypro_cutdownstring_provider() {
         return [
             'plain_short_string' => ['Hello world!', 60, 'Hello world!'],
             'utf8_short_string'  => ['Hello 🌍 !',   60, 'Hello 🌍 !'],
@@ -48,10 +42,10 @@ class mod_surveypro_lib extends advanced_testcase {
     }
 
     /**
-     * test_surveypro_cutdownstring
+     * surveypro_cutdownstring
      *
      * @covers ::surveypro_cutdownstring
-     * @dataProvider test_surveypro_cutdownstring_provider
+     * @dataProvider surveypro_cutdownstring_provider
      * @param string $plainstring The string being passed
      * @param int $maxlength The length passed
      * @param string $expected The expected result
@@ -59,5 +53,71 @@ class mod_surveypro_lib extends advanced_testcase {
     public function test_surveypro_cutdownstring($plainstring, $maxlength, $expected) {
         // Let's test that surveypro_cutdownstring() works as expected.
         $this->assertSame($expected, surveypro_cutdownstring($plainstring, $maxlength));
+    }
+
+    /**
+     * Data provider for surveypro_pre_process_checkboxes()
+     *
+     * Cases to be tested by surveypro_pre_process_checkboxes
+     */
+    public function surveypro_pre_process_checkboxes_provider() {
+        return [
+            'test01' => [
+                (object) [
+                    'pauseresume' => 1
+                ],
+                (object) [
+                    'newpageforchild' => 0,
+                    'pauseresume' => 1,
+                    'keepinprogress' => 0,
+                    'history' => 0,
+                    'anonymous' => 0,
+                    'captcha' => 0
+                ]
+            ],
+            'test02' => [
+                (object) [
+                    'captcha' => 1,
+                    'history' => 1
+                ],
+                (object) [
+                    'newpageforchild' => 0,
+                    'pauseresume' => 0,
+                    'keepinprogress' => 0,
+                    'history' => 1,
+                    'anonymous' => 0,
+                    'captcha' => 1
+                ]
+            ],
+            'test03' => [
+                (object) [
+                    'newpageforchild' => 1,
+                    'keepinprogress' => 1,
+                    'anonymous' => 1
+                ],
+                (object) [
+                    'newpageforchild' => 1,
+                    'pauseresume' => 0,
+                    'keepinprogress' => 1,
+                    'history' => 0,
+                    'anonymous' => 1,
+                    'captcha' => 0
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * test_surveypro_cutdownstring
+     *
+     * @covers ::surveypro_pre_process_checkboxes
+     * @dataProvider surveypro_pre_process_checkboxes_provider
+     * @param object $userinput The passed user input
+     * @param object $expected The expected result
+     */
+    public function test_surveypro_pre_process_checkboxes($userinput, $expected) {
+        // Let's test that surveypro_pre_process_checkboxes() works as expected.
+        surveypro_pre_process_checkboxes($userinput);
+        $this->assertEquals($expected, $userinput);
     }
 }
