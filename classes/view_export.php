@@ -239,7 +239,7 @@ class view_export {
         if ($this->formdata->outputstyle == SURVEYPRO_VERBOSE) {
             $filename .= ' verbose';
         }
-        $filename .= userdate(time(), ' %Y%m%d%H%M');
+        $filename .= userdate(time(), ' %Y%m%d%H%M', 99, false, false);
         if ($extension) {
             $filename .= '.'.$extension;
         }
