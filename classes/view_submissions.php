@@ -1008,7 +1008,7 @@ class view_submissions {
             $a->timecreated = userdate($submission->timecreated);
             $a->timemodified = userdate($submission->timemodified);
             if ($submission->userid != $USER->id) {
-                $user = $DB->get_record('user', array('id' => $submission->userid), user_picture::fields());
+                $user = $DB->get_record('user', array('id' => $submission->userid), \user_picture::fields());
                 $a->fullname = fullname($user);
                 if ($a->timemodified == 0) {
                     $message = get_string('confirm_duplicate1foreignresponse_nevmod', 'mod_surveypro', $a);
@@ -1072,7 +1072,7 @@ class view_submissions {
             $a->timecreated = userdate($submission->timecreated);
             $a->timemodified = userdate($submission->timemodified);
             if ($submission->userid != $USER->id) {
-                $user = $DB->get_record('user', array('id' => $submission->userid), user_picture::fields());
+                $user = $DB->get_record('user', array('id' => $submission->userid), \user_picture::fields());
                 $a->fullname = fullname($user);
                 if ($a->timemodified == 0) {
                     $message = get_string('confirm_delete1response_nevmod', 'mod_surveypro', $a);
