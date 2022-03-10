@@ -658,15 +658,6 @@ class layout_itemsetup {
         $tableheaders[] = get_string('actions');
         $table->define_headers($tableheaders);
 
-        $table->sortable(true, 'sortindex'); // Sorted by sortindex by default.
-        $table->no_sorting('plugin');
-        $table->no_sorting('parentitem');
-        $table->no_sorting('customnumber');
-        $table->no_sorting('content');
-        $table->no_sorting('parentconstraints');
-        $table->no_sorting('status');
-        $table->no_sorting('actions');
-
         $table->column_class('plugin', 'plugin');
         $table->column_class('sortindex', 'sortindex');
         $table->column_class('parentitem', 'parentitem');
@@ -693,6 +684,17 @@ class layout_itemsetup {
         $iconparams = array('title' => $parentelementstr);
         $branchicn = new \pix_icon('branch', $parentelementstr, 'surveypro', $iconparams);
 
+        // Get parents id only.
+        $sql = 'SELECT DISTINCT id as paretid, 1
+                FROM {surveypro_item} parent
+                WHERE EXISTS (
+                    SELECT \'x\'
+                    FROM {surveypro_item} child
+                    WHERE child.parentid = parent.id)
+                AND surveyproid = ?';
+        $whereparams = [$this->surveypro->id];
+        $isparent = $DB->get_records_sql_menu($sql, $whereparams);
+
         // Get itemseeds.
         $sql = 'SELECT DISTINCT id as itemid, plugin, type, sortindex
                 FROM {surveypro_item} parent
@@ -709,13 +711,7 @@ class layout_itemsetup {
                 WHERE surveyproid = ?
                     AND parentid > 0
 
-                ORDER BY ';
-        if ($table->get_sql_sort()) {
-            $sql .= $table->get_sql_sort();
-        } else {
-            $sql .= 'sortindex';
-        }
-        $sql .= ';';
+                ORDER BY sortindex;';
         $whereparams = [$this->surveypro->id, $this->surveypro->id];
         $itemseeds = $DB->get_recordset_sql($sql, $whereparams);
 
@@ -746,7 +742,7 @@ class layout_itemsetup {
             // Parentid.
             if ($item->get_parentid()) {
                 $content = $parentitem->get_sortindex();
-                $content .= $OUTPUT->render($branchicn);
+                $content .= \html_writer::tag('span', $OUTPUT->render($branchicn), array('class' => 'branch'));
                 $content .= $item->get_parentcontent('; ');
             } else {
                 $content = '';
@@ -764,8 +760,8 @@ class layout_itemsetup {
             $tablerow[] = $item->get_content();
 
             // Parentconstraints.
-            if ($item->get_parentid()) {
-                $tablerow[] = $parentitem->item_list_constraints();
+            if (isset($isparent[$itemseed->itemid])) {
+                $tablerow[] = $item->item_list_constraints();
             } else {
                 $tablerow[] = '-';
             }
