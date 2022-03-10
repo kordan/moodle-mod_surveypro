@@ -134,7 +134,8 @@ class submissionexportform extends \moodleform {
         $fieldname = 'outputstyle';
         $elementgroup = array();
         $verbosestr = get_string('verbose', 'mod_surveypro');
-        $rawstr = get_string('raw', 'mod_surveypro');
+        $a = get_string('downloadformat', 'mod_surveypro');
+        $rawstr = get_string('raw', 'mod_surveypro', $a);
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $verbosestr, SURVEYPRO_VERBOSE);
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $rawstr, SURVEYPRO_RAW);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'mod_surveypro'), '<br />', false);
