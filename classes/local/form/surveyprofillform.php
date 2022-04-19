@@ -84,7 +84,9 @@ class surveyprofillform extends \moodleform {
         }
 
         if ($formpage == SURVEYPRO_RIGHT_OVERFLOW) {
-            $a = $surveypro->pauseresume ? get_string('revieworpause', 'mod_surveypro') : get_string('onlyreview', 'mod_surveypro');
+            $oneshotsubmission = ($surveypro->pauseresume == SURVEYPRO_ONESHOTNOEMAIL);
+            $oneshotsubmission = $oneshotsubmission || ($surveypro->pauseresume == SURVEYPRO_ONESHOTEMAIL);
+            $a = ($oneshotsubmission) ? get_string('onlyreview', 'mod_surveypro') : get_string('revieworpause', 'mod_surveypro');
             $mform->addElement('static', 'nomoreitems', $notestr, get_string('nomoreitems', 'mod_surveypro', $a));
             // $mform->addElement('static', 'nomoreitems', $notestr, 'SURVEYPRO_RIGHT_OVERFLOW');
         }
@@ -201,7 +203,9 @@ class surveyprofillform extends \moodleform {
             $buttonlist['prevbutton'] = get_string('previousformpage', 'mod_surveypro');
         }
         if ($tabpage != SURVEYPRO_LAYOUT_PREVIEW) {
-            if ($surveypro->pauseresume) {
+            $pasuseresumesubmission = ($surveypro->pauseresume == SURVEYPRO_PAUSERESUMENOEMAIL);
+            $pasuseresumesubmission = $pasuseresumesubmission || ($surveypro->pauseresume == SURVEYPRO_PAUSERESUMEEMAIL);
+            if ($pasuseresumesubmission) {
                 $buttonlist['pausebutton'] = get_string('pause', 'mod_surveypro');
             }
             if (($formpage == $maxassignedpage) || ($formpage == SURVEYPRO_RIGHT_OVERFLOW)) {

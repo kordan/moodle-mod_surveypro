@@ -322,5 +322,15 @@ function xmldb_surveypro_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2021102600, 'surveypro');
     }
 
+    if ($oldversion < 2022041400) {
+        $newcontent = '2';
+        $oldcontent = '1';
+
+        $sql = 'UPDATE {surveypro} SET pauseresume = :newcontent WHERE pauseresume = :oldcontent';
+        $DB->execute($sql, array('oldcontent' => $oldcontent, 'newcontent' => $newcontent));
+
+        // Surveypro savepoint reached.
+        upgrade_mod_savepoint(true, 2022041400, 'surveypro');
+    }
     return true;
 }

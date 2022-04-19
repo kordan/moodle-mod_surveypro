@@ -64,15 +64,14 @@ class lib_test extends advanced_testcase {
         return [
             'test01' => [
                 (object) [
-                    'pauseresume' => 1
+                    'captcha' => 1
                 ],
                 (object) [
                     'newpageforchild' => 0,
-                    'pauseresume' => 1,
                     'keepinprogress' => 0,
                     'history' => 0,
                     'anonymous' => 0,
-                    'captcha' => 0
+                    'captcha' => 1
                 ]
             ],
             'test02' => [
@@ -82,7 +81,6 @@ class lib_test extends advanced_testcase {
                 ],
                 (object) [
                     'newpageforchild' => 0,
-                    'pauseresume' => 0,
                     'keepinprogress' => 0,
                     'history' => 1,
                     'anonymous' => 0,
@@ -97,7 +95,6 @@ class lib_test extends advanced_testcase {
                 ],
                 (object) [
                     'newpageforchild' => 1,
-                    'pauseresume' => 0,
                     'keepinprogress' => 1,
                     'history' => 0,
                     'anonymous' => 1,

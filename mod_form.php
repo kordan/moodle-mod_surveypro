@@ -84,8 +84,13 @@ class mod_surveypro_mod_form extends \moodleform_mod {
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // Allow/deny pauseresume.
+        $options = [];
+        $options[] = get_string('oneshotnoemail', 'mod_surveypro');
+        $options[] = get_string('oneshotemail', 'mod_surveypro');
+        $options[] = get_string('pauseresumenoemail', 'mod_surveypro');
+        $options[] = get_string('pauseresumeemail', 'mod_surveypro');
         $fieldname = 'pauseresume';
-        $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'));
+        $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $options);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // Keep in progress.
