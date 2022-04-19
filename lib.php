@@ -87,6 +87,14 @@ define('SURVEYPRO_TYPEFIELD' , 'field');
 define('SURVEYPRO_TYPEFORMAT', 'format');
 
 /**
+ * KIND OF SUBMISSION
+ */
+define('SURVEYPRO_ONESHOTNOEMAIL',     0);
+define('SURVEYPRO_ONESHOTEMAIL',       1);
+define('SURVEYPRO_PAUSERESUMENOEMAIL', 2);
+define('SURVEYPRO_PAUSERESUMEEMAIL',   3);
+
+/**
  * ACTIONS
  */
 define('SURVEYPRO_NOACTION'          , '0');
@@ -404,7 +412,7 @@ function surveypro_update_instance($surveypro, $mform) {
  * @return void
  */
 function surveypro_pre_process_checkboxes($surveypro) {
-    $checkboxes = array('newpageforchild', 'pauseresume', 'keepinprogress', 'history', 'anonymous', 'captcha');
+    $checkboxes = array('newpageforchild', 'keepinprogress', 'history', 'anonymous', 'captcha');
 
     foreach ($checkboxes as $checkbox) {
         if (!isset($surveypro->{$checkbox})) {
@@ -594,63 +602,6 @@ function surveypro_get_recent_mod_activity(&$activities, &$index, $timestart, $c
  * @param array $modnames
  */
 function surveypro_print_recent_mod_activity($activity, $courseid, $detail, $modnames) {
-}
-
-/**
- * Function to be run periodically according to the moodle cron
- * This function searches for things that need to be done, such
- * as sending out mail, toggling flags etc ...
- *
- * @return boolean
- * @todo Finish documenting this function
- */
-function surveypro_cron_scheduled_task() {
-    global $DB;
-
-    // Delete too old submissions from surveypro_answer and surveypro_submission.
-
-    $pauseresumestatus = array(0, 1);
-    // If $pauseresumestatus == 0 then pauseresume is not allowed.
-    // Users leaved responses in progress more than four hours ago...
-    // I can not believe they are still working on them so I delete thier responses now.
-
-    // If $pauseresumestatus == 1 then pauseresume is allowed
-    // Users leaved responses in progress more than maximum allowed time delay so I delete thier responses now.
-    $maxinputdelay = get_config('mod_surveypro', 'maxinputdelay');
-    foreach ($pauseresumestatus as $pauseresume) {
-        if (($pauseresume == 1) && ($maxinputdelay == 0)) { // Maxinputdelay == 0 means, please don't delete.
-            continue;
-        }
-
-        // First step: filter surveypro to the subset having 'pauseresume' = $pauseresume.
-        if ($surveypros = $DB->get_records('surveypro', array('pauseresume' => $pauseresume), null, 'id, keepinprogress')) {
-            $sofar = ($pauseresume == 0) ? (4 * 3600) : ($maxinputdelay * 3600);
-            $sofar = time() - $sofar;
-            foreach ($surveypros as $surveypro) {
-                $keepinprogress = $surveypro->keepinprogress;
-                if (!empty($keepinprogress)) {
-                    continue;
-                }
-
-                // Second step: if you are here, for each surveypro
-                // filter only submissions having 'status' = SURVEYPRO_STATUSINPROGRESS and timecreated < :sofar.
-                $where = 'surveyproid = :surveyproid AND status = :status AND timecreated < :sofar';
-                $whereparams = array('surveyproid' => $surveypro->id, 'status' => SURVEYPRO_STATUSINPROGRESS, 'sofar' => $sofar);
-                if ($submissions = $DB->get_recordset_select('surveypro_submission', $where, $whereparams, 'surveyproid', 'id')) {
-
-                    $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, 0, false, MUST_EXIST);
-                    $utilitylayoutman = new utility_layout($cm, $surveypro);
-
-                    foreach ($submissions as $submission) {
-                        // Third step: delete each selected submission.
-                        $utilitylayoutman->delete_submissions(array('id' => $submission->id));
-                    }
-                }
-            }
-        }
-    }
-
-    return true;
 }
 
 /**
