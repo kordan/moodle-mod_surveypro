@@ -145,7 +145,9 @@ class view_cover {
             $a->responsescount = $countclosed;
             $messages[] = get_string('yoursubmissions', 'mod_surveypro', $a);
 
-            if ($this->surveypro->pauseresume) {
+            $pasuseresumesurvey = ($this->surveypro->pauseresume == SURVEYPRO_PAUSERESUMENOEMAIL);
+            $pasuseresumesurvey = $pasuseresumesurvey || ($this->surveypro->pauseresume == SURVEYPRO_PAUSERESUMEEMAIL);
+            if ($pasuseresumesurvey) {
                 // Your 'in progress' responses.
                 $a = new \stdClass();
                 $a->status = get_string('statusinprogress', 'mod_surveypro');

@@ -322,5 +322,30 @@ function xmldb_surveypro_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2021102600, 'surveypro');
     }
 
+    if ($oldversion < 2022041400) {
+        $newcontent = '2';
+        $oldcontent = '1';
+
+        $sql = 'UPDATE {surveypro} SET pauseresume = :newcontent WHERE pauseresume = :oldcontent';
+        $DB->execute($sql, array('oldcontent' => $oldcontent, 'newcontent' => $newcontent));
+
+        // Surveypro savepoint reached.
+        upgrade_mod_savepoint(true, 2022041400, 'surveypro');
+    }
+
+    if ($oldversion < 2022042600) {
+        // Define field neverstartedemail to be added to surveypro.
+        $table = new xmldb_table('surveypro');
+        $field = new xmldb_field('neverstartedemail', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0', 'newpageforchild');
+
+        // Conditionally launch add field neverstartedemail.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Surveypro savepoint reached.
+        upgrade_mod_savepoint(true, 2022042600, 'surveypro');
+    }
+
     return true;
 }
