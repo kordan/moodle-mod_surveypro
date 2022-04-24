@@ -42,7 +42,6 @@ table#validaterelations {
 table#manageitems .plugin,
 table#sortitems .plugin,
 table#validaterelations .plugin {
-    padding: 0.5em;
     text-align: center;
 }
 
@@ -85,7 +84,8 @@ table#validaterelations td.parentitem {
 }
 
 table#manageitems td.parentitem span.branch .icon,
-table#sortitems td.parentitem span.branch .icon {
+table#sortitems td.parentitem span.branch .icon,
+table#validaterelations td.parentitem span.branch .icon {
     padding: 0 .1em 0 .1em;
     margin: 0 .1em 0 .1em;
 }
