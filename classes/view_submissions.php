@@ -1438,7 +1438,7 @@ class view_submissions {
         // because I also need to gather info about fieldsets and labels.
         $itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, 'sortindex', 'id, type, plugin');
 
-        $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+        $pdf = new \TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
         $this->add_pdf_details($pdf, $user, $submission->timecreated, $submission->timemodified);
         list($twocolstemplate, $threecolstemplate) = $this->get_columns_html();
         $border = $this->get_border_style();
