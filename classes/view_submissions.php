@@ -1007,19 +1007,21 @@ class view_submissions {
             $a = new \stdClass();
             $a->timecreated = userdate($submission->timecreated);
             $a->timemodified = userdate($submission->timemodified);
-            if ($submission->userid != $USER->id) {
-                $user = $DB->get_record('user', array('id' => $submission->userid), user_picture::fields());
-                $a->fullname = fullname($user);
-                if ($a->timemodified == 0) {
-                    $message = get_string('confirm_duplicate1foreignresponse_nevmod', 'mod_surveypro', $a);
+            if ($submission->userid == $USER->id) {
+                if ($submission->timemodified == 0) {
+                    $message = get_string('confirm_duplicatemyresponse_original', 'mod_surveypro', $a);
                 } else {
-                    $message = get_string('confirm_duplicate1foreignresponse', 'mod_surveypro', $a);
+                    $message = get_string('confirm_duplicatemyresponse_modified', 'mod_surveypro', $a);
                 }
             } else {
-                if ($a->timemodified == 0) {
-                    $message = get_string('confirm_duplicate1ownresponse_nevmod', 'mod_surveypro', $a);
+                $userfieldsapi = \core_user\fields::for_userpic();
+                $namefields = $userfieldsapi->get_sql('', false, '', 'id', false)->selects;
+                $user = $DB->get_record('user', ['id' => $submission->userid], $namefields);
+                $a->fullname = fullname($user);
+                if ($submission->timemodified == 0) {
+                    $message = get_string('confirm_duplicateotherresponse_original', 'mod_surveypro', $a);
                 } else {
-                    $message = get_string('confirm_duplicate1ownresponse', 'mod_surveypro', $a);
+                    $message = get_string('confirm_duplicateotherresponse_modified', 'mod_surveypro', $a);
                 }
             }
 
@@ -1072,18 +1074,20 @@ class view_submissions {
             $a->timecreated = userdate($submission->timecreated);
             $a->timemodified = userdate($submission->timemodified);
             if ($submission->userid != $USER->id) {
-                $user = $DB->get_record('user', array('id' => $submission->userid), user_picture::fields());
+                $userfieldsapi = \core_user\fields::for_userpic();
+                $namefields = $userfieldsapi->get_sql('', false, '', 'id', false)->selects;
+                $user = $DB->get_record('user', ['id' => $submission->userid], $namefields);
                 $a->fullname = fullname($user);
-                if ($a->timemodified == 0) {
-                    $message = get_string('confirm_delete1response_nevmod', 'mod_surveypro', $a);
+                if ($submission->timemodified == 0) {
+                    $message = get_string('confirm_deleteotherresponse_original', 'mod_surveypro', $a);
                 } else {
-                    $message = get_string('confirm_delete1response', 'mod_surveypro', $a);
+                    $message = get_string('confirm_deleteotherresponse_modified', 'mod_surveypro', $a);
                 }
             } else {
-                if ($a->timemodified == 0) {
-                    $message = get_string('confirm_delete1ownresponse_nevmod', 'mod_surveypro', $a);
+                if ($submission->timemodified == 0) {
+                    $message = get_string('confirm_deletemyresponse_original', 'mod_surveypro', $a);
                 } else {
-                    $message = get_string('confirm_delete1ownresponse', 'mod_surveypro', $a);
+                    $message = get_string('confirm_deletemyresponse_modified', 'mod_surveypro', $a);
                 }
             }
 
