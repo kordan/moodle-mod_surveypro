@@ -22,7 +22,5 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 define('SURVEYPROFIELD_RECURRENCE_FORMAT', '[dd/mm]');
 define('SURVEYPROFIELD_RECURRENCE_YEAROFFSET', 1970);

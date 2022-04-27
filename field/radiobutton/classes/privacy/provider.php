@@ -24,8 +24,6 @@
 
 namespace surveyprofield_radiobutton\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for field_radiobutton implementing null_provider.
  *

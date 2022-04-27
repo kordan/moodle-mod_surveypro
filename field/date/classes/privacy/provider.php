@@ -24,8 +24,6 @@
 
 namespace surveyprofield_date\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for field_date implementing null_provider.
  *

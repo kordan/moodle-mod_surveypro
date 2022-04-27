@@ -24,8 +24,6 @@
 
 namespace surveyprofield_fileupload\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for field_fileupload implementing null_provider.
  *

@@ -24,8 +24,6 @@
 
 namespace surveyprofield_integer\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for field_integer implementing null_provider.
  *

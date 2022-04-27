@@ -24,8 +24,6 @@
 
 namespace mod_surveypro;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * The class exporting gathered data
  *

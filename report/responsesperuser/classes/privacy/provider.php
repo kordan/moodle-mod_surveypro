@@ -24,8 +24,6 @@
 
 namespace surveyproreport_responsesperuser\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for report_responsesperuser implementing null_provider.
  *

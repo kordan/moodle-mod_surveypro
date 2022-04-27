@@ -22,8 +22,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 // Position of the content.
 define('SURVEYPROTEMPLATE_COLLESPREFERREDUSERADIO', 1);
 define('SURVEYPROTEMPLATE_COLLESPREFERREDUSESELECT', 2);

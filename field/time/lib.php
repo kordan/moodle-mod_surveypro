@@ -22,8 +22,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 define('SURVEYPROFIELD_TIME_YEAROFFSET', 1970);
 define('SURVEYPROFIELD_TIME_DAYOFFSET', 1);
 define('SURVEYPROFIELD_TIME_MONTHOFFSET', 1);

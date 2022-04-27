@@ -24,8 +24,6 @@
 
 namespace surveyproformat_label\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for format_label implementing null_provider.
  *

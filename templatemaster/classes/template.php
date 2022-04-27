@@ -24,8 +24,6 @@
 
 namespace surveyprotemplate_templatemaster;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * The class to manage templatemaster template
  *

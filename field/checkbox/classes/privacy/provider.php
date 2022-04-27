@@ -24,8 +24,6 @@
 
 namespace surveyprofield_checkbox\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for field_checkbox implementing null_provider.
  *

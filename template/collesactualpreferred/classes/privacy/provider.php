@@ -24,8 +24,6 @@
 
 namespace surveyprotemplate_collesactualpreferred\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for template_collesactualpreferred implementing null_provider.
  *

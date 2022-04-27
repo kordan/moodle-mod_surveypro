@@ -24,8 +24,6 @@
 
 namespace surveyproreport_attachments\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for report_attachments implementing null_provider.
  *

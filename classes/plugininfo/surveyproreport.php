@@ -21,9 +21,8 @@
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-namespace mod_surveypro\plugininfo;
 
-defined('MOODLE_INTERNAL') || die();
+namespace mod_surveypro\plugininfo;
 
 use core\plugininfo\base, core_plugin_manager, moodle_url;
 

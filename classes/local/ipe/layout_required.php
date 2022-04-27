@@ -24,10 +24,7 @@
 
 namespace mod_surveypro\local\ipe;
 
-defined('MOODLE_INTERNAL') || die();
-
 use mod_surveypro\utility_layout;
-
 
 /**
  * Class to prepare an item variable for display and in-place editing

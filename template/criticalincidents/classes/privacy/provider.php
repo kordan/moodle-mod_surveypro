@@ -24,8 +24,6 @@
 
 namespace surveyprotemplate_criticalincidents\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for template_criticalincidents implementing null_provider.
  *

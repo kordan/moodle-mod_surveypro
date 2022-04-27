@@ -22,10 +22,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-require_once($CFG->dirroot.'/mod/surveypro/lib.php');
-
 /**
  * Define the complete surveypro structure for backup, with file and id annotations
  *

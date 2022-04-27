@@ -24,8 +24,6 @@
 
 namespace surveyprotemplate_attls\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for template_attls implementing null_provider.
  *

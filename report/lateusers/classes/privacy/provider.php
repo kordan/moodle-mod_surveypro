@@ -24,8 +24,6 @@
 
 namespace surveyproreport_lateusers\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for report_lateusers implementing null_provider.
  *

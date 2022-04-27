@@ -24,8 +24,6 @@
 
 namespace surveyprofield_textarea\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for field_textarea implementing null_provider.
  *

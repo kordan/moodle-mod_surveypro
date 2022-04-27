@@ -22,7 +22,5 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 define('SURVEYPROFIELD_AGE_YEAROFFSET', 1902);
 define('SURVEYPROFIELD_AGE_FORMAT', '[yy/mm]');

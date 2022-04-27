@@ -24,8 +24,6 @@
 
 namespace surveyprofield_time\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for field_time implementing null_provider.
  *
