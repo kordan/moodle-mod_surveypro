@@ -520,7 +520,7 @@ EOS;
                     $olduseranswer->content = $answer['mainelement'];
                 } else {
                     $a = '$answer = '.$answer;
-                    print_error('unhandledvalue', 'mod_surveypro', null, $a);
+                    throw new moodle_exception('unhandledvalue', 'mod_surveypro', null, $a);
                 }
             }
             return;

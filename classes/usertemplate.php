@@ -142,7 +142,7 @@ class usertemplate extends templatebase {
             $a = new \stdClass();
             $a->sharinglevel = $sharinglevel;
             $a->methodname = 'get_contextid_from_sharinglevel';
-            print_error('wrong_sharinglevel_found', 'mod_surveypro', null, $a);
+            throw new moodle_exception('wrong_sharinglevel_found', 'mod_surveypro', null, $a);
         }
 
         switch ($contextlevel) {

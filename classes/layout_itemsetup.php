@@ -847,7 +847,7 @@ class layout_itemsetup {
 
         if (!is_array($where)) {
             $a = 'get_children';
-            print_error('arrayexpected', 'mod_surveypro', null, $a);
+            throw new moodle_exception('arrayexpected', 'mod_surveypro', null, $a);
         }
 
         $idscontainer = array($baseitemid);
@@ -885,7 +885,7 @@ class layout_itemsetup {
 
         if (!is_array($additionalcondition)) {
             $a = 'add_parent_node';
-            print_error('arrayexpected', 'mod_surveypro', null, $a);
+            throw new moodle_exception('arrayexpected', 'mod_surveypro', null, $a);
         }
 
         $nodelist = array($this->sortindex => $this->rootitemid);
@@ -1039,7 +1039,7 @@ class layout_itemsetup {
      */
     public function prevent_direct_user_input() {
         if ($this->surveypro->template) {
-            print_error('incorrectaccessdetected', 'mod_surveypro');
+            throw new moodle_exception('incorrectaccessdetected', 'mod_surveypro');
         }
     }
 

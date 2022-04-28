@@ -83,7 +83,7 @@ class layout_preview extends formbase {
      */
     private function prevent_direct_user_input() {
         if (!has_capability('mod/surveypro:preview', $this->context)) {
-            print_error('incorrectaccessdetected', 'mod_surveypro');
+            throw new moodle_exception('incorrectaccessdetected', 'mod_surveypro');
         }
     }
 
