@@ -1324,7 +1324,7 @@ class view_submissions {
         if ($this->action != SURVEYPRO_DELETEALLRESPONSES) { // If a specific submission is involved.
             $ownerid = $DB->get_field('surveypro_submission', 'userid', array('id' => $this->submissionid), IGNORE_MISSING);
             if (!$ownerid) {
-                print_error('incorrectaccessdetected', 'mod_surveypro');
+                throw new moodle_exception('incorrectaccessdetected', 'mod_surveypro');
             }
 
             $ismine = ($ownerid == $USER->id);
@@ -1403,7 +1403,7 @@ class view_submissions {
         }
 
         if (!$allowed) {
-            print_error('incorrectaccessdetected', 'mod_surveypro');
+            throw new moodle_exception('incorrectaccessdetected', 'mod_surveypro');
         }
     }
 

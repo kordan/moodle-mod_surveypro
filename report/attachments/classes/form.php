@@ -116,7 +116,7 @@ class form {
         $allowed = has_capability('mod/surveypro:accessreports', $this->context);
 
         if (!$allowed) {
-            print_error('incorrectaccessdetected', 'mod_surveypro');
+            throw new moodle_exception('incorrectaccessdetected', 'mod_surveypro');
         }
     }
 
