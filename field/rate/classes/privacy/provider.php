@@ -24,8 +24,6 @@
 
 namespace surveyprofield_rate\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for field_rate implementing null_provider.
  *

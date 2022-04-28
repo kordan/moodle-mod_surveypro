@@ -24,8 +24,6 @@
 
 namespace surveyproformat_fieldset\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for format_fieldset implementing null_provider.
  *

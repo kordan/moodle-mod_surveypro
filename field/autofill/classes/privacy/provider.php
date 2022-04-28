@@ -24,8 +24,6 @@
 
 namespace surveyprofield_autofill\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for field_autofill implementing null_provider.
  *

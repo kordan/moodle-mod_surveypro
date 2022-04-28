@@ -24,8 +24,6 @@
 
 namespace mod_surveypro;
 
-defined('MOODLE_INTERNAL') || die();
-
 use mod_surveypro\utility_submission;
 use mod_surveypro\local\form\submissionimportform;
 

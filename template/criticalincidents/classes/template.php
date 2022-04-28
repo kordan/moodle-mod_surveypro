@@ -24,8 +24,6 @@
 
 namespace surveyprotemplate_criticalincidents;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * The class to manage criticalincidents template
  *

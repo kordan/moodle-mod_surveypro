@@ -24,8 +24,6 @@
 
 namespace surveyprofield_numeric\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for field_numeric implementing null_provider.
  *

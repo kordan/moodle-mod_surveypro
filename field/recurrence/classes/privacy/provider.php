@@ -24,8 +24,6 @@
 
 namespace surveyprofield_recurrence\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for field_recurrence implementing null_provider.
  *

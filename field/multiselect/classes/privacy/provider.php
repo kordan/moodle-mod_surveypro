@@ -24,8 +24,6 @@
 
 namespace surveyprofield_multiselect\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for field_multiselect implementing null_provider.
  *

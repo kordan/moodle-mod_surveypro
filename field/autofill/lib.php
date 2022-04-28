@@ -22,8 +22,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 define('SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT_COUNT', 15);
 define('SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT01', 'submissionid');
 define('SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT02', 'submissiontime');

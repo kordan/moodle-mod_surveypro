@@ -24,8 +24,6 @@
 
 namespace surveyproreport_frequency\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for report_frequency implementing null_provider.
  *

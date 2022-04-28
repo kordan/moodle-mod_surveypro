@@ -24,8 +24,6 @@
 
 namespace mod_surveypro\local\ipe;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Class to prepare an item custom number for display and in-place editing
  *

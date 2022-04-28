@@ -24,8 +24,6 @@
 
 namespace surveyprofield_character\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for field_character implementing null_provider.
  *

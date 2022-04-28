@@ -25,7 +25,5 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 define('SURVEYPROREPORT_FREQUENCY_GHEIGHT', 500);
 define('SURVEYPROREPORT_FREQUENCY_GWIDTH' , 800);

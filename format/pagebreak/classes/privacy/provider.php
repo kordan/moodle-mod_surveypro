@@ -24,8 +24,6 @@
 
 namespace surveyproformat_pagebreak\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for format_pagebreak implementing null_provider.
  *

@@ -24,8 +24,6 @@
 
 namespace surveyproreport_colles;
 
-defined('MOODLE_INTERNAL') || die();
-
 use mod_surveypro\reportbase;
 
 /**

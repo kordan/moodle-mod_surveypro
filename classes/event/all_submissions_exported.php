@@ -24,8 +24,6 @@
 
 namespace mod_surveypro\event;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * The mod_surveypro all submissions exported event class.
  *

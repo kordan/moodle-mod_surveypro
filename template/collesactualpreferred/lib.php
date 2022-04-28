@@ -22,8 +22,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 // Kind of user interface.
 define('SURVEYPROTEMPLATE_COLLESACTUALPREFERREDUSERADIO', 1);
 define('SURVEYPROTEMPLATE_COLLESACTUALPREFERREDUSESELECT', 2);

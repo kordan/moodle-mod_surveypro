@@ -22,8 +22,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 // Rates styles.
 define('SURVEYPROFIELD_BOOLEAN_USESELECT', 0);
 define('SURVEYPROFIELD_BOOLEAN_USERADIOV', 1);

@@ -22,8 +22,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 define('SURVEYPROFIELD_TEXTAREA_DEFAULTCOLS', 60);
 define('SURVEYPROFIELD_TEXTAREA_DEFAULTROWS', 10);
 

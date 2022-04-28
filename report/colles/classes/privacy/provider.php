@@ -24,8 +24,6 @@
 
 namespace surveyproreport_colles\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for report_colles implementing null_provider.
  *

@@ -24,8 +24,6 @@
 
 namespace mod_surveypro;
 
-defined('MOODLE_INTERNAL') || die();
-
 use mod_surveypro\local\ipe\layout_customnumber;
 use mod_surveypro\local\ipe\layout_insearchform;
 use mod_surveypro\local\ipe\layout_required;
