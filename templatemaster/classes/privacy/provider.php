@@ -27,14 +27,10 @@ namespace surveyprotemplate_templatemaster\privacy;
 /**
  * Privacy Subsystem for template_templatemaster implementing null_provider.
  *
- * @package   mod_surveypro
  * @copyright 2018 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class provider implements \core_privacy\local\metadata\null_provider {
-
-    // To provide php 5.6 (33_STABLE) and up support.
-    use \core_privacy\local\legacy_polyfill;
 
     /**
      * Get the language string identifier with the component's language
@@ -42,7 +38,7 @@ class provider implements \core_privacy\local\metadata\null_provider {
      *
      * @return  string
      */
-    public static function _get_reason() {
+    public static function get_reason() : string {
         return 'privacy:metadata';
     }
 }
