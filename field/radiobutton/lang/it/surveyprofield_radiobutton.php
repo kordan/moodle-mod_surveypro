@@ -23,7 +23,5 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/lib.php');
-
 $string['missingothertext'] = 'Si riporti il testo corrispondente alla scelta selezionata';
 $string['uerr_optionnotset'] = 'Si selezioni una opzione';

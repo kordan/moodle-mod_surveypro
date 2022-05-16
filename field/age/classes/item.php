@@ -24,11 +24,7 @@
 
 namespace surveyprofield_age;
 
-defined('MOODLE_INTERNAL') || die();
-
 use mod_surveypro\itembase;
-
-require_once($CFG->dirroot.'/mod/surveypro/field/age/lib.php');
 
 /**
  * Class to manage each aspect of the age item

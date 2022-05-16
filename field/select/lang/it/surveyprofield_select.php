@@ -23,7 +23,5 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/lib.php');
-
 $string['uerr_optionnotset'] = 'Si selezioni una opzione';
 $string['uerr_missingothertext'] = 'Si aggiunga un contenuto al campo corrispondente alla selezione';
