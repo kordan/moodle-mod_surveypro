@@ -81,6 +81,7 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         $data = (object)$data;
         $oldid = $data->id;
         $data->course = $this->get_courseid();
+        $moduleversion = $this->task->get_old_moduleversion();
 
         // Old backups using advanced field map to new reserved field.
         if (isset($data->advanced)) {
@@ -106,6 +107,11 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         }
         if (isset($data->saveresume)) {
             $data->pauseresume = $data->saveresume;
+        }
+        if ($moduleversion < '2022041400') {
+            if (isset($data->pauseresume) && ($data->pauseresume == 1)) {
+                $data->pauseresume = 2;
+            }
         }
         $data->timeopen = $this->apply_date_offset($data->timeopen);
         $data->timeclose = $this->apply_date_offset($data->timeclose);

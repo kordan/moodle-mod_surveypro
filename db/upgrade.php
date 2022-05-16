@@ -48,7 +48,6 @@ function xmldb_surveypro_upgrade($oldversion) {
     // Put any upgrade step following this.
 
     if ($oldversion < 2014051901) {
-
         // Define table surveypro_userdata to be renamed to surveypro_answer.
         $table = new xmldb_table('surveypro_userdata');
 
@@ -69,7 +68,6 @@ function xmldb_surveypro_upgrade($oldversion) {
     // Put any upgrade step following this.
 
     if ($oldversion < 2015060401) {
-
         // Define field verified to be added to surveypro_answer.
         $table = new xmldb_table('surveypro_answer');
         $field = new xmldb_field('verified', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '1', 'itemid');
@@ -127,7 +125,6 @@ function xmldb_surveypro_upgrade($oldversion) {
     }
 
     if ($oldversion < 2016031501) {
-
         // Rename field advanced on table surveypro_item to reserved.
         $table = new xmldb_table('surveypro_item');
         $field = new xmldb_field('advanced', XMLDB_TYPE_INTEGER, '4', null, null, null, null, 'insearchform');
@@ -208,7 +205,6 @@ function xmldb_surveypro_upgrade($oldversion) {
     }
 
     if ($oldversion < 2018021200) {
-
         // Define field keepinprogress to be added to surveypro.
         $table = new xmldb_table('surveypro');
         $field = new xmldb_field('keepinprogress', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0', 'saveresume');
@@ -223,7 +219,6 @@ function xmldb_surveypro_upgrade($oldversion) {
     }
 
     if ($oldversion < 2018022801) {
-
         // Define field notifycontent to be added to surveypro.
         $table = new xmldb_table('surveypro');
         $field = new xmldb_field('notifycontent', XMLDB_TYPE_TEXT, null, null, null, null, null, 'notifymore');
@@ -249,7 +244,6 @@ function xmldb_surveypro_upgrade($oldversion) {
     }
 
     if ($oldversion < 2018032002) {
-
         // Rename field thankshtmlformat on table surveypro to thankspageformat.
         $table = new xmldb_table('surveypro');
         $field = new xmldb_field('thankshtmlformat', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0', 'thankshtml');
@@ -320,6 +314,31 @@ function xmldb_surveypro_upgrade($oldversion) {
 
         // Surveypro savepoint reached.
         upgrade_mod_savepoint(true, 2021102600, 'surveypro');
+    }
+
+    if ($oldversion < 2022041400) {
+        $newcontent = '2';
+        $oldcontent = '1';
+
+        $sql = 'UPDATE {surveypro} SET pauseresume = :newcontent WHERE pauseresume = :oldcontent';
+        $DB->execute($sql, array('oldcontent' => $oldcontent, 'newcontent' => $newcontent));
+
+        // Surveypro savepoint reached.
+        upgrade_mod_savepoint(true, 2022041400, 'surveypro');
+    }
+
+    if ($oldversion < 2022042600) {
+        // Define field neverstartedemail to be added to surveypro.
+        $table = new xmldb_table('surveypro');
+        $field = new xmldb_field('neverstartedemail', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0', 'newpageforchild');
+
+        // Conditionally launch add field neverstartedemail.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Surveypro savepoint reached.
+        upgrade_mod_savepoint(true, 2022042600, 'surveypro');
     }
 
     return true;

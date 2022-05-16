@@ -25,14 +25,38 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$tasks = array(
-    array(
-        'classname' => 'mod_surveypro\task\cron_task',
+$tasks = [
+    [
+        'classname' => 'mod_surveypro\task\delete_abandoned_submissions',
         'blocking' => 0,
         'minute' => '0',
         'hour' => '*',
         'day' => '*',
         'month' => '*',
         'dayofweek' => '*'
-    )
-);
+    ], [
+        'classname' => 'mod_surveypro\task\mail_neverstarted',
+        'blocking' => 0,
+        'minute' => '0',
+        'hour' => '8',
+        'day' => '*',
+        'month' => '*',
+        'dayofweek' => '1'
+    ], [
+        'classname' => 'mod_surveypro\task\mail_pauseresume',
+        'blocking' => 0,
+        'minute' => '0',
+        'hour' => '8',
+        'day' => '*',
+        'month' => '*',
+        'dayofweek' => '1,3,5'
+    ], [
+        'classname' => 'mod_surveypro\task\mail_oneshotmp',
+        'blocking' => 0,
+        'minute' => '0',
+        'hour' => '*/2',
+        'day' => '*',
+        'month' => '*',
+        'dayofweek' => '*'
+    ]
+];
