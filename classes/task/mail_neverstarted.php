@@ -64,11 +64,12 @@ class mail_neverstarted extends crontaskbase {
             $subject = get_string('reminder_subject', 'surveypro', $SITE->fullname);
 
             foreach ($surveypros as $surveypro) {
+                // Search for users with unstarted submissions.
                 $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
                 $context = \context_module::instance($cm->id);
 
                 // Search for users who never started their surveypro.
-                $userfields = ['id', 'firstname', 'lastname', 'username'];
+                $userfields = ['id', 'firstname', 'lastname', 'username', 'email'];
                 $userfieldsapi = \core_user\fields::for_name()->including(...$userfields);
                 $userfieldssql = $userfieldsapi->get_sql('u', false, '', '', false)->selects;
 
