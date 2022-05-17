@@ -94,9 +94,10 @@ class mail_oneshotmp extends crontaskbase {
                 $whereparams['sofar'] = $sofar;
                 $whereparams['stillsofar'] = $sofar;
 
-                $allnames = \core_user\fields::get_name_fields();
-                $sql = 'SELECT s.surveyproid, u.id, u.email, u.deleted, u.auth, u.suspended, u.';
-                $sql .= implode(', u.', $allnames);
+                $userfields = ['id', 'firstname', 'lastname', 'username', 'email'];
+                $userfieldsapi = \core_user\fields::for_name()->including(...$userfields);
+                $userfieldssql = $userfieldsapi->get_sql('u', false, '', '', false)->selects;
+                $sql = 'SELECT s.surveyproid, '.$userfieldssql;
                 $sql .= ' FROM {user} u
                         RIGHT JOIN ('.$submissiontable.') s ON s.userid = u.id';
 
