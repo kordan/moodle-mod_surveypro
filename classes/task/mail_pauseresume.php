@@ -24,7 +24,7 @@
 
 namespace mod_surveypro\task;
 
-use mod_surveypro\crontaskbase;
+use mod_surveypro\task\crontaskbase;
 
 defined('MOODLE_INTERNAL') || die();
 
