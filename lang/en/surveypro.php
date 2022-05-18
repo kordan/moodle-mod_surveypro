@@ -60,6 +60,7 @@ $string['tabmtemplatename'] = 'Master templates';
     $string['tabmtemplatepage2'] = 'Apply';
 $string['tabreportsname'] = 'Reports';
 
+$string['abandoned_submission_deleted'] = 'Deleted abandoned response';
 $string['action_help'] = 'Operate on elements already present in the survey with the following action.';
 $string['action'] = 'Preexisting elements';
 $string['addnewsubmission'] = 'New response';
@@ -174,6 +175,9 @@ $string['event_item_deleted'] = 'An item has been deleted';
 $string['event_item_hidden'] = 'An item has been hidden';
 $string['event_item_modified'] = 'An item has been modified';
 $string['event_item_shown'] = 'An item has been shown';
+$string['event_mailneverstarted_sent'] = 'Email sent for never started survey';
+$string['event_mailoneshotmp_sent'] = 'Email sent for abandoned one shot multi page survey';
+$string['event_mailpauseresume_sent'] = 'Email sent for abandoned paused survey';
 $string['event_mastertemplate_applied'] = 'A master template has been applied';
 $string['event_mastertemplate_saved'] = 'A master template has been saved';
 $string['event_submission_created'] = 'A response has been created';
