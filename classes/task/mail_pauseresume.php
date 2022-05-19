@@ -45,7 +45,7 @@ class mail_pauseresume extends crontaskbase {
      * @return string
      */
     public function get_name() {
-        return get_string('reminderouncompleted_task', 'mod_surveypro');
+        return get_string('reminder_pauseresume_task', 'mod_surveypro');
     }
 
     /**
