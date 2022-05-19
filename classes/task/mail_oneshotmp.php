@@ -45,7 +45,7 @@ class mail_oneshotmp extends crontaskbase {
      * @return string
      */
     public function get_name() {
-        return get_string('reminderouncompleted_task', 'mod_surveypro');
+        return get_string('reminder_oneshot_task', 'mod_surveypro');
     }
 
     /**

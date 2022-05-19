@@ -41,7 +41,7 @@ class mail_neverstarted extends crontaskbase {
      * @return string
      */
     public function get_name() {
-        return get_string('reminderneverstarted_task', 'mod_surveypro');
+        return get_string('reminder_neverstarted_task', 'mod_surveypro');
     }
 
     /**
