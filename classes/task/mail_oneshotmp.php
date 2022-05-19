@@ -54,7 +54,7 @@ class mail_oneshotmp extends crontaskbase {
      * @return void
      */
     public function execute() {
-        global $DB, $USER, $SITE;
+        global $DB, $USER, $SITE, $CFG;
 
         $surveyprofields = ['s.id', 's.name', 's.course'];
         list($sql, $whereparams) = $this->get_sqltimewindow($surveyprofields);
