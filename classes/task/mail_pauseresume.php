@@ -75,6 +75,9 @@ class mail_pauseresume extends crontaskbase {
             $subject = get_string('reminder_subject', 'surveypro', $SITE->fullname);
 
             foreach ($surveypros as $surveypro) {
+                $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
+                $context = \context_module::instance($cm->id);
+
                 // Search for users with in progress surveypro.
                 $whereparams = array();
                 $submissiontable = 'SELECT userid, surveyproid
@@ -117,6 +120,11 @@ class mail_pauseresume extends crontaskbase {
                     $message .= get_string('reminderpaused_content3', 'surveypro', $a->surveyprourl);
                     // Direct email.
                     email_to_user($user, $from, $subject, $message);
+
+                    // Event: mail_pauseresume_sent.
+                    $eventdata = ['context' => $context, 'objectid' => $surveypro->id, 'relateduserid' => $user->id];
+                    $event = \mod_surveypro\event\mail_pauseresume_sent::create($eventdata);
+                    $event->trigger();
                 }
             }
         }

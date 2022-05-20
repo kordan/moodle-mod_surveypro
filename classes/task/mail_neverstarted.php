@@ -64,7 +64,6 @@ class mail_neverstarted extends crontaskbase {
             $subject = get_string('reminder_subject', 'surveypro', $SITE->fullname);
 
             foreach ($surveypros as $surveypro) {
-                // Search for users with unstarted submissions.
                 $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
                 $context = \context_module::instance($cm->id);
 
@@ -92,6 +91,11 @@ class mail_neverstarted extends crontaskbase {
                     $message = get_string('remindneverstarted_content', 'surveypro', $a);
                     // Direct email.
                     email_to_user($user, $from, $subject, $message);
+
+                    // Event: mail_neverstarted_sent.
+                    $eventdata = ['context' => $context, 'objectid' => $surveypro->id, 'relateduserid' => $user->id];
+                    $event = \mod_surveypro\event\mail_neverstarted_sent::create($eventdata);
+                    $event->trigger();
                 }
             }
         }

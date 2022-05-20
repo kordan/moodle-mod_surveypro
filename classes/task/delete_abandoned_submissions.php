@@ -57,7 +57,7 @@ class delete_abandoned_submissions extends crontaskbase {
     public function execute() {
         global $DB;
 
-        $surveyprofields = ['s.id', 's.keepinprogress', 's.pauseresume'];
+        $surveyprofields = ['s.id', 's.keepinprogress', 's.pauseresume', 's.course'];
         list($sql, $whereparams) = $this->get_sqltimewindow($surveyprofields);
         $sql .= 'AND s.keepinprogress = ?';
         $whereparams[] = 0;
@@ -65,6 +65,7 @@ class delete_abandoned_submissions extends crontaskbase {
         $surveypros = $DB->get_recordset_sql($sql, $whereparams);
         if ($surveypros->valid()) {
             $maxinputdelay = get_config('mod_surveypro', 'maxinputdelay');
+
             foreach ($surveypros as $surveypro) {
                 $pasuseresumesurvey = ($surveypro->pauseresume == SURVEYPRO_PAUSERESUMENOEMAIL);
                 $pasuseresumesurvey = $pasuseresumesurvey || ($surveypro->pauseresume == SURVEYPRO_PAUSERESUMEEMAIL);
@@ -86,13 +87,21 @@ class delete_abandoned_submissions extends crontaskbase {
                 // filter only submissions having 'status' = SURVEYPRO_STATUSINPROGRESS and timecreated < :sofar.
                 $where = 'surveyproid = :surveyproid AND status = :status AND timecreated < :sofar';
                 $whereparams = array('surveyproid' => $surveypro->id, 'status' => SURVEYPRO_STATUSINPROGRESS, 'sofar' => $sofar);
-                if ($submissions = $DB->get_recordset_select('surveypro_submission', $where, $whereparams, 'surveyproid', 'id')) {
-                    $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, 0, false, MUST_EXIST);
+                if ($submissions = $DB->get_recordset_select('surveypro_submission', $where, $whereparams, 'surveyproid', 'id, userid')) {
+                    // Those submissions all belong to THE SAME surveypro because $where = 'surveyproid = :surveyproid.
+                    $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
+                    $context = \context_module::instance($cm->id);
+
                     $utilitylayoutman = new utility_layout($cm, $surveypro);
 
                     foreach ($submissions as $submission) {
                         // Third step: delete each selected submission.
                         $utilitylayoutman->delete_submissions(array('id' => $submission->id));
+
+                        // Event: mail_oneshotmp_sent.
+                        $eventdata = ['context' => $context, 'objectid' => $surveypro->id, 'relateduserid' => $submission->userid];
+                        $event = \mod_surveypro\event\abandoned_submission_deleted::create($eventdata);
+                        $event->trigger();
                     }
                 }
             }

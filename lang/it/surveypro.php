@@ -59,6 +59,7 @@ $string['tabmtemplatename'] = 'Template sistema';
     $string['tabmtemplatepage1'] = 'Genera';
     $string['tabmtemplatepage2'] = 'Applica';
 
+$string['abandoned_submission_deleted'] = 'Eliminata risposta abbandonata';
 $string['addnewsubmission'] = 'Nuova risposta';
 $string['answerisnoanswer'] = 'Risposta rifiutata';
 $string['answernotsubmitted'] = 'Risposta omessa';
@@ -94,6 +95,9 @@ $string['event_item_deleted'] = 'Cancellato item';
 $string['event_item_hidden'] = 'Nascosto item';
 $string['event_item_modified'] = 'Modificato item';
 $string['event_item_shown'] = 'Visualizzato item';
+$string['event_mailneverstarted_sent'] = 'Sollecitata l\'indagine mai avviata';
+$string['event_mailoneshotmp_sent'] = 'Sollecitata l\'indagine su più pagine';
+$string['event_mailpauseresume_sent'] = 'Sollecitata l\'indagine in pausa';
 $string['event_mastertemplate_applied'] = 'Applicato "template di sistema"';
 $string['event_mastertemplate_saved'] = 'Salvato "template di sistema"';
 $string['event_submission_created'] = 'Inviata nuova risposta';
