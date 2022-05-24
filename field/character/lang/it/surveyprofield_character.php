@@ -27,3 +27,4 @@ $string['restrictions_email'] = 'è previsto un indirizzo di posta elettronica';
 $string['restrictions_custom'] = 'Il testo deve corrispondere al seguente formato: "{$a}"';
 $string['restrictions_url'] = 'È previsto un indirizzo web';
 $string['restrictions_max'] = 'Il testo deve essere al massimo di {$a} caratteri';
+$string['restrictions_minmax'] = 'Il testo deve avere un numero di caratteri compreso fra {$a->minlength} e {$a->maxlength}';
