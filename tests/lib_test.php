@@ -68,6 +68,7 @@ class lib_test extends advanced_testcase {
                 ],
                 (object) [
                     'newpageforchild' => 0,
+                    'neverstartedemail' => 0,
                     'keepinprogress' => 0,
                     'history' => 0,
                     'anonymous' => 0,
@@ -81,6 +82,7 @@ class lib_test extends advanced_testcase {
                 ],
                 (object) [
                     'newpageforchild' => 0,
+                    'neverstartedemail' => 0,
                     'keepinprogress' => 0,
                     'history' => 1,
                     'anonymous' => 0,
@@ -90,11 +92,13 @@ class lib_test extends advanced_testcase {
             'test03' => [
                 (object) [
                     'newpageforchild' => 1,
+                    'neverstartedemail' => 1,
                     'keepinprogress' => 1,
                     'anonymous' => 1
                 ],
                 (object) [
                     'newpageforchild' => 1,
+                    'neverstartedemail' => 1,
                     'keepinprogress' => 1,
                     'history' => 0,
                     'anonymous' => 1,
