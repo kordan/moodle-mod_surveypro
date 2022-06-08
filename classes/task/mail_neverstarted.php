@@ -84,7 +84,7 @@ class mail_neverstarted extends crontaskbase {
 
                 $a = new \stdClass();
                 $a->surveyproname = $surveypro->name;
-                $a->surveyprourl = $CFG->wwwroot.'/mod/surveypro/view.php?id='.$surveypro->id;
+                $a->surveyprourl = $CFG->wwwroot.'/mod/surveypro/view.php?s='.$surveypro->id;
                 $rs = $DB->get_recordset_sql($sql, $whereparams);
                 foreach ($rs as $user) {
                     $a->fullname = fullname($user);
