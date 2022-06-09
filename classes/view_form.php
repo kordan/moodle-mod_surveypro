@@ -284,7 +284,7 @@ class view_form extends formbase {
                 $a->startingpage = 'SURVEYPRO_LEFT_OVERFLOW';
             }
             $a->methodname = 'next_not_empty_page';
-            throw new moodle_exception('wrong_direction_found', 'mod_surveypro', null, $a);
+            throw new \moodle_exception('wrong_direction_found', 'mod_surveypro', null, $a);
         }
 
         if ($startingpage == SURVEYPRO_RIGHT_OVERFLOW) {
@@ -716,7 +716,7 @@ class view_form extends formbase {
             $item->userform_save_preprocessing($iteminfo->contentperelement, $useranswer, false);
 
             if ($useranswer->content === SURVEYPRO_DUMMYCONTENT) {
-                throw new moodle_exception('wrong_userdatarec_found', 'mod_surveypro', null, SURVEYPRO_DUMMYCONTENT);
+                throw new \moodle_exception('wrong_userdatarec_found', 'mod_surveypro', null, SURVEYPRO_DUMMYCONTENT);
             } else {
                 $DB->update_record('surveypro_answer', $useranswer);
             }
@@ -1229,7 +1229,7 @@ class view_form extends formbase {
         if (($this->view == SURVEYPRO_READONLYRESPONSE) || ($this->view == SURVEYPRO_EDITRESPONSE)) {
             $where = array('id' => $this->get_submissionid());
             if (!$submission = $DB->get_record('surveypro_submission', $where, '*', IGNORE_MISSING)) {
-                throw new moodle_exception('incorrectaccessdetected', 'mod_surveypro');
+                throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
             }
             if ($submission->userid != $USER->id) {
                 $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
@@ -1304,7 +1304,7 @@ class view_form extends formbase {
                 $allowed = false;
         }
         if (!$allowed) {
-            throw new moodle_exception('incorrectaccessdetected', 'mod_surveypro');
+            throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
         }
     }
 

@@ -226,7 +226,7 @@ class report extends reportbase {
      */
     public function prevent_direct_user_input() {
         if (!empty($this->surveypro->anonymous)) {
-            throw new moodle_exception('incorrectaccessdetected', 'mod_surveypro');
+            throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
         }
     }
 }
