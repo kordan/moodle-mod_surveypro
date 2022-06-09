@@ -367,7 +367,7 @@ class tabs {
 
                 break;
             default:
-                throw new moodle_exception('incorrectaccessdetected', 'mod_surveypro');
+                throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
         }
 
         print_tabs($this->tabs, $pageid, $inactive, $activetwo);

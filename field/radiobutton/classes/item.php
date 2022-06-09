@@ -757,7 +757,7 @@ EOS;
         }
 
         $a = '$answer = '.$answer;
-        throw new moodle_exception('unhandledvalue', 'mod_surveypro', null, $a);
+        throw new \moodle_exception('unhandledvalue', 'mod_surveypro', null, $a);
     }
 
     /**
