@@ -393,6 +393,8 @@ class itembase {
                         if ($pluginid = $DB->insert_record($tablename, $record)) { // First save of $tablename.
                             $this->itemeditingfeedback += 1; // 0*2^1+1*2^0.
                         }
+                    } else {
+                        $record->itemid = $itemid;
                     }
                 }
 
