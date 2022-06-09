@@ -173,7 +173,7 @@ class item extends itembase {
      * @return the template to use at response report creation
      */
     public static function get_pdf_template() {
-        return 0;
+        return SURVEYPRO_2COLUMNSTEMPLATE;
     }
 
     /**

@@ -1447,6 +1447,9 @@ class view_submissions {
             $item = surveypro_get_item($this->cm, $this->surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);
 
             $template = $item::get_pdf_template();
+            if (!$template) {
+                continue;
+            }
             $html = ($template == SURVEYPRO_2COLUMNSTEMPLATE) ? $twocolstemplate : $threecolstemplate;
 
             // First column.
