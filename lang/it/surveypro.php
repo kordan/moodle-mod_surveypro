@@ -135,8 +135,10 @@ $string['maxentries'] = 'Numero massimo di risposte consentite';
 $string['nextformpage'] = 'Pagina successiva >>';
 $string['noanswer'] = 'Nessuna risposta';
 $string['noitemsfoundadmin'] = 'Questa indagine non contiene domande. Si usi il comando "{$a}" per aggiungerne qualcuna.';
+$string['nomoreitems'] = 'In base alle risposte fornite non ci sono ulteriori domande da sottoporre.<br />Il tuo contributo è completo. Non ti resta che inviarlo{$a}.';
 $string['nomoresubmissionsallowed'] = 'Il massimo numero di {$a} invii è già stato raggiunto.<br />Non sono consentiti ulteriori invii.';
 $string['note'] = 'Nota:';
+$string['onlyreview'] = ' o rivederlo';
 $string['opened'] = 'Data di apertura';
 $string['outputstyle'] = 'Stile del file';
 $string['parentconstraints'] = 'Opzioni di relazione';
@@ -171,6 +173,7 @@ $string['required_help'] = 'Rende questa domanda obbligatoria o opzionale per l\
 $string['required'] = 'Obbligatorio';
 $string['reserved_help'] = 'Rendi questo elemento disponibile solo agli utenti con specifico permesso di compilazione o, in alternativa, rendi questo elemento accessibile a chiunque.';
 $string['reserved'] = 'Riservato';
+$string['revieworpause'] = ', rivederlo o metterlo in pausa';
 $string['runreport'] = '<a href="{$a->href}">Esegui il report {$a->reportname}</a>';
 $string['savemastertemplates'] = '<a href="{$a}">Salva un master template</a>';
 $string['saveusertemplates'] = '<a href="{$a}">Salva il template utente</a>';
