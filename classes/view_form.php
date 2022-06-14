@@ -969,7 +969,7 @@ class view_form extends formbase {
                 $singleuser->lastnamephonetic = '';
                 $singleuser->middlename = '';
                 $singleuser->alternatename = '';
-                $singleuser->maildisplay = core_user::MAILDISPLAY_COURSE_MEMBERS_ONLY;
+                $singleuser->maildisplay = \core_user::MAILDISPLAY_COURSE_MEMBERS_ONLY;
                 $singleuser->mailformat = 1; // Always send HTML version as well.
                 $singleuser->email = $moreemail;
                 $recipients[] = $singleuser;
