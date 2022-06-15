@@ -23,7 +23,10 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['decimalautofix'] = 'i decimali in eccesso o mancanti saranno eliminati o aggiunti con degli zeri';
+$string['declaredecimalseparator'] = 'usare la \'{$a}\' come separatore di decimali';
 $string['number'] = 'Il numero ';
+$string['restriction_hasdecimals'] = 'indicare un numero con {$a} decimali';
 $string['restriction_isinteger'] = 'deve essere intero';
 $string['restriction_lower'] = 'deve essere maggiore o uguale a {$a}';
 $string['restriction_lowerupper'] = 'La risposta deve essere compresa fra {$a->lowerbound} e {$a->upperbound}';
