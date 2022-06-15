@@ -99,11 +99,9 @@ class filterform extends \moodleform {
                     JOIN {surveypro_submission} s ON s.userid = u.id';
         if (!$canviewhiddenactivities) {
             list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);
-            $whereparams = array_merge($whereparams, $eparams);
 
             $sql .= ' JOIN ('.$enrolsql.') eu ON eu.id = u.id
                       JOIN {role_assignments} ra ON ra.userid = u.id';
-            $whereparams['contextid'] = $coursecontext->id;
         }
 
         $conditions = array();
@@ -112,6 +110,11 @@ class filterform extends \moodleform {
         }
         $sql .= ' WHERE '.implode(' AND ', $conditions);
         $sql .= ' ORDER BY u.lastname ASC';
+
+        if (!$canviewhiddenactivities) {
+            $whereparams = array_merge($whereparams, $eparams);
+        }
+
         $users = $DB->get_recordset_sql($sql, $whereparams);
 
         $options = array();
