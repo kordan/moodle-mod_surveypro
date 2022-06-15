@@ -174,6 +174,14 @@ class view_cover {
                 echo $OUTPUT->notification($message, 'notifyproblem');
             } else if (($this->surveypro->maxentries > 0) && ($next >= $this->surveypro->maxentries)) {
                 $message = get_string('nomoresubmissionsallowed', 'mod_surveypro', $this->surveypro->maxentries);
+                if ($inprogress) {
+                    $a = new \stdClass();
+                    $a->inprogress = get_string('statusinprogress', 'mod_surveypro');
+                    $a->tabsubmissionspage2 = get_string('tabsubmissionspage2', 'mod_surveypro');
+                    $message .= get_string('onlyfinalizationallowed', 'mod_surveypro', $a);
+                } else {
+                    $message .= '.';
+                }
                 echo $OUTPUT->notification($message, 'notifyproblem');
             } else if (!$itemcount) {
                 $message = get_string('noitemsfound', 'mod_surveypro');
