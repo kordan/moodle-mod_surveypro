@@ -22,6 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['changeuser'] = 'Choose a different user';
 $string['display_uploads'] = 'Display attachments';
 $string['eachitem'] = 'Each item';
 $string['missing_uploads'] = 'No attachments found';

@@ -43,7 +43,8 @@ if (!empty($id)) {
 $cm = cm_info::create($cm);
 
 $itemid = optional_param('itemid', 0, PARAM_INT);  // Item id.
-$container = optional_param('userid', 0, PARAM_TEXT);  // Userid only OR userid_submissionid.
+$container = optional_param('container', 0, PARAM_TEXT);  // Userid only OR userid_submissionid.
+$changeuser = optional_param('changeuser', 0, PARAM_TEXT);
 
 require_course_login($course, false, $cm);
 $context = \context_module::instance($cm->id);
@@ -52,16 +53,17 @@ $context = \context_module::instance($cm->id);
 $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context);
 $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $context);
 
+if ($changeuser) {
+    $paramurl = array('id' => $cm->id);
+    $returnurl = new \moodle_url('/mod/surveypro/report/attachments/view.php', $paramurl);
+    redirect($returnurl);
+}
+
 $parts = explode('_', $container);
-if (count($parts) == 2) {
-    $userid = (int)$parts[0];
-    $submissionid = (int)$parts[1];
-} else {
-    $userid = (int)$container;
-    $submissionid = optional_param('submissionid', 0, PARAM_INT);
-    if (!$submissionid) {
-        $submissionid = $DB->get_field('surveypro_submission', 'MIN(id)', array('userid' => $userid));
-    }
+$userid = (int)$parts[0];
+$submissionid = (int)$parts[1];
+if (!$submissionid) {
+    $submissionid = $DB->get_field('surveypro_submission', 'MIN(id)', array('userid' => $userid, 'surveyproid' => $surveypro->id));
 }
 
 // Calculations.
@@ -82,6 +84,7 @@ $formparams->surveypro = $surveypro;
 $formparams->itemid = $itemid;
 $formparams->userid = $userid;
 $formparams->submissionid = $submissionid;
+$formparams->container = $userid.'_'.$submissionid;
 $formparams->canaccessreserveditems = $canaccessreserveditems;
 $formparams->canviewhiddenactivities = $canviewhiddenactivities;
 // End of: prepare params for the form.

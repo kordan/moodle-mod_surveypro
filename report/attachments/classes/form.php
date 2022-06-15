@@ -137,27 +137,32 @@ class form {
 
         $layout = <<<EOS
 <div class="mform">
-    <fieldset class="hidden">
+    <!-- <fieldset class="hidden"> -->
         <div>
             <div class="fitem">
                 <div class="fitemtitle">
                     <div class="fstaticlabel">
                         <label>
-                            @@left@@
+                            <strong>@@left@@</strong>
                         </label>
                     </div>
                 </div>
-                <div class="felement fstatic">
+                <div class="mod-indent info-indent-1">
+                </div>
+                <div class="felement fstatic info-indent">
                     @@right@@
                 </div>
             </div>
         </div>
-    </fieldset>
+    <!-- </fieldset> -->
 </div>
 EOS;
 
         $left = get_string('fullnameuser');
         $right = fullname($user);
+        if (isset($CFG->forcefirstname) || isset($CFG->forcelastname)) {
+            $right .= ' - id: '.$user->id;
+        }
         $output = str_replace('@@left@@', $left, $layout);
         $output = str_replace('@@right@@', $right, $output);
 
