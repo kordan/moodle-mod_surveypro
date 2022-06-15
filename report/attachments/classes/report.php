@@ -81,7 +81,7 @@ class report extends reportbase {
         $tableheaders[] = get_string('uploads', 'surveyproreport_attachments');
         $this->outputtable->define_headers($tableheaders);
 
-        $this->outputtable->sortable(true, 'lastname', 'ASC'); // Sorted by lastname by default.
+        $this->outputtable->sortable(true);
         $this->outputtable->no_sorting('uploads');
 
         $this->outputtable->column_class('picture', 'picture');
@@ -136,9 +136,15 @@ class report extends reportbase {
             $tablerow[] = $OUTPUT->user_picture($usersubmission, array('courseid' => $COURSE->id));
 
             // User fullname.
+            $userfullname = fullname($usersubmission);
             $paramurl = array('id' => $usersubmission->id);
             $url = new \moodle_url('/user/view.php', $paramurl);
-            $tablerow[] = '<a href="'.$url->out().'">'.fullname($usersubmission).' [id: '.$usersubmission->id.']</a>';
+            $cellcontent = \html_writer::start_tag('a', array('title' => $userfullname, 'href' => $url));
+            $cellcontent .= $userfullname;
+            $cellcontent .= \html_writer::end_tag('a');
+            $cellcontent .= ' [id: '.$usersubmission->id.']';
+            $tablerow[] = $cellcontent;
+            // $tablerow[] = '<a href="'.$url->out().'">'.fullname($usersubmission).' [id: '.$usersubmission->id.']</a>';
 
             // Users with $usersubmission->submissionid == null have no submissions.
             if (!empty($usersubmission->submissionid)) {
