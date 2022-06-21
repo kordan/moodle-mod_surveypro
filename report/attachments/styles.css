@@ -2,3 +2,16 @@ table#attachments .picture {
     padding: 0.5em;
     width: 1.2em;
 }
+
+#page-mod-surveypro-report-attachments-uploads .info-indent {
+    display: table-cell;
+}
+
+#page-mod-surveypro-report-attachments-uploads .info-indent-1 {
+    width: 30px;
+}
+
+#page-mod-surveypro-report-attachments-uploads label {
+  display: inline-block;
+  margin-top: .5rem;
+}

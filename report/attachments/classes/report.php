@@ -138,14 +138,13 @@ class report extends reportbase {
             // User fullname.
             $paramurl = array('id' => $usersubmission->id);
             $url = new \moodle_url('/user/view.php', $paramurl);
-            $tablerow[] = '<a href="'.$url->out().'">'.fullname($usersubmission).'</a>';
+            $tablerow[] = '<a href="'.$url->out().'">'.fullname($usersubmission).' [id: '.$usersubmission->id.']</a>';
 
             // Users with $usersubmission->submissionid == null have no submissions.
             if (!empty($usersubmission->submissionid)) {
                 $paramurl = array();
                 $paramurl['s'] = $this->surveypro->id;
-                $paramurl['userid'] = $usersubmission->id;
-                $paramurl['submissionid'] = $usersubmission->submissionid;
+                $paramurl['container'] = $usersubmission->id.'_'.$usersubmission->submissionid;
                 $url = new \moodle_url('/mod/surveypro/report/attachments/uploads.php', $paramurl);
                 $cellcontent = '('.$submissionidstr.': '.$usersubmission->submissionid.')&nbsp;';
                 $cellcontent .= \html_writer::start_tag('a', array('title' => $displayuploadsstr, 'href' => $url));

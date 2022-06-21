@@ -51,10 +51,12 @@ class filterform extends \moodleform {
         $surveypro = $this->_customdata->surveypro;
         $userid = $this->_customdata->userid;
         $submissionid = $this->_customdata->submissionid;
+        $container = $this->_customdata->container;
         $canaccessreserveditems = $this->_customdata->canaccessreserveditems;
         $canviewhiddenactivities = $this->_customdata->canviewhiddenactivities;
 
         $submissionidstring = get_string('submission', 'surveyproreport_attachments');
+        $userstring = get_string('user');
 
         list($where, $params) = surveypro_fetch_items_seeds($surveypro->id, true, $canaccessreserveditems);
         $itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, 'sortindex', 'id, plugin');
@@ -65,9 +67,6 @@ class filterform extends \moodleform {
             $notestr = get_string('note', 'mod_surveypro');
             $mform->addElement('static', 'noitemshere', $notestr, 'ERROR: How can I be here if ($formpage > 0) ?');
         }
-
-        // Fieldset.
-        // $mform->addElement('header', 'headertools', 'Tools');
 
         // Itemid.
         $options = array('0' => get_string('eachitem', 'surveyproreport_attachments'));
@@ -81,61 +80,107 @@ class filterform extends \moodleform {
         $itemseeds->close();
 
         $elementgroup = array();
-        $elementgroup[] = $mform->createElement('select', 'itemid', '', $options);
+        $mform->addElement('select', 'itemid', get_string('item', 'surveypro'), $options);
 
-        // Get submissions list. Needed later.
-        $options = array();
-        $whereparams = array('surveyproid' => $surveypro->id, 'userid' => $userid);
-        $submissions = $DB->get_records('surveypro_submission', $whereparams);
-
-        // Userid.
+        // Get users.
         $coursecontext = \context_course::instance($COURSE->id);
         $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
 
         $whereparams = array();
         $whereparams['surveyproid'] = $surveypro->id;
-        $sql = 'SELECT u.id as userid'.$userfieldsapi->selects.'
+        $sql = 'SELECT DISTINCT u.id as userid'.$userfieldsapi->selects.'
                 FROM {user} u
                     JOIN {surveypro_submission} s ON s.userid = u.id';
         if (!$canviewhiddenactivities) {
             list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);
-            $whereparams = array_merge($whereparams, $eparams);
 
             $sql .= ' JOIN ('.$enrolsql.') eu ON eu.id = u.id
                       JOIN {role_assignments} ra ON ra.userid = u.id';
-            $whereparams['contextid'] = $coursecontext->id;
         }
 
-        $conditions = array();
-        foreach ($whereparams as $k => $v) {
-            $conditions[] = $k.' = :'.$k;
-        }
-        $sql .= ' WHERE '.implode(' AND ', $conditions);
+        $sql .= ' WHERE surveyproid = :surveyproid';
         $sql .= ' ORDER BY u.lastname ASC';
+        if (!$canviewhiddenactivities) {
+            $whereparams = array_merge($whereparams, $eparams);
+        }
         $users = $DB->get_recordset_sql($sql, $whereparams);
 
         $options = array();
-        foreach ($users as $user) {
-            if ($user->userid == $userid) {
-                $i = 0;
-                foreach ($submissions as $submission) {
-                    $i++;
-                    $itemcontent = fullname($user).' - '.$submissionidstring;
-                    $itemcontent .= ': ';
-                    $itemcontent .= $i.' [id: '.$submission->id.']';
-                    $options[$user->userid.'_'.$submission->id] = $itemcontent;
-                }
+
+        // Get submissions of $userid.
+        $options = array();
+        $whereparams = array('surveyproid' => $surveypro->id, 'userid' => $userid);
+        $submissions = $DB->get_records('surveypro_submission', $whereparams);
+
+        // Define $options for current $userid.
+        $i = 0;
+        $user = $DB->get_record('user', ['id' => $userid], '*', MUST_EXIST);
+        foreach ($submissions as $submission) {
+            if (isset($CFG->forcefirstname) || isset($CFG->forcelastname)) {
+                $itemcontent = $userstring.' id: '.$userid.' - '.$submissionidstring.' id: '.$submission->id;
             } else {
-                $options[$user->userid] = fullname($user);
+                $i++;
+                $itemcontent = fullname($user).' - '.$submissionidstring.': '.$i;
+            }
+            $options[$userid.'_'.$submission->id] = $itemcontent;
+        }
+
+        // Add next user to make simpler the navigation.
+        $firstuserid = 0;
+        $nextiscorrect = 0;
+        $optionscount = count($options);
+        foreach ($users as $user) {
+            // The first is ALWAYS correct.
+            if (!$firstuserid && ($user->id != $userid)) {
+                $firstuserid = $user->id;
+                $options[$user->userid.'_0'] = $this->set_select_option($user);
+                if ($nextiscorrect) {
+                    break;
+                } else {
+                    continue;
+                }
+            }
+
+            if ($user->id == $userid) {
+                // Next record is the one I am looking for.
+                $nextiscorrect = 1;
+                continue;
+            }
+
+            if ($nextiscorrect) {
+                $options[$user->userid.'_0'] = $this->set_select_option($user);
+                break;
             }
         }
-        $elementgroup[] = $mform->createElement('select', 'userid', '', $options);
-        $mform->setDefault('userid', $userid.'_'.$submissionid);
+        if (count($options) == $optionscount + 2) {
+            unset($options[$firstuserid.'_0']);
+        }
+        $mform->addElement('select', 'container', get_string('submission', 'surveypro'), $options);
+        $mform->setDefault('container', $container);
 
         // Button.
-        $elementgroup[] = $mform->createElement('submit', 'submitbutton', get_string('reload'));
+        $buttonarray = array();
+        $buttonarray[] = $mform->createElement('submit', 'changeuser', get_string('changeuser', 'surveyproreport_attachments'));
+        $buttonarray[] = $mform->createElement('submit', 'submitbutton', get_string('reload'));
+        $mform->addGroup($buttonarray, 'buttonsrow', '', ' ', false);
+    }
 
-        $mform->addGroup($elementgroup, 'item_user', get_string('filter'), array(' '), false);
+    /**
+     * Set select option.
+     *
+     * @return string
+     */
+    public function set_select_option($user) {
+        global $CFG;
+
+        if (isset($CFG->forcefirstname) || isset($CFG->forcelastname)) {
+            $userstring = get_string('user');
+            $itemcontent = $userstring.' id: '.$user->userid;
+        } else {
+            $itemcontent = fullname($user);
+        }
+
+        return $itemcontent;
     }
 }
 

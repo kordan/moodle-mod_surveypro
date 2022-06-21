@@ -22,6 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['changeuser'] = 'Utente differente';
 $string['display_uploads'] = 'Visualizza allegati';
 $string['eachitem'] = 'Ogni elemento';
 $string['missing_uploads'] = 'Allegato non trovato';
@@ -29,7 +30,7 @@ $string['noattachmentitemsfound'] = 'Nessun elemento per allegati è presente in
 $string['nofilesfound'] = 'Nessun allegato caricato';
 $string['pluginname'] = 'Panoramica allegati';
 $string['submission'] = 'Risposta';
-$string['submissionid'] = 'ID della risposta';
+$string['submissionid'] = 'id della risposta';
 $string['submissioninfo'] = 'Informazioni';
 $string['submissions'] = 'Risposte';
 $string['uploads'] = 'Allegati';
