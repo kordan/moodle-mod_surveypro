@@ -45,7 +45,7 @@ Feature: make a submission test for "fileupload" item
     And I press "New response"
 
     # student1 submits
-    And I upload "mod/surveypro/tests/fixtures/dummyCV.pdf" file to "2: Please upload your Curriculum Vitae" filemanager
+    And I upload "mod/surveypro/tests/fixtures/uploads/dummyCV11.pdf" file to "2: Please upload your Curriculum Vitae" filemanager
 
     And I press "Submit"
 
