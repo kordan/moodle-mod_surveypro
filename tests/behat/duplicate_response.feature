@@ -58,7 +58,7 @@ Feature: duplicate response
     When I log in as "admin"
     And I am on "Duplicate response" course homepage
     And I follow "Duplicate response sp"
-    And I follow "Responses"
+    And I follow "Responses" page in tab bar
     # Duplicate other original response
     And I click on "//a[contains(@id,'duplicate_submission_row_1')]" "xpath_element"
     Then I should see "Are you sure you want duplicate the response owned by student1 user1, created on"
