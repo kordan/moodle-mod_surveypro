@@ -70,7 +70,7 @@ Feature: make a submission test for each available item
       | id_surveypro_field_age_1_year        | 23      |
       | id_surveypro_field_age_1_month       | 8       |
 
-    And I upload "mod/surveypro/tests/fixtures/uploads/dummyCV11.pdf" file to "Upload your CV in PDF format" filemanager
+    And I upload "mod/surveypro/tests/fixtures/dummyCV.pdf" file to "Upload your CV in PDF format" filemanager
 
     And I set the following fields to these values:
       | Is it true?                          | Yes     |
