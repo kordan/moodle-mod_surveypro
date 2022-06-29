@@ -156,7 +156,7 @@ table#manageitems td.actions span.fatspan,
 table#sortitems td.actions span.fatspan {
     display: inline;
     border-collapse: collapse;
-    border-spacing: 0px 0px;
+    border-spacing: 0 0;
     line-height: 20px;
     text-align: left;
     white-space: nowrap;
@@ -167,7 +167,7 @@ table#manageitems td.actions span.lastspan,
 table#sortitems td.actions span.lastspan {
     display: inline;
     border-collapse: collapse;
-    border-spacing: 0px 0px;
+    border-spacing: 0 0;
     line-height: 20px;
     text-align: right;
     white-space: nowrap;

@@ -12,6 +12,6 @@ table#attachments .picture {
 }
 
 #page-mod-surveypro-report-attachments-uploads label {
-  display: inline-block;
-  margin-top: .5rem;
+    display: inline-block;
+    margin-top: .5rem;
 }
