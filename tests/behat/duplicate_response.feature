@@ -72,4 +72,3 @@ Feature: duplicate response
     And I press "No"
 
     And I log out
-

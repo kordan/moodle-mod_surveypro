@@ -37,7 +37,6 @@ Feature: test functionality of attachment report
     And I log in as "teacher1"
     And I am on "Test attachment report" course homepage
 
-
     And I follow "Attachment report test"
     And I follow "Layout"
 

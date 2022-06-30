@@ -168,6 +168,7 @@ class filterform extends \moodleform {
     /**
      * Set select option.
      *
+     * @param stdClass $user The user we are going to set select option
      * @return string
      */
     public function set_select_option($user) {
