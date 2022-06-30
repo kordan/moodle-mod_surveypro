@@ -73,6 +73,42 @@ class mastertemplate extends templatebase {
     }
 
     /**
+     * Provide correct plugin name
+     *
+     * @return string $pluginname
+     */
+    public function get_plugin_name() {
+        $pluginname = clean_param($this->formdata->mastertemplatename, PARAM_FILE);
+        $pluginname = strtolower($pluginname);
+
+        // Only lower case letters at the beginning.
+        $pluginname = preg_replace('~^[^a-z]*~', '', $pluginname);
+
+        // Never spaces.
+        $pluginname = preg_replace('~[ ]*~', '', $pluginname);
+
+        // Replace dash with underscore.
+        $pluginname = str_replace('-', '_', $pluginname);
+
+        // Never double underscore.
+        while (strpos($pluginname, '__') !== false) {
+            $pluginname = str_replace('__', '_', $pluginname);
+        }
+
+        // User wrote a 100% bloody name. GRRRR.
+        $condition1 = (bool)strlen($pluginname);
+        $condition2 = (bool)preg_match_all('~[a-z]~', $pluginname);
+        $condition = !($condition1 && $condition2);
+        if ($condition) {
+            // This test provides a 100% correct name. I do not need to iterate it.
+            $this->formdata->mastertemplatename = 'mtemplate_'.$this->surveypro->name;
+            $pluginname = $this->get_plugin_name();
+        }
+
+        return $pluginname;
+    }
+
+    /**
      * Generate master template.
      *
      * @return void
@@ -80,8 +116,7 @@ class mastertemplate extends templatebase {
     public function generate_mtemplate() {
         global $CFG;
 
-        $pluginname = clean_filename($this->formdata->mastertemplatename);
-        $pluginname = strtolower(preg_replace('~[\d ]*~', '', $pluginname));
+        $pluginname = $this->get_plugin_name();
 
         // Before starting, clean the destination folder
         // just in case it is not empty as expected.

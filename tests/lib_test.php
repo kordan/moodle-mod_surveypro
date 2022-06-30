@@ -109,7 +109,7 @@ class lib_test extends advanced_testcase {
     }
 
     /**
-     * test_surveypro_cutdownstring
+     * test_surveypro_pre_process_checkboxes
      *
      * @covers ::surveypro_pre_process_checkboxes
      * @dataProvider surveypro_pre_process_checkboxes_provider
