@@ -957,6 +957,7 @@ class view_submissions {
                 $component = 'mod_surveypro';
                 $filearea = SURVEYPRO_THANKSPAGEFILEAREA;
                 $message = file_rewrite_pluginfile_urls($htmlbody, 'pluginfile.php', $contextid, $component, $filearea, null);
+                $message = format_text($message, $this->surveypro->thankspageformat);
             } else {
                 $message = get_string('basic_submitthanks', 'mod_surveypro');
             }
