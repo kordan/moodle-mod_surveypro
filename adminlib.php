@@ -229,7 +229,7 @@ class mod_surveypro_plugin_manager {
             if ($visible) {
                 $title = get_string('disable');
                 $row[] = $OUTPUT->action_icon(new \moodle_url($this->pageurl,
-                    array('action' => 'hidden', 'plugin' => $plugin, 'sesskey' => sesskey())),
+                    array('action' => 'hide', 'plugin' => $plugin, 'sesskey' => sesskey())),
                     new pix_icon('t/hide', $title, 'moodle', array('title' => $title)),
                     null, array('title' => $title));
             } else {
@@ -245,8 +245,8 @@ class mod_surveypro_plugin_manager {
                 $row[] = '&nbsp;';
             } else {
                 $title = get_string('delete');
-                $row[] = $OUTPUT->action_icon(new \moodle_url($this->pageurl,
-                    array('action' => 'delete', 'plugin' => $plugin, 'sesskey' => sesskey())),
+                $paramurl = array('uninstall' => $this->subtype.'_'.$plugin, 'confirm' => 0, 'return' => 'manage');
+                $row[] = $OUTPUT->action_icon(new \moodle_url('/admin/plugins.php', $paramurl),
                     new pix_icon('t/delete', $title, 'moodle', array('title' => $title)),
                     null, array('title' => $title));
             }
@@ -304,47 +304,6 @@ class mod_surveypro_plugin_manager {
     }
 
     /**
-     * Delete the database and files associated with this plugin.
-     *
-     * @param string $plugin Type of the plugin to delete
-     * @return string the name of the next page to display
-     */
-    public function delete_plugin($plugin) {
-        global $CFG, $OUTPUT;
-
-        $confirm = optional_param('confirm', null, PARAM_BOOL);
-
-        if ($confirm) {
-            // Delete any configuration records.
-            if (!unset_all_config_for_plugin($this->subtype.'_'.$plugin)) {
-                $message = get_string('errordeletingconfig', 'admin', $this->subtype.'_'.$plugin);
-                $this->error = $OUTPUT->notification($message, 'notifyproblem');
-            }
-
-            // Should be covered by the previous function - but just in case.
-            unset_config('disabled', $this->subtype.'_'.$plugin);
-            unset_config('sortorder', $this->subtype.'_'.$plugin);
-
-            // Delete the plugin specific config settings.
-            // $DB->delete_records('surveypro_item', array('plugin' => $plugin, 'subtype' => $this->subtype));
-
-            // Then the tables themselves.
-            $shortsubtype = substr($this->subtype, strlen('surveypro'));
-            $installxml = $CFG->dirroot.'/mod/surveypro/'.$shortsubtype.'/'.$plugin.'/db/install.xml';
-            drop_plugin_tables($this->subtype.'_'.$plugin, $installxml, false);
-
-            // Remove event handlers and dequeue pending events.
-            events_uninstall($this->subtype.'_'.$plugin);
-
-            // The page to display.
-            return 'plugindeleted';
-        } else {
-            // The page to display.
-            return 'confirmdelete';
-        }
-    }
-
-    /**
      * Show the page that gives the details of the plugin that was just deleted.
      *
      * @param string $plugin Plugin that was just deleted
@@ -362,26 +321,6 @@ class mod_surveypro_plugin_manager {
                                'directory' => ('/mod/surveypro/'.$shortsubtype.'/'.$plugin));
         echo $OUTPUT->notification(get_string('plugindeletefiles', 'moodle', $messageparams), 'notifymessage');
         echo $OUTPUT->continue_button($this->pageurl);
-        $this->view_footer();
-    }
-
-    /**
-     * Show the page that asks the user to confirm they want to delete a plugin.
-     *
-     * @param string $plugin Plugin that will be deleted
-     * @return void
-     */
-    private function view_confirm_delete($plugin) {
-        global $OUTPUT;
-
-        $this->view_header();
-        $pluginname = get_string('pluginname', $this->subtype.'_'.$plugin);
-        echo $OUTPUT->heading(get_string('deletingplugin', 'mod_surveypro', $pluginname));
-        $urlparams = array('action' => 'delete', 'plugin' => $plugin, 'confirm' => 1);
-        $confirmurl = new \moodle_url($this->pageurl, $urlparams);
-        echo $OUTPUT->confirm(get_string('deletepluginmessage', 'mod_surveypro', $pluginname),
-                $confirmurl,
-                $this->pageurl);
         $this->view_footer();
     }
 
@@ -422,20 +361,14 @@ class mod_surveypro_plugin_manager {
         $this->check_permissions();
 
         // Process.
-        if ($action == 'delete' && $plugin != null) {
-            $action = $this->delete_plugin($plugin);
-        } else if ($action == 'hidden' && $plugin != null) {
+        if ($action == 'hide' && $plugin != null) {
             $action = $this->hide_plugin($plugin);
         } else if ($action == 'show' && $plugin != null) {
             $action = $this->show_plugin($plugin);
         }
 
         // View.
-        if ($action == 'confirmdelete' && $plugin != null) {
-            $this->view_confirm_delete($plugin);
-        } else if ($action == 'plugindeleted' && $plugin != null) {
-            $this->view_plugin_deleted($plugin);
-        } else if ($action == 'view') {
+        if ($action == 'view') {
             $this->view_plugins_table();
         }
     }
