@@ -132,7 +132,8 @@ class mod_surveypro_mod_form extends \moodleform_mod {
         // Stopyear.
         $fieldname = 'stopyear';
         $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $boundaryyear);
-        $mform->setDefault($fieldname, 2020);
+        $currentyear = userdate(time(), "%Y");
+        $mform->setDefault($fieldname, $currentyear);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // Userstyle.
