@@ -288,7 +288,7 @@ class view_form extends formbase {
         }
 
         if ($startingpage == SURVEYPRO_RIGHT_OVERFLOW) {
-            $startingpage = $this->get_maxassignedpage() + 1;
+            $startingpage = $this->maxassignedpage + 1;
         }
         if ($startingpage == SURVEYPRO_LEFT_OVERFLOW) {
             $startingpage = 0;
@@ -297,7 +297,7 @@ class view_form extends formbase {
         if ($rightdirection) {
             $nextpage = ++$startingpage;
             // Here maxpage should be $maxformpage, but I have to add 1 because of ($i != $overflowpage).
-            $overflowpage = $this->get_maxassignedpage() + 1;
+            $overflowpage = $this->maxassignedpage + 1;
         } else {
             $nextpage = --$startingpage;
             // Here minpage should be 1, but I have to take 1 out because of ($i != $overflowpage).
@@ -849,11 +849,46 @@ class view_form extends formbase {
     }
 
     /**
+     * Given a page number or a set pages number, returns the list of items living there.
+     *
+     * @param array $pages
+     * @param bool $nextpageright
+     * @return array $allitemsid
+     */
+    public function get_items_from_pages($pages, $nextpageright=false) {
+        global $DB;
+
+        list($insql, $whereparams) = $DB->get_in_or_equal($pages, SQL_PARAMS_NAMED, 'pages');
+        $whereparams['surveyproid'] = $this->surveypro->id;
+        $whereparams['hidden'] = 0;
+        $where = 'surveyproid = :surveyproid AND hidden = :hidden AND formpage '.$insql;
+
+        if ($nextpageright) {
+            $where .= ' AND parentvalue IS NOT NULL';
+            $fields = 'id, parentid, parentvalue';
+            $allitemsid = $DB->get_records_select('surveypro_item', $where, $whereparams, 'parentid, parentvalue', $fields);
+        } else {
+            $allitemsid = $DB->get_records_select('surveypro_item', $where, $whereparams, 'id', 'id');
+            $allitemsid = array_keys($allitemsid);
+        }
+
+        return $allitemsid;
+    }
+
+    /**
      * Drop old answers into pages no longer valid.
      *
      * Ok, I am moving from $userformman->formpage to page $userformman->nextpageright.
      * I need to delete all the answer that were (maybe) written during last input session in this surveypro.
-     * Answers to each item in a page between ($this->formpage + 1) and ($this->nextpageright - 1) included, must be deleted.
+     * Answers to items belonging to pages between ($this->formpage + 1) and ($this->nextpageright - 1) included, must be deleted.
+     * Some more answers must be deleted too.
+     * They are the answers to items of $this->nextpageright that are no longer allowed by their realtion with items of $this->formpage.
+     * The deletion process is structured into two steps.
+     * 1) List all the items of pages between ($this->formpage + 1) and ($this->nextpageright - 1) included
+     * For sure they ALL have corresponding answers to be deleted.
+     * 2) Make the list of the items of page $this->nextpageright having relations and check if they are still allowed.
+     * In the page $this->nextpageright not all the items have corresponding answers to be deleted.
+     * This is why I conceptually divided this process into two steps.
      *
      * Example: I am leaving page 3. On the basis of current input (in this page), I have $userformman->nextpageright = 10.
      * Maybe yesterday I had different data in $userformman->formpage = 3 and on that basis I was redirected to page 4.
@@ -864,27 +899,92 @@ class view_form extends formbase {
     public function drop_jumped_saved_data() {
         global $DB;
 
-        if ($this->nextpageright == ($this->get_formpage() + 1)) {
-            return;
-        }
-        if ($this->nextpageright == SURVEYPRO_RIGHT_OVERFLOW) {
-            $pages = range($this->get_formpage() + 1, $this->get_maxassignedpage());
+        $submissionid = $this->get_submissionid();
+
+        // Start by getting the list of all the items living from ($this->get_formpage() + 1) to ($this->nextpageright - 1)
+        if ($this->nextpageright == ($this->formpage + 1)) {
+            $allitemsid = [];
         } else {
-            $pages = range($this->get_formpage() + 1, $this->nextpageright - 1);
+            if ($this->nextpageright == SURVEYPRO_RIGHT_OVERFLOW) {
+                $pages = range($this->formpage + 1, $this->maxassignedpage);
+            } else {
+                $pages = range($this->formpage + 1, $this->nextpageright - 1);
+            }
+            $allitemsid = $this->get_items_from_pages($pages, false);
         }
 
-        list($insql, $whereparams) = $DB->get_in_or_equal($pages, SQL_PARAMS_NAMED, 'pages');
-        $whereparams['surveyproid'] = $this->surveypro->id;
-        $where = 'surveyproid = :surveyproid
-              AND formpage '.$insql;
-        $itemlistid = $DB->get_records_select('surveypro_item', $where, $whereparams, 'id', 'id');
-        $itemlistid = array_keys($itemlistid);
+        // Each answer to items listed in $allitemsid has to be deleted but... some more may be added.
+        // Add to $allitemsid the list of items of page $this->nextpageright no longer allowed by relations.
+        // (due to the change of mind).
+        // If you arrive to page 2 and you move back to page 1, each answer to itms of page 2 is saved with verified = 0.
+        // When you return again to page 2 from page 1,
+        // the code has to delete all the answers previously provided for items currently no longer allowed by relations.
+        // Answers to items still allowed (maybe because not conditioned by relations) will remain alive AND INCORRECT
+        // because they still have surveypro_answer.verified = 0 but...
+        // they will be fixed when the user will move forward from page 2.
+        if ($this->nextpageright != SURVEYPRO_RIGHT_OVERFLOW) {
+            // Get the list of items living in $this->nextpageright AND depending from a relation.
+            $nextpageitemsid = $this->get_items_from_pages($this->nextpageright, true);
 
-        list($insql, $whereparams) = $DB->get_in_or_equal($itemlistid, SQL_PARAMS_NAMED, 'itemid');
-        $whereparams['submissionid'] = $this->formdata->submissionid;
-        $where = 'submissionid = :submissionid
-              AND itemid '.$insql;
-        $DB->delete_records_select('surveypro_answer', $where, $whereparams);
+            // For each item verify if it is still allowed by its relation.
+            // If the relation is still valid, ignore it. You don't have to drop related answers.
+            // If the relation is no longer valid, add it to the list of items with answers to kill.
+            $oldparentid = -1;
+            $oldparentvalue = '';
+            foreach ($nextpageitemsid as $singleitem) {
+                $currentparentid = $singleitem->parentid;
+                $currentparentvalue = $singleitem->parentvalue;
+
+                // It should ALWAYS be false but bouble check is better than an issue.
+                if ($currentparentid == 0) {
+                    $message = 'Unexpected $item->parentid = 0. This should NEVER occours.';
+                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                }
+
+                $condition = ($currentparentid == $oldparentid);
+                $condition = $condition && ($currentparentvalue == $oldparentvalue);
+                if ($condition) {
+                    // Do not submit a new query.
+                    // What you did before is still valid.
+                    if ($action == 'kill') {
+                        $allitemsid[] = $singleitem->id;
+                    }
+                } else {
+                    $sql = 'SELECT id
+                        FROM {surveypro_answer}
+                        WHERE submissionid = :submissionid
+                            AND itemid = :itemid
+                            AND content = '.$DB->sql_compare_text(':content');
+                    $whereparams = [
+                        'submissionid' => $submissionid,
+                        'itemid' => $currentparentid,
+                        'content' => $currentparentvalue
+                    ];
+
+                    if ($DB->record_exists_sql($sql, $whereparams)) {
+                        // The item is allowed by its parent-child relation.
+                        // Do not delete the answer to this item.
+                        // Drop it from the list af items that are going to see their answer deleted.
+                        $action = 'preserve';
+                    } else {
+                        $allitemsid[] = $singleitem->id;
+                        $action = 'kill';
+                    }
+                }
+                $oldparentid = $currentparentid;
+                $oldparentvalue = $currentparentvalue;
+            }
+        }
+
+        // Now it is time to drop answers provided to no longer justified items.
+        if (count($allitemsid)) {
+            list($insql, $whereparams) = $DB->get_in_or_equal($allitemsid, SQL_PARAMS_NAMED, 'itemid');
+            $where = 'submissionid = :submissionid
+                  AND itemid '.$insql;
+            $whereparams['submissionid'] = $submissionid;
+
+            $DB->delete_records_select('surveypro_answer', $where, $whereparams);
+        }
     }
 
     /**
@@ -1076,7 +1176,7 @@ class view_form extends formbase {
 
         $tabpage = $this->get_tabpage();
         if ($tabpage == SURVEYPRO_SUBMISSION_READONLY) {
-            $maxassignedpage = $this->get_maxassignedpage();
+            $maxassignedpage = $this->maxassignedpage;
             if ($maxassignedpage > 1) {
                 $formpage = $this->get_formpage();
                 if (($formpage != SURVEYPRO_LEFT_OVERFLOW) && ($formpage != 1)) {

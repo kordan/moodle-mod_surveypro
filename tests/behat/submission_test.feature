@@ -125,7 +125,6 @@ Feature: make a submission test for each available item
     And I log out
 
     When I log in as "teacher1"
-
     And I am on "Test submission for each available item" course homepage
     And I follow "Each item submission"
     And I follow "Responses" page in tab bar
