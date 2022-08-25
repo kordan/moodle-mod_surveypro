@@ -852,8 +852,14 @@ class view_form extends formbase {
      * Drop old answers into pages no longer valid.
      *
      * Ok, I am moving from $userformman->formpage to page $userformman->nextpageright.
-     * I need to delete all the answer that were (maybe) written during last input session in this surveypro.
-     * Answers to each item in a page between ($this->formpage + 1) and ($this->nextpageright - 1) included, must be deleted.
+     * I need to verify all the answers that were (maybe) saved during last input session and saved with verified = 0.
+     * I divide this process into two steps.
+     * First step:
+     *     if there are answers to this surveypro saved with verified = 0 and corresponding to items belonging to pages
+     *     between ($this->formpage + 1) and ($this->nextpageright - 1) included, I must delete them.
+     * Second step:
+     *     I check the answers saved with verified = 0 and corresponding to items belonging to page $this->nextpageright.
+     *     For each answer I chech if it is still allowed by its realtion with answers to items in $this->formpage.
      *
      * Example: I am leaving page 3. On the basis of current input (in this page), I have $userformman->nextpageright = 10.
      * Maybe yesterday I had different data in $userformman->formpage = 3 and on that basis I was redirected to page 4.
@@ -864,27 +870,119 @@ class view_form extends formbase {
     public function drop_jumped_saved_data() {
         global $DB;
 
+        $submissionid = $this->get_submissionid();
+
+        // Save to $answerstokill...
+        // the list of the answers to items living between ($this->get_formpage() + 1) and ($this->nextpageright - 1)
+        // and saved with verified = 0
         if ($this->nextpageright == ($this->get_formpage() + 1)) {
-            return;
-        }
-        if ($this->nextpageright == SURVEYPRO_RIGHT_OVERFLOW) {
-            $pages = range($this->get_formpage() + 1, $this->get_maxassignedpage());
+            $answerstokill = [];
         } else {
-            $pages = range($this->get_formpage() + 1, $this->nextpageright - 1);
+            if ($this->nextpageright == SURVEYPRO_RIGHT_OVERFLOW) {
+                $pages = range($this->get_formpage() + 1, $this->get_maxassignedpage());
+            } else {
+                $pages = range($this->get_formpage() + 1, $this->nextpageright - 1);
+            }
+
+            list($insql, $whereparams) = $DB->get_in_or_equal($pages, SQL_PARAMS_NAMED, 'pages');
+            $sql = 'SELECT a.id
+                FROM {surveypro_answer} a
+                    JOIN {surveypro_item} i ON i.id = a.itemid
+                WHERE a.verified = :verified
+                    AND a.submissionid = :submissionid
+                    AND i.surveyproid = :surveyproid
+                    AND i.formpage '.$insql;
+            $whereparams['verified'] = 0;
+            $whereparams['submissionid'] = $submissionid;
+            $whereparams['surveyproid'] = $this->surveypro->id;
+
+            $answerstokill = $DB->get_records_sql_menu($sql, $whereparams);
+            $answerstokill = array_keys($answerstokill);
         }
 
-        list($insql, $whereparams) = $DB->get_in_or_equal($pages, SQL_PARAMS_NAMED, 'pages');
-        $whereparams['surveyproid'] = $this->surveypro->id;
-        $where = 'surveyproid = :surveyproid
-              AND formpage '.$insql;
-        $itemlistid = $DB->get_records_select('surveypro_item', $where, $whereparams, 'id', 'id');
-        $itemlistid = array_keys($itemlistid);
+        // Each answer to items listed in $allitemsid has to be deleted but... some more may be added.
+        // Add to $answerstokill...
+        // the list of answers to items of page $this->nextpageright having verified = 0 and no longer allowed by their relations.
+        // (due to the change of mind).
+        // To do this I select all the answers to items of page $this->nextpageright having verified = 0
+        // and I verify, for each one of them, if they are still allowed.
 
-        list($insql, $whereparams) = $DB->get_in_or_equal($itemlistid, SQL_PARAMS_NAMED, 'itemid');
-        $whereparams['submissionid'] = $this->formdata->submissionid;
-        $where = 'submissionid = :submissionid
-              AND itemid '.$insql;
-        $DB->delete_records_select('surveypro_answer', $where, $whereparams);
+        // Rationale
+        // If you arrive to page 2 and you move back to page 1, each answer to itms of page 2 is saved with verified = 0.
+        // When you return again to page 2 from page 1,
+        // the code has to delete all the answers previously provided for items currently no longer allowed by relations.
+        // Answers to items still allowed (maybe because not conditioned by relations) will remain alive AND INCORRECT
+        // because they still have surveypro_answer.verified = 0 but...
+        // they will be fixed when the user will move forward from page 2.
+        if ($this->nextpageright != SURVEYPRO_RIGHT_OVERFLOW) {
+            $sql = 'SELECT a.id as answerid, i.id as itemid, i.parentid, i.parentvalue
+                FROM {surveypro_answer} a
+                    JOIN {surveypro_item} i ON i.id = a.itemid
+                WHERE a.verified = :verified
+                    AND a.submissionid = :submissionid
+                    AND i.surveyproid = :surveyproid
+                    AND i.formpage = :formpage
+                    AND i.parentid > :parentid
+                ORDER BY i.parentid, i.parentvalue';
+            $whereparams = [];
+            $whereparams['verified'] = 0;
+            $whereparams['submissionid'] = $submissionid;
+            $whereparams['surveyproid'] = $this->surveypro->id;
+            $whereparams['formpage'] = $this->nextpageright;
+            $whereparams['parentid'] = 0;
+
+            $itemsandanswers = $DB->get_recordset_sql($sql, $whereparams);
+
+            // For each item verify if it is still allowed by its relation.
+            // If the relation is still valid, ignore it. You don't have to drop related answers.
+            // If the relation is no longer valid, add it to the list of items with answers to kill.
+            $oldparentid = -1;
+            $oldparentvalue = '';
+            foreach ($itemsandanswers as $itemandanswer) {
+                $parentid = $itemandanswer->parentid;
+                $parentvalue = $itemandanswer->parentvalue;
+
+                $condition = ($parentid == $oldparentid);
+                $condition = $condition && ($parentvalue == $oldparentvalue);
+                if ($condition) {
+                    // Do not submit a new query.
+                    // What you did before is still valid.
+                    if ($action == 'kill') {
+                        $answerstokill[] = (int)$itemandanswer->answerid;
+                    }
+                } else {
+                    $sql = 'SELECT id
+                        FROM {surveypro_answer}
+                        WHERE submissionid = :submissionid
+                            AND itemid = :itemid
+                            AND content = '.$DB->sql_compare_text(':content');
+                    $whereparams = [
+                        'submissionid' => $submissionid,
+                        'itemid' => $parentid,
+                        'content' => $parentvalue
+                    ];
+
+                    if ($DB->record_exists_sql($sql, $whereparams)) {
+                        // The item is allowed by its parent-child relation.
+                        // Do not delete its answers.
+                        $action = 'allow';
+                    } else {
+                        $answerstokill[] = (int)$itemandanswer->answerid;
+                        $action = 'kill';
+                    }
+                }
+                $oldparentid = $parentid;
+                $oldparentvalue = $parentvalue;
+            }
+        }
+
+        // Now it is time to drop answers provided to no longer justified items.
+        if (count($answerstokill)) {
+            list($insql, $whereparams) = $DB->get_in_or_equal($answerstokill, SQL_PARAMS_NAMED, 'id');
+            $where = 'id '.$insql;
+
+            $DB->delete_records_select('surveypro_answer', $where, $whereparams);
+        }
     }
 
     /**
