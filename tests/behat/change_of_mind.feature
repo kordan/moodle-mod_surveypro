@@ -52,8 +52,13 @@ Feature: deletion of no longer allowed answers on user change of mind
 
     And I follow "edit_item_5"
     And I set the following fields to these values:
+<<<<<<< HEAD
       | Content    | Question without parent |
       | Required   | 1                       |
+=======
+      | Content  | Question without parent |
+      | Required | 1                       |
+>>>>>>> 5bc1a821 (Fixed the routine to drop no longer allowed answers (rev 03))
       | id_pattern | free pattern            |
 
     And I press "Save changes"
@@ -62,8 +67,13 @@ Feature: deletion of no longer allowed answers on user change of mind
 
     # Let the student start to fill the surveypro
     When I log in as "student1"
+<<<<<<< HEAD
     And I am on "Change of mind" course homepage
     And I follow "Test change of mind"
+=======
+    And I am on "Simple change of mind" course homepage
+    And I follow "Test simple change of mind"
+>>>>>>> 5bc1a821 (Fixed the routine to drop no longer allowed answers (rev 03))
 
     And I press "New response"
     And I set the field "Write down your email" to "su@nowhere.net"
@@ -82,10 +92,16 @@ Feature: deletion of no longer allowed answers on user change of mind
     Then I should see "Question without parent"
 
     And I press "Submit"
+<<<<<<< HEAD
     Then I should not see "Some answers of this response have been found as unverified."
 
     And I press "Continue to responses list"
     Then I should see "1" submissions
+=======
+    And I press "Continue to responses list"
+    Then I should see "1" submissions
+    Then I should not see "Some answers of this response have been found as unverified."
+>>>>>>> 5bc1a821 (Fixed the routine to drop no longer allowed answers (rev 03))
 
   @javascript
   Scenario: Test change of mind: 1-2-1-3
@@ -199,10 +215,17 @@ Feature: deletion of no longer allowed answers on user change of mind
 
     And I set the field "Choose a direction" to "South"
     And I press "Submit"
+<<<<<<< HEAD
     Then I should not see "Some answers of this response have been found as unverified."
 
     And I press "Continue to responses list"
     Then I should see "1" submissions
+=======
+
+    And I press "Continue to responses list"
+    Then I should see "1" submissions
+    Then I should not see "Some answers of this response have been found as unverified."
+>>>>>>> 5bc1a821 (Fixed the routine to drop no longer allowed answers (rev 03))
 
   @javascript
   Scenario: Test change of mind: 1-3-1-2
@@ -315,7 +338,14 @@ Feature: deletion of no longer allowed answers on user change of mind
     Then I should not see "Was it carved in marble?"
 
     And I press "Submit"
+<<<<<<< HEAD
     Then I should not see "Some answers of this response have been found as unverified."
 
     And I press "Continue to responses list"
     Then I should see "1" submissions
+=======
+
+    And I press "Continue to responses list"
+    Then I should see "1" submissions
+    Then I should not see "Some answers of this response have been found as unverified."
+>>>>>>> 5bc1a821 (Fixed the routine to drop no longer allowed answers (rev 03))
