@@ -26,7 +26,7 @@ use mod_surveypro\utility_layout;
 use mod_surveypro\tabs;
 use mod_surveypro\utility_mform;
 use mod_surveypro\view_form;
-use mod_surveypro\local\form\surveyprofillform;
+use mod_surveypro\local\form\userform;
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 
@@ -45,7 +45,7 @@ if (!empty($id)) {
 $cm = cm_info::create($cm);
 
 $submissionid = optional_param('submissionid', 0, PARAM_INT);
-$formpage = optional_param('formpage', 0, PARAM_INT); // Form page number.
+$formpage = optional_param('formpage', 1, PARAM_INT); // Userform page number.
 $view = optional_param('view', SURVEYPRO_NOVIEW, PARAM_INT);
 
 require_course_login($course, false, $cm);
@@ -79,16 +79,16 @@ $formparams->preview = false;
 // End of: prepare params for the form.
 
 $editable = ($view == SURVEYPRO_READONLYRESPONSE) ? false : true;
-$outform = new surveyprofillform($formurl, $formparams, 'post', '', array('id' => 'userentry'), $editable);
+$userform = new userform($formurl, $formparams, 'post', '', array('id' => 'userentry'), $editable);
 
 // Begin of: manage form submission.
-if ($outform->is_cancelled()) {
+if ($userform->is_cancelled()) {
     $localparamurl = array('id' => $cm->id, 'view' => $view);
     $redirecturl = new \moodle_url('/mod/surveypro/view_submissions.php', $localparamurl);
     redirect($redirecturl, get_string('usercanceled', 'mod_surveypro'));
 }
 
-if ($userformman->formdata = $outform->get_data()) {
+if ($userformman->formdata = $userform->get_data()) {
     $userformman->save_user_data(); // SAVE SAVE SAVE SAVE.
 
     // If "pause" button has been pressed, redirect.
@@ -104,8 +104,8 @@ if ($userformman->formdata = $outform->get_data()) {
     // If "previous" button has been pressed, redirect.
     $prevbutton = isset($userformman->formdata->prevbutton);
     if ($prevbutton) {
-        $userformman->next_not_empty_page(false);
-        $paramurl['formpage'] = $userformman->get_nextpageleft();
+        $userformman->next_not_empty_page(false); // false means direction = left.
+        $paramurl['formpage'] = $userformman->get_nextpage();
         $redirecturl = new \moodle_url('/mod/surveypro/view_form.php', $paramurl);
         redirect($redirecturl); // Redirect to the first non empty page.
     }
@@ -113,25 +113,24 @@ if ($userformman->formdata = $outform->get_data()) {
     // If "next" button has been pressed, redirect.
     $nextbutton = isset($userformman->formdata->nextbutton);
     if ($nextbutton) {
-        $userformman->next_not_empty_page(true);
-
-        // Ok, I am moving from $userformman->formpage to page $userformman->nextpageright.
+        // Ok, I am moving from $userformman->formpage to page $userformman->nextpage.
         // I need to delete all the answer that were (maybe) written during a previous walk along the surveypro.
-        // Answers to each item in a page between ($this->formpage + 1) and ($this->nextpageright - 1) included, must be deleted.
+        // Answers to each item in a page between ($this->formpage + 1) and ($this->nextpage - 1) included, must be deleted.
         //
         // Let's suppose the following scenario.
         // 1) User is filling a surveypro divided into 15 pages.
         // 2) User fills all the fields of page 3 and push next to move to the next page.
-        // 3) On the basis of current input, $userformman->nextpageright is 4 so page 4 is displayed.
+        // 3) On the basis of current input, $userformman->nextpage is 4 so page 4 is displayed.
         // 4) User fills all the fields of page 4 and push next to move to the next page.
-        // 5) On the basis of current input, $userformman->nextpageright is 5 so page 5 is displayed.
+        // 5) On the basis of current input, $userformman->nextpage is 5 so page 5 is displayed.
         // 6) Once arrived in page 5 user returns back up to page 3.
         // 7) User changes the answers in page 3 and push next to move to the next page.
-        // 8) On the basis of current input, $userformman->nextpageright is 10 so page 10 is displayed.
+        // 8) On the basis of current input, $userformman->nextpage is 10 so page 10 is displayed.
         // 9) Now that the answers to items in page 3 move me to page 10, for sure answers to items in page 4 must be deleted.
         $userformman->drop_jumped_saved_data();
 
-        $paramurl['formpage'] = $userformman->get_nextpageright();
+        $userformman->next_not_empty_page(true); // true means direction = right.
+        $paramurl['formpage'] = $userformman->get_nextpage();
         $redirecturl = new \moodle_url('/mod/surveypro/view_form.php', $paramurl);
         redirect($redirecturl); // Redirect to the first non empty page.
     }
@@ -189,8 +188,8 @@ $prefill = $userformman->get_prefill_data();
 $prefill['formpage'] = $userformman->get_formpage();
 // End of: calculate prefill for fields and prepare standard editors and filemanager.
 
-$outform->set_data($prefill);
-$outform->display();
+$userform->set_data($prefill);
+$userform->display();
 
 // If surveypro is multipage and $userformman->tabpage == SURVEYPRO_READONLYRESPONSE.
 // I need to add navigation buttons manually
