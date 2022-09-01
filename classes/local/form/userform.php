@@ -37,7 +37,7 @@ require_once($CFG->dirroot.'/lib/formslib.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyprofillform extends \moodleform {
+class userform extends \moodleform {
 
     /**
      * Definition.
@@ -75,7 +75,7 @@ class surveyprofillform extends \moodleform {
         $mform->setType('submissionid', PARAM_INT);
 
         // Userform: formpage.
-        $mform->addElement('hidden', 'formpage', 0); // Value is provided by $outform->set_data($prefill); from view_form.php.
+        $mform->addElement('hidden', 'formpage', 0); // Value is provided by $userform->set_data($prefill); from view_form.php.
         $mform->setType('formpage', PARAM_INT);
 
         if ($formpage == SURVEYPRO_LEFT_OVERFLOW) {

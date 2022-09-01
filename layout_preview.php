@@ -26,7 +26,7 @@ use mod_surveypro\utility_layout;
 use mod_surveypro\layout_preview;
 use mod_surveypro\tabs;
 use mod_surveypro\utility_mform;
-use mod_surveypro\local\form\surveyprofillform;
+use mod_surveypro\local\form\userform;
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 
@@ -78,7 +78,7 @@ $formparams->readonly = false;
 $formparams->preview = true;
 // End of: prepare params for the form.
 
-$userform = new surveyprofillform($formurl, $formparams, 'post', '', array('id' => 'userentry'));
+$userform = new userform($formurl, $formparams, 'post', '', array('id' => 'userentry'));
 
 // Begin of: manage form submission.
 if ($data = $userform->get_data()) {

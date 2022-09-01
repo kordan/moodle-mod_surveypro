@@ -1,9 +1,5 @@
 @mod @mod_surveypro @surveyprofield
-<<<<<<< HEAD
 Feature: deletion of no longer allowed answers on user change of mind
-=======
-Feature: simple deletion of no longer allowed answers on user change of mind
->>>>>>> 7eea9868 (Fixed the routine to drop no longer allowed answers (rev 03))
   Test the deletion of no longer allowed answers in a parent-child relation over two pages when user changes his answer
   As a teacher
   I create a parent-child relation and as a student I fill, return back, change my answer and continue.

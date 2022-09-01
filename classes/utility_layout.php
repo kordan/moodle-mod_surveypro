@@ -1203,7 +1203,7 @@ class utility_layout {
     }
 
     /**
-     * Assign to the user outform the custom css provided for the instance.
+     * Assign to the userform the custom css provided for the instance.
      *
      * @return void
      */
