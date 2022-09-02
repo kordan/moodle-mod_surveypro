@@ -154,9 +154,13 @@ class userform extends \moodleform {
                         $questioncontent = $item->get_content();
                         if ($elementnumber) {
                             // I want to change "4.2:<p>Do you live in NY?</p>" to "<p>4.2: Do you live in NY?</p>".
-                            if (preg_match('~^<p>(.*)$~', $questioncontent, $match)) {
-                                // print_object($match);
-                                $questioncontent = '<p>'.$elementnumber.' '.$match[1];
+                            if (preg_match('~^<p([^>]*)>(.*)$~', $questioncontent, $match)) {
+                                // I want to change "4.2:<p dir="ltr" style="text-align:left;">Do you live in NY?</p>"
+                                // to
+                                // "<p dir="ltr" style="text-align:left;">4.2: Do you live in NY?</p>".
+                                $questioncontent = '<p'.$match[1].'>'.$elementnumber.' '.$match[2];
+                            } else {
+                                $questioncontent = $elementnumber.' '.$questioncontent;
                             }
                         }
                         $content = '';
