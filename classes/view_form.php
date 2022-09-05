@@ -279,6 +279,7 @@ class view_form extends formbase {
                 $nextpage = SURVEYPRO_LEFT_OVERFLOW;
             }
         }
+
         $this->set_nextpage($nextpage);
     }
 

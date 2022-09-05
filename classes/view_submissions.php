@@ -653,6 +653,8 @@ class view_submissions {
                 }
                 if ($displayediticon) {
                     $paramurl['view'] = SURVEYPRO_EDITRESPONSE;
+                    $paramurl['begin'] = 1;
+
                     if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
                         // Here title and alt are ALWAYS $nonhistoryeditstr.
                         $link = new \moodle_url('/mod/surveypro/view_form.php', $paramurl);
@@ -666,6 +668,7 @@ class view_submissions {
                     }
                 } else {
                     $paramurl['view'] = SURVEYPRO_READONLYRESPONSE;
+                    $paramurl['begin'] = 1;
 
                     $link = new \moodle_url('/mod/surveypro/view_form.php', $paramurl);
                     $paramlink = array('id' => 'view_submission_'.$submissionsuffix, 'title' => $readonlyaccessstr);
@@ -788,7 +791,8 @@ class view_submissions {
 
         $buttoncount = 0;
         if ($addnew) {
-            $addurl = new \moodle_url('/mod/surveypro/view_form.php', array('id' => $this->cm->id, 'view' => SURVEYPRO_NEWRESPONSE));
+            $paramurl = ['id' => $this->cm->id, 'view' => SURVEYPRO_NEWRESPONSE, 'begin' => 1];
+            $addurl = new \moodle_url('/mod/surveypro/view_form.php', $paramurl);
             $buttoncount = 1;
         }
         if ($deleteall) {
@@ -968,7 +972,7 @@ class view_submissions {
 
         $paramurlbase = array('id' => $this->cm->id);
         if ($cansubmitmore) { // If the user is allowed to submit one more response.
-            $paramurl = $paramurlbase + array('view' => SURVEYPRO_NEWRESPONSE);
+            $paramurl = $paramurlbase + array('view' => SURVEYPRO_NEWRESPONSE, 'begin' => 1);
             $buttonurl = new \moodle_url('/mod/surveypro/view_form.php', $paramurl);
             $onemore = new \single_button($buttonurl, get_string('addnewsubmission', 'mod_surveypro'));
 

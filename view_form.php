@@ -47,6 +47,7 @@ $cm = cm_info::create($cm);
 $submissionid = optional_param('submissionid', 0, PARAM_INT);
 $formpage = optional_param('formpage', 1, PARAM_INT); // Userform page number.
 $view = optional_param('view', SURVEYPRO_NOVIEW, PARAM_INT);
+$begin = optional_param('begin', 0, PARAM_INT);
 
 require_course_login($course, false, $cm);
 $context = \context_module::instance($cm->id);
@@ -72,10 +73,15 @@ $formparams->surveypro = $surveypro;
 $formparams->submissionid = $submissionid;
 $formparams->maxassignedpage = $userformman->get_maxassignedpage();
 $formparams->canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context);
-$formparams->formpage = $userformman->get_formpage(); // The page of the form to select subset of fields
 $formparams->tabpage = $userformman->get_tabpage(); // The page of the TAB-PAGE structure.
 $formparams->readonly = ($userformman->get_tabpage() == SURVEYPRO_SUBMISSION_READONLY);
 $formparams->preview = false;
+if ($begin == 1) {
+    $userformman->next_not_empty_page(true, 0); // True means direction = right.
+    $nextpage = $userformman->get_nextpage(); // The page of the form to select subset of fields
+    $userformman->set_formpage($nextpage);
+}
+$formparams->formpage = $userformman->get_formpage(); // The page of the form to select subset of fields
 // End of: prepare params for the form.
 
 $editable = ($view == SURVEYPRO_READONLYRESPONSE) ? false : true;
