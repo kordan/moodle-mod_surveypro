@@ -308,9 +308,11 @@ class utility_layout {
      * or, to delete, a single answer of a submission (or set of answers).
      * If I delete a submission this function (delete_submissions) will call the delete_answers function.
      * If I directly call delete_answers, this function (delete_submissions) will never be called.
+     * Even if I ask to delete a single answer, it may be possible I need to delete the corresponding submission.
+     * So, I can not delete submissions here (in delete_submissions) because I may need to delete a submission without passing here.
      * Because of this, without care to which function I call, once an answer is deleted
      * the deletion of the parent submission is actually executed into the function delete_answers and not here.
-     * All of this to say that it may appear strange but the function "delete_submissions" does not delete anything.
+     * All of this to say that it may appear strange but the function "delete_submissions" does not delete submissions.
      *
      * surveypro_submission           surveypro_answer
      *   id  <-----------------|        id
@@ -334,12 +336,13 @@ class utility_layout {
         $condition = array_key_exists('surveyproid', $whereparams);
         $condition = $condition || array_key_exists('id', $whereparams);
         if (!$condition) {
-            $message = 'I can not delete submissions without id, surveyproid';
+            $message = 'I can not delete submissions missing submissionid AND surveyproid both';
             debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
         // End of: Verify input params integrity.
 
         // Just in case the call is missing the surveypro id, add it.
+        // Just to avoid I go to delete single submission belonging to a sureypro different from the one where I am in.
         if (!array_key_exists('surveyproid', $whereparams)) {
             $whereparams['surveyproid'] = $this->surveypro->id;
         }
