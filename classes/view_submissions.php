@@ -781,9 +781,9 @@ class view_submissions {
         $deleteall = $candeleteownsubmissions;
         $deleteall = $deleteall && $candeleteotherssubmissions;
         $deleteall = $deleteall && empty($this->searchquery);
-        $deleteall = $deleteall && empty($tifirst); // Hide the deleteall button if only partial responses are shown.
-        $deleteall = $deleteall && empty($tilast);  // Hide the deleteall button if only partial responses are shown.
-        $deleteall = $deleteall && ($next > 1);
+        $deleteall = $deleteall && empty($tifirst); // Hide the deleteall button if not all the responses are shown.
+        $deleteall = $deleteall && empty($tilast);  // Hide the deleteall button if not all the responses are shown.
+        $deleteall = $deleteall && ($next > 1); // Show the deleteall button only if there are responses to delete.
         // End of: is the button to delete all responses going to be the page?
 
         $buttoncount = 0;

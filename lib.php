@@ -147,12 +147,6 @@ define('SURVEYPRO_CHANGEORDERASK'  , '5');
 define('SURVEYPRO_RESPONSETOPDF'   , '6');
 
 /**
- * OVERFLOW
- */
-define('SURVEYPRO_LEFT_OVERFLOW' , -10);
-define('SURVEYPRO_RIGHT_OVERFLOW', -20);
-
-/**
  * SENDERS
  */
 define('SURVEYPRO_TAB'  , 1);

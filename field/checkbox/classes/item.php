@@ -531,7 +531,7 @@ EOS;
     // MARK userform.
 
     /**
-     * Define the mform element for the outform and the searchform.
+     * Define the mform element for the userform and the searchform.
      *
      * @param \moodleform $mform
      * @param bool $searchform
@@ -657,7 +657,7 @@ EOS;
     }
 
     /**
-     * Perform outform and searchform data validation.
+     * Perform userform and searchform data validation.
      *
      * @param array $data
      * @param array $errors

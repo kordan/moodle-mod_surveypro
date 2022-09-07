@@ -61,9 +61,29 @@ class formbase {
     protected $formpage;
 
     /**
+     * @var int The minimum page the user may see
+     */
+    protected $userfirstpage;
+
+    /**
+     * @var int The maximum page the user may see
+     */
+    protected $userlastpage;
+
+    /**
+     * @var int Does the user went to overflow asking for a different page?
+     */
+    protected $overflowpage;
+
+    /**
      * @var int Last page of the out form
      */
-    protected $maxassignedpage;
+    protected $userformpagecount;
+
+    /**
+     * @var int The page number where the user is going to go.
+     */
+    protected $nextpage;
 
     /**
      * Class constructor.
@@ -76,6 +96,149 @@ class formbase {
         $this->cm = $cm;
         $this->context = $context;
         $this->surveypro = $surveypro;
+    }
+
+    /**
+     * Set the first and the past page of the surveypro for the current user.
+     *
+     * Of course the surveypro is divided into userformpagecount
+     * so the first page is ALWaYS 1 and the last page is ALWAYS $userformpagecount
+     * But what I am asking now is:
+     * according with the user capability has_capability('mod/surveypro:accessreserveditems', $context)
+     * which is the minumun page the user can access? And the maximum?
+     * In ither words: if in the first page there are ONLY reserved item,
+     * a simple user may browse the surveypro only from page 2 to $userformpagecount.
+     * I am looking for these new boundary (that will be === with 1 and $userformpagecount in 99% of cases).
+     */
+    public function set_user_boundary_formpages() {
+        global $DB;
+
+        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
+
+        if ($canaccessreserveditems) {
+            $userfirstpage = 1;
+            $userlastpage = $this->userformpagecount;
+        } else {
+            $sql = 'SELECT MIN(formpage) as userfirstpage, MAX(formpage) as userlastpage
+                        FROM {surveypro_item}
+                        WHERE surveyproid = :surveyproid
+                            AND reserved = :reserved
+                            AND plugin <> '.$DB->sql_compare_text(':plugin');
+            $whereparams = ['surveyproid' => $this->surveypro->id, 'reserved' => 0, 'plugin' => 'pagebreak'];
+            $boundaries = $DB->get_record_sql($sql, $whereparams);
+
+            $userfirstpage = isset($boundaries->userfirstpage) ? $boundaries->userfirstpage : 1;
+            $userlastpage = isset($boundaries->userlastpage) ? $boundaries->userlastpage : $this->userformpagecount;
+        }
+
+        $this->set_userfirstpage($userfirstpage);
+        $this->set_userlastpage($userlastpage);
+    }
+
+    /**
+     * Get the first NON EMPTY page on the right or on the left.
+     *
+     * Depending on answers provided by the user, the previous or next page may have no items to display
+     * The purpose of this function is to get the first page WITH items.
+     * It even may happen that there are no more pages with items.
+     * In this case this method sets $this->overflowpage to 1 otherwise sets $this->overflowpage to 0.
+     *
+     * If $rightdirection == true, this method sets to $this->nextpage
+     *     the page number of the lower non empty page (according to user answers)
+     *     greater than $startingpage and 0 in $this->overflowpage.
+     *     If no more empty pages are found on the right sets:
+     *     $this->nextpage = $userformpagecount and $this->overflowpage = 1
+     *
+     * If $rightdirection == false, this method sets to $this->nextpage
+     *     the page number of the greater non empty page (according to user answers)
+     *     lower than $startingpage and 0 in $this->overflowpage.
+     *     If no more empty pages are found on the left sets:
+     *     $this->nextpage = 1 and $this->overflowpage = 1
+     *
+     * @param bool $rightdirection
+     * @param int $startingpage
+     * @return void
+     */
+    public function next_not_empty_page($rightdirection, $startingpage=null) {
+        if ($startingpage === null) {
+            $startingpage = $this->get_formpage();
+        }
+
+        $userformpagecount = $this->get_userformpagecount();
+        $condition = ($startingpage == $userformpagecount) && ($rightdirection);
+        $condition = $condition || (($startingpage == 1) && (!$rightdirection));
+        if ($condition) {
+            $a = new \stdClass();
+            $a->methodname = 'next_not_empty_page';
+            $a->startingpage = $startingpage;
+            throw new \moodle_exception('wrong_direction_found', 'mod_surveypro', null, $a);
+        }
+
+        // Let's start saying next page is the trivial one.
+        if ($rightdirection) {
+            $nextpage = $startingpage + 1;
+            // Here maxpage should be $maxformpage, but I have to add 1 because of ($i != $overflowpage).
+            $overflowpage = $userformpagecount + 1;
+        } else {
+            $nextpage = $startingpage - 1;
+            // Here minpage should be 1, but I have to take 1 out because of ($i != $overflowpage).
+            $overflowpage = 0;
+        }
+
+        do {
+            if ($this->page_has_items($nextpage)) {
+                break;
+            }
+            $nextpage = ($rightdirection) ? $nextpage + 1 : $nextpage - 1;
+        } while ($nextpage != $overflowpage);
+
+        if ($nextpage == $overflowpage) {
+            $this->set_overflowpage(1);
+            $nextpage = ($rightdirection) ? $userformpagecount : 1;
+        } else {
+            $this->set_overflowpage(0);
+        }
+
+        $this->set_nextpage($nextpage);
+    }
+
+    /**
+     * Declares if the passed page of the survey is going to hold at least one item.
+     *
+     * In this method, I am not ONLY going to check if the page $formpage has items
+     * but I also verify that those items are going to be displayed
+     * on the basis of the answers provided to their parent
+     *
+     * @param int $formpage
+     * @return bool
+     */
+    private function page_has_items($formpage) {
+        global $DB;
+
+        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
+
+        list($where, $params) = surveypro_fetch_items_seeds($this->surveypro->id, true, $canaccessreserveditems, null, null, $formpage);
+        // Here I can not use get_recordset_select because I could browse returned records twice.
+        $itemseeds = $DB->get_records_select('surveypro_item', $where, $params, 'sortindex', 'id, parentid, parentvalue');
+
+        // Start looking ONLY at empty($itemseed->parentid) because it doesn't involve extra queries.
+        foreach ($itemseeds as $itemseed) {
+            if (empty($itemseed->parentid)) {
+                // If at least one item has no parent, I finished. The page is going to display items.
+                return true;
+            }
+        }
+
+        foreach ($itemseeds as $itemseed) {
+            $parentitem = surveypro_get_item($this->cm, $this->surveypro, $itemseed->parentid);
+            if ($parentitem->userform_is_child_allowed_static($this->get_submissionid(), $itemseed)) {
+                // If at least one parent allows its child, I finished. The page is going to display items.
+                return true;
+            }
+        }
+
+        // If you were not able to get out in the two previous occasions... this page is empty.
+        return false;
     }
 
     /**
@@ -154,18 +317,18 @@ class formbase {
     public function display_page_x_of_y() {
         global $OUTPUT;
 
-        if ($this->maxassignedpage > 1) {
+        if ($this->userformpagecount > 1) {
             $a = new \stdClass();
             $a->formpage = $this->formpage;
-            if ($this->formpage == SURVEYPRO_LEFT_OVERFLOW) {
-                $a->formpage = 1;
-            }
-            if ($this->formpage == SURVEYPRO_RIGHT_OVERFLOW) {
-                $a->formpage = $this->maxassignedpage;
+            $a->userformpagecount = $this->userformpagecount;
+
+            if ( ($this->userfirstpage > 1) || ($this->userlastpage < $this->userformpagecount) ) {
+                $unaccesiblepagesnote = get_string('unaccesiblepages_note', 'mod_surveypro');
+            } else {
+                $unaccesiblepagesnote = '';
             }
 
-            $a->maxassignedpage = $this->maxassignedpage;
-            echo $OUTPUT->heading(get_string('pagexofy', 'mod_surveypro', $a));
+            echo $OUTPUT->heading(get_string('pagexofy', 'mod_surveypro', $a).' '.$unaccesiblepagesnote);
         }
     }
 
@@ -195,13 +358,13 @@ class formbase {
     }
 
     /**
-     * Set maxassignedpage.
+     * Set userformpagecount.
      *
-     * @param int $maxassignedpage
+     * @param int $userformpagecount
      * @return void
      */
-    public function set_maxassignedpage($maxassignedpage) {
-        $this->maxassignedpage = $maxassignedpage;
+    public function set_userformpagecount($userformpagecount) {
+        $this->userformpagecount = $userformpagecount;
     }
 
     /**
@@ -211,7 +374,47 @@ class formbase {
      * @return void
      */
     public function set_formpage($formpage) {
-        $this->formpage = ($formpage == 0) ? 1 : $formpage;
+        $this->formpage = $formpage;
+    }
+
+    /**
+     * Set nextpage.
+     *
+     * @param int $nextpage
+     * @return void
+     */
+    public function set_nextpage($nextpage) {
+        $this->nextpage = $nextpage;
+    }
+
+    /**
+     * Set user first page.
+     *
+     * @param int $userfirstpage
+     * @return void
+     */
+    public function set_userfirstpage($userfirstpage) {
+        $this->userfirstpage = $userfirstpage;
+    }
+
+    /**
+     * Set user last page.
+     *
+     * @param int $userlastpage
+     * @return void
+     */
+    public function set_userlastpage($userlastpage) {
+        $this->userlastpage = $userlastpage;
+    }
+
+    /**
+     * Set overflowpage.
+     *
+     * @param int $overflowpage
+     * @return void
+     */
+    public function set_overflowpage($overflowpage) {
+        $this->overflowpage = $overflowpage;
     }
 
     // MARK get.
@@ -237,9 +440,45 @@ class formbase {
     /**
      * Get max assigned page.
      *
-     * @return the content of $maxassignedpage property
+     * @return the content of $userformpagecount property
      */
-    public function get_maxassignedpage() {
-        return $this->maxassignedpage;
+    public function get_userformpagecount() {
+        return $this->userformpagecount;
+    }
+
+    /**
+     * Get next page.
+     *
+     * @return the content of $nextpage property
+     */
+    public function get_nextpage() {
+        return $this->nextpage;
+    }
+
+    /**
+     * Get user first page.
+     *
+     * @return the content of $userfirstpage property
+     */
+    public function get_userfirstpage() {
+        return $this->userfirstpage;
+    }
+
+    /**
+     * Get user last page.
+     *
+     * @return the content of $userlastpage property
+     */
+    public function get_userlastpage() {
+        return $this->userlastpage;
+    }
+
+    /**
+     * Get overflowpage.
+     *
+     * @return the content of $overflowpage property
+     */
+    public function get_overflowpage() {
+        return $this->overflowpage;
     }
 }

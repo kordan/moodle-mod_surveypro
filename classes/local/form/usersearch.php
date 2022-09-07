@@ -37,7 +37,7 @@ require_once($CFG->dirroot.'/lib/formslib.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyprosearchform extends \moodleform {
+class usersearch extends \moodleform {
 
     /**
      * Definition.
@@ -79,10 +79,13 @@ class surveyprosearchform extends \moodleform {
             if ($position == SURVEYPRO_POSITIONFULLWIDTH) {
                 $questioncontent = $item->get_content();
                 if ($elementnumber) {
-                    // I want to change "4.2:<p>Do you live in NY?</p>" to "<p>4.2: Do you live in NY?</p>".
-                    if (preg_match('~^<p>(.*)$~', $questioncontent, $match)) {
-                        // print_object($match);
-                        $questioncontent = '<p>'.$elementnumber.' '.$match[1];
+                    // I want to change "4.2:<p dir="ltr" style="text-align:left;">Do you live in NY?</p>"
+                    // to
+                    // "<p dir="ltr" style="text-align:left;">4.2: Do you live in NY?</p>".
+                    if (preg_match('~^<p([^>]*)>(.*)$~', $questioncontent, $match)) {
+                        $questioncontent = '<p'.$match[1].'>'.$elementnumber.' '.$match[2];
+                    } else {
+                        $questioncontent = $elementnumber.' '.$questioncontent;
                     }
                 }
                 $content = '';

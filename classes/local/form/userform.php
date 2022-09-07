@@ -37,7 +37,7 @@ require_once($CFG->dirroot.'/lib/formslib.php');
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyprofillform extends \moodleform {
+class userform extends \moodleform {
 
     /**
      * Definition.
@@ -53,9 +53,12 @@ class surveyprofillform extends \moodleform {
         $cm = $this->_customdata->cm;
         $surveypro = $this->_customdata->surveypro;
         $submissionid = $this->_customdata->submissionid;
-        $maxassignedpage = $this->_customdata->maxassignedpage;
+        $userformpagecount = $this->_customdata->userformpagecount;
         $canaccessreserveditems = $this->_customdata->canaccessreserveditems;
         $formpage = $this->_customdata->formpage;
+        $userfirstpage = $this->_customdata->userfirstpage;
+        $userlastpage = $this->_customdata->userlastpage;
+        $overflowpage = $this->_customdata->overflowpage;
         $tabpage = $this->_customdata->tabpage;
         $readonly = $this->_customdata->readonly; // I see a form (record) that is not mine.
         $preview = $this->_customdata->preview; // Are we in preview mode?
@@ -75,32 +78,21 @@ class surveyprofillform extends \moodleform {
         $mform->setType('submissionid', PARAM_INT);
 
         // Userform: formpage.
-        $mform->addElement('hidden', 'formpage', 0); // Value is provided by $outform->set_data($prefill); from view_form.php.
+        $mform->addElement('hidden', 'formpage', 0); // Value is provided by $userform->set_data($prefill); from view_form.php.
         $mform->setType('formpage', PARAM_INT);
 
-        if ($formpage == SURVEYPRO_LEFT_OVERFLOW) {
-            $mform->addElement('static', 'nomoreitems', $notestr, get_string('onlyreserveditemhere', 'mod_surveypro'));
-            // $mform->addElement('static', 'nomoreitems', $notestr, 'SURVEYPRO_LEFT_OVERFLOW');
-        }
-
-        if ($formpage == SURVEYPRO_RIGHT_OVERFLOW) {
-            $oneshotsurvey = ($surveypro->pauseresume == SURVEYPRO_ONESHOTNOEMAIL);
-            $oneshotsurvey = $oneshotsurvey || ($surveypro->pauseresume == SURVEYPRO_ONESHOTEMAIL);
-            $a = $oneshotsurvey ? get_string('onlyreview', 'mod_surveypro') : get_string('revieworpause', 'mod_surveypro');
-            $mform->addElement('static', 'nomoreitems', $notestr, get_string('nomoreitems', 'mod_surveypro', $a));
-            // $mform->addElement('static', 'nomoreitems', $notestr, 'SURVEYPRO_RIGHT_OVERFLOW');
-        }
-
-        if ($formpage >= 0) {
+        if ( ($formpage > 0) && ($formpage <= $userformpagecount) ) {
             // $canaccessreserveditems, $searchform=false, $type=false, $formpage
             list($where, $params) = surveypro_fetch_items_seeds($surveypro->id, true, $canaccessreserveditems, null, null, $formpage);
             $fields = 'id, type, plugin, parentid, parentvalue';
             $itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, 'sortindex', $fields);
 
-            if (!$itemseeds->valid()) {
-                // No items are in this page.
-                // Display an error message.
-                $mform->addElement('static', 'noitemshere', $notestr, 'ERROR: How can I be here if ($formpage > 0) ?');
+            // There are no items in this page
+            if ( (!$itemseeds->valid()) || ($overflowpage) ) {
+                $oneshotsurvey = ($surveypro->pauseresume == SURVEYPRO_ONESHOTNOEMAIL);
+                $oneshotsurvey = $oneshotsurvey || ($surveypro->pauseresume == SURVEYPRO_ONESHOTEMAIL);
+                $a = $oneshotsurvey ? get_string('onlyreview', 'mod_surveypro') : get_string('revieworpause', 'mod_surveypro');
+                $mform->addElement('static', 'nomoreitems', $notestr, get_string('nomoreitems', 'mod_surveypro', $a));
             }
 
             // This dummy item is needed for the colours alternation
@@ -153,10 +145,13 @@ class surveyprofillform extends \moodleform {
                     if ($position == SURVEYPRO_POSITIONFULLWIDTH) {
                         $questioncontent = $item->get_content();
                         if ($elementnumber) {
-                            // I want to change "4.2:<p>Do you live in NY?</p>" to "<p>4.2: Do you live in NY?</p>".
-                            if (preg_match('~^<p>(.*)$~', $questioncontent, $match)) {
-                                // print_object($match);
-                                $questioncontent = '<p>'.$elementnumber.' '.$match[1];
+                            // I want to change "4.2:<p dir="ltr" style="text-align:left;">Do you live in NY?</p>"
+                            // to
+                            // "<p dir="ltr" style="text-align:left;">4.2: Do you live in NY?</p>".
+                            if (preg_match('~^<p([^>]*)>(.*)$~', $questioncontent, $match)) {
+                                $questioncontent = '<p'.$match[1].'>'.$elementnumber.' '.$match[2];
+                            } else {
+                                $questioncontent = $elementnumber.' '.$questioncontent;
                             }
                         }
                         $content = '';
@@ -198,8 +193,7 @@ class surveyprofillform extends \moodleform {
 
         // Buttons.
         $buttonlist = array();
-
-        if ( ($formpage == SURVEYPRO_RIGHT_OVERFLOW) || ($formpage > 1) ) {
+        if ($formpage > $userfirstpage) {
             $buttonlist['prevbutton'] = get_string('previousformpage', 'mod_surveypro');
         }
         if ($tabpage != SURVEYPRO_LAYOUT_PREVIEW) {
@@ -208,7 +202,7 @@ class surveyprofillform extends \moodleform {
             if ($pasuseresumesurvey) {
                 $buttonlist['pausebutton'] = get_string('pause', 'mod_surveypro');
             }
-            if (($formpage == $maxassignedpage) || ($formpage == SURVEYPRO_RIGHT_OVERFLOW)) {
+            if ($formpage == $userlastpage) {
                 if ($surveypro->history) {
                     $where = array('id' => $submissionid);
                     $submissionstatus = $DB->get_field('surveypro_submission', 'status', $where, IGNORE_MISSING);
@@ -227,8 +221,16 @@ class surveyprofillform extends \moodleform {
                 }
             }
         }
-        if ( ($formpage == SURVEYPRO_LEFT_OVERFLOW) || ($formpage > 0 && $formpage < $maxassignedpage) ) {
+        if ($formpage < $userlastpage) {
             $buttonlist['nextbutton'] = get_string('nextformpage', 'mod_surveypro');
+        }
+
+        if (count($buttonlist) == 1) {
+            $name = array_key_first($buttonlist);
+            $label = $buttonlist[$name];
+
+            $mform->closeHeaderBefore($name);
+            $mform->addElement('submit', $name, $label);
         }
 
         if (count($buttonlist) > 1) {
@@ -239,11 +241,6 @@ class surveyprofillform extends \moodleform {
             $mform->addGroup($buttonarray, 'buttonsrow', '', ' ', false);
             $mform->setType('buttonsrow', PARAM_RAW);
             $mform->closeHeaderBefore('buttonsrow');
-        } else { // Only one button here.
-            foreach ($buttonlist as $name => $label) { // $buttonlist is a one element only array.
-                $mform->closeHeaderBefore($name);
-                $mform->addElement('submit', $name, $label);
-            }
         }
     }
 
@@ -268,7 +265,7 @@ class surveyprofillform extends \moodleform {
         $surveypro = $this->_customdata->surveypro;
         // Useless: $submissionid = $this->_customdata->submissionid;.
         // Useless: $formpage = $this->_customdata->formpage;.
-        // Useless: $maxassignedpage = $this->_customdata->maxassignedpage;.
+        // Useless: $userformpagecount = $this->_customdata->userformpagecount;.
         // Useless: $canaccessreserveditems = $this->_customdata->canaccessreserveditems;.
         // Useless: $readonly = $this->_customdata->readonly; // I see a form (record) that is not mine.
         $preview = $this->_customdata->preview; // Are we in preview mode?

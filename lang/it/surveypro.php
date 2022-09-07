@@ -193,6 +193,7 @@ $string['submissions_welcome'] = 'Risposte acquisite';
 $string['timecreated'] = 'Creato';
 $string['timemodified'] = 'Modificato';
 $string['typeplugin'] = 'Elemento';
+$string['unaccesiblepages_note'] = '(Qualche pagina non sarà accessibile per mancanza di permessi)';
 $string['userenrolled'] = 'Utente iscritto: 1';
 $string['usersenrolled'] = 'Utenti iscritti: {$a}';
 $string['variable_help'] = 'Il nome della variabile associata all\'informazione richiesta.';
