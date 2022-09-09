@@ -290,7 +290,6 @@ class view_form extends formbase {
                     $this->userdeservesthanks = 1;
                 }
             } else {
-                 // User desere thanks.
                 $this->userdeservesthanks = 1;
             }
         }

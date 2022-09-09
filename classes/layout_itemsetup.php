@@ -1493,32 +1493,29 @@ class layout_itemsetup {
                 $type = $itemseed->type;
                 $plugin = $itemseed->plugin;
                 $item = surveypro_get_item($this->cm, $this->surveypro, $id, $type, $plugin);
-                if ($multilangfields = $item->get_multilang_fields()) { // Pagebreak and fieldsetend have no multilang_fields.
-                    foreach ($multilangfields as $mlplugin) { // Take in mind that $mlplugin is an array of fields.
+                $itemsmlfields = $item->get_multilang_fields(); // Pagebreak and fieldsetend have no multilang_fields.
+                if ($itemsmlfields[$plugin]) {
+                    // ml means multi language
+                    foreach ($itemsmlfields as $itemmlfield) { // $itemmlfield is an array of fields.
                         $record = new \stdClass();
-                        if ($plugin == 'item') {
-                            $record->id = $item->get_itemid();
-                        } else {
-                            $record->id = $item->get_pluginid();
-                        }
+                        $record->id = $item->get_pluginid(); // Id of the item child record (for instance: surveyproformat_label).
 
                         $where = array('id' => $record->id);
-                        $fieldlist = implode(',', $mlplugin);
+                        $fieldlist = implode(',', $itemmlfield);
+                        // SELECT content,extranote,options,labelother,defaultvalue FROM {surveyprofield_radiobutton} WHERE id = 8.
                         $reference = $DB->get_record('surveypro'.$type.'_'.$plugin, $where, $fieldlist, MUST_EXIST);
-
-                        foreach ($mlplugin as $fieldname) {
-                            $stringkey = $reference->{$fieldname};
+                        foreach ($itemmlfield as $mlfieldname) {
+                            $stringkey = $reference->{$mlfieldname};
                             if (strlen($stringkey)) {
-                                $record->{$fieldname} = get_string($stringkey, 'surveyprotemplate_'.$template);
+                                $record->{$mlfieldname} = get_string($stringkey, 'surveyprotemplate_'.$template);
                             } else {
-                                $record->{$fieldname} = null;
+                                $record->{$mlfieldname} = null;
                             }
                         }
                         $DB->update_record('surveypro'.$type.'_'.$plugin, $record);
                     }
                 }
             }
-
             $surveypro = new \stdClass();
             $surveypro->id = $this->surveypro->id;
             $surveypro->template = null;
