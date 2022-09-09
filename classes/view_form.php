@@ -228,7 +228,9 @@ class view_form extends formbase {
             // Add a new record to surveypro_submission.
             $submission->surveyproid = $this->surveypro->id;
             $submission->userid = $USER->id;
-            $submission->timecreated = $timenow;
+            if ($savebutton || $saveasnewbutton) {
+                $submission->timecreated = $timenow;
+            }
 
             // The idea is that I ALWAYS save, without care about which button was pressed.
             // Probably if empty($this->formdata->submissionid) then $prevbutton can't be pressed, but I don't care.
@@ -249,23 +251,26 @@ class view_form extends formbase {
         } else {
             // Surveypro_submission already exists.
             // And user submitted once again.
-            $params = ['id' => $this->formdata->submissionid];
-            $originalstatus = $DB->get_field('surveypro_submission', 'status', $params, MUST_EXIST);
-
             $submission->id = $this->formdata->submissionid;
-            $submission->timemodified = $timenow;
+            $params = ['id' => $submission->id];
+            $originalrecord = $DB->get_record('surveypro_submission', $params, 'status, timecreated', MUST_EXIST);
 
             // Define $submission->status.
-            if ($savebutton || $saveasnewbutton) {
-                $submission->status = SURVEYPRO_STATUSCLOSED;
-            }
-            // For ($nextbutton || $prevbutton) cases, do not change the status. You will change it at save time.
             if ($nextbutton || $prevbutton) {
-                $submission->status = $originalstatus;
+                $submission->status = $originalrecord->status;
             }
             if ($pausebutton) {
                 $submission->status = SURVEYPRO_STATUSINPROGRESS;
             }
+            if ($savebutton || $saveasnewbutton) {
+                $submission->status = SURVEYPRO_STATUSCLOSED;
+                if ($originalrecord->timecreated) {
+                    $submission->timemodified = $timenow;
+                } else {
+                    $submission->timecreated = $timenow;
+                }
+            }
+
             $DB->update_record('surveypro_submission', $submission);
 
             $eventdata = array('context' => $this->context, 'objectid' => $submission->id);
@@ -276,9 +281,14 @@ class view_form extends formbase {
 
         if ($savebutton || $saveasnewbutton) {
             // Does user deserve thanks?
-            if ($originalstatus == SURVEYPRO_STATUSCLOSED) {
-                // No thanks page. User is only editing and was already thanked at original submission time.
-                $this->userdeservesthanks = 0;
+            if (isset($originalrecord)) {
+                if ($originalrecord->status == SURVEYPRO_STATUSCLOSED) {
+                    // No thanks page. User is only editing and was already thanked at original submission time.
+                    $this->userdeservesthanks = 0;
+                } else {
+                     // User desere thanks.
+                    $this->userdeservesthanks = 1;
+                }
             } else {
                  // User desere thanks.
                 $this->userdeservesthanks = 1;
@@ -439,7 +449,7 @@ class view_form extends formbase {
         $pausebutton = isset($this->formdata->pausebutton);
         $prevbutton = isset($this->formdata->prevbutton);
 
-        // Drop out unwanted answers from the submission.
+        // Drop out undesired answers from the submission.
         if (!$this->surveypro->newpageforchild) {
             // TAKE CARE: It is not enough to drop out unexpected answers
             // If the response is new, dropping an answer from $this->formdata make you sure the related value will not be saved
