@@ -39,16 +39,6 @@ use mod_surveypro\formbase;
 class view_form extends formbase {
 
     /**
-     * @var int Next non empty page
-     */
-    protected $nextpageright;
-
-    /**
-     * @var int First non empty page
-     */
-    protected $nextpageleft;
-
-    /**
      * @var int $view
      */
     protected $view;
@@ -90,14 +80,13 @@ class view_form extends formbase {
         global $DB;
 
         // Assign pages to items.
-        $maxassignedpage = $DB->get_field('surveypro_item', 'MAX(formpage)', array('surveyproid' => $this->surveypro->id));
-        if (!$maxassignedpage) {
+        $userformpagecount = $DB->get_field('surveypro_item', 'MAX(formpage)', array('surveyproid' => $this->surveypro->id));
+        if (!$userformpagecount) {
             $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
-            $maxassignedpage = $utilitylayoutman->assign_pages();
-            $this->set_maxassignedpage($maxassignedpage);
-        } else {
-            $this->set_maxassignedpage($maxassignedpage);
+            $userformpagecount = $utilitylayoutman->assign_pages();
         }
+        $this->set_userformpagecount($userformpagecount);
+        $this->set_user_boundary_formpages();
 
         $this->set_view($view);
         $this->set_submissionid($submissionid);
@@ -121,53 +110,6 @@ class view_form extends formbase {
     }
 
     /**
-     * Set formpage.
-     *
-     * @param int $formpage
-     * @return void
-     */
-    public function set_formpage($formpage) {
-        if ($this->view === null) {
-            $message = 'Please call set_view method of the class mod_surveypro/view_form before calling set_formpage';
-            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-        }
-
-        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
-
-        if ($canaccessreserveditems) {
-            $this->nextpageright = 1;
-        } else {
-            $this->next_not_empty_page(true, 0); // This sets $this->firstformpage.
-        }
-
-        if ($formpage == 0) { // You are viewing the surveypro for the first time.
-            $this->formpage = $this->nextpageright;
-        } else {
-            $this->formpage = $formpage;
-        }
-    }
-
-    /**
-     * Set first page left.
-     *
-     * @param int $nextpageleft
-     * @return void
-     */
-    public function set_nextpageleft($nextpageleft) {
-        $this->nextpageleft = $nextpageleft;
-    }
-
-    /**
-     * Set first page right.
-     *
-     * @param int $nextpageright
-     * @return void
-     */
-    public function set_nextpageright($nextpageright) {
-        $this->nextpageright = $nextpageright;
-    }
-
-    /**
      * Set TAB tab.
      *
      * @param int $tabtab
@@ -187,6 +129,8 @@ class view_form extends formbase {
         $this->tabpage = $tabpage;
     }
 
+    // MARK get.
+
     /**
      * Get view.
      *
@@ -194,24 +138,6 @@ class view_form extends formbase {
      */
     public function get_view() {
         return $this->view;
-    }
-
-    /**
-     * Get first page left.
-     *
-     * @return the content of $nextpageleft property
-     */
-    public function get_nextpageleft() {
-        return $this->nextpageleft;
-    }
-
-    /**
-     * Get first page right.
-     *
-     * @return the content of $nextpageright property
-     */
-    public function get_nextpageright() {
-        return $this->nextpageright;
     }
 
     /**
@@ -250,114 +176,7 @@ class view_form extends formbase {
         return $this->userdeservesthanks;
     }
 
-    /**
-     * Get the first NON EMPTY page on the right or on the left.
-     *
-     * Depending on answers provided by the user, the previous or next page may have no items to display
-     * The purpose of this function is to get the first page WITH items
-     *
-     * If $rightdirection == true, this method sets...
-     *     the page number of the lower non empty page (according to user answers)
-     *     greater than $startingpage in $this->nextpageright;
-     *     returns $nextpage or SURVEYPRO_RIGHT_OVERFLOW if no more empty pages are found on the right
-     * If $rightdirection == false, this method sets...
-     *     the page number of the greater non empty page (according to user answers)
-     *     lower than $startingpage in $this->nextpageleft;
-     *     returns $nextpage or SURVEYPRO_LEFT_OVERFLOW if no more empty pages are found on the left
-     *
-     * @param bool $rightdirection
-     * @param int $startingpage
-     * @return void
-     */
-    public function next_not_empty_page($rightdirection, $startingpage=null) {
-        if ($startingpage === null) {
-            $startingpage = $this->get_formpage();
-        }
-
-        $condition = ($startingpage == SURVEYPRO_RIGHT_OVERFLOW) && ($rightdirection);
-        $condition = $condition || (($startingpage == SURVEYPRO_LEFT_OVERFLOW) && (!$rightdirection));
-        if ($condition) {
-            $a = new \stdClass();
-            if ($startingpage == SURVEYPRO_RIGHT_OVERFLOW) {
-                $a->startingpage = 'SURVEYPRO_RIGHT_OVERFLOW';
-            } else {
-                $a->startingpage = 'SURVEYPRO_LEFT_OVERFLOW';
-            }
-            $a->methodname = 'next_not_empty_page';
-            throw new \moodle_exception('wrong_direction_found', 'mod_surveypro', null, $a);
-        }
-
-        if ($startingpage == SURVEYPRO_RIGHT_OVERFLOW) {
-            $startingpage = $this->get_maxassignedpage() + 1;
-        }
-        if ($startingpage == SURVEYPRO_LEFT_OVERFLOW) {
-            $startingpage = 0;
-        }
-
-        if ($rightdirection) {
-            $nextpage = ++$startingpage;
-            // Here maxpage should be $maxformpage, but I have to add 1 because of ($i != $overflowpage).
-            $overflowpage = $this->get_maxassignedpage() + 1;
-        } else {
-            $nextpage = --$startingpage;
-            // Here minpage should be 1, but I have to take 1 out because of ($i != $overflowpage).
-            $overflowpage = 0;
-        }
-
-        do {
-            if ($this->page_has_items($nextpage)) {
-                break;
-            }
-            $nextpage = ($rightdirection) ? ++$nextpage : --$nextpage;
-        } while ($nextpage != $overflowpage);
-
-        if ($rightdirection) {
-            $nextpageright = ($nextpage == $overflowpage) ? SURVEYPRO_RIGHT_OVERFLOW : $nextpage;
-            $this->set_nextpageright($nextpageright);
-        } else {
-            $nextpageleft = ($nextpage == $overflowpage) ? SURVEYPRO_LEFT_OVERFLOW : $nextpage;
-            $this->set_nextpageleft($nextpageleft);
-        }
-    }
-
-    /**
-     * Declares if the passed page of the survey is going to hold at least one item.
-     *
-     * In this method, I am not ONLY going to check if the page $formpage has items
-     * but I also verify that those items are going to be displayed
-     * on the basis of the answers provided to their parent
-     *
-     * @param int $formpage
-     * @return bool
-     */
-    private function page_has_items($formpage) {
-        global $DB;
-
-        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
-
-        list($where, $params) = surveypro_fetch_items_seeds($this->surveypro->id, true, $canaccessreserveditems, null, null, $formpage);
-        // Here I can not use get_recordset_select because I could browse returned records twice.
-        $itemseeds = $DB->get_records_select('surveypro_item', $where, $params, 'sortindex', 'id, parentid, parentvalue');
-
-        // Start looking ONLY at empty($itemseed->parentid) because it doesn't involve extra queries.
-        foreach ($itemseeds as $itemseed) {
-            if (empty($itemseed->parentid)) {
-                // If at least one item has no parent, I finished. The page is going to display items.
-                return true;
-            }
-        }
-
-        foreach ($itemseeds as $itemseed) {
-            $parentitem = surveypro_get_item($this->cm, $this->surveypro, $itemseed->parentid);
-            if ($parentitem->userform_is_child_allowed_static($this->get_submissionid(), $itemseed)) {
-                // If at least one parent allows its child, I finished. The page is going to display items.
-                return true;
-            }
-        }
-
-        // If you were not able to get out in the two previous occasions... this page is empty.
-        return false;
-    }
+    // MARK general methods.
 
     /**
      * Set tabs params.
@@ -626,7 +445,11 @@ class view_form extends formbase {
             // If the response is new, dropping an answer from $this->formdata make you sure the related value will not be saved
             // but if the response is not new you may have the answer already in the database
             // and you need to actually delete the old datum from DB! Ignoring it is not enough.
-            $this->drop_unexpected_answers();
+            $this->drop_undesired_answers();
+        }
+
+        if ($savebutton || $saveasnewbutton) {
+            $this->drop_unverified_data();
         }
 
         // For each submission I need to save one 'surveypro_submission' and some 'surveypro_answer'.
@@ -849,41 +672,41 @@ class view_form extends formbase {
     }
 
     /**
-     * Drop old answers into pages no longer valid.
+     * Drop old answers saved with 'verified' = 0.
+     * They comes from data written in pages not validated (because user returned to previous page)
+     * They were converted to answers with 'verified' = 1 whaen the users arrived to the same page and moved forward
+     * and if they are still there... they must be deleted now.
      *
-     * Ok, I am moving from $userformman->formpage to page $userformman->nextpageright.
-     * I need to delete all the answer that were (maybe) written during last input session in this surveypro.
-     * Answers to each item in a page between ($this->formpage + 1) and ($this->nextpageright - 1) included, must be deleted.
+     * Example
+     * page 1: What is your gender?
+     * page 2: If the answer to question in page 1 was M then question2
+     * page 2: If the answer to question in page 1 was F then question3
      *
-     * Example: I am leaving page 3. On the basis of current input (in this page), I have $userformman->nextpageright = 10.
-     * Maybe yesterday I had different data in $userformman->formpage = 3 and on that basis I was redirected to page 4.
-     * Now that data of $userformman->formpage = 3 redirects me to page 10, for sure answers to items in page 4 must be deleted.
+     * User starts.
+     * Page 1: What is your gender? 'M' and 'Next page >>'
+     * Page 2: Question2: 'I am a male' and '<< Previous page'
+     * 'I am a male' is saved as unverified
+     * Page 1: What is your gender? 'F' and 'Next page >>'
+     * Page 2: Question3: 'I am a female' and '<< Previous page'
+     * 'I am a female' is saved as unverified
+     * Page 1: What is your gender? 'M' and 'Next page >>'
+     * Page 2: Question2: 'I confirm I am a male' and 'Submit'
+     *
+     * At submit time I have:
+     * Question1: 'M' saved as verified
+     * Question2: 'I am a female' saved as unverified
+     * Question3: 'I confirm I am a male' saved as verified
+     *
+     * Submit and 'I am a female' is saved as verified
+     * Now I have to delete the unverified answer
      *
      * @return void
      */
-    public function drop_jumped_saved_data() {
+    public function drop_unverified_data() {
         global $DB;
 
-        if ($this->nextpageright == ($this->get_formpage() + 1)) {
-            return;
-        }
-        if ($this->nextpageright == SURVEYPRO_RIGHT_OVERFLOW) {
-            $pages = range($this->get_formpage() + 1, $this->get_maxassignedpage());
-        } else {
-            $pages = range($this->get_formpage() + 1, $this->nextpageright - 1);
-        }
-
-        list($insql, $whereparams) = $DB->get_in_or_equal($pages, SQL_PARAMS_NAMED, 'pages');
-        $whereparams['surveyproid'] = $this->surveypro->id;
-        $where = 'surveyproid = :surveyproid
-              AND formpage '.$insql;
-        $itemlistid = $DB->get_records_select('surveypro_item', $where, $whereparams, 'id', 'id');
-        $itemlistid = array_keys($itemlistid);
-
-        list($insql, $whereparams) = $DB->get_in_or_equal($itemlistid, SQL_PARAMS_NAMED, 'itemid');
-        $whereparams['submissionid'] = $this->formdata->submissionid;
-        $where = 'submissionid = :submissionid
-              AND itemid '.$insql;
+        $whereparams = ['submissionid' => $this->formdata->submissionid, 'verified' => 0];
+        $where = 'submissionid = :submissionid AND verified = :verified';
         $DB->delete_records_select('surveypro_answer', $where, $whereparams);
     }
 
@@ -1062,46 +885,54 @@ class view_form extends formbase {
     }
 
     /**
-     * Add browsing buttons to the read only outform that does not display them by design.
+     * Add browsing buttons to the read only userform that does not display them by design.
      *
      * @return void
      */
     public function add_readonly_browsing_buttons() {
         global $OUTPUT;
 
-        $params = array();
-        $params['s'] = $this->surveypro->id;
-        $params['submissionid'] = $this->get_submissionid();
-        $params['view'] = SURVEYPRO_READONLYRESPONSE;
-
         $tabpage = $this->get_tabpage();
         if ($tabpage == SURVEYPRO_SUBMISSION_READONLY) {
-            $maxassignedpage = $this->get_maxassignedpage();
-            if ($maxassignedpage > 1) {
+            $params = array();
+            $params['s'] = $this->surveypro->id;
+            $params['submissionid'] = $this->get_submissionid();
+            $params['view'] = SURVEYPRO_READONLYRESPONSE;
+
+            $userformpagecount = $this->get_userformpagecount();
+            if ($userformpagecount > 1) {
                 $formpage = $this->get_formpage();
-                if (($formpage != SURVEYPRO_LEFT_OVERFLOW) && ($formpage != 1)) {
-                    $params['formpage'] = $formpage - 1;
+
+                if ($this->formpage > $this->userfirstpage) {
+                    $this->next_not_empty_page(false); // False means direction = left.
+                    $params['formpage'] = $this->get_nextpage();
                     $url = new \moodle_url('/mod/surveypro/view_form.php', $params);
-                    $backwardbutton = new \single_button($url, get_string('previousformpage', 'mod_surveypro'), 'get');
+                    $backwardbutton = new \single_button($url, get_string('previousformpage', 'mod_surveypro'), 'get', true);
                 }
 
-                if (($formpage != SURVEYPRO_RIGHT_OVERFLOW) && ($formpage != $maxassignedpage)) {
-                    $params['formpage'] = $formpage + 1;
+                if ($this->formpage < $this->userlastpage) {
+                    $this->next_not_empty_page(true); // True means direction = right.
+                    $params['formpage'] = $this->get_nextpage();
                     $url = new \moodle_url('/mod/surveypro/view_form.php', $params);
-                    $forwardbutton = new \single_button($url, get_string('nextformpage', 'mod_surveypro'), 'get');
+                    $forwardbutton = new \single_button($url, get_string('nextformpage', 'mod_surveypro'), 'get', true);
                 }
 
                 $params = array('class' => 'buttons');
+                $secondleveldiv = \html_writer::tag('div', '', ['class' => 'd-flex']);
+                $firstleveldiv = \html_writer::tag('div', $secondleveldiv, ['class' => 'col-md-4']);
                 if (isset($backwardbutton) && isset($forwardbutton)) {
                     // This code comes from "public function confirm(" around line 1711 in outputrenderers.php.
                     // It is not wrong. The misalign comes from bootstrapbase theme and is present in clean theme too.
-                    echo \html_writer::tag('div', $OUTPUT->render($backwardbutton).$OUTPUT->render($forwardbutton), $params);
+                    $content = $firstleveldiv.$OUTPUT->render($backwardbutton).$OUTPUT->render($forwardbutton);
+                    echo \html_writer::tag('div', $content, ['class' => 'row']);
                 } else {
                     if (isset($backwardbutton)) {
-                        echo \html_writer::tag('div', $OUTPUT->render($backwardbutton), $params);
+                        $content = $firstleveldiv.$OUTPUT->render($backwardbutton);
+                        echo \html_writer::tag('div', $content, ['class' => 'row']);
                     }
                     if (isset($forwardbutton)) {
-                        echo \html_writer::tag('div', $OUTPUT->render($forwardbutton), $params);
+                        $content = $firstleveldiv.$OUTPUT->render($forwardbutton);
+                        echo \html_writer::tag('div', $content, ['class' => 'row']);
                     }
                 }
             }
@@ -1111,8 +942,8 @@ class view_form extends formbase {
     /**
      * Drop all the answers returned by disabled items.
      *
-     * If a child item is deisabled by the parent in its same page,
-     * the child answer (whether set) is unwanted and must be deleted.
+     * If a child item is disabled by the parent in its same page,
+     * the child answer (whether set) is undesired and must be deleted.
      *
      * Let's suppose parent and child element in the same page.
      * I provide the right parent answer so that the child becomes enabled.
@@ -1123,7 +954,7 @@ class view_form extends formbase {
      *
      * @return void
      */
-    private function drop_unexpected_answers() {
+    private function drop_undesired_answers() {
         // Begin of: delete all the values returned by disabled items (that were NOT supposed to be returned: MDL-34815).
         $dirtydata = (array)$this->formdata;
         $elementnames = array_keys($dirtydata);

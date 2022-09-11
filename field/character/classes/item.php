@@ -401,7 +401,7 @@ EOS;
     // MARK userform.
 
     /**
-     * Define the mform element for the outform and the searchform.
+     * Define the mform element for the userform and the searchform.
      *
      * Cool for browsers supporting html 5
      * if ($this->pattern == SURVEYPROFIELD_CHARACTER_EMAILPATTERN) {
@@ -477,7 +477,7 @@ EOS;
     }
 
     /**
-     * Perform outform and searchform data validation.
+     * Perform userform and searchform data validation.
      *
      * @param array $data
      * @param array $errors

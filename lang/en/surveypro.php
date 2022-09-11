@@ -351,7 +351,7 @@ $string['optionalitem_title'] = 'Optional element. Click to make the element man
 $string['outputstyle'] = 'Output style';
 $string['overwrite_help'] = 'Selecting this checkbox you will overwrite an older template with the same name. If you leave this checkbox unselected, in case of conflicts, you will be asked for a new unique name.';
 $string['overwrite'] = 'Replace older template';
-$string['pagexofy'] = 'Page {$a->formpage} of {$a->maxassignedpage}';
+$string['pagexofy'] = 'Page {$a->formpage} of {$a->userformpagecount}';
 $string['parentconstraints'] = 'Parent constraints';
 $string['parentcontent_help'] = 'This is what the user is supposed to answer to the parent element in order to enable/display this element.';
 $string['parentcontent'] = 'Parent content';
@@ -500,6 +500,7 @@ $string['typeformat'] = 'Formats';
 $string['typeplugin_help'] = 'This is the list of available elements. Survey elements are of two types: "field" type and "format" type. Choose the element that better suite your needs.';
 $string['typeplugin'] = 'Element';
 $string['uerr_willbetrimmed'] = 'Answer will be cleaned up from trailing spaces';
+$string['unaccesiblepages_note'] = '(Few pages may not be accessible due to lack of permissions)';
 $string['unavailableelement_title'] = 'Unavailable element. Unhide it to make it available.';
 $string['unhandledvalue'] = 'Unhandled return value from {$a}';
 $string['unixtime'] = 'unix time';
@@ -545,7 +546,7 @@ $string['welcome_utemplatesave'] = 'Save a user template with the structure of t
 User templates are useful to quickly add to your surveys static sets of predefined items. At any time you can download and share it with other moodle users or reuse it into your own surveys. Be careful to "{$a}" if you want to reuse your templates without downloading and uploading them again.';
 $string['willclose'] = 'Closure time';
 $string['willopen'] = 'This survey will open at';
-$string['wrong_direction_found'] = 'Invalid $direction provided to {$a->methodname} in conjunction with $startingpage == {$a->methodname}';
+$string['wrong_direction_found'] = 'Invalid $direction provided in {$a->methodname} in conjunction with $startingpage == {$a->startingpage}';
 $string['wrong_sharinglevel_found'] = 'Invalid $sharinglevel = "{$a->sharinglevel}" provided to {$a->methodname}';
 $string['wrong_userdatarec_found'] = 'Invalid $userdatarec = \'{$a}\' has not been replaced';
 $string['wrongrelation'] = '"{$a}" will never match';

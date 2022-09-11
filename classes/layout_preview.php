@@ -44,21 +44,21 @@ class layout_preview extends formbase {
     public function setup($submissionid, $formpage) {
         global $DB;
 
+        // Assign pages to items.
+        $userformpagecount = $DB->get_field('surveypro_item', 'MAX(formpage)', array('surveyproid' => $this->surveypro->id));
+        if (!$userformpagecount) {
+            $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
+            $userformpagecount = $utilitylayoutman->assign_pages();
+        }
+        $this->set_userformpagecount($userformpagecount);
+        $this->set_user_boundary_formpages();
+
         $this->set_submissionid($submissionid);
         $this->set_formpage($formpage);
 
         $this->prevent_direct_user_input();
         $this->trigger_event();
 
-        // Assign pages to items.
-        $maxassignedpage = $DB->get_field('surveypro_item', 'MAX(formpage)', array('surveyproid' => $this->surveypro->id));
-        if (!$maxassignedpage) {
-            $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
-            $maxassignedpage = $utilitylayoutman->assign_pages();
-            $this->set_maxassignedpage($maxassignedpage);
-        } else {
-            $this->set_maxassignedpage($maxassignedpage);
-        }
     }
 
     /**

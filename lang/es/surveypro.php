@@ -339,7 +339,7 @@ $string['optionalitem_title'] = 'Elemento opcional. Haga click para volver oblig
 $string['outputstyle'] = 'Estilo de salida';
 $string['overwrite_help'] = 'Al seleccionar esta casilla Usted sobre-escribirá una plantilla más antigua con el mismo nombre. Si Usted deja esta casilla sin seleccionar, en caso de conflictos se le pedirá un nuevo nombre único.';
 $string['overwrite'] = 'Remplazar plantilla más antigua';
-$string['pagexofy'] = 'Página {$a->formpage} de {$a->maxassignedpage}';
+$string['pagexofy'] = 'Página {$a->formpage} de {$a->userformpagecount}';
 $string['parentconstraints'] = 'Limitantes paternas';
 $string['parentcontent_help'] = 'Esto es lo que el usuario se supone que deba contestar al elemento paterno para  habilitar/mostrar este elementp.';
 $string['parentcontent'] = 'Contenido paterno';
@@ -518,7 +518,7 @@ $string['welcome_utemplatesave'] = 'Guardar una plantilla de usuario con la estr
 Las plantillas de usuario son útiles para añadir rápidamente a su encuesta conjuntos estáticos de ítems pre-definidos. En cualquier momento Usted puede descargarlas y compartirlas con otros usuarios de Moodle o re-utilizarlas en sus propias encuestas. Sea cuidadoso con el "{$a}" si Usted quiere re-utilizar sus plantillas sin descargarlas y subirlas otra vez.';
 $string['willclose'] = 'Hora de cierre';
 $string['willopen'] = 'Esta encuesta se abrirá en';
-$string['wrong_direction_found'] = '$direction inválida proporcionada a {$a->methodname} en conjunto con $startingpage == {$a->methodname}';
+$string['wrong_direction_found'] = '$direction inválida proporcionada a {$a->methodname} en conjunto con $startingpage == {$a->startingpage}';
 $string['wrong_sharinglevel_found'] = '$sharinglevel = "{$a->sharinglevel}" inválido proporcionado a {$a->methodname}';
 $string['wrong_userdatarec_found'] = '$userdatarec = \'{$a}\' inválida no ha sido remplazada';
 $string['wrongrelation'] = '"{$a}" nunca coincidirá';
