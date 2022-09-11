@@ -159,7 +159,8 @@ class view_cover {
         // End of: general info.
 
         if ($addnew) {
-            $url = new \moodle_url('/mod/surveypro/view_form.php', array('id' => $this->cm->id, 'view' => SURVEYPRO_NEWRESPONSE));
+            $paramurl = ['id' => $this->cm->id, 'view' => SURVEYPRO_NEWRESPONSE, 'begin' => 1];
+            $url = new \moodle_url('/mod/surveypro/view_form.php', $paramurl);
             $message = get_string('addnewsubmission', 'mod_surveypro');
             echo $OUTPUT->box($OUTPUT->single_button($url, $message, 'get'), 'clearfix mdl-align');
         } else {

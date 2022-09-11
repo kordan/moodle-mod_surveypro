@@ -48,6 +48,7 @@ $submissionid = optional_param('submissionid', 0, PARAM_INT);
 $formpage = optional_param('formpage', 1, PARAM_INT); // Form page number.
 $overflowpage = optional_param('overflowpage', 0, PARAM_INT); // Went the user to a overflow page?
 $view = optional_param('view', SURVEYPRO_NOVIEW, PARAM_INT);
+$begin = optional_param('begin', 0, PARAM_INT);
 
 require_course_login($course, false, $cm);
 $context = \context_module::instance($cm->id);
@@ -73,13 +74,18 @@ $formparams->surveypro = $surveypro;
 $formparams->submissionid = $submissionid;
 $formparams->userformpagecount = $userformman->get_userformpagecount();
 $formparams->canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context);
-$formparams->formpage = $formpage; // The page of the form to select subset of fields
 $formparams->userfirstpage = $userformman->get_userfirstpage(); // The user first page
 $formparams->userlastpage = $userformman->get_userlastpage(); // The user last page
 $formparams->overflowpage = $overflowpage; // Went the user to a overflow page?
 $formparams->tabpage = $userformman->get_tabpage(); // The page of the TAB-PAGE structure.
 $formparams->readonly = ($userformman->get_tabpage() == SURVEYPRO_SUBMISSION_READONLY);
 $formparams->preview = false;
+if ($begin == 1) {
+    $userformman->next_not_empty_page(true, 0); // True means direction = right.
+    $nextpage = $userformman->get_nextpage(); // The page of the form to select subset of fields
+    $userformman->set_formpage($nextpage);
+}
+$formparams->formpage = $userformman->get_formpage(); // The page of the form to select subset of fields
 // End of: prepare params for the form.
 
 $editable = ($view == SURVEYPRO_READONLYRESPONSE) ? false : true;
