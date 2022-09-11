@@ -155,18 +155,6 @@ class item extends itembase {
     }
 
     /**
-     * Make the list of the fields using multilang
-     *
-     * @return array of felds
-     */
-    public function get_multilang_fields() {
-        $fieldlist = array();
-        $fieldlist[$this->plugin] = array();
-
-        return $fieldlist;
-    }
-
-    /**
      * get_pdf_template.
      *
      * @return the template to use at response report creation

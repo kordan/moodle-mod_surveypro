@@ -176,18 +176,6 @@ class item extends itembase {
     }
 
     /**
-     * Make the list of the fields using multilang
-     *
-     * @return array of felds
-     */
-    public function get_multilang_fields() {
-        $fieldlist = array();
-        $fieldlist[$this->plugin] = array();
-
-        return $fieldlist;
-    }
-
-    /**
      * Return the xml schema for surveypro_<<plugin>> table.
      *
      * @return string $schema

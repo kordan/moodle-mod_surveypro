@@ -798,63 +798,6 @@ class itembase {
     }
 
     /**
-     * Defines presets for the editor field of surveyproitem in itembaseform.php.
-     *
-     * (copied from moodle20/cohort/edit.php)
-     *
-     * Some examples:
-     * Each SURVEYPRO_ITEMFIELD has: $this->insetupform['content'] == true  and $fieldsusingformat == array('content')
-     * Fieldset plugin          has: $this->insetupform['content'] == true  and $fieldsusingformat == null
-     * Pagebreak plugin         has: $this->insetupform['content'] == false and $fieldsusingformat == null
-     *
-     * @return void
-     */
-    public function set_editor() {
-        if (!$fieldsusingformat = $this->get_fieldsusingformat()) {
-            return;
-        }
-
-        $context = \context_module::instance($this->cm->id);
-        $editoroptions = array('trusttext' => true, 'subdirs' => true, 'maxfiles' => -1, 'context' => $context);
-        foreach ($fieldsusingformat as $fieldname => $filearea) {
-            $this->{$fieldname.'trust'} = 1; // Is this really neede?
-            file_prepare_standard_editor($this, $fieldname, $editoroptions, $context, 'mod_surveypro', $filearea, $this->itemid);
-        }
-    }
-
-    /**
-     * Get the content of textareas. Get the first or the second part of each row based on $content
-     * Each row is written with the format:
-     *     value::label
-     *     or
-     *     label
-     *
-     * @param string $content Part of the line I want to get (SURVEYPRO_VALUES|SURVEYPRO_LABELS)
-     * @param string $field Name of the text area field, source of the multiline text
-     * @return array $values
-     */
-    public function get_content_array($content, $field) {
-        if (($content != SURVEYPRO_VALUES) && ($content != SURVEYPRO_LABELS)) {
-            throw new Exception('Bad parameter passed to get_content_array');
-        }
-
-        $index = ($content == SURVEYPRO_VALUES) ? 1 : 2;
-        $utilityitemman = new utility_item($this->cm, $this->surveypro);
-        $options = $utilityitemman->multilinetext_to_array($this->{$field});
-
-        $values = array();
-        foreach ($options as $option) {
-            if (preg_match('~^(.*)'.SURVEYPRO_VALUELABELSEPARATOR.'(.*)$~', $option, $match)) {
-                $values[] = $match[$index];
-            } else {
-                $values[] = $option;
-            }
-        }
-
-        return $values;
-    }
-
-    /**
      * clean the content of the field $record->{$field} (remove blank lines, trailing \r).
      *
      * @param object $record Item record
@@ -872,24 +815,6 @@ class itembase {
                 $record->{$field} = implode("\n", $temparray);
             }
         }
-    }
-
-    /**
-     * Parse $this->labelother in $value and $label.
-     *
-     * @return $value
-     * @return $label
-     */
-    protected function get_other() {
-        if (preg_match('~^(.*)'.SURVEYPRO_OTHERSEPARATOR.'(.*)$~', $this->labelother, $match)) {
-            $label = trim($match[1]);
-            $value = trim($match[2]);
-        } else {
-            $label = trim($this->labelother);
-            $value = '';
-        }
-
-        return array($value, $label);
     }
 
     /**
@@ -943,39 +868,6 @@ class itembase {
     }
 
     /**
-     * Return the xml schema for surveypro_<<plugin>> table.
-     *
-     * @return string $schema
-     */
-    public static function get_itembase_schema() {
-        // Fields: surveyproid, formpage, timecreated and timemodified are not supposed to be part of the file!
-        $schema = <<<EOS
-<?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
-    <xs:element name="surveypro_item">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="hidden" type="xs:int"/>
-                <xs:element name="insearchform" type="xs:int"/>
-                <xs:element name="reserved" type="xs:int"/>
-                <xs:element name="parent" minOccurs="0">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="parentid" type="xs:int"/>
-                            <xs:element name="parentvalue" type="xs:string"/>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-</xs:schema>
-EOS;
-
-        return $schema;
-    }
-
-    /**
      * Add a dummy row to the mform to preserve colour alternation also for items using more than a single mform element.
      *
      * Credits for this amazing solution to the great Eloy Lafuente! He is a genius.
@@ -990,17 +882,12 @@ EOS;
     }
 
     /**
-     * Get the requested property.
+     * Get if the plugin uses a table into the db.
      *
-     * @param string $field
-     * @return the content of the field whether defined
+     * @return if the plugin uses a personal table in the db.
      */
-    public function get_generic_property($field) {
-        if (isset($this->{$field})) {
-            return $this->{$field};
-        } else {
-            return false;
-        }
+    public function uses_db_table() {
+        return true;
     }
 
     /**
@@ -1012,24 +899,6 @@ EOS;
      */
     public static function item_uses_mandatory_dbfield() {
         return true;
-    }
-
-    /**
-     * Assign the template that better match the structure of the item to optimally display it into the PDF.
-     *
-     * @return the template to use at response report creation
-     */
-    public static function get_pdf_template() {
-        return SURVEYPRO_3COLUMNSTEMPLATE;
-    }
-
-    /**
-     * Was the user input marked as "to trim"?
-     *
-     * @return if the calling plugin requires a user input trim
-     */
-    public function get_trimonsave() {
-        return false;
     }
 
     /**
@@ -1085,6 +954,33 @@ EOS;
         $whereparam = $searchrestriction;
 
         return array($whereclause, $whereparam);
+    }
+
+    // MARK set.
+
+    /**
+     * Defines presets for the editor field of surveyproitem in itembaseform.php.
+     *
+     * (copied from moodle20/cohort/edit.php)
+     *
+     * Some examples:
+     * Each SURVEYPRO_ITEMFIELD has: $this->insetupform['content'] == true  and $fieldsusingformat == array('content')
+     * Fieldset plugin          has: $this->insetupform['content'] == true  and $fieldsusingformat == null
+     * Pagebreak plugin         has: $this->insetupform['content'] == false and $fieldsusingformat == null
+     *
+     * @return void
+     */
+    public function set_editor() {
+        if (!$fieldsusingformat = $this->get_fieldsusingformat()) {
+            return;
+        }
+
+        $context = \context_module::instance($this->cm->id);
+        $editoroptions = array('trusttext' => true, 'subdirs' => true, 'maxfiles' => -1, 'context' => $context);
+        foreach ($fieldsusingformat as $fieldname => $filearea) {
+            $this->{$fieldname.'trust'} = 1; // Is this really neede?
+            file_prepare_standard_editor($this, $fieldname, $editoroptions, $context, 'mod_surveypro', $filearea, $this->itemid);
+        }
     }
 
     // MARK get.
@@ -1275,6 +1171,24 @@ EOS;
     }
 
     /**
+     * Parse $this->labelother in $value and $label.
+     *
+     * @return $value
+     * @return $label
+     */
+    protected function get_other() {
+        if (preg_match('~^(.*)'.SURVEYPRO_OTHERSEPARATOR.'(.*)$~', $this->labelother, $match)) {
+            $label = trim($match[1]);
+            $value = trim($match[2]);
+        } else {
+            $label = trim($this->labelother);
+            $value = '';
+        }
+
+        return array($value, $label);
+    }
+
+    /**
      * Get parent id.
      *
      * @return the content of $parentid property
@@ -1288,12 +1202,48 @@ EOS;
     }
 
     /**
-     * Get if the plugin uses a table into the db.
+     * Get the content of textareas. Get the first or the second part of each row based on $content
+     * Each row is written with the format:
+     *     value::label
+     *     or
+     *     label
      *
-     * @return if the plugin uses a personal table in the db.
+     * @param string $content Part of the line I want to get (SURVEYPRO_VALUES|SURVEYPRO_LABELS)
+     * @param string $field Name of the text area field, source of the multiline text
+     * @return array $values
      */
-    public function uses_db_table() {
-        return true;
+    public function get_content_array($content, $field) {
+        if (($content != SURVEYPRO_VALUES) && ($content != SURVEYPRO_LABELS)) {
+            throw new Exception('Bad parameter passed to get_content_array');
+        }
+
+        $index = ($content == SURVEYPRO_VALUES) ? 1 : 2;
+        $utilityitemman = new utility_item($this->cm, $this->surveypro);
+        $options = $utilityitemman->multilinetext_to_array($this->{$field});
+
+        $values = array();
+        foreach ($options as $option) {
+            if (preg_match('~^(.*)'.SURVEYPRO_VALUELABELSEPARATOR.'(.*)$~', $option, $match)) {
+                $values[] = $match[$index];
+            } else {
+                $values[] = $option;
+            }
+        }
+
+        return $values;
+    }
+
+    /**
+     * Make the list of the fields using multilang
+     * This is the "default" list that is supposed to be empty because Pagebreak and fieldset inherit from it
+     *
+     * @return array of felds
+     */
+    public function get_multilang_fields() {
+        $fieldlist = array();
+        $fieldlist[$this->plugin] = array();
+
+        return $fieldlist;
     }
 
     /**
@@ -1328,6 +1278,20 @@ EOS;
      */
     public function get_parentvalue() {
         return $this->parentvalue;
+    }
+
+    /**
+     * Get the requested property.
+     *
+     * @param string $field
+     * @return the content of the field whether defined
+     */
+    public function get_generic_property($field) {
+        if (isset($this->{$field})) {
+            return $this->{$field};
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -1437,12 +1401,63 @@ EOS;
     }
 
     /**
+     * Assign the template that better match the structure of the item to optimally display it into the PDF.
+     *
+     * @return the template to use at response report creation
+     */
+    public static function get_pdf_template() {
+        return SURVEYPRO_3COLUMNSTEMPLATE;
+    }
+
+    /**
+     * Was the user input marked as "to trim"?
+     *
+     * @return if the calling plugin requires a user input trim
+     */
+    public function get_trimonsave() {
+        return false;
+    }
+
+    /**
      * Get itemeditingfeedback.
      *
      * @return the content of $itemeditingfeedback property whether defined
      */
     public function get_itemeditingfeedback() {
         return $this->itemeditingfeedback;
+    }
+
+    /**
+     * Return the xml schema for surveypro_<<plugin>> table.
+     *
+     * @return string $schema
+     */
+    public static function get_itembase_schema() {
+        // Fields: surveyproid, formpage, timecreated and timemodified are not supposed to be part of the file!
+        $schema = <<<EOS
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:element name="surveypro_item">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="hidden" type="xs:int"/>
+                <xs:element name="insearchform" type="xs:int"/>
+                <xs:element name="reserved" type="xs:int"/>
+                <xs:element name="parent" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="parentid" type="xs:int"/>
+                            <xs:element name="parentvalue" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
+EOS;
+
+        return $schema;
     }
 
     // MARK set.
