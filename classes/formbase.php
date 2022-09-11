@@ -123,7 +123,7 @@ class formbase {
                         FROM {surveypro_item}
                         WHERE surveyproid = :surveyproid
                             AND reserved = :reserved
-                            AND plugin <> '.$DB->sql_compare_text(':plugin');
+                            AND plugin <> :plugin';
             $whereparams = ['surveyproid' => $this->surveypro->id, 'reserved' => 0, 'plugin' => 'pagebreak'];
             $boundaries = $DB->get_record_sql($sql, $whereparams);
 
