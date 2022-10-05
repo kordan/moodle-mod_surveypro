@@ -1214,7 +1214,9 @@ class utility_layout {
 
         $fs = get_file_storage();
         if ($fs->get_area_files($this->context->id, 'mod_surveypro', SURVEYPRO_STYLEFILEAREA, 0, 'sortorder', false)) {
-            $PAGE->requires->css('/mod/surveypro/userstyle.php?id='.$this->surveypro->id.'&amp;cmid='.$this->cm->id);
+            $paramurl = ['id' => $this->surveypro->id, 'cmid' => $this->cm->id];
+            $styleurl = new \moodle_url('/mod/surveypro/userstyle.php', $paramurl);
+            $PAGE->requires->css($styleurl);
         }
     }
 }
