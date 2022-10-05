@@ -226,7 +226,7 @@ class view_export {
      * @return void
      */
     public function get_export_filename($extension = '') {
-        $filename = $this->surveypro->name;
+        $filename = format_text($this->surveypro->name, FORMAT_HTML);
 
         if ($this->formdata->status == SURVEYPRO_STATUSCLOSED) {
             $filename .= ' '.str_replace(' ', '', get_string('statusclosed', 'surveypro'));
