@@ -1308,23 +1308,8 @@ class view_submissions {
         $candeleteownsubmissions = has_capability('mod/surveypro:deleteownsubmissions', $this->context);
         $candeleteotherssubmissions = has_capability('mod/surveypro:deleteotherssubmissions', $this->context);
         $cansavesubmissiontopdf = has_capability('mod/surveypro:savesubmissiontopdf', $this->context);
-
-        if ($this->action == SURVEYPRO_NOACTION) {
-            return true;
-        }
-        if ($confirm == SURVEYPRO_ACTION_EXECUTED) {
-            return true;
-        }
-        if ($confirm == SURVEYPRO_CONFIRMED_NO) {
-            return true;
-        }
-
-        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
-        $caneditownsubmissions = has_capability('mod/surveypro:editownsubmissions', $this->context);
-        $caneditotherssubmissions = has_capability('mod/surveypro:editotherssubmissions', $this->context);
-        $candeleteownsubmissions = has_capability('mod/surveypro:deleteownsubmissions', $this->context);
-        $candeleteotherssubmissions = has_capability('mod/surveypro:deleteotherssubmissions', $this->context);
-        $cansavesubmissiontopdf = has_capability('mod/surveypro:savesubmissiontopdf', $this->context);
+        $canduplicateownsubmissions = has_capability('mod/surveypro:duplicateownsubmissions', $this->context);
+        $canduplicateotherssubmissions = has_capability('mod/surveypro:duplicateotherssubmissions', $this->context);
 
         if ($this->action != SURVEYPRO_DELETEALLRESPONSES) { // If a specific submission is involved.
             $ownerid = $DB->get_field('surveypro_submission', 'userid', array('id' => $this->submissionid), IGNORE_MISSING);
@@ -1359,11 +1344,30 @@ class view_submissions {
                     }
                 }
                 break;
+            case SURVEYPRO_DUPLICATERESPONSE:
+                if ($ismine) {
+                    $allowed = $canduplicateownsubmissions;
+                } else {
+                    if (!$groupmode) {
+                        $allowed = $canduplicateotherssubmissions;
+                    } else {
+                        if ($groupmode == SEPARATEGROUPS) {
+                            $allowed = $groupuser && $canduplicateotherssubmissions;
+                        } else { // NOGROUPS || VISIBLEGROUPS.
+                            $allowed = $canduplicateotherssubmissions;
+                        }
+                    }
+                }
+                break;
             case SURVEYPRO_DELETEALLRESPONSES:
                 $allowed = $candeleteotherssubmissions;
                 break;
             default:
                 $allowed = false;
+        }
+
+        if (!$allowed) {
+            throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
         }
 
         switch ($this->view) {
