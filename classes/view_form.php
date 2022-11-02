@@ -223,23 +223,23 @@ class view_form extends formbase {
         }
 
         $submission = new \stdClass();
+
+        // The idea is that I ALWAYS save, without care about which button was pressed.
+        // Probably if empty($this->formdata->submissionid) then $prevbutton can't be pressed, but I don't care.
+        // In the worst hypothesis it is a case that will never be verified.
+        if ($savebutton || $saveasnewbutton) {
+            $submission->status = SURVEYPRO_STATUSCLOSED;
+        }
+        if ($nextbutton || $pausebutton || $prevbutton) {
+            $submission->status = SURVEYPRO_STATUSINPROGRESS;
+        }
+
         if (empty($this->formdata->submissionid)) {
-            $originalstatus = SURVEYPRO_STATUSINPROGRESS;
             // Add a new record to surveypro_submission.
             $submission->surveyproid = $this->surveypro->id;
             $submission->userid = $USER->id;
-            if ($savebutton || $saveasnewbutton) {
+            if ($savebutton || $saveasnewbutton || $pausebutton) { // I exclude previous and forward.
                 $submission->timecreated = $timenow;
-            }
-
-            // The idea is that I ALWAYS save, without care about which button was pressed.
-            // Probably if empty($this->formdata->submissionid) then $prevbutton can't be pressed, but I don't care.
-            // In the worst hypothesis it is a case that will never be verified.
-            if ($savebutton || $saveasnewbutton) {
-                $submission->status = SURVEYPRO_STATUSCLOSED;
-            }
-            if ($nextbutton || $pausebutton || $prevbutton) {
-                $submission->status = SURVEYPRO_STATUSINPROGRESS;
             }
 
             $submission->id = $DB->insert_record('surveypro_submission', $submission);
@@ -255,15 +255,8 @@ class view_form extends formbase {
             $params = ['id' => $submission->id];
             $originalrecord = $DB->get_record('surveypro_submission', $params, 'status, timecreated', MUST_EXIST);
 
-            // Define $submission->status.
-            if ($nextbutton || $prevbutton) {
-                $submission->status = $originalrecord->status;
-            }
-            if ($pausebutton) {
-                $submission->status = SURVEYPRO_STATUSINPROGRESS;
-            }
-            if ($savebutton || $saveasnewbutton) {
-                $submission->status = SURVEYPRO_STATUSCLOSED;
+            // Define $submission times.
+            if ($savebutton || $saveasnewbutton || $pausebutton) { // I exclude previous and forward.
                 if ($originalrecord->timecreated) {
                     $submission->timemodified = $timenow;
                 } else {
@@ -286,7 +279,7 @@ class view_form extends formbase {
                     // No thanks page. User is only editing and was already thanked at original submission time.
                     $this->userdeservesthanks = 0;
                 } else {
-                     // User desere thanks.
+                     // User deserves thanks.
                     $this->userdeservesthanks = 1;
                 }
             } else {
