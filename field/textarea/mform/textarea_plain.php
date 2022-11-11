@@ -114,6 +114,7 @@ class surveypromform_textarea_plain extends \MoodleQuickForm_textarea {
         $output .= $value;
         $output .= \html_writer::end_tag('textarea');
         $output .= $this->_getPersistantData();
+
         return $output;
     }
 }

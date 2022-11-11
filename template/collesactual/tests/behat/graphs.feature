@@ -69,7 +69,7 @@ Feature: apply a COLLES (actual) mastertemplate to test graphs
       | Do you have any other comments?                | Am I sexy? |
     And I press "Submit"
 
-    And I navigate to "Report > Colles report" in current page administration
+    And I navigate to "Report > Colles report > Summary" in current page administration
     Then I should not see "Summary report"
 
     And I log out

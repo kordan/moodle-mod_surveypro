@@ -735,7 +735,7 @@ class mastertemplate extends templatebase {
             }
         }
 
-        return "\n".implode("\n", $stringsastext);
+        return "\n".implode("\n", $stringsastext)."\n";
     }
 
     /**
@@ -784,6 +784,6 @@ class mastertemplate extends templatebase {
             }
         }
 
-        return "\n".implode("\n", $stringsastext);
+        return "\n".implode("\n", $stringsastext)."\n";
     }
 }

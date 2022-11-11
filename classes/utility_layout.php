@@ -780,6 +780,7 @@ class utility_layout {
 
         $riskyediting = ($this->surveypro->riskyeditdeadline > time());
 
+        $canalwaysseeowner = has_capability('mod/surveypro:alwaysseeowner', $this->context);
         $canview = has_capability('mod/surveypro:view', $this->context);
         $canpreview = has_capability('mod/surveypro:preview', $this->context);
         $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
@@ -976,19 +977,22 @@ class utility_layout {
             foreach ($surveyproreportlist as $reportname => $reportpath) {
                 $classname = 'surveyproreport_'.$reportname.'\report';
                 $reportman = new $classname($this->cm, $this->context, $this->surveypro);
-                $reportappliesto = $reportman->report_applies_to();
-                if (($reportappliesto == ['each']) || in_array($this->surveypro->template, $reportappliesto)) {
-                    if ($canaccessreports || ($reportman->has_student_report() && $canaccessownreports)) {
-                        if ($reportman->report_apply()) {
-                            $counter++;
-                            $elements[$reportname] = false;
-                            $elementurl = new \moodle_url('/mod/surveypro/report/'.$reportname.'/view.php', $paramurlbase);
-                            $elements[$reportname] = $elementurl;
 
-                            // Reports -> container.
-                            $elements['container'] = $elements['container'] || $elements[$reportname];
-                        }
-                    }
+                $condition = $canaccessreports;
+                $condition = $condition || ($canaccessownreports && $reportman->get_hasstudentreport());
+                $condition = $condition && $reportman->report_applies_to($this->surveypro->template);
+
+                // GDPR condition.
+                $othercondition = !$reportman->get_displayusernames() || (empty($this->surveypro->anonymous) || $canalwaysseeowner);
+                $condition = $condition && $othercondition;
+                if ($condition) {
+                    $counter++;
+                    $elements[$reportname] = false;
+                    $elementurl = new \moodle_url('/mod/surveypro/report/'.$reportname.'/view.php', $paramurlbase);
+                    $elements[$reportname] = $elementurl;
+
+                    // Reports -> container.
+                    $elements['container'] = $elements['container'] || $elements[$reportname];
                 }
             }
         }

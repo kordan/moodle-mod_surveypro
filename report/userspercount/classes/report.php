@@ -45,6 +45,34 @@ class report extends reportbase {
     public $outputtable = null;
 
     /**
+     * Is this report equipped with student reports.
+     *
+     * @return boolean
+     */
+    public static function get_hasstudentreport() {
+        return false;
+    }
+
+    /**
+     * Does the current report apply to the passed mastertemplates?
+     *
+     * @param string $mastertemplate
+     * @return boolean
+     */
+    public function report_applies_to($mastertemplate) {
+        return true;
+    }
+
+    /**
+     * Get if this report displays user names.
+     *
+     * @return boolean
+     */
+    public static function get_displayusernames() {
+        return false;
+    }
+
+    /**
      * Setup_outputtable
      */
     public function setup_outputtable() {
