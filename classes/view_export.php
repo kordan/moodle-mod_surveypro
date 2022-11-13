@@ -241,7 +241,6 @@ class view_export {
         if ($extension) {
             $filename .= '.'.$extension;
         }
-        $filename = clean_filename($filename);
 
         return $filename;
     }
