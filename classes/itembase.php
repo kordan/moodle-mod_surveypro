@@ -513,7 +513,6 @@ class itembase {
                     if ($oldrequired == 0) { // This item was not required.
                         if (isset($record->required) && ($record->required == 1)) { // This item is now required.
                             // This item that was not mandatory is NOW mandatory.
-                            $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
                             $utilitylayoutman->optional_to_required_followup($record->itemid);
                         }
                     }
