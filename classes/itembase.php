@@ -978,7 +978,6 @@ class itembase {
         $context = \context_module::instance($this->cm->id);
         $editoroptions = array('trusttext' => true, 'subdirs' => true, 'maxfiles' => -1, 'context' => $context);
         foreach ($fieldsusingformat as $fieldname => $filearea) {
-            $this->{$fieldname.'trust'} = 1; // Is this really neede?
             file_prepare_standard_editor($this, $fieldname, $editoroptions, $context, 'mod_surveypro', $filearea, $this->itemid);
         }
     }
