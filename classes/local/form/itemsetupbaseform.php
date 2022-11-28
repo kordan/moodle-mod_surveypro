@@ -90,7 +90,7 @@ class itemsetupbaseform extends \moodleform {
                 $mform->addElement('editor', $fieldname, get_string($fieldname, 'mod_surveypro'), null, $editoroptions);
                 $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
                 $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
-                $mform->setType($fieldname, PARAM_CLEANHTML);
+                $mform->setType($fieldname, PARAM_RAW);
             } else {
                 $fieldname = 'content';
                 $attributes = array('maxlength' => '128', 'size' => '50');
