@@ -118,7 +118,7 @@ $surveyproreportlist = get_plugin_list('surveyproreport');
 $reportkey = array_search('attachments', array_keys($surveyproreportlist));
 new tabs($cm, $context, $surveypro, SURVEYPRO_TABREPORTS, $reportkey);
 
-$reportman->prevent_direct_user_input();
+$reportman->prevent_direct_user_input('attachments');
 $reportman->check_attachmentitems();
 
 if ($showjumper) {

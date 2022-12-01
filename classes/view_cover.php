@@ -75,6 +75,7 @@ class view_cover {
 
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '..
 
+        $canalwaysseeowner = has_capability('mod/surveypro:alwaysseeowner', $this->context);
         $cansubmit = has_capability('mod/surveypro:submit', $this->context);
         $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
         $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context);
@@ -198,25 +199,21 @@ class view_cover {
         // Begin of: report section.
         $surveyproreportlist = get_plugin_list('surveyproreport');
         $paramurlbase = array('id' => $this->cm->id);
-        foreach ($surveyproreportlist as $pluginname => $pluginpath) {
-            $classname = 'surveyproreport_'.$pluginname.'\report';
+
+        foreach ($surveyproreportlist as $reportname => $pluginpath) {
+            $classname = 'surveyproreport_'.$reportname.'\report';
             $reportman = new $classname($this->cm, $this->context, $this->surveypro);
 
-            $reportappliesto = $reportman->report_applies_to();
-            if (($reportappliesto == ['each']) || in_array($this->surveypro->template, $reportappliesto)) {
-                if ($canaccessreports || ($reportman->has_student_report() && $canaccessownreports)) {
-                    if ($reportman->report_apply()) {
-                        if ($childreports = $reportman->has_childreports($canaccessreports)) {
-                            $reportname = get_string('pluginname', 'surveyproreport_'.$pluginname);
-                            $this->add_report_link($childreports, $pluginname, $messages, $reportname);
-                        } else {
-                            $url = new \moodle_url('/mod/surveypro/report/'.$pluginname.'/view.php', $paramurlbase);
-                            $a = new \stdClass();
-                            $a->href = $url->out();
-                            $a->reportname = get_string('pluginname', 'surveyproreport_'.$pluginname);
-                            $messages[] = get_string('runreport', 'mod_surveypro', $a);
-                        }
-                    }
+            if ($reportman->is_report_allowed($reportname)) {
+                if ($childrenreports = $reportman->has_childrenreports()) {
+                    $linklabel = get_string('pluginname', 'surveyproreport_'.$reportname);
+                    $this->add_report_link($childrenreports, $reportname, $messages, $linklabel);
+                } else {
+                    $url = new \moodle_url('/mod/surveypro/report/'.$reportname.'/view.php', $paramurlbase);
+                    $a = new \stdClass();
+                    $a->href = $url->out();
+                    $a->reportname = get_string('pluginname', 'surveyproreport_'.$reportname);
+                    $messages[] = get_string('runreport', 'mod_surveypro', $a);
                 }
             }
         }
@@ -269,19 +266,19 @@ class view_cover {
     /**
      * Recursive function to populate the $messages array for reports nested as much times as wanted
      *
-     * Uncomment lines of has_childreports method in surveyproreport_colles\report class of report/colles/classes/report.php file
+     * Uncomment lines of has_childrenreports method in surveyproreport_colles\report class of report/colles/classes/report.php file
      * to see this function in action.
      *
-     * @param string $childreports
+     * @param string $childrenreports
      * @param string $pluginname
      * @param array $messages
      * @param string $categoryname
      * @return void
      */
-    public function add_report_link($childreports, $pluginname, &$messages, $categoryname) {
+    public function add_report_link($childrenreports, $pluginname, &$messages, $categoryname) {
         global $PAGE;
 
-        foreach ($childreports as $reportkey => $childparams) {
+        foreach ($childrenreports as $reportkey => $childparams) {
             $subreport = get_string($reportkey, 'surveyprotemplate_'.$this->surveypro->template);
             if (is_array(reset($childparams))) { // If the first element of $childparams is an array.
                 $categoryname .= ' > '.$subreport;
