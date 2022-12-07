@@ -81,6 +81,7 @@
  *  SUB-TAB == SURVEYPRO_SUBMISSION_INSERT
  *      $elementurl = new \moodle_url('/mod/surveypro/view_form.php', $paramurl);
  *      mod/surveypro:view
+ *      mod/surveypro:accessdisableditems
  *      mod/surveypro:accessreserveditems
  *      mod/surveypro:submit
  *      mod/surveypro:ignoremaxentries
@@ -195,6 +196,19 @@ $capabilities = array(
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW
         )
+    ),
+
+    'mod/surveypro:accessdisableditems' => array(
+
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => array(
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW
+        ),
+
+        'clonepermissionsfrom' => 'mod/surveypro:accessadvanceditems'
     ),
 
     'mod/surveypro:accessreserveditems' => array(

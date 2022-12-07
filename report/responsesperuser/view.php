@@ -117,8 +117,6 @@ $surveyproreportlist = get_plugin_list('surveyproreport');
 $reportkey = array_search('responsesperuser', array_keys($surveyproreportlist));
 new tabs($cm, $context, $surveypro, SURVEYPRO_TABREPORTS, $reportkey);
 
-$reportman->prevent_direct_user_input();
-
 if ($showjumper) {
     $groupfilterform->set_data(array('groupid' => $groupid));
     $groupfilterform->display();

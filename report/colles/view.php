@@ -132,7 +132,6 @@ $surveyproreportlist = get_plugin_list('surveyproreport');
 $reportkey = array_search('colles', array_keys($surveyproreportlist));
 new tabs($cm, $context, $surveypro, SURVEYPRO_TABREPORTS, $reportkey);
 
-$reportman->prevent_direct_user_input();
 $reportman->nosubmissions_stop();
 
 // Begin of: manage form submission.

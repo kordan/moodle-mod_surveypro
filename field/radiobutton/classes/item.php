@@ -505,6 +505,8 @@ EOS;
      * @return void
      */
     public function userform_mform_element($mform, $searchform, $readonly) {
+        $canaccessdisableditems = has_capability('mod/surveypro:accessdisableditems', $this->context);
+
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
         $choosedotsstr = get_string('choosedots');
         $starsstr = get_string('star', 'mod_surveypro');
@@ -523,6 +525,9 @@ EOS;
 
         $attributes = array();
         $attributes['class'] = 'indent-'.$this->indent.' radiobutton_radio';
+        if ($this->disabled && !$canaccessdisableditems) {
+            $attributes['disabled'] = 'disabled';
+        }
 
         $elementgroup = array();
 

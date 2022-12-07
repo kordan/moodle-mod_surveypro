@@ -341,5 +341,20 @@ function xmldb_surveypro_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2022042600, 'surveypro');
     }
 
+    if ($oldversion < 2022120700) {
+
+        // Define field disabled to be added to surveypro_item.
+        $table = new xmldb_table('surveypro_item');
+        $field = new xmldb_field('disabled', XMLDB_TYPE_INTEGER, '4', null, null, null, null, 'hidden');
+
+        // Conditionally launch add field disabled.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Surveypro savepoint reached.
+        upgrade_mod_savepoint(true, 2022120700, 'surveypro');
+    }
+
     return true;
 }

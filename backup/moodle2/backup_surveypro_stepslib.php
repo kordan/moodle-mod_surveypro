@@ -54,7 +54,7 @@ class backup_surveypro_activity_structure_step extends backup_activity_structure
         $items = new backup_nested_element('items');
 
         $item = new backup_nested_element('item', array('id', 'type', 'plugin'), array(
-                    'hidden', 'insearchform', 'reserved', 'sortindex', 'formpage',
+                    'hidden', 'disabled', 'insearchform', 'reserved', 'sortindex', 'formpage',
                     'parentid', 'parentvalue', 'timecreated', 'timemodified'));
 
         $submissions = new backup_nested_element('submissions');

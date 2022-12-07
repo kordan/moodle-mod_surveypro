@@ -469,6 +469,8 @@ EOS;
      * @return void
      */
     public function userform_mform_element($mform, $searchform, $readonly) {
+        $canaccessdisableditems = has_capability('mod/surveypro:accessdisableditems', $this->context);
+
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
         if ($this->position == SURVEYPRO_POSITIONLEFT) {
             if ($this->customnumber) {
@@ -488,6 +490,9 @@ EOS;
 
         $attributes = array();
         $attributes['class'] = 'indent-'.$this->indent.' boolean_radio';
+        if ($this->disabled && !$canaccessdisableditems) {
+            $attributes['disabled'] = 'disabled';
+        }
 
         if ($this->style == SURVEYPROFIELD_BOOLEAN_USESELECT) {
             // Begin of: element values.

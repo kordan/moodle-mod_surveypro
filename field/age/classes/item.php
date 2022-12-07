@@ -447,6 +447,8 @@ EOS;
      * @return void
      */
     public function userform_mform_element($mform, $searchform, $readonly) {
+        $canaccessdisableditems = has_capability('mod/surveypro:accessdisableditems', $this->context);
+
         $stryears = get_string('years');
         $strmonths = get_string('months', 'surveyprofield_age');
         $strnoanswer = get_string('noanswer', 'mod_surveypro');
@@ -493,6 +495,9 @@ EOS;
         $itemname = $this->itemname.'_year';
         $attributes['id'] = $idprefix.'_year';
         $attributes['class'] = 'indent-'.$this->indent.' age_select';
+        if ($this->disabled && !$canaccessdisableditems) {
+            $attributes['disabled'] = 'disabled';
+        }
         $elementgroup[] = $mform->createElement('select', $itemname, '', $years, $attributes);
 
         if ($readonly) {

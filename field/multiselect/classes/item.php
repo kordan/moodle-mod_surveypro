@@ -496,6 +496,8 @@ EOS;
      * @return void
      */
     public function userform_mform_element($mform, $searchform, $readonly) {
+        $canaccessdisableditems = has_capability('mod/surveypro:accessdisableditems', $this->context);
+
         $utilityitemman = new utility_item($this->cm, $this->surveypro);
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
         $noanswerstr = get_string('noanswer', 'mod_surveypro');
@@ -516,6 +518,9 @@ EOS;
         $attributes = array();
         $attributes['id'] = $idprefix;
         $attributes['class'] = 'indent-'.$this->indent.' multiselect_select';
+        if ($this->disabled && !$canaccessdisableditems) {
+            $attributes['disabled'] = 'disabled';
+        }
         $attributes['size'] = $this->heightinrows;
         if (!$searchform) {
             if ($this->required) {

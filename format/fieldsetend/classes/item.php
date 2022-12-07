@@ -82,6 +82,7 @@ class item extends itembase {
         $this->insetupform['variable'] = false;
         $this->insetupform['indent'] = false;
         $this->insetupform['hideinstructions'] = false;
+        $this->insetupform['disabled'] = false;
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $getparentcontent);

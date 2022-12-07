@@ -834,7 +834,6 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
     $context = \context_module::instance($cm->id);
 
     if ($surveyproreportlist = get_plugin_list('surveyproreport')) {
-        $canalwaysseeowner = has_capability('mod/surveypro:alwaysseeowner', $context);
         $canaccessownreports = has_capability('mod/surveypro:accessownreports', $context);
         $canaccessreports = has_capability('mod/surveypro:accessreports', $context);
 
@@ -843,19 +842,24 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
             $classname = 'surveyproreport_'.$reportname.'\report';
             $reportman = new $classname($cm, $context, $surveypro);
 
-            if ($reportman->is_report_allowed($reportname)) {
-                if (!isset($reportnode)) {
-                    $nodelabel = get_string('report');
-                    $reportnode = $navref->add($nodelabel, null, navigation_node::TYPE_CONTAINER);
-                }
-                if ($childrenreports = $reportman->has_childrenreports()) {
-                    $nodelabel = get_string('pluginname', 'surveyproreport_'.$reportname);
-                    $childnode = $reportnode->add($nodelabel, null, navigation_node::TYPE_CONTAINER);
-                    surveypro_add_report_link($surveypro->template, $childrenreports, $childnode, $reportname, $icon);
-                } else {
-                    $url = new \moodle_url('/mod/surveypro/report/'.$reportname.'/view.php', $paramurlbase);
-                    $nodelabel = get_string('pluginname', 'surveyproreport_'.$reportname);
-                    $reportnode->add($nodelabel, $url, navigation_node::TYPE_SETTING, null, null, $icon);
+            $reportappliesto = $reportman->report_applies_to();
+            if (($reportappliesto == ['each']) || in_array($surveypro->template, $reportappliesto)) {
+                if ($canaccessreports || ($reportman->has_student_report() && $canaccessownreports)) {
+                    if ($reportman->report_apply()) {
+                        if (!isset($reportnode)) {
+                            $nodelabel = get_string('report');
+                            $reportnode = $navref->add($nodelabel, null, navigation_node::TYPE_CONTAINER);
+                        }
+                        if ($childreports = $reportman->has_childreports($canaccessreports)) {
+                            $nodelabel = get_string('pluginname', 'surveyproreport_'.$reportname);
+                            $childnode = $reportnode->add($nodelabel, null, navigation_node::TYPE_CONTAINER);
+                            surveypro_add_report_link($surveypro->template, $childreports, $childnode, $reportname, $icon);
+                        } else {
+                            $url = new \moodle_url('/mod/surveypro/report/'.$reportname.'/view.php', $paramurlbase);
+                            $nodelabel = get_string('pluginname', 'surveyproreport_'.$reportname);
+                            $reportnode->add($nodelabel, $url, navigation_node::TYPE_SETTING, null, null, $icon);
+                        }
+                    }
                 }
             }
         }
@@ -865,20 +869,20 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
 /**
  * Recursive function to add links for reports nested as much times as wanted
  *
- * Uncomment lines of has_childrenreports method in the surveyproreport_colles\report class of report/colles/classes/report.php file
+ * Uncomment lines of has_childreports method in the surveyproreport_colles\report class of report/colles/classes/report.php file
  * to see this function in action.
  *
  * @param string $templatename
- * @param array $childrenreports
+ * @param array $childreports
  * @param navigation_node $childnode
  * @param string $reportname
  * @param pix_icon $icon
  * @return void
  */
-function surveypro_add_report_link($templatename, $childrenreports, $childnode, $reportname, $icon) {
+function surveypro_add_report_link($templatename, $childreports, $childnode, $reportname, $icon) {
     global $PAGE;
 
-    foreach ($childrenreports as $reportkey => $reportparams) {
+    foreach ($childreports as $reportkey => $reportparams) {
         $label = get_string($reportkey, 'surveyprotemplate_'.$templatename);
         if (is_array(reset($reportparams))) { // If the first element of $reportparams is an array.
             $childnode = $childnode->add($label, null, navigation_node::TYPE_CONTAINER);

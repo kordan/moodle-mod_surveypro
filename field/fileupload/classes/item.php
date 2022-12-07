@@ -137,6 +137,7 @@ class item extends itembase {
         $this->insetupform['trimonsave'] = false;
         $this->insetupform['insearchform'] = false;
         $this->insetupform['hideinstructions'] = false;
+        $this->insetupform['disabled'] = false;
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $getparentcontent);

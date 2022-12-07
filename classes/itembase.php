@@ -79,6 +79,11 @@ class itembase {
     protected $hidden;
 
     /**
+     * @var bool Visibility of this item in the out form
+     */
+    protected $disabled;
+
+    /**
      * @var bool Membership of the item to the search form
      */
     protected $insearchform;
@@ -142,8 +147,9 @@ class itembase {
         'variable' => true,
         'indent' => true,
         'hidden' => true,
-        'reserved' => true,
+        'disabled' => true,
         'insearchform' => true,
+        'reserved' => true,
         'parentid' => true
     );
 
@@ -158,6 +164,7 @@ class itembase {
     public function __construct($cm, $surveypro, $itemid, $getparentcontent) {
         $this->cm = $cm;
         $this->surveypro = $surveypro;
+        $this->context = \context_module::instance($this->cm->id);
     }
 
     /**
@@ -177,8 +184,6 @@ class itembase {
             $message = 'Can not load an item without its ID';
             debugging($message, DEBUG_DEVELOPER);
         }
-
-        $context = \context_module::instance($this->cm->id);
 
         $tablename = 'surveypro'.$this->type.'_'.$this->plugin;
         // Some item, like pagebreak or fieldsetend, may be free of the plugin table.
@@ -202,10 +207,10 @@ class itembase {
 
             // Special care to fields with format.
             if ($fieldsusingformat = $this->get_fieldsusingformat()) {
-                $editoroptions = array('trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $context);
+                $editoroptions = array('trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $this->context);
                 foreach ($fieldsusingformat as $fieldname => $filearea) {
                     $this->{$fieldname} = file_rewrite_pluginfile_urls(
-                       $this->{$fieldname}, 'pluginfile.php', $context->id,
+                       $this->{$fieldname}, 'pluginfile.php', $this->context->id,
                        'mod_surveypro', $filearea, $itemid
                     );
                 }
@@ -284,7 +289,7 @@ class itembase {
         // Plugin and type are already onboard.
 
         // Checkboxes content.
-        $checkboxessettings = array('hidden', 'insearchform', 'reserved', 'hideinstructions', 'required', 'trimonsave');
+        $checkboxessettings = array('hidden', 'disabled', 'insearchform', 'reserved', 'hideinstructions', 'required', 'trimonsave');
         foreach ($checkboxessettings as $checkboxessetting) {
             if ($this->insetupform[$checkboxessetting]) {
                 $record->{$checkboxessetting} = isset($record->{$checkboxessetting}) ? 1 : 0;
@@ -358,8 +363,6 @@ class itembase {
     public function item_save($record) {
         global $DB, $COURSE;
 
-        $context = \context_module::instance($this->cm->id);
-
         $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
         $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
         $hassubmission = $utilitylayoutman->has_submissions(false);
@@ -400,11 +403,11 @@ class itembase {
 
                 // Special care to "editors". Remember that content and contentformat are in plugin table.
                 if ($fieldsusingformat = $this->get_fieldsusingformat()) {
-                    $editoroptions = array('trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $context);
+                    $editoroptions = array('trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $this->context);
                     foreach ($fieldsusingformat as $fieldname => $filearea) {
                         $record = file_postupdate_standard_editor(
                                       $record, $fieldname, $editoroptions,
-                                      $context, 'mod_surveypro', $filearea, $record->itemid
+                                      $this->context, 'mod_surveypro', $filearea, $record->itemid
                                   );
                     }
 
@@ -426,7 +429,7 @@ class itembase {
                 $transaction->allow_commit();
 
                 // Event: item_created.
-                $eventdata = array('context' => $context, 'objectid' => $itemid);
+                $eventdata = array('context' => $this->context, 'objectid' => $itemid);
                 $eventdata['other'] = array('type' => $record->type, 'plugin' => $record->plugin, 'view' => SURVEYPRO_EDITITEM);
                 $event = \mod_surveypro\event\item_created::create($eventdata);
                 $event->trigger();
@@ -445,11 +448,11 @@ class itembase {
 
             // Special care to "editors".
             if ($fieldsusingformat = $this->get_fieldsusingformat()) {
-                $editoroptions = array('trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $context);
+                $editoroptions = array('trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $this->context);
                 foreach ($fieldsusingformat as $fieldname => $filearea) {
                     $record = file_postupdate_standard_editor(
                                   $record, $fieldname, $editoroptions,
-                                  $context, 'mod_surveypro', $filearea, $record->itemid
+                                  $this->context, 'mod_surveypro', $filearea, $record->itemid
                               );
                 }
             }
@@ -494,7 +497,7 @@ class itembase {
                 $this->item_manage_chains($record->itemid, $oldhidden, $record->hidden, $oldreserved, $record->reserved);
 
                 // Event: item_modified.
-                $eventdata = array('context' => $context, 'objectid' => $record->itemid);
+                $eventdata = array('context' => $this->context, 'objectid' => $record->itemid);
                 $eventdata['other'] = array('type' => $record->type, 'plugin' => $record->plugin, 'view' => SURVEYPRO_EDITITEM);
                 $event = \mod_surveypro\event\item_modified::create($eventdata);
                 $event->trigger();
@@ -608,7 +611,6 @@ class itembase {
      * @return void
      */
     private function item_manage_chains($itemid, $oldhidden, $newhidden, $oldreserved, $newreserved) {
-        $context = \context_module::instance($this->cm->id);
 
         // Now hide or unhide (whether needed) chain of ancestors or descendents.
         if ($this->itemeditingfeedback & 1) { // Bitwise logic, alias: if the item was successfully saved.
@@ -617,7 +619,7 @@ class itembase {
             if ($oldhidden != $newhidden) {
                 $action = ($oldhidden) ? SURVEYPRO_SHOWITEM : SURVEYPRO_HIDEITEM;
 
-                $layoutman = new layout_itemsetup($this->cm, $context, $this->surveypro);
+                $layoutman = new layout_itemsetup($this->cm, $this->context, $this->surveypro);
                 $layoutman->set_type($this->type);
                 $layoutman->set_plugin($this->plugin);
                 $layoutman->set_itemid($itemid);
@@ -643,7 +645,7 @@ class itembase {
             if ($oldreserved != $newreserved) {
                 $action = ($oldreserved) ? SURVEYPRO_MAKEAVAILABLE : SURVEYPRO_MAKERESERVED;
 
-                $layoutman = new layout_itemsetup($this->cm, $context, $this->surveypro);
+                $layoutman = new layout_itemsetup($this->cm, $this->context, $this->surveypro);
                 $layoutman->set_type($this->type);
                 $layoutman->set_plugin($this->plugin);
                 $layoutman->set_itemid($itemid);
@@ -974,11 +976,10 @@ class itembase {
             return;
         }
 
-        $context = \context_module::instance($this->cm->id);
         // I have to set 'trusttext' => false because 'noclean' is ignored if trusttext is enabled!
-        $editoroptions = array('noclean' => true, 'subdirs' => true, 'maxfiles' => -1, 'context' => $context);
+        $editoroptions = array('noclean' => true, 'subdirs' => true, 'maxfiles' => -1, 'context' => $this->context);
         foreach ($fieldsusingformat as $fieldname => $filearea) {
-            file_prepare_standard_editor($this, $fieldname, $editoroptions, $context, 'mod_surveypro', $filearea, $this->itemid);
+            file_prepare_standard_editor($this, $fieldname, $editoroptions, $this->context, 'mod_surveypro', $filearea, $this->itemid);
         }
     }
 

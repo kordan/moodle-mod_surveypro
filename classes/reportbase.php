@@ -31,7 +31,7 @@ namespace mod_surveypro;
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-abstract class reportbase {
+class reportbase {
 
     /**
      * @var object Course module object
@@ -54,21 +54,6 @@ abstract class reportbase {
     public $groupid = 0;
 
     /**
-     * @var bool hasstudentreport
-     */
-    protected $hasstudentreport;
-
-    /**
-     * @var bool isapplicable
-     */
-    protected $isapplicable;
-
-    /**
-     * @var bool usesvisibleusernames
-     */
-    protected $usesvisibleusernames;
-
-    /**
      * Class constructor.
      *
      * @param object $cm
@@ -79,9 +64,30 @@ abstract class reportbase {
         $this->cm = $cm;
         $this->context = $context;
         $this->surveypro = $surveypro;
-        $this->hasstudentreport = $this->has_studentreport();
-        $this->isapplicable = $this->report_applies_to($this->surveypro->template);
-        $this->usesvisibleusernames = $this->has_visibleusernames();
+    }
+
+    /**
+     * Get the list of mastertemplates to which this report is applicable.
+     *
+     * If ruturns an empty array, each report is added to admin menu
+     * If returns a non empty array, only reports listed will be added to admin menu
+     *
+     * @return array
+     */
+    public function report_applies_to() {
+        return array('each');
+    }
+
+    /**
+     * Return if this report applies.
+     *
+     * true means: the report applies
+     * empty($this->surveypro->anonymous) means that reports applies ONLY IF the survey is not anonymous
+     *
+     * @return boolean
+     */
+    public function report_apply() {
+        return true;
     }
 
     /**
@@ -89,62 +95,18 @@ abstract class reportbase {
      *
      * @return boolean false
      */
-    abstract public function has_studentreport();
-
-    /**
-     * Does the current report apply to the passed mastertemplates?
-     *
-     * @param string $mastertemplate
-     * @return array
-     */
-    abstract public function report_applies_to($mastertemplate);
-
-    /**
-     * Does this report display user names.
-     *
-     * @return boolean false
-     */
-    abstract public function has_visibleusernames();
-
-    /**
-     * Get child reports.
-     *
-     * @return boolean false
-     */
-    public function has_childrenreports() {
+    public function has_student_report() {
         return false;
     }
 
     /**
-     * Prevent direct user input.
+     * Get child reports.
      *
-     * @return void
+     * @param bool $canaccessreports
+     * @return boolean false
      */
-    public function prevent_direct_user_input() {
-        if (!$this->is_report_allowed()) {
-            throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
-        }
-    }
-
-    /**
-     * Is the use of the current report allowed?
-     *
-     * @return bool $condition
-     */
-    public function is_report_allowed() {
-        $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context);
-        $canalwaysseeowner = has_capability('mod/surveypro:alwaysseeowner', $this->context);
-        $canaccessownreports = has_capability('mod/surveypro:accessownreports', $this->context);
-
-        $condition = $canaccessreports;
-        $condition = $condition || ($canaccessownreports && $this->has_student_report);
-        $condition = $condition && $this->report_applies_to($this->surveypro->template);
-
-        // GDPR condition.
-        $othercondition = !$this->has_visibleusernames() || (empty($this->surveypro->anonymous) || $canalwaysseeowner);
-        $condition = $condition && $othercondition;
-
-        return $condition;
+    public function has_childreports($canaccessreports) {
+        return false;
     }
 
     /**

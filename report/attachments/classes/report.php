@@ -45,31 +45,15 @@ class report extends reportbase {
     public $outputtable = null;
 
     /**
-     * Returns if this report was created for student too.
+     * Return if this report applies.
      *
-     * @return boolean false
-     */
-    public function has_studentreport() {
-        return false;
-    }
-
-    /**
-     * Does the current report apply to the passed mastertemplates?
+     * true means: the report applies
+     * empty($this->surveypro->anonymous) means that reports applies ONLY IF the survey is not anonymous
      *
-     * @param string $mastertemplate
-     * @return void
+     * @return boolean
      */
-    public function report_applies_to($mastertemplate) {
-        return true;
-    }
-
-    /**
-     * Get if this report displays user names.
-     *
-     * @return boolean false
-     */
-    public function has_visibleusernames() {
-        return true;
+    public function report_apply() {
+        return (empty($this->surveypro->anonymous));
     }
 
     /**
@@ -237,6 +221,17 @@ class report extends reportbase {
             echo $OUTPUT->box($message, 'notice centerpara');
             echo $OUTPUT->footer();
             die();
+        }
+    }
+
+    /**
+     * Prevent direct user input.
+     *
+     * @return void
+     */
+    public function prevent_direct_user_input() {
+        if (!empty($this->surveypro->anonymous)) {
+            throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
         }
     }
 }

@@ -140,15 +140,15 @@ class report extends reportbase {
     }
 
     /**
-     * Does the current report apply to the passed mastertemplates?
+     * Get the list of mastertemplates to which this report is applicable.
      *
-     * @param string $mastertemplate
+     * If ruturns an empty array, each report is added to admin menu
+     * If returns a non empty array, only reports listed will be added to admin menu
+     *
      * @return void
      */
-    public function report_applies_to($mastertemplate) {
-        $validutemplates = array('collesactual', 'collespreferred', 'collesactualpreferred');
-
-        return in_array($mastertemplate, $validutemplates);
+    public function report_applies_to() {
+        return array('collesactual', 'collespreferred', 'collesactualpreferred');
     }
 
     /**
@@ -156,25 +156,21 @@ class report extends reportbase {
      *
      * @return void
      */
-    public function has_studentreport() {
+    public function has_student_report() {
         return true;
-    }
-
-    /**
-     * Get if this report displays user names.
-     *
-     * @return boolean false
-     */
-    public function has_visibleusernames() {
-        return false;
     }
 
     /**
      * Get child reports.
      *
-     * @return $childrenreports
+     * @param bool $canaccessreports
+     * @return $childreports
      */
-    public function has_childrenreports() {
+    public function has_childreports($canaccessreports) {
+        if (!$canaccessreports) {
+            return false;
+        }
+
         $questionreports = array();
         $questionreports['fieldset_content_01'] = array('type' => 'questions', 'area' => 0);
         $questionreports['fieldset_content_02'] = array('type' => 'questions', 'area' => 1);
@@ -183,10 +179,10 @@ class report extends reportbase {
         $questionreports['fieldset_content_05'] = array('type' => 'questions', 'area' => 4);
         $questionreports['fieldset_content_06'] = array('type' => 'questions', 'area' => 5);
 
-        $childrenreports = array();
-        $childrenreports['summary'] = array('type' => 'summary');
-        $childrenreports['scales'] = array('type' => 'scales');
-        $childrenreports['areas'] = $questionreports;
+        $childreports = array();
+        $childreports['summary'] = array('type' => 'summary');
+        $childreports['scales'] = array('type' => 'scales');
+        $childreports['areas'] = $questionreports;
 
         // In order to uncomment the next code to get examples of nested navigation into admin > report block,
         // you have to add strings corresponding to keys to $this->surveypro->template lang file.
@@ -200,9 +196,9 @@ class report extends reportbase {
         // $fourtharray['4.2'] = array('type' => 'fourth', 'foo' => 2);
         // $fourtharray['4.3'] = $subfourtharray;
 
-        // $childrenreports['fourth'] = $fourtharray;
+        // $childreports['fourth'] = $fourtharray;
 
-        return $childrenreports;
+        return $childreports;
     }
 
     /**

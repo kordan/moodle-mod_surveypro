@@ -383,6 +383,8 @@ EOS;
      * @return void
      */
     public function userform_mform_element($mform, $searchform, $readonly) {
+        $canaccessdisableditems = has_capability('mod/surveypro:accessdisableditems', $this->context);
+
         // This plugin has $this->insetupform['insearchform'] = false; so it will never be part of a search form.
 
         $utilityitemman = new utility_item($this->cm, $this->surveypro);
@@ -402,6 +404,9 @@ EOS;
         }
 
         $attributes = array();
+        if ($this->disabled && !$canaccessdisableditems) {
+            $attributes['disabled'] = 'disabled';
+        }
         if ($this->style == SURVEYPROFIELD_RATE_USERADIO) {
             foreach ($options as $row => $option) {
                 $attributes['class'] = 'indent-'.$this->indent.' rate_radio';

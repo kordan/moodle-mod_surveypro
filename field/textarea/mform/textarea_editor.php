@@ -85,6 +85,11 @@ class surveypromform_textarea_editor extends \MoodleQuickForm_editor {
         $class = empty($this->_attributes['class']) ? 'indent-0' : $this->_attributes['class'];
         $replacement = $tabs.'<div class="'.$class.'">';
         $output = preg_replace($pattern, $replacement, $output);
+
+        if (isset($this->_attributes['disabled'])) {
+            $output = str_replace('<textarea ', '<textarea disabled="disabled" ', $output);
+        }
+
         return $output;
     }
 
@@ -112,6 +117,7 @@ class surveypromform_textarea_editor extends \MoodleQuickForm_editor {
         $output .= $value;
         $output .= \html_writer::end_tag('textarea');
         $output .= $this->_getPersistantData();
+
         return $output;
     }
 }

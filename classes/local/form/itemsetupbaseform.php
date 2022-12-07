@@ -190,6 +190,14 @@ class itemsetupbaseform extends \moodleform {
             $mform->setType($fieldname, PARAM_INT);
         }
 
+        // Itembase: disabled.
+        $fieldname = 'disabled';
+        if ($item->get_insetupform($fieldname)) {
+            $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'));
+            $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
+            $mform->setType($fieldname, PARAM_INT);
+        }
+
         // Itembase: insearchform.
         $fieldname = 'insearchform';
         if ($item->get_insetupform($fieldname)) {
