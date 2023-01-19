@@ -909,9 +909,6 @@ function surveypro_extend_navigation(navigation_node $navref, \stdClass $course,
     $utilitylayoutman = new utility_layout($cm, $surveypro);
     $nodeurl = $utilitylayoutman->get_common_links_url(SURVEYPRO_BLOCK);
 
-    // $currentgroup = groups_get_activity_group($cm);
-    // $groupmode = groups_get_activity_groupmode($cm, $COURSE);
-
     // SURVEYPRO_TABSUBMISSIONS.
     // Children only.
     if ($elementurl = $nodeurl['tab_submissions']['cover']) {

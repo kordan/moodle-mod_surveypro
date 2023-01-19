@@ -116,30 +116,6 @@ class utility_item {
     }
 
     /**
-     * need_group_filtering
-     * this function answer the question: do I Need to filter group in my next task?
-     *
-     * @param object $cm
-     * @param object $context
-     * @return $filtergroups
-     */
-    public function need_group_filtering($cm, $context) {
-        global $COURSE, $USER;
-
-        // Do I need to filter groups?
-        $groupmode = groups_get_activity_groupmode($cm, $COURSE);
-        $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $cm->groupingid);
-        $mygroups = array_keys($mygroups);
-
-        $filtergroups = true;
-        $filtergroups = $filtergroups && ($groupmode == SEPARATEGROUPS);
-        $filtergroups = $filtergroups && (count($mygroups));
-        $filtergroups = $filtergroups && (!has_capability('moodle/site:accessallgroups', $context));
-
-        return $filtergroups;
-    }
-
-    /**
      * Convert an mform element name to type, plugin, item id and optional info
      *
      * @param string $elementname The string to parse

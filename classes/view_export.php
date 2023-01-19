@@ -188,8 +188,6 @@ class view_export {
         global $DB;
 
         // Do I need to filter groups?
-        // $utilityitemman = new utility_item($this->cm, $this->surveypro);
-        // $filtergroups = $utilityitemman->need_group_filtering($this->cm, $this->context);
 
         if ($this->formdata->downloadtype == SURVEYPRO_FILESBYUSER) {
             if ($errorreturned = $this->attachments_downloadbyuser()) {
