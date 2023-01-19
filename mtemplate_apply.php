@@ -40,7 +40,7 @@ if (!empty($id)) {
 } else {
     $surveypro = $DB->get_record('surveypro', array('id' => $s), '*', MUST_EXIST);
     $course = $DB->get_record('course', array('id' => $surveypro->course), '*', MUST_EXIST);
-    $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
+    $cm = \get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
 $cm = cm_info::create($cm);
 

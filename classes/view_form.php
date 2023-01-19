@@ -732,7 +732,7 @@ class view_form extends formbase {
         // Course context used locally to get groups.
         $coursecontext = \context_course::instance($COURSE->id);
 
-        $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $this->cm->groupingid);
+        $mygroups = \groups_get_all_groups($COURSE->id, $USER->id, $this->cm->groupingid);
         $mygroups = array_keys($mygroups);
         if ($this->surveypro->mailroles) {
             $roles = explode(',', $this->surveypro->mailroles);
@@ -741,7 +741,7 @@ class view_form extends formbase {
                 $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
                 $fields = 'u.maildisplay, u.mailformat'.$userfieldsapi->selects;
                 foreach ($mygroups as $mygroup) {
-                    $groupmemberroles = groups_get_members_by_role($mygroup, $COURSE->id, $fields);
+                    $groupmemberroles = \groups_get_members_by_role($mygroup, $COURSE->id, $fields);
 
                     foreach ($roles as $role) {
                         if (isset($groupmemberroles[$role])) {
@@ -1065,7 +1065,7 @@ class view_form extends formbase {
                 throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
             }
             if ($submission->userid != $USER->id) {
-                $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
+                $groupmode = \groups_get_activity_groupmode($this->cm, $COURSE);
                 if ($groupmode == SEPARATEGROUPS) {
                     $utilitysubmissionman = new utility_submission($cm, $surveypro);
                     $mygroupmates = $utilitysubmissionman->get_groupmates($this->cm);

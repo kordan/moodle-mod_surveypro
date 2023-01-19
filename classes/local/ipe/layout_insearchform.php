@@ -90,7 +90,7 @@ class layout_insearchform extends \core\output\inplace_editable {
         $fields = 'id, surveyproid, type, plugin, sortindex';
         $itemrecord = $DB->get_record('surveypro_item', array('id' => $itemid), $fields, MUST_EXIST);
         $surveypro = $DB->get_record('surveypro', array('id' => $itemrecord->surveyproid), '*', MUST_EXIST);
-        $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
+        $cm = \get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
         $context = \context_module::instance($cm->id);
         \external_api::validate_context($context);
 

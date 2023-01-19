@@ -58,13 +58,13 @@ class submissionexportform extends \moodleform {
 
         // Submissionexport: groupid.
         if ($activityisgrouped) {
-            if ($allgroups = groups_get_all_groups($COURSE->id)) {
+            if ($allgroups = \groups_get_all_groups($COURSE->id)) {
                 $fieldname = 'groupid';
                 $options = array();
                 if (has_capability('moodle/site:accessallgroups', $context)) {
                     $options[] = get_string('allgroups');
                 } else {
-                    $allgroups = groups_get_all_groups($COURSE->id, $USER->id);
+                    $allgroups = \groups_get_all_groups($COURSE->id, $USER->id);
                 }
 
                 foreach ($allgroups as $group) {

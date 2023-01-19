@@ -75,7 +75,7 @@ class mail_pauseresume extends crontaskbase {
             $subject = get_string('reminder_subject', 'surveypro', $SITE->fullname);
 
             foreach ($surveypros as $surveypro) {
-                $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
+                $cm = \get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
                 $context = \context_module::instance($cm->id);
 
                 // Search for users with in progress surveypro.

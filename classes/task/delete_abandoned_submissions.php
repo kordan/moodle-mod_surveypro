@@ -89,7 +89,7 @@ class delete_abandoned_submissions extends crontaskbase {
                 $whereparams = array('surveyproid' => $surveypro->id, 'status' => SURVEYPRO_STATUSINPROGRESS, 'sofar' => $sofar);
                 if ($submissions = $DB->get_recordset_select('surveypro_submission', $where, $whereparams, 'surveyproid', 'id, userid')) {
                     // Those submissions all belong to THE SAME surveypro because $where = 'surveyproid = :surveyproid.
-                    $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
+                    $cm = \get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
                     $context = \context_module::instance($cm->id);
 
                     $utilitylayoutman = new utility_layout($cm, $surveypro);

@@ -208,9 +208,9 @@ class view_submissions {
             }
         }
 
-        $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
+        $groupmode = \groups_get_activity_groupmode($this->cm, $COURSE);
         if (($groupmode == SEPARATEGROUPS) && (!$canaccessallgroups)) {
-            $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $this->cm->groupingid);
+            $mygroups = \groups_get_all_groups($COURSE->id, $USER->id, $this->cm->groupingid);
             $mygroups = array_keys($mygroups);
             if (!count($mygroups)) { // User is not in any group.
                 // This is a student that has not been added to any group.
@@ -328,9 +328,9 @@ class view_submissions {
             }
         }
 
-        $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
+        $groupmode = \groups_get_activity_groupmode($this->cm, $COURSE);
         if (($groupmode == SEPARATEGROUPS) && (!$canaccessallgroups)) {
-            $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $this->cm->groupingid);
+            $mygroups = \groups_get_all_groups($COURSE->id, $USER->id, $this->cm->groupingid);
             $mygroups = array_keys($mygroups);
             if (!count($mygroups)) { // User is not in any group.
                 // This is a student that has not been added to any group.
@@ -575,7 +575,7 @@ class view_submissions {
             $iconparams['title'] = $downloadpdfstr;
             $downloadpdficn = new \pix_icon('t/download', $downloadpdfstr, 'moodle', $iconparams);
 
-            if ($groupmode = groups_get_activity_groupmode($this->cm, $COURSE)) {
+            if ($groupmode = \groups_get_activity_groupmode($this->cm, $COURSE)) {
                 if ($groupmode == SEPARATEGROUPS) {
                     $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
                     $mygroupmates = $utilitysubmissionman->get_groupmates($this->cm);
@@ -1319,7 +1319,7 @@ class view_submissions {
 
             $ismine = ($ownerid == $USER->id);
             if (!$ismine) {
-                $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
+                $groupmode = \groups_get_activity_groupmode($this->cm, $COURSE);
                 if ($groupmode == SEPARATEGROUPS) {
                     $utilitysubmissionman = new utility_submission($cm, $surveypro);
                     $mygroupmates = $utilitysubmissionman->get_groupmates($this->cm);

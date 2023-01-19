@@ -100,7 +100,7 @@ class view_export {
         global $USER, $COURSE;
 
         $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
-        $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
+        $groupmode = \groups_get_activity_groupmode($this->cm, $COURSE);
 
         $sql = 'SELECT s.id as submissionid, s.status, s.timecreated, s.timemodified, ';
         if (empty($this->surveypro->anonymous) || ($forceuserid)) {

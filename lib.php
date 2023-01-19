@@ -436,7 +436,7 @@ function surveypro_delete_instance($id) {
 
     // Now get rid of all files.
     $fs = get_file_storage();
-    if ($cm = get_coursemodule_from_instance('surveypro', $surveypro->id)) {
+    if ($cm = \get_coursemodule_from_instance('surveypro', $surveypro->id)) {
         $context = \context_module::instance($cm->id);
         $fs->delete_area_files($context->id);
     }
@@ -908,9 +908,6 @@ function surveypro_add_report_link($templatename, $childreports, $childnode, $re
 function surveypro_extend_navigation(navigation_node $navref, \stdClass $course, \stdClass $surveypro, cm_info $cm) {
     $utilitylayoutman = new utility_layout($cm, $surveypro);
     $nodeurl = $utilitylayoutman->get_common_links_url(SURVEYPRO_BLOCK);
-
-    // $currentgroup = groups_get_activity_group($cm);
-    // $groupmode = groups_get_activity_groupmode($cm, $COURSE);
 
     // SURVEYPRO_TABSUBMISSIONS.
     // Children only.

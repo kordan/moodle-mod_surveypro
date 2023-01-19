@@ -127,8 +127,8 @@ class utility_item {
         global $COURSE, $USER;
 
         // Do I need to filter groups?
-        $groupmode = groups_get_activity_groupmode($cm, $COURSE);
-        $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $cm->groupingid);
+        $groupmode = \groups_get_activity_groupmode($cm, $COURSE);
+        $mygroups = \groups_get_all_groups($COURSE->id, $USER->id, $cm->groupingid);
         $mygroups = array_keys($mygroups);
 
         $filtergroups = true;

@@ -151,14 +151,14 @@ class reportbase {
 
         $canaccessallgroups = has_capability('moodle/site:accessallgroups', $this->context);
 
-        if (!groups_get_activity_groupmode($this->cm, $COURSE)) {
+        if (!\groups_get_activity_groupmode($this->cm, $COURSE)) {
             return false;
         }
 
         if ($canaccessallgroups) { // You can see only your groups.
-            $allgroups = groups_get_all_groups($COURSE->id);
+            $allgroups = \groups_get_all_groups($COURSE->id);
         } else {
-            $allgroups = groups_get_all_groups($COURSE->id, $USER->id);
+            $allgroups = \groups_get_all_groups($COURSE->id, $USER->id);
         }
 
         return (count($allgroups) > 1);
@@ -229,9 +229,9 @@ class reportbase {
         $canaccessallgroups = has_capability('moodle/site:accessallgroups', $this->context);
 
         if ($canaccessallgroups) { // You can see only your groups.
-            $allgroups = groups_get_all_groups($COURSE->id);
+            $allgroups = \groups_get_all_groups($COURSE->id);
         } else {
-            $allgroups = groups_get_all_groups($COURSE->id, $USER->id);
+            $allgroups = \groups_get_all_groups($COURSE->id, $USER->id);
         }
 
         return $allgroups;

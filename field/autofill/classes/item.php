@@ -628,14 +628,14 @@ EOS;
                         $label .= fullname($user);
                         break;
                     case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT09: // Usergroupid.
-                        $usergroups = groups_get_user_groups($COURSE->id, $user->id);
+                        $usergroups = \groups_get_user_groups($COURSE->id, $user->id);
                         $label .= implode(', ', $usergroups[0]);
                         break;
                     case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT10: // Usergroupname.
                         $names = array();
-                        $usergroups = groups_get_user_groups($COURSE->id, $user->id);
+                        $usergroups = \groups_get_user_groups($COURSE->id, $user->id);
                         foreach ($usergroups[0] as $groupid) {
-                             $names[] = groups_get_group_name($groupid);
+                             $names[] = \groups_get_group_name($groupid);
                         }
                         $label .= implode(', ', $names);
                         break;
