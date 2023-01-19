@@ -39,7 +39,7 @@ if (!empty($id)) {
 } else {
     $surveypro = $DB->get_record('surveypro', array('id' => $s), '*', MUST_EXIST);
     $course = $DB->get_record('course', array('id' => $surveypro->course), '*', MUST_EXIST);
-    $cm = \get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
+    $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
 $cm = cm_info::create($cm);
 
@@ -62,7 +62,7 @@ $formurl = new \moodle_url('/mod/surveypro/view_export.php', $paramurl);
 // Begin of: prepare params for the form.
 $formparams = new \stdClass();
 $formparams->surveypro = $surveypro;
-$formparams->activityisgrouped = \groups_get_activity_groupmode($cm, $course);
+$formparams->activityisgrouped = groups_get_activity_groupmode($cm, $course);
 $formparams->context = $context;
 $formparams->attachmentshere = $exportman->are_attachments_onboard();
 $exportform = new submissionexportform($formurl, $formparams, 'POST', '', ['data-double-submit-protection' => 'off']);

@@ -436,7 +436,7 @@ function surveypro_delete_instance($id) {
 
     // Now get rid of all files.
     $fs = get_file_storage();
-    if ($cm = \get_coursemodule_from_instance('surveypro', $surveypro->id)) {
+    if ($cm = get_coursemodule_from_instance('surveypro', $surveypro->id)) {
         $context = \context_module::instance($cm->id);
         $fs->delete_area_files($context->id);
     }

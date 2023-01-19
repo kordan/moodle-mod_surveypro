@@ -48,8 +48,8 @@ define('SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT15', 'label');
 function surveypro_autofill_get_elements($surveyproid) {
     global $COURSE;
 
-    $cm = \get_coursemodule_from_instance('surveypro', $surveyproid, $COURSE->id, false, MUST_EXIST);
-    $usegroups = \groups_get_activity_groupmode($cm, $COURSE);
+    $cm = get_coursemodule_from_instance('surveypro', $surveyproid, $COURSE->id, false, MUST_EXIST);
+    $usegroups = groups_get_activity_groupmode($cm, $COURSE);
 
     $options = array();
     $options[''] = array('' => get_string('choosedots'));

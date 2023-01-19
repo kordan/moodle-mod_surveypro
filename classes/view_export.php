@@ -100,7 +100,7 @@ class view_export {
         global $USER, $COURSE;
 
         $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
-        $groupmode = \groups_get_activity_groupmode($this->cm, $COURSE);
+        $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
 
         $sql = 'SELECT s.id as submissionid, s.status, s.timecreated, s.timemodified, ';
         if (empty($this->surveypro->anonymous) || ($forceuserid)) {
@@ -188,8 +188,6 @@ class view_export {
         global $DB;
 
         // Do I need to filter groups?
-        // $utilityitemman = new utility_item($this->cm, $this->surveypro);
-        // $filtergroups = $utilityitemman->need_group_filtering($this->cm, $this->context);
 
         if ($this->formdata->downloadtype == SURVEYPRO_FILESBYUSER) {
             if ($errorreturned = $this->attachments_downloadbyuser()) {

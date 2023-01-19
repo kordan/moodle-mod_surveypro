@@ -58,7 +58,7 @@ class mastertemplate_test extends advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
         $params = array('course' => $course->id, 'name' => 'One more surveypro');
         $surveypro = $this->getDataGenerator()->create_module('surveypro', $params);
-        $cm = \get_coursemodule_from_instance('surveypro', $surveypro->id);
+        $cm = get_coursemodule_from_instance('surveypro', $surveypro->id);
         $context = \context_module::instance($cm->id);
 
         $mtemplateman = new mastertemplate($cm, $context, $surveypro);
