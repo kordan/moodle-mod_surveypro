@@ -260,15 +260,9 @@ class view_form extends formbase {
 
         $submission = new \stdClass();
 
-        // The idea is that I ALWAYS save, without care about which button was pressed.
-        // Probably if empty($this->formdata->submissionid) then $prevbutton can't be pressed, but I don't care.
-        // In the worst hypothesis it is a case that will never be verified.
-        if ($savebutton || $saveasnewbutton) {
-            $submission->status = SURVEYPRO_STATUSCLOSED;
-        }
-        if ($nextbutton || $pausebutton || $prevbutton) {
-            $submission->status = SURVEYPRO_STATUSINPROGRESS;
-        }
+        // I don't save the status here because it is useless
+        // the status is defined from the validity of each answer
+        // and will be saved after each respose in function save_user_data
 
         if (empty($this->formdata->submissionid)) {
             // Add a new record to surveypro_submission.
@@ -298,9 +292,13 @@ class view_form extends formbase {
                 } else {
                     $submission->timecreated = $timenow;
                 }
-            }
 
-            $DB->update_record('surveypro_submission', $submission);
+                // $DB->update_record must be inside brackets otherwise
+                // using "<< previous" or "next >>" to browse the submission
+                // I get the error:
+                // moodle_database::update_record_raw() no fields found.
+                $DB->update_record('surveypro_submission', $submission);
+            }
 
             $eventdata = array('context' => $this->context, 'objectid' => $submission->id);
             $eventdata['other'] = array('view' => SURVEYPRO_EDITRESPONSE);
@@ -323,9 +321,8 @@ class view_form extends formbase {
             }
         }
 
-        // Before returning, set two class properties.
+        // Before returning, set the submission id.
         $this->set_submissionid($submission->id);
-        $this->status = $submission->status;
     }
 
     /**
@@ -476,6 +473,7 @@ class view_form extends formbase {
         $saveasnewbutton = isset($this->formdata->saveasnewbutton);
         $pausebutton = isset($this->formdata->pausebutton);
         $prevbutton = isset($this->formdata->prevbutton);
+        $nextbutton = isset($this->formdata->nextbutton);
 
         // Drop out undesired answers from the submission.
         if (!$this->surveypro->newpageforchild) {
@@ -493,7 +491,7 @@ class view_form extends formbase {
         // For each submission I need to save one 'surveypro_submission' and some 'surveypro_answer'.
 
         // Begin of: let's start by saving one record in surveypro_submission.
-        // In save_surveypro_submission method I also assign $this->submissionid and $this->status.
+        // In save_surveypro_submission method I also assign $this->submissionid.
         $this->save_surveypro_submission();
         // End of: let's start by saving one record in surveypro_submission.
 
@@ -585,7 +583,7 @@ class view_form extends formbase {
 
         // Before closing the save session I need two more validations.
 
-        // FIRST VALIDATION.
+        // FIRST SCENARIO.
         // Let's suppose the following scenario.
         // 1) User is filling a surveypro divided into 4 pages.
         // 2) User fills all the fields of first page and moves to page 2.
@@ -594,7 +592,7 @@ class view_form extends formbase {
         // 5) Because of 3) user jumps to page 4 and make the final submit.
         // This check is needed to verify that EACH mandatory surveypro field was actually saved.
 
-        // SECOND VALIDATION.
+        // SECOND SCENARIO.
         // Let's suppose the following scenario.
         // 1) User is filling a surveypro divided into 3 pages.
         // 2) User fills all the fields of first page and moves to page 2.
@@ -605,22 +603,39 @@ class view_form extends formbase {
         // 7) Because of 3) user jumps to page 3 and make the final submit.
         // This check is needed to verify that EACH surveypro field was actually saved as VERIFIED.
 
-        if ($savebutton || $saveasnewbutton) {
-            // Let's start with the lightest check (lightest in terms of query).
-            $this->check_all_was_verified();
-            if ($this->responsestatus == SURVEYPRO_VALIDRESPONSE) { // If this answer is still considered valid...
-                // ...check more.
-                $this->check_mandatories_are_in();
-            }
+        // I have to ALWAYS check for the validity of all responses
+        // and not ONLY when ($savebutton || $saveasnewbutton) are presssed because...
+        // 1) a surveypro spanning multiple pages was correctly submitted
+        // 2) I edit the closed submission
+        // 3) I go to page 2 and I cancel a mandatory answer
+        // 4) I return back to page 1
+        // 5) Page 2 is saved WITHOUT the mandatory field because when the user moves back, the form VALIDATION is not executed.
+        // 6) I use the breadcrumb to go somewhere else
+        // 7) the submission HAS TO BE saved as IN PROGRESS and not as CLOSED
+        // even if ($savebutton || $saveasnewbutton) where never pressed
 
-            // If this answer is not valid for some reason.
-            if ($this->responsestatus != SURVEYPRO_VALIDRESPONSE) {
-                // User jumped pages using direct input (or something more dangerous).
-                // Set this submission as SURVEYPRO_STATUSINPROGRESS.
-                $conditions = array('id' => $this->get_submissionid());
-                $DB->set_field('surveypro_submission', 'status', SURVEYPRO_STATUSINPROGRESS, $conditions);
-            }
+        // Let's start with the lightest check (lightest in terms of query).
+        $this->check_all_was_verified();
+        if ($this->responsestatus == SURVEYPRO_VALIDRESPONSE) { // If this answer is still considered valid...
+            // ...check more.
+            $this->check_mandatories_are_in();
         }
+
+        // If all the answers are valid.
+        if ($this->responsestatus == SURVEYPRO_VALIDRESPONSE) {
+            if ($prevbutton || $pausebutton) {
+                // $pausebutton: Yes, all is fine but I want to store it as "in progress" because I am not sure.
+                $this->status = SURVEYPRO_STATUSINPROGRESS;
+            } else {
+                $this->status = SURVEYPRO_STATUSCLOSED;
+            }
+        } else {
+            // User jumped pages using direct input (or something more dangerous).
+            // Set this submission as SURVEYPRO_STATUSINPROGRESS.
+            $this->status = SURVEYPRO_STATUSINPROGRESS;
+        }
+        $conditions = array('id' => $this->get_submissionid());
+        $DB->set_field('surveypro_submission', 'status', $this->status, $conditions);
 
         // Update completion state.
         $completion = new \completion_info($COURSE);
@@ -768,7 +783,7 @@ class view_form extends formbase {
         // Course context used locally to get groups.
         $coursecontext = \context_course::instance($COURSE->id);
 
-        $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $this->cm->groupingid);
+        $mygroups = groups_get_all_groups($COURSE->id, $USER->id);
         $mygroups = array_keys($mygroups);
         if ($this->surveypro->mailroles) {
             $roles = explode(',', $this->surveypro->mailroles);
@@ -1054,31 +1069,79 @@ class view_form extends formbase {
         global $DB, $USER, $COURSE;
 
         $cansubmit = has_capability('mod/surveypro:submit', $this->context);
-        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
         $canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context);
-        $caneditotherssubmissions = has_capability('mod/surveypro:editotherssubmissions', $this->context);
+        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
         $caneditownsubmissions = has_capability('mod/surveypro:editownsubmissions', $this->context);
+        $caneditotherssubmissions = has_capability('mod/surveypro:editotherssubmissions', $this->context);
+        $canaccessallgroups = has_capability('moodle/site:accessallgroups', $this->context);
 
-        if (($this->view == SURVEYPRO_READONLYRESPONSE) || ($this->view == SURVEYPRO_EDITRESPONSE)) {
-            $where = array('id' => $this->get_submissionid());
-            if (!$submission = $DB->get_record('surveypro_submission', $where, '*', IGNORE_MISSING)) {
+        $submissionid = $this->get_submissionid();
+        if ($submissionid) {
+            $where = array('id' => $submissionid);
+            if (!$submission = $DB->get_record('surveypro_submission', $where, 'userid, status', IGNORE_MISSING)) {
                 throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
             }
-            if ($submission->userid != $USER->id) {
+            $ownerid = $submission->userid;
+            $ismine = ($ownerid == $USER->id);
+
+            if ($canaccessallgroups) {
+                $mysamegroup = true;
+            } else {
                 $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
-                if ($groupmode == SEPARATEGROUPS) {
-                    $utilitysubmissionman = new utility_submission($cm, $surveypro);
-                    $mygroupmates = $utilitysubmissionman->get_groupmates($this->cm);
-                    // If I am a teacher, $mygroupmates is empty but I still have the right to see all my students.
-                    if (!$mygroupmates) { // I have no $mygroupmates. I am a teacher. I am active part of each group.
-                        $groupuser = true;
+                if ($groupmode) { // Activity is divided into groups.
+                    // Does the user belong to any group?
+                    $mygroups = groups_get_all_groups($COURSE->id, $USER->id);
+                    if (count($mygroups)) {
+                        $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
+                        $mygroupmates = $utilitysubmissionman->get_groupmates($this->cm);
+                        $mysamegroup = in_array($ownerid, $mygroupmates);
                     } else {
-                        $groupuser = in_array($submission->userid, $mygroupmates);
+                        // My group is the world so, for sure you are in my group.
+                        $mysamegroup = true;
                     }
+                } else {
+                    $mysamegroup = true;
                 }
             }
+        } else {
+            // The submission does not exist.
+            // As a consequence, its owner is not defined.
+            // Is the owner in my same group? No, of course!
+            $ismine = false;
+            $mysamegroup = false;
         }
 
+        $debug = false;
+        if ($debug) {
+            switch ($this->view) {
+                case SURVEYPRO_NEWRESPONSE:
+                    echo '$this->view = SURVEYPRO_NEWRESPONSE<br />';
+                    break;
+                case SURVEYPRO_EDITRESPONSE:
+                    echo '$this->view = SURVEYPRO_EDITRESPONSE<br />';
+                    break;
+                case SURVEYPRO_READONLYRESPONSE:
+                    echo '$this->view = SURVEYPRO_READONLYRESPONSE<br />';
+                    break;
+                default:
+                    echo '$this->view = '.$this->view;
+            }
+
+            if ($ismine) {
+                echo '$ismine = true<br />';
+            } else {
+                echo '$ismine = false<br />';
+            }
+            if ($mysamegroup) {
+                echo '$mysamegroup = true<br />';
+            } else {
+                echo '$mysamegroup = false<br />';
+            }
+            echo '$mysamegroup =';
+            // print_object($mysamegroup); // <-- This is better than var_dump but codechecker doesn't like it.
+        }
+
+        $allowed = false;
         switch ($this->view) {
             case SURVEYPRO_NEWRESPONSE:
                 $timenow = time();
@@ -1111,25 +1174,37 @@ class view_form extends formbase {
                 }
                 break;
             case SURVEYPRO_EDITRESPONSE:
-                if ($USER->id == $submission->userid) {
-                    // Whether in progress, always allow.
-                    $allowed = ($submission->status == SURVEYPRO_STATUSINPROGRESS) ? true : $caneditownsubmissions;
+                if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
+                    // If $submission->status == SURVEYPRO_STATUSINPROGRESS it is a resume acction.
+                    if ($ismine) { // Owner is me
+                        $allowed = true;
+                    } else {
+                        if ($mysamegroup) { // Owner is from a group of mine.
+                            $allowed = $canseeotherssubmissions;
+                        }
+                    }
                 } else {
-                    if ($groupmode == SEPARATEGROUPS) {
-                        $allowed = $groupuser && $caneditotherssubmissions;
-                    } else { // NOGROUPS || VISIBLEGROUPS.
-                        $allowed = $caneditotherssubmissions;
+                    // If $submission->status == SURVEYPRO_STATUSCLOSED it is an edit acction.
+                    if ($ismine) { // Owner is me
+                        $allowed = $caneditownsubmissions;
+                    } else {
+                        if ($mysamegroup) { // Owner is from a group of mine.
+                            $allowed = $caneditotherssubmissions;
+                        }
                     }
                 }
                 break;
             case SURVEYPRO_READONLYRESPONSE:
-                if ($USER->id == $submission->userid) {
-                    $allowed = true;
+                // Whether SURVEYPRO_STATUSINPROGRESS, always deny.
+                if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
+                    $allowed = false;
                 } else {
-                    if ($groupmode == SEPARATEGROUPS) {
-                        $allowed = $groupuser && $canseeotherssubmissions;
-                    } else { // NOGROUPS || VISIBLEGROUPS.
-                        $allowed = $canseeotherssubmissions;
+                    if ($ismine) { // Owner is me
+                        $allowed = true;
+                    } else {
+                        if ($mysamegroup) { // Owner is from a group of mine.
+                            $allowed = $canseeotherssubmissions;
+                        }
                     }
                 }
                 break;

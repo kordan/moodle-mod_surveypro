@@ -65,7 +65,7 @@ Feature: test the use of reserved elements
     When I log in as "student1"
     And I am on "Reserved elements" course homepage
     And I follow "Reserved element test"
-    And I follow "Responses"
+    And I follow "Responses" page in tab bar
     And I press "New response"
 
     Then I should see "1: First age item"

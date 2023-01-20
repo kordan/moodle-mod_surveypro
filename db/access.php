@@ -93,8 +93,12 @@
  *      mod/surveypro:seeownsubmissions <-- It does not actually exist. It is always allowed.
  *      mod/surveypro:seeotherssubmissions
  *
- *      mod/surveypro:editownsubmissions
- *      mod/surveypro:editotherssubmissions
+ *      mod/surveypro:editownsubmissions    // BE AWARE: edit action is ALWAYS intended against CLOSED submissions.
+ *      mod/surveypro:editotherssubmissions // BE AWARE: edit action is ALWAYS intended against CLOSED submissions.
+ *
+ *      ** Note about edit capability and edit action **
+ *      The "edit capability" is ALWAYS intended to allow the "edit action" over CLOSED submissions.
+ *      In spite of this, the "edit action" is always allowed over INPROGRESS submissions.
  *
  *      mod/surveypro:duplicateownsubmissions
  *      mod/surveypro:duplicateotherssubmissions
@@ -102,7 +106,8 @@
  *      mod/surveypro:deleteownsubmissions
  *      mod/surveypro:deleteotherssubmissions
  *
- *      mod/surveypro:savesubmissiontopdf
+ *      mod/surveypro:savetopdfownsubmissions
+ *      mod/surveypro:savetopdfotherssubmissions
  *
  *  SUB-TAB == SURVEYPRO_SUBMISSION_EDIT
  *  SUB-TAB == SURVEYPRO_SUBMISSION_READONLY
@@ -317,7 +322,19 @@ $capabilities = array(
         )
     ),
 
-    'mod/surveypro:savesubmissiontopdf' => array(
+    'mod/surveypro:savetopdfownsubmissions' => array(
+
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => array(
+            'student' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW
+        )
+    ),
+
+    'mod/surveypro:savetopdfotherssubmissions' => array(
 
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,

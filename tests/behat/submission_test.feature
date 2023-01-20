@@ -62,7 +62,7 @@ Feature: make a submission test for each available item
     When I log in as "student1"
     And I am on "Test submission for each available item" course homepage
     And I follow "Each item submission"
-    And I follow "Responses"
+    And I follow "Responses" page in tab bar
     And I press "New response"
 
     # student1 submits his first response
@@ -111,7 +111,7 @@ Feature: make a submission test for each available item
     And I follow "view_submission_row_1"
     And I press "Next page >>"
     And I press "<< Previous page"
-    And I follow "Responses"
+    And I follow "Responses" page in tab bar
     And I should see "1" submissions
 
     And I follow "duplicate_submission_row_1"
