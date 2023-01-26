@@ -110,6 +110,7 @@ define('SURVEYPRO_HIDEITEM'          , '5');
 define('SURVEYPRO_SHOWITEM'          , '6');
 define('SURVEYPRO_MAKERESERVED'      , '7');
 define('SURVEYPRO_MAKEAVAILABLE'     , '8');
+define('SURVEYPRO_RESPONSETOPDF'     , '9');
 
 /**
  * BULK ACTIONS in LAYOUT MANAGEMENT and in APPLY UTEMPLATE page
@@ -142,9 +143,6 @@ define('SURVEYPRO_READONLYRESPONSE', '3');
 // VIEW in ITEM section.
 define('SURVEYPRO_EDITITEM'        , '4');
 define('SURVEYPRO_CHANGEORDERASK'  , '5');
-
-// VIEW in RESPONSES section.
-define('SURVEYPRO_RESPONSETOPDF'   , '6');
 
 /**
  * SENDERS

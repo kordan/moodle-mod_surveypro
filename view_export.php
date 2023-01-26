@@ -26,7 +26,6 @@ use mod_surveypro\tabs;
 use mod_surveypro\view_export;
 use mod_surveypro\local\form\submissionexportform;
 
-
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.

@@ -72,7 +72,7 @@ $context = \context_module::instance($cm->id);
 $submissionman = new view_submissions($cm, $context, $surveypro);
 $submissionman->setup($submissionid, $action, $view, $confirm, $searchquery);
 
-if ($view == SURVEYPRO_RESPONSETOPDF) {
+if ($action == SURVEYPRO_RESPONSETOPDF) {
     $submissionman->submission_to_pdf();
     die();
 }
