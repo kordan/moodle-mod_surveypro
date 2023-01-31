@@ -440,6 +440,150 @@ class view_submissions {
     }
 
     /**
+     * Get the file content starting from its URL
+     *
+     * @param string $fileurl
+     * @return $content with each http url replaced by a direct link
+     */
+    private function get_image_file($fileurl) {
+        global $CFG;
+
+        if (strpos($fileurl, $CFG->wwwroot.'/pluginfile.php') === false) {
+            return null;
+        }
+
+        $fs = get_file_storage();
+
+        $params = substr($fileurl, strlen($CFG->wwwroot.'/pluginfile.php'));
+        if (substr($params, 0, 1) == '?') { // Slasharguments off.
+            $pos = strpos($params, 'file=');
+            $params = substr($params, $pos + 5);
+        } else { // Slasharguments on.
+            if (($pos = strpos($params, '?')) !== false) {
+                $params = substr($params, 0, $pos);
+            }
+        }
+        $params = urldecode($params);
+        $params = explode('/', $params);
+        array_shift($params); // Remove empty first param.
+        $contextid = (int)array_shift($params);
+        $component = clean_param(array_shift($params), PARAM_COMPONENT);
+        $filearea  = clean_param(array_shift($params), PARAM_AREA);
+        $itemid = array_shift($params);
+
+        if (empty($params)) {
+            $filename = $itemid;
+            $itemid = 0;
+        } else {
+            $filename = array_pop($params);
+        }
+
+        if (empty($params)) {
+            $filepath = '/';
+        } else {
+            $filepath = '/'.implode('/', $params).'/';
+        }
+
+        if ($component != 'mod_surveypro') {
+            return null; // Only allowed to include files directly from this surveypro.
+        }
+
+        if (!$file = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $filename)) {
+            if ($itemid) {
+                $filepath = '/'.$itemid.$filepath; // See if there was no itemid in the originalPath URL.
+                $itemid = 0;
+                $file = $fs->get_file($contextid, $component, $filename, $itemid, $filepath, $filename);
+            }
+        }
+
+        if (!$file) {
+            return null;
+        }
+
+        return $file;
+    }
+
+    /**
+     * Define default header text
+     *
+     * @param string $user
+     * @param int $timecreated
+     * @param int $timemodified
+     * @return string $headertext
+     */
+    private function get_header_text($user, $timecreated, $timemodified) {
+        $textheader = get_string('responseauthor', 'mod_surveypro');
+        $textheader .= fullname($user);
+        $textheader .= "\n";
+        $textheader .= get_string('responsetimecreated', 'mod_surveypro');
+        $textheader .= userdate($timecreated);
+        if ($timemodified) {
+            $textheader .= get_string('responsetimemodified', 'mod_surveypro');
+            $textheader .= userdate($timemodified);
+        }
+
+        return $textheader;
+    }
+
+    /**
+     * Define the widths of each column into PDF
+     *
+     * @return list() of html for each template
+     */
+    private function get_columns_html() {
+        list($col1width, $col2width, $col3width) = $this->get_columns_width();
+        $col23width = $col2width + $col3width;
+
+        $twocolstemplate = '<table style="width:100%;"><tr>';
+        $twocolstemplate .= '<td style="width:'.$col1width.'%;text-align:left;">@@col1@@</td>';
+        $twocolstemplate .= '<td style="width:'.$col23width.'%;text-align:left;">@@col2@@</td>';
+        $twocolstemplate .= '</tr></table>';
+
+        $threecolstemplate = '<table style="width:100%;"><tr>';
+        $threecolstemplate .= '<td style="width:'.$col1width.'%;text-align:left;">@@col1@@</td>';
+        $threecolstemplate .= '<td style="width:'.$col2width.'%;text-align:left;">@@col2@@</td>';
+        $threecolstemplate .= '<td style="width:'.$col3width.'%;text-align:left;">@@col3@@</td>';
+        $threecolstemplate .= '</tr></table>';
+
+        return array($twocolstemplate, $threecolstemplate);
+    }
+
+    /**
+     * Define the widths of each column into PDF
+     *
+     * @return list() of width of each column
+     */
+    private function get_columns_width() {
+        $col1unit = 1;
+        $col2unit = 6;
+        $col3unit = 3;
+        $unitsum = $col1unit + $col2unit + $col3unit;
+
+        $col1width = number_format($col1unit * 100 / $unitsum, 2);
+        $col2width = number_format($col2unit * 100 / $unitsum, 2);
+        $col3width = number_format($col3unit * 100 / $unitsum, 2);
+
+        return array($col1width, $col2width, $col3width);
+    }
+
+    /**
+     * Define the style of the border used sometimes in the PDF
+     *
+     * @return list() of width of each column
+     */
+    private function get_border_style() {
+        $border = array();
+        $border['T'] = array();
+        $border['T']['width'] = 0.2;
+        $border['T']['cap'] = 'butt';
+        $border['T']['join'] = 'miter';
+        $border['T']['dash'] = 1;
+        $border['T']['color'] = array(179, 219, 181);
+
+        return $border;
+    }
+
+    /**
      * Display the submissions table.
      *
      * @return void
@@ -1554,70 +1698,6 @@ class view_submissions {
     }
 
     /**
-     * Get the file content starting from its URL
-     *
-     * @param string $fileurl
-     * @return $content with each http url replaced by a direct link
-     */
-    private function get_image_file($fileurl) {
-        global $CFG;
-
-        if (strpos($fileurl, $CFG->wwwroot.'/pluginfile.php') === false) {
-            return null;
-        }
-
-        $fs = get_file_storage();
-
-        $params = substr($fileurl, strlen($CFG->wwwroot.'/pluginfile.php'));
-        if (substr($params, 0, 1) == '?') { // Slasharguments off.
-            $pos = strpos($params, 'file=');
-            $params = substr($params, $pos + 5);
-        } else { // Slasharguments on.
-            if (($pos = strpos($params, '?')) !== false) {
-                $params = substr($params, 0, $pos);
-            }
-        }
-        $params = urldecode($params);
-        $params = explode('/', $params);
-        array_shift($params); // Remove empty first param.
-        $contextid = (int)array_shift($params);
-        $component = clean_param(array_shift($params), PARAM_COMPONENT);
-        $filearea  = clean_param(array_shift($params), PARAM_AREA);
-        $itemid = array_shift($params);
-
-        if (empty($params)) {
-            $filename = $itemid;
-            $itemid = 0;
-        } else {
-            $filename = array_pop($params);
-        }
-
-        if (empty($params)) {
-            $filepath = '/';
-        } else {
-            $filepath = '/'.implode('/', $params).'/';
-        }
-
-        if ($component != 'mod_surveypro') {
-            return null; // Only allowed to include files directly from this surveypro.
-        }
-
-        if (!$file = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $filename)) {
-            if ($itemid) {
-                $filepath = '/'.$itemid.$filepath; // See if there was no itemid in the originalPath URL.
-                $itemid = 0;
-                $file = $fs->get_file($contextid, $component, $filename, $itemid, $filepath, $filename);
-            }
-        }
-
-        if (!$file) {
-            return null;
-        }
-
-        return $file;
-    }
-
-    /**
      * Add details to PDF
      *
      * @param object $pdf
@@ -1653,85 +1733,5 @@ class view_submissions {
         $pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
 
         $pdf->AddPage();
-    }
-
-    /**
-     * Define default header text
-     *
-     * @param string $user
-     * @param int $timecreated
-     * @param int $timemodified
-     * @return string $headertext
-     */
-    private function get_header_text($user, $timecreated, $timemodified) {
-        $textheader = get_string('responseauthor', 'mod_surveypro');
-        $textheader .= fullname($user);
-        $textheader .= "\n";
-        $textheader .= get_string('responsetimecreated', 'mod_surveypro');
-        $textheader .= userdate($timecreated);
-        if ($timemodified) {
-            $textheader .= get_string('responsetimemodified', 'mod_surveypro');
-            $textheader .= userdate($timemodified);
-        }
-
-        return $textheader;
-    }
-
-    /**
-     * Define the widths of each column into PDF
-     *
-     * @return list() of html for each template
-     */
-    private function get_columns_html() {
-        list($col1width, $col2width, $col3width) = $this->get_columns_width();
-        $col23width = $col2width + $col3width;
-
-        $twocolstemplate = '<table style="width:100%;"><tr>';
-        $twocolstemplate .= '<td style="width:'.$col1width.'%;text-align:left;">@@col1@@</td>';
-        $twocolstemplate .= '<td style="width:'.$col23width.'%;text-align:left;">@@col2@@</td>';
-        $twocolstemplate .= '</tr></table>';
-
-        $threecolstemplate = '<table style="width:100%;"><tr>';
-        $threecolstemplate .= '<td style="width:'.$col1width.'%;text-align:left;">@@col1@@</td>';
-        $threecolstemplate .= '<td style="width:'.$col2width.'%;text-align:left;">@@col2@@</td>';
-        $threecolstemplate .= '<td style="width:'.$col3width.'%;text-align:left;">@@col3@@</td>';
-        $threecolstemplate .= '</tr></table>';
-
-        return array($twocolstemplate, $threecolstemplate);
-    }
-
-    /**
-     * Define the widths of each column into PDF
-     *
-     * @return list() of width of each column
-     */
-    private function get_columns_width() {
-        $col1unit = 1;
-        $col2unit = 6;
-        $col3unit = 3;
-        $unitsum = $col1unit + $col2unit + $col3unit;
-
-        $col1width = number_format($col1unit * 100 / $unitsum, 2);
-        $col2width = number_format($col2unit * 100 / $unitsum, 2);
-        $col3width = number_format($col3unit * 100 / $unitsum, 2);
-
-        return array($col1width, $col2width, $col3width);
-    }
-
-    /**
-     * Define the style of the border used sometimes in the PDF
-     *
-     * @return list() of width of each column
-     */
-    private function get_border_style() {
-        $border = array();
-        $border['T'] = array();
-        $border['T']['width'] = 0.2;
-        $border['T']['cap'] = 'butt';
-        $border['T']['join'] = 'miter';
-        $border['T']['dash'] = 1;
-        $border['T']['color'] = array(179, 219, 181);
-
-        return $border;
     }
 }

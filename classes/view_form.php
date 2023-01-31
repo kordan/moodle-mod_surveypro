@@ -176,6 +176,42 @@ class view_form extends formbase {
         return $this->userdeservesthanks;
     }
 
+    /**
+     * Proccess message method
+     *
+     * @return String the processed message
+     */
+    public function get_message() {
+        global $CFG, $USER, $COURSE;
+
+        $coveredattr = 'xxxxx';
+        if (!empty($this->surveypro->mailcontent)) {
+            $fullname = fullname($USER);
+            $surveyproname = $this->surveypro->name;
+            $url = $CFG->wwwroot.'/mod/surveypro/view_submissions.php?s='.$this->surveypro->id;
+
+            $content = $this->surveypro->mailcontent;
+            $originals = array('{FIRSTNAME}', '{LASTNAME}', '{FULLNAME}', '{COURSENAME}', '{SURVEYPRONAME}', '{SURVEYPROURL}');
+            if (empty($this->surveypro->anonymous)) {
+                $replacements = array($USER->firstname, $USER->lastname, $fullname, $COURSE->fullname, $surveyproname, $url);
+            } else {
+                $replacements = array($coveredattr, $coveredattr, $coveredattr, $COURSE->fullname, $surveyproname, $url);
+            }
+
+            $content = str_replace($originals, $replacements, $content);
+        } else {
+            $a = new \stdClass();
+            $a->username = empty($this->surveypro->anonymous) ? fullname($USER) : $coveredattr;
+            $a->surveyproname = $this->surveypro->name;
+            $a->title = get_string('reviewsubmissions', 'mod_surveypro');
+            $a->href = $CFG->wwwroot.'/mod/surveypro/view_submissions.php?s='.$this->surveypro->id;
+
+            $content = get_string('newsubmissionbody', 'mod_surveypro', $a);
+        }
+
+        return $content;
+    }
+
     // MARK general methods.
 
     /**
@@ -812,42 +848,6 @@ class view_form extends formbase {
         foreach ($recipients as $recipient) {
             email_to_user($recipient, $supportuser, $subject, $body, $htmlbody);
         }
-    }
-
-    /**
-     * Proccess message method
-     *
-     * @return String the processed message
-     */
-    public function get_message() {
-        global $CFG, $USER, $COURSE;
-
-        $coveredattr = 'xxxxx';
-        if (!empty($this->surveypro->mailcontent)) {
-            $fullname = fullname($USER);
-            $surveyproname = $this->surveypro->name;
-            $url = $CFG->wwwroot.'/mod/surveypro/view_submissions.php?s='.$this->surveypro->id;
-
-            $content = $this->surveypro->mailcontent;
-            $originals = array('{FIRSTNAME}', '{LASTNAME}', '{FULLNAME}', '{COURSENAME}', '{SURVEYPRONAME}', '{SURVEYPROURL}');
-            if (empty($this->surveypro->anonymous)) {
-                $replacements = array($USER->firstname, $USER->lastname, $fullname, $COURSE->fullname, $surveyproname, $url);
-            } else {
-                $replacements = array($coveredattr, $coveredattr, $coveredattr, $COURSE->fullname, $surveyproname, $url);
-            }
-
-            $content = str_replace($originals, $replacements, $content);
-        } else {
-            $a = new \stdClass();
-            $a->username = empty($this->surveypro->anonymous) ? fullname($USER) : $coveredattr;
-            $a->surveyproname = $this->surveypro->name;
-            $a->title = get_string('reviewsubmissions', 'mod_surveypro');
-            $a->href = $CFG->wwwroot.'/mod/surveypro/view_submissions.php?s='.$this->surveypro->id;
-
-            $content = get_string('newsubmissionbody', 'mod_surveypro', $a);
-        }
-
-        return $content;
     }
 
     /**
