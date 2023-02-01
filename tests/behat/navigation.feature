@@ -194,4 +194,4 @@ Feature: verify urls really redirect to existing pages
     And I am on "Test links course" course homepage
     And I follow "sPro test links"
     And I follow "Dashboard" page in tab bar
-    And I follow "Responses"
+    And I follow "Responses" page in tab bar

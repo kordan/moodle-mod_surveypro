@@ -58,7 +58,7 @@ Feature: test functionality of attachment report
     When I log in as "student1"
     And I am on "Test attachment report" course homepage
     And I follow "Attachment report test"
-    And I follow "Responses"
+    And I follow "Responses" page in tab bar
 
     And I press "New response"
     And I upload "mod/surveypro/report/attachments/tests/fixtures/uploads/photo11.png" file to "Upload a passport photo" filemanager
@@ -86,7 +86,7 @@ Feature: test functionality of attachment report
     When I log in as "student2"
     And I am on "Test attachment report" course homepage
     And I follow "Attachment report test"
-    And I follow "Responses"
+    And I follow "Responses" page in tab bar
 
     And I press "New response"
     And I upload "mod/surveypro/report/attachments/tests/fixtures/uploads/photo21.jpg" file to "Upload a passport photo" filemanager
@@ -106,7 +106,7 @@ Feature: test functionality of attachment report
     When I log in as "student3"
     And I am on "Test attachment report" course homepage
     And I follow "Attachment report test"
-    And I follow "Responses"
+    And I follow "Responses" page in tab bar
 
     And I press "New response"
     And I upload "mod/surveypro/report/attachments/tests/fixtures/uploads/photo31.jpg" file to "Upload a passport photo" filemanager

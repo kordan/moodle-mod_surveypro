@@ -64,10 +64,10 @@ Feature: verify the input with different number format
 
     And I follow "English" in the language menu
 
-    And I follow "Responses"
+    And I follow "Responses" page in tab bar
     And I follow "view_submission_row_1"
     Then the field "Write the best approximation of π you can remember" matches value "3.14"
 
-    And I follow "Responses"
+    And I follow "Responses" page in tab bar
     And I follow "view_submission_row_2"
     Then the field "Write the best approximation of π you can remember" matches value "3.14"

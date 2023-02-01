@@ -49,7 +49,7 @@ function surveypro_autofill_get_elements($surveyproid) {
     global $COURSE;
 
     $cm = get_coursemodule_from_instance('surveypro', $surveyproid, $COURSE->id, false, MUST_EXIST);
-    $usegroups = groups_get_activity_groupmode($cm, $COURSE);
+    $groupmode = groups_get_activity_groupmode($cm, $COURSE);
 
     $options = array();
     $options[''] = array('' => get_string('choosedots'));
@@ -68,7 +68,7 @@ function surveypro_autofill_get_elements($surveyproid) {
     // User.
     $begin = $end + 1;
     $menuelements = 3; // 3 == ('number of cycles' - 1).
-    if ($usegroups) {
+    if ($groupmode) {
         $menuelements += 2; // Add 'group ID' and 'group name'.
     }
     $end = $begin + $menuelements;
@@ -82,7 +82,7 @@ function surveypro_autofill_get_elements($surveyproid) {
 
     // Surveypro.
     $begin = $end + 1;
-    if (!$usegroups) { // Jump last two menu items.
+    if (!$groupmode) { // Jump last two menu items.
         $begin += 2;
     }
     $end = $begin + 1; // 1 == ('number of cycles' - 1).

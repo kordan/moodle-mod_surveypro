@@ -25,8 +25,8 @@ Feature: editing a submission, autofill userID is not overwritten
       | student2 | Course grouped | student        |
     And the following "permission overrides" exist:
       | capability                          | permission | role    | contextlevel | reference      |
-      | mod/surveypro:editownsubmissions    | Allow      | student | Course       | Course grouped |
       | mod/surveypro:seeotherssubmissions  | Allow      | student | Course       | Course grouped |
+      | mod/surveypro:editownsubmissions    | Allow      | student | Course       | Course grouped |
       | mod/surveypro:editotherssubmissions | Allow      | student | Course       | Course grouped |
     And the following "group members" exist:
       | user     | group |
@@ -112,7 +112,7 @@ Feature: editing a submission, autofill userID is not overwritten
     When I log in as "student2"
     And I am on "Course divided into groups" course homepage
     And I follow "Preserve autofill"
-    And I follow "Responses"
+    And I follow "Responses" page in tab bar
     And I follow "edit_submission_row_1"
     Then the field "Your first name" matches value "student1"
     Then the field "Your last name" matches value "user1"
@@ -127,7 +127,7 @@ Feature: editing a submission, autofill userID is not overwritten
     When I log in as "student1"
     And I am on "Course divided into groups" course homepage
     And I follow "Preserve autofill"
-    And I follow "Responses"
+    And I follow "Responses" page in tab bar
 
     And I follow "edit_submission_row_1"
     Then the field "Your first name" matches value "student1"
@@ -155,7 +155,7 @@ Feature: editing a submission, autofill userID is not overwritten
     When I log in as "student1"
     And I am on "Course divided into groups" course homepage
     And I follow "Preserve autofill"
-    And I follow "Responses"
+    And I follow "Responses" page in tab bar
 
     And I follow "edit_submission_row_1"
     Then the field "Your first name" matches value "student1"

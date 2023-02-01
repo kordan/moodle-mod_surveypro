@@ -169,11 +169,35 @@ class view_submissions {
     /**
      * Get submissions sql.
      *
+     * Supporting rationale:
+     * if a user has the 'mod/surveypro:seeotherssubmissions'...
+     *     he can ENLARGES his/her view/panorama from his/hew own submissions to
+     *     all the submissions coming from his/her "world".
+     *     What is his/her "world"?
+     *     if sPro is NOT divided into groups,
+     *         his/her "world" is the set of ALL THE submissions coming from users enrolled in the course.
+     *     if sPro is divided into groups AND a user is in a group,
+     *         his/her "world" is the set of submissions coming from users part of his/her same groups.
+     *     Subcase:
+     *     if sPro is divided into groups but the user is NOT in any group,
+     *         his/her "world" is the set of ALL THE submissions coming from users enrolled in the course.
+     *
+     *     if a user has the 'moodle/site:accessallgroups' even if he/she is member of a group,
+     *         his/her "world" is the set of ALL THE submissions coming from users enrolled in the course.
+     *
+     * if a user has NOT the 'mod/surveypro:seeotherssubmissions'...
+     *     he can see ONLY HIS/HER OWN submissions without worrying about any eventual groups.
+     *
+     * The supporting idea of this rationale is:
+     *     'mod/surveypro:seeotherssubmissions' ENLARGES view/panorama of users
+     *     groups REDUCES the width of the world
+     *
+     * Note:
      * Teachers is the role of users usually accessing reports.
      * They are "teachers" so they care about "students" and nothing more.
-     * If, at import time, some records go under the admin ownership
+     * If some records go under the admin ownership
      * the teacher is not supposed to see them because admin is not a student.
-     * In this case, if the teacher wants to see submissions owned by admin, HE HAS TO ENROLL ADMIN with some role.
+     * In this case, if the teacher wants to see submissions from the admin, HE HAS TO ENROLL ADMIN with some role.
      *
      * Different is the story for the admin.
      * If an admin wants to make a report, he will see EACH RESPONSE SUBMITTED
@@ -191,43 +215,59 @@ class view_submissions {
 
         $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
 
-        $emptysql = 'SELECT DISTINCT s.*, s.id as submissionid'.$userfieldsapi->selects.'
-                     FROM {surveypro_submission} s
-                         JOIN {user} u ON u.id = s.userid
-                     WHERE u.id = :userid';
-
+        // Are there enrolled users in this course?
         $coursecontext = \context_course::instance($COURSE->id);
         list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);
 
         $sql = 'SELECT COUNT(eu.id)
                 FROM ('.$enrolsql.') eu';
-        // If there are no enrolled people, give up!
+        // If there are not enrolled users, give up!
         if (!$DB->count_records_sql($sql, $eparams)) {
-            if (!$canviewhiddenactivities) {
+            if (!$canviewhiddenactivities) { // If you are not an admin like.
+                // Prepare an empty SQL to return if conditions force it.
+                $emptysql = 'SELECT DISTINCT s.*, s.id as submissionid'.$userfieldsapi->selects.'
+                             FROM {surveypro_submission} s
+                                 JOIN {user} u ON u.id = s.userid
+                             WHERE u.id = :userid';
+
                 return array($emptysql, array('userid' => -1));
             }
         }
 
-        $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
-        if (($groupmode == SEPARATEGROUPS) && (!$canaccessallgroups)) {
-            $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $this->cm->groupingid);
-            $mygroups = array_keys($mygroups);
-            if (!count($mygroups)) { // User is not in any group.
-                // This is a student that has not been added to any group.
-                // The sql needs to return an empty set.
-                return array($emptysql, array('userid' => -1));
+        // Make a list of the groups the users is part of.
+        if (!$canaccessallgroups) {
+            // Is this instance of surveypro divided into groups?
+            // Take care: even if the course is divided into groups, this surveypro may not inherit that division.
+            $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
+            if ($groupmode) { // Activity is divided into groups.
+                // Does the user belong to any group?
+                $mygroups = groups_get_all_groups($COURSE->id, $USER->id);
+                if (count($mygroups)) {
+                    $mygroups = array_keys($mygroups);
+
+                    list($ingroupsql, $groupsparams) = $DB->get_in_or_equal($mygroups, SQL_PARAMS_NAMED, 'groupid');
+                    // $groupsparams is ready to array_merge $whereparams if ((!$canaccessallgroups) && count($mygroups)).
+
+                    $sqlgroups = ' AND gm.groupid '.$ingroupsql;
+                }
+            } else {
+                $mygroups = [];
             }
+        } else {
+            $mygroups = [];
         }
 
-        $whereparams = array();
-
-        $sql = 'SELECT s.id as submissionid, s.surveyproid, s.status, s.userid, s.timecreated, s.timemodified';
+        $sql = 'SELECT ss.id as submissionid, ss.surveyproid, ss.status, ss.userid, ss.timecreated, ss.timemodified';
         $sql .= $userfieldsapi->selects;
-        $sql .= ' FROM {surveypro_submission} s
-                  JOIN {user} u ON u.id = s.userid';
+        $sql .= ' FROM {surveypro_submission} ss
+                  JOIN {user} u ON u.id = ss.userid';
 
-        if (!$canviewhiddenactivities) {
+        // Initialize $whereparams.
+        if ($canviewhiddenactivities) { // You are a student so make the selection among enrolled users only.
+            $whereparams = array();
+        } else {
             $sql .= ' JOIN ('.$enrolsql.') eu ON eu.id = u.id';
+            $whereparams = $eparams;
         }
 
         if ($this->searchquery) {
@@ -260,16 +300,43 @@ class view_submissions {
             $sql .= ' JOIN ('.$sqlanswer.') a ON a.submissionid = s.id';
         }
 
-        if (($groupmode == SEPARATEGROUPS) && (!$canaccessallgroups)) {
-            $sql .= ' JOIN {groups_members} gm ON gm.userid = s.userid';
+        $debug = false;
+        if ($debug) {
+            if ($canviewhiddenactivities) {
+                echo '$canviewhiddenactivities = true<br />';
+            } else {
+                echo '$canviewhiddenactivities = false<br />';
+            }
+            if ($canseeotherssubmissions) {
+                echo '$canseeotherssubmissions = true<br />';
+            } else {
+                echo '$canseeotherssubmissions = false<br />';
+            }
+            if ($canaccessallgroups) {
+                echo '$canaccessallgroups = true<br />';
+            } else {
+                echo '$canaccessallgroups = false<br />';
+            }
+            echo '$mygroups =';
+            // print_object($mygroups); // <-- This is better than var_dump but codechecker doesn't like it.
+            echo '<br />count($mygroups) = '.count($mygroups).'<br />';
         }
 
-        $sql .= ' WHERE s.surveyproid = :surveyproid';
+        if (count($mygroups)) { // User is, at least, in a group.
+            if ($canseeotherssubmissions && (!$canaccessallgroups)) {
+                $sql .= ' JOIN (SELECT DISTINCT gm.userid
+                                FROM {groups_members} gm
+                                WHERE gm.groupid '.$ingroupsql.') gr ON gr.userid = u.id';
+                $whereparams = array_merge($whereparams, $groupsparams);
+            }
+        }
+
+        $sql .= ' WHERE ss.surveyproid = :surveyproid';
         $whereparams['surveyproid'] = $this->surveypro->id;
 
         if (!$canseeotherssubmissions) {
             // Restrict to your submissions only.
-            $sql .= ' AND s.userid = :userid';
+            $sql .= ' AND ss.userid = :userid';
             $whereparams['userid'] = $USER->id;
         }
 
@@ -280,22 +347,24 @@ class view_submissions {
             $whereparams = $whereparams + $wherefilterparams;
         }
 
-        if (($groupmode == SEPARATEGROUPS) && (!$canaccessallgroups)) {
-            // Restrict to your groups only.
-            list($insql, $subparams) = $DB->get_in_or_equal($mygroups, SQL_PARAMS_NAMED, 'groupid');
-            $whereparams = array_merge($whereparams, $subparams);
-            $sql .= ' AND gm.groupid '.$insql;
-        }
-
         if ($table->get_sql_sort()) {
             // Sort coming from $table->get_sql_sort().
             $sql .= ' ORDER BY '.$table->get_sql_sort();
         } else {
-            $sql .= ' ORDER BY s.timecreated';
+            $sql .= ' ORDER BY ss.timecreated';
         }
 
-        if (!$canviewhiddenactivities) {
-            $whereparams = array_merge($whereparams, $eparams);
+        $debug = false;
+        if ($debug) {
+            global $CFG;
+
+            // echo '$sql = '.$sql.'<br /><br />';
+            $sql2display = preg_replace('~{([a-z_]*)}~', $CFG->prefix.'\1', $sql);
+            $sql2display = str_replace('JOIN', '<br />&nbsp;&nbsp;&nbsp;&nbsp;JOIN', $sql2display);
+            echo '$sql2display = '.$sql2display.'<br />';
+            echo '$whereparams =';
+            // print_object($whereparams); // <-- This is better than var_dump but codechecker doesn't like it.
+            var_dump($whereparams);
         }
 
         return array($sql, $whereparams);
@@ -329,14 +398,12 @@ class view_submissions {
         }
 
         $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
-        if (($groupmode == SEPARATEGROUPS) && (!$canaccessallgroups)) {
-            $mygroups = groups_get_all_groups($COURSE->id, $USER->id, $this->cm->groupingid);
+        if ($groupmode && (!$canaccessallgroups)) {
+            $mygroups = groups_get_all_groups($COURSE->id, $USER->id);
             $mygroups = array_keys($mygroups);
-            if (!count($mygroups)) { // User is not in any group.
-                // This is a student that has not been added to any group.
-                // The sql needs to return an empty set.
-                return 0;
-            }
+            // if count($mygroups) == 0
+            // then the course is divided into groups
+            // but this user was not added to any group.
         }
 
         $whereparams = array();
@@ -345,7 +412,7 @@ class view_submissions {
         $sql .= ' FROM {surveypro_submission} s
                   JOIN {user} u ON u.id = s.userid';
 
-        if (!$canviewhiddenactivities) {
+        if (!$canviewhiddenactivities) { // You are a student so make the selection among enrolled users only.
             $sql .= ' JOIN ('.$enrolsql.') eu ON eu.id = u.id';
         }
 
@@ -379,17 +446,21 @@ class view_submissions {
             $sql .= ' JOIN ('.$sqlanswer.') a ON a.submissionid = s.id';
         }
 
-        if (($groupmode == SEPARATEGROUPS) && (!$canaccessallgroups)) {
-            $sql .= ' JOIN {groups_members} gm ON gm.userid = s.userid';
+        if ($groupmode && (!$canaccessallgroups)) {
+            if (count($mygroups)) { // User is, at least, in a group.
+                $sql .= ' JOIN {groups_members} gm ON gm.userid = s.userid';
+            }
         }
 
         $sql .= ' WHERE s.surveyproid = :surveyproid';
         $whereparams['surveyproid'] = $this->surveypro->id;
 
-        if (!$canseeotherssubmissions) {
-            // Restrict to your submissions only.
-            $sql .= ' AND s.userid = :userid';
-            $whereparams['userid'] = $USER->id;
+        if (!$canaccessallgroups) {
+            if (!$groupmode || !count($mygroups)) { // User is not in any group.
+                // Restrict to your submissions only.
+                $sql .= ' AND s.userid = :userid';
+                $whereparams['userid'] = $USER->id;
+            }
         }
 
         // Manage table alphabetical filter.
@@ -397,13 +468,6 @@ class view_submissions {
         if ($wherefilter) {
             $sql .= ' AND '.$wherefilter;
             $whereparams = $whereparams + $wherefilterparams;
-        }
-
-        if (($groupmode == SEPARATEGROUPS) && (!$canaccessallgroups)) {
-            // Restrict to your groups only.
-            list($insql, $subparams) = $DB->get_in_or_equal($mygroups, SQL_PARAMS_NAMED, 'groupid');
-            $whereparams = array_merge($whereparams, $subparams);
-            $sql .= ' AND gm.groupid '.$insql;
         }
 
         $sql .= ' GROUP BY s.status';
@@ -595,14 +659,15 @@ class view_submissions {
 
         $canalwaysseeowner = has_capability('mod/surveypro:alwaysseeowner', $this->context);
         $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
+        $canaccessallgroups = has_capability('moodle/site:accessallgroups', $this->context);
         $caneditownsubmissions = has_capability('mod/surveypro:editownsubmissions', $this->context);
         $caneditotherssubmissions = has_capability('mod/surveypro:editotherssubmissions', $this->context);
         $canduplicateownsubmissions = has_capability('mod/surveypro:duplicateownsubmissions', $this->context);
         $canduplicateotherssubmissions = has_capability('mod/surveypro:duplicateotherssubmissions', $this->context);
         $candeleteownsubmissions = has_capability('mod/surveypro:deleteownsubmissions', $this->context);
         $candeleteotherssubmissions = has_capability('mod/surveypro:deleteotherssubmissions', $this->context);
-        $cansavesubmissiontopdf = has_capability('mod/surveypro:savesubmissiontopdf', $this->context);
-        $canaccessallgroups = has_capability('moodle/site:accessallgroups', $this->context);
+        $cansavetopdfownsubmissions = has_capability('mod/surveypro:savetopdfownsubmissions', $this->context);
+        $cansavetopdfotherssubmissions = has_capability('mod/surveypro:savetopdfotherssubmissions', $this->context);
 
         $table = new \flexible_table('submissionslist');
 
@@ -682,6 +747,12 @@ class view_submissions {
                                             $counter['closedsubmissions'], $counter['closedusers'],
                                             $counter['inprogresssubmissions'], $counter['inprogressusers']);
 
+        $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
+        if ($groupmode) { // Activity is divided into groups.
+            $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
+            $mygroupmates = $utilitysubmissionman->get_groupmates($this->cm);
+        }
+
         list($sql, $whereparams) = $this->get_submissions_sql($table);
 
         $submissions = $DB->get_recordset_sql($sql, $whereparams, $table->get_page_start(), $table->get_page_size());
@@ -719,11 +790,12 @@ class view_submissions {
             $iconparams['title'] = $downloadpdfstr;
             $downloadpdficn = new \pix_icon('t/download', $downloadpdfstr, 'moodle', $iconparams);
 
-            if ($groupmode = groups_get_activity_groupmode($this->cm, $COURSE)) {
-                if ($groupmode == SEPARATEGROUPS) {
-                    $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
-                    $mygroupmates = $utilitysubmissionman->get_groupmates($this->cm);
-                }
+            $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
+            if ($groupmode) { // Activity is divided into groups.
+                $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
+                $mygroupmates = $utilitysubmissionman->get_groupmates($this->cm);
+            } else {
+                $mygroupmates = [];
             }
 
             $tablerowcounter = 0;
@@ -734,18 +806,14 @@ class view_submissions {
                 $submissionsuffix = 'row_'.$tablerowcounter;
 
                 // Before starting, just set some information.
-                if (!$ismine = ($submission->userid == $USER->id)) {
-                    if (!$canseeotherssubmissions) {
-                        continue;
-                    }
-                    if ($groupmode == SEPARATEGROUPS) {
-                        if ($canaccessallgroups) {
-                            $groupuser = true;
-                        } else {
-                            $groupuser = in_array($submission->userid, $mygroupmates);
-                        }
+                $ismine = ($submission->userid == $USER->id);
+                if ($canaccessallgroups) {
+                    $mysamegroup = true;
+                } else {
+                    if ($groupmode) { // Activity is divided into groups.
+                        $mysamegroup = in_array($submission->userid, $mygroupmates);
                     } else {
-                        $groupuser = true;
+                        $mysamegroup = false;
                     }
                 }
 
@@ -782,17 +850,23 @@ class view_submissions {
                 $paramurl['submissionid'] = $submission->submissionid;
 
                 // Edit.
-                if ($ismine) { // I am the owner.
+                $displayediticon = false;
+                if ($ismine) { // Owner is me
                     if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
+                        // You always MUST have the possibility to close an inprogress submission.
                         $displayediticon = true;
                     } else {
                         $displayediticon = $caneditownsubmissions;
                     }
-                } else { // I am not the owner.
-                    if ($groupmode == SEPARATEGROUPS) {
-                        $displayediticon = $groupuser && $caneditotherssubmissions;
-                    } else { // NOGROUPS || VISIBLEGROUPS.
-                        $displayediticon = $caneditotherssubmissions;
+                } else {
+                    if ($mysamegroup) { // Owner is from a group of mine.
+                        // I should be here only if $canseeotherssubmissions = true.
+                        if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
+                            // You always MUST have the possibility to close an inprogress submission of someone from your same group.
+                            $displayediticon = $canseeotherssubmissions;
+                        } else {
+                            $displayediticon = $caneditotherssubmissions;
+                        }
                     }
                 }
                 if ($displayediticon) {
@@ -820,13 +894,13 @@ class view_submissions {
                 }
 
                 // Duplicate.
-                if ($ismine) { // I am the owner.
+                $displayduplicateicon = false;
+                if ($ismine) { // Owner is me
                     $displayduplicateicon = $canduplicateownsubmissions;
-                } else { // I am not the owner.
-                    if ($groupmode == SEPARATEGROUPS) {
-                        $displayduplicateicon = $groupuser && $canduplicateotherssubmissions;
-                    } else { // NOGROUPS || VISIBLEGROUPS.
-                        $displayduplicateicon = $canduplicateotherssubmissions;
+                } else {
+                    if ($mysamegroup) { // Owner is from a group of mine.
+                        // I should be here only if $canseeotherssubmissions = true.
+                        $displayduplicateicon = $caneditotherssubmissions;
                     }
                 }
                 if ($displayduplicateicon) { // I am the owner or a groupmate.
@@ -845,14 +919,14 @@ class view_submissions {
                 }
 
                 // Delete.
+                $displaydeleteicon = false;
                 $paramurl = $paramurlbase;
                 $paramurl['submissionid'] = $submission->submissionid;
-                if ($ismine) { // I am the owner.
+                if ($ismine) { // Owner is me
                     $displaydeleteicon = $candeleteownsubmissions;
                 } else {
-                    if ($groupmode == SEPARATEGROUPS) {
-                        $displaydeleteicon = $groupuser && $candeleteotherssubmissions;
-                    } else { // NOGROUPS || VISIBLEGROUPS.
+                    if ($mysamegroup) { // Owner is from a group of mine.
+                        // I should be here only if $canseeotherssubmissions = true.
                         $displaydeleteicon = $candeleteotherssubmissions;
                     }
                 }
@@ -866,7 +940,19 @@ class view_submissions {
                 }
 
                 // Download to pdf.
-                if ($cansavesubmissiontopdf) {
+                $displaydownloadtopdficon = false;
+                if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
+                    $displaydownloadtopdficon = false;
+                } else {
+                    if ($ismine) { // Owner is me
+                        $displaydownloadtopdficon = $cansavetopdfownsubmissions;
+                    } else {
+                        if ($mysamegroup) { // Owner is from a group of mine.
+                            $displaydownloadtopdficon = $cansavetopdfotherssubmissions;
+                        }
+                    }
+                }
+                if ($displaydownloadtopdficon) {
                     $paramurl = $paramurlbase;
                     $paramurl['submissionid'] = $submission->submissionid;
                     $paramurl['view'] = SURVEYPRO_RESPONSETOPDF;
@@ -1446,65 +1532,68 @@ class view_submissions {
             return true;
         }
 
+        $canaccessallgroups = has_capability('moodle/site:accessallgroups', $this->context);
         $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
         $caneditownsubmissions = has_capability('mod/surveypro:editownsubmissions', $this->context);
         $caneditotherssubmissions = has_capability('mod/surveypro:editotherssubmissions', $this->context);
         $candeleteownsubmissions = has_capability('mod/surveypro:deleteownsubmissions', $this->context);
         $candeleteotherssubmissions = has_capability('mod/surveypro:deleteotherssubmissions', $this->context);
-        $cansavesubmissiontopdf = has_capability('mod/surveypro:savesubmissiontopdf', $this->context);
         $canduplicateownsubmissions = has_capability('mod/surveypro:duplicateownsubmissions', $this->context);
         $canduplicateotherssubmissions = has_capability('mod/surveypro:duplicateotherssubmissions', $this->context);
+        $cansavetopdfownsubmissions = has_capability('mod/surveypro:savetopdfownsubmissions', $this->context);
+        $cansavetopdfotherssubmissions = has_capability('mod/surveypro:savetopdfotherssubmissions', $this->context);
 
-        if ($this->action != SURVEYPRO_DELETEALLRESPONSES) { // If a specific submission is involved.
-            $ownerid = $DB->get_field('surveypro_submission', 'userid', array('id' => $this->submissionid), IGNORE_MISSING);
-            if (!$ownerid) {
+        // Start with the unique case not needing $ismine and $mysamegroup.
+        if ($this->action == SURVEYPRO_DELETEALLRESPONSES) {
+            if (!$candeleteotherssubmissions) {
                 throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
+            } else {
+                return true;
             }
+        }
 
-            $ismine = ($ownerid == $USER->id);
-            if (!$ismine) {
-                $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
-                if ($groupmode == SEPARATEGROUPS) {
-                    $utilitysubmissionman = new utility_submission($cm, $surveypro);
-                    $mygroupmates = $utilitysubmissionman->get_groupmates($this->cm);
-                    $groupuser = in_array($ownerid, $mygroupmates);
-                }
+        // From now on each action has a specific submission as target so the submission HAS TO EXIST.
+        $fields = 'userid, status';
+        // In the next line I could use MUST_EXIST but I prefer to always have homogeneous errors messages.
+        $submission = $DB->get_record('surveypro_submission', array('id' => $this->submissionid), $fields, IGNORE_MISSING);
+        $ownerid = $submission->userid;
+        $status = $submission->status;
+        if (!$ownerid) {
+            throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
+        }
+
+        $ismine = ($ownerid == $USER->id);
+        if (!$canaccessallgroups) {
+            $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
+            if ($groupmode) { // Activity is divided into groups.
+                $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
+                $mygroupmates = $utilitysubmissionman->get_groupmates($this->cm);
+                $mysamegroup = in_array($ownerid, $mygroupmates);
+            } else {
+                $mysamegroup = false;
             }
+        } else {
+            $mysamegroup = true;
         }
 
         switch ($this->action) {
             case SURVEYPRO_DELETERESPONSE:
-                if ($ismine) {
+                if ($ismine) { // Owner is me
                     $allowed = $candeleteownsubmissions;
                 } else {
-                    if (!$groupmode) {
+                    if ($mysamegroup) { // Owner is from a group of mine.
                         $allowed = $candeleteotherssubmissions;
-                    } else {
-                        if ($groupmode == SEPARATEGROUPS) {
-                            $allowed = $groupuser && $candeleteotherssubmissions;
-                        } else { // NOGROUPS || VISIBLEGROUPS.
-                            $allowed = $candeleteotherssubmissions;
-                        }
                     }
                 }
                 break;
             case SURVEYPRO_DUPLICATERESPONSE:
-                if ($ismine) {
+                if ($ismine) { // Owner is me
                     $allowed = $canduplicateownsubmissions;
                 } else {
-                    if (!$groupmode) {
+                    if ($mysamegroup) { // Owner is from a group of mine.
                         $allowed = $canduplicateotherssubmissions;
-                    } else {
-                        if ($groupmode == SEPARATEGROUPS) {
-                            $allowed = $groupuser && $canduplicateotherssubmissions;
-                        } else { // NOGROUPS || VISIBLEGROUPS.
-                            $allowed = $canduplicateotherssubmissions;
-                        }
                     }
                 }
-                break;
-            case SURVEYPRO_DELETEALLRESPONSES:
-                $allowed = $candeleteotherssubmissions;
                 break;
             default:
                 $allowed = false;
@@ -1514,42 +1603,45 @@ class view_submissions {
             throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
         }
 
+        $allowed = false;
         switch ($this->view) {
             case SURVEYPRO_NOVIEW:
                 $allowed = true;
                 break;
             case SURVEYPRO_READONLYRESPONSE:
-                if ($ismine) {
-                    $allowed = $this->canseeownsubmissions;
+                if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
+                    $allowed = false;
                 } else {
-                    if (!$groupmode) {
-                        $allowed = $canseeotherssubmissions;
+                    if ($ismine) { // Owner is me
+                        $allowed = true;
                     } else {
-                        if ($groupmode == SEPARATEGROUPS) {
-                            $allowed = $groupuser && $canseeotherssubmissions;
-                        } else { // NOGROUPS || VISIBLEGROUPS.
+                        if ($mysamegroup) { // Owner is from a group of mine.
                             $allowed = $canseeotherssubmissions;
                         }
                     }
                 }
                 break;
             case SURVEYPRO_EDITRESPONSE:
-                if ($ismine) {
+                if ($ismine) { // Owner is me
                     $allowed = $caneditownsubmissions;
                 } else {
-                    if (!$groupmode) {
+                    if ($mysamegroup) { // Owner is from a group of mine.
                         $allowed = $caneditotherssubmissions;
-                    } else {
-                        if ($groupmode == SEPARATEGROUPS) {
-                            $allowed = $groupuser && $caneditotherssubmissions;
-                        } else { // NOGROUPS || VISIBLEGROUPS.
-                            $allowed = $caneditotherssubmissions;
-                        }
                     }
                 }
                 break;
             case SURVEYPRO_RESPONSETOPDF:
-                $allowed = $cansavesubmissiontopdf;
+                if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
+                    $allowed = false;
+                } else {
+                    if ($ismine) { // Owner is me
+                        $allowed = $cansavetopdfownsubmissions;
+                    } else {
+                        if ($mysamegroup) { // Owner is from a group of mine.
+                            $allowed = $cansavetopdfotherssubmissions;
+                        }
+                    }
+                }
                 break;
             default:
                 $allowed = false;
@@ -1567,6 +1659,8 @@ class view_submissions {
      */
     public function submission_to_pdf() {
         global $CFG, $DB;
+
+        $this->prevent_direct_user_input(SURVEYPRO_CONFIRMED_YES);
 
         // Event: submissioninpdf_downloaded.
         $eventdata = array('context' => $this->context, 'objectid' => $this->submissionid);
@@ -1690,8 +1784,9 @@ class view_submissions {
                 $filehandler = fopen($directlink, 'w');
                 fwrite($filehandler, $file->get_content());
                 fclose($filehandler);
+
+                $content = str_replace($httpurl[1], $directlink, $content);
             }
-            $content = str_replace($httpurl[1], $directlink, $content);
         }
 
         return $content;
