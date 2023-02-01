@@ -497,6 +497,7 @@ class view_submissions {
 
         $sql = str_replace('s.status, COUNT(s.id) submissions, ', '', $sql);
         $sql = str_replace(' GROUP BY s.status', '', $sql);
+
         $counters = $DB->get_record_sql($sql, $whereparams);
         $counter['allusers'] = (int) $counters->users;
 
@@ -747,12 +748,6 @@ class view_submissions {
                                             $counter['closedsubmissions'], $counter['closedusers'],
                                             $counter['inprogresssubmissions'], $counter['inprogressusers']);
 
-        $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
-        if ($groupmode) { // Activity is divided into groups.
-            $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
-            $mygroupmates = $utilitysubmissionman->get_groupmates($this->cm);
-        }
-
         list($sql, $whereparams) = $this->get_submissions_sql($table);
 
         $submissions = $DB->get_recordset_sql($sql, $whereparams, $table->get_page_start(), $table->get_page_size());
@@ -800,8 +795,9 @@ class view_submissions {
 
             $tablerowcounter = 0;
             $paramurlbase = array('id' => $this->cm->id);
+
             foreach ($submissions as $submission) {
-                // Count submissions per each user.
+                // Count each submission.
                 $tablerowcounter++;
                 $submissionsuffix = 'row_'.$tablerowcounter;
 
@@ -955,7 +951,8 @@ class view_submissions {
                 if ($displaydownloadtopdficon) {
                     $paramurl = $paramurlbase;
                     $paramurl['submissionid'] = $submission->submissionid;
-                    $paramurl['view'] = SURVEYPRO_RESPONSETOPDF;
+                    $paramurl['act'] = SURVEYPRO_RESPONSETOPDF;
+                    $paramurl['sesskey'] = sesskey();
 
                     $link = new \moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
                     $paramlink = array('id' => 'pdfdownload_submission_'.$submissionsuffix, 'title' => $downloadpdfstr);
@@ -1662,10 +1659,10 @@ class view_submissions {
 
         $this->prevent_direct_user_input(SURVEYPRO_CONFIRMED_YES);
 
-        // Event: submissioninpdf_downloaded.
+        // Event: submissiontopdf_downloaded.
         $eventdata = array('context' => $this->context, 'objectid' => $this->submissionid);
-        $eventdata['other'] = array('view' => SURVEYPRO_RESPONSETOPDF);
-        $event = \mod_surveypro\event\submissioninpdf_downloaded::create($eventdata);
+        $eventdata['other'] = array('act' => SURVEYPRO_RESPONSETOPDF);
+        $event = \mod_surveypro\event\submissiontopdf_downloaded::create($eventdata);
         $event->trigger();
 
         require_once($CFG->libdir.'/tcpdf/tcpdf.php');

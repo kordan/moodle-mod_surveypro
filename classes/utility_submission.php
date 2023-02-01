@@ -159,7 +159,7 @@ class utility_submission {
         }
 
         $groupusers = array();
-        if ($currentgroups = groups_get_all_groups($COURSE->id, $USER->id, $cm->groupingid)) {
+        if ($currentgroups = groups_get_all_groups($COURSE->id, $USER->id)) {
             foreach ($currentgroups as $currentgroup) {
                 $groupusers += groups_get_members($currentgroup->id, 'u.id');
             }

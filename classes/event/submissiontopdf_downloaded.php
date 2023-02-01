@@ -31,7 +31,7 @@ namespace mod_surveypro\event;
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class submissioninpdf_downloaded extends \core\event\base {
+class submissiontopdf_downloaded extends \core\event\base {
 
     /**
      * Set basic properties for the event
@@ -48,7 +48,7 @@ class submissioninpdf_downloaded extends \core\event\base {
      * @return string
      */
     public static function get_name() {
-        return get_string('event_submissioninpdf_downloaded', 'mod_surveypro');
+        return get_string('event_submissiontopdf_downloaded', 'mod_surveypro');
     }
 
     /**
@@ -69,7 +69,7 @@ class submissioninpdf_downloaded extends \core\event\base {
         $paramurl = array();
         $paramurl['id'] = $this->contextinstanceid;
         $paramurl['submissionid'] = $this->objectid;
-        $paramurl['view'] = $this->other['view'];
+        $paramurl['act'] = $this->other['act'];
         return new \moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
     }
 
@@ -99,8 +99,8 @@ class submissioninpdf_downloaded extends \core\event\base {
      * @return void
      */
     protected function validate_data() {
-        if (!isset($this->other['view'])) {
-            throw new \coding_exception('view is a mandatory property.');
+        if (!isset($this->other['act'])) {
+            throw new \coding_exception('act is a mandatory property.');
         }
     }
 }
