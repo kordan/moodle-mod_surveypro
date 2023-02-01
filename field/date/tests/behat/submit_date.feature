@@ -5,7 +5,7 @@ Feature: make a submission test for "date" item
   I add a date item, I fill it and I go to see responses
 
   @javascript
-  Scenario: test a submission works fine for date item
+  Scenario: test submissions for date item
     Given the following "courses" exist:
       | fullname                      | shortname            | category |
       | Test submission for date item | Date submission test | 0        |
@@ -20,9 +20,7 @@ Feature: make a submission test for "date" item
     And the following "activities" exist:
       | activity  | name         | intro                        | course               |
       | surveypro | Date test | To test submission of date item | Date submission test |
-    And I log in as "teacher1"
-    And I am on "Test submission for date item" course homepage
-    And I follow "Date test"
+    And I am on the "Date test" "surveypro activity" page logged in as "teacher1"
 
     And I set the field "typeplugin" to "Date [dd/mm/yyyy]"
     And I press "Add"

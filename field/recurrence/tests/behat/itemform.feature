@@ -21,9 +21,7 @@ Feature: test the use of recurrence setup form
     And surveypro "Test recurrence setup form" contains the following items:
       | type  | plugin  |
       | field | boolean |
-    And I log in as "teacher1"
-    And I am on "Recurrence setup form" course homepage
-    And I follow "Test recurrence setup form"
+    And I am on the "Test recurrence setup form" "surveypro activity" page logged in as "teacher1"
     And I follow "Layout"
 
     # add an recurrence item

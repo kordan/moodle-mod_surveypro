@@ -137,9 +137,7 @@ Feature: editing a submission, autofill userID is not overwritten
     And I log out
 
     # teacher1 logs in
-    When I log in as "teacher1"
-    And I am on "Course divided into groups" course homepage
-    And I follow "Preserve autofill"
+    And I am on the "Preserve autofill" "surveypro activity" page logged in as "teacher1"
     And I follow "Responses" page in tab bar
 
     And I follow "edit_submission_row_1"

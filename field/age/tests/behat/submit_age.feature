@@ -5,7 +5,7 @@ Feature: make a submission test for "age" item
   I add an age item, I fill it and I go to see responses
 
   @javascript
-  Scenario: test a submission works fine for age item
+  Scenario: test submissions for age item
     Given the following "courses" exist:
       | fullname                     | shortname           | category |
       | Test submission for age item | Age submission test | 0        |
@@ -20,9 +20,7 @@ Feature: make a submission test for "age" item
     And the following "activities" exist:
       | activity  | name     | intro                          | course              |
       | surveypro | Age test | To test submission of age item | Age submission test |
-    And I log in as "teacher1"
-    And I am on "Test submission for age item" course homepage
-    And I follow "Age test"
+    And I am on the "Age test" "surveypro activity" page logged in as "teacher1"
 
     And I set the field "typeplugin" to "Age"
     And I press "Add"

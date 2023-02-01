@@ -22,9 +22,7 @@ Feature: test each student sees only personal submissions
     And the following "activities" exist:
       | activity  | name                        | intro                                                  | course                    |
       | surveypro | Get only my own submissions | Test each student can only see his/her own submissions | Only personal submissions |
-    And I log in as "teacher1"
-    And I am on "See only personal submissions" course homepage
-    And I follow "Get only my own submissions"
+    And I am on the "Get only my own submissions" "surveypro activity" page logged in as "teacher1"
 
     And I set the field "typeplugin" to "Text (short)"
     And I press "Add"

@@ -27,9 +27,7 @@ Feature: deletion of no longer allowed answers on user change of mind
       | format | pagebreak   |
       | field  | select      |
       | field  | character   |
-    And I log in as "teacher1"
-    And I am on "Change of mind" course homepage
-    And I follow "Test change of mind"
+    And I am on the "Test change of mind" "surveypro activity" page logged in as "teacher1"
     And I follow "Layout"
 
     And I follow "edit_item_1"
@@ -113,9 +111,7 @@ Feature: deletion of no longer allowed answers on user change of mind
       | field  | select      |
       | field  | checkbox    |
       | field  | character   |
-    And I log in as "teacher1"
-    And I am on "1-2-1-3 change of mind" course homepage
-    And I follow "Test 1-2-1-3 change of mind"
+    And I am on the "Test 1-2-1-3 change of mind" "surveypro activity" page logged in as "teacher1"
     And I follow "Layout"
 
     And I follow "edit_item_1"
@@ -230,9 +226,7 @@ Feature: deletion of no longer allowed answers on user change of mind
       | format | pagebreak   |
       | field  | boolean     |
       | field  | character   |
-    And I log in as "teacher1"
-    And I am on "1-3-1-2 change of mind" course homepage
-    And I follow "Test 1-3-1-2 change of mind"
+    And I am on the "Test 1-3-1-2 change of mind" "surveypro activity" page logged in as "teacher1"
     And I follow "Layout"
 
     And I follow "edit_item_1"

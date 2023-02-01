@@ -27,9 +27,7 @@ Feature: duplicate response
     And surveypro "Duplicate response sp" contains the following items:
       | type  | plugin  |
       | field | boolean |
-    And I log in as "student1"
-    And I am on "Duplicate response" course homepage
-    And I follow "Duplicate response sp"
+    And I am on the "Duplicate response sp" "surveypro activity" page logged in as "student1"
     And I press "New response"
     And I set the field "Is it true?" to "Yes"
     And I press "Submit"

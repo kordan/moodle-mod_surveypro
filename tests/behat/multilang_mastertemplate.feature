@@ -36,10 +36,12 @@ Feature: verify multilang in mastertemplates
 
     # Force English for UI.
     And I follow "English (en)" in the language menu
-    And I log in as "teacher1"
-    And I am on site homepage
-    And I follow "Multilang mastertemplate"
-    And I follow "Multilang in ATTLS"
+    # And I log in as "teacher1"
+    # And I am on site homepage
+    # And I follow "Multilang mastertemplate"
+    # And I follow "Multilang in ATTLS"
+    And I am on the "Multilang in ATTLS" "surveypro activity" page logged in as "teacher1"
+
     And I set the field "Master templates" to "ATTLS (20 item version)"
     And I press "Apply"
     Then I should see "Attitudes Towards Thinking and Learning"

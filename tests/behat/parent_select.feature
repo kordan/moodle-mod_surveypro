@@ -23,9 +23,7 @@ Feature: test the use of select as parent item
     And surveypro "Test select as parent" contains the following items:
       | type   | plugin |
       | field  | select |
-    And I log in as "teacher1"
-    And I am on "Select as parent" course homepage
-    And I follow "Test select as parent"
+    And I am on the "Test select as parent" "surveypro activity" page logged in as "teacher1"
     And I follow "Layout"
 
     # add a short text item
@@ -71,9 +69,7 @@ Feature: test the use of select as parent item
 
     And I log out
 
-    And I log in as "teacher1"
-    And I am on "Select as parent" course homepage
-    And I follow "Test select as parent"
+    And I am on the "Test select as parent" "surveypro activity" page logged in as "teacher1"
     And I follow "Layout"
     And I follow "edit_item_2"
     And I expand all fieldsets
@@ -139,9 +135,7 @@ Feature: test the use of select as parent item
 
     And I log out
 
-    And I log in as "teacher1"
-    And I am on "Select as parent" course homepage
-    And I follow "Test select as parent"
+    And I am on the "Test select as parent" "surveypro activity" page logged in as "teacher1"
     And I follow "Layout"
     And I follow "edit_item_2"
     And I expand all fieldsets

@@ -25,9 +25,7 @@ Feature: Submission modification time
       | field  | boolean     |
       | format | pagebreak   |
       | field  | character   |
-    And I log in as "teacher1"
-    And I am on "Timemodified only at modification time" course homepage
-    And I follow "Test modification time"
+    And I am on the "Test modification time" "surveypro activity" page logged in as "teacher1"
 
     And I log out
 

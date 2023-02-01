@@ -5,7 +5,7 @@ Feature: make a submission test for "numeric" item
   I add a numeric item, I fill it and I go to see responses
 
   @javascript
-  Scenario: test a submission works fine for numeric item
+  Scenario: test submissions for numeric item
     Given the following "courses" exist:
       | fullname                         | shortname               | category |
       | Test submission for numeric item | Numeric submission test | 0        |
@@ -20,9 +20,7 @@ Feature: make a submission test for "numeric" item
     And the following "activities" exist:
       | activity  | name         | intro                         | course                  |
       | surveypro | Numeric test | To test submission of numeric | Numeric submission test |
-    And I log in as "teacher1"
-    And I am on "Test submission for numeric item" course homepage
-    And I follow "Numeric test"
+    And I am on the "Numeric test" "surveypro activity" page logged in as "teacher1"
 
     And I set the field "typeplugin" to "Numeric"
     And I press "Add"

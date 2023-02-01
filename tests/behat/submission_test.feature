@@ -48,9 +48,7 @@ Feature: make a submission test for each available item
       | field  | character   |
       | field  | time        |
       | format | label       |
-    And I log in as "teacher1"
-    And I am on "Test submission for each available item" course homepage
-    And I follow "Each item submission"
+    And I am on the "Each item submission" "surveypro activity" page logged in as "teacher1"
     And I follow "Layout"
     And I follow "Preview" page in tab bar
     And I press "Next page >>"
@@ -124,10 +122,8 @@ Feature: make a submission test for each available item
 
     And I log out
 
-    When I log in as "teacher1"
+    When I am on the "Each item submission" "surveypro activity" page logged in as "teacher1"
 
-    And I am on "Test submission for each available item" course homepage
-    And I follow "Each item submission"
     And I follow "Responses" page in tab bar
     And I follow "edit_submission_row_1"
     And I press "Next page >>"

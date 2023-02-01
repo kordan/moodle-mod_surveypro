@@ -21,9 +21,7 @@ Feature: test the use of age setup form
     And surveypro "Test age setup form" contains the following items:
       | type  | plugin  |
       | field | boolean |
-    And I log in as "teacher1"
-    And I am on "Age setup form" course homepage
-    And I follow "Test age setup form"
+    And I am on the "Test age setup form" "surveypro activity" page logged in as "teacher1"
     And I follow "Layout"
 
     # add an age item

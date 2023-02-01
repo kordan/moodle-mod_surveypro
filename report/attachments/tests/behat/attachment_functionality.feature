@@ -34,10 +34,7 @@ Feature: test functionality of attachment report
       | field  | fileupload |
       | field  | fileupload |
       | field  | fileupload |
-    And I log in as "teacher1"
-    And I am on "Test attachment report" course homepage
-
-    And I follow "Attachment report test"
+    And I am on the "Attachment report test" "surveypro activity" page logged in as "teacher1"
     And I follow "Layout"
 
     And I follow "edit_item_1"
@@ -123,9 +120,8 @@ Feature: test functionality of attachment report
     And I log out
 
     # teacher logs in
-    And I log in as "teacher1"
-    And I am on "Test attachment report" course homepage
-    And I follow "Attachment report test"
+    And I am on the "Attachment report test" "surveypro activity" page logged in as "teacher1"
+
     And I follow "Run Attachments overview report"
 
     # Feature 1: only user who actually submitted are in the list

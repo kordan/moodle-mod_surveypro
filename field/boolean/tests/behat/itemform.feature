@@ -21,9 +21,7 @@ Feature: test the use of boolean setup form
     And surveypro "Test boolean setup form" contains the following items:
       | type  | plugin  |
       | field | boolean |
-    And I log in as "teacher1"
-    And I am on "Boolean setup form" course homepage
-    And I follow "Test boolean setup form"
+    And I am on the "Test boolean setup form" "surveypro activity" page logged in as "teacher1"
     And I follow "Layout"
 
     # add an boolean item

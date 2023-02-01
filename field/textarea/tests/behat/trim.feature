@@ -23,11 +23,8 @@ Feature: test the use of textarea trim
     And the following "permission overrides" exist:
       | capability                          | permission | role    | contextlevel | reference          |
       | mod/surveypro:editownsubmissions    | Allow      | student | Course       | Textarea trim test |
-    And I log in as "teacher1"
-    And I am on "Textarea trim test" course homepage
-    And I follow "Test textarea trim"
+    And I am on the "Test textarea trim" "surveypro activity" page logged in as "teacher1"
 
-    # add an textarea item
     And I set the field "typeplugin" to "Text (long)"
     And I press "Add"
 

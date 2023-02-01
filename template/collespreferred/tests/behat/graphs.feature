@@ -74,9 +74,7 @@ Feature: apply a COLLES (preferred) mastertemplate to test graphs
 
     And I log out
 
-    When I log in as "teacher1"
-    And I am on "To test COLLES graphs" course homepage
-    And I follow "Run COLLES report"
+    When I am on the "Run COLLES report" "surveypro activity" page logged in as "teacher1"
 
     # now test links provided by img's
 

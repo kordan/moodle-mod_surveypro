@@ -29,9 +29,7 @@ Feature: In read only mode browse a submission jumping now filled pages
       | field  | character   |
       | format | pagebreak   |
       | field  | boolean     |
-    And I log in as "teacher1"
-    And I am on "Jump not allowed pages" course homepage
-    And I follow "Test jump not allowed pages"
+    And I am on the "Test jump not allowed pages" "surveypro activity" page logged in as "teacher1"
     And I follow "Layout"
 
     And I follow "edit_item_3"

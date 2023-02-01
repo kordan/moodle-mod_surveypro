@@ -74,9 +74,7 @@ Feature: apply a COLLES (actual) mastertemplate to test graphs
 
     And I log out
 
-    When I log in as "teacher1"
-    And I am on "To test COLLES graphs" course homepage
-    And I follow "Run COLLES report"
+    When I am on the "Run COLLES report" "surveypro activity" page logged in as "teacher1"
 
     And I navigate to "Report > Colles report > Summary" in current page administration
     # now I should be in front of "Colles report > Summary"

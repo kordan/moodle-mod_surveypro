@@ -42,9 +42,7 @@ Feature: adding a fileupload item, two more item are added to export type menu
       | field  | character   |
       | field  | time        |
       | format | label       |
-    And I log in as "teacher1"
-    And I am on "Count export type menu items" course homepage
-    And I follow "Export-item test"
+    And I am on the "Export-item test" "surveypro activity" page logged in as "teacher1"
     And I navigate to "Survey > Export" in current page administration
 
     Then "//select[contains(@id, 'id_downloadtype')]//option[contains(@value, '1')]" "xpath_element" should exist

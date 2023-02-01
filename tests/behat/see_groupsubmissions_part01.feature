@@ -96,9 +96,7 @@ Feature: submissions seen from students not divided into groups (Part 01)
     And I log out
 
     # teacher1 goes to check for his personal submissions
-    When I log in as "teacher1"
-    And I am on "Verify permissions in groups" course homepage
-    And I follow "Verify submission selection"
+    And I am on the "Verify submission selection" "surveypro activity" page logged in as "teacher1"
     And I follow "Responses" page in tab bar
 
     Then I should see "student1" in the "submissions" "table"

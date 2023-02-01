@@ -21,9 +21,7 @@ Feature: test the use of checkbox setup form
     And surveypro "Test checkbox setup form" contains the following items:
       | type  | plugin  |
       | field | boolean |
-    And I log in as "teacher1"
-    And I am on "Checkbox setup form" course homepage
-    And I follow "Test checkbox setup form"
+    And I am on the "Test checkbox setup form" "surveypro activity" page logged in as "teacher1"
     And I follow "Layout"
 
     # add an checkbox item

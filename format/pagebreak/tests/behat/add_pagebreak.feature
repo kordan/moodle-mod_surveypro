@@ -18,9 +18,7 @@ Feature: verify a pagebreak item can be added to a survey
     And the following "activities" exist:
       | activity  | name           | intro                              | course        |
       | surveypro | Pagebreak test | To test addition of pagebreak item | Add pagebreak |
-    And I log in as "teacher1"
-    And I am on "Add pagebreak item" course homepage
-    And I follow "Pagebreak test"
+    And I am on the "Pagebreak test" "surveypro activity" page logged in as "teacher1"
 
     And I set the field "typeplugin" to "Page break"
     And I press "Add"

@@ -21,9 +21,7 @@ Feature: test the use of select setup form
     And surveypro "Test select setup form" contains the following items:
       | type  | plugin  |
       | field | boolean |
-    And I log in as "teacher1"
-    And I am on "Select setup form" course homepage
-    And I follow "Test select setup form"
+    And I am on the "Test select setup form" "surveypro activity" page logged in as "teacher1"
     And I follow "Layout"
 
     # add an select item

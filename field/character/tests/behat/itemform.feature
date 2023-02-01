@@ -21,9 +21,7 @@ Feature: test the use of character setup form
     And surveypro "Test character setup form" contains the following items:
       | type  | plugin  |
       | field | boolean |
-    And I log in as "teacher1"
-    And I am on "Character setup form" course homepage
-    And I follow "Test character setup form"
+    And I am on the "Test character setup form" "surveypro activity" page logged in as "teacher1"
     And I follow "Layout"
 
     # add an character item

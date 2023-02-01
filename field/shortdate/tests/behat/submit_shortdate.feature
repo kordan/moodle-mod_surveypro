@@ -20,9 +20,7 @@ Feature: make a submission test for "shortdate" item
     And the following "activities" exist:
       | activity  | name           | intro                           | course                    |
       | surveypro | Shortdate test | To test submission of shortdate | Shortdate submission test |
-    And I log in as "teacher1"
-    And I am on "Test submission for shortdate item" course homepage
-    And I follow "Shortdate test"
+    And I am on the "Shortdate test" "surveypro activity" page logged in as "teacher1"
 
     And I set the field "typeplugin" to "Date (short) [mm/yyyy]"
     And I press "Add"

@@ -20,9 +20,7 @@ Feature: make a submission test for "radiobutton" item
     And the following "activities" exist:
       | activity  | name             | intro                                  | course                      |
       | surveypro | Radiobutton test | To test submission of radiobutton item | Radiobutton submission test |
-    And I log in as "teacher1"
-    And I am on "Test submission for radio buttons item" course homepage
-    And I follow "Radiobutton test"
+    And I am on the "Radiobutton test" "surveypro activity" page logged in as "teacher1"
 
     And I set the field "typeplugin" to "Radio buttons"
     And I press "Add"

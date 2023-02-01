@@ -5,7 +5,7 @@ Feature: make a submission test for "fileupload" item
   I add an attachment item, I fill it and I go to see responses
 
   @javascript @_file_upload
-  Scenario: test a submission works fine for attachment item
+  Scenario: test submissions for attachment item
     Given the following "courses" exist:
       | fullname                            | shortname                  | category |
       | Test submission for attachment item | Attachment submission test | 0        |
@@ -20,9 +20,7 @@ Feature: make a submission test for "fileupload" item
     And the following "activities" exist:
       | activity  | name            | intro                                 | course                     |
       | surveypro | Attachment test | To test submission of attachment item | Attachment submission test |
-    And I log in as "teacher1"
-    And I am on "Test submission for attachment item" course homepage
-    And I follow "Attachment test"
+    And I am on the "Attachment test" "surveypro activity" page logged in as "teacher1"
 
     And I set the field "typeplugin" to "Attachment"
     And I press "Add"

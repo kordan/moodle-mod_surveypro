@@ -5,7 +5,7 @@ Feature: make a submission test for "recurrence" item
   I add a recurrence item, I fill it and I go to see responses
 
   @javascript
-  Scenario: test a submission works fine for recurrence item
+  Scenario: test submissions for recurrence item
     Given the following "courses" exist:
       | fullname                            | shortname                  | category |
       | Test submission for recurrence item | Recurrence submission test | 0        |
@@ -20,9 +20,7 @@ Feature: make a submission test for "recurrence" item
     And the following "activities" exist:
       | activity  | name            | intro                           | course                     |
       | surveypro | Recurrence test | To test submission of date item | Recurrence submission test |
-    And I log in as "teacher1"
-    And I am on "Test submission for recurrence item" course homepage
-    And I follow "Recurrence test"
+    And I am on the "Recurrence test" "surveypro activity" page logged in as "teacher1"
 
     And I set the field "typeplugin" to "Recurrence [dd/mm]"
     And I press "Add"

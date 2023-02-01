@@ -23,9 +23,7 @@ Feature: test the use of integer as parent item
     And surveypro "Test integer as parent" contains the following items:
       | type   | plugin  |
       | field  | integer |
-    And I log in as "teacher1"
-    And I am on "Integer as parent" course homepage
-    And I follow "Test integer as parent"
+    And I am on the "Test integer as parent" "surveypro activity" page logged in as "teacher1"
     And I follow "Layout"
 
     # add a short text item
@@ -77,9 +75,7 @@ Feature: test the use of integer as parent item
 
     And I log out
 
-    And I log in as "teacher1"
-    And I am on "Integer as parent" course homepage
-    And I follow "Test integer as parent"
+    And I am on the "Test integer as parent" "surveypro activity" page logged in as "teacher1"
     And I follow "Layout"
     And I follow "edit_item_2"
     And I expand all fieldsets
@@ -153,9 +149,7 @@ Feature: test the use of integer as parent item
 
     And I log out
 
-    And I log in as "teacher1"
-    And I am on "Integer as parent" course homepage
-    And I follow "Test integer as parent"
+    And I am on the "Test integer as parent" "surveypro activity" page logged in as "teacher1"
     And I follow "Layout"
     And I follow "edit_item_2"
     And I expand all fieldsets

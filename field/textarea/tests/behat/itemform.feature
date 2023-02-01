@@ -21,9 +21,7 @@ Feature: test the use of textarea setup form
     And surveypro "Test textarea setup form" contains the following items:
       | type  | plugin  |
       | field | boolean |
-    And I log in as "teacher1"
-    And I am on "Textarea setup form" course homepage
-    And I follow "Test textarea setup form"
+    And I am on the "Test textarea setup form" "surveypro activity" page logged in as "teacher1"
     And I follow "Layout"
 
     # add an textarea item

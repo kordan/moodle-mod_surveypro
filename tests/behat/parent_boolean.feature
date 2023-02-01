@@ -23,9 +23,7 @@ Feature: test the use of boolean as parent item
     And surveypro "Test boolean as parent" contains the following items:
       | type   | plugin  |
       | field  | boolean |
-    And I log in as "teacher1"
-    And I am on "Boolean as parent" course homepage
-    And I follow "Test boolean as parent"
+    And I am on the "Test boolean as parent" "surveypro activity" page logged in as "teacher1"
     And I follow "Layout"
 
     # add an boolean item
@@ -71,9 +69,7 @@ Feature: test the use of boolean as parent item
 
     And I log out
 
-    And I log in as "teacher1"
-    And I am on "Boolean as parent" course homepage
-    And I follow "Test boolean as parent"
+    And I am on the "Test boolean as parent" "surveypro activity" page logged in as "teacher1"
     And I follow "Layout"
     And I follow "edit_item_2"
     And I expand all fieldsets
@@ -138,9 +134,7 @@ Feature: test the use of boolean as parent item
 
     And I log out
 
-    And I log in as "teacher1"
-    And I am on "Boolean as parent" course homepage
-    And I follow "Test boolean as parent"
+    And I am on the "Test boolean as parent" "surveypro activity" page logged in as "teacher1"
     And I follow "Layout"
     And I follow "edit_item_2"
     And I expand all fieldsets
