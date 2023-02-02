@@ -369,4 +369,6 @@ function xmldb_surveypro_upgrade($oldversion) {
         // Surveypro savepoint reached.
         upgrade_mod_savepoint(true, 2023012600, 'surveypro');
     }
+
+    return true;
 }
