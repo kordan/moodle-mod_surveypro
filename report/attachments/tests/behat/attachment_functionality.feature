@@ -5,7 +5,7 @@ Feature: test functionality of attachment report
   I call the report and verify it
 
   @javascript @_file_upload
-  Scenario: test functionality of attachment report
+  Scenario: test attachment report
     Given the following "courses" exist:
       | fullname               | shortname              | category | groupmode |
       | Test attachment report | Test attachment report | 0        | 0         |
@@ -24,8 +24,8 @@ Feature: test functionality of attachment report
       | student3 | Test attachment report | student        |
       | student4 | Test attachment report | student        |
     And the following "permission overrides" exist:
-      | capability                          | permission | role    | contextlevel | reference              |
-      | mod/surveypro:editownsubmissions    | Allow      | student | Course       | Test attachment report |
+      | capability                       | permission | role    | contextlevel | reference              |
+      | mod/surveypro:editownsubmissions | Allow      | student | Course       | Test attachment report |
     And the following "activities" exist:
       | activity  | name                   | intro                                      | course                 |
       | surveypro | Attachment report test | To test functionality of attachment report | Test attachment report |
@@ -38,7 +38,7 @@ Feature: test functionality of attachment report
     And I am on "Test attachment report" course homepage
 
     And I follow "Attachment report test"
-    And I follow "Layout"
+    And I follow "Layout" page in tab bar
 
     And I follow "edit_item_1"
     And I set the field "Content" to "Upload a passport photo"
