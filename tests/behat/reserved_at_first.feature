@@ -6,7 +6,7 @@ Feature: Access a surveypro from the second page if the first one has only reser
   As a student I get it starting from the second page.
 
   @javascript
-  Scenario: Get the surveypro starting from page 2
+  Scenario: get the surveypro starting from page 2
     Given the following "courses" exist:
       | fullname   | shortname  | category | groupmode |
       | Start at 2 | Start at 2 | 0        | 0         |
@@ -26,19 +26,15 @@ Feature: Access a surveypro from the second page if the first one has only reser
       | field  | boolean     |
       | format | pagebreak   |
       | field  | character   |
-    And I log in as "teacher1"
-    And I am on "Start at 2" course homepage
-    And I follow "Test start at 2"
-    And I follow "Layout"
+    And I am on the "Test start at 2" "surveypro activity" page logged in as teacher1
+    And I follow "Layout" page in tab bar
 
     And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_1')]" "xpath_element"
 
     And I log out
 
     # Let the student start to fill the surveypro
-    When I log in as "student1"
-    And I am on "Start at 2" course homepage
-    And I follow "Test start at 2"
+    When I am on the "Test start at 2" "surveypro activity" page logged in as student1
 
     And I press "New response"
     Then I should see "Write down your email"

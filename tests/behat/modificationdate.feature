@@ -5,7 +5,7 @@ Feature: Submission modification time
   I create a multipage surveypro and as a student I fill it going forward and backword, and I submit.
 
   @javascript
-  Scenario: Check submission modification time
+  Scenario: check submission modification time
     Given the following "courses" exist:
       | fullname                               | shortname                              | category | groupmode |
       | Timemodified only at modification time | Timemodified only at modification time | 0        | 0         |
@@ -25,16 +25,9 @@ Feature: Submission modification time
       | field  | boolean     |
       | format | pagebreak   |
       | field  | character   |
-    And I log in as "teacher1"
-    And I am on "Timemodified only at modification time" course homepage
-    And I follow "Test modification time"
-
-    And I log out
 
     # Let the student start to fill the surveypro
-    When I log in as "student1"
-    And I am on "Timemodified only at modification time" course homepage
-    And I follow "Test modification time"
+    When I am on the "Test modification time" "surveypro activity" page logged in as student1
 
     And I press "New response"
     And I set the field "Is it true?" to "1"

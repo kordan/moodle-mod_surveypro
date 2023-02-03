@@ -17,8 +17,8 @@ Feature: verify the thanks page is shown properly
       | teacher1 | Thanks | editingteacher |
       | student1 | Thanks | student        |
     And the following "permission overrides" exist:
-      | capability                          | permission | role    | contextlevel | reference |
-      | mod/surveypro:editownsubmissions    | Allow      | student | Course       | Thanks    |
+      | capability                       | permission | role    | contextlevel | reference |
+      | mod/surveypro:editownsubmissions | Allow      | student | Course       | Thanks    |
     And the following "activities" exist:
       | activity  | name             | intro            | course |
       | surveypro | Thanks surveypro | Test thanks page | Thanks |
@@ -35,9 +35,7 @@ Feature: verify the thanks page is shown properly
     And I log out
 
     # student1 logs in
-    When I log in as "student1"
-    And I am on "Thank you" course homepage
-    And I follow "Thanks surveypro"
+    When I am on the "Thanks surveypro" "surveypro activity" page logged in as student1
     And I press "New response"
     And I set the field "Is it true?" to "Yes"
     And I press "Submit"
@@ -51,9 +49,7 @@ Feature: verify the thanks page is shown properly
 
   @javascript
   Scenario: test the thanks page with plain text
-    Given I log in as "student1"
-    And I am on "Thank you" course homepage
-    And I follow "Thanks surveypro"
+    Given I am on the "Thanks surveypro" "surveypro activity" page logged in as student1
     And I press "New response"
     And I set the field "Is it true?" to "Yes"
     And I press "Submit"
@@ -88,9 +84,7 @@ Feature: verify the thanks page is shown properly
     And I log out
 
     # student1 logs in
-    When I log in as "student1"
-    And I am on "Thank you" course homepage
-    And I follow "Thanks surveypro"
+    When I am on the "Thanks surveypro" "surveypro activity" page logged in as student1
     And I press "New response"
     And I set the field "Is it true?" to "Yes"
     And I press "Submit"

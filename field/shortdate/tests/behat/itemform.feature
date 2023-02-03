@@ -21,10 +21,8 @@ Feature: test the use of shortdate setup form
     And surveypro "Test shortdate setup form" contains the following items:
       | type  | plugin  |
       | field | boolean |
-    And I log in as "teacher1"
-    And I am on "Shortdate setup form" course homepage
-    And I follow "Test shortdate setup form"
-    And I follow "Layout"
+    And I am on the "Test shortdate setup form" "surveypro activity" page logged in as teacher1
+    And I follow "Layout" page in tab bar
 
     # add an shortdate item
     And I set the field "typeplugin" to "Date (short) [mm/yyyy]"

@@ -30,7 +30,8 @@ Feature: submissions seen from students not divided into groups (Part 01)
     And I add a "Surveypro" to section "1" and I fill the form with:
       | Name        | Verify submission selection    |
       | Description | Test what each student can see |
-    And I follow "Verify submission selection"
+    And I turn editing mode off
+    And I am on the "Verify submission selection" "surveypro activity" page
 
     And I set the field "typeplugin" to "Text (short)"
     And I press "Add"
@@ -47,9 +48,7 @@ Feature: submissions seen from students not divided into groups (Part 01)
     And I log out
 
     # student1 logs in
-    When I log in as "student1"
-    And I am on "Verify permissions in groups" course homepage
-    And I follow "Verify submission selection"
+    When I am on the "Verify submission selection" "surveypro activity" page logged in as student1
     And I follow "Responses" page in tab bar
 
     Then I should see "Nothing to display"
@@ -74,9 +73,7 @@ Feature: submissions seen from students not divided into groups (Part 01)
     And I log out
 
     # student2 logs in
-    When I log in as "student2"
-    And I am on "Verify permissions in groups" course homepage
-    And I follow "Verify submission selection"
+    When I am on the "Verify submission selection" "surveypro activity" page logged in as student2
     And I follow "Responses" page in tab bar
 
     Then I should see "Nothing to display"
@@ -96,9 +93,7 @@ Feature: submissions seen from students not divided into groups (Part 01)
     And I log out
 
     # teacher1 goes to check for his personal submissions
-    When I log in as "teacher1"
-    And I am on "Verify permissions in groups" course homepage
-    And I follow "Verify submission selection"
+    When I am on the "Verify submission selection" "surveypro activity" page logged in as teacher1
     And I follow "Responses" page in tab bar
 
     Then I should see "student1" in the "submissions" "table"

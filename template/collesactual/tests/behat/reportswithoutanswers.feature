@@ -47,9 +47,7 @@ Feature: Test colles report for courses divided into groups not all equipped wit
     And I log out
 
     # student11 logs in
-    When I log in as "student11"
-    And I am on "Course divided into groups" course homepage
-    And I follow "Verify reports"
+    When I am on the "Verify reports" "surveypro activity" page logged in as student11
 
     And I press "New response"
 
@@ -85,7 +83,7 @@ Feature: Test colles report for courses divided into groups not all equipped wit
 
     And I log out
 
-    And I am on the "Verify reports" "mod_surveypro > Colles Summary report" page logged in as teacher1
+    When I am on the "Verify reports" "mod_surveypro > Colles Summary report" page logged in as teacher1
     Then I should not see "No responses were found in this survey for enrolled students."
     And I set the field "id_groupid" to "Group 1"
     Then I should not see "No responses were found in this survey for enrolled students."

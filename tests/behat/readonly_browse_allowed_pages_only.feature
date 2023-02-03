@@ -5,7 +5,7 @@ Feature: In read only mode browse a submission jumping now filled pages
   I create a surveypro and as a student I fill, submit and browse, in read only mode, my submission.
 
   @javascript
-  Scenario: Jump unused survepro pages in read only mode
+  Scenario: jump unused survepro pages in read only mode
     Given the following "courses" exist:
       | fullname               | shortname              | category | groupmode |
       | Jump not allowed pages | Jump not allowed pages | 0        | 0         |
@@ -29,10 +29,8 @@ Feature: In read only mode browse a submission jumping now filled pages
       | field  | character   |
       | format | pagebreak   |
       | field  | boolean     |
-    And I log in as "teacher1"
-    And I am on "Jump not allowed pages" course homepage
-    And I follow "Test jump not allowed pages"
-    And I follow "Layout"
+    And I am on the "Test jump not allowed pages" "surveypro activity" page logged in as teacher1
+    And I follow "Layout" page in tab bar
 
     And I follow "edit_item_3"
     And I expand all fieldsets
@@ -61,9 +59,7 @@ Feature: In read only mode browse a submission jumping now filled pages
     And I log out
 
     # Let the student start to fill the surveypro
-    When I log in as "student1"
-    And I am on "Jump not allowed pages" course homepage
-    And I follow "Test jump not allowed pages"
+    When I am on the "Test jump not allowed pages" "surveypro activity" page logged in as student1
 
     And I press "New response"
     And I set the field "Is it true?" to "1"

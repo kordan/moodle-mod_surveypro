@@ -17,12 +17,10 @@ Feature: apply COLLES (Preferred) mastertemplate
     And the following "activities" exist:
       | activity  | name                        | intro                      | course               |
       | surveypro | To apply COLLES (Preferred) | To test COLLES (Preferred) | Apply mastertemplate |
-    And I log in as "teacher1"
-    And I am on "To apply mastertemplate" course homepage
 
   @javascript
   Scenario: apply COLLES (Preferred) master template
-    Given I follow "To apply COLLES (Preferred)"
+    Given I am on the "To apply COLLES (Preferred)" "surveypro activity" page logged in as teacher1
     And I set the field "Master templates" to "COLLES (Preferred)"
     And I press "Apply"
     Then I should see "In this online unit"

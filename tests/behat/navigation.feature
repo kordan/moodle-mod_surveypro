@@ -46,9 +46,7 @@ Feature: verify urls really redirect to existing pages
 
   @javascript
   Scenario: select each available link as a teacher
-    Given I log in as "teacher1"
-    And I am on "Test links course" course homepage
-    And I follow "sPro test links"
+    Given I am on the "sPro test links" "surveypro activity" page logged in as teacher1
     #
     # Layout TAB
     #
@@ -190,8 +188,6 @@ Feature: verify urls really redirect to existing pages
 
   @javascript
   Scenario: select each available link as a student
-    Given I log in as "student1"
-    And I am on "Test links course" course homepage
-    And I follow "sPro test links"
+    Given I am on the "sPro test links" "surveypro activity" page logged in as student1
     And I follow "Dashboard" page in tab bar
     And I follow "Responses" page in tab bar

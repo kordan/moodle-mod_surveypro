@@ -5,7 +5,7 @@ Feature: make a submission test for "time" item
   I add a time item, I fill it and I go to see responses
 
   @javascript
-  Scenario: test a submission works fine for time item
+  Scenario: test a submission for time item
     Given the following "courses" exist:
       | fullname                      | shortname            | category |
       | Test submission for time item | Time submission test | 0        |
@@ -20,9 +20,7 @@ Feature: make a submission test for "time" item
     And the following "activities" exist:
       | activity  | name      | intro                           | course               |
       | surveypro | Time test | To test submission of time item | Time submission test |
-    And I log in as "teacher1"
-    And I am on "Test submission for time item" course homepage
-    And I follow "Time test"
+    And I am on the "Time test" "surveypro activity" page logged in as teacher1
 
     And I set the field "typeplugin" to "Time"
     And I press "Add"
@@ -37,9 +35,7 @@ Feature: make a submission test for "time" item
 
     And I log out
 
-    When I log in as "student1"
-    And I am on "Test submission for time item" course homepage
-    And I follow "Time test"
+    When I am on the "Time test" "surveypro activity" page logged in as student1
 
     # student1 submits
     And I press "New response"

@@ -20,9 +20,7 @@ Feature: test the use of reserved elements
     And the following "activities" exist:
       | activity  | name                  | intro                    | course            |
       | surveypro | Reserved element test | To test reserved element | Reserved elements |
-    And I log in as "teacher1"
-    And I am on "Reserved elements" course homepage
-    And I follow "Reserved element test"
+    And I am on the "Reserved element test" "surveypro activity" page logged in as teacher1
 
     # add the first age item generally available
     And I set the field "typeplugin" to "Age [yy/mm]"
@@ -62,9 +60,7 @@ Feature: test the use of reserved elements
     And I log out
 
     # test the user sees only the first age item
-    When I log in as "student1"
-    And I am on "Reserved elements" course homepage
-    And I follow "Reserved element test"
+    When I am on the "Reserved element test" "surveypro activity" page logged in as student1
     And I follow "Responses" page in tab bar
     And I press "New response"
 
@@ -80,9 +76,7 @@ Feature: test the use of reserved elements
     And I log out
 
     # test the teacher sees the first and the second age items both
-    When I log in as "teacher1"
-    And I am on "Reserved elements" course homepage
-    And I follow "Reserved element test"
+    When I am on the "Reserved element test" "surveypro activity" page logged in as teacher1
     And I follow "Responses" page in tab bar
     And I follow "edit_submission_row_1"
     Then I should see "1: First age item"

@@ -48,10 +48,8 @@ Feature: make a submission test for each available item
       | field  | character   |
       | field  | time        |
       | format | label       |
-    And I log in as "teacher1"
-    And I am on "Test submission for each available item" course homepage
-    And I follow "Each item submission"
-    And I follow "Layout"
+    And I am on the "Each item submission" "surveypro activity" page logged in as teacher1
+    And I follow "Layout" page in tab bar
     And I follow "Preview" page in tab bar
     And I press "Next page >>"
     And I press "<< Previous page"
@@ -59,9 +57,7 @@ Feature: make a submission test for each available item
     And I log out
 
     # student1 logs in
-    When I log in as "student1"
-    And I am on "Test submission for each available item" course homepage
-    And I follow "Each item submission"
+    When I am on the "Each item submission" "surveypro activity" page logged in as student1
     And I follow "Responses" page in tab bar
     And I press "New response"
 
@@ -124,9 +120,7 @@ Feature: make a submission test for each available item
 
     And I log out
 
-    When I log in as "teacher1"
-
-    And I am on "Test submission for each available item" course homepage
+    When I am on the "Test submission for each available item" course page logged in as teacher1
     And I follow "Each item submission"
     And I follow "Responses" page in tab bar
     And I follow "edit_submission_row_1"

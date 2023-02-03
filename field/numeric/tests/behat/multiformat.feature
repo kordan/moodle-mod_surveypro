@@ -29,13 +29,12 @@ Feature: verify the input with different number format
     And I set the field "menupack" to "Italiano"
     And I press "Install selected language pack(s)"
     Then I should see "Language pack 'it' was successfully installed"
+
     And I log out
 
     # Force English for UI.
-    And I follow "English (en)" in the language menu
-    And I log in as "student1"
-    And I am on site homepage
-    And I follow "Multiformat numeric input"
+    When I follow "English (en)" in the language menu
+    And I am on the "Multiformat numeric input" "surveypro activity" page logged in as student1
     And I follow "Test multiformat numeric input"
     And I press "New response"
     And I set the field "Write the best approximation of π you can remember" to "3,14"

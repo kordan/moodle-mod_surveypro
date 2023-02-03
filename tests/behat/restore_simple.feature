@@ -5,7 +5,7 @@ Feature: Simple restore of a surveypro
   I make a simple restore of a course with two instances of surveypro
 
   @javascript @_file_upload
-  Scenario: Restore the demo course provided in fixtures
+  Scenario: restore a course having surveypro
     Given I log in as "admin"
     And I am on site homepage
     And I navigate to "Restore" in current page administration

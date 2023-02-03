@@ -18,9 +18,7 @@ Feature: Validate creation and submit for "multiselect" elements using the princ
     And the following "activities" exist:
       | activity  | name           | intro              | course           |
       | surveypro | Surveypro test | For testing backup | Multiselect item |
-    And I log in as "teacher1"
-    And I am on "Test submission for multiselect item" course homepage
-    And I follow "Surveypro test"
+    And I am on the "Surveypro test" "surveypro activity" page logged in as teacher1
     And I set the field "typeplugin" to "Multiple selection"
     And I press "Add"
     And I expand all fieldsets
@@ -34,9 +32,8 @@ Feature: Validate creation and submit for "multiselect" elements using the princ
     And I press "Add"
 
     And I log out
-    When I log in as "student1"
-    And I am on "Test submission for multiselect item" course homepage
-    And I follow "Surveypro test"
+
+    When I am on the "Surveypro test" "surveypro activity" page logged in as student1
 
     # Test number 1: Student submits a standard answer
     And I press "New response"
@@ -56,9 +53,8 @@ Feature: Validate creation and submit for "multiselect" elements using the princ
     And I press "Add"
 
     And I log out
-    When I log in as "student1"
-    And I am on "Test submission for multiselect item" course homepage
-    And I follow "Surveypro test"
+
+    When I am on the "Surveypro test" "surveypro activity" page logged in as student1
 
     # Test number 2: Student ticks too many items
     And I press "New response"

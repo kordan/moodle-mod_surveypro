@@ -5,7 +5,7 @@ Feature: make a submission test for "select" item
   I add a select item, I fill it and I go to see responses
 
   @javascript
-  Scenario: test a submission works fine for select item
+  Scenario: test a submission for select item
     Given the following "courses" exist:
       | fullname                        | shortname              | category |
       | Test submission for select item | Select submission test | 0        |
@@ -20,9 +20,7 @@ Feature: make a submission test for "select" item
     And the following "activities" exist:
       | activity  | name        | intro                             | course                 |
       | surveypro | Select test | To test submission of select item | Select submission test |
-    And I log in as "teacher1"
-    And I am on "Test submission for select item" course homepage
-    And I follow "Select test"
+    And I am on the "Select test" "surveypro activity" page logged in as teacher1
 
     And I set the field "typeplugin" to "Select"
     And I press "Add"
@@ -38,9 +36,7 @@ Feature: make a submission test for "select" item
     And I log out
 
     # student1 logs in
-    When I log in as "student1"
-    And I am on "Test submission for select item" course homepage
-    And I follow "Select test"
+    When I am on the "Select test" "surveypro activity" page logged in as student1
     And I press "New response"
 
     # student1 submits

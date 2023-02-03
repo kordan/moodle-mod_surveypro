@@ -5,7 +5,7 @@ Feature: deletion of no longer allowed answers on user change of mind
   I create a parent-child relation and as a student I fill, return back, change my answer and continue.
 
   @javascript
-  Scenario: Test change of mind: 1-2-1-2
+  Scenario: test change of mind: 1-2-1-2
     Given the following "courses" exist:
       | fullname        | shortname     | category | groupmode |
       | Change of mind | Change of mind | 0        | 0         |
@@ -27,10 +27,8 @@ Feature: deletion of no longer allowed answers on user change of mind
       | format | pagebreak   |
       | field  | select      |
       | field  | character   |
-    And I log in as "teacher1"
-    And I am on "Change of mind" course homepage
-    And I follow "Test change of mind"
-    And I follow "Layout"
+    And I am on the "Test change of mind" "surveypro activity" page logged in as teacher1
+    And I follow "Layout" page in tab bar
 
     And I follow "edit_item_1"
     And I set the field "Required" to "1"
@@ -61,9 +59,7 @@ Feature: deletion of no longer allowed answers on user change of mind
     And I log out
 
     # Let the student start to fill the surveypro
-    When I log in as "student1"
-    And I am on "Change of mind" course homepage
-    And I follow "Test change of mind"
+    When I am on the "Test change of mind" "surveypro activity" page logged in as student1
 
     And I press "New response"
     And I set the field "Write down your email" to "su@nowhere.net"
@@ -88,7 +84,7 @@ Feature: deletion of no longer allowed answers on user change of mind
     Then I should see "1" submissions
 
   @javascript
-  Scenario: Test change of mind: 1-2-1-3
+  Scenario: test change of mind: 1-2-1-3
     Given the following "courses" exist:
       | fullname               | shortname              | category | groupmode |
       | 1-2-1-3 change of mind | 1-2-1-3 change of mind | 0        | 0         |
@@ -113,10 +109,8 @@ Feature: deletion of no longer allowed answers on user change of mind
       | field  | select      |
       | field  | checkbox    |
       | field  | character   |
-    And I log in as "teacher1"
-    And I am on "1-2-1-3 change of mind" course homepage
-    And I follow "Test 1-2-1-3 change of mind"
-    And I follow "Layout"
+    And I am on the "Test 1-2-1-3 change of mind" "surveypro activity" page logged in as teacher1
+    And I follow "Layout" page in tab bar
 
     And I follow "edit_item_1"
     And I set the field "Required" to "1"
@@ -165,9 +159,7 @@ Feature: deletion of no longer allowed answers on user change of mind
     And I log out
 
     # Let the student start to fill the surveypro
-    When I log in as "student1"
-    And I am on "1-2-1-3 change of mind" course homepage
-    And I follow "Test 1-2-1-3 change of mind"
+    When I am on the "Test 1-2-1-3 change of mind" "surveypro activity" page logged in as student1
 
     And I press "New response"
     And I set the field "Write down your email" to "su@nowhere.net"
@@ -205,7 +197,7 @@ Feature: deletion of no longer allowed answers on user change of mind
     Then I should see "1" submissions
 
   @javascript
-  Scenario: Test change of mind: 1-3-1-2
+  Scenario: test change of mind: 1-3-1-2
     Given the following "courses" exist:
       | fullname               | shortname              | category | groupmode |
       | 1-3-1-2 change of mind | 1-3-1-2 change of mind | 0        | 0         |
@@ -230,10 +222,8 @@ Feature: deletion of no longer allowed answers on user change of mind
       | format | pagebreak   |
       | field  | boolean     |
       | field  | character   |
-    And I log in as "teacher1"
-    And I am on "1-3-1-2 change of mind" course homepage
-    And I follow "Test 1-3-1-2 change of mind"
-    And I follow "Layout"
+    And I am on the "Test 1-3-1-2 change of mind" "surveypro activity" page logged in as teacher1
+    And I follow "Layout" page in tab bar
 
     And I follow "edit_item_1"
     And I set the field "Required" to "1"
@@ -284,9 +274,7 @@ Feature: deletion of no longer allowed answers on user change of mind
     And I log out
 
     # Let the student start to fill the surveypro
-    When I log in as "student1"
-    And I am on "1-3-1-2 change of mind" course homepage
-    And I follow "Test 1-3-1-2 change of mind"
+    When I am on the "Test 1-3-1-2 change of mind" "surveypro activity" page logged in as student1
 
     And I press "New response"
     And I set the field "Write down your email" to "su@nowhere.net"

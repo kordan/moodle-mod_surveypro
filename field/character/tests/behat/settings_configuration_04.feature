@@ -20,9 +20,7 @@ Feature: Validate creation and submit for "character" elements using the princip
     And the following "activities" exist:
       | activity  | name           | intro              | course         |
       | surveypro | Surveypro test | For testing backup | Character item |
-    And I log in as "teacher1"
-    And I am on "Test submission for character item" course homepage
-    And I follow "Surveypro test"
+    And I am on the "Surveypro test" "surveypro activity" page logged in as teacher1
     And I set the field "typeplugin" to "Text (short)"
     And I press "Add"
     And I expand all fieldsets
@@ -41,9 +39,8 @@ Feature: Validate creation and submit for "character" elements using the princip
     And I press "Add"
 
     And I log out
-    When I log in as "student1"
-    And I am on "Test submission for character item" course homepage
-    And I follow "Surveypro test"
+
+    When I am on the "Surveypro test" "surveypro activity" page logged in as student1
 
     # Test number 1: Student flies over the answer
     And I press "New response"
@@ -79,9 +76,8 @@ Feature: Validate creation and submit for "character" elements using the princip
     And I press "Add"
 
     And I log out
-    When I log in as "student1"
-    And I am on "Test submission for character item" course homepage
-    And I follow "Surveypro test"
+
+    When I am on the "Surveypro test" "surveypro activity" page logged in as student1
 
     # Test number 3: Student flies over the answer
     And I press "New response"

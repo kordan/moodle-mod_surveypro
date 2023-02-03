@@ -20,9 +20,7 @@ Feature: test the use of character trim
     And the following "activities" exist:
       | activity  | name                | intro               | course              |
       | surveypro | Test character trim | Test character trim | Character trim test |
-    And I log in as "teacher1"
-    And I am on "Character trim test" course homepage
-    And I follow "Test character trim"
+    And I am on the "Test character trim" "surveypro activity" page logged in as teacher1
 
     # add an character item
     And I set the field "typeplugin" to "Text (short)"
@@ -55,9 +53,8 @@ Feature: test the use of character trim
     And I press "Add"
 
     And I log out
-    When I log in as "student1"
-    And I am on "Character trim test" course homepage
-    And I follow "Test character trim"
+
+    When I am on the "Test character trim" "surveypro activity" page logged in as student1
 
     # Test number 1: Student insert a record
     And I press "New response"

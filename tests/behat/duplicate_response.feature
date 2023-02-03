@@ -5,7 +5,7 @@ Feature: duplicate response
   I fill a surveypro and go to duplicate the submitted response
 
   @javascript
-  Scenario: Duplicate a response
+  Scenario: duplicate a response
     Given the following "courses" exist:
       | fullname           | shortname          | category | groupmode |
       | Duplicate response | Duplicate response | 0        | 0         |
@@ -27,9 +27,7 @@ Feature: duplicate response
     And surveypro "Duplicate response sp" contains the following items:
       | type  | plugin  |
       | field | boolean |
-    And I log in as "student1"
-    And I am on "Duplicate response" course homepage
-    And I follow "Duplicate response sp"
+    And I am on the "Duplicate response sp" "surveypro activity" page logged in as student1
     And I press "New response"
     And I set the field "Is it true?" to "Yes"
     And I press "Submit"
@@ -55,9 +53,7 @@ Feature: duplicate response
 
     And I log out
 
-    When I log in as "admin"
-    And I am on "Duplicate response" course homepage
-    And I follow "Duplicate response sp"
+    When I am on the "Duplicate response sp" "surveypro activity" page logged in as admin
     And I follow "Responses" page in tab bar
     # Duplicate other original response
     And I click on "//a[contains(@id,'duplicate_submission_row_1')]" "xpath_element"
