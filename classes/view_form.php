@@ -616,15 +616,20 @@ class view_form extends formbase {
 
         // Let's start with the lightest check (lightest in terms of query).
         $this->check_all_was_verified();
-        if ($this->responsestatus == SURVEYPRO_VALIDRESPONSE) { // If this answer is still considered valid...
+        if ($this->responsestatus == SURVEYPRO_VALIDRESPONSE) { // If this submission is still considered valid...
             // ...check more.
             $this->check_mandatories_are_in();
         }
 
         // If all the answers are valid.
         if ($this->responsestatus == SURVEYPRO_VALIDRESPONSE) {
-            if ($prevbutton || $pausebutton) {
-                // $pausebutton: Yes, all is fine but I want to store it as "in progress" because I am not sure.
+            // -> $prevbutton: I am not saving with $verified = true so $this->responsestatus != SURVEYPRO_VALIDRESPONSE
+            // and this case should never be verified.
+            // -> $pausebutton: Yes, all is fine but I want to pause the submission because I am not sure
+            // so the submission needs to be saved as "in progress".
+            // -> $nextbutton: Even if the overall response status is valid I can not close the submission
+            // because I can close it using $savebutton or $saveasnewbutton ONLY.
+            if ($prevbutton || $pausebutton || $nextbutton) {
                 $this->status = SURVEYPRO_STATUSINPROGRESS;
             } else {
                 $this->status = SURVEYPRO_STATUSCLOSED;
