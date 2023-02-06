@@ -344,7 +344,7 @@ function xmldb_surveypro_upgrade($oldversion) {
     if ($oldversion < 2023012600) {
         $newtarget = 'submissiontopdf';
         $newother = '{"act":"9"}';
-        $componenet = 'mod_surveypro';
+        $component = 'mod_surveypro';
         $action = 'downloaded';
         $oldtarget = 'submissioninpdf';
         $objecttable = 'surveypro_submission';
@@ -359,7 +359,7 @@ function xmldb_surveypro_upgrade($oldversion) {
         $whereparams = [];
         $whereparams['newtarget'] = $newtarget;
         $whereparams['newother'] = $newother;
-        $whereparams['componenet'] = $componenet;
+        $whereparams['component'] = $component;
         $whereparams['action'] = $action;
         $whereparams['oldtarget'] = $oldtarget;
         $whereparams['objecttable'] = $objecttable;
@@ -369,4 +369,6 @@ function xmldb_surveypro_upgrade($oldversion) {
         // Surveypro savepoint reached.
         upgrade_mod_savepoint(true, 2023012600, 'surveypro');
     }
+
+    return true;
 }
