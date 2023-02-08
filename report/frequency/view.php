@@ -111,6 +111,7 @@ $surveyproreportlist = get_plugin_list('surveyproreport');
 $reportkey = array_search('frequency', array_keys($surveyproreportlist));
 new tabs($cm, $context, $surveypro, SURVEYPRO_TABREPORTS, $reportkey);
 
+$reportman->prevent_direct_user_input();
 $reportman->stop_if_textareas_only();
 
 // Begin of: manage form submission.

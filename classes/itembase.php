@@ -142,8 +142,8 @@ class itembase {
         'variable' => true,
         'indent' => true,
         'hidden' => true,
-        'reserved' => true,
         'insearchform' => true,
+        'reserved' => true,
         'parentid' => true
     );
 

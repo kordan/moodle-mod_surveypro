@@ -335,6 +335,9 @@ class tabs {
 
                 break;
             case SURVEYPRO_TABREPORTS:
+                $surveyproreportlist = \core_component::get_plugin_list('surveyproreport');
+
+                $canalwaysseeowner = has_capability('mod/surveypro:alwaysseeowner', $this->context);
                 $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context);
                 $canaccessownreports = has_capability('mod/surveypro:accessownreports', $this->context);
 
@@ -343,21 +346,15 @@ class tabs {
                 $inactive = array($tabreportsname);
                 $activetwo = array($tabreportsname);
 
-                if ($surveyproreportlist = get_plugin_list('surveyproreport')) {
-                    $counter = 0;
-                    foreach ($surveyproreportlist as $reportname => $reportpath) {
-                        $classname = 'surveyproreport_'.$reportname.'\report';
-                        $reportman = new $classname($this->cm, $this->context, $this->surveypro);
-                        $reportappliesto = $reportman->report_applies_to();
-                        if (($reportappliesto == ['each']) || in_array($this->surveypro->template, $reportappliesto)) {
-                            if ($canaccessreports || ($reportman->has_student_report() && $canaccessownreports)) {
-                                if ($reportman->report_apply()) {
-                                    if ($elementurl = $this->tabpagesurl['tab_reports'][$reportname]) {
-                                        $strlabel = get_string('pluginname', 'surveyproreport_'.$reportname);
-                                        $row[] = new \tabobject('idpage'.$counter, $elementurl->out(), $strlabel);
-                                    }
-                                }
-                            }
+                $counter = 0;
+                foreach ($surveyproreportlist as $reportname => $reportpath) {
+                    $classname = 'surveyproreport_'.$reportname.'\report';
+                    $reportman = new $classname($this->cm, $this->context, $this->surveypro);
+
+                    if ($reportman->is_report_allowed($reportname)) {
+                        if ($elementurl = $this->tabpagesurl['tab_reports'][$reportname]) {
+                            $strlabel = get_string('pluginname', 'surveyproreport_'.$reportname);
+                            $row[] = new \tabobject('idpage'.$counter, $elementurl->out(), $strlabel);
                         }
                         $counter++;
                     }
