@@ -786,74 +786,46 @@ class view_form extends formbase {
         }
 
         // Course context used locally to get groups.
-        $coursecontext = \context_course::instance($COURSE->id);
+        $context = \context_course::instance($COURSE->id);
+        $attributes = array('u.id', 'username', 'email', 'mailformat');
+        $attributes = array_merge($attributes, \core_user\fields::get_name_fields(true));
+        $fields = implode(', u.', $attributes);
 
-        $mygroups = groups_get_all_groups($COURSE->id, $USER->id);
-        $mygroups = array_keys($mygroups);
+        $recipients = array();
         if ($this->surveypro->mailroles) {
-            $roles = explode(',', $this->surveypro->mailroles);
-            if (count($mygroups)) {
-                $recipients = array();
-                $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
-                $fields = 'u.maildisplay, u.mailformat'.$userfieldsapi->selects;
-                foreach ($mygroups as $mygroup) {
-                    $groupmemberroles = groups_get_members_by_role($mygroup, $COURSE->id, $fields);
-
-                    foreach ($roles as $role) {
-                        if (isset($groupmemberroles[$role])) {
-                            $roledata = $groupmemberroles[$role];
-
-                            foreach ($roledata->users as $singleuser) {
-                                unset($singleuser->roles);
-                                $recipients[] = $singleuser;
-                            }
-                        }
-                    }
-                }
-            } else {
-                // get_enrolled_users($courseid, $options = array()) <-- role is missing.
-                // get_users_from_role_on_context($role, $coursecontext); <-- this is ok but I need to call it once per $role.
-                $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
-                $whereparams = array();
-
-                list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);
-                $whereparams = array_merge($whereparams, $eparams);
-
-                list($insql, $subparams) = $DB->get_in_or_equal($roles, SQL_PARAMS_NAMED, 'roles');
-                $whereparams = array_merge($whereparams, $subparams);
-
-                $whereparams['contextid'] = $coursecontext->id;
-                $sql = 'SELECT DISTINCT u.maildisplay, u.mailformat'.$userfieldsapi->selects.'
-                        FROM {user} u
-                            JOIN ('.$enrolsql.') eu ON eu.id = u.id
-                            JOIN {role_assignments} ra ON ra.userid = u.id
-                        WHERE ra.contextid = :contextid
-                            AND ra.roleid '.$insql;
-
-                $whereparams = array_merge($whereparams, $eparams);
-                $recipients = $DB->get_records_sql($sql, $whereparams);
+            $rolesid = explode(',', $this->surveypro->mailroles);
+            // For each roles (as selected in mod_form.php) get the list of users.
+            foreach ($rolesid as $roleid) {
+                $recipients += get_role_users($roleid, $context, false, $fields);
             }
-        } else {
-            // Notification to roles was not requested.
-            $recipients = array();
+            $firstlist = array();
+            foreach ($recipients as $recipient) {
+                $firstlist[] = $recipient->email;
+            }
         }
 
         if (!empty($this->surveypro->mailextraaddresses)) {
             $utilityitemman = new utility_item($this->cm, $this->surveypro);
             $morerecipients = $utilityitemman->multilinetext_to_array($this->surveypro->mailextraaddresses);
+
+            $recipient = new \stdClass();
+            foreach ($attributes as $attribute) {
+                $recipient->{$attribute} = '';
+            }
+
+            // Now $recipient is onboard with the correct list of fields.
+            $recipient->id = -1;
+            $recipient->mailformat = 1;
             foreach ($morerecipients as $moreemail) {
-                $singleuser = new \stdClass();
-                $singleuser->id = -1;
-                $singleuser->firstname = '';
-                $singleuser->lastname = '';
-                $singleuser->firstnamephonetic = '';
-                $singleuser->lastnamephonetic = '';
-                $singleuser->middlename = '';
-                $singleuser->alternatename = '';
-                $singleuser->maildisplay = \core_user::MAILDISPLAY_COURSE_MEMBERS_ONLY;
-                $singleuser->mailformat = 1; // Always send HTML version as well.
-                $singleuser->email = $moreemail;
-                $recipients[] = $singleuser;
+                // Do not create duplicates.
+                if (in_array($moreemail, $firstlist)) {
+                    continue;
+                }
+                $recipient->firstname = $moreemail;
+                $recipient->lastname = $moreemail;
+                $recipient->username = $moreemail;
+                $recipient->email = $moreemail;
+                $recipients[] = clone($recipient);
             }
         }
 

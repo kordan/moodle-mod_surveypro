@@ -166,10 +166,10 @@ class mod_surveypro_mod_form extends \moodleform_mod {
         $fieldname = 'mailroles';
         $options = array();
         $context = \context_course::instance($COURSE->id);
-        $roleoptions = get_role_names_with_caps_in_context($context, array('mod/surveypro:submit'));
-        $roleoptions += get_role_names_with_caps_in_context($context, array('mod/surveypro:accessreports'));
+        $roleoptions = get_role_names_with_caps_in_context($context, array('mod/surveypro:accessreports'));
         foreach ($roleoptions as $roleid => $rolename) {
-            $options[$roleid] = $rolename;
+            $users = get_role_users($roleid, $context, true);
+            $options[$roleid] = $rolename.' ('.count($users).')';
         }
         $select = $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $options);
         $select->setMultiple(true);
@@ -317,6 +317,18 @@ class mod_surveypro_mod_form extends \moodleform_mod {
      */
     public function validation($data, $files) {
         $errors = parent::validation($data, $files);
+
+        $mailextraaddresses = $data['mailextraaddresses'];
+        $mailextraaddresses = trim($mailextraaddresses);
+        $mailextraaddresses = preg_replace('~\n\n+~', "\n", $mailextraaddresses);
+
+        $extraemail = explode("\n", $mailextraaddresses);
+        $extraemail = array_map('trim', $extraemail);
+
+        $arrayunique = array_unique($extraemail);
+        if (count($arrayunique) != count($extraemail)) {
+            $errors['mailextraaddresses'] = get_string('duplicateemail', 'surveypro');
+        }
 
         return $errors;
     }
