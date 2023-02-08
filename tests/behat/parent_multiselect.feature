@@ -23,10 +23,8 @@ Feature: test the use of multiselect as parent item
     And surveypro "Test multiselect as parent" contains the following items:
       | type   | plugin      |
       | field  | multiselect |
-    And I log in as "teacher1"
-    And I am on "Multiselect as parent" course homepage
-    And I follow "Test multiselect as parent"
-    And I follow "Layout"
+    And I am on the "Test multiselect as parent" "surveypro activity" page logged in as teacher1
+    And I follow "Layout" page in tab bar
 
     # add a short text item
     And I set the field "typeplugin" to "Text (short)"
@@ -42,9 +40,7 @@ Feature: test the use of multiselect as parent item
     And I log out
 
     # test the the child item correctly appear or not appear
-    When I log in as "student1"
-    And I am on "Multiselect as parent" course homepage
-    And I follow "Test multiselect as parent"
+    When I am on the "Test multiselect as parent" "surveypro activity" page logged in as student1
 
     And I press "New response"
     And I press "Next page >>"
@@ -127,10 +123,8 @@ Feature: test the use of multiselect as parent item
 
     And I log out
 
-    And I log in as "teacher1"
-    And I am on "Multiselect as parent" course homepage
-    And I follow "Test multiselect as parent"
-    And I follow "Layout"
+    When I am on the "Test multiselect as parent" "surveypro activity" page logged in as teacher1
+    And I follow "Layout" page in tab bar
     And I follow "edit_item_2"
     And I expand all fieldsets
     And I set the multiline field "Parent content" to "milk\nchocolate"
@@ -139,9 +133,7 @@ Feature: test the use of multiselect as parent item
     And I log out
 
     # test the the child item correctly appear or not appear
-    When I log in as "student1"
-    And I am on "Multiselect as parent" course homepage
-    And I follow "Test multiselect as parent"
+    When I am on the "Test multiselect as parent" "surveypro activity" page logged in as student1
 
     And I press "New response"
     And I press "Next page >>"
@@ -225,9 +217,7 @@ Feature: test the use of multiselect as parent item
     And I log out
 
     # test the the child item is correctly enabled or disabled
-    When I log in as "student1"
-    And I am on "Multiselect as parent" course homepage
-    And I follow "Test multiselect as parent"
+    When I am on the "Test multiselect as parent" "surveypro activity" page logged in as student1
 
     And I press "New response"
     Then the "Write down your name" "field" should be disabled
@@ -265,10 +255,8 @@ Feature: test the use of multiselect as parent item
 
     And I log out
 
-    And I log in as "teacher1"
-    And I am on "Multiselect as parent" course homepage
-    And I follow "Test multiselect as parent"
-    And I follow "Layout"
+    When I am on the "Test multiselect as parent" "surveypro activity" page logged in as teacher1
+    And I follow "Layout" page in tab bar
     And I follow "edit_item_2"
     And I expand all fieldsets
     And I set the field "Parent content" to "milk"
@@ -277,9 +265,7 @@ Feature: test the use of multiselect as parent item
     And I log out
 
     # test the the child item is correctly enabled or disabled
-    When I log in as "student1"
-    And I am on "Multiselect as parent" course homepage
-    And I follow "Test multiselect as parent"
+    When I am on the "Test multiselect as parent" "surveypro activity" page logged in as student1
 
     And I press "New response"
     Then the "Write down your name" "field" should be disabled

@@ -38,11 +38,8 @@ Feature: Test item actions
       | format | label       |
       | format | fieldset    |
       | format | fieldsetend |
-    And I log in as "admin"
-
-    And I am on "Test item actions" course homepage
-    And I follow "Test simple item actions"
-    And I follow "Layout"
+    And I am on the "Test simple item actions" "surveypro activity" page logged in as admin
+    And I follow "Layout" page in tab bar
 
     Then I should see "0" reserved items
     # 21 and not 22 available items because pagebreak doesn't have <a class"makereserved"...

@@ -21,11 +21,8 @@ Feature: include custom numbers into element question/content
     And surveypro "VerifyCN survey" contains the following items:
       | type  | plugin  |
       | field | boolean |
-    And I log in as "teacher1"
-    And I am on "Verify custom numbers" course homepage
-    And I follow "Verify custom numbers"
-    And I follow "VerifyCN survey"
-    And I follow "Layout"
+    And I am on the "VerifyCN survey" "surveypro activity" page logged in as teacher1
+    And I follow "Layout" page in tab bar
     And I follow "edit_item_1"
     And I expand all fieldsets
     And I set the following fields to these values:

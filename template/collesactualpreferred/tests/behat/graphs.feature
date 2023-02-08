@@ -19,12 +19,10 @@ Feature: apply a COLLES (actual and preferred) mastertemplate to test graphs
     And the following "activities" exist:
       | activity  | name              | intro                         | course      |
       | surveypro | Run COLLES report | This is to test COLLES graphs | Test graphs |
-    And I log in as "teacher1"
-    And I am on "To test COLLES graphs" course homepage
 
   @javascript
   Scenario: apply COLLES (Preferred and Actual) master template, add a record and call reports
-    Given I follow "Run COLLES report"
+    Given I am on the "Run COLLES report" "surveypro activity" page logged in as teacher1
     And I set the field "Master templates" to "COLLES (Preferred and Actual)"
     And I press "Apply"
     Then I should see "I prefer that my learning focuses on issues that interest me."
@@ -33,9 +31,7 @@ Feature: apply a COLLES (actual and preferred) mastertemplate to test graphs
     And I log out
 
     # student1 logs in
-    When I log in as "student1"
-    And I am on "To test COLLES graphs" course homepage
-    And I follow "Run COLLES report"
+    When I am on the "Run COLLES report" "surveypro activity" page logged in as student1
     And I press "New response"
 
     # student1 submits his first response
@@ -104,9 +100,7 @@ Feature: apply a COLLES (actual and preferred) mastertemplate to test graphs
 
     And I log out
 
-    When I log in as "teacher1"
-    And I am on "To test COLLES graphs" course homepage
-    And I follow "Run COLLES report"
+    When I am on the "Run COLLES report" "surveypro activity" page logged in as teacher1
 
     And I navigate to "Report > Colles report > Summary" in current page administration
     # now I should be in front of "Colles report > Summary"
@@ -145,37 +139,37 @@ Feature: apply a COLLES (actual and preferred) mastertemplate to test graphs
 
     # now test links provided by Admin menu
 
-    And I follow "Run COLLES report"
+    And I am on the "Run COLLES report" "surveypro activity" page
     And I navigate to "Report > Colles report > Scales" in current page administration
     # now I should be in front of "Colles report > Scales"
     Then I should not see "Scales report"
 
-    And I follow "Run COLLES report"
+    And I am on the "Run COLLES report" "surveypro activity" page
     And I navigate to "Report > Colles report > Questions > Relevance" in current page administration
     # now I should be in front of "Colles report > Questions > Relevance"
     Then I should not see "Questions report"
 
-    And I follow "Run COLLES report"
+    And I am on the "Run COLLES report" "surveypro activity" page
     And I navigate to "Report > Colles report > Questions > Reflective thinking" in current page administration
     # now I should be in front of "Colles report > Questions > Reflective thinking"
     Then I should not see "Questions report"
 
-    And I follow "Run COLLES report"
+    And I am on the "Run COLLES report" "surveypro activity" page
     And I navigate to "Report > Colles report > Questions > Interactivity" in current page administration
     # now I should be in front of "Colles report > Questions > Interactivity"
     Then I should not see "Questions report"
 
-    And I follow "Run COLLES report"
+    And I am on the "Run COLLES report" "surveypro activity" page
     And I navigate to "Report > Colles report > Questions > Tutor support" in current page administration
     # now I should be in front of "Colles report > Questions > Tutor support"
     Then I should not see "Questions report"
 
-    And I follow "Run COLLES report"
+    And I am on the "Run COLLES report" "surveypro activity" page
     And I navigate to "Report > Colles report > Questions > Peer support" in current page administration
     # now I should be in front of "Colles report > Questions > Peer support"
     Then I should not see "Questions report"
 
-    And I follow "Run COLLES report"
+    And I am on the "Run COLLES report" "surveypro activity" page
     And I navigate to "Report > Colles report > Questions > Interpretation" in current page administration
     # now I should be in front of "Colles report > Questions > Interpretation"
     Then I should not see "Questions report"

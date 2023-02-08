@@ -22,9 +22,7 @@ Feature: test each student sees only personal submissions
     And the following "activities" exist:
       | activity  | name                        | intro                                                  | course                    |
       | surveypro | Get only my own submissions | Test each student can only see his/her own submissions | Only personal submissions |
-    And I log in as "teacher1"
-    And I am on "See only personal submissions" course homepage
-    And I follow "Get only my own submissions"
+    And I am on the "Get only my own submissions" "surveypro activity" page logged in as teacher1
 
     And I set the field "typeplugin" to "Text (short)"
     And I press "Add"
@@ -55,9 +53,7 @@ Feature: test each student sees only personal submissions
     And I log out
 
     # student1 logs in
-    When I log in as "student1"
-    And I am on "See only personal submissions" course homepage
-    And I follow "Get only my own submissions"
+    When I am on the "Get only my own submissions" "surveypro activity" page logged in as student1
     And I press "New response"
 
     # student1 submits his first response
@@ -77,9 +73,7 @@ Feature: test each student sees only personal submissions
     And I log out
 
     # student2 logs in
-    When I log in as "student2"
-    And I am on "See only personal submissions" course homepage
-    And I follow "Get only my own submissions"
+    When I am on the "Get only my own submissions" "surveypro activity" page logged in as student2
     And I follow "Responses" page in tab bar
 
     Then I should see "Nothing to display"
@@ -100,9 +94,7 @@ Feature: test each student sees only personal submissions
     And I log out
 
     # student1 goes to check for his personal submissions
-    When I log in as "student1"
-    And I am on "See only personal submissions" course homepage
-    And I follow "Get only my own submissions"
+    When I am on the "Get only my own submissions" "surveypro activity" page logged in as student1
     And I follow "Responses" page in tab bar
 
     Then I should see "Never" in the "Student1 user1" "table_row"

@@ -21,10 +21,8 @@ Feature: test the use of integer setup form
     And surveypro "Test integer setup form" contains the following items:
       | type  | plugin  |
       | field | boolean |
-    And I log in as "teacher1"
-    And I am on "Integer setup form" course homepage
-    And I follow "Test integer setup form"
-    And I follow "Layout"
+    And I am on the "Test integer setup form" "surveypro activity" page logged in as teacher1
+    And I follow "Layout" page in tab bar
 
     # add an integer item
     And I set the field "typeplugin" to "Integer"

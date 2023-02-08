@@ -11,7 +11,7 @@ Feature: Backup and restore a surveypro instance
     And I log in as "admin"
 
   @javascript
-  Scenario: Backup and restore a surveypro with some item
+  Scenario: backup and restore a surveypro with some item
     Given the following "activities" exist:
       | activity  | name           | intro              | course |
       | surveypro | Surveypro test | For testing backup | C1     |
@@ -49,8 +49,11 @@ Feature: Backup and restore a surveypro instance
       | Schema | Course short name | C2               |
     Then I should see "Copy of course 1"
 
+    # You can not use
+    # When I am on the "Surveypro test" "surveypro activity" page
+    # because there is more than a copy of "Surveypro test" "surveypro activity" page
     And I follow "Surveypro test"
-    And I follow "Layout"
+    And I follow "Layout" page in tab bar
 
     Then I should see "Welcome to this new instance of surveypro"
     And I should see "Grouped data inside"

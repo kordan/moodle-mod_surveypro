@@ -17,12 +17,10 @@ Feature: apply ATTLS (20 item version) mastertemplate
     And the following "activities" exist:
       | activity  | name           | intro         | course               |
       | surveypro | To apply ATTLS | To test ATTLS | Apply mastertemplate |
-    And I log in as "teacher1"
-    And I am on "To apply mastertemplate" course homepage
 
   @javascript
   Scenario: apply ATTLS (20 item version) master template
-    Given I follow "To apply ATTLS"
+    Given I am on the "To apply ATTLS" "surveypro activity" page logged in as teacher1
     And I set the field "Master templates" to "ATTLS (20 item version)"
     And I press "Apply"
     Then I should see "Attitudes Towards Thinking and Learning"

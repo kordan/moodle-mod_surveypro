@@ -17,12 +17,10 @@ Feature: apply COLLES (Preferred and Actual) mastertemplate
     And the following "activities" exist:
       | activity  | name                                   | intro                                 | course               |
       | surveypro | To apply COLLES (Preferred and Actual) | To test COLLES (Preferred and Actual) | Apply mastertemplate |
-    And I log in as "teacher1"
-    And I am on "To apply mastertemplate" course homepage
 
   @javascript
   Scenario: apply COLLES (Preferred and Actual) master template
-    Given I follow "To apply COLLES (Preferred and Actual)"
+    Given I am on the "To apply COLLES (Preferred and Actual)" "surveypro activity" page logged in as teacher1
     And I set the field "Master templates" to "COLLES (Preferred and Actual)"
     And I press "Apply"
     Then I should see "I prefer that my learning focuses on issues that interest me."

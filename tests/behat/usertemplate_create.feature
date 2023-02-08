@@ -46,4 +46,5 @@ Feature: Load, apply and save a usertemplate in order to test, among others, use
     And I press "Save"
 
     Then I should see "MMM_user_template.xml"
+
     And I log out

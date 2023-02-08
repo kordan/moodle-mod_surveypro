@@ -41,7 +41,8 @@ Feature: submissions seen from students divided into groups (Part 03)
       | Name        | Verify submission selection    |
       | Description | Test what each student can see |
       | Group mode  | Separate groups                |
-    And I follow "Verify submission selection"
+    And I turn editing mode off
+    And I am on the "Verify submission selection" "surveypro activity" page
 
     And I set the field "typeplugin" to "Text (short)"
     And I press "Add"
@@ -58,9 +59,7 @@ Feature: submissions seen from students divided into groups (Part 03)
     And I log out
 
     # student1 logs in
-    When I log in as "student1"
-    And I am on "Verify permissions in groups" course homepage
-    And I follow "Verify submission selection"
+    When I am on the "Verify submission selection" "surveypro activity" page logged in as student1
     And I follow "Responses" page in tab bar
 
     Then I should see "Nothing to display"
@@ -85,9 +84,7 @@ Feature: submissions seen from students divided into groups (Part 03)
     And I log out
 
     # student2 logs in
-    When I log in as "student2"
-    And I am on "Verify permissions in groups" course homepage
-    And I follow "Verify submission selection"
+    When I am on the "Verify submission selection" "surveypro activity" page logged in as student2
     And I follow "Responses" page in tab bar
 
     Then I should see "student1" in the "submissions" "table"
@@ -107,9 +104,7 @@ Feature: submissions seen from students divided into groups (Part 03)
     And I log out
 
     # student3 logs in
-    When I log in as "student3"
-    And I am on "Verify permissions in groups" course homepage
-    And I follow "Verify submission selection"
+    When I am on the "Verify submission selection" "surveypro activity" page logged in as student3
     And I follow "Responses" page in tab bar
 
     Then I should see "Nothing to display"
@@ -130,9 +125,7 @@ Feature: submissions seen from students divided into groups (Part 03)
     And I log out
 
     # student1 goes to check for his personal submissions
-    When I log in as "student1"
-    And I am on "Verify permissions in groups" course homepage
-    And I follow "Verify submission selection"
+    When I am on the "Verify submission selection" "surveypro activity" page logged in as student1
     And I follow "Responses" page in tab bar
 
     Then I should see "Never" in the "student1 user1" "table_row"

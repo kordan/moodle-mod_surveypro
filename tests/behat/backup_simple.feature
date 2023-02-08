@@ -14,7 +14,7 @@ Feature: Backup and restore of surveyspro
     And I log in as "admin"
 
   @javascript
-  Scenario: Backup a course providing options
+  Scenario: backup a course providing options
     Given I backup "Course 1" course using this options:
       | Confirmation | Filename | test_backup.mbz |
     Then I should see "Restore"

@@ -21,10 +21,8 @@ Feature: test the use of rate setup form
     And surveypro "Test rate setup form" contains the following items:
       | type  | plugin  |
       | field | boolean |
-    And I log in as "teacher1"
-    And I am on "Rate setup form" course homepage
-    And I follow "Test rate setup form"
-    And I follow "Layout"
+    And I am on the "Test rate setup form" "surveypro activity" page logged in as teacher1
+    And I follow "Layout" page in tab bar
 
     # add an rate item
     And I set the field "typeplugin" to "Rate"

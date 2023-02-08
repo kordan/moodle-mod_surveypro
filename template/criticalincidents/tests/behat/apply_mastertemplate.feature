@@ -17,12 +17,10 @@ Feature: apply CI mastertemplate
     And the following "activities" exist:
       | activity  | name                        | intro                      | course               |
       | surveypro | To apply Critical Incidents | To test Critical Incidents | Apply mastertemplate |
-    And I log in as "teacher1"
-    And I am on "To apply mastertemplate" course homepage
 
   @javascript
   Scenario: apply Critical Incidents master template
-    Given I follow "To apply Critical Incidents"
+    Given I am on the "To apply Critical Incidents" "surveypro activity" page logged in as teacher1
     And I set the field "Master templates" to "Critical Incidents"
     And I press "Apply"
     Then I should see "While thinking about recent events in this class, answer the questions below."

@@ -5,7 +5,7 @@ Feature: verify instance deletion
   I delete a surveypro activity.
 
   @javascript
-  Scenario: Delete a surveypro activity
+  Scenario: delete a surveypro activity
     Given the following "courses" exist:
       | fullname               | shortname         | category | groupmode |
       | Test activity deletion | Activity deletion | 0        | 0         |

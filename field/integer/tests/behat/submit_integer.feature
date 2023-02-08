@@ -5,7 +5,7 @@ Feature: make a submission test for "integer" item
   I add an integer item, I fill it and I go to see responses
 
   @javascript
-  Scenario: test a submission works fine for integer item
+  Scenario: test a submission for integer item
     Given the following "courses" exist:
       | fullname                         | shortname               | category |
       | Test submission for integer item | Integer submission test | 0        |
@@ -20,9 +20,7 @@ Feature: make a submission test for "integer" item
     And the following "activities" exist:
       | activity  | name         | intro                           | course                  |
       | surveypro | Integer test | To test submission of date item | Integer submission test |
-    And I log in as "teacher1"
-    And I am on "Test submission for integer item" course homepage
-    And I follow "Integer test"
+    And I am on the "Integer test" "surveypro activity" page logged in as teacher1
 
     And I set the field "typeplugin" to "Integer (small)"
     And I press "Add"
@@ -39,9 +37,7 @@ Feature: make a submission test for "integer" item
     And I log out
 
     # student1 logs in
-    When I log in as "student1"
-    And I am on "Test submission for integer item" course homepage
-    And I follow "Integer test"
+    When I am on the "Integer test" "surveypro activity" page logged in as student1
     And I press "New response"
 
     # student1 submits

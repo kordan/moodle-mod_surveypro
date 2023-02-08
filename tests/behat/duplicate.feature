@@ -11,7 +11,7 @@ Feature: Duplicate a surveypro instance
     And I log in as "admin"
 
   @javascript
-  Scenario: Duplicate a surveypro with some item
+  Scenario: duplicate a surveypro with some item
     Given the following "activities" exist:
       | activity  | name           | intro              | course |
       | surveypro | surveypro test | For testing backup | C1     |
@@ -26,13 +26,12 @@ Feature: Duplicate a surveypro instance
       | field  | boolean     |
       | field  | select      |
 
-    And I am on site homepage
-    When I follow "Course 1"
+    And I am on "Course 1" course homepage
     And I turn editing mode on
     And I duplicate "surveypro test" activity editing the new copy with:
       | Name | Copy of surveypro test |
-    And I follow "Copy of surveypro test"
-    And I follow "Layout"
+    And I am on the "Copy of surveypro test" "surveypro activity" page
+    And I follow "Layout" page in tab bar
     Then I should see "Welcome to this new instance of surveypro"
     And I should see "Grouped data"
     And I should see "What do you usually get for breakfast?"
