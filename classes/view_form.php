@@ -262,7 +262,7 @@ class view_form extends formbase {
 
         // I don't save the status here because it is useless
         // the status is defined from the validity of each answer
-        // and will be saved after each respose in function save_user_data
+        // and will be saved after each respose in function save_user_data.
 
         if (empty($this->formdata->submissionid)) {
             // Add a new record to surveypro_submission.
@@ -280,7 +280,7 @@ class view_form extends formbase {
             $event->trigger();
         } else {
             // Surveypro_submission already exists.
-            // And user submitted once again.
+            // And user submitted it once again.
             $submission->id = $this->formdata->submissionid;
             $params = ['id' => $submission->id];
             $originalrecord = $DB->get_record('surveypro_submission', $params, 'status, timecreated', MUST_EXIST);
@@ -477,7 +477,7 @@ class view_form extends formbase {
 
         // Drop out undesired answers from the submission.
         if (!$this->surveypro->newpageforchild) {
-            // TAKE CARE: It is not enough to drop out unexpected answers
+            // TAKE CARE: It is not enough to drop out unexpected answers.
             // If the response is new, dropping an answer from $this->formdata make you sure the related value will not be saved
             // but if the response is not new you may have the answer already in the database
             // and you need to actually delete the old datum from DB! Ignoring it is not enough.
@@ -498,8 +498,10 @@ class view_form extends formbase {
         // Generate $itemhelperinfo.
         foreach ($this->formdata as $elementname => $content) {
             if ($matches = utility_item::get_item_parts($elementname)) {
+                // If among returned fields there is a place holder...
                 if ($matches['prefix'] == SURVEYPRO_PLACEHOLDERPREFIX) {
                     $newelement = SURVEYPRO_ITEMPREFIX.'_'.$matches['type'].'_'.$matches['plugin'].'_'.$matches['itemid'];
+                    // but not the corresponding field, drop the placeholder and set to null the unexisting item.
                     if (!isset($this->formdata->$newelement)) {
                         $this->formdata->$newelement = null;
                     }
@@ -536,8 +538,6 @@ class view_form extends formbase {
             $itemid = $matches['itemid'];
             if (!isset($itemhelperinfo[$itemid])) {
                 $itemhelperinfo[$itemid] = new \stdClass();
-                $itemhelperinfo[$itemid]->surveyproid = $surveyproid;
-                $itemhelperinfo[$itemid]->submissionid = $this->get_submissionid();
                 $itemhelperinfo[$itemid]->type = $matches['type'];
                 $itemhelperinfo[$itemid]->plugin = $matches['plugin'];
                 $itemhelperinfo[$itemid]->itemid = $itemid;
@@ -552,13 +552,16 @@ class view_form extends formbase {
         // Once $itemhelperinfo is onboard...
         // ->   I update/create the corresponding record asking to each item class to manage its informations.
 
+        // From now on I am sure I am saving answers to:
+        $surveyproid = $surveyproid;
+        $submissionid = $this->get_submissionid();
         foreach ($itemhelperinfo as $iteminfo) {
-            $where = array('submissionid' => $iteminfo->submissionid, 'itemid' => $iteminfo->itemid);
+            $where = array('submissionid' => $submissionid, 'itemid' => $iteminfo->itemid);
             if (!$useranswer = $DB->get_record('surveypro_answer', $where)) {
                 // Quickly make one new!
                 $useranswer = new \stdClass();
-                $useranswer->surveyproid = $iteminfo->surveyproid;
-                $useranswer->submissionid = $iteminfo->submissionid;
+                $useranswer->surveyproid = $surveyproid;
+                $useranswer->submissionid = $submissionid;
                 $useranswer->itemid = $iteminfo->itemid;
                 $useranswer->content = SURVEYPRO_DUMMYCONTENT;
                 // $useranswer->contentformat = null; // Useless, as null is the default.
@@ -570,9 +573,8 @@ class view_form extends formbase {
 
             $item = surveypro_get_item($this->cm, $this->surveypro, $iteminfo->itemid, $iteminfo->type, $iteminfo->plugin);
 
-            // In this method I only update $useranswer->content.
-            // I do not really save to database.
-            $item->userform_save_preprocessing($iteminfo->contentperelement, $useranswer, false);
+            // Now I ask to each item the answer for the db starting from what the user provided ($iteminfo->contentperelement).
+            $item->userform_get_user_answer($iteminfo->contentperelement, $useranswer, false);
 
             if ($useranswer->content === SURVEYPRO_DUMMYCONTENT) {
                 throw new \moodle_exception('wrong_userdatarec_found', 'mod_surveypro', null, SURVEYPRO_DUMMYCONTENT);
