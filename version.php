@@ -26,6 +26,6 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'mod_surveypro';
 $plugin->maturity = MATURITY_ALPHA;
-$plugin->version = 20230112600;
+$plugin->version = 2023012600;
 $plugin->release = '1.0';
 $plugin->requires = 2021051700;
