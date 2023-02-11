@@ -41,11 +41,11 @@ function surveypro_get_completion_state($course, $cm, $userid, $type) {
     global $DB;
 
     // Get surveypro details.
-    $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
+    $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
 
     // If completion option is enabled, evaluate it and return true/false.
     if ($surveypro->completionsubmit) {
-        $params = array('surveyproid' => $cm->instance, 'userid' => $userid, 'status' => SURVEYPRO_STATUSCLOSED);
+        $params = ['surveyproid' => $cm->instance, 'userid' => $userid, 'status' => SURVEYPRO_STATUSCLOSED];
         $submissioncount = $DB->count_records('surveypro_submission', $params);
         return ($submissioncount >= $surveypro->completionsubmit);
     } else {

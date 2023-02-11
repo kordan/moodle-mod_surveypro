@@ -80,7 +80,7 @@ class itemsetupform extends itemsetupbaseform {
 
         // Item: defaultvalue.
         $fieldname = 'defaultvalue';
-        $options = array('1' => get_string('yes'), '0' => get_string('no'));
+        $options = ['1' => get_string('yes'), '0' => get_string('no')];
         $mform->addElement('select', $fieldname, null, $options);
         $mform->disabledIf($fieldname, 'defaultoption', 'neq', SURVEYPRO_CUSTOMDEFAULT);
 

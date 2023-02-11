@@ -139,15 +139,15 @@ class surveypromform_fileupload extends \MoodleQuickForm_filemanager {
         $attachmentcount = count($fm->options->list);
         $attachmentcount -= 1;
         foreach ($fm->options->list as $list) {
-            $return .= \html_writer::start_tag('div', array('class' => $class));
+            $return .= \html_writer::start_tag('div', ['class' => $class]);
 
             // $return .= '<a href="'.$list->url.'"><img src="'.$list->thumbnail.'" /></a>';
-            $return .= \html_writer::start_tag('a', array('title' => s($list->filename), 'href' => $list->url));
-            $return .= \html_writer::empty_tag('img', array('src' => $list->thumbnail));
+            $return .= \html_writer::start_tag('a', ['title' => s($list->filename), 'href' => $list->url]);
+            $return .= \html_writer::empty_tag('img', ['src' => $list->thumbnail]);
             $return .= \html_writer::end_tag('a');
 
             // $return .= '<a href="'.$list->url.'">'.s($list->filename).'</a><br />';
-            $return .= \html_writer::start_tag('a', array('title' => s($list->filename), 'href' => $list->url));
+            $return .= \html_writer::start_tag('a', ['title' => s($list->filename), 'href' => $list->url]);
             $return .= s($list->filename);
             $return .= \html_writer::end_tag('a');
 

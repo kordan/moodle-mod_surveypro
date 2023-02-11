@@ -329,7 +329,7 @@ class usertemplate extends templatebase {
         global $DB;
 
         $pluginversion = self::get_subplugin_versions();
-        $where = array('surveyproid' => $this->surveypro->id);
+        $where = ['surveyproid' => $this->surveypro->id];
         if ($visiblesonly) {
             $where['hidden'] = '0';
         }
@@ -357,7 +357,7 @@ class usertemplate extends templatebase {
                     $parentid = $item->get_parentid();
                     if ($parentid) {
                         // Store the sortindex of the parent instead of its id, because at restore time parentid will change.
-                        $whereparams = array('id' => $parentid);
+                        $whereparams = ['id' => $parentid];
                         $sortindex = $DB->get_field('surveypro_item', 'sortindex', $whereparams, MUST_EXIST);
                         $val = $item->get_parentvalue();
 
@@ -450,7 +450,7 @@ class usertemplate extends templatebase {
             case SURVEYPRO_IGNOREITEMS:
                 break;
             case SURVEYPRO_HIDEALLITEMS:
-                $whereparams = array('surveyproid' => $this->surveypro->id);
+                $whereparams = ['surveyproid' => $this->surveypro->id];
                 $utilitylayoutman->items_set_visibility($whereparams, 0);
 
                 $utilitylayoutman->reset_items_pages();
@@ -458,11 +458,11 @@ class usertemplate extends templatebase {
                 break;
             case SURVEYPRO_DELETEALLITEMS:
                 $utilitylayoutman = new utility_layout($this->cm);
-                $whereparams = array('surveyproid' => $this->surveypro->id);
+                $whereparams = ['surveyproid' => $this->surveypro->id];
                 $utilitylayoutman->delete_items($whereparams);
                 break;
             case SURVEYPRO_DELETEVISIBLEITEMS:
-                $whereparams = array('surveyproid' => $this->surveypro->id);
+                $whereparams = ['surveyproid' => $this->surveypro->id];
                 $whereparams['hidden'] = 0;
                 $utilitylayoutman->delete_items($whereparams);
 
@@ -470,7 +470,7 @@ class usertemplate extends templatebase {
 
                 break;
             case SURVEYPRO_DELETEHIDDENITEMS:
-                $whereparams = array('surveyproid' => $this->surveypro->id);
+                $whereparams = ['surveyproid' => $this->surveypro->id];
                 $whereparams['hidden'] = 1;
                 $utilitylayoutman->delete_items($whereparams);
 
@@ -486,7 +486,7 @@ class usertemplate extends templatebase {
         // Now actually add items from template.
         $this->add_items_from_template();
 
-        $paramurl = array('s' => $this->surveypro->id);
+        $paramurl = ['s' => $this->surveypro->id];
         $redirecturl = new \moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
         redirect($redirecturl);
     }
@@ -505,7 +505,7 @@ class usertemplate extends templatebase {
 
         if ($hassubmissions && (!$riskyediting)) {
             echo $OUTPUT->notification(get_string('applyusertemplatedenied01', 'mod_surveypro'), 'notifyproblem');
-            $url = new \moodle_url('/mod/surveypro/view_submissions.php', array('s' => $this->surveypro->id));
+            $url = new \moodle_url('/mod/surveypro/view_submissions.php', ['s' => $this->surveypro->id]);
             echo $OUTPUT->continue_button($url);
             echo $OUTPUT->footer();
             die();
@@ -513,7 +513,7 @@ class usertemplate extends templatebase {
 
         if ($this->surveypro->template && (!$riskyediting)) { // This survey comes from a master template so it is multilang.
             echo $OUTPUT->notification(get_string('applyusertemplatedenied02', 'mod_surveypro'), 'notifyproblem');
-            $url = new \moodle_url('/mod/surveypro/view_userform.php', array('s' => $this->surveypro->id));
+            $url = new \moodle_url('/mod/surveypro/view_userform.php', ['s' => $this->surveypro->id]);
             echo $OUTPUT->continue_button($url);
             echo $OUTPUT->footer();
             die();
@@ -536,7 +536,7 @@ class usertemplate extends templatebase {
         $simplexml = new \SimpleXMLElement($templatecontent);
         // echo '<h2>Items saved in the file ('.count($simplexml->item).')</h2>';
 
-        if (!$sortindexoffset = $DB->get_field('surveypro_item', 'MAX(sortindex)', array('surveyproid' => $this->surveypro->id))) {
+        if (!$sortindexoffset = $DB->get_field('surveypro_item', 'MAX(sortindex)', ['surveyproid' => $this->surveypro->id])) {
             $sortindexoffset = 0;
         }
 
@@ -843,16 +843,16 @@ class usertemplate extends templatebase {
         // End of $paramurlbase definition.
 
         $deletetitle = get_string('delete');
-        $iconparams = array('title' => $deletetitle);
+        $iconparams = ['title' => $deletetitle];
         $deleteicn = new \pix_icon('t/delete', $deletetitle, 'moodle', $iconparams);
 
         $importtitle = get_string('exporttemplate', 'mod_surveypro');
-        $iconparams = array('title' => $importtitle);
+        $iconparams = ['title' => $importtitle];
         $importicn = new \pix_icon('t/download', $importtitle, 'moodle', $iconparams);
 
         $table = new \flexible_table('templatelist');
 
-        $paramurl = array('id' => $this->cm->id);
+        $paramurl = ['id' => $this->cm->id];
         $baseurl = new \moodle_url('/mod/surveypro/utemplate_manage.php', $paramurl);
         $table->define_baseurl($baseurl);
 
@@ -921,7 +921,7 @@ class usertemplate extends templatebase {
                         $paramurl['sesskey'] = sesskey();
 
                         $link = new \moodle_url('/mod/surveypro/utemplate_manage.php', $paramurl);
-                        $icons .= $OUTPUT->action_icon($link, $deleteicn, null, array('title' => $deletetitle));
+                        $icons .= $OUTPUT->action_icon($link, $deleteicn, null, ['title' => $deletetitle]);
                     }
                 }
 
@@ -932,7 +932,7 @@ class usertemplate extends templatebase {
                     $paramurl['sesskey'] = sesskey();
 
                     $link = new \moodle_url('/mod/surveypro/utemplate_manage.php', $paramurl);
-                    $icons .= $OUTPUT->action_icon($link, $importicn, null, array('title' => $importtitle));
+                    $icons .= $OUTPUT->action_icon($link, $importicn, null, ['title' => $importtitle]);
                 }
 
                 $tablerow[] = $icons;
@@ -966,7 +966,7 @@ class usertemplate extends templatebase {
                 $xmlfileidcol[] = $xmlfile->get_id();
             }
         }
-        $originaltablepercols = array($templatenamecol, $sharinglevelcol, $creationdatecol, $xmlfileidcol);
+        $originaltablepercols = [$templatenamecol, $sharinglevelcol, $creationdatecol, $xmlfileidcol];
 
         // Original table per rows: originaltableperrows.
         $originaltableperrows = array();
@@ -987,8 +987,8 @@ class usertemplate extends templatebase {
         $orderparts = str_replace('timecreated', '2', $orderparts);
 
         // Include $fieldindex and $sortflag.
-        $fieldindex = array(0, 0, 0);
-        $sortflag = array(SORT_ASC, SORT_ASC, SORT_ASC);
+        $fieldindex = [0, 0, 0];
+        $sortflag = [SORT_ASC, SORT_ASC, SORT_ASC];
         foreach ($orderparts as $k => $orderpart) {
             $pair = explode(' ', $orderpart);
             $fieldindex[$k] = (int)$pair[0];
@@ -1018,7 +1018,7 @@ class usertemplate extends templatebase {
             // Ask for confirmation.
             $a = $this->get_utemplate_name();
             $message = get_string('confirm_delete1utemplate', 'mod_surveypro', $a);
-            $optionsbase = array('s' => $this->surveypro->id, 'act' => SURVEYPRO_DELETEUTEMPLATE);
+            $optionsbase = ['s' => $this->surveypro->id, 'act' => SURVEYPRO_DELETEUTEMPLATE];
 
             $optionsyes = $optionsbase;
             $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
@@ -1086,7 +1086,7 @@ class usertemplate extends templatebase {
      * @return void
      */
     public function trigger_event($eventname, $action=null) {
-        $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
+        $eventdata = ['context' => $this->context, 'objectid' => $this->surveypro->id];
         switch ($eventname) {
             case 'all_usertemplates_viewed':
                 $event = \mod_surveypro\event\all_usertemplates_viewed::create($eventdata);
@@ -1114,19 +1114,19 @@ class usertemplate extends templatebase {
                 $event = \mod_surveypro\event\usertemplate_applied::create($eventdata);
                 break;
             case 'usertemplate_exported':
-                $eventdata['other'] = array('templatename' => $this->get_utemplate_name());
+                $eventdata['other'] = ['templatename' => $this->get_utemplate_name()];
                 $event = \mod_surveypro\event\usertemplate_exported::create($eventdata);
                 break;
             case 'usertemplate_imported':
-                $eventdata['other'] = array('templatename' => $this->get_utemplate_name());
+                $eventdata['other'] = ['templatename' => $this->get_utemplate_name()];
                 $event = \mod_surveypro\event\usertemplate_imported::create($eventdata);
                 break;
             case 'usertemplate_saved':
-                $eventdata['other'] = array('templatename' => $this->templatename);
+                $eventdata['other'] = ['templatename' => $this->templatename];
                 $event = \mod_surveypro\event\usertemplate_saved::create($eventdata);
                 break;
             case 'usertemplate_deleted':
-                $eventdata['other'] = array('templatename' => $this->templatename);
+                $eventdata['other'] = ['templatename' => $this->templatename];
                 $event = \mod_surveypro\event\usertemplate_deleted::create($eventdata);
                 break;
             default:

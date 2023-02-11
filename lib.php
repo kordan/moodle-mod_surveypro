@@ -369,7 +369,7 @@ function surveypro_update_instance($surveypro, $mform) {
 
     // I don't think classes are available here!
     // So, I can't use $utilitylayoutman->reset_items_pages();
-    $whereparams = array('surveyproid' => $surveypro->id);
+    $whereparams = ['surveyproid' => $surveypro->id];
     $DB->set_field('surveypro_item', 'formpage', 0, $whereparams);
 
     // Manage userstyle filemanager.
@@ -426,7 +426,7 @@ function surveypro_pre_process_checkboxes($surveypro) {
 function surveypro_delete_instance($id) {
     global $DB;
 
-    if (!$surveypro = $DB->get_record('surveypro', array('id' => $id))) {
+    if (!$surveypro = $DB->get_record('surveypro', ['id' => $id])) {
         return false;
     }
 
@@ -439,7 +439,7 @@ function surveypro_delete_instance($id) {
         $fs->delete_area_files($context->id);
     }
 
-    $whereparams = array('surveyproid' => $surveypro->id);
+    $whereparams = ['surveyproid' => $surveypro->id];
 
     // Delete any dependent records here.
     if ($submissions = $DB->get_records('surveypro_submission', $whereparams, '', 'id')) {
@@ -457,7 +457,7 @@ function surveypro_delete_instance($id) {
     }
 
     // Get all item_<<plugin>> and format_<<plugin>>.
-    $types = array(SURVEYPRO_TYPEFIELD, SURVEYPRO_TYPEFORMAT);
+    $types = [SURVEYPRO_TYPEFIELD, SURVEYPRO_TYPEFORMAT];
     foreach ($types as $type) {
         $pluginlist = surveypro_get_plugin_list($type);
 
@@ -481,12 +481,12 @@ function surveypro_delete_instance($id) {
     }
 
     // Delete all associated surveypro_items.
-    if (!$DB->delete_records('surveypro_item', array('surveyproid' => $surveypro->id))) {
+    if (!$DB->delete_records('surveypro_item', ['surveyproid' => $surveypro->id])) {
         $status = false;
     }
 
     // Finally, delete the surveypro record.
-    if (!$DB->delete_records('surveypro', array('id' => $surveypro->id))) {
+    if (!$DB->delete_records('surveypro', ['id' => $surveypro->id])) {
         $status = false;
     }
 
@@ -614,7 +614,7 @@ function surveypro_get_participants($surveyproid) {
     $sql = 'SELECT DISTINCT s.userid as id
             FROM {surveypro_submission} s
             WHERE s.surveyproid = :surveyproid';
-    return $DB->get_records_sql($sql, array('surveyproid' => $surveyproid));
+    return $DB->get_records_sql($sql, ['surveyproid' => $surveyproid]);
 }
 
 /**
@@ -623,7 +623,7 @@ function surveypro_get_participants($surveyproid) {
  * @return array
  */
 function surveypro_get_extra_capabilities() {
-    return array('moodle/site:config', 'moodle/site:accessallgroups');
+    return ['moodle/site:config', 'moodle/site:accessallgroups'];
 }
 
 // Gradebook API.
@@ -702,7 +702,7 @@ function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
     global $DB;
 
     require_login($course, true, $cm);
-    if (!$surveypro = $DB->get_record('surveypro', array('id' => $cm->instance))) {
+    if (!$surveypro = $DB->get_record('surveypro', ['id' => $cm->instance])) {
         send_file_not_found();
     }
 
@@ -741,12 +741,12 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
         return;
     }
 
-    $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
+    $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
 
     $utilitylayoutman = new utility_layout($cm, $surveypro);
     $nodeurl = $utilitylayoutman->get_common_links_url(SURVEYPRO_BLOCK);
 
-    $paramurlbase = array('s' => $cm->instance);
+    $paramurlbase = ['s' => $cm->instance];
 
     // SURVEYPRO_TABLAYOUT.
     if ($nodeurl['tab_layout']['container']) {
@@ -1016,7 +1016,7 @@ function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=
  * @param string $type
  * @param int $formpage
  * @param bool $pagebreak
- * @return array($where, $params)
+ * @return [$where, $params]
  */
 function surveypro_fetch_items_seeds($surveyproid, $visibleonly=true, $canaccessreserveditems=false,
                                      $searchform=false, $type=false, $formpage=false, $pagebreak=false) {
@@ -1058,25 +1058,25 @@ function surveypro_fetch_items_seeds($surveyproid, $visibleonly=true, $canaccess
 
     $where = '( ('.implode(') AND (', $conditions).') )';
 
-    return array($where, $params);
+    return [$where, $params];
 }
 
 /**
  * surveypro_get_view_actions
  *
- * @return array('view', 'view all')
+ * @return ['view', 'view all']
  */
 function surveypro_get_view_actions() {
-    return array('view', 'view all');
+    return ['view', 'view all'];
 }
 
 /**
  * surveypro_get_post_actions
  *
- * @return array('add', 'update')
+ * @return ['add', 'update']
  */
 function surveypro_get_post_actions() {
-    return array('add', 'update');
+    return ['add', 'update'];
 }
 
 /**
@@ -1085,7 +1085,7 @@ function surveypro_get_post_actions() {
  * @return array the options
  */
 function surveypro_get_editor_options() {
-    return array('trusttext' => true, 'subdirs' => false, 'maxfiles' => EDITOR_UNLIMITED_FILES);
+    return ['trusttext' => true, 'subdirs' => false, 'maxfiles' => EDITOR_UNLIMITED_FILES];
 }
 
 /**
@@ -1151,7 +1151,7 @@ function surveypro_get_item($cm, $surveypro, $itemid=0, $type='', $plugin='', $g
     global $CFG, $DB;
 
     if (!empty($itemid)) {
-        $itemseed = $DB->get_record('surveypro_item', array('id' => $itemid), 'surveyproid, type, plugin', MUST_EXIST);
+        $itemseed = $DB->get_record('surveypro_item', ['id' => $itemid], 'surveyproid, type, plugin', MUST_EXIST);
         if ($cm->instance != $itemseed->surveyproid) {
             $message = 'Mismatch between passed itemid ('.$itemid.') and corresponding cm->instance ('.$cm->instance.')';
             debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);

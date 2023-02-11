@@ -78,7 +78,7 @@ class usertemplate_name extends \core\output\inplace_editable {
             $givenname = $oldtemplatename;
         }
 
-        $filerecord = $DB->get_record('files', array('id' => $xmlfileid), 'id, contextid', MUST_EXIST);
+        $filerecord = $DB->get_record('files', ['id' => $xmlfileid], 'id, contextid', MUST_EXIST);
         $context = \context::instance_by_id($filerecord->contextid);
         \external_api::validate_context($context);
 

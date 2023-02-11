@@ -43,7 +43,7 @@ class template {
      * @param string $tablename
      * @param object $record
      * @param object $config
-     * @return array($tablename, $record)
+     * @return [$tablename, $record]
      */
     public function apply_template_settings($tablename, $record, $config) {
         if ($tablename == 'surveyprofield_radiobutton') {
@@ -61,6 +61,6 @@ class template {
             }
         }
 
-        return array($tablename, $record);
+        return [$tablename, $record];
     }
 }

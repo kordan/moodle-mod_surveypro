@@ -34,11 +34,11 @@ $s = optional_param('s', 0, PARAM_INT);
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
+    $course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
+    $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
 } else {
-    $surveypro = $DB->get_record('surveypro', array('id' => $s), '*', MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $surveypro->course), '*', MUST_EXIST);
+    $surveypro = $DB->get_record('surveypro', ['id' => $s], '*', MUST_EXIST);
+    $course = $DB->get_record('course', ['id' => $surveypro->course], '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
 $cm = cm_info::create($cm);
@@ -63,7 +63,7 @@ if ($showjumper) {
 
     $jumpercontent = $reportman->get_groupjumper_items();
 
-    $paramurl = array('id' => $cm->id);
+    $paramurl = ['id' => $cm->id];
     $formurl = new \moodle_url('/mod/surveypro/report/lateusers/view.php', $paramurl);
 
     $formparams = new \stdClass();
@@ -83,7 +83,7 @@ if ($showjumper) {
     // but in this report I look for users WITHOUT submissions.
     $formparams->addnotinanygroup = false;
     $formparams->jumpercontent = $jumpercontent;
-    $attributes = array('id' => 'surveypro_jumperform');
+    $attributes = ['id' => 'surveypro_jumperform'];
     $groupfilterform = new groupjumperform($formurl, $formparams, null, null, $attributes);
 
     $PAGE->requires->js_amd_inline("
@@ -96,7 +96,7 @@ if ($showjumper) {
 // End of: prepare params for the form.
 
 // Output starts here.
-$url = new \moodle_url('/mod/surveypro/report/lateusers/view.php', array('s' => $surveypro->id));
+$url = new \moodle_url('/mod/surveypro/report/lateusers/view.php', ['s' => $surveypro->id]);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -133,7 +133,7 @@ new tabs($cm, $context, $surveypro, SURVEYPRO_TABREPORTS, $reportkey);
 $reportman->prevent_direct_user_input();
 
 if ($showjumper) {
-    $groupfilterform->set_data(array('groupid' => $groupid));
+    $groupfilterform->set_data(['groupid' => $groupid]);
     $groupfilterform->display();
 }
 

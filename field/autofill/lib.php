@@ -52,7 +52,7 @@ function surveypro_autofill_get_elements($surveyproid) {
     $groupmode = groups_get_activity_groupmode($cm, $COURSE);
 
     $options = array();
-    $options[''] = array('' => get_string('choosedots'));
+    $options[''] = ['' => get_string('choosedots')];
 
     // Submission date and time.
     $begin = 1;

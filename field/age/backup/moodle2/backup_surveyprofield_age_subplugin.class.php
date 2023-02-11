@@ -39,7 +39,7 @@ class backup_surveyprofield_age_subplugin extends backup_subplugin {
         // XML nodes declaration.
         $subplugin = $this->get_subplugin_element(null, '../../plugin', 'age'); // Virtual optigroup element.
         $wrapper = new backup_nested_element($this->get_recommended_name());
-        $subpluginage = new backup_nested_element('surveyprofield_age', array('id'), array(
+        $subpluginage = new backup_nested_element('surveyprofield_age', ['id'], array(
             'content', 'contentformat',
             'required', 'indent', 'position', 'customnumber', 'hideinstructions', 'variable', 'extranote',
             'defaultoption', 'defaultvalue', 'lowerbound', 'upperbound'));
@@ -49,7 +49,7 @@ class backup_surveyprofield_age_subplugin extends backup_subplugin {
         $wrapper->add_child($subpluginage);
 
         // Define sources.
-        $subpluginage->set_source_table('surveyprofield_age', array('itemid' => backup::VAR_PARENTID));
+        $subpluginage->set_source_table('surveyprofield_age', ['itemid' => backup::VAR_PARENTID]);
 
         return $subplugin;
     }

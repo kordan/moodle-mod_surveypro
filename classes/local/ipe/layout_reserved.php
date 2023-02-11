@@ -64,12 +64,12 @@ class layout_reserved extends \core\output\inplace_editable {
     public function export_for_template(\renderer_base $output) {
         if ($this->value) {
             $reservedstr = get_string('reserved_title', 'mod_surveypro');
-            $iconparams = array('id' => 'makeavailable_item_'.$this->sortindex);
+            $iconparams = ['id' => 'makeavailable_item_'.$this->sortindex];
             $this->edithint = $reservedstr;
             $this->displayvalue = $output->pix_icon('reserved', $reservedstr, 'surveypro', $iconparams);
         } else {
             $availablestr = get_string('available_title', 'mod_surveypro');
-            $iconparams = array('id' => 'makereserved_item_'.$this->sortindex);
+            $iconparams = ['id' => 'makereserved_item_'.$this->sortindex];
             $this->edithint = $availablestr;
             $this->displayvalue = $output->pix_icon('free', $availablestr, 'surveypro', $iconparams);
         }
@@ -88,14 +88,14 @@ class layout_reserved extends \core\output\inplace_editable {
         global $DB;
 
         $fields = 'id, surveyproid, type, plugin, sortindex';
-        $itemrecord = $DB->get_record('surveypro_item', array('id' => $itemid), $fields, MUST_EXIST);
-        $surveypro = $DB->get_record('surveypro', array('id' => $itemrecord->surveyproid), '*', MUST_EXIST);
+        $itemrecord = $DB->get_record('surveypro_item', ['id' => $itemid], $fields, MUST_EXIST);
+        $surveypro = $DB->get_record('surveypro', ['id' => $itemrecord->surveyproid], '*', MUST_EXIST);
         $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
         $context = \context_module::instance($cm->id);
         \external_api::validate_context($context);
 
         $newreserved = clean_param($newreserved, PARAM_INT);
-        $DB->set_field('surveypro_item', 'reserved', $newreserved, array('id' => $itemid));
+        $DB->set_field('surveypro_item', 'reserved', $newreserved, ['id' => $itemid]);
 
         return new static($itemid, $newreserved, $itemrecord->sortindex);
     }

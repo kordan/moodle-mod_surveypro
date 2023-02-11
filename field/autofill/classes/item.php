@@ -272,7 +272,7 @@ class item extends itembase {
         // Nothing to do: they don't exist in this plugin.
 
         // 3. special management for autofill contents
-        $referencearray = array(''); // Take care: the first element is already on board.
+        $referencearray = ['']; // Take care: the first element is already on board.
         for ($i = 1; $i <= SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT_COUNT; $i++) {
             $referencearray[] = constant('SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT'.sprintf('%02d', $i));
         }
@@ -307,7 +307,7 @@ class item extends itembase {
 
         // 3. Set values corresponding to checkboxes.
         // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in get_common_settings.
-        $checkboxes = array('hiddenfield');
+        $checkboxes = ['hiddenfield'];
         foreach ($checkboxes as $checkbox) {
             $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
         }
@@ -354,7 +354,7 @@ class item extends itembase {
      */
     public function get_multilang_fields() {
         $fieldlist = array();
-        $fieldlist[$this->plugin] = array('content', 'extranote');
+        $fieldlist[$this->plugin] = ['content', 'extranote'];
 
         return $fieldlist;
     }
@@ -421,7 +421,7 @@ EOS;
         $whereclause = $DB->sql_like('a.content', ':content_'.$itemid, false);
         $whereparam = '%'.$searchrestriction.'%';
 
-        return array($whereclause, $whereparam);
+        return [$whereclause, $whereparam];
     }
 
     // MARK userform.
@@ -562,8 +562,8 @@ EOS;
         global $COURSE, $DB, $USER;
 
         if ($submissionid) {
-            $submission = $DB->get_record('surveypro_submission', array('id' => $submissionid), '*', MUST_EXIST);
-            $user = $DB->get_record('user', array('id' => $submission->userid));
+            $submission = $DB->get_record('surveypro_submission', ['id' => $submissionid], '*', MUST_EXIST);
+            $user = $DB->get_record('user', ['id' => $submission->userid]);
         } else {
             $user = $USER;
         }

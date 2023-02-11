@@ -35,11 +35,11 @@ $s = optional_param('s', 0, PARAM_INT);
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
+    $course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
+    $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
 } else {
-    $surveypro = $DB->get_record('surveypro', array('id' => $s), '*', MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $surveypro->course), '*', MUST_EXIST);
+    $surveypro = $DB->get_record('surveypro', ['id' => $s], '*', MUST_EXIST);
+    $course = $DB->get_record('course', ['id' => $surveypro->course], '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
 $cm = cm_info::create($cm);
@@ -71,7 +71,7 @@ if ($showjumper) {
 
     $jumpercontent = $reportman->get_groupjumper_items();
 
-    $paramurl = array('id' => $cm->id);
+    $paramurl = ['id' => $cm->id];
     $paramurl['type'] = $type;
     $paramurl['area'] = $area;
     $formurl = new \moodle_url('/mod/surveypro/report/colles/view.php', $paramurl);
@@ -80,7 +80,7 @@ if ($showjumper) {
     $formparams->canaccessallgroups = $canaccessallgroups;
     $formparams->addnotinanygroup = $reportman->add_notinanygroup();
     $formparams->jumpercontent = $jumpercontent;
-    $attributes = array('id' => 'surveypro_jumperform');
+    $attributes = ['id' => 'surveypro_jumperform'];
     $groupfilterform = new groupjumperform($formurl, $formparams, null, null, $attributes);
 
     $PAGE->requires->js_amd_inline("
@@ -93,7 +93,7 @@ if ($showjumper) {
 // End of: prepare params for the form.
 
 // Output starts here.
-$paramurl = array('s' => $surveypro->id, 'type' => $type);
+$paramurl = ['s' => $surveypro->id, 'type' => $type];
 if ( ($type == 'questions') && ($area !== false) ) { // Area can be zero.
     $paramurl['area'] = $area;
 }

@@ -132,8 +132,8 @@ class form {
 
         $nofilesfound = get_string('nofilesfound', 'surveyproreport_attachments');
 
-        $submission = $DB->get_record('surveypro_submission', array('id' => $submissionid), '*', MUST_EXIST);
-        $user = $DB->get_record('user', array('id' => $submission->userid), '*', MUST_EXIST);
+        $submission = $DB->get_record('surveypro_submission', ['id' => $submissionid], '*', MUST_EXIST);
+        $user = $DB->get_record('user', ['id' => $submission->userid], '*', MUST_EXIST);
 
         $layout = <<<EOS
 <div class="mform">
@@ -178,7 +178,7 @@ EOS;
         $output .= str_replace('@@left@@', $left, $layout);
         $output = str_replace('@@right@@', $right, $output);
 
-        $whereparams = array('submissionid' => $submissionid, 'plugin' => 'fileupload');
+        $whereparams = ['submissionid' => $submissionid, 'plugin' => 'fileupload'];
         $sql = 'SELECT i.id, a.id as answerid, fu.content
                 FROM {surveypro_item} i
                   JOIN {surveypro_answer} a ON a.itemid = i.id

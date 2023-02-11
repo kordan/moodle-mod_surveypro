@@ -107,11 +107,11 @@ class report extends reportbase {
 
         parent::__construct($cm, $context, $surveypro);
 
-        $this->template = $DB->get_field('surveypro', 'template', array('id' => $this->surveypro->id));
+        $this->template = $DB->get_field('surveypro', 'template', ['id' => $this->surveypro->id]);
 
         // Which plugin has been used to build this master template? Radiobutton or select?
-        $guessplugin = array('radiobutton', 'select');
-        $where = array('surveyproid' => $surveypro->id, 'plugin' => $guessplugin[0]);
+        $guessplugin = ['radiobutton', 'select'];
+        $where = ['surveyproid' => $surveypro->id, 'plugin' => $guessplugin[0]];
         if ($DB->get_records('surveypro_item', $where, 'id', 'id')) {
             $this->templateuseritem = $guessplugin[0];
         } else {
@@ -146,7 +146,7 @@ class report extends reportbase {
      * @return boolean
      */
     public function report_applies_to($mastertemplate) {
-        $validutemplates = array('collesactual', 'collespreferred', 'collesactualpreferred');
+        $validutemplates = ['collesactual', 'collespreferred', 'collesactualpreferred'];
 
         return in_array($mastertemplate, $validutemplates);
     }
@@ -176,28 +176,28 @@ class report extends reportbase {
      */
     public function get_haschildrenreports() {
         $questionreports = array();
-        $questionreports['fieldset_content_01'] = array('type' => 'questions', 'area' => 0);
-        $questionreports['fieldset_content_02'] = array('type' => 'questions', 'area' => 1);
-        $questionreports['fieldset_content_03'] = array('type' => 'questions', 'area' => 2);
-        $questionreports['fieldset_content_04'] = array('type' => 'questions', 'area' => 3);
-        $questionreports['fieldset_content_05'] = array('type' => 'questions', 'area' => 4);
-        $questionreports['fieldset_content_06'] = array('type' => 'questions', 'area' => 5);
+        $questionreports['fieldset_content_01'] = ['type' => 'questions', 'area' => 0];
+        $questionreports['fieldset_content_02'] = ['type' => 'questions', 'area' => 1];
+        $questionreports['fieldset_content_03'] = ['type' => 'questions', 'area' => 2];
+        $questionreports['fieldset_content_04'] = ['type' => 'questions', 'area' => 3];
+        $questionreports['fieldset_content_05'] = ['type' => 'questions', 'area' => 4];
+        $questionreports['fieldset_content_06'] = ['type' => 'questions', 'area' => 5];
 
         $childrenreports = array();
-        $childrenreports['summary'] = array('type' => 'summary');
-        $childrenreports['scales'] = array('type' => 'scales');
+        $childrenreports['summary'] = ['type' => 'summary'];
+        $childrenreports['scales'] = ['type' => 'scales'];
         $childrenreports['areas'] = $questionreports;
 
         // In order to uncomment the next code to get examples of nested navigation into admin > report block,
         // you have to add strings corresponding to keys to $this->surveypro->template lang file.
         // $subfourtharray = array();
-        // $subfourtharray['4.3.1'] = array('type' => 'fourth', 'foo' => 3, 'bar' => 1);
-        // $subfourtharray['4.3.2'] = array('type' => 'fourth', 'foo' => 3, 'bar' => 2);
-        // $subfourtharray['4.3.3'] = array('type' => 'fourth', 'foo' => 3, 'bar' => 3);
+        // $subfourtharray['4.3.1'] = ['type' => 'fourth', 'foo' => 3, 'bar' => 1];
+        // $subfourtharray['4.3.2'] = ['type' => 'fourth', 'foo' => 3, 'bar' => 2];
+        // $subfourtharray['4.3.3'] = ['type' => 'fourth', 'foo' => 3, 'bar' => 3];
 
         // $fourtharray = array();
-        // $fourtharray['4.1'] = array('type' => 'fourth', 'foo' => 1);
-        // $fourtharray['4.2'] = array('type' => 'fourth', 'foo' => 2);
+        // $fourtharray['4.1'] = ['type' => 'fourth', 'foo' => 1];
+        // $fourtharray['4.2'] = ['type' => 'fourth', 'foo' => 2];
         // $fourtharray['4.3'] = $subfourtharray;
 
         // $childrenreports['fourth'] = $fourtharray;
@@ -227,9 +227,9 @@ class report extends reportbase {
         $imgparams['src'] = $graphurl;
         $imgparams['alt'] = get_string($altkey, 'surveyproreport_colles');
 
-        $content = \html_writer::start_tag('div', array('class' => 'centerpara'));
+        $content = \html_writer::start_tag('div', ['class' => 'centerpara']);
         if ($nexturl) {
-            $content .= \html_writer::start_tag('a', array('title' => $strseemoredetail, 'href' => $nexturl));
+            $content .= \html_writer::start_tag('a', ['title' => $strseemoredetail, 'href' => $nexturl]);
         }
         $content .= \html_writer::empty_tag('img', $imgparams);
         if ($nexturl) {
@@ -255,7 +255,7 @@ class report extends reportbase {
                     AND i.plugin = :plugin
                 ORDER BY i.sortindex';
 
-        $where = array('surveyproid' => $this->surveypro->id, 'plugin' => $this->templateuseritem);
+        $where = ['surveyproid' => $this->surveypro->id, 'plugin' => $this->templateuseritem];
         $itemseeds = $DB->get_recordset_sql($sql, $where);
 
         if ($this->template == 'collesactualpreferred') {
@@ -290,7 +290,7 @@ class report extends reportbase {
         }
         $itemseeds->close();
 
-        return array($qid1area, $qid2area);
+        return [$qid1area, $qid2area];
     }
 
     /**
@@ -351,9 +351,9 @@ class report extends reportbase {
 
         // Begin of: calculate the mean and the standard deviation of answers.
         if ($this->template == 'collesactualpreferred') {
-            $toevaluate = array($qid1area, $qid2area);
+            $toevaluate = [$qid1area, $qid2area];
         } else {
-            $toevaluate = array($qid1area);
+            $toevaluate = [$qid1area];
         }
         foreach ($toevaluate as $k => $qidarea) {
             foreach ($qidarea as $areaidlist) {
@@ -499,9 +499,9 @@ class report extends reportbase {
 
         // Begin of: calculate the mean and the standard deviation of answers.
         if ($this->template == 'collesactualpreferred') {
-            $toevaluate = array($qid1area[$area], $qid2area[$area]);
+            $toevaluate = [$qid1area[$area], $qid2area[$area]];
         } else {
-            $toevaluate = array($qid1area[$area]);
+            $toevaluate = [$qid1area[$area]];
         }
         foreach ($toevaluate as $k => $areaidlist) {
             foreach ($areaidlist as $itemid) {
@@ -573,7 +573,7 @@ class report extends reportbase {
         $paramurl['groupid'] = $this->groupid;
         $paramurl['type'] = 'questions';
 
-        $areas = array($area);
+        $areas = [$area];
 
         foreach ($areas as $area) {
             $paramurl['area'] = $area;
@@ -617,9 +617,9 @@ class report extends reportbase {
         }
 
         if ($this->template == 'collesactualpreferred') {
-            $toevaluate = array($qid1area[$area], $qid2area[$area]);
+            $toevaluate = [$qid1area[$area], $qid2area[$area]];
         } else {
-            $toevaluate = array($qid1area[$area]);
+            $toevaluate = [$qid1area[$area]];
         }
         foreach ($toevaluate as $k => $areaidlist) {
             $sql = 'SELECT content, count(a.id) as absolute

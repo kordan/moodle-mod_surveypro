@@ -67,7 +67,7 @@ class mtemplateapplyform extends \moodleform {
                 $elementgroup = array();
                 $elementgroup[] = $mform->createElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $mtemplates);
                 $elementgroup[] = $mform->createElement('submit', $fieldname.'_button', get_string('apply', 'mod_surveypro'));
-                $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'mod_surveypro'), array(' '), false);
+                $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'mod_surveypro'), [' '], false);
                 $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveypro');
             } else {
                 $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $mtemplates);

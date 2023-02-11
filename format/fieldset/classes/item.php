@@ -162,7 +162,7 @@ class item extends itembase {
      */
     public function get_multilang_fields() {
         $fieldlist = array();
-        $fieldlist[$this->plugin] = array('content');
+        $fieldlist[$this->plugin] = ['content'];
 
         return $fieldlist;
     }

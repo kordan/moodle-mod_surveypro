@@ -105,7 +105,7 @@ class view_import {
      * @return void
      */
     public function trigger_event() {
-        $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
+        $eventdata = ['context' => $this->context, 'objectid' => $this->surveypro->id];
         $event = \mod_surveypro\event\all_submissions_exported::create($eventdata);
         $event->trigger();
     }
@@ -153,7 +153,7 @@ class view_import {
         global $DB;
 
         // First step: make the list of each fileupload items of this surveypro.
-        $where = array('surveyproid' => $this->surveypro->id);
+        $where = ['surveyproid' => $this->surveypro->id];
         $sql = 'SELECT p.itemid, p.variable
                 FROM {surveypro_item} i
                   JOIN {surveyprofield_fileupload} p ON p.itemid = i.id
@@ -510,7 +510,7 @@ class view_import {
         $surveyheaders[SURVEYPRO_TIMECREATEDLABEL] = SURVEYPRO_TIMECREATEDLABEL;
         $surveyheaders[SURVEYPRO_TIMEMODIFIEDLABEL] = SURVEYPRO_TIMEMODIFIEDLABEL;
 
-        $whereparams = array('surveyproid' => $this->surveypro->id);
+        $whereparams = ['surveyproid' => $this->surveypro->id];
         foreach ($pluginlist as $plugin) {
             $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'\item';
             $canbemandatory = $classname::item_uses_mandatory_dbfield();
@@ -540,7 +540,7 @@ class view_import {
             }
         }
 
-        return array($surveyheaders, $requireditems);
+        return [$surveyheaders, $requireditems];
     }
 
     /**
@@ -1001,7 +1001,7 @@ class view_import {
                 }
                 if (!isset($record->userid)) {
                     // Ok, make one more query! GRRRR.
-                    if ($DB->record_exists('user', array('id' => $userid))) {
+                    if ($DB->record_exists('user', ['id' => $userid])) {
                         $gooduserids[] = $userid;
                         $record->userid = $userid;
                     } else {
@@ -1079,7 +1079,7 @@ class view_import {
             $completion->update_state($this->cm, COMPLETION_INCOMPLETE);
         }
 
-        $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
+        $eventdata = ['context' => $this->context, 'objectid' => $this->surveypro->id];
         $event = \mod_surveypro\event\submissions_imported::create($eventdata);
         $event->trigger();
     }

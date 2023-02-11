@@ -188,7 +188,7 @@ class item extends itembase {
 
         // Begin of: plugin specific settings (eventually overriding general ones).
         // Drop empty rows and trim trialing spaces from each row of each textarea field.
-        $fieldlist = array('options');
+        $fieldlist = ['options'];
         $this->item_clean_textarea_fields($record, $fieldlist);
 
         // Set custom fields value as defined for this question plugin.
@@ -315,7 +315,7 @@ class item extends itembase {
      */
     public function get_multilang_fields() {
         $fieldlist = array();
-        $fieldlist[$this->plugin] = array('content', 'extranote', 'options', 'labelother', 'defaultvalue');
+        $fieldlist[$this->plugin] = ['content', 'extranote', 'options', 'labelother', 'defaultvalue'];
 
         return $fieldlist;
     }

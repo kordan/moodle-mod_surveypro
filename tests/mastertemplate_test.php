@@ -56,7 +56,7 @@ class mastertemplate_test extends advanced_testcase {
         $this->setAdminUser();
 
         $course = $this->getDataGenerator()->create_course();
-        $params = array('course' => $course->id, 'name' => 'One more surveypro');
+        $params = ['course' => $course->id, 'name' => 'One more surveypro'];
         $surveypro = $this->getDataGenerator()->create_module('surveypro', $params);
         $cm = get_coursemodule_from_instance('surveypro', $surveypro->id);
         $context = \context_module::instance($cm->id);

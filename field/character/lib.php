@@ -102,8 +102,8 @@ function surveypro_character_validate_against_pattern($userinput, $pattern) {
     }
 
     // Build the pattern matching the text provided.
-    $regex = array('~[A-Z]~', '~[a-z]~', '~[0-9]~');
-    $replacement = array('A', 'a', '0');
+    $regex = ['~[A-Z]~', '~[a-z]~', '~[0-9]~'];
+    $replacement = ['A', 'a', '0'];
     $reconstructed = preg_replace($regex, $replacement, $userinput);
 
     if (strcmp($reconstructed, $pattern) === 0) {

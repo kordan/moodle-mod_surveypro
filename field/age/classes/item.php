@@ -371,7 +371,7 @@ class item extends itembase {
      * @return void
      */
     public function get_composite_fields() {
-        return array('defaultvalue', 'lowerbound', 'upperbound');
+        return ['defaultvalue', 'lowerbound', 'upperbound'];
     }
 
     /**
@@ -381,7 +381,7 @@ class item extends itembase {
      */
     public function get_multilang_fields() {
         $fieldlist = array();
-        $fieldlist[$this->plugin] = array('content', 'extranote');
+        $fieldlist[$this->plugin] = ['content', 'extranote'];
 
         return $fieldlist;
     }
@@ -763,7 +763,7 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = array($this->itemname.'_group');
+        $elementnames = [$this->itemname.'_group'];
 
         return $elementnames;
     }

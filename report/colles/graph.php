@@ -32,8 +32,8 @@ $id = required_param('id', PARAM_INT); // Course Module ID.
 $type = required_param('type', PARAM_ALPHA); // Report type.
 
 $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
-$course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-$surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
+$course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
+$surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
 
 $groupid = optional_param('groupid', 0, PARAM_INT); // Group ID.
 $area = optional_param('area', 0, PARAM_INT);  // Report area.
@@ -149,16 +149,16 @@ if ($type == 'summary') {
     if ($reportman->template == 'collesactualpreferred') {
         if ($allowsingle && ($reportman->studenttrend1)) {
             // If the user hasn't general right but only canaccessownreports && submitted at least one response.
-            $graph->y_order = array('stdev1', 'answers1', 'stdev2', 'answers2', 'answers3', 'answers4');
+            $graph->y_order = ['stdev1', 'answers1', 'stdev2', 'answers2', 'answers3', 'answers4'];
         } else {
-            $graph->y_order = array('stdev1', 'answers1', 'stdev2', 'answers2');
+            $graph->y_order = ['stdev1', 'answers1', 'stdev2', 'answers2'];
         }
     } else {
         if ($allowsingle && ($reportman->studenttrend1)) {
             // If the user hasn't general right but only canaccessownreports && submitted at least one response.
-            $graph->y_order = array('stdev1', 'answers1', 'answers3');
+            $graph->y_order = ['stdev1', 'answers1', 'answers3'];
         } else {
-            $graph->y_order = array('stdev1', 'answers1');
+            $graph->y_order = ['stdev1', 'answers1'];
         }
     }
 
@@ -240,9 +240,9 @@ if ($type == 'scales') {
 
         $graph->offset_relation['stdev2'] = 'answers2';
 
-        $graph->y_order = array('stdev1', 'answers1', 'stdev2', 'answers2');
+        $graph->y_order = ['stdev1', 'answers1', 'stdev2', 'answers2'];
     } else {
-        $graph->y_order = array('stdev1', 'answers1');
+        $graph->y_order = ['stdev1', 'answers1'];
     }
 
     $graph->parameter['bar_size'] = 0.15;
@@ -300,7 +300,7 @@ if ($type == 'questions') {
 
         $graph->y_order = array('answers1', 'answers2');
     } else {
-        $graph->y_order = array('answers1');
+        $graph->y_order = ['answers1'];
     }
 
     $graph->parameter['legend'] = 'outside-top';

@@ -32,8 +32,8 @@ $id = required_param('id', PARAM_INT); // Course Module ID.
 $itemid = required_param('itemid', PARAM_INT); // Item ID.
 
 $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
-$course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-$surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
+$course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
+$surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
 
 $groupid = optional_param('groupid', 0, PARAM_INT); // Group ID.
 
@@ -77,7 +77,7 @@ $graph->parameter['legend_size'] = 9;
 $graph->parameter['legend_border'] = 'black';
 $graph->parameter['legend_offset'] = 4;
 
-$graph->y_order = array('answers1');
+$graph->y_order = ['answers1'];
 
 // $graph->parameter['x_axis_gridlines'] can not be set to a number because X axis is not numeric.
 $graph->parameter['y_axis_gridlines'] = min(20, 2 + max($absolute));

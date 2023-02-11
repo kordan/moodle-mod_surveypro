@@ -43,7 +43,7 @@ class custom_completion extends activity_custom_completion {
 
         $this->validate_rule($rule);
 
-        $params = array('surveyproid' => $this->cm->instance, 'userid' => $this->userid, 'status' => SURVEYPRO_STATUSCLOSED);
+        $params = ['surveyproid' => $this->cm->instance, 'userid' => $this->userid, 'status' => SURVEYPRO_STATUSCLOSED];
         $usersubmissions = $DB->count_records('surveypro_submission', $params);
         $completionentries = $this->cm->customdata['customcompletionrules']['completionentries'];
 

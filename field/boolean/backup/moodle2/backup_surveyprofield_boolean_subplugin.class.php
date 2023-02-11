@@ -39,7 +39,7 @@ class backup_surveyprofield_boolean_subplugin extends backup_subplugin {
         // XML nodes declaration.
         $subplugin = $this->get_subplugin_element(null, '../../plugin', 'boolean'); // Virtual optigroup element.
         $wrapper = new backup_nested_element($this->get_recommended_name());
-        $subpluginboolean = new backup_nested_element('surveyprofield_boolean', array('id'), array(
+        $subpluginboolean = new backup_nested_element('surveyprofield_boolean', ['id'], array(
             'content', 'contentformat',
             'required', 'indent', 'position', 'customnumber', 'variable', 'extranote',
             'defaultoption', 'defaultvalue', 'downloadformat', 'style'));
@@ -49,7 +49,7 @@ class backup_surveyprofield_boolean_subplugin extends backup_subplugin {
         $wrapper->add_child($subpluginboolean);
 
         // Define sources.
-        $subpluginboolean->set_source_table('surveyprofield_boolean', array('itemid' => backup::VAR_PARENTID));
+        $subpluginboolean->set_source_table('surveyprofield_boolean', ['itemid' => backup::VAR_PARENTID]);
 
         return $subplugin;
     }

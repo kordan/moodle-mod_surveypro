@@ -39,7 +39,7 @@ class backup_surveyprofield_select_subplugin extends backup_subplugin {
         // XML nodes declaration.
         $subplugin = $this->get_subplugin_element(null, '../../plugin', 'select'); // Virtual optigroup element.
         $wrapper = new backup_nested_element($this->get_recommended_name());
-        $subpluginselect = new backup_nested_element('surveyprofield_select', array('id'), array(
+        $subpluginselect = new backup_nested_element('surveyprofield_select', ['id'], array(
             'content', 'contentformat',
             'required', 'indent', 'position', 'customnumber', 'variable', 'extranote',
             'options', 'labelother', 'defaultoption', 'defaultvalue', 'downloadformat'));
@@ -49,7 +49,7 @@ class backup_surveyprofield_select_subplugin extends backup_subplugin {
         $wrapper->add_child($subpluginselect);
 
         // Define sources.
-        $subpluginselect->set_source_table('surveyprofield_select', array('itemid' => backup::VAR_PARENTID));
+        $subpluginselect->set_source_table('surveyprofield_select', ['itemid' => backup::VAR_PARENTID]);
 
         return $subplugin;
     }

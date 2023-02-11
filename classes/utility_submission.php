@@ -62,7 +62,7 @@ class utility_submission {
         $this->cm = $cm;
         $this->context = \context_module::instance($cm->id);
         if (empty($surveypro)) {
-            $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
+            $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
         }
         $this->surveypro = $surveypro;
     }

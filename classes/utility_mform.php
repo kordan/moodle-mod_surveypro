@@ -42,7 +42,7 @@ class utility_mform {
         global $CFG;
 
         $basepath = $CFG->dirroot.'/mod/surveypro';
-        $types = array(SURVEYPRO_TYPEFIELD, SURVEYPRO_TYPEFORMAT);
+        $types = [SURVEYPRO_TYPEFIELD, SURVEYPRO_TYPEFORMAT];
 
         foreach ($types as $type) {
             $plugins = surveypro_get_plugin_list($type);

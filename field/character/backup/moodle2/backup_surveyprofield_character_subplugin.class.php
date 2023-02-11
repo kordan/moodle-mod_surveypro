@@ -39,7 +39,7 @@ class backup_surveyprofield_character_subplugin extends backup_subplugin {
         // XML nodes declaration.
         $subplugin = $this->get_subplugin_element(null, '../../plugin', 'character'); // Virtual optigroup element.
         $wrapper = new backup_nested_element($this->get_recommended_name());
-        $subplugincharacter = new backup_nested_element('surveyprofield_character', array('id'), array(
+        $subplugincharacter = new backup_nested_element('surveyprofield_character', ['id'], array(
             'content', 'contentformat',
             'required', 'indent', 'position', 'customnumber', 'hideinstructions', 'variable', 'extranote', 'trimonsave',
             'defaultvalue', 'pattern', 'minlength', 'maxlength'));
@@ -49,7 +49,7 @@ class backup_surveyprofield_character_subplugin extends backup_subplugin {
         $wrapper->add_child($subplugincharacter);
 
         // Define sources.
-        $subplugincharacter->set_source_table('surveyprofield_character', array('itemid' => backup::VAR_PARENTID));
+        $subplugincharacter->set_source_table('surveyprofield_character', ['itemid' => backup::VAR_PARENTID]);
 
         return $subplugin;
     }

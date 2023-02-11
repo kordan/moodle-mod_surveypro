@@ -53,7 +53,7 @@ function surveyprofield_fileupload_pluginfile($course, $cm, $context, $filearea,
             FROM {surveypro_item} i
               JOIN {surveypro_answer} a ON a.itemid = i.id
             WHERE a.id = :answerid';
-    $whereparams = array('answerid' => $answerid);
+    $whereparams = ['answerid' => $answerid];
     $answer = $DB->get_record_sql($sql, $whereparams, MUST_EXIST);
 
     if ($cm->instance != $answer->surveyproid) {

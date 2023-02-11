@@ -65,7 +65,7 @@ class itemsetupform extends itemsetupbaseform {
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_rate');
         $mform->setType($fieldname, PARAM_INT);
 
-        $textareaoptions = array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65');
+        $textareaoptions = ['wrap' => 'virtual', 'rows' => '10', 'cols' => '65'];
 
         // Item: options.
         $fieldname = 'options';

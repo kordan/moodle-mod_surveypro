@@ -139,7 +139,7 @@ class behat_mod_surveypro extends behat_base {
      */
     protected function get_surveypro_by_name(string $name): \stdClass {
         global $DB;
-        return $DB->get_record('surveypro', array('name' => $name), '*', MUST_EXIST);
+        return $DB->get_record('surveypro', ['name' => $name], '*', MUST_EXIST);
     }
 
     /**
@@ -241,7 +241,7 @@ class behat_mod_surveypro extends behat_base {
     public function surveypro_has_the_following_items($surveyproname, TableNode $data) {
         global $DB;
 
-        $surveypro = $DB->get_record('surveypro', array('name' => $surveyproname), '*', MUST_EXIST);
+        $surveypro = $DB->get_record('surveypro', ['name' => $surveyproname], '*', MUST_EXIST);
         $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
 
         // Add the questions.
@@ -276,7 +276,7 @@ class behat_mod_surveypro extends behat_base {
         if ($this->running_javascript()) {
             // The language menu must be expanded when JS is enabled.
             $xpath = "//li[contains(concat(' ', @class, ' '), ' dropdown ')]//a[contains(concat(' ', @class, ' '), ' dropdown-toggle ')]";
-            $this->execute('behat_general::i_click_on', array($xpath, 'xpath_element'));
+            $this->execute('behat_general::i_click_on', [$xpath, 'xpath_element']);
         }
 
         // Now select the link.
@@ -284,11 +284,8 @@ class behat_mod_surveypro extends behat_base {
         $csspath = '.dropdown-menu';
         // We need this because the lang menu has some hidden chars and we'll need to match them if the original text
         // has code between parenthesis. See get_list_of_translations() implementation.
-        $nodetext = str_replace(
-            array('(', ')'),
-            array(json_decode('"\u200E"') . '(', ')' . json_decode('"\u200E"')),
-            $nodetext);
-        $this->execute('behat_general::i_click_on_in_the', array($nodetext, 'link', $csspath, 'css_element'));
+        $nodetext = str_replace(['(', ')'], [json_decode('"\u200E"').'(', ')'.json_decode('"\u200E"')], $nodetext);
+        $this->execute('behat_general::i_click_on_in_the', [$nodetext, 'link', $csspath, 'css_element']);
     }
 
     /**
@@ -299,7 +296,7 @@ class behat_mod_surveypro extends behat_base {
      */
     public function i_follow_page_in_tab_bar($nodetext) {
         $xpath = "//ul[contains(@class,'nav-tabs')]//li//a[contains(@title, '".$nodetext."')]";
-        $this->execute('behat_general::i_click_on', array($xpath, 'xpath_element'));
+        $this->execute('behat_general::i_click_on', [$xpath, 'xpath_element']);
     }
 
     /**

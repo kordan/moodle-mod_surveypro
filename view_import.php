@@ -33,11 +33,11 @@ $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
+    $course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
+    $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
 } else {
-    $surveypro = $DB->get_record('surveypro', array('id' => $s), '*', MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $surveypro->course), '*', MUST_EXIST);
+    $surveypro = $DB->get_record('surveypro', ['id' => $s], '*', MUST_EXIST);
+    $course = $DB->get_record('course', ['id' => $surveypro->course], '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
 $cm = cm_info::create($cm);
@@ -48,13 +48,13 @@ require_course_login($course, false, $cm);
 $context = \context_module::instance($cm->id);
 
 // Required capability.
-require_capability('mod/surveypro:importdata', $context);
+require_capability('mod/surveypro:importresponses', $context);
 
 // Calculations.
 $importman = new view_import($cm, $context, $surveypro);
 
 // Begin of: define $mform return url.
-$paramurl = array('id' => $cm->id);
+$paramurl = ['id' => $cm->id];
 $formurl = new \moodle_url('/mod/surveypro/view_import.php', $paramurl);
 // End of: define $mform return url.
 
@@ -67,14 +67,14 @@ if ($importman->formdata = $importform->get_data()) {
     $err = $importman->validate_csvcontent();
     if (empty($err)) {
         $importman->import_csv();
-        $redirecturl = new \moodle_url('/mod/surveypro/view_submissions.php', array('s' => $surveypro->id));
+        $redirecturl = new \moodle_url('/mod/surveypro/view_submissions.php', ['s' => $surveypro->id]);
         redirect($redirecturl);
     }
 }
 // End of: manage form submission.
 
 // Output starts here.
-$PAGE->set_url('/mod/surveypro/view_import.php', array('s' => $surveypro->id));
+$PAGE->set_url('/mod/surveypro/view_import.php', ['s' => $surveypro->id]);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
@@ -113,7 +113,7 @@ if (!empty($err)) {
     }
     echo $OUTPUT->notification($message, 'notifyproblem');
 
-    $returnurl = new \moodle_url('/mod/surveypro/view_import.php', array('s' => $surveypro->id));
+    $returnurl = new \moodle_url('/mod/surveypro/view_import.php', ['s' => $surveypro->id]);
     echo $OUTPUT->continue_button($returnurl);
 } else {
     $importman->welcome_message();
