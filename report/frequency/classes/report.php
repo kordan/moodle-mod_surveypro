@@ -81,7 +81,7 @@ class report extends reportbase {
     public function setup_outputtable($itemid) {
         $this->outputtable = new \flexible_table('frequency');
 
-        $paramurl = array('id' => $this->cm->id);
+        $paramurl = ['id' => $this->cm->id];
         $paramurl['itemid'] = $itemid;
         $baseurl = new \moodle_url('/mod/surveypro/report/frequency/view.php', $paramurl);
         $this->outputtable->define_baseurl($baseurl);
@@ -139,7 +139,7 @@ class report extends reportbase {
         $countfields = $DB->count_records_select('surveypro_item', $where, $params);
         if (!$countfields) {
             echo $OUTPUT->box(get_string('textareasarenotallowed', 'surveyproreport_frequency'));
-            $url = new \moodle_url('/mod/surveypro/view_submissions.php', array('s' => $this->surveypro->id));
+            $url = new \moodle_url('/mod/surveypro/view_submissions.php', ['s' => $this->surveypro->id]);
             echo $OUTPUT->continue_button($url);
             echo $OUTPUT->footer();
             die();
@@ -202,7 +202,7 @@ class report extends reportbase {
      * Get_submissions_sql
      *
      * @param int $itemid
-     * @return array($sql, $whereparams);
+     * @return [$sql, $whereparams];
      */
     public function get_submissions_sql($itemid) {
         global $COURSE, $DB;
@@ -228,14 +228,14 @@ class report extends reportbase {
             $sql .= ' ORDER BY '.$DB->sql_compare_text('a.content', 255);
         }
 
-        return array($sql, $whereparams);
+        return [$sql, $whereparams];
     }
 
     /**
      * Get_answercount_sql
      *
      * @param int $itemid
-     * @return array($sql, $whereparams);
+     * @return [$sql, $whereparams];
      */
     public function get_answercount_sql($itemid) {
         global $COURSE, $DB;
@@ -251,7 +251,7 @@ class report extends reportbase {
         $sql .= ' AND a.itemid = :itemid';
         $whereparams['itemid'] = $itemid;
 
-        return array($sql, $whereparams);
+        return [$sql, $whereparams];
     }
 
     /**
@@ -289,7 +289,7 @@ class report extends reportbase {
             $imgparams['src'] = $graphurl;
             $imgparams['alt'] = get_string('pluginname', 'surveyproreport_frequency');
 
-            $content = \html_writer::start_tag('div', array('class' => 'centerpara'));
+            $content = \html_writer::start_tag('div', ['class' => 'centerpara']);
             $content .= \html_writer::empty_tag('img', $imgparams);
             $content .= \html_writer::end_tag('div');
             echo $content;

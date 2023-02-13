@@ -55,7 +55,7 @@ class itemsetupform extends itemsetupbaseform {
         // Get _customdata.
         $item = $this->_customdata['item'];
 
-        $textareaoptions = array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65');
+        $textareaoptions = ['wrap' => 'virtual', 'rows' => '10', 'cols' => '65'];
 
         // Item: options.
         $fieldname = 'options';

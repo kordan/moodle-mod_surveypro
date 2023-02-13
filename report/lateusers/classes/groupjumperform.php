@@ -64,7 +64,7 @@ class groupjumperform extends \moodleform {
             $options[$group->id] = $group->name;
         }
 
-        $attributes = array('class' => 'autosubmit ignoredirty');
+        $attributes = ['class' => 'autosubmit ignoredirty'];
         $mform->addElement('select', $fieldname, get_string('group', 'group'), $options, $attributes);
 
         // Legacy standard.

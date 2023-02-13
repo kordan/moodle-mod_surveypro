@@ -41,7 +41,7 @@ class backup_surveyprofield_fileupload_subplugin extends backup_subplugin {
         // XML nodes declaration.
         $subplugin = $this->get_subplugin_element(null, '../../plugin', 'fileupload'); // Virtual optigroup element.
         $wrapper = new backup_nested_element($this->get_recommended_name());
-        $subpluginfileupload = new backup_nested_element('surveyprofield_fileupload', array('id'), array(
+        $subpluginfileupload = new backup_nested_element('surveyprofield_fileupload', ['id'], array(
             'content', 'contentformat',
             'required', 'indent', 'position', 'customnumber', 'hideinstructions', 'variable', 'extranote',
             'maxfiles', 'maxbytes', 'filetypes'));
@@ -51,7 +51,7 @@ class backup_surveyprofield_fileupload_subplugin extends backup_subplugin {
         $wrapper->add_child($subpluginfileupload);
 
         // Define sources.
-        $subpluginfileupload->set_source_table('surveyprofield_fileupload', array('itemid' => backup::VAR_PARENTID));
+        $subpluginfileupload->set_source_table('surveyprofield_fileupload', ['itemid' => backup::VAR_PARENTID]);
 
         return $subplugin;
     }

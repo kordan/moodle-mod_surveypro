@@ -31,7 +31,7 @@ $id = optional_param('id', 0, PARAM_INT);
 $cmid = optional_param('cmid', 0, PARAM_INT);
 $lifetime = 600;
 
-if ($surveypro = $DB->get_record('surveypro', array('id' => $id))) {
+if ($surveypro = $DB->get_record('surveypro', ['id' => $id])) {
     $fs = get_file_storage();
     $context = \context_module::instance($cmid);
 

@@ -33,11 +33,11 @@ $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
+    $course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
+    $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
 } else {
-    $surveypro = $DB->get_record('surveypro', array('id' => $s), '*', MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $surveypro->course), '*', MUST_EXIST);
+    $surveypro = $DB->get_record('surveypro', ['id' => $s], '*', MUST_EXIST);
+    $course = $DB->get_record('course', ['id' => $surveypro->course], '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
 $cm = cm_info::create($cm);
@@ -54,7 +54,7 @@ require_capability('mod/surveypro:savemastertemplates', $context);
 $mtemplateman = new mastertemplate($cm, $context, $surveypro);
 
 // Start of: define $createmtemplate return url.
-$paramurl = array('id' => $cm->id);
+$paramurl = ['id' => $cm->id];
 $formurl = new \moodle_url('/mod/surveypro/mtemplate_save.php', $paramurl);
 $createmtemplate = new mtemplatecreateform($formurl);
 // End of: define $createmtemplate return url.
@@ -68,7 +68,7 @@ if ($mtemplateman->formdata = $createmtemplate->get_data()) {
 // End of: manage form submission.
 
 // Output starts here.
-$url = new \moodle_url('/mod/surveypro/mtemplate_save.php', array('s' => $surveypro->id));
+$url = new \moodle_url('/mod/surveypro/mtemplate_save.php', ['s' => $surveypro->id]);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);

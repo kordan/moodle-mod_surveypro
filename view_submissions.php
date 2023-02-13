@@ -33,11 +33,11 @@ $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
+    $course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
+    $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
 } else {
-    $surveypro = $DB->get_record('surveypro', array('id' => $s), '*', MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $surveypro->course), '*', MUST_EXIST);
+    $surveypro = $DB->get_record('surveypro', ['id' => $s], '*', MUST_EXIST);
+    $course = $DB->get_record('course', ['id' => $surveypro->course], '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
 $cm = cm_info::create($cm);
@@ -86,7 +86,7 @@ if (empty($force)) {
 $submissionman->actions_execution();
 
 // Output starts here.
-$PAGE->set_url('/mod/surveypro/view_submissions.php', array('s' => $surveypro->id));
+$PAGE->set_url('/mod/surveypro/view_submissions.php', ['s' => $surveypro->id]);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);

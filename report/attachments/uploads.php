@@ -33,11 +33,11 @@ $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
+    $course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
+    $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
 } else {
-    $surveypro = $DB->get_record('surveypro', array('id' => $s), '*', MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $surveypro->course), '*', MUST_EXIST);
+    $surveypro = $DB->get_record('surveypro', ['id' => $s], '*', MUST_EXIST);
+    $course = $DB->get_record('course', ['id' => $surveypro->course], '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
 $cm = cm_info::create($cm);
@@ -54,7 +54,7 @@ $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $c
 $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $context);
 
 if ($changeuser) {
-    $paramurl = array('id' => $cm->id);
+    $paramurl = ['id' => $cm->id];
     $returnurl = new \moodle_url('/mod/surveypro/report/attachments/view.php', $paramurl);
     redirect($returnurl);
 }
@@ -63,7 +63,7 @@ $parts = explode('_', $container);
 $userid = (int)$parts[0];
 $submissionid = (int)$parts[1];
 if (!$submissionid) {
-    $submissionid = $DB->get_field('surveypro_submission', 'MIN(id)', array('userid' => $userid, 'surveyproid' => $surveypro->id));
+    $submissionid = $DB->get_field('surveypro_submission', 'MIN(id)', ['userid' => $userid, 'surveyproid' => $surveypro->id]);
 }
 
 // Calculations.
@@ -74,7 +74,7 @@ $uploadsformman->set_itemid($itemid);
 $uploadsformman->set_submissionid($submissionid);
 
 // Begin of: define $filterform return url.
-$paramurl = array('id' => $cm->id);
+$paramurl = ['id' => $cm->id];
 $formurl = new \moodle_url('/mod/surveypro/report/attachments/uploads.php', $paramurl);
 // End of: define $user_form return url.
 
@@ -89,10 +89,10 @@ $formparams->canaccessreserveditems = $canaccessreserveditems;
 $formparams->canviewhiddenactivities = $canviewhiddenactivities;
 // End of: prepare params for the form.
 
-$filterform = new filterform($formurl, $formparams, 'post', '', array('id' => 'userentry'));
+$filterform = new filterform($formurl, $formparams, 'post', '', ['id' => 'userentry']);
 
 // Output starts here.
-$paramurl = array('s' => $surveypro->id, 'userid' => $userid, 'submissionid' => $submissionid);
+$paramurl = ['s' => $surveypro->id, 'userid' => $userid, 'submissionid' => $submissionid];
 $url = new \moodle_url('/mod/surveypro/report/attachments/uploads.php', $paramurl);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
@@ -101,7 +101,7 @@ $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
 // Make bold the navigation menu/link that refers to me.
-$url = new \moodle_url('/mod/surveypro/report/attachments/view.php', array('s' => $surveypro->id));
+$url = new \moodle_url('/mod/surveypro/report/attachments/view.php', ['s' => $surveypro->id]);
 navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();

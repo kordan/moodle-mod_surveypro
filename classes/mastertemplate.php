@@ -307,7 +307,7 @@ class mastertemplate extends templatebase {
         $fp->archive_to_pathname($filelist, $exportfile);
 
         // Zip file has been created. Now clean the temporary folder.
-        $dirnames = array('classes/privacy/', 'classes/', 'lang/en/', 'pix/', );
+        $dirnames = ['classes/privacy/', 'classes/', 'lang/en/', 'pix/', ];
         if ($userlang != 'en') {
             $dirnames[] = 'lang/'.$userlang.'/';
         }
@@ -336,7 +336,7 @@ class mastertemplate extends templatebase {
 
         $pluginversion = self::get_subplugin_versions();
 
-        $where = array('surveyproid' => $this->surveypro->id);
+        $where = ['surveyproid' => $this->surveypro->id];
         if ($visiblesonly) {
             $where['hidden'] = '0';
         }
@@ -368,7 +368,7 @@ class mastertemplate extends templatebase {
                     $parentid = $item->get_parentid();
                     if ($parentid) {
                         // Store the sortindex of the parent instead of its id, because at restore time parentid will change.
-                        $whereparams = array('id' => $parentid);
+                        $whereparams = ['id' => $parentid];
                         $sortindex = $DB->get_field('surveypro_item', 'sortindex', $whereparams, MUST_EXIST);
                         $val = $item->get_parentvalue();
 
@@ -514,7 +514,7 @@ class mastertemplate extends templatebase {
 
         // Begin of: delete all existing items.
         $utilitylayoutman = new utility_layout($this->cm);
-        $whereparams = array('surveyproid' => $this->surveypro->id);
+        $whereparams = ['surveyproid' => $this->surveypro->id];
         $utilitylayoutman->delete_items($whereparams);
         // End of: delete all existing items.
 
@@ -527,7 +527,7 @@ class mastertemplate extends templatebase {
 
         $this->add_items_from_template();
 
-        $paramurl = array('s' => $this->surveypro->id);
+        $paramurl = ['s' => $this->surveypro->id];
         $redirecturl = new \moodle_url('/mod/surveypro/layout_preview.php', $paramurl);
         redirect($redirecturl);
     }
@@ -546,7 +546,7 @@ class mastertemplate extends templatebase {
 
         if ($hassubmissions && (!$riskyediting)) {
             echo $OUTPUT->notification(get_string('applyusertemplatedenied01', 'mod_surveypro'), 'notifyproblem');
-            $url = new \moodle_url('/mod/surveypro/view_submissions.php', array('s' => $this->surveypro->id));
+            $url = new \moodle_url('/mod/surveypro/view_submissions.php', ['s' => $this->surveypro->id]);
             echo $OUTPUT->continue_button($url);
             echo $OUTPUT->footer();
             die();
@@ -572,7 +572,7 @@ class mastertemplate extends templatebase {
 
         $simplexml = new \SimpleXMLElement($templatecontent);
 
-        if (!$sortindexoffset = $DB->get_field('surveypro_item', 'MAX(sortindex)', array('surveyproid' => $this->surveypro->id))) {
+        if (!$sortindexoffset = $DB->get_field('surveypro_item', 'MAX(sortindex)', ['surveyproid' => $this->surveypro->id])) {
             $sortindexoffset = 0;
         }
 
@@ -745,8 +745,8 @@ class mastertemplate extends templatebase {
      * @return void
      */
     public function trigger_event($eventname) {
-        $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
-        $eventdata['other'] = array('templatename' => $this->formdata->mastertemplate);
+        $eventdata = ['context' => $this->context, 'objectid' => $this->surveypro->id];
+        $eventdata['other'] = ['templatename' => $this->formdata->mastertemplate];
         switch ($eventname) {
             case 'mastertemplate_applied':
                 $event = \mod_surveypro\event\mastertemplate_applied::create($eventdata);

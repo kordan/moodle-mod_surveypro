@@ -64,12 +64,12 @@ class layout_insearchform extends \core\output\inplace_editable {
     public function export_for_template(\renderer_base $output) {
         if ($this->value) {
             $insearchformstr = get_string('insearchform_title', 'mod_surveypro');
-            $iconparams = array('id' => 'removefromsearch_item_'.$this->sortindex);
+            $iconparams = ['id' => 'removefromsearch_item_'.$this->sortindex];
             $this->edithint = $insearchformstr;
             $this->displayvalue = $output->pix_icon('insearch', $insearchformstr, 'mod_surveypro', $iconparams);
         } else {
             $notinsearchformstr = get_string('notinsearchform_title', 'mod_surveypro');
-            $iconparams = array('id' => 'addtosearch_item_'.$this->sortindex);
+            $iconparams = ['id' => 'addtosearch_item_'.$this->sortindex];
             $this->edithint = $notinsearchformstr;
             $this->displayvalue = $output->pix_icon('notinsearch', $notinsearchformstr, 'mod_surveypro', $iconparams);
         }
@@ -88,14 +88,14 @@ class layout_insearchform extends \core\output\inplace_editable {
         global $DB;
 
         $fields = 'id, surveyproid, type, plugin, sortindex';
-        $itemrecord = $DB->get_record('surveypro_item', array('id' => $itemid), $fields, MUST_EXIST);
-        $surveypro = $DB->get_record('surveypro', array('id' => $itemrecord->surveyproid), '*', MUST_EXIST);
+        $itemrecord = $DB->get_record('surveypro_item', ['id' => $itemid], $fields, MUST_EXIST);
+        $surveypro = $DB->get_record('surveypro', ['id' => $itemrecord->surveyproid], '*', MUST_EXIST);
         $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
         $context = \context_module::instance($cm->id);
         \external_api::validate_context($context);
 
         $newinsearchform = clean_param($newinsearchform, PARAM_INT);
-        $DB->set_field('surveypro_item', 'insearchform', $newinsearchform, array('id' => $itemid));
+        $DB->set_field('surveypro_item', 'insearchform', $newinsearchform, ['id' => $itemid]);
 
         return new static($itemid, $newinsearchform, $itemrecord->sortindex);
     }

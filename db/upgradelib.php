@@ -34,7 +34,7 @@ function surveypro_delete_supposed_blank_answers() {
     // Start generating the list of each child element in this site (alias: conditioned by a parent child relation).
     // For each one of them verify if the parent item allows it.
     $where = 'type = :type AND parentid <> :parentid';
-    $whereparams = array('type' => SURVEYPRO_TYPEFIELD, 'parentid' => 0);
+    $whereparams = ['type' => SURVEYPRO_TYPEFIELD, 'parentid' => 0];
     $orderby = 'surveyproid, sortindex';
     $fields = 'id as childid, parentid, parentvalue';
     $brancheditems = $DB->get_recordset_select('surveypro_item', $where, $whereparams, $orderby, $fields);
@@ -55,7 +55,7 @@ function surveypro_delete_supposed_blank_answers() {
 
         if ($deleturum = $DB->get_records_sql($sql, $whereparams)) {
             foreach ($deleturum as $todelete) {
-                $DB->delete_records('surveypro_answer', array('id' => $todelete->answerid));
+                $DB->delete_records('surveypro_answer', ['id' => $todelete->answerid]);
             }
         }
     }
@@ -73,7 +73,7 @@ function surveypro_delete_supposed_blank_answers() {
                 AND parentid <> :parentid
             GROUP BY parentid
             ORDER BY MAX(surveyproid)';
-    $whereparams = array('type' => SURVEYPRO_TYPEFIELD, 'parentid' => 0);
+    $whereparams = ['type' => SURVEYPRO_TYPEFIELD, 'parentid' => 0];
     $parentitems = $DB->get_records_sql($sql, $whereparams);
 
     $oldsurveyproid = 0;
@@ -94,7 +94,7 @@ function surveypro_delete_supposed_blank_answers() {
             if (!$DB->count_records('surveypro_answer', $whereparams)) {
                 // OK, parent item was not answered so its children were not allowed!
                 // Get the list of children of $parentitem->parentid.
-                $childrenitems = $DB->get_records('surveypro_item', array('parentid' => $parentitem->parentid), 'id', 'id');
+                $childrenitems = $DB->get_records('surveypro_item', ['parentid' => $parentitem->parentid], 'id', 'id');
                 // Delete its childldren.
                 foreach ($childrenitems as $childitem) {
                     $whereparams['itemid'] = $childitem->id;
@@ -120,11 +120,11 @@ function surveypro_delete_supposed_blank_answers() {
 function surveypro_old_restore_fix($surveypro) {
     global $DB;
 
-    $course = $DB->get_record('course', array('id' => $surveypro->course), '*', MUST_EXIST);
+    $course = $DB->get_record('course', ['id' => $surveypro->course], '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
     $context = \context_module::instance($cm->id);
 
-    $areas = array(SURVEYPRO_THANKSPAGEFILEAREA, SURVEYPRO_STYLEFILEAREA, SURVEYPRO_TEMPLATEFILEAREA);
+    $areas = [SURVEYPRO_THANKSPAGEFILEAREA, SURVEYPRO_STYLEFILEAREA, SURVEYPRO_TEMPLATEFILEAREA];
 
     $fs = get_file_storage();
 

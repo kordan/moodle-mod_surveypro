@@ -272,7 +272,7 @@ class item extends itembase {
      */
     public function get_multilang_fields() {
         $fieldlist = array();
-        $fieldlist[$this->plugin] = array('content', 'extranote');
+        $fieldlist[$this->plugin] = ['content', 'extranote'];
 
         return $fieldlist;
     }
@@ -463,7 +463,7 @@ EOS;
         $integersrange = range($this->lowerbound, $this->upperbound);
         $integers += array_combine($integersrange, $integersrange);
         if (!$this->required) {
-            $integers += array(SURVEYPRO_NOANSWERVALUE => get_string('noanswer', 'mod_surveypro'));
+            $integers += [SURVEYPRO_NOANSWERVALUE => get_string('noanswer', 'mod_surveypro')];
         }
         // End of: element values.
 

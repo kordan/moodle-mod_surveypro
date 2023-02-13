@@ -321,7 +321,7 @@ class item extends itembase {
      */
     public function get_multilang_fields() {
         $fieldlist = array();
-        $fieldlist[$this->plugin] = array('content', 'extranote', 'defaultvalue');
+        $fieldlist[$this->plugin] = ['content', 'extranote', 'defaultvalue'];
 
         return $fieldlist;
     }
@@ -395,7 +395,7 @@ EOS;
         $whereclause = $DB->sql_like('a.content', ':content_'.$itemid, false);
         $whereparam = '%'.$searchrestriction.'%';
 
-        return array($whereclause, $whereparam);
+        return [$whereclause, $whereparam];
     }
 
     // MARK userform.

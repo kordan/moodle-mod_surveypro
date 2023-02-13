@@ -35,11 +35,11 @@ $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
+    $course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
+    $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
 } else {
-    $surveypro = $DB->get_record('surveypro', array('id' => $s), '*', MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $surveypro->course), '*', MUST_EXIST);
+    $surveypro = $DB->get_record('surveypro', ['id' => $s], '*', MUST_EXIST);
+    $course = $DB->get_record('course', ['id' => $surveypro->course], '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
 $cm = cm_info::create($cm);
@@ -63,7 +63,7 @@ $utilitylayoutman = new utility_layout($cm, $surveypro);
 $utilitylayoutman->add_custom_css();
 
 // Begin of: define $user_form return url.
-$paramurl = array('id' => $cm->id, 'view' => $view);
+$paramurl = ['id' => $cm->id, 'view' => $view];
 $formurl = new \moodle_url('/mod/surveypro/view_form.php', $paramurl);
 // End of: define $user_form return url.
 
@@ -89,11 +89,11 @@ $formparams->formpage = $userformman->get_formpage(); // The page of the form to
 // End of: prepare params for the form.
 
 $editable = ($view == SURVEYPRO_READONLYRESPONSE) ? false : true;
-$userform = new userform($formurl, $formparams, 'post', '', array('id' => 'userentry'), $editable);
+$userform = new userform($formurl, $formparams, 'post', '', ['id' => 'userentry'], $editable);
 
 // Begin of: manage form submission.
 if ($userform->is_cancelled()) {
-    $localparamurl = array('id' => $cm->id, 'view' => $view);
+    $localparamurl = ['id' => $cm->id, 'view' => $view];
     $redirecturl = new \moodle_url('/mod/surveypro/view_submissions.php', $localparamurl);
     redirect($redirecturl, get_string('usercanceled', 'mod_surveypro'));
 }
@@ -104,7 +104,7 @@ if ($userformman->formdata = $userform->get_data()) {
     // If "pause" button has been pressed, redirect.
     $pausebutton = isset($userformman->formdata->pausebutton);
     if ($pausebutton) {
-        $localparamurl = array('id' => $cm->id, 'view' => $view);
+        $localparamurl = ['id' => $cm->id, 'view' => $view];
         $redirecturl = new \moodle_url('/mod/surveypro/view_submissions.php', $localparamurl);
         redirect($redirecturl); // Go somewhere.
     }
@@ -152,7 +152,7 @@ if ($userformman->formdata = $userform->get_data()) {
 // End of: manage form submission.
 
 // Output starts here.
-$paramurl = array('s' => $surveypro->id, 'view' => $view);
+$paramurl = ['s' => $surveypro->id, 'view' => $view];
 if (!empty($submissionid)) {
     $paramurl['submissionid'] = $submissionid;
 }

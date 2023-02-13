@@ -33,11 +33,11 @@ $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
+    $course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
+    $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
 } else {
-    $surveypro = $DB->get_record('surveypro', array('id' => $s), '*', MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $surveypro->course), '*', MUST_EXIST);
+    $surveypro = $DB->get_record('surveypro', ['id' => $s], '*', MUST_EXIST);
+    $course = $DB->get_record('course', ['id' => $surveypro->course], '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
 $cm = cm_info::create($cm);
@@ -110,13 +110,13 @@ $item->set_editor();
 // End of: get item.
 
 // Begin of: define $itemform return url.
-$paramurl = array('id' => $cm->id);
+$paramurl = ['id' => $cm->id];
 $formurl = new \moodle_url('/mod/surveypro/layout_itemsetup.php', $paramurl);
 // End of: define $itemform return url.
 
 // Begin of: prepare params for the form.
 $classname = 'surveyprofield_'.$itemplugin.'\itemsetupform';
-$itemform = new $classname($formurl, array('item' => $item), null, null, array('id' => 'itemsetup'));
+$itemform = new $classname($formurl, ['item' => $item], null, null, ['id' => 'itemsetup']);
 // End of: prepare params for the form.
 
 // Begin of: manage form submission.
@@ -138,14 +138,14 @@ if ($fromform = $itemform->get_data()) {
     $item = surveypro_get_item($cm, $surveypro, $itemid, $item->get_type(), $item->get_plugin());
     $item->item_update_childrenparentvalue();
 
-    $paramurl = array('id' => $cm->id, 'iefeedback' => $feedback);
+    $paramurl = ['id' => $cm->id, 'iefeedback' => $feedback];
     $returnurl = new \moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
     redirect($returnurl);
 }
 // End of: manage form submission.
 
 // Output starts here.
-$paramurl = array('id' => $cm->id);
+$paramurl = ['id' => $cm->id];
 $paramurl['itemid'] = $itemid;
 $paramurl['type'] = $layoutman->get_type();
 $paramurl['plugin'] = $layoutman->get_plugin();

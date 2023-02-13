@@ -55,7 +55,7 @@ class itemsetupform extends itemsetupbaseform {
         // Get _customdata.
         $item = $this->_customdata['item'];
 
-        $textareaoptions = array('wrap' => 'virtual', 'rows' => '10', 'cols' => '65');
+        $textareaoptions = ['wrap' => 'virtual', 'rows' => '10', 'cols' => '65'];
 
         // Item: options.
         $fieldname = 'options';
@@ -66,7 +66,7 @@ class itemsetupform extends itemsetupbaseform {
 
         // Item: labelother.
         $fieldname = 'labelother';
-        $attributes = array('maxlength' => '64', 'size' => '50');
+        $attributes = ['maxlength' => '64', 'size' => '50'];
         $mform->addElement('text', $fieldname, get_string($fieldname, 'surveyprofield_radiobutton'), $attributes);
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_radiobutton');
         $mform->setType($fieldname, PARAM_TEXT);

@@ -78,7 +78,7 @@ class surveyproformat extends base {
     public function is_uninstall_allowed() {
         global $DB;
 
-        return !$DB->record_exists('surveypro_item', array('type' => 'format', 'plugin' => $this->name));
+        return !$DB->record_exists('surveypro_item', ['type' => 'format', 'plugin' => $this->name]);
     }
 
     /**
@@ -87,7 +87,7 @@ class surveyproformat extends base {
      * @return moodle_url
      */
     public static function get_manage_url() {
-        return new \moodle_url('/mod/surveypro/adminmanageplugins.php', array('subtype' => 'surveyproformat'));
+        return new \moodle_url('/mod/surveypro/adminmanageplugins.php', ['subtype' => 'surveyproformat']);
     }
 
     /**

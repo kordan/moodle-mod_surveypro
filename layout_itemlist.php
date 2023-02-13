@@ -38,11 +38,11 @@ $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
+    $course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
+    $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
 } else {
-    $surveypro = $DB->get_record('surveypro', array('id' => $s), '*', MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $surveypro->course), '*', MUST_EXIST);
+    $surveypro = $DB->get_record('surveypro', ['id' => $s], '*', MUST_EXIST);
+    $course = $DB->get_record('course', ['id' => $surveypro->course], '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
 $cm = cm_info::create($cm);
@@ -108,7 +108,7 @@ $basecondition = $basecondition && (!$hassubmissions || $riskyediting);
 if (!$itemcount) { // The surveypro is empty.
     $mtemplateman = new mastertemplate($cm, $context, $surveypro);
 
-    $paramurl = array('id' => $cm->id);
+    $paramurl = ['id' => $cm->id];
     $formurl = new \moodle_url('/mod/surveypro/mtemplate_apply.php', $paramurl);
 
     $formparams = new \stdClass();
@@ -124,7 +124,7 @@ if (!$itemcount) { // The surveypro is empty.
 // New item form.
 $newitemcondition = $basecondition && has_capability('mod/surveypro:additems', $context);
 if ($newitemcondition) {
-    $paramurl = array('id' => $cm->id);
+    $paramurl = ['id' => $cm->id];
     $formurl = new \moodle_url('/mod/surveypro/layout_itemsetup.php', $paramurl);
 
     // Init new item form.
@@ -137,7 +137,7 @@ if ($newitemcondition) {
 $bulkactioncondition = $basecondition && ($itemcount);
 $bulkactioncondition = $bulkactioncondition && has_capability('mod/surveypro:manageitems', $context);
 if ($bulkactioncondition) {
-    $paramurl = array('id' => $cm->id);
+    $paramurl = ['id' => $cm->id];
     $formurl = new \moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
 
     // Init bulkaction form.
@@ -150,7 +150,7 @@ if ($bulkactioncondition) {
 }
 
 // Output starts here.
-$paramurl = array('s' => $surveypro->id);
+$paramurl = ['s' => $surveypro->id];
 if ($itemtomove) {
     $paramurl['itemid'] = $itemid;
     $paramurl['type'] = $type;

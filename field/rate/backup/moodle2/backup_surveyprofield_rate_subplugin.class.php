@@ -39,7 +39,7 @@ class backup_surveyprofield_rate_subplugin extends backup_subplugin {
         // XML nodes declaration.
         $subplugin = $this->get_subplugin_element(null, '../../plugin', 'rate'); // Virtual optigroup element.
         $wrapper = new backup_nested_element($this->get_recommended_name());
-        $subpluginrate = new backup_nested_element('surveyprofield_rate', array('id'), array(
+        $subpluginrate = new backup_nested_element('surveyprofield_rate', ['id'], array(
             'content', 'contentformat',
             'required', 'indent', 'position', 'customnumber', 'hideinstructions', 'variable', 'extranote',
             'options', 'rates', 'defaultoption', 'defaultvalue', 'downloadformat', 'style', 'differentrates'));
@@ -49,7 +49,7 @@ class backup_surveyprofield_rate_subplugin extends backup_subplugin {
         $wrapper->add_child($subpluginrate);
 
         // Define sources.
-        $subpluginrate->set_source_table('surveyprofield_rate', array('itemid' => backup::VAR_PARENTID));
+        $subpluginrate->set_source_table('surveyprofield_rate', ['itemid' => backup::VAR_PARENTID]);
 
         return $subplugin;
     }

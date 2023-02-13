@@ -69,12 +69,12 @@ class filterform extends \moodleform {
         }
 
         // Itemid.
-        $options = array('0' => get_string('eachitem', 'surveyproreport_attachments'));
+        $options = ['0' => get_string('eachitem', 'surveyproreport_attachments')];
         foreach ($itemseeds as $itemseed) {
             if ($itemseed->plugin != 'fileupload') {
                 continue;
             }
-            $content = $DB->get_field('surveyprofield_fileupload', 'content', array('itemid' => $itemseed->id));
+            $content = $DB->get_field('surveyprofield_fileupload', 'content', ['itemid' => $itemseed->id]);
             $options[$itemseed->id] = strip_tags($content);
         }
         $itemseeds->close();
@@ -109,7 +109,7 @@ class filterform extends \moodleform {
 
         // Get submissions of $userid.
         $options = array();
-        $whereparams = array('surveyproid' => $surveypro->id, 'userid' => $userid);
+        $whereparams = ['surveyproid' => $surveypro->id, 'userid' => $userid];
         $submissions = $DB->get_records('surveypro_submission', $whereparams);
 
         // Define $options for current $userid.

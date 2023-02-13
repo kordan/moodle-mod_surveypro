@@ -137,7 +137,7 @@ class userform extends \moodleform {
                     if ($position == SURVEYPRO_POSITIONTOP) {
                         $itemname = $item->get_itemname().'_extrarow';
                         $content = $item->get_content();
-                        $option = array('class' => 'indent-'.$item->get_indent());
+                        $option = ['class' => 'indent-'.$item->get_indent()];
                         $mform->addElement('mod_surveypro_label', $itemname, $elementnumber, $content, $option);
 
                         $item->item_add_color_unifier($mform);
@@ -155,8 +155,8 @@ class userform extends \moodleform {
                             }
                         }
                         $content = '';
-                        $content .= \html_writer::start_tag('div', array('class' => 'fitem row'));
-                        $content .= \html_writer::start_tag('div', array('class' => 'fstatic fullwidth'));
+                        $content .= \html_writer::start_tag('div', ['class' => 'fitem row']);
+                        $content .= \html_writer::start_tag('div', ['class' => 'fstatic fullwidth']);
                         $content .= $questioncontent;
                         $content .= \html_writer::end_tag('div');
                         $content .= \html_writer::end_tag('div');
@@ -173,7 +173,7 @@ class userform extends \moodleform {
                         $item->item_add_color_unifier($mform);
 
                         $itemname = $item->get_itemname().'_note';
-                        $attributes = array('class' => 'indent-'.$item->get_indent().' label_static');
+                        $attributes = ['class' => 'indent-'.$item->get_indent().' label_static'];
                         $mform->addElement('mod_surveypro_label', $itemname, $notestr, $fullinfo, $attributes);
                     }
 
@@ -204,7 +204,7 @@ class userform extends \moodleform {
             }
             if ($formpage == $userlastpage) {
                 if ($surveypro->history) {
-                    $where = array('id' => $submissionid);
+                    $where = ['id' => $submissionid];
                     $submissionstatus = $DB->get_field('surveypro_submission', 'status', $where, IGNORE_MISSING);
                     if ($submissionstatus === false) { // Submissions still does not exist.
                         $usesimplesavebutton = true;

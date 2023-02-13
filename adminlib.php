@@ -47,7 +47,7 @@ class mod_surveypro_admin_page_manage_surveypro_plugins extends admin_externalpa
      */
     public function __construct($subtype) {
         $this->subtype = $subtype;
-        $url = new \moodle_url('/mod/surveypro/adminmanageplugins.php', array('subtype' => $subtype));
+        $url = new \moodle_url('/mod/surveypro/adminmanageplugins.php', ['subtype' => $subtype]);
         parent::__construct('manage'.$subtype.'plugins',
                             get_string('manage'.$subtype.'plugins', 'mod_surveypro'),
                             $url);
@@ -76,7 +76,7 @@ class mod_surveypro_admin_page_manage_surveypro_plugins extends admin_externalpa
             $result = new \stdClass();
             $result->page = $this;
             $result->settings = array();
-            return array($this->name => $result);
+            return [$this->name => $result];
         } else {
             return array();
         }
@@ -113,7 +113,7 @@ class mod_surveypro_plugin_manager {
      * @param string $subtype Either surveyprofield, surveyproformat, surveyprotemplate or surveyproreport
      */
     public function __construct($subtype) {
-        $this->pageurl = new \moodle_url('/mod/surveypro/adminmanageplugins.php', array('subtype' => $subtype));
+        $this->pageurl = new \moodle_url('/mod/surveypro/adminmanageplugins.php', ['subtype' => $subtype]);
         $this->subtype = $subtype;
     }
 
@@ -194,7 +194,7 @@ class mod_surveypro_plugin_manager {
                 FROM {surveypro_item}
                 WHERE type = :type
                 GROUP BY plugin';
-            $whereparams = array('type' => $type);
+            $whereparams = ['type' => $type];
             $counts = $DB->get_records_sql($countsql, $whereparams);
         }
         if (($this->subtype == 'surveyprotemplate')) {
@@ -209,8 +209,7 @@ class mod_surveypro_plugin_manager {
             $row = array();
 
             // Pluginname.
-            $icon = $OUTPUT->pix_icon('icon', $plugin, $this->subtype.'_'.$plugin,
-                array('title' => $plugin, 'class' => 'icon'));
+            $icon = $OUTPUT->pix_icon('icon', $plugin, $this->subtype.'_'.$plugin, ['title' => $plugin, 'class' => 'icon']);
 
             $row[] = $icon.get_string('pluginname', $this->subtype.'_'.$plugin);
 
@@ -228,16 +227,14 @@ class mod_surveypro_plugin_manager {
             $visible = !get_config($this->subtype.'_'.$plugin, 'disabled');
             if ($visible) {
                 $title = get_string('disable');
-                $row[] = $OUTPUT->action_icon(new \moodle_url($this->pageurl,
-                    array('action' => 'hide', 'plugin' => $plugin, 'sesskey' => sesskey())),
-                    new pix_icon('t/hide', $title, 'moodle', array('title' => $title)),
-                    null, array('title' => $title));
+                $paramurl = ['action' => 'hide', 'plugin' => $plugin, 'sesskey' => sesskey()];
+                $row[] = $OUTPUT->action_icon(new \moodle_url($this->pageurl, $paramurl),
+                    new pix_icon('t/hide', $title, 'moodle', ['title' => $title]), null, ['title' => $title]);
             } else {
                 $title = get_string('enable');
-                $row[] = $OUTPUT->action_icon(new \moodle_url($this->pageurl,
-                    array('action' => 'show', 'plugin' => $plugin, 'sesskey' => sesskey())),
-                    new pix_icon('t/show', $title, 'moodle', array('title' => $title)),
-                    null, array('title' => $title));
+                $paramurl = ['action' => 'show', 'plugin' => $plugin, 'sesskey' => sesskey()];
+                $row[] = $OUTPUT->action_icon(new \moodle_url($this->pageurl, $paramurl),
+                    new pix_icon('t/show', $title, 'moodle', ['title' => $title]), null, ['title' => $title]);
             }
 
             // Delete.
@@ -245,15 +242,14 @@ class mod_surveypro_plugin_manager {
                 $row[] = '&nbsp;';
             } else {
                 $title = get_string('delete');
-                $paramurl = array('uninstall' => $this->subtype.'_'.$plugin, 'confirm' => 0, 'return' => 'manage');
+                $paramurl = ['uninstall' => $this->subtype.'_'.$plugin, 'confirm' => 0, 'return' => 'manage'];
                 $row[] = $OUTPUT->action_icon(new \moodle_url('/admin/plugins.php', $paramurl),
-                    new pix_icon('t/delete', $title, 'moodle', array('title' => $title)),
-                    null, array('title' => $title));
+                    new pix_icon('t/delete', $title, 'moodle', ['title' => $title]), null, ['title' => $title]);
             }
             $exists = file_exists($CFG->dirroot.'/mod/surveypro/'.$shortsubtype.'/'.$plugin.'/settings.php');
             if ($row[1] != '' && $exists) {
                 $row[] = \html_writer::link(new \moodle_url('/admin/settings.php',
-                        array('section' => $this->subtype.'_'.$plugin)), get_string('settings'));
+                        ['section' => $this->subtype.'_'.$plugin]), get_string('settings'));
             } else {
                 $row[] = '&nbsp;';
             }
@@ -317,8 +313,7 @@ class mod_surveypro_plugin_manager {
         echo $OUTPUT->heading(get_string('deletingplugin', 'mod_surveypro', $pluginname));
         echo $this->error;
         $shortsubtype = substr($this->subtype, strlen('surveypro'));
-        $messageparams = array('name' => $pluginname,
-                               'directory' => ('/mod/surveypro/'.$shortsubtype.'/'.$plugin));
+        $messageparams = ['name' => $pluginname, 'directory' => ('/mod/surveypro/'.$shortsubtype.'/'.$plugin)];
         echo $OUTPUT->notification(get_string('plugindeletefiles', 'moodle', $messageparams), 'notifymessage');
         echo $OUTPUT->continue_button($this->pageurl);
         $this->view_footer();

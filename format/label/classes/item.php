@@ -165,7 +165,7 @@ class item extends itembase {
 
         // 3. Set values corresponding to checkboxes.
         // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in get_common_settings.
-        $checkboxes = array('fullwidth');
+        $checkboxes = ['fullwidth'];
         foreach ($checkboxes as $checkbox) {
             $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
         }
@@ -218,7 +218,7 @@ class item extends itembase {
      */
     public function get_multilang_fields() {
         $fieldlist = array();
-        $fieldlist[$this->plugin] = array('content', 'leftlabel');
+        $fieldlist[$this->plugin] = ['content', 'leftlabel'];
 
         return $fieldlist;
     }
@@ -290,8 +290,8 @@ EOS;
 
         if ($this->fullwidth) {
             $content = '';
-            $content .= \html_writer::start_tag('div', array('class' => 'fitem'));
-            $content .= \html_writer::start_tag('div', array('class' => 'fstatic fullwidth label_static'));
+            $content .= \html_writer::start_tag('div', ['class' => 'fitem']);
+            $content .= \html_writer::start_tag('div', ['class' => 'fstatic fullwidth label_static']);
             $content .= $this->get_content();
             $content .= \html_writer::end_tag('div');
             $content .= \html_writer::end_tag('div');

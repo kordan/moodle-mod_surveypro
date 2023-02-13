@@ -44,16 +44,16 @@ class mod_surveypro_generator_testcase extends advanced_testcase {
 
         $course = $this->getDataGenerator()->create_course();
 
-        $this->assertFalse($DB->record_exists('surveypro', array('course' => $course->id)));
-        $surveypro = $this->getDataGenerator()->create_module('surveypro', array('course' => $course->id));
-        $this->assertEquals(1, $DB->count_records('surveypro', array('course' => $course->id)));
-        $this->assertTrue($DB->record_exists('surveypro', array('course' => $course->id)));
-        $this->assertTrue($DB->record_exists('surveypro', array('id' => $surveypro->id)));
+        $this->assertFalse($DB->record_exists('surveypro', ['course' => $course->id]));
+        $surveypro = $this->getDataGenerator()->create_module('surveypro', ['course' => $course->id]);
+        $this->assertEquals(1, $DB->count_records('surveypro', ['course' => $course->id]));
+        $this->assertTrue($DB->record_exists('surveypro', ['course' => $course->id]));
+        $this->assertTrue($DB->record_exists('surveypro', ['id' => $surveypro->id]));
 
-        $params = array('course' => $course->id, 'name' => 'One more surveypro');
+        $params = ['course' => $course->id, 'name' => 'One more surveypro'];
         $surveypro = $this->getDataGenerator()->create_module('surveypro', $params);
-        $this->assertEquals(2, $DB->count_records('surveypro', array('course' => $course->id)));
-        $this->assertEquals('One more surveypro', $DB->get_field('surveypro', 'name', array('id' => $surveypro->id)));
+        $this->assertEquals(2, $DB->count_records('surveypro', ['course' => $course->id]));
+        $this->assertEquals('One more surveypro', $DB->get_field('surveypro', 'name', ['id' => $surveypro->id]));
     }
 
     /**
@@ -69,11 +69,11 @@ class mod_surveypro_generator_testcase extends advanced_testcase {
 
         $course = $this->getDataGenerator()->create_course();
 
-        $this->assertFalse($DB->record_exists('surveypro', array('course' => $course->id)));
-        $surveypro = $this->getDataGenerator()->create_module('surveypro', array('course' => $course->id));
-        $this->assertEquals(1, $DB->count_records('surveypro', array('course' => $course->id)));
+        $this->assertFalse($DB->record_exists('surveypro', ['course' => $course->id]));
+        $surveypro = $this->getDataGenerator()->create_module('surveypro', ['course' => $course->id]);
+        $this->assertEquals(1, $DB->count_records('surveypro', ['course' => $course->id]));
 
-        $this->assertEquals(0, $DB->count_records('surveypro_item', array('surveyproid' => $surveypro->id)));
+        $this->assertEquals(0, $DB->count_records('surveypro_item', ['surveyproid' => $surveypro->id]));
         $surveyprogenerator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
         // Commented for now, till we are able to apply mastertemplates from generator.
         // $surveyprogenerator->apply_mastertemplate();

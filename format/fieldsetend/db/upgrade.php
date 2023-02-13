@@ -37,7 +37,7 @@ function xmldb_surveyproformat_fieldsetend_upgrade($oldversion) {
 
         // Define key surveyproid (foreign) to be dropped form surveyproformat_fieldsetend.
         $table = new xmldb_table('surveyproformat_fieldsetend');
-        $key = new xmldb_key('surveyproid', XMLDB_KEY_FOREIGN, array('surveyproid'), 'surveypro', array('id'));
+        $key = new xmldb_key('surveyproid', XMLDB_KEY_FOREIGN, ['surveyproid'], 'surveypro', ['id']);
 
         // Launch drop key surveyproid.
         $dbman->drop_key($table, $key);

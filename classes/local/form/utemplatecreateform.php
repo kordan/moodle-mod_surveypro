@@ -94,7 +94,7 @@ class utemplatecreateform extends \moodleform {
             return false;
         }
 
-        $checkboxes = array('overwrite', 'visiblesonly');
+        $checkboxes = ['overwrite', 'visiblesonly'];
         foreach ($checkboxes as $checkbox) {
             if (!isset($data->{$checkbox})) {
                 $data->{$checkbox} = '0';

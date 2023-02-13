@@ -45,7 +45,7 @@ class layout_preview extends formbase {
         global $DB;
 
         // Assign pages to items.
-        $userformpagecount = $DB->get_field('surveypro_item', 'MAX(formpage)', array('surveyproid' => $this->surveypro->id));
+        $userformpagecount = $DB->get_field('surveypro_item', 'MAX(formpage)', ['surveyproid' => $this->surveypro->id]);
         if (!$userformpagecount) {
             $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
             $userformpagecount = $utilitylayoutman->assign_pages();
@@ -92,7 +92,7 @@ class layout_preview extends formbase {
      */
     private function trigger_event() {
         // Event: form_previewed.
-        $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
+        $eventdata = ['context' => $this->context, 'objectid' => $this->surveypro->id];
         $event = \mod_surveypro\event\form_previewed::create($eventdata);
         $event->trigger();
     }

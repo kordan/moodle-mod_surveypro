@@ -261,7 +261,7 @@ abstract class reportbase {
      * get_middle_sql
      *
      * @param bool $actualrelation the kind of relation I need in the query
-     * @return array($sql, $whereparams);
+     * @return [$sql, $whereparams];
      */
     public function get_middle_sql($actualrelation=true) {
         global $COURSE;
@@ -322,6 +322,6 @@ abstract class reportbase {
         }
 
         $whereparams = array_merge($whereparams, $eparams);
-        return array($sql, $whereparams);
+        return [$sql, $whereparams];
     }
 }

@@ -37,7 +37,7 @@ function xmldb_surveyprofield_rate_upgrade($oldversion) {
 
         // Define key surveyproid (foreign) to be dropped form surveyprofield_rate.
         $table = new xmldb_table('surveyprofield_rate');
-        $key = new xmldb_key('surveyproid', XMLDB_KEY_FOREIGN, array('surveyproid'), 'surveypro', array('id'));
+        $key = new xmldb_key('surveyproid', XMLDB_KEY_FOREIGN, ['surveyproid'], 'surveypro', ['id']);
 
         // Launch drop key surveyproid.
         $dbman->drop_key($table, $key);

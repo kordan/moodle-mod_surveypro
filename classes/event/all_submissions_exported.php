@@ -66,7 +66,7 @@ class all_submissions_exported extends \core\event\base {
      * @return \moodle_url
      */
     public function get_url() {
-        return new \moodle_url('/mod/surveypro/view_export.php', array('id' => $this->contextinstanceid));
+        return new \moodle_url('/mod/surveypro/view_export.php', ['id' => $this->contextinstanceid]);
     }
 
     /**

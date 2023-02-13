@@ -52,7 +52,7 @@ class submissionimportform extends \moodleform {
         // Submissionimport: csvfile.
         // Here I use filepicker because I want ONE, and only ONE, file to import.
         $fieldname = 'csvfile';
-        $attributes = array('accepted_types' => array('.csv'));
+        $attributes = ['accepted_types' => ['.csv']];
         $mform->addElement('filepicker', $fieldname.'_filepicker', get_string('file'), null, $attributes);
         $mform->addRule($fieldname.'_filepicker', null, 'required');
 

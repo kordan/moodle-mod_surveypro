@@ -65,10 +65,10 @@ class itemchooser extends \moodleform {
 
         $elementgroup = array();
         $elementgroup[] = $mform->createElement('selectgroups', $fieldname, '', $pluginlist);
-        // $attributes = array('id' => 'type_plugin', 'class' => 'autosubmit ignoredirty');
+        // $attributes = ['id' => 'type_plugin', 'class' => 'autosubmit ignoredirty'];
         // $elementgroup[] = $mform->createElement('selectgroups', $fieldname, '', $pluginlist, $attributes);
         $elementgroup[] = $mform->createElement('submit', $fieldname.'_button', get_string('add'));
-        $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'mod_surveypro'), array(' '), false);
+        $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'mod_surveypro'), [' '], false);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveypro');
     }
 }

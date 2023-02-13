@@ -73,7 +73,7 @@ class itemsetupform extends itemsetupbaseform {
 
         // Item: defaultoption.
         $fieldname = 'defaultoption';
-        $separator = array(' ', ' ', ', ', ':');
+        $separator = [' ', ' ', ', ', ':'];
         $daysrange = range(1, 31);
         $days = array_combine($daysrange, $daysrange);
         $months = array();
