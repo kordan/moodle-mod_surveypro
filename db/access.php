@@ -407,7 +407,8 @@ $capabilities = [
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
-        ]
+        ],
+        'clonepermissionsfrom' => 'mod/surveypro:importdata',
     ],
 
     'mod/surveypro:exportresponses' => [
@@ -418,7 +419,8 @@ $capabilities = [
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
-        ]
+        ],
+        'clonepermissionsfrom' => 'mod/surveypro:exportdata',
     ],
 
     'mod/surveypro:manageusertemplates' => [
