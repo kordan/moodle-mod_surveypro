@@ -158,6 +158,7 @@ $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
+// echo $OUTPUT->heading(format_string($surveypro->name), 2, null);
 
 new tabs($cm, $context, $surveypro, SURVEYPRO_TABLAYOUT, SURVEYPRO_LAYOUT_ITEMSETUP);
 
