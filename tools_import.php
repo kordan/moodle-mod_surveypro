@@ -23,7 +23,7 @@
  */
 
 use mod_surveypro\tabs;
-use mod_surveypro\view_import;
+use mod_surveypro\tools_import;
 use mod_surveypro\local\form\submissionimportform;
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
@@ -51,11 +51,11 @@ $context = \context_module::instance($cm->id);
 require_capability('mod/surveypro:importresponses', $context);
 
 // Calculations.
-$importman = new view_import($cm, $context, $surveypro);
+$importman = new tools_import($cm, $context, $surveypro);
 
 // Begin of: define $mform return url.
 $paramurl = ['id' => $cm->id];
-$formurl = new \moodle_url('/mod/surveypro/view_import.php', $paramurl);
+$formurl = new \moodle_url('/mod/surveypro/tools_import.php', $paramurl);
 // End of: define $mform return url.
 
 // Begin of: prepare params for the form.
@@ -74,7 +74,7 @@ if ($importman->formdata = $importform->get_data()) {
 // End of: manage form submission.
 
 // Output starts here.
-$PAGE->set_url('/mod/surveypro/view_import.php', ['s' => $surveypro->id]);
+$PAGE->set_url('/mod/surveypro/tools_import.php', ['s' => $surveypro->id]);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
@@ -91,7 +91,7 @@ if ($PAGE->user_allowed_editing()) {
         $urlediting = 'on';
         $strediting = get_string('blocksediton');
     }
-    $url = new \moodle_url($CFG->wwwroot.'/mod/surveypro/view_import.php', ['id' => $cm->id, 'edit' => $urlediting]);
+    $url = new \moodle_url($CFG->wwwroot.'/mod/surveypro/tools_import.php', ['id' => $cm->id, 'edit' => $urlediting]);
     $PAGE->set_button($OUTPUT->single_button($url, $strediting));
 }
 
@@ -107,7 +107,7 @@ if (!empty($err)) {
     }
     echo $OUTPUT->notification($message, 'notifyproblem');
 
-    $returnurl = new \moodle_url('/mod/surveypro/view_import.php', ['s' => $surveypro->id]);
+    $returnurl = new \moodle_url('/mod/surveypro/tools_import.php', ['s' => $surveypro->id]);
     echo $OUTPUT->continue_button($returnurl);
 } else {
     $importman->welcome_message();

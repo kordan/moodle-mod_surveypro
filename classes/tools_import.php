@@ -34,7 +34,7 @@ use mod_surveypro\local\form\submissionimportform;
  * @copyright 2013 onwards kordan <kordan@mclink.it>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class view_import {
+class tools_import {
 
     /**
      * @var object Course module object

@@ -63,7 +63,7 @@
  *      mod/surveypro:preview
  *
  *  SUB-TAB == SURVEYPRO_LAYOUT_ITEMS
- *      $elementurl = new \moodle_url('/mod/surveypro/layout_itemlist.php', $localparamurl);
+ *      $elementurl = new \moodle_url('/mod/surveypro/layout_itemslist.php', $localparamurl);
  *      mod/surveypro:manageitems
  *      mod/surveypro:additems
  *
@@ -122,11 +122,11 @@
  *      mod/surveypro:accessreports
  *
  *  SUB-TAB == SURVEYPRO_SUBMISSION_IMPORT
- *      $elementurl = new \moodle_url('/mod/surveypro/view_import.php', $paramurl);
+ *      $elementurl = new \moodle_url('/mod/surveypro/tools_import.php', $paramurl);
  *      mod/surveypro:importresponses
  *
  *  SUB-TAB == SURVEYPRO_SUBMISSION_EXPORT
- *      $elementurl = new \moodle_url('/mod/surveypro/view_export.php', $paramurl);
+ *      $elementurl = new \moodle_url('/mod/surveypro/tools_export.php', $paramurl);
  *      mod/surveypro:exportresponses
  *
  *  -------------------------------------------

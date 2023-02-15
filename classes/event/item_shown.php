@@ -66,7 +66,7 @@ class item_shown extends \core\event\base {
      * @return \moodle_url
      */
     public function get_url() {
-        return new \moodle_url('/mod/surveypro/layout_itemlist.php', ['id' => $this->contextinstanceid]);
+        return new \moodle_url('/mod/surveypro/layout_itemslist.php', ['id' => $this->contextinstanceid]);
     }
 
     /**
