@@ -119,12 +119,6 @@ if ($PAGE->user_allowed_editing()) {
 }
 
 echo $OUTPUT->header();
-echo $OUTPUT->heading(format_string($surveypro->name), 2, null);
-
-// Render the activity information.
-$completiondetails = \core_completion\cm_completion_details::get_instance($cm, $USER->id);
-$activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
-echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
 
 $surveyproreportlist = get_plugin_list('surveyproreport');
 $reportkey = array_search('lateusers', array_keys($surveyproreportlist));
