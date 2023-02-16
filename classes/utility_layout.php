@@ -111,7 +111,7 @@ class utility_layout {
     }
 
     /**
-     * Redirect to layout_itemlist.php?s=xxx the user asking to go to /view.php?id=yyy if the survey has no items.
+     * Redirect to layout_itemslist.php?s=xxx the user asking to go to /view.php?id=yyy if the survey has no items.
      *
      * I HATE software thinking for me
      * Because of this I ALWAYS want to go where I ask, even if the place I ask is not supposed to be accessed by me
@@ -120,7 +120,7 @@ class utility_layout {
      *
      * By default accessing a surveypro from a course (/view.php?id=yyy), the "predefined" landing page should be:
      *     -> for admin/editing teacher:
-     *         -> if no items were created: layout_itemlist.php
+     *         -> if no items were created: layout_itemslist.php
      *         -> if items were already created: view_submissions.php with the submission list
      *     -> for students: ALWAYS view.php with the welcome and the surveypro cover page
      *
@@ -128,7 +128,7 @@ class utility_layout {
      * So in the view.php I MUST add a code snippet TAKING THE DECISION for the user
      *
      * The problem rises up when the admin/editing teacher decides to go where he should not go, alias in:
-     *     -> layout_itemlist.php even if items were already created
+     *     -> layout_itemslist.php even if items were already created
      *     -> view_submissions.php with the submission list even if no items were created
      *
      * The first request is a false problem, because the admin/editing teacher is always allowed to go there
@@ -149,7 +149,7 @@ class utility_layout {
 
             $paramurl = ['id' => $this->cm->id];
             if ($canmanageitems) {
-                $redirecturl = new \moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
+                $redirecturl = new \moodle_url('/mod/surveypro/layout_itemslist.php', $paramurl);
             } else {
                 $redirecturl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
             }
@@ -819,7 +819,7 @@ class utility_layout {
         // Layout -> elements.
         $elements['manage'] = false;
         if ($canmanageitems) {
-            $elementurl = new \moodle_url('/mod/surveypro/layout_itemlist.php', $paramurlbase);
+            $elementurl = new \moodle_url('/mod/surveypro/layout_itemslist.php', $paramurlbase);
             $elements['manage'] = $elementurl;
         }
 
@@ -839,7 +839,7 @@ class utility_layout {
         // Layout -> container.
         $elements['container'] = false;
         if ($elements['preview'] || $elements['manage'] || $elements['validate'] || $elements['itemsetup']) {
-            $elementurl = new \moodle_url('/mod/surveypro/layout_itemlist.php', $paramurlbase);
+            $elementurl = new \moodle_url('/mod/surveypro/layout_itemslist.php', $paramurlbase);
             $elements['container'] = $elementurl;
         }
 
@@ -874,14 +874,14 @@ class utility_layout {
         // Submissions -> import.
         $elements['import'] = false;
         if ($canimportresponses) {
-            $elementurl = new \moodle_url('/mod/surveypro/view_import.php', $paramurlbase);
+            $elementurl = new \moodle_url('/mod/surveypro/tools_import.php', $paramurlbase);
             $elements['import'] = $elementurl;
         }
 
         // Submissions -> export.
         $elements['export'] = false;
         if ($canexportresponses) {
-            $elementurl = new \moodle_url('/mod/surveypro/view_export.php', $paramurlbase);
+            $elementurl = new \moodle_url('/mod/surveypro/tools_export.php', $paramurlbase);
             $elements['export'] = $elementurl;
         }
 

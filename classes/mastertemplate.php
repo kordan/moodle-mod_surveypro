@@ -148,7 +148,7 @@ class mastertemplate extends templatebase {
 
             $paramurl = array();
             $paramurl['id'] = $this->cm->id;
-            $returnurl = new \moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
+            $returnurl = new \moodle_url('/mod/surveypro/layout_itemslist.php', $paramurl);
             redirect($returnurl);
         }
 

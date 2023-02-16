@@ -138,7 +138,7 @@ $bulkactioncondition = $basecondition && ($itemcount);
 $bulkactioncondition = $bulkactioncondition && has_capability('mod/surveypro:manageitems', $context);
 if ($bulkactioncondition) {
     $paramurl = ['id' => $cm->id];
-    $formurl = new \moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
+    $formurl = new \moodle_url('/mod/surveypro/layout_itemslist.php', $paramurl);
 
     // Init bulkaction form.
     $bulkactionform = new itembulkactionform($formurl);
@@ -158,7 +158,7 @@ if ($itemtomove) {
     $paramurl['view'] = $view;
     $paramurl['itm'] = $itemtomove;
 }
-$url = new \moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
+$url = new \moodle_url('/mod/surveypro/layout_itemslist.php', $paramurl);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -179,7 +179,7 @@ if (!$itemtomove) {
             $urlediting = 'on';
             $strediting = get_string('blocksediton');
         }
-        $url = new \moodle_url($CFG->wwwroot.'/mod/surveypro/layout_itemlist.php', ['id' => $cm->id, 'edit' => $urlediting]);
+        $url = new \moodle_url($CFG->wwwroot.'/mod/surveypro/layout_itemslist.php', ['id' => $cm->id, 'edit' => $urlediting]);
         $PAGE->set_button($OUTPUT->single_button($url, $strediting));
     }
 }

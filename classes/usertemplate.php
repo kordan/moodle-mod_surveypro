@@ -487,7 +487,7 @@ class usertemplate extends templatebase {
         $this->add_items_from_template();
 
         $paramurl = ['s' => $this->surveypro->id];
-        $redirecturl = new \moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
+        $redirecturl = new \moodle_url('/mod/surveypro/layout_itemslist.php', $paramurl);
         redirect($redirecturl);
     }
 

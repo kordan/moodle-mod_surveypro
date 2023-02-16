@@ -121,7 +121,7 @@ $itemform = new $classname($formurl, ['item' => $item], null, null, ['id' => 'it
 
 // Begin of: manage form submission.
 if ($itemform->is_cancelled()) {
-    $returnurl = new \moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
+    $returnurl = new \moodle_url('/mod/surveypro/layout_itemslist.php', $paramurl);
     redirect($returnurl);
 }
 
@@ -139,7 +139,7 @@ if ($fromform = $itemform->get_data()) {
     $item->item_update_childrenparentvalue();
 
     $paramurl = ['id' => $cm->id, 'iefeedback' => $feedback];
-    $returnurl = new \moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
+    $returnurl = new \moodle_url('/mod/surveypro/layout_itemslist.php', $paramurl);
     redirect($returnurl);
 }
 // End of: manage form submission.

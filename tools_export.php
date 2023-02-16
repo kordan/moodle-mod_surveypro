@@ -23,7 +23,7 @@
  */
 
 use mod_surveypro\tabs;
-use mod_surveypro\view_export;
+use mod_surveypro\tools_export;
 use mod_surveypro\local\form\submissionexportform;
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
@@ -51,11 +51,11 @@ $context = \context_module::instance($cm->id);
 require_capability('mod/surveypro:exportresponses', $context);
 
 // Calculations.
-$exportman = new view_export($cm, $context, $surveypro);
+$exportman = new tools_export($cm, $context, $surveypro);
 
 // Begin of: define exportform return url.
 $paramurl = ['id' => $cm->id];
-$formurl = new \moodle_url('/mod/surveypro/view_export.php', $paramurl);
+$formurl = new \moodle_url('/mod/surveypro/tools_export.php', $paramurl);
 // End of: define $mform return url.
 
 // Begin of: prepare params for the form.
@@ -81,7 +81,7 @@ if ($exportman->formdata = $exportform->get_data()) {
 // End of: manage form submission.
 
 // Output starts here.
-$PAGE->set_url('/mod/surveypro/view_export.php', ['s' => $surveypro->id]);
+$PAGE->set_url('/mod/surveypro/tools_export.php', ['s' => $surveypro->id]);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
@@ -98,7 +98,7 @@ if ($PAGE->user_allowed_editing()) {
         $urlediting = 'on';
         $strediting = get_string('blocksediton');
     }
-    $url = new \moodle_url($CFG->wwwroot.'/mod/surveypro/view_export.php', ['id' => $cm->id, 'edit' => $urlediting]);
+    $url = new \moodle_url($CFG->wwwroot.'/mod/surveypro/tools_export.php', ['id' => $cm->id, 'edit' => $urlediting]);
     $PAGE->set_button($OUTPUT->single_button($url, $strediting));
 }
 
