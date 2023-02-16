@@ -847,7 +847,7 @@ class view_submissions {
 
                 // Edit.
                 $displayediticon = false;
-                if ($ismine) { // Owner is me
+                if ($ismine) { // Owner is me.
                     if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
                         // You always MUST have the possibility to close an inprogress submission.
                         $displayediticon = true;
@@ -891,7 +891,7 @@ class view_submissions {
 
                 // Duplicate.
                 $displayduplicateicon = false;
-                if ($ismine) { // Owner is me
+                if ($ismine) { // Owner is me.
                     $displayduplicateicon = $canduplicateownsubmissions;
                 } else {
                     if ($mysamegroup) { // Owner is from a group of mine.
@@ -918,7 +918,7 @@ class view_submissions {
                 $displaydeleteicon = false;
                 $paramurl = $paramurlbase;
                 $paramurl['submissionid'] = $submission->submissionid;
-                if ($ismine) { // Owner is me
+                if ($ismine) { // Owner is me.
                     $displaydeleteicon = $candeleteownsubmissions;
                 } else {
                     if ($mysamegroup) { // Owner is from a group of mine.
@@ -940,7 +940,7 @@ class view_submissions {
                 if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
                     $displaydownloadtopdficon = false;
                 } else {
-                    if ($ismine) { // Owner is me
+                    if ($ismine) { // Owner is me.
                         $displaydownloadtopdficon = $cansavetopdfownsubmissions;
                     } else {
                         if ($mysamegroup) { // Owner is from a group of mine.
@@ -1575,7 +1575,7 @@ class view_submissions {
 
         switch ($this->action) {
             case SURVEYPRO_DELETERESPONSE:
-                if ($ismine) { // Owner is me
+                if ($ismine) { // Owner is me.
                     $allowed = $candeleteownsubmissions;
                 } else {
                     if ($mysamegroup) { // Owner is from a group of mine.
@@ -1584,11 +1584,24 @@ class view_submissions {
                 }
                 break;
             case SURVEYPRO_DUPLICATERESPONSE:
-                if ($ismine) { // Owner is me
+                if ($ismine) { // Owner is me.
                     $allowed = $canduplicateownsubmissions;
                 } else {
                     if ($mysamegroup) { // Owner is from a group of mine.
                         $allowed = $canduplicateotherssubmissions;
+                    }
+                }
+                break;
+            case SURVEYPRO_RESPONSETOPDF:
+                if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
+                    $allowed = false;
+                } else {
+                    if ($ismine) { // Owner is me.
+                        $allowed = $cansavetopdfownsubmissions;
+                    } else {
+                        if ($mysamegroup) { // Owner is from a group of mine.
+                            $allowed = $cansavetopdfotherssubmissions;
+                        }
                     }
                 }
                 break;
@@ -1600,7 +1613,6 @@ class view_submissions {
             throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
         }
 
-        $allowed = false;
         switch ($this->view) {
             case SURVEYPRO_NOVIEW:
                 $allowed = true;
@@ -1609,7 +1621,7 @@ class view_submissions {
                 if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
                     $allowed = false;
                 } else {
-                    if ($ismine) { // Owner is me
+                    if ($ismine) { // Owner is me.
                         $allowed = true;
                     } else {
                         if ($mysamegroup) { // Owner is from a group of mine.
@@ -1619,24 +1631,11 @@ class view_submissions {
                 }
                 break;
             case SURVEYPRO_EDITRESPONSE:
-                if ($ismine) { // Owner is me
+                if ($ismine) { // Owner is me.
                     $allowed = $caneditownsubmissions;
                 } else {
                     if ($mysamegroup) { // Owner is from a group of mine.
                         $allowed = $caneditotherssubmissions;
-                    }
-                }
-                break;
-            case SURVEYPRO_RESPONSETOPDF:
-                if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
-                    $allowed = false;
-                } else {
-                    if ($ismine) { // Owner is me
-                        $allowed = $cansavetopdfownsubmissions;
-                    } else {
-                        if ($mysamegroup) { // Owner is from a group of mine.
-                            $allowed = $cansavetopdfotherssubmissions;
-                        }
                     }
                 }
                 break;
