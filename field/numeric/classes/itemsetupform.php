@@ -18,7 +18,7 @@
  * Surveypro pluginform class.
  *
  * @package   surveyprofield_numeric
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -35,7 +35,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/numeric/lib.php');
  * The class representing the plugin form
  *
  * @package   surveyprofield_numeric
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class itemsetupform extends itemsetupbaseform {

@@ -18,7 +18,7 @@
  * Surveypro class to manage lateusers report
  *
  * @package   surveyproreport_lateusers
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -34,7 +34,7 @@ require_once($CFG->libdir.'/tablelib.php');
  * The class to manage lateusers report
  *
  * @package   surveyproreport_lateusers
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class report extends reportbase {

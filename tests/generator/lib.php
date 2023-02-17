@@ -28,7 +28,7 @@
  *
  * @package   mod_surveypro
  * @category  test
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_surveypro_generator extends testing_module_generator {

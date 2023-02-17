@@ -18,7 +18,7 @@
  * Surveypro class to manage criticalincidents template
  *
  * @package   surveyprotemplate_criticalincidents
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,7 +28,7 @@ namespace surveyprotemplate_criticalincidents;
  * The class to manage criticalincidents template
  *
  * @package   surveyprotemplate_criticalincidents
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class template {
