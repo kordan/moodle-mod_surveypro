@@ -18,7 +18,7 @@
  * The class representing the "create user template" form
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -32,7 +32,7 @@ require_once($CFG->dirroot.'/lib/formslib.php');
  * The class representing the form to create a user template
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class utemplatecreateform extends \moodleform {

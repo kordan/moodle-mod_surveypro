@@ -18,7 +18,7 @@
  * The searchmanager class
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,7 +30,7 @@ use mod_surveypro\utility_item;
  * The class managing the search form for users
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class view_search {

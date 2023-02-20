@@ -18,7 +18,7 @@
  * Surveypro user item utility class.
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,7 +28,7 @@ namespace mod_surveypro;
  * The utility_useritem class
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class utility_item {

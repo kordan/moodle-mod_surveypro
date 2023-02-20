@@ -18,7 +18,7 @@
  * Privacy class for requesting user data.
  *
  * @package   surveyprofield_numeric
- * @copyright 2018 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -27,7 +27,7 @@ namespace surveyprofield_numeric\privacy;
 /**
  * Privacy Subsystem for field_numeric implementing null_provider.
  *
- * @copyright 2018 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class provider implements \core_privacy\local\metadata\null_provider {

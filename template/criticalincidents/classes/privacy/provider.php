@@ -18,7 +18,7 @@
  * Privacy class for requesting user data.
  *
  * @package   surveyprotemplate_criticalincidents
- * @copyright 2018 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -27,7 +27,7 @@ namespace surveyprotemplate_criticalincidents\privacy;
 /**
  * Privacy Subsystem for template_criticalincidents implementing null_provider.
  *
- * @copyright 2018 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class provider implements \core_privacy\local\metadata\null_provider {

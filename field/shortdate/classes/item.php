@@ -18,7 +18,7 @@
  * This file contains the surveyprofield_shortdate
  *
  * @package   surveyprofield_shortdate
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -34,7 +34,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/shortdate/lib.php');
  * Class to manage each aspect of the shortdate item
  *
  * @package   surveyprofield_shortdate
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class item extends itembase {

@@ -18,7 +18,7 @@
  * Contains class mod_surveypro\local\ipe\layout_insearchform
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,7 +28,7 @@ namespace mod_surveypro\local\ipe;
  * Class to prepare an item variable for display and in-place editing
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class layout_insearchform extends \core\output\inplace_editable {

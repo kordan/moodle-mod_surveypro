@@ -18,7 +18,7 @@
  * Surveypro layout class.
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -35,7 +35,7 @@ use mod_surveypro\utility_layout;
  * The base class representing the list of elements of this surveypro
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class layout_itemsetup {
