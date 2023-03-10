@@ -533,7 +533,7 @@ class view_submissions {
         array_shift($params); // Remove empty first param.
         $contextid = (int)array_shift($params);
         $component = clean_param(array_shift($params), PARAM_COMPONENT);
-        $filearea  = clean_param(array_shift($params), PARAM_AREA);
+        $filearea = clean_param(array_shift($params), PARAM_AREA);
         $itemid = array_shift($params);
 
         if (empty($params)) {

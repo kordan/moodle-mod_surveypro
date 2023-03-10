@@ -451,9 +451,9 @@ class provider implements
                 WHERE c.id = :contextid';
 
         $params = [
-            'modname'       => 'surveypro',
-            'contextid'     => $context->id,
-            'contextlevel'  => CONTEXT_MODULE,
+            'modname' => 'surveypro',
+            'contextid' => $context->id,
+            'contextlevel' => CONTEXT_MODULE,
         ];
 
         $userlist->add_from_sql('userid', $sql, $params);
