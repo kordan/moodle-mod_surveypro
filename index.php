@@ -35,7 +35,7 @@ require_course_login($course, true);
 $strname = get_string('name');
 $strsurveypro = get_string('modulename', 'mod_surveypro');
 $strintro = get_string('moduleintro');
-$strdataplural  = get_string('modulenameplural', 'mod_surveypro');
+$strdataplural = get_string('modulenameplural', 'mod_surveypro');
 $inprogress = get_string('inprogresssubmissions', 'mod_surveypro');
 $closed = get_string('closedsubmissions', 'mod_surveypro');
 

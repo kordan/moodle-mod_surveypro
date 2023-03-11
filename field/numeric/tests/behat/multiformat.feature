@@ -32,10 +32,7 @@ Feature: verify the input with different number format
 
     And I log out
 
-    # Force English for UI.
-    When I follow "English (en)" in the language menu
-    And I am on the "Multiformat numeric input" "surveypro activity" page logged in as student1
-    And I follow "Test multiformat numeric input"
+    When I am on the "Test multiformat numeric input" "surveypro activity" page logged in as student1
     And I press "New response"
     And I set the field "Write the best approximation of π you can remember" to "3,14"
     And I press "Submit"
@@ -44,7 +41,9 @@ Feature: verify the input with different number format
     And I set the field "Write the best approximation of π you can remember" to "3.14"
     And I press "Submit"
 
-    And I follow "Italiano (it)" in the language menu
+    When I follow "Language" in the user menu
+    And I follow "Italiano"
+
     And I press "Nuova risposta"
     And I set the field "Write the best approximation of π you can remember" to "3.14"
     And I press "Invia"
@@ -61,7 +60,8 @@ Feature: verify the input with different number format
     And I follow "view_submission_row_2"
     Then the field "Write the best approximation of π you can remember" matches value "3,14"
 
-    And I follow "English" in the language menu
+    When I follow "Lingua" in the user menu
+    And I follow "English"
 
     And I follow "Responses" page in tab bar
     And I follow "view_submission_row_1"

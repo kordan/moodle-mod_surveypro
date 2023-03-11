@@ -222,7 +222,7 @@ class tools_import {
         if (!empty($orphansheader)) {
             $error = new \stdClass();
             $error->key = 'import_orphanchild';
-            $error->a  = '<ul><li>'.implode(';</li><li>', $orphansheader).'</li></ul>';
+            $error->a = '<ul><li>'.implode(';</li><li>', $orphansheader).'</li></ul>';
 
             return $error;
         }

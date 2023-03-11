@@ -106,7 +106,7 @@ if ($type == 'summary') {
         $graph1params['legend'] = $legendgraph2;
 
         // 3rd graph.
-        $graph->y_data['answers2']   = $reportman->trend2;
+        $graph->y_data['answers2'] = $reportman->trend2;
         $graph->y_format['answers2'] = $graph1params;
 
         // $graph4params (the same as $graph2params except for...).
@@ -114,7 +114,7 @@ if ($type == 'summary') {
         $graph2params['bar_size'] = 0.2;
 
         // 4th graph.
-        $graph->y_data['stdev2']   = $reportman->trend2stdev;
+        $graph->y_data['stdev2'] = $reportman->trend2stdev;
         $graph->y_format['stdev2'] = $graph2params;
 
         $graph->offset_relation['stdev2'] = 'answers2';
@@ -227,7 +227,7 @@ if ($type == 'scales') {
         $graph1params['legend'] = $legendgraph2;
 
         // 3rd graph.
-        $graph->y_data['answers2']   = $reportman->trend2;
+        $graph->y_data['answers2'] = $reportman->trend2;
         $graph->y_format['answers2'] = $graph1params;
 
         // $graph4params (the same as $graph2params except for...).
@@ -235,7 +235,7 @@ if ($type == 'scales') {
         $graph2params['bar_size'] = 0.2;
 
         // 4th graph.
-        $graph->y_data['stdev2']   = $reportman->trend2stdev;
+        $graph->y_data['stdev2'] = $reportman->trend2stdev;
         $graph->y_format['stdev2'] = $graph2params;
 
         $graph->offset_relation['stdev2'] = 'answers2';
