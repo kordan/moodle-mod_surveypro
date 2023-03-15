@@ -577,9 +577,14 @@ class view_submissions {
      * @return string $headertext
      */
     private function get_header_text($user, $timecreated, $timemodified) {
-        $textheader = get_string('responseauthor', 'mod_surveypro');
-        $textheader .= fullname($user);
-        $textheader .= "\n";
+        $canalwaysseeowner = has_capability('mod/surveypro:alwaysseeowner', $this->context);
+
+        $textheader = '';
+        if (empty($this->surveypro->anonymous) || $canalwaysseeowner) {
+            $textheader .= get_string('responseauthor', 'mod_surveypro');
+            $textheader .= fullname($user);
+            $textheader .= "\n";
+        }
         $textheader .= get_string('responsetimecreated', 'mod_surveypro');
         $textheader .= userdate($timecreated);
         if ($timemodified) {
