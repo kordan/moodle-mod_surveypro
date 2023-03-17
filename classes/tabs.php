@@ -351,13 +351,12 @@ class tabs {
                     $classname = 'surveyproreport_'.$reportname.'\report';
                     $reportman = new $classname($this->cm, $this->context, $this->surveypro);
 
-                    if ($reportman->is_report_allowed($reportname)) {
-                        if ($elementurl = $this->tabpagesurl['tab_reports'][$reportname]) {
-                            $strlabel = get_string('pluginname', 'surveyproreport_'.$reportname);
-                            $row[] = new \tabobject('idpage'.$counter, $elementurl->out(), $strlabel);
-                        }
-                        $counter++;
+                    if (isset($this->tabpagesurl['tab_reports'][$reportname])) {
+                        $elementurl = $this->tabpagesurl['tab_reports'][$reportname];
+                        $strlabel = get_string('pluginname', 'surveyproreport_'.$reportname);
+                        $row[] = new \tabobject('idpage'.$counter, $elementurl->out(), $strlabel);
                     }
+                    $counter++;
                 }
 
                 $this->tabs[] = $row;
