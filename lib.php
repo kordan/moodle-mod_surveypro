@@ -438,7 +438,6 @@ function surveypro_update_instance($surveypro, $mform) {
 
 
 
-
 /**
  * Create a calendar event from the newly
  * created surveypro module
