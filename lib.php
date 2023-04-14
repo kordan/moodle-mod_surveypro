@@ -294,10 +294,17 @@ define('SURVEYPRO_3COLUMNSTEMPLATE', 3);
 define('SURVEYPRO_RAW',     0);
 define('SURVEYPRO_VERBOSE', 1);
 
+/**
+ * SURVEYPRO EVENT TYPE
+ */
+ define('SURVEYPRO_EVENT_TYPE_OPEN', 'open');
+
+
 // Moodle core API.
 
-require_once($CFG->dirroot . '/lib/formslib.php'); // Needed by unittest.
-require_once(__DIR__ . '/deprecatedlib.php');
+require_once($CFG->dirroot.'/lib/formslib.php'); // Needed by unittest.
+require_once(__DIR__.'/deprecatedlib.php');
+require_once($CFG->dirroot.'/calendar/lib.php');
 
 /**
  * Saves a new instance of the surveypro into the database
@@ -340,6 +347,8 @@ function surveypro_add_instance($surveypro, $mform) {
     $surveypro->mailcontentformat = $surveypro->mailcontenteditor['format'];
 
     $DB->update_record('surveypro', $surveypro);
+
+    create_event_on_calendar($surveypro);
 
     return $surveypro->id;
 }
@@ -391,7 +400,44 @@ function surveypro_update_instance($surveypro, $mform) {
 
     $DB->update_record('surveypro', $surveypro);
 
+    // Retrieve the events wich have the id of this surveypro.
+    $eventrecord = $DB->get_record('event', array('instance' => $surveypro->id), 'id', 'id');
+    $event = calendar_event::load($eventrecord->id);
+    $event->delete(true);
+
+    create_event_on_calendar($surveypro);
+
     return true;
+}
+
+
+/**
+ * Create a calendar event from the newly
+ * created surveypro module
+ *
+ * create_event_on_calendar
+ *
+ * @param object $instance surveypro instance
+ * @return void
+ */
+function create_event_on_calendar($surveypro) {
+    global $USER;
+
+    // Create an event to show on calendar.
+    $event = new stdClass(); // Event class created.
+    $event->name = "Compila il ".$surveypro->name; // Event name.
+    $event->description = "Compila il ".$surveypro->name; // Description event.
+    $event->courseid = $surveypro->course; // Course ID.
+    $event->userid = $USER->id; // User ID creating the event.
+    $event->modulename = 'surveypro'; // Module name.
+    $event->instance = $surveypro->id; // Module surveypro's ID.
+    $event->eventtype = 'open'; // Calendar's event type.
+    $event->timestart = $surveypro->timeopen; // Event's start date.
+    $event->visible = instance_is_visible('surveypro', $surveypro); // Set visibility for users.
+    $event->timemodified = time(); // Event modification date.
+
+    // Add the event to calendar.
+    calendar_event::create($event);
 }
 
 /**
@@ -501,7 +547,7 @@ function surveypro_delete_instance($id) {
  * @return mixed true if the feature is supported, null if unknown
  */
 function surveypro_supports($feature) {
-    switch($feature) {
+    switch ($feature) {
         case FEATURE_GROUPS:
             return true;
         case FEATURE_GROUPINGS:
@@ -513,7 +559,7 @@ function surveypro_supports($feature) {
         case FEATURE_COMPLETION_TRACKS_VIEWS:
             return false;
         case FEATURE_COMPLETION_HAS_RULES:
-             return true;
+            return true;
         case FEATURE_GRADE_HAS_GRADE:
             return false;
         case FEATURE_GRADE_OUTCOMES:
@@ -614,6 +660,7 @@ function surveypro_get_participants($surveyproid) {
     $sql = 'SELECT DISTINCT s.userid as id
             FROM {surveypro_submission} s
             WHERE s.surveyproid = :surveyproid';
+
     return $DB->get_records_sql($sql, array('surveyproid' => $surveyproid));
 }
 
@@ -698,7 +745,7 @@ function surveypro_get_file_areas($course, $cm, $context) {
  * @param array $options additional options affecting the file serving
  * @return bool false if the file is not found, just send the file otherwise returning nothing
  */
-function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=array()) {
+function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array()) {
     global $DB;
 
     require_login($course, true, $cm);
@@ -717,7 +764,7 @@ function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
     $relativepath = implode('/', $args);
     $fullpath = "/$context->id/mod_surveypro/$filearea/$itemid/$relativepath";
 
-    if (!$file = $fs->get_file_by_hash(sha1($fullpath)) or $file->is_directory()) {
+    if (!$file = $fs->get_file_by_hash(sha1($fullpath)) || $file->is_directory()) {
         send_file_not_found();
     }
 
@@ -863,7 +910,8 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
 /**
  * Recursive function to add links for reports nested as much times as wanted
  *
- * Uncomment lines of get_haschildrenreports method in the surveyproreport_colles\report class of report/colles/classes/report.php file
+ * Uncomment lines of get_haschildrenreports method in the surveyproreport_colles\report
+ * class of report/colles/classes/report.php file
  * to see this function in action.
  *
  * @param string $templatename
@@ -1154,14 +1202,14 @@ function surveypro_get_item($cm, $surveypro, $itemid=0, $type='', $plugin='', $g
         $itemseed = $DB->get_record('surveypro_item', array('id' => $itemid), 'surveyproid, type, plugin', MUST_EXIST);
         if ($cm->instance != $itemseed->surveyproid) {
             $message = 'Mismatch between passed itemid ('.$itemid.') and corresponding cm->instance ('.$cm->instance.')';
-            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message, DEBUG_DEVELOPER);
         }
     }
 
     if (empty($type) || empty($plugin)) {
         if (empty($itemid)) {
             $message = 'Unexpected empty($itemid)';
-            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message, DEBUG_DEVELOPER);
         }
 
         $type = $itemseed->type;
@@ -1170,11 +1218,11 @@ function surveypro_get_item($cm, $surveypro, $itemid=0, $type='', $plugin='', $g
         if (isset($itemseed)) {
             if ($type != $itemseed->type) {
                 $message = 'Mismatch between passed type ('.$type.') and found type ('.$itemseed->type.')';
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message, DEBUG_DEVELOPER);
             }
             if ($plugin != $itemseed->plugin) {
                 $message = 'Mismatch between passed plugin ('.$plugin.') and found plugin ('.$itemseed->plugin.')';
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message, DEBUG_DEVELOPER);
             }
         }
     }
