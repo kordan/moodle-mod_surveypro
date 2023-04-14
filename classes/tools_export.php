@@ -18,7 +18,7 @@
  * The exportmanager class
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,10 +28,10 @@ namespace mod_surveypro;
  * The class exporting gathered data
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class view_export {
+class tools_export {
 
     /**
      * @var object Course module object
@@ -85,7 +85,7 @@ class view_export {
      * @return void
      */
     public function trigger_event() {
-        $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
+        $eventdata = ['context' => $this->context, 'objectid' => $this->surveypro->id];
         $event = \mod_surveypro\event\all_submissions_exported::create($eventdata);
         $event->trigger();
     }
@@ -176,7 +176,7 @@ class view_export {
             $sql .= ' ORDER BY submissionid';
         }
 
-        return array($sql, $whereparams);
+        return [$sql, $whereparams];
     }
 
     /**
@@ -264,7 +264,7 @@ class view_export {
         $itemseedskeys = array();
         foreach ($itemseeds as $itemseed) {
             $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemseed->plugin;
-            $where = array('itemid' => $itemseed->id);
+            $where = ['itemid' => $itemseed->id];
             $currentheader = $DB->get_field($tablename, 'variable', $where);
             $headerlabels[] = $currentheader;
             $itemseedskeys[] = $itemseed->id;
@@ -291,7 +291,7 @@ class view_export {
         $placeholders = array_fill_keys($itemseedskeys, $answernotprovided);
         // End of: Define once and forever $placeholders.
 
-        return array($headerlabels, $placeholders);
+        return [$headerlabels, $placeholders];
     }
 
     /**
@@ -583,7 +583,7 @@ class view_export {
     public function are_attachments_onboard() {
         global $DB;
 
-        $whereparams = array('surveyproid' => $this->surveypro->id, 'plugin' => 'fileupload');
+        $whereparams = ['surveyproid' => $this->surveypro->id, 'plugin' => 'fileupload'];
         $counter = $DB->count_records('surveypro_item', $whereparams);
 
         return ($counter > 0);

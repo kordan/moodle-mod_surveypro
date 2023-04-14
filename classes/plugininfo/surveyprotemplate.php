@@ -18,7 +18,7 @@
  * Surveypro surveyprotemplate info class.
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,7 +30,7 @@ use core\plugininfo\base, core_plugin_manager, moodle_url;
  * The mod_surveypro (master) template plugin class.
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class surveyprotemplate extends base {
@@ -78,7 +78,7 @@ class surveyprotemplate extends base {
     public function is_uninstall_allowed() {
         global $DB;
 
-        return !$DB->record_exists('surveypro', array('template' => $this->name));
+        return !$DB->record_exists('surveypro', ['template' => $this->name]);
     }
 
     /**
@@ -87,7 +87,7 @@ class surveyprotemplate extends base {
      * @return moodle_url
      */
     public static function get_manage_url() {
-        return new \moodle_url('/mod/surveypro/adminmanageplugins.php', array('subtype' => 'surveyprotemplate'));
+        return new \moodle_url('/mod/surveypro/adminmanageplugins.php', ['subtype' => 'surveyprotemplate']);
     }
 
     /**

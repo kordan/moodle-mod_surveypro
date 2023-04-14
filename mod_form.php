@@ -18,7 +18,7 @@
  * This file contains the forms to create and edit an instance of this module
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,7 +30,7 @@ require_once($CFG->dirroot.'/course/moodleform_mod.php');
  * Surveypro settings form.
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_surveypro_mod_form extends \moodleform_mod {
@@ -51,7 +51,7 @@ class mod_surveypro_mod_form extends \moodleform_mod {
 
         // Adding the standard "name" field.
         $fieldname = 'name';
-        $mform->addElement('text', $fieldname, get_string('name'), array('size' => '64'));
+        $mform->addElement('text', $fieldname, get_string('name'), ['size' => '64']);
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType($fieldname, PARAM_TEXT);
         } else {
@@ -66,12 +66,12 @@ class mod_surveypro_mod_form extends \moodleform_mod {
 
         // Open date.
         $fieldname = 'timeopen';
-        $mform->addElement('date_time_selector', $fieldname, get_string($fieldname, 'mod_surveypro'), array('optional' => true));
+        $mform->addElement('date_time_selector', $fieldname, get_string($fieldname, 'mod_surveypro'), ['optional' => true]);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // Close date.
         $fieldname = 'timeclose';
-        $mform->addElement('date_time_selector', $fieldname, get_string($fieldname, 'mod_surveypro'), array('optional' => true));
+        $mform->addElement('date_time_selector', $fieldname, get_string($fieldname, 'mod_surveypro'), ['optional' => true]);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // Modulesettinghdr fieldset (header).
@@ -153,7 +153,7 @@ class mod_surveypro_mod_form extends \moodleform_mod {
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // Helper variables.
-        $attributes = array('wrap' => 'virtual', 'rows' => 10, 'cols' => 60);
+        $attributes = ['wrap' => 'virtual', 'rows' => 10, 'cols' => 60];
 
         // Define thanks page.
         $fieldname = 'thankspageeditor';
@@ -166,7 +166,7 @@ class mod_surveypro_mod_form extends \moodleform_mod {
         $fieldname = 'mailroles';
         $options = array();
         $context = \context_course::instance($COURSE->id);
-        $roleoptions = get_role_names_with_caps_in_context($context, array('mod/surveypro:accessreports'));
+        $roleoptions = get_role_names_with_caps_in_context($context, ['text' => get_string('mailcontentdefault', 'surveypro')]);
         foreach ($roleoptions as $roleid => $rolename) {
             $users = get_role_users($roleid, $context, true);
             $options[$roleid] = $rolename.' ('.count($users).')';
@@ -183,7 +183,7 @@ class mod_surveypro_mod_form extends \moodleform_mod {
         // Custom mail message for notifications. No embedded pictures to handle.
         $fieldname = 'mailcontenteditor';
         $mform->addElement('editor', $fieldname, get_string($fieldname, 'mod_surveypro'), $attributes);
-        $mailcontentdefault = array('text' => get_string('mailcontentdefault', 'surveypro'), 'format' => FORMAT_HTML);
+        $mailcontentdefault = ['text' => get_string('mailcontentdefault', 'surveypro'), 'format' => FORMAT_HTML];
         $mform->setDefault($fieldname, $mailcontentdefault);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
         $mform->setType($fieldname, PARAM_RAW); // No XSS prevention here, users must be trusted.
@@ -348,13 +348,13 @@ class mod_surveypro_mod_form extends \moodleform_mod {
         $elementgroup = array();
         $checklabel = get_string($fieldname.'_check', 'mod_surveypro');
         $elementgroup[] = $mform->createElement('checkbox', $fieldname.'_check', '', $checklabel);
-        $elementgroup[] = $mform->createElement('text', $fieldname, '', array('size' => 3));
+        $elementgroup[] = $mform->createElement('text', $fieldname, '', ['size' => 3]);
         $mform->setType($fieldname, PARAM_INT);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname.'_group', 'mod_surveypro'), ' ', false);
         $mform->addHelpButton($fieldname.'_group', $fieldname.'_group', 'surveypro');
         $mform->disabledIf($fieldname, $fieldname.'_check', 'notchecked');
 
-        return array($fieldname.'_group');
+        return [$fieldname.'_group'];
     }
 
     /**

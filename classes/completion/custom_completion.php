@@ -27,7 +27,7 @@ use core_completion\activity_custom_completion;
  * of the custom completion rules for a given surveypro instance and a user.
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class custom_completion extends activity_custom_completion {
@@ -43,7 +43,7 @@ class custom_completion extends activity_custom_completion {
 
         $this->validate_rule($rule);
 
-        $params = array('surveyproid' => $this->cm->instance, 'userid' => $this->userid, 'status' => SURVEYPRO_STATUSCLOSED);
+        $params = ['surveyproid' => $this->cm->instance, 'userid' => $this->userid, 'status' => SURVEYPRO_STATUSCLOSED];
         $usersubmissions = $DB->count_records('surveypro_submission', $params);
         $completionentries = $this->cm->customdata['customcompletionrules']['completionentries'];
 

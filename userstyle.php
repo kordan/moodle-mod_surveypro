@@ -18,7 +18,7 @@
  * Helper file to load custom user style sheet
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -31,7 +31,7 @@ $id = optional_param('id', 0, PARAM_INT);
 $cmid = optional_param('cmid', 0, PARAM_INT);
 $lifetime = 600;
 
-if ($surveypro = $DB->get_record('surveypro', array('id' => $id))) {
+if ($surveypro = $DB->get_record('surveypro', ['id' => $id])) {
     $fs = get_file_storage();
     $context = \context_module::instance($cmid);
 

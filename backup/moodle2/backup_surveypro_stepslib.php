@@ -18,7 +18,7 @@
  * Define all the backup steps that will be used by the backup_surveypro_activity_task
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -43,7 +43,7 @@ class backup_surveypro_activity_structure_step extends backup_activity_structure
 
         // Define each element separated.
         // Root element describing surveypro instance.
-        $surveypro = new backup_nested_element('surveypro', array('id'), array(
+        $surveypro = new backup_nested_element('surveypro', ['id'], array(
                     'name', 'intro', 'introformat', 'newpageforchild', 'neverstartedemail',
                     'pauseresume', 'keepinprogress', 'captcha', 'history', 'anonymous',
                     'timeopen', 'timeclose', 'startyear', 'stopyear',
@@ -53,19 +53,17 @@ class backup_surveypro_activity_structure_step extends backup_activity_structure
 
         $items = new backup_nested_element('items');
 
-        $item = new backup_nested_element('item', array('id', 'type', 'plugin'), array(
+        $item = new backup_nested_element('item', ['id', 'type', 'plugin'], array(
                     'hidden', 'insearchform', 'reserved', 'sortindex', 'formpage',
                     'parentid', 'parentvalue', 'timecreated', 'timemodified'));
 
         $submissions = new backup_nested_element('submissions');
 
-        $submission = new backup_nested_element('submission', array('id', 'userid'),
-                    array('status', 'timecreated', 'timemodified'));
+        $submission = new backup_nested_element('submission', ['id', 'userid'], ['status', 'timecreated', 'timemodified']);
 
         $answers = new backup_nested_element('answers');
 
-        $answer = new backup_nested_element('answer', array('id', 'itemid', 'plugin'), array(
-                    'verified', 'content', 'contentformat'));
+        $answer = new backup_nested_element('answer', ['id', 'itemid', 'plugin'], ['verified', 'content', 'contentformat']);
 
         // Build the tree.
         $surveypro->add_child($items);
@@ -84,17 +82,17 @@ class backup_surveypro_activity_structure_step extends backup_activity_structure
         $answers->add_child($answer);
 
         // Define sources.
-        $surveypro->set_source_table('surveypro', array('id' => backup::VAR_ACTIVITYID));
+        $surveypro->set_source_table('surveypro', ['id' => backup::VAR_ACTIVITYID]);
 
-        $item->set_source_table('surveypro_item', array('surveyproid' => backup::VAR_ACTIVITYID));
+        $item->set_source_table('surveypro_item', ['surveyproid' => backup::VAR_ACTIVITYID]);
 
         // All the rest of elements only happen if we are including user info.
         if ($userinfo) {
-            $submission->set_source_table('surveypro_submission', array('surveyproid' => backup::VAR_ACTIVITYID));
+            $submission->set_source_table('surveypro_submission', ['surveyproid' => backup::VAR_ACTIVITYID]);
             $answer->set_source_sql('SELECT sa.*, si.plugin
                                      FROM {surveypro_answer} sa
                                        JOIN {surveypro_item} si ON si.id = sa.itemid
-                                     WHERE sa.submissionid = ?', array(backup::VAR_PARENTID));
+                                     WHERE sa.submissionid = ?', [backup::VAR_PARENTID]);
         }
 
         // Define id annotations.

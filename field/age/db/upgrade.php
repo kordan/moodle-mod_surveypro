@@ -18,7 +18,7 @@
  * Keeps track of upgrades to the surveyproitem age
  *
  * @package   surveyprofield_age
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -37,7 +37,7 @@ function xmldb_surveyprofield_age_upgrade($oldversion) {
 
         // Define key surveyproid (foreign) to be dropped form surveyprofield_age.
         $table = new xmldb_table('surveyprofield_age');
-        $key = new xmldb_key('surveyproid', XMLDB_KEY_FOREIGN, array('surveyproid'), 'surveypro', array('id'));
+        $key = new xmldb_key('surveyproid', XMLDB_KEY_FOREIGN, ['surveyproid'], 'surveypro', ['id']);
 
         // Launch drop key surveyproid.
         $dbman->drop_key($table, $key);

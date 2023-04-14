@@ -18,7 +18,7 @@
  * This file contains the surveyprofield_time
  *
  * @package   surveyprofield_time
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -34,7 +34,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/time/lib.php');
  * Class to manage each aspect of the time item
  *
  * @package   surveyprofield_time
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class item extends itembase {
@@ -339,7 +339,7 @@ class item extends itembase {
      * @return void
      */
     public function get_composite_fields() {
-        return array('defaultvalue', 'lowerbound', 'upperbound');
+        return ['defaultvalue', 'lowerbound', 'upperbound'];
     }
 
     /**
@@ -376,7 +376,7 @@ class item extends itembase {
      */
     public function get_multilang_fields() {
         $fieldlist = array();
-        $fieldlist[$this->plugin] = array('content', 'extranote');
+        $fieldlist[$this->plugin] = ['content', 'extranote'];
 
         return $fieldlist;
     }
@@ -501,7 +501,7 @@ EOS;
         $attributes['class'] = 'time_select';
         $elementgroup[] = $mform->createElement('select', $itemname, '', $minutes, $attributes);
 
-        $separator = array(':');
+        $separator = [':'];
         if ($this->required) {
             if (!$searchform) {
                 $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, $separator, false);
@@ -565,9 +565,9 @@ EOS;
             case SURVEYPRO_LIKELASTDEFAULT:
                 // Look for the last submission I made.
                 $sql = 'userid = :userid ORDER BY timecreated DESC LIMIT 1';
-                $where = array('userid' => $USER->id);
+                $where = ['userid' => $USER->id];
                 $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, $where, IGNORE_MISSING);
-                $where = array('itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid);
+                $where = ['itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid];
                 if ($time = $DB->get_field('surveypro_answer', 'content', $where, IGNORE_MISSING)) {
                     $timearray = self::item_split_unix_time($time, false);
                 } else { // As in standard default.

@@ -18,7 +18,7 @@
  * Surveypro class to manage attachment overview report
  *
  * @package   surveyproreport_attachments
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -34,7 +34,7 @@ require_once($CFG->libdir.'/tablelib.php');
  * The class to manage attachment overview report.
  *
  * @package   surveyproreport_attachments
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class report extends reportbase {
@@ -78,7 +78,7 @@ class report extends reportbase {
     public function setup_outputtable() {
         $this->outputtable = new \flexible_table('attachmentslist');
 
-        $paramurl = array('id' => $this->cm->id);
+        $paramurl = ['id' => $this->cm->id];
         if ($this->groupid) {
             $paramurl['groupid'] = $this->groupid;
         }
@@ -149,13 +149,13 @@ class report extends reportbase {
             $tablerow = array();
 
             // Picture.
-            $tablerow[] = $OUTPUT->user_picture($usersubmission, array('courseid' => $COURSE->id));
+            $tablerow[] = $OUTPUT->user_picture($usersubmission, ['courseid' => $COURSE->id]);
 
             // User fullname.
             $userfullname = fullname($usersubmission);
-            $paramurl = array('id' => $usersubmission->id);
+            $paramurl = ['id' => $usersubmission->id];
             $url = new \moodle_url('/user/view.php', $paramurl);
-            $cellcontent = \html_writer::start_tag('a', array('title' => $userfullname, 'href' => $url));
+            $cellcontent = \html_writer::start_tag('a', ['title' => $userfullname, 'href' => $url]);
             $cellcontent .= $userfullname;
             $cellcontent .= \html_writer::end_tag('a');
             $cellcontent .= ' [id: '.$usersubmission->id.']';
@@ -169,7 +169,7 @@ class report extends reportbase {
                 $paramurl['container'] = $usersubmission->id.'_'.$usersubmission->submissionid;
                 $url = new \moodle_url('/mod/surveypro/report/attachments/uploads.php', $paramurl);
                 $cellcontent = '('.$submissionidstr.': '.$usersubmission->submissionid.')&nbsp;';
-                $cellcontent .= \html_writer::start_tag('a', array('title' => $displayuploadsstr, 'href' => $url));
+                $cellcontent .= \html_writer::start_tag('a', ['title' => $displayuploadsstr, 'href' => $url]);
                 $cellcontent .= s($displayuploadsstr);
                 $cellcontent .= \html_writer::end_tag('a');
                 $tablerow[] = $cellcontent;
@@ -187,7 +187,7 @@ class report extends reportbase {
     /**
      * Get_submissions_sql
      *
-     * @return array($sql, $whereparams);
+     * @return [$sql, $whereparams];
      */
     public function get_submissions_sql() {
         global $COURSE, $DB;
@@ -207,7 +207,7 @@ class report extends reportbase {
             $sql .= ' ORDER BY u.lastname ASC, submissionid ASC';
         }
 
-        return array($sql, $whereparams);
+        return [$sql, $whereparams];
     }
 
     /**

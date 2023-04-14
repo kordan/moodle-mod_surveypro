@@ -18,7 +18,7 @@
  * mod_surveypro course_module viewed event.
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,7 +28,7 @@ namespace mod_surveypro\event;
  * The mod_surveypro instance list viewed event class.
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class course_module_instance_list_viewed extends \core\event\course_module_instance_list_viewed {
@@ -40,9 +40,7 @@ class course_module_instance_list_viewed extends \core\event\course_module_insta
      * @return course_module_instance_list_viewed
      */
     public static function create_from_course(\stdClass $course) {
-        $params = array(
-            'context' => \context_course::instance($course->id)
-        );
+        $params = ['context' => \context_course::instance($course->id)];
         $event = self::create($params);
         $event->add_record_snapshot('course', $course);
         return $event;

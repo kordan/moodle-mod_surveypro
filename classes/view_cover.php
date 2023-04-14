@@ -18,7 +18,7 @@
  * The covermanager class
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,7 +30,7 @@ use mod_surveypro\utility_layout;
  * The class managing the page "cover" of the module
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class view_cover {
@@ -198,7 +198,7 @@ class view_cover {
 
         // Begin of: report section.
         $surveyproreportlist = get_plugin_list('surveyproreport');
-        $paramurlbase = array('id' => $this->cm->id);
+        $paramurlbase = ['id' => $this->cm->id];
 
         foreach ($surveyproreportlist as $reportname => $pluginpath) {
             $classname = 'surveyproreport_'.$reportname.'\report';
@@ -284,7 +284,7 @@ class view_cover {
                 $categoryname .= ' > '.$subreport;
                 $this->add_report_link($childparams, $pluginname, $messages, $categoryname);
             } else {
-                $childparams = array('s' => $this->cm->instance) + $childparams;
+                $childparams = ['s' => $this->cm->instance] + $childparams;
                 $url = new \moodle_url('/mod/surveypro/report/'.$pluginname.'/view.php', $childparams);
                 $a = new \stdClass();
                 $a->href = $url->out();
@@ -305,8 +305,8 @@ class view_cover {
         global $OUTPUT;
 
         if (count($messages)) {
-            echo \html_writer::start_tag('fieldset', array('class' => 'generalbox'));
-            echo \html_writer::start_tag('legend', array('class' => 'coverinfolegend'));
+            echo \html_writer::start_tag('fieldset', ['class' => 'generalbox']);
+            echo \html_writer::start_tag('legend', ['class' => 'coverinfolegend']);
             echo $strlegend;
             echo \html_writer::end_tag('legend');
             foreach ($messages as $message) {

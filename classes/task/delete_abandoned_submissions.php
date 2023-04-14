@@ -18,7 +18,7 @@
  * A scheduled task for surveypro cron.
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -35,7 +35,7 @@ require_once($CFG->dirroot.'/mod/surveypro/lib.php');
  * The main schedule task for the surveypro module.
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class delete_abandoned_submissions extends crontaskbase {
@@ -86,7 +86,7 @@ class delete_abandoned_submissions extends crontaskbase {
                 // Second step: if you are here, for each surveypro
                 // filter only submissions having 'status' = SURVEYPRO_STATUSINPROGRESS and timecreated < :sofar.
                 $where = 'surveyproid = :surveyproid AND status = :status AND timecreated < :sofar';
-                $whereparams = array('surveyproid' => $surveypro->id, 'status' => SURVEYPRO_STATUSINPROGRESS, 'sofar' => $sofar);
+                $whereparams = ['surveyproid' => $surveypro->id, 'status' => SURVEYPRO_STATUSINPROGRESS, 'sofar' => $sofar];
                 if ($submissions = $DB->get_recordset_select('surveypro_submission', $where, $whereparams, 'surveyproid', 'id, userid')) {
                     // Those submissions all belong to THE SAME surveypro because $where = 'surveyproid = :surveyproid.
                     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
@@ -96,7 +96,7 @@ class delete_abandoned_submissions extends crontaskbase {
 
                     foreach ($submissions as $submission) {
                         // Third step: delete each selected submission.
-                        $utilitylayoutman->delete_submissions(array('id' => $submission->id));
+                        $utilitylayoutman->delete_submissions(['id' => $submission->id]);
 
                         // Event: mail_oneshotmp_sent.
                         $eventdata = ['context' => $context, 'objectid' => $surveypro->id, 'relateduserid' => $submission->userid];

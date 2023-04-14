@@ -18,7 +18,7 @@
  * Surveypro formpreview class.
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,7 +30,7 @@ use mod_surveypro\formbase;
 /**
  * The base class representing a field
  *
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class layout_preview extends formbase {
@@ -45,7 +45,7 @@ class layout_preview extends formbase {
         global $DB;
 
         // Assign pages to items.
-        $userformpagecount = $DB->get_field('surveypro_item', 'MAX(formpage)', array('surveyproid' => $this->surveypro->id));
+        $userformpagecount = $DB->get_field('surveypro_item', 'MAX(formpage)', ['surveyproid' => $this->surveypro->id]);
         if (!$userformpagecount) {
             $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
             $userformpagecount = $utilitylayoutman->assign_pages();
@@ -92,7 +92,7 @@ class layout_preview extends formbase {
      */
     private function trigger_event() {
         // Event: form_previewed.
-        $eventdata = array('context' => $this->context, 'objectid' => $this->surveypro->id);
+        $eventdata = ['context' => $this->context, 'objectid' => $this->surveypro->id];
         $event = \mod_surveypro\event\form_previewed::create($eventdata);
         $event->trigger();
     }

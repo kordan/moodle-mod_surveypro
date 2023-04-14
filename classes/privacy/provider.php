@@ -18,7 +18,7 @@
  * Privacy Subsystem implementation for mod_surveypro.
  *
  * @package   mod_surveypro
- * @copyright 2018 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -451,9 +451,9 @@ class provider implements
                 WHERE c.id = :contextid';
 
         $params = [
-            'modname'       => 'surveypro',
-            'contextid'     => $context->id,
-            'contextlevel'  => CONTEXT_MODULE,
+            'modname' => 'surveypro',
+            'contextid' => $context->id,
+            'contextlevel' => CONTEXT_MODULE,
         ];
 
         $userlist->add_from_sql('userid', $sql, $params);

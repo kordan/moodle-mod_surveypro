@@ -18,7 +18,7 @@
  * This file contains the surveyprofield_textarea
  *
  * @package   surveyprofield_textarea
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -34,7 +34,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/textarea/lib.php');
  * Class to manage each aspect of the textarea item
  *
  * @package   surveyprofield_textarea
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class item extends itembase {
@@ -258,7 +258,7 @@ class item extends itembase {
 
         // 3. Set values corresponding to checkboxes.
         // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in get_common_settings.
-        $checkboxes = array('useeditor');
+        $checkboxes = ['useeditor'];
         foreach ($checkboxes as $checkbox) {
             $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
         }
@@ -284,7 +284,7 @@ class item extends itembase {
      */
     public function get_multilang_fields() {
         $fieldlist = array();
-        $fieldlist[$this->plugin] = array('content', 'extranote');
+        $fieldlist[$this->plugin] = ['content', 'extranote'];
 
         return $fieldlist;
     }
@@ -368,7 +368,7 @@ EOS;
         $whereclause = $DB->sql_like('a.content', ':content_'.$itemid, false);
         $whereparam = '%'.$searchrestriction.'%';
 
-        return array($whereclause, $whereparam);
+        return [$whereclause, $whereparam];
     }
 
     /**
@@ -434,7 +434,7 @@ EOS;
             // $attributes['class'] and $attributes['id'] do not work: MDL_28194.
             $attributes['class'] = 'indent-'.$this->indent.' textarea_editor';
             $fieldname = $this->itemname.'_editor';
-            $editoroptions = array('trusttext' => true, 'subdirs' => true, 'maxfiles' => EDITOR_UNLIMITED_FILES);
+            $editoroptions = ['trusttext' => true, 'subdirs' => true, 'maxfiles' => EDITOR_UNLIMITED_FILES];
             $mform->addElement('mod_surveypro_textarea_editor', $fieldname, $elementlabel, $attributes, $editoroptions);
             $mform->setType($fieldname, PARAM_CLEANHTML);
         }
@@ -545,7 +545,7 @@ EOS;
             $context = \context_module::instance($this->cm->id);
             $olduseranswer->{$this->itemname.'_editor'} = empty($this->trimonsave) ? $answer['editor'] : trim($answer['editor']);
 
-            $editoroptions = array('trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $context);
+            $editoroptions = ['trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $context];
             $olduseranswer = file_postupdate_standard_editor($olduseranswer, $this->itemname, $editoroptions, $context,
                     'mod_surveypro', SURVEYPROFIELD_TEXTAREA_FILEAREA, $olduseranswer->id);
             $olduseranswer->content = $olduseranswer->{$this->itemname};
@@ -641,7 +641,7 @@ EOS;
                            $content, 'pluginfile.php', $context->id,
                            'mod_surveypro', SURVEYPROFIELD_TEXTAREA_FILEAREA, $answer->id);
 
-                $return = format_text($content, FORMAT_MOODLE, array('overflowdiv' => false, 'allowid' => true, 'para' => false));
+                $return = format_text($content, FORMAT_MOODLE, ['overflowdiv' => false, 'allowid' => true, 'para' => false]);
             } else {
                 $return = $content;
             }

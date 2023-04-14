@@ -18,7 +18,7 @@
  * This file contains the surveyprofield_age
  *
  * @package   surveyprofield_age
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -34,7 +34,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/age/lib.php');
  * Class to manage each aspect of the age item
  *
  * @package   surveyprofield_age
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class item extends itembase {
@@ -371,7 +371,7 @@ class item extends itembase {
      * @return void
      */
     public function get_composite_fields() {
-        return array('defaultvalue', 'lowerbound', 'upperbound');
+        return ['defaultvalue', 'lowerbound', 'upperbound'];
     }
 
     /**
@@ -381,7 +381,7 @@ class item extends itembase {
      */
     public function get_multilang_fields() {
         $fieldlist = array();
-        $fieldlist[$this->plugin] = array('content', 'extranote');
+        $fieldlist[$this->plugin] = ['content', 'extranote'];
 
         return $fieldlist;
     }
@@ -763,7 +763,7 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = array($this->itemname.'_group');
+        $elementnames = [$this->itemname.'_group'];
 
         return $elementnames;
     }

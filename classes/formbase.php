@@ -18,7 +18,7 @@
  * Surveypro formbase class.
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,7 +30,7 @@ use mod_surveypro\utility_layout;
  * The base class representing the commom part of the item form
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class formbase {
@@ -266,7 +266,7 @@ class formbase {
                 $message = get_string('noitemsfound', 'mod_surveypro');
                 echo $OUTPUT->container($message, 'notifyproblem');
 
-                $continueurl = new \moodle_url('/course/view.php', array('id' => $COURSE->id));
+                $continueurl = new \moodle_url('/course/view.php', ['id' => $COURSE->id]);
                 echo $OUTPUT->continue_button($continueurl);
             }
 
@@ -296,7 +296,7 @@ class formbase {
             foreach ($itemseeds as $itemseed) {
                 $item = surveypro_get_item($this->cm, $this->surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);
 
-                $where = array('submissionid' => $this->submissionid, 'itemid' => $item->get_itemid());
+                $where = ['submissionid' => $this->submissionid, 'itemid' => $item->get_itemid()];
                 $olduserdata = $DB->get_record('surveypro_answer', $where);
                 $singleprefill = $item->userform_set_prefill($olduserdata);
                 $prefill = array_merge($prefill, $singleprefill);

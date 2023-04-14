@@ -18,7 +18,7 @@
  * This file contains the surveyprofield_multiselect
  *
  * @package   surveyprofield_multiselect
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -35,7 +35,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/multiselect/lib.php');
  * Class to manage each aspect of the multiselect item
  *
  * @package   surveyprofield_multiselect
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class item extends itembase {
@@ -185,7 +185,7 @@ class item extends itembase {
 
         // Begin of: plugin specific settings (eventually overriding general ones).
         // Drop empty rows and trim edging rows spaces from each textarea field.
-        $fieldlist = array('options', 'defaultvalue');
+        $fieldlist = ['options', 'defaultvalue'];
         $this->item_clean_textarea_fields($record, $fieldlist);
 
         // Set custom fields value as defined for this question plugin.
@@ -211,7 +211,7 @@ class item extends itembase {
 
         // 3. Set values corresponding to checkboxes.
         // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in get_common_settings.
-        $checkboxes = array('noanswerdefault');
+        $checkboxes = ['noanswerdefault'];
         foreach ($checkboxes as $checkbox) {
             $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
         }
@@ -300,7 +300,7 @@ class item extends itembase {
      */
     public function get_multilang_fields() {
         $fieldlist = array();
-        $fieldlist[$this->plugin] = array('content', 'extranote', 'options', 'defaultvalue');
+        $fieldlist[$this->plugin] = ['content', 'extranote', 'options', 'defaultvalue'];
 
         return $fieldlist;
     }
@@ -674,7 +674,7 @@ EOS;
             $mformelementinfo->operator = 'neq';
             $mformelementinfo->content = $indexsubset;
             $disabilitationinfo[] = $mformelementinfo;
-            // $mform->disabledIf('surveypro_field_select_2491', 'surveypro_field_multiselect_2490[]', 'neq', array(0, 2));
+            // $mform->disabledIf('surveypro_field_select_2491', 'surveypro_field_multiselect_2490[]', 'neq', [0, 2]);
         }
 
         // If this item foresees the "No answer" checkbox, provide a directive for it too.
@@ -693,7 +693,7 @@ EOS;
             $mformelementinfo->operator = 'neq';
             $mformelementinfo->content = $labelsubset;
             $disabilitationinfo[] = $mformelementinfo;
-            // $mform->disabledIf('surveypro_field_select_2491', 'surveypro_field_multiselect_2490[]', 'neq', array('foo', 'bar'));
+            // $mform->disabledIf('surveypro_field_select_2491', 'surveypro_field_multiselect_2490[]', 'neq', ['foo', 'bar']);
         }
 
         return $disabilitationinfo;
@@ -869,7 +869,7 @@ EOS;
         }
 
         // Output.
-        // Here $answers is an array like: array(2,4).
+        // Here $answers is an array like: [2,4].
         switch ($format) {
             case SURVEYPRO_ITEMSRETURNSVALUES:
                 $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $content);

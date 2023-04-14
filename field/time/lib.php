@@ -18,7 +18,7 @@
  * Library for surveyprofield_time
  *
  * @package   surveyprofield_time
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

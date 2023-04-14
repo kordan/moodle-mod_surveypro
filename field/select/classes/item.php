@@ -18,7 +18,7 @@
  * This file contains the surveyprofield_select
  *
  * @package   surveyprofield_select
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -35,7 +35,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/select/lib.php');
  * Class to manage each aspect of the select item
  *
  * @package   surveyprofield_select
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class item extends itembase {
@@ -183,7 +183,7 @@ class item extends itembase {
 
         // Begin of: plugin specific settings (eventually overriding general ones).
         // Drop empty rows and trim edging rows spaces from each textarea field.
-        $fieldlist = array('options');
+        $fieldlist = ['options'];
         $this->item_clean_textarea_fields($record, $fieldlist);
 
         // Set custom fields value as defined for this question plugin.
@@ -309,7 +309,7 @@ class item extends itembase {
      */
     public function get_multilang_fields() {
         $fieldlist = array();
-        $fieldlist[$this->plugin] = array('content', 'extranote', 'options', 'labelother', 'defaultvalue');
+        $fieldlist[$this->plugin] = ['content', 'extranote', 'options', 'labelother', 'defaultvalue'];
 
         return $fieldlist;
     }
@@ -515,10 +515,10 @@ EOS;
         $labels = $this->get_content_array(SURVEYPRO_LABELS, 'options');
         if (!$searchform) {
             if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
-                $labels = array(SURVEYPRO_INVITEVALUE => get_string('choosedots')) + $labels;
+                $labels = [SURVEYPRO_INVITEVALUE => get_string('choosedots')] + $labels;
             }
         } else {
-            $labels = array(SURVEYPRO_IGNOREMEVALUE => '') + $labels;
+            $labels = [SURVEYPRO_IGNOREMEVALUE => ''] + $labels;
         }
         if (!empty($this->labelother)) {
             list($othervalue, $otherlabel) = $this->get_other();

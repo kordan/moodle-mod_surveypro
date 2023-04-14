@@ -18,7 +18,7 @@
  * List of deprecated mod_surveypro functions.
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -41,11 +41,11 @@ function surveypro_get_completion_state($course, $cm, $userid, $type) {
     global $DB;
 
     // Get surveypro details.
-    $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
+    $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
 
     // If completion option is enabled, evaluate it and return true/false.
     if ($surveypro->completionsubmit) {
-        $params = array('surveyproid' => $cm->instance, 'userid' => $userid, 'status' => SURVEYPRO_STATUSCLOSED);
+        $params = ['surveyproid' => $cm->instance, 'userid' => $userid, 'status' => SURVEYPRO_STATUSCLOSED];
         $submissioncount = $DB->count_records('surveypro_submission', $params);
         return ($submissioncount >= $surveypro->completionsubmit);
     } else {

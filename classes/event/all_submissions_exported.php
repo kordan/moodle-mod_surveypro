@@ -18,7 +18,7 @@
  * mod_surveypro all submissions exported event.
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,7 +28,7 @@ namespace mod_surveypro\event;
  * The mod_surveypro all submissions exported event class.
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class all_submissions_exported extends \core\event\base {
@@ -66,7 +66,7 @@ class all_submissions_exported extends \core\event\base {
      * @return \moodle_url
      */
     public function get_url() {
-        return new \moodle_url('/mod/surveypro/view_export.php', array('id' => $this->contextinstanceid));
+        return new \moodle_url('/mod/surveypro/tools_export.php', ['id' => $this->contextinstanceid]);
     }
 
     /**

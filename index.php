@@ -18,7 +18,7 @@
  * This file is part of the Surveypro module for Moodle
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -27,7 +27,7 @@ require_once(dirname(__FILE__).'/lib.php');
 
 $id = required_param('id', PARAM_INT); // Course ID.
 
-$course = $DB->get_record('course', array('id' => $id), '*', MUST_EXIST);
+$course = $DB->get_record('course', ['id' => $id], '*', MUST_EXIST);
 
 require_course_login($course, true);
 
@@ -35,13 +35,13 @@ require_course_login($course, true);
 $strname = get_string('name');
 $strsurveypro = get_string('modulename', 'mod_surveypro');
 $strintro = get_string('moduleintro');
-$strdataplural  = get_string('modulenameplural', 'mod_surveypro');
+$strdataplural = get_string('modulenameplural', 'mod_surveypro');
 $inprogress = get_string('inprogresssubmissions', 'mod_surveypro');
 $closed = get_string('closedsubmissions', 'mod_surveypro');
 
 $PAGE->set_pagelayout('incourse');
-$PAGE->set_url('/mod/surveypro/index.php', array('id' => $id));
-$PAGE->navbar->add($strsurveypro, new \moodle_url('/mod/data/index.php', array('id' => $id)));
+$PAGE->set_url('/mod/surveypro/index.php', ['id' => $id]);
+$PAGE->navbar->add($strsurveypro, new \moodle_url('/mod/data/index.php', ['id' => $id]));
 $PAGE->set_title($strsurveypro);
 $PAGE->set_heading($course->fullname);
 
@@ -52,7 +52,7 @@ echo $OUTPUT->heading($strdataplural, 2);
 
 // Get all the appropriate data.
 if (!$surveypros = get_all_instances_in_course('surveypro', $course)) {
-    $url = new \moodle_url('/course/view.php', array('id' => $course->id));
+    $url = new \moodle_url('/course/view.php', ['id' => $course->id]);
     notice(get_string('thereareno', 'moodle', $strdataplural), $url);
     die();
 }
@@ -70,26 +70,26 @@ if ($course->format == 'weeks') {
     $strsectionname = get_string('sectionname', 'format_'.$course->format);
     $table->head = array ($strsectionname, $strname, $strintro, $inprogress, $closed);
 }
-$table->colclasses = array('col1', 'col2', 'col3', 'col4', 'col5');
+$table->colclasses = ['col1', 'col2', 'col3', 'col4', 'col5'];
 
 $currentsection = -1;
-$sectionvisible = $DB->get_records_menu('course_sections', array('course' => $course->id), '', 'section, visible');
+$sectionvisible = $DB->get_records_menu('course_sections', ['course' => $course->id], '', 'section, visible');
 
 $sql = 'SELECT surveyproid, COUNT(id) as responses
         FROM {surveypro_submission}
         WHERE status = :status
         GROUP BY surveyproid';
-$whereparams = array('status' => SURVEYPRO_STATUSINPROGRESS);
+$whereparams = ['status' => SURVEYPRO_STATUSINPROGRESS];
 $inprogresssubmissions = $DB->get_records_sql_menu($sql, $whereparams);
 
-$whereparams = array('status' => SURVEYPRO_STATUSCLOSED);
+$whereparams = ['status' => SURVEYPRO_STATUSCLOSED];
 $closedsubmissions = $DB->get_records_sql_menu($sql, $whereparams);
 
 foreach ($surveypros as $surveypro) {
     if ($surveypro->section != $currentsection) {
         if ($surveypro->section) {
             $printsection = get_section_name($course, $surveypro->section);
-            $sectionclass = $sectionvisible[$surveypro->section] ? null : array('class' => 'dimmed');
+            $sectionclass = $sectionvisible[$surveypro->section] ? null : ['class' => 'dimmed'];
         }
         $currentsection = $surveypro->section;
     } else {
@@ -97,12 +97,12 @@ foreach ($surveypros as $surveypro) {
     }
 
     if (empty($sectionclass)) { // The section is visible.
-        $cellclass = $surveypro->visible ? null : array('class' => 'dimmed');
+        $cellclass = $surveypro->visible ? null : ['class' => 'dimmed'];
     } else {
-        $cellclass = array('class' => 'dimmed');
+        $cellclass = ['class' => 'dimmed'];
     }
 
-    $url = new \moodle_url('/mod/surveypro/view_submissions.php', array('id' => $surveypro->coursemodule));
+    $url = new \moodle_url('/mod/surveypro/view_submissions.php', ['id' => $surveypro->coursemodule]);
     $inprogressresp = isset($inprogresssubmissions[$surveypro->id]) ? $inprogresssubmissions[$surveypro->id] : 0;
     $closedresp = isset($closedsubmissions[$surveypro->id]) ? $closedsubmissions[$surveypro->id] : 0;
 

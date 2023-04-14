@@ -18,7 +18,7 @@
  * This file contains the surveyprofield_checkbox
  *
  * @package   surveyprofield_checkbox
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -35,7 +35,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/checkbox/lib.php');
  * Class to manage each aspect of the checkbox item
  *
  * @package   surveyprofield_checkbox
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class item extends itembase {
@@ -218,7 +218,7 @@ class item extends itembase {
 
         // Begin of: plugin specific settings (eventually overriding general ones).
         // Drop empty rows and trim trailing spaces from each textarea field.
-        $fieldlist = array('options', 'defaultvalue');
+        $fieldlist = ['options', 'defaultvalue'];
         $this->item_clean_textarea_fields($record, $fieldlist);
 
         // Set custom fields value as defined for this question plugin.
@@ -266,7 +266,7 @@ class item extends itembase {
 
         // 3. Set values corresponding to checkboxes.
         // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in get_common_settings.
-        $checkboxes = array('noanswerdefault');
+        $checkboxes = ['noanswerdefault'];
         foreach ($checkboxes as $checkbox) {
             $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
         }
@@ -349,7 +349,7 @@ class item extends itembase {
      */
     public function get_multilang_fields() {
         $fieldlist = array();
-        $fieldlist[$this->plugin] = array('content', 'extranote', 'options', 'labelother', 'defaultvalue');
+        $fieldlist[$this->plugin] = ['content', 'extranote', 'options', 'labelother', 'defaultvalue'];
 
         return $fieldlist;
     }
@@ -560,7 +560,7 @@ EOS;
         $attributes['class'] = 'indent-'.$this->indent.' checkbox_check';
         $attributes['group'] = 1;
 
-        $options = array('0', '1');
+        $options = ['0', '1'];
         $elementgroup = array();
         $i = 0;
         foreach ($labels as $label) {
@@ -604,7 +604,7 @@ EOS;
             $itemname = $this->itemname.'_noanswer';
             $attributes['id'] = $idprefix.'_noanswer';
             $noanswerstr = get_string('noanswer', 'surveypro');
-            $options = array('0', '1');
+            $options = ['0', '1'];
             $elementgroup[] = $mform->createElement('mod_surveypro_advcheckbox', $itemname, '', $noanswerstr, $attributes, $options);
             if (!empty($this->noanswerdefault)) {
                 $mform->setDefault($itemname, '1');
@@ -925,7 +925,7 @@ EOS;
 
             $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $fromdb->content);
 
-            // Here $answers is an array like: array(1,1,0,0,'dummytext').
+            // Here $answers is an array like: [1,1,0,0,'dummytext'].
             foreach ($answers as $k => $checkboxvalue) {
                 $itemname = $this->itemname.'_'.$k;
                 $prefill[$itemname] = $checkboxvalue;
@@ -987,7 +987,7 @@ EOS;
         }
 
         // Output.
-        // Here $answers is an array like: array(1,1,0,0,'dummytext').
+        // Here $answers is an array like: [1,1,0,0,'dummytext'].
         switch ($format) {
             case SURVEYPRO_ITEMSRETURNSVALUES:
                 $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $content);

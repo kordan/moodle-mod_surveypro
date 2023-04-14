@@ -18,7 +18,7 @@
  * Contains class mod_surveypro\local\ipe\layout_customnumber
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,7 +28,7 @@ namespace mod_surveypro\local\ipe;
  * Class to prepare an item custom number for display and in-place editing
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class layout_customnumber extends \core\output\inplace_editable {
@@ -53,15 +53,15 @@ class layout_customnumber extends \core\output\inplace_editable {
     public static function update($itemid, $newcnumber) {
         global $DB;
 
-        $itemrecord = $DB->get_record('surveypro_item', array('id' => $itemid), 'id, surveyproid, type, plugin', MUST_EXIST);
-        $surveypro = $DB->get_record('surveypro', array('id' => $itemrecord->surveyproid), '*', MUST_EXIST);
+        $itemrecord = $DB->get_record('surveypro_item', ['id' => $itemid], 'id, surveyproid, type, plugin', MUST_EXIST);
+        $surveypro = $DB->get_record('surveypro', ['id' => $itemrecord->surveyproid], '*', MUST_EXIST);
         $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
         $context = \context_module::instance($cm->id);
         \external_api::validate_context($context);
 
         $tablename = 'surveypro'.$itemrecord->type.'_'.$itemrecord->plugin;
         $newreserved = clean_param($newcnumber, PARAM_TEXT);
-        $DB->set_field($tablename, 'customnumber', $newcnumber, array('itemid' => $itemid));
+        $DB->set_field($tablename, 'customnumber', $newcnumber, ['itemid' => $itemid]);
 
         return new static($itemid, $newcnumber);
     }

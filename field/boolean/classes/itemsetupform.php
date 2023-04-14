@@ -18,7 +18,7 @@
  * Surveypro pluginform class.
  *
  * @package   surveyprofield_boolean
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -35,7 +35,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/boolean/lib.php');
  * The class representing the plugin form
  *
  * @package   surveyprofield_boolean
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class itemsetupform extends itemsetupbaseform {
@@ -80,7 +80,7 @@ class itemsetupform extends itemsetupbaseform {
 
         // Item: defaultvalue.
         $fieldname = 'defaultvalue';
-        $options = array('1' => get_string('yes'), '0' => get_string('no'));
+        $options = ['1' => get_string('yes'), '0' => get_string('no')];
         $mform->addElement('select', $fieldname, null, $options);
         $mform->disabledIf($fieldname, 'defaultoption', 'neq', SURVEYPRO_CUSTOMDEFAULT);
 

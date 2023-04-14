@@ -18,7 +18,7 @@
  * The class representing the search form
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -34,7 +34,7 @@ require_once($CFG->dirroot.'/lib/formslib.php');
  * The class representing the surveypro search form for the student
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class usersearch extends \moodleform {
@@ -71,7 +71,7 @@ class usersearch extends \moodleform {
             if ($position == SURVEYPRO_POSITIONTOP) {
                 $itemname = $item->get_itemname().'_extrarow';
                 $content = $item->get_content();
-                $option = array('class' => 'indent-'.$item->get_indent());
+                $option = ['class' => 'indent-'.$item->get_indent()];
                 $mform->addElement('mod_surveypro_label', $itemname, $elementnumber, $content, $option);
 
                 $item->item_add_color_unifier($mform);
@@ -89,8 +89,8 @@ class usersearch extends \moodleform {
                     }
                 }
                 $content = '';
-                $content .= \html_writer::start_tag('div', array('class' => 'fitem row'));
-                $content .= \html_writer::start_tag('div', array('class' => 'fstatic fullwidth'));
+                $content .= \html_writer::start_tag('div', ['class' => 'fitem row']);
+                $content .= \html_writer::start_tag('div', ['class' => 'fstatic fullwidth']);
                 $content .= $questioncontent;
                 $content .= \html_writer::end_tag('div');
                 $content .= \html_writer::end_tag('div');
@@ -107,7 +107,7 @@ class usersearch extends \moodleform {
                 $item->item_add_color_unifier($mform);
 
                 $itemname = $item->get_itemname().'_info';
-                $option = array('class' => 'indent-'.$item->get_indent());
+                $option = ['class' => 'indent-'.$item->get_indent()];
                 $mform->addElement('mod_surveypro_label', $itemname, get_string('note', 'mod_surveypro'), $fullinfo, $option);
             }
         }
@@ -118,7 +118,7 @@ class usersearch extends \moodleform {
         $buttonarray = array();
         $buttonarray[] = $mform->createElement('submit', 'submitbutton', get_string('search'));
         $buttonarray[] = $mform->createElement('cancel', 'cancel', get_string('showallsubmissions', 'mod_surveypro'));
-        $mform->addGroup($buttonarray, 'buttonar', '', array(' '), false);
+        $mform->addGroup($buttonarray, 'buttonar', '', [' '], false);
         $mform->closeHeaderBefore('buttonar');
     }
 

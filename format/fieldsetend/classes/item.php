@@ -18,7 +18,7 @@
  * This file contains the surveyproformat_fieldsetend
  *
  * @package   surveyproformat_fieldsetend
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -34,7 +34,7 @@ require_once($CFG->dirroot.'/mod/surveypro/format/fieldsetend/lib.php');
  * Class to manage each aspect of the fieldsetend item
  *
  * @package   surveyproformat_fieldsetend
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class item extends itembase {
@@ -195,7 +195,7 @@ class item extends itembase {
         // This plugin has $this->insetupform['insearchform'] = false; so it will never be part of a search form.
 
         // Workaround suggested by Marina Glancy in MDL-42946.
-        $label = \html_writer::tag('span', '&nbsp;', array('style' => 'display:none;'));
+        $label = \html_writer::tag('span', '&nbsp;', ['style' => 'display:none;']);
 
         $mform->addElement('static', $this->itemname, '', $label);
         $mform->closeHeaderBefore($this->itemname);

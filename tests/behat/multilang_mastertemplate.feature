@@ -34,8 +34,6 @@ Feature: verify multilang in mastertemplates
     Then I should see "Language pack 'it' was successfully installed"
     And I log out
 
-    # Force English for UI.
-    When I follow "English (en)" in the language menu
     And I am on the "Multilang in ATTLS" "surveypro activity" page logged in as teacher1
     And I set the field "Master templates" to "ATTLS (20 item version)"
     And I press "Apply"
@@ -66,16 +64,9 @@ Feature: verify multilang in mastertemplates
 
     And I log out
 
-    # Force Italiano for UI.
-    When I follow "Italiano (it)" in the language menu
-    # Take care: you are in Italian now and "Log in" has been replaced by "Login"
-    # And I follow "Login"
-    # And I set the following fields to these values:
-    #   | Username | student1 |
-    #   | Password | student1 |
-    # And I press "Login"
-
-    And I am on the "Multilang in ATTLS" "surveypro activity" page logged in as student1
+    When I am on the "Multilang in ATTLS" "surveypro activity" page logged in as student1
+    And I follow "Language" in the user menu
+    And I follow "Italiano"
     And I press "Nuova risposta"
     Then I should see "Atteggiamenti nei Confronti del Pensare e dell'Imparare"
 
@@ -99,6 +90,7 @@ Feature: verify multilang in mastertemplates
     Then I should see "In classe in quale momento sei più partecipe come studente?"
 
     # Set again language to English to make "I log out" successfull.
-    And I follow "English (en)" in the language menu
+    When I follow "Lingua" in the user menu
+    And I follow "English"
 
     And I log out

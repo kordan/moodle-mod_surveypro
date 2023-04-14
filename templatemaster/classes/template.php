@@ -18,7 +18,7 @@
  * Surveypro class to manage templatemaster template
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,7 +28,7 @@ namespace surveyprotemplate_templatemaster;
  * The class to manage templatemaster template
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class template {
@@ -39,9 +39,9 @@ class template {
      * @param string $tablename
      * @param object $record
      * @param object $config
-     * @return array($tablename, $record)
+     * @return [$tablename, $record]
      */
     public function apply_template_settings($tablename, $record, $config) {
-        return array($tablename, $record);
+        return [$tablename, $record];
     }
 }

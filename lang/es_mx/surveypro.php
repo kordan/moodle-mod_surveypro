@@ -18,7 +18,7 @@
  * Spanish/Mexican strings for surveypro
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -435,9 +435,9 @@ $string['surveypro:duplicateotherssubmissions'] = 'Duplicar respuestas de otros 
 $string['surveypro:duplicateownsubmissions'] = 'Duplicar respuestas propias';
 $string['surveypro:editotherssubmissions'] = 'Editar respuestas de otros usuarios';
 $string['surveypro:editownsubmissions'] = 'Editar respuestas propias';
-$string['surveypro:exportdata'] = 'Exportar respuestas recolectadas';
+$string['surveypro:exportresponses'] = 'Exportar respuestas recolectadas';
 $string['surveypro:ignoremaxentries'] = 'Los envíos no están limitados por la configuración de máximas entradas';
-$string['surveypro:importdata'] = 'Importar datos';
+$string['surveypro:importresponses'] = 'Importar datos';
 $string['surveypro:importusertemplates'] = 'Subir plantillas de usuario';
 $string['surveypro:manageitems'] = 'Gestionar elementos de encuesta';
 $string['surveypro:manageusertemplates'] = 'Gestionar plantillas de usuario';

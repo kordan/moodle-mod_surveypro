@@ -18,7 +18,7 @@
  * This file contains the surveyprofield_rate
  *
  * @package   surveyprofield_rate
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -35,7 +35,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/rate/lib.php');
  * Class to manage each aspect of the rate item
  *
  * @package   surveyprofield_rate
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class item extends itembase {
@@ -200,7 +200,7 @@ class item extends itembase {
         // Begin of: plugin specific settings (eventually overriding general ones).
         // Set custom fields value as defined for this question plugin.
         // Drop empty rows and trim edging rows spaces from each textarea field.
-        $fieldlist = array('options', 'rates', 'defaultvalue');
+        $fieldlist = ['options', 'rates', 'defaultvalue'];
         $this->item_clean_textarea_fields($record, $fieldlist);
 
         // Set custom fields value as defined for this question plugin.
@@ -260,7 +260,7 @@ class item extends itembase {
 
         // 3. Set values corresponding to checkboxes.
         // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in get_common_settings.
-        $checkboxes = array('hideinstructions', 'differentrates');
+        $checkboxes = ['hideinstructions', 'differentrates'];
         foreach ($checkboxes as $checkbox) {
             $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
         }
@@ -319,7 +319,7 @@ class item extends itembase {
      */
     public function get_multilang_fields() {
         $fieldlist = array();
-        $fieldlist[$this->plugin] = array('content', 'extranote', 'options', 'rates', 'defaultvalue');
+        $fieldlist[$this->plugin] = ['content', 'extranote', 'options', 'rates', 'defaultvalue'];
 
         return $fieldlist;
     }
@@ -395,9 +395,9 @@ EOS;
 
         if (($this->defaultoption == SURVEYPRO_INVITEDEFAULT)) {
             if ($this->style == SURVEYPROFIELD_RATE_USERADIO) {
-                $rates += array(SURVEYPRO_INVITEVALUE => get_string('choosedots'));
+                $rates += [SURVEYPRO_INVITEVALUE => get_string('choosedots')];
             } else {
-                $rates = array(SURVEYPRO_INVITEVALUE => get_string('choosedots')) + $rates;
+                $rates = [SURVEYPRO_INVITEVALUE => get_string('choosedots')] + $rates;
             }
         }
 
@@ -643,7 +643,7 @@ EOS;
         }
 
         // Output.
-        // Here $answers is an array like: array(1,1,0,0).
+        // Here $answers is an array like: [1,1,0,0].
         switch ($format) {
             case SURVEYPRO_ITEMSRETURNSVALUES:
                 $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $content);

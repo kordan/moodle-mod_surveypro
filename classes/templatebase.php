@@ -18,7 +18,7 @@
  * Surveypro templatebase class.
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,7 +28,7 @@ namespace mod_surveypro;
  * The base class for templates
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class templatebase {
@@ -259,11 +259,11 @@ class templatebase {
         if (empty($type) && empty($plugin)) {
             $installxml = $CFG->dirroot.'/mod/surveypro/db/install.xml';
             $targettable = 'surveypro_item';
-            $uselessfields = array('id', 'surveyproid', 'type', 'plugin', 'sortindex', 'formpage', 'timecreated', 'timemodified');
+            $uselessfields = ['id', 'surveyproid', 'type', 'plugin', 'sortindex', 'formpage', 'timecreated', 'timemodified'];
         } else {
             $installxml = $CFG->dirroot.'/mod/surveypro/'.$type.'/'.$plugin.'/db/install.xml';
             $targettable = 'surveypro'.$type.'_'.$plugin;
-            $uselessfields = array('id', 'itemid');
+            $uselessfields = ['id', 'itemid'];
 
             // Some plugins are missing the install.xml because they havn't attributes.
             if (!file_exists($installxml)) {
@@ -304,7 +304,7 @@ class templatebase {
      */
     public static function get_subplugin_versions() {
         $versions = array();
-        $types = array(SURVEYPRO_TYPEFIELD, SURVEYPRO_TYPEFORMAT);
+        $types = [SURVEYPRO_TYPEFIELD, SURVEYPRO_TYPEFORMAT];
 
         foreach ($types as $type) {
             $plugins = surveypro_get_plugin_list($type, true);

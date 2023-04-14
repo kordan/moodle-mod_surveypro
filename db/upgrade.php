@@ -25,7 +25,7 @@
  * here will all be database-neutral, using the functions defined in DLL libraries.
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -89,12 +89,12 @@ function xmldb_surveypro_upgrade($oldversion) {
     }
 
     if ($oldversion < 2015090901) {
-        $oldcontents = array('__invItat10n__', '__n0__Answer__', '__1gn0rE__me__');
-        $newcontents = array('@@_INVITE_@@', '@@_NOANSW_@@', '@@_IGNORE_@@');
+        $oldcontents = ['__invItat10n__', '__n0__Answer__', '__1gn0rE__me__'];
+        $newcontents = ['@@_INVITE_@@', '@@_NOANSW_@@', '@@_IGNORE_@@'];
 
         $sql = 'UPDATE {surveypro_answer} SET content = :newcontent WHERE content = '.$DB->sql_compare_text(':oldcontent');
         foreach ($oldcontents as $k => $oldcontent) {
-            $DB->execute($sql, array('oldcontent' => $oldcontent, 'newcontent' => $newcontents[$k]));
+            $DB->execute($sql, ['oldcontent' => $oldcontent, 'newcontent' => $newcontents[$k]]);
         }
 
         // Surveypro savepoint reached.
@@ -106,7 +106,7 @@ function xmldb_surveypro_upgrade($oldversion) {
 
     if ($oldversion < 2015111904) {
         // Move settings to use plugintype prefix.
-        $settings = $DB->get_records('config_plugins', array('plugin' => 'surveypro'));
+        $settings = $DB->get_records('config_plugins', ['plugin' => 'surveypro']);
 
         foreach ($settings as $setting) {
             set_config($setting->name, $setting->value, 'mod_surveypro');
@@ -157,7 +157,7 @@ function xmldb_surveypro_upgrade($oldversion) {
 
     if ($oldversion < 2016100601) {
         $where = $DB->sql_compare_text('content').' = :content';
-        $DB->delete_records_select('surveypro_answer', $where, array('content' => '@@_ANINDB_@@'));
+        $DB->delete_records_select('surveypro_answer', $where, ['content' => '@@_ANINDB_@@']);
 
         // Surveypro savepoint reached.
         upgrade_mod_savepoint(true, 2016100601, 'surveypro');
@@ -307,10 +307,10 @@ function xmldb_surveypro_upgrade($oldversion) {
         $oldcontent = 'surveyproreport_delayedusers';
 
         $sql = 'UPDATE {config_plugins} SET plugin = :newcontent WHERE plugin = :oldcontent';
-        $DB->execute($sql, array('oldcontent' => $oldcontent, 'newcontent' => $newcontent));
+        $DB->execute($sql, ['oldcontent' => $oldcontent, 'newcontent' => $newcontent]);
 
         $sql = 'UPDATE {upgrade_log} SET plugin = :newcontent WHERE plugin = :oldcontent';
-        $DB->execute($sql, array('oldcontent' => $oldcontent, 'newcontent' => $newcontent));
+        $DB->execute($sql, ['oldcontent' => $oldcontent, 'newcontent' => $newcontent]);
 
         // Surveypro savepoint reached.
         upgrade_mod_savepoint(true, 2021102600, 'surveypro');
@@ -321,7 +321,7 @@ function xmldb_surveypro_upgrade($oldversion) {
         $oldcontent = '1';
 
         $sql = 'UPDATE {surveypro} SET pauseresume = :newcontent WHERE pauseresume = :oldcontent';
-        $DB->execute($sql, array('oldcontent' => $oldcontent, 'newcontent' => $newcontent));
+        $DB->execute($sql, ['oldcontent' => $oldcontent, 'newcontent' => $newcontent]);
 
         // Surveypro savepoint reached.
         upgrade_mod_savepoint(true, 2022041400, 'surveypro');

@@ -18,7 +18,7 @@
  * The class representing the "apply master template" form
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -32,7 +32,7 @@ require_once($CFG->dirroot.'/lib/formslib.php');
  * The class representing the form to apply a master template
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mtemplateapplyform extends \moodleform {
@@ -67,7 +67,7 @@ class mtemplateapplyform extends \moodleform {
                 $elementgroup = array();
                 $elementgroup[] = $mform->createElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $mtemplates);
                 $elementgroup[] = $mform->createElement('submit', $fieldname.'_button', get_string('apply', 'mod_surveypro'));
-                $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'mod_surveypro'), array(' '), false);
+                $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'mod_surveypro'), [' '], false);
                 $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveypro');
             } else {
                 $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $mtemplates);

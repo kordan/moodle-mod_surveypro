@@ -18,7 +18,7 @@
  * This file contains the surveyprofield_integer
  *
  * @package   surveyprofield_integer
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -35,7 +35,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/integer/lib.php');
  * Class to manage each aspect of the integer item
  *
  * @package   surveyprofield_integer
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class item extends itembase {
@@ -272,7 +272,7 @@ class item extends itembase {
      */
     public function get_multilang_fields() {
         $fieldlist = array();
-        $fieldlist[$this->plugin] = array('content', 'extranote');
+        $fieldlist[$this->plugin] = ['content', 'extranote'];
 
         return $fieldlist;
     }
@@ -463,7 +463,7 @@ EOS;
         $integersrange = range($this->lowerbound, $this->upperbound);
         $integers += array_combine($integersrange, $integersrange);
         if (!$this->required) {
-            $integers += array(SURVEYPRO_NOANSWERVALUE => get_string('noanswer', 'mod_surveypro'));
+            $integers += [SURVEYPRO_NOANSWERVALUE => get_string('noanswer', 'mod_surveypro')];
         }
         // End of: element values.
 

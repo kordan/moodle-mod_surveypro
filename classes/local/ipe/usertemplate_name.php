@@ -18,7 +18,7 @@
  * Contains class mod_surveypro\local\ipe\usertemplate_name
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,7 +28,7 @@ namespace mod_surveypro\local\ipe;
  * Class to prepare a usertemplate name for display and in-place editing
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class usertemplate_name extends \core\output\inplace_editable {
@@ -78,7 +78,7 @@ class usertemplate_name extends \core\output\inplace_editable {
             $givenname = $oldtemplatename;
         }
 
-        $filerecord = $DB->get_record('files', array('id' => $xmlfileid), 'id, contextid', MUST_EXIST);
+        $filerecord = $DB->get_record('files', ['id' => $xmlfileid], 'id, contextid', MUST_EXIST);
         $context = \context::instance_by_id($filerecord->contextid);
         \external_api::validate_context($context);
 

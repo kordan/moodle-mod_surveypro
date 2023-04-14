@@ -18,7 +18,7 @@
  * Starting page for item management.
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -38,11 +38,11 @@ $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
+    $course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
+    $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
 } else {
-    $surveypro = $DB->get_record('surveypro', array('id' => $s), '*', MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $surveypro->course), '*', MUST_EXIST);
+    $surveypro = $DB->get_record('surveypro', ['id' => $s], '*', MUST_EXIST);
+    $course = $DB->get_record('course', ['id' => $surveypro->course], '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
 $cm = cm_info::create($cm);
@@ -108,7 +108,7 @@ $basecondition = $basecondition && (!$hassubmissions || $riskyediting);
 if (!$itemcount) { // The surveypro is empty.
     $mtemplateman = new mastertemplate($cm, $context, $surveypro);
 
-    $paramurl = array('id' => $cm->id);
+    $paramurl = ['id' => $cm->id];
     $formurl = new \moodle_url('/mod/surveypro/mtemplate_apply.php', $paramurl);
 
     $formparams = new \stdClass();
@@ -124,7 +124,7 @@ if (!$itemcount) { // The surveypro is empty.
 // New item form.
 $newitemcondition = $basecondition && has_capability('mod/surveypro:additems', $context);
 if ($newitemcondition) {
-    $paramurl = array('id' => $cm->id);
+    $paramurl = ['id' => $cm->id];
     $formurl = new \moodle_url('/mod/surveypro/layout_itemsetup.php', $paramurl);
 
     // Init new item form.
@@ -137,8 +137,8 @@ if ($newitemcondition) {
 $bulkactioncondition = $basecondition && ($itemcount);
 $bulkactioncondition = $bulkactioncondition && has_capability('mod/surveypro:manageitems', $context);
 if ($bulkactioncondition) {
-    $paramurl = array('id' => $cm->id);
-    $formurl = new \moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
+    $paramurl = ['id' => $cm->id];
+    $formurl = new \moodle_url('/mod/surveypro/layout_itemslist.php', $paramurl);
 
     // Init bulkaction form.
     $bulkactionform = new itembulkactionform($formurl);
@@ -150,7 +150,7 @@ if ($bulkactioncondition) {
 }
 
 // Output starts here.
-$paramurl = array('s' => $surveypro->id);
+$paramurl = ['s' => $surveypro->id];
 if ($itemtomove) {
     $paramurl['itemid'] = $itemid;
     $paramurl['type'] = $type;
@@ -158,7 +158,7 @@ if ($itemtomove) {
     $paramurl['view'] = $view;
     $paramurl['itm'] = $itemtomove;
 }
-$url = new \moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
+$url = new \moodle_url('/mod/surveypro/layout_itemslist.php', $paramurl);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -170,27 +170,10 @@ if (!$itemtomove) {
     if (($edit != -1) and $PAGE->user_allowed_editing()) {
         $USER->editing = $edit;
     }
-    if ($PAGE->user_allowed_editing()) {
-        // Change URL parameter and block display string value depending on whether editing is enabled or not
-        if ($PAGE->user_is_editing()) {
-            $urlediting = 'off';
-            $strediting = get_string('blockseditoff');
-        } else {
-            $urlediting = 'on';
-            $strediting = get_string('blocksediton');
-        }
-        $url = new \moodle_url($CFG->wwwroot.'/mod/surveypro/layout_itemlist.php', ['id' => $cm->id, 'edit' => $urlediting]);
-        $PAGE->set_button($OUTPUT->single_button($url, $strediting));
-    }
 }
 
 echo $OUTPUT->header();
-echo $OUTPUT->heading(format_string($surveypro->name), 2, null);
-
-// Render the activity information.
-$completiondetails = \core_completion\cm_completion_details::get_instance($cm, $USER->id);
-$activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
-echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
+// echo $OUTPUT->heading(format_string($surveypro->name), 2, null);
 
 new tabs($cm, $context, $surveypro, SURVEYPRO_TABLAYOUT, SURVEYPRO_LAYOUT_ITEMS);
 

@@ -39,7 +39,7 @@ class backup_surveyprofield_recurrence_subplugin extends backup_subplugin {
         // XML nodes declaration.
         $subplugin = $this->get_subplugin_element(null, '../../plugin', 'recurrence'); // Virtual optigroup element.
         $wrapper = new backup_nested_element($this->get_recommended_name());
-        $subpluginrecurrence = new backup_nested_element('surveyprofield_recurrence', array('id'), array(
+        $subpluginrecurrence = new backup_nested_element('surveyprofield_recurrence', ['id'], array(
             'content', 'contentformat',
             'required', 'indent', 'position', 'customnumber', 'hideinstructions', 'variable', 'extranote',
             'defaultoption', 'defaultvalue', 'downloadformat', 'lowerbound', 'upperbound'));
@@ -49,7 +49,7 @@ class backup_surveyprofield_recurrence_subplugin extends backup_subplugin {
         $wrapper->add_child($subpluginrecurrence);
 
         // Define sources.
-        $subpluginrecurrence->set_source_table('surveyprofield_recurrence', array('itemid' => backup::VAR_PARENTID));
+        $subpluginrecurrence->set_source_table('surveyprofield_recurrence', ['itemid' => backup::VAR_PARENTID]);
 
         return $subplugin;
     }

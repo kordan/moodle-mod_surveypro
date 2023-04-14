@@ -18,7 +18,7 @@
  * This file contains the surveyprofield_boolean
  *
  * @package   surveyprofield_boolean
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -35,7 +35,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/boolean/lib.php');
  * Class to manage each aspect of the boolean item
  *
  * @package   surveyprofield_boolean
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class item extends itembase {
@@ -294,7 +294,7 @@ class item extends itembase {
      */
     public function get_multilang_fields() {
         $fieldlist = array();
-        $fieldlist[$this->plugin] = array('content', 'extranote');
+        $fieldlist[$this->plugin] = ['content', 'extranote'];
 
         return $fieldlist;
     }
@@ -355,7 +355,7 @@ EOS;
     public function parent_encode_child_parentcontent($childparentcontent) {
         $utilityitemman = new utility_item($this->cm, $this->surveypro);
         $parentcontents = array_unique($utilityitemman->multilinetext_to_array($childparentcontent));
-        $values = array('0', '1');
+        $values = ['0', '1'];
 
         $childparentvalue = array();
         $labels = array();
@@ -393,7 +393,7 @@ EOS;
      * return string $childparentcontent
      */
     public function parent_decode_child_parentvalue($childparentvalue) {
-        $values = array('0', '1');
+        $values = ['0', '1'];
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue);
         $actualcount = count($parentvalues);
 
@@ -439,7 +439,7 @@ EOS;
     public function parent_validate_child_constraints($childparentvalue) {
         // See parent method for explanation.
 
-        $values = array('0', '1');
+        $values = ['0', '1'];
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue);
         $actualcount = count($parentvalues);
 
@@ -502,7 +502,7 @@ EOS;
             $options['1'] = $yeslabel;
             $options['0'] = $nolabel;
             if (!$this->required) {
-                $options += array(SURVEYPRO_NOANSWERVALUE => $noanswerstr);
+                $options += [SURVEYPRO_NOANSWERVALUE => $noanswerstr];
             }
             // End of: element values.
 

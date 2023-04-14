@@ -18,7 +18,7 @@
  * Class to filter the item to get its frequency in the answers
  *
  * @package   surveyproreport_frequency
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -32,7 +32,7 @@ require_once($CFG->dirroot.'/lib/formslib.php');
  * Class to filter output by group
  *
  * @package   surveyproreport_frequency
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class filterform extends \moodleform {
@@ -70,12 +70,12 @@ class filterform extends \moodleform {
 
         // Build options array.
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
-        $options = array(get_string('choosedots'));
+        $options = [get_string('choosedots')];
         foreach ($itemseeds as $itemseed) {
             if (($itemseed->plugin == 'textarea') || ($itemseed->plugin == 'fileupload')) {
                 continue;
             }
-            $where = array('itemid' => $itemseed->id);
+            $where = ['itemid' => $itemseed->id];
             $thiscontent = $DB->get_field('surveypro'.$itemseed->type.'_'.$itemseed->plugin, 'content', $where);
             if (!empty($surveypro->template)) {
                 $thiscontent = get_string($thiscontent, 'surveyprotemplate_'.$surveypro->template);

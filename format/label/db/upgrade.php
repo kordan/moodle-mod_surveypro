@@ -18,7 +18,7 @@
  * Keeps track of upgrades to the surveyproitem label
  *
  * @package   surveyproformat_label
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -37,7 +37,7 @@ function xmldb_surveyproformat_label_upgrade($oldversion) {
 
         // Define key surveyproid (foreign) to be dropped form surveyproformat_label.
         $table = new xmldb_table('surveyproformat_label');
-        $key = new xmldb_key('surveyproid', XMLDB_KEY_FOREIGN, array('surveyproid'), 'surveypro', array('id'));
+        $key = new xmldb_key('surveyproid', XMLDB_KEY_FOREIGN, ['surveyproid'], 'surveypro', ['id']);
 
         // Launch drop key surveyproid.
         $dbman->drop_key($table, $key);

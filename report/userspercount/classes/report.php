@@ -18,7 +18,7 @@
  * Surveypro class to manage userspercount report
  *
  * @package   surveyproreport_userspercount
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -34,7 +34,7 @@ require_once($CFG->libdir.'/tablelib.php');
  * The class to manage userspercount report
  *
  * @package   surveyproreport_userspercount
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class report extends reportbase {
@@ -78,7 +78,7 @@ class report extends reportbase {
     public function setup_outputtable() {
         $this->outputtable = new \flexible_table('userspercount');
 
-        $paramurl = array('id' => $this->cm->id);
+        $paramurl = ['id' => $this->cm->id];
         $baseurl = new \moodle_url('/mod/surveypro/report/userspercount/view.php', $paramurl);
         $this->outputtable->define_baseurl($baseurl);
 
@@ -154,7 +154,7 @@ class report extends reportbase {
     /**
      * Get_submissions_sql
      *
-     * @return array($sql, $whereparams);
+     * @return [$sql, $whereparams];
      */
     public function get_submissions_sql() {
 
@@ -176,7 +176,7 @@ class report extends reportbase {
             $sql .= ' ORDER BY u.lastname ASC';
         }
 
-        return array($sql, $whereparams);
+        return [$sql, $whereparams];
     }
 
     /**

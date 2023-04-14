@@ -203,13 +203,13 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
 
         // 1) get all the item->parentids belonging to the surveypro you are restoring.
         // 2) iterate over them, and when a parentid is found, look in item mappings and perform the set_field.
-        $where = array('surveyproid' => $this->get_new_parentid('surveypro'));
+        $where = ['surveyproid' => $this->get_new_parentid('surveypro')];
         $itemrecords = $DB->get_recordset('surveypro_item', $where, '', 'id, parentid');
         if ($itemrecords->valid()) {
             foreach ($itemrecords as $itemrecord) {
                 if ($itemrecord->parentid) {
                     $newparentid = $this->get_mappingid('surveypro_item', $itemrecord->parentid);
-                    $DB->set_field('surveypro_item', 'parentid', $newparentid, array('id' => $itemrecord->id));
+                    $DB->set_field('surveypro_item', 'parentid', $newparentid, ['id' => $itemrecord->id]);
                 }
             }
         }
@@ -225,7 +225,7 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         // Get the id of this surveypro.
         $surveyproid = $this->task->get_activityid();
 
-        $surveypro = $DB->get_record('surveypro', array('id' => $surveyproid), '*', MUST_EXIST);
+        $surveypro = $DB->get_record('surveypro', ['id' => $surveyproid], '*', MUST_EXIST);
         surveypro_old_restore_fix($surveypro);
     }
 }

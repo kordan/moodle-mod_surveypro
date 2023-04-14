@@ -18,7 +18,7 @@
  * Surveypro itemsetupbaseform class.
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -34,7 +34,7 @@ require_once($CFG->dirroot.'/lib/formslib.php');
  * The class representing the base form shared by all the items of the module
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class itemsetupbaseform extends \moodleform {
@@ -86,14 +86,14 @@ class itemsetupbaseform extends \moodleform {
             $fieldsusingformat = $item->get_fieldsusingformat();
             if (array_key_exists('content', $fieldsusingformat)) {
                 $fieldname = 'content_editor';
-                $editoroptions = array('trusttext' => true, 'subdirs' => true, 'maxfiles' => EDITOR_UNLIMITED_FILES);
+                $editoroptions = ['trusttext' => true, 'subdirs' => true, 'maxfiles' => EDITOR_UNLIMITED_FILES];
                 $mform->addElement('editor', $fieldname, get_string($fieldname, 'mod_surveypro'), null, $editoroptions);
                 $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
                 $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
                 $mform->setType($fieldname, PARAM_RAW);
             } else {
                 $fieldname = 'content';
-                $attributes = array('maxlength' => '128', 'size' => '50');
+                $attributes = ['maxlength' => '128', 'size' => '50'];
                 $mform->addElement('text', $fieldname, get_string($fieldname, 'mod_surveypro'), $attributes);
                 $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
                 $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
@@ -156,7 +156,7 @@ class itemsetupbaseform extends \moodleform {
         // For SURVEYPRO_TYPEFIELD only.
         $fieldname = 'variable';
         if ($item->get_insetupform($fieldname)) {
-            $options = array('maxlength' => 64, 'size' => 12, 'class' => 'longfield');
+            $options = ['maxlength' => 64, 'size' => 12, 'class' => 'longfield'];
 
             $mform->addElement('text', $fieldname, get_string($fieldname, 'mod_surveypro'), $options);
             $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
@@ -173,7 +173,7 @@ class itemsetupbaseform extends \moodleform {
         // Itembase: extranote.
         $fieldname = 'extranote';
         if ($item->get_insetupform($fieldname)) {
-            $mform->addElement('text', $fieldname, get_string($fieldname, 'mod_surveypro'), array('class' => 'longfield'));
+            $mform->addElement('text', $fieldname, get_string($fieldname, 'mod_surveypro'), ['class' => 'longfield']);
             $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
             $mform->setType($fieldname, PARAM_TEXT);
         }
@@ -232,7 +232,7 @@ class itemsetupbaseform extends \moodleform {
             $sql = 'SELECT *
                     FROM {surveypro_item}
                     WHERE surveyproid = :surveyproid';
-            $whereparams = array('surveyproid' => $surveypro->id);
+            $whereparams = ['surveyproid' => $surveypro->id];
             if ($item->get_sortindex()) {
                 $sql .= ' AND sortindex < :sortindex';
                 $whereparams['sortindex'] = $item->get_sortindex();
@@ -257,7 +257,7 @@ class itemsetupbaseform extends \moodleform {
 
                 $condition = ($parentitem->get_hidden() == 1);
                 $condition = $condition && ($item->get_parentid() != $parentitem->get_itemid());
-                $disabled = $condition ? array('disabled' => 'disabled') : null;
+                $disabled = $condition ? ['disabled' => 'disabled'] : null;
                 $select->addOption($content, $parentitem->get_itemid(), $disabled);
             }
             $parentsseeds->close();
@@ -268,7 +268,7 @@ class itemsetupbaseform extends \moodleform {
 
             // Itembase::parentcontent.
             $fieldname = 'parentcontent';
-            $textareaoptions = array('wrap' => 'virtual', 'rows' => '5', 'cols' => '45');
+            $textareaoptions = ['wrap' => 'virtual', 'rows' => '5', 'cols' => '45'];
             $mform->addElement('textarea', $fieldname, get_string($fieldname, 'mod_surveypro'), $textareaoptions);
             $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
             $mform->setType($fieldname, PARAM_RAW);
@@ -278,15 +278,15 @@ class itemsetupbaseform extends \moodleform {
             $a = new \stdClass();
             $a->fieldname = get_string('parentcontent', 'mod_surveypro');
             $rowparity = 0;
-            $a->examples = \html_writer::start_tag('table', array('class' => 'generaltable exampletable'));
+            $a->examples = \html_writer::start_tag('table', ['class' => 'generaltable exampletable']);
             foreach ($pluginlist as $plugin) {
                 $rowparity = 1 - $rowparity;
-                $a->examples .= \html_writer::start_tag('tr', array('class' => 'r' . $rowparity));
-                $a->examples .= \html_writer::start_tag('td', array('class' => 'pluginname'));
+                $a->examples .= \html_writer::start_tag('tr', ['class' => 'r' . $rowparity]);
+                $a->examples .= \html_writer::start_tag('td', ['class' => 'pluginname']);
                 $a->examples .= get_string('pluginname', 'surveyprofield_'.$plugin);
                 $a->examples .= \html_writer::end_tag('td');
 
-                $a->examples .= \html_writer::start_tag('td', array('class' => 'inputformat'));
+                $a->examples .= \html_writer::start_tag('td', ['class' => 'inputformat']);
                 $a->examples .= get_string('parentformat', 'surveyprofield_'.$plugin);
                 $a->examples .= \html_writer::end_tag('td');
                 $a->examples .= \html_writer::end_tag('tr');

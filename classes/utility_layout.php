@@ -18,7 +18,7 @@
  * Surveypro utility class.
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,7 +30,7 @@ use mod_surveypro\utility_submission;
  * The utility class
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class utility_layout {
@@ -62,7 +62,7 @@ class utility_layout {
         $this->cm = $cm;
         $this->context = \context_module::instance($cm->id);
         if (empty($surveypro)) {
-            $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
+            $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
         }
         $this->surveypro = $surveypro;
     }
@@ -94,13 +94,13 @@ class utility_layout {
                     $lastwaspagebreak = false;
                     if ($this->surveypro->newpageforchild) {
                         if (!empty($item->parentid)) {
-                            $parentpage = $DB->get_field('surveypro_item', 'formpage', array('id' => $item->parentid), MUST_EXIST);
+                            $parentpage = $DB->get_field('surveypro_item', 'formpage', ['id' => $item->parentid], MUST_EXIST);
                             if ($parentpage == $pagenumber) {
                                 $pagenumber++;
                             }
                         }
                     }
-                    $DB->set_field('surveypro_item', 'formpage', $pagenumber, array('id' => $item->id));
+                    $DB->set_field('surveypro_item', 'formpage', $pagenumber, ['id' => $item->id]);
                 }
             }
             $items->close();
@@ -111,7 +111,7 @@ class utility_layout {
     }
 
     /**
-     * Redirect to layout_itemlist.php?s=xxx the user asking to go to /view.php?id=yyy if the survey has no items.
+     * Redirect to layout_itemslist.php?s=xxx the user asking to go to /view.php?id=yyy if the survey has no items.
      *
      * I HATE software thinking for me
      * Because of this I ALWAYS want to go where I ask, even if the place I ask is not supposed to be accessed by me
@@ -120,7 +120,7 @@ class utility_layout {
      *
      * By default accessing a surveypro from a course (/view.php?id=yyy), the "predefined" landing page should be:
      *     -> for admin/editing teacher:
-     *         -> if no items were created: layout_itemlist.php
+     *         -> if no items were created: layout_itemslist.php
      *         -> if items were already created: view_submissions.php with the submission list
      *     -> for students: ALWAYS view.php with the welcome and the surveypro cover page
      *
@@ -128,7 +128,7 @@ class utility_layout {
      * So in the view.php I MUST add a code snippet TAKING THE DECISION for the user
      *
      * The problem rises up when the admin/editing teacher decides to go where he should not go, alias in:
-     *     -> layout_itemlist.php even if items were already created
+     *     -> layout_itemslist.php even if items were already created
      *     -> view_submissions.php with the submission list even if no items were created
      *
      * The first request is a false problem, because the admin/editing teacher is always allowed to go there
@@ -147,9 +147,9 @@ class utility_layout {
         if (!$this->layout_has_items(0, SURVEYPRO_TYPEFIELD, true, true, true)) {
             $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
 
-            $paramurl = array('id' => $this->cm->id);
+            $paramurl = ['id' => $this->cm->id];
             if ($canmanageitems) {
-                $redirecturl = new \moodle_url('/mod/surveypro/layout_itemlist.php', $paramurl);
+                $redirecturl = new \moodle_url('/mod/surveypro/layout_itemslist.php', $paramurl);
             } else {
                 $redirecturl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
             }
@@ -178,7 +178,7 @@ class utility_layout {
             }
         }
 
-        $whereparams = array('surveyproid' => $this->surveypro->id);
+        $whereparams = ['surveyproid' => $this->surveypro->id];
         if (!empty($type)) {
             $whereparams['type'] = $type;
         }
@@ -232,7 +232,7 @@ class utility_layout {
     public function has_submissions($returncount=false, $status=SURVEYPRO_STATUSALL, $userid=null) {
         global $DB;
 
-        $whereparams = array('surveyproid' => $this->surveypro->id);
+        $whereparams = ['surveyproid' => $this->surveypro->id];
         if ($status != SURVEYPRO_STATUSALL) {
             $whereparams['status'] = $status;
         }
@@ -253,13 +253,13 @@ class utility_layout {
      * I can ask to delete a single item or a set of items, for instance, with bulk actions
      * or, at usertemplate apply time, choosing the option: "Delete all elements" or "Delete hidden elements" or ...
      * In the first case here I receive:
-     * $whereparams = array('surveyproid' => $this->surveypro->id, 'id' => $itemtodelete->id);
+     * $whereparams = ['surveyproid' => $this->surveypro->id, 'id' => $itemtodelete->id];
      * In case of "Delete all elements" here I receive:
-     * $whereparams = array('surveyproid' => $this->surveypro->id);
+     * $whereparams = ['surveyproid' => $this->surveypro->id];
      * In case of "Delete visible elements" here I receive:
-     * $whereparams = array('surveyproid' => $this->surveypro->id, 'hidden' => 0);
+     * $whereparams = ['surveyproid' => $this->surveypro->id, 'hidden' => 0];
      * In case of "Delete hidden elements" here I receive:
-     * $whereparams = array('surveyproid' => $this->surveypro->id, 'hidden' => 1);
+     * $whereparams = ['surveyproid' => $this->surveypro->id, 'hidden' => 1];
      *
      * surveypro_item                 surveypro(field|format)_<<plugin>>
      *   id  <-----------------|        id
@@ -277,7 +277,7 @@ class utility_layout {
         global $DB;
 
         // Verify input params integrity.
-        $validanswerparams = array('id', 'surveyproid', 'type ', 'plugin', 'hidden', 'insearchform', 'reserved', 'parentid');
+        $validanswerparams = ['id', 'surveyproid', 'type ', 'plugin', 'hidden', 'insearchform', 'reserved', 'parentid'];
         $startingparams = array_keys($whereparams);
         foreach ($startingparams as $startingparam) {
             if (!in_array($startingparam, $validanswerparams)) {
@@ -295,7 +295,7 @@ class utility_layout {
         $context = \context_module::instance($this->cm->id);
         // Delete answers to this/these item/s.
         foreach ($items as $item) {
-            $this->delete_answers(array('itemid' => $item->id), $item);
+            $this->delete_answers(['itemid' => $item->id], $item);
         }
 
         $this->reset_items_pages();
@@ -323,8 +323,8 @@ class utility_layout {
      *   timemodified                   contentformat
      *
      * $whereparams could be...
-     * array('id' => $submission->id);
-     * array('surveyproid' => $surveypro->id)
+     * ['id' => $submission->id];
+     * ['surveyproid' => $surveypro->id]
      *
      * @param array $whereparams
      * @return void
@@ -371,10 +371,10 @@ class utility_layout {
      * This is the reason why the deletion of the parent submission is always executed here, too.
      *
      * $whereparams could be...
-     * array('id' => $answer->id);
-     * array('itemid' => $answer->itemid);
-     * array('submissionid' => $submission->id);
-     * array('submissionid' => $submission->id, 'content' => 'something');
+     * ['id' => $answer->id];
+     * ['itemid' => $answer->itemid];
+     * ['submissionid' => $submission->id];
+     * ['submissionid' => $submission->id, 'content' => 'something'];
      *
      * surveypro_submission           surveypro_answer
      *   id  <-----------------|        id
@@ -399,7 +399,7 @@ class utility_layout {
             debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
 
-        $validanswerparams = array('id', 'submissionid', 'itemid', 'content');
+        $validanswerparams = ['id', 'submissionid', 'itemid', 'content'];
         $startingparams = array_keys($whereparams);
         foreach ($startingparams as $startingparam) {
             if (!in_array($startingparam, $validanswerparams)) {
@@ -411,7 +411,7 @@ class utility_layout {
 
         // Build the list of ids of the answers to delete.
         if (array_key_exists('id', $whereparams)) {
-            $answersidlist = array($whereparams['id']);
+            $answersidlist = [$whereparams['id']];
         } else {
             $answersidlist = $this->get_answers_idlist_from_answers($whereparams);
         }
@@ -447,11 +447,11 @@ class utility_layout {
             // Now that $answers were deleted, kill parent submissions if they have no more children.
             foreach ($submissionsid as $submissionid) {
                 // Now that few answers were deleted, are there any more answers, for the same submission, still present?
-                $count = $DB->count_records('surveypro_answer', array('submissionid' => $submissionid));
+                $count = $DB->count_records('surveypro_answer', ['submissionid' => $submissionid]);
                 if (empty($count)) {
                     // No more answers for this submission are still present. Delete this submission too.
                     // Here I actually delete a submissions.
-                    $DB->delete_records('surveypro_submission', array('id' => $submissionid));
+                    $DB->delete_records('surveypro_submission', ['id' => $submissionid]);
                 }
             }
             // End of: Now that $answers were deleted, kill parent submissions if they have no more children.
@@ -461,9 +461,9 @@ class utility_layout {
                 // Here I actually delete items.
                 $tablename = 'surveypro'.$item->type.'_'.$item->plugin;
                 if ($DB->get_manager()->table_exists($tablename)) {
-                    $DB->delete_records('surveypro'.$item->type.'_'.$item->plugin, array('itemid' => $item->id));
+                    $DB->delete_records('surveypro'.$item->type.'_'.$item->plugin, ['itemid' => $item->id]);
                 }
-                $DB->delete_records('surveypro_item', array('id' => $item->id));
+                $DB->delete_records('surveypro_item', ['id' => $item->id]);
             }
             // End of: If this method was called from delete_items, you are supposed to delete related items too.
 
@@ -471,15 +471,15 @@ class utility_layout {
             $context = \context_module::instance($this->cm->id);
             foreach ($submissionsid as $submissionid) {
                 // Event: submission_deleted.
-                $eventdata = array('context' => $context, 'objectid' => $submissionid);
+                $eventdata = ['context' => $context, 'objectid' => $submissionid];
                 $event = \mod_surveypro\event\submission_deleted::create($eventdata);
                 $event->trigger();
             }
 
             if ($item) {
                 // Event: item_deleted.
-                $eventdata = array('context' => $context, 'objectid' => $item->id);
-                $eventdata['other'] = array('plugin' => $item->plugin);
+                $eventdata = ['context' => $context, 'objectid' => $item->id];
+                $eventdata['other'] = ['plugin' => $item->plugin];
                 $event = \mod_surveypro\event\item_deleted::create($eventdata);
                 $event->trigger();
             }
@@ -542,7 +542,7 @@ class utility_layout {
                 unset($submission->timemodified);
                 $newsubmissionid = $DB->insert_record('surveypro_submission', $submission);
 
-                $useranswers = $DB->get_recordset('surveypro_answer', array('submissionid' => $submissionid));
+                $useranswers = $DB->get_recordset('surveypro_answer', ['submissionid' => $submissionid]);
                 foreach ($useranswers as $useranswer) {
                     $originalanswerid = $useranswer->id;
 
@@ -569,7 +569,7 @@ class utility_layout {
                 $useranswers->close();
 
                 // Event: submission_duplicated.
-                $eventdata = array('context' => $context, 'objectid' => $submissionid);
+                $eventdata = ['context' => $context, 'objectid' => $submissionid];
                 $event = \mod_surveypro\event\submission_duplicated::create($eventdata);
                 $event->trigger();
             }
@@ -645,7 +645,7 @@ class utility_layout {
         global $DB;
 
         // Verify input params integrity.
-        $validanswerparams = array('id', 'submissionid', 'itemid', 'content');
+        $validanswerparams = ['id', 'submissionid', 'itemid', 'content'];
         $startingparams = array_keys($whereparams);
         foreach ($startingparams as $startingparam) {
             if (!in_array($startingparam, $validanswerparams)) {
@@ -724,7 +724,7 @@ class utility_layout {
         global $DB;
 
         // Verify input params integrity.
-        $validanswerparams = array('id', 'submissionid', 'itemid', 'content');
+        $validanswerparams = ['id', 'submissionid', 'itemid', 'content'];
         $startingparams = array_keys($whereparams);
         foreach ($startingparams as $startingparam) {
             if (!in_array($startingparam, $validanswerparams)) {
@@ -772,7 +772,7 @@ class utility_layout {
     public function get_common_links_url($caller) {
         global $DB;
 
-        $callers = array(SURVEYPRO_TAB, SURVEYPRO_BLOCK);
+        $callers = [SURVEYPRO_TAB, SURVEYPRO_BLOCK];
         if (!in_array($caller, $callers)) {
             $message = 'Wrong caller passed to get_common_links_url';
             debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
@@ -785,8 +785,8 @@ class utility_layout {
         $canpreview = has_capability('mod/surveypro:preview', $this->context);
         $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
         $cansearch = has_capability('mod/surveypro:searchsubmissions', $this->context);
-        $canimportdata = has_capability('mod/surveypro:importdata', $this->context);
-        $canexportdata = has_capability('mod/surveypro:exportdata', $this->context);
+        $canimportresponses = has_capability('mod/surveypro:importresponses', $this->context);
+        $canexportresponses = has_capability('mod/surveypro:exportresponses', $this->context);
         $canmanageusertemplates = has_capability('mod/surveypro:manageusertemplates', $this->context);
         $cansaveusertemplates = has_capability('mod/surveypro:saveusertemplates', $this->context);
         $canimportusertemplates = has_capability('mod/surveypro:importusertemplates', $this->context);
@@ -799,12 +799,12 @@ class utility_layout {
         $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
         $hassubmissions = $utilitylayoutman->has_submissions();
 
-        $whereparams = array('surveyproid' => $this->surveypro->id);
+        $whereparams = ['surveyproid' => $this->surveypro->id];
         $countparents = $DB->count_records_select('surveypro_item', 'surveyproid = :surveyproid AND parentid <> 0', $whereparams);
 
         $availableurllist = array();
 
-        $paramurlbase = array('id' => $this->cm->id);
+        $paramurlbase = ['id' => $this->cm->id];
 
         // Tab/Container layout.
         $elements = array();
@@ -819,7 +819,7 @@ class utility_layout {
         // Layout -> elements.
         $elements['manage'] = false;
         if ($canmanageitems) {
-            $elementurl = new \moodle_url('/mod/surveypro/layout_itemlist.php', $paramurlbase);
+            $elementurl = new \moodle_url('/mod/surveypro/layout_itemslist.php', $paramurlbase);
             $elements['manage'] = $elementurl;
         }
 
@@ -839,7 +839,7 @@ class utility_layout {
         // Layout -> container.
         $elements['container'] = false;
         if ($elements['preview'] || $elements['manage'] || $elements['validate'] || $elements['itemsetup']) {
-            $elementurl = new \moodle_url('/mod/surveypro/layout_itemlist.php', $paramurlbase);
+            $elementurl = new \moodle_url('/mod/surveypro/layout_itemslist.php', $paramurlbase);
             $elements['container'] = $elementurl;
         }
 
@@ -859,7 +859,7 @@ class utility_layout {
         // Submissions -> responses.
         $elements['responses'] = false;
         if (!is_guest($this->context)) {
-            $elementurl = new \moodle_url('/mod/surveypro/view_submissions.php', array('id' => $this->cm->id, 'force' => 1));
+            $elementurl = new \moodle_url('/mod/surveypro/view_submissions.php', ['id' => $this->cm->id, 'force' => 1]);
             $elements['responses'] = $elementurl;
         }
 
@@ -873,15 +873,15 @@ class utility_layout {
 
         // Submissions -> import.
         $elements['import'] = false;
-        if ($canimportdata) {
-            $elementurl = new \moodle_url('/mod/surveypro/view_import.php', $paramurlbase);
+        if ($canimportresponses) {
+            $elementurl = new \moodle_url('/mod/surveypro/tools_import.php', $paramurlbase);
             $elements['import'] = $elementurl;
         }
 
         // Submissions -> export.
         $elements['export'] = false;
-        if ($canexportdata) {
-            $elementurl = new \moodle_url('/mod/surveypro/view_export.php', $paramurlbase);
+        if ($canexportresponses) {
+            $elementurl = new \moodle_url('/mod/surveypro/tools_export.php', $paramurlbase);
             $elements['export'] = $elementurl;
         }
 
@@ -1060,8 +1060,8 @@ class utility_layout {
             // I was asked to hide.
             foreach ($items as $item) {
                 // Event: item_hidden.
-                $eventdata = array('context' => $context, 'objectid' => $item->id);
-                $eventdata['other'] = array('plugin' => $item->plugin);
+                $eventdata = ['context' => $context, 'objectid' => $item->id];
+                $eventdata['other'] = ['plugin' => $item->plugin];
                 $event = \mod_surveypro\event\item_hidden::create($eventdata);
                 $event->trigger();
             }
@@ -1069,8 +1069,8 @@ class utility_layout {
             // I was asked to show.
             foreach ($items as $item) {
                 // Event: item_shown.
-                $eventdata = array('context' => $context, 'objectid' => $item->id);
-                $eventdata['other'] = array('plugin' => $item->plugin);
+                $eventdata = ['context' => $context, 'objectid' => $item->id];
+                $eventdata['other'] = ['plugin' => $item->plugin];
                 $event = \mod_surveypro\event\item_shown::create($eventdata);
                 $event->trigger();
             }
@@ -1090,7 +1090,7 @@ class utility_layout {
     public function items_reindex($startingsortindex=0) {
         global $DB;
 
-        $whereparams = array('surveyproid' => $this->surveypro->id);
+        $whereparams = ['surveyproid' => $this->surveypro->id];
 
         // Renum sortindex.
         $sql = 'SELECT id, sortindex
@@ -1105,7 +1105,7 @@ class utility_layout {
         $currentsortindex = empty($startingsortindex) ? 1 : $startingsortindex;
         foreach ($itemlist as $item) {
             if ($item->sortindex != $currentsortindex) {
-                $DB->set_field('surveypro_item', 'sortindex', $currentsortindex, array('id' => $item->id));
+                $DB->set_field('surveypro_item', 'sortindex', $currentsortindex, ['id' => $item->id]);
             }
             $currentsortindex++;
         }
@@ -1120,7 +1120,7 @@ class utility_layout {
     public function reset_items_pages() {
         global $DB;
 
-        $whereparams = array('surveyproid' => $this->surveypro->id);
+        $whereparams = ['surveyproid' => $this->surveypro->id];
         $DB->set_field('surveypro_item', 'formpage', 0, $whereparams);
     }
 
@@ -1132,7 +1132,7 @@ class utility_layout {
      */
     public function optional_to_required_followup($itemid) {
         $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
-        $whereparams = array('itemid' => $itemid, 'content' => SURVEYPRO_NOANSWERVALUE);
+        $whereparams = ['itemid' => $itemid, 'content' => SURVEYPRO_NOANSWERVALUE];
         $submissions = $this->get_submissionsid_from_answers($whereparams);
         foreach ($submissions as $submission) {
             // Change to SURVEYPRO_STATUSINPROGRESS the status of submissions where was answered SURVEYPRO_NOANSWERVALUE.

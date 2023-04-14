@@ -18,7 +18,7 @@
  * Starting page of the colles report.
  *
  * @package   surveyproreport_colles
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -35,11 +35,11 @@ $s = optional_param('s', 0, PARAM_INT);
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $surveypro = $DB->get_record('surveypro', array('id' => $cm->instance), '*', MUST_EXIST);
+    $course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
+    $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
 } else {
-    $surveypro = $DB->get_record('surveypro', array('id' => $s), '*', MUST_EXIST);
-    $course = $DB->get_record('course', array('id' => $surveypro->course), '*', MUST_EXIST);
+    $surveypro = $DB->get_record('surveypro', ['id' => $s], '*', MUST_EXIST);
+    $course = $DB->get_record('course', ['id' => $surveypro->course], '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
 $cm = cm_info::create($cm);
@@ -71,7 +71,7 @@ if ($showjumper) {
 
     $jumpercontent = $reportman->get_groupjumper_items();
 
-    $paramurl = array('id' => $cm->id);
+    $paramurl = ['id' => $cm->id];
     $paramurl['type'] = $type;
     $paramurl['area'] = $area;
     $formurl = new \moodle_url('/mod/surveypro/report/colles/view.php', $paramurl);
@@ -80,7 +80,7 @@ if ($showjumper) {
     $formparams->canaccessallgroups = $canaccessallgroups;
     $formparams->addnotinanygroup = $reportman->add_notinanygroup();
     $formparams->jumpercontent = $jumpercontent;
-    $attributes = array('id' => 'surveypro_jumperform');
+    $attributes = ['id' => 'surveypro_jumperform'];
     $groupfilterform = new groupjumperform($formurl, $formparams, null, null, $attributes);
 
     $PAGE->requires->js_amd_inline("
@@ -93,7 +93,7 @@ if ($showjumper) {
 // End of: prepare params for the form.
 
 // Output starts here.
-$paramurl = array('s' => $surveypro->id, 'type' => $type);
+$paramurl = ['s' => $surveypro->id, 'type' => $type];
 if ( ($type == 'questions') && ($area !== false) ) { // Area can be zero.
     $paramurl['area'] = $area;
 }
@@ -104,29 +104,9 @@ $PAGE->set_context($context);
 $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
-if (($edit != -1) and $PAGE->user_allowed_editing()) {
-    $USER->editing = $edit;
-}
-if ($PAGE->user_allowed_editing()) {
-    // Change URL parameter and block display string value depending on whether editing is enabled or not
-    if ($PAGE->user_is_editing()) {
-        $urlediting = 'off';
-        $strediting = get_string('blockseditoff');
-    } else {
-        $urlediting = 'on';
-        $strediting = get_string('blocksediton');
-    }
-    $url = new \moodle_url($CFG->wwwroot.'/mod/surveypro/report/colles/view.php', ['id' => $cm->id, 'edit' => $urlediting]);
-    $PAGE->set_button($OUTPUT->single_button($url, $strediting));
-}
 
 echo $OUTPUT->header();
-echo $OUTPUT->heading(format_string($surveypro->name), 2, null);
-
-// Render the activity information.
-$completiondetails = \core_completion\cm_completion_details::get_instance($cm, $USER->id);
-$activitydates = \core\activity_dates::get_dates_for_module($cm, $USER->id);
-echo $OUTPUT->activity_information($cm, $completiondetails, $activitydates);
+// echo $OUTPUT->heading(format_string($surveypro->name), 2, null);
 
 $surveyproreportlist = get_plugin_list('surveyproreport');
 $reportkey = array_search('colles', array_keys($surveyproreportlist));

@@ -18,7 +18,7 @@
  * Surveypro tabs class.
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,7 +30,7 @@ use mod_surveypro\utility_layout;
  * The class representing the tab-page structure on top of every page of the module
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class tabs {
@@ -118,7 +118,7 @@ class tabs {
      * Get tabs structure
      */
     private function get_tabs_structure() {
-        $paramurl = array('id' => $this->cm->id);
+        $paramurl = ['id' => $this->cm->id];
         $row = array();
 
         // TAB LAYOUT.
@@ -181,8 +181,8 @@ class tabs {
             case SURVEYPRO_TABLAYOUT:
                 $tablayoutname = get_string('tablayoutname', 'mod_surveypro');
 
-                $inactive = array($tablayoutname);
-                $activetwo = array($tablayoutname);
+                $inactive = [$tablayoutname];
+                $activetwo = [$tablayoutname];
 
                 // Preview.
                 if ($elementurl = $this->tabpagesurl['tab_layout']['preview']) {
@@ -214,8 +214,8 @@ class tabs {
             case SURVEYPRO_TABSUBMISSIONS:
                 $tabsubmissionsname = get_string('tabsubmissionsname', 'mod_surveypro');
 
-                $inactive = array($tabsubmissionsname);
-                $activetwo = array($tabsubmissionsname);
+                $inactive = [$tabsubmissionsname];
+                $activetwo = [$tabsubmissionsname];
 
                 // Dashboard.
                 if ($elementurl = $this->tabpagesurl['tab_submissions']['cover']) {
@@ -283,8 +283,8 @@ class tabs {
             case SURVEYPRO_TABUTEMPLATES:
                 $tabutemplatename = get_string('tabutemplatename', 'mod_surveypro');
 
-                $inactive = array($tabutemplatename);
-                $activetwo = array($tabutemplatename);
+                $inactive = [$tabutemplatename];
+                $activetwo = [$tabutemplatename];
 
                 // Manage.
                 if ($elementurl = $this->tabpagesurl['tab_utemplate']['manage']) {
@@ -316,8 +316,8 @@ class tabs {
             case SURVEYPRO_TABMTEMPLATES:
                 $tabmtemplatename = get_string('tabmtemplatename', 'mod_surveypro');
 
-                $inactive = array($tabmtemplatename);
-                $activetwo = array($tabmtemplatename);
+                $inactive = [$tabmtemplatename];
+                $activetwo = [$tabmtemplatename];
 
                 // Create.
                 if ($elementurl = $this->tabpagesurl['tab_mtemplate']['save']) {
@@ -343,8 +343,8 @@ class tabs {
 
                 $tabreportsname = get_string('tabreportsname', 'mod_surveypro');
 
-                $inactive = array($tabreportsname);
-                $activetwo = array($tabreportsname);
+                $inactive = [$tabreportsname];
+                $activetwo = [$tabreportsname];
 
                 $counter = 0;
                 foreach ($surveyproreportlist as $reportname => $reportpath) {

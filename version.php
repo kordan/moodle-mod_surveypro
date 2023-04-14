@@ -18,7 +18,7 @@
  * Version information
  *
  * @package   mod_surveypro
- * @copyright 2013 onwards kordan <kordan@mclink.it>
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -26,6 +26,6 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'mod_surveypro';
 $plugin->maturity = MATURITY_ALPHA;
-$plugin->version = 2023012600;
+$plugin->version = 2023021100;
 $plugin->release = '1.0';
 $plugin->requires = 2021051700;
