@@ -1597,6 +1597,19 @@ class view_submissions {
                     }
                 }
                 break;
+            case SURVEYPRO_RESPONSETOPDF:
+                if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
+                    $allowed = false;
+                } else {
+                    if ($ismine) { // Owner is me
+                        $allowed = $cansavetopdfownsubmissions;
+                    } else {
+                        if ($mysamegroup) { // Owner is from a group of mine.
+                            $allowed = $cansavetopdfotherssubmissions;
+                        }
+                    }
+                }
+                break;
             default:
                 $allowed = false;
         }
@@ -1629,19 +1642,6 @@ class view_submissions {
                 } else {
                     if ($mysamegroup) { // Owner is from a group of mine.
                         $allowed = $caneditotherssubmissions;
-                    }
-                }
-                break;
-            case SURVEYPRO_RESPONSETOPDF:
-                if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
-                    $allowed = false;
-                } else {
-                    if ($ismine) { // Owner is me
-                        $allowed = $cansavetopdfownsubmissions;
-                    } else {
-                        if ($mysamegroup) { // Owner is from a group of mine.
-                            $allowed = $cansavetopdfotherssubmissions;
-                        }
                     }
                 }
                 break;
