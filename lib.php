@@ -790,7 +790,8 @@ function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
     $relativepath = implode('/', $args);
     $fullpath = "/$context->id/mod_surveypro/$filearea/$itemid/$relativepath";
 
-    if (!$file = $fs->get_file_by_hash(sha1($fullpath)) || $file->is_directory()) {
+    $file = $fs->get_file_by_hash(sha1($fullpath));
+    if (!$file || $file->is_directory()) {
         send_file_not_found();
     }
 
