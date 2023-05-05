@@ -172,9 +172,8 @@ class tabs {
         $inactive = null;
         $activetwo = null;
 
-        // echo '$tabpage = '.$tabpage.'<br />';
         $pageid = 'idpage'.$this->tabpage;
-        // $pageid is here because I leave the door open to override it during next switch.
+        // Variable $pageid is here because I leave the door open to override it during next switch.
 
         // PAGES.
         switch ($this->tabtab) {
@@ -216,12 +215,6 @@ class tabs {
 
                 $inactive = [$tabsubmissionsname];
                 $activetwo = [$tabsubmissionsname];
-
-                // Dashboard.
-                if ($elementurl = $this->tabpagesurl['tab_submissions']['cover']) {
-                    $strlabel = get_string('tabsubmissionspage1', 'mod_surveypro');
-                    $row[] = new \tabobject('idpage1', $elementurl->out(), $strlabel);
-                }
 
                 // Responses.
                 if ($elementurl = $this->tabpagesurl['tab_submissions']['responses']) {

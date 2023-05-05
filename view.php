@@ -26,7 +26,7 @@ use mod_surveypro\utility_layout;
 use mod_surveypro\tabs;
 use mod_surveypro\view_cover;
 
-require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
+require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
@@ -67,7 +67,29 @@ echo $OUTPUT->heading(format_string($surveypro->name), 2, null);
 
 new tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_CPANEL);
 
-$coverman->display_cover();
+// $url2 = new \moodle_url('/mod/surveypro/view_form.php?id='.$USER->id.'&view=1&begin=1');
+// redirect($url2);
+// Get the first page of the survey
+// Get the URL of the survey form
+// Check if the user has the capability to view the survey
 
-// Finish the page.
+
+if (!has_capability('mod/surveypro:view', $context)) {
+    throw new moodle_exception('accessdenied', 'error', '', '', get_string('accessdenied', 'surveypro'));
+}
+
+$params = array();
+$params['id'] = $cm->id;
+
+if (has_capability('moodle/course:viewhiddenactivities', $context)) {
+    $suburl = new \moodle_url('/mod/surveypro/view_submissions.php', $params);
+    redirect($suburl);
+} else {
+    $params['view'] = 1;
+    $params['begin'] = 1;
+    $formurl = new \moodle_url('/mod/surveypro/view_form.php', $params);
+    redirect($formurl);
+}
+
+
 echo $OUTPUT->footer();

@@ -28,7 +28,7 @@ use mod_surveypro\utility_mform;
 use mod_surveypro\view_form;
 use mod_surveypro\local\form\userform;
 
-require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
+require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
@@ -74,18 +74,18 @@ $formparams->surveypro = $surveypro;
 $formparams->submissionid = $submissionid;
 $formparams->userformpagecount = $userformman->get_userformpagecount();
 $formparams->canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context);
-$formparams->userfirstpage = $userformman->get_userfirstpage(); // The user first page
-$formparams->userlastpage = $userformman->get_userlastpage(); // The user last page
+$formparams->userfirstpage = $userformman->get_userfirstpage(); // The user first page.
+$formparams->userlastpage = $userformman->get_userlastpage(); // The user last page.
 $formparams->overflowpage = $overflowpage; // Went the user to a overflow page?
 $formparams->tabpage = $userformman->get_tabpage(); // The page of the TAB-PAGE structure.
 $formparams->readonly = ($userformman->get_tabpage() == SURVEYPRO_SUBMISSION_READONLY);
 $formparams->preview = false;
 if ($begin == 1) {
     $userformman->next_not_empty_page(true, 0); // True means direction = right.
-    $nextpage = $userformman->get_nextpage(); // The page of the form to select subset of fields
+    $nextpage = $userformman->get_nextpage(); // The page of the form to select subset of fields.
     $userformman->set_formpage($nextpage);
 }
-$formparams->formpage = $userformman->get_formpage(); // The page of the form to select subset of fields
+$formparams->formpage = $userformman->get_formpage(); // The page of the form to select subset of fields.
 // End of: prepare params for the form.
 
 $editable = ($view == SURVEYPRO_READONLYRESPONSE) ? false : true;
@@ -146,17 +146,24 @@ if ($userformman->formdata = $userform->get_data()) {
     $paramurl['responsestatus'] = $userformman->get_responsestatus();
     $paramurl['justsubmitted'] = 1 + $userformman->get_userdeservesthanks();
     $paramurl['formview'] = $userformman->get_view(); // What was I viewing in the form?
-    $redirecturl = new \moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
+
+    // Redirect to charts tool.
+    $paramurl = array();
+    $paramurl['id'] = $cm->id;
+    if ($showjumper) {
+        $paramurl['groupid'] = $groupid;
+    }
+    $redirecturl = new moodle_url('/lib/charts/script.php'); 
     redirect($redirecturl); // Redirect to the first non empty page.
+
 }
 // End of: manage form submission.
-
 // Output starts here.
 $paramurl = ['s' => $surveypro->id, 'view' => $view];
 if (!empty($submissionid)) {
     $paramurl['submissionid'] = $submissionid;
 }
-$url = new \moodle_url('/mod/surveypro/view_form.php', $paramurl);
+$url = new moodle_url('/calendar/view.php');
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -164,9 +171,10 @@ $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
-// echo $OUTPUT->heading(format_string($surveypro->name), 2, null);
 
-new tabs($cm, $context, $surveypro, $userformman->get_tabtab(), $userformman->get_tabpage());
+if (has_capability('moodle/course:viewhiddenactivities', $context)) {
+    new tabs($cm, $context, $surveypro, $userformman->get_tabtab(), $userformman->get_tabpage());
+}
 
 $userformman->noitem_stopexecution();
 $userformman->nomoresubmissions_stopexecution();
