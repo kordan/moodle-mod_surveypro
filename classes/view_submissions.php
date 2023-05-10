@@ -605,14 +605,14 @@ class view_submissions {
         $col23width = $col2width + $col3width;
 
         $twocolstemplate = '<table style="width:100%;"><tr>';
-        $twocolstemplate .= '<td style="width:'.$col1width.'%;text-align:left;">@@col1@@</td>';
-        $twocolstemplate .= '<td style="width:'.$col23width.'%;text-align:left;">@@col2@@</td>';
+        $twocolstemplate .= '<td style="width:'.$col1width.'%; text-align:left;">@@col1@@</td>';
+        $twocolstemplate .= '<td style="width:'.$col23width.'%; text-align:left;">@@col2@@</td>';
         $twocolstemplate .= '</tr></table>';
 
         $threecolstemplate = '<table style="width:100%;"><tr>';
-        $threecolstemplate .= '<td style="width:'.$col1width.'%;text-align:left;">@@col1@@</td>';
-        $threecolstemplate .= '<td style="width:'.$col2width.'%;text-align:left;">@@col2@@</td>';
-        $threecolstemplate .= '<td style="width:'.$col3width.'%;text-align:left;">@@col3@@</td>';
+        $threecolstemplate .= '<td style="width:'.$col1width.'%; text-align:left;">@@col1@@</td>';
+        $threecolstemplate .= '<td style="width:'.$col2width.'%; text-align:left;">@@col2@@</td>';
+        $threecolstemplate .= '<td style="width:'.$col3width.'%; text-align:left;">@@col3@@</td>';
         $threecolstemplate .= '</tr></table>';
 
         return array($twocolstemplate, $threecolstemplate);
@@ -1709,7 +1709,6 @@ class view_submissions {
             // Second column.
             $content = $item->get_content();
             $content = $this->replace_http_url($content);
-            // $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
             $html = str_replace('@@col2@@', $content, $html);
 
             if ($template == SURVEYPRO_3COLUMNSTEMPLATE) {
@@ -1730,27 +1729,19 @@ class view_submissions {
 
         $filename = $this->surveypro->name.'_'.$this->submissionid.'.pdf';
         $pdf->Output($filename, 'D');
-
-        // Remember to empty $CFG->tempdir.'/mod_surveypro/PDF_temp/ folder.
-        $tempsubdir = $CFG->tempdir.'/mod_surveypro/PDF_temp';
-        $files = scandir($tempsubdir);
-        foreach ($files as $file) {
-            if (($file != '.') && ($file != '..')) {
-                unlink($tempsubdir.'/'.$file);
-            }
-        }
         die();
     }
 
     /**
      * Is there any image into the content?
-     * If a file (usually picture) is found in $item->content replace its http address with its phisical address.
+     * If a file (usually picture) is found in $item->content replace its http address with its base64_encode.
      * The reason is due to surveypro_pluginfile that deny the file (returning null).
      * The user calling surveypro_pluginfile is the PDF agent (and not the logged user) and surveypro_pluginfile stops it.
      * To avoid the call to surveypro_pluginfile I need to use the phisical file address.
      * This behaviour of surveypro_pluginfile is correct and due to file security: not logged users are not allowed to get my files.
      *
-     * stored in DB:
+     * Ideally I would copy the file to a temp location and return it's path but...
+     * Stored in DB:
      * '<p><img src="@@PLUGINFILE@@/apple.jpg" alt="apple" class="..." width="212" height="160" /></p>';
      * Returned by $item->get_content():
      * '<p><img src="http://localhost/master/pluginfile.php/150/mod_surveypro/itemcontent/1458/apple.jpg" alt="apple" class="..." width="212" height="160" /></p>';
@@ -1761,7 +1752,22 @@ class view_submissions {
      * If I find:
      *     <img src="http://localhost/master/pluginfile.php/150/mod_surveypro/itemcontent/1458/apple.jpg" alt="apple"...
      * I have to replace it with:
-     *     <img src="$CFG->tempdir.'/mod_surveypro/PDF_temp/apple.jpg" alt="apple"...
+     *     <img src="$CFG->tempdir.'/mod_surveypro/PDF_temp/apple.jpg'" alt="apple"...
+     * ...but a bug in TCPDF currently prevents that.
+     *
+     * Because of this issue I have to replace the path with the file base64_encode.
+     * Stored in DB:
+     * '<p><img src="@@PLUGINFILE@@/apple.jpg" alt="apple" class="..." width="212" height="160" /></p>';
+     * Returned by $item->get_content():
+     * '<p><img src="http://localhost/master/pluginfile.php/150/mod_surveypro/itemcontent/1458/apple.jpg" alt="apple" class="..." width="212" height="160" /></p>';
+     * What I am supposed to rewrite:
+     * '<p><img src="@base64_encode" alt="apple" class="..." width="212" height="160" /></p>';
+     *
+     * :: Example ::
+     * If I find:
+     *     <img src="http://localhost/master/pluginfile.php/150/mod_surveypro/itemcontent/1458/apple.jpg" alt="apple"...
+     * I have to replace it with:
+     *     <img src="@base64_encode" alt="apple"...
      *
      * @param string $content
      * @return $content with each http url replaced by a direct link
@@ -1773,21 +1779,12 @@ class view_submissions {
         $regex = addslashes($regex);
         preg_match_all($regex, $content, $httpurls, PREG_SET_ORDER);
 
-        $tempsubdir = $CFG->tempdir.'/mod_surveypro/PDF_temp/';
-        make_temp_directory('mod_surveypro/PDF_temp');
         foreach ($httpurls as $httpurl) {
             $fileurl = $httpurl[0];
             if ($file = $this->get_image_file($fileurl)) {
-                // make a copy of the file in the moodledata temp folder
-                // and replace the web address with the phisical address to the moodledata temp file
-
-                $filename = $file->get_filename();
-                $directlink = $tempsubdir.$filename;
-                $filehandler = fopen($directlink, 'w');
-                fwrite($filehandler, $file->get_content());
-                fclose($filehandler);
-
-                $content = str_replace($httpurl[1], $directlink, $content);
+                $filecontent = $file->get_content();
+                $encodedfilecontent = '@'.base64_encode($filecontent);
+                $content = str_replace($httpurl[1], $encodedfilecontent, $content);
             }
         }
 
