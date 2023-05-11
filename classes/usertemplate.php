@@ -24,6 +24,7 @@
 
 namespace mod_surveypro;
 
+use core_text;
 use mod_surveypro\local\ipe\usertemplate_name;
 use mod_surveypro\utility_layout;
 use mod_surveypro\templatebase;
@@ -372,7 +373,7 @@ class usertemplate extends templatebase {
                 }
 
                 $val = $item->get_generic_property($field);
-                if (strlen($val)) {
+                if (core_text::strlen($val)) {
                     $xmlfield = $xmltable->addChild($field, $val);
                 } // Otherwise: It is empty, do not evaluate: jump.
             }
@@ -388,7 +389,7 @@ class usertemplate extends templatebase {
             foreach ($structure as $field) {
                 $val = $item->get_generic_property($field);
 
-                if (strlen($val)) {
+                if (core_text::strlen($val)) {
                     $xmlfield = $xmltable->addChild($field, htmlspecialchars($val));
                 } // Otherwise: It is empty, do not evaluate: jump.
 

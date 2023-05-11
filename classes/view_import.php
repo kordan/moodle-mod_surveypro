@@ -24,6 +24,7 @@
 
 namespace mod_surveypro;
 
+use core_text;
 use mod_surveypro\utility_submission;
 use mod_surveypro\local\form\submissionimportform;
 
@@ -357,7 +358,7 @@ class view_import {
      */
     public function is_string_notempty($csvrow, $col, $itemhelper) {
         $value = $csvrow[$col];
-        if (!\core_text::strlen($value)) {
+        if (!core_text::strlen($value)) {
             $error = new \stdClass();
             $error->key = 'import_emptyrequiredvalue';
             $error->a = new \stdClass();

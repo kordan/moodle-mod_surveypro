@@ -1189,10 +1189,10 @@ function surveypro_get_user_style_options() {
  * @return void
  */
 function surveypro_cutdownstring($plainstring, $maxlength=60) {
-    if (\core_text::strlen($plainstring) > $maxlength) {
+    if (core_text::strlen($plainstring) > $maxlength) {
         $ellipsis = '...';
-        $cutlength = $maxlength - \core_text::strlen($ellipsis);
-        $plainstring = \core_text::substr($plainstring, 0, $cutlength).$ellipsis;
+        $cutlength = $maxlength - core_text::strlen($ellipsis);
+        $plainstring = core_text::substr($plainstring, 0, $cutlength).$ellipsis;
     }
 
     return $plainstring;
