@@ -24,6 +24,7 @@
 
 namespace mod_surveypro;
 
+use core_text;
 use mod_surveypro\utility_layout;
 use mod_surveypro\templatebase;
 
@@ -96,7 +97,7 @@ class mastertemplate extends templatebase {
         }
 
         // User wrote a 100% bloody name. GRRRR.
-        $condition1 = (bool)strlen($pluginname);
+        $condition1 = (bool)core_text::strlen($pluginname);
         $condition2 = (bool)preg_match_all('~[a-z]~', $pluginname);
         $condition = !($condition1 && $condition2);
         if ($condition) {

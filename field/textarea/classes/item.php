@@ -26,6 +26,7 @@ namespace surveyprofield_textarea;
 
 defined('MOODLE_INTERNAL') || die();
 
+use core_text;
 use mod_surveypro\itembase;
 
 require_once($CFG->dirroot.'/mod/surveypro/field/textarea/lib.php');
@@ -238,15 +239,15 @@ class item extends itembase {
     public function item_custom_fields_to_db($record) {
         // 1. Special management for composite fields.
         // Nothing to do: they don't exist in this plugin.
-        if (!strlen($record->minlength)) {
+        if (!core_text::strlen($record->minlength)) {
             $record->minlength = 0;
         }
 
         // 2. Override few values.
-        if (!strlen($record->minlength)) {
+        if (!core_text::strlen($record->minlength)) {
             $record->minlength = 0;
         }
-        if (!strlen($record->maxlength)) {
+        if (!core_text::strlen($record->maxlength)) {
             $record->maxlength = null;
         }
         if (empty($record->arearows)) {
@@ -635,7 +636,7 @@ EOS;
         }
 
         // Output.
-        if (strlen($content)) {
+        if (core_text::strlen($content)) {
             if ($this->useeditor) {
                 $content = file_rewrite_pluginfile_urls(
                            $content, 'pluginfile.php', $context->id,

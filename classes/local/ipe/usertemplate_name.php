@@ -24,6 +24,8 @@
 
 namespace mod_surveypro\local\ipe;
 
+use core_text;
+
 /**
  * Class to prepare a usertemplate name for display and in-place editing
  *
@@ -57,7 +59,7 @@ class usertemplate_name extends \core\output\inplace_editable {
 
         $fs = get_file_storage();
         $xmlfile = $fs->get_file_by_id($xmlfileid);
-        if (strlen($newtemplatename) > 0) {
+        if (core_text::strlen($newtemplatename) > 0) {
             $contextid = $xmlfile->get_contextid();
             $component = 'mod_surveypro';
             $filearea = SURVEYPRO_TEMPLATEFILEAREA;

@@ -24,6 +24,7 @@
 
 namespace mod_surveypro;
 
+use core_text;
 use mod_surveypro\layout_itemsetup;
 use mod_surveypro\utility_layout;
 use mod_surveypro\utility_item;
@@ -1699,7 +1700,7 @@ EOS;
         $quickresponse = null;
 
         // The content of the provided answer.
-        if (!strlen($content)) { // Item was disabled.
+        if (!core_text::strlen($content)) { // Item was disabled.
             $quickresponse = get_string('answernotsubmitted', 'mod_surveypro');
         } else if ($content == SURVEYPRO_NOANSWERVALUE) { // Answer was "no answer".
             $quickresponse = get_string('answerisnoanswer', 'mod_surveypro');
@@ -1725,7 +1726,7 @@ EOS;
             return $quickresponse;
         }
 
-        if (strlen($content)) {
+        if (core_text::strlen($content)) {
             $return = $content;
         } else {
             if ($format == SURVEYPRO_FRIENDLYFORMAT) {

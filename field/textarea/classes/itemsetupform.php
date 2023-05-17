@@ -26,6 +26,7 @@ namespace surveyprofield_textarea;
 
 defined('MOODLE_INTERNAL') || die();
 
+use core_text;
 use mod_surveypro\local\form\itemsetupbaseform;
 
 require_once($CFG->dirroot.'/lib/formslib.php');
@@ -110,7 +111,7 @@ class itemsetupform extends itemsetupbaseform {
 
         $errors = parent::validation($data, $files);
 
-        if (strlen($data['maxlength'])) {
+        if (core_text::strlen($data['maxlength'])) {
             $isinteger = (bool)(strval(intval($data['maxlength'])) == strval($data['maxlength']));
             if (!$isinteger) {
                 $errors['maxlength'] = get_string('ierr_maxlengthnotinteger', 'surveyprofield_textarea');
