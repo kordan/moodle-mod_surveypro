@@ -24,6 +24,8 @@
 
 namespace mod_surveypro;
 
+use core_text;
+
 /**
  * The utility_useritem class
  *
@@ -81,7 +83,7 @@ class utility_item {
         // Use preg_replace (and not str_replace) because of eventual multiple instances of "\n\n".
         $textareacontent = preg_replace('~\n\n+~', "\n", $textareacontent);
 
-        if (!strlen($textareacontent)) {
+        if (!core_text::strlen($textareacontent)) {
             return array();
         }
 

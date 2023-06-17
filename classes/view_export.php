@@ -24,6 +24,8 @@
 
 namespace mod_surveypro;
 
+use core_text;
+
 /**
  * The class exporting gathered data
  *
@@ -224,7 +226,8 @@ class view_export {
      * @return void
      */
     public function get_export_filename($extension = '') {
-        $filename = format_text($this->surveypro->name, FORMAT_HTML);
+        $filename = format_text($this->surveypro->name, FORMAT_PLAIN);
+        $filename = str_replace(' ', '_', $filename);
 
         if ($this->formdata->status == SURVEYPRO_STATUSCLOSED) {
             $filename .= ' '.str_replace(' ', '', get_string('statusclosed', 'surveypro'));
@@ -563,7 +566,7 @@ class view_export {
      */
     public function decode_content($richsubmission) {
         $content = $richsubmission->content;
-        if (!strlen($content)) {
+        if (!core_text::strlen($content)) {
             $return = '';
         } else {
             $itemid = $richsubmission->itemid;

@@ -24,6 +24,7 @@
 
 namespace mod_surveypro;
 
+use core_text;
 use mod_surveypro\utility_layout;
 use mod_surveypro\utility_submission;
 
@@ -519,7 +520,7 @@ class view_submissions {
 
         $fs = get_file_storage();
 
-        $params = substr($fileurl, strlen($CFG->wwwroot.'/pluginfile.php'));
+        $params = substr($fileurl, core_text::strlen($CFG->wwwroot.'/pluginfile.php'));
         if (substr($params, 0, 1) == '?') { // Slasharguments off.
             $pos = strpos($params, 'file=');
             $params = substr($params, $pos + 5);

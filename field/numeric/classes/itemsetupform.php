@@ -26,6 +26,7 @@ namespace surveyprofield_numeric;
 
 defined('MOODLE_INTERNAL') || die();
 
+use core_text;
 use mod_surveypro\local\form\itemsetupbaseform;
 
 require_once($CFG->dirroot.'/lib/formslib.php');
@@ -107,7 +108,7 @@ class itemsetupform extends itemsetupbaseform {
 
         $draftnumber = $data['lowerbound'];
         // Get lowerbound.
-        if (strlen($draftnumber)) {
+        if (core_text::strlen($draftnumber)) {
             if (!$lowerbound = $item->get_correct_number($draftnumber)) {
                 $errors['lowerbound'] = get_string('ierr_notanumber', 'surveyprofield_numeric');
                 return $errors;
@@ -116,7 +117,7 @@ class itemsetupform extends itemsetupbaseform {
 
         $draftnumber = $data['upperbound'];
         // Get upperbound.
-        if (strlen($draftnumber)) {
+        if (core_text::strlen($draftnumber)) {
             if (!$upperbound = $item->get_correct_number($draftnumber)) {
                 $errors['upperbound'] = get_string('ierr_notanumber', 'surveyprofield_numeric');
                 return $errors;
@@ -143,7 +144,7 @@ class itemsetupform extends itemsetupbaseform {
 
         $draftnumber = $data['defaultvalue'];
         // Get defaultvalue.
-        if (strlen($draftnumber)) {
+        if (core_text::strlen($draftnumber)) {
             if (!$defaultvalue = $item->get_correct_number($draftnumber)) {
                 $errors['defaultvalue'] = get_string('ierr_notanumber', 'surveyprofield_numeric');
             } else {

@@ -24,7 +24,7 @@
 
 namespace mod_surveypro\plugininfo;
 
-use core\plugininfo\base, core_plugin_manager, moodle_url;
+use core_text, core\plugininfo\base, core_plugin_manager, moodle_url;
 
 /**
  * The mod_surveypro field plugin class.
@@ -129,7 +129,7 @@ class surveyprofield extends base {
         $settings = new \admin_settingpage($section, $this->displayname, 'moodle/site:config', $this->is_enabled() === false);
 
         if ($adminroot->fulltree) {
-            $shortsubtype = substr($this->type, strlen('surveypro'));
+            $shortsubtype = substr($this->type, core_text::strlen('surveypro'));
             include($this->full_path('settings.php'));
         }
 

@@ -26,6 +26,7 @@ namespace surveyprofield_character;
 
 defined('MOODLE_INTERNAL') || die();
 
+use core_text;
 use mod_surveypro\local\form\itemsetupbaseform;
 
 require_once($CFG->dirroot.'/lib/formslib.php');
@@ -130,7 +131,7 @@ class itemsetupform extends itemsetupbaseform {
 
         if (!empty($data['defaultvalue'])) {
             // Maximum characters > length of default.
-            $defaultvaluelength = \core_text::strlen($data['defaultvalue']);
+            $defaultvaluelength = core_text::strlen($data['defaultvalue']);
             if (!empty($data['maxlength'])) {
                 if ($defaultvaluelength > $data['maxlength']) {
                     $errors['defaultvalue'] = get_string('ierr_toolongdefault', 'surveyprofield_character');

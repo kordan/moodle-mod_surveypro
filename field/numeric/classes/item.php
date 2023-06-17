@@ -26,6 +26,7 @@ namespace surveyprofield_numeric;
 
 defined('MOODLE_INTERNAL') || die();
 
+use core_text;
 use mod_surveypro\itembase;
 
 require_once($CFG->dirroot.'/mod/surveypro/field/numeric/lib.php');
@@ -227,13 +228,13 @@ class item extends itembase {
         // Nothing to do: they don't exist in this plugin.
 
         // 2. float numbers need more attention because I can write them using , or .
-        if (strlen($this->defaultvalue)) {
+        if (core_text::strlen($this->defaultvalue)) {
             $this->defaultvalue = (float)format_float($this->defaultvalue, $this->decimals);
         }
-        if (strlen($this->lowerbound)) {
+        if (core_text::strlen($this->lowerbound)) {
             $this->lowerbound = (float)format_float($this->lowerbound, $this->decimals);
         }
-        if (strlen($this->upperbound)) {
+        if (core_text::strlen($this->upperbound)) {
             $this->upperbound = (float)format_float($this->upperbound, $this->decimals);
         }
     }
@@ -256,17 +257,17 @@ class item extends itembase {
         // Nothing to do: no checkboxes in this plugin item form.
 
         // 4. Other: float numbers need more attention because I can write them using , or .
-        if (strlen($record->defaultvalue)) {
+        if (core_text::strlen($record->defaultvalue)) {
             $record->defaultvalue = $this->get_correct_number($record->defaultvalue);
         } else {
             unset($record->defaultvalue);
         }
-        if (strlen($record->lowerbound)) {
+        if (core_text::strlen($record->lowerbound)) {
             $record->lowerbound = $this->get_correct_number($record->lowerbound);
         } else {
             unset($record->lowerbound);
         }
-        if (strlen($record->upperbound)) {
+        if (core_text::strlen($record->upperbound)) {
             $record->upperbound = $this->get_correct_number($record->upperbound);
         } else {
             unset($record->upperbound);
@@ -398,7 +399,7 @@ EOS;
         if (!$searchform) {
             $mform->addElement('text', $this->itemname, $elementlabel, $attributes);
             $mform->setType($this->itemname, PARAM_RAW); // See: moodlelib.php lines 133+.
-            if (strlen($this->defaultvalue)) {
+            if (core_text::strlen($this->defaultvalue)) {
                 $mform->setDefault($this->itemname, "$this->defaultvalue");
             }
 
@@ -442,7 +443,7 @@ EOS;
         $errorkey = $this->itemname;
 
         $draftuserinput = $data[$this->itemname];
-        if (!strlen($draftuserinput)) {
+        if (!core_text::strlen($draftuserinput)) {
             if (!empty($this->required)) {
                 $errors[$errorkey] = get_string('required');
             }
@@ -466,8 +467,8 @@ EOS;
             }
         }
 
-        $haslowerbound = (strlen($this->lowerbound));
-        $hasupperbound = (strlen($this->upperbound));
+        $haslowerbound = (core_text::strlen($this->lowerbound));
+        $hasupperbound = (core_text::strlen($this->upperbound));
 
         if ($haslowerbound && $hasupperbound) {
             // Internal range.
@@ -501,8 +502,8 @@ EOS;
      */
     public function userform_get_filling_instructions() {
 
-        $haslowerbound = (strlen($this->lowerbound));
-        $hasupperbound = (strlen($this->upperbound));
+        $haslowerbound = (core_text::strlen($this->lowerbound));
+        $hasupperbound = (core_text::strlen($this->upperbound));
         $arrayinstruction = array();
 
         if (!empty($this->signed)) {
@@ -565,7 +566,7 @@ EOS;
         }
 
         $content = trim($answer['mainelement']);
-        if (!strlen($content)) {
+        if (!core_text::strlen($content)) {
             $olduseranswer->content = '';
         } else {
             $content = $this->get_correct_number($content);

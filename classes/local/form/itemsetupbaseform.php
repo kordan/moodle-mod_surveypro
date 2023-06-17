@@ -26,6 +26,7 @@ namespace mod_surveypro\local\form;
 
 defined('MOODLE_INTERNAL') || die();
 
+use core_text;
 use mod_surveypro\utility_layout;
 
 require_once($CFG->dirroot.'/lib/formslib.php');
@@ -359,19 +360,19 @@ class itemsetupbaseform extends \moodleform {
         }
 
         if ($item->get_insetupform('parentid')) { // Some plugin may not have it, like pagebreak.
-            if ( empty($data['parentid']) && (!strlen($data['parentcontent'])) ) {
+            if ( empty($data['parentid']) && (!core_text::strlen($data['parentcontent'])) ) {
                 // Stop validation here.
                 return $errors;
             }
 
             // You choosed a parentid but you are missing the parentcontent.
-            if ( empty($data['parentid']) && (strlen($data['parentcontent'])) ) { // $data['parentcontent'] can be = '0'.
+            if ( empty($data['parentid']) && (core_text::strlen($data['parentcontent'])) ) { // $data['parentcontent'] can be = '0'.
                 $a = get_string('parentcontent', 'mod_surveypro');
                 $errors['parentid'] = get_string('ierr_missingparentid', 'mod_surveypro', $a);
             }
 
             // You did not choose a parent item but you entered an answer.
-            if ( !empty($data['parentid']) && (!strlen($data['parentcontent'])) ) { // $data['parentcontent'] can be = '0'.
+            if ( !empty($data['parentid']) && (!core_text::strlen($data['parentcontent'])) ) { // $data['parentcontent'] can be = '0'.
                 $a = get_string('parentid', 'mod_surveypro');
                 $errors['parentcontent'] = get_string('ierr_missingparentcontent', 'mod_surveypro', $a);
             }

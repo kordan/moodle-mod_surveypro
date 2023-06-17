@@ -24,6 +24,7 @@
 
 namespace mod_surveypro;
 
+use core_text;
 use mod_surveypro\utility_layout;
 use mod_surveypro\templatebase;
 
@@ -96,7 +97,7 @@ class mastertemplate extends templatebase {
         }
 
         // User wrote a 100% bloody name. GRRRR.
-        $condition1 = (bool)strlen($pluginname);
+        $condition1 = (bool)core_text::strlen($pluginname);
         $condition2 = (bool)preg_match_all('~[a-z]~', $pluginname);
         $condition = !($condition1 && $condition2);
         if ($condition) {
@@ -384,7 +385,7 @@ class mastertemplate extends templatebase {
 
                 $val = $this->xml_get_field_content($item, 'item', $field, $multilangfields);
 
-                if (\core_text::strlen($val)) {
+                if (core_text::strlen($val)) {
                     $xmlfield = $xmltable->addChild($field, $val);
                 } // Otherwise: It is empty, do not evaluate: jump.
             }
@@ -400,7 +401,7 @@ class mastertemplate extends templatebase {
             foreach ($structure as $field) {
                 $val = $this->xml_get_field_content($item, $itemseed->plugin, $field, $multilangfields);
 
-                if (\core_text::strlen($val)) {
+                if (core_text::strlen($val)) {
                     $xmlfield = $xmltable->addChild($field, htmlspecialchars($val));
                     // Otherwise: It is empty, do not evaluate: jump.
                 }
@@ -470,7 +471,7 @@ class mastertemplate extends templatebase {
         }
 
         $content = $item->get_generic_property($field);
-        if (\core_text::strlen($content)) {
+        if (core_text::strlen($content)) {
             $val = $content;
         } else {
             // It is empty, do not evaluate: jump.

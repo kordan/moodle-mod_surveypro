@@ -26,6 +26,7 @@ namespace surveyprofield_fileupload;
 
 defined('MOODLE_INTERNAL') || die();
 
+use core_text;
 use mod_surveypro\local\form\itemsetupbaseform;
 
 require_once($CFG->dirroot.'/lib/formslib.php');
@@ -117,7 +118,7 @@ class itemsetupform extends itemsetupbaseform {
                     $errors['filetypes'] = get_string('ierr_extensiononlyonedot', 'surveyprofield_fileupload');
                     break;
                 }
-                if (preg_match('~[^a-z0-9]~', \core_text::substr($filetype, 1))) {
+                if (preg_match('~[^a-z0-9]~', core_text::substr($filetype, 1))) {
                     $errors['filetypes'] = get_string('ierr_dirtyextension', 'surveyprofield_fileupload');
                     break;
                 }

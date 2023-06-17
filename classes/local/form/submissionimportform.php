@@ -26,6 +26,8 @@ namespace mod_surveypro\local\form;
 
 defined('MOODLE_INTERNAL') || die();
 
+use core_text;
+
 require_once($CFG->dirroot.'/lib/formslib.php');
 require_once($CFG->dirroot.'/lib/csvlib.class.php');
 
@@ -64,7 +66,7 @@ class submissionimportform extends \moodleform {
 
         // Submissionimport: encoding.
         $fieldname = 'encoding';
-        $options = \core_text::get_encodings();
+        $options = core_text::get_encodings();
         $mform->addElement('select', $fieldname, get_string($fieldname, 'tool_uploaduser'), $options);
         $mform->setDefault($fieldname, 'UTF-8');
 

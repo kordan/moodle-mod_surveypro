@@ -26,6 +26,7 @@ namespace surveyprofield_character;
 
 defined('MOODLE_INTERNAL') || die();
 
+use core_text;
 use mod_surveypro\itembase;
 
 require_once($CFG->dirroot.'/mod/surveypro/field/character/lib.php');
@@ -258,7 +259,7 @@ class item extends itembase {
         if ($record->pattern == SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN) {
             $record->pattern = $record->patterntext;
 
-            $record->minlength = \core_text::strlen($record->patterntext);
+            $record->minlength = core_text::strlen($record->patterntext);
             $record->maxlength = $record->minlength;
             unset($record->patterntext);
         }
@@ -499,7 +500,7 @@ EOS;
             return;
         }
 
-        $answerlength = \core_text::strlen($userinput);
+        $answerlength = core_text::strlen($userinput);
         if (!empty($this->minlength)) {
             if ($answerlength < $this->minlength) {
                 $errors[$errorkey] = get_string('uerr_texttooshort', 'surveyprofield_character');
