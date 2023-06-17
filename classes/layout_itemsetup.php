@@ -24,6 +24,7 @@
 
 namespace mod_surveypro;
 
+use core_text;
 use mod_surveypro\local\ipe\layout_customnumber;
 use mod_surveypro\local\ipe\layout_insearchform;
 use mod_surveypro\local\ipe\layout_required;
@@ -1506,7 +1507,7 @@ class layout_itemsetup {
                         $reference = $DB->get_record('surveypro'.$type.'_'.$plugin, $where, $fieldlist, MUST_EXIST);
                         foreach ($itemmlfield as $mlfieldname) {
                             $stringkey = $reference->{$mlfieldname};
-                            if (strlen($stringkey)) {
+                            if (core_text::strlen($stringkey)) {
                                 $record->{$mlfieldname} = get_string($stringkey, 'surveyprotemplate_'.$template);
                             } else {
                                 $record->{$mlfieldname} = null;

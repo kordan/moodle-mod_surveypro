@@ -39,7 +39,7 @@ function surveypro_character_validate_pattern_integrity($pattern) {
     $message = false;
 
     // Pattern can not be empty.
-    if (!strlen($pattern)) {
+    if (!core_text::strlen($pattern)) {
         $message = get_string('ierr_patternisempty', 'surveyprofield_character');
     }
     // Pattern can be done only using 'A', 'a', '*' and '0'.

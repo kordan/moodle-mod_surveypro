@@ -24,6 +24,8 @@
 
 namespace mod_surveypro;
 
+use core_text;
+
 /**
  * The class exporting gathered data
  *
@@ -224,7 +226,8 @@ class tools_export {
      * @return void
      */
     public function get_export_filename($extension = '') {
-        $filename = format_text($this->surveypro->name, FORMAT_HTML);
+        $filename = format_text($this->surveypro->name, FORMAT_PLAIN);
+        $filename = str_replace(' ', '_', $filename);
 
         if ($this->formdata->status == SURVEYPRO_STATUSCLOSED) {
             $filename .= ' '.str_replace(' ', '', get_string('statusclosed', 'surveypro'));
@@ -563,7 +566,7 @@ class tools_export {
      */
     public function decode_content($richsubmission) {
         $content = $richsubmission->content;
-        if (!strlen($content)) {
+        if (!core_text::strlen($content)) {
             $return = '';
         } else {
             $itemid = $richsubmission->itemid;
@@ -605,7 +608,7 @@ class tools_export {
         $packagename = clean_param($packagename, PARAM_ALPHAEXT);
         $packagename .= '_attachments_by_'.$type;
         // In MS Azure files with a name longer than 80 characters give problems.
-        $packagename = substr($packagename, 0, 80);
+        $packagename = \core_text::substr($packagename, 0, 80);
 
         return $packagename;
     }

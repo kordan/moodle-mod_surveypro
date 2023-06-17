@@ -26,6 +26,7 @@ namespace surveyprofield_fieldset;
 
 defined('MOODLE_INTERNAL') || die();
 
+use core_text;
 use mod_surveypro\local\form\itemsetupbaseform;
 
 require_once($CFG->dirroot.'/lib/formslib.php');
@@ -85,7 +86,7 @@ class itemsetupform extends itemsetupbaseform {
 
         $errors = parent::validation($data, $files);
 
-        if (strlen($data['content']) > 128) {
+        if (core_text::strlen($data['content']) > 128) {
             $errors['content'] = get_string('ierr_contenttoolong', 'surveyproformat_fieldset');
         }
     }
