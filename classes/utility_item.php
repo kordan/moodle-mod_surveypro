@@ -138,7 +138,7 @@ class utility_item {
         $regex = '~';
         $regex .= '(?P<prefix>'.SURVEYPRO_ITEMPREFIX.'|'.SURVEYPRO_PLACEHOLDERPREFIX.'|'.SURVEYPRO_DONTSAVEMEPREFIX.')';
         $regex .= '_';
-        $regex .= '(?P<type>'.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')';
+        $regex .= '(?P<type>field|format)';
         $regex .= '_';
         $regex .= '(?P<plugin>[^_]+)';
         $regex .= '_';

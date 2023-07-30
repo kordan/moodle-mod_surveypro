@@ -63,7 +63,7 @@ class filterform extends \moodleform {
 
         $where = array();
         $where['surveyproid'] = $surveypro->id;
-        $where['type'] = SURVEYPRO_TYPEFIELD;
+        $where['type'] = 'field';
         $where['reserved'] = 0;
         $where['hidden'] = 0;
         $itemseeds = $DB->get_recordset('surveypro_item', $where, 'sortindex');

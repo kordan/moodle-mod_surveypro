@@ -519,7 +519,7 @@ class view_form extends formbase {
                 // Drop them out.
                 $condition = false;
                 $condition = $condition || ($matches['prefix'] == SURVEYPRO_DONTSAVEMEPREFIX);
-                $condition = $condition || ($matches['type'] == SURVEYPRO_TYPEFORMAT);
+                $condition = $condition || ($matches['type'] == 'format');
                 if ($condition) {
                     continue; // To next foreach.
                 }
@@ -663,17 +663,17 @@ class view_form extends formbase {
 
         // Get the list of used plugin.
         $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
-        $pluginlist = $utilitysubmissionman->get_used_plugin_list(SURVEYPRO_TYPEFIELD);
+        $pluginlist = $utilitysubmissionman->get_used_plugin_list('field');
 
         // Begin of: get the list of all mandatory fields.
         $requireditems = array();
         foreach ($pluginlist as $plugin) {
-            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'\item';
+            $classname = 'surveyprofield_'.$plugin.'\item';
             $canbemandatory = $classname::item_uses_mandatory_dbfield();
             if ($canbemandatory) {
                 $sql = 'SELECT i.id, i.parentid, i.parentvalue, i.reserved
                         FROM {surveypro_item} i
-                            JOIN {surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'} p ON p.itemid = i.id
+                            JOIN {surveyprofield_'.$plugin.'} p ON p.itemid = i.id
                         WHERE i.surveyproid = :surveyproid
                             AND i.hidden = :hidden
                             AND p.required > :required
@@ -965,7 +965,7 @@ class view_form extends formbase {
                 // Drop them out.
                 $condition = false;
                 $condition = $condition || ($matches['prefix'] == SURVEYPRO_DONTSAVEMEPREFIX);
-                $condition = $condition || ($matches['type'] == SURVEYPRO_TYPEFORMAT);
+                $condition = $condition || ($matches['type'] == 'format');
                 if ($condition) {
                     continue; // To next foreach.
                 }
@@ -1023,7 +1023,7 @@ class view_form extends formbase {
                     // Drop them out.
                     $condition = false;
                     $condition = $condition || ($matches['prefix'] == SURVEYPRO_DONTSAVEMEPREFIX);
-                    $condition = $condition || ($matches['type'] == SURVEYPRO_TYPEFORMAT);
+                    $condition = $condition || ($matches['type'] == 'format');
                     if ($condition) {
                         continue; // To next foreach.
                     }

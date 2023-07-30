@@ -81,12 +81,6 @@ define('SURVEYPRO_MTEMPLATES_APPLY', 2);
 // I can not define constants for report pages because they are a subplugin and can be integrated with additional reports.
 
 /**
- * ITEM TYPES
- */
-define('SURVEYPRO_TYPEFIELD' , 'field');
-define('SURVEYPRO_TYPEFORMAT', 'format');
-
-/**
  * KIND OF SUBMISSION
  */
 define('SURVEYPRO_ONESHOTNOEMAIL',     0);
@@ -529,7 +523,7 @@ function surveypro_delete_instance($id) {
     }
 
     // Get all item_<<plugin>> and format_<<plugin>>.
-    $types = [SURVEYPRO_TYPEFIELD, SURVEYPRO_TYPEFORMAT];
+    $types = ['field', 'format'];
     foreach ($types as $type) {
         $pluginlist = surveypro_get_plugin_list($type);
 
@@ -1021,15 +1015,15 @@ function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=
     $fieldplugins = array();
     $formatplugins = array();
 
-    if ($plugintype == SURVEYPRO_TYPEFIELD || is_null($plugintype)) {
+    if ($plugintype == 'field' || is_null($plugintype)) {
         if ($count) {
-            $plugincount += count(get_plugin_list('surveypro'.SURVEYPRO_TYPEFIELD));
+            $plugincount += count(get_plugin_list('surveyprofield'));
         } else {
-            $fieldplugins = core_component::get_plugin_list('surveypro'.SURVEYPRO_TYPEFIELD);
+            $fieldplugins = core_component::get_plugin_list('surveyprofield');
             if (!empty($includetype)) {
                 foreach ($fieldplugins as $k => $v) {
                     if (!get_config('surveyprofield_'.$k, 'disabled')) {
-                        $fieldplugins[$k] = SURVEYPRO_TYPEFIELD.'_'.$k;
+                        $fieldplugins[$k] = 'field_'.$k;
                     } else {
                         unset($fieldplugins[$k]);
                     }
@@ -1046,15 +1040,15 @@ function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=
             }
         }
     }
-    if ($plugintype == SURVEYPRO_TYPEFORMAT || is_null($plugintype)) {
+    if ($plugintype == 'format' || is_null($plugintype)) {
         if ($count) {
-            $plugincount += count(core_component::get_plugin_list('surveypro'.SURVEYPRO_TYPEFORMAT));
+            $plugincount += count(core_component::get_plugin_list('surveyproformat'));
         } else {
-            $formatplugins = core_component::get_plugin_list('surveypro'.SURVEYPRO_TYPEFORMAT);
+            $formatplugins = core_component::get_plugin_list('surveyproformat');
             if (!empty($includetype)) {
                 foreach ($formatplugins as $k => $v) {
                     if (!get_config('surveyproformat_'.$k, 'disabled')) {
-                        $formatplugins[$k] = SURVEYPRO_TYPEFORMAT.'_'.$k;
+                        $formatplugins[$k] = 'format_'.$k;
                     } else {
                         unset($formatplugins[$k]);
                     }

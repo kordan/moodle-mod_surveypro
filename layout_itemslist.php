@@ -76,7 +76,7 @@ if ($action != SURVEYPRO_NOACTION) {
 $utilitylayoutman = new utility_layout($cm, $surveypro);
 $utilitysubmissionman = new utility_submission($cm, $surveypro);
 $hassubmissions = $utilitylayoutman->has_submissions();
-$itemcount = $utilitylayoutman->layout_has_items(0, SURVEYPRO_TYPEFIELD, true, true, true);
+$itemcount = $utilitylayoutman->layout_has_items(0, 'field', true, true, true);
 
 // Define the manager.
 $layoutman = new layout_itemsetup($cm, $context, $surveypro);

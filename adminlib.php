@@ -185,10 +185,10 @@ class mod_surveypro_plugin_manager {
 
         if (($this->subtype == 'surveyprofield') || ($this->subtype == 'surveyproformat')) {
             if ($this->subtype == 'surveyprofield') {
-                $type = SURVEYPRO_TYPEFIELD;
+                $type = 'field';
             }
             if ($this->subtype == 'surveyproformat') {
-                $type = SURVEYPRO_TYPEFORMAT;
+                $type = 'format';
             }
             $countsql = 'SELECT plugin, COUNT(1) as numinstances
                 FROM {surveypro_item}

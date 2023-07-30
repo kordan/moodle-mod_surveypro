@@ -48,13 +48,13 @@ class itemchooser extends \moodleform {
         // Selectitem: plugin.
         $fieldname = 'typeplugin';
         // Take care! Here the plugin holds type and plugin both.
-        $fieldplugins = surveypro_get_plugin_list(SURVEYPRO_TYPEFIELD, true);
+        $fieldplugins = surveypro_get_plugin_list('field', true);
         foreach ($fieldplugins as $k => $v) {
             $fieldplugins[$k] = get_string('userfriendlypluginname', 'surveyprofield_'.$v);
         }
         asort($fieldplugins);
 
-        $formatplugins = surveypro_get_plugin_list(SURVEYPRO_TYPEFORMAT, true);
+        $formatplugins = surveypro_get_plugin_list('format', true);
         foreach ($formatplugins as $k => $v) {
             $formatplugins[$k] = get_string('userfriendlypluginname', 'surveyproformat_'.$v);
         }

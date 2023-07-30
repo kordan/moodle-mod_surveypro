@@ -131,7 +131,7 @@ class report extends reportbase {
 
         $params = array();
         $params['surveyproid'] = $this->surveypro->id;
-        $params['type'] = SURVEYPRO_TYPEFIELD;
+        $params['type'] = 'field';
         $params['reserved'] = 0;
         $params['hidden'] = 0;
         $params['plugin'] = 'textarea';

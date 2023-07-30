@@ -127,7 +127,7 @@ class item extends itembase {
         parent::__construct($cm, $surveypro, $itemid, $getparentcontent);
 
         // List of properties set to static values.
-        $this->type = SURVEYPRO_TYPEFIELD;
+        $this->type = 'field';
         $this->plugin = 'integer';
 
         // Override the list of fields using format, whether needed.

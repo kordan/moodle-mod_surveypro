@@ -266,13 +266,13 @@ class tools_export {
 
         $itemseedskeys = array();
         foreach ($itemseeds as $itemseed) {
-            $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemseed->plugin;
+            $tablename = 'surveyprofield_'.$itemseed->plugin;
             $where = ['itemid' => $itemseed->id];
             $currentheader = $DB->get_field($tablename, 'variable', $where);
             $headerlabels[] = $currentheader;
             $itemseedskeys[] = $itemseed->id;
             if ($this->formdata->outputstyle == SURVEYPRO_RAW) {
-                $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemseed->plugin.'\item';
+                $classname = 'surveyprofield_'.$itemseed->plugin.'\item';
                 if ($classname::response_uses_format()) {
                     $headerlabels[] = $currentheader.SURVEYPRO_IMPFORMATSUFFIX;
                     $itemseedskeys[] = $itemseed->id.SURVEYPRO_IMPFORMATSUFFIX;
@@ -407,7 +407,7 @@ class tools_export {
         // No matter for the page.
         $where = array();
         $where['surveyproid'] = $this->surveypro->id;
-        $where['type'] = SURVEYPRO_TYPEFIELD;
+        $where['type'] = 'field';
         if (!isset($this->formdata->includereserved)) {
             $where['reserved'] = 0;
         }
@@ -531,7 +531,7 @@ class tools_export {
         } else {
             $recordtoexport[$richsubmission->itemid] = $richsubmission->content;
 
-            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$richsubmission->plugin.'\item';
+            $classname = 'surveyprofield_'.$richsubmission->plugin.'\item';
             if ($classname::response_uses_format()) {
                 $recordtoexport[$richsubmission->itemid.SURVEYPRO_IMPFORMATSUFFIX] = $richsubmission->contentformat;
             }
@@ -571,7 +571,7 @@ class tools_export {
         } else {
             $itemid = $richsubmission->itemid;
             $plugin = $richsubmission->plugin;
-            $item = surveypro_get_item($this->cm, $this->surveypro, $itemid, SURVEYPRO_TYPEFIELD, $plugin);
+            $item = surveypro_get_item($this->cm, $this->surveypro, $itemid, 'field', $plugin);
             $return = $item->userform_db_to_export($richsubmission);
         }
 

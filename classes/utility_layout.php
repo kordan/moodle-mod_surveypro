@@ -144,7 +144,7 @@ class utility_layout {
      * @return void
      */
     public function noitem_redirect() {
-        if (!$this->layout_has_items(0, SURVEYPRO_TYPEFIELD, true, true, true)) {
+        if (!$this->layout_has_items(0, 'field', true, true, true)) {
             $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
 
             $paramurl = ['id' => $this->cm->id];
@@ -171,9 +171,9 @@ class utility_layout {
         global $DB;
 
         if (!empty($type)) {
-            if (($type != SURVEYPRO_TYPEFIELD) && ($type != SURVEYPRO_TYPEFORMAT)) {
+            if (($type != 'field') && ($type != 'format')) {
                 $message = 'Unexpected value for $type found.';
-                $message .= 'Valid values are only: '.SURVEYPRO_TYPEFIELD.' or '.SURVEYPRO_TYPEFORMAT.'.';
+                $message .= 'Valid values are only: field or format.';
                 debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
             }
         }
@@ -210,7 +210,7 @@ class utility_layout {
 
         $whereparams = array();
         $whereparams['surveyproid'] = $this->surveypro->id;
-        $whereparams['type'] = SURVEYPRO_TYPEFIELD;
+        $whereparams['type'] = 'field';
         $whereparams['hidden'] = 0;
         $whereparams['insearchform'] = 1;
 
@@ -1190,7 +1190,7 @@ class utility_layout {
         $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
         $canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context);
 
-        $itemcount = $this->layout_has_items(0, SURVEYPRO_TYPEFIELD, $canmanageitems, $canaccessreserveditems, true);
+        $itemcount = $this->layout_has_items(0, 'field', $canmanageitems, $canaccessreserveditems, true);
 
         $addnew = true;
         $addnew = $addnew && $cansubmit;

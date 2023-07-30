@@ -154,7 +154,7 @@ class itemsetupbaseform extends \moodleform {
         }
 
         // Itembase: variable.
-        // For SURVEYPRO_TYPEFIELD only.
+        // For 'field' only.
         $fieldname = 'variable';
         if ($item->get_insetupform($fieldname)) {
             $options = ['maxlength' => 64, 'size' => 12, 'class' => 'longfield'];
@@ -222,9 +222,9 @@ class itemsetupbaseform extends \moodleform {
             // So I move the validation of the holding form at the form validation time.
 
             // Build the list only for searchable plugins.
-            $pluginlist = surveypro_get_plugin_list(SURVEYPRO_TYPEFIELD);
+            $pluginlist = surveypro_get_plugin_list('field');
             foreach ($pluginlist as $plugin) {
-                $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'\item';
+                $classname = 'surveypro'.'field'.'_'.$plugin.'\item';
                 if (!$classname::get_canbeparent()) {
                     unset($pluginlist[$plugin]);
                 }
@@ -297,7 +297,7 @@ class itemsetupbaseform extends \moodleform {
             $mform->addElement('static', $fieldname, $notestr, get_string($fieldname, 'mod_surveypro', $a));
         }
 
-        if ($item->get_type() == SURVEYPRO_TYPEFIELD) {
+        if ($item->get_type() == 'field') {
             // Here I open a new fieldset.
             $fieldname = 'specializations';
             $typename = get_string('pluginname', 'surveyprofield_'.$item->get_plugin());

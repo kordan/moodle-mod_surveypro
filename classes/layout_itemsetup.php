@@ -358,7 +358,7 @@ class layout_itemsetup {
             $tablerow[] = $content;
 
             // Customnumber.
-            if (($item->get_type() == SURVEYPRO_TYPEFIELD) || ($item->get_plugin() == 'label')) {
+            if (($item->get_type() == 'field') || ($item->get_plugin() == 'label')) {
                 $itemid = $item->get_itemid();
                 $customnumber = $item->get_customnumber();
                 $tmpl = new layout_customnumber($itemid, $customnumber);
@@ -372,7 +372,7 @@ class layout_itemsetup {
             $tablerow[] = $item->get_content();
 
             // Variable.
-            if ($item->get_type() == SURVEYPRO_TYPEFIELD) {
+            if ($item->get_type() == 'field') {
                 $itemid = $item->get_itemid();
                 $variablename = $item->get_variable();
                 $tmpl = new layout_variable($itemid, $variablename);
@@ -749,7 +749,7 @@ class layout_itemsetup {
             $tablerow[] = $content;
 
             // Customnumber.
-            if (($item->get_type() == SURVEYPRO_TYPEFIELD) || ($item->get_plugin() == 'label')) {
+            if (($item->get_type() == 'field') || ($item->get_plugin() == 'label')) {
                 $tablerow[] = $item->get_customnumber();
             } else {
                 $tablerow[] = '';
@@ -1393,7 +1393,7 @@ class layout_itemsetup {
             $utilitylayoutman->items_reindex($killedsortindex);
             $this->confirm = SURVEYPRO_ACTION_EXECUTED;
 
-            $itemcount = $utilitylayoutman->layout_has_items(0, SURVEYPRO_TYPEFIELD, true, true, true);
+            $itemcount = $utilitylayoutman->layout_has_items(0, 'field', true, true, true);
             $this->set_itemcount($itemcount);
 
             $this->actionfeedback = new \stdClass();
@@ -2104,7 +2104,7 @@ class layout_itemsetup {
      * @return void
      */
     public function set_typeplugin($typeplugin) {
-        if (preg_match('~^('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_(\w+)$~', $typeplugin, $match)) {
+        if (preg_match('~^(field|format)_(\w+)$~', $typeplugin, $match)) {
             // Execution comes from /form/items/selectitemform.php.
             $this->type = $match[1]; // Field or format.
             $this->plugin = $match[2]; // Boolean or char ... or fieldset ...

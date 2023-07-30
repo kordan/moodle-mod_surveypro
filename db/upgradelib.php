@@ -34,7 +34,7 @@ function surveypro_delete_supposed_blank_answers() {
     // Start generating the list of each child element in this site (alias: conditioned by a parent child relation).
     // For each one of them verify if the parent item allows it.
     $where = 'type = :type AND parentid <> :parentid';
-    $whereparams = ['type' => SURVEYPRO_TYPEFIELD, 'parentid' => 0];
+    $whereparams = ['type' => 'field', 'parentid' => 0];
     $orderby = 'surveyproid, sortindex';
     $fields = 'id as childid, parentid, parentvalue';
     $brancheditems = $DB->get_recordset_select('surveypro_item', $where, $whereparams, $orderby, $fields);
@@ -73,7 +73,7 @@ function surveypro_delete_supposed_blank_answers() {
                 AND parentid <> :parentid
             GROUP BY parentid
             ORDER BY MAX(surveyproid)';
-    $whereparams = ['type' => SURVEYPRO_TYPEFIELD, 'parentid' => 0];
+    $whereparams = ['type' => 'field', 'parentid' => 0];
     $parentitems = $DB->get_records_sql($sql, $whereparams);
 
     $oldsurveyproid = 0;

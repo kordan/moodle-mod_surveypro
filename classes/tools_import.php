@@ -502,7 +502,7 @@ class tools_import {
 
         // Get the list of used plugin.
         $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
-        $pluginlist = $utilitysubmissionman->get_used_plugin_list(SURVEYPRO_TYPEFIELD);
+        $pluginlist = $utilitysubmissionman->get_used_plugin_list('field');
 
         $requireditems = array();
         $surveyheaders = array();
@@ -512,10 +512,10 @@ class tools_import {
 
         $whereparams = ['surveyproid' => $this->surveypro->id];
         foreach ($pluginlist as $plugin) {
-            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'\item';
+            $classname = 'surveyprofield_'.$plugin.'\item';
             $canbemandatory = $classname::item_uses_mandatory_dbfield();
 
-            $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
+            $tablename = 'surveyprofield_'.$plugin;
             $fieldname = ($canbemandatory) ? ', p.required' : '';
             $sql = 'SELECT p.itemid, p.variable'.$fieldname.'
                     FROM {surveypro_item} i
@@ -658,7 +658,7 @@ class tools_import {
             $itemhelper->parentid = $item->get_parentid();
             $itemhelper->parentvalue = $item->get_parentvalue();
 
-            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemhelper->plugin.'\item';
+            $classname = 'surveyprofield_'.$itemhelper->plugin.'\item';
             $itemhelper->usescontentformat = $classname::response_uses_format();
             $this->itemhelperinfo[$col] = $itemhelper;
 

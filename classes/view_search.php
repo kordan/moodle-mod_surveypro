@@ -85,7 +85,7 @@ class view_search {
                 // Drop them out.
                 $condition = false;
                 $condition = $condition || ($matches['prefix'] == SURVEYPRO_DONTSAVEMEPREFIX);
-                $condition = $condition || ($matches['type'] == SURVEYPRO_TYPEFORMAT);
+                $condition = $condition || ($matches['type'] == 'format');
                 if ($condition) {
                     // Multiselect are always submitted because, at least, they have SURVEYPRO_IGNOREMEVALUE.
                     continue;

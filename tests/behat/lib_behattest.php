@@ -43,7 +43,7 @@ function get_dummy_contents($type, $plugin) {
     $return->parentid = 0;
     $return->parentcontent = '';
 
-    if ($type == SURVEYPRO_TYPEFIELD) {
+    if ($type == 'field') {
         if ($plugin == 'age') {
             $return->content_editor['text'] = 'How old were you when you learned to ride a bike?';
             $return->contentformat = 1;
@@ -287,7 +287,7 @@ function get_dummy_contents($type, $plugin) {
         }
     }
 
-    if ($type == SURVEYPRO_TYPEFORMAT) {
+    if ($type == 'format') {
         if ($plugin == 'label') {
             $return->content_editor['text'] = 'Welcome to this new instance of surveypro';
             $return->indent = 0;

@@ -252,7 +252,7 @@ class formbase {
         $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
 
         $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
-        if (!$utilitylayoutman->layout_has_items(0, SURVEYPRO_TYPEFIELD, false, $canaccessreserveditems)) {
+        if (!$utilitylayoutman->layout_has_items(0, 'field', false, $canaccessreserveditems)) {
             $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
 
             if ($canmanageitems) {
@@ -291,7 +291,7 @@ class formbase {
         $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
         $id = $this->surveypro->id;
         $page = $this->formpage;
-        list($where, $params) = surveypro_fetch_items_seeds($id, true, $canaccessreserveditems, null, SURVEYPRO_TYPEFIELD, $page);
+        list($where, $params) = surveypro_fetch_items_seeds($id, true, $canaccessreserveditems, null, 'field', $page);
         if ($itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, 'sortindex', 'id, type, plugin')) {
             foreach ($itemseeds as $itemseed) {
                 $item = surveypro_get_item($this->cm, $this->surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);

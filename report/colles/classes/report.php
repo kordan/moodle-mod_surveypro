@@ -345,7 +345,7 @@ class report extends reportbase {
 
         // Begin of: options (label of answers).
         $itemid = $qid1area[0][0]; // One of the itemid of the surveypro (the first).
-        $item = surveypro_get_item($this->cm, $this->surveypro, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem);
+        $item = surveypro_get_item($this->cm, $this->surveypro, $itemid, 'field', $this->templateuseritem);
         $this->ylabels = $item->get_content_array(SURVEYPRO_LABELS, 'options');
         // End of: options (label of answers).
 
@@ -493,7 +493,7 @@ class report extends reportbase {
 
         // Begin of: options (label of answers).
         $itemid = $qid1area[0][0]; // One of the itemid of the surveypro (the first).
-        $item = surveypro_get_item($this->cm, $this->surveypro, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem);
+        $item = surveypro_get_item($this->cm, $this->surveypro, $itemid, 'field', $this->templateuseritem);
         $this->ylabels = $item->get_content_array(SURVEYPRO_LABELS, 'options');
         // End of: options (label of answers).
 
@@ -601,7 +601,7 @@ class report extends reportbase {
 
         // Begin of: options (label of answers).
         $itemid = $qid1area[$area][$qid]; // One of the itemid of the surveypro (the first).
-        $item = surveypro_get_item($this->cm, $this->surveypro, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem);
+        $item = surveypro_get_item($this->cm, $this->surveypro, $itemid, 'field', $this->templateuseritem);
         $this->xlabels = $item->get_content_array(SURVEYPRO_LABELS, 'options');
         // End of: options (label of answers).
 

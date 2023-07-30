@@ -60,7 +60,7 @@ class itembase {
     protected $itemid;
 
     /**
-     * @var string Type of the item. It can only be: SURVEYPRO_TYPEFIELD or SURVEYPRO_TYPEFORMAT
+     * @var string Type of the item. It can only be: 'field' or 'format'
      */
     protected $type;
 
@@ -549,7 +549,7 @@ class itembase {
         global $DB;
 
         // If variable does not exist.
-        if ($this->type == SURVEYPRO_TYPEFORMAT) {
+        if ($this->type == 'format') {
             return;
         }
 
@@ -573,11 +573,11 @@ class itembase {
 
         // Get the list of used plugin.
         $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
-        $pluginlist = $utilitysubmissionman->get_used_plugin_list(SURVEYPRO_TYPEFIELD);
+        $pluginlist = $utilitysubmissionman->get_used_plugin_list('field');
 
         $usednames = array();
         foreach ($pluginlist as $plugin) {
-            $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
+            $tablename = 'surveyprofield_'.$plugin;
             $sql = 'SELECT p.itemid, p.variable
                     FROM {surveypro_item} i
                       JOIN {'.$tablename.'} p ON p.itemid = i.id
@@ -1616,7 +1616,7 @@ EOS;
     public function userform_add_disabledif($mform) {
         global $DB;
 
-        if (!$this->parentid || ($this->type == SURVEYPRO_TYPEFORMAT)) {
+        if (!$this->parentid || ($this->type == 'format')) {
             return;
         }
 
