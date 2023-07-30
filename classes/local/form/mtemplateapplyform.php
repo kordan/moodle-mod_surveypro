@@ -26,7 +26,10 @@ namespace mod_surveypro\local\form;
 
 defined('MOODLE_INTERNAL') || die();
 
+use mod_surveypro\mastertemplate;
+
 require_once($CFG->dirroot.'/lib/formslib.php');
+require_once($CFG->libdir.'/adminlib.php');
 
 /**
  * The class representing the form to apply a master template
@@ -46,25 +49,15 @@ class mtemplateapplyform extends \moodleform {
         $mform = $this->_form;
 
         // Get _customdata.
-        // Useless: $mtemplateman = $this->_customdata->mtemplateman;.
-        $subform = $this->_customdata->subform;
+        $mtemplateman = $this->_customdata->mtemplateman;
+        $inlineform = $this->_customdata->inlineform;
 
-        if ($mtemplatepluginlist = get_plugin_list('surveyprotemplate')) {
-            $mtemplates = array();
-
-            foreach ($mtemplatepluginlist as $mtemplatename => $mtemplatepath) {
-                if (!get_config('surveyprotemplate_'.$mtemplatename, 'disabled')) {
-                    $mtemplates[$mtemplatename] = get_string('pluginname', 'surveyprotemplate_'.$mtemplatename);
-                }
-            }
-            asort($mtemplates);
-        }
-
+        $mtemplates = $mtemplateman->get_mtemplates();
         // Applymtemplate: mastertemplate.
         if (count($mtemplates)) {
             $fieldname = 'mastertemplate';
-            if ($subform) {
-                $elementgroup = array();
+            if ($inlineform) {
+                $elementgroup = [];
                 $elementgroup[] = $mform->createElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $mtemplates);
                 $elementgroup[] = $mform->createElement('submit', $fieldname.'_button', get_string('apply', 'mod_surveypro'));
                 $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'mod_surveypro'), [' '], false);
@@ -98,7 +91,8 @@ class mtemplateapplyform extends \moodleform {
 
         // Get _customdata.
         $mtemplateman = $this->_customdata->mtemplateman;
-        // Useless: $subform = $this->_customdata->subform;.
+        // Useless: $mtemplates = $this->_customdata->mtemplates;.
+        // Useless: $inlineform = $this->_customdata->inlineform;.
 
         $errors = parent::validation($data, $files);
 

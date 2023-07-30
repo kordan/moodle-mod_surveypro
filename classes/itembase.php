@@ -25,6 +25,7 @@
 namespace mod_surveypro;
 
 use core_text;
+use core_date;
 use mod_surveypro\layout_itemsetup;
 use mod_surveypro\utility_layout;
 use mod_surveypro\utility_item;
@@ -752,24 +753,24 @@ class itembase {
      * @return void
      */
     protected static function item_split_unix_time($time, $applyusersettings=false) {
-        if ($applyusersettings) {
-            $datestring = userdate($time, '%B_%A_%j_%Y_%m_%w_%d_%H_%M_%S', 0);
-        } else {
-            $datestring = gmstrftime('%B_%A_%j_%Y_%m_%w_%d_%H_%M_%S', $time);
+        if (!$time) {
+            $message = '$time is not set in item_split_unix_time';
+            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
-        // May_Tuesday_193_2012_07_3_11_16_03_59.
+        if ($applyusersettings) {
+            $datestring = userdate($time, '%Y_%m_%d_%H_%M', 0);
+        } else {
+            $datestring = gmstrftime('%Y_%m_%d_%H_%M', $time);
+            // $datestring = \core_date::strftime('%Y_%m_%d_%H_%M', $time);
+        }
 
+        // 2012_07_11_16_03.
         list(
-            $getdate['month'],
-            $getdate['weekday'],
-            $getdate['yday'],
             $getdate['year'],
             $getdate['mon'],
-            $getdate['wday'],
             $getdate['mday'],
             $getdate['hours'],
             $getdate['minutes'],
-            $getdate['seconds']
         ) = explode('_', $datestring);
 
         return $getdate;

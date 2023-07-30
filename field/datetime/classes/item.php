@@ -346,9 +346,10 @@ class item extends itembase {
         // 1. Special management for composite fields.
         $fieldlist = $this->get_composite_fields();
         foreach ($fieldlist as $field) {
-            if (is_null($this->{$field})) {
+            if (!$this->{$field}) {
                 continue;
             }
+
             $datetimearray = self::item_split_unix_time($this->{$field});
             $this->{$field.'year'} = $datetimearray['year'];
             $this->{$field.'month'} = $datetimearray['mon'];
@@ -683,45 +684,56 @@ EOS;
         // End of: mform element.
 
         // Begin of: default section.
-        switch ($this->defaultoption) {
-            case SURVEYPRO_CUSTOMDEFAULT:
-                $datetimearray = self::item_split_unix_time($this->defaultvalue, true);
-                break;
-            case SURVEYPRO_TIMENOWDEFAULT:
-                $datetimearray = self::item_split_unix_time(time(), true);
-                break;
-            case SURVEYPRO_NOANSWERDEFAULT:
-                $datetimearray = self::item_split_unix_time($this->lowerbound, true);
-                $mform->setDefault($this->itemname.'_noanswer', '1');
-                break;
-            case SURVEYPRO_LIKELASTDEFAULT:
-                // Look for my last submission.
-                $sql = 'userid = :userid ORDER BY timecreated DESC LIMIT 1';
-                $where = ['userid' => $USER->id];
-                $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, $where, IGNORE_MISSING);
-                $where = ['itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid];
-                if ($time = $DB->get_field('surveypro_answer', 'content', $where, IGNORE_MISSING)) {
-                    $datetimearray = self::item_split_unix_time($time, false);
-                } else { // As in standard default.
+        if (!$searchform) {
+            switch ($this->defaultoption) {
+                case SURVEYPRO_INVITEDEFAULT:
+                    $datetimearray['mday'] = SURVEYPRO_INVITEVALUE;
+                    $datetimearray['mon'] = SURVEYPRO_INVITEVALUE;
+                    $datetimearray['year'] = SURVEYPRO_INVITEVALUE;
+                    $datetimearray['hours'] = SURVEYPRO_INVITEVALUE;
+                    $datetimearray['minutes'] = SURVEYPRO_INVITEVALUE;
+                    break;
+                case SURVEYPRO_NOANSWERDEFAULT:
+                    $mform->setDefault($this->itemname.'_noanswer', '1');
+                    // No break here. SURVEYPRO_CUSTOMDEFAULT is a subset of SURVEYPRO_NOANSWERDEFAULT
+                case SURVEYPRO_CUSTOMDEFAULT:
+                    if ($this->defaultvalue) {
+                        $datetimearray = self::item_split_unix_time($this->defaultvalue, true);
+                    } else if ($this->lowerbound) {
+                        $datetimearray = self::item_split_unix_time($this->lowerbound, true);
+                    } else {
+                        $datetimearray['mday'] = $days[1];
+                        $datetimearray['mon'] = $months[1];
+                        $datetimearray['year'] = $years[1];
+                        $datetimearray['hours'] = $hours[1];
+                        $datetimearray['minutes'] = $minute[1];
+                    }
+                    break;
+                case SURVEYPRO_TIMENOWDEFAULT:
                     $datetimearray = self::item_split_unix_time(time(), true);
-                }
-                break;
-            case SURVEYPRO_INVITEDEFAULT:
-                $datetimearray['mday'] = SURVEYPRO_INVITEVALUE;
-                $datetimearray['mon'] = SURVEYPRO_INVITEVALUE;
-                $datetimearray['year'] = SURVEYPRO_INVITEVALUE;
-                $datetimearray['hours'] = SURVEYPRO_INVITEVALUE;
-                $datetimearray['minutes'] = SURVEYPRO_INVITEVALUE;
-                break;
-            default:
-                $message = 'Unexpected $this->defaultoption = '.$this->defaultoption;
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                    break;
+                case SURVEYPRO_LIKELASTDEFAULT:
+                    // Look for my last submission.
+                    $sql = 'userid = :userid ORDER BY timecreated DESC LIMIT 1';
+                    $where = ['userid' => $USER->id];
+                    $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, $where, IGNORE_MISSING);
+                    $where = ['itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid];
+                    if ($time = $DB->get_field('surveypro_answer', 'content', $where, IGNORE_MISSING)) {
+                        $datetimearray = self::item_split_unix_time($time);
+                    } else { // As in standard default.
+                        $datetimearray = self::item_split_unix_time(time(), true);
+                    }
+                    break;
+                default:
+                    $message = 'Unexpected $this->defaultoption = '.$this->defaultoption;
+                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+            }
+            $mform->setDefault($this->itemname.'_day', $datetimearray['mday']);
+            $mform->setDefault($this->itemname.'_month', $datetimearray['mon']);
+            $mform->setDefault($this->itemname.'_year', $datetimearray['year']);
+            $mform->setDefault($this->itemname.'_hour', $datetimearray['hours']);
+            $mform->setDefault($this->itemname.'_minute', $datetimearray['minutes']);
         }
-        $mform->setDefault($this->itemname.'_day', $datetimearray['mday']);
-        $mform->setDefault($this->itemname.'_month', $datetimearray['mon']);
-        $mform->setDefault($this->itemname.'_year', $datetimearray['year']);
-        $mform->setDefault($this->itemname.'_hour', $datetimearray['hours']);
-        $mform->setDefault($this->itemname.'_minute', $datetimearray['minutes']);
         if ($searchform) {
             if (!$this->required) {
                 $mform->setDefault($this->itemname.'_noanswer', '0');

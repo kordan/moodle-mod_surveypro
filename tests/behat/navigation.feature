@@ -20,7 +20,7 @@ Feature: verify urls really redirect to existing pages
       | activity  | name            | intro           | course    |
       | surveypro | sPro test links | To verify links | Tl course |
     And surveypro "sPro test links" contains the following items:
-      | type  | plugin  |
+      | type   | plugin      |
       | format | label       |
       | format | fieldset    |
       | field  | age         |

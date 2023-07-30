@@ -40,7 +40,7 @@ class mastertemplate extends templatebase {
     /**
      * @var array
      */
-    protected $langtree = array();
+    protected $langtree = [];
 
     /**
      * Display the welcome message of the apply page.
@@ -110,6 +110,39 @@ class mastertemplate extends templatebase {
     }
 
     /**
+     * Count available user template.
+     *
+     * @return array
+     */
+    public function get_mtemplates() {
+        $utemplates = [];
+        if ($mtemplatepluginlist = \core_component::get_plugin_list('surveyprotemplate')) {
+            foreach ($mtemplatepluginlist as $mtemplatename => $mtemplatepath) {
+                if (!get_config('surveyprotemplate_'.$mtemplatename, 'disabled')) {
+                    $mtemplates[$mtemplatename] = get_string('pluginname', 'surveyprotemplate_'.$mtemplatename);
+                }
+            }
+            asort($mtemplates);
+        }
+
+        return $mtemplates;
+    }
+
+    /**
+     * Count available user template.
+     *
+     * @return array
+     */
+    public function get_mtemplates_count() {
+        $mtemplatescount = 0;
+        if ($mtemplatepluginlist = \core_component::get_plugin_list('surveyprotemplate')) {
+            $mtemplatescount += count($mtemplatepluginlist);
+        }
+
+        return $mtemplatescount;
+    }
+
+    /**
      * Generate master template.
      *
      * @return void
@@ -147,7 +180,7 @@ class mastertemplate extends templatebase {
             $message = 'The "templatemaster" folder does not match the expected one. This is a security issue. I must stop.';
             debugging($message, DEBUG_DEVELOPER);
 
-            $paramurl = array();
+            $paramurl = [];
             $paramurl['id'] = $this->cm->id;
             $returnurl = new \moodle_url('/mod/surveypro/layout_itemslist.php', $paramurl);
             redirect($returnurl);
@@ -161,12 +194,6 @@ class mastertemplate extends templatebase {
             make_temp_directory($temppath); // I just created the folder for the current plugin.
 
             $dataabsolutepath = $CFG->tempdir.'/'.$temppath;
-
-            // echo '<hr />Operate on the file: '.$masterfile.'<br />';
-            // echo $masterfileinfo["dirname"] . "<br />";
-            // echo $masterfileinfo["basename"] . "<br />";
-            // echo $masterfileinfo["extension"] . "<br />";
-            // echo dirname($masterfile) . "<br />";
 
             if ($masterfileinfo['basename'] == 'icon.png') {
                 // Simply copy icon.png.
@@ -222,8 +249,6 @@ class mastertemplate extends templatebase {
                     // I need to create the folder lang/it.
                     make_temp_directory($datarelativedir.'/lang/'.$userlang);
                 }
-
-                // echo '$masterbasepath = '.$masterbasepath.'<br />';
 
                 $filecontent = file_get_contents($masterbasepath.'/lang/en/surveyprotemplate_pluginname.php');
 
@@ -296,7 +321,7 @@ class mastertemplate extends templatebase {
             $filenames[] = 'lang/'.$userlang.'/surveyprotemplate_'.$pluginname.'.php';
         }
 
-        $filelist = array();
+        $filelist = [];
         foreach ($filenames as $filename) {
             $filelist[$filename] = $dataabsolutedir.'/'.$filename;
         }
@@ -438,9 +463,6 @@ class mastertemplate extends templatebase {
             $dom->preserveWhiteSpace = false;
             $dom->formatOutput = true;
             $dom->loadXML($xmltemplate->asXML());
-
-            // echo '$xmltemplate = <br />';
-            // print_object($xmltemplate);
 
             return $dom->saveXML();
         }
@@ -679,7 +701,7 @@ class mastertemplate extends templatebase {
                     $naturalsortindex++;
                     $record->sortindex = $naturalsortindex + $sortindexoffset;
                     if (!empty($record->parentid)) {
-                        $whereparams = array();
+                        $whereparams = [];
                         $whereparams['surveyproid'] = $this->surveypro->id;
                         $whereparams['sortindex'] = $record->parentid + $sortindexoffset;
                         $record->parentid = $DB->get_field('surveypro_item', 'id', $whereparams, MUST_EXIST);
@@ -727,7 +749,7 @@ class mastertemplate extends templatebase {
      * @return void
      */
     public function get_lang_file_content() {
-        $stringsastext = array();
+        $stringsastext = [];
         foreach ($this->langtree as $langbranch) {
             foreach ($langbranch as $k => $stringcontent) {
                 // Do not use php addslashes() because it adds slashes to " too.
@@ -736,7 +758,7 @@ class mastertemplate extends templatebase {
             }
         }
 
-        return "\n".implode("\n", $stringsastext)."\n";
+        return "\n".implode("\n", $stringsastext);
     }
 
     /**
@@ -771,7 +793,7 @@ class mastertemplate extends templatebase {
      * @return void
      */
     public function get_translated_strings($userlang) {
-        $stringsastext = array();
+        $stringsastext = [];
         $a = new \stdClass();
         $a->userlang = $userlang;
         foreach ($this->langtree as $langbranch) {
@@ -785,6 +807,6 @@ class mastertemplate extends templatebase {
             }
         }
 
-        return "\n".implode("\n", $stringsastext)."\n";
+        return "\n".implode("\n", $stringsastext);
     }
 }

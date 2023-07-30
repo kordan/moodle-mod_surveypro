@@ -65,8 +65,7 @@ $formparams = new \stdClass();
 $formparams->cmid = $cm->id;
 $formparams->surveypro = $surveypro;
 $formparams->mtemplateman = $mtemplateman;
-$formparams->subform = false;
-
+$formparams->inlineform = false;
 $applymtemplate = new mtemplateapplyform($formurl, $formparams);
 // End of: prepare params for the form.
 

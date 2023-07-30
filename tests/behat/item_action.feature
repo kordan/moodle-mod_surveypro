@@ -135,7 +135,7 @@ Feature: Test item actions
     When I am on the "Test complex item actions" "mod_surveypro > User templates Import" page logged in as "admin"
     And I upload "mod/surveypro/tests/fixtures/usertemplate/item_action_test.xml" file to "Choose files to import" filemanager
 
-    And I set the field "Sharing level" to "Course: Test item actions"
+    And I set the field "Sharing level" to "This course"
     And I press "Import"
 
     # now I am in the "Manage" page
@@ -143,8 +143,8 @@ Feature: Test item actions
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates       | (Course) item_action_test.xml |
-      | id_action_0          | 1                             |
+      | User templates | (This course) item_action_test.xml |
+      | id_action_0    | 1                                  |
     And I press "Apply"
 
     And I follow "makereserved_item_2"

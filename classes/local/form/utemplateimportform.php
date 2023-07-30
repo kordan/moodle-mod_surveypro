@@ -62,10 +62,11 @@ class utemplateimportform extends \moodleform {
 
         // Templateimport: sharinglevel.
         $fieldname = 'sharinglevel';
-        $options = array();
-
-        $options = $utemplateman->get_sharinglevel_options();
-
+        $contexts = $utemplateman->get_sharingcontexts();
+        $options = [];
+        foreach ($contexts as $k => $context) {
+            $options[$k] = $utemplateman->contextlevel_to_scontextlabel($context->contextlevel);
+        }
         $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $options);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
         $mform->setDefault($fieldname, CONTEXT_SYSTEM);
@@ -128,10 +129,9 @@ class utemplateimportform extends \moodleform {
         }
 
         // Get all template files in the specified context.
-        $contextid = $utemplateman->get_contextid_from_sharinglevel($data['sharinglevel']);
-        $componentfiles = $utemplateman->get_available_templates($contextid);
+        $contextfiles = $utemplateman->get_utemplates_per_contextlevel($data['sharinglevel']);
 
-        foreach ($componentfiles as $xmlfile) {
+        foreach ($contextfiles as $xmlfile) {
             $filename = $xmlfile->get_filename();
             if (in_array($filename, $importedfiles)) {
                 if (isset($data['overwrite'])) {

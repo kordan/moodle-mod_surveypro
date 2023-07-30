@@ -25,11 +25,13 @@
 use mod_surveypro\layout_itemsetup;
 use mod_surveypro\utility_layout;
 use mod_surveypro\utility_submission;
+use mod_surveypro\usertemplate;
 use mod_surveypro\mastertemplate;
 use mod_surveypro\tabs;
-use mod_surveypro\local\form\itembulkactionform;
 use mod_surveypro\local\form\itemchooser;
+use mod_surveypro\local\form\utemplateapplyform;
 use mod_surveypro\local\form\mtemplateapplyform;
+use mod_surveypro\local\form\itembulkactionform;
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 
@@ -76,7 +78,8 @@ if ($action != SURVEYPRO_NOACTION) {
 $utilitylayoutman = new utility_layout($cm, $surveypro);
 $utilitysubmissionman = new utility_submission($cm, $surveypro);
 $hassubmissions = $utilitylayoutman->has_submissions();
-$itemcount = $utilitylayoutman->layout_has_items(0, SURVEYPRO_TYPEFIELD, true, true, true);
+$itemcount = $utilitylayoutman->has_items(0, 'field', true, true, true);
+$hassubmissions = $utilitylayoutman->has_submissions();
 
 // Define the manager.
 $layoutman = new layout_itemsetup($cm, $context, $surveypro);
@@ -95,31 +98,11 @@ $layoutman->set_itemeditingfeedback($itemeditingfeedback);
 $layoutman->set_hassubmissions($hassubmissions);
 $layoutman->actions_execution();
 
-$hassubmissions = $utilitylayoutman->has_submissions();
-$layoutman->set_hassubmissions($hassubmissions);
-
 $riskyediting = ($surveypro->riskyeditdeadline > time());
 
 $basecondition = true;
 $basecondition = $basecondition && empty($surveypro->template);
 $basecondition = $basecondition && (!$hassubmissions || $riskyediting);
-
-// Master template form.
-if (!$itemcount) { // The surveypro is empty.
-    $mtemplateman = new mastertemplate($cm, $context, $surveypro);
-
-    $paramurl = ['id' => $cm->id];
-    $formurl = new \moodle_url('/mod/surveypro/mtemplate_apply.php', $paramurl);
-
-    $formparams = new \stdClass();
-    $formparams->mtemplateman = $mtemplateman;
-    $formparams->subform = true;
-
-    // Init mtemplateform form.
-    $mtemplateform = new mtemplateapplyform($formurl, $formparams);
-
-    // Management is in mtemplate_apply.
-}
 
 // New item form.
 $newitemcondition = $basecondition && has_capability('mod/surveypro:additems', $context);
@@ -129,12 +112,45 @@ if ($newitemcondition) {
 
     // Init new item form.
     $newitemform = new itemchooser($formurl);
-
-    // Management is in layout_itemsetup.
 }
+// End of: New item form.
+
+// Templates.
+$templatecondition = $basecondition && (!$itemcount);
+$templatecondition = $templatecondition && has_capability('mod/surveypro:manageitems', $context);
+if ($templatecondition) {
+    // User templates form.
+    $utemplateman = new usertemplate($cm, $context, $surveypro);
+    $utemplates = $utemplateman->get_utemplates_items();
+    if (count($utemplates)) {
+        $paramurl = ['id' => $cm->id];
+        $formurl = new \moodle_url('/mod/surveypro/utemplate_apply.php', $paramurl);
+
+        $formparams = new \stdClass();
+        $formparams->utemplates = $utemplates;
+        $formparams->inlineform = true;
+        $utemplateform = new utemplateapplyform($formurl, $formparams);
+    }
+    // End of: User templates form.
+
+    // Master templates form.
+    $mtemplateman = new mastertemplate($cm, $context, $surveypro);
+    $mtemplates = $mtemplateman->get_mtemplates();
+    if (count($mtemplates)) {
+        $paramurl = ['id' => $cm->id];
+        $formurl = new \moodle_url('/mod/surveypro/mtemplate_apply.php', $paramurl);
+
+        $formparams = new \stdClass();
+        $formparams->mtemplateman = $mtemplateman;
+        $formparams->inlineform = true;
+        $mtemplateform = new mtemplateapplyform($formurl, $formparams);
+    }
+    // End of: Master templates form.
+}
+// End of: User template form.
 
 // Bulk action form.
-$bulkactioncondition = $basecondition && ($itemcount);
+$bulkactioncondition = $basecondition && $itemcount;
 $bulkactioncondition = $bulkactioncondition && has_capability('mod/surveypro:manageitems', $context);
 if ($bulkactioncondition) {
     $paramurl = ['id' => $cm->id];
@@ -173,9 +189,10 @@ if (!$itemtomove) {
 }
 
 echo $OUTPUT->header();
-// echo $OUTPUT->heading(format_string($surveypro->name), 2, null);
 
 new tabs($cm, $context, $surveypro, SURVEYPRO_TABLAYOUT, SURVEYPRO_LAYOUT_ITEMS);
+// $tab = new tabs($cm, $context, $surveypro);
+// $tab->draw_pages_bar(SURVEYPRO_TABLAYOUT, 'itemslist_page');
 
 if ($hassubmissions) {
     $message = $utilitysubmissionman->get_submissions_warning();
@@ -185,25 +202,31 @@ if ($hassubmissions) {
 $layoutman->actions_feedback();
 $layoutman->display_item_editing_feedback();
 
+// Display welcome message.
 if (!$itemcount) {
-    // Display welcome message.
     $message = get_string('welcome_emptysurvey', 'mod_surveypro');
     echo $OUTPUT->notification($message, 'notifymessage');
 }
 
+// Display addnewitem form.
 if ($newitemcondition) {
-    // Display addnewitem form.
     $newitemform->display();
 }
 
-if ($bulkactioncondition) {
-    // Display bulkaction form.
-    $bulkactionform->display();
+if ($templatecondition) {
+    // Display utemplate form.
+    if (count($utemplates)) {
+        $utemplateform->display();
+    }
+    // Display mtemplate form.
+    if (count($mtemplates)) {
+        $mtemplateform->display();
+    }
 }
 
-if (!$itemcount) {
-    // Display mtemplate form.
-    $mtemplateform->display();
+// Display bulkaction form.
+if ($bulkactioncondition) {
+    $bulkactionform->display();
 }
 
 $layoutman->display_items_table();

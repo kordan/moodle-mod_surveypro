@@ -271,7 +271,7 @@ class item extends itembase {
         // 1. Special management for composite fields.
         $fieldlist = $this->get_composite_fields();
         foreach ($fieldlist as $field) {
-            if (is_null($this->{$field})) {
+            if (!$this->{$field}) {
                 continue;
             }
             $timearray = self::item_split_unix_time($this->{$field});
@@ -301,18 +301,20 @@ class item extends itembase {
 
         // 2. Override few values.
         // Begin of: round defaultvalue according to step.
-        $timearray = self::item_split_unix_time($record->defaultvalue);
-        $defaultvaluehour = $timearray['hours'];
-        $defaultvalueminute = $timearray['minutes'];
+        if ($this->defaultvalue) {
+            $timearray = self::item_split_unix_time($record->defaultvalue);
+            $defaultvaluehour = $timearray['hours'];
+            $defaultvalueminute = $timearray['minutes'];
 
-        $stepscount = intval($defaultvalueminute / $record->step);
-        $exceed = $defaultvalueminute % $record->step;
-        if ($exceed < ($record->step / 2)) {
-            $defaultvalueminute = $stepscount * $record->step;
-        } else {
-            $defaultvalueminute = (1 + $stepscount) * $record->step;
+            $stepscount = intval($defaultvalueminute / $record->step);
+            $exceed = $defaultvalueminute % $record->step;
+            if ($exceed < ($record->step / 2)) {
+                $defaultvalueminute = $stepscount * $record->step;
+            } else {
+                $defaultvalueminute = (1 + $stepscount) * $record->step;
+            }
+            $record->defaultvalue = $this->item_time_to_unix_time($defaultvaluehour, $defaultvalueminute);
         }
-        $record->defaultvalue = $this->item_time_to_unix_time($defaultvaluehour, $defaultvalueminute);
         // End of: round defaultvalue according to step.
 
         // 3. Set values corresponding to checkboxes.
@@ -551,39 +553,47 @@ EOS;
         // End of: mform element.
 
         // Default section.
-        switch ($this->defaultoption) {
-            case SURVEYPRO_CUSTOMDEFAULT:
-                $timearray = self::item_split_unix_time($this->defaultvalue, true);
-                break;
-            case SURVEYPRO_TIMENOWDEFAULT:
-                $timearray = self::item_split_unix_time(time(), true);
-                break;
-            case SURVEYPRO_NOANSWERDEFAULT:
-                $timearray = self::item_split_unix_time($this->lowerbound, true);
-                $mform->setDefault($this->itemname.'_noanswer', '1');
-                break;
-            case SURVEYPRO_LIKELASTDEFAULT:
-                // Look for the last submission I made.
-                $sql = 'userid = :userid ORDER BY timecreated DESC LIMIT 1';
-                $where = ['userid' => $USER->id];
-                $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, $where, IGNORE_MISSING);
-                $where = ['itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid];
-                if ($time = $DB->get_field('surveypro_answer', 'content', $where, IGNORE_MISSING)) {
-                    $timearray = self::item_split_unix_time($time, false);
-                } else { // As in standard default.
+        if (!$searchform) {
+            switch ($this->defaultoption) {
+                case SURVEYPRO_INVITEDEFAULT:
+                    $timearray['hours'] = SURVEYPRO_INVITEVALUE;
+                    $timearray['minutes'] = SURVEYPRO_INVITEVALUE;
+                    break;
+                case SURVEYPRO_NOANSWERDEFAULT:
+                    $mform->setDefault($this->itemname.'_noanswer', '1');
+                    // No break here. SURVEYPRO_CUSTOMDEFAULT is a subset of SURVEYPRO_NOANSWERDEFAULT
+                case SURVEYPRO_CUSTOMDEFAULT:
+                    if ($this->defaultvalue) {
+                        $timearray = self::item_split_unix_time($this->defaultvalue);
+                    } else if ($this->lowerbound) {
+                        $timearray = self::item_split_unix_time($this->lowerbound);
+                    } else {
+                        $timearray['year'] = $years[1];
+                        $timearray['mon'] = $months[1];
+                    }
+                    break;
+                case SURVEYPRO_TIMENOWDEFAULT:
                     $timearray = self::item_split_unix_time(time(), true);
-                }
-                break;
-            case SURVEYPRO_INVITEDEFAULT:
-                $timearray['hours'] = SURVEYPRO_INVITEVALUE;
-                $timearray['minutes'] = SURVEYPRO_INVITEVALUE;
-                break;
-            default:
-                $message = 'Unexpected $this->defaultoption = '.$this->defaultoption;
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                    break;
+                case SURVEYPRO_LIKELASTDEFAULT:
+                    // Look for the last submission I made.
+                    $sql = 'userid = :userid ORDER BY timecreated DESC LIMIT 1';
+                    $where = ['userid' => $USER->id];
+                    $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, $where, IGNORE_MISSING);
+                    $where = ['itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid];
+                    if ($time = $DB->get_field('surveypro_answer', 'content', $where, IGNORE_MISSING)) {
+                        $timearray = self::item_split_unix_time($time);
+                    } else { // As in standard default.
+                        $timearray = self::item_split_unix_time(time(), true);
+                    }
+                    break;
+                default:
+                    $message = 'Unexpected $this->defaultoption = '.$this->defaultoption;
+                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+            }
+            $mform->setDefault($this->itemname.'_hour', $timearray['hours']);
+            $mform->setDefault($this->itemname.'_minute', $timearray['minutes']);
         }
-        $mform->setDefault($this->itemname.'_hour', $timearray['hours']);
-        $mform->setDefault($this->itemname.'_minute', $timearray['minutes']);
         if ($searchform) {
             if (!$this->required) {
                 $mform->setDefault($this->itemname.'_noanswer', '0');

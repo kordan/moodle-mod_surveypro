@@ -75,9 +75,8 @@ class utility_layout {
     public function assign_pages() {
         global $DB;
 
-        $where = array();
+        $where = [];
         $where['surveyproid'] = $this->surveypro->id;
-        $where['hidden'] = 0;
 
         $userformpagecount = 0;
         $lastwaspagebreak = true; // Whether 2 page breaks in line, the second one is ignored.
@@ -144,7 +143,7 @@ class utility_layout {
      * @return void
      */
     public function noitem_redirect() {
-        if (!$this->layout_has_items(0, SURVEYPRO_TYPEFIELD, true, true, true)) {
+        if (!$this->has_items(0, 'field', true, true, true)) {
             $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
 
             $paramurl = ['id' => $this->cm->id];
@@ -167,13 +166,13 @@ class utility_layout {
      * @param int $returncount
      * @return bool|int as required by $returncount
      */
-    public function layout_has_items($formpage=0, $type=null, $includehidden=false, $includereserved=false, $returncount=false) {
+    public function has_items($formpage=0, $type=null, $includehidden=false, $includereserved=false, $returncount=false) {
         global $DB;
 
         if (!empty($type)) {
-            if (($type != SURVEYPRO_TYPEFIELD) && ($type != SURVEYPRO_TYPEFORMAT)) {
+            if (($type != 'field') && ($type != 'format')) {
                 $message = 'Unexpected value for $type found.';
-                $message .= 'Valid values are only: '.SURVEYPRO_TYPEFIELD.' or '.SURVEYPRO_TYPEFORMAT.'.';
+                $message .= 'Valid values are only: \'field\' or \'format\'';
                 debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
             }
         }
@@ -208,9 +207,9 @@ class utility_layout {
     public function has_search_items($returncount=false) {
         global $DB;
 
-        $whereparams = array();
+        $whereparams = [];
         $whereparams['surveyproid'] = $this->surveypro->id;
-        $whereparams['type'] = SURVEYPRO_TYPEFIELD;
+        $whereparams['type'] = 'field';
         $whereparams['hidden'] = 0;
         $whereparams['insearchform'] = 1;
 
@@ -351,7 +350,7 @@ class utility_layout {
             return;
         }
 
-        $whereparams = array();
+        $whereparams = [];
         foreach ($submissions as $submission) {
             $whereparams['submissionid'] = $submission->id;
             $this->delete_answers($whereparams);
@@ -557,7 +556,7 @@ class utility_layout {
                         if ($filename == '.') {
                             continue;
                         } else {
-                            $filerecord = array();
+                            $filerecord = [];
                             $filerecord['contextid'] = $context->id;
                             $filerecord['component'] = 'surveyprofield_fileupload';
                             $filerecord['filearea'] = 'fileuploadfiles';
@@ -587,7 +586,7 @@ class utility_layout {
         }
 
         if (count($whereparams) > 1) { // Some more detail about submissions were provided in $whereparams.
-            $conditions = array();
+            $conditions = [];
             foreach ($whereparams as $field => $unused) {
                 $conditions[$field] = $field.' = :'.$field;
             }
@@ -618,7 +617,7 @@ class utility_layout {
         global $DB;
 
         if (empty($answersid)) {
-            return array();
+            return [];
         }
 
         list($insql, $inparams) = $DB->get_in_or_equal($answersid, SQL_PARAMS_NAMED);
@@ -663,7 +662,7 @@ class utility_layout {
         // End of: Verify input params integrity.
 
         if (array_key_exists('content', $whereparams)) {
-            $conditions = array();
+            $conditions = [];
             foreach ($whereparams as $field => $unused) {
                 $conditions[$field] = $field.' = :'.$field;
             }
@@ -698,7 +697,7 @@ class utility_layout {
             debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
         if (empty($answersid)) {
-            return array();
+            return [];
         }
 
         list($insql, $inparams) = $DB->get_in_or_equal($answersid, SQL_PARAMS_NAMED, 'answerid');
@@ -743,7 +742,7 @@ class utility_layout {
                 FROM {surveypro_submission} s
                   JOIN {surveypro_answer} a ON a.submissionid = s.id
                 WHERE (s.surveyproid = :surveyproid)';
-        $conditions = array();
+        $conditions = [];
         foreach ($whereparams as $field => $unused) {
             $conditions[$field] = 'a.'.$field.' = :'.$field;
         }
@@ -1041,7 +1040,7 @@ class utility_layout {
         global $DB;
 
         if (empty($whereparams)) {
-            $whereparams = array();
+            $whereparams = [];
         }
         // Just in case the call is missing the surveypro id, I add it.
         if (!array_key_exists('surveyproid', $whereparams)) {
@@ -1136,13 +1135,13 @@ class utility_layout {
         $submissions = $this->get_submissionsid_from_answers($whereparams);
         foreach ($submissions as $submission) {
             // Change to SURVEYPRO_STATUSINPROGRESS the status of submissions where was answered SURVEYPRO_NOANSWERVALUE.
-            $whereparams = array();
+            $whereparams = [];
             $whereparams['surveyproid'] = $this->surveypro->id;
             $whereparams['id'] = $submission->id;
             $utilitysubmissionman->submissions_set_status($whereparams, SURVEYPRO_STATUSINPROGRESS);
 
             // Delete answers where content == SURVEYPRO_NOANSWERVALUE.
-            $whereparams = array();
+            $whereparams = [];
             $whereparams['submissionid'] = $submission->id;
             $whereparams['content'] = SURVEYPRO_NOANSWERVALUE;
             $this->delete_answers($whereparams);
@@ -1190,7 +1189,7 @@ class utility_layout {
         $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
         $canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context);
 
-        $itemcount = $this->layout_has_items(0, SURVEYPRO_TYPEFIELD, $canmanageitems, $canaccessreserveditems, true);
+        $itemcount = $this->has_items(0, 'field', $canmanageitems, $canaccessreserveditems, true);
 
         $addnew = true;
         $addnew = $addnew && $cansubmit;

@@ -46,57 +46,50 @@ class utemplateapplyform extends \moodleform {
         $mform = $this->_form;
 
         // Get _customdata.
-        // Useless: $cmid = $this->_customdata->cmid;.
-        // Useless: $surveypro = $this->_customdata->surveypro;.
-        $utemplateman = $this->_customdata->utemplateman;
-
-        $options = $utemplateman->get_sharinglevel_options();
-
-        $templatesfiles = array();
-        foreach ($options as $sharinglevel => $unused) {
-            $parts = explode('_', $sharinglevel);
-            $contextlevel = $parts[0];
-            $contextid = $utemplateman->get_contextid_from_sharinglevel($sharinglevel);
-            $contextstring = $utemplateman->get_contextstring_from_sharinglevel($contextlevel);
-            $contextfiles = $utemplateman->get_available_templates($contextid);
-
-            $contextlabel = get_string($contextstring, 'mod_surveypro');
-            foreach ($contextfiles as $xmlfile) {
-                $itemsetname = $xmlfile->get_filename();
-                $templatesfiles[$contextlevel.'_'.$xmlfile->get_id()] = '('.$contextlabel.') '.$itemsetname;
-            }
-        }
-        asort($templatesfiles);
+        $utemplates = $this->_customdata->utemplates;
+        $inlineform = $this->_customdata->inlineform;
 
         // Applyutemplate: cnf.
         $fieldname = 'cnf';
         $mform->addElement('hidden', $fieldname, SURVEYPRO_UNCONFIRMED);
         $mform->setType($fieldname, PARAM_INT);
 
-        // Applyutemplate: usertemplateinfo.
-        $fieldname = 'usertemplateinfo';
-        array_unshift($templatesfiles, get_string('choosedots'));
-        $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $templatesfiles);
-        $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
-        $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
+        if ($inlineform) {
+            $fieldname = 'action';
+            $mform->addElement('hidden', $fieldname, SURVEYPRO_IGNOREITEMS);
+            $mform->setType($fieldname, PARAM_INT);
 
-        // Applyutemplate: otheritems.
-        $fieldname = 'action';
-        $ignoreitemsstr = get_string('ignoreitems', 'mod_surveypro');
-        $hideitemsstr = get_string('hideitems', 'mod_surveypro');
-        $deleteallitemsstr = get_string('deleteallitems', 'mod_surveypro');
-        $deletevisibleitemsstr = get_string('deletevisibleitems', 'mod_surveypro');
-        $deletehiddenitemsstr = get_string('deletehiddenitems', 'mod_surveypro');
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', $ignoreitemsstr, SURVEYPRO_IGNOREITEMS);
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', $hideitemsstr, SURVEYPRO_HIDEALLITEMS);
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', $deleteallitemsstr, SURVEYPRO_DELETEALLITEMS);
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', $deletevisibleitemsstr, SURVEYPRO_DELETEVISIBLEITEMS);
-        $elementgroup[] = $mform->createElement('radio', $fieldname, '', $deletehiddenitemsstr, SURVEYPRO_DELETEHIDDENITEMS);
-        $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'mod_surveypro'), '<br />', false);
-        $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveypro');
-        $mform->setDefault($fieldname, SURVEYPRO_IGNOREITEMS);
+            $fieldname = 'usertemplateinfo';
+            $elementgroup = [];
+            $elementgroup[] = $mform->createElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $utemplates);
+            $elementgroup[] = $mform->createElement('submit', $fieldname.'_button', get_string('apply', 'mod_surveypro'));
+            $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'mod_surveypro'), [' '], false);
+            $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveypro');
+        } else {
+            $fieldname = 'usertemplateinfo';
+            array_unshift($utemplates, get_string('choosedots'));
+            $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $utemplates);
+            $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
+            $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
 
-        $this->add_action_buttons(false, get_string('apply', 'mod_surveypro'));
+            // Applyutemplate: otheritems.
+            $fieldname = 'action';
+            $ignoreitemsstr = get_string('ignoreitems', 'mod_surveypro');
+            $hideitemsstr = get_string('hideitems', 'mod_surveypro');
+            $deleteallitemsstr = get_string('deleteallitems', 'mod_surveypro');
+            $deletevisibleitemsstr = get_string('deletevisibleitems', 'mod_surveypro');
+            $deletehiddenitemsstr = get_string('deletehiddenitems', 'mod_surveypro');
+            $elementgroup[] = $mform->createElement('radio', $fieldname, '', $ignoreitemsstr, SURVEYPRO_IGNOREITEMS);
+            $elementgroup[] = $mform->createElement('radio', $fieldname, '', $hideitemsstr, SURVEYPRO_HIDEALLITEMS);
+            $elementgroup[] = $mform->createElement('radio', $fieldname, '', $deleteallitemsstr, SURVEYPRO_DELETEALLITEMS);
+            $elementgroup[] = $mform->createElement('radio', $fieldname, '', $deletevisibleitemsstr, SURVEYPRO_DELETEVISIBLEITEMS);
+            $elementgroup[] = $mform->createElement('radio', $fieldname, '', $deletehiddenitemsstr, SURVEYPRO_DELETEHIDDENITEMS);
+            $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'mod_surveypro'), '<br />', false);
+            $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveypro');
+            $mform->setDefault($fieldname, SURVEYPRO_IGNOREITEMS);
+
+            $this->add_action_buttons(false, get_string('apply', 'mod_surveypro'));
+        }
     }
 
     /**
@@ -110,9 +103,8 @@ class utemplateapplyform extends \moodleform {
         // $mform = $this->_form;
 
         // Get _customdata.
-        // Useless: $cmid = $this->_customdata->cmid;.
-        // Useless: $surveypro = $this->_customdata->surveypro;.
-        // Useless: $utemplateman = $this->_customdata->utemplateman;.
+        // Useless: $inlineform = $this->_customdata->inlineform;.
+        // Useless: $utemplates = $this->_customdata->utemplates;.
 
         $errors = parent::validation($data, $files);
 

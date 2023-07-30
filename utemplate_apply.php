@@ -61,6 +61,7 @@ $utemplateman = new usertemplate($cm, $context, $surveypro);
 $utemplateman->setup($utemplateid, $action, $confirm);
 
 $utemplateman->prevent_direct_user_input();
+$utemplates = $utemplateman->get_utemplates_items();
 
 // Begin of: define $applyutemplate return url.
 $paramurl = ['id' => $cm->id];
@@ -69,9 +70,8 @@ $formurl = new \moodle_url('/mod/surveypro/utemplate_apply.php', $paramurl);
 
 // Begin of: prepare params for the form.
 $formparams = new \stdClass();
-$formparams->cmid = $cm->id;
-$formparams->surveypro = $surveypro;
-$formparams->utemplateman = $utemplateman;
+$formparams->utemplates = $utemplates;
+$formparams->inlineform = false;
 $applyutemplate = new utemplateapplyform($formurl, $formparams);
 // End of: prepare params for the form.
 

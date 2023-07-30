@@ -149,7 +149,7 @@ class layout_itemsetup {
         $this->surveypro = $surveypro;
 
         $utilitylayoutman = new utility_layout($cm, $surveypro);
-        $itemcount = $utilitylayoutman->layout_has_items(0, null, true, true, true);
+        $itemcount = $utilitylayoutman->has_items(0, null, true, true, true);
         $this->set_itemcount($itemcount);
     }
 
@@ -1393,7 +1393,7 @@ class layout_itemsetup {
             $utilitylayoutman->items_reindex($killedsortindex);
             $this->confirm = SURVEYPRO_ACTION_EXECUTED;
 
-            $itemcount = $utilitylayoutman->layout_has_items(0, SURVEYPRO_TYPEFIELD, true, true, true);
+            $itemcount = $utilitylayoutman->has_items(0, SURVEYPRO_TYPEFIELD, true, true, true);
             $this->set_itemcount($itemcount);
 
             $this->actionfeedback = new \stdClass();

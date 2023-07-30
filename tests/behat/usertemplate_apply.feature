@@ -23,7 +23,7 @@ Feature: Load and apply usertemplates in order to test, among others, partial it
     And I upload "mod/surveypro/tests/fixtures/usertemplate/parent-child_2015123000.xml" file to "Choose files to import" filemanager
     And I upload "mod/surveypro/tests/fixtures/usertemplate/MMM_2015123000.xml" file to "Choose files to import" filemanager
 
-    And I set the field "Sharing level" to "Course: To apply usertemplate"
+    And I set the field "Sharing level" to "This course"
     And I press "Import"
 
     # now I am in the "Manage" page
@@ -31,8 +31,8 @@ Feature: Load and apply usertemplates in order to test, among others, partial it
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates       | (Course) MMM_2015123000.xml |
-      | id_action_0          | 1                           |
+      | User templates       | (This course) MMM_2015123000.xml |
+      | id_action_0          | 1                                |
     And I press "Apply"
 
     # now I am in the Element > Manage page
@@ -45,8 +45,8 @@ Feature: Load and apply usertemplates in order to test, among others, partial it
 
     And I navigate to "User templates > Apply" in current page administration
     And I set the following fields to these values:
-      | User templates       | (Course) parent-child_2015123000.xml |
-      | id_action_17         | 1                                    |
+      | User templates       | (This course) parent-child_2015123000.xml |
+      | id_action_17         | 1                                         |
     And I press "Apply"
 
     Then I should see "This is a demo survey to quickly see"
