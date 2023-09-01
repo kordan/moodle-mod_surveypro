@@ -120,7 +120,7 @@ class utility_layout {
      * By default accessing a surveypro from a course (/view.php?id=yyy), the "predefined" landing page should be:
      *     -> for admin/editing teacher:
      *         -> if no items were created: layout_itemslist.php
-     *         -> if items were already created: view_submissions.php with the submission list
+     *         -> if items were already created: view.php ['sheet' => 'collectedsubmissions'] with the submission list
      *     -> for students: ALWAYS view.php with the welcome and the surveypro cover page
      *
      * So the software HAS TO decide where to send the admin/editing teacher when he arrives from a course
@@ -128,7 +128,7 @@ class utility_layout {
      *
      * The problem rises up when the admin/editing teacher decides to go where he should not go, alias in:
      *     -> layout_itemslist.php even if items were already created
-     *     -> view_submissions.php with the submission list even if no items were created
+     *     -> view.php ['sheet' => 'collectedsubmissions'] with the submission list even if no items were created
      *
      * The first request is a false problem, because the admin/editing teacher is always allowed to go there
      * The second request is allowed by the introduction of the parameter &force=1 in the URL of the TAB
@@ -851,14 +851,16 @@ class utility_layout {
         // Submissions -> cover.
         $elements['cover'] = false;
         if ($canview) {
-            $elementurl = new \moodle_url('/mod/surveypro/view.php', $paramurlbase);
+            $paraurl = $paramurlbase + ['sheet' => 'cover'];
+            $elementurl = new \moodle_url('/mod/surveypro/view.php', $paraurl);
             $elements['cover'] = $elementurl;
         }
 
         // Submissions -> responses.
         $elements['responses'] = false;
         if (!is_guest($this->context)) {
-            $elementurl = new \moodle_url('/mod/surveypro/view_submissions.php', ['id' => $this->cm->id, 'force' => 1]);
+            $paraurl = $paramurlbase + ['sheet' => 'collectedsubmissions', 'force' => 1];
+            $elementurl = new \moodle_url('/mod/surveypro/view.php', $paraurl);
             $elements['responses'] = $elementurl;
         }
 
@@ -866,7 +868,8 @@ class utility_layout {
         $elements['search'] = false;
         $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
         if ($cansearch && $utilitylayoutman->has_search_items()) {
-            $elementurl = new \moodle_url('/mod/surveypro/view_search.php', $paramurlbase);
+            $paraurl = $paramurlbase + ['sheet' => 'searchsubmissions', 'force' => 1];
+            $elementurl = new \moodle_url('/mod/surveypro/view.php', $paramurlbase);
             $elements['search'] = $elementurl;
         }
 
@@ -891,13 +894,15 @@ class utility_layout {
         $elements['container'] = false;
         if ($caller == SURVEYPRO_TAB) {
             if ($elements['cover'] || $elements['responses'] || $elements['search'] || $elements['report']) {
-                $elementurl = new \moodle_url('/mod/surveypro/view_submissions.php', $paramurlbase);
+                $paraurl = $paramurlbase + ['sheet' => 'collectedsubmissions'];
+                $elementurl = new \moodle_url('/mod/surveypro/view.php', $paraurl);
                 $elements['container'] = $elementurl;
             }
         }
         if ($caller == SURVEYPRO_BLOCK) {
             if ($elements['import'] || $elements['export']) {
-                $elementurl = new \moodle_url('/mod/surveypro/view_submissions.php', $paramurlbase);
+                $paraurl = $paramurlbase + ['sheet' => 'collectedsubmissions'];
+                $elementurl = new \moodle_url('/mod/surveypro/view.php', $paraurl);
                 $elements['container'] = $elementurl;
             }
         }

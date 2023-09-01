@@ -35,29 +35,31 @@ $string['surveyproname'] = 'Surveypro name';
 $string['surveyproname_help'] = 'Choose the name of this surveypro.';
 $string['surveypro'] = 'surveypro';
 
-$string['tablayoutname'] = 'Scheda';
-    $string['tabitemspage1'] = 'Anteprima';
-    $string['tabitemspage2'] = 'Elementi';
-    $string['tabitemspage3'] = 'Dettaglio elemento';
-    $string['tabitemspage4'] = 'Relazioni';
-$string['tabsubmissionsname'] = 'Indagine';
-    $string['tabsubmissionspage1'] = 'Stato';
-    $string['tabsubmissionspage2'] = 'Raccolta dati';
-    $string['tabsubmissionspage3'] = 'Nuovo inserimento';
-    $string['tabsubmissionspage4'] = 'Modifica';
-    $string['tabsubmissionspage5'] = 'Sola lettura';
-    $string['tabsubmissionspage6'] = 'Ricerca';
-    $string['tabsubmissionspage7'] = 'Rapporti';
-    $string['tabsubmissionspage8'] = 'Importazione';
-    $string['tabsubmissionspage9'] = 'Esportazione';
-$string['tabutemplatename'] = 'Template utente';
-    $string['tabutemplatepage1'] = 'Gestione';
-    $string['tabutemplatepage2'] = 'Salva';
-    $string['tabutemplatepage3'] = 'Importa';
-    $string['tabutemplatepage4'] = 'Applica';
-$string['tabmtemplatename'] = 'Template sistema';
-    $string['tabmtemplatepage1'] = 'Genera';
-    $string['tabmtemplatepage2'] = 'Applica';
+// $string['tabsurveypro'] = 'Use';
+    $string['tabsurveypro_dashboard'] = 'Stato'; // Maybe 'Overview' is better?
+    $string['tabsurveypro_responses'] = 'Raccolta dati';
+    $string['tabsurveypro_insert'] = 'Nuovo inserimento';
+    $string['tabsurveypro_edit'] = 'Modifica';
+    $string['tabsurveypro_readonly'] = 'Sola lettura';
+    $string['tabsurveypro_search'] = 'Ricerca';
+$string['tablayout'] = 'Scheda';
+    $string['tablayout_preview'] = 'Anteprima';
+    $string['tablayout_elements'] = 'Elementi';
+    $string['tablayout_elementsetup'] = 'Dettaglio elemento';
+    $string['tablayout_branchingvalidation'] = 'Relazioni';
+$string['tabtools'] = 'Strumenti';
+    $string['tabtools_import'] = 'Import';
+    $string['tabtools_export'] = 'Esportazione';
+$string['tabpresets'] = 'Templates';
+    // Userpresets.
+    $string['tabupreset_manage'] = 'Gestione';
+    $string['tabupreset_save'] = 'Salva';
+    $string['tabupreset_import'] = 'Importa';
+    $string['tabupreset_import'] = 'Applica';
+    // Masterpresets.
+    $string['tabmpreset_save'] = 'Salva';
+    $string['tabmpreset_apply'] = 'Applica';
+$string['tabreports'] = 'Rapporti';
 
 $string['abandoned_submission_deleted'] = 'Eliminata risposta abbandonata';
 $string['addnewsubmission'] = 'Nuova risposta';
@@ -67,7 +69,7 @@ $string['applymastertemplates'] = '<a href="{$a}">Applica un master template</a>
 $string['applyusertemplates'] = '<a href="{$a}">Applica un template utente</a>';
 $string['attemptinfo'] = 'Informazioni sull\'indagine e le risposte acquisite';
 $string['availability'] = 'Disponibilità';
-$string['basic_editthanks'] = 'La modifica apportata è stata registrata! Grazie';
+$string['basic_editthanks'] = 'La modifica è stata eseguita correttamente! Grazie';
 $string['basic_submitthanks'] = 'La tua risposta è inviata correttamente. Grazie per aver partecipato all\'indagine.';
 $string['branching'] = 'Ramificazione';
 $string['bulkaction'] = 'Azioni di massa';

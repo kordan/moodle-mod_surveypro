@@ -36,7 +36,7 @@ use mod_surveypro\formbase;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class view_form extends formbase {
+class submissions_form extends formbase {
 
     /**
      * @var int $view
@@ -54,7 +54,7 @@ class view_form extends formbase {
     protected $tabpage;
 
     /**
-     * @var int Final validation of the submitted response
+     * @var int Status of each answer of the submission
      */
     protected $responsestatus;
 
@@ -67,6 +67,11 @@ class view_form extends formbase {
      * @var object Form content as submitted by the user
      */
     public $formdata = null;
+
+    /**
+     * @var int The status of the whole submission. It can be: SURVEYPRO_STATUSCLOSED,
+     */
+    public $status;
 
     /**
      * Setup.
@@ -188,7 +193,7 @@ class view_form extends formbase {
         if (!empty($this->surveypro->mailcontent)) {
             $fullname = fullname($USER);
             $surveyproname = $this->surveypro->name;
-            $url = $CFG->wwwroot.'/mod/surveypro/view_submissions.php?s='.$this->surveypro->id;
+            $url = $CFG->wwwroot.'/mod/surveypro/view.php?s='.$this->surveypro->id.'&sheet=collectedsubmissions';
 
             $content = $this->surveypro->mailcontent;
             $originals = ['{FIRSTNAME}', '{LASTNAME}', '{FULLNAME}', '{COURSENAME}', '{SURVEYPRONAME}', '{SURVEYPROURL}'];
@@ -204,7 +209,7 @@ class view_form extends formbase {
             $a->username = empty($this->surveypro->anonymous) ? fullname($USER) : $coveredattr;
             $a->surveyproname = $this->surveypro->name;
             $a->title = get_string('reviewsubmissions', 'mod_surveypro');
-            $a->href = $CFG->wwwroot.'/mod/surveypro/view_submissions.php?s='.$this->surveypro->id;
+            $a->href = $CFG->wwwroot.'/mod/surveypro/view.php?s='.$this->surveypro->id.'&sheet=collectedsubmissions';
 
             $content = get_string('newsubmissionbody', 'mod_surveypro', $a);
         }
@@ -616,14 +621,16 @@ class view_form extends formbase {
         // 7) the submission HAS TO BE saved as IN PROGRESS and not as CLOSED
         // even if ($savebutton || $saveasnewbutton) where never pressed
 
+        // Be optimistic. Let's start by assuming user was correct.
+        $this->responsestatus = SURVEYPRO_VALIDRESPONSE;
         // Let's start with the lightest check (lightest in terms of query).
         $this->check_all_was_verified();
-        if ($this->responsestatus == SURVEYPRO_VALIDRESPONSE) { // If this submission is still considered valid...
-            // ...check more.
+        if ($this->responsestatus == SURVEYPRO_VALIDRESPONSE) {
+            // Each provided answer was validated but, maybe, some answer was not provided.
             $this->check_mandatories_are_in();
         }
 
-        // If all the answers are valid.
+        // If all the answers are still valid.
         if ($this->responsestatus == SURVEYPRO_VALIDRESPONSE) {
             // -> $prevbutton: I am not saving with $verified = true so $this->responsestatus != SURVEYPRO_VALIDRESPONSE
             // and this case should never be verified.
@@ -719,6 +726,7 @@ class view_form extends formbase {
 
     /**
      * Check that each answer of the passed submission was actually verified at submission time.
+     * If at least one answer was not veritied, the responsestatus is SURVEYPRO_MISSINGVALIDATION.
      *
      * @return void
      */
@@ -870,8 +878,8 @@ class view_form extends formbase {
                 $message = get_string('nomoresubmissionsallowed', 'mod_surveypro', $this->surveypro->maxentries);
                 echo $OUTPUT->notification($message, 'notifyproblem');
 
-                $whereparams = ['id' => $this->cm->id];
-                $continueurl = new \moodle_url('/mod/surveypro/view_submissions.php', $whereparams);
+                $whereparams = ['id' => $this->cm->id, 'sheet' => 'collectedsubmissions'];
+                $continueurl = new \moodle_url('/mod/surveypro/view.php', $whereparams);
 
                 echo $OUTPUT->continue_button($continueurl);
                 echo $OUTPUT->footer();
@@ -894,6 +902,7 @@ class view_form extends formbase {
             $params['s'] = $this->surveypro->id;
             $params['submissionid'] = $this->get_submissionid();
             $params['view'] = SURVEYPRO_READONLYRESPONSE;
+            $params['sheet'] = 'newsubmission';
 
             $userformpagecount = $this->get_userformpagecount();
             if ($userformpagecount > 1) {
@@ -902,14 +911,14 @@ class view_form extends formbase {
                 if ($this->formpage > $this->userfirstpage) {
                     $this->next_not_empty_page(false); // False means direction = left.
                     $params['formpage'] = $this->get_nextpage();
-                    $url = new \moodle_url('/mod/surveypro/view_form.php', $params);
+                    $url = new \moodle_url('/mod/surveypro/view.php', $params);
                     $backwardbutton = new \single_button($url, get_string('previousformpage', 'mod_surveypro'), 'get', true);
                 }
 
                 if ($this->formpage < $this->userlastpage) {
                     $this->next_not_empty_page(true); // True means direction = right.
                     $params['formpage'] = $this->get_nextpage();
-                    $url = new \moodle_url('/mod/surveypro/view_form.php', $params);
+                    $url = new \moodle_url('/mod/surveypro/view.php', $params);
                     $forwardbutton = new \single_button($url, get_string('nextformpage', 'mod_surveypro'), 'get', true);
                 }
 

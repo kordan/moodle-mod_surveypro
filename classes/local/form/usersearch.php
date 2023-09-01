@@ -119,6 +119,7 @@ class usersearch extends \moodleform {
         $buttonarray[] = $mform->createElement('submit', 'submitbutton', get_string('search'));
         $buttonarray[] = $mform->createElement('cancel', 'cancel', get_string('showallsubmissions', 'mod_surveypro'));
         $mform->addGroup($buttonarray, 'buttonar', '', [' '], false);
+        $mform->setType('buttonsrow', PARAM_RAW);
         $mform->closeHeaderBefore('buttonar');
     }
 

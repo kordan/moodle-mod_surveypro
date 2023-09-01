@@ -91,11 +91,16 @@ $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
-// echo $OUTPUT->heading(format_string($surveypro->name), 2, null);
 
 $surveyproreportlist = get_plugin_list('surveyproreport');
 $reportkey = array_search('userspercount', array_keys($surveyproreportlist));
-new tabs($cm, $context, $surveypro, SURVEYPRO_TABREPORTS, $reportkey);
+$useoldtabshere = true;
+if ($useoldtabshere) {
+    new tabs($cm, $context, $surveypro, SURVEYPRO_TABREPORTS, $reportkey);
+} else {
+    $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
+    echo $actionbar->draw_view_action_bar();
+}
 
 $reportman->prevent_direct_user_input();
 

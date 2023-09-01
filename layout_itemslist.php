@@ -190,9 +190,13 @@ if (!$itemtomove) {
 
 echo $OUTPUT->header();
 
-new tabs($cm, $context, $surveypro, SURVEYPRO_TABLAYOUT, SURVEYPRO_LAYOUT_ITEMS);
-// $tab = new tabs($cm, $context, $surveypro);
-// $tab->draw_pages_bar(SURVEYPRO_TABLAYOUT, 'itemslist_page');
+$useoldtabshere = false;
+if ($useoldtabshere) {
+    new tabs($cm, $context, $surveypro, SURVEYPRO_TABLAYOUT, SURVEYPRO_LAYOUT_ITEMS);
+} else {
+    $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
+    echo $actionbar->draw_view_action_bar();
+}
 
 if ($hassubmissions) {
     $message = $utilitysubmissionman->get_submissions_warning();

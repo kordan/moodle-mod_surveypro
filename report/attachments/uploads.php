@@ -105,11 +105,16 @@ $url = new \moodle_url('/mod/surveypro/report/attachments/view.php', ['s' => $su
 navigation_node::override_active_url($url);
 
 echo $OUTPUT->header();
-// echo $OUTPUT->heading(format_string($surveypro->name), 2, null);
 
 $surveyproreportlist = get_plugin_list('surveyproreport');
 $reportkey = array_search('attachments', array_keys($surveyproreportlist));
-new tabs($cm, $context, $surveypro, SURVEYPRO_TABREPORTS, $reportkey);
+$useoldtabshere = true;
+if ($useoldtabshere) {
+    new tabs($cm, $context, $surveypro, SURVEYPRO_TABREPORTS, $reportkey);
+} else {
+    $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
+    echo $actionbar->draw_view_action_bar();
+}
 
 $filterform->display();
 

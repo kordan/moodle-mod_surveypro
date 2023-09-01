@@ -139,7 +139,8 @@ class report extends reportbase {
         $countfields = $DB->count_records_select('surveypro_item', $where, $params);
         if (!$countfields) {
             echo $OUTPUT->box(get_string('textareasarenotallowed', 'surveyproreport_frequency'));
-            $url = new \moodle_url('/mod/surveypro/view_submissions.php', ['s' => $this->surveypro->id]);
+            $paramurl = ['s' => $this->surveypro->id, 'sheet' => 'collectedsubmissions'];
+            $url = new \moodle_url('/mod/surveypro/view.php', $paramurl);
             echo $OUTPUT->continue_button($url);
             echo $OUTPUT->footer();
             die();

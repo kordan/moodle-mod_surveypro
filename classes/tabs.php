@@ -123,13 +123,13 @@ class tabs {
 
         // TAB LAYOUT.
         if ($elementurl = $this->tabpagesurl['tab_layout']['container']) {
-            $tablayoutname = get_string('tablayoutname', 'mod_surveypro');
+            $tablayoutname = get_string('tablayout', 'mod_surveypro');
             $row[] = new \tabobject($tablayoutname, $elementurl->out(), $tablayoutname);
         }
 
         // TAB SUBMISSIONS.
         if ($elementurl = $this->tabpagesurl['tab_submissions']['container']) {
-            $tabsubmissionsname = get_string('tabsubmissionsname', 'mod_surveypro');
+            $tabsubmissionsname = get_string('modulename', 'mod_surveypro');
             $row[] = new \tabobject($tabsubmissionsname, $elementurl->out(), $tabsubmissionsname);
         }
 
@@ -179,7 +179,7 @@ class tabs {
         // PAGES.
         switch ($this->tabtab) {
             case SURVEYPRO_TABLAYOUT:
-                $tablayoutname = get_string('tablayoutname', 'mod_surveypro');
+                $tablayoutname = get_string('tablayout', 'mod_surveypro');
 
                 $inactive = [$tablayoutname];
                 $activetwo = [$tablayoutname];
@@ -212,44 +212,44 @@ class tabs {
 
                 break;
             case SURVEYPRO_TABSUBMISSIONS:
-                $tabsubmissionsname = get_string('tabsubmissionsname', 'mod_surveypro');
+                $tabsubmissionsname = get_string('modulename', 'mod_surveypro');
 
                 $inactive = [$tabsubmissionsname];
                 $activetwo = [$tabsubmissionsname];
 
                 // Dashboard.
                 if ($elementurl = $this->tabpagesurl['tab_submissions']['cover']) {
-                    $strlabel = get_string('tabsubmissionspage1', 'mod_surveypro');
+                    $strlabel = get_string('tabsurveypro_dashboard', 'mod_surveypro');
                     $row[] = new \tabobject('idpage1', $elementurl->out(), $strlabel);
                 }
 
                 // Responses.
                 if ($elementurl = $this->tabpagesurl['tab_submissions']['responses']) {
-                    $strlabel = get_string('tabsubmissionspage2', 'mod_surveypro');
+                    $strlabel = get_string('tabsurveypro_responses', 'mod_surveypro');
                     $row[] = new \tabobject('idpage2', $elementurl->out(), $strlabel);
                 }
 
                 // Insert.
                 if ($this->tabpage == SURVEYPRO_SUBMISSION_INSERT) {
-                    $strlabel = get_string('tabsubmissionspage3', 'mod_surveypro');
+                    $strlabel = get_string('tabsurveypro_insert', 'mod_surveypro');
                     $row[] = new \tabobject('idpage3', null, $strlabel);
                 }
 
                 // Edit.
                 if ($this->tabpage == SURVEYPRO_SUBMISSION_EDIT) {
-                    $strlabel = get_string('tabsubmissionspage4', 'mod_surveypro');
+                    $strlabel = get_string('tabsurveypro_edit', 'mod_surveypro');
                     $row[] = new \tabobject('idpage4', null, $strlabel);
                 }
 
                 // Read only.
                 if ($this->tabpage == SURVEYPRO_SUBMISSION_READONLY) {
-                    $strlabel = get_string('tabsubmissionspage5', 'mod_surveypro');
+                    $strlabel = get_string('tabsurveypro_readonly', 'mod_surveypro');
                     $row[] = new \tabobject('idpage5', null, $strlabel);
                 }
 
                 // Search.
                 if ($elementurl = $this->tabpagesurl['tab_submissions']['search']) {
-                    $strlabel = get_string('tabsubmissionspage6', 'mod_surveypro');
+                    $strlabel = get_string('tabsurveypro_search', 'mod_surveypro');
                     $row[] = new \tabobject('idpage6', $elementurl->out(), $strlabel);
                 }
 

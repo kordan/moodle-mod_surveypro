@@ -67,7 +67,7 @@ if ($importman->formdata = $importform->get_data()) {
     $err = $importman->validate_csvcontent();
     if (empty($err)) {
         $importman->import_csv();
-        $redirecturl = new \moodle_url('/mod/surveypro/view_submissions.php', ['s' => $surveypro->id]);
+        $redirecturl = new \moodle_url('/mod/surveypro/view.php', ['s' => $surveypro->id, 'sheet' => 'collectedsubmissions']);
         redirect($redirecturl);
     }
 }
@@ -81,9 +81,14 @@ $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 
 echo $OUTPUT->header();
-// echo $OUTPUT->heading(format_string($surveypro->name), 2, null);
 
-new tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_IMPORT);
+$useoldtabshere = true;
+if ($useoldtabshere) {
+    new tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_IMPORT);
+} else {
+    $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
+    echo $actionbar->draw_view_action_bar();
+}
 
 if (!empty($err)) {
     if (isset($err->a)) {

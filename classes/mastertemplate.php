@@ -569,7 +569,7 @@ class mastertemplate extends templatebase {
 
         if ($hassubmissions && (!$riskyediting)) {
             echo $OUTPUT->notification(get_string('applyusertemplatedenied01', 'mod_surveypro'), 'notifyproblem');
-            $url = new \moodle_url('/mod/surveypro/view_submissions.php', ['s' => $this->surveypro->id]);
+            $url = new \moodle_url('/mod/surveypro/view.php', ['s' => $this->surveypro->id, 'sheet' => 'collectedsubmissions']);
             echo $OUTPUT->continue_button($url);
             echo $OUTPUT->footer();
             die();

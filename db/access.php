@@ -79,14 +79,14 @@
  *  SUB-TAB == SURVEYPRO_SUBMISSION_CPANEL
  *
  *  SUB-TAB == SURVEYPRO_SUBMISSION_INSERT
- *      $elementurl = new \moodle_url('/mod/surveypro/view_form.php', $paramurl);
+ *      $elementurl = new \moodle_url('/mod/surveypro/view.php', $paramurl); with ['sheet' => 'newsubmission']
  *      mod/surveypro:view
  *      mod/surveypro:accessreserveditems
  *      mod/surveypro:submit
  *      mod/surveypro:ignoremaxentries
  *
  *  SUB-TAB == SURVEYPRO_SUBMISSION_MANAGE
- *      $elementurl = new \moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
+ *      $elementurl = new \moodle_url('/mod/surveypro/view.php', $paramurl); with ['sheet' => 'collectedsubmissions']
  *
  *      mod/surveypro:alwaysseeowner
  *
@@ -111,10 +111,10 @@
  *
  *  SUB-TAB == SURVEYPRO_SUBMISSION_EDIT
  *  SUB-TAB == SURVEYPRO_SUBMISSION_READONLY
- *      $elementurl = new \moodle_url('/mod/surveypro/view_form.php', $localparamurl);
+ *      $elementurl = new \moodle_url('/mod/surveypro/view.php', $localparamurl); with ['sheet' => 'newsubmission']
  *
  *  SUB-TAB == SURVEYPRO_SUBMISSION_SEARCH
- *      $elementurl = new \moodle_url('/mod/surveypro/view_search.php', $paramurl);
+ *      $elementurl = new \moodle_url('/mod/surveypro/view.php', $paramurl); with ['sheet' => 'searchsubmissions']
  *      mod/surveypro:searchsubmissions
  *
  *  SUB-TAB == SURVEYPRO_SUBMISSION_REPORT

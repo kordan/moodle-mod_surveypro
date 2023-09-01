@@ -24,12 +24,35 @@
 
 use mod_surveypro\utility_layout;
 use mod_surveypro\tabs;
-use mod_surveypro\view_cover;
+
+// Needed only if $sheet == 'cover'.
+use mod_surveypro\cover;
+
+// Needed only if $sheet == 'collectedsubmissions'.
+use mod_surveypro\submissions_list;
+
+// Needed only if $sheet == 'newsubmission'.
+use mod_surveypro\utility_mform;
+use mod_surveypro\submissions_form;
+use mod_surveypro\local\form\userform;
+
+// Needed only if $sheet == 'searchsubmission'.
+use mod_surveypro\submissions_search;
+use mod_surveypro\local\form\usersearch;
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 
-$id = optional_param('id', 0, PARAM_INT); // Course_module id.
-$s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
+$id = optional_param('id', 0, PARAM_INT);                  // Course_module id.
+$s = optional_param('s', 0, PARAM_INT);                    // Surveypro instance id.
+$sheet = optional_param('sheet', 'cover', PARAM_ALPHAEXT); // The sheet to show.
+
+// Verify I used correct names all along the module code.
+$validsheets = ['cover', 'collectedsubmissions', 'newsubmission', 'searchsubmissions'];
+if (!in_array($sheet, $validsheets)) {
+    $message = 'The sheet param \''.$sheet.'\' is invalid.';
+    debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+}
+// End of: Verify I used correct names all along the module code.
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
@@ -40,34 +63,339 @@ if (!empty($id)) {
     $course = $DB->get_record('course', ['id' => $surveypro->course], '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
+
 $cm = cm_info::create($cm);
-
-$edit = optional_param('edit', -1, PARAM_BOOL);
-
 require_course_login($course, false, $cm);
-
 $context = \context_module::instance($cm->id);
 
-// Calculations.
-$utilitylayoutman = new utility_layout($cm, $surveypro);
-$utilitylayoutman->noitem_redirect();
+// MARK cover.
+if ($sheet == 'cover') { // It was view_cover.php
+    // Get additional specific params.
 
-$coverman = new view_cover($cm, $context, $surveypro);
+    // Calculations.
+    $utilitylayoutman = new utility_layout($cm, $surveypro);
+    $utilitylayoutman->noitem_redirect();
 
-// Output starts here.
-$url = new \moodle_url('/mod/surveypro/view.php', ['s' => $surveypro->id]);
-$PAGE->set_url($url);
-$PAGE->set_context($context);
-$PAGE->set_cm($cm);
-$PAGE->set_title($surveypro->name);
-$PAGE->set_heading($course->shortname);
+    $coverman = new cover($cm, $context, $surveypro);
 
-echo $OUTPUT->header();
-echo $OUTPUT->heading(format_string($surveypro->name), 2, null);
+    // Output starts here.
+    $url = new \moodle_url('/mod/surveypro/view.php', ['s' => $surveypro->id, 'sheet' => $sheet]);
+    $PAGE->set_url($url);
+    $PAGE->set_context($context);
+    $PAGE->set_cm($cm);
+    $PAGE->set_title($surveypro->name);
+    $PAGE->set_heading($course->shortname);
 
-new tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_CPANEL);
+    echo $OUTPUT->header();
 
-$coverman->display_cover();
+    $useoldtabshere = false;
+    if ($useoldtabshere) {
+        new tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_CPANEL);
+    } else {
+        $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
+        echo $actionbar->draw_view_action_bar();
+    }
+
+    $coverman->display_cover();
+}
+
+// MARK collectedsubmissions.
+// This section serves the page to...
+// - display the list of all gathered submissions;
+// - duplicate a submission;
+// - delete a submission;
+// - delete all gathered submissions;
+// - print to PDF a submission.
+if ($sheet == 'collectedsubmissions') { // It was view_submissions.php
+    // Get additional specific params.
+    $edit = optional_param('edit', -1, PARAM_BOOL);
+    $tifirst = optional_param('tifirst', '', PARAM_ALPHA); // First letter of the name.
+    $tilast = optional_param('tilast', '', PARAM_ALPHA);   // First letter of the surname.
+    // $tsort = optional_param('tsort', '', PARAM_ALPHA);     // Field asked to sort the table for.
+    $edit = optional_param('edit', -1, PARAM_BOOL);
+
+    // A response was submitted.
+    $justsubmitted = optional_param('justsubmitted', 0, PARAM_INT);
+    $formview = optional_param('formview', 0, PARAM_INT);
+    $responsestatus = optional_param('responsestatus', 0, PARAM_INT);
+
+    // The list is managed.
+    $submissionid = optional_param('submissionid', 0, PARAM_INT);
+    $action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
+    $view = optional_param('view', SURVEYPRO_NOVIEW, PARAM_INT);
+    $confirm = optional_param('cnf', SURVEYPRO_UNCONFIRMED, PARAM_INT);
+    $searchquery = optional_param('searchquery', '', PARAM_RAW);
+    $force = optional_param('force', 0, PARAM_INT);
+
+    if ($action != SURVEYPRO_NOACTION) {
+        require_sesskey();
+    }
+
+    // Calculations.
+    $submissionlistman = new submissions_list($cm, $context, $surveypro);
+    $submissionlistman->setup($submissionid, $action, $view, $confirm, $searchquery);
+
+    if ($action == SURVEYPRO_RESPONSETOPDF) {
+        $submissionlistman->submission_to_pdf();
+        die();
+    }
+
+    if (empty($force)) {
+        $utilitylayoutman = new utility_layout($cm, $surveypro);
+        $utilitylayoutman->noitem_redirect();
+    }
+
+    // Perform action before PAGE. (The content of the admin block depends on the output of these actions).
+    $submissionlistman->actions_execution();
+
+    // Output starts here.
+    $url = new \moodle_url('/mod/surveypro/view.php', ['s' => $surveypro->id, 'sheet' => $sheet]);
+    $PAGE->set_url($url);
+    $PAGE->set_context($context);
+    $PAGE->set_cm($cm);
+    $PAGE->set_title($surveypro->name);
+    $PAGE->set_heading($course->shortname);
+
+    echo $OUTPUT->header();
+
+    $useoldtabshere = false;
+    if ($useoldtabshere) {
+        new tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_MANAGE);
+    } else {
+        $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
+        echo $actionbar->draw_view_action_bar();
+    }
+
+    if (!empty($justsubmitted)) {
+        $submissionlistman->show_thanks_page($responsestatus, $formview, $justsubmitted);
+    } else {
+        $submissionlistman->actions_feedback(); // Action feedback after PAGE.
+
+        $submissionlistman->show_action_buttons($tifirst, $tilast);
+        $submissionlistman->display_submissions_table();
+        $submissionlistman->trigger_event(); // Event: all_submissions_viewed.
+    }
+}
+
+// MARK newsubmission.
+// This section serves the page to...
+// - add a new submission;
+// - edit already submitted submissions.
+if ($sheet == 'newsubmission') { // It was view_form.php
+    // Get additional specific params.
+    $submissionid = optional_param('submissionid', 0, PARAM_INT);
+    $formpage = optional_param('formpage', 1, PARAM_INT); // Form page number.
+    $overflowpage = optional_param('overflowpage', 0, PARAM_INT); // Went the user to a overflow page?
+    $view = optional_param('view', SURVEYPRO_NOVIEW, PARAM_INT);
+    $begin = optional_param('begin', 0, PARAM_INT);
+
+    // Calculations.
+    mod_surveypro\utility_mform::register_form_elements();
+
+    $userformman = new submissions_form($cm, $context, $surveypro);
+    $userformman->setup($submissionid, $formpage, $view);
+
+    $utilitylayoutman = new utility_layout($cm, $surveypro);
+    $utilitylayoutman->add_custom_css();
+
+    // Begin of: define $user_form return url.
+    $paramurl = ['id' => $cm->id, 'view' => $view, 'sheet' => 'newsubmission'];
+    $formurl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
+    // End of: define $user_form return url.
+
+    // Begin of: prepare params for the form.
+    $formparams = new \stdClass();
+    $formparams->cm = $cm;
+    $formparams->surveypro = $surveypro;
+    $formparams->submissionid = $submissionid;
+    $formparams->userformpagecount = $userformman->get_userformpagecount();
+    $formparams->canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context);
+    $formparams->userfirstpage = $userformman->get_userfirstpage(); // The user first page
+    $formparams->userlastpage = $userformman->get_userlastpage(); // The user last page
+    $formparams->overflowpage = $overflowpage; // Went the user to a overflow page?
+    $formparams->tabpage = $userformman->get_tabpage(); // The page of the TAB-PAGE structure.
+    $formparams->readonly = ($userformman->get_tabpage() == SURVEYPRO_SUBMISSION_READONLY);
+    $formparams->preview = false;
+    $formparams->sheet = 'newsubmission';
+    if ($begin == 1) {
+        $userformman->next_not_empty_page(true, 0); // True means direction = right.
+        $nextpage = $userformman->get_nextpage(); // The page of the form to select subset of fields
+        $userformman->set_formpage($nextpage);
+    }
+    $formparams->formpage = $userformman->get_formpage(); // The page of the form to select subset of fields
+    // End of: prepare params for the form.
+
+    $editable = ($view == SURVEYPRO_READONLYRESPONSE) ? false : true;
+    $userform = new userform($formurl, $formparams, 'post', '', ['id' => 'userentry'], $editable);
+
+    // Begin of: manage form submission.
+    if ($userform->is_cancelled()) {
+        $localparamurl = ['id' => $cm->id, 'view' => $view, 'sheet' => 'collectedsubmissions'];
+        $redirecturl = new \moodle_url('/mod/surveypro/view.php', $localparamurl);
+        redirect($redirecturl, get_string('usercanceled', 'mod_surveypro'));
+    }
+
+    if ($userformman->formdata = $userform->get_data()) {
+        $userformman->save_user_data(); // SAVE SAVE SAVE SAVE.
+
+        // If "pause" button has been pressed, redirect.
+        $pausebutton = isset($userformman->formdata->pausebutton);
+        if ($pausebutton) {
+            $localparamurl = ['id' => $cm->id, 'view' => $view, 'sheet' => 'collectedsubmissions'];
+            $redirecturl = new \moodle_url('/mod/surveypro/view.php', $localparamurl);
+            redirect($redirecturl); // Go somewhere.
+        }
+
+        $paramurl['submissionid'] = $userformman->get_submissionid();
+        $paramurl['sheet'] = 'newsubmission';
+
+        // If "previous" button has been pressed, redirect.
+        $prevbutton = isset($userformman->formdata->prevbutton);
+        if ($prevbutton) {
+            $userformman->next_not_empty_page(false);
+            $paramurl['formpage'] = $userformman->get_nextpage();
+            $paramurl['overflowpage'] = $userformman->get_overflowpage();
+            $redirecturl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
+            redirect($redirecturl); // Redirect to the first non empty page.
+        }
+
+        // If "next" button has been pressed, redirect.
+        $nextbutton = isset($userformman->formdata->nextbutton);
+        if ($nextbutton) {
+            $userformman->next_not_empty_page(true);
+            $paramurl['formpage'] = $userformman->get_nextpage();
+            $paramurl['overflowpage'] = $userformman->get_overflowpage();
+            $redirecturl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
+            redirect($redirecturl); // Redirect to the first non empty page.
+        }
+
+        // Surveypro has been submitted. Notify people.
+        $userformman->notifypeople();
+
+        // If none redirected you, reload THE RIGHT page WITHOUT $paramurl['view'].
+        // This is necessary otherwise if the user switches language using the corresponding menu
+        // just after a new response is submitted
+        // the browser redirects to http://localhost/head_behat/mod/surveypro/view.php?s=xxx&view=1&lang=it&sheet=newsubmission
+        // and not               to http://localhost/head_behat/mod/surveypro/view.php?s=xxx&lang=it&sheet=collectedsubmissions
+        // alias it goes to the page to get one more response
+        // instead of remaining in the view submissions page.
+        $paramurl = array();
+        $paramurl['s'] = $surveypro->id;
+        // $paramurl['responsestatus'] = $userformman->get_responsestatus();
+        $paramurl['justsubmitted'] = 1 + $userformman->get_userdeservesthanks();
+        $paramurl['formview'] = $userformman->get_view(); // What was I viewing in the form?
+        $paramurl['sheet'] = 'collectedsubmissions';
+        $redirecturl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
+        redirect($redirecturl);
+    }
+    // End of: manage form submission.
+
+    // Output starts here.
+    $paramurl = ['s' => $surveypro->id, 'view' => $view, 'sheet' => $sheet];
+    if (!empty($submissionid)) {
+        $paramurl['submissionid'] = $submissionid;
+    }
+    $url = new \moodle_url('/mod/surveypro/view.php', $paramurl);
+    $PAGE->set_url($url);
+    $PAGE->set_context($context);
+    $PAGE->set_cm($cm);
+    $PAGE->set_title($surveypro->name);
+    $PAGE->set_heading($course->shortname);
+
+    echo $OUTPUT->header();
+
+    $useoldtabshere = false;
+    if ($useoldtabshere) {
+        new tabs($cm, $context, $surveypro, $userformman->get_tabtab(), $userformman->get_tabpage());
+    } else {
+        $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
+        echo $actionbar->draw_view_action_bar();
+    }
+
+    $userformman->noitem_stopexecution();
+    $userformman->nomoresubmissions_stopexecution();
+    $userformman->warning_submission_copy();
+    $userformman->display_page_x_of_y();
+
+    // Begin of: calculate prefill for fields and prepare standard editors and filemanager.
+    // If sumission already exists.
+    $prefill = $userformman->get_prefill_data();
+    $prefill['formpage'] = $userformman->get_formpage();
+    // End of: calculate prefill for fields and prepare standard editors and filemanager.
+
+    $userform->set_data($prefill);
+    $userform->display();
+
+    // If surveypro is multipage and $userformman->tabpage == SURVEYPRO_READONLYRESPONSE.
+    // I need to add navigation buttons manually
+    // Because the surveypro is not displayed as a form but as a simple list of graphic user items.
+    $userformman->add_readonly_browsing_buttons();
+}
+
+// MARK searchsubmissions.
+if ($sheet == 'searchsubmissions') { // It was view_search.php
+    // Get additional specific params.
+    $formpage = optional_param('formpage', 1, PARAM_INT); // Form page number.
+
+    // Required capability.
+    require_capability('mod/surveypro:searchsubmissions', $context);
+
+    // Calculations.
+    mod_surveypro\utility_mform::register_form_elements();
+
+    $submissionsearchman = new submissions_search($cm, $context, $surveypro);
+
+    // Begin of: define $searchform return url.
+    $paramurl = ['id' => $cm->id, 'sheet' => 'searchsubmissions'];
+    $formurl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
+    // End of: define $searchform return url.
+
+    // Begin of: prepare params for the search form.
+    $formparams = new \stdClass();
+    $formparams->cm = $cm;
+    $formparams->surveypro = $surveypro;
+    $formparams->canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context);
+    $searchform = new usersearch($formurl, $formparams, 'post', '', ['id' => 'usersearch']);
+    // End of: prepare params for the form.
+
+    // Begin of: manage form submission.
+    if ($searchform->is_cancelled()) {
+        $paramurl = ['id' => $cm->id, 'sheet' => 'collectedsubmissions'];
+        $returnurl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
+        redirect($returnurl);
+    }
+
+    if ($submissionsearchman->formdata = $searchform->get_data()) {
+        // In this routine I do not execute a real search.
+        // I only define the param searchquery for the url of SURVEYPRO_SUBMISSION_MANAGE.
+        $paramurl = ['id' => $cm->id, 'sheet' => 'collectedsubmissions'];
+        if ($searchquery = $submissionsearchman->get_searchparamurl()) {
+            $paramurl['searchquery'] = $searchquery;
+        }
+        $returnurl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
+        redirect($returnurl);
+    }
+    // End of: manage form submission.
+
+    // Output starts here.
+    $PAGE->set_url('/mod/surveypro/view.php', ['s' => $surveypro->id, 'sheet' => 'searchsubmissions']);
+    $PAGE->set_context($context);
+    $PAGE->set_cm($cm);
+    $PAGE->set_title($surveypro->name);
+    $PAGE->set_heading($course->shortname);
+
+    echo $OUTPUT->header();
+
+    $useoldtabshere = false;
+    if ($useoldtabshere) {
+        new tabs($cm, $context, $surveypro, SURVEYPRO_TABSUBMISSIONS, SURVEYPRO_SUBMISSION_SEARCH);
+    } else {
+        $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
+        echo $actionbar->draw_view_action_bar();
+    }
+
+    $searchform->display();
+}
 
 // Finish the page.
 echo $OUTPUT->footer();

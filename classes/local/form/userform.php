@@ -78,7 +78,7 @@ class userform extends \moodleform {
         $mform->setType('submissionid', PARAM_INT);
 
         // Userform: formpage.
-        $mform->addElement('hidden', 'formpage', 0); // Value is provided by $userform->set_data($prefill); from view_form.php.
+        $mform->addElement('hidden', 'formpage', 0); // Value is provided by $userform->set_data($prefill); from view.php ['sheet' => 'newsubmission'].
         $mform->setType('formpage', PARAM_INT);
 
         if ( ($formpage > 0) && ($formpage <= $userformpagecount) ) {

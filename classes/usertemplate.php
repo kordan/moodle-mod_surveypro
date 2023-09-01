@@ -635,7 +635,7 @@ class usertemplate extends templatebase {
 
         if ($hassubmissions && (!$riskyediting)) {
             echo $OUTPUT->notification(get_string('applyusertemplatedenied01', 'mod_surveypro'), 'notifyproblem');
-            $url = new \moodle_url('/mod/surveypro/view_submissions.php', ['s' => $this->surveypro->id]);
+            $url = new \moodle_url('/mod/surveypro/view.php', ['s' => $this->surveypro->id, 'sheet' => 'collectedsubmissions']);
             echo $OUTPUT->continue_button($url);
             echo $OUTPUT->footer();
             die();
@@ -643,7 +643,7 @@ class usertemplate extends templatebase {
 
         if ($this->surveypro->template && (!$riskyediting)) { // This survey comes from a master template so it is multilang.
             echo $OUTPUT->notification(get_string('applyusertemplatedenied02', 'mod_surveypro'), 'notifyproblem');
-            $url = new \moodle_url('/mod/surveypro/view_userform.php', ['s' => $this->surveypro->id]);
+            $url = new \moodle_url('/mod/surveypro/view.php', ['s' => $this->surveypro->id, 'sheet' => 'newsubmission']);
             echo $OUTPUT->continue_button($url);
             echo $OUTPUT->footer();
             die();

@@ -33,7 +33,7 @@ use mod_surveypro\utility_layout;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class view_cover {
+class cover {
 
     /**
      * @var object Course module object
@@ -160,10 +160,10 @@ class view_cover {
         // End of: general info.
 
         if ($addnew) {
-            $paramurl = ['id' => $this->cm->id, 'view' => SURVEYPRO_NEWRESPONSE, 'begin' => 1];
-            $url = new \moodle_url('/mod/surveypro/view_form.php', $paramurl);
+            $paramurl = ['id' => $this->cm->id, 'view' => SURVEYPRO_NEWRESPONSE, 'sheet' => 'newsubmission', 'begin' => 1];
+            $url = new \moodle_url('/mod/surveypro/view.php', $paramurl);
             $message = get_string('addnewsubmission', 'mod_surveypro');
-            echo $OUTPUT->box($OUTPUT->single_button($url, $message, 'get'), 'clearfix mdl-align');
+            echo $OUTPUT->box($OUTPUT->single_button($url, $message, 'get', ['primary' => true]), 'clearfix mdl-align');
         } else {
             if (!$cansubmit) {
                 $message = get_string('canneversubmit', 'mod_surveypro');

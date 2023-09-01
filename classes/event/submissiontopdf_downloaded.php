@@ -69,8 +69,9 @@ class submissiontopdf_downloaded extends \core\event\base {
         $paramurl = array();
         $paramurl['id'] = $this->contextinstanceid;
         $paramurl['submissionid'] = $this->objectid;
+        $paramurl['sheet'] = 'collectedsubmissions';
         $paramurl['act'] = $this->other['act'];
-        return new \moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
+        return new \moodle_url('/mod/surveypro/view.php', $paramurl);
     }
 
     /**
