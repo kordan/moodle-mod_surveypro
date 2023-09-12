@@ -53,7 +53,7 @@ Feature: Backup and restore a surveypro instance
     # When I am on the "Surveypro test" "surveypro activity" page
     # because there is more than a copy of "Surveypro test" "surveypro activity" page
     And I follow "Surveypro test"
-    And I follow "Layout" page in tab bar
+    And I follow "Layout"
 
     Then I should see "Welcome to this new instance of surveypro"
     And I should see "Grouped data inside"

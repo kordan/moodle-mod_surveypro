@@ -91,8 +91,7 @@ class mail_oneshotmp extends crontaskbase {
                                         )
                                     GROUP BY ss.userid, ss.surveyproid';
 
-                $whereparams = [];
-                $whereparams['surveyproid'] = $surveypro->id;
+                $whereparams = ['surveyproid' => $surveypro->id];
                 $whereparams['status'] = SURVEYPRO_STATUSINPROGRESS;
                 $whereparams['sofar'] = $sofar;
                 $whereparams['stillsofar'] = $sofar;

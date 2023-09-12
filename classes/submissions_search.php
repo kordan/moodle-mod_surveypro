@@ -71,7 +71,7 @@ class submissions_search {
     /**
      * Get the searchparamurl.
      *
-     * At the submission time of the seach form, define the $searchparamurl to send to view.php ['sheet' => 'collectedsubmissions']
+     * At the submission time of the seach form, define the $searchparamurl to send to view.php ['section' => 'submissionslist']
      *
      * @return mixed $searchquery if a search was requested, void otherwise
      */

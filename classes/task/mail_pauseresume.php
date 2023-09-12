@@ -90,8 +90,7 @@ class mail_pauseresume extends crontaskbase {
                                         ((ss.timemodified IS NULL) AND (ss.timecreated  < :stillsofar))
                                         )
                                     GROUP BY ss.userid, ss.surveyproid';
-                $whereparams = [];
-                $whereparams['surveyproid'] = $surveypro->id;
+                $whereparams = ['surveyproid' => $surveypro->id];
                 $whereparams['status'] = SURVEYPRO_STATUSINPROGRESS;
                 $whereparams['sofar'] = $sofar;
                 $whereparams['stillsofar'] = $sofar;

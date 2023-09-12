@@ -19,6 +19,7 @@ namespace mod_surveypro\output;
 use moodle_url;
 use url_select;
 use mod_surveypro\utility_layout;
+use action_link;
 
 /**
  * Class responsible for generating the action bar elements in the surveypro module pages.
@@ -67,116 +68,42 @@ class action_bar {
     }
 
     /**
-     * Generate the output for the action bar in the field page.
-     *
-     * @param bool $hasfieldselect Whether the field selector element should be rendered.
-     * @param null $unused1 This parameter has been deprecated since 4.1 and should not be used anymore.
-     * @param null $unused2 This parameter has been deprecated since 4.1 and should not be used anymore.
-     * @return string The HTML code for the action bar.
-     */
-    /*public function get_fields_action_bar(
-        bool $hasfieldselect = false,
-        ?bool $unused1 = null,
-        ?bool $unused2 = null
-    ): string {
-        global $PAGE;
-
-        if ($unused1 !== null || $unused2 !== null) {
-            debugging('Deprecated argument passed to get_fields_action_bar method', DEBUG_DEVELOPER);
-        }
-
-        $fieldselect = null;
-        if ($hasfieldselect) {
-            $fieldselect = $this->get_create_fields();
-        }
-
-        $renderer = $PAGE->get_renderer('mod_surveypro');
-        $fieldsactionbar = new fields_action_bar($this->id, null, null, null, null, $fieldselect);
-
-        return $renderer->render_fields_action_bar($fieldsactionbar);
-    }*/
-
-    /**
-     * Generate the output for the action bar in the field mappings page.
-     *
-     * @return string The HTML code for the action bar.
-     */
-    /*public function get_fields_mapping_action_bar(): string {
-        global $PAGE;
-
-        $renderer = $PAGE->get_renderer('mod_surveypro');
-        $fieldsactionbar = new fields_mappings_action_bar($this->id);
-
-        $data = $fieldsactionbar->export_for_preset($renderer);
-        return $renderer->render_from_template('mod_surveypro/fields_action_bar', $data);
-    }*/
-
-    /**
-     * Generate the output for the create a new field action menu.
-     *
-     * @return \action_menu Action menu to create a new field
-     */
-    /*public function get_create_fields(): \action_menu {
-        // Get the list of possible fields (plugins).
-        $plugins = \core_component::get_plugin_list('datafield');
-        $menufield = [];
-        foreach ($plugins as $plugin => $fulldir) {
-            $menufield[$plugin] = get_string('pluginname', "datafield_{$plugin}");
-        }
-        asort($menufield);
-
-        $fieldselect = new \action_menu();
-        $fieldselect->set_menu_trigger(get_string('newfield', 'mod_surveypro'), 'btn btn-secondary');
-        $fieldselectparams = ['d' => $this->id, 'mode' => 'new'];
-        foreach ($menufield as $fieldtype => $fieldname) {
-            $fieldselectparams['newtype'] = $fieldtype;
-            $fieldselect->add(new \action_menu_link(
-                new moodle_url('/mod/surveypro/field.php', $fieldselectparams),
-                new \pix_icon('field/' . $fieldtype, $fieldname, 'data'),
-                $fieldname,
-                false
-            ));
-        }
-        $fieldselect->set_additional_classes('singlebutton');
-
-        return $fieldselect;
-    }*/
-
-    /**
      * Generate the output for the action selector in the view page.
      *
-     * @param bool $hasentries Whether entries exist.
-     * @param string $mode The current view mode (list, view...).
      * @return string The HTML code for the action selector.
      */
     public function draw_view_action_bar(): string {
         global $PAGE;
 
-        $paramurl = ['s' => $this->surveypro->id];
-
+        $canview = has_capability('mod/surveypro:view', $this->context);
         $cansearch = has_capability('mod/surveypro:searchsubmissions', $this->context);
         $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
-        $addsearchitem = ($cansearch && $utilitylayoutman->has_search_items());
 
-        // First item.
-        $paramurl['sheet'] = 'cover';
-        $linktocover = new moodle_url('/mod/surveypro/view.php', $paramurl);
-        $menu[$linktocover->out(false)] = get_string('tabsurveypro_dashboard', 'mod_surveypro');
+        $paramurl = ['s' => $this->surveypro->id];
 
-        // Second item.
-        $paramurl['sheet'] = 'collectedsubmissions';
-        $linktosubmissions = new moodle_url('/mod/surveypro/view.php', $paramurl);
-        $menu[$linktosubmissions->out(false)] = get_string('tabsurveypro_responses', 'mod_surveypro');
-
-        if ($addsearchitem) {
-            // Third item.
-            $paramurl['sheet'] = 'searchsubmissions';
-            $linktosearch = new moodle_url('/mod/surveypro/view.php', $paramurl);
-            $menu[$linktosearch->out(false)] = get_string('tabsurveypro_search', 'mod_surveypro');
+        // View -> cover.
+        if ($canview) {
+            $paramurl['section'] = 'cover';
+            $linktocover = new moodle_url('/mod/surveypro/view.php', $paramurl);
+            $menu[$linktocover->out(false)] = get_string('surveypro_dashboard', 'mod_surveypro');
         }
 
-        // If sheet = 'newsubmission', set $activeurl to to the URL of the second menu item.
-        if (strpos($this->currenturl->out(false), 'newsubmission')) { // If strpos is not null, for sure it will never be zero.
+        // View -> submissionslist.
+        if (!is_guest($this->context)) {
+            $paramurl['section'] = 'submissionslist';
+            $linktosubmissions = new moodle_url('/mod/surveypro/view.php', $paramurl);
+            $menu[$linktosubmissions->out(false)] = get_string('surveypro_responses', 'mod_surveypro');
+        }
+
+        if ($cansearch && $utilitylayoutman->has_search_items()) {
+            // Third item.
+            $paramurl['section'] = 'searchsubmissions';
+            $linktosearch = new moodle_url('/mod/surveypro/view.php', $paramurl);
+            $menu[$linktosearch->out(false)] = get_string('surveypro_view_search', 'mod_surveypro');
+        }
+
+        // If section = 'submissionform', set $activeurl to to the URL of the second menu item.
+        if (strpos($this->currenturl->out(false), 'submissionform')) { // If strpos is not null, for sure it will never be zero.
             $activeurl = $linktosubmissions;
         } else {
             $activeurl = $this->currenturl;
@@ -191,168 +118,303 @@ class action_bar {
     }
 
     /**
-     * Generate the output for the action selector in the presets page.
+     * Generate the output for the action selector in the layout page.
      *
      * @return string The HTML code for the action selector.
      */
-    /*public function get_presets_action_bar(): string {
-        global $PAGE;
+    public function draw_layout_action_bar(): string {
+        global $PAGE, $DB;
 
-        $listpresetlink = new moodle_url('/mod/surveypro/presets.php', ['d' => $this->id,
-            'mode' => 'listpreset']);
-        $singlepresetlink = new moodle_url('/mod/surveypro/presets.php', ['d' => $this->id,
-            'mode' => 'singlepreset']);
-        $advancedsearchpresetlink = new moodle_url('/mod/surveypro/presets.php', ['d' => $this->id,
-            'mode' => 'asearchpreset']);
-        $addpresetlink = new moodle_url('/mod/surveypro/presets.php', ['d' => $this->id, 'mode' => 'addpreset']);
-        $rsspresetlink = new moodle_url('/mod/surveypro/presets.php', ['d' => $this->id, 'mode' => 'rsspreset']);
-        $csspresetlink = new moodle_url('/mod/surveypro/presets.php', ['d' => $this->id, 'mode' => 'csspreset']);
-        $jspresetlink = new moodle_url('/mod/surveypro/presets.php', ['d' => $this->id, 'mode' => 'jspreset']);
+        $canpreview = has_capability('mod/surveypro:preview', $this->context);
+        $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
 
-        $menu = [
-            $addpresetlink->out(false) => get_string('addpreset', 'mod_surveypro'),
-            $singlepresetlink->out(false) => get_string('singlepreset', 'mod_surveypro'),
-            $listpresetlink->out(false) => get_string('listpreset', 'mod_surveypro'),
-            $advancedsearchpresetlink->out(false) => get_string('asearchpreset', 'mod_surveypro'),
-            $csspresetlink->out(false) => get_string('csspreset', 'mod_surveypro'),
-            $jspresetlink->out(false) => get_string('jspreset', 'mod_surveypro'),
-            $rsspresetlink->out(false) => get_string('rsspreset', 'mod_surveypro'),
-        ];
+        $whereparams = array('surveyproid' => $this->surveypro->id, 'parentid' => 0);
+        $countparents = $DB->count_records_select('surveypro_item', 'surveyproid = :surveyproid AND parentid <> :parentid', $whereparams);
 
-        $selectmenu = new \core\output\select_menu('presetsactions', $menu, $this->currenturl->out(false));
-        $selectmenu->set_label(get_string('presetsnavigation', 'mod_surveypro'), ['class' => 'sr-only']);
+        $paramurl = ['s' => $this->surveypro->id];
 
-        $renderer = $PAGE->get_renderer('mod_surveypro');
+        // Layout -> preview.
+        if ($canpreview) {
+            $paramurl['section'] = 'preview';
+            $linktopreview = new moodle_url('/mod/surveypro/layout.php', $paramurl);
+            $menu[$linktopreview->out(false)] = get_string('layout_preview', 'mod_surveypro');
+        }
 
-        $presetsactions = $this->get_presets_actions_select(false);
+        // Layout -> itemslist.
+        if ($canmanageitems) {
+            $paramurl['section'] = 'itemslist';
+            $linktoitemslist = new moodle_url('/mod/surveypro/layout.php', $paramurl);
+            $menu[$linktoitemslist->out(false)] = get_string('layout_items', 'mod_surveypro');
+        }
 
-        // Reset all presets action.
-        $resetallurl = new moodle_url($this->currenturl);
-        $resetallurl->params([
-            'action' => 'resetallpresets',
-            'sesskey' => sesskey(),
-        ]);
-        $presetsactions->add(new \action_menu_link(
-            $resetallurl,
-            null,
-            get_string('resetallpresets', 'mod_surveypro'),
-            false,
-            ['data-action' => 'resetallpresets', 'data-dataid' => $this->id]
-        ));
-
-        $presetsactionbar = new presets_action_bar($this->id, $selectmenu, null, null, $presetsactions);
-
-        return $renderer->render_presets_action_bar($presetsactionbar);
-    }*/
-
-    /**
-     * Generate the output for the action selector in the presets page.
-     *
-     * @return string The HTML code for the action selector.
-     */
-    /*public function get_presets_action_bar(): string {
-        global $PAGE;
-
-        $renderer = $PAGE->get_renderer('mod_surveypro');
-        $presetsactionbar = new presets_action_bar($this->cmid, $this->get_presets_actions_select(true));
-
-        return $renderer->render_presets_action_bar($presetsactionbar);
-    }*/
-
-    /**
-     * Generate the output for the action selector in the presets preview page.
-     *
-     * @param manager $manager the manager instance
-     * @param string $fullname the preset fullname
-     * @param string $current the current preset name
-     * @return string The HTML code for the action selector
-     */
-    /*public function get_presets_preview_action_bar(manager $manager, string $fullname, string $current): string {
-        global $PAGE;
-
-        $renderer = $PAGE->get_renderer(manager::PLUGINNAME);
-
-        $cm = $manager->get_coursemodule();
-
-        $menu = [];
-        $selected = null;
-        foreach (['listpreset', 'singlepreset'] as $presetname) {
-            $link = new moodle_url('/mod/surveypro/preset.php', [
-                'd' => $this->id,
-                'preset' => $presetname,
-                'fullname' => $fullname,
-                'action' => 'preview',
-            ]);
-            $menu[$link->out(false)] = get_string($presetname, manager::PLUGINNAME);
-            if (!$selected || $presetname == $current) {
-                $selected = $link->out(false);
+        // Layout -> itemsetup.
+        if ($canmanageitems) {
+            if (strpos($this->currenturl->out(false), 'itemsetup')) { // If strpos is not null, for sure it will never be zero.
+                $paramurl['section'] = 'itemsetup';
+                $linktoitemsetup = new moodle_url('/mod/surveypro/layout.php', $paramurl);
+                $menu[$linktoitemsetup->out(false)] = get_string('layout_itemsetup', 'mod_surveypro');
             }
         }
-        $urlselect = new url_select($menu, $selected, null);
-        $urlselect->set_label(get_string('presetsnavigation', manager::PLUGINNAME), ['class' => 'sr-only']);
 
-        $data = [
-            'title' => get_string('preview', manager::PLUGINNAME, preset::get_name_from_plugin($fullname)),
-            'hasback' => true,
-            'backtitle' => get_string('back'),
-            'backurl' => new moodle_url('/mod/surveypro/preset.php', ['id' => $cm->id]),
-            'extraurlselect' => $urlselect->export_for_preset($renderer),
-        ];
-        return $renderer->render_from_template('mod_surveypro/action_bar', $data);
-    }*/
+        // Layout -> branchingvalidation.
+        if ($canmanageitems && empty($this->surveypro->template) && $countparents) {
+            $paramurl['section'] = 'branchingvalidation';
+            $linktobranchingvalidation = new moodle_url('/mod/surveypro/layout.php', $paramurl);
+            $menu[$linktobranchingvalidation->out(false)] = get_string('layout_branchingvalidation', 'mod_surveypro');
+        }
+
+        $activeurl = $this->currenturl;
+
+        // Select the menu item according to section.
+        if (strpos($this->currenturl->out(false), 'preview')) { // If strpos is not null, for sure it will never be zero.
+            $activeurl = $linktopreview;
+        }
+        if (strpos($this->currenturl->out(false), 'itemslist')) { // If strpos is not null, for sure it will never be zero.
+            $activeurl = $linktoitemslist;
+        }
+        if (strpos($this->currenturl->out(false), 'itemsetup')) { // If strpos is not null, for sure it will never be zero.
+            $activeurl = $linktoitemsetup;
+        }
+        if (strpos($this->currenturl->out(false), 'branchingvalidation')) { // If strpos is not null, for sure it will not be zero.
+            $activeurl = $linktobranchingvalidation;
+        }
+
+        $urlselect = new url_select($menu, $activeurl->out(false), null, 'viewactionselect');
+        $viewactionbar = new view_action_bar($this->surveypro->id, $urlselect);
+
+        $renderer = $PAGE->get_renderer('mod_surveypro');
+
+        return $renderer->render_view_action_bar($viewactionbar);
+    }
 
     /**
-     * Helper method to get the selector for the presets action.
+     * Generate the output for the action selector in the tools page.
      *
-     * @param bool $hasimport Whether the Import buttons must be included or not.
-     * @return \action_menu|null The selector object used to display the presets actions. Null when the import button is not
-     * displayed and the database hasn't any fields.
+     * @return string The HTML code for the action selector.
      */
-    /*protected function get_presets_actions_select(bool $hasimport = false): ?\action_menu {
-        global $DB;
+    public function draw_tools_action_bar(): string {
+        global $PAGE, $DB;
 
-        $hasfields = $DB->record_exists('data_fields', ['dataid' => $this->id]);
+        $canimportdata = has_capability('mod/surveypro:importresponses', $this->context);
+        $canexportdata = has_capability('mod/surveypro:exportresponses', $this->context);
 
-        // Early return if the database has no fields and the import action won't be displayed.
-        if (!$hasfields && !$hasimport) {
-            return null;
+        $whereparams = array('surveyproid' => $this->surveypro->id, 'parentid' => 0);
+        $wheresql = 'surveyproid = :surveyproid AND parentid <> :parentid';
+        $countparents = $DB->count_records_select('surveypro_item', $wheresql, $whereparams);
+
+        $paramurl = ['s' => $this->surveypro->id];
+
+        // Begin of definition for urlselect.
+        // Tools -> export.
+        if ($canexportdata) {
+            $paramurl['section'] = 'import';
+            $linktoimport = new moodle_url('/mod/surveypro/tools.php', $paramurl);
+            $menu[$linktoimport->out(false)] = get_string('tools_import', 'mod_surveypro');
         }
 
-        $actionsselect = new \action_menu();
-        $actionsselect->set_menu_trigger(get_string('actions'), 'btn btn-secondary');
-
-        if ($hasimport) {
-            // Import.
-            $actionsselectparams = ['id' => $this->cmid];
-            $actionsselect->add(new \action_menu_link(
-                new moodle_url('/mod/surveypro/preset.php', $actionsselectparams),
-                null,
-                get_string('importpreset', 'mod_surveypro'),
-                false,
-                ['data-action' => 'importpresets', 'data-dataid' => $this->cmid]
-            ));
+        // Tools -> import.
+        if ($canimportdata) {
+            $paramurl['section'] = 'export';
+            $linktoexport = new moodle_url('/mod/surveypro/tools.php', $paramurl);
+            $menu[$linktoexport->out(false)] = get_string('tools_export', 'mod_surveypro');
         }
 
-        // If the database has no fields, export and save as preset options shouldn't be displayed.
-        if ($hasfields) {
-            // Export.
-            $actionsselectparams = ['id' => $this->cmid, 'action' => 'export'];
-            $actionsselect->add(new \action_menu_link(
-                new moodle_url('/mod/surveypro/preset.php', $actionsselectparams),
-                null,
-                get_string('exportpreset', 'mod_surveypro'),
-                false
-            ));
-            // Save as preset.
-            $actionsselect->add(new \action_menu_link(
-                new moodle_url('/mod/surveypro/preset.php', $actionsselectparams),
-                null,
-                get_string('saveaspreset', 'mod_surveypro'),
-                false,
-                ['data-action' => 'saveaspreset', 'data-dataid' => $this->id]
-            ));
+        $activeurl = $this->currenturl;
+
+        // Select the menu item according to section.
+        if (strpos($this->currenturl->out(false), 'import')) { // If strpos is not null, for sure it will never be zero.
+            $activeurl = $linktoimport;
+        }
+        if (strpos($this->currenturl->out(false), 'export')) { // If strpos is not null, for sure it will never be zero.
+            $activeurl = $linktoexport;
         }
 
-        return $actionsselect;
-    }*/
+        $urlselect = new url_select($menu, $activeurl->out(false), null, 'viewactionselect');
+        // End of definition for urlselect.
+
+        $viewactionbar = new view_action_bar($this->surveypro->id, $urlselect);
+
+        $renderer = $PAGE->get_renderer('mod_surveypro');
+
+        return $renderer->render_view_action_bar($viewactionbar);
+    }
+
+    /**
+     * Generate the output for the action selector in the user templates page.
+     *
+     * @return string The HTML code for the action selector.
+     */
+    public function draw_utemplates_action_bar(): string {
+        global $PAGE, $DB;
+
+        $cansaveusertemplates = has_capability('mod/surveypro:saveusertemplates', $this->context);
+        $canimportusertemplates = has_capability('mod/surveypro:importusertemplates', $this->context);
+        $canapplyusertemplates = has_capability('mod/surveypro:applyusertemplates', $this->context);
+
+        $whereparams = array('surveyproid' => $this->surveypro->id, 'parentid' => 0);
+        $wheresql = 'surveyproid = :surveyproid AND parentid <> :parentid';
+        $countparents = $DB->count_records_select('surveypro_item', $wheresql, $whereparams);
+
+        $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
+        $hassubmissions = $utilitylayoutman->has_submissions();
+
+        $riskyediting = ($this->surveypro->riskyeditdeadline > time());
+
+        $paramurl = ['s' => $this->surveypro->id];
+
+        // Begin of definition for urlselect.
+        // Utemplates -> manage.
+        $paramurl['section'] = 'manage';
+        $linktomanage = new moodle_url('/mod/surveypro/utemplates.php', $paramurl);
+        $menu[$linktomanage->out(false)] = get_string('utemplate_manage', 'mod_surveypro');
+
+        // Utemplates -> save.
+        if ($cansaveusertemplates) {
+            $paramurl['section'] = 'save';
+            $linktosave = new moodle_url('/mod/surveypro/utemplates.php', $paramurl);
+            $menu[$linktosave->out(false)] = get_string('utemplate_save', 'mod_surveypro');
+        }
+
+        // Utemplates -> import.
+        if ($canimportusertemplates) {
+            $paramurl['section'] = 'import';
+            $linktoimport = new moodle_url('/mod/surveypro/utemplates.php', $paramurl);
+            $menu[$linktoimport->out(false)] = get_string('utemplate_import', 'mod_surveypro');
+        }
+
+        // Utemplates -> apply.
+        if ((!$hassubmissions || $riskyediting) && $canapplyusertemplates) {
+            $paramurl['section'] = 'apply';
+            $linktoapply = new moodle_url('/mod/surveypro/utemplates.php', $paramurl);
+            $menu[$linktoapply->out(false)] = get_string('utemplate_apply', 'mod_surveypro');
+        }
+
+        $activeurl = $this->currenturl;
+
+        // Select the menu item according to section.
+        if (strpos($this->currenturl->out(false), 'manage')) { // If strpos is not null, for sure it will never be zero.
+            $activeurl = $linktomanage;
+        }
+        if (strpos($this->currenturl->out(false), 'save')) { // If strpos is not null, for sure it will never be zero.
+            $activeurl = $linktosave;
+        }
+        if (strpos($this->currenturl->out(false), 'import')) { // If strpos is not null, for sure it will never be zero.
+            $activeurl = $linktoimport;
+        }
+        if (strpos($this->currenturl->out(false), 'apply')) { // If strpos is not null, for sure it will never be zero.
+            $activeurl = $linktoapply;
+        }
+
+        $urlselect = new url_select($menu, $activeurl->out(false), null, 'viewactionselect');
+        // End of definition for urlselect.
+
+        $viewactionbar = new view_action_bar($this->surveypro->id, $urlselect);
+
+        $renderer = $PAGE->get_renderer('mod_surveypro');
+
+        return $renderer->render_view_action_bar($viewactionbar);
+    }
+
+    /**
+     * Generate the output for the action selector in the master templates page.
+     *
+     * @return string The HTML code for the action selector.
+     */
+    public function draw_mtemplates_action_bar(): string {
+        global $PAGE;
+
+        $cansavemastertemplates = has_capability('mod/surveypro:savemastertemplates', $this->context);
+        $canapplymastertemplates = has_capability('mod/surveypro:applymastertemplates', $this->context);
+
+        $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
+        $hassubmissions = $utilitylayoutman->has_submissions();
+
+        $riskyediting = ($this->surveypro->riskyeditdeadline > time());
+
+        $paramurl = ['s' => $this->surveypro->id];
+
+        // Begin of definition for urlselect.
+        // Mtemplates -> save.
+        if ($cansavemastertemplates && empty($this->surveypro->template)) {
+            $paramurl['section'] = 'save';
+            $linktosave = new moodle_url('/mod/surveypro/mtemplates.php', $paramurl);
+            $menu[$linktosave->out(false)] = get_string('mtemplate_save', 'mod_surveypro');
+        }
+
+        // Mtemplates -> apply.
+        if ((!$hassubmissions || $riskyediting) && $canapplymastertemplates) {
+            $paramurl['section'] = 'apply';
+            $linktoapply = new moodle_url('/mod/surveypro/mtemplates.php', $paramurl);
+            $menu[$linktoapply->out(false)] = get_string('mtemplate_apply', 'mod_surveypro');
+        }
+
+        $activeurl = $this->currenturl;
+
+        // Select the menu item according to section.
+        if (strpos($this->currenturl->out(false), 'save')) { // If strpos is not null, for sure it will never be zero.
+            $activeurl = $linktosave;
+        }
+        if (strpos($this->currenturl->out(false), 'apply')) { // If strpos is not null, for sure it will never be zero.
+            $activeurl = $linktoapply;
+        }
+
+        $urlselect = new url_select($menu, $activeurl->out(false), null, 'viewactionselect');
+        // End of definition for urlselect.
+
+        $viewactionbar = new view_action_bar($this->surveypro->id, $urlselect);
+
+        $renderer = $PAGE->get_renderer('mod_surveypro');
+
+        return $renderer->render_view_action_bar($viewactionbar);
+    }
+
+    /**
+     * Generate the output for the action selector in the master templates page.
+     *
+     * @return string The HTML code for the action selector.
+     */
+    public function draw_reports_action_bar(): string {
+        global $PAGE;
+
+        $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context);
+        $canaccessownreports = has_capability('mod/surveypro:accessownreports', $this->context);
+        $canalwaysseeowner = has_capability('mod/surveypro:alwaysseeowner', $this->context);
+
+        if ($surveyproreportlist = get_plugin_list('surveyproreport')) {
+            foreach ($surveyproreportlist as $reportname => $reportpath) {
+                $classname = 'surveyproreport_'.$reportname.'\report';
+                $reportman = new $classname($this->cm, $this->context, $this->surveypro);
+
+                $condition = $canaccessreports;
+                $condition = $condition || ($canaccessownreports && $reportman->get_hasstudentreport());
+                $condition = $condition && $reportman->report_applies_to($this->surveypro->template);
+
+                // GDPR condition.
+                $othercondition = !$reportman->get_displayusernames() || (empty($this->surveypro->anonymous) || $canalwaysseeowner);
+                $condition = $condition && $othercondition;
+                if ($condition) {
+                    $linktoreport = new \moodle_url('/mod/surveypro/report/'.$reportname.'/view.php', ['s' => $this->cm->instance]);
+                    $menu[$linktoreport->out(false)] = get_string('pluginname', 'surveyproreport_'.$reportname);
+                }
+            }
+        }
+
+        // Select the menu item according to the currenturl.
+        $regex = '~report\/([^\/]*)\/view\.php~';
+        if (preg_match($regex, $this->currenturl->out(true), $match)) {
+            $activeurl = new \moodle_url('/mod/surveypro/report/'.$match[1].'/view.php', ['s' => $this->cm->instance]);
+        } else {
+            $reportname = reset($surveyproreportlist);
+            $activeurl = new \moodle_url('/mod/surveypro/report/'.$reportname.'/view.php', ['s' => $this->cm->instance]);
+        }
+
+        $urlselect = new url_select($menu, $activeurl->out(false), null, 'viewactionselect');
+        // End of definition for urlselect.
+
+        $viewactionbar = new view_action_bar($this->surveypro->id, $urlselect);
+
+        $renderer = $PAGE->get_renderer('mod_surveypro');
+
+        return $renderer->render_view_action_bar($viewactionbar);
+    }
 }

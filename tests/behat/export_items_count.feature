@@ -43,7 +43,6 @@ Feature: adding a fileupload item, two more item are added to export type menu
       | field  | time        |
       | format | label       |
     And I am on the "Export-item test" "surveypro activity" page logged in as teacher1
-# And I pause scenario execution
     And I navigate to "Survey > Tools" in current page administration
 
     Then "//select[contains(@id, 'id_downloadtype')]//option[contains(@value, '1')]" "xpath_element" should exist
@@ -52,7 +51,7 @@ Feature: adding a fileupload item, two more item are added to export type menu
     Then "//select[contains(@id, 'id_downloadtype')]//option[contains(@value, '4')]" "xpath_element" should exist
     Then "//select[contains(@id, 'id_downloadtype')]//option[contains(@value, '5')]" "xpath_element" should exist
 
-    And I follow "Layout" page in tab bar
+    And I follow "Layout"
     And I follow "delete_item_2"
     And I press "Yes"
 

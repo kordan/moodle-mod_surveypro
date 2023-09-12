@@ -26,7 +26,7 @@ Feature: gdpr anonimitytest anonymous surveypro are really anonymous
     And I expand all fieldsets
     And I set the field "Anonymous responses" to "1"
     And I press "Save and display"
-    And I follow "Survey" page in tab bar
+    And I select "Survey" from the "jump" singleselect
     Then I should see "Run Attachments overview report"
     Then I should see "Run Frequency distribution report"
     Then I should see "Run Late users report"
@@ -53,7 +53,7 @@ Feature: gdpr anonimitytest anonymous surveypro are really anonymous
       | field | boolean |
 
     When I am on the "Anonymous surveypro" activity page logged in as teacher1
-    And I follow "Survey" page in tab bar
+    And I select "Survey" from the "jump" singleselect
     Then I should see "Run Attachments overview report"
     Then I should see "Run Frequency distribution report"
     Then I should see "Run Late users report"
@@ -89,7 +89,7 @@ Feature: gdpr anonimitytest anonymous surveypro are really anonymous
     And I expand all fieldsets
     And I set the field "Anonymous responses" to "1"
     And I press "Save and display"
-    And I follow "Survey" page in tab bar
+    And I select "Survey" from the "jump" singleselect
     Then I should not see "Run Attachments overview report"
     Then I should see "Run Frequency distribution report"
     Then I should not see "Run Late users report"

@@ -39,15 +39,6 @@ define('SURVEYPRO_VALUELABELSEPARATOR', '::');
 define('SURVEYPRO_OTHERSEPARATOR'     , '->');
 
 /**
- * TABS
- */
-define('SURVEYPRO_TABLAYOUT'     , 1);
-define('SURVEYPRO_TABSUBMISSIONS', 2);
-define('SURVEYPRO_TABUTEMPLATES' , 3);
-define('SURVEYPRO_TABMTEMPLATES' , 4);
-define('SURVEYPRO_TABREPORTS'    , 5);
-
-/**
  * PAGES
  */
 // PAGES in tab LAYOUT.
@@ -134,15 +125,16 @@ define('SURVEYPRO_EXPORTUTEMPLATE'   , '22');
 /**
  * VIEW
  */
-// VIEW in USER FORM section.
+// MODE in USER FORM section.
 define('SURVEYPRO_NOVIEW'          , '0');
 define('SURVEYPRO_NEWRESPONSE'     , '1');
 define('SURVEYPRO_EDITRESPONSE'    , '2');
 define('SURVEYPRO_READONLYRESPONSE', '3');
+define('SURVEYPRO_PREVIEW'         , '4');
 
 // VIEW in ITEM section.
-define('SURVEYPRO_EDITITEM'        , '4');
-define('SURVEYPRO_CHANGEORDERASK'  , '5');
+define('SURVEYPRO_EDITITEM'        , '5');
+define('SURVEYPRO_CHANGEORDERASK'  , '6');
 
 /**
  * SENDERS
@@ -817,29 +809,37 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
         return;
     }
 
-    // Use. Do not add it. It is added by moodle core with the modulename label.
+    // First tab; "Use".
+    // Do not add it. It is added by moodle core with the modulename label.
     // $nodelabel = get_string('tabuse', 'mod_surveypro');
     // $elementurl = new \moodle_url('/mod/surveypro/view.php', ['s' => $cm->instance]);
     // $navnode = $navref->add($nodelabel,  $elementurl, navigation_node::TYPE_SETTING);
 
+    $paramurl = ['s' => $cm->instance];
+
     // Layout.
-    $nodelabel = get_string('tablayout', 'mod_surveypro');
-    $elementurl = new \moodle_url('/mod/surveypro/layout_itemslist.php', ['s' => $cm->instance]);
-    $navnode = $navref->add($nodelabel,  $elementurl, navigation_node::TYPE_SETTING);
-
-    // Tools.
-    $nodelabel = get_string('tabtools', 'mod_surveypro');
-    $elementurl = new \moodle_url('/mod/surveypro/tools_export.php', ['s' => $cm->instance]);
-    $navnode = $navref->add($nodelabel,  $elementurl, navigation_node::TYPE_SETTING);
-
-    // Templates. presets
-    $nodelabel = get_string('tabpresets', 'mod_surveypro');
-    $elementurl = new \moodle_url('/mod/surveypro/upreset_manage.php', ['s' => $cm->instance]);
+    $nodelabel = get_string('layout', 'mod_surveypro');
+    $elementurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
     $navnode = $navref->add($nodelabel,  $elementurl, navigation_node::TYPE_SETTING);
 
     // Report.
-    $nodelabel = get_string('tabreports', 'mod_surveypro');
-    $elementurl = new \moodle_url('/mod/surveypro/layout_itemlist.php', ['s' => $cm->instance]);
+    $nodelabel = get_string('reports', 'mod_surveypro');
+    $elementurl = new \moodle_url('/mod/surveypro/reports.php', $paramurl);
+    $navnode = $navref->add($nodelabel,  $elementurl, navigation_node::TYPE_SETTING);
+
+    // Tools.
+    $nodelabel = get_string('tools', 'mod_surveypro');
+    $elementurl = new \moodle_url('/mod/surveypro/tools.php', $paramurl);
+    $navnode = $navref->add($nodelabel,  $elementurl, navigation_node::TYPE_SETTING);
+
+    // User templates. (Maybe "User presets" is better?).
+    $nodelabel = get_string('utemplate', 'mod_surveypro');
+    $elementurl = new \moodle_url('/mod/surveypro/utemplates.php', $paramurl);
+    $navnode = $navref->add($nodelabel,  $elementurl, navigation_node::TYPE_SETTING);
+
+    // Master templates. (Maybe "Master presets" is better?).
+    $nodelabel = get_string('mtemplate', 'mod_surveypro');
+    $elementurl = new \moodle_url('/mod/surveypro/mtemplates.php', $paramurl);
     $navnode = $navref->add($nodelabel,  $elementurl, navigation_node::TYPE_SETTING);
 }
 
@@ -887,27 +887,32 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
 function surveypro_extend_navigation(navigation_node $navref, \stdClass $course, \stdClass $surveypro, cm_info $cm) {
     // Surveypro.
     $nodelabel = get_string('modulename', 'mod_surveypro');
-    $elementurl = new \moodle_url('/mod/surveypro/view.php', ['s' => $cm->instance]);
+    $elementurl = new \moodle_url('/mod/surveypro/view.php', ['s' => $surveypro->id, 'section' => 'cover']);
     $navnode = $navref->add($nodelabel,  $elementurl, navigation_node::TYPE_SETTING);
 
     // Layout.
-    $nodelabel = get_string('tablayout', 'mod_surveypro');
-    $elementurl = new \moodle_url('/mod/surveypro/layout_itemslist.php', ['s' => $cm->instance]);
-    $navnode = $navref->add($nodelabel,  $elementurl, navigation_node::TYPE_SETTING);
-
-    // Tools.
-    $nodelabel = get_string('tabtools', 'mod_surveypro');
-    $elementurl = new \moodle_url('/mod/surveypro/tools_export.php', ['s' => $cm->instance]);
-    $navnode = $navref->add($nodelabel,  $elementurl, navigation_node::TYPE_SETTING);
-
-    // Templates. presets
-    $nodelabel = get_string('tabpresets', 'mod_surveypro');
-    $elementurl = new \moodle_url('/mod/surveypro/upreset_manage.php', ['s' => $cm->instance]);
+    $nodelabel = get_string('layout', 'mod_surveypro');
+    $elementurl = new \moodle_url('/mod/surveypro/layout.php', ['s' => $cm->instance, 'section' => 'itemslist']);
     $navnode = $navref->add($nodelabel,  $elementurl, navigation_node::TYPE_SETTING);
 
     // Report.
-    $nodelabel = get_string('tabreports', 'mod_surveypro');
-    $elementurl = new \moodle_url('/mod/surveypro/layout_itemlist.php', ['s' => $cm->instance]);
+    $nodelabel = get_string('reports', 'mod_surveypro');
+    $elementurl = new \moodle_url('/mod/surveypro/layout_itemlist.php', ['s' => $cm->instance, 'section' => 'itemlist']);
+    $navnode = $navref->add($nodelabel,  $elementurl, navigation_node::TYPE_SETTING);
+
+    // Tools.
+    $nodelabel = get_string('tools', 'mod_surveypro');
+    $elementurl = new \moodle_url('/mod/surveypro/tools.php', ['s' => $cm->instance, 'section' => 'export']);
+    $navnode = $navref->add($nodelabel,  $elementurl, navigation_node::TYPE_SETTING);
+
+    // User tmplates. (Maybe "User presets" is better?).
+    $nodelabel = get_string('utemplate', 'mod_surveypro');
+    $elementurl = new \moodle_url('/mod/surveypro/upreset_manage.php', ['s' => $cm->instance]);
+    $navnode = $navref->add($nodelabel,  $elementurl, navigation_node::TYPE_SETTING);
+
+    // Master tmplates. (Maybe "Master presets" is better?).
+    $nodelabel = get_string('mtemplate', 'mod_surveypro');
+    $elementurl = new \moodle_url('/mod/surveypro/upreset_manage.php', ['s' => $cm->instance]);
     $navnode = $navref->add($nodelabel,  $elementurl, navigation_node::TYPE_SETTING);
 }
 

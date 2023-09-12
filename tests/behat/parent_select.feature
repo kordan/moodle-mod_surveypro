@@ -24,7 +24,6 @@ Feature: test the use of select as parent item
       | type   | plugin |
       | field  | select |
     And I am on the "Test select as parent" "surveypro activity" page logged in as teacher1
-    And I follow "Layout" page in tab bar
 
     # add a short text item
     And I set the field "typeplugin" to "Text (short)"
@@ -68,7 +67,6 @@ Feature: test the use of select as parent item
     And I log out
 
     When I am on the "Test select as parent" "surveypro activity" page logged in as teacher1
-    And I follow "Layout" page in tab bar
     And I follow "edit_item_2"
     And I expand all fieldsets
     And I set the field "Parent content" to "sea"
@@ -130,7 +128,6 @@ Feature: test the use of select as parent item
     And I log out
 
     When I am on the "Test select as parent" "surveypro activity" page logged in as teacher1
-    And I follow "Layout" page in tab bar
     And I follow "edit_item_2"
     And I expand all fieldsets
     And I set the field "Parent content" to "mountain"

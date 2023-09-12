@@ -41,7 +41,7 @@ Feature: Test bulk actions
       | format | fieldsetend |
 
     And I am on the "Test bulk item actions" "surveypro activity" page
-    And I follow "Layout" page in tab bar
+    And I follow "Layout"
 
     Then I should see "22" visible items
     Then I should see "0" hidden items

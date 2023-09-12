@@ -108,7 +108,7 @@ Feature: editing a submission, autofill userID is not overwritten
 
     # student2 logs in
     When I am on the "Preserve autofill" "surveypro activity" page logged in as student2
-    And I follow "Responses" page in tab bar
+    And I select "Responses" from the "jump" singleselect
     And I follow "edit_submission_row_1"
     Then the field "Your first name" matches value "student1"
     Then the field "Your last name" matches value "user1"
@@ -121,7 +121,7 @@ Feature: editing a submission, autofill userID is not overwritten
 
     # student1 logs in
     When I am on the "Preserve autofill" "surveypro activity" page logged in as student1
-    And I follow "Responses" page in tab bar
+    And I select "Responses" from the "jump" singleselect
 
     And I follow "edit_submission_row_1"
     Then the field "Your first name" matches value "student1"
@@ -132,7 +132,7 @@ Feature: editing a submission, autofill userID is not overwritten
 
     # teacher1 logs in
     When I am on the "Preserve autofill" "surveypro activity" page logged in as teacher1
-    And I follow "Responses" page in tab bar
+    And I select "Responses" from the "jump" singleselect
 
     And I follow "edit_submission_row_1"
     Then the field "Your first name" matches value "student1"
@@ -145,7 +145,7 @@ Feature: editing a submission, autofill userID is not overwritten
 
     # student1 logs in
     When I am on the "Preserve autofill" "surveypro activity" page logged in as student1
-    And I follow "Responses" page in tab bar
+    And I select "Responses" from the "jump" singleselect
 
     And I follow "edit_submission_row_1"
     Then the field "Your first name" matches value "student1"

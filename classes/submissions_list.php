@@ -682,7 +682,7 @@ class submissions_list {
             $table->initialbars(true);
         }
 
-        $paramurl = ['id' => $this->cm->id, 'sheet' => 'collectedsubmissions'];
+        $paramurl = ['s' => $this->cm->instance, 'section' => 'submissionslist'];
         if ($this->searchquery) {
             $paramurl['searchquery'] = $this->searchquery;
         }
@@ -798,7 +798,7 @@ class submissions_list {
             }
 
             $tablerowcounter = 0;
-            $paramurlbase = ['id' => $this->cm->id];
+            $paramurlbase = ['s' => $this->cm->instance];
 
             foreach ($submissions as $submission) {
                 // Count each submission.
@@ -870,9 +870,9 @@ class submissions_list {
                     }
                 }
                 if ($displayediticon) {
-                    $paramurl['view'] = SURVEYPRO_EDITRESPONSE;
+                    $paramurl['mode'] = SURVEYPRO_EDITRESPONSE;
                     $paramurl['begin'] = 1;
-                    $paramurl['sheet'] = 'newsubmission';
+                    $paramurl['section'] = 'submissionform';
 
                     if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
                         // Here title and alt are ALWAYS $nonhistoryeditstr.
@@ -886,9 +886,9 @@ class submissions_list {
                         $icons = $OUTPUT->action_icon($link, $attributeicn, null, $paramlink);
                     }
                 } else {
-                    $paramurl['view'] = SURVEYPRO_READONLYRESPONSE;
+                    $paramurl['mode'] = SURVEYPRO_READONLYRESPONSE;
                     $paramurl['begin'] = 1;
-                    $paramurl['sheet'] = 'newsubmission';
+                    $paramurl['section'] = 'submissionform';
 
                     $link = new \moodle_url('/mod/surveypro/view.php', $paramurl);
                     $paramlink = ['id' => 'view_submission_'.$submissionsuffix, 'title' => $readonlyaccessstr];
@@ -913,7 +913,7 @@ class submissions_list {
                         $paramurl['submissionid'] = $submission->submissionid;
                         $paramurl['sesskey'] = sesskey();
                         $paramurl['act'] = SURVEYPRO_DUPLICATERESPONSE;
-                        $paramurl['sheet'] = 'collectedsubmissions';
+                        $paramurl['section'] = 'submissionslist';
 
                         $link = new \moodle_url('/mod/surveypro/view.php', $paramurl);
                         $paramlink = ['id' => 'duplicate_submission_'.$submissionsuffix, 'title' => $duplicatestr];
@@ -936,7 +936,7 @@ class submissions_list {
                 if ($displaydeleteicon) {
                     $paramurl['sesskey'] = sesskey();
                     $paramurl['act'] = SURVEYPRO_DELETERESPONSE;
-                    $paramurl['sheet'] = 'collectedsubmissions';
+                    $paramurl['section'] = 'submissionslist';
 
                     $link = new \moodle_url('/mod/surveypro/view.php', $paramurl);
                     $paramlink = ['id' => 'delete_submission_'.$submissionsuffix, 'title' => $deletestr];
@@ -961,7 +961,7 @@ class submissions_list {
                     $paramurl['submissionid'] = $submission->submissionid;
                     $paramurl['act'] = SURVEYPRO_RESPONSETOPDF;
                     $paramurl['sesskey'] = sesskey();
-                    $paramurl['sheet'] = 'collectedsubmissions';
+                    $paramurl['section'] = 'submissionslist';
 
                     $link = new \moodle_url('/mod/surveypro/view.php', $paramurl);
                     $paramlink = ['id' => 'pdfdownload_submission_'.$submissionsuffix, 'title' => $downloadpdfstr];
@@ -981,7 +981,7 @@ class submissions_list {
 
         // If this is the output of a search and nothing has been found add a way to show all submissions.
         if (!isset($tablerow) && ($this->searchquery)) {
-            $paramurl = ['id' => $this->cm->id, 'sheet' => 'collectedsubmissions'];
+            $paramurl = ['s' => $this->cm->instance, 'section' => 'submissionslist'];
             $url = new \moodle_url('/mod/surveypro/view.php', $paramurl);
             $label = get_string('showallsubmissions', 'mod_surveypro');
             echo $OUTPUT->box($OUTPUT->single_button($url, $label, 'get'), 'clearfix mdl-align');
@@ -1027,12 +1027,11 @@ class submissions_list {
         // End of: is the button to delete all responses going to be the page?
 
         $buttoncount = 0;
-        $paramurl = [];
-        $paramurl['id'] = $this->cm->id;
+        $paramurl = ['s' => $this->cm->instance];
         if ($addnew) {
-            $paramurl['view'] = SURVEYPRO_NEWRESPONSE;
+            $paramurl['mode'] = SURVEYPRO_NEWRESPONSE;
             $paramurl['begin'] = 1;
-            $paramurl['sheet'] = 'newsubmission';
+            $paramurl['section'] = 'submissionform';
 
             $addurl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
             $buttoncount = 1;
@@ -1040,7 +1039,7 @@ class submissions_list {
         if ($deleteall) {
             $paramurl['act'] = SURVEYPRO_DELETEALLRESPONSES;
             $paramurl['sesskey'] = sesskey();
-            $paramurl['sheet'] = 'collectedsubmissions';
+            $paramurl['section'] = 'submissionslist';
 
             $deleteurl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
             $buttoncount++;
@@ -1102,11 +1101,11 @@ class submissions_list {
 
                     // Redirect.
                     $paramurl = array();
-                    $paramurl['id'] = $this->cm->id;
+                    $paramurl['s'] = $this->cm->instance;
                     $paramurl['act'] = SURVEYPRO_DUPLICATERESPONSE;
                     $paramurl['cnf'] = SURVEYPRO_ACTION_EXECUTED;
                     $paramurl['sesskey'] = sesskey();
-                    $paramurl['sheet'] = 'collectedsubmissions';
+                    $paramurl['section'] = 'submissionslist';
                     $redirecturl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
                     redirect($redirecturl);
                 }
@@ -1118,11 +1117,11 @@ class submissions_list {
 
                     // Redirect.
                     $paramurl = array();
-                    $paramurl['id'] = $this->cm->id;
+                    $paramurl['s'] = $this->cm->instance;
                     $paramurl['act'] = SURVEYPRO_DELETERESPONSE;
                     $paramurl['cnf'] = SURVEYPRO_ACTION_EXECUTED;
                     $paramurl['sesskey'] = sesskey();
-                    $paramurl['sheet'] = 'collectedsubmissions';
+                    $paramurl['section'] = 'submissionslist';
                     $redirecturl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
                     redirect($redirecturl);
                 }
@@ -1134,11 +1133,11 @@ class submissions_list {
 
                     // Redirect.
                     $paramurl = array();
-                    $paramurl['id'] = $this->cm->id;
+                    $paramurl['s'] = $this->cm->instance;
                     $paramurl['act'] = SURVEYPRO_DELETEALLRESPONSES;
                     $paramurl['cnf'] = SURVEYPRO_ACTION_EXECUTED;
                     $paramurl['sesskey'] = sesskey();
-                    $paramurl['sheet'] = 'collectedsubmissions';
+                    $paramurl['section'] = 'submissionslist';
                     $redirecturl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
                     redirect($redirecturl);
                 }
@@ -1215,13 +1214,13 @@ class submissions_list {
         $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
         $cansubmitmore = $utilitylayoutman->can_submit_more();
 
-        $paramurlbase = ['id' => $this->cm->id];
+        $paramurlbase = ['s' => $this->cm->instance];
         if ($cansubmitmore) { // If the user is allowed to submit one more response.
-            $paramurl = $paramurlbase + ['view' => SURVEYPRO_NEWRESPONSE, 'begin' => 1, 'sheet' => 'newsubmission'];
+            $paramurl = $paramurlbase + ['mode' => SURVEYPRO_NEWRESPONSE, 'begin' => 1, 'section' => 'submissionform'];
             $buttonurl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
             $onemore = new \single_button($buttonurl, get_string('addnewsubmission', 'mod_surveypro'), 'get', ['primary' => true]);
 
-            $paramurl = $paramurlbase + ['sheet' => 'collectedsubmissions'];
+            $paramurl = $paramurlbase + ['section' => 'submissionslist'];
             $buttonurl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
             $gotolist = new \single_button($buttonurl, get_string('gotolist', 'mod_surveypro'), 'get');
 
@@ -1231,7 +1230,7 @@ class submissions_list {
             echo $OUTPUT->box_end();
         } else {
             echo $OUTPUT->box($message, 'notice centerpara');
-            $paramurl = $paramurlbase + ['sheet' => 'collectedsubmissions'];
+            $paramurl = $paramurlbase + ['section' => 'submissionslist'];
             $buttonurl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
             $buttonlabel = get_string('gotolist', 'mod_surveypro');
             echo $OUTPUT->box($OUTPUT->single_button($buttonurl, $buttonlabel, 'get'), 'generalbox centerpara');
@@ -1275,18 +1274,18 @@ class submissions_list {
                 }
             }
 
-            $optionbase = ['id' => $this->cm->id, 'act' => SURVEYPRO_DUPLICATERESPONSE];
+            $optionbase = ['s' => $this->cm->instance, 'act' => SURVEYPRO_DUPLICATERESPONSE];
 
             $optionsyes = $optionbase;
             $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
             $optionsyes['submissionid'] = $this->submissionid;
-            $optionsyes['sheet'] = 'collectedsubmissions';
+            $optionsyes['section'] = 'submissionslist';
             $urlyes = new \moodle_url('/mod/surveypro/view.php', $optionsyes);
             $buttonyes = new \single_button($urlyes, get_string('continue'));
 
             $optionsno = $optionbase;
             $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-            $optionsno['sheet'] = 'collectedsubmissions';
+            $optionsno['section'] = 'submissionslist';
             $urlno = new \moodle_url('/mod/surveypro/view.php', $optionsno);
             $buttonno = new \single_button($urlno, get_string('no'));
 
@@ -1343,18 +1342,18 @@ class submissions_list {
                 }
             }
 
-            $optionbase = ['id' => $this->cm->id, 'act' => SURVEYPRO_DELETERESPONSE];
+            $optionbase = ['s' => $this->cm->instance, 'act' => SURVEYPRO_DELETERESPONSE];
 
             $optionsyes = $optionbase;
             $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
             $optionsyes['submissionid'] = $this->submissionid;
-            $optionsyes['sheet'] = 'collectedsubmissions';
+            $optionsyes['section'] = 'submissionslist';
             $urlyes = new \moodle_url('/mod/surveypro/view.php', $optionsyes);
             $buttonyes = new \single_button($urlyes, get_string('continue'));
 
             $optionsno = $optionbase;
             $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-            $optionsno['sheet'] = 'collectedsubmissions';
+            $optionsno['section'] = 'submissionslist';
             $urlno = new \moodle_url('/mod/surveypro/view.php', $optionsno);
             $buttonno = new \single_button($urlno, get_string('no'));
 
@@ -1389,12 +1388,12 @@ class submissions_list {
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             // Ask for confirmation.
             $message = get_string('confirm_deleteallresponses', 'mod_surveypro');
-            $optionbase = ['id' => $this->cm->id, 'act' => SURVEYPRO_DELETEALLRESPONSES, 'sheet' => 'collectedsubmissions'];
+            $optionbase = ['s' => $this->cm->instance, 'act' => SURVEYPRO_DELETEALLRESPONSES, 'section' => 'submissionslist'];
 
             $optionsyes = $optionbase;
             $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
             $urlyes = new \moodle_url('/mod/surveypro/view.php', $optionsyes);
-            $buttonyes = new \single_button($urlyes, get_string('continue'));
+            $buttonyes = new \single_button($urlyes, get_string('deleteallsubmissions', 'mod_surveypro'));
 
             $optionsno = $optionbase;
             $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
@@ -1526,7 +1525,7 @@ class submissions_list {
         }
 
         if ($this->searchquery) {
-            $paramurl = ['id' => $this->cm->id, 'sheet' => 'collectedsubmissions'];
+            $paramurl = ['s' => $this->cm->instance, 'section' => 'submissionslist'];
             $findallurl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
             $label = get_string('showallsubmissions', 'mod_surveypro');
 

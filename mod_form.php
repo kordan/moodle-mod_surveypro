@@ -89,8 +89,7 @@ class mod_surveypro_mod_form extends \moodleform_mod {
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
 
         // Allow/deny pauseresume with or without reminder email.
-        $options = [];
-        $options[SURVEYPRO_ONESHOTNOEMAIL] = get_string('oneshotnoemail', 'mod_surveypro');
+        $options = [SURVEYPRO_ONESHOTNOEMAIL => get_string('oneshotnoemail', 'mod_surveypro')];
         $options[SURVEYPRO_ONESHOTEMAIL] = get_string('oneshotemail', 'mod_surveypro');
         $options[SURVEYPRO_PAUSERESUMENOEMAIL] = get_string('pauseresumenoemail', 'mod_surveypro');
         $options[SURVEYPRO_PAUSERESUMEEMAIL] = get_string('pauseresumeemail', 'mod_surveypro');

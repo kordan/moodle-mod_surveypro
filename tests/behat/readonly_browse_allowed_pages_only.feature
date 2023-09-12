@@ -30,7 +30,6 @@ Feature: In read only mode browse a submission jumping now filled pages
       | format | pagebreak   |
       | field  | boolean     |
     And I am on the "Test jump not allowed pages" "surveypro activity" page logged in as teacher1
-    And I follow "Layout" page in tab bar
 
     And I follow "edit_item_3"
     And I expand all fieldsets

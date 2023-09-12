@@ -69,7 +69,7 @@ class layout_preview extends formbase {
     public function message_preview_mode() {
         global $OUTPUT;
 
-        $a = get_string('tabitemspage1', 'mod_surveypro');
+        $a = get_string('layout_preview', 'mod_surveypro');
         $previewmodestring = get_string('previewmode', 'mod_surveypro', $a);
         echo $OUTPUT->heading($previewmodestring, 4);
     }

@@ -63,10 +63,10 @@ Feature: verify the input with different number format
     When I follow "Lingua" in the user menu
     And I follow "English"
 
-    And I follow "Responses" page in tab bar
+    And I select "Responses" from the "jump" singleselect
     And I follow "view_submission_row_1"
     Then the field "Write the best approximation of π you can remember" matches value "3.14"
 
-    And I follow "Responses" page in tab bar
+    And I select "Responses" from the "jump" singleselect
     And I follow "view_submission_row_2"
     Then the field "Write the best approximation of π you can remember" matches value "3.14"

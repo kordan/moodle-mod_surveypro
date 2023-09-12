@@ -69,8 +69,8 @@ class submission_created extends \core\event\base {
         $paramurl = array();
         $paramurl['id'] = $this->contextinstanceid;
         $paramurl['submissionid'] = $this->objectid;
-        $paramurl['view'] = $this->other['view'];
-        $paramurl['sheet'] = 'newsubmission';
+        $paramurl['mode'] = $this->other['mode'];
+        $paramurl['section'] = 'submissionform';
         return new \moodle_url('/mod/surveypro/view.php', $paramurl);
     }
 
@@ -100,8 +100,8 @@ class submission_created extends \core\event\base {
      * @return void
      */
     protected function validate_data() {
-        if (!isset($this->other['view'])) {
-            throw new \coding_exception('view is a mandatory property.');
+        if (!isset($this->other['mode'])) {
+            throw new \coding_exception('mode is a mandatory property.');
         }
     }
 }

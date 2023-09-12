@@ -22,7 +22,6 @@ Feature: test the use of numeric setup form
       | type  | plugin  |
       | field | boolean |
     And I am on the "Test numeric setup form" "surveypro activity" page logged in as teacher1
-    And I follow "Layout" page in tab bar
 
     # add an numeric item
     And I set the field "typeplugin" to "Numeric"
@@ -86,7 +85,7 @@ Feature: test the use of numeric setup form
     And I press "Cancel"
 
     And I follow "show_item_2"
-    And I follow "Preview" page in tab bar
+    And I select "Preview" from the "jump" singleselect
     Then I should see "II.a: Write the best approximation of π you can remember"
     Then the field "id_surveypro_field_numeric_2" matches value "3.14"
     Then I should see "Additional note"

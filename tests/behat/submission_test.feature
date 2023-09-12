@@ -49,8 +49,7 @@ Feature: make a submission test for each available item
       | field  | time        |
       | format | label       |
     And I am on the "Each item submission" "surveypro activity" page logged in as teacher1
-    And I follow "Layout" page in tab bar
-    And I follow "Preview" page in tab bar
+    And I select "Preview" from the "jump" singleselect
     And I press "Next page >>"
     And I press "<< Previous page"
 
@@ -58,7 +57,7 @@ Feature: make a submission test for each available item
 
     # student1 logs in
     When I am on the "Each item submission" "surveypro activity" page logged in as student1
-    And I follow "Responses" page in tab bar
+    And I select "Responses" from the "jump" singleselect
     And I press "New response"
 
     # student1 submits his first response
@@ -107,7 +106,7 @@ Feature: make a submission test for each available item
     And I follow "view_submission_row_1"
     And I press "Next page >>"
     And I press "<< Previous page"
-    And I follow "Responses" page in tab bar
+    And I select "Responses" from the "jump" singleselect
     And I should see "1" submissions
 
     And I follow "duplicate_submission_row_1"
@@ -122,7 +121,7 @@ Feature: make a submission test for each available item
 
     When I am on the "Test submission for each available item" course page logged in as teacher1
     And I follow "Each item submission"
-    And I follow "Responses" page in tab bar
+    And I select "Responses" from the "jump" singleselect
     And I follow "edit_submission_row_1"
     And I press "Next page >>"
     And I set the field "id_surveypro_field_multiselect_11" to "sugar, jam"

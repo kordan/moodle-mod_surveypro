@@ -44,6 +44,7 @@ $PAGE->set_url('/mod/surveypro/index.php', ['id' => $id]);
 $PAGE->navbar->add($strsurveypro, new \moodle_url('/mod/data/index.php', ['id' => $id]));
 $PAGE->set_title($strsurveypro);
 $PAGE->set_heading($course->fullname);
+$PAGE->add_body_class('mediumwidth');
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading($strdataplural, 2);
@@ -102,7 +103,7 @@ foreach ($surveypros as $surveypro) {
         $cellclass = ['class' => 'dimmed'];
     }
 
-    $url = new \moodle_url('/mod/surveypro/view.php', ['id' => $surveypro->coursemodule, 'sheet' => 'collectedsubmissions']);
+    $url = new \moodle_url('/mod/surveypro/view.php', ['id' => $surveypro->coursemodule, 'section' => 'submissionslist']);
     $inprogressresp = isset($inprogresssubmissions[$surveypro->id]) ? $inprogresssubmissions[$surveypro->id] : 0;
     $closedresp = isset($closedsubmissions[$surveypro->id]) ? $closedsubmissions[$surveypro->id] : 0;
 

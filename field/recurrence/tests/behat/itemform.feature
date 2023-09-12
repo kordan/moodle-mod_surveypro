@@ -22,7 +22,6 @@ Feature: test the use of recurrence setup form
       | type  | plugin  |
       | field | boolean |
     And I am on the "Test recurrence setup form" "surveypro activity" page logged in as teacher1
-    And I follow "Layout" page in tab bar
 
     # add an recurrence item
     And I set the field "typeplugin" to "Recurrence"
@@ -101,7 +100,7 @@ Feature: test the use of recurrence setup form
     And I press "Cancel"
 
     And I follow "show_item_2"
-    And I follow "Preview" page in tab bar
+    And I select "Preview" from the "jump" singleselect
     Then I should see "II.a: When do you usually celebrate your name-day?"
     Then the field "id_surveypro_field_recurrence_2_day" matches value "1"
     Then the field "id_surveypro_field_recurrence_2_month" matches value "February"

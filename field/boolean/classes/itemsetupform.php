@@ -26,7 +26,7 @@ namespace surveyprofield_boolean;
 
 defined('MOODLE_INTERNAL') || die();
 
-use mod_surveypro\local\form\itemsetupbaseform;
+use mod_surveypro\local\form\item_setupbaseform;
 
 require_once($CFG->dirroot.'/lib/formslib.php');
 require_once($CFG->dirroot.'/mod/surveypro/field/boolean/lib.php');
@@ -38,7 +38,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/boolean/lib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class itemsetupform extends itemsetupbaseform {
+class itemsetupform extends item_setupbaseform {
 
     /**
      * Definition.

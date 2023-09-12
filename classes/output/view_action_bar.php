@@ -16,10 +16,9 @@
 
 namespace mod_surveypro\output;
 
-use data_portfolio_caller;
+use action_link;
 use mod_surveypro\manager;
 use moodle_url;
-use portfolio_add_button;
 use templatable;
 use renderable;
 
@@ -37,6 +36,9 @@ class view_action_bar implements templatable, renderable {
 
     /** @var \url_select $urlselect The URL selector object. */
     private $urlselect;
+
+    /** @var \action_menu $actionmenu */
+    private $actionmenu;
 
     /**
      * The class constructor.
@@ -58,11 +60,8 @@ class view_action_bar implements templatable, renderable {
      * @return array
      */
     public function export_for_template(\renderer_base $output): array {
-        global $PAGE, $DB, $CFG;
 
-        $data = [
-            'urlselect' => $this->urlselect->export_for_template($output),
-        ];
+        $data = ['urlselect' => $this->urlselect->export_for_template($output)];
 
         return $data;
     }

@@ -22,7 +22,6 @@ Feature: test the use of integer setup form
       | type  | plugin  |
       | field | boolean |
     And I am on the "Test integer setup form" "surveypro activity" page logged in as teacher1
-    And I follow "Layout" page in tab bar
 
     # add an integer item
     And I set the field "typeplugin" to "Integer"
@@ -86,7 +85,7 @@ Feature: test the use of integer setup form
     And I press "Cancel"
 
     And I follow "show_item_2"
-    And I follow "Preview" page in tab bar
+    And I select "Preview" from the "jump" singleselect
     Then I should see "II.a: How many people does your family have besides you?"
     Then the field "id_surveypro_field_integer_2" matches value "5"
     Then I should see "Additional note"

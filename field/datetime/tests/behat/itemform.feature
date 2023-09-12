@@ -22,7 +22,6 @@ Feature: test the use of datetime setup form
       | type  | plugin  |
       | field | boolean |
     And I am on the "Test datetime setup form" "surveypro activity" page logged in as teacher1
-    And I follow "Layout" page in tab bar
 
     # add an datetime item
     And I set the field "typeplugin" to "Date and time [dd/mm/yyyy;hh:mm]"
@@ -135,7 +134,7 @@ Feature: test the use of datetime setup form
     And I press "Cancel"
 
     And I follow "show_item_2"
-    And I follow "Preview" page in tab bar
+    And I select "Preview" from the "jump" singleselect
     Then I should see "II.a: Please, write down date and time of your last flight to Los Angeles."
     Then the field "id_surveypro_field_datetime_2_day" matches value "1"
     Then the field "id_surveypro_field_datetime_2_month" matches value "January"

@@ -78,7 +78,7 @@ class report extends reportbase {
     public function setup_outputtable() {
         $this->outputtable = new \flexible_table('userspercount');
 
-        $paramurl = ['id' => $this->cm->id];
+        $paramurl = ['s' => $this->cm->instance];
         $baseurl = new \moodle_url('/mod/surveypro/report/userspercount/view.php', $paramurl);
         $this->outputtable->define_baseurl($baseurl);
 

@@ -180,9 +180,8 @@ class mastertemplate extends templatebase {
             $message = 'The "templatemaster" folder does not match the expected one. This is a security issue. I must stop.';
             debugging($message, DEBUG_DEVELOPER);
 
-            $paramurl = [];
-            $paramurl['id'] = $this->cm->id;
-            $returnurl = new \moodle_url('/mod/surveypro/layout_itemslist.php', $paramurl);
+            $paramurl = ['s' => $this->cm->instance, 'section' => 'itemslist'];
+            $returnurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
             redirect($returnurl);
         }
 
@@ -550,8 +549,8 @@ class mastertemplate extends templatebase {
 
         $this->add_items_from_template();
 
-        $paramurl = ['s' => $this->surveypro->id];
-        $redirecturl = new \moodle_url('/mod/surveypro/layout_preview.php', $paramurl);
+        $paramurl = ['s' => $this->surveypro->id, 'section' => 'preview'];
+        $redirecturl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
         redirect($redirecturl);
     }
 
@@ -569,7 +568,7 @@ class mastertemplate extends templatebase {
 
         if ($hassubmissions && (!$riskyediting)) {
             echo $OUTPUT->notification(get_string('applyusertemplatedenied01', 'mod_surveypro'), 'notifyproblem');
-            $url = new \moodle_url('/mod/surveypro/view.php', ['s' => $this->surveypro->id, 'sheet' => 'collectedsubmissions']);
+            $url = new \moodle_url('/mod/surveypro/view.php', ['s' => $this->surveypro->id, 'section' => 'submissionslist']);
             echo $OUTPUT->continue_button($url);
             echo $OUTPUT->footer();
             die();
@@ -701,8 +700,7 @@ class mastertemplate extends templatebase {
                     $naturalsortindex++;
                     $record->sortindex = $naturalsortindex + $sortindexoffset;
                     if (!empty($record->parentid)) {
-                        $whereparams = [];
-                        $whereparams['surveyproid'] = $this->surveypro->id;
+                        $whereparams = ['surveyproid' => $this->surveypro->id];
                         $whereparams['sortindex'] = $record->parentid + $sortindexoffset;
                         $record->parentid = $DB->get_field('surveypro_item', 'id', $whereparams, MUST_EXIST);
                     }

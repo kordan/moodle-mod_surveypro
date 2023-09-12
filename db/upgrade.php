@@ -356,8 +356,7 @@ function xmldb_surveypro_upgrade($oldversion) {
                     AND action = :action
                     AND target = :oldtarget
                     AND objecttable = :objecttable';
-        $whereparams = [];
-        $whereparams['newtarget'] = $newtarget;
+        $whereparams = ['newtarget' => $newtarget];
         $whereparams['newother'] = $newother;
         $whereparams['component'] = $component;
         $whereparams['action'] = $action;

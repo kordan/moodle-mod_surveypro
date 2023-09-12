@@ -54,7 +54,7 @@ Feature: duplicate response
     And I log out
 
     When I am on the "Duplicate response sp" "surveypro activity" page logged in as admin
-    And I follow "Responses" page in tab bar
+    And I select "Responses" from the "jump" singleselect
     # Duplicate other original response
     And I click on "//a[contains(@id,'duplicate_submission_row_1')]" "xpath_element"
     Then I should see "Are you sure you want duplicate the response owned by student1 user1, created on"

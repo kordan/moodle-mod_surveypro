@@ -311,7 +311,7 @@ class report extends reportbase {
         }
 
         $paramurl = array();
-        $paramurl['id'] = $this->cm->id;
+        $paramurl['s'] = $this->cm->instance;
         $paramurl['type'] = 'summary';
         $paramurl['groupid'] = $this->groupid;
         $graphurl = new \moodle_url('/mod/surveypro/report/colles/graph.php', $paramurl);
@@ -452,7 +452,7 @@ class report extends reportbase {
         $paramnexturl['type'] = 'questions';
 
         $paramurl = array();
-        $paramurl['id'] = $this->cm->id;
+        $paramurl['s'] = $this->cm->instance;
         $paramurl['groupid'] = $this->groupid;
         $paramurl['type'] = 'scales';
 
@@ -569,7 +569,7 @@ class report extends reportbase {
         $nexturl = new \moodle_url('/mod/surveypro/report/colles/view.php', $paramnexturl);
 
         $paramurl = array();
-        $paramurl['id'] = $this->cm->id;
+        $paramurl['s'] = $this->cm->instance;
         $paramurl['groupid'] = $this->groupid;
         $paramurl['type'] = 'questions';
 

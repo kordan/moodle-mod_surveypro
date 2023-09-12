@@ -22,14 +22,13 @@ Feature: include custom numbers into element question/content
       | type  | plugin  |
       | field | boolean |
     And I am on the "VerifyCN survey" "surveypro activity" page logged in as teacher1
-    And I follow "Layout" page in tab bar
     And I follow "edit_item_1"
     And I expand all fieldsets
     And I set the following fields to these values:
       | Content        | <content>      |
       | Element number | <customnumber> |
     And I press "Save changes"
-    And I follow "Preview" page in tab bar
+    And I select "Preview" from the "jump" singleselect
     Then I should see "<output>"
 
     Examples:

@@ -36,7 +36,7 @@ require_once($CFG->dirroot.'/lib/csvlib.class.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class submissionimportform extends \moodleform {
+class submissions_importform extends \moodleform {
 
     /**
      * Definition.

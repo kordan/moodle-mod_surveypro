@@ -22,7 +22,6 @@ Feature: test the use of multiselect setup form
       | type  | plugin  |
       | field | boolean |
     And I am on the "Test multiselect setup form" "surveypro activity" page logged in as teacher1
-    And I follow "Layout" page in tab bar
 
     # add an multiselect item
     And I set the field "typeplugin" to "Multiple selection"
@@ -87,7 +86,7 @@ Feature: test the use of multiselect setup form
     And I press "Cancel"
 
     And I follow "show_item_2"
-    And I follow "Preview" page in tab bar
+    And I select "Preview" from the "jump" singleselect
     Then I should see "II.a: What do you usually get for breakfast?"
     Then the field "id_surveypro_field_multiselect_2" matches value "coffee, bread"
     Then I should see "Additional note"

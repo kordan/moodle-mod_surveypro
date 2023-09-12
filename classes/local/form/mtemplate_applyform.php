@@ -38,7 +38,7 @@ require_once($CFG->libdir.'/adminlib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mtemplateapplyform extends \moodleform {
+class mtemplate_applyform extends \moodleform {
 
     /**
      * Definition.

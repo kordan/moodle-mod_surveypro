@@ -15,20 +15,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Starting page to manage user templates.
+ * Starting page for item management.
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use mod_surveypro\tabs;
-use mod_surveypro\usertemplate;
-
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 
-$id = optional_param('id', 0, PARAM_INT); // Course_module id.
-$s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
+$id = optional_param('id', 0, PARAM_INT);                          // Course_module id.
+$s = optional_param('s', 0, PARAM_INT);                            // Surveypro instance id.
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
@@ -39,52 +36,38 @@ if (!empty($id)) {
     $course = $DB->get_record('course', ['id' => $surveypro->course], '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
+
 $cm = cm_info::create($cm);
-
-$utemplateid = optional_param('fid', 0, PARAM_INT);
-$action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
-$confirm = optional_param('cnf', SURVEYPRO_UNCONFIRMED, PARAM_INT);
-$edit = optional_param('edit', -1, PARAM_BOOL);
-
 require_course_login($course, false, $cm);
 $context = \context_module::instance($cm->id);
 
-// Required capability.
-require_capability('mod/surveypro:manageusertemplates', $context);
+// Redirect to the first report if it exists.
+if ($surveyproreportlist = get_plugin_list('surveyproreport')) {
+    foreach ($surveyproreportlist as $reportname => $reportpath) {
+        $returnurl = new \moodle_url('/mod/surveypro/report/'.$reportname.'/view.php', ['s' => $cm->instance]);
+        break;
+    }
 
-// Calculations.
-$utemplateman = new usertemplate($cm, $context, $surveypro);
-$utemplateman->setup($utemplateid, $action, $confirm);
-
-$utemplateman->prevent_direct_user_input();
-
-if ($action == SURVEYPRO_EXPORTUTEMPLATE) {
-    $utemplateman->export_utemplate();
-    die();
+    redirect($returnurl);
 }
 
 // Output starts here.
-$url = new \moodle_url('/mod/surveypro/utemplate_manage.php', ['s' => $surveypro->id]);
+$url = new \moodle_url('/mod/surveypro/reports.php', ['s' => $cm->instance]);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
+$PAGE->navbar->add(get_string('reports', 'mod_surveypro'), $url);
+$PAGE->navbar->add(get_string('layout_preview', 'mod_surveypro'));
+$PAGE->add_body_class('mediumwidth');
 
 echo $OUTPUT->header();
 
-$useoldtabshere = true;
-if ($useoldtabshere) {
-    new tabs($cm, $context, $surveypro, SURVEYPRO_TABUTEMPLATES, SURVEYPRO_UTEMPLATES_MANAGE);
-} else {
-    $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
-    echo $actionbar->draw_view_action_bar();
-}
+echo $OUTPUT->box('Non ci sono report in questa instllazione di surveypro.', 'generalbox description', 'intro', 'centerpara');
 
-$utemplateman->delete_utemplate();
-
-$utemplateman->display_usertemplates_table();
-$utemplateman->trigger_event('all_usertemplates_viewed'); // Event: all_usertemplates_viewed.
+$actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
+echo $actionbar->draw_reports_action_bar();
 
 // Finish the page.
 echo $OUTPUT->footer();

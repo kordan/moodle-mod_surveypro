@@ -63,8 +63,7 @@ if ($showjumper) {
 
     $jumpercontent = $reportman->get_groupjumper_items();
 
-    $paramurl = ['id' => $cm->id];
-    $formurl = new \moodle_url('/mod/surveypro/report/responsesperuser/view.php', $paramurl);
+    $formurl = new \moodle_url('/mod/surveypro/report/responsesperuser/view.php', ['s' => $cm->instance]);
 
     $formparams = new \stdClass();
     $formparams->canaccessallgroups = $canaccessallgroups;
@@ -89,18 +88,15 @@ $PAGE->set_context($context);
 $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
+$PAGE->add_body_class('mediumwidth');
 
 echo $OUTPUT->header();
 
 $surveyproreportlist = get_plugin_list('surveyproreport');
 $reportkey = array_search('responsesperuser', array_keys($surveyproreportlist));
-$useoldtabshere = true;
-if ($useoldtabshere) {
-    new tabs($cm, $context, $surveypro, SURVEYPRO_TABREPORTS, $reportkey);
-} else {
-    $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
-    echo $actionbar->draw_view_action_bar();
-}
+
+$actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
+echo $actionbar->draw_reports_action_bar();
 
 $reportman->prevent_direct_user_input();
 

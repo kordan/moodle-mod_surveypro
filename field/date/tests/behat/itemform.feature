@@ -22,7 +22,6 @@ Feature: test the use of date setup form
       | type  | plugin  |
       | field | boolean |
     And I am on the "Test date setup form" "surveypro activity" page logged in as teacher1
-    And I follow "Layout" page in tab bar
 
     # add an date item
     And I set the field "typeplugin" to "Date [dd/mm/yyyy]"
@@ -111,7 +110,7 @@ Feature: test the use of date setup form
     And I press "Cancel"
 
     And I follow "show_item_2"
-    And I follow "Preview" page in tab bar
+    And I select "Preview" from the "jump" singleselect
     Then I should see "II.a: When were you born?"
     Then the field "id_surveypro_field_date_2_day" matches value "1"
     Then the field "id_surveypro_field_date_2_month" matches value "January"

@@ -25,7 +25,7 @@
 namespace mod_surveypro;
 
 use mod_surveypro\utility_submission;
-use mod_surveypro\local\form\submissionimportform;
+use mod_surveypro\local\form\submissions_importform;
 
 /**
  * The class importing data from CSV
@@ -568,7 +568,7 @@ class tools_import {
      * @return csv content
      */
     public function get_csv_content() {
-        $importform = new submissionimportform();
+        $importform = new submissions_importform();
 
         return $importform->get_file_content('csvfile_filepicker');
     }

@@ -54,8 +54,7 @@ $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $c
 $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $context);
 
 if ($changeuser) {
-    $paramurl = ['id' => $cm->id];
-    $returnurl = new \moodle_url('/mod/surveypro/report/attachments/view.php', $paramurl);
+    $returnurl = new \moodle_url('/mod/surveypro/report/attachments/view.php', ['s' => $cm->instance]);
     redirect($returnurl);
 }
 
@@ -74,8 +73,7 @@ $uploadsformman->set_itemid($itemid);
 $uploadsformman->set_submissionid($submissionid);
 
 // Begin of: define $filterform return url.
-$paramurl = ['id' => $cm->id];
-$formurl = new \moodle_url('/mod/surveypro/report/attachments/uploads.php', $paramurl);
+$formurl = new \moodle_url('/mod/surveypro/report/attachments/uploads.php', ['s' => $cm->instance]);
 // End of: define $user_form return url.
 
 // Begin of: prepare params for the form.
@@ -99,6 +97,7 @@ $PAGE->set_context($context);
 $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
+$PAGE->add_body_class('mediumwidth');
 
 // Make bold the navigation menu/link that refers to me.
 $url = new \moodle_url('/mod/surveypro/report/attachments/view.php', ['s' => $surveypro->id]);
@@ -108,13 +107,9 @@ echo $OUTPUT->header();
 
 $surveyproreportlist = get_plugin_list('surveyproreport');
 $reportkey = array_search('attachments', array_keys($surveyproreportlist));
-$useoldtabshere = true;
-if ($useoldtabshere) {
-    new tabs($cm, $context, $surveypro, SURVEYPRO_TABREPORTS, $reportkey);
-} else {
-    $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
-    echo $actionbar->draw_view_action_bar();
-}
+
+$actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
+echo $actionbar->draw_reports_action_bar();
 
 $filterform->display();
 

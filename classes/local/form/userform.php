@@ -45,7 +45,7 @@ class userform extends \moodleform {
      * @return void
      */
     public function definition() {
-        global $CFG, $DB;
+        global $DB;
 
         $mform = $this->_form;
 
@@ -59,11 +59,9 @@ class userform extends \moodleform {
         $userfirstpage = $this->_customdata->userfirstpage;
         $userlastpage = $this->_customdata->userlastpage;
         $overflowpage = $this->_customdata->overflowpage;
-        $tabpage = $this->_customdata->tabpage;
-        $readonly = $this->_customdata->readonly; // I see a form (record) that is not mine.
-        $preview = $this->_customdata->preview; // Are we in preview mode?
+        $mode = $this->_customdata->mode;
 
-        if ($preview) {
+        if ($mode == SURVEYPRO_PREVIEW) {
             $mform->disable_form_change_checker();
         }
 
@@ -78,7 +76,7 @@ class userform extends \moodleform {
         $mform->setType('submissionid', PARAM_INT);
 
         // Userform: formpage.
-        $mform->addElement('hidden', 'formpage', 0); // Value is provided by $userform->set_data($prefill); from view.php ['sheet' => 'newsubmission'].
+        $mform->addElement('hidden', 'formpage', 0); // Value is provided by $userform->set_data($prefill); from view.php ['section' => 'submissionform'].
         $mform->setType('formpage', PARAM_INT);
 
         if ( ($formpage > 0) && ($formpage <= $userformpagecount) ) {
@@ -100,12 +98,12 @@ class userform extends \moodleform {
             // as first item are out from the a fieldset
             // so they are not selected by the css3 selector: fieldset div.fitem:nth-of-type(even) {.
             // $readonly page is not a form. The alternation is inverted. I need to jump this element.
-            if (!$readonly) {
+            if ($mode != SURVEYPRO_READONLYRESPONSE) {
                 $mform->addElement('static', 'beginning_extrarow', '', '');
             }
 
             foreach ($itemseeds as $itemseed) {
-                if ($tabpage == SURVEYPRO_LAYOUT_PREVIEW) {
+                if ($mode == SURVEYPRO_PREVIEW) {
                     $itemaschildisallowed = true;
                 } else {
                     // Is the current item allowed in this page?
@@ -166,7 +164,7 @@ class userform extends \moodleform {
                     }
 
                     // Element.
-                    $item->userform_mform_element($mform, false, $readonly);
+                    $item->userform_mform_element($mform, false, ($mode == SURVEYPRO_READONLYRESPONSE));
 
                     // Note.
                     if ($fullinfo = $item->userform_get_full_info(false)) {
@@ -184,7 +182,7 @@ class userform extends \moodleform {
             }
             $itemseeds->close();
 
-            if ($tabpage != SURVEYPRO_LAYOUT_PREVIEW) {
+            if ($mode != SURVEYPRO_PREVIEW) {
                 if (!empty($surveypro->captcha)) {
                     $mform->addElement('recaptcha', 'captcha_form_footer');
                 }
@@ -196,7 +194,7 @@ class userform extends \moodleform {
         if ($formpage > $userfirstpage) {
             $buttonlist['prevbutton'] = get_string('previousformpage', 'mod_surveypro');
         }
-        if ($tabpage != SURVEYPRO_LAYOUT_PREVIEW) {
+        if ($mode != SURVEYPRO_PREVIEW) {
             $pasuseresumesurvey = ($surveypro->pauseresume == SURVEYPRO_PAUSERESUMENOEMAIL);
             $pasuseresumesurvey = $pasuseresumesurvey || ($surveypro->pauseresume == SURVEYPRO_PAUSERESUMEEMAIL);
             if ($pasuseresumesurvey) {
@@ -261,16 +259,18 @@ class userform extends \moodleform {
 
         // Get _customdata.
         $cm = $this->_customdata->cm;
-        // Useless: $tabpage = $this->_customdata->tabpage;.
+        // Useless: $mode = $this->_customdata->mode;.
         $surveypro = $this->_customdata->surveypro;
         // Useless: $submissionid = $this->_customdata->submissionid;.
-        // Useless: $formpage = $this->_customdata->formpage;.
         // Useless: $userformpagecount = $this->_customdata->userformpagecount;.
         // Useless: $canaccessreserveditems = $this->_customdata->canaccessreserveditems;.
-        // Useless: $readonly = $this->_customdata->readonly; // I see a form (record) that is not mine.
-        $preview = $this->_customdata->preview; // Are we in preview mode?
+        // Useless: $formpage = $this->_customdata->formpage;.
+        // Useless: $userfirstpage = $this->_customdata->userfirstpage;
+        // Useless: $userlastpage = $this->_customdata->userlastpage;
+        // Useless: $overflowpage = $this->_customdata->overflowpage;
+        $mode = $this->_customdata->mode;
 
-        if ($preview) {
+        if ($mode == SURVEYPRO_PREVIEW) {
             // Skip validation.
             return array();
         }

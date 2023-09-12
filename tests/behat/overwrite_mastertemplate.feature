@@ -24,7 +24,7 @@ Feature: verify the deletion of old items works as expected during master templa
     And I press "Apply"
     Then I should see "Attitudes Towards Thinking and Learning"
 
-    And I follow "Elements" page in tab bar
+    And I select "Elements" from the "jump" singleselect
     And I press "Yes"
 
     When I am on the "To overwrite master templates" "mod_surveypro > Master templates Apply" page
@@ -33,7 +33,7 @@ Feature: verify the deletion of old items works as expected during master templa
     Then I should see "I prefer that my learning focuses on issues that interest me."
     Then I should see "I found that my learning focuses on issues that interest me."
 
-    And I follow "Elements" page in tab bar
+    And I select "Elements" from the "jump" singleselect
     And I press "Yes"
 
     When I am on the "To overwrite master templates" "mod_surveypro > Master templates Apply" page
@@ -42,7 +42,7 @@ Feature: verify the deletion of old items works as expected during master templa
     Then I should see "In this online unit"
     Then I should see "my learning focuses on issues that interest me"
 
-    And I follow "Elements" page in tab bar
+    And I select "Elements" from the "jump" singleselect
     And I press "Yes"
 
     When I am on the "To overwrite master templates" "mod_surveypro > Master templates Apply" page
@@ -51,7 +51,7 @@ Feature: verify the deletion of old items works as expected during master templa
     Then I should see "In this online unit"
     Then I should see "my learning focuses on issues that interest me"
 
-    And I follow "Elements" page in tab bar
+    And I select "Elements" from the "jump" singleselect
     And I press "Yes"
 
     When I am on the "To overwrite master templates" "mod_surveypro > Master templates Apply" page

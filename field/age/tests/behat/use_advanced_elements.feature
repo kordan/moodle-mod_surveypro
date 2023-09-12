@@ -61,7 +61,7 @@ Feature: test the use of reserved elements
 
     # test the user sees only the first age item
     When I am on the "Reserved element test" "surveypro activity" page logged in as student1
-    And I follow "Responses" page in tab bar
+    And I select "Responses" from the "jump" singleselect
     And I press "New response"
 
     Then I should see "1: First age item"
@@ -77,7 +77,7 @@ Feature: test the use of reserved elements
 
     # test the teacher sees the first and the second age items both
     When I am on the "Reserved element test" "surveypro activity" page logged in as teacher1
-    And I follow "Responses" page in tab bar
+    And I select "Responses" from the "jump" singleselect
     And I follow "edit_submission_row_1"
     Then I should see "1: First age item"
     Then I should see "2: Second age item"

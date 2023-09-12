@@ -54,7 +54,7 @@ Feature: verify urls really redirect to existing pages
     And I navigate to "Layout > Preview" in current page administration
 
     # Layout -> Elements
-    And I follow "Elements" page in tab bar
+    And I select "Elements" from the "jump" singleselect
     # Layout -> Elements: table headers
     And I click on "Element" "link" in the ".plugin" "css_element"
     And I click on "Order" "link" in the ".sortindex" "css_element"
@@ -71,67 +71,67 @@ Feature: verify urls really redirect to existing pages
     # Survey -> Dashboard
     # This step used to be 'And I follow "Dashboard"', but "Dashboard" is found 4 times in the page
     # so I use a custom "home made" behat call.
-    And I follow "Dashboard" page in tab bar
+    And I select "Dashboard" from the "jump" singleselect
     # Survey -> Dashboard: Reports section
     And I follow "Run Attachments overview report"
     # return home
-    And I follow "Survey" page in tab bar
-    And I follow "Dashboard" page in tab bar
+    And I select "Survey" from the "jump" singleselect
+    And I select "Dashboard" from the "jump" singleselect
 
     And I follow "Run Late users report"
     # return home
-    And I follow "Survey" page in tab bar
-    And I follow "Dashboard" page in tab bar
+    And I select "Survey" from the "jump" singleselect
+    And I select "Dashboard" from the "jump" singleselect
 
     And I follow "Run Frequency distribution report"
     # return home
-    And I follow "Survey" page in tab bar
-    And I follow "Dashboard" page in tab bar
+    And I select "Survey" from the "jump" singleselect
+    And I select "Dashboard" from the "jump" singleselect
 
     And I follow "Run Responses per user report"
     # return home
-    And I follow "Survey" page in tab bar
-    And I follow "Dashboard" page in tab bar
+    And I select "Survey" from the "jump" singleselect
+    And I select "Dashboard" from the "jump" singleselect
 
     And I follow "Run Users per count of responses report"
     # return home
-    And I follow "Survey" page in tab bar
-    And I follow "Dashboard" page in tab bar
+    And I select "Survey" from the "jump" singleselect
+    And I select "Dashboard" from the "jump" singleselect
 
     # Survey -> Dashboard: User templates section
     And I follow "Manage user templates"
     # return home
     And I follow "Survey"
-    And I follow "Dashboard" page in tab bar
+    And I select "Dashboard" from the "jump" singleselect
 
     And I follow "Save user templates"
     # return home
     And I follow "Survey"
-    And I follow "Dashboard" page in tab bar
+    And I select "Dashboard" from the "jump" singleselect
 
     And I follow "Import user templates"
     # return home
     And I follow "Survey"
-    And I follow "Dashboard" page in tab bar
+    And I select "Dashboard" from the "jump" singleselect
 
     And I follow "Apply user templates"
     # return home
     And I follow "Survey"
-    And I follow "Dashboard" page in tab bar
+    And I select "Dashboard" from the "jump" singleselect
 
     # Survey -> Dashboard: Master templates section
     And I follow "Save master templates"
     # return home
     And I follow "Survey"
-    And I follow "Dashboard" page in tab bar
+    And I select "Dashboard" from the "jump" singleselect
 
     And I follow "Apply master templates"
     # return home
     And I follow "Survey"
-    And I follow "Dashboard" page in tab bar
+    And I select "Dashboard" from the "jump" singleselect
 
     # Survey -> Responses
-    And I follow "Responses" page in tab bar
+    And I select "Responses" from the "jump" singleselect
 
     # Survey -> Import
     And I navigate to "Survey > Import" in current page administration
@@ -145,9 +145,9 @@ Feature: verify urls really redirect to existing pages
     # User templates -> Manage
     And I navigate to "User templates > Manage" in current page administration
     # User templates: pages
-    And I follow "Save" page in tab bar
-    And I follow "Import" page in tab bar
-    And I follow "Apply" page in tab bar
+    And I select "Save" from the "jump" singleselect
+    And I select "Import" from the "jump" singleselect
+    And I select "Apply" from the "jump" singleselect
     # User templates -> Save
     And I navigate to "User templates > Save" in current page administration
     # User templates -> Import
@@ -161,7 +161,7 @@ Feature: verify urls really redirect to existing pages
     # Master templates -> Save
     And I navigate to "Master templates > Save" in current page administration
     # Master templates: pages
-    And I follow "Apply" page in tab bar
+    And I select "Apply" from the "jump" singleselect
     And I navigate to "Master templates > Apply" in current page administration
 
     #
@@ -189,5 +189,5 @@ Feature: verify urls really redirect to existing pages
   @javascript
   Scenario: select each available link as a student
     Given I am on the "sPro test links" "surveypro activity" page logged in as student1
-    And I follow "Dashboard" page in tab bar
-    And I follow "Responses" page in tab bar
+    And I select "Dashboard" from the "jump" singleselect
+    And I select "Responses" from the "jump" singleselect

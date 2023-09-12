@@ -31,7 +31,7 @@ Feature: Duplicate a surveypro instance
     And I duplicate "surveypro test" activity editing the new copy with:
       | Name | Copy of surveypro test |
     And I am on the "Copy of surveypro test" "surveypro activity" page
-    And I follow "Layout" page in tab bar
+    And I follow "Layout"
     Then I should see "Welcome to this new instance of surveypro"
     And I should see "Grouped data"
     And I should see "What do you usually get for breakfast?"

@@ -78,7 +78,7 @@ class report extends reportbase {
     public function setup_outputtable() {
         $this->outputtable = new \flexible_table('attachmentslist');
 
-        $paramurl = ['id' => $this->cm->id];
+        $paramurl = ['s' => $this->cm->instance];
         if ($this->groupid) {
             $paramurl['groupid'] = $this->groupid;
         }

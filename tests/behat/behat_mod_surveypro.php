@@ -76,12 +76,12 @@ class behat_mod_surveypro extends behat_base {
 
         switch ($type) {
             case 'User templates Import':
-                return new \moodle_url('/mod/surveypro/utemplate_import.php',
-                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id]);
+                return new \moodle_url('/mod/surveypro/utemplates.php',
+                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'section' => 'import']);
 
             case 'Master templates Apply':
-                return new \moodle_url('/mod/surveypro/mtemplate_apply.php',
-                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id]);
+                return new \moodle_url('/mod/surveypro/mtemplates.php',
+                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'section' => 'apply']);
 
             case 'Colles Summary report':
                 return new \moodle_url('/mod/surveypro/report/colles/view.php',

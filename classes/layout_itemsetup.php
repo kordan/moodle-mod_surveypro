@@ -167,8 +167,8 @@ class layout_itemsetup {
 
         $table = new \flexible_table('itemslist');
 
-        $paramurl = ['id' => $this->cm->id];
-        $baseurl = new \moodle_url('/mod/surveypro/layout_itemslist.php', $paramurl);
+        $paramurl = ['s' => $this->cm->instance, 'section' => 'itemslist'];
+        $baseurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
         $table->define_baseurl($baseurl);
 
         $tablecolumns = array();
@@ -282,7 +282,7 @@ class layout_itemsetup {
 
         // Begin of: $paramurlmove definition.
         $paramurlmove = array();
-        $paramurlmove['id'] = $this->cm->id;
+        $paramurlmove['s'] = $this->cm->instance;
         $paramurlmove['act'] = SURVEYPRO_CHANGEORDER;
         $paramurlmove['itm'] = $this->itemtomove;
         // End of: $paramurlmove definition.
@@ -297,9 +297,10 @@ class layout_itemsetup {
             $drawmoveherebox = true;
             $paramurl = $paramurlmove;
             $paramurl['lib'] = 0; // Move just after this sortindex (lib == last item before).
+            $paramurl['section'] = 'itemslist';
             $paramurl['sesskey'] = sesskey();
 
-            $link = new \moodle_url('/mod/surveypro/layout_itemslist.php', $paramurl);
+            $link = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
             $paramlink = ['id' => 'moveafter_0', 'title' => $moveherestr];
             $icons = $OUTPUT->action_icon($link, $movehereicn, null, $paramlink);
 
@@ -320,7 +321,7 @@ class layout_itemsetup {
 
             // Begin of: $paramurlbase definition.
             $paramurlbase = array();
-            $paramurlbase['id'] = $this->cm->id;
+            $paramurlbase['s'] = $this->cm->instance;
             $paramurlbase['itemid'] = $item->get_itemid();
             $paramurlbase['type'] = $item->get_type();
             $paramurlbase['plugin'] = $item->get_plugin();
@@ -401,18 +402,20 @@ class layout_itemsetup {
                         if ($reserved) {
                             $paramurl['act'] = SURVEYPRO_MAKEAVAILABLE;
                             $paramurl['sortindex'] = $sortindex;
+                            $paramurl['section'] = 'itemslist';
                             $paramurl['sesskey'] = sesskey();
 
-                            $link = new \moodle_url('/mod/surveypro/layout_itemslist.php#sortindex_'.$sortindex, $paramurl);
+                            $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$sortindex, $paramurl);
                             $paramlink = ['id' => 'makeavailable_item_'.$sortindex, 'title' => $reservedstr];
                             $actionicon = $OUTPUT->action_icon($link, $reservedicn, null, $paramlink);
                             $icons .= \html_writer::tag('span', $actionicon, ['class' => 'reserveitem']);
                         } else {
                             $paramurl['act'] = SURVEYPRO_MAKERESERVED;
                             $paramurl['sortindex'] = $sortindex;
+                            $paramurl['section'] = 'itemslist';
                             $paramurl['sesskey'] = sesskey();
 
-                            $link = new \moodle_url('/mod/surveypro/layout_itemslist.php#sortindex_'.$sortindex, $paramurl);
+                            $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$sortindex, $paramurl);
                             $paramlink = ['id' => 'makereserved_item_'.$sortindex, 'title' => $availablestr];
                             $actionicon = $OUTPUT->action_icon($link, $freeicn, null, $paramlink);
                             $icons .= \html_writer::tag('span', $actionicon, ['class' => 'freeitem']);
@@ -453,6 +456,7 @@ class layout_itemsetup {
             // this action make changes not limited to the state of this icon.
             if (!$this->hassubmissions || $riskyediting) {
                 $paramurl = $paramurlbase;
+                $paramurl['section'] = 'itemslist';
                 $paramurl['sesskey'] = sesskey();
                 if (empty($itemishidden)) {
                     $paramurl['act'] = SURVEYPRO_HIDEITEM;
@@ -465,7 +469,7 @@ class layout_itemsetup {
                     $message = $showstr;
                     $linkidprefix = 'show_item_';
                 }
-                $link = new \moodle_url('/mod/surveypro/layout_itemslist.php#sortindex_'.$sortindex, $paramurl);
+                $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$sortindex, $paramurl);
                 $paramlink = ['id' => $linkidprefix.$sortindex, 'class' => 'icon'];
                 if (empty($itemishidden)) {
                     $paramlink['title'] = $hidestr;
@@ -485,8 +489,9 @@ class layout_itemsetup {
                 // SURVEYPRO_EDITITEM.
                 $paramurl = $paramurlbase;
                 $paramurl['view'] = SURVEYPRO_EDITITEM;
+                $paramurl['section'] = 'itemsetup';
 
-                $link = new \moodle_url('/mod/surveypro/layout_itemsetup.php', $paramurl);
+                $link = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
                 $paramlink = ['id' => 'edit_item_'.$sortindex, 'class' => 'icon', 'title' => $editstr];
                 $actionicon = $OUTPUT->action_icon($link, $editicn, null, $paramlink);
                 $icons .= \html_writer::tag('span', $actionicon, ['class' => 'fatspan']);
@@ -496,13 +501,14 @@ class layout_itemsetup {
                     $paramurl = $paramurlbase;
                     $paramurl['view'] = SURVEYPRO_CHANGEORDERASK;
                     $paramurl['itm'] = $sortindex;
+                    $paramurl['section'] = 'itemslist';
 
                     $currentparentid = $item->get_parentid();
                     if (!empty($currentparentid)) {
                         $paramurl['pid'] = $currentparentid;
                     }
 
-                    $link = new \moodle_url('/mod/surveypro/layout_itemslist.php#sortindex_'.($sortindex - 1), $paramurl);
+                    $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.($sortindex - 1), $paramurl);
                     $paramlink = ['id' => 'move_item_'.$sortindex, 'class' => 'icon', 'title' => $reorderstr];
                     $actionicon = $OUTPUT->action_icon($link, $moveicn, null, $paramlink);
                     $icons .= \html_writer::tag('span', $actionicon, ['class' => 'fatspan']);
@@ -513,9 +519,10 @@ class layout_itemsetup {
                     $paramurl = $paramurlbase;
                     $paramurl['act'] = SURVEYPRO_DELETEITEM;
                     $paramurl['sortindex'] = $sortindex;
+                    $paramurl['section'] = 'itemslist';
                     $paramurl['sesskey'] = sesskey();
 
-                    $link = new \moodle_url('/mod/surveypro/layout_itemslist.php#sortindex_'.$sortindex, $paramurl);
+                    $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$sortindex, $paramurl);
                     $paramlink = ['id' => 'delete_item_'.$sortindex, 'class' => 'icon', 'title' => $deletestr];
                     $actionicon = $OUTPUT->action_icon($link, $deleteicn, null, $paramlink);
                     $icons .= \html_writer::tag('span', $actionicon, ['class' => 'fatspan']);
@@ -546,6 +553,7 @@ class layout_itemsetup {
                     if ($currentindent !== false) { // It may be false like for labels with fullwidth == 1.
                         $paramurl = $paramurlbase;
                         $paramurl['act'] = SURVEYPRO_CHANGEINDENT;
+                        $paramurl['section'] = 'itemslist';
                         $paramurl['sesskey'] = sesskey();
 
                         $actionicon = '';
@@ -554,7 +562,7 @@ class layout_itemsetup {
                             $indentvalue = $currentindent - 1;
                             $paramurl['ind'] = $indentvalue;
 
-                            $link = new \moodle_url('/mod/surveypro/layout_itemslist.php#sortindex_'.$sortindex, $paramurl);
+                            $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$sortindex, $paramurl);
                             $paramlink += ['id' => 'reduceindent_item_'.$sortindex];
                             $actionicon .= $OUTPUT->action_icon($link, $lefticn, null, $paramlink);
                         } else {
@@ -566,7 +574,7 @@ class layout_itemsetup {
                             $indentvalue = $currentindent + 1;
                             $paramurl['ind'] = $indentvalue;
 
-                            $link = new \moodle_url('/mod/surveypro/layout_itemslist.php#sortindex_'.$sortindex, $paramurl);
+                            $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$sortindex, $paramurl);
                             $paramlink += ['id' => 'increaseindent_item_'.$sortindex];
                             $actionicon .= $OUTPUT->action_icon($link, $righticn, null, $paramlink);
                         }
@@ -598,9 +606,10 @@ class layout_itemsetup {
                 if (!empty($drawmoveherebox)) {
                     $paramurl = $paramurlmove;
                     $paramurl['lib'] = $sortindex;
+                    $paramurl['section'] = 'itemslist';
                     $paramurl['sesskey'] = sesskey();
 
-                    $link = new \moodle_url('/mod/surveypro/layout_itemslist.php#sortindex_'.$sortindex, $paramurl);
+                    $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$sortindex, $paramurl);
                     $paramlink = ['id' => 'move_item_'.$sortindex, 'title' => $moveherestr];
                     $icons = $OUTPUT->action_icon($link, $movehereicn, null, $paramlink);
 
@@ -631,8 +640,8 @@ class layout_itemsetup {
         $statusstr = get_string('relation_status', 'mod_surveypro');
         $table = new \flexible_table('relations');
 
-        $paramurl = ['id' => $this->cm->id];
-        $baseurl = new \moodle_url('/mod/surveypro/layout_validation.php', $paramurl);
+        $paramurl = ['s' => $this->cm->instance, 'section' => 'branchingvalidation'];
+        $baseurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
         $table->define_baseurl($baseurl);
 
         $tablecolumns = array();
@@ -799,17 +808,18 @@ class layout_itemsetup {
             // Actions.
             // Begin of: $paramurlbase definition.
             $paramurlbase = array();
-            $paramurlbase['id'] = $this->cm->id;
+            $paramurlbase['s'] = $this->cm->instance;
             $paramurlbase['itemid'] = $item->get_itemid();
             $paramurlbase['type'] = $item->get_type();
             $paramurlbase['plugin'] = $item->get_plugin();
+            $paramurlbase['section'] = 'itemsetup';
             // End of $paramurlbase definition.
 
             // SURVEYPRO_EDITITEM.
             $paramurl = $paramurlbase;
             $paramurl['view'] = SURVEYPRO_EDITITEM;
 
-            $link = new \moodle_url('/mod/surveypro/layout_itemsetup.php', $paramurl);
+            $link = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
             $paramlink = ['id' => 'edit_'.$item->get_itemid(), 'title' => $editstr];
             $icons = $OUTPUT->action_icon($link, $editicn, null, $paramlink);
 
@@ -1070,7 +1080,7 @@ class layout_itemsetup {
             case SURVEYPRO_CHANGEORDER:
                 $this->reorder_items();
                 // After item reorder, if you reload the page whithout cleaning the url, the reorder action is performed again.
-                $returnurl = new \moodle_url('/mod/surveypro/layout_itemslist.php', ['id' => $this->cm->id]);
+                $returnurl = new \moodle_url('/mod/surveypro/layout.php', ['s' => $this->cm->instance, 'section' => 'itemslist']);
                 redirect($returnurl);
                 break;
             case SURVEYPRO_CHANGEINDENT:
@@ -1157,19 +1167,20 @@ class layout_itemsetup {
      * @param string $message
      * @return void
      */
-    public function bulk_action_ask($message) {
+    public function bulk_action_ask($message, $yeskey=null) {
         global $OUTPUT;
 
-        $optionbase = ['id' => $this->cm->id, 'act' => $this->action, 'sesskey' => sesskey()];
+        $optionbase = ['s' => $this->cm->instance, 'act' => $this->action, 'section' => 'itemslist', 'sesskey' => sesskey()];
 
         $optionsyes = $optionbase;
         $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
-        $urlyes = new \moodle_url('/mod/surveypro/layout_itemslist.php', $optionsyes);
-        $buttonyes = new \single_button($urlyes, get_string('continue'), 'get');
+        $urlyes = new \moodle_url('/mod/surveypro/layout.php', $optionsyes);
+        $yeslabel = ($yeskey) ? get_string($yeskey, 'mod_surveypro') : get_string('continue');
+        $buttonyes = new \single_button($urlyes, $yeslabel, 'get');
 
         $optionsno = $optionbase;
         $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-        $urlno = new \moodle_url('/mod/surveypro/layout_itemslist.php', $optionsno);
+        $urlno = new \moodle_url('/mod/surveypro/layout.php', $optionsno);
         $buttonno = new \single_button($urlno, get_string('no'), 'get');
 
         echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
@@ -1237,19 +1248,22 @@ class layout_itemsetup {
                     $message = get_string('confirm_hidechainitems', 'mod_surveypro', $a);
                 }
 
-                $optionbase = ['id' => $this->cm->id, 'act' => SURVEYPRO_HIDEITEM, 'sesskey' => sesskey()];
+                $optionbase = ['s' => $this->cm->instance];
+                $optionbase['act'] = SURVEYPRO_HIDEITEM;
+                $optionbase['section'] = 'itemslist';
+                $optionbase['sesskey'] = sesskey();
 
                 $optionsyes = $optionbase;
                 $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
                 $optionsyes['itemid'] = $this->rootitemid;
                 $optionsyes['plugin'] = $this->plugin;
                 $optionsyes['type'] = $this->type;
-                $urlyes = new \moodle_url('/mod/surveypro/layout_itemslist.php#sortindex_'.$this->sortindex, $optionsyes);
+                $urlyes = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$this->sortindex, $optionsyes);
                 $buttonyes = new \single_button($urlyes, get_string('continue'), 'get');
 
                 $optionsno = $optionbase;
                 $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-                $urlno = new \moodle_url('/mod/surveypro/layout_itemslist.php#sortindex_'.$this->sortindex, $optionsno);
+                $urlno = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$this->sortindex, $optionsno);
                 $buttonno = new \single_button($urlno, get_string('no'), 'get');
 
                 echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
@@ -1320,9 +1334,10 @@ class layout_itemsetup {
                 }
 
                 $optionbase = array();
-                $optionbase['id'] = $this->cm->id;
+                $optionbase['s'] = $this->cm->instance;
                 $optionbase['act'] = SURVEYPRO_SHOWITEM;
                 $optionbase['itemid'] = $this->rootitemid;
+                $optionbase['section'] = 'itemslist';
                 $optionbase['sesskey'] = sesskey();
 
                 $optionsyes = $optionbase;
@@ -1330,12 +1345,12 @@ class layout_itemsetup {
                 $optionsyes['itemid'] = $this->rootitemid;
                 $optionsyes['plugin'] = $this->plugin;
                 $optionsyes['type'] = $this->type;
-                $urlyes = new \moodle_url('/mod/surveypro/layout_itemslist.php#sortindex_'.$this->sortindex, $optionsyes);
+                $urlyes = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$this->sortindex, $optionsyes);
                 $buttonyes = new \single_button($urlyes, get_string('continue'), 'get');
 
                 $optionsno = $optionbase;
                 $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-                $urlno = new \moodle_url('/mod/surveypro/layout_itemslist.php#sortindex_'.$this->sortindex, $optionsno);
+                $urlno = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$this->sortindex, $optionsno);
                 $buttonno = new \single_button($urlno, get_string('no'), 'get');
 
                 echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
@@ -1435,7 +1450,10 @@ class layout_itemsetup {
                 $labelyes = get_string('yes');
             }
 
-            $optionbase = ['id' => $this->cm->id, 'act' => SURVEYPRO_DELETEITEM, 'sesskey' => sesskey()];
+            $optionbase['s'] = $this->cm->instance;
+            $optionbase['act'] = SURVEYPRO_DELETEITEM;
+            $optionbase['section'] = 'itemslist';
+            $optionbase['sesskey'] = sesskey();
 
             $optionsyes = $optionbase;
             $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
@@ -1443,13 +1461,13 @@ class layout_itemsetup {
             $optionsyes['plugin'] = $this->plugin;
             $optionsyes['type'] = $this->type;
 
-            $urlyes = new \moodle_url('/mod/surveypro/layout_itemslist.php', $optionsyes);
+            $urlyes = new \moodle_url('/mod/surveypro/layout.php', $optionsyes);
             $buttonyes = new \single_button($urlyes, $labelyes, 'get');
 
             $optionsno = $optionbase;
             $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
 
-            $urlno = new \moodle_url('/mod/surveypro/layout_itemslist.php', $optionsno);
+            $urlno = new \moodle_url('/mod/surveypro/layout.php', $optionsno);
             $buttonno = new \single_button($urlno, get_string('no'), 'get');
 
             echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
@@ -1523,17 +1541,18 @@ class layout_itemsetup {
             $DB->update_record('surveypro', $surveypro);
 
             $paramurl = array();
-            $paramurl['id'] = $this->cm->id;
+            $paramurl['s'] = $this->cm->instance;
             $paramurl['act'] = SURVEYPRO_DROPMULTILANG;
+            $paramurl['section'] = 'itemslist';
             $paramurl['sesskey'] = sesskey();
             $paramurl['cnf'] = SURVEYPRO_ACTION_EXECUTED;
-            $returnurl = new \moodle_url('/mod/surveypro/layout_itemslist.php', $paramurl);
+            $returnurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
             redirect($returnurl);
         }
 
         if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
-            $paramurl = ['id' => $this->cm->id];
-            $returnurl = new \moodle_url('/mod/surveypro/layout_preview.php', $paramurl);
+            $paramurl = ['s' => $this->cm->instance, 'section' => 'itemslist'];
+            $returnurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
             redirect($returnurl);
         }
     }
@@ -1550,16 +1569,16 @@ class layout_itemsetup {
             // Ask for confirmation.
             $message = get_string('confirm_dropmultilang', 'mod_surveypro');
 
-            $optionbase = ['id' => $this->cm->id, 'act' => SURVEYPRO_DROPMULTILANG];
+            $optionbase = ['s' => $this->cm->instance, 'act' => SURVEYPRO_DROPMULTILANG, 'section' => 'itemslist'];
 
             $optionsyes = $optionbase;
             $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
-            $urlyes = new \moodle_url('/mod/surveypro/layout_itemslist.php', $optionsyes);
+            $urlyes = new \moodle_url('/mod/surveypro/layout.php', $optionsyes);
             $buttonyes = new \single_button($urlyes, get_string('yes'));
 
             $optionsno = $optionbase;
             $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-            $urlno = new \moodle_url('/mod/surveypro/layout_itemslist.php', $optionsno);
+            $urlno = new \moodle_url('/mod/surveypro/layout.php', $optionsno);
             $buttonno = new \single_button($urlno, get_string('no'));
 
             echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
@@ -1668,19 +1687,23 @@ class layout_itemsetup {
                     }
                 }
 
-                $optionbase = ['id' => $this->cm->id, 'act' => SURVEYPRO_MAKERESERVED, 'sesskey' => sesskey()];
+                $optionbase = array();
+                $optionbase['s'] = $this->cm->instance;
+                $optionbase['act'] = SURVEYPRO_MAKERESERVED;
+                $optionbase['section'] = 'itemslist';
+                $optionbase['sesskey'] = sesskey();
 
                 $optionsyes = $optionbase;
                 $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
                 $optionsyes['itemid'] = $this->rootitemid;
                 $optionsyes['plugin'] = $this->plugin;
                 $optionsyes['type'] = $this->type;
-                $urlyes = new \moodle_url('/mod/surveypro/layout_itemslist.php#sortindex_'.$this->sortindex, $optionsyes);
+                $urlyes = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$this->sortindex, $optionsyes);
                 $buttonyes = new \single_button($urlyes, get_string('continue'), 'get');
 
                 $optionsno = $optionbase;
                 $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-                $urlno = new \moodle_url('/mod/surveypro/layout_itemslist.php#sortindex_'.$this->sortindex, $optionsno);
+                $urlno = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$this->sortindex, $optionsno);
                 $buttonno = new \single_button($urlno, get_string('no'), 'get');
 
                 echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
@@ -1786,9 +1809,10 @@ class layout_itemsetup {
                 }
 
                 $optionbase = array();
-                $optionbase['id'] = $this->cm->id;
+                $optionbase['s'] = $this->cm->instance;
                 $optionbase['act'] = SURVEYPRO_MAKEAVAILABLE;
                 $optionbase['itemid'] = $this->rootitemid;
+                $optionbase['section'] = 'itemslist';
                 $optionbase['sesskey'] = sesskey();
 
                 $optionsyes = $optionbase;
@@ -1796,12 +1820,12 @@ class layout_itemsetup {
                 $optionsyes['itemid'] = $this->rootitemid;
                 $optionsyes['plugin'] = $this->plugin;
                 $optionsyes['type'] = $this->type;
-                $urlyes = new \moodle_url('/mod/surveypro/layout_itemslist.php#sortindex_'.$this->sortindex, $optionsyes);
+                $urlyes = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$this->sortindex, $optionsyes);
                 $buttonyes = new \single_button($urlyes, get_string('continue'), 'get');
 
                 $optionsno = $optionbase;
                 $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-                $urlno = new \moodle_url('/mod/surveypro/layout_itemslist.php#sortindex_'.$this->sortindex, $optionsno);
+                $urlno = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$this->sortindex, $optionsno);
                 $buttonno = new \single_button($urlno, get_string('no'), 'get');
 
                 echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
@@ -1840,7 +1864,8 @@ class layout_itemsetup {
 
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             $message = get_string('confirm_hideallitems', 'mod_surveypro');
-            $this->bulk_action_ask($message);
+            $yeskey = 'yes_hideallitems';
+            $this->bulk_action_ask($message, $yeskey);
         }
 
         if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
@@ -1884,7 +1909,8 @@ class layout_itemsetup {
 
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             $message = get_string('confirm_showallitems', 'mod_surveypro');
-            $this->bulk_action_ask($message);
+            $yeskey = 'yes_showallitems';
+            $this->bulk_action_ask($message, $yeskey);
         }
 
         if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
@@ -1913,11 +1939,9 @@ class layout_itemsetup {
             $utilitylayoutman->delete_items($whereparams);
 
             $paramurl = array();
-            $paramurl['id'] = $this->cm->id;
-            $paramurl['act'] = SURVEYPRO_DELETEALLITEMS;
-            $paramurl['sesskey'] = sesskey();
-            $paramurl['cnf'] = SURVEYPRO_ACTION_EXECUTED;
-            $returnurl = new \moodle_url('/mod/surveypro/layout_itemslist.php', $paramurl);
+            $paramurl['s'] = $this->cm->instance;
+            $paramurl['section'] = 'itemslist';
+            $returnurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
             redirect($returnurl);
         }
     }
@@ -1932,7 +1956,8 @@ class layout_itemsetup {
 
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             $message = get_string('confirm_deleteallitems', 'mod_surveypro');
-            $this->bulk_action_ask($message);
+            $yeskey = 'yes_deleteallitems';
+            $this->bulk_action_ask($message, $yeskey);
         }
 
         if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
@@ -1964,11 +1989,12 @@ class layout_itemsetup {
             $utilitylayoutman->items_reindex();
 
             $paramurl = array();
-            $paramurl['id'] = $this->cm->id;
+            $paramurl['s'] = $this->cm->instance;
             $paramurl['act'] = SURVEYPRO_DELETEVISIBLEITEMS;
+            $paramurl['section'] = 'itemslist';
             $paramurl['sesskey'] = sesskey();
             $paramurl['cnf'] = SURVEYPRO_ACTION_EXECUTED;
-            $returnurl = new \moodle_url('/mod/surveypro/layout_itemslist.php', $paramurl);
+            $returnurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
             redirect($returnurl);
         }
     }
@@ -1983,7 +2009,8 @@ class layout_itemsetup {
 
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             $message = get_string('confirm_deletevisibleitems', 'mod_surveypro');
-            $this->bulk_action_ask($message);
+            $yeskey = 'yes_deletevisibleitems';
+            $this->bulk_action_ask($message, $yeskey);
         }
 
         if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
@@ -2015,11 +2042,12 @@ class layout_itemsetup {
             $utilitylayoutman->items_reindex();
 
             $paramurl = array();
-            $paramurl['id'] = $this->cm->id;
+            $paramurl['s'] = $this->cm->instance;
             $paramurl['act'] = SURVEYPRO_DELETEHIDDENITEMS;
+            $paramurl['section'] = 'itemslist';
             $paramurl['sesskey'] = sesskey();
             $paramurl['cnf'] = SURVEYPRO_ACTION_EXECUTED;
-            $returnurl = new \moodle_url('/mod/surveypro/layout_itemslist.php', $paramurl);
+            $returnurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
             redirect($returnurl);
         }
     }
@@ -2034,7 +2062,8 @@ class layout_itemsetup {
 
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             $message = get_string('confirm_deletehiddenitems', 'mod_surveypro');
-            $this->bulk_action_ask($message);
+            $yeskey = 'ci devo rimettere le mani';
+            $this->bulk_action_ask($message, $yeskey);
         }
 
         if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
