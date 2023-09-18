@@ -55,7 +55,6 @@ if ($surveyproreportlist = get_plugin_list('surveyproreport')) {
         $returnurl = new \moodle_url('/mod/surveypro/report/'.$reportname.'/view.php', ['s' => $cm->instance]);
         break;
     }
-
     redirect($returnurl);
 }
 

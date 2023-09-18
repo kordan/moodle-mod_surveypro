@@ -50,43 +50,17 @@
  *  For each sub-tab, I would define a capability at first but, I will find, sometimes it is useless.
  *
  *  -------------------------------------------
- *  TWO MODULE GENERAL CAPABILITIES
+ *  Module general capabilities
  *  -------------------------------------------
  *  mod/surveypro:addinstance
  *  mod/surveypro:view
  *
  *  -------------------------------------------
- *  TAB LAYOUT
+ *  Secondary navigation == Surveypro
  *  -------------------------------------------
- *  SUB-TAB == SURVEYPRO_LAYOUT_PREVIEW
- *      $elementurl = new \moodle_url('/mod/surveypro/layout.php', $localparamurl); with ['section' => 'preview']
- *      mod/surveypro:preview
+ *  File: view.php, $section = 'cover'
  *
- *  SUB-TAB == SURVEYPRO_LAYOUT_ITEMS
- *      $elementurl = new \moodle_url('/mod/surveypro/layout.php', $localparamurl); with ['section' => 'itemslist']
- *      mod/surveypro:manageitems
- *      mod/surveypro:additems
- *
- *  SUB-TAB == SURVEYPRO_LAYOUT_ITEMSETUP
- *      $elementurl = new \moodle_url('/mod/surveypro/layout.php', $localparamurl); with ['section' => 'itemsetup']
- *
- *  SUB-TAB == SURVEYPRO_LAYOUT_VALIDATE
- *      $elementurl = new \moodle_url('/mod/surveypro/layout.php', $localparamurl); with ['section' => 'branchingvalidation']
- *
- *  -------------------------------------------
- *  TAB SURVEYPRO
- *  -------------------------------------------
- *  SUB-TAB == SURVEYPRO_SUBMISSION_CPANEL
- *
- *  SUB-TAB == SURVEYPRO_SUBMISSION_INSERT
- *      $elementurl = new \moodle_url('/mod/surveypro/view.php', $paramurl); with ['section' => 'submissionform']
- *      mod/surveypro:view
- *      mod/surveypro:accessreserveditems
- *      mod/surveypro:submit
- *      mod/surveypro:ignoremaxentries
- *
- *  SUB-TAB == SURVEYPRO_SUBMISSION_MANAGE
- *      $elementurl = new \moodle_url('/mod/surveypro/view.php', $paramurl); with ['section' => 'submissionslist']
+ *  File: view.php, $section = 'submissionslist'
  *
  *      mod/surveypro:alwaysseeowner
  *
@@ -109,58 +83,67 @@
  *      mod/surveypro:savetopdfownsubmissions
  *      mod/surveypro:savetopdfotherssubmissions
  *
- *  SUB-TAB == SURVEYPRO_SUBMISSION_EDIT
- *  SUB-TAB == SURVEYPRO_SUBMISSION_READONLY
- *      $elementurl = new \moodle_url('/mod/surveypro/view.php', $localparamurl); with ['section' => 'submissionform']
+ *  File: view.php, $section = 'submissionform'
+ *      mod/surveypro:submit
+ *      mod/surveypro:ignoremaxentries
  *
- *  SUB-TAB == SURVEYPRO_SUBMISSION_SEARCH
- *      $elementurl = new \moodle_url('/mod/surveypro/view.php', $paramurl); with ['section' => 'searchsubmissions']
+ *  File: view.php, $section = 'searchsubmissions'
  *      mod/surveypro:searchsubmissions
  *
- *  SUB-TAB == SURVEYPRO_SUBMISSION_REPORT
- *      $elementurl = new \moodle_url('/mod/surveypro/view_report.php', $paramurl);
- *      mod/surveypro:accessreports
+ *  -------------------------------------------
+ *  Secondary navigation == Layout
+ *  -------------------------------------------
+ *  File: layout.php, $section = 'preview'
+ *      mod/surveypro:preview
  *
- *  SUB-TAB == SURVEYPRO_SUBMISSION_IMPORT
- *      $elementurl = new \moodle_url('/mod/surveypro/tools.php', $paramurl); with ['section' => 'import']
+ *  File: layout.php, $section = 'itemslist'
+ *  File: layout.php, $section = 'itemsetup'
+ *  File: layout.php, $section = 'branchingvalidation'
+ *      mod/surveypro:manageitems
+ *      mod/surveypro:additems
+ *      mod/surveypro:accessreserveditems
+ *
+ *  -------------------------------------------
+ *  Secondary navigation == Report
+ *  -------------------------------------------
+ *  File: reports.php
+ *      mod/surveypro:accessreports
+ *      mod/surveypro:accessownreports
+ *
+ *  -------------------------------------------
+ *  Secondary navigation == Tools
+ *  -------------------------------------------
+ *  File: tools.php, $section = 'import'
  *      mod/surveypro:importresponses
  *
- *  SUB-TAB == SURVEYPRO_SUBMISSION_EXPORT
- *      $elementurl = new \moodle_url('/mod/surveypro/tools.php', $paramurl); with ['section' => 'export']
+ *  File: tools.php, $section = 'export'
  *      mod/surveypro:exportresponses
  *
  *  -------------------------------------------
- *  TAB USER TEMPLATES
+ *  Secondary navigation == User templates
  *  -------------------------------------------
- *  SUB-TAB == SURVEYPRO_UTEMPLATES_MANAGE
- *      $elementurl = new \moodle_url('/mod/surveypro/utemplates.php', $localparamurl); with ['section' => 'manage']
+ *  File: utemplates.php, $section = 'manage'
  *      mod/surveypro:manageusertemplates
  *      mod/surveypro:deleteusertemplates
  *      mod/surveypro:downloadusertemplates
  *
- *  SUB-TAB == SURVEYPRO_UTEMPLATES_BUILD
- *      $elementurl = new \moodle_url('/mod/surveypro/utemplates.php', $localparamurl); with ['section' => 'save']
+ *  File: utemplates.php, $section = 'save'
  *      mod/surveypro:saveusertemplates @ CONTEXT_COURSE
  *
- *  SUB-TAB == SURVEYPRO_UTEMPLATES_IMPORT
- *      $elementurl = new \moodle_url('/mod/surveypro/utemplates.php', $localparamurl); with ['section' => 'import']
+ *  File: utemplates.php, $section = 'import'
  *      mod/surveypro:importusertemplates
  *
- *  SUB-TAB == SURVEYPRO_UTEMPLATES_APPLY
- *      $elementurl = new \moodle_url('/mod/surveypro/utemplates.php', $localparamurl); with ['section' => 'apply']
+ *  File: utemplates.php, $section = 'apply'
  *      mod/surveypro:applyusertemplates
  *
  *  -------------------------------------------
- *  TAB MASTER TEMPLATES
+ *  Secondary navigation == Master templates
  *  -------------------------------------------
- *  SUB-TAB == SURVEYPRO_MTEMPLATES_BUILD
- *      $elementurl = new \moodle_url('/mod/surveypro/mtemplates.php', $localparamurl); with ['section' => 'save']
+ *  File: mtemplates.php, $section = 'save'
  *      mod/surveypro:savemastertemplates
  *
- *  SUB-TAB == SURVEYPRO_MTEMPLATES_APPLY
- *      $elementurl = new \moodle_url('/mod/surveypro/mtemplates.php', $localparamurl); with ['section' => 'apply']
+ *  File: mtemplates.php, $section = 'apply'
  *      mod/surveypro:applymastertemplates; with ['section' => 'apply']
- *
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -185,51 +168,6 @@ $capabilities = [
             'guest' => CAP_ALLOW,
             'frontpage' => CAP_ALLOW,
             'student' => CAP_ALLOW,
-            'teacher' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        ]
-    ],
-
-    'mod/surveypro:manageitems' => [
-        'riskbitmask' => RISK_CONFIG,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => [
-            'teacher' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW,
-        ]
-    ],
-
-    'mod/surveypro:additems' => [
-        'riskbitmask' => RISK_XSS,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => [
-            'teacher' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW,
-        ]
-    ],
-
-    'mod/surveypro:accessreserveditems' => [
-
-        'captype' => 'read',
-        'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => [
-            'teacher' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        ],
-        'clonepermissionsfrom' => 'mod/surveypro:accessadvanceditems'
-    ],
-
-    'mod/surveypro:preview' => [
-
-        'captype' => 'read',
-        'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => [
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW
@@ -379,9 +317,43 @@ $capabilities = [
         ]
     ],
 
-    'mod/surveypro:accessreports' => [
-        'riskbitmask' => RISK_PERSONAL,
+    'mod/surveypro:preview' => [
+
         'captype' => 'read',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => [
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW
+        ]
+    ],
+
+    'mod/surveypro:manageitems' => [
+        'riskbitmask' => RISK_CONFIG,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => [
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
+        ]
+    ],
+
+    'mod/surveypro:accessreserveditems' => [
+
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => [
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW
+        ],
+        'clonepermissionsfrom' => 'mod/surveypro:accessadvanceditems'
+    ],
+
+    'mod/surveypro:additems' => [
+        'riskbitmask' => RISK_XSS,
+        'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => [
             'teacher' => CAP_ALLOW,
@@ -396,6 +368,17 @@ $capabilities = [
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => [
             'student' => CAP_ALLOW,
+        ]
+    ],
+
+    'mod/surveypro:accessreports' => [
+        'riskbitmask' => RISK_PERSONAL,
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => [
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
         ]
     ],
 

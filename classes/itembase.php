@@ -429,7 +429,7 @@ class itembase {
 
                 // Event: item_created.
                 $eventdata = ['context' => $context, 'objectid' => $itemid];
-                $eventdata['other'] = ['type' => $record->type, 'plugin' => $record->plugin, 'view' => SURVEYPRO_EDITITEM];
+                $eventdata['other'] = ['type' => $record->type, 'plugin' => $record->plugin, 'view' => SURVEYPRO_NEWITEM];
                 $event = \mod_surveypro\event\item_created::create($eventdata);
                 $event->trigger();
             } catch (Exception $e) {
@@ -497,7 +497,7 @@ class itembase {
 
                 // Event: item_modified.
                 $eventdata = ['context' => $context, 'objectid' => $record->itemid];
-                $eventdata['other'] = ['type' => $record->type, 'plugin' => $record->plugin, 'view' => SURVEYPRO_EDITITEM];
+                $eventdata['other'] = ['type' => $record->type, 'plugin' => $record->plugin, 'view' => SURVEYPRO_NEWITEM];
                 $event = \mod_surveypro\event\item_modified::create($eventdata);
                 $event->trigger();
             } catch (Exception $e) {
@@ -624,7 +624,7 @@ class itembase {
                 $layoutman->set_plugin($this->plugin);
                 $layoutman->set_itemid($itemid);
                 $layoutman->set_action($action);
-                $layoutman->set_view(SURVEYPRO_NOVIEW);
+                $layoutman->set_view(SURVEYPRO_NOMODE);
                 $layoutman->set_confirm(SURVEYPRO_CONFIRMED_YES);
 
                 // Begin of: Hide/unhide part 2.
@@ -650,7 +650,7 @@ class itembase {
                 $layoutman->set_plugin($this->plugin);
                 $layoutman->set_itemid($itemid);
                 $layoutman->set_action($action);
-                $layoutman->set_view(SURVEYPRO_NOVIEW);
+                $layoutman->set_view(SURVEYPRO_NOMODE);
                 $layoutman->set_confirm(SURVEYPRO_CONFIRMED_YES);
 
                 // Begin of: Make reserved/free part 2.

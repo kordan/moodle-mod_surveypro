@@ -205,7 +205,7 @@ class submissions_form extends formbase {
             $submission->id = $DB->insert_record('surveypro_submission', $submission);
 
             $eventdata = ['context' => $this->context, 'objectid' => $submission->id];
-            $eventdata['other'] = ['mode' => SURVEYPRO_NEWRESPONSE];
+            $eventdata['other'] = ['mode' => SURVEYPRO_NEWRESPONSEMODE];
             $event = \mod_surveypro\event\submission_created::create($eventdata);
             $event->trigger();
         } else {
@@ -231,7 +231,7 @@ class submissions_form extends formbase {
             }
 
             $eventdata = ['context' => $this->context, 'objectid' => $submission->id];
-            $eventdata['other'] = ['mode' => SURVEYPRO_EDITRESPONSE];
+            $eventdata['other'] = ['mode' => SURVEYPRO_EDITMODE];
             $event = \mod_surveypro\event\submission_modified::create($eventdata);
             $event->trigger();
         }
@@ -785,7 +785,7 @@ class submissions_form extends formbase {
     public function nomoresubmissions_stopexecution() {
         global $OUTPUT;
 
-        if ($this->mode != SURVEYPRO_SUBMISSION_READONLY) {
+        if ($this->mode != SURVEYPRO_READONLYMODE) {
             // If $this->formdata is available, this means that the form was already displayed and submitted.
             // So it is not the time to verify the user is allowed to submit one more surveypro.
             if ($this->formdata) {
@@ -820,11 +820,11 @@ class submissions_form extends formbase {
     public function add_readonly_browsing_buttons() {
         global $OUTPUT;
 
-        if ($this->mode == SURVEYPRO_SUBMISSION_READONLY) {
+        if ($this->mode == SURVEYPRO_READONLYMODE) {
             $params = array();
             $params['s'] = $this->surveypro->id;
             $params['submissionid'] = $this->get_submissionid();
-            $params['mode'] = SURVEYPRO_READONLYRESPONSE;
+            $params['mode'] = SURVEYPRO_READONLYMODE;
             $params['section'] = 'submissionform';
 
             $userformpagecount = $this->get_userformpagecount();
@@ -1025,14 +1025,14 @@ class submissions_form extends formbase {
         $debug = false;
         if ($debug) {
             switch ($this->mode) {
-                case SURVEYPRO_NEWRESPONSE:
-                    echo '$this->mode = SURVEYPRO_NEWRESPONSE<br />';
+                case SURVEYPRO_NEWRESPONSEMODE:
+                    echo '$this->mode = SURVEYPRO_NEWRESPONSEMODE<br />';
                     break;
-                case SURVEYPRO_EDITRESPONSE:
-                    echo '$this->mode = SURVEYPRO_EDITRESPONSE<br />';
+                case SURVEYPRO_EDITMODE:
+                    echo '$this->mode = SURVEYPRO_EDITMODE<br />';
                     break;
-                case SURVEYPRO_READONLYRESPONSE:
-                    echo '$this->mode = SURVEYPRO_READONLYRESPONSE<br />';
+                case SURVEYPRO_READONLYMODE:
+                    echo '$this->mode = SURVEYPRO_READONLYMODE<br />';
                     break;
                 default:
                     echo '$this->mode = '.$this->mode;
@@ -1054,7 +1054,7 @@ class submissions_form extends formbase {
 
         $allowed = false;
         switch ($this->mode) {
-            case SURVEYPRO_NEWRESPONSE:
+            case SURVEYPRO_NEWRESPONSEMODE:
 
                 $timenow = time();
                 $allowed = $cansubmit;
@@ -1085,7 +1085,7 @@ class submissions_form extends formbase {
                     $allowed = $allowed && (($this->surveypro->maxentries == 0) || ($next <= $this->surveypro->maxentries));
                 }
                 break;
-            case SURVEYPRO_EDITRESPONSE:
+            case SURVEYPRO_EDITMODE:
                 if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
                     // If $submission->status == SURVEYPRO_STATUSINPROGRESS it is a resume acction.
                     if ($ismine) { // Owner is me
@@ -1106,7 +1106,7 @@ class submissions_form extends formbase {
                     }
                 }
                 break;
-            case SURVEYPRO_READONLYRESPONSE:
+            case SURVEYPRO_READONLYMODE:
                 // Whether SURVEYPRO_STATUSINPROGRESS, always deny.
                 if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
                     $allowed = false;
@@ -1135,14 +1135,14 @@ class submissions_form extends formbase {
      */
     private function trigger_event() {
         switch ($this->mode) {
-            case SURVEYPRO_NOVIEW:
-            case SURVEYPRO_EDITRESPONSE: // Item_modified will be, eventually, logged.
-            case SURVEYPRO_NEWRESPONSE:  // Item_created will be, eventually, logged.
+            case SURVEYPRO_NOMODE:
+            case SURVEYPRO_EDITMODE: // Item_modified will be, eventually, logged.
+            case SURVEYPRO_NEWRESPONSEMODE:  // Item_created will be, eventually, logged.
                 break;
-            case SURVEYPRO_READONLYRESPONSE:
+            case SURVEYPRO_READONLYMODE:
                 // Event: submission_viewed.
                 $eventdata = ['context' => $this->context, 'objectid' => $this->surveypro->id];
-                $eventdata['other'] = ['mode' => SURVEYPRO_READONLYRESPONSE];
+                $eventdata['other'] = ['mode' => SURVEYPRO_READONLYMODE];
                 $event = \mod_surveypro\event\submission_viewed::create($eventdata);
                 $event->trigger();
                 break;

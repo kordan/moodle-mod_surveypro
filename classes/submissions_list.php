@@ -870,7 +870,7 @@ class submissions_list {
                     }
                 }
                 if ($displayediticon) {
-                    $paramurl['mode'] = SURVEYPRO_EDITRESPONSE;
+                    $paramurl['mode'] = SURVEYPRO_EDITMODE;
                     $paramurl['begin'] = 1;
                     $paramurl['section'] = 'submissionform';
 
@@ -886,7 +886,7 @@ class submissions_list {
                         $icons = $OUTPUT->action_icon($link, $attributeicn, null, $paramlink);
                     }
                 } else {
-                    $paramurl['mode'] = SURVEYPRO_READONLYRESPONSE;
+                    $paramurl['mode'] = SURVEYPRO_READONLYMODE;
                     $paramurl['begin'] = 1;
                     $paramurl['section'] = 'submissionform';
 
@@ -1029,7 +1029,7 @@ class submissions_list {
         $buttoncount = 0;
         $paramurl = ['s' => $this->cm->instance];
         if ($addnew) {
-            $paramurl['mode'] = SURVEYPRO_NEWRESPONSE;
+            $paramurl['mode'] = SURVEYPRO_NEWRESPONSEMODE;
             $paramurl['begin'] = 1;
             $paramurl['section'] = 'submissionform';
 
@@ -1216,7 +1216,7 @@ class submissions_list {
 
         $paramurlbase = ['s' => $this->cm->instance];
         if ($cansubmitmore) { // If the user is allowed to submit one more response.
-            $paramurl = $paramurlbase + ['mode' => SURVEYPRO_NEWRESPONSE, 'begin' => 1, 'section' => 'submissionform'];
+            $paramurl = $paramurlbase + ['mode' => SURVEYPRO_NEWRESPONSEMODE, 'begin' => 1, 'section' => 'submissionform'];
             $buttonurl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
             $onemore = new \single_button($buttonurl, get_string('addnewsubmission', 'mod_surveypro'), 'get', ['primary' => true]);
 
@@ -1638,10 +1638,10 @@ class submissions_list {
         }
 
         switch ($this->view) {
-            case SURVEYPRO_NOVIEW:
+            case SURVEYPRO_NOMODE:
                 $allowed = true;
                 break;
-            case SURVEYPRO_READONLYRESPONSE:
+            case SURVEYPRO_READONLYMODE:
                 if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
                     $allowed = false;
                 } else {
@@ -1654,7 +1654,7 @@ class submissions_list {
                     }
                 }
                 break;
-            case SURVEYPRO_EDITRESPONSE:
+            case SURVEYPRO_EDITMODE:
                 if ($ismine) { // Owner is me.
                     $allowed = $caneditownsubmissions;
                 } else {

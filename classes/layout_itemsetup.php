@@ -815,9 +815,9 @@ class layout_itemsetup {
             $paramurlbase['section'] = 'itemsetup';
             // End of $paramurlbase definition.
 
-            // SURVEYPRO_EDITITEM.
+            // SURVEYPRO_NEWITEM.
             $paramurl = $paramurlbase;
-            $paramurl['mode'] = SURVEYPRO_EDITITEM;
+            $paramurl['mode'] = SURVEYPRO_NEWITEM;
 
             $link = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
             $paramlink = ['id' => 'edit_'.$item->get_itemid(), 'title' => $editstr];

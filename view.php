@@ -137,7 +137,7 @@ if ($section == 'submissionslist') { // It was view_submissions.php
     // The list is managed.
     $submissionid = optional_param('submissionid', 0, PARAM_INT);
     $action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
-    $mode = optional_param('view', SURVEYPRO_NOVIEW, PARAM_INT);
+    $mode = optional_param('view', SURVEYPRO_NOMODE, PARAM_INT);
     $confirm = optional_param('cnf', SURVEYPRO_UNCONFIRMED, PARAM_INT);
     $searchquery = optional_param('searchquery', '', PARAM_RAW);
 
@@ -195,8 +195,8 @@ if ($section == 'submissionform') { // It was view_form.php
     $edit = optional_param('edit', -1, PARAM_BOOL);
     $submissionid = optional_param('submissionid', 0, PARAM_INT);
     $formpage = optional_param('formpage', 1, PARAM_INT); // Form page number.
+    $mode = optional_param('mode', SURVEYPRO_NOMODE, PARAM_INT);
     $overflowpage = optional_param('overflowpage', 0, PARAM_INT); // Went the user to a overflow page?
-    $mode = optional_param('mode', SURVEYPRO_NOVIEW, PARAM_INT);
     $begin = optional_param('begin', 0, PARAM_INT);
 
     // Calculations.
@@ -234,7 +234,7 @@ if ($section == 'submissionform') { // It was view_form.php
     $formparams->formpage = $userformman->get_formpage(); // The page of the form to select subset of fields
     // End of: prepare params for the form.
 
-    $editable = ($mode == SURVEYPRO_READONLYRESPONSE) ? false : true;
+    $editable = ($mode == SURVEYPRO_READONLYMODE) ? false : true;
     $userform = new userform($formurl, $formparams, 'post', '', ['id' => 'userentry'], $editable);
 
     // Begin of: manage form submission.
@@ -332,7 +332,7 @@ if ($section == 'submissionform') { // It was view_form.php
     $userform->set_data($prefill);
     $userform->display();
 
-    // If surveypro is multipage and $userformman->tabpage == SURVEYPRO_READONLYRESPONSE.
+    // If surveypro is multipage and $userformman->tabpage == SURVEYPRO_READONLYMODE.
     // I need to add navigation buttons manually
     // Because the surveypro is not displayed as a form but as a simple list of graphic user items.
     $userformman->add_readonly_browsing_buttons();
@@ -374,7 +374,7 @@ if ($section == 'searchsubmissions') { // It was view_search.php
 
     if ($submissionsearchman->formdata = $searchform->get_data()) {
         // In this routine I do not execute a real search.
-        // I only define the param searchquery for the url of SURVEYPRO_SUBMISSION_MANAGE.
+        // I only define the param searchquery for the url.
         $paramurl = ['s' => $cm->instance, 'section' => 'submissionslist'];
         if ($searchquery = $submissionsearchman->get_searchparamurl()) {
             $paramurl['searchquery'] = $searchquery;
@@ -395,7 +395,6 @@ if ($section == 'searchsubmissions') { // It was view_search.php
     $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
-    $PAGE->add_body_class('mediumwidth');
 
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
     echo $actionbar->draw_view_action_bar();

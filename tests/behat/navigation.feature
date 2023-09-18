@@ -143,7 +143,7 @@ Feature: verify urls really redirect to existing pages
     #
     # "User templates" in secondary navigation
     #
-    And I select "User templates" from secondary navigation
+    And I am on the "sPro test links" "mod_surveypro > utemplates page" page
 
     # User templates -> Save
     And I select "Save" from the "jump" singleselect
@@ -160,7 +160,7 @@ Feature: verify urls really redirect to existing pages
     #
     # "Master templates" in secondary navigation
     #
-    And I select "Master templates" from secondary navigation
+    And I am on the "sPro test links" "mod_surveypro > mtemplates page" page
 
     # Master templates -> Apply
     And I select "Apply" from the "jump" singleselect

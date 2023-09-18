@@ -16,6 +16,9 @@ Feature: apply a COLLES (actual) mastertemplate to test graphs
       | user     | course      | role           |
       | teacher1 | Test graphs | editingteacher |
       | student1 | Test graphs | student        |
+    And the following "permission overrides" exist:
+      | capability                  | permission | role    | contextlevel | reference   |
+      | mod/surveypro:accessreports | Allow      | student | Course       | Test graphs |
     And the following "activities" exist:
       | activity  | name              | intro                         | course      |
       | surveypro | Run COLLES report | This is to test COLLES graphs | Test graphs |
@@ -66,13 +69,18 @@ Feature: apply a COLLES (actual) mastertemplate to test graphs
       | Do you have any other comments?                | Am I sexy? |
     And I press "Submit"
 
-    And I press "Continue to responses list"
+    And I select "Reports" from secondary navigation
+    And I select "Colles report" from the "jump" singleselect
+    Then I should not see "Summary report"
+
     And I log out
 
     When I am on the "Run COLLES report" "surveypro activity" page logged in as teacher1
-
     And I select "Reports" from secondary navigation
     And I select "Colles report " from the "jump" singleselect
+
+    # now test links provided by img's
+
     # now I should be in front of "summary report"
     Then I should not see "Summary report"
 

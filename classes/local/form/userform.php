@@ -61,7 +61,7 @@ class userform extends \moodleform {
         $overflowpage = $this->_customdata->overflowpage;
         $mode = $this->_customdata->mode;
 
-        if ($mode == SURVEYPRO_PREVIEW) {
+        if ($mode == SURVEYPRO_PREVIEWMODE) {
             $mform->disable_form_change_checker();
         }
 
@@ -98,12 +98,12 @@ class userform extends \moodleform {
             // as first item are out from the a fieldset
             // so they are not selected by the css3 selector: fieldset div.fitem:nth-of-type(even) {.
             // $readonly page is not a form. The alternation is inverted. I need to jump this element.
-            if ($mode != SURVEYPRO_READONLYRESPONSE) {
+            if ($mode != SURVEYPRO_READONLYMODE) {
                 $mform->addElement('static', 'beginning_extrarow', '', '');
             }
 
             foreach ($itemseeds as $itemseed) {
-                if ($mode == SURVEYPRO_PREVIEW) {
+                if ($mode == SURVEYPRO_PREVIEWMODE) {
                     $itemaschildisallowed = true;
                 } else {
                     // Is the current item allowed in this page?
@@ -164,7 +164,7 @@ class userform extends \moodleform {
                     }
 
                     // Element.
-                    $item->userform_mform_element($mform, false, ($mode == SURVEYPRO_READONLYRESPONSE));
+                    $item->userform_mform_element($mform, false, ($mode == SURVEYPRO_READONLYMODE));
 
                     // Note.
                     if ($fullinfo = $item->userform_get_full_info(false)) {
@@ -182,11 +182,16 @@ class userform extends \moodleform {
             }
             $itemseeds->close();
 
-            if ($mode != SURVEYPRO_PREVIEW) {
+            if ($mode != SURVEYPRO_PREVIEWMODE) {
                 if (!empty($surveypro->captcha)) {
                     $mform->addElement('recaptcha', 'captcha_form_footer');
                 }
             }
+        }
+
+        if ($mode == SURVEYPRO_READONLYMODE) {
+            // Don't waste your time with buttons that are not going to be displayed.
+            return;
         }
 
         // Buttons.
@@ -194,7 +199,7 @@ class userform extends \moodleform {
         if ($formpage > $userfirstpage) {
             $buttonlist['prevbutton'] = get_string('previousformpage', 'mod_surveypro');
         }
-        if ($mode != SURVEYPRO_PREVIEW) {
+        if ($mode != SURVEYPRO_PREVIEWMODE) {
             $pasuseresumesurvey = ($surveypro->pauseresume == SURVEYPRO_PAUSERESUMENOEMAIL);
             $pasuseresumesurvey = $pasuseresumesurvey || ($surveypro->pauseresume == SURVEYPRO_PAUSERESUMEEMAIL);
             if ($pasuseresumesurvey) {
@@ -270,7 +275,7 @@ class userform extends \moodleform {
         // Useless: $overflowpage = $this->_customdata->overflowpage;
         $mode = $this->_customdata->mode;
 
-        if ($mode == SURVEYPRO_PREVIEW) {
+        if ($mode == SURVEYPRO_PREVIEWMODE) {
             // Skip validation.
             return array();
         }

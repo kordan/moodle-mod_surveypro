@@ -96,7 +96,7 @@ if ($section == 'preview') { // It was layout_validation.php
     $formparams->cm = $cm;
     $formparams->surveypro = $surveypro;
     $formparams->submissionid = $submissionid;
-    $formparams->mode = SURVEYPRO_PREVIEW;
+    $formparams->mode = SURVEYPRO_PREVIEWMODE;
     $formparams->userformpagecount = $previewman->get_userformpagecount();
     $formparams->canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context);
     $formparams->formpage = $formpage; // The page of the form to select subset of fields
@@ -182,7 +182,7 @@ if ($section == 'itemslist') { // It was layout_itemlist.php
     $itemid = optional_param('itemid', 0, PARAM_INT);
     $sortindex = optional_param('sortindex', 0, PARAM_INT);
     $action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
-    $mode = optional_param('mode', SURVEYPRO_NOVIEW, PARAM_INT);
+    $mode = optional_param('mode', SURVEYPRO_NOMODE, PARAM_INT);
     $itemtomove = optional_param('itm', 0, PARAM_INT);
     $lastitembefore = optional_param('lib', 0, PARAM_INT);
     $confirm = optional_param('cnf', SURVEYPRO_UNCONFIRMED, PARAM_INT);
@@ -232,7 +232,7 @@ if ($section == 'itemslist') { // It was layout_itemlist.php
     // New item form.
     $newitemcondition = $basecondition && has_capability('mod/surveypro:additems', $context);
     if ($newitemcondition) {
-        $paramurl = ['s' => $cm->instance, 'section' => 'itemsetup'];
+        $paramurl = ['s' => $cm->instance, 'section' => 'itemsetup', 'mode' => SURVEYPRO_NEWITEM];
         $formurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
 
         // Init new item form.
@@ -362,7 +362,7 @@ if ($section == 'itemsetup') { // It was layout_itemsetup.php
     $plugin = optional_param('plugin', null, PARAM_TEXT);
     $itemid = optional_param('itemid', 0, PARAM_INT);
     $action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
-    $mode = optional_param('mode', SURVEYPRO_NOVIEW, PARAM_INT); // Ho sostituito SURVEYPRO_NEWRESPONSE con SURVEYPRO_NOVIEW?
+    $mode = optional_param('mode', SURVEYPRO_NOMODE, PARAM_INT); // Ho sostituito SURVEYPRO_NEWRESPONSEMODE con SURVEYPRO_NOMODE?
 
     // Required capability.
     require_capability('mod/surveypro:additems', $context);
@@ -520,7 +520,7 @@ if ($section == 'branchingvalidation') { // It was layout_validation.php
     // $layoutman->set_action(SURVEYPRO_NOACTION);
 
     // Property mode is useless (it is set to its default), do not set it
-    // $layoutman->set_mode(SURVEYPRO_NEWRESPONSE);
+    // $layoutman->set_mode(SURVEYPRO_NEWRESPONSEMODE);
 
     // Property itemtomove is useless (it is set to its default), do not set it
     // $layoutman->set_itemtomove(0);

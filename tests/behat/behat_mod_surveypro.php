@@ -75,6 +75,14 @@ class behat_mod_surveypro extends behat_base {
         global $DB;
 
         switch ($type) {
+            case 'utemplates page':
+                return new \moodle_url('/mod/surveypro/utemplates.php',
+                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id]);
+
+            case 'mtemplates page':
+                return new \moodle_url('/mod/surveypro/mtemplates.php',
+                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id]);
+
             case 'User templates Import':
                 return new \moodle_url('/mod/surveypro/utemplates.php',
                         ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'section' => 'import']);

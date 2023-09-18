@@ -43,10 +43,8 @@ class view_action_bar implements templatable, renderable {
     /**
      * The class constructor.
      *
-     * @param int $id The database module id.
+     * @param int $surveyproid The surveypro module id.
      * @param \url_select $urlselect The URL selector object.
-     * @param bool $hasentries Whether entries exist.
-     * @param string $mode The current view mode (list, view...).
      */
     public function __construct(int $surveyproid, \url_select $urlselect) {
         $this->id = $surveyproid;

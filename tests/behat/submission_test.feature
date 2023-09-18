@@ -109,6 +109,7 @@ Feature: make a submission test for each available item
     And I press "Next page >>"
     And I press "<< Previous page"
     And I select "Responses" from the "jump" singleselect
+
     And I should see "1" submissions
 
     And I follow "duplicate_submission_row_1"

@@ -54,8 +54,9 @@ class action_bar {
     /**
      * The class constructor.
      *
-     * @param int $id The surveypro module id.
-     * @param moodle_url $pageurl The URL of the current page.
+     * @param object $cm
+     * @param \context_module $context the context of the surveypro.
+     * @param object $surveypro
      */
     public function __construct($cm, $context, $surveypro) {
         global $PAGE;
@@ -74,6 +75,11 @@ class action_bar {
      */
     public function draw_view_action_bar(): string {
         global $PAGE;
+
+        $pageparams = $PAGE->url->params();
+        // echo 'Sono su draw_view_action_bar e ho $this->currenturl = '.$this->currenturl.'<br />';
+        // echo '$pageparams =';
+        // print_object($pageparams);
 
         $canview = has_capability('mod/surveypro:view', $this->context);
         $cansearch = has_capability('mod/surveypro:searchsubmissions', $this->context);
@@ -95,16 +101,36 @@ class action_bar {
             $menu[$linktosubmissions->out(false)] = get_string('surveypro_responses', 'mod_surveypro');
         }
 
+        // View -> searchsubmissions.
         if ($cansearch && $utilitylayoutman->has_search_items()) {
-            // Third item.
             $paramurl['section'] = 'searchsubmissions';
             $linktosearch = new moodle_url('/mod/surveypro/view.php', $paramurl);
             $menu[$linktosearch->out(false)] = get_string('surveypro_view_search', 'mod_surveypro');
         }
 
-        // If section = 'submissionform', set $activeurl to to the URL of the second menu item.
+        // Gosth links.
+        if (isset($pageparams['mode'])) {
+            // View -> insert.
+            if ($pageparams['mode'] == SURVEYPRO_NEWRESPONSEMODE) {
+                // Optional gosth item.
+                $gosthlink = new moodle_url('/mod/surveypro/view.php'); // URL is useless. It can't be used.
+                $menu[$gosthlink->out(false)] = get_string('surveypro_insert', 'mod_surveypro');
+            }
+            // View -> read only.
+            if ($pageparams['mode'] == SURVEYPRO_READONLYMODE) {
+                // Optional gosth item.
+                $gosthlink = new moodle_url('/mod/surveypro/view.php'); // URL is useless. It can't be used.
+                $menu[$gosthlink->out(false)] = get_string('surveypro_readonly', 'mod_surveypro');
+            }
+        }
+
+        // If section = 'submissionform', set $activeurl according to the way the form is going to be used.
         if (strpos($this->currenturl->out(false), 'submissionform')) { // If strpos is not null, for sure it will never be zero.
-            $activeurl = $linktosubmissions;
+            if (isset($gosthlink)) {
+                $activeurl = $gosthlink;
+            } else {
+                $activeurl = $linktosubmissions;
+            }
         } else {
             $activeurl = $this->currenturl;
         }
@@ -124,6 +150,11 @@ class action_bar {
      */
     public function draw_layout_action_bar(): string {
         global $PAGE, $DB;
+
+        $pageparams = $PAGE->url->params();
+        // echo 'Sono su draw_layout_action_bar e ho $this->currenturl = '.$this->currenturl.'<br />';
+        // echo '$pageparams =';
+        // print_object($pageparams);
 
         $canpreview = has_capability('mod/surveypro:preview', $this->context);
         $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
@@ -147,12 +178,20 @@ class action_bar {
             $menu[$linktoitemslist->out(false)] = get_string('layout_items', 'mod_surveypro');
         }
 
-        // Layout -> itemsetup.
+        // Gosth links.
         if ($canmanageitems) {
-            if (strpos($this->currenturl->out(false), 'itemsetup')) { // If strpos is not null, for sure it will never be zero.
-                $paramurl['section'] = 'itemsetup';
-                $linktoitemsetup = new moodle_url('/mod/surveypro/layout.php', $paramurl);
-                $menu[$linktoitemsetup->out(false)] = get_string('layout_itemsetup', 'mod_surveypro');
+            if (isset($pageparams['mode'])) {
+                // Layout -> itemsetup.
+                if ($pageparams['mode'] == SURVEYPRO_NEWITEM) {
+                    $gosthlink = new moodle_url('/mod/surveypro/layout.php'); // URL is useless. It can't be used.
+                    $menu[$gosthlink->out(false)] = get_string('layout_itemsetup', 'mod_surveypro');
+                }
+                // Layout -> edit item.
+                if ($pageparams['mode'] == SURVEYPRO_EDITITEM) {
+                    // Optional gosth item.
+                    $gosthlink = new moodle_url('/mod/surveypro/layout.php'); // URL is useless. It can't be used.
+                    $menu[$gosthlink->out(false)] = get_string('layout_edititem', 'mod_surveypro');
+                }
             }
         }
 
@@ -165,18 +204,19 @@ class action_bar {
 
         $activeurl = $this->currenturl;
 
-        // Select the menu item according to section.
-        if (strpos($this->currenturl->out(false), 'preview')) { // If strpos is not null, for sure it will never be zero.
-            $activeurl = $linktopreview;
-        }
-        if (strpos($this->currenturl->out(false), 'itemslist')) { // If strpos is not null, for sure it will never be zero.
-            $activeurl = $linktoitemslist;
-        }
-        if (strpos($this->currenturl->out(false), 'itemsetup')) { // If strpos is not null, for sure it will never be zero.
-            $activeurl = $linktoitemsetup;
-        }
-        if (strpos($this->currenturl->out(false), 'branchingvalidation')) { // If strpos is not null, for sure it will not be zero.
-            $activeurl = $linktobranchingvalidation;
+        if (isset($gosthlink)) {
+            $activeurl = $gosthlink;
+        } else {
+            // Select the menu item according to section.
+            if (strpos($this->currenturl->out(false), 'preview')) { // If strpos is not null, for sure it will never be zero.
+                $activeurl = $linktopreview;
+            }
+            if (strpos($this->currenturl->out(false), 'itemslist')) { // If strpos is not null, for sure it will never be zero.
+                $activeurl = $linktoitemslist;
+            }
+            if (strpos($this->currenturl->out(false), 'branchingvalidation')) { // If strpos is not null, for sure it will not be zero.
+                $activeurl = $linktobranchingvalidation;
+            }
         }
 
         $urlselect = new url_select($menu, $activeurl->out(false), null, 'viewactionselect');
@@ -194,6 +234,11 @@ class action_bar {
      */
     public function draw_tools_action_bar(): string {
         global $PAGE, $DB;
+
+        // $pageparams = $PAGE->url->params();
+        // echo 'Sono su draw_tools_action_bar e ho $this->currenturl = '.$this->currenturl.'<br />';
+        // echo '$pageparams =';
+        // print_object($pageparams);
 
         $canimportresponses = has_capability('mod/surveypro:importresponses', $this->context);
         $canexportresponses = has_capability('mod/surveypro:exportresponses', $this->context);
@@ -246,6 +291,11 @@ class action_bar {
      */
     public function draw_utemplates_action_bar(): string {
         global $PAGE, $DB;
+
+        // $pageparams = $PAGE->url->params();
+        // echo 'Sono su draw_utemplates_action_bar e ho $this->currenturl = '.$this->currenturl.'<br />';
+        // echo '$pageparams =';
+        // print_object($pageparams);
 
         $canmanageusertemplates = has_capability('mod/surveypro:manageusertemplates', $this->context);
         $cansaveusertemplates = has_capability('mod/surveypro:saveusertemplates', $this->context);
@@ -326,6 +376,11 @@ class action_bar {
     public function draw_mtemplates_action_bar(): string {
         global $PAGE;
 
+        // $pageparams = $PAGE->url->params();
+        // echo 'Sono su draw_mtemplates_action_bar e ho $this->currenturl = '.$this->currenturl.'<br />';
+        // echo '$pageparams =';
+        // print_object($pageparams);
+
         $cansavemastertemplates = has_capability('mod/surveypro:savemastertemplates', $this->context);
         $canapplymastertemplates = has_capability('mod/surveypro:applymastertemplates', $this->context);
 
@@ -378,6 +433,11 @@ class action_bar {
      */
     public function draw_reports_action_bar(): string {
         global $PAGE;
+
+        // $pageparams = $PAGE->url->params();
+        // echo 'Sono su draw_reports_action_bar e ho $this->currenturl = '.$this->currenturl.'<br />';
+        // echo '$pageparams =';
+        // print_object($pageparams);
 
         $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context);
         $canaccessownreports = has_capability('mod/surveypro:accessownreports', $this->context);

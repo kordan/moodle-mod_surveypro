@@ -39,39 +39,6 @@ define('SURVEYPRO_VALUELABELSEPARATOR', '::');
 define('SURVEYPRO_OTHERSEPARATOR'     , '->');
 
 /**
- * PAGES
- */
-// PAGES in tab LAYOUT.
-define('SURVEYPRO_LAYOUT_PREVIEW'  , 1);
-define('SURVEYPRO_LAYOUT_ITEMS'    , 2);
-define('SURVEYPRO_LAYOUT_ITEMSETUP', 3);
-define('SURVEYPRO_LAYOUT_VALIDATE' , 4);
-
-// PAGES in tab SUBMISSION.
-define('SURVEYPRO_SUBMISSION_CPANEL'  , 1);
-define('SURVEYPRO_SUBMISSION_MANAGE'  , 2);
-define('SURVEYPRO_SUBMISSION_INSERT'  , 3);
-define('SURVEYPRO_SUBMISSION_EDIT'    , 4);
-define('SURVEYPRO_SUBMISSION_READONLY', 5);
-define('SURVEYPRO_SUBMISSION_SEARCH'  , 6);
-define('SURVEYPRO_SUBMISSION_REPORT'  , 7);
-define('SURVEYPRO_SUBMISSION_IMPORT'  , 8);
-define('SURVEYPRO_SUBMISSION_EXPORT'  , 9);
-
-// PAGES in tab USER TEMPLATES.
-define('SURVEYPRO_UTEMPLATES_MANAGE', 1);
-define('SURVEYPRO_UTEMPLATES_BUILD' , 2);
-define('SURVEYPRO_UTEMPLATES_IMPORT', 3);
-define('SURVEYPRO_UTEMPLATES_APPLY' , 4);
-
-// PAGES in tab MASTER TEMPLATES.
-define('SURVEYPRO_MTEMPLATES_BUILD', 1);
-define('SURVEYPRO_MTEMPLATES_APPLY', 2);
-
-// PAGES in tab REPORTS.
-// I can not define constants for report pages because they are a subplugin and can be integrated with additional reports.
-
-/**
  * ITEM TYPES
  */
 define('SURVEYPRO_TYPEFIELD' , 'field');
@@ -125,16 +92,17 @@ define('SURVEYPRO_EXPORTUTEMPLATE'   , '22');
 /**
  * VIEW
  */
-// MODE in USER FORM section.
-define('SURVEYPRO_NOVIEW'          , '0');
-define('SURVEYPRO_NEWRESPONSE'     , '1');
-define('SURVEYPRO_EDITRESPONSE'    , '2');
-define('SURVEYPRO_READONLYRESPONSE', '3');
-define('SURVEYPRO_PREVIEW'         , '4');
+// MODE in which the USER FORM is going to be used.
+define('SURVEYPRO_NOMODE'         , '0');
+define('SURVEYPRO_NEWRESPONSEMODE', '1');
+define('SURVEYPRO_EDITMODE'       , '2');
+define('SURVEYPRO_READONLYMODE'   , '3');
+define('SURVEYPRO_PREVIEWMODE'    , '4');
 
 // VIEW in ITEM section.
-define('SURVEYPRO_EDITITEM'        , '5');
-define('SURVEYPRO_CHANGEORDERASK'  , '6');
+define('SURVEYPRO_NEWITEM'        , '5');
+define('SURVEYPRO_EDITITEM'       , '6');
+define('SURVEYPRO_CHANGEORDERASK' , '7');
 
 /**
  * SENDERS
