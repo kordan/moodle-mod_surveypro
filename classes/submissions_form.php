@@ -44,16 +44,6 @@ class submissions_form extends formbase {
     protected $mode;
 
     /**
-     * @var int Tab of the module where the page will be shown
-     */
-    protected $tabtab;
-
-    /**
-     * @var int This is the page of the module. Nothing to share with $formpage
-     */
-    protected $tabpage;
-
-    /**
      * @var int Status of each answer of the submission
      */
     protected $responsestatus;

@@ -82,9 +82,9 @@ class layout_itemsetup {
     protected $action;
 
     /**
-     * @var int Required view
+     * @var int Required mode
      */
-    protected $view;
+    protected $mode;
 
     /**
      * @var int Id of the item to move
@@ -213,7 +213,7 @@ class layout_itemsetup {
         $table->column_class('actions', 'actions');
 
         // General properties for the whole table.
-        if ($this->view == SURVEYPRO_CHANGEORDERASK) {
+        if ($this->mode == SURVEYPRO_CHANGEORDERASK) {
             $table->set_attribute('id', 'sortitems');
         } else {
             $table->set_attribute('id', 'manageitems');
@@ -289,11 +289,11 @@ class layout_itemsetup {
 
         list($where, $params) = surveypro_fetch_items_seeds($this->surveypro->id, false, true, null, null, null, true);
         // If you are reordering, force ordering to...
-        $orderby = ($this->view == SURVEYPRO_CHANGEORDERASK) ? 'sortindex ASC' : $table->get_sql_sort();
+        $orderby = ($this->mode == SURVEYPRO_CHANGEORDERASK) ? 'sortindex ASC' : $table->get_sql_sort();
         $itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, $orderby, 'id as itemid, type, plugin');
 
         // This is the very first position, so if the item has a parent, no "moveherebox" must appear.
-        if (($this->view == SURVEYPRO_CHANGEORDERASK) && (!$this->parentid)) {
+        if (($this->mode == SURVEYPRO_CHANGEORDERASK) && (!$this->parentid)) {
             $drawmoveherebox = true;
             $paramurl = $paramurlmove;
             $paramurl['lib'] = 0; // Move just after this sortindex (lib == last item before).
@@ -329,7 +329,7 @@ class layout_itemsetup {
 
             $tablerow = array();
 
-            if (($this->view == SURVEYPRO_CHANGEORDERASK) && ($item->get_itemid() == $this->rootitemid)) {
+            if (($this->mode == SURVEYPRO_CHANGEORDERASK) && ($item->get_itemid() == $this->rootitemid)) {
                 // Do not draw the item you are going to move.
                 continue;
             }
@@ -485,10 +485,10 @@ class layout_itemsetup {
 
             // Action icons.
             $icons = '';
-            if ($this->view != SURVEYPRO_CHANGEORDERASK) {
+            if ($this->mode != SURVEYPRO_CHANGEORDERASK) {
                 // SURVEYPRO_EDITITEM.
                 $paramurl = $paramurlbase;
-                $paramurl['view'] = SURVEYPRO_EDITITEM;
+                $paramurl['mode'] = SURVEYPRO_EDITITEM;
                 $paramurl['section'] = 'itemsetup';
 
                 $link = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
@@ -499,7 +499,7 @@ class layout_itemsetup {
                 // SURVEYPRO_CHANGEORDERASK.
                 if ($this->itemcount > 1) {
                     $paramurl = $paramurlbase;
-                    $paramurl['view'] = SURVEYPRO_CHANGEORDERASK;
+                    $paramurl['mode'] = SURVEYPRO_CHANGEORDERASK;
                     $paramurl['itm'] = $sortindex;
                     $paramurl['section'] = 'itemslist';
 
@@ -587,7 +587,7 @@ class layout_itemsetup {
             $rowclass = empty($itemishidden) ? '' : 'dimmed';
             $table->add_data($tablerow, $rowclass);
 
-            if ($this->view == SURVEYPRO_CHANGEORDERASK) {
+            if ($this->mode == SURVEYPRO_CHANGEORDERASK) {
                 // It was asked to move the item with: $this->rootitemid and $this->parentid.
                 if ($this->parentid) { // This is the parentid of the item that I am going to move.
                     // If a parentid is foreseen then...
@@ -817,7 +817,7 @@ class layout_itemsetup {
 
             // SURVEYPRO_EDITITEM.
             $paramurl = $paramurlbase;
-            $paramurl['view'] = SURVEYPRO_EDITITEM;
+            $paramurl['mode'] = SURVEYPRO_EDITITEM;
 
             $link = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
             $paramlink = ['id' => 'edit_'.$item->get_itemid(), 'title' => $editstr];
@@ -1165,6 +1165,7 @@ class layout_itemsetup {
      * Ask for confirmation before a bulk action.
      *
      * @param string $message
+     * @param string $yeskey
      * @return void
      */
     public function bulk_action_ask($message, $yeskey=null) {
@@ -1175,6 +1176,7 @@ class layout_itemsetup {
         $optionsyes = $optionbase;
         $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
         $urlyes = new \moodle_url('/mod/surveypro/layout.php', $optionsyes);
+
         $yeslabel = ($yeskey) ? get_string($yeskey, 'mod_surveypro') : get_string('continue');
         $buttonyes = new \single_button($urlyes, $yeslabel, 'get');
 
@@ -2062,7 +2064,7 @@ class layout_itemsetup {
 
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             $message = get_string('confirm_deletehiddenitems', 'mod_surveypro');
-            $yeskey = 'ci devo rimettere le mani';
+            $yeskey = 'yes_deletehiddenitems';
             $this->bulk_action_ask($message, $yeskey);
         }
 
@@ -2194,13 +2196,13 @@ class layout_itemsetup {
     }
 
     /**
-     * Set view.
+     * Set mode.
      *
-     * @param int $view
+     * @param int $mode
      * @return void
      */
-    public function set_view($view) {
-        $this->view = $view;
+    public function set_mode($mode) {
+        $this->mode = $mode;
     }
 
     /**

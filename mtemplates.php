@@ -22,8 +22,9 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_surveypro\utility_page;
+
 use mod_surveypro\mastertemplate;
-use mod_surveypro\tabs;
 use mod_surveypro\local\form\mtemplate_createform;
 
 // Needed only if $section == 'apply'.
@@ -59,6 +60,9 @@ $cm = cm_info::create($cm);
 require_course_login($course, false, $cm);
 $context = \context_module::instance($cm->id);
 
+// Utilitypage is going to be used in each section. This is the reason why I load it here.
+$utilitypageman = new utility_page($cm, $surveypro);
+
 // MARK save.
 if ($section == 'save') { // It was mtemplate_save.php
     // Get additional specific params.
@@ -91,6 +95,7 @@ if ($section == 'save') { // It was mtemplate_save.php
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
     $PAGE->add_body_class('mediumwidth');
+    $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
 
@@ -144,6 +149,7 @@ if ($section == 'apply') { // It was mtemplate_apply.php
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
     $PAGE->add_body_class('mediumwidth');
+    $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
 

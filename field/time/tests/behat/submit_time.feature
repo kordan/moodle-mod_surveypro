@@ -21,6 +21,7 @@ Feature: make a submission test for "time" item
       | activity  | name      | intro                           | course               |
       | surveypro | Time test | To test submission of time item | Time submission test |
     And I am on the "Time test" "surveypro activity" page logged in as teacher1
+    And I select "Layout" from secondary navigation
 
     And I set the field "typeplugin" to "Time"
     And I press "Add"

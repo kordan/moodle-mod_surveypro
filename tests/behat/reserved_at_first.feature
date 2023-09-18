@@ -1,5 +1,5 @@
 @mod @mod_surveypro @surveyprofield
-Feature: Access a surveypro from the second page if the first one has only reserved items
+Feature: access a surveypro from the second page if the first one has only reserved items
   Test accessing the surveypro starting from page 2 if the first one has only reserved items
   As a teacher
   I create a surveypro and

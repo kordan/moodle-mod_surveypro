@@ -22,6 +22,7 @@ Feature: test the use of textarea setup form
       | type  | plugin  |
       | field | boolean |
     And I am on the "Test textarea setup form" "surveypro activity" page logged in as teacher1
+    And I select "Layout" from secondary navigation
 
     # add an textarea item
     And I set the field "typeplugin" to "Text (long)"

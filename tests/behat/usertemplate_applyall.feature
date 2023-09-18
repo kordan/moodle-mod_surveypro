@@ -1,5 +1,5 @@
 @mod @mod_surveypro
-Feature: Load and apply usertemplates in order to test if they apply correctly
+Feature: load and apply usertemplates in order to test if they apply correctly
   In order to test if usertemplates apply correctly
   As teacher1
   I apply all available usertemplates

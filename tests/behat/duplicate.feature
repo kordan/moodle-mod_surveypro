@@ -1,5 +1,5 @@
 @mod @mod_surveypro
-Feature: Duplicate a surveypro instance
+Feature: duplicate a surveypro instance
   In order to validate backup and restore process
   As a teacher
   I duplicate a surveypro instance.
@@ -26,8 +26,7 @@ Feature: Duplicate a surveypro instance
       | field  | boolean     |
       | field  | select      |
 
-    And I am on "Course 1" course homepage
-    And I turn editing mode on
+    And I am on "Course 1" course homepage with editing mode on
     And I duplicate "surveypro test" activity editing the new copy with:
       | Name | Copy of surveypro test |
     And I am on the "Copy of surveypro test" "surveypro activity" page

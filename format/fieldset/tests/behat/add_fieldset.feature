@@ -19,6 +19,7 @@ Feature: verify a fieldset item can be added to a survey
       | activity  | name          | intro                             | course       |
       | surveypro | Fieldset test | To test addition of fieldset item | Add fieldset |
     And I am on the "Fieldset test" "surveypro activity" page logged in as teacher1
+    And I select "Layout" from secondary navigation
 
     And I set the field "typeplugin" to "Fieldset"
     And I press "Add"

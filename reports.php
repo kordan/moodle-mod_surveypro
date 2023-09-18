@@ -24,8 +24,8 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 
-$id = optional_param('id', 0, PARAM_INT);                          // Course_module id.
-$s = optional_param('s', 0, PARAM_INT);                            // Surveypro instance id.
+$id = optional_param('id', 0, PARAM_INT); // Course_module id.
+$s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
@@ -37,11 +37,19 @@ if (!empty($id)) {
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
 
+// Get additional specific params.
+$report = optional_param('report', null, PARAM_TEXT);   // Surveypro instance id.
+
 $cm = cm_info::create($cm);
 require_course_login($course, false, $cm);
 $context = \context_module::instance($cm->id);
 
-// Redirect to the first report if it exists.
+if (isset($report)) {
+    $returnurl = new \moodle_url('/mod/surveypro/report/'.$report.'/view.php', ['s' => $cm->instance]);
+    redirect($returnurl);
+}
+
+// If you are still here, redirect to the first report (if it exists).
 if ($surveyproreportlist = get_plugin_list('surveyproreport')) {
     foreach ($surveyproreportlist as $reportname => $reportpath) {
         $returnurl = new \moodle_url('/mod/surveypro/report/'.$reportname.'/view.php', ['s' => $cm->instance]);

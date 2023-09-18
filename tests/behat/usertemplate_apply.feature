@@ -1,5 +1,5 @@
 @mod @mod_surveypro
-Feature: Load and apply usertemplates in order to test, among others, partial item deletion
+Feature: load and apply usertemplates in order to test, among others, partial item deletion
   In order to test partial item deletion
   As teacher1
   I overwite usertemplates with usertemplates

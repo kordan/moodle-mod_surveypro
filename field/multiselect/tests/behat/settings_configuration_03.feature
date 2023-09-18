@@ -1,5 +1,5 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_multiselect
-Feature: Validate creation and submit for "multiselect" elements using the principal combinations of settings (3 of 4)
+Feature: validate creation and submit for "multiselect" elements using the principal combinations of settings (3 of 4)
   Setting I check in this test are:
       # required:               0 - 1
       # Options (fixed):        milk\ncoffee\nbutter\nbread
@@ -22,6 +22,7 @@ Feature: Validate creation and submit for "multiselect" elements using the princ
       | activity  | name           | intro              | course           |
       | surveypro | Surveypro test | For testing backup | Multiselect item |
     And I am on the "Surveypro test" "surveypro activity" page logged in as teacher1
+    And I select "Layout" from secondary navigation
 
     And I set the field "typeplugin" to "Multiple selection"
     And I press "Add"

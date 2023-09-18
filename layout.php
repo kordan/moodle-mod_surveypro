@@ -22,12 +22,12 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_surveypro\utility_page;
 use mod_surveypro\layout_itemsetup;
 use mod_surveypro\utility_layout;
 use mod_surveypro\utility_submission;
 use mod_surveypro\usertemplate;
 use mod_surveypro\mastertemplate;
-use mod_surveypro\tabs;
 use mod_surveypro\local\form\item_chooser;
 use mod_surveypro\local\form\utemplate_applyform;
 use mod_surveypro\local\form\mtemplate_applyform;
@@ -66,13 +66,16 @@ $cm = cm_info::create($cm);
 require_course_login($course, false, $cm);
 $context = \context_module::instance($cm->id);
 
+// Utilitypage is going to be used in each section. This is the reason why I load it here.
+$utilitypageman = new utility_page($cm, $surveypro);
+
 // MARK preview.
 if ($section == 'preview') { // It was layout_validation.php
     // Get additional specific params.
+    $edit = optional_param('edit', -1, PARAM_BOOL);
     $submissionid = optional_param('submissionid', 0, PARAM_INT);
     $formpage = optional_param('formpage', 1, PARAM_INT); // Form page number.
     $overflowpage = optional_param('overflowpage', 0, PARAM_INT); // Went the user to a overflow page?
-    $edit = optional_param('edit', -1, PARAM_BOOL);
 
     // Calculations.
     mod_surveypro\utility_mform::register_form_elements();
@@ -112,7 +115,7 @@ if ($section == 'preview') { // It was layout_validation.php
         // If "previous" button has been pressed, redirect.
         $prevbutton = isset($data->prevbutton);
         if ($prevbutton) {
-            $formpage = max(1, $formpage-1);
+            $formpage = max(1, $formpage - 1);
             $paramurl['formpage'] = $formpage;
             $paramurl['overflowpage'] = $previewman->get_overflowpage();
             $paramurl['section'] = 'preview';
@@ -124,7 +127,7 @@ if ($section == 'preview') { // It was layout_validation.php
         $nextbutton = isset($data->nextbutton);
         if ($nextbutton) {
             $userformpagecount = $previewman->get_userformpagecount();
-            $formpage = min($userformpagecount, $formpage+1);
+            $formpage = min($userformpagecount, $formpage + 1);
             $paramurl['formpage'] = $formpage;
             $paramurl['overflowpage'] = $previewman->get_overflowpage();
             $paramurl['section'] = 'preview';
@@ -148,10 +151,9 @@ if ($section == 'preview') { // It was layout_validation.php
     $PAGE->navbar->add(get_string('layout', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('layout_preview', 'mod_surveypro'));
     $PAGE->add_body_class('mediumwidth');
+    $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
-
-    // echo $OUTPUT->box('Eseguo la sezione \'preview\'', 'generalbox description', 'intro');
 
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
     echo $actionbar->draw_layout_action_bar();
@@ -173,13 +175,14 @@ if ($section == 'preview') { // It was layout_validation.php
 
 // MARK itemslist.
 if ($section == 'itemslist') { // It was layout_itemlist.php
+    $edit = optional_param('edit', -1, PARAM_BOOL);
     // Get additional specific params.
     $type = optional_param('type', null, PARAM_TEXT);
     $plugin = optional_param('plugin', null, PARAM_TEXT);
     $itemid = optional_param('itemid', 0, PARAM_INT);
     $sortindex = optional_param('sortindex', 0, PARAM_INT);
     $action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
-    $view = optional_param('view', SURVEYPRO_NOVIEW, PARAM_INT);
+    $mode = optional_param('mode', SURVEYPRO_NOVIEW, PARAM_INT);
     $itemtomove = optional_param('itm', 0, PARAM_INT);
     $lastitembefore = optional_param('lib', 0, PARAM_INT);
     $confirm = optional_param('cnf', SURVEYPRO_UNCONFIRMED, PARAM_INT);
@@ -187,7 +190,6 @@ if ($section == 'itemslist') { // It was layout_itemlist.php
     $parentid = optional_param('pid', 0, PARAM_INT);
     $itemeditingfeedback = optional_param('iefeedback', SURVEYPRO_NOFEEDBACK, PARAM_INT);
     $saveasnew = optional_param('saveasnew', null, PARAM_TEXT);
-    $edit = optional_param('edit', -1, PARAM_BOOL);
 
     // Required capability.
     require_capability('mod/surveypro:manageitems', $context);
@@ -208,7 +210,7 @@ if ($section == 'itemslist') { // It was layout_itemlist.php
     $layoutman->set_itemid($itemid);
     $layoutman->set_sortindex($sortindex);
     $layoutman->set_action($action);
-    $layoutman->set_view($view);
+    $layoutman->set_mode($mode);
     $layoutman->set_itemtomove($itemtomove);
     $layoutman->set_lastitembefore($lastitembefore);
     $layoutman->set_confirm($confirm);
@@ -297,6 +299,7 @@ if ($section == 'itemslist') { // It was layout_itemlist.php
     // $PAGE->navbar->add(get_string('layout', 'mod_surveypro'), $url); // WHY it is already onboard?
     $PAGE->navbar->add(get_string('layout_items', 'mod_surveypro'));
     $PAGE->add_body_class('mediumwidth');
+    $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
 
@@ -353,12 +356,13 @@ if ($section == 'itemslist') { // It was layout_itemlist.php
 // MARK itemsetup.
 if ($section == 'itemsetup') { // It was layout_itemsetup.php
     // Get additional specific params.
+    $edit = optional_param('edit', -1, PARAM_BOOL);
     $typeplugin = optional_param('typeplugin', null, PARAM_TEXT);
     $type = optional_param('type', null, PARAM_TEXT);
     $plugin = optional_param('plugin', null, PARAM_TEXT);
     $itemid = optional_param('itemid', 0, PARAM_INT);
     $action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
-    $view = optional_param('view', SURVEYPRO_NEWRESPONSE, PARAM_INT); // Che c'entra SURVEYPRO_NEWRESPONSE con itemsetup?
+    $mode = optional_param('mode', SURVEYPRO_NOVIEW, PARAM_INT); // Ho sostituito SURVEYPRO_NEWRESPONSE con SURVEYPRO_NOVIEW?
 
     // Required capability.
     require_capability('mod/surveypro:additems', $context);
@@ -380,7 +384,7 @@ if ($section == 'itemsetup') { // It was layout_itemsetup.php
     }
     $layoutman->set_itemid($itemid);
     $layoutman->set_action($action);
-    $layoutman->set_view($view);
+    $layoutman->set_mode($mode);
     $layoutman->set_hassubmissions($hassubmissions);
     // Property itemtomove is useless (it is set to its default), do not set it.
     // $layoutman->set_itemtomove(0);
@@ -457,7 +461,7 @@ if ($section == 'itemsetup') { // It was layout_itemsetup.php
     $paramurl['itemid'] = $itemid;
     $paramurl['type'] = $layoutman->get_type();
     $paramurl['plugin'] = $layoutman->get_plugin();
-    $paramurl['view'] = $view;
+    $paramurl['mode'] = $mode;
     $paramurl['section'] = 'itemsetup';
 
     $url = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
@@ -469,6 +473,7 @@ if ($section == 'itemsetup') { // It was layout_itemsetup.php
     $PAGE->navbar->add(get_string('layout', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('layout_itemsetup', 'mod_surveypro'));
     $PAGE->add_body_class('mediumwidth');
+    $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
 
@@ -514,8 +519,8 @@ if ($section == 'branchingvalidation') { // It was layout_validation.php
     // Property action is useless (it is set to its default), do not set it
     // $layoutman->set_action(SURVEYPRO_NOACTION);
 
-    // Property view is useless (it is set to its default), do not set it
-    // $layoutman->set_view(SURVEYPRO_NEWRESPONSE);
+    // Property mode is useless (it is set to its default), do not set it
+    // $layoutman->set_mode(SURVEYPRO_NEWRESPONSE);
 
     // Property itemtomove is useless (it is set to its default), do not set it
     // $layoutman->set_itemtomove(0);
@@ -551,6 +556,7 @@ if ($section == 'branchingvalidation') { // It was layout_validation.php
     $PAGE->navbar->add(get_string('layout', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('layout_branchingvalidation', 'mod_surveypro'));
     $PAGE->add_body_class('mediumwidth');
+    $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
 

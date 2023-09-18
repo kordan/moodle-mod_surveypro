@@ -21,6 +21,7 @@ Feature: test the use of reserved elements
       | activity  | name                  | intro                    | course            |
       | surveypro | Reserved element test | To test reserved element | Reserved elements |
     And I am on the "Reserved element test" "surveypro activity" page logged in as teacher1
+    And I select "Layout" from secondary navigation
 
     # add the first age item generally available
     And I set the field "typeplugin" to "Age [yy/mm]"

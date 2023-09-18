@@ -22,7 +22,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use mod_surveypro\tabs;
 use surveyproreport_colles\report;
 use surveyproreport_colles\groupjumperform;
 
@@ -96,7 +95,7 @@ if ( ($type == 'questions') && ($area !== false) ) { // Area can be zero.
     $paramurl['area'] = $area;
 }
 
-$url = new \moodle_url('/mod/surveypro/report/colles/view.php', $paramurl);
+$url = new \moodle_url('/mod/surveypro/reports.php', ['s' => $surveypro->id, 'report' => 'colles']);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);

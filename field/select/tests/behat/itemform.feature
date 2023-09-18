@@ -22,6 +22,7 @@ Feature: test the use of select setup form
       | type  | plugin  |
       | field | boolean |
     And I am on the "Test select setup form" "surveypro activity" page logged in as teacher1
+    And I select "Layout" from secondary navigation
 
     # add an select item
     And I set the field "typeplugin" to "Select"

@@ -47,144 +47,126 @@ Feature: verify urls really redirect to existing pages
   @javascript
   Scenario: select each available link as a teacher
     Given I am on the "sPro test links" "surveypro activity" page logged in as teacher1
+
     #
-    # Layout TAB
+    # "Survey" in secondary navigation
     #
+    And I follow "Surveypro"
+
+    # Surveypro -> Dashboard: Reports section
+    And I follow "Run Attachments overview report"
+    And I select "Surveypro" from secondary navigation
+
+    And I follow "Run Late users report"
+    And I select "Surveypro" from secondary navigation
+
+    And I follow "Run Frequency distribution report"
+    And I select "Surveypro" from secondary navigation
+
+    And I follow "Run Responses per user report"
+    And I select "Surveypro" from secondary navigation
+
+    And I follow "Run Users per count of responses report"
+    And I select "Surveypro" from secondary navigation
+
+    # Surveypro -> Dashboard: User templates section
+    And I follow "Manage user templates"
+    And I select "Surveypro" from secondary navigation
+
+    And I follow "Save user templates"
+    And I select "Surveypro" from secondary navigation
+
+    And I follow "Import user templates"
+    And I select "Surveypro" from secondary navigation
+
+    And I follow "Apply user templates"
+    And I select "Surveypro" from secondary navigation
+
+    # Surveypro -> Dashboard: Master templates section
+    And I follow "Save master templates"
+    And I select "Surveypro" from secondary navigation
+
+    And I follow "Apply master templates"
+    And I select "Surveypro" from secondary navigation
+
+    # Surveypro -> Responses
+    And I select "Responses" from the "jump" singleselect
+
+    #
+    # "Layout" in secondary navigation
+    #
+    And I select "Layout" from secondary navigation
+
     # Layout -> Preview
-    And I navigate to "Layout > Preview" in current page administration
+    And I select "Preview" from the "jump" singleselect
 
     # Layout -> Elements
     And I select "Elements" from the "jump" singleselect
+
     # Layout -> Elements: table headers
     And I click on "Element" "link" in the ".plugin" "css_element"
     And I click on "Order" "link" in the ".sortindex" "css_element"
     And I click on "Branching" "link" in the ".parentitem" "css_element"
     And I click on "Page" "link" in the ".formpage" "css_element"
 
-    # Layout -> Elements
-    And I navigate to "Layout > Elements" in current page administration
-
     #
-    # Survey TAB
+    # "Reports" in secondary navigation
     #
-    And I follow "Survey"
-    # Survey -> Dashboard
-    # This step used to be 'And I follow "Dashboard"', but "Dashboard" is found 4 times in the page
-    # so I use a custom "home made" behat call.
-    And I select "Dashboard" from the "jump" singleselect
-    # Survey -> Dashboard: Reports section
-    And I follow "Run Attachments overview report"
-    # return home
-    And I select "Survey" from the "jump" singleselect
-    And I select "Dashboard" from the "jump" singleselect
-
-    And I follow "Run Late users report"
-    # return home
-    And I select "Survey" from the "jump" singleselect
-    And I select "Dashboard" from the "jump" singleselect
-
-    And I follow "Run Frequency distribution report"
-    # return home
-    And I select "Survey" from the "jump" singleselect
-    And I select "Dashboard" from the "jump" singleselect
-
-    And I follow "Run Responses per user report"
-    # return home
-    And I select "Survey" from the "jump" singleselect
-    And I select "Dashboard" from the "jump" singleselect
-
-    And I follow "Run Users per count of responses report"
-    # return home
-    And I select "Survey" from the "jump" singleselect
-    And I select "Dashboard" from the "jump" singleselect
-
-    # Survey -> Dashboard: User templates section
-    And I follow "Manage user templates"
-    # return home
-    And I follow "Survey"
-    And I select "Dashboard" from the "jump" singleselect
-
-    And I follow "Save user templates"
-    # return home
-    And I follow "Survey"
-    And I select "Dashboard" from the "jump" singleselect
-
-    And I follow "Import user templates"
-    # return home
-    And I follow "Survey"
-    And I select "Dashboard" from the "jump" singleselect
-
-    And I follow "Apply user templates"
-    # return home
-    And I follow "Survey"
-    And I select "Dashboard" from the "jump" singleselect
-
-    # Survey -> Dashboard: Master templates section
-    And I follow "Save master templates"
-    # return home
-    And I follow "Survey"
-    And I select "Dashboard" from the "jump" singleselect
-
-    And I follow "Apply master templates"
-    # return home
-    And I follow "Survey"
-    And I select "Dashboard" from the "jump" singleselect
-
-    # Survey -> Responses
-    And I select "Responses" from the "jump" singleselect
-
-    # Survey -> Import
-    And I navigate to "Survey > Import" in current page administration
-
-    # Survey -> Export
-    And I navigate to "Survey > Export" in current page administration
-
-    #
-    # User templates TAB
-    #
-    # User templates -> Manage
-    And I navigate to "User templates > Manage" in current page administration
-    # User templates: pages
-    And I select "Save" from the "jump" singleselect
-    And I select "Import" from the "jump" singleselect
-    And I select "Apply" from the "jump" singleselect
-    # User templates -> Save
-    And I navigate to "User templates > Save" in current page administration
-    # User templates -> Import
-    And I navigate to "User templates > Import" in current page administration
-    # User templates -> Apply
-    And I navigate to "User templates > Apply" in current page administration
-
-    #
-    # Master templates TAB
-    #
-    # Master templates -> Save
-    And I navigate to "Master templates > Save" in current page administration
-    # Master templates: pages
-    And I select "Apply" from the "jump" singleselect
-    And I navigate to "Master templates > Apply" in current page administration
-
-    #
-    # Report TAB
-    #
-    # Report -> Attachments overview
-    And I navigate to "Report > Attachments overview" in current page administration
-
-    # Report -> Late users
-    And I follow "sPro test links"
-    And I navigate to "Report > Late users" in current page administration
-
-    # Report -> Frequency distribution
-    And I follow "sPro test links"
-    And I navigate to "Report > Frequency distribution" in current page administration
-
-    # Report -> Responses per user
-    And I follow "sPro test links"
-    And I navigate to "Report > Responses per user" in current page administration
+    And I select "Reports" from secondary navigation
 
     # Report -> Users per count of responses
-    And I follow "sPro test links"
-    And I navigate to "Report > Users per count of responses" in current page administration
+    And I select "Users per count of responses" from the "jump" singleselect
+
+    # Report -> Responses per user
+    And I select "Responses per user" from the "jump" singleselect
+
+    # Report -> Late users
+    And I select "Late user" from the "jump" singleselect
+
+    # Report -> Frequency distribution
+    And I select "Frequency distribution" from the "jump" singleselect
+
+    # Report -> Attachments overview
+    And I select "Attachments overview" from the "jump" singleselect
+
+    #
+    # "Tools" in secondary navigation
+    #
+    And I select "Tools" from secondary navigation
+
+    # Tools -> Import overview
+    And I select "Import" from the "jump" singleselect
+
+    # Tools -> Export
+    And I select "Export" from the "jump" singleselect
+
+    #
+    # "User templates" in secondary navigation
+    #
+    And I select "User templates" from secondary navigation
+
+    # User templates -> Save
+    And I select "Save" from the "jump" singleselect
+
+    # User templates -> Import
+    And I select "Import" from the "jump" singleselect
+
+    # User templates -> Apply
+    And I select "Apply" from the "jump" singleselect
+
+    # User templates -> Manage
+    And I select "Manage" from the "jump" singleselect
+
+    #
+    # "Master templates" in secondary navigation
+    #
+    And I select "Master templates" from secondary navigation
+
+    # Master templates -> Apply
+    And I select "Apply" from the "jump" singleselect
+
+    # Master templates -> Save
+    And I select "Save" from the "jump" singleselect
 
   @javascript
   Scenario: select each available link as a student

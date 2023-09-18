@@ -23,7 +23,6 @@
  */
 
 use mod_surveypro\utility_layout;
-use mod_surveypro\tabs;
 use surveyproreport_frequency\filterform;
 use surveyproreport_frequency\report;
 
@@ -53,7 +52,6 @@ $context = \context_module::instance($cm->id);
 // Required capability.
 require_capability('mod/surveypro:accessreports', $context);
 
-$utilitylayoutman = new utility_layout($cm, $surveypro);
 $reportman = new report($cm, $context, $surveypro);
 
 // Begin of: instance filterform.
@@ -66,6 +64,7 @@ $formparams->surveypro = $surveypro;
 $formparams->showjumper = $showjumper;
 if ($showjumper) {
     $canaccessallgroups = has_capability('moodle/site:accessallgroups', $context);
+
     $jumpercontent = $reportman->get_groupjumper_items();
 
     $formparams->canaccessallgroups = $canaccessallgroups;
@@ -76,7 +75,7 @@ $filterform = new filterform($formurl, $formparams); // No autosubmit, here.
 // End of: instance filterform.
 
 // Output starts here.
-$url = new \moodle_url('/mod/surveypro/report/frequency/view.php', ['s' => $surveypro->id]);
+$url = new \moodle_url('/mod/surveypro/reports.php', ['s' => $surveypro->id, 'report' => 'frequency']);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);

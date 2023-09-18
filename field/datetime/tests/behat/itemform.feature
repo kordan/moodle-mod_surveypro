@@ -22,6 +22,7 @@ Feature: test the use of datetime setup form
       | type  | plugin  |
       | field | boolean |
     And I am on the "Test datetime setup form" "surveypro activity" page logged in as teacher1
+    And I select "Layout" from secondary navigation
 
     # add an datetime item
     And I set the field "typeplugin" to "Date and time [dd/mm/yyyy;hh:mm]"

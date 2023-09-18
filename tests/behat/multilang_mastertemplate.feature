@@ -35,6 +35,7 @@ Feature: verify multilang in mastertemplates
     And I log out
 
     And I am on the "Multilang in ATTLS" "surveypro activity" page logged in as teacher1
+
     And I set the field "Master templates" to "ATTLS (20 item version)"
     And I press "Apply"
     Then I should see "Attitudes Towards Thinking and Learning"

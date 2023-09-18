@@ -54,7 +54,7 @@ class submissions_exportform extends \moodleform {
         $attachmentshere = $this->_customdata->attachmentshere;
 
         // Submissionexport: settingsheader.
-        $mform->addElement('header', 'settingsheader', get_string('download'));
+        $mform->addElement('header', 'settingsheader', get_string('tools_export', 'mod_surveypro'));
 
         // Submissionexport: groupid.
         if ($activityisgrouped) {

@@ -23,7 +23,7 @@
  */
 
 use mod_surveypro\utility_layout;
-use mod_surveypro\tabs;
+use mod_surveypro\utility_page;
 
 // Needed only if $section == 'cover'.
 use mod_surveypro\cover;
@@ -68,9 +68,13 @@ $cm = cm_info::create($cm);
 require_course_login($course, false, $cm);
 $context = \context_module::instance($cm->id);
 
+// Utilitypage is going to be used in each section. This is the reason why I load it here.
+$utilitypageman = new utility_page($cm, $surveypro);
+
 // MARK cover.
 if ($section == 'cover') { // It was view_cover.php
     // Get additional specific params.
+    $edit = optional_param('edit', -1, PARAM_BOOL);
 
     // Required capability.
     $canmanageitems = has_capability('mod/surveypro:manageitems', $context);
@@ -96,6 +100,7 @@ if ($section == 'cover') { // It was view_cover.php
     // $PAGE->navbar->add(get_string('modulename', 'mod_surveypro'), $url); // WHY it is already onboard?
     $PAGE->navbar->add(get_string('surveypro_dashboard', 'mod_surveypro'));
     $PAGE->add_body_class('mediumwidth');
+    $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
 
@@ -123,7 +128,6 @@ if ($section == 'submissionslist') { // It was view_submissions.php
     $tifirst = optional_param('tifirst', '', PARAM_ALPHA); // First letter of the name.
     $tilast = optional_param('tilast', '', PARAM_ALPHA);   // First letter of the surname.
     // $tsort = optional_param('tsort', '', PARAM_ALPHA);     // Field asked to sort the table for.
-    $edit = optional_param('edit', -1, PARAM_BOOL);
 
     // A response was submitted.
     $justsubmitted = optional_param('justsubmitted', 0, PARAM_INT);
@@ -163,6 +167,7 @@ if ($section == 'submissionslist') { // It was view_submissions.php
     $PAGE->navbar->add(get_string('modulename', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('surveypro_responses', 'mod_surveypro'));
     $PAGE->add_body_class('mediumwidth');
+    $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
 
@@ -187,6 +192,7 @@ if ($section == 'submissionslist') { // It was view_submissions.php
 // - view in readonly mode.
 if ($section == 'submissionform') { // It was view_form.php
     // Get additional specific params.
+    $edit = optional_param('edit', -1, PARAM_BOOL);
     $submissionid = optional_param('submissionid', 0, PARAM_INT);
     $formpage = optional_param('formpage', 1, PARAM_INT); // Form page number.
     $overflowpage = optional_param('overflowpage', 0, PARAM_INT); // Went the user to a overflow page?
@@ -305,6 +311,7 @@ if ($section == 'submissionform') { // It was view_form.php
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
     $PAGE->add_body_class('mediumwidth');
+    $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
 
@@ -334,6 +341,7 @@ if ($section == 'submissionform') { // It was view_form.php
 // MARK searchsubmissions.
 if ($section == 'searchsubmissions') { // It was view_search.php
     // Get additional specific params.
+    $edit = optional_param('edit', -1, PARAM_BOOL);
     $formpage = optional_param('formpage', 1, PARAM_INT); // Form page number.
 
     // Required capability.
@@ -384,6 +392,7 @@ if ($section == 'searchsubmissions') { // It was view_search.php
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
     $PAGE->add_body_class('mediumwidth');
+    $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
     $PAGE->add_body_class('mediumwidth');

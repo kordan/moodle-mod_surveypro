@@ -23,6 +23,7 @@ Feature: apply a COLLES (preferred) mastertemplate to test graphs
   @javascript
   Scenario: apply COLLES (Preferred) master template, add a record and call reports
     Given I am on the "Run COLLES report" "surveypro activity" page logged in as teacher1
+
     And I set the field "Master templates" to "COLLES (Preferred)"
     And I press "Apply"
     Then I should see "In this online unit"

@@ -1,5 +1,5 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_textarea
-Feature: Validate creation and submit for textarea elements using the principal combinations of settings
+Feature: validate creation and submit for textarea elements using the principal combinations of settings
   Setting I check in this test are:
       # required:                       0 - 1
       # Use html editor:                0 - 1
@@ -22,6 +22,7 @@ Feature: Validate creation and submit for textarea elements using the principal 
       | activity  | name           | intro              | course        |
       | surveypro | Surveypro test | For testing backup | Textarea item |
     And I am on the "Surveypro test" "surveypro activity" page logged in as teacher1
+    And I select "Layout" from secondary navigation
 
     And I set the field "typeplugin" to "Text (long)"
     And I press "Add"

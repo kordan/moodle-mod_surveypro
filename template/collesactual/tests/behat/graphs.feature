@@ -23,6 +23,7 @@ Feature: apply a COLLES (actual) mastertemplate to test graphs
   @javascript
   Scenario: apply COLLES (Actual) master template, add a record and call reports
     Given I am on the "Run COLLES report" "surveypro activity" page logged in as teacher1
+
     And I set the field "Master templates" to "COLLES (Actual)"
     And I press "Apply"
     Then I should see "In this online unit"
@@ -65,20 +66,24 @@ Feature: apply a COLLES (actual) mastertemplate to test graphs
       | Do you have any other comments?                | Am I sexy? |
     And I press "Submit"
 
-    And I navigate to "Report > Colles report > Summary" in current page administration
-    Then I should not see "Summary report"
-
+    And I press "Continue to responses list"
     And I log out
 
     When I am on the "Run COLLES report" "surveypro activity" page logged in as teacher1
 
-    And I navigate to "Report > Colles report > Summary" in current page administration
-    # now I should be in front of "Colles report > Summary"
+    And I select "Reports" from secondary navigation
+    And I select "Colles report " from the "jump" singleselect
+    # now I should be in front of "summary report"
     Then I should not see "Summary report"
 
     And I click on "div.centerpara a" "css_element"
-    # now I should be in front of "Colles report > Scales"
-    Then I should not see "Scales report"
+    # now I should be in front of "relevance", "reflective thinking", "interactivity", "tutor support", "peer support", "interpretation".
+    Then I should not see "Relevance"
+    Then I should not see "Reflective thinking"
+    Then I should not see "Interactivity"
+    Then I should not see "Tutor support"
+    Then I should not see "Peer support"
+    Then I should not see "Interpretation"
 
     And I click on "div.centerpara a" "css_element"
     # now I should be in front of "Colles report > Questions > Relevance"
@@ -108,38 +113,4 @@ Feature: apply a COLLES (actual) mastertemplate to test graphs
     Then I should not see "Summary report"
 
     # now test links provided by Admin menu
-
-    And I am on the "Run COLLES report" "surveypro activity" page
-    And I navigate to "Report > Colles report > Scales" in current page administration
-    # now I should be in front of "Colles report > Scales"
-    Then I should not see "Scales report"
-
-    And I am on the "Run COLLES report" "surveypro activity" page
-    And I navigate to "Report > Colles report > Questions > Relevance" in current page administration
-    # now I should be in front of "Colles report > Questions > Relevance"
-    Then I should not see "Questions report"
-
-    And I am on the "Run COLLES report" "surveypro activity" page
-    And I navigate to "Report > Colles report > Questions > Reflective thinking" in current page administration
-    # now I should be in front of "Colles report > Questions > Reflective thinking"
-    Then I should not see "Questions report"
-
-    And I am on the "Run COLLES report" "surveypro activity" page
-    And I navigate to "Report > Colles report > Questions > Interactivity" in current page administration
-    # now I should be in front of "Colles report > Questions > Interactivity"
-    Then I should not see "Questions report"
-
-    And I am on the "Run COLLES report" "surveypro activity" page
-    And I navigate to "Report > Colles report > Questions > Tutor support" in current page administration
-    # now I should be in front of "Colles report > Questions > Tutor support"
-    Then I should not see "Questions report"
-
-    And I am on the "Run COLLES report" "surveypro activity" page
-    And I navigate to "Report > Colles report > Questions > Peer support" in current page administration
-    # now I should be in front of "Colles report > Questions > Peer support"
-    Then I should not see "Questions report"
-
-    And I am on the "Run COLLES report" "surveypro activity" page
-    And I navigate to "Report > Colles report > Questions > Interpretation" in current page administration
-    # now I should be in front of "Colles report > Questions > Interpretation"
-    Then I should not see "Questions report"
+    # (using boost, the Admin menu may be not available. This is why I do not test its links.)

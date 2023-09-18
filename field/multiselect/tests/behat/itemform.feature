@@ -22,6 +22,7 @@ Feature: test the use of multiselect setup form
       | type  | plugin  |
       | field | boolean |
     And I am on the "Test multiselect setup form" "surveypro activity" page logged in as teacher1
+    And I select "Layout" from secondary navigation
 
     # add an multiselect item
     And I set the field "typeplugin" to "Multiple selection"

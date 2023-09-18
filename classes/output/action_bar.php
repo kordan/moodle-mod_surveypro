@@ -195,8 +195,8 @@ class action_bar {
     public function draw_tools_action_bar(): string {
         global $PAGE, $DB;
 
-        $canimportdata = has_capability('mod/surveypro:importresponses', $this->context);
-        $canexportdata = has_capability('mod/surveypro:exportresponses', $this->context);
+        $canimportresponses = has_capability('mod/surveypro:importresponses', $this->context);
+        $canexportresponses = has_capability('mod/surveypro:exportresponses', $this->context);
 
         $whereparams = array('surveyproid' => $this->surveypro->id, 'parentid' => 0);
         $wheresql = 'surveyproid = :surveyproid AND parentid <> :parentid';
@@ -206,14 +206,14 @@ class action_bar {
 
         // Begin of definition for urlselect.
         // Tools -> export.
-        if ($canexportdata) {
+        if ($canexportresponses) {
             $paramurl['section'] = 'import';
             $linktoimport = new moodle_url('/mod/surveypro/tools.php', $paramurl);
             $menu[$linktoimport->out(false)] = get_string('tools_import', 'mod_surveypro');
         }
 
         // Tools -> import.
-        if ($canimportdata) {
+        if ($canimportresponses) {
             $paramurl['section'] = 'export';
             $linktoexport = new moodle_url('/mod/surveypro/tools.php', $paramurl);
             $menu[$linktoexport->out(false)] = get_string('tools_export', 'mod_surveypro');
@@ -247,6 +247,7 @@ class action_bar {
     public function draw_utemplates_action_bar(): string {
         global $PAGE, $DB;
 
+        $canmanageusertemplates = has_capability('mod/surveypro:manageusertemplates', $this->context);
         $cansaveusertemplates = has_capability('mod/surveypro:saveusertemplates', $this->context);
         $canimportusertemplates = has_capability('mod/surveypro:importusertemplates', $this->context);
         $canapplyusertemplates = has_capability('mod/surveypro:applyusertemplates', $this->context);
@@ -264,9 +265,11 @@ class action_bar {
 
         // Begin of definition for urlselect.
         // Utemplates -> manage.
-        $paramurl['section'] = 'manage';
-        $linktomanage = new moodle_url('/mod/surveypro/utemplates.php', $paramurl);
-        $menu[$linktomanage->out(false)] = get_string('utemplate_manage', 'mod_surveypro');
+        if ($canmanageusertemplates) {
+            $paramurl['section'] = 'manage';
+            $linktomanage = new moodle_url('/mod/surveypro/utemplates.php', $paramurl);
+            $menu[$linktomanage->out(false)] = get_string('utemplate_manage', 'mod_surveypro');
+        }
 
         // Utemplates -> save.
         if ($cansaveusertemplates) {
@@ -283,7 +286,7 @@ class action_bar {
         }
 
         // Utemplates -> apply.
-        if ((!$hassubmissions || $riskyediting) && $canapplyusertemplates) {
+        if ($canapplyusertemplates && (!$hassubmissions || $riskyediting)) {
             $paramurl['section'] = 'apply';
             $linktoapply = new moodle_url('/mod/surveypro/utemplates.php', $paramurl);
             $menu[$linktoapply->out(false)] = get_string('utemplate_apply', 'mod_surveypro');
@@ -342,7 +345,7 @@ class action_bar {
         }
 
         // Mtemplates -> apply.
-        if ((!$hassubmissions || $riskyediting) && $canapplymastertemplates) {
+        if ($canapplymastertemplates && (!$hassubmissions || $riskyediting)) {
             $paramurl['section'] = 'apply';
             $linktoapply = new moodle_url('/mod/surveypro/mtemplates.php', $paramurl);
             $menu[$linktoapply->out(false)] = get_string('mtemplate_apply', 'mod_surveypro');
@@ -400,7 +403,8 @@ class action_bar {
         }
 
         // Select the menu item according to the currenturl.
-        $regex = '~report\/([^\/]*)\/view\.php~';
+        // $regex = '~report\/([^\/]*)\/view\.php~';
+        $regex = '~report=([a-z]*)$~';
         if (preg_match($regex, $this->currenturl->out(true), $match)) {
             $activeurl = new \moodle_url('/mod/surveypro/report/'.$match[1].'/view.php', ['s' => $this->cm->instance]);
         } else {

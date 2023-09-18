@@ -47,7 +47,7 @@ class submissions_importform extends \moodleform {
         $mform = $this->_form;
 
         // Submissionimport: settingsheader.
-        $mform->addElement('header', 'settingsheader', get_string('upload'));
+        $mform->addElement('header', 'settingsheader', get_string('tools_import', 'mod_surveypro'));
 
         // Submissionimport: csvfile.
         // Here I use filepicker because I want ONE, and only ONE, file to import.

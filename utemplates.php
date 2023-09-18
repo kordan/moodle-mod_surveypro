@@ -22,7 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use mod_surveypro\tabs;
+use mod_surveypro\utility_page;
 use mod_surveypro\usertemplate;
 
 // Needed only if $section == 'save'.
@@ -65,9 +65,13 @@ $cm = cm_info::create($cm);
 require_course_login($course, false, $cm);
 $context = \context_module::instance($cm->id);
 
+// Utilitypage is going to be used in each section. This is the reason why I load it here.
+$utilitypageman = new utility_page($cm, $surveypro);
+
 // MARK manage.
 if ($section == 'manage') { // It was utemplate_manage.php
     // Get additional specific params.
+    $edit = optional_param('edit', -1, PARAM_BOOL);
     $utemplateid = optional_param('fid', 0, PARAM_INT);
     $action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
     $confirm = optional_param('cnf', SURVEYPRO_UNCONFIRMED, PARAM_INT);
@@ -97,6 +101,7 @@ if ($section == 'manage') { // It was utemplate_manage.php
     $PAGE->navbar->add(get_string('utemplate', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('utemplate_manage', 'mod_surveypro'));
     $PAGE->add_body_class('mediumwidth');
+    $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
 
@@ -112,8 +117,8 @@ if ($section == 'manage') { // It was utemplate_manage.php
 // MARK save.
 if ($section == 'save') { // It was utemplate_save.php
     // Get additional specific params.
-    $utemplateid = optional_param('fid', 0, PARAM_INT);
     $edit = optional_param('edit', -1, PARAM_BOOL);
+    $utemplateid = optional_param('fid', 0, PARAM_INT);
 
     // Required capability.
     require_capability('mod/surveypro:saveusertemplates', $context);
@@ -159,6 +164,7 @@ if ($section == 'save') { // It was utemplate_save.php
     $PAGE->navbar->add(get_string('utemplate', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('utemplate_save', 'mod_surveypro'));
     $PAGE->add_body_class('mediumwidth');
+    $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
 
@@ -177,8 +183,8 @@ if ($section == 'save') { // It was utemplate_save.php
 // MARK import.
 if ($section == 'import') { // It was utemplate_import.php
     // Get additional specific params.
-    $utemplateid = optional_param('fid', 0, PARAM_INT);
     $edit = optional_param('edit', -1, PARAM_BOOL);
+    $utemplateid = optional_param('fid', 0, PARAM_INT);
 
     // Required capability.
     require_capability('mod/surveypro:importusertemplates', $context);
@@ -225,6 +231,7 @@ if ($section == 'import') { // It was utemplate_import.php
     $PAGE->navbar->add(get_string('utemplate', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('utemplate_import', 'mod_surveypro'));
     $PAGE->add_body_class('mediumwidth');
+    $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
 
@@ -238,10 +245,10 @@ if ($section == 'import') { // It was utemplate_import.php
 // MARK apply.
 if ($section == 'apply') { // It was utemplate_apply.php
     // Get additional specific params.
+    $edit = optional_param('edit', -1, PARAM_BOOL);
     $utemplateid = optional_param('fid', 0, PARAM_INT);
     $action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
     $confirm = optional_param('cnf', SURVEYPRO_UNCONFIRMED, PARAM_INT);
-    $edit = optional_param('edit', -1, PARAM_BOOL);
 
     // Required capability.
     require_capability('mod/surveypro:applyusertemplates', $context);
@@ -281,6 +288,7 @@ if ($section == 'apply') { // It was utemplate_apply.php
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
     $PAGE->add_body_class('mediumwidth');
+    $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
 

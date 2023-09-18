@@ -22,7 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use mod_surveypro\tabs;
+use mod_surveypro\utility_page;
 
 // Needed only if $section == 'export'.
 use mod_surveypro\tools_export;
@@ -59,6 +59,9 @@ $cm = cm_info::create($cm);
 // require_course_login($course, false, $cm);
 require_login($course);
 $context = \context_module::instance($cm->id);
+
+// Utilitypage is going to be used in each section. This is the reason why I load it here.
+$utilitypageman = new utility_page($cm, $surveypro);
 
 // MARK export.
 if ($section == 'export') { // It was tools_export.php
@@ -107,6 +110,7 @@ if ($section == 'export') { // It was tools_export.php
     // $PAGE->navbar->add(get_string('tools', 'mod_surveypro'), $url); // WHY it is already onboard?
     $PAGE->navbar->add(get_string('tools_export', 'mod_surveypro'));
     $PAGE->add_body_class('mediumwidth');
+    $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
 
@@ -169,6 +173,7 @@ if ($section == 'import') { // It was tools_import.php
     $PAGE->navbar->add(get_string('tools', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('tools_import', 'mod_surveypro'));
     $PAGE->add_body_class('mediumwidth');
+    $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
 

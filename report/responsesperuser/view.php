@@ -22,7 +22,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use mod_surveypro\tabs;
 use surveyproreport_responsesperuser\groupjumperform;
 use surveyproreport_responsesperuser\report;
 
@@ -82,7 +81,7 @@ if ($showjumper) {
 // End of: prepare params for the form.
 
 // Output starts here.
-$url = new \moodle_url('/mod/surveypro/report/responsesperuser/view.php', ['s' => $surveypro->id]);
+$url = new \moodle_url('/mod/surveypro/reports.php', ['s' => $surveypro->id, 'report' => 'responsesperuser']);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);

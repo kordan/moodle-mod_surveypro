@@ -5,7 +5,7 @@ Feature: adding a fileupload item, two more item are added to export type menu
   I fill build a surveypro without and, later, with fileupload and go to verify export type menu items
 
   @javascript
-  Scenario: count the number of items of export type menu
+  Scenario: count the number of items of the "Download file type" menu
     Given the following "courses" exist:
       | fullname                     | shortname        | category | groupmode |
       | Count export type menu items | Count menu items | 0        | 0         |
@@ -43,7 +43,7 @@ Feature: adding a fileupload item, two more item are added to export type menu
       | field  | time        |
       | format | label       |
     And I am on the "Export-item test" "surveypro activity" page logged in as teacher1
-    And I navigate to "Survey > Tools" in current page administration
+    And I select "Tools" from secondary navigation
 
     Then "//select[contains(@id, 'id_downloadtype')]//option[contains(@value, '1')]" "xpath_element" should exist
     Then "//select[contains(@id, 'id_downloadtype')]//option[contains(@value, '2')]" "xpath_element" should exist
@@ -54,8 +54,7 @@ Feature: adding a fileupload item, two more item are added to export type menu
     And I follow "Layout"
     And I follow "delete_item_2"
     And I press "Yes"
-
-    And I navigate to "Survey > Export" in current page administration
+    And I follow "Tools"
 
     Then "//select[contains(@id, 'id_downloadtype')]//option[contains(@value, '1')]" "xpath_element" should exist
     Then "//select[contains(@id, 'id_downloadtype')]//option[contains(@value, '2')]" "xpath_element" should exist

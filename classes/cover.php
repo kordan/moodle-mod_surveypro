@@ -105,9 +105,9 @@ class cover {
         $addnew = $utilitylayoutman->is_newresponse_allowed($next);
         // End of: is the button to add one more response going to be displayed?
 
-        if ($this->surveypro->intro) {
-            echo $OUTPUT->box(format_module_intro('surveypro', $this->surveypro, $this->cm->id), 'generalbox description', 'intro');
-        }
+        // if ($this->surveypro->intro) {
+        //     echo $OUTPUT->box(format_module_intro('surveypro', $this->surveypro, $this->cm->id), 'generalbox description', 'intro');
+        // }
 
         // Number of elements.
         // If you can not manage items, you do not want to know their number.
@@ -160,7 +160,7 @@ class cover {
         // End of: general info.
 
         if ($addnew) {
-            $paramurl = ['s' => $this->cm->instance, 'view' => SURVEYPRO_NEWRESPONSE, 'section' => 'submissionform', 'begin' => 1];
+            $paramurl = ['s' => $this->cm->instance, 'mode' => SURVEYPRO_NEWRESPONSE, 'section' => 'submissionform', 'begin' => 1];
             $url = new \moodle_url('/mod/surveypro/view.php', $paramurl);
             $message = get_string('addnewsubmission', 'mod_surveypro');
             echo $OUTPUT->box($OUTPUT->single_button($url, $message, 'get', ['primary' => true]), 'clearfix mdl-align');

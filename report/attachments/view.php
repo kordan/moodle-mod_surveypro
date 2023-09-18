@@ -22,7 +22,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use mod_surveypro\tabs;
 use surveyproreport_attachments\groupjumperform;
 use surveyproreport_attachments\report;
 
@@ -83,7 +82,7 @@ if ($showjumper) {
 // End of: instance groupfilterform.
 
 // Output starts here.
-$url = new \moodle_url('/mod/surveypro/report/attachments/view.php', ['s' => $surveypro->id]);
+$url = new \moodle_url('/mod/surveypro/reports.php', ['s' => $surveypro->id, 'report' => 'attachments']);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);

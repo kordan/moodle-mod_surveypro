@@ -21,6 +21,7 @@ Feature: make a submission test for "recurrence" item
       | activity  | name            | intro                           | course                     |
       | surveypro | Recurrence test | To test submission of date item | Recurrence submission test |
     And I am on the "Recurrence test" "surveypro activity" page logged in as teacher1
+    And I select "Layout" from secondary navigation
 
     And I set the field "typeplugin" to "Recurrence [dd/mm]"
     And I press "Add"

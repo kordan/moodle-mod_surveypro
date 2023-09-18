@@ -1,5 +1,5 @@
 @mod @mod_surveypro
-Feature: Test item actions
+Feature: test item actions
   In order to validate each action issues through inline icons
   As teacher1
   I issue them and verify the outcome.
@@ -136,10 +136,12 @@ Feature: Test item actions
     And I upload "mod/surveypro/tests/fixtures/usertemplate/item_action_test.xml" file to "Choose files to import" filemanager
 
     And I set the field "Sharing level" to "This course"
+
     And I press "Import"
 
     # now I am in the "Manage" page
-    And I navigate to "User templates > Apply" in current page administration
+    And I follow "User templates"
+    And I select "Apply" from the "jump" singleselect
 
     # now I am in the "Apply" page
     And I set the following fields to these values:

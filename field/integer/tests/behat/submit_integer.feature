@@ -21,6 +21,7 @@ Feature: make a submission test for "integer" item
       | activity  | name         | intro                           | course                  |
       | surveypro | Integer test | To test submission of date item | Integer submission test |
     And I am on the "Integer test" "surveypro activity" page logged in as teacher1
+    And I select "Layout" from secondary navigation
 
     And I set the field "typeplugin" to "Integer (small)"
     And I press "Add"
