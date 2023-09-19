@@ -19,8 +19,8 @@ Feature: verify the deletion of old items works as expected during master templa
       | activity  | name                          | intro                                | course                   |
       | surveypro | To overwrite master templates | To test overwrite of master template | Overwrite mastertemplate |
     And I am on the "To overwrite master templates" "surveypro activity" page logged in as teacher1
-    And I select "Master templates" from secondary navigation
-    And I select "Apply" from the "jump" singleselect
+
+    And I am on the "To overwrite master templates" "mod_surveypro > Master templates apply" page
     And I set the field "mastertemplate" to "ATTLS (20 item version)"
     And I press "Apply"
     Then I should see "Attitudes Towards Thinking and Learning"
@@ -28,7 +28,7 @@ Feature: verify the deletion of old items works as expected during master templa
     And I select "Elements" from the "jump" singleselect
     And I press "Yes"
 
-    When I am on the "To overwrite master templates" "mod_surveypro > Master templates Apply" page
+    When I am on the "To overwrite master templates" "mod_surveypro > Master templates apply" page
     And I set the field "mastertemplate" to "COLLES (Preferred and Actual)"
     And I press "Apply"
     Then I should see "I prefer that my learning focuses on issues that interest me."
@@ -37,7 +37,7 @@ Feature: verify the deletion of old items works as expected during master templa
     And I select "Elements" from the "jump" singleselect
     And I press "Yes"
 
-    When I am on the "To overwrite master templates" "mod_surveypro > Master templates Apply" page
+    When I am on the "To overwrite master templates" "mod_surveypro > Master templates apply" page
     And I set the field "mastertemplate" to "COLLES (Actual)"
     And I press "Apply"
     Then I should see "In this online unit"
@@ -46,7 +46,7 @@ Feature: verify the deletion of old items works as expected during master templa
     And I select "Elements" from the "jump" singleselect
     And I press "Yes"
 
-    When I am on the "To overwrite master templates" "mod_surveypro > Master templates Apply" page
+    When I am on the "To overwrite master templates" "mod_surveypro > Master templates apply" page
     And I set the field "mastertemplate" to "COLLES (Preferred)"
     And I press "Apply"
     Then I should see "In this online unit"
@@ -55,7 +55,7 @@ Feature: verify the deletion of old items works as expected during master templa
     And I select "Elements" from the "jump" singleselect
     And I press "Yes"
 
-    When I am on the "To overwrite master templates" "mod_surveypro > Master templates Apply" page
+    When I am on the "To overwrite master templates" "mod_surveypro > Master templates apply" page
     And I set the field "mastertemplate" to "Critical Incidents"
     And I press "Apply"
     Then I should see "While thinking about recent events in this class, answer the questions below."

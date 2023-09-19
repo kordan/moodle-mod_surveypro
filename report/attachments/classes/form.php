@@ -167,8 +167,8 @@ EOS;
         $output = str_replace('@@right@@', $right, $output);
 
         $left = get_string('submissioninfo', 'surveyproreport_attachments');
-        $right = get_string('submissionid', 'surveyproreport_attachments').': '.$submission->id.'<br />';
-        $right .= get_string('timecreated', 'mod_surveypro').': '.userdate($submission->timecreated).'<br />';
+        $right = get_string('submissionid', 'surveyproreport_attachments').': '.$submission->id.'<br>';
+        $right .= get_string('timecreated', 'mod_surveypro').': '.userdate($submission->timecreated).'<br>';
         if ($submission->timemodified) {
             $right .= get_string('timemodified', 'mod_surveypro').': '.userdate($submission->timemodified);
         } else {

@@ -1000,22 +1000,22 @@ class layout_itemsetup {
             switch ($position) {
                 case 2: // A chain of items is now shown.
                     if ($bit) {
-                        $message .= '<br />'.get_string('feedback_itemediting_showchainitems', 'mod_surveypro');
+                        $message .= '<br>'.get_string('feedback_itemediting_showchainitems', 'mod_surveypro');
                     }
                     break;
                 case 3: // A chain of items is now hided because one item was hided.
                     if ($bit) {
-                        $message .= '<br />'.get_string('feedback_itemediting_hidechainitems', 'mod_surveypro');
+                        $message .= '<br>'.get_string('feedback_itemediting_hidechainitems', 'mod_surveypro');
                     }
                     break;
                 case 4: // A chain of items was moved in the user entry form.
                     if ($bit) {
-                        $message .= '<br />'.get_string('feedback_itemediting_freechainitems', 'mod_surveypro');
+                        $message .= '<br>'.get_string('feedback_itemediting_freechainitems', 'mod_surveypro');
                     }
                     break;
                 case 5: // A chain of items was removed from the user entry form.
                     if ($bit) {
-                        $message .= '<br />'.get_string('feedback_itemediting_reservechainitems', 'mod_surveypro');
+                        $message .= '<br>'.get_string('feedback_itemediting_reservechainitems', 'mod_surveypro');
                     }
                     break;
             }

@@ -19,7 +19,7 @@ Feature: load and apply usertemplates in order to test, among others, partial it
       | activity  | name                 | intro                             | course             |
       | surveypro | Apply a usertemplate | Surveypro to apply a usertemplate | Apply usertemplate |
 
-    When I am on the "Apply a usertemplate" "mod_surveypro > User templates Import" page logged in as "teacher1"
+    When I am on the "Apply a usertemplate" "mod_surveypro > User templates import" page logged in as "teacher1"
     And I upload "mod/surveypro/tests/fixtures/usertemplate/parent-child_2015123000.xml" file to "Choose files to import" filemanager
     And I upload "mod/surveypro/tests/fixtures/usertemplate/MMM_2015123000.xml" file to "Choose files to import" filemanager
 
@@ -27,12 +27,12 @@ Feature: load and apply usertemplates in order to test, among others, partial it
     And I press "Import"
 
     # now I am in the "Manage" page
-    And I navigate to "User templates > Apply" in current page administration
+    And I am on the "Apply a usertemplate" "mod_surveypro > User templates apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates       | (This course) MMM_2015123000.xml |
-      | id_action_0          | 1                                |
+      | User templates | (This course) MMM_2015123000.xml |
+      | id_action_0    | 1                                |
     And I press "Apply"
 
     # now I am in the Element > Manage page
@@ -43,10 +43,10 @@ Feature: load and apply usertemplates in order to test, among others, partial it
     And I follow "hide_item_60"
     And I press "Continue"
 
-    And I navigate to "User templates > Apply" in current page administration
+    And I am on the "Apply a usertemplate" "mod_surveypro > User templates apply" page
     And I set the following fields to these values:
-      | User templates       | (This course) parent-child_2015123000.xml |
-      | id_action_17         | 1                                         |
+      | User templates | (This course) parent-child_2015123000.xml |
+      | id_action_17   | 1                                         |
     And I press "Apply"
 
     Then I should see "This is a demo survey to quickly see"

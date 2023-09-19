@@ -329,7 +329,7 @@ class userform extends \moodleform {
                 }
                 // Otherwise...
                 // echo 'parent item doesn\'t allow the validation of the child item '.$item->itemid;
-                // echo ', plugin = '.$item->plugin.'('.$item->content.')<br />';
+                // echo ', plugin = '.$item->plugin.'('.$item->content.')<br>';
             }
         }
 

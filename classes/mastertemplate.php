@@ -453,7 +453,7 @@ class mastertemplate extends templatebase {
         // I prefer a more readable xml file instead of few nanoseconds saved.
         $option = false;
         if ($option) {
-            // echo '$xmltemplate->asXML() = <br />';
+            // echo '$xmltemplate->asXML() = <br>';
             // print_object($xmltemplate->asXML());
 
             return $xmltemplate->asXML();
@@ -670,7 +670,7 @@ class mastertemplate extends templatebase {
                             }
                         }
 
-                        // echo 'I need to add: "'.$filename.'" to the filearea<br />';
+                        // echo 'I need to add: "'.$filename.'" to the filearea<br>';
 
                         // Add the file described by $filename and $filecontent to filearea.
                         // Alias, add pictures found in the utemplate to filearea.

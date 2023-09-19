@@ -79,7 +79,7 @@ $string['attemptinfo'] = 'Survey and responses information';
 $string['availability_fs'] = 'Availability';
 $string['availability'] = 'Availability';
 $string['available_title'] = 'Available element. Click to make it reserved.';
-$string['badchildparentvalue'] = 'Malformed condition: "{$a}".<br />It might never be verified.';
+$string['badchildparentvalue'] = 'Malformed condition: "{$a}".<br>It might never be verified.';
 $string['badtablenamefound'] = 'Parse error reading xml. "{$a}" has been found as table name and, most probably, is invalid.';
 $string['basic_editthanks'] = 'Thank you. Your response has been successfully modified!';
 $string['basic_submitthanks'] = 'Thank you. Your response has been successfully submitted!';
@@ -119,23 +119,23 @@ $string['confirm_deleteallresponses'] = 'Are you sure you want to delete EACH sa
 $string['confirm_deletechainitems'] = 'The current element has child element(s) that are going to be deleted too. The child element(s) position is: {$a}.';
 $string['confirm_deletehiddenitems'] = 'Do you confirm you want to delete EACH hidden element?';
 $string['confirm_deletevisibleitems'] = 'Are you sure you want to delete EACH visible element?';
-$string['confirm_dropmultilang'] = 'Current survey supports multilanguage as imported from a master template.<br />This means that the survey displays questions and labels according to the user preferred language (if available).<br />By editing this kind of survey you will lose the multilanguage support returning to the standard indifferenciated labels all along the survey.<br />Be warned that once you drop the multilanguage support even by generating again a master template, you still no longer get missed languages and, last but not least, the drop of the multilanguage support is not undoable.<br />Are you sure you want to edit this multilanguage survey?';
+$string['confirm_dropmultilang'] = 'Current survey supports multilanguage as imported from a master template.<br>This means that the survey displays questions and labels according to the user preferred language (if available).<br>By editing this kind of survey you will lose the multilanguage support returning to the standard indifferenciated labels all along the survey.<br>Be warned that once you drop the multilanguage support even by generating again a master template, you still no longer get missed languages and, last but not least, the drop of the multilanguage support is not undoable.<br>Are you sure you want to edit this multilanguage survey?';
 $string['confirm_duplicateotherresponse_original'] = 'Are you sure you want duplicate the response owned by {$a->fullname}, created on {$a->timecreated} and never modified?';
 $string['confirm_duplicateotherresponse_modified'] = 'Are you sure you want duplicate the response owned by {$a->fullname}, created on {$a->timecreated} and modified on {$a->timemodified}?';
 $string['confirm_duplicatemyresponse_original'] = 'Are you sure you want duplicate the response created on {$a->timecreated} and never modified?';
 $string['confirm_duplicatemyresponse_modified'] = 'Are you sure you want duplicate the response created on {$a->timecreated} and modified on {$a->timemodified}?';
-$string['confirm_free1item'] = 'Making available the element "{$a->itemcontent}" you are going to make available its ancestor.<br />Ancestor is the element in position: {$a->ancestors}.<br />Do you confirm this action?';
-$string['confirm_freechainitems_newparent'] = 'Making available the element "{$a->itemcontent}", all the dependencies of element "{$a->parentcontent}" will be made available too.<br />So, in addition to the chosen element, you are going to make available the elements in position: {$a->dependencies}.<br />Do you confirm this action?';
-$string['confirm_freechainitems'] = 'Making available the element "{$a->itemcontent}" you are going to make available all its dependencies.<br />Dependencies are the elements in position: {$a->dependencies}.<br />Do you confirm this action?';
-$string['confirm_hide1item'] = 'Hiding the element "{$a->itemcontent}" its dependency will be hidden too.<br />Dependency is the element in position: {$a->dependencies}.<br />Do you confirm this action?';
+$string['confirm_free1item'] = 'Making available the element "{$a->itemcontent}" you are going to make available its ancestor.<br>Ancestor is the element in position: {$a->ancestors}.<br>Do you confirm this action?';
+$string['confirm_freechainitems_newparent'] = 'Making available the element "{$a->itemcontent}", all the dependencies of element "{$a->parentcontent}" will be made available too.<br>So, in addition to the chosen element, you are going to make available the elements in position: {$a->dependencies}.<br>Do you confirm this action?';
+$string['confirm_freechainitems'] = 'Making available the element "{$a->itemcontent}" you are going to make available all its dependencies.<br>Dependencies are the elements in position: {$a->dependencies}.<br>Do you confirm this action?';
+$string['confirm_hide1item'] = 'Hiding the element "{$a->itemcontent}" its dependency will be hidden too.<br>Dependency is the element in position: {$a->dependencies}.<br>Do you confirm this action?';
 $string['confirm_hideallitems'] = 'Do you confirm you want to hide EACH element?';
-$string['confirm_hidechainitems'] = 'Hiding the element "{$a->itemcontent}" all its dependencies will be hidden too.<br />Dependencies are the elements in position: {$a->dependencies}.<br />Do you confirm this action?';
-$string['confirm_reserve1item'] = 'Reserving the element "{$a->itemcontent}" you are going to reserve its dependency too.<br />Dependency is the element in position: {$a->dependencies}.<br />Do you confirm this action?';
-$string['confirm_reservechainitems_newparent'] = 'Reserving the element "{$a->itemcontent}", all the dependencies of element "{$a->parentcontent}" will be reserved too.<br />So, in addition to the chosen element, you are going to reserve the elements in position: {$a->dependencies}.<br />Do you confirm this action?';
-$string['confirm_reservechainitems'] = 'Reserving the element "{$a->itemcontent}" you are going to reserve all its dependencies too.<br />Dependencies are the elements in position: {$a->dependencies}.<br />Do you confirm this action?';
-$string['confirm_show1item'] = 'Showing the element {$a->lastitem} you are going to show its ancestor(s).<br />Ancestor(s) is(are) the element(s) in position: {$a->ancestors}.<br />Do you confirm this action?';
+$string['confirm_hidechainitems'] = 'Hiding the element "{$a->itemcontent}" all its dependencies will be hidden too.<br>Dependencies are the elements in position: {$a->dependencies}.<br>Do you confirm this action?';
+$string['confirm_reserve1item'] = 'Reserving the element "{$a->itemcontent}" you are going to reserve its dependency too.<br>Dependency is the element in position: {$a->dependencies}.<br>Do you confirm this action?';
+$string['confirm_reservechainitems_newparent'] = 'Reserving the element "{$a->itemcontent}", all the dependencies of element "{$a->parentcontent}" will be reserved too.<br>So, in addition to the chosen element, you are going to reserve the elements in position: {$a->dependencies}.<br>Do you confirm this action?';
+$string['confirm_reservechainitems'] = 'Reserving the element "{$a->itemcontent}" you are going to reserve all its dependencies too.<br>Dependencies are the elements in position: {$a->dependencies}.<br>Do you confirm this action?';
+$string['confirm_show1item'] = 'Showing the element {$a->lastitem} you are going to show its ancestor(s).<br>Ancestor(s) is(are) the element(s) in position: {$a->ancestors}.<br>Do you confirm this action?';
 $string['confirm_showallitems'] = 'Do you confirm you want to show EACH element?';
-$string['confirm_showchainitems'] = 'Showing the element {$a->lastitem} you are going to show all its ancestors.<br />Ancestors are the elements in position: {$a->ancestors}.<br />Do you confirm this action?';
+$string['confirm_showchainitems'] = 'Showing the element {$a->lastitem} you are going to show all its ancestors.<br>Ancestors are the elements in position: {$a->ancestors}.<br>Do you confirm this action?';
 $string['content_editor_err'] = 'The content is mandatory';
 $string['content_editor_help'] = 'The content of the element as it will be shown to remote user.';
 $string['content_editor'] = 'Content';
@@ -148,7 +148,7 @@ $string['count_pages'] = 'Divided into {$a} pages.';
 $string['course'] = 'Course';
 $string['currentcategory'] = 'This course category';
 $string['currentcourse'] = 'This course';
-$string['currenttotemplate'] = 'Save current survey as master template in zip format.<br />To install a master template, unzip it to mod/surveypro/template/ and visit the notification page.';
+$string['currenttotemplate'] = 'Save current survey as master template in zip format.<br>To install a master template, unzip it to mod/surveypro/template/ and visit the notification page.';
 $string['customnumber_header'] = '#';
 $string['customnumber_help'] = 'Use this field to give a custom number to the element. It may be a natural number like 1 or whatever you may need: 1a, A, 1.1.a, #1, A, A.1... Take in mind that you are responsible for the coherence of that numbers. Because of this take care if you plan to change the order of the elements.';
 $string['customnumber'] = 'Element number';
@@ -234,9 +234,9 @@ $string['formatplugin'] = 'Format plugin';
 $string['free'] = 'free';
 $string['fullwidth'] = 'top left (full width)';
 $string['gotolist'] = 'Continue to responses list';
-$string['hassubmissions_alert_activitycompletion'] = '<br />With items modification the activity completion status will change too.<br />You have been warned.';
-$string['hassubmissions_alert'] = 'This survey has already been answered at least once.<br />Please proceed with extreme caution and make only neutral changes to not compromise the validity of the whole survey.<br /><br />BE WARNED: Adding a new item the status of each already submitted response will be forced to "in progress".';
-$string['hassubmissions_danger'] = '<br />"In progress" responses...<ul><li>are subject to deletion in 4 hours if pause/resume is not allowed;</li><li>are subject to deletion in the number of hours set into surveypro settings page if pause/resume is allowed.</li></ul>';
+$string['hassubmissions_alert_activitycompletion'] = '<br>With items modification the activity completion status will change too.<br>You have been warned.';
+$string['hassubmissions_alert'] = 'This survey has already been answered at least once.<br>Please proceed with extreme caution and make only neutral changes to not compromise the validity of the whole survey.<br><br>BE WARNED: Adding a new item the status of each already submitted response will be forced to "in progress".';
+$string['hassubmissions_danger'] = '<br>"In progress" responses...<ul><li>are subject to deletion in 4 hours if pause/resume is not allowed;</li><li>are subject to deletion in the number of hours set into surveypro settings page if pause/resume is allowed.</li></ul>';
 $string['hidden_help'] = 'Use this option to hide the element. Hided elements will not be available to anyone. You can consider these elements as not part of the survey.';
 $string['hidden'] = 'Hidden';
 $string['hideallitems'] = 'Hide all elements';
@@ -252,25 +252,25 @@ $string['ierr_missingparentcontent'] = 'You need to specify a parent content oth
 $string['ierr_missingparentid'] = 'You need to select a element to branch the survey. Otherwise clear the "{$a}" field';
 $string['ierr_notalloweddefault'] = '"{$a}" is not an allowed default for "required" elements';
 $string['ignoreitems'] = 'Ignore';
-$string['import_attachmentsnotallowed'] = 'It seems you are trying to import attachments for the following elements:{$a}<br />This is not allowed at the moment.';
+$string['import_attachmentsnotallowed'] = 'It seems you are trying to import attachments for the following elements:{$a}<br>This is not allowed at the moment.';
 $string['import_breakingmaxentries'] = 'Import will assign {$a->totalentries} responses to user ID {$a->userid}. This exceeds the maximum allowed number as it has been set to {$a->maxentries}.';
 $string['import_columnscountchanges'] = 'The number of the columns changes in the file';
 $string['import_duplicateheader'] = 'The header "{$a}" was found, at least, twice';
-$string['import_emptyrequiredvalue'] = 'The empty string found in the column {$a->col} is not allowed. The answer to the "{$a->plugin}" element:<br />{$a->content}is required.<br />The offending row is:<br />"{$a->row}"';
-$string['import_extraheaderfound'] = 'Some fields in the selected file were not found among variables of this surveypro.<br />They are:{$a}';
+$string['import_emptyrequiredvalue'] = 'The empty string found in the column {$a->col} is not allowed. The answer to the "{$a->plugin}" element:<br>{$a->content}is required.<br>The offending row is:<br>"{$a->row}"';
+$string['import_extraheaderfound'] = 'Some fields in the selected file were not found among variables of this surveypro.<br>They are:{$a}';
 $string['import_invalidtimecreated'] = 'The timecreated "{$a}" is invalid';
 $string['import_invalidtimemodified'] = 'The timemodified "{$a}" is invalid';
 $string['import_invaliduserid'] = 'The userid "{$a}" is invalid';
 $string['import_missingheaders'] = '{$a->childheader} (it was expected: {$a->missingparentheader})';
 $string['import_missingtimecreated'] = 'Empty creation time is invalid';
 $string['import_missinguserid'] = 'Empty userid is invalid';
-$string['import_noanswertorequired'] = 'The value "{$a->value}" found in the column {$a->col} is not allowed. The answer to the "{$a->plugin}" element:<br />{$a->content}is required.<br />The offending row is:<br />"{$a->row}"';
-$string['import_nullnotallowed'] = 'The value "{$a->value}" found in the column {$a->col} is not allowed. The answer to the "{$a->plugin}" element:<br />{$a->content}can\'t be null because the element is not forbidden by its parent in this response.<br />The offending row is:<br />"{$a->row}"';
-$string['import_nullwithoutparent'] = 'The value "{$a->value}" found in the column {$a->col} is not allowed. The answer to the "{$a->plugin}" element:<br />{$a->content}can\'t be null because the element is not conditioned by a parent child relation.<br />The offending row is:<br />"{$a->row}"';
-$string['import_orphanchild'] = 'It seems the following children elements are orphan:{$a}<br />Responses will not be imported.';
-$string['import_positionnotinteger'] = 'The position "{$a->position}" for the "{$a->plugin}" element:<br />{$a->content} found in the column {$a->csvcol} is not an integer number.{$a->prettywarning}';
-$string['import_positionoutofbound'] = 'The position "{$a->position}" for the "{$a->plugin}" element:<br />{$a->content} found in the column {$a->csvcol} is out of bound. Bounds are: "{$a->bounds}".{$a->prettywarning}';
-$string['import_prettywarning'] = '<br /><br />Are you sure you are importing raw data and not a pretty styled file?';
+$string['import_noanswertorequired'] = 'The value "{$a->value}" found in the column {$a->col} is not allowed. The answer to the "{$a->plugin}" element:<br>{$a->content}is required.<br>The offending row is:<br>"{$a->row}"';
+$string['import_nullnotallowed'] = 'The value "{$a->value}" found in the column {$a->col} is not allowed. The answer to the "{$a->plugin}" element:<br>{$a->content}can\'t be null because the element is not forbidden by its parent in this response.<br>The offending row is:<br>"{$a->row}"';
+$string['import_nullwithoutparent'] = 'The value "{$a->value}" found in the column {$a->col} is not allowed. The answer to the "{$a->plugin}" element:<br>{$a->content}can\'t be null because the element is not conditioned by a parent child relation.<br>The offending row is:<br>"{$a->row}"';
+$string['import_orphanchild'] = 'It seems the following children elements are orphan:{$a}<br>Responses will not be imported.';
+$string['import_positionnotinteger'] = 'The position "{$a->position}" for the "{$a->plugin}" element:<br>{$a->content} found in the column {$a->csvcol} is not an integer number.{$a->prettywarning}';
+$string['import_positionoutofbound'] = 'The position "{$a->position}" for the "{$a->plugin}" element:<br>{$a->content} found in the column {$a->csvcol} is out of bound. Bounds are: "{$a->bounds}".{$a->prettywarning}';
+$string['import_prettywarning'] = '<br><br>Are you sure you are importing raw data and not a pretty styled file?';
 $string['import_rawwarning'] = '(Warning: Files with owner name can not be re-imported)';
 $string['importfile'] = 'Choose files to import';
 $string['importusertemplates'] = '<a href="{$a}">Import user templates</a>';
@@ -295,7 +295,7 @@ $string['keepinprogress'] = 'Keep "in progress" responses';
 $string['left'] = 'left';
 $string['likelast'] = 'Like last response';
 $string['mailcontentdefault'] = 'User {FULLNAME} added a response to "{SURVEYPRONAME}"';
-$string['mailcontenteditor_help'] = 'The content of the custom message that will be sent at user response submission time. If a notification mail is requested at response submission time and this message is not provided, the default email content is used.<br /><br />Use:<ul><li>{FIRSTNAME}</li><li>{LASTNAME}</li><li>{FULLNAME}</li><li>{COURSENAME}</li><li>{SURVEYPRONAME}</li><li>{SURVEYPROURL}</li></ul>to get<ul><li>the user first name</li><li>the user last name</li><li>the user full name</li><li>the name of the course</li><li>the name of this surveypro</li><li>the url of this surveypro</li></ul>Take care: default message is multilanguage, your custom message is going to be used as you write it and never translated.';
+$string['mailcontenteditor_help'] = 'The content of the custom message that will be sent at user response submission time. If a notification mail is requested at response submission time and this message is not provided, the default email content is used.<br><br>Use:<ul><li>{FIRSTNAME}</li><li>{LASTNAME}</li><li>{FULLNAME}</li><li>{COURSENAME}</li><li>{SURVEYPRONAME}</li><li>{SURVEYPROURL}</li></ul>to get<ul><li>the user first name</li><li>the user last name</li><li>the user full name</li><li>the name of the course</li><li>the name of this surveypro</li><li>the url of this surveypro</li></ul>Take care: default message is multilanguage, your custom message is going to be used as you write it and never translated.';
 $string['mailcontenteditor'] = 'Notification message';
 $string['mailextraaddresses_help'] = 'Some additional email addresses to notify about new responses. Addresses are supposed to be one per row.';
 $string['mailextraaddresses'] = 'More addresses';
@@ -307,11 +307,11 @@ $string['managesurveyproreportplugins'] = 'Manage report plugins';
 $string['managesurveyprotemplateplugins'] = 'Manage template plugins';
 $string['manageusertemplates'] = '<a href="{$a}">Manage user templates</a>';
 $string['mastertemplate_help'] = 'Choose a master template like one of the classical ones provided by default or a custom one added to this instance of surveypro. The classical survey types are:<ul>
-<li>ATTLS: Attitudes To Thinking and Learning Survey.<br />For more details, see the documentation on <a href="https://docs.moodle.org/31/en/Survey_settings#ATTLS_-_Attitudes_to_Thinking_and_Learning_Survey" name="ATTLS" title="ATTLS">ATTLS</a>.</li>
-<li>COLLES: Constructivist On-Line Learning Environment Survey.<br />For more details, see the documentation on <a href="https://docs.moodle.org/31/en/Survey_settings#COLLES_-_Constructivist_On-Line_Learning_Environment_Survey" name="COLLES" title="COLLES">COLLES</a>.</li>
-<li>CRITICAL INCIDENTS.<br />For more details, see the documentation on <a href="https://docs.moodle.org/31/en/Survey_settings#Critical_incidents" name="Critical incidents" title="Critical incidents">Critical incidents</a></li></ul>';
+<li>ATTLS: Attitudes To Thinking and Learning Survey.<br>For more details, see the documentation on <a href="https://docs.moodle.org/31/en/Survey_settings#ATTLS_-_Attitudes_to_Thinking_and_Learning_Survey" name="ATTLS" title="ATTLS">ATTLS</a>.</li>
+<li>COLLES: Constructivist On-Line Learning Environment Survey.<br>For more details, see the documentation on <a href="https://docs.moodle.org/31/en/Survey_settings#COLLES_-_Constructivist_On-Line_Learning_Environment_Survey" name="COLLES" title="COLLES">COLLES</a>.</li>
+<li>CRITICAL INCIDENTS.<br>For more details, see the documentation on <a href="https://docs.moodle.org/31/en/Survey_settings#Critical_incidents" name="Critical incidents" title="Critical incidents">Critical incidents</a></li></ul>';
 $string['mastertemplate'] = 'Master templates';
-$string['mastertemplateaddendum'] = '<br />You can not apply this mastertemplate until you uninstall it, fix all the issues and reinstall it.';
+$string['mastertemplateaddendum'] = '<br>You can not apply this mastertemplate until you uninstall it, fix all the issues and reinstall it.';
 $string['mastertemplatename_help'] = 'Choose the name of the master template name that is going to be downloaded in zip format.';
 $string['mastertemplatename'] = 'Master template name';
 $string['mastertemplateplugin'] = 'Master template plugin';
@@ -323,8 +323,8 @@ $string['missingfile'] = 'It seems no file was selected';
 $string['missingitemplugin'] = 'One or more items of the template are missing the plugin';
 $string['missingitemtype'] = 'One or more items of the template are missing the type';
 $string['missingitemversion'] = 'One or more items of the template is missing the version';
-$string['missingmandatory'] = 'Some mandatory answer of this response has not been found. Because of this, the overall response has been marked as "{$a}".<br />To fix this issue, please edit the response and review item contents page per page.';
-$string['missingvalidation'] = 'Some answers of this response have been found as unverified. Because of this, the overall response has been marked as "{$a}".<br />Your data is not necessarily incorrect but needs validation before definitive storage.<br />To fix this issue, please edit the response and review item contents page per page.';
+$string['missingmandatory'] = 'Some mandatory answer of this response has not been found. Because of this, the overall response has been marked as "{$a}".<br>To fix this issue, please edit the response and review item contents page per page.';
+$string['missingvalidation'] = 'Some answers of this response have been found as unverified. Because of this, the overall response has been marked as "{$a}".<br>Your data is not necessarily incorrect but needs validation before definitive storage.<br>To fix this issue, please edit the response and review item contents page per page.';
 $string['module'] = 'This instance of survey';
 $string['modulesettinghdr'] = 'Surveypro settings';
 $string['mtemplatessection'] = 'Master templates section';
@@ -337,10 +337,10 @@ $string['newsubmissionsubject'] = 'New response';
 $string['nextformpage'] = 'Next page >>';
 $string['noanswer'] = 'No answer';
 $string['noattachmentfound'] = 'Not any attachment has been found';
-$string['noitemsfound'] = 'This survey is still a work in progress.<br />Please try again later.';
+$string['noitemsfound'] = 'This survey is still a work in progress.<br>Please try again later.';
 $string['noitemsfoundadmin'] = 'This survey has no elements. Please add them from "{$a}".';
-$string['nomoreitems'] = 'On the basis of the answers provided, no more elements remain to display.<br />Your survey is over. You only need to submit{$a}.';
-$string['nomoresubmissionsallowed'] = 'The maximun number of {$a} responses has already been reached.<br />No new responses are allowed';
+$string['nomoreitems'] = 'On the basis of the answers provided, no more elements remain to display.<br>Your survey is over. You only need to submit{$a}.';
+$string['nomoresubmissionsallowed'] = 'The maximun number of {$a} responses has already been reached.<br>No new responses are allowed';
 $string['nomtemplates_help'] = 'Course creator probably denied the instantiation of each master tempalte. Contact your course creator for further details.';
 $string['nomtemplates_message'] = 'Sorry. Not any master template seems available in this moodle site instance.';
 $string['nomtemplates'] = 'Missing master templates';
@@ -367,7 +367,7 @@ $string['parentelement_help'] = 'The element whose answer, during the compilatio
 $string['parentelement_title'] = 'Parent element';
 $string['parentformat'] = 'Define the "{$a->fieldname}" format as shown here: {$a->examples}';
 $string['parentid_header'] = 'Relation';
-$string['parentid_help'] = 'Parent elements allows you to create conditional branching. Dimmed elements in the list identify hidden parent elments. Show them to have them available in this list.<br />Elements marked with an asterisk are reserved.';
+$string['parentid_help'] = 'Parent elements allows you to create conditional branching. Dimmed elements in the list identify hidden parent elments. Show them to have them available in this list.<br>Elements marked with an asterisk are reserved.';
 $string['parentid'] = 'Parent element';
 $string['pause'] = 'Pause';
 $string['pauseresume_help'] = 'Allow to pause a survey in order to resume and submit it later on. You can also email users to remind their uncompleted job.';
@@ -387,16 +387,16 @@ $string['raw'] = 'Raw (for further import in surveypro; "{$a}" may not be respec
 $string['readonlyaccess'] = 'Read only access';
 $string['relation_status'] = 'Status';
 $string['reminder_subject'] = 'Surveypro reminder from {$a}';
-$string['reminderoneshot_content1'] = 'Dear {$a->fullname}<br />it seems your contribution to the survey "{$a->surveyproname}" is still not submitted.';
-$string['reminderoneshot_content2'] = '<br />It is going to deleted in less than two hours.';
-$string['reminderoneshot_content3'] = '<br />Please consider to login again at {$a} and submit it soon.<br /><br />The staff for online learning';
+$string['reminderoneshot_content1'] = 'Dear {$a->fullname}<br>it seems your contribution to the survey "{$a->surveyproname}" is still not submitted.';
+$string['reminderoneshot_content2'] = '<br>It is going to deleted in less than two hours.';
+$string['reminderoneshot_content3'] = '<br>Please consider to login again at {$a} and submit it soon.<br><br>The staff for online learning';
 $string['reminder_oneshot_task'] = 'Reminder for stopped survey';
 $string['reminder_pauseresume_task'] = 'Reminder for survey paused for too long';
 $string['reminder_neverstarted_task'] = 'Reminder for never started survey';
-$string['reminderpaused_content1'] = 'Dear {$a->fullname}<br />it seems your contribution to the survey "{$a->surveyproname}" is paused since a long time.';
-$string['reminderpaused_content2'] = '<br />There is a concrete risk to have it dropped.';
-$string['reminderpaused_content3'] = '<br />Please consider to login again at {$a} and submit it.<br /><br />The staff for online learning';
-$string['remindneverstarted_content'] = 'Dear {$a->fullname}<br />it seems your contribution to the survey "{$a->surveyproname}" is still not started.<br />Please consider to login at {$a->surveyprourl} and start it as soon as you can.<br /><br />The staff for online learning';
+$string['reminderpaused_content1'] = 'Dear {$a->fullname}<br>it seems your contribution to the survey "{$a->surveyproname}" is paused since a long time.';
+$string['reminderpaused_content2'] = '<br>There is a concrete risk to have it dropped.';
+$string['reminderpaused_content3'] = '<br>Please consider to login again at {$a} and submit it.<br><br>The staff for online learning';
+$string['remindneverstarted_content'] = 'Dear {$a->fullname}<br>it seems your contribution to the survey "{$a->surveyproname}" is still not started.<br>Please consider to login at {$a->surveyprourl} and start it as soon as you can.<br><br>The staff for online learning';
 $string['reportederror'] = '{$a}';
 $string['reportederroritembase'] = '%s performing the xsd validation of the "surveypro_item" for the "%s" plugin';
 $string['reportederrorplugin'] = '%s performing the xsd validation of the "%s" plugin';
@@ -532,26 +532,26 @@ $string['verbose'] = 'Pretty (for human reading)';
 $string['versionmismatch'] = 'Version mismatch for {$a->plugin} {$a->type} plugin. Template uses version: {$a->currentversion} while your surveypro plugin uses version {$a->versiondisk}';
 $string['visiblesonly_help'] = 'Include in this template only visibles elements.';
 $string['visiblesonly'] = 'Visibles elements only';
-$string['welcome_emptysurvey'] = 'To create a new survey you can add elements one by one to build the survey that best suits your needs<br />or apply a user, or master, template to get a standard survey all at once.';
-$string['welcome_dataexport'] = 'Use this page to export responses of this survey. <br />
+$string['welcome_emptysurvey'] = 'To create a new survey you can add elements one by one to build the survey that best suits your needs<br>or apply a user, or master, template to get a standard survey all at once.';
+$string['welcome_dataexport'] = 'Use this page to export responses of this survey. <br>
 A statistic software format is available such as a human readable one. Export content depends on the "{$a}" choosen for each element (whether available).';
-$string['welcome_dataimport'] = 'Use this page to import responses into this survey. <br />
-The headers of the csv file to import are supposed to match the "variable names" of the elements of the survey.<br />
-Currently it is not allowed the import of attachment elements.<br />
-Unknown headers will break the import process.<br />
-"Ownerid" can be included among headers. It will assign the ownership of each imported response (even if the survey is anonymous).<br />
-If the "Ownerid" column is missing from the csv file, the imported responses will be assigned to the user executing the import.<br />
-It is allowed to import csv files missing required elements but, whether included, they must provide valid and non empty values.<br />
-Import files missing required elements are allowed and the imported responses will be marked as "in progress".<br />
+$string['welcome_dataimport'] = 'Use this page to import responses into this survey. <br>
+The headers of the csv file to import are supposed to match the "variable names" of the elements of the survey.<br>
+Currently it is not allowed the import of attachment elements.<br>
+Unknown headers will break the import process.<br>
+"Ownerid" can be included among headers. It will assign the ownership of each imported response (even if the survey is anonymous).<br>
+If the "Ownerid" column is missing from the csv file, the imported responses will be assigned to the user executing the import.<br>
+It is allowed to import csv files missing required elements but, whether included, they must provide valid and non empty values.<br>
+Import files missing required elements are allowed and the imported responses will be marked as "in progress".<br>
 The import process breaks if it lead to exceed the maximum number of responses allowed to users (if set).';
-$string['welcome_mtemplateapply'] = 'You can build your survey applying set of elements taken from a master template.<br />
+$string['welcome_mtemplateapply'] = 'You can build your survey applying set of elements taken from a master template.<br>
 Take care: all other preexisting elements (if any) will be definitely deleted WITH ALL THE DATA ALREADY GATHERED.';
 $string['welcome_relationvalidation'] = 'This report let you verify the reliability of the current survey. It checks the validity of each parent-child relation marking bad relations, that will never allow child element to be part of the survey, with a message in the "{$a}" column.';
-$string['welcome_utemplateapply'] = 'You can build your surveys applying set of elements taken from a user template.<br />
+$string['welcome_utemplateapply'] = 'You can build your surveys applying set of elements taken from a user template.<br>
 User templates should already be uploaded from "{$a->uploadpage}" page or saved from the "{$a->savepage}" one.';
-$string['welcome_utemplateimport'] = 'You can import user templates to apply them later.<br />
+$string['welcome_utemplateimport'] = 'You can import user templates to apply them later.<br>
 User templates are XML files as the ones you can save from "{$a}" page.';
-$string['welcome_utemplatesave'] = 'Save a user template with the structure of the current survey.<br />
+$string['welcome_utemplatesave'] = 'Save a user template with the structure of the current survey.<br>
 User templates are useful to quickly add to your surveys static sets of predefined items. At any time you can download and share it with other moodle users or reuse it into your own surveys. Be careful to "{$a}" if you want to reuse your templates without downloading and uploading them again.';
 $string['willclose'] = 'Closure time';
 $string['willopen'] = 'This survey will open at';
@@ -560,7 +560,7 @@ $string['wrong_sharinglevel_found'] = 'Invalid $sharinglevel = "{$a->sharingleve
 $string['wrong_userdatarec_found'] = 'Invalid $userdatarec = \'{$a}\' has not been replaced';
 $string['wrongrelation'] = '"{$a}" will never match';
 $string['xmltemplate_help'] = 'Choose the template you want to download as zip file to share it with other moodle users.';
-$string['xsdnotfound'] = 'xsd validation schema for your xml template was not found.<br />Your code must be fixed by a developer.';
+$string['xsdnotfound'] = 'xsd validation schema for your xml template was not found.<br>Your code must be fixed by a developer.';
 $string['yes_deleteallitems'] = 'Delete each element';
 $string['yes_deletehiddenitems'] = 'Delete each hidden element';
 $string['yes_deletevisibleitems'] = 'Delete each visible element';

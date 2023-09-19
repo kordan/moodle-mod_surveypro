@@ -19,7 +19,7 @@ Feature: load, apply and save a usertemplate in order to test, among others, use
       | activity  | name                  | intro                              | course              |
       | surveypro | Create a usertemplate | Surveypro to cretae a usertemplate | Create usertemplate |
 
-    When I am on the "Create a usertemplate" "mod_surveypro > User templates Import" page logged in as "teacher1"
+    When I am on the "Create a usertemplate" "mod_surveypro > User templates import" page logged in as "teacher1"
     And I upload "mod/surveypro/tests/fixtures/usertemplate/parent-child_2015123000.xml" file to "Choose files to import" filemanager
     And I upload "mod/surveypro/tests/fixtures/usertemplate/MMM_2015123000.xml" file to "Choose files to import" filemanager
 
@@ -27,17 +27,18 @@ Feature: load, apply and save a usertemplate in order to test, among others, use
     And I press "Import"
 
     # now I am in the "Manage" page
-    And I navigate to "User templates > Apply" in current page administration
+    And I am on the "Create a usertemplate" "mod_surveypro > User templates apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates       | (This course) MMM_2015123000.xml |
-      | id_action_0          | 1                                |
+      | User templates | (This course) MMM_2015123000.xml |
+      | id_action_0    | 1                                |
     And I press "Apply"
 
     Then I should see "This is a demo survey to quickly see"
 
-    And I navigate to "User templates > Save" in current page administration
+    And I am on the "Create a usertemplate" "mod_surveypro > User templates save" page
+    # And I navigate to "User templates > Save" in current page administration
 
     # now I am in the "Create" page
     And I set the following fields to these values:

@@ -1547,7 +1547,7 @@ EOS;
             }
         }
         if (isset($fillinginstruction) && $fillinginstruction && isset($extranote) && $extranote) {
-            return ($fillinginstruction.'<br />'.$extranote);
+            return ($fillinginstruction.'<br>'.$extranote);
         } else {
             if (isset($fillinginstruction) && $fillinginstruction) {
                 return $fillinginstruction;
@@ -1673,7 +1673,7 @@ EOS;
                             echo '\''.$parentinfo->operator.'\', ';
                         }
                         echo $contentdisplayed.');';
-                        echo '</span><br />';
+                        echo '</span><br>';
                     }
                 }
             }

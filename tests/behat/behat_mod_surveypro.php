@@ -75,19 +75,27 @@ class behat_mod_surveypro extends behat_base {
         global $DB;
 
         switch ($type) {
-            case 'utemplates page':
+            case 'User templates manage':
                 return new \moodle_url('/mod/surveypro/utemplates.php',
-                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id]);
+                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'section' => 'manage']);
 
-            case 'User templates Import':
+            case 'User templates save':
+                return new \moodle_url('/mod/surveypro/utemplates.php',
+                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'section' => 'save']);
+
+            case 'User templates import':
                 return new \moodle_url('/mod/surveypro/utemplates.php',
                         ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'section' => 'import']);
 
-            case 'mtemplates page':
-                return new \moodle_url('/mod/surveypro/mtemplates.php',
-                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id]);
+            case 'User templates apply':
+                return new \moodle_url('/mod/surveypro/utemplates.php',
+                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'section' => 'apply']);
 
-            case 'Master templates Apply':
+            case 'Master templates save':
+                return new \moodle_url('/mod/surveypro/mtemplates.php',
+                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'section' => 'save']);
+
+            case 'Master templates apply':
                 return new \moodle_url('/mod/surveypro/mtemplates.php',
                         ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'section' => 'apply']);
 

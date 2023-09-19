@@ -740,7 +740,7 @@ class usertemplate extends templatebase {
                             }
                         }
 
-                        // echo 'I need to add: "'.$filename.'" to the filearea<br />';
+                        // echo 'I need to add: "'.$filename.'" to the filearea<br>';
 
                         // Add the file described by $filename and $filecontent to filearea,
                         // alias, add pictures found in the utemplate to filearea.

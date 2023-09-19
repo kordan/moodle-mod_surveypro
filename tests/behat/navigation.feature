@@ -143,7 +143,7 @@ Feature: verify urls really redirect to existing pages
     #
     # "User templates" in secondary navigation
     #
-    And I am on the "sPro test links" "mod_surveypro > utemplates page" page
+    And I am on the "sPro test links" "mod_surveypro > User templates manage" page
 
     # User templates -> Save
     And I select "Save" from the "jump" singleselect
@@ -160,13 +160,13 @@ Feature: verify urls really redirect to existing pages
     #
     # "Master templates" in secondary navigation
     #
-    And I am on the "sPro test links" "mod_surveypro > mtemplates page" page
-
-    # Master templates -> Apply
-    And I select "Apply" from the "jump" singleselect
+    And I am on the "sPro test links" "mod_surveypro > Master templates apply" page
 
     # Master templates -> Save
     And I select "Save" from the "jump" singleselect
+
+    # Master templates -> Apply
+    And I select "Apply" from the "jump" singleselect
 
   @javascript
   Scenario: select each available link as a student

@@ -31,7 +31,7 @@ jobs:
           - php: 8.0
             moodle-branch: MOODLE_401_STABLE
             database: pgsql
-            suite: classic
+            suite: default
             profile: chrome
           - php: 7.4
             moodle-branch: MOODLE_401_STABLE

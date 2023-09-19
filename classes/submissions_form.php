@@ -1026,27 +1026,27 @@ class submissions_form extends formbase {
         if ($debug) {
             switch ($this->mode) {
                 case SURVEYPRO_NEWRESPONSEMODE:
-                    echo '$this->mode = SURVEYPRO_NEWRESPONSEMODE<br />';
+                    echo '$this->mode = SURVEYPRO_NEWRESPONSEMODE<br>';
                     break;
                 case SURVEYPRO_EDITMODE:
-                    echo '$this->mode = SURVEYPRO_EDITMODE<br />';
+                    echo '$this->mode = SURVEYPRO_EDITMODE<br>';
                     break;
                 case SURVEYPRO_READONLYMODE:
-                    echo '$this->mode = SURVEYPRO_READONLYMODE<br />';
+                    echo '$this->mode = SURVEYPRO_READONLYMODE<br>';
                     break;
                 default:
                     echo '$this->mode = '.$this->mode;
             }
 
             if ($ismine) {
-                echo '$ismine = true<br />';
+                echo '$ismine = true<br>';
             } else {
-                echo '$ismine = false<br />';
+                echo '$ismine = false<br>';
             }
             if ($mysamegroup) {
-                echo '$mysamegroup = true<br />';
+                echo '$mysamegroup = true<br>';
             } else {
-                echo '$mysamegroup = false<br />';
+                echo '$mysamegroup = false<br>';
             }
             echo '$mysamegroup =';
             // print_object($mysamegroup); // <-- This is better than var_dump but codechecker doesn't like it.

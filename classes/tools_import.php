@@ -688,7 +688,7 @@ class tools_import {
         $csvcontent = $this->get_csv_content();
         if ($debug) {
             echo \html_writer::start_tag('pre');
-            echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
+            echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br>';
             echo '$iid = '.$iid;
             echo \html_writer::end_tag('pre');
 
@@ -739,7 +739,7 @@ class tools_import {
         list($surveyheaders, $requireditems) = $this->get_survey_infos();
         if ($debug) {
             echo \html_writer::start_tag('pre');
-            echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
+            echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br>';
             echo '$surveyheaders:';
             var_dump($surveyheaders);
             echo \html_writer::end_tag('pre');
@@ -766,7 +766,7 @@ class tools_import {
         $nonmatchingheaders = $this->get_columntoitemid($foundheaders, $surveyheaders);
         if ($debug) {
             echo \html_writer::start_tag('pre');
-            echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
+            echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br>';
             echo '$this->columntoitemid:';
             var_dump($this->columntoitemid);
             echo \html_writer::end_tag('pre');
@@ -799,7 +799,7 @@ class tools_import {
 
         if ($debug) {
             echo \html_writer::start_tag('pre');
-            echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
+            echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br>';
             echo '$this->itemhelperinfo:';
             var_dump($this->itemhelperinfo);
             echo \html_writer::end_tag('pre');
@@ -875,7 +875,7 @@ class tools_import {
                     $itemhelper = $this->itemhelperinfo[$col]; // The itemhelperinfo of the item in column = $col.
                     if ($debug) {
                         echo \html_writer::start_tag('pre');
-                        echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
+                        echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br>';
                         echo '$itemhelper:';
                         var_dump($itemhelper);
                         echo \html_writer::end_tag('pre');
@@ -937,7 +937,7 @@ class tools_import {
         $debug = false;
         if ($debug) {
             echo \html_writer::start_tag('pre');
-            echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
+            echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br>';
             echo 'I start the import';
             echo \html_writer::end_tag('pre');
         }
@@ -981,7 +981,7 @@ class tools_import {
         while ($csvrow = $this->cir->next()) {
             if ($debug) {
                 echo \html_writer::start_tag('pre');
-                echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
+                echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br>';
                 echo '$csvrow = '.implode(', ', $csvrow);
                 echo \html_writer::end_tag('pre');
             }
@@ -1027,7 +1027,7 @@ class tools_import {
 
             if ($debug) {
                 echo \html_writer::start_tag('pre');
-                echo 'I am going to save to surveypro_submission:<br />';
+                echo 'I am going to save to surveypro_submission:<br>';
                 echo '$record:';
                 var_dump($record);
                 echo \html_writer::end_tag('pre');
@@ -1062,8 +1062,8 @@ class tools_import {
                 $record->verified = 1;
                 if ($debug) {
                     echo \html_writer::start_tag('pre');
-                    echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
-                    echo 'I am going to save to surveypro_answer:<br />';
+                    echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br>';
+                    echo 'I am going to save to surveypro_answer:<br>';
                     echo '$record:';
                     var_dump($record);
                     echo \html_writer::end_tag('pre');

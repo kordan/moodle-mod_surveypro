@@ -111,7 +111,7 @@ if ($section == 'save') { // It was mtemplate_save.php
     $createmtemplate->display();
 }
 
-// MARK save.
+// MARK apply.
 if ($section == 'apply') { // It was mtemplate_apply.php
     // Get additional specific params.
     $edit = optional_param('edit', -1, PARAM_BOOL);

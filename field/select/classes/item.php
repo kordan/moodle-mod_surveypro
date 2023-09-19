@@ -264,7 +264,7 @@ class item extends itembase {
             $constraints[] = $labelotherstr.$labelsep.$allowedstr;
         }
 
-        return implode('<br />', $constraints);
+        return implode('<br>', $constraints);
     }
 
     // MARK get.

@@ -255,7 +255,7 @@ class item extends itembase {
             $constraints[] = $optionstr.$labelsep.$value;
         }
 
-        return implode('<br />', $constraints);
+        return implode('<br>', $constraints);
     }
 
     // MARK get.
@@ -559,7 +559,7 @@ EOS;
             $attributes['class'] = 'multiselect_check';
             $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $starstr, $attributes);
 
-            $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, '<br />', false);
+            $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, '<br>', false);
             if (!$this->required) {
                 // Multiselect uses a special syntax
                 // that is different from the syntax of all the other mform groups with disabilitation chechbox.

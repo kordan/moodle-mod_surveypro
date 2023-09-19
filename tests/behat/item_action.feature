@@ -132,7 +132,7 @@ Feature: test item actions
     Given the following "activities" exist:
       | activity  | name                      | intro       | course  |
       | surveypro | Test complex item actions | To test CIA | Test IA |
-    When I am on the "Test complex item actions" "mod_surveypro > User templates Import" page logged in as "admin"
+    When I am on the "Test complex item actions" "mod_surveypro > User templates import" page logged in as "admin"
     And I upload "mod/surveypro/tests/fixtures/usertemplate/item_action_test.xml" file to "Choose files to import" filemanager
 
     And I set the field "Sharing level" to "This course"
@@ -140,8 +140,7 @@ Feature: test item actions
     And I press "Import"
 
     # now I am in the "Manage" page
-    And I follow "User templates"
-    And I select "Apply" from the "jump" singleselect
+    And I am on the "Test complex item actions" "mod_surveypro > User templates apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:

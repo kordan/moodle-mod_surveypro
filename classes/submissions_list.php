@@ -304,23 +304,23 @@ class submissions_list {
         $debug = false;
         if ($debug) {
             if ($canviewhiddenactivities) {
-                echo '$canviewhiddenactivities = true<br />';
+                echo '$canviewhiddenactivities = true<br>';
             } else {
-                echo '$canviewhiddenactivities = false<br />';
+                echo '$canviewhiddenactivities = false<br>';
             }
             if ($canseeotherssubmissions) {
-                echo '$canseeotherssubmissions = true<br />';
+                echo '$canseeotherssubmissions = true<br>';
             } else {
-                echo '$canseeotherssubmissions = false<br />';
+                echo '$canseeotherssubmissions = false<br>';
             }
             if ($canaccessallgroups) {
-                echo '$canaccessallgroups = true<br />';
+                echo '$canaccessallgroups = true<br>';
             } else {
-                echo '$canaccessallgroups = false<br />';
+                echo '$canaccessallgroups = false<br>';
             }
             echo '$mygroups =';
             // print_object($mygroups); // <-- This is better than var_dump but codechecker doesn't like it.
-            echo '<br />count($mygroups) = '.count($mygroups).'<br />';
+            echo '<br>count($mygroups) = '.count($mygroups).'<br>';
         }
 
         if (count($mygroups)) { // User is, at least, in a group.
@@ -359,10 +359,10 @@ class submissions_list {
         if ($debug) {
             global $CFG;
 
-            // echo '$sql = '.$sql.'<br /><br />';
+            // echo '$sql = '.$sql.'<br><br>';
             $sql2display = preg_replace('~{([a-z_]*)}~', $CFG->prefix.'\1', $sql);
-            $sql2display = str_replace('JOIN', '<br />&nbsp;&nbsp;&nbsp;&nbsp;JOIN', $sql2display);
-            echo '$sql2display = '.$sql2display.'<br />';
+            $sql2display = str_replace('JOIN', '<br>&nbsp;&nbsp;&nbsp;&nbsp;JOIN', $sql2display);
+            echo '$sql2display = '.$sql2display.'<br>';
             echo '$whereparams =';
             // print_object($whereparams); // <-- This is better than var_dump but codechecker doesn't like it.
             var_dump($whereparams);
@@ -1734,7 +1734,7 @@ class submissions_list {
                 if (isset($userdatarecord[$itemseed->id])) {
                     $content = $item->userform_db_to_export($userdatarecord[$itemseed->id], SURVEYPRO_FRIENDLYFORMAT);
                     // $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
-                    $content = str_replace(SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR, '<br />', $content);
+                    $content = str_replace(SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR, '<br>', $content);
                 } else {
                     $content = $answernotprovided;
                 }

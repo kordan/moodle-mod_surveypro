@@ -77,7 +77,7 @@ class action_bar {
         global $PAGE;
 
         $pageparams = $PAGE->url->params();
-        // echo 'Sono su draw_view_action_bar e ho $this->currenturl = '.$this->currenturl.'<br />';
+        // echo 'Sono su draw_view_action_bar e ho $this->currenturl = '.$this->currenturl.'<br>';
         // echo '$pageparams =';
         // print_object($pageparams);
 
@@ -152,7 +152,7 @@ class action_bar {
         global $PAGE, $DB;
 
         $pageparams = $PAGE->url->params();
-        // echo 'Sono su draw_layout_action_bar e ho $this->currenturl = '.$this->currenturl.'<br />';
+        // echo 'Sono su draw_layout_action_bar e ho $this->currenturl = '.$this->currenturl.'<br>';
         // echo '$pageparams =';
         // print_object($pageparams);
 
@@ -236,7 +236,7 @@ class action_bar {
         global $PAGE, $DB;
 
         // $pageparams = $PAGE->url->params();
-        // echo 'Sono su draw_tools_action_bar e ho $this->currenturl = '.$this->currenturl.'<br />';
+        // echo 'Sono su draw_tools_action_bar e ho $this->currenturl = '.$this->currenturl.'<br>';
         // echo '$pageparams =';
         // print_object($pageparams);
 
@@ -293,7 +293,7 @@ class action_bar {
         global $PAGE, $DB;
 
         // $pageparams = $PAGE->url->params();
-        // echo 'Sono su draw_utemplates_action_bar e ho $this->currenturl = '.$this->currenturl.'<br />';
+        // echo 'Sono su draw_utemplates_action_bar e ho $this->currenturl = '.$this->currenturl.'<br>';
         // echo '$pageparams =';
         // print_object($pageparams);
 
@@ -377,7 +377,7 @@ class action_bar {
         global $PAGE;
 
         // $pageparams = $PAGE->url->params();
-        // echo 'Sono su draw_mtemplates_action_bar e ho $this->currenturl = '.$this->currenturl.'<br />';
+        // echo 'Sono su draw_mtemplates_action_bar e ho $this->currenturl = '.$this->currenturl.'<br>';
         // echo '$pageparams =';
         // print_object($pageparams);
 
@@ -435,7 +435,7 @@ class action_bar {
         global $PAGE;
 
         // $pageparams = $PAGE->url->params();
-        // echo 'Sono su draw_reports_action_bar e ho $this->currenturl = '.$this->currenturl.'<br />';
+        // echo 'Sono su draw_reports_action_bar e ho $this->currenturl = '.$this->currenturl.'<br>';
         // echo '$pageparams =';
         // print_object($pageparams);
 

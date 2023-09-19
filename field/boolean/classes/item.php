@@ -248,7 +248,7 @@ class item extends itembase {
         $constraints[] = $optionstr.': 0';
         $constraints[] = $optionstr.': 1';
 
-        return implode('<br />', $constraints);
+        return implode('<br>', $constraints);
     }
 
     // MARK get.
@@ -521,7 +521,7 @@ EOS;
             $mform->addElement('select', $this->itemname, $elementlabel, $options, $attributes);
             // End of: mform element.
         } else { // SURVEYPROFIELD_BOOLEAN_USERADIOV or SURVEYPROFIELD_BOOLEAN_USERADIOH.
-            $separator = ($this->style == SURVEYPROFIELD_BOOLEAN_USERADIOV) ? '<br />' : ' ';
+            $separator = ($this->style == SURVEYPROFIELD_BOOLEAN_USERADIOV) ? '<br>' : ' ';
             $elementgroup = array();
 
             // Begin of: mform element.
